@@ -1,10 +1,7 @@
 {
-  "name": "@fiction/master",
+  "name": "wrapper",
   "version": "0.0.0",
-  "workspaces": [
-    "@fiction/*",
-    "@factor/*"
-  ],
+  "workspaces": ["@fiction/*", "@factor/*"],
   "private": true,
   "license": "UNLICENSED",
   "devDependencies": {
