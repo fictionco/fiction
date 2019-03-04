@@ -1,0 +1,10 @@
+{
+  "name": "@fiction/master",
+  "version": "0.0.0",
+  "workspaces": ["@fiction/*", "@factor/*"],
+  "private": true,
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "lerna": "^3.13.0"
+  }
+}
