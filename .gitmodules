@@ -1,0 +1,7 @@
+[submodule "@factor"]
+	path = @factor
+	url = none
+
+[submodule "@fiction"]
+	path = @fiction
+	url = none
