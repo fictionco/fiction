@@ -1,0 +1,15 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  "search.useIgnoreFiles": false,
+  "files.exclude": {},
+  "search.exclude": {
+    "**/.reference": true,
+    "**/dist": true,
+    "cypress/**/project": true
+  },
+  "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace"
+}
