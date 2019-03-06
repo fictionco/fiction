@@ -1,11 +1,15 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": ["@fiction/*", "@factor/*"],
+  "workspaces": [
+    "@fiction/*",
+    "@factor/*"
+  ],
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "yarn workspace @fiction/www dev"
+    "dev": "yarn workspace @fiction/www dev",
+    "start": "yarn workspace @fiction/www start"
   },
   "devDependencies": {
     "lerna": "^3.13.0"
