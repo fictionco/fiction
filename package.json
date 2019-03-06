@@ -4,6 +4,9 @@
   "workspaces": ["@fiction/*", "@factor/*"],
   "private": true,
   "license": "UNLICENSED",
+  "scripts": {
+    "dev": "yarn workspace @fiction/www dev"
+  },
   "devDependencies": {
     "lerna": "^3.13.0"
   }
