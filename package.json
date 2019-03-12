@@ -6,10 +6,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "app:dev": "yarn prep && yarn workspace @factor/app-starter dev",
-    "app:start": "yarn workspace @factor/app-starter start",
+    "app:start": "yarn prep && yarn workspace @factor/app-starter start",
     "app:prep": "yarn prep && yarn app:dev",
     "fiction:dev": "yarn prep && yarn workspace @fiction/www dev",
-    "fiction:start": "yarn workspace @fiction/www start",
+    "fiction:start": "yarn prep && yarn workspace @fiction/www start",
     "fiction:prep": "yarn prep && yarn fiction:dev",
     "prep": "git pull && cd @factor && git pull && cd ../ && cd @fiction && git pull && cd ../ && yarn install"
   },
