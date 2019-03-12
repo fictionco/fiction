@@ -5,12 +5,13 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "app:dev": "yarn workspace @factor/app-starter dev",
+    "app:dev": "yarn prep && yarn workspace @factor/app-starter dev",
     "app:start": "yarn workspace @factor/app-starter start",
-    "app:prep": "yarn install && yarn app:dev",
-    "fiction:dev": "yarn workspace @fiction/www dev",
+    "app:prep": "yarn prep && yarn app:dev",
+    "fiction:dev": "yarn prep && yarn workspace @fiction/www dev",
     "fiction:start": "yarn workspace @fiction/www start",
-    "fiction:prep": "yarn install && yarn fiction:dev"
+    "fiction:prep": "yarn prep && yarn fiction:dev",
+    "prep": "git pull && cd @factor && git pull && cd ../ && cd @fiction && git pull && cd ../ && yarn install"
   },
   "devDependencies": {
     "lerna": "^3.13.0",
