@@ -37,5 +37,7 @@
   "prettier.printWidth": 120,
   "prettier.semi": false,
   "editor.fontWeight": "600",
-  "vetur.format.defaultFormatter.html": "prettyhtml"
+  "vetur.format.defaultFormatter.html": "prettyhtml",
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true
 }
