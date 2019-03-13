@@ -11,5 +11,31 @@
     "**/dist": true,
     "cypress/**/project": true
   },
-  "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace"
+  "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
+  "eslint.validate": [
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "html",
+      "autoFix": true
+    },
+    {
+      "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "json",
+      "autoFix": true
+    }
+  ],
+  "eslint.options": {
+    "extensions": [".js", ".vue", ""]
+  },
+  "eslint.run": "onSave",
+  "prettier.printWidth": 120,
+  "prettier.semi": false,
+  "editor.fontWeight": "600",
+  "vetur.format.defaultFormatter.html": "prettyhtml"
 }
