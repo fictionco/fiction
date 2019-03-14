@@ -34,7 +34,7 @@
     "extensions": [".js", ".vue", ""]
   },
   "eslint.run": "onSave",
-  "prettier.printWidth": 120,
+  "prettier.printWidth": 100,
   "prettier.semi": false,
   "editor.fontWeight": "600",
   "vetur.format.defaultFormatter.html": "prettyhtml",
