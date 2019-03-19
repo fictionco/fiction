@@ -1,11 +1,11 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn install
+  /usr/local/bin/node /Users/arpowers/.yarn/bin/yarn.js install
 
 PATH: 
-  /var/folders/rr/_z8w46js71vgp5mfrxm51jqc0000gn/T/yarn--1552937313679-0.43636479054581856:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/var/folders/rr/_z8w46js71vgp5mfrxm51jqc0000gn/T/yarn--1552937313420-0.07996724848790815:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Users/arpowers/Dev/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  /var/folders/rr/_z8w46js71vgp5mfrxm51jqc0000gn/T/yarn--1553009950786-0.3285462239871566:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Users/arpowers/.yarn/bin:/Users/arpowers/.config/yarn/global/node_modules/.bin:/Users/arpowers/Dev/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
-  1.13.0
+  1.15.2
 
 Node version: 
   10.15.0
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/arpowers/fiction/wrapper/node_modules/.bin/JSONStream'
+  Error: EACCES: permission denied, unlink '/Users/arpowers/fiction/wrapper/node_modules/.bin/atob'
 
 npm manifest: 
   {
