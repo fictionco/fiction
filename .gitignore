@@ -6,3 +6,4 @@ server.crt
 server.key
 generated
 /cypress
+yarn-error*
