@@ -2,7 +2,7 @@ Arguments:
   /usr/local/bin/node /Users/arpowers/.yarn/bin/yarn.js install
 
 PATH: 
-  /var/folders/rr/_z8w46js71vgp5mfrxm51jqc0000gn/T/yarn--1553009950786-0.3285462239871566:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Users/arpowers/.yarn/bin:/Users/arpowers/.config/yarn/global/node_modules/.bin:/Users/arpowers/Dev/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  /var/folders/rr/_z8w46js71vgp5mfrxm51jqc0000gn/T/yarn--1553015908728-0.8350709258633093:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/var/folders/rr/_z8w46js71vgp5mfrxm51jqc0000gn/T/yarn--1553015908493-0.2741715356796348:/Users/arpowers/fiction/wrapper/node_modules/.bin:/Users/arpowers/.config/yarn/link/node_modules/.bin:/Users/arpowers/fiction/wrapper/node_modules/.bin:/usr/local/libexec/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/lib/node_modules/npm/bin/node-gyp-bin:/usr/local/bin/node_modules/npm/bin/node-gyp-bin:/Users/arpowers/.yarn/bin:/Users/arpowers/.config/yarn/global/node_modules/.bin:/Users/arpowers/Dev/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
   1.15.2
@@ -14,7 +14,12 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/arpowers/fiction/wrapper/node_modules/.bin/atob'
+  SyntaxError: /Users/arpowers/fiction/wrapper/@factor/core-transpile/package.json: Unexpected end of JSON input
+      at JSON.parse (<anonymous>)
+      at /Users/arpowers/.yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/Users/arpowers/.yarn/lib/cli.js:304:30)
+      at /Users/arpowers/.yarn/lib/cli.js:315:13
 
 npm manifest: 
   {
