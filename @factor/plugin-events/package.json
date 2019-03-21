@@ -3,12 +3,12 @@
   "version": "0.0.6",
   "main": "plugin.js",
   "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "factor": {
     "priority": 20,
-    "target": [
-      "build",
-      "app"
-    ]
+    "target": ["build", "app"]
   },
   "gitHead": "10570bc24b2071002630961b1e9e0d9965eeacbf"
 }

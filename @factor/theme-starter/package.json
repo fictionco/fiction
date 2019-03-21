@@ -4,6 +4,9 @@
   "description": "A starter app for Factor CMS.",
   "author": "Fiction.com",
   "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "theme": "cicero",
   "scripts": {
     "dev": "NODE_ENV=development node config/start",

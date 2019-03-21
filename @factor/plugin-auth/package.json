@@ -5,6 +5,9 @@
   },
   "version": "0.0.6",
   "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "plugin.js",
   "gitHead": "10570bc24b2071002630961b1e9e0d9965eeacbf"
 }

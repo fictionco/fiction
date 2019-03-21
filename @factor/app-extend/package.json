@@ -3,6 +3,9 @@
   "version": "0.0.6",
   "main": "plugin.js",
   "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@factor/app-config": "^0.0.6",
     "@factor/filters": "^0.0.6"

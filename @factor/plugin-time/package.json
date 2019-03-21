@@ -3,11 +3,11 @@
   "version": "0.0.6",
   "main": "plugin.js",
   "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "factor": {
-    "target": [
-      "build",
-      "app"
-    ]
+    "target": ["build", "app"]
   },
   "dependencies": {
     "dayjs": "^1.8.10"
