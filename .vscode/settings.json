@@ -6,11 +6,7 @@
   },
   "search.useIgnoreFiles": false,
   "files.exclude": {},
-  "search.exclude": {
-    "**/.reference": true,
-    "**/dist": true,
-    "cypress/**/project": true
-  },
+  "search.exclude": {},
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [
     {
