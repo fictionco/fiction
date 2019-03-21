@@ -1,10 +1,10 @@
 {
   "name": "@factor/plugin-blog",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "GPL-3.0",
   "main": "plugin.js",
   "dependencies": {
-    "@factor/build": "^0.0.3"
+    "@factor/build": "^0.0.4"
   },
   "gitHead": "ec1f667b1d04405eec5f70dc40eab344d44ff304"
 }

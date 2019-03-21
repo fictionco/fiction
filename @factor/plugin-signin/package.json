@@ -1,15 +1,15 @@
 {
   "name": "@factor/plugin-signin",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "factor": {
     "target": "app"
   },
   "dependencies": {
-    "@factor/components-form": "^0.0.3",
-    "@factor/components-standard": "^0.0.3",
-    "@factor/plugin-tools": "^0.0.3"
+    "@factor/components-form": "^0.0.4",
+    "@factor/components-standard": "^0.0.4",
+    "@factor/plugin-tools": "^0.0.4"
   },
   "gitHead": "ec1f667b1d04405eec5f70dc40eab344d44ff304"
 }
