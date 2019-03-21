@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-markdown",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "gitHead": "9be9dfcdaa1e73366726ae5a97a7fa7f95a24008"
