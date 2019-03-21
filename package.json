@@ -1,11 +1,7 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": [
-    "@fiction/*",
-    "@factor/*",
-    "@factor/**/endpoint"
-  ],
+  "workspaces": ["@fiction/*", "@factor/*", "@factor/**/endpoint"],
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -20,6 +16,7 @@
     "fiction:start": "yarn prep && yarn workspace @fiction/www start",
     "fiction:prep": "yarn prep && yarn fiction:dev",
     "fiction:build": "yarn workspace @fiction/www build",
+    "fiction:deploy": "yarn workspace @fiction/www deploy",
     "prep": "git pull && cd @factor && git pull && cd ../ && cd @fiction && git pull && cd ../ && yarn install --ignore-engines"
   },
   "devDependencies": {
