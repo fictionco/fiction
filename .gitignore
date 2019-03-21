@@ -1,9 +1,0 @@
-node_modules
-*/node_modules
-**/node_modules
-@fiction
-server.crt
-server.key
-generated
-/cypress
-yarn-error*
