@@ -2,5 +2,5 @@
   "packages": ["@factor/*"],
   "version": "0.0.1",
   "npmClient": "yarn",
-  "useWorkspaces": true
+  "useWorkspaces": false
 }
