@@ -8,5 +8,6 @@
   },
   "devDependencies": {
     "consola": "^2.5.6"
-  }
+  },
+  "gitHead": "ec1f667b1d04405eec5f70dc40eab344d44ff304"
 }

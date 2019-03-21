@@ -16,5 +16,6 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "stopwords": "^0.0.9"
-  }
+  },
+  "gitHead": "ec1f667b1d04405eec5f70dc40eab344d44ff304"
 }

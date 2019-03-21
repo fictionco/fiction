@@ -22,9 +22,6 @@ module.exports = async (USER_CONFIG = {}) => {
   }
 
   const FACTOR_CONFIG = Object.assign({}, DEFAULT_CONFIG, USER_CONFIG)
-  // Add aliases for modules
-  // This allows us to use the same format for node/webpack
-  // (otherwise webpack doesn't allow variables in imports)
 
   require("@factor/build-extend")(Factor, FACTOR_CONFIG)
 

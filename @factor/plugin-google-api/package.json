@@ -5,5 +5,6 @@
   "license": "GPL-3.0",
   "dependencies": {
     "scriptjs": "^2.5.9"
-  }
+  },
+  "gitHead": "ec1f667b1d04405eec5f70dc40eab344d44ff304"
 }
