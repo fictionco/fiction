@@ -1,6 +1,5 @@
 node_modules
 */node_modules
-@factor
 **/node_modules
 @fiction
 server.crt
