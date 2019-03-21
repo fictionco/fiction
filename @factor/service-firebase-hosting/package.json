@@ -1,0 +1,15 @@
+{
+  "name": "@factor/service-firebase-hosting",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "target": [
+      "build",
+      "app"
+    ]
+  },
+  "dependencies": {
+    "@factor/service-firebase-app": "^0.0.2"
+  }
+}

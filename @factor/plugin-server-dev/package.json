@@ -1,0 +1,21 @@
+{
+  "name": "@factor/plugin-server-dev",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "target": "build"
+  },
+  "dependencies": {
+    "vue": "^2.6.8"
+  },
+  "devDependencies": {
+    "chokidar": "^2.1.2",
+    "consola": "^2.5.6",
+    "memory-fs": "^0.4.1",
+    "webpack": "^4.29.6",
+    "webpack-dev-middleware": "^3.6.0",
+    "webpack-hot-middleware": "^2.24.3",
+    "yargs": "^13.2.1"
+  }
+}

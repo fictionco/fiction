@@ -1,0 +1,12 @@
+{
+  "name": "@factor/build-keys",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "priority": 15
+  },
+  "devDependencies": {
+    "consola": "^2.5.6"
+  }
+}

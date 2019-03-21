@@ -1,0 +1,13 @@
+{
+  "name": "@factor/plugin-events",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "priority": 20,
+    "target": [
+      "build",
+      "app"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@factor/plugin-blog",
+  "version": "0.0.2",
+  "license": "GPL-3.0",
+  "main": "plugin.js",
+  "dependencies": {
+    "@factor/build": "^0.0.2"
+  }
+}

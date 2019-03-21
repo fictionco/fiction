@@ -1,0 +1,21 @@
+{
+  "plugins": [
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-transform-modules-commonjs",
+    "@babel/plugin-transform-runtime"
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["ie >= 9", "> 1%", "last 2 versions"]
+        },
+        "useBuiltIns": "usage",
+        "modules": "cjs" // the default value is auto
+      }
+    ]
+  ]
+}

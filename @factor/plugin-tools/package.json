@@ -1,0 +1,20 @@
+{
+  "name": "@factor/plugin-tools",
+  "factor": {
+    "priority": 30,
+    "target": [
+      "build",
+      "app"
+    ]
+  },
+  "version": "0.0.2",
+  "license": "MIT",
+  "main": "plugin.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "detect-node": "^2.0.4",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
+    "stopwords": "^0.0.9"
+  }
+}

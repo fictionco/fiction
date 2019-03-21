@@ -1,0 +1,13 @@
+{
+  "name": "@factor/service-algolia",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "target": "app"
+  },
+  "dependencies": {
+    "algoliasearch": "^3.24.5",
+    "algoliasearch-helper": "^2.22.0"
+  }
+}

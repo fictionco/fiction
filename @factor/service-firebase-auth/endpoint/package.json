@@ -1,0 +1,12 @@
+{
+  "name": "@factor/endpoint-firebase-auth",
+  "version": "0.0.1",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "target": "endpoint"
+  },
+  "dependencies": {
+    "@factor/plugin-user": "^0.0.1"
+  }
+}

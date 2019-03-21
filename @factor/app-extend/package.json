@@ -1,0 +1,10 @@
+{
+  "name": "@factor/app-extend",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@factor/app-config": "^0.0.2",
+    "@factor/filters": "^0.0.2"
+  }
+}

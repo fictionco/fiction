@@ -1,0 +1,24 @@
+{
+  "name": "@factor/plugin-server",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "target": "build"
+  },
+  "dependencies": {
+    "consola": "^2.5.6",
+    "express": "^4.16.4",
+    "find-root": "^1.1.0",
+    "https": "^0.0.1",
+    "lru-cache": "^5.1.1",
+    "module-alias": "^2.2.0",
+    "serve-favicon": "^2.5.0",
+    "vue": "^2.6.8",
+    "vue-server-renderer": "^2.6.8"
+  },
+  "devDependencies": {
+    "find-up": "^3.0.0",
+    "opn": "^5.4.0"
+  }
+}

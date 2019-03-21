@@ -1,0 +1,14 @@
+{
+  "name": "@factor/plugin-signin",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "target": "app"
+  },
+  "dependencies": {
+    "@factor/components-form": "^0.0.2",
+    "@factor/components-standard": "^0.0.2",
+    "@factor/plugin-tools": "^0.0.2"
+  }
+}

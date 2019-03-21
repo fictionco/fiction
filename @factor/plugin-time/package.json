@@ -1,0 +1,15 @@
+{
+  "name": "@factor/plugin-time",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "target": [
+      "build",
+      "app"
+    ]
+  },
+  "dependencies": {
+    "dayjs": "^1.8.10"
+  }
+}

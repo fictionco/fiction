@@ -1,0 +1,10 @@
+{
+  "name": "@factor/app-router",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "qs": "^6.6.0",
+    "vue-router": "^3.0.2"
+  }
+}

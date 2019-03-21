@@ -1,0 +1,17 @@
+{
+  "name": "@factor/admin-config",
+  "version": "0.0.2",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "factor": {
+    "priority": 30
+  },
+  "dependencies": {
+    "crypto-json": "^2.0.2",
+    "deepmerge": "^3.2.0",
+    "fs-extra": "^7.0.1"
+  },
+  "devDependencies": {
+    "consola": "^2.5.6"
+  }
+}

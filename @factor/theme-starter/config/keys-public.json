@@ -1,0 +1,13 @@
+{
+  "development": {
+    "algolia": {
+      "prefix": "dev_"
+    }
+  },
+  "production": {
+    "algolia": {
+      "prefix": "prod_"
+    }
+  },
+  "all": {}
+}

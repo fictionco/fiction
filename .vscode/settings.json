@@ -1,0 +1,39 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  "search.useIgnoreFiles": false,
+  "files.exclude": {},
+  "search.exclude": {},
+  "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
+  "eslint.validate": [
+    {
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "html",
+      "autoFix": true
+    },
+    {
+      "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "json",
+      "autoFix": true
+    }
+  ],
+  "eslint.options": {
+    "extensions": [".js", ".vue", ""]
+  },
+  "eslint.run": "onSave",
+  "prettier.printWidth": 100,
+  "prettier.semi": false,
+  "editor.fontWeight": "600",
+  "vetur.format.defaultFormatter.html": "prettyhtml",
+  "eslint.autoFixOnSave": true,
+  "editor.formatOnSave": true
+}

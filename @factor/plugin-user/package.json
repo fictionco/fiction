@@ -1,0 +1,9 @@
+{
+  "name": "@factor/plugin-user",
+  "factor": {
+    "target": "app"
+  },
+  "version": "0.0.2",
+  "license": "GPL-3.0",
+  "main": "plugin.js"
+}
