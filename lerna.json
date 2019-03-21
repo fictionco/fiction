@@ -1,6 +1,9 @@
 {
-  "packages": ["@factor/*", "@factor/**/endpoint"],
-  "version": "0.0.6",
+  "packages": [
+    "@factor/*",
+    "@factor/**/endpoint"
+  ],
+  "version": "0.0.7",
   "npmClient": "yarn",
   "useWorkspaces": false
 }

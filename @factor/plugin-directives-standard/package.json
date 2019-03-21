@@ -1,13 +1,16 @@
 {
   "name": "@factor/plugin-directives-standard",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": ["build", "app"]
+    "target": [
+      "build",
+      "app"
+    ]
   },
   "dependencies": {
     "sanitize-html": "^1.20.0"

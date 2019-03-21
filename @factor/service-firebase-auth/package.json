@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-auth",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -10,7 +10,7 @@
     "target": "app"
   },
   "dependencies": {
-    "@factor/service-firebase-app": "^0.0.6"
+    "@factor/service-firebase-app": "^0.0.7"
   },
   "gitHead": "10570bc24b2071002630961b1e9e0d9965eeacbf"
 }

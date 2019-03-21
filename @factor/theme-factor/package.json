@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-factor",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -14,7 +14,7 @@
     "start": "NODE_ENV=production node start --build --serve --no-cache"
   },
   "dependencies": {
-    "@factor/build": "^0.0.6"
+    "@factor/build": "^0.0.7"
   },
   "gitHead": "10570bc24b2071002630961b1e9e0d9965eeacbf"
 }

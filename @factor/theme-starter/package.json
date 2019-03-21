@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-starter",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A starter app for Factor CMS.",
   "author": "Fiction.com",
   "license": "GPL-3.0",
@@ -13,7 +13,7 @@
     "start": "NODE_ENV=production node config/start --build --serve --no-cache"
   },
   "dependencies": {
-    "@factor/build": "^0.0.6"
+    "@factor/build": "^0.0.7"
   },
   "factor": {
     "target": "themes"

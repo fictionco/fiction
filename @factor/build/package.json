@@ -1,19 +1,19 @@
 {
   "name": "@factor/build",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "main": "plugin.js",
   "dependencies": {
-    "@factor/plugin-server": "^0.0.6",
+    "@factor/plugin-server": "^0.0.7",
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "@factor/build-extend": "^0.0.6",
-    "@factor/plugin-server-dev": "^0.0.6",
-    "@factor/plugin-webpack": "^0.0.6",
+    "@factor/build-extend": "^0.0.7",
+    "@factor/plugin-server-dev": "^0.0.7",
+    "@factor/plugin-webpack": "^0.0.7",
     "find-node-modules": "^2.0.0",
     "glob": "^7.1.3",
     "html-minifier": "^3.5.21",

@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-events",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -8,7 +8,10 @@
   },
   "factor": {
     "priority": 20,
-    "target": ["build", "app"]
+    "target": [
+      "build",
+      "app"
+    ]
   },
   "gitHead": "10570bc24b2071002630961b1e9e0d9965eeacbf"
 }
