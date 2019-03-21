@@ -43,5 +43,5 @@
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^3.1.5"
   },
-  "gitHead": "ec1f667b1d04405eec5f70dc40eab344d44ff304"
+  "gitHead": "17f85fde4592fced47843a8dbcf4125dd4746d9e"
 }
