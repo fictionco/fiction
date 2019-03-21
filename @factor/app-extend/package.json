@@ -1,11 +1,11 @@
 {
   "name": "@factor/app-extend",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "dependencies": {
-    "@factor/app-config": "^0.0.4",
-    "@factor/filters": "^0.0.4"
+    "@factor/app-config": "^0.0.5",
+    "@factor/filters": "^0.0.5"
   },
   "gitHead": "17f85fde4592fced47843a8dbcf4125dd4746d9e"
 }

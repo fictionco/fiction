@@ -3,7 +3,7 @@
   "factor": {
     "target": "app"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "GPL-3.0",
   "main": "plugin.js",
   "gitHead": "17f85fde4592fced47843a8dbcf4125dd4746d9e"
