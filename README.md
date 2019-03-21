@@ -12,5 +12,10 @@ How? Factor is has a hot-swappable plugin system based on NPM that allows you to
 
 ### Getting Started
 
+....
+
+
 ### Documentation
+
+....
 
