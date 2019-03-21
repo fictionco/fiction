@@ -1,13 +1,13 @@
 {
   "name": "@factor/service-firebase-functions-entry",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "factor": {
     "target": "serverless"
   },
   "dependencies": {
-    "@factor/admin-endpoint-extend": "^0.0.2",
+    "@factor/admin-endpoint-extend": "^0.0.3",
     "firebase-admin": "^7.1.0",
     "firebase-functions": "^2.2.0",
     "vue": "^2.6.9"
