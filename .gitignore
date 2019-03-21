@@ -8,3 +8,4 @@ generated
 /cypress
 yarn-error*
 .DS_Store
+*.log
