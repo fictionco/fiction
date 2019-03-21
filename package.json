@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "workspaces": ["@fiction/*", "@factor/*", "@factor/**/endpoint"],
   "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "UNLICENSED",
   "scripts": {
     "cypress": "npx cypress open",
