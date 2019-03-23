@@ -25,7 +25,8 @@ export default Factor => {
         ]
 
         _.functions = {
-          source: this.folderName
+          source: this.folderName,
+          ignore: ["**/node_modules/!(*factor)/**"]
         }
 
         return _
