@@ -13,8 +13,8 @@ module.exports = Factor => {
       Factor.$paths.add({
         "plugins-loader-app": res(gen, "load-plugins-app.js"),
         "plugins-loader-build": res(gen, "load-plugins-build.js"),
-        "plugins-loader-endpoint": res(gen, "load-plugins-endpoint.js"),
-        "themes-loader": res(gen, "load-themes.js")
+        "plugins-loader-serverless": res(gen, "load-plugins-serverless.js"),
+        "plugins-loader-themes": res(gen, "load-themes.js")
       })
 
       if (Factor.FACTOR_ENV == "build" && this.build == "development") {
@@ -54,65 +54,63 @@ module.exports = Factor => {
       this.makeLoaderFile({
         extensions,
         destination: Factor.$paths.get("plugins-loader-build"),
-        target: "build"
+        target: ["build"]
       })
 
       this.makeLoaderFile({
         extensions,
         destination: Factor.$paths.get("plugins-loader-app"),
-        target: "app"
+        target: ["app"]
       })
 
       this.makeLoaderFile({
         extensions,
-        destination: Factor.$paths.get("plugins-loader-endpoint"),
-        target: "endpoint"
+        destination: Factor.$paths.get("plugins-loader-themes"),
+        target: ["themes"]
       })
 
       this.makeLoaderFile({
         extensions,
-        destination: Factor.$paths.get("themes-loader"),
-        target: "themes"
+        destination: Factor.$paths.get("plugins-loader-serverless"),
+        target: ["endpoint", "serverless"],
+        requireAtRuntime: true
       })
 
       require("consola").success(
         `Made Loaders [${Date.now() - s}ms]`,
         `- ${extensions.length} Extensions`
       )
-
-      // if (Factor.FACTOR_CONFIG.theme == activeTheme) {
-      //   require("consola").success(`Active Theme: "${Factor.FACTOR_CONFIG.theme}"`)
-      // }
     }
 
-    makeLoaderFile({ extensions, destination, target }) {
+    // Webpack doesn't allow dynamic paths in require statements
+    // In order to make dynamic require statements, we build loader files
+    // Also an easier way to see what is included than by using other techniques
+    makeLoaderFile({ extensions, destination, target, requireAtRuntime = false }) {
       const fs = require("fs-extra")
 
-      const filtered = extensions.filter(
-        _ =>
-          _.target == target ||
-          ((Array.isArray(_.target) && _.target.includes(target)) || _.target == "all")
-      )
+      const filtered = extensions.filter(_ => {
+        if (_.target) {
+          if (typeof _.target == "string") {
+            if (target.includes(_.target)) {
+              return true
+            }
+          } else if (target.filter(value => _.target.includes(value)).length > 0) {
+            return true
+          }
+        }
+      })
 
       const lines = [`/* GENERATED FILE */`]
 
       lines.push("const files = {}")
 
-      if (true || target == "build") {
-        filtered.forEach(({ id, module }) => {
-          lines.push(`files["${id}"] = require("${module}").default`)
-        })
+      filtered.forEach(extension => {
+        const { module, id } = extension
+        const r = requireAtRuntime ? JSON.stringify(extension) : `require("${module}").default`
+        lines.push(`files["${id}"] = ${r}`)
+      })
 
-        lines.push(`module.exports = files`)
-      }
-
-      // else {
-      //   loader.forEach(({ id, module }) => {
-      //     lines.push(`files["${id}"] = () => import("${module}")`)
-      //   })
-
-      //   lines.push(`export default files`)
-      // }
+      lines.push(`module.exports = files`)
 
       fs.ensureDirSync(path.dirname(destination))
 
@@ -160,35 +158,6 @@ module.exports = Factor => {
       })
 
       return this.makeLoader(packages)
-
-      // const themesPackages = packages.filter(_ => _.includes("theme"))
-      // const themesLoader = this.makeLoader(themesPackages, { key: "theme" })
-
-      // activeTheme = Factor.FACTOR_CONFIG.theme
-      //   ? themesLoader.find((_, index) => {
-      //       themesLoader[index].active = true
-      //       return _.id == Factor.FACTOR_CONFIG.theme
-      //     })
-      //   : false
-
-      // if (activeTheme) {
-      //   const themePluginPattern = path.resolve(activeTheme.filepath, `**/@${this.namespace}/**/package.json`)
-      //   packages = packages.concat(glob(themePluginPattern))
-      // }
-
-      // const { factor: { services = {} } = {} } = Factor.$config
-
-      // let pluginPackages = []
-      // pluginPackages = pluginPackages.concat(packages.filter(_ => _.includes("plugin")))
-      // pluginPackages = pluginPackages.concat(Object.values(services).map(_ => `${_}/package.json`))
-
-      // const pluginsLoader = this.makeLoader(pluginPackages, { key: "plugin" })
-
-      // return {
-      //   activeTheme,
-      //   pluginsLoader,
-      //   themesLoader
-      // }
     }
 
     sortPriority(arr) {
@@ -206,9 +175,10 @@ module.exports = Factor => {
       packages.forEach(_ => {
         let fields = {}
         if (_.includes("package.json")) {
-          const { name, factor: { priority = 100, target = false } = {} } = require(_)
+          const { name, factor: { priority = 100, target = false } = {}, version } = require(_)
 
           fields = {
+            version,
             module: name,
             priority,
             target,

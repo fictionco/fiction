@@ -1,4 +1,4 @@
-const { ensureDirSync, emptyDirSync, copySync, writeFileSync } = require("fs-extra")
+const { ensureDirSync, emptyDirSync, copy, copySync, writeFileSync } = require("fs-extra")
 const { spawnSync, spawn } = require("child_process")
 const glob = require("glob").sync
 const consola = require("consola")
@@ -9,6 +9,8 @@ export default Factor => {
       this.folderName = "serverless"
       this.applicationPath = Factor.$paths.get("app")
       this.buildDirectory = resolve(this.applicationPath, this.folderName)
+
+      this.serverlessPackages = require(Factor.$paths.get("plugins-loader-serverless"))
       this.buildFunctionsFolder()
       this.addConfig()
     }
@@ -37,7 +39,7 @@ export default Factor => {
       this.copyAppDirectories()
       this.makePackageJson()
       this.copyFunctionsFiles()
-      //  this.runtimeFile()
+      this.runtimeFile()
       // this.transpile()
     }
 
@@ -53,10 +55,34 @@ export default Factor => {
       })
     }
 
-    makePackageJson() {
-      const dependencies = {}
-      dependencies["@factor/service-firebase-functions-entry"] = "^0.0.1"
-      dependencies["@factor/admin-endpoint-extend"] = "^0.0.1"
+    getDependencies() {
+      let out = {}
+
+      Object.values(this.serverlessPackages).forEach(pkg => {
+        const p = require(`${pkg.module}/package.json`)
+        if (p.dependencies) {
+          out = { ...out, ...p.dependencies }
+        }
+
+        //out[pkg.module] = `^${pkg.version}`
+      })
+      return out
+    }
+
+    async copyLocalDeps() {
+      Object.values(this.serverlessPackages).forEach(pkg => {
+        const modPath = dirname(require.resolve(`${pkg.module}/package.json`))
+        const modDest = resolve(this.buildDirectory, "node_modules", pkg.module)
+        ensureDirSync(modDest)
+        copySync(modPath, modDest)
+      })
+
+      return
+    }
+
+    async makePackageJson() {
+      const dependencies = this.getDependencies()
+      await this.copyLocalDeps()
 
       const { pkg } = Factor.$config
       const babelCliPlugins = "--plugins=babel-plugin-dynamic-import-node"
@@ -64,9 +90,9 @@ export default Factor => {
         name: "@factor/serverless-directory",
         description: "** GENERATED FILE **",
         version: pkg.version,
+        license: "UNLICENSED",
         scripts: {
-          transpile: `npx babel src --out-dir src --ignore node_modules,dist,build ${babelCliPlugins}`,
-          runtime: "npx firebase functions:config:get > .runtimeconfig.json"
+          transpile: `npx babel src --out-dir src --ignore node_modules,dist,build ${babelCliPlugins}`
         },
         engines: { node: "8" },
         dependencies,
