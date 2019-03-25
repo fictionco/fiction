@@ -1,4 +1,4 @@
-module.exports = FactorAdmin => {
+module.exports.default = Factor => {
   return new class {
     constructor() {}
 
@@ -6,16 +6,14 @@ module.exports = FactorAdmin => {
       // Privs are what have been set up
       // Claims are set by us and used to set privs
 
-      const user = FactorAdmin.$user
-      const uid = FactorAdmin.$uid
+      const user = Factor.$user
+      const uid = Factor.$uid
 
       const { role = {} } = user
 
       const privs = await this.tools.getExistingClaims(uid)
 
-      const roles = require(`@factor/plugin-user`)
-        .default(Factor)
-        .config().roles
+      const roles = require(`@factor/plugin-user/config`).roles
 
       let newClaims = { accessLevel: 1 }
 

@@ -25,7 +25,7 @@ module.exports = FACTOR_CONFIG => {
         }
       }
 
-      this.endpointHandler = require("@factor/admin-extend-endpoint")(Factor, FACTOR_CONFIG)
+      this.endpointHandler = require("@factor/admin-endpoint-extend")(Factor, FACTOR_CONFIG)
 
       try {
         const {

@@ -9,8 +9,8 @@ module.exports = Factor => {
       Factor.$paths.add({
         "keys-public": res(conf, "keys-public.json"),
         "keys-private-raw": res(conf, "keys-private-raw.json"),
-        "keys-encrypted-dev": res(gen, "keys-encrypted-dev.json"),
-        "keys-encrypted-prod": res(gen, "keys-encrypted-prod.json"),
+        "keys-encrypted-development": res(gen, "keys-encrypted-dev.json"),
+        "keys-encrypted-production": res(gen, "keys-encrypted-prod.json"),
         "plugins-loader-app": res(gen, "load-plugins-app.js"),
         "plugins-loader-build": res(gen, "load-plugins-build.js"),
         passwords: res(conf, "passwords.json")
@@ -42,14 +42,16 @@ module.exports = Factor => {
     }
 
     readEncryptedSecrets({ build = "dev", password }) {
-      const file = Factor.$paths.get(`keys-encrypted-${build}`)
+      const filterKey = `keys-encrypted-${build}`
+      const file = Factor.$paths.get(filterKey)
+
+      if (!file) {
+        consola.error(`Cannot find file: ${filterKey}`)
+        return
+      }
 
       let encrypted = {}
-      try {
-        encrypted = require(file)
-      } catch (error) {
-        consola.warn(`Cannot find ${file}`)
-      }
+      encrypted = require(file)
       return require("crypto-json").decrypt(encrypted, password)
     }
 

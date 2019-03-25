@@ -38,7 +38,7 @@ module.exports = Factor => {
       let config = {}
 
       if (password) {
-        config = Factor.$keys.readEncryptedSecrets({ build, password })
+        config = Factor.$keys.readEncryptedSecrets({ build: this.env, password })
       }
 
       return config

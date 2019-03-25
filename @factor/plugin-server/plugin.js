@@ -11,9 +11,7 @@ const { createBundleRenderer } = require("vue-server-renderer")
 const env = process.env.NODE_ENV || "production"
 const isProd = env === "production"
 
-// require("module-alias/register")
-
-export default Factor => {
+module.exports.default = Factor => {
   return new class {
     constructor() {
       // If development or --serve variable is passed
@@ -34,9 +32,12 @@ export default Factor => {
         ...options,
         cache: new LRU({ max: 1000, maxAge: 1000 * 60 * 15 }),
         runInNewContext: false,
-        // basedir: this.resolve("./")
         directives: Factor.$filters.applyFilters("server-directives", {})
       })
+    }
+
+    requestHandler() {
+      return this.server
     }
 
     render(req, res) {
@@ -182,7 +183,7 @@ export default Factor => {
       const fav = Factor.$paths.get("favicon")
       try {
         this.server.use(favicon(fav))
-      } catch {
+      } catch (error) {
         consola.warn(`Couldn't find [${fav}]`)
       }
 

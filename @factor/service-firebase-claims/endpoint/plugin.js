@@ -1,19 +1,17 @@
-module.exports = FactorAdmin => {
+module.exports.default = Factor => {
   return new class {
     constructor() {
       this.adminService = require("firebase-admin")
 
-      this.roles = require(`@factor/plugin-user`)
-        .default(Factor)
-        .config().roles
+      this.roles = require(`@factor/plugin-user/config.json`).roles
     }
 
     async customClaims() {
       // Privs are what have been set up
       // Claims are set by us and used to set privs
 
-      const user = FactorAdmin.$user
-      const uid = FactorAdmin.$uid
+      const user = Factor.$user
+      const uid = Factor.$uid
 
       const { role = {} } = user
 

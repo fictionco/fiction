@@ -6,6 +6,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
       Factor.FACTOR_ENV = "endpoint"
       this.setup()
+      this.endpointService = Factor.$filters.apply("endpoint-service")
     }
 
     setup() {
@@ -23,7 +24,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       this.addCoreExtension("keys", require(`@factor/build-keys`))
       this.addCoreExtension("files", require(`@factor/build-files`))
       this.addCoreExtension("config", require(`@factor/admin-config`))
-      this.addCoreExtension("endpoint", require(`@factor/build-endpoint`))
+      this.addCoreExtension("endpoint", require(`@factor/admin-endpoint`))
     }
 
     addCoreExtension(id, extension) {
@@ -38,15 +39,24 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       const endpoints = {}
 
       // Get extensions that are endpoints
-      const endpointPlugins = require(resolve(
-        Factor.$paths.get("generated"),
-        "load-plugins-endpoint"
-      ))
+      const serverlessExtensions = require(Factor.$paths.get("plugins-loader-serverless"))
 
-      // Add the endpoints to be processed by endpoint handler
-      for (var id in endpointPlugins) {
-        endpoints[id] = Factor.$endpoint.instance(endpointPlugins[id])
-      }
+      // Endpoint Modules can either expose a 'requestHandler' method
+      // Or the endpoint service will wrap the entire module
+      Object.keys(serverlessExtensions).forEach(key => {
+        const { target, module } = serverlessExtensions[key]
+        if (target == "endpoint" || target.includes("endpoint")) {
+          const pluginModule = require(module).default(Factor)
+          const { requestHandler } = pluginModule
+
+          const handler =
+            requestHandler && typeof requestHandler == "function"
+              ? requestHandler
+              : Factor.$endpoint.requestHandler(pluginModule)
+
+          endpoints[key] = this.endpointService(handler)
+        }
+      })
 
       return endpoints
     }

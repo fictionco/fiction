@@ -11,7 +11,7 @@ module.exports = Factor => {
       }
     }
 
-    instance(plugin) {
+    requestHandler(plugin) {
       const requester = (req, res) => {
         return cors(req, res, async () => {
           await this.onRequest(plugin, req, res)

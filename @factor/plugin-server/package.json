@@ -7,7 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "target": "build"
+    "target": ["build", "endpoint"]
   },
   "dependencies": {
     "consola": "^2.5.6",

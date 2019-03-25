@@ -4,11 +4,12 @@ const isNode = require("detect-node")
 module.exports = Factor => {
   const handler = new class {
     getPublicConfig() {
-      const out = {}
+      let out = {}
       try {
         out = require("@config/keys-public.json")
       } catch (error) {
         console.error(`Cant Find Public Config`)
+        console.error(error)
       }
       return out
     }

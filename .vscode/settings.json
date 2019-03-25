@@ -6,7 +6,10 @@
   },
   "search.useIgnoreFiles": false,
   "files.exclude": {},
-  "search.exclude": {},
+  "search.exclude": {
+    "**/factor_modules/**": true,
+    "**/generated/**": true
+  },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [
     {
