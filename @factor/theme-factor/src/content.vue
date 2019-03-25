@@ -1,15 +1,14 @@
 <template>
   <div class="content-layout">
     <site-head v-if="nav">
-      <factor-link path="/">Home</factor-link>
       <factor-link path="/how-it-works">How it works</factor-link>
       <factor-link path="/plugins">Plugins</factor-link>
       <factor-link path="/docs">Docs</factor-link>
       <!-- <factor-link btn="primary">Download</factor-link> -->
-      <factor-link path="https://fiction.page.link/discord" target="_blank">
+      <factor-link class="factor-icon" path="https://fiction.page.link/discord" target="_blank">
         <i class="fa fa-discord" />
       </factor-link>
-      <factor-link path="https://github.com/livefiction/factor" target="_blank">
+      <factor-link class="factor-icon" path="https://github.com/livefiction/factor" target="_blank">
         <i class="fa fa-github" />
       </factor-link>
     </site-head>

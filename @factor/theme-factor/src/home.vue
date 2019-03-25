@@ -171,7 +171,7 @@ export default {
       padding: 3em;
       @media (max-width: 767px) {
         margin-top: 2em;
-        padding: 0 1em;
+        padding: 0;
         display: block;
         justify-content: center;
       }
@@ -184,7 +184,7 @@ export default {
           rotateY(-3deg) rotateX(1deg) rotate(1deg);
         @media (max-width: 767px) {
           transform: scale(1) translateY(0) perspective(0) rotateY(0deg)
-            rotateX(0deg) rotate(0deg);
+            rotateX(0deg) rotate(-5deg);
         }
       }
     }
@@ -270,7 +270,7 @@ export default {
       font-weight: 600;
       font-size: 2.6em;
       letter-spacing: -0.03em;
-      line-height: 0.9;
+      line-height: 1.2em;
       margin-bottom: 0.2em;
     }
     .subtitle {

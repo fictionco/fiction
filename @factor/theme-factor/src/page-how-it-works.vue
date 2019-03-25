@@ -114,17 +114,19 @@ var app = new Factor({
     </section>
 
     <section class="cta-wrap">
-      <div class="cta mast">
-        <div>
-          <h3 class="title">Ready to Start Building?</h3>
-          <p class="subtitle">Get in touch or create an account</p>
-        </div>
-        <div class="actions">
-          <factor-link path="/download" btn="primary" size="large">
-            Download
-            <i class="fa fa-arrow-right" />
-          </factor-link>
-          <factor-link path="/contact" btn="tertiary" size="large">Contact Us</factor-link>
+      <div class="mast">
+        <div class="cta">
+          <div>
+            <h3 class="title">Ready to Start Building?</h3>
+            <p class="subtitle">Get in touch or create an account</p>
+          </div>
+          <div class="actions">
+            <factor-link path="/download" btn="primary" size="large">
+              Download
+              <i class="fa fa-arrow-right" />
+            </factor-link>
+            <factor-link path="/contact" btn="tertiary" size="large">Contact Us</factor-link>
+          </div>
         </div>
       </div>
     </section>
@@ -268,7 +270,8 @@ export default {
       &.cols-2 {
         grid-template-columns: 1fr;
         grid-gap: 2em;
-        padding: 2em 1em;
+        padding: 2em 0;
+        text-align: left;
       }
     }
 
@@ -376,14 +379,15 @@ export default {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-column-gap: 60px;
+      padding: 4em 0;
       @media (max-width: 767px) {
         display: block;
       }
       .title {
         font-weight: 600;
-        font-size: 2em;
+        font-size: 2.6em;
         letter-spacing: -0.03em;
-        line-height: 0.9;
+        line-height: 1.2em;
         margin-bottom: 0.2em;
       }
       .subtitle {
