@@ -151,15 +151,14 @@ export default Factor => {
       let logType = "success"
       return new Promise((resolve, reject) => {
         runner.stdout.on("data", function(data) {
-          messages.push(`${name} > ${data.toString()}`)
+          messages.push(data.toString())
         })
         runner.stderr.on("data", function(data) {
-          logType = "warn"
-          messages.push(`${name} > ${data.toString()}`)
+          messages.push(data.toString())
         })
         runner.on("close", code => {
-          messages.push(`${name} > Exited with code ${code}`)
-
+          messages.push(`${name} Exited with Code ${code}`)
+          messages.unshift(`${name} >>>`)
           consola[logType](messages.join(`\n`))
           resolve()
         })
