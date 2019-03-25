@@ -1,0 +1,29 @@
+{
+    "hosting": {
+        "public": "dist",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "function": "ssr"
+            }
+        ]
+    },
+    "firestore": {
+        "rules": "generated/firebase-firestore.rules",
+        "indexes": "generated/firebase-firestore-indexes.json"
+    },
+    "functions": {
+        "source": "serverless",
+        "ignore": [
+            "**/node_modules/!(*factor)/**"
+        ]
+    },
+    "storage": {
+        "rules": "generated/firebase-storage.rules"
+    }
+}

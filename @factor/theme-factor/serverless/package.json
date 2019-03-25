@@ -1,0 +1,26 @@
+{
+    "name": "@factor/serverless-directory",
+    "description": "** GENERATED FILE **",
+    "version": "0.0.7",
+    "license": "UNLICENSED",
+    "scripts": {
+        "transpile": "npx babel src --out-dir src --ignore node_modules,dist,build --plugins=babel-plugin-dynamic-import-node"
+    },
+    "engines": {
+        "node": "8"
+    },
+    "dependencies": {
+        "@factor/plugin-user": ">=0.0.7",
+        "@factor/admin-config": "^0.0.7",
+        "@factor/build-keys": "^0.0.7",
+        "@factor/build-paths": "^0.0.7",
+        "@factor/filters": "^0.0.7",
+        "@factor/admin-endpoint-extend": "^0.0.7",
+        "firebase-admin": "^7.1.0",
+        "firebase-functions": "^2.2.0",
+        "vue": "^2.6.9"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.0.0"
+    }
+}
