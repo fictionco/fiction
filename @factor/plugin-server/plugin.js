@@ -18,8 +18,14 @@ module.exports.default = Factor => {
       // We should serve the app (locally)
       this.serveApp = !isProd || Factor.$config.serve ? true : false
 
-      Factor.$filters.add("server", () => {
-        return this.server()
+      // After all extensions/filters added
+      // Needed for webpack and dev server
+      Factor.$filters.add("initialize-build", () => {
+        const server = this.startServer()
+
+        Factor.$filters.add("server", () => {
+          return server
+        })
       })
     }
 
@@ -36,8 +42,11 @@ module.exports.default = Factor => {
       })
     }
 
+    // Endpoint Helper method, return function that processes (req, res)
     requestHandler() {
-      return this.server
+      return (req, res) => {
+        this.server(req, res)
+      }
     }
 
     render(req, res) {
@@ -73,7 +82,7 @@ module.exports.default = Factor => {
       })
     }
 
-    server() {
+    startServer() {
       this.server = express()
 
       this.renderer = null

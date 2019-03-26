@@ -22,24 +22,19 @@ module.exports.default = Factor => {
   return new class {
     constructor() {
       // Allow for running plugin outside of app (e.g. cypress)
+      // should be able to call for webpack config directly from module
       if (Factor.$filters) {
         this.addFilters()
       }
     }
 
     addFilters() {
+      console.log("tADD FILTERS")
       Factor.$filters.add("build-production", () => {
         return this.buildProduction()
       })
       Factor.$filters.add("webpack-config", args => {
         return this.getConfig(args)
-      })
-
-      Factor.$paths.add({
-        "server-bundle-name": "factor-server.json",
-        "client-manifest-name": "factor-client.json",
-        "client-manifest": path.resolve(Factor.$paths.get("dist"), "factor-client.json"),
-        "server-bundle": path.resolve(Factor.$paths.get("dist"), "factor-server.json")
       })
     }
 

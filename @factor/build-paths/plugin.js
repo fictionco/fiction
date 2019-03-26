@@ -1,12 +1,11 @@
-const path = require("path")
+const { resolve } = require("path")
 const consola = require("consola")
 module.exports = Factor => {
   return new class {
     constructor() {
       this.assignFolderNames()
       this.assignPaths()
-
-      // Set aliases for node using NPM package
+      this.addServerPaths()
     }
 
     assignFolderNames() {
@@ -23,15 +22,24 @@ module.exports = Factor => {
 
       const _ = {}
       _.app = baseDir
-      _.source = path.resolve(baseDir, this.folder("source"))
-      _.dist = path.resolve(baseDir, this.folder("dist"))
-      _.generated = path.resolve(baseDir, this.folder("generated"))
-      _.config = path.resolve(_.source, "config")
-      _.static = path.resolve(_.source, "static")
-      _.template = path.resolve(_.source, "index.html")
-      _.favicon = path.resolve(_.static, "favicon.png")
+      _.source = resolve(baseDir, this.folder("source"))
+      _.dist = resolve(baseDir, this.folder("dist"))
+      _.generated = resolve(baseDir, this.folder("generated"))
+      _.config = resolve(_.source, "config")
+      _.static = resolve(_.source, "static")
+      _.template = resolve(_.source, "index.html")
+      _.favicon = resolve(_.static, "favicon.png")
 
       this.paths = Factor.$filters.apply("paths", _)
+    }
+
+    addServerPaths() {
+      this.add({
+        "server-bundle-name": "factor-server.json",
+        "client-manifest-name": "factor-client.json",
+        "client-manifest": resolve(this.get("dist"), "factor-client.json"),
+        "server-bundle": resolve(this.get("dist"), "factor-server.json")
+      })
     }
 
     get(p) {

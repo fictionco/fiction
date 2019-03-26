@@ -75,7 +75,18 @@ export default Factor => {
       return Factor.$files.readHtmlFile(this.templatePath)
     }
     watcher() {
-      const watchers = Factor.$filters.get("dev-watchers", [
+      const customWatchers = Factor.$filters.apply("build-watchers", [])
+
+      if (customWatchers.length > 0) {
+        customWatchers.forEach(({ name, files, ignored = [], event = "all", callback }) => {
+          chokidar.watch(files, { ignored, ignoreInitial: true }).on(event, (event, path) => {
+            callback({ event, path })
+            this.updateServer(name)
+          })
+        })
+      }
+
+      const watchers = Factor.$filters.apply("dev-watchers", [
         {
           files: [this.templatePath],
           ignore: [],
@@ -112,7 +123,10 @@ export default Factor => {
 
     compileClient() {
       // modify client config to work with hot middleware
-      this.confClient.entry.app = ["webpack-hot-middleware/client?quiet=true", this.confClient.entry.app]
+      this.confClient.entry.app = [
+        "webpack-hot-middleware/client?quiet=true",
+        this.confClient.entry.app
+      ]
       this.confClient.output.filename = "[name].js"
       this.confClient.plugins.push(
         new webpack.HotModuleReplacementPlugin(),

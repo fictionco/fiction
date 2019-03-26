@@ -35,6 +35,19 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       })
     }
 
+    initializeBuild() {
+      this._runCallbacks(Factor.$filters.apply("initialize-build", {}))
+    }
+
+    _runCallbacks(callbacks) {
+      for (var key in callbacks) {
+        const cb = callbacks[key]
+        if (cb && typeof cb == "function") {
+          cb()
+        }
+      }
+    }
+
     endpoints() {
       const endpoints = {}
 
@@ -51,12 +64,14 @@ module.exports = (Factor, FACTOR_CONFIG) => {
 
           const handler =
             requestHandler && typeof requestHandler == "function"
-              ? requestHandler
+              ? requestHandler.call(pluginModule)
               : Factor.$endpoint.requestHandler(pluginModule)
 
           endpoints[key] = this.endpointService(handler)
         }
       })
+
+      this.initializeBuild()
 
       return endpoints
     }

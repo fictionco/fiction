@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@factor/service-firebase-app": "^0.0.7",
-    "execa": "^1.0.0"
+    "execa": "^1.0.0",
+    "find-node-modules": "^2.0.0"
   },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }

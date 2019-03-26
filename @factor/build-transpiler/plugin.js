@@ -10,7 +10,7 @@ module.exports = Factor => {
       const { resolve } = require("path")
       const { copySync } = require("fs-extra")
 
-      copySync(resolve(__dirname, "files"), Factor.$paths.get("app"))
+      //copySync(resolve(__dirname, "files"), Factor.$paths.get("app"))
     }
 
     register({ target }) {

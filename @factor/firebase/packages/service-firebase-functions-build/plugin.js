@@ -14,8 +14,38 @@ export default Factor => {
       this.relativeDir = `${this.folderName}`
 
       this.serverlessPackages = require(Factor.$paths.get("plugins-loader-serverless"))
-      this.buildFunctionsFolder()
+
+      this.builder()
+    }
+
+    getFilePatterns() {
+      const patterns = []
+      const namespace = "factor"
+      const keys = ["endpoint", "server", "admin"]
+      require("find-node-modules")().forEach(_ => {
+        keys.forEach(k => {
+          patterns.push(resolve(_, `./@${namespace}/**/*${k}*/**`))
+          patterns.push(resolve(_, `./${namespace}*/**/*${k}*/**`))
+        })
+      })
+
+      return patterns
+    }
+
+    builder() {
       this.addConfig()
+      this.buildServerlessFolder()
+
+      Factor.$filters.add("build-watchers", _ => {
+        _.push({
+          name: "Functions Rebuild",
+          files: this.getFilePatterns(),
+          callback: ({ event, path }) => {
+            this.makePackages()
+          }
+        })
+        return _
+      })
     }
 
     addConfig() {
@@ -37,12 +67,11 @@ export default Factor => {
       })
     }
 
-    buildFunctionsFolder() {
+    buildServerlessFolder() {
       this.copyAppDirectories()
-      this.makePackageJson()
+      this.makePackages()
       this.copyFunctionsFiles()
       this.runtimeFile()
-      // this.transpile()
     }
 
     copyAppDirectories() {
@@ -117,29 +146,27 @@ export default Factor => {
       })
     }
 
-    async makePackageJson() {
+    async makePackages() {
       this.getDependencies()
 
       const { pkg } = Factor.$config
-      const babelCliPlugins = "--plugins=babel-plugin-dynamic-import-node"
+
       const lines = {
         name: "@factor/serverless-directory",
         description: "** GENERATED FILE **",
         version: pkg.version,
         license: "UNLICENSED",
         scripts: {
-          deps: "yarn install --ignore-engines",
-          transpile: `npx babel src --out-dir src --ignore node_modules,dist,build ${babelCliPlugins}`
+          deps: "yarn install --ignore-engines"
         },
         engines: { node: "8" },
         dependencies: this.localDependencies,
-        devDependencies: {
-          "@babel/cli": "^7.0.0"
-        }
+        devDependencies: {}
       }
 
       writeFileSync(`${this.buildDirectory}/package.json`, JSON.stringify(lines, null, 4))
-      consola.success("Serverless Package.json Generated")
+
+      this._copyLocalDeps(this.localDependencies)
     }
 
     copyFunctionsFiles() {
@@ -157,20 +184,18 @@ export default Factor => {
           messages.push(data.toString())
         })
         runner.on("close", code => {
-          messages.push(`${name} Exited with Code ${code}`)
           messages.unshift(`${name} >>>`)
-          consola[logType](messages.join(`\n`))
+          consola[logType](`${name} [Finished - ${code}]`)
           resolve()
         })
       })
     }
 
     runtimeFile() {
-      this._copyLocalDeps(this.localDependencies)
       // Package.json is still getting generated (apparently)
       // Yarn/NPM will use parent package.json if the CWD one is missing
       setTimeout(async () => {
-        const { spawn, exec } = require("child_process")
+        const { spawn } = require("child_process")
 
         const runFolder = `${process.cwd()}/${this.relativeDir}`
 
@@ -178,16 +203,8 @@ export default Factor => {
           cwd: runFolder
         })
 
-        await this.showOutput("Install Serverless Packages", runner)
-      }, 1000)
+        await this.showOutput("Serverless Packages Install", runner)
+      }, 500)
     }
-
-    // transpile() {
-    //   const transpiler = spawn("yarn", ["transpile"], {
-    //     cwd: `${process.cwd()}/${this.folderName}`
-    //   })
-
-    //   this.showOutput("Transpile", transpiler)
-    // }
   }()
 }
