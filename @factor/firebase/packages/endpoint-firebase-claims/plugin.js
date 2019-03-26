@@ -6,12 +6,21 @@ module.exports.default = Factor => {
       this.roles = require(`@factor/plugin-user/config.json`).roles
     }
 
+    logger(text) {
+      return `[customClaims Endpoint] ${text}`
+    }
+
     async customClaims() {
       // Privs are what have been set up
       // Claims are set by us and used to set privs
 
-      const user = Factor.$user
-      const uid = Factor.$uid
+      const user = Factor.$headers.auth
+
+      if (!user) {
+        throw new Error(this.logger("User not authenticated"))
+      }
+
+      const uid = user.uid
 
       const { role = {} } = user
 

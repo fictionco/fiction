@@ -14,7 +14,6 @@
     "@factor/build-keys": ">=0.0.7",
     "@factor/build-paths": ">=0.0.7",
     "@factor/build-files": ">=0.0.7",
-    "@factor/admin-endpoint": ">=0.0.7",
     "@factor/filters": ">=0.0.7"
   },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"

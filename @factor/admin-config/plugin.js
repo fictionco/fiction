@@ -53,7 +53,8 @@ module.exports = Factor => {
         Factor.FACTOR_CONFIG,
         publicConfig[this.env],
         publicConfig.all,
-        privateConfig,
+        privateConfig[this.env],
+        privateConfig.all,
         isNode,
         {
           env: this.env

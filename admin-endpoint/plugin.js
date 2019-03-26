@@ -3,23 +3,14 @@ const parse = require("qs").parse
 const cors = require("cors")({ origin: true })
 module.exports = Factor => {
   return new class {
-    constructor() {
-      this.endpointService = Factor.$filters.apply("endpoint-service")
-
-      if (!this.endpointService) {
-        throw new Error("[Factor] No endpoint service provided.")
-      }
-    }
+    constructor() {}
 
     requestHandler(plugin) {
-      const requester = (req, res) => {
+      return (req, res) => {
         return cors(req, res, async () => {
-          await this.onRequest(plugin, req, res)
-          return
+          return await this.onRequest(plugin, req, res)
         })
       }
-
-      return this.endpointService(requester)
     }
 
     async onRequest(plugin, req, res) {
@@ -78,6 +69,7 @@ module.exports = Factor => {
           error: { message, stack }
         }
       }
+      return out
     }
 
     isJson(str) {

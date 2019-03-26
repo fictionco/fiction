@@ -29,7 +29,6 @@ module.exports.default = Factor => {
     }
 
     addFilters() {
-      console.log("tADD FILTERS")
       Factor.$filters.add("build-production", () => {
         return this.buildProduction()
       })

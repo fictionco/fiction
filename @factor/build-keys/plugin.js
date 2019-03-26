@@ -21,9 +21,7 @@ module.exports = Factor => {
 
     doWatchers() {
       const keysRaw = Factor.$paths.get("keys-private-raw")
-      Factor.$filters.add("development-server", () => {
-        this.makeEncryptedSecrets()
-      })
+      this.makeEncryptedSecrets()
       Factor.$filters.add("dev-watchers", _ => {
         const files = [keysRaw]
         const watchers = [
@@ -41,7 +39,7 @@ module.exports = Factor => {
       })
     }
 
-    readEncryptedSecrets({ build = "dev", password }) {
+    readEncryptedSecrets({ build = "development", password }) {
       const filterKey = `keys-encrypted-${build}`
       const file = Factor.$paths.get(filterKey)
 
@@ -85,19 +83,19 @@ module.exports = Factor => {
       const rawKeys = require(keysRaw)
 
       const generated = []
-      if (passwords.dev) {
-        const encryptedDev = require("crypto-json").encrypt(rawKeys, passwords.dev)
+      if (passwords.development) {
+        const encryptedDev = require("crypto-json").encrypt(rawKeys, passwords.development)
         fs.writeFileSync(
-          Factor.$paths.get("keys-encrypted-dev"),
+          Factor.$paths.get("keys-encrypted-development"),
           JSON.stringify(encryptedDev, null, "  ")
         )
         generated.push("dev")
       }
 
-      if (passwords.prod) {
-        const encryptedProd = require("crypto-json").encrypt(rawKeys, passwords.prod)
+      if (passwords.production) {
+        const encryptedProd = require("crypto-json").encrypt(rawKeys, passwords.production)
         fs.writeFileSync(
-          Factor.$paths.get("keys-encrypted-prod"),
+          Factor.$paths.get("keys-encrypted-production"),
           JSON.stringify(encryptedProd, null, "  ")
         )
         generated.push("prod")

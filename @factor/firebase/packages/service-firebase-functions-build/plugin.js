@@ -21,7 +21,7 @@ export default Factor => {
     getFilePatterns() {
       const patterns = []
       const namespace = "factor"
-      const keys = ["endpoint", "server", "admin"]
+      const keys = ["endpoint", "server", "admin", "functions"]
       require("find-node-modules")().forEach(_ => {
         keys.forEach(k => {
           patterns.push(resolve(_, `./@${namespace}/**/*${k}*/**`))
@@ -68,10 +68,16 @@ export default Factor => {
     }
 
     buildServerlessFolder() {
+      this.clearBuildDirectory()
       this.copyAppDirectories()
       this.makePackages()
       this.copyFunctionsFiles()
       this.runtimeFile()
+    }
+
+    clearBuildDirectory() {
+      ensureDirSync(this.buildDirectory)
+      emptyDirSync(this.buildDirectory)
     }
 
     copyAppDirectories() {
@@ -79,8 +85,6 @@ export default Factor => {
         ignore: ["**/node_modules", "**/package.json", "**/start.js", `**/${this.folderName}`]
       })
 
-      ensureDirSync(this.buildDirectory)
-      emptyDirSync(this.buildDirectory)
       files.forEach(f => {
         copySync(f, resolve(this.buildDirectory, basename(f)))
       })
@@ -105,8 +109,18 @@ export default Factor => {
 
         const modPath = dirname(require.resolve(packagePath))
         const modDest = resolve(this.buildDirectory, "factor_modules", packageName)
+
         ensureDirSync(modDest)
+        emptyDirSync(modDest)
         copySync(modPath, modDest, { dereference: true })
+
+        // Yarn/NPM just copy the locals to node_modules
+        // Need to update that as well for local dev
+        const modDestNode = resolve(this.buildDirectory, "node_modules", packageName)
+
+        ensureDirSync(modDestNode)
+        emptyDirSync(modDestNode)
+        copySync(modPath, modDestNode, { dereference: true })
 
         const destPackage = `${modDest}/package.json`
         let newPackage = require(destPackage)
@@ -161,7 +175,8 @@ export default Factor => {
         },
         engines: { node: "8" },
         dependencies: this.localDependencies,
-        devDependencies: {}
+        devDependencies: {},
+        timestamp: +new Date()
       }
 
       writeFileSync(`${this.buildDirectory}/package.json`, JSON.stringify(lines, null, 4))

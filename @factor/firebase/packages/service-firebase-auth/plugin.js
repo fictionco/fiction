@@ -38,6 +38,10 @@ export default Factor => {
 
     filters() {
       Factor.$filters.addService({ name: "auth-signin", service: _ => this.credentialSignin(_) })
+      Factor.$filters.addService({
+        name: "auth-request-bearer-token",
+        service: _ => this.getIdToken()
+      })
     }
 
     async linkProvider(args) {
@@ -51,6 +55,10 @@ export default Factor => {
       }
 
       return
+    }
+
+    async getIdToken() {
+      return await this.client.auth().currentUser.getIdToken()
     }
 
     async credentialSignin(args) {

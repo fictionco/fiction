@@ -10,8 +10,13 @@ module.exports = FACTOR_CONFIG => {
     }
 
     initialize() {
+      const that = this
+
+      const project = process.env.GCLOUD_PROJECT
+
       FACTOR_CONFIG = {
         baseDir: FACTOR_CONFIG.baseDir,
+        staging: project.includes("staging") || project.includes("development") ? true : false,
         setup() {
           const { passwords } = functions.config().factor || {}
 
@@ -22,28 +27,30 @@ module.exports = FACTOR_CONFIG => {
           // Add the Firebase Functions call that handles the https endpoint requests
           // This is used by the 'endpoint' class
           Factor.$filters.add("endpoint-service", () => functions.https.onRequest)
+
+          Factor.$filters.add("auth-token-service", () => that.authTokenHandler)
         }
       }
 
       this.endpointHandler = require("@factor/admin-endpoint-extend")(Factor, FACTOR_CONFIG)
 
-      try {
-        const {
-          firebase: { databaseURL, serviceAccount }
-        } = Factor.$config
+      const {
+        firebase: { databaseURL, serviceAccount }
+      } = Factor.$config
 
-        if (serviceAccount) {
-          admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
+      if (serviceAccount) {
+        admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
 
-          admin.firestore()
-        } else {
-          consola.error("Missing service account config info")
-        }
-      } catch (error) {
-        throw new Error(error)
+        admin.firestore()
+      } else {
+        consola.warn("Missing service account config info")
       }
 
       return Factor
+    }
+
+    async authTokenHandler(token) {
+      return await admin.auth().verifyIdToken(token)
     }
 
     endpoints() {

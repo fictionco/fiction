@@ -98,6 +98,16 @@ export default Factor => {
       return await Promise.all(promises)
     }
 
+    async getRequestBearerToken() {
+      const token = await Factor.$filters.applyService({
+        service: "auth",
+        filter: "auth-request-bearer-token"
+      })
+
+      console.log("token ser", token.length, token)
+      return token
+    }
+
     update(args) {
       Factor.$events.$emit("user-updated", args)
     }
