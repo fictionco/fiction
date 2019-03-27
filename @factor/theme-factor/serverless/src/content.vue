@@ -1,32 +1,50 @@
 <template>
   <div class="content-layout">
     <site-head v-if="nav">
-      <factor-link path="/">Home</factor-link>
       <factor-link path="/how-it-works">How it works</factor-link>
       <factor-link path="/plugins">Plugins</factor-link>
       <factor-link path="/docs">Docs</factor-link>
       <!-- <factor-link btn="primary">Download</factor-link> -->
-      <factor-link path="https://fiction.page.link/discord" target="_blank">
+      <factor-link class="factor-icon" path="https://fiction.page.link/discord" target="_blank">
         <i class="fa fa-discord" />
       </factor-link>
-      <factor-link path="https://github.com/livefiction/factor" target="_blank">
+      <factor-link class="factor-icon" path="https://github.com/fiction-com/factor" target="_blank">
         <i class="fa fa-github" />
       </factor-link>
     </site-head>
-    <router-view />
+    <div class="content-main" :style="bg">
+      <div class="content-main-content">
+        <slot v-if="$slots.default" />
+        <router-view v-else />
+      </div>
+      <site-footer v-if="nav" />
+    </div>
+    <!-- <router-view /> -->
   </div>
 </template>
 <style src="./css/common.less" lang="less"></style>
 <script>
 export default {
   components: {
-    "site-head": () => import("./site-head")
+    "site-head": () => import("./site-head"),
+    "site-footer": () => import("./site-footer")
   },
   computed: {
     nav() {
       return typeof this.$route.meta.nav != "undefined"
         ? this.$route.meta.nav
         : true
+    },
+    bg() {
+      const background = this.$route.meta.background || false
+
+      if (!background) {
+        return ""
+      } else {
+        return {
+          background
+        }
+      }
     }
   }
 }

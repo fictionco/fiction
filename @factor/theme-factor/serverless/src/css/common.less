@@ -1,5 +1,6 @@
 @import "vars.less";
 @import "entry-content.less";
+
 * {
   -webkit-overflow-scrolling: touch; //mobile scroll fix
 }
@@ -128,6 +129,7 @@ video {
 table {
   border-collapse: separate;
   border-spacing: 0;
+
   caption,
   td,
   th {
@@ -145,10 +147,12 @@ a {
   text-decoration: none;
   text-decoration-skip: ink;
   color: #0496ff;
+
   &:hover {
     cursor: pointer;
     color: #ff0076;
   }
+
   img {
     border: 0;
   }
@@ -166,6 +170,12 @@ strong {
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: rgba(0, 0, 0, 0.2);
+}
+
+::selection {
+  color: #fff;
+  background-color: #ff0076;
+  opacity: 1 !important;
 }
 
 button,
@@ -223,18 +233,22 @@ select {
   font-weight: 500;
   color: @color-text;
   background-color: transparent;
+
   &.disabled {
     opacity: 0.5;
   }
+
   &.dropdown,
   &.toggle,
   &.range {
     border: 0;
+
     &:hover,
     &:focus {
       border: none;
     }
   }
+
   &::placeholder {
     /* Chrome/Opera/Safari */
     color: #bdcad4;

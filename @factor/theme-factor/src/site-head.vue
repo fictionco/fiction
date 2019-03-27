@@ -15,7 +15,7 @@
 <script>
 export default {
   components: {
-    "site-logo": () => import("./el/logo")
+    "site-logo": () => import("./el/factor-logo")
   },
   data() {
     return {}
