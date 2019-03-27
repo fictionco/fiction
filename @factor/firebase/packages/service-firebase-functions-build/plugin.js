@@ -15,21 +15,11 @@ export default Factor => {
 
       this.serverlessPackages = require(Factor.$paths.get("plugins-loader-serverless"))
 
+      this.watchPaths = []
+      this.dependencies = {}
+      this.localDependencies = {}
+
       this.builder()
-    }
-
-    getFilePatterns() {
-      const patterns = []
-      const namespace = "factor"
-      const keys = ["endpoint", "server", "admin", "functions"]
-      require("find-node-modules")().forEach(_ => {
-        keys.forEach(k => {
-          patterns.push(resolve(_, `./@${namespace}/**/*${k}*/**`))
-          patterns.push(resolve(_, `./${namespace}*/**/*${k}*/**`))
-        })
-      })
-
-      return patterns
     }
 
     builder() {
@@ -39,7 +29,7 @@ export default Factor => {
       Factor.$filters.add("build-watchers", _ => {
         _.push({
           name: "Functions Rebuild",
-          files: this.getFilePatterns(),
+          files: this.watchPaths.map(_ => `${_}/**`),
           callback: ({ event, path }) => {
             this.makePackages()
           }
@@ -97,10 +87,28 @@ export default Factor => {
         baseDependencies[pkg.module] = `>${pkg.version}`
       })
 
-      this.dependencies = {}
-      this.localDependencies = {}
-
       this._recursiveDeps(baseDependencies)
+    }
+
+    _recursiveDeps(packages = {}) {
+      Object.keys(packages).forEach(packageName => {
+        if (packageName.includes("@factor")) {
+          if (!this.localDependencies[packageName]) {
+            this.localDependencies[packageName] = this._localModule(
+              packageName,
+              "./factor_modules/"
+            )
+
+            const packagePath = `${packageName}/package.json`
+            const deps = require(packagePath).dependencies
+            if (deps) {
+              this._recursiveDeps(deps)
+            }
+          }
+        } else {
+          this.dependencies[packageName] = packages[packageName]
+        }
+      })
     }
 
     _copyLocalDeps(localDependencies) {
@@ -109,6 +117,8 @@ export default Factor => {
 
         const modPath = dirname(require.resolve(packagePath))
         const modDest = resolve(this.buildDirectory, "factor_modules", packageName)
+
+        this.watchPaths.push(modPath)
 
         ensureDirSync(modDest)
         emptyDirSync(modDest)
@@ -136,28 +146,9 @@ export default Factor => {
         writeFileSync(destPackage, JSON.stringify(newPackage, null, 4))
       })
     }
+
     _localModule(packageName, relation) {
       return `file:${relation}${packageName}`
-    }
-    _recursiveDeps(packages = {}) {
-      Object.keys(packages).forEach(packageName => {
-        if (packageName.includes("@factor")) {
-          if (!this.localDependencies[packageName]) {
-            this.localDependencies[packageName] = this._localModule(
-              packageName,
-              "./factor_modules/"
-            )
-
-            const packagePath = `${packageName}/package.json`
-            const deps = require(packagePath).dependencies
-            if (deps) {
-              this._recursiveDeps(deps)
-            }
-          }
-        } else {
-          this.dependencies[packageName] = packages[packageName]
-        }
-      })
     }
 
     async makePackages() {
@@ -167,9 +158,9 @@ export default Factor => {
 
       const lines = {
         name: "@factor/serverless-directory",
-        description: "** GENERATED FILE **",
+        description: "** GENERATED FILE - DONT EDIT DIRECTLY **",
         version: pkg.version,
-        license: "UNLICENSED",
+        license: "GPL3.0",
         scripts: {
           deps: "yarn install --ignore-engines"
         },
