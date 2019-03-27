@@ -13,12 +13,12 @@
       <div class="mast">
         <div class="item cols-2">
           <div>
-            <el-svg icon="fast-clock" />
+            <el-svg icon="fast-clock" color="#506677" />
             <h2 class="title">5 Minute Setup</h2>
-            <p>Get started in 5 minutes. sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</p>
+            <p>Get started in 5 minutes. A Factor site can be installed and up and running in a matter of minutes, with only basic coding knowledge.</p>
             <div class="actions">
               <factor-link path="/docs">
-                Start Now
+                Learn How
                 <i class="fa fa-arrow-right" />
               </factor-link>
             </div>
@@ -32,7 +32,7 @@
         </div>
         <div class="item cols-2">
           <div>
-            <el-svg icon="puzzle" />
+            <el-svg icon="puzzle" color="#506677" />
             <h2 class="title">Modular</h2>
             <p>Customize your project by including only the code you need. Using Factor means avoiding code bloat, reusable elements, and faster development.</p>
             <div class="actions">
@@ -53,7 +53,7 @@
       <div class="mast">
         <div class="item cols-1">
           <div>
-            <el-svg icon="vue" />
+            <el-svg icon="vue" color="#506677" />
             <h2 class="title">Build with Vue.js</h2>
             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
             <div class="actions">
@@ -80,7 +80,7 @@ var app = new Factor({
       <div class="mast">
         <div class="item cols-2">
           <div>
-            <el-svg icon="markdown" />
+            <el-svg icon="markdown" color="#506677" />
             <h2 class="title">Markdown Editor</h2>
             <p>The Markdown editor provides a great writing experience with simple formatting. It also saves time over hand-crafted HTML tags, and it’s faster than using a WYSIWYG.</p>
           </div>
@@ -96,7 +96,7 @@ var app = new Factor({
         </div>
         <div class="item cols-2">
           <div>
-            <el-svg icon="user" />
+            <el-svg icon="user" color="#506677" />
             <h2 class="title">User Roles &amp; Permissions</h2>
             <p>You can add other users to access your site admin interface. To protect your sensitive information or restrict the actions they can perform, user roles limit their access. Each user is assigned a role when they are added.</p>
           </div>
@@ -160,7 +160,7 @@ export default {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1200px;
+    max-width: 1024px;
     margin: 0 auto;
   }
 
@@ -182,17 +182,11 @@ export default {
 
   .svg-wrap {
     display: inline-block;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    border-radius: 14px;
-    background: #fff;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     svg {
-      padding: 2px;
-      min-height: 50px;
-      max-width: 30px;
+      min-height: 40px;
     }
   }
 
@@ -203,10 +197,10 @@ export default {
     margin: 1em 0 2em;
     border-radius: 4px;
     border-left: 4px solid #506677;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-    // box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
-    //   0 20px 125px -30px rgba(80, 102, 119, 0.5),
-    //   0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
+    //box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
+      0 20px 125px -30px rgba(80, 102, 119, 0.5),
+      0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
     code {
       overflow-x: auto;
       opacity: 0.7;
@@ -246,135 +240,130 @@ export default {
 
   .items-wrap {
     padding: 2em 0;
-  }
+    .item {
+      display: grid;
+      grid-gap: 3em;
+      align-items: center;
+      padding: 3em 0;
 
-  .item {
-    display: grid;
-    grid-gap: 3em;
-    align-items: center;
-    padding: 3em 0;
-
-    &.cols-1 {
-      grid-template-columns: 1fr;
-      justify-content: center;
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    &.cols-2 {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media (max-width: 767px) {
-      &.cols-1,
-      &.cols-2 {
+      &.cols-1 {
         grid-template-columns: 1fr;
-        grid-gap: 2em;
-        padding: 2em 0;
-        text-align: left;
+        justify-content: center;
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
       }
-    }
-
-    &:nth-child(2n + 2) {
-      direction: rtl; //reverse even items order
-      > div {
-        direction: ltr;
+      &.cols-2 {
+        grid-template-columns: 1fr 1fr;
       }
-    }
 
-    .figure {
-      display: flex;
-      justify-content: center;
       @media (max-width: 767px) {
-        display: block;
+        &.cols-1,
+        &.cols-2 {
+          grid-template-columns: 1fr;
+          grid-gap: 2em;
+          padding: 2em 0;
+          text-align: left;
+        }
       }
-    }
 
-    .title {
-      font-size: 2em;
-      line-height: 1;
-      margin: 0.5em 0;
-      font-weight: 600;
-    }
-    p {
-      font-size: 1.4em;
-      line-height: 1.6em;
-      opacity: 0.5;
-    }
-    .actions {
-      margin-top: 1em;
-      a {
-        font-size: 1.4em;
+      &:nth-child(2n + 2) {
+        direction: rtl; //reverse even items order
+        > div {
+          direction: ltr;
+        }
       }
-    }
 
-    .bg-rect-left {
-      background: url(./img/bg-rectangles-left.svg) no-repeat center center;
-      background-size: contain;
-    }
-    .bg-rect-right {
-      background: url(./img/bg-rectangles-right.svg) no-repeat center center;
-      background-size: 80% 80%;
-    }
-
-    .bg-circles {
-      background: url(./img/bg-circles.svg) no-repeat center center;
-      background-size: contain;
-    }
-    .bg-glow {
-      background: url(./img/bg-glow.svg) no-repeat center center;
-      background-size: contain;
-    }
-    .bg-dashed-circles {
-      background: url(./img/bg-dashed-circles.svg) no-repeat center center;
-      background-size: contain;
-    }
-    .bg-swirl {
-      background: url(./img/bg-swirl.svg) no-repeat center center;
-      background-size: contain;
-    }
-
-    img {
-      max-width: 100%;
-      margin: 0 auto;
-      &.img-markdown {
-        min-height: 320px;
-        border-radius: 14px;
-        background: #fff;
-        box-shadow: 27.1px 62.5px 125px -25px rgba(80, 102, 119, 0.5),
-          16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-        transform: scale(0.7) perspective(1040px) rotateY(-5deg) rotateX(1deg)
-          rotate(1deg);
+      .figure {
+        display: grid;
+        justify-content: center;
+        padding: 3em 0;
       }
-      &.img-user-roles {
-        min-height: 320px;
-        border-radius: 14px;
-        box-shadow: -27.1px 62.5px 125px -25px rgba(80, 102, 119, 0.5),
-          -16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-        transform: scale(0.8) perspective(1040px) rotateY(5deg) rotateX(-1deg)
-          rotate(-1deg);
+
+      .title {
+        font-size: 1.6em;
+        line-height: 1;
+        margin: 0.5em 0;
+        font-weight: 600;
       }
-      @media (max-width: 767px) {
-        &.img-markdown,
-        &.img-user-roles {
-          min-height: auto;
-          border-radius: 4px;
-          box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-            0 1px 3px rgba(0, 0, 0, 0.08);
-          // box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
-          //   0 20px 125px -30px rgba(80, 102, 119, 0.5),
-          //   0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
-          transform: scale(1) perspective(0) rotateY(0deg) rotateX(0deg)
-            rotate(0deg);
+      p {
+        font-size: 1.2em;
+        line-height: 1.6em;
+        opacity: 0.5;
+      }
+      .actions {
+        margin-top: 1em;
+        a {
+          font-size: 1.2em;
+        }
+      }
+
+      .bg-rect-left {
+        background: url(./img/bg-rectangles-left.svg) no-repeat center center;
+        background-size: contain;
+      }
+      .bg-rect-right {
+        background: url(./img/bg-rectangles-right.svg) no-repeat center center;
+        background-size: 80% 80%;
+      }
+
+      .bg-circles {
+        background: url(./img/bg-circles.svg) no-repeat center center;
+        background-size: contain;
+      }
+      .bg-glow {
+        background: url(./img/bg-glow.svg) no-repeat center center;
+        background-size: contain;
+      }
+      .bg-dashed-circles {
+        background: url(./img/bg-dashed-circles.svg) no-repeat center center;
+        background-size: contain;
+      }
+      .bg-swirl {
+        background: url(./img/bg-swirl.svg) no-repeat center center;
+        background-size: contain;
+      }
+
+      img {
+        max-width: 100%;
+        margin: 0 auto;
+        &.img-markdown {
+          min-height: 320px;
+          border-radius: 14px;
+          background: #fff;
+          box-shadow: 27.1px 62.5px 125px -25px rgba(80, 102, 119, 0.4),
+            16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.4);
+          transform: scale(0.7) perspective(1040px) rotateY(-5deg) rotateX(1deg)
+            rotate(1deg);
+        }
+        // &.img-user-roles {
+        //   min-height: 320px;
+        //   border-radius: 14px;
+        //   box-shadow: -27.1px 62.5px 125px -25px rgba(80, 102, 119, 0.5),
+        //     -16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
+        //   transform: scale(0.8) perspective(1040px) rotateY(5deg) rotateX(-1deg)
+        //     rotate(-1deg);
+        // }
+        @media (max-width: 767px) {
+          &.img-markdown {
+            min-height: auto;
+            border-radius: 4px;
+            // box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
+            //   0 1px 3px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
+              0 20px 125px -30px rgba(80, 102, 119, 0.5),
+              0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
+            transform: scale(1) perspective(0) rotateY(0deg) rotateX(0deg)
+              rotate(0deg);
+          }
         }
       }
     }
   }
+
   .cta-wrap {
     padding: 2em 0;
-    .stripes {
-      top: -70px;
-    }
+    background: #fff;
     .cta {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -398,6 +387,7 @@ export default {
       .actions {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
         @media (max-width: 767px) {
           display: block;
           margin-top: 1.5em;

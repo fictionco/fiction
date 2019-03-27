@@ -61,10 +61,11 @@ export default {
 </script>
 <style lang="less">
 .docs-container {
+  padding: 3em 0;
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1000px;
+    max-width: 1024px;
     margin: 0 auto;
   }
   .docs-wrap {

@@ -9,7 +9,7 @@
         "rewrites": [
             {
                 "source": "**",
-                "function": "ssr"
+                "function": "server"
             }
         ]
     },
@@ -18,10 +18,7 @@
         "indexes": "generated/firebase-firestore-indexes.json"
     },
     "functions": {
-        "source": "serverless",
-        "ignore": [
-            "**/node_modules/!(*factor)/**"
-        ]
+        "source": "serverless"
     },
     "storage": {
         "rules": "generated/firebase-storage.rules"

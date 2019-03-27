@@ -15,7 +15,7 @@
 <script>
 export default {
   components: {
-    "site-logo": () => import("./el/logo")
+    "site-logo": () => import("./el/factor-logo")
   },
   data() {
     return {}
@@ -69,7 +69,7 @@ export default {
       margin: 0 1em;
       @media (max-width: 767px) {
         margin: 0 1em;
-        .fa {
+        &.factor-icon {
           display: none;
         }
       }
