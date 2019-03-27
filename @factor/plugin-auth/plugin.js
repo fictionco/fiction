@@ -42,11 +42,27 @@ export default Factor => {
 
       if (credentials) {
         Factor.$events.$emit("auth-user-signed-in", credentials)
+
+        this.setUserRoles(credentials)
+
         const { uid } = credentials
         this.update({ uid })
       }
 
       return credentials
+    }
+
+    async setUserRoles(credentials) {
+      const result = await Factor.$endpoint.request({
+        endpoint: "privs",
+        action: "apply"
+      })
+
+      // If new privs are set,
+      // then user auth/tokens need a reset
+      if (result.refresh) {
+        Factor.$events.$emit("auth-refresh-tokens", credentials)
+      }
     }
 
     async logout(args = {}) {
@@ -104,7 +120,6 @@ export default Factor => {
         filter: "auth-request-bearer-token"
       })
 
-      console.log("token ser", token.length, token)
       return token
     }
 

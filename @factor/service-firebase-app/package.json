@@ -1,17 +1,19 @@
 {
-  "name": "@factor/plugin-google-api",
+  "name": "@factor/service-firebase-app",
   "version": "0.0.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
-  "factor": {
-    "target": ["app"],
-    "provider": "google"
-  },
   "publishConfig": {
     "access": "public"
   },
+  "factor": {
+    "target": "app",
+    "provider": "firebase",
+    "service": "parent"
+  },
   "dependencies": {
-    "scriptjs": "^2.5.9"
+    "@firebase/app-types": "^0.3.6",
+    "firebase": "^5.8.6"
   },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }

@@ -98,7 +98,7 @@ module.exports.default = Factor => {
       if (storedValue) {
         user = storedValue
       } else {
-        user = await Vue.$db.read({
+        user = await Factor.$db.read({
           collection: "public",
           id: uid
         })

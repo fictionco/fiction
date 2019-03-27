@@ -175,13 +175,19 @@ module.exports = Factor => {
       packages.forEach(_ => {
         let fields = {}
         if (_.includes("package.json")) {
-          const { name, factor: { id, priority = 100, target = false } = {}, version } = require(_)
+          const {
+            name,
+            factor: { id, priority = 100, target = false, service = "", provider = "" } = {},
+            version
+          } = require(_)
 
           fields = {
             version,
             module: name,
             priority,
             target,
+            service,
+            provider,
             id: id || this.makeId(name.split(/endpoint|plugin|theme|service|@factor/gi).pop())
           }
         } else {

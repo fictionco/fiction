@@ -289,6 +289,15 @@ module.exports.default = Factor => {
         stats: { children: false }
       }
 
+      const ignoreMods = Factor.$filters.apply("webpack-ignore-modules", [])
+      const ignoreRegex = ignoreMods.length > 0 ? ignoreMods.join("|") : ""
+
+      if (ignoreRegex) {
+        const createRegex = new RegExp(`${ignoreRegex}`)
+
+        out.plugins.push(new webpack.IgnorePlugin(createRegex))
+      }
+
       return out
     }
 

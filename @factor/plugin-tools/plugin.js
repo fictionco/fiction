@@ -1,21 +1,8 @@
-import $ from "jquery"
-import _ from "lodash"
-import axios from "axios"
-import isNode from "detect-node"
-import tools from "./utils"
-export default Factor => {
-  return new class {
-    constructor() {
-      // 3rd Party Utils
-      Factor.$jquery = Factor.prototype.$jquery = $
-      Factor.$lodash = Factor.prototype.$lodash = _
+module.exports.default = Factor => {
+  Factor.$jquery = Factor.prototype.$jquery = require("jquery")
+  Factor.$lodash = Factor.prototype.$lodash = require("lodash")
+  Factor.$http = Factor.prototype.$http = require("axios")
+  Factor.$utils = Factor.prototype.$utils = require("./utils").default(Factor)
 
-      // Request Utils
-      Factor.$http = Factor.prototype.$http = axios
-
-      Factor.$isNode = isNode
-
-      Factor.$tools = Factor.prototype.$tools = tools(Factor)
-    }
-  }()
+  Factor.$isNode = require("detect-node")
 }

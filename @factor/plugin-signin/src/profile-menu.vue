@@ -16,7 +16,7 @@
             <div class="content" :data-uid="$user.uid()">
               <div class="name">{{ $user.field("displayName") || "No Name" }}</div>
               <div v-if="role.title" class="privs">
-                <span class="status">{{ $tools.toLabel(role.title) }}</span>
+                <span class="status">{{ $utils.toLabel(role.title) }}</span>
               </div>
             </div>
           </div>

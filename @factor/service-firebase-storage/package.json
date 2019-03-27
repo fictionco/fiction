@@ -1,17 +1,18 @@
 {
-  "name": "@factor/plugin-google-api",
+  "name": "@factor/service-firebase-storage",
   "version": "0.0.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
-  "factor": {
-    "target": ["app"],
-    "provider": "google"
-  },
   "publishConfig": {
     "access": "public"
   },
+  "factor": {
+    "target": ["app", "build"],
+    "service": "storage",
+    "provider": "firebase"
+  },
   "dependencies": {
-    "scriptjs": "^2.5.9"
+    "@factor/service-firebase-app": "^0.0.7"
   },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }

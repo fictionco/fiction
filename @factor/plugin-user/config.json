@@ -7,6 +7,8 @@
     "publisher": 300,
     "editor": 200,
     "author": 100,
+    "contributor": 50,
+    "subscriber": 20,
     "member": 1,
     "visitor": 0
   },
