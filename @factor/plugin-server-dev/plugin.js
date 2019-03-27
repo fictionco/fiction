@@ -81,7 +81,7 @@ export default Factor => {
         customWatchers.forEach(({ name, files, ignored = [], event = "all", callback }) => {
           chokidar.watch(files, { ignored, ignoreInitial: true }).on(event, (event, path) => {
             callback({ event, path })
-            this.updateServer(name)
+            this.updateServer(`${name} [${event}@${path}]`)
           })
         })
       }
