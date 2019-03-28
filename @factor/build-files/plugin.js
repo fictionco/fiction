@@ -25,26 +25,18 @@ module.exports = Factor => {
     }
 
     addWatchers() {
-      // Factor.$filters.add("build-watchers", _ => {
-      //   const files = this.getExtensionPatterns()
-
-      //   const watchers = [
-      //     {
-      //       files,
-      //       cb: (event, path) => {
-      //         if (
-      //           (path.includes("package.json") || path.includes("plugin.js")) &&
-      //           (event == "add" || event == "unlink")
-      //         ) {
-      //           this.generateLoaders()
-      //           return true
-      //         }
-      //       }
-      //     }
-      //   ]
-
-      //   return _.concat(watchers)
-      // })
+      Factor.$filters.add("build-watchers", _ => {
+        _.push({
+          name: "Plugin Added/Removed",
+          files: this.getExtensionPatterns(),
+          callback: ({ event, path }) => {
+            if (event == "add" || event == "unlink") {
+              this.generateLoaders()
+            }
+          }
+        })
+        return _
+      })
     }
 
     generateLoaders() {
