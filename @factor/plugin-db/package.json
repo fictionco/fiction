@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-db",
   "factor": {
-    "target": "app"
+    "target": ["app", "serverless", "build"]
   },
   "version": "0.0.7",
   "license": "GPL-3.0",

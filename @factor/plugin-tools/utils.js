@@ -1,4 +1,4 @@
-export default Factor => {
+module.exports.default = Factor => {
   return new class {
     constructor() {}
 

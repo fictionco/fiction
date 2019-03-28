@@ -1,18 +1,5 @@
-export default Factor => {
+module.exports.default = Factor => {
   return new class {
-    constructor() {
-      Factor.$filters.addFilter("mixins", _ => {
-        _.db = this.mixin()
-        return _
-      })
-    }
-
-    mixin() {
-      return () => {
-        this.processors = Factor.$filters.apply("database-query-processors", {})
-      }
-    }
-
     async publish(query) {
       return this.query({
         method: "publish",
