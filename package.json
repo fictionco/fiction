@@ -1,17 +1,12 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": [
-    "@fiction/*",
-    "@factor/*",
-    "@factor/@*/*",
-    "@factor/services/@*/*"
-  ],
+  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*", "@factor/services/@*/*"],
   "private": true,
   "publishConfig": {
     "access": "public"
   },
-  "license": "UNLICENSED",
+  "license": "GPL3.0",
   "scripts": {
     "cypress": "npx cypress open",
     "factor:dev": "yarn prep && yarn workspace @factor/theme-factor dev",
