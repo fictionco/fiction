@@ -4,7 +4,9 @@
       <div class="splash mast">
         <div>
           <h1 class="title">How Factor Works</h1>
-          <p class="subtitle">At vero eos et accusamus et iusto odio dignissimos ducimus.</p>
+          <p
+            class="subtitle"
+          >Factor enables developers and content creators to do their best work, together and faster.</p>
         </div>
       </div>
     </section>
@@ -121,8 +123,8 @@ var app = new Factor({
             <p class="subtitle">Get in touch or create an account</p>
           </div>
           <div class="actions">
-            <factor-link path="/download" btn="primary" size="large">
-              Download
+            <factor-link path="/" btn="primary" size="large">
+              Start Building Free
               <i class="fa fa-arrow-right" />
             </factor-link>
             <factor-link path="/contact" btn="tertiary" size="large">Contact Us</factor-link>
@@ -215,8 +217,13 @@ export default {
 
   .splash-wrap {
     .splash {
-      padding: 7em 0 3em;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-column-gap: 60px;
+      align-items: center;
       text-align: center;
+      max-width: 700px;
+      padding: 7em 0 3em;
       @media (max-width: 767px) {
         padding: 4em 1em;
       }

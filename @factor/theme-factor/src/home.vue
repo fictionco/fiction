@@ -3,13 +3,13 @@
     <section class="splash-wrap">
       <div class="splash mast">
         <div>
-          <h1 class="title">The New Standard in CMS</h1>
+          <h1 class="title">The Serverless CMS</h1>
           <p
             class="subtitle"
-          >Factor is a modern framework based on Vue.js that helps developers build blazing fast websites and apps.</p>
+          >Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.</p>
           <div class="actions">
             <factor-link path="/how-it-works" btn="primary" size="large">
-              Get Started
+              Start Building Free
               <i class="fa fa-arrow-right" />
             </factor-link>
             <factor-link path="/" btn="outline" size="large">Contact Us</factor-link>
@@ -22,14 +22,20 @@
     </section>
     <section class="boxes-wrap stripes-wrap">
       <div class="stripes" />
+      <div class="boxes-header mast">
+        <div>
+          <h2 class="title">Why Factor?</h2>
+          <p
+            class="subtitle"
+          >Factor enables developers and content creators to do their best work, together and faster.</p>
+        </div>
+      </div>
       <div class="mast">
-        <h2 class="title">Why Factor?</h2>
-        <p class="subtitle">With Factor you can build sites faster using Vue.js.</p>
         <div class="boxes">
           <div class="box">
             <el-svg icon="server" color="#506677" />
             <h2>Static Hosting</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+            <p>Build apps that handle production-ready traffic without having to provide servers, or pay for resources that go unused.</p>
           </div>
           <div class="box">
             <el-svg icon="js" color="#506677" />
@@ -39,7 +45,7 @@
           <div class="box">
             <el-svg icon="npm" color="#506677" />
             <h2>NPM Plugins</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+            <p>Add functionality to the Factor CMS, include only what you need, and avoid any bloat.</p>
           </div>
           <div class="box">
             <el-svg icon="vue" color="#506677" />
@@ -49,12 +55,12 @@
           <div class="box">
             <el-svg icon="infinite" color="#506677" />
             <h2>Infinite Scalability</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+            <p>Factor is infinitely scalable, which allows you to save money by getting rid of large server requests.</p>
           </div>
           <div class="box">
             <el-svg icon="fast-clock" color="#506677" />
             <h2>Faster Development</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+            <p>Factor can enable you to launch serverless applications at record speed and cost.</p>
           </div>
         </div>
         <div class="actions">
@@ -73,7 +79,7 @@
         </div>
         <div class="actions">
           <factor-link path="/how-it-works" btn="primary" size="large">
-            Get Started
+            Start Building Free
             <i class="fa fa-arrow-right" />
           </factor-link>
           <factor-link path="/contact" btn="tertiary" size="large">Contact Us</factor-link>
@@ -136,7 +142,7 @@ export default {
       grid-column-gap: 60px;
       align-items: center;
       text-align: center;
-      max-width: 800px;
+      max-width: 700px;
       padding: 10em 2em;
       // @media (max-width: 767px) {
       //   grid-template-columns: 1fr;
@@ -189,6 +195,14 @@ export default {
 
   .boxes-wrap {
     padding: 4em 0;
+    .boxes-header {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-column-gap: 60px;
+      align-items: center;
+      text-align: center;
+      max-width: 700px;
+    }
     .title {
       font-weight: 600;
       font-size: 2.6em;
