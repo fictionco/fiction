@@ -1,7 +1,7 @@
 <template>
   <div class="app-layout-wrap">
     <div v-if="loading" class="user-loading">
-      <loading-ring width="4em" />
+      <factor-loading-ring width="4em" />
     </div>
     <div class="app-layout">
       <site-head />
@@ -20,6 +20,7 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   components: {
@@ -55,6 +56,7 @@ export default {
   }
 }
 </script>
+<style src="./css/dashboard.less" lang="less"></style>
 <style lang="less">
 .user-loading {
   height: 100vh;

@@ -19,7 +19,7 @@
         <h2 class="sp title">{{ f.title }}</h2>
         <div class="sp description">{{ f.description }}</div>
         <div class="sp sp2 action">
-          <el-link btn="default" :path="f.path">{{ f.btn }}</el-link>
+          <factor-link btn="default" :path="f.path">{{ f.btn }}</factor-link>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ export default {
     padding: 0;
   }
   .splash-head {
-    position: relative;
+    position: rfactorative;
     .content {
       display: flex;
       flex-direction: column;

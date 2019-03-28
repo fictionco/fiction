@@ -3,11 +3,11 @@
     <div class="content">
       <div v-formatted-text="title" class="title" />
       <div v-formatted-text="subTitle" class="sub-title" />
-      <el-link
+      <factor-link
         btn="primary"
         path="https://fiction.page.link/discord"
         target="_blank"
-      >Join the Fiction Chat Server</el-link>
+      >Join the Fiction Chat Server</factor-link>
     </div>
   </dashboard-pane>
 </template>

@@ -3,10 +3,10 @@
     <div class="page-error-pad">
       <div class="title">{{ title }}</div>
       <div class="sub-title">{{ subTitle }}</div>
-      <el-link path="/" btn="primary" size="large">
+      <factor-link path="/" btn="primary" size="large">
         Home
         <i class="fa fa-arrow-right" />
-      </el-link>
+      </factor-link>
     </div>
   </div>
 </template>

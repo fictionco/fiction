@@ -9,7 +9,7 @@
       >
         <div v-if="primary.title" class="group-title">{{ primary.title }}</div>
         <div class="nav-group">
-          <el-link
+          <factor-link
             class="primary-item"
             :class="primary.class"
             :path="getPath(primary.path, false, 'top')"
@@ -23,11 +23,11 @@
               :alt="`${primary.name} Icon`"
             >
             <span v-formatted-text="primary.name" />
-          </el-link>
+          </factor-link>
 
           <div v-if="activeGroup == primary.group" class="sub-menu">
             <template v-for="(item, iIndex) in primary.items">
-              <el-link
+              <factor-link
                 v-if="item.name"
                 :key="iIndex"
                 class="sub-item"
@@ -37,7 +37,7 @@
                 :data-test="`app-subnav-${$utils.slugify(item.name)}`"
               >
                 <span v-formatted-text="item.name" />
-              </el-link>
+              </factor-link>
             </template>
           </div>
         </div>

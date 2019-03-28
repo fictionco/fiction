@@ -2,7 +2,7 @@
   <div class="dpg">
     <div class="dpg-content-pad">
       <dashboard-pane v-if="loading" class="dpg-loading">
-        <loading-ring width="4em" />
+        <factor-loading-ring width="4em" />
       </dashboard-pane>
       <div v-show="!loading" class="dpg-content-area">
         <slot />

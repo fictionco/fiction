@@ -13,6 +13,7 @@ export default Factor => {
         _["factor-avatar"] = () => import("./el/avatar")
         _["factor-loading-ring"] = () => import("./el/loading-ring")
 
+        _["factor-logo"] = () => import("./el/logo")
         return _
       })
     }

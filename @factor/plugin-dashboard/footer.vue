@@ -4,8 +4,8 @@
       <div class="legal">
         <div class="copyright">&copy; Fiction.com Inc.</div>
         <div class="terms-links">
-          <el-link pg="tos" />
-          <el-link pg="privacy" />
+          <factor-link pg="tos" />
+          <factor-link pg="privacy" />
         </div>
       </div>
     </div>

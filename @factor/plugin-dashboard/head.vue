@@ -3,7 +3,7 @@
     <div class="site-head-pad">
       <div class="brand">
         <factor-link path="/">
-          <site-logo theme="muted" />
+          <factor-logo theme="muted" />
         </factor-link>
       </div>
       <div class="nav">
@@ -15,9 +15,7 @@
 </template>
 <script>
 export default {
-  components: {
-    "site-logo": () => import("./el/logo")
-  },
+  components: {},
   data() {
     return {}
   }

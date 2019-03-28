@@ -4,7 +4,7 @@
       <div class="four04">
         <div class="pad">
           <div class="title">Not Found (404)</div>
-          <el-link path="/dashboard" btn="primary">Go to Dashboard</el-link>
+          <factor-link path="/dashboard" btn="primary">Go to Dashboard</factor-link>
         </div>
       </div>
     </dashboard-pane>

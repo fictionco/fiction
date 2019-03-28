@@ -8,10 +8,8 @@
   },
   "factor": {
     "priority": 20,
-    "target": [
-      "build",
-      "app"
-    ]
+    "target": ["build", "app"],
+    "scope": "core"
   },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }
