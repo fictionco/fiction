@@ -1,0 +1,32 @@
+<template>
+  <dashboard-page>
+    <dashboard-pane>
+      <div class="four04">
+        <div class="pad">
+          <div class="title">Not Found (404)</div>
+          <el-link path="/dashboard" btn="primary">Go to Dashboard</el-link>
+        </div>
+      </div>
+    </dashboard-pane>
+  </dashboard-page>
+</template>
+
+<script>
+export default {
+  components: {}
+}
+</script>
+
+<style lang="less">
+.four04 {
+  height: 60vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .title {
+    margin-bottom: 1em;
+  }
+}
+</style>
