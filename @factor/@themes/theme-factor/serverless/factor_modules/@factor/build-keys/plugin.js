@@ -21,21 +21,17 @@ module.exports = Factor => {
 
     doWatchers() {
       const keysRaw = Factor.$paths.get("keys-private-raw")
-      this.makeEncryptedSecrets()
-      Factor.$filters.add("dev-watchers", _ => {
-        const files = [keysRaw]
-        const watchers = [
-          {
-            files,
-            cb: (event, path) => {
-              if (path == keysRaw && event == "change") {
-                this.makeEncryptedSecrets()
-                return true
-              }
-            }
+
+      Factor.$filters.add("build-watchers", _ => {
+        this.makeEncryptedSecrets()
+        _.push({
+          name: "Keys Changed",
+          files: [keysRaw],
+          callback: ({ event, path }) => {
+            this.makeEncryptedSecrets()
           }
-        ]
-        return _.concat(watchers)
+        })
+        return _
       })
     }
 

@@ -1,8 +1,8 @@
 {
     "name": "@factor/serverless-directory",
-    "description": "** GENERATED FILE **",
+    "description": "** GENERATED FILE - DONT EDIT DIRECTLY **",
     "version": "0.0.7",
-    "license": "UNLICENSED",
+    "license": "GPL3.0",
     "scripts": {
         "deps": "yarn install --ignore-engines"
     },
@@ -10,18 +10,21 @@
         "node": "8"
     },
     "dependencies": {
-        "@factor/endpoint-firebase-auth": "file:./factor_modules/@factor/endpoint-firebase-auth",
+        "@factor/plugin-tools": "file:./factor_modules/@factor/plugin-tools",
+        "@factor/endpoint-user-privs": "file:./factor_modules/@factor/endpoint-user-privs",
         "@factor/plugin-user": "file:./factor_modules/@factor/plugin-user",
-        "@factor/endpoint-firebase-claims": "file:./factor_modules/@factor/endpoint-firebase-claims",
-        "@factor/admin-endpoint-extend": "file:./factor_modules/@factor/admin-endpoint-extend",
+        "@factor/plugin-db": "file:./factor_modules/@factor/plugin-db",
+        "@factor/plugin-server": "file:./factor_modules/@factor/plugin-server",
+        "@factor/serverless-extend": "file:./factor_modules/@factor/serverless-extend",
         "@factor/admin-config": "file:./factor_modules/@factor/admin-config",
         "@factor/build-keys": "file:./factor_modules/@factor/build-keys",
         "@factor/build-paths": "file:./factor_modules/@factor/build-paths",
         "@factor/build-files": "file:./factor_modules/@factor/build-files",
         "@factor/filters": "file:./factor_modules/@factor/filters",
-        "@factor/plugin-server": "file:./factor_modules/@factor/plugin-server",
-        "@factor/service-firebase-functions-entry": "file:./factor_modules/@factor/service-firebase-functions-entry"
+        "@factor/service-firebase-firestore": "file:./factor_modules/@factor/service-firebase-firestore",
+        "@factor/service-firebase-app": "file:./factor_modules/@factor/service-firebase-app",
+        "@factor/service-firebase-functions-controller": "file:./factor_modules/@factor/service-firebase-functions-controller"
     },
     "devDependencies": {},
-    "timestamp": 1553701933943
+    "timestamp": 1553788437022
 }

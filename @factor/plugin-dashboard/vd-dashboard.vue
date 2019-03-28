@@ -1,11 +1,28 @@
 <template>
   <dashboard-page :loading="loading">
     <dashboard-splash
-      title="A Home for Nomads"
-      sub-title="All the tools you'll need to go location independent."
+      title="Welcome to Factor!"
+      sub-title="We’ve assembled some links to get you started:"
       :media-url="splash('media')"
       :features="splash('features')"
-    />
+    >
+      <ul class="list-unstyled">
+        <li>
+          <factor-link path="/">
+            <i class="fa fa-edit" /> Add a page
+          </factor-link>
+        </li>
+        <li>
+          <factor-link path="/">Add a post</factor-link>
+        </li>
+        <li>
+          <factor-link path="/">View your site</factor-link>
+        </li>
+        <li>
+          <factor-link path="/">Learn more about getting started</factor-link>
+        </li>
+      </ul>
+    </dashboard-splash>
     <dashboard-chat
       title="Fiction on Discord"
       sub-title="Get in touch with other travelers on the new Fiction Discord channel..."
@@ -34,8 +51,9 @@ export default {
       } else if (v == "features") {
         return [
           {
-            title: "Fund Your Travel",
-            description: "Host in your home while you're away.",
+            title: "At a Glance",
+            description: "<ul><li>3 Posts</li><li>4 Pages</li></ul>",
+            content: "something",
             icon: require("./resource/dashboard.svg"),
             btn: "List Your Home",
             path: "/dashboard/hosting"

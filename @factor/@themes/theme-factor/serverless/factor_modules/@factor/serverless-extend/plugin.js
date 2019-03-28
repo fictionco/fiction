@@ -6,11 +6,10 @@ module.exports = (Factor, FACTOR_CONFIG) => {
   return new class {
     constructor() {
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
-      Factor.FACTOR_ENV = "endpoint"
+      Factor.FACTOR_ENV = "serverless"
       this.setup()
       this.endpointService = Factor.$filters.apply("endpoint-service")
       this.bearerTokenService = Factor.$filters.apply("auth-token-service")
-      console.log("this.bearerTokenService", this.endpointService, typeof this.bearerTokenService)
     }
 
     setup() {
@@ -28,6 +27,8 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       this.addCoreExtension("keys", require(`@factor/build-keys`))
       this.addCoreExtension("files", require(`@factor/build-files`))
       this.addCoreExtension("config", require(`@factor/admin-config`))
+      this.addCoreExtension("tools", require(`@factor/plugin-tools`).default)
+      this.addCoreExtension("db", require(`@factor/plugin-db`).default)
     }
 
     addCoreExtension(id, extension) {

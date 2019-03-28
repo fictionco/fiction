@@ -17,6 +17,7 @@
     <div v-if="features && features.length > 0" class="splash-features">
       <div v-for="(f, i) in features" :key="i" class="feature">
         <h2 class="sp title">{{ f.title }}</h2>
+        <slot name="content" />
         <div class="sp description">{{ f.description }}</div>
         <div class="sp sp2 action">
           <factor-link btn="default" :path="f.path">{{ f.btn }}</factor-link>
@@ -54,8 +55,19 @@ export default {
   > .cont {
     padding: 0;
   }
+
+  .list-unstyled {
+    list-style: none;
+    padding: 0;
+    svg path,
+    i {
+      color: #506677;
+      fill: #506677;
+    }
+  }
+
   .splash-head {
-    position: rfactorative;
+    position: relative;
     .content {
       display: flex;
       flex-direction: column;
@@ -64,9 +76,9 @@ export default {
       padding: 3em 2.5em;
       line-height: 1.4;
       width: 50%;
-      min-height: 250px;
-      height: 30vw;
-      max-height: 50vh;
+      // min-height: 250px;
+      // height: 30vw;
+      // max-height: 50vh;
       @media (max-width: 767px) {
         width: 100%;
       }

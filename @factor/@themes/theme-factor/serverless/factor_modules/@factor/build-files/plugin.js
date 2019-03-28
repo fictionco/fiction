@@ -25,26 +25,26 @@ module.exports = Factor => {
     }
 
     addWatchers() {
-      Factor.$filters.add("dev-watchers", _ => {
-        const files = this.getExtensionPatterns()
+      // Factor.$filters.add("build-watchers", _ => {
+      //   const files = this.getExtensionPatterns()
 
-        const watchers = [
-          {
-            files,
-            cb: (event, path) => {
-              if (
-                (path.includes("package.json") || path.includes("plugin.js")) &&
-                (event == "add" || event == "unlink")
-              ) {
-                this.generateLoaders()
-                return true
-              }
-            }
-          }
-        ]
+      //   const watchers = [
+      //     {
+      //       files,
+      //       cb: (event, path) => {
+      //         if (
+      //           (path.includes("package.json") || path.includes("plugin.js")) &&
+      //           (event == "add" || event == "unlink")
+      //         ) {
+      //           this.generateLoaders()
+      //           return true
+      //         }
+      //       }
+      //     }
+      //   ]
 
-        return _.concat(watchers)
-      })
+      //   return _.concat(watchers)
+      // })
     }
 
     generateLoaders() {
@@ -175,13 +175,19 @@ module.exports = Factor => {
       packages.forEach(_ => {
         let fields = {}
         if (_.includes("package.json")) {
-          const { name, factor: { id, priority = 100, target = false } = {}, version } = require(_)
+          const {
+            name,
+            factor: { id, priority = 100, target = false, service = "", provider = "" } = {},
+            version
+          } = require(_)
 
           fields = {
             version,
             module: name,
             priority,
             target,
+            service,
+            provider,
             id: id || this.makeId(name.split(/endpoint|plugin|theme|service|@factor/gi).pop())
           }
         } else {

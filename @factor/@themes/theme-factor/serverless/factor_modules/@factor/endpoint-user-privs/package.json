@@ -1,9 +1,10 @@
 {
-    "name": "@factor/endpoint-firebase-auth",
+    "name": "@factor/endpoint-user-privs",
     "version": "0.0.7",
     "main": "plugin.js",
     "license": "GPL-3.0",
     "factor": {
+        "id": "privs",
         "target": "endpoint"
     },
     "dependencies": {
