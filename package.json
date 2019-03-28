@@ -27,6 +27,7 @@
     "@factor/plugin-testing-cypress-build": ">0.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.12.0",
+    "webpack": ">4.0.0",
     "eslint-config-prettier": "^3.5.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "^2.1.1",

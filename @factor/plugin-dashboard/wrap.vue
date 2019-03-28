@@ -24,11 +24,11 @@
 export default {
   components: {
     "dashboard-nav": () => import("./nav"),
-    "site-head": () => import("@theme/site-head")
+    "site-head": () => import("./head")
   },
   metatags() {
     const pageName = this.$route.path.split("/").pop()
-    const niceName = this.$utils.slugToLabel(pageName)
+    const niceName = this.$utils.toLabel(pageName)
     return {
       title: niceName,
       description: `Dashboard for Fiction's ${niceName} tools.`,

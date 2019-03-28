@@ -15,7 +15,6 @@ import site from "./site"
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export function createApp({ target }) {
-  //const site = () => import("@theme/site")
   const appComponents = init({ target })
   const { router, store } = appComponents
 
@@ -35,7 +34,6 @@ export function createApp({ target }) {
     }
   })
 
-  // expose the app, the router and the store.
   // note we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
   return { app, ...appComponents }
