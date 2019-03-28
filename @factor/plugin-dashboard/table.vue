@@ -8,7 +8,7 @@
           :key="iCol"
           class="dbt-col"
           :class="[col.type, col.size]"
-        >{{ $utils.slugToLabel(col.column) }}</div>
+        >{{ $utils.toLabel(col.column) }}</div>
       </div>
       <div
         v-for="(row, iRow) in rows"

@@ -6,11 +6,15 @@
 </template>
 <script>
 export default {
-
   computed: {
-    injectedComponents(){
-      return this.$filters.apply('site-components')
+    injectedComponents() {
+      return this.$filters.apply("site-components")
     }
+  },
+
+  // fires when the "route component" changes
+  serverPrefetch() {
+    console.log("SERVER PREFETCH")
   }
 }
 </script>
