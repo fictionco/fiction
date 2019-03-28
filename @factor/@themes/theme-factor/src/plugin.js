@@ -25,6 +25,7 @@ export default Factor => {
           }
         ]
 
+        console.log("ROP", _.concat(contentRoutes))
         return _.concat(contentRoutes)
       })
     }

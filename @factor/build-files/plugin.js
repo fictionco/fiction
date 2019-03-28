@@ -31,7 +31,11 @@ module.exports = Factor => {
           files: this.getExtensionPatterns(),
           ignored: ["**/serverless/**"],
           callback: ({ event, path }) => {
-            if (event == "add" || event == "unlink") {
+            const subModules = path.split("@factor").pop()
+            if (
+              (event == "add" || event == "unlink") &&
+              (!subModules || !subModules.includes("node_modules"))
+            ) {
               this.generateLoaders()
               return true // update server
             } else {

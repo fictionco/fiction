@@ -26,5 +26,5 @@
         "@factor/service-firebase-functions-controller": "file:./factor_modules/@factor/service-firebase-functions-controller"
     },
     "devDependencies": {},
-    "timestamp": 1553788437022
+    "timestamp": 1553795941096
 }
