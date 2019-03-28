@@ -14,13 +14,13 @@ export default Factor => {
         })
 
         _.push({
-          path: "posts/edit",
+          path: "posts/:postType/edit",
           component: () => import("./vd-posts-edit"),
           meta: { activePath: "/admin/posts" }
         })
 
         _.push({
-          path: "posts/add-new",
+          path: "posts/:postType/add-new",
           component: () => import("./vd-posts-edit"),
           meta: {}
         })
@@ -93,11 +93,10 @@ export default Factor => {
       Factor.$filters.add("site-route-promises", setPost)
 
       Factor.$filters.add("dashboard-menu", _ => {
-        console.log("POST TYPES", this.getPostTypes())
         this.getPostTypes().forEach(({ type, base, name, icon = "" }) => {
           _.push({
-            group: "posts",
-            path: "posts",
+            group: type,
+            path: `posts/${type}`,
             name: name || Factor.$utils.toLabel(type),
             icon,
             items: Factor.$filters.apply(`dashboard-menu-post-${type}`, [
