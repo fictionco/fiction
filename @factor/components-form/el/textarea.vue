@@ -1,0 +1,43 @@
+<template>
+  <textarea
+    ref="textarea"
+    class="standard-textarea"
+    :value="value"
+    :required="$attrs.required"
+    v-bind="$attrs"
+    :placeholder="$attrs.placeholder"
+    :class="value ? 'set' : 'empty'"
+    @input="setHeight()"
+  />
+</template>
+
+<script>
+export default {
+  props: {
+    value: { type: [String, Number], default: "" }
+  },
+
+  mounted() {
+    setTimeout(() => {
+      this.setHeight()
+    }, 200)
+  },
+  methods: {
+    setHeight() {
+      const ta = this.$jquery(this.$refs.textarea)
+      if (ta.length != 0) {
+        const sh = ta.height(0).get(0).scrollHeight
+        ta.height(sh)
+      }
+    }
+  }
+}
+</script>
+
+<style lang="less">
+textarea.standard-textarea {
+  width: 100%;
+  min-height: 5em;
+  line-height: 1.5;
+}
+</style>

@@ -2,11 +2,14 @@
   <dashboard-page :loading="loading" class="posts-dashboard">
     <posts-table :rows="posts" :loading="loading">
       <template v-slot:title>
-        <el-btn :btn="buttonState('draft')" @click="setStatus(['draft', 'published'])">{{ title }}</el-btn>
-        <el-btn :btn="buttonState('trash')" @click="setStatus(['trash'])">Trash</el-btn>
+        <factor-btn
+          :btn="buttonState('draft')"
+          @click="setStatus(['draft', 'published'])"
+        >{{ title }}</factor-btn>
+        <factor-btn :btn="buttonState('trash')" @click="setStatus(['trash'])">Trash</factor-btn>
       </template>
       <template slot="nav">
-        <el-link
+        <factor-link
           path="/admin/posts/add-new"
           :query="{type: postType}"
           btn="primary"
@@ -14,7 +17,7 @@
         >
           Add {{ postTypeLabel }} Post
           <i class="fa fa-arrow-right" />
-        </el-link>
+        </factor-link>
       </template>
     </posts-table>
   </dashboard-page>
@@ -43,7 +46,7 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
-      return this.$utils.slugToLabel(this.postType)
+      return this.$utils.toLabel(this.postType)
     },
     title() {
       return `${this.postTypeLabel} Posts`

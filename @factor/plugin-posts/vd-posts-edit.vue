@@ -4,10 +4,10 @@
       <div class="content-column">
         <dashboard-pane :title="title" class="compose">
           <template slot="nav">
-            <el-link v-if="post.permalink" :path="url" btn="secondary" data-test="add-post">
+            <factor-link v-if="post.permalink" :path="url" btn="secondary" data-test="add-post">
               View Post
               <i class="fa fa-arrow-right" />
-            </el-link>
+            </factor-link>
           </template>
           <form-input
             v-model="post.title"
@@ -33,27 +33,31 @@
       </div>
       <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
-          <form-input-lat v-model="post.date" input="date" label="Date" />
-          <form-input-lat
+          <factor-input-wrap-horizontal v-model="post.date" input="factor-date" label="Date" />
+          <factor-input-wrap-horizontal
             v-model="post.status"
             :input-list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
-            input="select"
+            input="factor-select"
             label="Status"
           />
-          <form-input-lat
+          <factor-input-wrap-horizontal
             v-model="post.type"
             :input-list="$posts.getPostTypes()"
-            input="select"
+            input="factor-select"
             label="Type"
           />
-          <form-input-lat
+          <factor-input-wrap-horizontal
             v-if="post.type == 'page'"
             v-model="post.template"
             :input-list="$posts.getPageTemplates()"
-            input="select"
+            input="factor-select"
             label="Template"
           />
-          <form-input-lat v-model="post.authors" input="user-list" label="Author" />
+          <factor-input-wrap-horizontal
+            v-model="post.authors"
+            input="factor-user-list"
+            label="Author"
+          />
 
           <div v-if="!$lodash.isEmpty(lastRevision)" class="save-info">
             <loading-ring v-if="sendingDraft" width="1em" />

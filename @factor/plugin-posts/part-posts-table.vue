@@ -10,12 +10,12 @@
     >
       <template slot-scope="{column, item, row, index}">
         <div v-if="column == 'title'" class="post-title">
-          <el-link :path="`/admin/posts/edit`" :query="{id: row.id}">{{ item }}</el-link>
-          <el-link
+          <factor-link :path="`/admin/posts/edit`" :query="{id: row.id}">{{ item }}</factor-link>
+          <factor-link
             v-if="row.permalink"
             class="permalink"
             :path="postlink(row.type, row.permalink)"
-          >{{ postlink(row.type, row.permalink, false) }}</el-link>
+          >{{ postlink(row.type, row.permalink, false) }}</factor-link>
         </div>
 
         <div v-else-if="column == 'author'" class="author">
@@ -25,7 +25,7 @@
         <div v-else-if="column == 'meta'" class="meta">
           <span class="meta type">
             <label>Type</label>
-            <span class="val">{{ $utils.slugToLabel(row.type) }}</span>
+            <span class="val">{{ $utils.toLabel(row.type) }}</span>
           </span>
           <span class="meta date">
             <label>Date</label>
@@ -33,12 +33,12 @@
           </span>
           <span class="meta status">
             <label>Status</label>
-            <span class="val">{{ $utils.slugToLabel(row.status) }}</span>
+            <span class="val">{{ $utils.toLabel(row.status) }}</span>
           </span>
         </div>
 
         <template v-else-if="column == 'actions'">
-          <el-link @click.prevent="$emit('trash', row.id, index)">Trash</el-link>
+          <factor-link @click.prevent="$emit('trash', row.id, index)">Trash</factor-link>
         </template>
       </template>
     </dashboard-table>

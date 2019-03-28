@@ -49,7 +49,7 @@ export default Factor => {
       })
 
       Factor.$filters.add("stores", _ => {
-        _["posts"] = require("./_store").default
+        _["posts"] = require("./store").default
         return _
       })
 
@@ -92,32 +92,39 @@ export default Factor => {
       Factor.$filters.add("site-prefetch-promises", setPost)
       Factor.$filters.add("site-route-promises", setPost)
 
-      Factor.$filters.add("admin-menu", _ => {
-        const postTypePanels = this.getPostTypes().map(_ => {
-          return {
-            ..._,
-            path: _.type
-          }
+      Factor.$filters.add("dashboard-menu", _ => {
+        this.getPostTypes().forEach(({ type, base, name, icon = "" }) => {
+          _.push({
+            group: "posts",
+            path: "posts",
+            name: name || Factor.$utils.toLabel(type),
+            icon,
+            items: Factor.$filters.apply(`dashboard-menu-post-${type}`, [
+              {
+                path: "add-new",
+                name: "Add New"
+              },
+              {
+                path: "edit"
+              }
+            ])
+          })
         })
 
-        _.push({
-          group: "posts",
-          path: "posts",
-          name: "Posts",
-          icon: "",
-          items: Factor.$filters.applyFilters("admin-menu-posts", [
-            ...postTypePanels,
-            {
-              path: "add-new",
-              name: "Add Post"
-            },
-            {
-              path: "edit"
-            }
-          ])
-        })
         return _
       })
+    }
+
+    addPostToComponents() {
+      return () => {
+        Factor.mixin({
+          computed: {
+            $post() {
+              return this.current()
+            }
+          }
+        })
+      }
     }
 
     current() {
@@ -131,18 +138,6 @@ export default Factor => {
         hook.$on("postInit", () => {
           this.initialized = true
           cb()
-        })
-      }
-    }
-
-    addPostToComponents() {
-      return () => {
-        Factor.mixin({
-          computed: {
-            $post() {
-              return this.current()
-            }
-          }
         })
       }
     }
@@ -219,7 +214,7 @@ export default Factor => {
 
     // Register Page Templates added by theme or app
     registerTemplates() {
-      this.pageTemplates = Factor.$filters.applyFilters("page-templates", [])
+      this.pageTemplates = Factor.$filters.apply("page-templates", [])
 
       Factor.$filters.add("components", _ => {
         this.pageTemplates.forEach(tpl => {
@@ -231,8 +226,8 @@ export default Factor => {
     }
 
     getPageTemplates() {
-      return Factor.$filters.applyFilters("page-templates", []).map(_ => {
-        const name = _.name || utils.slugToLabel(_.value.replace("page-template", ""))
+      return Factor.$filters.apply("page-templates", []).map(_ => {
+        const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
         return {
           name,
           ..._
@@ -241,11 +236,11 @@ export default Factor => {
     }
 
     getPostTypes() {
-      return Factor.$filters.applyFilters("post-types", [{ type: "page", base: "" }]).map(_ => {
+      return Factor.$filters.apply("post-types", [{ type: "page", base: "" }]).map(_ => {
         return {
           type: _.type,
           base: typeof _.base == "undefined" ? _.type : _.base,
-          name: utils.slugToLabel(_.type)
+          name: Factor.$utils.toLabel(_.type)
         }
       })
     }
@@ -328,7 +323,7 @@ export default Factor => {
         }
       })
 
-      if (results.length == 0) {
+      if (!results || results.length == 0) {
         return
       }
 

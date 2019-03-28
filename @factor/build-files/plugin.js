@@ -32,6 +32,9 @@ module.exports = Factor => {
           callback: ({ event, path }) => {
             if (event == "add" || event == "unlink") {
               this.generateLoaders()
+              return true // update server
+            } else {
+              return false // server ignore
             }
           }
         })
