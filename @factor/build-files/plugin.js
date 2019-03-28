@@ -29,6 +29,7 @@ module.exports = Factor => {
         _.push({
           name: "Plugin Added/Removed",
           files: this.getExtensionPatterns(),
+          ignored: ["**/*serverless*/**"],
           callback: ({ event, path }) => {
             if (event == "add" || event == "unlink") {
               this.generateLoaders()
