@@ -29,7 +29,7 @@ module.exports = Factor => {
         _.push({
           name: "Plugin Added/Removed",
           files: this.getExtensionPatterns(),
-          ignored: ["**/*serverless*/**"],
+          ignored: ["**/serverless/**"],
           callback: ({ event, path }) => {
             if (event == "add" || event == "unlink") {
               this.generateLoaders()
@@ -136,7 +136,7 @@ module.exports = Factor => {
       let patterns = []
 
       require("find-node-modules")().forEach(_ => {
-        patterns.push(path.resolve(_, `./@${this.namespace}/**/package.json`))
+        patterns.push(path.resolve(_, `./@${this.namespace}/*/package.json`))
         patterns.push(path.resolve(_, `./${this.namespace}*/package.json`))
       })
 
