@@ -19,7 +19,6 @@
       </div>
       <site-footer v-if="nav" />
     </div>
-    <!-- <router-view /> -->
   </div>
 </template>
 <style src="./css/common.less" lang="less"></style>

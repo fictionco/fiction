@@ -25,26 +25,26 @@ module.exports = Factor => {
     }
 
     addWatchers() {
-      // Factor.$filters.add("build-watchers", _ => {
-      //   const files = this.getExtensionPatterns()
-
-      //   const watchers = [
-      //     {
-      //       files,
-      //       cb: (event, path) => {
-      //         if (
-      //           (path.includes("package.json") || path.includes("plugin.js")) &&
-      //           (event == "add" || event == "unlink")
-      //         ) {
-      //           this.generateLoaders()
-      //           return true
-      //         }
-      //       }
-      //     }
-      //   ]
-
-      //   return _.concat(watchers)
-      // })
+      Factor.$filters.add("build-watchers", _ => {
+        _.push({
+          name: "Plugin Added/Removed",
+          files: this.getExtensionPatterns(),
+          ignored: ["**/serverless/**"],
+          callback: ({ event, path }) => {
+            const subModules = path.split("@factor").pop()
+            if (
+              (event == "add" || event == "unlink") &&
+              (!subModules || !subModules.includes("node_modules"))
+            ) {
+              this.generateLoaders()
+              return true // update server
+            } else {
+              return false // server ignore
+            }
+          }
+        })
+        return _
+      })
     }
 
     generateLoaders() {
@@ -140,7 +140,7 @@ module.exports = Factor => {
       let patterns = []
 
       require("find-node-modules")().forEach(_ => {
-        patterns.push(path.resolve(_, `./@${this.namespace}/**/package.json`))
+        patterns.push(path.resolve(_, `./@${this.namespace}/*/package.json`))
         patterns.push(path.resolve(_, `./${this.namespace}*/package.json`))
       })
 

@@ -14,12 +14,12 @@
     </site-head>
     <div class="content-main" :style="bg">
       <div class="content-main-content">
+        sup
         <slot v-if="$slots.default" />
         <router-view v-else />
       </div>
       <site-footer v-if="nav" />
     </div>
-    <!-- <router-view /> -->
   </div>
 </template>
 <style src="./css/common.less" lang="less"></style>
