@@ -27,9 +27,9 @@ module.exports = Factor => {
     addWatchers() {
       Factor.$filters.add("build-watchers", _ => {
         _.push({
-          name: "Plugin Added/Removed",
+          name: "Generate Loaders - Package Added/Removed",
           files: this.getExtensionPatterns(),
-          ignored: ["**/serverless/**"],
+          ignored: [],
           callback: ({ event, path }) => {
             if (event == "add" || event == "unlink") {
               this.generateLoaders()
@@ -136,7 +136,7 @@ module.exports = Factor => {
       let patterns = []
 
       require("find-node-modules")().forEach(_ => {
-        patterns.push(path.resolve(_, `./@${this.namespace}/*/package.json`))
+        patterns.push(path.resolve(_, `./@${this.namespace}/**/package.json`))
         patterns.push(path.resolve(_, `./${this.namespace}*/package.json`))
       })
 

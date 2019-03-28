@@ -93,6 +93,7 @@ export default Factor => {
       Factor.$filters.add("site-route-promises", setPost)
 
       Factor.$filters.add("dashboard-menu", _ => {
+        console.log("POST TYPES", this.getPostTypes())
         this.getPostTypes().forEach(({ type, base, name, icon = "" }) => {
           _.push({
             group: "posts",

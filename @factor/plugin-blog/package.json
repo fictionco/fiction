@@ -2,6 +2,10 @@
   "name": "@factor/plugin-blog",
   "version": "0.0.7",
   "license": "GPL-3.0",
+  "factor": {
+    "target": ["app"],
+    "scope": "extension"
+  },
   "publishConfig": {
     "access": "public"
   },
