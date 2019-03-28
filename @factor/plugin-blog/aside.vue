@@ -6,7 +6,7 @@
   >
     <div class="format-aside aside-wrap">
       <h2 class="aside-header">
-        <el-link :path="path">{{ title }}</el-link>
+        <factor-link :path="path">{{ title }}</factor-link>
       </h2>
 
       <div class="aside-sub">

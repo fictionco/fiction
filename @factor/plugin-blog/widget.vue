@@ -1,7 +1,7 @@
 <template>
   <div class="post-widget">
     <p class="title">Be at home anywhere.</p>
-    <el-link path="/staying" btn="primary" size="large">Learn How</el-link>
+    <factor-link path="/staying" btn="primary" size="large">Learn How</factor-link>
   </div>
 </template>
 

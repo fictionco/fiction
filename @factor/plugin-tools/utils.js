@@ -2,6 +2,45 @@ module.exports.default = Factor => {
   return new class {
     constructor() {}
 
+    // Parse to standard utility lists
+    // Ideal for passing around config data and lists (inputs, etc.. )
+    parseList(list = [], options = {}) {
+      let { suffix = "", prefix = "" } = options
+
+      if (!Array.isArray(list)) {
+        return []
+      }
+
+      const wrap = text => {
+        const _ = []
+        if (suffix) _.push(suffix)
+        _.push(this.toLabel(text))
+        if (prefix) _.push(prefix)
+        return _.join(" ")
+      }
+      suffix = suffix ? " " + suffix : ""
+
+      return list.map(_ => {
+        if (typeof _ == "string" || typeof i == "number") {
+          return {
+            value: _,
+            name: wrap(_),
+            desc: ""
+          }
+        } else if (typeof _ == "object") {
+          const { name, value } = _
+          if (!name && value) {
+            _.name = wrap(_)
+          } else if (typeof value == "undefined" && name) {
+            _.value = this.slugify(name)
+          }
+          return _
+        } else {
+          return false
+        }
+      })
+    }
+
     slugify(text) {
       if (!text) {
         return text

@@ -1,12 +1,12 @@
 <template>
   <div class="entries">
     <div v-if="$route.params.tag" class="back-nav">
-      <el-link btn="default" path="/blog">
+      <factor-link btn="default" path="/blog">
         <i class="fa fa-arrow-left" /> All Posts
-      </el-link>
+      </factor-link>
     </div>
     <div v-if="loading" class="loading-entries">
-      <loading-ring />
+      <factor-loading-ring />
     </div>
 
     <div v-else class="post-index">

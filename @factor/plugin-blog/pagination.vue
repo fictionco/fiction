@@ -14,7 +14,7 @@
       <li>
         <a href="#">7</a>
       </li>
-      <li class="pagination-next el-link is-btn">
+      <li class="pagination-next factor-link is-btn">
         <button type="button" class="el-btn el-btn-load default">
           <a href="#" class="btn btn-default">
             <span class="btn-content">Next Page</span>

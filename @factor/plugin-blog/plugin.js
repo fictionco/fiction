@@ -5,12 +5,12 @@ export default Factor => {
     }
 
     filters() {
-      console.log("filer")
-
+      const base = "entry"
+      const type = "blog"
       Factor.$filters.add("post-types", _ => {
         _.push({
-          type: "blog",
-          base: "entry"
+          type,
+          base
         })
 
         return _
@@ -26,16 +26,16 @@ export default Factor => {
               component: () => import("./index.vue")
             },
             {
-              path: "/entry",
-              component: () => import("./single.vue")
+              path: `/${base}`,
+              component: () => import(`./single.vue`)
             },
             {
-              path: "/entry/:permalink",
-              component: () => import("./single.vue")
+              path: `/${base}/:permalink`,
+              component: () => import(`./single.vue`)
             },
             {
-              path: "/tag/:tag",
-              component: () => import("./index.vue")
+              path: `/tag/:tag`,
+              component: () => import(`./index.vue`)
             }
           ]
         })

@@ -9,58 +9,60 @@
               <i class="fa fa-arrow-right" />
             </factor-link>
           </template>
-          <form-input
+          <factor-input-wrap-vertical
             v-model="post.title"
-            input="text"
+            input="factor-input-text"
             label="Title"
             class="post-title"
             @keyup="doAutosave()"
           />
-          <form-input
+          <factor-input-wrap-vertical
             v-model="post.permalink"
             :initial="post.title"
             :type="postType"
-            input="permalink"
             label="Permalink"
-          />
-          <form-input
+          >
+            <input-permalink />
+          </factor-input-wrap-vertical>
+          <factor-input-wrap-vertical
             v-model="post.content"
-            input="editor"
             label="Post Content"
             @keyup="doAutosave()"
-          />
+          >
+            <input-editor />
+          </factor-input-wrap-vertical>
         </dashboard-pane>
       </div>
       <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
-          <factor-input-wrap-horizontal v-model="post.date" input="factor-date" label="Date" />
+          <factor-input-wrap-horizontal v-model="post.date" input="factor-input-date" label="Date" />
           <factor-input-wrap-horizontal
             v-model="post.status"
             :input-list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
-            input="factor-select"
+            input="factor-input-select"
             label="Status"
           />
           <factor-input-wrap-horizontal
             v-model="post.type"
             :input-list="$posts.getPostTypes()"
-            input="factor-select"
+            input="factor-input-select"
             label="Type"
           />
           <factor-input-wrap-horizontal
             v-if="post.type == 'page'"
             v-model="post.template"
             :input-list="$posts.getPageTemplates()"
-            input="factor-select"
+            input="factor-input-select"
             label="Template"
           />
           <factor-input-wrap-horizontal
             v-model="post.authors"
-            input="factor-user-list"
+            input="factor-input-user-list"
             label="Author"
           />
 
           <div v-if="!$lodash.isEmpty(lastRevision)" class="save-info">
-            <loading-ring v-if="sendingDraft" width="1em" />
+            <factor-loading-ring v-if="sendingDraft" width="1em" />
             <div v-else>Draft Saved at {{ $time.timeFormat(lastRevision.timestamp) }}</div>
             <div v-if="!lastRevision.published" class="changes">
               <span class="unpublished">There are unpublished changes.</span>
@@ -68,23 +70,23 @@
             </div>
           </div>
           <template slot="actions">
-            <el-btn btn="primary" :loading="sending" @click="publishPost()">
+            <factor-btn btn="primary" :loading="sending" @click="publishPost()">
               Update Post
               &nbsp;
               <i class="fa fa-arrow-up" />
-            </el-btn>
+            </factor-btn>
           </template>
         </dashboard-pane>
         <dashboard-pane title="Media">
-          <form-input
+          <factor-input-wrap-vertical
             v-model="post.images"
-            input="image"
+            input="factor-input-image-upload"
             label="Post Images"
             :input-destination="`/posts/${post.id}/__name.__ext`"
           />
-          <form-input
+          <factor-input-wrap-vertical
             v-model="post.featuredImage"
-            input="image"
+            input="factor-input-image-upload"
             label="Share Image"
             input-max="1"
             :input-destination="`/posts/${post.id}/__name.__ext`"
@@ -95,10 +97,14 @@
         </dashboard-pane>
 
         <dashboard-pane title="SEO">
-          <form-input v-model="post.titleTag" input="text" label="Title Tag" />
-          <form-input
+          <factor-input-wrap-vertical
+            v-model="post.titleTag"
+            input="factor-input-text"
+            label="Title Tag"
+          />
+          <factor-input-wrap-vertical
             v-model="post.description"
-            input="textarea"
+            input="factor-input-textarea"
             label="Post Description / Excerpt"
           />
         </dashboard-pane>
@@ -108,6 +114,11 @@
 </template>
 <script>
 export default {
+  components: {
+    "input-editor": () => import("./el/editor"),
+    "input-permalink": () => import("./el/permalink"),
+    "input-tags": () => import("./el/tags")
+  },
   data() {
     return {
       sending: false,
@@ -143,7 +154,7 @@ export default {
       })
     },
     id() {
-      return this.$route.query.id || this.$uuid()
+      return this.$route.query.id || this.$guid()
     },
     lastRevision() {
       return this.post.revisions && this.post.revisions.length > 0
@@ -203,7 +214,7 @@ export default {
 
       const existing = await this.$posts.getPostById(id)
       const lastRev =
-        existing.revisions && existing.revisions.length > 0
+        existing && existing.revisions && existing.revisions.length > 0
           ? existing.revisions[0].post
           : {}
 
@@ -294,7 +305,7 @@ export default {
 
       this.clearAutosave()
 
-      this.$hook.$emit("lockPermalink")
+      this.$events.$emit("lockPermalink")
 
       this.addRevision({ published: true })
 

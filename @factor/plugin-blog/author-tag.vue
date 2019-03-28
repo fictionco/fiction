@@ -1,6 +1,6 @@
 <template>
   <div class="blog-author-card">
-    <el-avatar :uid="author.uid" />
+    <factor-avatar :uid="author.uid" />
     <span class="name">{{ author.displayName }}</span>
   </div>
 </template>

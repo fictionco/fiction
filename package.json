@@ -44,7 +44,6 @@
     "prettier-eslint": "^8.8.2"
   },
   "dependencies": {
-    "@babel/cli": "^7.2.3",
     "@cypress/webpack-preprocessor": "^4.0.3"
   }
 }

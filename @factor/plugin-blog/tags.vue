@@ -1,6 +1,11 @@
 <template>
   <div v-if="tags.length > 0" class="entry-tags">
-    <el-link v-for="(tag, ti) in tags" :key="ti" class="entry-tag" :path="`/tag/${tag}`">{{ tag }}</el-link>
+    <factor-link
+      v-for="(tag, ti) in tags"
+      :key="ti"
+      class="entry-tag"
+      :path="`/tag/${tag}`"
+    >{{ tag }}</factor-link>
   </div>
 </template>
 <script>

@@ -19,7 +19,7 @@
         </div>
 
         <div v-else-if="column == 'author'" class="author">
-          <el-card-user v-for="(user, ind) in row.authorData" :key="ind" :uid="user.uid" />
+          <factor-card-user v-for="(user, ind) in row.authorData" :key="ind" :uid="user.uid" />
         </div>
 
         <div v-else-if="column == 'meta'" class="meta">

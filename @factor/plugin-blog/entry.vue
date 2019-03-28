@@ -8,19 +8,19 @@
           <div class="txt">
             <span class="sep">on</span>
             <span class="date">{{ $time.niceFormat(date) }}</span>
-            <el-link
+            <factor-link
               v-if="$privs.admin"
               class="edit"
               path="/admin/posts/edit"
               :query="{id: postId}"
-            >Edit</el-link>
+            >Edit</factor-link>
           </div>
         </div>
       </div>
 
       <div class="entry-text">
         <h1 class="entry-header">
-          <el-link :path="path">{{ title }}</el-link>
+          <factor-link :path="path">{{ title }}</factor-link>
         </h1>
 
         <div class="entry-content">
@@ -32,28 +32,28 @@
       <el-tags class="entry-tags" :tags="tags" />
 
       <div v-if="format == 'listing'" class="entry-action">
-        <el-link size="large" btn="default" :path="path">
+        <factor-link size="large" btn="default" :path="path">
           Continue Reading
           <i class="fa fa-arrow-right" />
-        </el-link>
+        </factor-link>
       </div>
 
       <div v-if="format == 'single'" class="entry-action">
         <el-flame :post-id="postId" />
 
         <div class="share-wrap">
-          <el-link path="/#">
+          <factor-link path="/#">
             <i class="fa fa-facebook" />
-          </el-link>
-          <el-link path="/#">
+          </factor-link>
+          <factor-link path="/#">
             <i class="fa fa-twitter" />
-          </el-link>
+          </factor-link>
         </div>
       </div>
 
       <div v-if="format == 'single'" class="post-author post-author-bio">
         <div v-for="(author) in authors" :key="author.uid" class="author-about">
-          <el-avatar :uid="author.uid" :width="'60px'" />
+          <factor-avatar :uid="author.uid" :width="'60px'" />
           <div class="text">
             <span class="name">{{ author.displayName }}</span>
             <div class="bio">{{ author.bio }}</div>

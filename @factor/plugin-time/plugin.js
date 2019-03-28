@@ -39,14 +39,18 @@ export default Factor => {
     }
 
     isUnixTimestamp(v) {
-      if (!!(!isNaN(parseFloat(v)) && isFinite(v))) {
-        v = isNumber(v) ? parseFloat(v) : v
+      if (this._isNumber(v)) {
+        v = parseFloat(v)
 
         const digit10 = /^\d{10}$/
         return digit10.test(v) ? true : false
       } else {
         return false
       }
+    }
+
+    _isNumber(value) {
+      return !!(!isNaN(parseFloat(value)) && isFinite(value))
     }
 
     extend(option, dayjsClass, dayjsFactory) {

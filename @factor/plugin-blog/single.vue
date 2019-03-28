@@ -1,8 +1,8 @@
 <template>
   <div class="single-entry">
-    <el-link class="back" path="/blog">
+    <factor-link class="back" path="/blog">
       <i class="fa fa-arrow-left" /> All Posts
-    </el-link>
+    </factor-link>
     <part-entry
       :format="'single'"
       :authors="post.authorData"

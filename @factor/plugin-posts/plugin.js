@@ -136,7 +136,7 @@ export default Factor => {
       if (this.initialized) {
         cb()
       } else {
-        hook.$on("postInit", () => {
+        Factor.$events.$on("postInit", () => {
           this.initialized = true
           cb()
         })
@@ -360,7 +360,7 @@ export default Factor => {
     }
 
     // Limit saved revisions to 20 and one per hour after first hour
-    _cleanRevisions(revisions) {
+    _cleanRevisions(revisions = []) {
       let counter
 
       const cleanedRevisions = revisions
@@ -381,7 +381,7 @@ export default Factor => {
       return cleanedRevisions
     }
 
-    async saveDraft(draft) {
+    async saveDraft(draft = {}) {
       draft.revisions = this._cleanRevisions(draft.revisions)
       const query = {
         table: "posts",
