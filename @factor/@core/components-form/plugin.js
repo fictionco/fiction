@@ -21,8 +21,7 @@ export default Factor => {
 
         _["factor-input-submit"] = () => import("./el/submit")
 
-        _["factor-input-wrap-horizontal"] = () => import("./el/wrap-horizontal")
-        _["factor-input-wrap-vertical"] = () => import("./el/wrap-vertical")
+        _["factor-input-wrap"] = () => import("./el/wrap-input")
 
         return _
       })

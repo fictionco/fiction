@@ -35,7 +35,7 @@ export default {
   flex-direction: column;
   background: #fff; // #fcfdff;
   border-radius: 4px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
+  box-shadow: @factor-panel-shadow, 0 6px 14px 0 rgba(24, 32, 41, 0.06),
     0 12px 34px 0 rgba(24, 32, 41, 0.04);
   // overflow: hidden;
   margin-bottom: 2em;
@@ -49,12 +49,12 @@ export default {
   }
   .head {
     border-radius: 4px 4px 0 0;
-    border-bottom: 1px solid rgba(62, 62, 62, 0.1);
+    border-bottom: 1px solid @factor-border-color-subtle;
   }
 
   .foot {
     border-radius: 0 0 4px 4px;
-    border-top: 1px solid rgba(62, 62, 62, 0.1);
+    border-top: 1px solid @factor-border-color-subtle;
     .note {
       font-weight: 500;
     }

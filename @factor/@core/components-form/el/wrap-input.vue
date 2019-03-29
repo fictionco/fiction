@@ -1,18 +1,18 @@
 
 <template>
-  <div :key="renderKey" class="input-wrap-horizontal input-wrap">
-    <div class="input-description">
-      <label class="f-input-label" :class="[requiredClass]">
+  <div :key="renderKey" class="input-wrap" :class="[requiredClass, inputFormat]">
+    <div class="input-meta">
+      <label class="label-wrap">
         <span v-if="label" class="label">{{ label }}</span>
       </label>
-      <div v-if="description || $slots.description" class="f-input-desc">
+      <div v-if="description || $slots.description" class="description-wrap">
         <slot v-if="$slots.description" name="description" />
         <span v-else v-formatted-text="description" />
       </div>
     </div>
 
     <div class="input-area">
-      <div class="f-input">
+      <div class="the-input">
         <component :is="input" v-if="input" :value="value" v-bind="$attrs" v-on="$listeners">
           <slot />
         </component>
@@ -34,7 +34,7 @@ export default {
     },
     label: { type: String, default: "" },
     description: { type: String, default: "" },
-    status: { type: String, default: "" },
+    format: { type: String, default: "" },
     input: { type: String, default: "" }
   },
   data() {
@@ -56,6 +56,9 @@ export default {
     },
     requiredClass() {
       return this.isRequired ? "is-required" : "is-optional"
+    },
+    inputFormat() {
+      return this.format ? this.format : "vertical"
     }
   },
 
@@ -64,55 +67,32 @@ export default {
 </script>
 
 <style lang="less">
-.input-wrap-horizontal {
-  .custom-validity-input {
-    position: absolute;
-    height: 1px !important;
-    width: 1px !important;
-    left: 50%;
-    bottom: 0;
-    padding: 0;
-    background-color: transparent !important;
-    pointer-events: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    color: transparent;
+.input-wrap {
+  margin: 0 0 1em;
+
+  .description-wrap {
+    margin-bottom: 0.7em;
+    font-size: 0.9em;
+    opacity: 0.5;
+    margin: 0 auto 0.5em;
+    line-height: 1.35;
   }
-  &.input-wrap {
-    margin: 0 0 1.5em;
-    display: flex;
-    flex-wrap: wrap;
-    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
-    textarea,
-    select {
-      background-color: #f7f9ff;
-      border-radius: 4px;
-      width: 100%;
-    }
+  .input-area {
+    position: relative;
+  }
 
-    .input-description {
-      flex-basis: 30%;
-      min-width: 80px;
-      margin-bottom: 0.7em;
+  &.vertical {
+    .input-meta {
+      margin-bottom: 0.5em;
     }
-    .f-input-desc {
-      font-size: 0.8em;
-      font-style: italic;
-      opacity: 0.4;
-      font-weight: 500;
-      margin: 0 auto 0.5em;
-      line-height: 1.2;
-    }
-    .input-area {
-      flex-basis: 70%;
+  }
 
-      position: relative;
-    }
-
-    .f-input-label {
-      &.no-label .input-status {
-        width: auto;
-      }
+  &.horizontal {
+    display: grid;
+    grid-template-columns: minmax(80px, 1fr) 3fr;
+    grid-column-gap: 1em;
+    .input-meta {
+      text-align: right;
     }
   }
 }

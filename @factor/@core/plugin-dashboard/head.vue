@@ -24,7 +24,7 @@ export default {
 <style lang="less">
 .site-head {
   padding: 0 1.5em;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 1px rgba(58, 55, 148, 0.25);
   background: #fff;
   position: relative;
   z-index: 10;

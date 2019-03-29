@@ -1,6 +1,6 @@
 
 <template>
-  <select :value="setting" class="select-standard" :required="$attrs.required">
+  <select :value="setting" class="select-standard" :required="$attrs.required" :style="inputStyle">
     <option value>{{ $attrs.placeholder || "Select" }}</option>
     <option
       v-for="(s,i) in parsedList"
@@ -33,6 +33,11 @@ export default {
             suffix: this.listSuffix
           })
         : []
+    },
+    inputStyle() {
+      return {
+        backgroundImage: `url(${require("./img/select.svg")})`
+      }
     }
   },
   mounted() {}

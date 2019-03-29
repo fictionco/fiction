@@ -93,17 +93,17 @@ export default {
 @keyframes multicolor {
   0%,
   100% {
-    stroke: #ff0076;
+    stroke: @color-secondary;
   }
   40% {
-    stroke: #ff0076;
+    stroke: @color-secondary;
   }
   50% {
-    stroke: #0496ff;
+    stroke: @color-primary;
   }
   80%,
   90% {
-    stroke: #0496ff;
+    stroke: @color-primary;
   }
 }
 @keyframes lightcolor {

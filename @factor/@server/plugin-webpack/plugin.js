@@ -303,6 +303,9 @@ module.exports.default = Factor => {
 
     lessLoad({ target, build }) {
       let finishing
+
+      const prependedFiles = Factor.$filters.apply("prepended-less-files", [])
+
       const baseLoaders = [
         {
           loader: "css-loader"
@@ -316,22 +319,33 @@ module.exports.default = Factor => {
         },
         {
           loader: "less-loader"
+        },
+        {
+          loader: "style-resources-loader",
+          options: {
+            patterns: prependedFiles
+          }
         }
       ]
 
+      // For development use runtime style loader
       if (build != "production") {
         finishing = [
           {
             loader: "vue-style-loader"
           }
         ]
-      } else if (target == "client" && build == "production") {
+      }
+      // For production builds, extract css to own file
+      else if (target == "client" && build == "production") {
         finishing = [
           {
             loader: MiniCssExtractPlugin.loader
           }
         ]
-      } else if (target == "server" && build == "production") {
+      }
+      // SSR builds can't have extracted css (causes error)
+      else if (target == "server" && build == "production") {
         finishing = [{ loader: "null-loader" }]
       }
 

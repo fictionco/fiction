@@ -1,8 +1,5 @@
 <template>
   <div id="sel" class="date-input">
-    <factor-btn @click="clk()">
-      <i class="fa fa-calendar-o" />
-    </factor-btn>
     <datepicker
       ref="picker"
       :value="val"
@@ -55,8 +52,6 @@ export default {
   }
   .date-picker {
     input[type="text"] {
-      font-weight: 600;
-      background: #f3f5fa;
       cursor: pointer;
       width: 100%;
     }
@@ -73,7 +68,7 @@ export default {
         &.month,
         &.year {
           &:hover {
-            border: 1px solid #0496ff;
+            border: 1px solid @color-primary;
           }
         }
       }
@@ -82,7 +77,7 @@ export default {
         border-radius: 4px;
         &.selected {
           color: hsla(0, 0%, 100%, 0.9);
-          background: #0496ff;
+          background: @color-primary;
         }
       }
     }

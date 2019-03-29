@@ -43,6 +43,7 @@ export default {
         this.session.setMode("ace/mode/markdown")
         this.session.setUseWrapMode(true)
         this.editor.setOptions({ showPrintMargin: false })
+        this.editor.renderer.setPadding(10)
         this.editor.renderer.setShowGutter(false)
         this.$watch(
           "value",
@@ -100,15 +101,24 @@ export default {
   }
 }
 #editor {
+  color: @factor-color-text;
+  box-shadow: @factor-input-shadow;
   height: 600px;
 
   font-weight: 400;
   line-height: 1.5rem;
   font-weight: 300;
-  box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-  color: #506677;
 
+  border-radius: 4px;
+  .ace_content {
+    background-color: @factor-input-bg;
+    padding: 10px 0;
+  }
+  .ace_layer .ace_cursor {
+    color: @factor-color-text;
+    border-left: 1px solid;
+    opacity: 0.4;
+  }
   .ace_heading {
     font-weight: 800;
     color: @color-blue-dark;
@@ -119,18 +129,18 @@ export default {
   .ace_list {
     color: @color-blue-light;
   }
-  .ace_gutter {
-    background: #fff;
-    color: #ddd;
-    overflow: hidden;
-    border-right: 1px solid rgba(62, 62, 62, 0.1);
-  }
+  // .ace_gutter {
+  //   background: #fff;
+  //   color: #ddd;
+  //   overflow: hidden;
+  //   border-right: 1px solid rgba(224, 234, 255, 0.2);
+  // }
   .ace_print-margin {
     width: 1px;
     background: #e8e8e8;
   }
-  .ace_gutter-active-line {
-    background-color: #f3f5fa;
+  .ace_marker-layer .ace_active-line {
+    background: transparent;
   }
   .ace_strong,
   .ace_constant,
@@ -223,9 +233,6 @@ export default {
   .ace_marker-layer .ace_bracket {
     margin: -1px 0 0 -1px;
     border: 1px solid rgb(192, 192, 192);
-  }
-  .ace_marker-layer .ace_active-line {
-    background: #f7fafc;
   }
 
   .ace_marker-layer .ace_selected-word {
