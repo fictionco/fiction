@@ -10,6 +10,7 @@ module.exports.default = Factor => {
     async search(query) {
       return this.query({
         method: "search",
+        returnType: [],
         ...query
       })
     }
@@ -29,14 +30,14 @@ module.exports.default = Factor => {
     }
 
     async query(args) {
-      const { method } = args
+      const { method, returnType = {} } = args
       const entry = await Factor.$filters.applyService({
         service: "db",
         filter: `db-service-${method}`,
         args
       })
 
-      const { results = null } = entry || {}
+      const { results = returnType } = entry || {}
 
       return results
     }

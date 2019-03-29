@@ -434,7 +434,7 @@ export default Factor => {
       }
       let splitContent = Factor.$markdown
         .strip(content)
-        .replace(/\n|\r/g, "")
+        .replace(/\n|\r/g, " ")
         .split(" ")
 
       let excerpt
@@ -442,6 +442,8 @@ export default Factor => {
       if (splitContent.length > length) {
         splitContent = splitContent.slice(0, length)
         excerpt = splitContent.join(" ") + "..."
+      } else {
+        excerpt = splitContent.join(" ")
       }
 
       return excerpt

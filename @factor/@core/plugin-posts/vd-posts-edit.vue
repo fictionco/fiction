@@ -23,6 +23,21 @@
             <input-editor v-model="post.content" @keyup="doAutosave()" />
           </factor-input-wrap>
         </dashboard-pane>
+        <dashboard-pane title="SEO">
+          <div class="search-preview">
+            <div class="headline">{{ post.titleTag || post.title }}</div>
+            <div
+              class="plink"
+            >{{ $posts.getPermalink({type: postType, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
+            <div class="description">{{ post.description || $posts.excerpt(post.content) }}</div>
+          </div>
+          <factor-input-wrap v-model="post.titleTag" input="factor-input-text" label="Title Tag" />
+          <factor-input-wrap
+            v-model="post.description"
+            input="factor-input-textarea"
+            label="Post Description / Excerpt"
+          />
+        </dashboard-pane>
       </div>
       <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
@@ -95,15 +110,6 @@
         <dashboard-pane title="Tags">
           <input-tags v-model="post.tags" />
         </dashboard-pane>
-
-        <dashboard-pane title="SEO">
-          <factor-input-wrap v-model="post.titleTag" input="factor-input-text" label="Title Tag" />
-          <factor-input-wrap
-            v-model="post.description"
-            input="factor-input-textarea"
-            label="Post Description / Excerpt"
-          />
-        </dashboard-pane>
       </div>
     </div>
   </dashboard-page>
@@ -134,6 +140,9 @@ export default {
     }
   },
   computed: {
+    excerpt() {
+      return this.$posts.excerpt(this.post.content)
+    },
     title() {
       const mode = this.isNew ? "Add New" : "Edit"
 
