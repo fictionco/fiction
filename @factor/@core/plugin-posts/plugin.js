@@ -236,9 +236,17 @@ export default Factor => {
     }
 
     getPostTypes() {
-      return Factor.$filters.apply("post-types", [{ type: "page", base: "" }]).map(_ => {
+      const initialPostTypes = [
+        {
+          type: "page",
+          base: "",
+          icon: require("./img/pages.svg")
+        }
+      ]
+
+      return Factor.$filters.apply("post-types", initialPostTypes).map(_ => {
         return {
-          type: _.type,
+          ..._,
           base: typeof _.base == "undefined" ? _.type : _.base,
           name: Factor.$utils.toLabel(_.type)
         }

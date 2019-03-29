@@ -57,7 +57,7 @@
           <div>
             <el-svg icon="vue" color="#506677" />
             <h2 class="title">Build with Vue.js</h2>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+            <p>Customize your front-end layout with vue.js components</p>
             <div class="actions">
               <factor-link path="/docs">
                 Explore the docs
@@ -67,6 +67,26 @@
           </div>
           <figure>
             <pre><code class="javascript">
+<!-- <template>
+  <p>{{ greeting }} Factor!</p>
+</template>
+
+<script>
+module.exports = {
+  data: function () {
+    return {
+      greeting: 'Hello'
+    }
+  }
+}
+</script>
+
+<style scoped>
+p {
+  font-size: 2em;
+  text-align: center;
+}
+</style> -->
 var app = new Factor({
   el: '#app',
   data: {
@@ -108,6 +128,22 @@ var app = new Factor({
                 class="img-user-roles"
                 :src="require(`./img/user-roles.svg`)"
                 alt="Factor - User Roles and Permissions"
+              >
+            </div>
+          </div>
+        </div>
+        <div class="item cols-2">
+          <div>
+            <el-svg icon="infinite" color="#506677" />
+            <h2 class="title">Infinite Scalable</h2>
+            <p>When it comes to dynamic applications, scalability is often a concern. Fortunately, Factor supports multiple serverless infrastructure providers that can be easily switched via plugin. Under the hood, Factor is deploying your code to a cloud provider like AWS, Microsoft Azure, or Google Firebase.</p>
+          </div>
+          <div>
+            <div class="bg-rect-right">
+              <img
+                class="img-markdown"
+                :src="require(`./img/markdown-editor.png`)"
+                alt="Factor - Markdown"
               >
             </div>
           </div>

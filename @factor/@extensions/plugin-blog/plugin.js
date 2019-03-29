@@ -10,7 +10,8 @@ export default Factor => {
       Factor.$filters.add("post-types", _ => {
         _.push({
           type,
-          base
+          base,
+          icon: require("./img/posts.svg")
         })
 
         return _

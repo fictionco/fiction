@@ -30,6 +30,24 @@ module.exports.default = Factor => {
       return Factor.$filters.apply("user-public-fields", this.config().publicFields)
     }
 
+    getPostTypes() {
+      const initialPostTypes = [
+        {
+          type: "page",
+          base: "",
+          icon: require("./img/users.svg")
+        }
+      ]
+
+      return Factor.$filters.apply("post-types", initialPostTypes).map(_ => {
+        return {
+          ..._,
+          base: typeof _.base == "undefined" ? _.type : _.base,
+          name: Factor.$utils.toLabel(_.type)
+        }
+      })
+    }
+
     role() {
       const user = this.getUser() || {}
       const { role = {} } = user

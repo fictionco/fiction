@@ -31,6 +31,10 @@ module.exports = Factor => {
           files: this.getExtensionPatterns(),
           ignored: [],
           callback: ({ event, path }) => {
+            // Any time there is a node_modules within a @factor package
+            // Then we don't want to watch it
+            // TODO - Ideally these wouldn't be included in the GLOB of packages
+            // Wasn't working so added this
             const subModules = path.split("@factor").pop()
             if (
               (event == "add" || event == "unlink") &&
