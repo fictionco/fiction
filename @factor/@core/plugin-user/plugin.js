@@ -33,7 +33,7 @@ module.exports.default = Factor => {
     getPostTypes() {
       const initialPostTypes = [
         {
-          type: "page",
+          type: "user",
           base: "",
           icon: require("./img/users.svg")
         }

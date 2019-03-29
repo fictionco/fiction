@@ -664,7 +664,7 @@
 "@factor/endpoint-user-privs@file:./factor_modules/@factor/endpoint-user-privs":
   version "0.0.7"
   dependencies:
-    "@factor/plugin-user" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-endpoint-user-privs-0.0.7-e373466e-d068-4002-84e4-40adf21f4c77-1553869957039/node_modules/@factor/plugin-user"
+    "@factor/plugin-user" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-endpoint-user-privs-0.0.7-6ec0834f-520f-4e5a-9943-9845b7186e1c-1553881299711/node_modules/@factor/plugin-user"
 
 "@factor/filters@file:./factor_modules/@factor/filters", "@factor/filters@file:factor_modules/@factor/filters":
   version "0.0.7"
@@ -701,11 +701,11 @@
 "@factor/serverless-extend@file:./factor_modules/@factor/serverless-extend", "@factor/serverless-extend@file:factor_modules/@factor/serverless-extend":
   version "0.0.7"
   dependencies:
-    "@factor/admin-config" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-a44bcb96-d602-46e5-9f05-2d09becd400d-1553869957751/node_modules/@factor/admin-config"
-    "@factor/build-files" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-a44bcb96-d602-46e5-9f05-2d09becd400d-1553869957751/node_modules/@factor/build-files"
-    "@factor/build-keys" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-a44bcb96-d602-46e5-9f05-2d09becd400d-1553869957751/node_modules/@factor/build-keys"
-    "@factor/build-paths" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-a44bcb96-d602-46e5-9f05-2d09becd400d-1553869957751/node_modules/@factor/build-paths"
-    "@factor/filters" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-a44bcb96-d602-46e5-9f05-2d09becd400d-1553869957751/node_modules/@factor/filters"
+    "@factor/admin-config" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-91003dd5-9e56-426f-9532-e0844e7718a9-1553881300189/node_modules/@factor/admin-config"
+    "@factor/build-files" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-91003dd5-9e56-426f-9532-e0844e7718a9-1553881300189/node_modules/@factor/build-files"
+    "@factor/build-keys" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-91003dd5-9e56-426f-9532-e0844e7718a9-1553881300189/node_modules/@factor/build-keys"
+    "@factor/build-paths" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-91003dd5-9e56-426f-9532-e0844e7718a9-1553881300189/node_modules/@factor/build-paths"
+    "@factor/filters" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-91003dd5-9e56-426f-9532-e0844e7718a9-1553881300189/node_modules/@factor/filters"
 
 "@factor/service-firebase-app@file:./factor_modules/@factor/service-firebase-app", "@factor/service-firebase-app@file:factor_modules/@factor/service-firebase-app":
   version "0.0.7"
@@ -717,12 +717,12 @@
 "@factor/service-firebase-firestore@file:./factor_modules/@factor/service-firebase-firestore":
   version "0.0.7"
   dependencies:
-    "@factor/service-firebase-app" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-firestore-0.0.7-69d8f986-d17d-4ab1-9b5a-1100073c3321-1553869959112/node_modules/@factor/service-firebase-app"
+    "@factor/service-firebase-app" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-firestore-0.0.7-5b5b8a68-cc8a-4ca9-af82-bba9442eee0e-1553881301310/node_modules/@factor/service-firebase-app"
 
 "@factor/service-firebase-functions-controller@file:./factor_modules/@factor/service-firebase-functions-controller":
   version "0.0.7"
   dependencies:
-    "@factor/serverless-extend" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-functions-controller-0.0.7-a5022a94-e97c-4a63-b737-8c838cb7f072-1553869961577/node_modules/@factor/serverless-extend"
+    "@factor/serverless-extend" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-functions-controller-0.0.7-d7c82fd2-2a4e-4b4b-ba36-74c6eddf576d-1553881304080/node_modules/@factor/serverless-extend"
     firebase-admin "^7.1.0"
     firebase-functions "^2.2.0"
     vue "^2.6.9"

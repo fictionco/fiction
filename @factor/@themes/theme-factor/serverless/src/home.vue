@@ -50,17 +50,17 @@
           <div class="box">
             <el-svg icon="vue" color="#506677" />
             <h2>Vue/Reactive Components</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing.</p>
+            <p>Customize your front-end layout with vue.js single-file components.</p>
           </div>
           <div class="box">
             <el-svg icon="infinite" color="#506677" />
             <h2>Infinite Scalability</h2>
-            <p>Factor is infinitely scalable, which allows you to save money by getting rid of large server requests.</p>
+            <p>Factor is infinitely scalable with serverless builds out of the box. Save money by getting rid of large server requests.</p>
           </div>
           <div class="box">
             <el-svg icon="fast-clock" color="#506677" />
             <h2>Faster Development</h2>
-            <p>Factor can enable you to launch serverless applications at record speed and cost.</p>
+            <p>Factor can enable you to launch serverless applications at record speed and low cost.</p>
           </div>
         </div>
         <div class="actions">
