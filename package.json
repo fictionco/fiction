@@ -1,12 +1,12 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*"],
+  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*", "@factor/services/@*/*"],
   "private": true,
   "publishConfig": {
     "access": "public"
   },
-  "license": "UNLICENSED",
+  "license": "GPL3.0",
   "scripts": {
     "cypress": "npx cypress open",
     "factor:dev": "yarn prep && yarn workspace @factor/theme-factor dev",
@@ -27,7 +27,6 @@
     "@factor/plugin-testing-cypress-build": ">0.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.12.0",
-    "webpack": ">4.0.0",
     "eslint-config-prettier": "^3.5.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "^2.1.1",
@@ -41,10 +40,12 @@
     "eslint-plugin-vue": "^5.1.0",
     "lerna": "^3.13.0",
     "prettier": "^1.6.1",
-    "prettier-eslint": "^8.8.2"
+    "prettier-eslint": "^8.8.2",
+    "webpack": ">4.0.0"
   },
   "dependencies": {
-    "@babel/cli": "^7.2.3",
-    "@cypress/webpack-preprocessor": "^4.0.3"
+    "@cypress/webpack-preprocessor": "^4.0.3",
+    "commitizen": "^3.0.7",
+    "cz-conventional-changelog": "^2.1.0"
   }
 }
