@@ -14,7 +14,6 @@
     </site-head>
     <div class="content-main" :style="bg">
       <div class="content-main-content">
-        sup
         <slot v-if="$slots.default" />
         <router-view v-else />
       </div>

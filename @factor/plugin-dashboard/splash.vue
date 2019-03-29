@@ -118,6 +118,7 @@ export default {
     }
     .title {
       font-weight: 600;
+      font-size: 1.2em;
     }
     .description {
       opacity: 0.6;
