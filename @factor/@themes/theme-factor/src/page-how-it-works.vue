@@ -140,11 +140,7 @@ var app = new Factor({
           </div>
           <div>
             <div class="bg-rect-right">
-              <img
-                class="img-markdown"
-                :src="require(`./img/markdown-editor.png`)"
-                alt="Factor - Markdown"
-              >
+              <img :src="require(`./img/scalable.svg`)" alt="Factor - Infinite Scalability">
             </div>
           </div>
         </div>
@@ -350,23 +346,6 @@ export default {
         background-size: 80% 80%;
       }
 
-      .bg-circles {
-        background: url(./img/bg-circles.svg) no-repeat center center;
-        background-size: contain;
-      }
-      .bg-glow {
-        background: url(./img/bg-glow.svg) no-repeat center center;
-        background-size: contain;
-      }
-      .bg-dashed-circles {
-        background: url(./img/bg-dashed-circles.svg) no-repeat center center;
-        background-size: contain;
-      }
-      .bg-swirl {
-        background: url(./img/bg-swirl.svg) no-repeat center center;
-        background-size: contain;
-      }
-
       img {
         max-width: 100%;
         margin: 0 auto;
@@ -379,20 +358,10 @@ export default {
           transform: scale(0.7) perspective(1040px) rotateY(-5deg) rotateX(1deg)
             rotate(1deg);
         }
-        // &.img-user-roles {
-        //   min-height: 320px;
-        //   border-radius: 14px;
-        //   box-shadow: -27.1px 62.5px 125px -25px rgba(80, 102, 119, 0.5),
-        //     -16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-        //   transform: scale(0.8) perspective(1040px) rotateY(5deg) rotateX(-1deg)
-        //     rotate(-1deg);
-        // }
         @media (max-width: 767px) {
           &.img-markdown {
             min-height: auto;
             border-radius: 4px;
-            // box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-            //   0 1px 3px rgba(0, 0, 0, 0.08);
             box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
               0 20px 125px -30px rgba(80, 102, 119, 0.5),
               0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
@@ -405,15 +374,15 @@ export default {
   }
 
   .cta-wrap {
-    padding: 2em 0;
+    padding: 3em 0 0;
     background: #fff;
     .cta {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-column-gap: 60px;
-      padding: 4em 0;
       @media (max-width: 767px) {
-        display: block;
+        text-align: center;
+        grid-template-columns: 1fr;
       }
       .title {
         font-weight: 600;
@@ -434,6 +403,13 @@ export default {
         @media (max-width: 767px) {
           display: block;
           margin-top: 1.5em;
+          a {
+            display: inline-block;
+            margin-bottom: 10px;
+          }
+          .is-btn + .is-btn {
+            margin-left: 0;
+          }
         }
       }
     }
