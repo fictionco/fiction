@@ -135,8 +135,8 @@ var app = new Factor({
         <div class="item cols-2">
           <div>
             <el-svg icon="infinite" color="#506677" />
-            <h2 class="title">Infinite Scalable</h2>
-            <p>When it comes to dynamic applications, scalability is often a concern. Fortunately, Factor supports multiple serverless infrastructure providers that can be easily switched via plugin. Under the hood, Factor is deploying your code to a cloud provider like AWS, Microsoft Azure, or Google Firebase.</p>
+            <h2 class="title">Infinite Scalability</h2>
+            <p>When it comes to dynamic applications, scalability is often a concern. Fortunately, Factor is deploying your content to a cloud provider like Google Firebase, Microsoft Azure, or AWS.</p>
           </div>
           <div>
             <div class="bg-rect-right">
