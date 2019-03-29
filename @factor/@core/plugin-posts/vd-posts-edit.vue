@@ -5,58 +5,58 @@
         <dashboard-pane :title="title" class="compose">
           <template slot="nav">
             <factor-link v-if="post.permalink" :path="url" btn="secondary" data-test="add-post">
-              View Post
+              View {{ postType }}
               <i class="fa fa-arrow-right" />
             </factor-link>
           </template>
-          <factor-input-wrap-vertical
+          <factor-input-wrap
             v-model="post.title"
             input="factor-input-text"
             label="Title"
             class="post-title"
             @keyup="doAutosave()"
           />
-          <factor-input-wrap-vertical
-            v-model="post.permalink"
-            :initial="post.title"
-            :type="postType"
-            label="Permalink"
-          >
-            <input-permalink />
-          </factor-input-wrap-vertical>
-          <factor-input-wrap-vertical
-            v-model="post.content"
-            label="Post Content"
-            @keyup="doAutosave()"
-          >
-            <input-editor />
-          </factor-input-wrap-vertical>
+          <factor-input-wrap label="Permalink">
+            <input-permalink v-model="post.permalink" :initial="post.title" :type="postType" />
+          </factor-input-wrap>
+          <factor-input-wrap label="Post Content">
+            <input-editor v-model="post.content" @keyup="doAutosave()" />
+          </factor-input-wrap>
         </dashboard-pane>
       </div>
       <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
-          <factor-input-wrap-horizontal v-model="post.date" input="factor-input-date" label="Date" />
-          <factor-input-wrap-horizontal
+          <factor-input-wrap
+            v-model="post.date"
+            format="horizontal"
+            input="factor-input-date"
+            label="Date"
+          />
+          <factor-input-wrap
             v-model="post.status"
-            :input-list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
+            format="horizontal"
+            :list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
             input="factor-input-select"
             label="Status"
           />
-          <factor-input-wrap-horizontal
+          <factor-input-wrap
             v-model="post.type"
-            :input-list="$posts.getPostTypes()"
+            format="horizontal"
+            :list="$posts.getPostTypes()"
             input="factor-input-select"
             label="Type"
           />
-          <factor-input-wrap-horizontal
+          <factor-input-wrap
             v-if="post.type == 'page'"
             v-model="post.template"
-            :input-list="$posts.getPageTemplates()"
+            format="horizontal"
+            :list="$posts.getPageTemplates()"
             input="factor-input-select"
             label="Template"
           />
-          <factor-input-wrap-horizontal
+          <factor-input-wrap
             v-model="post.authors"
+            format="horizontal"
             input="factor-input-user-list"
             label="Author"
           />
@@ -78,13 +78,13 @@
           </template>
         </dashboard-pane>
         <dashboard-pane title="Media">
-          <factor-input-wrap-vertical
+          <factor-input-wrap
             v-model="post.images"
             input="factor-input-image-upload"
             label="Post Images"
             :input-destination="`/posts/${post.id}/__name.__ext`"
           />
-          <factor-input-wrap-vertical
+          <factor-input-wrap
             v-model="post.featuredImage"
             input="factor-input-image-upload"
             label="Share Image"
@@ -97,12 +97,8 @@
         </dashboard-pane>
 
         <dashboard-pane title="SEO">
-          <factor-input-wrap-vertical
-            v-model="post.titleTag"
-            input="factor-input-text"
-            label="Title Tag"
-          />
-          <factor-input-wrap-vertical
+          <factor-input-wrap v-model="post.titleTag" input="factor-input-text" label="Title Tag" />
+          <factor-input-wrap
             v-model="post.description"
             input="factor-input-textarea"
             label="Post Description / Excerpt"
@@ -141,7 +137,7 @@ export default {
     title() {
       const mode = this.isNew ? "Add New" : "Edit"
 
-      return `${mode} Post`
+      return `${mode} ${this.$utils.toLabel(this.postType)}`
     },
 
     postType() {

@@ -1,0 +1,92 @@
+@import "vars.less";
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: @color-placeholder;
+}
+
+button,
+input,
+select,
+textarea {
+  resize: none;
+  border: 0;
+  font-size: 1em;
+  box-shadow: none;
+  padding: 0;
+}
+
+button,
+select,
+input,
+textarea,
+select,
+.checkbox-label {
+  font-family: @font-primary;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+textarea {
+  -webkit-appearance: none;
+}
+
+input,
+textarea {
+  line-height: 1.2;
+}
+
+[type="checkbox"],
+[type="radio"] {
+  margin: 0;
+  width: auto;
+  display: inline-block;
+  box-shadow: none;
+}
+
+input,
+textarea,
+select {
+  display: inline-block;
+  padding: 0.5em;
+  font-size: 1em;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  border: 0;
+  font-weight: 500;
+  color: @color-text;
+  background-color: transparent;
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  &.dropdown,
+  &.toggle,
+  &.range {
+    border: 0;
+
+    &:hover,
+    &:focus {
+      border: none;
+    }
+  }
+
+  &::placeholder {
+    /* Chrome/Opera/Safari */
+    color: @color-placeholder;
+  }
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+textarea,
+select {
+  background-color: @factor-input-bg;
+  box-shadow: @factor-input-shadow;
+  border-radius: 4px;
+  width: 100%;
+}

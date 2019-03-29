@@ -10,12 +10,11 @@
       </template>
       <template slot="nav">
         <factor-link
-          path="/admin/posts/add-new"
-          :query="{type: postType}"
+          :path="`/dashboard/posts/${postType}/add-new`"
           btn="primary"
           data-test="add-post"
         >
-          Add {{ postTypeLabel }} Post
+          Add {{ postTypeLabel }}
           <i class="fa fa-arrow-right" />
         </factor-link>
       </template>

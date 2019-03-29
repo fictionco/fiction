@@ -37,7 +37,7 @@ export default Factor => {
       // Assign Post Info to Route
       // Has to happen after all initialized
       Factor.$filters.add("mixins", _ => {
-        _.post = this.addPostToComponents()
+        //_.post = this.addPostToComponents()
 
         return _
       })

@@ -148,7 +148,7 @@ module.exports = Factor => {
         patterns.push(path.resolve(_, `./${this.namespace}*/package.json`))
       })
 
-      patterns.push(path.resolve(Factor.$paths.get("source"), `**/plugin.js`))
+      patterns.push(path.resolve(Factor.$paths.get("app"), `package.json`))
 
       return patterns
     }
@@ -192,7 +192,9 @@ module.exports = Factor => {
             target,
             service,
             provider,
-            id: id || this.makeId(name.split(/endpoint|plugin|theme|service|@factor/gi).pop())
+            id:
+              id ||
+              this.makeId(name.split(/endpoint|plugin|theme|service|@factor|@fiction/gi).pop())
           }
         } else {
           const basename = path.basename(_)

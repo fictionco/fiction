@@ -7,7 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "target": "app",
+    "target": ["app", "build"],
     "scope": "core"
   },
   "dependencies": {},

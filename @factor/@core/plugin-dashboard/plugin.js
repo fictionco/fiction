@@ -1,8 +1,16 @@
 export default Factor => {
   return new class {
     constructor() {
-      this.paths()
-      this.components()
+      if (Factor.FACTOR_ENV == "build") {
+        const { resolve } = require("path")
+        Factor.$filters.add("prepended-less-files", _ => {
+          _.push(resolve(__dirname, "css/vars.less"))
+          return _
+        })
+      } else {
+        this.paths()
+        this.components()
+      }
     }
 
     components() {

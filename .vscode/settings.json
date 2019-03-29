@@ -8,7 +8,8 @@
   "files.exclude": {},
   "search.exclude": {
     "**/factor_modules/**": true,
-    "**/generated/**": true
+    "**/generated/**": true,
+    "**/serverless/**": true
   },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [
