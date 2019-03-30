@@ -19,7 +19,7 @@ export default {
 
   computed: {
     templateLocation() {
-      return this.post.template ? this.post.template : "page-template-default"
+      return this.post.template ? this.post.template : "default"
     },
     templateLoader() {
       const tpls = this.$posts.getPageTemplates()

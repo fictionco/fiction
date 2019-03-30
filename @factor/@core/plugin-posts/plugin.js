@@ -214,7 +214,7 @@ export default Factor => {
 
     // Register Page Templates added by theme or app
     registerTemplates() {
-      this.pageTemplates = Factor.$filters.apply("page-templates", [])
+      this.pageTemplates = this.getPageTemplates()
 
       Factor.$filters.add("components", _ => {
         this.pageTemplates.forEach(tpl => {
@@ -226,13 +226,21 @@ export default Factor => {
     }
 
     getPageTemplates() {
-      return Factor.$filters.apply("page-templates", []).map(_ => {
-        const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
-        return {
-          name,
-          ..._
-        }
-      })
+      return Factor.$filters
+        .apply("page-templates", [
+          {
+            name: "Default",
+            value: "",
+            component: () => import("@/page-template")
+          }
+        ])
+        .map(_ => {
+          const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
+          return {
+            name,
+            ..._
+          }
+        })
     }
 
     getPostTypes() {
