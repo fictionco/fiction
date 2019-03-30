@@ -25,17 +25,24 @@
         </dashboard-pane>
         <dashboard-pane title="SEO">
           <div class="search-preview">
-            <div class="headline">{{ post.titleTag || post.title }}</div>
+            <div class="sup">Search Preview</div>
+            <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
             <div
               class="plink"
             >{{ $posts.getPermalink({type: postType, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
-            <div class="description">{{ post.description || $posts.excerpt(post.content) }}</div>
+            <div
+              class="desc"
+            >{{ post.description || $posts.excerpt(post.content) || "No Description" }}</div>
           </div>
-          <factor-input-wrap v-model="post.titleTag" input="factor-input-text" label="Title Tag" />
+          <factor-input-wrap
+            v-model="post.titleTag"
+            input="factor-input-text"
+            label="Title Meta Tag"
+          />
           <factor-input-wrap
             v-model="post.description"
             input="factor-input-textarea"
-            label="Post Description / Excerpt"
+            label="Description Meta Tag"
           />
         </dashboard-pane>
       </div>
@@ -54,13 +61,7 @@
             input="factor-input-select"
             label="Status"
           />
-          <factor-input-wrap
-            v-model="post.type"
-            format="horizontal"
-            :list="$posts.getPostTypes()"
-            input="factor-input-select"
-            label="Type"
-          />
+
           <factor-input-wrap
             v-if="post.type == 'page'"
             v-model="post.template"
@@ -85,7 +86,7 @@
             </div>
           </div>
           <template slot="actions">
-            <factor-btn btn="primary" :loading="sending" @click="publishPost()">
+            <factor-btn btn="primary" :loading="sending" @click="updatePost()">
               Update Post
               &nbsp;
               <i class="fa fa-arrow-up" />
@@ -150,7 +151,7 @@ export default {
     },
 
     postType() {
-      return this.$route.query.type || this.post.type || "page"
+      return this.$route.params.type || this.post.type || "page"
     },
     url() {
       return this.$posts.getPermalink({
@@ -282,8 +283,6 @@ export default {
       this.post = newPost
 
       this.$set(this.post, "revisions", newRevisions)
-
-      console.log("this.post.revisions", this.post.revisions)
     },
 
     async saveDraft() {
@@ -305,7 +304,7 @@ export default {
       this.sendingDraft = false
     },
 
-    async publishPost() {
+    async updatePost() {
       this.sending = true
 
       this.clearAutosave()
@@ -316,16 +315,16 @@ export default {
 
       const save = { ...this.post, url: this.url }
 
-      await this.$posts.publishPost(save)
+      await this.$posts.updatePost(save)
 
-      this.$notify.notify("Post Saved")
+      this.$events.$emit("notify", "Post Saved")
 
       this.sending = false
     },
     async trashPost() {
       this.sending = true
 
-      await this.$posts.publishPost(this.post)
+      await this.$posts.updatePost(this.post)
 
       this.sending = false
     }
@@ -333,6 +332,25 @@ export default {
 }
 </script>
 <style lang="less">
+.search-preview {
+  line-height: 1.5;
+  padding: 0em 0 2em;
+  .sup {
+    opacity: 0.3;
+    margin-bottom: 1em;
+  }
+  .headline {
+    line-height: 1.3;
+    color: #1b1ba8;
+    font-size: 1.3em;
+  }
+  .desc {
+    opacity: 0.7;
+  }
+  .plink {
+    color: #0a6524;
+  }
+}
 .post-grid {
   display: grid;
   grid-gap: 1em;
