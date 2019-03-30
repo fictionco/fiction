@@ -150,7 +150,7 @@ module.exports.default = Factor => {
           libraryTarget: "commonjs2"
         },
         resolve: {
-          // mainFields: ["main", "module"]
+          //mainFields: ["main", "module"]
         },
         // https://webpack.js.org/configuration/externals/#externals
         // https://github.com/liady/webpack-node-externals

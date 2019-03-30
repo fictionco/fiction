@@ -21,6 +21,11 @@ module.exports.default = Factor => {
           name: "db-service-update",
           service: _ => this.update(_)
         })
+
+        Factor.$filters.addService({
+          name: "db-service-query",
+          service: _ => this.query(_)
+        })
       }
     }
 
@@ -49,12 +54,29 @@ module.exports.default = Factor => {
       })
     }
 
-    async read({ id, collection }) {
-      const doc = await this.client
-        .firestore()
-        .collection(collection)
-        .doc(id)
-        .get()
+    async query({ collection, filters }) {
+      const ref = await this.client.firestore().collection(collection)
+
+      filters.forEach(_ => {
+        const { field, compare = "==", value } = _
+        ref.where(field, compare, value)
+      })
+
+      return this.refineQueryResults(ref.get())
+    }
+
+    async read({ id, collection, field = null, value = null }) {
+      const ref = await this.client.firestore().collection(collection)
+
+      let doc = {}
+
+      if (!id && field) {
+        ref.where(field, "==", value)
+        const list = await ref.get()
+        doc = list[0] || {}
+      } else {
+        doc = await ref.doc(id).get()
+      }
 
       return this.refineQueryResults(doc)
     }

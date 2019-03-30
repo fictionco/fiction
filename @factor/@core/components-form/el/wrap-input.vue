@@ -68,8 +68,11 @@ export default {
 
 <style lang="less">
 .input-wrap {
-  margin: 0 0 1em;
+  margin: 0 0 1.25em;
 
+  .label {
+    font-size: 0.9em;
+  }
   .description-wrap {
     margin-bottom: 0.7em;
     font-size: 0.9em;
@@ -92,7 +95,12 @@ export default {
     grid-template-columns: minmax(80px, 1fr) 3fr;
     grid-column-gap: 1em;
     .input-meta {
+      opacity: 0.7;
       text-align: right;
+      .label {
+        line-height: 1.2;
+        display: block;
+      }
     }
   }
 }

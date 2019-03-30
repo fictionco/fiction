@@ -72,14 +72,14 @@ export default Factor => {
             parts = { path: route.fullPath }
           }
 
-          Factor.$store.commit("posts/setItem", {
-            item: "post",
-            value: post
-          })
+          // Factor.$store.commit("posts/setItem", {
+          //   item: "post",
+          //   value: post
+          // })
 
-          if (Factor.$ssrContext) {
-            Factor.$ssrContext.metatags = this.getMetatags({ post, parts })
-          }
+          // if (Factor.$ssrContext) {
+          //   Factor.$ssrContext.metatags = this.getMetatags({ post, parts })
+          // }
 
           return
         }
@@ -89,7 +89,7 @@ export default Factor => {
         return _
       }
 
-      Factor.$filters.add("site-prefetch-promises", setPost)
+      Factor.$filters.add("request-post", setPost)
       Factor.$filters.add("site-route-promises", setPost)
 
       Factor.$filters.add("dashboard-menu", _ => {
@@ -200,7 +200,7 @@ export default Factor => {
 
       const _promises = posts.reverse().map(async p => {
         let authorData = []
-        if (p.authors && Array.isArray(p.authors) && p.authors.length > 0) {
+        if (p && p.authors && Array.isArray(p.authors) && p.authors.length > 0) {
           const _authorPromises = p.authors.map(async uid => {
             return await Factor.$user.request(uid)
           })
@@ -226,21 +226,13 @@ export default Factor => {
     }
 
     getPageTemplates() {
-      return Factor.$filters
-        .apply("page-templates", [
-          {
-            name: "Default",
-            value: "",
-            component: () => import("@/page-template")
-          }
-        ])
-        .map(_ => {
-          const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
-          return {
-            name,
-            ..._
-          }
-        })
+      return Factor.$filters.apply("page-templates", []).map(_ => {
+        const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
+        return {
+          name,
+          ..._
+        }
+      })
     }
 
     getPostTypes() {
@@ -318,32 +310,24 @@ export default Factor => {
     }
 
     async getPostById(id) {
-      return await Factor.$db.query({
-        table: "posts",
+      return await Factor.$db.read({
+        collection: "public",
         id
       })
     }
 
     async getPostByPermalink(permalink) {
-      const results = await Factor.$db.query({
-        table: "posts",
-        where: [
-          {
-            field: `permalink`,
-            comp: "==",
-            value: permalink
-          }
-        ],
-        query: {
-          table: "flames"
-        }
+      const results = await Factor.$db.read({
+        collection: "public",
+        field: `permalink`,
+        value: permalink
       })
-
+      console.log("RESULTS PERMALINK", results)
       if (!results || results.length == 0) {
-        return
+        return {}
       }
 
-      const post = results[0]
+      const post = results[0] || {}
 
       const { authors } = post
 
@@ -396,31 +380,40 @@ export default Factor => {
       return cleanedRevisions
     }
 
-    async saveDraft(draft = {}) {
-      draft.revisions = this._cleanRevisions(draft.revisions)
-      const query = {
-        table: "posts",
-        data: draft,
-        id: draft.id,
-        merge: true
+    // Save revisions to post
+    // This should be merged into existing post (update)
+    async saveDraft({ id, revisions }) {
+      const data = {
+        revision: this._cleanRevisions(revisions)
       }
-      const response = await Factor.$db.save(query)
+      const query = {
+        collection: "public",
+        data,
+        id,
+        merge: true,
+        index: false // no query/search changes
+      }
 
-      console.log("[draft saved]", query, draft.revisions)
+      const response = await Factor.$db.update(query)
+
+      console.log("[draft saved]", query, revisions)
 
       return response
     }
 
-    async publishPost(post) {
+    async savePost(post) {
       const data = Object.assign({}, post)
+      const { id } = data
       const query = {
-        table: "posts",
+        collection: "public",
         data,
-        id: post.id,
+        id,
         merge: false
       }
 
-      const response = await Factor.$db.publish(query)
+      const response = await Factor.$db.update(query)
+
+      Factor.$events.$emit("purge-url-cache", post.url)
 
       // Bust cache for url
       if (!post.url.includes("localhost")) {

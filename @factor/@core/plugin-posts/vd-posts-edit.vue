@@ -23,7 +23,7 @@
             <input-editor v-model="post.content" @keyup="doAutosave()" />
           </factor-input-wrap>
         </dashboard-pane>
-        <dashboard-pane title="SEO">
+        <dashboard-pane title="SEO and Sharing">
           <div class="search-preview">
             <div class="sup">Search Preview</div>
             <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
@@ -44,6 +44,13 @@
             input="factor-input-textarea"
             label="Description Meta Tag"
           />
+          <factor-input-wrap
+            v-model="post.featuredImage"
+            input="factor-input-image-upload"
+            label="Sharing Image"
+            input-max="1"
+            :input-destination="`/posts/${post.id}/__name.__ext`"
+          />
         </dashboard-pane>
       </div>
       <div class="meta-column">
@@ -52,24 +59,24 @@
             v-model="post.date"
             format="horizontal"
             input="factor-input-date"
-            label="Date"
+            label="Publish Date"
           />
           <factor-input-wrap
             v-model="post.status"
             format="horizontal"
             :list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
             input="factor-input-select"
-            label="Status"
+            label="Publish Status"
           />
-
           <factor-input-wrap
             v-if="post.type == 'page'"
             v-model="post.template"
             format="horizontal"
             :list="$posts.getPageTemplates()"
             input="factor-input-select"
-            label="Template"
+            label="Page Template"
           />
+
           <factor-input-wrap
             v-model="post.authors"
             format="horizontal"
@@ -86,7 +93,7 @@
             </div>
           </div>
           <template slot="actions">
-            <factor-btn btn="primary" :loading="sending" @click="updatePost()">
+            <factor-btn btn="primary" :loading="sending" @click="savePost()">
               Update Post
               &nbsp;
               <i class="fa fa-arrow-up" />
@@ -98,13 +105,6 @@
             v-model="post.images"
             input="factor-input-image-upload"
             label="Post Images"
-            :input-destination="`/posts/${post.id}/__name.__ext`"
-          />
-          <factor-input-wrap
-            v-model="post.featuredImage"
-            input="factor-input-image-upload"
-            label="Share Image"
-            input-max="1"
             :input-destination="`/posts/${post.id}/__name.__ext`"
           />
         </dashboard-pane>
@@ -304,7 +304,7 @@ export default {
       this.sendingDraft = false
     },
 
-    async updatePost() {
+    async savePost() {
       this.sending = true
 
       this.clearAutosave()
@@ -315,7 +315,7 @@ export default {
 
       const save = { ...this.post, url: this.url }
 
-      await this.$posts.updatePost(save)
+      await this.$posts.savePost(save)
 
       this.$events.$emit("notify", "Post Saved")
 
@@ -324,7 +324,7 @@ export default {
     async trashPost() {
       this.sending = true
 
-      await this.$posts.updatePost(this.post)
+      await this.$posts.savePost(this.post)
 
       this.sending = false
     }
