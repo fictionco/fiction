@@ -109,19 +109,21 @@ module.exports.default = Factor => {
       return Factor.$store.getters["getItem"]("activeUser") || {}
     }
 
-    async request(uid) {
+    async request(uid = null) {
       let user
       const storedValue = Factor.$store.getters["getItem"](uid) || false
 
       if (storedValue) {
         user = storedValue
-      } else {
+      } else if (uid) {
         user = await Factor.$db.read({
           collection: "public",
           id: uid
         })
 
         Factor.$store.commit("setItem", { item: uid, value: user })
+      } else {
+        console.warn("UID request was null")
       }
 
       return user

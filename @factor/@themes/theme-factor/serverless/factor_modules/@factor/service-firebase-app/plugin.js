@@ -3,14 +3,6 @@ export default Factor => {
     constructor() {
       this.client = require("firebase/app").default
 
-      // Factor.$filters.add(
-      //   "initialize-app",
-      //   _ => {
-      //     this.initialize()
-      //   },
-      //   { priority: 40 }
-      // )
-
       this.initialize()
     }
 

@@ -14,6 +14,13 @@
             </factor-link>
             <factor-link path="/" btn="outline" size="large">Contact Us</factor-link>
           </div>
+          <factor-link
+            path="https://github.com/fiction-com/factor"
+            class="github-link"
+            target="_blank"
+          >
+            <i class="fa fa-github" /> View Factor on GitHub.
+          </factor-link>
         </div>
         <!-- <div class="splash-image">
           <img :src="require(`./img/dashboard.svg`)" alt="Factor - Dashboard">
@@ -144,9 +151,6 @@ export default {
       text-align: center;
       max-width: 700px;
       padding: 10em 2em;
-      // @media (max-width: 767px) {
-      //   grid-template-columns: 1fr;
-      // }
       .title {
         font-weight: 600;
         font-size: 4em;
@@ -165,10 +169,24 @@ export default {
           font-size: 1.2em;
         }
       }
+      .github-link {
+        display: block;
+        font-weight: 600;
+        font-size: 1.2em;
+        color: inherit;
+        margin-top: 20px;
+        &:hover {
+          color: #ff0076;
+        }
+      }
       .actions {
         margin-top: 1.5em;
         @media (max-width: 767px) {
           margin-bottom: 1.5em;
+          a {
+            display: inline-block;
+            margin-bottom: 10px;
+          }
         }
       }
       // .splash-image {
@@ -235,12 +253,7 @@ export default {
     width: 40px;
     height: 40px;
     line-height: 40px;
-    //text-align: center;
-    //border-radius: 14px;
-    // background: #fff;
-    // box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
     svg {
-      //padding: 2px;
       min-height: 40px;
     }
   }
@@ -278,6 +291,7 @@ export default {
     grid-column-gap: 60px;
     padding: 7em 0 5em;
     @media (max-width: 767px) {
+      text-align: center;
       grid-template-columns: 1fr;
     }
     .title {
@@ -299,6 +313,13 @@ export default {
       @media (max-width: 767px) {
         display: block;
         margin-top: 1.5em;
+        a {
+          display: inline-block;
+          margin-bottom: 10px;
+        }
+        .is-btn + .is-btn {
+          margin-left: 0;
+        }
       }
     }
   }

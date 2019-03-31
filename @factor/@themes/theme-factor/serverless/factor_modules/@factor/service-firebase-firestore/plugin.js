@@ -49,14 +49,31 @@ module.exports.default = Factor => {
       })
     }
 
-    async read({ id, collection }) {
-      const doc = await this.client
-        .firestore()
-        .collection(collection)
-        .doc(id)
-        .get()
+    async query({ collection, filters }) {
+      return this.refineQueryResults(ref.get())
+    }
 
-      return this.refineQueryResults(doc)
+    async read({ id, collection, field = null, value = null }) {
+      let ref = await this.client.firestore().collection(collection)
+
+      let data
+      console.log("READ", id, collection, field)
+      if (!id && field) {
+        ref = ref.where(field, "==", value)
+        const list = await ref.get()
+
+        const docs = []
+
+        list.forEach(_ => {
+          docs.push(_.data())
+        })
+        data = docs[0] || {}
+      } else {
+        const doc = await ref.doc(id).get()
+        data = doc.data() || {}
+      }
+
+      return data
     }
 
     async update({ id, collection, data }) {
@@ -70,10 +87,10 @@ module.exports.default = Factor => {
     }
 
     refineQueryResults(doc) {
-      const results = {}
+      const out = {}
 
       if (typeof doc.forEach === "function") {
-        results.results = []
+        out.results = []
 
         doc.forEach(item => {
           const docData = Object.assign(
@@ -84,19 +101,19 @@ module.exports.default = Factor => {
             },
             item.data()
           )
-          results.results.push(docData)
+          out.results.push(docData)
         })
       } else {
-        results.exists = doc.exists
+        out.exists = doc.exists
 
-        results.results = doc.exists ? doc.data() : {}
+        out.results = doc.exists ? doc.data() : {}
 
         // results.service = doc
 
-        results.doc = doc.id
+        out.doc = doc.id
       }
 
-      return results
+      return out
     }
 
     // async queryHandler(query) {
