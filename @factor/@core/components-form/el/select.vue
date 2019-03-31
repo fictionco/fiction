@@ -1,6 +1,12 @@
 
 <template>
-  <select :value="setting" class="select-standard" :required="$attrs.required" :style="inputStyle">
+  <select
+    :value="setting"
+    class="select-standard"
+    :required="$attrs.required"
+    :style="inputStyle"
+    v-on="listeners"
+  >
     <option value>{{ $attrs.placeholder || "Select" }}</option>
     <option
       v-for="(s,i) in parsedList"
@@ -23,6 +29,12 @@ export default {
     }
   },
   computed: {
+    listeners() {
+      return {
+        ...this.$listeners,
+        input: event => this.$emit("input", event.target.value)
+      }
+    },
     setting() {
       return typeof this.value != "undefined" ? this.value : ""
     },

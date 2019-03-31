@@ -1,13 +1,5 @@
 module.exports.default = Factor => {
   return new class {
-    // Publish is
-    // async publish(query) {
-    //   return this.query({
-    //     method: "publish",
-    //     ...query
-    //   })
-    // }
-
     async search(query) {
       return this.query({
         method: "search",
@@ -41,9 +33,7 @@ module.exports.default = Factor => {
         args
       })
 
-      const { results = returnType } = entry || {}
-
-      return results
+      return entry || returnType
     }
 
     prepare(obj) {

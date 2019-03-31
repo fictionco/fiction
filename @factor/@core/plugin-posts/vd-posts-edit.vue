@@ -5,7 +5,7 @@
         <dashboard-pane :title="title" class="compose">
           <template slot="nav">
             <factor-link v-if="post.permalink" :path="url" btn="secondary" data-test="add-post">
-              View {{ postType }}
+              View {{ $utils.toLabel(postType) }}
               <i class="fa fa-arrow-right" />
             </factor-link>
           </template>

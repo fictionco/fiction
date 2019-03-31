@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     posts() {
-      return this.$store.getters["posts/getItem"]("index") || []
+      return this.$store.getters["getItem"]("blog") || []
     }
   },
   watch: {

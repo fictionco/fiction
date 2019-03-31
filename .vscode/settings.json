@@ -9,7 +9,8 @@
   "search.exclude": {
     "**/factor_modules/**": true,
     "**/generated/**": true,
-    "**/serverless/**": true
+    "**/serverless/**": true,
+    "**/@themes": true
   },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [

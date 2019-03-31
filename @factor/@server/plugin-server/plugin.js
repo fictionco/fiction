@@ -11,6 +11,9 @@ const { createBundleRenderer } = require("vue-server-renderer")
 const env = process.env.NODE_ENV || "production"
 const isProd = env === "production"
 
+// Add for Firebase
+global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+
 module.exports.default = Factor => {
   return new class {
     constructor() {

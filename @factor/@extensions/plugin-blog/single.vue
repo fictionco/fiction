@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.getters["posts/getItem"]("post") || {}
+      return this.$store.getters["getItem"]("post") || {}
     }
   },
 

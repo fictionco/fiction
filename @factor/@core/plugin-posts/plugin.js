@@ -7,6 +7,11 @@ export default Factor => {
     }
 
     filters() {
+      Factor.$filters.add("components", _ => {
+        _["factor-post-edit"] = () => import("./el/edit-link")
+        return _
+      })
+
       Factor.$filters.add("dashboard-routes", _ => {
         _.push({
           path: "posts",
@@ -14,9 +19,15 @@ export default Factor => {
         })
 
         _.push({
+          path: "posts/edit",
+          component: () => import("./vd-posts-edit")
+          // meta: { activePath: "/admin/posts" }
+        })
+
+        _.push({
           path: "posts/:postType/edit",
-          component: () => import("./vd-posts-edit"),
-          meta: { activePath: "/admin/posts" }
+          component: () => import("./vd-posts-edit")
+          //meta: { activePath: "/admin/posts" }
         })
 
         _.push({
@@ -72,10 +83,7 @@ export default Factor => {
             parts = { path: route.fullPath }
           }
 
-          // Factor.$store.commit("posts/setItem", {
-          //   item: "post",
-          //   value: post
-          // })
+          Factor.$store.commit("setItem", { item: "post", value: post })
 
           // if (Factor.$ssrContext) {
           //   Factor.$ssrContext.metatags = this.getMetatags({ post, parts })
@@ -128,7 +136,7 @@ export default Factor => {
     }
 
     current() {
-      return this.$store.getters["posts/getItem"]("post") || {}
+      return this.$store.getters["getItem"]("post") || {}
     }
 
     init(cb) {
@@ -317,19 +325,14 @@ export default Factor => {
     }
 
     async getPostByPermalink(permalink) {
-      const results = await Factor.$db.read({
+      2
+      const post = await Factor.$db.read({
         collection: "public",
         field: `permalink`,
         value: permalink
       })
-      console.log("RESULTS PERMALINK", results)
-      if (!results || results.length == 0) {
-        return {}
-      }
 
-      const post = results[0] || {}
-
-      const { authors } = post
+      const { authors } = post || {}
 
       let _promises = []
       if (authors && Array.isArray(authors) && authors.length > 0) {
@@ -338,22 +341,22 @@ export default Factor => {
         })
       }
 
-      const flameQuery = {
-        table: "posts",
-        id: post.id,
-        query: {
-          table: "meta",
-          id: "flames"
-        }
-      }
+      // const flameQuery = {
+      //   table: "posts",
+      //   id: post.id,
+      //   query: {
+      //     table: "meta",
+      //     id: "flames"
+      //   }
+      // }
 
-      const [flames, authorData] = await Promise.all([
-        Factor.$db.query(flameQuery),
+      const [authorData] = await Promise.all([
+        // Factor.$db.query(flameQuery),
         Promise.all(_promises)
       ])
 
       post.authorData = authorData
-      post.flames = Object.keys(flames).length
+      // post.flames = Object.keys(flames).length
 
       return post
     }
@@ -448,6 +451,16 @@ export default Factor => {
       }
 
       return excerpt
+    }
+
+    userCanEditPost({ uid, post }) {
+      const user = Factor.$user.request(uid)
+
+      if ((user.privs && user.privs.accessLevel > 300) || post.authors.includes(uid)) {
+        return true
+      } else {
+        return false
+      }
     }
   }()
 }

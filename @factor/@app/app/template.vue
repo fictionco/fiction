@@ -27,7 +27,7 @@ export default {
       return tpls.find(_ => _.value == this.templateLocation).component
     },
     post() {
-      return this.$store.getters["posts/getItem"]("post") || {}
+      return this.$store.getters["getItem"]("post") || {}
     }
   }
 }

@@ -21,11 +21,6 @@ module.exports.default = Factor => {
           name: "db-service-update",
           service: _ => this.update(_)
         })
-
-        Factor.$filters.addService({
-          name: "db-service-query",
-          service: _ => this.query(_)
-        })
       }
     }
 
@@ -55,30 +50,30 @@ module.exports.default = Factor => {
     }
 
     async query({ collection, filters }) {
-      const ref = await this.client.firestore().collection(collection)
-
-      filters.forEach(_ => {
-        const { field, compare = "==", value } = _
-        ref.where(field, compare, value)
-      })
-
       return this.refineQueryResults(ref.get())
     }
 
     async read({ id, collection, field = null, value = null }) {
-      const ref = await this.client.firestore().collection(collection)
+      let ref = await this.client.firestore().collection(collection)
 
-      let doc = {}
-
+      let data
+      console.log("READ", id, collection, field)
       if (!id && field) {
-        ref.where(field, "==", value)
+        ref = ref.where(field, "==", value)
         const list = await ref.get()
-        doc = list[0] || {}
+
+        const docs = []
+
+        list.forEach(_ => {
+          docs.push(_.data())
+        })
+        data = docs[0] || {}
       } else {
-        doc = await ref.doc(id).get()
+        const doc = await ref.doc(id).get()
+        data = doc.data() || {}
       }
 
-      return this.refineQueryResults(doc)
+      return data
     }
 
     async update({ id, collection, data }) {
@@ -92,10 +87,10 @@ module.exports.default = Factor => {
     }
 
     refineQueryResults(doc) {
-      const results = {}
+      const out = {}
 
       if (typeof doc.forEach === "function") {
-        results.results = []
+        out.results = []
 
         doc.forEach(item => {
           const docData = Object.assign(
@@ -106,19 +101,19 @@ module.exports.default = Factor => {
             },
             item.data()
           )
-          results.results.push(docData)
+          out.results.push(docData)
         })
       } else {
-        results.exists = doc.exists
+        out.exists = doc.exists
 
-        results.results = doc.exists ? doc.data() : {}
+        out.results = doc.exists ? doc.data() : {}
 
         // results.service = doc
 
-        results.doc = doc.id
+        out.doc = doc.id
       }
 
-      return results
+      return out
     }
 
     // async queryHandler(query) {
