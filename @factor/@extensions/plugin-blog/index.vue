@@ -95,7 +95,7 @@ export default {
     async getPosts() {
       const tag = this.$route.params.tag || ""
       this.loading = true
-      const r = await this.$posts.getTable({
+      const r = await this.$posts.getPostIndex({
         type: "blog",
         tag,
         storeKey: "index",

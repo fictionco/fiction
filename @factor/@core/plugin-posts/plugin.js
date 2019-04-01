@@ -166,34 +166,27 @@ export default Factor => {
       return { canonical, title, description, image }
     }
 
-    async getTable({ type, status = ["published"], tag, limit = 20, storeKey = "table" }) {
-      const constraints = []
+    async getPostIndex(args) {
+      const { limit = 100, storeKey = "postIndex" } = args
 
-      if (type) {
-        constraints.push(`type:${type}`)
-      }
+      const taxonomies = ["type", "tag", "category", "status"]
 
-      if (tag) {
-        constraints.push(`tags:${tag}`)
-      }
-
-      const statusFilters = status
+      const filters = taxonomies
+        .filter(_ => args[_])
         .map(_ => {
-          return `status:${_}`
+          return {
+            field: _,
+            value: args[_]
+          }
         })
-        .join(" OR ")
 
-      constraints.push(statusFilters)
-
-      const filters = constraints.map(_ => `(${_})`).join(" AND ")
-
-      const query = { table: "posts", limit, filters }
+      const query = { collection: "public", limit, filters }
 
       const posts = await Factor.$db.search(query)
 
       const parsed = await this.parsePosts(posts)
 
-      Factor.$store.commit("posts/setItem", {
+      Factor.$store.commit("setItem", {
         item: storeKey,
         value: parsed
       })
@@ -394,7 +387,7 @@ export default Factor => {
         data,
         id,
         merge: true,
-        index: false // no query/search changes
+        noIndex: true // no query/search changes
       }
 
       const response = await Factor.$db.update(query)

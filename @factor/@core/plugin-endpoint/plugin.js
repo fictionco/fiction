@@ -15,10 +15,13 @@ export default Factor => {
 
     async headers() {
       const headers = {}
-      const tokenId = await Factor.$auth.getRequestBearerToken()
 
-      if (tokenId) {
-        headers.Authorization = `Bearer ${tokenId}`
+      if (Factor.$auth) {
+        const tokenId = await Factor.$auth.getRequestBearerToken()
+
+        if (tokenId) {
+          headers.Authorization = `Bearer ${tokenId}`
+        }
       }
 
       return headers
@@ -33,40 +36,38 @@ export default Factor => {
 
       const rurl = `${this.urlBase}/${endpoint}`
 
-      if (uid) {
-        if (!action) {
-          console.error(`${endpoint} Endpoint requires an action method.`)
-        }
+      if (!action) {
+        console.error(`${endpoint} Endpoint requires an action method.`)
+      }
 
-        let r = {}
-        try {
-          const headers = await this.headers()
-          console.log("Header", headers)
-          r = await Factor.$http.post(rurl, params, { headers })
-        } catch (error) {
-          if (error.message.includes("Network Error")) {
-            console.error(`[SERVER NOT FOUND - ENDPOINT ${endpoint}:${action}]`)
-          } else {
-            console.error("[SERVER]", error)
-          }
+      let r = {}
+      try {
+        const headers = await this.headers()
+        console.log("Endpoint Request", { headers, rurl, params })
+        r = await Factor.$http.post(rurl, params, { headers })
+      } catch (error2) {
+        if (error2.message.includes("Network Error")) {
+          console.error(`[Factor Server 404 - ENDPOINT ${endpoint}:${action}]`)
+        } else {
+          console.error("[Factor Server]", error2)
         }
+      }
 
-        if (r.data) {
-          response = r.data
-        }
+      if (r.data) {
+        response = r.data
+      }
 
-        const { error } = response
-        if (error) {
-          const { report } = params
-          const { stack, message } = error
-          const err = message ? console.error(`[EP] ` + message) : console.error(error)
-          err.stack = stack
+      const { error } = response
+      if (error) {
+        const { report } = params
+        const { stack, message } = error
+        const err = message ? new Error(`[Factor Endpoint] ` + message) : new Error(error)
+        err.stack = stack
 
-          Factor.$notify.error({
-            message: report ? message : "There was an issue with a server request."
-          })
-          throw err
-        }
+        Factor.$events.$emit("error", {
+          message: report ? message : "There was an issue with a server request."
+        })
+        throw err
       }
 
       return response

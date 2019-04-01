@@ -8,6 +8,14 @@ module.exports.default = Factor => {
       })
     }
 
+    async index(query) {
+      return this.query({
+        method: "index",
+        returnType: true,
+        ...query
+      })
+    }
+
     async read(query) {
       return this.query({
         method: "read",

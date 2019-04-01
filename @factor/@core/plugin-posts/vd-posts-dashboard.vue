@@ -80,7 +80,7 @@ export default {
     async setPosts() {
       const status = this.status || ["published", "draft"]
       this.loading = true
-      this.posts = await this.$posts.getTable({
+      this.posts = await this.$posts.getPostIndex({
         type: this.postType,
         status
       })

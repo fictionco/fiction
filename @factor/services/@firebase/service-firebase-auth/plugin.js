@@ -42,9 +42,14 @@ export default Factor => {
     }
 
     filters() {
-      Factor.$filters.addService({ name: "auth-signin", service: _ => this.credentialSignin(_) })
       Factor.$filters.addService({
-        name: "auth-request-bearer-token",
+        filter: "auth-signin",
+        provider: "firebase",
+        service: _ => this.credentialSignin(_)
+      })
+      Factor.$filters.addService({
+        provider: "firebase",
+        filter: "auth-request-bearer-token",
         service: _ => this.getIdToken()
       })
     }

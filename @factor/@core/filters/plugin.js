@@ -44,17 +44,17 @@ module.exports = Factor => {
 
       const results = await Promise.all(added)
 
-      return Factor.$lodash.flatten(results)[0]
+      return results[0] // always take the results from first service?
     }
 
     // Services should always be an array of promises
     // This function allows a simple async function to be added as an arg
     // then it turns it into the array format needed
     addService(args) {
-      let { name, service, options } = args
-
+      let { filter, service, provider = "", options = {} } = args
+      options.provider = provider
       this.add(
-        name,
+        filter,
         (_, filterArgs) => {
           _.push(service(filterArgs))
           return _
@@ -101,7 +101,7 @@ module.exports = Factor => {
       return this._applied[name]
     }
 
-    add(name, filter, { context = false, priority = 100 } = {}) {
+    add(name, filter, { context = false, priority = 100, provider = "" } = {}) {
       if (!this._filters[name]) {
         this._filters[name] = {}
       }
@@ -109,7 +109,7 @@ module.exports = Factor => {
       // create unique ID
       // In certain situations (HMR, dev), the same filter can be added twice
       // Using objects and a hash identifier solves that
-      const id = "id" + this.uniqueHash(filter)
+      const id = `id_${provider}${this.uniqueHash(filter)}`
 
       // For simpler assignments where no callback is needed
       const callback = typeof filter != "function" ? () => filter : filter

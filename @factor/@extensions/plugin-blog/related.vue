@@ -36,7 +36,7 @@ export default {
     }
   },
   async created() {
-    this.posts = await this.$posts.getTable({
+    this.posts = await this.$posts.getPostIndex({
       type: "blog",
       limit: 3,
       storeKey: "related",

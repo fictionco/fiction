@@ -8,6 +8,6 @@
   },
   "factor": {
     "id": "endpoint",
-    "target": ["app"]
+    "target": ["app", "build"]
   }
 }

@@ -14,7 +14,8 @@ module.exports = Factor => {
         "plugins-loader-app": res(gen, "load-plugins-app.js"),
         "plugins-loader-build": res(gen, "load-plugins-build.js"),
         "plugins-loader-serverless": res(gen, "load-plugins-serverless.js"),
-        "plugins-loader-themes": res(gen, "load-themes.js")
+        "plugins-loader-themes": res(gen, "load-themes.js"),
+        "app-package": res(Factor.$paths.get("app"), "package.json")
       })
 
       if (Factor.FACTOR_ENV == "build") {
@@ -93,6 +94,9 @@ module.exports = Factor => {
       const fs = require("fs-extra")
 
       const filtered = extensions.filter(_ => {
+        if (_.scope == "theme" && !target.includes("themes")) {
+          return false
+        }
         if (_.target) {
           if (typeof _.target == "string") {
             if (target.includes(_.target)) {
@@ -148,7 +152,8 @@ module.exports = Factor => {
         patterns.push(path.resolve(_, `./${this.namespace}*/package.json`))
       })
 
-      patterns.push(path.resolve(Factor.$paths.get("app"), `package.json`))
+      // Add package.json from CWD - Application directory
+      patterns.push(Factor.$paths.get("app-package"))
 
       return patterns
     }
@@ -156,12 +161,12 @@ module.exports = Factor => {
     getExtensions() {
       const glob = require("glob").sync
 
-      let packages = []
+      let packagePaths = []
       this.getExtensionPatterns().forEach(pattern => {
-        packages = packages.concat(glob(pattern))
+        packagePaths = packagePaths.concat(glob(pattern))
       })
 
-      return this.makeLoader(packages)
+      return this.makeLoader(packagePaths)
     }
 
     sortPriority(arr) {
@@ -174,16 +179,29 @@ module.exports = Factor => {
       })
     }
 
-    makeLoader(packages) {
+    makeLoader(packagePaths) {
       const loader = []
-      packages.forEach(_ => {
+      packagePaths.forEach(_ => {
         let fields = {}
         if (_.includes("package.json")) {
-          const {
+          let {
             name,
-            factor: { id, priority = 100, target = false, service = "", provider = "" } = {},
+            factor: {
+              id,
+              priority = 100,
+              target = false,
+              service = "",
+              provider = "",
+              scope = "extension"
+            } = {},
             version
           } = require(_)
+
+          // Change scope if package is actually the app (themes vs app)
+          // Useful for theme development
+          if (_ == Factor.$paths.get("app-package")) {
+            scope = "application"
+          }
 
           fields = {
             version,
@@ -192,6 +210,7 @@ module.exports = Factor => {
             target,
             service,
             provider,
+            scope,
             id:
               id ||
               this.makeId(name.split(/endpoint|plugin|theme|service|@factor|@fiction/gi).pop())

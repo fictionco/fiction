@@ -7,7 +7,9 @@
     "access": "public"
   },
   "factor": {
-    "target": "app"
+    "target": ["app", "build"],
+    "service": "db",
+    "provider": "algolia"
   },
   "dependencies": {
     "algoliasearch": "^3.24.5",
