@@ -1,7 +1,12 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*", "@factor/services/@*/*"],
+  "workspaces": [
+    "@fiction/*",
+    "@factor/*",
+    "@factor/@*/*",
+    "@factor/services/@*/*"
+  ],
   "private": true,
   "publishConfig": {
     "access": "public"
@@ -18,7 +23,6 @@
     "fiction:prep": "yarn prep && yarn fiction:dev",
     "fiction:dev": "yarn workspace @fiction/www dev",
     "fiction:start": "yarn prep && yarn workspace @fiction/www start",
-
     "fiction:build": "yarn workspace @fiction/www build",
     "fiction:deploy": "yarn workspace @fiction/www deploy",
     "fiction:serve": "yarn workspace @fiction/www serve",
