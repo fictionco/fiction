@@ -7,7 +7,7 @@
           v-for="(col, iCol) in structure"
           :key="iCol"
           class="dbt-col"
-          :class="[col.type, col.size]"
+          :class="[col.type, col.size, col.column]"
         >{{ $utils.toLabel(col.column) }}</div>
       </div>
       <div

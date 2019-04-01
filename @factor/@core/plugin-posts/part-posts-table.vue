@@ -6,11 +6,14 @@
       class="post-table"
       :structure="tableStructure()"
       :row-items="rows"
-      :zero-state="2"
+      :zero-state="7"
     >
       <template slot-scope="{column, item, row, index}">
+        <div v-if="column == 'select'">
+          <factor-input-checkbox label />
+        </div>
         <div v-if="column == 'title'" class="post-title">
-          <factor-link :path="`/admin/posts/edit`" :query="{id: row.id}">{{ item }}</factor-link>
+          <factor-link :path="`${$route.path}/edit`" :query="{id: row.id}">{{ item }}</factor-link>
           <factor-link
             v-if="row.permalink"
             class="permalink"
@@ -23,23 +26,13 @@
         </div>
 
         <div v-else-if="column == 'meta'" class="meta">
-          <span class="meta type">
-            <label>Type</label>
-            <span class="val">{{ $utils.toLabel(row.type) }}</span>
-          </span>
-          <span class="meta date">
-            <label>Date</label>
-            <span class="val">{{ $time.niceFormat(row.date) }}</span>
-          </span>
           <span class="meta status">
-            <label>Status</label>
             <span class="val">{{ $utils.toLabel(row.status) }}</span>
           </span>
+          <span class="meta date">
+            <span class="val">{{ $time.niceFormat(row.date) }}</span>
+          </span>
         </div>
-
-        <template v-else-if="column == 'actions'">
-          <factor-link @click.prevent="$emit('trash', row.id, index)">Trash</factor-link>
-        </template>
       </template>
     </dashboard-table>
   </dashboard-pane>
@@ -68,6 +61,10 @@ export default {
     tableStructure() {
       return [
         {
+          column: "select",
+          size: "40px"
+        },
+        {
           column: "title",
           size: "2fr",
           type: "double"
@@ -80,11 +77,6 @@ export default {
         },
         {
           column: "meta",
-          size: "1fr",
-          type: "single"
-        },
-        {
-          column: "actions",
           size: "1fr",
           type: "single"
         }
@@ -101,7 +93,8 @@ export default {
   .post-title {
     > a {
       display: block;
-      font-size: 1.3em;
+      font-size: 1.4em;
+      line-height: 1.2;
     }
     .permalink {
       margin-top: 5px;
@@ -124,6 +117,9 @@ export default {
     .user-card-wrap {
       margin: 0 3px 3px 0;
     }
+  }
+  .select {
+    text-align: center;
   }
 }
 </style>

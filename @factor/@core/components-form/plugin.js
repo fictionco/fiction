@@ -14,6 +14,7 @@ export default Factor => {
         _["factor-input-user-list"] = () => import("./el/user-list")
         _["factor-input-textarea"] = () => import("./el/textarea")
         _["factor-input-phone"] = () => import("./el/phone")
+        _["factor-input-checkbox"] = () => import("./el/checkbox")
 
         _["factor-input-image-upload"] = () => import("./el/image-upload")
 
