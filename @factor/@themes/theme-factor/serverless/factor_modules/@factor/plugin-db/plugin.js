@@ -1,15 +1,9 @@
 module.exports.default = Factor => {
   return new class {
-    async publish(query) {
-      return this.query({
-        method: "publish",
-        ...query
-      })
-    }
-
     async search(query) {
       return this.query({
         method: "search",
+        returnType: [],
         ...query
       })
     }
@@ -17,6 +11,7 @@ module.exports.default = Factor => {
     async read(query) {
       return this.query({
         method: "read",
+        returnType: {},
         ...query
       })
     }
@@ -24,21 +19,21 @@ module.exports.default = Factor => {
     async update(query) {
       return this.query({
         method: "update",
+        returnType: true,
         ...query
       })
     }
 
     async query(args) {
-      const { method } = args
+      const { method = "query", returnType = [] } = args
+
       const entry = await Factor.$filters.applyService({
         service: "db",
         filter: `db-service-${method}`,
         args
       })
 
-      const { results = null } = entry || {}
-
-      return results
+      return entry || returnType
     }
 
     prepare(obj) {
