@@ -310,7 +310,6 @@ export default {
       this.$storage.upload({
         path,
         file,
-        addWatermark: this.watermark,
         preprocess: ({ mode, percent, preview = false }) => {
           //   this.$set(item, "progress", percent)
           if (preview) {
