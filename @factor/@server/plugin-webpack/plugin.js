@@ -232,11 +232,11 @@ module.exports.default = Factor => {
               loader: "vue-loader"
             },
 
-            {
-              test: /\.js$/,
-              loader: "babel-loader",
-              options: require("@factor/build-transpiler")(Factor).config({ target: "app" })
-            },
+            // {
+            //   test: /\.js$/,
+            //   loader: "babel-loader",
+            //   options: require("@factor/build-transpiler")(Factor).config({ target: "app" })
+            // },
             {
               test: /\.(png|jpg|gif|svg)$/,
               loader: "file-loader",

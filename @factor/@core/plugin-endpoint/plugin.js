@@ -32,7 +32,7 @@ export default Factor => {
 
       params.uid = params.uid ? params.uid : Factor.$user.uid()
 
-      const { uid, action = false, endpoint = "" } = params
+      const { action = false, endpoint = "" } = params
 
       const rurl = `${this.urlBase}/${endpoint}`
 

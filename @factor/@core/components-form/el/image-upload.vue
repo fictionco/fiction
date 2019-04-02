@@ -64,7 +64,7 @@
               >
               <div class="upload-status">
                 <div class="wrp">
-                  <i class="fa fa-image" />
+                  <i class="fa fa-arrow-up" />
                   <span v-if="images.length == 1 && max == 1">Swap</span>
                   <span v-else>Add</span>
                 </div>
@@ -111,12 +111,10 @@ export default {
     dest() {
       return this.$attrs["input-destination"]
         ? this.$attrs["input-destination"]
-        : `/user/__uid/photos/__guid.__ext`
+        : `/media/__month/__name.__ext`
     },
     isRequired() {
-      return this.$attrs["input-destination"]
-        ? this.$attrs["input-destination"]
-        : `/user/__uid/photos/__guid.__ext`
+      return typeof this.$attrs["required"] != "undefined" ? true : false
     }
   },
 
@@ -152,7 +150,7 @@ export default {
 
       document.execCommand("copy")
 
-      this.$notify.notify("Url Copied")
+      this.$events.$emit("notify", "Url Copied")
     },
     styleImageBG(img) {
       const { preview, url } = img
@@ -277,12 +275,12 @@ export default {
 
       for (let file of files) {
         if (this.images.length < this.max) {
-          const guid = this.$utils.GUID()
+          const guid = this.$guid()
 
           const img = {
             guid,
             type: file.type,
-            ext: this.$utils.fileExtension(file.name),
+            ext: file.name.split(".").pop(),
             size: file.size,
             name: file.name,
             uid: this.$uid,
@@ -513,16 +511,15 @@ export default {
   &:active,
   &:focus {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-
     color: #0496ff;
   }
 }
 .image-drop .image-item-content {
   text-align: center;
   position: relative;
-  color: rgba(0, 0, 0, 0.14);
-  background-color: #fff;
-  box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15);
+  color: @color-placeholder;
+  background-color: @factor-input-bg;
+  box-shadow: @factor-input-shadow;
   border-radius: 4px;
 
   .upload-icon {
@@ -544,14 +541,12 @@ export default {
 
   &.dragover,
   &:hover {
-    border: 1px solid #ff0076;
-    color: #ff0076;
+    opacity: 0.8;
     cursor: pointer;
   }
   &:active,
   &:focus {
-    border: 1px solid #0496ff;
-    color: #0496ff;
+    opacity: 1;
   }
   .input-upload {
     position: absolute;

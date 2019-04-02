@@ -1,0 +1,18 @@
+{
+  "name": "@factor/plugin-storage",
+  "factor": {
+    "target": [
+      "app"
+    ],
+    "scope": "core"
+  },
+  "version": "0.0.7",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "plugin.js",
+  "dependencies": {
+    "blueimp-load-image": "^2.20.1"
+  }
+}

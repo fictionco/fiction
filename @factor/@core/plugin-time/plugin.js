@@ -18,6 +18,10 @@ export default Factor => {
       }
     }
 
+    iMonth() {
+      return this.util().format("YYYY-MM")
+    }
+
     niceFormat(time) {
       return this.util(time).format("MMM DD, YYYY")
     }
