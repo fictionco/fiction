@@ -4,18 +4,13 @@ service firebase.storage {
       allow read;
     }
 
-    match /user/{userId}/{allPaths=**} {
-      allow write, update: if request.auth.uid == userId && request.resource.size < 30 * 1024 * 1024;
-    	allow delete: if request.auth.uid == userId;
+    match /user/{uid}/{allPaths=**} {
+      allow write, update: if request.auth.uid == uid && request.resource.size < 30 * 1024 * 1024;
+    	allow delete: if request.auth.uid == uid;
     }
 
-
-    match /listing/{listingId}/{allPaths=**} {
-      allow write, update;
-    }
-
-    match /posts/{id}/{allPaths=**} {
-      allow write, update, delete: if request.auth.token.admin == true
+    match /public/{allPaths=**} {
+      allow write, update, delete: if request.auth.token.accessLevel >= 200
     }
   }
 }

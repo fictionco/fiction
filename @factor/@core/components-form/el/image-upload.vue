@@ -9,7 +9,6 @@
           :class="max <= 1 ? 'no-sort-img' : 'sort-img'"
           :test="img.guid"
           class="image-item image-uploaded"
-          @click="lightboxShow = true; lightboxIndex = index"
         >
           <div class="image-item-pad">
             <div
@@ -18,31 +17,23 @@
               class="image-item-content"
             >
               <div class="status-bar">
-                <transition name="downfade">
-                  <div
-                    v-if="img.status === 'progress' || img.status === 'preprocess'"
-                    class="status overlay"
-                    :class="img.status"
-                  >
-                    <div :style="{width: `${img.progress}%`}" class="bar" />
-                  </div>
-                  <div v-else-if="img.status === 'complete'" class="status overlay success">
-                    <i class="fa fa-check" />
-                  </div>
-                  <div v-else-if="img.status === 'error'" class="status overlay failure">
-                    <i class="fa fa-remove" />
-                  </div>
-                  <div
-                    v-else
-                    class="status overlay trash"
-                    @click.stop="removeImage(img.path, index)"
-                  >
-                    <i class="fa fa-remove" />
-                  </div>
-                </transition>
-                <div class="status overlay copy-url" @click.stop="copyUrl(img.url)">
-                  <i class="fa fa-copy" />
+                <div
+                  v-if="img.status === 'progress' || img.status === 'preprocess'"
+                  class="image-status overlay"
+                  :class="img.status"
+                >
+                  <div :style="{width: `${img.progress}%`}" class="bar" />
                 </div>
+                <div v-else-if="img.status === 'complete'" class="image-status success">
+                  <i class="fa fa-check" />
+                </div>
+                <factor-menu
+                  v-else
+                  :item-key="index"
+                  class="menu image-status"
+                  :list="['view', 'copy-URL', 'delete']"
+                  @action="action($event)"
+                />
               </div>
             </div>
           </div>
@@ -111,7 +102,7 @@ export default {
     dest() {
       return this.$attrs["input-destination"]
         ? this.$attrs["input-destination"]
-        : `/media/__month/__name.__ext`
+        : `/public/__month/__name`
     },
     isRequired() {
       return typeof this.$attrs["required"] != "undefined" ? true : false
@@ -138,19 +129,33 @@ export default {
     this.dom()
   },
   methods: {
+    action({ key, value }) {
+      const image = this.images[key]
+      if (value == "view") {
+        this.lightboxShow = true
+        this.lightboxIndex = key
+      } else if (value == "copy-URL") {
+        this.copyUrl(key)
+      } else if (value == "delete") {
+        this.removeImage(key)
+      }
+    },
     doCallback(img) {
       if (this.callback && typeof this.callback == "function") {
         this.callback(img)
         this.callback = null
       }
     },
-    copyUrl(path) {
-      this.copyText = path
-      this.$refs.copyInput.select()
+    copyUrl(key) {
+      const image = this.images[key]
+      this.copyText = image.url
+      this.$nextTick(() => {
+        this.$refs.copyInput.select()
 
-      document.execCommand("copy")
+        document.execCommand("copy")
 
-      this.$events.$emit("notify", "Url Copied")
+        this.$events.$emit("notify", "Url Copied")
+      })
     },
     styleImageBG(img) {
       const { preview, url } = img
@@ -255,29 +260,33 @@ export default {
         this.$emit("autosave", output)
       }, 100)
     },
-    removeImage(path = "", index) {
+
+    removeImage(index) {
+      const image = this.images[index]
       // If no path provided, we can't delete
-      if (path) {
-        this.$storage.delete({ path })
+      if (image.path) {
+        this.$storage.delete({ path: image.path })
       }
 
       this.$delete(this.images, index)
       this.updateValue()
     },
+
     handleMultiUpload(e) {
       this.handleMultiImage(e.target.files)
     },
+
     async handleMultiImage(files) {
       this.numFiles = 0
       if (files[0] && this.max == 1 && this.images.length >= 1) {
-        this.removeImage(this.images[0].path, 0)
+        this.removeImage(0)
       }
 
       for (let file of files) {
         if (this.images.length < this.max) {
           const guid = this.$guid()
 
-          const img = {
+          const data = {
             guid,
             type: file.type,
             ext: file.name.split(".").pop(),
@@ -287,27 +296,29 @@ export default {
             status: "preprocess"
           }
 
-          img.path = this.$storage.createPath(this.dest, img)
+          data.path = this.$storage.createPath(this.dest, data)
 
-          let index = this.images.push(img) - 1
+          let index = this.images.push(data) - 1
 
           this.numFiles++
           this.uploadFile({
+            data,
             file,
             index,
-            path: img.path
+            path: data.path
           })
         }
       }
     },
 
-    uploadFile({ file, index, path }) {
+    uploadFile({ data, file, index, path }) {
       this.uploadedFiles = 0
       const item = this.images[index]
 
       this.$emit("upload", { file, index, path, item })
 
       this.$storage.upload({
+        data,
         path,
         file,
         preprocess: ({ mode, percent, preview = false }) => {
@@ -365,43 +376,20 @@ export default {
   max-width: 100%;
   position: relative;
   .image-organizer {
-    display: flex;
-    flex-wrap: wrap;
-
+    display: grid;
+    //grid-auto-columns: minmax(10px, 80px);
+    grid-template-columns: repeat(auto-fit, minmax(50px, 60px));
+    grid-gap: 7px;
     &.hidden {
       display: none;
     }
-    opacity: block;
+
     transition: opacity 0.5s;
-    .sort-img.image-uploaded:first-child .image-item-content {
-      //border: 3px solid rgba(0, 0, 0, 0.3);
-      position: relative;
-      &:after {
-        opacity: 1;
-        text-align: center;
-        content: "Primary";
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.4);
-        color: #fff;
-        font-size: 10px;
-        line-height: 1.6;
-        transition: 0.2s opacity;
-      }
-      &:hover:after {
-        opacity: 0.8;
-      }
-    }
   }
 }
 .image-item {
-  // flex-basis: 20%;
-  width: 65px;
-  height: 65px;
   position: relative;
 
-  margin: 0 7px 7px 0;
   display: block;
   &.sort-img {
     cursor: grab;
@@ -411,9 +399,6 @@ export default {
     width: 100%;
     height: 100%;
   }
-  &:hover .status.trash {
-    opacity: 1;
-  }
 }
 .image-upload-container {
   .invisible-copy {
@@ -421,96 +406,74 @@ export default {
     left: -9999px;
   }
 }
-.image-upload-container .status {
+.image-upload-container .image-status {
   line-height: 1.2;
   text-align: center;
   position: relative;
-  .icon {
-    font-size: 1.3em;
-  }
+  padding: 2px;
+
+  line-height: 1;
+  border-radius: 5px;
+  opacity: 1;
+  height: 5px;
 
   &.overlay {
-    transition: all 0.4s;
-    color: #fff;
-    border-radius: 2px;
-    .fa {
-      line-height: 1.2em;
-      width: 1.2em;
-    }
-    &:hover {
-      cursor: pointer;
-      background: rgba(0, 0, 0, 0.4);
-    }
-  }
-  &.trash,
-  &.complete,
-  &.copy-url {
-    margin: 2px;
-  }
-
-  &.trash,
-  &.copy-url {
-    opacity: 0.5;
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  &.progress,
-  &.preprocess {
-    height: 5px;
-    width: 80%;
     background: rgba(0, 0, 0, 0.4);
     position: absolute;
-    bottom: 10%;
+    top: 10%;
     left: 10%;
-    .bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: rgba(255, 255, 255, 1);
-      width: 0%;
+    width: 80%;
+  }
+  &.complete {
+    color: #fff;
+  }
+  .bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 1);
+    width: 0%;
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.8s;
+    transition: all 0.2s;
+  }
+  &.menu {
+    height: 100%;
+    width: 100%;
+    .toggle-btn {
+      opacity: 0;
       height: 100%;
-      border-radius: 8px;
-      transition: width 0.8s;
-      transition: all 0.2s;
     }
   }
 }
 .image-item-content {
+  box-shadow: inset @factor-input-shadow;
   transition: 0.1s all;
   border-radius: 3px;
   width: 100%;
-  height: 100%;
+  padding: 50% 0;
+  // height: 100%;
   position: relative;
   background-size: cover;
   background-position: 50%;
-  overflow: hidden;
+
   display: flex;
-  background-color: #f7f7f7;
+  background-color: @factor-input-bg;
   .status-bar {
+    top: 0;
+    position: absolute;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
+    height: 100%;
+    text-align: center;
   }
   &.preprocess {
-    background-color: #0496ff;
+    background-color: @factor-color-text;
   }
 
-  &.no-status {
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
   &.dragover,
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 15px rgba(0, 0, 0, 0.1);
     cursor: move;
-  }
-  &:active,
-  &:focus {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    color: #0496ff;
   }
 }
 .image-drop .image-item-content {
@@ -518,7 +481,7 @@ export default {
   position: relative;
   color: @color-placeholder;
   background-color: @factor-input-bg;
-  box-shadow: @factor-input-shadow;
+  box-shadow: inset @factor-input-shadow;
   border-radius: 4px;
 
   .upload-icon {
@@ -536,13 +499,11 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 12px;
+    position: absolute;
+    height: 100%;
+    top: 0;
   }
 
-  &.dragover,
-  &:hover {
-    opacity: 0.8;
-    cursor: pointer;
-  }
   &:active,
   &:focus {
     opacity: 1;

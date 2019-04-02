@@ -49,7 +49,6 @@
             input="factor-input-image-upload"
             label="Sharing Image"
             input-max="1"
-            :input-destination="`/posts/${post.id}/__name.__ext`"
           />
         </dashboard-pane>
       </div>
@@ -105,7 +104,6 @@
             v-model="post.images"
             input="factor-input-image-upload"
             label="Post Images"
-            :input-destination="`/posts/${post.id}/__name.__ext`"
           />
         </dashboard-pane>
         <dashboard-pane title="Tags">

@@ -9,7 +9,8 @@
   "factor": {
     "target": ["app", "build"],
     "service": "db",
-    "provider": "algolia"
+    "provider": "algolia",
+    "id": "algolia"
   },
   "dependencies": {
     "algoliasearch": "^3.24.5",

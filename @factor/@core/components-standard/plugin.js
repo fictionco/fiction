@@ -15,6 +15,7 @@ export default Factor => {
         _["factor-pop"] = () => import("./el/pop")
         _["factor-logo"] = () => import("./el/logo")
         _["factor-card-user"] = () => import("./el/card-user")
+        _["factor-menu"] = () => import("./el/menu")
         return _
       })
     }

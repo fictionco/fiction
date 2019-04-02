@@ -68,7 +68,7 @@ export default {
 .app-layout {
   //background: #fafbff;
   background-color: #f3f5fa;
-  height: 100vh;
+
   display: flex;
   flex-direction: column;
 

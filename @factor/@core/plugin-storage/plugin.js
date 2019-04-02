@@ -40,6 +40,10 @@ module.exports.default = Factor => {
     async upload(args) {
       args.file = await this.preupload(args)
 
+      args.metadata = {
+        uid: args.uid || Factor.$user.uid()
+      }
+
       this.request({
         method: "upload",
         args
