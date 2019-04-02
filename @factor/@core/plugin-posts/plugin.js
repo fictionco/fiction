@@ -380,7 +380,7 @@ export default Factor => {
     // This should be merged into existing post (update)
     async saveDraft({ id, revisions }) {
       const data = {
-        revision: this._cleanRevisions(revisions)
+        revisions: this._cleanRevisions(revisions)
       }
       const query = {
         collection: "public",
@@ -392,7 +392,7 @@ export default Factor => {
 
       const response = await Factor.$db.update(query)
 
-      console.log("[draft saved]", query, revisions)
+      console.log("[draft saved]", query, data, revisions)
 
       return response
     }

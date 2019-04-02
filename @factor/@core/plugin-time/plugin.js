@@ -27,7 +27,7 @@ export default Factor => {
     }
 
     timeFormat(time) {
-      return this.util(time).format("HH:mm, MMM D")
+      return this.util(time).format("h:mma (MM/D)")
     }
 
     iFormat(time) {

@@ -16,6 +16,7 @@ export default Factor => {
         _["factor-logo"] = () => import("./el/logo")
         _["factor-card-user"] = () => import("./el/card-user")
         _["factor-menu"] = () => import("./el/menu")
+        _["factor-tag"] = () => import("./el/tag")
         return _
       })
     }

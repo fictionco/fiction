@@ -71,7 +71,7 @@ export default {
 
   display: flex;
   flex-direction: column;
-
+  min-height: 100vh;
   .app-content {
     display: flex;
     flex-grow: 1;

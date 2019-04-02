@@ -84,11 +84,24 @@
           />
 
           <div v-if="!$lodash.isEmpty(lastRevision)" class="save-info">
-            <factor-loading-ring v-if="sendingDraft" width="1em" />
-            <div v-else>Draft Saved at {{ $time.timeFormat(lastRevision.timestamp) }}</div>
-            <div v-if="!lastRevision.published" class="changes">
-              <span class="unpublished">There are unpublished changes.</span>
-              <span v-if="canRevert" class="revert" @click="revertChanges()">Revert?</span>
+            <factor-loading-ring v-if="sendingDraft" width="1.4em" />
+            <template v-else>
+              <div
+                v-if="!lastRevision.published"
+                class="changes unpublished"
+              >There are unpublished changes.</div>
+              <div
+                class="saved-at"
+              >Draft Saved at {{ $time.util(lastRevision.timestamp).format("h:mma (M/D)") }}</div>
+            </template>
+            <div class="draft-actions">
+              <factor-btn size="tiny" class="save-draft" @click="saveDraft()">Save Draft</factor-btn>
+              <factor-btn
+                v-if="canRevert"
+                size="tiny"
+                class="revert"
+                @click="revertChanges()"
+              >Revert to published?</factor-btn>
             </div>
           </div>
           <template slot="actions">
@@ -104,6 +117,7 @@
             v-model="post.images"
             input="factor-input-image-upload"
             label="Post Images"
+            @autosave="saveDraft()"
           />
         </dashboard-pane>
         <dashboard-pane title="Tags">
@@ -225,6 +239,8 @@ export default {
       this.isNew = !existing || !existing.id ? true : false
 
       this.post = Object.assign({}, starting, existing, lastRev)
+
+      console.log("POST", lastRev, this.post)
     },
 
     doAutosave() {
@@ -368,16 +384,21 @@ export default {
   .save-info {
     line-height: 1.5;
     font-size: 12px;
-    opacity: 0.5;
-    .changes {
+    opacity: 0.4;
+    .draft-actions {
       display: flex;
       justify-content: space-between;
+      padding: 8px 0;
+      .el-tag {
+        margin-right: 8px;
+      }
+    }
+    .changes {
     }
     .unpublished {
-      color: #0496ff;
+      font-weight: 600;
     }
     .revert {
-      opacity: 0.5;
       cursor: pointer;
     }
   }
