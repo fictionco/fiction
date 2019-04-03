@@ -63,10 +63,18 @@ export default Factor => {
     async search(args) {
       const { index, ...algoliaSearchArgs } = this.transformQuery(args)
       const r = await new Promise((resolve, reject) => {
-        this.client.initIndex(index).search(algoliaSearchArgs, (err, content) => {
-          //console.log("Algolia Result", algoliaSearchArgs, index, content, err)
+        this.client.initIndex(index).search(algoliaSearchArgs, (err, r) => {
+          console.log("Algolia Result", r, algoliaSearchArgs, index, err)
           if (err) reject(err)
-          else resolve(content.hits)
+          else
+            resolve({
+              data: r.hits,
+              total: r.nbHits,
+              categories: r.facets,
+              pageCurrent: r.page + 1,
+              pageTotal: r.nbPages,
+              pagePer: r.hitsPerPage
+            })
         })
       })
       return r
@@ -109,6 +117,8 @@ export default Factor => {
 
         out.filters = algoliaFilters.join(" AND ")
       }
+
+      out.facets = ["*"]
 
       // Pagination
       if (limit) {

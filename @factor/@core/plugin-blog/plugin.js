@@ -11,7 +11,10 @@ export default Factor => {
         _.push({
           type,
           base,
-          icon: require("./img/posts.svg")
+          icon: require("./img/posts.svg"),
+
+          nameSingle: "Blog Post",
+          namePlural: "Blog Posts"
         })
 
         return _

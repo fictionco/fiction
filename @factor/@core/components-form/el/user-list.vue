@@ -100,7 +100,9 @@ export default {
           collection: "public",
           type: "users"
         })
-        this.searchResults = results.filter(_ => _.displayName && _.photoURL)
+        this.searchResults = results.data.filter(
+          _ => _.displayName && _.photoURL
+        )
       } else {
         this.searchResults = []
       }

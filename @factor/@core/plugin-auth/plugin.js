@@ -34,11 +34,13 @@ export default Factor => {
     }
 
     async authenticate(args) {
-      const credentials = await Factor.$filters.applyService({
+      const served = await Factor.$filters.applyService({
         service: "auth",
         filter: "auth-signin",
         args
       })
+
+      const credentials = served[0] ? served[0].result : false
 
       if (credentials) {
         Factor.$events.$emit("auth-user-signed-in", credentials)
@@ -115,11 +117,12 @@ export default Factor => {
     }
 
     async getRequestBearerToken() {
-      const token = await Factor.$filters.applyService({
+      const served = await Factor.$filters.applyService({
         service: "auth",
         filter: "auth-request-bearer-token"
       })
 
+      const token = served[0] ? served[0].result : false
       return token
     }
 

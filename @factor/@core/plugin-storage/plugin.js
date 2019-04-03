@@ -26,11 +26,13 @@ module.exports.default = Factor => {
 
     // ENDPOINT
     async request({ method, args }) {
-      return await Factor.$filters.applyService({
+      const served = await Factor.$filters.applyService({
         service: "storage",
         filter: `storage-service-${method}`,
         args
       })
+
+      return served[0] ? served[0].result : false
     }
 
     async delete(args) {

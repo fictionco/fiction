@@ -2,8 +2,8 @@
   <div class="app-nav-pad">
     <div class="nav-list">
       <div
-        v-for="(primary) in appMenu"
-        :key="primary.group"
+        v-for="(primary, index) in appMenu"
+        :key="index"
         class="nav-set"
         :class="primary.title ? 'has-title' : ''"
       >

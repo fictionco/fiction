@@ -42,21 +42,35 @@ module.exports = Factor => {
         return null
       }
 
-      const results = await Promise.all(added)
+      const resultsArray = await Promise.all(added.map(({ service }) => service))
 
-      return results[0] // always take the results from first service?
+      return added.map((item, index) => {
+        return {
+          ...item,
+          result: resultsArray[index]
+        }
+      })
     }
 
     // Services should always be an array of promises
     // This function allows a simple async function to be added as an arg
     // then it turns it into the array format needed
     addService(args) {
-      let { filter, service, provider = "", options = {} } = args
+      let { filter, service, key = false, provider = "service", options = {} } = args
       options.provider = provider
+
+      key = key || provider || Factor.$guid()
+
       this.add(
         filter,
-        (_, filterArgs) => {
-          _.push(service(filterArgs))
+        (_, params) => {
+          _.push({
+            service: service(params),
+            provider,
+            key,
+            params
+          })
+
           return _
         },
         options

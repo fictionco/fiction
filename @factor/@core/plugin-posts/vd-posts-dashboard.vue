@@ -1,20 +1,13 @@
 <template>
   <dashboard-page :loading="loading" class="posts-dashboard">
-    <posts-table :rows="posts" :loading="loading">
-      <template v-slot:title>
-        <factor-btn
-          :btn="buttonState('draft')"
-          @click="setStatus(['draft', 'published'])"
-        >{{ title }}</factor-btn>
-        <factor-btn :btn="buttonState('trash')" @click="setStatus(['trash'])">Trash</factor-btn>
-      </template>
+    <posts-table :rows="posts" :loading="loading" :meta="postIndex" :title="postTypeLabel">
       <template slot="nav">
         <factor-link
           :path="`/dashboard/posts/${postType}/add-new`"
           btn="primary"
           data-test="add-post"
         >
-          Add {{ postTypeLabel }}
+          Add New
           <i class="fa fa-arrow-right" />
         </factor-link>
       </template>
@@ -30,13 +23,13 @@ export default {
     return {
       loading: true,
       type: "blog",
-      posts: [],
+      postIndex: {},
       status: ["published", "draft"]
     }
   },
   metatags() {
     return {
-      title: this.title
+      title: this.postTypeLabel
     }
   },
 
@@ -45,10 +38,11 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
-      return this.$utils.toLabel(this.postType)
+      const postTypeInfo = this.$posts.postTypeInfo(this.postType)
+      return postTypeInfo.namePlural
     },
-    title() {
-      return `${this.postTypeLabel} Posts`
+    posts() {
+      return this.postIndex.posts
     }
   },
   watch: {
@@ -80,7 +74,7 @@ export default {
     async setPosts() {
       const status = this.status || ["published", "draft"]
       this.loading = true
-      this.posts = await this.$posts.getPostIndex({
+      this.postIndex = await this.$posts.getPostIndex({
         type: this.postType,
         status
       })

@@ -17,31 +17,41 @@ module.exports.default = Factor => {
     }
 
     async read(query) {
-      return this.query({
+      const q = await this.query({
         method: "read",
         returnType: {},
         ...query
       })
+
+      return q.data
     }
 
     async update(query) {
-      return this.query({
+      const q = await this.query({
         method: "update",
         returnType: true,
         ...query
       })
+      return q.data
     }
 
     async query(args) {
       const { method = "query", returnType = [] } = args
 
-      const entry = await Factor.$filters.applyService({
+      const served = await Factor.$filters.applyService({
         service: "db",
         filter: `db-service-${method}`,
         args
       })
 
-      return entry || returnType
+      const result = served[0] ? served[0].result : { data: returnType }
+
+      const entry = {
+        data: returnType,
+        ...result
+      }
+
+      return entry
     }
 
     prepare(obj) {

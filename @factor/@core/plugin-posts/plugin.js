@@ -101,11 +101,11 @@ export default Factor => {
       Factor.$filters.add("site-route-promises", setPost)
 
       Factor.$filters.add("dashboard-menu", _ => {
-        this.getPostTypes().forEach(({ type, base, name, icon = "" }) => {
+        this.getPostTypes().forEach(({ type, base, namePlural, icon = "" }) => {
           _.push({
             group: type,
             path: `posts/${type}`,
-            name: name || Factor.$utils.toLabel(type),
+            name: namePlural || Factor.$utils.toLabel(type),
             icon,
             items: Factor.$filters.apply(`dashboard-menu-post-${type}`, [
               {
@@ -182,22 +182,25 @@ export default Factor => {
 
       const query = { collection: "public", limit, filters }
 
-      const posts = await Factor.$db.search(query)
+      const results = await Factor.$db.search(query)
 
-      const parsed = await this.parsePosts(posts)
+      results.posts = await this.parsePosts(results.data)
+      console.log("RESULTS", results)
 
       Factor.$store.commit("setItem", {
         item: storeKey,
-        value: parsed
+        value: results
       })
 
-      return parsed
+      return results
     }
 
     async parsePosts(posts) {
       if (!posts || posts.length == 0) {
         return []
       }
+
+      console.log("parse, post", posts)
 
       const _promises = posts.reverse().map(async p => {
         let authorData = []
@@ -241,17 +244,28 @@ export default Factor => {
         {
           type: "page",
           base: "",
-          icon: require("./img/pages.svg")
+          icon: require("./img/pages.svg"),
+          nameIndex: "Pages",
+          nameSingle: "Page",
+          namePlural: "Pages"
         }
       ]
 
       return Factor.$filters.apply("post-types", initialPostTypes).map(_ => {
         return {
-          ..._,
           base: typeof _.base == "undefined" ? _.type : _.base,
-          name: Factor.$utils.toLabel(_.type)
+          nameIndex: Factor.$utils.toLabel(_.type),
+          nameSingle: Factor.$utils.toLabel(_.type),
+          namePlural: Factor.$utils.toLabel(_.type),
+          ..._
         }
       })
+    }
+
+    postTypeInfo(postType) {
+      const postTypes = this.getPostTypes()
+
+      return postTypes.find(pt => pt.type == postType)
     }
 
     getPermalink({ type, permalink = "", root = true, path = false } = {}) {

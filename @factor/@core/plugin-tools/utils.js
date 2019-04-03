@@ -77,6 +77,11 @@ module.exports.default = Factor => {
     }
 
     stopWordLowercase(str) {
+      const words = str.split(" ")
+
+      if (words.length <= 1) {
+        return str
+      }
       const stopwords = require("stopwords").english
 
       const regex = new RegExp("\\b(" + stopwords.join("|") + ")\\b", "gi")

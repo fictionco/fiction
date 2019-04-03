@@ -100,9 +100,9 @@ export default {
 
     .dbt-row {
       padding: 1em 0;
-      font-weight: 600;
+
       display: grid;
-      // align-items: center;
+
       grid-template-columns: repeat(5, 1fr);
       grid-column-gap: 2em;
 

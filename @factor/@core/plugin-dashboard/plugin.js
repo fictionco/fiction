@@ -19,6 +19,7 @@ export default Factor => {
         _["dashboard-page"] = () => import("./page")
         _["dashboard-banner"] = () => import("./banner")
         _["dashboard-table"] = () => import("./table")
+        _["dashboard-table-controls"] = () => import("./table-controls")
         _["dashboard-form-grid"] = () => import("./form-grid")
         _["dashboard-splash"] = () => import("./splash")
         _["dashboard-chat"] = () => import("./chat")
