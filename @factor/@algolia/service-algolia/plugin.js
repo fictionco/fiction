@@ -86,7 +86,8 @@ export default Factor => {
       filters = null,
       limit = null,
       searchText = null,
-      data = null
+      data = null,
+      page = 1
     }) {
       const out = {}
 
@@ -127,6 +128,10 @@ export default Factor => {
 
       if (data) {
         out.data = this.prepareData(data)
+      }
+
+      if (page > 1) {
+        out.page = page - 1 // pages with algolia are zero-indexed
       }
 
       return out

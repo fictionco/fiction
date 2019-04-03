@@ -167,7 +167,7 @@ export default Factor => {
     }
 
     async getPostIndex(args) {
-      const { limit = 100, storeKey = "postIndex" } = args
+      const { limit = 100, storeKey = "postIndex", page = 1 } = args
 
       const taxonomies = ["type", "tag", "category", "status"]
 
@@ -180,7 +180,7 @@ export default Factor => {
           }
         })
 
-      const query = { collection: "public", limit, filters }
+      const query = { collection: "public", limit, filters, page }
 
       const results = await Factor.$db.search(query)
 
@@ -198,8 +198,6 @@ export default Factor => {
       if (!posts || posts.length == 0) {
         return []
       }
-
-      console.log("parse, post", posts)
 
       const _promises = posts.reverse().map(async p => {
         let authorData = []

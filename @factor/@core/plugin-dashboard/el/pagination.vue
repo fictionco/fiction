@@ -23,7 +23,7 @@ export default {
       let page
       if (direction == "next" && this.pageCurrent !== this.pageTotal) {
         page = this.pageCurrent + 1
-      } else if (pageCurrent > 1) {
+      } else if (this.pageCurrent > 1) {
         page = this.pageCurrent - 1
       }
 

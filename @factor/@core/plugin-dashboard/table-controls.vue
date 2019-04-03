@@ -6,9 +6,9 @@
     </div>
     <table-tabber :tabs="tabs" />
     <table-pagination
-      :total="meta.total"
-      :page-total="meta.pageTotal"
-      :page-current="meta.pageCurrent"
+      :total="filtered.total"
+      :page-total="filtered.pageTotal"
+      :page-current="filtered.pageCurrent"
     />
   </div>
 </template>
@@ -21,7 +21,8 @@ export default {
   },
   props: {
     tabs: { type: Array, default: () => [] },
-    meta: { type: Object, default: () => {} }
+
+    filtered: { type: Object, default: () => {} }
   },
   data() {
     return {

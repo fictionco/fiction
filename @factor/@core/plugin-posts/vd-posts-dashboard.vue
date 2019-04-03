@@ -1,6 +1,12 @@
 <template>
   <dashboard-page :loading="loading" class="posts-dashboard">
-    <posts-table :rows="posts" :loading="loading" :meta="postIndex" :title="postTypeLabel">
+    <posts-table
+      :rows="posts"
+      :loading="loading"
+      :index="postIndex"
+      :filtered="activeIndex"
+      :title="postTypeLabel"
+    >
       <template slot="nav">
         <factor-link
           :path="`/dashboard/posts/${postType}/add-new`"
@@ -41,27 +47,34 @@ export default {
       const postTypeInfo = this.$posts.postTypeInfo(this.postType)
       return postTypeInfo.namePlural
     },
+    activeIndex() {
+      return this.filtered && this.filtered.posts
+        ? this.filtered
+        : this.postIndex
+    },
     posts() {
-      return this.filtered.posts ? this.filtered.posts : this.postIndex.posts
+      return this.activeIndex.posts
     },
     status() {
       return this.$route.query.status || ""
+    },
+    page() {
+      return this.$route.query.page || 1
     }
   },
   watch: {
-    $route: function(to, from) {
-      this.setPosts()
+    status: function(to, from) {
+      this.setFiltered()
     },
-    status: {
-      handler: function(v) {
-        this.setPosts()
-      },
-      deep: true
+    page: async function(to, from) {
+      this.setPosts()
     }
   },
   mounted() {
     this.$user.init(async () => {
+      this.loading = true
       await this.setPosts()
+      this.loading = false
     })
   },
   methods: {
@@ -72,22 +85,27 @@ export default {
     postlink(type, permalink, root = true) {
       return this.$posts.getPermalink({ type, permalink, root })
     },
-    async setPosts() {
-      this.loading = true
-
-      this.postIndex = await this.$posts.getPostIndex({
-        type: this.postType
-      })
-
+    async setFiltered() {
       if (this.status) {
         this.filtered = await this.$posts.getPostIndex({
-          type: this.postType,
           status: this.status
         })
       } else {
         this.filtered = {}
       }
-      this.loading = false
+    },
+    async setPosts() {
+      this.postIndex = await this.getIndex()
+
+      this.setFiltered()
+    },
+
+    async getIndex(args = {}) {
+      return await this.$posts.getPostIndex({
+        type: this.postType,
+        page: this.page,
+        ...args
+      })
     },
 
     async trashPost(id, index) {

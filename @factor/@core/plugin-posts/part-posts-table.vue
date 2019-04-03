@@ -2,7 +2,7 @@
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
     <slot slot="nav" name="nav" />
-    <dashboard-table-controls :meta="meta" :tabs="tabs" />
+    <dashboard-table-controls v-bind="$attrs" :tabs="tabs" />
 
     <dashboard-table
       class="post-table"
@@ -44,14 +44,14 @@ export default {
   props: {
     title: { type: String, default: "" },
     rows: { type: Array, default: () => [] },
-    meta: { type: Object, default: () => {} },
+    index: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false }
   },
   computed: {
     tabs() {
       return [`all`, `published`, `draft`, `trash`].map(status => {
         const count =
-          status == "all" ? this.meta.total : this.statusDetails[status] || 0
+          status == "all" ? this.index.total : this.statusDetails[status] || 0
         return {
           name: this.$utils.toLabel(status),
           value: status == "all" ? "" : status,
@@ -60,7 +60,7 @@ export default {
       })
     },
     statusDetails() {
-      const { categories: { status = {} } = {} } = this.meta || {}
+      const { categories: { status = {} } = {} } = this.index || {}
       return status
     }
   },

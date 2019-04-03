@@ -29,6 +29,7 @@ export default {
       const current = Object.assign({}, this.$route.query)
 
       delete current.status
+      delete current.page
 
       const query = value ? { ...this.$route.query, status: value } : current
 
