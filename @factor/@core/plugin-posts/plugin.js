@@ -185,7 +185,6 @@ export default Factor => {
       const results = await Factor.$db.search(query)
 
       results.posts = await this.parsePosts(results.data)
-      console.log("RESULTS", results)
 
       Factor.$store.commit("setItem", {
         item: storeKey,

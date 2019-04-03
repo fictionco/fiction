@@ -24,7 +24,7 @@ export default {
       loading: true,
       type: "blog",
       postIndex: {},
-      status: ["published", "draft"]
+      filtered: {}
     }
   },
   metatags() {
@@ -42,7 +42,10 @@ export default {
       return postTypeInfo.namePlural
     },
     posts() {
-      return this.postIndex.posts
+      return this.filtered.posts ? this.filtered.posts : this.postIndex.posts
+    },
+    status() {
+      return this.$route.query.status || ""
     }
   },
   watch: {
@@ -65,20 +68,25 @@ export default {
     buttonState(item) {
       return this.status.includes(item) ? "selected" : ""
     },
-    setStatus(status) {
-      this.status = status
-    },
+
     postlink(type, permalink, root = true) {
       return this.$posts.getPermalink({ type, permalink, root })
     },
     async setPosts() {
-      const status = this.status || ["published", "draft"]
       this.loading = true
+
       this.postIndex = await this.$posts.getPostIndex({
-        type: this.postType,
-        status
+        type: this.postType
       })
 
+      if (this.status) {
+        this.filtered = await this.$posts.getPostIndex({
+          type: this.postType,
+          status: this.status
+        })
+      } else {
+        this.filtered = {}
+      }
       this.loading = false
     },
 

@@ -54,7 +54,7 @@ export default {
           status == "all" ? this.meta.total : this.statusDetails[status] || 0
         return {
           name: this.$utils.toLabel(status),
-          value: status,
+          value: status == "all" ? "" : status,
           count
         }
       })

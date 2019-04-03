@@ -327,6 +327,8 @@ export default {
 
       this.addRevision({ published: true })
 
+      this.post.status = this.post.status ? this.post.status : "draft"
+
       const save = { ...this.post, url: this.url }
 
       await this.$posts.savePost(save)

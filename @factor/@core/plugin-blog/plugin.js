@@ -12,7 +12,7 @@ export default Factor => {
           type,
           base,
           icon: require("./img/posts.svg"),
-
+          nameIndex: "Blog",
           nameSingle: "Blog Post",
           namePlural: "Blog Posts"
         })

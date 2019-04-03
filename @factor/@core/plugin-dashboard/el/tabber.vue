@@ -20,12 +20,19 @@ export default {
   },
   computed: {
     activeItem() {
-      return this.$route.query.status || "all"
+      return this.$route.query.status || ""
     }
   },
   methods: {
     setActive(value) {
-      this.$router.push({ query: { ...this.$route.query, status: value } })
+      value = value ? value : null
+      const current = Object.assign({}, this.$route.query)
+
+      delete current.status
+
+      const query = value ? { ...this.$route.query, status: value } : current
+
+      this.$router.push({ query })
     }
   }
 }
