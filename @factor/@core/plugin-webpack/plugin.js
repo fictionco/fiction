@@ -30,6 +30,7 @@ module.exports.default = Factor => {
 
     addFilters() {
       Factor.$filters.add("build-production", () => {
+        console.log("WEBPACK START BUILD")
         return this.buildProduction()
       })
       Factor.$filters.add("webpack-config", args => {

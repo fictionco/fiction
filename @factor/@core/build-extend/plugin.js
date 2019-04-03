@@ -7,7 +7,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       this.setup()
     }
 
-    setup() {
+    async setup() {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
@@ -29,8 +29,26 @@ module.exports = (Factor, FACTOR_CONFIG) => {
 
       const plugins = require(Factor.$paths.get("plugins-loader-build"))
       this.injectPlugins(plugins)
+      await this.handleProductionBuild()
       this.initializeBuild()
       transpiler.copyTranspilerConfig()
+    }
+
+    async handleProductionBuild() {
+      const {
+        setup,
+        argv: { build }
+      } = FACTOR_CONFIG
+
+      // User defined setup hook
+      // The code that trigger this should be in the start.js in the app 'config' folder
+      if (typeof setup == "function") {
+        setup(Factor)
+      }
+
+      if (build) {
+        await Factor.$filters.apply("build-production")
+      }
     }
 
     addCoreExtension(id, extension) {

@@ -1,6 +1,5 @@
 <template>
   <div class="dbt">
-    <div class="dbt-grid" />
     <div class="dbt-body dbt-grid">
       <div class="dbt-head dbt-row" :style="{'grid-template-columns': columns}">
         <div

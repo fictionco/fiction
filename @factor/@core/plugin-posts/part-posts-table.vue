@@ -2,6 +2,12 @@
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
     <slot slot="nav" name="nav" />
+    <div class="tab-controls">
+      <factor-input-select placeholder="Bulk Actions" :list="['move-to-trash']" />
+
+      <table-tabber />
+      <table-pagination />
+    </div>
     <dashboard-table
       class="post-table"
       :structure="tableStructure()"
@@ -39,6 +45,10 @@
 </template>
 <script>
 export default {
+  components: {
+    "table-pagination": () => import("./el/pagination"),
+    "table-tabber": () => import("./el/tabber")
+  },
   props: {
     title: { type: String, default: "" },
     rows: { type: Array, default: () => [] },

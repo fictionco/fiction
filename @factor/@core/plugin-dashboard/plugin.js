@@ -79,6 +79,12 @@ export default Factor => {
             name: "Home",
             icon: require("./resource/dashboard.svg")
           })
+          _.push({
+            group: "home",
+            path: "/dashboard",
+            name: "Admin",
+            icon: require("./resource/dashboard.svg")
+          })
           return _
         },
         { priority: 50 }
