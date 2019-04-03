@@ -13,12 +13,14 @@ module.exports.default = Factor => {
         }
 
         Factor.$filters.addService({
-          name: "db-service-read",
+          provider: "firebase",
+          filter: "db-service-read",
           service: _ => this.read(_)
         })
 
         Factor.$filters.addService({
-          name: "db-service-update",
+          provider: "firebase",
+          filter: "db-service-update",
           service: _ => this.update(_)
         })
       }
@@ -57,7 +59,7 @@ module.exports.default = Factor => {
       let ref = await this.client.firestore().collection(collection)
 
       let data
-      console.log("READ", id, collection, field)
+
       if (!id && field) {
         ref = ref.where(field, "==", value)
         const list = await ref.get()

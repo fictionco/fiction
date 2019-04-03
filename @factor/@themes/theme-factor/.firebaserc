@@ -1,3 +1,6 @@
 {
-    "projects": {}
+    "projects": {
+        "production": "fiction-com",
+        "development": "fiction-staging"
+    }
 }

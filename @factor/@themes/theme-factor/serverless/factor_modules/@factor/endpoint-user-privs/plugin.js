@@ -3,8 +3,6 @@ const { resolve } = require("path")
 module.exports.default = Factor => {
   return new class {
     constructor() {
-      this.adminService = require("firebase-admin")
-
       this.possibleRoles = require(`@factor/plugin-user/config.json`).roles
 
       this.UserRolesServiceSet = Factor.$filters.apply("user-role-service-set")

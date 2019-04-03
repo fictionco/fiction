@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@factor/plugin-tools": "file:./factor_modules/@factor/plugin-tools",
+        "@factor/endpoint-algolia": "file:./factor_modules/@factor/endpoint-algolia",
         "@factor/endpoint-user-privs": "file:./factor_modules/@factor/endpoint-user-privs",
         "@factor/plugin-user": "file:./factor_modules/@factor/plugin-user",
         "@factor/plugin-db": "file:./factor_modules/@factor/plugin-db",
@@ -26,5 +27,5 @@
         "@factor/service-firebase-functions-controller": "file:./factor_modules/@factor/service-firebase-functions-controller"
     },
     "devDependencies": {},
-    "timestamp": 1554129633886
+    "timestamp": 1554303639556
 }

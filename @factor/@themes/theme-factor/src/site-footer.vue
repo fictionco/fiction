@@ -8,10 +8,10 @@
           </factor-link>
         </div>
         <div class="footer-col">
-          <div class="menu-header">Docs</div>
-          <factor-link path="/docs/setup">Setup</factor-link>
-          <factor-link path="/docs/configuration">Configuration</factor-link>
-          <factor-link path="/docs/faqs">FAQs</factor-link>
+          <div class="menu-header">Developers</div>
+          <factor-link path="/docs">Docs</factor-link>
+          <factor-link path="/plugins">Plugins</factor-link>
+          <factor-link path="/">Quick Start</factor-link>
         </div>
         <div class="footer-col">
           <div class="menu-header">Connect</div>

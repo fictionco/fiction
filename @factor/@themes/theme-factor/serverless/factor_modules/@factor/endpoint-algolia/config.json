@@ -1,0 +1,16 @@
+{
+  "public": {
+    "ranking": ["asc(date)"],
+    "replicas": ["updatedAt"],
+    "attributesForFaceting": [
+      "type",
+      "date",
+      "status",
+      "updatedAt",
+      "createdAt",
+      "tags",
+      "category",
+      "privs"
+    ]
+  }
+}
