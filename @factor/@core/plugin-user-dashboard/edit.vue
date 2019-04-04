@@ -32,7 +32,7 @@
           />
           <factor-input-wrap
             v-model="user.photosProfile"
-            input-destination="/user/__uid/profile/__guid.__ext"
+            input-destination="/user/__uid/__guid.__ext"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
@@ -41,7 +41,7 @@
           />
           <factor-input-wrap
             v-model="user.photosCover"
-            input-destination="/user/__uid/cover/__guid.__ext"
+            input-destination="/user/__uid/__guid.__ext"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"

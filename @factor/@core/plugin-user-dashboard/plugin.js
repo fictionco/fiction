@@ -5,6 +5,7 @@ export default Factor => {
     }
 
     filters() {
+      const icon = require("./img/users.svg")
       Factor.$filters.add("dashboard-routes", _ => {
         _.push({
           path: "account",
@@ -17,7 +18,8 @@ export default Factor => {
         _.push({
           group: "account",
           path: "account",
-          name: "Your Account"
+          name: "Your Account",
+          icon
         })
 
         return _
@@ -27,7 +29,7 @@ export default Factor => {
         _.push({
           type: "user",
           base: "@",
-          icon: require("./img/posts.svg"),
+          icon,
           nameIndex: "Users",
           nameSingle: "User",
           namePlural: "Users",
