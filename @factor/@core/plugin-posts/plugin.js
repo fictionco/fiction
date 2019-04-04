@@ -15,30 +15,30 @@ export default Factor => {
       Factor.$filters.add("dashboard-routes", _ => {
         _.push({
           path: "posts",
-          component: () => import("./vd-posts-dashboard")
+          component: () => import("./dashboard-posts")
         })
 
         _.push({
           path: "posts/edit",
-          component: () => import("./vd-posts-edit")
+          component: () => import("./dashboard-edit")
           // meta: { activePath: "/admin/posts" }
         })
 
         _.push({
           path: "posts/:postType/edit",
-          component: () => import("./vd-posts-edit")
+          component: () => import("./dashboard-edit")
           //meta: { activePath: "/admin/posts" }
         })
 
         _.push({
           path: "posts/:postType/add-new",
-          component: () => import("./vd-posts-edit"),
+          component: () => import("./dashboard-edit"),
           meta: {}
         })
 
         _.push({
           path: "posts/:postType",
-          component: () => import("./vd-posts-dashboard"),
+          component: () => import("./dashboard-posts"),
           meta: {}
         })
 
@@ -101,21 +101,26 @@ export default Factor => {
       Factor.$filters.add("site-route-promises", setPost)
 
       Factor.$filters.add("dashboard-menu", _ => {
-        this.getPostTypes().forEach(({ type, base, namePlural, icon = "" }) => {
+        this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new" }) => {
+          const subMenu = []
+
+          if (add) {
+            subMenu.push({
+              path: add,
+              name: Factor.$utils.toLabel(add)
+            })
+          }
+
+          subMenu.push({
+            path: "edit"
+          })
+
           _.push({
             group: type,
             path: `posts/${type}`,
             name: namePlural || Factor.$utils.toLabel(type),
             icon,
-            items: Factor.$filters.apply(`dashboard-menu-post-${type}`, [
-              {
-                path: "add-new",
-                name: "Add New"
-              },
-              {
-                path: "edit"
-              }
-            ])
+            items: Factor.$filters.apply(`dashboard-menu-post-${type}`, subMenu)
           })
         })
 
@@ -415,6 +420,7 @@ export default Factor => {
         collection: "public",
         data,
         id,
+        type: post.type,
         merge: false
       }
 
@@ -460,7 +466,7 @@ export default Factor => {
     userCanEditPost({ uid, post }) {
       const user = Factor.$user.request(uid)
 
-      if ((user.privs && user.privs.accessLevel > 300) || post.authors.includes(uid)) {
+      if ((user && user.accessLevel > 300) || post.authors.includes(uid)) {
         return true
       } else {
         return false

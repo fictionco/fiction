@@ -1,29 +1,19 @@
 <template>
-  <dashboard-page :loading="loading" class="posts-dashboard">
-    <posts-table
+  <dashboard-page :key="postType" :loading="loading" class="posts-dashboard">
+    <component
+      :is="templateLoader"
       :rows="posts"
       :loading="loading"
       :index="postIndex"
       :filtered="activeIndex"
       :title="postTypeLabel"
-    >
-      <template slot="nav">
-        <factor-link
-          :path="`/dashboard/posts/${postType}/add-new`"
-          btn="primary"
-          data-test="add-post"
-        >
-          Add New
-          <i class="fa fa-arrow-right" />
-        </factor-link>
-      </template>
-    </posts-table>
+    />
   </dashboard-page>
 </template>
 <script>
 export default {
   components: {
-    "posts-table": () => import("./part-posts-table")
+    "posts-table": () => import("./posts-table")
   },
   data() {
     return {
@@ -40,15 +30,24 @@ export default {
   },
 
   computed: {
+    postTypeInfo() {
+      return this.$posts.postTypeInfo(this.postType)
+    },
+    templateLoader() {
+      if (this.postTypeInfo.index) {
+        return this.postTypeInfo.index
+      } else {
+        return () => import("./posts-table")
+      }
+    },
     postType() {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
-      const postTypeInfo = this.$posts.postTypeInfo(this.postType)
-      return postTypeInfo.namePlural
+      return this.postTypeInfo.namePlural
     },
     activeIndex() {
-      return this.filtered && this.filtered.posts
+      return this.filtered && this.filtered.postsx
         ? this.filtered
         : this.postIndex
     },
@@ -66,7 +65,10 @@ export default {
     status: function(to, from) {
       this.setFiltered()
     },
-    page: async function(to, from) {
+    page: function(to, from) {
+      this.setPosts()
+    },
+    postType: function(to, from) {
       this.setPosts()
     }
   },
@@ -78,10 +80,6 @@ export default {
     })
   },
   methods: {
-    buttonState(item) {
-      return this.status.includes(item) ? "selected" : ""
-    },
-
     postlink(type, permalink, root = true) {
       return this.$posts.getPermalink({ type, permalink, root })
     },

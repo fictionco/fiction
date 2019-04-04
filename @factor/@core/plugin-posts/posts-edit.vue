@@ -106,7 +106,7 @@
           </div>
           <template slot="actions">
             <factor-btn btn="primary" :loading="sending" @click="savePost()">
-              Update Post
+              Update
               &nbsp;
               <i class="fa fa-arrow-up" />
             </factor-btn>

@@ -2,6 +2,6 @@
   "public": {
     "ranking": ["asc(date)"],
     "replicas": ["updatedAt"],
-    "attributesForFaceting": ["type", "status", "tags", "category", "privs"]
+    "attributesForFaceting": ["type", "status", "tags", "category", "roles", "accessLevel"]
   }
 }

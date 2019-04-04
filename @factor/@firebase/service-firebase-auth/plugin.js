@@ -22,7 +22,7 @@ export default Factor => {
     }
 
     events() {
-      Factor.$events.$on("auth-refresh-tokens", () => refreshUserAuthTokens())
+      Factor.$events.$on("auth-refresh-tokens", () => this.refreshUserAuthTokens())
       Factor.$events.$on("auth-remove", () => {
         this.signOut()
       })
@@ -100,19 +100,24 @@ export default Factor => {
     async getUserPrivs(firebaseUser) {
       const tokenResult = await firebaseUser.getIdTokenResult(true)
 
-      const privs = {}
+      const roles = []
+
+      let accessLevel = 0
 
       if (tokenResult && tokenResult.claims) {
         const userRoles = Factor.$user.config().roles
         const { claims } = tokenResult
         Object.keys(userRoles).forEach(role => {
           if (claims[role]) {
-            privs[role] = claims[role]
+            roles.push(role)
+            //  privs[role] = claims[role]
           }
         })
+
+        accessLevel = claims.accessLevel || 0
       }
 
-      return privs
+      return { roles, accessLevel }
     }
 
     async firebaseToFactorCredential(firebaseUserCredential) {
@@ -144,8 +149,10 @@ export default Factor => {
       })
 
       // Get user priviledges via custom claims
-      clean.privs = await this.getUserPrivs(firebaseUser)
+      const { roles, accessLevel } = await this.getUserPrivs(firebaseUser)
 
+      clean.roles = roles
+      clean.accessLevel = accessLevel
       // Public serviceId information
       clean.serviceId = firebaseUser.serviceId || {}
 
@@ -198,22 +205,22 @@ export default Factor => {
       }
     }
 
-    authGetPrivs(parsedToken) {
-      const privs = {}
-      const { claims } = parsedToken
+    // authGetPrivs(parsedToken) {
+    //   const privs = {}
+    //   const { claims } = parsedToken
 
-      if (tokenResult) {
-        const userRoles = Factor.$user.roles
+    //   if (tokenResult) {
+    //     const userRoles = Factor.$user.roles
 
-        Object.keys(userRoles).forEach(key => {
-          if (claims[key]) {
-            privs[key] = claims[key]
-          }
-        })
-      }
+    //     Object.keys(userRoles).forEach(key => {
+    //       if (claims[key]) {
+    //         privs[key] = claims[key]
+    //       }
+    //     })
+    //   }
 
-      return privs
-    }
+    //   return privs
+    // }
 
     async authUpdateUser(user) {
       const _ = this.client.auth().currentUser

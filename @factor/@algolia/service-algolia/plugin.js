@@ -45,7 +45,7 @@ export default Factor => {
     }
 
     async update(args) {
-      if (args.noIndex) {
+      if (args.collection != "public" || args.noIndex) {
         return false
       } else {
         return await this.request("saveObject", this.transformQuery(args))

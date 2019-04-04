@@ -155,12 +155,12 @@ module.exports.default = Factor => {
 
     async setActiveUser({ uid, from }) {
       uid = uid ? uid : this.getUser().uid
-      const user = uid ? await this.requestActiveUser(uid) : {}
+      const user = uid ? await this.requestFullUser(uid) : {}
 
       this.storeUser({ user, from })
     }
 
-    async requestActiveUser(uid) {
+    async requestFullUser(uid) {
       uid = uid ? uid : this.getUser().uid || false
 
       if (!uid) return {}
@@ -213,7 +213,7 @@ module.exports.default = Factor => {
         }
       })
 
-      return Factor.$db.prepare({ userPublic, userPrivate })
+      return { userPublic, userPrivate }
     }
 
     // Updates the user private/public datastore
@@ -222,8 +222,18 @@ module.exports.default = Factor => {
       const { uid } = user
       const { userPublic, userPrivate } = this.constructSaveObject(user)
 
-      const savePublic = Factor.$db.update({ collection: "public", id: uid, data: userPublic })
-      const savePrivate = Factor.$db.update({ collection: "private", id: uid, data: userPrivate })
+      const savePublic = Factor.$db.update({
+        collection: "public",
+        type: "user",
+        id: uid,
+        data: userPublic
+      })
+      const savePrivate = Factor.$db.update({
+        collection: "private",
+        type: "user",
+        id: uid,
+        data: userPrivate
+      })
 
       await Promise.all([savePublic, savePrivate])
 

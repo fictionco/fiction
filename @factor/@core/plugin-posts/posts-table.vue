@@ -1,7 +1,17 @@
 <template>
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
-    <slot slot="nav" name="nav" />
+
+    <template slot="nav">
+      <factor-link
+        :path="`/dashboard/posts/${postType}/add-new`"
+        btn="primary"
+        data-test="add-post"
+      >
+        Add New
+        <i class="fa fa-arrow-right" />
+      </factor-link>
+    </template>
     <dashboard-table-controls v-bind="$attrs" :tabs="tabs" />
 
     <dashboard-table
@@ -62,6 +72,9 @@ export default {
     statusDetails() {
       const { categories: { status = {} } = {} } = this.index || {}
       return status
+    },
+    postType() {
+      return this.$route.params.postType || ""
     }
   },
 

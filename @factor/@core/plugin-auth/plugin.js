@@ -45,7 +45,7 @@ export default Factor => {
       if (credentials) {
         Factor.$events.$emit("auth-user-signed-in", credentials)
 
-        this.setUserRoles(credentials)
+        //  this.setUserRoles(credentials)
 
         const { uid } = credentials
         this.update({ uid })
@@ -54,27 +54,28 @@ export default Factor => {
       return credentials
     }
 
-    async setUserRoles(credentials) {
-      const result = await Factor.$endpoint.request({
-        endpoint: "privs",
-        action: "apply"
-      })
+    // async setUserRoles(credentials) {
+    //   const result = await Factor.$endpoint.request({
+    //     endpoint: "privs",
+    //     action: "apply"
+    //   })
 
-      // If new privs are set,
-      // then user auth/tokens need a reset
-      if (result.refresh) {
-        Factor.$events.$emit("auth-refresh-tokens", credentials)
-      }
-    }
+    //   // If new privs are set,
+    //   // then user auth/tokens need a reset
+    //   if (result.refresh) {
+    //     Factor.$events.$emit("auth-refresh-tokens", credentials)
+    //   }
+    // }
 
     async logout(args = {}) {
       console.log("[Auth] Logout", args)
       this.removeAuth()
 
       const path = args.redirect || "/"
+
       if (args.redirect) {
         Factor.$router.push({ path })
-      } else if (Factor.$router.currentRoute.meta.auth) {
+      } else if (Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
         Factor.$router.push({ path })
       } else {
         Factor.$events.$emit("reset-ui")

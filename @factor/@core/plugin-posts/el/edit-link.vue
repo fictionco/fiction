@@ -22,9 +22,7 @@ export default {
       return this.post && this.post.authors ? this.post.authors : []
     },
     accessLevel() {
-      return this.user && this.user.privs && this.user.privs.accessLevel
-        ? this.user.privs.accessLevel
-        : 0
+      return this.user && this.user.accessLevel ? this.user.accessLevel : 0
     },
     canEdit() {
       if (this.accessLevel > 300 || this.authors.includes(this.$uid)) {
