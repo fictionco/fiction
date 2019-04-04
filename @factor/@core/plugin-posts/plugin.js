@@ -100,7 +100,7 @@ export default Factor => {
       Factor.$filters.add("request-post", setPost)
       Factor.$filters.add("site-route-promises", setPost)
 
-      Factor.$filters.add("dashboard-menu", _ => {
+      Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new" }) => {
           const subMenu = []
 
@@ -120,7 +120,7 @@ export default Factor => {
             path: `posts/${type}`,
             name: namePlural || Factor.$utils.toLabel(type),
             icon,
-            items: Factor.$filters.apply(`dashboard-menu-post-${type}`, subMenu)
+            items: Factor.$filters.apply(`admin-menu-post-${type}`, subMenu)
           })
         })
 

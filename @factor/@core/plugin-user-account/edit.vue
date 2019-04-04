@@ -2,7 +2,7 @@
   <dashboard-page>
     <div class="post-grid">
       <div class="content-column">
-        <dashboard-pane :title="id == $uid ? 'Your Account' : 'Edit User'" class="compose">
+        <dashboard-pane title="User" class="compose">
           <factor-input-wrap
             v-model="user.displayName"
             input="factor-input-text"
@@ -13,46 +13,6 @@
             v-model="user.images"
             input="factor-input-image-upload"
             label="Images"
-          />
-
-          <factor-input-wrap v-model="user.email" input="factor-input-email" label="Email Address" />
-
-          <factor-input-wrap
-            v-model="user.birthday"
-            input="factor-input-birthday"
-            label="Birthday"
-            description="This data is for analysis and not shared."
-          />
-          <factor-input-wrap
-            v-model="user.gender"
-            :list="['female', 'male']"
-            input="factor-input-select"
-            label="Gender"
-            description="This data is for analysis and not shared."
-          />
-          <factor-input-wrap
-            v-model="user.photosProfile"
-            input-destination="/user/__uid/profile/__guid.__ext"
-            input-max="5"
-            input-min="1"
-            input="factor-input-image-upload"
-            label="Photos"
-            @autosave="$emit('autosave')"
-          />
-          <factor-input-wrap
-            v-model="user.photosCover"
-            input-destination="/user/__uid/cover/__guid.__ext"
-            input-max="5"
-            input-min="1"
-            input="factor-input-image-upload"
-            label="Covers"
-            @autosave="$emit('autosave')"
-          />
-          <factor-input-wrap
-            v-model="user.bio"
-            input="factor-input-textarea"
-            label="Bio"
-            placeholder="Work, hobbies, travels, etc..."
           />
         </dashboard-pane>
       </div>
@@ -91,7 +51,7 @@ export default {
   },
   computed: {
     id() {
-      return this.$route.query.id || this.$uid
+      return this.$route.query.id
     }
   },
   async mounted() {

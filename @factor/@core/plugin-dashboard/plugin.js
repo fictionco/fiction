@@ -54,7 +54,7 @@ export default Factor => {
           component: () => import("./wrap"),
           children: Factor.$filters.apply("dashboard-routes", [
             {
-              path: "/",
+              path: "admin",
               component: () => import("./vd-dashboard.vue"),
               meta: { auth: true }
             },
@@ -72,17 +72,11 @@ export default Factor => {
       })
 
       Factor.$filters.add(
-        "dashboard-menu",
+        "admin-menu",
         _ => {
           _.push({
-            group: "home",
-            path: "/dashboard",
-            name: "Home",
-            icon: require("./resource/dashboard.svg")
-          })
-          _.push({
-            group: "home",
-            path: "/dashboard",
+            group: "admin",
+            path: "admin",
             name: "Admin",
             icon: require("./resource/dashboard.svg")
           })

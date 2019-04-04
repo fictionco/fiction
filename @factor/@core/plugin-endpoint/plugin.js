@@ -43,7 +43,7 @@ export default Factor => {
       let r = {}
       try {
         const headers = await this.headers()
-        console.log("Endpoint Request", { headers, rurl, params })
+
         r = await Factor.$http.post(rurl, params, { headers })
       } catch (error2) {
         if (error2.message.includes("Network Error")) {

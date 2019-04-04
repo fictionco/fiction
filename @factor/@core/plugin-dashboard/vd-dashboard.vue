@@ -1,14 +1,13 @@
 <template>
   <dashboard-page :loading="loading">
     <dashboard-splash
-      title="Welcome to Factor"
+      title="Your Admin"
       sub-title="Want to learn more about Factor? Reach out to us or explore the docs."
-      :media-url="splash('media')"
       :features="splash('features')"
     />
     <dashboard-chat
-      title="Fiction on Discord"
-      sub-title="Get in touch with other travelers on the new Fiction Discord channel..."
+      title="Tech Support"
+      sub-title="Get in touch with other travelers on the new chat group..."
       :media-url="splash('media')"
     />
   </dashboard-page>

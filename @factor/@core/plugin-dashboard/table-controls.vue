@@ -1,8 +1,8 @@
 <template>
   <div class="table-controls">
-    <div class="bulk-actions">
-      <factor-input-select v-model="action" placeholder="Bulk Actions" :list="['move-to-trash']" />
-      <factor-btn :disabled="!action">Apply</factor-btn>
+    <div v-if="actions && actions.length > 0" class="bulk-actions">
+      <factor-input-select v-model="action" placeholder="Actions" :list="actions" />
+      <factor-btn :disabled="!action" @click="$emit('action', action)">Apply</factor-btn>
     </div>
     <table-tabber :tabs="tabs" />
     <table-pagination
@@ -21,7 +21,7 @@ export default {
   },
   props: {
     tabs: { type: Array, default: () => [] },
-
+    actions: { type: Array, default: () => [] },
     filtered: { type: Object, default: () => {} }
   },
   data() {

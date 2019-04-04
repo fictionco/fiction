@@ -94,10 +94,10 @@ export default {
 
     tableStructure() {
       return [
-        {
-          column: "select",
-          size: "40px"
-        },
+        // {
+        //   column: "select",
+        //   size: "40px"
+        // },
         {
           column: "name",
           size: "1.5fr",
