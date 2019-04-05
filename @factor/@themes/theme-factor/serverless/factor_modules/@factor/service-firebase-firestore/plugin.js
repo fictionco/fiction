@@ -51,9 +51,9 @@ module.exports.default = Factor => {
       })
     }
 
-    async query({ collection, filters }) {
-      return this.refineQueryResults(ref.get())
-    }
+    // async query({ collection, filters }) {
+    //   return this.refineQueryResults(ref.get())
+    // }
 
     async read({ id, collection, field = null, value = null }) {
       let ref = await this.client.firestore().collection(collection)
@@ -75,7 +75,7 @@ module.exports.default = Factor => {
         data = doc.data() || {}
       }
 
-      return data
+      return { data }
     }
 
     async update({ id, collection, data }) {
@@ -85,7 +85,7 @@ module.exports.default = Factor => {
         .doc(id)
         .set(data, { merge: true })
 
-      return true
+      return { data: true }
     }
 
     refineQueryResults(doc) {

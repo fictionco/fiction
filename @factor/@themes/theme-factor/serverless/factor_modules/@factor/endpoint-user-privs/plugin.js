@@ -1,12 +1,33 @@
-const { resolve } = require("path")
-
 module.exports.default = Factor => {
   return new class {
     constructor() {
-      this.possibleRoles = require(`@factor/plugin-user/config.json`).roles
+      if (Factor.FACTOR_ENV == "serverless") {
+        this.possibleRoles = require(`@factor/plugin-user/config.json`).roles
 
-      this.UserRolesServiceSet = Factor.$filters.apply("user-role-service-set")
-      this.UserRolesServiceGet = Factor.$filters.apply("user-role-service-get")
+        // this.UserRolesServiceSet = Factor.$filters.apply("user-role-service-set")
+        // this.UserRolesServiceGet = Factor.$filters.apply("user-role-service-get")
+      } else {
+        this.appTriggers()
+      }
+    }
+
+    appTriggers() {
+      Factor.$events.$on("auth-user-signed-in", credentials => {
+        this.appSetCustomClaims(credentials)
+      })
+    }
+
+    async appSetCustomClaims(credentials) {
+      const result = await Factor.$endpoint.request({
+        endpoint: "privs",
+        action: "apply"
+      })
+
+      // If new privs are set,
+      // then user auth/tokens need a reset
+      if (result.refresh) {
+        Factor.$events.$emit("auth-refresh-tokens", credentials)
+      }
     }
 
     logger(text) {
@@ -17,6 +38,7 @@ module.exports.default = Factor => {
       // Privs are what have been set up
       // Claims are set by us and used to set privs
 
+      console.log("Factor.$headers.auth", Factor.$headers)
       const user = Factor.$headers.auth
 
       if (!user) {
@@ -51,7 +73,10 @@ module.exports.default = Factor => {
       })
 
       // set service privs if needed
-      const existingPrivs = await this.UserRolesServiceGet({ uid, roles: this.possibleRoles })
+      const existingPrivs = await Factor.$filters.apply("user-role-service-get", {
+        uid,
+        roles: this.possibleRoles
+      })
 
       let needsToSetNewRole = Object.keys(userPrivs).some(key => {
         if (userPrivs[key] != existingPrivs[key]) {
@@ -61,7 +86,7 @@ module.exports.default = Factor => {
 
       let out = { userPrivs, user, refresh: false, status: "normal" }
       if (needsToSetNewRole) {
-        await this.UserRolesServiceSet({ uid, claims: userPrivs })
+        await Factor.$filters.apply("user-role-service-set", { uid, claims: userPrivs })
         out.status = "new"
         out.refresh = true
       }
@@ -72,12 +97,14 @@ module.exports.default = Factor => {
     // Gets all user information private/public
     // Note that this information is accessible and viewable only by the server and not publicly shown
     async getUserAdminRoles(user) {
+      const { resolve } = require("path")
       const { uid, email, emailVerified } = user
 
       const manualRole = {}
 
       if (email && emailVerified) {
-        const adminsFile = require(resolve(Factor.$paths.get("config"), "admins"))
+        const adminFilePath = resolve(Factor.$paths.get("config"), "admins")
+        const adminsFile = require(`${adminFilePath}`) // require this way to avoid webpack warning (not running in webpack)
         const setRole = adminsFile[email]
         if (setRole) {
           manualRole[setRole] = true

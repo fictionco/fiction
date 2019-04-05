@@ -6,6 +6,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
   return new class {
     constructor() {
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
+      Factor.$theme = FACTOR_CONFIG.theme || false
       Factor.FACTOR_ENV = "serverless"
       this.setup()
       this.endpointService = Factor.$filters.apply("endpoint-service")

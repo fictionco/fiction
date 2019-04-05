@@ -27,9 +27,9 @@ export default {
 <style lang="less">
 .dpg {
   padding: 1.5em;
-  @media (max-width: 767px) {
-    padding: 1.5em 1.5em 1.5em 0;
-  }
+  // @media (max-width: 767px) {
+  //   padding: 1.5em 1.5em 1.5em 0;
+  // }
 
   .dpg-loading .loading-ring-wrap {
     height: 300px;

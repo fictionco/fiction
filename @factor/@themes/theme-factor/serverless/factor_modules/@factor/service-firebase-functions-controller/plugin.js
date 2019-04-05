@@ -10,6 +10,8 @@ module.exports = FACTOR_CONFIG => {
     }
 
     initialize() {
+      this.adminService = admin
+
       const that = this
 
       const project = process.env.GCLOUD_PROJECT
@@ -43,8 +45,8 @@ module.exports = FACTOR_CONFIG => {
 
         Factor.$filters.add("auth-token-service", () => that.authTokenHandler)
 
-        Factor.$filters.add("user-role-service-set", () => that.setServiceClaims)
-        Factor.$filters.add("user-role-service-get", () => that.getServiceClaims)
+        Factor.$filters.add("user-role-service-set", _ => that.setServiceClaims(_))
+        Factor.$filters.add("user-role-service-get", _ => that.getServiceClaims(_))
 
         require("@factor/service-firebase-firestore").default(Factor)
       }

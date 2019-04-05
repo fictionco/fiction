@@ -5,10 +5,11 @@ module.exports.default = Factor => {
       this.algoliasearch = require("algoliasearch")
 
       const {
-        algolia: { prefix, adminKey, appId }
+        algolia: { adminKey, appId },
+        env
       } = Factor.$config
 
-      this.prefix = prefix
+      this.prefix = env
       this.client = this.algoliasearch(appId, adminKey)
     }
 
@@ -71,6 +72,7 @@ module.exports.default = Factor => {
 
       const content = await new Promise((resolve, reject) => {
         index.saveObject(saveObject, (err, content) => {
+          console.log("Save Object", args, err, content)
           if (err) {
             reject(err)
           } else {

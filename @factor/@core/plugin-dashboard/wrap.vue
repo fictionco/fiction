@@ -66,38 +66,64 @@ export default {
   justify-content: center;
 }
 .app-layout {
-  //background: #fafbff;
   background-color: #f3f5fa;
-
-  display: flex;
-  flex-direction: column;
   min-height: 100vh;
+  // background: #fafbff;
+  // display: flex;
+  // flex-direction: column;
+
   .app-content {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: [nav] 2fr [content] 12fr;
+    // display: flex;
+    // flex-grow: 1;
+    // justify-content: center;
+
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+
     .app-nav,
     .app-main {
       overflow-y: scroll;
     }
     .app-nav {
-      flex: 1 1 15%;
-      padding: 2em 0.5em 1em 1.5em;
-      display: flex;
-      justify-content: flex-end;
-      min-width: 160px;
+      .app-nav-pad {
+        padding: 2em 0 2em 1.5em;
+      }
 
       @media (max-width: 767px) {
-        min-width: 70px;
+        position: fixed;
+        width: 75%;
+        top: 0;
+        bottom: 0;
+        min-height: 100vh;
+        z-index: 100;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        background: #fff;
+        box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
+          0 6px 14px 0 rgba(24, 32, 41, 0.06),
+          0 12px 34px 0 rgba(24, 32, 41, 0.04);
+        transform: translate3d(-100%, 0, 0);
+        transition: transform 0.4s ease-out;
+
+        .app-nav-pad {
+          padding: 1.5em;
+        }
       }
 
-      .app-nav-pad {
-        width: 150px;
-        float: right;
-      }
+      // flex: 1 1 15%;
+      // display: flex;
+      // justify-content: flex-end;
+      // min-width: 160px;
     }
     .app-main {
-      flex: 1 1 1200px;
+      //flex: 1 1 1200px;
+      @media (max-width: 767px) {
+        grid-column-start: nav;
+        grid-column-end: content;
+      }
 
       .app-main-content {
         max-width: 1100px;

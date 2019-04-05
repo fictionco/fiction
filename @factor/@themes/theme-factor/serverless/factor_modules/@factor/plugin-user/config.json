@@ -38,6 +38,8 @@
     "verifications",
     "serviceId",
     "privs",
+    "roles",
+    "accessLevel",
     "bio"
   ]
 }

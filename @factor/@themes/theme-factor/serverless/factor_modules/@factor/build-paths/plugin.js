@@ -1,11 +1,11 @@
-const { resolve } = require("path")
-const consola = require("consola")
+const { resolve, dirname } = require("path")
 module.exports = Factor => {
   return new class {
     constructor() {
       this.assignFolderNames()
       this.assignPaths()
       this.addServerPaths()
+      this.addThemePath()
     }
 
     assignFolderNames() {
@@ -15,6 +15,16 @@ module.exports = Factor => {
       _.generated = "generated"
 
       this.folderNames = Factor.$filters.apply("folder-names", _)
+    }
+
+    addThemePath() {
+      const { theme } = Factor.FACTOR_CONFIG
+
+      const themePath = theme ? dirname(require.resolve(theme)) : this.get("app")
+
+      this.add({
+        theme: themePath
+      })
     }
 
     assignPaths() {
