@@ -3,8 +3,7 @@
   "version": "0.0.7",
   "license": "GPL-3.0",
   "factor": {
-    "target": ["app"],
-    "scope": "extension"
+    "target": ["app"]
   },
   "publishConfig": {
     "access": "public"

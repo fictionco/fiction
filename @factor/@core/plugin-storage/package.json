@@ -1,10 +1,7 @@
 {
   "name": "@factor/plugin-storage",
   "factor": {
-    "target": [
-      "app"
-    ],
-    "scope": "core"
+    "target": ["app"]
   },
   "version": "0.0.7",
   "license": "GPL-3.0",

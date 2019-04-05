@@ -25,6 +25,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       }
 
       this.addCoreExtension("paths", require(`@factor/build-paths`))
+      this.addCoreExtension("theme", require(`@factor/core-theme`))
       this.addCoreExtension("keys", require(`@factor/build-keys`))
       this.addCoreExtension("files", require(`@factor/build-files`))
       this.addCoreExtension("config", require(`@factor/admin-config`))

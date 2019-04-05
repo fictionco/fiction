@@ -3,14 +3,27 @@ module.exports = Factor => {
     constructor() {
       const { theme } = Factor.FACTOR_CONFIG
 
-      this.themePackage = theme
+      this.themePackageName = theme
 
-      this.addPath()
-      this.addWebpackConfig()
+      if (Factor.FACTOR_ENV == "build") {
+        this.addPath()
+        this.addWebpackConfig()
+        const { target: themeTarget = "" } = this.buildConfig()
+        Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
+          if (Factor.$files.arrayIntersect(themeTarget, target)) {
+            load.push(extensions.find(_ => _.module == this.themePackageName))
+          }
+
+          return load
+        })
+      }
     }
 
     addPath() {
-      const themePath = theme ? path.dirname(require.resolve(theme)) : Factor.$paths.get("app")
+      const { dirname } = require("path")
+      const themePath = this.themePackageName
+        ? dirname(require.resolve(`${this.themePackageName}`))
+        : Factor.$paths.get("app")
 
       Factor.$paths.add({
         theme: themePath
@@ -18,7 +31,7 @@ module.exports = Factor => {
     }
 
     package() {
-      return this.themePackage
+      return this.themePackageName
     }
 
     addWebpackConfig() {
@@ -32,5 +45,13 @@ module.exports = Factor => {
         })
       }
     }
+
+    buildConfig() {
+      const { factor } = require(`${this.themePackageName}/package.json`)
+
+      return factor
+    }
+
+    addToLoader() {}
   }()
 }

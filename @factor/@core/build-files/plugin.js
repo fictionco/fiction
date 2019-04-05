@@ -19,13 +19,14 @@ module.exports = Factor => {
       })
 
       if (Factor.FACTOR_ENV == "build") {
-        this.generateLoaders()
+        this.addWatchers()
       }
-
-      this.addWatchers()
     }
 
     addWatchers() {
+      Factor.$filters.add("initialize-build", () => {
+        this.generateLoaders()
+      })
       Factor.$filters.add("build-watchers", _ => {
         _.push({
           name: "Generate Loaders - Package Added/Removed",
@@ -55,7 +56,7 @@ module.exports = Factor => {
     generateLoaders() {
       const s = Date.now()
       const extensions = this.getExtensions()
-
+      console.log("ALL EXTENSIONS", extensions)
       this.makeLoaderFile({
         extensions,
         destination: Factor.$paths.get("plugins-loader-build"),
@@ -67,12 +68,6 @@ module.exports = Factor => {
         destination: Factor.$paths.get("plugins-loader-app"),
         target: ["app"]
       })
-
-      // this.makeLoaderFile({
-      //   extensions,
-      //   destination: Factor.$paths.get("plugins-loader-themes"),
-      //   target: ["themes"]
-      // })
 
       this.makeLoaderFile({
         extensions,
@@ -109,10 +104,10 @@ module.exports = Factor => {
         packagePaths = packagePaths.concat(glob(pattern))
       })
 
-      return this.makeLoader(packagePaths)
+      return this.getExtensionList(packagePaths)
     }
 
-    makeLoader(packagePaths) {
+    getExtensionList(packagePaths) {
       const loader = []
       packagePaths.forEach(_ => {
         let fields = {}
@@ -129,12 +124,6 @@ module.exports = Factor => {
             } = {},
             version
           } = require(_)
-
-          // Change scope if package is actually the app (themes vs app)
-          // Useful for theme development
-          if (_ == Factor.$paths.get("app-package")) {
-            scope = "application"
-          }
 
           fields = {
             version,
@@ -173,20 +162,7 @@ module.exports = Factor => {
     makeLoaderFile({ extensions, destination, target, requireAtRuntime = false }) {
       const fs = require("fs-extra")
 
-      const filtered = extensions.filter(_ => {
-        if (_.scope == "theme" && !target.includes("themes")) {
-          return false
-        }
-        if (_.target) {
-          if (typeof _.target == "string") {
-            if (target.includes(_.target)) {
-              return true
-            }
-          } else if (target.filter(value => _.target.includes(value)).length > 0) {
-            return true
-          }
-        }
-      })
+      const filtered = this.filterExtensions({ target, extensions })
 
       const lines = [`/* GENERATED FILE */`]
 
@@ -203,6 +179,41 @@ module.exports = Factor => {
       fs.ensureDirSync(path.dirname(destination))
 
       fs.writeFileSync(destination, lines.join("\n"))
+    }
+
+    filterExtensions({ target, extensions }) {
+      const filtered = extensions.filter(_ => {
+        if (_.scope !== "extension") {
+          return false
+        }
+        return this.arrayIntersect(target, _.target)
+      })
+      console.log("PKG LOAD")
+      return Factor.$filters.apply(`packages-loader`, filtered, { target, extensions })
+    }
+
+    arrayIntersect(targetA, targetB) {
+      if (!targetA || !targetB) {
+        return false
+      } else if (targetA == "string" && targetB == "string" && targetA == targetB) {
+        return true
+      } else if (
+        typeof targetA == "string" &&
+        Array.isArray(targetB) &&
+        targetB.includes(targetA)
+      ) {
+        return true
+      } else if (
+        typeof targetB == "string" &&
+        Array.isArray(targetA) &&
+        targetA.includes(targetB)
+      ) {
+        return true
+      } else if (targetA.filter(value => targetB.includes(value)).length > 0) {
+        return true
+      } else {
+        return false
+      }
     }
 
     readHtmlFile(filePath, { minify = true, name = "" } = {}) {

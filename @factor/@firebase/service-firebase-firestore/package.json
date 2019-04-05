@@ -8,7 +8,6 @@
   },
   "factor": {
     "target": ["app", "build", "serverless"],
-    "scope": "service",
     "service": "db",
     "provider": "firebase"
   },
