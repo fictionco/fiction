@@ -124,7 +124,6 @@ module.exports.default = Factor => {
 
       const analyzeConfig = analyze ? { plugins: [new BundleAnalyzerPlugin()] } : {}
 
-      const themeConfig = Factor.$theme ? this.theme() : {}
       // Only run this once (server build)
       // If it runs twice it cleans it after the first
       const cleanDistPlugin =
@@ -295,7 +294,7 @@ module.exports.default = Factor => {
           new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
             "process.env.VUE_ENV": JSON.stringify(args.target),
-            "process.env.FACTOR_CONFIG": JSON.stringify(Factor.$config)
+            "process.env.FACTOR_CONFIG": JSON.stringify(Factor.$config.settings())
           })
         ],
         stats: { children: false }

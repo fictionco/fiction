@@ -19,7 +19,7 @@ module.exports.default = Factor => {
     constructor() {
       // If development or --serve variable is passed
       // We should serve the app (locally)
-      this.serveApp = !isProd || Factor.$config.serve ? true : false
+      this.serveApp = !isProd || Factor.$config.setting("serve") ? true : false
 
       // After all extensions/filters added
       // Needed for webpack and dev server
@@ -73,7 +73,10 @@ module.exports.default = Factor => {
           return this.handleError(req, res, err)
         }
 
-        if (isProd && (typeof Factor.$config.cache == "undefined" || Factor.$config.cache)) {
+        if (
+          isProd &&
+          (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))
+        ) {
           res.set("cache-control", this.getCacheControl(req.url))
         }
 
@@ -134,7 +137,7 @@ module.exports.default = Factor => {
 
       // Serve the app from node
       if (this.serveApp) {
-        const port = Factor.$config.port || 7000
+        const port = Factor.$config.setting("port") || 7000
 
         this.getListenRoutine(this.server).listen(port, () => {
           const url = `${this.httpRoutine.routine}://localhost:${port}`

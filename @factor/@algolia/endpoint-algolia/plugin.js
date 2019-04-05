@@ -7,7 +7,7 @@ module.exports.default = Factor => {
       const {
         algolia: { adminKey, appId },
         env
-      } = Factor.$config
+      } = Factor.$config.settings()
 
       this.prefix = env
       this.client = this.algoliasearch(appId, adminKey)

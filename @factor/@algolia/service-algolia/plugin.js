@@ -7,8 +7,8 @@ export default Factor => {
         })
       } else {
         const algoliasearch = require("algoliasearch")
-        this.config = Factor.$config.algolia
-        this.prefix = `${Factor.$config.env}_`
+        this.config = Factor.$config.setting("algolia")
+        this.prefix = `${Factor.$config.setting("env")}_`
         this.client = algoliasearch(this.config.appId, this.config.searchKey)
 
         this.filters()

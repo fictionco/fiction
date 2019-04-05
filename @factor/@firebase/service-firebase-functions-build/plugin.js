@@ -161,7 +161,7 @@ export default Factor => {
     async makePackages() {
       this.getDependencies()
 
-      const { pkg } = Factor.$config
+      const { pkg } = Factor.$config.settings()
 
       const lines = {
         name: "@factor/serverless-directory",

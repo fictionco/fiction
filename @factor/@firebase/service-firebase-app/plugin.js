@@ -10,7 +10,7 @@ export default Factor => {
       // Start Client Firebase Instance
       if (!this.client.apps || this.client.apps.length == 0) {
         try {
-          this.client.initializeApp(Factor.$config.firebase)
+          this.client.initializeApp(Factor.$config.setting("firebase"))
           Factor.$events.$emit("firebase-init", this.client)
         } catch (error) {
           console.error("Error initializing Firebase", error)

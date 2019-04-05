@@ -61,7 +61,7 @@ module.exports = FACTOR_CONFIG => {
 
       const {
         firebase: { databaseURL, serviceAccount }
-      } = Factor.$config
+      } = Factor.$config.settings()
 
       if (serviceAccount) {
         admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })

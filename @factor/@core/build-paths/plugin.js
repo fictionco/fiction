@@ -10,7 +10,7 @@ module.exports = Factor => {
     assignFolderNames() {
       const _ = {}
       _.dist = "dist"
-      _.source = ""
+      _.source = "."
       _.generated = "generated"
 
       this.folderNames = Factor.$filters.apply("folder-names", _)

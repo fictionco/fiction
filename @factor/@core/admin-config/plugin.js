@@ -4,7 +4,7 @@ const isNode = require("detect-node")
 const { resolve } = require("path")
 const consola = require("consola")
 module.exports = Factor => {
-  const handler = new class {
+  return new class {
     constructor() {
       this.env =
         process.env.NODE_ENV == "development" || Factor.FACTOR_CONFIG.staging
@@ -44,7 +44,7 @@ module.exports = Factor => {
       return config
     }
 
-    fullConfig() {
+    settings() {
       let publicConfig = require(Factor.$paths.get("keys-public"))
 
       const privateConfig = this.serverPrivateConfig()
@@ -63,7 +63,11 @@ module.exports = Factor => {
 
       return merge.all(configObjects)
     }
-  }()
 
-  return handler.fullConfig()
+    setting(key) {
+      const settings = this.settings()
+
+      return settings[key]
+    }
+  }()
 }

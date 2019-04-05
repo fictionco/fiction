@@ -273,7 +273,7 @@ export default Factor => {
     getPermalink({ type, permalink = "", root = true, path = false } = {}) {
       const parts = []
 
-      parts.push(root ? Factor.$config.url : "")
+      parts.push(root ? Factor.$config.setting("url") : "")
 
       if (path) {
         parts.push(path)

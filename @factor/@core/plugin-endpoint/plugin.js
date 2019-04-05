@@ -6,7 +6,7 @@ export default Factor => {
     }
 
     init() {
-      this.urlBase = Factor.$config.serverlessUrl
+      this.urlBase = Factor.$config.setting("serverlessUrl")
     }
 
     serializer(params) {

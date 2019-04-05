@@ -8,7 +8,7 @@ export default Factor => {
     }
 
     setKeys() {
-      const { google: { apiKey = "", clientId = "" } = {} } = Factor.$config
+      const { google: { apiKey = "", clientId = "" } = {} } = Factor.$config.settings()
 
       if (!apiKey || !clientId) {
         const f = []

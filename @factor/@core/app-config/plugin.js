@@ -2,7 +2,8 @@ const merge = require("deepmerge")
 const env = process.env.NODE_ENV || "production"
 const isNode = require("detect-node")
 module.exports = Factor => {
-  const handler = new class {
+  return new class {
+    constructor() {}
     getPublicConfig() {
       let out = {}
       try {
@@ -14,10 +15,10 @@ module.exports = Factor => {
       return out
     }
 
-    fullConfig() {
+    settings() {
       let publicConfig = this.getPublicConfig()
 
-      const privateConfig = Factor.FACTOR_ENV != "app" && isNode ? this.serverPrivateConfig() : {}
+      //const privateConfig = Factor.FACTOR_ENV != "app" && isNode ? this.serverPrivateConfig() : {}
 
       const configObjects = [
         Factor.FACTOR_CONFIG,
@@ -31,7 +32,11 @@ module.exports = Factor => {
 
       return merge.all(configObjects)
     }
-  }()
 
-  return handler.fullConfig()
+    setting(key) {
+      const settings = this.settings()
+
+      return settings[key]
+    }
+  }()
 }
