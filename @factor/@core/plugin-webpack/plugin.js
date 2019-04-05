@@ -125,6 +125,7 @@ module.exports.default = Factor => {
 
       const analyzeConfig = analyze ? { plugins: [new BundleAnalyzerPlugin()] } : {}
 
+      const themeConfig = Factor.$theme ? this.theme() : {}
       // Only run this once (server build)
       // If it runs twice it cleans it after the first
       const cleanDistPlugin =
@@ -134,6 +135,7 @@ module.exports.default = Factor => {
         baseConfig,
         buildConfig,
         targetConfig,
+        themeConfig,
         testingConfig,
         analyzeConfig,
         cleanDistPlugin
@@ -184,7 +186,7 @@ module.exports.default = Factor => {
     production() {
       return {
         mode: "production",
-        devtool: false,
+        devtool: "source-map",
         output: {
           publicPath: "/"
         },
@@ -206,12 +208,20 @@ module.exports.default = Factor => {
     development() {
       return {
         mode: "development",
-        devtool: "eval-source-map",
+        devtool: "cheap-module-eval-source-map",
         output: {
           publicPath: Factor.$paths.get("dist")
         },
         plugins: [new FriendlyErrorsWebpackPlugin()],
         performance: { hints: false } // Warns about large dev file sizes
+      }
+    }
+
+    theme() {
+      return {
+        resolve: {
+          modules: [Factor.$paths.get("app"), Factor.$paths.get("theme"), "node_modules"]
+        }
       }
     }
 

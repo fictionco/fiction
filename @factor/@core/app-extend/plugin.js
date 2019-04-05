@@ -4,6 +4,7 @@ export default (Factor, FACTOR_CONFIG, target) => {
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
       Factor.FACTOR_ENV = "app"
       Factor.FACTOR_TARGET = target
+      Factor.$theme = FACTOR_CONFIG.theme || false
       this.setup()
     }
 

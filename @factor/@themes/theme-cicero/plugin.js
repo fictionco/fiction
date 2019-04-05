@@ -1,5 +1,7 @@
 export default Factor => {
   return new class {
-    constructor() {}
+    constructor() {
+      console.log("CICERO LOADED")
+    }
   }()
 }

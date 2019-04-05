@@ -2,7 +2,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
   return new class {
     constructor() {
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
-
+      Factor.$theme = FACTOR_CONFIG.theme || false
       Factor.FACTOR_ENV = "build"
       this.setup()
     }
@@ -14,8 +14,6 @@ module.exports = (Factor, FACTOR_CONFIG) => {
 
       this.addCoreExtension("filters", require(`@factor/filters`))
       this.addCoreExtension("paths", require(`@factor/build-paths`))
-
-      const aliases = Factor.$paths.getAliases()
 
       this.addCoreExtension("keys", require(`@factor/build-keys`))
       this.addCoreExtension("files", require(`@factor/build-files`))

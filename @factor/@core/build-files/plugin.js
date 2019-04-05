@@ -87,63 +87,6 @@ module.exports = Factor => {
       )
     }
 
-    // Webpack doesn't allow dynamic paths in require statements
-    // In order to make dynamic require statements, we build loader files
-    // Also an easier way to see what is included than by using other techniques
-    makeLoaderFile({ extensions, destination, target, requireAtRuntime = false }) {
-      const fs = require("fs-extra")
-
-      const filtered = extensions.filter(_ => {
-        if (_.scope == "theme" && !target.includes("themes")) {
-          return false
-        }
-        if (_.target) {
-          if (typeof _.target == "string") {
-            if (target.includes(_.target)) {
-              return true
-            }
-          } else if (target.filter(value => _.target.includes(value)).length > 0) {
-            return true
-          }
-        }
-      })
-
-      const lines = [`/* GENERATED FILE */`]
-
-      lines.push("const files = {}")
-
-      filtered.forEach(extension => {
-        const { module, id } = extension
-        const r = requireAtRuntime ? JSON.stringify(extension) : `require("${module}").default`
-        lines.push(`files["${id}"] = ${r}`)
-      })
-
-      lines.push(`module.exports = files`)
-
-      fs.ensureDirSync(path.dirname(destination))
-
-      fs.writeFileSync(destination, lines.join("\n"))
-    }
-
-    readHtmlFile(filePath, { minify = true, name = "" } = {}) {
-      const fs = require("fs-extra")
-
-      let str = fs.readFileSync(filePath, "utf-8")
-
-      if (minify) {
-        str = require("html-minifier").minify(str, {
-          minifyJS: true,
-          collapseWhitespace: true
-        })
-      }
-
-      if (name) {
-        str = `<!-- ${name} -->${str}<!-- / ${name} -->`
-      }
-
-      return str
-    }
-
     getExtensionPatterns() {
       let patterns = []
 
@@ -167,16 +110,6 @@ module.exports = Factor => {
       })
 
       return this.makeLoader(packagePaths)
-    }
-
-    sortPriority(arr) {
-      if (!arr || arr.length == 0) return arr
-
-      return arr.sort((a, b) => {
-        const ap = a.priority || 100
-        const bp = b.priority || 100
-        return ap < bp ? -1 : ap > bp ? 1 : 0
-      })
     }
 
     makeLoader(packagePaths) {
@@ -234,8 +167,75 @@ module.exports = Factor => {
       return this.sortPriority(loader)
     }
 
+    // Webpack doesn't allow dynamic paths in require statements
+    // In order to make dynamic require statements, we build loader files
+    // Also an easier way to see what is included than by using other techniques
+    makeLoaderFile({ extensions, destination, target, requireAtRuntime = false }) {
+      const fs = require("fs-extra")
+
+      const filtered = extensions.filter(_ => {
+        if (_.scope == "theme" && !target.includes("themes")) {
+          return false
+        }
+        if (_.target) {
+          if (typeof _.target == "string") {
+            if (target.includes(_.target)) {
+              return true
+            }
+          } else if (target.filter(value => _.target.includes(value)).length > 0) {
+            return true
+          }
+        }
+      })
+
+      const lines = [`/* GENERATED FILE */`]
+
+      lines.push("const files = {}")
+
+      filtered.forEach(extension => {
+        const { module, id } = extension
+        const r = requireAtRuntime ? JSON.stringify(extension) : `require("${module}").default`
+        lines.push(`files["${id}"] = ${r}`)
+      })
+
+      lines.push(`module.exports = files`)
+
+      fs.ensureDirSync(path.dirname(destination))
+
+      fs.writeFileSync(destination, lines.join("\n"))
+    }
+
+    readHtmlFile(filePath, { minify = true, name = "" } = {}) {
+      const fs = require("fs-extra")
+
+      let str = fs.readFileSync(filePath, "utf-8")
+
+      if (minify) {
+        str = require("html-minifier").minify(str, {
+          minifyJS: true,
+          collapseWhitespace: true
+        })
+      }
+
+      if (name) {
+        str = `<!-- ${name} -->${str}<!-- / ${name} -->`
+      }
+
+      return str
+    }
+
     makeId(name) {
       return name.replace(/\.js|plugin|\-|\//gi, "")
+    }
+
+    sortPriority(arr) {
+      if (!arr || arr.length == 0) return arr
+
+      return arr.sort((a, b) => {
+        const ap = a.priority || 100
+        const bp = b.priority || 100
+        return ap < bp ? -1 : ap > bp ? 1 : 0
+      })
     }
   }()
 }
