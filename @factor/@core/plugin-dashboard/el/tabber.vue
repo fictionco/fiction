@@ -45,6 +45,13 @@ export default {
   > div {
     margin: 0 6px;
   }
+  @media (max-width: 767px) {
+    padding-bottom: 1em;
+    justify-content: center;
+    order: -1;
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
 
   .tabb {
     user-select: none;

@@ -372,17 +372,24 @@ export default {
   grid-gap: 1em;
   grid-template-columns: 1fr 1fr 1fr;
   //grid-template-rows: 1fr 1fr 1fr 1fr;
+  @media (max-width: 960px) {
+    grid-gap: 1em 0;
+  }
+
   .dashboard-pane {
     margin-bottom: 1em;
+  }
+  .content-column {
+    grid-column: span 2;
   }
   .content-column,
   .meta-column {
     min-width: 0;
+    @media (max-width: 960px) {
+      grid-column: span 3;
+    }
   }
-  .content-column {
-    grid-column: span 2;
-    //grid-row: span 4;
-  }
+
   .save-info {
     line-height: 1.5;
     font-size: 12px;
@@ -395,8 +402,8 @@ export default {
         margin-right: 8px;
       }
     }
-    .changes {
-    }
+    // .changes {
+    // }
     .unpublished {
       font-weight: 600;
     }
@@ -407,9 +414,9 @@ export default {
   .post-title .text-input input {
     width: 100%;
   }
-  .post-actions {
-    grid-row: span 2;
-  }
+  // .post-actions {
+  //   grid-row: span 2;
+  // }
   .post-actions .foot .actions {
     width: 100%;
     display: flex;
@@ -417,7 +424,6 @@ export default {
     align-items: center;
     .trash {
       font-size: 0.9em;
-
       font-weight: 500;
     }
   }

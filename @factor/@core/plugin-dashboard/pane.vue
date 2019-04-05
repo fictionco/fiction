@@ -31,8 +31,8 @@ export default {
 
 <style lang="less">
 .dashboard-pane {
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
   background: #fff; // #fcfdff;
   border-radius: 4px;
   box-shadow: @factor-panel-shadow, 0 6px 14px 0 rgba(24, 32, 41, 0.06),
@@ -41,10 +41,11 @@ export default {
   margin-bottom: 2em;
   .head,
   .foot {
-    align-items: center;
     display: flex;
-    background: #fff;
+    align-items: center;
     justify-content: space-between;
+    background: #fff;
+
     padding: 0.75em 0.75em 0.75em 1em;
   }
   .head {
@@ -62,7 +63,7 @@ export default {
 
   .cont {
     padding: 1em;
-    flex-grow: 1;
+    //flex-grow: 1;
   }
 }
 </style>

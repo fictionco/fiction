@@ -39,10 +39,17 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0.5em 0 1em;
+  @media (max-width: 767px) {
+    display: grid;
+    padding: 0 0 1em;
+  }
   .bulk-actions {
     display: flex;
     > * {
       margin-right: 10px;
+    }
+    select {
+      font-size: 14px;
     }
   }
 }

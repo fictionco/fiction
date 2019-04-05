@@ -143,6 +143,15 @@ export default {
 .user-list-items {
   .added-user {
     margin-bottom: 1em;
+    .card-wrap {
+      width: 200px;
+      max-width: fit-content;
+      .name {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
   }
 }
 

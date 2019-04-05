@@ -78,16 +78,21 @@ export default {
   grid-gap: 1em;
   grid-template-columns: 1fr 1fr 1fr;
   //grid-template-rows: 1fr 1fr 1fr 1fr;
+  @media (max-width: 960px) {
+    grid-gap: 1em 0;
+  }
   .dashboard-pane {
     margin-bottom: 1em;
+  }
+  .content-column {
+    grid-column: span 2;
   }
   .content-column,
   .meta-column {
     min-width: 0;
-  }
-  .content-column {
-    grid-column: span 2;
-    //grid-row: span 4;
+    @media (max-width: 960px) {
+      grid-column: span 3;
+    }
   }
   .compose {
     min-height: 500px;

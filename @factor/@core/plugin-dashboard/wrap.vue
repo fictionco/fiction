@@ -79,7 +79,7 @@ export default {
     // flex-grow: 1;
     // justify-content: center;
 
-    @media (max-width: 767px) {
+    @media (max-width: 960px) {
       grid-template-columns: 1fr;
     }
 
@@ -92,7 +92,7 @@ export default {
         padding: 2em 0 2em 1.5em;
       }
 
-      @media (max-width: 767px) {
+      @media (max-width: 960px) {
         position: fixed;
         width: 75%;
         top: 0;
@@ -121,8 +121,7 @@ export default {
     .app-main {
       //flex: 1 1 1200px;
       @media (max-width: 767px) {
-        grid-column-start: nav;
-        grid-column-end: content;
+        grid-template-columns: 1fr;
       }
 
       .app-main-content {

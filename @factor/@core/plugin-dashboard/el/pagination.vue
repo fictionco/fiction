@@ -39,11 +39,21 @@ export default {
 .pagination {
   display: flex;
   align-items: center;
+  @media (max-width: 767px) {
+    justify-content: flex-end;
+    .items,
+    .sep {
+      display: none;
+    }
+  }
   > * {
     margin: 0 5px;
   }
   .sep {
     opacity: 0.4;
+  }
+  .factor-btn {
+    padding: 0.5em;
   }
 }
 </style>

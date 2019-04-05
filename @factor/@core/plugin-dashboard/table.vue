@@ -104,6 +104,16 @@ export default {
       display: grid;
 
       grid-template-columns: repeat(5, 1fr);
+
+      // 16 Column row
+      &.dbt-cols-16 {
+        grid-template-columns: repeat(16, 1fr);
+      }
+      // 12 Column row
+      &.dbt-cols-12 {
+        grid-template-columns: repeat(12, 1fr);
+      }
+
       grid-column-gap: 2em;
 
       color: inherit;
@@ -118,6 +128,71 @@ export default {
     .dbt-col {
       flex: 1 1 100%;
       min-width: 0;
+
+      // 1 Column
+      &.col-1 {
+        grid-column: span 1;
+      }
+      // 2 Columns
+      &.col-2 {
+        grid-column: span 2;
+      }
+      // 3 Columns
+      &.col-3 {
+        grid-column: span 3;
+      }
+      // 4 Columns
+      &.col-4 {
+        grid-column: span 4;
+      }
+      // 5 Columns
+      &.col-5 {
+        grid-column: span 5;
+      }
+      // 6 Columns
+      &.col-6 {
+        grid-column: span 6;
+      }
+      // 7 Columns
+      &.col-7 {
+        grid-column: span 7;
+      }
+      // 8 Columns
+      &.col-8 {
+        grid-column: span 8;
+      }
+      // 9 Columns
+      &.col-9 {
+        grid-column: span 9;
+      }
+      // 10 Columns
+      &.col-10 {
+        grid-column: span 10;
+      }
+      // 11 Columns
+      &.col-11 {
+        grid-column: span 11;
+      }
+      // 12 Columns
+      &.col-12 {
+        grid-column: span 12;
+      }
+      // 13 Columns
+      &.col-13 {
+        grid-column: span 13;
+      }
+      // 14 Columns
+      &.col-14 {
+        grid-column: span 14;
+      }
+      // 15 Columns
+      &.col-15 {
+        grid-column: span 15;
+      }
+      &.col-16 {
+        grid-column: span 16;
+      }
+
       &:last-child {
         //text-align: right;
         .zero-lines .line {
