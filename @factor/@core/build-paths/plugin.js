@@ -5,7 +5,6 @@ module.exports = Factor => {
       this.assignFolderNames()
       this.assignPaths()
       this.addServerPaths()
-      this.addThemePath()
     }
 
     assignFolderNames() {
@@ -17,15 +16,15 @@ module.exports = Factor => {
       this.folderNames = Factor.$filters.apply("folder-names", _)
     }
 
-    addThemePath() {
-      const { theme } = Factor.FACTOR_CONFIG
+    // addThemePath() {
+    //   const { theme } = Factor.FACTOR_CONFIG
 
-      const themePath = theme ? dirname(require.resolve(theme)) : this.get("app")
+    //   const themePath = theme ? dirname(require.resolve(theme)) : this.get("app")
 
-      this.add({
-        theme: themePath
-      })
-    }
+    //   this.add({
+    //     theme: themePath
+    //   })
+    // }
 
     assignPaths() {
       const { baseDir } = Factor.FACTOR_CONFIG

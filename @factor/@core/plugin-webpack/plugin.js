@@ -30,7 +30,6 @@ module.exports.default = Factor => {
 
     addFilters() {
       Factor.$filters.add("build-production", () => {
-        console.log("WEBPACK START BUILD")
         return this.buildProduction()
       })
       Factor.$filters.add("webpack-config", args => {
@@ -131,11 +130,13 @@ module.exports.default = Factor => {
       const cleanDistPlugin =
         build == "production" && target == "server" ? { plugins: [new CleanWebpackPlugin()] } : {}
 
+      const packageConfig = Factor.$filters.apply("package-webpack-config", {})
+
       const merged = merge(
         baseConfig,
         buildConfig,
         targetConfig,
-        themeConfig,
+        packageConfig,
         testingConfig,
         analyzeConfig,
         cleanDistPlugin
@@ -217,13 +218,13 @@ module.exports.default = Factor => {
       }
     }
 
-    theme() {
-      return {
-        resolve: {
-          modules: [Factor.$paths.get("app"), Factor.$paths.get("theme"), "node_modules"]
-        }
-      }
-    }
+    // theme() {
+    //   return {
+    //     resolve: {
+    //       modules: [Factor.$paths.get("app"), Factor.$paths.get("theme"), "node_modules"]
+    //     }
+    //   }
+    // }
 
     base(args) {
       const out = {

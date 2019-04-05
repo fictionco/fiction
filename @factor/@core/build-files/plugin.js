@@ -68,11 +68,11 @@ module.exports = Factor => {
         target: ["app"]
       })
 
-      this.makeLoaderFile({
-        extensions,
-        destination: Factor.$paths.get("plugins-loader-themes"),
-        target: ["themes"]
-      })
+      // this.makeLoaderFile({
+      //   extensions,
+      //   destination: Factor.$paths.get("plugins-loader-themes"),
+      //   target: ["themes"]
+      // })
 
       this.makeLoaderFile({
         extensions,
