@@ -508,7 +508,8 @@ export default {
   &:focus {
     opacity: 1;
   }
-  .input-upload {
+  .input-upload,
+  .input-upload::-webkit-file-upload-button {
     position: absolute;
     left: 0;
     top: 0;

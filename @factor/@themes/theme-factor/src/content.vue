@@ -4,7 +4,14 @@
       <factor-link path="/how-it-works">How it works</factor-link>
       <factor-link path="/plugins">Plugins</factor-link>
       <factor-link path="/docs">Docs</factor-link>
-      <!-- <factor-link btn="primary">Download</factor-link> -->
+      <factor-link v-if="!$uid" event="signin-modal" data-test="login">
+        Sign In
+        <i class="fa fa-arrow-right" />
+      </factor-link>
+      <factor-link v-else path="/dashboard" class="dashboard-link">
+        View Dashboard
+        <i class="fa fa-arrow-right" />
+      </factor-link>
       <factor-link class="factor-icon" path="https://fiction.page.link/discord" target="_blank">
         <i class="fa fa-discord" />
       </factor-link>
