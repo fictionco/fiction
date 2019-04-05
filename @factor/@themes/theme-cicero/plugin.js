@@ -5,12 +5,23 @@ export default Factor => {
         const routes = [
           {
             path: "/h",
-            component: () => import("./home"),
+            component: this.themeImport("home"),
             meta: { nav: true }
           }
         ]
         return _.concat(routes)
       })
+    }
+
+    themeImport(p) {
+      let themeComponent
+      try {
+        themeComponent = () => import(`@/${p}`)
+      } catch (error) {
+        console.log("ER", error)
+        themeComponent = () => import(`./${p}`)
+      }
+      return themeComponent
     }
   }()
 }

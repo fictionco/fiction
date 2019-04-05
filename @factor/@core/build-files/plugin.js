@@ -56,7 +56,7 @@ module.exports = Factor => {
     generateLoaders() {
       const s = Date.now()
       const extensions = this.getExtensions()
-      console.log("ALL EXTENSIONS", extensions)
+
       this.makeLoaderFile({
         extensions,
         destination: Factor.$paths.get("plugins-loader-build"),
@@ -188,7 +188,7 @@ module.exports = Factor => {
         }
         return this.arrayIntersect(target, _.target)
       })
-      console.log("PKG LOAD")
+
       return Factor.$filters.apply(`packages-loader`, filtered, { target, extensions })
     }
 

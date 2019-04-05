@@ -61,6 +61,7 @@ module.exports = Factor => {
       return {
         "@": this.get("source"),
         "~": this.get("app"),
+        "#": this.get("theme") || this.get("source"),
         "@generated": this.get("generated"),
         "@config": this.get("config")
       }
