@@ -10,21 +10,11 @@ module.exports = Factor => {
     assignFolderNames() {
       const _ = {}
       _.dist = "dist"
-      _.source = "src"
+      _.source = ""
       _.generated = "generated"
 
       this.folderNames = Factor.$filters.apply("folder-names", _)
     }
-
-    // addThemePath() {
-    //   const { theme } = Factor.FACTOR_CONFIG
-
-    //   const themePath = theme ? dirname(require.resolve(theme)) : this.get("app")
-
-    //   this.add({
-    //     theme: themePath
-    //   })
-    // }
 
     assignPaths() {
       const { baseDir } = Factor.FACTOR_CONFIG
