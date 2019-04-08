@@ -242,11 +242,13 @@ export default Factor => {
     }
 
     getPostTypes() {
+      // Causes error in raw nodeJS
+      const icon = Factor.FACTOR_ENV == "app" ? require("./img/pages.svg") : ""
       const initialPostTypes = [
         {
           type: "page",
           base: "",
-          icon: require("./img/pages.svg"),
+          icon,
           nameIndex: "Pages",
           nameSingle: "Page",
           namePlural: "Pages"

@@ -126,23 +126,19 @@ module.exports.default = Factor => {
 
       // Only run this once (server build)
       // If it runs twice it cleans it after the first
-      const singleEnv = { plugins: [] }
+      const plugins = Factor.$filters.apply("webpack-plugins", [], { ...args, webpack })
+
       if (build == "production" && target == "server") {
-        singleEnv.plugins.push(new CleanWebpackPlugin())
+        plugins.push(new CleanWebpackPlugin())
       } else if (target == "client" && analyze) {
-        singleEnv.plugins.push(new BundleAnalyzerPlugin())
+        plugins.push(new BundleAnalyzerPlugin())
       }
 
       const packageConfig = Factor.$filters.apply("package-webpack-config", {})
 
-      const merged = merge(
-        baseConfig,
-        buildConfig,
-        targetConfig,
-        packageConfig,
-        testingConfig,
-        singleEnv
-      )
+      const merged = merge(baseConfig, buildConfig, targetConfig, packageConfig, testingConfig, {
+        plugins
+      })
 
       return merged
     }
@@ -219,14 +215,6 @@ module.exports.default = Factor => {
         performance: { hints: false } // Warns about large dev file sizes
       }
     }
-
-    // theme() {
-    //   return {
-    //     resolve: {
-    //       modules: [Factor.$paths.get("app"), Factor.$paths.get("theme"), "node_modules"]
-    //     }
-    //   }
-    // }
 
     base(args) {
       const out = {

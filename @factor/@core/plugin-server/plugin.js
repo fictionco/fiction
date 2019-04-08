@@ -123,8 +123,7 @@ module.exports.default = Factor => {
       if (middleware.length > 0) {
         middleware.forEach(({ path, callback }) => {
           this.server.use(path, function(req, res, next) {
-            callback(req, res)
-            next()
+            callback(req, res, next)
           })
         })
       }
