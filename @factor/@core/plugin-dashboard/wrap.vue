@@ -7,11 +7,11 @@
       <site-head />
 
       <div class="app-content">
-        <div class="app-nav">
-          <div class="app-nav-toggle" @click="toggleNav()">
+        <div class="app-nav" @click.stop>
+          <factor-btn class="app-nav-toggle" @click="toggleNav()">
             <i class="fa fa-bars" /> Menu
-          </div>
-          <dashboard-nav :class="{ active: navActive }" />
+          </factor-btn>
+          <dashboard-nav :class="{active: toggle }" />
         </div>
         <div class="app-main">
           <div class="app-main-content">
@@ -45,13 +45,14 @@ export default {
     return {
       loading: true,
       activeRoute: this.$route.path,
-      navActive: true
+      toggle: false
     }
   },
 
   watch: {
     $route: function(v) {
       this.activeRoute = v.path
+      this.toggleNav(false)
     }
   },
   mounted() {
@@ -60,8 +61,23 @@ export default {
     })
   },
   methods: {
-    toggleNav: function() {
-      this.navActive = !this.navActive
+    toggleNav(v) {
+      if (typeof v == "undefined") {
+        this.toggle = !this.toggle
+      } else {
+        this.toggle = v
+      }
+
+      this.clickHandler = e => {
+        this.toggle = false
+        document.removeEventListener("click", this.clickHandler, false)
+      };
+
+      if (this.toggle) {
+        document.addEventListener("click", this.clickHandler, false)
+      } else {
+        document.removeEventListener("click", this.clickHandler, false)
+      }
     }
   }
 }
@@ -87,7 +103,6 @@ export default {
       grid-template-columns: 1fr;
     }
 
-    .app-nav,
     .app-main {
       overflow-y: scroll;
     }
@@ -96,13 +111,14 @@ export default {
         padding: 2em 0 2em 1.5em;
       }
       .app-nav-toggle {
+        cursor: pointer;
         display: none;
         @media (max-width: 960px) {
           display: block;
-          padding: 1.5em 1.5em 0;
+          margin: 1.5em 1.5em 0;
         }
         @media (max-width: 767px) {
-          padding: 1em 1em 0;
+          margin: 1em 1em 0;
         }
       }
     }
