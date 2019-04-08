@@ -1,10 +1,7 @@
 export default (Factor, FACTOR_CONFIG, target) => {
   return new class {
     constructor() {
-      Factor.FACTOR_CONFIG = FACTOR_CONFIG
-      Factor.FACTOR_ENV = "app"
-      Factor.FACTOR_TARGET = target
-      Factor.$theme = FACTOR_CONFIG.theme || false
+      Factor.$theme = Factor.FACTOR_CONFIG.theme || false
       this.setup()
     }
 
@@ -81,13 +78,17 @@ export default (Factor, FACTOR_CONFIG, target) => {
     }
 
     mixinApp() {
-      const mixins = Factor.$filters.get("mixins", {})
+      if (!Factor.$mixinsApplied) {
+        const mixins = Factor.$filters.get("mixins", {})
 
-      Object.keys(mixins).forEach(key => {
-        if (typeof mixins[key] == "function") {
-          mixins[key]()
-        }
-      })
+        Object.keys(mixins).forEach(key => {
+          if (typeof mixins[key] == "function") {
+            mixins[key]()
+          }
+        })
+
+        Factor.$mixinsApplied = true
+      }
     }
   }()
 }

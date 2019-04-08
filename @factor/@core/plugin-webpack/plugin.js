@@ -294,6 +294,7 @@ module.exports.default = Factor => {
           new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
             "process.env.VUE_ENV": JSON.stringify(args.target),
+            "process.env.FACTOR_SSR": JSON.stringify(args.target),
             "process.env.FACTOR_CONFIG": JSON.stringify(Factor.$config.settings())
           })
         ],

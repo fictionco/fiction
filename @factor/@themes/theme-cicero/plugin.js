@@ -5,7 +5,7 @@ export default Factor => {
         const routes = [
           {
             path: "/h",
-            component: this.themeImport("home"),
+            component: () => import(`@/home`),
             meta: { nav: true }
           }
         ]
@@ -13,15 +13,6 @@ export default Factor => {
       })
     }
 
-    themeImport(p) {
-      let themeComponent
-      try {
-        themeComponent = () => import(`@/${p}`)
-      } catch (error) {
-        console.log("ER", error)
-        themeComponent = () => import(`./${p}`)
-      }
-      return themeComponent
-    }
+    
   }()
 }

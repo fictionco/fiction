@@ -89,5 +89,23 @@ module.exports.default = Factor => {
         return match.toLowerCase()
       })
     }
+
+    sortPriority(arr) {
+      if (!arr || arr.length == 0) {
+        return arr
+      }
+      return arr.sort((a, b) => {
+        const ap = a.priority || 100
+        const bp = b.priority || 100
+
+        if (ap < bp) {
+          return -1
+        } else if (ap > bp) {
+          return 1
+        } else {
+          return 0
+        }
+      })
+    }
   }()
 }

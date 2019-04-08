@@ -5,7 +5,10 @@
   </div>
 </template>
 <script>
+import mixin from "./mixin-site"
+
 export default {
+  mixins: [mixin],
   computed: {
     injectedComponents() {
       return this.$filters.apply("site-components")
