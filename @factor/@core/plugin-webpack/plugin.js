@@ -326,7 +326,12 @@ module.exports.default = Factor => {
         {
           loader: "style-resources-loader",
           options: {
-            patterns: prependedFiles
+            patterns: prependedFiles,
+            injector: (source, resources) => {
+              const injectContent = resources.map(({ content }) => content).join("")
+
+              return injectContent + source
+            }
           }
         }
       ]
