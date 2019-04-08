@@ -33,10 +33,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
     }
 
     async handleProductionBuild() {
-      const {
-        setup,
-        argv: { build }
-      } = FACTOR_CONFIG
+      const { setup, argv } = FACTOR_CONFIG
 
       // User defined setup hook
       // The code that trigger this should be in the start.js in the app 'config' folder
@@ -44,8 +41,8 @@ module.exports = (Factor, FACTOR_CONFIG) => {
         setup(Factor)
       }
 
-      if (build) {
-        await Factor.$filters.apply("build-production")
+      if (argv.build) {
+        await Factor.$filters.apply("build-production", argv)
       }
     }
 

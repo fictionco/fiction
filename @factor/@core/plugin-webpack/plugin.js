@@ -29,8 +29,8 @@ module.exports.default = Factor => {
     }
 
     addFilters() {
-      Factor.$filters.add("build-production", () => {
-        return this.buildProduction()
+      Factor.$filters.add("build-production", args => {
+        return this.buildProduction(args)
       })
       Factor.$filters.add("webpack-config", args => {
         return this.getConfig(args)
@@ -83,9 +83,10 @@ module.exports.default = Factor => {
       })
     }
 
-    async buildProduction() {
+    async buildProduction(args) {
       try {
         const serverConfig = this.getConfig({
+          ...args,
           build: "production",
           target: "server"
         })
@@ -96,6 +97,7 @@ module.exports.default = Factor => {
         })
 
         const clientConfig = this.getConfig({
+          ...args,
           build: "production",
           target: "client"
         })
@@ -122,12 +124,14 @@ module.exports.default = Factor => {
 
       const testingConfig = testing ? { devtool: "#cheap-module-source-map" } : {}
 
-      const analyzeConfig = analyze ? { plugins: [new BundleAnalyzerPlugin()] } : {}
-
       // Only run this once (server build)
       // If it runs twice it cleans it after the first
-      const cleanDistPlugin =
-        build == "production" && target == "server" ? { plugins: [new CleanWebpackPlugin()] } : {}
+      const singleEnv = { plugins: [] }
+      if (build == "production" && target == "server") {
+        singleEnv.plugins.push(new CleanWebpackPlugin())
+      } else if (target == "client" && analyze) {
+        singleEnv.plugins.push(new BundleAnalyzerPlugin())
+      }
 
       const packageConfig = Factor.$filters.apply("package-webpack-config", {})
 
@@ -137,8 +141,7 @@ module.exports.default = Factor => {
         targetConfig,
         packageConfig,
         testingConfig,
-        analyzeConfig,
-        cleanDistPlugin
+        singleEnv
       )
 
       return merged

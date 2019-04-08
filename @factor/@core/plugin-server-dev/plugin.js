@@ -25,12 +25,14 @@ export default Factor => {
     devServer() {
       this.templatePath = Factor.$paths.get("template")
 
-      this.confServer = Factor.$filters.get("webpack-config", {
-        target: "server"
+      this.confServer = Factor.$filters.apply("webpack-config", {
+        target: "server",
+        ...argv
       })
 
-      this.confClient = Factor.$filters.get("webpack-config", {
-        target: "client"
+      this.confClient = Factor.$filters.apply("webpack-config", {
+        target: "client",
+        ...argv
       })
 
       return (server, cb) => {

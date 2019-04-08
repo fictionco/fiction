@@ -119,6 +119,16 @@ module.exports.default = Factor => {
         }
       }
 
+      const middleware = Factor.$filters.apply("middleware", [])
+      if (middleware.length > 0) {
+        middleware.forEach(({ path, callback }) => {
+          this.server.use(path, function(req, res, next) {
+            callback(req, res)
+            next()
+          })
+        })
+      }
+
       // Serve static assets
       if (this.serveApp) {
         this.resolveStaticAssets()
