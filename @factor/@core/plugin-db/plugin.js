@@ -46,7 +46,7 @@ module.exports.default = Factor => {
         args
       })
 
-      const result = served[0] ? served[0].result : { data: returnType }
+      const result = served && served[0] ? served[0].result : { data: returnType }
 
       const entry = {
         data: returnType,

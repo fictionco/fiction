@@ -7,6 +7,11 @@
     "access": "public"
   },
   "factor": {
-    "target": ["build"]
+    "target": [
+      "build"
+    ]
+  },
+  "dependencies": {
+    "sitemap": "^2.1.0"
   }
 }

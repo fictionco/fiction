@@ -1,4 +1,4 @@
 <template>
-  <div>test</div>
+  <div>HEYYO</div>
 </template>
 

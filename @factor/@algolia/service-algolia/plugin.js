@@ -5,14 +5,13 @@ export default Factor => {
         Factor.$filters.add("initialize-build", () => {
           this.updateIndexSettings()
         })
-      } else {
-        const algoliasearch = require("algoliasearch")
-        this.config = Factor.$config.setting("algolia")
-        this.prefix = `${Factor.$config.setting("env")}_`
-        this.client = algoliasearch(this.config.appId, this.config.searchKey)
-
-        this.filters()
       }
+      const algoliasearch = require("algoliasearch")
+      this.config = Factor.$config.setting("algolia")
+      this.prefix = `${Factor.$config.setting("env")}_`
+      this.client = algoliasearch(this.config.appId, this.config.searchKey)
+
+      this.filters()
     }
 
     filters() {

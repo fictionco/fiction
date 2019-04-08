@@ -4,15 +4,13 @@ export default Factor => {
       Factor.$filters.addFilter("content-routes", _ => {
         const routes = [
           {
-            path: "/h",
-            component: () => import(`@/home`),
+            path: "/ray",
+            component: () => import(`#/page-template`),
             meta: { nav: true }
           }
         ]
         return _.concat(routes)
       })
     }
-
-    
   }()
 }
