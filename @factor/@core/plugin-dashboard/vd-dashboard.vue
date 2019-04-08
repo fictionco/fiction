@@ -51,7 +51,8 @@ export default {
             description:
               "The go-to place for all developer related content and social activities, where you can ask questions and learn from each other.",
             btn: "Join Portal",
-            path: "https://discordapp.com/invite/u5S3kmZ"
+            path:
+              "https://gitter.im/fiction-com/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"
           }
         ]
       }

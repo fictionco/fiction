@@ -8,7 +8,10 @@
 
       <div class="app-content">
         <div class="app-nav">
-          <dashboard-nav />
+          <div class="app-nav-toggle" @click="toggleNav()">
+            <i class="fa fa-bars" /> Menu
+          </div>
+          <dashboard-nav :class="{ active: navActive }" />
         </div>
         <div class="app-main">
           <div class="app-main-content">
@@ -41,7 +44,8 @@ export default {
   data() {
     return {
       loading: true,
-      activeRoute: this.$route.path
+      activeRoute: this.$route.path,
+      navActive: true
     }
   },
 
@@ -54,6 +58,11 @@ export default {
     this.$user.init(() => {
       this.loading = false
     })
+  },
+  methods: {
+    toggleNav: function() {
+      this.navActive = !this.navActive
+    }
   }
 }
 </script>
@@ -69,15 +78,10 @@ export default {
   background-color: #f3f5fa;
   min-height: 100vh;
   // background: #fafbff;
-  // display: flex;
-  // flex-direction: column;
 
   .app-content {
     display: grid;
     grid-template-columns: [nav] 2fr [content] 12fr;
-    // display: flex;
-    // flex-grow: 1;
-    // justify-content: center;
 
     @media (max-width: 960px) {
       grid-template-columns: 1fr;
@@ -91,35 +95,18 @@ export default {
       .app-nav-pad {
         padding: 2em 0 2em 1.5em;
       }
-
-      @media (max-width: 960px) {
-        position: fixed;
-        width: 75%;
-        top: 0;
-        bottom: 0;
-        min-height: 100vh;
-        z-index: 100;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        background: #fff;
-        box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
-          0 6px 14px 0 rgba(24, 32, 41, 0.06),
-          0 12px 34px 0 rgba(24, 32, 41, 0.04);
-        transform: translate3d(-100%, 0, 0);
-        transition: transform 0.4s ease-out;
-
-        .app-nav-pad {
-          padding: 1.5em;
+      .app-nav-toggle {
+        display: none;
+        @media (max-width: 960px) {
+          display: block;
+          padding: 1.5em 1.5em 0;
+        }
+        @media (max-width: 767px) {
+          padding: 1em 1em 0;
         }
       }
-
-      // flex: 1 1 15%;
-      // display: flex;
-      // justify-content: flex-end;
-      // min-width: 160px;
     }
     .app-main {
-      //flex: 1 1 1200px;
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
       }
