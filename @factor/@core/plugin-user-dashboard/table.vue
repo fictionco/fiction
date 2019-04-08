@@ -96,28 +96,24 @@ export default {
       return [
         // {
         //   column: "select",
-        //   size: "40px"
+        //   class: "col-fixed-40"
         // },
         {
           column: "name",
-          size: "1.5fr",
-          type: "double"
+          class: "col-7"
         },
 
         {
           column: "photo",
-          size: "1fr",
-          type: "single"
+          class: "col-3"
         },
         {
           column: "role",
-          size: "1fr",
-          type: "single"
+          class: "col-3"
         },
         {
           column: "activity",
-          size: "1fr",
-          type: "single"
+          class: "col-3"
         }
       ]
     }
