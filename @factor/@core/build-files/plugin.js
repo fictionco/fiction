@@ -133,6 +133,7 @@ module.exports = Factor => {
             service,
             provider,
             scope,
+            cwd: _ == Factor.$paths.get("app-package") ? true : false,
             id:
               id ||
               this.makeId(name.split(/endpoint|plugin|theme|service|@factor|@fiction/gi).pop())
@@ -183,7 +184,7 @@ module.exports = Factor => {
 
     filterExtensions({ target, extensions }) {
       const filtered = extensions.filter(_ => {
-        if (_.scope !== "extension") {
+        if (_.scope !== "extension" && !_.cwd) {
           return false
         }
         return this.arrayIntersect(target, _.target)

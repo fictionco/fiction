@@ -3,6 +3,10 @@ module.exports = Factor => {
     constructor() {
       const { theme } = Factor.FACTOR_CONFIG
 
+      if (!theme) {
+        return
+      }
+
       this.themePackageName = theme
 
       if (Factor.FACTOR_ENV == "build") {

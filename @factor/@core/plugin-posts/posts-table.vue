@@ -95,23 +95,24 @@ export default {
       return [
         {
           column: "select",
-          size: "40px"
+          class: "col-fixed-40",
+          mobile: "mcol-1"
         },
         {
           column: "title",
-          size: "2fr",
-          type: "double"
+          class: "col-7",
+          mobile: "mcol-15"
         },
 
         {
           column: "author",
-          size: "1fr",
-          type: "single"
+          class: "col-4",
+          mobile: "mcol-2-15"
         },
         {
           column: "meta",
-          size: "1fr",
-          type: "single"
+          class: "col-4",
+          mobile: "mcol-2-15"
         }
       ]
     }
