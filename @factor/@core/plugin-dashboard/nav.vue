@@ -148,7 +148,7 @@ export default {
       top: 6px;
       opacity: 0.8;
       width: 16px;
-      @media (max-width: 767px) {
+      @media (max-width: 960px) {
         width: 22px;
         top: 10px;
       }

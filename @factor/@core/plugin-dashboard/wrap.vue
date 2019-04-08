@@ -8,10 +8,10 @@
 
       <div class="app-content">
         <div class="app-nav">
-          <div class="app-nav-toggle">
+          <div class="app-nav-toggle" @click="toggleNav()">
             <i class="fa fa-bars" /> Menu
           </div>
-          <dashboard-nav />
+          <dashboard-nav :class="{ active: navActive }" />
         </div>
         <div class="app-main">
           <div class="app-main-content">
@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       loading: true,
-      activeRoute: this.$route.path
+      activeRoute: this.$route.path,
+      navActive: true
     }
   },
 
@@ -57,6 +58,11 @@ export default {
     this.$user.init(() => {
       this.loading = false
     })
+  },
+  methods: {
+    toggleNav: function() {
+      this.navActive = !this.navActive
+    }
   }
 }
 </script>
@@ -72,15 +78,10 @@ export default {
   background-color: #f3f5fa;
   min-height: 100vh;
   // background: #fafbff;
-  // display: flex;
-  // flex-direction: column;
 
   .app-content {
     display: grid;
     grid-template-columns: [nav] 2fr [content] 12fr;
-    // display: flex;
-    // flex-grow: 1;
-    // justify-content: center;
 
     @media (max-width: 960px) {
       grid-template-columns: 1fr;
@@ -104,14 +105,8 @@ export default {
           padding: 1em 1em 0;
         }
       }
-
-      // flex: 1 1 15%;
-      // display: flex;
-      // justify-content: flex-end;
-      // min-width: 160px;
     }
     .app-main {
-      //flex: 1 1 1200px;
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
       }
