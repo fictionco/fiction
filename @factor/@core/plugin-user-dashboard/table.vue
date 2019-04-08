@@ -100,20 +100,24 @@ export default {
         // },
         {
           column: "name",
-          class: "col-7"
+          class: "col-7",
+          mobile: "mcol-16"
         },
 
         {
           column: "photo",
-          class: "col-3"
+          class: "col-3",
+          mobile: "mcol-16"
         },
         {
           column: "role",
-          class: "col-3"
+          class: "col-3",
+          mobile: "mcol-16"
         },
         {
           column: "activity",
-          class: "col-3"
+          class: "col-3",
+          mobile: "mcol-16"
         }
       ]
     }
@@ -124,6 +128,16 @@ export default {
 .posts-dashboard {
   .post-table {
     font-size: 0.85em;
+
+    .dbt-head {
+      @media (max-width: 767px) {
+        .photo,
+        .role,
+        .activity {
+          display: none;
+        }
+      }
+    }
   }
   .post-title {
     > a {

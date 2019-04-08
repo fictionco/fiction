@@ -134,6 +134,9 @@ export default {
       font-size: 0.9em;
       letter-spacing: -0.01em;
       font-weight: 600;
+      @media (max-width: 767px) {
+        font-size: 1.2em;
+      }
     }
   }
   .nav-group {
@@ -146,7 +149,8 @@ export default {
       opacity: 0.8;
       width: 16px;
       @media (max-width: 767px) {
-        width: 24px;
+        width: 22px;
+        top: 10px;
       }
     }
   }
@@ -166,17 +170,17 @@ export default {
     opacity: 0.7;
     display: block;
     transition: opacity 0.2s, color 0.2s;
-    @media (max-width: 767px) {
-      margin-left: 0;
-      padding: 2em 1em;
-      img {
-        position: relative;
-        width: 26px;
-      }
-      span {
-        display: none;
-      }
+    @media (max-width: 960px) {
+      font-size: 1.4em;
     }
+    // @media (max-width: 767px) {
+    //   margin-left: 0;
+    //   padding: 2em 1em;
+    //   // img {
+    //   //   position: relative;
+    //   //   width: 26px;
+    //   // }
+    // }
 
     &:hover {
       opacity: 0.85;
@@ -201,6 +205,25 @@ export default {
     }
     &:hover .external {
       transform: rotate(45deg) translate(-3px, -4px);
+    }
+  }
+  @media (max-width: 960px) {
+    position: fixed;
+    width: 75%;
+    padding: 1.5em;
+    top: 0;
+    bottom: 0;
+    min-height: 100vh;
+    z-index: 100;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: #f3f5fa;
+    box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
+      0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 0.4s ease-out;
+    &.active {
+      transform: translate3d(0, 0, 0);
     }
   }
 }

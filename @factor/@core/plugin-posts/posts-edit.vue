@@ -23,34 +23,6 @@
             <input-editor v-model="post.content" @keyup="doAutosave()" />
           </factor-input-wrap>
         </dashboard-pane>
-        <dashboard-pane title="SEO and Sharing">
-          <div class="search-preview">
-            <div class="sup">Search Preview</div>
-            <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
-            <div
-              class="plink"
-            >{{ $posts.getPermalink({type: postType, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
-            <div
-              class="desc"
-            >{{ post.description || $posts.excerpt(post.content) || "No Description" }}</div>
-          </div>
-          <factor-input-wrap
-            v-model="post.titleTag"
-            input="factor-input-text"
-            label="Title Meta Tag"
-          />
-          <factor-input-wrap
-            v-model="post.description"
-            input="factor-input-textarea"
-            label="Description Meta Tag"
-          />
-          <factor-input-wrap
-            v-model="post.featuredImage"
-            input="factor-input-image-upload"
-            label="Sharing Image"
-            input-max="1"
-          />
-        </dashboard-pane>
       </div>
       <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
@@ -112,7 +84,7 @@
             </factor-btn>
           </template>
         </dashboard-pane>
-        <dashboard-pane title="Media">
+        <dashboard-pane title="Media" class="post-media">
           <factor-input-wrap
             v-model="post.images"
             input="factor-input-image-upload"
@@ -120,8 +92,38 @@
             @autosave="saveDraft()"
           />
         </dashboard-pane>
-        <dashboard-pane title="Tags">
+        <dashboard-pane title="Tags" class="post-tags">
           <input-tags v-model="post.tags" />
+        </dashboard-pane>
+      </div>
+      <div class="content-column plugin-column">
+        <dashboard-pane title="SEO and Sharing">
+          <div class="search-preview">
+            <div class="sup">Search Preview</div>
+            <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
+            <div
+              class="plink"
+            >{{ $posts.getPermalink({type: postType, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
+            <div
+              class="desc"
+            >{{ post.description || $posts.excerpt(post.content) || "No Description" }}</div>
+          </div>
+          <factor-input-wrap
+            v-model="post.titleTag"
+            input="factor-input-text"
+            label="Title Meta Tag"
+          />
+          <factor-input-wrap
+            v-model="post.description"
+            input="factor-input-textarea"
+            label="Description Meta Tag"
+          />
+          <factor-input-wrap
+            v-model="post.featuredImage"
+            input="factor-input-image-upload"
+            label="Sharing Image"
+            input-max="1"
+          />
         </dashboard-pane>
       </div>
     </div>
@@ -379,6 +381,7 @@ export default {
   .dashboard-pane {
     margin-bottom: 1em;
   }
+
   .content-column {
     grid-column: span 2;
   }
@@ -387,6 +390,20 @@ export default {
     min-width: 0;
     @media (max-width: 960px) {
       grid-column: span 3;
+    }
+  }
+  .meta-column {
+    @media (max-width: 960px) {
+      display: grid; // Added to order items
+      .post-media {
+        order: 1;
+      }
+      .post-actions {
+        order: 2;
+      }
+      .post-tags {
+        order: 3;
+      }
     }
   }
 

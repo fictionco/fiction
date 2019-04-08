@@ -72,9 +72,9 @@ export default {
     .rm {
       font-size: 0.8em;
       opacity: 0.3;
+      cursor: pointer;
       &:hover {
         opacity: 1;
-        cursor: pointer;
       }
     }
   }

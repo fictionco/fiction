@@ -141,11 +141,14 @@ export default {
 
 <style lang="less">
 .user-list-items {
+  display: flex;
+  flex-direction: column;
   .added-user {
     margin-bottom: 1em;
     .card-wrap {
-      width: 200px;
-      max-width: fit-content;
+      width: auto;
+      max-width: 130px;
+      //max-width: fit-content;
       .name {
         text-overflow: ellipsis;
         white-space: nowrap;

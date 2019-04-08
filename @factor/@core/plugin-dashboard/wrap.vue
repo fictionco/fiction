@@ -8,6 +8,9 @@
 
       <div class="app-content">
         <div class="app-nav">
+          <div class="app-nav-toggle">
+            <i class="fa fa-bars" /> Menu
+          </div>
           <dashboard-nav />
         </div>
         <div class="app-main">
@@ -91,25 +94,14 @@ export default {
       .app-nav-pad {
         padding: 2em 0 2em 1.5em;
       }
-
-      @media (max-width: 960px) {
-        position: fixed;
-        width: 75%;
-        top: 0;
-        bottom: 0;
-        min-height: 100vh;
-        z-index: 100;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        background: #fff;
-        box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
-          0 6px 14px 0 rgba(24, 32, 41, 0.06),
-          0 12px 34px 0 rgba(24, 32, 41, 0.04);
-        transform: translate3d(-100%, 0, 0);
-        transition: transform 0.4s ease-out;
-
-        .app-nav-pad {
-          padding: 1.5em;
+      .app-nav-toggle {
+        display: none;
+        @media (max-width: 960px) {
+          display: block;
+          padding: 1.5em 1.5em 0;
+        }
+        @media (max-width: 767px) {
+          padding: 1em 1em 0;
         }
       }
 
