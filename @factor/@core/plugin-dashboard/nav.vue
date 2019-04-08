@@ -221,7 +221,7 @@ export default {
     box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
       0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
     transform: translate3d(-100%, 0, 0);
-    transition: transform 0.4s ease-out;
+    transition: transform 0.1s ease-out;
     &.active {
       transform: translate3d(0, 0, 0);
     }
