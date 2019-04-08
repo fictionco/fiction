@@ -5,10 +5,9 @@
   </div>
 </template>
 <script>
-import mixin from "./mixin-site"
-
+import Factor from "vue"
 export default {
-  mixins: [mixin],
+  mixins: Factor.$filters.apply("site-mixins", []),
   computed: {
     injectedComponents() {
       return this.$filters.apply("site-components")

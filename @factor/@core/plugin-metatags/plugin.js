@@ -7,7 +7,25 @@ export default Factor => {
         _.metatags = Factor.FACTOR_SSR == "server" ? this.serverMetatags() : this.clientTitleTag()
         return _
       })
+
+      Factor.$filters.add("site-mixins", _ => {
+        _.push(this.siteMixin())
+        return _
+      })
     }
+
+    siteMixin() {
+      const that = this
+      return {
+        metatags() {
+          return {
+            ...that._getDefaults(),
+            priority: 20
+          }
+        }
+      }
+    }
+
     serverMetatags() {
       return () => {
         Factor.mixin({
@@ -30,7 +48,7 @@ export default Factor => {
                 mt.image = Factor.$config.setting("url") + mt.image
               }
 
-              mt = this.$lodash.pickBy(mt, this.$lodash.identity)
+              mt = this.$lodash.pickBy(mt)
 
               const existingMetatags = this.$ssrContext.metatags || {}
               this.$ssrContext.metatags = { ...existingMetatags, ...mt }
@@ -42,7 +60,7 @@ export default Factor => {
 
     clientTitleTag() {
       const that = this
-      console.log("CLIENT TITLE")
+
       Factor.mixin({
         watch: {
           $route: {
@@ -52,7 +70,7 @@ export default Factor => {
               if (metatags) {
                 const mt = typeof metatags === "function" ? metatags.call(this) : metatags
 
-                that.metatags.push(mt)
+                that.metatags.push(this.$lodash.pickBy(mt))
               }
             },
             immediate: true
@@ -70,11 +88,25 @@ export default Factor => {
             finalMeta = { ...finalMeta, ...mt }
           })
 
-          const { title = "", titleSuffix = "" } = finalMeta
+          const def = that._getDefaults(finalMeta)
 
-          document.title = `${title} ${titleSuffix}`
+          document.title = `${def.title} ${def.titleSuffix}`
         }, 70)
       })
+    }
+
+    _getDefaults(meta = {}) {
+      const metatagSettings = Factor.$config.setting("metatags") || {}
+      const currentPath = Factor.$router.currentRoute.path
+
+      return {
+        title: Factor.$utils.toLabel(currentPath.split("/").pop()),
+        description: "",
+        image: "",
+        titleSuffix: "",
+        ...metatagSettings,
+        ...meta
+      }
     }
   }()
 }

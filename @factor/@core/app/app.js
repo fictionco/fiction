@@ -10,9 +10,6 @@ Factor.FACTOR_SSR = process.env.FACTOR_SSR
 
 import init from "./init"
 
-// App Entry Component
-import site from "./site"
-
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export function createApp({ target }) {
@@ -22,6 +19,9 @@ export function createApp({ target }) {
   // create the app instance.
   // here we inject the router, store and ssr context to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
+  // App Entry Component
+  const site = () => import("./site")
+
   const app = new Factor({
     router,
     store,
