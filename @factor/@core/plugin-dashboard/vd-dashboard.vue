@@ -4,6 +4,7 @@
       title="Your Admin"
       sub-title="Want to learn more about Factor? Reach out to us or explore the docs."
       :features="splash('features')"
+      :media-url="splash('media')"
     />
     <dashboard-chat
       title="Tech Support"
