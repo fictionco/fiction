@@ -31,11 +31,12 @@ module.exports.default = Factor => {
     }
 
     getPostTypes() {
+      const icon = Factor.FACTOR_ENV == "app" ? require("./img/users.svg") : ""
       const initialPostTypes = [
         {
           type: "user",
           base: "",
-          icon: require("./img/users.svg")
+          icon
         }
       ]
 

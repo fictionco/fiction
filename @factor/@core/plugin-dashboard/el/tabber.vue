@@ -6,7 +6,7 @@
       class="tabb"
       :class="activeItem == tab.value ? 'active': 'not-active'"
     >
-      <span class="facet" @click="setActive(tab.value)">{{ tab.name }}</span>
+      <a class="facet" @click.prevent="setActive(tab.value)">{{ tab.name }}</a>
       <span class="count">({{ tab.count || 0 }})</span>
     </div>
   </div>
@@ -56,7 +56,6 @@ export default {
   .tabb {
     user-select: none;
     .facet {
-      color: @color-primary;
       &:hover {
         opacity: 0.8;
         cursor: pointer;

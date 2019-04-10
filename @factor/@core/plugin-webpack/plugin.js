@@ -307,7 +307,7 @@ module.exports.default = Factor => {
     lessLoad({ target, build }) {
       let finishing
 
-      const prependedFiles = Factor.$filters.apply("prepended-less-files", [])
+      const prependedFiles = Factor.$filters.apply("prepended-style-var-files", [])
 
       const baseLoaders = [
         {

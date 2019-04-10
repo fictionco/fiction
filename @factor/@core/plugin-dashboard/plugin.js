@@ -3,8 +3,8 @@ export default Factor => {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
         const { resolve } = require("path")
-        Factor.$filters.add("prepended-less-files", _ => {
-          _.push(resolve(__dirname, "css/vars.less"))
+        Factor.$filters.add("prepended-style-var-files", _ => {
+          _.push(resolve(__dirname, "**/style-vars.less"))
           return _
         })
       } else {

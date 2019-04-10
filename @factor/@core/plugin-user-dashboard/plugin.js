@@ -5,7 +5,7 @@ export default Factor => {
     }
 
     filters() {
-      const icon = require("./img/users.svg")
+      const icon = Factor.FACTOR_ENV == "app" ? require("./img/users.svg") : ""
       Factor.$filters.add("dashboard-routes", _ => {
         _.push({
           path: "account",
