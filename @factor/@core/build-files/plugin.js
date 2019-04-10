@@ -60,7 +60,7 @@ module.exports = Factor => {
       this.makeLoaderFile({
         extensions,
         destination: Factor.$paths.get("plugins-loader-build"),
-        target: ["build"]
+        target: ["build", "app"]
       })
 
       this.makeLoaderFile({
