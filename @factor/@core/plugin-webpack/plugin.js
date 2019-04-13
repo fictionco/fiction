@@ -329,7 +329,6 @@ module.exports.default = Factor => {
             patterns: prependedFiles,
             injector: (source, resources) => {
               const injectContent = resources.map(({ content }) => content).join("")
-
               return injectContent + source
             }
           }

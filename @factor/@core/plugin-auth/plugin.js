@@ -123,7 +123,7 @@ export default Factor => {
         filter: "auth-request-bearer-token"
       })
 
-      const token = served[0] ? served[0].result : false
+      const token = served && served[0] ? served[0].result : false
       return token
     }
 

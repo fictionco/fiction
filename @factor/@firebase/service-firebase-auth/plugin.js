@@ -8,13 +8,11 @@ export default Factor => {
 
       this.client = firebaseApp(Factor).client
 
-      if (!Factor.$isNode) {
-        Factor.$filters.add("after-initialize-app", () => {
-          this.events()
-        })
+      Factor.$filters.add("after-initialize-app", () => {
+        this.events()
+      })
 
-        this.filters()
-      }
+      this.filters()
     }
 
     error(error) {
@@ -68,7 +66,11 @@ export default Factor => {
     }
 
     async getIdToken() {
-      return await this.client.auth().currentUser.getIdToken()
+      if (this.client.auth().currentUser) {
+        return await this.client.auth().currentUser.getIdToken()
+      } else {
+        return false
+      }
     }
 
     async credentialSignin(args) {

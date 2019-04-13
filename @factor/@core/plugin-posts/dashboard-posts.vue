@@ -47,7 +47,7 @@ export default {
       return this.postTypeInfo.namePlural
     },
     activeIndex() {
-      return this.filtered && this.filtered.postsx
+      return this.filtered && this.filtered.posts
         ? this.filtered
         : this.postIndex
     },
