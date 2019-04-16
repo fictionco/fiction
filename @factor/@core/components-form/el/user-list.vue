@@ -147,7 +147,7 @@ export default {
     margin-bottom: 1em;
     .card-wrap {
       width: auto;
-      max-width: 130px;
+      max-width: 100%;
       //max-width: fit-content;
       .name {
         text-overflow: ellipsis;

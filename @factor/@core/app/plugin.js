@@ -34,47 +34,49 @@ module.exports = (Factor, { target }) => {
         _.push({
           path: "/",
           component: () => import("@/content"),
-          children: Factor.$filters.get("content-routes", []),
+          children: Factor.$filters.get("content-routes", [
+            {
+              name: "forbidden",
+              path: "/forbidden",
+              component: () => import("@/page-error"),
+              meta: { error: 403 }
+            }
+          ]),
           meta: {
             nav: false
           }
+        })
+
+        _.push({
+          path: "*",
+          component: () => import("@/content"),
+          children: Factor.$filters.apply("content-routes-unmatched", [
+            // {
+            //   path: "/:permalink",
+            //   component: () => import("./template")
+            // },
+            {
+              name: "notFound",
+              path: "*",
+              component: () => import("@/page-error"),
+              meta: { error: 404 }
+            }
+          ]),
+          priority: 3000
         })
 
         return _
       })
 
       // Add 404 Handling last
-      Factor.$filters.add(
-        "routes",
-        _ => {
-          _.push({
-            path: "*",
-            component: () => import("@/content"),
-            children: [
-              {
-                name: "forbidden",
-                path: "/forbidden",
-                component: () => import("@/page-error"),
-                meta: { error: 403 }
-              },
-              {
-                path: "/:permalink",
-                component: () => import("./template")
-              },
-              {
-                name: "notFound",
-                path: "*",
-                component: () => import("@/page-error"),
-                meta: { error: 404 }
-              }
-            ],
-            priority: 3000
-          })
+      // Factor.$filters.add(
+      //   "routes",
+      //   _ => {
 
-          return _
-        },
-        { priority: 3000 }
-      )
+      //     return _
+      //   },
+      //   { priority: 3000 }
+      // )
     }
   }()
 }

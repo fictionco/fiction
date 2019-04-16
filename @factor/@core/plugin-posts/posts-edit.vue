@@ -39,14 +39,15 @@
             input="factor-input-select"
             label="Publish Status"
           />
-          <factor-input-wrap
+
+          <!-- <factor-input-wrap
             v-if="post.type == 'page'"
             v-model="post.template"
             format="horizontal"
             :list="$posts.getPageTemplates()"
             input="factor-input-select"
             label="Page Template"
-          />
+          />-->
 
           <factor-input-wrap
             v-model="post.authors"
@@ -84,6 +85,9 @@
             </factor-btn>
           </template>
         </dashboard-pane>
+        <dashboard-pane v-for="(item, i) in injectedMetaComponents" :key="i" :title="item.name">
+          <component :is="item.component" v-model="post" />
+        </dashboard-pane>
         <dashboard-pane title="Media" class="post-media">
           <factor-input-wrap
             v-model="post.images"
@@ -97,7 +101,11 @@
         </dashboard-pane>
       </div>
       <div class="content-column plugin-column">
-        <dashboard-pane title="SEO and Sharing">
+        <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">
+          <component :is="item.component" v-model="post" />
+        </dashboard-pane>
+
+        <!-- <dashboard-pane title="SEO and Sharing">
           <div class="search-preview">
             <div class="sup">Search Preview</div>
             <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
@@ -124,7 +132,8 @@
             label="Sharing Image"
             input-max="1"
           />
-        </dashboard-pane>
+        </dashboard-pane>-->
+        <!-- <dashboard-pane title="Template Settings">{{ settings }}</dashboard-pane> -->
       </div>
     </div>
   </dashboard-page>
@@ -146,7 +155,8 @@ export default {
       },
       isNew: null,
       saveNeeded: false,
-      willsave: null
+      willsave: null,
+      settings: []
     }
   },
   metatags() {
@@ -155,6 +165,12 @@ export default {
     }
   },
   computed: {
+    injectedComponents() {
+      return this.$filters.apply("post-edit-components", [])
+    },
+    injectedMetaComponents() {
+      return this.$filters.apply("post-edit-meta", [])
+    },
     excerpt() {
       return this.$posts.excerpt(this.post.content)
     },
@@ -195,6 +211,13 @@ export default {
     }
   },
   watch: {
+    // "post.template": {
+    //   handler: function(v) {
+    //     this.setSettings()
+    //   },
+    //   immediate: true
+    // },
+
     $route: function(to, from) {
       this.loading = true
       this.$user.init(async () => {
@@ -214,6 +237,22 @@ export default {
     })
   },
   methods: {
+    // async setSettings() {
+    //   if (this.post.template) {
+    //     const tpls = this.$posts.getPageTemplates()
+
+    //     const { default: tpl } = await tpls
+    //       .find(_ => _.value == this.post.template)
+    //       .component()
+    //     // const tpl = c.default;
+    //     // console.log("ccc", tpl)
+    //     if (tpl.pageTemplate) {
+    //       this.settings = tpl.pageTemplate()
+    //     } else if (tpl.default.methods.pageTemplate) {
+    //       this.settings = c.default.methods.pageTemplate()
+    //     }
+    //   }
+    // },
     async start() {
       const id = this.id
 
@@ -241,8 +280,6 @@ export default {
       this.isNew = !existing || !existing.id ? true : false
 
       this.post = Object.assign({}, starting, existing, lastRev)
-
-      console.log("POST", lastRev, this.post)
     },
 
     doAutosave() {
@@ -350,25 +387,25 @@ export default {
 }
 </script>
 <style lang="less">
-.search-preview {
-  line-height: 1.5;
-  padding: 0em 0 2em;
-  .sup {
-    opacity: 0.3;
-    margin-bottom: 1em;
-  }
-  .headline {
-    line-height: 1.3;
-    color: #1b1ba8;
-    font-size: 1.3em;
-  }
-  .desc {
-    opacity: 0.7;
-  }
-  .plink {
-    color: #0a6524;
-  }
-}
+// .search-preview {
+//   line-height: 1.5;
+//   padding: 0em 0 2em;
+//   .sup {
+//     opacity: 0.3;
+//     margin-bottom: 1em;
+//   }
+//   .headline {
+//     line-height: 1.3;
+//     color: #1b1ba8;
+//     font-size: 1.3em;
+//   }
+//   .desc {
+//     opacity: 0.7;
+//   }
+//   .plink {
+//     color: #0a6524;
+//   }
+// }
 .post-grid {
   display: grid;
   grid-gap: 1em;

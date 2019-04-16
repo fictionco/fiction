@@ -21,6 +21,8 @@ export default Factor => {
 
         _["factor-input-select"] = () => import("./el/select")
 
+        _["factor-input-sortable"] = () => import("./el/sortable")
+
         _["factor-input-submit"] = () => import("./el/submit")
 
         _["factor-input-wrap"] = () => import("./el/wrap-input")
