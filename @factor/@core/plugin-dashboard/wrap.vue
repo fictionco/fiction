@@ -56,9 +56,13 @@ export default {
     }
   },
   mounted() {
+    this.addExternalScripts()
     this.$user.init(() => {
       this.loading = false
     })
+  },
+  destroyed() {
+    this.removeExternalScripts()
   },
   methods: {
     toggleNav(v) {
@@ -78,11 +82,28 @@ export default {
       } else {
         document.removeEventListener("click", this.clickHandler, false)
       }
+    },
+    // Add dynamically since webpack tried to include as a module. Is there a better way?
+    addExternalScripts() {
+      const els = document.querySelector("#ficons")
+      if (!els) {
+        var link = document.createElement("link")
+        link.href =
+          "https://cdn.jsdelivr.net/npm/ficons@1.1.52/dist/ficons/font.css"
+        link.type = "text/css"
+        link.rel = "stylesheet"
+        link.id = "ficons"
+        document.querySelectorAll("head")[0].append(link)
+      }
+    },
+    removeExternalScripts() {
+      document.querySelector("#ficons").remove()
     }
   }
 }
 </script>
 <style src="./css/dashboard.less" lang="less"></style>
+
 <style lang="less">
 .user-loading {
   height: 100vh;
@@ -103,9 +124,9 @@ export default {
       grid-template-columns: 1fr;
     }
 
-    .app-main {
-      overflow-y: scroll;
-    }
+    // .app-main {
+    //   overflow-y: scroll;
+    // }
     .app-nav {
       .app-nav-pad {
         padding: 2em 0 2em 1.5em;

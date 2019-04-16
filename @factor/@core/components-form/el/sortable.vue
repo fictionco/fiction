@@ -1,17 +1,20 @@
 <template>
   <div class="sortable-input">
     <div class="sortable-items">
-      <div class="controls">
+      <div ref="organizer" class="controls">
         <div
           v-for="(item, i) in localValue"
-          :key="i"
+          :key="item.__key"
           class="sortable-item"
           :class="i == selected ? 'active' : 'inactive'"
           @click="selected = i"
         >
-          <div class="handle">{{ item.__title || "-" }}</div>
+          <div class="handle">
+            <span v-if="item.__title">{{ item.__title }}</span>
+            <i v-else class="fa fa-arrow-right" />
+          </div>
         </div>
-        <factor-btn btn="primary" @click="localValue.push({})">+</factor-btn>
+        <factor-btn btn="primary" @click="addItem()">+</factor-btn>
       </div>
 
       <div class="inputs">
@@ -19,6 +22,7 @@
           <input
             :value="getValue('__title')"
             type="text"
+            placeholder="Edit Item Title"
             @input="setValue('__title', $event.target.value)"
           >
         </div>
@@ -35,13 +39,14 @@
           @input="setValue(field.key, $event)"
         />
         <div>
-          <factor-btn size="tiny">Remove Item</factor-btn>
+          <factor-btn size="tiny" @click="removeItem(selected)">Remove Item</factor-btn>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import Sortable from "sortablejs"
 export default {
   props: {
     value: { type: [Array, Object], default: () => [] },
@@ -55,15 +60,68 @@ export default {
   computed: {
     localValue: {
       get() {
-        return this.value
+        console.log("get value", this.value)
+        return this.ensure(this.value)
       },
       set(localValue) {
-        console.log("emit", localValue)
+        console.log("emit value", localValue)
         this.$emit("input", localValue)
       }
     }
   },
+  mounted() {
+    this.sortItems()
+  },
   methods: {
+    // keys are required for drag and drop
+    ensure(v) {
+      return v.map(_ => {
+        if (!_.__key) {
+          _.__key = this.$guid()
+        }
+        return _
+      })
+    },
+    sortItems() {
+      Sortable.create(this.$refs.organizer, {
+        filter: ".ignore-sortable",
+        ghostClass: "sortable-ghost",
+        onUpdate: e => {
+          console.log("E", e)
+          const newLocalValue = this.localValue.slice()
+          if (newLocalValue[e.oldIndex]) {
+            const moved = newLocalValue.splice(e.oldIndex, 1)
+            newLocalValue.splice(e.newIndex, 0, moved[0])
+            console.log("NEW LOCAL V", moved, newLocalValue)
+            this.localValue = newLocalValue
+            this.selected = e.newIndex
+          }
+        },
+        onMove: e => {
+          if (this.$jquery(e.related).hasClass("ignore-sortable")) {
+            return false
+          }
+        }
+      })
+    },
+    addItem() {
+      const newLocalValue = this.localValue.slice()
+
+      newLocalValue.push({ __title: "", __key: this.$guid() })
+
+      this.localValue = newLocalValue
+    },
+    removeItem(index) {
+      const newLocalValue = this.localValue.slice()
+
+      newLocalValue.splice(index)
+
+      this.localValue = newLocalValue
+
+      if (index == this.selected) {
+        this.selected = 0
+      }
+    },
     getValue(key) {
       return this.localValue[this.selected]
         ? this.localValue[this.selected][key]
@@ -126,6 +184,7 @@ export default {
         padding-left: 0;
         background: none;
         box-shadow: none;
+        font-weight: 600;
       }
     }
   }

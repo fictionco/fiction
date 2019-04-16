@@ -4,10 +4,10 @@
       <div class="content-column">
         <dashboard-pane :title="title" class="compose">
           <template slot="nav">
-            <factor-link v-if="post.permalink" :path="url" btn="secondary" data-test="add-post">
+            <!-- <factor-link v-if="post.permalink" :path="url" btn="secondary" data-test="add-post">
               View {{ $utils.toLabel(postType) }}
               <i class="fa fa-arrow-right" />
-            </factor-link>
+            </factor-link>-->
           </template>
           <factor-input-wrap
             v-model="post.title"
@@ -23,37 +23,46 @@
             <input-editor v-model="post.content" @keyup="doAutosave()" />
           </factor-input-wrap>
         </dashboard-pane>
-      </div>
-      <div class="meta-column">
-        <dashboard-pane title="Publication" class="post-actions">
+        <!-- <dashboard-pane v-for="(item, i) in injectedMetaComponents" :key="i" :title="item.name">
+          <component :is="item.component" v-model="post" />
+        </dashboard-pane>-->
+        <dashboard-pane title="Meta Info" class="post-media">
           <factor-input-wrap
             v-model="post.date"
             format="horizontal"
             input="factor-input-date"
             label="Publish Date"
           />
+          <factor-input-wrap format="horizontal" label="Tags">
+            <input-tags v-model="post.tags" />
+          </factor-input-wrap>
+
           <factor-input-wrap
-            v-model="post.status"
+            v-model="post.images"
+            input="factor-input-image-upload"
+            label="Post Images"
             format="horizontal"
-            :list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
-            input="factor-input-select"
-            label="Publish Status"
+            @autosave="saveDraft()"
           />
-
-          <!-- <factor-input-wrap
-            v-if="post.type == 'page'"
-            v-model="post.template"
-            format="horizontal"
-            :list="$posts.getPageTemplates()"
-            input="factor-input-select"
-            label="Page Template"
-          />-->
-
           <factor-input-wrap
             v-model="post.authors"
             format="horizontal"
             input="factor-input-user-list"
             label="Author"
+          />
+        </dashboard-pane>
+
+        <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">
+          <component :is="item.component" v-model="post" />
+        </dashboard-pane>
+      </div>
+      <div class="meta-column">
+        <dashboard-pane title="Publication" class="post-actions">
+          <factor-input-wrap
+            v-model="post.status"
+            :list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
+            input="factor-input-select"
+            label="Publication Status"
           />
 
           <div v-if="!$lodash.isEmpty(lastRevision)" class="save-info">
@@ -83,58 +92,14 @@
               &nbsp;
               <i class="fa fa-arrow-up" />
             </factor-btn>
+            <factor-link v-if="post.permalink" :path="url" btn="default" data-test="add-post">
+              View
+              <i class="fa fa-arrow-right" />
+            </factor-link>
           </template>
         </dashboard-pane>
-        <dashboard-pane v-for="(item, i) in injectedMetaComponents" :key="i" :title="item.name">
-          <component :is="item.component" v-model="post" />
-        </dashboard-pane>
-        <dashboard-pane title="Media" class="post-media">
-          <factor-input-wrap
-            v-model="post.images"
-            input="factor-input-image-upload"
-            label="Post Images"
-            @autosave="saveDraft()"
-          />
-        </dashboard-pane>
-        <dashboard-pane title="Tags" class="post-tags">
-          <input-tags v-model="post.tags" />
-        </dashboard-pane>
       </div>
-      <div class="content-column plugin-column">
-        <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">
-          <component :is="item.component" v-model="post" />
-        </dashboard-pane>
-
-        <!-- <dashboard-pane title="SEO and Sharing">
-          <div class="search-preview">
-            <div class="sup">Search Preview</div>
-            <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
-            <div
-              class="plink"
-            >{{ $posts.getPermalink({type: postType, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
-            <div
-              class="desc"
-            >{{ post.description || $posts.excerpt(post.content) || "No Description" }}</div>
-          </div>
-          <factor-input-wrap
-            v-model="post.titleTag"
-            input="factor-input-text"
-            label="Title Meta Tag"
-          />
-          <factor-input-wrap
-            v-model="post.description"
-            input="factor-input-textarea"
-            label="Description Meta Tag"
-          />
-          <factor-input-wrap
-            v-model="post.featuredImage"
-            input="factor-input-image-upload"
-            label="Sharing Image"
-            input-max="1"
-          />
-        </dashboard-pane>-->
-        <!-- <dashboard-pane title="Template Settings">{{ settings }}</dashboard-pane> -->
-      </div>
+      <div class="content-column plugin-column" />
     </div>
   </dashboard-page>
 </template>
@@ -387,29 +352,10 @@ export default {
 }
 </script>
 <style lang="less">
-// .search-preview {
-//   line-height: 1.5;
-//   padding: 0em 0 2em;
-//   .sup {
-//     opacity: 0.3;
-//     margin-bottom: 1em;
-//   }
-//   .headline {
-//     line-height: 1.3;
-//     color: #1b1ba8;
-//     font-size: 1.3em;
-//   }
-//   .desc {
-//     opacity: 0.7;
-//   }
-//   .plink {
-//     color: #0a6524;
-//   }
-// }
 .post-grid {
   display: grid;
   grid-gap: 1em;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 250px;
   //grid-template-rows: 1fr 1fr 1fr 1fr;
   @media (max-width: 960px) {
     grid-gap: 1em 0;
@@ -419,9 +365,9 @@ export default {
     margin-bottom: 1em;
   }
 
-  .content-column {
-    grid-column: span 2;
-  }
+  // .content-column {
+  //   grid-column: span 3;
+  // }
   .content-column,
   .meta-column {
     min-width: 0;
@@ -430,6 +376,15 @@ export default {
     }
   }
   .meta-column {
+    // .post-actions-wrap {
+    //   height: 100vh;
+    //   position: relative;
+    // }
+    .post-actions {
+      top: 20px;
+      position: sticky;
+    }
+
     @media (max-width: 960px) {
       display: grid; // Added to order items
       .post-media {
