@@ -62,7 +62,6 @@
             v-model="post.status"
             :list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
             input="factor-input-select"
-            label="Publication Status"
           />
 
           <div v-if="!$lodash.isEmpty(lastRevision)" class="save-info">

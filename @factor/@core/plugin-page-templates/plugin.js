@@ -1,6 +1,21 @@
 export default Factor => {
   return new class {
     constructor() {
+      // image require wont work outside webpack
+      const icon = Factor.FACTOR_ENV == "app" ? require("./img/pages.svg") : ""
+
+      Factor.$filters.add("post-types", _ => {
+        _.push({
+          type: "page",
+          base: "",
+          icon,
+          nameIndex: "Pages",
+          nameSingle: "Page",
+          namePlural: "Pages"
+        })
+        return _
+      })
+
       Factor.$filters.add("post-edit-components", _ => {
         _.push({
           type: ["page"],

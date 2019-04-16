@@ -20,11 +20,16 @@
       <div class="inputs">
         <div class="title">
           <input
+            class="title-input"
             :value="getValue('__title')"
             type="text"
-            placeholder="Edit Item Title"
+            placeholder="Edit Title"
+            :size="getValue('__title') ? getValue('__title').length + 2 : 8"
             @input="setValue('__title', $event.target.value)"
           >
+          <span class="edit-me">
+            <i class="fa fa-pencil" />
+          </span>
         </div>
         <factor-input-wrap
           v-for="(field, i) in inputs"
@@ -60,11 +65,9 @@ export default {
   computed: {
     localValue: {
       get() {
-        console.log("get value", this.value)
         return this.ensure(this.value)
       },
       set(localValue) {
-        console.log("emit value", localValue)
         this.$emit("input", localValue)
       }
     }
@@ -179,7 +182,14 @@ export default {
     .title {
       display: flex;
       margin-bottom: 1em;
+      align-items: center;
+      .edit-me {
+        margin-left: 1em;
+        opacity: 0.4;
+        font-size: 0.8em;
+      }
       input {
+        width: auto;
         padding: 0.2em;
         padding-left: 0;
         background: none;

@@ -1,6 +1,12 @@
 <template>
   <div class="edit-page-templates">
     <factor-input-wrap
+      v-model="localPost.template"
+      :list="$posts.getPageTemplates()"
+      input="factor-input-select"
+      label="Page Template"
+    />
+    <factor-input-wrap
       v-for="(field, i) in inputs"
       :key="i"
       :value="localPost[field.key]"
@@ -49,9 +55,8 @@ export default {
     }
   },
   methods: {
-    setValue(field, value) {
-      console.log("SET", field, value)
-      this.$set(this.localPost, field, value)
+    setValue(key, value) {
+      this.$set(this.localPost, key, value)
     },
     async setPageTemplate() {
       const tplVal = this.localPost.template
@@ -64,9 +69,33 @@ export default {
           .component()
 
         this.pageTemplate = tpl.pageTemplate ? tpl.pageTemplate() : {}
+
+        this.initializePageTemplate()
       } else {
         this.pageTemplate = {}
       }
+    },
+    initializePageTemplate() {
+      this.inputs.forEach(_ => {
+        if (typeof this.localPost[_.key] == "undefined" && _.default) {
+          let defaultValue
+          if (_.inputs && Array.isArray(_.inputs)) {
+            defaultValue = []
+            _.default.forEach(item => {
+              _.inputs.forEach(__ => {
+                if (typeof item[__.key] == "undefined" && __.default) {
+                  item[__.key] = __.default
+                }
+              })
+              defaultValue.push(item)
+            })
+          } else {
+            defaultValue = _.default
+          }
+
+          this.setValue(_.key, defaultValue)
+        }
+      })
     }
   }
 }

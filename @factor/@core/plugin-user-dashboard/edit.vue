@@ -1,6 +1,6 @@
 <template>
   <dashboard-page>
-    <div class="post-grid">
+    <div class="user-dashboard-post-grid">
       <div class="content-column">
         <dashboard-pane :title="id == $uid ? 'Your Account' : 'Edit User'" class="compose">
           <factor-input-wrap
@@ -113,25 +113,29 @@ export default {
 
 
 <style lang="less">
-.post-grid {
+.user-dashboard-post-grid {
   display: grid;
   grid-gap: 1em;
-  grid-template-columns: 1fr 1fr 1fr;
-  //grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 250px;
+
   @media (max-width: 960px) {
     grid-gap: 1em 0;
   }
   .dashboard-pane {
     margin-bottom: 1em;
   }
-  .content-column {
-    grid-column: span 2;
-  }
+
   .content-column,
   .meta-column {
     min-width: 0;
     @media (max-width: 960px) {
       grid-column: span 3;
+    }
+  }
+  .meta-column {
+    .post-actions {
+      position: sticky;
+      top: 1em;
     }
   }
   .compose {

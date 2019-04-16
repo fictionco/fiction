@@ -30,27 +30,29 @@ export default {
     }
   },
   mounted() {
-    this.$events.$on("notify-toast", ({ type, message = "", duration = 4000 }) => {
-      const time = +new Date()
-      if (type == "error") {
-        this.errors.push({ time, message })
-        setTimeout(() => {
-          this.errors.shift()
-        }, duration)
-      } else if (type == "notify") {
-        this.notification.push({ time, message })
-        setTimeout(() => {
-          this.notification.shift()
-        }, duration)
+    this.$events.$on(
+      "notify-toast",
+      ({ type, message = "", duration = 4000 }) => {
+        const time = +new Date()
+        if (type == "error") {
+          this.errors.push({ time, message })
+          setTimeout(() => {
+            this.errors.shift()
+          }, duration)
+        } else if (type == "notify") {
+          this.notification.push({ time, message })
+          setTimeout(() => {
+            this.notification.shift()
+          }, duration)
+        }
       }
-    })
+    )
   }
 }
 </script>
 
 
 <style lang="less">
-
 .notification-bottom-enter-active,
 .notification-bottom-move,
 .notification-bottom-leave-to,
@@ -84,13 +86,13 @@ export default {
 
   .toast {
     letter-spacing: -0.03em;
-
+    background: #fff;
     font-size: 1em;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #0496ff;
-    color: #fff;
+    //background: #0496ff;
+    //color: #fff;
     border-radius: 6px;
     text-align: center;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06),
@@ -104,15 +106,15 @@ export default {
 }
 .notify-toast {
   top: 10px;
-  .toast {
-    background: #0496ff;
-    //color: #0496ff;
-  }
+  // .toast {
+  //   background: #0496ff;
+  //   //color: #0496ff;
+  // }
 }
 .error-toast {
   bottom: 10px;
-  .toast {
-    background: #ff0076;
-  }
+  // .toast {
+  //   background: #ff0076;
+  // }
 }
 </style>

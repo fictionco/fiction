@@ -242,20 +242,7 @@ export default Factor => {
     }
 
     getPostTypes() {
-      // Causes error in raw nodeJS
-      const icon = Factor.FACTOR_ENV == "app" ? require("./img/pages.svg") : ""
-      const initialPostTypes = [
-        {
-          type: "page",
-          base: "",
-          icon,
-          nameIndex: "Pages",
-          nameSingle: "Page",
-          namePlural: "Pages"
-        }
-      ]
-
-      return Factor.$filters.apply("post-types", initialPostTypes).map(_ => {
+      return Factor.$filters.apply("post-types", []).map(_ => {
         return {
           base: typeof _.base == "undefined" ? _.type : _.base,
           nameIndex: Factor.$utils.toLabel(_.type),
