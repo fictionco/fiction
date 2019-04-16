@@ -1,0 +1,22 @@
+{
+    "name": "@factor/service-firebase-firestore",
+    "version": "0.0.7",
+    "main": "plugin.js",
+    "license": "GPL-3.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "factor": {
+        "target": [
+            "app",
+            "build",
+            "serverless"
+        ],
+        "service": "db",
+        "provider": "firebase"
+    },
+    "dependencies": {
+        "@factor/service-firebase-app": "file:../../@factor/service-firebase-app"
+    },
+    "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
+}
