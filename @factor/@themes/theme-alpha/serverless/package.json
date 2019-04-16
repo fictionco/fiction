@@ -1,0 +1,31 @@
+{
+    "name": "@factor/serverless-directory",
+    "description": "** GENERATED FILE - DONT EDIT DIRECTLY **",
+    "version": "0.0.7",
+    "license": "GPL3.0",
+    "scripts": {
+        "deps": "yarn install --ignore-engines"
+    },
+    "engines": {
+        "node": "8"
+    },
+    "dependencies": {
+        "@factor/plugin-tools": "file:./factor_modules/@factor/plugin-tools",
+        "@factor/endpoint-algolia": "file:./factor_modules/@factor/endpoint-algolia",
+        "@factor/endpoint-user-privs": "file:./factor_modules/@factor/endpoint-user-privs",
+        "@factor/plugin-user": "file:./factor_modules/@factor/plugin-user",
+        "@factor/plugin-db": "file:./factor_modules/@factor/plugin-db",
+        "@factor/plugin-server": "file:./factor_modules/@factor/plugin-server",
+        "@factor/serverless-extend": "file:./factor_modules/@factor/serverless-extend",
+        "@factor/admin-config": "file:./factor_modules/@factor/admin-config",
+        "@factor/build-keys": "file:./factor_modules/@factor/build-keys",
+        "@factor/build-paths": "file:./factor_modules/@factor/build-paths",
+        "@factor/build-files": "file:./factor_modules/@factor/build-files",
+        "@factor/filters": "file:./factor_modules/@factor/filters",
+        "@factor/service-firebase-firestore": "file:./factor_modules/@factor/service-firebase-firestore",
+        "@factor/service-firebase-app": "file:./factor_modules/@factor/service-firebase-app",
+        "@factor/service-firebase-functions-controller": "file:./factor_modules/@factor/service-firebase-functions-controller"
+    },
+    "devDependencies": {},
+    "timestamp": 1555434486978
+}

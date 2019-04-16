@@ -1,0 +1,25 @@
+{
+  "development": {
+    "url": "https://localhost:7000",
+    "plaid": {
+      "clientName": "Fiction.com",
+      "env": "sandbox",
+      "public_key": "35aada978ed8d09e34c5e71aa6b722"
+    },
+    "firebase": {
+      "apiKey": "AIzaSyDNAsK7SVeOjnJWyk-LK42ib5pgi-r-Ts8",
+      "authDomain": "fiction-staging.firebaseapp.com",
+      "databaseURL": "https://fiction-staging.firebaseio.com",
+      "projectId": "fiction-staging",
+      "storageBucket": "fiction-staging.appspot.com",
+      "messagingSenderId": "740526030910"
+    }
+  },
+  "production": {},
+  "all": {
+    "algolia": {
+      "appId": "1PB2CVUAH5",
+      "searchKey": "6c7454492c80221b0410b411b52b2245"
+    }
+  }
+}

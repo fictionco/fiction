@@ -1,0 +1,17 @@
+{
+    "name": "@factor/plugin-db",
+    "factor": {
+        "target": [
+            "app",
+            "serverless",
+            "build"
+        ]
+    },
+    "version": "0.0.7",
+    "license": "GPL-3.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "main": "plugin.js",
+    "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
+}
