@@ -1,6 +1,5 @@
 <template>
   <div class="content-footer-wrap">
-    <backtotop />
     <div class="content-footer">
       <div class="content-footer-pad">
         <div class="footer-col">
@@ -16,9 +15,6 @@
               <factor-link path="/" btn="tertiary" size="large">
                 <i class="fa fa-long-arrow-up" />
               </factor-link>
-              <button v-if="isVisible" class="goTop" @click="backToTop">
-                <i class="fa fa-angle-up" aria-hidden="true" />
-              </button>
             </div>
           </div>
         </div>

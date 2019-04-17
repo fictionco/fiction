@@ -180,28 +180,28 @@ export default {
   }
   &.primary {
     color: hsla(0, 0%, 100%, 0.9);
-    background: #0496ff;
-    box-shadow: 0 0 0 1px #0496ff, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
+    background: @color-primary;
+    box-shadow: 0 0 0 1px @color-primary, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
       0 2px 5px 0 rgba(43, 45, 80, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08),
       0 0 0 0 transparent;
     &:hover {
       color: #fff;
-      box-shadow: 0 0 0 1px #0496ff, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
+      box-shadow: 0 0 0 1px @color-primary, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
         0 2.5px 5px 0 rgba(43, 45, 80, 0.1), 0 1.5px 2px 0 rgba(0, 0, 0, 0.08),
         0 0 0 0 transparent;
     }
   }
   &.secondary {
     color: hsla(0, 0%, 100%, 0.9);
-    background: #ff0076;
-    box-shadow: 0 0 0 1px #ff0076, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
+    background: @color-secondary;
+    box-shadow: 0 0 0 1px @color-secondary, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
       0 2px 5px 0 rgba(43, 45, 80, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08),
       0 0 0 0 transparent;
     &:hover {
       color: #fff;
-      box-shadow: 0 0 0 1px #ff0076, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
-        0 2.5px 5px 0 rgba(43, 45, 80, 0.1), 0 1.5px 2px 0 rgba(0, 0, 0, 0.08),
-        0 0 0 0 transparent;
+      box-shadow: 0 0 0 1px @color-secondary,
+        0 1.5px 1px 0 rgba(59, 65, 94, 0.1), 0 2.5px 5px 0 rgba(43, 45, 80, 0.1),
+        0 1.5px 2px 0 rgba(0, 0, 0, 0.08), 0 0 0 0 transparent;
     }
   }
   &.selected {

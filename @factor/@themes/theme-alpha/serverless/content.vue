@@ -1,23 +1,27 @@
 <template>
   <div class="content-layout">
     <site-head v-if="nav">
-      <factor-link path="/">Intro</factor-link>
-      <factor-link path="/">About</factor-link>
-      <factor-link path="/">Work</factor-link>
-      <factor-link path="/">Blog</factor-link>
-      <factor-link path="/">Contact</factor-link>
-      <factor-link class="factor-icon" path="/" target="_blank">
-        <i class="fa fa-dribbble" />
-      </factor-link>
-      <factor-link class="factor-icon" path="/" target="_blank">
-        <i class="fa fa-instagram" />
-      </factor-link>
-      <factor-link class="factor-icon" path="/" target="_blank">
-        <i class="fa fa-twitter" />
-      </factor-link>
-      <factor-link class="factor-icon" path="/" target="_blank">
-        <i class="fa fa-linkedin" />
-      </factor-link>
+      <template v-slot:nav>
+        <factor-link path="/">Intro</factor-link>
+        <factor-link path="/">About</factor-link>
+        <factor-link path="/">Work</factor-link>
+        <factor-link path="/">Blog</factor-link>
+        <factor-link path="/">Contact</factor-link>
+      </template>
+      <template v-slot:social>
+        <factor-link class="factor-icon" path="/" target="_blank">
+          <i class="fa fa-dribbble" />
+        </factor-link>
+        <factor-link class="factor-icon" path="/" target="_blank">
+          <i class="fa fa-instagram" />
+        </factor-link>
+        <factor-link class="factor-icon" path="/" target="_blank">
+          <i class="fa fa-twitter" />
+        </factor-link>
+        <factor-link class="factor-icon" path="/" target="_blank">
+          <i class="fa fa-linkedin" />
+        </factor-link>
+      </template>
     </site-head>
     <div class="content-main" :style="bg">
       <div class="content-main-content">

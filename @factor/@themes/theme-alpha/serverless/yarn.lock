@@ -693,7 +693,7 @@
 "@factor/endpoint-user-privs@file:./factor_modules/@factor/endpoint-user-privs":
   version "0.0.7"
   dependencies:
-    "@factor/plugin-user" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-endpoint-user-privs-0.0.7-3bd9b273-b44d-4bd5-88bf-f425188377b2-1555434489781/node_modules/@factor/plugin-user"
+    "@factor/plugin-user" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-endpoint-user-privs-0.0.7-ad38b7c7-5338-45dc-9654-d45f80ff2efa-1555472378284/node_modules/@factor/plugin-user"
 
 "@factor/filters@file:./factor_modules/@factor/filters", "@factor/filters@file:factor_modules/@factor/filters":
   version "0.0.7"
@@ -730,11 +730,11 @@
 "@factor/serverless-extend@file:./factor_modules/@factor/serverless-extend", "@factor/serverless-extend@file:factor_modules/@factor/serverless-extend":
   version "0.0.7"
   dependencies:
-    "@factor/admin-config" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-74633973-61c5-4be6-812e-5bf2bf7fc44b-1555434490242/node_modules/@factor/admin-config"
-    "@factor/build-files" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-74633973-61c5-4be6-812e-5bf2bf7fc44b-1555434490242/node_modules/@factor/build-files"
-    "@factor/build-keys" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-74633973-61c5-4be6-812e-5bf2bf7fc44b-1555434490242/node_modules/@factor/build-keys"
-    "@factor/build-paths" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-74633973-61c5-4be6-812e-5bf2bf7fc44b-1555434490242/node_modules/@factor/build-paths"
-    "@factor/filters" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-74633973-61c5-4be6-812e-5bf2bf7fc44b-1555434490242/node_modules/@factor/filters"
+    "@factor/admin-config" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-41e9697c-337d-4b48-b116-ea94e397eb98-1555472378664/node_modules/@factor/admin-config"
+    "@factor/build-files" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-41e9697c-337d-4b48-b116-ea94e397eb98-1555472378664/node_modules/@factor/build-files"
+    "@factor/build-keys" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-41e9697c-337d-4b48-b116-ea94e397eb98-1555472378664/node_modules/@factor/build-keys"
+    "@factor/build-paths" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-41e9697c-337d-4b48-b116-ea94e397eb98-1555472378664/node_modules/@factor/build-paths"
+    "@factor/filters" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-serverless-extend-0.0.7-41e9697c-337d-4b48-b116-ea94e397eb98-1555472378664/node_modules/@factor/filters"
 
 "@factor/service-firebase-app@file:./factor_modules/@factor/service-firebase-app", "@factor/service-firebase-app@file:factor_modules/@factor/service-firebase-app":
   version "0.0.7"
@@ -747,12 +747,12 @@
 "@factor/service-firebase-firestore@file:./factor_modules/@factor/service-firebase-firestore":
   version "0.0.7"
   dependencies:
-    "@factor/service-firebase-app" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-firestore-0.0.7-d24fc865-3c83-44c0-9937-3cccb3f06a1d-1555434491371/node_modules/@factor/service-firebase-app"
+    "@factor/service-firebase-app" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-firestore-0.0.7-a45265f0-9d6b-4672-81a6-424ceb28e3e4-1555472379579/node_modules/@factor/service-firebase-app"
 
 "@factor/service-firebase-functions-controller@file:./factor_modules/@factor/service-firebase-functions-controller":
   version "0.0.7"
   dependencies:
-    "@factor/serverless-extend" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-functions-controller-0.0.7-c2b8ee97-9e37-4ae3-a899-ba6bab1aace7-1555434495253/node_modules/@factor/serverless-extend"
+    "@factor/serverless-extend" "file:../../../../../../Users/Ray/Library/Caches/Yarn/v4/npm-@factor-service-firebase-functions-controller-0.0.7-a1157592-6fe5-47e3-bbf0-5e16d26844a4-1555472382653/node_modules/@factor/serverless-extend"
     firebase-admin "^7.1.0"
     firebase-functions "^2.2.0"
     vue "^2.6.9"
@@ -1325,13 +1325,13 @@ brace-expansion@^1.1.7:
     concat-map "0.0.1"
 
 browserslist@^4.5.2, browserslist@^4.5.4:
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.5.4.tgz#166c4ecef3b51737a42436ea8002aeea466ea2c7"
-  integrity sha512-rAjx494LMjqKnMPhFkuLmLp8JWEX0o8ADTGeAbOqaF+XCvYLreZrG5uVjnPBlAQ8REZK4pzXGvp0bWgrFtKaag==
+  version "4.5.5"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.5.5.tgz#fe1a352330d2490d5735574c149a85bc18ef9b82"
+  integrity sha512-0QFO1r/2c792Ohkit5XI8Cm8pDtZxgNl2H6HU4mHrpYz7314pEYcsAVVatM0l/YmxPnEzh9VygXouj4gkFUTKA==
   dependencies:
-    caniuse-lite "^1.0.30000955"
-    electron-to-chromium "^1.3.122"
-    node-releases "^1.1.13"
+    caniuse-lite "^1.0.30000960"
+    electron-to-chromium "^1.3.124"
+    node-releases "^1.1.14"
 
 buffer-equal-constant-time@1.0.1:
   version "1.0.1"
@@ -1375,7 +1375,7 @@ camelcase@^2.0.1:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-2.1.1.tgz#7c1d16d679a1bbe59ca02cacecfb011e201f5a1f"
   integrity sha1-fB0W1nmhu+WcoCys7PsBHiAfWh8=
 
-caniuse-lite@^1.0.30000955:
+caniuse-lite@^1.0.30000960:
   version "1.0.30000960"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000960.tgz#ec48297037e5607f582f246ae7b12bee66a78999"
   integrity sha512-7nK5qs17icQaX6V3/RYrJkOsZyRNnroA4+ZwxaKJzIKy+crIy0Mz5CBlLySd2SNV+4nbUZeqeNfiaEieUBu3aA==
@@ -1701,7 +1701,7 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
-electron-to-chromium@^1.3.122:
+electron-to-chromium@^1.3.124:
   version "1.3.124"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.124.tgz#861fc0148748a11b3e5ccebdf8b795ff513fa11f"
   integrity sha512-glecGr/kFdfeXUHOHAWvGcXrxNU+1wSO/t5B23tT1dtlvYB26GY8aHzZSWD7HqhqC800Lr+w/hQul6C5AF542w==
@@ -2747,10 +2747,10 @@ node-pre-gyp@^0.12.0:
     semver "^5.3.0"
     tar "^4"
 
-node-releases@^1.1.13:
-  version "1.1.14"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.14.tgz#f1f41c83cac82caebd6739e6313d56b3b09c9189"
-  integrity sha512-d58EpVZRhQE60kWiWUaaPlK9dyC4zg3ZoMcHcky2d4hDksyQj0rUozwInOl0C66mBsqo01Tuns8AvxnL5S7PKg==
+node-releases@^1.1.14:
+  version "1.1.15"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.15.tgz#9e76a73b0eca3bf7801addaa0e6ce90c795f2b9a"
+  integrity sha512-cKV097BQaZr8LTSRUa2+oc/aX5L8UkZtPQrMSTgiJEeaW7ymTDCoRaGCoaTqk0lqnalcoSHu4wjSl0Cmj2+bMw==
   dependencies:
     semver "^5.3.0"
 

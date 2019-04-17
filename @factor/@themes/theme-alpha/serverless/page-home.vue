@@ -8,7 +8,7 @@
             class="subtitle"
           >I work with global brands and startups to create exciting and meaningful digital experiences.</div>
           <div class="actions">
-            <factor-link path="/how-it-works" btn="primary" size="large">
+            <factor-link path="/how-it-works" btn="tertiary" size="large">
               View Work
               <i class="fa fa-arrow-right" />
             </factor-link>
@@ -16,17 +16,6 @@
         </div>
       </div>
 
-      <div class="mast">
-        <div class="members">
-          <h2>Newest Members</h2>
-          <ul class="newest-members">
-            <member-avatar v-for="(num, index) in 8" :key="index" :item="num" />
-          </ul>
-          <ul class="newest-members row-2">
-            <member-avatar v-for="(num, index) in 8" :key="index" :item="num + 8" />
-          </ul>
-        </div>
-      </div>
       <el-cta />
     </section>
   </div>
@@ -35,8 +24,7 @@
 <script>
 export default {
   components: {
-    "el-cta": () => import("./el/cta"),
-    "member-avatar": () => import("./el/member-avatar")
+    "el-cta": () => import("./el/cta")
   },
   data() {
     return {
@@ -50,9 +38,9 @@ export default {
   // },
   metatags() {
     return {
-      title: "The Remote Work Platform",
+      title: "Factor Alpha Theme",
       description:
-        "Fiction helps people become remote workers, digital nomads and long term travelers. Find us in Miami, Salt Lake City, Los Angeles and New York."
+        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
       //image: require("./img/fiction.jpg")
     }
   },
@@ -105,38 +93,6 @@ export default {
     .actions {
       margin-top: 1.5em;
     }
-  } // end .home-intro
-  // Home boxes
-  .boxes {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 60px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    @media (max-width: 767px) {
-      display: block;
-    }
-    .box {
-      padding-bottom: 4em;
-      @media (max-width: 767px) {
-        padding-bottom: 2em;
-      }
-      .svg-wrap {
-        display: inline-block;
-        width: 40px;
-        svg {
-          min-height: 40px;
-        }
-      }
-      h2 {
-        margin: 0.5em 0;
-        font-weight: 600;
-      }
-      p {
-        font-weight: 500;
-        margin-top: 0.5em;
-        opacity: 0.6;
-      }
-    }
   }
   //Home brands
   .brands {
@@ -162,125 +118,6 @@ export default {
         max-width: 100px;
         max-height: 40px;
         width: auto;
-      }
-    }
-  }
-  //Home testimonial
-  .testimonial {
-    position: relative;
-    overflow: hidden;
-    margin: 2em 0;
-    border-radius: 4px;
-    box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-      0 18px 36px -18px rgba(0, 0, 0, 0.3);
-    figure {
-      height: 100%;
-      position: absolute;
-      overflow: hidden;
-      z-index: 2;
-      right: -30px;
-      top: 0;
-      left: calc(50% + 100px);
-      -webkit-transform: skewX(12deg);
-      transform: skewX(12deg);
-
-      @media (max-width: 767px) {
-        position: relative;
-        height: 200px;
-        background: #525f7f;
-        overflow: hidden;
-        right: 0;
-        top: 0;
-        left: 0;
-        -webkit-transform: skewX(0);
-        transform: skewX(0);
-      }
-      span {
-        display: block;
-        position: absolute;
-        background-image: url(./img/marcus.jpg);
-        background-size: cover;
-        background-position: center center;
-        height: 100%;
-        right: 30px;
-        top: 0;
-        bottom: 0;
-        left: -110px;
-        -webkit-transform: skewX(-12deg);
-        transform: skewX(-12deg);
-
-        @media (max-width: 767px) {
-          display: block;
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          background-position: 50%;
-          background-size: cover;
-          -webkit-transform: skewX(0);
-          transform: skewX(0);
-        }
-      }
-    }
-    blockquote {
-      width: 50%;
-      background: #fff url(./img/icon/left-quote.svg) no-repeat 3em 1em;
-      background-size: 25px 25px;
-      padding: 3em;
-      @media (max-width: 767px) {
-        background-position: 2em 1em;
-        width: 100%;
-        padding: 3em 2em 2em;
-      }
-      p {
-        opacity: 0.6;
-        font-size: 1.2em;
-        font-weight: normal;
-      }
-      cite {
-        display: block;
-        margin-top: 1em;
-      }
-    }
-  }
-
-  // Home members
-  .members {
-    padding: 3em 0;
-    text-align: center;
-    h2 {
-      font-weight: 600;
-      font-size: 2em;
-      margin-bottom: 1em;
-    }
-    .newest-members {
-      display: flex;
-      justify-content: center;
-      list-style: none;
-      padding: 0;
-      &.row-2 {
-        margin-left: 80px;
-      }
-      @media (max-width: 767px) {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-gap: 0;
-        &.row-2 {
-          margin-left: 0;
-        }
-      }
-      .member {
-        display: inline-block;
-        padding: 0 0.3em;
-        img {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          box-shadow: 0 0 0 2px hsla(0, 0%, 100%, 0.9),
-            0 0 0 1px rgba(0, 0, 0, 0.2), 0 3px 0.5em 0 rgba(24, 32, 41, 0.1),
-            0 0.5em 1em 0 rgba(24, 32, 41, 0.1);
-        }
       }
     }
   }
