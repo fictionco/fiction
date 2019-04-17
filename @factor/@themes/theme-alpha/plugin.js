@@ -41,7 +41,7 @@ module.exports.default = Factor => {
           // },
           {
             name: "Landing Page",
-            description: "Fancy landing page template",
+            description: "Landing page template",
             value: "page-template-landing",
             component: () => import("./page-template-landing"),
             options: [

@@ -31,5 +31,8 @@ export default {}
     font-weight: 600;
     margin-bottom: 1em;
   }
+  .factor-btn {
+    letter-spacing: -0.03em;
+  }
 }
 </style>

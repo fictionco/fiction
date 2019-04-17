@@ -9,16 +9,16 @@
         <factor-link path="/">Contact</factor-link>
       </template>
       <template v-slot:social>
-        <factor-link class="factor-icon" path="/" target="_blank">
+        <factor-link class="factor-icon" path="https://dribbble.com/" target="_blank">
           <i class="fa fa-dribbble" />
         </factor-link>
-        <factor-link class="factor-icon" path="/" target="_blank">
+        <factor-link class="factor-icon" path="https://www.instagram.com/" target="_blank">
           <i class="fa fa-instagram" />
         </factor-link>
-        <factor-link class="factor-icon" path="/" target="_blank">
+        <factor-link class="factor-icon" path="https://twitter.com/" target="_blank">
           <i class="fa fa-twitter" />
         </factor-link>
-        <factor-link class="factor-icon" path="/" target="_blank">
+        <factor-link class="factor-icon" path="https://www.linkedin.com/" target="_blank">
           <i class="fa fa-linkedin" />
         </factor-link>
       </template>

@@ -2,7 +2,7 @@
   <div class="cta">
     <div class="cta-inner">
       <h2>For work inquiries, collaboration or feedback</h2>
-      <factor-link btn="default" size="large" action="signinModal">
+      <factor-link btn="default" size="large" path="/contact">
         Get in Touch
         <i class="fa fa-arrow-right" />
       </factor-link>
