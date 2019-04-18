@@ -18,6 +18,7 @@ export default Factor => {
       this.watchPaths = [Factor.$paths.get("config")]
       this.dependencies = {}
       this.localDependencies = {}
+      this.addConfig()
 
       Factor.$filters.add("build-start", () => {
         this.builder()
@@ -25,7 +26,6 @@ export default Factor => {
     }
 
     builder() {
-      this.addConfig()
       this.buildServerlessFolder()
 
       Factor.$filters.add("build-watchers", _ => {
@@ -65,11 +65,14 @@ export default Factor => {
       this.makePackages()
       this.copyFunctionsFiles()
 
-      Factor.$filters.add("build-runners", _ => {
+      Factor.$filters.add("build-spawns", _ => {
         _.push({
-          command: `cd ./${this.relativeDir} && yarn install --ignore-engines --silent`,
-          name: "EP",
-          prefixColor: "cyan.dim"
+          command: "yarn",
+          args: ["install", "--ignore-engines"],
+          name: "Rebuilding Serverless Packages",
+          options: {
+            cwd: `${process.cwd()}/${this.relativeDir}`
+          }
         })
         return _
       })
@@ -77,7 +80,7 @@ export default Factor => {
 
     clearBuildDirectory() {
       ensureDirSync(this.buildDirectory)
-      emptyDirSync(this.buildDirectory)
+      //   emptyDirSync(this.buildDirectory)
     }
 
     copyAppDirectories() {
@@ -200,29 +203,29 @@ export default Factor => {
       )
     }
 
-    showOutput(name, runner) {
-      let messages = []
-      let logType = "success"
-      return new Promise((resolve, reject) => {
-        runner.stdout.on("data", function(data) {
-          messages.push(data.toString())
-        })
-        runner.stderr.on("data", function(data) {
-          messages.push(data.toString())
-        })
-        runner.on("close", code => {
-          messages.unshift(`${name} >>>`)
-          consola[logType](`${name} [Finished - ${code}]`)
-          resolve()
-        })
-      })
-    }
+    // showOutput(name, runner) {
+    //   let messages = []
+    //   let logType = "success"
+    //   return new Promise((resolve, reject) => {
+    //     runner.stdout.on("data", function(data) {
+    //       messages.push(data.toString())
+    //     })
+    //     runner.stderr.on("data", function(data) {
+    //       messages.push(data.toString())
+    //     })
+    //     runner.on("close", code => {
+    //       messages.unshift(`${name} >>>`)
+    //       consola[logType](`${name} [Finished - ${code}]`)
+    //       resolve()
+    //     })
+    //   })
+    // }
 
     // runtimeFile() {
     //   // Package.json is still getting generated (apparently)
     //   // Yarn/NPM will use parent package.json if the CWD one is missing
     //   setTimeout(async () => {
-    //     const { spawn } = require("child_process")
+    //     const { spawnSync } = require("child_process")
 
     //     const runFolder = `${process.cwd()}/${this.relativeDir}`
 

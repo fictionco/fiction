@@ -15,7 +15,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
-
+//const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
 const NODE_ENV = process.env.NODE_ENV
 
 module.exports.default = Factor => {
@@ -141,10 +141,16 @@ module.exports.default = Factor => {
         plugins
       })
 
+      //const smp = new SpeedMeasurePlugin()
+
       return merged
     }
 
     server() {
+      // Necessary to accomodate issues with resolution in SSR
+      // Many packages don't fully consider it  (firebase)
+      const alias = Factor.$filters.apply("webpack-aliases-server", {})
+
       return {
         target: "node",
         entry: Factor.$paths.get("entry-server"),
@@ -153,7 +159,7 @@ module.exports.default = Factor => {
           libraryTarget: "commonjs2"
         },
         resolve: {
-          //mainFields: ["main", "module"]
+          alias
         },
         // https://webpack.js.org/configuration/externals/#externals
         // https://github.com/liady/webpack-node-externals

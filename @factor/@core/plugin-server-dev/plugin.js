@@ -64,7 +64,7 @@ export default Factor => {
     }
 
     updateServer(reason) {
-      consola.success(`Update: ${reason}`)
+      Factor.$log.success(`Update: ${reason}`)
       if (this.bundle && this.clientManifest) {
         this.ready() // triggers promise resolution
         this.cb(this.bundle, {

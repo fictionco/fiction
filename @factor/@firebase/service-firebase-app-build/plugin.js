@@ -1,11 +1,20 @@
 const { ensureFileSync, writeFileSync } = require("fs-extra")
-const { resolve } = require("path")
+const { resolve, dirname } = require("path")
 
 export default Factor => {
   return new class {
     constructor() {
       this.appPath = Factor.$paths.get("app")
       this.publicDir = Factor.$paths.folder("dist")
+
+      // Fix poorly designed Firebase packages
+      // https://github.com/firebase/firebase-js-sdk/pull/1536#issuecomment-473408965
+      // Factor.$filters.add("webpack-aliases-server", _ => {
+      //   const firebaseDir = dirname(require.resolve(`@firebase/app`))
+      //   _["@firebase/app$"] = resolve(firebaseDir, "index.node.cjs.js")
+
+      //   return _
+      // })
 
       // Should come before functions build
       Factor.$filters.add(
