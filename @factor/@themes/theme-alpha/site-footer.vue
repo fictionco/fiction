@@ -36,7 +36,6 @@ export default {
 
 <style lang="less">
 .content-footer {
-  padding: 3em 2em;
   max-width: 1024px;
   margin: 0 auto;
   position: relative;
@@ -48,6 +47,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 0 10px;
+    align-items: center;
 
     .footer-col {
       a {

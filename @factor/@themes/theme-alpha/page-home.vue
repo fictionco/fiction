@@ -1,23 +1,65 @@
 <template>
-  <div class="home-page">
-    <section class="home-container">
-      <div class="mast">
-        <div class="home-intro">
-          <h1 class="title">Theme Alpha</h1>
+  <div class="landing">
+    <div class="container">
+      <section class="intro">
+        <div class="intro-inner">
+          <h3 class="pre-title">Alpha Theme</h3>
+          <h1 class="title">
+            Hello, I’m Alpha.
+            <br>A minimal, personal or portfolio theme.
+          </h1>
           <div
             class="subtitle"
-          >I work with global brands and startups to create exciting and meaningful digital experiences.</div>
+          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+
           <div class="actions">
-            <factor-link path="/how-it-works" btn="primary" size="large">
+            <factor-link path="/how-it-works" btn="default" size="large">
               View Work
-              <i class="fa fa-arrow-right" />
+              <i class="fa fa-angle-right" />
             </factor-link>
           </div>
         </div>
-      </div>
+      </section>
+
+      <!-- <section class="feature-boxes">
+        <div v-for="(box, i) in post.boxes" :key="i" class="box">
+          <div v-if="box.icon" class="box-icon">
+            <img :src="box.icon[0].url">
+          </div>
+          <div class="box-heading">{{ box.heading }}</div>
+          <div class="box-description">{{ box.description }}</div>
+        </div>
+      </section>-->
+
+      <section class="boxes">
+        <div class="title">Skills &amp; Expertise</div>
+
+        <div class="mast boxes-inner">
+          <div class="box">
+            Icon
+            <h2>Skill Title</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          </div>
+          <div class="box">
+            Icon
+            <h2>Skill Title</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          </div>
+          <div class="box">
+            Icon
+            <h2>Skill Title</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          </div>
+          <div class="box">
+            Icon
+            <h2>Skill Title</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          </div>
+        </div>
+      </section>
 
       <el-cta />
-    </section>
+    </div>
   </div>
 </template>
 
@@ -38,9 +80,9 @@ export default {
   // },
   metatags() {
     return {
-      title: "The Remote Work Platform",
+      title: "Factor Alpha Theme",
       description:
-        "Fiction helps people become remote workers, digital nomads and long term travelers. Find us in Miami, Salt Lake City, Los Angeles and New York."
+        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
       //image: require("./img/fiction.jpg")
     }
   },
@@ -48,53 +90,99 @@ export default {
 }
 </script>
 <style lang="less">
-.home-container {
+.container {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
     max-width: 1000px;
     margin: 0 auto;
   }
-  //Home Intro
-  .home-intro {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-    max-width: 650px;
-    margin: 0 auto;
-    padding: 7em 0;
-    @media (max-width: 767px) {
-      padding: 4em 0;
+
+  // Intro
+  .intro {
+    background-color: @color-primary;
+    color: @color-white;
+
+    .intro-inner {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 7em 0;
+      @media (max-width: 767px) {
+        padding: 4em 0;
+      }
+      .pre-title {
+        position: relative;
+        padding-bottom: 2em;
+        text-transform: uppercase;
+        &:after {
+          background-color: @color-tertiary;
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          width: 24px;
+          height: 7px;
+          margin: -3.5px 0 0 -12px;
+          transform: skewY(-16deg) scaleX(1);
+          transform-origin: 0 100%;
+        }
+      }
+      .title {
+        font-weight: 600;
+        font-size: 3em;
+        letter-spacing: -0.03em;
+        margin: 0.5em;
+        @media (max-width: 767px) {
+          font-size: 2em;
+        }
+      }
+      .subtitle {
+        opacity: 0.5;
+        font-size: 1.2em;
+        font-weight: 500;
+        @media (max-width: 767px) {
+          font-size: 1.2em;
+        }
+      }
+      .factor-btn.default {
+        color: @color-primary;
+        letter-spacing: -0.03em;
+      }
+      .actions {
+        margin-top: 1.5em;
+      }
     }
+  }
+
+  //Boxes
+  .boxes {
+    padding: 2em 0;
     .title {
       font-weight: 600;
-      font-size: 3em;
+      font-size: 2.4em;
       letter-spacing: -0.03em;
-      line-height: 0.9;
       margin-bottom: 0.2em;
+      text-align: center;
       @media (max-width: 767px) {
         font-size: 2em;
       }
     }
-    .subtitle {
-      opacity: 0.5;
-      font-size: 1.5em;
-      font-weight: 500;
-      @media (max-width: 767px) {
-        font-size: 1.2em;
+    .boxes-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 80px;
+      align-items: center;
+
+      .box {
+        text-align: center;
       }
-    }
-    .join-up {
-      .fi-btn {
-        font-size: 1em;
-      }
-    }
-    .actions {
-      margin-top: 1.5em;
     }
   }
-  //Home brands
+
   .brands {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
