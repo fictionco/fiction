@@ -19,7 +19,9 @@ export default Factor => {
       this.dependencies = {}
       this.localDependencies = {}
 
-      this.builder()
+      Factor.$filters.add("build-start", () => {
+        this.builder()
+      })
     }
 
     builder() {
@@ -62,7 +64,15 @@ export default Factor => {
       this.copyAppDirectories()
       this.makePackages()
       this.copyFunctionsFiles()
-      this.runtimeFile()
+
+      Factor.$filters.add("build-runners", _ => {
+        _.push({
+          command: `cd ./${this.relativeDir} && yarn install --ignore-engines --silent`,
+          name: "EP",
+          prefixColor: "cyan.dim"
+        })
+        return _
+      })
     }
 
     clearBuildDirectory() {
@@ -161,13 +171,13 @@ export default Factor => {
     async makePackages() {
       this.getDependencies()
 
-      const { pkg } = Factor.$config.settings()
+      const { version } = require(resolve(Factor.$paths.get("app"), "package.json"))
 
       const lines = {
         name: "@factor/serverless-directory",
         description: "** GENERATED FILE - DONT EDIT DIRECTLY **",
-        version: pkg.version,
-        license: "GPL3.0",
+        version,
+        license: "GPL-3.0",
         scripts: {
           deps: "yarn install --ignore-engines"
         },
@@ -208,20 +218,20 @@ export default Factor => {
       })
     }
 
-    runtimeFile() {
-      // Package.json is still getting generated (apparently)
-      // Yarn/NPM will use parent package.json if the CWD one is missing
-      setTimeout(async () => {
-        const { spawn } = require("child_process")
+    // runtimeFile() {
+    //   // Package.json is still getting generated (apparently)
+    //   // Yarn/NPM will use parent package.json if the CWD one is missing
+    //   setTimeout(async () => {
+    //     const { spawn } = require("child_process")
 
-        const runFolder = `${process.cwd()}/${this.relativeDir}`
+    //     const runFolder = `${process.cwd()}/${this.relativeDir}`
 
-        const runner = spawn("yarn", ["deps"], {
-          cwd: runFolder
-        })
+    //     const runner = spawn("yarn", ["deps"], {
+    //       cwd: runFolder
+    //     })
 
-        await this.showOutput("Serverless Packages Install", runner)
-      }, 500)
-    }
+    //     await this.showOutput("Serverless Packages Install", runner)
+    //   }, 500)
+    // }
   }()
 }

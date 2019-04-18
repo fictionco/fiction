@@ -29,8 +29,9 @@ module.exports.default = Factor => {
     }
 
     addFilters() {
-      Factor.$filters.add("build-production", args => {
-        return this.buildProduction(args)
+      Factor.$filters.add("build-production", (_, args) => {
+        _.webpack = this.buildProduction(args)
+        return _
       })
       Factor.$filters.add("webpack-config", args => {
         return this.getConfig(args)

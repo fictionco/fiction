@@ -1,5 +1,5 @@
 const path = require("path")
-var fs = require("fs")
+
 module.exports = Factor => {
   return new class {
     constructor() {
@@ -24,7 +24,7 @@ module.exports = Factor => {
     }
 
     addWatchers() {
-      Factor.$filters.add("initialize-build", () => {
+      Factor.$filters.add("build-start", () => {
         this.generateLoaders()
       })
       Factor.$filters.add("build-watchers", _ => {
@@ -76,10 +76,11 @@ module.exports = Factor => {
         requireAtRuntime: true
       })
 
-      require("consola").success(
-        `Made Loaders [${Date.now() - s}ms]`,
-        `- ${extensions.length} Extensions`
-      )
+      Factor.$log.custom({
+        type: "success",
+        params: [`Made Loaders [${Date.now() - s}ms]`, `- ${extensions.length} Extensions`],
+        target: "all"
+      })
     }
 
     getExtensionPatterns() {

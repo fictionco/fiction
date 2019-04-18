@@ -336,7 +336,7 @@ export default {
 
       await this.$posts.savePost(save)
 
-      this.$events.$emit("notify", "Post Saved")
+      this.$events.$emit("notify", "Saved")
 
       this.sending = false
     },

@@ -5,6 +5,7 @@ const cors = require("cors")({ origin: true })
 module.exports = (Factor, FACTOR_CONFIG) => {
   return new class {
     constructor() {
+      Factor.FACTOR_TARGET = "build-serverless"
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
       Factor.$theme = FACTOR_CONFIG.theme || false
       Factor.FACTOR_ENV = "serverless"
@@ -41,10 +42,6 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       })
     }
 
-    initializeBuild() {
-      this._runCallbacks(Factor.$filters.apply("initialize-build", {}))
-    }
-
     _runCallbacks(callbacks) {
       for (var key in callbacks) {
         const cb = callbacks[key]
@@ -77,7 +74,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
         }
       })
 
-      this.initializeBuild()
+      this._runCallbacks(Factor.$filters.apply(Factor.FACTOR_TARGET, {}))
 
       return endpoints
     }

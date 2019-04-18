@@ -1,8 +1,7 @@
 const merge = require("deepmerge")
 
 const isNode = require("detect-node")
-const { resolve } = require("path")
-const consola = require("consola")
+
 module.exports = Factor => {
   return new class {
     constructor() {
@@ -42,29 +41,8 @@ module.exports = Factor => {
       return this._settings[key]
     }
 
-    getPasswords() {
-      let password = Factor.$filters.apply(`master-password-${this.env}`)
-
-      if (password) {
-        return password
-      }
-
-      let passwordfile = null
-      try {
-        passwordfile = require(Factor.$paths.get("passwords"))
-      } catch (error) {}
-
-      password = passwordfile && passwordfile[this.env] ? passwordfile[this.env] : false
-
-      if (!password) {
-        consola.warn("Can't find a private key password.")
-      }
-
-      return password
-    }
-
     serverPrivateConfig() {
-      const password = this.getPasswords()
+      const password = Factor.$keys.getPassword(this.env)
 
       let config = {}
 

@@ -9,7 +9,7 @@ export default Factor => {
 
       // Should come before functions build
       Factor.$filters.add(
-        "initialize-build",
+        "build-start",
         () => {
           this.createFirebaseJson()
           this.createFirebaseRC()

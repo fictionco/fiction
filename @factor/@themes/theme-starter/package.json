@@ -12,9 +12,7 @@
     "dev": "NODE_ENV=development node config/start",
     "start": "NODE_ENV=production node config/start --build --serve --no-cache"
   },
-  "dependencies": {
-    "@factor/build": "^0.0.7"
-  },
+  "dependencies": {},
   "factor": {
     "target": "themes"
   },

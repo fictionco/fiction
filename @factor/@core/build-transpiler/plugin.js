@@ -1,17 +1,6 @@
 module.exports = Factor => {
   return new class {
-    constructor() {
-      Factor.$filters.add("initialize-build", () => {
-        this.copyTranspilerConfig()
-      })
-    }
-
-    copyTranspilerConfig() {
-      const { resolve } = require("path")
-      const { copySync } = require("fs-extra")
-
-      //copySync(resolve(__dirname, "files"), Factor.$paths.get("app"))
-    }
+    constructor() {}
 
     register({ target }) {
       require("@babel/register")(this.config({ target }))

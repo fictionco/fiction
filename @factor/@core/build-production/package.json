@@ -1,5 +1,5 @@
 {
-  "name": "@factor/build",
+  "name": "@factor/build-production",
   "version": "0.0.7",
   "license": "GPL-3.0",
   "publishConfig": {
