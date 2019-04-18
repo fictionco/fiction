@@ -2,7 +2,7 @@ export default Factor => {
   return new class {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
-        Factor.$filters.add("initialize-build", () => {
+        Factor.$filters.add("endpoint-server", () => {
           this.updateIndexSettings()
         })
       }

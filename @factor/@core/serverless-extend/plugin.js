@@ -5,6 +5,7 @@ const cors = require("cors")({ origin: true })
 module.exports = (Factor, FACTOR_CONFIG) => {
   return new class {
     constructor() {
+      Factor.FACTOR_TARGET = "build-serverless"
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
       Factor.$theme = FACTOR_CONFIG.theme || false
       Factor.FACTOR_ENV = "serverless"
@@ -18,19 +19,19 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       Factor.config.devtools = false
       Factor.config.silent = true
 
-      this.addCoreExtension("filters", require(`@factor/filters`))
+      this.addCoreExtension("filters", require("@factor/filters"))
 
       if (typeof FACTOR_CONFIG.setup == "function") {
         FACTOR_CONFIG.setup()
       }
 
-      this.addCoreExtension("paths", require(`@factor/build-paths`))
-      this.addCoreExtension("theme", require(`@factor/core-theme`))
-      this.addCoreExtension("keys", require(`@factor/build-keys`))
-      this.addCoreExtension("files", require(`@factor/build-files`))
-      this.addCoreExtension("config", require(`@factor/admin-config`))
-      this.addCoreExtension("tools", require(`@factor/plugin-tools`).default)
-      this.addCoreExtension("db", require(`@factor/plugin-db`).default)
+      this.addCoreExtension("paths", require("@factor/build-paths"))
+      this.addCoreExtension("theme", require("@factor/core-theme/build"))
+      this.addCoreExtension("keys", require("@factor/build-keys"))
+      this.addCoreExtension("files", require("@factor/build-files"))
+      this.addCoreExtension("config", require("@factor/admin-config"))
+      this.addCoreExtension("tools", require("@factor/plugin-tools").default)
+      this.addCoreExtension("db", require("@factor/plugin-db").default)
     }
 
     addCoreExtension(id, extension) {
@@ -39,10 +40,6 @@ module.exports = (Factor, FACTOR_CONFIG) => {
           Factor[`$${id}`] = Factor.prototype[`$${id}`] = extension(Factor)
         }
       })
-    }
-
-    initializeBuild() {
-      this._runCallbacks(Factor.$filters.apply("initialize-build", {}))
     }
 
     _runCallbacks(callbacks) {
@@ -77,7 +74,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
         }
       })
 
-      this.initializeBuild()
+      this._runCallbacks(Factor.$filters.apply(Factor.FACTOR_TARGET, {}))
 
       return endpoints
     }

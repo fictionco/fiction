@@ -23,13 +23,17 @@ module.exports.default = Factor => {
 
       // After all extensions/filters added
       // Needed for webpack and dev server
-      Factor.$filters.add("initialize-build", () => {
-        const server = this.startServer()
+      Factor.$filters.add("create-server", ({ mode = "production", serve = true }) => {
+        this.startServer({ mode, serve })
 
-        Factor.$filters.add("server", () => {
-          return server
-        })
+        // Factor.$filters.add("server", () => {
+        //   return server
+        // })
       })
+    }
+
+    instance() {
+      return this.server
     }
 
     resolve(dir, file) {
@@ -52,7 +56,9 @@ module.exports.default = Factor => {
       }
     }
 
-    render(req, res) {
+    render(req, res, args = {}) {
+      const { serve = true } = args
+
       const s = Date.now()
 
       res.setHeader("Content-Type", "text/html")
@@ -82,20 +88,22 @@ module.exports.default = Factor => {
 
         res.send(html)
 
-        if (this.serveApp) {
+        if (serve) {
           consola.success(`Request @[${req.url}] - ${Date.now() - s}ms`)
         }
       })
     }
 
-    startServer() {
+    startServer(args) {
+      const { mode = "production", serve = true } = args
+
       this.server = express()
 
       this.renderer = null
       this.readyPromise = null
       this.httpRoutine = this.getHttpRoutine()
 
-      if (isProd) {
+      if (mode == "production") {
         const bundle = require(Factor.$paths.get("server-bundle"))
         const clientManifest = require(Factor.$paths.get("client-manifest"))
 
@@ -129,14 +137,14 @@ module.exports.default = Factor => {
       }
 
       // Serve static assets
-      if (this.serveApp) {
+      if (serve) {
         this.resolveStaticAssets()
       }
 
       // Set Express routine for all fallthrough paths
       this.server.get("*", (req, res) => {
-        if (isProd) {
-          this.render(req, res)
+        if (mode == "production") {
+          this.render(req, res, args)
         } else {
           this.readyPromise.then(() => {
             this.render(req, res)
@@ -145,7 +153,7 @@ module.exports.default = Factor => {
       })
 
       // Serve the app from node
-      if (this.serveApp) {
+      if (serve) {
         const port = Factor.$config.setting("port") || 7000
 
         this.getListenRoutine(this.server).listen(port, () => {

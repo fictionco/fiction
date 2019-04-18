@@ -2,7 +2,7 @@ module.exports.default = Factor => {
   return new class {
     constructor() {
       if (Factor.FACTOR_ENV == "serverless") {
-        this.possibleRoles = require(`@factor/plugin-user/config.json`).roles
+        this.possibleRoles = require("@factor/plugin-user/config.json").roles
 
         // this.UserRolesServiceSet = Factor.$filters.apply("user-role-service-set")
         // this.UserRolesServiceGet = Factor.$filters.apply("user-role-service-get")

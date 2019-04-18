@@ -1,48 +1,40 @@
-module.exports = (Factor, FACTOR_CONFIG) => {
+module.exports = Factor => {
   return new class {
     constructor() {
-      Factor.FACTOR_CONFIG = FACTOR_CONFIG
-
-      Factor.FACTOR_ENV = "build"
       this.setup()
     }
 
     async setup() {
+      Factor.FACTOR_CONFIG = require("@factor/build-config")()
+      Factor.FACTOR_ENV = "build"
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
-
-      this.addCoreExtension("filters", require(`@factor/filters`))
-      this.addCoreExtension("paths", require(`@factor/build-paths`))
-      this.addCoreExtension("theme", require(`@factor/core-theme`))
-      this.addCoreExtension("keys", require(`@factor/build-keys`))
-      this.addCoreExtension("files", require(`@factor/build-files`))
-      this.addCoreExtension("config", require(`@factor/admin-config`))
+      this.addCoreExtension("log", require("@factor/build-log"))
+      this.addCoreExtension("filters", require("@factor/filters"))
+      this.addCoreExtension("paths", require("@factor/build-paths"))
+      this.addCoreExtension("theme", require("@factor/core-theme/build"))
+      this.addCoreExtension("keys", require("@factor/build-keys"))
+      this.addCoreExtension("files", require("@factor/build-files"))
+      this.addCoreExtension("config", require("@factor/admin-config"))
 
       const transpiler = require("@factor/build-transpiler")(Factor)
 
       transpiler.register({ target: "build" })
 
-      require(`@factor/app`)(Factor, { target: "build" })
+      // This just adds the dirname to config and other paths
+      require("@factor/app/build")(Factor)
 
       const plugins = require(Factor.$paths.get("plugins-loader-build"))
+
       this.injectPlugins(plugins)
-      await this.handleProductionBuild()
-      this.initializeBuild()
-      transpiler.copyTranspilerConfig()
-    }
 
-    async handleProductionBuild() {
-      const { setup, argv } = FACTOR_CONFIG
+      const { setup } = Factor.FACTOR_CONFIG
 
-      // User defined setup hook
-      // The code that trigger this should be in the start.js in the app 'config' folder
+      // config defined setup hook/callback
+      // Useful for overriding and programmatic config
       if (typeof setup == "function") {
         setup(Factor)
-      }
-
-      if (argv.build) {
-        await Factor.$filters.apply("build-production", argv)
       }
     }
 
@@ -52,19 +44,6 @@ module.exports = (Factor, FACTOR_CONFIG) => {
           Factor[`$${id}`] = Factor.prototype[`$${id}`] = extension(Factor)
         }
       })
-    }
-
-    initializeBuild() {
-      this._runCallbacks(Factor.$filters.apply("initialize-build", {}))
-    }
-
-    _runCallbacks(callbacks) {
-      for (var key in callbacks) {
-        const cb = callbacks[key]
-        if (cb && typeof cb == "function") {
-          cb()
-        }
-      }
     }
 
     injectPlugins(plugins) {

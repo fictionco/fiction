@@ -6,7 +6,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "license": "GPL3.0",
+  "license": "GPL-3.0",
   "scripts": {
     "cypress": "npx cypress open",
     "alpha:dev": "yarn prep && yarn workspace @factor/theme-alpha dev",

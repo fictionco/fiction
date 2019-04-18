@@ -1,21 +1,7 @@
-module.exports = (Factor, { target }) => {
+module.exports = Factor => {
   return new class {
     constructor() {
-      if (target == "build") {
-        this.doBuild()
-      } else {
-        this.doApp()
-      }
-    }
-
-    doBuild() {
-      const path = require("path")
-
-      Factor.$paths.add({
-        entry: __dirname,
-        "entry-client": path.resolve(__dirname, "entry-client.js"),
-        "entry-server": path.resolve(__dirname, "entry-server.js")
-      })
+      this.doApp()
     }
 
     doApp() {

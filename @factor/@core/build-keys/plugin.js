@@ -20,13 +20,13 @@ module.exports = Factor => {
     }
 
     doWatchers() {
-      const keysRaw = Factor.$paths.get("keys-private-raw")
+      const rawKeysPath = Factor.$paths.get("keys-private-raw")
 
       Factor.$filters.add("build-watchers", _ => {
         this.makeEncryptedSecrets()
         _.push({
           name: "Keys Changed",
-          files: [keysRaw],
+          files: [rawKeysPath],
           callback: ({ event, path }) => {
             this.makeEncryptedSecrets()
           }
@@ -40,7 +40,7 @@ module.exports = Factor => {
       const file = Factor.$paths.get(filterKey)
 
       if (!file) {
-        consola.error(`Cannot find file: ${filterKey}`)
+        Factor.$log.error(`Cannot find file: ${filterKey}`)
         return
       }
 
@@ -53,53 +53,64 @@ module.exports = Factor => {
       const fs = require("fs-extra")
       const consola = require("consola")
 
-      let passwords = Factor.$filters.apply("master-password")
+      const rawKeysPath = Factor.$paths.get("keys-private-raw")
 
-      let passwordsFile = Factor.$paths.get("passwords")
-      if (!passwords) {
-        try {
-          passwords = require(passwordsFile)
-        } catch (error) {}
-      }
-
-      if (!passwords) {
-        consola.warn(
-          `Didn't generate encrypted keys. No passwords @[${passwordsFile}] or Filter: 'master-password'`
-        )
+      if (!fs.pathExistsSync(rawKeysPath)) {
+        Factor.$log.error(`
+          Couldn't Find Unencrypted Private Keys File. 
+          Add a json file @[${rawKeysPath}] with the format: 
+            {
+              "development" : {}, 
+              "production" : {}, 
+              "all":{}
+            }
+          Security Note: Don't commit this to your repo.
+          `)
         return
       }
 
-      const keysRaw = Factor.$paths.get("keys-private-raw")
+      const raw = require(rawKeysPath)[("development", "production")].forEach(environment => {
+        this.createEncrypted({ environment, raw, passwords })
+      })
+    }
 
-      if (!fs.pathExistsSync(keysRaw)) {
-        consola.error(`Couldn't Find Private Keys File @[${keysRaw}]`)
-        return
+    getPassword(environment) {
+      let password = Factor.$filters.apply(`master-password-${environment}`)
+
+      if (password) {
+        return password
       }
 
-      const rawKeys = require(keysRaw)
+      let passwordfile = null
+      try {
+        passwordfile = require(Factor.$paths.get("passwords"))
+      } catch (error) {}
 
-      const generated = []
-      if (passwords.development) {
-        const encryptedDev = require("crypto-json").encrypt(rawKeys, passwords.development)
-        fs.writeFileSync(
-          Factor.$paths.get("keys-encrypted-development"),
-          JSON.stringify(encryptedDev, null, "  ")
-        )
-        generated.push("dev")
+      password = passwordfile && passwordfile[environment] ? passwordfile[environment] : false
+
+      if (!password) {
+        Factor.$log.warn(`
+          A [${environment}] password is needed to read your secret API config.
+          Add a JSON file @[${Factor.$paths.get("passwords")}] with the format: 
+            {
+              "production": "[production password]", 
+              "development": "[development password]",  
+            }
+        `)
       }
 
-      if (passwords.production) {
-        const encryptedProd = require("crypto-json").encrypt(rawKeys, passwords.production)
-        fs.writeFileSync(
-          Factor.$paths.get("keys-encrypted-production"),
-          JSON.stringify(encryptedProd, null, "  ")
-        )
-        generated.push("prod")
-      }
+      return password
+    }
 
-      if (generated.length > 0) {
-        consola.success(`Generated Encrypted Keys [${generated.join(", ")}]`)
-      }
+    createEncrypted({ environment, raw, passwords }) {
+      const password = passwords[environment]
+
+      const encrypted = require("crypto-json").encrypt(raw, password)
+
+      fs.writeFileSync(
+        Factor.$paths.get(`keys-encrypted-${environment}`),
+        JSON.stringify(encrypted, null, "  ")
+      )
     }
   }()
 }

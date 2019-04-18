@@ -5,7 +5,7 @@ export default Factor => {
       const icon = Factor.FACTOR_ENV == "app" ? require("./img/pages.svg") : ""
 
       Factor.$filters.add("post-types", _ => {
-        _.push({
+        _.unshift({
           type: "page",
           base: "",
           icon,

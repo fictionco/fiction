@@ -18,12 +18,14 @@ export default Factor => {
       this.watchPaths = [Factor.$paths.get("config")]
       this.dependencies = {}
       this.localDependencies = {}
+      this.addConfig()
 
-      this.builder()
+      Factor.$filters.add("build-start", () => {
+        this.builder()
+      })
     }
 
     builder() {
-      this.addConfig()
       this.buildServerlessFolder()
 
       Factor.$filters.add("build-watchers", _ => {
@@ -62,12 +64,23 @@ export default Factor => {
       this.copyAppDirectories()
       this.makePackages()
       this.copyFunctionsFiles()
-      this.runtimeFile()
+
+      Factor.$filters.add("build-spawns", _ => {
+        _.push({
+          command: "yarn",
+          args: ["install", "--ignore-engines"],
+          name: "Rebuilding Serverless Packages",
+          options: {
+            cwd: `${process.cwd()}/${this.relativeDir}`
+          }
+        })
+        return _
+      })
     }
 
     clearBuildDirectory() {
       ensureDirSync(this.buildDirectory)
-      emptyDirSync(this.buildDirectory)
+      //   emptyDirSync(this.buildDirectory)
     }
 
     copyAppDirectories() {
@@ -161,13 +174,13 @@ export default Factor => {
     async makePackages() {
       this.getDependencies()
 
-      const { pkg } = Factor.$config.settings()
+      const { version } = require(resolve(Factor.$paths.get("app"), "package.json"))
 
       const lines = {
         name: "@factor/serverless-directory",
         description: "** GENERATED FILE - DONT EDIT DIRECTLY **",
-        version: pkg.version,
-        license: "GPL3.0",
+        version,
+        license: "GPL-3.0",
         scripts: {
           deps: "yarn install --ignore-engines"
         },
@@ -190,38 +203,38 @@ export default Factor => {
       )
     }
 
-    showOutput(name, runner) {
-      let messages = []
-      let logType = "success"
-      return new Promise((resolve, reject) => {
-        runner.stdout.on("data", function(data) {
-          messages.push(data.toString())
-        })
-        runner.stderr.on("data", function(data) {
-          messages.push(data.toString())
-        })
-        runner.on("close", code => {
-          messages.unshift(`${name} >>>`)
-          consola[logType](`${name} [Finished - ${code}]`)
-          resolve()
-        })
-      })
-    }
+    // showOutput(name, runner) {
+    //   let messages = []
+    //   let logType = "success"
+    //   return new Promise((resolve, reject) => {
+    //     runner.stdout.on("data", function(data) {
+    //       messages.push(data.toString())
+    //     })
+    //     runner.stderr.on("data", function(data) {
+    //       messages.push(data.toString())
+    //     })
+    //     runner.on("close", code => {
+    //       messages.unshift(`${name} >>>`)
+    //       consola[logType](`${name} [Finished - ${code}]`)
+    //       resolve()
+    //     })
+    //   })
+    // }
 
-    runtimeFile() {
-      // Package.json is still getting generated (apparently)
-      // Yarn/NPM will use parent package.json if the CWD one is missing
-      setTimeout(async () => {
-        const { spawn } = require("child_process")
+    // runtimeFile() {
+    //   // Package.json is still getting generated (apparently)
+    //   // Yarn/NPM will use parent package.json if the CWD one is missing
+    //   setTimeout(async () => {
+    //     const { spawnSync } = require("child_process")
 
-        const runFolder = `${process.cwd()}/${this.relativeDir}`
+    //     const runFolder = `${process.cwd()}/${this.relativeDir}`
 
-        const runner = spawn("yarn", ["deps"], {
-          cwd: runFolder
-        })
+    //     const runner = spawn("yarn", ["deps"], {
+    //       cwd: runFolder
+    //     })
 
-        await this.showOutput("Serverless Packages Install", runner)
-      }, 500)
-    }
+    //     await this.showOutput("Serverless Packages Install", runner)
+    //   }, 500)
+    // }
   }()
 }

@@ -15,7 +15,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
-
+//const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
 const NODE_ENV = process.env.NODE_ENV
 
 module.exports.default = Factor => {
@@ -29,8 +29,9 @@ module.exports.default = Factor => {
     }
 
     addFilters() {
-      Factor.$filters.add("build-production", args => {
-        return this.buildProduction(args)
+      Factor.$filters.add("build-production", (_, args) => {
+        _.webpack = this.buildProduction(args)
+        return _
       })
       Factor.$filters.add("webpack-config", args => {
         return this.getConfig(args)
@@ -114,7 +115,7 @@ module.exports.default = Factor => {
     }
 
     getConfig(args) {
-      const { target, build, analyze = false, testing = false } = args
+      let { target, build, analyze = false, testing = false } = args
 
       const baseConfig = this.base(args)
 
@@ -128,6 +129,7 @@ module.exports.default = Factor => {
       // If it runs twice it cleans it after the first
       const plugins = Factor.$filters.apply("webpack-plugins", [], { ...args, webpack })
 
+      // analyze = true
       if (build == "production" && target == "server") {
         plugins.push(new CleanWebpackPlugin())
       } else if (target == "client" && analyze) {
@@ -140,10 +142,16 @@ module.exports.default = Factor => {
         plugins
       })
 
+      //const smp = new SpeedMeasurePlugin()
+
       return merged
     }
 
     server() {
+      // Necessary to accomodate issues with resolution in SSR
+      // Many packages don't fully consider it  (firebase)
+      const alias = Factor.$filters.apply("webpack-aliases-server", {})
+
       return {
         target: "node",
         entry: Factor.$paths.get("entry-server"),
@@ -152,7 +160,7 @@ module.exports.default = Factor => {
           libraryTarget: "commonjs2"
         },
         resolve: {
-          //mainFields: ["main", "module"]
+          alias
         },
         // https://webpack.js.org/configuration/externals/#externals
         // https://github.com/liady/webpack-node-externals
