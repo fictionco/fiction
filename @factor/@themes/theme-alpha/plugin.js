@@ -71,6 +71,16 @@ module.exports.default = Factor => {
             name: "About",
             value: "about",
             component: () => import("./page-template-about")
+          },
+          {
+            name: "Work",
+            value: "work",
+            component: () => import("./page-template-work")
+          },
+          {
+            name: "Contact",
+            value: "contact",
+            component: () => import("./page-template-contact")
           }
         ])
       })
