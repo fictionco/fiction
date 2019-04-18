@@ -13,6 +13,11 @@
       "projectId": "fiction-staging",
       "storageBucket": "fiction-staging.appspot.com",
       "messagingSenderId": "740526030910"
+    },
+    "google": {
+      "clientId": "740526030910-ik29ukuvap4pg9josek5qjbo3v60robn.apps.googleusercontent.com",
+      "apiKey": "AIzaSyDNAsK7SVeOjnJWyk-LK42ib5pgi-r-Ts8",
+      "mapsApiKey": "AIzaSyCblTEsdhjooPRGlz3NLrTxhto0dij9RWg"
     }
   },
   "production": {},
@@ -20,6 +25,10 @@
     "algolia": {
       "appId": "1PB2CVUAH5",
       "searchKey": "6c7454492c80221b0410b411b52b2245"
+    },
+    "ports": {
+      "development": 1981,
+      "testing": 1983
     }
   }
 }

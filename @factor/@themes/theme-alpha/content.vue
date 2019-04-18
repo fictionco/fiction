@@ -3,10 +3,10 @@
     <site-head v-if="nav">
       <template v-slot:nav>
         <factor-link path="/">Intro</factor-link>
-        <factor-link path="/">About</factor-link>
-        <factor-link path="/">Work</factor-link>
-        <factor-link path="/">Blog</factor-link>
-        <factor-link path="/">Contact</factor-link>
+        <factor-link path="/about">About</factor-link>
+        <factor-link path="/work">Work</factor-link>
+        <factor-link path="/blog">Blog</factor-link>
+        <factor-link path="/contact">Contact</factor-link>
       </template>
       <template v-slot:social>
         <factor-link class="factor-icon" path="https://dribbble.com/" target="_blank">

@@ -47,6 +47,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 0 10px;
+    align-items: center;
 
     .footer-col {
       a {
