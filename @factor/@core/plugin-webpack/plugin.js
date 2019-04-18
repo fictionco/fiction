@@ -115,7 +115,7 @@ module.exports.default = Factor => {
     }
 
     getConfig(args) {
-      const { target, build, analyze = false, testing = false } = args
+      let { target, build, analyze = false, testing = false } = args
 
       const baseConfig = this.base(args)
 
@@ -129,6 +129,7 @@ module.exports.default = Factor => {
       // If it runs twice it cleans it after the first
       const plugins = Factor.$filters.apply("webpack-plugins", [], { ...args, webpack })
 
+      // analyze = true
       if (build == "production" && target == "server") {
         plugins.push(new CleanWebpackPlugin())
       } else if (target == "client" && analyze) {

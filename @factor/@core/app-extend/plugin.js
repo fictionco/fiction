@@ -10,11 +10,11 @@ export default (Factor, FACTOR_CONFIG, target) => {
       Factor.config.devtools = true
       Factor.config.silent = false
 
-      this.addCoreExtension("filters", require(`@factor/filters`))
-      this.addCoreExtension("config", require(`@factor/app-config`))
-      this.addCoreExtension("theme", require(`@factor/core-theme`))
+      this.addCoreExtension("filters", require("@factor/filters"))
+      this.addCoreExtension("config", require("@factor/app-config"))
+      this.addCoreExtension("theme", require("@factor/core-theme/app"))
 
-      require(`@factor/app`)(Factor, { target: "app" })
+      require("@factor/app")(Factor, { target: "app" })
 
       const plugins = require("@generated/load-plugins-app")
       this.injectPlugins(plugins)

@@ -1,5 +1,5 @@
 const Factor = require("vue")
-const admin = require(`firebase-admin`)
+const admin = require("firebase-admin")
 const functions = require("firebase-functions")
 const consola = require("consola")
 const { resolve } = require("path")

@@ -1,7 +1,7 @@
 module.exports.default = Factor => {
   return new class {
     constructor() {
-      this.algoliaConfig = require(`./config.json`)
+      this.algoliaConfig = require("./config.json")
       this.algoliasearch = require("algoliasearch")
 
       const {

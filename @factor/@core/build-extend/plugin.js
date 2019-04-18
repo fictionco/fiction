@@ -10,20 +10,20 @@ module.exports = Factor => {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
-      this.addCoreExtension("log", require(`@factor/build-log`))
-      this.addCoreExtension("filters", require(`@factor/filters`))
-      this.addCoreExtension("paths", require(`@factor/build-paths`))
-      this.addCoreExtension("theme", require(`@factor/core-theme`))
-      this.addCoreExtension("keys", require(`@factor/build-keys`))
-      this.addCoreExtension("files", require(`@factor/build-files`))
-      this.addCoreExtension("config", require(`@factor/admin-config`))
+      this.addCoreExtension("log", require("@factor/build-log"))
+      this.addCoreExtension("filters", require("@factor/filters"))
+      this.addCoreExtension("paths", require("@factor/build-paths"))
+      this.addCoreExtension("theme", require("@factor/core-theme/build"))
+      this.addCoreExtension("keys", require("@factor/build-keys"))
+      this.addCoreExtension("files", require("@factor/build-files"))
+      this.addCoreExtension("config", require("@factor/admin-config"))
 
       const transpiler = require("@factor/build-transpiler")(Factor)
 
       transpiler.register({ target: "build" })
 
       // This just adds the dirname to config and other paths
-      require(`@factor/app/build`)(Factor)
+      require("@factor/app/build")(Factor)
 
       const plugins = require(Factor.$paths.get("plugins-loader-build"))
 
