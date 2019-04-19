@@ -1,5 +1,5 @@
 <template>
-  <div class="page-about">
+  <div class="page-work">
     <section class="hero">
       <div class="mast">
         <div class="hero-inner">
@@ -39,7 +39,7 @@ export default {
   watch: {},
   pageTemplate() {
     return {
-      name: "About Page",
+      name: "Landing Page",
       inputs: [
         {
           input: "text",
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style lang="less">
-.page-about {
+.page-work {
   .mast {
     padding: 0 2em;
     line-height: 1.2;

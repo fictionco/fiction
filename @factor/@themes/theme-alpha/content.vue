@@ -5,7 +5,7 @@
         <factor-link path="/">Intro</factor-link>
         <factor-link path="/about">About</factor-link>
         <factor-link path="/work">Work</factor-link>
-        <factor-link path="/blog">Blog</factor-link>
+        <factor-link path="/blog-posts">Blog</factor-link>
         <factor-link path="/contact">Contact</factor-link>
       </template>
       <template v-slot:social>
