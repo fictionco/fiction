@@ -9,9 +9,11 @@
   "license": "GPL-3.0",
   "scripts": {
     "cypress": "npx cypress open",
-    "alpha:dev": "yarn prep && yarn workspace @factor/theme-alpha dev",
-    "alpha:start": "yarn prep && yarn workspace @factor/theme-alpha start",
     "alpha:prep": "yarn prep && yarn alpha:dev",
+    "alpha:dev": "yarn workspace @factor/theme-alpha develop",
+    "alpha:analyze": "yarn workspace @factor/theme-alpha analyze",
+    "alpha:start": "yarn prep && yarn workspace @factor/theme-alpha start",
+    "alpha:build": "yarn workspace @factor/theme-alpha build",
     "factor:dev": "yarn prep && yarn workspace @factor/theme-factor dev",
     "factor:start": "yarn prep && yarn workspace @factor/theme-factor start",
     "factor:prep": "yarn prep && yarn factor:dev",
