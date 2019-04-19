@@ -1,7 +1,7 @@
 {
   "name": "@factor/theme-alpha",
   "version": "0.0.7",
-  "main": "plugin.js",
+  "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
