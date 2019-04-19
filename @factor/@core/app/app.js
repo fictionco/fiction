@@ -3,11 +3,6 @@ Factor.FACTOR_CONFIG = process.env.FACTOR_CONFIG
 Factor.FACTOR_ENV = "app"
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
 
-// // global mixin,
-// // Must be OUTSIDE of create APP or gets added on every page load in node (fix?)
-// const globalMixin = require("./mixin-global").default
-// Factor.mixin(globalMixin)
-
 import init from "./init"
 
 // Expose a factory function that creates a fresh set of store, router,

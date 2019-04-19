@@ -14,7 +14,7 @@ export default (Factor, FACTOR_CONFIG, target) => {
       this.addCoreExtension("config", require("@factor/app-config"))
       this.addCoreExtension("theme", require("@factor/core-theme/app"))
 
-      require("@factor/app")(Factor, { target: "app" })
+      require("@factor/app")(Factor)
 
       const plugins = require("@generated/load-plugins-app")
       this.injectPlugins(plugins)

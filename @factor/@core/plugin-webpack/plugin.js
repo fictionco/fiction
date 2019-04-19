@@ -164,10 +164,12 @@ module.exports.default = Factor => {
         },
         // https://webpack.js.org/configuration/externals/#externals
         // https://github.com/liady/webpack-node-externals
-        externals: nodeExternals({
-          // do not externalize CSS files in case we need to import it from a dep
-          whitelist: /\.css$/
-        }),
+        externals: [
+          nodeExternals({
+            // do not externalize CSS files in case we need to import it from a dep
+            whitelist: /\.css$/
+          })
+        ],
         plugins: [
           new VueSSRServerPlugin({
             filename: Factor.$paths.get("server-bundle-name")
@@ -220,7 +222,7 @@ module.exports.default = Factor => {
           publicPath: Factor.$paths.get("dist")
         },
         plugins: [new FriendlyErrorsWebpackPlugin()],
-        performance: { hints: false } // Warns about large dev file sizes
+        performance: { hints: false } // Warns about large dev file sizes,
       }
     }
 
@@ -234,7 +236,7 @@ module.exports.default = Factor => {
           extensions: [".js", ".vue", ".json"],
           alias: Factor.$paths.getAliases()
         },
-
+        externals: [/^serverless\/node_modules/],
         module: {
           rules: [
             {
@@ -242,11 +244,6 @@ module.exports.default = Factor => {
               loader: "vue-loader"
             },
 
-            // {
-            //   test: /\.js$/,
-            //   loader: "babel-loader",
-            //   options: require("@factor/build-transpiler")(Factor).config({ target: "app" })
-            // },
             {
               test: /\.(png|jpg|gif|svg)$/,
               loader: "file-loader",
@@ -297,7 +294,7 @@ module.exports.default = Factor => {
             "process.env.FACTOR_CONFIG": JSON.stringify(Factor.$config.settings())
           })
         ],
-        stats: { children: false }
+        stats: { children: false, modules: true }
       }
 
       const ignoreMods = Factor.$filters.apply("webpack-ignore-modules", [])

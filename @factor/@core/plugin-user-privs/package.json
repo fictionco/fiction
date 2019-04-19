@@ -5,7 +5,7 @@
   "license": "GPL-3.0",
   "factor": {
     "id": "privs",
-    "target": ["endpoint", "app"]
+    "target": ["app"]
   },
   "dependencies": {
     "@factor/plugin-user": ">=0.0.7"
