@@ -9,7 +9,7 @@ const webpackDevMiddleware = require("webpack-dev-middleware")
 const argv = require("yargs").argv
 
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.build = this.production ? "production" : "development"
 
@@ -192,5 +192,5 @@ export default Factor => {
         this.updateServer("Server Compiler")
       })
     }
-  }()
+  })()
 }

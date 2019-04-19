@@ -1,7 +1,11 @@
 const { resolve, dirname } = require("path")
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
+      const { baseDir } = Factor.FACTOR_CONFIG
+
+      this.baseDir = baseDir
+
       this.assignFolderNames()
       this.assignPaths()
       this.addServerPaths()
@@ -17,20 +21,26 @@ module.exports = Factor => {
     }
 
     assignPaths() {
-      const { baseDir } = Factor.FACTOR_CONFIG
-
       //   console.log("DD_____", require.resolve("@factor/build-start"))
       const _ = {}
-      _.app = baseDir
-      _.source = resolve(baseDir, this.folder("source"))
-      _.dist = resolve(baseDir, this.folder("dist"))
-      _.generated = resolve(baseDir, this.folder("generated"))
-      _.config = resolve(baseDir, "config")
+      _.app = this.baseDir
+      _.source = resolve(this.baseDir, this.folder("source"))
+      _.dist = resolve(this.baseDir, this.folder("dist"))
+      _.generated = resolve(this.baseDir, this.folder("generated"))
+      _.config = resolve(this.baseDir, "config")
       _.template = resolve(_.source, "index.html")
       _.static = resolve(_.source, "static")
       _.favicon = resolve(_.static, "favicon.png")
 
+      _.modules = this.getModulesFolders()
+
       this.paths = Factor.$filters.apply("paths", _)
+    }
+
+    getModulesFolders() {
+      const relativeNodeFolders = require("find-node-modules")({ cwd: this.baseDir })
+
+      return relativeNodeFolders.map(_ => resolve(this.baseDir, _))
     }
 
     addServerPaths() {
@@ -79,5 +89,5 @@ module.exports = Factor => {
 
       return p
     }
-  }()
+  })()
 }

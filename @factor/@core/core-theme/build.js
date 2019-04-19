@@ -1,5 +1,5 @@
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       const { theme } = Factor.FACTOR_CONFIG
 
@@ -63,15 +63,14 @@ module.exports = Factor => {
     }
 
     addWebpackConfig() {
-      if (this.theme) {
-        Factor.$filters.add("package-webpack-config", _ => {
-          _.resolve = {
-            modules: [Factor.$paths.get("source"), Factor.$paths.get("theme"), "node_modules"]
-          }
-
-          return _
-        })
-      }
+      // if (this.theme) {
+      //   Factor.$filters.add("package-webpack-config", _ => {
+      //     _.resolve = {
+      //       modules: [Factor.$paths.get("source"), Factor.$paths.get("theme"), "node_modules"]
+      //     }
+      //     return _
+      //   })
+      // }
     }
 
     buildConfig() {
@@ -79,5 +78,5 @@ module.exports = Factor => {
 
       return factor
     }
-  }()
+  })()
 }

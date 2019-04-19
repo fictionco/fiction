@@ -13,7 +13,7 @@ module.exports = async () => {
 
       await Factor.$filters.run(Factor.FACTOR_TARGET)
 
-      //  await this.spawns()
+      await this.spawns()
 
       this.runners()
     }

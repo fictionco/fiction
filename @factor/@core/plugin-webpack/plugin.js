@@ -19,7 +19,7 @@ const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
 const NODE_ENV = process.env.NODE_ENV
 
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       // Allow for running plugin outside of app (e.g. cypress)
       // should be able to call for webpack config directly from module
@@ -129,11 +129,11 @@ module.exports.default = Factor => {
       // If it runs twice it cleans it after the first
       const plugins = Factor.$filters.apply("webpack-plugins", [], { ...args, webpack })
 
-      // analyze = true
+      //analyze = true
       if (build == "production" && target == "server") {
         plugins.push(new CleanWebpackPlugin())
       } else if (target == "client" && analyze) {
-        plugins.push(new BundleAnalyzerPlugin())
+        plugins.push(new BundleAnalyzerPlugin({ generateStatsFile: true }))
       }
 
       const packageConfig = Factor.$filters.apply("package-webpack-config", {})
@@ -234,9 +234,9 @@ module.exports.default = Factor => {
         },
         resolve: {
           extensions: [".js", ".vue", ".json"],
-          alias: Factor.$paths.getAliases()
+          alias: Factor.$paths.getAliases(),
+          modules: Factor.$filters.apply("webpack-resolve-modules", Factor.$paths.get("modules"))
         },
-        externals: [/^serverless\/node_modules/],
         module: {
           rules: [
             {
@@ -363,5 +363,5 @@ module.exports.default = Factor => {
 
       return [...finishing, ...baseLoaders]
     }
-  }()
+  })()
 }
