@@ -151,7 +151,7 @@ export default Factor => {
 
         clientCompiler.plugin("done", stats => {
           stats = stats.toJson()
-          //console.log("STATS", stats)
+
           stats.errors.forEach(error => consola.error(error))
           stats.warnings.forEach(error => consola.warn(error))
 

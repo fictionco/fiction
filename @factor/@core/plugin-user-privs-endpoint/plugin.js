@@ -1,33 +1,7 @@
 module.exports.default = Factor => {
   return new class {
     constructor() {
-      if (Factor.FACTOR_ENV == "serverless") {
-        this.possibleRoles = require("@factor/plugin-user/config.json").roles
-
-        // this.UserRolesServiceSet = Factor.$filters.apply("user-role-service-set")
-        // this.UserRolesServiceGet = Factor.$filters.apply("user-role-service-get")
-      } else {
-        this.appTriggers()
-      }
-    }
-
-    appTriggers() {
-      Factor.$events.$on("auth-user-signed-in", credentials => {
-        this.appSetCustomClaims(credentials)
-      })
-    }
-
-    async appSetCustomClaims(credentials) {
-      const result = await Factor.$endpoint.request({
-        endpoint: "privs",
-        action: "apply"
-      })
-
-      // If new privs are set,
-      // then user auth/tokens need a reset
-      if (result.refresh) {
-        Factor.$events.$emit("auth-refresh-tokens", credentials)
-      }
+      this.possibleRoles = require("@factor/plugin-user/config.json").roles
     }
 
     logger(text) {
@@ -104,7 +78,7 @@ module.exports.default = Factor => {
 
       if (email && emailVerified) {
         const adminFilePath = resolve(Factor.$paths.get("config"), "admins")
-        const adminsFile = require(`${adminFilePath}`) // require this way to avoid webpack warning (not running in webpack)
+        const adminsFile = require(adminFilePath) // require this way to avoid webpack warning (not running in webpack)
         const setRole = adminsFile[email]
         if (setRole) {
           manualRole[setRole] = true

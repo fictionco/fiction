@@ -20,6 +20,16 @@ export default Factor => {
       this.localDependencies = {}
       this.addConfig()
 
+      Factor.$filters.add("webpack-exclude", _ => {
+        _.push(this.buildDirectory)
+        return _
+      })
+
+      Factor.$filters.add("webpack-ignore-modules", _ => {
+        _.push(this.relativeDir)
+        return _
+      })
+
       Factor.$filters.add("build-start", () => {
         this.builder()
       })
@@ -74,13 +84,14 @@ export default Factor => {
             cwd: `${process.cwd()}/${this.relativeDir}`
           }
         })
+
         return _
       })
     }
 
     clearBuildDirectory() {
       ensureDirSync(this.buildDirectory)
-      //   emptyDirSync(this.buildDirectory)
+      // emptyDirSync(this.buildDirectory)
     }
 
     copyAppDirectories() {

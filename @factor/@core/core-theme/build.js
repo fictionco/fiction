@@ -66,7 +66,7 @@ module.exports = Factor => {
       if (this.theme) {
         Factor.$filters.add("package-webpack-config", _ => {
           _.resolve = {
-            modules: [Factor.$paths.get("app"), Factor.$paths.get("theme"), "node_modules"]
+            modules: [Factor.$paths.get("source"), Factor.$paths.get("theme"), "node_modules"]
           }
 
           return _

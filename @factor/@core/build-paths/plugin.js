@@ -10,7 +10,7 @@ module.exports = Factor => {
     assignFolderNames() {
       const _ = {}
       _.dist = "dist"
-      _.source = "."
+      _.source = "src"
       _.generated = "generated"
 
       this.folderNames = Factor.$filters.apply("folder-names", _)
@@ -19,14 +19,15 @@ module.exports = Factor => {
     assignPaths() {
       const { baseDir } = Factor.FACTOR_CONFIG
 
+      //   console.log("DD_____", require.resolve("@factor/build-start"))
       const _ = {}
       _.app = baseDir
       _.source = resolve(baseDir, this.folder("source"))
       _.dist = resolve(baseDir, this.folder("dist"))
       _.generated = resolve(baseDir, this.folder("generated"))
-      _.config = resolve(_.source, "config")
-      _.static = resolve(_.source, "static")
+      _.config = resolve(baseDir, "config")
       _.template = resolve(_.source, "index.html")
+      _.static = resolve(_.source, "static")
       _.favicon = resolve(_.static, "favicon.png")
 
       this.paths = Factor.$filters.apply("paths", _)

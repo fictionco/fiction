@@ -13,43 +13,47 @@ module.exports = async () => {
 
       await Factor.$filters.run(Factor.FACTOR_TARGET)
 
-      //this.spawns()
+      await this.spawns()
+
       this.runners()
     }
 
-    // async spawns() {
-    //   const { spawn } = require("child_process")
-    //   const spawnProcesses = Factor.$filters.apply("build-spawns", [])
+    async spawns() {
+      const { spawn } = require("child_process")
+      const spawnProcesses = Factor.$filters.apply("build-spawns", [])
 
-    //   if (spawnProcesses.length > 0) {
-    //     spawnProcesses.forEach(async ({ name, command, args, options }) => {
-    //       const runner = spawn(command, args, { detached: true, ...options })
-    //       this.showSpawnOutput(name, runner)
-    //     })
-    //   }
+      let _promises = []
+      if (spawnProcesses.length > 0) {
+        spawnProcesses.forEach(async ({ name, command, args, options }) => {
+          const runner = spawn(command, args, { detached: true, ...options })
+          _promises.push(this.showSpawnOutput(name, runner))
+        })
+      }
 
-    //   return
-    // }
+      return Promise.all(_promises)
+    }
 
-    // showSpawnOutput(name, runner) {
-    //   console.log("Starting", name)
-    //   return new Promise((resolve, reject) => {
-    //     runner.stdout.on("data", data => {
-    //       console.log(data.toString())
-    //     })
-    //     runner.stderr.on("data", data => {
-    //       console.log(data.toString())
-    //     })
-    //     runner.on("close", code => {
-    //       Factor.$log.custom({
-    //         type: "success",
-    //         params: [`${name} [Finished - ${code}]`],
-    //         target: "build-start"
-    //       })
-    //       resolve()
-    //     })
-    //   })
-    // }
+    showSpawnOutput(name, runner) {
+      console.log("Starting", name)
+      return new Promise((resolve, reject) => {
+        runner.stdout.on("data", data => {
+          console.log(data.toString())
+        })
+        runner.stderr.on("data", data => {
+          console.log(data.toString())
+        })
+        runner.on("close", code => {
+          const status = code == 0 ? "success" : code
+          Factor.$log.custom({
+            type: "success",
+            params: [`${name} [Finished with status "${status}"]`],
+            target: "build-start"
+          })
+          runner.kill()
+          resolve()
+        })
+      })
+    }
 
     async runners() {
       const buildRunners = Factor.$filters.apply("build-runners", [
