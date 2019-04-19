@@ -1,6 +1,6 @@
 const consola = require("consola")
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       const conf = Factor.$paths.get("config")
       const gen = Factor.$paths.get("generated")
@@ -51,7 +51,6 @@ module.exports = Factor => {
 
     makeEncryptedSecrets() {
       const fs = require("fs-extra")
-      const consola = require("consola")
 
       const rawKeysPath = Factor.$paths.get("keys-private-raw")
 
@@ -69,11 +68,24 @@ module.exports = Factor => {
         return
       }
 
-      const raw = require(rawKeysPath)[("development", "production")].forEach(environment => {
-        this.createEncrypted({ environment, raw, passwords })
+      const raw = require(rawKeysPath)
+
+      const envs = ["development", "production"]
+
+      envs.forEach(environment => {
+        this.createEncrypted({ environment, raw })
       })
     }
+    createEncrypted({ environment, raw }) {
+      const password = this.getPassword(environment)
 
+      const encrypted = require("crypto-json").encrypt(raw, password)
+
+      fs.writeFileSync(
+        Factor.$paths.get(`keys-encrypted-${environment}`),
+        JSON.stringify(encrypted, null, "  ")
+      )
+    }
     getPassword(environment) {
       let password = Factor.$filters.apply(`master-password-${environment}`)
 
@@ -101,16 +113,5 @@ module.exports = Factor => {
 
       return password
     }
-
-    createEncrypted({ environment, raw, passwords }) {
-      const password = passwords[environment]
-
-      const encrypted = require("crypto-json").encrypt(raw, password)
-
-      fs.writeFileSync(
-        Factor.$paths.get(`keys-encrypted-${environment}`),
-        JSON.stringify(encrypted, null, "  ")
-      )
-    }
-  }()
+  })()
 }

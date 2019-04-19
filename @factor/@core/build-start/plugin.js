@@ -1,7 +1,7 @@
 const Factor = require("vue")
 const concurrently = require("concurrently")
 module.exports = async () => {
-  return new class {
+  return new (class {
     constructor() {
       this.run()
     }
@@ -13,7 +13,7 @@ module.exports = async () => {
 
       await Factor.$filters.run(Factor.FACTOR_TARGET)
 
-      await this.spawns()
+      //  await this.spawns()
 
       this.runners()
     }
@@ -70,5 +70,5 @@ module.exports = async () => {
         Factor.$log.info("Factor Server Exited")
       })
     }
-  }()
+  })()
 }
