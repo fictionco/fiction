@@ -19,6 +19,28 @@
       </div>
     </section>
 
+    <section class="posts">
+      <div class="mast">
+        <div class="posts-inner">
+          <div class="post-item">
+            <img :src="require(`./img/test.jpg`)" alt="test">
+            <h2 class="title">Post Title</h2>
+            <p>Post Category</p>
+          </div>
+          <div class="post-item">
+            <img :src="require(`./img/test.jpg`)" alt="test">
+            <h2 class="title">Post Title</h2>
+            <p>Post Category</p>
+          </div>
+          <div class="post-item">
+            <img :src="require(`./img/test.jpg`)" alt="test">
+            <h2 class="title">Post Title</h2>
+            <p>Post Category</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <el-cta />
   </div>
 </template>
@@ -39,7 +61,7 @@ export default {
   watch: {},
   pageTemplate() {
     return {
-      name: "Landing Page",
+      name: "Work Page",
       inputs: [
         {
           input: "text",
@@ -75,10 +97,7 @@ export default {
     color: @color-primary;
     letter-spacing: -0.03em;
   }
-  // feature
   .hero {
-    // background-color: @color-primary;
-    // color: @color-white;
     position: relative;
     &:before {
       content: "";
@@ -87,7 +106,7 @@ export default {
       width: 70%;
       height: 100%;
       top: 0;
-      right: auto;
+      right: 0;
       bottom: 0;
       background-color: @color-bg;
       @media (max-width: 1024px) {
@@ -97,17 +116,8 @@ export default {
 
     .hero-inner {
       position: relative;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-gap: 30px;
-      align-items: center;
-      padding: 7em 0;
-      @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-      }
-      @media (max-width: 767px) {
-        padding: 4em 0;
-      }
+      padding: 3em 0;
+      max-width: 650px;
       .title {
         font-size: 1.1em;
         text-transform: uppercase;
@@ -126,17 +136,26 @@ export default {
         font-size: 1.2em;
         line-height: 1.6em;
       }
-      .hero-image {
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 450px;
-        max-width: 300px;
-        box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
-        border-top-left-radius: 40px;
-        @media (max-width: 767px) {
-          margin: 0 auto;
-          max-width: 100%;
+    }
+  }
+
+  .posts {
+    padding: 6em 0;
+    .posts-inner {
+      display: grid;
+      grid-gap: 60px;
+      grid-template-columns: 1fr 1fr;
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+      }
+      .post-item {
+        text-align: center;
+        .title {
+          font-weight: 600;
+        }
+        img {
+          margin-bottom: 1em;
+          width: 100%;
         }
       }
     }
