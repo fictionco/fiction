@@ -164,6 +164,16 @@ export default {
   .feature {
     background-color: @color-primary;
     color: @color-white;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      clip-path: polygon(0 0, 0 100%, 100% 100%);
+    }
 
     .feature-inner {
       display: flex;

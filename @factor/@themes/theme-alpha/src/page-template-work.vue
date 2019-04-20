@@ -22,24 +22,64 @@
     <section class="posts">
       <div class="mast">
         <div class="posts-inner">
-          <div class="post-item">
-            <img :src="require(`./img/test.jpg`)" alt="test">
+          <article class="post-item">
+            <factor-link path="/">
+              <div
+                class="img-wrap"
+                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
+              />
+            </factor-link>
             <h2 class="title">Post Title</h2>
-            <p>Post Category</p>
-          </div>
-          <div class="post-item">
-            <img :src="require(`./img/test.jpg`)" alt="test">
+            <p class="category">Post Category</p>
+          </article>
+          <article class="post-item">
+            <factor-link path="/">
+              <div
+                class="img-wrap"
+                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
+              />
+            </factor-link>
             <h2 class="title">Post Title</h2>
-            <p>Post Category</p>
-          </div>
-          <div class="post-item">
-            <img :src="require(`./img/test.jpg`)" alt="test">
+            <p class="category">Post Category</p>
+          </article>
+          <article class="post-item">
+            <factor-link path="/">
+              <div
+                class="img-wrap"
+                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
+              />
+            </factor-link>
             <h2 class="title">Post Title</h2>
-            <p>Post Category</p>
-          </div>
+            <p class="category">Post Category</p>
+          </article>
+          <article class="post-item">
+            <factor-link path="/">
+              <div
+                class="img-wrap"
+                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
+              />
+            </factor-link>
+            <h2 class="title">Post Title</h2>
+            <p class="category">Post Category</p>
+          </article>
         </div>
       </div>
     </section>
+    {{ posts }}
+    <div v-for="(post, pi) in posts" :key="'key-'+pi" class="grid-item">
+      <part-entry
+        v-if="pi % 3 == 0"
+        format="listing"
+        :authors="post.authorData"
+        :title="post.title"
+        :content="post.content"
+        :date="post.date"
+        :post-id="post.id"
+        :loading="loading"
+        :tags="post.tags"
+        :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
+      />
+    </div>
 
     <el-cta />
   </div>
@@ -48,6 +88,7 @@
 <script>
 export default {
   components: {
+    "part-entry": () => import("./el/entry"),
     "el-cta": () => import("./el/cta")
   },
   props: {
@@ -55,10 +96,45 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: false,
+      parsedPosts: [{}, {}, {}],
+      storeKey: "index"
     }
   },
-  watch: {},
+  serverPrefetch() {
+    return this.getPosts()
+  },
+  computed: {
+    posts() {
+      return this.$store.getters["getItem"]("blog") || []
+    }
+  },
+  watch: {
+    $route: function(to) {
+      this.getPosts()
+    }
+  },
+  async mounted() {
+    if (this.posts.length == 0) {
+      await this.getPosts()
+    }
+  },
+  methods: {
+    async getPosts() {
+      const tag = this.$route.params.tag || ""
+      this.loading = true
+      const r = await this.$posts.getPostIndex({
+        type: "blog",
+        tag,
+        storeKey: "index",
+        status: ["published"]
+      })
+      this.loading = false
+    },
+    settings() {
+      return ["test"]
+    }
+  },
   pageTemplate() {
     return {
       name: "Work Page",
@@ -74,11 +150,6 @@ export default {
           key: "heroImage"
         }
       ]
-    }
-  },
-  methods: {
-    settings() {
-      return ["test"]
     }
   }
 }
@@ -143,19 +214,37 @@ export default {
     padding: 6em 0;
     .posts-inner {
       display: grid;
-      grid-gap: 60px;
+      grid-gap: 20px 30px;
       grid-template-columns: 1fr 1fr;
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
+        grid-row-gap: 100px;
       }
       .post-item {
         text-align: center;
+        &:nth-last-of-type(odd) {
+          margin-top: 120px;
+          @media (max-width: 767px) {
+            margin: 0;
+          }
+        }
+        .img-wrap {
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          height: 550px;
+          margin-bottom: 1em;
+          transform: scale(1);
+          transition: all 0.2s ease-in-out;
+          &:hover {
+            transform: scale(0.95);
+          }
+        }
         .title {
           font-weight: 600;
         }
-        img {
-          margin-bottom: 1em;
-          width: 100%;
+        .category {
+          opacity: 0.5;
         }
       }
     }
