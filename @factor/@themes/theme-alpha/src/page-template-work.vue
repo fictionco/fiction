@@ -124,7 +124,7 @@ export default {
       const tag = this.$route.params.tag || ""
       this.loading = true
       const r = await this.$posts.getPostIndex({
-        type: "blog",
+        type: "work",
         tag,
         storeKey: "index",
         status: ["published"]

@@ -91,6 +91,7 @@ export default {
       //display: none;
       grid-template-columns: 1fr;
       position: fixed;
+      align-items: center;
       z-index: 200;
       top: 0;
       left: 0;

@@ -19,7 +19,7 @@ export default {}
   padding: 4em 0;
   text-align: center;
   position: relative;
-  z-index: 100;
+  //z-index: 100;
   background: @color-primary;
   color: @color-white;
   .cta-inner {

@@ -6,6 +6,7 @@ module.exports.default = Factor => {
       } else {
         this.addPaths()
         this.addComponents()
+        this.addWorkPostType()
       }
     }
 
@@ -20,6 +21,22 @@ module.exports.default = Factor => {
     addComponents() {
       Factor.$filters.add("components", _ => {
         _["el-logo"] = () => import("./el/logo")
+
+        return _
+      })
+    }
+    addWorkPostType() {
+      const base = "entry"
+      const type = "work"
+      Factor.$filters.add("post-types", _ => {
+        _.push({
+          type,
+          base,
+          //icon: require("./img/posts.svg"),
+          nameIndex: "Work",
+          nameSingle: "Work Post",
+          namePlural: "Work Posts"
+        })
 
         return _
       })
