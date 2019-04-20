@@ -12,6 +12,9 @@
         <factor-link class="factor-icon" path="https://dribbble.com/" target="_blank">
           <i class="fa fa-dribbble" />
         </factor-link>
+        <factor-link class="factor-icon" path="https://www.behance.com/" target="_blank">
+          <i class="fa fa-behance" />
+        </factor-link>
         <factor-link class="factor-icon" path="https://www.instagram.com/" target="_blank">
           <i class="fa fa-instagram" />
         </factor-link>
