@@ -1,5 +1,5 @@
 export default (Factor, FACTOR_CONFIG, target) => {
-  return new class {
+  return new (class {
     constructor() {
       Factor.$theme = Factor.FACTOR_CONFIG.theme || false
       this.setup()
@@ -90,5 +90,5 @@ export default (Factor, FACTOR_CONFIG, target) => {
         Factor.$mixinsApplied = true
       }
     }
-  }()
+  })()
 }

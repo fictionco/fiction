@@ -1,10 +1,9 @@
+const consola = require("consola")
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {}
 
     util(type, params, target = "build-development") {
-      const consola = require("consola")
-
       if (Factor.FACTOR_TARGET == target || target == "all") {
         consola[type].apply(null, params)
       }
@@ -33,5 +32,5 @@ module.exports = Factor => {
     warn() {
       this.util("warn", arguments)
     }
-  }()
+  })()
 }

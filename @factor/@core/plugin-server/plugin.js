@@ -4,7 +4,6 @@ const LRU = require("lru-cache")
 const https = require("https")
 const express = require("express")
 const favicon = require("serve-favicon")
-const consola = require("consola")
 
 const { createBundleRenderer } = require("vue-server-renderer")
 
@@ -15,7 +14,7 @@ const isProd = env === "production"
 global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       // If development or --serve variable is passed
       // We should serve the app (locally)
@@ -89,7 +88,7 @@ module.exports.default = Factor => {
         res.send(html)
 
         if (serve) {
-          consola.success(`Request @[${req.url}] - ${Date.now() - s}ms`)
+          Factor.$log.success(`Request @[${req.url}] - ${Date.now() - s}ms`)
         }
       })
     }
@@ -119,7 +118,7 @@ module.exports.default = Factor => {
             this.renderer = this.createRenderer(bundle, options)
           })
         } else {
-          consola.error(
+          Factor.$log.error(
             new Error(
               "No development server added. Add a development server to your app dependencies."
             )
@@ -159,7 +158,7 @@ module.exports.default = Factor => {
         this.getListenRoutine(this.server).listen(port, () => {
           const url = `${this.httpRoutine.routine}://localhost:${port}`
 
-          consola.success(`Server @[${url}] - ${env}`)
+          Factor.$log.success(`Server @[${url}] - ${env}`)
 
           require("opn")(url)
         })
@@ -216,7 +215,7 @@ module.exports.default = Factor => {
       try {
         this.server.use(favicon(fav))
       } catch (error) {
-        consola.warn(`Couldn't find [${fav}]`)
+        Factor.$log.warn(`Couldn't find [${fav}]`)
       }
 
       // Global and Static Images/Manifests, etc..
@@ -240,9 +239,9 @@ module.exports.default = Factor => {
         res.status(404).send("404 | Page Not Found")
       } else {
         res.status(500).send("500 | Internal Error")
-        consola.error(`error during render : ${req.url}`)
-        consola.error(err.stack)
+        Factor.$log.error(`error during render : ${req.url}`)
+        Factor.$log.error(err.stack)
       }
     }
-  }()
+  })()
 }

@@ -1,7 +1,7 @@
 const path = require("path")
 
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       const gen = Factor.$paths.get("generated")
       const res = path.resolve
@@ -250,5 +250,5 @@ module.exports = Factor => {
         return ap < bp ? -1 : ap > bp ? 1 : 0
       })
     }
-  }()
+  })()
 }

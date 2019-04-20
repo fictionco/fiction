@@ -1,11 +1,11 @@
 const { ensureDirSync, emptyDirSync, copy, copySync, writeFileSync } = require("fs-extra")
 
 const glob = require("glob").sync
-const consola = require("consola")
+
 const { resolve, basename, dirname } = require("path")
 const execa = require("execa")
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.folderName = "serverless"
 
@@ -226,7 +226,7 @@ export default Factor => {
     //     })
     //     runner.on("close", code => {
     //       messages.unshift(`${name} >>>`)
-    //       consola[logType](`${name} [Finished - ${code}]`)
+
     //       resolve()
     //     })
     //   })
@@ -247,5 +247,5 @@ export default Factor => {
     //     await this.showOutput("Serverless Packages Install", runner)
     //   }, 500)
     // }
-  }()
+  })()
 }

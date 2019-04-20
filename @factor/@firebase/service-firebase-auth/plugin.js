@@ -1,7 +1,5 @@
-const consola = require("consola")
-
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       const firebaseApp = require("@factor/service-firebase-app").default
       require("firebase/auth")
@@ -16,7 +14,7 @@ export default Factor => {
     }
 
     error(error) {
-      consola.error("[Firebase Auth]", error)
+      Factor.$log.error("[Firebase Auth]", error)
     }
 
     events() {
@@ -293,5 +291,5 @@ export default Factor => {
     async signOut() {
       await this.client.auth().signOut()
     }
-  }()
+  })()
 }

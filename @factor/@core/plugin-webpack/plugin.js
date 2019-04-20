@@ -1,5 +1,4 @@
 const path = require("path")
-const consola = require("consola")
 
 const merge = require("webpack-merge")
 const webpack = require("webpack")
@@ -75,10 +74,10 @@ module.exports.default = Factor => {
         )
 
         if (err || stats.hasErrors()) {
-          consola.error(err)
+          Factor.$log.error(err)
           reject(err)
         } else {
-          consola.success(`[${name}] Built`)
+          Factor.$log.success(`[${name}] Built`)
           resolve()
         }
       })
@@ -110,7 +109,7 @@ module.exports.default = Factor => {
 
         return
       } catch (error) {
-        consola.error(error)
+        Factor.$log.error(error)
       }
     }
 
@@ -235,7 +234,8 @@ module.exports.default = Factor => {
         resolve: {
           extensions: [".js", ".vue", ".json"],
           alias: Factor.$paths.getAliases(),
-          modules: Factor.$filters.apply("webpack-resolve-modules", Factor.$paths.get("modules"))
+          modules: Factor.$filters.apply("webpack-resolve-modules", Factor.$paths.get("modules")),
+          symlinks: false // for performance
         },
         module: {
           rules: [
@@ -294,7 +294,7 @@ module.exports.default = Factor => {
             "process.env.FACTOR_CONFIG": JSON.stringify(Factor.$config.settings())
           })
         ],
-        stats: { children: false, modules: true }
+        stats: { children: false }
       }
 
       const ignoreMods = Factor.$filters.apply("webpack-ignore-modules", [])
