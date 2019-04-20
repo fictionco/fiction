@@ -3,7 +3,7 @@ const path = require("path")
 const MFS = require("memory-fs")
 const chokidar = require("chokidar")
 const webpack = require("webpack")
-const consola = require("consola")
+
 const webpackHotMiddleware = require("webpack-hot-middleware")
 const webpackDevMiddleware = require("webpack-dev-middleware")
 const argv = require("yargs").argv

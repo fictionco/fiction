@@ -1,4 +1,3 @@
-const consola = require("consola")
 module.exports = Factor => {
   return new (class {
     constructor() {

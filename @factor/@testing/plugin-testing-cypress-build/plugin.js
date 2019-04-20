@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.key = "_cypress"
 
@@ -40,8 +40,6 @@ export default Factor => {
     }
 
     copyIntegrationTests() {
-      const consola = require("consola")
-
       const path = require("path")
       const testsDestinationFolder = path.resolve(this.cypressPath, "integration", "factor")
       const glob = require("glob").sync
@@ -55,7 +53,7 @@ export default Factor => {
         fs.copySync(f, dest)
       })
 
-      consola.success("Updated Cypress Tests")
+      Factor.$log.success("Updated Cypress Tests")
     }
-  }()
+  })()
 }
