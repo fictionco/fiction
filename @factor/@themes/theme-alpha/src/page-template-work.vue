@@ -67,7 +67,7 @@
     </section>
     {{ posts }}
     <div v-for="(post, pi) in posts" :key="'key-'+pi" class="grid-item">
-      <part-entry
+      <part-work-entry
         v-if="pi % 3 == 0"
         format="listing"
         :authors="post.authorData"
@@ -88,7 +88,7 @@
 <script>
 export default {
   components: {
-    "part-entry": () => import("./el/entry"),
+    "part-work-entry": () => import("./el/work-entry"),
     "el-cta": () => import("./el/cta")
   },
   props: {

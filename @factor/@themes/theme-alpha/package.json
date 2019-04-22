@@ -2,6 +2,7 @@
   "name": "@factor/theme-alpha",
   "version": "0.0.7",
   "main": "src/plugin.js",
+  "author": "Fiction.com",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"

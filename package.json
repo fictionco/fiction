@@ -1,12 +1,7 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": [
-    "@fiction/*",
-    "@factor/*",
-    "@factor/@*/*",
-    "@factor/services/@*/*"
-  ],
+  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*", "@factor/services/@*/*"],
   "private": true,
   "publishConfig": {
     "access": "public"
@@ -19,7 +14,7 @@
     "alpha:analyze": "yarn workspace @factor/theme-alpha analyze",
     "alpha:start": "yarn prep && yarn workspace @factor/theme-alpha start",
     "alpha:build": "yarn workspace @factor/theme-alpha build",
-    "factor:dev": "yarn prep && yarn workspace @factor/theme-factor dev",
+    "factor:dev": "yarn prep && yarn workspace @factor/theme-factor developr",
     "factor:start": "yarn prep && yarn workspace @factor/theme-factor start",
     "factor:prep": "yarn prep && yarn factor:dev",
     "app:dev": "yarn prep && yarn workspace @factor/app-starter dev",
