@@ -20,7 +20,7 @@ export default Factor => {
       Factor.$filters.add("development-server", () => {
         this.copyIntegrationTests()
       })
-      Factor.$filters.add("dev-watchers", _ => {
+      Factor.$filters.add("build-watchers", _ => {
         const files = [this.testsGlob()]
 
         const watchers = [

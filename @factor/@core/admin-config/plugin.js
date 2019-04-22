@@ -3,7 +3,7 @@ const merge = require("deepmerge")
 const isNode = require("detect-node")
 
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.env =
         process.env.NODE_ENV == "development" || Factor.FACTOR_CONFIG.staging
@@ -16,7 +16,7 @@ module.exports = Factor => {
     initialize() {
       let publicConfig = require(Factor.$paths.get("keys-public"))
 
-      const privateConfig = this.serverPrivateConfig()
+      const privateConfig = Factor.$keys.readEncrypted(this.env)
 
       const configObjects = [
         Factor.FACTOR_CONFIG,
@@ -40,17 +40,5 @@ module.exports = Factor => {
     setting(key) {
       return this._settings[key]
     }
-
-    serverPrivateConfig() {
-      const password = Factor.$keys.getPassword(this.env)
-
-      let config = {}
-
-      if (password) {
-        config = Factor.$keys.readEncryptedSecrets({ build: this.env, password })
-      }
-
-      return config
-    }
-  }()
+  })()
 }
