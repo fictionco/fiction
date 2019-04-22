@@ -38,24 +38,17 @@ module.exports = Factor => {
     }
 
     handleFiles() {
-      if (!raw) {
+      if (!this.file(this.pathRaw)) {
         const _dev = this.readEncryptedSecrets("development")
         const _prod = this.readEncryptedSecrets("production")
-        const enc = Object.assign({}, _dev, _prod)
 
         this.writeJsonFile({
           data: Object.assign({}, { all: {}, development: {}, production: {} }, _dev, _prod),
           path: this.pathRaw
         })
       } else {
-        this.makeEncryptedSecrets(raw)
+        this.makeEncryptedSecrets()
       }
-      // if passwords and raw
-      // generate encrypted
-      // if NO passwords and raw
-      // Generate default encrypted, with warning
-      // if passwords and encrypted, NO raw
-      // generate raw
     }
 
     doWatchers() {
@@ -63,7 +56,7 @@ module.exports = Factor => {
         this.makeEncryptedSecrets()
         _.push({
           name: "Keys Changed",
-          files: [rawKeysPath],
+          files: [this.pathRaw],
           callback: ({ event, path }) => {
             this.makeEncryptedSecrets()
           }
@@ -80,7 +73,9 @@ module.exports = Factor => {
       encrypted = this.file(file)
       let decrypted
       if (encrypted) {
-        decrypted = require("crypto-json").decrypt(encrypted, this.getPassword(environment))
+        try {
+          decrypted = require("crypto-json").decrypt(encrypted, this.getPassword(environment))
+        } catch (error) {}
       }
 
       if (decrypted && (decrypted.checksum == "factor" || !decrypted.checksum)) {
@@ -107,7 +102,7 @@ module.exports = Factor => {
       // Get only data needed for enviroment
       const envRaw = {}
       Object.keys(raw).forEach(k => {
-        if (k == "all" || k == environment) {
+        if (k == "checksum" || k == "all" || k == environment) {
           envRaw[k] = raw[k]
         }
       })
@@ -139,25 +134,19 @@ module.exports = Factor => {
         return password
       }
 
-      let passwordfile = null
-      try {
-        passwordfile = require(Factor.$paths.get("passwords"))
-      } catch (error) {}
+      let passwordFile = this.file(this.pathPasswords)
 
-      password = passwordfile && passwordfile[environment] ? passwordfile[environment] : ""
-
-      if (!password) {
-        Factor.$log.warn(`
-          A [${environment}] password is needed to secure your private API keys.
-          (Currently Factor is using an insecure default.)
-          Add a JSON file @[${Factor.$paths.get("passwords")}] with the format: 
-            {
-              "production": "[production password]", 
-              "development": "[development password]",  
-            }
-          
-          Or use Filter: master-password-${environment}
-        `)
+      if (!passwordFile) {
+        this.writeJsonFile({
+          data: {
+            development: "default",
+            production: "default"
+          },
+          path: this.pathPasswords
+        })
+        password = "default"
+      } else {
+        password = passwordFile[environment] ? passwordFile[environment] : "default"
       }
 
       return password
