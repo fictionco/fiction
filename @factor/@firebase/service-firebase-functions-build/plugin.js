@@ -33,6 +33,14 @@ export default Factor => {
       Factor.$filters.add("build-start", () => {
         this.builder()
       })
+
+      Factor.$filters.add("build-runners-development", _ => {
+        _.push({
+          command: `firebase use development && firebase serve`,
+          name: "Serverless Emulator"
+        })
+        return _
+      })
     }
 
     builder() {
@@ -79,7 +87,7 @@ export default Factor => {
         _.push({
           command: "yarn",
           args: ["install", "--ignore-engines"],
-          name: "Rebuilding Serverless Packages",
+          name: "Serverless",
           options: {
             cwd: `${process.cwd()}/${this.relativeDir}`
           }

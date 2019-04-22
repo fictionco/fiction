@@ -3,6 +3,7 @@ const concurrently = require("concurrently")
 module.exports = async () => {
   return new (class {
     constructor() {
+      this.env = process.env.NODE_ENV || "development"
       this.run()
     }
 
@@ -33,22 +34,26 @@ module.exports = async () => {
       return Promise.all(_promises)
     }
 
+    log(name, msg) {
+      Factor.$log.custom({
+        type: "success",
+        params: [`[${name}] ${msg}`],
+        target: "build-start"
+      })
+    }
+
     showSpawnOutput(name, runner) {
-      console.log("Starting", name)
+      this.log(name, "Starting")
       return new Promise((resolve, reject) => {
         runner.stdout.on("data", data => {
-          console.log(data.toString())
+          this.log(name, data.toString())
         })
         runner.stderr.on("data", data => {
-          console.log(data.toString())
+          this.log(name, data.toString())
         })
         runner.on("close", code => {
           const status = code == 0 ? "success" : code
-          Factor.$log.custom({
-            type: "success",
-            params: [`${name} [Finished with status "${status}"]`],
-            target: "build-start"
-          })
+          this.log(name, `Finished (${code})`)
           runner.kill()
           resolve()
         })
@@ -56,19 +61,24 @@ module.exports = async () => {
     }
 
     async runners() {
-      const buildRunners = Factor.$filters.apply("build-runners", [
-        {
-          command: `NODE_ENV=development node -e 'require("@factor/build-development")()' --no-deprecation`,
-          name: "DEV",
-          prefixColor: "blue.dim"
-        }
-      ])
+      let runnerCommands = []
+      if (this.env == "development") {
+        runnerCommands.push({
+          command: ` factor development`,
+          name: "Development Server"
+        })
+      }
 
-      concurrently(buildRunners, {
-        prefix: "name"
-      }).then(() => {
-        Factor.$log.info("Factor Server Exited")
-      })
+      const buildRunners = Factor.$filters.apply(`build-runners-${this.env}`, runnerCommands)
+
+      try {
+        await concurrently(buildRunners, {
+          prefix: "name"
+        })
+        Factor.$log.success("Factor runners exited")
+      } catch (error) {
+        throw new Error(error)
+      }
     }
   })()
 }

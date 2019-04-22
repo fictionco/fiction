@@ -161,7 +161,7 @@ export default Factor => {
             this.readFile(devMiddleware.fileSystem, Factor.$paths.get("client-manifest-name"))
           )
 
-          this.updateServer("Client Compiler")
+          this.updateServer("Browser Compiler")
         })
 
         // hot middleware
@@ -174,7 +174,7 @@ export default Factor => {
 
         this.server.getConnections
       } catch (error) {
-        consola.error("[WEBPACK CLIENT COMPILER]", error)
+        consola.error("[WEBPACK BROWSER COMPILER]", error)
       }
     }
 

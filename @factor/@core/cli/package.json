@@ -9,8 +9,9 @@
   "factor": {
     "id": "cli"
   },
- 
-  "devDependencies": {},
+  "devDependencies": {
+    "yargs": "^13.2.2"
+  },
   "bin": {
     "factor": "./cli.js"
   }

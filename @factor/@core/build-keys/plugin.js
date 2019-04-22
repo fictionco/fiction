@@ -1,3 +1,5 @@
+const fs = require("fs-extra")
+
 module.exports = Factor => {
   return new (class {
     constructor() {
@@ -49,8 +51,6 @@ module.exports = Factor => {
     }
 
     makeEncryptedSecrets() {
-      const fs = require("fs-extra")
-
       const rawKeysPath = Factor.$paths.get("keys-private-raw")
 
       if (!fs.pathExistsSync(rawKeysPath)) {

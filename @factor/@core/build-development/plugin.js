@@ -1,6 +1,6 @@
 const Factor = require("vue")
 module.exports = async () => {
-  return new class {
+  return new (class {
     constructor() {
       this.run()
     }
@@ -14,5 +14,5 @@ module.exports = async () => {
 
       Factor.$filters.apply("create-server", { mode: "development" })
     }
-  }()
+  })()
 }

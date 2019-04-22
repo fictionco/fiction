@@ -5,8 +5,8 @@ module.exports = Factor => {
 
       Factor.$paths.add({
         entry: __dirname,
-        "entry-client": path.resolve(__dirname, "entry-client.js"),
-        "entry-server": path.resolve(__dirname, "entry-server.js")
+        "entry-client": resolve(__dirname, "entry-client.js"),
+        "entry-server": resolve(__dirname, "entry-server.js")
       })
     }
   }()
