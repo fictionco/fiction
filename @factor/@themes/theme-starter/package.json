@@ -7,14 +7,19 @@
   "publishConfig": {
     "access": "public"
   },
-  "theme": "cicero",
+  "factor": {
+    "target": ["themes", "app", "build"],
+    "scope": "theme"
+  },
   "scripts": {
-    "dev": "NODE_ENV=development node config/start",
-    "start": "NODE_ENV=production node config/start --build --serve --no-cache"
+    "develop": "NODE_ENV=development node -e 'require(`@factor/build-start`)()'",
+    "devonly": "NODE_ENV=development node -e 'require(`@factor/build-development`)()' --no-deprecation",
+    "analyze": "NODE_ENV=production node start --analyze --build",
+    "start": "NODE_ENV=production node start --build --serve --no-cache",
+    "build": "NODE_ENV=production node start --build",
+    "deploy": "yarn build && npx firebase use development && npx firebase deploy",
+    "serve": "yarn build && npx firebase serve"
   },
   "dependencies": {},
-  "factor": {
-    "target": "themes"
-  },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }
