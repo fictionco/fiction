@@ -77,7 +77,15 @@ export default Factor => {
       return Factor.$files.readHtmlFile(this.templatePath)
     }
     watcher() {
-      const customWatchers = Factor.$filters.apply("build-watchers", [])
+      const customWatchers = Factor.$filters.apply("build-watchers", [
+        {
+          name: "Template",
+          files: [this.templatePath],
+          callback: () => {
+            this.template = this.getTemplate()
+          }
+        }
+      ])
 
       if (customWatchers.length > 0) {
         customWatchers.forEach(({ name, files, ignored = [], event = "all", callback }) => {
@@ -90,35 +98,35 @@ export default Factor => {
         })
       }
 
-      const watchers = Factor.$filters.apply("dev-watchers", [
-        {
-          files: [this.templatePath],
-          ignore: [],
-          ignoreKeys: [],
-          cb: (event, path) => {
-            if (path === this.templatePath) {
-              this.template = this.getTemplate()
-              return true
-            }
-          }
-        }
-      ])
+      // const watchers = Factor.$filters.apply("dev-watchers", [
+      //   {
+      //     files: [this.templatePath],
+      //     ignore: [],
+      //     ignoreKeys: [],
+      //     cb: (event, path) => {
+      //       if (path === this.templatePath) {
+      //         this.template = this.getTemplate()
+      //         return true
+      //       }
+      //     }
+      //   }
+      // ])
 
-      const watchRegen = this.flat(watchers.map(_ => _.files))
-      const watchIgnore = this.flat(watchers.map(_ => _.ignore))
-      const watchCallbacks = watchers.map(_ => _.cb)
+      // const watchRegen = this.flat(watchers.map(_ => _.files))
+      // const watchIgnore = this.flat(watchers.map(_ => _.ignore))
+      // const watchCallbacks = watchers.map(_ => _.cb)
 
-      chokidar
-        .watch(watchRegen, {
-          ignored: watchIgnore,
-          ignoreInitial: true
-        })
-        .on("all", (event, path) => {
-          const result = watchCallbacks.map(cb => cb(event, path))
-          if (result.some(_ => _)) {
-            this.updateServer("Files Changed")
-          }
-        })
+      // chokidar
+      //   .watch(watchRegen, {
+      //     ignored: watchIgnore,
+      //     ignoreInitial: true
+      //   })
+      //   .on("all", (event, path) => {
+      //     const result = watchCallbacks.map(cb => cb(event, path))
+      //     if (result.some(_ => _)) {
+      //       this.updateServer("Files Changed")
+      //     }
+      //   })
     }
 
     flat(arr) {

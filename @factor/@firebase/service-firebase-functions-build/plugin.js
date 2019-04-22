@@ -37,7 +37,7 @@ export default Factor => {
       Factor.$filters.add("build-runners-development", _ => {
         _.push({
           command: `firebase use development && firebase serve`,
-          name: "Serverless Emulator"
+          name: "Endpoint Server"
         })
         return _
       })
