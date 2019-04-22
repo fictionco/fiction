@@ -145,12 +145,7 @@ export default {
             subject: `Got your message.`,
             message: `This is to confirm we've recieved a form you submitted. We'll take a look and be in touch as soon as possible.`,
             title: "Contact",
-            table: this.form,
-            btn: {
-              link: "https://www.fiction.com/dashboard",
-              text: "View Fiction Dashboard",
-              class: "default"
-            }
+            table: this.form
           })
         )
 
@@ -189,10 +184,8 @@ export default {
     color: @color-primary;
     letter-spacing: -0.03em;
   }
-  // feature
+  // Hero
   .hero {
-    // background-color: @color-primary;
-    // color: @color-white;
     position: relative;
     &:before {
       content: "";
@@ -258,12 +251,6 @@ export default {
     }
 
     .contact-form {
-      // padding: 1.5em;
-      // border-radius: 5px;
-      // box-shadow: 0 0 0 0.4px rgba(50, 50, 93, 0.05),
-      //   0 50px 100px -20px rgba(50, 50, 93, 0.25),
-      //   0 30px 60px -30px rgba(0, 0, 0, 0.3);
-
       input[type="text"],
       input[type="email"] {
         width: 100%;

@@ -6,9 +6,9 @@
         <h1 class="title">{{ post.pageHeading }}</h1>
         <div class="subtitle">{{ post.pageHeadingSub }}</div>
 
-        <div class="actions">
-          <factor-link path="/work" btn="default" size="large">
-            View Work
+        <div v-if="post.buttonLink" class="actions">
+          <factor-link :path="post.buttonLink" btn="default" size="large">
+            {{ post.buttonText }}
             <i class="fa fa-angle-right" />
           </factor-link>
         </div>
@@ -34,7 +34,7 @@
       <div class="mast brands-inner">
         <div v-for="(brand, i) in post.brands" :key="i" class="brand">
           <div v-if="brand.link" class="brand-image">
-            <factor-link :path="brand.link">
+            <factor-link :path="brand.link" target="_blank">
               <img :src="brand.image[0].url">
             </factor-link>
           </div>
@@ -83,6 +83,16 @@ export default {
           input: "text",
           label: "Sub Heading",
           key: "pageHeadingSub"
+        },
+        {
+          input: "text",
+          label: "Button Link",
+          key: "buttonLink"
+        },
+        {
+          input: "text",
+          label: "Button Text",
+          key: "buttonText"
         },
         {
           input: "text",
@@ -297,6 +307,11 @@ export default {
           max-width: 100%;
           display: block;
           margin: 0 auto;
+        }
+      }
+      @media (max-width: 767px) {
+        .brand-image {
+          padding: 2em;
         }
       }
     }

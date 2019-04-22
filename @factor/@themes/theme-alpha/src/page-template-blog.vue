@@ -3,9 +3,7 @@
     <section class="hero">
       <div class="mast">
         <div class="hero-inner">
-          The Blog Page
           <div>
-            {{ post }}
             <h1 class="title">{{ post.title }}</h1>
             <h2 class="heading">{{ post.pageHeading }}</h2>
             <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
@@ -26,49 +24,51 @@
         <div class="posts-inner">
           <article class="post-item">
             <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
+              <p class="tags">
+                <span class="tag">Development</span>
+              </p>
+              <h2 class="title">7 Awesome Udemy Courses for App Development</h2>
+              <p
+                class="content"
+              >Udemy offers a wide range of courses covering a variety of topics...</p>
+              <p class="date">April 11, 2019</p>
+              <p class="author">by Andrew Powers</p>
             </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
           </article>
           <article class="post-item">
             <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
+              <p class="tags">
+                <span class="tag">Writing</span>
+              </p>
+              <h2 class="title">Cicero’s Method: How to write well in 2020</h2>
+              <p
+                class="content"
+              >In 44 BC, in the midst of the Great Roman Civil War, a writer named...</p>
+              <p class="date">April 11, 2019</p>
+              <p class="author">by Andrew Powers</p>
             </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
           </article>
           <article class="post-item">
             <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
+              <p class="tags">
+                <span class="tag">UX</span>
+              </p>
+              <h2 class="title">User Onboarding Done Right: Using The Power of Story</h2>
+              <p
+                class="content"
+              >User onboarding is perhaps the most important piece of the entire customer...</p>
+              <p class="date">April 11, 2019</p>
+              <p class="author">by Raymond Aleman</p>
             </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
-          </article>
-          <article class="post-item">
-            <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
-            </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
           </article>
         </div>
       </div>
     </section>
 
     <div v-for="(item, pi) in posts" :key="'key-'+pi" class="grid-item">
+      <pre>
+        {{ item }}
+      </pre>
       <part-blog-entry
         v-if="pi % 3 == 0"
         format="listing"
@@ -132,10 +132,10 @@ export default {
         status: ["published"]
       })
       this.loading = false
-    },
-    settings() {
-      return ["test"]
     }
+    // settings() {
+    //   return ["test"]
+    // }
   },
   pageTemplate() {
     return {
@@ -216,37 +216,46 @@ export default {
     padding: 6em 0;
     .posts-inner {
       display: grid;
-      grid-gap: 20px 30px;
-      grid-template-columns: 1fr 1fr;
+      grid-gap: 30px;
+      grid-template-columns: repeat(3, 1fr);
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
         grid-row-gap: 100px;
       }
       .post-item {
-        text-align: center;
-        &:nth-last-of-type(odd) {
-          margin-top: 120px;
-          @media (max-width: 767px) {
-            margin: 0;
-          }
-        }
-        .img-wrap {
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          height: 550px;
-          margin-bottom: 1em;
-          transform: scale(1);
+        text-align: left;
+        a {
+          display: grid;
+          height: 100%;
+          grid-gap: 15px;
+          padding: 2em;
+          color: @color-text;
+          background: #fff;
+          border-radius: 8px;
+          // border-left: 4px solid fade(@color-primary, 10%);
           transition: all 0.2s ease-in-out;
+          box-shadow: 0 0 0 1px fade(@color-primary, 10%);
           &:hover {
-            transform: scale(0.95);
+            transform: translateY(-6px);
+            box-shadow: 0 0 0 1px fade(@color-primary, 10%),
+              0px 50px 50px 0 rgba(0, 0, 0, 0.2);
+            .title {
+              color: @color-primary;
+            }
           }
-        }
-        .title {
-          font-weight: 600;
-        }
-        .category {
-          opacity: 0.5;
+          .title {
+            font-weight: 600;
+          }
+          .tag {
+            background-color: fade(@color-primary, 10%);
+            border-radius: 5px;
+            padding: 0.3em 0.5em;
+          }
+          .tags,
+          .date,
+          .author {
+            font-size: 0.8em;
+          }
         }
       }
     }
