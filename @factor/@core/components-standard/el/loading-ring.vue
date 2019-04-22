@@ -41,7 +41,7 @@ export default {
 }
 
 .circular {
-  animation: rotate 2s linear infinite;
+  animation: rotate 1s linear infinite;
   height: 100%;
   transform-origin: center center;
   width: 100%;
@@ -54,6 +54,8 @@ export default {
 }
 
 .path {
+  will-change: stroke-dasharray;
+  will-change: stroke-dashoffset;
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
 
@@ -61,15 +63,15 @@ export default {
 }
 
 .path {
-  animation: dash 1s ease-in-out infinite, multicolor 3s ease-in-out infinite;
+  animation: dash 1s ease-in-out infinite, multicolor 2s ease-in-out infinite;
 }
 
 .lightcolor .path {
-  animation: dash 1s ease-in-out infinite, lightcolor 3s ease-in-out infinite;
+  animation: dash 1s ease-in-out infinite, lightcolor 2s ease-in-out infinite;
 }
 
 .darkcolor .path {
-  animation: dash 1s ease-in-out infinite, darkcolor 3s ease-in-out infinite;
+  animation: dash 1s ease-in-out infinite, darkcolor 2s ease-in-out infinite;
 }
 @keyframes rotate {
   100% {

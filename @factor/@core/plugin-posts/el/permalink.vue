@@ -60,6 +60,11 @@ export default {
     }
   },
   mounted() {
+    console.log(
+      "$posts",
+      this.type,
+      this.$posts.getPermalink({ type: this.type, root: false })
+    )
     this.$events.$on("lockPermalink", () => {
       if (!this.value) {
         this.emit(this.initialPermalink)

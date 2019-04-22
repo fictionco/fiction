@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.filters()
 
@@ -73,7 +73,7 @@ export default Factor => {
           let post = {}
           if (permalink) {
             post = await this.getPostByPermalink(permalink)
-
+            post = await this.addPostMeta(post)
             if (post) {
               const { type } = post
 
@@ -322,14 +322,10 @@ export default Factor => {
       })
     }
 
-    async getPostByPermalink(permalink) {
-      2
-      const post = await Factor.$db.read({
-        collection: "public",
-        field: `permalink`,
-        value: permalink
-      })
-
+    async addPostMeta(post) {
+      if (!post) {
+        return
+      }
       const { authors } = post || {}
 
       let _promises = []
@@ -339,22 +335,9 @@ export default Factor => {
         })
       }
 
-      // const flameQuery = {
-      //   table: "posts",
-      //   id: post.id,
-      //   query: {
-      //     table: "meta",
-      //     id: "flames"
-      //   }
-      // }
-
-      const [authorData] = await Promise.all([
-        // Factor.$db.query(flameQuery),
-        Promise.all(_promises)
-      ])
+      const [authorData] = await Promise.all([Promise.all(_promises)])
 
       post.authorData = authorData
-      // post.flames = Object.keys(flames).length
 
       return post
     }
@@ -385,7 +368,7 @@ export default Factor => {
     // This should be merged into existing post (update)
     async saveDraft({ id, revisions }) {
       const data = {
-        revisions: this._cleanRevisions(revisions)
+        revisions: this._cleanRevisions(revisions) // limit amount and frequency
       }
       const query = {
         collection: "public",
@@ -402,9 +385,42 @@ export default Factor => {
       return response
     }
 
+    async getPostByPermalink(permalink) {
+      const results = await Factor.$db.read({
+        collection: "public",
+        field: `permalink`,
+        value: permalink
+      })
+
+      return results[0]
+    }
+
+    // Verify a permalink is unique,
+    // If not unique, then add number and recursively verify the new one
+    async permalinkVerify({ permalink, id }) {
+      console.log("Permalink Verify")
+      const post = await this.getPostByPermalink(permalink)
+
+      if (post && post.id != id) {
+        let num = 1
+        var matches = permalink.match(/\d+$/)
+        if (matches) {
+          num = parseInt(matches[0]) + 1
+        }
+        permalink = await this.permalinkVerify({
+          permalink: `${permalink.replace(/\d+$/, "")}${num}`,
+          id
+        })
+      }
+      return permalink
+    }
+
     async savePost(post) {
-      const data = Object.assign({}, post)
+      let data = Object.assign({}, post)
       const { id } = data
+      data.permalink = await this.permalinkVerify({ permalink: data.permalink, id })
+      data = await this.addRevision({ post: data, meta: { published: true } })
+
       const query = {
         collection: "public",
         data,
@@ -422,7 +438,32 @@ export default Factor => {
         Factor.$http.request({ url: post.url, method: "PURGE" })
       }
 
-      return response
+      return data
+    }
+
+    async addRevision({ post, meta, save = false }) {
+      let { revisions, ...postData } = post
+
+      revisions = revisions || []
+
+      const draft = {
+        timestamp: Factor.$time.stamp(),
+        editor: Factor.$user.uid(),
+        post: postData,
+        ...meta
+      }
+
+      post.revisions = [draft, ...revisions]
+
+      if (save) {
+        const save = {
+          id: this.id,
+          revisions: this.post.revisions
+        }
+        await this.saveDraft(save)
+      }
+
+      return post
     }
 
     async trashPost({ id }) {
@@ -461,5 +502,5 @@ export default Factor => {
         return false
       }
     }
-  }()
+  })()
 }

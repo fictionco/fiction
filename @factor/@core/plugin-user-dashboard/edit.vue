@@ -9,10 +9,12 @@
             label="Display Name"
             class="post-title"
           />
+
           <factor-input-wrap
-            v-model="user.images"
-            input="factor-input-image-upload"
-            label="Images"
+            v-model="user.permalink"
+            input="factor-input-text"
+            label="Username"
+            description="Must be unique."
           />
 
           <factor-input-wrap v-model="user.email" input="factor-input-email" label="Email Address" />
@@ -36,7 +38,7 @@
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
-            label="Photos"
+            label="Profile Photo(s)"
             @autosave="$emit('autosave')"
           />
           <factor-input-wrap
@@ -45,7 +47,7 @@
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
-            label="Covers"
+            label="Cover Photo(s)"
             @autosave="$emit('autosave')"
           />
           <factor-input-wrap
@@ -95,7 +97,9 @@ export default {
     }
   },
   async mounted() {
-    this.user = await this.$user.requestFullUser(this.id)
+    this.$user.init(async () => {
+      this.user = await this.$user.requestFullUser(this.id)
+    })
   },
   methods: {
     async save() {

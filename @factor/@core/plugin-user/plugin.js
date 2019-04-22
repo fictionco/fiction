@@ -1,5 +1,5 @@
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       // Fire the init triggers only once
       this.initialized = false
@@ -171,12 +171,19 @@ module.exports.default = Factor => {
         id: uid
       })
 
+      const { permalink } = publicData
+      if (permalink && permalink.startsWith("@")) {
+        publicData.permalink = permalink.replace("@", "")
+      }
+
       const privateData = await Factor.$db.read({
         collection: "private",
         id: uid
       })
 
-      const userData = { uid, ...publicData, ...privateData }
+      // Public data should have priority over private
+      // If a value is in both, should choose the public one first
+      const userData = { uid, ...privateData, ...publicData }
 
       return userData
     }
@@ -193,7 +200,7 @@ module.exports.default = Factor => {
         : false
     }
 
-    constructSaveObject(allUserFields) {
+    async constructSaveObject(allUserFields) {
       let userPublic = {}
       let userPrivate = Object.assign({}, allUserFields)
 
@@ -214,6 +221,14 @@ module.exports.default = Factor => {
         }
       })
 
+      let { permalink, uid } = userPublic
+      if (permalink) {
+        permalink = permalink.startsWith("@") ? permalink : `@${permalink}`
+        userPublic.permalink = await Factor.$posts.permalinkVerify({ permalink, id: uid })
+
+        console.log("permalinkpermalink", permalink, userPublic)
+      }
+
       return { userPublic, userPrivate }
     }
 
@@ -221,8 +236,9 @@ module.exports.default = Factor => {
     // Should merge provided data with existing
     async dbUserUpdate(user) {
       const { uid } = user
-      const { userPublic, userPrivate } = this.constructSaveObject(user)
+      const { userPublic, userPrivate } = await this.constructSaveObject(user)
 
+      console.log("useruseruser", userPublic)
       const savePublic = Factor.$db.update({
         collection: "public",
         type: "user",
@@ -257,5 +273,5 @@ module.exports.default = Factor => {
         })
       }
     }
-  }()
+  })()
 }

@@ -62,8 +62,10 @@ export default {
   }
 
   .cont {
-    padding: 1em;
-    //flex-grow: 1;
+    padding: 2em;
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 }
 </style>

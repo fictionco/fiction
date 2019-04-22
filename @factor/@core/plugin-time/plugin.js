@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.init()
     }
@@ -46,7 +46,7 @@ export default Factor => {
       if (this._isNumber(v)) {
         v = parseFloat(v)
 
-        const digit10 = /^\d{10}$/
+        const digit10 = /^\d{8,11}$/
         return digit10.test(v) ? true : false
       } else {
         return false
@@ -107,5 +107,5 @@ export default Factor => {
       //   }
       // }
     }
-  }()
+  })()
 }

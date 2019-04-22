@@ -78,9 +78,7 @@ export default {
       return this.monthUser + this.day + this.year
     },
     month() {
-      return parseInt(this.monthUser) >= 1
-        ? parseInt(this.monthUser) - 1
-        : false
+      return parseInt(this.monthUser) >= 1 ? parseInt(this.monthUser) : false
     },
     validity() {
       let valid = true

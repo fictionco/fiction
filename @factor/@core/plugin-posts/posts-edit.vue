@@ -3,12 +3,6 @@
     <div class="post-grid">
       <div class="content-column">
         <dashboard-pane :title="title" class="compose">
-          <template slot="nav">
-            <!-- <factor-link v-if="post.permalink" :path="url" btn="secondary" data-test="add-post">
-              View {{ $utils.toLabel(postType) }}
-              <i class="fa fa-arrow-right" />
-            </factor-link>-->
-          </template>
           <factor-input-wrap
             v-model="post.title"
             input="factor-input-text"
@@ -17,7 +11,7 @@
             @keyup="doAutosave()"
           />
           <factor-input-wrap label="Permalink">
-            <input-permalink v-model="post.permalink" :initial="post.title" :type="postType" />
+            <input-permalink v-model="post.permalink" :initial="post.title" :type="post.type" />
           </factor-input-wrap>
           <factor-input-wrap label="Post Content">
             <input-editor v-model="post.content" @keyup="doAutosave()" />
@@ -27,13 +21,8 @@
           <component :is="item.component" v-model="post" />
         </dashboard-pane>-->
         <dashboard-pane title="Meta Info" class="post-media">
-          <factor-input-wrap
-            v-model="post.date"
-            format="horizontal"
-            input="factor-input-date"
-            label="Publish Date"
-          />
-          <factor-input-wrap format="horizontal" label="Tags">
+          <factor-input-wrap v-model="post.date" input="factor-input-date" label="Publish Date" />
+          <factor-input-wrap label="Tags">
             <input-tags v-model="post.tags" />
           </factor-input-wrap>
 
@@ -41,15 +30,9 @@
             v-model="post.images"
             input="factor-input-image-upload"
             label="Post Images"
-            format="horizontal"
             @autosave="saveDraft()"
           />
-          <factor-input-wrap
-            v-model="post.authors"
-            format="horizontal"
-            input="factor-input-user-list"
-            label="Author"
-          />
+          <factor-input-wrap v-model="post.authors" input="factor-input-user-list" label="Author" />
         </dashboard-pane>
 
         <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">
@@ -130,7 +113,11 @@ export default {
   },
   computed: {
     injectedComponents() {
-      return this.$filters.apply("post-edit-components", [])
+      const components = this.$filters.apply("post-edit-components", [])
+
+      return components.filter(
+        _ => !_.type || (_.type && _.type.includes(this.postType))
+      )
     },
     injectedMetaComponents() {
       return this.$filters.apply("post-edit-meta", [])
@@ -145,7 +132,7 @@ export default {
     },
 
     postType() {
-      return this.$route.params.type || this.post.type || "page"
+      return this.$route.params.postType || this.post.type || "page"
     },
     url() {
       return this.$posts.getPermalink({
@@ -175,13 +162,6 @@ export default {
     }
   },
   watch: {
-    // "post.template": {
-    //   handler: function(v) {
-    //     this.setSettings()
-    //   },
-    //   immediate: true
-    // },
-
     $route: function(to, from) {
       this.loading = true
       this.$user.init(async () => {
@@ -201,22 +181,6 @@ export default {
     })
   },
   methods: {
-    // async setSettings() {
-    //   if (this.post.template) {
-    //     const tpls = this.$posts.getPageTemplates()
-
-    //     const { default: tpl } = await tpls
-    //       .find(_ => _.value == this.post.template)
-    //       .component()
-    //     // const tpl = c.default;
-    //     // console.log("ccc", tpl)
-    //     if (tpl.pageTemplate) {
-    //       this.settings = tpl.pageTemplate()
-    //     } else if (tpl.default.methods.pageTemplate) {
-    //       this.settings = c.default.methods.pageTemplate()
-    //     }
-    //   }
-    // },
     async start() {
       const id = this.id
 
@@ -259,21 +223,12 @@ export default {
       this.willsave = null
     },
 
-    addRevision(meta = {}) {
+    addRevision({ post, meta }) {
       this.clearAutosave()
 
-      let { revisions, ...post } = this.post
+      const postData = this.$posts.addRevision({ post, meta })
 
-      revisions = revisions || []
-
-      const draft = {
-        timestamp: this.$time.stamp(),
-        editor: this.$uid,
-        post,
-        ...meta
-      }
-
-      this.$set(this.post, "revisions", [draft, ...revisions])
+      this.$set(this.post, "revisions", postData.revisions)
 
       return true
     },
@@ -303,20 +258,9 @@ export default {
     },
 
     async saveDraft() {
-      const needed = this.addRevision()
-
-      if (!needed) {
-        return
-      }
-
-      const save = {
-        id: this.id,
-        revisions: this.post.revisions
-      }
-
       this.sendingDraft = true
 
-      await this.$posts.saveDraft(save)
+      await this.addRevision({ post: this.post, save: true })
 
       this.sendingDraft = false
     },
@@ -328,13 +272,11 @@ export default {
 
       this.$events.$emit("lockPermalink")
 
-      this.addRevision({ published: true })
-
       this.post.status = this.post.status ? this.post.status : "draft"
 
       const save = { ...this.post, url: this.url }
 
-      await this.$posts.savePost(save)
+      this.post = await this.$posts.savePost(save)
 
       this.$events.$emit("notify", "Saved")
 

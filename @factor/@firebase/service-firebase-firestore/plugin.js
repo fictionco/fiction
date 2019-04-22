@@ -1,5 +1,5 @@
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
         this.addConfig()
@@ -69,7 +69,7 @@ module.exports.default = Factor => {
         list.forEach(_ => {
           docs.push(_.data())
         })
-        data = docs[0] || {}
+        data = docs
       } else {
         const doc = await ref.doc(id).get()
         data = doc.data() || {}
@@ -202,5 +202,5 @@ module.exports.default = Factor => {
 
     //   return entry
     // }
-  }()
+  })()
 }
