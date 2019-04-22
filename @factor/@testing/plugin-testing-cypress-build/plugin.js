@@ -26,11 +26,9 @@ export default Factor => {
         const watchers = [
           {
             files,
-            cb: (event, path) => {
-              if (path.includes(this.key)) {
-                this.copyIntegrationTests()
-                //return true
-              }
+            callback: () => {
+              this.copyIntegrationTests()
+              return false
             }
           }
         ]

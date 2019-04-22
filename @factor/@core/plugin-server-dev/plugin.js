@@ -87,6 +87,8 @@ export default Factor => {
         }
       ])
 
+      console.log("Build watchers", customWatchers)
+
       if (customWatchers.length > 0) {
         customWatchers.forEach(({ name, files, ignored = [], event = "all", callback }) => {
           chokidar.watch(files, { ignored, ignoreInitial: true }).on(event, (event, path) => {
