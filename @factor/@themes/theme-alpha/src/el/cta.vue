@@ -34,5 +34,11 @@ export default {}
   .factor-btn {
     letter-spacing: -0.03em;
   }
+  @media (max-width: 767px) {
+    padding: 4em 2em;
+    h2 {
+      font-size: 2em;
+    }
+  }
 }
 </style>

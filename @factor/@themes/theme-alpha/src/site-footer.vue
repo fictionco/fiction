@@ -10,6 +10,8 @@
         <div class="footer-col">
           <div>
             <div class="terms">
+              <factor-link v-if="!$uid" event="signin-modal" data-test="login">Sign In</factor-link>
+              <factor-link v-else path="/dashboard">View Dashboard</factor-link>
               <factor-link path="/terms-of-service">Terms of Service</factor-link>
               <factor-link path="/privacy-policy">Privacy Policy</factor-link>
               <factor-link path="/" btn="tertiary" size="large">
@@ -24,9 +26,7 @@
 </template>
 <script>
 export default {
-  // components: {
-  //   "site-logo": () => import("./el/factor-logo")
-  // },
+  components: {},
   data: () => {
     return {}
   },
@@ -66,6 +66,7 @@ export default {
       .copyright,
       .terms {
         font-size: 0.7em;
+        line-height: 1.6em;
       }
       .terms {
         text-align: right;
@@ -80,27 +81,16 @@ export default {
     }
   }
 }
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 767px) {
   .content-footer {
     .content-footer-pad {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
+      padding: 1em;
+      text-align: center;
       .footer-col {
-        padding-bottom: 2em;
-        &:first-child {
-          grid-column-start: 1;
-          grid-column-end: -1;
-        }
-        &:last-child {
-          align-items: flex-start;
-        }
-        .copyright,
+        padding-bottom: 1em;
         .terms {
-          text-align: left;
-          a {
-            display: block;
-            padding: 0;
-          }
+          text-align: center;
         }
       }
     }

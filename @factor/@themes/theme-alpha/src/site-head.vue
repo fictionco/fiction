@@ -7,11 +7,7 @@
         </factor-link>
       </div>
       <div class="mob-nav-btn">
-        <factor-link
-          path="/"
-          :class="{ active: showMobileMenu }"
-          @click="showMobileMenu = !showMobileMenu"
-        />
+        <factor-link :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
       <div class="nav-wrap" :class="{ active: showMobileMenu }">
         <div class="nav">
@@ -27,7 +23,7 @@
 <script>
 export default {
   components: {
-    "site-logo": () => import("./el/factor-logo")
+    "site-logo": () => import("./el/logo")
   },
   data() {
     return {
@@ -38,11 +34,9 @@ export default {
 </script>
 <style lang="less">
 .site-head {
-  padding: 0 1.5em;
-  //box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
-
   position: relative;
   z-index: 10;
+  padding: 0 1.5em;
   background: @color-primary;
   color: @color-white;
 }
@@ -107,9 +101,11 @@ export default {
     display: grid;
     grid-template-columns: 2fr 1fr;
     @media (max-width: 767px) {
-      display: none;
+      opacity: 0;
+      pointer-events: none;
       &.active {
-        display: grid;
+        opacity: 1;
+        pointer-events: auto;
       }
       grid-template-columns: 1fr;
       position: fixed;
@@ -159,7 +155,6 @@ export default {
   .nav {
     font-weight: 600;
     display: flex;
-    //flex: 2;
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
@@ -179,7 +174,6 @@ export default {
     // }
   }
   .social {
-    //flex: 1;
     text-align: right;
     @media (max-width: 767px) {
       text-align: center;

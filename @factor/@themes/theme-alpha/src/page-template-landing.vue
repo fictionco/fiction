@@ -245,9 +245,9 @@ export default {
         padding: 0 3em;
         text-align: center;
         .box-icon {
-          max-width: 100%;
           margin-bottom: 1em;
           img {
+            width: 50px;
             max-width: 100%;
             display: block;
             margin: 0 auto;
@@ -262,6 +262,12 @@ export default {
           opacity: 0.5;
           font-size: 1.2em;
           line-height: 1.6em;
+        }
+      }
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+        .box {
+          padding: 0;
         }
       }
     }
