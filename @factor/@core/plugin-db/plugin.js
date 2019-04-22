@@ -1,5 +1,5 @@
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     async search(query) {
       return this.query({
         method: "search",
@@ -59,7 +59,7 @@ module.exports.default = Factor => {
     prepareRecord(query) {
       // Ensure every record has a type field
       if (!query.type && !query.merge) {
-        console.warn("[Factor DB Update] Missing 'type' in data.", obj)
+        console.warn("[Factor DB Update] Missing 'type' in data.", query)
       } else if (query.type && !query.data.type) {
         query.data.type = query.type
       }
@@ -85,5 +85,5 @@ module.exports.default = Factor => {
 
       return data
     }
-  }()
+  })()
 }

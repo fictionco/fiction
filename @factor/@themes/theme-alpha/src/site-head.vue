@@ -7,9 +7,9 @@
         </factor-link>
       </div>
       <div class="mob-nav-btn">
-        <factor-link path="/" />
+        <factor-link :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
-      <div class="nav-wrap">
+      <div class="nav-wrap" :class="{ active: showMobileMenu }">
         <div class="nav">
           <slot name="nav" />
         </div>
@@ -23,20 +23,20 @@
 <script>
 export default {
   components: {
-    "site-logo": () => import("./el/factor-logo")
+    "site-logo": () => import("./el/logo")
   },
   data() {
-    return {}
+    return {
+      showMobileMenu: false
+    }
   }
 }
 </script>
 <style lang="less">
 .site-head {
-  padding: 0 1.5em;
-  //box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
-
   position: relative;
   z-index: 10;
+  padding: 0 1.5em;
   background: @color-primary;
   color: @color-white;
 }
@@ -81,6 +81,19 @@ export default {
     }
     @media (max-width: 767px) {
       display: block;
+      z-index: 210;
+      a.active {
+        &:before,
+        &:after {
+          background-color: @color-text;
+        }
+        &:before {
+          transform: rotate(45deg) translateY(0);
+        }
+        &:after {
+          transform: rotate(-45deg) translateY(0);
+        }
+      }
     }
   }
   .nav-wrap {
@@ -88,7 +101,12 @@ export default {
     display: grid;
     grid-template-columns: 2fr 1fr;
     @media (max-width: 767px) {
-      //display: none;
+      opacity: 0;
+      pointer-events: none;
+      &.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
       grid-template-columns: 1fr;
       position: fixed;
       align-items: center;
@@ -98,7 +116,7 @@ export default {
       right: 0;
       bottom: 0;
       border: 14px solid @color-primary;
-      background-color: #fff;
+      background-color: @color-white;
       transition: 0.55s cubic-bezier(0.52, 0.01, 0.16, 1);
     }
   }
@@ -137,7 +155,6 @@ export default {
   .nav {
     font-weight: 600;
     display: flex;
-    //flex: 2;
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
@@ -157,7 +174,6 @@ export default {
     // }
   }
   .social {
-    //flex: 1;
     text-align: right;
     @media (max-width: 767px) {
       text-align: center;

@@ -1,6 +1,6 @@
 <template>
   <article class="entry" :class="formatClass">
-    <h2>This is a work post entry</h2>
+    <h2>This is a blog post entry</h2>
     <div class="entry-wrap">
       <div class="entry-meta">
         <div class="post-author">

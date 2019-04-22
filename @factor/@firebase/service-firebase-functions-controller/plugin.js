@@ -68,7 +68,9 @@ module.exports = FACTOR_CONFIG => {
 
         admin.firestore()
       } else {
-        Factor.$log.warn("Missing service account config info")
+        console.warn(
+          `Can't find your Firebase service account keys. Add to Factor configuration files.`
+        )
       }
 
       return Factor

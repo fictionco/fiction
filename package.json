@@ -10,11 +10,11 @@
   "scripts": {
     "cypress": "npx cypress open",
     "alpha:prep": "yarn prep && yarn alpha:dev",
-    "alpha:dev": "yarn workspace @factor/theme-alpha develop",
+    "alpha:dev": "yarn workspace @factor/theme-alpha factor",
     "alpha:analyze": "yarn workspace @factor/theme-alpha analyze",
     "alpha:start": "yarn prep && yarn workspace @factor/theme-alpha start",
     "alpha:build": "yarn workspace @factor/theme-alpha build",
-    "factor:dev": "yarn prep && yarn workspace @factor/theme-factor developr",
+    "factor:dev": "yarn prep && yarn workspace @factor/theme-factor develop",
     "factor:start": "yarn prep && yarn workspace @factor/theme-factor start",
     "factor:prep": "yarn prep && yarn factor:dev",
     "app:dev": "yarn prep && yarn workspace @factor/app-starter dev",

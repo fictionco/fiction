@@ -1,7 +1,7 @@
 const loadImage = require("blueimp-load-image")
 
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     createPath(path, vars) {
       path = path.replace("__guid", vars.guid)
       path = path.replace("__uid", vars.uid)
@@ -86,5 +86,5 @@ module.exports.default = Factor => {
 
       return file
     }
-  }()
+  })()
 }
