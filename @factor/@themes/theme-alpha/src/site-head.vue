@@ -7,9 +7,13 @@
         </factor-link>
       </div>
       <div class="mob-nav-btn">
-        <factor-link path="/" />
+        <factor-link
+          path="/"
+          :class="{ active: showMobileMenu }"
+          @click="showMobileMenu = !showMobileMenu"
+        />
       </div>
-      <div class="nav-wrap">
+      <div class="nav-wrap" :class="{ active: showMobileMenu }">
         <div class="nav">
           <slot name="nav" />
         </div>
@@ -26,7 +30,9 @@ export default {
     "site-logo": () => import("./el/factor-logo")
   },
   data() {
-    return {}
+    return {
+      showMobileMenu: false
+    }
   }
 }
 </script>
@@ -81,6 +87,19 @@ export default {
     }
     @media (max-width: 767px) {
       display: block;
+      z-index: 210;
+      a.active {
+        &:before,
+        &:after {
+          background-color: @color-text;
+        }
+        &:before {
+          transform: rotate(45deg) translateY(0);
+        }
+        &:after {
+          transform: rotate(-45deg) translateY(0);
+        }
+      }
     }
   }
   .nav-wrap {
@@ -88,7 +107,10 @@ export default {
     display: grid;
     grid-template-columns: 2fr 1fr;
     @media (max-width: 767px) {
-      //display: none;
+      display: none;
+      &.active {
+        display: grid;
+      }
       grid-template-columns: 1fr;
       position: fixed;
       align-items: center;
@@ -98,7 +120,7 @@ export default {
       right: 0;
       bottom: 0;
       border: 14px solid @color-primary;
-      background-color: #fff;
+      background-color: @color-white;
       transition: 0.55s cubic-bezier(0.52, 0.01, 0.16, 1);
     }
   }

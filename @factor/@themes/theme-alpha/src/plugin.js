@@ -1,5 +1,5 @@
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
         this.addLessVars()
@@ -32,7 +32,7 @@ module.exports.default = Factor => {
         _.push({
           type,
           base,
-          //icon: require("./img/posts.svg"),
+          icon: require("./img/work.svg"),
           nameIndex: "Work",
           nameSingle: "Work Post",
           namePlural: "Work Posts"
@@ -95,6 +95,11 @@ module.exports.default = Factor => {
             component: () => import("./page-template-work")
           },
           {
+            name: "Blog",
+            value: "blog",
+            component: () => import("./page-template-blog")
+          },
+          {
             name: "Contact",
             value: "contact",
             component: () => import("./page-template-contact")
@@ -129,5 +134,5 @@ module.exports.default = Factor => {
     //     return _.concat(contentRoutes)
     //   })
     // }
-  }()
+  })()
 }

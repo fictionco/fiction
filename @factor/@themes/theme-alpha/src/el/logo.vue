@@ -1,7 +1,6 @@
 
 <template>
   <div class="logo-img" :class="theme">
-    Stupid
     <svg
       id="fi-logo"
       width="81"
