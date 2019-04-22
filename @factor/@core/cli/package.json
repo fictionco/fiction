@@ -1,5 +1,5 @@
 {
-  "name": "@factor/build-start",
+  "name": "@factor/cli",
   "version": "0.0.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
@@ -7,11 +7,9 @@
     "access": "public"
   },
   "factor": {
-    "id": "concurrent"
+    "id": "cli"
   },
-  "dependencies": {
-    "concurrently": "^4.1.0"
-  },
+ 
   "devDependencies": {},
   "bin": {
     "factor": "./cli.js"
