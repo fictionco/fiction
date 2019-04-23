@@ -47,12 +47,12 @@ export default {
       return this.postTypeInfo.namePlural
     },
     activeIndex() {
-      return this.filtered && this.filtered.posts
+      return this.filtered && this.filtered.data
         ? this.filtered
         : this.postIndex
     },
     posts() {
-      return this.activeIndex.posts
+      return this.activeIndex.data
     },
     status() {
       return this.$route.query.status || ""
@@ -86,7 +86,8 @@ export default {
     async setFiltered() {
       if (this.status) {
         this.filtered = await this.$posts.getPostIndex({
-          status: this.status
+          status: this.status,
+          type: this.postType
         })
       } else {
         this.filtered = {}

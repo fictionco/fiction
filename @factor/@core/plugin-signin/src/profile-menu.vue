@@ -26,13 +26,12 @@
               <div v-if="group.title" class="list-group-title">{{ group.title }}</div>
 
               <factor-link
-                v-for="(item, iIndex) in group.items"
-                :key="iIndex"
+                v-for="(item, i) in group.items"
+                :key="i"
                 :path="item.path"
                 :query="item.query"
-                :event="item.event"
                 :data-test="`profile-nav-${item.key}`"
-                @click="item.click || null"
+                @click="item.click()"
               >{{ item.name }}</factor-link>
             </div>
           </div>
@@ -43,9 +42,7 @@
 </template>
 <script>
 export default {
-  components: {
-    "nav-items": () => import("./nav-items")
-  },
+  components: {},
   data() {
     return {
       toggle: false,

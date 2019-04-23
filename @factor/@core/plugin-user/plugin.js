@@ -90,7 +90,6 @@ module.exports.default = Factor => {
         callback.call(this, this.uid())
       } else {
         Factor.$events.$on("user-init", () => {
-          const uid = this.getUser().uid || false
           callback.call(this, this.uid())
         })
       }
@@ -148,6 +147,7 @@ module.exports.default = Factor => {
 
     clearActiveUser() {
       const uid = this.uid()
+      this.setCacheUser(false)
       Factor.$store.commit("setItem", { item: "activeUser", value: {} })
       Factor.$store.commit("setItem", { item: uid, value: {} })
     }

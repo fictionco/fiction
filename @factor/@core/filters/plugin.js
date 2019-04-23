@@ -96,11 +96,13 @@ module.exports = Factor => {
         for (let i = 0; i < _sorted.length; i++) {
           const { callback, context } = _sorted[i]
 
-          data = callback.apply(context, params)
+          const result = callback.apply(context, params)
 
           // Add into what is passed into next item
-          if (data !== "undefined") {
-            params[0] = data
+          // If nothing is returned, don't unset the original data
+          if (typeof result !== "undefined") {
+            params[0] = result
+            data = result
           }
         }
       }

@@ -198,10 +198,12 @@ export default {
           })
 
           this.$emit("done", credentials)
-
-          if (this.redirectPath) {
-            this.$router.push({ path: this.redirectPath })
-          }
+          console.log("SHOULD RE", this.redirectPath)
+          this.$user.init(uid => {
+            if (uid && this.redirectPath) {
+              this.$router.push({ path: this.redirectPath })
+            }
+          })
         }
       } catch (error) {
         this.$events.$emit("error", error)

@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       // Authentication events only work after SSR
       if (Factor.$isNode) {
@@ -7,7 +7,51 @@ export default Factor => {
       }
 
       this.events()
+      this.handleAuthRouting()
       this.initialized = false
+    }
+
+    handleAuthRouting() {
+      Factor.$filters.add("client-route-before-promises", (_, { to, from, next }) => {
+        const user = Factor.$user.getUser()
+        const { path: toPath } = to
+
+        // Is authentication needed
+        const auth = to.matched.some(_r => {
+          return _r.meta.auth
+        })
+
+        // Get accessLevel needed
+        let accessLevel = 0
+        to.matched.forEach(_r => {
+          if (_r.meta.accessLevel) {
+            accessLevel = _r.meta.accessLevel
+          }
+        })
+
+        if (auth === true && !user) {
+          Factor.$events.$emit("signin-modal", {
+            redirect: toPath
+          })
+          next(false)
+        }
+      })
+
+      Factor.$filters.add("client-route-loaded", (_, { to, from }) => {
+        const auth = to.matched.some(_r => {
+          return _r.meta.auth
+        })
+
+        Factor.$user.init(uid => {
+          console.log("USER INIT", uid)
+          if (auth === true && !uid) {
+            Factor.$router.push({
+              path: "/signin",
+              query: { redirect: to.path, from: from.path }
+            })
+          }
+        })
+      })
     }
 
     events() {
@@ -15,6 +59,7 @@ export default Factor => {
         if (!uid) {
           this.removeAuth()
         }
+        console.log("AUTH STATE", uid)
 
         Factor.$events.$emit("auth-init", { uid })
         this.initialized = true
@@ -53,19 +98,6 @@ export default Factor => {
 
       return credentials
     }
-
-    // async setUserRoles(credentials) {
-    //   const result = await Factor.$endpoint.request({
-    //     endpoint: "privs",
-    //     action: "apply"
-    //   })
-
-    //   // If new privs are set,
-    //   // then user auth/tokens need a reset
-    //   if (result.refresh) {
-    //     Factor.$events.$emit("auth-refresh-tokens", credentials)
-    //   }
-    // }
 
     async logout(args = {}) {
       console.log("[Auth] Logout", args)
@@ -130,5 +162,5 @@ export default Factor => {
     update(args) {
       Factor.$events.$emit("user-updated", args)
     }
-  }()
+  })()
 }
