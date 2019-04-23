@@ -221,12 +221,13 @@ module.exports.default = Factor => {
         }
       })
 
-      let { permalink, uid } = userPublic
-      if (permalink) {
-        permalink = permalink.startsWith("@") ? permalink : `@${permalink}`
-        userPublic.permalink = await Factor.$posts.permalinkVerify({ permalink, id: uid })
-
-        console.log("permalinkpermalink", permalink, userPublic)
+      let { username, uid } = userPublic
+      if (username) {
+        userPublic.username = await Factor.$posts.permalinkVerify({
+          permalink: username,
+          id: uid,
+          field: "username"
+        })
       }
 
       return { userPublic, userPrivate }
@@ -236,9 +237,8 @@ module.exports.default = Factor => {
     // Should merge provided data with existing
     async dbUserUpdate(user) {
       const { uid } = user
-      const { userPublic, userPrivate } = await this.constructSaveObject(user)
+      const { userPublic, userPrivate } = await thi s.constructSaveObject(user)
 
-      console.log("useruseruser", userPublic)
       const savePublic = Factor.$db.update({
         collection: "public",
         type: "user",

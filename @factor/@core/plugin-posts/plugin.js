@@ -69,10 +69,11 @@ export default Factor => {
 
         const _promise = async () => {
           let parts
-          const { permalink } = route.params
+          const request = Factor.$filters.apply("post-params", route.params)
+          const { permalink } = request
           let post = {}
           if (permalink) {
-            post = await this.getPostByPermalink(permalink)
+            post = await this.getPostByPermalink(request)
             post = await this.addPostMeta(post)
             if (post) {
               const { type } = post
@@ -84,10 +85,6 @@ export default Factor => {
           }
 
           Factor.$store.commit("setItem", { item: "post", value: post })
-
-          // if (Factor.$ssrContext) {
-          //   Factor.$ssrContext.metatags = this.getMetatags({ post, parts })
-          // }
 
           return
         }
@@ -385,10 +382,10 @@ export default Factor => {
       return response
     }
 
-    async getPostByPermalink(permalink) {
+    async getPostByPermalink({ permalink, field = "permalink" }) {
       const results = await Factor.$db.read({
         collection: "public",
-        field: `permalink`,
+        field,
         value: permalink
       })
 
@@ -397,11 +394,14 @@ export default Factor => {
 
     // Verify a permalink is unique,
     // If not unique, then add number and recursively verify the new one
-    async permalinkVerify({ permalink, id }) {
-      console.log("Permalink Verify")
-      const post = await this.getPostByPermalink(permalink)
+    async permalinkVerify({ permalink, id, field = "permalink" }) {
+      const post = await this.getPostByPermalink({ permalink, field })
 
       if (post && post.id != id) {
+        Factor.$events.$emit(
+          "notify",
+          `${Factor.$utils.toLabel(field)}:${permalink} already exists.`
+        )
         let num = 1
         var matches = permalink.match(/\d+$/)
         if (matches) {

@@ -1,9 +1,30 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.filters()
     }
 
-    filters() {}
-  }()
+    filters() {
+      Factor.$filters.add("content-routes-unmatched", _ => {
+        _.push({
+          path: "/@:username",
+          component: () => import("./profile")
+        })
+
+        return _
+      })
+
+      Factor.$filters.add("post-params", params => {
+        const { username } = params
+        if (username) {
+          params = {
+            ...params,
+            permalink: username,
+            field: "username"
+          }
+        }
+        return params
+      })
+    }
+  })()
 }

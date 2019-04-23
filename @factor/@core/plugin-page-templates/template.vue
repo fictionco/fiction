@@ -27,11 +27,6 @@ export default {
       return tpls.find(_ => _.value == this.templateLocation).component
     },
 
-    testTemplate() {
-      const tpls = this.$posts.getPageTemplates()
-
-      return tpls.find(_ => _.value == this.templateLocation).component()
-    },
     post() {
       return this.$store.getters["getItem"]("post") || {}
     }
@@ -43,8 +38,6 @@ export default {
     const c = await tpls
       .find(_ => _.value == this.templateLocation)
       .component()
-
-    console.log("C", c)
   },
   methods: {}
 }
