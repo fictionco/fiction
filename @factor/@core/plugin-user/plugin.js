@@ -237,7 +237,7 @@ module.exports.default = Factor => {
     // Should merge provided data with existing
     async dbUserUpdate(user) {
       const { uid } = user
-      const { userPublic, userPrivate } = await thi s.constructSaveObject(user)
+      const { userPublic, userPrivate } = await this.constructSaveObject(user)
 
       const savePublic = Factor.$db.update({
         collection: "public",

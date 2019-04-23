@@ -1,12 +1,16 @@
 import qs from "qs"
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.init()
     }
 
     init() {
       this.urlBase = Factor.$config.setting("serverlessUrl")
+
+      if (!this.urlBase) {
+        console.warn("The serverless URL is missing from Factor config.")
+      }
     }
 
     serializer(params) {
@@ -72,5 +76,5 @@ export default Factor => {
 
       return response
     }
-  }()
+  })()
 }
