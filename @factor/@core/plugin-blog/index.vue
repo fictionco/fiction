@@ -19,6 +19,7 @@
         <part-entry
           v-if="pi % 3 == 0"
           format="listing"
+          :post="post"
           :authors="post.authorData"
           :title="post.title"
           :content="post.content"

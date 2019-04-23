@@ -396,7 +396,6 @@ export default Factor => {
       const post = await this.getPostByPermalink({ permalink, field })
 
       if (post && post.id != id) {
-        console.log("wowowow", post, post.id, id)
         Factor.$events.$emit(
           "notify",
           `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`
@@ -492,14 +491,15 @@ export default Factor => {
       return excerpt
     }
 
-    userCanEditPost({ uid, post }) {
-      const user = Factor.$user.request(uid)
+    // userCanEditPost({ uid, post }) {
 
-      if ((user && user.accessLevel > 300) || post.authors.includes(uid)) {
-        return true
-      } else {
-        return false
-      }
-    }
+    //   const user = Factor.$user.request(uid)
+
+    //   if ((user && user.accessLevel > 300) || post.authors.includes(uid)) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // }
   })()
 }

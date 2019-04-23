@@ -8,12 +8,7 @@
           <div class="txt">
             <span class="sep">on</span>
             <span class="date">{{ $time.niceFormat(date) }}</span>
-            <factor-link
-              v-if="$posts.userCanEditPost({uid: this.$uid, post: {authors}})"
-              class="edit"
-              path="/admin/posts/edit"
-              :query="{id: postId}"
-            >Edit</factor-link>
+            <factor-post-edit :post="post" />
           </div>
         </div>
       </div>
@@ -53,7 +48,7 @@
 
       <div v-if="format == 'single'" class="post-author post-author-bio">
         <div v-for="(author) in authors" :key="author.uid" class="author-about">
-          <factor-avatar :uid="author.uid" :width="'60px'" />
+          <factor-avatar :uid="author.uid" width="3em" />
           <div class="text">
             <span class="name">{{ author.displayName }}</span>
             <div class="bio">{{ author.bio }}</div>
@@ -80,7 +75,8 @@ export default {
     path: { type: String, default: "" },
     tags: { type: Array, default: () => [] },
     postId: { type: String, default: "" },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
+    post: { type: Object, default: () => {} }
   },
   computed: {
     formatClass() {
@@ -88,19 +84,7 @@ export default {
 
       return `format-${f}`
     }
-    // postExcerpt() {
-    //   let content = this.$markdown.strip(this.content).split(" ")
-    //   let excerpt
-
-    //   if (content.length > 30) {
-    //     content = content.slice(0, 30)
-    //     excerpt = content.join(" ") + "..."
-    //   }
-
-    //   return excerpt
-    // }
-  },
-  methods: {}
+  }
 }
 </script>
 <style lang="less">

@@ -60,11 +60,6 @@ export default {
     }
   },
   mounted() {
-    console.log(
-      "$posts",
-      this.type,
-      this.$posts.getPermalink({ type: this.type, root: false })
-    )
     this.$events.$on("lockPermalink", () => {
       if (!this.value) {
         this.emit(this.initialPermalink)
@@ -97,7 +92,6 @@ export default {
       if (!this.toggleValue) {
         this.updateToggle(true)
 
-        console.log("this.$", this.$refs.perm)
         this.$refs.perm.$el.focus()
         document.addEventListener("click", this.clickHandler, false)
       } else {

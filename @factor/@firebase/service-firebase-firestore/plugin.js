@@ -63,7 +63,7 @@ module.exports.default = Factor => {
       if (!id && field) {
         ref = ref.where(field, "==", value)
         const list = await ref.get()
-        console.log("read", id, list, collection, field, value)
+
         const docs = []
 
         list.forEach(_ => {

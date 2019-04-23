@@ -1,9 +1,8 @@
 <template>
   <div class="related-wrap">
-    <h3>You might also like:</h3>
     <div class="related-entries">
       <div class="post-index">
-        <div v-for="(post, pi) in posts" :key="'key-'+pi" class="related-entry">
+        <div v-for="(post, pi) in index" :key="'key-'+pi" class="related-entry">
           <part-aside
             :title="post.title"
             :tags="post.tags"
@@ -27,21 +26,24 @@ export default {
     authors: { type: Array, default: () => [] },
     title: { type: String, default: "" },
     path: { type: String, default: "" },
-    tags: { type: Array, default: () => [] }
+    tags: { type: Array, default: () => [] },
+    post: { type: Object, default: () => {} }
   },
   data() {
     return {
-      posts: [],
+      index: [],
       loading: true
     }
   },
   async created() {
-    this.posts = await this.$posts.getPostIndex({
+    const posts = await this.$posts.getPostIndex({
       type: "blog",
       limit: 3,
       storeKey: "related",
       status: ["published"]
     })
+
+    this.index = posts.data.filter(_ => _.id != this.post.id)
 
     this.loading = false
   }

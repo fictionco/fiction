@@ -43,8 +43,6 @@ export default {
     const c = await tpls
       .find(_ => _.value == this.templateLocation)
       .component()
-
-    console.log("C", c)
   },
   methods: {}
 }

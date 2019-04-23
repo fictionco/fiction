@@ -73,13 +73,6 @@ export default {
       } else if (item == "italic") {
         this.editor.insert(`*${this.editor.getSelectedText()}*`)
       }
-
-      // this.$hook.$emit("uploadImage", {
-      //   callback: img => {
-      //     console.log("FO FROM EDITOR")
-
-      //   }
-      // })
     }
   }
 }

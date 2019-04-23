@@ -5,6 +5,7 @@
     </factor-link>
     <part-entry
       :format="'single'"
+      :post="post"
       :authors="post.authorData"
       :title="post.title"
       :date="post.date"
@@ -14,7 +15,7 @@
     >
       <div v-formatted-text="content" />
     </part-entry>
-    <part-related />
+    <part-related :post="post" />
     <part-widget />
   </div>
 </template>

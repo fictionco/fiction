@@ -90,12 +90,11 @@ export default {
         filter: ".ignore-sortable",
         ghostClass: "sortable-ghost",
         onUpdate: e => {
-          console.log("E", e)
           const newLocalValue = this.localValue.slice()
           if (newLocalValue[e.oldIndex]) {
             const moved = newLocalValue.splice(e.oldIndex, 1)
             newLocalValue.splice(e.newIndex, 0, moved[0])
-            console.log("NEW LOCAL V", moved, newLocalValue)
+
             this.localValue = newLocalValue
             this.selected = e.newIndex
           }
