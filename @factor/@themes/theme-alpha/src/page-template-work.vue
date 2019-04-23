@@ -1,6 +1,19 @@
 <template>
   <div class="page-work">
-    <section class="hero">
+    <section v-if="!$route.params.tag" class="hero">
+      <div class="mast">
+        <div class="hero-inner">
+          <div>
+            <h1 class="title">Work</h1>
+            <h2 class="heading">Bringing great ideas to life.</h2>
+            <div
+              class="content entry-content"
+            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- <section class="hero">
       <div class="mast">
         <div class="hero-inner">
           <div>
@@ -17,9 +30,11 @@
           </div>
         </div>
       </div>
-    </section>
+    </section>-->
 
-    <section class="posts">
+    <router-view />
+
+    <!-- <section class="posts">
       <div class="mast">
         <div class="posts-inner">
           <article class="post-item">
@@ -64,22 +79,7 @@
           </article>
         </div>
       </div>
-    </section>
-    {{ posts }}
-    <div v-for="(post, pi) in posts" :key="'key-'+pi" class="grid-item">
-      <part-work-entry
-        v-if="pi % 3 == 0"
-        format="listing"
-        :authors="post.authorData"
-        :title="post.title"
-        :content="post.content"
-        :date="post.date"
-        :post-id="post.id"
-        :loading="loading"
-        :tags="post.tags"
-        :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
-      />
-    </div>
+    </section>-->
 
     <el-cta />
   </div>
@@ -88,7 +88,6 @@
 <script>
 export default {
   components: {
-    "part-work-entry": () => import("./el/work-entry"),
     "el-cta": () => import("./el/cta")
   },
   props: {
@@ -96,45 +95,45 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      parsedPosts: [{}, {}, {}],
-      storeKey: "index"
+      loading: false
+      // parsedPosts: [{}, {}, {}],
+      // storeKey: "index"
     }
   },
-  serverPrefetch() {
-    return this.getPosts()
-  },
-  computed: {
-    posts() {
-      return this.$store.getters["getItem"]("blog") || []
-    }
-  },
-  watch: {
-    $route: function(to) {
-      this.getPosts()
-    }
-  },
-  async mounted() {
-    if (this.posts.length == 0) {
-      await this.getPosts()
-    }
-  },
-  methods: {
-    async getPosts() {
-      const tag = this.$route.params.tag || ""
-      this.loading = true
-      const r = await this.$posts.getPostIndex({
-        type: "work",
-        tag,
-        storeKey: "index",
-        status: ["published"]
-      })
-      this.loading = false
-    },
-    settings() {
-      return ["test"]
-    }
-  },
+  // serverPrefetch() {
+  //   return this.getPosts()
+  // },
+  // computed: {
+  //   posts() {
+  //     return this.$store.getters["getItem"]("index") || []
+  //   }
+  // },
+  // watch: {
+  //   $route: function(to) {
+  //     this.getPosts()
+  //   }
+  // },
+  // async mounted() {
+  //   if (this.posts.length == 0) {
+  //     await this.getPosts()
+  //   }
+  // },
+  // methods: {
+  //   async getPosts() {
+  //     const tag = this.$route.params.tag || ""
+  //     this.loading = true
+  //     const r = await this.$posts.getPostIndex({
+  //       type: "work",
+  //       tag,
+  //       storeKey: "index",
+  //       status: ["published"]
+  //     })
+  //     this.loading = false
+  //   },
+  //   settings() {
+  //     return ["test"]
+  //   }
+  // },
   pageTemplate() {
     return {
       name: "Work Page",

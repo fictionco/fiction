@@ -1,9 +1,9 @@
 <template>
   <article class="entry" :class="formatClass">
-    <h2>This is a work post entry</h2>
+    <!-- <h2>This is a work post entry</h2> -->
     <div class="entry-wrap">
       <div class="entry-meta">
-        <div class="post-author">
+        <div v-if="format == 'single'" class="post-author">
           <author-tag v-for="(author) in authors" :key="author.uid" :author="author" />
 
           <div class="txt">
@@ -32,12 +32,12 @@
 
       <el-tags class="entry-tags" :tags="tags" />
 
-      <div v-if="format == 'listing'" class="entry-action">
+      <!-- <div v-if="format == 'listing'" class="entry-action">
         <factor-link size="large" btn="default" :path="path">
           Continue Reading
           <i class="fa fa-arrow-right" />
         </factor-link>
-      </div>
+      </div>-->
 
       <div v-if="format == 'single'" class="entry-action">
         <div class="share-wrap">
@@ -114,13 +114,35 @@ export default {
     }
   }
 }
+.entry.format-listing {
+  text-align: center;
+
+  .img-wrap {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 550px;
+    margin-bottom: 1em;
+    transform: scale(1);
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      transform: scale(0.95);
+    }
+  }
+  .title {
+    font-weight: 600;
+  }
+  .category {
+    opacity: 0.5;
+  }
+}
 .entry {
   letter-spacing: -0.03em;
-  background: #fff;
   margin-bottom: 0;
   transition: all 0.2s ease-in-out;
-  font-weight: 500;
-  min-width: 0;
+  //font-weight: 500;
+  // min-width: 0;
+  //background: #fff;
   .entry-wrap {
     padding: 30px;
     display: block;

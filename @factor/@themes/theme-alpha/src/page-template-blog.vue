@@ -64,7 +64,8 @@
         </div>
       </div>
     </section>
-
+    posts:
+    {{ posts }}
     <div v-for="(item, pi) in posts" :key="'key-'+pi" class="grid-item">
       <pre>
         {{ item }}
@@ -232,13 +233,14 @@ export default {
           color: @color-text;
           background: #fff;
           border-radius: 8px;
-          // border-left: 4px solid fade(@color-primary, 10%);
           transition: all 0.2s ease-in-out;
-          box-shadow: 0 0 0 1px fade(@color-primary, 10%);
+          border: 1px solid rgba(90, 122, 190, 0.08);
+          box-shadow: 0 3px 0 0 rgba(90, 122, 190, 0.12);
           &:hover {
             transform: translateY(-6px);
-            box-shadow: 0 0 0 1px fade(@color-primary, 10%),
-              0px 50px 50px 0 rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(90, 122, 190, 0.08);
+            box-shadow: 0 1px 1px 0 rgba(90, 122, 190, 0.1),
+              0 10px 20px 0 rgba(90, 122, 190, 0.2);
             .title {
               color: @color-primary;
             }

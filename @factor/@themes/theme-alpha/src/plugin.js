@@ -4,9 +4,9 @@ module.exports.default = Factor => {
       if (Factor.FACTOR_ENV == "build") {
         this.addLessVars()
       } else {
+        this.addWorkPostType()
         this.addPaths()
         this.addComponents()
-        this.addWorkPostType()
       }
     }
 
@@ -26,7 +26,7 @@ module.exports.default = Factor => {
       })
     }
     addWorkPostType() {
-      const base = "entry"
+      const base = "work"
       const type = "work"
       Factor.$filters.add("post-types", _ => {
         _.push({
@@ -107,12 +107,32 @@ module.exports.default = Factor => {
         ])
       })
 
+      const base = "work"
+
       Factor.$filters.addFilter("content-routes", _ => {
         const routes = [
           {
             path: "/",
             component: () => import("./page-home"),
             meta: { nav: true }
+          },
+          {
+            path: "/work",
+            component: () => import("./page-template-work"),
+            children: [
+              {
+                path: "/",
+                component: () => import("./el/work-index.vue")
+              },
+              {
+                path: `/${base}`,
+                component: () => import(`./el/work-single.vue`)
+              },
+              {
+                path: `/${base}/:permalink`,
+                component: () => import(`./el/work-single.vue`)
+              }
+            ]
           }
         ]
 

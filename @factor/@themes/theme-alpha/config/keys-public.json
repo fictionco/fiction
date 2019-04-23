@@ -1,5 +1,6 @@
 {
   "development": {
+    "serverlessUrl": "http://localhost:5001/fiction-staging/us-central1",
     "url": "https://localhost:7000",
     "plaid": {
       "clientName": "Fiction.com",
@@ -20,7 +21,9 @@
       "mapsApiKey": "AIzaSyCblTEsdhjooPRGlz3NLrTxhto0dij9RWg"
     }
   },
-  "production": {},
+  "production": {
+    "serverlessUrl": "https://us-central1-fiction-com.cloudfunctions.net"
+  },
   "all": {
     "algolia": {
       "appId": "1PB2CVUAH5",
