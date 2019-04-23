@@ -77,11 +77,8 @@ export default Factor => {
             let post = {}
 
             post = await this.getPostByPermalink(request)
-            post = await this.addPostMeta(post)
 
-            Factor.$store.commit("setItem", { item: "post", value: post })
-
-            return
+            return await this.setPostData({ post })
           }
 
           _.push(_promise())
@@ -119,6 +116,11 @@ export default Factor => {
 
         return _
       })
+    }
+
+    async setPostData({ post }) {
+      post = await this.addPostMeta(post)
+      Factor.$store.commit("setItem", { item: "post", value: post })
     }
 
     addPostToComponents() {

@@ -1,6 +1,7 @@
 <template>
   <div class="view-user-profile">
-    <div v-if="!$lodash.isEmpty(post)" class="user-profile">
+    <factor-loading-ring v-if="loading" class="client-loading" />
+    <div v-else-if="!$lodash.isEmpty(post)" class="user-profile">
       <div class="profile-container">
         <figure class="cover loaded" :class="getCover ? 'has-cover' : 'no-cover'">
           <div
@@ -157,14 +158,17 @@ export default {
   },
   methods: {
     setOwnUserProfile() {
-      const { uid } = this.$route.query
+      const { username } = this.$route.params
+      const { id } = this.$route.query
 
-      if (!uid && this.$lodash.isEmpty(this.post)) {
+      if (!username && !id && this.$lodash.isEmpty(this.post)) {
         this.loading = true
 
-        this.$user.init(async user => {
-          if (user) {
-            await this.$user.request(user.uid)
+        this.$user.init(async uid => {
+          if (uid) {
+            const post = await this.$posts.getPostById(uid)
+
+            await this.$posts.setPostData({ post })
           }
           this.loading = false
         })

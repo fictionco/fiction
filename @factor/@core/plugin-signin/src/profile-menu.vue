@@ -32,7 +32,7 @@
                 :query="item.query"
                 :event="item.event"
                 :data-test="`profile-nav-${item.key}`"
-                @click="item.click"
+                @click="item.click || null"
               >{{ item.name }}</factor-link>
             </div>
           </div>
