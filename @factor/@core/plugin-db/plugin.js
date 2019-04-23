@@ -64,6 +64,11 @@ module.exports.default = Factor => {
         query.data.type = query.type
       }
 
+      // Every post should have an id
+      if (query.id && !query.data.id) {
+        query.data.id = query.id
+      }
+
       query.data = this.prepareData(query.data)
 
       return query

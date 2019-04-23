@@ -64,38 +64,34 @@ export default Factor => {
         return _
       })
 
-      const setPost = (_, to = null) => {
+      const prefetchPost = (_, { to = null } = {}) => {
         const route = to || Factor.$router.currentRoute
 
-        const _promise = async () => {
-          let parts
-          const request = Factor.$filters.apply("post-params", route.params)
-          const { permalink } = request
-          let post = {}
-          if (permalink) {
+        const request = Factor.$filters.apply("post-params", route.params)
+
+        const { permalink } = request
+
+        // Only add to the filter if permalink is set. That way we don't show loader for no reason.
+        if (permalink) {
+          const _promise = async () => {
+            let post = {}
+
             post = await this.getPostByPermalink(request)
             post = await this.addPostMeta(post)
-            if (post) {
-              const { type } = post
 
-              parts = { type, permalink }
-            }
-          } else {
-            parts = { path: route.fullPath }
+            Factor.$store.commit("setItem", { item: "post", value: post })
+
+            return
           }
 
-          Factor.$store.commit("setItem", { item: "post", value: post })
-
-          return
+          _.push(_promise())
         }
-
-        _.push(_promise())
 
         return _
       }
 
-      Factor.$filters.add("request-post", setPost)
-      Factor.$filters.add("site-route-promises", setPost)
+      Factor.$filters.add("site-prefetch", prefetchPost)
+      Factor.$filters.add("client-route-before-promises", prefetchPost)
 
       Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new" }) => {
@@ -398,9 +394,10 @@ export default Factor => {
       const post = await this.getPostByPermalink({ permalink, field })
 
       if (post && post.id != id) {
+        console.log("wowowow", post, post.id, id)
         Factor.$events.$emit(
           "notify",
-          `${Factor.$utils.toLabel(field)}:${permalink} already exists.`
+          `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`
         )
         let num = 1
         var matches = permalink.match(/\d+$/)

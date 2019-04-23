@@ -6,7 +6,7 @@ export default Factor => {
 
     filters() {
       Factor.$filters.add("content-routes-unmatched", _ => {
-        _.push({
+        _.unshift({
           path: "/@:username",
           component: () => import("./profile")
         })

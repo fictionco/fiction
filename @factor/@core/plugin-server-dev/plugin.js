@@ -87,8 +87,6 @@ export default Factor => {
         }
       ])
 
-      console.log("Build watchers", customWatchers)
-
       if (customWatchers.length > 0) {
         customWatchers.forEach(({ name, files, ignored = [], event = "all", callback }) => {
           chokidar.watch(files, { ignored, ignoreInitial: true }).on(event, (event, path) => {
@@ -99,36 +97,6 @@ export default Factor => {
           })
         })
       }
-
-      // const watchers = Factor.$filters.apply("dev-watchers", [
-      //   {
-      //     files: [this.templatePath],
-      //     ignore: [],
-      //     ignoreKeys: [],
-      //     cb: (event, path) => {
-      //       if (path === this.templatePath) {
-      //         this.template = this.getTemplate()
-      //         return true
-      //       }
-      //     }
-      //   }
-      // ])
-
-      // const watchRegen = this.flat(watchers.map(_ => _.files))
-      // const watchIgnore = this.flat(watchers.map(_ => _.ignore))
-      // const watchCallbacks = watchers.map(_ => _.cb)
-
-      // chokidar
-      //   .watch(watchRegen, {
-      //     ignored: watchIgnore,
-      //     ignoreInitial: true
-      //   })
-      //   .on("all", (event, path) => {
-      //     const result = watchCallbacks.map(cb => cb(event, path))
-      //     if (result.some(_ => _)) {
-      //       this.updateServer("Files Changed")
-      //     }
-      //   })
     }
 
     flat(arr) {

@@ -41,16 +41,24 @@ export function createRouter({ target }) {
 
 // Client-only checks before user navigates to a new route (e.g. auth)
 export async function clientRouterBefore(to, from, next) {
-  // The promises need to return "true" if navigation is to continue as usual
-  const results = await Promise.all(Factor.$filters.apply("client-route-before-promises", [], { to, from, next }))
+  const doBefore = Factor.$filters.apply("client-route-before-promises", [], { to, from, next })
 
-  // If a user needs to sign in (with modal) or be redirected after an action
-  // Those hooks may not want the navigation to continue
-  // As they will be handling with navigation with a redirect instead
-  if (results.length == 0 || !results.some(_ => _ === false)) {
-    next()
+  if (doBefore.length > 0) {
+    Factor.$events.$emit("ssr-progress", "start")
+
+    // The promises need to return "true" if navigation is to continue as usual
+    const results = await Promise.all(doBefore)
+
+    // If a user needs to sign in (with modal) or be redirected after an action
+    // Those hooks may not want the navigation to continue
+    // As they will be handling with navigation with a redirect instead
+    if (results.length == 0 || !results.some(_ => _ === false)) {
+      next()
+    } else {
+      next(false)
+    }
   } else {
-    next(false)
+    next()
   }
 }
 
@@ -58,5 +66,6 @@ export async function clientRouterBefore(to, from, next) {
 // This applies when a page is loaded directly, the client may need to
 // check for specifics related to the user
 export function clientRouterAfter(to, from) {
+  Factor.$events.$emit("ssr-progress", "finish")
   Factor.$filters.apply("client-route-loaded", [], { to, from })
 }

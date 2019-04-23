@@ -11,7 +11,7 @@
           />
 
           <factor-input-wrap
-            v-model="user.permalink"
+            v-model="user.username"
             input="factor-input-text"
             label="Username"
             description="Must be unique."
@@ -77,6 +77,10 @@
               &nbsp;
               <i class="fa fa-arrow-up" />
             </factor-btn>
+            <factor-link :path="url" btn="default" data-test="view-profile">
+              View
+              <i class="fa fa-arrow-right" />
+            </factor-link>
           </template>
         </dashboard-pane>
       </div>
@@ -94,6 +98,11 @@ export default {
   computed: {
     id() {
       return this.$route.query.id || this.$uid
+    },
+    url() {
+      return this.user.username
+        ? `/@${this.user.username}`
+        : `/@?id=${this.user.uid}`
     }
   },
   async mounted() {
@@ -120,7 +129,7 @@ export default {
 .user-dashboard-post-grid {
   display: grid;
   grid-gap: 1em;
-  grid-template-columns: 1fr 250px;
+  grid-template-columns: 1fr 275px;
 
   @media (max-width: 960px) {
     grid-gap: 1em 0;
