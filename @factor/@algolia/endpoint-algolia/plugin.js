@@ -1,5 +1,5 @@
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.algoliaConfig = require("./config.json")
       this.algoliasearch = require("algoliasearch")
@@ -72,7 +72,7 @@ module.exports.default = Factor => {
 
       const content = await new Promise((resolve, reject) => {
         index.saveObject(saveObject, (err, content) => {
-          console.log("Save Object", args, err, content)
+          console.log("Algolia Save", args, err, content)
           if (err) {
             reject(err)
           } else {
@@ -116,5 +116,5 @@ module.exports.default = Factor => {
 
       return content
     }
-  }()
+  })()
 }

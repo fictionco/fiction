@@ -1,5 +1,5 @@
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this._filters = {}
       this._applied = {}
@@ -170,5 +170,5 @@ module.exports = Factor => {
     get(name, data) {
       return this.apply(name, data)
     }
-  }()
+  })()
 }

@@ -2,11 +2,11 @@
   <div class="pagination">
     <div class="items">{{ total }} Items</div>
     <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">
-      <i class="fa fa-arrow-left" />
+      <factor-icon icon="arrow-left" />
     </factor-btn>
     <div class="sep">{{ pageCurrent }} of {{ pageTotal }}</div>
     <factor-btn :disabled="pageCurrent == pageTotal" @click="page('next')">
-      <i class="fa fa-arrow-right" />
+      <factor-icon icon="arrow-right" />
     </factor-btn>
   </div>
 </template>

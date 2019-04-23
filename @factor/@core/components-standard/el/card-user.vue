@@ -4,7 +4,7 @@
       <factor-avatar :url="user.photoURL" width="1.25em" />
       <div class="name">{{ user.displayName }}</div>
       <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
-        <i class="fa fa-remove" />
+        <factor-icon icon="remove" />
       </div>
     </factor-link>
   </div>

@@ -6,7 +6,11 @@ export default Factor => {
 
     filters() {
       Factor.$filters.add("content-routes-unmatched", _ => {
-        _.push({
+        _.unshift({
+          path: "/@",
+          component: () => import("./profile")
+        })
+        _.unshift({
           path: "/@:username",
           component: () => import("./profile")
         })
@@ -25,6 +29,31 @@ export default Factor => {
         }
         return params
       })
+
+      Factor.$filters.add(
+        "profile-menu",
+        _ => {
+          _.unshift({
+            items: [
+              {
+                path: "/dashboard",
+                name: "Dashboard"
+              },
+              {
+                path: "/@",
+                name: "View Profile"
+              },
+              {
+                path: "/dashboard/account",
+                name: "Account Settings"
+              }
+            ]
+          })
+
+          return _
+        },
+        { priority: 1000 }
+      )
     }
   })()
 }

@@ -11,7 +11,7 @@
         >
           <div class="handle">
             <span v-if="item.__title">{{ item.__title }}</span>
-            <i v-else class="fa fa-arrow-right" />
+            <factor-icon icon="arrow-right" />
           </div>
         </div>
         <factor-btn btn="primary" @click="addItem()">+</factor-btn>
@@ -28,7 +28,7 @@
             @input="setValue('__title', $event.target.value)"
           >
           <span class="edit-me">
-            <i class="fa fa-pencil" />
+            <factor-icon icon="pencil" />
           </span>
         </div>
         <factor-input-wrap
@@ -90,12 +90,11 @@ export default {
         filter: ".ignore-sortable",
         ghostClass: "sortable-ghost",
         onUpdate: e => {
-          console.log("E", e)
           const newLocalValue = this.localValue.slice()
           if (newLocalValue[e.oldIndex]) {
             const moved = newLocalValue.splice(e.oldIndex, 1)
             newLocalValue.splice(e.newIndex, 0, moved[0])
-            console.log("NEW LOCAL V", moved, newLocalValue)
+
             this.localValue = newLocalValue
             this.selected = e.newIndex
           }

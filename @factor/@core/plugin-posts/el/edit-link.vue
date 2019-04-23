@@ -33,8 +33,8 @@ export default {
     }
   },
   mounted() {
-    this.$user.init(uid => {
-      this.user = this.$user.request(uid)
+    this.$user.init(async uid => {
+      this.user = await this.$user.request(uid)
     })
   }
 }

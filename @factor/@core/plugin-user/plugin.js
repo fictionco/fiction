@@ -53,8 +53,6 @@ module.exports.default = Factor => {
       const user = this.getUser() || {}
       const { role = {} } = user
 
-      console.log("USER ROLE", user)
-
       return Object.keys(role).map(_ => {
         return { title: _, level: role[_] }
       })[0]
@@ -170,11 +168,6 @@ module.exports.default = Factor => {
         collection: "public",
         id: uid
       })
-
-      const { permalink } = publicData
-      if (permalink && permalink.startsWith("@")) {
-        publicData.permalink = permalink.replace("@", "")
-      }
 
       const privateData = await Factor.$db.read({
         collection: "private",

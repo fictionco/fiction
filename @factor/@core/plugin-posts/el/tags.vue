@@ -3,13 +3,14 @@
     <div v-if="tags.length > 0" class="the-tags">
       <div v-for="(tag, index) in tags" :key="index" class="tag">
         <span class="tx">{{ tag }}</span>
-        <i class="rm fa fa-remove" @click="removeTag(index)" />
+
+        <factor-icon class="rm" icon="remove" @click="removeTag(index)" />
       </div>
     </div>
     <div class="the-input">
       <factor-input-text v-model="addedText" placeholder="Add Tag" @keyup.enter="addTag()" />
       <factor-btn @click="addTag()">
-        <i class="fa fa-plus" />
+        <factor-icon icon="plus" />
       </factor-btn>
     </div>
   </div>

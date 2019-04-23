@@ -1,5 +1,5 @@
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.doApp()
     }
@@ -37,10 +37,6 @@ module.exports = Factor => {
           path: "*",
           component: () => import("@/content"),
           children: Factor.$filters.apply("content-routes-unmatched", [
-            // {
-            //   path: "/:permalink",
-            //   component: () => import("./template")
-            // },
             {
               name: "notFound",
               path: "*",
@@ -64,5 +60,5 @@ module.exports = Factor => {
       //   { priority: 3000 }
       // )
     }
-  }()
+  })()
 }

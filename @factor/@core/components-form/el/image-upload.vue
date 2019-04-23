@@ -25,7 +25,7 @@
                   <div :style="{width: `${img.progress}%`}" class="bar" />
                 </div>
                 <div v-else-if="img.status === 'complete'" class="image-status success">
-                  <i class="fa fa-check" />
+                  <factor-icon icon="check" />
                 </div>
                 <factor-menu
                   v-else
@@ -55,7 +55,7 @@
               >
               <div class="upload-status">
                 <div class="wrp">
-                  <i class="fa fa-arrow-up" />
+                  <factor-icon icon="arrow-up" />
                   <span v-if="images.length == 1 && max == 1">Swap</span>
                   <span v-else>Add</span>
                 </div>

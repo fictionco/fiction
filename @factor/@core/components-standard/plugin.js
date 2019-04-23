@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.registerComponents()
     }
@@ -17,8 +17,9 @@ export default Factor => {
         _["factor-card-user"] = () => import("./el/card-user")
         _["factor-menu"] = () => import("./el/menu")
         _["factor-tag"] = () => import("./el/tag")
+        _["factor-icon"] = () => import("./el/icon")
         return _
       })
     }
-  }()
+  })()
 }

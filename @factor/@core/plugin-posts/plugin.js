@@ -64,38 +64,31 @@ export default Factor => {
         return _
       })
 
-      const setPost = (_, to = null) => {
+      const prefetchPost = (_, { to = null } = {}) => {
         const route = to || Factor.$router.currentRoute
 
-        const _promise = async () => {
-          let parts
-          const request = Factor.$filters.apply("post-params", route.params)
-          const { permalink } = request
-          let post = {}
-          if (permalink) {
-            post = await this.getPostByPermalink(request)
-            post = await this.addPostMeta(post)
-            if (post) {
-              const { type } = post
+        const request = Factor.$filters.apply("post-params", route.params)
 
-              parts = { type, permalink }
-            }
-          } else {
-            parts = { path: route.fullPath }
+        const { permalink } = request
+
+        // Only add to the filter if permalink is set. That way we don't show loader for no reason.
+        if (permalink) {
+          const _promise = async () => {
+            let post = {}
+
+            post = await this.getPostByPermalink(request)
+
+            return await this.setPostData({ post })
           }
 
-          Factor.$store.commit("setItem", { item: "post", value: post })
-
-          return
+          _.push(_promise())
         }
-
-        _.push(_promise())
 
         return _
       }
 
-      Factor.$filters.add("request-post", setPost)
-      Factor.$filters.add("site-route-promises", setPost)
+      Factor.$filters.add("site-prefetch", prefetchPost)
+      Factor.$filters.add("client-route-before-promises", prefetchPost)
 
       Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new" }) => {
@@ -123,6 +116,11 @@ export default Factor => {
 
         return _
       })
+    }
+
+    async setPostData({ post }) {
+      post = await this.addPostMeta(post)
+      Factor.$store.commit("setItem", { item: "post", value: post })
     }
 
     addPostToComponents() {
@@ -169,7 +167,9 @@ export default Factor => {
     }
 
     async getPostIndex(args) {
-      const { limit = 100, storeKey = "postIndex", page = 1 } = args
+      const { limit = 100, page = 1 } = args
+
+      const storeKey = args.storeKey || args.type || "postIndex"
 
       const taxonomies = ["type", "tag", "category", "status"]
 
@@ -186,7 +186,7 @@ export default Factor => {
 
       const results = await Factor.$db.search(query)
 
-      results.posts = await this.parsePosts(results.data)
+      results.data = await this.parsePosts(results.data)
 
       Factor.$store.commit("setItem", {
         item: storeKey,
@@ -400,7 +400,7 @@ export default Factor => {
       if (post && post.id != id) {
         Factor.$events.$emit(
           "notify",
-          `${Factor.$utils.toLabel(field)}:${permalink} already exists.`
+          `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`
         )
         let num = 1
         var matches = permalink.match(/\d+$/)
@@ -493,14 +493,15 @@ export default Factor => {
       return excerpt
     }
 
-    userCanEditPost({ uid, post }) {
-      const user = Factor.$user.request(uid)
+    // userCanEditPost({ uid, post }) {
 
-      if ((user && user.accessLevel > 300) || post.authors.includes(uid)) {
-        return true
-      } else {
-        return false
-      }
-    }
+    //   const user = Factor.$user.request(uid)
+
+    //   if ((user && user.accessLevel > 300) || post.authors.includes(uid)) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // }
   })()
 }

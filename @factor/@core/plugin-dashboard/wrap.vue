@@ -9,7 +9,7 @@
       <div class="app-content">
         <div class="app-nav" @click.stop>
           <factor-btn class="app-nav-toggle" @click="toggleNav()">
-            <i class="fa fa-bars" /> Menu
+            <factor-icon icon="bars" />Menu
           </factor-btn>
           <dashboard-nav :class="{active: toggle }" />
         </div>

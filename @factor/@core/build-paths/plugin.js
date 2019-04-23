@@ -21,7 +21,6 @@ module.exports = Factor => {
     }
 
     assignPaths() {
-      //   console.log("DD_____", require.resolve("@factor/build-start"))
       const _ = {}
       _.app = this.baseDir
       _.source = resolve(this.baseDir, this.folder("source"))

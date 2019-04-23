@@ -12,16 +12,7 @@ export default {
   data() {
     return {}
   },
-  computed: {
-    iconClass() {
-      let icon = this.icon
-      if (this.icon == "ellipsis") {
-        icon = "ellipsis-h"
-      }
-
-      return `fa-${icon}`
-    }
-  }
+  computed: {}
 }
 </script>
 <style lang="less">
