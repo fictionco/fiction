@@ -11,7 +11,7 @@
         >
           <div class="handle">
             <span v-if="item.__title">{{ item.__title }}</span>
-            <i v-else class="fa fa-arrow-right" />
+            <factor-icon icon="arrow-right" />
           </div>
         </div>
         <factor-btn btn="primary" @click="addItem()">+</factor-btn>
@@ -28,7 +28,7 @@
             @input="setValue('__title', $event.target.value)"
           >
           <span class="edit-me">
-            <i class="fa fa-pencil" />
+            <factor-icon icon="pencil" />
           </span>
         </div>
         <factor-input-wrap

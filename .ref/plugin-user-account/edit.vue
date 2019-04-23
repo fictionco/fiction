@@ -33,7 +33,7 @@
             <factor-btn btn="primary" :loading="sending" @click="save()">
               Save
               &nbsp;
-              <i class="fa fa-arrow-up" />
+              <factor-icon icon="arrow-up"/>
             </factor-btn>
           </template>
         </dashboard-pane>
@@ -47,28 +47,28 @@ export default {
     return {
       user: {},
       sending: false
-    }
+    };
   },
   computed: {
     id() {
-      return this.$route.query.id
+      return this.$route.query.id;
     }
   },
   async mounted() {
-    this.user = await this.$user.requestFullUser(this.id)
+    this.user = await this.$user.requestFullUser(this.id);
   },
   methods: {
     async save() {
-      this.sending = true
+      this.sending = true;
 
-      await this.$user.dbUserUpdate(this.user)
+      await this.$user.dbUserUpdate(this.user);
 
-      this.$events.$emit("notify", `User Saved`)
+      this.$events.$emit("notify", `User Saved`);
 
-      this.sending = false
+      this.sending = false;
     }
   }
-}
+};
 </script>
 
 

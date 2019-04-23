@@ -9,7 +9,7 @@
         data-test="add-post"
       >
         Add New
-        <i class="fa fa-arrow-right" />
+        <factor-icon icon="arrow-right" />
       </factor-link>
     </template>
     <dashboard-table-controls v-bind="$attrs" :tabs="tabs" :actions="['move-to-trash']" />
@@ -20,7 +20,7 @@
       :row-items="rows"
       :zero-state="7"
     >
-      <template slot-scope="{column, item, row, index}">
+      <template slot-scope="{column, item, row}">
         <div v-if="column == 'select'">
           <factor-input-checkbox label />
         </div>

@@ -16,10 +16,6 @@ export default {
 
   async serverPrefetch() {
     return await Promise.all(this.$filters.apply("site-prefetch", []))
-  },
-
-  methods: {
-    async setPost(filter, to = null) {}
   }
 }
 </script>

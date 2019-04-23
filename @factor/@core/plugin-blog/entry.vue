@@ -34,7 +34,7 @@
       <div v-if="format == 'listing'" class="entry-action">
         <factor-link size="large" btn="default" :path="path">
           Continue Reading
-          <i class="fa fa-arrow-right" />
+          <factor-icon icon="arrow-right" />
         </factor-link>
       </div>
 
@@ -43,10 +43,10 @@
 
         <div class="share-wrap">
           <factor-link path="/#">
-            <i class="fa fa-facebook" />
+            <factor-icon icon="facebook" />
           </factor-link>
           <factor-link path="/#">
-            <i class="fa fa-twitter" />
+            <factor-icon icon="twitter" />
           </factor-link>
         </div>
       </div>

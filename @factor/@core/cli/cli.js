@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 process.noDeprecation = true
+process.maxOldSpaceSize = 4000
 const argv = require("yargs").argv
 
 const { _: commands } = argv

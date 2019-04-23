@@ -2,16 +2,16 @@
   <div class="editor-input">
     <div class="toolbar">
       <factor-btn size="small" @click="insert('image')">
-        <i class="fa fa-image" />
+        <factor-icon icon="image" />
       </factor-btn>
       <factor-btn size="small" @click="insert('link')">
-        <i class="fa fa-link" />
+        <factor-icon icon="link" />
       </factor-btn>
       <factor-btn size="small" @click="insert('bold')">
-        <i class="fa fa-bold" />
+        <factor-icon icon="bold" />
       </factor-btn>
       <factor-btn size="small" @click="insert('italic')">
-        <i class="fa fa-italic" />
+        <factor-icon icon="italic" />
       </factor-btn>
     </div>
     <pre id="editor" ref="editor" class="editor" @keyup="$emit('keyup')" />

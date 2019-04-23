@@ -4,7 +4,7 @@
       <div v-show="vis" class="el-modal-content" @click.stop>
         <div class="el-modal-pad modal-content" data-test="modal-content">
           <span class="close" @click.stop="close">
-            <i class="fa fa-remove" />
+            <factor-icon icon="remove" />
           </span>
           <div class="modal-text">
             <div class="modal-text-content">
@@ -12,7 +12,7 @@
                 <h3 class="title">{{ title }}</h3>
                 <div class="sub-title">{{ sub }}</div>
               </div>
-              
+
               <slot />
             </div>
           </div>

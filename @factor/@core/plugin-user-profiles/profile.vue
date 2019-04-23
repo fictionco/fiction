@@ -47,19 +47,19 @@
               <div class="content">
                 <ul>
                   <li v-if="verified.identity" class="identity">
-                    <i class="icon fa fa-check" />
+                    <factor-icon icon="check" />
                     <span>Identity Confirmed</span>
                   </li>
                   <li v-if="verified.bank" class="bank">
-                    <i class="icon fa fa-check" />
+                    <factor-icon icon="check" />
                     <span>Bank Verified</span>
                   </li>
                   <li v-if="verified.phone" class="phone">
-                    <i class="icon fa fa-check" />
+                    <factor-icon icon="check" />
                     <span>Phone Verified</span>
                   </li>
                   <li v-if="verified.email" class="email">
-                    <i class="icon fa fa-check" />
+                    <factor-icon icon="check" />
                     <span>Email Verified</span>
                   </li>
                 </ul>
@@ -284,6 +284,7 @@ export default {
       width: 100%;
       background-color: transparent;
       background-size: cover;
+      background-position: 50%;
       bottom: 0;
       left: 0;
     }

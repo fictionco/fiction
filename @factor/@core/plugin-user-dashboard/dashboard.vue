@@ -13,7 +13,7 @@
         data-test="add-post"
       >
         Invite
-        <i class="fa fa-arrow-right" />
+        <factor-icon icon="arrow-right" />
       </factor-link>
     </template>
   </posts-table>

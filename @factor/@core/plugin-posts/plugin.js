@@ -165,7 +165,9 @@ export default Factor => {
     }
 
     async getPostIndex(args) {
-      const { limit = 100, storeKey = "postIndex", page = 1 } = args
+      const { limit = 100, page = 1 } = args
+
+      const storeKey = args.storeKey || args.type || "postIndex"
 
       const taxonomies = ["type", "tag", "category", "status"]
 
@@ -182,7 +184,7 @@ export default Factor => {
 
       const results = await Factor.$db.search(query)
 
-      results.posts = await this.parsePosts(results.data)
+      results.data = await this.parsePosts(results.data)
 
       Factor.$store.commit("setItem", {
         item: storeKey,

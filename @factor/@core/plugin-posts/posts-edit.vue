@@ -72,11 +72,11 @@
             <factor-btn btn="primary" :loading="sending" @click="savePost()">
               Update
               &nbsp;
-              <i class="fa fa-arrow-up" />
+              <factor-icon icon="arrow-up" />
             </factor-btn>
             <factor-link v-if="post.permalink" :path="url" btn="default" data-test="add-post">
               View
-              <i class="fa fa-arrow-right" />
+              <factor-icon icon="arrow-right" />
             </factor-link>
           </template>
         </dashboard-pane>

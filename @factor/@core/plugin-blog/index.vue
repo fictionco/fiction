@@ -2,7 +2,7 @@
   <div class="entries">
     <div v-if="$route.params.tag" class="back-nav">
       <factor-link btn="default" path="/blog">
-        <i class="fa fa-arrow-left" /> All Posts
+        <factor-icon icon="arrow-left" />All Posts
       </factor-link>
     </div>
     <div v-if="loading" class="loading-entries">
@@ -11,7 +11,7 @@
 
     <div v-else class="post-index">
       <div
-        v-for="(post, pi) in posts"
+        v-for="(post, pi) in posts.data"
         :key="'key-'+pi"
         class="grid-item"
         :class="pi % 3 == 0 ? 'grid-entry' : 'grid-aside'"
@@ -98,7 +98,6 @@ export default {
       const r = await this.$posts.getPostIndex({
         type: "blog",
         tag,
-        storeKey: "index",
         status: ["published"]
       })
       this.loading = false

@@ -1,7 +1,7 @@
 <template>
   <div class="single-entry">
     <factor-link class="back" path="/blog">
-      <i class="fa fa-arrow-left" /> All Posts
+      <factor-icon icon="arrow-left" />All Posts
     </factor-link>
     <part-entry
       :format="'single'"

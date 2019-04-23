@@ -75,11 +75,11 @@
             <factor-btn btn="primary" :loading="sending" @click="save()">
               Save
               &nbsp;
-              <i class="fa fa-arrow-up" />
+              <factor-icon icon="arrow-up" />
             </factor-btn>
             <factor-link :path="url" btn="default" data-test="view-profile">
               View
-              <i class="fa fa-arrow-right" />
+              <factor-icon icon="arrow-right" />
             </factor-link>
           </template>
         </dashboard-pane>
