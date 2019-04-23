@@ -1,10 +1,10 @@
 <template>
   <div class="entries">
-    <div v-if="$route.params.tag" class="back-nav">
+    <!-- <div v-if="$route.params.tag" class="back-nav">
       <factor-link btn="default" path="/work">
         <i class="fa fa-arrow-left" /> All Posts
       </factor-link>
-    </div>
+    </div>-->
     <div v-if="loading" class="loading-entries">
       <factor-loading-ring />
     </div>
@@ -13,7 +13,7 @@
       <div class="mast">
         <div class="posts-inner">
           <div v-for="(post, pi) in posts.data" :key="'key-'+pi">
-            {{ post.images }}
+            {{ post.images && post.images[0] ? post.images[0].url : "" }}
             <part-work-entry
               format="listing"
               :title="post.title"
@@ -121,7 +121,7 @@ export default {
   }
 }
 .posts-inner {
-  div {
+  > div {
     &:nth-last-of-type(odd) {
       margin-top: 120px;
       @media (max-width: 767px) {

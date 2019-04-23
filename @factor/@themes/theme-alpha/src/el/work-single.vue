@@ -68,7 +68,6 @@ export default {
   // margin: 0 auto;
   // max-width: 760px;
   .back {
-    margin-left: 30px;
     color: inherit;
     text-transform: uppercase;
     font-weight: 600;

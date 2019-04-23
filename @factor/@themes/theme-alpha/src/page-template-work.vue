@@ -156,7 +156,8 @@ export default {
 
 <style lang="less">
 .page-work {
-  .mast {
+  .mast,
+  .single-entry {
     padding: 0 2em;
     line-height: 1.2;
     max-width: 1000px;

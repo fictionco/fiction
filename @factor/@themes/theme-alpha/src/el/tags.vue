@@ -6,12 +6,12 @@
         <i class="rm fa fa-remove" @click="removeTag(index)" />
       </div>
     </div>
-    <!-- <div class="the-input">
+    <div class="the-input">
       <factor-input-text v-model="addedText" placeholder="Add Tag" @keyup.enter="addTag()" />
       <factor-btn @click="addTag()">
         <i class="fa fa-plus" />
       </factor-btn>
-    </div>-->
+    </div>
   </div>
 </template>
 <script>
