@@ -169,6 +169,15 @@ export default Factor => {
     async getPostIndex(args) {
       const { limit = 100, page = 1 } = args
 
+      if (!args.type) {
+        const rt = Factor.$route.currentRoute
+        args.type = rt.params.postType || rt.query.type || null
+
+        if (!args.type) {
+          console.warn("No post type set for index.")
+        }
+      }
+
       const storeKey = args.storeKey || args.type || "postIndex"
 
       const taxonomies = ["type", "tag", "category", "status"]
