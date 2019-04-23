@@ -64,12 +64,16 @@ module.exports = async () => {
       let runnerCommands = []
       if (this.env == "development") {
         runnerCommands.push({
-          command: ` factor development`,
+          command: `factor development`,
           name: "Development Server"
         })
       }
 
       const buildRunners = Factor.$filters.apply(`build-runners-${this.env}`, runnerCommands)
+
+      runnerCommands.forEach(_ => {
+        Factor.$log.info(`Running command: "${_.command}" @[${process.cwd()}]`)
+      })
 
       try {
         await concurrently(buildRunners, {

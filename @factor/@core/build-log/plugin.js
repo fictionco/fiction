@@ -3,10 +3,8 @@ module.exports = Factor => {
   return new (class {
     constructor() {}
 
-    util(type, params, target = "build-development") {
-      if (Factor.FACTOR_TARGET == target || target == "all") {
-        consola[type].apply(null, params)
-      }
+    util(type, params) {
+      consola[type].apply(null, params)
     }
 
     custom({ type, params, target }) {
