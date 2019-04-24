@@ -14,7 +14,7 @@
               :content="post.content"
               :post-id="post.id"
               :loading="loading"
-              :images="postImages()"
+              :images="postImage(post.images)"
               :tags="post.tags"
               :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
             />
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     posts() {
-      return this.$store.getters["getItem"]("index") || []
+      return this.$store.getters["getItem"]("work") || []
     }
   },
   watch: {
@@ -68,13 +68,8 @@ export default {
   },
 
   methods: {
-    postImages() {
-      //console.log(this.posts.data[1].images[0].url)
-      const firstImage = this.posts.data[1].images[0].url
-        ? this.posts.data[1].images[0].url
-        : ""
-      //const firstImage = post.images && post.images[0] ? post.images[0].url : ""
-      return firstImage
+    postImage(images = []) {
+      return images.length > 0 ? images[0].url : ""
     },
     async getPosts() {
       const tag = this.$route.params.tag || ""
@@ -82,7 +77,6 @@ export default {
       const r = await this.$posts.getPostIndex({
         type: "work",
         tag,
-        storeKey: "index",
         status: ["published"]
       })
       this.loading = false

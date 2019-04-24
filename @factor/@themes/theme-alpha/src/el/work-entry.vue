@@ -16,7 +16,7 @@
       </div>
     </section>
 
-    <factor-link v-if="format == 'listing'" :path="path" style="height: 100px;">
+    <factor-link v-if="format == 'listing'" :path="path">
       <div class="img-wrap" :style="{'background-image': 'url(' + images + ')' }" />
     </factor-link>
 
@@ -130,6 +130,9 @@ export default {
         line-height: 1.4em;
         @media (max-width: 767px) {
           font-size: 1em;
+        }
+        figure[data-type*="image"] {
+          margin: 40px 0;
         }
         img {
           max-width: 100%;
