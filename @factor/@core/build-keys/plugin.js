@@ -22,7 +22,7 @@ module.exports = Factor => {
 
       this.doWatchers()
 
-      Factor.$filters.add("build-start", () => {
+      Factor.$filters.add("build-cli", () => {
         this.handleFiles()
       })
     }

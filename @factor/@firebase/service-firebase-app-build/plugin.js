@@ -2,7 +2,7 @@ const { ensureFileSync, writeFileSync } = require("fs-extra")
 const { resolve, dirname } = require("path")
 
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.appPath = Factor.$paths.get("app")
       this.publicDir = Factor.$paths.folder("dist")
@@ -18,13 +18,30 @@ export default Factor => {
 
       // Should come before functions build
       Factor.$filters.add(
-        "build-start",
+        "build-cli",
         () => {
           this.createFirebaseJson()
           this.createFirebaseRC()
         },
         { priority: 40 }
       )
+
+      this.createBuildFirebaseInstance()
+    }
+
+    createBuildFirebaseInstance() {
+      const {
+        firebase: { databaseURL, serviceAccount }
+      } = Factor.$config.settings()
+
+      const admin = require("firebase-admin")
+      if (serviceAccount) {
+        admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
+
+        admin.firestore()
+      } else {
+        console.warn(`Can't find your Firebase service account keys. Add to Factor configuration files.`)
+      }
     }
 
     createFirebaseJson() {
@@ -40,13 +57,14 @@ export default Factor => {
     createFirebaseRC() {
       const {
         development: { firebase: { projectId: devProject } = {} } = {},
-        production: { firebase: { projectId: prodProject } = {} } = {}
+        production: { firebase: { projectId: prodProject } = {} } = {},
+        all: { firebase: { projectId: allProject = "" } = {} } = {}
       } = require(Factor.$paths.get("keys-public"))
 
       const fileJson = {
         projects: {
-          production: prodProject,
-          development: devProject
+          production: prodProject || allProject,
+          development: devProject || allProject
         }
       }
 
@@ -58,5 +76,5 @@ export default Factor => {
       ensureFileSync(destinationFile)
       writeFileSync(destinationFile, JSON.stringify(fileJson, null, 4))
     }
-  }()
+  })()
 }

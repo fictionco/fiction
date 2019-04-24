@@ -2,6 +2,12 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
+        Factor.$filters.add("data-export", (_, program) => {
+          _.firestore = () => this.dataExport(program)
+        })
+        Factor.$filters.add("data-import", (_, program) => {
+          _.firestore = () => this.dataImport(program)
+        })
         this.addConfig()
       } else {
         if (Factor.FACTOR_ENV == "serverless") {
@@ -24,6 +30,57 @@ module.exports.default = Factor => {
           service: _ => this.update(_)
         })
       }
+    }
+
+    async dataImport(program) {
+      const fs = require("fs-extra")
+      const { resolve } = require("path")
+      const { collection, file } = program
+
+      const data = await fs.readJson(resolve(process.cwd(), file))
+
+      const db = require("firebase-admin").firestore()
+
+      const batch = db.batch()
+      data.forEach(datum => {
+        if (datum.id) {
+          const ref = db.collection(collection).doc(datum.id)
+          batch.set(ref, datum)
+        }
+      })
+
+      return await batch.commit()
+    }
+
+    async dataExport({ collection }) {
+      const fs = require("fs-extra")
+
+      let ref = await require("firebase-admin")
+        .firestore()
+        .collection(collection)
+
+      const list = await ref.get()
+
+      const data = []
+
+      list.forEach(_ => {
+        data.push(_.data())
+      })
+
+      if (data.length == 0) {
+        console.log("Nothing returned.")
+        return
+      }
+
+      const basePath = Factor.$paths.get("data-exports")
+      const date = Factor.$time.internationalFormat()
+      const destination = `${basePath}/${date}-${collection}.json`
+
+      await fs.ensureDir(basePath)
+
+      await fs.writeFile(destination, JSON.stringify(data, null, 2))
+
+      return
     }
 
     // Add configuration fields to config file on build

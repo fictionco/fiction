@@ -9,6 +9,7 @@ module.exports = Factor => {
       this.assignFolderNames()
       this.assignPaths()
       this.addServerPaths()
+      this.dataPaths()
     }
 
     assignFolderNames() {
@@ -48,6 +49,12 @@ module.exports = Factor => {
         "client-manifest-name": "factor-client.json",
         "client-manifest": resolve(this.get("dist"), "factor-client.json"),
         "server-bundle": resolve(this.get("dist"), "factor-server.json")
+      })
+    }
+
+    dataPaths() {
+      this.add({
+        "data-exports": resolve(this.get("app"), "data-exports")
       })
     }
 

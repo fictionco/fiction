@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.filters()
     }
@@ -7,11 +7,12 @@ export default Factor => {
     filters() {
       const base = "entry"
       const type = "blog"
+      const icon = Factor.FACTOR_ENV == "app" ? require("./img/posts.svg") : ""
       Factor.$filters.add("post-types", _ => {
         _.push({
           type,
           base,
-          icon: require("./img/posts.svg"),
+          icon,
           nameIndex: "Blog",
           nameSingle: "Blog Post",
           namePlural: "Blog Posts"
@@ -47,5 +48,5 @@ export default Factor => {
         return _
       })
     }
-  }()
+  })()
 }

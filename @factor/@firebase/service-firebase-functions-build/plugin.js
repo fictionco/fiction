@@ -30,13 +30,13 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("build-start", () => {
+      Factor.$filters.add("build-cli", () => {
         this.builder()
       })
 
-      Factor.$filters.add("build-runners-development", _ => {
+      Factor.$filters.add("cli-runners", _ => {
         _.push({
-          command: `firebase use development && firebase serve`,
+          command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
           name: "Endpoint Server"
         })
         return _
@@ -83,7 +83,7 @@ export default Factor => {
       this.makePackages()
       this.copyFunctionsFiles()
 
-      Factor.$filters.add("build-spawns", _ => {
+      Factor.$filters.add("cli-start", _ => {
         _.push({
           command: "yarn",
           args: ["install", "--ignore-engines"],

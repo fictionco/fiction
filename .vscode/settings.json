@@ -10,7 +10,8 @@
     "**/factor_modules/**": true,
     "**/generated/**": true,
     "**/serverless/**": true,
-    "**/@themes": true
+    "**/@themes": true,
+    "**/.ref": true
   },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [
@@ -35,7 +36,7 @@
     "extensions": [".js", ".vue", ""]
   },
   "eslint.run": "onSave",
-  "prettier.printWidth": 100,
+  "prettier.printWidth": 120,
   "prettier.semi": false,
   "editor.fontWeight": "600",
   "vetur.format.defaultFormatter.html": "prettyhtml",

@@ -29,9 +29,7 @@ module.exports = Factor => {
 
       str = str.substring(0, 500)
 
-      return str
-        .split("")
-        .reduce((prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0, 0)
+      return str.split("").reduce((prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0, 0)
     }
 
     async applyService({ service, filter, args }) {
@@ -137,8 +135,8 @@ module.exports = Factor => {
       return filter
     }
 
-    async run(name, data = {}) {
-      const callbacks = this.apply(name, data)
+    async run(name, args = {}) {
+      const callbacks = this.apply.call(this, name, {}, args)
 
       const promises = []
       const keys = []

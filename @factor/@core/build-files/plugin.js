@@ -24,7 +24,7 @@ module.exports = Factor => {
     }
 
     addWatchers() {
-      Factor.$filters.add("build-start", () => {
+      Factor.$filters.add("build-cli", () => {
         this.generateLoaders()
       })
       Factor.$filters.add("build-watchers", _ => {

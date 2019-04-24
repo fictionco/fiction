@@ -30,8 +30,8 @@ export default Factor => {
       return this.util(time).format("h:mma (MM/D)")
     }
 
-    iFormat(time) {
-      return this.util(time).format("YYYY-MM-DD")
+    internationalFormat(time) {
+      return this.util(time).format("YYYY-M-DD")
     }
 
     stamp(date = null) {

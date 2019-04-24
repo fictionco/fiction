@@ -9,15 +9,11 @@
   "factor": {
     "id": "concurrent"
   },
-  "dependencies": {
-    "concurrently": "^4.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "concurrently": "^4.1.0",
     "execa": "^1.0.0",
     "expand-tilde": "^2.0.2",
     "listr": "^0.14.3"
-  },
-  "bin": {
-    "factor": "./cli.js"
   }
 }

@@ -29,7 +29,7 @@ module.exports.default = Factor => {
 
     addFilters() {
       Factor.$filters.add("build-production", (_, args) => {
-        _.webpack = this.buildProduction(args)
+        _.webpack = () => this.buildProduction(args)
         return _
       })
       Factor.$filters.add("webpack-config", args => {
@@ -93,7 +93,7 @@ module.exports.default = Factor => {
 
         await new Promise((resolve, reject) => {
           const serverCompiler = webpack(serverConfig)
-          this.augmentBuild("Server", serverCompiler, { resolve, reject })
+          this.augmentBuild("Server Bundle", serverCompiler, { resolve, reject })
         })
 
         const clientConfig = this.getConfig({
@@ -104,7 +104,7 @@ module.exports.default = Factor => {
 
         await new Promise((resolve, reject) => {
           const clientCompiler = webpack(clientConfig)
-          this.augmentBuild("Client", clientCompiler, { resolve, reject })
+          this.augmentBuild("Browser Bundle", clientCompiler, { resolve, reject })
         })
 
         return
