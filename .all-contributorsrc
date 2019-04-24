@@ -1,0 +1,26 @@
+{
+  "projectName": "Factor",
+  "projectOwner": "arpowers",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
+  "imageSize": 120,
+  "commit": false,
+  "contributorsPerLine": 2,
+  "contributors": [
+    {
+      "login": "arpowers",
+      "name": "Andrew Powers",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/308134?s=460&v=4",
+      "profile": "https://github.com/arpowers",
+      "contributions": ["blog", "bug", "code", "design", "doc", "question", "review", "talk"]
+    },
+    {
+      "login": "finestpixels",
+      "name": "Raymond Aleman",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2752967?s=460&v=4",
+      "profile": "https://github.com/finestpixels",
+      "contributions": ["design", "doc", "eventOrganizing", "platform", "question", "talk"]
+    }
+  ]
+}

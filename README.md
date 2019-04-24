@@ -7,7 +7,7 @@
 
 > Serverless CMS designed to help you start a fully functional website, blog or PWA (progressive-web-app) *within 5 minutes*.
 
-> How? Factor is has a hot-swappable plugin system based on NPM that allows you to install and configure plugins without writing any code.
+> How? Factor is a hot-swappable plugin system based on NPM that allows you to install and configure plugins without writing any code.
 
 ## Links
 
@@ -41,7 +41,7 @@ Start by using the basic Factor app [starter theme](#starter-theme-url)
 
 ## Examples
 
-Please take a look at https://nuxtjs.org/examples or directly in https://github.com/nuxt/nuxt.js/tree/dev/examples.
+Please take a look at https://factor.dev/examples
 
 ## Production deployment
 
