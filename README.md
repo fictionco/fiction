@@ -70,7 +70,12 @@ Then run `now` and enjoy!
 Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
 
 ## Core team
-Team will go here
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+
+
+<!-- ALL- in README.md The CONTRIBUTORS-LIST:END -->
+
+Team will go here ^
 
 ## Contributors
 Contributors will go here
