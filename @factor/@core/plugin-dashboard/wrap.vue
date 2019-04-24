@@ -84,22 +84,6 @@ export default {
       } else {
         document.removeEventListener("click", this.clickHandler, false)
       }
-    },
-    // Add dynamically since webpack tried to include as a module. Is there a better way?
-    addExternalScripts() {
-      const els = document.querySelector("#ficons")
-      if (!els) {
-        var link = document.createElement("link")
-        link.href =
-          "https://cdn.jsdelivr.net/npm/ficons@1.1.52/dist/ficons/font.css"
-        link.type = "text/css"
-        link.rel = "stylesheet"
-        link.id = "ficons"
-        document.querySelectorAll("head")[0].append(link)
-      }
-    },
-    removeExternalScripts() {
-      document.querySelector("#ficons").remove()
     }
   }
 }

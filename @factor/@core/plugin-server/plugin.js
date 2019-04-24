@@ -100,7 +100,7 @@ module.exports.default = Factor => {
 
       this.renderer = null
       this.readyPromise = null
-      this.httpRoutine = this.getHttpRoutine()
+      this.httpDetails = Factor.$paths.getHttpDetails()
 
       if (mode == "production") {
         const bundle = require(Factor.$paths.get("server-bundle"))
@@ -153,10 +153,10 @@ module.exports.default = Factor => {
 
       // Serve the app from node
       if (serve) {
-        const port = Factor.$config.setting("port") || 7000
+        const { port } = this.httpDetails
 
         this.getListenRoutine(this.server).listen(port, () => {
-          const url = `${this.httpRoutine.routine}://localhost:${port}`
+          const url = Factor.$paths.localhostUrl()
 
           Factor.$log.success(`Server @[${url}] - ${env}`)
 
@@ -167,33 +167,10 @@ module.exports.default = Factor => {
       return this.server
     }
 
-    getHttpRoutine() {
-      let routine = "http"
-      let certDir = false
-      const filename = "server.key"
-
-      const filepath = require("find-up").sync(filename)
-
-      if (filepath) {
-        routine = "https"
-        certDir = path.dirname(filepath)
-      }
-
-      return { routine, certDir }
-    }
-
     getListenRoutine(server) {
-      let listenRoutine
-      const { routine, certDir } = this.httpRoutine
-      if (routine == "https") {
-        var certOptions = {
-          key: fs.readFileSync(path.resolve(certDir, "server.key")),
-          cert: fs.readFileSync(path.resolve(certDir, "server.crt"))
-        }
-        listenRoutine = https.createServer(certOptions, server)
-      } else {
-        listenRoutine = server
-      }
+      const { routine, certConfig } = this.httpDetails
+
+      let listenRoutine = routine == "https" ? https.createServer(certConfig, server) : server
 
       return listenRoutine
     }
