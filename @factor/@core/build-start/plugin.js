@@ -1,5 +1,8 @@
 const Factor = require("vue")
 const concurrently = require("concurrently")
+const execa = require("execa")
+const listr = require("listr")
+
 module.exports = async () => {
   return new (class {
     constructor() {
@@ -20,18 +23,34 @@ module.exports = async () => {
     }
 
     async spawns() {
-      const { spawn } = require("child_process")
+      //const { spawn } = require("child_process")
       const spawnProcesses = Factor.$filters.apply("build-spawns", [])
 
-      let _promises = []
-      if (spawnProcesses.length > 0) {
-        spawnProcesses.forEach(async ({ name, command, args, options }) => {
-          const runner = spawn(command, args, { detached: true, ...options })
-          _promises.push(this.showSpawnOutput(name, runner))
-        })
-      }
+      const taskMap = spawnProcesses.map(({ title, command, args, options = {} }) => {
+        return {
+          title,
+          task: () => execa(command, args, options)
+        }
+      })
 
-      return Promise.all(_promises)
+      const tasks = new listr(taskMap)
+      return tasks.run()
+
+      //  let _promises = []
+      // if (spawnProcesses.length > 0) {
+      //   spawnProcesses.forEach(async ({ name, command, args, options }) => {
+      //     const runner = spawn(command, args, { detached: true, ...options })
+      //     _promises.push(this.showSpawnOutput(name, runner))
+      //   })
+      // }
+
+      // return Promise.all(_promises)
+    }
+
+    tilde(txt) {
+      const tildePath = require("expand-tilde")("~")
+
+      return txt.replace(tildePath, "~")
     }
 
     log(name, msg) {
@@ -72,7 +91,7 @@ module.exports = async () => {
       const buildRunners = Factor.$filters.apply(`build-runners-${this.env}`, runnerCommands)
 
       runnerCommands.forEach(_ => {
-        Factor.$log.info(`Running command: "${_.command}" @[${process.cwd()}]`)
+        Factor.$log.box(`Running command: "${_.command}" @[${this.tilde(process.cwd())}]`)
       })
 
       try {

@@ -87,7 +87,7 @@ export default Factor => {
         _.push({
           command: "yarn",
           args: ["install", "--ignore-engines"],
-          name: "Serverless",
+          title: "Serverless Packages",
           options: {
             cwd: `${process.cwd()}/${this.relativeDir}`
           }

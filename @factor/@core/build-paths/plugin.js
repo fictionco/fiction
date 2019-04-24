@@ -88,5 +88,41 @@ module.exports = Factor => {
 
       return p
     }
+
+    localhostUrl() {
+      const { routine, port } = this.getHttpDetails()
+
+      return `${routine}://localhost:${port}`
+    }
+
+    getHttpDetails() {
+      if (this.httpDetails) {
+        return this.httpDetails
+      } else {
+        const port = Factor.$config.setting("port") || 7777
+
+        let routine = "http"
+        let certDir = false
+        const filename = "server.key"
+
+        const filepath = require("find-up").sync(filename)
+
+        let certConfig = {}
+        if (filepath) {
+          const fs = require("fs")
+          routine = "https"
+          certDir = dirname(filepath)
+
+          certConfig = {
+            key: fs.readFileSync(resolve(certDir, "server.key")),
+            cert: fs.readFileSync(resolve(certDir, "server.crt"))
+          }
+        }
+
+        this.httpDetails = { port, routine, certDir, certConfig }
+
+        return this.httpDetails
+      }
+    }
   })()
 }

@@ -1,4 +1,5 @@
 const consola = require("consola")
+const boxen = require("boxen")
 module.exports = Factor => {
   return new (class {
     constructor() {}
@@ -29,6 +30,10 @@ module.exports = Factor => {
 
     warn() {
       this.util("warn", arguments)
+    }
+
+    box(msg) {
+      console.log(boxen(msg, { padding: 1 }))
     }
   })()
 }

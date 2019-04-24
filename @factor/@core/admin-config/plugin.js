@@ -1,7 +1,5 @@
 const merge = require("deepmerge")
 
-const isNode = require("detect-node")
-
 module.exports = Factor => {
   return new (class {
     constructor() {
@@ -24,7 +22,6 @@ module.exports = Factor => {
         publicConfig.all,
         privateConfig[this.env],
         privateConfig.all,
-        isNode,
         {
           env: this.env
         }

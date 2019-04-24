@@ -10,5 +10,8 @@
     "id": "log"
   },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "boxen": "^3.1.0"
+  }
 }

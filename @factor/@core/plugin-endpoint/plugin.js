@@ -2,14 +2,16 @@ import qs from "qs"
 export default Factor => {
   return new (class {
     constructor() {
-      this.init()
+      Factor.$filters.add("initialize-app", () => {
+        this.init()
+      })
     }
 
     init() {
-      this.urlBase = Factor.$config.setting("serverlessUrl")
+      this.endpointBase = Factor.$filters.apply("endpoints-base-url")
 
-      if (!this.urlBase) {
-        console.warn("The serverless URL is missing from Factor config.")
+      if (!this.endpointBase) {
+        console.warn("The endpoint base URL is missing from Factor config.")
       }
     }
 
@@ -38,7 +40,7 @@ export default Factor => {
 
       const { action = false, endpoint = "" } = params
 
-      const rurl = `${this.urlBase}/${endpoint}`
+      const rurl = `${this.endpointBase}/${endpoint}`
 
       if (!action) {
         console.error(`${endpoint} Endpoint requires an action method.`)
