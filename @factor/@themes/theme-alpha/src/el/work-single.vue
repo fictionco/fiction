@@ -1,6 +1,6 @@
 <template>
   <div class="single-entry">
-    <part-entry
+    <part-work-entry
       :format="'single'"
       :authors="post.authorData"
       :title="post.title"
@@ -10,13 +10,13 @@
       :post-id="post.id"
     >
       <div v-formatted-text="content" />
-    </part-entry>
+    </part-work-entry>
   </div>
 </template>
 <script>
 export default {
   components: {
-    "part-entry": () => import("./work-entry")
+    "part-work-entry": () => import("./work-entry")
     //"part-related": () => import("./related")
   },
   data() {

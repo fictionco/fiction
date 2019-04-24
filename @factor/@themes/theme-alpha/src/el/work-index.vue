@@ -7,8 +7,6 @@
       <div class="mast">
         <div class="posts-inner">
           <div v-for="(post, pi) in posts.data" :key="'key-'+pi">
-            {{ post.images && post.images[0] ? post.images[0].url : "" }}
-            here
             <part-work-entry
               format="listing"
               :title="post.title"
@@ -16,7 +14,7 @@
               :content="post.content"
               :post-id="post.id"
               :loading="loading"
-              :images="post.images"
+              :images="postImages()"
               :tags="post.tags"
               :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
             />
@@ -70,6 +68,14 @@ export default {
   },
 
   methods: {
+    postImages() {
+      //console.log(this.posts.data[1].images[0].url)
+      const firstImage = this.posts.data[1].images[0].url
+        ? this.posts.data[1].images[0].url
+        : ""
+      //const firstImage = post.images && post.images[0] ? post.images[0].url : ""
+      return firstImage
+    },
     async getPosts() {
       const tag = this.$route.params.tag || ""
       this.loading = true

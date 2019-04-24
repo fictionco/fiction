@@ -16,12 +16,8 @@
       </div>
     </section>
 
-    <factor-link :path="path">
-      <div
-        class="img-wrap"
-        :style="{'background-image': `url(`+ require(`../img/test.jpg`) + `)` }"
-      />
-      {{ image.url }}
+    <factor-link v-if="format == 'listing'" :path="path" style="height: 100px;">
+      <div class="img-wrap" :style="{'background-image': 'url(' + images + ')' }" />
     </factor-link>
 
     <div class="entry-wrap">
@@ -49,7 +45,7 @@ export default {
   },
   props: {
     format: { type: String, default: "" },
-    image: { type: String, default: "" },
+    images: { type: String, default: "" },
     authors: { type: Array, default: () => [] },
     title: { type: String, default: "" },
     content: { type: String, default: "" },
