@@ -1,86 +1,6 @@
 <template>
   <div class="page-work">
-    <section v-if="!$route.params.tag" class="hero">
-      <div class="mast">
-        <div class="hero-inner">
-          <div>
-            <h1 class="title">Work</h1>
-            <h2 class="heading">Bringing great ideas to life.</h2>
-            <div
-              class="content entry-content"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- <section class="hero">
-      <div class="mast">
-        <div class="hero-inner">
-          <div>
-            <h1 class="title">{{ post.title }}</h1>
-            <h2 class="heading">{{ post.pageHeading }}</h2>
-            <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
-          </div>
-          <div>
-            <div
-              v-if="post.heroImage"
-              :style="{'background-image': `url(`+ post.heroImage[0].url + `)` }"
-              class="hero-image"
-            />
-          </div>
-        </div>
-      </div>
-    </section>-->
-
     <router-view />
-
-    <!-- <section class="posts">
-      <div class="mast">
-        <div class="posts-inner">
-          <article class="post-item">
-            <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
-            </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
-          </article>
-          <article class="post-item">
-            <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
-            </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
-          </article>
-          <article class="post-item">
-            <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
-            </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
-          </article>
-          <article class="post-item">
-            <factor-link path="/">
-              <div
-                class="img-wrap"
-                :style="{'background-image': `url(`+ require(`./img/test.jpg`) + `)` }"
-              />
-            </factor-link>
-            <h2 class="title">Post Title</h2>
-            <p class="category">Post Category</p>
-          </article>
-        </div>
-      </div>
-    </section>-->
-
     <el-cta />
   </div>
 </template>
@@ -96,59 +16,6 @@ export default {
   data() {
     return {
       loading: false
-      // parsedPosts: [{}, {}, {}],
-      // storeKey: "index"
-    }
-  },
-  // serverPrefetch() {
-  //   return this.getPosts()
-  // },
-  // computed: {
-  //   posts() {
-  //     return this.$store.getters["getItem"]("index") || []
-  //   }
-  // },
-  // watch: {
-  //   $route: function(to) {
-  //     this.getPosts()
-  //   }
-  // },
-  // async mounted() {
-  //   if (this.posts.length == 0) {
-  //     await this.getPosts()
-  //   }
-  // },
-  // methods: {
-  //   async getPosts() {
-  //     const tag = this.$route.params.tag || ""
-  //     this.loading = true
-  //     const r = await this.$posts.getPostIndex({
-  //       type: "work",
-  //       tag,
-  //       storeKey: "index",
-  //       status: ["published"]
-  //     })
-  //     this.loading = false
-  //   },
-  //   settings() {
-  //     return ["test"]
-  //   }
-  // },
-  pageTemplate() {
-    return {
-      name: "Work Page",
-      inputs: [
-        {
-          input: "text",
-          label: "Heading",
-          key: "pageHeading"
-        },
-        {
-          input: "image-upload",
-          label: "Image",
-          key: "heroImage"
-        }
-      ]
     }
   }
 }
@@ -156,8 +23,7 @@ export default {
 
 <style lang="less">
 .page-work {
-  .mast,
-  .single-entry {
+  .mast {
     padding: 0 2em;
     line-height: 1.2;
     max-width: 1000px;
@@ -167,47 +33,6 @@ export default {
   .factor-btn.default {
     color: @color-primary;
     letter-spacing: -0.03em;
-  }
-  .hero {
-    position: relative;
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 70%;
-      height: 100%;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      background-color: @color-bg;
-      @media (max-width: 1024px) {
-        width: 100%;
-      }
-    }
-
-    .hero-inner {
-      position: relative;
-      padding: 3em 0;
-      max-width: 650px;
-      .title {
-        font-size: 1.1em;
-        text-transform: uppercase;
-      }
-      .heading {
-        font-weight: 600;
-        font-size: 3em;
-        letter-spacing: -0.03em;
-        margin: 0.5em 0;
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
-      }
-      .content {
-        opacity: 0.5;
-        font-size: 1.2em;
-        line-height: 1.6em;
-      }
-    }
   }
 
   .posts {
@@ -220,33 +45,33 @@ export default {
         grid-template-columns: 1fr;
         grid-row-gap: 100px;
       }
-      .post-item {
-        text-align: center;
-        &:nth-last-of-type(odd) {
-          margin-top: 120px;
-          @media (max-width: 767px) {
-            margin: 0;
-          }
-        }
-        .img-wrap {
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          height: 550px;
-          margin-bottom: 1em;
-          transform: scale(1);
-          transition: all 0.2s ease-in-out;
-          &:hover {
-            transform: scale(0.95);
-          }
-        }
-        .title {
-          font-weight: 600;
-        }
-        .category {
-          opacity: 0.5;
-        }
-      }
+      // .post-item {
+      //   text-align: center;
+      //   &:nth-last-of-type(odd) {
+      //     margin-top: 120px;
+      //     @media (max-width: 767px) {
+      //       margin: 0;
+      //     }
+      //   }
+      //   .img-wrap {
+      //     background-size: cover;
+      //     background-position: center;
+      //     background-repeat: no-repeat;
+      //     height: 550px;
+      //     margin-bottom: 1em;
+      //     transform: scale(1);
+      //     transition: all 0.2s ease-in-out;
+      //     &:hover {
+      //       transform: scale(0.95);
+      //     }
+      //   }
+      //   .title {
+      //     font-weight: 600;
+      //   }
+      //   .category {
+      //     opacity: 0.5;
+      //   }
+      // }
     }
   }
 }

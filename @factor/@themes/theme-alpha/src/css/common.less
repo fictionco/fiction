@@ -146,11 +146,11 @@ hr {
 a {
   text-decoration: none;
   text-decoration-skip: ink;
-  color: #0496ff;
+  color: @color-primary;
 
   &:hover {
     cursor: pointer;
-    color: #ff0076;
+    color: fade(@color-primary, 70%);
   }
 
   img {
@@ -173,10 +173,10 @@ strong {
 }
 
 // ::selection {
-  //   color: #fff;
-  //   background-color: #ff0076;
-  //   opacity: 1 !important;
-  // }
+//   color: #fff;
+//   background-color: #ff0076;
+//   opacity: 1 !important;
+// }
 
 button,
 input,

@@ -1,5 +1,21 @@
 <template>
   <article class="entry" :class="formatClass">
+    <section v-if="format == 'single'" class="hero">
+      <div class="mast">
+        <div class="hero-inner">
+          <div>
+            <factor-link class="back" path="/work">
+              <i class="fa fa-arrow-left" /> All
+            </factor-link>
+            <h1 class="title">
+              <factor-link :path="path">{{ title }}</factor-link>
+            </h1>
+            <el-tags class="tags" :tags="tags" />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <factor-link :path="path">
       <div
         class="img-wrap"
@@ -9,15 +25,18 @@
     </factor-link>
 
     <div class="entry-wrap">
-      <div class="entry-text">
+      <div v-if="format == 'listing'" class="entry-text">
         <h1 class="title">
           <factor-link :path="path">{{ title }}</factor-link>
         </h1>
-
         <el-tags class="tags" :tags="tags" />
+      </div>
 
-        <div class="content">
-          <slot v-if="format == 'single'" />
+      <div v-if="format == 'single'" class="entry-text">
+        <div class="mast">
+          <div class="content">
+            <slot />
+          </div>
         </div>
       </div>
     </div>
@@ -46,78 +65,84 @@ export default {
 
       return `format-${f}`
     }
-    // postExcerpt() {
-    //   let content = this.$markdown.strip(this.content).split(" ")
-    //   let excerpt
-
-    //   if (content.length > 30) {
-    //     content = content.slice(0, 30)
-    //     excerpt = content.join(" ") + "..."
-    //   }
-
-    //   return excerpt
-    // }
   },
   methods: {}
 }
 </script>
 <style lang="less">
-.ghost {
-  > div {
-    background-color: #f7f9ff;
-    height: 2em;
-    margin: 0.5em 0;
-    border-radius: 8px;
-    &:last-child {
-      width: 75%;
-      margin-bottom: 2em;
-    }
-  }
-}
 .entry {
-  letter-spacing: -0.03em;
-  margin-bottom: 0;
-  transition: all 0.2s ease-in-out;
-  //font-weight: 500;
-  // min-width: 0;
-  //background: #fff;
-  .entry-wrap {
-    //padding: 30px;
-    display: block;
-  }
   a {
     transition: all 0.2s ease-in-out;
   }
 
-  .title {
-    font-weight: 600;
-    font-size: 2.5em;
-    line-height: 1.1;
-    margin: 0.5em 0;
+  // Single Post
+  &.format-single {
+    .hero {
+      position: relative;
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 70%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: @color-bg;
+        @media (max-width: 1024px) {
+          width: 100%;
+        }
+      }
 
-    @media (max-width: 767px) {
-      font-size: 2em;
+      .hero-inner {
+        position: relative;
+        padding: 3em 0;
+        max-width: 650px;
+        a {
+          color: inherit;
+          &:hover,
+          &:active {
+            color: @color-primary;
+          }
+        }
+        .back {
+          font-size: 1.1em;
+          text-transform: uppercase;
+        }
+        .title {
+          font-weight: 600;
+          font-size: 3em;
+          letter-spacing: -0.03em;
+          margin: 0.5em 0;
+          @media (max-width: 767px) {
+            font-size: 2em;
+          }
+        }
+        // .tags {
+        //   opacity: 0.5;
+        //   font-size: 1.2em;
+        //   line-height: 1.6em;
+        // }
+      }
     }
-    a {
-      color: inherit;
-      &:hover,
-      &:active {
-        color: @color-primary;
+    .entry-text {
+      padding: 2em 0;
+      .content {
+        margin: 0 auto;
+        max-width: 760px;
+        font-size: 1.5em;
+        line-height: 1.4em;
+        @media (max-width: 767px) {
+          font-size: 1em;
+        }
+        img {
+          max-width: 100%;
+        }
       }
     }
   }
-  .content {
-    margin: 0 0 1em 0;
-    font-size: 1.5em;
-    line-height: 1.4em;
-    @media (max-width: 767px) {
-      font-size: 1em;
-    }
-  }
-  .tags {
-    margin-top: 1em;
-  }
 
+  // Listing Post
   &.format-listing {
     text-align: center;
 
@@ -142,48 +167,5 @@ export default {
       opacity: 0.5;
     }
   }
-  // .entry-action {
-  //   padding: 1.5em 0;
-  // }
-
-  // .author-about {
-  //   display: flex;
-  //   font-size: 1.3em;
-  //   line-height: 1.4;
-  //   margin: 1.5em 0;
-  //   .name {
-  //     font-size: 1.2em;
-  //     font-weight: 600;
-  //   }
-  //   .bio {
-  //     opacity: 0.6;
-  //   }
-  //   .avatar {
-  //     margin-right: 1em;
-  //   }
-  // }
-
-  // .post-author {
-  //   display: flex;
-  //   @media (max-width: 767px) {
-  //     flex-direction: column;
-  //   }
-
-  //   .txt {
-  //     display: flex;
-  //     align-items: center;
-  //     font-size: 0.9em;
-  //     font-weight: 600;
-  //     .sep {
-  //       font-weight: 500;
-  //       font-style: italic;
-  //       margin: 0 1em 0 0;
-  //       opacity: 0.8;
-  //     }
-  //     .edit {
-  //       margin-left: 1em;
-  //     }
-  //   }
-  // }
 }
 </style>

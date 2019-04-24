@@ -1,5 +1,5 @@
 <template>
-  <div class="page-work">
+  <div class="page-blog">
     <section class="hero">
       <div class="mast">
         <div class="hero-inner">
@@ -159,7 +159,7 @@ export default {
 </script>
 
 <style lang="less">
-.page-work {
+.page-blog {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
