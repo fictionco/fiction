@@ -26,7 +26,9 @@ export default Factor => {
         { priority: 40 }
       )
 
-      this.createBuildFirebaseInstance()
+      Factor.$filters.add("initialize-build", () => {
+        this.createBuildFirebaseInstance()
+      })
     }
 
     createBuildFirebaseInstance() {

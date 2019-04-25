@@ -12,63 +12,96 @@ const argvCommands = argv._
 process.noDeprecation = true
 process.maxOldSpaceSize = 4000
 
-program
-  .version(pkg.version)
-  .option("--env <env>", "Set the Node environment. Default: 'development'")
-  .option("--data-export", "Export data (args needed <env> + <collection>)")
-  .option("--data-import", "Import data (args needed <env> + <collection> + <data>)")
-  .option("--file <file path>", "Path to a file (relative to cwd)")
-  .option("--collection <collection name>", "The name of a datastore collection")
-  .option("--server", "Start development server")
-  .parse(process.argv)
-
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = program.env ? program.env : "development"
-}
-
 const cli = async () => {
   return new (class {
     constructor() {
-      this.setup()
+      this.tasks = []
+
+      this.extend()
+      this.setupProgram()
+      this.setNodeEnvironment()
     }
 
-    async setup() {
+    extend() {
       require("@factor/build-extend")(Factor)
+    }
 
-      if (program.dataExport) {
-        await this.callbacks(`data-export`)
-      } else if (program.dataImport) {
-        await this.callbacks(`data-import`)
-      } else if (program.server) {
-        this.target = "build-server"
-        await this.callbacks(`build-server`)
-        this.devServer()
-      } else {
-        await this.callbacks(`build-cli`)
-        await this.callbacks(`build-${process.env.NODE_ENV}`)
+    setupProgram() {
+      this.program = program
+      this.program
+        .version(pkg.version)
+        .option("--env <env>", "Set the Node environment. Default: 'development'")
+        .option("--file <file path>", "Path to a file (relative to cwd)")
+        .option("--collection <collection name>", "The name of a datastore collection")
 
-        this.handleCli()
+      this.program
+        .command("dev")
+        .description("Start development server")
+        .action(args => {
+          process.env.NODE_ENV = "development"
+          this.cli()
+        })
+
+      this.program
+        .command("start")
+        .description("Start production build on local server")
+        .action(args => {
+          process.env.NODE_ENV = "production"
+
+          this.tasks.push({
+            command: "factor",
+            args: ["build"],
+            title: "Generating Distribution App"
+          })
+          this.cli()
+        })
+
+      this.program
+        .command("serve [env]")
+        .description("Create local server")
+        .action((env, args) => {
+          this.callbacks("create-server", { env, ...args })
+        })
+
+      this.program
+        .command("build [options...]")
+        .option("--analyze", "Analyze package size")
+        .option("--speed", "Output build speed data")
+        .description("Build production app")
+        .action((options, args) => {
+          this.callbacks("create-distribution-app", args)
+        })
+
+      this.program
+        .command("run <filter>")
+        .description("Run a Factor CLI filter")
+        .action((filter, args) => {
+          const { parent, ...rest } = args
+          this.callbacks(`cli-${filter}`, { ...parent, ...rest })
+        })
+
+      this.program.parse(process.argv)
+
+      return this.program
+    }
+
+    setNodeEnvironment() {
+      if (!process.env.NODE_ENV) {
+        process.env.NODE_ENV = this.program.env ? this.program.env : "development"
       }
     }
 
-    async callbacks(name) {
-      await Factor.$filters.run(name, program)
-    }
-
-    devServer() {
-      Factor.$filters.apply("create-server", { mode: process.env.NODE_ENV })
-    }
-
-    async handleCli() {
-      await this.cliSpawns()
-
+    async cli() {
+      await this.callbacks(`build-cli`)
+      await this.callbacks(`build-${process.env.NODE_ENV}`)
+      await this.runTasks()
       this.runners()
     }
 
-    async cliSpawns() {
-      const spawnProcesses = Factor.$filters.apply("cli-start", [])
+    async runTasks() {
+      const taskProcesses = Factor.$filters.apply("cli-start", this.tasks)
 
-      const taskMap = spawnProcesses.map(({ title, command, args, options = {} }) => {
+      const taskMap = taskProcesses.map(({ title, command, args, options = {} }) => {
         return {
           title,
           task: () => execa(command, args, options)
@@ -82,7 +115,7 @@ const cli = async () => {
     async runners() {
       const buildRunners = Factor.$filters.apply(`cli-runners`, [
         {
-          command: `factor --server --env=${process.env.NODE_ENV}`,
+          command: `factor serve ${process.env.NODE_ENV}`,
           name: "Factor Server"
         }
       ])
@@ -98,6 +131,14 @@ const cli = async () => {
         Factor.$log.box("Factor CLI Exited.")
       } catch (error) {
         throw new Error(error)
+      }
+    }
+
+    async callbacks(name, args) {
+      try {
+        await Factor.$filters.run(name, args)
+      } catch (error) {
+        Factor.$log.error(error)
       }
     }
 

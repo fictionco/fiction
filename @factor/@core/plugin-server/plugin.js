@@ -22,12 +22,8 @@ module.exports.default = Factor => {
 
       // After all extensions/filters added
       // Needed for webpack and dev server
-      Factor.$filters.add("create-server", ({ mode = "production", serve = true }) => {
+      Factor.$filters.add("create-server", ({ env: mode = "production", serve = true }) => {
         this.startServer({ mode, serve })
-
-        // Factor.$filters.add("server", () => {
-        //   return server
-        // })
       })
     }
 
@@ -78,10 +74,7 @@ module.exports.default = Factor => {
           return this.handleError(req, res, err)
         }
 
-        if (
-          isProd &&
-          (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))
-        ) {
+        if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
           res.set("cache-control", this.getCacheControl(req.url))
         }
 
@@ -119,9 +112,7 @@ module.exports.default = Factor => {
           })
         } else {
           Factor.$log.error(
-            new Error(
-              "No development server added. Add a development server to your app dependencies."
-            )
+            new Error("No development server added. Add a development server to your app dependencies.")
           )
         }
       }

@@ -1,5 +1,5 @@
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.setup()
     }
@@ -36,6 +36,8 @@ module.exports = Factor => {
       if (typeof setup == "function") {
         setup(Factor)
       }
+
+      Factor.$filters.run("initialize-build")
     }
 
     addCoreExtension(id, extension) {
@@ -60,5 +62,5 @@ module.exports = Factor => {
         }
       }
     }
-  }()
+  })()
 }

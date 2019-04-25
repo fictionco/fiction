@@ -87,7 +87,7 @@ export default Factor => {
         _.push({
           command: "yarn",
           args: ["install", "--ignore-engines"],
-          title: "Serverless Packages",
+          title: "Installing Serverless Packages",
           options: {
             cwd: `${process.cwd()}/${this.relativeDir}`
           }
@@ -133,10 +133,7 @@ export default Factor => {
       Object.keys(packages).forEach(packageName => {
         if (packageName.includes("@factor")) {
           if (!this.localDependencies[packageName]) {
-            this.localDependencies[packageName] = this._localModule(
-              packageName,
-              "./factor_modules/"
-            )
+            this.localDependencies[packageName] = this._localModule(packageName, "./factor_modules/")
 
             const packagePath = `${packageName}/package.json`
             const deps = require(packagePath).dependencies
@@ -216,10 +213,7 @@ export default Factor => {
 
     copyFunctionsFiles() {
       copySync(resolve(__dirname, "files"), this.buildDirectory)
-      copySync(
-        resolve(Factor.$paths.get("app"), ".firebaserc"),
-        resolve(this.buildDirectory, ".firebaserc.json")
-      )
+      copySync(resolve(Factor.$paths.get("app"), ".firebaserc"), resolve(this.buildDirectory, ".firebaserc.json"))
     }
 
     // showOutput(name, runner) {

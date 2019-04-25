@@ -2,10 +2,10 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
-        Factor.$filters.add("data-export", (_, program) => {
+        Factor.$filters.add("cli-data-export", (_, program) => {
           _.firestore = () => this.dataExport(program)
         })
-        Factor.$filters.add("data-import", (_, program) => {
+        Factor.$filters.add("cli-data-import", (_, program) => {
           _.firestore = () => this.dataImport(program)
         })
         this.addConfig()
@@ -53,6 +53,9 @@ module.exports.default = Factor => {
     }
 
     async dataExport({ collection }) {
+      if (!collection) {
+        throw new Error("No collection name provided.")
+      }
       const fs = require("fs-extra")
 
       let ref = await require("firebase-admin")
