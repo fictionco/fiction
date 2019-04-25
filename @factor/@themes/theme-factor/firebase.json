@@ -13,14 +13,14 @@
             }
         ]
     },
+    "storage": {
+        "rules": "generated/firebase-storage.rules"
+    },
     "firestore": {
         "rules": "generated/firebase-firestore.rules",
         "indexes": "generated/firebase-firestore-indexes.json"
     },
     "functions": {
         "source": "serverless"
-    },
-    "storage": {
-        "rules": "generated/firebase-storage.rules"
     }
 }

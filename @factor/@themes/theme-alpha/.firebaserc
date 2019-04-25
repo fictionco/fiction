@@ -1,5 +1,6 @@
 {
     "projects": {
+        "production": "",
         "development": "fiction-staging"
     }
 }
