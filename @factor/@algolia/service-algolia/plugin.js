@@ -63,7 +63,7 @@ export default Factor => {
       const { index, ...algoliaSearchArgs } = this.transformQuery(args)
       const r = await new Promise((resolve, reject) => {
         this.client.initIndex(index).search(algoliaSearchArgs, (err, r) => {
-          console.log("Algolia Result", r, algoliaSearchArgs, index, err)
+          //console.log("Algolia Result", r, algoliaSearchArgs, index, err)
           if (err) reject(err)
           else
             resolve({

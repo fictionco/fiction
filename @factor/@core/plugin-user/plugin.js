@@ -188,9 +188,7 @@ module.exports.default = Factor => {
     }
 
     getCachedUser() {
-      return localStorage && localStorage[this.cacheKey]
-        ? JSON.parse(localStorage[this.cacheKey])
-        : false
+      return localStorage && localStorage[this.cacheKey] ? JSON.parse(localStorage[this.cacheKey]) : false
     }
 
     async constructSaveObject(allUserFields) {
