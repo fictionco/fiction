@@ -11,6 +11,40 @@ module.exports.default = Factor => {
 
       this.prefix = env
       this.client = this.algoliasearch(appId, adminKey)
+
+      Factor.$filters.add("cli-data-index", (_, program) => {
+        _.algolia = () => this.dataIndexJson(program)
+      })
+    }
+
+    async dataIndexJson(program) {
+      const { collection, file } = program
+
+      if (!collection || !file) {
+        Factor.$log.error(
+          "Algolia data index operation requires --collection and --file. Set --env to production (defaults: development)"
+        )
+        return
+      }
+
+      const index = await this._initIndex(collection)
+
+      const fs = require("fs-extra")
+      const { resolve } = require("path")
+
+      const data = await fs.readJson(resolve(process.cwd(), file))
+      const preparedData = this._prepareData(data)
+      const objects = []
+      preparedData.forEach(datum => {
+        if (datum.objectID) {
+          datum.objectID = datum.id
+          objects.push(datum)
+        }
+      })
+
+      const saved = await index.saveObjects(objects)
+
+      Factor.$log.box(`Saved ${data.length} objects in Algolia [${index.indexName}]`)
     }
 
     async userCanEdit({ index, objectID }) {
@@ -23,7 +57,7 @@ module.exports.default = Factor => {
         if (!post || (post.authors && post.authors.includes[uid])) {
           return true
         } else {
-          throw new Error("Insuffient priveliges to edit algolia object.")
+          throw new Error("Insuffient access level to edit algolia object.")
         }
       }
     }
@@ -39,10 +73,32 @@ module.exports.default = Factor => {
       })
     }
 
-    _initIndex(name) {
+    _prepareData(data) {
+      const newData = []
+      data.forEach(_ => {
+        if (_.id) {
+          _.objectID = _.id
+        }
+
+        const newObject = {}
+        Object.keys(_).forEach(key => {
+          const datum = _[key]
+          if (typeof datum == "string" && datum.length > 2000) {
+            newObject[key] = datum.substring(0, 2000)
+          } else if (typeof datum !== "undefined" || key !== "revisions") {
+            newObject[key] = datum
+          }
+        })
+        newData.push(newObject)
+      })
+
+      return newData
+    }
+
+    async _initIndex(name) {
       // Make sure that this isn't already using a prefixed index name (replicas)
       // Prefixes are used to sep prod/dev/testing scenarios (keep data clean)
-      const actualIndexName = name.includes(this.prefix) ? name : this.prefix + name
+      const actualIndexName = name.includes(this.prefix) ? name : `${this.prefix}_${name}`
 
       const index = this.client.initIndex(actualIndexName)
 
@@ -51,20 +107,26 @@ module.exports.default = Factor => {
         if (settings.replicas) {
           settings.replicas = settings.replicas.map(r => `${this.prefix}${name}_${r}`)
         }
-        index.setSettings(this.algoliaConfig[name])
+        try {
+          await index.setSettings(this.algoliaConfig[name])
+        } catch (error) {
+          Factor.$log.error(error)
+        }
       }
 
       return index
     }
 
-    updateIndexSettings() {
-      Object.keys(this.algoliaConfig).forEach(key => {
-        this._initIndex(key)
+    async updateIndexSettings() {
+      const _p = Object.keys(this.algoliaConfig).map(async key => {
+        await this._initIndex(key)
       })
+
+      return await Promise.all(_p)
     }
 
     async saveObject(args) {
-      const index = this._initIndex(args.index)
+      const index = await this._initIndex(args.index)
 
       const saveObject = { index: args.index, objectID: args.objectID, ...args.data }
 
@@ -85,7 +147,7 @@ module.exports.default = Factor => {
     }
 
     async deleteObject({ index, objectID }) {
-      const searchIndex = this._initIndex(index)
+      const searchIndex = await this._initIndex(index)
 
       const content = await new Promise((resolve, reject) => {
         searchIndex.deleteObject(objectID, (err, content) => {
@@ -102,7 +164,7 @@ module.exports.default = Factor => {
 
     async partialUpdateObject(args) {
       const { index, id: objectID, data } = args
-      const searchIndex = this._initIndex(index)
+      const searchIndex = await this._initIndex(index)
 
       const content = await new Promise((resolve, reject) => {
         searchIndex.partialUpdateObject({ objectID, ...data }, true, (err, content) => {

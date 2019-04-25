@@ -79,12 +79,18 @@ const cli = async () => {
         .option("-f, --file <file path>", "Path to a file (relative to cwd)")
         .option("-c, --collection <collection name>", "The name of a datastore collection")
         .option("-a, --action <action name>", "The name or ID of the action to perform.")
-        .action((filter, args) => {
+        .option("-i, --id <id>", "ID identifier for a post or user")
+        .action(async (filter, args) => {
           const { parent, ...rest } = args
           const params = { env: "development", ...parent, ...rest }
 
           this.extend(params)
-          this.callbacks(`cli-${filter}`, params)
+          try {
+            await this.callbacks(`cli-${filter}`, params)
+            Factor.$log.success(`Successfully ran "${filter}"`)
+          } catch (error) {
+            Factor.$log.error(error)
+          }
         })
 
       this.program

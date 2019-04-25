@@ -10,7 +10,7 @@
     "target": ["app", "build"],
     "service": "db",
     "provider": "algolia",
-    "id": "algolia"
+    "id": "algoliaClient"
   },
   "dependencies": {
     "algoliasearch": "^3.24.5",

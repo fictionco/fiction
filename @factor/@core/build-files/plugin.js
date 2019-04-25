@@ -20,6 +20,10 @@ module.exports = Factor => {
 
       if (Factor.FACTOR_ENV == "build") {
         this.addWatchers()
+
+        Factor.$filters.add("cli-generate-loaders", (_, args) => {
+          this.generateLoaders()
+        })
       }
     }
 
@@ -38,10 +42,7 @@ module.exports = Factor => {
             // TODO - Ideally these wouldn't be included in the GLOB of packages
             // Wasn't working so added this
             const subModules = path.split("@factor").pop()
-            if (
-              (event == "add" || event == "unlink") &&
-              (!subModules || !subModules.includes("node_modules"))
-            ) {
+            if ((event == "add" || event == "unlink") && (!subModules || !subModules.includes("node_modules"))) {
               this.generateLoaders()
               return true // update server
             } else {
@@ -60,7 +61,7 @@ module.exports = Factor => {
       this.makeLoaderFile({
         extensions,
         destination: Factor.$paths.get("plugins-loader-build"),
-        target: ["build", "app"]
+        target: ["build", "app", "endpoint"]
       })
 
       this.makeLoaderFile({
@@ -76,19 +77,17 @@ module.exports = Factor => {
         requireAtRuntime: true
       })
 
-      Factor.$log.custom({
-        type: "success",
-        params: [`Made Loaders [${Date.now() - s}ms]`, `- ${extensions.length} Extensions`],
-        target: "all"
-      })
+      Factor.$log.box(`Made Factor loader files for ${extensions.length} Extensions in ${Date.now() - s}ms`)
     }
 
     getExtensionPatterns() {
       let patterns = []
 
-      require("find-node-modules")().forEach(_ => {
-        patterns.push(path.resolve(_, `./@${this.namespace}/**/package.json`))
-        patterns.push(path.resolve(_, `./${this.namespace}*/package.json`))
+      Factor.$paths.getModulesFolders().map(_ => {
+        patterns = patterns.concat([
+          path.resolve(_, `@${this.namespace}/**/package.json`),
+          path.resolve(_, `${this.namespace}*/package.json`)
+        ])
       })
 
       // Add package.json from CWD - Application directory
@@ -115,14 +114,7 @@ module.exports = Factor => {
         if (_.includes("package.json")) {
           let {
             name,
-            factor: {
-              id,
-              priority = 100,
-              target = false,
-              service = "",
-              provider = "",
-              scope = "extension"
-            } = {},
+            factor: { id, priority = 100, target = false, service = "", provider = "", scope = "extension" } = {},
             version
           } = require(_)
 
@@ -135,9 +127,7 @@ module.exports = Factor => {
             provider,
             scope,
             cwd: _ == Factor.$paths.get("app-package") ? true : false,
-            id:
-              id ||
-              this.makeId(name.split(/endpoint|plugin|theme|service|@factor|@fiction/gi).pop())
+            id: id || this.makeId(name.split(/endpoint|plugin|theme|service|@factor|@fiction/gi).pop())
           }
         } else {
           const basename = path.basename(_)
@@ -199,17 +189,9 @@ module.exports = Factor => {
         return false
       } else if (targetA == "string" && targetB == "string" && targetA == targetB) {
         return true
-      } else if (
-        typeof targetA == "string" &&
-        Array.isArray(targetB) &&
-        targetB.includes(targetA)
-      ) {
+      } else if (typeof targetA == "string" && Array.isArray(targetB) && targetB.includes(targetA)) {
         return true
-      } else if (
-        typeof targetB == "string" &&
-        Array.isArray(targetA) &&
-        targetA.includes(targetB)
-      ) {
+      } else if (typeof targetB == "string" && Array.isArray(targetA) && targetA.includes(targetB)) {
         return true
       } else if (targetA.filter(value => targetB.includes(value)).length > 0) {
         return true

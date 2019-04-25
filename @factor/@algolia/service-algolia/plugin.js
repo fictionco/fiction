@@ -167,7 +167,7 @@ export default Factor => {
       Object.keys(newData).forEach(key => {
         const datum = newData[key]
         if (typeof datum == "string" && datum.length > 2000) {
-          newData[key] = d.substring(0, 2000)
+          newData[key] = datum.substring(0, 2000)
         } else if (typeof datum == "undefined" || key == "revisions") {
           delete newData[key]
         }

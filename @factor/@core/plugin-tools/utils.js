@@ -1,5 +1,5 @@
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {}
 
     // Parse to standard utility lists
@@ -82,7 +82,7 @@ module.exports.default = Factor => {
       if (words.length <= 1) {
         return str
       }
-      const stopwords = require("stopwords").english
+      const stopwords = require("./resource/stopwords")
 
       const regex = new RegExp("\\b(" + stopwords.join("|") + ")\\b", "gi")
       return str.replace(regex, match => {
@@ -107,5 +107,5 @@ module.exports.default = Factor => {
         }
       })
     }
-  }()
+  })()
 }
