@@ -12,18 +12,18 @@ const pkg = require("./package")
 process.noDeprecation = true
 process.maxOldSpaceSize = 4000
 
-console.log("TET")
 const cli = async () => {
   return new (class {
     constructor() {
       this.tasks = []
 
-      this.extend()
       this.setupProgram()
-      this.setNodeEnvironment()
     }
 
-    extend() {
+    extend(args = {}) {
+      const { env = "development" } = args
+      Factor.$headers = args
+      process.env.NODE_ENV = env
       require("@factor/build-extend")(Factor)
     }
 
@@ -31,15 +31,14 @@ const cli = async () => {
       this.program = program
       this.program
         .version(pkg.version)
+        .description("CLI for managing Factor data, builds and deployments")
         .option("-e, --env <env>", "Set the Node environment. Default: 'development'")
-        .option("-f, --file <file path>", "Path to a file (relative to cwd)")
-        .option("-c, --collection <collection name>", "The name of a datastore collection")
 
       this.program
         .command("dev")
         .description("Start development server")
         .action(args => {
-          process.env.NODE_ENV = "development"
+          this.extend({ env: "development", ...args })
           this.cli()
         })
 
@@ -47,8 +46,7 @@ const cli = async () => {
         .command("start")
         .description("Start production build on local server")
         .action(args => {
-          process.env.NODE_ENV = "production"
-
+          this.extend({ env: "production", ...args })
           this.tasks.push({
             command: "factor",
             args: ["build"],
@@ -60,32 +58,51 @@ const cli = async () => {
       this.program
         .command("serve [env]")
         .description("Create local server")
-        .action((env, args) => {
+        .action((env = "development", args) => {
+          this.extend({ env, ...args })
           this.callbacks("create-server", { env, ...args })
         })
 
       this.program
-        .command("build [options...]")
+        .command("build")
         .option("--analyze", "Analyze package size")
         .option("--speed", "Output build speed data")
         .description("Build production app")
-        .action((options, args) => {
+        .action(args => {
+          this.extend({ env: "production", ...args })
           this.callbacks("create-distribution-app", args)
         })
 
       this.program
         .command("run <filter>")
-        .description("Run a Factor CLI filter")
+        .description("Run CLI utilities based on filter name (see documentation)")
+        .option("-f, --file <file path>", "Path to a file (relative to cwd)")
+        .option("-c, --collection <collection name>", "The name of a datastore collection")
+        .option("-a, --action <action name>", "The name or ID of the action to perform.")
         .action((filter, args) => {
           const { parent, ...rest } = args
-          this.callbacks(`cli-${filter}`, { ...parent, ...rest })
+          const params = { env: "development", ...parent, ...rest }
+
+          this.extend(params)
+          this.callbacks(`cli-${filter}`, params)
         })
 
-      if (!this.program.args) {
-        program.help()
-      }
+      this.program
+        .command("help")
+        .description("Show CLI commands and options")
+        .action(args => {
+          this.program.help()
+        })
 
       this.program.parse(process.argv)
+
+      const { args } = this.program
+      //  console.log("----PROG", this.program.args.forEach(_ => console.log(typeof _)))
+      if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
+        this.extend(this.program)
+
+        Factor.$log.box("No commands found. Type 'factor help' for info on using the CLI")
+      }
 
       return this.program
     }

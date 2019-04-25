@@ -22,8 +22,11 @@ module.exports.default = Factor => {
 
       // After all extensions/filters added
       // Needed for webpack and dev server
-      Factor.$filters.add("create-server", ({ env: mode = "production", serve = true }) => {
-        this.startServer({ mode, serve })
+      Factor.$filters.add("create-server", (_, args) => {
+        const { env: mode = "production", serve = true } = args
+
+        _.localServer = () => this.startServer({ mode, serve })
+        return _
       })
     }
 
@@ -89,6 +92,7 @@ module.exports.default = Factor => {
     startServer(args) {
       const { mode = "production", serve = true } = args
 
+      console.log("START SERVER", args)
       this.server = express()
 
       this.renderer = null
