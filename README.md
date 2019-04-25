@@ -1,6 +1,7 @@
 ![Fiction](./factor.svg)
-<img src="./factor.svg">
+
 <p align="center">
+  <img src="./factor.svg" style="width: 350px;display:block;">
   <a href="https://gitter.im/fiction-com/community"><img src="https://badgen.net/badge/chat/on%20Gitter" alt="Discord"></a>
  </p>
 
