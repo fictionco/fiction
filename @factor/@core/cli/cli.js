@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 
 const Factor = require("vue")
-const argv = require("yargs").argv
+//const argv = require("yargs").argv
 const concurrently = require("concurrently")
 const execa = require("execa")
 const listr = require("listr")
 const program = require("commander")
 const pkg = require("./package")
-const argvCommands = argv._
+//const argvCommands = argv._
 // NODE CONFIG
 process.noDeprecation = true
 process.maxOldSpaceSize = 4000
 
+console.log("TET")
 const cli = async () => {
   return new (class {
     constructor() {
@@ -30,9 +31,9 @@ const cli = async () => {
       this.program = program
       this.program
         .version(pkg.version)
-        .option("--env <env>", "Set the Node environment. Default: 'development'")
-        .option("--file <file path>", "Path to a file (relative to cwd)")
-        .option("--collection <collection name>", "The name of a datastore collection")
+        .option("-e, --env <env>", "Set the Node environment. Default: 'development'")
+        .option("-f, --file <file path>", "Path to a file (relative to cwd)")
+        .option("-c, --collection <collection name>", "The name of a datastore collection")
 
       this.program
         .command("dev")
@@ -79,6 +80,10 @@ const cli = async () => {
           const { parent, ...rest } = args
           this.callbacks(`cli-${filter}`, { ...parent, ...rest })
         })
+
+      if (!this.program.args) {
+        program.help()
+      }
 
       this.program.parse(process.argv)
 
