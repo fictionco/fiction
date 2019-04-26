@@ -58,11 +58,16 @@ export default {
     margin: 0.5em 0 1em;
   }
   .related-entries .post-index {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0 20px;
+
+    // display: flex;
+    // flex-direction: column;
     //align-items: center;
   }
   .related-entry {
+    display: flex;
     max-width: 400px;
     margin-bottom: 1em;
     @media (max-width: 767px) {
