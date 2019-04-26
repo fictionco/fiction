@@ -69,8 +69,16 @@ const cli = async () => {
         .option("--speed", "Output build speed data")
         .description("Build production app")
         .action(args => {
-          this.extend({ env: "production", ...args })
-          this.callbacks("create-distribution-app", args)
+          this.createDist(args)
+        })
+
+      this.program
+        .command("deploy <env>")
+        .description("Build and deploy production app")
+        .action(async args => {
+          this.createDist(args)
+          const t = Factor.$filters.apply("deploy-app-tasks", this.tasks)
+          await this.runTasks(t)
         })
 
       this.program
@@ -113,6 +121,11 @@ const cli = async () => {
       return this.program
     }
 
+    createDist(args) {
+      this.extend({ env: "production", ...args })
+      this.callbacks("create-distribution-app", args)
+    }
+
     setNodeEnvironment() {
       if (!process.env.NODE_ENV) {
         process.env.NODE_ENV = this.program.env ? this.program.env : "development"
@@ -122,14 +135,19 @@ const cli = async () => {
     async cli() {
       await this.callbacks(`build-cli`)
       await this.callbacks(`build-${process.env.NODE_ENV}`)
-      await this.runTasks()
-      this.runners()
+      const t = Factor.$filters.apply("cli-start", this.tasks)
+      await this.runTasks(t)
+      const r = Factor.$filters.apply(`cli-runners`, [
+        {
+          command: `factor serve ${process.env.NODE_ENV}`,
+          name: "Factor Server"
+        }
+      ])
+      this.startRunners(r)
     }
 
-    async runTasks() {
-      const taskProcesses = Factor.$filters.apply("cli-start", this.tasks)
-
-      const taskMap = taskProcesses.map(({ title, command, args, options = {} }) => {
+    async runTasks(t) {
+      const taskMap = t.map(({ title, command, args, options = {} }) => {
         return {
           title,
           task: () => execa(command, args, options)
@@ -140,15 +158,8 @@ const cli = async () => {
       return tasks.run()
     }
 
-    async runners() {
-      const buildRunners = Factor.$filters.apply(`cli-runners`, [
-        {
-          command: `factor serve ${process.env.NODE_ENV}`,
-          name: "Factor Server"
-        }
-      ])
-
-      buildRunners.forEach(_ => {
+    async startRunners(r) {
+      r.forEach(_ => {
         Factor.$log.box(`Running command: "${_.command}" @[${this.tilde(process.cwd())}]`)
       })
 
