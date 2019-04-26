@@ -157,11 +157,7 @@ export default Factor => {
 
       const title = post.titleTag || post.title || ""
       const description = post.description || this.excerpt(post.content) || ""
-      const image = post.featuredImage
-        ? post.featuredImage[0].url
-        : post.images
-        ? post.images[0].url
-        : ""
+      const image = post.featuredImage ? post.featuredImage[0].url : post.images ? post.images[0].url : ""
 
       return { canonical, title, description, image }
     }
@@ -197,6 +193,8 @@ export default Factor => {
 
       results.data = await this.parsePosts(results.data)
 
+      console.log("results.data", results.data)
+
       Factor.$store.commit("setItem", {
         item: storeKey,
         value: results
@@ -211,17 +209,36 @@ export default Factor => {
       }
 
       const _promises = posts.reverse().map(async p => {
-        let authorData = []
-        if (p && p.authors && Array.isArray(p.authors) && p.authors.length > 0) {
-          const _authorPromises = p.authors.map(async uid => {
-            return await Factor.$user.request(uid)
-          })
-          authorData = await Promise.all(_authorPromises)
-        }
-        return { ...p, authorData }
+        return await this.addPostMeta(p)
       })
 
       return await Promise.all(_promises)
+    }
+
+    async addPostMeta(post) {
+      if (!post) {
+        return
+      }
+      const { authors } = post || {}
+
+      let _promises = []
+      let _fields = []
+      if (authors && Array.isArray(authors) && authors.length > 0) {
+        const authorPromises = authors.map(async uid => {
+          return await Factor.$user.request(uid)
+        })
+        _fields.push("authorData")
+        _promises.push(Promise.all(authorPromises))
+      }
+
+      const promiseResults = await Promise.all(_promises)
+
+      promiseResults.forEach((result, index) => {
+        const fieldName = _fields[index]
+        post[fieldName] = result
+      })
+
+      return post
     }
 
     // Register Page Templates added by theme or app
@@ -291,11 +308,7 @@ export default Factor => {
     }
 
     getStatus(statusNumber) {
-      const statusList = [
-        { name: "Published", value: 1 },
-        { name: "Draft", value: 0 },
-        { name: "Archive", value: -2 }
-      ]
+      const statusList = [{ name: "Published", value: 1 }, { name: "Draft", value: 0 }, { name: "Archive", value: -2 }]
       const item = statusList.find(_ => {
         return _.value == statusNumber
       })
@@ -328,37 +341,13 @@ export default Factor => {
       })
     }
 
-    async addPostMeta(post) {
-      if (!post) {
-        return
-      }
-      const { authors } = post || {}
-
-      let _promises = []
-      if (authors && Array.isArray(authors) && authors.length > 0) {
-        _promises = authors.map(async uid => {
-          return await Factor.$user.request(uid)
-        })
-      }
-
-      const [authorData] = await Promise.all([Promise.all(_promises)])
-
-      post.authorData = authorData
-
-      return post
-    }
-
     // Limit saved revisions to 20 and one per hour after first hour
     _cleanRevisions(revisions = []) {
       let counter
 
       const cleanedRevisions = revisions
         .filter(rev => {
-          if (
-            counter &&
-            rev.timestamp > counter - 3600 &&
-            rev.timestamp < Factor.$time.stamp() - 3600
-          ) {
+          if (counter && rev.timestamp > counter - 3600 && rev.timestamp < Factor.$time.stamp() - 3600) {
             return false
           } else {
             counter = rev.timestamp
@@ -407,10 +396,7 @@ export default Factor => {
       const post = await this.getPostByPermalink({ permalink, field })
 
       if (post && post.id != id) {
-        Factor.$events.$emit(
-          "notify",
-          `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`
-        )
+        Factor.$events.$emit("notify", `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`)
         let num = 1
         var matches = permalink.match(/\d+$/)
         if (matches) {

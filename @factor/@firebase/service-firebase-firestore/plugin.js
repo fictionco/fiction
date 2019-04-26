@@ -42,12 +42,19 @@ module.exports.default = Factor => {
       const db = require("firebase-admin").firestore()
 
       const batch = db.batch()
-      data.forEach(datum => {
-        if (datum.id) {
-          const ref = db.collection(collection).doc(datum.id)
-          batch.set(ref, datum)
+      const imported = []
+      data.forEach(_ => {
+        const id = _.id ? _.id : _.uid ? _.uid : false
+        if (id) {
+          const ref = db.collection(collection).doc(id)
+          batch.set(ref, _)
+          imported.push(_)
         }
       })
+
+      Factor.$log.box(
+        `Imported ${imported.length} objects to Firestore [${Factor.$config.setting("env")} ${collection}]`
+      )
 
       return await batch.commit()
     }
@@ -76,8 +83,8 @@ module.exports.default = Factor => {
       }
 
       const basePath = Factor.$paths.get("data-exports")
-      const date = Factor.$time.internationalFormat()
-      const destination = `${basePath}/${date}-${collection}.json`
+      const timestamp = Factor.$time.stamp()
+      const destination = `${basePath}/firestore-${collection}-${timestamp}.json`
 
       await fs.ensureDir(basePath)
 
