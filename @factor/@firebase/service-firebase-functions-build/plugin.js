@@ -30,21 +30,32 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("build-cli", () => {
-        this.builder()
-      })
-
-      Factor.$filters.add("cli-runners", _ => {
+      Factor.$filters.add("cli-tasks", _ => {
         _.push({
-          command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
-          name: "Endpoint Server"
+          command: (ctx, task) => {
+            this.buildServerlessFolder()
+            task.title = "Serverless folder built"
+          },
+          title: "Building Serverless Folder"
         })
+
+        _.push({
+          command: "yarn",
+          args: ["install", "--ignore-engines"],
+          title: "Installing serverless packages",
+          options: {
+            cwd: `${process.cwd()}/${this.relativeDir}`,
+            done: "Installed serverless packages"
+          }
+        })
+
         return _
       })
-    }
 
-    builder() {
-      this.buildServerlessFolder()
+      Factor.$filters.add("cli-serverless", (_, { action = "" }) => {
+        if (action == "build") {
+        }
+      })
 
       Factor.$filters.add("build-watchers", _ => {
         _.push({
@@ -56,6 +67,18 @@ export default Factor => {
         })
         return _
       })
+
+      Factor.$filters.add("cli-runners", _ => {
+        _.push({
+          command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
+          name: "Serverless"
+        })
+        return _
+      })
+    }
+
+    builder() {
+      this.buildServerlessFolder()
     }
 
     addConfig() {
@@ -82,19 +105,6 @@ export default Factor => {
       this.copyAppDirectories()
       this.makePackages()
       this.copyFunctionsFiles()
-
-      Factor.$filters.add("cli-start", _ => {
-        _.push({
-          command: "yarn",
-          args: ["install", "--ignore-engines"],
-          title: "Installing Serverless Packages",
-          options: {
-            cwd: `${process.cwd()}/${this.relativeDir}`
-          }
-        })
-
-        return _
-      })
     }
 
     clearBuildDirectory() {

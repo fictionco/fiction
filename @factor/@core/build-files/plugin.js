@@ -28,8 +28,15 @@ module.exports = Factor => {
     }
 
     addWatchers() {
-      Factor.$filters.add("build-cli", () => {
-        this.generateLoaders()
+      Factor.$filters.add("cli-tasks", _ => {
+        _.push({
+          command: (ctx, task) => {
+            task.title = this.generateLoaders()
+          },
+          title: "Generating extension loaders"
+        })
+
+        return _
       })
       Factor.$filters.add("build-watchers", _ => {
         _.push({
@@ -77,7 +84,7 @@ module.exports = Factor => {
         requireAtRuntime: true
       })
 
-      Factor.$log.box(`Made Factor loader files for ${extensions.length} Extensions in ${Date.now() - s}ms`)
+      return `Loaders built for ${extensions.length} Extensions`
     }
 
     getExtensionPatterns() {

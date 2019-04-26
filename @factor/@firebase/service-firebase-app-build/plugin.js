@@ -16,15 +16,37 @@ export default Factor => {
         return _
       })
 
+      Factor.$filters.add("cli-tasks", (_, args) => {
+        _.push({
+          command: (ctx, task) => {
+            this.createFirebaseJson()
+            this.createFirebaseRC()
+            //task.title = `${task.title} (done)`
+          },
+          title: "Generating Firebase config files"
+        })
+
+        return _
+      })
+
       // Should come before functions build
-      Factor.$filters.add(
-        "build-cli",
-        () => {
-          this.createFirebaseJson()
-          this.createFirebaseRC()
-        },
-        { priority: 40 }
-      )
+      // Factor.$filters.add("cli-firebase-app", async (_, args) => {
+      //   if (args.action == "files") {
+      //     _.firebaseGenerate = () => {}
+      //   }
+
+      //   return _
+      // })
+
+      Factor.$filters.add("cli-tasks-deploy-app", _ => {
+        _.push({
+          command: "firebase",
+          args: ["deploy"],
+          title: "Deploying Firebase App"
+        })
+
+        return _
+      })
 
       Factor.$filters.add("initialize-build", () => {
         this.createBuildFirebaseInstance()

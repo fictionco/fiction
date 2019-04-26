@@ -22,8 +22,22 @@ module.exports = Factor => {
 
       this.doWatchers()
 
-      Factor.$filters.add("build-cli", () => {
-        this.handleFiles()
+      Factor.$filters.add("cli-tasks", _ => {
+        _.push({
+          command: (ctx, task) => {
+            task.title = this.analyzeKeys("development")
+          },
+          title: `Analyzing "development" private keys`
+        })
+
+        _.push({
+          command: (ctx, task) => {
+            task.title = this.analyzeKeys("production")
+          },
+          title: `Analyzing "production" private keys`
+        })
+
+        return _
       })
     }
 
@@ -33,36 +47,61 @@ module.exports = Factor => {
       } else return false
     }
 
-    writeJsonFile({ data, path }) {
-      fs.writeFileSync(path, JSON.stringify(data, null, "  "))
-    }
+    analyzeKeys(environment) {
+      const status = [`${Factor.$utils.toLabel(environment)} keys:`]
 
-    handleFiles() {
-      if (!this.file(this.pathRaw)) {
-        const _dev = this.readEncryptedSecrets("development")
-        const _prod = this.readEncryptedSecrets("production")
+      const raw = this.getRawKeys(environment)
+      const password = this.getPassword(environment)
 
-        this.writeJsonFile({
-          data: Object.assign({}, { all: {}, development: {}, production: {} }, _dev, _prod),
-          path: this.pathRaw
-        })
+      if (raw) {
+        status.push("Unencrypted keys found.")
       } else {
-        this.makeEncryptedSecrets()
+        status.push("No unencrypted keys found.")
       }
+
+      if (password) {
+        status.push("Encryption password found.")
+      } else {
+        status.push("Missing encryption password.")
+      }
+
+      if (password && raw) {
+        this.createEncryptedFile({ environment, raw, password })
+        status.push(`Generated encrypted file.`)
+      } else {
+        status.push(`No files generated.`)
+      }
+
+      return status.join(" ")
     }
 
     doWatchers() {
       Factor.$filters.add("build-watchers", _ => {
-        this.makeEncryptedSecrets()
         _.push({
           name: "Keys Changed",
           files: [this.pathRaw],
           callback: ({ event, path }) => {
-            this.makeEncryptedSecrets()
+            const es = ["development", "production"]
+            es.forEach(environment => this.analyzeKeys(environment))
           }
         })
         return _
       })
+    }
+
+    getRawKeys(environment) {
+      const raw = this.file(this.pathRaw)
+
+      if (!raw || !raw[environment]) {
+        return false
+      }
+
+      // Get only data needed for environment
+      return {
+        [environment]: raw[environment],
+        checksum: "factor",
+        all: raw.all || {}
+      }
     }
 
     readEncryptedSecrets(environment) {
@@ -85,29 +124,12 @@ module.exports = Factor => {
       }
     }
 
-    makeEncryptedSecrets(raw) {
-      raw = raw || this.file(this.pathRaw)
-      const envs = ["development", "production"]
-
-      envs.forEach(environment => {
-        this.createEncrypted({ environment, raw })
-      })
+    writeJsonFile({ data, path }) {
+      fs.writeFileSync(path, JSON.stringify(data, null, "  "))
     }
-    createEncrypted({ environment, raw }) {
-      const password = this.getPassword(environment)
 
-      // Add a checksum that allows us to verify if file is decrypted
-      raw.checksum = "factor"
-
-      // Get only data needed for enviroment
-      const envRaw = {}
-      Object.keys(raw).forEach(k => {
-        if (k == "checksum" || k == "all" || k == environment) {
-          envRaw[k] = raw[k]
-        }
-      })
-
-      const encrypted = require("crypto-json").encrypt(envRaw, password)
+    createEncryptedFile({ environment, raw, password }) {
+      const encrypted = require("crypto-json").encrypt(raw, password)
 
       this.writeJsonFile({
         path: Factor.$paths.get(`keys-encrypted-${environment}`),
@@ -137,19 +159,10 @@ module.exports = Factor => {
       let passwordFile = this.file(this.pathPasswords)
 
       if (!passwordFile) {
-        this.writeJsonFile({
-          data: {
-            development: "default",
-            production: "default"
-          },
-          path: this.pathPasswords
-        })
-        password = "default"
-      } else {
-        password = passwordFile[environment] ? passwordFile[environment] : "default"
+        return false
       }
 
-      return password
+      return passwordFile[environment] ? passwordFile[environment] : false
     }
   })()
 }

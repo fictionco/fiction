@@ -73,12 +73,13 @@ const cli = async () => {
         })
 
       this.program
-        .command("deploy <env>")
+        .command("deploy [env]")
         .description("Build and deploy production app")
-        .action(async args => {
+        .action(async (env, args) => {
           this.createDist(args)
-          const t = Factor.$filters.apply("deploy-app-tasks", this.tasks)
+          const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
           await this.runTasks(t)
+          this.callbacks("deploy-app", { env: env || "development", ...args })
         })
 
       this.program
@@ -94,11 +95,14 @@ const cli = async () => {
 
           this.extend(params)
           try {
+            console.log("RUNNING", `cli-${filter}`)
             await this.callbacks(`cli-${filter}`, params)
             Factor.$log.success(`Successfully ran "${filter}"`)
           } catch (error) {
             Factor.$log.error(error)
           }
+
+          return "RUNNING GNHGG"
         })
 
       this.program
@@ -135,37 +139,62 @@ const cli = async () => {
     async cli() {
       await this.callbacks(`build-cli`)
       await this.callbacks(`build-${process.env.NODE_ENV}`)
-      const t = Factor.$filters.apply("cli-start", this.tasks)
+
+      const t = Factor.$filters.apply("cli-tasks", this.tasks)
       await this.runTasks(t)
       const r = Factor.$filters.apply(`cli-runners`, [
         {
           command: `factor serve ${process.env.NODE_ENV}`,
-          name: "Factor Server"
+          name: "Dev",
+          color: "#0496FF"
         }
       ])
       this.startRunners(r)
     }
 
     async runTasks(t) {
-      const taskMap = t.map(({ title, command, args, options = {} }) => {
+      //const { Observable } = require("rxjs")
+
+      const taskMap = t.map(({ title, command, args, options = { cwd: process.cwd(), done: false } }) => {
         return {
           title,
-          task: () => execa(command, args, options)
+          task: async (ctx, task) => {
+            if (typeof command == "function") {
+              return await command(ctx, task)
+            } else {
+              return execa.stdout(command, args, options).then(() => {
+                task.title = options.done ? options.done : task.title
+              })
+            }
+          }
         }
       })
 
-      const tasks = new listr(taskMap)
-      return tasks.run()
+      const tasks = new listr(taskMap) //, { concurrent: true }
+
+      try {
+        await tasks.run()
+      } catch (error) {
+        Factor.$log.error(error)
+      }
+      return
     }
 
     async startRunners(r) {
+      const chalk = require("chalk")
+
       r.forEach(_ => {
-        Factor.$log.box(`Running command: "${_.command}" @[${this.tilde(process.cwd())}]`)
+        Factor.$log.success(`Starting: "${_.command}"`)
+      })
+
+      r = r.map(_ => {
+        return { ..._, prefixColor: "white" }
       })
 
       try {
-        await concurrently(buildRunners, {
-          prefix: "name"
+        await concurrently(r, {
+          prefix: chalk.bold(`{name} -`),
+          prefixLength: 8
         })
         Factor.$log.box("Factor CLI Exited.")
       } catch (error) {
