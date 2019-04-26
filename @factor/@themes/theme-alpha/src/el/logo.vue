@@ -1,4 +1,3 @@
-
 <template>
   <div class="logo-img" :class="theme">
     <svg width="81" height="27" viewBox="0 0 81 27" fill="none" xmlns="http://www.w3.org/2000/svg">
