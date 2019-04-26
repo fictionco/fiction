@@ -93,7 +93,7 @@ module.exports.default = Factor => {
 
         await new Promise((resolve, reject) => {
           const serverCompiler = webpack(serverConfig)
-          this.augmentBuild("Server Bundle", serverCompiler, { resolve, reject })
+          this.augmentBuild("Building Server Files", serverCompiler, { resolve, reject })
         })
 
         const clientConfig = this.getConfig({
@@ -104,7 +104,7 @@ module.exports.default = Factor => {
 
         await new Promise((resolve, reject) => {
           const clientCompiler = webpack(clientConfig)
-          this.augmentBuild("Browser Bundle", clientCompiler, { resolve, reject })
+          this.augmentBuild("Building Browser Files", clientCompiler, { resolve, reject })
         })
 
         return
@@ -200,8 +200,8 @@ module.exports.default = Factor => {
         },
         plugins: [
           new MiniCssExtractPlugin({
-            filename: "[name].[hash].css",
-            chunkFilename: "[id].[hash].css"
+            filename: "css/[name].[hash].css",
+            chunkFilename: "css/[name].[hash].css"
           })
         ],
         performance: {

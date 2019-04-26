@@ -109,7 +109,7 @@ export default Factor => {
 
     clearBuildDirectory() {
       ensureDirSync(this.buildDirectory)
-      // emptyDirSync(this.buildDirectory)
+      emptyDirSync(this.buildDirectory)
     }
 
     copyAppDirectories() {

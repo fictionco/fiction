@@ -62,9 +62,7 @@ export default {
       }
     })
   },
-  destroyed() {
-    this.removeExternalScripts()
-  },
+
   methods: {
     toggleNav(v) {
       if (typeof v == "undefined") {

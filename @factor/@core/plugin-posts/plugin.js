@@ -67,12 +67,12 @@ export default Factor => {
       const prefetchPost = (_, { to = null } = {}) => {
         const route = to || Factor.$router.currentRoute
 
-        const request = Factor.$filters.apply("post-params", route.params)
+        const request = Factor.$filters.apply("post-params", { ...route.params, ...route.query })
 
-        const { permalink } = request
+        const { permalink, id } = request
 
         // Only add to the filter if permalink is set. That way we don't show loader for no reason.
-        if (permalink) {
+        if (permalink || id) {
           const _promise = async () => {
             let post = {}
 
@@ -91,7 +91,7 @@ export default Factor => {
       Factor.$filters.add("client-route-before-promises", prefetchPost)
 
       Factor.$filters.add("admin-menu", _ => {
-        this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new" }) => {
+        this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new", accessLevel }) => {
           const subMenu = []
 
           if (add) {
@@ -105,13 +105,15 @@ export default Factor => {
             path: "edit"
           })
 
-          _.push({
-            group: type,
-            path: `posts/${type}`,
-            name: namePlural || Factor.$utils.toLabel(type),
-            icon,
-            items: Factor.$filters.apply(`admin-menu-post-${type}`, subMenu)
-          })
+          if (!accessLevel || Factor.$user.can({ accessLevel })) {
+            _.push({
+              group: type,
+              path: `posts/${type}`,
+              name: namePlural || Factor.$utils.toLabel(type),
+              icon,
+              items: Factor.$filters.apply(`admin-menu-post-${type}`, subMenu)
+            })
+          }
         })
 
         return _
@@ -380,14 +382,18 @@ export default Factor => {
       return response
     }
 
-    async getPostByPermalink({ permalink, field = "permalink" }) {
-      const results = await Factor.$db.read({
-        collection: "public",
-        field,
-        value: permalink
-      })
+    async getPostByPermalink({ permalink, field = "permalink", id }) {
+      if (!permalink && id) {
+        return await this.getPostById(id)
+      } else {
+        const results = await Factor.$db.read({
+          collection: "public",
+          field,
+          value: permalink
+        })
 
-      return results[0]
+        return results[0]
+      }
     }
 
     // Verify a permalink is unique,

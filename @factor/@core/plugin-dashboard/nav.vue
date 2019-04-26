@@ -55,7 +55,7 @@ export default {
     return {
       toggle: false,
       clickHandler: false,
-      menus: { dashboard: [], admin: [] }
+      menus: {}
     }
   },
   computed: {
@@ -87,23 +87,35 @@ export default {
       return out
     }
   },
-  created() {
-    const {
-      meta: { format = "dashboard" }
-    } = this.$route.matched.find(_ => _.meta.format) || {}
-
-    Object.keys(this.menus).forEach(format => {
-      this.menus[format] = this.$filters.apply(`${format}-menu`, []).map(_ => {
-        return {
-          ..._,
-          items: this.$filters.apply(`${format}-menu-${_.group}`, _.items)
-        }
-      })
+  mounted() {
+    this.menus = { dashboard: [] }
+    this.$user.init(uid => {
+      this.initializeMenu()
     })
-
-    this.redirectOnDefault()
   },
   methods: {
+    initializeMenu() {
+      if (this.$user.can({ ability: "admin" })) {
+        this.$set(this.menus, "admin", [])
+      }
+
+      const {
+        meta: { format = "dashboard" }
+      } = this.$route.matched.find(_ => _.meta.format) || {}
+
+      Object.keys(this.menus).forEach(format => {
+        this.menus[format] = this.$filters
+          .apply(`${format}-menu`, [])
+          .map(_ => {
+            return {
+              ..._,
+              items: this.$filters.apply(`${format}-menu-${_.group}`, _.items)
+            }
+          })
+      })
+
+      this.redirectOnDefault()
+    },
     redirectOnDefault() {
       if (this.$route.path == "/dashboard") {
         this.$router.replace({ path: this.getPath(this.firstItem.path) })

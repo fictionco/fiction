@@ -3,7 +3,7 @@ const parse = require("qs").parse
 
 const cors = require("cors")({ origin: true })
 module.exports = (Factor, FACTOR_CONFIG) => {
-  return new class {
+  return new (class {
     constructor() {
       Factor.FACTOR_TARGET = "build-serverless"
       Factor.FACTOR_CONFIG = FACTOR_CONFIG
@@ -63,11 +63,12 @@ module.exports = (Factor, FACTOR_CONFIG) => {
         const { target, module } = serverlessExtensions[key]
         if (target == "endpoint" || target.includes("endpoint")) {
           const pluginModule = require(module).default
-          const { requestHandler } = pluginModule
+          const pluginClass = pluginModule(Factor)
+          const { requestHandler } = pluginClass
 
           let handler =
             requestHandler && typeof requestHandler == "function"
-              ? requestHandler.call(pluginModule(Factor))
+              ? requestHandler.call(pluginClass) // Need to pass pluginClass as "this" is there a better way?
               : this.requestHandler(pluginModule)
 
           endpoints[key] = this.endpointService(handler)
@@ -80,21 +81,14 @@ module.exports = (Factor, FACTOR_CONFIG) => {
     }
 
     async handler(plugin, ENDPOINT_ARGS) {
-      const {
-        action = "",
-        uid = "",
-        report = "",
-        endpoint = "",
-        auth = false,
-        ...args
-      } = ENDPOINT_ARGS
+      const { action = "", uid = "", report = "", endpoint = "", auth = false, ...args } = ENDPOINT_ARGS
 
       let out = {}
       let user
       let ep
       try {
         if (!action) {
-          throw new Error("[API] No Action Provided")
+          throw new Error("[API] No Endpoint Action Provided", plugin)
         }
 
         Factor.$headers = { auth }
@@ -169,5 +163,5 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       }
       return true
     }
-  }()
+  })()
 }
