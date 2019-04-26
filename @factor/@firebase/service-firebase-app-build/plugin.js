@@ -29,15 +29,6 @@ export default Factor => {
         return _
       })
 
-      // Should come before functions build
-      // Factor.$filters.add("cli-firebase-app", async (_, args) => {
-      //   if (args.action == "files") {
-      //     _.firebaseGenerate = () => {}
-      //   }
-
-      //   return _
-      // })
-
       Factor.$filters.add("cli-tasks-deploy-app", _ => {
         _.push({
           command: "firebase",

@@ -56,7 +56,6 @@ export default {
     }
   },
   mounted() {
-    this.addExternalScripts()
     this.$user.init(uid => {
       if (uid) {
         this.loading = false
