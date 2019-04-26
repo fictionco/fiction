@@ -84,7 +84,7 @@ export default {
         top: 0;
         right: 0;
         bottom: 0;
-        background-color: @color-bg;
+        background-color: var(--color-bg);
         @media (max-width: 1024px) {
           width: 100%;
         }
@@ -98,7 +98,7 @@ export default {
           color: inherit;
           &:hover,
           &:active {
-            color: @color-primary;
+            color: var(--color-primary);
           }
         }
         .back {

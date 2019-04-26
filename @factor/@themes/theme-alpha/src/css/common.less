@@ -1,4 +1,4 @@
-@import "style-vars.less";
+@import "vars.css";
 @import "entry-content.less";
 
 * {
@@ -16,7 +16,7 @@
 body,
 html {
   border: 0;
-  font-family: @font-primary;
+  font-family: var(--font-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -24,8 +24,8 @@ html {
   font-size: 16px;
   line-height: 1.2;
   font-weight: 500;
-  color: @color-text;
-  background: @color-bg-alt;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
 }
 
 article,
@@ -146,11 +146,12 @@ hr {
 a {
   text-decoration: none;
   text-decoration-skip: ink;
-  color: @color-primary;
+  color: var(--color-primary);
 
   &:hover {
     cursor: pointer;
-    color: fade(@color-primary, 70%);
+    color: var(--color-primary);
+    opacity: .7;
   }
 
   img {
@@ -195,7 +196,7 @@ input,
 textarea,
 select,
 .checkbox-label {
-  font-family: @font-primary;
+  font-family: var(--font-primary);
 }
 
 input[type="email"],
@@ -231,7 +232,7 @@ select {
   overflow: hidden;
   border: 0;
   font-weight: 500;
-  color: @color-text;
+  color: var(--color-text);
   background-color: transparent;
 
   &.disabled {

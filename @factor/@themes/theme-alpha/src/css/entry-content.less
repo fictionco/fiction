@@ -19,7 +19,7 @@
     font-weight: 600;
     line-height: 1.4em;
     margin-bottom: 0.5em;
-    color: @color-text;
+    color: var(--color-text);
   }
 
   h1 {
@@ -52,11 +52,13 @@
   }
 
   a {
-    color: @color-primary;
+    color: var(--color-primary);
     text-decoration: underline;
 
     &:hover {
-      color: fade(@color-primary, 70%);
+      cursor: pointer;
+      color: var(--color-primary);
+      opacity: .7;
     }
   }
 
@@ -172,7 +174,7 @@
   blockquote {
     margin: 1em;
     padding: 0.5em;
-    border-left: 0.2em solid @color-primary;
+    border-left: 0.2em solid var(--color-primary);
     font-style: italic;
     quotes: "“""”";
 

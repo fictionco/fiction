@@ -181,7 +181,7 @@ export default {
   }
 
   .factor-btn.default {
-    color: @color-primary;
+    color: var(--color-primary);
     letter-spacing: -0.03em;
   }
   // Hero
@@ -196,7 +196,7 @@ export default {
       top: 0;
       right: auto;
       bottom: 0;
-      background-color: @color-bg;
+      background-color: var(--color-bg);
       @media (max-width: 1024px) {
         width: 100%;
       }
@@ -258,7 +258,7 @@ export default {
       input[type="text"],
       input[type="email"],
       textarea.standard-textarea {
-        background: @color-white;
+        background: var(--color-white);
         border: 1px solid rgba(48, 48, 48, 0.1);
         border-radius: 4px;
       }

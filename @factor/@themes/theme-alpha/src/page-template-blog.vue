@@ -168,7 +168,7 @@ export default {
   }
 
   .factor-btn.default {
-    color: @color-primary;
+    color: var(--color-primary);
     letter-spacing: -0.03em;
   }
   .hero {
@@ -182,7 +182,7 @@ export default {
       top: 0;
       right: 0;
       bottom: 0;
-      background-color: @color-bg;
+      background-color: var(--color-bg);
       @media (max-width: 1024px) {
         width: 100%;
       }
@@ -230,7 +230,7 @@ export default {
           height: 100%;
           grid-gap: 15px;
           padding: 2em;
-          color: @color-text;
+          color: var(--color-text);
           background: #fff;
           border-radius: 8px;
           transition: all 0.2s ease-in-out;
@@ -242,14 +242,14 @@ export default {
             box-shadow: 0 1px 1px 0 rgba(90, 122, 190, 0.1),
               0 10px 20px 0 rgba(90, 122, 190, 0.2);
             .title {
-              color: @color-primary;
+              color: var(--color-primary);
             }
           }
           .title {
             font-weight: 600;
           }
           .tag {
-            background-color: fade(@color-primary, 10%);
+            background-color: var(--color-bg);
             border-radius: 5px;
             padding: 0.3em 0.5em;
           }

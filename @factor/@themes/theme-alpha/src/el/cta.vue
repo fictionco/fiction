@@ -20,8 +20,8 @@ export default {}
   text-align: center;
   position: relative;
   //z-index: 100;
-  background: @color-primary;
-  color: @color-white;
+  background: var(--color-primary);
+  color: var(--color-white);
   .cta-inner {
     max-width: 650px;
     margin: 0 auto;

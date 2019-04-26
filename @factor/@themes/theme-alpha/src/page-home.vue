@@ -100,8 +100,8 @@ export default {
 
   // Intro
   .intro {
-    background-color: @color-primary;
-    color: @color-white;
+    background-color: var(--color-primary);
+    color: var(--color-white);
 
     .intro-inner {
       display: flex;
@@ -119,7 +119,7 @@ export default {
         padding-bottom: 2em;
         text-transform: uppercase;
         &:after {
-          background-color: @color-tertiary;
+          background-color: var(--color-tertiary);
           content: "";
           position: absolute;
           bottom: 0;
@@ -149,7 +149,7 @@ export default {
         }
       }
       .factor-btn.default {
-        color: @color-primary;
+        color: var(--color-primary);
         letter-spacing: -0.03em;
       }
       .actions {

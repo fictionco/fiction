@@ -167,13 +167,13 @@ export default {
   }
 
   .factor-btn.default {
-    color: @color-primary;
+    color: var(--color-primary);
     letter-spacing: -0.03em;
   }
   // feature
   .feature {
-    background-color: @color-primary;
-    color: @color-white;
+    background-color: var(--color-primary);
+    color: var(--color-white);
     position: relative;
 
     &:before {
@@ -201,7 +201,7 @@ export default {
         padding-bottom: 2em;
         text-transform: uppercase;
         &:after {
-          background-color: @color-tertiary;
+          background-color: var(--color-tertiary);
           content: "";
           position: absolute;
           bottom: 0;
@@ -284,7 +284,7 @@ export default {
   }
 
   .brands {
-    background: @color-bg;
+    background: var(--color-bg);
     padding: 3em 0;
     .title {
       font-weight: 600;

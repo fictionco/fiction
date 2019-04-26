@@ -31,7 +31,7 @@ export default {
   }
 
   .factor-btn.default {
-    color: @color-primary;
+    color: var(--color-primary);
     letter-spacing: -0.03em;
   }
 

@@ -37,8 +37,8 @@ export default {
   position: relative;
   z-index: 10;
   padding: 0 1.5em;
-  background: @color-primary;
-  color: @color-white;
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 .site-head-pad {
@@ -69,7 +69,7 @@ export default {
         left: 0;
         top: 50%;
         margin-top: -1px;
-        background-color: @color-white;
+        background-color: var(--color-white);
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       }
       &:before {
@@ -85,7 +85,7 @@ export default {
       a.active {
         &:before,
         &:after {
-          background-color: @color-text;
+          background-color: var(--color-text);
         }
         &:before {
           transform: rotate(45deg) translateY(0);
@@ -115,8 +115,8 @@ export default {
       left: 0;
       right: 0;
       bottom: 0;
-      border: 14px solid @color-primary;
-      background-color: @color-white;
+      border: 14px solid var(--color-primary);
+      background-color: var(--color-white);
       transition: 0.55s cubic-bezier(0.52, 0.01, 0.16, 1);
     }
   }
@@ -131,22 +131,22 @@ export default {
       margin: 0 0.5em;
       &:hover,
       &.active {
-        color: @color-tertiary;
+        color: var(--color-tertiary);
       }
       &:active {
-        color: @color-tertiary;
+        color: var(--color-tertiary);
       }
       @media (max-width: 767px) {
         font-size: 1.2em;
-        color: @color-text;
+        color: var(--color-text);
         text-align: center;
         padding: 1.5em 0;
         &:hover,
         &.active {
-          color: @color-primary;
+          color: var(--color-primary);
         }
         &:active {
-          color: @color-primary;
+          color: var(--color-primary);
         }
       }
     }

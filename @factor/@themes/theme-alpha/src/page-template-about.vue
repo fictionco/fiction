@@ -72,13 +72,11 @@ export default {
   }
 
   .factor-btn.default {
-    color: @color-primary;
+    color: var(--color-primary);
     letter-spacing: -0.03em;
   }
   // feature
   .hero {
-    // background-color: @color-primary;
-    // color: @color-white;
     position: relative;
     &:before {
       content: "";
@@ -89,7 +87,7 @@ export default {
       top: 0;
       right: auto;
       bottom: 0;
-      background-color: @color-bg;
+      background-color: var(--color-bg);
       @media (max-width: 1024px) {
         width: 100%;
       }
