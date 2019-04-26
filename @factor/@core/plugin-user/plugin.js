@@ -107,6 +107,19 @@ module.exports.default = Factor => {
       return Factor.$store.getters["getItem"]("activeUser") || {}
     }
 
+    // Very basic version of this function for MVP dev
+    // Needs improvement for more fine grained control
+    can({ ability, accessLevel }) {
+      const userAccessLevel = this.getUser().accessLevel
+      if (accessLevel && accessLevel < userAccessLevel) {
+        return true
+      } else if (ability && userAccessLevel > 100) {
+        return true
+      } else {
+        return false
+      }
+    }
+
     async request(uid = null) {
       let user
       const storedValue = Factor.$store.getters["getItem"](uid) || false
@@ -199,7 +212,7 @@ module.exports.default = Factor => {
 
       // Get the fields that should be saved for public use
       publicFields.forEach(i => {
-        if (allUserFields[i]) {
+        if (typeof allUserFields[i] != "undefined") {
           userPublic[i] = allUserFields[i]
         }
       })
@@ -207,7 +220,7 @@ module.exports.default = Factor => {
       const noSaveFields = ["auths"]
       // Remove everything we don't want saved as private info
       publicFields.concat(noSaveFields).forEach(i => {
-        if (userPrivate[i]) {
+        if (typeof userPrivate[i] != "undefined") {
           delete userPrivate[i]
         }
       })

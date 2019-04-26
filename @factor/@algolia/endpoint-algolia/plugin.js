@@ -12,6 +12,17 @@ module.exports.default = Factor => {
       this.prefix = env
       this.client = this.algoliasearch(appId, adminKey)
 
+      Factor.$filters.add("cli-tasks", _ => {
+        _.push({
+          command: (ctx, task) => {
+            this.updateIndexSettings()
+            task.title = "Algolia indexes updated."
+          },
+          title: `Updating Algolia index settings`
+        })
+        return _
+      })
+
       Factor.$filters.add("cli-data-index", (_, program) => {
         _.algolia = () => this.dataIndexJson(program)
       })
@@ -95,17 +106,18 @@ module.exports.default = Factor => {
       return newData
     }
 
-    async _initIndex(name) {
+    async _initIndex(name, prefix) {
+      prefix = prefix || this.prefix
       // Make sure that this isn't already using a prefixed index name (replicas)
       // Prefixes are used to sep prod/dev/testing scenarios (keep data clean)
-      const actualIndexName = name.includes(this.prefix) ? name : `${this.prefix}_${name}`
+      const actualIndexName = name.includes(prefix) ? name : `${prefix}_${name}`
 
       const index = this.client.initIndex(actualIndexName)
 
       if (this.algoliaConfig[name]) {
         const settings = this.algoliaConfig[name]
         if (settings.replicas) {
-          settings.replicas = settings.replicas.map(r => `${this.prefix}${name}_${r}`)
+          settings.replicas = settings.replicas.map(r => `${prefix}${name}_${r}`)
         }
         try {
           await index.setSettings(this.algoliaConfig[name])
@@ -118,11 +130,16 @@ module.exports.default = Factor => {
     }
 
     async updateIndexSettings() {
-      const _p = Object.keys(this.algoliaConfig).map(async key => {
-        await this._initIndex(key)
+      const _promises = []
+
+      Object.keys(this.algoliaConfig).forEach(async key => {
+        const es = ["development", "production"]
+        es.forEach(environment => {
+          _promises.push(this._initIndex(key, environment))
+        })
       })
 
-      return await Promise.all(_p)
+      return await Promise.all(_promises)
     }
 
     async saveObject(args) {

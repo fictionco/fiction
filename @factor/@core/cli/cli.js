@@ -75,8 +75,9 @@ const cli = async () => {
       this.program
         .command("deploy [env]")
         .description("Build and deploy production app")
+        .option("--no-build", "Prevent distribution build (for testing)")
         .action(async (env, args) => {
-          this.createDist(args)
+          await this.createDist(args)
           const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
           await this.runTasks(t)
           this.callbacks("deploy-app", { env: env || "development", ...args })
@@ -95,14 +96,11 @@ const cli = async () => {
 
           this.extend(params)
           try {
-            console.log("RUNNING", `cli-${filter}`)
             await this.callbacks(`cli-${filter}`, params)
             Factor.$log.success(`Successfully ran "${filter}"`)
           } catch (error) {
             Factor.$log.error(error)
           }
-
-          return "RUNNING GNHGG"
         })
 
       this.program
@@ -125,9 +123,15 @@ const cli = async () => {
       return this.program
     }
 
-    createDist(args) {
+    async createDist(args) {
+      const { build = true } = args
       this.extend({ env: "production", ...args })
-      this.callbacks("create-distribution-app", args)
+
+      if (build) {
+        await this.callbacks("create-distribution-app", args)
+      }
+
+      await this.cliTasks()
     }
 
     setNodeEnvironment() {
@@ -136,25 +140,27 @@ const cli = async () => {
       }
     }
 
-    async cli() {
-      await this.callbacks(`build-cli`)
-      await this.callbacks(`build-${process.env.NODE_ENV}`)
-
+    async cliTasks() {
       const t = Factor.$filters.apply("cli-tasks", this.tasks)
       await this.runTasks(t)
+    }
+
+    async cli() {
+      //await this.callbacks(`build-cli`)
+      // await this.callbacks(`build-${process.env.NODE_ENV}`)
+
+      await this.cliTasks()
+
       const r = Factor.$filters.apply(`cli-runners`, [
         {
           command: `factor serve ${process.env.NODE_ENV}`,
-          name: "Dev",
-          color: "#0496FF"
+          name: "Dev"
         }
       ])
       this.startRunners(r)
     }
 
     async runTasks(t) {
-      //const { Observable } = require("rxjs")
-
       const taskMap = t.map(({ title, command, args, options = { cwd: process.cwd(), done: false } }) => {
         return {
           title,
@@ -162,7 +168,7 @@ const cli = async () => {
             if (typeof command == "function") {
               return await command(ctx, task)
             } else {
-              return execa.stdout(command, args, options).then(() => {
+              return execa(command, args, options).then(() => {
                 task.title = options.done ? options.done : task.title
               })
             }

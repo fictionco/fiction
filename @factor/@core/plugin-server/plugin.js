@@ -50,7 +50,9 @@ module.exports.default = Factor => {
     // Endpoint Helper method, return function that processes (req, res)
     requestHandler() {
       return (req, res) => {
-        this.server(req, res)
+        const args = { mode: "production", serve: false }
+        const server = this.startServer(args)
+        return server(req, res)
       }
     }
 
@@ -92,7 +94,6 @@ module.exports.default = Factor => {
     startServer(args) {
       const { mode = "production", serve = true } = args
 
-      console.log("START SERVER", args)
       this.server = express()
 
       this.renderer = null

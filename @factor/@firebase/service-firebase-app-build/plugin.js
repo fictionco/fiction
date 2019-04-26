@@ -33,7 +33,7 @@ export default Factor => {
         _.push({
           command: "firebase",
           args: ["deploy"],
-          title: "Deploying Firebase App"
+          title: "Deploying App to Firebase"
         })
 
         return _

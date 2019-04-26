@@ -146,12 +146,12 @@ export default {
     }
   },
   created() {
-    // SSR needs to render as loading to prevent mismatch
-    const { uid } = this.$route.query
-    if (!uid) {
-      this.loading = true
-    }
+    // const { uid } = this.$route.query
+    // if (!uid) {
+    //   this.loading = true
+    // }
   },
+  created() {},
   mounted() {
     //Check for empty UID value, if logged in then show logged in user's profile
     this.setOwnUserProfile()
