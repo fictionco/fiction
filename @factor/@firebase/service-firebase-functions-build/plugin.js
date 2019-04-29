@@ -15,7 +15,7 @@ export default Factor => {
 
       this.serverlessPackages = require(Factor.$paths.get("plugins-loader-serverless"))
 
-      this.watchPaths = [Factor.$paths.get("config")]
+      this.watchPaths = [Factor.$paths.get("config-file"), Factor.$paths.get("secrets-file")]
       this.dependencies = {}
       this.localDependencies = {}
       this.addConfig()

@@ -8,14 +8,14 @@ module.exports = Factor => {
       const res = require("path").resolve
 
       Factor.$paths.add({
-        "public-config": res(conf, "factor-config.js"),
-        "secrets-config": res(conf, "factor-secrets.js"),
+        "config-file": res(conf, "factor-config.js"),
+        "secrets-file": res(conf, "factor-secrets.js"),
         "secrets-encrypted-development": res(conf, "secrets-encrypted-development.json"),
         "secrets-encrypted-production": res(conf, "secrets-encrypted-production.json"),
         decryptor: res(conf, "factor-decryptor")
       })
 
-      this.pathRaw = Factor.$paths.get("secrets-config")
+      this.pathRaw = Factor.$paths.get("secrets-file")
       this.pathDecryptor = Factor.$paths.get("decryptor")
       this.pathEncProduction = Factor.$paths.get("secrets-encrypted-production")
       this.pathEncDevelopment = Factor.$paths.get("secrets-encrypted-development")
@@ -124,7 +124,6 @@ module.exports = Factor => {
     }
 
     writeJsonFile({ data, path }) {
-      console.log("WRITE", path)
       fs.writeFileSync(path, JSON.stringify(data, null, "  "))
     }
 
