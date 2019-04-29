@@ -8,8 +8,8 @@ module.exports = () => {
   let { factor: USER_CONFIG = {}, url = "", port = 7777 } = require(resolve(baseDir, "package"))
 
   try {
-    var userFile = require(resolve(baseDir, "factor-config.js"))
-    USER_CONFIG = Object.assign({}, USER_CONFIG, userFile)
+    //var userFile = require(resolve(baseDir, "factor-config.js"))
+    USER_CONFIG = Object.assign({}, USER_CONFIG, {})
   } catch (error) {}
 
   const DEFAULT_CONFIG = {

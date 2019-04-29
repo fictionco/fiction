@@ -1,5 +1,5 @@
 module.exports.default = Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.possibleRoles = require("@factor/plugin-user/config.json").roles
     }
@@ -77,9 +77,8 @@ module.exports.default = Factor => {
       const manualRole = {}
 
       if (email && emailVerified) {
-        const adminFilePath = resolve(Factor.$paths.get("config"), "admins")
-        const adminsFile = require(adminFilePath) // require this way to avoid webpack warning (not running in webpack)
-        const setRole = adminsFile[email]
+        const adm = Factor.$config.setting("admins") // require this way to avoid webpack warning (not running in webpack)
+        const setRole = adm[email]
         if (setRole) {
           manualRole[setRole] = true
         }
@@ -96,5 +95,5 @@ module.exports.default = Factor => {
 
       return setRoles
     }
-  }()
+  })()
 }

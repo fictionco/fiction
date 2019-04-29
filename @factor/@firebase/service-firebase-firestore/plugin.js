@@ -59,36 +59,51 @@ module.exports.default = Factor => {
       return await batch.commit()
     }
 
-    async dataExport({ collection }) {
-      if (!collection) {
-        throw new Error("No collection name provided.")
-      }
-      const fs = require("fs-extra")
-
+    async getCollectionData(collection) {
+      const data = []
       let ref = await require("firebase-admin")
         .firestore()
         .collection(collection)
 
       const list = await ref.get()
 
-      const data = []
-
       list.forEach(_ => {
         data.push(_.data())
       })
+      console.log("daty", data)
+      return data
+    }
 
-      if (data.length == 0) {
-        console.log("Nothing returned.")
+    async dataExport({ collection }) {
+      if (!collection) {
+        throw new Error("No collection name provided.")
+      }
+      const data = []
+
+      const fs = require("fs-extra")
+
+      const collections = collection.trim().split(",")
+
+      const _promises = collections.map(c => {
+        return this.getCollectionData(c)
+      })
+
+      const results = await Promise.all(_promises)
+
+      const datas = [].concat.apply([], results)
+
+      if (datas.length == 0) {
+        console.log("Nothing returned.", collections, Factor.$config.setting("env"))
         return
       }
 
       const basePath = Factor.$paths.get("data-exports")
       const timestamp = Factor.$time.stamp()
-      const destination = `${basePath}/firestore-${collection}-${timestamp}.json`
+      const destination = `${basePath}/firestore-${collections.join("-")}-${timestamp}.json`
 
       await fs.ensureDir(basePath)
 
-      await fs.writeFile(destination, JSON.stringify(data, null, 2))
+      await fs.writeFile(destination, JSON.stringify(datas, null, 2))
 
       return
     }

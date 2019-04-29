@@ -117,7 +117,7 @@ const cli = async () => {
       if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
         this.extend(this.program)
 
-        Factor.$log.box("No commands found. Type 'factor help' for info on using the CLI")
+        Factor.$log.box("No commands found. Use 'factor help' for info on using the CLI")
       }
 
       return this.program

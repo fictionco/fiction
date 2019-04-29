@@ -20,7 +20,7 @@ module.exports = Factor => {
       const configObjects = [
         Factor.FACTOR_CONFIG,
         publicConfig[env],
-        publicConfig.all,
+        publicConfig.config,
         {
           env
         }

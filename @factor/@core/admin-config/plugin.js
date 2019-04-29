@@ -16,9 +16,9 @@ module.exports = Factor => {
       const configObjects = [
         Factor.FACTOR_CONFIG,
         publicConfig[this.env],
-        publicConfig.all,
+        publicConfig.config,
         privateConfig[this.env],
-        privateConfig.all,
+        privateConfig.config,
         {
           env: this.env
         }

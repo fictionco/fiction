@@ -100,7 +100,7 @@ module.exports = Factor => {
       return {
         [environment]: raw[environment],
         checksum: "factor",
-        all: raw.all || {}
+        config: raw.config || {}
       }
     }
 
