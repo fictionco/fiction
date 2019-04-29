@@ -12,7 +12,7 @@ module.exports = Factor => {
         "secrets-config": res(conf, "factor-secrets.js"),
         "secrets-encrypted-development": res(conf, "secrets-encrypted-development.json"),
         "secrets-encrypted-production": res(conf, "secrets-encrypted-production.json"),
-        decryptor: res(conf, "factor-decryptor.json")
+        decryptor: res(conf, "factor-decryptor")
       })
 
       this.pathRaw = Factor.$paths.get("secrets-config")
