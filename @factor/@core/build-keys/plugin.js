@@ -12,7 +12,7 @@ module.exports = Factor => {
         "secrets-config": res(conf, "factor-secrets.js"),
         "secrets-encrypted-development": res(conf, "secrets-encrypted-development.json"),
         "secrets-encrypted-production": res(conf, "secrets-encrypted-production.json"),
-        decryptor: res(conf, "factor-decryptor")
+        decryptor: res(conf, "factor-decryptor.js")
       })
 
       this.pathRaw = Factor.$paths.get("secrets-config")
@@ -109,6 +109,7 @@ module.exports = Factor => {
 
       let encrypted = {}
       encrypted = this.file(file)
+
       let decrypted
       if (encrypted) {
         try {
@@ -124,7 +125,6 @@ module.exports = Factor => {
     }
 
     writeJsonFile({ data, path }) {
-      console.log("WRITE", path)
       fs.writeFileSync(path, JSON.stringify(data, null, "  "))
     }
 
