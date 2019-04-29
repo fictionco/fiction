@@ -9,7 +9,7 @@ module.exports = Factor => {
     }
 
     initialize() {
-      let publicConfig = require(Factor.$paths.get("keys-public"))
+      let publicConfig = require(Factor.$paths.get("public-config"))
 
       const privateConfig = Factor.$keys.readEncrypted(this.env)
 

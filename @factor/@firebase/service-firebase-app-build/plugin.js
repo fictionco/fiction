@@ -74,7 +74,7 @@ export default Factor => {
         development: { firebase: { projectId: devProject } = {} } = {},
         production: { firebase: { projectId: prodProject } = {} } = {},
         config: { firebase: { projectId: allProject = "" } = {} } = {}
-      } = require(Factor.$paths.get("keys-public"))
+      } = require(Factor.$paths.get("public-config"))
 
       const fileJson = {
         projects: {

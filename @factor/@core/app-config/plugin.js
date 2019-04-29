@@ -6,7 +6,7 @@ module.exports = Factor => {
     getPublicConfig() {
       let out = {}
       try {
-        out = require("@config/keys-public.json")
+        out = require("~/factor-config")
       } catch (error) {
         console.error(`Cant Find Public Config`)
         console.error(error)

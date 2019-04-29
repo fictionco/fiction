@@ -33,10 +33,11 @@ module.exports = FACTOR_CONFIG => {
       // Setup items should run after initialization
       // This is a callback
       const setup = () => {
-        const { passwords } = functions.config().factor || {}
+        const { decrypt } = functions.config().factor || {}
 
-        if (passwords) {
-          Factor.$filters.add("master-password", passwords)
+        if (decrypt) {
+          Factor.$filters.add("secrets-decrypt-development", decrypt.development)
+          Factor.$filters.add("secrets-decrypt-production", decrypt.production)
         }
 
         // Add the Firebase Functions call that handles the https endpoint requests
@@ -68,9 +69,7 @@ module.exports = FACTOR_CONFIG => {
 
         admin.firestore()
       } else {
-        console.warn(
-          `Can't find your Firebase service account keys. Add to Factor configuration files.`
-        )
+        console.warn(`Can't find your Firebase service account keys. Add to Factor configuration files.`)
       }
 
       return Factor

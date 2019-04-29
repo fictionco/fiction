@@ -27,7 +27,7 @@ module.exports = Factor => {
       _.source = resolve(this.baseDir, this.folder("source"))
       _.dist = resolve(this.baseDir, this.folder("dist"))
       _.generated = resolve(this.baseDir, this.folder("generated"))
-      _.config = resolve(this.baseDir, "config")
+      _.config = resolve(this.baseDir)
       _.template = resolve(_.source, "index.html")
       _.static = resolve(_.source, "static")
       _.favicon = resolve(_.static, "favicon.png")

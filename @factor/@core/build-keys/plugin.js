@@ -8,17 +8,17 @@ module.exports = Factor => {
       const res = require("path").resolve
 
       Factor.$paths.add({
-        "keys-public": res(conf, "keys-public.json"),
-        "keys-private-raw": res(conf, "keys-private.json"),
-        "keys-encrypted-development": res(gen, "keys-encrypted-development.json"),
-        "keys-encrypted-production": res(gen, "keys-encrypted-production.json"),
-        passwords: res(conf, "passwords.json")
+        "public-config": res(conf, "factor-config.js"),
+        "secrets-config": res(conf, "factor-secrets.js"),
+        "secrets-encrypted-development": res(conf, "secrets-encrypted-development.json"),
+        "secrets-encrypted-production": res(conf, "secrets-encrypted-production.json"),
+        decryptor: res(conf, "factor-decryptor.json")
       })
 
-      this.pathRaw = Factor.$paths.get("keys-private-raw")
-      this.pathPasswords = Factor.$paths.get("passwords")
-      this.pathEncProduction = Factor.$paths.get("keys-encrypted-production")
-      this.pathEncDevelopment = Factor.$paths.get("keys-encrypted-development")
+      this.pathRaw = Factor.$paths.get("secrets-config")
+      this.pathDecryptor = Factor.$paths.get("decryptor")
+      this.pathEncProduction = Factor.$paths.get("secrets-encrypted-production")
+      this.pathEncDevelopment = Factor.$paths.get("secrets-encrypted-development")
 
       this.doWatchers()
 
@@ -48,10 +48,10 @@ module.exports = Factor => {
     }
 
     analyzeKeys(environment) {
-      const status = [`${Factor.$utils.toLabel(environment)} keys:`]
+      const status = [`Secrets "${environment}":`]
 
       const raw = this.getRawKeys(environment)
-      const password = this.getPassword(environment)
+      const password = this.getDecryptKey(environment)
 
       if (raw) {
         status.push("Unencrypted keys found.")
@@ -60,9 +60,9 @@ module.exports = Factor => {
       }
 
       if (password) {
-        status.push("Encryption password found.")
+        status.push("Encryption key found.")
       } else {
-        status.push("Missing encryption password.")
+        status.push("Missing encryption key.")
       }
 
       if (password && raw) {
@@ -105,15 +105,14 @@ module.exports = Factor => {
     }
 
     readEncryptedSecrets(environment) {
-      const filterKey = `keys-encrypted-${environment}`
-      const file = Factor.$paths.get(filterKey)
+      const file = Factor.$paths.get(`secrets-encrypted-${environment}`)
 
       let encrypted = {}
       encrypted = this.file(file)
       let decrypted
       if (encrypted) {
         try {
-          decrypted = require("crypto-json").decrypt(encrypted, this.getPassword(environment))
+          decrypted = require("crypto-json").decrypt(encrypted, this.getDecryptKey(environment))
         } catch (error) {}
       }
 
@@ -125,6 +124,7 @@ module.exports = Factor => {
     }
 
     writeJsonFile({ data, path }) {
+      console.log("WRITE", path)
       fs.writeFileSync(path, JSON.stringify(data, null, "  "))
     }
 
@@ -132,13 +132,13 @@ module.exports = Factor => {
       const encrypted = require("crypto-json").encrypt(raw, password)
 
       this.writeJsonFile({
-        path: Factor.$paths.get(`keys-encrypted-${environment}`),
+        path: Factor.$paths.get(`secrets-encrypted-${environment}`),
         data: encrypted
       })
     }
 
     readEncrypted(environment) {
-      const password = this.getPassword(environment)
+      const password = this.getDecryptKey(environment)
 
       let config = {}
 
@@ -149,20 +149,20 @@ module.exports = Factor => {
       return config
     }
 
-    getPassword(environment) {
-      let password = Factor.$filters.apply(`master-password-${environment}`)
+    getDecryptKey(environment) {
+      const rawSecrets = this.file(this.pathRaw)
+      const filterPassword = Factor.$filters.apply(`secrets-decrypt-${environment}`)
+      const decryptor = this.file(this.pathDecryptor)
 
-      if (password) {
+      if (filterPassword) {
         return password
+      } else if (rawSecrets && rawSecrets[environment].encrypt) {
+        return rawSecrets[environment].encrypt
+      } else if (decryptor && decryptor[environment]) {
+        return decryptor[environment]
+      } else {
+        return ""
       }
-
-      let passwordFile = this.file(this.pathPasswords)
-
-      if (!passwordFile) {
-        return false
-      }
-
-      return passwordFile[environment] ? passwordFile[environment] : false
     }
   })()
 }
