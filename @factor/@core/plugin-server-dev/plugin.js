@@ -23,7 +23,11 @@ export default Factor => {
     }
 
     devServer() {
-      this.templatePath = Factor.$paths.get("template")
+      this.templatePath = Factor.$paths.resolveFilePath("index.html")
+
+      if (!this.templatePath) {
+        throw new Error("Couldn't locate the index.html template file")
+      }
 
       this.confServer = Factor.$filters.apply("webpack-config", {
         target: "server",
@@ -105,10 +109,7 @@ export default Factor => {
 
     compileClient() {
       // modify client config to work with hot middleware
-      this.confClient.entry.app = [
-        "webpack-hot-middleware/client?quiet=true",
-        this.confClient.entry.app
-      ]
+      this.confClient.entry.app = ["webpack-hot-middleware/client?quiet=true", this.confClient.entry.app]
       this.confClient.output.filename = "[name].js"
       this.confClient.plugins.push(
         new webpack.HotModuleReplacementPlugin(),

@@ -9,7 +9,7 @@
 <script>
 export default {
   components: {
-    "page-error": () => import("@/page-error")
+    "page-error": () => import("#/page-error")
   },
   data() {
     return {

@@ -28,6 +28,8 @@ module.exports = Factor => {
     }
 
     addWatchers() {
+      this.generateLoaders()
+
       Factor.$filters.add("cli-tasks", _ => {
         _.push({
           command: (ctx, task) => {
@@ -208,6 +210,7 @@ module.exports = Factor => {
     }
 
     readHtmlFile(filePath, { minify = true, name = "" } = {}) {
+      console.log("filepath", filePath)
       const fs = require("fs-extra")
 
       let str = fs.readFileSync(filePath, "utf-8")

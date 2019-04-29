@@ -5,7 +5,7 @@
 <script>
 export default {
   components: {
-    logo: () => import("@/logo")
+    logo: () => import("#/logo")
   }
 }
 </script>

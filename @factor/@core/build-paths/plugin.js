@@ -1,4 +1,5 @@
 const { resolve, dirname } = require("path")
+const { pathExistsSync } = require("fs-extra")
 module.exports = Factor => {
   return new (class {
     constructor() {
@@ -10,6 +11,34 @@ module.exports = Factor => {
       this.assignPaths()
       this.addServerPaths()
       this.dataPaths()
+
+      // Add static folder copy config to webpack copy plugin
+      Factor.$filters.add("webpack-copy-files-config", _ => {
+        return _.concat(this.staticCopyConfig())
+      })
+    }
+
+    // Returns configuration array for webpacks copy plugin
+    // if static folder is in app or theme, contents should copied to dist
+    staticCopyConfig() {
+      const themeRoot = this.paths.theme
+      const themePath = themeRoot ? resolve(themeRoot, this.folder("static")) : false
+      const appPath = this.paths.static
+
+      const paths = [themePath, appPath]
+      const copyItems = []
+
+      paths.forEach(p => {
+        if (pathExistsSync(p)) {
+          copyItems.push({
+            from: p,
+            to: "static",
+            ignore: [".*"]
+          })
+        }
+      })
+
+      return copyItems
     }
 
     assignFolderNames() {
@@ -17,6 +46,7 @@ module.exports = Factor => {
       _.dist = "dist"
       _.source = "src"
       _.generated = "generated"
+      _.static = "static"
 
       this.folderNames = Factor.$filters.apply("folder-names", _)
     }
@@ -28,13 +58,31 @@ module.exports = Factor => {
       _.dist = resolve(this.baseDir, this.folder("dist"))
       _.generated = resolve(this.baseDir, this.folder("generated"))
       _.config = resolve(this.baseDir)
-      _.template = resolve(_.source, "index.html")
+
       _.static = resolve(_.source, "static")
-      _.favicon = resolve(_.static, "favicon.png")
+
+      //_.template = resolve(_.source, "index.html")
+      //_.favicon = resolve(_.static, "favicon.png")
 
       _.modules = this.getModulesFolders()
 
       this.paths = Factor.$filters.apply("paths", _)
+    }
+
+    resolveFilePath(file, folder = "") {
+      console.log("RESOLVE", file, folder)
+      const themeRoot = this.paths.theme
+      const folderName = this.folder(folder)
+      const themePath = themeRoot ? resolve(themeRoot, folderName, file) : false
+      const appPath = resolve(this.paths.source, folderName, file)
+
+      if (pathExistsSync(appPath)) {
+        return appPath
+      } else if (themePath && pathExistsSync(themePath)) {
+        return themePath
+      } else {
+        return ""
+      }
     }
 
     getModulesFolders() {
@@ -59,11 +107,11 @@ module.exports = Factor => {
     }
 
     get(p) {
-      return this.paths[p] || null
+      return this.paths[p] || ""
     }
 
     folder(f) {
-      return this.folderNames[f] || null
+      return this.folderNames[f] || ""
     }
 
     add(p, value) {

@@ -101,11 +101,12 @@ module.exports.default = Factor => {
       this.httpDetails = Factor.$paths.getHttpDetails()
 
       if (mode == "production") {
+        const template = Factor.$paths.resolveFilePath("index.html")
         const bundle = require(Factor.$paths.get("server-bundle"))
         const clientManifest = require(Factor.$paths.get("client-manifest"))
 
         this.renderer = this.createRenderer(bundle, {
-          template: Factor.$files.readHtmlFile(Factor.$paths.get("template")),
+          template: Factor.$files.readHtmlFile(template),
           clientManifest
         })
       } else {
@@ -184,11 +185,11 @@ module.exports.default = Factor => {
     }
 
     resolveStaticAssets() {
-      const fav = Factor.$paths.get("favicon")
+      const fav = Factor.$paths.resolveFilePath("favicon.png", "static")
       try {
         this.server.use(favicon(fav))
       } catch (error) {
-        Factor.$log.warn(`Couldn't find [${fav}]`)
+        //Factor.$log.warn(`Couldn't find Favicon @[${fav}]`)
       }
 
       // Global and Static Images/Manifests, etc..

@@ -4,7 +4,7 @@ const merge = require("webpack-merge")
 const webpack = require("webpack")
 const nodeExternals = require("webpack-node-externals")
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin")
-const CopyWebpackPlugin = require("copy-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin")
 const VueLoaderPlugin = require("vue-loader/lib/plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
@@ -279,13 +279,7 @@ module.exports.default = Factor => {
           fs: "empty"
         },
         plugins: [
-          new CopyWebpackPlugin([
-            {
-              from: Factor.$paths.get("static"),
-              to: "static",
-              ignore: [".*"]
-            }
-          ]),
+          new CopyPlugin(Factor.$filters.apply("webpack-copy-files-config", [])),
           new VueLoaderPlugin(),
           new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify(NODE_ENV),

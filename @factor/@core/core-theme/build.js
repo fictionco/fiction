@@ -31,7 +31,7 @@ module.exports = Factor => {
         // - TODO if a file is added to app, then server needs a restart, fix should be possible
         Factor.$filters.add("webpack-plugins", (_, { webpack }) => {
           const plugin = new webpack.NormalModuleReplacementPlugin(/^\#/, resource => {
-            const override = resource.request.replace("#", Factor.$paths.get("app"))
+            const override = resource.request.replace("#", Factor.$paths.get("source"))
 
             const glob = require("glob").sync
             const overrideFiles = glob(`${override}*`)
@@ -50,7 +50,7 @@ module.exports = Factor => {
     addPath() {
       const { dirname } = require("path")
       const themePath = this.themePackageName
-        ? dirname(require.resolve(`${this.themePackageName}`))
+        ? dirname(require.resolve(this.themePackageName))
         : Factor.$paths.get("app")
 
       Factor.$paths.add({

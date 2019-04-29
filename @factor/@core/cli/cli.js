@@ -38,7 +38,7 @@ const cli = async () => {
         .command("dev")
         .description("Start development server")
         .action(args => {
-          this.extend({ env: "development", ...args })
+          this.extend({ env: "development", cli: true, ...args })
           this.cli()
         })
 
@@ -46,7 +46,7 @@ const cli = async () => {
         .command("start")
         .description("Start production build on local server")
         .action(args => {
-          this.extend({ env: "production", ...args })
+          this.extend({ env: "production", cli: true, ...args })
           this.tasks.push({
             command: "factor",
             args: ["build"],
@@ -146,9 +146,6 @@ const cli = async () => {
     }
 
     async cli() {
-      //await this.callbacks(`build-cli`)
-      // await this.callbacks(`build-${process.env.NODE_ENV}`)
-
       await this.cliTasks()
 
       const r = Factor.$filters.apply(`cli-runners`, [
@@ -157,6 +154,7 @@ const cli = async () => {
           name: "Dev"
         }
       ])
+
       this.startRunners(r)
     }
 

@@ -13,18 +13,35 @@ module.exports = Factor => {
       this.addCoreExtension("log", require("@factor/build-log"))
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("paths", require("@factor/build-paths"))
-      this.addCoreExtension("theme", require("@factor/core-theme/build"))
+
       this.addCoreExtension("keys", require("@factor/build-keys"))
       this.addCoreExtension("files", require("@factor/build-files"))
+      this.addCoreExtension("theme", require("@factor/core-theme/build"))
       this.addCoreExtension("config", require("@factor/admin-config"))
 
       const transpiler = require("@factor/build-transpiler")(Factor)
 
       transpiler.register({ target: "build" })
 
+      Factor.$filters.apply("after-build-config")
+
       // This just adds the dirname to config and other paths
       require("@factor/app/build")(Factor)
 
+      // Factor.$filters.add("cli-tasks", _ => {
+      //   _.push({
+      //     command: (ctx, task) => {
+      //       task.title = this.loadPlugins()
+      //     },
+      //     title: "Loading build modules"
+      //   })
+      //   return _
+      // })
+
+      this.loadPlugins()
+    }
+
+    loadPlugins() {
       const plugins = require(Factor.$paths.get("plugins-loader-build"))
 
       this.injectPlugins(plugins)
@@ -38,6 +55,8 @@ module.exports = Factor => {
       }
 
       Factor.$filters.run("initialize-build")
+
+      return `Loaded ${Object.keys(plugins).length} build modules`
     }
 
     addCoreExtension(id, extension) {

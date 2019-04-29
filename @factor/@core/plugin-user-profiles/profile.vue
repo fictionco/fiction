@@ -83,7 +83,7 @@
 <script>
 export default {
   components: {
-    "page-error": () => import("@/page-error")
+    "page-error": () => import("#/page-error")
   },
   metatags() {
     if (this.post && this.post.displayName) {
