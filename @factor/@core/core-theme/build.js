@@ -18,9 +18,9 @@ module.exports = Factor => {
         // The selected theme's plugin.js file should be loaded
         const { target: themeTarget = "" } = this.buildConfig()
         Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
-          if (Factor.$files.arrayIntersect(themeTarget, target)) {
-            load.push(extensions.find(_ => _.module == this.themePackageName))
-          }
+          //if (Factor.$files.arrayIntersect(themeTarget, target)) {
+          load.push(extensions.find(_ => _.module == this.themePackageName))
+          //}
 
           return load
         })

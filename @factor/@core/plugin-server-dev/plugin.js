@@ -81,6 +81,12 @@ export default Factor => {
       return Factor.$files.readHtmlFile(this.templatePath)
     }
     watcher() {
+      chokidar.watch([`${Factor.$paths.get("source")}/**`], { ignoreInitial: true }).on("all", (event, path) => {
+        if (event == "add" || event == "unlink") {
+          this.updateServer(`Source Files Change [${event}@${path}]`)
+        }
+      })
+
       const customWatchers = Factor.$filters.apply("build-watchers", [
         {
           name: "Template",

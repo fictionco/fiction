@@ -15,6 +15,7 @@ export default Factor => {
 
       this.serverlessPackages = require(Factor.$paths.get("plugins-loader-serverless"))
 
+      console.log("baseDependencies", this.serverlessPackages)
       this.watchPaths = [Factor.$paths.get("config-file"), Factor.$paths.get("secrets-file")]
       this.dependencies = {}
       this.localDependencies = {}
@@ -120,7 +121,7 @@ export default Factor => {
           "**/start.js",
           `**/${this.folderName}`,
           `**/*raw*`,
-          `**/*private*`
+          `**/factor-secrets*`
         ]
       })
 
