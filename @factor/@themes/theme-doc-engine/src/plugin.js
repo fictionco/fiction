@@ -40,6 +40,11 @@ module.exports.default = Factor => {
             path: "/docs",
             component: () => import("./page-docs"),
             meta: { footer: false }
+          },
+          {
+            path: "/plugins",
+            component: () => import("./page-plugins"),
+            meta: { nav: true }
           }
         ]
 
