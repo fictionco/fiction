@@ -146,12 +146,13 @@ export default {
     }
   },
   created() {
-    // const { uid } = this.$route.query
-    // if (!uid) {
-    //   this.loading = true
-    // }
+    // If no query info set, then show loading until logged in member can be loaded
+    const { username } = this.$route.params
+    const { id } = this.$route.query
+    if (!id && !username) {
+      this.loading = true
+    }
   },
-  created() {},
   mounted() {
     //Check for empty UID value, if logged in then show logged in user's profile
     this.setOwnUserProfile()
@@ -226,6 +227,7 @@ export default {
 
     padding: 2em;
     border-radius: 4px;
+    background: #fff;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04),
       0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
     .panel {

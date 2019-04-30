@@ -4,7 +4,7 @@
       <factor-loading-ring width="4em" />
     </div>
     <div class="app-layout">
-      <site-head />
+      <dashboard-head />
 
       <div class="app-content">
         <div class="app-nav" @click.stop>
@@ -29,7 +29,7 @@
 export default {
   components: {
     "dashboard-nav": () => import("./nav"),
-    "site-head": () => import("./head")
+    "dashboard-head": () => import("./head")
   },
   metatags() {
     const pageName = this.$route.path.split("/").pop()

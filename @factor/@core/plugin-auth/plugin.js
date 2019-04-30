@@ -43,7 +43,6 @@ export default Factor => {
         })
 
         Factor.$user.init(uid => {
-          console.log("USER INIT", uid)
           if (auth === true && !uid) {
             Factor.$router.push({
               path: "/signin",
@@ -59,7 +58,6 @@ export default Factor => {
         if (!uid) {
           this.removeAuth()
         }
-        console.log("AUTH STATE", uid)
 
         Factor.$events.$emit("auth-init", { uid })
         this.initialized = true
