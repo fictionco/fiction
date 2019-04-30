@@ -1,5 +1,5 @@
 <template>
-  <div class="single-entry">
+  <blog-wrap class="single-entry">
     <factor-link class="back" path="/blog">
       <factor-icon icon="arrow-left" />All Posts
     </factor-link>
@@ -17,11 +17,12 @@
     </part-entry>
     <part-related :post="post" />
     <part-widget />
-  </div>
+  </blog-wrap>
 </template>
 <script>
 export default {
   components: {
+    "blog-wrap": () => import("./wrap"),
     "part-entry": () => import("./entry"),
     "part-related": () => import("./related"),
     "part-widget": () => import("./widget")

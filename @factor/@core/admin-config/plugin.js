@@ -27,7 +27,19 @@ module.exports = Factor => {
         }
       ].filter(_ => _)
 
-      this._settings = merge.all(configObjects)
+      const mergedConfig = merge.all(configObjects)
+
+      mergedConfig.url = this.getSiteUrl(mergedConfig)
+
+      this._settings = mergedConfig
+    }
+
+    getSiteUrl(config) {
+      if (this.env == "production") {
+        return config.url || config.homepage || ""
+      } else {
+        return Factor.$paths.localhostUrl()
+      }
     }
 
     settings() {

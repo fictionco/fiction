@@ -1,5 +1,5 @@
 <template>
-  <div class="entries">
+  <blog-wrap class="entries">
     <div v-if="$route.params.tag" class="back-nav">
       <factor-link btn="default" path="/blog">
         <factor-icon icon="arrow-left" />All Posts
@@ -27,7 +27,7 @@
           :post-id="post.id"
           :loading="loading"
           :tags="post.tags"
-          :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
+          :path="$posts.getPermalink({type: post.type, permalink: post.permalink, root: false})"
         />
         <part-aside
           v-else
@@ -38,16 +38,17 @@
           :tags="post.tags"
           :loading="loading"
           :images="post.images"
-          :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
+          :path="$posts.getPermalink({type: post.type, permalink: post.permalink, root: false})"
         />
       </div>
     </div>
     <!-- <part-pagination /> -->
-  </div>
+  </blog-wrap>
 </template>
 <script>
 export default {
   components: {
+    "blog-wrap": () => import("./wrap"),
     "part-entry": () => import("./entry"),
     "part-aside": () => import("./aside"),
     "part-pagination": () => import("./pagination")
@@ -96,7 +97,7 @@ export default {
     async getPosts() {
       const tag = this.$route.params.tag || ""
       this.loading = true
-      
+
       const r = await this.$posts.getPostIndex({
         type: "blog",
         tag,
@@ -109,7 +110,18 @@ export default {
 </script>
 
 <style lang="less">
+:root {
+  --panel-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
+    0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
+}
+
 .entries {
+  .grid-entry,
+  .grid-aside {
+    align-items: center;
+
+    display: flex;
+  }
   .back-nav {
     margin-bottom: 1em;
   }
@@ -140,7 +152,7 @@ export default {
   position: relative;
   z-index: 0;
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 2em;
   grid-template-columns: 1fr 1fr 1fr;
   .entry {
     grid-column: span 1;

@@ -74,7 +74,7 @@ module.exports = Factor => {
       const folderName = this.folder(folder)
       const themePath = themeRoot ? resolve(themeRoot, folderName, file) : false
       const appPath = resolve(this.paths.source, folderName, file)
-      console.log("RESOLVE", file, themeRoot, themePath, appPath)
+
       if (pathExistsSync(appPath)) {
         return appPath
       } else if (themePath && pathExistsSync(themePath)) {
@@ -153,7 +153,7 @@ module.exports = Factor => {
       if (this.httpDetails) {
         return this.httpDetails
       } else {
-        const port = Factor.$config.setting("port") || 7777
+        const port = Factor.FACTOR_CONFIG.port || 7777
 
         let routine = "http"
         let certDir = false
