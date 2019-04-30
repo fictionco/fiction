@@ -2,6 +2,10 @@
   <div class="docs-sidebar">
     <div class="sidebar-inner">
       <h2 class="title">Guide</h2>
+      <!-- <select class="version-select">
+        <option value="SELF" selected>2.x</option>
+        <option value="v1">1.x</option>
+      </select>-->
       <ul class="menu-root">
         <li>
           <h3>Essentials</h3>

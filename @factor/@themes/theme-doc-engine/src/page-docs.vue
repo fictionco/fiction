@@ -58,6 +58,13 @@
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             </li>
           </ul>
+          <blockquote>
+            <p>
+              Blockquote test. This page assumes you’ve already read the
+              <factor-link path="#link-test">Plugins Basics</factor-link>. Read that first if you are new to plugins.
+            </p>
+          </blockquote>
+          <docs-footer />
         </div>
       </div>
     </section>
@@ -67,7 +74,8 @@
 <script>
 export default {
   components: {
-    "docs-sidebar": () => import("#/el/el-docs-sidebar")
+    "docs-sidebar": () => import("#/el/el-docs-sidebar"),
+    "docs-footer": () => import("#/el/el-docs-footer")
   },
   data() {
     return {
@@ -144,6 +152,9 @@ export default {
         font-weight: 700;
       }
     }
+    a {
+      color: var(--color-primary);
+    }
     p,
     ul,
     ol {
@@ -160,6 +171,15 @@ export default {
       border-left: 4px solid var(--color-primary);
       background-color: #fff;
       border-radius: 0 4px 4px 0;
+    }
+    blockquote {
+      margin: 2em 0;
+      padding-left: 20px;
+      border-left: 4px solid var(--color-primary);
+      p {
+        font-weight: 700;
+        padding-bottom: 0;
+      }
     }
   }
 }
