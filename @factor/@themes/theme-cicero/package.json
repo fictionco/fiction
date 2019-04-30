@@ -1,13 +1,12 @@
 {
   "name": "@factor/theme-cicero",
   "version": "0.0.7",
-  "main": "plugin.js",
+  "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": ["app", "build"],
     "scope": "theme"
   },
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
