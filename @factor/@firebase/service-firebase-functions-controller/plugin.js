@@ -18,13 +18,13 @@ module.exports = FACTOR_CONFIG => {
 
       const RC = require(resolve(FACTOR_CONFIG.baseDir, ".firebaserc"))
 
-      let staging = false
+      let env = "production"
 
       if (RC && RC.projects) {
         Object.keys(RC.projects).forEach(projectEnv => {
           if (project == RC.projects[projectEnv]) {
             if (projectEnv == "staging" || projectEnv == "development") {
-              staging = true
+              env = "development"
             }
           }
         })
@@ -52,13 +52,9 @@ module.exports = FACTOR_CONFIG => {
         require("@factor/service-firebase-firestore").default(Factor)
       }
 
-      FACTOR_CONFIG = {
-        baseDir: FACTOR_CONFIG.baseDir,
-        staging,
-        setup
-      }
+      const baseDir = FACTOR_CONFIG.baseDir
 
-      this.endpointHandler = require("@factor/serverless-extend")(Factor, FACTOR_CONFIG)
+      this.endpointHandler = require("@factor/serverless-extend")(Factor, { baseDir, env, setup })
 
       const {
         firebase: { databaseURL, serviceAccount }

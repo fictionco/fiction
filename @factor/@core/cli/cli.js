@@ -24,7 +24,7 @@ const cli = async () => {
       const { env = "development" } = args
       Factor.$headers = args
       process.env.NODE_ENV = env
-      require("@factor/build-extend")(Factor)
+      return require("@factor/build-extend")(Factor)
     }
 
     setupProgram() {
@@ -37,22 +37,26 @@ const cli = async () => {
       this.program
         .command("dev")
         .description("Start development server")
-        .action(args => {
+        .action(async args => {
           this.extend({ env: "development", cli: true, ...args })
-          this.cli()
+          await this.cliTasks()
+
+          this.cliRunners()
         })
 
       this.program
         .command("start")
         .description("Start production build on local server")
-        .action(args => {
+        .action(async args => {
           this.extend({ env: "production", cli: true, ...args })
           this.tasks.push({
             command: "factor",
-            args: ["build"],
+            args: ["build", env],
             title: "Generating Distribution App"
           })
-          this.cli()
+          await this.cliTasks()
+
+          this.cliRunners()
         })
 
       this.program
@@ -64,12 +68,12 @@ const cli = async () => {
         })
 
       this.program
-        .command("build")
+        .command("build [env]")
         .option("--analyze", "Analyze package size")
         .option("--speed", "Output build speed data")
         .description("Build production app")
-        .action(args => {
-          this.createDist(args)
+        .action((env = "development", args) => {
+          this.createDist({ env, ...args })
         })
 
       this.program
@@ -77,7 +81,7 @@ const cli = async () => {
         .description("Build and deploy production app")
         .option("--no-build", "Prevent distribution build (for testing)")
         .action(async (env, args) => {
-          await this.createDist(args)
+          await this.createDist({ env, ...args })
           const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
           await this.runTasks(t)
           this.callbacks("deploy-app", { env: env || "development", ...args })
@@ -125,7 +129,7 @@ const cli = async () => {
 
     async createDist(args) {
       const { build = true } = args
-      this.extend({ env: "production", ...args })
+      this.extend(args)
 
       if (build) {
         await this.callbacks("create-distribution-app", args)
@@ -145,9 +149,7 @@ const cli = async () => {
       await this.runTasks(t)
     }
 
-    async cli() {
-      await this.cliTasks()
-
+    async cliRunners() {
       const r = Factor.$filters.apply(`cli-runners`, [
         {
           command: `factor serve ${process.env.NODE_ENV}`,

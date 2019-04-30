@@ -28,16 +28,6 @@ module.exports = Factor => {
       // This just adds the dirname to config and other paths
       require("@factor/app/build")(Factor)
 
-      // Factor.$filters.add("cli-tasks", _ => {
-      //   _.push({
-      //     command: (ctx, task) => {
-      //       task.title = this.loadPlugins()
-      //     },
-      //     title: "Loading build modules"
-      //   })
-      //   return _
-      // })
-
       this.loadPlugins()
     }
 

@@ -1,13 +1,11 @@
 const { resolve } = require("path")
 const parse = require("qs").parse
+const merge = require("deepmerge")
 
 const cors = require("cors")({ origin: true })
-module.exports = (Factor, FACTOR_CONFIG) => {
+module.exports = (Factor, { baseDir, env, setup }) => {
   return new (class {
     constructor() {
-      Factor.FACTOR_TARGET = "build-serverless"
-      Factor.FACTOR_CONFIG = FACTOR_CONFIG
-      Factor.$theme = FACTOR_CONFIG.theme || false
       Factor.FACTOR_ENV = "serverless"
       this.setup()
       this.endpointService = Factor.$filters.apply("endpoint-service")
@@ -21,9 +19,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
 
       this.addCoreExtension("filters", require("@factor/filters"))
 
-      if (typeof FACTOR_CONFIG.setup == "function") {
-        FACTOR_CONFIG.setup()
-      }
+      Factor.FACTOR_CONFIG = this.config()
 
       this.addCoreExtension("paths", require("@factor/build-paths"))
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
@@ -42,14 +38,33 @@ module.exports = (Factor, FACTOR_CONFIG) => {
       })
     }
 
-    _runCallbacks(callbacks) {
-      for (var key in callbacks) {
-        const cb = callbacks[key]
-        if (cb && typeof cb == "function") {
-          cb()
-        }
+    config() {
+      if (typeof setup == "function") {
+        setup()
+      }
+
+      let { factor: USER_CONFIG = {} } = require(resolve(baseDir, "package"))
+
+      let configFile = require(resolve(baseDir, "factor-config"))
+
+      const configObjects = [configFile[env], configFile.config].filter(_ => typeof _ != "undefined")
+      USER_CONFIG = { ...USER_CONFIG, ...merge.all(configObjects) }
+
+      return {
+        baseDir,
+        env,
+        ...USER_CONFIG
       }
     }
+
+    // _runCallbacks(callbacks) {
+    //   for (var key in callbacks) {
+    //     const cb = callbacks[key]
+    //     if (cb && typeof cb == "function") {
+    //       cb()
+    //     }
+    //   }
+    // }
 
     endpoints() {
       const endpoints = {}
@@ -75,7 +90,7 @@ module.exports = (Factor, FACTOR_CONFIG) => {
         }
       })
 
-      this._runCallbacks(Factor.$filters.apply(Factor.FACTOR_TARGET, {}))
+      //this._runCallbacks(Factor.$filters.apply(Factor.FACTOR_TARGET, {}))
 
       return endpoints
     }

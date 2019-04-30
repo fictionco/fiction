@@ -28,18 +28,21 @@ module.exports = Factor => {
     }
 
     addWatchers() {
-      this.generateLoaders()
-
-      Factor.$filters.add("cli-tasks", _ => {
-        _.push({
-          command: (ctx, task) => {
-            task.title = this.generateLoaders()
-          },
-          title: "Generating extension loaders"
-        })
-
-        return _
+      Factor.$filters.add("after-build-config", () => {
+        const res = this.generateLoaders()
+        Factor.$log.success(res)
       })
+
+      // Factor.$filters.add("cli-tasks", _ => {
+      //   _.push({
+      //     command: (ctx, task) => {
+      //       task.title = this.generateLoaders()
+      //     },
+      //     title: "Generating extension loaders"
+      //   })
+
+      //   return _
+      // })
       Factor.$filters.add("build-watchers", _ => {
         _.push({
           name: "Generate Loaders - Package Added/Removed",
@@ -210,7 +213,6 @@ module.exports = Factor => {
     }
 
     readHtmlFile(filePath, { minify = true, name = "" } = {}) {
-      console.log("filepath", filePath)
       const fs = require("fs-extra")
 
       let str = fs.readFileSync(filePath, "utf-8")

@@ -3,7 +3,10 @@ const merge = require("deepmerge")
 module.exports = Factor => {
   return new (class {
     constructor() {
-      this.env = process.env.NODE_ENV == "development" || Factor.FACTOR_CONFIG.staging ? "development" : "production"
+      this.env =
+        process.env.NODE_ENV == "development" || Factor.FACTOR_CONFIG.env == "development"
+          ? "development"
+          : "production"
 
       this.initialize()
     }

@@ -1,5 +1,6 @@
 const { ensureFileSync, writeFileSync } = require("fs-extra")
 const { resolve, dirname } = require("path")
+const merge = require("deepmerge")
 
 export default Factor => {
   return new (class {
@@ -33,7 +34,7 @@ export default Factor => {
         _.push({
           command: "firebase",
           args: ["deploy"],
-          title: "Deploying App to Firebase"
+          title: `Deploying App to Firebase (${Factor.config.setting("env")})`
         })
 
         return _
@@ -60,13 +61,10 @@ export default Factor => {
     }
 
     createFirebaseJson() {
+      const { firebaseJson = {} } = Factor.$config.setting("firebase") || {}
       const fileJson = Factor.$filters.apply("firebase-config", {})
 
-      const destinationFile = resolve(this.appPath, "firebase.json")
-      ensureFileSync(destinationFile)
-      writeFileSync(destinationFile, JSON.stringify(fileJson, null, 4))
-
-      this.writeFile("firebase.json", fileJson)
+      this.writeFile("firebase.json", merge.all([fileJson, firebaseJson]))
     }
 
     createFirebaseRC() {
@@ -76,6 +74,8 @@ export default Factor => {
         config: { firebase: { projectId: allProject = "" } = {} } = {}
       } = require(Factor.$paths.get("config-file"))
 
+      const { firebaserc = {} } = Factor.$config.setting("firebase") || {}
+
       const fileJson = {
         projects: {
           production: prodProject || allProject,
@@ -83,13 +83,13 @@ export default Factor => {
         }
       }
 
-      this.writeFile(".firebaserc", fileJson)
+      this.writeFile(".firebaserc", merge.all([fileJson, firebaserc]))
     }
 
     writeFile(name, fileJson) {
       const destinationFile = resolve(this.appPath, name)
       ensureFileSync(destinationFile)
-      writeFileSync(destinationFile, JSON.stringify(fileJson, null, 4))
+      writeFileSync(destinationFile, JSON.stringify(fileJson, null, "  "))
     }
   })()
 }
