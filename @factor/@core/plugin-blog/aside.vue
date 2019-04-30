@@ -1,9 +1,5 @@
 <template>
-  <article
-    class="aside-entry"
-    :style="{'background-image': backgroundStyle}"
-    :class="hasBackground ? 'has-bg' : 'no-bg'"
-  >
+  <article class="aside-entry">
     <div class="format-aside aside-wrap">
       <h2 class="aside-header">
         <factor-link :path="path">{{ title }}</factor-link>
@@ -55,8 +51,14 @@ export default {
 <style lang="less">
 .aside-entry {
   letter-spacing: -0.03em;
-  background: #fff;
+
   position: relative;
+  background-size: cover;
+  background-position: 50%;
+  margin-bottom: 0;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  min-width: 0;
   &.no-bg {
     &:hover {
       h2 {
@@ -65,17 +67,21 @@ export default {
     }
   }
   &.has-bg {
-    color: #fff;
-    &:after {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      content: " ";
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 10;
-      top: 0;
-      border-radius: 4px;
-    }
+    //color: #fff;
+    // &:after {
+    //   position: absolute;
+    //   width: 100%;
+    //   height: 100%;
+    //   content: " ";
+    //   background-image: linear-gradient(
+    //     -126.24deg,
+    //     rgba(0, 0, 0, 0.1) 4.42%,
+    //     rgba(0, 0, 0, 0.3) 70.27%
+    //   );
+    //   z-index: 10;
+    //   top: 0;
+    //   border-radius: 4px;
+    // }
     .aside-wrap {
       z-index: 100;
       position: relative;
@@ -88,18 +94,6 @@ export default {
     .entry-tag {
       background: rgba(0, 0, 0, 0.3);
     }
-  }
-  background-size: cover;
-  background-position: 50%;
-  margin-bottom: 0;
-  transition: all 0.2s ease-in-out;
-  font-weight: 500;
-  min-width: 0;
-  border: 1px solid #e7ebed;
-  border-radius: 5px;
-  &:hover {
-    box-shadow: 0 3px 20px 0 rgba(84, 110, 122, 0.1);
-    transform: translateY(-1px);
   }
 
   &:active {

@@ -73,26 +73,6 @@ export default {
     @media (max-width: 767px) {
       max-width: 100%;
     }
-    .entry {
-      border: 1px solid #e7ebed;
-      border-radius: 5px;
-      &:hover {
-        box-shadow: 0 3px 20px 0 rgba(84, 110, 122, 0.1);
-        transform: translateY(-1px);
-        h2 {
-          color: #0496ff;
-        }
-      }
-
-      &:active {
-        transition: 0s;
-        box-shadow: none;
-        transform: translateY(0);
-        h2 {
-          color: #ff0076;
-        }
-      }
-    }
   }
 }
 </style>

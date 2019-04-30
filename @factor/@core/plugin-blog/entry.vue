@@ -102,7 +102,7 @@ export default {
 }
 .entry {
   letter-spacing: -0.03em;
-  background: #fff;
+
   margin-bottom: 0;
   transition: all 0.2s ease-in-out;
   font-weight: 500;
