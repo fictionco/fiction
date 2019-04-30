@@ -1,10 +1,9 @@
 <template>
   <div class="page-docs">
     <section class="docs-wrap">
+      <docs-sidebar />
       <div class="mast">
-        <docs-sidebar />
         <div class="content">
-          {{ this.title }}
           <h1>Introduction</h1>
           <h2 id="What-is-Factor">
             <factor-link path="#What-is-Factor" class="current">What is Factor?</factor-link>
@@ -79,7 +78,7 @@ export default {
   metatags() {
     return {
       title: "Introduction — Factor.js",
-      description: "Vue.js - The Serverless Framework.",
+      description: "Factor.js - The Serverless Framework.",
       image: ""
     }
   }
@@ -116,7 +115,7 @@ export default {
   .content {
     margin: 0 auto;
     max-width: 700px;
-    padding: 3em 0 3em 9em;
+    padding: 3em 0 3em 3.125em;
     h1,
     h2,
     h3 {

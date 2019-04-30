@@ -74,6 +74,9 @@ export default {
     max-width: 1000px;
     margin: 0 auto;
   }
+  .factor-btn {
+    font-weight: 700;
+  }
 
   .intro {
     padding: 6em 0;
@@ -81,6 +84,8 @@ export default {
       padding: 4em 0;
     }
     .intro-inner {
+      text-align: center;
+      max-width: 670px;
       .title {
         font-weight: 600;
         font-size: 3em;
