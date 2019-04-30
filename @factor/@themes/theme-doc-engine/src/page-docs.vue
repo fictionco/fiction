@@ -1,156 +1,10 @@
 <template>
   <div class="page-docs">
     <section class="docs-wrap">
-      <div class="docs-inner mast">
-        <div class="sidebar">
-          <h2 class="title">Guide</h2>
-          <ul class="menu-root">
-            <li>
-              <h3>Essentials</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/quick-start">Quick Start</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/introduction" class="sidebar-link current">Introduction</factor-link>
-              <ul class="menu-sub">
-                <li>
-                  <factor-link path="#What-is-Factor" class="section-link">What is Factor?</factor-link>
-                </li>
-                <li>
-                  <factor-link path="#Getting-Started" class="section-link">Getting Started</factor-link>
-                </li>
-                <li>
-                  <factor-link path="#" class="section-link">Placeholder</factor-link>
-                </li>
-                <li>
-                  <factor-link path="#" class="section-link">Placeholder</factor-link>
-                </li>
-                <li>
-                  <factor-link path="#" class="section-link">Placeholder</factor-link>
-                </li>
-                <li>
-                  <factor-link path="#" class="section-link">Placeholder</factor-link>
-                </li>
-                <ul>
-                  <li>
-                    <factor-link path="#" class="section-link">Placeholder</factor-link>
-                  </li>
-                </ul>
-                <li>
-                  <factor-link path="#" class="section-link">Placeholder</factor-link>
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Placeholder Title</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Transitions &amp; Animation</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Reusability &amp; Composition</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Tooling</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Scaling Up</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Internals</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Migrating</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <h3>Meta</h3>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-
-            <li>
-              <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
-            </li>
-          </ul>
-        </div>
+      <div class="mast">
+        <docs-sidebar />
         <div class="content">
+          {{ this.title }}
           <h1>Introduction</h1>
           <h2 id="What-is-Factor">
             <factor-link path="#What-is-Factor" class="current">What is Factor?</factor-link>
@@ -185,6 +39,26 @@
             <factor-link path="#link-test">link test</factor-link>, sed do
             <strong>eiusmod tempor</strong> incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
+          <h3 id="Testing-Lists">
+            <a href="#Testing-Lists">Testing Lists</a>
+          </h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi</p>
+          <ol>
+            <li>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </li>
+            <li>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </li>
+          </ol>
+          <ul>
+            <li>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </li>
+            <li>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -193,7 +67,9 @@
 
 <script>
 export default {
-  components: {},
+  components: {
+    "docs-sidebar": () => import("#/el/el-docs-sidebar")
+  },
   data() {
     return {
       loading: true
@@ -202,8 +78,8 @@ export default {
   mounted() {},
   metatags() {
     return {
-      title: "Factor Plugins",
-      description: "Extend your project features and do more with Factor.",
+      title: "Introduction — Factor.js",
+      description: "Vue.js - The Serverless Framework.",
       image: ""
     }
   }
@@ -211,8 +87,6 @@ export default {
 </script>
 <style lang="less">
 .page-docs {
-  padding: 3em 0;
-
   .mast {
     padding: 0 2em;
     line-height: 1.2;
@@ -221,15 +95,6 @@ export default {
   }
 
   .docs-wrap {
-    .docs-inner {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      grid-column-gap: 2em;
-      @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-        grid-column-gap: 1em;
-      }
-    }
     h1 {
       font-size: 2em;
     }
@@ -247,35 +112,19 @@ export default {
     }
   }
 
-  .sidebar {
-    // All Lists
-    ul {
-      line-height: 1.6em;
-      list-style: none;
-      li {
-        margin-top: 0.5em;
-      }
-    }
-    // sidebar main menu
-    ul.menu-root {
-      padding-left: 0;
-      > li {
-        a {
-          color: inherit;
-          &.current {
-            color: var(--color-primary);
-            font-weight: 700;
-          }
-        }
-      }
-      // sidebar sub menu
-      ul.menu-sub {
-        font-size: 0.85em;
-        padding-left: 1em;
-      }
-    }
-  }
+  // Docs Content
   .content {
+    margin: 0 auto;
+    max-width: 700px;
+    padding: 3em 0 3em 9em;
+    h1,
+    h2,
+    h3 {
+      a {
+        pointer-events: auto;
+        color: inherit;
+      }
+    }
     h1 {
       margin: 0 0 1em;
     }
@@ -283,21 +132,16 @@ export default {
       margin: 45px 0 0.8em;
       padding-bottom: 0.7em;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      a {
-        pointer-events: auto;
-        color: inherit;
-      }
     }
     h3 {
+      position: relative;
       a:before {
         content: "#";
         color: var(--color-primary);
         position: absolute;
-        left: -0.7em;
+        left: -0.9em;
         margin-top: -0.05em;
-        padding-right: 0.5em;
         font-size: 1.2em;
-        line-height: 1;
         font-weight: 700;
       }
     }
@@ -307,38 +151,17 @@ export default {
       line-height: 1.6em;
       padding-bottom: 1.2em;
     }
+    ol,
+    ul {
+      padding-left: 1.5em;
+    }
     p.tip {
       padding: 12px 24px 12px 30px;
       margin: 2em 0;
       border-left: 4px solid var(--color-primary);
-      background-color: #f8f8f8;
+      background-color: #fff;
       border-radius: 0 4px 4px 0;
     }
   }
-  // .sidebar {
-  //   .title {
-  //     font-size: 1.4em;
-  //     font-weight: 600;
-  //   }
-  //   .list-items {
-  //     list-style: none;
-  //     padding: 0;
-  //     margin-top: 1em;
-  //     font-size: 1.2em;
-  //     li {
-  //       margin-bottom: 10px;
-  //       a {
-  //         color: rgba(80, 102, 119, 0.5);
-  //         &:hover {
-  //           color: rgba(80, 102, 119, 1);
-  //         }
-  //         &.active {
-  //           color: #0496ff;
-  //           font-weight: 600;
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 }
 </style>
