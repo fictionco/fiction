@@ -27,7 +27,8 @@
         <slot v-if="$slots.default" />
         <router-view v-else />
       </div>
-      <site-footer />
+
+      <site-footer v-if="$route.meta.footer !== false" />
     </div>
   </div>
 </template>
