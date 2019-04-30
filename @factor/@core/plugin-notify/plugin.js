@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       Factor.$filters.add("site-components", (_ = {}) => {
         _["plugin-notify"] = () => import("./toaster")
@@ -8,7 +8,10 @@ export default Factor => {
       })
       Factor.$events.$on("notify", this.toasterNotification)
       Factor.$events.$on("error", this.toasterError)
+      Factor.$events.$on("email", this.sendEmail)
     }
+
+    async sendEmail(obj) {}
 
     toasterNotification(obj) {
       let message
@@ -35,5 +38,5 @@ export default Factor => {
         }
       }
     }
-  }()
+  })()
 }

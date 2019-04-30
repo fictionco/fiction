@@ -87,6 +87,11 @@ export default {
       return out
     }
   },
+  watch: {
+    $route: function(v) {
+      this.redirectOnDefault()
+    }
+  },
   mounted() {
     this.menus = { dashboard: [] }
     this.$user.init(uid => {

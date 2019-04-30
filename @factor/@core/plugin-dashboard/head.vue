@@ -1,6 +1,6 @@
 <template>
-  <div class="site-head">
-    <div class="site-head-pad">
+  <div class="dashboard-head">
+    <div class="dashboard-head-pad">
       <div class="brand">
         <factor-link path="/">
           <factor-logo theme="muted" />
@@ -22,7 +22,7 @@ export default {
 }
 </script>
 <style lang="less">
-.site-head {
+.dashboard-head {
   padding: 0 1.5em;
   box-shadow: 0 0 1px rgba(58, 55, 148, 0.25);
   background: #fff;
@@ -30,7 +30,7 @@ export default {
   z-index: 10;
 }
 
-.site-head-pad {
+.dashboard-head-pad {
   height: 45px;
   align-items: center;
   display: flex;

@@ -31,7 +31,7 @@
                 :path="item.path"
                 :query="item.query"
                 :data-test="`profile-nav-${item.key}`"
-                @click="item.click()"
+                @click="itemClick(item)"
               >{{ item.name }}</factor-link>
             </div>
           </div>
@@ -75,6 +75,11 @@ export default {
     })
   },
   methods: {
+    itemClick(item) {
+      if (typeof item.click == "function") {
+        item.click()
+      }
+    },
     clickHandler(e) {
       if (this.toggle) {
         this.toggle = false
