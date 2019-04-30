@@ -34,7 +34,7 @@ export default Factor => {
         _.push({
           command: "firebase",
           args: ["deploy"],
-          title: `Deploying App to Firebase (${Factor.config.setting("env")})`
+          title: `Deploying App to Firebase (${Factor.$config.setting("env")})`
         })
 
         return _
