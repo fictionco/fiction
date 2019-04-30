@@ -1,6 +1,6 @@
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
-  color: @color-placeholder;
+  color: var(--color-placeholder);
 }
 
 button,
@@ -20,7 +20,7 @@ input,
 textarea,
 select,
 .checkbox-label {
-  font-family: @font-primary;
+  font-family: var(--font-primary);
 }
 
 input[type="email"],
@@ -56,7 +56,7 @@ select {
   overflow: hidden;
   border: 0;
   font-weight: 500;
-  color: @color-text;
+  color: var(--color-text);
   background-color: transparent;
 
   &.disabled {
@@ -76,15 +76,15 @@ select {
 
   &::placeholder {
     /* Chrome/Opera/Safari */
-    color: @color-placeholder;
+    color: var(--color-placeholder);
   }
 }
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 textarea,
 select {
-  background-color: @factor-input-bg;
-  box-shadow: @factor-input-shadow;
+  background-color: var(--factor-input-bg);
+  box-shadow: var(--factor-input-shadow);
   border-radius: 4px;
   width: 100%;
 }

@@ -1,7 +1,6 @@
 <template>
   <div class="content-layout">
     <site-head>
-      <factor-link path="/how-it-works">How it works</factor-link>
       <factor-link path="/plugins">Plugins</factor-link>
       <factor-link path="/docs">Docs</factor-link>
       <factor-link v-if="!$uid" event="signin-modal" data-test="login">
@@ -12,11 +11,15 @@
         View Dashboard
         <i class="fa fa-arrow-right" />
       </factor-link>
-      <factor-link class="factor-icon" path="https://fiction.page.link/discord" target="_blank">
-        <i class="fa fa-discord" />
+      <factor-link
+        class="factor-icon"
+        path="https://gitter.im/fiction-com/community"
+        target="_blank"
+      >
+        <factor-icon icon="gitter" />
       </factor-link>
       <factor-link class="factor-icon" path="https://github.com/fiction-com/factor" target="_blank">
-        <i class="fa fa-github" />
+        <factor-icon icon="github" />
       </factor-link>
     </site-head>
     <div class="content-main" :style="bg">
