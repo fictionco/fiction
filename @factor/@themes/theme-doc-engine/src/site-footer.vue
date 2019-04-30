@@ -8,7 +8,7 @@
       </div>
       <div class="footer-col">
         <div>
-          <div class="copyright">&copy; Fiction.com Inc.</div>
+          <div class="copyright">&copy; Factor by Fiction.com Inc.</div>
           <div class="terms">
             <factor-link path="/terms-of-service">Terms of Service</factor-link>
             <factor-link path="/privacy-policy">Privacy Policy</factor-link>
@@ -98,18 +98,6 @@ export default {
         a {
           margin: 0;
         }
-        // &:first-child {
-        //   grid-column-start: 1;
-        //   grid-column-end: -1;
-        // }
-        &:nth-child(2) {
-          order: 2;
-          display: none;
-          background: red;
-        }
-        // &:last-child {
-        //   //align-items: flex-start;
-        // }
         .copyright,
         .terms {
           text-align: right;
