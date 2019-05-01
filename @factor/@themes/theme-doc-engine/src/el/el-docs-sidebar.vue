@@ -208,6 +208,9 @@ export default {
           color: var(--color-primary);
           font-weight: 700;
         }
+        &:hover {
+          border-bottom: 2px solid var(--color-primary);
+        }
       }
     }
     // sidebar sub menu
