@@ -206,7 +206,7 @@ export default {
         color: inherit;
         &.current {
           color: var(--color-primary);
-          font-weight: 700;
+          font-weight: 800;
         }
         &:hover {
           border-bottom: 2px solid var(--color-primary);

@@ -8,11 +8,8 @@
             class="subtitle"
           >Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.</p>
           <div class="actions">
-            <factor-link path="/docs" btn="primary" size="large">
-              Get Started
-              <i class="fa fa-arrow-right" />
-            </factor-link>
-            <factor-link path="/docs" btn="outline" size="large">Docs</factor-link>
+            <factor-link path="/docs" btn="primary" size="large">Get Started</factor-link>
+            <factor-link path="/docs" btn="tertiary" size="large">Read the Docs</factor-link>
           </div>
         </div>
       </div>
@@ -61,7 +58,6 @@ export default {
 </script>
 <style lang="less">
 .home {
-  background: #f6f9fc;
   .mast {
     padding: 0 2em;
     line-height: 1.2;
@@ -78,7 +74,7 @@ export default {
       height: 100%;
       top: 0;
       transform: skewY(-5deg);
-      background: #fff;
+      background: var(--color-bg-alt);
     }
     .mast {
       position: relative;
@@ -95,7 +91,7 @@ export default {
       max-width: 700px;
       padding: 6em 2em;
       .title {
-        font-weight: 700;
+        font-weight: 800;
         font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 0.9;
@@ -143,7 +139,7 @@ export default {
         h2 {
           font-size: 1.4em;
           line-height: 1.4em;
-          font-weight: 700;
+          font-weight: 800;
           margin: 0;
         }
         p {
