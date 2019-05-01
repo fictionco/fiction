@@ -172,9 +172,23 @@ export default {
   overflow-y: scroll;
   height: 100vh;
   padding-bottom: 5em;
+  &.open {
+    transform: translate(0, 0);
+  }
   .sidebar-inner {
     width: 340px;
     padding: 40px 20px 60px 60px;
+  }
+  @media (max-width: 767px) {
+    z-index: 10;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0, 1);
+    transform: translate(-340px, 0);
+    .sidebar-inner {
+      width: 290px;
+      padding: 30px;
+    }
   }
   // All Lists
   ul {

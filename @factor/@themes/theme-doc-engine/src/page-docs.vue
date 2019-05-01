@@ -124,6 +124,13 @@ export default {
     margin: 0 auto;
     max-width: 700px;
     padding: 3em 0 3em 3.125em;
+    @media (max-width: 1300px) {
+      margin-left: 290px;
+    }
+    @media (max-width: 767px) {
+      margin: 0 auto;
+      padding: 3em 0;
+    }
     h1,
     h2,
     h3 {
