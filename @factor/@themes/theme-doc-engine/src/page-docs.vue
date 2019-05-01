@@ -4,7 +4,9 @@
       <docs-sidebar />
       <div class="mast">
         <div class="content">
-          <h1>Introduction</h1>
+          <div v-formatted-text="getMarkdown()" />
+
+          <!-- <h1>Introduction</h1>
           <h2 id="What-is-Factor">
             <factor-link path="#What-is-Factor" class="current">What is Factor?</factor-link>
           </h2>
@@ -63,7 +65,7 @@
               Blockquote test. This page assumes you’ve already read the
               <factor-link path="#link-test">Plugins Basics</factor-link>. Read that first if you are new to plugins.
             </p>
-          </blockquote>
+          </blockquote>-->
           <docs-footer />
         </div>
       </div>
@@ -88,6 +90,11 @@ export default {
       title: "Introduction — Factor.js",
       description: "Factor.js - The Serverless Framework.",
       image: ""
+    }
+  },
+  methods: {
+    getMarkdown() {
+      return require("./docs-v1/introduction.md")
     }
   }
 }
@@ -162,6 +169,9 @@ export default {
     a {
       color: var(--color-primary);
     }
+    img {
+      max-width: 100%;
+    }
     p,
     ul,
     ol {
@@ -172,13 +182,6 @@ export default {
     ul {
       padding-left: 1.5em;
     }
-    p.tip {
-      padding: 12px 24px 12px 30px;
-      margin: 2em 0;
-      border-left: 4px solid var(--color-primary);
-      background-color: #fff;
-      border-radius: 0 4px 4px 0;
-    }
     blockquote {
       margin: 2em 0;
       padding-left: 20px;
@@ -187,6 +190,32 @@ export default {
         font-weight: 800;
         padding-bottom: 0;
       }
+    }
+    hr {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    p.tip {
+      padding: 12px 24px 12px 30px;
+      margin: 2em 0;
+      border-left: 4px solid var(--color-primary);
+      background-color: #fff;
+      border-radius: 0 4px 4px 0;
+    }
+    sub,
+    sup {
+      position: relative;
+      font-size: 75%;
+      line-height: 0;
+      vertical-align: baseline;
+    }
+    sub {
+      top: -0.5em;
+    }
+    sup {
+      bottom: -0.25em;
     }
   }
 }
