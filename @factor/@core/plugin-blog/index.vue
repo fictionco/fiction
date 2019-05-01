@@ -170,10 +170,11 @@ export default {
     .grid-aside {
       grid-column: span 2;
       grid-row: span 2;
-    }
-    .grid-aside {
       margin: 0 1em;
     }
+    // .grid-aside {
+    //   margin: 0 1em;
+    // }
   }
 }
 </style>
