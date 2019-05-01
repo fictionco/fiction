@@ -1,132 +1,156 @@
 <template>
-  <div class="page-home">
-    <div class="container">
-      <section class="intro">
-        <div class="mast intro-inner">
-          <h1 class="title">Factor Framework</h1>
-          <div
+  <div class="home">
+    <section class="splash-wrap">
+      <div class="splash mast">
+        <div>
+          <h1 class="title">The Serverless CMS</h1>
+          <p
             class="subtitle"
-          >Serverless Framework designed to help you start a fully functional website, blog or PWA (progressive-web-app) within 5 minutes.</div>
-
+          >Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.</p>
           <div class="actions">
-            <factor-link path="/docs/" btn="primary" size="large">
+            <factor-link path="/docs" btn="primary" size="large">
               Get Started
-              <i class="fa fa-angle-right" />
+              <i class="fa fa-arrow-right" />
             </factor-link>
-            <factor-link path="/docs/" btn="default" size="large">Docs</factor-link>
+            <factor-link path="/docs" btn="outline" size="large">Docs</factor-link>
           </div>
         </div>
-      </section>
-
-      <section class="boxes">
-        <div class="mast boxes-inner">
+      </div>
+    </section>
+    <section class="boxes-wrap stripes-wrap">
+      <div class="stripes" />
+      <div class="mast">
+        <div class="boxes">
           <div class="box">
-            <h2 class="title">Approachable</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+            <h2>Static Hosting</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
           </div>
           <div class="box">
-            <h2 class="title">Versatile</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+            <h2>100% JavaScript</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
           </div>
           <div class="box">
-            <h2 class="title">Performant</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+            <h2>NPM Plugins</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
           </div>
         </div>
-      </section>
-
-      <!-- <el-cta /> -->
-    </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 export default {
   // components: {
-  //   "el-cta": () => import("./el/cta")
+  //   "el-svg": () => import("./el/el-svg")
   // },
   data() {
     return {
       loading: true
     }
   },
-  // mounted() {
-  //   this.$user.init(() => {
-  //     this.loading = false
-  //   })
-  // },
+  mounted() {},
   metatags() {
     return {
-      title: "Factor Framework",
-      description:
-        "Serverless CMS designed to help you start a fully functional website, blog or PWA (progressive-web-app) within 5 minutes."
-      //image: require("./img/fiction.jpg")
+      title: "The New Standard in CMS",
+      description: "Factor helps developers build sites faster with vue.js.",
+      image: ""
     }
-  },
-  methods: {}
+  }
 }
 </script>
 <style lang="less">
-.page-home {
+.home {
+  background: #f6f9fc;
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1000px;
+    max-width: 1024px;
     margin: 0 auto;
   }
-  .factor-btn {
-    font-weight: 700;
+
+  .stripes-wrap {
+    position: relative;
+    .stripes {
+      position: absolute;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      transform: skewY(-5deg);
+      background: #fff;
+    }
+    .mast {
+      position: relative;
+    }
   }
 
-  .intro {
-    padding: 6em 0;
-    @media (max-width: 767px) {
-      padding: 4em 0;
-    }
-    .intro-inner {
+  .splash-wrap {
+    .splash {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-column-gap: 60px;
+      align-items: center;
       text-align: center;
-      max-width: 670px;
+      max-width: 700px;
+      padding: 6em 2em;
       .title {
-        font-weight: 600;
-        font-size: 3em;
+        font-weight: 700;
+        font-size: 4em;
         letter-spacing: -0.03em;
+        line-height: 0.9;
+        margin-bottom: 0.2em;
         @media (max-width: 767px) {
-          font-size: 2em;
+          font-size: 2.7em;
         }
       }
       .subtitle {
         opacity: 0.5;
-        font-size: 1.2em;
-        line-height: 1.4;
+        font-size: 1.4em;
+        font-weight: 500;
+        @media (max-width: 767px) {
+          font-size: 1.2em;
+        }
       }
       .actions {
         margin-top: 1.5em;
+        @media (max-width: 767px) {
+          margin-bottom: 1.5em;
+          a {
+            display: inline-block;
+            margin-bottom: 10px;
+          }
+        }
       }
     }
   }
 
-  .boxes {
-    padding: 2em 0;
-    .boxes-inner {
+  .boxes-wrap {
+    padding: 4em 0;
+    .boxes {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-gap: 80px;
-      align-items: center;
+      grid-column-gap: 40px;
       @media (max-width: 767px) {
-        grid-template-columns: 1fr;
+        display: block;
       }
       .box {
+        margin: 2em 0;
         text-align: center;
-        .title {
-          color: var(--color-primary);
-          font-size: 1.5em;
-          font-weight: 400;
-          padding: 0.5em 0;
+        @media (max-width: 767px) {
+          margin: 1em 0 2em;
+        }
+        h2 {
+          font-size: 1.4em;
+          line-height: 1.4em;
+          font-weight: 700;
+          margin: 0;
         }
         p {
+          font-weight: 500;
           line-height: 1.4em;
-          color: var(--color-text);
-          opacity: 0.5;
+          margin-top: 0.5em;
+          opacity: 0.6;
         }
       }
     }
