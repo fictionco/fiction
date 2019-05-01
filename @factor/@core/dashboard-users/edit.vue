@@ -166,7 +166,7 @@ export default {
     }
   }
   .label {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
   }
 }
 </style>

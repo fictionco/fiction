@@ -141,7 +141,7 @@ export default {
 }
 </script>
 <style lang="less">
-.app-nav-pad {
+.app-nav-pad .nav-list {
   .nav-scope {
     margin-bottom: 0.75em;
     padding-bottom: 0.75em;

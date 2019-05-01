@@ -1,3 +1,5 @@
+@import "reset.less";
+
 .ui-dashboard {
 
   --breakpoint-xs: 0;
@@ -42,6 +44,8 @@
   --color-bg-alt: #ffffff;
   --color-border: rgba(0, 0, 0, 0.07);
 
+  --font-weight-bold: 800;
+  --font-weight-normal: 500;
 
 
   --border-color-subtle: rgba(84, 110, 195, 0.1);
@@ -55,179 +59,23 @@
   --pane-shadow: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
     0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
-  font-family: var(--font-primary);
   color: var(--color-text);
   background: var(--color-bg);
-}
-
-
-
-* {
-  -webkit-overflow-scrolling: touch; //mobile scroll fix
-}
-
-*,
-*:after,
-*:before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-body,
-html {
-  border: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin: 0;
-  padding: 0;
+  font-family: var(--font-primary);
   font-size: 16px;
   line-height: 1.2;
   font-weight: 500;
-}
 
-article,
-aside,
-audio,
-canvas,
-caption,
-details,
-div,
-figure,
-footer,
-header,
-hgroup,
-iframe,
-img,
-mark,
-menu,
-nav,
-object,
-section,
-span,
-summary,
-table,
-tbody,
-td,
-tfoot,
-thead,
-tr,
-tr,
-video {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-a,
-abbr,
-address,
-b,
-blockquote,
-cit,
-code,
-dd,
-del,
-dfn,
-dl,
-dt,
-em,
-fieldset,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-i,
-ins,
-label,
-legend,
-li,
-ol,
-p,
-pre,
-q,
-samp,
-small,
-strong,
-sub,
-sup,
-ul {
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  margin: 0;
-  padding: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-weight: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-article,
-aside,
-audio,
-canvas,
-figcaption,
-figure,
-figure img,
-footer,
-header,
-hgroup,
-nav,
-section,
-video {
-  display: block;
-}
-
-table {
-  border-collapse: separate;
-  border-spacing: 0;
-
-  caption,
-  td,
-  th {
-    text-align: left;
-    vertical-align: middle;
-  }
-}
-
-hr {
-  border-bottom: 1px solid var(--color-border);
-  margin: 2em 0;
-}
-
-a {
-  text-decoration: none;
-  text-decoration-skip: ink;
-  color: var(--color-primary);
-
-  &:hover {
-    cursor: pointer;
-    color: var(--color-secondary);
+  strong {
+    font-weight: 700;
   }
 
-  img {
-    border: 0;
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      color: var(--color-secondary);
+    }
   }
-}
 
-ul {
-  font-weight: 500;
-  padding-left: 1.5em;
-}
-
-strong {
-  font-weight: 600;
 }

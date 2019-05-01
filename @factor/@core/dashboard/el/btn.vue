@@ -21,13 +21,13 @@
   color: var(--color-text);
   transition: 0.15s all;
   opacity: 0.95;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   padding: 0.5em 1em;
-  font-size: 14px;
+  font-size: 0.9em;
   border: none;
   border-radius: 4px;
   background-color: #fff;
-
+  letter-spacing: -0.02em;
   box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1), var(--btn-shadow-standard);
 
   &:active {
