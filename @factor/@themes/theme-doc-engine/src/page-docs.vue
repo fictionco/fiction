@@ -115,7 +115,7 @@ export default {
     h1,
     h2,
     h3 {
-      font-weight: 700;
+      font-weight: 800;
     }
   }
 
@@ -156,7 +156,7 @@ export default {
         left: -0.9em;
         margin-top: -0.05em;
         font-size: 1.2em;
-        font-weight: 700;
+        font-weight: 800;
       }
     }
     a {
@@ -184,7 +184,7 @@ export default {
       padding-left: 20px;
       border-left: 4px solid var(--color-primary);
       p {
-        font-weight: 700;
+        font-weight: 800;
         padding-bottom: 0;
       }
     }
