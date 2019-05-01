@@ -26,10 +26,6 @@ export default {
 
 <style lang="less">
 .dpg {
-  @media (max-width: 767px) {
-    padding: 1em;
-  }
-
   .dpg-loading .loading-ring-wrap {
     height: 300px;
   }

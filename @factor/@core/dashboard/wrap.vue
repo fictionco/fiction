@@ -1,23 +1,26 @@
 <template>
-  <div class="dashboard-interface">
+  <div class="app-wrap">
+    <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
+      <dashboard-nav />
+    </div>
     <div v-if="loading" class="user-loading">
       <factor-loading-ring width="4em" />
     </div>
     <div class="app-layout">
-      <dashboard-head />
+      <dashboard-head class="app-head" />
 
-      <div class="app-content">
-        <div class="app-nav" @click.stop>
-          <dashboard-btn class="app-nav-toggle" @click="toggleNav()">
-            <factor-icon icon="bars" />Menu
-          </dashboard-btn>
-          <dashboard-nav :class="{active: toggle }" />
-        </div>
-        <div class="app-main">
-          <div class="app-main-content">
-            <slot v-if="$slots.default" />
-            <router-view v-else />
+      <div class="app-nav" @click.stop>
+        <dashboard-nav />
+      </div>
+      <div class="app-main">
+        <div class="app-main-content">
+          <div class="toggle" @click.stop>
+            <div class="app-nav-toggle" @click="toggleNav()">
+              <factor-icon icon="bars" />
+            </div>
           </div>
+          <slot v-if="$slots.default" />
+          <router-view v-else />
         </div>
       </div>
     </div>
@@ -36,7 +39,7 @@ export default {
     const niceName = this.$utils.toLabel(pageName)
     return {
       title: niceName,
-      description: `Dashboard for Fiction's ${niceName} tools.`,
+      description: `Dashboard`,
       titleSuffix: " - Fiction Dashboard",
       priority: 50
     }
@@ -94,47 +97,90 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
-.app-layout {
-  background-color: var(--canvas-bg);
-  min-height: 100vh;
-  // background: #fafbff;
-
-  .app-content {
-    display: grid;
-    grid-template-columns: [nav] 2fr [content] 12fr;
-
+.app-wrap {
+  padding: 0 2em;
+  .mobile-nav {
+    display: none;
+    &.toggle-nav {
+      display: block;
+    }
     @media (max-width: 960px) {
-      grid-template-columns: 1fr;
-    }
+      display: block;
+      position: fixed;
+      width: 350px;
+      padding: 1.5em;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      min-height: 100vh;
+      z-index: 100;
 
-    // .app-main {
-    //   overflow-y: scroll;
-    // }
-    .app-nav {
-      .app-nav-pad {
-        padding: 1.5em 0 2em 1.5em;
-      }
-      .app-nav-toggle {
-        cursor: pointer;
-        display: none;
-        @media (max-width: 960px) {
-          display: block;
-          margin: 1.5em 1.5em 0;
-        }
-        @media (max-width: 767px) {
-          margin: 1em 1em 0;
-        }
-      }
-    }
-    .app-main {
-      @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-      }
-
-      .app-main-content {
-        max-width: 1100px;
+      overflow-y: scroll;
+      background: #fff;
+      box-shadow: var(--pane-shadow);
+      // transform: translate3d(-100%, 0, 0);
+      // transition: transform 0.1s ease-out;
+      &.active {
+        transform: translate3d(0, 0, 0);
       }
     }
   }
+}
+.app-layout {
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 60px 1fr;
+  grid-template-areas:
+    "header header"
+    "nav main";
+
+  .app-head {
+    grid-area: header;
+    align-self: center;
+  }
+  .app-main {
+    grid-area: main;
+  }
+  .app-nav {
+    grid-area: nav;
+  }
+
+  @media (max-width: 960px) {
+    grid-template-areas:
+      "header header"
+      "main main";
+    .app-nav {
+      display: none;
+    }
+  }
+
+  .app-nav {
+    .app-nav-pad {
+      padding: 0.5em;
+    }
+  }
+  .app-main-content .toggle {
+    margin: 0.5em 0;
+    display: inline-block;
+  }
+
+  .app-nav-toggle {
+    font-size: 2em;
+    cursor: pointer;
+    display: none;
+    @media (max-width: 960px) {
+      display: block;
+    }
+    @media (max-width: 767px) {
+    }
+  }
+  // .app-main {
+  //   @media (max-width: 767px) {
+  //     grid-template-columns: 1fr;
+  //   }
+  // }
 }
 </style>

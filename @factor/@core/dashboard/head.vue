@@ -23,14 +23,12 @@ export default {
 </script>
 <style lang="less">
 .dashboard-head {
-  padding: 0 1.5em;
-
   position: relative;
   z-index: 10;
 }
 
 .dashboard-head-pad {
-  height: 45px;
+  //height: 45px;
   align-items: center;
   display: flex;
   justify-content: space-between;
