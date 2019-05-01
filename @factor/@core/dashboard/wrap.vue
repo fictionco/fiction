@@ -95,7 +95,7 @@ export default {
   justify-content: center;
 }
 .app-layout {
-  background-color: #f3f5fa;
+  background-color: var(--canvas-bg);
   min-height: 100vh;
   // background: #fafbff;
 
@@ -133,14 +133,6 @@ export default {
 
       .app-main-content {
         max-width: 1100px;
-      }
-
-      .pane {
-        background: #fafbff;
-        border-radius: 4px;
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04),
-          0 6px 14px 0 rgba(24, 32, 41, 0.06),
-          0 12px 34px 0 rgba(24, 32, 41, 0.04);
       }
     }
   }

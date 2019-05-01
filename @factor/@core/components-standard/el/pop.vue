@@ -49,7 +49,7 @@ export default {
   z-index: 100;
   position: absolute;
   top: calc(~"100% + 10px");
-  right: 0;
+  left: 0;
   width: 300px;
   border-radius: 4px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
