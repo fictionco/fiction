@@ -181,6 +181,7 @@ export default {
   }
   @media (max-width: 767px) {
     z-index: 10;
+    top: 0;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: all 0.4s cubic-bezier(0.4, 0, 0, 1);

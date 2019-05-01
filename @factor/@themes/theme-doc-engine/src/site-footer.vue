@@ -66,7 +66,7 @@ export default {
         transition: color 0.2s;
         margin: 0 0.5em;
         &:hover {
-          color: #ff0076;
+          color: var(--color-primary);
         }
       }
       .copyright,

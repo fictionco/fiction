@@ -6,10 +6,10 @@
           <h1 class="title">Plugins</h1>
           <p class="subtitle">Extend your project features and do more with Factor.</p>
           <div class="actions">
-            <factor-link path="/docs" btn="primary" size="large">
+            <el-btn path="/docs" btn="primary" size="large">
               How to Install
               <factor-icon icon="arrow-right" />
-            </factor-link>
+            </el-btn>
           </div>
         </div>
       </div>
@@ -157,27 +157,16 @@
         </div>
       </div>
     </section>
-    <section class="mast">
-      <div class="cta">
-        <div>
-          <h3 class="title">Ready to Start Building?</h3>
-          <p class="subtitle">Get in touch or create an account</p>
-        </div>
-        <div class="actions">
-          <factor-link path="/download" btn="primary" size="large">
-            Download
-            <i class="fa fa-arrow-right" />
-          </factor-link>
-          <factor-link path="/contact" btn="tertiary" size="large">Contact Us</factor-link>
-        </div>
-      </div>
-    </section>
+    <el-cta />
   </div>
 </template>
 
 <script>
 export default {
-  components: {},
+  components: {
+    "el-btn": () => import("./el/btn"),
+    "el-cta": () => import("./el/cta")
+  },
   data() {
     return {
       loading: true
@@ -223,7 +212,7 @@ export default {
       padding: 4em 0;
     }
     .title {
-      font-weight: 600;
+      font-weight: 800;
       font-size: 3em;
       letter-spacing: -0.03em;
       line-height: 0.9;
@@ -260,7 +249,7 @@ export default {
   .sidebar {
     .title {
       font-size: 1.4em;
-      font-weight: 600;
+      font-weight: 800;
     }
     .list-categories {
       list-style: none;
@@ -276,7 +265,7 @@ export default {
           }
           &.active {
             color: #0496ff;
-            font-weight: 600;
+            font-weight: 800;
           }
         }
       }
@@ -354,35 +343,6 @@ export default {
         i {
           margin-right: 5px;
         }
-      }
-    }
-  }
-  .cta {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 60px;
-    padding: 4em 0;
-    @media (max-width: 767px) {
-      display: block;
-    }
-    .title {
-      font-weight: 600;
-      font-size: 2em;
-      letter-spacing: -0.03em;
-      line-height: 0.9;
-      margin-bottom: 0.2em;
-    }
-    .subtitle {
-      opacity: 0.5;
-      font-size: 1.2em;
-      font-weight: 500;
-    }
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      @media (max-width: 767px) {
-        display: block;
-        margin-top: 1.5em;
       }
     }
   }

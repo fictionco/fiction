@@ -5,7 +5,15 @@ module.exports.default = Factor => {
         this.addLessVars()
       } else {
         this.addPaths()
+        this.addComponents()
       }
+    }
+
+    addComponents() {
+      Factor.$filters.add("components", _ => {
+        _["btn-docs"] = () => import("./el/btn.vue")
+        return _
+      })
     }
 
     addLessVars() {
