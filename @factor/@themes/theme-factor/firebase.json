@@ -1,26 +1,27 @@
 {
-    "hosting": {
-        "public": "dist",
-        "ignore": [
-            "firebase.json",
-            "**/.*",
-            "**/node_modules/**"
-        ],
-        "rewrites": [
-            {
-                "source": "**",
-                "function": "server"
-            }
-        ]
-    },
-    "storage": {
-        "rules": "generated/firebase-storage.rules"
-    },
-    "firestore": {
-        "rules": "generated/firebase-firestore.rules",
-        "indexes": "generated/firebase-firestore-indexes.json"
-    },
-    "functions": {
-        "source": "serverless"
-    }
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "server"
+      }
+    ],
+    "target": "docs"
+  },
+  "firestore": {
+    "rules": "generated/firebase-firestore.rules",
+    "indexes": "generated/firebase-firestore-indexes.json"
+  },
+  "functions": {
+    "source": "serverless"
+  },
+  "storage": {
+    "rules": "generated/firebase-storage.rules"
+  }
 }

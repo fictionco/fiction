@@ -1,6 +1,15 @@
 {
-    "projects": {
-        "production": "fiction-com",
-        "development": "fiction-staging"
+  "projects": {
+    "production": "fiction-com",
+    "development": "fiction-staging"
+  },
+  "targets": {
+    "fiction-staging": {
+      "hosting": {
+        "docs": [
+          "factor-docs-dev"
+        ]
+      }
     }
+  }
 }
