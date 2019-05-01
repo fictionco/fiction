@@ -35,8 +35,12 @@
   input[type="search"],
   input[type="tel"],
   input[type="text"],
-  textarea {
+  textarea,
+  select {
     -webkit-appearance: none;
+    background-color: var(--input-bg);
+    box-shadow: var(--input-shadow);
+    border-radius: 4px;
   }
 
   input,
@@ -64,7 +68,6 @@
     border: 0;
     font-weight: 500;
     color: var(--color-text);
-    background-color: transparent;
 
     &.disabled {
       opacity: 0.5;
@@ -85,14 +88,6 @@
       /* Chrome/Opera/Safari */
       color: var(--color-placeholder);
     }
-  }
-
-  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
-  textarea,
-  select {
-    background-color: var(--input-bg);
-    box-shadow: var(--input-shadow);
-    border-radius: 4px;
   }
 
   .image-upload-input {

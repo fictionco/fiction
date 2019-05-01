@@ -355,18 +355,17 @@ export default {
     // .changes {
     // }
     .unpublished {
-      font-weight: 600;
+      font-weight: var(--font-weight-bold);
     }
     .revert {
       cursor: pointer;
     }
   }
-  .post-title .text-input input {
+  .post-title input[type="text"] {
     width: 100%;
+    font-size: 1.2em;
   }
-  // .post-actions {
-  //   grid-row: span 2;
-  // }
+
   .post-actions .foot .actions {
     width: 100%;
     display: flex;

@@ -30,9 +30,7 @@ export default {
 
 <style lang="less">
 .card-user {
-  .card-wrap {
-    display: inline-block;
-  }
+  display: inline-block;
   .card {
     color: inherit;
     &:hover {
@@ -54,12 +52,11 @@ export default {
       width: 1.25em;
       height: 1.25em;
 
-      line-height: 1.25em;
       border-radius: 10px;
       opacity: 0.2;
       text-align: center;
       i {
-        font-size: 0.7em;
+        font-size: 0.85em;
       }
       &:hover {
         opacity: 0.8;

@@ -73,7 +73,7 @@ export default {
       flex-direction: column;
       justify-content: center;
       font-size: 1.2em;
-      padding: 3em 2.5em;
+      padding: 3em 2em;
       line-height: 1.4;
       width: 50%;
       // min-height: 250px;
@@ -86,7 +86,7 @@ export default {
     .title {
       line-height: 1;
       font-size: 1.65em;
-      font-weight: 600;
+      font-weight: var(--font-weight-bold);
       letter-spacing: -0.02em;
     }
     .sub-title {
@@ -117,7 +117,7 @@ export default {
       width: 40px;
     }
     .title {
-      font-weight: 600;
+      font-weight: var(--font-weight-bold);
       font-size: 1.2em;
     }
     .description {

@@ -163,7 +163,7 @@ export default {
       &.active {
         //background: @factor-canvas-bg;
         // color: @factor-color-primary;
-        font-weight: 600;
+        font-weight: var(--font-weight-bold);
       }
     }
     .factor-btn {
@@ -192,7 +192,7 @@ export default {
         padding-left: 0;
         background: none;
         box-shadow: none;
-        font-weight: 600;
+        font-weight: var(--font-weight-bold);
       }
     }
   }

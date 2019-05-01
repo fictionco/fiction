@@ -26,9 +26,13 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.setHeight()
-    }, 200)
+    this.$watch(
+      `value`,
+      function(v) {
+        this.setHeight()
+      },
+      { immediate: true }
+    )
   },
 
   methods: {
