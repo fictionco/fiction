@@ -25,7 +25,7 @@ export default {
   line-height: 16px;
   .title {
     font-size: 1.65em;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     letter-spacing: -0.02em;
   }
   .sub-title {

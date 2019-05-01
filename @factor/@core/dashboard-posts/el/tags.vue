@@ -89,10 +89,6 @@ export default {
     display: flex;
 
     input[type="text"] {
-      background-color: var(--dashboard-input-bg);
-      box-shadow: var(--dashboard-input-shadow);
-      border-radius: 4px;
-
       margin-right: 0.5em;
     }
   }

@@ -53,7 +53,7 @@ export default {
     }
   }
   .nav {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     display: flex;
     align-items: center;
     @media (max-width: 767px) {

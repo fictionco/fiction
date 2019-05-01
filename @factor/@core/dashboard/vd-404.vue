@@ -27,7 +27,7 @@ export default {
 
   .title {
     font-size: 2em;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     margin-bottom: 1em;
   }
 }

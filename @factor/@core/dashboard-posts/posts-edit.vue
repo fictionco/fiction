@@ -355,7 +355,7 @@ export default {
     // .changes {
     // }
     .unpublished {
-      font-weight: 600;
+      font-weight: var(--font-weight-bold);
     }
     .revert {
       cursor: pointer;
