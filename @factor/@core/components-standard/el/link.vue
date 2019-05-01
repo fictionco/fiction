@@ -3,6 +3,7 @@ export default {
   props: {
     pg: { type: String, default: "" },
     btn: { type: String, default: "" },
+    btnElement: { type: String, default: "factor-btn" },
     size: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     path: { type: String, default: "" },
@@ -46,10 +47,10 @@ export default {
     }
 
     if (this.btn) {
-      classes[`is-btn`] = true
+      classes[`btn-link`] = true
 
       text = createElement(
-        "factor-btn",
+        this.btnElement,
         {
           props: {
             btn: this.btn,
@@ -107,6 +108,9 @@ export default {
   &.disabled {
     cursor: not-allowed;
     pointer-events: none; // Future-proof disabling of clicks
+  }
+  &.btn-link {
+    display: inline-block;
   }
 }
 </style>

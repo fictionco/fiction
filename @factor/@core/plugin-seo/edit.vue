@@ -8,13 +8,13 @@
       >{{ $posts.getPermalink({type: post.type, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
       <div class="desc">{{ post.description || $posts.excerpt(post.content) || "No Description" }}</div>
     </div>
-    <factor-input-wrap v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
-    <factor-input-wrap
+    <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
+    <dashboard-input
       v-model="post.description"
       input="factor-input-textarea"
       label="Description Meta Tag"
     />
-    <factor-input-wrap
+    <dashboard-input
       v-model="post.featuredImage"
       input="factor-input-image-upload"
       label="Sharing Image"

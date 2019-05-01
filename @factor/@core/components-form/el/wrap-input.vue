@@ -1,7 +1,7 @@
 
 <template>
   <div :key="renderKey" class="input-wrap" :class="[requiredClass, inputFormat]">
-    <div class="input-meta">
+    <div v-if="label || description" class="input-meta">
       <label class="label-wrap">
         <span v-if="label" class="label">{{ label }}</span>
       </label>
@@ -68,8 +68,6 @@ export default {
 
 <style lang="less">
 .input-wrap {
-  margin: 0 0 1.25em;
-
   .label {
     font-size: 0.9em;
   }
@@ -82,6 +80,11 @@ export default {
   }
   .input-area {
     position: relative;
+  }
+
+  &.horizontal,
+  &.vertical {
+    margin: 0 0 1.25em;
   }
 
   &.vertical {

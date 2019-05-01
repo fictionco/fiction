@@ -95,17 +95,17 @@ export default {
 @keyframes multicolor {
   0%,
   100% {
-    stroke: @color-secondary;
+    stroke: var(--color-secondary);
   }
   40% {
-    stroke: @color-secondary;
+    stroke: var(--color-secondary);
   }
   50% {
-    stroke: @color-primary;
+    stroke: var(--color-primary);
   }
   80%,
   90% {
-    stroke: @color-primary;
+    stroke: var(--color-primary);
   }
 }
 @keyframes lightcolor {

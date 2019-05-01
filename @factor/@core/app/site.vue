@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="factor-app">
+  <div id="app" class="factor-app" :class="ui">
     <router-view />
     <component :is="component" v-for="(component, k) in injectedComponents" :key="k" />
   </div>
@@ -11,6 +11,12 @@ export default {
   computed: {
     injectedComponents() {
       return this.$filters.apply("site-components")
+    },
+    ui() {
+      const { meta: { ui = "theme" } = {} } =
+        this.$route.matched.find(_ => _.meta.ui) || {}
+
+      return `ui-${ui}`
     }
   },
 

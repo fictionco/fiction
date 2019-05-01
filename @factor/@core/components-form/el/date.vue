@@ -68,7 +68,7 @@ export default {
         &.month,
         &.year {
           &:hover {
-            border: 1px solid @color-primary;
+            border: 1px solid var(--color-primary);
           }
         }
       }
@@ -77,7 +77,7 @@ export default {
         border-radius: 4px;
         &.selected {
           color: hsla(0, 0%, 100%, 0.9);
-          background: @color-primary;
+          background: var(--color-primary);
         }
       }
     }

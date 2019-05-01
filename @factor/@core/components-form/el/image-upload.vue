@@ -448,7 +448,7 @@ export default {
   }
 }
 .image-item-content {
-  box-shadow: inset @factor-input-shadow;
+  //box-shadow: inset @factor-input-shadow;
   transition: 0.1s all;
   border-radius: 3px;
   width: 100%;
@@ -459,7 +459,7 @@ export default {
   background-position: 50%;
 
   display: flex;
-  background-color: @factor-input-bg;
+  //background-color: @factor-input-bg;
   .status-bar {
     top: 0;
     position: absolute;
@@ -468,7 +468,7 @@ export default {
     text-align: center;
   }
   &.preprocess {
-    background-color: @factor-color-text;
+    background-color: var(--factor-color-text);
   }
 
   &.dragover,
@@ -479,9 +479,9 @@ export default {
 .image-drop .image-item-content {
   text-align: center;
   position: relative;
-  color: @color-placeholder;
-  background-color: @factor-input-bg;
-  box-shadow: inset @factor-input-shadow;
+  // color: @color-placeholder;
+  // background-color: @factor-input-bg;
+  // box-shadow: inset @factor-input-shadow;
   border-radius: 4px;
 
   .upload-icon {

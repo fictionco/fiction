@@ -109,7 +109,14 @@ export default Factor => {
 
     clearBuildDirectory() {
       ensureDirSync(this.buildDirectory)
-      emptyDirSync(this.buildDirectory)
+
+      // Delete everything except for node modules to prevent this reinstalling with every new dev instance
+      require("del").sync([
+        `${this.buildDirectory}/**`,
+        `!${this.buildDirectory}`,
+        `!${this.buildDirectory}/node_modules`,
+        `!${this.buildDirectory}/yarn.lock`
+      ])
     }
 
     copyAppDirectories() {

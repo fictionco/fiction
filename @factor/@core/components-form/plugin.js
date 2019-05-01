@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.registerComponents()
     }
@@ -11,7 +11,6 @@ export default Factor => {
         _["factor-input-date"] = () => import("./el/date")
         _["factor-input-password"] = () => import("./el/password")
         _["factor-input-text"] = () => import("./el/text")
-        _["factor-input-user-list"] = () => import("./el/user-list")
         _["factor-input-textarea"] = () => import("./el/textarea")
         _["factor-input-phone"] = () => import("./el/phone")
         _["factor-input-checkbox"] = () => import("./el/checkbox")
@@ -21,8 +20,6 @@ export default Factor => {
 
         _["factor-input-select"] = () => import("./el/select")
 
-        _["factor-input-sortable"] = () => import("./el/sortable")
-
         _["factor-input-submit"] = () => import("./el/submit")
 
         _["factor-input-wrap"] = () => import("./el/wrap-input")
@@ -30,5 +27,5 @@ export default Factor => {
         return _
       })
     }
-  }()
+  })()
 }

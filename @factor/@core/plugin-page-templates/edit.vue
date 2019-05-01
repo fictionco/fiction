@@ -1,12 +1,12 @@
 <template>
   <div class="edit-page-templates">
-    <factor-input-wrap
+    <dashboard-input
       v-model="localPost.template"
       :list="$posts.getPageTemplates()"
       input="factor-input-select"
       label="Page Template"
     />
-    <factor-input-wrap
+    <dashboard-input
       v-for="(field, i) in inputs"
       :key="i"
       :value="localPost[field.key]"

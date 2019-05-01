@@ -13,7 +13,7 @@ export default Factor => {
     }
 
     testsGlob() {
-      return require("path").resolve(this.cypressPath, "../", `**/${this.key}/*`)
+      return require("path").resolve(this.$paths.get("source"), `**/${this.key}/*`)
     }
 
     addBuildWatchers() {

@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       // image require wont work outside webpack
       const icon = Factor.FACTOR_ENV == "app" ? require("./img/pages.svg") : ""
@@ -26,16 +26,6 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("post-edit-meta", _ => {
-        _.push({
-          type: ["page"],
-          name: "Set Page Template",
-          component: () => import("./set")
-        })
-
-        return _
-      })
-
       Factor.$filters.add("content-routes-unmatched", _ => {
         _.unshift({
           path: "/:permalink",
@@ -45,5 +35,5 @@ export default Factor => {
         return _
       })
     }
-  }()
+  })()
 }

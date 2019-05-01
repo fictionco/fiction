@@ -14,7 +14,7 @@ export default Factor => {
         _["factor-loading-ring"] = () => import("./el/loading-ring")
         _["factor-pop"] = () => import("./el/pop")
         _["factor-logo"] = () => import("./el/logo")
-        _["factor-card-user"] = () => import("./el/card-user")
+
         _["factor-menu"] = () => import("./el/menu")
         _["factor-tag"] = () => import("./el/tag")
         _["factor-icon"] = () => import("./el/icon")

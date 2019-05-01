@@ -1,0 +1,233 @@
+.ui-dashboard {
+
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+
+
+  --font-primary:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+
+  --font-monospace: SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+
+  --color-primary: #0496ff;
+  --color-secondary: #ff0076;
+  --color-text: #506677;
+  --color-placeholder: #bdcad4;
+
+  --color-primary-sub: #62bdff;
+  --color-success: #26d12b;
+  --color-info: #fdf700;
+  --color-warning: #ff0076;
+  --color-danger: #ff0076;
+  --color-facebook: #4568b2;
+  --color-bg: #fafbff;
+  --color-bg-alt: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.07);
+
+
+
+  --border-color-subtle: rgba(84, 110, 195, 0.1);
+
+  --canvas-bg: #f3f5fa;
+
+  --input-bg: #fcfdff;
+
+  --input-shadow: 0 0 0 1px rgba(0, 43, 93, 0.2);
+
+  --pane-shadow: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
+    0 12px 34px 0 rgba(24, 32, 41, 0.04);
+
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+
+
+* {
+  -webkit-overflow-scrolling: touch; //mobile scroll fix
+}
+
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  border: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+article,
+aside,
+audio,
+canvas,
+caption,
+details,
+div,
+figure,
+footer,
+header,
+hgroup,
+iframe,
+img,
+mark,
+menu,
+nav,
+object,
+section,
+span,
+summary,
+table,
+tbody,
+td,
+tfoot,
+thead,
+tr,
+tr,
+video {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+a,
+abbr,
+address,
+b,
+blockquote,
+cit,
+code,
+dd,
+del,
+dfn,
+dl,
+dt,
+em,
+fieldset,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+i,
+ins,
+label,
+legend,
+li,
+ol,
+p,
+pre,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+ul {
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+article,
+aside,
+audio,
+canvas,
+figcaption,
+figure,
+figure img,
+footer,
+header,
+hgroup,
+nav,
+section,
+video {
+  display: block;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+
+  caption,
+  td,
+  th {
+    text-align: left;
+    vertical-align: middle;
+  }
+}
+
+hr {
+  border-bottom: 1px solid var(--color-border);
+  margin: 2em 0;
+}
+
+a {
+  text-decoration: none;
+  text-decoration-skip: ink;
+  color: var(--color-primary);
+
+  &:hover {
+    cursor: pointer;
+    color: var(--color-secondary);
+  }
+
+  img {
+    border: 0;
+  }
+}
+
+ul {
+  font-weight: 500;
+  padding-left: 1.5em;
+}
+
+strong {
+  font-weight: 600;
+}

@@ -125,105 +125,18 @@ export default {
 .factor-btn {
   display: inline-block;
   margin-bottom: 0; // For input.btn
-  user-select: none;
-  font-weight: 600;
   text-align: center;
   vertical-align: middle;
   touch-action: manipulation;
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
-  padding: 0.5em 1em;
-  font-size: 14px;
+  user-select: none;
   line-height: 1;
-  border-radius: 4px;
-  background-color: #fff;
-  box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1),
-    0 2px 5px 0 rgba(43, 45, 80, 0.08), 0 1px 1.5px 0 rgba(0, 0, 0, 0.07),
-    0 1px 2px 0 rgba(0, 0, 0, 0.08);
-  color: #506677;
-  transition: 0.15s all;
-  opacity: 0.95;
-  &.tiny {
-    font-size: 11px;
-    padding: 2px 4px;
-    font-weight: 500;
-  }
-  &.small {
-    font-size: 12px;
-    padding: 0.35em 0.75em;
-  }
-  &.large {
-    font-size: 1.2em;
-  }
   &.disabled {
     cursor: not-allowed;
     pointer-events: none; // Future-proof disabling of clicks
     opacity: 0.6;
   }
-
-  &.subtle {
-    box-shadow: none;
-    opacity: 0.6;
-  }
-
-  &:hover {
-    opacity: 1;
-    transform: translateY(-0.5px);
-    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1),
-      0 2.5px 5px 0 rgba(43, 45, 80, 0.08), 0 1.5px 1.5px 0 rgba(0, 0, 0, 0.07),
-      0 1.5px 2px 0 rgba(0, 0, 0, 0.08);
-  }
-  &:active {
-    opacity: 0.8;
-    transition: 0s all;
-  }
-  &.primary {
-    color: hsla(0, 0%, 100%, 0.9);
-    background: @color-primary;
-    box-shadow: 0 0 0 1px @color-primary, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
-      0 2px 5px 0 rgba(43, 45, 80, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08),
-      0 0 0 0 transparent;
-    &:hover {
-      color: #fff;
-      box-shadow: 0 0 0 1px @color-primary, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
-        0 2.5px 5px 0 rgba(43, 45, 80, 0.1), 0 1.5px 2px 0 rgba(0, 0, 0, 0.08),
-        0 0 0 0 transparent;
-    }
-  }
-  &.secondary {
-    color: hsla(0, 0%, 100%, 0.9);
-    background: @color-secondary;
-    box-shadow: 0 0 0 1px @color-secondary, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
-      0 2px 5px 0 rgba(43, 45, 80, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08),
-      0 0 0 0 transparent;
-    &:hover {
-      color: #fff;
-      box-shadow: 0 0 0 1px @color-secondary,
-        0 1.5px 1px 0 rgba(59, 65, 94, 0.1), 0 2.5px 5px 0 rgba(43, 45, 80, 0.1),
-        0 1.5px 2px 0 rgba(0, 0, 0, 0.08), 0 0 0 0 transparent;
-    }
-  }
-  &.selected {
-    color: hsla(0, 0%, 100%, 0.9);
-    background: #506677;
-    box-shadow: 0 0 0 1px #506677, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
-      0 2px 5px 0 rgba(43, 45, 80, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08),
-      0 0 0 0 transparent;
-    &:hover {
-      color: #fff;
-      box-shadow: 0 0 0 1px #506677, 0 1.5px 1px 0 rgba(59, 65, 94, 0.1),
-        0 2.5px 5px 0 rgba(43, 45, 80, 0.1), 0 1.5px 2px 0 rgba(0, 0, 0, 0.08),
-        0 0 0 0 transparent;
-    }
-  }
-  + .factor-btn,
-  + .is-btn {
-    margin-left: 0.5em;
-  }
-}
-.is-btn + .factor-btn,
-.is-btn + .is-btn {
-  margin-left: 0.5em;
 }
 </style>

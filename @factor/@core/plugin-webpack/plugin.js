@@ -255,18 +255,30 @@ module.exports.default = Factor => {
             { test: /\.(mov|mp4)$/, use: ["file-loader"] },
 
             {
-              test: /\.less/,
-              use: this.lessLoad(args)
+              test: /\.(less|css)/,
+              use: this.cssLoaders(args)
             },
 
+            // {
+            //   test: /\.css$/,
+            //   use: [
+            //     {
+            //       loader: "vue-style-loader"
+            //     },
+            //     {
+            //       loader: "css-loader"
+            //     }
+            //   ]
+            // },
             {
-              test: /\.css$/,
+              test: /\.md$/,
               use: [
                 {
-                  loader: "vue-style-loader"
+                  loader: "html-loader"
                 },
                 {
-                  loader: "css-loader"
+                  loader: "markdown-loader",
+                  options: {}
                 }
               ]
             }
@@ -303,7 +315,7 @@ module.exports.default = Factor => {
       return out
     }
 
-    lessLoad({ target, build }) {
+    cssLoaders({ target, build }) {
       let finishing
 
       const prependedFiles = Factor.$filters.apply("prepended-style-var-files", [])
@@ -321,17 +333,17 @@ module.exports.default = Factor => {
         },
         {
           loader: "less-loader"
-        },
-        {
-          loader: "style-resources-loader",
-          options: {
-            patterns: prependedFiles,
-            injector: (source, resources) => {
-              const injectContent = resources.map(({ content }) => content).join("")
-              return injectContent + source
-            }
-          }
         }
+        // {
+        //   loader: "style-resources-loader",
+        //   options: {
+        //     patterns: prependedFiles,
+        //     injector: (source, resources) => {
+        //       const injectContent = resources.map(({ content }) => content).join("")
+        //       return injectContent + source
+        //     }
+        //   }
+        // }
       ]
 
       // For development use runtime style loader

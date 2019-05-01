@@ -22,7 +22,7 @@ export default {
   padding: 0.2em 0.8em 0.2em 0.8em;
   line-height: 1.4;
 
-  box-shadow: @factor-input-shadow;
+  //box-shadow: @factor-input-shadow;
 
   display: inline-block;
   text-align: center;
