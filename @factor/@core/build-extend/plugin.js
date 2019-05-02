@@ -17,6 +17,7 @@ module.exports = Factor => {
       this.addCoreExtension("keys", require("@factor/build-keys"))
       this.addCoreExtension("files", require("@factor/build-files"))
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
+      this.addCoreExtension("stack", require("@factor/core-stack/build"))
       this.addCoreExtension("config", require("@factor/admin-config"))
 
       const transpiler = require("@factor/build-transpiler")(Factor)

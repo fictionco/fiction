@@ -9,7 +9,7 @@
   "search.exclude": {
     "**/factor_modules/**": true,
     "**/generated/**": true,
-    "**/serverless/**": true,
+    "**/cloud/**": true,
     "**/@themes": true,
     "**/.ref": true
   },

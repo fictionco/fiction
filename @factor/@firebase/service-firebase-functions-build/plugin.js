@@ -3,17 +3,17 @@ const { ensureDirSync, emptyDirSync, copy, copySync, writeFileSync } = require("
 const glob = require("glob").sync
 
 const { resolve, basename, dirname } = require("path")
-const execa = require("execa")
+
 export default Factor => {
   return new (class {
     constructor() {
-      this.folderName = "serverless"
+      this.folderName = "cloud"
 
       this.buildDirectory = resolve(Factor.$paths.get("app"), this.folderName)
 
       this.relativeDir = `${this.folderName}`
 
-      this.serverlessPackages = require(Factor.$paths.get("plugins-loader-serverless"))
+      this.cloudPackages = require(Factor.$paths.get("plugins-loader-cloud"))
 
       this.watchPaths = [Factor.$paths.get("config-file"), Factor.$paths.get("secrets-file")]
       this.dependencies = {}
@@ -33,33 +33,28 @@ export default Factor => {
       Factor.$filters.add("cli-tasks", _ => {
         _.push({
           command: (ctx, task) => {
-            this.buildServerlessFolder()
-            task.title = "Serverless folder built"
+            this.buildCloudFolder()
+            task.title = "Cloud folder built"
           },
-          title: "Building Serverless Folder"
+          title: "Building Cloud Folder"
         })
 
         _.push({
           command: "yarn",
           args: ["install", "--ignore-engines"],
-          title: "Installing serverless packages",
+          title: "Installing cloud packages",
           options: {
             cwd: `${process.cwd()}/${this.relativeDir}`,
-            done: "Installed serverless packages"
+            done: "Installed cloud packages"
           }
         })
 
         return _
       })
 
-      Factor.$filters.add("cli-serverless", (_, { action = "" }) => {
-        if (action == "build") {
-        }
-      })
-
       Factor.$filters.add("build-watchers", _ => {
         _.push({
-          name: "Functions Rebuild",
+          name: "Cloud Functions Rebuild",
           files: this.watchPaths.map(_ => `${_}/**`),
           callback: ({ event, path }) => {
             this.makePackages()
@@ -71,14 +66,14 @@ export default Factor => {
       Factor.$filters.add("cli-runners", _ => {
         _.push({
           command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
-          name: "Serverless"
+          name: "Cloud Functions"
         })
         return _
       })
     }
 
     builder() {
-      this.buildServerlessFolder()
+      this.buildCloudFolder()
     }
 
     addConfig() {
@@ -100,7 +95,7 @@ export default Factor => {
       })
     }
 
-    buildServerlessFolder() {
+    buildCloudFolder() {
       this.clearBuildDirectory()
       this.copyAppDirectories()
       this.makePackages()
@@ -139,7 +134,7 @@ export default Factor => {
     getDependencies() {
       let baseDependencies = {}
 
-      Object.values(this.serverlessPackages).forEach(pkg => {
+      Object.values(this.cloudPackages).forEach(pkg => {
         baseDependencies[pkg.module] = `>${pkg.version}`
       })
 
@@ -210,7 +205,7 @@ export default Factor => {
       const { version } = require(resolve(Factor.$paths.get("app"), "package.json"))
 
       const lines = {
-        name: "@factor/serverless-directory",
+        name: "@factor/cloud-directory",
         description: "** GENERATED FILE - DONT EDIT DIRECTLY **",
         version,
         license: "GPL-3.0",

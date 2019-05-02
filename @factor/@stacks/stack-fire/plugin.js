@@ -1,13 +1,11 @@
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
-      // files["algoliaClient"] = require("@factor/service-algolia").default
-      // files["firebaseapp"] = require("@factor/service-firebase-app").default
-      // files["firebaseauth"] = require("@factor/service-firebase-auth").default
-      // files["firebasefirestore"] = require("@factor/service-firebase-firestore").default
-      // files["firebasefunctionsrequest"] = require("@factor/service-firebase-functions-request").default
-      // files["firebasehosting"] = require("@factor/service-firebase-hosting").default
-      // files["firebasestorage"] = require("@factor/service-firebase-storage").default
+      this.db()
+      this.storage()
+      this.endpoints()
+      this.hosting()
+      this.auth()
     }
 
     db() {
@@ -41,7 +39,9 @@ module.exports.default = Factor => {
       Factor.$stack.register("endpoints-base-url", () => firebaseEndpoints.endpointBaseUrl())
     }
 
-    hosting() {}
+    hosting() {
+      const firebaseHosting = require("@factor/service-firebase-hosting").default(Factor)
+    }
 
     auth() {
       const firebaseAuth = require("@factor/service-firebase-auth").default(Factor)
