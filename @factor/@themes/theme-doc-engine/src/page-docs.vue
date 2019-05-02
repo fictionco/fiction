@@ -5,67 +5,6 @@
       <div class="mast">
         <div class="content">
           <div v-formatted-text="getMarkdown()" />
-
-          <!-- <h1>Introduction</h1>
-          <h2 id="What-is-Factor">
-            <factor-link path="#What-is-Factor" class="current">What is Factor?</factor-link>
-          </h2>
-          <p>Factor is a Serverless Framework. In the documentation you will learn how to install it, how to use the interface and how to develop plugins and themes for the Factor platform.</p>
-          <p>Ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-
-          <h2 id="Getting-Started">
-            <factor-link path="#Getting-Started">Getting Started</factor-link>
-          </h2>
-          <p>
-            <factor-link path="/docs/quick-start" btn="primary" size="large">Quick Start</factor-link>
-          </p>
-          <p
-            class="tip"
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi:</p>
-          <pre>
-            <code class="hljs html">
-              Some code
-            </code>
-          </pre>
-          <p>or:</p>
-          <pre>
-            <code class="hljs html">
-              Some code
-            </code>
-          </pre>
-          <p>
-            Lorem ipsum dolor sit amet,
-            <factor-link path="#link-test">link test</factor-link>, sed do
-            <strong>eiusmod tempor</strong> incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          </p>
-          <h3 id="Testing-Lists">
-            <a href="#Testing-Lists">Testing Lists</a>
-          </h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi</p>
-          <ol>
-            <li>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </li>
-            <li>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </li>
-          </ol>
-          <ul>
-            <li>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </li>
-            <li>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </li>
-          </ul>
-          <blockquote>
-            <p>
-              Blockquote test. This page assumes you’ve already read the
-              <factor-link path="#link-test">Plugins Basics</factor-link>. Read that first if you are new to plugins.
-            </p>
-          </blockquote>-->
           <docs-footer />
         </div>
       </div>
@@ -74,6 +13,7 @@
 </template>
 
 <script>
+//import Prism from "prismjs"
 export default {
   components: {
     "docs-sidebar": () => import("#/el/el-docs-sidebar"),
@@ -84,7 +24,9 @@ export default {
       loading: true
     }
   },
-  mounted() {},
+  watch: {
+    "$route.fullPath": "hashChanged"
+  },
   metatags() {
     return {
       title: "Introduction — Factor.js",
@@ -93,6 +35,47 @@ export default {
     }
   },
   methods: {
+    hashChanged(toPath, fromPath) {
+      toPath = toPath.split("#")
+      fromPath = fromPath.split("#")
+      this.$nextTick(() => this.scrollTo(this.$route.hash))
+    },
+    scrolled() {
+      var h =
+        window.innerHeight ||
+        document.documentElement.clientHeight ||
+        document.body.clientHeight
+      var doc = document.documentElement
+      var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+      var el = this.contents.find(pos => {
+        return pos > top + h / 2
+      })
+      this.current =
+        (el ? this.contents.indexOf(el) : this.contents.length) - 1
+    },
+    scrollTo(id) {
+      if (id !== this.$route.hash) {
+        this.$router.push(this.$route.fullPath.split("#")[0] + id)
+      }
+      this.$nextTick(() => {
+        var el = document.getElementById(id.slice(1))
+        if (!el) return
+        var to = el.offsetTop - 20
+        var doc = document.documentElement
+        var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+        var diff = (to > top ? to - top : top - to) / 25
+        var i = 0
+        window.clearInterval(this.setInter)
+        this.setInter = window.setInterval(() => {
+          top = to > top ? top + diff : top - diff
+          window.scrollTo(0, top)
+          i++
+          if (i === 25) {
+            window.clearInterval(this.setInter)
+          }
+        }, 10)
+      })
+    },
     getMarkdown() {
       return require("./docs-v1/introduction.md")
     }
@@ -141,9 +124,19 @@ export default {
     h1,
     h2,
     h3 {
+      position: relative;
       a {
         pointer-events: auto;
         color: inherit;
+        &:before {
+          content: "#";
+          color: var(--color-primary);
+          position: absolute;
+          left: -0.9em;
+          margin-top: -0.15em;
+          font-size: 1.2em;
+          font-weight: 800;
+        }
       }
     }
     h1 {
@@ -153,18 +146,6 @@ export default {
       margin: 45px 0 0.8em;
       padding-bottom: 0.7em;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    h3 {
-      position: relative;
-      a:before {
-        content: "#";
-        color: var(--color-primary);
-        position: absolute;
-        left: -0.9em;
-        margin-top: -0.05em;
-        font-size: 1.2em;
-        font-weight: 800;
-      }
     }
     a {
       color: var(--color-primary);

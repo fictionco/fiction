@@ -38,9 +38,7 @@
 
 <script>
 export default {
-  components: {
-    "el-btn": () => import("./el/btn")
-  },
+  components: {},
   data() {
     return {
       loading: true

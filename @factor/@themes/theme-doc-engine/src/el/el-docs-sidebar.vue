@@ -12,23 +12,23 @@
         </li>
 
         <li>
-          <factor-link path="/docs/quick-start">Quick Start</factor-link>
+          <factor-link path="/docs/installation">Installation</factor-link>
         </li>
 
         <li>
-          <factor-link path="/docs/introduction" class="sidebar-link current">Introduction</factor-link>
+          <factor-link path="/docs/" class="sidebar-link current">Introduction</factor-link>
           <ul class="menu-sub">
             <li>
-              <factor-link path="#What-is-Factor" class="section-link">What is Factor?</factor-link>
+              <factor-link path="/docs#what-is-factor" class="section-link">What is Factor?</factor-link>
             </li>
             <li>
-              <factor-link path="#Getting-Started" class="section-link">Getting Started</factor-link>
+              <factor-link path="/docs#how-it-works" class="section-link">How it Works</factor-link>
             </li>
             <li>
-              <factor-link path="#" class="section-link">Placeholder</factor-link>
+              <factor-link path="/docs#features" class="section-link">Features</factor-link>
             </li>
             <li>
-              <factor-link path="#" class="section-link">Placeholder</factor-link>
+              <factor-link path="/docs#schema" class="section-link">Schema</factor-link>
             </li>
             <li>
               <factor-link path="#" class="section-link">Placeholder</factor-link>

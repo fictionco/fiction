@@ -1,158 +1,105 @@
 # Introduction
-## h2 Heading
-### h3 Heading
-#### h4 Heading
-##### h5 Heading
-###### h6 Heading
 
-## Horizontal Rules
+Factor.js is a framework for creating Vue.js applications, you can choose between Universal, Static Generated or Single Page application.
 
-___
+## [What is Factor?](#what-is-factor)
+Factor is a Serverless Framework. In the documentation you will learn how to install it, how to use the interface and how to develop plugins and themes for the Factor platform.
 
----
+Its main scope is UI rendering while abstracting away the client/server distribution.
 
-***
+Our goal is to create a framework flexible enough that you can use it as a main project base or in addition to your current project based on Node.js.
 
+Factor.js presets all the configuration needed to make your development of a server-rendered Vue.js Application more enjoyable.
 
-## Typographic replacements
+In addition, we also provide another deployment option called: factor generate. It will build a statically generated Vue.js Application. We believe that option could be the next big step in the development of Web Applications with microservices.
 
-Enable typographer option to see result.
+Furthermore, you can also use Factor.js to create single page applications (spa mode) quickly, useful to keep Factor features while working on backoffice applications.
 
-(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+As a framework, Factor.js comes with a lot of features to help you in your development between the client side and the server side such as Asynchronous Data, Middleware, Layouts, etc.
 
-test.. test... test..... test?..... test!....
+## [How it Works](#how-it-works)
 
-!!!!!! ???? ,,  -- ---
+Factor.js includes the following to create a rich web application development:
 
-"Smartypants, double quotes" and 'single quotes'
+- [Vue 2](https://vuejs.org/)
+- [Vue Router](https://router.vuejs.org/en/)
+- [Vuex](https://vuex.vuejs.org/en/)
+- [Vue Server Renderer](https://ssr.vuejs.org/en/) (excluded when using mode: 'spa')
+- [vue-meta](https://github.com/declandewet/vue-meta)
 
+A total of only **57kB min+gzip** (60kB with Vuex).
 
-## Emphasis
+Under the hood Factor uses webpack with vue-loader and babel-loader to bundle, code-split and minify your code.
 
-**This is bold text**
+## [Features](#features)
+- Write Vue Files (`*.vue`)
+- Automatic Code Splitting
+- Server-Side Rendering
+- Powerful Routing System with Asynchronous Data
+- Static File Serving
+- [ES2015+](https://babeljs.io/docs/en/learn/) Transpilation
+- Bundling and minifying of your JS & CSS
+- Managing `<head>` element (`<title>`, `<meta>`, etc.)
+- Hot module replacement in Development
+- Pre-processor: Sass, Less, Stylus, etc.
+- HTTP/2 push headers ready
+- Extending with Modular architecture
 
-__This is bold text__
+## [Schema](#schema)
 
-*This is italic text*
+This schema shows what is called by Factor.js when the server is called or when the user navigates through the app via `<factor-link>`:
 
-_This is italic text_
+![Factor Schema](./factor-schema.svg)
 
-~~Strikethrough~~
+## [Server Rendered (Universal SSR)](#server-rendered-universal-ssr)
 
+You can use Factor.js as a framework to handle all the UI rendering of your project.
 
-## Blockquotes
+When launching factor, it will start a development server with hot-reloading and [Vue Server Renderer](https://ssr.vuejs.org/) configured to automatically server-render your application.
 
+### [Single Page Applications (SPA)](#single-page-applications-spa)
 
-> Blockquotes can also be nested...
->> ...by using additional greater-than signs right next to each other...
-> > > ...or with spaces between arrows.
+If, for any reason, you prefer not to use server side rendering or need static hosting for your applications, you can simply use SPA mode using factor --spa. In combination with the generate feature, it gives you a powerful SPA deployment mechanism without the need to use a Node.js runtime or any special server handling.
 
+Take a look at the commands to learn more about usage.
 
-## Lists
+If you already have a server, you can plug Factor.js by using it as a middleware. There is no restriction at all when using Factor.js for developing your Universal Web Applications. See the Using Factor.js Programmatically guide.
 
-Unordered
+## [Static Generated (Pre Rendering)](#static-generated-pre-rendering)
 
-+ Create a list by starting a line with `+`, `-`, or `*`
-+ Sub-lists are made by indenting 2 spaces:
-  - Marker character change forces new list start:
-    * Ac tristique libero volutpat at
-    + Facilisis in pretium nisl aliquet
-    - Nulla volutpat aliquam velit
-+ Very easy!
+The big innovation of Factor.js comes with the factor generate command.
 
-Ordered
+When building your application, it will generate the HTML for every one of your routes and store it in a file.
 
-1. Lorem ipsum dolor sit amet
-2. Consectetur adipiscing elit
-3. Integer molestie lorem at massa
-
-1. You can use sequential numbers...
-1. ...or keep all the numbers as `1.`
-
-Start numbering with offset:
-
-57. foo
-1. bar
-
-
-## Code
-
-Inline `code`
-
-Indented code
-
-    // Some comments
-    line 1 of code
-    line 2 of code
-    line 3 of code
-
-
-Block code "fences"
+For example, the following file structure:
 
 ```
-Sample text here...
+-| pages/
+----| about.vue
+----| index.vue
 ```
 
-Syntax highlighting
+will generate
 
-``` js
-var foo = function (bar) {
-  return bar++;
-};
-
-console.log(foo(5));
+```
+-| dist/
+----| about/
+------| index.html
+----| index.html
 ```
 
-## Tables
-
-| Option | Description |
-| ------ | ----------- |
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
-
-Right aligned columns
-
-| Option | Description |
-| ------:| -----------:|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default. |
-| ext    | extension to be used for dest files. |
+With this, you can host your generated web application on any static hosting!
 
 
-## Links
+We don't want to manually generate the application every time we update the [docs repository](https://github.com/factor/docs), it triggers a hook to Netlify which:
 
-[link text](http://dev.nodeca.com)
+1. Clones the [factor repository](https://github.com/fiction-com/factor)
+2. Installs the dependencies via `yarn add`
+3. Runs `yarn factor deploy`
+4. Serves the `dist` directory
 
-[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+We now have an automated **Static Generated Web Application** :)
 
-Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
+We can go further by thinking of an e-commerce web application made with `factor generate` and hosted on a CDN. Every time a product is out of stock or back in stock, we regenerate the web app. But if the user navigates through the web app in the meantime, it will be up to date thanks to the API calls made to the e-commerce API. No need to have multiple instances of a server + a cache any more!
 
-
-## Images
-
-![Minion](https://octodex.github.com/images/minion.png)
-![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
-
-Like links, Images also have a footnote style syntax
-
-![Alt text][id]
-
-With a reference later in the document defining the URL location:
-
-[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
-
-
-## Plugins
-
-The killer feature of `markdown-it` is very effective support of
-[syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
-
-
-### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
-
-> Classic markup: :wink: :crush: :cry: :tear: :laughing: :yum:
->
-> Shortcuts (emoticons): :-) :-( 8-) ;)
-
-see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
+> See [How to deploy on Netlify?](/faq/netlify-deployment) for more details on how to deploy to Netlify.

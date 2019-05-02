@@ -12,6 +12,10 @@ button.btn-docs {
   line-height: 1;
   border-radius: 4px;
 
+  &:focus {
+    outline: none;
+  }
+
   + .btn-docs,
   + .btn-link {
     margin-left: 1em;
