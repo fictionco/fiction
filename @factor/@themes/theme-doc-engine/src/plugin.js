@@ -11,7 +11,7 @@ module.exports.default = Factor => {
 
     addComponents() {
       Factor.$filters.add("components", _ => {
-        _["btn-docs"] = () => import("./el/btn.vue")
+        _["el-btn"] = () => import("./el/btn.vue")
         return _
       })
     }
@@ -47,7 +47,7 @@ module.exports.default = Factor => {
           {
             path: "/docs",
             component: () => import("./page-docs"),
-            meta: { footer: false }
+            meta: { footer: false, background: "#f7f9ff" }
           },
           {
             path: "/plugins",

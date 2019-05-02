@@ -164,7 +164,6 @@
 <script>
 export default {
   components: {
-    "el-btn": () => import("./el/btn"),
     "el-cta": () => import("./el/cta")
   },
   data() {
