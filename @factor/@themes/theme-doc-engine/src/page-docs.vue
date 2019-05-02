@@ -16,8 +16,8 @@
 //import Prism from "prismjs"
 export default {
   components: {
-    "docs-sidebar": () => import("#/el/el-docs-sidebar"),
-    "docs-footer": () => import("#/el/el-docs-footer")
+    "docs-sidebar": () => import("./el/el-docs-sidebar"),
+    "docs-footer": () => import("./el/el-docs-footer")
   },
   data() {
     return {
@@ -40,31 +40,18 @@ export default {
       fromPath = fromPath.split("#")
       this.$nextTick(() => this.scrollTo(this.$route.hash))
     },
-    scrolled() {
-      var h =
-        window.innerHeight ||
-        document.documentElement.clientHeight ||
-        document.body.clientHeight
-      var doc = document.documentElement
-      var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
-      var el = this.contents.find(pos => {
-        return pos > top + h / 2
-      })
-      this.current =
-        (el ? this.contents.indexOf(el) : this.contents.length) - 1
-    },
     scrollTo(id) {
       if (id !== this.$route.hash) {
         this.$router.push(this.$route.fullPath.split("#")[0] + id)
       }
       this.$nextTick(() => {
-        var el = document.getElementById(id.slice(1))
+        let el = document.querySelector("#" + id.slice(1))
         if (!el) return
-        var to = el.offsetTop - 20
-        var doc = document.documentElement
-        var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
-        var diff = (to > top ? to - top : top - to) / 25
-        var i = 0
+        let to = el.offsetTop - 20
+        let doc = document.documentElement
+        let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+        let diff = (to > top ? to - top : top - to) / 25
+        let i = 0
         window.clearInterval(this.setInter)
         this.setInter = window.setInterval(() => {
           top = to > top ? top + diff : top - diff
@@ -77,7 +64,8 @@ export default {
       })
     },
     getMarkdown() {
-      return require("./docs-v1/introduction.md")
+      let filename = "introduction"
+      return require(`./docs-v1/${filename}.md`)
     }
   }
 }
@@ -168,7 +156,6 @@ export default {
       padding-left: 20px;
       border-left: 4px solid var(--color-primary);
       p {
-        font-weight: 800;
         padding-bottom: 0;
       }
     }
