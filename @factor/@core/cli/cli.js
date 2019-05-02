@@ -15,7 +15,7 @@ process.maxOldSpaceSize = 4000
 const cli = async () => {
   return new (class {
     constructor() {
-      this.tasks = []
+      this.tasks = [{ command: "yarn", args: ["install"], title: "Installing Dependencies" }]
 
       this.setupProgram()
     }
@@ -199,7 +199,7 @@ const cli = async () => {
 
       try {
         await concurrently(r, {
-          prefix: chalk.bold(`{name} -`),
+          prefix: chalk.bold(`{name} >>`),
           prefixLength: 8
         })
         Factor.$log.box("Factor CLI Exited.")

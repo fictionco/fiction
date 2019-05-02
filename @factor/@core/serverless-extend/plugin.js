@@ -76,7 +76,7 @@ module.exports = (Factor, { baseDir, env, setup }) => {
       // Or the endpoint service will wrap the entire module
       Object.keys(serverlessExtensions).forEach(key => {
         const { target, module } = serverlessExtensions[key]
-        if (target == "endpoint" || target.includes("endpoint")) {
+        if (target && (target == "endpoint" || target.includes("endpoint"))) {
           const pluginModule = require(module).default
           const pluginClass = pluginModule(Factor)
           const { requestHandler } = pluginClass

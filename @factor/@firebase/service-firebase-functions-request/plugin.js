@@ -12,12 +12,16 @@ export default Factor => {
 
     filters() {
       Factor.$filters.add("endpoints-base-url", () => {
-        if (Factor.$config.setting("env") == "development") {
-          return `http://localhost:${this.emulatorPort}/${this.currentProject}/${this.region}`
-        } else {
-          return `https://${this.region}-${this.currentProject}.cloudfunctions.net`
-        }
+        return this.endpointBaseUrl()
       })
+    }
+
+    endpointBaseUrl() {
+      if (Factor.$config.setting("env") == "development") {
+        return `http://localhost:${this.emulatorPort}/${this.currentProject}/${this.region}`
+      } else {
+        return `https://${this.region}-${this.currentProject}.cloudfunctions.net`
+      }
     }
   })()
 }

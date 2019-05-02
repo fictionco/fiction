@@ -9,6 +9,12 @@ module.exports.default = Factor => {
         env
       } = Factor.$config.settings()
 
+      if (!adminKey) {
+        throw new Error(
+          "Missing Algolia admin secret. Make sure it's in your config and encryption/decryption keys are working."
+        )
+      }
+
       this.prefix = env
       this.client = this.algoliasearch(appId, adminKey)
 

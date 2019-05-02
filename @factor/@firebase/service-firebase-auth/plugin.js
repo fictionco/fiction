@@ -17,6 +17,10 @@ export default Factor => {
       Factor.$log.error("[Firebase Auth]", error)
     }
 
+    onAuthStateChanged(callback) {
+      return this.client.auth().onAuthStateChanged(callback)
+    }
+
     events() {
       Factor.$events.$on("auth-refresh-tokens", () => this.refreshUserAuthTokens())
       Factor.$events.$on("auth-remove", () => {
@@ -74,9 +78,7 @@ export default Factor => {
     async credentialSignin(args) {
       const credential = await this.getProviderCredential(args)
 
-      const firebaseUserCredential = await this.client
-        .auth()
-        .signInAndRetrieveDataWithCredential(credential)
+      const firebaseUserCredential = await this.client.auth().signInAndRetrieveDataWithCredential(credential)
 
       return this.firebaseToFactorCredential(firebaseUserCredential)
     }
@@ -184,26 +186,26 @@ export default Factor => {
       return await this.client.auth().currentUser.unlink(provider)
     }
 
-    async setCustomClaims(uid) {
-      const result = await Factor.$endpoint.request({
-        endpoint: "@factor/service-firebase-auth-endpoint",
-        action: "customClaims",
-        uid
-      })
+    // async setCustomClaims(uid) {
+    //   const result = await Factor.$endpoint.request({
+    //     endpoint: "@factor/service-firebase-auth-endpoint",
+    //     action: "customClaims",
+    //     uid
+    //   })
 
-      if (result) {
-        const { refresh } = result
+    //   if (result) {
+    //     const { refresh } = result
 
-        if (refresh) {
-          await this.client.auth().currentUser.getIdToken(refresh)
-          tokenResult = await this.client.auth().currentUser.getIdTokenResult(refresh)
-        }
+    //     if (refresh) {
+    //       await this.client.auth().currentUser.getIdToken(refresh)
+    //       tokenResult = await this.client.auth().currentUser.getIdTokenResult(refresh)
+    //     }
 
-        return true
-      } else {
-        return false
-      }
-    }
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // }
 
     // authGetPrivs(parsedToken) {
     //   const privs = {}
