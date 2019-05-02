@@ -8,8 +8,8 @@ module.exports = Factor => {
       const res = require("path").resolve
 
       Factor.$paths.add({
-        "config-file": res(conf, "factor-config.js"),
-        "secrets-file": res(conf, "factor-secrets.js"),
+        "config-file": res(conf, "factor-config"),
+        "secrets-file": res(conf, "factor-secrets"),
         "secrets-encrypted-development": res(conf, "secrets-encrypted-development.json"),
         "secrets-encrypted-production": res(conf, "secrets-encrypted-production.json"),
         decryptor: res(conf, "factor-decryptor.js")
