@@ -54,7 +54,7 @@ module.exports = FACTOR_CONFIG => {
 
       const baseDir = FACTOR_CONFIG.baseDir
 
-      this.endpointHandler = require("@factor/serverless-extend")(Factor, { baseDir, env, setup })
+      this.endpointHandler = require("@factor/cloud-extend")(Factor, { baseDir, env, setup })
 
       const {
         firebase: { databaseURL, serviceAccount }

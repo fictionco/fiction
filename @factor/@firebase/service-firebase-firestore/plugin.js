@@ -10,7 +10,7 @@ module.exports.default = Factor => {
         })
         this.addConfig()
       } else {
-        if (Factor.FACTOR_ENV == "serverless") {
+        if (Factor.FACTOR_ENV == "cloud") {
           this.client = require("firebase-admin")
         } else {
           const firebaseApp = require("@factor/service-firebase-app").default

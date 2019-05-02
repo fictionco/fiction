@@ -13,7 +13,7 @@ module.exports = Factor => {
       Factor.$paths.add({
         "plugins-loader-app": res(gen, "load-plugins-app.js"),
         "plugins-loader-build": res(gen, "load-plugins-build.js"),
-        "plugins-loader-serverless": res(gen, "load-plugins-serverless.js"),
+        "plugins-loader-cloud": res(gen, "load-plugins-cloud.js"),
         "plugins-loader-themes": res(gen, "load-themes.js"),
         "app-package": res(Factor.$paths.get("app"), "package.json")
       })
@@ -84,8 +84,8 @@ module.exports = Factor => {
 
       this.makeLoaderFile({
         extensions,
-        destination: Factor.$paths.get("plugins-loader-serverless"),
-        target: ["endpoint", "serverless"],
+        destination: Factor.$paths.get("plugins-loader-cloud"),
+        target: ["endpoint", "cloud"],
         requireAtRuntime: true
       })
 
@@ -173,8 +173,11 @@ module.exports = Factor => {
       lines.push("const files = {}")
 
       filtered.forEach(extension => {
-        const { module, id } = extension
-        const r = requireAtRuntime ? JSON.stringify(extension) : `require("${module}").default`
+        const { module, id, mainFile } = extension
+
+        const moduleName = mainFile ? mainFile : module
+
+        const r = requireAtRuntime ? JSON.stringify(extension) : `require("${moduleName}").default`
         lines.push(`files["${id}"] = ${r}`)
       })
 

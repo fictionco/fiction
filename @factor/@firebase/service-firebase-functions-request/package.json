@@ -7,8 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "target": ["app"],
-    "service": "serverless",
+    "service": "cloud",
     "provider": "firebase"
   },
   "dependencies": {},

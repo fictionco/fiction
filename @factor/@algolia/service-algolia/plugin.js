@@ -1,11 +1,6 @@
 export default Factor => {
   return new (class {
     constructor() {
-      if (Factor.FACTOR_ENV == "build") {
-        Factor.$filters.add("endpoint-server", () => {
-          this.updateIndexSettings()
-        })
-      }
       const algoliasearch = require("algoliasearch")
       this.config = Factor.$config.setting("algolia")
       this.prefix = `${Factor.$config.setting("env")}_`
@@ -53,10 +48,6 @@ export default Factor => {
 
     async delete(args) {
       return await this.request("deleteObject", this.transformQuery(args))
-    }
-
-    async updateIndexSettings() {
-      const result = await this.request("updateIndexSettings")
     }
 
     async search(args) {

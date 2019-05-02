@@ -2,11 +2,7 @@
   "name": "@factor/plugin-tools",
   "factor": {
     "priority": 30,
-    "target": [
-      "build",
-      "app",
-      "serverless"
-    ]
+    "target": ["build", "app", "cloud"]
   },
   "version": "0.0.7",
   "license": "GPL-3.0",

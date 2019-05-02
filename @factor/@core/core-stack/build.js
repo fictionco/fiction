@@ -1,58 +1,53 @@
 module.exports = Factor => {
   return new (class {
     constructor() {
-      const { theme } = Factor.FACTOR_CONFIG
+      const { stack } = Factor.FACTOR_CONFIG
 
-      if (!theme) {
+      if (!stack) {
         return
       }
 
-      this.themePackageName = theme
-
-      this.addPath()
-
-      // The selected theme's plugin.js file should be loaded
+      this.stackPackage = stack
 
       Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
-        load.push(
-          extensions.find(_ => {
-            return _.module == this.themePackageName
-          })
-        )
-
-        return load
-      })
-
-      // This allows for overriding of files from themes
-      // Notes:
-      // - Uses "#" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
-      // - TODO if a file is added to app, then server needs a restart, fix should be possible
-      Factor.$filters.add("webpack-plugins", (_, { webpack }) => {
-        const plugin = new webpack.NormalModuleReplacementPlugin(/^\#/, resource => {
-          const override = resource.request.replace("#", Factor.$paths.get("source"))
-
-          const glob = require("glob").sync
-          const overrideFiles = glob(`${override}*`)
-
-          if (overrideFiles && overrideFiles.length == 1) {
-            resource.request = overrideFiles[0]
-          }
+        load.push({
+          id: "stack",
+          module: this.stackPackage,
+          mainFile: this.moduleMain(target),
+          target: this.moduleTarget(target)
         })
-
-        _.push(plugin)
-        return _
+        return load
       })
     }
 
-    addPath() {
-      const { dirname } = require("path")
-      const themePath = this.themePackageName
-        ? dirname(require.resolve(this.themePackageName))
-        : Factor.$paths.get("app")
+    moduleTarget(target) {
+      if (target.includes("cloud")) {
+        return "cloud"
+      } else if (target.includes("build")) {
+        return "build"
+      } else {
+        return "app"
+      }
+    }
 
-      Factor.$paths.add({
-        theme: themePath
+    moduleMain(target) {
+      let mainFile
+      const entries = ["cloud", "build"]
+
+      entries.forEach(_ => {
+        if (target.includes(_)) {
+          const mainFileName = `${this.stackPackage}/${_}`
+          const exists = require.resolve(mainFileName)
+
+          mainFile = exists ? mainFileName : ""
+        }
       })
+
+      return mainFile
+    }
+
+    register() {
+      // console.log("REGISTER")
     }
   })()
 }

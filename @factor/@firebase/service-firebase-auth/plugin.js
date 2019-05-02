@@ -26,15 +26,12 @@ export default Factor => {
       Factor.$events.$on("auth-remove", () => {
         this.signOut()
       })
-      try {
-        this.client.auth().onAuthStateChanged(async serviceUser => {
-          Factor.$events.$emit("auth-state-changed", {
-            uid: serviceUser ? serviceUser.uid : null
-          })
-        })
-      } catch (error) {
-        this.error(error)
-      }
+
+      this.onAuthStateChanged(serviceUser => {
+        const uid = serviceUser ? serviceUser.uid : null
+
+        Factor.$events.$emit("auth-state-changed", { uid })
+      })
     }
 
     async refreshUserAuthTokens() {

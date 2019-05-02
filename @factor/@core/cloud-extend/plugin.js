@@ -6,7 +6,7 @@ const cors = require("cors")({ origin: true })
 module.exports = (Factor, { baseDir, env, setup }) => {
   return new (class {
     constructor() {
-      Factor.FACTOR_ENV = "serverless"
+      Factor.FACTOR_ENV = "cloud"
       this.setup()
       this.endpointService = Factor.$filters.apply("endpoint-service")
       this.bearerTokenService = Factor.$filters.apply("auth-token-service")
@@ -23,11 +23,24 @@ module.exports = (Factor, { baseDir, env, setup }) => {
 
       this.addCoreExtension("paths", require("@factor/build-paths"))
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
+      this.addCoreExtension("stack", require("@factor/core-stack/build"))
       this.addCoreExtension("keys", require("@factor/build-keys"))
       this.addCoreExtension("files", require("@factor/build-files"))
       this.addCoreExtension("config", require("@factor/admin-config"))
-      this.addCoreExtension("tools", require("@factor/plugin-tools").default)
-      this.addCoreExtension("db", require("@factor/plugin-db").default)
+      this.insertLoadedExtensions()
+      // this.addCoreExtension("tools", require("@factor/plugin-tools").default)
+      //  this.addCoreExtension("db", require("@factor/plugin-db").default)
+    }
+
+    insertLoadedExtensions() {
+      const cloudExtensions = require(Factor.$paths.get("plugins-loader-cloud"))
+      Object.keys(cloudExtensions).forEach(key => {
+        const { id, target, module, mainFile } = cloudExtensions[key]
+        if (target && (target == "cloud" || target.includes("cloud"))) {
+          const moduleName = mainFile ? mainFile : module
+          this.addCoreExtension(id, require(moduleName).default)
+        }
+      })
     }
 
     addCoreExtension(id, extension) {
@@ -57,25 +70,16 @@ module.exports = (Factor, { baseDir, env, setup }) => {
       }
     }
 
-    // _runCallbacks(callbacks) {
-    //   for (var key in callbacks) {
-    //     const cb = callbacks[key]
-    //     if (cb && typeof cb == "function") {
-    //       cb()
-    //     }
-    //   }
-    // }
-
     endpoints() {
       const endpoints = {}
 
       // Get extensions that are endpoints
-      const serverlessExtensions = require(Factor.$paths.get("plugins-loader-serverless"))
+      const cloudExtensions = require(Factor.$paths.get("plugins-loader-cloud"))
 
       // Endpoint Modules can either expose a 'requestHandler' method
       // Or the endpoint service will wrap the entire module
-      Object.keys(serverlessExtensions).forEach(key => {
-        const { target, module } = serverlessExtensions[key]
+      Object.keys(cloudExtensions).forEach(key => {
+        const { target, module } = cloudExtensions[key]
         if (target && (target == "endpoint" || target.includes("endpoint"))) {
           const pluginModule = require(module).default
           const pluginClass = pluginModule(Factor)

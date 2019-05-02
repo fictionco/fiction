@@ -15,7 +15,7 @@ module.exports = Factor => {
       this.addWebpackConfig()
 
       // The selected theme's plugin.js file should be loaded
-      const { target: themeTarget = "" } = this.buildConfig()
+
       Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
         //if (Factor.$files.arrayIntersect(themeTarget, target)) {
         load.push(

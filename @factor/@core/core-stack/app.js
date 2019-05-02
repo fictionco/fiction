@@ -1,17 +1,9 @@
 module.exports = Factor => {
-  return new class {
-    constructor() {
-      const { theme } = Factor.FACTOR_CONFIG
+  return new (class {
+    constructor() {}
 
-      if (!theme) {
-        return
-      }
-
-      this.themePackageName = theme
+    register() {
+      // console.log("REGISTER")
     }
-
-    package() {
-      return this.themePackageName
-    }
-  }()
+  })()
 }

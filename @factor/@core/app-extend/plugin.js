@@ -13,6 +13,7 @@ export default (Factor, FACTOR_CONFIG, target) => {
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("config", require("@factor/app-config"))
       this.addCoreExtension("theme", require("@factor/core-theme/app"))
+      this.addCoreExtension("stack", require("@factor/core-stack/app"))
 
       require("@factor/app")(Factor)
 
