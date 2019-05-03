@@ -19,40 +19,76 @@
           <factor-link path="/docs/" class="sidebar-link current">Introduction</factor-link>
           <ul class="menu-sub">
             <li>
-              <factor-link path="/docs#what-is-factor" class="section-link">What is Factor?</factor-link>
+              <factor-link path="#what-is-factor" class="section-link">What is Factor?</factor-link>
             </li>
             <li>
-              <factor-link path="/docs#how-it-works" class="section-link">How it Works</factor-link>
+              <factor-link path="#how-it-works" class="section-link">How it Works</factor-link>
             </li>
             <li>
-              <factor-link path="/docs#features" class="section-link">Features</factor-link>
+              <factor-link path="#features" class="section-link">Features</factor-link>
             </li>
             <li>
-              <factor-link path="/docs#schema" class="section-link">Schema</factor-link>
+              <factor-link path="#schema" class="section-link">Schema</factor-link>
             </li>
             <li>
-              <factor-link path="#" class="section-link">Placeholder</factor-link>
+              <factor-link
+                path="#server-rendered-universal-ssr"
+                class="section-link"
+              >Server Rendered (Universal SSR)</factor-link>
             </li>
             <li>
-              <factor-link path="#" class="section-link">Placeholder</factor-link>
+              <factor-link
+                path="#single-page-applications-spa"
+                class="section-link"
+              >Single Page Applications (SPA)</factor-link>
             </li>
-            <ul>
-              <li>
-                <factor-link path="#" class="section-link">Placeholder</factor-link>
-              </li>
-            </ul>
             <li>
-              <factor-link path="#" class="section-link">Placeholder</factor-link>
+              <factor-link
+                path="#static-generated-pre-rendering"
+                class="section-link"
+              >Static Generated (Pre Rendering)</factor-link>
             </li>
           </ul>
         </li>
 
         <li>
-          <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
+          <factor-link path="/docs/directory-structure" class="sidebar-link">Directory Structure</factor-link>
         </li>
 
         <li>
-          <factor-link path="/docs/placeholder" class="sidebar-link">Placeholder</factor-link>
+          <factor-link path="/docs/configuration" class="sidebar-link">Configuration</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/routing" class="sidebar-link">Routing</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/views" class="sidebar-link">Views</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/async-data" class="sidebar-link">Async Data</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/assets" class="sidebar-link">Assets</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/plugins" class="sidebar-link">Plugins</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/modules" class="sidebar-link">Modules</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/commands" class="sidebar-link">Commands and Deployment</factor-link>
+        </li>
+
+        <li>
+          <factor-link path="/docs/development-tools" class="sidebar-link">Development Tools</factor-link>
         </li>
 
         <li>

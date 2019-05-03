@@ -4,6 +4,8 @@
       <docs-sidebar />
       <div class="mast">
         <div class="content">
+          <router-view />
+          {{ $route.params.id }}
           <div v-formatted-text="getMarkdown()" />
           <docs-footer />
         </div>
@@ -24,6 +26,11 @@ export default {
       loading: true
     }
   },
+  computed: {
+    docsPage() {
+      return this.$route.params.markdownurl || "introduction"
+    }
+  },
   watch: {
     "$route.fullPath": "hashChanged"
   },
@@ -33,6 +40,9 @@ export default {
       description: "Factor.js - The Serverless Framework.",
       image: ""
     }
+  },
+  mounted() {
+    console.log(this.$route.params.markdownurl)
   },
   methods: {
     hashChanged(toPath, fromPath) {
@@ -64,7 +74,7 @@ export default {
       })
     },
     getMarkdown() {
-      let filename = "introduction"
+      let filename = this.docsPage
       return require(`./docs-v1/${filename}.md`)
     }
   }
