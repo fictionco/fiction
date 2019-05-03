@@ -143,6 +143,7 @@ module.exports = Factor => {
         } else {
           const basename = path.basename(_)
           const folderName = path.basename(path.dirname(_))
+
           // Aliases needed so paths can be changed if needed
           // Since webpack won't allow dynamic paths in require (variables in paths)
 
@@ -245,6 +246,7 @@ module.exports = Factor => {
       return arr.sort((a, b) => {
         const ap = a.priority || 100
         const bp = b.priority || 100
+
         return ap < bp ? -1 : ap > bp ? 1 : 0
       })
     }
