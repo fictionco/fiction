@@ -35,10 +35,18 @@ const cli = async () => {
         .option("-e, --env <env>", "Set the Node environment. Default: 'development'")
 
       this.program
+        .command("create [directory]")
+        .description("Scaffolds a new Factor app.")
+        .action(async args => {
+          this.extend({ env: "development", ...args })
+          this.callbacks("scaffold-project", { env, ...args })
+        })
+
+      this.program
         .command("dev")
         .description("Start development server")
         .action(async args => {
-          this.extend({ env: "development", cli: true, ...args })
+          this.extend({ env: "development", ...args })
           await this.cliTasks()
 
           this.cliRunners()
@@ -48,7 +56,7 @@ const cli = async () => {
         .command("start")
         .description("Start production build on local server")
         .action(async args => {
-          this.extend({ env: "production", cli: true, ...args })
+          this.extend({ env: "production", ...args })
           this.tasks.push({
             command: "factor",
             args: ["build", env],
@@ -199,7 +207,7 @@ const cli = async () => {
 
       try {
         await concurrently(r, {
-          prefix: chalk.bold(`{name} >>`),
+          prefix: chalk.bold(`{name}`) + " >",
           prefixLength: 8
         })
         Factor.$log.box("Factor CLI Exited.")

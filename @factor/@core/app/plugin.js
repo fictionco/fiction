@@ -1,18 +1,7 @@
 module.exports = Factor => {
   return new (class {
     constructor() {
-      this.doApp()
-    }
-
-    doApp() {
-      this.components()
-
       this.routes()
-    }
-
-    components() {
-      require("@factor/components-standard").default(Factor)
-      require("@factor/components-form").default(Factor)
     }
 
     routes() {
@@ -46,16 +35,6 @@ module.exports = Factor => {
 
         return _
       })
-
-      // Add 404 Handling last
-      // Factor.$filters.add(
-      //   "routes",
-      //   _ => {
-
-      //     return _
-      //   },
-      //   { priority: 3000 }
-      // )
     }
   })()
 }

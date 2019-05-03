@@ -8,7 +8,7 @@
   },
   "factor": {},
   "dependencies": {
-    "@factor/admin-config": ">=0.0.7",
+    "@factor/cloud-config": ">=0.0.7",
     "@factor/build-files": ">=0.0.7",
     "@factor/build-keys": ">=0.0.7",
     "@factor/build-paths": ">=0.0.7",

@@ -26,10 +26,8 @@ module.exports = (Factor, { baseDir, env, setup }) => {
       this.addCoreExtension("stack", require("@factor/core-stack/build"))
       this.addCoreExtension("keys", require("@factor/build-keys"))
       this.addCoreExtension("files", require("@factor/build-files"))
-      this.addCoreExtension("config", require("@factor/admin-config"))
+      this.addCoreExtension("config", require("@factor/cloud-config"))
       this.insertLoadedExtensions()
-      // this.addCoreExtension("tools", require("@factor/plugin-tools").default)
-      //  this.addCoreExtension("db", require("@factor/plugin-db").default)
     }
 
     insertLoadedExtensions() {

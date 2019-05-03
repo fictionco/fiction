@@ -1,0 +1,18 @@
+{
+  "name": "@factor/cms-dashboard",
+  "version": "0.0.7",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "target": ["app", "build"],
+    "id": "dashboard"
+  },
+  "dependencies": {
+    "@factor/ui-components-standard": ">=0.0.7",
+    "@factor/ui-components-form": ">=0.0.7",
+    "@factor/cms-signin": ">=0.0.7"
+  }
+}

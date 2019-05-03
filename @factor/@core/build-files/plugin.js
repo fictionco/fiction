@@ -14,7 +14,6 @@ module.exports = Factor => {
         "plugins-loader-app": res(gen, "load-plugins-app.js"),
         "plugins-loader-build": res(gen, "load-plugins-build.js"),
         "plugins-loader-cloud": res(gen, "load-plugins-cloud.js"),
-        "plugins-loader-themes": res(gen, "load-themes.js"),
         "app-package": res(Factor.$paths.get("app"), "package.json")
       })
 
@@ -139,7 +138,7 @@ module.exports = Factor => {
             provider,
             scope,
             cwd: _ == Factor.$paths.get("app-package") ? true : false,
-            id: id || this.makeId(name.split(/endpoint|plugin|theme|service|@factor|@fiction/gi).pop())
+            id: id || this.makeId(name.split(/endpoint-|plugin-|theme-|service-|@factor|@fiction/gi).pop())
           }
         } else {
           const basename = path.basename(_)
@@ -235,7 +234,9 @@ module.exports = Factor => {
     }
 
     makeId(name) {
-      return name.replace(/\.js|plugin|\-|\//gi, "")
+      return name.replace(/\//gi, "").replace(/-([a-z])/g, function(g) {
+        return g[1].toUpperCase()
+      })
     }
 
     sortPriority(arr) {
