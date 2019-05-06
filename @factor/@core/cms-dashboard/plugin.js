@@ -1,16 +1,8 @@
 export default Factor => {
   return new (class {
     constructor() {
-      if (Factor.FACTOR_ENV == "build") {
-        const { resolve } = require("path")
-        Factor.$filters.add("prepended-style-var-files", _ => {
-          _.push(resolve(__dirname, "**/style-vars.less"))
-          return _
-        })
-      } else {
-        this.paths()
-        this.components()
-      }
+      this.paths()
+      this.components()
     }
 
     components() {

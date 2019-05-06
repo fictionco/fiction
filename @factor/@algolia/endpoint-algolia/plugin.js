@@ -4,15 +4,10 @@ module.exports.default = Factor => {
       this.algoliaConfig = require("./config.json")
       this.algoliasearch = require("algoliasearch")
 
-      const {
-        algolia: { adminKey, appId },
-        env
-      } = Factor.$config.settings()
+      const { algolia: { adminKey, appId } = {}, env } = Factor.$config.settings()
 
       if (!adminKey) {
-        throw new Error(
-          "Missing Algolia admin secret. Make sure it's in your config and encryption/decryption keys are working."
-        )
+        throw new Error("Missing Algolia admin key.")
       }
 
       this.prefix = env

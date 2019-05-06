@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+
+# Built Production Files
+dist
+cloud
+serverless
+
+# Secret Keys
+factor-secrets.*
+factor-decryptor.*
+.env
+
+# Logs
+*.log
+.cache
+
+# Services
+*firebase*
+firebase.json
+

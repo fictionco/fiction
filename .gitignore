@@ -10,3 +10,4 @@ yarn-error*
 .DS_Store
 *.log
 .ref
+@testing

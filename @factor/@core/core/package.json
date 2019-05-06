@@ -1,0 +1,22 @@
+{
+  "name": "@factor/core",
+  "description": "This is the parent package for all Factor core packages.",
+  "version": "0.0.7",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "id": "cms"
+  },
+  "dependencies": {
+    "@factor/core-db": ">=0.0.7",
+    "@factor/core-endpoint": ">=0.0.7",
+    "@factor/core-events": ">=0.0.7",
+    "@factor/core-server": ">=0.0.7",
+    "@factor/core-stack": ">=0.0.7",
+    "@factor/core-theme": ">=0.0.7",
+    "@factor/core-user": ">=0.0.7"
+  }
+}

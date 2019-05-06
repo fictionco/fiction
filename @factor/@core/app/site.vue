@@ -13,7 +13,7 @@ export default {
       return this.$filters.apply("site-components")
     },
     ui() {
-      const { meta: { ui = "theme" } = {} } =
+      const { meta: { ui = "app" } = {} } =
         this.$route.matched.find(_ => _.meta.ui) || {}
 
       return `ui-${ui}`

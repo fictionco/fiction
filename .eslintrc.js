@@ -20,13 +20,7 @@ module.exports = {
 
   plugins: ["vue", "json", "prettier", "unicorn", "import"],
 
-  settings: {
-    // "import/resolver": {
-    //   webpack: {
-    //     config: "./build/webpack-config.js"
-    //   }
-    // }
-  },
+  settings: {},
 
   rules: {
     semi: ["error", "never"],
@@ -47,12 +41,5 @@ module.exports = {
         multiline: {}
       }
     ]
-    // "vue/component-name-in-template-casing": [
-    //   "error",
-    //   "kebab-case",
-    //   {
-    //     ignores: []
-    //   }
-    // ]
   }
 }
