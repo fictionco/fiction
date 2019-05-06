@@ -49,15 +49,18 @@ export default {
     if (this.btn) {
       classes[`btn-link`] = true
 
+      const passed = {
+        btn: this.btn,
+        disabled: this.disabled,
+        size: this.size,
+        loading: this.loading
+      }
+
       text = createElement(
         this.btnElement,
         {
-          props: {
-            btn: this.btn,
-            disabled: this.disabled,
-            size: this.size,
-            loading: this.loading
-          }
+          props: passed,
+          attrs: passed
         },
         [text]
       )

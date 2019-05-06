@@ -74,7 +74,7 @@ export default {
         }
       }
       &:hover,
-      &.active {
+      &.active-path {
         color: #0496ff;
       }
       &:active {

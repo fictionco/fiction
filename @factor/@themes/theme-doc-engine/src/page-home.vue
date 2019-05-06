@@ -8,8 +8,8 @@
             class="subtitle"
           >Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.</p>
           <div class="actions">
-            <el-btn path="/docs" btn="primary" size="large">Get Started</el-btn>
-            <el-btn path="/docs" btn="tertiary" size="large">Read the Docs</el-btn>
+            <app-link path="/docs" btn="primary" size="large">Get Started</app-link>
+            <app-link path="/docs" btn="tertiary" size="large">Read the Docs</app-link>
           </div>
         </div>
       </div>

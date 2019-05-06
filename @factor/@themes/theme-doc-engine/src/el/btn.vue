@@ -1,11 +1,18 @@
 <template>
-  <factor-btn class="btn-docs" v-bind="$attrs" v-on="$listeners">
+  <factor-btn class="app-btn" v-bind="$attrs" v-on="$listeners">
     <slot />
   </factor-btn>
 </template>
+<script>
+export default {
+  mounted() {
+    console.log("$attrs2", this.$attrs)
+  }
+}
+</script>
 
 <style lang="less">
-button.btn-docs {
+button.app-btn {
   padding: 0.6em 1.2em;
   font-size: 0.9em;
   font-weight: 700;
@@ -16,7 +23,7 @@ button.btn-docs {
     outline: none;
   }
 
-  + .btn-docs,
+  + .app-btn,
   + .btn-link {
     margin-left: 1em;
     @media (max-width: 767px) {
