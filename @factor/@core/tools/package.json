@@ -17,7 +17,10 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "stopwords": "^0.0.9",
-    "uniqid": "^5.0.3"
+    "uniqid": "^5.0.3",
+    "@factor/tools-markdown": ">=0.0.7",
+    "@factor/tools-time": ">=0.0.7"
   },
+
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }

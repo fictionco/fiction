@@ -1,0 +1,20 @@
+{
+  "name": "@factor/ui",
+  "description": "Dependency bundle",
+  "version": "0.0.7",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "id": "ui"
+  },
+  "dependencies": {
+    "@factor/ui-directives-standard": ">=0.0.7",
+    "@factor/ui-components-form": ">=0.0.7",
+    "@factor/ui-components-standard": ">=0.0.7",
+    "@factor/tools": ">=0.0.7"
+  },
+  "devDependencies": {}
+}

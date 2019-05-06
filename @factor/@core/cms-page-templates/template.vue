@@ -8,9 +8,6 @@
 </template>
 <script>
 export default {
-  components: {
-    "page-error": () => import("#/page-error")
-  },
   data() {
     return {
       comp: null,

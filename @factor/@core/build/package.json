@@ -1,0 +1,19 @@
+{
+  "name": "@factor/build",
+  "description": "Bundle",
+  "version": "0.0.7",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "id": "build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@factor/build-server-dev": ">=0.0.7",
+    "@factor/build-webpack": ">=0.0.7",
+    "@factor/cli": ">=0.0.7"
+  }
+}

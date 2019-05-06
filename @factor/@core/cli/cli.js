@@ -15,13 +15,22 @@ process.maxOldSpaceSize = 4000
 const cli = async () => {
   return new (class {
     constructor() {
-      this.tasks = [{ command: "yarn", args: ["install"], title: "Installing Dependencies" }]
+      this.installationTasks = [
+        { command: "yarn", args: ["install"], title: "Installing Dependencies" },
+        { command: "factor", args: ["run", "create-loaders"], title: "Creating Extension Loaders" }
+      ]
+      this.tasks = []
 
       this.setupProgram()
     }
 
-    extend(args = {}) {
-      const { env = "development" } = args
+    async extend(args = {}) {
+      const { env = "development", install = false } = args
+
+      if (install) {
+        await this.runTasks(this.installationTasks)
+      }
+
       Factor.$headers = args
       process.env.NODE_ENV = env
       return require("@factor/build-extend")(Factor)
@@ -34,19 +43,19 @@ const cli = async () => {
         .description("CLI for managing Factor data, builds and deployments")
         .option("-e, --env <env>", "Set the Node environment. Default: 'development'")
 
-      this.program
-        .command("create [directory]")
-        .description("Scaffolds a new Factor app.")
-        .action(async args => {
-          this.extend({ env: "development", ...args })
-          this.callbacks("scaffold-project", { env, ...args })
-        })
+      // this.program
+      //   .command("create [directory]")
+      //   .description("Scaffolds a new Factor app.")
+      //   .action(async args => {
+      //     this.extend({ env: "development", ...args })
+      //     this.callbacks("scaffold-project", { env, ...args })
+      //   })
 
       this.program
         .command("dev")
         .description("Start development server")
         .action(async args => {
-          this.extend({ env: "development", ...args })
+          await this.extend({ env: "development", ...args, install: true })
           await this.cliTasks()
 
           this.cliRunners()
@@ -56,7 +65,7 @@ const cli = async () => {
         .command("start")
         .description("Start production build on local server")
         .action(async args => {
-          this.extend({ env: "production", ...args })
+          await this.extend({ env: "production", ...args, install: true })
           this.tasks.push({
             command: "factor",
             args: ["build", env],
@@ -70,8 +79,8 @@ const cli = async () => {
       this.program
         .command("serve [env]")
         .description("Create local server")
-        .action((env = "development", args) => {
-          this.extend({ env, ...args })
+        .action(async (env = "development", args) => {
+          await this.extend({ env, ...args })
           this.callbacks("create-server", { env, ...args })
         })
 
@@ -80,8 +89,8 @@ const cli = async () => {
         .option("--analyze", "Analyze package size")
         .option("--speed", "Output build speed data")
         .description("Build production app")
-        .action((env = "development", args) => {
-          this.createDist({ env, ...args })
+        .action(async (env = "development", args) => {
+          await this.createDist({ env, ...args })
         })
 
       this.program
@@ -106,7 +115,7 @@ const cli = async () => {
           const { parent, ...rest } = args
           const params = { env: "development", ...parent, ...rest }
 
-          this.extend(params)
+          await this.extend(params)
           try {
             await this.callbacks(`cli-${filter}`, params)
             Factor.$log.success(`Successfully ran "${filter}"`)
@@ -127,8 +136,6 @@ const cli = async () => {
       const { args } = this.program
       //  console.log("----PROG", this.program.args.forEach(_ => console.log(typeof _)))
       if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
-        this.extend(this.program)
-
         Factor.$log.box("No commands found. Use 'factor help' for info on using the CLI")
       }
 
@@ -137,7 +144,7 @@ const cli = async () => {
 
     async createDist(args) {
       const { build = true } = args
-      this.extend(args)
+      await this.extend({ ...args, install: true })
 
       if (build) {
         await this.callbacks("create-distribution-app", args)
@@ -169,20 +176,28 @@ const cli = async () => {
     }
 
     async runTasks(t) {
-      const taskMap = t.map(({ title, command, args, options = { cwd: process.cwd(), done: false } }) => {
-        return {
-          title,
-          task: async (ctx, task) => {
-            if (typeof command == "function") {
-              return await command(ctx, task)
-            } else {
-              return execa(command, args, options).then(() => {
-                task.title = options.done ? options.done : task.title
-              })
+      const taskMap = t.map(
+        ({ title, command, args, options = { cwd: process.cwd(), done: false, output: false } }) => {
+          return {
+            title,
+            task: async (ctx, task) => {
+              if (typeof command == "function") {
+                return await command(ctx, task)
+              } else {
+                const proc = execa(command, args, options)
+
+                proc.stdout.on("data", data => {
+                  task.output = data.toString()
+                })
+
+                return proc.then(() => {
+                  task.title = options.done ? options.done : task.title
+                })
+              }
             }
           }
         }
-      })
+      )
 
       const tasks = new listr(taskMap) //, { concurrent: true }
 

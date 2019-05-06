@@ -33,9 +33,9 @@ module.exports = (Factor, { baseDir, env, setup }) => {
     insertLoadedExtensions() {
       const cloudExtensions = require(Factor.$paths.get("plugins-loader-cloud"))
       Object.keys(cloudExtensions).forEach(key => {
-        const { id, target, module, mainFile } = cloudExtensions[key]
+        const { id, target, name, mainFile } = cloudExtensions[key]
         if (target && (target == "cloud" || target.includes("cloud"))) {
-          const moduleName = mainFile ? mainFile : module
+          const moduleName = mainFile ? mainFile : name
           this.addCoreExtension(id, require(moduleName).default)
         }
       })
@@ -77,9 +77,9 @@ module.exports = (Factor, { baseDir, env, setup }) => {
       // Endpoint Modules can either expose a 'requestHandler' method
       // Or the endpoint service will wrap the entire module
       Object.keys(cloudExtensions).forEach(key => {
-        const { target, module } = cloudExtensions[key]
+        const { target, name } = cloudExtensions[key]
         if (target && (target == "endpoint" || target.includes("endpoint"))) {
-          const pluginModule = require(module).default
+          const pluginModule = require(name).default
           const pluginClass = pluginModule(Factor)
           const { requestHandler } = pluginClass
 

@@ -1,37 +1,35 @@
 const path = require("path")
-
+const { resolve } = path
 module.exports = Factor => {
   return new (class {
     constructor() {
       const gen = Factor.$paths.get("generated")
-      const res = path.resolve
 
       this.namespace = "factor"
 
       this.build = process.env.NODE_ENV === "production" ? "production" : "development"
 
       Factor.$paths.add({
-        "plugins-loader-app": res(gen, "load-plugins-app.js"),
-        "plugins-loader-build": res(gen, "load-plugins-build.js"),
-        "plugins-loader-cloud": res(gen, "load-plugins-cloud.js"),
-        "app-package": res(Factor.$paths.get("app"), "package.json")
+        "plugins-loader-app": resolve(gen, "load-plugins-app.js"),
+        "plugins-loader-build": resolve(gen, "load-plugins-build.js"),
+        "plugins-loader-cloud": resolve(gen, "load-plugins-cloud.js"),
+        "app-package": resolve(Factor.$paths.get("app"), "package.json")
       })
 
       if (Factor.FACTOR_ENV == "build") {
         this.addWatchers()
 
-        Factor.$filters.add("cli-generate-loaders", (_, args) => {
+        Factor.$filters.add("cli-create-loaders", (_, program) => {
           this.generateLoaders()
         })
       }
     }
 
     addWatchers() {
-      Factor.$filters.add("after-build-config", () => {
-        const res = this.generateLoaders()
-        Factor.$log.success(res)
-      })
-
+      // Factor.$filters.add("after-build-config", () => {
+      //   const res = this.generateLoaders()
+      //   Factor.$log.success(res)
+      // })
       // Factor.$filters.add("cli-tasks", _ => {
       //   _.push({
       //     command: (ctx, task) => {
@@ -39,34 +37,34 @@ module.exports = Factor => {
       //     },
       //     title: "Generating extension loaders"
       //   })
-
       //   return _
       // })
-      Factor.$filters.add("build-watchers", _ => {
-        _.push({
-          name: "Generate Loaders - Package Added/Removed",
-          files: this.getExtensionPatterns(),
-          ignored: [],
-          callback: ({ event, path }) => {
-            // Any time there is a node_modules within a @factor package
-            // Then we don't want to watch it
-            // TODO - Ideally these wouldn't be included in the GLOB of packages
-            // Wasn't working so added this
-            const subModules = path.split("@factor").pop()
-            if ((event == "add" || event == "unlink") && (!subModules || !subModules.includes("node_modules"))) {
-              this.generateLoaders()
-              return true // update server
-            } else {
-              return false // server ignore
-            }
-          }
-        })
-        return _
-      })
+      // Factor.$filters.add("build-watchers", _ => {
+      //   _.push({
+      //     name: "Generate Loaders - Package Added/Removed",
+      //     files: this.getExtensionPatterns(),
+      //     ignored: [],
+      //     callback: ({ event, path }) => {
+      //       // Any time there is a node_modules within a @factor package
+      //       // Then we don't want to watch it
+      //       // TODO - Ideally these wouldn't be included in the GLOB of packages
+      //       // Wasn't working so added this
+      //       const subModules = path.split("@factor").pop()
+      //       if ((event == "add" || event == "unlink") && (!subModules || !subModules.includes("node_modules"))) {
+      //         this.generateLoaders()
+      //         return true // update server
+      //       } else {
+      //         return false // server ignore
+      //       }
+      //     }
+      //   })
+      //   return _
+      // })
     }
 
     generateLoaders() {
       const s = Date.now()
+
       const extensions = this.getExtensions()
 
       this.makeLoaderFile({
@@ -91,31 +89,63 @@ module.exports = Factor => {
       return `Loaders built for ${extensions.length} Extensions`
     }
 
-    getExtensionPatterns() {
-      let patterns = []
+    // getExtensionPatterns() {
+    //   let patterns = []
 
-      Factor.$paths.getModulesFolders().map(_ => {
-        patterns = patterns.concat([
-          path.resolve(_, `@${this.namespace}/**/package.json`),
-          path.resolve(_, `${this.namespace}*/package.json`)
-        ])
-      })
+    //   Factor.$paths.getModulesFolders().map(_ => {
+    //     patterns = patterns.concat([
+    //       path.resolve(_, `@${this.namespace}/**/package.json`),
+    //       path.resolve(_, `${this.namespace}*/package.json`)
+    //     ])
+    //   })
 
-      // Add package.json from CWD - Application directory
-      patterns.push(Factor.$paths.get("app-package"))
+    //   // Add package.json from CWD - Application directory
+    //   patterns.push(Factor.$paths.get("app-package"))
 
-      return patterns
+    //   return patterns
+    // }
+
+    recursiveFactorDependencies(deps, pkg) {
+      const { name, dependencies = {}, devDependencies = {} } = pkg
+
+      const d = { ...dependencies, ...devDependencies }
+
+      Object.keys(d)
+        .filter(_ => _.includes("factor"))
+        .map(_ => `${_}/package.json`)
+        .forEach(_ => {
+          if (!deps.includes(_)) {
+            deps.push(_)
+            deps = this.recursiveFactorDependencies(deps, require(_))
+          }
+        })
+
+      return deps
     }
 
     getExtensions() {
-      const glob = require("glob").sync
+      // const glob = require("glob").sync
 
-      let packagePaths = []
-      this.getExtensionPatterns().forEach(pattern => {
-        packagePaths = packagePaths.concat(glob(pattern))
+      // let packagePaths = []
+      // this.getExtensionPatterns().forEach(pattern => {
+      //   packagePaths = packagePaths.concat(glob(pattern))
+      // })
+      const appPkg = Factor.$paths.get("app-package")
+      const pkg = require(appPkg)
+      const deps = this.recursiveFactorDependencies([appPkg], pkg)
+
+      const list = this.getExtensionList(deps)
+
+      const apps = list.map(_ => {
+        return {
+          name: _.name,
+          scope: _.scope,
+          target: _.target
+        }
       })
+      console.log("DEPS", deps)
 
-      return this.getExtensionList(packagePaths)
+      return list
     }
 
     getExtensionList(packagePaths) {
@@ -131,7 +161,7 @@ module.exports = Factor => {
 
           fields = {
             version,
-            module: name,
+            name,
             priority,
             target,
             service,
@@ -148,7 +178,7 @@ module.exports = Factor => {
           // Since webpack won't allow dynamic paths in require (variables in paths)
 
           fields = {
-            module: Factor.$paths.replaceWithAliases(_),
+            name: Factor.$paths.replaceWithAliases(_),
             target: "app",
             id: basename == "plugin.js" ? folderName : this.makeId(basename)
           }
@@ -168,14 +198,14 @@ module.exports = Factor => {
 
       const filtered = this.filterExtensions({ target, extensions })
 
-      const lines = [`/* GENERATED FILE */`]
+      const lines = [`/******** GENERATED FILE ********/`]
 
       lines.push("const files = {}")
 
       filtered.forEach(extension => {
-        const { module, id, mainFile } = extension
+        const { name, id, mainFile } = extension
 
-        const moduleName = mainFile ? mainFile : module
+        const moduleName = mainFile ? mainFile : name
 
         const r = requireAtRuntime ? JSON.stringify(extension) : `require("${moduleName}").default`
         lines.push(`files["${id}"] = ${r}`)
@@ -244,8 +274,8 @@ module.exports = Factor => {
       if (!arr || arr.length == 0) return arr
 
       return arr.sort((a, b) => {
-        const ap = a.priority || 100
-        const bp = b.priority || 100
+        const ap = a.priority || a.name || 100
+        const bp = b.priority || b.name || 100
 
         return ap < bp ? -1 : ap > bp ? 1 : 0
       })

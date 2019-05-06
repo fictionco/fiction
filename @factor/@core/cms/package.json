@@ -1,6 +1,6 @@
 {
   "name": "@factor/cms",
-  "description": "This is the parent package for all CMS packages.", 
+  "description": "Bundle",
   "version": "0.0.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
@@ -11,8 +11,10 @@
     "id": "cms"
   },
   "dependencies": {
-    "@factor/ui-components-standard": ">=0.0.7",
-    "@factor/ui-components-form": ">=0.0.7",
+    "@factor/core": ">=0.0.7",
+    "@factor/app": ">=0.0.7",
+    "@factor/build": ">=0.0.7",
+    "@factor/ui": ">=0.0.7",
     "@factor/cms-signin": ">=0.0.7",
     "@factor/cms-dashboard": ">=0.0.7",
     "@factor/cms-metatags": ">=0.0.7",

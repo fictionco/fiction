@@ -8,7 +8,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "cms"
+    "id": "core"
   },
   "dependencies": {
     "@factor/core-db": ">=0.0.7",
@@ -18,5 +18,8 @@
     "@factor/core-stack": ">=0.0.7",
     "@factor/core-theme": ">=0.0.7",
     "@factor/core-user": ">=0.0.7"
+  },
+  "devDependencies": {
+    "@factor/cli": ">=0.0.7"
   }
 }

@@ -12,7 +12,7 @@ module.exports = Factor => {
       Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
         load.push({
           id: "stack",
-          module: this.stackPackage,
+          name: this.stackPackage,
           mainFile: this.moduleMain(target),
           target: this.moduleTarget(target)
         })

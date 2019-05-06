@@ -1,7 +1,17 @@
 module.exports = Factor => {
   return new (class {
     constructor() {
+      this.components()
       this.routes()
+
+      this.errorPageComponent = () => import("#/page-error")
+    }
+
+    components() {
+      Factor.$filters.add("components", _ => {
+        _["page-error"] = this.errorPageComponent
+        return _
+      })
     }
 
     routes() {
@@ -13,7 +23,7 @@ module.exports = Factor => {
             {
               name: "forbidden",
               path: "/forbidden",
-              component: () => import("#/page-error"),
+              component: this.errorPageComponent,
               meta: { error: 403 }
             }
           ])
@@ -26,7 +36,7 @@ module.exports = Factor => {
             {
               name: "notFound",
               path: "*",
-              component: () => import("#/page-error"),
+              component: this.errorPageComponent,
               meta: { error: 404 }
             }
           ]),
