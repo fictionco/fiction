@@ -1,6 +1,6 @@
 {
   "name": "@factor/stack-fire",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -10,15 +10,15 @@
     "scope": "stack"
   },
   "dependencies": {
-    "@factor/endpoint-algolia": "^0.1.2",
-    "@factor/service-algolia": "^0.1.2",
-    "@factor/service-firebase-app-build": "^0.1.2",
-    "@factor/service-firebase-auth": "^0.1.2",
-    "@factor/service-firebase-firestore": "^0.1.2",
-    "@factor/service-firebase-functions-controller": "^0.1.2",
-    "@factor/service-firebase-functions-request": "^0.1.2",
-    "@factor/service-firebase-hosting": "^0.1.2",
-    "@factor/service-firebase-storage": "^0.1.2"
+    "@factor/endpoint-algolia": "^0.1.3",
+    "@factor/service-algolia": "^0.1.3",
+    "@factor/service-firebase-app-build": "^0.1.3",
+    "@factor/service-firebase-auth": "^0.1.3",
+    "@factor/service-firebase-firestore": "^0.1.3",
+    "@factor/service-firebase-functions-controller": "^0.1.3",
+    "@factor/service-firebase-functions-request": "^0.1.3",
+    "@factor/service-firebase-hosting": "^0.1.3",
+    "@factor/service-firebase-storage": "^0.1.3"
   },
   "gitHead": "dc24789ebd0aa14cd646a0fd9ce8204dc11910d9"
 }

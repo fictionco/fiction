@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-storage",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "provider": "firebase"
   },
   "dependencies": {
-    "@factor/service-firebase-app": "^0.1.2"
+    "@factor/service-firebase-app": "^0.1.3"
   },
   "gitHead": "dc24789ebd0aa14cd646a0fd9ce8204dc11910d9"
 }
