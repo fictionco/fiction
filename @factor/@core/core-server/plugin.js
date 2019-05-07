@@ -210,12 +210,15 @@ module.exports.default = Factor => {
       if (err.url) {
         res.redirect(err.url)
       } else if (err.code === 404) {
-        res.status(404).send("404 | Page Not Found")
+        res.status(404).send(this.wrp("404 | Page Not Found"))
       } else {
-        res.status(500).send("500 | Internal Error")
+        res.status(500).send(this.wrp("500 | Internal Error"))
         Factor.$log.error(`error during render : ${req.url}`)
         Factor.$log.error(err.stack)
       }
+    }
+    wrp(txt) {
+      return `<h1 style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 2em;">${txt}</h1>`
     }
   })()
 }
