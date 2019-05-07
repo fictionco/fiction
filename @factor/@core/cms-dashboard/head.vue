@@ -1,11 +1,12 @@
 <template>
   <div class="dashboard-head">
     <div class="dashboard-head-pad">
-      <div class="brand">
-        <factor-link path="/">
-          <factor-logo theme="muted" />
-        </factor-link>
-      </div>
+      <factor-link path="/" class="brand">
+        <div class="icon">
+          <img src="/static/logo-120.png">
+        </div>
+        <div class="name">Fiction</div>
+      </factor-link>
       <div class="nav">
         <slot />
         <plugin-signin-profile-menu v-if="$uid" />
@@ -37,17 +38,26 @@ export default {
     display: flex;
     flex-grow: 1;
     align-items: center;
-    .search {
-      border-radius: 4px;
-      flex-grow: 1;
-      max-width: 600px;
-      padding: 4px 1em;
-      color: rgba(38, 67, 89, 0.4);
-
-      background: #f3f5fa;
-      margin: 0 2em;
-      font-size: 0.9em;
-      line-height: 1.6;
+    color: inherit;
+    transition: opacity 0.2s;
+    &:hover {
+      opacity: 0.9;
+      color: inherit;
+    }
+    .icon {
+      margin-right: 0.5em;
+      display: block;
+      width: 2em;
+      img {
+        width: 100%;
+        display: block;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px 0 rgba(60, 66, 87, 0.1),
+          0 1px 1px 0 rgba(0, 0, 0, 0.07);
+      }
+    }
+    .name {
+      font-weight: var(--font-weight-bold);
     }
   }
   .nav {

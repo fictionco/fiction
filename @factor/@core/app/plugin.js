@@ -4,12 +4,12 @@ module.exports = Factor => {
       this.components()
       this.routes()
 
-      this.errorPageComponent = () => import("#/not-found")
+      this.errorPageComponent = () => import("#/fallback")
     }
 
     components() {
       Factor.$filters.add("components", _ => {
-        _["not-found"] = this.errorPageComponent
+        _["fallback"] = this.errorPageComponent
         return _
       })
     }

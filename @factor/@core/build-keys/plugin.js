@@ -4,7 +4,7 @@ module.exports = Factor => {
   return new (class {
     constructor() {
       const conf = Factor.$paths.get("config")
-      const gen = Factor.$paths.get("generated")
+
       const res = require("path").resolve
 
       Factor.$paths.add({

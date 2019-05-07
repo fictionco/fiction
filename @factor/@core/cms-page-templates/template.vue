@@ -3,7 +3,7 @@
     <div v-if="!$lodash.isEmpty(post)">
       <component :is="templateLoader" :post="post" />
     </div>
-    <not-found v-else />
+    <fallback v-else />
   </div>
 </template>
 <script>

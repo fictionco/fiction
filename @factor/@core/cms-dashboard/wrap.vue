@@ -14,8 +14,8 @@
       </div>
       <div class="app-main">
         <div class="app-main-content">
-          <div class="toggle" @click.stop>
-            <div class="app-nav-toggle" @click="toggleNav()">
+          <div class="mobile-nav-toggle-wrap" @click.stop>
+            <div class="mobile-nav-toggle" @click="toggleNav()">
               <factor-icon icon="bars" />
             </div>
           </div>
@@ -128,11 +128,11 @@ export default {
 }
 .app-layout {
   min-height: 100vh;
-  max-width: 1400px;
+  max-width: 1300px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 200px 1fr;
-  grid-template-rows: 60px 1fr;
+  grid-template-rows: 70px 1fr;
   grid-template-areas:
     "header header"
     "nav main";
@@ -159,7 +159,7 @@ export default {
 
   .app-nav {
     .app-nav-pad {
-      padding: 0.5em;
+      padding: 0.5em 0;
     }
   }
   .app-main-content .toggle {
@@ -167,7 +167,7 @@ export default {
     display: inline-block;
   }
 
-  .app-nav-toggle {
+  .mobile-nav-toggle-wrap {
     font-size: 2em;
     cursor: pointer;
     display: none;

@@ -17,18 +17,17 @@
             @keyup.enter="passwordResetEmail()"
           />
         </factor-form>
-        <factor-btn
+        <dashboard-btn
           :loading="loading"
           data-test="send-password-email"
           btn="secondary"
           text="Send Password Reset Email"
-          :image="require('./img/email.svg')"
           @click="passwordResetEmail()"
         />
       </template>
     </template>
     <template v-else>
-      <factor-btn
+      <dashboard-btn
         data-test="google-button"
         :loading="loading === 'google'"
         class="fi-btn-default"
@@ -69,11 +68,10 @@
         />
         <!-- <recaptcha v-if="newAccount" @solved="solved = $event" /> -->
         <div class="action">
-          <factor-btn
+          <dashboard-btn
             data-test="submit-login"
             :loading="loading === 'email'"
             btn="primary"
-            :image="require('./img/email.svg')"
             :text="`${newAccount ? 'Sign Up' : 'Login'} With Email`"
             @click="signIn('email')"
           />
@@ -229,9 +227,9 @@ export default {
     line-height: 1.5;
     a {
       cursor: pointer;
-      color: #0496ff;
+      color: var(--color-primary);
       &:hover {
-        color: #ff0076;
+        color: var(--color-secondary);
       }
     }
   }

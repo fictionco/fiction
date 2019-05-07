@@ -11,7 +11,7 @@ module.exports = {
   prompts: [
     {
       name: "name",
-      message: "Project name",
+      message: "Project name (Url Safe)",
       default: "{outFolder}"
     },
     {
@@ -63,8 +63,7 @@ module.exports = {
       type: "move",
       patterns: {
         gitignore: ".gitignore",
-        "_package.json": "package.json",
-        "_.eslintrc.js": ".eslintrc.js"
+        "_package.json": "package.json"
       }
     })
 
@@ -87,7 +86,7 @@ module.exports = {
     cd()
     console.log(`\tyarn factor dev\n`)
 
-    console.log(this.chalk.bold(`  For learn more about everything you can do with Factor visit:\n`))
+    console.log(this.chalk.bold(`  Factor Docs: For learn more visit:\n`))
 
     console.log(`\thttps://factor.fiction.com/\n`)
   }
