@@ -6,23 +6,15 @@
         <p class="subtitle">Get in touch or create an account</p>
       </div>
       <div class="actions">
-        <el-btn path="/docs" btn="primary" size="large">
+        <app-link path="/docs" btn="primary" size="large">
           Get Started
           <i class="fa fa-arrow-right" />
-        </el-btn>
-        <el-btn path="/contact" btn="tertiary" size="large">Contact Us</el-btn>
+        </app-link>
+        <app-link path="https://www.fiction.com/contact" btn="tertiary" size="large">Contact Us</app-link>
       </div>
     </div>
   </section>
 </template>
-
-<script>
-export default {
-  components: {
-    "el-btn": () => import("./btn")
-  }
-}
-</script>
 
 <style lang="less">
 .cta {

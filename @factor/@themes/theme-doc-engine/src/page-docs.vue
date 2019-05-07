@@ -1,12 +1,84 @@
 <template>
   <div class="page-docs">
     <section class="docs-wrap">
-      <docs-sidebar />
+      <div class="docs-sidebar">
+        <div ref="nav" class="sidebar-inner">
+          <h2 class="title">Guide</h2>
+
+          <ul class="menu-root">
+            <li>
+              <h3>Essentials</h3>
+            </li>
+            <li>
+              <factor-link path="/docs/installation">Installation</factor-link>
+            </li>
+            <li>
+              <factor-link path="/docs/">Introduction</factor-link>
+            </li>
+            <li v-for="(h2, indexParent) in headers" :key="indexParent">
+              <a
+                class="nav-link parent"
+                :href="h2.anchor"
+                :class="$route.hash == h2.anchor ? 'active' : 'not'"
+                @click="clicked=true"
+              >{{ h2.text }}</a>
+              <ul v-if="h2.sub.length">
+                <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
+                  <a
+                    class="nav-link sub"
+                    :class="$route.hash == h3.anchor ? 'active' : 'not'"
+                    :href="h3.anchor"
+                    @click="clicked=true"
+                  >{{ h3.text }}</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <factor-link path="/docs/directory-structure" class="sidebar-link">Directory Structure</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/configuration" class="sidebar-link">Configuration</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/routing" class="sidebar-link">Routing</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/views" class="sidebar-link">Views</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/async-data" class="sidebar-link">Async Data</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/assets" class="sidebar-link">Assets</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/plugins" class="sidebar-link">Plugins</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/modules" class="sidebar-link">Modules</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/commands" class="sidebar-link">Commands and Deployment</factor-link>
+            </li>
+
+            <li>
+              <factor-link path="/docs/development-tools" class="sidebar-link">Development Tools</factor-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <div class="mast">
         <div class="content">
-          <router-view />
-          {{ $route.params.id }}
-          <div v-formatted-text="getMarkdown()" />
+          <div ref="content" v-formatted-text="getMarkdown()" />
           <docs-footer />
         </div>
       </div>
@@ -15,15 +87,18 @@
 </template>
 
 <script>
-//import Prism from "prismjs"
+import { setTimeout } from "timers"
 export default {
   components: {
-    "docs-sidebar": () => import("./el/el-docs-sidebar"),
     "docs-footer": () => import("./el/el-docs-footer")
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      nav: [],
+      headers: [],
+      allHeaders: [],
+      clicked: false
     }
   },
   computed: {
@@ -32,8 +107,13 @@ export default {
     }
   },
   watch: {
-    "$route.fullPath": "hashChanged"
+    $route: function() {
+      this.setNav()
+    }
   },
+  // watch: {
+  //   "$route.fullPath": "hashChanged"
+  // },
   metatags() {
     return {
       title: "Introduction — Factor.js",
@@ -42,41 +122,158 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.params.markdownurl)
+    this.setNav()
+    //console.log(this.$route.params.markdownurl)
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll())
   },
   methods: {
-    hashChanged(toPath, fromPath) {
-      toPath = toPath.split("#")
-      fromPath = fromPath.split("#")
-      this.$nextTick(() => this.scrollTo(this.$route.hash))
-    },
-    scrollTo(id) {
-      if (id !== this.$route.hash) {
-        this.$router.push(this.$route.fullPath.split("#")[0] + id)
-      }
-      this.$nextTick(() => {
-        let el = document.querySelector("#" + id.slice(1))
-        if (!el) return
-        let to = el.offsetTop - 20
-        let doc = document.documentElement
-        let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
-        let diff = (to > top ? to - top : top - to) / 25
-        let i = 0
-        window.clearInterval(this.setInter)
-        this.setInter = window.setInterval(() => {
-          top = to > top ? top + diff : top - diff
-          window.scrollTo(0, top)
-          i++
-          if (i === 25) {
-            window.clearInterval(this.setInter)
-          }
-        }, 10)
-      })
-    },
     getMarkdown() {
       let filename = this.docsPage
       return require(`./docs-v1/${filename}.md`)
+    },
+    setNav() {
+      this.$nextTick(() => {
+        this.headers = this.getHeaders(this.$refs.content)
+        console.log("SET NAV", this.$refs.content)
+        window.addEventListener("scroll", this.onScroll())
+      })
+    },
+    onScroll() {
+      return this.$lodash.throttle(() => {
+        this.setActiveHash()
+      }, 100)
+    },
+    setActiveHash() {
+      // Disable this behavior after click actions (not actual scrolls)
+      if (this.clicked || !this.$refs.scroller) {
+        this.clicked = false
+        return;
+      }
+      const scrollTop = Math.max(
+        window.pageYOffset,
+        document.documentElement.scrollTop,
+        document.body.scrollTop
+      )
+
+      const anchors = this.$refs.scroller.querySelectorAll("h2, h3")
+
+      for (let i = 0; i < anchors.length; i++) {
+        const anchor = anchors[i]
+        const nextAnchor = anchors[i + 1]
+
+        const isActive =
+          (i === 0 && scrollTop === 0) ||
+          (scrollTop >= anchor.offsetTop + 10 &&
+            (!nextAnchor || scrollTop < nextAnchor.offsetTop - 10))
+
+        if (
+          isActive &&
+          decodeURIComponent(this.$route.hash) !== decodeURIComponent(anchor.id)
+        ) {
+          this.$router.replace({
+            hash: decodeURIComponent(anchor.id),
+            meta: { noscroll: true }
+          })
+          return;
+        }
+      }
+    },
+    getHeaders(el) {
+      const out = []
+      el.querySelectorAll("h2").forEach(h2 => {
+        this.allHeaders.push(h2)
+        const sub = this.collectH3s(h2).map(h3 => {
+          this.allHeaders.push(h3)
+          return {
+            text: this.getHeaderText(h3),
+            anchor: `#${h3.id}`
+          }
+        })
+        out.push({
+          text: this.getHeaderText(h2),
+          anchor: `#${h2.id}`,
+          sub
+        })
+      })
+      this.loading = false
+      return out
+    },
+    collectH3s(h) {
+      var h3s = []
+      var next = h.nextSibling
+      while (next && next.tagName !== "H2") {
+        if (next.tagName === "H3") {
+          h3s.push(next)
+        }
+        next = next.nextSibling
+      }
+      return h3s
+    },
+    getHeaderText(h) {
+      var text = [].slice
+        .call(h.childNodes)
+        .map(function(node) {
+          return node.textContent
+          if (node.nodeType === Node.TEXT_NODE) {
+            return node.nodeValue
+          } else if (["CODE", "SPAN"].indexOf(node.tagName) !== -1) {
+            return node.textContent
+          } else {
+            return ""
+          }
+        })
+        .join("")
+        .replace(/\(.*\)$/, "")
+
+      return text
     }
+    // hashChanged(toPath, fromPath) {
+    //   toPath = toPath.split("#")
+    //   fromPath = fromPath.split("#")
+    //   this.$nextTick(() => this.scrollTo(this.$route.hash))
+    // },
+    // toggle() {
+    //   this.$store.commit("toggle", "visibleAffix")
+    // },
+    // scrolled() {
+    //   var h =
+    //     window.innerHeight ||
+    //     document.documentElement.clientHeight ||
+    //     document.body.clientHeight
+    //   var doc = document.documentElement
+    //   var top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+    //   var el = this.contents.find(pos => {
+    //     return pos > top + h / 2
+    //   })
+    //   this.current =
+    //     (el ? this.contents.indexOf(el) : this.contents.length) - 1
+    // },
+    // scrollTo(id) {
+    //   if (id !== this.$route.hash) {
+    //     this.$router.push(this.$route.fullPath.split("#")[0] + id)
+    //   }
+    //   this.$nextTick(() => {
+    //     //let el = document.querySelector("#" + id.slice(1))
+    //     var el = document.getElementById(id.slice(1))
+    //     if (!el) return
+    //     let to = el.offsetTop - 20
+    //     let doc = document.documentElement
+    //     let top = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0)
+    //     let diff = (to > top ? to - top : top - to) / 25
+    //     let i = 0
+    //     window.clearInterval(this.setInter)
+    //     this.setInter = window.setInterval(() => {
+    //       top = to > top ? top + diff : top - diff
+    //       window.scrollTo(0, top)
+    //       i++
+    //       if (i === 25) {
+    //         window.clearInterval(this.setInter)
+    //       }
+    //     }, 10)
+    //   })
+    // }
   }
 }
 </script>
@@ -169,6 +366,10 @@ export default {
         padding-bottom: 0;
       }
     }
+    pre {
+      max-width: 100%;
+      overflow-x: scroll;
+    }
     hr {
       margin-top: 20px;
       margin-bottom: 20px;
@@ -194,6 +395,64 @@ export default {
     }
     sup {
       bottom: -0.25em;
+    }
+  }
+  .docs-sidebar {
+    position: fixed;
+    top: 45px;
+    left: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 100vh;
+    padding-bottom: 5em;
+    &.open {
+      transform: translate(0, 0);
+    }
+    .sidebar-inner {
+      width: 340px;
+      padding: 40px 20px 60px 60px;
+    }
+    @media (max-width: 767px) {
+      z-index: 10;
+      top: 0;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0, 1);
+      transform: translate(-340px, 0);
+      .sidebar-inner {
+        width: 290px;
+        padding: 30px;
+      }
+    }
+    // All Lists
+    ul {
+      line-height: 1.6em;
+      list-style: none;
+      li {
+        margin-top: 0.5em;
+      }
+    }
+    // sidebar main menu
+    ul.menu-root {
+      padding-left: 0;
+      > li {
+        a {
+          color: inherit;
+          &.router-link-exact-active {
+            color: var(--color-primary);
+            font-weight: 800;
+          }
+          &:hover {
+            border-bottom: 2px solid var(--color-primary);
+          }
+        }
+      }
+      //sidebar
+      .nav-link {
+        font-size: 0.85em;
+        margin-left: 1em;
+      }
     }
   }
 }
