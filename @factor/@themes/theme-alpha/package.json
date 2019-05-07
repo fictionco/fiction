@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "src/plugin.js",
   "author": "Fiction.com",
   "license": "GPL-3.0",

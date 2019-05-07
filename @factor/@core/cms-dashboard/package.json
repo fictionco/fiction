@@ -1,6 +1,6 @@
 {
   "name": "@factor/cms-dashboard",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -14,10 +14,10 @@
     "id": "dashboard"
   },
   "dependencies": {
-    "@factor/cms-dashboard-users": "^0.1.3",
-    "@factor/cms-signin": "^0.1.3",
-    "@factor/ui-components-form": "^0.1.3",
-    "@factor/ui-components-standard": "^0.1.3"
+    "@factor/cms-dashboard-users": "^0.1.4",
+    "@factor/cms-signin": "^0.1.4",
+    "@factor/ui-components-form": "^0.1.4",
+    "@factor/ui-components-standard": "^0.1.4"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

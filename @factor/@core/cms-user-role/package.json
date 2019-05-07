@@ -1,15 +1,17 @@
 {
   "name": "@factor/cms-user-role",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "factor": {
     "id": "privs",
-    "target": ["app"]
+    "target": [
+      "app"
+    ]
   },
   "dependencies": {
-    "@factor/cms-user": "^0.1.3",
-    "@factor/cms-user-role-endpoint": "^0.1.3"
+    "@factor/cms-user": "^0.1.4",
+    "@factor/cms-user-role-endpoint": "^0.1.4"
   },
   "publishConfig": {
     "access": "public"

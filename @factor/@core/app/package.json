@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -12,14 +12,14 @@
     "priority": 60
   },
   "dependencies": {
-    "@factor/app-extend": "^0.1.3",
-    "@factor/app-router": "^0.1.3",
-    "@factor/app-store": "^0.1.3",
-    "@factor/core": "^0.1.3",
+    "@factor/app-extend": "^0.1.4",
+    "@factor/app-router": "^0.1.4",
+    "@factor/app-store": "^0.1.4",
+    "@factor/core": "^0.1.4",
     "vue": "^2.6.7"
   },
   "devDependencies": {
-    "@factor/cli": "^0.1.3"
+    "@factor/cli": "^0.1.4"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
