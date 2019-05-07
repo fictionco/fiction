@@ -5,5 +5,6 @@
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "dc24789ebd0aa14cd646a0fd9ce8204dc11910d9"
 }

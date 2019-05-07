@@ -9,7 +9,7 @@
   "factor": {
     "priority": 15
   },
-  "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0",
+  "gitHead": "dc24789ebd0aa14cd646a0fd9ce8204dc11910d9",
   "devDependencies": {
     "find-up": "^3.0.0"
   },

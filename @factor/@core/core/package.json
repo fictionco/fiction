@@ -22,5 +22,6 @@
   "devDependencies": {
     "@factor/build": "^0.1.2",
     "@factor/cli": "^0.1.2"
-  }
+  },
+  "gitHead": "dc24789ebd0aa14cd646a0fd9ce8204dc11910d9"
 }
