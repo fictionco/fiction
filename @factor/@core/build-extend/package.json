@@ -1,13 +1,13 @@
 {
   "name": "@factor/build-extend",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/build-config": "^0.1.7",
+    "@factor/build-config": "^0.1.9",
     "@factor/build-files": "^0.1.7",
     "@factor/build-keys": "^0.1.4",
     "@factor/build-log": "^0.1.7",

@@ -1,6 +1,6 @@
 {
   "name": "@factor/cloud-extend",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -12,7 +12,7 @@
     "@factor/build-keys": "^0.1.4",
     "@factor/build-paths": "^0.1.8",
     "@factor/cloud-config": "^0.1.4",
-    "@factor/core-theme": "^0.1.4",
+    "@factor/core-theme": "^0.1.9",
     "@factor/filters": "^0.1.4",
     "deepmerge": "^3.2.0",
     "qs": "^6.7.0"
