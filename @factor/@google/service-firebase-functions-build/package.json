@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-functions-build",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "provider": "firebase"
   },
   "dependencies": {
-    "@factor/service-firebase-app": "^0.1.0",
+    "@factor/service-firebase-app": "^0.1.1",
     "execa": "^1.0.0",
     "find-node-modules": "^2.0.0"
   },

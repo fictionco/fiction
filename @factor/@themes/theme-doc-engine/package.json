@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-doc-engine",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {

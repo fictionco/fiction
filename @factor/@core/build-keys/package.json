@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-keys",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
