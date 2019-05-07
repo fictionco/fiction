@@ -1,6 +1,6 @@
 {
   "name": "@factor/core-server",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -23,7 +23,8 @@
     "opn": "^5.4.0",
     "serve-favicon": "^2.5.0",
     "vue": "^2.6.8",
-    "vue-server-renderer": "^2.6.8"
+    "vue-server-renderer": "^2.6.8",
+    "xmlhttprequest": "^1.8.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
