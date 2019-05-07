@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-paths",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -10,9 +10,8 @@
     "priority": 15
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
-
   "dependencies": {
-    "find-up": "^3.0.0",
-    "find-node-modules": "^2.0.0"
+    "find-node-modules": "^2.0.0",
+    "find-up": "^3.0.0"
   }
 }

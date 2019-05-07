@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-server-dev",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,9 +11,9 @@
     "id": "serverDev"
   },
   "dependencies": {
-    "vue": "^2.6.8",
     "chokidar": "^2.1.2",
     "memory-fs": "^0.4.1",
+    "vue": "^2.6.8",
     "webpack": "^4.29.6",
     "webpack-dev-middleware": "^3.6.0",
     "webpack-hot-middleware": "^2.24.3",
