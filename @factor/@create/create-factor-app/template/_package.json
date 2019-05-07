@@ -6,9 +6,7 @@
   "private": true,
   "scripts": {},
   "dependencies": {
-    "@factor/core": ">=0.0.7"
+    "@factor/cms": ">=0.0.7"
   },
-  "devDependencies": {
-    "@factor/cli": ">=0.0.7"
-  }
+  "devDependencies": {}
 }

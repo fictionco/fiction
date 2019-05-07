@@ -5,32 +5,12 @@ module.exports = Factor => {
     constructor() {
       const { theme } = Factor.FACTOR_CONFIG
 
-      if (!theme) {
-        return
-      }
-
-      this.themePackageName = theme
+      this.themePackageName = theme || ""
 
       this.addPath()
 
       // Allow module resolution
       this.addWebpackConfig()
-
-      // The selected theme's plugin.js file should be loaded
-
-      // Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
-      //   //if (Factor.$files.arrayIntersect(themeTarget, target)) {
-      //   load.push(
-      //     extensions.find(_ => {
-      //       return _.name == this.themePackageName
-      //     })
-      //   )
-      //   //}
-
-      //   //          console.log("LOAD", load)
-
-      //   return load
-      // })
 
       // This allows for overriding of files from themes
       // Notes:
@@ -54,12 +34,6 @@ module.exports = Factor => {
           } else {
             throw new Error(`A requested module is missing`)
           }
-          //
-          // const appOverrideFile = glob(`${appOverride}*`)
-
-          // if (appOverrideFile && appOverrideFile.length == 1) {
-          //   resource.request = appOverrideFile[0]
-          // }
         })
 
         _.push(plugin)
@@ -69,7 +43,7 @@ module.exports = Factor => {
 
     _fileExists(path) {
       const files = glob(`${path}*`)
-      console.log("glob RESOURCE", `${path}*`, files)
+
       if (files && files.length == 1) {
         return files[0]
       } else {

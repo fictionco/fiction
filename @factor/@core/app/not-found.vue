@@ -1,6 +1,6 @@
 <template>
-  <div class="page-error">
-    <div class="page-error-pad">
+  <div class="not-found">
+    <div class="not-found-pad">
       <div class="title">{{ title }}</div>
       <div class="sub-title">{{ subTitle }}</div>
     </div>
@@ -47,13 +47,13 @@ export default {
 </script>
 
 <style lang="less">
-.page-error {
+.not-found {
   height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   letter-spacing: -0.03em;
-  .page-error-pad {
+  .not-found-pad {
     max-width: 450px;
     margin: 0 auto;
     line-height: 1;
