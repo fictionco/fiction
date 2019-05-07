@@ -7,6 +7,5 @@
   "scripts": {},
   "dependencies": {
     "@factor/cms": ">=0.0.7"
-  },
-  "devDependencies": {}
+  }
 }

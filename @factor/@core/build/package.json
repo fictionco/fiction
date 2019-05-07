@@ -10,7 +10,7 @@
   "factor": {
     "id": "build"
   },
-  "devDependencies": {
+  "dependencies": {
     "@factor/build-server-dev": "^0.1.4",
     "@factor/build-webpack": "^0.1.4",
     "@factor/cli": "^0.1.4"

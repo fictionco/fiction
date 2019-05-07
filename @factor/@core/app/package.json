@@ -16,10 +16,9 @@
     "@factor/app-router": "^0.1.4",
     "@factor/app-store": "^0.1.4",
     "@factor/core": "^0.1.5",
-    "vue": "^2.6.7"
-  },
-  "devDependencies": {
+    "vue": "^2.6.7",
     "@factor/cli": "^0.1.4"
   },
+
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

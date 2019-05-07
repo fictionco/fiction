@@ -10,7 +10,7 @@
     "target": "build",
     "id": "cypress"
   },
-  "devDependencies": {
+  "dependencies": {
     "cypress": "^3.2.0",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.3"

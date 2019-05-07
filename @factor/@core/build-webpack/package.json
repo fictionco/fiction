@@ -11,9 +11,7 @@
     "id": "webpack"
   },
   "dependencies": {
-    "vue": "^2.6.8"
-  },
-  "devDependencies": {
+    "vue": "^2.6.8",
     "@babel/core": "^7.3.4",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.0",
@@ -51,5 +49,6 @@
     "webpack-node-externals": "^1.7.2",
     "webpackbar": "^3.1.5"
   },
+
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

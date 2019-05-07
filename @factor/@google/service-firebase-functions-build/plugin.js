@@ -214,7 +214,6 @@ export default Factor => {
         },
         engines: { node: "10" },
         dependencies: this.localDependencies,
-        devDependencies: {},
         timestamp: +new Date()
       }
 

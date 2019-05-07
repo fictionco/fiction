@@ -10,10 +10,9 @@
     "priority": 15
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
-  "devDependencies": {
-    "find-up": "^3.0.0"
-  },
+
   "dependencies": {
+    "find-up": "^3.0.0",
     "find-node-modules": "^2.0.0"
   }
 }

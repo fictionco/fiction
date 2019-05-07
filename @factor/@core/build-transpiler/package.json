@@ -15,10 +15,9 @@
     "@babel/preset-env": "^7.3.4",
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.3.4",
-    "babel-plugin-dynamic-import-node": "^2.2.0"
-  },
-  "devDependencies": {
+    "babel-plugin-dynamic-import-node": "^2.2.0",
     "fs-extra": "^7.0.1"
   },
+
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
