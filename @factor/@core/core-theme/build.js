@@ -42,12 +42,17 @@ module.exports = Factor => {
     }
 
     _fileExists(path) {
-      const files = glob(`${path}*`)
-
-      if (files && files.length == 1) {
-        return files[0]
+      const basePath = path.split("?")[0]
+      const query = path.split("?")[1] || ""
+      if (query && pathExistsSync(basePath)) {
+        return path
       } else {
-        return false
+        const files = glob(`${basePath}*`)
+        if (files && files.length == 1) {
+          return files[0]
+        } else {
+          return false
+        }
       }
     }
 
