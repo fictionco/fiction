@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -15,8 +15,8 @@
     "@factor/app-extend": "^0.1.4",
     "@factor/app-router": "^0.1.4",
     "@factor/app-store": "^0.1.4",
-    "@factor/cli": "^0.1.7",
-    "@factor/core": "^0.1.7",
+    "@factor/cli": "^0.1.8",
+    "@factor/core": "^0.1.8",
     "vue": "^2.6.7"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

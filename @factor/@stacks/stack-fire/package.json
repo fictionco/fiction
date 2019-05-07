@@ -1,6 +1,6 @@
 {
   "name": "@factor/stack-fire",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -15,7 +15,7 @@
     "@factor/service-firebase-app-build": "^0.1.4",
     "@factor/service-firebase-auth": "^0.1.4",
     "@factor/service-firebase-firestore": "^0.1.4",
-    "@factor/service-firebase-functions-controller": "^0.1.7",
+    "@factor/service-firebase-functions-controller": "^0.1.8",
     "@factor/service-firebase-functions-request": "^0.1.4",
     "@factor/service-firebase-hosting": "^0.1.4",
     "@factor/service-firebase-storage": "^0.1.4"
