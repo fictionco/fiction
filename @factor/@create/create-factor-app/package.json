@@ -1,9 +1,13 @@
 {
   "name": "create-factor-app",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Create a Factor App in seconds.",
   "bin": "cli.js",
-  "files": ["cli.js", "saofile.js", "template/"],
+  "files": [
+    "cli.js",
+    "saofile.js",
+    "template/"
+  ],
   "repository": {
     "url": "git+https://github.com/fiction-com/factor/@create/create-factor-app.git",
     "type": "git"

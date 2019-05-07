@@ -1,7 +1,7 @@
 {
   "name": "@factor/build",
   "description": "Bundle",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -10,10 +10,9 @@
   "factor": {
     "id": "build"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@factor/build-server-dev": ">=0.0.7",
-    "@factor/build-webpack": ">=0.0.7",
-    "@factor/cli": ">=0.0.7"
+    "@factor/build-server-dev": "^0.1.0",
+    "@factor/build-webpack": "^0.1.0",
+    "@factor/cli": "^0.1.0"
   }
 }

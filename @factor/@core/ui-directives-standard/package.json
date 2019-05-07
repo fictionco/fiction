@@ -1,13 +1,16 @@
 {
   "name": "@factor/ui-directives-standard",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": ["build", "app"],
+    "target": [
+      "build",
+      "app"
+    ],
     "id": "directivesStandard"
   },
   "dependencies": {

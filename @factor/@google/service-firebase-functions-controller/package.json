@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-functions-controller",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,8 +11,8 @@
     "provider": "firebase"
   },
   "dependencies": {
-    "@factor/service-firebase-firestore": ">=0.0.7",
-    "@factor/cloud-extend": ">=0.0.7",
+    "@factor/cloud-extend": "^0.1.0",
+    "@factor/service-firebase-firestore": "^0.1.0",
     "@firebase/app-types": "^0.3.8",
     "firebase-admin": "^7.1.0",
     "firebase-functions": "^2.2.0",

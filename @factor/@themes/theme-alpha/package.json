@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "src/plugin.js",
   "author": "Fiction.com",
   "license": "GPL-3.0",
@@ -8,7 +8,11 @@
     "access": "public"
   },
   "factor": {
-    "target": ["themes", "app", "build"]
+    "target": [
+      "themes",
+      "app",
+      "build"
+    ]
   },
   "scripts": {
     "develop": "NODE_ENV=development node -e 'require(`@factor/build-start`)()'",
@@ -20,6 +24,5 @@
     "deploy": "yarn build && npx firebase use development && npx firebase deploy",
     "serve": "yarn build && npx firebase serve"
   },
-  "dependencies": {},
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }

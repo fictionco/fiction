@@ -2,25 +2,28 @@
   "name": "@factor/tools",
   "factor": {
     "priority": 30,
-    "target": ["build", "app", "cloud"],
+    "target": [
+      "build",
+      "app",
+      "cloud"
+    ],
     "id": "tools"
   },
-  "version": "0.0.7",
+  "version": "0.1.0",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "main": "plugin.js",
   "dependencies": {
+    "@factor/tools-markdown": "^0.1.0",
+    "@factor/tools-time": "^0.1.0",
     "axios": "^0.18.0",
     "detect-node": "^2.0.4",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "stopwords": "^0.0.9",
-    "uniqid": "^5.0.3",
-    "@factor/tools-markdown": ">=0.0.7",
-    "@factor/tools-time": ">=0.0.7"
+    "uniqid": "^5.0.3"
   },
-
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }

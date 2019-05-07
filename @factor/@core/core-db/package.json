@@ -1,10 +1,14 @@
 {
   "name": "@factor/core-db",
   "factor": {
-    "target": ["app", "cloud", "build"],
+    "target": [
+      "app",
+      "cloud",
+      "build"
+    ],
     "id": "db"
   },
-  "version": "0.0.7",
+  "version": "0.1.0",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"

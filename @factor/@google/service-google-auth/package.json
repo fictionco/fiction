@@ -1,10 +1,12 @@
 {
   "name": "@factor/service-google-auth",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "factor": {
-    "target": ["app"],
+    "target": [
+      "app"
+    ],
     "provider": "google",
     "id": "googleAuth"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-webpack",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -14,11 +14,10 @@
     "vue": "^2.6.8"
   },
   "devDependencies": {
-    "cli-progress": "^2.1.1",
-    "markdown-loader": "^5.0.0",
     "@babel/core": "^7.3.4",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.0",
+    "cli-progress": "^2.1.1",
     "consola": "^2.5.6",
     "copy-webpack-plugin": "^5.0.0",
     "css-loader": "^2.1.0",
@@ -32,6 +31,7 @@
     "json-loader": "^0.5.7",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "markdown-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.5.0",
     "null-loader": "^0.1.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",

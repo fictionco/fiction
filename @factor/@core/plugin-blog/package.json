@@ -1,14 +1,15 @@
 {
   "name": "@factor/plugin-blog",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "license": "GPL-3.0",
   "factor": {
-    "target": ["app"]
+    "target": [
+      "app"
+    ]
   },
   "publishConfig": {
     "access": "public"
   },
   "main": "plugin.js",
-  "dependencies": {},
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0"
 }

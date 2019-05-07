@@ -1,19 +1,22 @@
 {
   "name": "@factor/cms-dashboard",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": ["app", "build"],
+    "target": [
+      "app",
+      "build"
+    ],
     "id": "dashboard"
   },
   "dependencies": {
-    "@factor/ui-components-standard": ">=0.0.7",
-    "@factor/ui-components-form": ">=0.0.7",
-    "@factor/cms-signin": ">=0.0.7",
-    "@factor/cms-dashboard-users": ">=0.0.7"
+    "@factor/cms-dashboard-users": "^0.1.0",
+    "@factor/cms-signin": "^0.1.0",
+    "@factor/ui-components-form": "^0.1.0",
+    "@factor/ui-components-standard": "^0.1.0"
   }
 }
