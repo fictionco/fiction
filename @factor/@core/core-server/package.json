@@ -7,10 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "target": [
-      "build",
-      "endpoint"
-    ],
+    "target": ["build", "endpoint"],
     "id": "server"
   },
   "dependencies": {
@@ -23,7 +20,8 @@
     "opn": "^5.4.0",
     "serve-favicon": "^2.5.0",
     "vue": "^2.6.8",
-    "vue-server-renderer": "^2.6.8"
+    "vue-server-renderer": "^2.6.8",
+    "xmlhttprequest": "^1.8.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

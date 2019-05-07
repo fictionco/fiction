@@ -28,7 +28,7 @@ const cli = async () => {
       const { env = "development", install = false } = args
 
       if (install) {
-        await this.runTasks(this.installationTasks)
+        await this.runTasks(this.installationTasks, { exitOnError: false })
       }
 
       Factor.$headers = args
@@ -175,7 +175,7 @@ const cli = async () => {
       this.startRunners(r)
     }
 
-    async runTasks(t) {
+    async runTasks(t, opts = {}) {
       const taskMap = t.map(
         ({ title, command, args, options = { cwd: process.cwd(), done: false, output: false } }) => {
           return {
@@ -190,6 +190,10 @@ const cli = async () => {
                   task.output = data.toString()
                 })
 
+                proc.stderr.on("data", data => {
+                  task.output = data.toString()
+                })
+
                 return proc.then(() => {
                   task.title = options.done ? options.done : task.title
                 })
@@ -199,12 +203,13 @@ const cli = async () => {
         }
       )
 
-      const tasks = new listr(taskMap) //, { concurrent: true }
+      const tasks = new listr(taskMap, opts) //, { concurrent: true }
 
       try {
         await tasks.run()
       } catch (error) {
-        Factor.$log.error(error)
+        console.error(error)
+        // process.exit(1)
       }
       return
     }

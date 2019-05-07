@@ -11,6 +11,9 @@
     "@factor/build-keys": "^0.1.4",
     "@factor/build-paths": "^0.1.7",
     "@factor/cloud-config": "^0.1.4",
+    "@factor/build-config": "^0.1.7",
+    "@factor/build-log": "^0.1.7",
+    "@factor/build-transpiler": "^0.1.7",
     "@factor/filters": "^0.1.4"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

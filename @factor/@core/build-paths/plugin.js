@@ -122,13 +122,15 @@ module.exports = Factor => {
     }
 
     getAliases() {
-      return {
+      const a = {
         "@": this.get("source"),
         "~": this.get("app"),
         "#": this.get("theme") || this.get("source"),
         "@generated": this.get("generated"),
         "@config": this.get("config")
       }
+
+      return a
     }
 
     replaceWithAliases(p) {
