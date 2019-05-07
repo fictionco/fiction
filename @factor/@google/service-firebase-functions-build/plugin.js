@@ -212,7 +212,7 @@ export default Factor => {
         scripts: {
           deps: "yarn install --ignore-engines"
         },
-        engines: { node: "8" },
+        engines: { node: "10" },
         dependencies: this.localDependencies,
         devDependencies: {},
         timestamp: +new Date()

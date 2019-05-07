@@ -86,7 +86,7 @@ module.exports = {
     cd()
     console.log(`\tyarn factor dev\n`)
 
-    console.log(this.chalk.bold(`  Factor Docs: For learn more visit:\n`))
+    console.log(this.chalk.bold(`  Factor Docs:\n`))
 
     console.log(`\thttps://factor.fiction.com/\n`)
   }

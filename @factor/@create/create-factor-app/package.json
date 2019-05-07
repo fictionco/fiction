@@ -24,6 +24,7 @@
     "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
+    "consola": "^2.6.0",
     "standard-version": "^5.0.1"
   },
   "license": "MIT",

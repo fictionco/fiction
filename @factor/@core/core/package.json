@@ -17,11 +17,10 @@
     "@factor/core-server": "^0.1.4",
     "@factor/core-stack": "^0.1.4",
     "@factor/core-theme": "^0.1.4",
-    "@factor/tools": "^0.1.4"
-  },
-  "devDependencies": {
+    "@factor/tools": "^0.1.4",
     "@factor/build": "^0.1.4",
     "@factor/cli": "^0.1.4"
   },
+  "devDependencies": {},
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
