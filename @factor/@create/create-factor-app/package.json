@@ -1,9 +1,13 @@
 {
   "name": "create-factor-app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Create a Factor App in seconds.",
   "bin": "cli.js",
-  "files": ["cli.js", "saofile.js", "template/"],
+  "files": [
+    "cli.js",
+    "saofile.js",
+    "template/"
+  ],
   "repository": {
     "url": "git+https://github.com/fiction-com/factor/@create/create-factor-app.git",
     "type": "git"
@@ -12,13 +16,13 @@
     "release": "standard-version"
   },
   "dependencies": {
+    "consola": "^2.6.0",
     "cross-spawn": "^6.0.5",
     "glob": "^7.1.3",
     "lodash": "^4.17.11",
     "sao": "^1.6.1",
     "superb": "^2.0.0",
-    "validate-npm-package-name": "^3.0.0",
-    "consola": "^2.6.0"
+    "validate-npm-package-name": "^3.0.0"
   },
   "devDependencies": {
     "standard-version": "^5.0.1"
