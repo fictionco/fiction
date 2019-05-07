@@ -6,10 +6,10 @@
           <h1 class="title">Plugins</h1>
           <p class="subtitle">Extend your project features and do more with Factor.</p>
           <div class="actions">
-            <el-btn path="/docs" btn="primary" size="large">
+            <app-link path="/docs" btn="primary" size="large">
               How to Install
               <factor-icon icon="arrow-right" />
-            </el-btn>
+            </app-link>
           </div>
         </div>
       </div>
