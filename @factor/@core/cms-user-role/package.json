@@ -5,13 +5,14 @@
   "license": "GPL-3.0",
   "factor": {
     "id": "privs",
-    "target": [
-      "app"
-    ]
+    "target": ["app"]
   },
   "dependencies": {
     "@factor/cms-user": "^0.1.3",
     "@factor/cms-user-role-endpoint": "^0.1.3"
   },
-  "gitHead": "dc24789ebd0aa14cd646a0fd9ce8204dc11910d9"
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

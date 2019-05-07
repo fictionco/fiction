@@ -10,7 +10,7 @@
     "target": "app",
     "id": "componentsForm"
   },
-  "gitHead": "dc24789ebd0aa14cd646a0fd9ce8204dc11910d9",
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
     "sortablejs": "^1.8.4",
     "vue": "^2.6.10",
