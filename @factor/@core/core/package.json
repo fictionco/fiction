@@ -17,7 +17,6 @@
     "@factor/core-server": ">=0.0.7",
     "@factor/core-stack": ">=0.0.7",
     "@factor/core-theme": ">=0.0.7",
-    "@factor/core-user": ">=0.0.7",
     "@factor/tools": ">=0.0.7"
   },
   "devDependencies": {

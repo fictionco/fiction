@@ -15,11 +15,7 @@
     "@factor/app-extend": ">=0.0.7",
     "@factor/app-router": ">=0.0.7",
     "@factor/app-store": ">=0.0.7",
-    "@factor/ui-components-standard": ">=0.0.7",
-    "@factor/core-user": ">=0.0.7",
-    "@factor/core-events": ">=0.0.7",
-    "@factor/tools": ">=0.0.7",
-    "@factor/cms": ">=0.0.7",
+    "@factor/core": ">=0.0.7",
     "vue": "^2.6.7"
   },
   "devDependencies": {

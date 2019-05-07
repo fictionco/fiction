@@ -20,6 +20,7 @@
     "@factor/cms-metatags": ">=0.0.7",
     "@factor/cms-page-templates": ">=0.0.7",
     "@factor/cms-posts": ">=0.0.7",
-    "@factor/cms-users": ">=0.0.7"
+
+    "@factor/cms-user": ">=0.0.7"
   }
 }

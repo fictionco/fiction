@@ -1,8 +1,8 @@
 {
-  "name": "@factor/core-user",
+  "name": "@factor/cms-user-auth",
   "factor": {
-    "target": ["app", "build"],
-    "id": "user"
+    "target": "app",
+    "id": "auth"
   },
   "version": "0.0.7",
   "license": "GPL-3.0",
@@ -12,6 +12,7 @@
   "main": "plugin.js",
   "gitHead": "4d2a7f165ca8fdcf56ad960fe04d210d5a2751c0",
   "dependencies": {
-    "@factor/core-user-auth": ">=0.0.7"
+    "@factor/cms-user-role": ">=0.0.7",
+    "@factor/service-google-auth": ">=0.0.7"
   }
 }

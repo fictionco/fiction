@@ -1,5 +1,5 @@
 {
-  "name": "@factor/cms-users",
+  "name": "@factor/cms-dashboard-users",
   "factor": {
     "target": ["app"]
   },

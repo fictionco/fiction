@@ -13,6 +13,7 @@
   "dependencies": {
     "@factor/ui-components-standard": ">=0.0.7",
     "@factor/ui-components-form": ">=0.0.7",
-    "@factor/cms-signin": ">=0.0.7"
+    "@factor/cms-signin": ">=0.0.7",
+    "@factor/cms-dashboard-users": ">=0.0.7"
   }
 }

@@ -1,7 +1,7 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.possibleRoles = require("@factor/core-user/config.json").roles
+      this.possibleRoles = require("@factor/cms-user/config.json").roles
     }
 
     logger(text) {
