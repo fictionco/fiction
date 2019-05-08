@@ -9,6 +9,10 @@ export default Factor => {
 
     init() {
       this.endpointBase = Factor.$filters.apply("endpoints-base-url")
+
+      if (!this.endpointBase) {
+        console.warn("The endpoint base URL is missing from Factor config.")
+      }
     }
 
     serializer(params) {

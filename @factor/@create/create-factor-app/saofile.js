@@ -62,7 +62,7 @@ module.exports = {
     actions.push({
       type: "move",
       patterns: {
-        _gitignore: ".gitignore",
+        gitignore: ".gitignore",
         "_package.json": "package.json"
       }
     })

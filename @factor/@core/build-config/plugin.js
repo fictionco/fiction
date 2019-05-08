@@ -19,5 +19,7 @@ module.exports = () => {
     argv
   }
 
-  return Object.assign({}, DEFAULT_CONFIG, { env, url, port }, USER_CONFIG)
+  const FACTOR_CONFIG = Object.assign({}, DEFAULT_CONFIG, { env, url, port }, USER_CONFIG)
+
+  return FACTOR_CONFIG
 }

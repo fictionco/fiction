@@ -20,29 +20,28 @@
         <div class="sidebar">
           <h3 class="title">Categories</h3>
           <ul class="list-categories">
-            <li>
-              <a href="#" class="active">All</a>
-            </li>
-            <li>
-              <a href="#">Monitoring</a>
-            </li>
-            <li>
-              <a href="#">Payment</a>
-            </li>
-            <li>
-              <a href="#">Emailing</a>
-            </li>
-            <li>
-              <a href="#">Search</a>
-            </li>
-            <li>
-              <a href="#">Admin</a>
-            </li>
-            <li>
-              <a href="#">Security</a>
-            </li>
-            <li>
-              <a href="#">Maps</a>
+            <li v-for="(item, itemIndex) in normalizedNav" :key="itemIndex">
+              <factor-link :path="`/plugins/${item.slug}`">{{ item.name }}</factor-link>
+              <div v-if="item.slug == activePath">
+                <li v-for="(h2, indexParent) in headers" :key="indexParent">
+                  <a
+                    class="nav-link parent"
+                    :href="h2.anchor"
+                    :class="$route.hash == h2.anchor ? 'active' : 'not'"
+                    @click="clicked=true"
+                  >{{ h2.text }}</a>
+                  <ul v-if="h2.sub.length">
+                    <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
+                      <a
+                        class="nav-link sub"
+                        :class="$route.hash == h3.anchor ? 'active' : 'not'"
+                        :href="h3.anchor"
+                        @click="clicked=true"
+                      >{{ h3.text }}</a>
+                    </li>
+                  </ul>
+                </li>
+              </div>
             </li>
           </ul>
         </div>
@@ -168,10 +167,56 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      nav: [],
+      headers: [],
+      allHeaders: []
+    }
+  },
+  computed: {
+    pluginsPage() {
+      return this.$route.params.markdownurl || "introduction"
+    },
+    normalizedNav() {
+      return this.navItems().map(_ => {
+        if (typeof _ == "string") {
+          return {
+            slug: _,
+            name: this.$utils.toLabel(_)
+          }
+        } else {
+          return _
+        }
+      })
+    },
+    activePath() {
+      return this.$route.params.markdownurl || ""
     }
   },
   mounted() {},
+  methods: {
+    navItems() {
+      const nav = [
+        {
+          name: "All",
+          slug: ""
+        },
+        "monitoring",
+        "payment",
+        "emailing",
+        "search",
+        "admin",
+        "security",
+        "maps"
+      ]
+
+      return nav
+    },
+    getMarkdown() {
+      let filename = this.pluginsPage
+      return require(`./plugins/${filename}.md`)
+    }
+  },
   metatags() {
     return {
       title: "Factor Plugins",
@@ -262,7 +307,7 @@ export default {
           &:hover {
             color: rgba(80, 102, 119, 1);
           }
-          &.active {
+          &.router-link-exact-active {
             color: #0496ff;
             font-weight: 800;
           }

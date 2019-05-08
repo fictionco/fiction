@@ -5,9 +5,7 @@
 </template>
 <script>
 export default {
-  mounted() {
-    console.log("$attrs2", this.$attrs)
-  }
+  mounted() {}
 }
 </script>
 
@@ -22,16 +20,6 @@ button.app-btn {
   &:focus {
     outline: none;
   }
-
-  + .app-btn,
-  + .btn-link {
-    margin-left: 1em;
-    @media (max-width: 767px) {
-      margin-left: 0;
-      margin-top: 1em;
-    }
-  }
-
   &:active {
     opacity: 0.8;
     transition: 0s all;
@@ -74,6 +62,14 @@ button.app-btn {
   &.tertiary {
     color: var(--color-primary);
     background: var(--color-tertiary);
+  }
+  + .app-btn,
+  + .btn-link {
+    margin-left: 1em;
+    @media (max-width: 767px) {
+      margin-left: 0;
+      margin-top: 1em;
+    }
   }
 }
 </style>

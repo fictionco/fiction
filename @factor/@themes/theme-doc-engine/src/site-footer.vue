@@ -3,7 +3,7 @@
     <div class="content-footer-pad">
       <div class="footer-col">
         <factor-link path="/" class="pin">
-          <factor-logo />
+          <img class="footer-logo" :src="require(`./img/factor.svg`)" alt="Factor Framework">
         </factor-link>
       </div>
       <div class="footer-col">
@@ -49,7 +49,9 @@ export default {
         justify-content: space-between;
         align-items: flex-end;
       }
-
+      .footer-logo {
+        width: 100px;
+      }
       .menu-header {
         font-weight: 600;
         opacity: 0.3;

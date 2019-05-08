@@ -149,7 +149,7 @@ module.exports.default = Factor => {
     server() {
       // Necessary to accomodate issues with resolution in SSR
       // Many packages don't fully consider it  (firebase)
-      const alias = Factor.$filters.apply("webpack-aliases-server", Factor.$paths.getAliases())
+      const alias = Factor.$filters.apply("webpack-aliases-server", {})
 
       return {
         target: "node",
@@ -166,7 +166,7 @@ module.exports.default = Factor => {
         externals: [
           nodeExternals({
             // do not externalize CSS files in case we need to import it from a dep
-            whitelist: [/\.css$/, /factor/]
+            whitelist: /\.css$/
           })
         ],
         plugins: [
@@ -226,8 +226,6 @@ module.exports.default = Factor => {
     }
 
     base(args) {
-      const include = [Factor.$paths.get("app"), path.resolve(__dirname, "node_modules/ui")]
-
       const out = {
         output: {
           path: Factor.$paths.get("dist"),

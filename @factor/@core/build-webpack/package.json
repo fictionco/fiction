@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-webpack",
-  "version": "0.1.10",
+  "version": "0.1.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
