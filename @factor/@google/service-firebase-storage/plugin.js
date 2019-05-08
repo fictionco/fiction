@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
         this.buildConfig()
@@ -9,15 +9,15 @@ export default Factor => {
 
         this.client = firebaseApp(Factor).client
 
-        Factor.$filters.addService({
+        Factor.$filters.add({
           provider: "firebase",
-          filter: "storage-service-upload",
+          id: "storage-service-upload",
           service: _ => this.upload(_)
         })
 
-        Factor.$filters.addService({
+        Factor.$filters.add({
           provider: "firebase",
-          filter: "storage-service-delete",
+          id: "storage-service-delete",
           service: _ => this.delete(_)
         })
       }
@@ -74,5 +74,5 @@ export default Factor => {
         return _
       })
     }
-  }()
+  })()
 }

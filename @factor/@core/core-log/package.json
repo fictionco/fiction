@@ -1,6 +1,6 @@
 {
-  "name": "@factor/build-log",
-  "version": "0.1.7",
+  "name": "@factor/core-log",
+  "version": "0.1.9",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,6 +11,7 @@
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "boxen": "^3.1.0"
+    "boxen": "^3.1.0",
+    "chalk": "^2.4.2"
   }
 }

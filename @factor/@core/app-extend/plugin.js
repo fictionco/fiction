@@ -9,16 +9,18 @@ export default (Factor, FACTOR_CONFIG, target) => {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
-
+      this.addCoreExtension("log", require("@factor/core-log/app"))
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("config", require("@factor/app-config"))
       this.addCoreExtension("theme", require("@factor/core-theme/app"))
-      this.addCoreExtension("stack", require("@factor/core-stack/app"))
+      this.addCoreExtension("stack", require("@factor/core-stack"))
 
       require("@factor/app")(Factor)
 
       const plugins = require("@generated/load-plugins-app")
       this.injectPlugins(plugins)
+
+      Factor.$filters.run("plugins-added")
     }
 
     addCoreExtension(id, extension) {

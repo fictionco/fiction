@@ -1,5 +1,30 @@
 module.exports.default = Factor => {
   return new (class {
+    constructor() {
+      Factor.$stack.register({
+        id: `db-service-read`,
+        title: "DB - Read Record",
+        description: "Datastore read a record based on record ID or attribute.",
+        args: "Object { collection, id OR field, value }",
+        result: "Object { result }"
+      })
+
+      Factor.$stack.register({
+        id: `db-service-update`,
+        title: "DB - Update Record",
+        description: "Datastore update a record based on ID.",
+        args: "Object { collection, id, data }",
+        result: "Object { data }"
+      })
+
+      Factor.$stack.register({
+        id: `db-service-search`,
+        title: "DB - Search",
+        description: "Retrieves records based on query criteria.",
+        args: "Object { collection, searchText, filters: [{field, value}], limit, page }",
+        result: "Object { data }"
+      })
+    }
     async search(query) {
       return this.query({
         method: "search",
@@ -8,13 +33,13 @@ module.exports.default = Factor => {
       })
     }
 
-    async index(query) {
-      return this.query({
-        method: "index",
-        returnType: true,
-        ...query
-      })
-    }
+    // async index(query) {
+    //   return this.query({
+    //     method: "index",
+    //     returnType: true,
+    //     ...query
+    //   })
+    // }
 
     async read(query) {
       const q = await this.query({
@@ -40,11 +65,7 @@ module.exports.default = Factor => {
     async query(args) {
       const { method = "query", returnType = [] } = args
 
-      const served = await Factor.$filters.applyService({
-        service: "db",
-        filter: `db-service-${method}`,
-        args
-      })
+      const served = await Factor.$stack.service(`db-service-${method}`, args)
 
       const result = served && served[0] ? served[0].result : { data: returnType }
 

@@ -1,0 +1,14 @@
+{
+  "name": "@factor/stack-serverless",
+  "version": "0.1.9",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "scope": "stack"
+  },
+  "dependencies": {},
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+}

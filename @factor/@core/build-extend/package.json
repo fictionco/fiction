@@ -10,7 +10,7 @@
     "@factor/build-config": "^0.1.9",
     "@factor/build-files": "^0.1.7",
     "@factor/build-keys": "^0.1.4",
-    "@factor/build-log": "^0.1.7",
+
     "@factor/build-paths": "^0.1.8",
     "@factor/build-transpiler": "^0.1.7",
     "@factor/cloud-config": "^0.1.4",

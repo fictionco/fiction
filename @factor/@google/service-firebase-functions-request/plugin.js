@@ -1,13 +1,24 @@
 export default Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.registerCredentials({
+        scope: "public",
+        title: "Firebase Project ID",
+        description: `The ID for the active Firebase project`,
+        provider: "firebase",
+        keys: ["projectId"]
+      })
+
       this.region = "us-central1"
       this.emulatorPort = 5001
 
-      this.firebaseSettings = Factor.$config.setting("firebase")
-      this.currentProject = this.firebaseSettings.projectId
+      const { projectId } = Factor.$config.setting("firebase") || {}
 
-      this.filters()
+      if (projectId) {
+        this.currentProject = projectId
+
+        this.filters()
+      }
     }
 
     filters() {

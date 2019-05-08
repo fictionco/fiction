@@ -1,6 +1,26 @@
 export default Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.register({
+        title: "Google Auth Provider Tokens",
+        id: "auth-provider-tokens-google",
+        returns: "Object { idToken, accessToken }"
+      })
+
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "auth-signin",
+        description: "Logs in a user with Firebase",
+        service: _ => this.credentialSignin(_)
+      })
+
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "auth-request-bearer-token",
+        description: "Returns firebase user id token.",
+        service: _ => this.getIdToken()
+      })
+
       const firebaseApp = require("@factor/service-firebase-app").default
       require("firebase/auth")
 
@@ -11,6 +31,23 @@ export default Factor => {
       })
 
       this.filters()
+    }
+
+    filters() {
+      // Factor.$filters.addService({
+      //   filter: "auth-signin",
+      //   provider: "firebase",
+      //   service: _ => this.credentialSignin(_)
+      // })
+      // Factor.$filters.addService({
+      //   provider: "firebase",
+      //   filter: "auth-request-bearer-token",
+      //   service: _ => this.getIdToken()
+      // })
+    }
+
+    async getTokens({ provider }) {
+      return await Factor.$stack.service(`auth-provider-tokens-${provider}`)
     }
 
     error(error) {
@@ -36,19 +73,6 @@ export default Factor => {
 
     async refreshUserAuthTokens() {
       await this.client.auth().currentUser.getIdToken(true)
-    }
-
-    filters() {
-      Factor.$filters.addService({
-        filter: "auth-signin",
-        provider: "firebase",
-        service: _ => this.credentialSignin(_)
-      })
-      Factor.$filters.addService({
-        provider: "firebase",
-        filter: "auth-request-bearer-token",
-        service: _ => this.getIdToken()
-      })
     }
 
     async linkProvider(args) {
@@ -82,7 +106,8 @@ export default Factor => {
 
     async getProviderCredential(args) {
       const { provider = "" } = args
-      const tokens = await Factor.$filters.apply("auth-provider-tokens", args)
+      const tokens = await this.getTokens({ provider })
+      //const tokens = await Factor.$filters.apply("auth-provider-tokens", args)
       console.log("auth token", tokens)
       const { idToken, accessToken } = tokens
 

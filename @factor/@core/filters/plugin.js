@@ -75,6 +75,13 @@ module.exports = Factor => {
       )
     }
 
+    // Get total number of filters added on an id
+    count(name) {
+      const _added = this._filters[name]
+
+      return _added && Object.keys(_added).length > 0 ? Object.keys(_added).length : 0
+    }
+
     // Apply filters a maximum of one time, once they've run add to _applied property
     // If that is set just return it
     apply(name, data) {

@@ -51,9 +51,7 @@ export default Factor => {
     }
 
     createBuildFirebaseInstance() {
-      const {
-        firebase: { databaseURL, serviceAccount }
-      } = Factor.$config.settings()
+      const { firebase: { databaseURL, serviceAccount } = {} } = Factor.$config.settings()
 
       const admin = require("firebase-admin")
       if (serviceAccount) {

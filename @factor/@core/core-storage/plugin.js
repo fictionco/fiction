@@ -2,6 +2,25 @@ const loadImage = require("blueimp-load-image")
 
 module.exports.default = Factor => {
   return new (class {
+    constructor() {
+      Factor.$stack.register({
+        id: `storage-service-upload`,
+        title: "Storage - Upload File",
+        description: "Uploads a file to storage.",
+        args:
+          "Object { data (metadata), path (storage path), file (the file), change: (upload) => {}, error: (error) => {} , done: (url) => {} }",
+        result: "[Use Callbacks]"
+      })
+
+      Factor.$stack.register({
+        id: `storage-service-delete`,
+        title: "Storage - Delete File",
+        description: "Deletes a file based on its path",
+        args: "Object { path }",
+        result: "Boolean"
+      })
+    }
+
     createPath(path, vars) {
       path = path.replace("__guid", vars.guid)
       path = path.replace("__uid", vars.uid)
@@ -26,11 +45,7 @@ module.exports.default = Factor => {
 
     // ENDPOINT
     async request({ method, args }) {
-      const served = await Factor.$filters.applyService({
-        service: "storage",
-        filter: `storage-service-${method}`,
-        args
-      })
+      const served = await Factor.$stack.service(`storage-service-${method}`, args)
 
       return served[0] ? served[0].result : false
     }

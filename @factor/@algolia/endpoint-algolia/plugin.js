@@ -1,32 +1,39 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.registerCredentials({
+        scope: "secret",
+        title: "Algolia Admin Key",
+        description: `Algolia's admin secret. Needed to modify index records.`,
+        provider: "algolia",
+        keys: ["adminKey", "appId"]
+      })
+
       this.algoliaConfig = require("./config.json")
       this.algoliasearch = require("algoliasearch")
 
       const { algolia: { adminKey, appId } = {}, env } = Factor.$config.settings()
 
-      if (!adminKey) {
-        throw new Error("Missing Algolia admin key.")
-      }
+      if (adminKey && appId) {
+        this.prefix = env
+        this.client = this.algoliasearch(appId, adminKey)
 
-      this.prefix = env
-      this.client = this.algoliasearch(appId, adminKey)
-
-      Factor.$filters.add("cli-tasks", _ => {
-        _.push({
-          command: (ctx, task) => {
-            this.updateIndexSettings()
-            task.title = "Algolia indexes updated."
-          },
-          title: `Updating Algolia index settings`
+        Factor.$filters.add("cli-tasks", _ => {
+          _.push({
+            command: (ctx, task) => {
+              this.updateIndexSettings()
+              task.title = "Algolia indexes updated."
+            },
+            title: `Updating Algolia index settings`
+          })
+          return _
         })
-        return _
-      })
 
-      Factor.$filters.add("cli-data-index", (_, program) => {
-        _.algolia = () => this.dataIndexJson(program)
-      })
+        Factor.$filters.add("cli-data-index", (_, program) => {
+          _.algolia = () => this.dataIndexJson(program)
+        })
+      }
+      return
     }
 
     async dataIndexJson(program) {

@@ -1,6 +1,21 @@
 export default Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.register({
+        id: `auth-signin`,
+        title: "Auth - Signin User",
+        description: "Signs in a user.",
+        args: "Object { provider }",
+        result: "Object { auth (details), user }"
+      })
+
+      Factor.$stack.register({
+        id: `auth-request-bearer-token`,
+        title: "Auth - Bearer Token ID",
+        description: "Gets the auth system bearer token ID.",
+        result: "String"
+      })
+
       // Authentication events only work after SSR
       if (Factor.$isNode) {
         return
@@ -77,18 +92,12 @@ export default Factor => {
     }
 
     async authenticate(args) {
-      const served = await Factor.$filters.applyService({
-        service: "auth",
-        filter: "auth-signin",
-        args
-      })
+      const served = await Factor.$filters.service("auth-signin", args)
 
       const credentials = served[0] ? served[0].result : false
 
       if (credentials) {
         Factor.$events.$emit("auth-user-signed-in", credentials)
-
-        //  this.setUserRoles(credentials)
 
         const { uid } = credentials
         this.update({ uid })
@@ -148,10 +157,7 @@ export default Factor => {
     }
 
     async getRequestBearerToken() {
-      const served = await Factor.$filters.applyService({
-        service: "auth",
-        filter: "auth-request-bearer-token"
-      })
+      const served = await Factor.$stack.service("auth-request-bearer-token")
 
       const token = served && served[0] ? served[0].result : false
       return token

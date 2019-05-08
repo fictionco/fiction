@@ -1,40 +1,46 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
+      Factor.$stack.registerCredentials({
+        scope: "public",
+        title: "Google Auth Api",
+        description: `Google's authentication API requires ApiKey (browser) and ClientId. Find in the Google Cloud Console.`,
+        provider: "google",
+        link: "https://console.developers.google.com/apis/credentials",
+        keys: ["apiKey", "clientId"]
+      })
+
+      Factor.$stack.add({
+        id: "auth-provider-tokens-google",
+        provider: "google",
+        description: "Returns Google Api Auth tokens.",
+        service: async () => {
+          return await this.getToken()
+        }
+      })
+
       if (!Factor.$isNode) {
-        this.setKeys()
-        this.listeners()
+        this.init()
       }
     }
 
-    setKeys() {
+    init() {
       const { google: { apiKey = "", clientId = "" } = {} } = Factor.$config.settings()
-
-      if (!apiKey || !clientId) {
-        const f = []
-        if (!apiKey) {
-          f.push("apiKey")
-        }
-        if (!clientId) {
-          f.push("clientId")
-        }
-        console.log(`[Factor Config] Missing ${f.join(", ")} for Google API Plugin`)
-      }
 
       this.apiKey = apiKey
       this.clientId = clientId
-    }
-
-    listeners() {
-      Factor.$filters.add("auth-provider-tokens", ({ provider }) => {
-        if (provider.includes("google")) {
-          return this.getToken()
-        }
-      })
 
       Factor.$events.$on("logout", () => {
         this.logout()
       })
+    }
+
+    listeners() {
+      // Factor.$filters.add("auth-provider-tokens", ({ provider }) => {
+      //   if (provider.includes("google")) {
+      //     return this.getToken()
+      //   }
+      // })
     }
 
     loadClientApi() {
@@ -95,5 +101,5 @@ export default Factor => {
         this.gapi.auth2.getAuthInstance().signOut()
       }
     }
-  }()
+  })()
 }

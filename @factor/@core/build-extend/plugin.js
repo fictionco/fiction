@@ -10,14 +10,18 @@ module.exports = Factor => {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
-      this.addCoreExtension("log", require("@factor/build-log"))
+      this.addCoreExtension("log", require("@factor/core-log/build"))
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("paths", require("@factor/build-paths"))
 
       this.addCoreExtension("keys", require("@factor/build-keys"))
       this.addCoreExtension("files", require("@factor/build-files"))
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
-      this.addCoreExtension("stack", require("@factor/core-stack/build"))
+      this.addCoreExtension("stack", require("@factor/core-stack"))
+
+      // This loads in different files based on name inside stack folders, needs to be refactored out/changed
+      // (The reason it is needed is that different stack environments need different code)
+      this.addCoreExtension("stackBuild", require("@factor/core-stack/build"))
       this.addCoreExtension("config", require("@factor/cloud-config"))
 
       const transpiler = require("@factor/build-transpiler")(Factor)
@@ -65,7 +69,12 @@ module.exports = Factor => {
             Factor.use({
               install(Factor) {
                 const h = `$${_p}`
-                Factor[h] = Factor.prototype[h] = plugins[_p](Factor)
+                try {
+                  const init = plugins[_p](Factor)
+                  Factor[h] = Factor.prototype[h] = init
+                } catch (error) {
+                  Factor.$log.error(error)
+                }
               }
             })
           }

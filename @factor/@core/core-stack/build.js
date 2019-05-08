@@ -8,10 +8,10 @@ module.exports = Factor => {
       }
 
       this.stackPackage = stack
-
+      const { factor: { id } = {} } = require(`${stack}/package.json`)
       Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
         load.push({
-          id: "stack",
+          id: id || "servicesStack",
           name: this.stackPackage,
           mainFile: this.moduleMain(target),
           target: this.moduleTarget(target)

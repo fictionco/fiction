@@ -18,15 +18,15 @@ module.exports.default = Factor => {
           this.client = firebaseApp(Factor).client
         }
 
-        Factor.$filters.addService({
+        Factor.$stack.add({
           provider: "firebase",
-          filter: "db-service-read",
+          id: "db-service-read",
           service: _ => this.read(_)
         })
 
-        Factor.$filters.addService({
+        Factor.$stack.add({
           provider: "firebase",
-          filter: "db-service-update",
+          id: "db-service-update",
           service: _ => this.update(_)
         })
       }
