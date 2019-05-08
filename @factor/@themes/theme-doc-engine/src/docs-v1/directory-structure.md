@@ -18,7 +18,7 @@ The `components` directory contains your Vue.js Components. You can't use either
 
 The `layouts` directory includes your application layouts. Layouts are used to change the look and feel of your page (for example by including a sidebar).
 
-[More documentation about Layouts integration](/guide/views#layouts)
+[More documentation about Layouts integration](/docs/views#layouts)
 
 _This directory cannot be renamed without extra configuration._
 
@@ -26,7 +26,7 @@ _This directory cannot be renamed without extra configuration._
 
 The `middleware` directory contains your Application Middleware. Middleware lets you define custom functions that can be run before rendering either a page or a group of pages (layouts).
 
-[More documentation about Middleware integration](/guide/routing#middleware)
+[More documentation about Middleware integration](/docs/routing#middleware)
 
 ### [The Pages Directory](#the-pages-directory)
 
@@ -34,13 +34,13 @@ The `pages` directory contains your Application Views and Routes. The framework 
 
 _This directory cannot be renamed without extra configuration._
 
-[More documentation about Pages integration](/guide/views)
+[More documentation about Pages integration](/docs/views)
 
 ### [The Plugins Directory](#the-plugins-directory)
 
 The `plugins` directory contains your Javascript plugins that you want to run before instantiating the root Vue.js Application. This is the place to register components globally and to inject functions or constants.
 
-[More documentation about Plugins integration](/guide/plugins)
+[More documentation about Plugins integration](/docs/plugins)
 
 ### [The Static Directory](#the-static-directory)
 
@@ -50,7 +50,7 @@ The `static` directory is directly mapped to the server root (`/static/robots.tx
 
 _This directory cannot be renamed without extra configuration._
 
-[More documentation about Static integration](/guide/assets#static)
+[More documentation about Static integration](/docs/assets#static)
 
 ### [The Store Directory](#the-store-directory)
 
@@ -58,7 +58,7 @@ The `store` directory contains your [Vuex Store](http://vuex.vuejs.org/en/) file
 
 _This directory cannot be renamed without extra configuration._
 
-[More documentation about Store integration](/guide/vuex-store)
+[More documentation about Store integration](/docs/vuex-store)
 
 ### [The factor-config.json File](#the-factor-configjson-file)
 
@@ -66,7 +66,7 @@ The `factor-config.json` file contains your Factor.js custom configuration.
 
 _This file cannot be renamed without extra configuration._
 
-[More documentation about `factor-config.json` integration](/guide/configuration)
+[More documentation about `factor-config.json` integration](/docs/configuration)
 
 ### [The package.json File](#the-packagejson-file)
 
@@ -83,4 +83,8 @@ _This file can not be renamed._
 
 By default, `srcDir` is the same as `rootDir`.
 
-> **Info:** Inside your `vue` templates, if you need to link to your `assets` or `static` directory, use `~/assets/your_image.png` and `~/static/your_image.png`.
+<div class="alert">
+  
+  **Info:** Inside your `vue` templates, if you need to link to your `assets` or `static` directory, use `~/assets/your_image.png` and `~/static/your_image.png`.
+
+</div>

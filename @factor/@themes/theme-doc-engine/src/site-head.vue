@@ -3,7 +3,7 @@
     <div class="site-head-pad">
       <div class="brand">
         <factor-link path="/">
-          <factor-logo />
+          <img :src="require(`./img/factor.svg`)" alt="Factor Framework">
         </factor-link>
         <!-- <div class="search">Search</div> -->
       </div>
@@ -41,18 +41,22 @@ export default {
     display: flex;
     flex-grow: 1;
     align-items: center;
-    .search {
-      border-radius: 4px;
-      flex-grow: 1;
-      max-width: 600px;
-      padding: 4px 1em;
-      color: rgba(38, 67, 89, 0.4);
-
-      background: #f3f5fa;
-      margin: 0 2em;
-      font-size: 0.9em;
-      line-height: 1.6;
+    width: 100px;
+    a img {
+      width: 80px;
     }
+    // .search {
+    //   border-radius: 4px;
+    //   flex-grow: 1;
+    //   max-width: 600px;
+    //   padding: 4px 1em;
+    //   color: rgba(38, 67, 89, 0.4);
+
+    //   background: #f3f5fa;
+    //   margin: 0 2em;
+    //   font-size: 0.9em;
+    //   line-height: 1.6;
+    // }
   }
   .nav {
     font-weight: 600;

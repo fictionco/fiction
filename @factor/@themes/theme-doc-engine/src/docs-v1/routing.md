@@ -2,7 +2,11 @@
 
 > Factor.js use the plugin.js file to generate the routes of your web applications.
 
-To navigate between pages, we recommend to use the [`<factor-link>`](/api/components-factor-link) component.
+<div class="alert">
+
+  To navigate between pages, we recommend to use the [`<factor-link>`](/api/components-factor-link) component.
+
+</div>
 
 For example:
 
@@ -95,7 +99,11 @@ router: {
 
 As you can see the route named `users-id` has the path `:id?` which makes it optional, if you want to make it required, create an `index.vue` file in the `users/_id` directory instead.
 
->  **Warning:** dynamic routes are ignored by the `generate` command: [API Configuration generate](/api/configuration-generate#routes)
+<div class="alert">  
+
+  **Warning:** dynamic routes are ignored by the `generate` command: [API Configuration generate](/api/configuration-generate#routes)
+
+</div>
 
 ### Validate Route Params
 
@@ -122,7 +130,11 @@ factor.js lets you create nested route by using the children routes of vue-route
 
 To define the parent component of a nested route, you need to create a Vue file with the **same name as the directory** which contain your children views.
 
-> **Warning:** don't forget to include `<factor-child/>` inside the parent component (<code>.vue</code> file).
+<div class="alert">
+
+  **Warning:** don't forget to include `<factor-child/>` inside the parent component (<code>.vue</code> file).
+
+</div>
 
 This file tree:
 
@@ -245,7 +257,7 @@ Path | File
 `/about/careers` | `_.vue`
 `/about/careers/chicago` | `_.vue`
 
-__Note:__ Handling 404 pages is now up to the logic of the `_.vue` page. [More on 404 redirecting can be found here](/guide/async-data#handling-errors).
+__Note:__ Handling 404 pages is now up to the logic of the `_.vue` page. [More on 404 redirecting can be found here](/docs/async-data#handling-errors).
 
 ### Named Views
 
@@ -327,7 +339,11 @@ factor.js uses the [`<transition>`](http://vuejs.org/v2/guide/transitions.html#T
 
 ### Global Settings
 
-> **Info:** factor.js default transition name is `"page"`.
+<div class="alert"> 
+
+  **Info:** factor.js default transition name is `"page"`.
+
+</div>
 
 To add a fade transition to every page of your application, we need a CSS file that is shared across all our routes, so we start by creating a file in the `assets` folder.
 
