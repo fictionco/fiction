@@ -45,7 +45,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import { setTimeout } from "timers"
 export default {
@@ -83,7 +82,7 @@ export default {
   },
   watch: {
     $route: function() {
-      this.setNav()
+      this.setPage()
     }
   },
   metatags() {
@@ -94,7 +93,9 @@ export default {
     }
   },
   mounted() {
-    this.setNav()
+    this.prism = require("prismjs")
+
+    this.setPage()
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll())
@@ -128,7 +129,13 @@ export default {
       let filename = this.docsPage
       return require(`./docs-v1/${filename}.md`)
     },
-    setNav() {
+    setPage() {
+      // wait til content is done rendering
+      setTimeout(() => {
+        this.prism.highlightAll()
+      }, 50)
+
+      // Make sure new content is loaded before scanning for h2, h3
       this.$nextTick(() => {
         this.headers = this.getHeaders(this.$refs.content)
         window.addEventListener("scroll", this.onScroll())
@@ -226,7 +233,12 @@ export default {
   }
 }
 </script>
+
 <style lang="less">
+@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/themes/prism.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/line-numbers/prism-line-numbers.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/line-highlight/prism-line-highlight.min.css");
+
 .page-docs {
   .mast {
     padding: 0 2em;
@@ -395,10 +407,10 @@ export default {
       overflow-x: scroll;
       margin-bottom: 1em;
     }
-    code {
-      padding: 2px 7px;
-      background: #f8f8f8;
-    }
+    // code {
+    //   padding: 2px 7px;
+    //   background: #f8f8f8;
+    // }
     hr {
       margin-top: 20px;
       margin-bottom: 20px;
