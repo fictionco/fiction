@@ -236,10 +236,14 @@ export default {
 
 <style lang="less">
 @import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/themes/prism.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/line-numbers/prism-line-numbers.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/line-highlight/prism-line-highlight.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/line-numbers/prism-line-numbers.min.css");
 
 .page-docs {
+  :not(pre) > code[class*="language-"],
+  pre[class*="language-"] {
+    background: #f8f8f8;
+  }
   .mast {
     padding: 0 2em;
     line-height: 1.2;
