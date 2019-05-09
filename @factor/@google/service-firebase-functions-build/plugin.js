@@ -1,4 +1,4 @@
-const { ensureDirSync, emptyDirSync, copy, copySync, writeFileSync } = require("fs-extra")
+const { ensureDirSync, emptyDirSync, copySync, writeFileSync } = require("fs-extra")
 
 const glob = require("glob").sync
 
@@ -8,10 +8,21 @@ export default Factor => {
   return new (class {
     constructor() {
       this.folderName = "cloud"
+      this.relativeDir = `cloud`
+
+      Factor.$filters.add("webpack-ignore-modules", _ => {
+        _.push(this.relativeDir)
+        return _
+      })
+
+      // Don't create folder if required credentials aren't setup
+      const { firebase: { databaseURL, serviceAccount } = {} } = Factor.$config.settings()
+
+      if (!databaseURL || !serviceAccount) {
+        return
+      }
 
       this.buildDirectory = resolve(Factor.$paths.get("app"), this.folderName)
-
-      this.relativeDir = `${this.folderName}`
 
       this.cloudPackages = require(Factor.$paths.get("plugins-loader-cloud"))
 
@@ -20,13 +31,11 @@ export default Factor => {
       this.localDependencies = {}
       this.addConfig()
 
-      Factor.$filters.add("webpack-exclude", _ => {
-        _.push(this.buildDirectory)
-        return _
-      })
-
-      Factor.$filters.add("webpack-ignore-modules", _ => {
-        _.push(this.relativeDir)
+      Factor.$filters.add("cli-runners", _ => {
+        _.push({
+          command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
+          name: "Cloud Functions"
+        })
         return _
       })
 
@@ -59,14 +68,6 @@ export default Factor => {
           callback: ({ event, path }) => {
             this.makePackages()
           }
-        })
-        return _
-      })
-
-      Factor.$filters.add("cli-runners", _ => {
-        _.push({
-          command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
-          name: "Cloud Functions"
         })
         return _
       })
@@ -226,39 +227,5 @@ export default Factor => {
       copySync(resolve(__dirname, "files"), this.buildDirectory)
       copySync(resolve(Factor.$paths.get("app"), ".firebaserc"), resolve(this.buildDirectory, ".firebaserc.json"))
     }
-
-    // showOutput(name, runner) {
-    //   let messages = []
-    //   let logType = "success"
-    //   return new Promise((resolve, reject) => {
-    //     runner.stdout.on("data", function(data) {
-    //       messages.push(data.toString())
-    //     })
-    //     runner.stderr.on("data", function(data) {
-    //       messages.push(data.toString())
-    //     })
-    //     runner.on("close", code => {
-    //       messages.unshift(`${name} >>>`)
-
-    //       resolve()
-    //     })
-    //   })
-    // }
-
-    // runtimeFile() {
-    //   // Package.json is still getting generated (apparently)
-    //   // Yarn/NPM will use parent package.json if the CWD one is missing
-    //   setTimeout(async () => {
-    //     const { spawnSync } = require("child_process")
-
-    //     const runFolder = `${process.cwd()}/${this.relativeDir}`
-
-    //     const runner = spawn("yarn", ["deps"], {
-    //       cwd: runFolder
-    //     })
-
-    //     await this.showOutput("Serverless Packages Install", runner)
-    //   }, 500)
-    // }
   })()
 }

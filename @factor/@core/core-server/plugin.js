@@ -186,10 +186,8 @@ module.exports.default = Factor => {
 
     resolveStaticAssets() {
       const fav = Factor.$paths.resolveFilePath("favicon.png", "static")
-      try {
+      if (fav) {
         this.server.use(favicon(fav))
-      } catch (error) {
-        //Factor.$log.warn(`Couldn't find Favicon @[${fav}]`)
       }
 
       // Global and Static Images/Manifests, etc..
@@ -213,12 +211,12 @@ module.exports.default = Factor => {
         res.status(404).send("404 | Page Not Found")
       } else {
         res.status(500).send(this.wrp("500 | Server Error"))
-        Factor.$log.error(`error during render : ${req.url}`)
-        Factor.$log.error(err.stack)
+        Factor.$log.info(`Factor Server Error  @[${req.url}]`)
+        Factor.$log.error(err)
       }
     }
     wrp(txt) {
-      return `<h1 style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 2em; font-size: 1em;opacity:.3;">${txt}</h1>`
+      return `<h1 style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 2em; opacity:.1; font-weight: 400;">${txt}</h1>`
     }
   })()
 }

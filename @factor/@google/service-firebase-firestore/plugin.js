@@ -110,13 +110,6 @@ module.exports.default = Factor => {
 
     // Add configuration fields to config file on build
     addConfig() {
-      // Webpack can't handle the node targeted firebase-admin package
-      // This allows us to use this plugin in both environments
-      Factor.$filters.add("webpack-ignore-modules", _ => {
-        _.push("firebase-admin")
-        return _
-      })
-
       const { resolve } = require("path")
       const { copySync } = require("fs-extra")
       const fldr = Factor.$paths.folder("generated")

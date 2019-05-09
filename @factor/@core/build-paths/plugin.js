@@ -61,9 +61,6 @@ module.exports = Factor => {
 
       _.static = resolve(_.source, "static")
 
-      //_.template = resolve(_.source, "index.html")
-      //_.favicon = resolve(_.static, "favicon.png")
-
       _.modules = this.getModulesFolders()
 
       this.paths = Factor.$filters.apply("paths", _)

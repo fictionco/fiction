@@ -5,8 +5,12 @@ const merge = require("deepmerge")
 export default Factor => {
   return new (class {
     constructor() {
-      this.appPath = Factor.$paths.get("app")
-      this.publicDir = Factor.$paths.folder("dist")
+      // Webpack can't handle the node targeted firebase-admin package
+      // This allows us to use this plugin in both environments
+      Factor.$filters.add("webpack-ignore-modules", _ => {
+        _.push("firebase-admin")
+        return _
+      })
 
       // Fix poorly designed Firebase packages
       // https://github.com/firebase/firebase-js-sdk/pull/1536#issuecomment-473408965
@@ -16,6 +20,25 @@ export default Factor => {
 
         return _
       })
+
+      Factor.$stack.registerCredentials({
+        scope: "public",
+        title: "Firebase Public Config",
+        description: `Firebase project public config information for use in browser and admin.`,
+        provider: "firebase",
+        keys: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"]
+      })
+
+      Factor.$stack.registerCredentials({
+        scope: "private",
+        title: "Firebase Private Config",
+        description: `Firebase private service account. For use in admin and build environments. Includes several values.`,
+        provider: "firebase",
+        keys: ["serviceAccount"]
+      })
+
+      this.appPath = Factor.$paths.get("app")
+      this.publicDir = Factor.$paths.folder("dist")
 
       Factor.$filters.add("cli-tasks", (_, args) => {
         _.push({
@@ -55,11 +78,10 @@ export default Factor => {
 
       const admin = require("firebase-admin")
       if (serviceAccount) {
+        console.log("create build firebase", serviceAccount)
         admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
 
         admin.firestore()
-      } else {
-        console.warn(`Can't find your Firebase service account keys. Add to Factor configuration files.`)
       }
     }
 

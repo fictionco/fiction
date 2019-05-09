@@ -2,17 +2,17 @@ import qs from "qs"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("initialize-app", () => {
-        this.init()
+      Factor.$stack.register({
+        id: `endpoints-base-url`,
+        title: "Cloud Endpoints - Endpoint Base URL",
+        description: "The base url to use for calls to app endpoints. Eg. [url]/endpointName",
+        args: "",
+        result: "String"
       })
-    }
 
-    init() {
-      this.endpointBase = Factor.$filters.apply("endpoints-base-url")
-
-      if (!this.endpointBase) {
-        console.warn("The endpoint base URL is missing from Factor config.")
-      }
+      Factor.$filters.add("initialize-app", () => {
+        this.endpointBase = Factor.$stack.service("endpoints-base-url")
+      })
     }
 
     serializer(params) {

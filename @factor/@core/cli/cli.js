@@ -7,6 +7,7 @@ const execa = require("execa")
 const listr = require("listr")
 const program = require("commander")
 const pkg = require("./package")
+const consola = require("consola")
 //const argvCommands = argv._
 // NODE CONFIG
 process.noDeprecation = true
@@ -42,14 +43,6 @@ const cli = async () => {
         .version(pkg.version)
         .description("CLI for managing Factor data, builds and deployments")
         .option("-e, --env <env>", "Set the Node environment. Default: 'development'")
-
-      // this.program
-      //   .command("create [directory]")
-      //   .description("Scaffolds a new Factor app.")
-      //   .action(async args => {
-      //     this.extend({ env: "development", ...args })
-      //     this.callbacks("scaffold-project", { env, ...args })
-      //   })
 
       this.program
         .command("dev")
@@ -232,7 +225,7 @@ const cli = async () => {
         })
         Factor.$log.box("Factor CLI Exited.")
       } catch (error) {
-        throw new Error(error)
+        consola.error(error)
       }
     }
 
