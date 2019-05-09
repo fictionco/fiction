@@ -3,3 +3,17 @@
     <slot />
   </factor-link>
 </template>
+
+
+<style lang="less">
+.btn-link {
+  + .app-btn,
+  + .btn-link {
+    margin-left: 1em;
+    @media (max-width: 767px) {
+      margin-left: 0;
+      margin-top: 1em;
+    }
+  }
+}
+</style>
