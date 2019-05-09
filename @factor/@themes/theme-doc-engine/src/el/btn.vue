@@ -63,13 +63,5 @@ button.app-btn {
     color: var(--color-primary);
     background: var(--color-tertiary);
   }
-  + .app-btn,
-  + .btn-link {
-    margin-left: 1em;
-    @media (max-width: 767px) {
-      margin-left: 0;
-      margin-top: 1em;
-    }
-  }
 }
 </style>
