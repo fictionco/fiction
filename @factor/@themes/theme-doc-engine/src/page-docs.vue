@@ -1,7 +1,7 @@
 <template>
   <div class="page-docs">
     <section class="docs-wrap">
-      <div class="docs-sidebar">
+      <div v-if="toggle" class="docs-sidebar" :class="toggle ? 'toggle-nav' : 'toggle-main'">
         <div ref="nav" class="sidebar-inner">
           <h2 class="title">Guide</h2>
 
@@ -38,6 +38,11 @@
 
       <div class="mast">
         <div class="content">
+          <div class="mobile-nav-toggle-wrap" @click.stop>
+            <div class="mobile-nav-toggle" @click="toggleNav()">
+              <factor-icon icon="bars" />
+            </div>
+          </div>
           <div ref="content" v-formatted-text="getMarkdown()" />
           <docs-footer />
         </div>
@@ -54,6 +59,8 @@ export default {
   data() {
     return {
       loading: true,
+      activeRoute: this.$route.path,
+      toggle: false,
       nav: [],
       headers: [],
       allHeaders: [],
@@ -81,15 +88,18 @@ export default {
     }
   },
   watch: {
-    $route: function() {
+    $route: function(v) {
+      this.activeRoute = v.path
+      this.toggleNav(false)
       this.setPage()
     }
   },
   metatags() {
+    const post = this.post || {}
     return {
-      title: "Introduction — Factor.js",
-      description: "Factor.js - The Serverless Framework.",
-      image: ""
+      title: post.titleTag || post.title,
+      description: post.description || this.$posts.excerpt(post.content),
+      image: this.socialImage(post)
     }
   },
   mounted() {
@@ -101,6 +111,31 @@ export default {
     window.removeEventListener("scroll", this.onScroll())
   },
   methods: {
+    socialImage(post) {
+      return post.featuredImage
+        ? post.featuredImage[0].url
+        : post.images
+        ? post.images[0].url
+        : ""
+    },
+    toggleNav(v) {
+      if (typeof v == "undefined") {
+        this.toggle = !this.toggle
+      } else {
+        this.toggle = v
+      }
+
+      this.clickHandler = e => {
+        this.toggle = false
+        document.removeEventListener("click", this.clickHandler, false)
+      };
+
+      if (this.toggle) {
+        document.addEventListener("click", this.clickHandler, false)
+      } else {
+        document.removeEventListener("click", this.clickHandler, false)
+      }
+    },
     navItems() {
       const nav = [
         "installation",
@@ -270,6 +305,7 @@ export default {
   }
   // Docs Sidebar
   .docs-sidebar {
+    display: none;
     position: fixed;
     top: 45px;
     left: 0;
@@ -278,9 +314,12 @@ export default {
     overflow-y: scroll;
     height: 100vh;
     padding-bottom: 5em;
-    &.open {
+
+    &.toggle-nav {
+      display: block;
       transform: translate(0, 0);
     }
+
     .sidebar-inner {
       width: 340px;
       padding: 40px 20px 60px 60px;
