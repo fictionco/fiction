@@ -1,6 +1,18 @@
 export default Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "storage-service-upload",
+        service: _ => this.upload(_)
+      })
+
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "storage-service-delete",
+        service: _ => this.delete(_)
+      })
+
       if (Factor.FACTOR_ENV == "build") {
         this.buildConfig()
       } else {
@@ -8,18 +20,6 @@ export default Factor => {
         require("firebase/storage")
 
         this.client = firebaseApp(Factor).client
-
-        Factor.$filters.add({
-          provider: "firebase",
-          id: "storage-service-upload",
-          service: _ => this.upload(_)
-        })
-
-        Factor.$filters.add({
-          provider: "firebase",
-          id: "storage-service-delete",
-          service: _ => this.delete(_)
-        })
       }
     }
 

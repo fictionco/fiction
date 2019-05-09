@@ -1,6 +1,18 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "db-service-read",
+        service: _ => this.read(_)
+      })
+
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "db-service-update",
+        service: _ => this.update(_)
+      })
+
       if (Factor.FACTOR_ENV == "build") {
         Factor.$filters.add("cli-data-export", (_, program) => {
           _.firestore = () => this.dataExport(program)
@@ -15,20 +27,8 @@ module.exports.default = Factor => {
         } else {
           const firebaseApp = require("@factor/service-firebase-app").default
           require("firebase/firestore")
-          this.client = firebaseApp(Factor).client
+          this.client = firebaseApp(Factor).getClient()
         }
-
-        Factor.$stack.add({
-          provider: "firebase",
-          id: "db-service-read",
-          service: _ => this.read(_)
-        })
-
-        Factor.$stack.add({
-          provider: "firebase",
-          id: "db-service-update",
-          service: _ => this.update(_)
-        })
       }
     }
 
@@ -126,11 +126,15 @@ module.exports.default = Factor => {
       })
     }
 
-    // async query({ collection, filters }) {
-    //   return this.refineQueryResults(ref.get())
-    // }
+    verifyService() {
+      return this.client ? true : false
+    }
 
     async read({ id, collection, field = null, value = null }) {
+      if (!this.verifyService()) {
+        return {}
+      }
+
       let ref = await this.client.firestore().collection(collection)
 
       let data
@@ -154,6 +158,10 @@ module.exports.default = Factor => {
     }
 
     async update({ id, collection, data }) {
+      if (!this.verifyService()) {
+        return {}
+      }
+
       await this.client
         .firestore()
         .collection(collection)

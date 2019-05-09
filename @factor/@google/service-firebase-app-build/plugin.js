@@ -21,20 +21,12 @@ export default Factor => {
         return _
       })
 
-      Factor.$stack.registerCredentials({
-        scope: "public",
-        title: "Firebase Public Config",
-        description: `Firebase project public config information for use in browser and admin.`,
+      Factor.$stack.registerProvider({
         provider: "firebase",
-        keys: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"]
-      })
-
-      Factor.$stack.registerCredentials({
-        scope: "private",
-        title: "Firebase Private Config",
-        description: `Firebase private service account. For use in admin and build environments. Includes several values.`,
-        provider: "firebase",
-        keys: ["serviceAccount"]
+        title: "Firebase",
+        description: "Datastore, hosting, cloud functions, file storage.",
+        privateKeys: ["serviceAccount"],
+        publicKeys: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"]
       })
 
       this.appPath = Factor.$paths.get("app")

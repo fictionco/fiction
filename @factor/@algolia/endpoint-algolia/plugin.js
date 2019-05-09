@@ -1,14 +1,6 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.registerCredentials({
-        scope: "secret",
-        title: "Algolia Admin Key",
-        description: `Algolia's admin secret. Needed to modify index records.`,
-        provider: "algolia",
-        keys: ["adminKey", "appId"]
-      })
-
       this.algoliaConfig = require("./config.json")
       this.algoliasearch = require("algoliasearch")
 

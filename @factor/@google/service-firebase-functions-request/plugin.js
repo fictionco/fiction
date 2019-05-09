@@ -1,14 +1,16 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.registerCredentials({
-        scope: "public",
-        title: "Firebase Project ID",
-        description: `The ID for the active Firebase project`,
+      Factor.$stack.add({
         provider: "firebase",
-        keys: ["projectId"]
+        id: "endpoints-base-url",
+        service: () => {
+          return this.endpointBaseUrl()
+        }
       })
+    }
 
+    endpointBaseUrl() {
       this.region = "us-central1"
       this.emulatorPort = 5001
 
@@ -16,18 +18,8 @@ export default Factor => {
 
       if (projectId) {
         this.currentProject = projectId
-
-        this.filters()
       }
-    }
 
-    filters() {
-      Factor.$filters.add("endpoints-base-url", () => {
-        return this.endpointBaseUrl()
-      })
-    }
-
-    endpointBaseUrl() {
       if (Factor.$config.setting("env") == "development") {
         return `http://localhost:${this.emulatorPort}/${this.currentProject}/${this.region}`
       } else {

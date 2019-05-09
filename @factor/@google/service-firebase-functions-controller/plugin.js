@@ -1,22 +1,42 @@
-const Factor = require("vue")
-const admin = require("firebase-admin")
-const functions = require("firebase-functions")
-
 const { resolve } = require("path")
-module.exports = FACTOR_CONFIG => {
+
+module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.initialize()
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "endpoint-service",
+        service: () => require("firebase-functions").https.onRequest
+      })
+
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "auth-token-service",
+        service: () => this.authTokenHandler
+      })
+
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "user-role-service-set",
+        service: _ => this.setServiceClaims(_)
+      })
+      Factor.$stack.add({
+        provider: "firebase",
+        id: "user-role-service-get",
+        service: _ => this.getServiceClaims(_)
+      })
+
+      if (Factor.FACTOR_ENV != "build") {
+        this.initialize()
+      }
     }
 
     initialize() {
-      this.adminService = admin
-
-      const that = this
+      this.adminService = require("firebase-admin")
 
       const project = process.env.GCLOUD_PROJECT
 
-      const RC = require(resolve(FACTOR_CONFIG.baseDir, ".firebaserc"))
+      const RC = require(resolve(Factor.FACTOR_CONFIG.baseDir, ".firebaserc"))
 
       let env = "production"
 
@@ -39,15 +59,6 @@ module.exports = FACTOR_CONFIG => {
           Factor.$filters.add("secrets-decrypt-development", decrypt.development)
           Factor.$filters.add("secrets-decrypt-production", decrypt.production)
         }
-
-        // Add the Firebase Functions call that handles the https endpoint requests
-        // This is used by the 'endpoint' class
-        Factor.$filters.add("endpoint-service", () => functions.https.onRequest)
-
-        Factor.$filters.add("auth-token-service", () => that.authTokenHandler)
-
-        Factor.$filters.add("user-role-service-set", _ => that.setServiceClaims(_))
-        Factor.$filters.add("user-role-service-get", _ => that.getServiceClaims(_))
 
         require("@factor/service-firebase-firestore").default(Factor)
       }

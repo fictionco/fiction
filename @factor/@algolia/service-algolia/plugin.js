@@ -1,26 +1,14 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.registerCredentials({
-        scope: "public",
-        title: "Algolia Public Key",
-        description: `Algolia's public search key. Needed to search Algolia from client.`,
+      Factor.$stack.registerProvider({
         provider: "algolia",
-        keys: ["searchKey", "appId"]
+        title: "Algolia",
+        description: "Site search and data indexing.",
+        privateKeys: ["adminKey"],
+        publicKeys: ["searchKey", "appId"]
       })
 
-      const { appId, searchKey } = Factor.$config.settings("algolia") || {}
-
-      if (appId && searchKey) {
-        const algoliasearch = require("algoliasearch")
-        this.prefix = `${Factor.$config.setting("env")}_`
-        this.client = algoliasearch(appId, searchKey)
-
-        this.filters()
-      }
-    }
-
-    filters() {
       Factor.$stack.add({
         provider: "algolia",
         description: "Searches index using Algolia",
@@ -41,6 +29,13 @@ export default Factor => {
         id: "db-service-delete",
         service: _ => this.delete(_)
       })
+
+      const { appId, searchKey } = Factor.$config.settings("algolia") || {}
+
+      const algoliasearch = require("algoliasearch")
+      this.prefix = `${Factor.$config.setting("env")}_`
+
+      this.client = appId && searchKey ? algoliasearch(appId, searchKey) : false
     }
 
     // ENDPOINT

@@ -1,6 +1,22 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.register({
+        id: "user-role-service-get",
+        title: "User Role Getter",
+        description: "Gets the existing roles and access level for user.",
+        args: "Object {uid, roles (possible)}",
+        returns: "Object {role (admin|moderator): true, accessLevel: Number}"
+      })
+
+      Factor.$stack.register({
+        id: "user-role-service-set",
+        title: "User Role Setter",
+        description: "Sets claims/role for user with auth service.",
+        args: "Object { uid, claims: {admin: true} }",
+        returns: "Object (New Claims)"
+      })
+
       this.possibleRoles = require("@factor/cms-user/config.json").roles
     }
 
@@ -12,7 +28,6 @@ module.exports.default = Factor => {
       // Privs are what have been set up
       // Claims are set by us and used to set privs
 
-      console.log("Factor.$headers.auth", Factor.$headers)
       const user = Factor.$headers.auth
 
       if (!user) {
@@ -47,7 +62,7 @@ module.exports.default = Factor => {
       })
 
       // set service privs if needed
-      const existingPrivs = await Factor.$filters.apply("user-role-service-get", {
+      const existingPrivs = await Factor.$stack.service("user-role-service-get", {
         uid,
         roles: this.possibleRoles
       })
@@ -60,7 +75,7 @@ module.exports.default = Factor => {
 
       let out = { userPrivs, user, refresh: false, status: "normal" }
       if (needsToSetNewRole) {
-        await Factor.$filters.apply("user-role-service-set", { uid, claims: userPrivs })
+        await Factor.$stack.service("user-role-service-set", { uid, claims: userPrivs })
         out.status = "new"
         out.refresh = true
       }

@@ -7,8 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "service": "cloud",
-    "provider": "firebase"
+    "//": "This is called in the entry file in the cloud environment."
   },
   "dependencies": {
     "@factor/cloud-extend": "^0.1.8",

@@ -1,15 +1,12 @@
 module.exports = Factor => {
   return new (class {
     constructor() {
-      this.credentials = []
+      this.providers = []
       this.serviceRequests = []
       this.services = []
-      this.values = []
-      this.valueRequests = []
 
-      Factor.$filters.add("plugins-added", () => {
-        // console.log("this.serviceRequests", this.serviceRequests, this.services)
-        this.verifyCredentials()
+      Factor.$filters.add("verify-app", () => {
+        this.verifyProviders()
         this.verifyServices()
       })
     }
@@ -63,29 +60,19 @@ module.exports = Factor => {
       return await Factor.$filters.apply(filter, args)
     }
 
-    // registerValue(args) {
-    //   const { service, id } = args
-    //   Factor.$filters.add(id, service)
-    //   this.values.push(args)
-    // }
-
-    // registerValueRequest(args) {
-    //   this.valueRequests.push(args)
-    // }
-
     verifyServices() {
       this.serviceRequests.forEach(_ => {
         const { id, description, args, result, title } = _
 
-        if (!Factor.$filters.count(id)) {
+        if (Factor.$filters.count(id) == 0) {
           const lines = []
 
-          if (description) lines.push(description)
-          if (args) lines.push(args)
-          if (result) lines.push(result)
+          if (description) lines.push({ title: "Description", value: description })
+          if (args) lines.push({ title: "Arguments", value: args })
+          if (result) lines.push({ title: "Returns", value: result })
 
           const message = {
-            title: `Service Needed: ${title}`,
+            title: `Service Handler Needed: ${title} (${id})`,
             lines
           }
           Factor.$log.formatted(message)
@@ -93,29 +80,49 @@ module.exports = Factor => {
       })
     }
 
-    registerCredentials(args) {
-      this.credentials.push(args)
+    registerProvider(args) {
+      this.providers.push(args)
     }
 
-    verifyCredentials() {
+    verifyProviders() {
       const config = Factor.$config.settings()
 
-      this.credentials.forEach(_ => {
-        const { provider, keys, description, title, scope, link } = _
+      this.providers.forEach(_ => {
+        const { provider, publicKeys, privateKeys, description, title, link } = _
 
-        if (!config[provider] || keys.some(k => typeof config[provider][k] == "undefined")) {
-          const file = scope == "public" ? "factor-config.json" : "factor-secrets.json"
+        const settings = config[provider]
 
+        const groupTitle = `Provider: ${title || Factor.$utils.toLabel(provider)}`
+        const lines = []
+        let verified = true
+
+        lines.push({ title: "Description", value: description })
+        lines.push({ title: "Link", value: link })
+
+        const keys = [{ scope: "public", keys: publicKeys }, { scope: "private", keys: privateKeys }]
+        keys.forEach(({ scope, keys }) => {
+          if (keys && keys.length > 0) {
+            const keysNeeded = []
+            keys.forEach(key => {
+              if (!settings || !settings[key]) {
+                keysNeeded.push(key)
+              }
+            })
+
+            if (keysNeeded.length > 0) {
+              verified = false
+              const file = scope == "public" ? "factor-config.json" : "factor-secrets.json"
+              lines.push({ title: `${Factor.$utils.toLabel(scope)} Config`, value: "" })
+              lines.push({ indent: true, title: "Keys", value: keysNeeded.map(_ => `[${_}]`).join(" ") })
+              lines.push({ indent: true, title: "To Fix", value: `Add under [env]:{${provider}} in [${file}]` })
+            }
+          }
+        })
+
+        if (!verified) {
           const message = {
-            title: `Credentials: ${title}`,
-            lines: [
-              description,
-              `More Info: ${link}`,
-              "Instructions:",
-              `- Add keys: ${keys.map(_ => `[${_}]`).join(" ")}`,
-              `- Under provider (object key): ${provider}`,
-              `- In Factor file: ${file}`
-            ]
+            title: groupTitle,
+            lines
           }
           Factor.$log.formatted(message)
         }

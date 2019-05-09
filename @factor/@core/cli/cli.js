@@ -26,7 +26,7 @@ const cli = async () => {
     }
 
     async extend(args = {}) {
-      const { env = "development", install = false } = args
+      const { env = "development", install = false, serve = false } = args
 
       if (install) {
         await this.runTasks(this.installationTasks, { exitOnError: false })
@@ -34,7 +34,13 @@ const cli = async () => {
 
       Factor.$headers = args
       process.env.NODE_ENV = env
-      return require("@factor/build-extend")(Factor)
+      require("@factor/build-extend")(Factor)
+
+      if (install) {
+        await this.callbacks("verify-app", { env, ...args })
+      }
+
+      return
     }
 
     setupProgram() {
@@ -73,7 +79,7 @@ const cli = async () => {
         .command("serve [env]")
         .description("Create local server")
         .action(async (env = "development", args) => {
-          await this.extend({ env, ...args })
+          await this.extend({ env, ...args, serve: true })
           this.callbacks("create-server", { env, ...args })
         })
 

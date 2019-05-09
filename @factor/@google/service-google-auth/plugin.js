@@ -1,13 +1,13 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.registerCredentials({
-        scope: "public",
-        title: "Google Auth Api",
-        description: `Google's authentication API requires ApiKey (browser) and ClientId. Find in the Google Cloud Console.`,
+      Factor.$stack.registerProvider({
         provider: "google",
+        title: "Google Auth Api",
+        description:
+          "Google's authentication API requires ApiKey (browser) and ClientId. Find in the Google Cloud Console.",
         link: "https://console.developers.google.com/apis/credentials",
-        keys: ["apiKey", "clientId"]
+        publicKeys: ["apiKey", "clientId"]
       })
 
       Factor.$stack.add({

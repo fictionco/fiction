@@ -1,4 +1,5 @@
 const consola = require("consola")
+const chalk = require("chalk")
 const boxen = require("boxen")
 module.exports = Factor => {
   return new (class {
@@ -33,7 +34,23 @@ module.exports = Factor => {
     }
 
     box(msg) {
-      console.log(boxen(msg, { padding: 1 }))
+      console.log(boxen(chalk.bold(msg), { padding: 1, borderStyle: "double" }))
+    }
+
+    formatted({ title, lines }) {
+      const msg = []
+
+      lines.forEach(({ title, value, indent }) => {
+        if (typeof value != "undefined") {
+          const formattedTitle = indent ? "  " + chalk.magentaBright(title) : chalk.bold.cyan(title)
+          msg.push(`${formattedTitle}: ${value}`)
+        }
+      })
+
+      console.group(chalk.bold(title))
+      console.log(msg.join(`\n`))
+      console.log()
+      console.groupEnd()
     }
   })()
 }

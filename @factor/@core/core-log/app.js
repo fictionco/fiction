@@ -43,8 +43,10 @@ module.exports = Factor => {
     formatted({ title, lines }) {
       const msg = []
 
-      lines.forEach(_ => {
-        msg.push(_)
+      lines.forEach(({ title, value }) => {
+        if (typeof value != "undefined") {
+          msg.push(`${title}: ${value}`)
+        }
       })
       console.group(chalk.bold(title))
       console.log(msg.join(`\n`))

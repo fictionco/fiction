@@ -9,8 +9,23 @@ module.exports = (Factor, { baseDir, env, setup }) => {
       Factor.FACTOR_ENV = "cloud"
       Factor.FACTOR_CONFIG = this.config()
       this.setup()
-      this.endpointService = Factor.$filters.apply("endpoint-service")
-      this.bearerTokenService = Factor.$filters.apply("auth-token-service")
+
+      Factor.$stack.register({
+        id: "endpoint-service",
+        description: "Processes endpoint requests (req, res)",
+        args: "",
+        returns: "Function (On http request handler) (req, res) => {}"
+      })
+
+      Factor.$stack.register({
+        id: "auth-token-service",
+        description: "Verifies the authorization of a user calling an endpoint (Bearer token)",
+        args: "ID token (Bearer Token)",
+        returns: "Object (User)"
+      })
+
+      this.endpointService = Factor.$stack.service("endpoint-service")
+      this.bearerTokenService = Factor.$stack.service("auth-token-service")
     }
 
     setup() {

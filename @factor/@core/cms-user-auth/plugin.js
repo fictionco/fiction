@@ -82,7 +82,7 @@ export default Factor => {
       setTimeout(() => {
         if (!this.initialized) {
           Factor.$events.$emit("auth-init", { uid: false })
-          console.warn("[Factor] Auth state didn't initialize.")
+          console.warn("[Auth Service] User auth state was initialized.")
         }
       }, 5000)
     }
