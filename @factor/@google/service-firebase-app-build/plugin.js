@@ -5,6 +5,22 @@ const merge = require("deepmerge")
 export default Factor => {
   return new (class {
     constructor() {
+      Factor.$stack.registerCredentials({
+        scope: "public",
+        title: "Firebase Public Config",
+        description: `Firebase project public config information for use in browser and admin.`,
+        provider: "firebase",
+        keys: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"]
+      })
+
+      Factor.$stack.registerCredentials({
+        scope: "private",
+        title: "Firebase Private Config",
+        description: `Firebase private service account. For use in admin and build environments. Includes several values.`,
+        provider: "firebase",
+        keys: ["serviceAccount"]
+      })
+
       this.appPath = Factor.$paths.get("app")
       this.publicDir = Factor.$paths.folder("dist")
 
@@ -58,8 +74,6 @@ export default Factor => {
         admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
 
         admin.firestore()
-      } else {
-        console.warn(`Can't find your Firebase service account keys. Add to Factor configuration files.`)
       }
     }
 

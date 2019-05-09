@@ -186,10 +186,8 @@ module.exports.default = Factor => {
 
     resolveStaticAssets() {
       const fav = Factor.$paths.resolveFilePath("favicon.png", "static")
-      try {
+      if (fav) {
         this.server.use(favicon(fav))
-      } catch (error) {
-        //Factor.$log.warn(`Couldn't find Favicon @[${fav}]`)
       }
 
       // Global and Static Images/Manifests, etc..

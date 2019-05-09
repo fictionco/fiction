@@ -11,7 +11,9 @@
     "**/generated/**": true,
     "**/cloud/**": true,
     "**/@themes": true,
-    "**/.ref": true
+    "**/.ref": true,
+    "*.lock": true,
+    "*.log": true
   },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [
