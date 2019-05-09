@@ -7,43 +7,31 @@ export default Factor => {
         returns: "Object { idToken, accessToken }"
       })
 
-      Factor.$stack.add({
-        provider: "firebase",
-        id: "auth-signin",
-        description: "Logs in a user with Firebase",
-        service: _ => this.credentialSignin(_)
-      })
-
-      Factor.$stack.add({
-        provider: "firebase",
-        id: "auth-request-bearer-token",
-        description: "Returns firebase user id token.",
-        service: _ => this.getIdToken()
-      })
-
       const firebaseApp = require("@factor/service-firebase-app").default
+
       require("firebase/auth")
 
-      this.client = firebaseApp(Factor).client
+      this.client = firebaseApp(Factor).getClient()
 
-      Factor.$filters.add("after-initialize-app", () => {
-        this.events()
-      })
+      if (this.client) {
+        Factor.$stack.add({
+          provider: "firebase",
+          id: "auth-signin",
+          description: "Logs in a user with Firebase",
+          service: _ => this.credentialSignin(_)
+        })
 
-      this.filters()
-    }
+        Factor.$stack.add({
+          provider: "firebase",
+          id: "auth-request-bearer-token",
+          description: "Returns firebase user id token.",
+          service: _ => this.getIdToken()
+        })
 
-    filters() {
-      // Factor.$filters.addService({
-      //   filter: "auth-signin",
-      //   provider: "firebase",
-      //   service: _ => this.credentialSignin(_)
-      // })
-      // Factor.$filters.addService({
-      //   provider: "firebase",
-      //   filter: "auth-request-bearer-token",
-      //   service: _ => this.getIdToken()
-      // })
+        Factor.$filters.add("after-initialize-app", () => {
+          this.events()
+        })
+      }
     }
 
     async getTokens({ provider }) {

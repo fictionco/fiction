@@ -5,6 +5,22 @@ const merge = require("deepmerge")
 export default Factor => {
   return new (class {
     constructor() {
+      // Webpack can't handle the node targeted firebase-admin package
+      // This allows us to use this plugin in both environments
+      Factor.$filters.add("webpack-ignore-modules", _ => {
+        _.push("firebase-admin")
+        return _
+      })
+
+      // Fix poorly designed Firebase packages
+      // https://github.com/firebase/firebase-js-sdk/pull/1536#issuecomment-473408965
+      Factor.$filters.add("webpack-aliases-server", _ => {
+        const firebaseDir = dirname(require.resolve(`@firebase/app`))
+        _["@firebase/app$"] = resolve(firebaseDir, "index.node.cjs.js")
+
+        return _
+      })
+
       Factor.$stack.registerCredentials({
         scope: "public",
         title: "Firebase Public Config",
@@ -23,15 +39,6 @@ export default Factor => {
 
       this.appPath = Factor.$paths.get("app")
       this.publicDir = Factor.$paths.folder("dist")
-
-      // Fix poorly designed Firebase packages
-      // https://github.com/firebase/firebase-js-sdk/pull/1536#issuecomment-473408965
-      Factor.$filters.add("webpack-aliases-server", _ => {
-        const firebaseDir = dirname(require.resolve(`@firebase/app`))
-        _["@firebase/app$"] = resolve(firebaseDir, "index.node.cjs.js")
-
-        return _
-      })
 
       Factor.$filters.add("cli-tasks", (_, args) => {
         _.push({
@@ -71,6 +78,7 @@ export default Factor => {
 
       const admin = require("firebase-admin")
       if (serviceAccount) {
+        console.log("create build firebase", serviceAccount)
         admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
 
         admin.firestore()

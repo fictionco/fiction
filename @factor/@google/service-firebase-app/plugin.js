@@ -1,17 +1,27 @@
 export default Factor => {
   return new (class {
     constructor() {
+      this.firebaseClientConfig = Factor.$config.setting("firebase")
+
       this.client = require("firebase/app").default
 
       this.initialize()
     }
 
+    getClient() {
+      if (!this.firebaseClientConfig) {
+        return false
+      } else {
+        return this.client
+      }
+    }
+
     initialize() {
-      // Start Client Firebase Instance
-      if (!this.client.apps || this.client.apps.length == 0) {
+      const { apps } = this.client
+
+      if (!apps || apps.length == 0) {
         try {
-          this.client.initializeApp(Factor.$config.setting("firebase"))
-          //Factor.$events.$emit("firebase-init", this.client)
+          this.client.initializeApp(this.firebaseClientConfig)
         } catch (error) {
           console.error("Error initializing Firebase", error)
         }
