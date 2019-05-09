@@ -170,7 +170,8 @@ export default {
       loading: true,
       nav: [],
       headers: [],
-      allHeaders: []
+      allHeaders: [],
+      clicked: false
     }
   },
   computed: {

@@ -7,25 +7,28 @@ module.exports = (Factor, { baseDir, env, setup }) => {
   return new (class {
     constructor() {
       Factor.FACTOR_ENV = "cloud"
+      Factor.FACTOR_CONFIG = this.config()
       this.setup()
       this.endpointService = Factor.$filters.apply("endpoint-service")
       this.bearerTokenService = Factor.$filters.apply("auth-token-service")
     }
 
     setup() {
-      Factor.config.productionTip = false
-      Factor.config.devtools = false
-      Factor.config.silent = true
-
       this.addCoreExtension("filters", require("@factor/filters"))
 
-      Factor.FACTOR_CONFIG = this.config()
+      this.addCoreExtension("stackBuild", require("@factor/core-stack/build"))
+      this.addCoreExtension("stack", require("@factor/core-stack"))
+
+      if (typeof setup == "function") {
+        setup()
+      }
 
       this.addCoreExtension("paths", require("@factor/build-paths"))
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
-      this.addCoreExtension("stack", require("@factor/core-stack/build"))
+
       this.addCoreExtension("keys", require("@factor/build-keys"))
       this.addCoreExtension("files", require("@factor/build-files"))
+
       this.addCoreExtension("config", require("@factor/cloud-config"))
       this.insertLoadedExtensions()
     }
@@ -50,9 +53,9 @@ module.exports = (Factor, { baseDir, env, setup }) => {
     }
 
     config() {
-      if (typeof setup == "function") {
-        setup()
-      }
+      Factor.config.productionTip = false
+      Factor.config.devtools = false
+      Factor.config.silent = true
 
       let { factor: USER_CONFIG = {} } = require(resolve(baseDir, "package"))
 
