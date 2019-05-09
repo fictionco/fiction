@@ -1,7 +1,11 @@
 <template>
   <div class="page-docs">
     <section class="docs-wrap">
-      <div v-if="toggle" class="docs-sidebar" :class="toggle ? 'toggle-nav' : 'toggle-main'">
+      <!-- <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
+         <p>Nav Toggle Placeholder - need to make sidebar nav component to add here</p>
+      </div>-->
+
+      <div class="docs-sidebar" @click.stop>
         <div ref="nav" class="sidebar-inner">
           <h2 class="title">Guide</h2>
 
@@ -40,7 +44,7 @@
         <div class="content">
           <div class="mobile-nav-toggle-wrap" @click.stop>
             <div class="mobile-nav-toggle" @click="toggleNav()">
-              <factor-icon icon="bars" />
+              <factor-icon icon="bars" />Menu
             </div>
           </div>
           <div ref="content" v-formatted-text="getMarkdown()" />
@@ -60,7 +64,7 @@ export default {
     return {
       loading: true,
       activeRoute: this.$route.path,
-      toggle: false,
+      toggle: true,
       nav: [],
       headers: [],
       allHeaders: [],
@@ -303,9 +307,52 @@ export default {
       font-weight: 800;
     }
   }
+  // Mobile Nav
+  .mobile-nav {
+    display: block;
+    &.toggle-nav {
+      display: block;
+    }
+    @media (max-width: 960px) {
+      display: none;
+      position: fixed;
+      width: 350px;
+      padding: 1.5em;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      min-height: 100vh;
+      z-index: 100;
+
+      overflow-y: scroll;
+      background: #fff;
+      box-shadow: var(--pane-shadow);
+      // transform: translate3d(-100%, 0, 0);
+      // transition: transform 0.1s ease-out;
+      &.active {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+  }
+  .mobile-nav-toggle {
+    display: none;
+    cursor: pointer;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    &:hover {
+      color: var(--color-primary);
+    }
+    i {
+      margin-right: 5px;
+    }
+    @media (max-width: 767px) {
+      display: block;
+    }
+  }
+
   // Docs Sidebar
   .docs-sidebar {
-    display: none;
     position: fixed;
     top: 45px;
     left: 0;
@@ -315,8 +362,13 @@ export default {
     height: 100vh;
     padding-bottom: 5em;
 
-    &.toggle-nav {
+    @media (max-width: 767px) {
       display: block;
+      z-index: 10;
+      top: 0;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0, 1);
       transform: translate(0, 0);
     }
 
@@ -324,18 +376,7 @@ export default {
       width: 340px;
       padding: 40px 20px 60px 60px;
     }
-    @media (max-width: 767px) {
-      z-index: 10;
-      top: 0;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0, 1);
-      transform: translate(-340px, 0);
-      .sidebar-inner {
-        width: 290px;
-        padding: 30px;
-      }
-    }
+
     // All Lists
     ul {
       line-height: 1.6em;
@@ -450,10 +491,6 @@ export default {
       overflow-x: scroll;
       margin-bottom: 1em;
     }
-    // code {
-    //   padding: 2px 7px;
-    //   background: #f8f8f8;
-    // }
     hr {
       margin-top: 20px;
       margin-bottom: 20px;
