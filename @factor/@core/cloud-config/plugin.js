@@ -1,5 +1,5 @@
 const merge = require("deepmerge")
-
+const { existsSync } = require("fs-extra")
 module.exports = Factor => {
   return new (class {
     constructor() {
@@ -12,7 +12,12 @@ module.exports = Factor => {
     }
 
     initialize() {
-      let publicConfig = require(Factor.$paths.get("config-file"))
+      let publicConfig = {}
+      const configFilePath = Factor.$paths.get("config-file")
+
+      if (existsSync(configFilePath)) {
+        publicConfig = require(configFilePath)
+      }
 
       const privateConfig = Factor.$keys.readEncrypted(this.env)
 

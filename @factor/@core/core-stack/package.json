@@ -12,6 +12,8 @@
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
+    "deepmerge": "^3.2.0",
+    "fs-extra": "^7.0.1",
     "inquirer": "^6.3.1"
   }
 }

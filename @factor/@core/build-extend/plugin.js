@@ -19,10 +19,11 @@ module.exports = Factor => {
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
       this.addCoreExtension("stack", require("@factor/core-stack"))
 
+      this.addCoreExtension("config", require("@factor/cloud-config"))
+
       // This loads in different files based on name inside stack folders, needs to be refactored out/changed
       // (The reason it is needed is that different stack environments need different code)
       this.addCoreExtension("stackBuild", require("@factor/core-stack/build"))
-      this.addCoreExtension("config", require("@factor/cloud-config"))
 
       const transpiler = require("@factor/build-transpiler")(Factor)
 

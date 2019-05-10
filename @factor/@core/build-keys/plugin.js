@@ -156,7 +156,7 @@ module.exports = Factor => {
 
       if (filterPassword) {
         return password
-      } else if (rawSecrets && rawSecrets[environment].encrypt) {
+      } else if (rawSecrets && rawSecrets[environment] && rawSecrets[environment].encrypt) {
         return rawSecrets[environment].encrypt
       } else if (decryptor && decryptor[environment]) {
         return decryptor[environment]
