@@ -12,6 +12,7 @@
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
     "boxen": "^3.1.0",
-    "chalk": "^2.4.2"
+    "chalk": "^2.4.2",
+    "figures": "^3.0.0"
   }
 }

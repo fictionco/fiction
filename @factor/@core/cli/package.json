@@ -17,6 +17,7 @@
     "consola": "^2.6.1",
     "execa": "^1.0.0",
     "expand-tilde": "^2.0.2",
+    "figures": "^3.0.0",
     "get-stream": "^5.1.0",
     "listr": "^0.14.3",
     "opener": "^1.5.1",

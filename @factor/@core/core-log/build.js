@@ -1,12 +1,21 @@
 const consola = require("consola")
 const chalk = require("chalk")
 const boxen = require("boxen")
+const figures = require("figures")
+
 module.exports = Factor => {
   return new (class {
-    constructor() {}
+    constructor() {
+      this.logger = consola.create({
+        level: 5,
+        defaults: {
+          additionalColor: "white"
+        }
+      })
+    }
 
     util(type, params) {
-      consola[type].apply(null, params)
+      this.logger[type].apply(null, params)
     }
 
     custom({ type, params, target }) {
@@ -37,17 +46,29 @@ module.exports = Factor => {
       console.log(boxen(chalk.bold(msg), { padding: 1, borderStyle: "double" }))
     }
 
-    formatted({ title, lines }) {
+    formatted({ title, lines, format = false, box = true }) {
       const msg = []
 
       lines.forEach(({ title, value, indent }) => {
         if (typeof value != "undefined") {
-          const formattedTitle = indent ? "  " + chalk.magentaBright(title) : chalk.bold.cyan(title)
+          const formattedTitle = indent ? "  " + chalk.cyan(title) : chalk.bold(title)
           msg.push(`${formattedTitle}: ${value}`)
         }
       })
 
-      console.group(chalk.bold(title))
+      let prefix = chalk.white(figures.pointer)
+
+      if (format == "warn") {
+        prefix = chalk.yellow(figures.warning)
+      } else if (format == "error") {
+        prefix = chalk.red(figures.cross)
+      } else if (format == "success") {
+        prefix = chalk.green(figures.tick)
+      }
+
+      const ttl = `${prefix} ${chalk.bold(title)}`
+      console.log()
+      console.group(ttl)
       console.log(msg.join(`\n`))
       console.log()
       console.groupEnd()

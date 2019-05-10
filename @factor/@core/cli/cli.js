@@ -167,7 +167,7 @@ const cli = async () => {
       const r = Factor.$filters.apply(`cli-runners`, [
         {
           command: `factor serve ${process.env.NODE_ENV}`,
-          name: "Dev"
+          name: "Dev Server"
         }
       ])
 
@@ -215,9 +215,11 @@ const cli = async () => {
 
     async startRunners(r) {
       const chalk = require("chalk")
-
+      const figures = require("figures")
       r.forEach(_ => {
-        Factor.$log.success(`Starting: "${_.command}"`)
+        console.log()
+        Factor.$log.success(`Starting: ${chalk.bold(_.command)}`)
+        console.log()
       })
 
       r = r.map(_ => {
@@ -226,7 +228,7 @@ const cli = async () => {
 
       try {
         await concurrently(r, {
-          prefix: chalk.bold(`{name}`) + " >",
+          prefix: chalk.bold(`{name}`) + " " + figures.arrowRight,
           prefixLength: 8
         })
         Factor.$log.box("Factor CLI Exited.")

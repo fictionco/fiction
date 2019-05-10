@@ -25,8 +25,9 @@ export default Factor => {
         provider: "firebase",
         title: "Firebase",
         description: "Datastore, hosting, cloud functions, file storage.",
-        privateKeys: ["serviceAccount"],
-        publicKeys: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"]
+        privateKeys: [{ key: "serviceAccount", input: "object" }],
+        publicKeys: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"],
+        multiEnv: true
       })
 
       this.appPath = Factor.$paths.get("app")
