@@ -1,6 +1,7 @@
 {
-  "name": "<%= name %>",
+  "name": "<%= urlName %>",
   "version": "1.0.0",
+  "homepage": "<%= url %>",
   "description": "<%= description %>",
   "author": "<%= author %>",
   "private": true,
