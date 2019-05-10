@@ -7,17 +7,22 @@ const validate = require("validate-npm-package-name")
 
 const rootDir = __dirname
 
-module.exports = {
+const config = {
   prompts: [
     {
       name: "name",
-      message: "Project name (Url Safe)",
+      message: "Project Title",
       default: "{outFolder}"
     },
     {
       name: "description",
       message: "Project description",
       default: `My ${superb()} Factor project`
+    },
+    {
+      name: "url",
+      message: "Project URL",
+      default: ``
     },
     {
       name: "author",
@@ -28,22 +33,20 @@ module.exports = {
     }
   ],
   templateData() {
-    return {}
+    const urlName = config.slugify(this.answers.name)
+    return { urlName }
+  },
+  slugify(text) {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, "-") // Replace spaces with -
+      .replace(/[^\w\-]+/g, "") // Remove all non-word chars
+      .replace(/\-\-+/g, "-") // Replace multiple - with single -
+      .replace(/^-+/, "") // Trim - from start of text
+      .replace(/-+$/, "") // Trim - from end of text
   },
   actions() {
-    const validation = validate(this.answers.name)
-
-    validation.warnings &&
-      validation.warnings.forEach(warn => {
-        console.warn("Warning:", warn)
-      })
-    validation.errors &&
-      validation.errors.forEach(err => {
-        console.error("Error:", err)
-      })
-
-    validation.errors && validation.errors.length && process.exit(1)
-
     const actions = [
       {
         type: "add",
@@ -91,3 +94,5 @@ module.exports = {
     console.log(`\thttps://factor.fiction.com/\n`)
   }
 }
+
+module.exports = config

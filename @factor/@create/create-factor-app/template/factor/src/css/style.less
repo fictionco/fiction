@@ -1,10 +1,16 @@
+@import "./normalize";
+
 html {
-  line-height: 1.15; /* 1 */
-  -webkit-text-size-adjust: 100%; /* 2 */
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
 }
+
 body {
   margin: 0;
 }
+
 h1,
 h2,
 h3,
@@ -25,4 +31,13 @@ h6 {
 
   font-family: var(--font-primary);
   color: var(--color-text);
+
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-secondary);
+    }
+  }
 }
