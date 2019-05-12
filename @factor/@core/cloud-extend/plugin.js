@@ -8,8 +8,12 @@ module.exports = (Factor, { baseDir, env, setup }) => {
     constructor() {
       Factor.FACTOR_ENV = "cloud"
       Factor.FACTOR_CONFIG = this.config()
-      this.setup()
+      this.isSetup
 
+      this.setup()
+    }
+
+    services() {
       Factor.$stack.register({
         id: "endpoint-service",
         description: "Processes endpoint requests (req, res)",
@@ -24,8 +28,9 @@ module.exports = (Factor, { baseDir, env, setup }) => {
         returns: "Object (User)"
       })
 
-      this.endpointService = Factor.$stack.service("endpoint-service")
-      this.bearerTokenService = Factor.$stack.service("auth-token-service")
+      this.endpointService = Factor.$stack.serviceValue("endpoint-service")
+
+      this.bearerTokenService = Factor.$stack.serviceValue("auth-token-service")
     }
 
     setup() {
@@ -34,10 +39,6 @@ module.exports = (Factor, { baseDir, env, setup }) => {
       this.addCoreExtension("stackBuild", require("@factor/core-stack/build"))
       this.addCoreExtension("stack", require("@factor/core-stack"))
 
-      if (typeof setup == "function") {
-        setup()
-      }
-
       this.addCoreExtension("paths", require("@factor/build-paths"))
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
 
@@ -45,6 +46,11 @@ module.exports = (Factor, { baseDir, env, setup }) => {
       this.addCoreExtension("files", require("@factor/build-files"))
 
       this.addCoreExtension("config", require("@factor/cloud-config"))
+      if (typeof setup == "function") {
+        setup()
+
+        this.services()
+      }
       this.insertLoadedExtensions()
     }
 
