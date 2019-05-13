@@ -90,7 +90,7 @@ module.exports = Factor => {
     }
 
     async runSetup() {
-      Factor.$stack.getProviders()
+      let answers
     }
 
     async cli() {

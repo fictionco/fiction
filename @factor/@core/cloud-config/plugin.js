@@ -28,7 +28,7 @@ module.exports = Factor => {
           conf = require(configFilePath)
         }
       }
-      return conf
+      return conf || {}
     }
 
     initialize() {
