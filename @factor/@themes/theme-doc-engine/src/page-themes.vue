@@ -47,17 +47,17 @@
           </div>
           <div class="item">
             <div class="item-top">
-              <app-link path="/themes/alpha">
+              <app-link path="/themes/cicero">
                 <img :src="require(`./img/theme-alpha.jpg`)" alt="Alpha Theme">
               </app-link>
             </div>
             <div class="item-bottom">
               <div>
                 <h3 class="title">
-                  <app-link path="/themes/alpha">Alpha</app-link>
+                  <app-link path="/themes/cicero">Cicero</app-link>
                 </h3>
                 <span class="category">
-                  <app-link path="/themes/category/portfolio-and-blog">Portfolio &amp; Blog</app-link>
+                  <app-link path="/themes/category/landing-and-corporate">Landing &amp; Corporate</app-link>
                 </span>
               </div>
               <div>
@@ -165,7 +165,7 @@ export default {
   .items-wrap {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 1em;
+    grid-column-gap: 2em;
     @media (max-width: 767px) {
       display: block;
     }
