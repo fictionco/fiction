@@ -46,7 +46,7 @@ module.exports = Factor => {
       console.log(boxen(chalk.bold(msg), { padding: 1, borderStyle: "double" }))
     }
 
-    formatted({ title, lines, format = false, box = true }) {
+    formatted({ title, lines = [], format = false, box = true }) {
       const msg = []
 
       lines.forEach(({ title, value, indent }) => {

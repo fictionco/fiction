@@ -4,7 +4,7 @@ module.exports = Factor => {
   return new (class {
     settings() {
       const publicSettings = process.env.FACTOR_APP_CONFIG
-      console.log("public", publicSettings)
+
       return publicSettings
       // let publicConfig = this.getPublicConfig()
 
