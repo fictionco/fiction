@@ -20,28 +20,29 @@
         <div class="sidebar">
           <h3 class="title">Categories</h3>
           <ul class="list-categories">
-            <li v-for="(item, itemIndex) in normalizedNav" :key="itemIndex">
-              <factor-link :path="`/plugins/${item.slug}`">{{ item.name }}</factor-link>
-              <div v-if="item.slug == activePath">
-                <li v-for="(h2, indexParent) in headers" :key="indexParent">
-                  <a
-                    class="nav-link parent"
-                    :href="h2.anchor"
-                    :class="$route.hash == h2.anchor ? 'active' : 'not'"
-                    @click="clicked=true"
-                  >{{ h2.text }}</a>
-                  <ul v-if="h2.sub.length">
-                    <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
-                      <a
-                        class="nav-link sub"
-                        :class="$route.hash == h3.anchor ? 'active' : 'not'"
-                        :href="h3.anchor"
-                        @click="clicked=true"
-                      >{{ h3.text }}</a>
-                    </li>
-                  </ul>
-                </li>
-              </div>
+            <li>
+              <app-link path="/plugins">All</app-link>
+            </li>
+            <li>
+              <app-link path="/plugins/monitoring">Monitoring</app-link>
+            </li>
+            <li>
+              <app-link path="/plugins/payment">Payment</app-link>
+            </li>
+            <li>
+              <app-link path="/plugins/emailing">Emailing</app-link>
+            </li>
+            <li>
+              <app-link path="/plugins/search">Search</app-link>
+            </li>
+            <li>
+              <app-link path="/plugins/admin">Admin</app-link>
+            </li>
+            <li>
+              <app-link path="/plugins/security">Security</app-link>
+            </li>
+            <li>
+              <app-link path="/plugins/maps">Maps</app-link>
             </li>
           </ul>
         </div>
@@ -212,10 +213,6 @@ export default {
       ]
 
       return nav
-    },
-    getMarkdown() {
-      let filename = this.pluginsPage
-      return require(`./plugins/${filename}.md`)
     }
   },
   metatags() {

@@ -299,6 +299,13 @@ module.exports.default = Factor => {
             "process.env.FACTOR_SSR": JSON.stringify(args.target),
             "process.env.FACTOR_CONFIG": JSON.stringify(Factor.$config.settings())
           })
+          // function() {
+          //   this.plugin("done", function(stats) {
+          //     if (stats.compilation.errors && stats.compilation.errors.length) {
+          //       console.log(stats.compilation.errors)
+          //     }
+          //   })
+          // }
         ],
         stats: { children: false }
       }

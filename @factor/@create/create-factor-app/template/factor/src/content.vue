@@ -35,7 +35,7 @@
           <h2 class="title">Themes</h2>
           <p
             class="content"
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          >Themes built for developers. Component-based themes designed and built by or reviewed by the Factor team.</p>
           <factor-link path="https://factor.fiction.com/themes" target="_blank">
             View Themes
             <factor-icon icon="arrow-right" />
@@ -57,7 +57,7 @@
           <h2 class="title">Plugins</h2>
           <p
             class="content"
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          >Factor plugins are NPM packages that you can install to any project. This is currently a small, but growing library.</p>
           <factor-link path="https://factor.fiction.com/plugins" target="_blank">
             View Plugins
             <factor-icon icon="arrow-right" />

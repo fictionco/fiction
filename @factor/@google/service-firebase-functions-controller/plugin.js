@@ -3,6 +3,14 @@ const { resolve } = require("path")
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      if (Factor.FACTOR_ENV != "build") {
+        this.initialize()
+      } else {
+        this.stack()
+      }
+    }
+
+    stack() {
       Factor.$stack.add({
         provider: "firebase",
         id: "endpoint-service",
@@ -25,10 +33,6 @@ module.exports.default = Factor => {
         id: "user-role-service-get",
         service: _ => this.getServiceClaims(_)
       })
-
-      if (Factor.FACTOR_ENV != "build") {
-        this.initialize()
-      }
     }
 
     initialize() {
@@ -53,17 +57,17 @@ module.exports.default = Factor => {
       // Setup items should run after initialization
       // This is a callback
       const setup = () => {
-        const { decrypt } = functions.config().factor || {}
+        this.stack()
+
+        const { decrypt } = require("firebase-functions").config().factor || {}
 
         if (decrypt) {
           Factor.$filters.add("secrets-decrypt-development", decrypt.development)
           Factor.$filters.add("secrets-decrypt-production", decrypt.production)
         }
-
-        require("@factor/service-firebase-firestore").default(Factor)
       }
 
-      const baseDir = FACTOR_CONFIG.baseDir
+      const { baseDir } = Factor.FACTOR_CONFIG
 
       this.endpointHandler = require("@factor/cloud-extend")(Factor, { baseDir, env, setup })
 
@@ -72,18 +76,23 @@ module.exports.default = Factor => {
       } = Factor.$config.settings()
 
       if (serviceAccount) {
-        admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
+        this.adminService.initializeApp({
+          credential: this.adminService.credential.cert(serviceAccount),
+          databaseURL
+        })
 
-        admin.firestore()
+        this.adminService.firestore()
       } else {
         console.warn(`Can't find your Firebase service account keys. Add to Factor configuration files.`)
       }
+
+      require("@factor/service-firebase-firestore").default(Factor)
 
       return Factor
     }
 
     async authTokenHandler(token) {
-      let user = await admin.auth().verifyIdToken(token)
+      let user = await this.adminService.auth().verifyIdToken(token)
 
       // Change to camel case for consistency
       user.emailVerified = user.email_verified

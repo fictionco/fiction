@@ -76,7 +76,6 @@ export default Factor => {
 
       const admin = require("firebase-admin")
       if (serviceAccount) {
-        console.log("create build firebase", serviceAccount)
         admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
 
         admin.firestore()
