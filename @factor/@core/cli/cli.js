@@ -135,7 +135,7 @@ const cli = async () => {
       const { args } = this.program
       //  console.log("----PROG", this.program.args.forEach(_ => console.log(typeof _)))
       if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
-        Factor.$log.box("No commands found. Use 'factor help' for info on using the CLI")
+        console.log("No commands found. Use 'factor help' for info on using the CLI")
       }
 
       return this.program

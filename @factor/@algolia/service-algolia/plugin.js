@@ -5,8 +5,11 @@ export default Factor => {
         provider: "algolia",
         title: "Algolia",
         description: "Site search and data indexing.",
-        privateKeys: ["adminKey"],
-        publicKeys: ["searchKey", "appId"]
+        settings: {
+          group: "algolia",
+          secrets: ["adminKey"],
+          config: ["searchKey", "appId"]
+        }
       })
 
       Factor.$stack.add({

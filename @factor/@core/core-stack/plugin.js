@@ -89,6 +89,10 @@ module.exports = Factor => {
       this.providers.push(args)
     }
 
+    getProviders() {
+      return this.providers
+    }
+
     verifyProviders({ log = false } = {}) {
       const config = Factor.$config.settings()
       let needed = 0

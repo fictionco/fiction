@@ -7,7 +7,10 @@ export default Factor => {
         description:
           "Google's authentication API requires ApiKey (browser) and ClientId. Find in the Google Cloud Console.",
         link: "https://console.developers.google.com/apis/credentials",
-        publicKeys: ["apiKey", "clientId"]
+        settings: {
+          group: "google",
+          config: ["apiKey", "clientId"]
+        }
       })
 
       Factor.$stack.add({

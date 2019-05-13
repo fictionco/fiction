@@ -22,12 +22,17 @@ export default Factor => {
       })
 
       Factor.$stack.registerProvider({
-        provider: "firebase",
         title: "Firebase",
         description: "Datastore, hosting, cloud functions, file storage.",
-        privateKeys: [{ key: "serviceAccount", input: "object" }],
-        publicKeys: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"],
-        multiEnv: true
+        settings: {
+          group: "firebase",
+          secrets: [
+            { key: "serviceAccount", input: "editor", message: "Your Firebase/Google Service Account key (JSON)." }
+          ],
+          config: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"],
+          envs: "multi"
+        },
+        provider: "firebase"
       })
 
       this.appPath = Factor.$paths.get("app")
