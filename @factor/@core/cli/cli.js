@@ -104,6 +104,19 @@ const cli = async () => {
         })
 
       this.program
+        .command("setup [filter]")
+        .description("Setup and verify your Factor app")
+        .action(async (filter, args) => {
+          const { parent, ...rest } = args
+          const params = { env: "development", ...parent, ...rest, install: true }
+
+          filter = filter || "setup"
+
+          await this.extend(params)
+          await this.callbacks(`cli-${filter}`, params)
+        })
+
+      this.program
         .command("run <filter>")
         .description("Run CLI utilities based on filter name (see documentation)")
         .option("-f, --file <file path>", "Path to a file (relative to cwd)")
@@ -117,7 +130,7 @@ const cli = async () => {
           await this.extend(params)
           try {
             await this.callbacks(`cli-${filter}`, params)
-            Factor.$log.success(`Successfully ran "${filter}"`)
+            Factor.$log.success(`Successfully ran "${filter}"\n\n`)
           } catch (error) {
             Factor.$log.error(error)
           }

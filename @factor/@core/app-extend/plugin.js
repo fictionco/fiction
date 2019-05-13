@@ -1,7 +1,6 @@
-export default (Factor, FACTOR_CONFIG, target) => {
+export default (Factor, target) => {
   return new (class {
     constructor() {
-      Factor.$theme = Factor.FACTOR_CONFIG.theme || false
       this.setup()
     }
 

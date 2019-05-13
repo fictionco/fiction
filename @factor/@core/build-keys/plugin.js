@@ -3,42 +3,36 @@ const fs = require("fs-extra")
 module.exports = Factor => {
   return new (class {
     constructor() {
-      const conf = Factor.$paths.get("config")
-
-      const res = require("path").resolve
-
-      Factor.$paths.add({
-        "config-file": res(conf, "factor-config.json"),
-        "secrets-file": res(conf, "factor-secrets.json"),
-        "secrets-encrypted-development": res(conf, "secrets-encrypted-development.json"),
-        "secrets-encrypted-production": res(conf, "secrets-encrypted-production.json"),
-        decryptor: res(conf, "factor-decryptor.json")
-      })
-
-      this.pathRaw = Factor.$paths.get("secrets-file")
-      this.pathDecryptor = Factor.$paths.get("decryptor")
-      this.pathEncProduction = Factor.$paths.get("secrets-encrypted-production")
-      this.pathEncDevelopment = Factor.$paths.get("secrets-encrypted-development")
-
-      this.doWatchers()
-
-      Factor.$filters.add("cli-tasks", _ => {
-        _.push({
-          command: (ctx, task) => {
-            task.title = this.analyzeKeys("development")
-          },
-          title: `Analyzing "development" private keys`
-        })
-
-        _.push({
-          command: (ctx, task) => {
-            task.title = this.analyzeKeys("production")
-          },
-          title: `Analyzing "production" private keys`
-        })
-
-        return _
-      })
+      // const conf = Factor.$paths.get("config")
+      // const res = require("path").resolve
+      // Factor.$paths.add({
+      //   "config-file": res(conf, "factor-config.json"),
+      //   "secrets-file": res(conf, "factor-secrets.json"),
+      //   "secrets-encrypted-development": res(conf, "secrets-encrypted-development.json"),
+      //   "secrets-encrypted-production": res(conf, "secrets-encrypted-production.json"),
+      //   decryptor: res(conf, "factor-decryptor.json")
+      // })
+      // this.pathRaw = Factor.$paths.get("secrets-file")
+      // this.pathDecryptor = Factor.$paths.get("decryptor")
+      // this.pathEncProduction = Factor.$paths.get("secrets-encrypted-production")
+      // this.pathEncDevelopment = Factor.$paths.get("secrets-encrypted-development")
+      // Factor.$filters.add("factor-config")
+      //this.doWatchers()
+      // Factor.$filters.add("cli-tasks", _ => {
+      //   _.push({
+      //     command: (ctx, task) => {
+      //       task.title = this.analyzeKeys("development")
+      //     },
+      //     title: `Analyzing "development" private keys`
+      //   })
+      //   _.push({
+      //     command: (ctx, task) => {
+      //       task.title = this.analyzeKeys("production")
+      //     },
+      //     title: `Analyzing "production" private keys`
+      //   })
+      //   return _
+      // })
     }
 
     file(p) {

@@ -59,6 +59,9 @@ module.exports = Factor => {
       _.generated = resolve(this.baseDir, this.folder("generated"))
       _.config = resolve(this.baseDir)
 
+      _["config-file-public"] = resolve(_.config, "factor-config.json")
+      _["config-file-private"] = resolve(_.config, "factor-secrets.json")
+
       _.static = resolve(_.source, "static")
 
       _.modules = this.getModulesFolders()

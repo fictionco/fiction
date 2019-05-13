@@ -293,12 +293,13 @@ module.exports.default = Factor => {
         plugins: [
           new CopyPlugin(Factor.$filters.apply("webpack-copy-files-config", [])),
           new VueLoaderPlugin(),
-          new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
-            "process.env.VUE_ENV": JSON.stringify(args.target),
-            "process.env.FACTOR_SSR": JSON.stringify(args.target),
-            "process.env.FACTOR_CONFIG": JSON.stringify(Factor.$config.settings())
-          })
+          new webpack.DefinePlugin(
+            Factor.$filters.apply("webpack-define", {
+              "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
+              "process.env.VUE_ENV": JSON.stringify(args.target),
+              "process.env.FACTOR_SSR": JSON.stringify(args.target)
+            })
+          )
           // function() {
           //   this.plugin("done", function(stats) {
           //     if (stats.compilation.errors && stats.compilation.errors.length) {

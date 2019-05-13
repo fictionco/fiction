@@ -7,7 +7,7 @@ import { createRouter } from "@factor/app-router"
 
 export default ({ target }) => {
   // Extend with plugins, happens before router and store so we can add hooks for them
-  const loader = extendApp(Factor, process.env.FACTOR_CONFIG, target)
+  const loader = extendApp(Factor, target)
 
   loader.initializeApp()
 

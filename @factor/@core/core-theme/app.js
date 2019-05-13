@@ -1,17 +1,15 @@
 module.exports = Factor => {
-  return new class {
+  return new (class {
     constructor() {
-      const { theme } = Factor.FACTOR_CONFIG
-
-      if (!theme) {
-        return
-      }
-
-      this.themePackageName = theme
+      // const { theme } = Factor.FACTOR_APP_CONFIG
+      // if (!theme) {
+      //   return
+      // }
+      // this.themePackageName = theme
     }
 
     package() {
-      return this.themePackageName
+      // return this.themePackageName
     }
-  }()
+  })()
 }

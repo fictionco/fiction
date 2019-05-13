@@ -26,7 +26,7 @@ export default Factor => {
 
       this.cloudPackages = require(Factor.$paths.get("plugins-loader-cloud"))
 
-      this.watchPaths = [Factor.$paths.get("config-file"), Factor.$paths.get("secrets-file")]
+      this.watchPaths = [Factor.$paths.get("config-file-public"), Factor.$paths.get("config-file-private")]
       this.dependencies = {}
       this.localDependencies = {}
       this.addConfig()

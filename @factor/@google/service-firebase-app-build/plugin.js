@@ -21,13 +21,40 @@ export default Factor => {
         return _
       })
 
+      // validate: value => {
+      //   if (typeof value != "object") {
+      //     return "The answer must be readable as valid JSON."
+      //   } else {
+      //     return true
+      //   }
+      // },
+      // filter: value => {
+      //   return JSON.parse(value)
+      // }
+
       Factor.$stack.registerProvider({
         title: "Firebase",
         description: "Datastore, hosting, cloud functions, file storage.",
         settings: {
           group: "firebase",
           secrets: [
-            { key: "serviceAccount", input: "editor", message: "Your Firebase/Google Service Account key (JSON)." }
+            {
+              key: "serviceAccount",
+              input: "editor",
+              message: "Your Firebase/Google Service Account key (JSON)",
+              parsers: {
+                validate: v => {
+                  if (typeof v != "object") {
+                    return "The answer must be readable as valid JSON."
+                  } else {
+                    return true
+                  }
+                },
+                filter: v => {
+                  return JSON.parse(v)
+                }
+              }
+            }
           ],
           config: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"],
           envs: "multi"
@@ -94,7 +121,7 @@ export default Factor => {
         development: { firebase: { projectId: devProject } = {} } = {},
         production: { firebase: { projectId: prodProject } = {} } = {},
         config: { firebase: { projectId: allProject = "" } = {} } = {}
-      } = require(Factor.$paths.get("config-file"))
+      } = require(Factor.$paths.get("config-file-public"))
 
       const { firebaserc = {} } = Factor.$config.setting("firebase") || {}
 

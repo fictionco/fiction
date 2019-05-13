@@ -8,35 +8,54 @@ module.exports = Factor => {
           ? "development"
           : "production"
 
+      // Match the public config to what is available in the webpack app
+      // Should NOT include private/secret config
+      Factor.$filters.add("webpack-define", _ => {
+        _["process.env.FACTOR_APP_CONFIG"] = JSON.stringify(this.publicSettings())
+        return _
+      })
+
       this.initialize()
     }
 
-    initialize() {
-      let publicConfig = {}
-      const configFilePath = Factor.$paths.get("config-file")
+    getConfig(scope) {
+      const configId = `config-${scope}`
+      let conf = Factor.$filters.apply(configId, null, { env: this.env })
 
-      if (existsSync(configFilePath)) {
-        publicConfig = require(configFilePath)
+      if (!conf) {
+        const configFilePath = Factor.$paths.get(`config-file-${scope}`)
+        if (existsSync(configFilePath)) {
+          conf = require(configFilePath)
+        }
       }
+      return conf
+    }
 
-      const privateConfig = Factor.$keys.readEncrypted(this.env)
+    initialize() {
+      const publicConfig = this.getConfig("public")
+      const privateConfig = this.getConfig("private")
 
-      const configObjects = [
+      const configObjectsPublic = [
         Factor.FACTOR_CONFIG,
-        publicConfig[this.env],
         publicConfig.config,
-        privateConfig[this.env],
-        privateConfig.config,
+        publicConfig[this.env],
         {
-          env: this.env
+          env: this.env,
+          url: this.getSiteUrl(this._settingsPublic)
         }
       ].filter(_ => _)
 
-      const mergedConfig = merge.all(configObjects)
+      this._settingsPublic = merge.all(configObjectsPublic)
+      this._settingsPublic.url = this.getSiteUrl(this._settingsPublic)
 
-      mergedConfig.url = this.getSiteUrl(mergedConfig)
+      const configObjectsPrivate = [privateConfig.config, privateConfig[this.env]].filter(_ => _)
+      this._settingsPrivate = merge.all(configObjectsPrivate)
 
-      this._settings = mergedConfig
+      this._settings = merge.all([this._settingsPublic, this._settingsPrivate])
+    }
+
+    publicSettings() {
+      return this._settingsPublic
     }
 
     getSiteUrl(config) {
