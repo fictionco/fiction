@@ -28,7 +28,7 @@
           </div>
           <div class="box">
             <h2>NPM Plugins</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+            <p>Factor plugins are NPM packages that you can install to any project. This is a growing library.</p>
           </div>
         </div>
       </div>
@@ -47,8 +47,9 @@ export default {
   mounted() {},
   metatags() {
     return {
-      title: "The New Standard in CMS",
-      description: "Factor helps developers build sites faster with vue.js.",
+      title: "The Serverless CMS",
+      description:
+        "Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.",
       image: ""
     }
   }

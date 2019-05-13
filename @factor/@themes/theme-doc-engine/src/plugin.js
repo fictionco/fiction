@@ -46,6 +46,11 @@ module.exports.default = Factor => {
             path: "/plugins",
             component: () => import("./page-plugins"),
             meta: { nav: true }
+          },
+          {
+            path: "/themes",
+            component: () => import("./page-themes"),
+            meta: { nav: true }
           }
         ]
 
