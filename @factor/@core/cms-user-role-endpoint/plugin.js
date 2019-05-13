@@ -1,6 +1,8 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      this.possibleRoles = require("@factor/cms-user/config.json").roles
+
       Factor.$stack.register({
         id: "user-role-service-get",
         title: "User Role Getter",
@@ -17,11 +19,61 @@ module.exports.default = Factor => {
         returns: "Object (New Claims)"
       })
 
-      this.possibleRoles = require("@factor/cms-user/config.json").roles
-    }
+      Factor.$filters.add("factor-setup-utility", _ => {
+        const setupAdmins = {
+          name: "Admins - Add new admin users",
+          value: "admins",
+          callback: async inquirer => {
+            const choices = Object.keys(this.possibleRoles).map(_ => {
+              return {
+                name: `${_} (${this.possibleRoles[_]})`,
+                value: _
+              }
+            })
 
-    logger(text) {
-      return `[customClaims Endpoint] ${text}`
+            const questions = [
+              {
+                name: "email",
+                message: "What's the user's email?",
+                type: "input",
+                validate: v => {
+                  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                  return re.test(v) ? true : "Enter a valid email address"
+                }
+              },
+              {
+                name: "role",
+                message: "What is the role for this admin?",
+                choices,
+                type: "list"
+              },
+              {
+                type: "confirm",
+                name: `askAgain`,
+                message: `Got it. Add another user?`,
+                default: false
+              }
+            ]
+
+            let admins = []
+            const ask = async () => {
+              let { askAgain, ...answers } = await inquirer.prompt(questions)
+              admins.push({ ...answers })
+              if (askAgain) {
+                await ask()
+              }
+            }
+
+            await ask()
+
+            let write = { public: { config: { admins } } }
+
+            return write
+          }
+        }
+        _.push(setupAdmins)
+        return _
+      })
     }
 
     async apply() {
@@ -31,7 +83,7 @@ module.exports.default = Factor => {
       const user = Factor.$headers.auth
 
       if (!user) {
-        throw new Error(this.logger("User not authenticated"))
+        throw new Error("User Role EP: User not authenticated")
       }
 
       const { uid } = user
@@ -86,16 +138,15 @@ module.exports.default = Factor => {
     // Gets all user information private/public
     // Note that this information is accessible and viewable only by the server and not publicly shown
     async getUserAdminRoles(user) {
-      const { resolve } = require("path")
       const { uid, email, emailVerified } = user
 
       const manualRole = {}
 
       if (email && emailVerified) {
-        const adm = Factor.$config.setting("admins") // require this way to avoid webpack warning (not running in webpack)
-        const setRole = adm[email]
-        if (setRole) {
-          manualRole[setRole] = true
+        const adminConfig = Factor.$config.setting("admins") // require this way to avoid webpack warning (not running in webpack)
+        const adm = adminConfig.find(_ => _.email == email)
+        if (adm.role) {
+          manualRole[adm.role] = true
         }
       }
 

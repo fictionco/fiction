@@ -20,18 +20,37 @@ module.exports = Factor => {
         const { key } = out
         out.message = out.message ? out.message : `${key}`
 
-        out.value = group && conf[group] ? conf[group][key] : conf[key] ? conf[key] : null
+        out.value = group && conf[group] ? conf[group][key] : conf[key] ? conf[key] : ""
 
         if (!out.value) {
           out.missing = true
-          out.value = _.default ? _.default : null
+          out.value = _.default ? _.default : ""
         }
 
         return out
       })
     }
 
-    verify(settings) {
+    verifyServiceRequests() {
+      const requests = Factor.$stack.getServiceRequests()
+      const total = requests.length
+      const missing = requests.filter(_ => _.missing).length
+      const set = total - missing
+      const lines = [
+        {
+          title: `${this.verifyPrefix(missing)} API Requests`,
+          value: `${set} of ${total} Requests are Handled`
+        }
+      ]
+
+      const message = {
+        title: "API Service Requests",
+        lines
+      }
+      Factor.$log.formatted(message)
+    }
+
+    verifySettings(settings) {
       const total = settings.length
       const missing = settings.filter(_ => _.missing).length
       return {
@@ -41,15 +60,21 @@ module.exports = Factor => {
       }
     }
 
+    verifyPrefix(fail) {
+      return !fail ? chalk.green(figures.tick) : chalk.red(figures.cross)
+    }
+
     verifyProviders(groups) {
       const lines = groups.map(_ => {
         const v = _.verification
-        const pref = v.missing ? chalk.red(figures.cross) : chalk.green(figures.tick)
-        return { title: `${pref} ${_.title}`, value: `${v.set} of ${v.total} Settings are Configured` }
+        return {
+          title: `${this.verifyPrefix(v.missing)} ${_.title}`,
+          value: `${v.set} of ${v.total} Settings are Configured`
+        }
       })
 
       const message = {
-        title: "Providers Verification",
+        title: "Services",
         lines
       }
       Factor.$log.formatted(message)
@@ -63,7 +88,7 @@ module.exports = Factor => {
         settings = settings.concat(this.normalize({ settings: config, scope: "public", ..._.settings }))
         settings = settings.concat(this.normalize({ settings: secrets, scope: "private", ..._.settings }))
 
-        const verification = this.verify(settings)
+        const verification = this.verifySettings(settings)
         return {
           ..._,
           ..._.settings,
@@ -91,13 +116,64 @@ module.exports = Factor => {
 
     async runSetup() {
       let answers
+
+      const providerGroups = this.parseSettings(Factor.$stack.getProviders())
+
+      Factor.$log.formatted({
+        title: "Welcome to Factor Setup!",
+        lines: [
+          { title: "Your Running", value: "" },
+          { title: "Theme", value: Factor.$config.setting("theme") || "none", indent: true },
+          { title: "Stack", value: Factor.$config.setting("stack") || "none", indent: true }
+        ]
+      })
+      this.verifyProviders(providerGroups)
+      this.verifyServiceRequests()
+
+      const setups = Factor.$filters.apply("factor-setup-utility", [
+        {
+          name: "Stack - Setup and verify your services and APIs",
+          value: "stack",
+          callback: () => this.stack(providerGroups)
+        }
+      ])
+
+      answers = await inquirer.prompt({
+        type: "list",
+        name: `setupItem`,
+        message: `What would you like to setup?`,
+        choices: setups.map(({ callback, ...keep }) => keep)
+      })
+
+      console.log() // break
+
+      const setupRunner = setups.find(_ => _.value == answers.setupItem)
+
+      const write = await setupRunner.callback(inquirer)
+
+      await this.maybeWriteConfig(write)
     }
 
-    async cli() {
-      const groups = this.parseSettings(Factor.$stack.getProviders())
+    async maybeWriteConfig(write) {
+      const highlight = require("cli-highlight").highlight
+      let answers = await inquirer.prompt({
+        type: "confirm",
+        name: `writeFiles`,
+        message: `Write the following settings? \n\n ${highlight(
+          require("json2yaml").stringify(write, null, "  ")
+        )} \n`,
+        default: true
+      })
 
-      this.verifyProviders(groups)
+      if (answers.writeFiles) {
+        this.writeFiles(write)
+        Factor.$log.success(`Wrote settings to config...\n\n`)
+      } else {
+        Factor.$log.log(`Writing settings skipped.`)
+      }
+    }
 
+    async stack(groups) {
       let answers
 
       for (const { title, description, settings, group, envs } of groups) {
@@ -113,15 +189,17 @@ module.exports = Factor => {
 
         if (answers.isReady) {
           let environments = ["config"]
-          if (envs == "multi") {
-            answers = await inquirer.prompt({
-              type: "confirm",
-              name: `useMulti`,
-              message: `Set up ${title} with different settings for "development" & "production"? (If no, use same)`,
-              default: false
-            })
+          if (envs && envs.includes("multi")) {
+            if (envs == "multi-optional") {
+              answers = await inquirer.prompt({
+                type: "confirm",
+                name: `useMulti`,
+                message: `Set up ${title} with different settings for "development" & "production"? (If no, use same)`,
+                default: false
+              })
+            }
 
-            if (answers.useMulti) {
+            if ((answers.useMulti && envs == "multi-optional") || envs == "multi") {
               environments = ["development", "production"]
             }
           }
@@ -165,104 +243,9 @@ module.exports = Factor => {
             }
           }
 
-          answers = await inquirer.prompt({
-            type: "confirm",
-            name: `writeFiles`,
-            message: `Write the following ${title} settings? \n\n ${chalk.cyan(JSON.stringify(write, null, "  "))} \n`,
-            default: true
-          })
-
-          if (answers.writeFiles) {
-            this.writeFiles(write)
-            Factor.$log.success(`Wrote ${title} settings to config...\n\n`)
-          } else {
-            Factor.$log.log(`Writing ${title} settings skipped.`)
-          }
+          await this.maybeWriteConfig(write)
         }
       }
     }
-
-    // async cli(args) {
-
-    //   const groups = this.parseSettings(Factor.$stack.getProviders())
-
-    //   let answers = {}
-    //   const questions = []
-
-    //   for (const { title, description, settings, group, envs } of groups) {
-    //     answers = await inquirer.prompt({
-    //       type: "confirm",
-    //       name: `isReady`,
-    //       message: `${title}: you'll need the following:\n\n\t${settings
-    //         .map(({ key, scope }) => `${key} [${scope}]`)
-    //         .join("\n\t")}.\n\n Ready? (If no, skip)`,
-    //       default: true
-    //     })
-    //     console.log() // break
-
-    //     if (answers.isReady) {
-    //       let environments = ["config"]
-    //       if (envs == "multi") {
-    //         answers = await inquirer.prompt({
-    //           type: "confirm",
-    //           name: `useMulti`,
-    //           message: `Set up ${title} with different development & production environments? (If no, use same)`,
-    //           default: false
-    //         })
-
-    //         if (answers.useMulti) {
-    //           environments = ["development", "production"]
-    //         }
-    //       }
-
-    //       let write = {}
-    //       for (const env of environments) {
-    //         for (const { key, scope, input, message } of settings) {
-    //           let fields
-
-    //           let message = message ? message : `${title}: ${key} [${scope}/${env}]?`
-
-    //           if (input == "object") {
-    //             fields = {
-    //               type: "editor",
-    //               message,
-    //               validate: value => {
-    //                 if (typeof value != "object") {
-    //                   return "The answer must be readable as valid JSON."
-    //                 } else {
-    //                   return true
-    //                 }
-    //               },
-    //               filter: value => {
-    //                 return JSON.parse(value)
-    //               }
-    //             }
-    //           } else {
-    //             fields = { type: "input", message }
-    //           }
-
-    //           answers = await inquirer.prompt({
-    //             name: "keyValue",
-    //             default: "",
-    //             ...fields
-    //           })
-
-    //           if (!write[scope]) {
-    //             write[scope] = {}
-    //           }
-    //           if (!write[scope][env]) {
-    //             write[scope][env] = {}
-    //           }
-
-    //           if (!write[scope][env][provider]) {
-    //             write[scope][env][provider] = {}
-    //           }
-
-    //           write[scope][env][provider][key] = answers.keyValue
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
   })()
 }

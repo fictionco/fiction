@@ -57,7 +57,7 @@ export default Factor => {
             }
           ],
           config: ["apiKey", "authDomain", "databaseURL", "projectId", "storageBucket", "messagingSenderId"],
-          envs: "multi"
+          envs: "multi-optional"
         },
         provider: "firebase"
       })
@@ -102,7 +102,7 @@ export default Factor => {
       const { firebase: { databaseURL, serviceAccount } = {} } = Factor.$config.settings()
 
       const admin = require("firebase-admin")
-      if (serviceAccount) {
+      if (serviceAccount && serviceAccount.private_key) {
         admin.initializeApp({ credential: admin.credential.cert(serviceAccount), databaseURL })
 
         admin.firestore()

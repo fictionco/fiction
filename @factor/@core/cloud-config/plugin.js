@@ -14,7 +14,7 @@ module.exports = Factor => {
         _["process.env.FACTOR_APP_CONFIG"] = JSON.stringify(this.publicSettings())
         return _
       })
-
+      this.registerGlobalSettings()
       this.initialize()
     }
 
@@ -72,6 +72,17 @@ module.exports = Factor => {
 
     setting(key) {
       return this._settings[key]
+    }
+
+    registerGlobalSettings() {
+      // Factor.$stack.registerSettings({
+      //   title: "Global",
+      //   settings: {
+      //     group: "settings",
+      //     config: ["url"],
+      //     envs: "multi-optional"
+      //   }
+      // })
     }
   })()
 }
