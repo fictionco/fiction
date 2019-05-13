@@ -2,6 +2,7 @@
   <div class="content-layout">
     <site-head>
       <factor-link path="/docs">Docs</factor-link>
+      <factor-link path="/themes">Themes</factor-link>
       <factor-link path="/plugins">Plugins</factor-link>
       <factor-link v-if="!$uid" event="signin-modal" data-test="login">
         Sign In
