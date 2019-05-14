@@ -81,7 +81,7 @@ export default (Factor, target) => {
 
     mixinApp() {
       if (!Factor.$mixinsApplied) {
-        const mixins = Factor.$filters.get("mixins", {})
+        const mixins = Factor.$filters.apply("mixins", {})
 
         Object.keys(mixins).forEach(key => {
           if (typeof mixins[key] == "function") {

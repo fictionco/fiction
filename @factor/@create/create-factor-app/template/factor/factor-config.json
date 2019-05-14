@@ -1,7 +1,6 @@
 {
   "config": {
-    "theme": "",
-    "stack": "",
+    "stack": "@factor/stack-fire",
     "admins": {}
   },
   "development": {},

@@ -69,7 +69,12 @@ module.exports.default = Factor => {
 
       const { baseDir } = Factor.FACTOR_CONFIG
 
-      this.endpointHandler = require("@factor/cloud-extend")(Factor, { baseDir, env, setup })
+      this.endpointExtend = require("@factor/cloud-extend")(Factor, {
+        baseDir,
+        env,
+        setup,
+        endpointHandler: require("firebase-functions").https.onRequest
+      })
 
       const {
         firebase: { databaseURL, serviceAccount }
@@ -124,7 +129,7 @@ module.exports.default = Factor => {
 
     endpoints() {
       // Export endpoints in the form obj['endpointname'] = endpoint(req, res)
-      return this.endpointHandler.endpoints()
+      return this.endpointExtend.endpoints()
     }
   })()
 }

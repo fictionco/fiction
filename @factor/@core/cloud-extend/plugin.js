@@ -3,7 +3,8 @@ const parse = require("qs").parse
 const merge = require("deepmerge")
 
 const cors = require("cors")({ origin: true })
-module.exports = (Factor, { baseDir, env, setup }) => {
+module.exports = (Factor, CLOUD_CONFIG) => {
+  const { baseDir, env, setup, endpointHandler } = CLOUD_CONFIG
   return new (class {
     constructor() {
       Factor.FACTOR_ENV = "cloud"
@@ -15,22 +16,13 @@ module.exports = (Factor, { baseDir, env, setup }) => {
 
     services() {
       Factor.$stack.register({
-        id: "endpoint-service",
-        description: "Processes endpoint requests (req, res)",
-        args: "",
-        returns: "Function (On http request handler) (req, res) => {}"
-      })
-
-      Factor.$stack.register({
         id: "auth-token-service",
         description: "Verifies the authorization of a user calling an endpoint (Bearer token)",
         args: "ID token (Bearer Token)",
         returns: "Object (User)"
       })
 
-      this.endpointService = Factor.$stack.serviceValue("endpoint-service")
-
-      this.bearerTokenService = Factor.$stack.serviceValue("auth-token-service")
+      this.bearerTokenService = Factor.$stack.service("auth-token-service")
     }
 
     setup() {
@@ -112,7 +104,7 @@ module.exports = (Factor, { baseDir, env, setup }) => {
               ? requestHandler.call(pluginClass) // Need to pass pluginClass as "this" is there a better way?
               : this.requestHandler(pluginModule)
 
-          endpoints[key] = this.endpointService(handler)
+          endpoints[key] = endpointHandler(handler)
         }
       })
 

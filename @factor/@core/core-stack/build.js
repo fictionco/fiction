@@ -3,29 +3,6 @@ module.exports = Factor => {
     constructor() {
       this.addToLoaders()
 
-      // Factor.$filters.add("verify-app", () => {
-      //   const p = Factor.$stack.verifyProviders()
-      //   const s = Factor.$stack.verifyServices()
-
-      //   if (p.needed || s.needed) {
-      //     const lines = []
-      //     lines.push({ title: "Providers Configured", value: `${p.setup}/${p.total}` })
-      //     lines.push({ title: "App Service Requests", value: `${s.setup}/${s.total}` })
-      //     lines.push({ title: "To Fix", value: `Run "factor run setup" for more information`, indent: true })
-      //     Factor.$log.formatted({
-      //       title: "Setup Needed",
-      //       lines,
-      //       format: "warn"
-      //     })
-      //   } else {
-      //     Factor.$log.formatted({
-      //       title: "Services stack verified",
-      //       lines: [],
-      //       format: "success"
-      //     })
-      //   }
-      // })
-
       Factor.$filters.add("cli-setup", (_, program) => {
         _.stack = () => require("./setup")(Factor).runSetup()
       })
@@ -42,7 +19,7 @@ module.exports = Factor => {
       const { factor: { id } = {} } = require(`${stack}/package.json`)
       Factor.$filters.add("packages-loader", (load, { target, extensions }) => {
         load.push({
-          id: id || "servicesStack",
+          id: "servicesStack",
           name: this.stackPackage,
           mainFile: this.moduleMain(target),
           target: this.moduleTarget(target)

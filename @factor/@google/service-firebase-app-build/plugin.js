@@ -78,19 +78,21 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("cli-tasks-deploy-app", _ => {
-        _.push({
-          command: "firebase",
-          args: ["use", Factor.$config.setting("env")],
-          title: `Setting Firebase Project [${Factor.$config.setting("env")}]`
-        })
-        _.push({
-          command: "firebase",
-          args: ["deploy"],
-          title: `Deploying App to Firebase [${Factor.$config.setting("env")}]`
-        })
+      Factor.$stack.add("deploy-app", () => {
+        Factor.$filters.add("cli-tasks-deploy-app", _ => {
+          _.push({
+            command: "firebase",
+            args: ["use", Factor.$config.setting("env")],
+            title: `Setting Firebase Project [${Factor.$config.setting("env")}]`
+          })
+          _.push({
+            command: "firebase",
+            args: ["deploy"],
+            title: `Deploying App to Firebase [${Factor.$config.setting("env")}]`
+          })
 
-        return _
+          return _
+        })
       })
 
       Factor.$filters.add("initialize-build", () => {

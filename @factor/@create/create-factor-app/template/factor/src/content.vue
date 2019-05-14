@@ -24,7 +24,7 @@
           <h2 class="title">Docs</h2>
           <p
             class="content"
-          >In the documentation you will learn how to use the interface and how to develop plugins and themes for the Factor platform.</p>
+          >Learn how to use Factor CMS and build things with Factor's build system and JS framework.</p>
           <factor-link path="https://factor.fiction.com/docs" target="_blank">
             View Docs
             <factor-icon icon="arrow-right" />
@@ -46,7 +46,7 @@
           <h2 class="title">Stacks</h2>
           <p
             class="content"
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          >Stacks are like themes but for service APIs. No more days and months learning new APIs to get things working.</p>
           <factor-link path="https://factor.fiction.com/stacks" target="_blank">
             Learn About Stacks
             <factor-icon icon="arrow-right" />
@@ -93,7 +93,7 @@ export default {
     return {
       title: "Welcome to Factor",
       description:
-        "A modern framework based on Vue.js. Extend your project features and do more.",
+        "A modern framework CMS based on Vue.js. Extend your project features and do more.",
       image: ""
     }
   }

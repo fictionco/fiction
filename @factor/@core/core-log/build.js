@@ -50,7 +50,9 @@ module.exports = Factor => {
       const msg = []
 
       lines.forEach(({ title, value, indent }) => {
-        if (typeof value != "undefined") {
+        if (!title && !value) {
+          msg.push("")
+        } else if (typeof value != "undefined") {
           const formattedTitle = indent ? "  " + chalk.cyan(title) : chalk.bold(title)
           msg.push(`${formattedTitle}: ${value}`)
         }

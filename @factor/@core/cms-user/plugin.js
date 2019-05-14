@@ -12,7 +12,7 @@ module.exports.default = Factor => {
     }
 
     filters() {
-      Factor.$filters.addFilter("mixins", _ => {
+      Factor.$filters.add("mixins", _ => {
         _.user = this.mixin()
         return _
       })

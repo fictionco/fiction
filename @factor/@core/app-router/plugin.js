@@ -4,7 +4,7 @@ import qs from "qs"
 Factor.use(FactorRouter)
 
 export function createRouter({ target }) {
-  const routes = Factor.$filters.get("routes", []).filter(_ => _) // remove undefined
+  const routes = Factor.$filters.apply("routes", []).filter(_ => _) // remove undefined
 
   const router = new FactorRouter({
     routes,

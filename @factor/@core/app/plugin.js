@@ -19,7 +19,7 @@ module.exports = Factor => {
         _.push({
           path: "/",
           component: () => import("#/content"),
-          children: Factor.$filters.get("content-routes", [
+          children: Factor.$filters.apply("content-routes", [
             {
               name: "forbidden",
               path: "/forbidden",

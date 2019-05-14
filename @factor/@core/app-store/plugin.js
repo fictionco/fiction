@@ -18,7 +18,7 @@ export function createStore() {
       }
     },
     actions: {},
-    modules: Factor.$filters.get("stores", {})
+    modules: Factor.$filters.apply("stores", {})
   }
   for (var mod in root.modules) {
     if (root.modules[mod]) {

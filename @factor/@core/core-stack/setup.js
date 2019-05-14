@@ -34,17 +34,30 @@ module.exports = Factor => {
     verifyServiceRequests() {
       const requests = Factor.$stack.getServiceRequests()
       const total = requests.length
-      const missing = requests.filter(_ => _.missing).length
-      const set = total - missing
-      const lines = [
+      const missing = requests.filter(_ => _.missing)
+      const missingNum = missing.length
+      const set = total - missingNum
+      let lines = [
         {
-          title: `${this.verifyPrefix(missing)} API Requests`,
+          title: `${this.verifyPrefix(missingNum)} API Requests`,
           value: `${set} of ${total} Requests are Handled`
         }
       ]
 
+      if (missingNum > 0) {
+        lines.push({})
+        lines.push({ title: "Missing Requests...", value: "" })
+        lines = lines.concat(
+          missing.map(({ id, description, args, returns }) => {
+            return { title: id, value: description, indent: true }
+          })
+        )
+        lines.push({})
+        lines.push({ title: "To Fix", value: "Add a stack, a relevant plugin (or custom code)." })
+      }
+
       const message = {
-        title: "API Service Requests",
+        title: "API Service Coverage",
         lines
       }
       Factor.$log.formatted(message)
@@ -117,31 +130,32 @@ module.exports = Factor => {
     async runSetup() {
       let answers
 
-      const providerGroups = this.parseSettings(Factor.$stack.getProviders())
-
       Factor.$log.formatted({
         title: "Welcome to Factor Setup!",
         lines: [
-          { title: "Your Running", value: "" },
           { title: "Theme", value: Factor.$config.setting("theme") || "none", indent: true },
           { title: "Stack", value: Factor.$config.setting("stack") || "none", indent: true }
         ]
       })
-      this.verifyProviders(providerGroups)
-      this.verifyServiceRequests()
 
       const setups = Factor.$filters.apply("factor-setup-utility", [
         {
           name: "Stack - Setup and verify your services and APIs",
           value: "stack",
-          callback: () => this.stack(providerGroups)
+          callback: () => {
+            const providerGroups = this.parseSettings(Factor.$stack.getProviders())
+            this.verifyProviders(providerGroups)
+            this.verifyServiceRequests()
+
+            this.stack(providerGroups, { title: "Service Config Settings..." })
+          }
         }
       ])
 
       answers = await inquirer.prompt({
         type: "list",
         name: `setupItem`,
-        message: `What would you like to setup?`,
+        message: `What would you like to do?`,
         choices: setups.map(({ callback, ...keep }) => keep)
       })
 
@@ -154,14 +168,19 @@ module.exports = Factor => {
       await this.maybeWriteConfig(write)
     }
 
-    async maybeWriteConfig(write) {
+    prettyJson(data) {
       const highlight = require("cli-highlight").highlight
+      return highlight(require("json2yaml").stringify(data, null, "  "))
+    }
+
+    async maybeWriteConfig(write) {
+      if (!write) {
+        return
+      }
       let answers = await inquirer.prompt({
         type: "confirm",
         name: `writeFiles`,
-        message: `Write the following settings? \n\n ${highlight(
-          require("json2yaml").stringify(write, null, "  ")
-        )} \n`,
+        message: `Write the following settings? \n\n ${this.prettyJson(write)} \n`,
         default: true
       })
 
@@ -173,7 +192,11 @@ module.exports = Factor => {
       }
     }
 
-    async stack(groups) {
+    async stack(groups, { title } = {}) {
+      if (title) {
+        Factor.$log.formatted({ title })
+      }
+
       let answers
 
       for (const { title, description, settings, group, envs } of groups) {

@@ -1,15 +1,13 @@
 #!/usr/bin/env node
 
 const Factor = require("vue")
-//const argv = require("yargs").argv
 const concurrently = require("concurrently")
 const execa = require("execa")
 const listr = require("listr")
 const program = require("commander")
 const pkg = require("./package")
 const consola = require("consola")
-//const argvCommands = argv._
-// NODE CONFIG
+
 process.noDeprecation = true
 process.maxOldSpaceSize = 4000
 
@@ -35,6 +33,17 @@ const cli = async () => {
       Factor.$headers = args
       process.env.NODE_ENV = env
       require("@factor/build-extend")(Factor)
+
+      Factor.$stack.register({
+        id: "deploy-app",
+        description: "Deploys app to hosting and cloud environments.",
+        args: "{env, args [from cli]}"
+      })
+
+      Factor.$stack.register({
+        id: "cloud-emulator",
+        description: "Emulates serverless endpoints locally"
+      })
 
       if (install) {
         await this.callbacks("verify-app", { env, ...args })
@@ -98,9 +107,10 @@ const cli = async () => {
         .option("--no-build", "Prevent distribution build (for testing)")
         .action(async (env, args) => {
           await this.createDist({ env, ...args })
+
+          this.callbacks("deploy-app", { env: env || "development", ...args })
           const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
           await this.runTasks(t)
-          this.callbacks("deploy-app", { env: env || "development", ...args })
         })
 
       this.program
@@ -180,7 +190,7 @@ const cli = async () => {
       const r = Factor.$filters.apply(`cli-runners`, [
         {
           command: `factor serve ${process.env.NODE_ENV}`,
-          name: "Dev Server"
+          name: "Build"
         }
       ])
 
@@ -229,10 +239,15 @@ const cli = async () => {
     async startRunners(r) {
       const chalk = require("chalk")
       const figures = require("figures")
+
+      const lines = []
       r.forEach(_ => {
-        console.log()
-        Factor.$log.success(`Starting: ${chalk.bold(_.command)}`)
-        console.log()
+        lines.push({ title: "Command", value: `"${_.command}"`, indent: true })
+      })
+
+      Factor.$log.formatted({
+        title: "Starting Engines...",
+        lines
       })
 
       r = r.map(_ => {
@@ -241,10 +256,9 @@ const cli = async () => {
 
       try {
         await concurrently(r, {
-          prefix: chalk.bold(`{name}`) + " " + figures.arrowRight,
-          prefixLength: 8
+          prefix: chalk.bold(`{name}`) + " " + figures.arrowRight
         })
-        Factor.$log.box("Factor CLI Exited.")
+        Factor.$log.formatted({ title: "Have a great day! - Factor CLI." })
       } catch (error) {
         consola.error(error)
       }

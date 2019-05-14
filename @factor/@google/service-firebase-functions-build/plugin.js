@@ -34,7 +34,7 @@ export default Factor => {
       Factor.$filters.add("cli-runners", _ => {
         _.push({
           command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
-          name: "Cloud Functions"
+          name: "Cloud"
         })
         return _
       })
@@ -117,14 +117,7 @@ export default Factor => {
 
     copyAppDirectories() {
       const files = glob(resolve(Factor.$paths.get("app"), "*"), {
-        ignore: [
-          "**/node_modules",
-          "**/package.json",
-          "**/start.js",
-          `**/${this.folderName}`,
-          `**/*raw*`,
-          `**/factor-secrets*`
-        ]
+        ignore: ["**/node_modules", "**/package.json", `**/${this.folderName}`]
       })
 
       files.forEach(f => {

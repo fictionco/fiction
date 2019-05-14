@@ -33,6 +33,9 @@ module.exports = Factor => {
     }
 
     async service(filter, args, opts = {}) {
+      // Use service config to determine the desired response and format
+      const registered = this.serviceRequests.find(_ => _.id == filter)
+
       const added = Factor.$filters.apply(filter, [], args)
 
       if (!added || added.length == 0) {
@@ -44,9 +47,9 @@ module.exports = Factor => {
       return resultsArray[0]
     }
 
-    async requestValue(filter, args) {
-      return await Factor.$filters.apply(filter, args)
-    }
+    // async requestValue(filter, args) {
+    //   return await Factor.$filters.apply(filter, args)
+    // }
 
     getServiceRequests() {
       return this.serviceRequests.map(_ => {

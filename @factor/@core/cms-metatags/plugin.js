@@ -1,9 +1,9 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.metatags = []
 
-      Factor.$filters.addFilter("mixins", _ => {
+      Factor.$filters.add("mixins", _ => {
         _.metatags = Factor.FACTOR_SSR == "server" ? this.serverMetatags() : this.clientTitleTag()
         return _
       })
@@ -108,5 +108,5 @@ export default Factor => {
         ...meta
       }
     }
-  }()
+  })()
 }

@@ -32,49 +32,6 @@ module.exports = Factor => {
       return str.split("").reduce((prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0, 0)
     }
 
-    async applyService({ service, filter, args }) {
-      const added = this.apply(filter, [], args)
-
-      if (added.length == 0) {
-        console.warn(`[Factor] No [${filter}] handler added in [${service}] service`)
-        return null
-      }
-
-      const resultsArray = await Promise.all(added.map(({ service }) => service))
-
-      return added.map((item, index) => {
-        return {
-          ...item,
-          result: resultsArray[index]
-        }
-      })
-    }
-
-    // Services should always be an array of promises
-    // This function allows a simple async function to be added as an arg
-    // then it turns it into the array format needed
-    addService(args) {
-      let { filter, service, key = false, provider = "service", options = {} } = args
-      options.provider = provider
-
-      key = key || provider || Factor.$guid()
-
-      this.add(
-        filter,
-        (_, params) => {
-          _.push({
-            service: service(params),
-            provider,
-            key,
-            params
-          })
-
-          return _
-        },
-        options
-      )
-    }
-
     // Get total number of filters added on an id
     count(name) {
       const _added = this._filters[name]
@@ -166,16 +123,16 @@ module.exports = Factor => {
       return out
     }
 
-    addFilter(name, callback, args) {
-      return this.add(name, callback, args)
-    }
+    // addFilter(name, callback, args) {
+    //   return this.add(name, callback, args)
+    // }
 
-    applyFilters(name, data) {
-      return this.apply(name, data)
-    }
+    // applyFilters(name, data) {
+    //   return this.apply(name, data)
+    // }
 
-    get(name, data) {
-      return this.apply(name, data)
-    }
+    // get(name, data) {
+    //   return this.apply(name, data)
+    // }
   })()
 }

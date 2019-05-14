@@ -43,7 +43,7 @@ module.exports.default = Factor => {
         ...options,
         cache: new LRU({ max: 1000, maxAge: 1000 * 60 * 15 }),
         runInNewContext: false,
-        directives: Factor.$filters.applyFilters("server-directives", {})
+        directives: Factor.$filters.apply("server-directives", {})
       })
     }
 
@@ -110,7 +110,7 @@ module.exports.default = Factor => {
           clientManifest
         })
       } else {
-        const devServer = Factor.$filters.get("development-server")
+        const devServer = Factor.$filters.apply("development-server")
 
         if (devServer) {
           this.readyPromise = devServer(this.server, (bundle, options) => {
