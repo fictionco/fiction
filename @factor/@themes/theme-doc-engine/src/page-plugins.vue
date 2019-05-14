@@ -4,10 +4,7 @@
       <div class="splash">
         <div>
           <h1 class="title">Plugins</h1>
-          <p class="subtitle">
-            Extend your project features and do more with Factor.
-            <br>(Coming Soon)
-          </p>
+          <p class="subtitle">Extend your project features and do more with Factor.</p>
           <!-- <div class="actions">
             <app-link path="/docs" btn="primary" size="large">
               How to Install
@@ -288,6 +285,9 @@ export default {
       grid-column-gap: 2em;
       position: relative;
       .soon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
         z-index: 5;
         font-weight: 800;
