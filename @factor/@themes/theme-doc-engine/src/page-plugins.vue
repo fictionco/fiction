@@ -5,18 +5,19 @@
         <div>
           <h1 class="title">Plugins</h1>
           <p class="subtitle">Extend your project features and do more with Factor.</p>
-          <div class="actions">
+          <!-- <div class="actions">
             <app-link path="/docs" btn="primary" size="large">
               How to Install
               <factor-icon icon="arrow-right" />
             </app-link>
-          </div>
+          </div>-->
         </div>
       </div>
     </section>
     <section class="plugins-wrap stripes-wrap">
       <div class="stripes" />
       <div class="mast plugins">
+        <h2 class="soon">Coming Soon</h2>
         <div class="sidebar">
           <h3 class="title">Categories</h3>
           <ul class="list-categories">
@@ -282,6 +283,25 @@ export default {
       display: grid;
       grid-template-columns: 1fr 5fr;
       grid-column-gap: 2em;
+      position: relative;
+      .soon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        z-index: 5;
+        font-weight: 800;
+        font-size: 2em;
+        text-align: center;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        opacity: 1;
+        width: 100%;
+        height: 100%;
+        background: rgba(250, 251, 255, 0.9);
+      }
       @media (max-width: 767px) {
         display: block;
       }

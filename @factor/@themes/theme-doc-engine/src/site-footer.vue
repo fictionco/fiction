@@ -10,8 +10,8 @@
         <div>
           <div class="copyright">&copy; Factor by Fiction.com Inc.</div>
           <div class="terms">
-            <factor-link path="/terms-of-service">Terms of Service</factor-link>
-            <factor-link path="/privacy-policy">Privacy Policy</factor-link>
+            <factor-link path="https://www.fiction.com/terms-of-service">Terms of Service</factor-link>
+            <factor-link path="https://www.fiction.com/privacy-policy">Privacy Policy</factor-link>
           </div>
         </div>
       </div>
