@@ -255,8 +255,16 @@ module.exports.default = Factor => {
             { test: /\.(mov|mp4)$/, use: ["file-loader"] },
 
             {
-              test: /\.(less|css)/,
-              use: this.cssLoaders(args)
+              test: /\.css/,
+              use: this.cssLoaders({ ...args, lang: "css" })
+            },
+            {
+              test: /\.less/,
+              use: this.cssLoaders({ ...args, lang: "less" })
+            },
+            {
+              test: /\.(scss|sass)/,
+              use: this.cssLoaders({ ...args, lang: "sass" })
             },
 
             // {
@@ -323,7 +331,7 @@ module.exports.default = Factor => {
       return out
     }
 
-    cssLoaders({ target, build }) {
+    cssLoaders({ target, build, lang }) {
       let finishing
 
       const prependedFiles = Factor.$filters.apply("prepended-style-var-files", [])
@@ -338,21 +346,18 @@ module.exports.default = Factor => {
             plugins: [require("cssnano")({ preset: "default" })],
             minimize: true
           }
-        },
-        {
-          loader: "less-loader"
         }
-        // {
-        //   loader: "style-resources-loader",
-        //   options: {
-        //     patterns: prependedFiles,
-        //     injector: (source, resources) => {
-        //       const injectContent = resources.map(({ content }) => content).join("")
-        //       return injectContent + source
-        //     }
-        //   }
-        // }
       ]
+
+      if (lang == "less") {
+        baseLoaders.push({
+          loader: "less-loader"
+        })
+      } else if (lang == "sass") {
+        baseLoaders.push({
+          loader: "sass-loader"
+        })
+      }
 
       // For development use runtime style loader
       if (build != "production") {
