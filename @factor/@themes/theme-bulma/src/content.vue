@@ -31,7 +31,7 @@
     </div>
   </div>
 </template>
-<style src="#/css/style.less" lang="less"></style>
+<style src="#/css/mystyles.scss" lang="sass"></style>
 <script>
 export default {
   components: {

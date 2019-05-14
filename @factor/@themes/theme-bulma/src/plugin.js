@@ -14,7 +14,7 @@ module.exports.default = Factor => {
     }
 
     async addPaths() {
-      Factor.$filters.addFilter("page-templates", _ => {
+      Factor.$filters.add("page-templates", _ => {
         return _.concat([
           {
             name: "Default",
@@ -24,7 +24,7 @@ module.exports.default = Factor => {
         ])
       })
 
-      Factor.$filters.addFilter("content-routes", _ => {
+      Factor.$filters.add("content-routes", _ => {
         const routes = [
           {
             path: "/",
