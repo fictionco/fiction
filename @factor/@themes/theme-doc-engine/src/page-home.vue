@@ -2,11 +2,14 @@
   <div class="home">
     <section class="splash-wrap">
       <div class="splash mast">
-        <div>
-          <h1 class="title">The Serverless CMS</h1>
+        <div class="stripes">
+          <div class="wedge" />
+        </div>
+        <div class="mast-text">
+          <h1 class="title">The Javascript CMS</h1>
           <p
             class="subtitle"
-          >Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.</p>
+          >Factor is a modern CMS &amp; framework build on Vue.js that helps developers succeed where others have failed.</p>
           <div class="actions">
             <app-link path="/docs" btn="primary" size="large">Get Started</app-link>
             <app-link path="/docs" btn="tertiary" size="large">Read the Docs</app-link>
@@ -14,22 +17,19 @@
         </div>
       </div>
     </section>
-    <section class="boxes-wrap stripes-wrap">
-      <div class="stripes" />
-      <div class="mast">
-        <div class="boxes">
-          <div class="box">
-            <h2>Static Hosting</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-          </div>
-          <div class="box">
-            <h2>100% JavaScript</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-          </div>
-          <div class="box">
-            <h2>NPM Plugins</h2>
-            <p>Factor plugins are NPM packages that you can install to any project. This is a growing library.</p>
-          </div>
+    <section class="boxes-wrap">
+      <div class="boxes">
+        <div class="box">
+          <h2>Versatile</h2>
+          <p>Factor can help you accomplish anything. Use only what you need, build whatever you can imagine.</p>
+        </div>
+        <div class="box">
+          <h2>Simple</h2>
+          <p>Factor won't waste your time. With Factor it's simple to start and even simpler once you're pro.</p>
+        </div>
+        <div class="box">
+          <h2>Modular</h2>
+          <p>How about we stop reinventing the wheel? With Factor, just drop-in a plugin, theme or stack instead.</p>
         </div>
       </div>
     </section>
@@ -47,7 +47,7 @@ export default {
   mounted() {},
   metatags() {
     return {
-      title: "The Serverless CMS",
+      title: "Factor.js - VueJS Framework + SSR CMS",
       description:
         "Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.",
       image: ""
@@ -60,23 +60,34 @@ export default {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1024px;
     margin: 0 auto;
+    position: relative;
+
+    .mast-text {
+      z-index: 1;
+      max-width: 700px;
+      padding: 6em 2em;
+      margin: 2em auto 0;
+    }
   }
 
-  .stripes-wrap {
-    position: relative;
-    .stripes {
+  .stripes {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -72px;
+    top: 50%;
+    transform: skewY(-6deg);
+    transition: opacity 0.2s ease-out;
+    will-change: transform;
+    .wedge {
       position: absolute;
-      z-index: 0;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      transform: skewY(-5deg);
-      background: var(--color-bg-alt);
-    }
-    .mast {
-      position: relative;
+      height: 5000px;
+      bottom: 0;
+      background: linear-gradient(270deg, #fff, #fff);
+      left: 0;
+      right: 0;
     }
   }
 
@@ -87,8 +98,7 @@ export default {
       grid-column-gap: 60px;
       align-items: center;
       text-align: center;
-      max-width: 700px;
-      padding: 6em 2em;
+
       .title {
         font-weight: 800;
         font-size: 4em;
@@ -101,7 +111,8 @@ export default {
       }
       .subtitle {
         opacity: 0.5;
-        font-size: 1.4em;
+        font-size: 1.6em;
+        line-height: 1.4em;
         font-weight: 500;
         @media (max-width: 767px) {
           font-size: 1.2em;
@@ -121,23 +132,34 @@ export default {
   }
 
   .boxes-wrap {
-    padding: 4em 0;
+    padding: 4em 1em;
+    position: relative;
+    z-index: 1;
     .boxes {
+      max-width: 1000px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-column-gap: 40px;
+      grid-column-gap: 1em;
       @media (max-width: 767px) {
         display: block;
       }
       .box {
+        padding: 2em;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 0 0 0 0.4px rgba(50, 50, 93, 0.05),
+          0 50px 100px -20px rgba(50, 50, 93, 0.25),
+          0 30px 60px -30px rgba(0, 0, 0, 0.3);
+
         margin: 2em 0;
-        text-align: center;
+
         @media (max-width: 767px) {
           margin: 1em 0 2em;
         }
         h2 {
           font-size: 1.4em;
-          line-height: 1.4em;
+          line-height: 1em;
           font-weight: 800;
           margin: 0;
         }

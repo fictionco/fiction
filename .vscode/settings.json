@@ -10,7 +10,7 @@
     "**/factor_modules/**": true,
     "**/generated/**": true,
     "**/cloud/**": true,
-    "**/@themes": true,
+
     "**/.ref": true,
     "*.lock": true,
     "*.log": true

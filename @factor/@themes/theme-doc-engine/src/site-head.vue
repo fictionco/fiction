@@ -3,9 +3,8 @@
     <div class="site-head-pad">
       <div class="brand">
         <factor-link path="/">
-          <img :src="require(`./img/factor.svg`)" alt="Factor Framework">
+          <primary-logo />
         </factor-link>
-        <!-- <div class="search">Search</div> -->
       </div>
       <div class="nav">
         <slot />
@@ -16,7 +15,9 @@
 </template>
 <script>
 export default {
-  components: {},
+  components: {
+    "primary-logo": () => import("./logo-factor")
+  },
   data() {
     return {}
   }
@@ -25,8 +26,8 @@ export default {
 <style lang="less">
 .site-head {
   padding: 0 1.5em;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
-  background: #fff;
+  // box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
+  // background: #fff;
   position: relative;
   z-index: 10;
 }
@@ -45,18 +46,6 @@ export default {
     a img {
       width: 80px;
     }
-    // .search {
-    //   border-radius: 4px;
-    //   flex-grow: 1;
-    //   max-width: 600px;
-    //   padding: 4px 1em;
-    //   color: rgba(38, 67, 89, 0.4);
-
-    //   background: #f3f5fa;
-    //   margin: 0 2em;
-    //   font-size: 0.9em;
-    //   line-height: 1.6;
-    // }
   }
   .nav {
     font-weight: 600;

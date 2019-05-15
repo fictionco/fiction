@@ -1,5 +1,5 @@
 <template>
-  <div class="content-layout">
+  <div class="content-layout" :style="bg">
     <site-head>
       <factor-link path="/docs">Docs</factor-link>
       <factor-link path="/themes">Themes</factor-link>
@@ -9,7 +9,7 @@
         <i class="fa fa-arrow-right" />
       </factor-link>
       <factor-link v-else path="/dashboard" class="dashboard-link">
-        View Dashboard
+        Go to Fiction.com
         <i class="fa fa-arrow-right" />
       </factor-link>
       <factor-link
@@ -23,7 +23,7 @@
         <factor-icon icon="github" />
       </factor-link>
     </site-head>
-    <div class="content-main" :style="bg">
+    <div class="content-main">
       <div class="content-main-content">
         <slot v-if="$slots.default" />
         <router-view v-else />
@@ -66,6 +66,7 @@ export default {
 .content-layout {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 
   .content-content {
     display: flex;
@@ -80,6 +81,7 @@ export default {
       background: rgba(38, 67, 89, 0.08);
     }
     .content-main {
+      min-height: 100vh;
       flex: 1 1 100%;
       display: flex;
       flex-direction: column;
