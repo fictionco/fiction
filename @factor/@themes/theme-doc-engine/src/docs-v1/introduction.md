@@ -1,105 +1,125 @@
 # Introduction
-
-Factor.js is a framework for creating Vue.js applications, you can choose between Universal, Static Generated or Single Page application.
-
+ 
 ## [What is Factor?](#what-is-factor)
-Factor is a Serverless Framework. In the documentation you will learn how to install it, how to use the interface and how to develop plugins and themes for the Factor platform.
 
-Its main scope is UI rendering while abstracting away the client/server distribution.
+Factor is an open-source progressive Javascript framework and CMS for building web applications.
 
-Our goal is to create a framework flexible enough that you can use it as a main project base or in addition to your current project based on Node.js.
+Unlike other web frameworks, Factor is designed to provide an drop-in extension experience which allows for less configuration and technical know-how.
 
-Factor.js presets all the configuration needed to make your development of a server-rendered Vue.js Application more enjoyable.
+Factor is a also a Serverless Framework. Which means all server operations happen in endpoints you control rather than a monolithic server you have to deal with. 
 
-In addition, we also provide another deployment option called: factor generate. It will build a statically generated Vue.js Application. We believe that option could be the next big step in the development of Web Applications with microservices.
+In the documentation you will learn how to install it, how to use the interface, develop custom apps, as well as extensions (plugins, stacks and themes) for the Factor platform.
 
-Furthermore, you can also use Factor.js to create single page applications (spa mode) quickly, useful to keep Factor features while working on backoffice applications.
+**Why Factor?** &mdash; It's main scope is to help manage the complexity of Javascript applications, to provide a framework for common CMS features and to abstract away common front-end tasks through extensions.
 
-As a framework, Factor.js comes with a lot of features to help you in your development between the client side and the server side such as Asynchronous Data, Middleware, Layouts, etc.
+It's also flexible enough that you can use it for any web project, large or small.
+
+Ultimately, with Factor.js you'll find the experience of building server-rendered Vue.js Application less technical, less time-consuming and more enjoyable.
 
 ## [How it Works](#how-it-works)
 
-Factor.js includes the following to create a rich web application development:
+You can think of Factor as a system that brings together the following:
 
-- [Vue 2](https://vuejs.org/)
-- [Vue Router](https://router.vuejs.org/en/)
-- [Vuex](https://vuex.vuejs.org/en/)
-- [Vue Server Renderer](https://ssr.vuejs.org/en/) (excluded when using mode: 'spa')
-- [vue-meta](https://github.com/declandewet/vue-meta)
+- **Application Framework**
+  - CMS Dashboard and Post/Page Management Extensions
+  - VueJS SSR (Webpack, etc..)
+- **Build System**
+  - The Factor CLI
+  - Serverless Function Emulation and Deployment
+  - Development Server 
+- **Extension Framework**
+  - Factor "filters" which allow extensions to "drop themselves in" to requisite parts of your app.
+  - Dependency management and loading (via NPM and modules)
 
-A total of only **57kB min+gzip** (60kB with Vuex).
-
-Under the hood Factor uses webpack with vue-loader and babel-loader to bundle, code-split and minify your code.
 
 ## [Features](#features)
-- Write Vue Files (`*.vue`)
-- Automatic Code Splitting
-- Server-Side Rendering
-- Powerful Routing System with Asynchronous Data
-- Static File Serving
-- [ES2015+](https://babeljs.io/docs/en/learn/) Transpilation
-- Bundling and minifying of your JS & CSS
-- Managing `<head>` element (`<title>`, `<meta>`, etc.)
-- Hot module replacement in Development
-- Pre-processor: Sass, Less, Stylus, etc.
-- HTTP/2 push headers ready
-- Extending with Modular architecture
+- **CMS** 
+  - **Posts** &mdash; Quickly publish and manage pages and articles on your site.
+  - **Dashboard** &mdash; A beautiful customer dashboard for your app.
+  - **Admin** &mdash; A robust UI for your application backend.
+- **Extensions**
+  - **Themes** &mdash; Get prebuilt-templates, apps and UI with Factor Themes. 
+  - **Stacks** &mdash; No more learning dozens of APIs. Use service-stacks instead.
+  - **Plugins** &mdash; Add features and functionality for your app in seconds.
+- **Framework**
+  - **SSR** &mdash; Ideal for performance, seo and sharing.
+  - **Serverless** &mdash; No more server to manage and scale.
+  - **Reactive** &mdash; Build all your reactive components with the incredible VueJS framework.
 
-## [Schema](#schema)
 
-This schema shows what is called by Factor.js when the server is called or when the user navigates through the app via `<factor-link>`:
+## [Diagram](#diagram)
 
-![Factor Schema](./factor-schema.svg)
+This diagram shows how the build system and application work together to create a cohesive development environment:
 
-## [Server Rendered (Universal SSR)](#server-rendered-universal-ssr)
+![Factor Schema](./diagram.jpg)
 
-You can use Factor.js as a framework to handle all the UI rendering of your project.
+### [Stacks](#stacks)
 
-When launching factor, it will start a development server with hot-reloading and [Vue Server Renderer](https://ssr.vuejs.org/) configured to automatically server-render your application.
+The concept for Factor "stacks" was created out of a deep frustration we experienced working with various service APIs. Specifically, we faced these problems: 
+- Lock-In &mdash; Almost every service you use attempts to lock you into their service by encouraging the co-mingling your app with their custom features and APIs. 
+- Exponential Learning Curve &mdash; Every service has a different API and approach. Some good and some bad. As you add more and more APIs this problem gets worse as you have more to remember.
+- Cost and Wasted Time &mdash; Comparing and shopping for services is a massive time suck. Then once you choose a service you have to optimize it or pay.
 
-### [Single Page Applications (SPA)](#single-page-applications-spa)
+So what are "stacks?" Stacks are like themes, but for services. 
 
-If, for any reason, you prefer not to use server side rendering or need static hosting for your applications, you can simply use SPA mode using factor --spa. In combination with the generate feature, it gives you a powerful SPA deployment mechanism without the need to use a Node.js runtime or any special server handling.
+For example, Factor and Factor extensions ask for a service to respond to some request, like a text search. You'll then be notified (via CLI) that you need to find a stack to answer this request. Simply install and configure the desired stack extension and you have search working. No more learning dozens of APIs!
 
-Take a look at the commands to learn more about usage.
 
-If you already have a server, you can plug Factor.js by using it as a middleware. There is no restriction at all when using Factor.js for developing your Universal Web Applications. See the Using Factor.js Programmatically guide.
+### [Themes](#themes)
 
-## [Static Generated (Pre Rendering)](#static-generated-pre-rendering)
+The concept of themes have always been critical in developing apps for platforms like WordPress, etc.. However, theming is typically neglected in JS frameworks. With Factor this isn't the case. 
 
-The big innovation of Factor.js comes with the factor generate command.
+The scope of a Factor theme is to give you a more opinionated base application to start with than the raw Factor app. Themes typically add or include extensions of their own, as well as add useful templates and UI tools.
 
-When building your application, it will generate the HTML for every one of your routes and store it in a file.
+The theme structure is the same as your application structure. This means you can use a theme as starting point or you can inherit from it by adding it in your factor-config file and as a dependency. Inheriting has the added benefit of the theme being 'updateable' which is not possible once you've edited it. 
 
-For example, the following file structure:
+> **Sidenote:** Factor themes were heavily inspired by the WordPress' child-theme vs parent theme paradigm.
 
+
+### [JS Framework](#framework)
+
+Setting up a new JS application can be highly technical and difficult (we know first hand). That's why you really want to use a framework. 
+
+However, we weren't satisfied with the other Vue and React frameworks. That's why we built one. 
+
+When you are evaluating frameworks you should look for the following: 
+
+  - Modular - Functionality should be driven by single purpose modules.
+  - Minimal - A clear understanding of scope.
+  - Drop-In Extensibility - Extensions should be easy to add and remove
+  - Open-Source - We believe in democratizing publishing and the freedoms that come with open source. Supporting this idea is a large community of people collaborating on and contributing to this project.
+
+Factor provides a robust and versatile basis for the development of any JS application. 
+
+A Factor app is structured as follows: 
+```YML
+module: package.json (Add dependencies)
+config: factor-config.json (Configure theme, plugins, stacks)
+app: src/
+  controller: plugin.js (Application entry for routes, code, etc...)
+  components: component.vue 
+  etc: ... (more components)
+  template: index.html (Your apps HTML template)
 ```
--| pages/
-----| about.vue
-----| index.vue
-```
 
-will generate
+### CLI
 
-```
--| dist/
-----| about/
-------| index.html
-----| index.html
-```
+To work with Factor's NodeJS build system and development environment, all you need is the Factor CLI. 
 
-With this, you can host your generated web application on any static hosting!
+The CLI is an extensible and fully featured utility that makes all sorts of development tasks trivial. As a primer, here are some key commands: 
 
+To develop in your app just run: 
+- `yarn factor dev`
 
-We don't want to manually generate the application every time we update the [docs repository](https://github.com/factor/docs), it triggers a hook to Netlify which:
+To setup and configure run: 
+- `yarn factor setup`
 
-1. Clones the [factor repository](https://github.com/fiction-com/factor)
-2. Installs the dependencies via `yarn add`
-3. Runs `yarn factor deploy`
-4. Serves the `dist` directory
+To deploy (once configured) run: 
+- `yarn factor deploy`
 
-We now have an automated **Static Generated Web Application** :)
+Extensions can also add their own CLI utilities using the command: 
+- `yarn factor run [filter]` (more on this later)
 
-We can go further by thinking of an e-commerce web application made with `factor generate` and hosted on a CDN. Every time a product is out of stock or back in stock, we regenerate the web app. But if the user navigates through the web app in the meantime, it will be up to date thanks to the API calls made to the e-commerce API. No need to have multiple instances of a server + a cache any more!
+## Ready For More?
 
-> See [How to deploy on Netlify?](/faq/netlify-deployment) for more details on how to deploy to Netlify.
+We’ve briefly introduced the most basic features of Factor - the rest of this guide will cover them and other advanced features with much finer details, so let's dig in.
