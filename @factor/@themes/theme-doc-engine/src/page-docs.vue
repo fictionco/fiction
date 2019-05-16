@@ -10,24 +10,21 @@
           <h2 class="title">Guide</h2>
 
           <ul class="menu-root">
-            <li>
-              <h3>Essentials</h3>
-            </li>
-            <li v-for="(item, itemIndex) in normalizedNav" :key="itemIndex">
-              <factor-link :path="`/docs/${item.slug}`">{{ item.name }}</factor-link>
-              <div v-if="item.slug == activePath">
+            <li v-for="(item, itemIndex) in normalizedNav" :key="itemIndex" class="doc-menu">
+              <factor-link class="primary-doc-link" :path="`/docs/${item.slug}`">{{ item.name }}</factor-link>
+              <div v-if="item.slug == activePath" class="scroll-menu">
                 <li v-for="(h2, indexParent) in headers" :key="indexParent">
                   <a
                     class="nav-link parent"
                     :href="h2.anchor"
-                    :class="$route.hash == h2.anchor ? 'active' : 'not'"
+                    :class="activeHash == h2.anchor ? 'scroll-active' : ''"
                     @click="clicked=true"
                   >{{ h2.text }}</a>
                   <ul v-if="h2.sub.length">
                     <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
                       <a
                         class="nav-link sub"
-                        :class="$route.hash == h3.anchor ? 'active' : 'not'"
+                        :class="activeHash == h3.anchor ? 'scroll-active' : `not-${h3.anchor}`"
                         :href="h3.anchor"
                         @click="clicked=true"
                       >{{ h3.text }}</a>
@@ -47,8 +44,10 @@
               <factor-icon icon="bars" />Menu
             </div>
           </div>
-          <div ref="content" v-formatted-text="getMarkdown()" />
-          <docs-footer />
+          <div ref="scroller" class="scroller">
+            <docs-entry ref="content" :text="getMarkdown()" />
+            <docs-footer />
+          </div>
         </div>
       </div>
     </section>
@@ -58,12 +57,14 @@
 import { setTimeout } from "timers"
 export default {
   components: {
-    "docs-footer": () => import("./el/el-docs-footer")
+    "docs-footer": () => import("./el/el-docs-footer"),
+    "docs-entry": () => import("./el/entry")
   },
   data() {
     return {
       loading: true,
       activeRoute: this.$route.path,
+      activeHash: this.$route.hash,
       toggle: true,
       nav: [],
       headers: [],
@@ -92,10 +93,12 @@ export default {
     }
   },
   watch: {
-    $route: function(v) {
-      this.activeRoute = v.path
-      this.toggleNav(false)
-      this.setPage()
+    $route: function(to, from) {
+      if (to.path != from.path) {
+        this.activeRoute = to.path
+        this.toggleNav(false)
+        this.setPage()
+      }
     }
   },
   metatags() {
@@ -106,9 +109,8 @@ export default {
       image: this.socialImage(post)
     }
   },
-  mounted() {
-    this.prism = require("prismjs")
 
+  mounted() {
     this.setPage()
   },
   beforeDestroy() {
@@ -169,16 +171,12 @@ export default {
       return require(`./docs-v1/${filename}.md`)
     },
     setPage() {
-      // wait til content is done rendering
-      setTimeout(() => {
-        this.prism.highlightAll()
-      }, 50)
-
       // Make sure new content is loaded before scanning for h2, h3
-      this.$nextTick(() => {
-        this.headers = this.getHeaders(this.$refs.content)
+      setTimeout(() => {
+        this.headers = this.getHeaders(this.$refs.scroller)
+        console.log("this.$re", this.headers)
         window.addEventListener("scroll", this.onScroll())
-      })
+      }, 50)
     },
     onScroll() {
       return this.$lodash.throttle(() => {
@@ -191,6 +189,7 @@ export default {
         this.clicked = false
         return;
       }
+
       const scrollTop = Math.max(
         window.pageYOffset,
         document.documentElement.scrollTop,
@@ -212,10 +211,11 @@ export default {
           isActive &&
           decodeURIComponent(this.$route.hash) !== decodeURIComponent(anchor.id)
         ) {
-          this.$router.replace({
-            hash: decodeURIComponent(anchor.id),
-            meta: { noscroll: true }
-          })
+          this.activeHash = `#${anchor.id}`
+          // this.$router.replace({
+          //   hash: decodeURIComponent(anchor.id),
+          //   meta: { noscroll: true }
+          // })
           return;
         }
       }
@@ -274,39 +274,28 @@ export default {
 </script>
 
 <style lang="less">
-@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/themes/prism.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/line-highlight/prism-line-highlight.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/line-numbers/prism-line-numbers.min.css");
-
 .page-docs {
-  :not(pre) > code[class*="language-"],
-  pre[class*="language-"] {
-    background: #f8f8f8;
-  }
   .mast {
     padding: 0 2em;
-    line-height: 1.2;
+
     max-width: 1000px;
     margin: 0 auto;
   }
 
-  .docs-wrap {
-    h1 {
-      font-size: 2em;
+  .scroller {
+    max-width: 750px;
+    padding: 3em 0;
+    padding-left: 50px;
+    margin: 0 auto;
+    @media (max-width: 1300px) {
+      margin-left: 290px;
     }
-    h2 {
-      font-size: 1.5em;
-    }
-    h3 {
-      font-size: 1.2em;
-      margin: 1em 0;
-    }
-    h1,
-    h2,
-    h3 {
-      font-weight: 800;
+    @media (max-width: 767px) {
+      margin: 0 auto;
+      padding: 3em 0;
     }
   }
+
   // Mobile Nav
   .mobile-nav {
     display: block;
@@ -361,7 +350,11 @@ export default {
     overflow-y: scroll;
     height: 100vh;
     padding-bottom: 5em;
-
+    .title {
+      font-size: 1.3em;
+      font-weight: 800;
+      margin-bottom: 1em;
+    }
     @media (max-width: 767px) {
       display: block;
       z-index: 10;
@@ -377,161 +370,42 @@ export default {
       padding: 40px 20px 60px 60px;
     }
 
-    // All Lists
     ul {
       line-height: 1.6em;
       list-style: none;
-      li {
+      li.doc-menu {
         margin-top: 0.5em;
       }
     }
     // sidebar main menu
     ul.menu-root {
       padding-left: 0;
+      .primary-doc-link {
+        font-weight: 600;
+      }
       a {
         color: inherit;
-        &.router-link-exact-active {
+        &.router-link-exact-active,
+        &:hover,
+        &.scroll-active {
           color: var(--color-primary);
           font-weight: 800;
         }
         &:hover {
-          border-bottom: 2px solid var(--color-primary);
+          //border-bottom: 2px solid var(--color-primary);
         }
       }
       //sidebar
       .nav-link {
         font-size: 0.85em;
         margin-left: 1em;
+        &.sub {
+          margin-left: 1.5em;
+          font-size: 0.8em;
+        }
       }
-    }
-  }
-  // Docs Content
-  .content {
-    margin: 0 auto;
-    max-width: 700px;
-    padding: 3em 0 3em 3.125em;
-    @media (max-width: 1300px) {
-      margin-left: 290px;
-    }
-    @media (max-width: 767px) {
-      margin: 0 auto;
-      padding: 3em 0;
-    }
-    h1,
-    h2,
-    h3 {
-      position: relative;
-      a {
-        pointer-events: auto;
-        color: inherit;
-      }
-    }
-    h1 {
-      margin: 0 0 1em;
-    }
-    h2 {
-      margin: 45px 0 0.8em;
-      padding-bottom: 0.7em;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    h3 {
-      position: relative;
-      &:before {
-        content: "#";
-        color: var(--color-primary);
-        position: absolute;
-        left: -0.9em;
-        margin-top: -0.15em;
-        font-size: 1.2em;
-        font-weight: 800;
-      }
-    }
-    a {
-      color: var(--color-primary);
-    }
-    img {
-      max-width: 100%;
-    }
-    p,
-    ul,
-    ol {
-      line-height: 1.6em;
-      padding-bottom: 1.2em;
-    }
-    ol,
-    ul {
-      padding-left: 1.5em;
-    }
-    blockquote {
-      margin: 2em 0;
-      padding: 10px 10px 10px 20px;
-      background: #f8f8f8;
-      border-left: 4px solid var(--color-primary);
-      p {
-        padding-bottom: 0;
-      }
-    }
-    .alert {
-      color: var(--color-light);
-      background-color: var(--color-bg-dark);
-      padding: 15px 15px 0;
-      line-height: 20px;
-      margin: 20px 0;
-      border-radius: 4px;
-      code {
-        background-color: rgba(255, 255, 255, 0.1);
-      }
-      a {
-        color: var(--color-light);
-        text-decoration: underline;
-      }
-    }
-    pre {
-      max-width: 100%;
-      overflow-x: scroll;
-      margin-bottom: 1em;
-    }
-    hr {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      border: 0;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    p.tip {
-      padding: 12px 24px 12px 30px;
-      margin: 2em 0;
-      border-left: 4px solid var(--color-primary);
-      background-color: #fff;
-      border-radius: 0 4px 4px 0;
-    }
-    sub,
-    sup {
-      position: relative;
-      font-size: 75%;
-      line-height: 0;
-      vertical-align: baseline;
-    }
-    sub {
-      top: -0.5em;
-    }
-    sup {
-      bottom: -0.25em;
-    }
-    table {
-      margin-bottom: 1em;
-      border-spacing: 0;
-
-      thead tr th {
-        background: #f8f8f8;
-        padding: 10px 15px;
-        text-transform: uppercase;
-      }
-      th,
-      td {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-      }
-      td {
-        padding: 10px;
+      .scroll-menu {
+        padding: 0.25em 0 0.5em;
       }
     }
   }

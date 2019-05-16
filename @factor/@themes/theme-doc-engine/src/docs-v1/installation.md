@@ -1,87 +1,105 @@
 # Installation
-Factor.js is really easy to get started with. A simple project only needs the `factor` dependency.
 
-## [Using `factor start`](#using-factor-start)
+## Famous 5-Minute Install
 
-To get started quickly, the Factor.js team has created scaffolding tool [factor start](link).
+Starting a new Factor app should be easy. The goal is to have you up-and-running in **less than 5-minutes**. 
 
-Make sure you have [npx](https://www.npmjs.com/package/npx) installed (`npx` is shipped by default since NPM `5.2.0`)
+A simple project only needs the `@factor/cms` dependency. Which installs Factor CLI as well as some packages. Let's dig in...
+
+> **Node + Yarn - Global Dependencies** <br/>
+> Factor requires [Node.js](https://nodejs.org/en/) version 10 or above, as well as [Yarn](https://yarnpkg.com/en/) for dependency management.
+
+## [Using `create-factor-app`](#create-factor-app)
+
+To get started quickly, we've built a scaffolding tool: [create-factor-app](https://www.npmjs.com/package/create-factor-app).
+
+> Make sure you have [npx](https://www.npmjs.com/package/npx) installed (`npx` is shipped by default since NPM `5.2.0`)
 
 ```bash
-$ yarn factor start <project-name>
+$ npx create-factor-app <project-name>
 ```
 
-It will ask you some questions:
+or with Yarn: 
 
-1. Choose your theme:
-  - [One](Link)
-  - [Two](Link)
-  - [Three](Link)
-  - [Four](Link)
-2. Choose your stack:
-  - [One](Link)
-  - [Two](Link)
-  - [Three](Link)
-  - [Four](Link)
+```bash
+$ yarn create factor-app <project-name>
+```
 
-When answered, it will install all the dependencies so the next step is to navigate to the project folder and launch it with:
+Running this command will install some dependencies and start a CLI designed to guide you through the process of creating an app. 
+
+It will ask you a couple questions and then it will install and create a basic Factor app. 
+
+Once it's finished, the next step is to navigate to the project folder and launch it with:
 
 ```bash
 $ cd <project-name>
 $ yarn factor dev
 ```
 
-The application is now running on http://localhost:3000.
-
-> Factor.js will listen for file changes inside the `src` directory, so there is no need to restart the application when adding new pages.
-
-To discover more about the directory structure of the project: [Directory Structure Documentation](/docs/directory-structure).
+With this, your starter application should be running at **http://localhost:7777**.
 
 ## [Starting from scratch](#starting-from-scratch)
 
-Creating a Factor.js application from scratch is also really easy, it only needs *1 file and 1 directory*. Let's create an empty directory to start working on the application:
+Starting a Factor application from scratch is also really easy, it only needs *1 file and 1 directory*. Let's create an empty directory to start working on the application:
 
 ```bash
-$ mkdir <project-name>
-$ cd <project-name>
+$ mkdir <my-app-name>
+$ cd <my-app-name>
 ```
 
-> Info: replace `<project-name>` by the name of the project.
+Add a `package.json` file, which at at minimum should contain the following: 
+```json
+{
+  "name": "my-app-name", 
+  "version": "1.0.0", 
+  "homepage": "https://www.your-app-url.com", 
+  "main": "src/plugin.js", 
+  "license": "...",
+}
+```
 
-### [Installing `factor`](#installing-factor)
+### [Installing `@factor/cms`](#installing-factor)
 
-Once the `package.json` has been created, add `factor` to the project via yarn:
+Once the `package.json` has been created, add Factor CMS to the project via yarn:
 
 ```bash
-$ yarn add factor
+$ yarn add @factor/cms
 ```
 
-### [The `pages` directory](#the-pages-directory)
 
-Factor.js will transform every `*.vue` file inside the `pages` directory as a route for the application.
+### First Component
 
-Create the `pages` directory:
+#### [File and Directory Structure](#structure)
 
-```bash
-$ mkdir pages
+The basic file and directory for typical Factor apps and themes looks like this: 
+
+```yaml
+
+# Config
+--: package.json
+--: factor-config.json (optional for now)
+--: factor-secrets.json (optional for now)
+
+# App Source
+--/src: 
+  --: plugin.js (app entry file)
+  --: index.html (HTML template wrapper for all pages)
+  --: content.vue (component wrapper for all views)
+  --: fallback.vue  (404 error)
+  --: ...(additional components and folders)...
+--/static:
+  --: static assets (favicon, manifest)
+
+# Other 
+--: .gitignore (make sure to ignore factor-secrets.json)
 ```
 
-then create the first page in `pages/index.vue`:
+Assuming you've created your package.json and installed @factor/cms. The next step is to create a `src` folder and add the following files: 
+- `index.html` - Add your standard HTML 
+
 
 ```html
 <template>
-  <h1>Hello world!</h1>
+  <h1>Hello World!</h1>
 </template>
 ```
-
-and launch the project with:
-
-```bash
-$ yarn factor dev
-```
-
-The application is now running on http://localhost:3000.
-
-> Factor.js will listen for file changes inside the <code>pages</code> directory, so there is no need to restart the application when adding new pages.
-
-To discover more about the directory structure of the project: [Directory Structure Documentation](/docs/directory-structure).

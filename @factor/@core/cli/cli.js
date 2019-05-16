@@ -9,7 +9,7 @@ const pkg = require("./package")
 const consola = require("consola")
 
 process.noDeprecation = true
-process.maxOldSpaceSize = 4000
+process.maxOldSpaceSize = 8000
 
 const cli = async () => {
   return new (class {

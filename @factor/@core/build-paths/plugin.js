@@ -74,7 +74,7 @@ module.exports = Factor => {
       const folderName = this.folder(folder)
       const themePath = themeRoot ? resolve(themeRoot, folderName, file) : false
       const appPath = resolve(this.paths.source, folderName, file)
-
+      const entryPath = this.paths.entry || ""
       if (pathExistsSync(appPath)) {
         return appPath
       } else if (themePath && pathExistsSync(themePath)) {

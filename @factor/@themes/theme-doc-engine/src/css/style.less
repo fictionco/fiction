@@ -10,10 +10,11 @@
   --color-placeholder: #bdcad4;
 
 
-  --color-success: #26d12b;
+  --color-success: #42b983;
   --color-info: #62bdff;
   --color-warning: #ff6464;
   --color-danger: #ff0076;
+  --color-code: #e83b0e;
 
   --color-bg: #ffffff;
   --color-bg-alt: #f6f9fc;
@@ -35,12 +36,15 @@
   --panel-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
     0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
+  --input-shadow: 0 0 0 1px rgba(0, 43, 93, 0.2);
+
+
   color: var(--color-text);
   background: var(--color-bg);
   font-family: var(--font-primary);
   font-size: 16px;
-  line-height: 1.2;
-  font-weight: 400;
+  line-height: 1.5;
+  font-weight: 500;
 
   --font-weight-bold: 800;
 
@@ -55,6 +59,8 @@
       color: var(--color-secondary);
     }
   }
+
+
 
   @import "entry-content.less";
   @import "inputs.less";

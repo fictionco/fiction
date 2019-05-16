@@ -53,6 +53,36 @@ This diagram shows how the build system and application work together to create 
 
 ![Factor Schema](./diagram.jpg)
 
+## [Concepts](#concepts)
+
+### [Build System](#build)
+
+Factor, at its heart, is a build system that coordinates different developer tools and environments to create what feels like a consistent and simple development experience. 
+
+The purpose of the build system is to abstract away all the configuration, bundling, file generation, etc.. so you can focus on **just building your app.**
+
+Parts of the build system include: 
+- CLI (Node)
+- Local development server
+- Webpack bundling system
+- Extension and filter system
+
+While in reality you'll be working across environments (cli, node, cloud, app(client/server)), the build system orchestrates this and makes it feel like a common VueJS/Javascript app.
+
+### [CMS and Dashboard](#cms)
+
+The Factor project was created to help you create web applications without months of wading through APIs and configuration. 
+
+As part of this, there are also a set of common patterns that almost every web app needs and benefits from, which we call the **Factor CMS**. These include: 
+
+- User Dashboard
+- Posts and Post Management (in Factor, and similar to WordPress, everything is a post - pages, users, docs, etc... )
+- Admin Dashboard 
+- Authentication
+- Basic Data and Image Storage
+
+While it is possible to use only Factor's build system, many developers who don't want to reinvent the wheel will benefit from the CMS as well. 
+
 ### [Stacks](#stacks)
 
 The concept for Factor "stacks" was created out of a deep frustration we experienced working with various service APIs. Specifically, we faced these problems: 
@@ -73,7 +103,7 @@ The scope of a Factor theme is to give you a more opinionated base application t
 
 The theme structure is the same as your application structure. This means you can use a theme as starting point or you can inherit from it by adding it in your factor-config file and as a dependency. Inheriting has the added benefit of the theme being 'updateable' which is not possible once you've edited it. 
 
-> **Sidenote:** Factor themes were heavily inspired by the WordPress' child-theme vs parent theme paradigm.
+> **Sidenote:** Factor themes were inspired by the WordPress' child-theme vs parent theme concept.
 
 
 ### [JS Framework](#framework)
@@ -92,7 +122,7 @@ When you are evaluating frameworks you should look for the following:
 Factor provides a robust and versatile basis for the development of any JS application. 
 
 A Factor app is structured as follows: 
-```YML
+```yaml
 module: package.json (Add dependencies)
 config: factor-config.json (Configure theme, plugins, stacks)
 app: src/
