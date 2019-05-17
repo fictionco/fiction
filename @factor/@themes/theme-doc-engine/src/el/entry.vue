@@ -40,13 +40,13 @@ export default {
 @import "../prism/prism.less";
 
 code {
-  color: #ff0076;
+  color: #ff0070;
   font-family: "Roboto Mono", Monaco, courier, monospace;
   padding: 3px 5px;
   margin: 0 2px;
-  border-radius: 2px;
+  border-radius: 5px;
   white-space: nowrap;
-  background-color: #f8f8f8;
+  background-color: rgba(255, 4, 4, 0.05);
   font-family: "Roboto Mono", Monaco, courier, monospace;
   font-size: 0.85em;
   -webkit-font-smoothing: initial;
@@ -79,6 +79,7 @@ code {
       color: inherit;
       margin: 0;
       padding: 0;
+      background: transparent;
     }
   }
 
@@ -103,6 +104,9 @@ code {
   h3,
   h4 {
     font-weight: 800;
+    a {
+      font-weight: 800;
+    }
   }
   h1,
   h2,
@@ -136,6 +140,7 @@ code {
   }
   a {
     color: var(--color-primary);
+    font-weight: 600;
   }
   img {
     max-width: 100%;

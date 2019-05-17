@@ -4,7 +4,7 @@
 
 Starting a new Factor app should be easy. The goal is to have you up-and-running in **less than 5-minutes**. 
 
-A simple project only needs the `@factor/cms` dependency. Which installs Factor CLI as well as some packages. Let's dig in...
+A simple project only needs `@factor/cms` referenced as a package.json dependency. This installs Factor CLI as well as some packages. Let's dig in...
 
 > **Node + Yarn - Global Dependencies** <br/>
 > Factor requires [Node.js](https://nodejs.org/en/) version 10 or above, as well as [Yarn](https://yarnpkg.com/en/) for dependency management.
@@ -44,12 +44,12 @@ Now you're up and running with a basic app; you have fully featured Vue developm
 
 Getting the Factor CMS working requires two steps: 
 
-1. Adding a Stack, our term for a services plugin, that covers services needed by the core CMS. For example, a datastore, image hosting, endpoints, etc.. 
-2. Configuring your stack services by adding their API keys (with the help of `factor setup`)
+1. Adding a Stack that covers services needed by the core CMS. 
+2. Configuring service API keys (with the help of `factor setup`)
 
-### Fire Stack
+### Your First Stack
 
-The starter kit provided should come preconfigured with the Fire Stack, which is a in-house stack we've developed. The Fire Stack integrates Factor with the following services: 
+The starter kit provided should come preconfigured with the Fire Stack, an in-house stack we've developed. It uses: 
 
 - [Google Firebase](https://firebase.google.com) for auth, DB, image storage, endpoints (cloud functions), hosting
 - [Google Sign-in API](https://developers.google.com/identity/sign-in/web/sign-in) for Google signin
@@ -63,7 +63,11 @@ Let's set these services up! Don't worry you'll be able to change stacks later w
 
 3. Then create an account at Algolia and get your  `appId`, `searchKey` and `adminKey`.
   
-### [Using `factor setup`](#factor-setup)
+> **The Stack Solution** <br/>
+> Stacks are designed to prevent service lock-in as well as reduce the amount of time spent learning proprietary APIs.
+
+
+### [The Setup CLI](#factor-setup)
 
 To make the process of configuring your app as painless as possible, Factor has a handy config tool: `yarn factor setup`. 
 
@@ -75,4 +79,6 @@ To use, just open up your terminal to your project folder. From there run `yarn 
 
 Assuming you've successfully setup your services with their keys, you should be able to visit your application dashboard and admin. To do this, first start your local server `yarn factor dev` once that's going, you should be able to visit the url: `http://localhost:7777/dashboard`.
 
+## Next Up
 
+At this point you should be setup with all you need to start development of a new CMS-powered app. Next we'll learn how to create custom routes and view components.

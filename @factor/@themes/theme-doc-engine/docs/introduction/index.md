@@ -23,24 +23,29 @@ You can think of Factor as a system that brings together the following:
 - **Application Framework**
   - CMS Dashboard and Post/Page Management Extensions
   - VueJS SSR (Webpack, etc..)
+  
 - **Build System**
   - The Factor CLI
   - Serverless Function Emulation and Deployment
   - Development Server 
+  
 - **Extension Framework**
   - Factor "filters" which allow extensions to "drop themselves in" to requisite parts of your app.
   - Dependency management and loading (via NPM and modules)
 
 
 ## [Features](#features)
+
 - **CMS** 
   - **Posts** &mdash; Quickly publish and manage pages and articles on your site.
   - **Dashboard** &mdash; A beautiful customer dashboard for your app.
   - **Admin** &mdash; A robust UI for your application backend.
+
 - **Extensions**
   - **Themes** &mdash; Get prebuilt-templates, apps and UI with Factor Themes. 
   - **Stacks** &mdash; No more learning dozens of APIs. Use service-stacks instead.
   - **Plugins** &mdash; Add features and functionality for your app in seconds.
+
 - **Framework**
   - **SSR** &mdash; Ideal for performance, seo and sharing.
   - **Serverless** &mdash; No more server to manage and scale.

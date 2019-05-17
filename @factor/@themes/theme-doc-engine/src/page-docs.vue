@@ -10,9 +10,12 @@
           <h2 class="title">Guide</h2>
 
           <ul class="menu-root">
-            <li v-for="(item, itemIndex) in normalizedNav" :key="itemIndex" class="doc-menu">
-              <factor-link class="primary-doc-link" :path="`/docs/${item.slug}`">{{ item.name }}</factor-link>
-              <div v-if="item.slug == activePath" class="scroll-menu">
+            <li v-for="(item, itemIndex) in nav" :key="itemIndex" class="doc-menu">
+              <factor-link
+                class="primary-doc-link"
+                :path="`/docs/${item.permalink}`"
+              >{{ item.name }}</factor-link>
+              <div v-if="item.permalink == activePath" class="scroll-menu">
                 <li v-for="(h2, indexParent) in headers" :key="indexParent">
                   <a
                     class="nav-link parent"
@@ -45,7 +48,7 @@
             </div>
           </div>
           <div ref="scroller" class="scroller">
-            <docs-entry ref="content" :text="getMarkdown()" />
+            <docs-entry ref="content" :text="outline.getMarkdownHTML(doc)" />
             <docs-footer />
           </div>
         </div>
@@ -54,7 +57,7 @@
   </div>
 </template>
 <script>
-import { setTimeout } from "timers"
+import outline from "../docs/outline"
 export default {
   components: {
     "docs-footer": () => import("./el/el-docs-footer"),
@@ -66,30 +69,23 @@ export default {
       activeRoute: this.$route.path,
       activeHash: this.$route.hash,
       toggle: true,
-      nav: [],
+
       headers: [],
       allHeaders: [],
-      clicked: false
+      clicked: false,
+      outline: outline(this)
     }
   },
   computed: {
-    docsPage() {
-      return this.$route.params.markdownurl || "introduction"
+    doc() {
+      return this.$route.params.markdownurl || ""
     },
-    normalizedNav() {
-      return this.navItems().map(_ => {
-        if (typeof _ == "string") {
-          return {
-            slug: _,
-            name: this.$utils.toLabel(_)
-          }
-        } else {
-          return _
-        }
-      })
-    },
+
     activePath() {
       return this.$route.params.markdownurl || ""
+    },
+    nav() {
+      return this.outline.config()
     }
   },
   watch: {
@@ -102,12 +98,8 @@ export default {
     }
   },
   metatags() {
-    const post = this.post || {}
-    return {
-      title: post.titleTag || post.title,
-      description: post.description || this.$posts.excerpt(post.content),
-      image: this.socialImage(post)
-    }
+    const { title, description } = this.outline.selected(this.doc)
+    return { title, description }
   },
 
   mounted() {
@@ -142,41 +134,12 @@ export default {
         document.removeEventListener("click", this.clickHandler, false)
       }
     },
-    navItems() {
-      const nav = [
-        "installation",
-        {
-          name: "Introduction",
-          slug: ""
-        },
-        "directory-structure",
-        "configuration",
-        "routing",
-        "views",
-        "async-data",
-        "assets",
-        "plugins",
-        "modules",
-        {
-          name: "Commands and Deployment",
-          slug: "commands"
-        },
-        "development-tools"
-      ]
 
-      return nav
-    },
-    getMarkdown() {
-      let filename = this.docsPage
-      const compiled = require(`./docs-v1/${filename}.md`)
-
-      return compiled
-    },
     setPage() {
       // Make sure new content is loaded before scanning for h2, h3
       setTimeout(() => {
         this.headers = this.getHeaders(this.$refs.scroller)
-        console.log("this.$re", this.headers)
+
         window.addEventListener("scroll", this.onScroll())
       }, 50)
     },
@@ -267,7 +230,6 @@ export default {
           }
         })
         .join("")
-        .replace(/\(.*\)$/, "")
 
       return text
     }
@@ -391,7 +353,8 @@ export default {
         &:hover,
         &.scroll-active {
           color: var(--color-primary);
-          font-weight: 800;
+          font-weight: 700;
+          letter-spacing: -0.01em;
         }
         &:hover {
           //border-bottom: 2px solid var(--color-primary);
@@ -401,6 +364,7 @@ export default {
       .nav-link {
         font-size: 0.85em;
         margin-left: 1em;
+        font-weight: 400;
         &.sub {
           margin-left: 1.5em;
           font-size: 0.8em;
