@@ -5,12 +5,9 @@
   "license": "GPL-3.0",
   "factor": {
     "id": "privs",
-    "target": [
-      "app"
-    ]
+    "target": ["app"]
   },
   "dependencies": {
-    "@factor/cms-user": "^0.2.0",
     "@factor/cms-user-role-endpoint": "^0.2.0"
   },
   "publishConfig": {

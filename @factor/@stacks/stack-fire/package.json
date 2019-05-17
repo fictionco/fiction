@@ -11,6 +11,7 @@
     "scope": "stack"
   },
   "dependencies": {
+    "@factor/service-google-auth": "^0.2.0",
     "@factor/endpoint-algolia": "^0.2.0",
     "@factor/service-algolia": "^0.2.0",
     "@factor/service-firebase-app-build": "^0.2.0",
