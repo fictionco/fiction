@@ -1,5 +1,32 @@
 # Directory Structure
 
+#### [File and Directory Structure](#structure)
+
+The basic file and directory for typical Factor apps and themes looks like this: 
+
+```yaml
+
+# Config
+--: package.json
+--: factor-config.json (optional for now)
+--: factor-secrets.json (optional for now)
+
+# App Source
+--/src: 
+  --: plugin.js (app entry file)
+  --: index.html (HTML template wrapper for all pages)
+  --: content.vue (component wrapper for all views)
+  --: fallback.vue  (404 error)
+  --: ...(additional components and folders)...
+--/static:
+  --: static assets (favicon, manifest)
+
+# Other 
+--: .gitignore (make sure to ignore factor-secrets.json)
+```
+
+
+
 > The default Factor.js application structure is intended to provide a great starting point for both large and small applications. Of course, you are free to organize your application however you like.
 
 ## Directories

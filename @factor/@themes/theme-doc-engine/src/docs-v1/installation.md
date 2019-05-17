@@ -11,7 +11,7 @@ A simple project only needs the `@factor/cms` dependency. Which installs Factor 
 
 ## [Using `create-factor-app`](#create-factor-app)
 
-To get started quickly, we've built a scaffolding tool: [create-factor-app](https://www.npmjs.com/package/create-factor-app).
+To get started quickly, we've built a "starter kit" tool: [create-factor-app](https://www.npmjs.com/package/create-factor-app).
 
 > Make sure you have [npx](https://www.npmjs.com/package/npx) installed (`npx` is shipped by default since NPM `5.2.0`)
 
@@ -36,70 +36,43 @@ $ cd <project-name>
 $ yarn factor dev
 ```
 
-With this, your starter application should be running at **http://localhost:7777**.
+With this, your basic starter application should be running at **http://localhost:7777**
 
-## [Starting from scratch](#starting-from-scratch)
+## CMS and Dashboard 
 
-Starting a Factor application from scratch is also really easy, it only needs *1 file and 1 directory*. Let's create an empty directory to start working on the application:
+Now you're up and running with a basic app; you have fully featured Vue development framework ready to go. But let's take things a big step further: let's setup the CMS. 
 
-```bash
-$ mkdir <my-app-name>
-$ cd <my-app-name>
-```
+Getting the Factor CMS working requires two steps: 
 
-Add a `package.json` file, which at at minimum should contain the following: 
-```json
-{
-  "name": "my-app-name", 
-  "version": "1.0.0", 
-  "homepage": "https://www.your-app-url.com", 
-  "main": "src/plugin.js", 
-  "license": "...",
-}
-```
+1. Adding a Stack, our term for a services plugin, that covers services needed by the core CMS. For example, a datastore, image hosting, endpoints, etc.. 
+2. Configuring your stack services by adding their API keys (with the help of `factor setup`)
 
-### [Installing `@factor/cms`](#installing-factor)
+### Fire Stack
 
-Once the `package.json` has been created, add Factor CMS to the project via yarn:
+The starter kit provided should come preconfigured with the Fire Stack, which is a in-house stack we've developed. The Fire Stack integrates Factor with the following services: 
 
-```bash
-$ yarn add @factor/cms
-```
+- [Google Firebase](https://firebase.google.com) for auth, DB, image storage, endpoints (cloud functions), hosting
+- [Google Sign-in API](https://developers.google.com/identity/sign-in/web/sign-in) for Google signin
+- [Algolia](https://www.algolia.com/) for improved queries, search and post indexes
 
+Let's set these services up! Don't worry you'll be able to change stacks later without too much effort.
 
-### First Component
+1. The first step is to create an account with Firebase (or Google Cloud Platform (GCP)) and create a project. From your Firebase console you should be able to find your [Firebase Config Object](https://firebase.google.com/docs/web/setup?authuser=0#config-object) and a [Service Account Key](https://console.firebase.google.com/)
 
-#### [File and Directory Structure](#structure)
+2. In your GCP console, go to APIs and Services and make sure the identity API is enabled. You'll need to get the `clientId` and `tokenId` from this service for Google Signin.
 
-The basic file and directory for typical Factor apps and themes looks like this: 
+3. Then create an account at Algolia and get your  `appId`, `searchKey` and `adminKey`.
+  
+### [Using `factor setup`](#factor-setup)
 
-```yaml
+To make the process of configuring your app as painless as possible, Factor has a handy config tool: `yarn factor setup`. 
 
-# Config
---: package.json
---: factor-config.json (optional for now)
---: factor-secrets.json (optional for now)
+This tool makes adding all sorts of configuration a straight-forward process since it reduces guess work (and it's also extendable).  
 
-# App Source
---/src: 
-  --: plugin.js (app entry file)
-  --: index.html (HTML template wrapper for all pages)
-  --: content.vue (component wrapper for all views)
-  --: fallback.vue  (404 error)
-  --: ...(additional components and folders)...
---/static:
-  --: static assets (favicon, manifest)
+To use, just open up your terminal to your project folder. From there run `yarn factor setup` and you will be provided with a CLI to guide you through the process of adding your API keys to your config. 
 
-# Other 
---: .gitignore (make sure to ignore factor-secrets.json)
-```
+### [Visiting The Dashboard](#visiting)
 
-Assuming you've created your package.json and installed @factor/cms. The next step is to create a `src` folder and add the following files: 
-- `index.html` - Add your standard HTML 
+Assuming you've successfully setup your services with their keys, you should be able to visit your application dashboard and admin. To do this, first start your local server `yarn factor dev` once that's going, you should be able to visit the url: `http://localhost:7777/dashboard`.
 
 
-```html
-<template>
-  <h1>Hello World!</h1>
-</template>
-```

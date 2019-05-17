@@ -168,7 +168,9 @@ export default {
     },
     getMarkdown() {
       let filename = this.docsPage
-      return require(`./docs-v1/${filename}.md`)
+      const compiled = require(`./docs-v1/${filename}.md`)
+
+      return compiled
     },
     setPage() {
       // Make sure new content is loaded before scanning for h2, h3

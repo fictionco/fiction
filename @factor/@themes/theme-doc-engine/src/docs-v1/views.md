@@ -2,7 +2,6 @@
 
 > The Views section describes all you need to configure data and views for a specific route in your Factor.js Application (App Template, Layouts, Pages and HTML Head).
 
-![Factor Views Schema](./factor-views-schema.svg)
 
 ## App Template
 

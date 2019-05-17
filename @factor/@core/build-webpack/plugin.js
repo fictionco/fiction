@@ -232,7 +232,7 @@ module.exports.default = Factor => {
           filename: "js/[name].[chunkhash].js"
         },
         resolve: {
-          extensions: [".js", ".vue", ".json", ".fact"],
+          extensions: [".js", ".vue", ".json"],
           alias: Factor.$paths.getAliases(),
           modules: Factor.$filters.apply("webpack-resolve-modules", Factor.$paths.get("modules")),
           symlinks: false // for performance
@@ -267,17 +267,6 @@ module.exports.default = Factor => {
               use: this.cssLoaders({ ...args, lang: "sass" })
             },
 
-            // {
-            //   test: /\.css$/,
-            //   use: [
-            //     {
-            //       loader: "vue-style-loader"
-            //     },
-            //     {
-            //       loader: "css-loader"
-            //     }
-            //   ]
-            // },
             {
               test: /\.md$/,
               use: [
