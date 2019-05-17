@@ -5,9 +5,7 @@ module.exports = Factor => {
 
     util(type, params) {
       var args = [].slice.call(params)
-      args[0] = "%c" + args[0]
 
-      args.splice(1, 0, "font-weight: bold")
       console[type].apply(null, args)
     }
 

@@ -76,17 +76,18 @@ module.exports.default = Factor => {
 
       this.renderer.renderToString(context, (err, html) => {
         if (err) {
+          console.log("erro?", req, res, err)
           return this.handleError(req, res, err)
-        }
+        } else {
+          if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
+            res.set("cache-control", this.getCacheControl(req.url))
+          }
 
-        if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
-          res.set("cache-control", this.getCacheControl(req.url))
-        }
+          res.send(html)
 
-        res.send(html)
-
-        if (serve) {
-          Factor.$log.success(`Request @[${req.url}] - ${Date.now() - s}ms`)
+          if (serve) {
+            Factor.$log.success(`Request @[${req.url}] - ${Date.now() - s}ms`)
+          }
         }
       })
     }
@@ -210,9 +211,9 @@ module.exports.default = Factor => {
       } else if (err.code === 404) {
         res.status(404).send("404 | Page Not Found")
       } else {
-        res.status(500).send(this.wrp("500 | Server Error"))
         Factor.$log.info(`Factor Server Error  @[${req.url}]`)
         Factor.$log.error(err)
+        res.status(500).send(this.wrp("500 | Server Error"))
       }
     }
     wrp(txt) {

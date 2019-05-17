@@ -1,7 +1,7 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*", "@tester/*"],
+  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*", "@demo/*"],
   "private": true,
   "publishConfig": {
     "access": "public"
