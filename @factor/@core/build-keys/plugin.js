@@ -76,6 +76,7 @@ module.exports = Factor => {
           files: [this.pathRaw],
           callback: ({ event, path }) => {
             const es = ["development", "production"]
+
             es.forEach(environment => this.analyzeKeys(environment))
           }
         })

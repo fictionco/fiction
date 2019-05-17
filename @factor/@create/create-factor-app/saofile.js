@@ -1,11 +1,12 @@
 /* eslint-disable unicorn/no-process-exit */
-const { join } = require("path")
-const superb = require("superb")
-const glob = require("glob")
-const spawn = require("cross-spawn")
-const validate = require("validate-npm-package-name")
 
-const rootDir = __dirname
+const superb = require("superb")
+//const { join } = require("path")
+// const glob = require("glob")
+// const spawn = require("cross-spawn")
+// const validate = require("validate-npm-package-name")
+
+// const rootDir = __dirname
 
 const config = {
   prompts: [
