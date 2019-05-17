@@ -1,7 +1,7 @@
 {
   "name": "@factor/cms",
   "description": "Bundle",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -18,7 +18,7 @@
     "@factor/cms-page-templates": "^0.2.0",
     "@factor/cms-posts": "^0.2.0",
     "@factor/cms-signin": "^0.2.0",
-    "@factor/cms-user": "^0.2.0",
+    "@factor/cms-user": "^0.2.1",
     "@factor/core": "^0.2.0",
     "@factor/ui": "^0.2.0"
   },
