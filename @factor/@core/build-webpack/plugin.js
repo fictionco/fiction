@@ -166,7 +166,7 @@ module.exports.default = Factor => {
         externals: [
           nodeExternals({
             // do not externalize CSS files in case we need to import it from a dep
-            whitelist: /\.css$/
+            whitelist: [/\.css$/, /factor/]
           })
         ],
         plugins: [
@@ -233,9 +233,9 @@ module.exports.default = Factor => {
         },
         resolve: {
           extensions: [".js", ".vue", ".json"],
-          alias: Factor.$paths.getAliases(),
-          modules: Factor.$filters.apply("webpack-resolve-modules", Factor.$paths.get("modules")),
-          symlinks: false // for performance
+          alias: Factor.$paths.getAliases()
+          // modules: Factor.$filters.apply("webpack-resolve-modules", Factor.$paths.get("modules")),
+          // symlinks: false // for performance
         },
         module: {
           rules: [
@@ -296,14 +296,14 @@ module.exports.default = Factor => {
               "process.env.VUE_ENV": JSON.stringify(args.target),
               "process.env.FACTOR_SSR": JSON.stringify(args.target)
             })
-          )
-          // function() {
-          //   this.plugin("done", function(stats) {
-          //     if (stats.compilation.errors && stats.compilation.errors.length) {
-          //       console.log(stats.compilation.errors)
-          //     }
-          //   })
-          // }
+          ),
+          function() {
+            this.plugin("done", function(stats) {
+              if (stats.compilation.errors && stats.compilation.errors.length) {
+                console.log(stats.compilation.errors)
+              }
+            })
+          }
         ],
         stats: { children: false }
       }

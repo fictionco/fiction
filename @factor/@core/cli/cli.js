@@ -258,7 +258,6 @@ const cli = async () => {
         await concurrently(r, {
           prefix: chalk.bold(`{name}`) + " " + figures.arrowRight
         })
-        Factor.$log.formatted({ title: "Have a great day! - Factor CLI." })
       } catch (error) {
         consola.error(error)
       }

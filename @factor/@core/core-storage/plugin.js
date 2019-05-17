@@ -47,7 +47,7 @@ module.exports.default = Factor => {
     async request({ method, args }) {
       const served = await Factor.$stack.service(`storage-service-${method}`, args)
 
-      return served[0] ? served[0].result : false
+      return served ? served.result : false
     }
 
     async delete(args) {

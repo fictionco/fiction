@@ -6,7 +6,7 @@
           <div class="wedge" />
         </div>
         <div class="mast-text">
-          <h1 class="title">The Javascript CMS</h1>
+          <h1 class="title">Factor CMS</h1>
           <p
             class="subtitle"
           >Factor is a modern CMS &amp; framework build on Vue.js that helps developers succeed where others have failed.</p>

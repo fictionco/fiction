@@ -33,7 +33,7 @@ export default Factor => {
         service: _ => this.delete(_)
       })
 
-      const { appId, searchKey } = Factor.$config.settings("algolia") || {}
+      const { appId, searchKey } = Factor.$config.setting("algolia") || {}
 
       const algoliasearch = require("algoliasearch")
       this.prefix = `${Factor.$config.setting("env")}_`

@@ -67,7 +67,7 @@ module.exports.default = Factor => {
 
       const served = await Factor.$stack.service(`db-service-${method}`, args)
 
-      const result = served && served[0] ? served[0].result : { data: returnType }
+      const result = served ? served : { data: returnType }
 
       const entry = {
         data: returnType,

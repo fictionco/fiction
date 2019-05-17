@@ -10,8 +10,8 @@ export default Factor => {
         result: "String"
       })
 
-      Factor.$filters.add("initialize-app", () => {
-        this.endpointBase = Factor.$stack.service("endpoints-base-url")
+      Factor.$filters.add("initialize-app", async () => {
+        this.endpointBase = await Factor.$stack.service("endpoints-base-url")
       })
     }
 

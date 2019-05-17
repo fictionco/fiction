@@ -10,7 +10,7 @@ export default {
   mixins: Factor.$filters.apply("site-mixins", []),
   computed: {
     injectedComponents() {
-      return this.$filters.apply("site-components")
+      return this.$filters.apply("site-components", {})
     },
     ui() {
       const { meta: { ui = "app" } = {} } =

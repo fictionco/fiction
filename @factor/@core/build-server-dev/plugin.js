@@ -171,7 +171,10 @@ export default Factor => {
         // watch and update server renderer
         if (err) throw err
         stats = stats.toJson()
-        if (stats.errors.length !== 0) return
+        if (stats.errors.length !== 0) {
+          console.error(stats.errors)
+          return
+        }
 
         this.bundle = JSON.parse(this.readFile(mfs, Factor.$paths.get("server-bundle-name")))
         this.updateServer("Server Compiler")

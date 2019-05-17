@@ -196,7 +196,7 @@ export default {
           })
 
           this.$emit("done", credentials)
-          console.log("SHOULD RE", this.redirectPath)
+
           this.$user.init(uid => {
             if (uid && this.redirectPath) {
               this.$router.push({ path: this.redirectPath })
@@ -241,20 +241,20 @@ export default {
 
     font-style: italic;
     .text {
-      color: #ddd;
+      opacity: 0.4;
       padding: 0 1em;
-      background: #fff;
+      //  background: #fff;
       z-index: 10;
       position: relative;
     }
-    .line {
-      position: absolute;
-      top: 50%;
-      height: 1px;
-      border-bottom: 1px dotted #ddd;
-      width: 100%;
-      left: 0;
-    }
+    // .line {
+    //   position: absolute;
+    //   top: 50%;
+    //   height: 1px;
+    //   border-bottom: 1px dotted #ddd;
+    //   width: 100%;
+    //   left: 0;
+    // }
   }
   .action {
     margin-top: 1em;

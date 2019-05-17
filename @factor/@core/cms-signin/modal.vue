@@ -4,7 +4,6 @@
       <div class="title">{{ title }}</div>
       <div class="sub-title">{{ subTitle }}</div>
     </div>
-
     <el-signin v-if="mode != 'confirmation'" :redirect="redirect" @done="done($event)" />
   </factor-modal>
 </template>

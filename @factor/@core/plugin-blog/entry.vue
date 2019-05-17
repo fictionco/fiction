@@ -21,17 +21,16 @@
         <div class="entry-content">
           <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(content) }}</div>
           <slot v-if="format == 'single'" />
+          <div v-if="format == 'listing'" class="entry-action">
+            <factor-link :path="path">
+              Continue Reading
+              <factor-icon icon="arrow-right" />
+            </factor-link>
+          </div>
         </div>
       </div>
 
       <el-tags class="entry-tags" :tags="tags" />
-
-      <div v-if="format == 'listing'" class="entry-action">
-        <factor-link size="large" btn="default" :path="path">
-          Continue Reading
-          <factor-icon icon="arrow-right" />
-        </factor-link>
-      </div>
 
       <div v-if="format == 'single'" class="entry-action">
         <el-flame :post-id="postId" />

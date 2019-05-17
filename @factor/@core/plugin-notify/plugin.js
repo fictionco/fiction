@@ -1,7 +1,7 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("site-components", (_ = {}) => {
+      Factor.$filters.add("site-components", _ => {
         _["plugin-notify"] = () => import("./toaster")
 
         return _

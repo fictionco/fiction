@@ -103,6 +103,7 @@ export default {
         tag,
         status: ["published"]
       })
+
       this.loading = false
     }
   }

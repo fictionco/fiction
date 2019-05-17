@@ -21,8 +21,6 @@ module.exports = (Factor, CLOUD_CONFIG) => {
         args: "ID token (Bearer Token)",
         returns: "Object (User)"
       })
-
-      this.bearerTokenService = Factor.$stack.service("auth-token-service")
     }
 
     setup() {
@@ -161,6 +159,7 @@ module.exports = (Factor, CLOUD_CONFIG) => {
       if (authorization && authorization.startsWith("Bearer ")) {
         const bearerToken = authorization.split("Bearer ")[1]
 
+        this.bearerTokenService = await Factor.$stack.service("auth-token-service")
         auth = await this.bearerTokenService(bearerToken)
       }
 
