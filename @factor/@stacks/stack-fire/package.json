@@ -8,7 +8,13 @@
     "access": "public"
   },
   "factor": {
-    "scope": "stack"
+    "id": "fireStack",
+    "extend": "stack",
+    "target": {
+      "cloud": "cloud",
+      "app": "",
+      "build": "build"
+    }
   },
   "dependencies": {
     "@factor/endpoint-algolia": "^0.2.0",

@@ -8,7 +8,7 @@
   },
   "factor": {
     "id": "appDriver",
-    "target": "build",
+    "target": ["build"],
     "priority": 60
   },
   "dependencies": {

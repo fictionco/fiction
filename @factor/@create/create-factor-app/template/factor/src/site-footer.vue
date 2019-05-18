@@ -2,8 +2,9 @@
   <div class="content-footer">
     <div class="content-footer-pad">
       <div class="footer-col">
-        <div class="copyright">Built with Factor by Fiction.com Inc.</div>
-        <fiction-pin class="icon" />
+        <factor-link path="https://www.fiction.com">
+          <fiction-pin class="icon" />
+        </factor-link>
       </div>
     </div>
   </div>

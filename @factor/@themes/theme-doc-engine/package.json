@@ -7,11 +7,8 @@
     "access": "public"
   },
   "factor": {
-    "target": [
-      "themes",
-      "app",
-      "build"
-    ]
+    "extend": "theme",
+    "target": ["themes", "app", "build"]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {

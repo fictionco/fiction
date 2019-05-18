@@ -1,16 +1,16 @@
+const { dirname, resolve } = require("path")
 const { pathExistsSync } = require("fs-extra")
 const glob = require("glob").sync
 module.exports = Factor => {
   return new (class {
     constructor() {
-      const { theme } = Factor.FACTOR_CONFIG
+      // const { theme } = Factor.FACTOR_CONFIG
 
-      this.themePackageName = theme || ""
+      // this.themePackageName = theme || ""
 
-      this.addPath()
+      // this.addPaths()
 
-      // Allow module resolution
-      this.addWebpackConfig()
+      this.themes = Factor.$files.getExtended("theme")
 
       // This allows for overriding of files from themes
       // Notes:
@@ -18,21 +18,39 @@ module.exports = Factor => {
       // - TODO if a file is added to app, then server needs a restart, fix should be possible
       Factor.$filters.add("webpack-plugins", (_, { webpack }) => {
         const plugin = new webpack.NormalModuleReplacementPlugin(/^\#/, resource => {
+          const req = resource.request
           const src = Factor.$paths.get("source")
-          const theme = Factor.$paths.get("theme")
 
-          const appPath = this._fileExists(resource.request.replace("#", src))
-          const themePath = this._fileExists(resource.request.replace("#", theme))
-          const fallback = this._fileExists(resource.request.replace("#", resource.context))
+          const appPath = this._fileExists(req.replace("#", src))
 
           if (appPath) {
             resource.request = appPath
-          } else if (themePath) {
-            resource.request = themePath
-          } else if (fallback) {
-            resource.request = fallback
           } else {
-            throw new Error(`A requested module is missing`)
+            let filePath = ""
+
+            if (this.themes.length > 0) {
+              this.themes.some(_ => {
+                const t = dirname(require.resolve(_.name))
+
+                const r = req.replace("#", t)
+                const exists = this._fileExists(r)
+
+                if (exists) {
+                  filePath = r
+                  return true
+                }
+              })
+            }
+
+            if (!filePath) {
+              const relPath = this._fileExists(req.replace("#", resource.context))
+              const fallbackPath = this._fileExists(req.replace("#", Factor.$paths.get("fallbacks")))
+
+              if (relPath) filePath = relPath
+              else if (fallbackPath) filePath = fallbackPath
+            }
+
+            resource.request = filePath
           }
         })
 
@@ -56,36 +74,36 @@ module.exports = Factor => {
       }
     }
 
-    addPath() {
-      const { dirname } = require("path")
-      const themePath = this.themePackageName
-        ? dirname(require.resolve(this.themePackageName))
-        : Factor.$paths.get("app")
+    // addPaths() {
+    //   const { dirname } = require("path")
+    //   const themePath = this.themePackageName
+    //     ? dirname(require.resolve(this.themePackageName))
+    //     : Factor.$paths.get("app")
 
-      Factor.$paths.add({
-        theme: themePath
-      })
-    }
+    //   Factor.$paths.add({
+    //     theme: themePath
+    //   })
+    // }
 
-    package() {
-      return this.themePackageName
-    }
+    // package() {
+    //   return this.themePackageName
+    // }
 
-    addWebpackConfig() {
-      // if (this.theme) {
-      //   Factor.$filters.add("package-webpack-config", _ => {
-      //     _.resolve = {
-      //       modules: [Factor.$paths.get("source"), Factor.$paths.get("theme"), "node_modules"]
-      //     }
-      //     return _
-      //   })
-      // }
-    }
+    // addWebpackConfig() {
+    //   // if (this.theme) {
+    //   //   Factor.$filters.add("package-webpack-config", _ => {
+    //   //     _.resolve = {
+    //   //       modules: [Factor.$paths.get("source"), Factor.$paths.get("theme"), "node_modules"]
+    //   //     }
+    //   //     return _
+    //   //   })
+    //   // }
+    // }
 
-    buildConfig() {
-      const { factor } = require(`${this.themePackageName}/package.json`)
+    // buildConfig() {
+    //   const { factor } = require(`${this.themePackageName}/package.json`)
 
-      return factor
-    }
+    //   return factor
+    // }
   })()
 }

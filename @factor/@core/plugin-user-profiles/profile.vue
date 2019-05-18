@@ -77,7 +77,7 @@
         <factor-lightbox :visible.sync="lightboxShow" :imgs="lightboxImages" />
       </div>
     </div>
-    <fallback v-else />
+    <error-404 v-else />
   </div>
 </template>
 <script>

@@ -7,11 +7,8 @@
     "access": "public"
   },
   "factor": {
-    "target": [
-      "themes",
-      "app",
-      "build"
-    ]
+    "extend": "theme",
+    "target": ["themes", "app", "build"]
   },
   "dependencies": {
     "@factor/cms": "^0.2.2",

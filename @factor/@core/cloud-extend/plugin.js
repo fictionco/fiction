@@ -10,7 +10,7 @@ module.exports = (Factor, CLOUD_CONFIG) => {
       Factor.FACTOR_ENV = "cloud"
       Factor.FACTOR_CONFIG = this.config()
       this.isSetup
-
+      this.extensions = require(Factor.$paths.get("plugins-loader-cloud"))
       this.setup()
     }
 
@@ -44,14 +44,19 @@ module.exports = (Factor, CLOUD_CONFIG) => {
       this.insertLoadedExtensions()
     }
 
+    buildExtensions(buildTarget) {
+      return this.extensions.filter(({ target }) => {
+        if (!target) return false
+
+        target = Array.isArray(target) ? target : Object.keys(target)
+        return target.includes(buildTarget) ? true : false
+      })
+    }
+
     insertLoadedExtensions() {
-      const cloudExtensions = require(Factor.$paths.get("plugins-loader-cloud"))
-      Object.keys(cloudExtensions).forEach(key => {
-        const { id, target, name, mainFile } = cloudExtensions[key]
-        if (target && (target == "cloud" || target.includes("cloud"))) {
-          const moduleName = mainFile ? mainFile : name
-          this.addCoreExtension(id, require(moduleName).default)
-        }
+      this.buildExtensions("cloud").forEach(extension => {
+        const { id, mainFile } = extension
+        this.addCoreExtension(id, require(mainFile).default)
       })
     }
 
@@ -90,20 +95,20 @@ module.exports = (Factor, CLOUD_CONFIG) => {
 
       // Endpoint Modules can either expose a 'requestHandler' method
       // Or the endpoint service will wrap the entire module
-      Object.keys(cloudExtensions).forEach(key => {
-        const { target, name } = cloudExtensions[key]
-        if (target && (target == "endpoint" || target.includes("endpoint"))) {
-          const pluginModule = require(name).default
-          const pluginClass = pluginModule(Factor)
-          const { requestHandler } = pluginClass
+      this.buildExtensions("endpoint").forEach(extension => {
+        const { mainFile } = extension
 
-          let handler =
-            requestHandler && typeof requestHandler == "function"
-              ? requestHandler.call(pluginClass) // Need to pass pluginClass as "this" is there a better way?
-              : this.requestHandler(pluginModule)
+        const pluginModule = require(mainFile).default
+        const pluginClass = pluginModule(Factor)
+        const { requestHandler } = pluginClass
 
-          endpoints[key] = endpointHandler(handler)
-        }
+        // Need to pass pluginClass as "this" is there a better way?
+        let handler =
+          requestHandler && typeof requestHandler == "function"
+            ? requestHandler.call(pluginClass)
+            : this.requestHandler(pluginModule)
+
+        endpoints[key] = endpointHandler(handler)
       })
 
       //this._runCallbacks(Factor.$filters.apply(Factor.FACTOR_TARGET, {}))

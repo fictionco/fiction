@@ -4,10 +4,8 @@
   "main": "plugin.js",
   "license": "GPL-3.0",
   "factor": {
-    "id": "privs",
-    "target": [
-      "app"
-    ]
+    "id": "privsRequest",
+    "target": ["app"]
   },
   "dependencies": {
     "@factor/cms-user-role-endpoint": "^0.2.0"

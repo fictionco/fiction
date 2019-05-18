@@ -143,6 +143,7 @@ const cli = async () => {
             Factor.$log.success(`Successfully ran "${filter}"\n\n`)
           } catch (error) {
             Factor.$log.error(error)
+            throw new Error(error)
           }
         })
 

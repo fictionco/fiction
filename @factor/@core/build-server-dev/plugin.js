@@ -23,7 +23,7 @@ export default Factor => {
     }
 
     devServer() {
-      this.templatePath = Factor.$paths.resolveFilePath("index.html")
+      this.templatePath = Factor.$paths.resolveFilePath("#/index.html")
 
       if (!this.templatePath) {
         throw new Error("Couldn't locate the index.html template file")

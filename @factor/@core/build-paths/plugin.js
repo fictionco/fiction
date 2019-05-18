@@ -69,18 +69,35 @@ module.exports = Factor => {
       this.paths = Factor.$filters.apply("paths", _)
     }
 
-    resolveFilePath(file, folder = "") {
-      const themeRoot = this.paths.theme
-      const folderName = this.folder(folder)
-      const themePath = themeRoot ? resolve(themeRoot, folderName, file) : false
-      const appPath = resolve(this.paths.source, folderName, file)
-      const entryPath = this.paths.entry || ""
+    resolveFilePath(file) {
+      const appPath = file.replace("#", this.paths.source)
+
       if (pathExistsSync(appPath)) {
         return appPath
-      } else if (themePath && pathExistsSync(themePath)) {
-        return themePath
       } else {
-        return ""
+        let filePath = ""
+        const themes = Factor.$files.getExtended("theme")
+
+        if (themes.length > 0) {
+          themes.some(_ => {
+            const themeRoot = dirname(require.resolve(_.name))
+            const themePath = file.replace("#", themeRoot)
+
+            if (pathExistsSync(themePath)) {
+              filePath = themePath
+              return true
+            }
+          })
+        }
+
+        if (!filePath) {
+          const fallbackPath = file.replace("#", this.paths.fallbacks)
+          if (pathExistsSync(fallbackPath)) {
+            filePath = fallbackPath
+          }
+        }
+
+        return filePath
       }
     }
 
@@ -125,12 +142,11 @@ module.exports = Factor => {
       const a = {
         "@": this.get("source"),
         "~": this.get("app"),
-        "#": this.get("theme") || this.get("source"),
         "@generated": this.get("generated"),
         "@config": this.get("config")
       }
 
-      return a
+      return Factor.$filters.apply("webpack-aliases", a)
     }
 
     replaceWithAliases(p) {

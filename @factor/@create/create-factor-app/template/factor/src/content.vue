@@ -26,7 +26,7 @@
             class="content"
           >Learn how to use Factor CMS and build things with Factor's build system and JS framework.</p>
           <factor-link path="https://factor.fiction.com/docs" target="_blank">
-            View Docs
+            View
             <factor-icon icon="arrow-right" />
           </factor-link>
         </div>
@@ -37,7 +37,7 @@
             class="content"
           >Themes built for developers. Component-based themes designed and built by or reviewed by the Factor team.</p>
           <factor-link path="https://factor.fiction.com/themes" target="_blank">
-            View Themes
+            View
             <factor-icon icon="arrow-right" />
           </factor-link>
         </div>
@@ -48,7 +48,7 @@
             class="content"
           >Stacks are like themes but for service APIs. No more days and months learning new APIs to get things working.</p>
           <factor-link path="https://factor.fiction.com/stacks" target="_blank">
-            Learn About Stacks
+            Learn More
             <factor-icon icon="arrow-right" />
           </factor-link>
         </div>
@@ -59,7 +59,7 @@
             class="content"
           >Factor plugins are NPM packages that you can install to any project. This is currently a small, but growing library.</p>
           <factor-link path="https://factor.fiction.com/plugins" target="_blank">
-            View Plugins
+            View
             <factor-icon icon="arrow-right" />
           </factor-link>
         </div>
@@ -91,9 +91,8 @@ export default {
   },
   metatags() {
     return {
-      title: "Welcome to Factor",
-      description:
-        "A modern framework CMS based on Vue.js. Extend your project features and do more.",
+      title: `Welcome to ${siteName}`,
+      description: "Built with Factor. A modern framework CMS based on Vue.js.",
       image: ""
     }
   }
@@ -143,13 +142,12 @@ export default {
       margin-bottom: 1.5em;
       background-color: #fff;
       border-radius: 4px;
-      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-        0 1px 3px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 0 0 1px rgba(0, 43, 93, 0.1);
       transition: all 0.2s ease-in-out;
-      &:hover {
-        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-          0 1px 3px rgba(0, 0, 0, 0.08), 0 8px 9px rgba(50, 50, 93, 0.1);
+      a {
+        font-weight: 600;
       }
+
       img {
         max-width: 50px;
         margin-bottom: 1em;

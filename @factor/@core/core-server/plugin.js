@@ -102,7 +102,7 @@ module.exports.default = Factor => {
       this.httpDetails = Factor.$paths.getHttpDetails()
 
       if (mode == "production") {
-        const template = Factor.$paths.resolveFilePath("index.html")
+        const template = Factor.$paths.resolveFilePath("#/index.html")
         const bundle = require(Factor.$paths.get("server-bundle"))
         const clientManifest = require(Factor.$paths.get("client-manifest"))
 
@@ -186,7 +186,7 @@ module.exports.default = Factor => {
     }
 
     resolveStaticAssets() {
-      const fav = Factor.$paths.resolveFilePath("favicon.png", "static")
+      const fav = Factor.$paths.resolveFilePath("#/static/favicon.png", "static")
       if (fav) {
         this.server.use(favicon(fav))
       }

@@ -5,7 +5,7 @@
   "license": "GPL-3.0",
   "factor": {
     "id": "algolia",
-    "target": "endpoint"
+    "target": ["endpoint"]
   },
   "dependencies": {
     "algoliasearch": "^3.32.1"

@@ -11,7 +11,6 @@ export default (Factor, target) => {
       this.addCoreExtension("log", require("@factor/core-log/app"))
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("config", require("@factor/app-config"))
-      this.addCoreExtension("theme", require("@factor/core-theme/app"))
       this.addCoreExtension("stack", require("@factor/core-stack"))
 
       require("@factor/app")(Factor)

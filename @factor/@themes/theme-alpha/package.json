@@ -8,11 +8,8 @@
     "access": "public"
   },
   "factor": {
-    "target": [
-      "themes",
-      "app",
-      "build"
-    ]
+    "extend": "theme",
+    "target": ["themes", "app", "build"]
   },
   "scripts": {
     "develop": "NODE_ENV=development node -e 'require(`@factor/build-start`)()'",

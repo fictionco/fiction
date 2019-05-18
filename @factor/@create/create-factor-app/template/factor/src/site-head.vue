@@ -6,7 +6,6 @@
       </div>
       <div class="nav">
         <slot />
-        <plugin-signin-profile-menu v-if="$uid" />
       </div>
     </div>
   </div>
@@ -28,8 +27,7 @@ export default {
 <style lang="less">
 .site-head {
   padding: 0 1.5em;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
-  background: #fff;
+
   position: relative;
   z-index: 10;
 }
@@ -45,6 +43,10 @@ export default {
     flex-grow: 1;
     align-items: center;
     width: 100px;
+    a {
+      color: inherit;
+      font-weight: 700;
+    }
   }
   .nav {
     font-weight: 600;

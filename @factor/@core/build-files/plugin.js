@@ -1,5 +1,6 @@
 const path = require("path")
 const { resolve } = path
+const { existsSync } = require("fs-extra")
 module.exports = Factor => {
   return new (class {
     constructor() {
@@ -18,6 +19,8 @@ module.exports = Factor => {
 
       if (Factor.FACTOR_ENV == "build") {
         this.addWatchers()
+
+        this.extensions = this.getExtensions()
 
         Factor.$filters.add("cli-create-loaders", (_, program) => {
           this.generateLoaders()
@@ -62,48 +65,35 @@ module.exports = Factor => {
       // })
     }
 
+    getExtended(type) {
+      return this.extensions.filter(_ => _.extend == type)
+    }
+
     generateLoaders() {
-      const s = Date.now()
-
-      const extensions = this.getExtensions()
-
       this.makeLoaderFile({
-        extensions,
+        extensions: this.extensions,
         destination: Factor.$paths.get("plugins-loader-build"),
-        target: ["build", "app", "endpoint", "cloud"]
+        buildTarget: ["build", "app", "endpoint", "cloud"],
+        mainTarget: "build"
       })
 
       this.makeLoaderFile({
-        extensions,
+        extensions: this.extensions,
         destination: Factor.$paths.get("plugins-loader-app"),
-        target: ["app"]
+        buildTarget: ["app"],
+        mainTarget: "app"
       })
 
       this.makeLoaderFile({
-        extensions,
+        extensions: this.extensions,
         destination: Factor.$paths.get("plugins-loader-cloud"),
-        target: ["endpoint", "cloud"],
+        buildTarget: ["endpoint", "cloud"],
+        mainTarget: "cloud",
         requireAtRuntime: true
       })
 
-      return `Loaders built for ${extensions.length} Extensions`
+      return `Loaders built for ${this.extensions.length} Extensions`
     }
-
-    // getExtensionPatterns() {
-    //   let patterns = []
-
-    //   Factor.$paths.getModulesFolders().map(_ => {
-    //     patterns = patterns.concat([
-    //       path.resolve(_, `@${this.namespace}/**/package.json`),
-    //       path.resolve(_, `${this.namespace}*/package.json`)
-    //     ])
-    //   })
-
-    //   // Add package.json from CWD - Application directory
-    //   patterns.push(Factor.$paths.get("app-package"))
-
-    //   return patterns
-    // }
 
     recursiveFactorDependencies(deps, pkg) {
       const { name, dependencies = {}, devDependencies = {} } = pkg
@@ -123,29 +113,39 @@ module.exports = Factor => {
       return deps
     }
 
+    // Use root application dependencies as the start of the
+    // factor dependency tree
     getExtensions() {
-      // const glob = require("glob").sync
-
-      // let packagePaths = []
-      // this.getExtensionPatterns().forEach(pattern => {
-      //   packagePaths = packagePaths.concat(glob(pattern))
-      // })
       const appPkg = Factor.$paths.get("app-package")
       const pkg = require(appPkg)
       const deps = this.recursiveFactorDependencies([appPkg], pkg)
-
       const list = this.getExtensionList(deps)
 
-      const apps = list.map(_ => {
-        return {
-          name: _.name,
-          scope: _.scope,
-          target: _.target
-        }
-      })
-      console.log("DEPS", deps)
-
       return list
+    }
+
+    moduleMainFile({ name, mainTarget, target }) {
+      let mainFile = name
+      if (typeof target == "object" && !Array.isArray(target) && target[mainTarget]) {
+        return `${name}/${target[mainTarget]}`
+      }
+
+      return mainFile
+    }
+
+    filterExtensions({ mainTarget, buildTarget, extensions }) {
+      let filtered = extensions
+        .filter(({ target }) => {
+          target = !Array.isArray(target) ? Object.keys(target) : target
+          return this.arrayIntersect(buildTarget, target)
+        })
+        .map(_ => {
+          const { name, target } = _
+          _.mainFile = this.moduleMainFile({ name, target, mainTarget })
+          return _
+        })
+
+      return Factor.$filters.apply(`packages-loader`, filtered, { buildTarget, extensions })
     }
 
     getExtensionList(packagePaths) {
@@ -153,22 +153,18 @@ module.exports = Factor => {
       packagePaths.forEach(_ => {
         let fields = {}
         if (_.includes("package.json")) {
-          let {
-            name,
-            factor: { id, priority = 100, target = false, service = "", provider = "", scope = "extension" } = {},
-            version
-          } = require(_)
+          let { name, factor: { id, priority = 100, target = false, extend = "plugin" } = {}, version } = require(_)
+
+          id = id || this.makeId(name)
 
           fields = {
             version,
             name,
             priority,
             target,
-            service,
-            provider,
-            scope,
+            extend,
             cwd: _ == Factor.$paths.get("app-package") ? true : false,
-            id: id || this.makeId(name.split(/endpoint-|plugin-|theme-|service-|@factor|@fiction/gi).pop())
+            id
           }
         } else {
           const basename = path.basename(_)
@@ -193,40 +189,38 @@ module.exports = Factor => {
     // Webpack doesn't allow dynamic paths in require statements
     // In order to make dynamic require statements, we build loader files
     // Also an easier way to see what is included than by using other techniques
-    makeLoaderFile({ extensions, destination, target, requireAtRuntime = false }) {
+    makeLoaderFile({ extensions, destination, mainTarget, buildTarget, requireAtRuntime = false }) {
       const fs = require("fs-extra")
 
-      const filtered = this.filterExtensions({ target, extensions })
+      const filtered = this.filterExtensions({ mainTarget, buildTarget, extensions })
 
-      const lines = [`/******** GENERATED FILE ********/`]
-
-      lines.push("const files = {}")
-
+      const fileLines = []
       filtered.forEach(extension => {
-        const { name, id, mainFile } = extension
+        const { id, mainFile } = extension
 
-        const moduleName = mainFile ? mainFile : name
-
-        const r = requireAtRuntime ? JSON.stringify(extension) : `require("${moduleName}").default`
-        lines.push(`files["${id}"] = ${r}`)
+        if (requireAtRuntime) {
+          fileLines.push(JSON.stringify(extension, null, "  "))
+        } else {
+          fileLines.push(`files["${id}"] = require("${mainFile}").default`)
+        }
       })
+
+      let lines = [`/******** GENERATED FILE ********/`]
+
+      if (requireAtRuntime) {
+        lines.push("const files = [")
+        lines.push(fileLines.join(`,\n`))
+        lines.push("]")
+      } else {
+        lines.push("const files = {}")
+        lines = lines.concat(fileLines)
+      }
 
       lines.push(`module.exports = files`)
 
       fs.ensureDirSync(path.dirname(destination))
 
       fs.writeFileSync(destination, lines.join("\n"))
-    }
-
-    filterExtensions({ target, extensions }) {
-      const filtered = extensions.filter(_ => {
-        if (_.scope !== "extension" && !_.cwd) {
-          return false
-        }
-        return this.arrayIntersect(target, _.target)
-      })
-
-      return Factor.$filters.apply(`packages-loader`, filtered, { target, extensions })
     }
 
     arrayIntersect(targetA, targetB) {
@@ -265,7 +259,8 @@ module.exports = Factor => {
     }
 
     makeId(name) {
-      return name.replace(/\//gi, "").replace(/-([a-z])/g, function(g) {
+      const base = name.split(/endpoint-|plugin-|theme-|service-|@factor|@fiction/gi).pop()
+      return base.replace(/\//gi, "").replace(/-([a-z])/g, function(g) {
         return g[1].toUpperCase()
       })
     }

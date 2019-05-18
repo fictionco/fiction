@@ -7,7 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "target": "build",
+    "target": ["build"],
     "id": "cypress"
   },
   "dependencies": {
