@@ -16,7 +16,7 @@ export default Factor => {
       })
 
       // Don't create folder if required credentials aren't setup
-      const { firebase: { databaseURL, serviceAccount } = {} } = Factor.$config.settings()
+      const { databaseURL, serviceAccount } = Factor.$config.setting("firebase") || {}
 
       if (!databaseURL || !serviceAccount) {
         return

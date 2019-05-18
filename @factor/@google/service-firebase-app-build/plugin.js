@@ -21,17 +21,6 @@ export default Factor => {
         return _
       })
 
-      // validate: value => {
-      //   if (typeof value != "object") {
-      //     return "The answer must be readable as valid JSON."
-      //   } else {
-      //     return true
-      //   }
-      // },
-      // filter: value => {
-      //   return JSON.parse(value)
-      // }
-
       Factor.$stack.registerProvider({
         title: "Firebase",
         description: "Datastore, hosting, cloud functions, file storage.",
@@ -70,7 +59,6 @@ export default Factor => {
           command: (ctx, task) => {
             this.createFirebaseJson()
             this.createFirebaseRC()
-            //task.title = `${task.title} (done)`
           },
           title: "Generating Firebase config files"
         })
