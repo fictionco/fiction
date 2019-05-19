@@ -1,8 +1,3 @@
-::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  color: $color-placeholder;
-}
-
 button,
 input,
 select,
@@ -74,10 +69,10 @@ select {
     }
   }
 
-  &::placeholder {
-    /* Chrome/Opera/Safari */
-    color: $color-placeholder;
-  }
+  // &::placeholder {
+  //   /* Chrome/Opera/Safari */
+  //   color: $color-placeholder;
+  // }
 }
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),

@@ -2,6 +2,7 @@
   <div class="content-layout">
     <site-head>
       <factor-link path="/">Home</factor-link>
+      <factor-link path="/elements">Elements</factor-link>
       <factor-link v-if="!$uid" event="signin-modal" data-test="login">
         Sign In
         <i class="fa fa-arrow-right" />

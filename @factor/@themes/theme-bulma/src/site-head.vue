@@ -21,9 +21,9 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item">Home</a>
-
-          <a class="navbar-item">Documentation</a>
+          <factor-link path="/" class="navbar-item">Home</factor-link>
+          <factor-link path="/elements" class="navbar-item">Elements</factor-link>
+          <app-link path="/documentation" class="navbar-item">Documentation</app-link>
 
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">More</a>

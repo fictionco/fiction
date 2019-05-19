@@ -18,6 +18,7 @@
           </div>
           <div class="column is-6">
             <h2>Temporary Placeholder</h2>
+            <app-link path="/">Just a link</app-link>
             <iframe
               src="https://player.vimeo.com/video/237608586?color=00d1b2"
               width="100%"
@@ -68,6 +69,75 @@
     <section class="section">
       <div class="container">
         <div class="columns">
+          <div class="column">
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label class="label">No padding</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <label class="checkbox">
+                      <input type="checkbox">
+                      Checkbox
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field is-horizontal">
+              <div class="field-label is-small">
+                <label class="label">Small padding</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input class="input is-small" type="text" placeholder="Small sized input">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Normal label</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input class="input" type="text" placeholder="Normal sized input">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field is-horizontal">
+              <div class="field-label is-medium">
+                <label class="label">Medium label</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input class="input is-medium" type="text" placeholder="Medium sized input">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field is-horizontal">
+              <div class="field-label is-large">
+                <label class="label">Large label</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input class="input is-large" type="text" placeholder="Large sized input">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="column">
             <div class="field">
               <div class="control">
@@ -168,10 +238,12 @@
                 Maybe
               </label>
             </div>
+            <i class="fa fa-dribbble" />
             <div class="file is-boxed">
               <label class="file-label">
                 <input class="file-input" type="file" name="resume">
                 <span class="file-cta">
+                  <i class="fa fa-dribbble" />
                   <span class="file-icon">
                     <i class="fas fa-upload" />
                   </span>
@@ -179,25 +251,6 @@
                 </span>
               </label>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="boxes-wrap">
-      <div class="mast">
-        <div class="boxes">
-          <div class="box">
-            <h2>Static Hosting</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-          </div>
-          <div class="box">
-            <h2>100% JavaScript</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-          </div>
-          <div class="box">
-            <h2>NPM Plugins</h2>
-            <p>Factor plugins are NPM packages that you can install to any project. This is a growing library.</p>
           </div>
         </div>
       </div>
