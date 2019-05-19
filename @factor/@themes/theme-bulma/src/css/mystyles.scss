@@ -1,39 +1,61 @@
 @charset "utf-8";
 
-// Set your brand colors
-$purple: #8A4D76;
-$pink: #FA7C91;
-$brown: #757763;
-$beige-light: #D0D1CD;
-$beige-lighter: #EFF0EB;
+@import "./reset.scss";
 
-// Update Bulma's global variables
-$family-sans-serif: "Nunito",
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css?family=Kanit:300|Prompt:400,600&display=swap');
+
+// Typography
+$family-primary: 'Kanit',
+BlinkMacSystemFont,
+-apple-system,
+"Segoe UI",
+"Roboto",
+"Oxygen",
+"Ubuntu",
+"Cantarell",
+"Fira Sans",
+"Droid Sans",
+"Helvetica Neue",
+"Helvetica",
+"Arial",
 sans-serif;
-$grey-dark: $brown;
-$grey-light: $beige-light;
-$primary: $purple;
-$link: $pink;
-$widescreen-enabled: false;
-$fullhd-enabled: false;
 
-// Update some of Bulma's component variables
-$body-background-color: $beige-lighter;
+$body-weight: 400;
+
+// Colors
+$primary: #00d1b2;
+// $info: red;
+// $success: yellow;
+// $warning: purple;
+
+$body-background-color: #f5f5f5;
+$text: #34495E;
+$body-color: $text;
+$title-color: $text;
+$subtitle-color: $text;
+$subtitle-strong-color: $text;
+
+//Other custom
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
-
 $navbar-dropdown-arrow: #e04700;
+
+
+//Fiction variables
+$color-placeholder: #bdcad4;
+$input-bg: #fff;
+$input-box-shadow: inset 0 1px 2px rgba(10, 10, 10, .1);
+
+//Blog content
+@import "./entry-content.scss";
+//Form fields
+@import "./inputs.scss";
 
 @import "bulma/bulma.sass";
 
-// Import only what you need from Bulma
-// @import "../node_modules/bulma/sass/utilities/_all.sass";
-// @import "../node_modules/bulma/sass/base/_all.sass";
-// @import "../node_modules/bulma/sass/elements/button.sass";
-// @import "../node_modules/bulma/sass/elements/container.sass";
-// @import "../node_modules/bulma/sass/elements/form.sass";
-// @import "../node_modules/bulma/sass/elements/title.sass";
-// @import "../node_modules/bulma/sass/components/navbar.sass";
-// @import "../node_modules/bulma/sass/layout/hero.sass";
-// @import "../node_modules/bulma/sass/layout/section.sass";
+// Custom css
+.title {
+  font-family: "Prompt", sans-serif;
+}

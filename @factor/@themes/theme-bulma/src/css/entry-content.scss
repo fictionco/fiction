@@ -51,7 +51,7 @@
   }
 
   a {
-    color: #0496ff;
+    color: $primary;
     text-decoration: underline;
 
     &:hover {
@@ -171,8 +171,7 @@
   blockquote {
     margin: 1em;
     padding: 0.5em;
-    border-left: 0.2em solid #ff0076;
-    font-style: italic;
+    border-left: 0.2em solid $primary;
     quotes: "“""”";
 
     @media (max-width: 767px) {

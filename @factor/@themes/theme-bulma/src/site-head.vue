@@ -3,7 +3,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <factor-link path="/" class="navbar-item">
-          <img src="https://bulma.io/images/bulma-logo.png" alt="Theme Bulma">
+          <theme-logo />
         </factor-link>
         <factor-link
           path="/"
@@ -64,7 +64,9 @@
 </template>
 <script>
 export default {
-  components: {},
+  components: {
+    "theme-logo": () => import("./logo-bulma")
+  },
   data() {
     return {}
   }
@@ -85,15 +87,15 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  .brand {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    width: 100px;
-    a img {
-      width: 80px;
-    }
-  }
+  // .brand {
+  //   display: flex;
+  //   flex-grow: 1;
+  //   align-items: center;
+  //   width: 100px;
+  //   a img {
+  //     width: 80px;
+  //   }
+  // }
   .nav {
     font-weight: 600;
     display: flex;
