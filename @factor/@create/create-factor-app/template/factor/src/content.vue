@@ -19,7 +19,11 @@ export default {
     "site-head": () => import("./header"),
     "site-footer": () => import("./footer")
   },
-
+  data() {
+    return {
+      isClient: false
+    }
+  },
   computed: {
     siteName() {
       return this.$utils.toLabel(name)
@@ -27,15 +31,31 @@ export default {
     description() {
       return description
     },
+
+    // This allows us to set style information from the route
+    // Use full when we want the styles 'full page' and on a route by route basis
     routeStyle() {
       const style = {}
+
       if (this.$route.meta.style) {
-        const { backgroundImage, color } = this.$route.meta.style
+        const {
+          backgroundImage,
+          backgroundColor,
+          color
+        } = this.$route.meta.style
+
         if (color) style.color = color
-        if (backgroundImage) style.backgroundImage = `url(${backgroundImage})`
+
+        if (backgroundImage && this.isClient)
+          style.backgroundImage = `url(${backgroundImage})`
+
+        if (backgroundColor) style.backgroundColor = backgroundColor
       }
       return style
     }
+  },
+  mounted() {
+    this.isClient = true
   },
   metatags() {
     return {
@@ -49,7 +69,10 @@ export default {
   background-size: cover;
   background-position: 50%;
   background-repeat: no-repeat;
+  background-image: none;
+
   height: 100vh;
   overflow: scroll;
+  transition: background-image 0.2s;
 }
 </style>

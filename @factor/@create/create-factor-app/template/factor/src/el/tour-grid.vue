@@ -16,7 +16,7 @@
       <h2 class="title">Themes</h2>
       <p
         class="content"
-      >Build things faster with Factor themes. Component-based themes designed and built by or reviewed by the Factor team.</p>
+      >Build things faster with Factor themes. Component-based themes designed or reviewed-by the Factor team.</p>
       <factor-link path="https://factor.fiction.com/themes" target="_blank">
         View
         <factor-icon icon="arrow-right" />
