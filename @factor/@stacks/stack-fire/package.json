@@ -28,8 +28,5 @@
     "@factor/service-firebase-storage": "^0.2.3",
     "@factor/service-google-auth": "^0.2.3"
   },
-  "peerDependencies": {
-    "@factor/core": "^0.2.0"
-  },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
