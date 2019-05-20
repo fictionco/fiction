@@ -22,27 +22,32 @@ BlinkMacSystemFont,
 sans-serif;
 
 $weight-normal: 400;
-$weight-bold: 600;
+$weight-semibold: 600;
+$weight-bold: 800;
 
 $body-weight: $weight-normal;
 
 // Colors
-$primary: #00d1b2;
+$turquoise: #00d1b2;
+$primary: $turquoise;
 $link: $primary;
-$info: cyan;
-$success: green;
-$warning: yellow;
-$danger: red;
+$info: #209cee;
+$success: #23d160;
+$warning: #ffdd57;
+$danger: #ff3860;
 $dark: #2a323a;
+$dark: #293347;
 $grey-dark: #34495E;
+$turquoise-dark: #1E392A;
 
 //General
 $body-background-color: #f5f5f5;
-$text: $grey-dark;
+$text: $dark;
 $body-color: $text;
 $title-color: $text;
 $subtitle-color: $text;
 $subtitle-strong-color: $text;
+$link-hover: $turquoise-dark;
 
 //Other custom
 $control-border-width: 2px;
@@ -56,13 +61,13 @@ $input-bg: #fff;
 $input-box-shadow:none;
 
 //Blog content
-@import "./entry-content.scss";
-//Form fields
-@import "./inputs.scss";
+// @import "./entry-content.scss";
+// //Form fields
+// @import "./inputs.scss";
 
 @import "bulma/bulma.sass";
 
-// Custom css
+//The following css are modifications for the theme and are not part of the Bulma framework
 .title {
   font-family: "Prompt", sans-serif;
 }
@@ -85,4 +90,36 @@ $input-box-shadow:none;
 select option:checked {
   background-color: linear-gradient(bottom, $primary 0%, $primary 100%);
   background: $primary -webkit-linear-gradient(bottom, $primary 0%, $primary 100%);
+}
+
+.section.call-to-action .title,
+.section.call-to-action p {
+  color: #fff;
+  margin-bottom: 0
+}
+
+.section.call-to-action .box {
+  padding: 3.5rem 2rem;
+  transform: translate(0, -9rem);
+  background-color: #293347;
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #293347
+}
+
+@media screen and (min-width: 769px) {
+  .section.call-to-action .box {
+    padding: 3.5rem 1.25rem
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .section.call-to-action .box p {
+    font-size: 18px
+  }
+}
+
+.section.call-to-action .box .button.is-outlined.is-rounded.is-medium {
+  color: #fff;
+  padding: 1.25em 2em;
+  font-weight: 400;
+  border-width: 2px
 }

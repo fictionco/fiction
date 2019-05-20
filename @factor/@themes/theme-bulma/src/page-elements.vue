@@ -1,20 +1,58 @@
 <template>
   <div class="elements">
-    <section class="section">
-      <div class="container">
-        <div class="columns is-vcentered">
-          <div class="column is-6 is-5-fullhd is-offset-1-fullhd">
-            <h1 class="title is-spaced is-1">Elements</h1>
-            <p class="subtitle">Bulma Elements and styles preview</p>
-          </div>
+    <section class="hero is-light is-medium">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Elements</h1>
+          <h2 class="subtitle">Bulma Elements and styles preview</h2>
         </div>
       </div>
     </section>
-    <section class="hero is-primary">
+    <section class="hero is-dark is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Dark title</h1>
+          <h2 class="subtitle">Dark subtitle</h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-primary is-large">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">Primary title</h1>
           <h2 class="subtitle">Primary subtitle</h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-info">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Info title</h1>
+          <h2 class="subtitle">Info subtitle</h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-success">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Success title</h1>
+          <h2 class="subtitle">Success subtitle</h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-warning">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Warning title</h1>
+          <h2 class="subtitle">Warning subtitle</h2>
+        </div>
+      </div>
+    </section>
+    <section class="hero is-danger">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Danger title</h1>
+          <h2 class="subtitle">Danger subtitle</h2>
         </div>
       </div>
     </section>
