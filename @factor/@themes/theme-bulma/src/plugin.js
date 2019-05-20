@@ -30,6 +30,11 @@ module.exports.default = Factor => {
             path: "/",
             component: () => import("./page-home"),
             meta: { nav: true }
+          },
+          {
+            path: "/elements",
+            component: () => import("./page-elements"),
+            meta: { nav: true }
           }
         ]
 
