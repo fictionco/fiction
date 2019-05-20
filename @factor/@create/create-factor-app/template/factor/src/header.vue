@@ -59,17 +59,14 @@ export default {
     > a {
       letter-spacing: -0.03em;
       font-size: 0.9em;
-      color: var(--color-text);
+      color: inherit;
       margin: 0 1em;
       @media (max-width: 767px) {
         margin: 0 0.5em;
       }
       &:hover,
-      &.active-path {
-        color: var(--color-primary);
-      }
       &:active {
-        color: var(--color-secondary);
+        opacity: 0.6;
       }
     }
     .profile-menu {

@@ -9,9 +9,10 @@
       </template>
       <template v-else>
         <factor-form ref="password-form">
-          <factor-input-email
+          <dashboard-input
             v-model="form.email"
             data-test="input-password-email"
+            input="factor-input-email"
             required
             placeholder="Email"
             @keyup.enter="passwordResetEmail()"
@@ -43,29 +44,33 @@
       </div>
 
       <factor-form ref="email-form">
-        <factor-input-text
+        <dashboard-input
           v-if="newAccount"
           v-model="form.displayName"
+          input="factor-input-text"
           data-test="signin-name"
           required
           placeholder="Full Name"
           @keyup.enter="signIn('email')"
         />
-        <factor-input-email
+        <dashboard-input
           v-model="form.email"
+          input="factor-input-email"
           data-test="signin-email"
           required
           placeholder="Email"
           @keyup.enter="signIn('email')"
         />
-        <factor-input-password
+        <dashboard-input
           v-model="form.password"
+          input="factor-input-password"
           data-test="signin-password"
           autocomplete="new-password"
           required
           placeholder="Password"
           @keyup.enter="signIn('email')"
         />
+
         <!-- <recaptcha v-if="newAccount" @solved="solved = $event" /> -->
         <div class="action">
           <dashboard-btn

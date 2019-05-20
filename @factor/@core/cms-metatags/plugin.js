@@ -32,6 +32,7 @@ export default Factor => {
           async created() {
             const mtOpt = this.$options.metatags
             let mt = false
+            const list = []
 
             if (mtOpt) {
               mt = typeof mtOpt === "function" ? mtOpt.call(this) : mtOpt
@@ -48,10 +49,34 @@ export default Factor => {
                 mt.image = Factor.$config.setting("url") + mt.image
               }
 
+              // remove empty vals
               mt = this.$lodash.pickBy(mt)
 
               const existingMetatags = this.$ssrContext.metatags || {}
-              this.$ssrContext.metatags = { ...existingMetatags, ...mt }
+
+              const metatags = { ...existingMetatags, ...mt }
+              this.$ssrContext.metatags = metatags
+
+              const { title, description, canonical, image } = metatags
+
+              if (title) {
+                list.push(`<title>${title}</title>`)
+              }
+
+              if (description) {
+                list.push(`<meta name="description" content="${description}" />`)
+              }
+
+              if (image) {
+                list.push(`<meta property="og:image" content="${image}" />`)
+              }
+
+              if (canonical) {
+                list.push(`<link rel="canonical" href="${canonical}" />`)
+                list.push(`<meta property="og:url" content="${canonical}" />`)
+              }
+
+              this.$ssrContext.extend.metatags = list.join("")
             }
           }
         })

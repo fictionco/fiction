@@ -1,6 +1,6 @@
 {
   "name": "@factor/core-stack",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -8,7 +8,9 @@
   },
   "factor": {
     "priority": 15,
-    "target": ["core"]
+    "target": [
+      "core"
+    ]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {

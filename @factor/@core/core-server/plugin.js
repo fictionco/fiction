@@ -66,6 +66,7 @@ module.exports.default = Factor => {
 
       const context = {
         url: req.url,
+        extend: {},
         metatags: {
           title: "",
           titleSuffix: "",
@@ -74,9 +75,9 @@ module.exports.default = Factor => {
         }
       }
 
+      // TODO make await instead of callback
       this.renderer.renderToString(context, (err, html) => {
         if (err) {
-          console.log("erro?", req, res, err)
           return this.handleError(req, res, err)
         } else {
           if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {

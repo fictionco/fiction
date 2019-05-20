@@ -133,8 +133,8 @@ export default Factor => {
     getDependencies() {
       let baseDependencies = {}
 
-      Object.values(this.cloudPackages).forEach(pkg => {
-        baseDependencies[pkg.module] = `>${pkg.version}`
+      this.cloudPackages.forEach(({ name, version }) => {
+        baseDependencies[name] = `^${version}`
       })
 
       this._recursiveDeps(baseDependencies)

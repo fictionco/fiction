@@ -17,10 +17,10 @@ module.exports = Factor => {
         "app-package": resolve(Factor.$paths.get("app"), "package.json")
       })
 
+      this.extensions = this.getExtensions()
+
       if (Factor.FACTOR_ENV == "build") {
         this.addWatchers()
-
-        this.extensions = this.getExtensions()
 
         Factor.$filters.add("cli-create-loaders", (_, program) => {
           this.generateLoaders()
@@ -140,8 +140,14 @@ module.exports = Factor => {
           return this.arrayIntersect(buildTarget, target)
         })
         .map(_ => {
-          const { name, target } = _
-          _.mainFile = this.moduleMainFile({ name, target, mainTarget })
+          const { name, target, cwd, main } = _
+
+          if (cwd) {
+            _.mainFile = resolve(Factor.$paths.get("app"), main)
+          } else {
+            _.mainFile = this.moduleMainFile({ name, target, mainTarget })
+          }
+
           return _
         })
 
@@ -153,9 +159,15 @@ module.exports = Factor => {
       packagePaths.forEach(_ => {
         let fields = {}
         if (_.includes("package.json")) {
-          let { name, factor: { id, priority = 100, target = false, extend = "plugin" } = {}, version } = require(_)
+          let {
+            name,
+            factor: { id, priority = 100, target = false, extend = "plugin" } = {},
+            version,
+            main = "plugin.js"
+          } = require(_)
 
           id = id || this.makeId(name)
+          const cwd = _ == Factor.$paths.get("app-package") ? true : false
 
           fields = {
             version,
@@ -163,7 +175,8 @@ module.exports = Factor => {
             priority,
             target,
             extend,
-            cwd: _ == Factor.$paths.get("app-package") ? true : false,
+            cwd,
+            main,
             id
           }
         } else {

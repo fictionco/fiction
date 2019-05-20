@@ -3,7 +3,7 @@
     <div class="content-footer-pad">
       <div class="footer-col">
         <factor-link path="https://www.fiction.com">
-          <fiction-pin class="icon" />
+          <fiction-pin class="icon" :fill="pinColor" />
         </factor-link>
       </div>
     </div>
@@ -17,7 +17,12 @@ export default {
   data: () => {
     return {}
   },
-  computed: {}
+  computed: {
+    pinColor() {
+      const { color } = this.$route.meta.style || {}
+      return color ? color : ""
+    }
+  }
 }
 </script>
 

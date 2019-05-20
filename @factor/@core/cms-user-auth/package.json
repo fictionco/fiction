@@ -1,10 +1,12 @@
 {
   "name": "@factor/cms-user-auth",
   "factor": {
-    "target": ["app"],
+    "target": [
+      "app"
+    ],
     "id": "auth"
   },
-  "version": "0.2.1",
+  "version": "0.2.3",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
@@ -12,7 +14,7 @@
   "main": "plugin.js",
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "@factor/cms-user-role": "^0.2.1",
-    "@factor/service-google-auth": "^0.2.0"
+    "@factor/cms-user-role": "^0.2.3",
+    "@factor/service-google-auth": "^0.2.3"
   }
 }

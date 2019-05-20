@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/no-process-exit */
 
 const superb = require("superb")
+const figures = require("figures")
 //const { join } = require("path")
 // const glob = require("glob")
 // const spawn = require("cross-spawn")
@@ -21,11 +22,6 @@ const config = {
       default: `My ${superb()} Factor project`
     },
     {
-      name: "url",
-      message: "Project URL",
-      default: ``
-    },
-    {
       name: "author",
       type: "string",
       message: "Your Name",
@@ -43,16 +39,12 @@ const config = {
       type: "list",
       choices: [
         {
-          name: "Build - Build System and Vue SSR Framework",
-          value: "build"
-        },
-        {
-          name: "Core - Service layer abstraction and Stacks (with build)",
-          value: "core"
-        },
-        {
-          name: "CMS (Recommended) - Dashboard, Page Templates, Posts (with build & core)",
+          name: "Full CMS (@factor/cms) - Framework + CMS Features and Dashboard",
           value: "cms"
+        },
+        {
+          name: "Basic Framework (@factor/app) - Build System and Vue SSR Framework",
+          value: "app"
         }
       ],
       default: "cms"
@@ -60,6 +52,7 @@ const config = {
   ],
   templateData() {
     const urlName = config.slugify(this.answers.name)
+
     return { urlName }
   },
   slugify(text) {
@@ -103,6 +96,8 @@ const config = {
 
     await this.npmInstall({ npmClient: "yarn" })
 
+    this.showProjectTips()
+
     const isNewFolder = this.outDir !== process.cwd()
     const cd = () => {
       if (isNewFolder) {
@@ -111,13 +106,15 @@ const config = {
     }
 
     console.log()
-    console.log(this.chalk.bold(`  To get started:\n`))
+    console.log(this.chalk.bold(`  ${figures.tick} To get started:\n`))
     cd()
     console.log(`\tyarn factor dev\n`)
 
-    console.log(this.chalk.bold(`  Factor Docs:\n`))
+    console.log(this.chalk.bold(`  ${figures.star} Factor Docs:\n`))
 
     console.log(`\thttps://factor.fiction.com/\n`)
+
+    console.log()
   }
 }
 
