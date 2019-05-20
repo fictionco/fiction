@@ -5,7 +5,7 @@
       <h2 class="title">Docs</h2>
       <p
         class="content"
-      >Learn how to use Factor CMS and build things with Factor's build system and JS framework.</p>
+      >Learn how to use Factor CMS and build things with its cutting-edge build system and JS framework.</p>
       <factor-link path="https://factor.fiction.com/docs" target="_blank">
         View
         <factor-icon icon="arrow-right" />
@@ -16,7 +16,7 @@
       <h2 class="title">Themes</h2>
       <p
         class="content"
-      >Themes built for developers. Component-based themes designed and built by or reviewed by the Factor team.</p>
+      >Build things faster with Factor themes. Component-based themes designed and built by or reviewed by the Factor team.</p>
       <factor-link path="https://factor.fiction.com/themes" target="_blank">
         View
         <factor-icon icon="arrow-right" />
@@ -38,7 +38,7 @@
       <h2 class="title">Plugins</h2>
       <p
         class="content"
-      >Factor plugins are NPM packages that you can install to any project. This is currently a small, but growing library.</p>
+      >Factor plugins add functionality to your app. Just add to package dependencies and the rest takes care of itself..</p>
       <factor-link path="https://factor.fiction.com/plugins" target="_blank">
         View
         <factor-icon icon="arrow-right" />
