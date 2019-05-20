@@ -83,8 +83,8 @@ export default {
 
   .navbar {
     .navbar-item {
-      font-family: "Prompt", sans-serif;
-      //font-weight: $weight-bold;
+      font-family: var(--family-secondary);
+      font-weight: var(--weight-bold);
     }
   }
 }

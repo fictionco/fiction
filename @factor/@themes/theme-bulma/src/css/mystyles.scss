@@ -21,6 +21,23 @@ BlinkMacSystemFont,
 "Arial",
 sans-serif;
 
+$family-secondary: 'Prompt',
+BlinkMacSystemFont,
+-apple-system,
+"Segoe UI",
+"Roboto",
+"Oxygen",
+"Ubuntu",
+"Cantarell",
+"Fira Sans",
+"Droid Sans",
+"Helvetica Neue",
+"Helvetica",
+"Arial",
+sans-serif;
+
+$title-family: $family-secondary;
+
 $weight-normal: 400;
 $weight-semibold: 600;
 $weight-bold: 800;
@@ -30,6 +47,7 @@ $body-weight: $weight-normal;
 // Colors
 $turquoise: #00d1b2;
 $primary: $turquoise;
+
 $link: $primary;
 $info: #209cee;
 $success: #23d160;
@@ -60,17 +78,25 @@ $navbar-dropdown-arrow: $primary;
 $input-bg: #fff;
 $input-box-shadow:none;
 
-//Blog content
-// @import "./entry-content.scss";
-// //Form fields
-// @import "./inputs.scss";
-
 @import "bulma/bulma.sass";
 
-//The following css are modifications for the theme and are not part of the Bulma framework
-.title {
-  font-family: "Prompt", sans-serif;
+// Assign sass variables to css. Notes: https://github.com/sass/libsass/issues/2621
+.ui-app {
+  --weight-normal: #{$weight-normal};
+  --weight-semibold: #{$weight-semibold};
+  --weight-bold: #{$weight-bold};
+
+  --family-secondary: #{$family-secondary};
 }
+
+
+
+
+
+//The following css are modifications for the theme and are not part of the Bulma framework
+// .title {
+//   font-family: $family-secondary;
+// }
 
 .input:active,
 .input:focus,
