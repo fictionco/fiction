@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-doc-engine",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -8,7 +8,11 @@
   },
   "factor": {
     "extend": "theme",
-    "target": ["themes", "app", "build"]
+    "target": [
+      "themes",
+      "app",
+      "build"
+    ]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {

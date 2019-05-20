@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -8,10 +8,14 @@
   },
   "factor": {
     "extend": "theme",
-    "target": ["themes", "app", "build"]
+    "target": [
+      "themes",
+      "app",
+      "build"
+    ]
   },
   "dependencies": {
-    "@factor/cms": "^0.2.2",
-    "@factor/stack-fire": "^0.2.1"
+    "@factor/cms": "^0.2.3",
+    "@factor/stack-fire": "^0.2.3"
   }
 }

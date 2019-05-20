@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-factor",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "main": "src/plugin.js",
   "author": "Fiction.com",
   "license": "GPL-3.0",
@@ -8,7 +8,11 @@
     "access": "public"
   },
   "factor": {
-    "target": ["themes", "app", "build"],
+    "target": [
+      "themes",
+      "app",
+      "build"
+    ],
     "extend": "theme"
   },
   "scripts": {

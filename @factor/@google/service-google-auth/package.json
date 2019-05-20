@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-google-auth",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "factor": {
