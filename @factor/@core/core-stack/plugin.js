@@ -10,7 +10,7 @@ module.exports = Factor => {
       this.serviceRequests.push(args)
     }
 
-    add(args) {
+    cover(args) {
       let { id, service, key, provider, options = {} } = args
 
       key = key || provider || Factor.$guid()

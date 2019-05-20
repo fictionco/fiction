@@ -126,6 +126,21 @@ module.exports = Factor => {
         writeFileSync(secretsFile, JSON.stringify(sec, null, "  "))
       }
     }
+    extensionNames(type, format = "join") {
+      const exts = Factor.$config.setting(type)
+
+      if (exts && exts.length > 0) {
+        const names = exts.map(_ => _.name)
+
+        if (format == "count") {
+          return names.length
+        } else {
+          return names.join(", ")
+        }
+      } else {
+        return "none"
+      }
+    }
 
     async runSetup() {
       let answers
@@ -133,8 +148,9 @@ module.exports = Factor => {
       Factor.$log.formatted({
         title: "Welcome to Factor Setup!",
         lines: [
-          { title: "Theme", value: Factor.$config.setting("theme") || "none", indent: true },
-          { title: "Stack", value: Factor.$config.setting("stack") || "none", indent: true }
+          { title: "Theme", value: this.extensionNames("theme"), indent: true },
+          { title: "Stack", value: this.extensionNames("stack"), indent: true },
+          { title: "Plugins", value: this.extensionNames("plugin", "count"), indent: true }
         ]
       })
 

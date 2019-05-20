@@ -7,14 +7,14 @@ export default Factor => {
         returns: "Object { idToken, accessToken }"
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "auth-signin",
         description: "Logs in a user with Firebase",
         service: _ => this.credentialSignin(_)
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "auth-request-bearer-token",
         description: "Returns firebase user id token.",

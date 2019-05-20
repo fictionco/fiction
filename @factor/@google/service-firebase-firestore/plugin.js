@@ -1,13 +1,13 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "db-service-read",
         service: _ => this.read(_)
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "db-service-update",
         service: _ => this.update(_)

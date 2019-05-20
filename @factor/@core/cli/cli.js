@@ -41,7 +41,7 @@ const cli = async () => {
       })
 
       Factor.$stack.register({
-        id: "cloud-emulator",
+        id: "endpoint-emulator",
         description: "Emulates serverless endpoints locally"
       })
 
@@ -108,7 +108,7 @@ const cli = async () => {
         .action(async (env, args) => {
           await this.createDist({ env, ...args })
 
-          this.callbacks("deploy-app", { env: env || "development", ...args })
+          await this.callbacks("deploy-app", { env: env || "development", ...args })
           const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
           await this.runTasks(t)
         })

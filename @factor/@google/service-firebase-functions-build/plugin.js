@@ -15,6 +15,11 @@ export default Factor => {
         return _
       })
 
+      Factor.$stack.cover({
+        provider: "firebase",
+        description: "Uses 'firebase serve' and creates local emulator",
+        id: "endpoint-emulator"
+      })
       // Don't create folder if required credentials aren't setup
       const { databaseURL, serviceAccount } = Factor.$config.setting("firebase") || {}
 
@@ -34,7 +39,7 @@ export default Factor => {
       Factor.$filters.add("cli-runners", _ => {
         _.push({
           command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
-          name: "Cloud"
+          name: "Endpoints"
         })
         return _
       })
@@ -45,16 +50,16 @@ export default Factor => {
             this.buildCloudFolder()
             task.title = "Cloud folder built"
           },
-          title: "Building Cloud Folder"
+          title: "Building Endpoint Folder"
         })
 
         _.push({
           command: "yarn",
           args: ["install", "--ignore-engines"],
-          title: "Installing cloud packages",
+          title: "Installing endpoint packages",
           options: {
             cwd: `${process.cwd()}/${this.relativeDir}`,
-            done: "Installed cloud packages"
+            done: "Installed endpoint packages"
           }
         })
 

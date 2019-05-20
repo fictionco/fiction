@@ -13,7 +13,7 @@ export default Factor => {
         }
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         id: "auth-provider-tokens-google",
         provider: "google",
         description: "Returns Google Api Auth tokens.",

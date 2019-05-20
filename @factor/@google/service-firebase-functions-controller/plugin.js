@@ -11,24 +11,24 @@ module.exports.default = Factor => {
     }
 
     stack() {
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "endpoint-service",
         service: () => require("firebase-functions").https.onRequest
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "auth-token-service",
         service: () => this.authTokenHandler
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "user-role-service-set",
         service: _ => this.setServiceClaims(_)
       })
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "user-role-service-get",
         service: _ => this.getServiceClaims(_)

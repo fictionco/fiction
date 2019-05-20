@@ -28,9 +28,34 @@ const config = {
     {
       name: "author",
       type: "string",
-      message: "Author name",
-      default: "{gitUser.name}",
-      store: true
+      message: "Your Name",
+      default: "{gitUser.name}"
+    },
+    {
+      name: "email",
+      type: "string",
+      message: "Your Email",
+      default: "{gitUser.email}"
+    },
+    {
+      name: "scope",
+      message: "What would you like to use?",
+      type: "list",
+      choices: [
+        {
+          name: "Build - Build System and Vue SSR Framework",
+          value: "build"
+        },
+        {
+          name: "Core - Service layer abstraction and Stacks (with build)",
+          value: "core"
+        },
+        {
+          name: "CMS (Recommended) - Dashboard, Page Templates, Posts (with build & core)",
+          value: "cms"
+        }
+      ],
+      default: "cms"
     }
   ],
   templateData() {

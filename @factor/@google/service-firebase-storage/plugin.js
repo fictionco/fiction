@@ -1,13 +1,13 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "storage-service-upload",
         service: _ => this.upload(_)
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "storage-service-delete",
         service: _ => this.delete(_)

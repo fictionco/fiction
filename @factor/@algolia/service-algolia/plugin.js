@@ -12,21 +12,21 @@ export default Factor => {
         }
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "algolia",
         description: "Searches index using Algolia",
         id: "db-service-search",
         service: _ => this.search(_)
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "algolia",
         description: "Updates a record.",
         id: "db-service-update",
         service: _ => this.update(_)
       })
 
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "algolia",
         description: "Deletes an index record by ID",
         id: "db-service-delete",

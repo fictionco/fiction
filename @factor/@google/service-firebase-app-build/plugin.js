@@ -65,22 +65,25 @@ export default Factor => {
 
         return _
       })
+      Factor.$stack.cover({
+        provider: "firebase",
+        description: "Adds a CLI task that uses 'firebase deploy'",
+        id: "deploy-app"
+      })
 
-      Factor.$stack.add("deploy-app", () => {
-        Factor.$filters.add("cli-tasks-deploy-app", _ => {
-          _.push({
-            command: "firebase",
-            args: ["use", Factor.$config.setting("env")],
-            title: `Setting Firebase Project [${Factor.$config.setting("env")}]`
-          })
-          _.push({
-            command: "firebase",
-            args: ["deploy"],
-            title: `Deploying App to Firebase [${Factor.$config.setting("env")}]`
-          })
-
-          return _
+      Factor.$filters.add("cli-tasks-deploy-app", _ => {
+        _.push({
+          command: "firebase",
+          args: ["use", Factor.$config.setting("env")],
+          title: `Setting Firebase Project [${Factor.$config.setting("env")}]`
         })
+        _.push({
+          command: "firebase",
+          args: ["deploy"],
+          title: `Deploying App to Firebase [${Factor.$config.setting("env")}]`
+        })
+
+        return _
       })
 
       Factor.$filters.add("initialize-build", () => {

@@ -30,15 +30,23 @@ module.exports = Factor => {
       }
       return conf || {}
     }
+    extensions() {
+      return {
+        theme: Factor.$files.getExtended("theme"),
+        stack: Factor.$files.getExtended("stack"),
+        plugin: Factor.$files.getExtended("plugin")
+      }
+    }
 
     initialize() {
       const publicConfig = this.getConfig("public")
       const privateConfig = this.getConfig("private")
-
+      const extensions = this.extensions()
       const configObjectsPublic = [
         Factor.FACTOR_CONFIG,
         publicConfig.config,
         publicConfig[this.env],
+        extensions,
         {
           env: this.env,
           url: this.getSiteUrl(this._settingsPublic)

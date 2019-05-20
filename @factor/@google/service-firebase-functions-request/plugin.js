@@ -1,7 +1,7 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.add({
+      Factor.$stack.cover({
         provider: "firebase",
         id: "endpoints-base-url",
         service: () => {
