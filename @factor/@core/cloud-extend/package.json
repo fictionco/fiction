@@ -9,7 +9,6 @@
   "factor": {},
   "dependencies": {
     "@factor/build-files": "^0.2.0",
-    "@factor/build-keys": "^0.2.0",
     "@factor/build-paths": "^0.2.0",
     "@factor/cloud-config": "^0.2.0",
     "@factor/core-theme": "^0.2.0",

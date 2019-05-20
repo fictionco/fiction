@@ -2,7 +2,7 @@
 
 > <%= description %>
 
-## Build Setup
+## Built with [Factor](https://factor.dev).
 
 ``` bash
 # configure and run development environment
@@ -18,7 +18,6 @@ $ yarn factor build
 # (based on configuration)
 $ yarn factor deploy [production or development]
 
-
 ```
 
-For detailed explanation on how things work, checkout the [Factor docs](https://factor.fiction.com).
+For detailed explanation on how things work, checkout the [Factor docs](https://factor.dev).

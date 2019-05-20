@@ -9,8 +9,6 @@ module.exports = (Factor, CLOUD_CONFIG) => {
     constructor() {
       Factor.FACTOR_ENV = "cloud"
       Factor.FACTOR_CONFIG = this.config()
-      this.isSetup
-      this.extensions = require(Factor.$paths.get("plugins-loader-cloud"))
       this.setup()
     }
 
@@ -30,10 +28,13 @@ module.exports = (Factor, CLOUD_CONFIG) => {
       this.addCoreExtension("stack", require("@factor/core-stack"))
 
       this.addCoreExtension("paths", require("@factor/build-paths"))
+      this.addCoreExtension("files", require("@factor/build-files"))
+
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
 
-      this.addCoreExtension("keys", require("@factor/build-keys"))
-      this.addCoreExtension("files", require("@factor/build-files"))
+      // this.addCoreExtension("keys", require("@factor/build-keys"))
+
+      this.extensions = require(Factor.$paths.get("plugins-loader-cloud"))
 
       this.addCoreExtension("config", require("@factor/cloud-config"))
       if (typeof setup == "function") {
@@ -90,13 +91,10 @@ module.exports = (Factor, CLOUD_CONFIG) => {
     endpoints() {
       const endpoints = {}
 
-      // Get extensions that are endpoints
-      const cloudExtensions = require(Factor.$paths.get("plugins-loader-cloud"))
-
       // Endpoint Modules can either expose a 'requestHandler' method
       // Or the endpoint service will wrap the entire module
       this.buildExtensions("endpoint").forEach(extension => {
-        const { mainFile } = extension
+        const { mainFile, id } = extension
 
         const pluginModule = require(mainFile).default
         const pluginClass = pluginModule(Factor)
@@ -108,10 +106,8 @@ module.exports = (Factor, CLOUD_CONFIG) => {
             ? requestHandler.call(pluginClass)
             : this.requestHandler(pluginModule)
 
-        endpoints[key] = endpointHandler(handler)
+        endpoints[id] = endpointHandler(handler)
       })
-
-      //this._runCallbacks(Factor.$filters.apply(Factor.FACTOR_TARGET, {}))
 
       return endpoints
     }

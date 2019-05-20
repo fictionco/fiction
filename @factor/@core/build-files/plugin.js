@@ -17,10 +17,10 @@ module.exports = Factor => {
         "app-package": resolve(Factor.$paths.get("app"), "package.json")
       })
 
+      this.extensions = this.getExtensions()
+
       if (Factor.FACTOR_ENV == "build") {
         this.addWatchers()
-
-        this.extensions = this.getExtensions()
 
         Factor.$filters.add("cli-create-loaders", (_, program) => {
           this.generateLoaders()

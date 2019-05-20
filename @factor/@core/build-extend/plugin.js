@@ -14,7 +14,7 @@ module.exports = Factor => {
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("paths", require("@factor/build-paths"))
 
-      this.addCoreExtension("keys", require("@factor/build-keys"))
+      // this.addCoreExtension("keys", require("@factor/build-keys"))
       this.addCoreExtension("files", require("@factor/build-files"))
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
       this.addCoreExtension("stack", require("@factor/core-stack"))

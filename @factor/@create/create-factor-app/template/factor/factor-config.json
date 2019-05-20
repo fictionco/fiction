@@ -1,7 +1,11 @@
 {
   "config": {
-    "stack": "@factor/stack-fire",
-    "admins": {}
+    "admins": [
+      {
+        "email": "<%= email %>",
+        "role": "owner"
+      }
+    ]
   },
   "development": {},
   "production": {}

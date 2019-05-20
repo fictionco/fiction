@@ -25,5 +25,9 @@ export default async ssrContext => {
     }, reject)
   })
 
+  // the html template extension mechanism
+  // This uses a callback because the component's 'created' hooks are called after this point
+  ssrContext.factor_head = () => Object.values(ssrContext.extend).join("")
+
   return app
 }

@@ -1,13 +1,17 @@
 {
   "name": "<%= urlName %>",
   "version": "1.0.0",
-  "homepage": "<%= url %>",
   "description": "<%= description %>",
   "author": "<%= author %>",
+  "main": "src/plugin.js",
   "private": true,
-  "scripts": {},
+  "factor": {
+    "target": ["app", "build"]
+  },
   "dependencies": {
-    "@factor/<%= scope %>": ">=0.0.7"<% if (scope != 'build') { %>,
-    "@factor/stack-fire": ">=0.0.7"<% } %>
+    "@factor/<%= scope %>": ">=0.0.7"<% if (scope != 'app') { %>, 
+    "@factor/stack-fire": ">=0.0.7"<% } %> <% if(scope != 'cms'){ %>,
+    "@factor/ui": "^0.2.0", 
+    "@factor/cms-metatags": "^0.2.0"<% } %>
   }
 }
