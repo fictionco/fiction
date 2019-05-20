@@ -6,8 +6,10 @@ const generator = path.resolve(__dirname, "./")
 const { name, version } = require("./package")
 // In a custom directory or current directory
 const outDir = path.resolve(process.argv[2] || ".")
+const figures = require("figures")
 
-consola.info(`Welcome to ${name}@${version}`)
+consola.log(`${figures.pointer} Starting ${name}@${version}`)
+console.log()
 consola.success(`Great work! Generating Factor project in: ${outDir}`)
 console.log()
 

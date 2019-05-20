@@ -1,4 +1,5 @@
 const chalk = require("chalk")
+
 module.exports = Factor => {
   return new (class {
     constructor() {}
@@ -6,7 +7,9 @@ module.exports = Factor => {
     util(type, params) {
       var args = [].slice.call(params)
 
-      console[type].apply(null, args)
+      const func = console[type] ? console[type] : console.log
+
+      func.apply(null, args)
     }
 
     custom({ type, params, target }) {
@@ -22,7 +25,7 @@ module.exports = Factor => {
     }
 
     success() {
-      this.util("success", arguments)
+      this.util("log", arguments)
     }
 
     error() {
