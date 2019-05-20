@@ -1,8 +1,8 @@
 node_modules
-*keys-private*
-generated
 dist
-*passwords*
+factor-secrets.*
+factor-decryptor.*
+cloud
 serverless
 *.log
 *firebase*

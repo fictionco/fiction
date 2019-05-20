@@ -1,0 +1,6 @@
+{
+  "config": {
+    "port": 3000,
+    "theme": "@factor/theme-alpha"
+  }
+}

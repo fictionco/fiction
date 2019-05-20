@@ -2,7 +2,6 @@
   "name": "@factor/theme-alpha",
   "version": "0.2.0",
   "main": "src/plugin.js",
-  "author": "Fiction.com",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
@@ -11,15 +10,8 @@
     "extend": "theme",
     "target": ["themes", "app", "build"]
   },
-  "scripts": {
-    "develop": "NODE_ENV=development node -e 'require(`@factor/build-start`)()'",
-    "devonly": "NODE_ENV=development node -e 'require(`@factor/build-development`)()' --no-deprecation",
-    "dev": "NODE_ENV=development node start",
-    "analyze": "NODE_ENV=production node start --analyze --build",
-    "start": "NODE_ENV=production node start --build --serve --no-cache",
-    "build": "NODE_ENV=production node start --build",
-    "deploy": "yarn build && npx firebase use development && npx firebase deploy",
-    "serve": "yarn build && npx firebase serve"
-  },
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+  "dependencies": {
+    "@factor/cms": "^0.2.2",
+    "@factor/stack-fire": "^0.2.1"
+  }
 }
