@@ -1,6 +1,6 @@
 {
   "name": "@factor/cms-signin",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -13,7 +13,7 @@
     "id": "signin"
   },
   "dependencies": {
-    "@factor/core": "^0.2.3",
+    "@factor/core": "^0.2.4",
     "@factor/ui": "^0.2.3"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

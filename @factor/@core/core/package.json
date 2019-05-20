@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "id": "core"
   },
   "dependencies": {
-    "@factor/build": "^0.2.3",
+    "@factor/build": "^0.2.4",
     "@factor/cli": "^0.2.3",
     "@factor/core-db": "^0.2.0",
     "@factor/core-endpoint": "^0.2.0",
