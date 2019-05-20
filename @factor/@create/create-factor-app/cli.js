@@ -9,6 +9,7 @@ const outDir = path.resolve(process.argv[2] || ".")
 
 consola.info(`Welcome to ${name}@${version}`)
 consola.success(`Great work! Generating Factor project in: ${outDir}`)
+console.log()
 
 // See https://sao.js.org/#/advanced/standalone-cli
 sao({ generator, outDir, logLevel: 2 })
