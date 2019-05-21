@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <section class="section is-large">
+    <section class="section is-medium has-background-white">
       <div class="container">
         <div class="columns is-vcentered">
           <div class="column is-6 is-5-fullhd is-offset-1-fullhd">
@@ -16,9 +16,7 @@
               <app-link class="button is-light is-medium is-rounded" path="/">Read the Docs</app-link>
             </div>
           </div>
-          <div class="column is-6">
-            <h2>Temporary Placeholder</h2>
-            <app-link path="/">Just a link</app-link>
+          <div class="column is-6 has-background-dark">
             <iframe
               src="https://player.vimeo.com/video/237608586?color=00d1b2"
               width="100%"
@@ -35,84 +33,82 @@
       </div>
     </section>
 
-    <section class="section call-to-action hero is-primary has-text-centered">
-      <div class="container is-narrow">
-        <div class="box">
-          <div class="columns level">
-            <div class="column level-item">
-              <h1 class="title">Start a project</h1>
-            </div>
-            <div class="column level-item">
-              <p>Interested in building with bulma in the factor framework? We should get started. I’ll setup bulma.</p>
-            </div>
-            <div class="column level-item">
-              <a
-                class="button is-primary is-outlined is-rounded is-medium"
-                href="/project-planner"
-              >Let's do this</a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section class="section">
       <div class="container">
-        <div class="columns level is-mobile">
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Tweets</p>
-              <p class="title">3,456</p>
+        <div class="columns">
+          <div class="column">
+            <div class="box is-fullheight">
+              <h3 class="title is-5 is-spaced">Generate Leads</h3>
+              <p>Increase leads when you use high-grade templates in your next project. Free marketing comes from happy clients.</p>
             </div>
           </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Following</p>
-              <p class="title">123</p>
+          <div class="column">
+            <div class="box is-fullheight">
+              <h3 class="title is-5 is-spaced">Long Term Value</h3>
+              <p>Increase your ROI and generate more value by investing in a month-to-month subscription plan.</p>
             </div>
           </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Followers</p>
-              <p class="title">456K</p>
-            </div>
-          </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Likes</p>
-              <p class="title">789</p>
+          <div class="column">
+            <div class="box is-fullheight has-background-primary">
+              <h3 class="title is-5 is-spaced has-text-white">Create Consistent Style</h3>
+              <p
+                class="has-text-white"
+              >Never worry about your website’s performance or style when using well designed templates.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="columns level is-mobile notification">
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Tweets</p>
-              <p class="title">3,456</p>
+    <section class="section is-primary has-text-centered hero call-to-action">
+      <div class="container is-narrow">
+        <div class="box has-text-white">
+          <div class="columns level">
+            <div class="column level-item">
+              <h1 class="title">Made with Factor</h1>
             </div>
-          </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Following</p>
-              <p class="title">123</p>
+            <div class="column level-item">
+              <p>Interested in using the factor framework with bulma? We should get started. I’ll setup bulma.</p>
             </div>
-          </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Followers</p>
-              <p class="title">456K</p>
-            </div>
-          </div>
-          <div class="column has-text-centered">
-            <div>
-              <p class="heading">Likes</p>
-              <p class="title">789</p>
+            <div class="column level-item">
+              <app-link
+                class="button is-primary is-outlined is-rounded is-medium has-text-white"
+                path="/"
+              >Let's do this</app-link>
             </div>
           </div>
         </div>
       </div>
+      <!-- <div class="is-block">
+        <div class="container">
+          <div class="columns is-mobile">
+            <div class="column has-text-centered">
+              <div>
+                <p class="heading">Tweets</p>
+                <p class="title">3,456</p>
+              </div>
+            </div>
+            <div class="column has-text-centered">
+              <div>
+                <p class="heading">Following</p>
+                <p class="title">123</p>
+              </div>
+            </div>
+            <div class="column has-text-centered">
+              <div>
+                <p class="heading">Followers</p>
+                <p class="title">456K</p>
+              </div>
+            </div>
+            <div class="column has-text-centered">
+              <div>
+                <p class="heading">Likes</p>
+                <p class="title">789</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
     </section>
   </div>
 </template>
