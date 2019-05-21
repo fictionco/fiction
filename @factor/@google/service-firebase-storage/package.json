@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-storage",
-  "version": "0.2.3",
+  "version": "0.2.7",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
