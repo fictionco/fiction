@@ -8,6 +8,8 @@ export default (Factor, target) => {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
+      this.addCoreExtension("tools", require("@factor/tools").default)
+
       this.addCoreExtension("log", require("@factor/core-log/app"))
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("config", require("@factor/app-config"))

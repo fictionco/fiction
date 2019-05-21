@@ -114,7 +114,9 @@ export default {
     async save() {
       this.sending = true
 
-      await this.$user.dbUserUpdate(this.user)
+      const savedUser = await this.$user.save(this.user)
+
+      this.$set(this, "user", savedUser)
 
       this.$events.$emit("notify", `User Saved`)
 

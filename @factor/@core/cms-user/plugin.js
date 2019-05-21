@@ -72,7 +72,7 @@ module.exports.default = Factor => {
         this.setActiveUser({ uid, from: "auth" })
       })
 
-      Factor.$events.$on("auth-user-signed-in", ({ user }) => this.dbUserUpdate(user))
+      Factor.$events.$on("auth-user-signed-in", ({ user }) => this.save(user))
     }
 
     start() {
@@ -237,11 +237,21 @@ module.exports.default = Factor => {
       return { userPublic, userPrivate }
     }
 
+    parseUserData(user) {
+      const { photosProfile } = user
+      user.photoURL = photosProfile && photosProfile[0] ? photosProfile[0].url : false
+      return user
+    }
+
     // Updates the user private/public datastore
     // Should merge provided data with existing
-    async dbUserUpdate(user) {
-      const { uid } = user
-      const { userPublic, userPrivate } = await this.constructSaveObject(user)
+    async save(user) {
+      const { uid = this.uid() } = user
+      const parsedUser = this.parseUserData(user)
+
+      const servicedUser = await Factor.$stack.service("save-user", parsedUser)
+
+      const { userPublic, userPrivate } = await this.constructSaveObject(servicedUser)
 
       const savePublic = Factor.$db.update({
         collection: "public",
@@ -258,9 +268,9 @@ module.exports.default = Factor => {
 
       await Promise.all([savePublic, savePrivate])
 
-      Factor.$events.$emit("user-saved", { uid })
+      Factor.$events.$emit("user-updated", { uid })
 
-      return true
+      return parsedUser
     }
 
     mixin() {

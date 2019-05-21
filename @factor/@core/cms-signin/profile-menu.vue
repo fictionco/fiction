@@ -14,7 +14,7 @@
           <div class="user-basics">
             <factor-avatar v-if="$uid" width="2.5em" />
             <div class="content" :data-uid="$user.uid()">
-              <div class="name">{{ $user.field("displayName") || "No Name" }}</div>
+              <div class="name">{{ $user.field("displayName") || $user.field("email") }}</div>
               <div v-if="role.title" class="privs">
                 <span class="status">{{ $utils.toLabel(role.title) }}</span>
               </div>
@@ -58,6 +58,10 @@ export default {
     const menuStructure = this.$filters.apply("profile-menu", [
       {
         items: [
+          {
+            path: "/dashboard/account",
+            name: "Account Settings"
+          },
           {
             key: "logout",
             click: () => this.$auth.logout(),

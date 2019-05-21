@@ -13,14 +13,8 @@ module.exports.default = Factor => {
     stack() {
       Factor.$stack.cover({
         provider: "firebase",
-        id: "endpoint-service",
-        service: () => require("firebase-functions").https.onRequest
-      })
-
-      Factor.$stack.cover({
-        provider: "firebase",
         id: "auth-token-service",
-        service: () => this.authTokenHandler
+        service: _ => this.authTokenHandler(_)
       })
 
       Factor.$stack.cover({
@@ -58,13 +52,6 @@ module.exports.default = Factor => {
       // This is a callback
       const setup = () => {
         this.stack()
-
-        const { decrypt } = require("firebase-functions").config().factor || {}
-
-        if (decrypt) {
-          Factor.$filters.add("secrets-decrypt-development", decrypt.development)
-          Factor.$filters.add("secrets-decrypt-production", decrypt.production)
-        }
       }
 
       const { baseDir } = Factor.FACTOR_CONFIG

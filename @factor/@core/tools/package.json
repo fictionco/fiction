@@ -1,12 +1,6 @@
 {
   "name": "@factor/tools",
   "factor": {
-    "priority": 30,
-    "target": [
-      "build",
-      "app",
-      "cloud"
-    ],
     "id": "tools"
   },
   "version": "0.2.3",

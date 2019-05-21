@@ -5,7 +5,7 @@
         <div class="icon">
           <img src="/static/logo-120.png">
         </div>
-        <div class="name">Fiction</div>
+        <div class="name">{{ $config.setting('title') }}</div>
       </factor-link>
       <div class="nav">
         <slot />
@@ -15,12 +15,7 @@
   </div>
 </template>
 <script>
-export default {
-  components: {},
-  data() {
-    return {}
-  }
-}
+export default {}
 </script>
 <style lang="less">
 .dashboard-head {

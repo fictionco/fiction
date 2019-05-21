@@ -18,13 +18,13 @@
             >
               <div class="status-bar">
                 <div
-                  v-if="img.status === 'progress' || img.status === 'preprocess'"
+                  v-if="img.status == 'progress' || img.status === 'preprocess'"
                   class="image-status overlay"
                   :class="img.status"
                 >
                   <div :style="{width: `${img.progress}%`}" class="bar" />
                 </div>
-                <div v-else-if="img.status === 'complete'" class="image-status success">
+                <div v-else-if="img.status == 'complete'" class="image-status success">
                   <factor-icon icon="check" />
                 </div>
                 <factor-menu
@@ -159,6 +159,7 @@ export default {
     },
     styleImageBG(img) {
       const { preview, url } = img
+
       return preview || url
         ? { backgroundImage: `url(${preview || url})` }
         : {}
@@ -377,9 +378,9 @@ export default {
   position: relative;
   .image-organizer {
     display: grid;
-    //grid-auto-columns: minmax(10px, 80px);
-    grid-template-columns: repeat(auto-fit, minmax(50px, 60px));
-    grid-gap: 7px;
+
+    grid-template-columns: repeat(auto-fit, minmax(50px, 80px));
+    grid-gap: 10px;
     &.hidden {
       display: none;
     }
@@ -415,16 +416,23 @@ export default {
   line-height: 1;
   border-radius: 5px;
   opacity: 1;
-  height: 5px;
 
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  color: #fff;
   &.overlay {
     background: rgba(0, 0, 0, 0.4);
     position: absolute;
     top: 10%;
     left: 10%;
     width: 80%;
+    height: 8px;
   }
-  &.complete {
+  &.success {
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
     color: #fff;
   }
   .bar {
@@ -450,7 +458,7 @@ export default {
 .image-item-content {
   //box-shadow: inset @factor-input-shadow;
   transition: 0.1s all;
-  border-radius: 3px;
+  border-radius: 6px;
   width: 100%;
   padding: 50% 0;
   // height: 100%;
@@ -479,10 +487,8 @@ export default {
 .image-drop .image-item-content {
   text-align: center;
   position: relative;
-  // color: @color-placeholder;
-  // background-color: @factor-input-bg;
-  // box-shadow: inset @factor-input-shadow;
-  border-radius: 4px;
+
+  border-radius: 6px;
 
   .upload-icon {
     border-radius: 50%;

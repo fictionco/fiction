@@ -6,18 +6,6 @@ module.exports = Factor => {
       const publicSettings = process.env.FACTOR_APP_CONFIG
 
       return publicSettings
-      // let publicConfig = this.getPublicConfig()
-
-      // const configObjects = [
-      //   Factor.FACTOR_CONFIG,
-      //   publicConfig[env],
-      //   publicConfig.config,
-      //   {
-      //     env
-      //   }
-      // ].filter(_ => _)
-
-      // return merge.all(configObjects)
     }
 
     setting(key) {

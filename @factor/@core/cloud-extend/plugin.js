@@ -23,7 +23,7 @@ module.exports = (Factor, CLOUD_CONFIG) => {
 
     setup() {
       this.addCoreExtension("filters", require("@factor/filters"))
-
+      this.addCoreExtension("tools", require("@factor/tools").default)
       this.addCoreExtension("stackBuild", require("@factor/core-stack/build"))
       this.addCoreExtension("stack", require("@factor/core-stack"))
 
@@ -160,8 +160,7 @@ module.exports = (Factor, CLOUD_CONFIG) => {
       if (authorization && authorization.startsWith("Bearer ")) {
         const bearerToken = authorization.split("Bearer ")[1]
 
-        this.bearerTokenService = await Factor.$stack.service("auth-token-service")
-        auth = await this.bearerTokenService(bearerToken)
+        auth = await Factor.$stack.service("auth-token-service", bearerToken)
       }
 
       return auth

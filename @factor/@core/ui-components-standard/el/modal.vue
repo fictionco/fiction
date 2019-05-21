@@ -32,7 +32,9 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.close()
+      if (to.path != from.path) {
+        this.close()
+      }
     },
     vis: function(v) {
       this.handleCloseEvents(v)

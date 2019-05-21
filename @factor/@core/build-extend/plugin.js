@@ -11,6 +11,7 @@ module.exports = Factor => {
       Factor.config.devtools = true
       Factor.config.silent = false
       this.addCoreExtension("log", require("@factor/core-log/build"))
+      this.addCoreExtension("tools", require("@factor/tools").default)
       this.addCoreExtension("filters", require("@factor/filters"))
       this.addCoreExtension("paths", require("@factor/build-paths"))
 

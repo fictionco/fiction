@@ -8,7 +8,7 @@
         Sign In
         <i class="fa fa-arrow-right" />
       </factor-link>
-      <factor-link v-else path="/dashboard" class="dashboard-link">
+      <factor-link v-else path="https://www.fiction.com" class="dashboard-link">
         Go to Fiction.com
         <i class="fa fa-arrow-right" />
       </factor-link>

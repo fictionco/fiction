@@ -21,33 +21,43 @@ export default {
       mode: ""
     }
   },
-
-  mounted() {
-    this.$events.$on("signin-modal", (args = {}) => {
-      const {
-        redirect = "",
-        title = "",
-        subTitle = "",
-        mode = "default",
-        callback = false
-      } = args
-
-      this.title = title
-      this.subTitle = subTitle
-      this.mode = mode
-      this.redirect = redirect
-      this.callback = callback
-
-      this.vis = true
-    })
-
-    // If shown erroneously because its triggered before USER is initialized
-
-    this.$user.init(u => {
-      if (u) {
-        this.done()
+  watch: {
+    $route(to, from) {
+      if (to.query.signInView) {
+        this.vis = true
       }
-    })
+    }
+  },
+  mounted() {
+    if (this.$route.query.signInView) {
+      this.vis = true
+    } else {
+      this.$events.$on("signin-modal", (args = {}) => {
+        const {
+          redirect = "",
+          title = "",
+          subTitle = "",
+          mode = "default",
+          callback = false
+        } = args
+
+        this.title = title
+        this.subTitle = subTitle
+        this.mode = mode
+        this.redirect = redirect
+        this.callback = callback
+
+        this.vis = true
+      })
+
+      // If shown erroneously because its triggered before USER is initialized
+
+      this.$user.init(u => {
+        if (u) {
+          this.done()
+        }
+      })
+    }
   },
   methods: {
     getCredentialInfo(cred) {
@@ -59,6 +69,7 @@ export default {
       return { uid, isNewUser, providerId }
     },
     done(credential) {
+      console.log("modal done")
       if (this.callback && credential) {
         this.callback.call(this, this.getCredentialInfo(credential))
       }

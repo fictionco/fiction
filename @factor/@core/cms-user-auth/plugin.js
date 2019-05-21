@@ -16,6 +16,13 @@ export default Factor => {
         result: "String"
       })
 
+      Factor.$stack.register({
+        id: `auth-password-reset-email`,
+        title: "Auth - Send password reset email",
+        description: "Sends a password reset email.",
+        result: "String"
+      })
+
       // Authentication events only work after SSR
       if (Factor.$isNode) {
         return
@@ -144,9 +151,8 @@ export default Factor => {
       return results
     }
 
-    async sendPasswordReset(email) {
-      const promises = Factor.$filters.apply("send-password-reset", [], email)
-      return await Promise.all(promises)
+    async sendPasswordReset({ email }) {
+      return await Factor.$stack.service("auth-password-reset-email", { email })
     }
 
     async sendEmailVerification(email) {

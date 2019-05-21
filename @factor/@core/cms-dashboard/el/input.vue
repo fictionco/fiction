@@ -103,8 +103,8 @@
     position: relative;
     .image-organizer {
       display: grid;
-      //grid-auto-columns: minmax(10px, 80px);
-      grid-template-columns: repeat(auto-fit, minmax(50px, 60px));
+
+      grid-template-columns: repeat(auto-fit, minmax(50px, 100px));
       grid-gap: 7px;
       &.hidden {
         display: none;
@@ -124,53 +124,6 @@
     .image-item-pad {
       width: 100%;
       height: 100%;
-    }
-  }
-  .image-upload-container {
-    .invisible-copy {
-      position: absolute;
-      left: -9999px;
-    }
-  }
-  .image-upload-container .image-status {
-    line-height: 1.2;
-    text-align: center;
-    position: relative;
-    padding: 2px;
-
-    line-height: 1;
-    border-radius: 5px;
-    opacity: 1;
-    height: 5px;
-
-    &.overlay {
-      background: rgba(0, 0, 0, 0.4);
-      position: absolute;
-      top: 10%;
-      left: 10%;
-      width: 80%;
-    }
-    &.complete {
-      color: #fff;
-    }
-    .bar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: rgba(255, 255, 255, 1);
-      width: 0%;
-      height: 100%;
-      border-radius: 8px;
-      transition: width 0.8s;
-      transition: all 0.2s;
-    }
-    &.menu {
-      height: 100%;
-      width: 100%;
-      .toggle-btn {
-        opacity: 0;
-        height: 100%;
-      }
     }
   }
 
