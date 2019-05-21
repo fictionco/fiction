@@ -23,6 +23,13 @@ export default Factor => {
 
       Factor.$stack.cover({
         provider: "firebase",
+        id: "get-user-data",
+        description: "Ensures stored user data matches auth user data",
+        service: _ => this.getUserData(_)
+      })
+
+      Factor.$stack.cover({
+        provider: "firebase",
         id: "auth-request-bearer-token",
         description: "Returns firebase user id token.",
         service: _ => this.getIdToken()
@@ -221,22 +228,49 @@ export default Factor => {
       return await this.client.auth().currentUser.unlink(provider)
     }
 
-    async authUpdateUser(user) {
+    async getUserData(userData) {
       const currentUser = this.client.auth().currentUser
 
-      const { displayName, photoURL, email } = user
+      userData.email = currentUser.email
 
-      if (displayName && displayName !== currentUser.displayName) {
-        await currentUser.updateProfile({ displayName })
-      }
+      return userData
+    }
 
-      if (photoURL && photoURL !== currentUser.photoURL) {
-        await currentUser.updateProfile({ photoURL })
-      }
+    async authUpdateUser(user) {
+      console.log("update user", user)
+      const currentUser = this.client.auth().currentUser
 
-      if (email && email !== currentUser.email) {
-        await currentUser.updateEmail(email)
-        this.sendEmailVerification() // ASYNC
+      const { displayName, photoURL, email, password } = user
+      try {
+        if (displayName && displayName !== currentUser.displayName) {
+          await currentUser.updateProfile({ displayName })
+        }
+
+        if (photoURL && photoURL !== currentUser.photoURL) {
+          await currentUser.updateProfile({ photoURL })
+        }
+
+        if (password) {
+          await currentUser.updatePassword(password)
+        }
+
+        if (email && email !== currentUser.email) {
+          await currentUser.updateEmail(email)
+          this.sendEmailVerification() // ASYNC
+        }
+      } catch (error) {
+        if (error.code === "auth/requires-recent-login") {
+          Factor.$events.$emit("signin-modal", {
+            mode: "reauth",
+            force: "popup",
+            title: "Please Login Again",
+            subTitle: "This action requires that you have signed in recently.",
+            callback: () => {
+              Factor.$user.save(user)
+            }
+          })
+        }
+        throw new Error(error)
       }
 
       return user

@@ -1,6 +1,6 @@
 <template>
   <factor-modal :vis.sync="vis">
-    <div v-if="title" class="head">
+    <div v-if="title" class="signin-head">
       <div class="title">{{ title }}</div>
       <div class="sub-title">{{ subTitle }}</div>
     </div>
@@ -60,18 +60,9 @@ export default {
     }
   },
   methods: {
-    getCredentialInfo(cred) {
-      const {
-        user: { uid },
-        additionalUserInfo: { isNewUser, providerId }
-      } = cred
-
-      return { uid, isNewUser, providerId }
-    },
     done(credential) {
-      console.log("modal done")
       if (this.callback && credential) {
-        this.callback.call(this, this.getCredentialInfo(credential))
+        this.callback(credential)
       }
       if (this.redirect != "") {
         this.$router.push({ path: this.redirect })
@@ -83,3 +74,11 @@ export default {
   }
 }
 </script>
+<style lang="less">
+.signin-head {
+  line-height: 1.5;
+  .title {
+    font-size: 1.3em;
+  }
+}
+</style>

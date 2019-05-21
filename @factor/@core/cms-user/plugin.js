@@ -191,7 +191,9 @@ module.exports.default = Factor => {
       // If a value is in both, should choose the public one first
       const userData = { uid, ...privateData, ...publicData }
 
-      return userData
+      delete userData.password
+
+      return await Factor.$stack.service("get-user-data", userData)
     }
 
     setCacheUser(user) {
@@ -217,7 +219,7 @@ module.exports.default = Factor => {
         }
       })
 
-      const noSaveFields = ["auths"]
+      const noSaveFields = ["auths", "password"]
       // Remove everything we don't want saved as private info
       publicFields.concat(noSaveFields).forEach(i => {
         if (typeof userPrivate[i] != "undefined") {
@@ -249,7 +251,11 @@ module.exports.default = Factor => {
       const { uid = this.uid() } = user
       const parsedUser = this.parseUserData(user)
 
-      const servicedUser = await Factor.$stack.service("save-user", parsedUser)
+      let servicedUser = await Factor.$stack.service("save-user", parsedUser)
+
+      if (!servicedUser) {
+        return
+      }
 
       const { userPublic, userPrivate } = await this.constructSaveObject(servicedUser)
 

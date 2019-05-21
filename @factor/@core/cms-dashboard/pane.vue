@@ -9,7 +9,7 @@
         <slot name="nav" />
       </div>
     </div>
-    <div class="cont">
+    <div v-if="$slots.default" class="cont">
       <slot />
     </div>
     <div v-if="note || $slots.actions" class="foot">

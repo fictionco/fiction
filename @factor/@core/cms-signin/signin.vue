@@ -1,5 +1,5 @@
 <template>
-  <div class="signin ui-dashboard" data-test="signin">
+  <div class="signin" data-test="signin">
     <template v-if="forgotPassword">
       <template v-if="passwordEmailSent">
         <div class="signin-header">
