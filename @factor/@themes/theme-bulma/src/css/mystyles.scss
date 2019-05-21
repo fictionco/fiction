@@ -5,7 +5,7 @@
 // Import Google Fonts
 @import url('https://fonts.googleapis.com/css?family=Kanit:300|Prompt:400,600&display=swap');
 
-// Typography
+// Bulma Variables
 $family-primary: 'Kanit',
 BlinkMacSystemFont,
 -apple-system,
@@ -53,12 +53,10 @@ $info: #209cee;
 $success: #23d160;
 $warning: #ffdd57;
 $danger: #ff3860;
-$dark: #2a323a;
 $dark: #293347;
 $grey-dark: #34495E;
 $turquoise-dark: #1E392A;
 
-//General
 $body-background-color: #f5f5f5;
 $text: $dark;
 $body-color: $text;
@@ -67,18 +65,26 @@ $subtitle-color: $text;
 $subtitle-strong-color: $text;
 $link-hover: $turquoise-dark;
 
-//Other custom
+//Layout
+$section-padding: 3.5rem 1.25rem;
+
+//Form
 $control-border-width: 2px;
 $input-border-color: transparent;
 //$input-shadow: none;
-$navbar-dropdown-arrow: $primary;
-
-
-//Fiction variables
 $input-bg: #fff;
 $input-box-shadow:none;
 
+//Elements
+$box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+
+//Components
+$navbar-dropdown-arrow: $primary;
+$menu-label-spacing: 2em;
+
 @import "bulma/bulma.sass";
+
+//The following css are modifications for the theme and are not part of the Bulma framework
 
 // Assign sass variables to css. Notes: https://github.com/sass/libsass/issues/2621
 .ui-app {
@@ -87,16 +93,16 @@ $input-box-shadow:none;
   --weight-bold: #{$weight-bold};
 
   --family-secondary: #{$family-secondary};
+
+  --primary: #{$primary};
+  --dark: #{$dark};
+
+  --section-padding: #{$section-padding};
 }
 
-
-
-
-
-//The following css are modifications for the theme and are not part of the Bulma framework
-// .title {
-//   font-family: $family-secondary;
-// }
+.title {
+  font-family: var(--family-secondary);
+}
 
 .input:active,
 .input:focus,
@@ -110,7 +116,7 @@ $input-box-shadow:none;
 .select select:focus,
 .textarea:active,
 .textarea:focus {
-  border-color: $primary;
+  border-color: var(--primary);
 }
 
 select option:checked {
@@ -118,34 +124,27 @@ select option:checked {
   background: $primary -webkit-linear-gradient(bottom, $primary 0%, $primary 100%);
 }
 
-.section.call-to-action .title,
-.section.call-to-action p {
-  color: #fff;
-  margin-bottom: 0
-}
+.section.call-to-action {
+  margin-top: 5.5em;
 
-.section.call-to-action .box {
-  padding: 3.5rem 2rem;
-  transform: translate(0, -9rem);
-  background-color: #293347;
-  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #293347
-}
-
-@media screen and (min-width: 769px) {
-  .section.call-to-action .box {
-    padding: 3.5rem 1.25rem
+  .box {
+    padding: var(--section-padding);
+    margin-top: -9rem;
+    background-color: var(--dark);
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px var(--dark);
   }
 }
 
-@media screen and (min-width: 769px) {
-  .section.call-to-action .box p {
-    font-size: 18px
+.card,
+.box {
+  &.is-fullheight {
+    height: 100%
   }
 }
 
-.section.call-to-action .box .button.is-outlined.is-rounded.is-medium {
-  color: #fff;
-  padding: 1.25em 2em;
-  font-weight: 400;
-  border-width: 2px
-}
+// .section.call-to-action .box .button.is-outlined.is-rounded.is-medium {
+  //   color: #fff;
+  //   padding: 1.25em 2em;
+  //   font-weight: 400;
+  //   border-width: 2px
+  // }

@@ -66,7 +66,7 @@
 <script>
 export default {
   components: {
-    "theme-logo": () => import("./logo-bulma")
+    "theme-logo": () => import("./logo")
   },
   data() {
     return {}

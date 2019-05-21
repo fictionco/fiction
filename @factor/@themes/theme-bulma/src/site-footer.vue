@@ -63,7 +63,7 @@
           <h4 class="menu-label">Follow Us</h4>
           <span class="icon">
             <factor-link path="/" class="navbar-item">
-              <factor-icon icon="facebook" />
+              <factor-icon icon="facebook" size="fa-2x" />
             </factor-link>
           </span>
           <span class="icon">
@@ -95,9 +95,18 @@
               </span>
             </div>
             <div class="control">
-              <a class="button is-info">Subscribe</a>
+              <a class="button is-primary">
+                <factor-icon icon="long-arrow-right" />
+              </a>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <hr>
         </div>
       </div>
     </div>
@@ -130,10 +139,16 @@ export default {
 
 <style lang="less">
 .footer {
-  .footer-bottom {
-    margin-top: 3em;
-    padding-top: 2em;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
+  // .footer-bottom {
+  //   margin-top: 3em;
+  //   padding-top: 2em;
+  //   border-top: 1px solid rgba(0, 0, 0, 0.2);
+  // }
+  .footer-top {
+    .menu-label {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
   }
   .footer-logo {
     width: 100px;
