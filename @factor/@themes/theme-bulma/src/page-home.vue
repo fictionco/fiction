@@ -33,6 +33,27 @@
       </div>
     </section>
 
+    <section class="hero is-medium is-dark">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-centered level">
+            <div class="column is-5-desktop is-6-tablet is-12-mobile">
+              <h2
+                class="title is-3 is-size-4-mobile has-text-centered has-text-left-tablet"
+              >We assist in resolving over 2.5 Million issues every month for 500+ companies.</h2>
+              <app-link
+                class="button button is-primary is-outlined is-inverted is-rounded is-medium"
+                path="/"
+              >Customer Stories</app-link>
+            </div>
+            <div class="column is-7-desktop is-offset-1">
+              <img :src="require(`./img/logo-grid.png`)" alt="Logo Grid">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section">
       <div class="container">
         <div class="columns">
