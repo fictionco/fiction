@@ -2,7 +2,7 @@ export default Factor => {
   return new (class {
     constructor() {
       Factor.$stack.registerProvider({
-        provider: "google",
+        provider: "google-auth",
         title: "Google Auth Api",
         description:
           "Google's authentication API requires ApiKey (browser) and ClientId. Find in the Google Cloud Console.",
@@ -15,7 +15,7 @@ export default Factor => {
 
       Factor.$stack.cover({
         id: "auth-provider-tokens-google",
-        provider: "google",
+        requires: ["google-auth"],
         description: "Returns Google Api Auth tokens.",
         service: async () => {
           return await this.getToken()

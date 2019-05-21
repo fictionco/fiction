@@ -10,6 +10,10 @@ module.exports = Factor => {
       this.serviceRequests.push(args)
     }
 
+    covered(id) {
+      return Factor.$filters.count(id) !== 0 ? true : false
+    }
+
     cover(args) {
       let { id, service, key, provider, options = {} } = args
 
@@ -44,15 +48,11 @@ module.exports = Factor => {
       return resultsArray[0]
     }
 
-    // async requestValue(filter, args) {
-    //   return await Factor.$filters.apply(filter, args)
-    // }
-
     getServiceRequests() {
       return this.serviceRequests.map(_ => {
         return {
           ..._,
-          missing: Factor.$filters.count(_.id) == 0 ? true : false
+          missing: !this.covered(_.id)
         }
       })
     }

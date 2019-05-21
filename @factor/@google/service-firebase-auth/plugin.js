@@ -89,24 +89,41 @@ export default Factor => {
 
       const firebaseUserCredential = await this.client.auth().signInAndRetrieveDataWithCredential(credential)
 
+      if (firebaseUserCredential && !firebaseUserCredential.user.emailVerified) {
+        await this.sendEmailVerification()
+      }
+
       return this.firebaseToFactorCredential(firebaseUserCredential)
     }
 
     async getProviderCredential(args) {
       const { provider = "" } = args
-      const tokens = await this.getTokens({ provider })
-      //const tokens = await Factor.$filters.apply("auth-provider-tokens", args)
-      console.log("auth token", tokens)
-      const { idToken, accessToken } = tokens
 
       let credential
       if (provider.includes("facebook")) {
+        const { accessToken } = await Factor.$stack.service(`auth-provider-tokens-facebook`)
         credential = this.client.auth.FacebookAuthProvider.credential(accessToken)
       } else if (provider.includes("google")) {
+        const { idToken, accessToken } = await Factor.$stack.service(`auth-provider-tokens-google`)
+
         credential = this.client.auth.GoogleAuthProvider.credential(idToken, accessToken)
+      } else if (provider.includes("email")) {
+        credential = this.passwordAccountCredential()
       }
 
       return credential
+    }
+
+    async passwordAccountCredential({ email, password, displayName, newAccount }) {
+      let userCredential
+
+      if (newAccount) {
+        userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password)
+      } else {
+        const credential = firebase.auth.EmailAuthProvider.credential(email, password)
+      }
+
+      return userCredential
     }
 
     async getUserPrivs(firebaseUser) {
@@ -122,7 +139,6 @@ export default Factor => {
         Object.keys(userRoles).forEach(role => {
           if (claims[role]) {
             roles.push(role)
-            //  privs[role] = claims[role]
           }
         })
 
@@ -196,44 +212,6 @@ export default Factor => {
       return await this.client.auth().currentUser.unlink(provider)
     }
 
-    // async setCustomClaims(uid) {
-    //   const result = await Factor.$endpoint.request({
-    //     endpoint: "@factor/service-firebase-auth-endpoint",
-    //     action: "customClaims",
-    //     uid
-    //   })
-
-    //   if (result) {
-    //     const { refresh } = result
-
-    //     if (refresh) {
-    //       await this.client.auth().currentUser.getIdToken(refresh)
-    //       tokenResult = await this.client.auth().currentUser.getIdTokenResult(refresh)
-    //     }
-
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // }
-
-    // authGetPrivs(parsedToken) {
-    //   const privs = {}
-    //   const { claims } = parsedToken
-
-    //   if (tokenResult) {
-    //     const userRoles = Factor.$user.roles
-
-    //     Object.keys(userRoles).forEach(key => {
-    //       if (claims[key]) {
-    //         privs[key] = claims[key]
-    //       }
-    //     })
-    //   }
-
-    //   return privs
-    // }
-
     async authUpdateUser(user) {
       const _ = this.client.auth().currentUser
 
@@ -256,7 +234,7 @@ export default Factor => {
     }
 
     async sendEmailVerification() {
-      return await this.client.auth().currentUser.sendsendEmailVerification()
+      return await this.client.auth().currentUser.sendEmailVerification()
     }
 
     async emailPasswordReset({ email }) {

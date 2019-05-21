@@ -1,5 +1,5 @@
 <template>
-  <div class="signin" data-test="signin">
+  <div class="signin ui-dashboard" data-test="signin">
     <template v-if="forgotPassword">
       <template v-if="passwordEmailSent">
         <div class="confirm">
@@ -28,19 +28,19 @@
       </template>
     </template>
     <template v-else>
-      <dashboard-btn
-        data-test="google-button"
-        :loading="loading === 'google'"
-        class="fi-btn-default"
-        text="Continue With Google"
-        :image="require('./img/logo-google.svg')"
-        circle="darkcolor"
-        @click="signIn('google')"
-      />
-
-      <div class="sep">
-        <span class="text">or</span>
-        <span class="line" />
+      <div v-if="$stack.covered('auth-provider-tokens-google')">
+        <dashboard-btn
+          data-test="google-button"
+          :loading="loading === 'google'"
+          class="fi-btn-default"
+          text="Continue With Google"
+          :image="require('./img/logo-google.svg')"
+          circle="darkcolor"
+          @click="signIn('google')"
+        />
+        <div class="sep">
+          <span class="text">or</span>
+        </div>
       </div>
 
       <factor-form ref="email-form">
@@ -178,11 +178,9 @@ export default {
       try {
         if (method == "email") {
           const r = this.$refs["email-form"].$el.reportValidity()
+
           if (!r) {
             return
-          }
-          if (this.newAccount && !this.solved && !this.$testing.isTest) {
-            throw new Error("Please solve the captcha.")
           }
         }
         this.loading = method
@@ -209,6 +207,7 @@ export default {
           })
         }
       } catch (error) {
+        console.error(error)
         this.$events.$emit("error", error)
       }
 
@@ -252,35 +251,9 @@ export default {
       z-index: 10;
       position: relative;
     }
-    // .line {
-    //   position: absolute;
-    //   top: 50%;
-    //   height: 1px;
-    //   border-bottom: 1px dotted #ddd;
-    //   width: 100%;
-    //   left: 0;
-    // }
   }
   .action {
     margin-top: 1em;
-  }
-  .f-input-wrap {
-    margin: 1.5em 0;
-  }
-
-  input {
-    margin: 0.5em 0;
-  }
-
-  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
-  textarea,
-  select {
-    font-size: 1.1em;
-    background-color: #fff;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-    border-radius: 3px;
-
-    width: 100%;
   }
 }
 </style>

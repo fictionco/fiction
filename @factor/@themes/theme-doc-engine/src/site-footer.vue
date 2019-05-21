@@ -27,6 +27,7 @@ export default {
   margin: 0 auto;
   line-height: 1.6em;
   font-size: 0.9em;
+  padding: 2em 0;
   .pin {
     margin-bottom: 1.5em;
     display: inline-block;
