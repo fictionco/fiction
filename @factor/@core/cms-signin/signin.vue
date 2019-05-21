@@ -1,12 +1,13 @@
 <template>
-  <div class="signin ui-dashboard" data-test="signin">
+  <div class="signin" data-test="signin">
     <template v-if="forgotPassword">
       <template v-if="passwordEmailSent">
-        <div class="confirm">
+        <div class="signin-header">
           <div class="title">Reset Email Sent</div>
           <div class="sub-title">Check your inbox for instructions on recovering your password.</div>
         </div>
       </template>
+
       <template v-else>
         <factor-form ref="password-form">
           <dashboard-input
@@ -26,6 +27,29 @@
           @click="passwordResetEmail()"
         />
       </template>
+    </template>
+    <template v-else-if="view == 'profilePhoto'">
+      <div class="signin-header">
+        <div class="title">Profile Photo</div>
+        <div class="sub-title">Set your primary account picture.</div>
+      </div>
+      <dashboard-input
+        v-model="form.photosProfile"
+        input="factor-input-image-upload"
+        input-destination="/user/__uid/__name"
+        input-max="1"
+        required
+        @autosave="updateUser( )"
+      />
+      <dashboard-btn btn="default" text="Skip" @click="checkEmailVerification()" />
+    </template>
+
+    <template v-else-if="view == 'verifyEmail'">
+      <div class="signin-header">
+        <div class="title">Verify Email</div>
+        <div class="sub-title">Please check your inbox for a verification email.</div>
+      </div>
+      <dashboard-btn btn="default" text="Finish" @click="done()" />
     </template>
     <template v-else>
       <div v-if="$stack.covered('auth-provider-tokens-google')">
@@ -83,7 +107,7 @@
         </div>
       </factor-form>
     </template>
-    <div class="alt-links">
+    <div v-if="!view" class="alt-links">
       <template v-if="newAccount">
         <div class="forgot-password alternative-action-link">
           Have an account?
@@ -142,10 +166,14 @@ export default {
       newAccount: false,
       forgotPassword: false,
       passwordEmailSent: false,
+
       solved: false
     }
   },
   computed: {
+    view() {
+      return this.$route.query.signInView || ""
+    },
     mode() {
       return this.$route.query.mode || "continue"
     },
@@ -164,7 +192,7 @@ export default {
       }
       this.loading = true
       try {
-        await this.$auth.sendPasswordResetEmail(this.form)
+        await this.$auth.sendPasswordReset(this.form)
         this.passwordEmailSent = true
       } catch (error) {
         this.$events.$emit("error", error)
@@ -191,20 +219,12 @@ export default {
           newAccount: this.newAccount
         })
 
-        if (credentials) {
-          const { user } = credentials
+        this.credentials = credentials
 
-          this.$events.$emit("notify", {
-            message: `Signed in as ${user.email}`
-          })
-
-          this.$emit("done", credentials)
-
-          this.$user.init(uid => {
-            if (uid && this.redirectPath) {
-              this.$router.push({ path: this.redirectPath })
-            }
-          })
+        if (this.newAccount) {
+          this.setView("profilePhoto")
+        } else if (credentials) {
+          this.done()
         }
       } catch (error) {
         console.error(error)
@@ -212,6 +232,39 @@ export default {
       }
 
       this.loading = false
+    },
+    async updateUser() {
+      await this.$user.save(this.form)
+
+      this.checkEmailVerification()
+    },
+    setView(signInView) {
+      this.$router.replace({ query: { signInView } })
+    },
+
+    checkEmailVerification() {
+      if (!this.$user.emailVerified) {
+        this.setView("verifyEmail")
+      }
+    },
+
+    done() {
+      const { user } = this.credentials
+      this.$events.$emit("notify", {
+        message: `Signed in as ${user.email}`
+      })
+
+      this.$emit("done", this.credentials)
+
+      if (this.redirectPath) {
+        this.$user.init(uid => {
+          if (uid && this.redirectPath) {
+            this.$router.push({ path: this.redirectPath })
+          }
+        })
+      } else {
+        this.setView(null)
+      }
     }
   }
 }
@@ -220,9 +273,18 @@ export default {
 <style lang="less">
 .signin {
   margin: 3em auto;
-  width: 250px;
+  width: 300px;
   text-align: center;
-
+  .signin-header {
+    margin-bottom: 1.5em;
+    .title {
+      font-size: 1.3em;
+    }
+    .sub-title {
+      font-weight: 500;
+      opacity: 0.7;
+    }
+  }
   .alt-links {
     margin-top: 2em;
     text-align: center;
@@ -254,6 +316,10 @@ export default {
   }
   .action {
     margin-top: 1em;
+  }
+
+  .image-organizer {
+    justify-content: center;
   }
 }
 </style>

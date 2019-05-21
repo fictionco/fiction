@@ -46,17 +46,14 @@ module.exports = Factor => {
         Factor.FACTOR_CONFIG,
         publicConfig.config,
         publicConfig[this.env],
-        extensions,
-        {
-          env: this.env,
-          url: this.getSiteUrl(this._settingsPublic)
-        }
+        extensions
       ].filter(_ => _)
 
       this._settingsPublic = merge.all(configObjectsPublic)
-      this._settingsPublic.url = this.getSiteUrl(this._settingsPublic)
+      this._settingsPublic = this.ensureDefaults(this._settingsPublic)
 
       const configObjectsPrivate = [privateConfig.config, privateConfig[this.env]].filter(_ => _)
+
       this._settingsPrivate = merge.all(configObjectsPrivate)
 
       this._settings = merge.all([this._settingsPublic, this._settingsPrivate])
@@ -66,12 +63,17 @@ module.exports = Factor => {
       return this._settingsPublic
     }
 
-    getSiteUrl(config) {
-      if (this.env == "production") {
-        return config.url || config.homepage || ""
-      } else {
-        return Factor.$paths.localhostUrl()
+    ensureDefaults(config) {
+      const { url, title } = config
+      if (!url) {
+        config.url = config.homepage || Factor.$paths.localhostUrl()
       }
+
+      if (!title) {
+        config.title = Factor.$utils.toLabel(config.name)
+      }
+
+      return config
     }
 
     settings() {

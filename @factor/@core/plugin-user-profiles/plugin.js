@@ -42,10 +42,6 @@ export default Factor => {
               {
                 path: "/@",
                 name: "View Profile"
-              },
-              {
-                path: "/dashboard/account",
-                name: "Account Settings"
               }
             ]
           })

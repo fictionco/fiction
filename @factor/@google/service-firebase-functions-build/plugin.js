@@ -24,17 +24,21 @@ export default Factor => {
       const { databaseURL, serviceAccount } = Factor.$config.setting("firebase") || {}
 
       if (!databaseURL || !serviceAccount) {
+        console.log(
+          "Couldn't start Firebase functions. Missing API credentials (Run 'factor setup')",
+          Factor.$config.setting("firebase")
+        )
         return
       }
+
+      this.addFirebaseConfig()
 
       this.buildDirectory = resolve(Factor.$paths.get("app"), this.folderName)
 
       this.cloudPackages = require(Factor.$paths.get("plugins-loader-cloud"))
 
-      this.watchPaths = [Factor.$paths.get("config-file-public"), Factor.$paths.get("config-file-private")]
       this.dependencies = {}
       this.localDependencies = {}
-      this.addConfig()
 
       Factor.$filters.add("cli-runners", _ => {
         _.push({
@@ -69,7 +73,7 @@ export default Factor => {
       Factor.$filters.add("build-watchers", _ => {
         _.push({
           name: "Cloud Functions Rebuild",
-          files: this.watchPaths.map(_ => `${_}/**`),
+          files: this._getWatchPaths(),
           callback: ({ event, path }) => {
             this.makePackages()
           }
@@ -82,7 +86,7 @@ export default Factor => {
       this.buildCloudFolder()
     }
 
-    addConfig() {
+    addFirebaseConfig() {
       Factor.$filters.add("firebase-config", _ => {
         _.hosting = _.hosting || {}
 
@@ -142,7 +146,7 @@ export default Factor => {
 
     _recursiveDeps(packages = {}) {
       Object.keys(packages).forEach(packageName => {
-        if (packageName.includes("@factor")) {
+        if (packageName.includes("factor")) {
           if (!this.localDependencies[packageName]) {
             this.localDependencies[packageName] = this._localModule(packageName, "./factor_modules/")
 
@@ -158,14 +162,24 @@ export default Factor => {
       })
     }
 
+    _getWatchPaths() {
+      const watchPaths = [Factor.$paths.get("config-file-public"), Factor.$paths.get("config-file-private")]
+      this.getDependencies()
+
+      Object.keys(this.localDependencies).forEach(name => {
+        const modPath = dirname(require.resolve(`${name}/package.json`))
+        watchPaths.push(`${modPath}/**`)
+      })
+
+      return watchPaths
+    }
+
     _copyLocalDeps(localDependencies) {
       Object.keys(localDependencies).forEach(packageName => {
         const packagePath = `${packageName}/package.json`
 
         const modPath = dirname(require.resolve(packagePath))
         const modDest = resolve(this.buildDirectory, "factor_modules", packageName)
-
-        this.watchPaths.push(modPath)
 
         ensureDirSync(modDest)
         emptyDirSync(modDest)
@@ -205,7 +219,7 @@ export default Factor => {
 
       const lines = {
         name: "@factor/cloud-directory",
-        description: "** GENERATED FILE - DONT EDIT DIRECTLY **",
+        description: "********** GENERATED FILE ************",
         version,
         license: "GPL-3.0",
         scripts: {
@@ -216,7 +230,7 @@ export default Factor => {
         timestamp: +new Date()
       }
 
-      writeFileSync(`${this.buildDirectory}/package.json`, JSON.stringify(lines, null, 4))
+      writeFileSync(`${this.buildDirectory}/package.json`, JSON.stringify(lines, null, "  "))
 
       this._copyLocalDeps(this.localDependencies)
     }

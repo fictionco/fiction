@@ -72,7 +72,7 @@ module.exports.default = Factor => {
         this.setActiveUser({ uid, from: "auth" })
       })
 
-      Factor.$events.$on("auth-user-signed-in", ({ user }) => this.dbUserUpdate(user))
+      Factor.$events.$on("auth-user-signed-in", ({ user }) => this.save(user))
     }
 
     start() {
@@ -191,7 +191,9 @@ module.exports.default = Factor => {
       // If a value is in both, should choose the public one first
       const userData = { uid, ...privateData, ...publicData }
 
-      return userData
+      delete userData.password
+
+      return await Factor.$stack.service("get-user-data", userData)
     }
 
     setCacheUser(user) {
@@ -217,7 +219,7 @@ module.exports.default = Factor => {
         }
       })
 
-      const noSaveFields = ["auths"]
+      const noSaveFields = ["auths", "password"]
       // Remove everything we don't want saved as private info
       publicFields.concat(noSaveFields).forEach(i => {
         if (typeof userPrivate[i] != "undefined") {
@@ -237,11 +239,25 @@ module.exports.default = Factor => {
       return { userPublic, userPrivate }
     }
 
+    parseUserData(user) {
+      const { photosProfile } = user
+      user.photoURL = photosProfile && photosProfile[0] ? photosProfile[0].url : false
+      return user
+    }
+
     // Updates the user private/public datastore
     // Should merge provided data with existing
-    async dbUserUpdate(user) {
-      const { uid } = user
-      const { userPublic, userPrivate } = await this.constructSaveObject(user)
+    async save(user) {
+      const { uid = this.uid() } = user
+      const parsedUser = this.parseUserData(user)
+
+      let servicedUser = await Factor.$stack.service("save-user", parsedUser)
+
+      if (!servicedUser) {
+        return
+      }
+
+      const { userPublic, userPrivate } = await this.constructSaveObject(servicedUser)
 
       const savePublic = Factor.$db.update({
         collection: "public",
@@ -258,9 +274,9 @@ module.exports.default = Factor => {
 
       await Promise.all([savePublic, savePrivate])
 
-      Factor.$events.$emit("user-saved", { uid })
+      Factor.$events.$emit("user-updated", { uid })
 
-      return true
+      return parsedUser
     }
 
     mixin() {

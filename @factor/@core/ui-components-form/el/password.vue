@@ -3,7 +3,10 @@
     :value="value"
     :autocomplete="$attrs.autocomplete || 'current-password'"
     type="password"
-    minlength="6" 
+    minlength="6"
+    :required="$attrs.required"
+    v-bind="$attrs"
+    v-on="listeners"
   >
 </template>
 <script>
@@ -12,7 +15,12 @@ export default {
     value: { type: String, default: "" }
   },
   computed: {
- 
+    listeners() {
+      return {
+        ...this.$listeners,
+        input: event => this.$emit("input", event.target.value)
+      }
+    }
   }
 }
 </script>

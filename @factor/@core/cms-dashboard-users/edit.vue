@@ -20,6 +20,13 @@
           <dashboard-input v-model="user.email" input="factor-input-email" label="Email Address" />
 
           <dashboard-input
+            v-model="user.password"
+            input="factor-input-password"
+            label="Update Password"
+            autocomplete="new-password"
+          />
+
+          <dashboard-input
             v-model="user.birthday"
             input="factor-input-birthday"
             label="Birthday"
@@ -56,31 +63,27 @@
             label="Bio"
             placeholder="Work, hobbies, travels, etc..."
           />
+          <div class="user-info">
+            <div class="item">
+              <div class="label">Logged In</div>
+              <div class="value">{{ $time.niceFormat(user.signedInAt) }}</div>
+            </div>
+
+            <div class="item">
+              <div class="label">Signed up</div>
+              <div class="value">{{ $time.niceFormat(user.createdAt) }}</div>
+            </div>
+          </div>
         </dashboard-pane>
       </div>
       <div class="meta-column">
-        <dashboard-pane title="Info" class="post-actions">
-          <ul class="user-info">
-            <li>
-              <div class="label">Logged In</div>
-              <div class="value">{{ $time.niceFormat(user.signedInAt) }}</div>
-            </li>
-
-            <li>
-              <div class="label">Signed up</div>
-              <div class="value">{{ $time.niceFormat(user.createdAt) }}</div>
-            </li>
-          </ul>
+        <dashboard-pane title="Save" class="post-actions">
           <template slot="actions">
             <dashboard-btn btn="primary" :loading="sending" @click="save()">
               Save
               &nbsp;
               <factor-icon icon="arrow-up" />
             </dashboard-btn>
-            <dashboard-link :path="url" btn="default" data-test="view-profile">
-              View
-              <factor-icon icon="arrow-right" />
-            </dashboard-link>
           </template>
         </dashboard-pane>
       </div>
@@ -114,10 +117,17 @@ export default {
     async save() {
       this.sending = true
 
-      await this.$user.dbUserUpdate(this.user)
+      try {
+        let savedUser = await this.$user.save(this.user)
 
-      this.$events.$emit("notify", `User Saved`)
+        if (savedUser) {
+          this.$set(this, "user", savedUser)
 
+          this.$events.$emit("notify", `User Saved`)
+        }
+      } catch (error) {
+        console.log(error)
+      }
       this.sending = false
     }
   }
@@ -159,13 +169,11 @@ export default {
   list-style: none;
   line-height: 1.5;
   padding: 0;
-  li {
-    margin: 0 0 1em;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 4em 0;
   .label {
+    opacity: 0.4;
     font-weight: var(--font-weight-bold);
   }
 }

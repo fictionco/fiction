@@ -16,9 +16,29 @@ export default Factor => {
 
       Factor.$stack.cover({
         provider: "firebase",
+        id: "save-user",
+        description: "Saves relevant user information to auth user",
+        service: _ => this.authUpdateUser(_)
+      })
+
+      Factor.$stack.cover({
+        provider: "firebase",
+        id: "get-user-data",
+        description: "Ensures stored user data matches auth user data",
+        service: _ => this.getUserData(_)
+      })
+
+      Factor.$stack.cover({
+        provider: "firebase",
         id: "auth-request-bearer-token",
         description: "Returns firebase user id token.",
         service: _ => this.getIdToken()
+      })
+
+      Factor.$stack.cover({
+        provider: "firebase",
+        id: "auth-password-reset-email",
+        service: _ => this.emailPasswordReset(_)
       })
 
       const firebaseApp = require("@factor/service-firebase-app").default
@@ -97,7 +117,7 @@ export default Factor => {
     }
 
     async getProviderCredential(args) {
-      const { provider = "" } = args
+      const { provider = "", form = {}, newAccount = false } = args
 
       let credential
       if (provider.includes("facebook")) {
@@ -108,22 +128,18 @@ export default Factor => {
 
         credential = this.client.auth.GoogleAuthProvider.credential(idToken, accessToken)
       } else if (provider.includes("email")) {
-        credential = this.passwordAccountCredential()
+        const { email, password, displayName } = form
+        if (newAccount) {
+          await this.client.auth().createUserWithEmailAndPassword(email, password)
+          const currentUser = this.client.auth().currentUser
+          if (displayName) {
+            await currentUser.updateProfile({ displayName })
+          }
+        }
+        credential = this.client.auth.EmailAuthProvider.credential(email, password)
       }
 
       return credential
-    }
-
-    async passwordAccountCredential({ email, password, displayName, newAccount }) {
-      let userCredential
-
-      if (newAccount) {
-        userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password)
-      } else {
-        const credential = firebase.auth.EmailAuthProvider.credential(email, password)
-      }
-
-      return userCredential
     }
 
     async getUserPrivs(firebaseUser) {
@@ -212,25 +228,52 @@ export default Factor => {
       return await this.client.auth().currentUser.unlink(provider)
     }
 
+    async getUserData(userData) {
+      const currentUser = this.client.auth().currentUser
+
+      userData.email = currentUser.email
+
+      return userData
+    }
+
     async authUpdateUser(user) {
-      const _ = this.client.auth().currentUser
+      console.log("update user", user)
+      const currentUser = this.client.auth().currentUser
 
-      const { displayName, photoURL, email } = user
+      const { displayName, photoURL, email, password } = user
+      try {
+        if (displayName && displayName !== currentUser.displayName) {
+          await currentUser.updateProfile({ displayName })
+        }
 
-      if (displayName && displayName !== _.displayName) {
-        await _.updateProfile({ displayName })
+        if (photoURL && photoURL !== currentUser.photoURL) {
+          await currentUser.updateProfile({ photoURL })
+        }
+
+        if (password) {
+          await currentUser.updatePassword(password)
+        }
+
+        if (email && email !== currentUser.email) {
+          await currentUser.updateEmail(email)
+          this.sendEmailVerification() // ASYNC
+        }
+      } catch (error) {
+        if (error.code === "auth/requires-recent-login") {
+          Factor.$events.$emit("signin-modal", {
+            mode: "reauth",
+            force: "popup",
+            title: "Please Login Again",
+            subTitle: "This action requires that you have signed in recently.",
+            callback: () => {
+              Factor.$user.save(user)
+            }
+          })
+        }
+        throw new Error(error)
       }
 
-      if (photoURL && photoURL !== _.photoURL) {
-        await _.updateProfile({ photoURL })
-      }
-
-      if (email && email !== _.email) {
-        await _.updateEmail(email)
-        this.sendEmailVerification() // ASYNC
-      }
-
-      return currentUser
+      return user
     }
 
     async sendEmailVerification() {

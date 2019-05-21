@@ -6,7 +6,7 @@ const { existsSync } = require("fs-extra")
 module.exports = () => {
   const baseDir = process.cwd()
 
-  let { factor: USER_CONFIG = {}, url = "", port = 7777 } = require(resolve(baseDir, "package"))
+  let { factor: USER_CONFIG = {}, ...pkg } = require(resolve(baseDir, "package"))
 
   const configFilePath = resolve(baseDir, "factor-config.json")
   let configFile = {}
@@ -20,10 +20,11 @@ module.exports = () => {
 
   const DEFAULT_CONFIG = {
     baseDir,
-    argv
+    argv,
+    env
   }
 
-  const FACTOR_CONFIG = Object.assign({}, DEFAULT_CONFIG, { env, url, port }, USER_CONFIG)
+  const FACTOR_CONFIG = Object.assign({}, DEFAULT_CONFIG, pkg, USER_CONFIG)
 
   return FACTOR_CONFIG
 }

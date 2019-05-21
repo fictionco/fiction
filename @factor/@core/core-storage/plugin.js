@@ -77,7 +77,7 @@ module.exports.default = Factor => {
         percent: 5
       })
 
-      if (resize && args.file.type == "image/jpeg") {
+      if (resize && args.file.type.includes("image")) {
         file = await new Promise(resolve => {
           loadImage(
             file,
