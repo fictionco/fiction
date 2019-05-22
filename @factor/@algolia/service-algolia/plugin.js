@@ -64,6 +64,11 @@ export default Factor => {
 
     async search(args) {
       const { index, ...algoliaSearchArgs } = this.transformQuery(args)
+
+      if (!this.verifyService()) {
+        return {}
+      }
+
       const r = await new Promise((resolve, reject) => {
         this.client.initIndex(index).search(algoliaSearchArgs, (err, r) => {
           //console.log("Algolia Result", r, algoliaSearchArgs, index, err)
@@ -139,9 +144,14 @@ export default Factor => {
       return out
     }
 
-    // initializeCollectionIndex(collection) {
-    //   return this.client.initIndex(this.prefix + collection)
-    // }
+    verifyService() {
+      if (!this.client) {
+        console.warn("Algolia client isn't configured.")
+        return false
+      } else {
+        return true
+      }
+    }
 
     async searchQuery(query) {
       const { table, filters } = query
@@ -153,13 +163,6 @@ export default Factor => {
 
       return { results: s }
     }
-
-    // // Creates or updates an item in the index
-    // async partialUpdateObject(query) {
-    //   const preparedQuery = this.prepare(query)
-
-    //   return await this.request("partialUpdateObject", preparedQuery)
-    // }
 
     // Algolia only supports a 20kb total data size limit
     // This function concatenates long text fields so errors aren't thrown
@@ -178,55 +181,5 @@ export default Factor => {
 
       return newData
     }
-
-    // queryHandler() {
-    //   return async query => {
-    //     let result
-
-    //     if (query.method == "publish") {
-    //       delete query.data.revisions
-    //       // No blocking - don't wait
-    //       this.partialUpdateObject(query)
-    //       result = true
-    //     } else if (query.method == "search") {
-    //       result = await this.searchQuery(query)
-    //     }
-
-    //     return result
-    //   }
-    // }
-    // https://stackoverflow.com/questions/9804777/how-to-test-if-a-string-is-json-or-not
-    // isJson(item) {
-    //   item = typeof item !== "string" ? JSON.stringify(item) : item
-
-    //   try {
-    //     item = JSON.parse(item)
-    //   } catch (error) {
-    //     return false
-    //   }
-
-    //   if (typeof item === "object" && item !== null) {
-    //     return true
-    //   }
-
-    //   return false
-    // }
-
-    // Algolia sometimes returns JSON
-    // parse(hits) {
-    //   console.log("PARSss", hits)
-    //   const parsed = hits.map(h => {
-    //     for (var key in h) {
-    //       if (Array.isArray(h[key])) {
-    //         h[key] = h[key].map(k => {
-    //           return this.isJson(k) ? JSON.parse(k) : k
-    //         })
-    //       }
-    //     }
-    //     return h
-    //   })
-
-    //   return parsed
-    // }
   })()
 }

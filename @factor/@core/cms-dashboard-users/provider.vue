@@ -124,13 +124,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    height: 100%;
     .status-text {
       display: inline-block;
-      margin-right: 1.5em;
     }
-    .el-btn {
-      margin-top: 1em;
+    .factor-btn {
+      margin-left: 1.5em;
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@factor/cloud-extend",
-  "version": "0.2.7",
+  "version": "0.2.10",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -8,10 +8,10 @@
   },
   "factor": {},
   "dependencies": {
-    "@factor/build-files": "^0.2.7",
-    "@factor/build-paths": "^0.2.7",
-    "@factor/cloud-config": "^0.2.7",
-    "@factor/core-theme": "^0.2.7",
+    "@factor/build-files": "^0.2.10",
+    "@factor/build-paths": "^0.2.10",
+    "@factor/cloud-config": "^0.2.10",
+    "@factor/core-theme": "^0.2.10",
     "@factor/filters": "^0.2.0",
     "deepmerge": "^3.2.0",
     "qs": "^6.7.0"

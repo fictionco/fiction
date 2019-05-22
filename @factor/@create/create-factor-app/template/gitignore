@@ -5,7 +5,7 @@ factor-secrets*
 
 # Factor Stacks
 cloud/
-*firebase*
+.firebase*
 firebase.json
 
 ### Node template

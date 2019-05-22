@@ -143,7 +143,7 @@ module.exports.default = Factor => {
       const manualRole = {}
 
       if (email && emailVerified) {
-        const adminConfig = Factor.$config.setting("admins") // require this way to avoid webpack warning (not running in webpack)
+        const adminConfig = Factor.$config.setting("admins") || [] // require this way to avoid webpack warning (not running in webpack)
         const adm = adminConfig.find(_ => _.email == email)
         if (adm.role) {
           manualRole[adm.role] = true
