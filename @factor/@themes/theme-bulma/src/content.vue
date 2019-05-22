@@ -1,26 +1,66 @@
 <template>
   <div class="content-layout">
     <site-head>
-      <factor-link path="/">Home</factor-link>
-      <factor-link path="/elements">Elements</factor-link>
-      <factor-link v-if="!$uid" event="signin-modal" data-test="login">
+      <div class="navbar-brand">
+        <app-link path="/" class="navbar-item">
+          <theme-logo />
+        </app-link>
+        <app-link
+          path="/"
+          role="button"
+          class="navbar-burger burger"
+          aria-label="menu"
+          aria-expanded="false"
+          data-target="navbarBasicExample"
+        >
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </app-link>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <app-link path="/" class="navbar-item">Home</app-link>
+          <app-link path="/elements" class="navbar-item">Elements</app-link>
+          <app-link path="/documentation" class="navbar-item">Documentation</app-link>
+
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">More</a>
+
+            <div class="navbar-dropdown">
+              <app-link path="/" class="navbar-item">About</app-link>
+              <app-link path="/" class="navbar-item">Jobs</app-link>
+              <app-link path="/" class="navbar-item">Contact</app-link>
+
+              <hr class="navbar-divider">
+              <app-link path="/" class="navbar-item">Report an issue</app-link>
+            </div>
+          </div>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <plugin-signin-profile-menu v-if="$uid" />
+            <div class="buttons">
+              <app-link path="/" class="button is-primary">Sign up</app-link>
+              <!-- <a class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button is-light">Log in</a>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <app-link v-if="!$uid" event="signin-modal" data-test="login">
         Sign In
-        <i class="fa fa-arrow-right" />
-      </factor-link>
-      <factor-link v-else path="/dashboard" class="dashboard-link">
+        <factor-icon icon="arrow-right" />
+      </app-link>
+      <app-link v-else path="/dashboard" class="dashboard-link">
         View Dashboard
-        <i class="fa fa-arrow-right" />
-      </factor-link>
-      <factor-link
-        class="factor-icon"
-        path="https://gitter.im/fiction-com/community"
-        target="_blank"
-      >
-        <factor-icon icon="gitter" />
-      </factor-link>
-      <factor-link class="factor-icon" path="https://github.com/fiction-com/factor" target="_blank">
-        <factor-icon icon="github" />
-      </factor-link>
+        <factor-icon icon="arrow-right" />
+      </app-link>-->
     </site-head>
     <div class="content-main" :style="bg">
       <div class="content-main-content">
@@ -36,6 +76,7 @@
 <script>
 export default {
   components: {
+    "theme-logo": () => import("./logo"),
     "site-head": () => import("#/site-head"),
     "site-footer": () => import("#/site-footer")
   },
@@ -65,6 +106,12 @@ export default {
 .content-layout {
   display: flex;
   flex-direction: column;
+
+  .navbar-brand {
+    .navbar-item {
+      padding-left: 0;
+    }
+  }
 
   .content-content {
     display: flex;

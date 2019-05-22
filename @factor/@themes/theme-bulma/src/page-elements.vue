@@ -5,7 +5,7 @@
         <div class="container">
           <div class="columns">
             <div class="column">
-              <h1 class="title">Interface Elements Preview</h1>
+              <h1 class="title is-1">Interface Elements Preview</h1>
               <h2 class="subtitle">Bulma-ready theme.</h2>
             </div>
           </div>
@@ -1575,7 +1575,7 @@
               <hr>
               <div class="columns">
                 <div class="column">
-                  <div class="dropdown is-active">
+                  <div class="dropdown is-hoverable">
                     <div class="dropdown-trigger">
                       <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span>Dropdown button</span>
@@ -1597,7 +1597,7 @@
                   </div>
                 </div>
                 <div class="column">
-                  <div class="dropdown is-active">
+                  <div class="dropdown is-hoverable">
                     <div class="dropdown-trigger">
                       <button
                         class="button is-primary"
@@ -2415,7 +2415,6 @@
                     <app-link>Public</app-link>
                     <app-link>Private</app-link>
                     <app-link>Sources</app-link>
-                    <app-link>Forks</app-link>
                   </p>
                   <a class="panel-block is-active">
                     <span class="panel-icon">
