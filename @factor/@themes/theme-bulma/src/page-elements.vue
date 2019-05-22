@@ -97,7 +97,7 @@
               </ul>
             </aside>
           </div>
-          <div class="column">
+          <div class="column is-10">
             <section id="typography" class="section">
               <h1 class="title">Typography</h1>
               <hr>
@@ -969,8 +969,24 @@
             <section id="images" class="section">
               <h1 class="title">Images</h1>
               <hr>
+              <figure class="image is-16x16">
+                <img src="https://source.unsplash.com/random/16x16">
+              </figure>
+              <br>
+              <figure class="image is-32x32">
+                <img src="https://source.unsplash.com/random/32x32">
+              </figure>
+              <br>
+              <figure class="image is-64x64">
+                <img src="https://source.unsplash.com/random/64x64">
+              </figure>
+              <br>
               <figure class="image is-128x128">
-                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg">
+                <img src="https://source.unsplash.com/random/128x128">
+              </figure>
+              <br>
+              <figure class="image is-128x128">
+                <img class="is-rounded" src="https://source.unsplash.com/random/128x128">
               </figure>
             </section>
 
@@ -1519,6 +1535,168 @@
                   <div class="tags has-addons">
                     <a class="tag is-link">Documentation</a>
                     <a class="tag is-delete" />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="breadcrumb" class="section">
+              <h1 class="title">Breadcrumb</h1>
+              <hr>
+              <nav class="breadcrumb">
+                <ul>
+                  <li>
+                    <a>Bulma</a>
+                  </li>
+                  <li>
+                    <a>Documentation</a>
+                  </li>
+                  <li>
+                    <a>Components</a>
+                  </li>
+                  <li class="is-active">
+                    <a>Breadcrumb</a>
+                  </li>
+                </ul>
+              </nav>
+            </section>
+
+            <section id="dropdown" class="section">
+              <h1 class="title">Dropdown</h1>
+              <hr>
+              <div class="columns">
+                <div class="column">
+                  <div class="dropdown is-active">
+                    <div class="dropdown-trigger">
+                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Dropdown button</span>
+                        <span class="icon is-small">
+                          <i class="fa fa-angle-down" aria-hidden="true" />
+                        </span>
+                      </button>
+                    </div>
+                    <div id="dropdown-menu" class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <a href="#" class="dropdown-item">Dropdown item</a>
+                        <a class="dropdown-item">Other dropdown item</a>
+                        <a href="#" class="dropdown-item is-active">Active dropdown item</a>
+                        <a href="#" class="dropdown-item">Other dropdown item</a>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">With a divider</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="dropdown is-active">
+                    <div class="dropdown-trigger">
+                      <button
+                        class="button is-primary"
+                        aria-haspopup="true"
+                        aria-controls="dropdown-menu2"
+                      >
+                        <span>Content</span>
+                        <span class="icon is-small">
+                          <i class="fa fa-angle-down" aria-hidden="true" />
+                        </span>
+                      </button>
+                    </div>
+                    <div id="dropdown-menu2" class="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <div class="dropdown-item">
+                          <p>
+                            You can insert
+                            <strong>any type of content</strong> within the dropdown menu.
+                          </p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <div class="dropdown-item">
+                          <p>
+                            You simply need to use a
+                            <code>&lt;div&gt;</code> instead.
+                          </p>
+                        </div>
+                        <hr class="dropdown-divider">
+                        <a href="#" class="dropdown-item">This is a link</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="card" class="section">
+              <h1 class="title">Cards</h1>
+              <hr>
+              <div class="columns">
+                <div class="column">
+                  <div class="card">
+                    <div class="card-image">
+                      <figure class="image is-4by3">
+                        <img src="https://source.unsplash.com/random/800x600" alt="Image">
+                      </figure>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-left">
+                          <figure class="image" style="height: 40px; width: 40px;">
+                            <img src="https://source.unsplash.com/random/96x96" alt="Image">
+                          </figure>
+                        </div>
+                        <div class="media-content">
+                          <p class="title is-4">John Smith</p>
+                          <p class="subtitle is-6">@johnsmith</p>
+                        </div>
+                      </div>
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                        <a>@bulmaio</a>.
+                        <a>#css</a>
+                        <a>#responsive</a>
+                        <br>
+                        <small>11:09 PM - 1 Jan 2016</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title">Component</p>
+                      <a class="card-header-icon">
+                        <span class="icon">
+                          <i class="fa fa-angle-down" />
+                        </span>
+                      </a>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                        <a>@fictioninc</a>.
+                        <a>#css</a>
+                        <a>#responsive</a>
+                        <br>
+                        <small>11:09 PM - 1 Jan 2016</small>
+                      </div>
+                    </div>
+                    <footer class="card-footer">
+                      <a class="card-footer-item">Save</a>
+                      <a class="card-footer-item">Edit</a>
+                      <a class="card-footer-item">Delete</a>
+                    </footer>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="hero" class="section is-fullwidth">
+              <div class="container">
+                <div class="hero is-primary">
+                  <div class="hero-body">
+                    <div class="container">
+                      <h1 class="title">Primary title</h1>
+                      <h2 class="subtitle">Primary subtitle</h2>
+                    </div>
                   </div>
                 </div>
               </div>
