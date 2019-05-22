@@ -3,14 +3,14 @@
   "factor": {
     "id": "tools"
   },
-  "version": "0.2.7",
+  "version": "0.2.8",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "main": "plugin.js",
   "dependencies": {
-    "@factor/tools-markdown": "^0.2.7",
+    "@factor/tools-markdown": "^0.2.8",
     "@factor/tools-time": "^0.2.0",
     "axios": "^0.18.0",
     "detect-node": "^2.0.4",
