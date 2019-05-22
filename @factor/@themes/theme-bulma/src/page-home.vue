@@ -5,15 +5,15 @@
         <div class="columns is-vcentered">
           <div class="column is-6 is-5-fullhd is-offset-1-fullhd">
             <h1 class="title is-spaced is-1">Theme Bulma</h1>
-            <p class="subtitle">
-              <!-- <strong>Bulma</strong> is a free, open source CSS framework based on
-              <strong>Flexbox</strong> and used by more than
-              <strong>150,000</strong> developers.-->
-              Based on the open source CSS framework that uses flexbox and is used by more than 150,000 developers. Theme Bulma makes using the CSS framework in Factor a breeze.
-            </p>
+            <p
+              class="subtitle"
+            >Based on the open source CSS framework that uses flexbox and is used by more than 150,000 developers. Theme Bulma makes using the CSS framework in Factor a breeze.</p>
             <div class="field is-group">
               <app-link class="button is-primary is-medium is-rounded" path="/">Get Started</app-link>
-              <app-link class="button is-light is-medium is-rounded" path="/">Read the Docs</app-link>
+              <app-link
+                class="button is-light is-medium is-rounded"
+                path="/elements"
+              >Elements Preview</app-link>
             </div>
           </div>
           <div class="column is-6 has-background-dark">
