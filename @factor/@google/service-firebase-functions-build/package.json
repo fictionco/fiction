@@ -10,11 +10,18 @@
     "service": "cloud",
     "provider": "firebase"
   },
+  "//": {
+    "firebase": "Add packages required for Functions here so they don't throw errors...."
+  },
   "dependencies": {
     "@factor/service-firebase-app": "^0.2.0",
     "del": "^4.1.1",
     "execa": "^1.0.0",
-    "find-node-modules": "^2.0.0"
+    "find-node-modules": "^2.0.0",
+    "firebase-functions-test": "^0.1.6",
+    "firebase-admin": "^7.4.0",
+    "firebase-functions": "^2.3.1"
   },
+
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

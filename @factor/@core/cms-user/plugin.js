@@ -64,7 +64,8 @@ module.exports.default = Factor => {
         this.start()
       })
 
-      Factor.$events.$on("user-updated", ({ uid }) => {
+      Factor.$events.$on("user-updated", args => {
+        const { uid = this.uid() } = args || {}
         this.setActiveUser({ uid, from: "refresh" })
       })
 
@@ -168,7 +169,7 @@ module.exports.default = Factor => {
     async setActiveUser({ uid, from }) {
       uid = uid ? uid : this.getUser().uid
       const user = uid ? await this.requestFullUser(uid) : {}
-
+      console.log("SET ACTIVE", user)
       this.storeUser({ user, from })
     }
 
@@ -219,7 +220,7 @@ module.exports.default = Factor => {
         }
       })
 
-      const noSaveFields = ["auths", "password"]
+      const noSaveFields = ["password"]
       // Remove everything we don't want saved as private info
       publicFields.concat(noSaveFields).forEach(i => {
         if (typeof userPrivate[i] != "undefined") {

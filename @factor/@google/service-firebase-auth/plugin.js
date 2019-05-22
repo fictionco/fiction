@@ -30,6 +30,20 @@ export default Factor => {
 
       Factor.$stack.cover({
         provider: "firebase",
+        id: "add-auth-method",
+        description: "Links a new authentication method",
+        service: _ => this.linkProvider(_)
+      })
+
+      Factor.$stack.cover({
+        provider: "firebase",
+        id: "remove-auth-method",
+        description: "Removes an authentication method",
+        service: _ => this.unlinkProvider(_)
+      })
+
+      Factor.$stack.cover({
+        provider: "firebase",
         id: "auth-request-bearer-token",
         description: "Returns firebase user id token.",
         service: _ => this.getIdToken()
@@ -83,19 +97,6 @@ export default Factor => {
       await this.client.auth().currentUser.getIdToken(true)
     }
 
-    async linkProvider(args) {
-      const { provider } = args
-      if (provider.includes("email")) {
-        await this.sendEmailVerification()
-      } else {
-        const credential = await this.getProviderCredential(args)
-
-        await this.client.auth().currentUser.linkAndRetrieveDataWithCredential(credential)
-      }
-
-      return
-    }
-
     async getIdToken() {
       if (this.client.auth().currentUser) {
         return await this.client.auth().currentUser.getIdToken()
@@ -117,14 +118,15 @@ export default Factor => {
     }
 
     async getProviderCredential(args) {
-      const { provider = "", form = {}, newAccount = false } = args
+      const { provider = "", form = {}, newAccount = false, linkNew } = args
 
       let credential
       if (provider.includes("facebook")) {
         const { accessToken } = await Factor.$stack.service(`auth-provider-tokens-facebook`)
         credential = this.client.auth.FacebookAuthProvider.credential(accessToken)
       } else if (provider.includes("google")) {
-        const { idToken, accessToken } = await Factor.$stack.service(`auth-provider-tokens-google`)
+        const options = linkNew ? { prompt: "select_account" } : {}
+        const { idToken, accessToken } = await Factor.$stack.service(`auth-provider-tokens-google`, options)
 
         credential = this.client.auth.GoogleAuthProvider.credential(idToken, accessToken)
       } else if (provider.includes("email")) {
@@ -171,7 +173,7 @@ export default Factor => {
         user
       } = firebaseUserCredential
 
-      const factorUser = await this.firebaseToFactorUser(user)
+      const factorUser = await this.firebaseToFactorUser()
       return {
         auth: {
           isNewUser,
@@ -181,7 +183,8 @@ export default Factor => {
       }
     }
 
-    async firebaseToFactorUser(firebaseUser) {
+    async firebaseToFactorUser() {
+      const firebaseUser = this.client.auth().currentUser
       const basicFields = ["uid", "photoURL", "displayName", "email", "emailVerified"]
 
       let clean = {}
@@ -197,8 +200,6 @@ export default Factor => {
 
       clean.roles = roles
       clean.accessLevel = accessLevel
-      // Public serviceId information
-      clean.serviceId = firebaseUser.serviceId || {}
 
       // Firebase user object refinement
       if (firebaseUser.metadata) {
@@ -207,15 +208,7 @@ export default Factor => {
       }
 
       // Private Auth Information (current user)
-      clean.auths = firebaseUser.auths || {}
-
-      if (firebaseUser.providerData) {
-        firebaseUser.providerData.forEach((prov, key) => {
-          const provider = JSON.parse(JSON.stringify(prov))
-          clean.auths[key] = provider // Ways to authenticate
-          clean.serviceId[key] = provider.uid || true // Attached Services
-        })
-      }
+      clean.auths = firebaseUser.providerData
 
       if (firebaseUser.emailVerified) {
         clean.serviceId.email = firebaseUser.email
@@ -224,16 +217,35 @@ export default Factor => {
       return clean
     }
 
-    async unlinkProvider(provider) {
+    async linkProvider(args) {
+      const { provider } = args
+
+      args.linkNew = true
+      if (provider.includes("email")) {
+        await this.sendEmailVerification()
+      } else {
+        const credential = await this.getProviderCredential(args)
+
+        await this.client.auth().currentUser.linkAndRetrieveDataWithCredential(credential)
+      }
+
+      return
+    }
+
+    async unlinkProvider({ provider }) {
+      provider = provider == "google" ? "google.com" : provider
+      provider = provider == "facebook" ? "facebook.com" : provider
       return await this.client.auth().currentUser.unlink(provider)
     }
 
     async getUserData(userData) {
-      const currentUser = this.client.auth().currentUser
+      // const currentUser = this.client.auth().currentUser
+      // console.log("CU", currentUser)
+      // userData.email = currentUser.email
 
-      userData.email = currentUser.email
+      const fb = await this.firebaseToFactorUser()
 
-      return userData
+      return { ...userData, ...fb }
     }
 
     async authUpdateUser(user) {

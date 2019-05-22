@@ -13,12 +13,8 @@
 
     <div class="input-area">
       <div class="the-input">
-        <component :is="input" v-if="input" :value="value" v-bind="$attrs" v-on="$listeners">
-          <slot />
-        </component>
-        <template v-else>
-          <slot />
-        </template>
+        <component :is="input" v-if="input" :value="value" v-bind="$attrs" v-on="$listeners" />
+        <slot />
       </div>
     </div>
   </div>

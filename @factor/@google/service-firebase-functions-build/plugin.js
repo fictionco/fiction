@@ -42,7 +42,7 @@ export default Factor => {
 
       Factor.$filters.add("cli-runners", _ => {
         _.push({
-          command: `firebase use ${Factor.$config.setting("env")} && firebase serve`,
+          command: `npx firebase use ${Factor.$config.setting("env")} && npx firebase serve`,
           name: "Endpoints"
         })
         return _
@@ -219,14 +219,17 @@ export default Factor => {
 
       const lines = {
         name: "@factor/cloud-directory",
-        description: "********** GENERATED FILE ************",
+        description: "************ GENERATED FILE ************",
         version,
         license: "GPL-3.0",
         scripts: {
           deps: "yarn install --ignore-engines"
         },
         engines: { node: "10" },
-        dependencies: this.localDependencies,
+        dependencies: { "firebase-admin": "^7.4.0", "firebase-functions": "^2.3.1", ...this.localDependencies },
+        devDependencies: {
+          "firebase-functions-test": "~0.1.6"
+        },
         timestamp: +new Date()
       }
 

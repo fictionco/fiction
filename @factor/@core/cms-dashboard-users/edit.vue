@@ -17,7 +17,14 @@
             description="Must be unique."
           />
 
-          <dashboard-input v-model="user.email" input="factor-input-email" label="Email Address" />
+          <dashboard-input
+            v-model="user.email"
+            class="email-inputs"
+            input="factor-input-email"
+            label="Email Address"
+          >
+            <provider-link account="email" />
+          </dashboard-input>
 
           <dashboard-input
             v-model="user.password"
@@ -26,19 +33,12 @@
             autocomplete="new-password"
           />
 
-          <dashboard-input
-            v-model="user.birthday"
-            input="factor-input-birthday"
-            label="Birthday"
-            description="This data is for analysis and not shared."
-          />
-          <dashboard-input
-            v-model="user.gender"
-            :list="['female', 'male']"
-            input="factor-input-select"
-            label="Gender"
-            description="This data is for analysis and not shared."
-          />
+          <dashboard-input label="Google Account">
+            <provider-link account="google" />
+          </dashboard-input>
+        </dashboard-pane>
+
+        <dashboard-pane title="Profile">
           <dashboard-input
             v-model="user.photosProfile"
             input-destination="/user/__uid/__guid.__ext"
@@ -63,6 +63,19 @@
             label="Bio"
             placeholder="Work, hobbies, travels, etc..."
           />
+          <dashboard-input
+            v-model="user.birthday"
+            input="factor-input-birthday"
+            label="Birthday"
+            description="This data is for analysis and not shared."
+          />
+          <dashboard-input
+            v-model="user.gender"
+            :list="['female', 'male']"
+            input="factor-input-select"
+            label="Gender"
+            description="This data is for analysis and not shared."
+          />
           <div class="user-info">
             <div class="item">
               <div class="label">Logged In</div>
@@ -76,6 +89,7 @@
           </div>
         </dashboard-pane>
       </div>
+
       <div class="meta-column">
         <dashboard-pane title="Save" class="post-actions">
           <template slot="actions">
@@ -92,6 +106,9 @@
 </template>
 <script>
 export default {
+  components: {
+    "provider-link": () => import("./provider")
+  },
   data() {
     return {
       user: {},
@@ -163,6 +180,15 @@ export default {
   }
   .compose {
     min-height: 500px;
+  }
+
+  .email-inputs {
+    .the-input {
+      display: flex;
+      > * {
+        margin-right: 1em;
+      }
+    }
   }
 }
 .user-info {
