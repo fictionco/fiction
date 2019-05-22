@@ -210,10 +210,6 @@ export default Factor => {
       // Private Auth Information (current user)
       clean.auths = firebaseUser.providerData
 
-      if (firebaseUser.emailVerified) {
-        clean.serviceId.email = firebaseUser.email
-      }
-
       return clean
     }
 
