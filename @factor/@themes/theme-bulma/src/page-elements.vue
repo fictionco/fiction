@@ -5,14 +5,14 @@
         <div class="container">
           <div class="columns">
             <div class="column">
-              <h1 class="title">Elements Preview</h1>
+              <h1 class="title">Interface Elements Preview</h1>
               <h2 class="subtitle">Bulma-ready theme.</h2>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="hero has-background-white is-medium">
+    <section class="has-background-white is-medium">
       <div class="container">
         <div class="columns">
           <div class="column is-2 is-relative">
@@ -138,17 +138,14 @@
                 <article class="media">
                   <div class="media-left">
                     <figure class="image is-64x64">
-                      <img
-                        alt="Image"
-                        src="https://s3.amazonaws.com/uifaces/faces/twitter/zeldman/128.jpg"
-                      >
+                      <img src="https://source.unsplash.com/random/128x128" alt="Image">
                     </figure>
                   </div>
                   <div class="media-content">
                     <div class="content">
                       <p>
-                        <strong>John Smith</strong>
-                        <small>@johnsmith</small>
+                        <strong>Raymond Aleman</strong>
+                        <small>@raymondaleman</small>
                         <small>31m</small>
                         <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
                       </p>
@@ -157,17 +154,17 @@
                       <div class="level-left">
                         <a class="level-item">
                           <span class="icon is-small">
-                            <i class="fa fa-reply" />
+                            <factor-icon icon="reply" />
                           </span>
                         </a>
                         <a class="level-item">
                           <span class="icon is-small">
-                            <i class="fa fa-retweet" />
+                            <factor-icon icon="retweet" />
                           </span>
                         </a>
                         <a class="level-item">
                           <span class="icon is-small">
-                            <i class="fa fa-heart" />
+                            <factor-icon icon="heart" />
                           </span>
                         </a>
                       </div>
@@ -233,41 +230,41 @@
                   <p class="field">
                     <a class="button">
                       <span class="icon is-small">
-                        <i class="fa fa-bold" />
+                        <factor-icon icon="bold" />
                       </span>
                     </a>
                     <a class="button">
                       <span class="icon is-small">
-                        <i class="fa fa-italic" />
+                        <factor-icon icon="italic" />
                       </span>
                     </a>
                     <a class="button">
                       <span class="icon is-small">
-                        <i class="fa fa-underline" />
+                        <factor-icon icon="underline" />
                       </span>
                     </a>
                     <a class="button">
                       <span class="icon">
-                        <i class="fa fa-github" />
+                        <factor-icon icon="github" />
                       </span>
                       <span>GitHub</span>
                     </a>
                     <a class="button is-primary">
                       <span class="icon">
-                        <i class="fa fa-twitter" />
+                        <factor-icon icon="twitter" />
                       </span>
                       <span>Twitter</span>
                     </a>
                     <a class="button is-success">
                       <span class="icon is-small">
-                        <i class="fa fa-check" />
+                        <factor-icon icon="check" />
                       </span>
                       <span>Save</span>
                     </a>
                     <a class="button is-danger is-outlined">
                       <span>Delete</span>
                       <span class="icon is-small">
-                        <i class="fa fa-times" />
+                        <factor-icon icon="times" />
                       </span>
                     </a>
                   </p>
@@ -275,7 +272,7 @@
                     <p class="control">
                       <a class="button">
                         <span class="icon is-small">
-                          <i class="fa fa-bold" />
+                          <factor-icon icon="bold" />
                         </span>
                         <span>Bold</span>
                       </a>
@@ -283,7 +280,7 @@
                     <p class="control">
                       <a class="button">
                         <span class="icon is-small">
-                          <i class="fa fa-italic" />
+                          <factor-icon icon="italic" />
                         </span>
                         <span>Italic</span>
                       </a>
@@ -291,7 +288,7 @@
                     <p class="control">
                       <a class="button">
                         <span class="icon is-small">
-                          <i class="fa fa-underline" />
+                          <factor-icon icon="underline" />
                         </span>
                         <span>Underline</span>
                       </a>
@@ -302,7 +299,7 @@
                     <p class="control">
                       <a class="button">
                         <span class="icon is-small">
-                          <i class="fa fa-align-left" />
+                          <factor-icon icon="align-left" />
                         </span>
                         <span>Left</span>
                       </a>
@@ -310,7 +307,7 @@
                     <p class="control">
                       <a class="button">
                         <span class="icon is-small">
-                          <i class="fa fa-align-center" />
+                          <factor-icon icon="align-center" />
                         </span>
                         <span>Center</span>
                       </a>
@@ -318,7 +315,7 @@
                     <p class="control">
                       <a class="button">
                         <span class="icon is-small">
-                          <i class="fa fa-align-right" />
+                          <factor-icon icon="align-right" />
                         </span>
                         <span>Right</span>
                       </a>
@@ -362,25 +359,25 @@
                   <p class="buttons">
                     <a class="button is-small">
                       <span class="icon is-small">
-                        <i class="fa fa-github" />
+                        <factor-icon icon="github" />
                       </span>
                       <span>GitHub</span>
                     </a>
                     <a class="button">
                       <span class="icon">
-                        <i class="fa fa-github" />
+                        <factor-icon icon="github" />
                       </span>
                       <span>GitHub</span>
                     </a>
                     <a class="button is-medium">
                       <span class="icon">
-                        <i class="fa fa-github" />
+                        <factor-icon icon="github" />
                       </span>
                       <span>GitHub</span>
                     </a>
                     <a class="button is-large">
                       <span class="icon is-medium">
-                        <i class="fa fa-github" />
+                        <factor-icon icon="github" />
                       </span>
                       <span>GitHub</span>
                     </a>
@@ -388,53 +385,53 @@
                   <p class="field">
                     <a class="button is-small">
                       <span class="icon is-small">
-                        <i class="fa fa-header" />
+                        <factor-icon icon="header" />
                       </span>
                     </a>
                   </p>
                   <p class="field">
                     <a class="button">
                       <span class="icon is-small">
-                        <i class="fa fa-header" />
+                        <factor-icon icon="header" />
                       </span>
                     </a>
                     <a class="button">
                       <span class="icon">
-                        <i class="fa fa-header fa-lg" />
+                        <factor-icon icon="header" class="fa-lg" />
                       </span>
                     </a>
                   </p>
                   <p class="field">
                     <a class="button is-medium">
                       <span class="icon is-small">
-                        <i class="fa fa-header" />
+                        <factor-icon icon="header" />
                       </span>
                     </a>
                     <a class="button is-medium">
                       <span class="icon">
-                        <i class="fa fa-header fa-lg" />
+                        <factor-icon icon="header" class="fa-lg" />
                       </span>
                     </a>
                     <a class="button is-medium">
                       <span class="icon is-medium">
-                        <i class="fa fa-header fa-2x" />
+                        <factor-icon icon="header" class="fa-2x" />
                       </span>
                     </a>
                   </p>
                   <p class="field">
                     <a class="button is-large">
                       <span class="icon is-small">
-                        <i class="fa fa-header" />
+                        <factor-icon icon="header" />
                       </span>
                     </a>
                     <a class="button is-large">
                       <span class="icon is-medium">
-                        <i class="fa fa-header fa-lg" />
+                        <factor-icon icon="header" class="fa-lg" />
                       </span>
                     </a>
                     <a class="button is-large">
                       <span class="icon is-large">
-                        <i class="fa fa-header fa-2x" />
+                        <factor-icon icon="header" class="fa-2x" />
                       </span>
                     </a>
                   </p>
@@ -483,36 +480,38 @@
                 <h4>Fourth level</h4>
                 <p>Nulla efficitur eleifend nisi, sit amet bibendum sapien fringilla ac. Mauris euismod metus a tellus laoreet, at elementum ex efficitur.</p>
                 <p>Maecenas eleifend sollicitudin dui faucibus sollicitudin augue cursus non. Ut finibus eleifend arcu ut vehicula. Mauris eu est maximus est porta condimentum in eu justo. Nulla id iaculis sapien.</p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>One</th>
-                      <th>Two</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Three</td>
-                      <td>Four</td>
-                    </tr>
-                    <tr>
-                      <td>Five</td>
-                      <td>Six</td>
-                    </tr>
-                    <tr>
-                      <td>Seven</td>
-                      <td>Eight</td>
-                    </tr>
-                    <tr>
-                      <td>Nine</td>
-                      <td>Ten</td>
-                    </tr>
-                    <tr>
-                      <td>Eleven</td>
-                      <td>Twelve</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>One</th>
+                        <th>Two</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Three</td>
+                        <td>Four</td>
+                      </tr>
+                      <tr>
+                        <td>Five</td>
+                        <td>Six</td>
+                      </tr>
+                      <tr>
+                        <td>Seven</td>
+                        <td>Eight</td>
+                      </tr>
+                      <tr>
+                        <td>Nine</td>
+                        <td>Ten</td>
+                      </tr>
+                      <tr>
+                        <td>Eleven</td>
+                        <td>Twelve</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 <p>Phasellus porttitor enim id metus volutpat ultricies. Ut nisi nunc, blandit sed dapibus at, vestibulum in felis. Etiam iaculis lorem ac nibh bibendum rhoncus. Nam interdum efficitur ligula sit amet ullamcorper. Etiam tristique, leo vitae porta faucibus, mi lacus laoreet metus, at cursus leo est vel tellus. Sed ac posuere est. Nunc ultricies nunc neque, vitae ultricies ex sodales quis. Aliquam eu nibh in libero accumsan pulvinar. Nullam nec nisl placerat, pretium metus vel, euismod ipsum. Proin tempor cursus nisl vel condimentum. Nam pharetra varius metus non pellentesque.</p>
                 <h5>Fifth level</h5>
                 <p>Aliquam sagittis rhoncus vulputate. Cras non luctus sem, sed tincidunt ligula. Vestibulum at nunc elit. Praesent aliquet ligula mi, in luctus elit volutpat porta. Phasellus molestie diam vel nisi sodales, a eleifend augue laoreet. Sed nec eleifend justo. Nam et sollicitudin odio.</p>
@@ -542,10 +541,10 @@
                         value="bulma"
                       >
                       <span class="icon is-small is-left">
-                        <i class="fa fa-user" />
+                        <factor-icon icon="user" />
                       </span>
                       <span class="icon is-small is-right">
-                        <i class="fa fa-check" />
+                        <factor-icon icon="check" />
                       </span>
                     </p>
                     <p class="help is-success">This username is available</p>
@@ -560,10 +559,10 @@
                         value="hello@"
                       >
                       <span class="icon is-small is-left">
-                        <i class="fa fa-envelope" />
+                        <factor-icon icon="envelope" />
                       </span>
                       <span class="icon is-small is-right">
-                        <i class="fa fa-warning" />
+                        <factor-icon icon="warning" />
                       </span>
                     </p>
                     <p class="help is-danger">This email is invalid</p>
@@ -633,7 +632,7 @@
                         <input class="file-input" type="file" name="resume">
                         <span class="file-cta">
                           <span class="file-icon">
-                            <i class="fa fa-upload" />
+                            <factor-icon icon="upload" />
                           </span>
                           <span class="file-label">Choose a file…</span>
                         </span>
@@ -646,7 +645,7 @@
                         <input class="file-input" type="file" name="resume">
                         <span class="file-cta">
                           <span class="file-icon">
-                            <i class="fa fa-upload" />
+                            <factor-icon icon="upload" />
                           </span>
                           <span class="file-label">Choose a file…</span>
                         </span>
@@ -660,7 +659,7 @@
                         <input class="file-input" type="file" name="resume">
                         <span class="file-cta">
                           <span class="file-icon">
-                            <i class="fa fa-upload" />
+                            <factor-icon icon="upload" />
                           </span>
                           <span class="file-label">Primary file…</span>
                         </span>
@@ -673,7 +672,7 @@
                         <input class="file-input" type="file" name="resume">
                         <span class="file-cta">
                           <span class="file-icon">
-                            <i class="fa fa-upload" />
+                            <factor-icon icon="upload" />
                           </span>
                           <span class="file-label">Info file…</span>
                         </span>
@@ -687,7 +686,7 @@
                         <input class="file-input" type="file" name="resume">
                         <span class="file-cta">
                           <span class="file-icon">
-                            <i class="fa fa-cloud-upload" />
+                            <factor-icon icon="cloud-upload" />
                           </span>
                           <span class="file-label">Warning file…</span>
                         </span>
@@ -700,7 +699,7 @@
                         <input class="file-input" type="file" name="resume">
                         <span class="file-cta">
                           <span class="file-icon">
-                            <i class="fa fa-cloud-upload" />
+                            <factor-icon icon="cloud-upload" />
                           </span>
                           <span class="file-label">Danger file…</span>
                         </span>
@@ -716,7 +715,7 @@
                       <input class="input" type="text" placeholder="Find a repository">
                     </p>
                     <p class="control">
-                      <a class="button is-info">Search</a>
+                      <a class="button is-primary">Search</a>
                     </p>
                   </div>
                   <div class="field has-addons">
@@ -724,7 +723,7 @@
                       <input class="input is-large" type="text" placeholder="Find a repository">
                     </p>
                     <p class="control">
-                      <a class="button is-info is-large">Search</a>
+                      <a class="button is-primary is-large">Search</a>
                     </p>
                   </div>
                   <div class="field has-addons">
@@ -789,7 +788,7 @@
                       <input class="input" type="text" placeholder="Find a repository">
                     </p>
                     <p class="control">
-                      <a class="button is-info">Search</a>
+                      <a class="button is-primary">Search</a>
                     </p>
                   </div>
                 </div>
@@ -905,7 +904,7 @@
                     <p class="control has-icons-left">
                       <input class="input" type="email" placeholder="Email">
                       <span class="icon is-small is-left">
-                        <i class="fa fa-envelope" />
+                        <factor-icon icon="envelope" />
                       </span>
                     </p>
                   </div>
@@ -913,13 +912,13 @@
                     <p class="control has-icons-left">
                       <input class="input" type="password" placeholder="Password">
                       <span class="icon is-small is-left">
-                        <i class="fa fa-lock" />
+                        <factor-icon icon="lock" />
                       </span>
                     </p>
                   </div>
                   <div class="field">
                     <p class="control">
-                      <button class="button is-success">Login</button>
+                      <button class="button is-primary">Login</button>
                     </p>
                   </div>
                 </div>
@@ -970,15 +969,15 @@
               <h1 class="title">Images</h1>
               <hr>
               <figure class="image is-16x16">
-                <img src="https://source.unsplash.com/random/16x16">
+                <img src="https://source.unsplash.com/random/128x128">
               </figure>
               <br>
               <figure class="image is-32x32">
-                <img src="https://source.unsplash.com/random/32x32">
+                <img src="https://source.unsplash.com/random/128x128">
               </figure>
               <br>
               <figure class="image is-64x64">
-                <img src="https://source.unsplash.com/random/64x64">
+                <img src="https://source.unsplash.com/random/128x128">
               </figure>
               <br>
               <figure class="image is-128x128">
@@ -1066,365 +1065,375 @@
               <h1 class="title">Table</h1>
               <hr>
               <h2 class="subtitle">Default</h2>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>
-                      <abbr title="Position">Pos</abbr>
-                    </th>
-                    <th>Team</th>
-                    <th>
-                      <abbr title="Played">Pld</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Won">W</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Drawn">D</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Lost">L</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Goals for">GF</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Goals against">GA</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Goal difference">GD</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Points">Pts</abbr>
-                    </th>
-                    <th>Qualification or relegation</th>
-                  </tr>
-                </thead>
-                <tfoot>
-                  <tr>
-                    <th>
-                      <abbr title="Position">Pos</abbr>
-                    </th>
-                    <th>Team</th>
-                    <th>
-                      <abbr title="Played">Pld</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Won">W</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Drawn">D</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Lost">L</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Goals for">GF</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Goals against">GA</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Goal difference">GD</abbr>
-                    </th>
-                    <th>
-                      <abbr title="Points">Pts</abbr>
-                    </th>
-                    <th>Qualification or relegation</th>
-                  </tr>
-                </tfoot>
-                <tbody>
-                  <tr>
-                    <th>1</th>
-                    <td>
-                      <a
-                        href="https://en.wikipedia.org/wiki/Leicester_City_F.C."
-                        title="Leicester City F.C."
-                      >Leicester City</a>
-                      <strong>(C)</strong>
-                    </td>
-                    <td>38</td>
-                    <td>23</td>
-                    <td>12</td>
-                    <td>3</td>
-                    <td>68</td>
-                    <td>36</td>
-                    <td>+32</td>
-                    <td>81</td>
-                    <td>
-                      Qualification for the
-                      <a
-                        href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
-                        title="2016–17 UEFA Champions League"
-                      >Champions League group stage</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>2</th>
-                    <td>
-                      <a
-                        href="https://en.wikipedia.org/wiki/Arsenal_F.C."
-                        title="Arsenal F.C."
-                      >Arsenal</a>
-                    </td>
-                    <td>38</td>
-                    <td>20</td>
-                    <td>11</td>
-                    <td>7</td>
-                    <td>65</td>
-                    <td>36</td>
-                    <td>+29</td>
-                    <td>71</td>
-                    <td>
-                      Qualification for the
-                      <a
-                        href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
-                        title="2016–17 UEFA Champions League"
-                      >Champions League group stage</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>3</th>
-                    <td>
-                      <a
-                        href="https://en.wikipedia.org/wiki/Tottenham_Hotspur_F.C."
-                        title="Tottenham Hotspur F.C."
-                      >Tottenham Hotspur</a>
-                    </td>
-                    <td>38</td>
-                    <td>19</td>
-                    <td>13</td>
-                    <td>6</td>
-                    <td>69</td>
-                    <td>35</td>
-                    <td>+34</td>
-                    <td>70</td>
-                    <td>
-                      Qualification for the
-                      <a
-                        href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
-                        title="2016–17 UEFA Champions League"
-                      >Champions League group stage</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>4</th>
-                    <td>
-                      <a
-                        href="https://en.wikipedia.org/wiki/Manchester_City_F.C."
-                        title="Manchester City F.C."
-                      >Manchester City</a>
-                    </td>
-                    <td>38</td>
-                    <td>19</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>71</td>
-                    <td>41</td>
-                    <td>+30</td>
-                    <td>66</td>
-                    <td>
-                      Qualification for the
-                      <a
-                        href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Play-off_round"
-                        title="2016–17 UEFA Champions League"
-                      >Champions League play-off round</a>
-                    </td>
-                  </tr>
-                  <tr class="is-selected">
-                    <th>5</th>
-                    <td>
-                      <a
-                        href="https://en.wikipedia.org/wiki/Manchester_United_F.C."
-                        title="Manchester United F.C."
-                      >Manchester United</a>
-                    </td>
-                    <td>38</td>
-                    <td>19</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>49</td>
-                    <td>35</td>
-                    <td>+14</td>
-                    <td>66</td>
-                    <td>
-                      Qualification for the
-                      <a
-                        href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Group_stage"
-                        title="2016–17 UEFA Europa League"
-                      >Europa League group stage</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>6</th>
-                    <td>
-                      <a
-                        href="https://en.wikipedia.org/wiki/Southampton_F.C."
-                        title="Southampton F.C."
-                      >Southampton</a>
-                    </td>
-                    <td>38</td>
-                    <td>18</td>
-                    <td>9</td>
-                    <td>11</td>
-                    <td>59</td>
-                    <td>41</td>
-                    <td>+18</td>
-                    <td>63</td>
-                    <td>
-                      Qualification for the
-                      <a
-                        href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Group_stage"
-                        title="2016–17 UEFA Europa League"
-                      >Europa League group stage</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>7</th>
-                    <td>
-                      <a
-                        href="https://en.wikipedia.org/wiki/West_Ham_United_F.C."
-                        title="West Ham United F.C."
-                      >West Ham United</a>
-                    </td>
-                    <td>38</td>
-                    <td>16</td>
-                    <td>14</td>
-                    <td>8</td>
-                    <td>65</td>
-                    <td>51</td>
-                    <td>+14</td>
-                    <td>62</td>
-                    <td>
-                      Qualification for the
-                      <a
-                        href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Third_qualifying_round"
-                        title="2016–17 UEFA Europa League"
-                      >Europa League third qualifying round</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-container">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>
+                        <abbr title="Position">Pos</abbr>
+                      </th>
+                      <th>Team</th>
+                      <th>
+                        <abbr title="Played">Pld</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Won">W</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Drawn">D</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Lost">L</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Goals for">GF</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Goals against">GA</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Goal difference">GD</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Points">Pts</abbr>
+                      </th>
+                      <th>Qualification or relegation</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>
+                        <abbr title="Position">Pos</abbr>
+                      </th>
+                      <th>Team</th>
+                      <th>
+                        <abbr title="Played">Pld</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Won">W</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Drawn">D</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Lost">L</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Goals for">GF</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Goals against">GA</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Goal difference">GD</abbr>
+                      </th>
+                      <th>
+                        <abbr title="Points">Pts</abbr>
+                      </th>
+                      <th>Qualification or relegation</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr>
+                      <th>1</th>
+                      <td>
+                        <a
+                          href="https://en.wikipedia.org/wiki/Leicester_City_F.C."
+                          title="Leicester City F.C."
+                        >Leicester City</a>
+                        <strong>(C)</strong>
+                      </td>
+                      <td>38</td>
+                      <td>23</td>
+                      <td>12</td>
+                      <td>3</td>
+                      <td>68</td>
+                      <td>36</td>
+                      <td>+32</td>
+                      <td>81</td>
+                      <td>
+                        Qualification for the
+                        <a
+                          href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
+                          title="2016–17 UEFA Champions League"
+                        >Champions League group stage</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>2</th>
+                      <td>
+                        <a
+                          href="https://en.wikipedia.org/wiki/Arsenal_F.C."
+                          title="Arsenal F.C."
+                        >Arsenal</a>
+                      </td>
+                      <td>38</td>
+                      <td>20</td>
+                      <td>11</td>
+                      <td>7</td>
+                      <td>65</td>
+                      <td>36</td>
+                      <td>+29</td>
+                      <td>71</td>
+                      <td>
+                        Qualification for the
+                        <a
+                          href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
+                          title="2016–17 UEFA Champions League"
+                        >Champions League group stage</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>3</th>
+                      <td>
+                        <a
+                          href="https://en.wikipedia.org/wiki/Tottenham_Hotspur_F.C."
+                          title="Tottenham Hotspur F.C."
+                        >Tottenham Hotspur</a>
+                      </td>
+                      <td>38</td>
+                      <td>19</td>
+                      <td>13</td>
+                      <td>6</td>
+                      <td>69</td>
+                      <td>35</td>
+                      <td>+34</td>
+                      <td>70</td>
+                      <td>
+                        Qualification for the
+                        <a
+                          href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
+                          title="2016–17 UEFA Champions League"
+                        >Champions League group stage</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>4</th>
+                      <td>
+                        <a
+                          href="https://en.wikipedia.org/wiki/Manchester_City_F.C."
+                          title="Manchester City F.C."
+                        >Manchester City</a>
+                      </td>
+                      <td>38</td>
+                      <td>19</td>
+                      <td>9</td>
+                      <td>10</td>
+                      <td>71</td>
+                      <td>41</td>
+                      <td>+30</td>
+                      <td>66</td>
+                      <td>
+                        Qualification for the
+                        <a
+                          href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Play-off_round"
+                          title="2016–17 UEFA Champions League"
+                        >Champions League play-off round</a>
+                      </td>
+                    </tr>
+                    <tr class="is-selected">
+                      <th>5</th>
+                      <td>
+                        <a
+                          href="https://en.wikipedia.org/wiki/Manchester_United_F.C."
+                          title="Manchester United F.C."
+                        >Manchester United</a>
+                      </td>
+                      <td>38</td>
+                      <td>19</td>
+                      <td>9</td>
+                      <td>10</td>
+                      <td>49</td>
+                      <td>35</td>
+                      <td>+14</td>
+                      <td>66</td>
+                      <td>
+                        Qualification for the
+                        <a
+                          href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Group_stage"
+                          title="2016–17 UEFA Europa League"
+                        >Europa League group stage</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>6</th>
+                      <td>
+                        <a
+                          href="https://en.wikipedia.org/wiki/Southampton_F.C."
+                          title="Southampton F.C."
+                        >Southampton</a>
+                      </td>
+                      <td>38</td>
+                      <td>18</td>
+                      <td>9</td>
+                      <td>11</td>
+                      <td>59</td>
+                      <td>41</td>
+                      <td>+18</td>
+                      <td>63</td>
+                      <td>
+                        Qualification for the
+                        <a
+                          href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Group_stage"
+                          title="2016–17 UEFA Europa League"
+                        >Europa League group stage</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>7</th>
+                      <td>
+                        <a
+                          href="https://en.wikipedia.org/wiki/West_Ham_United_F.C."
+                          title="West Ham United F.C."
+                        >West Ham United</a>
+                      </td>
+                      <td>38</td>
+                      <td>16</td>
+                      <td>14</td>
+                      <td>8</td>
+                      <td>65</td>
+                      <td>51</td>
+                      <td>+14</td>
+                      <td>62</td>
+                      <td>
+                        Qualification for the
+                        <a
+                          href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Europa_League#Third_qualifying_round"
+                          title="2016–17 UEFA Europa League"
+                        >Europa League third qualifying round</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <br>
               <br>
               <h2 class="subtitle">Striped</h2>
               <hr>
-              <table class="table is-striped">
-                <thead>
-                  <tr>
-                    <th>One</th>
-                    <th>Two</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Three</td>
-                    <td>Four</td>
-                  </tr>
-                  <tr>
-                    <td>Five</td>
-                    <td>Six</td>
-                  </tr>
-                  <tr>
-                    <td>Seven</td>
-                    <td>Eight</td>
-                  </tr>
-                  <tr>
-                    <td>Nine</td>
-                    <td>Ten</td>
-                  </tr>
-                  <tr>
-                    <td>Eleven</td>
-                    <td>Twelve</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-container">
+                <table class="table is-striped">
+                  <thead>
+                    <tr>
+                      <th>One</th>
+                      <th>Two</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Three</td>
+                      <td>Four</td>
+                    </tr>
+                    <tr>
+                      <td>Five</td>
+                      <td>Six</td>
+                    </tr>
+                    <tr>
+                      <td>Seven</td>
+                      <td>Eight</td>
+                    </tr>
+                    <tr>
+                      <td>Nine</td>
+                      <td>Ten</td>
+                    </tr>
+                    <tr>
+                      <td>Eleven</td>
+                      <td>Twelve</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <br>
               <br>
               <h2 class="subtitle">Bordered</h2>
               <hr>
-              <table class="table is-bordered">
-                <thead>
-                  <tr>
-                    <th>One</th>
-                    <th>Two</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Three</td>
-                    <td>Four</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-container">
+                <table class="table is-bordered">
+                  <thead>
+                    <tr>
+                      <th>One</th>
+                      <th>Two</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Three</td>
+                      <td>Four</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <br>
               <br>
               <h2 class="subtitle">Narrow</h2>
               <hr>
-              <table class="table is-narrow">
-                <thead>
-                  <tr>
-                    <th>One</th>
-                    <th>Two</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Three</td>
-                    <td>Four</td>
-                  </tr>
-                  <tr>
-                    <td>Five</td>
-                    <td>Six</td>
-                  </tr>
-                  <tr>
-                    <td>Seven</td>
-                    <td>Eight</td>
-                  </tr>
-                  <tr>
-                    <td>Nine</td>
-                    <td>Ten</td>
-                  </tr>
-                  <tr>
-                    <td>Eleven</td>
-                    <td>Twelve</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-container">
+                <table class="table is-narrow">
+                  <thead>
+                    <tr>
+                      <th>One</th>
+                      <th>Two</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Three</td>
+                      <td>Four</td>
+                    </tr>
+                    <tr>
+                      <td>Five</td>
+                      <td>Six</td>
+                    </tr>
+                    <tr>
+                      <td>Seven</td>
+                      <td>Eight</td>
+                    </tr>
+                    <tr>
+                      <td>Nine</td>
+                      <td>Ten</td>
+                    </tr>
+                    <tr>
+                      <td>Eleven</td>
+                      <td>Twelve</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <br>
               <br>
               <h2 class="subtitle">Bordered, Striped, and Narrow</h2>
               <hr>
-              <table class="table is-bordered is-striped is-narrow">
-                <thead>
-                  <tr>
-                    <th>One</th>
-                    <th>Two</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Three</td>
-                    <td>Four</td>
-                  </tr>
-                  <tr>
-                    <td>Five</td>
-                    <td>Six</td>
-                  </tr>
-                  <tr>
-                    <td>Seven</td>
-                    <td>Eight</td>
-                  </tr>
-                  <tr>
-                    <td>Nine</td>
-                    <td>Ten</td>
-                  </tr>
-                  <tr>
-                    <td>Eleven</td>
-                    <td>Twelve</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-container">
+                <table class="table is-bordered is-striped is-narrow">
+                  <thead>
+                    <tr>
+                      <th>One</th>
+                      <th>Two</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Three</td>
+                      <td>Four</td>
+                    </tr>
+                    <tr>
+                      <td>Five</td>
+                      <td>Six</td>
+                    </tr>
+                    <tr>
+                      <td>Seven</td>
+                      <td>Eight</td>
+                    </tr>
+                    <tr>
+                      <td>Nine</td>
+                      <td>Ten</td>
+                    </tr>
+                    <tr>
+                      <td>Eleven</td>
+                      <td>Twelve</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </section>
 
             <section id="tag" class="section">
@@ -1571,7 +1580,7 @@
                       <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span>Dropdown button</span>
                         <span class="icon is-small">
-                          <i class="fa fa-angle-down" aria-hidden="true" />
+                          <factor-icon icon="angle-down" />
                         </span>
                       </button>
                     </div>
@@ -1597,7 +1606,7 @@
                       >
                         <span>Content</span>
                         <span class="icon is-small">
-                          <i class="fa fa-angle-down" aria-hidden="true" />
+                          <factor-icon icon="angle-down" />
                         </span>
                       </button>
                     </div>
@@ -1639,18 +1648,18 @@
                     <div class="card-content">
                       <div class="media">
                         <div class="media-left">
-                          <figure class="image" style="height: 40px; width: 40px;">
-                            <img src="https://source.unsplash.com/random/96x96" alt="Image">
+                          <figure class="image">
+                            <img src="https://source.unsplash.com/random/40x40" alt="Image">
                           </figure>
                         </div>
                         <div class="media-content">
-                          <p class="title is-4">John Smith</p>
-                          <p class="subtitle is-6">@johnsmith</p>
+                          <p class="title is-4">Raymond Aleman</p>
+                          <p class="subtitle is-6">@raymondaleman</p>
                         </div>
                       </div>
                       <div class="content">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                        <a>@bulmaio</a>.
+                        <a>@factordev</a>.
                         <a>#css</a>
                         <a>#responsive</a>
                         <br>
@@ -1665,7 +1674,7 @@
                       <p class="card-header-title">Component</p>
                       <a class="card-header-icon">
                         <span class="icon">
-                          <i class="fa fa-angle-down" />
+                          <factor-icon icon="angle-down" />
                         </span>
                       </a>
                     </header>
@@ -1689,17 +1698,280 @@
               </div>
             </section>
 
-            <section id="hero" class="section is-fullwidth">
-              <div class="container">
-                <div class="hero is-primary">
-                  <div class="hero-body">
-                    <div class="container">
-                      <h1 class="title">Primary title</h1>
-                      <h2 class="subtitle">Primary subtitle</h2>
-                    </div>
+            <section id="hero" class="section">
+              <h1 class="title">Hero</h1>
+              <hr>
+              <div class="container is-fluid is-marginless">
+                <!-- is-widescreen is-fluid -->
+                <section class="hero is-primary is-medium">
+                  <!-- Hero head: will stick at the top -->
+                  <div class="hero-head">
+                    <nav class="navbar">
+                      <div class="navbar-brand">
+                        <factor-link path="#" class="navbar-item">
+                          <theme-logo />
+                        </factor-link>
+                        <span class="navbar-burger burger" data-target="navbarMenuHeroA">
+                          <span />
+                          <span />
+                          <span />
+                        </span>
+                      </div>
+                      <div id="navbarMenuHeroA" class="navbar-menu">
+                        <div class="navbar-end">
+                          <a class="navbar-item is-active">Home</a>
+                          <a class="navbar-item">Examples</a>
+                          <a class="navbar-item">Documentation</a>
+                          <span class="navbar-item">
+                            <a class="button is-primary is-inverted">
+                              <span class="icon">
+                                <factor-icon icon="github" />
+                              </span>
+                              <span>Download</span>
+                            </a>
+                          </span>
+                        </div>
+                      </div>
+                    </nav>
+                  </div>
+
+                  <!-- Hero content: will be in the middle -->
+                  <div class="hero-body has-text-centered">
+                    <h1 class="title">Title</h1>
+                    <h2 class="subtitle">Subtitle</h2>
+                  </div>
+
+                  <!-- Hero footer: will stick at the bottom -->
+                  <div class="hero-foot">
+                    <nav class="tabs">
+                      <ul>
+                        <li class="is-active">
+                          <a>Overview</a>
+                        </li>
+                        <li>
+                          <a>Modifiers</a>
+                        </li>
+                        <li>
+                          <a>Grid</a>
+                        </li>
+                        <li>
+                          <a>Elements</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </section>
+              </div>
+            </section>
+
+            <section id="level" class="section">
+              <h1 class="title">Level</h1>
+              <hr>
+              <nav class="level">
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">Tweets</p>
+                    <p class="title">3,456</p>
                   </div>
                 </div>
-              </div>
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">Following</p>
+                    <p class="title">123</p>
+                  </div>
+                </div>
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">Followers</p>
+                    <p class="title">456K</p>
+                  </div>
+                </div>
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">Likes</p>
+                    <p class="title">789</p>
+                  </div>
+                </div>
+              </nav>
+              <br>
+              <br>
+              <nav class="level">
+                <div class="level-item has-text-centered">
+                  <a class="link is-info">Home</a>
+                </div>
+                <div class="level-item has-text-centered">
+                  <a class="link is-info">Menu</a>
+                </div>
+                <div class="level-item has-text-centered">
+                  <theme-logo />
+                </div>
+                <div class="level-item has-text-centered">
+                  <a class="link is-info">Reservations</a>
+                </div>
+                <div class="level-item has-text-centered">
+                  <a class="link is-info">Contact</a>
+                </div>
+              </nav>
+            </section>
+
+            <section id="media" class="section">
+              <h1 class="title">Media Object</h1>
+              <hr>
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>Raymond Aleman</strong>
+                      <small>@raymondaleman</small>
+                      <small>31m</small>
+                      <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                    </p>
+                  </div>
+                  <nav class="level">
+                    <div class="level-left">
+                      <a class="level-item">
+                        <span class="icon is-small">
+                          <factor-icon icon="reply" />
+                        </span>
+                      </a>
+                      <a class="level-item">
+                        <span class="icon is-small">
+                          <factor-icon icon="retweet" />
+                        </span>
+                      </a>
+                      <a class="level-item">
+                        <span class="icon is-small">
+                          <factor-icon icon="heart" />
+                        </span>
+                      </a>
+                    </div>
+                  </nav>
+                </div>
+                <div class="media-right">
+                  <button class="delete" />
+                </div>
+              </article>
+              <hr>
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="field">
+                    <p class="control">
+                      <textarea class="textarea" placeholder="Add a comment..." />
+                    </p>
+                  </div>
+                  <nav class="level">
+                    <div class="level-left">
+                      <div class="level-item">
+                        <a class="button is-info">Post comment</a>
+                      </div>
+                    </div>
+                    <div class="level-right">
+                      <div class="level-item">
+                        <label class="checkbox">
+                          <input type="checkbox"> Press enter to submit
+                        </label>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </article>
+              <hr>
+              <h4 class="subtitle">Nesting</h4>
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>Andrew Powers</strong>
+                      <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
+                      <br>
+                      <small>
+                        <a>Like</a> ·
+                        <a>Reply</a> · 3 hrs
+                      </small>
+                    </p>
+                  </div>
+                  <article class="media">
+                    <figure class="media-left">
+                      <p class="image is-48x48">
+                        <img src="https://source.unsplash.com/random/96x96" alt="Image">
+                      </p>
+                    </figure>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>Justin Keller</strong>
+                          <br>Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
+                          <br>
+                          <small>
+                            <a>Like</a> ·
+                            <a>Reply</a> · 2 hrs
+                          </small>
+                        </p>
+                      </div>
+                      <article
+                        class="media"
+                      >Vivamus quis semper metus, non tincidunt dolor. Vivamus in mi eu lorem cursus ullamcorper sit amet nec massa.</article>
+                      <article
+                        class="media"
+                      >Morbi vitae diam et purus tincidunt porttitor vel vitae augue. Praesent malesuada metus sed pharetra euismod. Cras tellus odio, tincidunt iaculis diam non, porta aliquet tortor.</article>
+                    </div>
+                  </article>
+                  <article class="media">
+                    <figure class="media-left">
+                      <p class="image is-48x48">
+                        <img src="https://source.unsplash.com/random/96x96" alt="Image">
+                      </p>
+                    </figure>
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>Dan Lynch</strong>
+                          <br>Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
+                          <br>
+                          <small>
+                            <a>Like</a> ·
+                            <a>Reply</a> · 2 hrs
+                          </small>
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              </article>
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="field">
+                    <p class="control">
+                      <textarea class="textarea" placeholder="Add a comment..." />
+                    </p>
+                  </div>
+                  <div class="field">
+                    <p class="control">
+                      <button class="button">Post comment</button>
+                    </p>
+                  </div>
+                </div>
+              </article>
             </section>
 
             <section id="more" class="section">
@@ -1719,7 +1991,9 @@
 
 <script>
 export default {
-  components: {},
+  components: {
+    "theme-logo": () => import("./logo")
+  },
   data() {
     return {
       loading: true

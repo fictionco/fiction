@@ -2,10 +2,9 @@
 
 @import "./reset.scss";
 
-// Import Google Fonts
+// Import and Set Fonts
 @import url('https://fonts.googleapis.com/css?family=Kanit:300|Prompt:400,600&display=swap');
 
-// Bulma Variables
 $family-primary: 'Kanit',
 BlinkMacSystemFont,
 -apple-system,
@@ -71,9 +70,9 @@ $section-padding: 3.5rem 1.25rem;
 //Form
 //$control-border-width: 1px;
 //$input-border-color: transparent;
-//$input-shadow: none;
-$input-bg: #fff;
-$input-box-shadow:none;
+$input-shadow: none;
+//$input-bg: #fff;
+//$input-box-shadow:none;
 
 //Elements
 //$box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
