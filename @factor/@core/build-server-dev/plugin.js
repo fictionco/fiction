@@ -90,7 +90,7 @@ export default Factor => {
       const customWatchers = Factor.$filters.apply("build-watchers", [
         {
           name: "Template",
-          files: [this.templatePath],
+          files: [this.templatePath, Factor.$paths.get("config-file-public"), Factor.$paths.get("config-file-private")],
           callback: () => {
             this.template = this.getTemplate()
           }
