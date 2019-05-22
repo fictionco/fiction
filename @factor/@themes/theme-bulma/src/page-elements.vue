@@ -1974,8 +1974,815 @@
               </article>
             </section>
 
+            <section id="menu" class="section">
+              <h1 class="title">Menu</h1>
+              <hr>
+              <div class="column is-3">
+                <aside class="menu">
+                  <p class="menu-label">General</p>
+                  <ul class="menu-list">
+                    <li>
+                      <a>Dashboard</a>
+                    </li>
+                    <li>
+                      <a>Customers</a>
+                    </li>
+                  </ul>
+                  <p class="menu-label">Administration</p>
+                  <ul class="menu-list">
+                    <li>
+                      <a>Team Settings</a>
+                    </li>
+                    <li>
+                      <a class="is-active">Manage Your Team</a>
+                      <ul>
+                        <li>
+                          <a>Members</a>
+                        </li>
+                        <li>
+                          <a>Plugins</a>
+                        </li>
+                        <li>
+                          <a>Add a member</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a>Invitations</a>
+                    </li>
+                  </ul>
+                </aside>
+              </div>
+            </section>
+
+            <section id="message" class="section">
+              <h1 class="title">Message</h1>
+              <hr>
+              <div class="columns is-multiline">
+                <div class="column is-half">
+                  <article class="message">
+                    <div class="message-header">
+                      <p>Message</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-info">
+                    <div class="message-header">
+                      <p>Info</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-warning">
+                    <div class="message-header">
+                      <p>Warning</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-white">
+                    <div class="message-header">
+                      <p>White</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-light">
+                    <div class="message-header">
+                      <p>Light</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                </div>
+
+                <div class="column is-half">
+                  <article class="message is-primary">
+                    <div class="message-header">
+                      <p>Primary</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-success">
+                    <div class="message-header">
+                      <p>Success</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-danger">
+                    <div class="message-header">
+                      <p>Danger</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-black">
+                    <div class="message-header">
+                      <p>Black</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                  <br>
+                  <article class="message is-dark">
+                    <div class="message-header">
+                      <p>Dark</p>
+                      <button class="delete" />
+                    </div>
+                    <div class="message-body">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                      <a>felis venenatis</a> efficitur. Aenean ac
+                      <em>eleifend lacus</em>.
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <section id="modal" class="section">
+              <h1 class="title">Modal</h1>
+              <hr>
+              <button
+                class="button is-primary is-large modal-button"
+                data-target="modal"
+                aria-haspopup="true"
+                @click="showModalExample = true"
+              >Launch example modal</button>
+              <div class="modal" :class="{ 'is-active' : showModalExample == true}">
+                <div class="modal-background" @click="showModalExample = false" />
+                <div class="modal-card">
+                  <header class="modal-card-head">
+                    <p class="modal-card-title title is-marginless">Any Elements Can Go Here</p>
+                    <button class="delete" @click="showModalExample = false" />
+                  </header>
+                  <section
+                    class="modal-card-body"
+                  >Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</section>
+                  <footer class="modal-card-foot">
+                    <a class="button is-primary">Save changes</a>
+                    <a class="button" @click="showModalExample = false">Cancel</a>
+                  </footer>
+                </div>
+                <button
+                  class="modal-close is-large"
+                  aria-label="close"
+                  @click="showModalExample = false"
+                />
+              </div>
+            </section>
+
+            <section id="navbar" class="section">
+              <h1 class="title">Navbar</h1>
+              <hr>
+
+              <nav class="navbar">
+                <div class="navbar-brand">
+                  <app-link class="navbar-item" path="#">
+                    <theme-logo />
+                  </app-link>
+                  <app-link class="navbar-item is-hidden-desktop" path="#" target="_blank">
+                    <span class="icon">
+                      <factor-icon icon="github" />
+                    </span>
+                  </app-link>
+                  <app-link class="navbar-item is-hidden-desktop" path="#" target="_blank">
+                    <span class="icon">
+                      <factor-icon icon="twitter" />
+                    </span>
+                  </app-link>
+                  <div class="navbar-burger burger" data-target="navMenuExample1">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                </div>
+                <div id="navMenuExample1" class="navbar-menu">
+                  <div class="navbar-start">
+                    <app-link class="navbar-item" path="#">Home</app-link>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <app-link class="navbar-link is-active" path="#">Docs</app-link>
+                      <div class="navbar-dropdown">
+                        <app-link class="navbar-item" path="#">Overview</app-link>
+                        <app-link class="navbar-item" path="#">Modifiers</app-link>
+                        <app-link class="navbar-item is-active" path="#">Grid</app-link>
+                        <app-link class="navbar-item" path="#">Elements</app-link>
+                        <hr class="navbar-divider">
+                        <div class="navbar-item">
+                          <div>
+                            version
+                            <p class="has-text-primary is-size-6-desktop">0.7.3</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <app-link class="navbar-link" path="#">Blog</app-link>
+                      <div id="blogDropdown" class="navbar-dropdown" data-style="width: 18rem;">
+                        <app-link class="navbar-item" path="#">
+                          <div class="navbar-content">
+                            <p>
+                              <small class="has-text-primary">10 Mar 2020</small>
+                            </p>
+                            <p>New field element (for better controls)</p>
+                          </div>
+                        </app-link>
+                        <app-link class="navbar-item" path="#">
+                          <div class="navbar-content">
+                            <p>
+                              <small class="has-text-primary">11 Apr 2020</small>
+                            </p>
+                            <p>Metro UI CSS grid with Bulma tiles</p>
+                          </div>
+                        </app-link>
+                        <app-link class="navbar-item" path="#">
+                          <div class="navbar-content">
+                            <p>
+                              <small class="has-text-primary">09 Feb 2020</small>
+                            </p>
+                            <p>Blog launched, new responsive columns, new helpers</p>
+                          </div>
+                        </app-link>
+
+                        <app-link class="navbar-item" path="#">More posts</app-link>
+                        <hr class="navbar-divider">
+                        <div class="navbar-item">
+                          <div class="navbar-content">
+                            <div class="level is-mobile">
+                              <div class="level-left">
+                                <div class="level-item">
+                                  <strong>Stay up to date!</strong>
+                                </div>
+                              </div>
+                              <div class="level-right">
+                                <div class="level-item">
+                                  <app-link class="button is-rss is-small" path="#">
+                                    <span class="icon is-small">
+                                      <factor-icon icon="rss" />
+                                    </span>
+                                    <span>Subscribe</span>
+                                  </app-link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <div class="navbar-link">More</div>
+                      <div id="moreDropdown" class="navbar-dropdown">
+                        <app-link class="navbar-item" path="#">
+                          <div class="level is-mobile">
+                            <div class="level-left">
+                              <div class="level-item">
+                                <p>
+                                  <strong>Extensions</strong>
+                                  <br>
+                                  <small>Side projects to enhance Bulma</small>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </app-link>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="navbar-end">
+                    <app-link class="navbar-item" path="#">Github</app-link>
+                    <app-link class="navbar-item" path="#">Twitter</app-link>
+                    <div class="navbar-item">
+                      <div class="field is-grouped">
+                        <p class="control">
+                          <app-link class="button" path="#">
+                            <span class="icon">
+                              <factor-icon icon="twitter" />
+                            </span>
+                            <span>Tweet</span>
+                          </app-link>
+                        </p>
+                        <p class="control">
+                          <app-link class="button is-primary" path="#">
+                            <span class="icon">
+                              <factor-icon icon="download" />
+                            </span>
+                            <span>Download</span>
+                          </app-link>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+              <br>
+            </section>
+
+            <section id="pagination" class="section">
+              <h1 class="title">Pagination</h1>
+              <hr>
+              <nav class="pagination">
+                <app-link class="pagination-previous is-disabled" path="#">Previous</app-link>
+                <app-link class="pagination-next" path="#">Next</app-link>
+                <ul class="pagination-list">
+                  <li>
+                    <app-link class="pagination-link">1</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-ellipsis">…</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-link">45</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-link">46</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-link">47</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-ellipsis">…</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-link">89</app-link>
+                  </li>
+                </ul>
+              </nav>
+              <br>
+              <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+                <app-link class="pagination-previous is-disabled" path="#">Previous</app-link>
+                <app-link class="pagination-next" path="#">Next</app-link>
+                <ul class="pagination-list">
+                  <li>
+                    <app-link class="pagination-link" aria-label="Goto page 1">1</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-ellipsis">…</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-link" aria-label="Goto page 45">45</app-link>
+                  </li>
+                  <li>
+                    <app-link
+                      class="pagination-link is-current"
+                      aria-label="Goto page 46"
+                      aria-current="page"
+                    >46</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-link" aria-label="Goto page 47">47</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-ellipsis">…</app-link>
+                  </li>
+                  <li>
+                    <app-link class="pagination-link" aria-label="Goto page 89">89</app-link>
+                  </li>
+                </ul>
+              </nav>
+            </section>
+
+            <section id="panel" class="section">
+              <h1 class="title">Panel</h1>
+              <hr>
+              <div class="column is-4">
+                <nav class="panel">
+                  <p class="panel-heading">Repositories</p>
+                  <div class="panel-block">
+                    <p class="control has-icons-left">
+                      <input class="input is-small" type="text" placeholder="Search">
+                      <span class="icon is-small is-left">
+                        <factor-icon icon="search" />
+                      </span>
+                    </p>
+                  </div>
+                  <p class="panel-tabs">
+                    <app-link class="is-active">All</app-link>
+                    <app-link>Public</app-link>
+                    <app-link>Private</app-link>
+                    <app-link>Sources</app-link>
+                    <app-link>Forks</app-link>
+                  </p>
+                  <a class="panel-block is-active">
+                    <span class="panel-icon">
+                      <factor-icon icon="book" />
+                    </span> fiction
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <factor-icon icon="book" />
+                    </span> marksheet
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <factor-icon icon="book" />
+                    </span> reset.css
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <factor-icon icon="book" />
+                    </span> raymondaleman.github.io
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <factor-icon icon="code-fork" />
+                    </span> fiction-com/factor
+                  </a>
+                  <a class="panel-block">
+                    <span class="panel-icon">
+                      <factor-icon icon="code-fork" />
+                    </span> fiction-com
+                  </a>
+                  <label class="panel-block">
+                    <input type="checkbox"> Remember me
+                  </label>
+                  <div class="panel-block">
+                    <button class="button is-primary is-outlined is-fullwidth">Reset all filters</button>
+                  </div>
+                </nav>
+              </div>
+            </section>
+
+            <section id="tabs" class="section">
+              <h1 class="title">Tabs</h1>
+              <hr>
+              <div class="tabs">
+                <ul>
+                  <li class="is-active">
+                    <app-link>Pictures</app-link>
+                  </li>
+                  <li>
+                    <app-link>Music</app-link>
+                  </li>
+                  <li>
+                    <app-link>Videos</app-link>
+                  </li>
+                  <li>
+                    <app-link>Documents</app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-centered">
+                <ul>
+                  <li class="is-active">
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="image" />
+                      </span>
+                      <span>Pictures</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="music" />
+                      </span>
+                      <span>Music</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="film" />
+                      </span>
+                      <span>Videos</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="file-text-o" />
+                      </span>
+                      <span>Documents</span>
+                    </app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-small">
+                <ul>
+                  <li class="is-active">
+                    <app-link>Pictures</app-link>
+                  </li>
+                  <li>
+                    <app-link>Music</app-link>
+                  </li>
+                  <li>
+                    <app-link>Videos</app-link>
+                  </li>
+                  <li>
+                    <app-link>Documents</app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-medium">
+                <ul>
+                  <li class="is-active">
+                    <app-link>Pictures</app-link>
+                  </li>
+                  <li>
+                    <app-link>Music</app-link>
+                  </li>
+                  <li>
+                    <app-link>Videos</app-link>
+                  </li>
+                  <li>
+                    <app-link>Documents</app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-large">
+                <ul>
+                  <li class="is-active">
+                    <app-link>Pictures</app-link>
+                  </li>
+                  <li>
+                    <app-link>Music</app-link>
+                  </li>
+                  <li>
+                    <app-link>Videos</app-link>
+                  </li>
+                  <li>
+                    <app-link>Documents</app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-boxed">
+                <ul>
+                  <li class="is-active">
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="image" />
+                      </span>
+                      <span>Pictures</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="music" />
+                      </span>
+                      <span>Music</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="film" />
+                      </span>
+                      <span>Videos</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="file-text-o" />
+                      </span>
+                      <span>Documents</span>
+                    </app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-toggle">
+                <ul>
+                  <li class="is-active">
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="image" />
+                      </span>
+                      <span>Pictures</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="music" />
+                      </span>
+                      <span>Music</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="film" />
+                      </span>
+                      <span>Videos</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="file-text-o" />
+                      </span>
+                      <span>Documents</span>
+                    </app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-toggle is-toggle-rounded">
+                <ul>
+                  <li class="is-active">
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="image" />
+                      </span>
+                      <span>Pictures</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="music" />
+                      </span>
+                      <span>Music</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="film" />
+                      </span>
+                      <span>Videos</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="file-text-o" />
+                      </span>
+                      <span>Documents</span>
+                    </app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-fullwidth">
+                <ul>
+                  <li>
+                    <app-link>
+                      <span class="icon">
+                        <factor-icon icon="angle-left" />
+                      </span>
+                      <span>Left</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon">
+                        <factor-icon icon="angle-up" />
+                      </span>
+                      <span>Up</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span>Right</span>
+                      <span class="icon">
+                        <factor-icon icon="angle-right" />
+                      </span>
+                    </app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-centered is-boxed">
+                <ul>
+                  <li class="is-active">
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="image" />
+                      </span>
+                      <span>Pictures</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="music" />
+                      </span>
+                      <span>Music</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="film" />
+                      </span>
+                      <span>Videos</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon is-small">
+                        <factor-icon icon="file-text-o" />
+                      </span>
+                      <span>Documents</span>
+                    </app-link>
+                  </li>
+                </ul>
+              </div>
+              <br>
+              <div class="tabs is-toggle is-fullwidth is-large">
+                <ul>
+                  <li class="is-active">
+                    <app-link>
+                      <span class="icon">
+                        <factor-icon icon="image" />
+                      </span>
+                      <span>Pictures</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon">
+                        <factor-icon icon="music" />
+                      </span>
+                      <span>Music</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon">
+                        <factor-icon icon="film" />
+                      </span>
+                      <span>Videos</span>
+                    </app-link>
+                  </li>
+                  <li>
+                    <app-link>
+                      <span class="icon">
+                        <factor-icon icon="file-text-o" />
+                      </span>
+                      <span>Documents</span>
+                    </app-link>
+                  </li>
+                </ul>
+              </div>
+            </section>
+
             <section id="more" class="section">
-              Even more elements like a versatile delete section, icon containers, etc. Details on the
+              <h1 class="title">Learn More</h1>
+              <hr>Even more elements like a versatile delete section, icon containers, etc. Learn more on the
               <app-link
                 class="is-link"
                 path="https://bulma.io/documentation"
@@ -1996,7 +2803,8 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      showModalExample: false
     }
   },
   mounted() {},

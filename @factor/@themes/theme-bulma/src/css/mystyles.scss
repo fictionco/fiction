@@ -91,6 +91,7 @@ $dropdown-content-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
 //Components
 $navbar-dropdown-arrow: $primary;
 $menu-label-spacing: 2em;
+$pagination-focus-border-color: $primary;
 
 @import "bulma/bulma.sass";
 
@@ -123,6 +124,8 @@ $menu-label-spacing: 2em;
 //Bulma modifications CSS
 .is-sticky {
   position: sticky;
+  height: 100vh;
+  overflow-y: scroll;
 
   &.is-sticky-top {
     top: 0;
