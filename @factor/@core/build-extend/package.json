@@ -1,17 +1,17 @@
 {
   "name": "@factor/build-extend",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/build-config": "^0.2.9",
-    "@factor/build-files": "^0.2.9",
-    "@factor/build-paths": "^0.2.9",
+    "@factor/build-config": "^0.2.10",
+    "@factor/build-files": "^0.2.10",
+    "@factor/build-paths": "^0.2.10",
     "@factor/build-transpiler": "^0.2.0",
-    "@factor/cloud-config": "^0.2.9",
+    "@factor/cloud-config": "^0.2.10",
     "@factor/filters": "^0.2.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

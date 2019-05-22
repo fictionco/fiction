@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-bulma",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -15,8 +15,8 @@
     ]
   },
   "dependencies": {
-    "@factor/cms": "^0.2.9",
-    "@factor/stack-fire": "^0.2.9"
+    "@factor/cms": "^0.2.10",
+    "@factor/stack-fire": "^0.2.10"
   },
   "devDependencies": {
     "bulma": "^0.7.4",
