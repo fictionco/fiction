@@ -17,8 +17,8 @@ export default Factor => {
         id: "auth-provider-tokens-google",
         requires: ["google-auth"],
         description: "Returns Google Api Auth tokens.",
-        service: async () => {
-          return await this.getToken()
+        service: async _ => {
+          return await this.getToken(_)
         }
       })
 
@@ -76,19 +76,20 @@ export default Factor => {
         }
       })
     }
-    async getToken() {
-      const googleAuth = await this.login()
+    async getToken(_) {
+      const googleAuth = await this.login(_)
       const idToken = googleAuth.Zi.id_token
       const accessToken = googleAuth.Zi.access_token
 
       return { idToken, accessToken }
     }
 
-    async login() {
+    // https://developers.google.com/identity/sign-in/web/reference#googleauthsigninoptions
+    async login(options = {}) {
       await this.loadClientApi()
       // Ideally the button should only show up after gapi.client.init finishes, so that this
       // handler won't be called before OAuth is initialized.
-      const result = await this.gapi.auth2.getAuthInstance().signIn()
+      const result = await this.gapi.auth2.getAuthInstance().signIn(options)
 
       return result
     }

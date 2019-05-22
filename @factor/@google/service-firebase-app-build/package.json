@@ -10,5 +10,8 @@
     "provider": "firebase",
     "service": "parent"
   },
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
+  "dependencies": {
+    "firebase-tools": "^6.10.0"
+  }
 }

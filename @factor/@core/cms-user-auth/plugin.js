@@ -134,21 +134,27 @@ export default Factor => {
     }
 
     async addAuthMethod(args) {
-      const processors = Factor.$filters.apply("add-auth-method-promises", [], args)
-      const results = await Promise.all(processors)
+      try {
+        const results = await Factor.$stack.service("add-auth-method", args)
 
-      this.update()
+        this.update()
 
-      return results
+        return results
+      } catch (error) {
+        Factor.$events.$emit("error", error)
+      }
     }
 
     async removeAuthMethod(args) {
-      const processors = Factor.$filters.apply("remove-auth-method-promises", [], args)
-      const results = await Promise.all(processors)
+      try {
+        const results = await Factor.$stack.service("remove-auth-method", args)
 
-      this.update()
+        this.update()
 
-      return results
+        return results
+      } catch (error) {
+        Factor.$events.$emit("error", error)
+      }
     }
 
     async sendPasswordReset({ email }) {
@@ -156,15 +162,14 @@ export default Factor => {
     }
 
     async sendEmailVerification(email) {
-      const promises = Factor.$filters.apply("send-email-verification", [], email)
-      return await Promise.all(promises)
+      return await Factor.$stack.service("send-email-verification", { email })
     }
 
     async getRequestBearerToken() {
       return await Factor.$stack.service("auth-request-bearer-token")
     }
 
-    update(args) {
+    update(args = {}) {
       Factor.$events.$emit("user-updated", args)
     }
   })()

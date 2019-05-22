@@ -73,13 +73,13 @@ export default Factor => {
 
       Factor.$filters.add("cli-tasks-deploy-app", _ => {
         _.push({
-          command: "firebase",
-          args: ["use", Factor.$config.setting("env")],
+          command: "npx",
+          args: ["firebase", "use", Factor.$config.setting("env")],
           title: `Setting Firebase Project [${Factor.$config.setting("env")}]`
         })
         _.push({
-          command: "firebase",
-          args: ["deploy"],
+          command: "npx",
+          args: ["firebase", "deploy"],
           title: `Deploying App to Firebase [${Factor.$config.setting("env")}]`
         })
 

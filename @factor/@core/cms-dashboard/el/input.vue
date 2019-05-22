@@ -39,7 +39,7 @@
   select {
     -webkit-appearance: none;
     background-color: var(--input-bg);
-    box-shadow: var(--input-shadow);
+    box-shadow: inset var(--input-shadow);
     border-radius: 4px;
   }
 
