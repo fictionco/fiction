@@ -8,15 +8,12 @@
   },
   "factor": {
     "extend": "theme",
-    "target": [
-      "themes",
-      "app",
-      "build"
-    ]
+    "target": ["themes", "app", "build"]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
     "@factor/plugin-notify": "^0.2.11",
+    "@factor/cms": "^0.2.11",
     "prismjs": "^1.16.0"
   }
 }

@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       if (Factor.FACTOR_ENV == "build") {
         this.addConfig()
@@ -7,18 +7,39 @@ export default Factor => {
     }
 
     addConfig() {
+      const { factorHostProject, projectId } = Factor.$config.setting("firebase") || {}
+      const env = Factor.$config.setting("env")
+
+      if (factorHostProject) {
+        const { id, target } = factorHostProject
+        Factor.$filters.add("firebaserc", _ => {
+          _.targets = {
+            [projectId]: {
+              hosting: {
+                [target]: [id]
+              }
+            }
+          }
+        })
+      }
       Factor.$filters.add(
         "firebase-config",
         _ => {
-          _.hosting = {
+          const hosting = {
             public: Factor.$paths.folder("dist"),
             ignore: ["firebase.json", "**/.*", "**/node_modules/**"]
           }
+
+          if (factorHostProject) {
+            hosting.target = factorHostProject.target
+          }
+
+          _.hosting = hosting
 
           return _
         },
         { priority: 50 }
       )
     }
-  }()
+  })()
 }

@@ -77,11 +77,23 @@ export default Factor => {
           args: ["firebase", "use", Factor.$config.setting("env")],
           title: `Setting Firebase Project [${Factor.$config.setting("env")}]`
         })
-        _.push({
-          command: "npx",
-          args: ["firebase", "deploy"],
-          title: `Deploying App to Firebase [${Factor.$config.setting("env")}]`
-        })
+
+        // Special functionality for allowing projects that just need to host files
+        // These projects must use only the hosting functionality and share everything else
+        const { factorHostProject } = Factor.$config.setting("firebase") || {}
+        if (factorHostProject) {
+          _.push({
+            command: "npx",
+            args: ["firebase", "deploy", "--only", "hosting"],
+            title: `Deploying to Firebase - Hosting Only [${Factor.$config.setting("env")}]`
+          })
+        } else {
+          _.push({
+            command: "npx",
+            args: ["firebase", "deploy"],
+            title: `Deploying to Firebase - Full App [${Factor.$config.setting("env")}]`
+          })
+        }
 
         return _
       })
@@ -118,12 +130,12 @@ export default Factor => {
 
       const { firebaserc = {} } = Factor.$config.setting("firebase") || {}
 
-      const fileJson = {
+      const fileJson = Factor.$filters.apply("firebaserc", {
         projects: {
           production: prodProject || allProject,
           development: devProject || allProject
         }
-      }
+      })
 
       this.writeFile(".firebaserc", merge.all([fileJson, firebaserc]))
     }
