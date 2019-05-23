@@ -15,10 +15,10 @@ module.exports.default = Factor => {
 
       if (Factor.FACTOR_ENV == "build") {
         Factor.$filters.add("cli-data-export", (_, program) => {
-          _.firestore = () => this.dataExport(program)
+          return [..._, this.dataExport(program)]
         })
         Factor.$filters.add("cli-data-import", (_, program) => {
-          _.firestore = () => this.dataImport(program)
+          return [..._, this.dataImport(program)]
         })
         this.addConfig()
       } else {

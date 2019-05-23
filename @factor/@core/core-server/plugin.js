@@ -48,10 +48,10 @@ module.exports.default = Factor => {
 
     // Endpoint Helper method, return function that processes (req, res)
     requestHandler() {
-      return (req, res) => {
+      return async (request, response) => {
         const args = { mode: "production", serve: false }
-        const server = this.startServer(args)
-        return server(req, res)
+        const server = await this.startServer(args)
+        return server(request, response)
       }
     }
 
@@ -75,9 +75,9 @@ module.exports.default = Factor => {
       }
 
       // TODO make await instead of callback
-      this.renderer.renderToString(context, (err, html) => {
-        if (err) {
-          return this.handleError(req, res, err)
+      this.renderer.renderToString(context, (error, html) => {
+        if (error) {
+          return this.handleError(req, res, error)
         } else {
           if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
             res.set("cache-control", this.getCacheControl(req.url))
@@ -92,8 +92,23 @@ module.exports.default = Factor => {
       })
     }
 
-    startServer(args) {
-      const { mode = "production", serve = true } = args
+    async _productionFiles(args) {
+      const { mode } = args
+      const paths = {
+        template: Factor.$paths.resolveFilePath("#/index.html"),
+        bundle: Factor.$paths.get("server-bundle"),
+        clientManifest: Factor.$paths.get("client-manifest")
+      }
+
+      return {
+        template: Factor.$files.readHtmlFile(paths.template),
+        bundle: require(paths.bundle),
+        clientManifest: require(paths.clientManifest)
+      }
+    }
+
+    async startServer(args) {
+      const { mode = "production", serve = true, url } = args
 
       this.server = express()
 
@@ -102,14 +117,9 @@ module.exports.default = Factor => {
       this.httpDetails = Factor.$paths.getHttpDetails()
 
       if (mode == "production") {
-        const template = Factor.$paths.resolveFilePath("#/index.html")
-        const bundle = require(Factor.$paths.get("server-bundle"))
-        const clientManifest = require(Factor.$paths.get("client-manifest"))
+        const { template, bundle, clientManifest } = await this._productionFiles(args)
 
-        this.renderer = this.createRenderer(bundle, {
-          template: Factor.$files.readHtmlFile(template),
-          clientManifest
-        })
+        this.renderer = this.createRenderer(bundle, { template, clientManifest })
       } else {
         const devServer = Factor.$filters.apply("development-server")
 
@@ -127,8 +137,8 @@ module.exports.default = Factor => {
       const middleware = Factor.$filters.apply("middleware", [])
       if (middleware.length > 0) {
         middleware.forEach(({ path, callback }) => {
-          this.server.use(path, function(req, res, next) {
-            callback(req, res, next)
+          this.server.use(path, function(request, response, next) {
+            callback(request, response, next)
           })
         })
       }
@@ -139,19 +149,19 @@ module.exports.default = Factor => {
       }
 
       // Set Express routine for all fallthrough paths
-      this.server.get("*", (req, res) => {
+      this.server.get("*", (request, response) => {
         if (mode == "production") {
-          this.render(req, res, args)
+          this.render(request, response, args)
         } else {
           this.readyPromise.then(() => {
-            this.render(req, res)
+            this.render(request, response)
           })
         }
       })
 
       // Serve the app from node
       if (serve) {
-        const { port } = this.httpDetails
+        const { port, routine } = this.httpDetails
 
         this.getListenRoutine(this.server).listen(port, () => {
           const url = Factor.$paths.localhostUrl()
@@ -160,6 +170,11 @@ module.exports.default = Factor => {
 
           require("opn")(url)
         })
+
+        // Also listen http on alt port
+        if (routine == "https") {
+          this.server.listen(port + 1)
+        }
       }
 
       return this.server

@@ -1,7 +1,12 @@
 {
   "name": "wrapper",
   "version": "0.0.1",
-  "workspaces": ["@fiction/*", "@factor/*", "@factor/@*/*", "@demo/*"],
+  "workspaces": [
+    "@fiction/*",
+    "@factor/*",
+    "@factor/@*/*",
+    "@demo/*"
+  ],
   "private": true,
   "publishConfig": {
     "access": "public"
@@ -44,16 +49,15 @@
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-unicorn": "^7.0.0",
     "eslint-plugin-vue": "^5.1.0",
     "lerna": "^3.13.0",
-    "prettier": "^1.6.1",
     "prettier-eslint": "^8.8.2",
     "webpack": "^4.29.6"
   },
   "dependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
     "commitizen": "^3.0.7",
-    "cz-conventional-changelog": "^2.1.0"
+    "cz-conventional-changelog": "^2.1.0",
+    "prettier": "^1.17.1"
   }
 }
