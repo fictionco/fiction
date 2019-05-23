@@ -264,9 +264,9 @@ const cli = async () => {
       }
     }
 
-    async callbacks(name, args) {
+    async callbacks(id, args) {
       try {
-        await Factor.$filters.run(name, args)
+        await Factor.$filters.run(id, args)
       } catch (error) {
         Factor.$log.error(error)
       }

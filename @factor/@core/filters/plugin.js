@@ -100,39 +100,9 @@ module.exports = Factor => {
     }
 
     async run(name, args = {}) {
-      const callbacks = this.apply.call(this, name, {}, args)
+      const callbacks = this.apply(name, [], args)
 
-      const promises = []
-      const keys = []
-      for (var key in callbacks) {
-        const cb = callbacks[key]
-        if (cb && typeof cb == "function") {
-          keys.push(key)
-          promises.push(cb())
-        }
-      }
-
-      const results = await Promise.all(promises)
-
-      const out = {}
-
-      results.forEach((r, i) => {
-        const key = keys[i]
-        out[key] = r
-      })
-      return out
+      return await Promise.all(callbacks)
     }
-
-    // addFilter(name, callback, args) {
-    //   return this.add(name, callback, args)
-    // }
-
-    // applyFilters(name, data) {
-    //   return this.apply(name, data)
-    // }
-
-    // get(name, data) {
-    //   return this.apply(name, data)
-    // }
   })()
 }

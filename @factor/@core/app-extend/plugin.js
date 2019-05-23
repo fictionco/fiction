@@ -20,7 +20,7 @@ export default (Factor, target) => {
       const plugins = require("@generated/load-plugins-app")
       this.injectPlugins(plugins)
 
-      Factor.$filters.run("plugins-added")
+      //Factor.$filters.run("plugins-added")
     }
 
     addCoreExtension(id, extension) {

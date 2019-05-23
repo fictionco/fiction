@@ -8,10 +8,7 @@
   },
   "factor": {
     "priority": 20,
-    "target": [
-      "build",
-      "app"
-    ],
+    "target": ["build", "app", "cloud"],
     "id": "events"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

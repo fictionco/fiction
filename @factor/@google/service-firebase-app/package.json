@@ -11,9 +11,9 @@
     "service": "parent"
   },
   "dependencies": {
-    "@firebase/app-types": "^0.3.6",
+    "@firebase/app-types": "^0.4.0",
     "@firebase/util": "^0.2.11",
-    "firebase": "^5.8.6",
+    "firebase": "^6.0.2",
     "xmlhttprequest": "^1.8.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

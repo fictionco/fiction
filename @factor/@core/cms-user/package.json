@@ -1,10 +1,7 @@
 {
   "name": "@factor/cms-user",
   "factor": {
-    "target": [
-      "app",
-      "build"
-    ],
+    "target": ["app", "build", "cloud"],
     "id": "user"
   },
   "version": "0.2.10",

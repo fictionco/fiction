@@ -15,13 +15,13 @@ module.exports = Factor => {
     }
 
     cover(args) {
-      let { id, service, key, provider, options = {} } = args
+      let { id, service = _ => _, key, provider, options = {} } = args
 
       key = key || provider || Factor.$guid()
 
       Factor.$filters.add(
         id,
-        (_, params) => {
+        (_ = [], params) => {
           _.push({
             service: service(params),
             key,
@@ -36,8 +36,8 @@ module.exports = Factor => {
       this.services.push(args)
     }
 
-    async service(filter, args, opts = {}) {
-      const added = Factor.$filters.apply(filter, [], args)
+    async service(id, args, opts = {}) {
+      const added = Factor.$filters.apply(id, [], args)
 
       if (!added || added.length == 0) {
         return null

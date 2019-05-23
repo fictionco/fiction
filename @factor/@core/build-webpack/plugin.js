@@ -29,8 +29,7 @@ module.exports.default = Factor => {
 
     addFilters() {
       Factor.$filters.add("create-distribution-app", (_, args) => {
-        _.webpack = () => this.buildProduction(args)
-        return _
+        return [..._, this.buildProduction(args)]
       })
       Factor.$filters.add("webpack-config", args => {
         return this.getConfig(args)

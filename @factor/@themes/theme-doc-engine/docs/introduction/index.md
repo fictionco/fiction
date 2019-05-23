@@ -2,25 +2,25 @@
  
 ## [What is Factor?](#what-is-factor)
 
-Factor is an open-source progressive Javascript framework and CMS for building web applications.
+Factor is an open-source Javascript platform designed to help you build world-class web applications.
 
-Unlike other web frameworks, Factor is designed to provide an drop-in extension experience which allows for less configuration and technical know-how.
+Unlike other Javascript frameworks, Factor provides a drop-in extension experience which allows for less configuration and trial-and-error.
 
-Factor is a also a Serverless Framework. Which means all server operations happen in endpoints you control rather than a monolithic server you have to deal with. 
+Factor also helps abstract away common server and webpack configuration; which for most developers is ans error-prone and difficult process.  
 
 In the documentation you will learn how to install it, how to use the interface, develop custom apps, as well as extensions (plugins, stacks and themes) for the Factor platform.
 
-**Why Factor?** &mdash; It's main scope is to help manage the complexity of Javascript applications, to provide a framework for common CMS features and to abstract away common front-end tasks through extensions.
+**Why Factor?** &mdash; It's main scope is to help manage the complexity of Javascript applications and to provide a platform that massively reduces development time through extension.
 
-It's also flexible enough that you can use it for any web project, large or small.
+It's designed to be both minimal and flexible which means you can use it for any web project, large or small.
 
-Ultimately, with Factor.js you'll find the experience of building server-rendered Vue.js Application less technical, less time-consuming and more enjoyable.
+Ultimately, with Factor you'll find the experience of building server-rendered Vue.js Application less technical, less time-consuming and more enjoyable.
 
 ## [How it Works](#how-it-works)
 
 You can think of Factor as a system that brings together the following:
 
-- **Application Framework**
+- **Javascript Framework**
   - CMS Dashboard and Post/Page Management Extensions
   - VueJS SSR (Webpack, etc..)
   
@@ -29,27 +29,27 @@ You can think of Factor as a system that brings together the following:
   - Serverless Function Emulation and Deployment
   - Development Server 
   
-- **Extension Framework**
+- **Extension Platform**
   - Factor "filters" which allow extensions to "drop themselves in" to requisite parts of your app.
   - Dependency management and loading (via NPM and modules)
 
 
 ## [Features](#features)
 
-- **CMS** 
-  - **Posts** &mdash; Quickly publish and manage pages and articles on your site.
-  - **Dashboard** &mdash; A beautiful customer dashboard for your app.
-  - **Admin** &mdash; A robust UI for your application backend.
+- **Dashboard + CMS** 
+  - *Posts* &mdash; Quickly publish and manage pages and articles on your site.
+  - *Dashboard* &mdash; A beautiful customer dashboard for your app.
+  - *Admin* &mdash; A robust UI for your application backend.
 
 - **Extensions**
-  - **Themes** &mdash; Get prebuilt-templates, apps and UI with Factor Themes. 
-  - **Stacks** &mdash; No more learning dozens of APIs. Use service-stacks instead.
-  - **Plugins** &mdash; Add features and functionality for your app in seconds.
+  - *Themes* &mdash; Get prebuilt-templates, apps and UI with Factor Themes. 
+  - *Stacks* &mdash; No more learning dozens of APIs. Use service-stacks instead.
+  - *Plugins* &mdash; Add features and functionality for your app in seconds.
 
 - **Framework**
-  - **SSR** &mdash; Ideal for performance, seo and sharing.
-  - **Serverless** &mdash; No more server to manage and scale.
-  - **Reactive** &mdash; Build all your reactive components with the incredible VueJS framework.
+  - *SSR* &mdash; Ideal for performance, seo and sharing.
+  - *Serverless* &mdash; No more server to manage and scale.
+  - *Reactive* &mdash; Build all your reactive components with the incredible VueJS framework.
 
 
 ## [Diagram](#diagram)
@@ -62,9 +62,9 @@ This diagram shows how the build system and application work together to create 
 
 ### [Build System](#build)
 
-Factor, at its heart, is a build system that coordinates different developer tools and environments to create what feels like a consistent and simple development experience. 
+Factor, at its heart, is a system that coordinates different developer tools and environments to create a consistent and simple development experience. 
 
-The purpose of the build system is to abstract away all the configuration, bundling, file generation, etc.. so you can focus on **just building your app.**
+The purpose of the this is to abstract away all the configuration, bundling, file generation, etc.. so you can focus on **just building your app.**
 
 Parts of the build system include: 
 - CLI (Node)

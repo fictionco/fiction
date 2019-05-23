@@ -11,7 +11,9 @@
     "@factor/build-files": "^0.2.10",
     "@factor/build-paths": "^0.2.10",
     "@factor/cloud-config": "^0.2.10",
+    "@factor/core-stack": "^0.2.10",
     "@factor/core-theme": "^0.2.10",
+    "@factor/tools": "^0.2.10",
     "@factor/filters": "^0.2.0",
     "deepmerge": "^3.2.0",
     "qs": "^6.7.0"

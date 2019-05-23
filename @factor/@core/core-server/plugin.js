@@ -25,8 +25,7 @@ module.exports.default = Factor => {
       Factor.$filters.add("create-server", (_, args) => {
         const { env: mode = "production", serve = true } = args
 
-        _.localServer = () => this.startServer({ mode, serve })
-        return _
+        return [..._, this.startServer({ mode, serve })]
       })
     }
 
