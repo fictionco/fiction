@@ -1,10 +1,14 @@
 {
   "name": "@factor/cms-user",
   "factor": {
-    "target": ["app", "build", "cloud"],
+    "target": [
+      "app",
+      "build",
+      "cloud"
+    ],
     "id": "user"
   },
-  "version": "0.2.10",
+  "version": "0.2.11",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
@@ -12,6 +16,6 @@
   "main": "plugin.js",
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "@factor/cms-user-auth": "^0.2.10"
+    "@factor/cms-user-auth": "^0.2.11"
   }
 }

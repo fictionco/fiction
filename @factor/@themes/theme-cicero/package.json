@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-cicero",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -18,7 +18,7 @@
     "@factor/plugin-blog": "^0.2.0",
     "@factor/plugin-seo": "^0.2.0",
     "@factor/plugin-sitemap": "^0.2.0",
-    "@factor/plugin-ssr-bar": "^0.2.10",
-    "@factor/plugin-user-profiles": "^0.2.10"
+    "@factor/plugin-ssr-bar": "^0.2.11",
+    "@factor/plugin-user-profiles": "^0.2.11"
   }
 }

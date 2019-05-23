@@ -1,6 +1,6 @@
 {
   "name": "@factor/cms-page-templates",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
