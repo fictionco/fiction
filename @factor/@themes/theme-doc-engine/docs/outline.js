@@ -16,6 +16,13 @@ export default Factor => {
           file: require("./introduction/index.md"),
           title: "Introduction: Why Use Factor"
         },
+
+        {
+          name: "Plugins",
+          permalink: "plugins",
+          file: require("./plugins/index.md"),
+          title: "Add Factor Plugins or Create Your Own"
+        },
         {
           name: "Routing and Views",
           permalink: "routing",

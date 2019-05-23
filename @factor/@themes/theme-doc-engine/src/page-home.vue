@@ -6,10 +6,10 @@
           <div class="wedge" />
         </div>
         <div class="mast-text">
-          <h1 class="title">Factor CMS</h1>
+          <h1 class="title">The platform for VueJS Apps</h1>
           <p
             class="subtitle"
-          >Factor is a modern CMS &amp; framework build on Vue.js that helps developers succeed where others have failed.</p>
+          >Factor is a plugin and theme based VueJS framework for creating cutting-edge websites, blogs, or apps.</p>
           <div class="actions">
             <app-link path="/docs" btn="primary" size="large">Get Started</app-link>
             <app-link path="/docs" btn="tertiary" size="large">Read the Docs</app-link>
@@ -20,15 +20,15 @@
     <section class="boxes-wrap">
       <div class="boxes">
         <div class="box">
-          <h2>Versatile</h2>
+          <h2>100% Javascript</h2>
           <p>Factor can help you accomplish anything. Use only what you need, build whatever you can imagine.</p>
         </div>
         <div class="box">
-          <h2>Simple</h2>
+          <h2>Dashboard &amp; Posts</h2>
           <p>Factor won't waste your time. With Factor it's simple to start and even simpler once you're pro.</p>
         </div>
         <div class="box">
-          <h2>Modular</h2>
+          <h2>Plugins &amp; Themes</h2>
           <p>How about we stop reinventing the wheel? With Factor, just drop-in a plugin, theme or stack instead.</p>
         </div>
       </div>
@@ -101,7 +101,7 @@ export default {
 
       .title {
         font-weight: 800;
-        font-size: 4em;
+        font-size: 3em;
         letter-spacing: -0.03em;
         line-height: 0.9;
         margin-bottom: 0.2em;
