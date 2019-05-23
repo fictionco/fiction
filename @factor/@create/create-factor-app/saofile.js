@@ -2,11 +2,7 @@
 
 const superb = require("superb")
 const figures = require("figures")
-//const { join } = require("path")
-// const glob = require("glob")
-// const spawn = require("cross-spawn")
-// const validate = require("validate-npm-package-name")
-
+const consola = require("consola")
 // const rootDir = __dirname
 
 const config = {
@@ -94,7 +90,11 @@ const config = {
   async completed() {
     this.gitInit()
 
-    await this.npmInstall({ npmClient: "yarn" })
+    try {
+      await this.npmInstall()
+    } catch (error) {
+      consola.error(error)
+    }
 
     this.showProjectTips()
 
