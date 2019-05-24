@@ -70,10 +70,10 @@ const cli = async () => {
         })
 
       this.program
-        .command("start")
+        .command("start [env]")
         .description("Start production build on local server")
-        .action(async args => {
-          await this.extend({ env: "production", ...args, install: true })
+        .action(async (env = "production", args) => {
+          await this.extend({ env, ...args, install: true })
           this.tasks.push({
             command: "factor",
             args: ["build", env],

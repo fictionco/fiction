@@ -22,7 +22,7 @@ module.exports.default = Factor => {
         })
 
         Factor.$filters.add("cli-data-index", (_, program) => {
-          _.algolia = () => this.dataIndexJson(program)
+          return [..._, this.dataIndexJson(program)]
         })
       }
       return

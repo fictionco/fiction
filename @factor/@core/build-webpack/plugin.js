@@ -298,7 +298,7 @@ module.exports.default = Factor => {
           ),
           function() {
             this.plugin("done", function(stats) {
-              if (stats.compilation.errors && stats.compilation.errors.length) {
+              if (stats.compilation.errors && stats.compilation.errors.length > 0) {
                 console.log(stats.compilation.errors)
               }
             })

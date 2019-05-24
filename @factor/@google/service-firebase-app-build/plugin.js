@@ -113,12 +113,14 @@ export default Factor => {
         admin.firestore()
       }
     }
-
+    _note() {
+      return { "//": "******** GENERATED FILE ********" }
+    }
     createFirebaseJson() {
       const { firebaseJson = {} } = Factor.$config.setting("firebase") || {}
       const fileJson = Factor.$filters.apply("firebase-config", {})
 
-      this.writeFile("firebase.json", merge.all([fileJson, firebaseJson]))
+      this.writeFile("firebase.json", merge.all([this._note(), fileJson, firebaseJson]))
     }
 
     createFirebaseRC() {
@@ -137,7 +139,7 @@ export default Factor => {
         }
       })
 
-      this.writeFile(".firebaserc", merge.all([fileJson, firebaserc]))
+      this.writeFile(".firebaserc", merge.all([this._note(), fileJson, firebaserc]))
     }
 
     writeFile(name, fileJson) {
