@@ -206,7 +206,8 @@ export default {
       color: inherit;
 
       &:hover {
-        color: #ff0076;
+        //OLD color: #ff0076;
+        color: var(--color-secondary);
       }
     }
   }

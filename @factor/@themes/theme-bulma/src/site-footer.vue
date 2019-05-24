@@ -3,7 +3,7 @@
     <div class="container footer-top">
       <div class="columns is-tablet">
         <div class="column">
-          <h4 class="menu-label">Company</h4>
+          <h4 class="menu-label menu-label-indent">Company</h4>
           <ul class="menu-list">
             <li>
               <factor-link path="/" class="navbar-item">Home</factor-link>
@@ -20,7 +20,7 @@
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label">Service</h4>
+          <h4 class="menu-label menu-label-indent">Service</h4>
           <ul class="menu-list">
             <li>
               <factor-link path="/" class="navbar-item">Web</factor-link>
@@ -40,7 +40,7 @@
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label">Support</h4>
+          <h4 class="menu-label menu-label-indent">Support</h4>
           <ul class="menu-list">
             <li>
               <factor-link path="/" class="navbar-item">Help Center</factor-link>
@@ -114,7 +114,11 @@
       <div class="columns">
         <div class="column is-2 has-text-centered-mobile has-text-left-desktop">
           <factor-link path="/">
-            <img class="footer-logo" :src="require(`./img/factor.svg`)" alt="Factor Framework">
+            <img
+              class="footer-logo"
+              :src="require(`./img/fiction.svg`)"
+              alt="Factor Framework by Fiction"
+            >
           </factor-link>
         </div>
         <div class="column has-text-centered-mobile has-text-right-tablet is-size-7">
@@ -139,19 +143,15 @@ export default {
 
 <style lang="less">
 .footer {
-  // .footer-bottom {
-  //   margin-top: 3em;
-  //   padding-top: 2em;
-  //   border-top: 1px solid rgba(0, 0, 0, 0.2);
-  // }
   .footer-top {
-    .menu-label {
+    .menu-label-indent {
       padding-left: 1em;
       padding-right: 1em;
     }
   }
   .footer-logo {
-    width: 100px;
+    width: 34px;
+    opacity: 0.2;
   }
   .copyright {
     padding-bottom: 0.5em;

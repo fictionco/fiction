@@ -20,13 +20,12 @@
       </div>
 
       <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
+        <div class="navbar-end">
           <app-link path="/" class="navbar-item">Home</app-link>
           <app-link path="/elements" class="navbar-item">Elements</app-link>
-          <app-link path="/documentation" class="navbar-item">Documentation</app-link>
 
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">More</a>
+            <a class="navbar-link">Page Templates</a>
 
             <div class="navbar-dropdown">
               <app-link path="/" class="navbar-item">About</app-link>
@@ -37,30 +36,20 @@
               <app-link path="/" class="navbar-item">Report an issue</app-link>
             </div>
           </div>
-        </div>
-
-        <div class="navbar-end">
           <div class="navbar-item">
-            <plugin-signin-profile-menu v-if="$uid" />
             <div class="buttons">
-              <app-link path="/" class="button is-primary">Sign up</app-link>
-              <!-- <a class="button is-primary">
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light">Log in</a>-->
+              <app-link
+                path="https://www.fiction.com/"
+                class="button is-outlined is-rounded"
+                target="_blank"
+              >
+                Get Started
+                <factor-icon icon="arrow-right" class="ml-2" />
+              </app-link>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- <app-link v-if="!$uid" event="signin-modal" data-test="login">
-        Sign In
-        <factor-icon icon="arrow-right" />
-      </app-link>
-      <app-link v-else path="/dashboard" class="dashboard-link">
-        View Dashboard
-        <factor-icon icon="arrow-right" />
-      </app-link>-->
     </site-head>
     <div class="content-main" :style="bg">
       <div class="content-main-content">

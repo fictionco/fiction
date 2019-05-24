@@ -44,7 +44,7 @@ $weight-bold: 800;
 $body-weight: $weight-normal;
 
 // Colors
-$turquoise: #00c1a5; //Old #00d1b2
+$turquoise: #00c1a5;
 $primary: $turquoise;
 
 $link: $primary;
@@ -67,15 +67,7 @@ $link-hover: $primary-dark;
 //Layout
 $section-padding: 3.5rem 1.25rem;
 
-//Form
-//$control-border-width: 1px;
-//$input-border-color: transparent;
-$input-shadow: none;
-//$input-bg: #fff;
-//$input-box-shadow:none;
-
 //Elements
-//$box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
 $box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
 0 6px 14px 0 rgba(24, 32, 41, 0.06),
 0 12px 34px 0 rgba(24, 32, 41, 0.04);
@@ -88,6 +80,8 @@ $dropdown-content-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
 0 6px 14px 0 rgba(24, 32, 41, 0.06),
 0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
+$button-focus-border-color: $primary;
+
 //Components
 $navbar-dropdown-arrow: $primary;
 $menu-label-spacing: 2em;
@@ -95,7 +89,7 @@ $pagination-focus-border-color: $primary;
 
 @import "bulma/bulma.sass";
 
-// Assign sass variables to css. Notes: https://github.com/sass/libsass/issues/2621
+// Assign sass variables to css
 .ui-app {
   --weight-normal: #{$weight-normal};
   --weight-semibold: #{$weight-semibold};
@@ -110,18 +104,11 @@ $pagination-focus-border-color: $primary;
   --section-padding: #{$section-padding};
 }
 
-//The following css are modifications for the theme and are not part of the Bulma framework
-
+//The following css are modifications for the theme
 .title {
   font-family: var(--family-secondary);
 }
 
-// select option:checked {
-//   background-color: linear-gradient(bottom, $primary 0%, $primary 100%);
-//   background: $primary -webkit-linear-gradient(bottom, $primary 0%, $primary 100%);
-// }
-
-//Bulma modifications CSS
 .is-sticky {
   position: sticky;
   height: 100vh;
@@ -132,13 +119,9 @@ $pagination-focus-border-color: $primary;
   }
 }
 
-.button.is-link {
-  background-color: var(--info);
-
-  &:hover,
-  &:active {
-    background-color: var(--info);
-  }
+.button {
+  font-weight: bold;
+  font-family: var(--family-secondary);
 }
 
 .card,
@@ -146,20 +129,30 @@ $pagination-focus-border-color: $primary;
   &.is-fullheight {
     height: 100%
   }
-
-  // transparent 
-  // background-color: transparent;
-  // box-shadow: none;
 }
 
-//Theme-specific CSS
-.section.call-to-action {
-  margin-top: 5.5em;
-
-  .box {
-    padding: var(--section-padding);
-    margin-top: -9rem;
-    background-color: var(--dark);
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px var(--dark);
+@media screen and (max-width: 768px) {
+  .media-content {
+    overflow-x: unset;
   }
+}
+
+.align-self-stretch {
+  align-self: stretch;
+}
+
+.mb-2 {
+  margin-bottom: .5rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 2rem !important;
+}
+
+.mb-5 {
+  margin-bottom: 3rem !important;
+}
+
+.ml-2 {
+  margin-left: .5rem !important;
 }

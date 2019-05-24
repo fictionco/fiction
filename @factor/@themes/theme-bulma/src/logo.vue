@@ -15,7 +15,7 @@
           gradientTransform="matrix(1, 0, 0, -1, 0, 48)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0.36" stop-color="#00d1b2"/>
+          <stop offset="0.36" stop-color="#00c1a5"/>
           <stop offset="1" stop-color="#00bfa3"/>
         </linearGradient>
       </defs>

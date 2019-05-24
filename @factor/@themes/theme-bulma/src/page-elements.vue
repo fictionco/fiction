@@ -2781,7 +2781,7 @@
 
             <section id="more" class="section">
               <h1 class="title">Learn More</h1>
-              <hr>Even more elements like a versatile delete section, icon containers, etc. Learn more on the
+              <hr>Even more elements like a versatile delete section, color helpers, tiles, typography helpers, footer, etc. Learn more on the
               <app-link
                 class="is-link"
                 path="https://bulma.io/documentation"
