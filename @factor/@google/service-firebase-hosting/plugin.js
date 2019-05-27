@@ -30,6 +30,19 @@ export default Factor => {
             ignore: ["firebase.json", "**/.*", "**/node_modules/**"]
           }
 
+          hosting.headers = [
+            {
+              // Specifies a CORS header for all font files
+              source: "**",
+              headers: [
+                {
+                  key: "hosting-url",
+                  value: "https://factor.fiction.com"
+                }
+              ]
+            }
+          ]
+
           if (factorHostProject) {
             hosting.target = factorHostProject.target
           }

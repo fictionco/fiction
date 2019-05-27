@@ -17,6 +17,7 @@
     "express": "^4.16.4",
     "find-root": "^1.1.0",
     "find-up": "^3.0.0",
+    "http-proxy-middleware": "^0.19.1",
     "https": ">0.0.1",
     "lru-cache": "^5.1.1",
     "module-alias": "^2.2.0",

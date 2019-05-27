@@ -17,7 +17,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       // If development or --serve variable is passed
-      // We should serve the app (locally)
+      // We should serve the app
       this.serveApp = !isProd || Factor.$config.setting("serve") ? true : false
 
       // After all extensions/filters added
@@ -49,44 +49,42 @@ module.exports.default = Factor => {
     // Endpoint Helper method, return function that processes (req, res)
     requestHandler() {
       return async (request, response) => {
+        const util = require("util")
+        console.log(
+          "x-forwarded-host",
+          request.headers["x-forwarded-host"] ? request.headers["x-forwarded-host"] : util.inspect(request.headers)
+        )
+
         const args = { mode: "production", serve: false }
         const server = await this.startServer(args)
         return server(request, response)
       }
     }
 
-    render(req, res, args = {}) {
+    render(request, response, args = {}) {
       const { serve = true } = args
 
       const s = Date.now()
 
-      res.setHeader("Content-Type", "text/html")
-      res.setHeader("Server", this.getServerInfo())
+      response.setHeader("Content-Type", "text/html")
+      response.setHeader("Server", this.getServerInfo())
 
-      const context = {
-        url: req.url,
-        extend: {},
-        metatags: {
-          title: "",
-          titleSuffix: "",
-          image: "",
-          canonical: ""
-        }
-      }
+      const { url } = request
+      const context = { url, extend: {} }
 
       // TODO make await instead of callback
       this.renderer.renderToString(context, (error, html) => {
         if (error) {
-          return this.handleError(req, res, error)
+          return this.handleError(request, response, error)
         } else {
           if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
-            res.set("cache-control", this.getCacheControl(req.url))
+            response.set("cache-control", this.getCacheControl(url))
           }
 
-          res.send(html)
+          response.send(html)
 
           if (serve) {
-            Factor.$log.success(`Request @[${req.url}] - ${Date.now() - s}ms`)
+            Factor.$log.success(`Request @[${url}] - ${Date.now() - s}ms`)
           }
         }
       })
@@ -113,7 +111,7 @@ module.exports.default = Factor => {
       this.server = express()
 
       this.renderer = null
-      this.readyPromise = null
+      this.developmentBuildReadyPromise = null
       this.httpDetails = Factor.$paths.getHttpDetails()
 
       if (mode == "production") {
@@ -124,7 +122,7 @@ module.exports.default = Factor => {
         const devServer = Factor.$filters.apply("development-server")
 
         if (devServer) {
-          this.readyPromise = devServer(this.server, (bundle, options) => {
+          this.developmentBuildReadyPromise = devServer(this.server, (bundle, options) => {
             this.renderer = this.createRenderer(bundle, options)
           })
         } else {
@@ -134,30 +132,39 @@ module.exports.default = Factor => {
         }
       }
 
-      const middleware = Factor.$filters.apply("middleware", [])
-      if (middleware.length > 0) {
-        middleware.forEach(({ path, callback }) => {
-          this.server.use(path, function(request, response, next) {
-            callback(request, response, next)
-          })
-        })
-      }
-
-      // Serve static assets
       if (serve) {
+        var proxy = require("http-proxy-middleware")
         this.resolveStaticAssets()
-      }
-
-      // Set Express routine for all fallthrough paths
-      this.server.get("*", (request, response) => {
-        if (mode == "production") {
-          this.render(request, response, args)
-        } else {
-          this.readyPromise.then(() => {
-            this.render(request, response)
+        this.server.use(
+          "**",
+          proxy("**", { target: "http://localhost:5001/fiction-com/us-central1/server", xfwd: true })
+        )
+      } else {
+        const middleware = Factor.$filters.apply("middleware", [])
+        if (middleware.length > 0) {
+          middleware.forEach(({ path, callback }) => {
+            this.server.use(path, function(request, response, next) {
+              callback(request, response, next)
+            })
           })
         }
-      })
+
+        // Serve static assets
+        if (serve) {
+          this.resolveStaticAssets()
+        }
+
+        // Set Express routine for all fallthrough paths
+        this.server.get("*", (request, response) => {
+          if (mode == "production") {
+            this.render(request, response, args)
+          } else {
+            this.developmentBuildReadyPromise.then(() => {
+              this.render(request, response)
+            })
+          }
+        })
+      }
 
       // Serve the app from node
       if (serve) {

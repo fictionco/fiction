@@ -4,14 +4,14 @@ export default Factor => {
       Factor.$filters.add("middleware", _ => {
         _.push({
           path: "/sitemap.xml",
-          callback: async (req, res, next) => {
+          callback: async (request, response, next) => {
             const sitemap = await this.createSitemap()
             sitemap.toXML(function(err, xml) {
               if (err) {
-                return res.status(500).end()
+                return response.status(500).end()
               }
-              res.header("Content-Type", "application/xml")
-              res.send(xml)
+              response.header("Content-Type", "application/xml")
+              response.send(xml)
             })
           }
         })
@@ -48,7 +48,7 @@ export default Factor => {
       const contentRoutes = Factor.$filters.apply("content-routes", [])
       const theRoutes = Factor.$lodash
         .uniq(this.getRoutesRecursively(contentRoutes))
-        .filter(perm => perm.indexOf(":") == -1)
+        .filter(perm => !perm.includes(":"))
 
       // console.log("content routes", contentRoutes)
       return theRoutes.map(perm => `${Factor.$config.setting("url")}${perm}`)
@@ -62,11 +62,7 @@ export default Factor => {
         .forEach(_ => {
           if (_.path) {
             const _p =
-              parent && !_.path.startsWith("/")
-                ? `${parent}/${_.path}`
-                : parent && _.path == "/"
-                ? parent
-                : _.path
+              parent && !_.path.startsWith("/") ? `${parent}/${_.path}` : parent && _.path == "/" ? parent : _.path
 
             out.push(_p)
           }

@@ -71,14 +71,19 @@ const cli = async () => {
 
       this.program
         .command("start [env]")
+        .option("--no-build", "Start without building dist files")
         .description("Start production build on local server")
         .action(async (env = "production", args) => {
           await this.extend({ env, ...args, install: true })
-          this.tasks.push({
-            command: "factor",
-            args: ["build", env],
-            title: "Generating Distribution App"
-          })
+
+          if (args.build !== false) {
+            this.tasks.push({
+              command: "factor",
+              args: ["build", env],
+              title: "Generating Distribution App"
+            })
+          }
+
           await this.cliTasks()
 
           this.cliRunners()

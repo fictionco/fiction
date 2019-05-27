@@ -39,13 +39,13 @@ export default Factor => {
             }
 
             if (mt) {
-              const titleSuffix = mt.titleSuffix || this.$ssrContext.metatags.titleSuffix
+              const titleSuffix = mt.titleSuffix //|| this.$ssrContext.metatagsRaw.titleSuffix
 
-              if (titleSuffix && (!mt.title || mt.title.indexOf(titleSuffix) === -1)) {
+              if (titleSuffix && (!mt.title || !mt.title.includes(titleSuffix))) {
                 mt.title = mt.title + titleSuffix
               }
 
-              if (mt.image && mt.image.indexOf("//") === -1) {
+              if (mt.image && !mt.image.includes("//")) {
                 mt.image = Factor.$config.setting("url") + mt.image
               }
 

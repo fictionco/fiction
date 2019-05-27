@@ -226,7 +226,12 @@ export default Factor => {
           deps: "yarn install --ignore-engines"
         },
         engines: { node: "10" },
-        dependencies: { "firebase-admin": "^7.4.0", "firebase-functions": "^2.3.1", ...this.localDependencies },
+        dependencies: {
+          "firebase-admin": "^7.4.0",
+          "firebase-functions": "^2.3.1",
+          "@firebase/app-types": "^0.4.0",
+          ...this.localDependencies
+        },
         devDependencies: {
           "firebase-functions-test": "~0.1.6"
         },

@@ -24,7 +24,7 @@ module.exports = {
 
   rules: {
     semi: ["error", "never"],
-
+    "unicorn/prevent-abbreviations": "off",
     "import/extensions": [
       "error",
       {
