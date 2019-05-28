@@ -11,6 +11,8 @@
 
 ## Links
 
+[![Join the chat at https://gitter.im/factorjs/community](https://badges.gitter.im/factorjs/community.svg)](https://gitter.im/factorjs/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 - 📘 Documentation: [https://factor.dev](https://factor.dev)
 - 🎬 Video: [Quick demo](https://www.youtube.com/channel/UCQ8sF_omtjTrptpm3Smnx3w)
 - 💬 Chat: [Gitter](https://gitter.im/fiction-com/community)
