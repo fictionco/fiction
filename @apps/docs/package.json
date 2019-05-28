@@ -8,7 +8,7 @@
   "factor": {},
   "scripts": {},
   "dependencies": {
-    "@factor/cms": ">=0.0.7",
-    "@factor/theme-docs": "^0.2.11"
+    "@factor/cms": ">=0.3.0",
+    "@factor/theme-docs": ">=0.3.0"
   }
 }
