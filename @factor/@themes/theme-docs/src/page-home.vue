@@ -3,7 +3,7 @@
     <section class="splash-wrap">
       <div class="splash mast">
         <div class="stripes">
-          <div class="wedge"/>
+          <div class="wedge" />
         </div>
         <div class="mast-text">
           <h1 class="title">The platform for VueJS Apps</h1>
@@ -42,10 +42,10 @@ export default {
   data() {
     return {
       loading: true
-    };
+    }
   },
   async created() {
-    this.test();
+    this.test()
   },
   async mounted() {},
   metatags() {
@@ -54,24 +54,12 @@ export default {
       description:
         "Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.",
       image: ""
-    };
+    }
   },
   methods: {
-    async test() {
-      // try {
-      //   const pro = await this.$http.get(
-      //     "http://localhost:7778/factor-server.json",
-      //     {
-      //       proxy: { host: "127.0.0.1", port: 7777 }
-      //     }
-      //   );
-      //   console.log("pro", pro);
-      // } catch (error) {
-      //   console.log(error);
-      // }
-    }
+    async test() {}
   }
-};
+}
 </script>
 <style lang="less">
 .home {

@@ -1,9 +1,0 @@
-node_modules
-*keys-private*
-generated
-dist
-*passwords*
-serverless
-*.log
-*firebase*
-firebase.json

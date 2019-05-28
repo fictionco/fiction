@@ -171,7 +171,7 @@ module.exports = Factor => {
       if (this.httpDetails) {
         return this.httpDetails
       } else {
-        const port = Factor.FACTOR_CONFIG.port || 7777
+        const port = Factor.FACTOR_CONFIG.port || 3000
 
         let routine = "http"
         let certDir = false

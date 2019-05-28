@@ -1,5 +1,5 @@
 {
-  "name": "@factor/theme-doc-engine",
+  "name": "@factor/theme-docs",
   "version": "0.2.11",
   "main": "src/plugin.js",
   "license": "GPL-3.0",

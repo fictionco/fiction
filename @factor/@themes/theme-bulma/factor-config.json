@@ -1,6 +1,5 @@
 {
   "config": {
-    "port": 7777,
     "theme": "@factor/theme-bulma"
   }
 }

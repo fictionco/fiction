@@ -1,9 +1,7 @@
-const fs = require("fs")
 const path = require("path")
 const LRU = require("lru-cache")
 const https = require("https")
 const express = require("express")
-const favicon = require("serve-favicon")
 
 const { createBundleRenderer } = require("vue-server-renderer")
 
@@ -16,10 +14,6 @@ global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      // If development or --serve variable is passed
-      // We should serve the app
-      this.serveApp = !isProd || Factor.$config.setting("serve") ? true : false
-
       // After all extensions/filters added
       // Needed for webpack and dev server
       Factor.$filters.add("create-server", (_, args) => {
@@ -27,14 +21,6 @@ module.exports.default = Factor => {
 
         return [..._, this.startServer({ mode, serve })]
       })
-    }
-
-    instance() {
-      return this.server
-    }
-
-    resolve(dir, file) {
-      return path.resolve(dir, file)
     }
 
     createRenderer(bundle, options) {
@@ -76,22 +62,21 @@ module.exports.default = Factor => {
       this.renderer.renderToString(context, (error, html) => {
         if (error) {
           return this.handleError(request, response, error)
-        } else {
-          if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
-            response.set("cache-control", this.getCacheControl(url))
-          }
+        }
 
-          response.send(html)
+        if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
+          response.set("cache-control", this.getCacheControl(url))
+        }
 
-          if (serve) {
-            Factor.$log.success(`Request @[${url}] - ${Date.now() - s}ms`)
-          }
+        response.send(html)
+
+        if (serve) {
+          Factor.$log.success(`Request @[${url}] - ${Date.now() - s}ms`)
         }
       })
     }
 
-    async _productionFiles(args) {
-      const { mode } = args
+    async ssrFiles(args) {
       const paths = {
         template: Factor.$paths.resolveFilePath("#/index.html"),
         bundle: Factor.$paths.get("server-bundle"),
@@ -115,7 +100,7 @@ module.exports.default = Factor => {
       this.httpDetails = Factor.$paths.getHttpDetails()
 
       if (mode == "production") {
-        const { template, bundle, clientManifest } = await this._productionFiles(args)
+        const { template, bundle, clientManifest } = await this.ssrFiles(args)
 
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
       } else {
@@ -126,9 +111,7 @@ module.exports.default = Factor => {
             this.renderer = this.createRenderer(bundle, options)
           })
         } else {
-          Factor.$log.error(
-            new Error("No development server added. Add a development server to your app dependencies.")
-          )
+          Factor.$log.error(new Error("No development server found."))
         }
       }
 
@@ -201,7 +184,7 @@ module.exports.default = Factor => {
       return `public, max-age=${mins * 30}, s-maxage=${mins * 60}`
     }
 
-    serve(path, cache) {
+    serveStatic(path, cache) {
       return express.static(path, {
         maxAge: cache && isProd ? 1000 * 60 * 60 * 24 : 0
       })
@@ -210,14 +193,14 @@ module.exports.default = Factor => {
     resolveStaticAssets() {
       const fav = Factor.$paths.resolveFilePath("#/static/favicon.png", "static")
       if (fav) {
-        this.server.use(favicon(fav))
+        this.server.use(require("serve-favicon")(fav))
       }
 
       // Global and Static Images/Manifests, etc..
-      this.server.use("/static", this.serve(Factor.$paths.get("static"), true))
+      this.server.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
 
       // Serve distribution folder at Root URL
-      this.server.use("/", this.serve(Factor.$paths.get("dist"), true))
+      this.server.use("/", this.serveStatic(Factor.$paths.get("dist"), true))
     }
 
     getServerInfo() {

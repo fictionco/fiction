@@ -1,9 +1,0 @@
-node_modules
-generated
-dist
-factor-secrets.*
-factor-decryptor.*
-serverless
-*.log
-*firebase*
-firebase.json

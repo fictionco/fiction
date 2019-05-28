@@ -36,7 +36,7 @@ $ cd <project-name>
 $ yarn factor dev
 ```
 
-Now your basic starter application should be running at [`localhost:7777`](localhost:7777)
+Now your basic starter application should be running at [`localhost:3000`](localhost:3000)
 
 ## Visit Your Dashboard 
 
@@ -83,7 +83,7 @@ To use, just open up your terminal to your project folder. From there run `yarn 
 
 ### [Visiting The Dashboard](#visiting)
 
-Assuming you've successfully setup your services with their keys, you should be able to visit your application dashboard and admin. To do this, first start your local server `yarn factor dev` once that's going, you should be able to visit the url: [`localhost:7777/dashboard`](localhost:7777/dashboard). 
+Assuming you've successfully setup your services with their keys, you should be able to visit your application dashboard and admin. To do this, first start your local server `yarn factor dev` once that's going, you should be able to visit the url: [`localhost:3000/dashboard`](localhost:3000/dashboard). 
 
 If it's your first time, you'll be shown login screen. Just signup for an account and you're in! 
 
