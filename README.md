@@ -2,7 +2,7 @@
   <img src="./factor.svg" width="350" style="width: 350px;display:block;">
   </p>
  <p align="center">
-  <a href="https://gitter.im/fiction-com/community"><img src="https://badgen.net/badge/chat/on%20Gitter" alt="Discord"></a>
+  <a href="https://gitter.im/fiction-com/community"><img src="https://badgen.net/badge/chat/on%20Gitter" alt="Gitter"></a>
  </p>
 
 > Serverless CMS designed to help you start a fully functional website, blog or PWA (progressive-web-app) *within 5 minutes*.
