@@ -91,6 +91,7 @@ module.exports = Factor => {
         }
 
         if (!filePath) {
+          console.log("file", file, this.paths.fallbacks)
           const fallbackPath = file.replace("#", this.paths.fallbacks)
           if (pathExistsSync(fallbackPath)) {
             filePath = fallbackPath

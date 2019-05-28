@@ -1,6 +1,6 @@
 {
-  "name": "Fiction.com",
-  "short_name": "Fiction",
+  "name": "Factor JS",
+  "short_name": "Factor",
   "icons": [
     {
       "src": "/static/logo-120.png",
@@ -41,5 +41,5 @@
   "start_url": "/",
   "background_color": "#FFFFFF",
   "display": "standalone",
-  "theme_color": "#2a74e5"
+  "theme_color": "#0496FF"
 }

@@ -9,7 +9,10 @@
         "email": "andrew@fiction.com",
         "role": "owner"
       },
-      { "email": "ray@fiction.com", "role": "owner" }
+      {
+        "email": "ray@fiction.com",
+        "role": "owner"
+      }
     ],
     "algolia": {
       "appId": "1PB2CVUAH5",
@@ -21,7 +24,6 @@
     "sheets": {
       "master": "1NxAcrM0V661g2SEHwVaMOSG2XHaGKUh-0GyIv67tQbc"
     },
-
     "bugsnag": {
       "clientKey": "be2b4a0c651443122cb08f2b5e6afb55"
     },
@@ -31,6 +33,10 @@
     "intercom": {
       "clientId": "1ab2f5fe-d1e9-40cd-a15a-22708270ec12",
       "app_id": "un5xw1rn"
+    },
+    "google": {
+      "apiKey": "AIzaSyDNAsK7SVeOjnJWyk-LK42ib5pgi-r-Ts8",
+      "clientId": "740526030910-ik29ukuvap4pg9josek5qjbo3v60robn.apps.googleusercontent.com"
     }
   },
   "development": {
@@ -45,7 +51,6 @@
       "env": "sandbox",
       "public_key": "35aada978ed8d09e34c5e71aa6b722"
     },
-
     "firebase": {
       "apiKey": "AIzaSyDNAsK7SVeOjnJWyk-LK42ib5pgi-r-Ts8",
       "authDomain": "factor-docs-staging.firebaseapp.com",
@@ -53,7 +58,10 @@
       "projectId": "fiction-staging",
       "storageBucket": "fiction-staging.appspot.com",
       "messagingSenderId": "740526030910",
-      "factorHostProject": { "id": "factor-docs-dev", "target": "docs" }
+      "factorHostProject": {
+        "id": "factor-docs-dev",
+        "target": "docs"
+      }
     },
     "google": {
       "clientId": "740526030910-ik29ukuvap4pg9josek5qjbo3v60robn.apps.googleusercontent.com",
@@ -80,7 +88,10 @@
       "projectId": "fiction-com",
       "storageBucket": "fiction-com.appspot.com",
       "messagingSenderId": "120004271877",
-      "factorHostProject": { "id": "factor-docs-production", "target": "docs" }
+      "factorHostProject": {
+        "id": "factor-docs-production",
+        "target": "docs"
+      }
     },
     "google": {
       "clientId": "120004271877-0h9jrhepph4g13jkhajo66qtdtrefh7a.apps.googleusercontent.com",

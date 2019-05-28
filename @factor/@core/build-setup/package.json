@@ -1,0 +1,23 @@
+{
+  "name": "@factor/build-setup",
+  "version": "0.2.11",
+  "main": "plugin.js",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "id": "setup",
+    "target": ["build"]
+  },
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "cli-highlight": "^2.1.1",
+    "deepmerge": "^3.2.0",
+    "figures": "^3.0.0",
+    "fs-extra": "^7.0.1",
+    "inquirer": "^6.3.1",
+    "json2yaml": "^1.1.0"
+  }
+}

@@ -8,12 +8,11 @@
   },
   "factor": {
     "id": "appDriver",
-    "target": [
-      "build"
-    ],
+    "target": ["build"],
     "priority": 60
   },
   "dependencies": {
+    "@factor/app-fallbacks": "^0.2.11",
     "@factor/app-extend": "^0.2.11",
     "@factor/app-router": "^0.2.0",
     "@factor/app-store": "^0.2.0",

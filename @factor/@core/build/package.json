@@ -11,6 +11,7 @@
     "id": "build"
   },
   "dependencies": {
+    "@factor/build-setup": "^0.2.11",
     "@factor/build-extend": "^0.2.11",
     "@factor/build-server-dev": "^0.2.11",
     "@factor/build-webpack": "^0.2.11",

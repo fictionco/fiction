@@ -115,39 +115,30 @@ module.exports.default = Factor => {
         }
       }
 
-      if (serve) {
-        var proxy = require("http-proxy-middleware")
-        this.resolveStaticAssets()
-        this.server.use(
-          "**",
-          proxy("**", { target: "http://localhost:5001/fiction-com/us-central1/server", xfwd: true })
-        )
-      } else {
-        const middleware = Factor.$filters.apply("middleware", [])
-        if (middleware.length > 0) {
-          middleware.forEach(({ path, callback }) => {
-            this.server.use(path, function(request, response, next) {
-              callback(request, response, next)
-            })
+      const middleware = Factor.$filters.apply("middleware", [])
+      if (middleware.length > 0) {
+        middleware.forEach(({ path, callback }) => {
+          this.server.use(path, function(request, response, next) {
+            callback(request, response, next)
           })
-        }
-
-        // Serve static assets
-        if (serve) {
-          this.resolveStaticAssets()
-        }
-
-        // Set Express routine for all fallthrough paths
-        this.server.get("*", (request, response) => {
-          if (mode == "production") {
-            this.render(request, response, args)
-          } else {
-            this.developmentBuildReadyPromise.then(() => {
-              this.render(request, response)
-            })
-          }
         })
       }
+
+      // Serve static assets
+      if (serve) {
+        this.resolveStaticAssets()
+      }
+
+      // Set Express routine for all fallthrough paths
+      this.server.get("*", (request, response) => {
+        if (mode == "production") {
+          this.render(request, response, args)
+        } else {
+          this.developmentBuildReadyPromise.then(() => {
+            this.render(request, response)
+          })
+        }
+      })
 
       // Serve the app from node
       if (serve) {

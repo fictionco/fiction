@@ -1,4 +1,4 @@
-Sitemap: https://www.fiction.com/sitemap.xml
+Sitemap: https://factor.dev/sitemap.xml
 
 User-agent: * 
 Disallow: 

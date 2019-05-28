@@ -3,9 +3,56 @@ const { pathExistsSync, writeFileSync } = require("fs-extra")
 const merge = require("deepmerge")
 const chalk = require("chalk")
 const figures = require("figures")
-module.exports = Factor => {
+module.exports.default = Factor => {
   return new (class {
-    async doSet(set) {}
+    constructor() {
+      Factor.$filters.add("cli-setup", (_, program) => {
+        return [..._, this.runSetup()]
+      })
+    }
+
+    // Setup entry. Give basic information and create an extensible select option for setup.
+    async runSetup() {
+      let answers
+
+      Factor.$log.formatted({
+        title: "Welcome to Factor Setup!",
+        lines: [
+          { title: "Theme", value: this.extensionNames("theme"), indent: true },
+          { title: "Stack", value: this.extensionNames("stack"), indent: true },
+          { title: "Modules", value: this.extensionNames("plugin", "count"), indent: true }
+        ]
+      })
+
+      const setups = Factor.$filters.apply("factor-setup-utility", [
+        {
+          name: "Stack - Setup and verify your services and APIs",
+          value: "stack",
+          callback: () => {
+            const providerGroups = this.parseSettings(Factor.$stack.getProviders())
+            this.verifyProviders(providerGroups)
+            this.verifyServiceRequests()
+
+            this.stack(providerGroups, { title: "Service Config Settings..." })
+          }
+        }
+      ])
+
+      answers = await inquirer.prompt({
+        type: "list",
+        name: `setupItem`,
+        message: `What would you like to do?`,
+        choices: setups.map(({ callback, ...keep }) => keep)
+      })
+
+      console.log() // break
+
+      const setupRunner = setups.find(_ => _.value == answers.setupItem)
+
+      const write = await setupRunner.callback(inquirer)
+
+      await this.maybeWriteConfig(write)
+    }
 
     normalize({ settings, group, scope }) {
       const conf = Factor.$config.settings()
@@ -140,48 +187,6 @@ module.exports = Factor => {
       } else {
         return "none"
       }
-    }
-
-    async runSetup() {
-      let answers
-
-      Factor.$log.formatted({
-        title: "Welcome to Factor Setup!",
-        lines: [
-          { title: "Theme", value: this.extensionNames("theme"), indent: true },
-          { title: "Stack", value: this.extensionNames("stack"), indent: true },
-          { title: "Plugins", value: this.extensionNames("plugin", "count"), indent: true }
-        ]
-      })
-
-      const setups = Factor.$filters.apply("factor-setup-utility", [
-        {
-          name: "Stack - Setup and verify your services and APIs",
-          value: "stack",
-          callback: () => {
-            const providerGroups = this.parseSettings(Factor.$stack.getProviders())
-            this.verifyProviders(providerGroups)
-            this.verifyServiceRequests()
-
-            this.stack(providerGroups, { title: "Service Config Settings..." })
-          }
-        }
-      ])
-
-      answers = await inquirer.prompt({
-        type: "list",
-        name: `setupItem`,
-        message: `What would you like to do?`,
-        choices: setups.map(({ callback, ...keep }) => keep)
-      })
-
-      console.log() // break
-
-      const setupRunner = setups.find(_ => _.value == answers.setupItem)
-
-      const write = await setupRunner.callback(inquirer)
-
-      await this.maybeWriteConfig(write)
     }
 
     prettyJson(data) {
