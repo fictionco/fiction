@@ -1,0 +1,9 @@
+node_modules
+dist
+factor-secrets.*
+factor-decryptor.*
+cloud
+serverless
+*.log
+*firebase*
+firebase.json

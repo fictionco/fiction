@@ -1,38 +1,11 @@
 {
-  "name": "wrapper",
+  "name": "@factor/wrapper",
   "version": "0.0.1",
-  "workspaces": [
-    "@fiction/*",
-    "@factor/*",
-    "@factor/@*/*",
-    "@demo/*"
-  ],
+  "workspaces": ["@apps/*", "@fiction/*", "@factor/*", "@factor/@*/*", "@demo/*"],
   "private": true,
-  "publishConfig": {
-    "access": "public"
-  },
   "license": "GPL-3.0",
   "scripts": {
-    "cypress": "npx cypress open",
-    "alpha:prep": "yarn prep && yarn alpha:dev",
-    "alpha:dev": "yarn workspace @factor/theme-alpha factor",
-    "alpha:analyze": "yarn workspace @factor/theme-alpha analyze",
-    "alpha:start": "yarn prep && yarn workspace @factor/theme-alpha start",
-    "alpha:build": "yarn workspace @factor/theme-alpha build",
-    "factor:dev": "yarn prep && yarn workspace @factor/theme-factor factor",
-    "factor:start": "yarn prep && yarn workspace @factor/theme-factor start",
-    "factor:prep": "yarn prep && yarn factor:dev",
-    "app:dev": "yarn prep && yarn workspace @factor/app-starter dev",
-    "app:start": "yarn prep && yarn workspace @factor/app-starter start",
-    "app:prep": "yarn prep && yarn app:dev",
-    "fiction:prep": "yarn prep && yarn fiction:dev",
-    "fiction:dev": "yarn workspace @fiction/www dev",
-    "fiction:analyze": "yarn workspace @fiction/www analyze",
-    "fiction:start": "yarn prep && yarn workspace @fiction/www start",
-    "fiction:build": "yarn workspace @fiction/www build",
-    "fiction:deploy": "yarn workspace @fiction/www deploy",
-    "fiction:serve": "yarn workspace @fiction/www serve",
-    "prep": "git pull && cd @factor && git pull && cd ../ && cd @fiction && git pull && cd ../ && yarn install --ignore-engines"
+    "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines"
   },
   "devDependencies": {
     "@factor/plugin-testing-cypress-build": ">0.0.1",
