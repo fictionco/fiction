@@ -1,14 +1,14 @@
 {
   "name": "@factor/app-extend",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/app-config": "^0.2.11",
-    "@factor/filters": "^0.2.11"
+    "@factor/app-config": "^0.3.0",
+    "@factor/filters": "^0.3.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

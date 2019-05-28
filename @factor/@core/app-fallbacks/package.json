@@ -1,6 +1,6 @@
 {
   "name": "@factor/app-fallbacks",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -8,8 +8,10 @@
   },
   "factor": {
     "id": "appFallbacks",
-    "target": ["build", "cloud"]
+    "target": [
+      "build",
+      "cloud"
+    ]
   },
-  "dependencies": {},
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

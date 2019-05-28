@@ -1,6 +1,6 @@
 {
   "name": "@factor/stack-standard",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "description": "Factor standard stack based on open-source software.",
   "main": "plugin.js",
   "author": "Fiction.com",

@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-algolia",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {

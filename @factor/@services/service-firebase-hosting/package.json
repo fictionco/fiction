@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-hosting",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,7 +11,7 @@
     "provider": "firebase"
   },
   "dependencies": {
-    "@factor/service-firebase-app": "^0.2.11"
+    "@factor/service-firebase-app": "^0.3.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

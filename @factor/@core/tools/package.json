@@ -3,15 +3,15 @@
   "factor": {
     "id": "tools"
   },
-  "version": "0.2.11",
+  "version": "0.3.0",
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
   },
   "main": "plugin.js",
   "dependencies": {
-    "@factor/tools-markdown": "^0.2.11",
-    "@factor/tools-time": "^0.2.0",
+    "@factor/tools-markdown": "^0.3.0",
+    "@factor/tools-time": "^0.3.0",
     "axios": "^0.18.0",
     "detect-node": "^2.0.4",
     "jquery": "^3.3.1",
