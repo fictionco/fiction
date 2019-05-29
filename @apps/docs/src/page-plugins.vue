@@ -178,7 +178,7 @@ export default {
   },
   computed: {
     pluginsPage() {
-      return this.$route.params.markdownurl || "introduction"
+      return this.$route.params.doc || "introduction"
     },
     normalizedNav() {
       return this.navItems().map(_ => {
@@ -193,7 +193,7 @@ export default {
       })
     },
     activePath() {
-      return this.$route.params.markdownurl || ""
+      return this.$route.params.doc || ""
     }
   },
   mounted() {},

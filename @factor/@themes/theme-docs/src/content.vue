@@ -1,12 +1,12 @@
 <template>
   <div class="content-layout" :style="bg">
-    <site-head />
+    <header-primary class="show-desktop" />
+    <header-mobile class="show-mobile" />
     <div class="content-main">
       <div class="content-main-content">
         <router-view />
       </div>
-
-      <site-footer />
+      <footer-primary />
     </div>
   </div>
 </template>
@@ -14,8 +14,9 @@
 <script>
 export default {
   components: {
-    "site-head": () => import("#/site-head"),
-    "site-footer": () => import("#/site-footer")
+    "header-primary": () => import("#/header"),
+    "footer-primary": () => import("#/footer"),
+    "header-mobile": () => import("#/header-mobile")
   },
   computed: {
     bg() {
@@ -32,6 +33,20 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  .show-mobile {
+    display: none;
+    @media (max-width: 767px) {
+      display: block;
+    }
+  }
+
+  .show-desktop {
+    display: block;
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
 
   .content-content {
     display: flex;

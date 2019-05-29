@@ -47,10 +47,9 @@
 </template>
 <style lang="less">
 .logo-factor {
-  display: inline-block;
   svg {
-    display: inline-block;
     width: 100px;
+    display: block;
   }
   .letters {
     fill: var(--color-text);

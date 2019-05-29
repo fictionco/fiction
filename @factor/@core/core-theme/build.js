@@ -4,12 +4,6 @@ const glob = require("glob").sync
 module.exports = Factor => {
   return new (class {
     constructor() {
-      // const { theme } = Factor.FACTOR_CONFIG
-
-      // this.themePackageName = theme || ""
-
-      // this.addPaths()
-
       this.themes = Factor.$files.getExtended("theme")
 
       // This allows for overriding of files from themes
@@ -27,7 +21,6 @@ module.exports = Factor => {
             resource.request = appPath
           } else {
             let filePath = ""
-
             if (this.themes.length > 0) {
               this.themes.some(_ => {
                 const t = dirname(require.resolve(_.name))
@@ -44,6 +37,7 @@ module.exports = Factor => {
 
             if (!filePath) {
               const relPath = this._fileExists(req.replace("#", resource.context))
+
               const fallbackPath = this._fileExists(req.replace("#", Factor.$paths.get("fallbacks")))
 
               if (relPath) filePath = relPath
@@ -65,7 +59,8 @@ module.exports = Factor => {
       if (query && pathExistsSync(basePath)) {
         return path
       } else {
-        const files = glob(`${basePath}*`)
+        const files = glob(`${basePath}.*`)
+
         if (files && files.length == 1) {
           return files[0]
         } else {
@@ -73,37 +68,5 @@ module.exports = Factor => {
         }
       }
     }
-
-    // addPaths() {
-    //   const { dirname } = require("path")
-    //   const themePath = this.themePackageName
-    //     ? dirname(require.resolve(this.themePackageName))
-    //     : Factor.$paths.get("app")
-
-    //   Factor.$paths.add({
-    //     theme: themePath
-    //   })
-    // }
-
-    // package() {
-    //   return this.themePackageName
-    // }
-
-    // addWebpackConfig() {
-    //   // if (this.theme) {
-    //   //   Factor.$filters.add("package-webpack-config", _ => {
-    //   //     _.resolve = {
-    //   //       modules: [Factor.$paths.get("source"), Factor.$paths.get("theme"), "node_modules"]
-    //   //     }
-    //   //     return _
-    //   //   })
-    //   // }
-    // }
-
-    // buildConfig() {
-    //   const { factor } = require(`${this.themePackageName}/package.json`)
-
-    //   return factor
-    // }
   })()
 }

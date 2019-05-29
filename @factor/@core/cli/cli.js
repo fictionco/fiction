@@ -272,7 +272,6 @@ const cli = async () => {
 
     async callbacks(id, args) {
       try {
-        console.log("RUN", Factor.$filters.count(id), id)
         await Factor.$filters.run(id, args)
       } catch (error) {
         Factor.$log.error(error)

@@ -25,7 +25,7 @@ module.exports.default = Factor => {
       })
 
       Factor.$filters.add("content-routes", _ => {
-        const base = "docs"
+        const base = "guide"
         const routes = [
           {
             path: "/",
@@ -33,11 +33,11 @@ module.exports.default = Factor => {
             meta: { background: "#fafbff" }
           },
           {
-            path: "/docs",
+            path: `/${base}`,
             component: () => import("./page-docs")
           },
           {
-            path: "/docs/:markdownurl",
+            path: `/${base}/:doc`,
             component: () => import("./page-docs")
           }
         ]

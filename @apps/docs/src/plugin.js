@@ -2,7 +2,6 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.add("content-routes", _ => {
-        const base = "docs"
         const routes = [
           {
             path: "/plugins",

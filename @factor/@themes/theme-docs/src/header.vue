@@ -1,35 +1,25 @@
 <template>
   <div class="site-head">
     <div class="site-head-pad">
-      <div class="brand">
-        <factor-link path="/">
-          <primary-logo />
-        </factor-link>
-      </div>
-      <div class="nav">
-        <factor-link path="/docs">Docs</factor-link>
-        <factor-link path="/themes">Themes</factor-link>
-        <factor-link path="/plugins">Plugins</factor-link>
+      <site-brand class="site-brand" />
 
-        <factor-link path="https://gitter.im/factorjs/community" target="_blank">
-          <factor-icon icon="gitter" />
-          <span>Community</span>
-        </factor-link>
-        <factor-link path="https://github.com/fiction-com/factor" target="_blank">
-          <factor-icon icon="github" />
-          <span>Github</span>
+      <div class="primary-nav">
+        <factor-link v-for="(item, index) in settings.nav" :key="index" :path="item.path">
+          <factor-icon v-if="item.icon" :icon="item.icon" />
+          <span>{{ item.name }}</span>
         </factor-link>
       </div>
     </div>
   </div>
 </template>
 <script>
+import settings from "#/settings"
 export default {
   components: {
-    "primary-logo": () => import("./el/logo-factor")
+    "site-brand": () => import("./el/brand")
   },
   data() {
-    return {}
+    return { settings }
   }
 }
 </script>
@@ -46,19 +36,11 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  .brand {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-    width: 100px;
-    a img {
-      width: 80px;
-    }
-  }
-  .nav {
+  .primary-nav {
     font-weight: 600;
     display: flex;
     align-items: center;
+
     @media (max-width: 767px) {
       flex-grow: 2;
       justify-content: flex-end;
@@ -75,7 +57,7 @@ export default {
         }
       }
       &:hover,
-      &.active-path {
+      &.router-link-active {
         color: #0496ff;
       }
       &:active {
