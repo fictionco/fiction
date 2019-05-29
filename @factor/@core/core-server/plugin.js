@@ -1,22 +1,23 @@
-const path = require("path")
 const LRU = require("lru-cache")
-const https = require("https")
+
 const express = require("express")
-
+const morgan = require("morgan")
 const { createBundleRenderer } = require("vue-server-renderer")
-
-const env = process.env.NODE_ENV || "production"
-const isProd = env === "production"
 
 // Add for Firebase
 global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 module.exports.default = Factor => {
+  const PORT = process.env.PORT || Factor.$config.setting("port") || 3000
+  const env = process.env.NODE_ENV || "production"
+  const PRODUCTION = env === "production"
+
   return new (class {
     constructor() {
       // After all extensions/filters added
       // Needed for webpack and dev server
       Factor.$filters.add("create-server", (_, args) => {
+        console.log("create server acll")
         const { env: mode = "production", serve = true } = args
 
         return [..._, this.startServer({ mode, serve })]
@@ -47,10 +48,8 @@ module.exports.default = Factor => {
       }
     }
 
-    render(request, response, args = {}) {
+    async render(request, response, args = {}) {
       const { serve = true } = args
-
-      const s = Date.now()
 
       response.setHeader("Content-Type", "text/html")
       response.setHeader("Server", this.getServerInfo())
@@ -59,21 +58,13 @@ module.exports.default = Factor => {
       const context = { url, extend: {} }
 
       // TODO make await instead of callback
-      this.renderer.renderToString(context, (error, html) => {
-        if (error) {
-          return this.handleError(request, response, error)
-        }
-
-        if (isProd && (typeof Factor.$config.setting("cache") == "undefined" || Factor.$config.setting("cache"))) {
-          response.set("cache-control", this.getCacheControl(url))
-        }
-
+      try {
+        const html = await this.renderer.renderToString(context)
+        response.set("cache-control", `public, max-age=${15 * 30}, s-maxage=${15 * 60}`)
         response.send(html)
-
-        if (serve) {
-          Factor.$log.success(`Request @[${url}] - ${Date.now() - s}ms`)
-        }
-      })
+      } catch (error) {
+        this.handleError(request, response, error)
+      }
     }
 
     async ssrFiles(args) {
@@ -95,26 +86,60 @@ module.exports.default = Factor => {
 
       this.server = express()
 
-      this.renderer = null
-      this.developmentBuildReadyPromise = null
-      this.httpDetails = Factor.$paths.getHttpDetails()
+      this.extendMiddleware()
+
+      this.serveStaticAssets()
+
+      this.logging()
 
       if (mode == "production") {
         const { template, bundle, clientManifest } = await this.ssrFiles(args)
 
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
+
+        // Set Express routine for all fallthrough paths
+        this.server.get("*", async (request, response) => await this.render(request, response, args))
+
+        this.server.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
       } else {
         const devServer = Factor.$filters.apply("development-server")
 
-        if (devServer) {
-          this.developmentBuildReadyPromise = devServer(this.server, (bundle, options) => {
-            this.renderer = this.createRenderer(bundle, options)
-          })
-        } else {
-          Factor.$log.error(new Error("No development server found."))
-        }
+        this.developmentBuildReadyPromise = devServer(this.server, (bundle, options) => {
+          this.renderer = this.createRenderer(bundle, options)
+        })
+
+        // Set Express routine for all fallthrough paths
+        this.server.get("*", async (request, response) => {
+          await this.developmentBuildReadyPromise
+          await this.render(request, response)
+        })
+
+        this.localListenRoutine(this.server).listen(PORT, () => {
+          const url = Factor.$paths.localhostUrl()
+          Factor.$log.success(`Server @[${url}] - ${env}`)
+          require("open")(url)
+        })
       }
 
+      return this.server
+    }
+
+    logging() {
+      this.server.use(
+        morgan("tiny", {
+          skip: (request, response) => {
+            let { url } = request
+            if (url.indexOf("?") > 0) url = url.substr(0, url.indexOf("?"))
+            if (url.match(/(js|jpg|png|css)$/gi)) {
+              return true
+            }
+            return false
+          }
+        })
+      )
+    }
+
+    extendMiddleware() {
       const middleware = Factor.$filters.apply("middleware", [])
       if (middleware.length > 0) {
         middleware.forEach(({ path, callback }) => {
@@ -123,65 +148,20 @@ module.exports.default = Factor => {
           })
         })
       }
-
-      // Serve static assets
-      if (serve) {
-        this.resolveStaticAssets()
-      }
-
-      // Set Express routine for all fallthrough paths
-      this.server.get("*", (request, response) => {
-        if (mode == "production") {
-          this.render(request, response, args)
-        } else {
-          this.developmentBuildReadyPromise.then(() => {
-            this.render(request, response)
-          })
-        }
-      })
-
-      // Serve the app from node
-      if (serve) {
-        const { port, routine } = this.httpDetails
-
-        this.getListenRoutine(this.server).listen(port, () => {
-          const url = Factor.$paths.localhostUrl()
-
-          Factor.$log.success(`Server @[${url}] - ${env}`)
-
-          require("opn")(url)
-        })
-
-        // Also listen http on alt port
-        if (routine == "https") {
-          this.server.listen(port + 1)
-        }
-      }
-
-      return this.server
     }
 
-    getListenRoutine(server) {
-      const { routine, certConfig } = this.httpDetails
-
-      let listenRoutine = routine == "https" ? https.createServer(certConfig, server) : server
-
-      return listenRoutine
-    }
-
-    getCacheControl(url) {
-      const mins = 60
-      console.log(`Cache Control Set @[${url}] for ${mins} minutes.`)
-      return `public, max-age=${mins * 30}, s-maxage=${mins * 60}`
+    localListenRoutine(server) {
+      const { routine, certConfig } = Factor.$paths.getHttpDetails()
+      return routine == "https" ? require("https").createServer(certConfig, server) : server
     }
 
     serveStatic(path, cache) {
       return express.static(path, {
-        maxAge: cache && isProd ? 1000 * 60 * 60 * 24 : 0
+        maxAge: cache && PRODUCTION ? 1000 * 60 * 60 * 24 : 0
       })
     }
 
-    resolveStaticAssets() {
+    serveStaticAssets() {
       const fav = Factor.$paths.resolveFilePath("#/static/favicon.png", "static")
       if (fav) {
         this.server.use(require("serve-favicon")(fav))
@@ -197,7 +177,6 @@ module.exports.default = Factor => {
     getServerInfo() {
       const { version: expressVersion } = require("express/package.json")
       const { version: ssrVersion } = require("vue-server-renderer/package.json")
-
       return `express/${expressVersion} vue-server-renderer/${ssrVersion}`
     }
 

@@ -94,7 +94,7 @@ const cli = async () => {
         .description("Create local server")
         .action(async (env = "development", args) => {
           await this.extend({ env, ...args, serve: true })
-          this.callbacks("create-server", { env, ...args })
+          await this.callbacks("create-server", { env, ...args })
         })
 
       this.program
@@ -271,6 +271,7 @@ const cli = async () => {
 
     async callbacks(id, args) {
       try {
+        console.log("RUN", Factor.$filters.count(id), id)
         await Factor.$filters.run(id, args)
       } catch (error) {
         Factor.$log.error(error)
