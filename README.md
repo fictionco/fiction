@@ -2,28 +2,30 @@
   <img src="./factor.svg" width="350" style="width: 350px;display:block;">
   </p>
  <p align="center">
-  <a href="https://gitter.im/fiction-com/community"><img src="https://badgen.net/badge/chat/on%20Gitter" alt="Gitter"></a>
+  <a href="https://gitter.im/factorjs/community"><img src="https://badgen.net/badge/chat/on%20Gitter" alt="Gitter"></a>
+  <a href="https://gitter.im/factorjs/community"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
+  <a href="https://gitter.im/factorjs/community"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
  </p>
 
-> Serverless CMS designed to help you start a fully functional website, blog or PWA (progressive-web-app) *within 5 minutes*.
-
-> How? Factor is a hot-swappable plugin system based on NPM that allows you to install and configure plugins without writing any code.
+> A Javascript web-OS for shipping production web apps. Build a fully functional web app, blog or PWA (progressive-web-app) **Get started in less than 5 minutes.**
 
 ## Links
 
 - 📘 Documentation: [https://factor.dev](https://factor.dev)
 - 🎬 Video: [Quick demo](https://www.youtube.com/channel/UCQ8sF_omtjTrptpm3Smnx3w)
-- 💬 Chat: [Gitter](https://gitter.im/fiction-com/community)
+- 💬 Chat: [Gitter](https://gitter.im/factorjs/community)
 - 🌟 [AwesomeFactor](https://awesome.factor.dev/)
 
 ## Features
 
-- Static Hosting – Build apps that handle production-ready traffic without having to provide servers, or pay for resources that go unused.
-- 100% JavaScript – One language to rule them all.
-- NPM Plugins – Add functionality with plugins, include only what you need, and avoid any bloat.
-- Vue / Reactive Components – Customize your front-end layout with vue.js single-file components.
-- Infinite Scalability – Infinitely scalable with serverless builds out of the box. Get rid of large server request and save money.
-- Faster Development – Launch serverless applications at record speed and low cost.
+- Add Plugins, Themes, Stacks as easy as `yarn add [extension]`
+- Ship Production Apps Faster 
+- 100% Javascript Stack
+- A Powerful CMS Framework (Optional)
+  - Dashboard
+  - Markdown Page and Post Editing System  
+  - Authentication, Image Management, DB
+
 
 Learn more at [factor.dev](https://factor.dev).
 
@@ -80,7 +82,7 @@ Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
 
 ## Contributing
 
-Please refer to our [Contribution Guide](https://factor.fiction.com/guide/contribution)
+Please refer to our [Contribution Guide](https://factor.dev/contribution)
 
 
 ## Security
