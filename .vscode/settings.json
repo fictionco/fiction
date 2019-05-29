@@ -8,7 +8,7 @@
   "files.exclude": {},
   "search.exclude": {
     "**/factor_modules/**": true,
-    "**/generated/**": true,
+    "**/.factor/**": true,
     "**/cloud/**": true,
 
     "**/.ref": true,

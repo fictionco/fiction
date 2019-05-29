@@ -57,7 +57,7 @@
   </div>
 </template>
 <script>
-import outline from "../docs/outline"
+import outline from "#/docs/outline"
 export default {
   components: {
     "docs-footer": () => import("./el/el-docs-footer"),
@@ -163,8 +163,7 @@ export default {
 
       const anchors = this.$refs.scroller.querySelectorAll("h2, h3")
 
-      for (let i = 0; i < anchors.length; i++) {
-        const anchor = anchors[i]
+      for (const [i, anchor] of anchors.entries()) {
         const nextAnchor = anchors[i + 1]
 
         const isActive =
@@ -177,10 +176,7 @@ export default {
           decodeURIComponent(this.$route.hash) !== decodeURIComponent(anchor.id)
         ) {
           this.activeHash = `#${anchor.id}`
-          // this.$router.replace({
-          //   hash: decodeURIComponent(anchor.id),
-          //   meta: { noscroll: true }
-          // })
+
           return;
         }
       }
@@ -223,7 +219,7 @@ export default {
           return node.textContent
           if (node.nodeType === Node.TEXT_NODE) {
             return node.nodeValue
-          } else if (["CODE", "SPAN"].indexOf(node.tagName) !== -1) {
+          } else if (["CODE", "SPAN"].includes(node.tagName)) {
             return node.textContent
           } else {
             return ""

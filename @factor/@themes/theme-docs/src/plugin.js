@@ -30,27 +30,15 @@ module.exports.default = Factor => {
           {
             path: "/",
             component: () => import("./page-home"),
-            meta: { nav: true, background: "#fafbff" }
+            meta: { background: "#fafbff" }
           },
           {
             path: "/docs",
-            component: () => import("./page-docs"),
-            meta: { footer: false }
+            component: () => import("./page-docs")
           },
           {
             path: "/docs/:markdownurl",
-            component: () => import("./page-docs"),
-            meta: { footer: false }
-          },
-          {
-            path: "/plugins",
-            component: () => import("./page-plugins"),
-            meta: { nav: true }
-          },
-          {
-            path: "/themes",
-            component: () => import("./page-themes"),
-            meta: { nav: true }
+            component: () => import("./page-docs")
           }
         ]
 

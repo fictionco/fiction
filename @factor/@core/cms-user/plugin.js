@@ -169,7 +169,7 @@ module.exports.default = Factor => {
     async setActiveUser({ uid, from }) {
       uid = uid ? uid : this.getUser().uid
       const user = uid ? await this.requestFullUser(uid) : {}
-      console.log("SET ACTIVE", user)
+
       this.storeUser({ user, from })
     }
 

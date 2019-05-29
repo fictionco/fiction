@@ -44,9 +44,7 @@ export default {
       loading: true
     }
   },
-  async created() {
-    this.test()
-  },
+
   async mounted() {},
   metatags() {
     return {
@@ -56,9 +54,7 @@ export default {
       image: ""
     }
   },
-  methods: {
-    async test() {}
-  }
+  methods: {}
 }
 </script>
 <style lang="less">
@@ -74,6 +70,9 @@ export default {
       max-width: 700px;
       padding: 6em 2em;
       margin: 2em auto 0;
+      @media (max-width: 767px) {
+        padding: 2em 0;
+      }
     }
   }
 
@@ -112,7 +111,7 @@ export default {
         line-height: 1.1;
         margin-bottom: 0.2em;
         @media (max-width: 767px) {
-          font-size: 2.7em;
+          font-size: 2.2em;
         }
       }
       .subtitle {
@@ -121,7 +120,7 @@ export default {
         line-height: 1.4em;
         font-weight: 500;
         @media (max-width: 767px) {
-          font-size: 1.2em;
+          font-size: 1em;
         }
       }
       .actions {

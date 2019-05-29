@@ -7,8 +7,18 @@
         </factor-link>
       </div>
       <div class="nav">
-        <slot />
-        <plugin-signin-profile-menu v-if="$uid" />
+        <factor-link path="/docs">Docs</factor-link>
+        <factor-link path="/themes">Themes</factor-link>
+        <factor-link path="/plugins">Plugins</factor-link>
+
+        <factor-link path="https://gitter.im/factorjs/community" target="_blank">
+          <factor-icon icon="gitter" />
+          <span>Community</span>
+        </factor-link>
+        <factor-link path="https://github.com/fiction-com/factor" target="_blank">
+          <factor-icon icon="github" />
+          <span>Github</span>
+        </factor-link>
       </div>
     </div>
   </div>
@@ -16,7 +26,7 @@
 <script>
 export default {
   components: {
-    "primary-logo": () => import("./logo-factor")
+    "primary-logo": () => import("./el/logo-factor")
   },
   data() {
     return {}
@@ -26,8 +36,6 @@ export default {
 <style lang="less">
 .site-head {
   padding: 0 1.5em;
-  // box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
-  // background: #fff;
   position: relative;
   z-index: 10;
 }
@@ -73,17 +81,18 @@ export default {
       &:active {
         color: #ff0076;
       }
+      &.factor-link {
+        .fa {
+          margin-right: 4px;
+          opacity: 0.7;
+          color: #0496ff;
+        }
+      }
     }
     .profile-menu {
       margin-left: 1em;
-      // .avatar {
-      //   background-color: rgba(38, 67, 89, 0.06);
-      // }
     }
-    // > a,
-    // .nav-dropdown {
-    //   margin-left: 0.5em;
-    // }
+
     .nav-dropdown-toggle {
       padding: 4px 6px;
       font-weight: 500;

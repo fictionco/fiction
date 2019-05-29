@@ -4,7 +4,7 @@ node_modules
 @fiction
 server.crt
 server.key
-generated
+.factor
 /cypress
 yarn-error*
 .DS_Store

@@ -5,8 +5,14 @@
     </p>
     <p>
       We're always happy to help with code or other questions you might have! Browse our documentation, or
-      <factor-link path="https://www.fiction.com/contact" target="_blank">contact</factor-link>&nbsp;our team. You can also chat live with other developers on
-      <factor-link path="https://gitter.im/fiction-com/community" target="_blank">gitter.</factor-link>
+      <a
+        href="https://www.fiction.com/contact"
+        target="_blank"
+      >contact</a>&nbsp;our team. You can also chat live with other developers on
+      <a
+        href="https://gitter.im/factorjs/community"
+        target="_blank"
+      >gitter.</a>
     </p>
   </div>
 </template>
