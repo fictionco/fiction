@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-functions-controller",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -10,7 +10,7 @@
     "//": "This is called in the entry file in the cloud environment."
   },
   "dependencies": {
-    "@factor/cloud-extend": "^0.3.0",
+    "@factor/cloud-extend": "^0.3.1",
     "@factor/service-firebase-firestore": "^0.3.0",
     "@firebase/app-types": "^0.3.8",
     "firebase-admin": "^7.1.0",

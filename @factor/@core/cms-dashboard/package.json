@@ -1,6 +1,6 @@
 {
   "name": "@factor/cms-dashboard",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@factor/cms-dashboard-users": "^0.3.0",
-    "@factor/cms-signin": "^0.3.0",
+    "@factor/cms-signin": "^0.3.1",
     "@factor/ui-components-form": "^0.3.0",
     "@factor/ui-components-standard": "^0.3.0"
   },
