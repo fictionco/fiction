@@ -6,7 +6,8 @@
   "license": "GPL-3.0",
   "scripts": {
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
-    "heroku-postbuild": "node ./hosts/build-heroku.js"
+    "heroku-postbuild": "node ./hosts/build-heroku.js",
+    "deploy": "git push heroku-factor-dev master"
   },
   "devDependencies": {
     "@factor/plugin-testing-cypress-build": ">0.0.1",

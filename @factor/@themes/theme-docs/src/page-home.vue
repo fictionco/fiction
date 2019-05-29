@@ -6,10 +6,10 @@
           <div class="wedge" />
         </div>
         <div class="mast-text">
-          <h1 class="title">The platform for VueJS Apps</h1>
+          <h1 class="title">Build Beautiful Web Apps</h1>
           <p
             class="subtitle"
-          >Factor is a plugin and theme based VueJS framework for creating cutting-edge websites, blogs, or apps.</p>
+          >Factor is free and open-source Javascript platform for creating cutting-edge websites, blogs, or apps.</p>
           <div class="actions">
             <app-link path="/docs" btn="primary" size="large">Get Started</app-link>
             <app-link path="/docs" btn="tertiary" size="large">Read the Docs</app-link>
@@ -20,16 +20,16 @@
     <section class="boxes-wrap">
       <div class="boxes">
         <div class="box">
-          <h2>100% Javascript</h2>
-          <p>Factor can help you accomplish anything. Use only what you need, build whatever you can imagine.</p>
+          <h2>Extension First</h2>
+          <p>From the ground up built for extensibility. Add features with plugins, services with stacks, UI with themes.</p>
         </div>
         <div class="box">
-          <h2>Dashboard &amp; Posts</h2>
-          <p>Factor won't waste your time. With Factor it's simple to start and even simpler once you're pro.</p>
+          <h2>Posts and Pages</h2>
+          <p>Similar to WordPress, Factor has an (optional) dashboard and posts-system for managing common tasks.</p>
         </div>
         <div class="box">
-          <h2>Plugins &amp; Themes</h2>
-          <p>How about we stop reinventing the wheel? With Factor, just drop-in a plugin, theme or stack instead.</p>
+          <h2>Ship Faster</h2>
+          <p>Finally the JS world has a platform designed to help you ship production apps. Use Factor and stop the frustration.</p>
         </div>
       </div>
     </section>
@@ -109,7 +109,7 @@ export default {
         font-weight: 800;
         font-size: 3em;
         letter-spacing: -0.03em;
-        line-height: 0.9;
+        line-height: 1.1;
         margin-bottom: 0.2em;
         @media (max-width: 767px) {
           font-size: 2.7em;
