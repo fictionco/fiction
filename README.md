@@ -32,8 +32,12 @@ Learn more at [factor.dev](https://factor.dev).
 
 ## Getting started
 
+To scaffold a new project:
+
 ```
-$ yarn factor <project-name>
+$ yarn create factor-app <project-name>
+
+$ npx create-factor-app <project-name>
 ```
 
 It's as simple as that!
@@ -50,22 +54,7 @@ Please take a look at https://factor.dev/examples
 To deploy, instead of running factor, you probably want to build ahead of time. Therefore, building and starting are separate commands:
 
 ```bash
-code code code
-```
-
-For example, to deploy with [`now`](https://zeit.co/now) a `package.json` like follows is recommended:
-```json
-{
-  "name": "my-app",
-  "dependencies": {
-    "factor": "latest"
-  },
-  "scripts": {
-    "dev": "factor",
-    "build": "factor build",
-    "start": "factor start"
-  }
-}
+yarn factor deploy <environment>
 ```
 
 Then run `now` and enjoy!
@@ -91,4 +80,4 @@ If you discover a security vulnerability regarding Factor, please send an e-mail
 
 ## License
 
-[GNU](https://github.com/fiction-com/factor/blob/master/LICENSE)
+[GPL](https://github.com/fiction-com/factor/blob/master/LICENSE)
