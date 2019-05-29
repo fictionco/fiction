@@ -1,7 +1,7 @@
 const LRU = require("lru-cache")
 
 const express = require("express")
-const morgan = require("morgan")
+
 const { createBundleRenderer } = require("vue-server-renderer")
 
 // Add for Firebase
@@ -17,7 +17,6 @@ module.exports.default = Factor => {
       // After all extensions/filters added
       // Needed for webpack and dev server
       Factor.$filters.add("create-server", (_, args) => {
-        console.log("create server acll")
         const { env: mode = "production", serve = true } = args
 
         return [..._, this.startServer({ mode, serve })]
@@ -36,12 +35,6 @@ module.exports.default = Factor => {
     // Endpoint Helper method, return function that processes (req, res)
     requestHandler() {
       return async (request, response) => {
-        const util = require("util")
-        console.log(
-          "x-forwarded-host",
-          request.headers["x-forwarded-host"] ? request.headers["x-forwarded-host"] : util.inspect(request.headers)
-        )
-
         const args = { mode: "production", serve: false }
         const server = await this.startServer(args)
         return server(request, response)
@@ -57,7 +50,6 @@ module.exports.default = Factor => {
       const { url } = request
       const context = { url, extend: {} }
 
-      // TODO make await instead of callback
       try {
         const html = await this.renderer.renderToString(context)
         response.set("cache-control", `public, max-age=${15 * 30}, s-maxage=${15 * 60}`)
@@ -126,7 +118,7 @@ module.exports.default = Factor => {
 
     logging() {
       this.server.use(
-        morgan("tiny", {
+        require("morgan")("tiny", {
           skip: (request, response) => {
             let { url } = request
             if (url.indexOf("?") > 0) url = url.substr(0, url.indexOf("?"))

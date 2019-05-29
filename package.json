@@ -1,17 +1,12 @@
 {
   "name": "@factor/wrapper",
   "version": "0.0.1",
-  "workspaces": [
-    "@apps/*",
-    "@fiction/*",
-    "@factor/*",
-    "@factor/@*/*",
-    "@demo/*"
-  ],
+  "workspaces": ["@apps/*", "@fiction/*", "@factor/*", "@factor/@*/*", "@demo/*"],
   "private": true,
   "license": "GPL-3.0",
   "scripts": {
-    "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines"
+    "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
+    "heroku-postbuild": "node ./hosts/build-heroku.js"
   },
   "devDependencies": {
     "@factor/plugin-testing-cypress-build": ">0.0.1",
@@ -30,6 +25,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-unicorn": "^8.0.2",
     "eslint-plugin-vue": "^5.1.0",
+    "execa": "^1.0.0",
     "lerna": "^3.13.0",
     "prettier-eslint": "^8.8.2",
     "webpack": "^4.29.6"

@@ -71,20 +71,19 @@ const cli = async () => {
 
       this.program
         .command("start [env]")
-        .option("--no-build", "Start without building dist files")
+        .option("--build", "Start without building dist files")
         .description("Start production build on local server")
         .action(async (env = "production", args) => {
-          await this.extend({ env, ...args, install: true })
+          await this.extend({ env, ...args, install: false })
 
-          if (args.build !== false) {
+          if (args.build) {
             this.tasks.push({
               command: "factor",
               args: ["build", env],
               title: "Generating Distribution App"
             })
+            await this.cliTasks()
           }
-
-          await this.cliTasks()
 
           this.cliRunners()
         })
@@ -92,18 +91,20 @@ const cli = async () => {
       this.program
         .command("serve [env]")
         .description("Create local server")
-        .action(async (env = "development", args) => {
+        .action(async (env, args) => {
+          env = env || process.env.NODE_ENV || "production"
+
           await this.extend({ env, ...args, serve: true })
           await this.callbacks("create-server", { env, ...args })
         })
 
       this.program
-        .command("build [env]")
+        .command("build")
         .option("--analyze", "Analyze package size")
         .option("--speed", "Output build speed data")
         .description("Build production app")
-        .action(async (env = "development", args) => {
-          await this.createDist({ env, ...args })
+        .action(async args => {
+          await this.createDist(args)
         })
 
       this.program
