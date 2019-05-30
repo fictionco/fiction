@@ -207,7 +207,7 @@ export default {
   }
 
   .sidebar-inner {
-    width: 300px;
+    max-width: 300px;
     padding: 40px 20px 60px 40px;
   }
 

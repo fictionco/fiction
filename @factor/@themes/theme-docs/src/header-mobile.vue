@@ -11,10 +11,16 @@
       <site-brand class="mobile-brand" />
       <div class="aux">TBD</div>
     </div>
-
-    <div v-if="toggle" class="mobile-sidebar">
-      <page-sidebar mode="mobile" />
-    </div>
+    <transition name="fade">
+      <div v-if="toggle" class="mobile-sidebar">
+        <div class="mobile-sidebar-canvas">
+          <div class="closer" @click="toggleNav(false)">
+            <factor-icon icon="remove" />
+          </div>
+          <page-sidebar mode="mobile" />
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 <script>
@@ -34,6 +40,13 @@ export default {
       if (to.path != from.path) {
         this.toggleNav(false)
       }
+    },
+    toggle: function(v) {
+      if (v) {
+        this.$jquery("body").addClass("mobile-nav")
+      } else {
+        this.$jquery("body").removeClass("mobile-nav")
+      }
     }
   },
   methods: {
@@ -46,13 +59,14 @@ export default {
 
       this.clickHandler = e => {
         this.toggle = false
-        document.removeEventListener("click", this.clickHandler, false)
+
+        document.removeEventListener("click", this.clickHandler)
       };
 
       if (this.toggle) {
-        document.addEventListener("click", this.clickHandler, false)
+        document.addEventListener("click", this.clickHandler)
       } else {
-        document.removeEventListener("click", this.clickHandler, false)
+        document.removeEventListener("click", this.clickHandler)
       }
     }
   }
@@ -61,6 +75,11 @@ export default {
 
 
 <style lang="less">
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  transition: all 0.3s;
+}
 .mobile-head {
   .mobile-bar {
     display: flex;
@@ -73,20 +92,37 @@ export default {
   }
   .mobile-sidebar {
     position: fixed;
-    left: 0;
-    bottom: 0;
+    width: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-    height: 100vh;
+
     display: block;
     z-index: 10;
     top: 0;
-    background-color: #fff;
-    box-shadow: var(--panel-shadow);
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    .mobile-sidebar-canvas {
+      position: relative;
+      width: 70%;
+      height: 100vh;
+      background-color: #fff;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.2);
+    }
+
     // transition: all 0.2s cubic-bezier(0.4, 0, 0, 1);
     transform: translate(0, 0);
     .docs-sidebar {
       position: static;
+      padding: 0;
+    }
+    .closer {
+      font-size: 1.6em;
+      padding: 10px;
+      display: inline-block;
+      line-height: 1;
+      position: absolute;
+      right: 5px;
+      opacity: 0.3;
     }
   }
   .mobile-toggle {
