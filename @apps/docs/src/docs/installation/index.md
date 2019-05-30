@@ -37,7 +37,7 @@ $ yarn factor dev
 ```
 
 Now your basic starter application should be running at [`localhost:3000`](localhost:3000)
-
+<!-- 
 ## Visit Your Dashboard 
 
 At this point, you have fully featured Vue SSR development framework ready to go. But let's take things a big step further: let's setup the CMS. 
@@ -89,4 +89,4 @@ If it's your first time, you'll be shown login screen. Just signup for an accoun
 
 ## Next Up
 
-At this point you should be setup with all you need to start development of a new CMS-powered app. Next we'll learn how to create custom routes and view components.
+At this point you should be setup with all you need to start development of a new CMS-powered app. Next we'll learn how to create custom routes and view components. -->

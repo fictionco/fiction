@@ -156,7 +156,7 @@ code {
     padding-left: 1.5em;
   }
   blockquote {
-    margin: 2em 0;
+    margin-bottom: 2em;
     padding: 1em 2em;
     border-radius: 5px;
     box-shadow: var(--input-shadow);
