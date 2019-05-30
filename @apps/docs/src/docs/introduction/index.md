@@ -62,17 +62,7 @@ Parts of the build system include:
 
 While in reality you'll be working across environments (cli, node, cloud, app(client/server)), the build system orchestrates this and makes it feel like a common VueJS/Javascript app.
 
-### [CMS: Dashboard and Posts System](#cms)
-
-Similar to WordPress, a core effort of Factor optionally includes a set of common patterns that almost every web app needs and benefits from, which we call the **Factor CMS**. These include: 
-
-- User Dashboard
-- Posts and Post Management (in Factor, and similar to WordPress, everything is a post - pages, users, docs, etc... )
-- Admin Dashboard 
-- Authentication
-- Basic Data and Image Storage
-
-These features are optional and extension based. They build on top of Factor's core framework and build system.
+[Learn how to add components and routes](./framework)
 
 ### [Stack Extensions](#stacks)
 
@@ -95,6 +85,20 @@ The scope of a Factor theme is to give you an advanced starting point for your a
 The theme structure is the same as your application structure. This means you can use a theme as starting point or you can inherit from it by adding it in your factor-config file and as a dependency. Inheriting has the added benefit of the theme being 'updateable' which is not possible once you've edited it. 
 
 [Learn more about themes](./themes)
+
+### [CMS: Dashboard and Posts System](#cms)
+
+Similar to WordPress, Factor extensions implement common patterns that most web apps benefits from which we call "CMS" features. These include: 
+
+- User Dashboard
+- Posts and Post Management (in Factor, and similar to WordPress, everything is a post - pages, users, docs, etc... )
+- Admin Dashboard 
+- Authentication
+- Basic Data and Image Storage
+
+These features build on top of Factor's core framework and build system and we believe are useful to wide array of projects.
+
+[Learn more about the CMS](./cms)
  
 ## Ready For More?
 
