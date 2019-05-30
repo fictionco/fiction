@@ -142,6 +142,8 @@ module.exports = Factor => {
         .map(_ => {
           const { name, target, cwd, main } = _
 
+          // If current directory/app then is not necessarily a module in the system
+          // for app dirs we need to load relative, as absolute path might be different from build time to serve time
           if (cwd) {
             _.mainFile = `../${main}`
           } else {
