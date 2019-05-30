@@ -23,7 +23,7 @@ module.exports = Factor => {
         this.addWatchers()
 
         Factor.$filters.add("cli-create-loaders", (_, program) => {
-          this.generateLoaders()
+          return [..._, this.generateLoaders()]
         })
       }
     }
@@ -234,6 +234,8 @@ module.exports = Factor => {
       fs.ensureDirSync(path.dirname(destination))
 
       fs.writeFileSync(destination, lines.join("\n"))
+
+      console.log(`File Made @${destination}`)
     }
 
     arrayIntersect(targetA, targetB) {
