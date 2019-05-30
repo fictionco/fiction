@@ -4,8 +4,8 @@
       <component :is="$setting.get(`footer.logo`)" />
     </factor-link>
 
-    <div class="license">{{ $setting.get('footer.headline') }}</div>
-    <div class="copyright">{{ $setting.get('footer.legal') }}</div>
+    <div v-formatted-text="$setting.get('footer.headline')" class="license" />
+    <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
   </div>
 </template>
 <script>

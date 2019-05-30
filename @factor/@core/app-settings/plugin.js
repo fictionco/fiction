@@ -20,7 +20,7 @@ export default Factor => {
         } catch (error) {
           this.handleError(error)
         }
-        this.appSettings = merge.all(merged)
+        this.appSettings = merge.all(merged, { arrayMerge: (destinationArray, sourceArray, options) => sourceArray })
       }
     }
 

@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       const that = this
 
@@ -32,5 +32,5 @@ export default Factor => {
         allowedAttributes: false
       })
     }
-  }()
+  })()
 }

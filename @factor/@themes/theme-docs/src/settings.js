@@ -1,19 +1,29 @@
 export default {
+  docs: {
+    pages: [
+      {
+        doc: "",
+        title: "Intro Page",
+        name: "Intro",
+        file: require("./docs/intro/index.md")
+      },
+      {
+        doc: "example",
+        title: "Example Page",
+        description: "An example docs page.",
+        file: require("./docs/example/index.md")
+      }
+    ],
+    base: "docs"
+  },
   site: {
     logo: () => import("./el/logo-factor"),
     nav: [
       {
-        path: "/guide",
-        name: "Guide"
+        path: "/docs",
+        name: "Docs"
       },
-      {
-        path: "/themes",
-        name: "Themes"
-      },
-      {
-        path: "/plugins",
-        name: "Plugins"
-      },
+
       {
         path: "https://gitter.im/factorjs/community",
         name: "Community",
@@ -28,8 +38,8 @@ export default {
   },
 
   footer: {
-    headline: "Released under the GPLv3 License",
-    legal: "Copyright &copy; 2017-2019 Fiction.com, Inc.",
+    headline: "Footer Headline",
+    legal: "Copyright &copy; 2017-2019 Your Company, Inc.",
     logo: () => import("./el/logo-fiction")
   },
   home: {
@@ -39,39 +49,36 @@ export default {
         "Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps."
     },
 
-    headline: "Build Beautiful Web Apps",
-    subHeadline:
-      "Factor is free and open-source Javascript platform for creating cutting-edge websites, blogs, or apps.",
+    headline: "Factor Docs Theme",
+    subHeadline: "A markdown based documentation theme for Factor",
     boxes: [
       {
-        title: "Extension First",
+        title: "Simple",
         description:
-          "From the ground up built for extensibility. Add features with plugins, services with stacks, UI with themes."
+          "People love simplicity! All you need to do for a fully working docs site (with SSR) is to add your markdown docs."
       },
       {
-        title: "Posts and Pages",
+        title: "Markdown",
         description:
-          "Similar to WordPress, Factor has an (optional) dashboard and posts-system for managing common tasks."
+          "The standard in writing docs. No messing with editors or other problematic formats. Use markdown files."
       },
       {
-        title: "Ship Faster",
+        title: "Tools",
         description:
-          "Finally the JS world has a platform designed to help you ship production apps. Use Factor and stop the frustration."
+          "This theme includes tools for syntax highlighting with PrismJS and automatically generating your docs table-of-contents."
       }
     ],
     actions: [
       {
         btn: "primary",
-        path: "/guide/quickstart",
+        path: "/docs/quickstart",
         text: "Get Started"
       },
       {
         btn: "tertiary",
-        path: "/guide",
+        path: "/docs",
         text: "Read the Docs"
       }
     ]
-  },
-  docsBase: "guide",
-  docs: []
+  }
 }

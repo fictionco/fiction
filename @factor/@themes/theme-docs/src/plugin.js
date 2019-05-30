@@ -25,7 +25,7 @@ module.exports.default = Factor => {
       })
 
       Factor.$filters.add("content-routes", _ => {
-        const base = "guide"
+        const base = Factor.$setting.get("docs.base")
         const routes = [
           {
             path: "/",

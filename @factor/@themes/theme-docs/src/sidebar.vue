@@ -42,7 +42,7 @@
 </template>
 <script>
 import settings from "#/settings"
-import docs from "./docs"
+import docs from "./docs-handler"
 export default {
   props: {
     mode: { type: String, default: "" }

@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-import docs from "./docs"
+import docs from "./docs-handler"
 export default {
   components: {
     "page-sidebar": () => import("./sidebar"),
