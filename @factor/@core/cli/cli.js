@@ -76,14 +76,12 @@ const cli = async () => {
         .action(async (env = "production", args) => {
           await this.extend({ env, ...args, install: false })
 
-          if (args.build) {
-            this.tasks.push({
-              command: "factor",
-              args: ["build", env],
-              title: "Generating Distribution App"
-            })
-            await this.cliTasks()
-          }
+          this.tasks.push({
+            command: "factor",
+            args: ["build", env],
+            title: "Generating Distribution App"
+          })
+          await this.cliTasks()
 
           this.cliRunners()
         })
