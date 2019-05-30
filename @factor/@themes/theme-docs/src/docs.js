@@ -1,8 +1,8 @@
-import settings from "#/settings"
+//import settings from "#/settings"
 export default Factor => {
   return new (class {
     config() {
-      return this.normalize(settings.docs)
+      return this.normalize(Factor.$setting.get("docs.pages"))
     }
     getMarkdownHTML(doc) {
       const { file } = this.selected(doc) || {}
@@ -22,7 +22,7 @@ export default Factor => {
       return items.map(_ => {
         const d = {
           doc: _.doc,
-          route: `/${settings.basePath}/${_.doc}`,
+          route: `/${Factor.$setting.get("docs.base")}/${_.doc}`,
           name: Factor.$utils.toLabel(_.doc),
           title: Factor.$utils.toLabel(_.doc),
           description: ""

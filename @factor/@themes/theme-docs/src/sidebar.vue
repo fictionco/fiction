@@ -2,7 +2,11 @@
   <div class="docs-sidebar" @click.stop>
     <div ref="nav" class="sidebar-inner">
       <div v-if="mode =='mobile'" class="site-links">
-        <factor-link v-for="(item, index) in settings.nav" :key="index" :path="item.path">
+        <factor-link
+          v-for="(item, index) in $setting.get('site.nav')"
+          :key="index"
+          :path="item.path"
+        >
           <span>{{ item.name }}</span>
           <factor-icon v-if="item.icon" :icon="item.icon" />
         </factor-link>

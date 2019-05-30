@@ -237,7 +237,7 @@ module.exports.default = Factor => {
           // symlinks: false // for performance
         },
         module: {
-          rules: [
+          rules: Factor.$filters.apply("webpack-loaders", [
             {
               test: /\.(vue|fact)$/,
               loader: "vue-loader"
@@ -278,7 +278,7 @@ module.exports.default = Factor => {
                 }
               ]
             }
-          ]
+          ])
         },
         performance: {
           maxEntrypointSize: 600000

@@ -1,23 +1,15 @@
 <template>
   <div class="content-footer">
     <factor-link path="https://www.fiction.com" class="pin">
-      <logo-fiction />
+      <component :is="$setting.get(`footer.logo`)" />
     </factor-link>
 
-    <div class="license">Released under the GPLv3 License</div>
-    <div class="copyright">Copyright &copy; 2017-2019 Fiction.com, Inc.</div>
+    <div class="license">{{ $setting.get('footer.headline') }}</div>
+    <div class="copyright">{{ $setting.get('footer.legal') }}</div>
   </div>
 </template>
 <script>
-export default {
-  components: {
-    "logo-fiction": () => import("./el/logo-fiction")
-  },
-  data: () => {
-    return {}
-  },
-  computed: {}
-}
+export default {}
 </script>
 
 <style lang="less">

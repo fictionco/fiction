@@ -6,30 +6,25 @@
           <div class="wedge" />
         </div>
         <div class="mast-text">
-          <h1 class="title">Build Beautiful Web Apps</h1>
-          <p
-            class="subtitle"
-          >Factor is free and open-source Javascript platform for creating cutting-edge websites, blogs, or apps.</p>
+          <h1 class="title">{{ $setting.get('home.headline') }}</h1>
+          <p class="subtitle">{{ $setting.get('home.subHeadline') }}</p>
           <div class="actions">
-            <app-link path="/docs" btn="primary" size="large">Get Started</app-link>
-            <app-link path="/docs" btn="tertiary" size="large">Read the Docs</app-link>
+            <app-link
+              v-for="(action ,i) in $setting.get('home.actions')"
+              :key="i"
+              :path="action.path"
+              :btn="action.btn"
+              size="large"
+            >{{ action.text }}</app-link>
           </div>
         </div>
       </div>
     </section>
     <section class="boxes-wrap">
       <div class="boxes">
-        <div class="box">
-          <h2>Extension First</h2>
-          <p>From the ground up built for extensibility. Add features with plugins, services with stacks, UI with themes.</p>
-        </div>
-        <div class="box">
-          <h2>Posts and Pages</h2>
-          <p>Similar to WordPress, Factor has an (optional) dashboard and posts-system for managing common tasks.</p>
-        </div>
-        <div class="box">
-          <h2>Ship Faster</h2>
-          <p>Finally the JS world has a platform designed to help you ship production apps. Use Factor and stop the frustration.</p>
+        <div v-for="(box ,i) in $setting.get('home.boxes')" :key="i" class="box">
+          <h2>{{ box.title }}</h2>
+          <p>{{ box.description }}</p>
         </div>
       </div>
     </section>
@@ -38,23 +33,18 @@
 
 <script>
 export default {
-  components: {},
   data() {
     return {
       loading: true
     }
   },
 
-  async mounted() {},
   metatags() {
     return {
-      title: "Factor.js - VueJS Framework + SSR CMS",
-      description:
-        "Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps.",
-      image: ""
+      title: this.$setting.get("home.meta.title"),
+      description: this.$setting.get("home.meta.description")
     }
-  },
-  methods: {}
+  }
 }
 </script>
 <style lang="less">

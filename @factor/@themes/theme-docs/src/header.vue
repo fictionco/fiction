@@ -4,7 +4,11 @@
       <site-brand class="site-brand" />
 
       <div class="primary-nav">
-        <factor-link v-for="(item, index) in settings.nav" :key="index" :path="item.path">
+        <factor-link
+          v-for="(item, index) in $setting.get('site.nav')"
+          :key="index"
+          :path="item.path"
+        >
           <factor-icon v-if="item.icon" :icon="item.icon" />
           <span>{{ item.name }}</span>
         </factor-link>

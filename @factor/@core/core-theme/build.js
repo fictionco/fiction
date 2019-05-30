@@ -6,6 +6,13 @@ module.exports = Factor => {
     constructor() {
       this.themes = Factor.$files.getExtended("theme")
 
+      Factor.$filters.add("webpack-aliases", _ => {
+        _["@theme"] =
+          this.themes.length > 0 ? dirname(require.resolve(this.themes[0].name)) : Factor.$paths.get("source")
+
+        return _
+      })
+
       // This allows for overriding of files from themes
       // Notes:
       // - Uses "#" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.

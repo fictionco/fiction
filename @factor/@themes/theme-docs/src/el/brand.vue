@@ -1,16 +1,12 @@
 <template>
   <div class="brand">
     <factor-link path="/">
-      <primary-logo />
+      <component :is="$setting.get(`site.logo`)" />
     </factor-link>
   </div>
 </template>
 <script>
-export default {
-  components: {
-    "primary-logo": () => import("./logo-factor")
-  }
-}
+export default {}
 </script>
 <style lang="less">
 .brand {
