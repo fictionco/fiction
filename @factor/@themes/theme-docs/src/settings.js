@@ -44,9 +44,8 @@ export default {
   },
   home: {
     meta: {
-      title: "Factor.js - Web App OS",
-      description:
-        "Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps."
+      title: "Docs Theme - Factor.js",
+      description: "A simple documentation theme for Factor.js framework."
     },
 
     headline: "Factor Docs Theme",
