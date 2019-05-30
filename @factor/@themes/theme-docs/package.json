@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-docs",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
