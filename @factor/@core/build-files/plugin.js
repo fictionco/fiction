@@ -143,7 +143,7 @@ module.exports = Factor => {
           const { name, target, cwd, main } = _
 
           if (cwd) {
-            _.mainFile = resolve(Factor.$paths.get("app"), main)
+            _.mainFile = `../${main}`
           } else {
             _.mainFile = this.moduleMainFile({ name, target, mainTarget })
           }
