@@ -6,7 +6,7 @@
       <p
         class="content"
       >Learn how to use Factor CMS and build things with its cutting-edge build system and JS framework.</p>
-      <factor-link path="https://factor.fiction.com/docs" target="_blank">
+      <factor-link path="https://factor.dev/guide" target="_blank">
         View
         <factor-icon icon="arrow-right" />
       </factor-link>
@@ -17,7 +17,7 @@
       <p
         class="content"
       >Build things faster with Factor themes. Component-based themes designed or reviewed-by the Factor team.</p>
-      <factor-link path="https://factor.fiction.com/themes" target="_blank">
+      <factor-link path="https://factor.dev/themes" target="_blank">
         View
         <factor-icon icon="arrow-right" />
       </factor-link>
@@ -28,7 +28,7 @@
       <p
         class="content"
       >Stacks are like themes but for service APIs. No more days and months learning new APIs to get things working.</p>
-      <factor-link path="https://factor.fiction.com/stacks" target="_blank">
+      <factor-link path="https://factor.dev/stacks" target="_blank">
         Learn More
         <factor-icon icon="arrow-right" />
       </factor-link>
@@ -39,7 +39,7 @@
       <p
         class="content"
       >Factor plugins add functionality to your app. Just add to package dependencies and the rest takes care of itself..</p>
-      <factor-link path="https://factor.fiction.com/plugins" target="_blank">
+      <factor-link path="https://factor.dev/plugins" target="_blank">
         View
         <factor-icon icon="arrow-right" />
       </factor-link>
