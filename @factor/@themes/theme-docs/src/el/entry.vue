@@ -131,12 +131,13 @@ code {
     position: relative;
     &:before {
       content: "#";
-      color: var(--color-primary);
+
       position: absolute;
       left: -0.9em;
       margin-top: -0.15em;
       font-size: 1.2em;
       font-weight: 800;
+      opacity: 0.15;
     }
   }
   a {

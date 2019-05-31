@@ -12,6 +12,17 @@ export default {
         name: "Introduction",
         file: require("./docs/introduction/index.md"),
         title: "Introduction: Why Use Factor"
+      },
+      {
+        doc: "factor-framework",
+        name: "Framework",
+        file: require("./docs/framework/index.md"),
+        title: "Factor's VueJS Framework - Routes, Stores, Views"
+      },
+      {
+        doc: "hosting-and-deployment",
+        file: require("./docs/hosting/index.md"),
+        title: "Hosting and Deploying Your App"
       }
     ],
     base: "guide"
