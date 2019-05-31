@@ -280,7 +280,9 @@ components: {
 
 In web frameworks, a "store" is a globally available object that holds application data and keeps it no matter where you go in your app. While the the store pattern is popular, it is often overused and can be problematic due to its global nature. However, the store is quite necessary in the case of SSR.
 
-### SSR and SEO
+> Factor stores are built using [Vuex](https://vuex.vuejs.org/), Vue's standard store library
+
+### Store SSR and SEO
 The store is primary how information will travel from the server-side to the client side and it's necessary in many cases where you would like to render dynamic information to source. 
 
 > A common goal is to render dynamic content to the page for SEO purposes, this information must be added to the store
@@ -289,3 +291,58 @@ So here we will discuss:
 - Adding a custom store submodule 
 - Factor's global store methods
 - Adding or retrieving information from the store
+
+#### Adding A Custom Store
+
+Factor provides a convenient and standard way of adding custom stores for your plugin or app. 
+
+```javascript
+// plugin.js
+export default Factor => {
+  constructor(){
+    this.addStore()
+  }
+  addStore(){
+    Factor.$filters.add("stores", stores => {
+      stores.myStore = require("./store").default
+      return stores
+    })
+  }
+}
+```
+
+An example of a custom store submodule might take this form: 
+
+```javascript
+export default {
+  name: "myStore",
+  namespaced: true,
+  state: () => {
+    list: []
+  }, // function syntax needed for SSR
+  getters: {
+    getItem: state => item => {
+      return state[item]
+    }
+  },
+  mutations: {
+    setItem: (state, { item, value }) => {
+      Factor.set(state, item, value)
+    }
+  },
+}
+```
+
+Inside of a component, you can setup a computed property to stay synced with a store value. As follows: 
+
+```javascript
+// component.vue
+export default {
+  computed: {
+    list: this.$store.getters["myStore/getItem"]("list") || {}
+  }
+}
+```
+
+
+Note that this is all standard Vuex code, so you can read more about how stores work at the [Vuex site](https://vuex.vuejs.org/).
