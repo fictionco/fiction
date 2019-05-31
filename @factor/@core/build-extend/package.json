@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-extend",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@factor/build-config": "^0.3.0",
-    "@factor/build-files": "^0.3.0",
+    "@factor/build-files": "^0.3.3",
     "@factor/build-paths": "^0.3.1",
     "@factor/build-transpiler": "^0.3.0",
     "@factor/cloud-config": "^0.3.0",

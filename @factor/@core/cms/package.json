@@ -1,7 +1,7 @@
 {
   "name": "@factor/cms",
   "description": "Bundle",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -11,16 +11,16 @@
     "id": "cms"
   },
   "dependencies": {
-    "@factor/app": "^0.3.1",
-    "@factor/build": "^0.3.1",
-    "@factor/cms-dashboard": "^0.3.1",
+    "@factor/app": "^0.3.3",
+    "@factor/build": "^0.3.3",
+    "@factor/cms-dashboard": "^0.3.3",
     "@factor/cms-metatags": "^0.3.0",
     "@factor/cms-page-templates": "^0.3.0",
     "@factor/cms-posts": "^0.3.0",
-    "@factor/cms-signin": "^0.3.1",
+    "@factor/cms-signin": "^0.3.3",
     "@factor/cms-user": "^0.3.1",
-    "@factor/core": "^0.3.1",
-    "@factor/ui": "^0.3.0"
+    "@factor/core": "^0.3.3",
+    "@factor/ui": "^0.3.3"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

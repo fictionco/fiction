@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-docs",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "main": "src/plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -16,7 +16,7 @@
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "@factor/cms": "^0.3.1",
+    "@factor/cms": "^0.3.3",
     "@factor/plugin-notify": "^0.3.0",
     "prismjs": "^1.16.0"
   }

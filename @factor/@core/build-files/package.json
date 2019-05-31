@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-files",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
