@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
@@ -17,7 +17,7 @@
     "@factor/app-extend": "^0.3.0",
     "@factor/app-fallbacks": "^0.3.0",
     "@factor/app-router": "^0.3.0",
-    "@factor/app-settings": "^0.3.3",
+    "@factor/app-settings": "^0.3.4",
     "@factor/app-store": "^0.3.0",
     "@factor/cli": "^0.3.3",
     "@factor/core": "^0.3.3",

@@ -1,6 +1,6 @@
 {
   "name": "@factor/app-settings",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "main": "plugin.js",
   "license": "GPL-3.0",
   "publishConfig": {
