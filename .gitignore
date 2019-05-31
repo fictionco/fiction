@@ -11,3 +11,4 @@ yarn-error*
 .ref
 @demo
 **/dist
+.DS_Store
