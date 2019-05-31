@@ -4,7 +4,7 @@
       <div class="splash">
         <div>
           <h1 class="title">Factor Themes</h1>
-          <p class="subtitle">Get a huge design and feature headstart by using a theme.</p>
+          <p class="subtitle">Built for perfectionists with deadlines.</p>
           <div class="actions">
             <app-link path="/docs" btn="primary" size="large">
               How to Install
@@ -14,13 +14,23 @@
         </div>
       </div>
     </section>
+    <factor-modal class="install-modal" :vis.sync="vis">
+      <h2>{{ selectedTheme }} Theme</h2>
+      <div
+        class="description"
+      >Use this theme by adding it to your app dependencies using the command:</div>
+      <div class="command">
+        yarn add
+        <span class="package-name">{{ selectedPkg }}</span>
+      </div>
+    </factor-modal>
     <section class="themes-wrap stripes-wrap">
       <div class="stripes" />
       <div class="mast themes">
         <div class="items-wrap">
           <div v-for="(item, i) in extensions.themes" :key="i" class="item">
             <div class="item-top">
-              <app-link :path="item.url">
+              <app-link :path="item.demo">
                 <img :src="item.screenshot" :alt="item.name">
               </app-link>
             </div>
@@ -36,14 +46,23 @@
                 </span>
               </div>
               <div>
-                <p class="downloads">
-                  <i class="fa fa-arrow-down" />
-                  {{ item.downloads }} Downloads
-                </p>
-                <p class="author">
-                  <i :class="`fa fa-${item.author.icon}`" />
-                  by {{ item.author.name }}
-                </p>
+                <div class="downloads">
+                  <app-link btn="default" size="small" :path="item.demo">
+                    <i class="fa fa-arrow-right" /> Demo
+                  </app-link>
+                  <app-link btn="primary" size="small" @click="showModal(item)">
+                    <i class="fa fa-arrow-down" /> Install
+                  </app-link>
+                  <app-link btn="default" size="small" :path="item.github">
+                    <factor-icon icon="github" />
+                  </app-link>
+                </div>
+                <div class="author">
+                  <app-link btn="subtle" size="small" :path="item.author.url">
+                    <factor-icon :icon="item.author.icon" />
+                    {{ item.author.name }}
+                  </app-link>
+                </div>
               </div>
             </div>
           </div>
@@ -65,12 +84,21 @@ export default {
       loading: true,
       nav: [],
       clicked: false,
-      extensions
+      extensions,
+      vis: false,
+      selectedTheme: null,
+      selectedPkg: null
     }
   },
   computed: {},
   mounted() {},
-  methods: {},
+  methods: {
+    showModal(item) {
+      this.selectedTheme = item.name
+      this.selectedPkg = item.pkg
+      this.vis = true
+    }
+  },
   metatags() {
     return {
       title: "Factor Themes Built and Curated by the Factor Team.",
@@ -81,6 +109,28 @@ export default {
 }
 </script>
 <style lang="less">
+.install-modal {
+  h2 {
+    font-size: 1.5em;
+    font-weight: 800;
+    margin-bottom: 1em;
+  }
+  .description {
+    opacity: 0.7;
+    margin: 1.5em;
+  }
+  .command {
+    font-weight: 600;
+    opacity: 0.7;
+    margin-top: 1em;
+    background: rgba(50, 50, 50, 0.04);
+    box-shadow: 0 0 0 1px rgba(50, 50, 50, 0.1);
+    padding: 5px;
+    .package-name {
+      font-weight: 700;
+    }
+  }
+}
 .themes-container {
   .mast {
     padding: 0 2em;
@@ -185,18 +235,11 @@ export default {
           font-size: 1.4em;
           font-weight: 800;
         }
-        .category,
-        .downloads,
-        .author {
-          opacity: 0.7;
-        }
+
         .downloads,
         .author {
           text-align: right;
           margin-bottom: 0.3em;
-          i {
-            margin-right: 5px;
-          }
         }
         .downloads {
           margin-top: 0.4em;

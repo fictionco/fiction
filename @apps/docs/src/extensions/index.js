@@ -1,3 +1,5 @@
+const downloadBase = "https://minhaskamal.github.io/DownGit/#/home?url="
+
 export default {
   themes: [
     {
@@ -7,11 +9,13 @@ export default {
       tags: "docs, markdown, simple, clean",
       author: {
         name: "Fiction",
-        icon: "fiction"
+        icon: "fiction",
+        url: "https://www.fiction.com"
       },
-      downloads: "320",
+      github: "https://github.com/fiction-com/factor/tree/master/%40factor/%40themes/theme-docs",
+      pkg: `@factor/theme-docs`,
       screenshot: require("./theme-docs/screenshot.jpg"),
-      url: "https://docs-theme.factor.dev/",
+      demo: "https://docs-theme.factor.dev/",
       price: "free"
     }
   ]

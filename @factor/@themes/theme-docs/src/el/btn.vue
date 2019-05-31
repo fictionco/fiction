@@ -16,6 +16,7 @@ button.app-btn {
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
+  color: var(--color-text);
 
   &:focus {
     outline: none;
@@ -31,8 +32,8 @@ button.app-btn {
     font-weight: 500;
   }
   &.small {
-    font-size: 75em;
-    padding: 0.35em 0.75em;
+    font-size: 0.75em;
+    padding: 0.35em 0.5em;
   }
   &.large {
     font-size: 1.2em;
@@ -43,6 +44,12 @@ button.app-btn {
     opacity: 0.6;
   }
 
+  &.default {
+    background: #fff;
+    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
+      0 2px 10px rgba(71, 86, 144, 0.2);
+  }
+
   &.primary {
     color: var(--color-light);
     background: var(--color-primary);
@@ -50,7 +57,7 @@ button.app-btn {
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      box-shadow: none;
+      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
 
