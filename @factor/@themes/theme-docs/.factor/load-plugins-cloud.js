@@ -16,7 +16,7 @@ const files = [
   "mainFile": "@factor/core-events"
 },
 {
-  "version": "0.3.2",
+  "version": "0.3.4",
   "name": "@factor/theme-docs",
   "priority": 100,
   "target": [
@@ -29,6 +29,20 @@ const files = [
   "main": "src/plugin.js",
   "id": "docs",
   "mainFile": "../src/plugin.js"
+},
+{
+  "version": "0.3.0",
+  "name": "@factor/app-fallbacks",
+  "priority": 100,
+  "target": [
+    "build",
+    "cloud"
+  ],
+  "extend": "plugin",
+  "cwd": false,
+  "main": "plugin.js",
+  "id": "appFallbacks",
+  "mainFile": "@factor/app-fallbacks"
 },
 {
   "version": "0.3.0",
@@ -58,20 +72,6 @@ const files = [
   "main": "plugin.js",
   "id": "server",
   "mainFile": "@factor/core-server"
-},
-{
-  "version": "0.3.0",
-  "name": "@factor/app-fallbacks",
-  "priority": 100,
-  "target": [
-    "build",
-    "cloud"
-  ],
-  "extend": "plugin",
-  "cwd": false,
-  "main": "plugin.js",
-  "id": "appFallbacks",
-  "mainFile": "@factor/app-fallbacks"
 },
 {
   "version": "0.3.1",

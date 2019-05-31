@@ -4,9 +4,7 @@
       <div class="splash">
         <div>
           <h1 class="title">Factor Themes</h1>
-          <p
-            class="subtitle"
-          >Build anything with Factor. Themes built by or reviewed by the Factor team.</p>
+          <p class="subtitle">Get a huge design and feature headstart by using a theme.</p>
           <div class="actions">
             <app-link path="/docs" btn="primary" size="large">
               How to Install
@@ -20,52 +18,31 @@
       <div class="stripes" />
       <div class="mast themes">
         <div class="items-wrap">
-          <div class="item">
+          <div v-for="(item, i) in extensions.themes" :key="i" class="item">
             <div class="item-top">
-              <app-link path="/themes/alpha">
-                <img :src="require(`./img/theme-alpha.jpg`)" alt="Alpha Theme">
+              <app-link :path="item.url">
+                <img :src="item.screenshot" :alt="item.name">
               </app-link>
             </div>
             <div class="item-bottom">
               <div>
                 <h3 class="title">
-                  <app-link path="/themes/alpha">Alpha</app-link>
+                  <app-link :path="item.url">{{ item.name }}</app-link>
                 </h3>
                 <span class="category">
-                  <app-link path="/themes/category/portfolio-and-blog">Portfolio &amp; Blog</app-link>
+                  <app-link
+                    :path="`/extensions/category/${item.category}`"
+                  >{{ $utils.toLabel(item.category) }}</app-link>
                 </span>
               </div>
               <div>
                 <p class="downloads">
-                  <i class="fa fa-download" /> 854 Downloads
+                  <i class="fa fa-arrow-down" />
+                  {{ item.downloads }} Downloads
                 </p>
                 <p class="author">
-                  <i class="fa fa-user" /> by Fiction
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="item-top">
-              <app-link path="/themes/cicero">
-                <img :src="require(`./img/theme-alpha.jpg`)" alt="Alpha Theme">
-              </app-link>
-            </div>
-            <div class="item-bottom">
-              <div>
-                <h3 class="title">
-                  <app-link path="/themes/cicero">Cicero</app-link>
-                </h3>
-                <span class="category">
-                  <app-link path="/themes/category/landing-and-corporate">Landing &amp; Corporate</app-link>
-                </span>
-              </div>
-              <div>
-                <p class="downloads">
-                  <i class="fa fa-download" /> 663 Downloads
-                </p>
-                <p class="author">
-                  <i class="fa fa-user" /> by Fiction
+                  <i :class="`fa fa-${item.author.icon}`" />
+                  by {{ item.author.name }}
                 </p>
               </div>
             </div>
@@ -78,17 +55,17 @@
 </template>
 
 <script>
+import extensions from "./extensions"
 export default {
   components: {
-    "el-cta": () => import("./el/cta")
+    "el-cta": () => import("#/el/cta")
   },
   data() {
     return {
       loading: true,
       nav: [],
-      headers: [],
-      allHeaders: [],
-      clicked: false
+      clicked: false,
+      extensions
     }
   },
   computed: {},
@@ -98,8 +75,7 @@ export default {
     return {
       title: "Factor Themes Built and Curated by the Factor Team.",
       description:
-        "Factor Themes is a collection of the best templates and themes curated by Factor's creators. Our collection of templates include themes to build a landing page, a static site, an application, and more.",
-      image: ""
+        "Factor Themes is a collection of the best templates and themes curated by Factor's creators. Our collection of templates include themes to build a landing page, a static site, an application, and more."
     }
   }
 }

@@ -165,7 +165,7 @@
 <script>
 export default {
   components: {
-    "el-cta": () => import("./el/cta")
+    "el-cta": () => import("#/el/cta")
   },
   data() {
     return {

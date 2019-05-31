@@ -2,6 +2,7 @@
 const files = {}
 files["events"] = require("@factor/core-events").default
 files["appDriver"] = require("@factor/app").default
+files["docsApp"] = require("../src/plugin.js").default
 files["appFallbacks"] = require("@factor/app-fallbacks").default
 files["serverDev"] = require("@factor/build-server-dev").default
 files["setup"] = require("@factor/build-setup").default

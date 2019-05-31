@@ -2,10 +2,10 @@
 const files = {}
 files["events"] = require("@factor/core-events").default
 files["notify"] = require("@factor/plugin-notify").default
-files["setting"] = require("@factor/app-settings").default
 files["db"] = require("@factor/core-db").default
 files["endpoint"] = require("@factor/core-endpoint").default
 files["storage"] = require("@factor/core-storage").default
+files["setting"] = require("@factor/app-settings").default
 files["markdown"] = require("@factor/tools-markdown").default
 files["time"] = require("@factor/tools-time").default
 files["dashboard"] = require("@factor/cms-dashboard").default

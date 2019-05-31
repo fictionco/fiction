@@ -5,8 +5,12 @@
   "main": "src/plugin.js",
   "author": "Fiction.com",
   "license": "GPL-3.0",
-  "factor": {},
+
   "scripts": {},
+  "factor": {
+    "id": "docsApp",
+    "target": ["app", "server"]
+  },
   "dependencies": {
     "@factor/cms": ">=0.3.0",
     "@factor/theme-docs": ">=0.3.0"

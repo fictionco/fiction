@@ -87,7 +87,7 @@ const files = [
   "mainFile": "@factor/cms-user-role-endpoint"
 },
 {
-  "version": "0.3.3",
+  "version": "0.3.4",
   "name": "@factor/theme-docs",
   "priority": 100,
   "target": [
