@@ -18,12 +18,12 @@ export default {
         name: "Framework",
         file: require("./docs/framework/index.md"),
         title: "Factor's VueJS Framework - Routes, Stores, Views"
-      },
-      {
-        doc: "hosting-and-deployment",
-        file: require("./docs/hosting/index.md"),
-        title: "Hosting and Deploying Your App"
       }
+      // {
+      //   doc: "hosting-and-deployment",
+      //   file: require("./docs/hosting/index.md"),
+      //   title: "Hosting and Deploying Your App"
+      // }
     ],
     base: "guide"
   },
