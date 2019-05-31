@@ -684,11 +684,6 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@factor/core-theme@^0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@factor/core-theme/-/core-theme-0.1.9.tgz#4778b8f3ebe2001ef9b8df35500089f170e81925"
-  integrity sha512-b1zOznrgUnzxmlWEj9+F5kjq35hAZAjqtdF95JdaOKr7vyQ4HsLVmi67bUGrpB5DXJYd/7pVI4aXwHgCbl7slQ==
-
 "@firebase/app-types@0.3.10", "@firebase/app-types@^0.3.8":
   version "0.3.10"
   resolved "https://registry.yarnpkg.com/@firebase/app-types/-/app-types-0.3.10.tgz#8f6d24d80bf833622b53ed26eaa04cfa9dd0f2f3"
