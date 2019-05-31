@@ -9,9 +9,8 @@
     "target": ["app", "build"]
   },
   "dependencies": {
-    "@factor/<%= scope %>": ">=0.0.7"<% if (scope != 'app') { %>, 
-    "@factor/stack-fire": ">=0.0.7"<% } %> <% if(scope != 'cms'){ %>,
-    "@factor/ui": "^0.2.0", 
-    "@factor/cms-metatags": "^0.2.0"<% } %>
+    "@factor/<%= scope %>": ">0.3.0" <% if(scope != 'cms'){ %>,
+    "@factor/ui": ">0.3.0", 
+    "@factor/cms-metatags": ">0.3.0"<% } %>
   }
 }

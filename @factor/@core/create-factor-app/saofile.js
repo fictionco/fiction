@@ -35,7 +35,7 @@ const config = {
       type: "list",
       choices: [
         {
-          name: "Full CMS (@factor/cms) - Framework + CMS Features and Dashboard",
+          name: "Dashboard (@factor/cms) - Framework + Post/Pages, Auth and Dashboard",
           value: "cms"
         },
         {
