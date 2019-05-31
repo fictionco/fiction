@@ -35,11 +35,11 @@ const config = {
       type: "list",
       choices: [
         {
-          name: "Dashboard (@factor/cms) - Framework + Post/Pages, Auth and Dashboard",
+          name: "Complete (@factor/cms) - Core + Dashboard",
           value: "cms"
         },
         {
-          name: "Basic Framework (@factor/app) - Build System and Vue SSR Framework",
+          name: "Core (@factor/app) - Vue/Node Framework and Server",
           value: "app"
         }
       ],

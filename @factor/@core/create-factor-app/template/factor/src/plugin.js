@@ -15,7 +15,7 @@ module.exports.default = Factor => {
           path: "/example",
           component: () => import("./v-example"),
           meta: {
-            style: { backgroundImage: this.pageBg, backgroundColor: "#111111", color: "#ffffff" }
+            style: { backgroundImage: this.pageBg, color: "#ffffff" }
           }
         })
 

@@ -20,9 +20,7 @@ export default {
     "site-footer": () => import("./footer")
   },
   data() {
-    return {
-      isClient: false
-    }
+    return {}
   },
   computed: {
     siteName() {
@@ -38,25 +36,15 @@ export default {
       const style = {}
 
       if (this.$route.meta.style) {
-        const {
-          backgroundImage,
-          backgroundColor,
-          color
-        } = this.$route.meta.style
+        const { backgroundImage, color } = this.$route.meta.style
 
         if (color) style.color = color
-
-        if (backgroundImage && this.isClient)
-          style.backgroundImage = `url(${backgroundImage})`
-
-        if (backgroundColor) style.backgroundColor = backgroundColor
+        if (backgroundImage) style.backgroundImage = `url(${backgroundImage})`
       }
       return style
     }
   },
-  mounted() {
-    this.isClient = true
-  },
+
   metatags() {
     return {
       titleSuffix: ` | ${this.siteName}`
