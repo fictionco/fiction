@@ -17,6 +17,20 @@ const files = [
 },
 {
   "version": "0.3.0",
+  "name": "@factor/app-fallbacks",
+  "priority": 100,
+  "target": [
+    "build",
+    "cloud"
+  ],
+  "extend": "plugin",
+  "cwd": false,
+  "main": "plugin.js",
+  "id": "appFallbacks",
+  "mainFile": "@factor/app-fallbacks"
+},
+{
+  "version": "0.3.0",
   "name": "@factor/core-db",
   "priority": 100,
   "target": [
@@ -29,20 +43,6 @@ const files = [
   "main": "plugin.js",
   "id": "db",
   "mainFile": "@factor/core-db"
-},
-{
-  "version": "0.3.0",
-  "name": "@factor/app-fallbacks",
-  "priority": 100,
-  "target": [
-    "build",
-    "cloud"
-  ],
-  "extend": "plugin",
-  "cwd": false,
-  "main": "plugin.js",
-  "id": "appFallbacks",
-  "mainFile": "@factor/app-fallbacks"
 },
 {
   "version": "0.3.1",
@@ -87,7 +87,7 @@ const files = [
   "mainFile": "@factor/cms-user-role-endpoint"
 },
 {
-  "version": "0.3.2",
+  "version": "0.3.3",
   "name": "@factor/theme-docs",
   "priority": 100,
   "target": [

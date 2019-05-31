@@ -2,14 +2,14 @@
 const files = {}
 files["events"] = require("@factor/core-events").default
 files["appDriver"] = require("@factor/app").default
-files["setting"] = require("@factor/app-settings").default
+files["appFallbacks"] = require("@factor/app-fallbacks").default
 files["serverDev"] = require("@factor/build-server-dev").default
 files["setup"] = require("@factor/build-setup").default
 files["webpack"] = require("@factor/build-webpack").default
 files["db"] = require("@factor/core-db").default
 files["endpoint"] = require("@factor/core-endpoint").default
-files["appFallbacks"] = require("@factor/app-fallbacks").default
 files["server"] = require("@factor/core-server").default
+files["setting"] = require("@factor/app-settings").default
 files["storage"] = require("@factor/core-storage").default
 files["markdown"] = require("@factor/tools-markdown").default
 files["time"] = require("@factor/tools-time").default

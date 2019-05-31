@@ -4,30 +4,38 @@ export default Factor => {
   return new (class {
     constructor() {
       this.appSettings = {}
-
-      const merged = [{}]
-      if (Factor.FACTOR_ENV == "app") {
-        try {
-          const themeSettings = require("@theme/settings").default
-          merged.push(themeSettings)
-        } catch (error) {
-          this.handleError(error)
-        }
-
-        try {
-          const sourceSettings = require("@/settings").default
-          merged.push(sourceSettings)
-        } catch (error) {
-          this.handleError(error)
-        }
-        this.appSettings = merge.all(merged, { arrayMerge: (destinationArray, sourceArray, options) => sourceArray })
-      }
+      this.setup()
     }
 
-    // https://stackoverflow.com/questions/21740309/how-to-check-in-node-if-module-exists-and-if-exists-to-load/21740439
-    handleError(error) {
-      if (error instanceof Error && error.code === "MODULE_NOT_FOUND") {
-      } else throw error
+    getSet(directory) {
+      let request
+      if (directory == "theme") {
+        request = require.context("@theme", false, /settings\.js/)
+      } else {
+        request = require.context("@", false, /settings\.js/)
+      }
+
+      const valArray = request
+        .keys()
+        .map(request)
+        .map(_ => _.default)
+
+      return valArray[0]
+    }
+
+    async setup() {
+      const merged = [{}]
+      if (Factor.FACTOR_ENV == "app") {
+        const themeSettings = this.getSet("@theme")
+        merged.push(themeSettings)
+
+        const sourceSettings = this.getSet("@")
+        merged.push(sourceSettings)
+
+        this.appSettings = merge.all(merged.filter(_ => _), {
+          arrayMerge: (destinationArray, sourceArray, options) => sourceArray
+        })
+      }
     }
 
     get(name) {

@@ -4,7 +4,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.add("content-routes", _ => {
-        this.pageBg = this.randomBg()
+        this.pageBg = require(`./img/bg1.jpg`)
 
         _.push({
           path: "/",
@@ -21,16 +21,6 @@ module.exports.default = Factor => {
 
         return _
       })
-    }
-
-    randomBg() {
-      const bgImages = [
-        require(`./img/bg1.jpg`),
-        require(`./img/bg2.jpg`),
-        require(`./img/bg3.jpg`),
-        require(`./img/bg4.jpg`)
-      ]
-      return bgImages[Math.floor(Math.random() * bgImages.length)]
     }
   })()
 }
