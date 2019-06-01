@@ -9,7 +9,7 @@
     "id": "user"
   },
   "version": "0.3.1",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

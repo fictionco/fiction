@@ -216,7 +216,7 @@ export default Factor => {
         name: "@factor/cloud-directory",
         description: "************ GENERATED FILE ************",
         version,
-        license: "GPL-3.0",
+        license: "MIT",
         scripts: {
           deps: "yarn install --ignore-engines"
         },

@@ -4,7 +4,7 @@
   "description": "Factor standard stack based on open-source software.",
   "main": "plugin.js",
   "author": "Fiction.com",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

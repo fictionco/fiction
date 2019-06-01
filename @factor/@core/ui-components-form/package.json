@@ -2,7 +2,7 @@
   "name": "@factor/ui-components-form",
   "version": "0.3.0",
   "main": "plugin.js",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

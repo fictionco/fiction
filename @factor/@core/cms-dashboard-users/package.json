@@ -6,7 +6,7 @@
     ]
   },
   "version": "0.3.0",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public",
     "id": "cmsUsers"

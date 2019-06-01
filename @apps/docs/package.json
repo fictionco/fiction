@@ -4,7 +4,7 @@
   "url": "https://factor.dev",
   "main": "src/plugin.js",
   "author": "Fiction.com",
-  "license": "GPL-3.0",
+  "license": "MIT",
 
   "scripts": {},
   "factor": {
