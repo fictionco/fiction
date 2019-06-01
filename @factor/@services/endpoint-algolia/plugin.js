@@ -21,14 +21,12 @@ module.exports.default = Factor => {
           return _
         })
 
-        Factor.$filters.add("cli-data-index", (_, program) => {
-          return [..._, this.dataIndexJson(program)]
-        })
+        Factor.$filters.add("cli-run-data-index", _ => this.dataIndexJson(_))
       }
       return
     }
 
-    async dataIndexJson(program) {
+    async dataIndexJson({ program, inquirer }) {
       const { collection, file } = program
 
       if (!collection || !file) {

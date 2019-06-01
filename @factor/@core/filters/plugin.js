@@ -99,10 +99,14 @@ module.exports = Factor => {
       return filter
     }
 
-    async run(name, args = {}) {
-      const callbacks = this.apply(name, [], args)
+    // Add callbacks into an array of promises, meant to be used with $filters.run
+    callback(id, callback, options = {}) {
+      this.add(id, (_ = [], args) => [..._, callback(args)], options)
+    }
 
-      return await Promise.all(callbacks)
+    // Run array of promises and await the result
+    async run(id, args = {}) {
+      return await Promise.all(this.apply(id, [], args))
     }
   })()
 }

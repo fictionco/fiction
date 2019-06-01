@@ -14,12 +14,9 @@ module.exports.default = Factor => {
       })
 
       if (Factor.FACTOR_ENV == "build") {
-        Factor.$filters.add("cli-data-export", (_, program) => {
-          return [..._, this.dataExport(program)]
-        })
-        Factor.$filters.add("cli-data-import", (_, program) => {
-          return [..._, this.dataImport(program)]
-        })
+        Factor.$filters.callback("cli-run-data-export", _ => this.dataExport(_))
+        Factor.$filters.callback("cli-run-data-import", _ => this.dataImport(_))
+
         this.addConfig()
       } else {
         if (Factor.FACTOR_ENV == "cloud") {
@@ -32,7 +29,7 @@ module.exports.default = Factor => {
       }
     }
 
-    async dataImport(program) {
+    async dataImport({ program, inquirer }) {
       const fs = require("fs-extra")
       const { resolve } = require("path")
       const { collection, file } = program
@@ -74,7 +71,7 @@ module.exports.default = Factor => {
       return data
     }
 
-    async dataExport({ collection }) {
+    async dataExport({ program, inquirer }) {
       if (!collection) {
         throw new Error("No collection name provided.")
       }

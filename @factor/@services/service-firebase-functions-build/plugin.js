@@ -35,7 +35,7 @@ export default Factor => {
       this.dependencies = {}
       this.localDependencies = {}
 
-      Factor.$filters.add("cli-runners", _ => {
+      Factor.$filters.add("cli-concurrent", _ => {
         _.push({
           command: `npx firebase use ${Factor.$config.setting("env")} && npx firebase serve`,
           name: "Endpoints"

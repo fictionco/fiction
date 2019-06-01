@@ -188,7 +188,7 @@ const cli = async () => {
     }
 
     async cliRunners() {
-      const r = Factor.$filters.apply(`cli-runners`, [
+      const r = Factor.$filters.apply(`cli-concurrent`, [
         {
           command: `factor serve ${process.env.NODE_ENV} ${this.passedArguments.join(" ")}`,
           name: "Build"

@@ -6,33 +6,45 @@ A key part of using Factor is working with its command-link-interface (CLI). The
 
 #### Development
 
-`$ yarn factor dev`
+```bash
+$ yarn factor dev
+```
 
 This command starts your local development server and runs Factor in development mode. 
 
 #### Extensions
 
-`$ yarn factor run [hook]`
+```bash
+$ yarn factor run [hook]
+```
 
 This command runs various operations that have been added by extensions and components. Reference their documentation for specifics, read about creating a custom command below.
 
-`$ yarn factor setup`
+```bash
+$ yarn factor setup
+```
 
 Starts the Factor setup utility. The setup utility is used to configure setting and is commonly extended by plugins to help reduce guesswork in setting things up. 
 
 #### Production and Serving
 
-`$ yarn factor start`
+```bash
+$ yarn factor start
+```
 
 This will build your application for distrubution and serve it in `production` mode. 
 
 > This is useful in hosting environments for building and then serving. Also for testing the production version of your app.
 
-`$ yarn factor serve [environment]`
+```bash
+$ yarn factor serve [environment]
+```
 
 Serves your app. Also takes an environment variable (production/development). 
 
-`$ yarn factor build`
+```bash
+$ yarn factor build
+```
 
 Builds the production application bundle.
 
@@ -44,7 +56,9 @@ Builds the production application bundle.
 
 ### Help Command
 
-`$ yarn factor help`
+```bash
+$ yarn factor help
+```
 
 Displays available commands in the CLI (from both the framework and your installed extensions).
 
@@ -78,9 +92,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       
-      Factor.$filters.add("cli-run-database-import", (_, {program, inquirer}) => {
-        return [..._, this.databaseImport()] // must return an array of promises
-      })
+      Factor.$filters.callback("cli-run-database-import", args => this.databaseImport(args))
     }
 
     
