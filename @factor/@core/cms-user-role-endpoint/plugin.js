@@ -19,7 +19,7 @@ module.exports.default = Factor => {
         returns: "Object (New Claims)"
       })
 
-      Factor.$filters.add("factor-setup-utility", _ => {
+      Factor.$filters.add("cli-add-setup", _ => {
         const setupAdmins = {
           name: "Admins - Add new admin users",
           value: "admins",

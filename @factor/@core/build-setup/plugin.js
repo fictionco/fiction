@@ -24,7 +24,7 @@ module.exports.default = Factor => {
         ]
       })
 
-      const setups = Factor.$filters.apply("factor-setup-utility", [
+      const setups = Factor.$filters.apply("cli-add-setup", [
         {
           name: "Stack - Setup and verify your services and APIs",
           value: "stack",

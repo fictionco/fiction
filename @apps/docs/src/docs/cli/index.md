@@ -15,7 +15,9 @@ This command starts your local development server and runs Factor in development
 #### Extensions
 
 ```bash
-$ yarn factor run [hook]
+# If a callback is added as "cli-run-my-custom-cli"
+
+$ yarn factor run my-custom-cli
 ```
 
 This command runs various operations that have been added by extensions and components. Reference their documentation for specifics, read about creating a custom command below.
