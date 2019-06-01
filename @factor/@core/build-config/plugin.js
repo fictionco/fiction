@@ -20,7 +20,7 @@ module.exports = () => {
 
   const DEFAULT_CONFIG = {
     baseDir,
-    argv,
+    ...argv,
     env
   }
 

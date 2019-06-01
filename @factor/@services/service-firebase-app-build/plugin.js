@@ -65,11 +65,6 @@ export default Factor => {
 
         return _
       })
-      Factor.$stack.cover({
-        provider: "firebase",
-        description: "Adds a CLI task that uses 'firebase deploy'",
-        id: "deploy-app"
-      })
 
       Factor.$filters.add("cli-tasks-deploy-app", _ => {
         _.push({

@@ -5,6 +5,7 @@ const concurrently = require("concurrently")
 const execa = require("execa")
 const listr = require("listr")
 const program = require("commander")
+
 const pkg = require("./package")
 const consola = require("consola")
 
@@ -14,6 +15,8 @@ process.maxOldSpaceSize = 8000
 const cli = async () => {
   return new (class {
     constructor() {
+      this.passedArguments = process.argv.filter(_ => _.includes("--"))
+
       this.installationTasks = [
         { command: "yarn", args: ["install"], title: "Installing Dependencies" },
         { command: "factor", args: ["run", "create-loaders"], title: "Creating Extension Loaders" }
@@ -30,39 +33,26 @@ const cli = async () => {
         await this.runTasks(this.installationTasks, { exitOnError: false })
       }
 
-      Factor.$headers = args
       process.env.NODE_ENV = env
       require("@factor/build-extend")(Factor)
-
-      Factor.$stack.register({
-        id: "deploy-app",
-        description: "Deploys app to hosting and cloud environments.",
-        args: "{env, args [from cli]}"
-      })
-
-      Factor.$stack.register({
-        id: "endpoint-emulator",
-        description: "Emulates serverless endpoints locally"
-      })
-
-      if (install) {
-        await this.callbacks("verify-app", { env, ...args })
-      }
 
       return
     }
 
     setupProgram() {
       this.program = program
+      this.program.allowUnknownOption(true) // options added by filters
       this.program
         .version(pkg.version)
         .description("CLI for managing Factor data, builds and deployments")
-        .option("-e, --env <env>", "Set the Node environment. Default: 'development'")
+        .option("-p, --port <port>", "set server port. default: 3000")
+        .option("-e, --env <env>", "set the node environment. default: development")
 
       this.program
         .command("dev")
         .description("Start development server")
         .action(async args => {
+          console.log("this.passedArguments", this.passedArguments)
           await this.extend({ env: "development", ...args, install: true })
           await this.cliTasks()
 
@@ -105,17 +95,17 @@ const cli = async () => {
           await this.createDist(args)
         })
 
-      this.program
-        .command("deploy [env]")
-        .description("Build and deploy production app")
-        .option("--no-build", "Prevent distribution build (for testing)")
-        .action(async (env, args) => {
-          await this.createDist({ env, ...args })
+      // this.program
+      //   .command("deploy [env]")
+      //   .description("Build and deploy production app")
+      //   .option("--no-build", "Prevent distribution build (for testing)")
+      //   .action(async (env, args) => {
+      //     await this.createDist({ env, ...args })
 
-          await this.callbacks("deploy-app", { env: env || "development", ...args })
-          const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
-          await this.runTasks(t)
-        })
+      //     await this.callbacks("deploy-app", { env: env || "development", ...args })
+      //     const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
+      //     await this.runTasks(t)
+      //   })
 
       this.program
         .command("setup [filter]")
@@ -155,13 +145,19 @@ const cli = async () => {
         .command("help")
         .description("Show CLI commands and options")
         .action(args => {
-          this.program.help()
+          this.program.outputHelp(_ => {
+            return _
+          })
+          // console.log()
+          // console.log("Examples:")
+          // console.log("  $ custom-help --help")
+          // console.log("  $ custom-help -h")
         })
 
       this.program.parse(process.argv)
 
       const { args } = this.program
-      //  console.log("----PROG", this.program.args.forEach(_ => console.log(typeof _)))
+
       if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
         console.log("No commands found. Use 'factor help' for info on using the CLI")
       }
@@ -194,7 +190,7 @@ const cli = async () => {
     async cliRunners() {
       const r = Factor.$filters.apply(`cli-runners`, [
         {
-          command: `factor serve ${process.env.NODE_ENV}`,
+          command: `factor serve ${process.env.NODE_ENV} ${this.passedArguments.join(" ")}`,
           name: "Build"
         }
       ])

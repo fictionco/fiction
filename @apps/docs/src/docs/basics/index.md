@@ -1,6 +1,10 @@
 # Getting Started With Factor
 
+
+
 ## Factor CLI
+
+
 
 ## Configuring Your App
 

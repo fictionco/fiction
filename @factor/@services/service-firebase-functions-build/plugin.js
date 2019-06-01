@@ -15,11 +15,6 @@ export default Factor => {
         return _
       })
 
-      Factor.$stack.cover({
-        provider: "firebase",
-        description: "Uses 'firebase serve' and creates local emulator",
-        id: "endpoint-emulator"
-      })
       // Don't create folder if required credentials aren't setup
       const { databaseURL, serviceAccount } = Factor.$config.setting("firebase") || {}
 

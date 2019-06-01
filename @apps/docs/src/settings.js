@@ -18,6 +18,12 @@ export default {
         name: "Framework",
         file: require("./docs/framework/index.md"),
         title: "Factor's VueJS Framework - Routes, Stores, Views"
+      },
+      {
+        doc: "cli",
+        name: "Commands and CLI",
+        file: require("./docs/cli/index.md"),
+        title: "Using Factor CLI and Creating Custom Commands"
       }
       // {
       //   doc: "hosting-and-deployment",

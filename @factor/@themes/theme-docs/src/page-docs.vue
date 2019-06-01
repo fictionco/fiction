@@ -90,9 +90,7 @@ export default {
     padding: 3em 0;
     padding-left: 50px;
     margin: 0 auto;
-    @media (max-width: 1300px) {
-      margin-left: 290px;
-    }
+
     @media (max-width: 767px) {
       margin: 0 auto;
       padding: 3em 0;
