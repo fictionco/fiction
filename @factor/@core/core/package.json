@@ -3,7 +3,7 @@
   "description": "This is the parent package for all Factor core packages.",
   "version": "0.3.3",
   "main": "plugin.js",
-  "license": "MIT",
+  "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },

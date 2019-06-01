@@ -7,7 +7,7 @@
     "id": "storage"
   },
   "version": "0.3.0",
-  "license": "MIT",
+  "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },

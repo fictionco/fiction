@@ -2,7 +2,7 @@
   "name": "@factor/theme-cicero",
   "version": "0.3.0",
   "main": "src/plugin.js",
-  "license": "MIT",
+  "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },

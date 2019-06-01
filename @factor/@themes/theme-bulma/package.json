@@ -2,7 +2,7 @@
   "name": "@factor/theme-bulma",
   "version": "0.3.4",
   "main": "src/plugin.js",
-  "license": "MIT",
+  "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },

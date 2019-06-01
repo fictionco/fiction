@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "workspaces": ["@apps/*", "@fiction/*", "@factor/*", "@factor/@*/*", "@demo/*"],
   "private": true,
-  "license": "MIT",
+  "license": "GPL-2.0",
   "scripts": {
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
