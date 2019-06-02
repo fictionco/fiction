@@ -34,7 +34,7 @@ Starts the Factor setup utility. The setup utility is used to configure setting 
 $ yarn factor start
 ```
 
-This will build your application for distrubution and serve it in `production` mode. 
+This will build your application for distribution and serve it in `production` mode. 
 
 > This is useful in hosting environments for building and then serving. Also for testing the production version of your app.
 

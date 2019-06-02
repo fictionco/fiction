@@ -21,9 +21,15 @@ export default {
       },
       {
         doc: "cli",
-        name: "Commands and CLI",
+        name: "Commands",
         file: require("./docs/cli/index.md"),
         title: "Using Factor CLI and Creating Custom Commands"
+      },
+      {
+        doc: "filters",
+        name: "Filters",
+        file: require("./docs/filters/index.md"),
+        title: "Factor Filters and Callbacks API"
       }
       // {
       //   doc: "hosting-and-deployment",

@@ -52,7 +52,6 @@ const cli = async () => {
         .command("dev")
         .description("Start development server")
         .action(async args => {
-          console.log("this.passedArguments", this.passedArguments)
           await this.extend({ env: "development", ...args, install: true })
           await this.cliTasks()
 
