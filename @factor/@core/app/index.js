@@ -14,7 +14,6 @@ module.exports.default = Factor => {
     }
 
     routes() {
-      console.log("RUOTEW")
       Factor.$filters.add("routes", _ => {
         _.push({
           path: "/",

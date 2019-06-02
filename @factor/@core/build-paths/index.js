@@ -44,7 +44,6 @@ module.exports.default = Factor => {
     assignFolderNames() {
       const _ = {}
       _.dist = "dist"
-      _.source = "src"
       _.generated = ".factor"
       _.static = "static"
 
@@ -54,7 +53,10 @@ module.exports.default = Factor => {
     assignPaths() {
       const _ = {}
       _.app = this.baseDir
-      _.source = resolve(this.baseDir, this.folder("source"))
+      const { main = "index.js" } = require(resolve(this.baseDir, "package.json"))
+
+      _.source = dirname(resolve(this.baseDir, main))
+
       _.dist = resolve(this.baseDir, this.folder("dist"))
       _.generated = resolve(this.baseDir, this.folder("generated"))
       _.config = resolve(this.baseDir)
