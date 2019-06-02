@@ -1,13 +1,10 @@
 {
   "name": "@factor/filters",
   "version": "0.3.0",
-  "main": "plugin.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "factor": {
-    "priority": 10
-  },
+  "factor": {},
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

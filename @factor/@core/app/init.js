@@ -5,14 +5,14 @@ import extendApp from "@factor/app-extend"
 import { createStore } from "@factor/app-store"
 import { createRouter } from "@factor/app-router"
 
-export default ({ target }) => {
+export default () => {
   // Extend with plugins, happens before router and store so we can add hooks for them
-  const loader = extendApp(Factor, target)
+  const loader = extendApp(Factor)
 
   loader.initializeApp()
 
-  const store = createStore({ target })
-  const router = createRouter({ target })
+  const store = createStore()
+  const router = createRouter()
 
   // Extend with mixins, etc... happens after router and store
   loader.mixinApp()

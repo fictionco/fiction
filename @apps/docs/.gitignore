@@ -1,7 +1,6 @@
 node_modules
 dist
 factor-secrets.*
-cloud
 serverless
 *.log
 *firebase*

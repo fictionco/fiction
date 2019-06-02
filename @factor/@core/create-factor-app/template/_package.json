@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "<%= description %>",
   "author": "<%= author %>",
-  "main": "src/plugin.js",
+  "main": "src/index.js",
   "private": true,
   "factor": {
-    "target": ["app", "build"]
+    "target": ["app", "server"]
   },
   "dependencies": {
     "@factor/<%= scope %>": ">0.3.0" <% if(scope != 'cms'){ %>,

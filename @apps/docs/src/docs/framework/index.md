@@ -142,7 +142,7 @@ When working with Factor apps it's important to know the standard file structure
   - factor-secrets.json # top-secret configuration (don't commit)
   - src/ # source
     - (components, css, imgs)
-    - plugin.js # entry file
+    - index.js # entry file
     - settings.js # theme customization file
     - static/ # static files e.g. favicon
   - .factor/  # generated files
@@ -153,7 +153,7 @@ When working with Factor apps it's important to know the standard file structure
 
 ```
 
-## `Plugin.js` and Filters System
+## `Index.js` and Filters System
 
 A key concept in Factor is the ability for extensions, components and files to inject functionality elsewhere in the Factor system. This mechanism is called Factor's `filters` system and  is based on a similar approach in WordPress called "actions and filters."
 
@@ -176,15 +176,15 @@ const myList = Factor.$filters.apply('my-filter-id', 'my-initial-value' )
 console.log(myList) // my-edited-value
 ```
 
-#### Plugin.js
-Each application, theme, plugin, etc includes a plugin.js entry file which is listed as the "main" inside of each's package.json. 
+#### Index.js
+Each application, theme, plugin, etc includes a index.js entry file which is listed as the "main" inside of each's package.json. 
 
-The plugin.js file serves as the primary entry point for each module as well as the controller for how it behaves. For example, this file is typically where you'll add routes, stores, global-components, and modifications to other parts of the overall system. 
+The index.js file serves as the primary entry point for each module as well as the controller for how it behaves. For example, this file is typically where you'll add routes, stores, global-components, and modifications to other parts of the overall system. 
 
-The structure of a Factor plugin.js looks like this: 
+The structure of a Factor index.js looks like this: 
 
 ```javascript
-// plugin.js
+// index.js
 export default Factor => {
   export new class{
     constructor(){
@@ -209,7 +209,7 @@ View components are just regular Vue components, only they are designed to wrap 
 Most front-end views in Factor are added via the simple `content-routes` filter.  This is a parent route, which uses the required `content.vue` component as a wrapper for all front-end routes. To add a front end view, like a home page or a tour, you'll just do the following: 
 
 ```javascript
-// plugin.js
+// index.js
 export default Factor => {
   constructor(){
     this.addRoutes()
@@ -252,7 +252,7 @@ Adding all the custom components you'd like to your app is a straight-forward pr
 It's possible to add components globally to your app so they are available without having to specifically import them. To do this, we just use Factor's components filter: 
 
 ```javascript
-// plugin.js
+// index.js
 export default Factor => {
   constructor(){
     this.addComponents()
@@ -297,7 +297,7 @@ So here we will discuss:
 Factor provides a convenient and standard way of adding custom stores for your plugin or app. 
 
 ```javascript
-// plugin.js
+// index.js
 export default Factor => {
   constructor(){
     this.addStore()

@@ -1,15 +1,13 @@
 {
   "name": "@factor/plugin-testing-cypress-build",
-  "main": "plugin.js",
+
   "version": "0.3.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": [
-      "build"
-    ],
+    "target": ["server"],
     "id": "cypress"
   },
   "dependencies": {

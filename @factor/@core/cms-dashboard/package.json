@@ -1,16 +1,13 @@
 {
   "name": "@factor/cms-dashboard",
   "version": "0.3.3",
-  "main": "plugin.js",
+
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": [
-      "app",
-      "build"
-    ],
+    "target": ["app", "server"],
     "id": "dashboard"
   },
   "dependencies": {

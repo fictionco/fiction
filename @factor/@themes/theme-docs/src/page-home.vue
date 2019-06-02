@@ -80,7 +80,7 @@ export default {
       position: absolute;
       height: 5000px;
       bottom: 0;
-      background: linear-gradient(270deg, #fff, #fff);
+      background: #FFF;
       left: 0;
       right: 0;
     }

@@ -1,9 +1,7 @@
 {
   "name": "@factor/core-storage",
   "factor": {
-    "target": [
-      "app"
-    ],
+    "target": ["app"],
     "id": "storage"
   },
   "version": "0.3.0",
@@ -11,7 +9,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "plugin.js",
   "dependencies": {
     "blueimp-load-image": "^2.20.1"
   },

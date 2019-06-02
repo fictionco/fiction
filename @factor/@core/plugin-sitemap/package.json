@@ -1,15 +1,12 @@
 {
   "name": "@factor/plugin-sitemap",
   "version": "0.3.0",
-  "main": "plugin.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": [
-      "build"
-    ]
+    "target": ["server"]
   },
   "dependencies": {
     "sitemap": "^2.1.0"

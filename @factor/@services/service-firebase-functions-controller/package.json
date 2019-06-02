@@ -1,14 +1,11 @@
 {
   "name": "@factor/service-firebase-functions-controller",
   "version": "0.3.3",
-  "main": "plugin.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "factor": {
-    "//": "This is called in the entry file in the cloud environment."
-  },
+  "factor": {},
   "dependencies": {
     "@factor/cloud-extend": "^0.3.3",
     "@factor/service-firebase-firestore": "^0.3.0",

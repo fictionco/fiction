@@ -1,13 +1,11 @@
 {
   "name": "@factor/cms-user-role",
   "version": "0.3.0",
-  "main": "plugin.js",
+
   "license": "GPL-2.0",
   "factor": {
     "id": "privsRequest",
-    "target": [
-      "app"
-    ]
+    "target": ["app"]
   },
   "dependencies": {
     "@factor/cms-user-role-endpoint": "^0.3.0"

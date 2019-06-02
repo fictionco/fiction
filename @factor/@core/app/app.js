@@ -7,8 +7,8 @@ import init from "./init"
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export function createApp({ target }) {
-  const appComponents = init({ target })
+export function createApp() {
+  const appComponents = init()
   const { router, store } = appComponents
 
   // create the app instance.

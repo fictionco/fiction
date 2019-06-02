@@ -2,7 +2,6 @@
   "name": "@factor/stack-fire",
   "description": "A Factor core services stack using Firebase and Algolia.",
   "version": "0.3.3",
-  "main": "plugin.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -11,9 +10,8 @@
     "id": "fireStack",
     "extend": "stack",
     "target": {
-      "cloud": "cloud",
       "app": "",
-      "build": "build"
+      "server": "server"
     }
   },
   "dependencies": {

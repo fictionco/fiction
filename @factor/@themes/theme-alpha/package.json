@@ -1,18 +1,14 @@
 {
   "name": "@factor/theme-alpha",
   "version": "0.3.4",
-  "main": "src/plugin.js",
+  "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
     "extend": "theme",
-    "target": [
-      "themes",
-      "app",
-      "build"
-    ]
+    "target": ["server", "app"]
   },
   "dependencies": {
     "@factor/cms": "^0.3.4",

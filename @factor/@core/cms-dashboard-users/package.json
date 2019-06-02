@@ -1,9 +1,7 @@
 {
   "name": "@factor/cms-dashboard-users",
   "factor": {
-    "target": [
-      "app"
-    ]
+    "target": ["app"]
   },
   "version": "0.3.0",
   "license": "GPL-2.0",
@@ -11,6 +9,5 @@
     "access": "public",
     "id": "cmsUsers"
   },
-  "main": "plugin.js",
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

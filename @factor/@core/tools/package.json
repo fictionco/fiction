@@ -8,7 +8,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "plugin.js",
   "dependencies": {
     "@factor/tools-markdown": "^0.3.0",
     "@factor/tools-time": "^0.3.0",

@@ -1,17 +1,14 @@
 {
   "name": "@factor/app",
   "version": "0.3.4",
-  "main": "plugin.js",
+  "main": "index.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
     "id": "appDriver",
-    "target": [
-      "build"
-    ],
-    "priority": 60
+    "target": ["server", "app"]
   },
   "dependencies": {
     "@factor/app-extend": "^0.3.0",

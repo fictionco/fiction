@@ -1,14 +1,11 @@
 {
   "name": "@factor/build-files",
   "version": "0.3.3",
-  "main": "plugin.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "factor": {
-    "priority": 20
-  },
+  "factor": {},
   "dependencies": {
     "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.4",

@@ -1,15 +1,12 @@
 {
   "name": "@factor/service-firebase-firestore",
   "version": "0.3.0",
-  "main": "plugin.js",
+
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "factor": {
-    "service": "db",
-    "provider": "firebase"
-  },
+  "factor": {},
   "dependencies": {
     "@factor/service-firebase-app": "^0.3.0"
   },

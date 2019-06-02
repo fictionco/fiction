@@ -9,8 +9,6 @@
   "search.exclude": {
     "**/factor_modules/**": true,
     "**/.factor/**": true,
-    "**/cloud/**": true,
-
     "**/.ref": true,
     "*.lock": true,
     "*.log": true

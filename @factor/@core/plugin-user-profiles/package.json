@@ -1,15 +1,12 @@
 {
   "name": "@factor/plugin-user-profiles",
   "factor": {
-    "target": [
-      "app"
-    ]
+    "target": ["app"]
   },
   "version": "0.3.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "main": "plugin.js",
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

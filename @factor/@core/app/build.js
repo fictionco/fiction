@@ -1,4 +1,4 @@
-module.exports = Factor => {
+module.exports.default = Factor => {
   return new (class {
     constructor() {
       const { resolve } = require("path")

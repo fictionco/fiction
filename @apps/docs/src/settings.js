@@ -68,7 +68,7 @@ export default {
   },
 
   footer: {
-    headline: "Released under the GPLv3 License",
+    headline: "Released under the GPL-2 License",
     legal: "Copyright &copy; 2017-2019 Fiction.com, Inc.",
     logo: () => import("./el/logo-fiction")
   },

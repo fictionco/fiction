@@ -89,7 +89,7 @@ The inquirer instance is useful to help create a dynamic interface for getting a
 Example: 
 
 ```javascript
-// plugin.js
+// index.js
 module.exports.default = Factor => {
   return new (class {
     constructor() {

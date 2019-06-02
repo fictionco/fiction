@@ -2,7 +2,7 @@
   "name": "@apps/docs",
   "version": "1.0.0",
   "url": "https://factor.dev",
-  "main": "src/plugin.js",
+  "main": "src/index.js",
   "author": "Fiction.com",
   "license": "GPL-2.0",
 

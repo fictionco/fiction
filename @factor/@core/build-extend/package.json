@@ -1,7 +1,6 @@
 {
   "name": "@factor/build-extend",
   "version": "0.3.3",
-  "main": "plugin.js",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -11,7 +10,7 @@
     "@factor/build-files": "^0.3.3",
     "@factor/build-paths": "^0.3.1",
     "@factor/build-transpiler": "^0.3.0",
-    "@factor/cloud-config": "^0.3.0",
+    "@factor/server-config": "^0.3.0",
     "@factor/filters": "^0.3.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
