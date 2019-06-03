@@ -1,4 +1,4 @@
-const { dirname, resolve } = require("path")
+const { dirname, basename, resolve } = require("path")
 const { pathExistsSync } = require("fs-extra")
 const glob = require("glob").sync
 module.exports.default = Factor => {
@@ -23,9 +23,12 @@ module.exports.default = Factor => {
           const src = Factor.$paths.get("source")
 
           const appPath = this._fileExists(req.replace("#", src))
+          const appRootPath = this._fileExists(resolve(src, basename(req)))
 
           if (appPath) {
             resource.request = appPath
+          } else if (appRootPath) {
+            resource.request = appRootPath
           } else {
             let filePath = ""
             if (this.themes.length > 0) {
@@ -62,8 +65,8 @@ module.exports.default = Factor => {
 
     _fileExists(path) {
       const basePath = path.split("?")[0]
-      const query = path.split("?")[1] || ""
-      if (query && pathExistsSync(basePath)) {
+      //const query = path.split("?")[1] || ""
+      if (pathExistsSync(basePath)) {
         return path
       } else {
         const files = glob(`${basePath}.*`)

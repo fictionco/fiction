@@ -31,7 +31,6 @@ export function createRouter() {
 
   Factor.$router = router
 
-  console.log("Factor.FACTOR_SSR", Factor.FACTOR_SSR)
   if (Factor.FACTOR_SSR == "client") {
     router.beforeEach(clientRouterBefore)
     router.afterEach(clientRouterAfter)

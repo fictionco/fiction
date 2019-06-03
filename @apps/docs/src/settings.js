@@ -27,9 +27,13 @@ export default {
       },
       {
         doc: "filters",
-        name: "Filters",
         file: require("./docs/filters/index.md"),
         title: "Factor Filters and Callbacks API"
+      },
+      {
+        doc: "themes",
+        file: require("./docs/themes/index.md"),
+        title: "Using and Creating Factor Themes"
       }
       // {
       //   doc: "hosting-and-deployment",

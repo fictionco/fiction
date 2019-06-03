@@ -17,13 +17,9 @@
   </div>
 </template>
 <script>
-import settings from "#/settings"
 export default {
   components: {
     "site-brand": () => import("./el/brand")
-  },
-  data() {
-    return { settings }
   }
 }
 </script>
@@ -52,7 +48,7 @@ export default {
     > a {
       letter-spacing: -0.03em;
       font-size: 0.9em;
-      color: #506677;
+      color: var(--color-text);
       margin: 0 1em;
       @media (max-width: 767px) {
         margin: 0 1em;
@@ -62,16 +58,16 @@ export default {
       }
       &:hover,
       &.router-link-active {
-        color: #0496ff;
+        color: var(--color-primary);
       }
       &:active {
-        color: #ff0076;
+        color: var(--color-secondary);
       }
       &.factor-link {
         .fa {
           margin-right: 4px;
           opacity: 0.7;
-          color: #0496ff;
+          color: var(--color-primary);
         }
       }
     }

@@ -86,10 +86,13 @@ export default {
   }
 
   .scroller {
-    max-width: 750px;
+    max-width: 700px;
     padding: 3em 0;
     padding-left: 50px;
     margin: 0 auto;
+    @media (max-width: 1200px) {
+      margin-left: 250px;
+    }
 
     @media (max-width: 767px) {
       margin: 0 auto;

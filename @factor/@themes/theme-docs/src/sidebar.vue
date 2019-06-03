@@ -41,7 +41,6 @@
   </div>
 </template>
 <script>
-import settings from "#/settings"
 import docs from "./docs-handler"
 export default {
   props: {
@@ -52,8 +51,7 @@ export default {
       scroller: null,
       headers: [],
       allHeaders: [],
-      activeHash: this.$route.hash,
-      settings
+      activeHash: this.$route.hash
     }
   },
   computed: {
@@ -69,6 +67,8 @@ export default {
     $route: function(to, from) {
       if (to.path != from.path) {
         this.setPage()
+      } else if (to.hash != from.hash) {
+        this.activeHash = to.hash
       }
     }
   },
@@ -226,7 +226,7 @@ export default {
   ul.menu-root {
     padding-left: 0;
     .primary-doc-link {
-      font-weight: 600;
+      font-weight: 700;
     }
     a {
       color: inherit;
@@ -245,10 +245,12 @@ export default {
     .nav-link {
       font-size: 0.85em;
       margin-left: 1em;
-      font-weight: 400;
+      font-weight: 600;
       &.sub {
-        margin-left: 1.5em;
-        font-size: 0.8em;
+        font-size: 0.9em;
+        opacity: 0.8;
+        margin-left: 2em;
+        font-weight: 500;
       }
     }
     .scroll-menu {

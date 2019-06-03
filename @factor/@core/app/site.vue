@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="factor-app" :class="ui">
+  <div id="app" class="factor-app">
     <router-view />
     <component :is="component" v-for="(component, k) in injectedComponents" :key="k" />
   </div>
@@ -17,6 +17,25 @@ export default {
         this.$route.matched.find(_ => _.meta.ui) || {}
 
       return `ui-${ui}`
+    }
+  },
+  watch: {
+    ui: {
+      handler: function(v) {
+        if (typeof window != "undefined") {
+          const el = this.$jquery("html")
+          const uiClass = `ui-${v}`
+
+          if (!el.hasClass(uiClass)) {
+            el.removeClass((index, className) => {
+              const reg = new RegExp("/^ui/g")
+              return (className.match(reg) || []).join(" ")
+            })
+
+            el.addClass(uiClass)
+          }
+        }
+      }
     }
   },
 

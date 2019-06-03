@@ -120,11 +120,11 @@ export default {
 
 // inside a component: 
 const myValue = this.$setting.get('val') // yes
-const myNestedValue = this.$setting.get('val.nested') // no
+const myNestedValue = this.$setting.get('nested.val') // no
 
 // elsewhere
 const myValue = Factor.$setting.get('val') // yes
-const myNestedValue = Factor.$setting.get('val.nested') // no
+const myNestedValue = Factor.$setting.get('nested.val') // no
 
 ```
 

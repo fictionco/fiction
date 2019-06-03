@@ -1,7 +1,13 @@
 {
   "name": "@factor/wrapper",
   "version": "0.0.1",
-  "workspaces": ["@apps/*", "@fiction/*", "@factor/*", "@factor/@*/*", "@demo/*"],
+  "workspaces": [
+    "@apps/*",
+    "@fiction/*",
+    "@factor/*",
+    "@factor/@*/*",
+    "@demo/*"
+  ],
   "private": true,
   "license": "GPL-2.0",
   "scripts": {

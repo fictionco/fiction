@@ -69,7 +69,8 @@ code {
 .docs-entry {
   /* Code blocks */
   pre {
-    background: #f7f8f9;
+    background: #f7f9fb;
+    box-shadow: var(--input-shadow);
     border-radius: 5px;
     position: relative;
     padding: 1.5em;
