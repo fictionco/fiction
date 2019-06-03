@@ -246,11 +246,14 @@ export default {
       font-size: 0.85em;
       margin-left: 1em;
       font-weight: 600;
+      display: block;
       &.sub {
         font-size: 0.9em;
         opacity: 0.8;
         margin-left: 2em;
         font-weight: 500;
+        line-height: 1.3;
+        padding: 4px 0;
       }
     }
     .scroll-menu {
