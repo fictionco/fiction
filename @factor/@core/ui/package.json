@@ -1,7 +1,7 @@
 {
   "name": "@factor/ui",
   "description": "Dependency bundle",
-  "version": "0.3.3",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,10 +10,10 @@
     "id": "ui"
   },
   "dependencies": {
-    "@factor/tools": "^0.3.0",
-    "@factor/ui-components-form": "^0.3.0",
-    "@factor/ui-components-standard": "^0.3.0",
-    "@factor/ui-directives-standard": "^0.3.3"
+    "@factor/tools": "^0.3.7",
+    "@factor/ui-components-form": "^0.3.7",
+    "@factor/ui-components-standard": "^0.3.7",
+    "@factor/ui-directives-standard": "^0.3.7"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

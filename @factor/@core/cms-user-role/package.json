@@ -1,14 +1,15 @@
 {
   "name": "@factor/cms-user-role",
-  "version": "0.3.0",
-
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "factor": {
     "id": "privsRequest",
-    "target": ["app"]
+    "target": [
+      "app"
+    ]
   },
   "dependencies": {
-    "@factor/cms-user-role-endpoint": "^0.3.0"
+    "@factor/cms-user-role-endpoint": "^0.3.7"
   },
   "publishConfig": {
     "access": "public"

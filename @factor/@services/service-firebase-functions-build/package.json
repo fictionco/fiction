@@ -1,6 +1,6 @@
 {
   "name": "@factor/service-firebase-functions-build",
-  "version": "0.3.0",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,7 +10,7 @@
     "firebase": "Add packages required for Functions here so they don't throw errors...."
   },
   "dependencies": {
-    "@factor/service-firebase-app": "^0.3.0",
+    "@factor/service-firebase-app": "^0.3.7",
     "@firebase/app-types": "^0.4.0",
     "del": "^4.1.1",
     "execa": "^1.0.0",

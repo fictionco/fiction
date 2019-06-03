@@ -1,13 +1,15 @@
 {
   "name": "@factor/cms-posts",
-  "version": "0.3.0",
-
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": ["app", "server"],
+    "target": [
+      "app",
+      "server"
+    ],
     "id": "posts"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

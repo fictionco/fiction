@@ -1,17 +1,19 @@
 {
   "name": "@factor/cms-signin",
-  "version": "0.3.3",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": ["app"],
+    "target": [
+      "app"
+    ],
     "id": "signin"
   },
   "dependencies": {
-    "@factor/core": "^0.3.3",
-    "@factor/ui": "^0.3.3"
+    "@factor/core": "^0.3.7",
+    "@factor/ui": "^0.3.7"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

@@ -1,16 +1,19 @@
 {
   "name": "@factor/cms-user",
   "factor": {
-    "target": ["app", "server"],
+    "target": [
+      "app",
+      "server"
+    ],
     "id": "user"
   },
-  "version": "0.3.1",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "@factor/cms-user-auth": "^0.3.0"
+    "@factor/cms-user-auth": "^0.3.7"
   }
 }

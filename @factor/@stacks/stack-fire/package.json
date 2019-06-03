@@ -1,7 +1,7 @@
 {
   "name": "@factor/stack-fire",
   "description": "A Factor core services stack using Firebase and Algolia.",
-  "version": "0.3.3",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -15,17 +15,17 @@
     }
   },
   "dependencies": {
-    "@factor/endpoint-algolia": "^0.3.0",
-    "@factor/service-algolia": "^0.3.0",
-    "@factor/service-firebase-app-build": "^0.3.0",
-    "@factor/service-firebase-auth": "^0.3.0",
-    "@factor/service-firebase-firestore": "^0.3.0",
-    "@factor/service-firebase-functions-build": "^0.3.0",
-    "@factor/service-firebase-functions-controller": "^0.3.3",
-    "@factor/service-firebase-functions-request": "^0.3.0",
-    "@factor/service-firebase-hosting": "^0.3.0",
-    "@factor/service-firebase-storage": "^0.3.0",
-    "@factor/service-google-auth": "^0.3.0"
+    "@factor/endpoint-algolia": "^0.3.7",
+    "@factor/service-algolia": "^0.3.7",
+    "@factor/service-firebase-app-build": "^0.3.7",
+    "@factor/service-firebase-auth": "^0.3.7",
+    "@factor/service-firebase-firestore": "^0.3.7",
+    "@factor/service-firebase-functions-build": "^0.3.7",
+    "@factor/service-firebase-functions-controller": "^0.3.7",
+    "@factor/service-firebase-functions-request": "^0.3.7",
+    "@factor/service-firebase-hosting": "^0.3.7",
+    "@factor/service-firebase-storage": "^0.3.7",
+    "@factor/service-google-auth": "^0.3.7"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

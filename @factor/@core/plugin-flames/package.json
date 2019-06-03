@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-posts-flames",
-  "version": "0.3.0",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"

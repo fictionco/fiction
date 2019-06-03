@@ -1,10 +1,12 @@
 {
   "name": "@factor/cms-user-role-endpoint",
-  "version": "0.3.0",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "factor": {
     "id": "privs",
-    "target": ["server"]
+    "target": [
+      "server"
+    ]
   },
   "publishConfig": {
     "access": "public"

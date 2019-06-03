@@ -1,13 +1,13 @@
 {
   "name": "@factor/service-firebase-hosting",
-  "version": "0.3.0",
+  "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {},
   "dependencies": {
-    "@factor/service-firebase-app": "^0.3.0"
+    "@factor/service-firebase-app": "^0.3.7"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

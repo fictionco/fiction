@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-bulma",
-  "version": "0.3.4",
+  "version": "0.3.7",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -8,11 +8,14 @@
   },
   "factor": {
     "extend": "theme",
-    "target": ["server", "app"]
+    "target": [
+      "server",
+      "app"
+    ]
   },
   "dependencies": {
-    "@factor/cms": "^0.3.4",
-    "@factor/stack-fire": "^0.3.3"
+    "@factor/cms": "^0.3.7",
+    "@factor/stack-fire": "^0.3.7"
   },
   "devDependencies": {
     "bulma": "^0.7.4",
