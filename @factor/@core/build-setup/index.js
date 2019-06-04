@@ -6,13 +6,11 @@ const figures = require("figures")
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("cli-setup", (_, program) => {
-        return [..._, this.runSetup()]
-      })
+      Factor.$filters.callback("cli-setup", _ => this.runSetup(_))
     }
 
     // Setup entry. Give basic information and create an extensible select option for setup.
-    async runSetup() {
+    async runSetup({ program, inquirer }) {
       let answers
 
       Factor.$log.formatted({
@@ -49,7 +47,7 @@ module.exports.default = Factor => {
 
       const setupRunner = setups.find(_ => _.value == answers.setupItem)
 
-      const write = await setupRunner.callback(inquirer)
+      const write = await setupRunner.callback({ program, inquirer })
 
       await this.maybeWriteConfig(write)
     }

@@ -28,9 +28,7 @@ module.exports.default = Factor => {
     }
 
     addFilters() {
-      Factor.$filters.add("create-distribution-app", (_, args) => {
-        return [..._, this.buildProduction(args)]
-      })
+      Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
       Factor.$filters.add("webpack-config", args => {
         return this.getConfig(args)
       })
@@ -219,7 +217,7 @@ module.exports.default = Factor => {
         output: {
           publicPath: Factor.$paths.get("dist")
         },
-        plugins: [new FriendlyErrorsWebpackPlugin()],
+        plugins: [],
         performance: { hints: false } // Warns about large dev file sizes,
       }
     }

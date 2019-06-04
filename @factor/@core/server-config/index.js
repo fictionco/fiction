@@ -1,26 +1,24 @@
 const merge = require("deepmerge")
 const { existsSync } = require("fs-extra")
+const NODE_ENV = process.env.NODE_ENV == "development" ? "development" : "production"
+const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.env =
-        process.env.NODE_ENV == "development" || Factor.FACTOR_CONFIG.env == "development"
-          ? "development"
-          : "production"
-
       // Match the public config to what is available in the webpack app
       // Should NOT include private/secret config
       Factor.$filters.add("webpack-define", _ => {
+        _["process.env.NODE_ENV"] = JSON.stringify(NODE_ENV)
+        _["process.env.FACTOR_ENV"] = JSON.stringify(FACTOR_ENV)
         _["process.env.FACTOR_APP_CONFIG"] = JSON.stringify(this.publicSettings())
         return _
       })
-      this.registerGlobalSettings()
+
       this.initialize()
     }
 
     getConfig(scope) {
-      const configId = `config-${scope}`
-      let conf = Factor.$filters.apply(configId, null, { env: this.env })
+      let conf = Factor.$filters.apply(`config-${scope}`, null, { NODE_ENV, FACTOR_ENV })
 
       if (!conf) {
         const configFilePath = Factor.$paths.get(`config-file-${scope}`)
@@ -41,18 +39,25 @@ module.exports.default = Factor => {
     initialize() {
       const publicConfig = this.getConfig("public")
       const privateConfig = this.getConfig("private")
+
       const extensions = this.extensions()
+
       const configObjectsPublic = [
         Factor.FACTOR_CONFIG,
         publicConfig.config,
-        publicConfig[this.env],
+        publicConfig[NODE_ENV],
+        publicConfig[FACTOR_ENV],
         extensions
       ].filter(_ => _)
 
       this._settingsPublic = merge.all(configObjectsPublic)
-      this._settingsPublic = this.ensureDefaults(this._settingsPublic)
 
-      const configObjectsPrivate = [privateConfig.config, privateConfig[this.env], process.env].filter(_ => _)
+      const configObjectsPrivate = [
+        privateConfig.config,
+        privateConfig[NODE_ENV],
+        privateConfig[FACTOR_ENV],
+        process.env
+      ].filter(_ => _)
 
       this._settingsPrivate = merge.all(configObjectsPrivate)
 
@@ -63,36 +68,12 @@ module.exports.default = Factor => {
       return this._settingsPublic
     }
 
-    ensureDefaults(config) {
-      const { url, title } = config
-      if (!url) {
-        config.url = config.homepage || Factor.$paths.localhostUrl()
-      }
-
-      if (!title) {
-        config.title = Factor.$utils.toLabel(config.name)
-      }
-
-      return config
-    }
-
     settings() {
       return this._settings
     }
 
     setting(key) {
       return this._settings[key]
-    }
-
-    registerGlobalSettings() {
-      // Factor.$stack.registerSettings({
-      //   title: "Global",
-      //   settings: {
-      //     group: "settings",
-      //     config: ["url"],
-      //     envs: "multi-optional"
-      //   }
-      // })
     }
   })()
 }

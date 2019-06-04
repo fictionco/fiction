@@ -3,23 +3,24 @@ const LRU = require("lru-cache")
 const express = require("express")
 
 const { createBundleRenderer } = require("vue-server-renderer")
+const NODE_ENV = process.env.NODE_ENV || "production"
+const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
+const IS_PRODUCTION = NODE_ENV === "production"
 
 // Add for Firebase
 global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 module.exports.default = Factor => {
-  const PORT = process.env.PORT || Factor.$config.setting("port") || 3000
-  const env = process.env.NODE_ENV || "production"
-  const PRODUCTION = env === "production"
+  const PORT = process.env.PORT || Factor.$config.setting("PORT") || 3000
 
   return new (class {
     constructor() {
       // After all extensions/filters added
       // Needed for webpack and dev server
       Factor.$filters.add("create-server", (_, args) => {
-        const { env: mode = "production", serve = true } = args
+        const { serve = true } = args
 
-        return [..._, this.startServer({ mode, serve })]
+        return [..._, this.startServer({ serve })]
       })
     }
 
@@ -35,7 +36,7 @@ module.exports.default = Factor => {
     // Endpoint Helper method, return function that processes (req, res)
     requestHandler() {
       return async (request, response) => {
-        const args = { mode: "production", serve: false }
+        const args = { serve: false }
         const server = await this.startServer(args)
         return server(request, response)
       }
@@ -74,7 +75,7 @@ module.exports.default = Factor => {
     }
 
     async startServer(args) {
-      const { mode = "production", serve = true, url } = args
+      const { serve = true, url } = args
 
       this.server = express()
 
@@ -84,7 +85,7 @@ module.exports.default = Factor => {
 
       this.logging()
 
-      if (mode == "production") {
+      if (NODE_ENV == "production") {
         const { template, bundle, clientManifest } = await this.ssrFiles(args)
 
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
@@ -108,7 +109,17 @@ module.exports.default = Factor => {
 
         this.localListenRoutine(this.server).listen(PORT, () => {
           const url = Factor.$paths.localhostUrl()
-          Factor.$log.success(`Server @[${url}] - ${env}`)
+
+          const message = {
+            title: "Development Server",
+            lines: [
+              { title: "URL", value: url, indent: true },
+              { title: "NODE_ENV", value: NODE_ENV, indent: true },
+              { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
+            ]
+          }
+          Factor.$log.formatted(message)
+
           require("open")(url)
         })
       }
@@ -149,7 +160,7 @@ module.exports.default = Factor => {
 
     serveStatic(path, cache) {
       return express.static(path, {
-        maxAge: cache && PRODUCTION ? 1000 * 60 * 60 * 24 : 0
+        maxAge: cache && IS_PRODUCTION ? 1000 * 60 * 60 * 24 : 0
       })
     }
 

@@ -18,6 +18,7 @@
     "expand-tilde": "^2.0.2",
     "figures": "^3.0.0",
     "get-stream": "^5.1.0",
+    "inquirer": "^6.3.1",
     "listr": "^0.14.3",
     "opener": "^1.5.1",
     "rxjs": "^6.5.1",

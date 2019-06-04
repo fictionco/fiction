@@ -52,9 +52,9 @@ Builds the production application bundle.
 
 ### Standard Options
 
-`--port` - set the desired port to serve your application
+`--PORT` - Set the desired port to serve your application. *Defaults to `3000`.*
 
-`--env` - set the environment to run the command in. E.g. production/development
+`--ENV` - Set the FACTOR_ENV environmental variable. *Defaults to `NODE_ENV`.*
 
 ### Help Command
 

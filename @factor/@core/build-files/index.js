@@ -20,7 +20,7 @@ module.exports.default = Factor => {
       if (Factor.FACTOR_TARGET == "server") {
         this.addWatchers()
 
-        Factor.$filters.callback("cli-create-loaders", _ => this.generateLoaders(_))
+        Factor.$filters.callback("cli-run-create-loaders", _ => this.generateLoaders(_))
       }
     }
 

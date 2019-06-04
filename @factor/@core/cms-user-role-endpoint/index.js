@@ -23,7 +23,7 @@ module.exports.default = Factor => {
         const setupAdmins = {
           name: "Admins - Add new admin users",
           value: "admins",
-          callback: async inquirer => {
+          callback: async ({ program, inquirer }) => {
             const choices = Object.keys(this.possibleRoles).map(_ => {
               return {
                 name: `${_} (${this.possibleRoles[_]})`,

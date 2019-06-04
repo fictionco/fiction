@@ -5,7 +5,7 @@ const concurrently = require("concurrently")
 const execa = require("execa")
 const listr = require("listr")
 const program = require("commander")
-
+const inquirer = require("inquirer")
 const pkg = require("./package")
 const consola = require("consola")
 
@@ -17,26 +17,30 @@ const cli = async () => {
     constructor() {
       this.passedArguments = process.argv.filter(_ => _.includes("--"))
 
-      this.installationTasks = [
-        { command: "yarn", args: ["install"], title: "Installing Dependencies" },
-        { command: "factor", args: ["run", "create-loaders"], title: "Creating Extension Loaders" }
-      ]
-      this.tasks = []
-
       this.setupProgram()
     }
 
     async extend(args = {}) {
-      const { env = "development", install = false, serve = false } = args
+      const { parent, ...rest } = args
+      const program = { ...parent, ...rest }
+      const { NODE_ENV = "development", install = false } = program
 
       if (install) {
-        await this.runTasks(this.installationTasks, { exitOnError: false })
+        await this.runTasks(
+          [
+            { command: "yarn", args: ["install"], title: "Installing Dependencies" },
+            { command: "factor", args: ["run", "create-loaders"], title: "Creating Extension Loaders" }
+          ],
+          { exitOnError: false }
+        )
       }
 
-      process.env.NODE_ENV = env
+      process.env.NODE_ENV = NODE_ENV
+      process.env.FACTOR_ENV = program.ENV || NODE_ENV
+
       require("@factor/build-extend")(Factor)
 
-      return
+      return program
     }
 
     setupProgram() {
@@ -45,44 +49,43 @@ const cli = async () => {
       this.program
         .version(pkg.version)
         .description("CLI for managing Factor data, builds and deployments")
-        .option("-p, --port <port>", "set server port. default: 3000")
-        .option("-e, --env <env>", "set the node environment. default: development")
+        .option("--PORT <PORT>", "set server port. default: 3000")
+        .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
 
       this.program
         .command("dev")
         .description("Start development server")
         .action(async args => {
-          await this.extend({ env: "development", ...args, install: true })
+          await this.extend({ NODE_ENV: "development", install: true, ...args })
           await this.cliTasks()
-
           this.cliRunners()
         })
 
       this.program
-        .command("start [env]")
-        .option("--build", "Start without building dist files")
+        .command("start")
         .description("Start production build on local server")
-        .action(async (env = "production", args) => {
-          await this.extend({ env, ...args, install: false })
+        .action(async args => {
+          await this.extend({ NODE_ENV: "production", install: false, ...args })
 
-          this.tasks.push({
-            command: "factor",
-            args: ["build", env],
-            title: "Generating Distribution App"
-          })
-          await this.cliTasks()
+          await this.cliTasks([
+            {
+              command: "factor",
+              args: ["build"],
+              title: "Generating Distribution App"
+            }
+          ])
 
           this.cliRunners()
         })
 
       this.program
-        .command("serve [env]")
+        .command("serve [NODE_ENV]")
         .description("Create local server")
-        .action(async (env, args) => {
-          env = env || process.env.NODE_ENV || "production"
+        .action(async (NODE_ENV, args) => {
+          NODE_ENV = NODE_ENV || "production"
 
-          await this.extend({ env, ...args, serve: true })
-          await this.callbacks("create-server", { env, ...args })
+          await this.extend({ NODE_ENV, ...args })
+          await this.run("create-server", { NODE_ENV, ...args })
         })
 
       this.program
@@ -98,29 +101,18 @@ const cli = async () => {
         .command("setup [filter]")
         .description("Setup and verify your Factor app")
         .action(async (filter, args) => {
-          const { parent, ...rest } = args
-          const params = { env: "development", ...parent, ...rest, install: true }
-
-          filter = filter || "setup"
-
-          await this.extend(params)
-          await this.callbacks(`cli-${filter}`, params)
+          const program = await this.extend({ NODE_ENV: "development", filter, install: true, ...args })
+          await this.extend(program)
+          await this.run(`cli-setup`, { inquirer, program })
         })
 
       this.program
         .command("run <filter>")
         .description("Run CLI utilities based on filter name (see documentation)")
-        .option("-f, --file <file path>", "Path to a file (relative to cwd)")
-        .option("-c, --collection <collection name>", "The name of a datastore collection")
-        .option("-a, --action <action name>", "The name or ID of the action to perform.")
-        .option("-i, --id <id>", "ID identifier for a post or user")
         .action(async (filter, args) => {
-          const { parent, ...rest } = args
-          const params = { env: "development", ...parent, ...rest }
-
-          await this.extend(params)
+          const program = await this.extend({ NODE_ENV: "development", ...args })
           try {
-            await this.callbacks(`cli-${filter}`, params)
+            await this.run(`cli-run-${filter}`, { inquirer, program })
             Factor.$log.success(`Successfully ran "${filter}"\n\n`)
           } catch (error) {
             Factor.$log.error(error)
@@ -153,36 +145,30 @@ const cli = async () => {
     }
 
     async createDist(args) {
-      const { build = true } = args
-      await this.extend({ ...args, install: true })
-
-      if (build) {
-        await this.callbacks("create-distribution-app", args)
-      }
-
+      const program = await this.extend({ NODE_ENV: "production", install: true, ...args })
+      await this.run("create-distribution-app", program)
       await this.cliTasks()
     }
 
-    setNodeEnvironment() {
-      if (!process.env.NODE_ENV) {
-        process.env.NODE_ENV = this.program.env ? this.program.env : "development"
-      }
-    }
-
-    async cliTasks() {
-      const t = Factor.$filters.apply("cli-tasks", this.tasks)
-      await this.runTasks(t)
-    }
-
     async cliRunners() {
-      const r = Factor.$filters.apply(`cli-concurrent`, [
-        {
-          command: `factor serve ${process.env.NODE_ENV} ${this.passedArguments.join(" ")}`,
-          name: "Build"
-        }
-      ])
+      const commandArgs = [process.env.NODE_ENV, ...this.passedArguments]
+
+      const r = Factor.$filters.apply(
+        `cli-concurrent`,
+        [
+          {
+            command: `factor serve ${commandArgs.join(" ")}`,
+            name: "Server"
+          }
+        ],
+        commandArgs
+      )
 
       this.startRunners(r)
+    }
+
+    async cliTasks(t = []) {
+      await this.runTasks(Factor.$filters.apply("cli-tasks", t))
     }
 
     async runTasks(t, opts = {}) {
@@ -244,14 +230,14 @@ const cli = async () => {
 
       try {
         await concurrently(r, {
-          prefix: chalk.bold(`{name}`) + " " + figures.arrowRight
+          prefix: chalk.dim(`{name} ${figures.arrowRight}`)
         })
       } catch (error) {
         consola.error(error)
       }
     }
 
-    async callbacks(id, args) {
+    async run(id, args) {
       try {
         await Factor.$filters.run(id, args)
       } catch (error) {
