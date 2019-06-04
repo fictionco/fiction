@@ -1,4 +1,4 @@
-# Config and Setup
+# Environment and Config
 
 Factor provides a robust configuration system that works in harmony with most common approaches. Below we'll discuss the approach and conventions to setting up Factor config.
 
@@ -80,10 +80,10 @@ To run Factor using a custom environment, just use the `--env` option in the CLI
 
 ```bash
 # This will run NODE_ENV=development and FACTOR_ENV=testing
-$ yarn factor dev --env=testing
+$ yarn factor dev --ENV=testing
 
 # This will run NODE_ENV=production and FACTOR_ENV=heroku
-$ yarn factor serve production --env=heroku
+$ yarn factor serve production --ENV=heroku
 ```
 
 ## Using Config Values
