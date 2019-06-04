@@ -48,15 +48,17 @@ Config object example:
 }
 ```
 
-
-
 ## Factor Environments
 
 Factor supports two environment "types." One which we'll call the **build environment** uses the reserved `NODE_ENV` environmental variable and only supports two values: development and production. 
 
 The other supports these two values plus additional values which may or not "inherit" from others. For example, "testing" or "staging" might inherit from the development configuration but change certain values. 
 
-### Build Environment `NODE_ENV`
+### Build Environmen
+
+```javascript 
+process.env.NODE_ENV
+```
 
 The two build environments determine how to build and bundle your app: 
 
@@ -67,7 +69,11 @@ The two build environments determine how to build and bundle your app:
   - Optimized for size and speed
   - If you run `factor build` or `factor serve`, then you will be in the "production" build environment.
 
-### Factor Environment `FACTOR_ENV`
+### Factor Environment
+
+```javascript 
+process.env.FACTOR_ENV
+```
 
 The Factor environment is used to determine the behavior of Factor across different environments. For example, in production, development, testing, staging, etc.. 
 
@@ -76,7 +82,7 @@ To create a new environment, simply add the key to the config object inside the 
 - The value of this variable defaults to the same value as `NODE_ENV`. 
 - The configuration values for `FACTOR_ENV` are merged with the configuration values for `NODE_ENV`.
   
-To run Factor using a custom environment, just use the `--env` option in the CLI. For example: 
+To run Factor using a custom environment, just use the `--ENV` option in the CLI. For example: 
 
 ```bash
 # This will run NODE_ENV=development and FACTOR_ENV=testing
@@ -103,6 +109,13 @@ In your code you can easily retrieve configuration values using Factor's `$confi
 // In your code
 const myVariable = Factor.$config.setting("my_value") // 123
 
+// Inside Factor components
+const myVariable = this.$config.setting("my_value") // 123
+```
+
+```html
+<!-- Inside Templates -->
+<my-component :value="$config.setting('my_value')"></my-component>
 ```
 
 ### Dot "." Notation
