@@ -211,6 +211,7 @@ module.exports.default = Factor => {
     }
 
     development() {
+      //new FriendlyErrorsWebpackPlugin()
       return {
         mode: "development",
         devtool: "cheap-module-eval-source-map",

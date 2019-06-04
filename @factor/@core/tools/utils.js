@@ -20,7 +20,7 @@ module.exports.default = Factor => {
         let setting
 
         k.forEach(_ => {
-          if (setting && typeof setting[_] == "object" && setting[_]) {
+          if (setting && typeof setting == "object" && setting[_]) {
             setting = setting[_]
           } else if (typeof settings[_] != "undefined") {
             setting = settings[_]

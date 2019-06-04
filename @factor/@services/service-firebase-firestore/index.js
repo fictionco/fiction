@@ -63,7 +63,7 @@ module.exports.default = Factor => {
       list.forEach(_ => {
         data.push(_.data())
       })
-      console.log("daty", data)
+
       return data
     }
 

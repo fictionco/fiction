@@ -45,6 +45,7 @@
     </svg>
   </div>
 </template>
+
 <style lang="less">
 .logo-fiction {
   display: inline-block;

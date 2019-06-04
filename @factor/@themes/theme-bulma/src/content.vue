@@ -71,7 +71,6 @@ export default {
   },
   computed: {
     nav() {
-      console.log("this.$route.meta", this.$route.meta)
       return typeof this.$route.meta.nav != "undefined"
         ? this.$route.meta.nav
         : true

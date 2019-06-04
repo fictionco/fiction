@@ -234,7 +234,7 @@ export default Factor => {
 
     async getUserData(userData) {
       // const currentUser = this.client.auth().currentUser
-      // console.log("CU", currentUser)
+
       // userData.email = currentUser.email
 
       const fb = await this.firebaseToFactorUser()
