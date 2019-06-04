@@ -1,5 +1,3 @@
-const merge = require("deepmerge")
-
 export default Factor => {
   return new (class {
     constructor() {
@@ -36,26 +34,12 @@ export default Factor => {
         const sourceSettings = this.getSet("@")
         merged.push(sourceSettings)
 
-        this.appSettings = merge.all(merged.filter(_ => _), {
-          arrayMerge: (destinationArray, sourceArray, options) => sourceArray
-        })
+        this.appSettings = Factor.$utils.deepMerge(merged)
       }
     }
 
-    get(name) {
-      const k = name.split(".")
-
-      let setting = null
-
-      k.forEach((_, index) => {
-        if (setting && setting[_]) {
-          setting = setting[_]
-        } else if (this.appSettings[_]) {
-          setting = this.appSettings[_]
-        }
-      })
-
-      return setting
+    get(key) {
+      return Factor.$utils.dotSetting({ key, settings: this.appSettings })
     }
   })()
 }

@@ -7,9 +7,7 @@ module.exports.default = Factor => {
     }
 
     setting(key) {
-      const settings = this.settings()
-
-      return settings[key]
+      return Factor.$utils.dotSetting({ key, settings: this.settings() })
     }
   })()
 }

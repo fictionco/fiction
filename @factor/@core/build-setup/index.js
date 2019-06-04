@@ -1,6 +1,5 @@
 const inquirer = require("inquirer")
 const { pathExistsSync, writeFileSync } = require("fs-extra")
-const merge = require("deepmerge")
 const chalk = require("chalk")
 const figures = require("figures")
 module.exports.default = Factor => {
@@ -160,14 +159,14 @@ module.exports.default = Factor => {
       if (write.public) {
         const configFile = Factor.$paths.get("config-file-public")
         const existingConfig = pathExistsSync(configFile) ? require(configFile) : {}
-        const conf = merge.all([existingConfig, write.public])
+        const conf = Factor.$utils.deepMerge([existingConfig, write.public])
         writeFileSync(configFile, JSON.stringify(conf, null, "  "))
       }
 
       if (write.private) {
         const secretsFile = Factor.$paths.get("config-file-private")
         const existingSecrets = pathExistsSync(secretsFile) ? require(secretsFile) : {}
-        const sec = merge.all([existingSecrets, write.private])
+        const sec = Factor.$utils.deepMerge([existingSecrets, write.private])
         writeFileSync(secretsFile, JSON.stringify(sec, null, "  "))
       }
     }

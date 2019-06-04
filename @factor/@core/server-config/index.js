@@ -1,4 +1,3 @@
-const merge = require("deepmerge")
 const { existsSync } = require("fs-extra")
 const NODE_ENV = process.env.NODE_ENV == "development" ? "development" : "production"
 const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
@@ -50,7 +49,7 @@ module.exports.default = Factor => {
         extensions
       ].filter(_ => _)
 
-      this._settingsPublic = merge.all(configObjectsPublic)
+      this._settingsPublic = Factor.$utils.deepMerge(configObjectsPublic)
 
       const configObjectsPrivate = [
         privateConfig.config,
@@ -59,9 +58,9 @@ module.exports.default = Factor => {
         process.env
       ].filter(_ => _)
 
-      this._settingsPrivate = merge.all(configObjectsPrivate)
+      this._settingsPrivate = Factor.$utils.deepMerge(configObjectsPrivate)
 
-      this._settings = merge.all([this._settingsPublic, this._settingsPrivate])
+      this._settings = Factor.$utils.deepMerge([this._settingsPublic, this._settingsPrivate])
     }
 
     publicSettings() {
@@ -73,7 +72,7 @@ module.exports.default = Factor => {
     }
 
     setting(key) {
-      return this._settings[key]
+      return Factor.$utils.dotSetting({ key, settings: this._settings })
     }
   })()
 }

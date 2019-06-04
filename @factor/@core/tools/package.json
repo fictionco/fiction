@@ -12,6 +12,7 @@
     "@factor/tools-markdown": "^0.3.7",
     "@factor/tools-time": "^0.3.7",
     "axios": "^0.18.0",
+    "deepmerge": "^3.2.0",
     "detect-node": "^2.0.4",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",

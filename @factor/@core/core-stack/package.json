@@ -7,15 +7,12 @@
   },
   "factor": {
     "priority": 15,
-    "target": [
-      "core"
-    ]
+    "target": ["core"]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
     "chalk": "^2.4.2",
     "cli-highlight": "^2.1.1",
-    "deepmerge": "^3.2.0",
     "figures": "^3.0.0",
     "fs-extra": "^7.0.1",
     "inquirer": "^6.3.1",

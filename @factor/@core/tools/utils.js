@@ -2,6 +2,35 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {}
 
+    // Deep merge an array of objects into a single object
+    // Replaces arrays instead of concats
+    deepMerge(items) {
+      return require("deepmerge").all(items.filter(_ => _), {
+        arrayMerge: (destinationArray, sourceArray, options) => sourceArray
+      })
+    }
+
+    // Parse settings using dot notation
+    dotSetting({ key, settings }) {
+      if (typeof settings[key] != "undefined") {
+        return settings[key]
+      } else {
+        const k = key.split(".")
+
+        let setting
+
+        k.forEach(_ => {
+          if (setting && typeof setting[_] == "object" && setting[_]) {
+            setting = setting[_]
+          } else if (typeof settings[_] != "undefined") {
+            setting = settings[_]
+          }
+        })
+
+        return setting
+      }
+    }
+
     // Parse to standard utility lists
     // Ideal for passing around config data and lists (inputs, etc.. )
     parseList(list = [], options = {}) {
