@@ -94,7 +94,7 @@ $ yarn factor serve production --ENV=heroku
 
 ## Using Config Values
 
-### $config.setting()
+### Getting Values
 
 In your code you can easily retrieve configuration values using Factor's `$config.setting()` function. Example: 
 ```json
@@ -118,7 +118,7 @@ const myVariable = this.$config.setting("my_value") // 123
 <my-component :value="$config.setting('my_value')"></my-component>
 ```
 
-### Dot "." Notation
+### Dot Notation
 
 When referencing variables, we use a dot notation to help translate between JS objects and text references to values. A dot represents a key-value relationship. Therefore, a key defined in config.json may be created like this: 
 
