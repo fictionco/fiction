@@ -29,7 +29,7 @@ pre[class*="language-"] {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
-  font-weight: 600;
+  font-weight: 300;
 }
 
 @media print {
@@ -57,19 +57,24 @@ pre[class*="language-"] {
   opacity: 0.7;
 }
 
-.token.property,
 .token.tag,
 .token.boolean,
 .token.number,
 .token.constant,
 .token.symbol,
 .token.deleted,
-.token.punctuation,
 .token.function,
 .token.class-name {
   color: #5458d2;
 }
 
+.token.punctuation {
+  color: #5490f5;
+}
+
+.token.property {
+  color: #2c506c;
+}
 .token.selector,
 .token.attr-name,
 .token.string,

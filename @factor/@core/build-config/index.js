@@ -13,11 +13,11 @@ module.exports.default = Factor => {
 
   let { factor: USER_CONFIG = {}, ...pkg } = require(resolve(baseDir, "package"))
 
-  const configFilePath = resolve(baseDir, "factor-config.json")
+  const configFilePath = resolve(baseDir, "config.json")
   let configFile = {}
 
   if (existsSync(configFilePath)) {
-    configFile = require(resolve(baseDir, "factor-config.json"))
+    configFile = require(resolve(baseDir, "config.json"))
   }
 
   const configObjects = [configFile[this.env], configFile.config, { env }].filter(_ => typeof _ != "undefined")

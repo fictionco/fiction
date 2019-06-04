@@ -7,7 +7,7 @@ module.exports.default = (Factor, CLOUD_CONFIG) => {
   const { baseDir, env, setup, endpointHandler } = CLOUD_CONFIG
   return new (class {
     constructor() {
-      Factor.FACTOR_ENV = "cloud"
+      Factor.FACTOR_TARGET = "cloud"
       Factor.FACTOR_CONFIG = this.config()
       this.setup()
     }

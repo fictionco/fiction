@@ -1,7 +1,7 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      if (Factor.FACTOR_ENV == "server") {
+      if (Factor.FACTOR_TARGET == "server") {
         this.addLessVars()
       } else {
         this.addWorkPostType()

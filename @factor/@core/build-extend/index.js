@@ -6,7 +6,7 @@ module.exports = Factor => {
 
     async setup() {
       Factor.FACTOR_CONFIG = require("@factor/build-config").default(Factor)
-      Factor.FACTOR_ENV = "server"
+      Factor.FACTOR_TARGET = "server"
 
       this.addCoreExtension("log", require("@factor/core-log/build").default)
       this.addCoreExtension("tools", require("@factor/tools").default)

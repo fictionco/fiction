@@ -13,7 +13,7 @@ module.exports.default = Factor => {
         service: _ => this.update(_)
       })
 
-      if (Factor.FACTOR_ENV == "server") {
+      if (Factor.FACTOR_TARGET == "server") {
         Factor.$filters.callback("cli-run-data-export", _ => this.dataExport(_))
         Factor.$filters.callback("cli-run-data-import", _ => this.dataImport(_))
         this.client = require("firebase-admin")

@@ -61,8 +61,8 @@ module.exports.default = Factor => {
       _.generated = resolve(this.baseDir, this.folder("generated"))
       _.config = resolve(this.baseDir)
 
-      _["config-file-public"] = resolve(_.config, "factor-config.json")
-      _["config-file-private"] = resolve(_.config, "factor-secrets.json")
+      _["config-file-public"] = resolve(_.app, "config.json")
+      _["config-file-private"] = resolve(_.app, ".secrets.json")
 
       _.static = resolve(_.source, "static")
 
@@ -143,9 +143,7 @@ module.exports.default = Factor => {
     getAliases() {
       const a = {
         "@": this.get("source"),
-        "~": this.get("app"),
-        "@generated": this.get("generated"),
-        "@config": this.get("config")
+        "~": this.get("app")
       }
 
       return Factor.$filters.apply("webpack-aliases", a)

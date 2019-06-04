@@ -52,7 +52,7 @@ module.exports.default = Factor => {
       this._settingsPublic = merge.all(configObjectsPublic)
       this._settingsPublic = this.ensureDefaults(this._settingsPublic)
 
-      const configObjectsPrivate = [privateConfig.config, privateConfig[this.env]].filter(_ => _)
+      const configObjectsPrivate = [privateConfig.config, privateConfig[this.env], process.env].filter(_ => _)
 
       this._settingsPrivate = merge.all(configObjectsPrivate)
 

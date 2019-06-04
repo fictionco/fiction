@@ -20,6 +20,12 @@ export default {
         title: "Factor's VueJS Framework - Routes, Stores, Views"
       },
       {
+        doc: "config",
+        name: "Config",
+        file: require("./docs/config/index.md"),
+        title: "Factor Config and Setup CLI"
+      },
+      {
         doc: "cli",
         name: "Commands",
         file: require("./docs/cli/index.md"),

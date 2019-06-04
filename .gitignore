@@ -12,3 +12,4 @@ yarn-error*
 @demo
 **/dist
 .DS_Store
+*secrets*

@@ -25,7 +25,7 @@ export default Factor => {
     }
 
     injectPlugins() {
-      const plugins = require("@generated/loader-app")
+      const plugins = require("~/.factor/loader-app")
       for (var _p in plugins) {
         if (plugins[_p]) {
           const plugin = plugins[_p]

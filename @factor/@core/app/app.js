@@ -1,6 +1,6 @@
 import Factor from "vue"
 Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
-Factor.FACTOR_ENV = "app"
+Factor.FACTOR_TARGET = "app"
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
 
 import init from "./init"

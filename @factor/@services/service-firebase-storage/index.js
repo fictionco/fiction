@@ -13,7 +13,7 @@ export default Factor => {
         service: _ => this.delete(_)
       })
 
-      if (Factor.FACTOR_ENV == "server") {
+      if (Factor.FACTOR_TARGET == "server") {
         this.buildConfig()
       } else {
         const firebaseApp = require("@factor/service-firebase-app").default

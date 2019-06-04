@@ -7,7 +7,7 @@ export default Factor => {
     filters() {
       const base = "entry"
       const type = "blog"
-      const icon = Factor.FACTOR_ENV == "app" ? require("./img/posts.svg") : ""
+      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/posts.svg") : ""
       Factor.$filters.add("post-types", _ => {
         _.push({
           type,

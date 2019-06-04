@@ -94,18 +94,6 @@ const cli = async () => {
           await this.createDist(args)
         })
 
-      // this.program
-      //   .command("deploy [env]")
-      //   .description("Build and deploy production app")
-      //   .option("--no-build", "Prevent distribution build (for testing)")
-      //   .action(async (env, args) => {
-      //     await this.createDist({ env, ...args })
-
-      //     await this.callbacks("deploy-app", { env: env || "development", ...args })
-      //     const t = Factor.$filters.apply("cli-tasks-deploy-app", [])
-      //     await this.runTasks(t)
-      //   })
-
       this.program
         .command("setup [filter]")
         .description("Setup and verify your Factor app")

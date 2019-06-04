@@ -17,7 +17,7 @@ module.exports.default = Factor => {
 
       this.extensions = this.getExtensions()
 
-      if (Factor.FACTOR_ENV == "server") {
+      if (Factor.FACTOR_TARGET == "server") {
         this.addWatchers()
 
         Factor.$filters.callback("cli-create-loaders", _ => this.generateLoaders(_))

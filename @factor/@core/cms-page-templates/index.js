@@ -2,7 +2,7 @@ export default Factor => {
   return new (class {
     constructor() {
       // image require wont work outside webpack
-      const icon = Factor.FACTOR_ENV == "app" ? require("./img/pages.svg") : ""
+      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/pages.svg") : ""
 
       Factor.$filters.add("post-types", _ => {
         _.unshift({

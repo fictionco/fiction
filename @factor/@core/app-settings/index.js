@@ -29,7 +29,7 @@ export default Factor => {
 
     async setup() {
       const merged = [{}]
-      if (Factor.FACTOR_ENV == "app") {
+      if (Factor.FACTOR_TARGET == "app") {
         const themeSettings = this.getSet("theme")
         merged.push(themeSettings)
 
