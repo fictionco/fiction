@@ -12,6 +12,7 @@
     "id": "server"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.1",
     "https": ">0.0.1",

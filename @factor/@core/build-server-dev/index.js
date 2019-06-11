@@ -1,4 +1,5 @@
-const fs = require("fs")
+const chalk = require("chalk")
+const figures = require("figures")
 const path = require("path")
 const MFS = require("memory-fs")
 const chokidar = require("chokidar")
@@ -67,8 +68,15 @@ export default Factor => {
       } catch (error) {}
     }
 
-    updateServer(reason) {
-      Factor.$log.success(reason)
+    logServerUpdate({ title, value }) {
+      const fTitle = chalk.cyan(title)
+      const fValue = chalk.dim(value)
+      console.log(`${fTitle} ${fValue}`)
+    }
+
+    updateServer(args) {
+      this.logServerUpdate(args)
+
       if (this.bundle && this.clientManifest) {
         this.ready() // triggers promise resolution
         this.cb(this.bundle, {
@@ -83,7 +91,10 @@ export default Factor => {
     watcher() {
       chokidar.watch([`${Factor.$paths.get("source")}/**`], { ignoreInitial: true }).on("all", (event, path) => {
         if (event == "add" || event == "unlink") {
-          this.updateServer(`Source Files Change [${event}@${path}]`)
+          this.updateServer({
+            title: "Source Files Change",
+            value: `[${event}@${path}]`
+          })
         }
       })
 
@@ -102,7 +113,10 @@ export default Factor => {
           chokidar.watch(files, { ignored, ignoreInitial: true }).on(event, (event, path) => {
             const update = callback({ event, path })
             if (update || typeof update == "undefined") {
-              this.updateServer(`${name} [${event}@${path}]`)
+              this.updateServer({
+                title: name,
+                value: `[${event}@${path}]`
+              })
             }
           })
         })
@@ -145,8 +159,10 @@ export default Factor => {
           this.clientManifest = JSON.parse(
             this.readFile(devMiddleware.fileSystem, Factor.$paths.get("client-manifest-name"))
           )
-
-          this.updateServer(`Client: ${stats.time / 1000}s`)
+          this.updateServer({
+            title: "Client Built",
+            value: `${stats.time / 1000}s`
+          })
         })
 
         // hot middleware
@@ -177,7 +193,10 @@ export default Factor => {
         }
 
         this.bundle = JSON.parse(this.readFile(mfs, Factor.$paths.get("server-bundle-name")))
-        this.updateServer(`Server: ${stats.time / 1000}s`)
+        this.updateServer({
+          title: "Server Built",
+          value: `${stats.time / 1000}s`
+        })
       })
     }
   })()

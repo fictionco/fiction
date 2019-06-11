@@ -8,10 +8,25 @@ export default {
         file: require("./docs/intro/index.md")
       },
       {
+        group: "Examples"
+      },
+      {
         doc: "example",
         title: "Example Page",
         description: "An example docs page.",
         file: require("./docs/example/index.md")
+      },
+      {
+        doc: "example2",
+        title: "Example Page",
+        description: "An example docs page.",
+        file: require("./docs/example/example2.md")
+      },
+      {
+        doc: "example3",
+        title: "Example Page",
+        description: "An example docs page.",
+        file: require("./docs/example/example3.md")
       }
     ],
     base: "docs"

@@ -14,8 +14,11 @@ export default {
         title: "Introduction: Why Use Factor"
       },
       {
+        group: "Framework"
+      },
+      {
         doc: "factor-framework",
-        name: "Framework",
+        name: "Tools",
         file: require("./docs/framework/index.md"),
         title: "Factor's VueJS Framework - Routes, Stores, Views"
       },
@@ -37,7 +40,30 @@ export default {
         title: "Factor Filters and Callbacks API"
       },
       {
-        doc: "extensions",
+        group: "Server"
+      },
+      {
+        doc: "server-side-rendering",
+        file: require("./docs/server/ssr.md"),
+        title: "Factor Vue Server Side Rendering (SSR)"
+      },
+      {
+        name: "Endpoints and Middleware",
+        doc: "endpoints",
+        file: require("./docs/server/endpoints.md"),
+        title: "Creating and Using Factor Endpoints"
+      },
+      {
+        name: "Serving Your App",
+        doc: "serving",
+        file: require("./docs/server/serving.md"),
+        title: "Hosting and Serving Your Factor App"
+      },
+      {
+        group: "Extensions"
+      },
+      {
+        doc: "extending-factor",
         file: require("./docs/extension/index.md"),
         title: "Extending Factor"
       },

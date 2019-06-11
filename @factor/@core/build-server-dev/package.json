@@ -12,7 +12,9 @@
     "id": "serverDev"
   },
   "dependencies": {
+    "chalk": "^2.4.2",
     "chokidar": "^2.1.2",
+    "figures": "^3.0.0",
     "memory-fs": "^0.4.1",
     "vue": "^2.6.8",
     "webpack": "^4.29.6",

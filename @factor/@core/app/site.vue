@@ -40,7 +40,7 @@ export default {
   },
 
   async serverPrefetch() {
-    return await Promise.all(this.$filters.apply("site-prefetch", []))
+    return await this.$filters.run("site-prefetch")
   }
 }
 </script>

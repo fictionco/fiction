@@ -1,7 +1,7 @@
 const LRU = require("lru-cache")
 
 const express = require("express")
-
+const chalk = require("chalk")
 const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
 const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
@@ -129,16 +129,33 @@ module.exports.default = Factor => {
 
     logging() {
       this.server.use(
-        require("morgan")("tiny", {
-          skip: (request, response) => {
-            let { url } = request
-            if (url.indexOf("?") > 0) url = url.substr(0, url.indexOf("?"))
-            if (url.match(/(js|jpg|png|css)$/gi)) {
-              return true
+        require("morgan")(
+          (tokens, req, res) => {
+            const seconds = tokens["response-time"](req, res) / 1000
+            const time = seconds.toFixed(3)
+            const details = [`${time}s`]
+
+            const contentLength = tokens.res(req, res, "content-length")
+            if (contentLength) details.push(`Size: ${contentLength}`)
+
+            details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
+
+            return `${chalk.cyan(tokens.url(req, res))} ${chalk.dim(details.join(" "))}`
+          },
+          {
+            skip: (request, response) => {
+              let { url } = request
+              if (url.indexOf("?") > 0) url = url.substr(0, url.indexOf("?"))
+              if (url.match(/(js|jpg|png|css|json)$/gi)) {
+                return true
+              } else if (url.match(/__webpack_hmr/gi)) {
+                return true
+              } else {
+                return false
+              }
             }
-            return false
           }
-        })
+        )
       )
     }
 

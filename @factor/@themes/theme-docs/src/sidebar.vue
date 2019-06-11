@@ -13,29 +13,32 @@
       </div>
 
       <ul class="menu-root">
-        <li v-for="(item, itemIndex) in nav" :key="itemIndex" class="doc-menu">
-          <factor-link class="primary-doc-link" :path="item.route">{{ item.name }}</factor-link>
-          <div v-if="item.doc == activeDoc" class="scroll-menu">
-            <li v-for="(h2, indexParent) in headers" :key="indexParent">
-              <a
-                class="nav-link parent"
-                :href="h2.anchor"
-                :class="activeHash == h2.anchor ? 'scroll-active' : ''"
-                @click="clicked=true"
-              >{{ h2.text }}</a>
-              <ul v-if="h2.sub.length">
-                <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
-                  <a
-                    class="nav-link sub"
-                    :class="activeHash == h3.anchor ? 'scroll-active' : `not-${h3.anchor}`"
-                    :href="h3.anchor"
-                    @click="clicked=true"
-                  >{{ h3.text }}</a>
-                </li>
-              </ul>
-            </li>
-          </div>
-        </li>
+        <div v-for="(item, itemIndex) in nav" :key="itemIndex">
+          <div v-if="item.group" class="group">{{ item.group }}</div>
+          <li v-else class="doc-menu">
+            <factor-link class="primary-doc-link" :path="item.route">{{ item.name }}</factor-link>
+            <div v-if="item.doc == activeDoc" class="scroll-menu">
+              <li v-for="(h2, indexParent) in headers" :key="indexParent">
+                <a
+                  class="nav-link parent"
+                  :href="h2.anchor"
+                  :class="activeHash == h2.anchor ? 'scroll-active' : ''"
+                  @click="clicked=true"
+                >{{ h2.text }}</a>
+                <ul v-if="h2.sub.length">
+                  <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
+                    <a
+                      class="nav-link sub"
+                      :class="activeHash == h3.anchor ? 'scroll-active' : `not-${h3.anchor}`"
+                      :href="h3.anchor"
+                      @click="clicked=true"
+                    >{{ h3.text }}</a>
+                  </li>
+                </ul>
+              </li>
+            </div>
+          </li>
+        </div>
       </ul>
     </div>
   </div>
@@ -187,7 +190,12 @@ export default {
   position: fixed;
   top: 45px;
   padding-bottom: 5em;
-
+  overflow: scroll;
+  height: calc(~"100vh - 45px");
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
   .site-links {
     font-size: 1.2em;
     border-bottom: 1px solid #eee;
@@ -219,12 +227,19 @@ export default {
     line-height: 1.6em;
     list-style: none;
     li.doc-menu {
-      margin-top: 0.5em;
+      margin-bottom: 0.5em;
     }
   }
   // sidebar main menu
   ul.menu-root {
     padding-left: 0;
+    .group {
+      font-size: 0.8em;
+
+      font-weight: var(--font-weight-bold);
+      opacity: 0.2;
+      text-transform: uppercase;
+    }
     .primary-doc-link {
       font-weight: 700;
     }
