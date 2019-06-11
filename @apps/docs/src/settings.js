@@ -37,6 +37,11 @@ export default {
         title: "Factor Filters and Callbacks API"
       },
       {
+        doc: "extensions",
+        file: require("./docs/extension/index.md"),
+        title: "Extending Factor"
+      },
+      {
         doc: "themes",
         file: require("./docs/themes/index.md"),
         title: "Using and Creating Factor Themes"

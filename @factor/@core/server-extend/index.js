@@ -32,11 +32,9 @@ module.exports.default = (Factor, CLOUD_CONFIG) => {
 
       this.addCoreExtension("theme", require("@factor/core-theme/build"))
 
-      // this.addCoreExtension("keys", require("@factor/build-keys"))
-
       this.extensions = require(Factor.$paths.get("loader-server"))
 
-      this.addCoreExtension("config", require("@factor/cloud-config"))
+      this.addCoreExtension("config", require("@factor/server-config"))
       if (typeof setup == "function") {
         setup()
 

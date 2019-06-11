@@ -1,19 +1,18 @@
 {
-  "name": "@factor/stack-standard",
+  "name": "@factor/stack-mongo",
   "version": "0.3.7",
-  "description": "Factor standard stack based on open-source software.",
+  "description": "Factor stack based on MongoDB and Mongoose.",
   "author": "Fiction.com",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "id": "standardStack",
+    "id": "mongoStack",
     "extend": "stack",
     "target": {
-      "cloud": "cloud",
       "app": "",
-      "build": "build"
+      "server": "server"
     }
   }
 }

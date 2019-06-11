@@ -68,7 +68,7 @@ export default Factor => {
     }
 
     updateServer(reason) {
-      Factor.$log.success(`Update: ${reason}`)
+      Factor.$log.success(reason)
       if (this.bundle && this.clientManifest) {
         this.ready() // triggers promise resolution
         this.cb(this.bundle, {
@@ -146,7 +146,7 @@ export default Factor => {
             this.readFile(devMiddleware.fileSystem, Factor.$paths.get("client-manifest-name"))
           )
 
-          this.updateServer("Browser Compiler")
+          this.updateServer(`Client: ${stats.time / 1000}s`)
         })
 
         // hot middleware
@@ -159,7 +159,7 @@ export default Factor => {
 
         this.server.getConnections
       } catch (error) {
-        consola.error("[WEBPACK BROWSER COMPILER]", error)
+        consola.error("[WEBPACK CLIENT COMPILER]", error)
       }
     }
 
@@ -177,7 +177,7 @@ export default Factor => {
         }
 
         this.bundle = JSON.parse(this.readFile(mfs, Factor.$paths.get("server-bundle-name")))
-        this.updateServer("Server Compiler")
+        this.updateServer(`Server: ${stats.time / 1000}s`)
       })
     }
   })()

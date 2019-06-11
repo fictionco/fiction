@@ -11,9 +11,10 @@ module.exports.default = Factor => {
 
       Factor.$paths.add({
         "loader-app": resolve(gen, "loader-app.js"),
-        "loader-server": resolve(gen, "loader-server.js"),
-        "app-package": resolve(Factor.$paths.get("app"), "package.json")
+        "loader-server": resolve(gen, "loader-server.js")
       })
+
+      this.cwdPackage = require(resolve(Factor.$paths.get("app"), "package.json"))
 
       this.extensions = this.getExtensions()
 
@@ -70,7 +71,7 @@ module.exports.default = Factor => {
         extensions: this.extensions,
         destination: Factor.$paths.get("loader-server"),
         buildTarget: ["server", "app"],
-        mainTarget: "build"
+        mainTarget: "server"
       })
 
       this.makeLoaderFile({
@@ -80,29 +81,21 @@ module.exports.default = Factor => {
         mainTarget: "app"
       })
 
-      // this.makeLoaderFile({
-      //   extensions: this.extensions,
-      //   destination: Factor.$paths.get("loader-cloud"),
-      //   buildTarget: ["endpoint", "cloud"],
-      //   mainTarget: "cloud",
-      //   requireAtRuntime: true
-      // })
-
       return `Loaders built for ${this.extensions.length} Extensions`
     }
 
     recursiveFactorDependencies(deps, pkg) {
-      const { name, dependencies = {}, devDependencies = {} } = pkg
+      const { name, factor, dependencies = {}, devDependencies = {} } = pkg
 
       const d = { ...dependencies, ...devDependencies }
 
       Object.keys(d)
-        .filter(_ => _.includes("factor"))
-        .map(_ => `${_}/package.json`)
+        .map(_ => require(`${_}/package.json`))
+        .filter(_ => typeof _.factor != "undefined" || _.name.includes("factor"))
         .forEach(_ => {
-          if (!deps.includes(_)) {
+          if (!deps.find(pkg => pkg.name == _.name)) {
             deps.push(_)
-            deps = this.recursiveFactorDependencies(deps, require(_))
+            deps = this.recursiveFactorDependencies(deps, _)
           }
         })
 
@@ -112,9 +105,7 @@ module.exports.default = Factor => {
     // Use root application dependencies as the start of the
     // factor dependency tree
     getExtensions() {
-      const appPkg = Factor.$paths.get("app-package")
-      const pkg = require(appPkg)
-      const deps = this.recursiveFactorDependencies([appPkg], pkg)
+      const deps = this.recursiveFactorDependencies([this.cwdPackage], this.cwdPackage)
       const list = this.getExtensionList(deps)
 
       return list
@@ -156,39 +147,26 @@ module.exports.default = Factor => {
       const loader = []
       packagePaths.forEach(_ => {
         let fields = {}
-        if (_.includes("package.json")) {
-          let {
-            name,
-            factor: { id, priority = 100, target = false, extend = "plugin" } = {},
-            version,
-            main = "index.js"
-          } = require(_)
 
-          id = id || this.makeId(name)
-          const cwd = _ == Factor.$paths.get("app-package") ? true : false
+        let {
+          name,
+          factor: { id, priority = 100, target = false, extend = "plugin" } = {},
+          version,
+          main = "index.js"
+        } = _
 
-          fields = {
-            version,
-            name,
-            priority,
-            target,
-            extend,
-            cwd,
-            main,
-            id
-          }
-        } else {
-          const basename = path.basename(_)
-          const folderName = path.basename(path.dirname(_))
+        id = id || this.makeId(name)
+        const cwd = name == this.cwdPackage.name ? true : false
 
-          // Aliases needed so paths can be changed if needed
-          // Since webpack won't allow dynamic paths in require (variables in paths)
-
-          fields = {
-            name: Factor.$paths.replaceWithAliases(_),
-            target: "app",
-            id: basename == "index.js" ? folderName : this.makeId(basename)
-          }
+        fields = {
+          version,
+          name,
+          priority,
+          target,
+          extend,
+          cwd,
+          main,
+          id
         }
 
         loader.push(fields)

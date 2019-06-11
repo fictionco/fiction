@@ -2,15 +2,18 @@ import qs from "qs"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$stack.register({
-        id: `endpoints-base-url`,
-        title: "Cloud Endpoints - Endpoint Base URL",
-        description: "The base url to use for calls to app endpoints. Eg. [url]/endpointName",
-        args: "",
-        result: "String"
-      })
+      this.endpointBase = "/api"
+      // Factor.$stack.register({
+      //   id: `endpoints-base-url`,
+      //   title: "Cloud Endpoints - Endpoint Base URL",
+      //   description: "The base url to use for calls to app endpoints. Eg. [url]/endpointName",
+      //   args: "",
+      //   result: "String"
+      // })
 
-      Factor.$filters.callback("initialize-app", () => Factor.$stack.service("endpoints-base-url"))
+      // Factor.$filters.add("initialize-app", async () => {
+      //   this.endpointBase = await Factor.$stack.service("endpoints-base-url")
+      // })
     }
 
     serializer(params) {
