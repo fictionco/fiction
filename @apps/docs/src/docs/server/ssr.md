@@ -1,8 +1,10 @@
 # Server-Side-Rendering (SSR)
 
-Factor apps are by default "universal" or server-rendered. This means that the source-html for users viewing your app is first generated and cached by your server and then sent to the client.
+Factor "universal" or server-side-rendered framework. This means that HTML is first generated and cached by your server and then sent to the client and "hydrated" by client-side javascript.
 
-While SSR comes with some added complication, it comes with some massive benefits which are critical for high quality applications. Namely SSR apps have better: 
+While SSR comes with some added complication, it comes with some big benefits which are necessary for high performance applications. 
+
+SSR apps have better: 
 
 - **SEO** - Most search-engines struggle with client-only applications
 - **Syndication** - Social and sharing apps scrape your source to get meta information when users post about your app

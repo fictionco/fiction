@@ -1,16 +1,20 @@
 # Endpoints and Middleware
 
-Often there is a need to create app functionality that operates in a "trusted" environment such as the server. For example, in scenarios when trusted API keys must be used or private information must be handled. 
+*For operations that must happen on the server, Factor includes utilities for adding endpoints and middleware. This document discusses how to create and use them...* 
 
-For scenarios like this, Factor includes endpoint and middleware filters that allow you to add functionality as needed to your server. 
+## When To Use
 
-## HTTP Endpoints
-
-In Factor, server http endpoints are places where your application will send HTTP requests for actions that must happen in a trusted server environment. Some example scenarios:
+In a normal web-app, many actions need to happen in a trusted server environment. Some example scenarios:
 
 - Indexing or deleting data in a third-party service 
 - Charging a customer
 - Authentication 
+
+This is because transactions handle private information and secret API keys that can't be exposed to the public. 
+
+Using endpoints and middleware allows the Factor application to securly request an action take place; and simply returns the result to the user.
+
+## HTTP Endpoints
 
 As endpoints are a common pattern, Factor includes a standard endpoint handling utility to make this easy.
 
@@ -77,4 +81,44 @@ export default Factor => {
 ```
 
 ## Middleware
+
+Endpoints are built on top of "middleware." Middleware is used as a more general utility for handling server requests to specific URLs. In Factor, middleware is easily extended and adding middleware can solve many different problems, such as generating sitemaps or handling form data. 
+
+In Node, middleware functions always take the form: 
+```javascript
+const myMiddleware = (request, response, next) => {}
+```
+- *Request* - Is the client's request to the URl
+- *Response* - Is your server's response
+- *Next* - Is a function which Node uses to determine if it should continue processing middleware at a specific URL or stop.
+
+### Adding Middleware 
+
+To add middleware to your Factor server, all you have to do is use the `middleware` filter and a middleware object which includes the `path` and callback function(s).
+
+As an example, middleware for creating a sitemap might look like the following: 
+
+```javascript
+// index.js
+export default Factor => {
+  return new class{
+    constructor(){
+      Factor.$filters.add('middleware', middlewares => {
+        middlewares.push({
+          path: '/sitemap.xml', 
+          callback: async (request, response, next) => {
+            // generate sitemap 
+            const sitemapXML = await this.getSitemap()
+
+            response.header("Content-Type", "application/xml")
+            response.send(sitemapXML)
+
+            // Notes: No 'next' call is needed since we don't need to continue processing other middleware
+          }
+        })
+      })
+    }
+  }()
+}
+```
 
