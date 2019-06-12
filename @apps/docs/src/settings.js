@@ -17,9 +17,9 @@ export default {
         group: "Framework"
       },
       {
-        doc: "factor-framework",
-        name: "Tools",
-        file: require("./docs/framework/index.md"),
+        doc: "framework",
+        name: "Overview",
+        file: require("./docs/framework/tools.md"),
         title: "Factor's VueJS Framework - Routes, Stores, Views"
       },
       {
@@ -36,8 +36,18 @@ export default {
       },
       {
         doc: "filters",
-        file: require("./docs/filters/index.md"),
+        file: require("./docs/framework/filters.md"),
         title: "Factor Filters and Callbacks API"
+      },
+      {
+        doc: "routes-and-stores",
+        file: require("./docs/framework/routes-stores.md"),
+        title: "Factor Routes and Stores"
+      },
+      {
+        doc: "components",
+        file: require("./docs/framework/components.md"),
+        title: "Factor Components - Views and Elements"
       },
       {
         group: "Server"
