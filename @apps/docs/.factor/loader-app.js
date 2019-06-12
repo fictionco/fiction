@@ -1,7 +1,7 @@
 /******** GENERATED FILE ********/
 const files = {}
 files["events"] = require("@factor/core-events").default
-files["notify"] = require("@factor/plugin-notify").default
+files["mongoStack"] = require("@factor/stack-mongo").default
 files["appDriver"] = require("@factor/app").default
 files["db"] = require("@factor/core-db").default
 files["endpoint"] = require("@factor/core-endpoint").default
@@ -23,5 +23,6 @@ files["auth"] = require("@factor/cms-user-auth").default
 files["privsRequest"] = require("@factor/cms-user-role").default
 files["googleAuth"] = require("@factor/service-google-auth").default
 files["docs"] = require("@factor/theme-docs").default
+files["notify"] = require("@factor/plugin-notify").default
 files["componentsForm"] = require("@factor/ui-components-form").default
 module.exports = files

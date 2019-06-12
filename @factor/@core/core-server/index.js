@@ -1,4 +1,5 @@
 const LRU = require("lru-cache")
+var bodyParser = require("body-parser")
 
 const express = require("express")
 const chalk = require("chalk")
@@ -6,7 +7,6 @@ const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
 const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
 const IS_PRODUCTION = NODE_ENV === "production"
-
 // Add for Firebase
 global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
@@ -79,11 +79,11 @@ module.exports.default = Factor => {
 
       this.server = express()
 
-      this.extendMiddleware()
-
       this.serveStaticAssets()
 
       this.logging()
+
+      this.extendMiddleware()
 
       if (NODE_ENV == "production") {
         const { template, bundle, clientManifest } = await this.ssrFiles(args)
@@ -160,12 +160,17 @@ module.exports.default = Factor => {
     }
 
     extendMiddleware() {
+      // parse application/x-www-form-urlencoded
+      this.server.use(bodyParser.urlencoded({ extended: false }))
+
+      // parse application/json
+      this.server.use(bodyParser.json())
+
       const middleware = Factor.$filters.apply("middleware", [])
+
       if (middleware.length > 0) {
         middleware.forEach(({ path, callback }) => {
-          this.server.use(path, function(request, response, next) {
-            callback(request, response, next)
-          })
+          this.server.use(path, callback)
         })
       }
     }

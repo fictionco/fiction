@@ -2,18 +2,7 @@ import qs from "qs"
 export default Factor => {
   return new (class {
     constructor() {
-      this.endpointBase = "/api"
-      // Factor.$stack.register({
-      //   id: `endpoints-base-url`,
-      //   title: "Cloud Endpoints - Endpoint Base URL",
-      //   description: "The base url to use for calls to app endpoints. Eg. [url]/endpointName",
-      //   args: "",
-      //   result: "String"
-      // })
-
-      // Factor.$filters.add("initialize-app", async () => {
-      //   this.endpointBase = await Factor.$stack.service("endpoints-base-url")
-      // })
+      this.endpointBase = "/endpoints"
     }
 
     serializer(params) {
@@ -34,24 +23,20 @@ export default Factor => {
       return headers
     }
 
-    async request(params) {
+    async request({ id, method, params = {} }) {
       let response = {}
 
-      params.uid = params.uid ? params.uid : Factor.$user.uid()
+      const requestPath = `${this.endpointBase}/${id}`
 
-      const { action = false, endpoint = "" } = params
-
-      const rurl = `${this.endpointBase}/${endpoint}`
-
-      if (!action) {
-        console.error(`${endpoint} Endpoint requires an action method.`)
+      if (!method) {
+        console.error(`Endpoint request to ${id} requires a method.`)
       }
 
       let r = {}
       try {
         const headers = await this.headers()
 
-        r = await Factor.$http.post(rurl, params, { headers })
+        r = await Factor.$http.post(requestPath, { method, params }, { headers })
       } catch (error2) {
         if (error2.message.includes("Network Error")) {
           console.error(`[Factor Server 404 - ENDPOINT ${endpoint}:${action}]`)

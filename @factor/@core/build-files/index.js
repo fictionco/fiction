@@ -113,7 +113,7 @@ module.exports.default = Factor => {
 
     moduleMainFile({ name, mainTarget, target }) {
       let mainFile = name
-      if (typeof target == "object" && !Array.isArray(target) && target[mainTarget]) {
+      if (typeof target == "object" && !Array.isArray(target) && target[mainTarget] && target[mainTarget] != "index") {
         return `${name}/${target[mainTarget]}`
       }
 

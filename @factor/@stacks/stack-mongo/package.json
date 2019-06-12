@@ -11,7 +11,7 @@
     "id": "mongoStack",
     "extend": "stack",
     "target": {
-      "app": "",
+      "app": "index",
       "server": "server"
     }
   }

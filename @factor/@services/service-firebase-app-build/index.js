@@ -93,7 +93,7 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("initialize-build", () => {
+      Factor.$filters.add("initialize-server", () => {
         this.createBuildFirebaseInstance()
       })
     }

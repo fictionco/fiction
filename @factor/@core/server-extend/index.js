@@ -1,8 +1,8 @@
 const { resolve } = require("path")
 const parse = require("qs").parse
 const merge = require("deepmerge")
-
 const cors = require("cors")({ origin: true })
+
 module.exports.default = (Factor, CLOUD_CONFIG) => {
   const { baseDir, env, setup, endpointHandler } = CLOUD_CONFIG
   return new (class {

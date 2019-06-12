@@ -101,7 +101,9 @@ module.exports.default = Factor => {
 
     // Add callbacks into an array of promises, meant to be used with $filters.run
     callback(id, callback, options = {}) {
-      this.add(id, (_ = [], args) => [..._, callback(args)], options)
+      const callable = typeof callback != "function" ? () => callback : callback
+
+      this.add(id, (_ = [], args) => [..._, callable(args)], options)
     }
 
     // Run array of promises and await the result

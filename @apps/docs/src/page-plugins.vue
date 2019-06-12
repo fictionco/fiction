@@ -17,7 +17,7 @@
     <section class="plugins-wrap stripes-wrap">
       <div class="stripes" />
       <div class="mast plugins">
-        <h2 class="soon">Coming Soon</h2>
+        <h2 class="soon" @click="test()">Coming Soon</h2>
         <div class="sidebar">
           <h3 class="title">Categories</h3>
           <ul class="list-categories">
@@ -198,6 +198,10 @@ export default {
   },
   mounted() {},
   methods: {
+    async test() {
+      await this.$mongoStack.callEndpoint()
+      console.log("CALLED")
+    },
     navItems() {
       const nav = [
         {

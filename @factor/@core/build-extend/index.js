@@ -40,7 +40,7 @@ module.exports = Factor => {
         setup(Factor)
       }
 
-      Factor.$filters.run("initialize-build")
+      Factor.$filters.run("initialize-server")
 
       return `Loaded ${Object.keys(plugins).length} build modules`
     }

@@ -1,14 +1,14 @@
 /******** GENERATED FILE ********/
 const files = {}
 files["events"] = require("@factor/core-events").default
-files["notify"] = require("@factor/plugin-notify").default
+files["mongoStack"] = require("@factor/stack-mongo/server").default
 files["setting"] = require("@factor/app-settings").default
 files["appDriver"] = require("@factor/app").default
 files["serverDev"] = require("@factor/build-server-dev").default
 files["setup"] = require("@factor/build-setup").default
 files["webpack"] = require("@factor/build-webpack").default
 files["db"] = require("@factor/core-db").default
-files["endpoint"] = require("@factor/core-endpoint").default
+files["endpoint"] = require("@factor/core-endpoint/server").default
 files["server"] = require("@factor/core-server").default
 files["docsApp"] = require("../src/index.js").default
 files["storage"] = require("@factor/core-storage").default
@@ -29,5 +29,6 @@ files["privsRequest"] = require("@factor/cms-user-role").default
 files["privs"] = require("@factor/cms-user-role-endpoint").default
 files["googleAuth"] = require("@factor/service-google-auth").default
 files["docs"] = require("@factor/theme-docs").default
+files["notify"] = require("@factor/plugin-notify").default
 files["cmsDashboardUsers"] = require("@factor/cms-dashboard-users").default
 module.exports = files
