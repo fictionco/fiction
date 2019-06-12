@@ -79,8 +79,13 @@ export default {
       },
       {
         doc: "themes",
-        file: require("./docs/themes/index.md"),
+        file: require("./docs/extension/themes.md"),
         title: "Using and Creating Factor Themes"
+      },
+      {
+        doc: "stacks",
+        file: require("./docs/extension/stacks.md"),
+        title: "Creating Factor Services Stacks"
       }
       // {
       //   doc: "hosting-and-deployment",
