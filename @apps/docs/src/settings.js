@@ -49,6 +49,20 @@ export default {
         file: require("./docs/framework/components.md"),
         title: "Factor Components - Views and Elements"
       },
+
+      {
+        group: "Extensions"
+      },
+      {
+        doc: "extending-factor",
+        file: require("./docs/extension/index.md"),
+        title: "Extending Factor"
+      },
+      {
+        doc: "themes",
+        file: require("./docs/extension/themes.md"),
+        title: "Using and Creating Factor Themes"
+      },
       {
         group: "Server"
       },
@@ -64,34 +78,27 @@ export default {
         title: "Creating and Using Factor Endpoints"
       },
       {
+        group: "Service Layer"
+      },
+      {
+        doc: "stacks",
+        file: require("./docs/service/stacks.md"),
+        title: "Creating Factor Services Stacks"
+      },
+      {
+        doc: "database",
+        file: require("./docs/service/database.md"),
+        title: "Factor CMS Service Layer Abstraction"
+      },
+      {
         name: "Serving Your App",
         doc: "serving",
         file: require("./docs/server/serving.md"),
         title: "Hosting and Serving Your Factor App"
       },
       {
-        group: "Extensions"
-      },
-      {
-        doc: "extending-factor",
-        file: require("./docs/extension/index.md"),
-        title: "Extending Factor"
-      },
-      {
-        doc: "themes",
-        file: require("./docs/extension/themes.md"),
-        title: "Using and Creating Factor Themes"
-      },
-      {
-        doc: "stacks",
-        file: require("./docs/extension/stacks.md"),
-        title: "Creating Factor Services Stacks"
+        group: "CMS"
       }
-      // {
-      //   doc: "hosting-and-deployment",
-      //   file: require("./docs/hosting/index.md"),
-      //   title: "Hosting and Deploying Your App"
-      // }
     ],
     base: "guide"
   },
@@ -100,7 +107,7 @@ export default {
     nav: [
       {
         path: "/guide",
-        name: "Guide"
+        name: "Development Guide"
       },
       {
         path: "/themes",

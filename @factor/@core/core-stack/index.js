@@ -4,6 +4,9 @@ module.exports.default = Factor => {
       this.providers = []
       this.serviceRequests = []
       this.services = []
+
+      // ADD CLI Commands
+      require("./cli").default(Factor)
     }
 
     register(args) {

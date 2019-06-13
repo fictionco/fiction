@@ -6,7 +6,7 @@
 
 ### Installing A Theme
 
-Installing a Factor theme is as simple as adding it as a dependency in your `package.json`. This simple step will tell Factor to install it and how to use it. 
+To install a Factor theme just it as a dependency in your `package.json`. This will tell Factor to install it and how to use it. 
 
 For example, to install the theme that this site is running, just run: 
 
@@ -14,7 +14,7 @@ For example, to install the theme that this site is running, just run:
 $ yarn add @factor/theme-docs
 ```
 
-Once installed as a dependency, Factor will load the theme. The  theme itself determines how it should run, so reference the theme's documentation for additional information on its usage.s
+Once installed as a dependency, Factor will load the theme. The theme itself determines how it should run, so reference the theme's documentation for additional information on its usage.
 
 ### Forking: Theme as an App
 

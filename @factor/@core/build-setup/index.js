@@ -21,19 +21,19 @@ module.exports.default = Factor => {
         ]
       })
 
-      const setups = Factor.$filters.apply("cli-add-setup", [
-        {
-          name: "Stack - Setup and verify your services and APIs",
-          value: "stack",
-          callback: () => {
-            const providerGroups = this.parseSettings(Factor.$stack.getProviders())
-            this.verifyProviders(providerGroups)
-            this.verifyServiceRequests()
+      const setups = Factor.$filters.apply("cli-add-setup", [])
+      //   {
+      //     name: "Stack - Setup and verify your services and APIs",
+      //     value: "stack",
+      //     callback: () => {
+      //       const providerGroups = this.parseSettings(Factor.$stack.getProviders())
+      //       this.verifyProviders(providerGroups)
+      //       this.verifyServiceRequests()
 
-            this.stack(providerGroups, { title: "Service Config Settings..." })
-          }
-        }
-      ])
+      //       this.stack(providerGroups, { title: "Service Config Settings..." })
+      //     }
+      //   }
+      // ])
 
       answers = await inquirer.prompt({
         type: "list",
@@ -48,31 +48,9 @@ module.exports.default = Factor => {
 
       const write = await setupRunner.callback({ program, inquirer })
 
-      await this.maybeWriteConfig(write)
-    }
-
-    normalize({ settings, group, scope }) {
-      const conf = Factor.$config.settings()
-
-      return settings.map(_ => {
-        let out
-        if (typeof _ == "string") {
-          out = { group, scope, key: _, input: "input" }
-        } else {
-          out = { group, scope, ..._ }
-        }
-        const { key } = out
-        out.message = out.message ? out.message : `${key}`
-
-        out.value = group && conf[group] ? conf[group][key] : conf[key] ? conf[key] : ""
-
-        if (!out.value) {
-          out.missing = true
-          out.value = _.default ? _.default : ""
-        }
-
-        return out
-      })
+      if (write) {
+        await this.maybeWriteConfig(write)
+      }
     }
 
     verifyServiceRequests() {
@@ -152,6 +130,30 @@ module.exports.default = Factor => {
           settings,
           verification
         }
+      })
+    }
+
+    normalize({ settings, group, scope }) {
+      const conf = Factor.$config.settings()
+
+      return settings.map(_ => {
+        let out
+        if (typeof _ == "string") {
+          out = { group, scope, key: _, input: "input" }
+        } else {
+          out = { group, scope, ..._ }
+        }
+        const { key } = out
+        out.message = out.message ? out.message : `${key}`
+
+        out.value = group && conf[group] ? conf[group][key] : conf[key] ? conf[key] : ""
+
+        if (!out.value) {
+          out.missing = true
+          out.value = _.default ? _.default : ""
+        }
+
+        return out
       })
     }
 

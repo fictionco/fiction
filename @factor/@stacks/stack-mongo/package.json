@@ -14,5 +14,8 @@
       "app": "index",
       "server": "server"
     }
+  },
+  "dependencies": {
+    "mongodb": "^3.2.7"
   }
 }
