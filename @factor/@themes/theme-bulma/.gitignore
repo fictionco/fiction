@@ -7,3 +7,4 @@ serverless
 *.log
 *firebase*
 firebase.json
+*secrets*
