@@ -68,8 +68,7 @@ $link-hover: $primary-dark;
 $section-padding: 3.5rem 1.25rem;
 
 //Elements
-$box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
-0 6px 14px 0 rgba(24, 32, 41, 0.06),
+$box-shadow: 0 6px 14px 0 rgba(24, 32, 41, 0.06),
 0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
 $card-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
@@ -129,6 +128,15 @@ $pagination-focus-border-color: $primary;
   &.is-fullheight {
     height: 100%
   }
+}
+
+.box {
+  padding: 1.5rem;
+
+  .media-content {
+    padding-left: 1em;
+  }
+
 }
 
 @media screen and (max-width: 768px) {

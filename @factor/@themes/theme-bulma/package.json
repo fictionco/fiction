@@ -8,14 +8,13 @@
   },
   "factor": {
     "extend": "theme",
-    "target": [
-      "server",
-      "app"
-    ]
+    "target": ["server", "app"]
   },
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
     "@factor/cms": "^0.3.7",
-    "@factor/stack-fire": "^0.3.7"
+    "@factor/plugin-notify": "^0.3.7",
+    "prismjs": "^1.16.0"
   },
   "devDependencies": {
     "bulma": "^0.7.4",
