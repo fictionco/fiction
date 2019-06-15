@@ -1,5 +1,5 @@
 const path = require("path")
-const { resolve } = path
+const { resolve, dirname } = path
 module.exports.default = Factor => {
   return new (class {
     constructor() {
@@ -62,8 +62,12 @@ module.exports.default = Factor => {
       // })
     }
 
-    getExtended(type) {
-      return this.extensions.filter(_ => _.extend == type)
+    getExtended(type = false) {
+      if (!type) {
+        return this.extensions
+      } else {
+        return this.extensions.filter(_ => _.extend == type)
+      }
     }
 
     generateLoaders() {
@@ -81,7 +85,9 @@ module.exports.default = Factor => {
         mainTarget: "app"
       })
 
-      return `Loaders built for ${this.extensions.length} Extensions`
+      console.log(`Loaders built for ${this.extensions.length} Extensions`)
+
+      return
     }
 
     recursiveFactorDependencies(deps, pkg) {
@@ -173,6 +179,17 @@ module.exports.default = Factor => {
       })
 
       return this.sortPriority(loader)
+    }
+
+    getWatchDirs() {
+      const filtered = this.filterExtensions({
+        mainTarget: "server",
+        buildTarget: ["server", "app"],
+        extensions: this.extensions
+      })
+
+      this.watchDirs = filtered.map(_ => dirname(require.resolve(_.name)))
+      return this.watchDirs
     }
 
     // Webpack doesn't allow dynamic paths in require statements

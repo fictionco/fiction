@@ -31,7 +31,7 @@ const cli = async () => {
             { command: "yarn", args: ["install"], title: "Installing Dependencies" },
             { command: "factor", args: ["run", "create-loaders"], title: "Creating Extension Loaders" }
           ],
-          { exitOnError: false }
+          { exitOnError: true }
         )
       }
 
@@ -114,6 +114,7 @@ const cli = async () => {
           try {
             await this.run(`cli-run-${filter}`, { inquirer, program })
             Factor.$log.success(`Successfully ran "${filter}"\n\n`)
+            process.exit(0)
           } catch (error) {
             Factor.$log.error(error)
             throw new Error(error)
@@ -188,11 +189,16 @@ const cli = async () => {
 
                 proc.stderr.on("data", data => {
                   task.output = data.toString()
+                  throw new Error(data.toString())
                 })
 
-                return proc.then(() => {
-                  task.title = options.done ? options.done : task.title
-                })
+                return proc
+                  .then(() => {
+                    task.title = options.done ? options.done : task.title + " Done!"
+                  })
+                  .catch(error => {
+                    throw new Error(error)
+                  })
               }
             }
           }

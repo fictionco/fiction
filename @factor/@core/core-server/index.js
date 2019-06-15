@@ -107,7 +107,7 @@ module.exports.default = Factor => {
           await this.render(request, response)
         })
 
-        this.localListenRoutine(this.server).listen(PORT, () => {
+        this.localListenRoutine(this.server).listen(PORT, async () => {
           const url = Factor.$paths.localhostUrl()
 
           const message = {
@@ -119,6 +119,8 @@ module.exports.default = Factor => {
             ]
           }
           Factor.$log.formatted(message)
+
+          await this.developmentBuildReadyPromise
 
           require("open")(url)
         })

@@ -1,10 +1,10 @@
 {
   "name": "@factor/core-db",
   "factor": {
-    "target": [
-      "app",
-      "server"
-    ],
+    "target": {
+      "app": "index",
+      "server": "server"
+    },
     "id": "db"
   },
   "version": "0.3.7",

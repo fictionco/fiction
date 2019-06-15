@@ -20,6 +20,7 @@
     "@factor/core-stack": "^0.3.7",
     "@factor/core-storage": "^0.3.7",
     "@factor/core-theme": "^0.3.7",
+    "@factor/core-user": "^0.3.7",
     "@factor/tools": "^0.3.7"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

@@ -196,11 +196,19 @@ export default {
       return this.$route.params.doc || ""
     }
   },
-  mounted() {},
+
   methods: {
     async test() {
-      await this.$mongoStack.callEndpoint()
-      console.log("CALLED")
+      const result = await this.$db.run({
+        model: "User",
+        method: "create",
+        data: {
+          username: "arpowers",
+          email: "arpowers@gmail.com",
+          password: "testing123"
+        }
+      })
+      console.log("CALLED", result)
     },
     navItems() {
       const nav = [

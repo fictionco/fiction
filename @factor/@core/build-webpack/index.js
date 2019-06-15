@@ -321,7 +321,7 @@ module.exports.default = Factor => {
     cssLoaders({ target, build, lang }) {
       let finishing
 
-      const prependedFiles = Factor.$filters.apply("prepended-style-var-files", [])
+      //const prependedFiles = Factor.$filters.apply("prepended-style-var-files", [])
 
       const baseLoaders = [
         {

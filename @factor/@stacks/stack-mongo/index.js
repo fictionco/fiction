@@ -1,11 +1,14 @@
 export default Factor => {
   return new (class {
-    constructor() {}
+    constructor() {
+      Factor.$stack.cover({
+        id: "db-service",
+        service: _ => this.dbRequest(_)
+      })
+    }
 
-    async callEndpoint() {
-      const response = await Factor.$endpoint.request({ id: "myEndpoint", method: "testMethod", params: { idk: 555 } })
-
-      console.log("RESPONSE", response)
+    async dbRequest(params) {
+      return await Factor.$endpoint.request({ id: "db", method: "run", params })
     }
   })()
 }

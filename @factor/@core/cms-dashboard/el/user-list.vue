@@ -96,9 +96,10 @@ export default {
   methods: {
     async searchUsers() {
       if (this.searchText) {
-        const results = await this.$db.search({
-          collection: "public",
-          type: "users"
+        const results = await this.$db.run({
+          model: "User",
+          method: "find",
+          conditions: { $text: { $search: this.searchText } }
         })
         this.searchResults = results.data.filter(
           _ => _.displayName && _.photoURL

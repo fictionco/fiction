@@ -16,6 +16,7 @@
     }
   },
   "dependencies": {
-    "mongodb": "^3.2.7"
+    "mongodb": "^3.2.7",
+    "mongoose": "^5.6.0"
   }
 }

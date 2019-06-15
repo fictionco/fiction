@@ -132,32 +132,30 @@ export default {
 
   footer: {
     headline: "Released under the GPL-2 License",
-    legal: "Copyright &copy; 2017-2019 Fiction.com, Inc.",
+    legal: "Copyright &copy; - The Contibutors",
     logo: () => import("./el/logo-fiction")
   },
   home: {
     meta: {
-      title: "Factor.js - Web App OS",
-      description:
-        "Factor is a modern serverless CMS based on Vue.js that helps developers build blazing fast websites and apps."
+      title: "Factor.js - VueJS Framework and Web App OS",
+      description: "Factor is a modular CMS framework based on Vue.js.."
     },
 
-    headline: "Build Beautiful Web Apps",
-    subHeadline:
-      "Factor is free and open-source Javascript platform for creating cutting-edge websites, blogs, or apps.",
+    headline: "Factor CMS Framework",
+    subHeadline: "Factor is a 100% Javascript, minimal and modular CMS framework built with Vue SSR and Node.",
     boxes: [
       {
-        title: "Extension First",
+        title: "No Bloat",
         description:
           "From the ground up built for extensibility. Add features with plugins, services with stacks, UI with themes."
       },
       {
-        title: "Posts and Pages",
+        title: "Beautiful Apps",
         description:
-          "Similar to WordPress, Factor has an (optional) dashboard and posts-system for managing common tasks."
+          "Factor was built by front-end developers for front-end developers. We're here to help you create something beautiful."
       },
       {
-        title: "Ship Faster",
+        title: "Easy To Start",
         description:
           "Finally the JS world has a platform designed to help you ship production apps. Use Factor and stop the frustration."
       }

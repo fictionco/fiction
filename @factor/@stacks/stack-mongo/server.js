@@ -3,7 +3,8 @@ module.exports.default = Factor => {
     constructor() {
       require(".").default(Factor)
 
-      Factor.$filters.callback("endpoints", { id: "myEndpoint", handler: require("./endpoint").default(Factor) })
+      const dbEndpointHandler = require("./endpoint").default(Factor)
+      Factor.$filters.callback("endpoints", { id: "db", handler: dbEndpointHandler })
     }
   })()
 }

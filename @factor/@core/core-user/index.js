@@ -128,8 +128,9 @@ module.exports.default = Factor => {
       if (storedValue) {
         user = storedValue
       } else if (uid) {
-        user = await Factor.$db.read({
-          collection: "public",
+        user = await Factor.$db.run({
+          model: "User",
+          method: "findById",
           id: uid
         })
 
@@ -178,23 +179,13 @@ module.exports.default = Factor => {
 
       if (!uid) return {}
 
-      const publicData = await Factor.$db.read({
-        collection: "public",
-        id: uid
+      const userData = await Factor.$db.run({
+        model: "User",
+        method: "findOne",
+        conditions: { id: uid }
       })
 
-      const privateData = await Factor.$db.read({
-        collection: "private",
-        id: uid
-      })
-
-      // Public data should have priority over private
-      // If a value is in both, should choose the public one first
-      const userData = { uid, ...privateData, ...publicData }
-
-      delete userData.password
-
-      return await Factor.$stack.service("get-user-data", userData)
+      return await Factor.$filters.apply("user-data-request", userData)
     }
 
     setCacheUser(user) {
@@ -260,17 +251,11 @@ module.exports.default = Factor => {
 
       const { userPublic, userPrivate } = await this.constructSaveObject(servicedUser)
 
-      const savePublic = Factor.$db.update({
-        collection: "public",
-        type: "user",
+      const savePublic = Factor.$db.run({
+        model: "User",
+        method: "findByIdAndUpdate",
         id: uid,
         data: userPublic
-      })
-      const savePrivate = Factor.$db.update({
-        collection: "private",
-        type: "user",
-        id: uid,
-        data: userPrivate
       })
 
       await Promise.all([savePublic, savePrivate])

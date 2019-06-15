@@ -21,7 +21,7 @@ export default Factor => {
     }
 
     async getPermalinks() {
-      const results = await Factor.$db.search({ collection: "public", limit: 1000 })
+      const results = await Factor.$db.run({ method: "find", conditions: {}, limit: 1000 })
 
       const urls = results.data
         .filter(_ => _.permalink)

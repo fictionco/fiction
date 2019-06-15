@@ -1,7 +1,5 @@
 node_modules
 dist
-factor-secrets.*
-serverless
 *.log
-*firebase*
-firebase.json
+.env
+.secrets

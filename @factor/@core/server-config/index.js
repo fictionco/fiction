@@ -1,6 +1,8 @@
+const { resolve } = require("path")
 const { existsSync } = require("fs-extra")
 const NODE_ENV = process.env.NODE_ENV == "development" ? "development" : "production"
 const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
+
 module.exports.default = Factor => {
   return new (class {
     constructor() {
@@ -12,6 +14,13 @@ module.exports.default = Factor => {
         _["process.env.FACTOR_APP_CONFIG"] = JSON.stringify(this.publicSettings())
         return _
       })
+
+      // Add environmental variables from .env if available
+
+      const dotEnvPath = resolve(Factor.$paths.get("app"), ".env")
+      if (dotEnvPath) {
+        require("dotenv").config({ path: dotEnvPath })
+      }
 
       this.initialize()
     }
@@ -27,26 +36,16 @@ module.exports.default = Factor => {
       }
       return conf || {}
     }
-    extensions() {
-      return {
-        theme: Factor.$files.getExtended("theme"),
-        stack: Factor.$files.getExtended("stack"),
-        plugin: Factor.$files.getExtended("plugin")
-      }
-    }
 
     initialize() {
       const publicConfig = this.getConfig("public")
       const privateConfig = this.getConfig("private")
 
-      const extensions = this.extensions()
-
       const configObjectsPublic = [
         Factor.FACTOR_CONFIG,
         publicConfig.config,
         publicConfig[NODE_ENV],
-        publicConfig[FACTOR_ENV],
-        extensions
+        publicConfig[FACTOR_ENV]
       ].filter(_ => _)
 
       this._settingsPublic = Factor.$utils.deepMerge(configObjectsPublic)

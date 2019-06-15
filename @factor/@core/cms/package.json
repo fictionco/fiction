@@ -17,7 +17,6 @@
     "@factor/cms-page-templates": "^0.3.7",
     "@factor/cms-posts": "^0.3.7",
     "@factor/cms-signin": "^0.3.7",
-    "@factor/cms-user": "^0.3.7",
     "@factor/core": "^0.3.7",
     "@factor/ui": "^0.3.7"
   },

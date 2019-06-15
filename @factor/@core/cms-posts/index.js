@@ -180,18 +180,16 @@ export default Factor => {
 
       const taxonomies = ["type", "tag", "category", "status"]
 
-      const filters = taxonomies
-        .filter(_ => args[_])
-        .map(_ => {
-          return {
-            field: _,
-            value: args[_]
-          }
-        })
+      const conditions = {}
+      taxonomies.forEach(_ => {
+        if (args[_]) {
+          conditions[_] = args[_]
+        }
+      })
 
-      const query = { collection: "public", limit, filters, page }
+      const query = { model: "Post", method: "find", limit, conditions, page }
 
-      const results = await Factor.$db.search(query)
+      const results = await Factor.$db.run(query)
 
       results.data = await this.parsePosts(results.data)
 
@@ -337,8 +335,9 @@ export default Factor => {
     }
 
     async getPostById(id) {
-      return await Factor.$db.read({
-        collection: "public",
+      return await Factor.$db.run({
+        model: "Post",
+        method: "findById",
         id
       })
     }
@@ -368,14 +367,13 @@ export default Factor => {
         revisions: this._cleanRevisions(revisions) // limit amount and frequency
       }
       const query = {
-        collection: "public",
+        model: "Post",
+        method: "findByIdAndUpdate",
         data,
-        id,
-        merge: true,
-        noIndex: true // no query/search changes
+        id
       }
 
-      const response = await Factor.$db.update(query)
+      const response = await Factor.$db.run(query)
 
       console.log("[draft saved]", query, data, revisions)
 
@@ -386,10 +384,10 @@ export default Factor => {
       if (!permalink && id) {
         return await this.getPostById(id)
       } else {
-        const results = await Factor.$db.read({
-          collection: "public",
-          field,
-          value: permalink
+        const results = await Factor.$db.run({
+          model: "Post",
+          method: "find",
+          conditions: { [field]: permalink }
         })
 
         return results[0]
