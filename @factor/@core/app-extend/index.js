@@ -9,7 +9,7 @@ export default Factor => {
       Factor.config.devtools = true
       Factor.config.silent = false
       this.addCoreExtension("tools", require("@factor/tools").default)
-      this.addCoreExtension("log", require("@factor/core-log/app").default)
+      this.addCoreExtension("log", require("@factor/core-log").default)
       this.addCoreExtension("filters", require("@factor/filters").default)
       this.addCoreExtension("config", require("@factor/app-config").default)
       this.addCoreExtension("stack", require("@factor/core-stack").default)

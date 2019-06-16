@@ -22,20 +22,16 @@ module.exports.default = Factor => {
     }
 
     setModels() {
-      const Base = mongoose.model("Base", new mongoose.Schema({}, { timestamps: true }))
-      this._models = { Base }
+      const Post = mongoose.model("Post", new mongoose.Schema({}, { timestamps: true }))
+      this._models = { Post }
       const schemas = Factor.$filters.apply("data-schemas", [])
       schemas.forEach(({ name, schema, options = {}, callback = null }) => {
         options.discriminatorKey = "kind"
         let ObjectSchema = new mongoose.Schema(schema, options)
 
-        if (callback) {
-          callback(ObjectSchema)
+        if (callback) callback(ObjectSchema)
 
-          //     ObjectSchema = callback(ObjectSchema)
-        }
-
-        this._models[name] = Base.discriminator(name, ObjectSchema)
+        this._models[name] = Post.discriminator(name, ObjectSchema)
       })
     }
 

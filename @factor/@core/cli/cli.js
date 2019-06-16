@@ -194,7 +194,7 @@ const cli = async () => {
 
                 return proc
                   .then(() => {
-                    task.title = options.done ? options.done : task.title + " Done!"
+                    task.title = options.done ? options.done : `${task.title} [Done!]`
                   })
                   .catch(error => {
                     throw new Error(error)

@@ -182,14 +182,7 @@ module.exports.default = Factor => {
     }
 
     getWatchDirs() {
-      const filtered = this.filterExtensions({
-        mainTarget: "server",
-        buildTarget: ["server", "app"],
-        extensions: this.extensions
-      })
-
-      this.watchDirs = filtered.map(_ => dirname(require.resolve(_.name)))
-      return this.watchDirs
+      return this.extensions.map(_ => dirname(require.resolve(_.name)))
     }
 
     // Webpack doesn't allow dynamic paths in require statements
