@@ -34,7 +34,7 @@
         </div>
 
         <div v-else-if="column == 'author'" class="author">
-          <dashboard-user-card v-for="(user, ind) in row.authorData" :key="ind" :uid="user.uid" />
+          <dashboard-user-card v-for="(user, ind) in row.authorData" :key="ind" :uid="user._id" />
         </div>
 
         <div v-else-if="column == 'meta'" class="meta">

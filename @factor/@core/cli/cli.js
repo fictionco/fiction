@@ -42,7 +42,9 @@ const cli = async () => {
       process.env.NODE_ENV = NODE_ENV
       process.env.FACTOR_ENV = program.ENV || NODE_ENV
 
-      require("@factor/build-extend").default(Factor)
+      require("@factor/build-extend")
+        .default(Factor)
+        .run()
 
       return program
     }
@@ -260,6 +262,28 @@ const cli = async () => {
       const tildePath = require("expand-tilde")("~")
 
       return txt.replace(tildePath, "~")
+    }
+
+    async exitHandler() {
+      await Factor.$filters.run("exit")
+
+      process.exit(0)
+    }
+
+    handleProcessExit() {
+      process.stdin.resume()
+      //do something when app is closing
+      process.on("exit", this.exitHandler())
+
+      //catches ctrl+c event
+      process.on("SIGINT", this.exitHandler())
+
+      // catches "kill pid" (for example: nodemon restart)
+      process.on("SIGUSR1", this.exitHandler())
+      process.on("SIGUSR2", this.exitHandler())
+
+      //catches uncaught exceptions
+      process.on("uncaughtException", this.exitHandler({ code: 1 }))
     }
   })()
 }

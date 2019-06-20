@@ -19,9 +19,7 @@ module.exports.default = Factor => {
         const compareResult = await user.comparePassword(password)
 
         if (!compareResult) {
-          return {
-            notify: "Incorrect Login Information."
-          }
+          Factor.$error.throw(401, "Incorrect Login Information.")
         } else {
           return this.credential(user)
         }
@@ -29,15 +27,26 @@ module.exports.default = Factor => {
     }
 
     credential(user) {
+      user = user.toObject()
       delete user.password
       return {
-        user,
+        ...user,
         token: this.signJWT({ _id: user._id })
       }
     }
 
-    status({ token }) {
-      return this.verifyJWT(token)
+    async status({ token }) {
+      const decoded = this.verifyJWT(token)
+
+      if (decoded) {
+        const { _id } = decoded
+        const user = await Factor.$db.run("User", "findOne", [{ _id }])
+        console.log("decoded", user)
+
+        return user
+      } else {
+        return false
+      }
     }
 
     signJWT(payload) {
@@ -48,7 +57,7 @@ module.exports.default = Factor => {
       try {
         return jwt.verify(token, this.SECRET)
       } catch (error) {
-        throw new Error(error)
+        Factor.$error.throw(error)
       }
     }
   })()

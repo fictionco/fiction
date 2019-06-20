@@ -317,7 +317,7 @@ export default Factor => {
     }
 
     async startPost(type) {
-      const uid = Factor.$user.uid()
+      const uid = Factor.$user._id()
 
       if (!uid) {
         throw new Error("Can't create post without a logged in user.")
@@ -325,7 +325,7 @@ export default Factor => {
         throw new Error("Specify a type of post to create.")
       }
 
-      const author = { [Factor.$user.uid()]: true }
+      const author = { [Factor.$user._id()]: true }
 
       return {
         type,
@@ -447,7 +447,7 @@ export default Factor => {
 
       const draft = {
         timestamp: Factor.$time.stamp(),
-        editor: Factor.$user.uid(),
+        editor: Factor.$user._id(),
         post: postData,
         ...meta
       }

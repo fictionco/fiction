@@ -3,7 +3,7 @@
     <section class="mast">
       <div class="splash">
         <div>
-          <h1 class="title">Plugins</h1>
+          <h1 class="title">Factor Plugins</h1>
           <p class="subtitle">Extend your project features and do more with Factor.</p>
           <!-- <div class="actions">
             <app-link path="/docs" btn="primary" size="large">
@@ -209,7 +209,7 @@ export default {
 
       const test = await this.$db.run("User", "find", [
         {
-          username: "andrewpowers"
+          username: "andrewpowers11d"
         }
       ])
     },

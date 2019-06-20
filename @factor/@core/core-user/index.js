@@ -6,14 +6,43 @@ export default Factor => {
         return
       }
 
-      Factor.$filters.add("run-app", () => {
-        this.initializeClient()
+      Factor.$filters.add("before-app", () => {
+        this.initializedUser = this.initializeUser()
         this.handleAuthRouting()
+        this.mixin()
+      })
+    }
+
+    mixin() {
+      Factor.mixin({
+        computed: {
+          $currentUser() {
+            return this.$store.getters["getItem"]("activeUser") || {}
+          },
+          $userId() {
+            return this.$currentUser && this.$currentUser._id ? this.$currentUser._id : ""
+          }
+        }
       })
     }
 
     async request(method, params) {
       return await Factor.$endpoint.request({ id: "auth", method, params })
+    }
+
+    async load(_id) {
+      let user
+      const storedValue = Factor.$store.getters["getItem"](_id) || false
+
+      if (storedValue) {
+        user = storedValue
+      } else {
+        user = await Factor.$db.run("User", "findById", [_id])
+
+        Factor.$store.commit("setItem", { item: _id, value: user })
+      }
+
+      return user
     }
 
     async authenticate(params) {
@@ -46,39 +75,46 @@ export default Factor => {
       return await this.request("verifyEmail", { email })
     }
 
-    async initializeClient() {
-      const result = this.token() ? await this.request("status", { token: this.token() }) : {}
-      console.log("result of token", result)
-      this.setActiveUser(result)
-      this.initialized = true
+    async initializeUser() {
+      return new Promise(async (resolve, reject) => {
+        if (this.activeUser()) {
+          resolve(this.activeUser())
+        } else {
+          const user = this.token() ? await this.request("status", { token: this.token() }) : {}
+
+          this.setActiveUser(user)
+
+          resolve(user)
+        }
+      })
+    }
+
+    activeUser() {
+      return Factor.$store.getters["getItem"]("activeUser")
     }
 
     setActiveUser(user) {
-      const { uid } = user
+      const { _id, token } = user
       Factor.$store.commit("setItem", { item: "activeUser", value: user })
-      Factor.$store.commit("setItem", { item: uid, value: user })
+      Factor.$store.commit("setItem", { item: _id, value: user })
       localStorage.setItem("user", JSON.stringify(user))
+      if (token) this.token(token)
     }
 
     // Utility function that calls a callback when the user is set initially
     // If due to route change then initialized var is set and its called immediately
     async init(callback) {
-      if (this.activeUser()) {
-        callback.call(this, this.activeUser())
-      } else {
-        await this.initializeClient()
-        Factor.$events.$on("user-init", () => {
-          callback.call(this, this.uid())
-        })
-      }
+      const user = await this.initializedUser
+      callback(user)
     }
 
-    uid() {
-      return this.activeUser() ? this.activeUser().uid : ""
+    _id() {
+      return this.activeUser() ? this.activeUser()._id : ""
     }
 
-    activeUser() {
-      return Factor.$store.getters["getItem"]("activeUser")
+    _item(key) {
+      const user = this.activeUser() || {}
+      return user[key]
     }
 
     storeUser({ user, from }) {
@@ -131,13 +167,14 @@ export default Factor => {
     }
 
     token(token) {
-      const keyName = "jwtToken"
-      if (token === false) {
+      const keyName = "token"
+      if (token === false || token === null) {
         localStorage.removeItem(keyName)
       } else if (token) {
-        localStorage.setItem(keyName, JSON.stringify(token))
+        localStorage.setItem(keyName, JSON.stringify({ token }))
       } else {
-        return localStorage.getItem(keyName)
+        const v = localStorage.getItem(keyName)
+        return v ? JSON.parse(v).token : ""
       }
     }
 

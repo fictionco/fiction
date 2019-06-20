@@ -272,7 +272,7 @@ module.exports.default = Factor => {
             $activeUser() {
               return this.$store.getters["getItem"]("activeUser") || {}
             },
-            $uid() {
+            $userId() {
               return this.$activeUser && this.$activeUser.uid ? this.$activeUser.uid : ""
             }
           }

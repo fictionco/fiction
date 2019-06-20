@@ -1,15 +1,29 @@
 module.exports.default = Factor => {
   return new (class {
-    constructor() {
-      this.setup()
+    constructor() {}
+
+    reload() {
+      this.loadCore()
+      this.loadPlugins()
     }
 
-    setup() {
+    run() {
       Factor.FACTOR_CONFIG = require("@factor/build-config").default(Factor)
       Factor.FACTOR_TARGET = "server"
 
+      this.loadCore()
+
+      // Loading plugins is sometimes not desireable e.g. when creating loaders
+      if (Factor.FACTOR_CONFIG.loadPlugins !== false) {
+        this.loadPlugins()
+        this.initialize()
+      }
+    }
+
+    loadCore() {
       this._install("log", require("@factor/core-log/build").default)
       this._install("tools", require("@factor/tools").default)
+
       this._install("filters", require("@factor/filters").default)
       this._install("paths", require("@factor/build-paths").default)
 
@@ -23,11 +37,6 @@ module.exports.default = Factor => {
 
       // This just adds the dirname to config and other paths
       require("@factor/app/build").default(Factor)
-
-      // Loading plugins is sometimes not desireable e.g. when creating loaders
-      if (Factor.FACTOR_CONFIG.loadPlugins !== false) {
-        this.loadPlugins()
-      }
     }
 
     _install(id, plugin) {
@@ -38,11 +47,7 @@ module.exports.default = Factor => {
       })
     }
 
-    loadPlugins() {
-      const plugins = require(Factor.$paths.get("loader-server"))
-
-      this.injectPlugins(plugins)
-
+    initialize() {
       const { setup } = Factor.FACTOR_CONFIG
 
       // config defined setup hook/callback
@@ -52,8 +57,14 @@ module.exports.default = Factor => {
       }
 
       Factor.$filters.run("initialize-server")
+    }
 
-      return `Loaded ${Object.keys(plugins).length} build modules`
+    loadPlugins() {
+      const plugins = require(Factor.$paths.get("loader-server"))
+
+      this.injectPlugins(plugins)
+
+      return
     }
 
     injectPlugins(plugins) {

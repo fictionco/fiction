@@ -3,9 +3,12 @@ export default Factor => {
     constructor() {
       this.metatags = []
 
-      Factor.$filters.add("mixins", _ => {
-        _.metatags = Factor.FACTOR_SSR == "server" ? this.serverMetatags() : this.clientTitleTag()
-        return _
+      Factor.$filters.add("before-app", () => {
+        if (Factor.FACTOR_SSR == "server") {
+          this.serverMetatags()
+        } else {
+          this.clientTitleTag()
+        }
       })
 
       Factor.$filters.add("site-mixins", _ => {
@@ -15,11 +18,11 @@ export default Factor => {
     }
 
     siteMixin() {
-      const that = this
+      const _this = this
       return {
         metatags() {
           return {
-            ...that._getDefaults(),
+            ..._this._getDefaults(),
             priority: 20
           }
         }

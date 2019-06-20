@@ -10,7 +10,7 @@
         <div class="footer-col">
           <div>
             <div class="terms">
-              <factor-link v-if="!$uid" event="signin-modal" data-test="login">Sign In</factor-link>
+              <factor-link v-if="!$userId" event="signin-modal" data-test="login">Sign In</factor-link>
               <factor-link v-else path="/dashboard">View Dashboard</factor-link>
               <factor-link path="/terms-of-service">Terms of Service</factor-link>
               <factor-link path="/privacy-policy">Privacy Policy</factor-link>

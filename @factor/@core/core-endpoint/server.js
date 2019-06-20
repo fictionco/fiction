@@ -5,8 +5,8 @@ module.exports.default = Factor => {
   const util = require(".").default(Factor)
   const server = new (class {
     constructor() {
-      this.endpointBase = "/endpoints"
-      Factor.$filters.callback("initialize-server", () => {
+      this.endpointBase = "/_api"
+      Factor.$filters.add("initialize-server", () => {
         this.addEndpointMiddleware()
       })
     }
@@ -45,38 +45,34 @@ module.exports.default = Factor => {
 
       const auth = await this.authenticatedRequest(request)
 
-      const json = await this.runMethod({ id, handler, params, auth, method })
+      const data = await this.runMethod({ id, handler, params, auth, method })
 
       response
         .status(200)
-        .jsonp(json)
+        .jsonp(data)
         .end()
     }
 
     async runMethod({ id, handler, params, auth, method }) {
-      // const { method = "", uid = "", report = "", endpoint = "", auth = false, ...args } = ENDPOINT_ARGS
-
-      let out = {}
-
       try {
         if (!method) {
-          throw new Error(`Server: No endpoint method provided for ${id} request`)
+          Factor.$error.throw(500, `No endpoint method provided for ${id} request`)
         }
 
         Factor.$headers = { auth }
 
-        if (handler[method] && typeof handler[method] == "function") {
-          out = await handler[method](params)
-        } else {
-          throw new Error(`Server: Method named:${method} does not exist.`)
+        if (!handler[method] || typeof handler[method] !== "function") {
+          Factor.$error.throw(500, `Endpoint method named:${method} missing.`)
         }
+
+        const result = await handler[method](params)
+
+        return { result, error: "" }
       } catch (error) {
-        const { message, stack } = error
-        out = {
-          error: { message, stack }
-        }
+        const err = Factor.$error.create(error)
+        Factor.$log.error(err)
+        return { result: "", error: err }
       }
-      return out
     }
 
     // Parse "Authorization: Bearer [token]"

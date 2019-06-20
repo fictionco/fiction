@@ -10,9 +10,11 @@ export default Factor => {
       Factor.config.silent = false
       this._install("tools", require("@factor/tools").default)
       this._install("log", require("@factor/core-log").default)
+
       this._install("filters", require("@factor/filters").default)
       this._install("config", require("@factor/app-config").default)
       this._install("stack", require("@factor/core-stack").default)
+
       this.loadPlugins()
       this.initializeApp()
     }
@@ -58,23 +60,6 @@ export default Factor => {
       }
 
       Factor.$filters.run("initialize-app")
-    }
-
-    // After plugins, router and store added
-    mixinApp() {
-      Factor.$filters.run("run-app")
-
-      if (!Factor.$mixinsApplied) {
-        const mixins = Factor.$filters.apply("mixins", {})
-
-        Object.keys(mixins).forEach(key => {
-          if (typeof mixins[key] == "function") {
-            mixins[key]()
-          }
-        })
-
-        Factor.$mixinsApplied = true
-      }
     }
   })()
 }

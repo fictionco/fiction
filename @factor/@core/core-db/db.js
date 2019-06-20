@@ -24,13 +24,14 @@ module.exports.default = Factor => {
       }
     }
 
-    getModel(name) {
-      this.connectDb()
+    async getModel(name) {
+      await this.connectDb()
       return this._models[name] || null
     }
 
     setModels() {
       const Post = mongoose.model("Post", new mongoose.Schema({}, { timestamps: true }))
+
       this._models = { Post }
       const schemas = Factor.$filters.apply("data-schemas", [])
 
@@ -51,7 +52,7 @@ module.exports.default = Factor => {
           await mongoose.connect(this.DB_CONNECTION, { useNewUrlParser: true })
           return
         } catch (error) {
-          throw new Error(error)
+          Factor.$error.throw(error)
         }
       }
     }

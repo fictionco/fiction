@@ -31,7 +31,7 @@
             <div v-if="memberSince" class="sub-title">{{ `Joined ${memberSince}` }}</div>
             <div class="actions">
               <factor-link
-                v-if="post.uid == $uid"
+                v-if="post.uid == $userId"
                 path="/dashboard/account"
                 btn="primary"
               >Edit Your Profile</factor-link>
@@ -65,7 +65,7 @@
                   </li>
                 </ul>
                 <factor-link
-                  v-if="post.uid == $uid"
+                  v-if="post.uid == $userId"
                   btn="default"
                   path="/dashboard/account"
                 >Verify Your Info</factor-link>
@@ -120,7 +120,7 @@ export default {
     },
     profileUid() {
       const { uid } = this.$route.query
-      return uid ? uid : this.$uid || false
+      return uid ? uid : this.$userId || false
     },
 
     memberSince() {

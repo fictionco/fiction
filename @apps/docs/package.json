@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@factor/cms": ">=0.3.0",
-    "@factor/theme-docs": ">=0.3.0",
-    "@factor/plugin-mongodb": ">=0.3.0"
+    "@factor/theme-docs": ">=0.3.0"
   }
 }

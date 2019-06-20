@@ -59,8 +59,8 @@ export default {
     }
   },
   mounted() {
-    this.$user.init(uid => {
-      if (uid) {
+    this.$user.init(user => {
+      if (user) {
         this.loading = false
       }
     })

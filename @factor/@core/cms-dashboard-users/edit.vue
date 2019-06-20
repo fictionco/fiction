@@ -2,7 +2,7 @@
   <dashboard-page>
     <div class="user-dashboard-post-grid">
       <div class="content-column">
-        <dashboard-pane :title="id == $uid ? 'Your Account' : 'Edit User'" class="compose">
+        <dashboard-pane :title="id == $userId ? 'Your Account' : 'Edit User'" class="compose">
           <dashboard-input
             v-model="user.displayName"
             input="factor-input-text"
@@ -117,12 +117,12 @@ export default {
   },
   computed: {
     id() {
-      return this.$route.query.id || this.$uid
+      return this.$route.query.id || this.$userId
     },
     url() {
       return this.user.username
         ? `/@${this.user.username}`
-        : `/@?id=${this.user.uid}`
+        : `/@?id=${this.user._id}`
     }
   },
   async mounted() {

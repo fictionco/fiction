@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     uuid() {
-      return this.uid && this.uid != "" ? this.uid : this.$uid
+      return this.uid && this.uid != "" ? this.uid : this.$userId
     },
     user() {
       return this.$store.getters["getItem"](this.uuid) || {}
@@ -56,8 +56,8 @@ export default {
       this.doRequest(this.uid)
     } else {
       this.$user.init(() => {
-        if (this.$uid) {
-          this.doRequest(this.$uid)
+        if (this.$userId) {
+          this.doRequest(this.$userId)
         } else {
           this.loading = false
         }
@@ -66,8 +66,8 @@ export default {
   },
 
   methods: {
-    async doRequest(uid) {
-      await this.$user.request(uid)
+    async doRequest(_id) {
+      await this.$user.load(_id)
 
       this.loading = false
     },

@@ -3,6 +3,8 @@ const bodyParser = require("body-parser")
 const figures = require("figures")
 const express = require("express")
 const chalk = require("chalk")
+const destroyer = require("server-destroy")
+
 const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
 const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
@@ -70,15 +72,12 @@ module.exports.default = Factor => {
       }
     }
 
-    createServerApp(middleware = []) {
+    createServerApp() {
       this.serverApp = express()
-      this.listener = false
-      this.sockets = []
+
       this.serveStaticAssets()
 
       this.logging()
-
-      middleware.forEach(_ => this.serverApp.use(_))
 
       this.extendMiddleware()
 
@@ -97,65 +96,60 @@ module.exports.default = Factor => {
       this.serverApp.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
     }
 
-    startListener(middleware) {
-      this.createServerApp(middleware)
+    startListener(onListen) {
+      this.createServerApp()
       // Set Express routine for all fallthrough paths
       this.serverApp.get("*", async (request, response) => {
         await this.render(request, response)
       })
-      this.listener = this.localListenRoutine(this.serverApp).listen(PORT, async () => {
-        const url = Factor.$paths.localhostUrl()
-
-        const message = {
-          title: "Development Server",
-          lines: [
-            { title: "URL", value: url, indent: true },
-            { title: "NODE_ENV", value: NODE_ENV, indent: true },
-            { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
-          ]
+      this.listener = this.localListenRoutine(this.serverApp).listen(PORT, () => {
+        if (onListen) {
+          onListen()
         }
-
-        Factor.$log.formatted(message)
-
-        // await this.developmentBuildReadyPromise
-
-        require("open")(url)
       })
-
-      process.on("SIGINT", async () => {
-        this.listener.close()
-        await Factor.$filters.run("close-server")
-        process.exit(0)
-      })
+      destroyer(this.listener)
     }
 
-    // restarter(middleware) {
-    //   const _this = this
-    //   if (this.listener) {
-    //     this.sockets.forEach(socket => {
-    //       if (socket.destroyed === false) socket.destroy()
-    //     })
-    //     this.listener.close(function() {
-    //       _this.startListener(middleware)
-    //     })
-    //   } else {
-    //     this.startListener(middleware)
-    //   }
+    _reloadModules() {
+      Object.keys(require.cache).forEach(id => {
+        if (id.includes("@factor") || id.includes(".factor")) {
+          delete require.cache[id]
+        }
+      })
 
-    //   this.listener.on("connection", socket => {
-    //     this.sockets.push(socket)
-    //   })
-    // }
+      require("@factor/build-extend")
+        .default(Factor)
+        .reload()
+    }
+
+    onInitialListen() {
+      const url = Factor.$paths.localhostUrl()
+
+      const message = {
+        title: "Development Server",
+        lines: [
+          { title: "URL", value: url, indent: true },
+          { title: "NODE_ENV", value: NODE_ENV, indent: true },
+          { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
+        ]
+      }
+
+      Factor.$log.formatted(message)
+
+      require("open")(url)
+    }
 
     async startServerDevelopment() {
-      const devServer = Factor.$filters.apply("development-server")
-
-      devServer(({ bundle, template, clientManifest, middleware }) => {
-        if (!this.listener) {
-          this.startListener(middleware)
-        }
+      const { middleware } = Factor.$filters.apply("development-server", bundled => {
+        const { bundle, template, clientManifest } = bundled
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
+
+        if (!this.listener) {
+          this.startListener(this.onInitialListen)
+        }
       })
+
+      this.middleware = middleware
     }
 
     async startServer() {
@@ -213,6 +207,8 @@ module.exports.default = Factor => {
     }
 
     dynamicMiddleware() {
+      this.middleware.forEach(_ => this.serverApp.use(_))
+
       const middleware = Factor.$filters.apply("middleware", [])
 
       if (middleware.length > 0) {

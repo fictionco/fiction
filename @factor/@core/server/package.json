@@ -1,14 +1,12 @@
 {
-  "name": "@factor/core-server",
+  "name": "@factor/server",
   "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": [
-      "server"
-    ],
+    "target": ["server"],
     "id": "server"
   },
   "dependencies": {
@@ -24,6 +22,7 @@
     "open": "^6.3.0",
     "ora": "^3.4.0",
     "serve-favicon": "^2.5.0",
+    "server-destroy": "^1.0.1",
     "vue": "^2.6.8",
     "vue-server-renderer": "^2.6.8",
     "xmlhttprequest": "^1.8.0"

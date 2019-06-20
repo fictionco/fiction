@@ -15,10 +15,11 @@
             input="factor-input-email"
             required
             placeholder="Email"
-            @keyup.enter="passwordResetEmail()"
+            @keyup.enter="trigger('submit-reset')"
           />
         </factor-form>
         <dashboard-btn
+          ref="submit-reset"
           :loading="loading"
           data-test="send-password-email"
           btn="secondary"
@@ -40,7 +41,7 @@
           data-test="signin-name"
           required
           placeholder="Full Name"
-          @keyup.enter="signIn('email')"
+          @keyup.enter="trigger('submit')"
         />
         <dashboard-input
           v-model="form.email"
@@ -48,7 +49,7 @@
           data-test="signin-email"
           required
           placeholder="Email"
-          @keyup.enter="signIn('email')"
+          @keyup.enter="trigger('submit')"
         />
         <dashboard-input
           v-model="form.password"
@@ -57,13 +58,14 @@
           autocomplete="new-password"
           required
           placeholder="Password"
-          @keyup.enter="signIn('email')"
+          @keyup.enter="trigger('submit')"
         />
 
         <div class="action">
           <dashboard-btn
+            ref="submit"
             data-test="submit-login"
-            :loading="loading === 'email'"
+            :loading="loading"
             btn="primary"
             :text="newAccount ? 'Sign Up' : 'Login'"
             @click="signIn('email')"
@@ -173,6 +175,9 @@ export default {
     }
   },
   methods: {
+    trigger(ref) {
+      this.$refs[ref].$el.click()
+    },
     async passwordResetEmail() {
       const r = this.$refs["password-form"].$el.reportValidity()
       if (!r) {
@@ -188,30 +193,22 @@ export default {
       this.loading = false
     },
 
-    async signIn(method) {
+    async signIn() {
       this.errors = []
 
-      try {
-        if (method == "email") {
-          const r = this.$refs["email-form"].$el.reportValidity()
+      const r = this.$refs["email-form"].$el.reportValidity()
+      if (!r) return
 
-          if (!r) {
-            return
-          }
-        }
-        this.loading = method
+      this.loading = true
 
-        const result = await this.$user.authenticate({
-          ...this.form,
-          newAccount: this.newAccount
-        })
+      const user = await this.$user.authenticate({
+        ...this.form,
+        newAccount: this.newAccount
+      })
 
-        console.log("result", result)
-
-        this.done(result)
-      } catch (error) {
-        console.error(error)
-        this.$events.$emit("error", error)
+      if (user) {
+        this.$user.setActiveUser(user)
+        this.done(user)
       }
 
       this.loading = false
@@ -231,13 +228,14 @@ export default {
       }
     },
 
-    done(result) {
-      const { user } = result || {}
-      this.$events.$emit("notify", {
-        message: `Signed in as ${user.email}`
-      })
+    done(user) {
+      if (user.email) {
+        this.$events.$emit("notify", {
+          message: `Signed in as ${user.email}`
+        })
+      }
 
-      this.$emit("done", result)
+      this.$emit("done", user)
 
       if (this.redirectPath) {
         this.$user.init(uid => {

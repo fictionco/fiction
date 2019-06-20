@@ -23,7 +23,7 @@
                 v-for="(user, index) in searchResults"
                 :key="index"
                 class="search-result card-item"
-                @click="addItem(user.uid)"
+                @click="addItem(user._id)"
               >
                 <div class="media">
                   <img :src="user.photoURL">

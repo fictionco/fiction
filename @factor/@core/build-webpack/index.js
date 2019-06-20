@@ -8,7 +8,7 @@ const CopyPlugin = require("copy-webpack-plugin")
 const VueLoaderPlugin = require("vue-loader/lib/plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
-
+var HardSourceWebpackPlugin = require("hard-source-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
@@ -211,14 +211,19 @@ module.exports.default = Factor => {
     }
 
     development() {
-      //new FriendlyErrorsWebpackPlugin()
       return {
         mode: "development",
         devtool: "cheap-module-eval-source-map",
         output: {
           publicPath: Factor.$paths.get("dist")
         },
-        plugins: [],
+        plugins: [
+          new HardSourceWebpackPlugin({
+            info: {
+              level: "error"
+            }
+          })
+        ],
         performance: { hints: false } // Warns about large dev file sizes,
       }
     }

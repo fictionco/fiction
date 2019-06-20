@@ -31,8 +31,8 @@ export default {
   },
   mounted() {
     this.$user.init(async () => {
-      if (this.$uid) {
-        this.addKey = this.$uid
+      if (this.$userId) {
+        this.addKey = this.$userId
       } else {
         this.addKey = await this.userIp()
       }

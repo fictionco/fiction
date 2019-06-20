@@ -6,7 +6,7 @@ module.exports.default = Factor => {
     }
     async runRequest(params) {
       const { model, method, _arguments = [] } = params
-      const DataModel = this.DB.getModel(model)
+      const DataModel = await this.DB.getModel(model)
       let result
       if (!DataModel) {
         throw new Error(`DB Model for ${model} does not exist.`)

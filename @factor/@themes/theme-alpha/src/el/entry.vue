@@ -9,7 +9,7 @@
             <span class="sep">on</span>
             <span class="date">{{ $time.niceFormat(date) }}</span>
             <factor-link
-              v-if="$posts.userCanEditPost({uid: this.$uid, post: {authors}})"
+              v-if="$posts.userCanEditPost({uid: this.$userId, post: {authors}})"
               class="edit"
               path="/admin/posts/edit"
               :query="{id: postId}"

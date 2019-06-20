@@ -25,7 +25,14 @@ module.exports.default = Factor => {
         return obj
       }
 
-      let str = typeof obj !== "string" ? obj.toString() : obj
+      let str
+      if (typeof obj == "string") {
+        str = obj
+      } else if (typeof obj == "function") {
+        str = obj.toString()
+      } else {
+        str = JSON.stringify(obj)
+      }
 
       str = str.substring(0, 500)
 
@@ -79,7 +86,7 @@ module.exports.default = Factor => {
       return this._applied[name]
     }
 
-    add(name, filter, { context = false, priority = 100, provider = "" } = {}) {
+    add(name, filter, { context = false, priority = 100, signature = "" } = {}) {
       if (!this._filters[name]) {
         this._filters[name] = {}
       }
@@ -87,7 +94,7 @@ module.exports.default = Factor => {
       // create unique ID
       // In certain situations (HMR, dev), the same filter can be added twice
       // Using objects and a hash identifier solves that
-      const id = `id_${provider}${this.uniqueHash(filter)}`
+      const id = `id_${signature}${this.uniqueHash(filter)}`
 
       // For simpler assignments where no callback is needed
       const callback = typeof filter != "function" ? () => filter : filter
@@ -101,6 +108,8 @@ module.exports.default = Factor => {
 
     // Add callbacks into an array of promises, meant to be used with $filters.run
     callback(id, callback, options = {}) {
+      options.signature = this.uniqueHash(callback)
+
       const callable = typeof callback != "function" ? () => callback : callback
 
       this.add(id, (_ = [], args) => [..._, callable(args)], options)

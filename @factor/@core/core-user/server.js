@@ -20,6 +20,10 @@ module.exports.default = Factor => {
       return await bcrypt.hash(password, SALT_ROUNDS)
     }
 
+    test() {
+      return "maybe ????"
+    }
+
     schema() {
       const _this = this // mongoose hooks need 'this'
       return {

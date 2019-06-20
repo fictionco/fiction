@@ -173,7 +173,7 @@ export default {
   },
   mounted() {
     this.$user.init(async () => {
-      if (this.$uid) {
+      if (this.$userId) {
         await this.start()
       }
 
@@ -193,7 +193,7 @@ export default {
       const starting = {
         id,
         type: this.postType,
-        authors: [this.$uid],
+        authors: [this.$userId],
         status: "draft",
         date: this.$time.stamp(),
         content: ""

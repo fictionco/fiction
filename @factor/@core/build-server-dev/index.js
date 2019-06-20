@@ -18,16 +18,14 @@ export default Factor => {
 
       this.build = this.production ? "production" : "development"
 
-      Factor.$filters.add(
-        "development-server",
-        () => {
-          return this.devServer()
-        },
-        { priority: 500 }
-      )
+      Factor.$filters.add("development-server", cb => {
+        this.cb = cb
+
+        return this.createRunner()
+      })
     }
 
-    devServer() {
+    createRunner() {
       this.templatePath = Factor.$paths.resolveFilePath("#/index.html")
 
       if (!this.templatePath) {
@@ -44,25 +42,20 @@ export default Factor => {
         ...argv
       })
 
-      return cb => {
-        this.middleware = []
-        this.cb = cb
+      // this.ready
+      // const readyPromise = new Promise(resolve => {
+      //   this.ready = resolve
+      // })
 
-        this.ready
-        const readyPromise = new Promise(resolve => {
-          this.ready = resolve
-        })
+      this.template = this.getTemplate()
 
-        this.template = this.getTemplate()
+      this.watcher()
 
-        this.watcher()
+      const { middleware } = this.compileClient()
 
-        this.compileClient()
+      this.compileServer()
 
-        this.compileServer()
-
-        return readyPromise
-      }
+      return { middleware }
     }
 
     // Read file using Memory File Service
@@ -72,16 +65,17 @@ export default Factor => {
       } catch (error) {}
     }
 
-    logServerUpdate({ title, value }) {
-      const fTitle = chalk.cyan(title)
-      const fValue = chalk.dim(value)
-      console.log(`${fTitle} ${fValue}`)
-    }
+    // logServerUpdate({ title, value }) {
+    //   const fTitle = chalk.cyan(title)
+    //   const fValue = chalk.dim(value)
+    //   console.log(`${fTitle} ${fValue}`)
+    // }
 
     loaders(target, value) {
       this._loaders[target] = value
 
       const vals = Object.values(this._loaders)
+
       if (vals.length == 2) {
         if (vals.every(_ => _ == "start")) {
           this._spinner = ora("Building").start()
@@ -101,12 +95,11 @@ export default Factor => {
       }
 
       if (this.bundle && this.clientManifest) {
-        this.ready() // triggers promise resolution
+        //this.ready() // triggers promise resolution
         this.cb({
           bundle: this.bundle,
           template: this.template,
-          clientManifest: this.clientManifest,
-          middleware: this.middleware
+          clientManifest: this.clientManifest
         })
       }
     }
@@ -153,9 +146,9 @@ export default Factor => {
       }
     }
 
-    flat(arr) {
-      return [].concat.apply([], arr).filter(_ => _)
-    }
+    // flat(arr) {
+    //   return [].concat.apply([], arr).filter(_ => _)
+    // }
 
     compileClient() {
       // modify client config to work with hot middleware
@@ -176,11 +169,17 @@ export default Factor => {
           logLevel: "silent"
         })
 
-        this.middleware.push(devMiddleware)
-        // this.server.use(devMiddleware)
-
+        const middleware = [
+          devMiddleware,
+          webpackHotMiddleware(clientCompiler, {
+            heartbeat: 5000,
+            log: false
+          })
+        ]
         this.loaders("client", "start")
-
+        clientCompiler.plugin("compile", () => {
+          this.loaders("client", "start")
+        })
         clientCompiler.plugin("done", stats => {
           stats = stats.toJson()
 
@@ -195,12 +194,10 @@ export default Factor => {
           this.loaders("client", stats.time)
         })
 
-        this.middleware.push(
-          webpackHotMiddleware(clientCompiler, {
-            heartbeat: 5000,
-            log: false
-          })
-        )
+        return {
+          middleware,
+          compiler: clientCompiler
+        }
       } catch (error) {
         consola.error("[WEBPACK CLIENT COMPILER]", error)
       }
@@ -210,8 +207,11 @@ export default Factor => {
       const serverCompiler = webpack(this.confServer)
       const mfs = new MFS()
       serverCompiler.outputFileSystem = mfs
-      this.loaders("server", "start")
 
+      this.loaders("server", "start")
+      serverCompiler.plugin("compile", () => {
+        this.loaders("server", "start")
+      })
       serverCompiler.watch({}, (err, stats) => {
         // watch and update server renderer
         if (err) throw err

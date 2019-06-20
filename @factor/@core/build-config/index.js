@@ -20,7 +20,7 @@ module.exports.default = Factor => {
     configFile = require(resolve(baseDir, "config.json"))
   }
 
-  const configObjects = [configFile[this.env], configFile.config, { env }].filter(_ => typeof _ != "undefined")
+  const configObjects = [configFile[env], configFile.config, { env }].filter(_ => typeof _ != "undefined")
 
   USER_CONFIG = Object.assign({}, USER_CONFIG, merge.all(configObjects))
 

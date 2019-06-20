@@ -12,9 +12,9 @@
       <div v-if="toggle" class="profile-menu-nav" @click.stop>
         <div class="nav-pad">
           <div class="user-basics">
-            <factor-avatar v-if="$uid" width="2.5em" />
-            <div class="content" :data-uid="$user.uid()">
-              <div class="name">{{ $user.field("displayName") || $user.field("email") }}</div>
+            <factor-avatar v-if="$userId" width="2.5em" />
+            <div class="content" :data-uid="$user._id()">
+              <div class="name">{{ $user._item("displayName") || $user._item("email") }}</div>
               <div v-if="role.title" class="privs">
                 <span class="status">{{ $utils.toLabel(role.title) }}</span>
               </div>
@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     role() {
-      return this.$user.role() || {}
+      return this.$user._item("role") || {}
     }
   },
   created() {
@@ -91,7 +91,7 @@ export default {
       }
     },
     setToggle(e) {
-      if (!this.$uid) {
+      if (!this.$userId) {
         this.$events.$emit("signin-modal")
         return ""
       }

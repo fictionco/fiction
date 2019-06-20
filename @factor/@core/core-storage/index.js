@@ -58,7 +58,7 @@ module.exports.default = Factor => {
       args.file = await this.preupload(args)
 
       args.metadata = {
-        uid: args.uid || Factor.$user.uid()
+        uid: args.uid || Factor.$user._id()
       }
 
       this.request({

@@ -293,7 +293,7 @@ export default {
             ext: file.name.split(".").pop(),
             size: file.size,
             name: file.name,
-            uid: this.$uid,
+            uid: this.$userId,
             status: "preprocess"
           }
 

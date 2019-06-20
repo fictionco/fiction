@@ -25,7 +25,7 @@ export default {
       return this.user && this.user.accessLevel ? this.user.accessLevel : 0
     },
     canEdit() {
-      if (this.accessLevel > 300 || this.authors.includes(this.$uid)) {
+      if (this.accessLevel > 300 || this.authors.includes(this.$userId)) {
         return true
       } else {
         return false
