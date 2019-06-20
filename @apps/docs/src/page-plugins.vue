@@ -199,16 +199,19 @@ export default {
 
   methods: {
     async test() {
-      const result = await this.$db.run({
-        model: "User",
-        method: "create",
-        data: {
-          username: "arpowers",
-          email: "arpowers@gmail.com",
-          password: "testing123"
+      // const result = await this.$db.run("User", "create", [
+      //   {
+      //     username: "andrewpowers",
+      //     email: "arpowers+12@gmail.com",
+      //     password: "testing123"
+      //   }
+      // ])
+
+      const test = await this.$db.run("User", "find", [
+        {
+          username: "andrewpowers"
         }
-      })
-      console.log("CALLED", result)
+      ])
     },
     navItems() {
       const nav = [

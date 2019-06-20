@@ -1,6 +1,11 @@
+const bcrypt = require("bcrypt")
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      this.SECRET = Factor.$config.setting("TOKEN_SECRET")
+
+      Factor.$filters.callback("endpoints", { id: "auth", handler: require("./endpoint").default(Factor) })
+
       this.addSchema()
     }
 
@@ -12,10 +17,11 @@ module.exports.default = Factor => {
 
     async hashPassword(password) {
       const SALT_ROUNDS = 10
-      return await require("bcrypt").hash(password, SALT_ROUNDS)
+      return await bcrypt.hash(password, SALT_ROUNDS)
     }
 
     schema() {
+      const _this = this // mongoose hooks need 'this'
       return {
         name: "User",
         callback: Schema => {
@@ -24,11 +30,15 @@ module.exports.default = Factor => {
             if (!user.isModified("password")) return next()
 
             try {
-              user.password = await this.hashPassword(user.password)
+              user.password = await _this.hashPassword(user.password)
             } catch (error) {
               return next(error)
             }
           })
+
+          Schema.methods.comparePassword = async function comparePassword(candidate) {
+            return bcrypt.compare(candidate, this.password)
+          }
         },
         schema: {
           username: {
@@ -44,16 +54,28 @@ module.exports.default = Factor => {
             lowercase: true,
             index: { unique: true },
             validate: {
-              validator: require("email-validator").validate,
-              message: ({ value }) => `Email "${value}" is not valid.`
+              validator: v => Factor.$validator.isEmail(v),
+              message: props => `${props.value} is not a valid email.`
             }
           },
           password: {
+            select: false,
             type: String,
             required: true,
             trim: true,
             index: { unique: true },
             minlength: 8
+          },
+          phoneNumber: {
+            type: String,
+            lowercase: true,
+            trim: true,
+            index: true,
+            unique: true,
+            validate: {
+              validator: v => Factor.$validator.isMobilePhone(v),
+              message: props => `${props.value} is not a valid phone number (with country code).`
+            }
           }
         },
         options: {}

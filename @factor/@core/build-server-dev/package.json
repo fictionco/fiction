@@ -16,6 +16,7 @@
     "chokidar": "^2.1.2",
     "figures": "^3.0.0",
     "memory-fs": "^0.4.1",
+    "ora": "^3.4.0",
     "vue": "^2.6.8",
     "webpack": "^4.29.6",
     "webpack-dev-middleware": "^3.6.0",

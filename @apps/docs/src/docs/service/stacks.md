@@ -26,7 +26,7 @@ To install a Factor stack just it as a dependency in your `package.json`. This w
 For example, to install the theme that this site is running, just run: 
 
 ```bash
-$ yarn add @factor/stack-mongo
+$ yarn add @factor/plugin-mongodb
 ```
 
 Once installed as a dependency, Factor will load the stack as specified. 

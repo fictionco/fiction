@@ -1,95 +1,72 @@
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
-      // Fire the init triggers only once
-      this.initialized = false
-
-      // Where the cached user is stored
-      this.cacheKey = "factorUser"
-
-      this.filters()
-      this.events()
-    }
-
-    filters() {
-      Factor.$filters.add("mixins", _ => {
-        _.user = this.mixin()
-        return _
-      })
-    }
-
-    config() {
-      return require("./config")
-    }
-
-    roles() {
-      return this.config().roles
-    }
-
-    publicFields() {
-      return Factor.$filters.apply("user-public-fields", this.config().publicFields)
-    }
-
-    getPostTypes() {
-      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/users.svg") : ""
-      const initialPostTypes = [
-        {
-          type: "user",
-          base: "",
-          icon
-        }
-      ]
-
-      return Factor.$filters.apply("post-types", initialPostTypes).map(_ => {
-        return {
-          ..._,
-          base: typeof _.base == "undefined" ? _.type : _.base,
-          name: Factor.$utils.toLabel(_.type)
-        }
-      })
-    }
-
-    role() {
-      const user = this.getUser() || {}
-      const { role = {} } = user
-
-      return Object.keys(role).map(_ => {
-        return { title: _, level: role[_] }
-      })[0]
-    }
-
-    events() {
-      // Has to be after client load to avoid SSR conflicts
-      Factor.$events.$on("app-mounted", () => {
-        this.start()
-      })
-
-      Factor.$events.$on("user-updated", args => {
-        const { uid = this.uid() } = args || {}
-        this.setActiveUser({ uid, from: "refresh" })
-      })
-
-      Factor.$events.$on("auth-init", ({ uid }) => {
-        this.setActiveUser({ uid, from: "auth" })
-      })
-
-      Factor.$events.$on("auth-user-signed-in", ({ user }) => this.save(user))
-    }
-
-    start() {
-      this.cachedUser = this.getCachedUser()
-
-      if (this.cachedUser) {
-        this.storeUser({ user: this.cachedUser, from: "cache" })
+      // Authentication events only work after SSR
+      if (Factor.$isNode) {
+        return
       }
+
+      Factor.$filters.add("run-app", () => {
+        this.initializeClient()
+        this.handleAuthRouting()
+      })
+    }
+
+    async request(method, params) {
+      return await Factor.$endpoint.request({ id: "auth", method, params })
+    }
+
+    async authenticate(params) {
+      try {
+        const result = await this.request("authenticate", params)
+        await Factor.$filters.run("authenticated", result)
+        return result
+      } catch (error) {
+        throw new Error(error)
+      }
+    }
+
+    async logout(args = {}) {
+      this.token(false)
+      Factor.$events.$emit("logout")
+
+      if (args.redirect || Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
+        const { redirect: path = "/" } = args
+        Factor.$router.push({ path })
+      } else {
+        Factor.$events.$emit("reset-ui")
+      }
+    }
+
+    async sendPasswordReset({ email }) {
+      return await this.request("passwordReset", { email })
+    }
+
+    async sendEmailVerification(email) {
+      return await this.request("verifyEmail", { email })
+    }
+
+    async initializeClient() {
+      const result = this.token() ? await this.request("status", { token: this.token() }) : {}
+      console.log("result of token", result)
+      this.setActiveUser(result)
+      this.initialized = true
+    }
+
+    setActiveUser(user) {
+      const { uid } = user
+      Factor.$store.commit("setItem", { item: "activeUser", value: user })
+      Factor.$store.commit("setItem", { item: uid, value: user })
+      localStorage.setItem("user", JSON.stringify(user))
     }
 
     // Utility function that calls a callback when the user is set initially
     // If due to route change then initialized var is set and its called immediately
-    init(callback) {
-      if (this.initialized) {
-        callback.call(this, this.uid())
+    async init(callback) {
+      if (this.activeUser()) {
+        callback.call(this, this.activeUser())
       } else {
+        await this.initializeClient()
         Factor.$events.$on("user-init", () => {
           callback.call(this, this.uid())
         })
@@ -97,49 +74,11 @@ module.exports.default = Factor => {
     }
 
     uid() {
-      return this.getUser().uid || false
+      return this.activeUser() ? this.activeUser().uid : ""
     }
 
-    field(field) {
-      return this.getUser()[field] || ""
-    }
-
-    getUser() {
-      return Factor.$store.getters["getItem"]("activeUser") || {}
-    }
-
-    // Very basic version of this function for MVP dev
-    // Needs improvement for more fine grained control
-    can({ ability, accessLevel }) {
-      const userAccessLevel = this.getUser().accessLevel
-      if (accessLevel && accessLevel < userAccessLevel) {
-        return true
-      } else if (ability && userAccessLevel > 100) {
-        return true
-      } else {
-        return false
-      }
-    }
-
-    async request(uid = null) {
-      let user
-      const storedValue = Factor.$store.getters["getItem"](uid) || false
-
-      if (storedValue) {
-        user = storedValue
-      } else if (uid) {
-        user = await Factor.$db.run({
-          model: "User",
-          method: "findById",
-          id: uid
-        })
-
-        Factor.$store.commit("setItem", { item: uid, value: user })
-      } else {
-        console.warn("UID request was null")
-      }
-
-      return user
+    activeUser() {
+      return Factor.$store.getters["getItem"]("activeUser")
     }
 
     storeUser({ user, from }) {
@@ -148,6 +87,7 @@ module.exports.default = Factor => {
       if (from == "cache" || !Factor.$lodash.isEqual(this.getUser(), user)) {
         Factor.$store.commit("setItem", { item: "activeUser", value: user })
         Factor.$store.commit("setItem", { item: uid, value: user })
+        localStorage.setItem("user", user ? JSON.stringify(user) : false)
         this.setCacheUser(user)
         Factor.$events.$emit("user-set", user)
       }
@@ -160,124 +100,87 @@ module.exports.default = Factor => {
       }
     }
 
-    clearActiveUser() {
-      const uid = this.uid()
-      this.setCacheUser(false)
-      Factor.$store.commit("setItem", { item: "activeUser", value: {} })
-      Factor.$store.commit("setItem", { item: uid, value: {} })
-    }
-
-    async setActiveUser({ uid, from }) {
-      uid = uid ? uid : this.getUser().uid
-      const user = uid ? await this.requestFullUser(uid) : {}
-
-      this.storeUser({ user, from })
-    }
-
-    async requestFullUser(uid) {
-      uid = uid ? uid : this.getUser().uid || false
-
-      if (!uid) return {}
-
-      const userData = await Factor.$db.run({
-        model: "User",
-        method: "findOne",
-        conditions: { id: uid }
-      })
-
-      return await Factor.$filters.apply("user-data-request", userData)
-    }
-
-    setCacheUser(user) {
-      if (localStorage) {
-        localStorage.setItem(this.cacheKey, user ? JSON.stringify(user) : false)
+    async authenticate(args) {
+      try {
+        const result = await this.request("authenticate", args)
+        await Factor.$filters.run("authenticated", result)
+        return result
+      } catch (error) {
+        throw new Error(error)
       }
     }
 
-    getCachedUser() {
-      return localStorage && localStorage[this.cacheKey] ? JSON.parse(localStorage[this.cacheKey]) : false
+    async logout(args = {}) {
+      this.token(false)
+      Factor.$events.$emit("logout")
+
+      if (args.redirect || Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
+        const { redirect: path = "/" } = args
+        Factor.$router.push({ path })
+      } else {
+        Factor.$events.$emit("reset-ui")
+      }
     }
 
-    async constructSaveObject(allUserFields) {
-      let userPublic = {}
-      let userPrivate = Object.assign({}, allUserFields)
+    async sendPasswordReset({ email }) {
+      return await this.request("passwordReset", { email })
+    }
 
-      const publicFields = this.publicFields()
+    async sendEmailVerification(email) {
+      return await this.request("verifyEmail", { email })
+    }
 
-      // Get the fields that should be saved for public use
-      publicFields.forEach(i => {
-        if (typeof allUserFields[i] != "undefined") {
-          userPublic[i] = allUserFields[i]
-        }
-      })
+    token(token) {
+      const keyName = "jwtToken"
+      if (token === false) {
+        localStorage.removeItem(keyName)
+      } else if (token) {
+        localStorage.setItem(keyName, JSON.stringify(token))
+      } else {
+        return localStorage.getItem(keyName)
+      }
+    }
 
-      const noSaveFields = ["password"]
-      // Remove everything we don't want saved as private info
-      publicFields.concat(noSaveFields).forEach(i => {
-        if (typeof userPrivate[i] != "undefined") {
-          delete userPrivate[i]
-        }
-      })
+    handleAuthRouting() {
+      Factor.$filters.add("client-route-before-promises", (_, { to, from, next }) => {
+        const user = this.activeUser()
+        const { path: toPath } = to
 
-      let { username, uid } = userPublic
-      if (username) {
-        userPublic.username = await Factor.$posts.permalinkVerify({
-          permalink: username,
-          id: uid,
-          field: "username"
+        // Is authentication needed
+        const auth = to.matched.some(_r => {
+          return _r.meta.auth
         })
-      }
 
-      return { userPublic, userPrivate }
-    }
-
-    parseUserData(user) {
-      const { photosProfile } = user
-      user.photoURL = photosProfile && photosProfile[0] ? photosProfile[0].url : false
-      return user
-    }
-
-    // Updates the user private/public datastore
-    // Should merge provided data with existing
-    async save(user) {
-      const { uid = this.uid() } = user
-      const parsedUser = this.parseUserData(user)
-
-      let servicedUser = await Factor.$stack.service("save-user", parsedUser)
-
-      if (!servicedUser) {
-        return
-      }
-
-      const { userPublic, userPrivate } = await this.constructSaveObject(servicedUser)
-
-      const savePublic = Factor.$db.run({
-        model: "User",
-        method: "findByIdAndUpdate",
-        id: uid,
-        data: userPublic
-      })
-
-      await Promise.all([savePublic, savePrivate])
-
-      Factor.$events.$emit("user-updated", { uid })
-
-      return parsedUser
-    }
-
-    mixin() {
-      return () => {
-        Factor.mixin({
-          computed: {
-            $activeUser() {
-              return this.$store.getters["getItem"]("activeUser") || {}
-            },
-            $uid() {
-              return this.$activeUser && this.$activeUser.uid ? this.$activeUser.uid : ""
-            }
+        // Get accessLevel needed
+        let accessLevel = 0
+        to.matched.forEach(_r => {
+          if (_r.meta.accessLevel) {
+            accessLevel = _r.meta.accessLevel
           }
         })
-      }
+
+        if (auth === true && !user) {
+          Factor.$events.$emit("signin-modal", {
+            redirect: toPath
+          })
+          next(false)
+        }
+      })
+
+      Factor.$filters.add("client-route-loaded", (_, { to, from }) => {
+        const auth = to.matched.some(_r => {
+          return _r.meta.auth
+        })
+
+        this.init(uid => {
+          if (auth === true && !uid) {
+            Factor.$router.push({
+              path: "/signin",
+              query: { redirect: to.path, from: from.path }
+            })
+          }
+        })
+      })
     }
   })()
 }

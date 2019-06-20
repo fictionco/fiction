@@ -1,5 +1,5 @@
 {
-  "name": "@factor/stack-mongo",
+  "name": "@factor/plugin-mongodb",
   "version": "0.3.7",
   "description": "Factor stack based on MongoDB and Mongoose.",
   "author": "Fiction.com",

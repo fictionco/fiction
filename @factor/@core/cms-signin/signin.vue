@@ -1,12 +1,11 @@
 <template>
   <div class="signin" data-test="signin">
+    <div class="signin-header">
+      <div class="title">{{ header.title }}</div>
+      <div class="sub-title">{{ header.subTitle }}</div>
+    </div>
     <template v-if="forgotPassword">
-      <template v-if="passwordEmailSent">
-        <div class="signin-header">
-          <div class="title">Reset Email Sent</div>
-          <div class="sub-title">Check your inbox for instructions on recovering your password.</div>
-        </div>
-      </template>
+      <template v-if="passwordEmailSent" />
 
       <template v-else>
         <factor-form ref="password-form">
@@ -28,45 +27,11 @@
         />
       </template>
     </template>
-    <template v-else-if="view == 'profilePhoto'">
-      <div class="signin-header">
-        <div class="title">Profile Photo</div>
-        <div class="sub-title">Set your primary account picture.</div>
-      </div>
-      <dashboard-input
-        v-model="form.photosProfile"
-        input="factor-input-image-upload"
-        input-destination="/user/__uid/__name"
-        input-max="1"
-        required
-        @autosave="updateUser( )"
-      />
-      <dashboard-btn btn="default" text="Skip" @click="checkEmailVerification()" />
-    </template>
 
     <template v-else-if="view == 'verifyEmail'">
-      <div class="signin-header">
-        <div class="title">Verify Email</div>
-        <div class="sub-title">Please check your inbox for a verification email.</div>
-      </div>
       <dashboard-btn btn="default" text="Finish" @click="done()" />
     </template>
     <template v-else>
-      <div v-if="$stack.covered('auth-provider-tokens-google')">
-        <dashboard-btn
-          data-test="google-button"
-          :loading="loading === 'google'"
-          class="fi-btn-default"
-          text="Continue With Google"
-          :image="require('./img/logo-google.svg')"
-          circle="darkcolor"
-          @click="signIn('google')"
-        />
-        <div class="sep">
-          <span class="text">or</span>
-        </div>
-      </div>
-
       <factor-form ref="email-form">
         <dashboard-input
           v-if="newAccount"
@@ -95,13 +60,12 @@
           @keyup.enter="signIn('email')"
         />
 
-        <!-- <recaptcha v-if="newAccount" @solved="solved = $event" /> -->
         <div class="action">
           <dashboard-btn
             data-test="submit-login"
             :loading="loading === 'email'"
             btn="primary"
-            :text="`${newAccount ? 'Sign Up' : 'Login'} With Email`"
+            :text="newAccount ? 'Sign Up' : 'Login'"
             @click="signIn('email')"
           />
         </div>
@@ -152,25 +116,49 @@
 
 <script>
 export default {
-  components: {
-    // recaptcha: () => import("./p-modal-auth-recaptcha.vue")
-  },
+  components: {},
   props: {
     redirect: { type: String, default: "" }
   },
   data() {
     return {
-      errors: [],
       loading: false,
       form: {},
       newAccount: false,
       forgotPassword: false,
-      passwordEmailSent: false,
-
-      solved: false
+      passwordEmailSent: false
     }
   },
   computed: {
+    header() {
+      if (this.view == "verifyEmail") {
+        return {
+          title: "Verify Email",
+          subTitle: "Please check your inbox for a verification email."
+        }
+      } else if (this.passwordEmailSent && this.forgotPassword) {
+        return {
+          title: "Reset Email Sent",
+          subTitle:
+            "Check your inbox for instructions on recovering your password."
+        }
+      } else if (this.forgotPassword) {
+        return {
+          title: "Password Reset",
+          subTitle: "Enter your account email address."
+        }
+      } else if (this.newAccount) {
+        return {
+          title: "Sign Up",
+          subTitle: "Create A New Account"
+        }
+      } else {
+        return {
+          title: "Login",
+          subTitle: "Enter your account details."
+        }
+      }
+    },
     view() {
       return this.$route.query.signInView || ""
     },
@@ -192,7 +180,7 @@ export default {
       }
       this.loading = true
       try {
-        await this.$auth.sendPasswordReset(this.form)
+        await this.$user.sendPasswordReset(this.form)
         this.passwordEmailSent = true
       } catch (error) {
         this.$events.$emit("error", error)
@@ -213,19 +201,14 @@ export default {
         }
         this.loading = method
 
-        const credentials = await this.$auth.authenticate({
-          provider: method,
-          form: this.form,
+        const result = await this.$user.authenticate({
+          ...this.form,
           newAccount: this.newAccount
         })
 
-        this.credentials = credentials
+        console.log("result", result)
 
-        if (this.newAccount) {
-          this.setView("profilePhoto")
-        } else if (credentials) {
-          this.done()
-        }
+        this.done(result)
       } catch (error) {
         console.error(error)
         this.$events.$emit("error", error)
@@ -248,13 +231,13 @@ export default {
       }
     },
 
-    done() {
-      const { user } = this.credentials
+    done(result) {
+      const { user } = result || {}
       this.$events.$emit("notify", {
         message: `Signed in as ${user.email}`
       })
 
-      this.$emit("done", this.credentials)
+      this.$emit("done", result)
 
       if (this.redirectPath) {
         this.$user.init(uid => {
@@ -272,17 +255,19 @@ export default {
 
 <style lang="less">
 .signin {
-  margin: 3em auto;
+  margin: 1em auto 1em;
   width: 300px;
   text-align: center;
   .signin-header {
     margin-bottom: 1.5em;
     .title {
-      font-size: 1.3em;
+      font-size: 1.6em;
+      font-weight: var(--font-weight-bold);
     }
     .sub-title {
       font-weight: 500;
       opacity: 0.7;
+      line-height: 1.2;
     }
   }
   .alt-links {

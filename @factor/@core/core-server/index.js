@@ -1,6 +1,6 @@
 const LRU = require("lru-cache")
-var bodyParser = require("body-parser")
-
+const bodyParser = require("body-parser")
+const figures = require("figures")
 const express = require("express")
 const chalk = require("chalk")
 const { createBundleRenderer } = require("vue-server-renderer")
@@ -18,9 +18,7 @@ module.exports.default = Factor => {
       // After all extensions/filters added
       // Needed for webpack and dev server
       Factor.$filters.add("create-server", (_, args) => {
-        const { serve = true } = args
-
-        return [..._, this.startServer({ serve })]
+        return [..._, this.startServer()]
       })
     }
 
@@ -33,18 +31,16 @@ module.exports.default = Factor => {
       })
     }
 
-    // Endpoint Helper method, return function that processes (req, res)
-    requestHandler() {
-      return async (request, response) => {
-        const args = { serve: false }
-        const server = await this.startServer(args)
-        return server(request, response)
-      }
-    }
+    // // Endpoint Helper method, return function that processes (req, res)
+    // requestHandler() {
+    //   return async (request, response) => {
+    //     const args = { serve: false }
+    //     const server = await this.startServer(args)
+    //     return server(request, response)
+    //   }
+    // }
 
-    async render(request, response, args = {}) {
-      const { serve = true } = args
-
+    async render(request, response) {
       response.setHeader("Content-Type", "text/html")
       response.setHeader("Server", this.getServerInfo())
 
@@ -60,7 +56,7 @@ module.exports.default = Factor => {
       }
     }
 
-    async ssrFiles(args) {
+    async ssrFiles() {
       const paths = {
         template: Factor.$paths.resolveFilePath("#/index.html"),
         bundle: Factor.$paths.get("server-bundle"),
@@ -74,63 +70,106 @@ module.exports.default = Factor => {
       }
     }
 
-    async startServer(args) {
-      const { serve = true, url } = args
-
-      this.server = express()
-
+    createServerApp(middleware = []) {
+      this.serverApp = express()
+      this.listener = false
+      this.sockets = []
       this.serveStaticAssets()
 
       this.logging()
 
+      middleware.forEach(_ => this.serverApp.use(_))
+
       this.extendMiddleware()
 
-      if (NODE_ENV == "production") {
-        const { template, bundle, clientManifest } = await this.ssrFiles(args)
+      return this.serverApp
+    }
 
+    async startServerProduction() {
+      this.createServerApp()
+      const { template, bundle, clientManifest } = await this.ssrFiles()
+
+      this.renderer = this.createRenderer(bundle, { template, clientManifest })
+
+      // Set Express routine for all fallthrough paths
+      this.serverApp.get("*", async (request, response) => await this.render(request, response))
+
+      this.serverApp.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
+    }
+
+    startListener(middleware) {
+      this.createServerApp(middleware)
+      // Set Express routine for all fallthrough paths
+      this.serverApp.get("*", async (request, response) => {
+        await this.render(request, response)
+      })
+      this.listener = this.localListenRoutine(this.serverApp).listen(PORT, async () => {
+        const url = Factor.$paths.localhostUrl()
+
+        const message = {
+          title: "Development Server",
+          lines: [
+            { title: "URL", value: url, indent: true },
+            { title: "NODE_ENV", value: NODE_ENV, indent: true },
+            { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
+          ]
+        }
+
+        Factor.$log.formatted(message)
+
+        // await this.developmentBuildReadyPromise
+
+        require("open")(url)
+      })
+
+      process.on("SIGINT", async () => {
+        this.listener.close()
+        await Factor.$filters.run("close-server")
+        process.exit(0)
+      })
+    }
+
+    // restarter(middleware) {
+    //   const _this = this
+    //   if (this.listener) {
+    //     this.sockets.forEach(socket => {
+    //       if (socket.destroyed === false) socket.destroy()
+    //     })
+    //     this.listener.close(function() {
+    //       _this.startListener(middleware)
+    //     })
+    //   } else {
+    //     this.startListener(middleware)
+    //   }
+
+    //   this.listener.on("connection", socket => {
+    //     this.sockets.push(socket)
+    //   })
+    // }
+
+    async startServerDevelopment() {
+      const devServer = Factor.$filters.apply("development-server")
+
+      devServer(({ bundle, template, clientManifest, middleware }) => {
+        if (!this.listener) {
+          this.startListener(middleware)
+        }
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
+      })
+    }
 
-        // Set Express routine for all fallthrough paths
-        this.server.get("*", async (request, response) => await this.render(request, response, args))
-
-        this.server.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
+    async startServer() {
+      if (NODE_ENV == "production") {
+        await this.startServerProduction()
       } else {
-        const devServer = Factor.$filters.apply("development-server")
-
-        this.developmentBuildReadyPromise = devServer(this.server, (bundle, options) => {
-          this.renderer = this.createRenderer(bundle, options)
-        })
-
-        // Set Express routine for all fallthrough paths
-        this.server.get("*", async (request, response) => {
-          await this.developmentBuildReadyPromise
-          await this.render(request, response)
-        })
-
-        this.localListenRoutine(this.server).listen(PORT, async () => {
-          const url = Factor.$paths.localhostUrl()
-
-          const message = {
-            title: "Development Server",
-            lines: [
-              { title: "URL", value: url, indent: true },
-              { title: "NODE_ENV", value: NODE_ENV, indent: true },
-              { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
-            ]
-          }
-          Factor.$log.formatted(message)
-
-          await this.developmentBuildReadyPromise
-
-          require("open")(url)
-        })
+        await this.startServerDevelopment()
       }
 
-      return this.server
+      return
     }
 
     logging() {
-      this.server.use(
+      this.serverApp.use(
         require("morgan")(
           (tokens, req, res) => {
             const seconds = tokens["response-time"](req, res) / 1000
@@ -142,7 +181,9 @@ module.exports.default = Factor => {
 
             details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
 
-            return `${chalk.cyan(tokens.url(req, res))} ${chalk.dim(details.join(" "))}`
+            return `${chalk.cyan(figures.arrowUp) + chalk.cyan(figures.arrowDown)} Request: ${chalk.cyan(
+              tokens.url(req, res)
+            )} ${chalk.dim(details.join(" "))}`
           },
           {
             skip: (request, response) => {
@@ -163,16 +204,20 @@ module.exports.default = Factor => {
 
     extendMiddleware() {
       // parse application/x-www-form-urlencoded
-      this.server.use(bodyParser.urlencoded({ extended: false }))
+      this.serverApp.use(bodyParser.urlencoded({ extended: false }))
 
       // parse application/json
-      this.server.use(bodyParser.json())
+      this.serverApp.use(bodyParser.json())
 
+      this.dynamicMiddleware()
+    }
+
+    dynamicMiddleware() {
       const middleware = Factor.$filters.apply("middleware", [])
 
       if (middleware.length > 0) {
-        middleware.forEach(({ path, callback }) => {
-          this.server.use(path, callback)
+        middleware.forEach(({ path, callback, id }) => {
+          this.serverApp.use(path, callback())
         })
       }
     }
@@ -191,14 +236,14 @@ module.exports.default = Factor => {
     serveStaticAssets() {
       const fav = Factor.$paths.resolveFilePath("#/static/favicon.png", "static")
       if (fav) {
-        this.server.use(require("serve-favicon")(fav))
+        this.serverApp.use(require("serve-favicon")(fav))
       }
 
       // Global and Static Images/Manifests, etc..
-      this.server.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
+      this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
 
       // Serve distribution folder at Root URL
-      this.server.use("/", this.serveStatic(Factor.$paths.get("dist"), true))
+      this.serverApp.use("/", this.serveStatic(Factor.$paths.get("dist"), true))
     }
 
     getServerInfo() {

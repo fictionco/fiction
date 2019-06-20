@@ -89,8 +89,9 @@ export default {
   border-radius: 50%;
   position: relative;
   .user-blank {
-    fill: rgba(38, 67, 89, 0.3);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    opacity: 0.6;
+    fill: var(--color-placeholder);
+    box-shadow: var(--input-shadow);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
   }

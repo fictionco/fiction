@@ -1,45 +1,33 @@
 export default Factor => {
   return new (class {
     constructor() {
-      this.appSettings = {}
-      this.setup()
+      this._settings = {}
+
+      Factor.$filters.add("initialize-app", () => {
+        this.setup()
+      })
     }
 
-    getSet(directory) {
-      let request
-
-      // Webpack's require.context is used here because webpack doesn't allow for
-      // variable in the require path and finding/merging these is difficult
-      // Another approach would be to use node and find the appropriate files and generate a loader file
-      if (directory == "theme") {
-        request = require.context("@theme", false, /settings\.js/)
-      } else {
-        request = require.context("@", false, /settings\.js/)
-      }
+    sourceSettings() {
+      let request = require.context("@", false, /settings\.js/)
 
       const valArray = request
         .keys()
         .map(request)
         .map(_ => _.default)
 
-      return valArray[0]
+      return valArray[0](Factor)
     }
 
     async setup() {
-      const merged = [{}]
-      if (Factor.FACTOR_TARGET == "app") {
-        const themeSettings = this.getSet("theme")
-        merged.push(themeSettings)
+      const settingsArray = Factor.$filters.apply("settings", [{}])
+      settingsArray.push(this.sourceSettings())
 
-        const sourceSettings = this.getSet("@")
-        merged.push(sourceSettings)
-
-        this.appSettings = Factor.$utils.deepMerge(merged)
-      }
+      this._settings = Factor.$utils.deepMerge(settingsArray)
     }
 
     get(key) {
-      return Factor.$utils.dotSetting({ key, settings: this.appSettings })
+      return Factor.$utils.dotSetting({ key, settings: this._settings })
     }
   })()
 }

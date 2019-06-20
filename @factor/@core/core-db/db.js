@@ -1,19 +1,22 @@
 const mongoose = require("mongoose")
-
 module.exports.default = Factor => {
   return new (class {
     constructor() {
       this.DB_CONNECTION = Factor.$config.setting("DB_CONNECTION")
-
       this.mongooseConfig()
-      this.db()
 
-      // Wait til plugins loaded
+      Factor.$filters.callback("close-server", async () => {
+        if (this._connected) {
+          await mongoose.connection.close()
+
+          this._connected = false
+        }
+        return
+      })
       Factor.$filters.add("initialize-server", () => {
         this.setModels()
       })
     }
-
     mongooseConfig() {
       // https://mongoosejs.com/docs/guide.html#autoIndex
       if (process.env.NODE_ENV == "production") {
@@ -21,10 +24,16 @@ module.exports.default = Factor => {
       }
     }
 
+    getModel(name) {
+      this.connectDb()
+      return this._models[name] || null
+    }
+
     setModels() {
       const Post = mongoose.model("Post", new mongoose.Schema({}, { timestamps: true }))
       this._models = { Post }
       const schemas = Factor.$filters.apply("data-schemas", [])
+
       schemas.forEach(({ name, schema, options = {}, callback = null }) => {
         options.discriminatorKey = "kind"
         let ObjectSchema = new mongoose.Schema(schema, options)
@@ -35,35 +44,16 @@ module.exports.default = Factor => {
       })
     }
 
-    getModel(name) {
-      return this._models[name] || null
-    }
-
-    async db() {
-      if (this._db) {
-        return this._db
-      } else {
+    async connectDb() {
+      if (!this._connected) {
         try {
+          this._connected = true
           await mongoose.connect(this.DB_CONNECTION, { useNewUrlParser: true })
-          return mongoose.connection
+          return
         } catch (error) {
           throw new Error(error)
         }
       }
-    }
-
-    async run(params) {
-      const { model, method, data } = params
-      const DataModel = this.getModel(model)
-
-      if (!DataModel) {
-        throw new Error(`Model for ${model} does not exist.`)
-      } else {
-        DataModel[method](data)
-        console.log("RAN THIS")
-      }
-
-      return params
     }
   })()
 }

@@ -8,9 +8,6 @@ import { createRouter } from "@factor/app-router"
 export default () => {
   // Extend with plugins, happens before router and store so we can add hooks for them
   const loader = extendApp(Factor)
-
-  loader.initializeApp()
-
   const store = createStore()
   const router = createRouter()
 

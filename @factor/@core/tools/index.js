@@ -5,4 +5,5 @@ module.exports.default = Factor => {
   Factor.$utils = Factor.prototype.$utils = require("./utils").default(Factor)
   Factor.$guid = Factor.prototype.$guid = require("uniqid")
   Factor.$isNode = require("detect-node")
+  Factor.$validator = require("validator")
 }

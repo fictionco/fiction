@@ -1,5 +1,5 @@
 export default Factor => {
-  return new (class {
+  return new class {
     constructor() {
       this.key = "_cypress"
 
@@ -53,5 +53,5 @@ export default Factor => {
 
       Factor.$log.success("Updated Cypress Tests")
     }
-  })()
+  }
 }

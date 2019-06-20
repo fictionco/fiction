@@ -128,18 +128,6 @@ export default {
     position: relative;
     //  border: 1px solid rgba(0, 0, 0, 0.5);
     border-radius: 50%;
-    // box-shadow: 0 2px 5px 0 rgba(59, 65, 94, 0.1),
-    //   0 1px 1px 0 rgba(0, 0, 0, 0.07);
-    // &:after {
-    //   border: 1px solid rgba(0, 0, 0, 0.1);
-    //   bottom: 0;
-    //   content: "";
-    //   left: 0;
-    //   position: absolute;
-    //   right: 0;
-    //   top: 0;
-    //   border-radius: 50%;
-    // }
   }
   .account-image {
     display: block;

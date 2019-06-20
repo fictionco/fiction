@@ -1,6 +1,6 @@
 # Commands and CLI
 
-A key part of using Factor is working with its command-link-interface (CLI). The CLI is used to help orchestrate tasks across the system.
+A key part of using Factor is working with its command-line-interface (CLI). The CLI is used to help orchestrate tasks across the system.
 
 ## Primary Factor Commands 
 
@@ -91,7 +91,7 @@ Example:
 ```javascript
 // index.js
 module.exports.default = Factor => {
-  return new (class {
+  return new class {
     constructor() {
       
       Factor.$filters.callback("cli-run-database-import", args => this.databaseImport(args))
@@ -118,7 +118,7 @@ module.exports.default = Factor => {
         // Import data... 
       ]
     }
-  })()
+  }
 }
 
 

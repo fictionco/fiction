@@ -1,9 +1,6 @@
 {
-  "name": "@factor/cms-user-auth",
+  "name": "@factor/core-user-auth",
   "factor": {
-    "target": [
-      "app"
-    ],
     "id": "auth"
   },
   "version": "0.3.7",
@@ -14,6 +11,7 @@
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
     "@factor/cms-user-role": "^0.3.7",
-    "@factor/service-google-auth": "^0.3.7"
+    "@factor/service-google-auth": "^0.3.7",
+    "jsonwebtoken": "^8.5.1"
   }
 }

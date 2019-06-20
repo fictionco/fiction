@@ -29,7 +29,11 @@ const cli = async () => {
         await this.runTasks(
           [
             { command: "yarn", args: ["install"], title: "Installing Dependencies" },
-            { command: "factor", args: ["run", "create-loaders"], title: "Creating Extension Loaders" }
+            {
+              command: "factor",
+              args: ["run", "create-loaders", "--no-load-plugins"],
+              title: "Creating Extension Loaders"
+            }
           ],
           { exitOnError: true }
         )
@@ -38,7 +42,7 @@ const cli = async () => {
       process.env.NODE_ENV = NODE_ENV
       process.env.FACTOR_ENV = program.ENV || NODE_ENV
 
-      require("@factor/build-extend")(Factor)
+      require("@factor/build-extend").default(Factor)
 
       return program
     }
@@ -51,6 +55,7 @@ const cli = async () => {
         .description("CLI for managing Factor data, builds and deployments")
         .option("--PORT <PORT>", "set server port. default: 3000")
         .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
+        .option("--no-load-plugins", "Do not extend build for this command.")
 
       this.program
         .command("dev")
@@ -85,7 +90,8 @@ const cli = async () => {
           NODE_ENV = NODE_ENV || "production"
 
           await this.extend({ NODE_ENV, ...args })
-          await this.run("create-server", { NODE_ENV, ...args })
+
+          this.run("create-server", { NODE_ENV, ...args })
         })
 
       this.program
@@ -111,6 +117,7 @@ const cli = async () => {
         .description("Run CLI utilities based on filter name (see documentation)")
         .action(async (filter, args) => {
           const program = await this.extend({ NODE_ENV: "development", ...args })
+
           try {
             await this.run(`cli-run-${filter}`, { inquirer, program })
             Factor.$log.success(`Successfully ran "${filter}"\n\n`)
@@ -133,9 +140,11 @@ const cli = async () => {
           // console.log("  $ custom-help --help")
           // console.log("  $ custom-help -h")
         })
-
-      this.program.parse(process.argv)
-
+      try {
+        this.program.parse(process.argv)
+      } catch (error) {
+        console.log("works")
+      }
       const { args } = this.program
 
       if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
@@ -188,17 +197,17 @@ const cli = async () => {
                 })
 
                 proc.stderr.on("data", data => {
-                  task.output = data.toString()
-                  throw new Error(data.toString())
+                  const taskError = data.toString()
+                  throw new Error(taskError)
                 })
 
-                return proc
-                  .then(() => {
-                    task.title = options.done ? options.done : `${task.title} [Done!]`
-                  })
-                  .catch(error => {
-                    throw new Error(error)
-                  })
+                try {
+                  await proc
+
+                  task.title = options.done ? options.done : `${task.title} [Done!]`
+
+                  return
+                } catch (error) {}
               }
             }
           }
@@ -207,12 +216,7 @@ const cli = async () => {
 
       const tasks = new listr(taskMap, opts) //, { concurrent: true }
 
-      try {
-        await tasks.run()
-      } catch (error) {
-        console.error(error)
-        // process.exit(1)
-      }
+      await tasks.run()
       return
     }
 
@@ -236,7 +240,8 @@ const cli = async () => {
 
       try {
         await concurrently(r, {
-          prefix: chalk.dim(`{name} ${figures.arrowRight}`)
+          prefix: chalk.dim(`{name} ${figures.arrowRight}`),
+          raw: true
         })
       } catch (error) {
         consola.error(error)

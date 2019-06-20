@@ -1,5 +1,5 @@
 export default Factor => {
-  return new (class {
+  return new class {
     constructor() {
       this.registerComponents()
     }
@@ -27,5 +27,5 @@ export default Factor => {
         return _
       })
     }
-  })()
+  }
 }

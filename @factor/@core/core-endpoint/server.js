@@ -1,29 +1,28 @@
 const cors = require("cors")({ origin: true })
 const parse = require("qs").parse
-var bodyParser = require("body-parser")
 
 module.exports.default = Factor => {
-  return new (class {
+  const util = require(".").default(Factor)
+  const server = new (class {
     constructor() {
       this.endpointBase = "/endpoints"
       Factor.$filters.callback("initialize-server", () => {
-        const endpoints = Factor.$filters.apply("endpoints", [])
-
-        this.addEndpointMiddleware(endpoints)
+        this.addEndpointMiddleware()
       })
     }
 
-    addEndpointMiddleware(endpoints) {
-      const middlewares = []
-      endpoints.forEach(({ id, handler }) => {
-        middlewares.push({
-          path: `${this.endpointBase}/${id}`,
-          callback: this.requestMiddleware({ handler, id })
-        })
-      })
+    addEndpointMiddleware() {
+      const endpoints = Factor.$filters.apply("endpoints", [])
 
       Factor.$filters.add("middleware", _ => {
-        return _.concat(middlewares)
+        endpoints.forEach(({ id, handler }) => {
+          _.push({
+            path: `${this.endpointBase}/${id}`,
+            callback: () => this.requestMiddleware({ handler, id }),
+            id
+          })
+        })
+        return _
       })
     }
 
@@ -43,6 +42,7 @@ module.exports.default = Factor => {
       const POST = this._isJson(body) ? JSON.parse(body) : body
 
       const { method, params } = { ...POST, ...GET }
+
       const auth = await this.authenticatedRequest(request)
 
       const json = await this.runMethod({ id, handler, params, auth, method })
@@ -51,8 +51,6 @@ module.exports.default = Factor => {
         .status(200)
         .jsonp(json)
         .end()
-
-      return
     }
 
     async runMethod({ id, handler, params, auth, method }) {
@@ -107,4 +105,6 @@ module.exports.default = Factor => {
       return true
     }
   })()
+
+  return Factor.$lodash.merge(util, server)
 }

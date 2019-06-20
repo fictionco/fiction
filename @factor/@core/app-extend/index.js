@@ -8,45 +8,38 @@ export default Factor => {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
-      this.addCoreExtension("tools", require("@factor/tools").default)
-      this.addCoreExtension("log", require("@factor/core-log").default)
-      this.addCoreExtension("filters", require("@factor/filters").default)
-      this.addCoreExtension("config", require("@factor/app-config").default)
-      this.addCoreExtension("stack", require("@factor/core-stack").default)
-      this.injectPlugins()
+      this._install("tools", require("@factor/tools").default)
+      this._install("log", require("@factor/core-log").default)
+      this._install("filters", require("@factor/filters").default)
+      this._install("config", require("@factor/app-config").default)
+      this._install("stack", require("@factor/core-stack").default)
+      this.loadPlugins()
+      this.initializeApp()
     }
 
-    addCoreExtension(id, extension) {
+    _install(id, plugin) {
       Factor.use({
         install(Factor) {
-          Factor[`$${id}`] = Factor.prototype[`$${id}`] = extension(Factor)
+          Factor[`$${id}`] = Factor.prototype[`$${id}`] = plugin(Factor)
         }
       })
     }
 
-    injectPlugins() {
+    loadPlugins() {
       const plugins = require("~/.factor/loader-app")
       for (var _p in plugins) {
         if (plugins[_p]) {
           const plugin = plugins[_p]
 
           if (typeof plugin == "function") {
-            Factor.use({
-              install(Factor) {
-                const h = `$${_p}`
-
-                Factor[h] = Factor.prototype[h] = plugin(Factor)
-              }
-            })
+            this._install(_p, plugin)
           }
         }
       }
     }
 
+    // After plugins added
     initializeApp() {
-      Factor.$filters.run("initialize-app")
-      Factor.$filters.run("after-initialize-app")
-
       const comps = Factor.$filters.apply("components", {})
       for (var _ in comps) {
         if (comps[_]) {
@@ -63,9 +56,14 @@ export default Factor => {
           }
         }
       }
+
+      Factor.$filters.run("initialize-app")
     }
 
+    // After plugins, router and store added
     mixinApp() {
+      Factor.$filters.run("run-app")
+
       if (!Factor.$mixinsApplied) {
         const mixins = Factor.$filters.apply("mixins", {})
 

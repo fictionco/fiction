@@ -13,7 +13,7 @@ export default Factor => {
       const headers = {}
 
       if (Factor.$auth) {
-        const tokenId = await Factor.$auth.getRequestBearerToken()
+        const tokenId = await Factor.$auth.getToken()
 
         if (tokenId) {
           headers.Authorization = `Bearer ${tokenId}`
@@ -41,7 +41,7 @@ export default Factor => {
         if (error2.message.includes("Network Error")) {
           console.error(`[Factor Server 404 - ENDPOINT ${endpoint}:${action}]`)
         } else {
-          console.error("[Factor Server]", error2)
+          console.error("[Factor Server]", error2.message)
         }
       }
 

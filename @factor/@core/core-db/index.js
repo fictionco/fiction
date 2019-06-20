@@ -2,8 +2,16 @@ export default Factor => {
   return new (class {
     constructor() {}
 
-    async run(params) {
-      return await Factor.$stack.service(`db-service`, params)
+    async run() {
+      const params =
+        arguments.length > 1
+          ? {
+              model: arguments[0],
+              method: arguments[1],
+              _arguments: arguments[2]
+            }
+          : arguments[0]
+      return await Factor.$endpoint.request({ id: "db", method: "runRequest", params })
     }
   })()
 }

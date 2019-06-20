@@ -1,9 +1,10 @@
 const chalk = require("chalk")
-const figures = require("figures")
+
 const path = require("path")
 const MFS = require("memory-fs")
 const chokidar = require("chokidar")
 const webpack = require("webpack")
+const ora = require("ora")
 
 const webpackHotMiddleware = require("webpack-hot-middleware")
 const webpackDevMiddleware = require("webpack-dev-middleware")
@@ -12,6 +13,9 @@ const argv = require("yargs").argv
 export default Factor => {
   return new (class {
     constructor() {
+      this._loaders = {}
+      this._reason = ""
+
       this.build = this.production ? "production" : "development"
 
       Factor.$filters.add(
@@ -40,8 +44,8 @@ export default Factor => {
         ...argv
       })
 
-      return (server, cb) => {
-        this.server = server
+      return cb => {
+        this.middleware = []
         this.cb = cb
 
         this.ready
@@ -74,14 +78,35 @@ export default Factor => {
       console.log(`${fTitle} ${fValue}`)
     }
 
-    updateServer(args) {
-      this.logServerUpdate(args)
+    loaders(target, value) {
+      this._loaders[target] = value
+
+      const vals = Object.values(this._loaders)
+      if (vals.length == 2) {
+        if (vals.every(_ => _ == "start")) {
+          this._spinner = ora("Building").start()
+          this._loaders = { client: "loading", server: "loading" }
+        } else if (vals.every(_ => _) && !vals.some(_ => _ == "start" || _ == "loading")) {
+          this._spinner.succeed(`Built! ${Math.max(...vals) / 1000}s ${this._reason}`)
+          this._loaders = {}
+          this._reason = ""
+          this.updateServer()
+        }
+      }
+    }
+
+    updateServer(args = {}) {
+      if (args.title) {
+        this._reason = chalk.dim(`${args.title} @${args.value}`)
+      }
 
       if (this.bundle && this.clientManifest) {
         this.ready() // triggers promise resolution
-        this.cb(this.bundle, {
+        this.cb({
+          bundle: this.bundle,
           template: this.template,
-          clientManifest: this.clientManifest
+          clientManifest: this.clientManifest,
+          middleware: this.middleware
         })
       }
     }
@@ -92,11 +117,14 @@ export default Factor => {
       const watchDirs = Factor.$files.getWatchDirs().map(_ => `${_}/**`)
 
       chokidar
-        .watch([`${Factor.$paths.get("source")}/**`, ...watchDirs], { ignoreInitial: true })
+        .watch([`${Factor.$paths.get("source")}/**`, ...watchDirs], {
+          ignoreInitial: true,
+          ignored: `**/node_modules/**`
+        })
         .on("all", (event, path) => {
           this.updateServer({
-            title: "Source Files Change",
-            value: `[${event}@${path}]`
+            title: event,
+            value: path
           })
         })
 
@@ -116,8 +144,8 @@ export default Factor => {
             const update = callback({ event, path })
             if (update || typeof update == "undefined") {
               this.updateServer({
-                title: name,
-                value: `[${event}@${path}]`
+                title: event,
+                value: path
               })
             }
           })
@@ -148,7 +176,10 @@ export default Factor => {
           logLevel: "silent"
         })
 
-        this.server.use(devMiddleware)
+        this.middleware.push(devMiddleware)
+        // this.server.use(devMiddleware)
+
+        this.loaders("client", "start")
 
         clientCompiler.plugin("done", stats => {
           stats = stats.toJson()
@@ -161,21 +192,15 @@ export default Factor => {
           this.clientManifest = JSON.parse(
             this.readFile(devMiddleware.fileSystem, Factor.$paths.get("client-manifest-name"))
           )
-          this.updateServer({
-            title: "Client Built",
-            value: `${stats.time / 1000}s`
-          })
+          this.loaders("client", stats.time)
         })
 
-        // hot middleware
-        this.server.use(
+        this.middleware.push(
           webpackHotMiddleware(clientCompiler, {
             heartbeat: 5000,
             log: false
           })
         )
-
-        this.server.getConnections
       } catch (error) {
         consola.error("[WEBPACK CLIENT COMPILER]", error)
       }
@@ -185,6 +210,8 @@ export default Factor => {
       const serverCompiler = webpack(this.confServer)
       const mfs = new MFS()
       serverCompiler.outputFileSystem = mfs
+      this.loaders("server", "start")
+
       serverCompiler.watch({}, (err, stats) => {
         // watch and update server renderer
         if (err) throw err
@@ -195,10 +222,8 @@ export default Factor => {
         }
 
         this.bundle = JSON.parse(this.readFile(mfs, Factor.$paths.get("server-bundle-name")))
-        this.updateServer({
-          title: "Server Built",
-          value: `${stats.time / 1000}s`
-        })
+
+        this.loaders("server", stats.time)
       })
     }
   })()

@@ -1,7 +1,7 @@
 /******** GENERATED FILE ********/
 const files = {}
 files["events"] = require("@factor/core-events").default
-files["mongoStack"] = require("@factor/stack-mongo/server").default
+files["mongoStack"] = require("@factor/plugin-mongodb/server").default
 files["setting"] = require("@factor/app-settings").default
 files["appDriver"] = require("@factor/app").default
 files["serverDev"] = require("@factor/build-server-dev").default
@@ -13,10 +13,9 @@ files["server"] = require("@factor/core-server").default
 files["docsApp"] = require("../src/index.js").default
 files["storage"] = require("@factor/core-storage").default
 files["user"] = require("@factor/core-user/server").default
-files["auth"] = require("@factor/cms-user-auth").default
 files["privsRequest"] = require("@factor/cms-user-role").default
+files["privs"] = require("@factor/cms-user-role-endpoint").default
 files["appFallbacks"] = require("@factor/app-fallbacks").default
-files["googleAuth"] = require("@factor/service-google-auth").default
 files["markdown"] = require("@factor/tools-markdown").default
 files["time"] = require("@factor/tools-time").default
 files["dashboard"] = require("@factor/cms-dashboard").default
@@ -30,5 +29,5 @@ files["pageTemplates"] = require("@factor/cms-page-templates").default
 files["posts"] = require("@factor/cms-posts").default
 files["docs"] = require("@factor/theme-docs").default
 files["notify"] = require("@factor/plugin-notify").default
-files["privs"] = require("@factor/cms-user-role-endpoint").default
+files["googleAuth"] = require("@factor/service-google-auth").default
 module.exports = files
