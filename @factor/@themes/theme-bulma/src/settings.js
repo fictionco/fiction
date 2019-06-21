@@ -1,12 +1,8 @@
 export default {
   bulma: {
-    pages: [
-      {
-        doc: "",
-        title: "Intro Page",
-        name: "Intro"
-      }
-    ],
+    site: {
+      logo: () => import("./el/brand")
+    },
     base: "bulma"
   }
 }
