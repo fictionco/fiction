@@ -1,14 +1,12 @@
 {
-  "name": "@factor/build-server-dev",
+  "name": "@factor/server-dev",
   "version": "0.3.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": [
-      "server"
-    ],
+    "target": ["server"],
     "id": "serverDev"
   },
   "dependencies": {

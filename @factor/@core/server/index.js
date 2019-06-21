@@ -149,10 +149,12 @@ module.exports.default = Factor => {
         }
       })
 
-      this.middleware = middleware
+      this.middleware.push(middleware)
     }
 
     async startServer() {
+      this.middleware = []
+
       if (NODE_ENV == "production") {
         await this.startServerProduction()
       } else {
@@ -212,7 +214,7 @@ module.exports.default = Factor => {
       const middleware = Factor.$filters.apply("middleware", [])
 
       if (middleware.length > 0) {
-        middleware.forEach(({ path, callback, id }) => {
+        middleware.forEach(({ path = "/", callback }) => {
           this.serverApp.use(path, callback())
         })
       }

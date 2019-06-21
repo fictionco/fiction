@@ -176,22 +176,23 @@ export default Factor => {
             log: false
           })
         ]
+
         this.loaders("client", "start")
         clientCompiler.plugin("compile", () => {
           this.loaders("client", "start")
         })
         clientCompiler.plugin("done", stats => {
-          stats = stats.toJson()
+          const { errors, warnings, time } = stats.toJson()
 
-          stats.errors.forEach(error => consola.error(error))
-          stats.warnings.forEach(error => consola.warn(error))
+          errors.forEach(error => consola.error(error))
+          warnings.forEach(error => consola.warn(error))
 
-          if (stats.errors.length !== 0) return
+          if (errors.length !== 0) return
 
           this.clientManifest = JSON.parse(
             this.readFile(devMiddleware.fileSystem, Factor.$paths.get("client-manifest-name"))
           )
-          this.loaders("client", stats.time)
+          this.loaders("client", time)
         })
 
         return {
@@ -212,18 +213,21 @@ export default Factor => {
       serverCompiler.plugin("compile", () => {
         this.loaders("server", "start")
       })
+
       serverCompiler.watch({}, (err, stats) => {
         // watch and update server renderer
         if (err) throw err
-        stats = stats.toJson()
-        if (stats.errors.length !== 0) {
-          console.error(stats.errors)
+
+        const { errors, time } = stats.toJson()
+
+        if (errors.length !== 0) {
+          console.error(errors)
           return
         }
 
         this.bundle = JSON.parse(this.readFile(mfs, Factor.$paths.get("server-bundle-name")))
 
-        this.loaders("server", stats.time)
+        this.loaders("server", time)
       })
     }
   })()
