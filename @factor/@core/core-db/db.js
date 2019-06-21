@@ -20,7 +20,7 @@ module.exports.default = Factor => {
     mongooseConfig() {
       // https://mongoosejs.com/docs/guide.html#autoIndex
       if (process.env.NODE_ENV == "production") {
-        mongoose.use("autoIndex", false)
+        mongoose.set("autoIndex", false)
       }
     }
 
