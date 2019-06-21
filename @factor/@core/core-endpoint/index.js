@@ -12,12 +12,10 @@ export default Factor => {
     async headers() {
       const headers = {}
 
-      if (Factor.$auth) {
-        const tokenId = await Factor.$user.token()
+      const tokenId = await Factor.$user.token()
 
-        if (tokenId) {
-          headers.Authorization = `Bearer ${tokenId}`
-        }
+      if (tokenId) {
+        headers.Authorization = `Bearer ${tokenId}`
       }
 
       return headers
@@ -26,11 +24,11 @@ export default Factor => {
     async request({ id, method, params = {} }) {
       const requestPath = `${this.endpointBase}/${id}`
 
-      if (!method) {
-        console.error(`Endpoint request to ${id} requires a method.`)
-      }
-
       try {
+        if (!method) {
+          Factor.$error.throw(500, `Endpoint request to ${id} requires a method.`)
+        }
+
         const headers = await this.headers()
 
         const {
@@ -39,7 +37,7 @@ export default Factor => {
 
         if (error) {
           const { statusCode, description, stackTrace } = error
-          Factor.$error.notify(statusCode, description, { stackTrace })
+          Factor.$error.throw(statusCode, description, { stackTrace })
         }
 
         return result

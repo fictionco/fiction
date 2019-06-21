@@ -7,7 +7,7 @@ export default Factor => {
       }
 
       Factor.$filters.add("before-app", () => {
-        this.initializedUser = this.initializeUser()
+        this._initializedUser = this.initializeUser()
         this.handleAuthRouting()
         this.mixin()
       })
@@ -17,7 +17,7 @@ export default Factor => {
       Factor.mixin({
         computed: {
           $currentUser() {
-            return this.$store.getters["getItem"]("activeUser") || {}
+            return this.$store.getters["getItem"]("currentUser") || {}
           },
           $userId() {
             return this.$currentUser && this.$currentUser._id ? this.$currentUser._id : ""
@@ -56,7 +56,7 @@ export default Factor => {
     }
 
     async logout(args = {}) {
-      this.token(false)
+      this.setCurrentUser(null)
       Factor.$events.$emit("logout")
 
       if (args.redirect || Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
@@ -77,43 +77,45 @@ export default Factor => {
 
     async initializeUser() {
       return new Promise(async (resolve, reject) => {
-        if (this.activeUser()) {
-          resolve(this.activeUser())
+        if (this.currentUser()) {
+          resolve(this.currentUser())
         } else {
-          const user = this.token() ? await this.request("status", { token: this.token() }) : {}
+          const user = this.token() ? await this.request("retrieveUser", { token: this.token() }) : {}
 
-          this.setActiveUser(user)
+          this.setCurrentUser(user)
 
           resolve(user)
         }
       })
     }
 
-    activeUser() {
-      return Factor.$store.getters["getItem"]("activeUser")
+    currentUser() {
+      return Factor.$store.getters["getItem"]("currentUser")
     }
 
-    setActiveUser(user) {
-      const { _id, token } = user
-      Factor.$store.commit("setItem", { item: "activeUser", value: user })
+    setCurrentUser(user) {
+      const { _id, token } = user ? user : {}
+
+      Factor.$store.commit("setItem", { item: "currentUser", value: user })
       Factor.$store.commit("setItem", { item: _id, value: user })
-      localStorage.setItem("user", JSON.stringify(user))
-      if (token) this.token(token)
+
+      localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
+      this.token(token)
     }
 
     // Utility function that calls a callback when the user is set initially
     // If due to route change then initialized var is set and its called immediately
     async init(callback) {
-      const user = await this.initializedUser
+      const user = await this._initializedUser
       callback(user)
     }
 
     _id() {
-      return this.activeUser() ? this.activeUser()._id : ""
+      return this.currentUser() ? this.currentUser()._id : ""
     }
 
     _item(key) {
-      const user = this.activeUser() || {}
+      const user = this.currentUser() || {}
       return user[key]
     }
 
@@ -121,7 +123,7 @@ export default Factor => {
       const { uid } = user
       // Don't set user and trigger all hooks if unneeded.
       if (from == "cache" || !Factor.$lodash.isEqual(this.getUser(), user)) {
-        Factor.$store.commit("setItem", { item: "activeUser", value: user })
+        Factor.$store.commit("setItem", { item: "currentUser", value: user })
         Factor.$store.commit("setItem", { item: uid, value: user })
         localStorage.setItem("user", user ? JSON.stringify(user) : false)
         this.setCacheUser(user)
@@ -143,18 +145,6 @@ export default Factor => {
         return result
       } catch (error) {
         throw new Error(error)
-      }
-    }
-
-    async logout(args = {}) {
-      this.token(false)
-      Factor.$events.$emit("logout")
-
-      if (args.redirect || Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
-        const { redirect: path = "/" } = args
-        Factor.$router.push({ path })
-      } else {
-        Factor.$events.$emit("reset-ui")
       }
     }
 
@@ -180,7 +170,7 @@ export default Factor => {
 
     handleAuthRouting() {
       Factor.$filters.add("client-route-before-promises", (_, { to, from, next }) => {
-        const user = this.activeUser()
+        const user = this.currentUser()
         const { path: toPath } = to
 
         // Is authentication needed

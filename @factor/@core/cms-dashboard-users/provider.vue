@@ -66,7 +66,7 @@ export default {
         return data
       }
 
-      const { email, emailVerified, auths } = this.$user.activeUser()
+      const { email, emailVerified, auths } = this.$user.currentUser()
       const { phone, facebook, google } = auths || {}
       const a = this.account
 

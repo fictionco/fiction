@@ -64,8 +64,8 @@ export default {
           },
           {
             key: "logout",
-            click: () => this.$auth.logout(),
-            name: "Sign Out"
+            click: () => this.$user.logout(),
+            name: "Logout"
           }
         ]
       }

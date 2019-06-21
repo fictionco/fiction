@@ -207,7 +207,7 @@ export default {
       })
 
       if (user) {
-        this.$user.setActiveUser(user)
+        this.$user.setCurrentUser(user)
         this.done(user)
       }
 

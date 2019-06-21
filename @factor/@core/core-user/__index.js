@@ -66,11 +66,11 @@ module.exports.default = Factor => {
 
       Factor.$events.$on("user-updated", args => {
         const { uid = this.uid() } = args || {}
-        this.setActiveUser({ uid, from: "refresh" })
+        this.setCurrentUser({ uid, from: "refresh" })
       })
 
       Factor.$events.$on("auth-init", ({ uid }) => {
-        this.setActiveUser({ uid, from: "auth" })
+        this.setCurrentUser({ uid, from: "auth" })
       })
 
       Factor.$events.$on("auth-user-signed-in", ({ user }) => this.save(user))
@@ -105,7 +105,7 @@ module.exports.default = Factor => {
     }
 
     getUser() {
-      return Factor.$store.getters["getItem"]("activeUser") || {}
+      return Factor.$store.getters["getItem"]("currentUser") || {}
     }
 
     // Very basic version of this function for MVP dev
@@ -146,7 +146,7 @@ module.exports.default = Factor => {
       const { uid } = user
       // Don't set user and trigger all hooks if unneeded.
       if (from == "cache" || !Factor.$lodash.isEqual(this.getUser(), user)) {
-        Factor.$store.commit("setItem", { item: "activeUser", value: user })
+        Factor.$store.commit("setItem", { item: "currentUser", value: user })
         Factor.$store.commit("setItem", { item: uid, value: user })
         this.setCacheUser(user)
         Factor.$events.$emit("user-set", user)
@@ -160,14 +160,14 @@ module.exports.default = Factor => {
       }
     }
 
-    clearActiveUser() {
+    clearCurrentUser() {
       const uid = this.uid()
       this.setCacheUser(false)
-      Factor.$store.commit("setItem", { item: "activeUser", value: {} })
+      Factor.$store.commit("setItem", { item: "currentUser", value: {} })
       Factor.$store.commit("setItem", { item: uid, value: {} })
     }
 
-    async setActiveUser({ uid, from }) {
+    async setCurrentUser({ uid, from }) {
       uid = uid ? uid : this.getUser().uid
       const user = uid ? await this.requestFullUser(uid) : {}
 
@@ -269,11 +269,11 @@ module.exports.default = Factor => {
       return () => {
         Factor.mixin({
           computed: {
-            $activeUser() {
-              return this.$store.getters["getItem"]("activeUser") || {}
+            $currentUser() {
+              return this.$store.getters["getItem"]("currentUser") || {}
             },
             $userId() {
-              return this.$activeUser && this.$activeUser.uid ? this.$activeUser.uid : ""
+              return this.$currentUser && this.$currentUser.uid ? this.$currentUser.uid : ""
             }
           }
         })

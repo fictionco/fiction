@@ -35,14 +35,12 @@ module.exports.default = Factor => {
       }
     }
 
-    async status({ token }) {
+    async retrieveUser({ token }) {
       const decoded = this.verifyJWT(token)
 
       if (decoded) {
         const { _id } = decoded
         const user = await Factor.$db.run("User", "findOne", [{ _id }])
-        console.log("decoded", user)
-
         return user
       } else {
         return false

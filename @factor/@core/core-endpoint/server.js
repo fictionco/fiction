@@ -29,23 +29,33 @@ module.exports.default = Factor => {
     requestMiddleware({ handler, id }) {
       return (request, response, next) => {
         return cors(request, response, async () => {
-          return await this.onRequest({ id, handler, request, response })
+          return await this.parseRequest({ id, handler, request, response })
         })
       }
     }
 
-    async onRequest({ id, handler, request, response }) {
-      const { query, body } = request
+    // Parse "Authorization: Bearer [token]"
+    // https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re
+    async authenticatedRequest(authorization) {
+      if (authorization && authorization.startsWith("Bearer ")) {
+        const token = authorization.split("Bearer ")[1]
 
-      const GET = parse(query)
+        return await Factor.$user.retrieveUser({ token })
+      }
+    }
 
-      const POST = this._isJson(body) ? JSON.parse(body) : body
+    async parseRequest({ id, handler, request, response }) {
+      const {
+        query,
+        body,
+        headers: { authorization }
+      } = request
 
-      const { method, params } = { ...POST, ...GET }
+      const { method, params = {} } = { ...body, ...parse(query) }
 
-      const auth = await this.authenticatedRequest(request)
+      params.user = await this.authenticatedRequest(authorization)
 
-      const data = await this.runMethod({ id, handler, params, auth, method })
+      const data = await this.runMethod({ id, handler, params, method })
 
       response
         .status(200)
@@ -53,43 +63,27 @@ module.exports.default = Factor => {
         .end()
     }
 
-    async runMethod({ id, handler, params, auth, method }) {
+    async runMethod({ id, handler, params, method }) {
+      let result = ""
+      let error = ""
       try {
         if (!method) {
           Factor.$error.throw(500, `No endpoint method provided for ${id} request`)
         }
 
-        Factor.$headers = { auth }
+        const _ep = typeof handler == "function" ? handler(Factor) : handler
 
-        if (!handler[method] || typeof handler[method] !== "function") {
-          Factor.$error.throw(500, `Endpoint method named:${method} missing.`)
+        if (!_ep[method] || typeof _ep[method] !== "function") {
+          Factor.$error.throw(500, `Endpoint method ${method} is missing.`)
         }
 
-        const result = await handler[method](params)
-
-        return { result, error: "" }
-      } catch (error) {
-        const err = Factor.$error.create(error)
+        result = await _ep[method](params)
+      } catch (error2) {
+        error2 = Factor.$error.create(error2)
         Factor.$log.error(err)
-        return { result: "", error: err }
-      }
-    }
-
-    // Parse "Authorization: Bearer [token]"
-    // https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re
-    async authenticatedRequest(request) {
-      let auth = false
-      const {
-        headers: { authorization }
-      } = request
-
-      if (authorization && authorization.startsWith("Bearer ")) {
-        const bearerToken = authorization.split("Bearer ")[1]
-
-        auth = await Factor.$stack.service("auth-token-service", bearerToken)
       }
 
-      return auth
+      return { result, error }
     }
 
     _isJson(str) {
