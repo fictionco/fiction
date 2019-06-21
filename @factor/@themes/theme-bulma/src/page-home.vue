@@ -11,7 +11,7 @@
             <div class="field is-group">
               <app-link
                 class="button is-primary is-medium is-rounded"
-                path="https://www.fiction.com/"
+                path="https://factor.dev/themes"
                 target="_blank"
               >Get Started</app-link>
               <app-link class="button is-light is-medium is-rounded" path="/elements">View Elements</app-link>

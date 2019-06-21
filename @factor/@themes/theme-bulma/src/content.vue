@@ -1,56 +1,6 @@
 <template>
   <div class="content-layout">
-    <site-head>
-      <div class="navbar-brand">
-        <app-link path="/" class="navbar-item">
-          <theme-logo />
-        </app-link>
-        <app-link
-          path="/"
-          role="button"
-          class="navbar-burger burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
-        </app-link>
-      </div>
-
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-end">
-          <app-link path="/" class="navbar-item">Home</app-link>
-          <app-link path="/elements" class="navbar-item">Elements</app-link>
-
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">Page Templates</a>
-
-            <div class="navbar-dropdown">
-              <app-link path="/" class="navbar-item">About</app-link>
-              <app-link path="/" class="navbar-item">Jobs</app-link>
-              <app-link path="/" class="navbar-item">Contact</app-link>
-
-              <hr class="navbar-divider">
-              <app-link path="/" class="navbar-item">Report an issue</app-link>
-            </div>
-          </div>
-          <div class="navbar-item">
-            <div class="buttons">
-              <app-link
-                path="https://www.fiction.com/"
-                class="button is-outlined is-rounded"
-                target="_blank"
-              >
-                Get Started
-                <factor-icon icon="arrow-right" class="ml-2" />
-              </app-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </site-head>
+    <site-head />
     <div class="content-main" :style="bg">
       <div class="content-main-content">
         <slot v-if="$slots.default" />
@@ -65,16 +15,10 @@
 <script>
 export default {
   components: {
-    "theme-logo": () => import("./logo"),
     "site-head": () => import("#/site-head"),
     "site-footer": () => import("#/site-footer")
   },
   computed: {
-    nav() {
-      return typeof this.$route.meta.nav != "undefined"
-        ? this.$route.meta.nav
-        : true
-    },
     bg() {
       const background = this.$route.meta.background || false
 
@@ -94,12 +38,6 @@ export default {
 .content-layout {
   display: flex;
   flex-direction: column;
-
-  .navbar-brand {
-    .navbar-item {
-      padding-left: 0;
-    }
-  }
 
   .content-content {
     display: flex;

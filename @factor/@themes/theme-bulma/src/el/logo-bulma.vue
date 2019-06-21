@@ -28,19 +28,12 @@
     </svg>
   </div>
 </template>
-<style lang="scss">
+<style lang="less">
 .logo-bulma {
-  display: inline-block;
-  line-height: 1;
   svg {
     display: inline-block;
     width: 40px;
   }
-  // .bg {
-  //   fill: $primary;
-  // }
-  // .pin {
-  //   fill: $white;
-  // }
 }
 </style>
+

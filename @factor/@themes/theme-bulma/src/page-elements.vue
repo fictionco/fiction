@@ -1709,7 +1709,7 @@
                     <nav class="navbar">
                       <div class="navbar-brand">
                         <factor-link path="#" class="navbar-item">
-                          <theme-logo />
+                          <site-brand />
                         </factor-link>
                         <span class="navbar-burger burger" data-target="navbarMenuHeroA">
                           <span />
@@ -1803,7 +1803,7 @@
                   <a class="link is-info">Menu</a>
                 </div>
                 <div class="level-item has-text-centered">
-                  <theme-logo />
+                  <site-brand />
                 </div>
                 <div class="level-item has-text-centered">
                   <a class="link is-info">Reservations</a>
@@ -2194,7 +2194,7 @@
               <nav class="navbar">
                 <div class="navbar-brand">
                   <app-link class="navbar-item" path="#">
-                    <theme-logo />
+                    <site-brand />
                   </app-link>
                   <app-link class="navbar-item is-hidden-desktop" path="#" target="_blank">
                     <span class="icon">
@@ -2798,7 +2798,7 @@
 <script>
 export default {
   components: {
-    "theme-logo": () => import("./logo")
+    "site-brand": () => import("./el/brand")
   },
   data() {
     return {
