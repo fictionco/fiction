@@ -3,10 +3,8 @@
     <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
       <dashboard-nav />
     </div>
-    <div v-if="loading" class="user-loading">
-      <factor-loading-ring width="4em" />
-    </div>
-    <div class="app-layout">
+
+    <div v-else class="app-layout">
       <dashboard-head class="app-head" />
 
       <div class="app-nav" @click.stop>
@@ -60,9 +58,8 @@ export default {
   },
   mounted() {
     this.$user.init(user => {
-      if (user) {
-        this.loading = false
-      }
+      console.log("user", user)
+      // this.loading = false
     })
   },
 

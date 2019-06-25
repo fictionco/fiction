@@ -1,7 +1,7 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.DB = require("./db").default(Factor)
+      this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
     }
     async runRequest(params) {
@@ -30,6 +30,17 @@ module.exports.default = Factor => {
             }
           : arguments[0]
       return await this.runRequest(params)
+    }
+    canEdit({ doc, bearer, scope }) {
+      const { _id, authors = [] } = doc
+      if (
+        _id !== bearer._id &&
+        !authors.some(_ => _._id == bearer._id) &&
+        !bearer.accessLevel &&
+        bearer.accessLevel >= 300
+      ) {
+        Factor.$error.throw(400, "Not authorized to edit")
+      }
     }
   })()
 }

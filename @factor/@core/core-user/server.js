@@ -6,9 +6,19 @@ module.exports.default = Factor => {
     constructor() {
       this.SECRET = Factor.$config.setting("TOKEN_SECRET")
 
-      Factor.$filters.callback("endpoints", { id: "auth", handler: this })
+      Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
       this.addSchema()
+    }
+
+    async save(data, { bearer }) {
+      Factor.$db.canEdit({ doc: data, bearer, scope: "memberOrAdmin" })
+
+      const _user = await Factor.$db.run("User", "findById", [data._id])
+      Object.assign(_user, data)
+      await _user.save()
+      console.log("USER TEST AGUN", data, _user)
+      console.log("BEARER", bearer, typeof bearer._id)
     }
 
     addSchema() {
@@ -55,7 +65,7 @@ module.exports.default = Factor => {
       if (decoded) {
         const { _id } = decoded
         const user = await Factor.$db.run("User", "findOne", [{ _id }])
-        return user
+        return user.toObject()
       } else {
         return false
       }
@@ -119,6 +129,10 @@ module.exports.default = Factor => {
             index: { unique: true },
             minlength: 8
           },
+          displayName: {
+            type: String,
+            trim: true
+          },
           phoneNumber: {
             type: String,
             lowercase: true,
@@ -129,6 +143,11 @@ module.exports.default = Factor => {
               validator: v => Factor.$validator.isMobilePhone(v),
               message: props => `${props.value} is not a valid phone number (with country code).`
             }
+          },
+
+          gender: {
+            type: String,
+            enum: ["male", "female"]
           }
         },
         options: {}

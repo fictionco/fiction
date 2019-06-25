@@ -21,19 +21,11 @@ export default {
   },
   watch: {
     ui: {
-      handler: function(v) {
-        if (typeof window != "undefined") {
-          const el = this.$jquery("html")
-          const uiClass = `ui-${v}`
-
-          if (!el.hasClass(uiClass)) {
-            el.removeClass((index, className) => {
-              const reg = new RegExp("/^ui/g")
-              return (className.match(reg) || []).join(" ")
-            })
-
-            el.addClass(uiClass)
-          }
+      handler: function(to, from) {
+        if (typeof document != "undefined") {
+          const _el = document.documentElement
+          _el.classList.remove(from)
+          _el.classList.add(to)
         }
       }
     }

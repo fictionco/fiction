@@ -236,14 +236,10 @@ const cli = async () => {
         lines
       })
 
-      r = r.map(_ => {
-        return { ..._, prefixColor: "white" }
-      })
-
       try {
         await concurrently(r, {
-          prefix: chalk.dim(`{name} ${figures.arrowRight}`),
-          raw: true
+          raw: true,
+          restartTries: 100
         })
       } catch (error) {
         consola.error(error)

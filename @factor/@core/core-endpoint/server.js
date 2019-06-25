@@ -1,5 +1,6 @@
-const cors = require("cors")({ origin: true })
+const cors = require("cors")
 const parse = require("qs").parse
+const multer = require("multer")
 
 module.exports.default = Factor => {
   const util = require(".").default(Factor)
@@ -18,7 +19,12 @@ module.exports.default = Factor => {
         endpoints.forEach(({ id, handler }) => {
           _.push({
             path: `${this.endpointBase}/${id}`,
-            callback: () => this.requestMiddleware({ handler, id }),
+            middleware: [
+              cors(),
+              async (request, response, next) => {
+                return await this.parseRequest({ id, handler, request, response })
+              }
+            ],
             id
           })
         })
@@ -26,13 +32,11 @@ module.exports.default = Factor => {
       })
     }
 
-    requestMiddleware({ handler, id }) {
-      return (request, response, next) => {
-        return cors(request, response, async () => {
-          return await this.parseRequest({ id, handler, request, response })
-        })
-      }
-    }
+    // requestMiddleware({ handler, id }) {
+    //   return async (request, response) => {
+    //     return await this.parseRequest({ id, handler, request, response })
+    //   }
+    // }
 
     // Parse "Authorization: Bearer [token]"
     // https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re
@@ -53,9 +57,10 @@ module.exports.default = Factor => {
 
       const { method, params = {} } = { ...body, ...parse(query) }
 
-      params.user = await this.authenticatedRequest(authorization)
+      const meta = {}
+      meta.bearer = await this.authenticatedRequest(authorization)
 
-      const data = await this.runMethod({ id, handler, params, method })
+      const data = await this.runMethod({ id, handler, params, method, meta })
 
       response
         .status(200)
@@ -63,24 +68,24 @@ module.exports.default = Factor => {
         .end()
     }
 
-    async runMethod({ id, handler, params, method }) {
+    async runMethod({ id, handler, params, method, meta }) {
       let result = ""
       let error = ""
       try {
         if (!method) {
-          Factor.$error.throw(500, `No endpoint method provided for ${id} request`)
+          Factor.$error.throw(500, `No method provided for "${id}" request`)
         }
 
-        const _ep = typeof handler == "function" ? handler(Factor) : handler
+        const _ep = typeof handler == "function" ? handler(Factor, meta) : handler
 
         if (!_ep[method] || typeof _ep[method] !== "function") {
           Factor.$error.throw(500, `Endpoint method ${method} is missing.`)
         }
 
-        result = await _ep[method](params)
+        result = await _ep[method](params, meta)
       } catch (error2) {
         error2 = Factor.$error.create(error2)
-        Factor.$log.error(err)
+        Factor.$log.error(error2)
       }
 
       return { result, error }

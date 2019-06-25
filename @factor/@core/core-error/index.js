@@ -1,6 +1,7 @@
 class FactorError extends Error {
   constructor({ message, statusCode, properties = {} }) {
     super(message)
+
     this.statusCode = statusCode && !isNaN(statusCode) ? statusCode : 500
 
     this.description = message

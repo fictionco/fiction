@@ -2,34 +2,17 @@ const loadImage = require("blueimp-load-image")
 
 module.exports.default = Factor => {
   return new (class {
-    constructor() {
-      Factor.$stack.register({
-        id: `storage-service-upload`,
-        title: "Storage - Upload File",
-        description: "Uploads a file to storage.",
-        args:
-          "Object { data (metadata), path (storage path), file (the file), change: (upload) => {}, error: (error) => {} , done: (url) => {} }",
-        result: "[Use Callbacks]"
-      })
+    constructor() {}
 
-      Factor.$stack.register({
-        id: `storage-service-delete`,
-        title: "Storage - Delete File",
-        description: "Deletes a file based on its path",
-        args: "Object { path }",
-        result: "Boolean"
-      })
-    }
+    // createPath(path, vars) {
+    //   path = path.replace("__guid", vars.guid)
+    //   path = path.replace("__uid", vars.uid)
+    //   path = path.replace("__name", vars.name)
+    //   path = path.replace("__ext", vars.ext)
+    //   path = path.replace("__month", Factor.$time.iMonth())
 
-    createPath(path, vars) {
-      path = path.replace("__guid", vars.guid)
-      path = path.replace("__uid", vars.uid)
-      path = path.replace("__name", vars.name)
-      path = path.replace("__ext", vars.ext)
-      path = path.replace("__month", Factor.$time.iMonth())
-
-      return path
-    }
+    //   return path
+    // }
 
     async dataURL(file) {
       const reader = new FileReader()
@@ -43,41 +26,38 @@ module.exports.default = Factor => {
       })
     }
 
-    // ENDPOINT
-    async request({ method, args }) {
-      const served = await Factor.$stack.service(`storage-service-${method}`, args)
-
-      return served ? served.result : false
+    async request({ method, params, formData, headers = {} }) {
+      return await Factor.$endpoint.request({ id: "storage", formData, method, params, headers })
     }
 
-    async delete(args) {
-      return await this.request({ method: "delete", args })
+    async delete(params) {
+      return await this.request({ method: "delete", params })
     }
 
-    async upload(args) {
-      args.file = await this.preupload(args)
+    async upload({ file, meta, preprocess, done, error, change }) {
+      file = await this.preupload({ file, preprocess })
 
-      args.metadata = {
-        uid: args.uid || Factor.$user._id()
-      }
+      let formData = new FormData()
 
-      this.request({
-        method: "upload",
-        args
+      formData.append("imageUpload", file)
+      formData.append("params", JSON.stringify({ meta }))
+      formData.append("method", "upload")
+
+      return await Factor.$http.post("/_upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       })
-
-      return
     }
 
-    async preupload(args) {
-      let { file, resize = true, maxWidth = 2000, maxHeight = 2000, preprocess } = args
-
+    async preupload({ file, preprocess }, options = {}) {
+      let { maxWidth = 2000, maxHeight = 2000, resize = true } = options
       preprocess({
         mode: "started",
         percent: 5
       })
 
-      if (resize && args.file.type.includes("image")) {
+      if (resize && file.type.includes("image")) {
         file = await new Promise(resolve => {
           loadImage(
             file,

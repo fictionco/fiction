@@ -7,4 +7,5 @@ module.exports.default = Factor => {
   Factor.$isNode = require("detect-node")
   Factor.$validator = require("validator")
   Factor.$events = Factor.prototype.$events = new Factor()
+  Factor.$mongoose = Factor.prototype.$mongoose = require("mongoose")
 }

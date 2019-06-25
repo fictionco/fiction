@@ -58,21 +58,14 @@ export default {
   will-change: stroke-dashoffset;
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
-
+  stroke: var(--color-placeholder);
   stroke-linecap: round;
 }
 
 .path {
-  animation: dash 1s ease-in-out infinite, multicolor 2s ease-in-out infinite;
+  animation: dash 1s ease-in-out infinite;
 }
 
-.lightcolor .path {
-  animation: dash 1s ease-in-out infinite, lightcolor 2s ease-in-out infinite;
-}
-
-.darkcolor .path {
-  animation: dash 1s ease-in-out infinite, darkcolor 2s ease-in-out infinite;
-}
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
@@ -90,55 +83,6 @@ export default {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -124px;
-  }
-}
-@keyframes multicolor {
-  0%,
-  100% {
-    stroke: var(--color-secondary);
-  }
-  40% {
-    stroke: var(--color-secondary);
-  }
-  50% {
-    stroke: var(--color-primary);
-  }
-  80%,
-  90% {
-    stroke: var(--color-primary);
-  }
-}
-@keyframes lightcolor {
-  0%,
-  100% {
-    stroke: hsla(0, 0%, 100%, 0.9);
-  }
-  40% {
-    stroke: hsla(0, 0%, 100%, 0.9);
-  }
-  66% {
-    stroke: hsla(0, 0%, 100%, 0.9);
-  }
-  80%,
-  90% {
-    stroke: hsla(0, 0%, 100%, 0.9);
-  }
-}
-
-@keyframes darkcolor {
-  0%,
-  100% {
-    stroke: rgba(0, 0, 0, 0.6);
-  }
-  40% {
-    stroke: rgba(0, 0, 0, 0.6);
-  }
-  66% {
-    stroke: rgba(0, 0, 0, 0.6);
-  }
-  80%,
-  90% {
-    stroke: rgba(0, 0, 0, 0.6);
   }
 }
 </style>

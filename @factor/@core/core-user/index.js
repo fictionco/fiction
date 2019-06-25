@@ -1,15 +1,14 @@
 export default Factor => {
   return new (class {
     constructor() {
-      // Authentication events only work after SSR
-      if (Factor.$isNode) {
-        return
-      }
-
       Factor.$filters.add("before-app", () => {
-        this._initializedUser = this.initializeUser()
-        this.handleAuthRouting()
         this.mixin()
+
+        // Authentication events only work after SSR
+        if (!Factor.$isNode) {
+          this._initializedUser = this.initializeUser()
+          this.handleAuthRouting()
+        }
       })
     }
 
@@ -27,7 +26,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-      return await Factor.$endpoint.request({ id: "auth", method, params })
+      return await Factor.$endpoint.request({ id: "user", method, params })
     }
 
     async load(_id) {
@@ -82,9 +81,13 @@ export default Factor => {
         } else {
           const user = this.token() ? await this.request("retrieveUser", { token: this.token() }) : {}
 
-          this.setCurrentUser(user)
+          // Prevent hydration errors
+          // If current user is set too quickly Vue is throwing a mismatch error
+          setTimeout(() => {
+            this.setCurrentUser(user)
 
-          resolve(user)
+            resolve(user)
+          }, 10)
         }
       })
     }
@@ -107,6 +110,7 @@ export default Factor => {
     // If due to route change then initialized var is set and its called immediately
     async init(callback) {
       const user = await this._initializedUser
+
       callback(user)
     }
 
@@ -165,6 +169,19 @@ export default Factor => {
       } else {
         const v = localStorage.getItem(keyName)
         return v ? JSON.parse(v).token : ""
+      }
+    }
+
+    // Very basic version of this function for MVP dev
+    // Needs improvement for more fine grained control
+    can({ ability, accessLevel }) {
+      const userAccessLevel = this.currentUser().accessLevel
+      if (accessLevel && accessLevel < userAccessLevel) {
+        return true
+      } else if (ability && userAccessLevel > 100) {
+        return true
+      } else {
+        return false
       }
     }
 

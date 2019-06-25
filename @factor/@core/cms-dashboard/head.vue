@@ -9,7 +9,7 @@
       </factor-link>
       <div class="nav">
         <slot />
-        <plugin-signin-profile-menu v-if="$userId" />
+        <plugin-signin-profile-menu />
       </div>
     </div>
   </div>

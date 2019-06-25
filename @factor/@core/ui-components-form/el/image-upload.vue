@@ -287,40 +287,36 @@ export default {
         if (this.images.length < this.max) {
           const guid = this.$guid()
 
-          const data = {
+          const meta = {
             guid,
-            type: file.type,
+            mimetype: file.type,
             ext: file.name.split(".").pop(),
             size: file.size,
             name: file.name,
-            uid: this.$userId,
+            userId: this.$userId,
             status: "preprocess"
           }
 
-          data.path = this.$storage.createPath(this.dest, data)
-
-          let index = this.images.push(data) - 1
+          let index = this.images.push(meta) - 1
 
           this.numFiles++
           this.uploadFile({
-            data,
+            meta,
             file,
-            index,
-            path: data.path
+            index
           })
         }
       }
     },
 
-    uploadFile({ data, file, index, path }) {
+    uploadFile({ meta, file, index, path }) {
       this.uploadedFiles = 0
       const item = this.images[index]
 
       this.$emit("upload", { file, index, path, item })
 
       this.$storage.upload({
-        data,
-        path,
+        meta,
         file,
         preprocess: ({ mode, percent, preview = false }) => {
           //   this.$set(item, "progress", percent)

@@ -135,8 +135,6 @@ module.exports.default = Factor => {
       }
 
       Factor.$log.formatted(message)
-
-      require("open")(url)
     }
 
     async startServerDevelopment() {
@@ -185,7 +183,7 @@ module.exports.default = Factor => {
             skip: (request, response) => {
               let { url } = request
               if (url.indexOf("?") > 0) url = url.substr(0, url.indexOf("?"))
-              if (url.match(/(js|jpg|png|css|json)$/gi)) {
+              if (url.match(/(js|svg|jpg|png|css|json)$/gi)) {
                 return true
               } else if (url.match(/__webpack_hmr/gi)) {
                 return true
@@ -205,17 +203,15 @@ module.exports.default = Factor => {
       // parse application/json
       this.serverApp.use(bodyParser.json())
 
-      this.dynamicMiddleware()
-    }
-
-    dynamicMiddleware() {
       this.middleware.forEach(_ => this.serverApp.use(_))
 
-      const middleware = Factor.$filters.apply("middleware", [])
+      const ware = Factor.$filters.apply("middleware", [])
 
-      if (middleware.length > 0) {
-        middleware.forEach(({ path = "/", callback }) => {
-          this.serverApp.use(path, callback())
+      if (ware.length > 0) {
+        ware.forEach(({ path = "/", middleware }) => {
+          const _arguments = [path, ...middleware]
+          //  console.log("[path, ...middleware]", _arguments)
+          this.serverApp.use.apply(this.serverApp, _arguments)
         })
       }
     }

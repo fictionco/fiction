@@ -9,31 +9,27 @@ export default Factor => {
       return qs.stringify(params)
     }
 
-    async headers() {
-      const headers = {}
+    async authHeader() {
+      const tokenId = Factor.$user.token()
 
-      const tokenId = await Factor.$user.token()
-
-      if (tokenId) {
-        headers.Authorization = `Bearer ${tokenId}`
-      }
-
-      return headers
+      return tokenId ? `Bearer ${tokenId}` : ""
     }
 
-    async request({ id, method, params = {} }) {
+    async request({ id, method, params = {}, headers = {} }) {
       const requestPath = `${this.endpointBase}/${id}`
 
       try {
         if (!method) {
-          Factor.$error.throw(500, `Endpoint request to ${id} requires a method.`)
+          Factor.$error.throw(500, `Endpoint request to "${id}" requires a method.`)
         }
 
-        const headers = await this.headers()
+        headers.Authorization = this.authHeader()
+
+        const sendData = { method, params }
 
         const {
           data: { result, error }
-        } = await Factor.$http.post(requestPath, { method, params }, { headers })
+        } = await Factor.$http.post(requestPath, sendData, { headers })
 
         if (error) {
           const { statusCode, description, stackTrace } = error

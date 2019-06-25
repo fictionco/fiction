@@ -1,9 +1,10 @@
 {
   "name": "@factor/core-storage",
   "factor": {
-    "target": [
-      "app"
-    ],
+    "target": {
+      "app": "index",
+      "server": "server"
+    },
     "id": "storage"
   },
   "version": "0.3.7",
@@ -12,7 +13,8 @@
     "access": "public"
   },
   "dependencies": {
-    "blueimp-load-image": "^2.20.1"
+    "blueimp-load-image": "^2.20.1",
+    "multer": "^1.4.1"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

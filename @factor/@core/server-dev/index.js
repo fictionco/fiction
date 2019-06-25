@@ -115,6 +115,12 @@ export default Factor => {
           ignored: `**/node_modules/**`
         })
         .on("all", (event, path) => {
+          if (path.includes("server") || path.includes("endpoint")) {
+            Factor.$log.success("Server file changed, restarting server.")
+            // eslint-disable-next-line unicorn/no-process-exit
+            process.exit(1)
+          }
+
           this.updateServer({
             title: event,
             value: path

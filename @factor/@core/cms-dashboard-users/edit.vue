@@ -32,10 +32,6 @@
             label="Update Password"
             autocomplete="new-password"
           />
-
-          <dashboard-input label="Google Account">
-            <provider-link account="google" />
-          </dashboard-input>
         </dashboard-pane>
 
         <dashboard-pane title="Profile">
@@ -126,8 +122,8 @@ export default {
     }
   },
   async mounted() {
-    this.$user.init(async () => {
-      this.user = await this.$user.requestFullUser(this.id)
+    this.$user.init(async user => {
+      this.user = user
     })
   },
   methods: {
@@ -135,7 +131,7 @@ export default {
       this.sending = true
 
       try {
-        let savedUser = await this.$user.save(this.user)
+        let savedUser = await this.$user.request("save", this.user)
 
         if (savedUser) {
           this.$set(this, "user", savedUser)

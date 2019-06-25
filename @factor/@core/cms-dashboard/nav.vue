@@ -94,7 +94,7 @@ export default {
   },
   mounted() {
     this.menus = { dashboard: [] }
-    this.$user.init(uid => {
+    this.$user.init(user => {
       this.initializeMenu()
     })
   },

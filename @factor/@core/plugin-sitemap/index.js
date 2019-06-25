@@ -4,16 +4,18 @@ export default Factor => {
       Factor.$filters.add("middleware", _ => {
         _.push({
           path: "/sitemap.xml",
-          callback: async (request, response, next) => {
-            const sitemap = await this.createSitemap()
-            sitemap.toXML(function(err, xml) {
-              if (err) {
-                return response.status(500).end()
-              }
-              response.header("Content-Type", "application/xml")
-              response.send(xml)
-            })
-          }
+          middleware: [
+            async (request, response, next) => {
+              const sitemap = await this.createSitemap()
+              sitemap.toXML(function(err, xml) {
+                if (err) {
+                  return response.status(500).end()
+                }
+                response.header("Content-Type", "application/xml")
+                response.send(xml)
+              })
+            }
+          ]
         })
 
         return _
