@@ -9,12 +9,6 @@ export default Factor => {
       return qs.stringify(params)
     }
 
-    async authHeader() {
-      const tokenId = Factor.$user.token()
-
-      return tokenId ? `Bearer ${tokenId}` : ""
-    }
-
     async request({ id, method, params = {}, headers = {} }) {
       const requestPath = `${this.endpointBase}/${id}`
 
@@ -22,8 +16,6 @@ export default Factor => {
         if (!method) {
           Factor.$error.throw(500, `Endpoint request to "${id}" requires a method.`)
         }
-
-        headers.Authorization = this.authHeader()
 
         const sendData = { method, params }
 

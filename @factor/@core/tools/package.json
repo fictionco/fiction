@@ -9,6 +9,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@factor/tools-http": "^0.3.7",
     "@factor/tools-markdown": "^0.3.7",
     "@factor/tools-time": "^0.3.7",
     "axios": "^0.18.0",

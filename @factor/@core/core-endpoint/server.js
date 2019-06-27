@@ -1,6 +1,5 @@
 const cors = require("cors")
 const parse = require("qs").parse
-const multer = require("multer")
 
 module.exports.default = Factor => {
   const util = require(".").default(Factor)
@@ -40,31 +39,26 @@ module.exports.default = Factor => {
 
     // Parse "Authorization: Bearer [token]"
     // https://security.stackexchange.com/questions/108662/why-is-bearer-required-before-the-token-in-authorization-header-in-a-http-re
-    async authenticatedRequest(authorization) {
-      if (authorization && authorization.startsWith("Bearer ")) {
-        const token = authorization.split("Bearer ")[1]
+    // async authenticatedRequest(authorization) {
+    //   if (authorization && authorization.startsWith("Bearer ")) {
+    //     const token = authorization.split("Bearer ")[1]
 
-        return await Factor.$user.retrieveUser({ token })
-      }
-    }
+    //     return await Factor.$user.retrieveUser({ token })
+    //   }
+    // }
 
     async parseRequest({ id, handler, request, response }) {
-      const {
-        query,
-        body,
-        headers: { authorization }
-      } = request
+      const { query, body, headers } = request
 
       const { method, params = {} } = { ...body, ...parse(query) }
 
-      const meta = {}
-      meta.bearer = await this.authenticatedRequest(authorization)
+      const { meta } = await Factor.$http.parseRequest(request)
 
-      const data = await this.runMethod({ id, handler, params, method, meta })
+      const jsonOut = await this.runMethod({ id, handler, params, method, meta })
 
       response
         .status(200)
-        .jsonp(data)
+        .jsonp(jsonOut)
         .end()
     }
 
@@ -84,8 +78,8 @@ module.exports.default = Factor => {
 
         result = await _ep[method](params, meta)
       } catch (error2) {
-        error2 = Factor.$error.create(error2)
-        Factor.$log.error(error2)
+        error = Factor.$error.create(error2)
+        Factor.$log.error(error)
       }
 
       return { result, error }

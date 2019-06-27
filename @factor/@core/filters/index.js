@@ -20,7 +20,7 @@ module.exports.default = Factor => {
       })
     }
 
-    uniqueHash(obj) {
+    uniqueHash(obj, salt = "") {
       if (!obj) {
         return obj
       }
@@ -33,6 +33,8 @@ module.exports.default = Factor => {
       } else {
         str = JSON.stringify(obj)
       }
+
+      str = str + salt
 
       str = str.substring(0, 500)
 
@@ -108,7 +110,9 @@ module.exports.default = Factor => {
 
     // Add callbacks into an array of promises, meant to be used with $filters.run
     callback(id, callback, options = {}) {
-      options.signature = this.uniqueHash(callback)
+      // get unique signature which includes the caller path of function and stringified callback
+      // added the caller because sometimes callbacks look the exact same in different files!
+      options.signature = this.uniqueHash(callback, require("caller")())
 
       const callable = typeof callback != "function" ? () => callback : callback
 

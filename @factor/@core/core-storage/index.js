@@ -34,25 +34,35 @@ module.exports.default = Factor => {
       return await this.request({ method: "delete", params })
     }
 
-    async upload({ file, meta, preprocess, done, error, change }) {
-      file = await this.preupload({ file, preprocess })
+    async upload({ file, onPrep, onFinished, onError, onChange }) {
+      file = await this.preupload({ file, onPrep })
 
       let formData = new FormData()
 
       formData.append("imageUpload", file)
-      formData.append("params", JSON.stringify({ meta }))
-      formData.append("method", "upload")
 
-      return await Factor.$http.post("/_upload", formData, {
+      const {
+        data: { result, error }
+      } = await Factor.$http.post("/_upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
+        },
+        onUploadProgress: function(progressEvent) {
+          onChange(progressEvent)
         }
       })
+
+      if (error) {
+        onError(error)
+      } else {
+        console.log("RESULT", result)
+        onFinished(result)
+      }
     }
 
-    async preupload({ file, preprocess }, options = {}) {
+    async preupload({ file, onPrep }, options = {}) {
       let { maxWidth = 2000, maxHeight = 2000, resize = true } = options
-      preprocess({
+      onPrep({
         mode: "started",
         percent: 5
       })
@@ -62,24 +72,33 @@ module.exports.default = Factor => {
           loadImage(
             file,
             canvas => {
-              canvas.toBlob(blob => resolve(blob), "image/jpeg")
+              canvas.toBlob(blob => {
+                resolve(blob)
+              }, file.type)
             },
             { maxWidth, maxHeight, canvas: true, orientation: true }
           )
         })
-        preprocess.call(this, {
+        onPrep({
           mode: "resized",
           percent: 25,
           preview: URL.createObjectURL(file)
         })
       }
 
-      preprocess({
+      onPrep({
         mode: "finished",
         percent: 100
       })
 
       return file
+    }
+
+    // https://stackoverflow.com/a/36183085/1858322
+    async base64ToBlob(b64Data, contentType = "image/jpeg") {
+      const url = `data:${contentType};base64,${b64Data}`
+      const response = await fetch(url)
+      return await response.blob()
     }
   })()
 }

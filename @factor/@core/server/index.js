@@ -210,7 +210,6 @@ module.exports.default = Factor => {
       if (ware.length > 0) {
         ware.forEach(({ path = "/", middleware }) => {
           const _arguments = [path, ...middleware]
-          //  console.log("[path, ...middleware]", _arguments)
           this.serverApp.use.apply(this.serverApp, _arguments)
         })
       }

@@ -8,7 +8,7 @@ module.exports.default = Factor => {
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
-      this.addSchema()
+      Factor.$filters.callback("data-schemas", () => this.schema())
     }
 
     async save(data, { bearer }) {
@@ -17,12 +17,6 @@ module.exports.default = Factor => {
       const _user = await Factor.$db.run("User", "findById", [data._id])
       Object.assign(_user, data)
       await _user.save()
-      console.log("USER TEST AGUN", data, _user)
-      console.log("BEARER", bearer, typeof bearer._id)
-    }
-
-    addSchema() {
-      Factor.$filters.callback("data-schemas", () => this.schema())
     }
 
     async hashPassword(password) {

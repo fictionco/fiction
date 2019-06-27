@@ -4,6 +4,11 @@ module.exports.default = Factor => {
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
     }
+
+    objectId(str) {
+      return Factor.$mongoose.Types.ObjectId(str)
+    }
+
     async runRequest(params) {
       const { model, method, _arguments = [] } = params
       const DataModel = await this.DB.getModel(model)

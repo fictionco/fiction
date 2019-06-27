@@ -13,7 +13,6 @@ module.exports.default = Factor => {
         return
       })
       Factor.$filters.add("initialize-server", () => {
-        console.log("Mongo", this.readyStateMap()[Factor.$mongoose.connection.readyState])
         this.setModels()
       })
     }
@@ -81,6 +80,7 @@ module.exports.default = Factor => {
     }
 
     readyStateMap() {
+      //  console.log("Mongo", this.readyStateMap()[Factor.$mongoose.connection.readyState])
       return ["disconnected", "connected", "connecting", "disconnecting"]
     }
   })()

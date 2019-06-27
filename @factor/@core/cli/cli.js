@@ -28,6 +28,11 @@ const cli = async () => {
       if (install) {
         await this.runTasks(
           [
+            {
+              command: "rm",
+              args: ["-rf", "./node_modules/.cache"],
+              title: "Clear Cache"
+            },
             { command: "yarn", args: ["install"], title: "Installing Dependencies" },
             {
               command: "factor",

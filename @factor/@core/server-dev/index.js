@@ -77,11 +77,12 @@ export default Factor => {
       const vals = Object.values(this._loaders)
 
       if (vals.length == 2) {
-        if (vals.every(_ => _ == "start")) {
+        if (vals.every(_ => _ == "start") && !this._spinner) {
           this._spinner = ora("Building").start()
           this._loaders = { client: "loading", server: "loading" }
-        } else if (vals.every(_ => _) && !vals.some(_ => _ == "start" || _ == "loading")) {
+        } else if (vals.every(_ => _) && !vals.some(_ => _ == "start" || _ == "loading") && this._spinner) {
           this._spinner.succeed(`Built! ${Math.max(...vals) / 1000}s ${this._reason}`)
+          this._spinner = false
           this._loaders = {}
           this._reason = ""
           this.updateServer()
@@ -119,12 +120,12 @@ export default Factor => {
             Factor.$log.success("Server file changed, restarting server.")
             // eslint-disable-next-line unicorn/no-process-exit
             process.exit(1)
+          } else {
+            this.updateServer({
+              title: event,
+              value: path
+            })
           }
-
-          this.updateServer({
-            title: event,
-            value: path
-          })
         })
 
       const customWatchers = Factor.$filters.apply("build-watchers", [

@@ -293,7 +293,6 @@ export default {
             ext: file.name.split(".").pop(),
             size: file.size,
             name: file.name,
-            userId: this.$userId,
             status: "preprocess"
           }
 
@@ -316,29 +315,31 @@ export default {
       this.$emit("upload", { file, index, path, item })
 
       this.$storage.upload({
-        meta,
         file,
-        preprocess: ({ mode, percent, preview = false }) => {
+        onPrep: ({ mode, percent, preview = false }) => {
           //   this.$set(item, "progress", percent)
           if (preview) {
+            console.log("preview", preview)
             this.$set(item, "preview", preview)
           } else {
             this.$set(item, "status", "preprocess")
           }
         },
-        change: upload => {
-          this.$set(item, "status", "progress")
-          this.$set(
-            item,
-            "progress",
-            (upload.bytesTransferred / upload.totalBytes) * 100
-          )
+        onChange: progressEvent => {
+          console.log("change", progressEvent)
+          // this.$set(item, "status", "progress")
+          // this.$set(
+          //   item,
+          //   "progress",
+          //   (upload.bytesTransferred / upload.totalBytes) * 100
+          // )
         },
-        error: error => {
+        onError: error => {
           this.$set(item, "status", "error")
           this.$set(item, "message", error.message)
         },
-        done: url => {
+        onFinished: ({ url, _id }) => {
+          console.log("ON FINISHED", url, _id)
           // preload
           var img = new Image()
           img.src = url

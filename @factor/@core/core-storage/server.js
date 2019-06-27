@@ -3,6 +3,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("endpoints", { id: "storage", handler: this })
+      Factor.$filters.callback("data-schemas", () => this.imageSchema())
 
       Factor.$filters.add("middleware", _ => {
         _.push({
@@ -10,7 +11,7 @@ module.exports.default = Factor => {
           middleware: [
             multer().single("imageUpload"),
             async (request, response, next) => {
-              return await this.handleUpload({ request, response })
+              return await Factor.$http.process({ request, response, handler: _ => this.handleUpload(_) })
             }
           ]
         })
@@ -18,27 +19,32 @@ module.exports.default = Factor => {
       })
     }
 
-    async handleUpload({ request, response }) {
-      console.log("***** HANDLE UPLOAD")
+    async handleUpload({ request, response, meta }) {
+      const { bearer } = meta
+      const {
+        file: { buffer, mimetype, size }
+      } = request
+
+      const author = [Factor.$db.objectId(bearer._id)]
+      const url = `data:${mimetype};base64,${buffer.toString("base64")}`
+      const img = await Factor.$db.run("Image", "create", [{ url, mimetype, size, author }])
+
+      return img.toObject()
     }
 
-    schema() {
+    imageSchema() {
       const _this = this // mongoose hooks need 'this'
       return {
         name: "Image",
         callback: Schema => {},
         schema: {
-          name: String,
           mimetype: String,
-          image: Buffer,
-          size: Number
+          imageData: Buffer,
+          size: Number,
+          url: { type: String, required: true }
         },
         options: {}
       }
-    }
-
-    upload(params) {
-      console.log("STORAGE HANDLER", params)
     }
   })()
 }
