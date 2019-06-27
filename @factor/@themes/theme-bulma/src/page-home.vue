@@ -227,7 +227,6 @@ export default {
       loading: true
     }
   },
-  mounted() {},
   metatags() {
     return {
       title: "Theme Bulma",

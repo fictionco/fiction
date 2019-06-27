@@ -133,12 +133,7 @@
   </footer>
 </template>
 <script>
-export default {
-  data: () => {
-    return {}
-  },
-  computed: {}
-}
+export default {}
 </script>
 
 <style lang="less">

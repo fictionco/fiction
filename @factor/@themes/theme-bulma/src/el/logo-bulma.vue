@@ -31,7 +31,7 @@
 <style lang="less">
 .logo-bulma {
   svg {
-    display: inline-block;
+    display: block;
     width: 40px;
   }
 }

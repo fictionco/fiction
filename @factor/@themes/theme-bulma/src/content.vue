@@ -1,13 +1,14 @@
 <template>
   <div class="content-layout">
-    <site-head />
+    <header-primary />
     <div class="content-main" :style="bg">
       <div class="content-main-content">
         <slot v-if="$slots.default" />
         <router-view v-else />
       </div>
 
-      <site-footer v-if="$route.meta.footer !== false" />
+      <footer-primary />
+      <!-- <site-footer v-if="$route.meta.footer !== false" /> -->
     </div>
   </div>
 </template>
@@ -15,8 +16,8 @@
 <script>
 export default {
   components: {
-    "site-head": () => import("#/site-head"),
-    "site-footer": () => import("#/site-footer")
+    "header-primary": () => import("#/header"),
+    "footer-primary": () => import("#/footer")
   },
   computed: {
     bg() {

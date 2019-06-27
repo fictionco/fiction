@@ -16,7 +16,7 @@ export default Factor => {
         .map(request)
         .map(_ => _.default)
 
-      return valArray[0](Factor)
+      return valArray.length > 0 && typeof valArray[0] == "function" ? valArray[0](Factor) : {}
     }
 
     async setup() {

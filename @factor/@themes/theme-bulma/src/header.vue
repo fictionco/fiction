@@ -2,9 +2,7 @@
   <div class="site-head">
     <nav class="navbar container" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <app-link path="/" class="navbar-item">
-          <site-brand />
-        </app-link>
+        <site-brand />
         <app-link
           path="/"
           role="button"
@@ -39,7 +37,7 @@
           <div class="navbar-item">
             <div class="buttons">
               <app-link
-                path="https://factor.dev/themes"
+                path="https://factor.dev/guide/themes"
                 class="button is-outlined is-rounded"
                 target="_blank"
               >
@@ -58,9 +56,6 @@
 export default {
   components: {
     "site-brand": () => import("./el/brand")
-  },
-  data() {
-    return {}
   }
 }
 </script>

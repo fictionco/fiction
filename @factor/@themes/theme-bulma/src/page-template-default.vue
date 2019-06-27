@@ -16,6 +16,16 @@ export default {
       content: ""
     }
   },
+
+  metatags() {
+    return {
+      title: "Theme Bulma",
+      description:
+        "Based on the open source CSS framework that uses flexbox and is used by more than 150,000 developers. Theme Bulma makes using the CSS framework in Factor a breeze.",
+      image: ""
+    }
+  },
+
   created() {
     // const md = require("markdown-it")({
     //   html: true,
