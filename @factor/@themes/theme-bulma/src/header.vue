@@ -19,8 +19,13 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
-          <app-link path="/" class="navbar-item">Home</app-link>
-          <app-link path="/elements" class="navbar-item">Elements</app-link>
+          <template v-for="(item, index) in $setting.get('site.nav')">
+            <component :is="item.component" v-if="item.component" :key="index" />
+            <factor-link v-else :key="index" :path="item.path" class="navbar-item">
+              <factor-icon v-if="item.icon" :icon="item.icon" />
+              <span>{{ item.name }}</span>
+            </factor-link>
+          </template>
 
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">Page Templates</a>
@@ -37,11 +42,11 @@
           <div class="navbar-item">
             <div class="buttons">
               <app-link
-                path="https://factor.dev/guide/themes"
+                :path="$setting.get('site.nav_cta.path')"
                 class="button is-outlined is-rounded"
                 target="_blank"
               >
-                Get Started
+                {{ $setting.get('site.nav_cta.text') }}
                 <factor-icon icon="arrow-right" class="ml-2" />
               </app-link>
             </div>
@@ -55,7 +60,7 @@
 <script>
 export default {
   components: {
-    "site-brand": () => import("./el/brand")
+    "site-brand": () => import("./el/logo-bulma")
   }
 }
 </script>

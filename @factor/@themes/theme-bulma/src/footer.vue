@@ -61,31 +61,17 @@
         </div>
         <div class="column is-5">
           <h4 class="menu-label">Follow Us</h4>
-          <span class="icon">
-            <factor-link path="/" class="navbar-item">
-              <factor-icon icon="facebook" size="fa-2x" />
+
+          <template v-for="(item, index) in $setting.get('footer.social')">
+            <factor-link
+              :key="index"
+              :path="item.path"
+              class="navbar-item is-inline-block"
+              target="_blank"
+            >
+              <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
-          </span>
-          <span class="icon">
-            <factor-link path="/" class="navbar-item">
-              <factor-icon icon="twitter" />
-            </factor-link>
-          </span>
-          <span class="icon">
-            <factor-link path="/" class="navbar-item">
-              <factor-icon icon="instagram" />
-            </factor-link>
-          </span>
-          <span class="icon">
-            <factor-link path="/" class="navbar-item">
-              <factor-icon icon="linkedin" />
-            </factor-link>
-          </span>
-          <span class="icon">
-            <factor-link path="/" class="navbar-item">
-              <factor-icon icon="pinterest" />
-            </factor-link>
-          </span>
+          </template>
           <h4 class="menu-label">Subscribe</h4>
           <div class="field has-addons">
             <div class="control has-icons-left is-expanded">
@@ -113,19 +99,16 @@
     <div class="container footer-bottom">
       <div class="columns">
         <div class="column is-2 has-text-centered-mobile has-text-left-desktop">
-          <factor-link path="/">
-            <img
-              class="footer-logo"
-              :src="require(`./img/fiction.svg`)"
-              alt="Factor Framework by Fiction"
-            >
+          <factor-link path="/" class="footer-logo">
+            <component :is="$setting.get(`footer.logo`)" />
           </factor-link>
         </div>
         <div class="column has-text-centered-mobile has-text-right-tablet is-size-7">
-          <div class="copyright">&copy; Factor by Fiction.com Inc.</div>
+          <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
           <div class="terms">
-            <factor-link path="https://www.fiction.com/terms-of-service">Terms of Service</factor-link>
-            <factor-link path="https://www.fiction.com/privacy-policy">Privacy Policy</factor-link>
+            <template v-for="(item, index) in $setting.get('footer.terms')">
+              <factor-link :key="index" :path="item.path">{{ item.text }}</factor-link>
+            </template>
           </div>
         </div>
       </div>
@@ -145,8 +128,10 @@ export default {}
     }
   }
   .footer-logo {
-    width: 34px;
-    opacity: 0.2;
+    svg {
+      width: 34px;
+      opacity: 0.2;
+    }
   }
   .copyright {
     padding-bottom: 0.5em;

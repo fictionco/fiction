@@ -4,17 +4,17 @@
       <div class="container">
         <div class="columns is-vcentered">
           <div class="column is-5 has-text-centered has-text-left-tablet">
-            <h1 class="title is-1">Theme Bulma</h1>
+            <h1 class="title is-1">{{ $setting.get('home.headline') }}</h1>
             <p
               class="subtitle"
-            >Based on the open source CSS framework that uses flexbox and is used by more than 150,000 developers. Theme Bulma makes using the CSS framework in Factor a breeze.</p>
-            <div class="field is-group">
-              <app-link
-                class="button is-primary is-medium is-rounded"
-                path="https://factor.dev/themes"
-                target="_blank"
-              >Get Started</app-link>
-              <app-link class="button is-light is-medium is-rounded" path="/elements">View Elements</app-link>
+            >{{ $setting.get('home.subheadline') }}</p>
+            <div class="field buttons">
+              <app-link 
+                v-for="(action ,i) in $setting.get('home.actions')" 
+                :key="i"
+                :path="action.path"
+                :class="action.class"
+                size="medium">{{ action.text }}</app-link>
             </div>
           </div>
           <div class="column is-6 is-offset-1">
@@ -133,82 +133,32 @@
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-three-fifths mb-4 has-text-centered">
-            <h1 class="title is-3">Code Better and Ship Faster.</h1>
+            <h1 class="title is-3">{{ $setting.get('home.boxesHeadline') }}</h1>
           </div>
         </div>
       </div>
       <div class="container">
-        <div class="columns">
-          <div class="column">
-            <div class="box is-fullheight">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48 level">
-                    <img :src="require(`./img/5-minute.svg`)" alt="5 Minute Setup">
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <div class="content">
-                    <h3 class="title is-4 mb-2">5 Minute Setup</h3>
-                    <p>A Factor site can be installed and up and running in a matter of minutes, with only basic coding knowledge.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column">
+        <div class="columns is-multiline is-mobile">
+
+          <div v-for="(box ,i) in $setting.get('home.boxes')" :key="i" class="column is-half">
             <div class="box is-fullheight">
               <div class="media">
                 <div class="media-left">
                   <figure class="image is-48x48 is-4by3">
-                    <img :src="require(`./img/mobile.svg`)" alt="Mobile-first">
+                    <img :src="require(`./img/` + box.imageURL)" :alt="box.title">
                   </figure>
                 </div>
                 <div class="media-content">
                   <div class="content">
-                    <h3 class="title is-4 mb-2">Mobile-first</h3>
-                    <p>Every element is mobile-first and optimizes for vertical reading. Built with five breakpoints.</p>
+                    {{box.logo}}
+                    <h3 class="title is-4 mb-2">{{ box.title }}</h3>
+                    <p>{{ box.description }}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="columns">
-          <div class="column">
-            <div class="box is-fullheight">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img :src="require(`./img/serverless.svg`)" alt="Serverless SSR">
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <div class="content">
-                    <h3 class="title is-4 mb-2">Serverless SSR</h3>
-                    <p>No more server to manage and scale. Build all your reactive components with the Vue.js framework.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="column">
-            <div class="box is-fullheight">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img :src="require(`./img/js.svg`)" alt="100% Javascript">
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <div class="content">
-                    <h3 class="title is-4 mb-2">100% Javascript</h3>
-                    <p>Factor provides a robust basis for the development of any JS application. Modular, minimal, and extensible.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>
@@ -229,10 +179,8 @@ export default {
   },
   metatags() {
     return {
-      title: "Theme Bulma",
-      description:
-        "Based on the open source CSS framework that uses flexbox and is used by more than 150,000 developers. Theme Bulma makes using the CSS framework in Factor a breeze.",
-      image: ""
+      title: this.$setting.get("home.meta.title"),
+      description: this.$setting.get("home.meta.description")
     }
   }
 }
