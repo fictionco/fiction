@@ -8,8 +8,8 @@
               <span>{{ item.name }}</span>
             </factor-link>
             <div class="navbar-dropdown">
-              <template v-for="(sub, index) in item.subnav">
-                <factor-link :key="index" :path="sub.path" class="navbar-item">
+              <template v-for="(sub, subindex) in item.subnav">
+                <factor-link :key="subindex" :path="sub.path" class="navbar-item">
                   <factor-icon v-if="sub.icon" :icon="sub.icon" />
                   <span>{{ sub.name }}</span>
                 </factor-link>
@@ -22,14 +22,16 @@
           </factor-link>
         </template>
       </div>
-      <app-link
-        :path="$setting.get('site.nav_cta.path')"
-        class="button is-outlined is-rounded"
-        target="_blank"
-      >
-        {{ $setting.get('site.nav_cta.text') }}
-        <factor-icon icon="arrow-right" class="ml-2" />
-      </app-link>
+      <div class="buttons">
+        <app-link
+          :path="$setting.get('site.nav_cta.path')"
+          class="button is-outlined is-rounded"
+          target="_blank"
+        >
+          {{ $setting.get('site.nav_cta.name') }}
+          <factor-icon icon="arrow-right" class="ml-2" />
+        </app-link>
+      </div>
     </div>
   </div>
 </template>

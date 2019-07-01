@@ -36,7 +36,7 @@ module.exports = Factor => {
       ],
       nav_cta: {
         path: "https://factor.dev/guide/themes",
-        text: "Get Started"
+        name: "Get Started"
       },
       cta: {
         headline: "Made with Factor",
