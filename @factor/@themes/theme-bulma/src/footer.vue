@@ -3,64 +3,44 @@
     <div class="container footer-top">
       <div class="columns is-tablet">
         <div class="column">
-          <h4 class="menu-label menu-label-indent">Company</h4>
+          <h4 class="menu-label menu-label-indent">{{ $setting.get('footer.nav1Headline') }}</h4>
+
           <ul class="menu-list">
-            <li>
-              <factor-link path="/" class="navbar-item">Home</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">About</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Pricing</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Blog</factor-link>
-            </li>
+            <template v-for="(item, index) in $setting.get('footer.nav1')">
+              <li :key="index">
+                <factor-link :path="item.path" class="navbar-item">
+                  <span>{{ item.name }}</span>
+                </factor-link>
+              </li>
+            </template>
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label menu-label-indent">Service</h4>
+          <h4 class="menu-label menu-label-indent">{{ $setting.get('footer.nav2Headline') }}</h4>
           <ul class="menu-list">
-            <li>
-              <factor-link path="/" class="navbar-item">Web</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Marketing</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Graphics</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Mobile</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Product</factor-link>
-            </li>
+            <template v-for="(item, index) in $setting.get('footer.nav2')">
+              <li :key="index">
+                <factor-link :path="item.path" class="navbar-item">
+                  <span>{{ item.name }}</span>
+                </factor-link>
+              </li>
+            </template>
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label menu-label-indent">Support</h4>
+          <h4 class="menu-label menu-label-indent">{{ $setting.get('footer.nav3Headline') }}</h4>
           <ul class="menu-list">
-            <li>
-              <factor-link path="/" class="navbar-item">Help Center</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Support Ticket</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Contact</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Feedback</factor-link>
-            </li>
-            <li>
-              <factor-link path="/" class="navbar-item">Poll</factor-link>
-            </li>
+            <template v-for="(item, index) in $setting.get('footer.nav3')">
+              <li :key="index">
+                <factor-link :path="item.path" class="navbar-item">
+                  <span>{{ item.name }}</span>
+                </factor-link>
+              </li>
+            </template>
           </ul>
         </div>
         <div class="column is-5">
-          <h4 class="menu-label">Follow Us</h4>
+          <h4 class="menu-label">{{ $setting.get('footer.socialHeadline') }}</h4>
 
           <template v-for="(item, index) in $setting.get('footer.social')">
             <factor-link
@@ -72,27 +52,16 @@
               <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
           </template>
-          <h4 class="menu-label">Subscribe</h4>
-          <div class="field has-addons">
-            <div class="control has-icons-left is-expanded">
-              <input class="input" type="email" placeholder="Email input">
-              <span class="icon is-small is-left">
-                <factor-icon icon="envelope" />
-              </span>
-            </div>
-            <div class="control">
-              <a class="button is-primary">
-                <factor-icon icon="long-arrow-right" />
-              </a>
-            </div>
-          </div>
+
+          <h4 class="menu-label">{{ $setting.get('footer.subscribeHeadline') }}</h4>
+          <component :is="$setting.get(`footer.subscribe`)" />
         </div>
       </div>
     </div>
     <div class="container">
       <div class="columns">
         <div class="column">
-          <hr>
+          <hr >
         </div>
       </div>
     </div>

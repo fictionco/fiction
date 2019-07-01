@@ -100,7 +100,7 @@
           <div class="column is-10">
             <section id="typography" class="section">
               <h1 class="title">Typography</h1>
-              <hr>
+              <hr >
               <div class="columns">
                 <div class="column">
                   <h1 class="title is-1">Title 1</h1>
@@ -133,12 +133,12 @@
 
             <section id="box" class="section">
               <h1 class="title">Box</h1>
-              <hr>
+              <hr >
               <div class="box">
                 <article class="media">
                   <div class="media-left">
                     <figure class="image is-64x64">
-                      <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                      <img src="https://source.unsplash.com/random/128x128" alt="Image" >
                     </figure>
                   </div>
                   <div class="media-content">
@@ -147,7 +147,7 @@
                         <strong>Raymond Aleman</strong>
                         <small>@raymondaleman</small>
                         <small>31m</small>
-                        <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+                        <br >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
                       </p>
                     </div>
                     <nav class="level">
@@ -176,7 +176,7 @@
 
             <section id="button" class="section">
               <h1 class="title">Button</h1>
-              <hr>
+              <hr >
               <div class="columns">
                 <div class="column">
                   <div class="buttons">
@@ -441,7 +441,7 @@
 
             <section id="content" class="section">
               <h1 class="title">Content</h1>
-              <hr>
+              <hr >
               <div class="content">
                 <h1>Hello World</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.</p>
@@ -522,13 +522,13 @@
 
             <section id="form" class="section">
               <h1 class="title">Form</h1>
-              <hr>
+              <hr >
               <div class="columns">
                 <div class="column">
                   <div class="field">
                     <label class="label">Name</label>
                     <p class="control">
-                      <input class="input" type="text" placeholder="Text input">
+                      <input class="input" type="text" placeholder="Text input" >
                     </p>
                   </div>
                   <div class="field">
@@ -587,7 +587,7 @@
                   <div class="field">
                     <p class="control">
                       <label class="checkbox">
-                        <input type="checkbox"> I agree to the
+                        <input type="checkbox" > I agree to the
                         <a href="#">terms and conditions</a>
                       </label>
                     </p>
@@ -595,10 +595,10 @@
                   <div class="field">
                     <p class="control">
                       <label class="radio">
-                        <input type="radio" name="question"> Yes
+                        <input type="radio" name="question" > Yes
                       </label>
                       <label class="radio">
-                        <input type="radio" name="question"> No
+                        <input type="radio" name="question" > No
                       </label>
                     </p>
                   </div>
@@ -610,12 +610,12 @@
                       <button class="button is-link">Cancel</button>
                     </p>
                   </div>
-                  <br>
+                  <br >
                   <h4 class="subtitle">Disabled</h4>
-                  <hr>
+                  <hr >
                   <div class="field">
                     <p class="control">
-                      <input class="input" disabled placeholder="Disabled input" type="text">
+                      <input class="input" disabled placeholder="Disabled input" type="text" >
                     </p>
                   </div>
                   <div class="field">
@@ -623,13 +623,13 @@
                       <textarea class="textarea" disabled placeholder="Disabled textarea" />
                     </p>
                   </div>
-                  <br>
+                  <br >
                   <h3 class="title">File</h3>
-                  <hr>
+                  <hr >
                   <div class="field">
                     <div class="file">
                       <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" type="file" name="resume" >
                         <span class="file-cta">
                           <span class="file-icon">
                             <factor-icon icon="upload" />
@@ -642,7 +642,7 @@
                   <div class="field">
                     <div class="file has-name">
                       <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" type="file" name="resume" >
                         <span class="file-cta">
                           <span class="file-icon">
                             <factor-icon icon="upload" />
@@ -656,7 +656,7 @@
                   <div class="field">
                     <div class="file is-primary">
                       <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" type="file" name="resume" >
                         <span class="file-cta">
                           <span class="file-icon">
                             <factor-icon icon="upload" />
@@ -669,7 +669,7 @@
                   <div class="field">
                     <div class="file is-info has-name">
                       <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" type="file" name="resume" >
                         <span class="file-cta">
                           <span class="file-icon">
                             <factor-icon icon="upload" />
@@ -683,7 +683,7 @@
                   <div class="field">
                     <div class="file is-warning is-boxed">
                       <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" type="file" name="resume" >
                         <span class="file-cta">
                           <span class="file-icon">
                             <factor-icon icon="cloud-upload" />
@@ -696,7 +696,7 @@
                   <div class="field">
                     <div class="file is-danger has-name is-boxed">
                       <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" type="file" name="resume" >
                         <span class="file-cta">
                           <span class="file-icon">
                             <factor-icon icon="cloud-upload" />
@@ -707,12 +707,12 @@
                       </label>
                     </div>
                   </div>
-                  <br>
+                  <br >
                   <h3 class="title">Form addons</h3>
-                  <hr>
+                  <hr >
                   <div class="field has-addons">
                     <p class="control">
-                      <input class="input" type="text" placeholder="Find a repository">
+                      <input class="input" type="text" placeholder="Find a repository" >
                     </p>
                     <p class="control">
                       <a class="button is-primary">Search</a>
@@ -720,7 +720,7 @@
                   </div>
                   <div class="field has-addons">
                     <p class="control">
-                      <input class="input is-large" type="text" placeholder="Find a repository">
+                      <input class="input is-large" type="text" placeholder="Find a repository" >
                     </p>
                     <p class="control">
                       <a class="button is-primary is-large">Search</a>
@@ -737,7 +737,7 @@
                       </span>
                     </p>
                     <p class="control">
-                      <input class="input" type="text" placeholder="Amount of money">
+                      <input class="input" type="text" placeholder="Amount of money" >
                     </p>
                     <p class="control">
                       <a class="button">Transfer</a>
@@ -754,7 +754,7 @@
                       </span>
                     </p>
                     <p class="control is-expanded">
-                      <input class="input" type="text" placeholder="Amount of money">
+                      <input class="input" type="text" placeholder="Amount of money" >
                     </p>
                     <p class="control">
                       <a class="button">Transfer</a>
@@ -785,7 +785,7 @@
                   </div>
                   <div class="field is-grouped">
                     <p class="control is-expanded">
-                      <input class="input" type="text" placeholder="Find a repository">
+                      <input class="input" type="text" placeholder="Find a repository" >
                     </p>
                     <p class="control">
                       <a class="button is-primary">Search</a>
@@ -793,67 +793,67 @@
                   </div>
                 </div>
                 <div class="column">
-                  <br>
+                  <br >
                   <h3 class="subtitle">Styles</h3>
-                  <hr>
+                  <hr >
                   <div class="field">
                     <p class="control">
-                      <input class="input is-rounded" type="text" placeholder="Rounded input">
+                      <input class="input is-rounded" type="text" placeholder="Rounded input" >
                     </p>
                   </div>
-                  <br>
+                  <br >
                   <h3 class="subtitle">Colors</h3>
-                  <hr>
+                  <hr >
                   <div class="field">
                     <p class="control">
-                      <input class="input is-primary" type="text" placeholder="Primary input">
+                      <input class="input is-primary" type="text" placeholder="Primary input" >
                     </p>
                   </div>
                   <div class="field">
                     <p class="control">
-                      <input class="input is-info" type="text" placeholder="Info input">
+                      <input class="input is-info" type="text" placeholder="Info input" >
                     </p>
                   </div>
                   <div class="field">
                     <p class="control">
-                      <input class="input is-success" type="text" placeholder="Success input">
+                      <input class="input is-success" type="text" placeholder="Success input" >
                     </p>
                   </div>
                   <div class="field">
                     <p class="control">
-                      <input class="input is-warning" type="text" placeholder="Warning input">
+                      <input class="input is-warning" type="text" placeholder="Warning input" >
                     </p>
                   </div>
                   <div class="field">
                     <p class="control">
-                      <input class="input is-danger" type="text" placeholder="Danger input">
+                      <input class="input is-danger" type="text" placeholder="Danger input" >
                     </p>
                   </div>
-                  <br>
+                  <br >
                   <h3 class="subtitle">Sizes</h3>
-                  <hr>
+                  <hr >
                   <div class="field">
                     <label class="label is-small">Small</label>
                     <p class="control">
-                      <input class="input is-small" type="text" placeholder="Small input">
+                      <input class="input is-small" type="text" placeholder="Small input" >
                     </p>
                   </div>
                   <div class="field">
                     <label class="label">Normal</label>
                     <p class="control">
-                      <input class="input" type="text" placeholder="Normal input">
+                      <input class="input" type="text" placeholder="Normal input" >
                     </p>
                   </div>
                   <div class="field">
                     <label class="label is-medium">Medium</label>
                     <p class="control">
-                      <input class="input is-medium" type="text" placeholder="Medium input">
+                      <input class="input is-medium" type="text" placeholder="Medium input" >
                     </p>
                   </div>
                   <div class="field">
                     <label class="label is-large">Large</label>
                     <p class="control">
-                      <input class="input is-large" type="text" placeholder="Large input">
+                      <input class="input is-large" type="text" placeholder="Large input" >
                     </p>
                   </div>
                   <div class="field">
@@ -897,12 +897,12 @@
                     </p>
                   </div>
 
-                  <br>
+                  <br >
                   <h4 class="subtitle">With icons</h4>
-                  <hr>
+                  <hr >
                   <div class="field">
                     <p class="control has-icons-left">
-                      <input class="input" type="email" placeholder="Email">
+                      <input class="input" type="email" placeholder="Email" >
                       <span class="icon is-small is-left">
                         <factor-icon icon="envelope" />
                       </span>
@@ -910,7 +910,7 @@
                   </div>
                   <div class="field">
                     <p class="control has-icons-left">
-                      <input class="input" type="password" placeholder="Password">
+                      <input class="input" type="password" placeholder="Password" >
                       <span class="icon is-small is-left">
                         <factor-icon icon="lock" />
                       </span>
@@ -927,14 +927,14 @@
 
             <section id="icon" class="section">
               <h1 class="title">Icon</h1>
-              <hr>
+              <hr >
               <span class="icon">
                 <factor-icon icon="home" />
               </span>
-              <br>
-              <br>
+              <br >
+              <br >
               <h4 class="subtitle">Colors</h4>
-              <hr>
+              <hr >
               <span class="icon has-text-info">
                 <factor-icon icon="info-circle" />
               </span>
@@ -947,10 +947,10 @@
               <span class="icon has-text-danger">
                 <factor-icon icon="ban" />
               </span>
-              <br>
-              <br>
+              <br >
+              <br >
               <h4 class="subtitle">Sizes</h4>
-              <hr>
+              <hr >
               <span class="icon is-small has-text-info">
                 <factor-icon icon="info-circle" />
               </span>
@@ -967,31 +967,31 @@
 
             <section id="images" class="section">
               <h1 class="title">Images</h1>
-              <hr>
+              <hr >
               <figure class="image is-16x16">
-                <img src="https://source.unsplash.com/random/128x128">
+                <img src="https://source.unsplash.com/random/128x128" >
               </figure>
-              <br>
+              <br >
               <figure class="image is-32x32">
-                <img src="https://source.unsplash.com/random/128x128">
+                <img src="https://source.unsplash.com/random/128x128" >
               </figure>
-              <br>
+              <br >
               <figure class="image is-64x64">
-                <img src="https://source.unsplash.com/random/128x128">
+                <img src="https://source.unsplash.com/random/128x128" >
               </figure>
-              <br>
+              <br >
               <figure class="image is-128x128">
-                <img src="https://source.unsplash.com/random/128x128">
+                <img src="https://source.unsplash.com/random/128x128" >
               </figure>
-              <br>
+              <br >
               <figure class="image is-128x128">
-                <img class="is-rounded" src="https://source.unsplash.com/random/128x128">
+                <img class="is-rounded" src="https://source.unsplash.com/random/128x128" >
               </figure>
             </section>
 
             <section id="notifications" class="section">
               <h1 class="title">Notifications</h1>
-              <hr>
+              <hr >
               <div class="columns is-multiline">
                 <div class="column is-half">
                   <div class="notification">
@@ -1039,7 +1039,7 @@
 
             <section id="progress" class="section">
               <h1 class="title">Progress bars</h1>
-              <hr>
+              <hr >
 
               <progress class="progress" max="100" value="15">15%</progress>
 
@@ -1063,7 +1063,7 @@
 
             <section id="table" class="section">
               <h1 class="title">Table</h1>
-              <hr>
+              <hr >
               <h2 class="subtitle">Default</h2>
               <div class="table-container">
                 <table class="table">
@@ -1306,10 +1306,10 @@
                   </tbody>
                 </table>
               </div>
-              <br>
-              <br>
+              <br >
+              <br >
               <h2 class="subtitle">Striped</h2>
-              <hr>
+              <hr >
               <div class="table-container">
                 <table class="table is-striped">
                   <thead>
@@ -1342,10 +1342,10 @@
                   </tbody>
                 </table>
               </div>
-              <br>
-              <br>
+              <br >
+              <br >
               <h2 class="subtitle">Bordered</h2>
-              <hr>
+              <hr >
               <div class="table-container">
                 <table class="table is-bordered">
                   <thead>
@@ -1362,10 +1362,10 @@
                   </tbody>
                 </table>
               </div>
-              <br>
-              <br>
+              <br >
+              <br >
               <h2 class="subtitle">Narrow</h2>
-              <hr>
+              <hr >
               <div class="table-container">
                 <table class="table is-narrow">
                   <thead>
@@ -1398,10 +1398,10 @@
                   </tbody>
                 </table>
               </div>
-              <br>
-              <br>
+              <br >
+              <br >
               <h2 class="subtitle">Bordered, Striped, and Narrow</h2>
-              <hr>
+              <hr >
               <div class="table-container">
                 <table class="table is-bordered is-striped is-narrow">
                   <thead>
@@ -1438,7 +1438,7 @@
 
             <section id="tag" class="section">
               <h1 class="title">Tag</h1>
-              <hr>
+              <hr >
               <div class="tags">
                 <span class="tag is-primary">Primary</span>
 
@@ -1551,7 +1551,7 @@
 
             <section id="breadcrumb" class="section">
               <h1 class="title">Breadcrumb</h1>
-              <hr>
+              <hr >
               <nav class="breadcrumb">
                 <ul>
                   <li>
@@ -1572,7 +1572,7 @@
 
             <section id="dropdown" class="section">
               <h1 class="title">Dropdown</h1>
-              <hr>
+              <hr >
               <div class="columns">
                 <div class="column">
                   <div class="dropdown is-hoverable">
@@ -1590,7 +1590,7 @@
                         <a class="dropdown-item">Other dropdown item</a>
                         <a href="#" class="dropdown-item is-active">Active dropdown item</a>
                         <a href="#" class="dropdown-item">Other dropdown item</a>
-                        <hr class="dropdown-divider">
+                        <hr class="dropdown-divider" >
                         <a href="#" class="dropdown-item">With a divider</a>
                       </div>
                     </div>
@@ -1618,14 +1618,14 @@
                             <strong>any type of content</strong> within the dropdown menu.
                           </p>
                         </div>
-                        <hr class="dropdown-divider">
+                        <hr class="dropdown-divider" >
                         <div class="dropdown-item">
                           <p>
                             You simply need to use a
                             <code>&lt;div&gt;</code> instead.
                           </p>
                         </div>
-                        <hr class="dropdown-divider">
+                        <hr class="dropdown-divider" >
                         <a href="#" class="dropdown-item">This is a link</a>
                       </div>
                     </div>
@@ -1636,20 +1636,20 @@
 
             <section id="card" class="section">
               <h1 class="title">Cards</h1>
-              <hr>
+              <hr >
               <div class="columns">
                 <div class="column">
                   <div class="card">
                     <div class="card-image">
                       <figure class="image is-4by3">
-                        <img src="https://source.unsplash.com/random/800x600" alt="Image">
+                        <img src="https://source.unsplash.com/random/800x600" alt="Image" >
                       </figure>
                     </div>
                     <div class="card-content">
                       <div class="media">
                         <div class="media-left">
                           <figure class="image">
-                            <img src="https://source.unsplash.com/random/40x40" alt="Image">
+                            <img src="https://source.unsplash.com/random/40x40" alt="Image" >
                           </figure>
                         </div>
                         <div class="media-content">
@@ -1662,7 +1662,7 @@
                         <a>@factordev</a>.
                         <a>#css</a>
                         <a>#responsive</a>
-                        <br>
+                        <br >
                         <small>11:09 PM - 1 Jan 2016</small>
                       </div>
                     </div>
@@ -1684,7 +1684,7 @@
                         <a>@fictioninc</a>.
                         <a>#css</a>
                         <a>#responsive</a>
-                        <br>
+                        <br >
                         <small>11:09 PM - 1 Jan 2016</small>
                       </div>
                     </div>
@@ -1700,7 +1700,7 @@
 
             <section id="hero" class="section">
               <h1 class="title">Hero</h1>
-              <hr>
+              <hr >
               <div class="container is-fluid is-marginless">
                 <!-- is-widescreen is-fluid -->
                 <section class="hero is-primary is-medium">
@@ -1766,7 +1766,7 @@
 
             <section id="level" class="section">
               <h1 class="title">Level</h1>
-              <hr>
+              <hr >
               <nav class="level">
                 <div class="level-item has-text-centered">
                   <div>
@@ -1793,8 +1793,8 @@
                   </div>
                 </div>
               </nav>
-              <br>
-              <br>
+              <br >
+              <br >
               <nav class="level">
                 <div class="level-item has-text-centered">
                   <a class="link is-info">Home</a>
@@ -1816,11 +1816,11 @@
 
             <section id="media" class="section">
               <h1 class="title">Media Object</h1>
-              <hr>
+              <hr >
               <article class="media">
                 <figure class="media-left">
                   <p class="image is-64x64">
-                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image" >
                   </p>
                 </figure>
                 <div class="media-content">
@@ -1829,7 +1829,7 @@
                       <strong>Raymond Aleman</strong>
                       <small>@raymondaleman</small>
                       <small>31m</small>
-                      <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+                      <br >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
                     </p>
                   </div>
                   <nav class="level">
@@ -1856,11 +1856,11 @@
                   <button class="delete" />
                 </div>
               </article>
-              <hr>
+              <hr >
               <article class="media">
                 <figure class="media-left">
                   <p class="image is-64x64">
-                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image" >
                   </p>
                 </figure>
                 <div class="media-content">
@@ -1878,27 +1878,27 @@
                     <div class="level-right">
                       <div class="level-item">
                         <label class="checkbox">
-                          <input type="checkbox"> Press enter to submit
+                          <input type="checkbox" > Press enter to submit
                         </label>
                       </div>
                     </div>
                   </nav>
                 </div>
               </article>
-              <hr>
+              <hr >
               <h4 class="subtitle">Nesting</h4>
               <article class="media">
                 <figure class="media-left">
                   <p class="image is-64x64">
-                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image" >
                   </p>
                 </figure>
                 <div class="media-content">
                   <div class="content">
                     <p>
                       <strong>Andrew Powers</strong>
-                      <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
-                      <br>
+                      <br >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porta eros lacus, nec ultricies elit blandit non. Suspendisse pellentesque mauris sit amet dolor blandit rutrum. Nunc in tempus turpis.
+                      <br >
                       <small>
                         <a>Like</a> ·
                         <a>Reply</a> · 3 hrs
@@ -1908,15 +1908,15 @@
                   <article class="media">
                     <figure class="media-left">
                       <p class="image is-48x48">
-                        <img src="https://source.unsplash.com/random/96x96" alt="Image">
+                        <img src="https://source.unsplash.com/random/96x96" alt="Image" >
                       </p>
                     </figure>
                     <div class="media-content">
                       <div class="content">
                         <p>
                           <strong>Justin Keller</strong>
-                          <br>Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
-                          <br>
+                          <br >Donec sollicitudin urna eget eros malesuada sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam blandit nisl a nulla sagittis, a lobortis leo feugiat.
+                          <br >
                           <small>
                             <a>Like</a> ·
                             <a>Reply</a> · 2 hrs
@@ -1934,15 +1934,15 @@
                   <article class="media">
                     <figure class="media-left">
                       <p class="image is-48x48">
-                        <img src="https://source.unsplash.com/random/96x96" alt="Image">
+                        <img src="https://source.unsplash.com/random/96x96" alt="Image" >
                       </p>
                     </figure>
                     <div class="media-content">
                       <div class="content">
                         <p>
                           <strong>Dan Lynch</strong>
-                          <br>Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
-                          <br>
+                          <br >Sed convallis scelerisque mauris, non pulvinar nunc mattis vel. Maecenas varius felis sit amet magna vestibulum euismod malesuada cursus libero. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus lacinia non nisl id feugiat.
+                          <br >
                           <small>
                             <a>Like</a> ·
                             <a>Reply</a> · 2 hrs
@@ -1956,7 +1956,7 @@
               <article class="media">
                 <figure class="media-left">
                   <p class="image is-64x64">
-                    <img src="https://source.unsplash.com/random/128x128" alt="Image">
+                    <img src="https://source.unsplash.com/random/128x128" alt="Image" >
                   </p>
                 </figure>
                 <div class="media-content">
@@ -1976,7 +1976,7 @@
 
             <section id="menu" class="section">
               <h1 class="title">Menu</h1>
-              <hr>
+              <hr >
               <div class="column is-3">
                 <aside class="menu">
                   <p class="menu-label">General</p>
@@ -2017,7 +2017,7 @@
 
             <section id="message" class="section">
               <h1 class="title">Message</h1>
-              <hr>
+              <hr >
               <div class="columns is-multiline">
                 <div class="column is-half">
                   <article class="message">
@@ -2032,7 +2032,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-info">
                     <div class="message-header">
                       <p>Info</p>
@@ -2045,7 +2045,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-warning">
                     <div class="message-header">
                       <p>Warning</p>
@@ -2058,7 +2058,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-white">
                     <div class="message-header">
                       <p>White</p>
@@ -2071,7 +2071,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-light">
                     <div class="message-header">
                       <p>Light</p>
@@ -2099,7 +2099,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-success">
                     <div class="message-header">
                       <p>Success</p>
@@ -2112,7 +2112,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-danger">
                     <div class="message-header">
                       <p>Danger</p>
@@ -2125,7 +2125,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-black">
                     <div class="message-header">
                       <p>Black</p>
@@ -2138,7 +2138,7 @@
                       <em>eleifend lacus</em>.
                     </div>
                   </article>
-                  <br>
+                  <br >
                   <article class="message is-dark">
                     <div class="message-header">
                       <p>Dark</p>
@@ -2157,7 +2157,7 @@
 
             <section id="modal" class="section">
               <h1 class="title">Modal</h1>
-              <hr>
+              <hr >
               <button
                 class="button is-primary is-large modal-button"
                 data-target="modal"
@@ -2189,7 +2189,7 @@
 
             <section id="navbar" class="section">
               <h1 class="title">Navbar</h1>
-              <hr>
+              <hr >
 
               <nav class="navbar">
                 <div class="navbar-brand">
@@ -2222,7 +2222,7 @@
                         <app-link class="navbar-item" path="#">Modifiers</app-link>
                         <app-link class="navbar-item is-active" path="#">Grid</app-link>
                         <app-link class="navbar-item" path="#">Elements</app-link>
-                        <hr class="navbar-divider">
+                        <hr class="navbar-divider" >
                         <div class="navbar-item">
                           <div>
                             version
@@ -2260,7 +2260,7 @@
                         </app-link>
 
                         <app-link class="navbar-item" path="#">More posts</app-link>
-                        <hr class="navbar-divider">
+                        <hr class="navbar-divider" >
                         <div class="navbar-item">
                           <div class="navbar-content">
                             <div class="level is-mobile">
@@ -2293,7 +2293,7 @@
                               <div class="level-item">
                                 <p>
                                   <strong>Extensions</strong>
-                                  <br>
+                                  <br >
                                   <small>Side projects to enhance Bulma</small>
                                 </p>
                               </div>
@@ -2329,12 +2329,12 @@
                   </div>
                 </div>
               </nav>
-              <br>
+              <br >
             </section>
 
             <section id="pagination" class="section">
               <h1 class="title">Pagination</h1>
-              <hr>
+              <hr >
               <nav class="pagination">
                 <app-link class="pagination-previous is-disabled" path="#">Previous</app-link>
                 <app-link class="pagination-next" path="#">Next</app-link>
@@ -2362,7 +2362,7 @@
                   </li>
                 </ul>
               </nav>
-              <br>
+              <br >
               <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
                 <app-link class="pagination-previous is-disabled" path="#">Previous</app-link>
                 <app-link class="pagination-next" path="#">Next</app-link>
@@ -2398,13 +2398,13 @@
 
             <section id="panel" class="section">
               <h1 class="title">Panel</h1>
-              <hr>
+              <hr >
               <div class="column is-4">
                 <nav class="panel">
                   <p class="panel-heading">Repositories</p>
                   <div class="panel-block">
                     <p class="control has-icons-left">
-                      <input class="input is-small" type="text" placeholder="Search">
+                      <input class="input is-small" type="text" placeholder="Search" >
                       <span class="icon is-small is-left">
                         <factor-icon icon="search" />
                       </span>
@@ -2447,7 +2447,7 @@
                     </span> fiction-com
                   </a>
                   <label class="panel-block">
-                    <input type="checkbox"> Remember me
+                    <input type="checkbox" > Remember me
                   </label>
                   <div class="panel-block">
                     <button class="button is-primary is-outlined is-fullwidth">Reset all filters</button>
@@ -2458,7 +2458,7 @@
 
             <section id="tabs" class="section">
               <h1 class="title">Tabs</h1>
-              <hr>
+              <hr >
               <div class="tabs">
                 <ul>
                   <li class="is-active">
@@ -2475,7 +2475,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-centered">
                 <ul>
                   <li class="is-active">
@@ -2512,7 +2512,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-small">
                 <ul>
                   <li class="is-active">
@@ -2529,7 +2529,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-medium">
                 <ul>
                   <li class="is-active">
@@ -2546,7 +2546,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-large">
                 <ul>
                   <li class="is-active">
@@ -2563,7 +2563,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-boxed">
                 <ul>
                   <li class="is-active">
@@ -2600,7 +2600,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-toggle">
                 <ul>
                   <li class="is-active">
@@ -2637,7 +2637,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-toggle is-toggle-rounded">
                 <ul>
                   <li class="is-active">
@@ -2674,7 +2674,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-fullwidth">
                 <ul>
                   <li>
@@ -2703,7 +2703,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-centered is-boxed">
                 <ul>
                   <li class="is-active">
@@ -2740,7 +2740,7 @@
                   </li>
                 </ul>
               </div>
-              <br>
+              <br >
               <div class="tabs is-toggle is-fullwidth is-large">
                 <ul>
                   <li class="is-active">
@@ -2781,7 +2781,7 @@
 
             <section id="more" class="section">
               <h1 class="title">Learn More</h1>
-              <hr>Even more elements like a versatile delete section, color helpers, tiles, typography helpers, footer, etc. Learn more on the
+              <hr >Even more elements like a versatile delete section, color helpers, tiles, typography helpers, footer, etc. Learn more on the
               <app-link
                 class="is-link"
                 path="https://bulma.io/documentation"
@@ -2817,10 +2817,3 @@ export default {
   }
 }
 </script>
-<style lang="less">
-.page-elements {
-  // .columns {
-  //   background: rgb(186, 250, 255);
-  // }
-}
-</style>

@@ -1,0 +1,25 @@
+/******** GENERATED FILE ********/
+const files = {}
+files["events"] = require("@factor/core-events").default
+files["notify"] = require("@factor/plugin-notify").default
+files["setting"] = require("@factor/app-settings").default
+files["appDriver"] = require("@factor/app").default
+files["db"] = require("@factor/core-db").default
+files["error"] = require("@factor/core-error").default
+files["alpha"] = require("../src/index.js").default
+files["storage"] = require("@factor/core-storage").default
+files["user"] = require("@factor/core-user").default
+files["http"] = require("@factor/tools-http").default
+files["markdown"] = require("@factor/tools-markdown").default
+files["endpoint"] = require("@factor/core-endpoint").default
+files["dashboard"] = require("@factor/cms-dashboard").default
+files["cmsDashboardUsers"] = require("@factor/cms-dashboard-users").default
+files["signin"] = require("@factor/cms-signin").default
+files["componentsForm"] = require("@factor/ui-components-form").default
+files["uiComponentsStandard"] = require("@factor/ui-components-standard").default
+files["directivesStandard"] = require("@factor/ui-directives-standard").default
+files["metatags"] = require("@factor/cms-metatags").default
+files["pageTemplates"] = require("@factor/cms-page-templates").default
+files["posts"] = require("@factor/cms-posts").default
+files["time"] = require("@factor/tools-time").default
+module.exports = files

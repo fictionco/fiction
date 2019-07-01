@@ -20,7 +20,7 @@
     "prismjs": "^1.16.0"
   },
   "devDependencies": {
-    "bulma": "^0.7.4",
+    "bulma": "^0.7.5",
     "node-sass": "^4.12.0"
   },
   "scripts": {

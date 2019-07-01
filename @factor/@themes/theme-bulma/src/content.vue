@@ -8,7 +8,6 @@
       </div>
 
       <footer-primary />
-      <!-- <site-footer v-if="$route.meta.footer !== false" /> -->
     </div>
   </div>
 </template>

@@ -786,7 +786,7 @@
   resolved "https://registry.yarnpkg.com/@factor/core-events/-/core-events-0.3.7.tgz#e739dd03517777988771a9db8744fa2981bb815e"
   integrity sha512-vUy4lDNcFnbyj7gDSJRbrOPlfGIUBpwL/mgaLHHVyt1gMSIYwvMoNVzZNdpVhDhbhXlogwSiAUCDfHTCQsmdvA==
 
-"@factor/stack-fire@^0.3.0", "@factor/stack-fire@^0.3.7":
+"@factor/stack-fire@^0.3.0":
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/@factor/stack-fire/-/stack-fire-0.3.7.tgz#7f0110dfd72e18ac29a2b38d3d8fe96358825097"
   integrity sha512-r6+goK3Y4YcxYNcU8KOWYogGsZ4BLT+gXxbTK3UqiPNLj1bygdVshMJrcW1yXpnzvsHMw4/UBn5kZhi7z09hSQ==
@@ -3235,7 +3235,7 @@ builtins@^1.0.3:
   resolved "https://registry.yarnpkg.com/builtins/-/builtins-1.0.3.tgz#cb94faeb61c8696451db36534e1422f94f0aee88"
   integrity sha1-y5T662HIaWRR2zZTThQi+U8K7og=
 
-bulma@^0.7.4:
+bulma@^0.7.5:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.7.5.tgz#35066c37f82c088b68f94450be758fc00a967208"
   integrity sha512-cX98TIn0I6sKba/DhW0FBjtaDpxTelU166pf7ICXpCCuplHWyu6C9LYZmL5PEsnePIeJaiorsTEzzNk3Tsm1hw==

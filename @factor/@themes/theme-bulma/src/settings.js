@@ -10,6 +10,10 @@ module.exports = Factor => {
         {
           path: "/elements",
           name: "Elements"
+        },
+        {
+          path: "/",
+          name: "Page Templates"
         }
       ],
       nav_cta: {
@@ -24,6 +28,64 @@ module.exports = Factor => {
       }
     },
     footer: {
+      nav1Headline: "Company",
+      nav1: [
+        {
+          path: "/",
+          name: "Home"
+        },
+        {
+          path: "/",
+          name: "About"
+        },
+        {
+          path: "/",
+          name: "Pricing"
+        },
+        {
+          path: "/",
+          name: "Blog"
+        }
+      ],
+      nav2Headline: "Service",
+      nav2: [
+        {
+          path: "/",
+          name: "Web"
+        },
+        {
+          path: "/",
+          name: "Marketing"
+        },
+        {
+          path: "/",
+          name: "Graphics"
+        },
+        {
+          path: "/",
+          name: "Mobile"
+        }
+      ],
+      nav3Headline: "Support",
+      nav3: [
+        {
+          path: "/",
+          name: "Help Center"
+        },
+        {
+          path: "/",
+          name: "Support Ticket"
+        },
+        {
+          path: "/",
+          name: "Contact"
+        },
+        {
+          path: "/",
+          name: "Feedback"
+        }
+      ],
+      socialHeadline: "Follow Us",
       social: [
         {
           path: "https://facebook.com",
@@ -46,6 +108,8 @@ module.exports = Factor => {
           icon: "pinterest"
         }
       ],
+      subscribeHeadline: "Subscribe",
+      subscribe: () => import("./el/subscribe"),
       logo: () => import("./el/logo-fiction"),
       legal: "&copy; Factor by Fiction.com Inc.",
       terms: [
@@ -80,29 +144,57 @@ module.exports = Factor => {
           text: "View Elements"
         }
       ],
+      graphic: () => import("./el/home-graphic"),
+      logos: [
+        {
+          imageURL: "github.svg",
+          imageAlt: "Github"
+        },
+        {
+          imageURL: "algolia.svg",
+          imageAlt: "Algolia"
+        },
+        {
+          imageURL: "bulma.svg",
+          imageAlt: "Bulma"
+        },
+        {
+          imageURL: "vue.svg",
+          imageAlt: "Vue.js"
+        },
+        {
+          imageURL: "nodejs.svg",
+          imageAlt: "NodeJS"
+        },
+        {
+          imageURL: "npm.svg",
+          imageAlt: "NPM"
+        }
+      ],
       boxesHeadline: "Code Better and Ship Faster.",
       boxes: [
         {
-          imageURL: "5-minute.svg",
+          imageURL: "icon-5-minute.svg",
           title: "5 Minute Setup",
           description:
             "A Factor site can be installed and up and running in a matter of minutes, with only basic coding knowledge."
         },
         {
-          imageURL: "mobile.svg",
+          imageURL: "icon-mobile.svg",
           title: "Mobile-first",
           description: "Every element is mobile-first and optimizes for vertical reading. Built with five breakpoints."
         },
         {
-          imageURL: "serverless.svg",
-          title: "Serverless SSR",
-          description: "editthis"
-        },
-        {
-          imageURL: "js.svg",
+          imageURL: "icon-js.svg",
           title: "100% Javascript",
           description:
             "Factor provides a robust basis for the development of any JS application. Modular, minimal, and extensible."
+        },
+        {
+          imageURL: "icon-vue.svg",
+          title: "Build with Reactive VueJS",
+          description:
+            "Based on Vue.js so you code better and ship faster. Customize your front-end layout with vue.js components."
         }
       ]
     }
