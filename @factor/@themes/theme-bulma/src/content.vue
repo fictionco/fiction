@@ -11,7 +11,7 @@
     </div>
   </div>
 </template>
-<style src="#/css/mystyles.scss" lang="sass"></style>
+<style src="#/css/style-vars.scss" lang="sass"></style>
 <script>
 export default {
   components: {

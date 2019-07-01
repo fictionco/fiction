@@ -13,7 +13,25 @@ module.exports = Factor => {
         },
         {
           path: "/",
-          name: "Page Templates"
+          name: "Dropdown",
+          subnav: [
+            {
+              path: "/elements",
+              name: "Elements"
+            },
+            {
+              path: "/",
+              name: "About"
+            },
+            {
+              path: "/",
+              name: "Jobs"
+            },
+            {
+              path: "/",
+              name: "Contact"
+            }
+          ]
         }
       ],
       nav_cta: {
