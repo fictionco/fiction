@@ -7,6 +7,7 @@ module.exports.default = Factor => {
         this.addWorkPostType()
         this.addPaths()
         this.addComponents()
+        this.addSettings()
       }
     }
 
@@ -15,6 +16,12 @@ module.exports.default = Factor => {
       Factor.$filters.add("prepended-style-var-files", _ => {
         _.push(resolve(__dirname, "css/style-vars.less"))
         return _
+      })
+    }
+
+    addSettings() {
+      Factor.$filters.add("settings", _ => {
+        return [..._, require("./settings")(Factor)]
       })
     }
 
@@ -42,7 +49,7 @@ module.exports.default = Factor => {
       })
     }
 
-    async addPaths() {
+    async addPathsOLD() {
       Factor.$filters.add("page-templates", _ => {
         return _.concat([
           {
@@ -50,12 +57,6 @@ module.exports.default = Factor => {
             value: "default",
             component: () => import("./page-template-default")
           },
-          // {
-          //   name: "With Nav",
-          //   description: "Scans the page and creates a dynamic table of contents.",
-          //   value: "page-template-sidebar",
-          //   component: () => import("./page-template-sidebar")
-          // },
           {
             name: "Landing Page",
             description: "Landing page template",
@@ -84,11 +85,11 @@ module.exports.default = Factor => {
               }
             ]
           },
-          {
-            name: "About",
-            value: "about",
-            component: () => import("./page-template-about")
-          },
+          // {
+          //   name: "About",
+          //   value: "about",
+          //   component: () => import("./page-about")
+          // },
           {
             name: "Work",
             value: "work",
@@ -117,22 +118,9 @@ module.exports.default = Factor => {
             meta: { nav: true }
           },
           {
-            path: "/work",
-            component: () => import("./page-template-work"),
-            children: [
-              {
-                path: "/",
-                component: () => import("./el/work-index.vue")
-              },
-              {
-                path: `/${base}`,
-                component: () => import(`./el/work-single.vue`)
-              },
-              {
-                path: `/${base}/:permalink`,
-                component: () => import(`./el/work-single.vue`)
-              }
-            ]
+            path: "/about",
+            component: () => import("./page-about"),
+            meta: { nav: true }
           }
         ]
 
@@ -140,19 +128,35 @@ module.exports.default = Factor => {
       })
     }
 
-    // constructor() {
-    //   Factor.$filters.add("content-routes", _ => {
-    //     const contentRoutes = [
-    //       {
-    //         path: "/",
-    //         component: () => import("./page-home"),
-    //         meta: { nav: true }
-    //       }
-    //     ]
+    async addPaths() {
+      Factor.$filters.add("page-templates", _ => {
+        return _.concat([
+          {
+            name: "Default",
+            value: "default",
+            component: () => import("./page-template-default")
+          }
+        ])
+      })
 
-    //
-    //     return _.concat(contentRoutes)
-    //   })
-    // }
+      const base = "work"
+
+      Factor.$filters.add("content-routes", _ => {
+        const routes = [
+          {
+            path: "/",
+            component: () => import("./page-home"),
+            meta: { nav: true }
+          },
+          {
+            path: "/about",
+            component: () => import("./page-about"),
+            meta: { nav: true }
+          }
+        ]
+
+        return _.concat(routes)
+      })
+    }
   })()
 }

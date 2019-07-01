@@ -8,13 +8,10 @@
   },
   "factor": {
     "extend": "theme",
-    "target": [
-      "server",
-      "app"
-    ]
+    "target": ["server", "app"]
   },
   "dependencies": {
     "@factor/cms": "^0.3.7",
-    "@factor/stack-fire": "^0.3.7"
+    "@factor/plugin-notify": "^0.3.7"
   }
 }

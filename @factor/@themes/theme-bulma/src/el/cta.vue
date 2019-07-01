@@ -4,18 +4,18 @@
       <div class="box has-text-white">
         <div class="columns level">
           <div class="column level-item">
-            <h1 class="title">Made with Factor</h1>
+            <h1 class="title">{{ $setting.get('site.cta.headline') }}</h1>
           </div>
           <div class="column level-item">
-            <p>Interested in using the factor framework with bulma? We should get started. I’ll setup bulma.</p>
+            <p>{{ $setting.get('site.cta.subheadline') }}</p>
           </div>
           <div class="column level-item">
             <app-link
               class="button is-primary is-outlined is-rounded is-medium has-text-white"
-              path="https://www.fiction.com/"
+              :path="$setting.get('site.cta.path')"
               target="_blank"
             >
-              Let's do this
+              {{ $setting.get('site.cta.text') }}
               <factor-icon icon="arrow-right" class="ml-2" />
             </app-link>
           </div>
@@ -24,6 +24,9 @@
     </div>
   </section>
 </template>
+<script>
+export default {}
+</script>
 <style lang="less">
 .section.call-to-action {
   margin-top: 5.5em;

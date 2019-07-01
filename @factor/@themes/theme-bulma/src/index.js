@@ -3,6 +3,13 @@ module.exports.default = Factor => {
     constructor() {
       this.addPaths()
       this.addComponents()
+      this.addSettings()
+    }
+
+    addSettings() {
+      Factor.$filters.add("settings", _ => {
+        return [..._, require("./settings")(Factor)]
+      })
     }
 
     addComponents() {

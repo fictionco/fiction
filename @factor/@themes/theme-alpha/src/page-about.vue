@@ -4,14 +4,13 @@
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <h1 class="title">{{ post.title }}</h1>
-            <h2 class="heading">{{ post.pageHeading }}</h2>
-            <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
+            <h1 class="title">{{ $setting.get('about.headline') }}</h1>
+            <h2 class="heading">{{ $setting.get('about.subheadline') }}</h2>
+            <div v-formatted-text="$setting.get('about.content')" class="content entry-content" />
           </div>
           <div>
             <div
-              v-if="post.heroImage"
-              :style="{'background-image': `url(`+ post.heroImage[0].url + `)` }"
+              :style="{'background-image': `url(`+ require(`./img/` + $setting.get('about.heroImage')) + `)` }"
               class="hero-image"
             />
           </div>
@@ -19,46 +18,43 @@
       </div>
     </section>
 
-    <el-cta />
+    <!-- <el-cta /> -->
   </div>
 </template>
 
 <script>
 export default {
-  components: {
-    "el-cta": () => import("./el/cta")
-  },
-  props: {
-    post: { type: Object, default: () => {} }
-  },
+  // components: {
+  //   "el-cta": () => import("./el/cta")
+  // },
   data() {
     return {
       loading: true
     }
   },
-  watch: {},
-  pageTemplate() {
+  metatags() {
     return {
-      name: "About Page",
-      inputs: [
-        {
-          input: "text",
-          label: "Heading",
-          key: "pageHeading"
-        },
-        {
-          input: "image-upload",
-          label: "Image",
-          key: "heroImage"
-        }
-      ]
-    }
-  },
-  methods: {
-    settings() {
-      return ["test"]
+      title: "title",
+      description: "description"
     }
   }
+  // pageTemplate() {
+  //   return {
+  //     name: "About Page",
+  //     inputs: [
+  //       {
+  //         input: "text",
+  //         label: "Heading",
+  //         key: "pageHeading"
+  //       },
+  //       {
+  //         input: "image-upload",
+  //         label: "Image",
+  //         key: "heroImage"
+  //       }
+  //     ]
+  //   }
+  // }
 }
 </script>
 

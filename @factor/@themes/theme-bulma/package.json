@@ -8,7 +8,10 @@
   },
   "factor": {
     "extend": "theme",
-    "target": ["server", "app"]
+    "target": [
+      "server",
+      "app"
+    ]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
@@ -17,7 +20,7 @@
     "prismjs": "^1.16.0"
   },
   "devDependencies": {
-    "bulma": "^0.7.4",
+    "bulma": "^0.7.5",
     "node-sass": "^4.12.0"
   },
   "scripts": {
