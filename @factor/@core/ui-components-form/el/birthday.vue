@@ -101,7 +101,7 @@ export default {
       let bd = ""
 
       if (this.validity) {
-        bd = this.$time.util([this.year, this.month, this.day]).unix()
+        bd = this.$time.util([this.year, this.month, this.day]).toDate()
       }
       this.setValidity()
       return bd

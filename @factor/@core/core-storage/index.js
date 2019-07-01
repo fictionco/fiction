@@ -55,30 +55,33 @@ module.exports.default = Factor => {
       if (error) {
         onError(error)
       } else {
-        console.log("RESULT", result)
         onFinished(result)
       }
     }
 
+    async resize(fileOrBlobOrUrl, options = {}) {
+      let { maxWidth = 1500, maxHeight = 1500 } = options
+
+      return await new Promise(resolve => {
+        loadImage(
+          fileOrBlobOrUrl,
+          canvas => {
+            canvas.toBlob(blob => resolve(blob), fileOrBlobOrUrl.type)
+          },
+          { maxWidth, maxHeight, canvas: true, orientation: true }
+        )
+      })
+    }
+
     async preupload({ file, onPrep }, options = {}) {
-      let { maxWidth = 2000, maxHeight = 2000, resize = true } = options
       onPrep({
         mode: "started",
         percent: 5
       })
 
-      if (resize && file.type.includes("image")) {
-        file = await new Promise(resolve => {
-          loadImage(
-            file,
-            canvas => {
-              canvas.toBlob(blob => {
-                resolve(blob)
-              }, file.type)
-            },
-            { maxWidth, maxHeight, canvas: true, orientation: true }
-          )
-        })
+      if (file.type.includes("image")) {
+        file = await this.resize(file, options)
+
         onPrep({
           mode: "resized",
           percent: 25,

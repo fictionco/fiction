@@ -23,7 +23,12 @@
             input="factor-input-email"
             label="Email Address"
           >
-            <provider-link account="email" />
+            <div v-if="user.email && !user.emailVerified">
+              <dashboard-btn
+                size="tiny"
+                @click="$userEmails.request('sendVerifyEmail', {email: user.email, _id: user._id})"
+              >Send Verification Email</dashboard-btn>
+            </div>
           </dashboard-input>
 
           <dashboard-input
@@ -37,40 +42,40 @@
         <dashboard-pane title="Profile">
           <dashboard-input
             v-model="user.photosProfile"
-            input-destination="/user/__uid/__guid.__ext"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
             label="Profile Photo(s)"
+            :loading="loading"
             @autosave="$emit('autosave')"
           />
           <dashboard-input
             v-model="user.photosCover"
-            input-destination="/user/__uid/__guid.__ext"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
             label="Cover Photo(s)"
+            :loading="loading"
             @autosave="$emit('autosave')"
           />
           <dashboard-input
-            v-model="user.bio"
+            v-model="user.about"
             input="factor-input-textarea"
-            label="Bio"
+            label="About You"
             placeholder="Work, hobbies, travels, etc..."
           />
           <dashboard-input
             v-model="user.birthday"
             input="factor-input-birthday"
             label="Birthday"
-            description="This data is for analysis and not shared."
+            description="This information is not shared."
           />
           <dashboard-input
             v-model="user.gender"
             :list="['female', 'male']"
             input="factor-input-select"
             label="Gender"
-            description="This data is for analysis and not shared."
+            description="This information is not shared."
           />
           <div class="user-info">
             <div class="item">
@@ -108,7 +113,8 @@ export default {
   data() {
     return {
       user: {},
-      sending: false
+      sending: false,
+      loading: false
     }
   },
   computed: {
@@ -121,26 +127,49 @@ export default {
         : `/@?id=${this.user._id}`
     }
   },
+
   async mounted() {
     this.$user.init(async user => {
       this.user = user
+
+      this.user = await this.$db.populate(this.user, [
+        "photosProfile",
+        "photosCover"
+      ])
     })
   },
   methods: {
+    saveObject(user) {
+      const _save = {} // mutable
+
+      let { photosProfile, photosCover, photoPrimary } = user
+
+      _save.photosProfile = photosProfile
+        .filter(_ => _)
+        .map(_ => (typeof _ == "object" ? _._id : _))
+      _save.photosCover = photosCover
+        .filter(_ => _)
+        .map(_ => (typeof _ == "object" ? _._id : _))
+
+      _save.photoPrimary =
+        _save.photosProfile.length > 0 ? _save.photosProfile[0] : undefined
+
+      return { ...user, ..._save }
+    },
     async save() {
       this.sending = true
 
-      try {
-        let savedUser = await this.$user.request("save", this.user)
+      let savedUser = await this.$user.request(
+        "save",
+        this.saveObject(this.user)
+      )
 
-        if (savedUser) {
-          this.$set(this, "user", savedUser)
+      if (savedUser) {
+        console.log("Saved User Information", savedUser)
 
-          this.$events.$emit("notify", `User Saved`)
-        }
-      } catch (error) {
-        console.log(error)
+        this.$events.$emit("notify", `User Saved`)
       }
+
       this.sending = false
     }
   }

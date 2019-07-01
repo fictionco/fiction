@@ -19,14 +19,14 @@ module.exports.default = Factor => {
       })
     }
 
-    async handleUpload({ request, response, meta }) {
-      const { bearer } = meta
+    async handleUpload({ meta }) {
+      const { bearer, request } = meta
       const {
         file: { buffer, mimetype, size }
       } = request
 
       const author = [Factor.$db.objectId(bearer._id)]
-      const url = `data:${mimetype};base64,${buffer.toString("base64")}`
+      const url = Factor.$filters.apply("create-image-url", `data:${mimetype};base64,${buffer.toString("base64")}`)
       const img = await Factor.$db.run("Image", "create", [{ url, mimetype, size, author }])
 
       return img.toObject()
@@ -36,12 +36,12 @@ module.exports.default = Factor => {
       const _this = this // mongoose hooks need 'this'
       return {
         name: "Image",
-        callback: Schema => {},
+        callback: s => {},
         schema: {
           mimetype: String,
           imageData: Buffer,
           size: Number,
-          url: { type: String, required: true }
+          url: String
         },
         options: {}
       }

@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import { setTimeout } from "timers"
 export default {
   props: {
     account: { type: String, default: "" },

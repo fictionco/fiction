@@ -180,16 +180,14 @@ export default {
     },
     async passwordResetEmail() {
       const r = this.$refs["password-form"].$el.reportValidity()
-      if (!r) {
-        return
-      }
+
+      if (!r) return
+
       this.loading = true
-      try {
-        await this.$user.sendPasswordReset(this.form)
-        this.passwordEmailSent = true
-      } catch (error) {
-        this.$events.$emit("error", error)
-      }
+
+      await this.$user.request("resetPassword", this.form)
+      this.passwordEmailSent = true
+
       this.loading = false
     },
 
@@ -207,7 +205,7 @@ export default {
       })
 
       if (user) {
-        this.$user.setCurrentUser(user)
+        this.$user.setUser({ user, current: true })
         this.done(user)
       }
 

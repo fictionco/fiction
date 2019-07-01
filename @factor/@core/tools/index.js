@@ -7,5 +7,6 @@ module.exports.default = Factor => {
   Factor.$isNode = require("detect-node")
   Factor.$validator = require("validator")
   Factor.$events = Factor.prototype.$events = new Factor()
-  Factor.$mongoose = Factor.prototype.$mongoose = require("mongoose")
+  Factor.$mongoose = Factor.prototype.$mongoose = Factor.$isNode ? require("mongoose") : require("mongoose/browser")
+  Factor.$randomToken = () => require("rand-token").generate(16)
 }
