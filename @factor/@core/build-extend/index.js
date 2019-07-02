@@ -21,7 +21,7 @@ module.exports.default = Factor => {
     }
 
     loadCore() {
-      this._install("log", require("@factor/core-log/build").default)
+      this._install("log", require("@factor/core-log/server").default)
       this._install("tools", require("@factor/tools").default)
 
       this._install("filters", require("@factor/filters").default)
@@ -42,7 +42,11 @@ module.exports.default = Factor => {
     _install(id, plugin) {
       Factor.use({
         install(Factor) {
-          Factor[`$${id}`] = Factor.prototype[`$${id}`] = plugin(Factor)
+          try {
+            Factor[`$${id}`] = Factor.prototype[`$${id}`] = plugin(Factor)
+          } catch (error) {
+            Factor.$log.error(error)
+          }
         }
       })
     }

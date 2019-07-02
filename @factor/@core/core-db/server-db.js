@@ -1,7 +1,7 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.DB_CONNECTION = false //Factor.$config.setting("DB_CONNECTION")
+      this.DB_CONNECTION = Factor.$config.setting("DB_CONNECTION")
       this.dbConfig()
 
       if (!this.DB_CONNECTION) {
