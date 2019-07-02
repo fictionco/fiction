@@ -10,7 +10,7 @@ export function createRouter() {
     routes,
     mode: "history", // abstract
     scrollBehavior(to, from, savedPosition) {
-      if (to.path == from.path && to.hash != from.hash) {
+      if (path == from.path && to.hash != from.hash) {
         return false
       } else if (savedPosition) {
         return savedPosition
@@ -68,4 +68,9 @@ export async function clientRouterBefore(to, from, next) {
 export function clientRouterAfter(to, from) {
   Factor.$events.$emit("ssr-progress", "finish")
   Factor.$filters.apply("client-route-loaded", [], { to, from })
+
+  const { query } = to
+  if (query._action) {
+    Factor.$filters.run(`route-query-action-${query._action}`, query)
+  }
 }

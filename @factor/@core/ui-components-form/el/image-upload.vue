@@ -1,13 +1,12 @@
 <template>
   <div class="image-upload-container">
     <div class="image-upload-input">
-      <factor-loading-ring v-if="loading" width="2em" />
-      <div v-show="!loading" ref="organizer" class="image-organizer">
+      <div ref="organizer" class="image-organizer">
         <div
           v-for="(img, index) in images"
-          :key="img.url"
+          :id="img._id"
+          :key="img._id"
           :class="max <= 1 ? 'no-sort-img' : 'sort-img'"
-          :test="img.guid"
           class="image-item image-uploaded"
         >
           <div class="image-item-pad">
@@ -24,13 +23,11 @@
                 >
                   <div :style="{width: `${img.progress}%`}" class="bar" />
                 </div>
-                <div v-else-if="img.status == 'complete'" class="image-status success">
-                  <factor-icon icon="check" />
-                </div>
+
                 <factor-menu
                   v-else
                   :item-key="index"
-                  class="menu image-status"
+                  class="menu"
                   :list="['view', 'copy-URL', 'delete']"
                   @action="action($event)"
                 />
@@ -53,11 +50,11 @@
                 multiple
                 @change="handleMultiUpload($event)"
               >
-              <div class="upload-status">
+              <factor-loading-ring v-if="loading" width="2em" />
+              <div v-else class="upload-status">
                 <div class="wrp">
                   <factor-icon icon="arrow-up" />
-                  <span v-if="images.length == 1 && max == 1">Swap</span>
-                  <span v-else>Add</span>
+                  <span>Add</span>
                 </div>
               </div>
             </div>
@@ -73,6 +70,7 @@
 import Sortable from "sortablejs"
 export default {
   props: {
+    loading: { type: Boolean, default: false },
     value: { type: Array, default: () => [] },
     customValidity: { type: String, default: "" },
     watermark: { type: Boolean, default: false }
@@ -81,7 +79,6 @@ export default {
     return {
       images: [],
       imageMeta: {},
-      loading: true,
       lightboxShow: false,
       lightboxIndex: 0,
       callback: null,
@@ -98,11 +95,6 @@ export default {
         : typeof this.$attrs["required"] != "undefined"
         ? 1
         : 0
-    },
-    dest() {
-      return this.$attrs["input-destination"]
-        ? this.$attrs["input-destination"]
-        : `/public/__month/__name`
     },
     isRequired() {
       return typeof this.$attrs["required"] != "undefined" ? true : false
@@ -148,7 +140,9 @@ export default {
     },
     copyUrl(key) {
       const image = this.images[key]
-      this.copyText = image.url
+      this.copyText = image.url.includes("base64")
+        ? `[IMAGEID:${image._id}]`
+        : image.url
       this.$nextTick(() => {
         this.$refs.copyInput.select()
 
@@ -158,11 +152,9 @@ export default {
       })
     },
     styleImageBG(img) {
-      const { preview, url } = img
+      const { url } = img
 
-      return preview || url
-        ? { backgroundImage: `url(${preview || url})` }
-        : {}
+      return url ? { backgroundImage: `url(${url})` } : {}
     },
     setValidity() {
       let validity = ""
@@ -225,40 +217,17 @@ export default {
 
     setImages(v) {
       if (this.images.length == 0 && Array.isArray(v) && v.length > 0) {
-        this.images = v.map(img => {
-          if (typeof img == "string") {
-            return { url: img }
-          } else {
-            return img
-          }
-        })
+        this.images = v.filter(_ => _ && _.url)
       }
-
-      // Delay loading by amount of images to prevent interface lag
-      setTimeout(() => {
-        this.loading = false
-      }, 50 + 50 * this.images.length)
     },
     updateValue() {
-      const output = []
-
-      this.images.forEach(img => {
-        if (img.url) {
-          delete img.preview
-          delete img.status
-          delete img.progress
-
-          output.push(Object.assign({}, img))
-        }
-      })
-
-      this.$emit("input", output)
+      this.$emit("input", this.images)
 
       this.$emit("update:customValidity", this.validity)
 
       // Delay autosave to make sure all models are correct
       setTimeout(() => {
-        this.$emit("autosave", output)
+        this.$emit("autosave", this.images)
       }, 100)
     },
 
@@ -285,14 +254,7 @@ export default {
 
       for (let file of files) {
         if (this.images.length < this.max) {
-          const guid = this.$guid()
-
           const meta = {
-            guid,
-            mimetype: file.type,
-            ext: file.name.split(".").pop(),
-            size: file.size,
-            name: file.name,
             status: "preprocess"
           }
 
@@ -317,22 +279,14 @@ export default {
       this.$storage.upload({
         file,
         onPrep: ({ mode, percent, preview = false }) => {
-          //   this.$set(item, "progress", percent)
-          if (preview) {
-            console.log("preview", preview)
-            this.$set(item, "preview", preview)
-          } else {
-            this.$set(item, "status", "preprocess")
-          }
+          this.$set(item, "url", preview)
+          this.$set(item, "status", "preprocess")
         },
         onChange: progressEvent => {
-          console.log("change", progressEvent)
-          // this.$set(item, "status", "progress")
-          // this.$set(
-          //   item,
-          //   "progress",
-          //   (upload.bytesTransferred / upload.totalBytes) * 100
-          // )
+          const { loaded, total } = progressEvent
+
+          this.$set(item, "status", "progress")
+          this.$set(item, "progress", (loaded / total) * 100)
         },
         onError: error => {
           this.$set(item, "status", "error")
@@ -344,11 +298,13 @@ export default {
           var img = new Image()
           img.src = url
           this.$set(item, "url", url)
+          this.$set(item, "_id", _id)
           this.$set(item, "status", "complete")
           this.uploadedFiles++
 
           this.doCallback(item)
 
+          // Only update value once all images uploaded (multi)
           if (this.uploadedFiles >= this.numFiles) {
             setTimeout(() => {
               this.updateValue()
@@ -404,46 +360,47 @@ export default {
     left: -9999px;
   }
 }
-.image-upload-container .image-status {
-  line-height: 1.2;
-  text-align: center;
-  position: relative;
-  padding: 2px;
+.image-upload-container {
+  .image-status {
+    line-height: 1.2;
+    text-align: center;
+    position: relative;
+    padding: 2px;
 
-  line-height: 1;
-  border-radius: 5px;
-  opacity: 1;
-
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5em;
-  color: #fff;
-  &.overlay {
-    background: rgba(0, 0, 0, 0.4);
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 8px;
-  }
-  &.success {
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+    line-height: 1;
+    border-radius: 5px;
+    opacity: 1;
     color: #fff;
-  }
-  .bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 1);
-    width: 0%;
     height: 100%;
-    border-radius: 8px;
-    transition: width 0.8s;
-    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    &.overlay {
+      background: rgba(0, 0, 0, 0.4);
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      width: 80%;
+      height: 8px;
+    }
+    &.success {
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+      color: #fff;
+    }
+    .bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(255, 255, 255, 1);
+      width: 0%;
+      height: 100%;
+      border-radius: 8px;
+      transition: width 0.8s;
+      transition: all 0.2s;
+    }
   }
-  &.menu {
+  .menu {
     height: 100%;
     width: 100%;
     .toggle-btn {
@@ -453,6 +410,12 @@ export default {
   }
 }
 .image-item-content {
+  .loading-ring-wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+  }
   //box-shadow: inset @factor-input-shadow;
   transition: 0.1s all;
   border-radius: 6px;

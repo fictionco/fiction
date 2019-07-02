@@ -34,6 +34,10 @@ export default Factor => {
       return this.util(time).format("YYYY-M-DD")
     }
 
+    date(time) {
+      return this.util(time).toDate()
+    }
+
     stamp(date = null) {
       if (!date) {
         return this.util().unix()

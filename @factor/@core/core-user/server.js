@@ -15,8 +15,9 @@ module.exports.default = Factor => {
       Factor.$db.canEdit({ doc: data, bearer, scope: "memberOrAdmin" })
 
       const _user = await Factor.$db.run("User", "findById", [data._id])
+
       Object.assign(_user, data)
-      await _user.save()
+      return await _user.save()
     }
 
     async hashPassword(password) {
@@ -29,10 +30,13 @@ module.exports.default = Factor => {
 
       let user
       if (newAccount) {
-        user = await Factor.$db.run("User", "create", { email, password, displayName })
+        user = await Factor.$db.model("User").create({ email, password, displayName, emailVerificationCode })
+
+        Factor.$filters.apply("create-new-user", user)
+
         return this.credential(user)
       } else {
-        user = await Factor.$db.run("User", "findOne", [{ email }, "+password"])
+        user = await Factor.$db.model("User").findOne({ email }, "+password")
 
         const compareResult = await user.comparePassword(password)
 
@@ -53,15 +57,39 @@ module.exports.default = Factor => {
       }
     }
 
-    async retrieveUser({ token }) {
+    async account({ _id }) {
+      let user = await Factor.$db.model("User").findOne({ _id })
+      // .populate("photoPrimary photosProfile photosCover")
+
+      return user
+    }
+
+    async getUser({ _id, mode = "app" }) {
+      let pop = ""
+      if (mode == "app") {
+        pop = "photoPrimary"
+      } else if (mode == "profile") {
+        pop = "photoPrimary photosProfile photosCover"
+      }
+
+      let user = await Factor.$db
+        .model("User")
+        .findOne({ _id })
+        .populate(pop)
+
+      return user
+    }
+
+    // Retrieve basic user document
+    async retrieveUser({ token, mode = "app" }) {
       const decoded = this.verifyJWT(token)
 
       if (decoded) {
         const { _id } = decoded
-        const user = await Factor.$db.run("User", "findOne", [{ _id }])
-        return user.toObject()
+
+        return await this.getUser({ _id, mode })
       } else {
-        return false
+        return {}
       }
     }
 
@@ -78,10 +106,15 @@ module.exports.default = Factor => {
     }
 
     schema() {
+      const { Schema, model } = Factor.$mongoose
       const _this = this // mongoose hooks need 'this'
       return {
         name: "User",
         callback: Schema => {
+          // PASSWORDS
+          Schema.methods.comparePassword = async function comparePassword(candidate) {
+            return bcrypt.compare(candidate, this.password)
+          }
           Schema.pre("save", async function(next) {
             const user = this
             if (!user.isModified("password")) return next()
@@ -93,9 +126,7 @@ module.exports.default = Factor => {
             }
           })
 
-          Schema.methods.comparePassword = async function comparePassword(candidate) {
-            return bcrypt.compare(candidate, this.password)
-          }
+          Factor.$filters.apply("user-schema-hooks", Schema)
         },
         schema: {
           username: {
@@ -115,6 +146,8 @@ module.exports.default = Factor => {
               message: props => `${props.value} is not a valid email.`
             }
           },
+          emailVerified: { type: Boolean, default: false },
+          emailVerificationCode: { type: String, select: false },
           password: {
             select: false,
             type: String,
@@ -138,11 +171,16 @@ module.exports.default = Factor => {
               message: props => `${props.value} is not a valid phone number (with country code).`
             }
           },
-
           gender: {
             type: String,
             enum: ["male", "female"]
-          }
+          },
+          birthday: Date,
+          about: String,
+          photoPrimary: { type: Schema.Types.ObjectId, ref: "Image" },
+          photosProfile: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+          photosCover: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+          profile: {}
         },
         options: {}
       }

@@ -20,22 +20,21 @@ export default Factor => {
     async process({ request, response, handler }) {
       const { query, body, headers } = request
 
-      const meta = {
-        data: { ...body, ...parse(query) }
-      }
+      const meta = { request, response }
+      const data = { ...body, ...parse(query) }
 
       const { authorization } = headers
 
       if (authorization && authorization.startsWith("Bearer ")) {
         const token = authorization.split("Bearer ")[1]
 
-        meta.bearer = await Factor.$user.retrieveUser({ token })
+        meta.bearer = await Factor.$user.retrieveUser({ token, mode: "simple" })
       }
 
       const responseJson = { result: "", error: "" }
 
       try {
-        responseJson.result = await handler({ request, response, meta })
+        responseJson.result = await handler({ data, meta })
       } catch (error) {
         responseJson.error = Factor.$error.create(error)
         Factor.$log.error(error)
@@ -49,8 +48,10 @@ export default Factor => {
       return
     }
 
-    async parseRequest({ headers }) {
-      let meta = {}
+    async parseRequest(request) {
+      let meta = { request }
+
+      const { headers } = request
       const { authorization } = headers
 
       if (authorization && authorization.startsWith("Bearer ")) {
@@ -59,7 +60,7 @@ export default Factor => {
         meta.bearer = await Factor.$user.retrieveUser({ token })
       }
 
-      return { meta }
+      return meta
     }
 
     async standardHeaders() {

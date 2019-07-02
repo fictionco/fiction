@@ -218,11 +218,16 @@ module.exports.default = Factor => {
           publicPath: Factor.$paths.get("dist")
         },
         plugins: [
-          new HardSourceWebpackPlugin({
-            info: {
-              level: "error"
-            }
-          })
+          // new HardSourceWebpackPlugin({
+          //   info: {
+          //     level: "error"
+          //   }
+          // }),
+          // new HardSourceWebpackPlugin.ExcludeModulePlugin([
+          //   {
+          //     test: /less-loader/
+          //   }
+          // ])
         ],
         performance: { hints: false } // Warns about large dev file sizes,
       }

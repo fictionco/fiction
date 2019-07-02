@@ -11500,6 +11500,11 @@ ramda@0.24.1:
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.24.1.tgz#c3b7755197f35b8dc3502228262c4c91ddb6b857"
   integrity sha1-w7d1UZfzW43DUCIoJixMkd22uFc=
 
+rand-token@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/rand-token/-/rand-token-0.4.0.tgz#1a565b6ad12d92dd4b30c4c4e5945e8aa24a5b3b"
+  integrity sha512-FLNNsir2R+XY8LKsZ+8u/w0qZ4sGit7cpNdznsI77cAVob6UlVPueDKRyjJ3W1Q6FJLgAVH98JvlqqpSaL7NEQ==
+
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"

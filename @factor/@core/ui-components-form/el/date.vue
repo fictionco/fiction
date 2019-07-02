@@ -25,12 +25,12 @@ export default {
   },
   computed: {
     val() {
-      return this.value ? this.$time.util(this.value).toDate() : null
+      return this.value ? this.$time.date(this.value) : null
     },
     listeners() {
       return {
         ...this.$listeners,
-        input: event => this.$emit("input", this.$time.stamp(event))
+        input: event => this.$emit("input", this.$time.date(event))
       }
     }
   },

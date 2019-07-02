@@ -9,6 +9,7 @@ files["endpoint"] = require("@factor/core-endpoint").default
 files["error"] = require("@factor/core-error").default
 files["storage"] = require("@factor/core-storage").default
 files["user"] = require("@factor/core-user").default
+files["userEmails"] = require("@factor/core-user-emails").default
 files["http"] = require("@factor/tools-http").default
 files["markdown"] = require("@factor/tools-markdown").default
 files["docsApp"] = require("../src/index.js").default

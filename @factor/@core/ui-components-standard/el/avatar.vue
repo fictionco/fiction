@@ -27,7 +27,7 @@
 export default {
   props: {
     width: { type: String, default: "32px" },
-    uid: { type: String, default: "" },
+    id: { type: String, default: "" },
     url: { type: String, default: "" }
   },
   data() {
@@ -36,24 +36,24 @@ export default {
     }
   },
   computed: {
-    uuid() {
-      return this.uid && this.uid != "" ? this.uid : this.$userId
+    userId() {
+      return this._id && this._id != "" ? this._id : this.$userId
     },
     user() {
-      return this.$store.getters["getItem"](this.uuid) || {}
+      return this.$store.getters["getItem"](this.userId) || {}
     },
     src() {
       return this.url
         ? this.url
-        : this.user.photoURL
-        ? this.user.photoURL
+        : this.user.photoPrimary && typeof this.user.photoPrimary == "object"
+        ? this.user.photoPrimary.url
         : false
     }
   },
 
   mounted() {
-    if (this.uid) {
-      this.doRequest(this.uid)
+    if (this._id) {
+      this.doRequest(this._id)
     } else {
       this.$user.init(() => {
         if (this.$userId) {

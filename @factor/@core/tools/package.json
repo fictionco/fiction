@@ -17,6 +17,7 @@
     "detect-node": "^2.0.4",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
+    "rand-token": "^0.4.0",
     "stopwords": "^0.0.9",
     "uniqid": "^5.0.3",
     "validator": "^11.0.0"
