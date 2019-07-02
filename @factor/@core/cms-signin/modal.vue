@@ -50,13 +50,15 @@ export default {
         this.vis = true
       })
 
+      this.$filters.run("signin-modal-loaded")
+
       // If shown erroneously because its triggered before USER is initialized
 
-      this.$user.init(u => {
-        if (u) {
-          this.done()
-        }
-      })
+      // this.$user.init(u => {
+      //   if (u) {
+      //     this.done()
+      //   }
+      // })
     }
   },
   methods: {

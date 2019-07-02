@@ -3,9 +3,9 @@ class FactorError extends Error {
     super(message)
 
     this.statusCode = statusCode && !isNaN(statusCode) ? statusCode : 500
-
+    Error.captureStackTrace(this, this.constructor)
     this.description = message
-    this.stackTrace = properties.stackTrace || new Error(message).stack
+    this.stackTrace = this.stack || properties.stackTrace || new Error(message).stack
     this.properties = properties
   }
 }
@@ -37,6 +37,7 @@ module.exports.default = Factor => {
     notify() {
       const err = this.create.apply(this, arguments)
       const { stackTrace, statusCode, description } = err
+
       if (statusCode < 500 && statusCode >= 400) {
         Factor.$events.$emit("error", { message: description })
       } else {

@@ -21,10 +21,6 @@ module.exports.default = Factor => {
       })
     }
 
-    verifyStack() {
-      console.log("VERIFY")
-    }
-
     verifyServiceRequests() {
       const requests = Factor.$stack.getServiceRequests()
       const total = requests.length

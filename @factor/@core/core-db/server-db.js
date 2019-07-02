@@ -19,6 +19,8 @@ module.exports.default = Factor => {
       Factor.$filters.add("initialize-server", () => {
         this.connectDb()
       })
+
+      this.shutdownEvents()
     }
 
     dbConfig() {
@@ -43,6 +45,50 @@ module.exports.default = Factor => {
     readyStateMap() {
       //  console.log("Mongo", this.readyStateMap()[Factor.$mongoose.connection.readyState])
       return ["disconnected", "connected", "connecting", "disconnecting"]
+    }
+
+    gracefulShutdown({ msg, callback }) {
+      if (this._connected) {
+        Factor.$mongoose.connection.close().then(() => {
+          console.log(`DB Disconnect (${msg})`)
+          this._connected = false
+          callback()
+        })
+      }
+    }
+
+    shutdownEvents() {
+      const _this = this
+      // CAPTURE APP TERMINATION / RESTART EVENTS
+      // To be called when process is restarted or terminated
+
+      // For nodemon restarts
+      process.once("SIGUSR2", function() {
+        _this.gracefulShutdown({
+          msg: "Development restart",
+          callback: () => {
+            process.kill(process.pid, "SIGUSR2")
+          }
+        })
+      })
+      // For app termination
+      process.on("SIGINT", function() {
+        _this.gracefulShutdown({
+          msg: "App termination",
+          callback: () => {
+            process.exit(0)
+          }
+        })
+      })
+
+      process.on("SIGTERM", function() {
+        _this.gracefulShutdown({
+          msg: "App termination",
+          callback: () => {
+            process.exit(0)
+          }
+        })
+      })
     }
   })()
 }

@@ -4,36 +4,44 @@
       <div class="title">{{ header.title }}</div>
       <div class="sub-title">{{ header.subTitle }}</div>
     </div>
-    <template v-if="forgotPassword">
-      <template v-if="passwordEmailSent" />
-
-      <template v-else>
-        <factor-form ref="password-form">
-          <dashboard-input
-            v-model="form.email"
-            data-test="input-password-email"
-            input="factor-input-email"
-            required
-            placeholder="Email"
-            @keyup.enter="trigger('submit-reset')"
-          />
-        </factor-form>
+    <factor-form ref="signin-form">
+      <template v-if="view == 'forgot-password'">
+        <dashboard-input
+          v-model="form.email"
+          data-test="input-password-email"
+          input="factor-input-email"
+          required
+          placeholder="Email"
+          @keyup.enter="trigger('forgot-password')"
+        />
         <dashboard-btn
-          ref="submit-reset"
+          ref="forgot-password"
           :loading="loading"
           data-test="send-password-email"
-          btn="secondary"
           text="Send Password Reset Email"
-          @click="passwordResetEmail()"
+          @click="send({action: `sendPasswordResetEmail`, next: `password-email-sent`})"
         />
       </template>
-    </template>
 
-    <template v-else-if="view == 'verifyEmail'">
-      <dashboard-btn btn="default" text="Finish" @click="done()" />
-    </template>
-    <template v-else>
-      <factor-form ref="email-form">
+      <template v-else-if="view == 'reset-password'">
+        <dashboard-input
+          v-model="form.password"
+          input="factor-input-password"
+          data-test="reset-password"
+          autocomplete="new-password"
+          required
+          placeholder="Password"
+          @keyup.enter="trigger('reset-password')"
+        />
+        <dashboard-btn
+          ref="reset-password"
+          :loading="loading"
+          text="Reset Password"
+          @click="send({action: `verifyAndResetPassword`, next: `successful-password-reset`})"
+        />
+      </template>
+
+      <template v-else-if="!view">
         <dashboard-input
           v-if="newAccount"
           v-model="form.displayName"
@@ -71,25 +79,26 @@
             @click="signIn('email')"
           />
         </div>
-      </factor-form>
-    </template>
-    <div v-if="!view" class="alt-links">
+      </template>
+    </factor-form>
+
+    <div class="alt-links">
       <template v-if="newAccount">
         <div class="forgot-password alternative-action-link">
           Have an account?
           <a
             href="#"
             data-test="link-login"
-            @click.prevent="newAccount = false; forgotPassword = false; passwordEmailSent = false"
+            @click.prevent="newAccount = false"
           >Login</a>
         </div>
       </template>
-      <template v-else-if="forgotPassword">
+      <template v-else-if="view">
         <div class="alternative-action-link">
           <a
             href="#"
             data-test="link-back"
-            @click.prevent="newAccount = false; forgotPassword = false; passwordEmailSent = false"
+            @click.prevent="setView(undefined)"
           >&larr; Back to Sign In</a>
         </div>
       </template>
@@ -107,7 +116,7 @@
           <a
             href="#"
             data-test="link-forgot-password"
-            @click.prevent="forgotPassword = true"
+            @click.prevent="setView(`forgot-password`)"
           >forget your password?</a>
         </div>
       </template>
@@ -126,28 +135,36 @@ export default {
     return {
       loading: false,
       form: {},
-      newAccount: false,
-      forgotPassword: false,
-      passwordEmailSent: false
+      newAccount: false
     }
   },
   computed: {
     header() {
-      if (this.view == "verifyEmail") {
+      if (this.view == "verify-email") {
         return {
           title: "Verify Email",
           subTitle: "Please check your inbox for a verification email."
         }
-      } else if (this.passwordEmailSent && this.forgotPassword) {
+      } else if (this.view == "password-email-sent") {
         return {
           title: "Reset Email Sent",
           subTitle:
             "Check your inbox for instructions on recovering your password."
         }
-      } else if (this.forgotPassword) {
+      } else if (this.view == "successful-password-reset") {
+        return {
+          title: "Password Changed",
+          subTitle: "You've successfully changed your password."
+        }
+      } else if (this.view == "forgot-password") {
         return {
           title: "Password Reset",
           subTitle: "Enter your account email address."
+        }
+      } else if (this.view == "reset-password") {
+        return {
+          title: "Enter New Password",
+          subTitle: "Enter your new password."
         }
       } else if (this.newAccount) {
         return {
@@ -162,7 +179,7 @@ export default {
       }
     },
     view() {
-      return this.$route.query.signInView || ""
+      return this.$route.query._action || this.$route.query.view || ""
     },
     mode() {
       return this.$route.query.mode || "continue"
@@ -178,15 +195,19 @@ export default {
     trigger(ref) {
       this.$refs[ref].$el.click()
     },
-    async passwordResetEmail() {
-      const r = this.$refs["password-form"].$el.reportValidity()
+    async send({ action, next }) {
+      const r = this.$refs["signin-form"].$el.reportValidity()
 
       if (!r) return
 
       this.loading = true
 
-      await this.$user.request("resetPassword", this.form)
-      this.passwordEmailSent = true
+      const args = { ...this.form, ...this.$route.query }
+      const result = await this.$userEmails[action](args)
+
+      if (result) {
+        this.setView(next)
+      }
 
       this.loading = false
     },
@@ -194,7 +215,7 @@ export default {
     async signIn() {
       this.errors = []
 
-      const r = this.$refs["email-form"].$el.reportValidity()
+      const r = this.$refs["signin-form"].$el.reportValidity()
       if (!r) return
 
       this.loading = true
@@ -205,7 +226,7 @@ export default {
       })
 
       if (user) {
-        this.$user.setUser({ user, current: true })
+        // this.$user.setUser({ user, current: true })
         this.done(user)
       }
 
@@ -216,13 +237,14 @@ export default {
 
       this.checkEmailVerification()
     },
-    setView(signInView) {
-      this.$router.replace({ query: { signInView } })
+    setView(view) {
+      const query = { view }
+      this.$router.replace({ query })
     },
 
     checkEmailVerification() {
       if (!this.$user.emailVerified) {
-        this.setView("verifyEmail")
+        this.setView("verify-email")
       }
     },
 

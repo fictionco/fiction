@@ -94,6 +94,14 @@ module.exports.default = Factor => {
         )
       }
 
+      this._schemas.Post.post("validation", function(error, doc, next) {
+        if (error) {
+          Factor.$error.create(error)
+        }
+
+        next()
+      })
+
       const Post = model("Post", this._schemas.Post)
       this._models = { Post }
 

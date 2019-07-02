@@ -45,27 +45,6 @@ module.exports.default = Factor => {
       }
     }
 
-    async sendPasswordResetEmail({ email }) {
-      const passwordResetCode = Factor.$randomToken()
-
-      const user = await Factor.$db.model("User").findOneAndUpdate({ email }, { passwordResetCode })
-
-      if (!user || !user._id) {
-        console.log("user", user)
-        Factor.$error.throw(400, "Could not find an user with that email.")
-      }
-
-      await this.sendEmail({
-        to: email,
-        subject: "Password Reset",
-        text: "Hello! Someone has requested to reset their password. To do so, just follow this link:",
-        linkText: "Reset Password",
-        action: "reset-password",
-        _id: user._id,
-        code: passwordResetCode
-      })
-    }
-
     async sendVerifyEmail({ email, _id }, { bearer }) {
       const emailVerificationCode = Factor.$randomToken()
 
@@ -81,7 +60,46 @@ module.exports.default = Factor => {
         code: emailVerificationCode
       })
 
-      return emailVerificationCode
+      return "success"
+    }
+
+    async verifyAndResetPassword({ _id, code, password }) {
+      const user = await Factor.$db.model("User").findOne({ _id }, "+passwordResetCode")
+
+      if (!user) {
+        Factor.$error.throw(400, `Couldn't find user.`)
+      }
+
+      if (user.passwordResetCode && user.passwordResetCode == code) {
+        user.password = password
+        user.passwordResetCode = undefined
+        await user.save()
+        return "success"
+      } else {
+        Factor.$error.throw(400, "Could not reset your password.")
+      }
+    }
+
+    async sendPasswordResetEmail({ email }) {
+      const passwordResetCode = Factor.$randomToken()
+
+      const user = await Factor.$db.model("User").findOneAndUpdate({ email }, { passwordResetCode })
+
+      if (!user || !user._id) {
+        Factor.$error.throw(400, "Could not find an user with that email.")
+      }
+
+      await this.sendEmail({
+        to: email,
+        subject: "Password Reset",
+        text: "Hello! Someone has requested to reset their password. To do so, just follow this link:",
+        linkText: "Reset Password",
+        action: "reset-password",
+        _id: user._id,
+        code: passwordResetCode
+      })
+
+      return "success"
     }
 
     async sendEmail(args) {

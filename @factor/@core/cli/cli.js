@@ -147,11 +147,8 @@ const cli = async () => {
           // console.log("  $ custom-help --help")
           // console.log("  $ custom-help -h")
         })
-      try {
-        this.program.parse(process.argv)
-      } catch (error) {
-        console.log("works")
-      }
+
+      this.program.parse(process.argv)
       const { args } = this.program
 
       if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
@@ -265,14 +262,18 @@ const cli = async () => {
       return txt.replace(tildePath, "~")
     }
 
-    async exitHandler() {
-      await Factor.$filters.run("exit")
+    exitHandler() {
+      const exitCode = new Promise((resolve, reject) => {
+        Factor.$filters
+          .run("close-server")
+          .then(result => resolve(0))
+          .catch(error => reject(error))
+      })
 
-      process.exit(0)
+      process.exit(exitCode)
     }
 
     handleProcessExit() {
-      process.stdin.resume()
       //do something when app is closing
       process.on("exit", this.exitHandler())
 
