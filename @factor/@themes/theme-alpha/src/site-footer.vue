@@ -3,20 +3,14 @@
     <div class="content-footer">
       <div class="content-footer-pad">
         <div class="footer-col">
-          <div
-            class="copyright"
-          >&copy; {{ new Date().getFullYear() }} Factor Alpha Theme by Fiction Inc. All rights reserved.</div>
+          <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
         </div>
         <div class="footer-col">
           <div>
             <div class="terms">
-              <factor-link v-if="!$userId" event="signin-modal" data-test="login">Sign In</factor-link>
-              <factor-link v-else path="/dashboard">View Dashboard</factor-link>
-              <factor-link path="/terms-of-service">Terms of Service</factor-link>
-              <factor-link path="/privacy-policy">Privacy Policy</factor-link>
-              <factor-link path="/" btn="tertiary" size="large">
-                <i class="fa fa-long-arrow-up" />
-              </factor-link>
+              <template v-for="(item, index) in $setting.get('footer.nav')">
+                <factor-link :key="index" :path="item.path">{{ item.text }}</factor-link>
+              </template>
             </div>
           </div>
         </div>

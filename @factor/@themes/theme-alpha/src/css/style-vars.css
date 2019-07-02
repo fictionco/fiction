@@ -1,4 +1,4 @@
-:root {
+.ui-app {
   --color-primary: #1a49bd;
   --color-primary-sub: #62bdff;
   --color-secondary: #ff0076;
@@ -6,6 +6,7 @@
 
   --color-text: #303030;
   --color-placeholder: #bdcad4;
+
   --color-success: #26d12b;
   --color-info: #fdf700;
   --color-warning: #ff0076;
@@ -30,5 +31,4 @@
 
   /* Alpha Theme Variables */
   --color-white: #ffffff;
-
 }

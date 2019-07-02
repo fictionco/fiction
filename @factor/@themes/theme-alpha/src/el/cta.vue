@@ -1,11 +1,11 @@
 <template>
   <div class="cta">
     <div class="cta-inner">
-      <h2>For work inquiries, collaboration or feedback</h2>
-      <factor-link btn="default" size="large" path="/contact">
-        Get in Touch
+      <h2>{{ $setting.get('site.cta.headline') }}</h2>
+      <app-link btn="default" size="large" :path="$setting.get('site.cta.path')">
+        {{ $setting.get('site.cta.text') }}
         <i class="fa fa-arrow-right" />
-      </factor-link>
+      </app-link>
     </div>
   </div>
 </template>

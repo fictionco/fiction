@@ -27,11 +27,12 @@ module.exports.default = Factor => {
 
     addComponents() {
       Factor.$filters.add("components", _ => {
-        _["el-logo"] = () => import("./el/logo")
-
+        _["app-btn"] = () => import("./el/btn")
+        _["app-link"] = () => import("./el/link")
         return _
       })
     }
+
     addWorkPostType() {
       const base = "work"
       const type = "work"
@@ -46,6 +47,42 @@ module.exports.default = Factor => {
         })
 
         return _
+      })
+    }
+
+    async addPaths() {
+      Factor.$filters.add("page-templates", _ => {
+        return _.concat([
+          {
+            name: "Default",
+            value: "default",
+            component: () => import("./page-template-default")
+          }
+        ])
+      })
+
+      const base = "work"
+
+      Factor.$filters.add("content-routes", _ => {
+        const routes = [
+          {
+            path: "/",
+            component: () => import("./page-home"),
+            meta: { nav: true }
+          },
+          {
+            path: "/about",
+            component: () => import("./page-about"),
+            meta: { nav: true }
+          },
+          {
+            path: "/contact",
+            component: () => import("./page-template-contact"),
+            meta: { nav: true }
+          }
+        ]
+
+        return _.concat(routes)
       })
     }
 
@@ -104,37 +141,6 @@ module.exports.default = Factor => {
             name: "Contact",
             value: "contact",
             component: () => import("./page-template-contact")
-          }
-        ])
-      })
-
-      const base = "work"
-
-      Factor.$filters.add("content-routes", _ => {
-        const routes = [
-          {
-            path: "/",
-            component: () => import("./page-home"),
-            meta: { nav: true }
-          },
-          {
-            path: "/about",
-            component: () => import("./page-about"),
-            meta: { nav: true }
-          }
-        ]
-
-        return _.concat(routes)
-      })
-    }
-
-    async addPaths() {
-      Factor.$filters.add("page-templates", _ => {
-        return _.concat([
-          {
-            name: "Default",
-            value: "default",
-            component: () => import("./page-template-default")
           }
         ])
       })

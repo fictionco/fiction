@@ -1,65 +1,58 @@
 <template>
-  <div class="landing">
-    <div class="container">
-      <section class="intro">
-        <div class="intro-inner">
-          <h3 class="pre-title">Alpha Theme</h3>
-          <h1 class="title">
-            Hello, I’m Alpha.
-            <br>A minimal, personal or portfolio theme.
-          </h1>
-          <div
-            class="subtitle"
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+  <div class="page-landing">
+    <section class="feature">
+      <div class="feature-inner">
+        <h3 class="pre-title">{{ $setting.get('home.preheadline') }}</h3>
+        <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
+        <div class="subtitle">{{ $setting.get('home.subheadline') }}</div>
 
-          <div class="actions">
-            <factor-link path="/how-it-works" btn="default" size="large">
-              View Work
-              <i class="fa fa-angle-right" />
+        <div class="actions">
+          <app-link
+            v-for="(action ,i) in $setting.get('home.actions')"
+            :key="i"
+            :path="action.path"
+            btn="default"
+            size="large"
+          >
+            {{ action.text }}
+            <i class="fa fa-angle-right" />
+          </app-link>
+        </div>
+      </div>
+    </section>
+
+    <section class="boxes">
+      <div v-formatted-text="$setting.get('home.boxesTitle')" class="title" />
+
+      <div class="mast boxes-inner">
+        <div v-for="(box, i) in $setting.get('home.boxes')" :key="i" class="box">
+          <div v-if="box.icon" class="box-icon">
+            <img :src="require(`./img/` + box.icon)" :alt="box.heading" >
+            <!-- <img :src="box.icon[0].url" > -->
+          </div>
+          <h2 class="box-title">{{ box.heading }}</h2>
+          <p class="box-description">{{ box.description }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="brands">
+      <div class="title">{{ post.brandsTitle }}</div>
+      <div class="mast brands-inner">
+        <div v-for="(brand, i) in post.brands" :key="i" class="brand">
+          <div v-if="brand.link" class="brand-image">
+            <factor-link :path="brand.link" target="_blank">
+              <img :src="brand.image[0].url" >
             </factor-link>
           </div>
-        </div>
-      </section>
-
-      <!-- <section class="feature-boxes">
-        <div v-for="(box, i) in post.boxes" :key="i" class="box">
-          <div v-if="box.icon" class="box-icon">
-            <img :src="box.icon[0].url">
-          </div>
-          <div class="box-heading">{{ box.heading }}</div>
-          <div class="box-description">{{ box.description }}</div>
-        </div>
-      </section>-->
-
-      <section class="boxes">
-        <div class="title">Skills &amp; Expertise</div>
-
-        <div class="mast boxes-inner">
-          <div class="box">
-            Icon
-            <h2>Skill Title</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
-          </div>
-          <div class="box">
-            Icon
-            <h2>Skill Title</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
-          </div>
-          <div class="box">
-            Icon
-            <h2>Skill Title</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
-          </div>
-          <div class="box">
-            Icon
-            <h2>Skill Title</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+          <div v-else class="brand-image">
+            <img :src="brand.image[0].url" >
           </div>
         </div>
-      </section>
+      </div>
+    </section>-->
 
-      <el-cta />
-    </div>
+    <el-cta />
   </div>
 </template>
 
@@ -68,29 +61,116 @@ export default {
   components: {
     "el-cta": () => import("./el/cta")
   },
+  // props: {
+  //   post: { type: Object, default: () => {} }
+  // },
   data() {
     return {
       loading: true
     }
   },
-  // mounted() {
-  //   this.$user.init(() => {
-  //     this.loading = false
-  //   })
-  // },
   metatags() {
     return {
-      title: "Factor Alpha Theme",
-      description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
-      //image: require("./img/fiction.jpg")
+      title: this.$setting.get("home.meta.title"),
+      description: this.$setting.get("home.meta.description")
     }
-  },
-  methods: {}
+  }
+  // pageTemplate() {
+  //   return {
+  //     name: "Landing Page",
+  //     description: "Minimalist landing page template.",
+  //     inputs: [
+  //       {
+  //         input: "text",
+  //         label: "Pre-heading",
+  //         key: "pageHeadingPre"
+  //       },
+  //       {
+  //         input: "text",
+  //         label: "Heading",
+  //         description: "Primary page heading",
+  //         key: "pageHeading"
+  //       },
+  //       {
+  //         input: "text",
+  //         label: "Sub Heading",
+  //         key: "pageHeadingSub"
+  //       },
+  //       {
+  //         input: "text",
+  //         label: "Button Link",
+  //         key: "buttonLink"
+  //       },
+  //       {
+  //         input: "text",
+  //         label: "Button Text",
+  //         key: "buttonText"
+  //       },
+  //       {
+  //         input: "text",
+  //         label: "Boxes Title",
+  //         key: "boxesTitle"
+  //       },
+  //       {
+  //         key: "boxes",
+  //         input: "sortable",
+  //         label: "Feature Boxes",
+  //         description: "Some feature boxes",
+  //         inputs: [
+  //           {
+  //             input: "text",
+  //             label: "Heading",
+  //             key: "heading"
+  //           },
+  //           {
+  //             input: "textarea",
+  //             label: "Description",
+  //             key: "description"
+  //           },
+  //           {
+  //             input: "image-upload",
+  //             label: "Icon",
+  //             key: "icon"
+  //           }
+  //         ]
+  //       },
+  //       {
+  //         input: "text",
+  //         label: "Brands Title",
+  //         key: "brandsTitle"
+  //       },
+  //       {
+  //         key: "brands",
+  //         input: "sortable",
+  //         label: "Feature Brands",
+  //         description: "Some feature brands",
+  //         inputs: [
+  //           {
+  //             input: "text",
+  //             label: "Link",
+  //             description: "(Optional)",
+  //             key: "link"
+  //           },
+  //           {
+  //             input: "image-upload",
+  //             label: "Image",
+  //             key: "image"
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // },
+  // methods: {
+  //   settings() {
+  //     return ["test"]
+  //   }
+  // }
 }
 </script>
+
 <style lang="less">
-.container {
+.page-landing {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
@@ -98,12 +178,23 @@ export default {
     margin: 0 auto;
   }
 
-  // Intro
-  .intro {
+  // feature
+  .feature {
     background-color: var(--color-primary);
     color: var(--color-white);
+    position: relative;
 
-    .intro-inner {
+    &:before {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      clip-path: polygon(0 0, 0 100%, 100% 100%);
+      z-index: 0;
+    }
+
+    .feature-inner {
       display: flex;
       align-items: center;
       text-align: center;
@@ -143,14 +234,7 @@ export default {
       .subtitle {
         opacity: 0.5;
         font-size: 1.2em;
-        font-weight: 500;
-        @media (max-width: 767px) {
-          font-size: 1.2em;
-        }
-      }
-      .factor-btn.default {
-        color: var(--color-primary);
-        letter-spacing: -0.03em;
+        line-height: 1.6em;
       }
       .actions {
         margin-top: 1.5em;
@@ -160,12 +244,12 @@ export default {
 
   //Boxes
   .boxes {
-    padding: 2em 0;
+    padding: 5em 0;
     .title {
       font-weight: 600;
       font-size: 2.4em;
       letter-spacing: -0.03em;
-      margin-bottom: 0.2em;
+      margin-bottom: 1em;
       text-align: center;
       @media (max-width: 767px) {
         font-size: 2em;
@@ -173,41 +257,74 @@ export default {
     }
     .boxes-inner {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 80px;
-      align-items: center;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 60px 30px;
 
       .box {
+        padding: 0 3em;
         text-align: center;
+        .box-icon {
+          margin-bottom: 1em;
+          img {
+            width: 50px;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+          }
+        }
+        .box-title {
+          font-size: 1.4em;
+          font-weight: 600;
+          letter-spacing: -0.03em;
+          margin-bottom: 0.5em;
+        }
+        .box-description {
+          opacity: 0.5;
+          font-size: 1.2em;
+          line-height: 1.6em;
+        }
+      }
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+        .box {
+          padding: 0;
+        }
       }
     }
   }
 
   .brands {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 80px;
-    align-items: center;
-    padding: 2em 0;
-    width: 80%;
-    margin: 0 auto;
-    @media (max-width: 767px) {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-gap: 20px;
-      justify-content: center;
-    }
-    .brand {
+    background: var(--color-bg);
+    padding: 3em 0;
+    .title {
+      font-weight: 600;
+      font-size: 2.4em;
+      letter-spacing: -0.03em;
+      margin-bottom: 1em;
       text-align: center;
-      opacity: 0.3;
-      &:hover {
-        opacity: 1;
+      @media (max-width: 767px) {
+        font-size: 2em;
       }
-      img {
-        max-width: 100px;
-        max-height: 40px;
-        width: auto;
+    }
+    .brands-inner {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-gap: 20px 70px;
+      align-items: center;
+      .brand-image {
+        max-width: 100%;
+        img {
+          max-width: 100%;
+          display: block;
+          margin: 0 auto;
+        }
+      }
+      @media (max-width: 767px) {
+        .brand-image {
+          padding: 2em;
+        }
       }
     }
   }
-} // .home-container ends
+}
 </style>
