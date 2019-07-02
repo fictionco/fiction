@@ -4,6 +4,10 @@ module.exports.default = Factor => {
       this.DB_CONNECTION = Factor.$config.setting("DB_CONNECTION")
       this.dbConfig()
 
+      if (!DB_CONNECTION) {
+        Factor.$error.throw(500, "Missing the database connection string (DB_CONNECTION)")
+      }
+
       Factor.$filters.callback("close-server", async () => {
         if (this._connected) {
           await Factor.$mongoose.connection.close()

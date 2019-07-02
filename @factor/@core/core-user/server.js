@@ -128,7 +128,7 @@ module.exports.default = Factor => {
 
           Factor.$filters.apply("user-schema-hooks", Schema)
         },
-        schema: {
+        schema: Factor.$filters.apply("user-schema", {
           username: {
             type: String,
             trim: true,
@@ -181,7 +181,7 @@ module.exports.default = Factor => {
           photosProfile: [{ type: Schema.Types.ObjectId, ref: "Image" }],
           photosCover: [{ type: Schema.Types.ObjectId, ref: "Image" }],
           profile: {}
-        },
+        }),
         options: {}
       }
     }
