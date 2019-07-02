@@ -1,41 +1,17 @@
 <template>
   <div class="content-layout">
-    <site-head v-if="nav">
-      <template v-slot:nav>
-        <factor-link path="/">Intro</factor-link>
-        <factor-link path="/about">About</factor-link>
-        <factor-link path="/work">Work</factor-link>
-        <factor-link path="/articles">Blog</factor-link>
-        <factor-link path="/contact">Contact</factor-link>
-      </template>
-      <template v-slot:social>
-        <factor-link class="factor-icon" path="https://dribbble.com/" target="_blank">
-          <i class="fa fa-dribbble" />
-        </factor-link>
-        <factor-link class="factor-icon" path="https://www.behance.com/" target="_blank">
-          <i class="fa fa-behance" />
-        </factor-link>
-        <factor-link class="factor-icon" path="https://www.instagram.com/" target="_blank">
-          <i class="fa fa-instagram" />
-        </factor-link>
-        <factor-link class="factor-icon" path="https://twitter.com/" target="_blank">
-          <i class="fa fa-twitter" />
-        </factor-link>
-        <factor-link class="factor-icon" path="https://www.linkedin.com/" target="_blank">
-          <i class="fa fa-linkedin" />
-        </factor-link>
-      </template>
-    </site-head>
+    <site-head />
     <div class="content-main" :style="bg">
       <div class="content-main-content">
         <slot v-if="$slots.default" />
         <router-view v-else />
       </div>
-      <site-footer v-if="nav" />
+      <site-footer />
     </div>
   </div>
 </template>
-<style src="./css/common.less" lang="less"></style>
+<style src="#/css/style-vars.css"></style>
+<style src="#/css/style.less" lang="less"></style>
 <script>
 export default {
   components: {
@@ -43,20 +19,9 @@ export default {
     "site-footer": () => import("./site-footer")
   },
   computed: {
-    nav() {
-      return typeof this.$route.meta.nav != "undefined"
-        ? this.$route.meta.nav
-        : true
-    },
     bg() {
-      const background = this.$route.meta.background || false
-
-      if (!background) {
-        return ""
-      } else {
-        return {
-          background
-        }
+      return {
+        background: this.$route.meta.background || ""
       }
     }
   }

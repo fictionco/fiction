@@ -6,7 +6,6 @@
         <slot v-if="$slots.default" />
         <router-view v-else />
       </div>
-
       <footer-primary />
     </div>
   </div>
@@ -20,14 +19,8 @@ export default {
   },
   computed: {
     bg() {
-      const background = this.$route.meta.background || false
-
-      if (!background) {
-        return ""
-      } else {
-        return {
-          background
-        }
+      return {
+        background: this.$route.meta.background || ""
       }
     }
   }

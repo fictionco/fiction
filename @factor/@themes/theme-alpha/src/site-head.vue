@@ -1,20 +1,27 @@
 <template>
   <div class="site-head blue">
     <div class="site-head-pad">
-      <div class="brand">
-        <factor-link path="/">
-          <site-logo />
-        </factor-link>
-      </div>
+      <site-brand />
       <div class="mob-nav-btn">
         <factor-link :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
       <div class="nav-wrap" :class="{ active: showMobileMenu }">
         <div class="nav">
-          <slot name="nav" />
+          <template v-for="(item, index) in $setting.get('site.nav')">
+            <factor-link :key="index" :path="item.path">
+              <factor-icon v-if="item.icon" :icon="item.icon" />
+              <span>{{ item.name }}</span>
+            </factor-link>
+          </template>
+          <!-- <slot name="nav" /> -->
         </div>
         <div class="social">
-          <slot name="social" />
+          <template v-for="(item, index) in $setting.get('site.social')">
+            <factor-link :key="index" :path="item.path" class="factor-icon" target="_blank">
+              <factor-icon v-if="item.icon" :icon="item.icon" />
+            </factor-link>
+          </template>
+          <!-- <slot name="social" /> -->
         </div>
       </div>
     </div>
@@ -23,7 +30,7 @@
 <script>
 export default {
   components: {
-    "site-logo": () => import("./el/logo")
+    "site-brand": () => import("./el/brand")
   },
   data() {
     return {
