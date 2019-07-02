@@ -2,6 +2,7 @@ export default Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("route-query-action-verify-email", _ => this.verifyEmail(_))
+      Factor.$filters.callback("route-query-action-reset-password", _ => this.verifyAndResetPassword(_))
     }
 
     async request(method, params) {
@@ -13,6 +14,22 @@ export default Factor => {
 
       if (result) {
         Factor.$events.$emit("notify", "Email confirmed!")
+      }
+    }
+
+    async verifyAndResetPassword({ _id, code, newPassword }) {
+      const result = await this.request("verifyAndResetPassword", { _id, code, newPassword })
+
+      if (result) {
+        Factor.$events.$emit("notify", "Password successfully reset!")
+      }
+    }
+
+    async sendPasswordResetEmail({ email }) {
+      const result = await this.request("sendPasswordResetEmail", { email })
+
+      if (result) {
+        Factor.$events.$emit("notify", "Password reset email sent.")
       }
     }
   })()

@@ -19,6 +19,13 @@ module.exports.default = Factor => {
           await _this.sendVerifyEmail({ _id, email }, { bearer: user })
         })
       })
+
+      Factor.$filters.add("user-schema", _ => {
+        _.emailVerificationCode = { type: String, select: false }
+        _.passwordResetCode = { type: String, select: false }
+
+        return _
+      })
     }
 
     async verifyEmail({ _id, code }, { bearer }) {
@@ -38,21 +45,55 @@ module.exports.default = Factor => {
       }
     }
 
+    async sendPasswordResetEmail({ email }) {
+      const passwordResetCode = Factor.$randomToken()
+
+      const user = await Factor.$db.model("User").findOneAndUpdate({ email }, { passwordResetCode })
+
+      if (!user || !user._id) {
+        console.log("user", user)
+        Factor.$error.throw(400, "Could not find an user with that email.")
+      }
+
+      await this.sendEmail({
+        to: email,
+        subject: "Password Reset",
+        text: "Hello! Someone has requested to reset their password. To do so, just follow this link:",
+        linkText: "Reset Password",
+        action: "reset-password",
+        _id: user._id,
+        code: passwordResetCode
+      })
+    }
+
     async sendVerifyEmail({ email, _id }, { bearer }) {
       const emailVerificationCode = Factor.$randomToken()
 
-      const url = `${Factor.$config.setting("url")}?_action=verify-email&code=${emailVerificationCode}&_id=${_id}`
-
       await Factor.$user.save({ _id, emailVerificationCode }, { bearer })
 
-      console.log({ to: email, link: url })
+      await this.sendEmail({
+        to: email,
+        subject: "Confirm Your Email",
+        text: "Hello! Please confirm your email by clicking on the following link:",
+        linkText: "Verify Email",
+        action: "verify-email",
+        _id,
+        code: emailVerificationCode
+      })
+
+      return emailVerificationCode
+    }
+
+    async sendEmail(args) {
+      const { to, subject, action, _id, code, text, linkText } = args
+      const url = `${Factor.$config.setting("url")}?_action=${action}&code=${code}&_id=${_id}`
+      console.log("Email", url, args)
+
       // Factor.$email.send({
       //   to: email,
       //   subject: `Confirm Your Email`,
       //   html: `<p>Hello! Please confirm your email by clicking on the following link: </br> <a href="${url}">Verify "${email}"</a></p>`
       // })
-
-      return emailVerificationCode
     }
   })()
 }
