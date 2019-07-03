@@ -61,7 +61,7 @@ module.exports.default = Factor => {
         ])
       })
 
-      const baseWork = "work"
+      const base = "work"
 
       Factor.$filters.add("content-routes", _ => {
         const routes = [
@@ -84,14 +84,14 @@ module.exports.default = Factor => {
                 component: () => import("./el/work-index.vue")
               },
               {
-                path: `/${baseWork}/:permalink`,
+                path: `/${base}/:permalink`,
                 component: () => import(`./el/work-single.vue`)
               }
             ]
           },
           {
-            path: "/blog",
-            component: () => import("./page-template-blog"),
+            path: "/articles",
+            component: () => import("./page-blog"),
             meta: { nav: true }
           },
           {

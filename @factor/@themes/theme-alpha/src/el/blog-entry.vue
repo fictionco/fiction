@@ -1,20 +1,20 @@
 <template>
-  <article class="entry" :class="formatClass">
-    <h2>This is a blog post entry</h2>
+  <article class="entry">
+    <!-- :class="formatClass" -->
     <div class="entry-wrap">
       <div class="entry-meta">
         <div class="post-author">
-          <author-tag v-for="(author) in authors" :key="author.uid" :author="author" />
+          <!-- <author-tag v-for="(author) in authors" :key="author.uid" :author="author" /> -->
 
           <div class="txt">
             <span class="sep">on</span>
             <span class="date">{{ $time.niceFormat(date) }}</span>
-            <factor-link
+            <!-- <factor-link
               v-if="$posts.userCanEditPost({uid: this.$userId, post: {authors}})"
               class="edit"
               path="/admin/posts/edit"
               :query="{id: postId}"
-            >Edit</factor-link>
+            >Edit</factor-link>-->
           </div>
         </div>
       </div>
@@ -66,8 +66,8 @@
 <script>
 export default {
   components: {
-    "el-tags": () => import("./tags"),
-    "author-tag": () => import("./author-tag")
+    "el-tags": () => import("./tags")
+    //"author-tag": () => import("./author-tag")
   },
   props: {
     format: { type: String, default: "" },
@@ -79,26 +79,23 @@ export default {
     tags: { type: Array, default: () => [] },
     postId: { type: String, default: "" },
     loading: { type: Boolean, default: false }
-  },
-  computed: {
-    formatClass() {
-      const f = this.format ? this.format : "single"
-
-      return `format-${f}`
-    }
-    // postExcerpt() {
-    //   let content = this.$markdown.strip(this.content).split(" ")
-    //   let excerpt
-
-    //   if (content.length > 30) {
-    //     content = content.slice(0, 30)
-    //     excerpt = content.join(" ") + "..."
-    //   }
-
-    //   return excerpt
-    // }
-  },
-  methods: {}
+  }
+  // computed: {
+  // formatClass() {
+  //   const f = this.format ? this.format : "single"
+  //   return `format-${f}`
+  // }
+  // postExcerpt() {
+  //   let content = this.$markdown.strip(this.content).split(" ")
+  //   let excerpt
+  //   if (content.length > 30) {
+  //     content = content.slice(0, 30)
+  //     excerpt = content.join(" ") + "..."
+  //   }
+  //   return excerpt
+  // }
+  // },
+  // methods: {}
 }
 </script>
 <style lang="less">
@@ -121,10 +118,10 @@ export default {
   transition: all 0.2s ease-in-out;
   font-weight: 500;
   min-width: 0;
-  .entry-wrap {
-    padding: 30px;
-    display: block;
-  }
+  // .entry-wrap {
+  //   padding: 30px;
+  //   display: block;
+  // }
   a {
     transition: all 0.2s ease-in-out;
   }
@@ -138,15 +135,15 @@ export default {
     @media (max-width: 767px) {
       font-size: 2em;
     }
-    a {
-      color: inherit;
-      &:hover {
-        color: #0496ff;
-      }
-      &:active {
-        color: #ff0076;
-      }
-    }
+    // a {
+    //   color: inherit;
+    //   &:hover {
+    //     color: #0496ff;
+    //   }
+    //   &:active {
+    //     color: #ff0076;
+    //   }
+    // }
   }
   .entry-content {
     margin: 0 0 1em 0;

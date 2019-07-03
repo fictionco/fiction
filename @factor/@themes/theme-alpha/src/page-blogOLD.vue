@@ -1,29 +1,10 @@
 <template>
   <div class="page-blog">
-    <section class="hero">
-      <div class="mast">
-        <div class="hero-inner">
-          <div>
-            <h1 class="title">{{ post.title }}</h1>
-            <h2 class="heading">{{ post.pageHeading }}</h2>
-            <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
-          </div>
-          <div>
-            <div
-              v-if="post.heroImage"
-              :style="{'background-image': `url(`+ post.heroImage[0].url + `)` }"
-              class="hero-image"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="posts">
       <div class="mast">
         <div class="posts-inner">
           <article class="post-item">
-            <factor-link path="/">
+            <app-link path="/">
               <p class="tags">
                 <span class="tag">Development</span>
               </p>
@@ -33,7 +14,7 @@
               >Udemy offers a wide range of courses covering a variety of topics...</p>
               <p class="date">April 11, 2019</p>
               <p class="author">by Andrew Powers</p>
-            </factor-link>
+            </app-link>
           </article>
           <article class="post-item">
             <factor-link path="/">
@@ -63,9 +44,8 @@
           </article>
         </div>
       </div>
-    </section>
-    posts:
-    {{ posts }}
+    </section>posts:
+    <!-- {{ posts }} -->
     <div v-for="(item, pi) in posts" :key="'key-'+pi" class="grid-item">
       <pre>
         {{ item }}
@@ -137,24 +117,24 @@ export default {
     // settings() {
     //   return ["test"]
     // }
-  },
-  pageTemplate() {
-    return {
-      name: "Blog Page",
-      inputs: [
-        {
-          input: "text",
-          label: "Heading",
-          key: "pageHeading"
-        },
-        {
-          input: "image-upload",
-          label: "Image",
-          key: "heroImage"
-        }
-      ]
-    }
   }
+  // pageTemplate() {
+  //   return {
+  //     name: "Blog Page",
+  //     inputs: [
+  //       {
+  //         input: "text",
+  //         label: "Heading",
+  //         key: "pageHeading"
+  //       },
+  //       {
+  //         input: "image-upload",
+  //         label: "Image",
+  //         key: "heroImage"
+  //       }
+  //     ]
+  //   }
+  // }
 }
 </script>
 

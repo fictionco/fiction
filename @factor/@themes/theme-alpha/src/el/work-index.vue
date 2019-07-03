@@ -6,7 +6,7 @@
     <section class="posts">
       <div class="mast">
         <div class="posts-inner">
-          <div v-for="(post, i) in $setting.get('posts.data')" :key="i">
+          <div v-for="(post, i) in $setting.get('work.posts.data')" :key="i">
             <part-work-entry
               format="listing"
               :images="post.images"
