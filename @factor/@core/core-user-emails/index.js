@@ -9,6 +9,16 @@ export default Factor => {
       return await Factor.$endpoint.request({ id: "user-emails", method, params })
     }
 
+    async sendVerifyEmail({ _id, email }) {
+      const result = await this.request("sendVerifyEmail", { _id, email })
+
+      if (result) {
+        Factor.$events.$emit("notify", "Verification email sent!")
+      }
+
+      return result
+    }
+
     async verifyEmail({ _id, code }) {
       const result = await this.request("verifyEmail", { _id, code })
 

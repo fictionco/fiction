@@ -4,7 +4,7 @@
       <dashboard-nav />
     </div>
 
-    <div v-else class="app-layout">
+    <div class="app-layout" :class="toggle ? 'nav-overlay': ''">
       <dashboard-head class="app-head" />
 
       <div class="app-nav" @click.stop>
@@ -13,9 +13,9 @@
       <div class="app-main">
         <div class="app-main-content">
           <div class="mobile-nav-toggle-wrap" @click.stop>
-            <div class="mobile-nav-toggle" @click="toggleNav()">
-              <factor-icon icon="bars" />
-            </div>
+            <dashboard-btn @click="toggleNav()">
+              <factor-icon icon="arrow-left" />&nbsp;Menu
+            </dashboard-btn>
           </div>
           <slot v-if="$slots.default" />
           <router-view v-else />
@@ -133,6 +133,9 @@ export default {
     "header header"
     "nav main";
 
+  &.nav-overlay {
+    opacity: 0.6;
+  }
   .app-head {
     grid-area: header;
     align-self: center;
@@ -164,9 +167,10 @@ export default {
   }
 
   .mobile-nav-toggle-wrap {
-    font-size: 2em;
     cursor: pointer;
     display: none;
+    margin-bottom: 1em;
+
     @media (max-width: 960px) {
       display: block;
     }
