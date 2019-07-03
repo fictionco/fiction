@@ -13,6 +13,7 @@
     "@factor/build": "^0.3.7",
     "@factor/cli": "^0.3.7",
     "@factor/core-db": "^0.3.7",
+    "@factor/core-email": "^0.3.7",
     "@factor/core-endpoint": "^0.3.7",
     "@factor/core-events": "^0.3.7",
     "@factor/core-log": "^0.3.7",

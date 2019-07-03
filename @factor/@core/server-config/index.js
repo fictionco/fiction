@@ -70,8 +70,8 @@ module.exports.default = Factor => {
       return this._settings
     }
 
-    setting(key) {
-      return Factor.$utils.dotSetting({ key, settings: this._settings })
+    setting(key, fallback) {
+      return Factor.$utils.dotSetting({ key, settings: this._settings }) || fallback
     }
   })()
 }

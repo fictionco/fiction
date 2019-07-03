@@ -92,7 +92,8 @@ module.exports.default = Factor => {
       await this.sendEmail({
         to: email,
         subject: "Password Reset",
-        text: "Hello! Someone has requested to reset their password. To do so, just follow this link:",
+        text:
+          "Hello! We've recieved a request to reset the password associated with this account. To do so, just follow this link:",
         linkText: "Reset Password",
         action: "reset-password",
         _id: user._id,
@@ -104,14 +105,15 @@ module.exports.default = Factor => {
 
     async sendEmail(args) {
       const { to, subject, action, _id, code, text, linkText } = args
-      const url = `${Factor.$config.setting("url")}?_action=${action}&code=${code}&_id=${_id}`
-      console.log("Email", url, args)
+      const linkUrl = `${Factor.$config.setting("url")}?_action=${action}&code=${code}&_id=${_id}`
 
-      // Factor.$email.send({
-      //   to: email,
-      //   subject: `Confirm Your Email`,
-      //   html: `<p>Hello! Please confirm your email by clicking on the following link: </br> <a href="${url}">Verify "${email}"</a></p>`
-      // })
+      return await Factor.$email.sendTransactional({
+        to,
+        subject,
+        text,
+        linkText,
+        linkUrl
+      })
     }
   })()
 }

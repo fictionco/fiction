@@ -24,10 +24,8 @@
             label="Email Address"
           >
             <div v-if="user.email && !user.emailVerified">
-              <dashboard-btn
-                size="tiny"
-                @click="$userEmails.request('sendVerifyEmail', {email: user.email, _id: user._id})"
-              >Send Verification Email</dashboard-btn>
+              <dashboard-btn size="tiny" btn="subtle">Unverified</dashboard-btn>
+              <dashboard-btn size="tiny" :loading="sending" @click="sendVerifyEmail()">Resend Email</dashboard-btn>
             </div>
           </dashboard-input>
 
@@ -92,7 +90,7 @@
       </div>
 
       <div class="meta-column">
-        <dashboard-pane title="Save" class="post-actions">
+        <dashboard-pane class="post-actions">
           <template slot="actions">
             <dashboard-btn btn="primary" :loading="sending" @click="save()">
               Save
@@ -139,6 +137,14 @@ export default {
     })
   },
   methods: {
+    async sendVerifyEmail() {
+      this.sending = true
+      await this.$userEmails.sendVerifyEmail({
+        email: this.user.email,
+        _id: this.user._id
+      })
+      this.sending = false
+    },
     saveObject(user) {
       const _save = {} // mutable
 
@@ -197,6 +203,14 @@ export default {
       grid-column: span 3;
     }
   }
+  @media (max-width: 960px) {
+    .meta-column {
+      .foot {
+        justify-content: center;
+      }
+    }
+  }
+
   .meta-column {
     .post-actions {
       position: sticky;

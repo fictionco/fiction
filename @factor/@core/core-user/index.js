@@ -6,7 +6,7 @@ export default Factor => {
 
         // Authentication events only work after SSR
         if (!Factor.$isNode) {
-          this._initializedUser = this.initializeUser()
+          this.initializeUser()
           this.handleAuthRouting()
         }
       })
@@ -97,7 +97,7 @@ export default Factor => {
     }
 
     async initializeUser({ user } = {}) {
-      return new Promise(async (resolve, reject) => {
+      this._initializedUser = new Promise(async (resolve, reject) => {
         if (this.currentUser() && !user) {
           resolve(this.currentUser())
         } else {
@@ -112,6 +112,8 @@ export default Factor => {
           resolve(user)
         }
       })
+
+      return this._initializedUser
     }
 
     isCurrentUser(_id) {

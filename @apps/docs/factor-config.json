@@ -1,0 +1,9 @@
+{
+  "config": {
+    "app": {
+      "name": "Factor.dev",
+      "description": "",
+      "email": "Fiction Support <support@fiction.com>"
+    }
+  }
+}
