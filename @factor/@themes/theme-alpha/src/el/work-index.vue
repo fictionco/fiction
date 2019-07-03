@@ -6,18 +6,22 @@
     <section class="posts">
       <div class="mast">
         <div class="posts-inner">
-          <div v-for="(post, pi) in posts.data" :key="'key-'+pi">
+          <div v-for="(post, i) in $setting.get('posts.data')" :key="i">
             <part-work-entry
               format="listing"
+              :images="post.images"
               :title="post.title"
               :authors="post.authorData"
               :content="post.content"
               :post-id="post.id"
               :loading="loading"
-              :images="postImage(post.images)"
               :tags="post.tags"
-              :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
+              :path="post.path"
             />
+            <!-- 
+              :images="postImage(post.images)" 
+             :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
+            -->
           </div>
         </div>
       </div>
@@ -47,41 +51,41 @@ export default {
       title,
       description
     }
-  },
-  serverPrefetch() {
-    return this.getPosts()
-  },
-  computed: {
-    posts() {
-      return this.$store.getters["getItem"]("work") || []
-    }
-  },
-  watch: {
-    $route: function(to) {
-      this.getPosts()
-    }
-  },
-  async mounted() {
-    if (this.posts.length == 0) {
-      await this.getPosts()
-    }
-  },
-
-  methods: {
-    postImage(images = []) {
-      return images.length > 0 ? images[0].url : ""
-    },
-    async getPosts() {
-      const tag = this.$route.params.tag || ""
-      this.loading = true
-      const r = await this.$posts.getPostIndex({
-        type: "work",
-        tag,
-        status: ["published"]
-      })
-      this.loading = false
-    }
   }
+  // serverPrefetch() {
+  //   return this.getPosts()
+  // },
+  // computed: {
+  //   posts() {
+  //     return this.$store.getters["getItem"]("work") || []
+  //   }
+  // },
+  // watch: {
+  //   $route: function(to) {
+  //     this.getPosts()
+  //   }
+  // },
+  // async mounted() {
+  //   if (this.posts.length == 0) {
+  //     await this.getPosts()
+  //   }
+  // },
+
+  // methods: {
+  //   postImage(images = []) {
+  //     return images.length > 0 ? images[0].url : ""
+  //   },
+  //   async getPosts() {
+  //     const tag = this.$route.params.tag || ""
+  //     this.loading = true
+  //     const r = await this.$posts.getPostIndex({
+  //       type: "work",
+  //       tag,
+  //       status: ["published"]
+  //     })
+  //     this.loading = false
+  //   }
+  // }
 }
 </script>
 

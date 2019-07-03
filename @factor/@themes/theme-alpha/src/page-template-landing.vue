@@ -21,7 +21,7 @@
       <div class="mast boxes-inner">
         <div v-for="(box, i) in post.boxes" :key="i" class="box">
           <div v-if="box.icon" class="box-icon">
-            <img :src="box.icon[0].url">
+            <img :src="box.icon[0].url" >
           </div>
           <h2 class="box-title">{{ box.heading }}</h2>
           <p class="box-description">{{ box.description }}</p>
@@ -35,11 +35,11 @@
         <div v-for="(brand, i) in post.brands" :key="i" class="brand">
           <div v-if="brand.link" class="brand-image">
             <factor-link :path="brand.link" target="_blank">
-              <img :src="brand.image[0].url">
+              <img :src="brand.image[0].url" >
             </factor-link>
           </div>
           <div v-else class="brand-image">
-            <img :src="brand.image[0].url">
+            <img :src="brand.image[0].url" >
           </div>
         </div>
       </div>
@@ -284,7 +284,7 @@ export default {
   }
 
   .brands {
-    background: var(--color-bg);
+    background: var(--color-bg-alt);
     padding: 3em 0;
     .title {
       font-weight: 600;

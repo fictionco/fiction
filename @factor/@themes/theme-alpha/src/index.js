@@ -61,7 +61,7 @@ module.exports.default = Factor => {
         ])
       })
 
-      const base = "work"
+      const baseWork = "work"
 
       Factor.$filters.add("content-routes", _ => {
         const routes = [
@@ -73,11 +73,30 @@ module.exports.default = Factor => {
           {
             path: "/about",
             component: () => import("./page-about"),
+            meta: { nav: true }
+          },
+          {
+            path: "/work",
+            component: () => import("./page-work"),
+            children: [
+              {
+                path: "/",
+                component: () => import("./el/work-index.vue")
+              },
+              {
+                path: `/${baseWork}/:permalink`,
+                component: () => import(`./el/work-single.vue`)
+              }
+            ]
+          },
+          {
+            path: "/blog",
+            component: () => import("./page-template-blog"),
             meta: { nav: true }
           },
           {
             path: "/contact",
-            component: () => import("./page-template-contact"),
+            component: () => import("./page-contact"),
             meta: { nav: true }
           }
         ]
@@ -86,83 +105,83 @@ module.exports.default = Factor => {
       })
     }
 
-    async addPathsOLD() {
-      Factor.$filters.add("page-templates", _ => {
-        return _.concat([
-          {
-            name: "Default",
-            value: "default",
-            component: () => import("./page-template-default")
-          },
-          {
-            name: "Landing Page",
-            description: "Landing page template",
-            value: "page-template-landing",
-            component: () => import("./page-template-landing"),
-            options: [
-              {
-                type: "text",
-                label: "Heading",
-                description: "some desc"
-              },
-              {
-                type: "multi",
-                label: "Feature Boxes",
-                description: "Some feature boxes",
-                fields: [
-                  {
-                    type: "text",
-                    label: "Heading"
-                  },
-                  {
-                    type: "image",
-                    label: "Icon"
-                  }
-                ]
-              }
-            ]
-          },
-          // {
-          //   name: "About",
-          //   value: "about",
-          //   component: () => import("./page-about")
-          // },
-          {
-            name: "Work",
-            value: "work",
-            component: () => import("./page-template-work")
-          },
-          {
-            name: "Blog",
-            value: "blog",
-            component: () => import("./page-template-blog")
-          },
-          {
-            name: "Contact",
-            value: "contact",
-            component: () => import("./page-template-contact")
-          }
-        ])
-      })
+    // async addPathsOLD() {
+    //   Factor.$filters.add("page-templates", _ => {
+    //     return _.concat([
+    //       {
+    //         name: "Default",
+    //         value: "default",
+    //         component: () => import("./page-template-default")
+    //       },
+    //       {
+    //         name: "Landing Page",
+    //         description: "Landing page template",
+    //         value: "page-template-landing",
+    //         component: () => import("./page-template-landing"),
+    //         options: [
+    //           {
+    //             type: "text",
+    //             label: "Heading",
+    //             description: "some desc"
+    //           },
+    //           {
+    //             type: "multi",
+    //             label: "Feature Boxes",
+    //             description: "Some feature boxes",
+    //             fields: [
+    //               {
+    //                 type: "text",
+    //                 label: "Heading"
+    //               },
+    //               {
+    //                 type: "image",
+    //                 label: "Icon"
+    //               }
+    //             ]
+    //           }
+    //         ]
+    //       },
+    //       // {
+    //       //   name: "About",
+    //       //   value: "about",
+    //       //   component: () => import("./page-about")
+    //       // },
+    //       {
+    //         name: "Work",
+    //         value: "work",
+    //         component: () => import("./page-template-work")
+    //       },
+    //       {
+    //         name: "Blog",
+    //         value: "blog",
+    //         component: () => import("./page-template-blog")
+    //       },
+    //       {
+    //         name: "Contact",
+    //         value: "contact",
+    //         component: () => import("./page-contact")
+    //       }
+    //     ])
+    //   })
 
-      const base = "work"
+    //   const base = "work"
 
-      Factor.$filters.add("content-routes", _ => {
-        const routes = [
-          {
-            path: "/",
-            component: () => import("./page-home"),
-            meta: { nav: true }
-          },
-          {
-            path: "/about",
-            component: () => import("./page-about"),
-            meta: { nav: true }
-          }
-        ]
+    //   Factor.$filters.add("content-routes", _ => {
+    //     const routes = [
+    //       {
+    //         path: "/",
+    //         component: () => import("./page-home"),
+    //         meta: { nav: true }
+    //       },
+    //       {
+    //         path: "/about",
+    //         component: () => import("./page-about"),
+    //         meta: { nav: true }
+    //       }
+    //     ]
 
-        return _.concat(routes)
-      })
-    }
+    //     return _.concat(routes)
+    //   })
+    // }
   })()
 }

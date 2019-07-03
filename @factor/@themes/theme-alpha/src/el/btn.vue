@@ -55,7 +55,7 @@ button.app-btn {
   }
 
   &.primary {
-    color: var(--color-light);
+    color: var(--color-white);
     background: var(--color-primary);
     box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.3);
     transition: all 0.2s ease-in-out;
@@ -66,7 +66,7 @@ button.app-btn {
   }
 
   &.secondary {
-    color: var(--color-light);
+    color: var(--color-white);
     background: var(--color-secondary);
   }
 

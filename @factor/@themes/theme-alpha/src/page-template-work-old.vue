@@ -164,7 +164,7 @@ export default {
       top: 0;
       right: 0;
       bottom: 0;
-      background-color: var(--color-bg);
+      background-color: var(--color-bg-alt);
       @media (max-width: 1024px) {
         width: 100%;
       }

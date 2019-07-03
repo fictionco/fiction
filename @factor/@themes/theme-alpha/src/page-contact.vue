@@ -4,9 +4,9 @@
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <h1 class="title">{{ post.title }}</h1>
-            <h2 class="heading">{{ post.pageHeading }}</h2>
-            <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
+            <h1 class="title">{{ $setting.get('contact.headline') }}</h1>
+            <h2 class="heading">{{ $setting.get('contact.subheadline') }}</h2>
+            <div v-formatted-text="$setting.get('contact.content')" class="content entry-content" />
 
             <factor-form
               ref="form"
@@ -28,7 +28,7 @@
                   format="vertical"
                   data-test="form-name"
                   input="factor-input-text"
-                  placeholder="Name"
+                  :placeholder="$setting.get('contact.form.buttonText')"
                   required
                 />
                 <factor-input-wrap
@@ -47,13 +47,14 @@
                   required
                   data-test="form-message"
                 />
+
                 <factor-input-submit
-                  btn="default"
                   :loading="sending"
+                  btn="default"
                   size="large"
                   data-test="form-submit"
                 >
-                  Contact
+                  {{ $setting.get('contact.form.buttonText') }}
                   <i class="fa fa-angle-right" />
                 </factor-input-submit>
               </div>
@@ -61,8 +62,7 @@
           </div>
           <div>
             <div
-              v-if="post.heroImage"
-              :style="{'background-image': `url(`+ post.heroImage[0].url + `)` }"
+              :style="{'background-image': `url(`+ require(`./img/` + $setting.get('contact.heroImage')) + `)` }"
               class="hero-image"
             />
           </div>
@@ -86,7 +86,12 @@ export default {
       formStatus: "unchecked"
     }
   },
-  watch: {},
+  metatags() {
+    return {
+      title: this.$setting.get("contact.meta.title"),
+      description: this.$setting.get("contact.meta.description")
+    }
+  },
   mounted() {
     this.$watch(
       "form",
@@ -98,27 +103,24 @@ export default {
       { deep: true }
     )
   },
-  pageTemplate() {
-    return {
-      name: "Contact Page",
-      inputs: [
-        {
-          input: "text",
-          label: "Heading",
-          key: "pageHeading"
-        },
-        {
-          input: "image-upload",
-          label: "Image",
-          key: "heroImage"
-        }
-      ]
-    }
-  },
+  // pageTemplate() {
+  //   return {
+  //     name: "Contact Page",
+  //     inputs: [
+  //       {
+  //         input: "text",
+  //         label: "Heading",
+  //         key: "pageHeading"
+  //       },
+  //       {
+  //         input: "image-upload",
+  //         label: "Image",
+  //         key: "heroImage"
+  //       }
+  //     ]
+  //   }
+  // },
   methods: {
-    settings() {
-      return ["test"]
-    },
     async send() {
       this.sending = true
       const { name, email, message } = this.form
@@ -129,12 +131,12 @@ export default {
       //   meta: this.form
       // })
 
-      if (!name || !email || !message) {
-        this.$notify.error(
-          "Please enter your contact information into the form."
-        )
-        //return;
-      }
+      // if (!name || !email || !message) {
+      //   this.$notify.error(
+      //     "Please enter your contact information into the form."
+      //   )
+      //   return;
+      // }
 
       try {
         let _p = []
@@ -181,8 +183,19 @@ export default {
   }
 
   .factor-btn.default {
+    padding: 0.6em 1.2em;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 4px;
+    font-size: 1.2em;
     color: var(--color-primary);
-    letter-spacing: -0.03em;
+    background: #fff;
+    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
+      0 2px 10px rgba(71, 86, 144, 0.2);
+
+    &:hover {
+      color: var(--color-primary-sub);
+    }
   }
   // Hero
   .hero {
@@ -196,7 +209,7 @@ export default {
       top: 0;
       right: auto;
       bottom: 0;
-      background-color: var(--color-bg);
+      background-color: var(--color-bg-alt);
       @media (max-width: 1024px) {
         width: 100%;
       }
@@ -251,6 +264,7 @@ export default {
     }
 
     .contact-form {
+      margin-top: 40px;
       input[type="text"],
       input[type="email"] {
         width: 100%;

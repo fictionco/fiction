@@ -18,15 +18,17 @@
       </div>
     </section>
 
-    <!-- <el-cta /> -->
+    <el-clients />
+    <el-cta />
   </div>
 </template>
 
 <script>
 export default {
-  // components: {
-  //   "el-cta": () => import("./el/cta")
-  // },
+  components: {
+    "el-clients": () => import("./el/clients"),
+    "el-cta": () => import("./el/cta")
+  },
   data() {
     return {
       loading: true
@@ -34,8 +36,8 @@ export default {
   },
   metatags() {
     return {
-      title: "title",
-      description: "description"
+      title: this.$setting.get("about.meta.title"),
+      description: this.$setting.get("about.meta.description")
     }
   }
   // pageTemplate() {
@@ -74,6 +76,7 @@ export default {
   // feature
   .hero {
     position: relative;
+    border-bottom: 2px solid var(--color-bg);
     &:before {
       content: "";
       display: block;
@@ -83,7 +86,7 @@ export default {
       top: 0;
       right: auto;
       bottom: 0;
-      background-color: var(--color-bg);
+      background-color: var(--color-bg-alt);
       @media (max-width: 1024px) {
         width: 100%;
       }
@@ -128,9 +131,10 @@ export default {
         max-width: 300px;
         box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
         border-top-left-radius: 40px;
-        @media (max-width: 767px) {
+        @media (max-width: 1024px) {
           margin: 0 auto;
           max-width: 100%;
+          border-radius: 15px;
         }
       }
     }
