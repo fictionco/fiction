@@ -64,18 +64,21 @@ export default Factor => {
     }
 
     async authenticate(params) {
-      try {
-        const result = await this.request("authenticate", params)
-        await Factor.$filters.run("authenticated", result)
-        return result
-      } catch (error) {
-        throw new Error(error)
+      let user = await this.request("authenticate", params)
+
+      await Factor.$filters.run("authenticated", user)
+
+      if (user) {
+        user = await this.initializeUser({ user })
       }
+
+      return user
     }
 
     async logout(args = {}) {
       this.setUser({ user: null, current: true })
       Factor.$events.$emit("logout")
+      Factor.$events.$emit("notify", "Successfully logged out.")
 
       if (args.redirect || Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
         const { redirect: path = "/" } = args
@@ -93,16 +96,18 @@ export default Factor => {
       return await this.request("verifyEmail", { email })
     }
 
-    async initializeUser() {
+    async initializeUser({ user } = {}) {
       return new Promise(async (resolve, reject) => {
-        if (this.currentUser()) {
+        if (this.currentUser() && !user) {
           resolve(this.currentUser())
         } else {
-          const user = this.token() ? await this.request("retrieveUser", { token: this.token() }) : {}
+          const token = user && user.token ? user.token : this.token() ? this.token() : null
+
+          user = token ? await this.request("retrieveUser", { token }) : {}
 
           // Prevent hydration errors
           // If current user is set too quickly Vue is throwing a mismatch error
-          this.setUser({ user, current: true })
+          this.setUser({ user, token, current: true })
 
           resolve(user)
         }
@@ -117,13 +122,15 @@ export default Factor => {
       return Factor.$store.getters["getItem"]("currentUser")
     }
 
-    setUser({ user, current = false }) {
-      const { _id, token } = user ? user : {}
+    setUser({ user, token, current = false }) {
+      const { _id } = user ? user : {}
 
       if (current) {
+        if (token) this.token(token)
+        else if (user === null) this.token(null)
+
         Factor.$store.commit("setItem", { item: "currentUser", value: user })
         localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
-        this.token(token)
       }
 
       Factor.$store.commit("setItem", { item: _id, value: user })
@@ -144,35 +151,6 @@ export default Factor => {
     _item(key) {
       const user = this.currentUser() || {}
       return user[key]
-    }
-
-    // storeUser({ user, from }) {
-    //   const { uid } = user
-    //   // Don't set user and trigger all hooks if unneeded.
-    //   if (from == "cache" || !Factor.$lodash.isEqual(this.getUser(), user)) {
-    //     Factor.$store.commit("setItem", { item: "currentUser", value: user })
-    //     Factor.$store.commit("setItem", { item: uid, value: user })
-    //     localStorage.setItem("user", user ? JSON.stringify(user) : false)
-    //     this.setCacheUser(user)
-    //     Factor.$events.$emit("user-set", user)
-    //   }
-
-    //   // Send a global event when the user is definitively initiated
-    //   // If !user then wait til auth system verifies they are logged out
-    //   if (!this.initialized && ((user && from == "cache") || from == "auth")) {
-    //     Factor.$events.$emit("user-init", { user, from })
-    //     this.initialized = true
-    //   }
-    // }
-
-    async authenticate(args) {
-      try {
-        const result = await this.request("authenticate", args)
-        await Factor.$filters.run("authenticated", result)
-        return result
-      } catch (error) {
-        throw new Error(error)
-      }
     }
 
     async sendPasswordReset({ email }) {

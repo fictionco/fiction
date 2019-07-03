@@ -10,7 +10,7 @@ export function createRouter() {
     routes,
     mode: "history", // abstract
     scrollBehavior(to, from, savedPosition) {
-      if (path == from.path && to.hash != from.hash) {
+      if (to.path == from.path && to.hash != from.hash) {
         return false
       } else if (savedPosition) {
         return savedPosition

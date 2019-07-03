@@ -147,7 +147,6 @@ module.exports.default = Factor => {
             }
           },
           emailVerified: { type: Boolean, default: false },
-          emailVerificationCode: { type: String, select: false },
           password: {
             select: false,
             type: String,
@@ -182,7 +181,10 @@ module.exports.default = Factor => {
           photosCover: [{ type: Schema.Types.ObjectId, ref: "Image" }],
           profile: {}
         }),
-        options: {}
+        options: {
+          toObject: { virtuals: true },
+          toJSON: { virtuals: true }
+        }
       }
     }
   })()

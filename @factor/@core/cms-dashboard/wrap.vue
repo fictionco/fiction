@@ -58,7 +58,6 @@ export default {
   },
   mounted() {
     this.$user.init(user => {
-      console.log("user", user)
       // this.loading = false
     })
   },
