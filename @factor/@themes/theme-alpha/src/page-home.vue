@@ -15,7 +15,7 @@
             size="large"
           >
             {{ action.text }}
-            <i class="fa fa-angle-right" />
+            <i class="fa fa-arrow-right" />
           </app-link>
         </div>
       </div>
@@ -28,7 +28,6 @@
         <div v-for="(box, i) in $setting.get('home.boxes')" :key="i" class="box">
           <div v-if="box.icon" class="box-icon">
             <img :src="require(`./img/` + box.icon)" :alt="box.heading" >
-            <!-- <img :src="box.icon[0].url" > -->
           </div>
           <h2 class="box-title">{{ box.heading }}</h2>
           <p class="box-description">{{ box.description }}</p>
@@ -36,21 +35,7 @@
       </div>
     </section>
 
-    <!-- <section class="brands">
-      <div class="title">{{ post.brandsTitle }}</div>
-      <div class="mast brands-inner">
-        <div v-for="(brand, i) in post.brands" :key="i" class="brand">
-          <div v-if="brand.link" class="brand-image">
-            <factor-link :path="brand.link" target="_blank">
-              <img :src="brand.image[0].url" >
-            </factor-link>
-          </div>
-          <div v-else class="brand-image">
-            <img :src="brand.image[0].url" >
-          </div>
-        </div>
-      </div>
-    </section>-->
+    <el-clients />
 
     <el-cta />
   </div>
@@ -59,6 +44,7 @@
 <script>
 export default {
   components: {
+    "el-clients": () => import("./el/clients"),
     "el-cta": () => import("./el/cta")
   },
   // props: {
@@ -191,6 +177,7 @@ export default {
       height: 100%;
       background: rgba(255, 255, 255, 0.05);
       clip-path: polygon(0 0, 0 100%, 100% 100%);
+      -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%);
       z-index: 0;
     }
 
@@ -266,8 +253,7 @@ export default {
         .box-icon {
           margin-bottom: 1em;
           img {
-            width: 50px;
-            max-width: 100%;
+            max-width: 50px;
             display: block;
             margin: 0 auto;
           }
@@ -288,40 +274,6 @@ export default {
         grid-template-columns: 1fr;
         .box {
           padding: 0;
-        }
-      }
-    }
-  }
-
-  .brands {
-    background: var(--color-bg);
-    padding: 3em 0;
-    .title {
-      font-weight: 600;
-      font-size: 2.4em;
-      letter-spacing: -0.03em;
-      margin-bottom: 1em;
-      text-align: center;
-      @media (max-width: 767px) {
-        font-size: 2em;
-      }
-    }
-    .brands-inner {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      grid-gap: 20px 70px;
-      align-items: center;
-      .brand-image {
-        max-width: 100%;
-        img {
-          max-width: 100%;
-          display: block;
-          margin: 0 auto;
-        }
-      }
-      @media (max-width: 767px) {
-        .brand-image {
-          padding: 2em;
         }
       }
     }

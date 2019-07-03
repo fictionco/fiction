@@ -44,19 +44,6 @@ export default {
     align-items: center;
 
     .footer-col {
-      a {
-        font-size: 0.9em;
-        color: inherit;
-        font-weight: 500;
-        line-height: 2em;
-        display: block;
-        cursor: pointer;
-        text-decoration: none;
-        transition: color 0.2s;
-        &:hover {
-          color: #ff0076;
-        }
-      }
       .copyright,
       .terms {
         font-size: 0.7em;
@@ -64,10 +51,8 @@ export default {
       }
       .terms {
         text-align: right;
-      }
-      .terms {
-        opacity: 0.5;
         a {
+          color: inherit;
           display: inline-block;
           padding-left: 10px;
         }

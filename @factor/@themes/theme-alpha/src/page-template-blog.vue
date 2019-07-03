@@ -182,7 +182,7 @@ export default {
       top: 0;
       right: 0;
       bottom: 0;
-      background-color: var(--color-bg);
+      background-color: var(--color-bg-alt);
       @media (max-width: 1024px) {
         width: 100%;
       }
@@ -249,7 +249,7 @@ export default {
             font-weight: 600;
           }
           .tag {
-            background-color: var(--color-bg);
+            background-color: var(--color-bg-alt);
             border-radius: 5px;
             padding: 0.3em 0.5em;
           }

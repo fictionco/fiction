@@ -17,7 +17,10 @@
     </section>
 
     <factor-link v-if="format == 'listing'" :path="path">
-      <div class="img-wrap" :style="{'background-image': 'url(' + images + ')' }" />
+      <div
+        class="img-wrap"
+        :style="{'background-image': 'url(' + require(`../img/` + images) + ')' }"
+      />
     </factor-link>
 
     <div class="entry-wrap">
@@ -84,7 +87,7 @@ export default {
         top: 0;
         right: 0;
         bottom: 0;
-        background-color: var(--color-bg);
+        background-color: var(--color-bg-alt);
         @media (max-width: 1024px) {
           width: 100%;
         }
