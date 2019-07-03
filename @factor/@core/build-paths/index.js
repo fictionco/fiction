@@ -61,8 +61,8 @@ module.exports.default = Factor => {
       _.generated = resolve(this.baseDir, this.folder("generated"))
       _.config = resolve(this.baseDir)
 
-      _["config-file-public"] = resolve(_.app, "config.json")
-      _["config-file-private"] = resolve(_.app, ".secrets.json")
+      _["config-file-public"] = resolve(_.app, "factor-config.json")
+      _["config-file-private"] = resolve(_.app, ".env")
 
       _.static = resolve(_.source, "static")
 

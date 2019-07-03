@@ -119,7 +119,7 @@ export default Factor => {
           if (path.includes("server") || path.includes("endpoint")) {
             Factor.$log.success("Server file changed, restarting server.")
             // eslint-disable-next-line unicorn/no-process-exit
-            process.exit(1)
+            process.kill(process.pid, "SIGUSR2")
           } else {
             this.updateServer({
               title: event,

@@ -1,13 +1,8 @@
 {
   "name": "@factor/wrapper",
+  "author": "Fiction.com <support@fiction.com> (https://www.fiction.com)",
   "version": "0.0.1",
-  "workspaces": [
-    "@apps/*",
-    "@fiction/*",
-    "@factor/*",
-    "@factor/@*/*",
-    "@demo/*"
-  ],
+  "workspaces": ["@apps/*", "@fiction/*", "@factor/*", "@factor/@*/*", "@demo/*"],
   "private": true,
   "license": "GPL-2.0",
   "scripts": {
