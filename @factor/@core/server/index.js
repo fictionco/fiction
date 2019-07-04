@@ -168,10 +168,16 @@ module.exports.default = Factor => {
           (tokens, req, res) => {
             const seconds = tokens["response-time"](req, res) / 1000
             const time = seconds.toFixed(3)
-            const details = [`${time}s`]
+            const details = []
+
+            if (req.body.method) {
+              details.push(chalk.cyan(`${figures.arrowRight} ${req.body.method}`))
+            }
+
+            details.push(`${time}s`)
 
             const contentLength = tokens.res(req, res, "content-length")
-            if (contentLength) details.push(`Size: ${contentLength}`)
+            if (contentLength) details.push(`Size: ${Math.round(contentLength / 1000)}kb`)
 
             details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
 

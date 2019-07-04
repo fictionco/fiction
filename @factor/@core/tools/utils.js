@@ -11,25 +11,42 @@ module.exports.default = Factor => {
     }
 
     // Parse settings using dot notation
+    // TODO unit test this
+    // Cases: [port] [app.name] [roles.arpowers@gmail.com]
     dotSetting({ key, settings }) {
-      if (typeof settings[key] != "undefined") {
+      const currentKey = key.substr(0, key.indexOf("."))
+      const subKeys = key.substr(key.indexOf(".") + 1)
+
+      if (typeof settings[key] !== "undefined") {
         return settings[key]
+      } else if (typeof settings[currentKey] == "object") {
+        return this.dotSetting({ key: subKeys, settings: settings[currentKey] })
       } else {
-        const k = key.split(".")
-
-        let setting
-
-        k.forEach(_ => {
-          if (setting && typeof setting == "object" && setting[_]) {
-            setting = setting[_]
-          } else if (typeof settings[_] != "undefined") {
-            setting = settings[_]
-          }
-        })
-
-        return setting
+        return undefined
       }
     }
+    // dotSetting({ key, settings }) {
+    //   if (typeof settings[key] != "undefined") {
+    //     return settings[key]
+    //   } else {
+    //     const k = key.split(".")
+
+    //     let setting
+
+    //     k.forEach((_, index) => {
+    //       console.log("DOT", _, index)
+    //       if (setting && typeof setting == "object" && typeof setting[_] != "undefined") {
+    //         setting = setting[_]
+    //       } else if (index == 0 && typeof settings[_] != "undefined") {
+    //         setting = settings[_]
+    //       } else {
+    //         setting = undefined
+    //       }
+    //     })
+
+    //     return setting
+    //   }
+    // }
 
     // Parse to standard utility lists
     // Ideal for passing around config data and lists (inputs, etc.. )

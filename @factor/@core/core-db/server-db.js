@@ -9,12 +9,7 @@ module.exports.default = Factor => {
       }
 
       Factor.$filters.callback("close-server", async () => {
-        if (this._connected) {
-          await Factor.$mongoose.connection.close()
-
-          this._connected = false
-        }
-        return
+        return await this.disconnectDb()
       })
       Factor.$filters.add("initialize-server", () => {
         this.connectDb()
@@ -28,6 +23,17 @@ module.exports.default = Factor => {
       if (process.env.NODE_ENV == "production") {
         Factor.$mongoose.set("autoIndex", false)
       }
+    }
+
+    async disconnectDb(callback) {
+      if (this._connected) {
+        await Factor.$mongoose.connection.close()
+
+        if (callback) callback()
+
+        this._connected = false
+      }
+      return
     }
 
     async connectDb() {
@@ -47,14 +53,8 @@ module.exports.default = Factor => {
       return ["disconnected", "connected", "connecting", "disconnecting"]
     }
 
-    gracefulShutdown({ msg, callback }) {
-      if (this._connected) {
-        Factor.$mongoose.connection.close().then(() => {
-          console.log(`DB Disconnect (${msg})`)
-          this._connected = false
-          callback()
-        })
-      }
+    async gracefulShutdown({ msg, callback }) {
+      await this.disconnectDb(callback)
     }
 
     shutdownEvents() {
@@ -64,29 +64,26 @@ module.exports.default = Factor => {
 
       // For nodemon restarts
       process.once("SIGUSR2", function() {
-        _this.gracefulShutdown({
-          msg: "Development restart",
-          callback: () => {
-            process.kill(process.pid, "SIGUSR2")
-          }
+        _this.disconnectDb(() => {
+          process.kill(process.pid, "SIGUSR2")
+        })
+      })
+
+      process.on("CALL_AND_RETRY_LAST", function() {
+        _this.disconnectDb(() => {
+          process.exit(0)
         })
       })
       // For app termination
       process.on("SIGINT", function() {
-        _this.gracefulShutdown({
-          msg: "App termination",
-          callback: () => {
-            process.exit(0)
-          }
+        _this.disconnectDb(() => {
+          process.exit(0)
         })
       })
 
       process.on("SIGTERM", function() {
-        _this.gracefulShutdown({
-          msg: "App termination",
-          callback: () => {
-            process.exit(0)
-          }
+        _this.disconnectDb(() => {
+          process.exit(0)
         })
       })
     }

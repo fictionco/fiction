@@ -9,8 +9,11 @@ export default Factor => {
       return axios
     }
 
-    post() {
-      return axios.post.apply(axios, arguments)
+    post(path, data, options = {}) {
+      const { headers = {} } = options
+      options.headers = { Authorization: this.bearerToken(), ...headers }
+
+      return axios.post(path, data, options)
     }
 
     request() {
@@ -66,10 +69,14 @@ export default Factor => {
       return meta
     }
 
+    bearerToken() {
+      return Factor.$user.token() ? `Bearer ${Factor.$user.token()}` : ""
+    }
+
     async standardHeaders() {
       if (Factor.$isNode) return
-      const bearerToken = Factor.$user.token() ? `Bearer ${Factor.$user.token()}` : ""
-      axios.defaults.headers.common["Authorization"] = bearerToken
+
+      axios.defaults.headers.common["Authorization"] = this.bearerToken()
     }
   })()
 }

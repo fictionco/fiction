@@ -165,10 +165,11 @@ export default {
     async save() {
       this.sending = true
 
-      let savedUser = await this.$user.request(
-        "save",
-        this.saveObject(this.user)
-      )
+      const toSave = this.saveObject(this.user)
+
+      console.log("TOSAVE", toSave)
+
+      let savedUser = await this.$user.request("save", toSave)
 
       if (savedUser) {
         console.log("Saved User Information", savedUser)
@@ -187,7 +188,7 @@ export default {
 .user-dashboard-post-grid {
   display: grid;
   grid-gap: 1em;
-  grid-template-columns: 1fr 275px;
+  grid-template-columns: 3fr minmax(230px, 1fr);
 
   @media (max-width: 960px) {
     grid-gap: 1em 0;

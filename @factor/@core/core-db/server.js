@@ -40,6 +40,9 @@ module.exports.default = Factor => {
       return await this.runRequest(params)
     }
     canEdit({ doc, bearer, scope }) {
+      if (!bearer) {
+        Factor.$error.throw(400, "Not authorized.")
+      }
       const { _id, authors = [] } = doc
       if (
         _id !== bearer._id &&

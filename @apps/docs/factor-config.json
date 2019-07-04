@@ -4,6 +4,11 @@
       "name": "Factor.dev",
       "description": "",
       "email": "Fiction Support <support@fiction.com>"
+    },
+    "roles": {
+      "arpowers@gmail.com": "owner",
+      "andrew@fiction.com": "admin",
+      "ray@fiction.com": "admin"
     }
   }
 }

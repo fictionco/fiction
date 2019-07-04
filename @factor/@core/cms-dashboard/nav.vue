@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     initializeMenu() {
-      if (this.$user.can({ ability: "admin" })) {
+      if (this.$user.can({ role: "admin" })) {
         this.$set(this.menus, "admin", [])
       }
 

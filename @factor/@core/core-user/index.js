@@ -177,11 +177,13 @@ export default Factor => {
 
     // Very basic version of this function for MVP dev
     // Needs improvement for more fine grained control
-    can({ ability, accessLevel }) {
+    can({ role, accessLevel }) {
+      console.log("this.currentUser()", this.currentUser())
       const userAccessLevel = this.currentUser().accessLevel
-      if (accessLevel && accessLevel < userAccessLevel) {
+      const roleAccessLevel = role ? Factor.$userRoles.roles()[role] : 1000
+      if (accessLevel && userAccessLevel >= accessLevel) {
         return true
-      } else if (ability && userAccessLevel > 100) {
+      } else if (role && userAccessLevel >= roleAccessLevel) {
         return true
       } else {
         return false
@@ -219,8 +221,8 @@ export default Factor => {
           return _r.meta.auth
         })
 
-        this.init(uid => {
-          if (auth === true && !uid) {
+        this.init(({ _id }) => {
+          if (auth === true && !_id) {
             Factor.$router.push({
               path: "/signin",
               query: { redirect: to.path, from: from.path }

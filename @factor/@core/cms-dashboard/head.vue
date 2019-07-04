@@ -3,9 +3,9 @@
     <div class="dashboard-head-pad">
       <factor-link path="/" class="brand">
         <div class="icon">
-          <img src="/static/logo-120.png">
+          <img src="/static/logo-120.png" >
         </div>
-        <div class="name">{{ $config.setting('title') }}</div>
+        <div class="name">{{ $config.setting('app.name') }}</div>
       </factor-link>
       <div class="nav">
         <slot />

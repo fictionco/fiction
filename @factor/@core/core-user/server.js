@@ -43,6 +43,8 @@ module.exports.default = Factor => {
         if (!compareResult) {
           Factor.$error.throw(401, "Incorrect Login Information.")
         } else {
+          user.signedInAt = Date.now()
+          await user.save()
           return this.credential(user)
         }
       }
@@ -121,6 +123,7 @@ module.exports.default = Factor => {
 
             try {
               user.password = await _this.hashPassword(user.password)
+              return next()
             } catch (error) {
               return next(error)
             }
@@ -129,6 +132,7 @@ module.exports.default = Factor => {
           Factor.$filters.apply("user-schema-hooks", Schema)
         },
         schema: Factor.$filters.apply("user-schema", {
+          signedInAt: Date,
           username: {
             type: String,
             trim: true,
