@@ -143,9 +143,110 @@ module.exports = Factor => {
         "Adam is an award-winning designer and art director based in San Francisco. His work appears internationally in magazines, newspapers, advertisements and children's books.",
       heroImage: "about.jpg"
     },
+    work: {
+      meta: {
+        title: "Work - Factor Alpha Theme",
+        description:
+          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+      },
+      headline: "Work",
+      subheadline: "The simple way to showcase your work.",
+      content:
+        "Fully responsive and retina-display-ready. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
+      heroImage: "test.jpg",
+      posts: {
+        data: [
+          {
+            images: "test.jpg",
+            title: "Pretty Thai",
+            authorData: ["Ray", "Andrew"],
+            content: "erer",
+            id: "1",
+            tags: ["Design", "Branding"],
+            path: "/"
+          },
+          {
+            images: "test.jpg",
+            title: "Carbon Tech Pro",
+            authorData: ["Ray", "Andrew"],
+            content: "erer",
+            id: "2",
+            tags: ["Development"],
+            path: "/"
+          },
+          {
+            images: "test.jpg",
+            title: "PageLines",
+            authorData: ["Ray", "Andrew"],
+            content: "erer",
+            id: "3",
+            tags: ["Prototype"],
+            path: "/"
+          },
+          {
+            images: "test.jpg",
+            title: "Fiction",
+            authorData: ["Ray", "Andrew"],
+            content: "erer",
+            id: "4",
+            tags: ["Design", "Prototype", "Development"],
+            path: "/"
+          }
+        ]
+      }
+    },
+    blog: {
+      meta: {
+        title: "Blog - Factor Alpha Theme",
+        description:
+          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+      },
+      headline: "Blog",
+      subheadline: "The Latest From Alpha",
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
+      heroImage: "test.jpg",
+      posts: {
+        data: [
+          {
+            format: "listing",
+            images: "test.jpg",
+            title: "7 Awesome Udemy Courses for App Development",
+            authorData: ["Ray", "Andrew"],
+            content: "Udemy offers a wide range of courses covering a variety of topics...",
+            date: "April 11, 2019",
+            id: "1",
+            tags: ["Development"],
+            path: "/"
+          },
+          {
+            format: "listing",
+            images: "test.jpg",
+            title: "soemthing else",
+            authorData: ["Ray", "Andrew"],
+            content: "Two Udemy offers a wide range of courses covering a variety of topics...",
+            date: "April 11, 2019",
+            id: "1",
+            tags: ["Design"],
+            path: "/"
+          },
+          {
+            format: "listing",
+            images: "test.jpg",
+            title: "7 Awesome Udemy Courses for App Development",
+            authorData: ["Ray", "Andrew"],
+            content: "Udemy offers a wide range of courses covering a variety of topics...",
+            date: "April 11, 2019",
+            id: "1",
+            tags: ["Development"],
+            path: "/"
+          }
+        ]
+      }
+    },
     contact: {
       meta: {
-        title: "Factor Alpha Theme",
+        title: "Contact - Factor Alpha Theme",
         description:
           "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
       },
@@ -155,49 +256,11 @@ module.exports = Factor => {
         "Drop me a note and I’ll get back to you within 24 hours. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
       heroImage: "contact.jpg",
       form: {
-        NamePlaceholder: "name asdf",
+        namePlaceholder: "Name",
+        emailPlaceholder: "Email Address",
+        messagePlaceholder: "Message",
         buttonText: "Contact"
       }
-    },
-    posts: {
-      data: [
-        {
-          images: "test.jpg",
-          title: "A Project",
-          authorData: ["Ray", "Andrew"],
-          content: "erer",
-          id: 1,
-          tags: ["Design", "Prototype", "Development"],
-          path: "/"
-        },
-        {
-          images: "test.jpg",
-          title: "A Project",
-          authorData: [{ 1: "Ray" }, { 2: "Andrew" }],
-          content: "erer",
-          id: 2,
-          tags: ["Design", "Prototype", "Development"],
-          path: "/"
-        },
-        {
-          images: "test.jpg",
-          title: "A Project",
-          authorData: [{ 1: "Ray" }, { 2: "Andrew" }],
-          content: "erer",
-          id: 3,
-          tags: ["Design", "Prototype", "Development"],
-          path: "/"
-        },
-        {
-          images: "test.jpg",
-          title: "A Project",
-          authorData: [{ 1: "Ray" }, { 2: "Andrew" }],
-          content: "erer",
-          id: 3,
-          tags: ["Design", "Prototype", "Development"],
-          path: "/"
-        }
-      ]
     }
   }
 }

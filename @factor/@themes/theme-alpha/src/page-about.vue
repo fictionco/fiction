@@ -1,22 +1,14 @@
 <template>
   <div class="page-about">
-    <section class="hero">
-      <div class="mast">
-        <div class="hero-inner">
-          <div>
-            <h1 class="title">{{ $setting.get('about.headline') }}</h1>
-            <h2 class="heading">{{ $setting.get('about.subheadline') }}</h2>
-            <div v-formatted-text="$setting.get('about.content')" class="content entry-content" />
-          </div>
-          <div>
-            <div
-              :style="{'background-image': `url(`+ require(`./img/` + $setting.get('about.heroImage')) + `)` }"
-              class="hero-image"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+    <el-hero
+      :headline="$setting.get('about.headline')"
+      :subheadline="$setting.get('about.subheadline')"
+      :image="$setting.get('about.heroImage')"
+    >
+      <template v-slot:hero-content>
+        <div v-formatted-text="$setting.get('about.content')" class="content entry-content" />
+      </template>
+    </el-hero>
 
     <el-clients />
     <el-cta />
@@ -26,6 +18,7 @@
 <script>
 export default {
   components: {
+    "el-hero": () => import("./el/hero"),
     "el-clients": () => import("./el/clients"),
     "el-cta": () => import("./el/cta")
   },
@@ -73,71 +66,8 @@ export default {
     color: var(--color-primary);
     letter-spacing: -0.03em;
   }
-  // feature
   .hero {
-    position: relative;
     border-bottom: 2px solid var(--color-bg);
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 70%;
-      height: 100%;
-      top: 0;
-      right: auto;
-      bottom: 0;
-      background-color: var(--color-bg-alt);
-      @media (max-width: 1024px) {
-        width: 100%;
-      }
-    }
-
-    .hero-inner {
-      position: relative;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-gap: 30px;
-      align-items: center;
-      padding: 7em 0;
-      @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-      }
-      @media (max-width: 767px) {
-        padding: 4em 0;
-      }
-      .title {
-        font-size: 1.1em;
-        text-transform: uppercase;
-      }
-      .heading {
-        font-weight: 600;
-        font-size: 3em;
-        letter-spacing: -0.03em;
-        margin: 0.5em 0;
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
-      }
-      .content {
-        opacity: 0.5;
-        font-size: 1.2em;
-        line-height: 1.6em;
-      }
-      .hero-image {
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 450px;
-        max-width: 300px;
-        box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
-        border-top-left-radius: 40px;
-        @media (max-width: 1024px) {
-          margin: 0 auto;
-          max-width: 100%;
-          border-radius: 15px;
-        }
-      }
-    }
   }
 }
 </style>

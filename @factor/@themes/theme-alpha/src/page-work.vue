@@ -1,5 +1,15 @@
 <template>
   <div class="page-work">
+    <el-hero
+      :headline="$setting.get('work.headline')"
+      :subheadline="$setting.get('work.subheadline')"
+      :image="$setting.get('work.heroImage')"
+    >
+      <template v-slot:hero-content>
+        <div v-formatted-text="$setting.get('work.content')" class="content entry-content" />
+      </template>
+    </el-hero>
+
     <router-view />
     <el-cta />
   </div>
@@ -8,6 +18,7 @@
 <script>
 export default {
   components: {
+    "el-hero": () => import("./el/hero"),
     "el-cta": () => import("./el/cta")
   },
   props: {

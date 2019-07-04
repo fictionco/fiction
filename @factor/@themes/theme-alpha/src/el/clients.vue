@@ -2,14 +2,14 @@
   <section class="clients">
     <div v-formatted-text="$setting.get('site.clientsTitle')" class="title" />
     <div class="mast clients-inner">
-      <div v-for="(brand, i) in $setting.get('site.clients')" :key="i" class="clients">
-        <div v-if="brand.path" class="client-image">
-          <app-link :path="brand.path" target="_blank">
-            <img :src="require(`../img/` + brand.icon)" :alt="brand.text" >
+      <div v-for="(client, i) in $setting.get('site.clients')" :key="i" class="clients">
+        <div v-if="client.path" class="client-image">
+          <app-link :path="client.path" target="_blank">
+            <img :src="require(`../img/` + client.icon)" :alt="client.text" >
           </app-link>
         </div>
         <div v-else class="client-image">
-          <img :src="require(`../img/` + brand.icon)" :alt="brand.text" >
+          <img :src="require(`../img/` + client.icon)" :alt="client.text" >
         </div>
       </div>
     </div>

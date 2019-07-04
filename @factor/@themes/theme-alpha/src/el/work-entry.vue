@@ -164,6 +164,7 @@ export default {
       font-weight: 600;
       font-size: 2em;
       line-height: 1.1;
+      margin-bottom: .2em;
     }
     .category {
       opacity: 0.5;

@@ -137,10 +137,8 @@ export default {
       color: #fdfdfd;
       margin: 0 0.5em;
       &:hover,
-      &.active {
-        color: var(--color-tertiary);
-      }
-      &:active {
+      &.active,
+      &.active-path {
         color: var(--color-tertiary);
       }
       @media (max-width: 767px) {

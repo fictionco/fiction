@@ -1,11 +1,6 @@
 <template>
   <div v-if="tags.length > 0" class="entry-tags">
-    <factor-link
-      v-for="(tag, ti) in tags"
-      :key="ti"
-      class="entry-tag"
-      :path="`/tag/${tag}`"
-    >{{ tag }}</factor-link>
+    <factor-link v-for="(tag, i) in tags" :key="i" class="entry-tag" :path="`/tag/${tag}`">{{ tag }}</factor-link>
   </div>
 </template>
 <script>
@@ -20,7 +15,7 @@ export default {
   line-height: 1;
 }
 .entry-tags a {
-  color: inherit;
+  color: rgba(25, 73, 189, 0.4);
   background: rgba(50, 50, 93, 0.1);
   opacity: 0.8;
   display: inline-block;
@@ -31,7 +26,9 @@ export default {
   font-weight: 600;
   border-radius: 3px;
   &:hover {
+    color: var(--color-primary);
     opacity: 1;
+    background: var(--color-tertiary);
   }
   &:not(:nth-child(1)) {
     margin-left: 3px;
