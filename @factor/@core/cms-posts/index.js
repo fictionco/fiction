@@ -491,16 +491,5 @@ export default Factor => {
 
       return excerpt
     }
-
-    // userCanEditPost({ uid, post }) {
-
-    //   const user = Factor.$user.request(uid)
-
-    //   if ((user && user.accessLevel > 300) || post.authors.includes(uid)) {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // }
   })()
 }

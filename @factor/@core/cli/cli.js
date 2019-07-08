@@ -79,13 +79,16 @@ const cli = async () => {
         .action(async args => {
           await this.extend({ NODE_ENV: "production", install: false, ...args })
 
-          await this.cliTasks([
-            {
-              command: "factor",
-              args: ["build"],
-              title: "Generating Distribution App"
-            }
-          ])
+          await this.runTasks(
+            [
+              {
+                command: "factor",
+                args: ["build"],
+                title: "Generating Distribution App"
+              }
+            ],
+            { exitOnError: true }
+          )
 
           this.cliRunners()
         })
@@ -108,6 +111,7 @@ const cli = async () => {
         .description("Build production app")
         .action(async args => {
           await this.createDist(args)
+          process.exit(0)
         })
 
       this.program
@@ -161,7 +165,10 @@ const cli = async () => {
     async createDist(args) {
       const program = await this.extend({ NODE_ENV: "production", install: true, ...args })
       await this.run("create-distribution-app", program)
+
       await this.cliTasks()
+
+      return
     }
 
     async cliRunners() {
@@ -182,10 +189,15 @@ const cli = async () => {
     }
 
     async cliTasks(t = []) {
-      await this.runTasks(Factor.$filters.apply("cli-tasks", t))
+      const tasks = Factor.$filters.apply("cli-tasks", t)
+
+      return await this.runTasks(tasks)
     }
 
     async runTasks(t, opts = {}) {
+      if (t.length == 0) {
+        return
+      }
       const taskMap = t.map(
         ({ title, command, args, options = { cwd: process.cwd(), done: false, output: false } }) => {
           return {
