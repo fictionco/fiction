@@ -145,8 +145,8 @@ export default Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "Factor CMS Framework",
-      subHeadline: "Factor is a 100% Javascript, minimal and modular CMS framework built with Vue SSR and Node.",
+      headline: "Create Beautiful Web Apps",
+      subHeadline: "Factor is a full-stack JS framework built for perfectionists with deadlines.",
       boxes: [
         {
           title: "No Bloat",

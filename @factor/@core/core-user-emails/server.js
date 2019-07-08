@@ -3,20 +3,21 @@ module.exports.default = Factor => {
     constructor() {
       Factor.$filters.callback("endpoints", { id: "user-emails", handler: this })
 
-      Factor.$filters.add("create-new-user", user => {
-        this.sendVerifyEmail({ email, _id: user._id }, { bearer: user })
-      })
+      // Factor.$filters.add("create-new-user", user => {
+      //   const { email, _id } = user
+      //   this.sendVerifyEmail({ email, _id, user }, { bearer: user })
+      // })
 
       Factor.$filters.add("user-schema-hooks", Schema => {
         const _this = this
         // EMAIL
-        Schema.pre("save", async function(next) {
+        Schema.post("save", async function(doc, next) {
           const user = this
           if (!user.isModified("email")) return next()
 
           const { email, _id } = user
           user.emailVerified = false
-          await _this.sendVerifyEmail({ _id, email }, { bearer: user })
+          return await _this.sendVerifyEmail({ _id, email }, { bearer: user })
         })
       })
 
@@ -45,10 +46,10 @@ module.exports.default = Factor => {
       }
     }
 
-    async sendVerifyEmail({ email, _id }, { bearer }) {
+    async sendVerifyEmail({ email, _id, user }, { bearer }) {
       const emailVerificationCode = Factor.$randomToken()
 
-      await Factor.$user.save({ _id, emailVerificationCode }, { bearer })
+      await Factor.$user.save({ _id, emailVerificationCode, user }, { bearer })
 
       await this.sendEmail({
         to: email,

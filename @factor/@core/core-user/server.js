@@ -14,7 +14,9 @@ module.exports.default = Factor => {
     async save(data, { bearer }) {
       Factor.$db.canEdit({ doc: data, bearer, scope: "memberOrAdmin" })
 
-      const _user = await Factor.$db.run("User", "findById", [data._id])
+      const _user = data.user ? data.user : await Factor.$db.model("User").findById(data._id)
+
+      console.log("????", _user, data)
 
       Object.assign(_user, data)
       return await _user.save()
@@ -27,11 +29,17 @@ module.exports.default = Factor => {
 
     async authenticate(params) {
       const { newAccount, email, password, displayName } = params
-
+      console.log("!?", params)
       let user
       if (newAccount) {
-        user = await Factor.$db.model("User").create({ email, password, displayName, emailVerificationCode })
+        try {
+          console.log("NEW USER??", email, password, displayName)
+          user = await Factor.$db.model("User").create({ email, password, displayName })
+        } catch (error) {
+          Factor.$log.error(error, error.code)
+        }
 
+        console.log("NEW USER??", user)
         Factor.$filters.apply("create-new-user", user)
 
         return this.credential(user)
@@ -136,7 +144,7 @@ module.exports.default = Factor => {
           username: {
             type: String,
             trim: true,
-            index: { unique: true },
+            index: { unique: true, sparse: true },
             minlength: 3
           },
           email: {
