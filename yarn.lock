@@ -2412,7 +2412,7 @@ algoliasearch@^3.24.5, algoliasearch@^3.32.1:
     semver "^5.1.0"
     tunnel-agent "^0.6.0"
 
-all-contributors-cli@^6.3.1:
+all-contributors-cli@^6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/all-contributors-cli/-/all-contributors-cli-6.7.0.tgz#7bdfef29b43d4c9107fadee696ff6dc4abfe6cd1"
   integrity sha512-MjlXxNkHPy/ZUNgJhRf0p4HSfrigsvmlHVafVHDPk0Uzk69PZRP2T4uFgBYLFXJen+qfpZkMc9S0CZaYIzmwoQ==
