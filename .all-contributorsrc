@@ -30,6 +30,15 @@
         "design",
         "code"
       ]
+    },
+    {
+      "login": "nodesocket",
+      "name": "Justin Keller",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/523312?v=4",
+      "profile": "https://nodesocket.com",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
