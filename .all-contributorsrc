@@ -6,7 +6,7 @@
   "files": ["README.md"],
   "imageSize": 100,
   "commit": false,
-  "contributorsPerLine": 2,
+  "contributorsPerLine": 5,
   "contributors": [
     {
       "login": "arpowers",
@@ -27,7 +27,7 @@
       "name": "Justin Keller",
       "avatar_url": "https://avatars2.githubusercontent.com/u/523312?v=4",
       "profile": "https://nodesocket.com",
-      "contributions": ["code"]
+      "contributions": ["code", "tool", "userTesting"]
     }
   ]
 }
