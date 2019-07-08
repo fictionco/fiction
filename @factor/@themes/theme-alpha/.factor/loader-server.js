@@ -9,6 +9,7 @@ files["serverDev"] = require("@factor/server-dev").default
 files["setup"] = require("@factor/build-setup").default
 files["webpack"] = require("@factor/build-webpack").default
 files["db"] = require("@factor/core-db/server").default
+files["email"] = require("@factor/core-email/server").default
 files["endpoint"] = require("@factor/core-endpoint/server").default
 files["error"] = require("@factor/core-error").default
 files["server"] = require("@factor/server").default
