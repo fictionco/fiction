@@ -16,6 +16,13 @@
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
     "deploy": "git push heroku-factor-dev master"
   },
+
+  "dependencies": {
+    "@cypress/webpack-preprocessor": "^4.0.3",
+    "commitizen": "^3.0.7",
+    "cz-conventional-changelog": "^2.1.0",
+    "prettier": "^1.17.1"
+  },
   "devDependencies": {
     "@factor/plugin-testing-cypress-build": ">0.0.1",
     "all-contributors-cli": "^6.7.0",
@@ -37,11 +44,5 @@
     "lerna": "^3.13.0",
     "prettier-eslint": "^8.8.2",
     "webpack": "^4.29.6"
-  },
-  "dependencies": {
-    "@cypress/webpack-preprocessor": "^4.0.3",
-    "commitizen": "^3.0.7",
-    "cz-conventional-changelog": "^2.1.0",
-    "prettier": "^1.17.1"
   }
 }
