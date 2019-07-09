@@ -1,11 +1,11 @@
 <template>
   <div class="pagination">
-    <div class="items">{{ total }} Items</div>
+    <div class="items">{{ count }} Items</div>
     <dashboard-btn :disabled="pageCurrent == 1" @click="page('previous')">
       <factor-icon icon="arrow-left" />
     </dashboard-btn>
-    <div class="sep">{{ pageCurrent }} of {{ pageTotal }}</div>
-    <dashboard-btn :disabled="pageCurrent == pageTotal" @click="page('next')">
+    <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
+    <dashboard-btn :disabled="pageCurrent == pageCount" @click="page('next')">
       <factor-icon icon="arrow-right" />
     </dashboard-btn>
   </div>
@@ -14,14 +14,14 @@
 <script>
 export default {
   props: {
-    pageTotal: { type: Number, default: 0 },
+    pageCount: { type: Number, default: 0 },
     pageCurrent: { type: Number, default: 0 },
-    total: { type: Number, default: 0 }
+    count: { type: Number, default: 0 }
   },
   methods: {
     page(direction) {
       let page
-      if (direction == "next" && this.pageCurrent !== this.pageTotal) {
+      if (direction == "next" && this.pageCurrent !== this.pageCount) {
         page = this.pageCurrent + 1
       } else if (this.pageCurrent > 1) {
         page = this.pageCurrent - 1

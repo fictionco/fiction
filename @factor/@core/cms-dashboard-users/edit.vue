@@ -39,7 +39,7 @@
 
         <dashboard-pane title="Profile">
           <dashboard-input
-            v-model="user.photosProfile"
+            v-model="user.images"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
@@ -48,7 +48,7 @@
             @autosave="$emit('autosave')"
           />
           <dashboard-input
-            v-model="user.photosCover"
+            v-model="user.covers"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
@@ -130,10 +130,7 @@ export default {
     this.$user.init(async user => {
       this.user = user
 
-      this.user = await this.$db.populate(this.user, [
-        "photosProfile",
-        "photosCover"
-      ])
+      this.user = await this.$db.populate(this.user, ["images", "photosCover"])
     })
   },
   methods: {
@@ -148,9 +145,9 @@ export default {
     saveObject(user) {
       const _save = {} // mutable
 
-      let { photosProfile, photosCover, photoPrimary } = user
+      let { images, photosCover, photoPrimary } = user
 
-      _save.photosProfile = photosProfile
+      _save.images = images
         .filter(_ => _)
         .map(_ => (typeof _ == "object" ? _._id : _))
       _save.photosCover = photosCover
@@ -158,7 +155,7 @@ export default {
         .map(_ => (typeof _ == "object" ? _._id : _))
 
       _save.photoPrimary =
-        _save.photosProfile.length > 0 ? _save.photosProfile[0] : undefined
+        _save.images.length > 0 ? _save.images[0] : undefined
 
       return { ...user, ..._save }
     },

@@ -16,8 +16,6 @@ module.exports.default = Factor => {
 
       const _user = data.user ? data.user : await Factor.$db.model("User").findById(data._id)
 
-      console.log("????", _user, data)
-
       Object.assign(_user, data)
       return await _user.save()
     }
@@ -33,13 +31,11 @@ module.exports.default = Factor => {
       let user
       if (newAccount) {
         try {
-          console.log("NEW USER??", email, password, displayName)
           user = await Factor.$db.model("User").create({ email, password, displayName })
         } catch (error) {
           Factor.$log.error(error, error.code)
         }
 
-        console.log("NEW USER??", user)
         Factor.$filters.apply("create-new-user", user)
 
         return this.credential(user)
@@ -69,7 +65,6 @@ module.exports.default = Factor => {
 
     async account({ _id }) {
       let user = await Factor.$db.model("User").findOne({ _id })
-      // .populate("photoPrimary photosProfile photosCover")
 
       return user
     }
@@ -77,9 +72,9 @@ module.exports.default = Factor => {
     async getUser({ _id, mode = "app" }) {
       let pop = ""
       if (mode == "app") {
-        pop = "photoPrimary"
+        pop = "avatar"
       } else if (mode == "profile") {
-        pop = "photoPrimary photosProfile photosCover"
+        pop = "avatar images covers"
       }
 
       let user = await Factor.$db
@@ -164,7 +159,6 @@ module.exports.default = Factor => {
             type: String,
             required: true,
             trim: true,
-            index: { unique: true },
             minlength: 8
           },
           displayName: {
@@ -175,8 +169,6 @@ module.exports.default = Factor => {
             type: String,
             lowercase: true,
             trim: true,
-            index: true,
-            unique: true,
             validate: {
               validator: v => Factor.$validator.isMobilePhone(v),
               message: props => `${props.value} is not a valid phone number (with country code).`
@@ -188,9 +180,7 @@ module.exports.default = Factor => {
           },
           birthday: Date,
           about: String,
-          photoPrimary: { type: Schema.Types.ObjectId, ref: "Image" },
-          photosProfile: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-          photosCover: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+          covers: [{ type: Schema.Types.ObjectId, ref: "Image" }],
           profile: {}
         }),
         options: {

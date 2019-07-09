@@ -6,7 +6,7 @@
       :class="toggle ? 'active' : 'inactive'"
       @click.stop="setToggle($event)"
     >
-      <factor-avatar width="1.75em" />
+      <factor-avatar width="1.75em" :post="$currentUser" />
     </span>
     <transition name="leftfade">
       <div v-if="toggle" class="profile-menu-nav" @click.stop>

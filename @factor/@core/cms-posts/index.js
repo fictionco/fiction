@@ -6,6 +6,10 @@ export default Factor => {
       this.initialized = false
     }
 
+    async request(method, params) {
+      return await Factor.$endpoint.request({ id: "posts", method, params })
+    }
+
     filters() {
       Factor.$filters.add("components", _ => {
         _["factor-post-edit"] = () => import("./el/edit-link")
@@ -165,20 +169,9 @@ export default Factor => {
     }
 
     async getPostIndex(args) {
-      const { limit = 100, page = 1 } = args
+      const { limit = 20, page = 1, postType } = args
 
-      if (!args.type) {
-        const rt = Factor.$route.currentRoute
-        args.type = rt.params.postType || rt.query.type || null
-
-        if (!args.type) {
-          console.warn("No post type set for index.")
-        }
-      }
-
-      const storeKey = args.storeKey || args.type || "postIndex"
-
-      const taxonomies = ["type", "tag", "category", "status"]
+      const taxonomies = ["tag", "category", "status"]
 
       const conditions = {}
       taxonomies.forEach(_ => {
@@ -187,20 +180,36 @@ export default Factor => {
         }
       })
 
-      const query = { model: "Post", method: "find", limit, conditions, page }
-
-      const results = await Factor.$db.run(query)
-
-      results.data = await this.parsePosts(results.data)
-
-      console.log("results.data", results.data)
-
-      Factor.$store.commit("setItem", {
-        item: storeKey,
-        value: results
+      const skip = (page - 1) * limit
+      const model = postType.charAt(0).toUpperCase() + postType.slice(1)
+      const posts = await this.request("list", {
+        model,
+        conditions,
+        options: { limit, skip },
+        aggregate: [
+          {
+            $group: {
+              _id: "$role",
+              count: { $sum: 1 }
+            }
+          }
+        ]
       })
 
-      return results
+      //  results.data = await this.parsePosts(results.data)
+
+      console.log("results.data", posts)
+
+      Factor.$store.commit("setItem", {
+        item: model,
+        value: { posts }
+      })
+
+      return posts
+    }
+
+    toModelName(postType) {
+      return postType.charAt(0).toUpperCase() + string.slice(1)
     }
 
     async parsePosts(posts) {

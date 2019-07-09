@@ -46,6 +46,7 @@ const cli = async () => {
 
       process.env.NODE_ENV = NODE_ENV
       process.env.FACTOR_ENV = program.ENV || NODE_ENV
+      process.env.FACTOR_COMMAND = program._name
 
       require("@factor/build-extend")
         .default(Factor)
@@ -99,7 +100,7 @@ const cli = async () => {
         .action(async (NODE_ENV, args) => {
           NODE_ENV = NODE_ENV || "production"
 
-          await this.extend({ NODE_ENV, ...args })
+          await this.extend({ NODE_ENV, COMMAND: "serve", ...args })
 
           this.run("create-server", { NODE_ENV, ...args })
         })
@@ -127,7 +128,7 @@ const cli = async () => {
         .command("run <filter>")
         .description("Run CLI utilities based on filter name (see documentation)")
         .action(async (filter, args) => {
-          const program = await this.extend({ NODE_ENV: "development", ...args })
+          const program = await this.extend({ NODE_ENV: "development", COMMAND: "run", ...args })
 
           try {
             await this.run(`cli-run-${filter}`, { inquirer, program })

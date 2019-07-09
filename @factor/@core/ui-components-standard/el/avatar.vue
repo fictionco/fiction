@@ -1,8 +1,8 @@
 <template>
   <div class="avatar">
     <factor-loading-ring v-if="loading" :width="width" />
-    <div v-else-if="src" :style="getStyle({backgroundImage: `url(${src})`})" class="thumb" />
-    <div v-else :style="getStyle()" class="thumb">
+
+    <div v-else-if="!src" :style="getStyle()" class="thumb thumb-default">
       <svg
         class="user-blank"
         version="1.1"
@@ -20,6 +20,7 @@
         </g>
       </svg>
     </div>
+    <div v-else :style="getStyle({backgroundImage: `url(${src})`})" class="thumb thumb-src" />
     <slot />
   </div>
 </template>
@@ -27,42 +28,43 @@
 export default {
   props: {
     width: { type: String, default: "32px" },
-    id: { type: String, default: "" },
-    url: { type: String, default: "" }
+    post: { type: Object, default: () => {} },
+    url: { type: String, default: "" },
+    loading: { type: Boolean, default: false }
   },
   data() {
-    return {
-      loading: true
-    }
+    return {}
   },
   computed: {
-    userId() {
-      return this._id && this._id != "" ? this._id : this.$userId
-    },
-    user() {
-      return this.$store.getters["getItem"](this.userId) || {}
-    },
+    // userId() {
+    //   return this._id && this._id != "" ? this._id : this.$userId
+    // },
+    // user() {
+    //   return this.$store.getters["getItem"](this.userId) || {}
+    // },
     src() {
-      return this.url
-        ? this.url
-        : this.user.photoPrimary && typeof this.user.photoPrimary == "object"
-        ? this.user.photoPrimary.url
-        : false
+      if (this.post && this.post.avatar && this.post.avatar.url) {
+        return this.post.avatar.url
+      } else if (this.url) {
+        return this.url
+      } else {
+        return ""
+      }
     }
   },
 
   mounted() {
-    if (this._id) {
-      this.doRequest(this._id)
-    } else {
-      this.$user.init(() => {
-        if (this.$userId) {
-          this.doRequest(this.$userId)
-        } else {
-          this.loading = false
-        }
-      })
-    }
+    // if (this.userId) {
+    //   this.doRequest(this.userId)
+    // } else {
+    //   this.$user.init(() => {
+    //     if (this.$userId) {
+    //       this.doRequest(this.$userId)
+    //     } else {
+    //       this.loading = false
+    //     }
+    //   })
+    // }
   },
 
   methods: {

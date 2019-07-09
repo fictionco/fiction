@@ -24,21 +24,27 @@
         </div>
 
         <div v-else-if="column == 'photo'" class="author">
-          <factor-avatar :url="row.photoURL" />
+          <factor-avatar :post="row" />
         </div>
 
         <div v-else-if="column == 'role'" class="meta">
           <span class="meta status">
-            <span v-if="row.roles" class="val">{{ $utils.toLabel(row.roles.join(',')) }}</span>
+            <span v-if="row.role" class="val">{{ $utils.toLabel(row.role) }}</span>
           </span>
         </div>
 
         <div v-else-if="column == 'activity'" class="meta">
           <span class="meta date">
-            <span class="val">Signed Up: {{ $time.niceFormat(row.signedInAt) }}</span>
+            <span class="val">
+              <strong>Signed Up:</strong>
+              {{ $time.niceFormat(row.createdAt) }}
+            </span>
           </span>
           <span class="meta date">
-            <span class="val">Logged In: {{ $time.niceFormat(row.createdAt) }}</span>
+            <span class="val">
+              <strong>Logged In:</strong>
+              {{ $time.niceFormat(row.signedInAt) }}
+            </span>
           </span>
         </div>
       </template>
@@ -50,14 +56,16 @@ export default {
   props: {
     title: { type: String, default: "" },
     rows: { type: Array, default: () => [] },
-    index: { type: Object, default: () => {} },
+
     loading: { type: Boolean, default: false }
   },
   computed: {
     tabs() {
       return [`all`, `admin`, `moderator`, `member`].map(key => {
-        const count =
-          key == "all" ? this.index.total : this.getCounts[key] || 0
+        // const count =
+        //   key == "all" ? this.index.total : this.getCounts[key] || 0
+
+        const count = 0
         return {
           name: this.$utils.toLabel(key),
           value: key == "all" ? "" : key,

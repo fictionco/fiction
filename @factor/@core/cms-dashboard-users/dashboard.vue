@@ -82,6 +82,7 @@ export default {
     async setFiltered() {
       if (this.status) {
         this.filtered = await this.$posts.getPostIndex({
+          model: "User",
           status: this.status
         })
       } else {
@@ -91,7 +92,7 @@ export default {
     async setPosts() {
       this.postIndex = await this.getIndex()
 
-      this.setFiltered()
+      // this.setFiltered()
     },
 
     async getIndex(args = {}) {

@@ -108,7 +108,7 @@ export default {
     },
     avatars() {
       const p = this.post
-      const imgs = p.photosProfile || []
+      const imgs = p.images || []
 
       return imgs
     },

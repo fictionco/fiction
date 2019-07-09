@@ -3,8 +3,14 @@ module.exports.default = Factor => {
     constructor() {
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
+
       Factor.$filters.add("initialize-server", () => {
         this.setModels()
+
+        // sync indexes only on serve commands
+        if (process.env.FACTOR_COMMAND == "serve") {
+          this._syncSchemaIndexes()
+        }
       })
     }
 
@@ -76,36 +82,52 @@ module.exports.default = Factor => {
       // test
       const { Schema, model } = Factor.$mongoose
 
-      this._schemas = {
-        Post: new Schema(
-          Factor.$filters.apply("post-schema", {
-            title: { type: String, trim: true },
-            body: { type: String, trim: true },
-            author: [{ type: Schema.Types.ObjectId, ref: "User", autopopulate: true }],
-            permalink: {
-              type: String,
-              trim: true,
-              index: { unique: true },
-              minlength: 3,
-              validator: function(v) {
-                return /^[a-z0-9-]+$/.test(v)
-              },
-              message: props => `${props.value} is not URL compatible.`
-            }
-          }),
-          { timestamps: true }
-        )
-      }
+      const postSchema = new Schema(
+        Factor.$filters.apply("post-schema", {
+          postType: { type: String, index: true, sparse: true },
+          title: { type: String, trim: true },
+          body: { type: String, trim: true },
+          author: [{ type: Schema.Types.ObjectId, ref: "User" }],
+          images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+          avatar: { type: Schema.Types.ObjectId, ref: "Image" },
+          tag: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+          category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
+          status: {
+            type: String,
+            enum: ["published", "draft", "trash"],
+            index: true
+          },
+          permalink: {
+            type: String,
+            trim: true,
+            index: { unique: true, sparse: true },
+            minlength: 3,
+            validator: function(v) {
+              return /^[a-z0-9-]+$/.test(v)
+            },
+            message: props => `${props.value} is not URL compatible.`
+          }
+        }),
+        { timestamps: true }
+      )
 
-      this._schemas.Post.post("validation", function(error, doc, next) {
-        if (error) {
-          Factor.$error.create(error)
+      postSchema.index({ status: 1, postType: 1 }, { sparse: true })
+      postSchema.index({ tag: 1, postType: 1 }, { sparse: true })
+      postSchema.index({ category: 1, postType: 1 }, { sparse: true })
+
+      postSchema.pre("save", function(next) {
+        if (this.images && this.images.length > 0) {
+          this.avatar = this.images[0]
         }
 
+        this.postType = this.get("__t") || "Post"
         next()
       })
 
+      this._schemas = { Post: postSchema }
+
       const Post = model("Post", this._schemas.Post)
+
       this._models = { Post }
 
       const schemas = Factor.$filters.apply("data-schemas", [])
@@ -119,6 +141,15 @@ module.exports.default = Factor => {
 
         this._models[name] = Post.discriminator(name, this._schemas[name])
       })
+    }
+
+    // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes
+    async _syncSchemaIndexes() {
+      for (let model of Object.values(this._models)) {
+        await model.syncIndexes()
+      }
+
+      return
     }
   })()
 }

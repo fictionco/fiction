@@ -11,11 +11,7 @@
       <dashboard-btn :disabled="!action" @click="$emit('action', action)">Apply</dashboard-btn>
     </div>
     <table-tabber :tabs="tabs" />
-    <table-pagination
-      :total="filtered.total"
-      :page-total="filtered.pageTotal"
-      :page-current="filtered.pageCurrent"
-    />
+    <table-pagination :count="count" :page-count="pageCount" :page-current="pageCurrent" />
   </div>
 </template>
 
@@ -28,7 +24,9 @@ export default {
   props: {
     tabs: { type: Array, default: () => [] },
     actions: { type: Array, default: () => [] },
-    filtered: { type: Object, default: () => {} }
+    count: { type: Number, default: 0 },
+    pageCount: { type: Number, default: 0 },
+    pageCurrent: { type: Number, default: 0 }
   },
   data() {
     return {

@@ -1,13 +1,6 @@
 <template>
   <dashboard-page :key="postType" :loading="loading" class="posts-dashboard">
-    <component
-      :is="templateLoader"
-      :rows="posts"
-      :loading="loading"
-      :index="postIndex"
-      :filtered="activeIndex"
-      :title="postTypeLabel"
-    />
+    <component :is="templateLoader" :rows="postIndex" :loading="loading" :title="postTypeLabel" />
   </dashboard-page>
 </template>
 <script>
@@ -18,9 +11,7 @@ export default {
   data() {
     return {
       loading: true,
-      type: "blog",
-      postIndex: {},
-      filtered: {}
+      postIndex: []
     }
   },
   metatags() {
@@ -47,12 +38,10 @@ export default {
       return this.postTypeInfo.namePlural
     },
     activeIndex() {
-      return this.filtered && this.filtered.data
-        ? this.filtered
-        : this.postIndex
+      return this.filtered ? this.filtered : this.postIndex
     },
     posts() {
-      return this.activeIndex.data
+      return this.activeIndex
     },
     status() {
       return this.$route.query.status || ""
@@ -83,25 +72,14 @@ export default {
     postlink(type, permalink, root = true) {
       return this.$posts.getPermalink({ type, permalink, root })
     },
-    async setFiltered() {
-      if (this.status) {
-        this.filtered = await this.$posts.getPostIndex({
-          status: this.status,
-          type: this.postType
-        })
-      } else {
-        this.filtered = {}
-      }
-    },
+
     async setPosts() {
       this.postIndex = await this.getIndex()
-
-      this.setFiltered()
     },
 
     async getIndex(args = {}) {
       return await this.$posts.getPostIndex({
-        type: this.postType,
+        postType: this.postType,
         page: this.page,
         ...args
       })
