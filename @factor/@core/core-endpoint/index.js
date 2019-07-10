@@ -19,6 +19,8 @@ export default Factor => {
 
         const sendData = { method, params }
 
+        await Factor.$user.init()
+
         const {
           data: { result, error }
         } = await Factor.$http.post(requestPath, sendData, { headers })

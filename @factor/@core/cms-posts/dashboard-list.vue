@@ -1,6 +1,12 @@
 <template>
   <dashboard-page :key="postType" :loading="loading" class="posts-dashboard">
-    <component :is="templateLoader" :rows="postIndex" :loading="loading" :title="postTypeLabel" />
+    <component
+      :is="templateLoader"
+      :list="posts"
+      :meta="postsMeta"
+      :loading="loading"
+      :title="postTypeLabel"
+    />
   </dashboard-page>
 </template>
 <script>
@@ -10,8 +16,7 @@ export default {
   },
   data() {
     return {
-      loading: true,
-      postIndex: []
+      loading: true
     }
   },
   metatags() {
@@ -21,52 +26,55 @@ export default {
   },
 
   computed: {
-    postTypeInfo() {
-      return this.$posts.postTypeInfo(this.postType)
+    postIndex() {
+      return this.$store.getters["getItem"](this.postType) || []
+    },
+    postTypeMeta() {
+      return this.$posts.postTypeMeta(this.postType)
     },
     templateLoader() {
-      if (this.postTypeInfo.index) {
-        return this.postTypeInfo.index
-      } else {
-        return () => import("./posts-table")
-      }
+      return this.postTypeMeta.list
+        ? this.postTypeMeta.list
+        : () => import("./posts-table")
     },
     postType() {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
-      return this.postTypeInfo.namePlural
+      return this.postTypeMeta.namePlural
     },
-    activeIndex() {
-      return this.filtered ? this.filtered : this.postIndex
+    postsMeta() {
+      return this.postIndex && this.postIndex.meta ? this.postIndex.meta : {}
     },
     posts() {
-      return this.activeIndex
+      return this.postIndex && this.postIndex.posts ? this.postIndex.posts : []
     },
     status() {
       return this.$route.query.status || ""
     },
     page() {
       return this.$route.query.page || 1
+    },
+    filters() {
+      const postType = this.postType
+      const { page = 1, status, category, tag, role } = this.$route.query
+      return {
+        postType,
+        page,
+        status,
+        category,
+        tag,
+        role
+      }
     }
   },
   watch: {
-    status: function(to, from) {
-      this.setFiltered()
-    },
-    page: function(to, from) {
-      this.setPosts()
-    },
-    postType: function(to, from) {
+    $route: function(to, from) {
       this.setPosts()
     }
   },
   mounted() {
-    this.$user.init(async () => {
-      this.loading = true
-      await this.setPosts()
-      this.loading = false
-    })
+    this.setPosts()
   },
   methods: {
     postlink(type, permalink, root = true) {
@@ -74,15 +82,9 @@ export default {
     },
 
     async setPosts() {
-      this.postIndex = await this.getIndex()
-    },
-
-    async getIndex(args = {}) {
-      return await this.$posts.getPostIndex({
-        postType: this.postType,
-        page: this.page,
-        ...args
-      })
+      this.loading = true
+      await this.$posts.getPostIndex(this.filters)
+      this.loading = false
     },
 
     async trashPost(id, index) {

@@ -10,8 +10,12 @@
       />
       <dashboard-btn :disabled="!action" @click="$emit('action', action)">Apply</dashboard-btn>
     </div>
-    <table-tabber :tabs="tabs" />
-    <table-pagination :count="count" :page-count="pageCount" :page-current="pageCurrent" />
+    <table-tabber :tabs="tabs" v-bind="$attrs" />
+    <table-pagination
+      :count="meta.total"
+      :page-count="pageCount(meta.total, meta.limit)"
+      :page-current="$route.query.page || 1"
+    />
   </div>
 </template>
 
@@ -24,8 +28,8 @@ export default {
   props: {
     tabs: { type: Array, default: () => [] },
     actions: { type: Array, default: () => [] },
+    meta: { type: Object, default: () => {} },
     count: { type: Number, default: 0 },
-    pageCount: { type: Number, default: 0 },
     pageCurrent: { type: Number, default: 0 }
   },
   data() {
@@ -33,7 +37,14 @@ export default {
       action: ""
     }
   },
-  computed: {}
+  computed: {},
+  methods: {
+    pageCount(total, limit) {
+      if (total == 0) {
+        return 1
+      } else return Math.ceil(total / limit)
+    }
+  }
 }
 </script>
 

@@ -16,11 +16,12 @@
 <script>
 export default {
   props: {
+    filter: { type: String, default: "status" },
     tabs: { type: Array, default: () => [] }
   },
   computed: {
     activeItem() {
-      return this.$route.query.status || ""
+      return this.$route.query[this.filter] || ""
     }
   },
   methods: {
@@ -28,10 +29,12 @@ export default {
       value = value ? value : null
       const current = Object.assign({}, this.$route.query)
 
-      delete current.status
+      delete current[this.filter]
       delete current.page
 
-      const query = value ? { ...this.$route.query, status: value } : current
+      const query = value
+        ? { ...this.$route.query, [this.filter]: value }
+        : current
 
       this.$router.push({ query })
     }

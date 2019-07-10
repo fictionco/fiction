@@ -27,7 +27,7 @@ module.exports.default = Factor => {
 
     async authenticate(params) {
       const { newAccount, email, password, displayName } = params
-      console.log("!?", params)
+
       let user
       if (newAccount) {
         try {
@@ -122,7 +122,9 @@ module.exports.default = Factor => {
           }
           Schema.pre("save", async function(next) {
             const user = this
-            if (!user.isModified("password")) return next()
+            if (!user.isModified("password")) {
+              return next()
+            }
 
             try {
               user.password = await _this.hashPassword(user.password)
@@ -157,7 +159,6 @@ module.exports.default = Factor => {
           password: {
             select: false,
             type: String,
-            required: true,
             trim: true,
             minlength: 8
           },
@@ -174,14 +175,14 @@ module.exports.default = Factor => {
               message: props => `${props.value} is not a valid phone number (with country code).`
             }
           },
+
+          covers: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+          birthday: Date,
           gender: {
             type: String,
             enum: ["male", "female"]
           },
-          birthday: Date,
-          about: String,
-          covers: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-          profile: {}
+          about: String
         }),
         options: {
           toObject: { virtuals: true },

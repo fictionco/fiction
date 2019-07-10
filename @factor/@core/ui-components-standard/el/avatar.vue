@@ -2,7 +2,7 @@
   <div class="avatar">
     <factor-loading-ring v-if="loading" :width="width" />
 
-    <div v-else-if="!src" :style="getStyle()" class="thumb thumb-default">
+    <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
       <svg
         class="user-blank"
         version="1.1"
@@ -36,6 +36,11 @@ export default {
     return {}
   },
   computed: {
+    hasImage() {
+      return (this.post && this.post.avatar && this.post.avatar.url) || this.url
+        ? true
+        : false
+    },
     // userId() {
     //   return this._id && this._id != "" ? this._id : this.$userId
     // },

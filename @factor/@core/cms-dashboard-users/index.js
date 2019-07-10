@@ -1,5 +1,5 @@
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.filters()
     }
@@ -9,7 +9,10 @@ export default Factor => {
       Factor.$filters.add("dashboard-routes", _ => {
         _.push({
           path: "account",
-          component: () => import("./edit")
+          component: () => import("./account"),
+          meta: {
+            postType: "user"
+          }
         })
 
         return _
@@ -30,11 +33,13 @@ export default Factor => {
           type: "user",
           base: "@",
           icon,
+          populated: ["covers"],
           nameIndex: "Users",
           nameSingle: "User",
           namePlural: "Users",
+          model: "User",
           accessLevel: 500,
-          index: () => import("./table"),
+          list: () => import("./list"),
           edit: () => import("./edit.vue"),
           add: false
         })
@@ -42,5 +47,5 @@ export default Factor => {
         return _
       })
     }
-  }()
+  })()
 }

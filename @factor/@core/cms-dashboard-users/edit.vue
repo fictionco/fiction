@@ -2,35 +2,35 @@
   <dashboard-page>
     <div class="user-dashboard-post-grid">
       <div class="content-column">
-        <dashboard-pane :title="id == $userId ? 'Your Account' : 'Edit User'" class="compose">
+        <dashboard-pane :title="_id == $userId ? 'Your Account' : 'Edit User'" class="compose">
           <dashboard-input
-            v-model="user.displayName"
+            v-model="post.displayName"
             input="factor-input-text"
             label="Display Name"
             class="post-title"
           />
 
           <dashboard-input
-            v-model="user.username"
+            v-model="post.username"
             input="factor-input-text"
             label="Username"
             description="Must be unique."
           />
 
           <dashboard-input
-            v-model="user.email"
+            v-model="post.email"
             class="email-inputs"
             input="factor-input-email"
             label="Email Address"
           >
-            <div v-if="user.email && !user.emailVerified">
+            <div v-if="post.email && !post.emailVerified">
               <dashboard-btn size="tiny" btn="subtle">Unverified</dashboard-btn>
               <dashboard-btn size="tiny" :loading="sending" @click="sendVerifyEmail()">Resend Email</dashboard-btn>
             </div>
           </dashboard-input>
 
           <dashboard-input
-            v-model="user.password"
+            v-model="post.password"
             input="factor-input-password"
             label="Update Password"
             autocomplete="new-password"
@@ -39,7 +39,7 @@
 
         <dashboard-pane title="Profile">
           <dashboard-input
-            v-model="user.images"
+            v-model="post.images"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
@@ -48,7 +48,7 @@
             @autosave="$emit('autosave')"
           />
           <dashboard-input
-            v-model="user.covers"
+            v-model="post.covers"
             input-max="5"
             input-min="1"
             input="factor-input-image-upload"
@@ -57,19 +57,19 @@
             @autosave="$emit('autosave')"
           />
           <dashboard-input
-            v-model="user.about"
+            v-model="post.about"
             input="factor-input-textarea"
             label="About You"
             placeholder="Work, hobbies, travels, etc..."
           />
           <dashboard-input
-            v-model="user.birthday"
+            v-model="post.birthday"
             input="factor-input-birthday"
             label="Birthday"
             description="This information is not shared."
           />
           <dashboard-input
-            v-model="user.gender"
+            v-model="post.gender"
             :list="['female', 'male']"
             input="factor-input-select"
             label="Gender"
@@ -78,12 +78,12 @@
           <div class="user-info">
             <div class="item">
               <div class="label">Logged In</div>
-              <div class="value">{{ $time.niceFormat(user.signedInAt) }}</div>
+              <div class="value">{{ $time.niceFormat(post.signedInAt) }}</div>
             </div>
 
             <div class="item">
               <div class="label">Signed up</div>
-              <div class="value">{{ $time.niceFormat(user.createdAt) }}</div>
+              <div class="value">{{ $time.niceFormat(post.createdAt) }}</div>
             </div>
           </div>
         </dashboard-pane>
@@ -105,34 +105,38 @@
 </template>
 <script>
 export default {
-  components: {
-    "provider-link": () => import("./provider")
+  // components: {
+  //   "provider-link": () => import("./provider")
+  // },
+  props: {
+    //post: { type: Object, default: () => {} }
   },
   data() {
     return {
-      user: {},
       sending: false,
-      loading: false
+      loading: false,
+      postType: "user"
     }
   },
   computed: {
-    id() {
-      return this.$route.query.id || this.$userId
+    post() {
+      return this.$store.getters["getItem"](this._id) || {}
+    },
+
+    profile() {
+      return this.post.profile || {}
+    },
+    _id() {
+      return this.$route.query._id || this.$userId
     },
     url() {
-      return this.user.username
-        ? `/@${this.user.username}`
-        : `/@?id=${this.user._id}`
+      return this.post.username
+        ? `/@${this.post.username}`
+        : `/@?_id=${this.post._id}`
     }
   },
 
-  async mounted() {
-    this.$user.init(async user => {
-      this.user = user
-
-      this.user = await this.$db.populate(this.user, ["images", "photosCover"])
-    })
-  },
+  async mounted() {},
   methods: {
     async sendVerifyEmail() {
       this.sending = true
@@ -142,36 +146,33 @@ export default {
       })
       this.sending = false
     },
-    saveObject(user) {
-      const _save = {} // mutable
+    // saveObject(user) {
+    //   const _save = {} // mutable
 
-      let { images, photosCover, photoPrimary } = user
+    //   let { images, covers, avatar } = user
 
-      _save.images = images
-        .filter(_ => _)
-        .map(_ => (typeof _ == "object" ? _._id : _))
-      _save.photosCover = photosCover
-        .filter(_ => _)
-        .map(_ => (typeof _ == "object" ? _._id : _))
+    //   _save.images = images
+    //     .filter(_ => _)
+    //     .map(_ => (typeof _ == "object" ? _._id : _))
+    //   _save.photosCover = photosCover
+    //     .filter(_ => _)
+    //     .map(_ => (typeof _ == "object" ? _._id : _))
 
-      _save.photoPrimary =
-        _save.images.length > 0 ? _save.images[0] : undefined
+    //   _save.photoPrimary =
+    //     _save.images.length > 0 ? _save.images[0] : undefined
 
-      return { ...user, ..._save }
-    },
+    //   return { ...user, ..._save }
+    // },
     async save() {
       this.sending = true
 
-      const toSave = this.saveObject(this.user)
+      const saved = await this.$posts.save({
+        post: this.post,
+        postType: this.postType
+      })
 
-      console.log("TOSAVE", toSave)
-
-      let savedUser = await this.$user.request("save", toSave)
-
-      if (savedUser) {
-        console.log("Saved User Information", savedUser)
-
-        this.$events.$emit("notify", `User Saved`)
+      if (saved) {
+        this.$events.$emit("notify", `Saved!`)
       }
 
       this.sending = false

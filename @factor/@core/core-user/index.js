@@ -141,7 +141,9 @@ export default Factor => {
     async init(callback) {
       const user = await this._initializedUser
 
-      callback(user)
+      if (callback) callback(user)
+
+      return user
     }
 
     _id() {
