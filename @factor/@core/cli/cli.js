@@ -84,8 +84,10 @@ const cli = async () => {
         .command("start")
         .description("Start production build on local server")
         .action(async args => {
+
           const NODE_ENV = "production"
           await this.extend({ NODE_ENV, install: false, ...args })
+
 
           await this.runTasks(
             [
@@ -198,6 +200,8 @@ const cli = async () => {
 
       return
     }
+
+
 
     async cliTasks(t = []) {
       const tasks = Factor.$filters.apply("cli-tasks", t)

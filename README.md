@@ -72,6 +72,7 @@ Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
     <td align="center"><a href="https://github.com/arpowers"><img src="https://avatars2.githubusercontent.com/u/308134?s=460&v=4" width="100px;" alt="Andrew Powers"/><br /><sub><b>Andrew Powers</b></sub></a><br /><a href="https://github.com/fiction-com/factor/issues?q=author%3Aarpowers" title="Bug reports">🐛</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Code">💻</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/finestpixels"><img src="https://avatars3.githubusercontent.com/u/2752967?s=460&v=4" width="100px;" alt="Raymond Aleman"/><br /><sub><b>Raymond Aleman</b></sub></a><br /><a href="#design-finestpixels" title="Design">🎨</a> <a href="https://github.com/fiction-com/factor/commits?author=finestpixels" title="Code">💻</a></td>
     <td align="center"><a href="https://nodesocket.com"><img src="https://avatars2.githubusercontent.com/u/523312?v=4" width="100px;" alt="Justin Keller"/><br /><sub><b>Justin Keller</b></sub></a><br /><a href="https://github.com/fiction-com/factor/commits?author=nodesocket" title="Code">💻</a> <a href="#tool-nodesocket" title="Tools">🔧</a> <a href="#userTesting-nodesocket" title="User Testing">📓</a></td>
+
   </tr>
 </table>
 
