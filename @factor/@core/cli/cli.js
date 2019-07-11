@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const Factor = require("vue")
-const concurrently = require("concurrently")
+
 const execa = require("execa")
 const listr = require("listr")
 const program = require("commander")
@@ -199,23 +199,6 @@ const cli = async () => {
       return
     }
 
-    async cliRunners() {
-      const commandArgs = [process.env.NODE_ENV, ...this.passedArguments]
-
-      const r = Factor.$filters.apply(
-        `cli-concurrent`,
-        [
-          {
-            command: `factor serve ${commandArgs.join(" ")}`,
-            name: "Server"
-          }
-        ],
-        commandArgs
-      )
-
-      this.startRunners(r)
-    }
-
     async cliTasks(t = []) {
       const tasks = Factor.$filters.apply("cli-tasks", t)
 
@@ -262,30 +245,6 @@ const cli = async () => {
 
       await tasks.run()
       return
-    }
-
-    async startRunners(r) {
-      const chalk = require("chalk")
-      const figures = require("figures")
-
-      const lines = []
-      r.forEach(_ => {
-        lines.push({ title: "Command", value: `"${_.command}"`, indent: true })
-      })
-
-      Factor.$log.formatted({
-        title: "Starting Engines...",
-        lines
-      })
-
-      try {
-        await concurrently(r, {
-          raw: true,
-          restartTries: 100
-        })
-      } catch (error) {
-        consola.error(error)
-      }
     }
 
     async run(id, args) {
