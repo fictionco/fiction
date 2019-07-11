@@ -23,7 +23,7 @@
         <dashboard-pane title="Meta Info" class="post-media">
           <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
           <dashboard-input label="Tags">
-            <input-tags v-model="post.tags" />
+            <input-tags v-model="post.tag" />
           </dashboard-input>
 
           <dashboard-input
@@ -32,7 +32,7 @@
             label="Post Images"
             @autosave="saveDraft()"
           />
-          <dashboard-input v-model="post.authors" input="dashboard-user-list" label="Author" />
+          <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
         </dashboard-pane>
 
         <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">

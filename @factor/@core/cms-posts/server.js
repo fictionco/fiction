@@ -46,7 +46,7 @@ module.exports.default = Factor => {
       }
 
       if (_post) {
-        const popped = this.getPostPopulatedFields(_post).join(" ")
+        const popped = this.getPostPopulatedFields(_post)
 
         // https://mongoosejs.com/docs/api/document.html#document_Document-populate
         _post = await _post.populate(popped).execPopulate()
@@ -68,7 +68,9 @@ module.exports.default = Factor => {
         p = p.concat(docSchema._baseSchema.populatedFields)
       }
 
-      return p
+      return p.map(_ => {
+        return { path: _, populate: "avatar" }
+      })
     }
 
     async list(params, { bearer }) {

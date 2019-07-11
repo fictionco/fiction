@@ -1,8 +1,8 @@
 <template>
   <div class="user-list-input">
     <div class="user-list-items">
-      <div v-for="(uid, index) in items" :key="index" class="added-user">
-        <dashboard-user-card class="custom-list-item" :uid="uid" @remove="deleteItem(index)" />
+      <div v-for="(user, index) in items" :key="index" class="added-user">
+        <dashboard-user-card class="custom-list-item" :post="user" @remove="deleteItem(index)" />
       </div>
       <div class="input-text">
         <input
@@ -26,7 +26,7 @@
                 @click="addItem(user._id)"
               >
                 <div class="media">
-                  <img :src="user.photoURL">
+                  <img :src="user.avatar.url" >
                 </div>
                 <div class="text">{{ user.displayName }}</div>
               </div>
