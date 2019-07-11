@@ -3,7 +3,9 @@
   "projectOwner": "fiction-com",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "files": ["README.md"],
+  "files": [
+    "README.md"
+  ],
   "imageSize": 100,
   "commit": false,
   "contributorsPerLine": 5,
@@ -27,7 +29,21 @@
       "name": "Justin Keller",
       "avatar_url": "https://avatars2.githubusercontent.com/u/523312?v=4",
       "profile": "https://nodesocket.com",
-      "contributions": ["code", "tool", "userTesting"]
+      "contributions": [
+        "code",
+        "tool",
+        "userTesting"
+      ]
+    },
+    {
+      "login": "edgarcheverier",
+      "name": "Edgar Cheverier",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/25775115?v=4",
+      "profile": "https://github.com/edgarcheverier",
+      "contributions": [
+        "code"
+      ]
     }
-  ]
+  ],
+  "commitConvention": "none"
 }

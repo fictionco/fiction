@@ -8,7 +8,6 @@ module.exports.default = Factor => {
       //   this.sendVerifyEmail({ email, _id, user }, { bearer: user })
       // })
 
-
       Factor.$filters.add("user-schema-hooks", Schema => {
         const _this = this
         // EMAIL

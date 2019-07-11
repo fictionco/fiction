@@ -10,4 +10,3 @@
 - [ ] Other, please describe:
 
 **Description**
-
