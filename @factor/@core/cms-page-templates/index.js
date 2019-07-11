@@ -11,7 +11,8 @@ export default Factor => {
           icon,
           nameIndex: "Pages",
           nameSingle: "Page",
-          namePlural: "Pages"
+          namePlural: "Pages",
+          model: "Page"
         })
         return _
       })

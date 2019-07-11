@@ -117,9 +117,9 @@ export default Factor => {
         })
         .on("all", (event, path) => {
           if (path.includes("server") || path.includes("endpoint")) {
-            Factor.$log.success("Server file changed, restarting server.")
-            // eslint-disable-next-line unicorn/no-process-exit
-            process.kill(process.pid, "SIGUSR2")
+            Factor.$log.formatted({ title: `Server file changed, restarting server...` })
+
+            Factor.$events.$emit("restart-server")
           } else {
             this.updateServer({
               title: event,

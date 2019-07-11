@@ -10,11 +10,11 @@
       />
       <dashboard-btn :disabled="!action" @click="$emit('action', action)">Apply</dashboard-btn>
     </div>
-    <table-tabber :tabs="tabs" />
+    <table-tabber :tabs="tabs" v-bind="$attrs" />
     <table-pagination
-      :total="filtered.total"
-      :page-total="filtered.pageTotal"
-      :page-current="filtered.pageCurrent"
+      :count="meta.total"
+      :page-count="pageCount(meta.total, meta.limit)"
+      :page-current="$route.query.page || 1"
     />
   </div>
 </template>
@@ -28,14 +28,23 @@ export default {
   props: {
     tabs: { type: Array, default: () => [] },
     actions: { type: Array, default: () => [] },
-    filtered: { type: Object, default: () => {} }
+    meta: { type: Object, default: () => {} },
+    count: { type: Number, default: 0 },
+    pageCurrent: { type: Number, default: 0 }
   },
   data() {
     return {
       action: ""
     }
   },
-  computed: {}
+  computed: {},
+  methods: {
+    pageCount(total, limit) {
+      if (total == 0) {
+        return 1
+      } else return Math.ceil(total / limit)
+    }
+  }
 }
 </script>
 

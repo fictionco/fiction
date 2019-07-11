@@ -71,7 +71,9 @@ module.exports.default = Factor => {
       const ttl = `${prefix} ${chalk.bold(title)}`
       console.log()
       console.group(ttl)
-      console.log(msg.join(`\n`))
+      if (msg.length > 0) {
+        console.log(msg.join(`\n`))
+      }
       console.log()
       console.groupEnd()
     }

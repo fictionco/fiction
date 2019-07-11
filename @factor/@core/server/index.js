@@ -72,18 +72,6 @@ module.exports.default = Factor => {
       }
     }
 
-    createServerApp() {
-      this.serverApp = express()
-
-      this.serveStaticAssets()
-
-      this.logging()
-
-      this.extendMiddleware()
-
-      return this.serverApp
-    }
-
     async startServerProduction() {
       this.createServerApp()
       const { template, bundle, clientManifest } = await this.ssrFiles()
@@ -94,6 +82,18 @@ module.exports.default = Factor => {
       this.serverApp.get("*", async (request, response) => await this.render(request, response))
 
       this.serverApp.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
+    }
+
+    createServerApp() {
+      this.serverApp = express()
+
+      this.serveStaticAssets()
+
+      this.logging()
+
+      this.extendMiddleware()
+
+      return this.serverApp
     }
 
     startListener(onListen) {
@@ -108,18 +108,14 @@ module.exports.default = Factor => {
         }
       })
       destroyer(this.listener)
-    }
 
-    _reloadModules() {
-      Object.keys(require.cache).forEach(id => {
-        if (id.includes("@factor") || id.includes(".factor")) {
-          delete require.cache[id]
-        }
+      Factor.$events.$on("restart-server", async () => {
+        this.listener.destroy()
+        await Factor.$filters.run("rebuild-server-app")
+        this.startListener(() => {
+          Factor.$log.success("Success!")
+        })
       })
-
-      require("@factor/build-extend")
-        .default(Factor)
-        .reload()
     }
 
     onInitialListen() {
