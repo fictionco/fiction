@@ -1,5 +1,13 @@
-## Description
+<!-- (Update "[ ]" to "[x]" to check a box) -->
 
-## Reason for change
+**What kind of change does this PR introduce?** (check at least one)
 
-## Expected outcome
+- [ ] Bugfix
+- [ ] Feature
+- [ ] Code style update
+- [ ] Refactor
+- [ ] Build-related changes
+- [ ] Other, please describe:
+
+**Description**
+

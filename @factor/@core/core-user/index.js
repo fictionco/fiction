@@ -47,12 +47,10 @@ export default Factor => {
     async save(user) {
       const _save = { ...user } // mutable
 
-      let { photosProfile, photosCover, photoPrimary } = _save
+      let { images, covers } = _save
 
-      _save.photosProfile = photosProfile.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-      _save.photosCover = photosCover.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-
-      _save.photoPrimary = _save.photosProfile.length > 0 ? _save.photosProfile[0] : undefined
+      _save.images = images.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
+      _save.covers = covers.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
 
       try {
         const saved = await this.request("save", _save)
@@ -143,7 +141,9 @@ export default Factor => {
     async init(callback) {
       const user = await this._initializedUser
 
-      callback(user)
+      if (callback) callback(user)
+
+      return user
     }
 
     _id() {
@@ -178,7 +178,6 @@ export default Factor => {
     // Very basic version of this function for MVP dev
     // Needs improvement for more fine grained control
     can({ role, accessLevel }) {
-      console.log("this.currentUser()", this.currentUser())
       const userAccessLevel = this.currentUser().accessLevel
       const roleAccessLevel = role ? Factor.$userRoles.roles()[role] : 1000
       if (accessLevel && userAccessLevel >= accessLevel) {

@@ -41,6 +41,7 @@ module.exports.default = Factor => {
           type,
           base,
           icon: require("./img/work.svg"),
+          model: "WorkPost",
           nameIndex: "Work",
           nameSingle: "Work Post",
           namePlural: "Work Posts"

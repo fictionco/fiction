@@ -8,15 +8,13 @@ module.exports.default = Factor => {
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
-      Factor.$filters.callback("data-schemas", () => this.schema())
+      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor))
     }
 
     async save(data, { bearer }) {
       Factor.$db.canEdit({ doc: data, bearer, scope: "memberOrAdmin" })
 
       const _user = data.user ? data.user : await Factor.$db.model("User").findById(data._id)
-
-      console.log("????", _user, data)
 
       Object.assign(_user, data)
       return await _user.save()
@@ -29,17 +27,15 @@ module.exports.default = Factor => {
 
     async authenticate(params) {
       const { newAccount, email, password, displayName } = params
-      console.log("!?", params)
+
       let user
       if (newAccount) {
         try {
-          console.log("NEW USER??", email, password, displayName)
           user = await Factor.$db.model("User").create({ email, password, displayName })
         } catch (error) {
           Factor.$log.error(error, error.code)
         }
 
-        console.log("NEW USER??", user)
         Factor.$filters.apply("create-new-user", user)
 
         return this.credential(user)
@@ -69,7 +65,6 @@ module.exports.default = Factor => {
 
     async account({ _id }) {
       let user = await Factor.$db.model("User").findOne({ _id })
-      // .populate("photoPrimary photosProfile photosCover")
 
       return user
     }
@@ -77,9 +72,9 @@ module.exports.default = Factor => {
     async getUser({ _id, mode = "app" }) {
       let pop = ""
       if (mode == "app") {
-        pop = "photoPrimary"
+        pop = "avatar"
       } else if (mode == "profile") {
-        pop = "photoPrimary photosProfile photosCover"
+        pop = "avatar images covers"
       }
 
       let user = await Factor.$db
@@ -115,89 +110,85 @@ module.exports.default = Factor => {
       }
     }
 
-    schema() {
-      const { Schema, model } = Factor.$mongoose
-      const _this = this // mongoose hooks need 'this'
-      return {
-        name: "User",
-        callback: Schema => {
-          // PASSWORDS
-          Schema.methods.comparePassword = async function comparePassword(candidate) {
-            return bcrypt.compare(candidate, this.password)
-          }
-          Schema.pre("save", async function(next) {
-            const user = this
-            if (!user.isModified("password")) return next()
+    // schema() {
+    //   const { Schema, model } = Factor.$mongoose
+    //   const _this = this // mongoose hooks need 'this'
+    //   return {
+    //     name: "User",
+    //     callback: Schema => {
+    //       // PASSWORDS
+    //       Schema.methods.comparePassword = async function comparePassword(candidate) {
+    //         return bcrypt.compare(candidate, this.password)
+    //       }
+    //       Schema.pre("save", async function(next) {
+    //         const user = this
+    //         if (!user.isModified("password")) {
+    //           return next()
+    //         }
 
-            try {
-              user.password = await _this.hashPassword(user.password)
-              return next()
-            } catch (error) {
-              return next(error)
-            }
-          })
+    //         try {
+    //           user.password = await _this.hashPassword(user.password)
+    //           return next()
+    //         } catch (error) {
+    //           return next(error)
+    //         }
+    //       })
 
-          Factor.$filters.apply("user-schema-hooks", Schema)
-        },
-        schema: Factor.$filters.apply("user-schema", {
-          signedInAt: Date,
-          username: {
-            type: String,
-            trim: true,
-            index: { unique: true, sparse: true },
-            minlength: 3
-          },
-          email: {
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true,
-            index: { unique: true },
-            validate: {
-              validator: v => Factor.$validator.isEmail(v),
-              message: props => `${props.value} is not a valid email.`
-            }
-          },
-          emailVerified: { type: Boolean, default: false },
-          password: {
-            select: false,
-            type: String,
-            required: true,
-            trim: true,
-            index: { unique: true },
-            minlength: 8
-          },
-          displayName: {
-            type: String,
-            trim: true
-          },
-          phoneNumber: {
-            type: String,
-            lowercase: true,
-            trim: true,
-            index: true,
-            unique: true,
-            validate: {
-              validator: v => Factor.$validator.isMobilePhone(v),
-              message: props => `${props.value} is not a valid phone number (with country code).`
-            }
-          },
-          gender: {
-            type: String,
-            enum: ["male", "female"]
-          },
-          birthday: Date,
-          about: String,
-          photoPrimary: { type: Schema.Types.ObjectId, ref: "Image" },
-          photosProfile: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-          photosCover: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-          profile: {}
-        }),
-        options: {
-          toObject: { virtuals: true },
-          toJSON: { virtuals: true }
-        }
-      }
-    }
+    //       Factor.$filters.apply("user-schema-hooks", Schema)
+    //     },
+    //     schema: Factor.$filters.apply("user-schema", {
+    //       signedInAt: Date,
+    //       username: {
+    //         type: String,
+    //         trim: true,
+    //         index: { unique: true, sparse: true },
+    //         minlength: 3
+    //       },
+    //       email: {
+    //         type: String,
+    //         required: true,
+    //         trim: true,
+    //         lowercase: true,
+    //         index: { unique: true },
+    //         validate: {
+    //           validator: v => Factor.$validator.isEmail(v),
+    //           message: props => `${props.value} is not a valid email.`
+    //         }
+    //       },
+    //       emailVerified: { type: Boolean, default: false },
+    //       password: {
+    //         select: false,
+    //         type: String,
+    //         trim: true,
+    //         minlength: 8
+    //       },
+    //       displayName: {
+    //         type: String,
+    //         trim: true
+    //       },
+    //       phoneNumber: {
+    //         type: String,
+    //         lowercase: true,
+    //         trim: true,
+    //         validate: {
+    //           validator: v => Factor.$validator.isMobilePhone(v),
+    //           message: props => `${props.value} is not a valid phone number (with country code).`
+    //         }
+    //       },
+
+    //       covers: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+    //       birthday: Date,
+    //       gender: {
+    //         type: String,
+    //         enum: ["male", "female"]
+    //       },
+    //       about: String
+    //     }),
+    //     options: {
+    //       toObject: { virtuals: true },
+    //       toJSON: { virtuals: true }
+    //     }
+    //   }
+    // }
   })()
 }

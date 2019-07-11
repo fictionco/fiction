@@ -1,5 +1,5 @@
 <template>
-  <component :is="templateLoader" />
+  <component :is="templateLoader" :post="post" />
 </template>
 <script>
 export default {
@@ -8,25 +8,32 @@ export default {
   },
 
   computed: {
+    post() {
+      return this.$store.getters["getItem"](this._id) || {}
+    },
+    _id() {
+      return this.$route.query._id || ""
+    },
     postType() {
       return this.$route.params.postType || ""
     },
-    postTypeInfo() {
-      return this.$posts.postTypeInfo(this.postType)
+    postTypeMeta() {
+      return this.$posts.postTypeMeta(this.postType)
     },
     templateLoader() {
-      if (this.postTypeInfo.edit) {
-        return this.postTypeInfo.edit
-      } else {
-        return () => import("./posts-edit")
-      }
+      return this.postTypeMeta.edit
+        ? this.postTypeMeta.edit
+        : () => import("./posts-edit")
     }
   },
 
   mounted() {
-    this.$user.init(async () => {
-      this.loading = false
-    })
+    this.requestPost(this._id)
+  },
+  methods: {
+    async requestPost() {
+      await this.$posts.getPostById({ _id: this._id })
+    }
   }
 }
 </script>

@@ -5,7 +5,9 @@ module.exports.default = Factor => {
       Factor.$filters.add("user-schema", _ => {
         _.role = {
           type: String,
-          enum: Object.keys(this.roles())
+          enum: Object.keys(this.roles()),
+          required: true,
+          default: "member"
         }
 
         return _
@@ -19,14 +21,14 @@ module.exports.default = Factor => {
           return this.role ? _this.roles()[this.role] : 0
         })
 
-        Schema.pre("save", async function(next) {
+        Schema.pre("validate", async function(next) {
           const user = this
           const configRole = Factor.$config.setting(`roles.${user.email}`)
 
           if (configRole && configRole != user.role) {
             user.role = configRole
-          } else if (user.isModified("role")) {
-            return next(Factor.$error.create(400, "Can't edit role"))
+          } else if (user.isModified("role") && user.role != "member") {
+            return next(Factor.$error.create(400, `Can't edit role`))
           }
 
           return next()

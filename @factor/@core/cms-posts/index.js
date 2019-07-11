@@ -6,6 +6,10 @@ export default Factor => {
       this.initialized = false
     }
 
+    async request(method, params) {
+      return await Factor.$endpoint.request({ id: "posts", method, params })
+    }
+
     filters() {
       Factor.$filters.add("components", _ => {
         _["factor-post-edit"] = () => import("./el/edit-link")
@@ -15,7 +19,7 @@ export default Factor => {
       Factor.$filters.add("dashboard-routes", _ => {
         _.push({
           path: "posts",
-          component: () => import("./dashboard-posts")
+          component: () => import("./dashboard-list")
         })
 
         _.push({
@@ -38,7 +42,7 @@ export default Factor => {
 
         _.push({
           path: "posts/:postType",
-          component: () => import("./dashboard-posts"),
+          component: () => import("./dashboard-list"),
           meta: {}
         })
 
@@ -164,21 +168,16 @@ export default Factor => {
       return { canonical, title, description, image }
     }
 
+    async getPostById({ _id }) {
+      const _post = await this.request("single", { _id })
+      console.log("___POST___", _post)
+      Factor.$store.add(_id, _post)
+    }
+
     async getPostIndex(args) {
-      const { limit = 100, page = 1 } = args
+      const { limit = 20, page = 1, postType } = args
 
-      if (!args.type) {
-        const rt = Factor.$route.currentRoute
-        args.type = rt.params.postType || rt.query.type || null
-
-        if (!args.type) {
-          console.warn("No post type set for index.")
-        }
-      }
-
-      const storeKey = args.storeKey || args.type || "postIndex"
-
-      const taxonomies = ["type", "tag", "category", "status"]
+      const taxonomies = ["tag", "category", "status", "role"]
 
       const conditions = {}
       taxonomies.forEach(_ => {
@@ -187,20 +186,21 @@ export default Factor => {
         }
       })
 
-      const query = { model: "Post", method: "find", limit, conditions, page }
-
-      const results = await Factor.$db.run(query)
-
-      results.data = await this.parsePosts(results.data)
-
-      console.log("results.data", results.data)
-
-      Factor.$store.commit("setItem", {
-        item: storeKey,
-        value: results
+      const skip = (page - 1) * limit
+      const model = postType.charAt(0).toUpperCase() + postType.slice(1)
+      const indexData = await this.request("list", {
+        model,
+        conditions,
+        options: { limit, skip, page }
       })
 
-      return results
+      Factor.$store.add(postType, indexData)
+
+      return indexData
+    }
+
+    toModelName(postType) {
+      return postType.charAt(0).toUpperCase() + string.slice(1)
     }
 
     async parsePosts(posts) {
@@ -276,10 +276,17 @@ export default Factor => {
       })
     }
 
-    postTypeInfo(postType) {
+    postTypeMeta(postType) {
       const postTypes = this.getPostTypes()
 
       return postTypes.find(pt => pt.type == postType)
+    }
+
+    populatedFields(postType) {
+      const defaultPopulated = ["author", "avatar", "images"]
+      const pt = this.postTypeMeta(postType).populated || []
+
+      return [...defaultPopulated, ...pt]
     }
 
     getPermalink({ type, permalink = "", root = true, path = false } = {}) {
@@ -307,6 +314,22 @@ export default Factor => {
       }
     }
 
+    getCount({ meta, field, key, nullKey = false }) {
+      if (!meta[field]) {
+        return 0
+      }
+
+      let count
+      const result = meta[field].find(_ => _._id == key)
+
+      count = result ? result.count : 0
+      if (nullKey && key == nullKey) {
+        const nullsCount = meta[field].find(_ => _._id == null)
+        count += nullsCount ? nullsCount.count : 0
+      }
+      return count
+    }
+
     getStatus(statusNumber) {
       const statusList = [{ name: "Published", value: 1 }, { name: "Draft", value: 0 }, { name: "Archive", value: -2 }]
       const item = statusList.find(_ => {
@@ -332,14 +355,6 @@ export default Factor => {
         id: Factor.$uniqId(),
         author
       }
-    }
-
-    async getPostById(id) {
-      return await Factor.$db.run({
-        model: "Post",
-        method: "findById",
-        id
-      })
     }
 
     // Limit saved revisions to 20 and one per hour after first hour
@@ -412,6 +427,19 @@ export default Factor => {
         })
       }
       return permalink
+    }
+
+    async save({ post, postType }) {
+      const _prepared = post
+      this.populatedFields(postType).forEach(f => {
+        if (Array.isArray(post[f])) {
+          _prepared[f] = post[f].filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
+        } else if (post[f] && typeof post[f] == "object" && post[f]._id) {
+          _prepared[f] = post[f]._id
+        }
+      })
+      const model = postType.charAt(0).toUpperCase() + postType.slice(1)
+      return await this.request("save", { data: _prepared, model })
     }
 
     async savePost(post) {
@@ -491,16 +519,5 @@ export default Factor => {
 
       return excerpt
     }
-
-    // userCanEditPost({ uid, post }) {
-
-    //   const user = Factor.$user.request(uid)
-
-    //   if ((user && user.accessLevel > 300) || post.authors.includes(uid)) {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // }
   })()
 }

@@ -1,10 +1,22 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      // https://github.com/Automattic/mongoose/issues/4965
+      Factor.$mongoose.set("applyPluginsToDiscriminators", true)
+
+      // Add an array of populated fields
+      Factor.$mongoose.plugin(this.registerPopulatedFields)
+
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
+
       Factor.$filters.add("initialize-server", () => {
         this.setModels()
+
+        // sync indexes only on serve commands
+        if (process.env.FACTOR_COMMAND == "serve") {
+          this._syncSchemaIndexes()
+        }
       })
     }
 
@@ -65,60 +77,85 @@ module.exports.default = Factor => {
 
     // Must be non-async so we can use chaining
     model(name) {
-      return this._models[name] || null
+      // If model doesnt exist, create a vanilla one
+      if (!this._models[name]) {
+        this._models[name] = this._models.Post.discriminator(name, new Factor.$mongoose.Schema())
+      }
+      return this._models[name]
     }
 
     schema(name) {
       return this._schemas[name] || null
     }
 
-    setModels() {
-      // test
-      const { Schema, model } = Factor.$mongoose
+    createPostModel() {
+      const { schema, options, callback, name } = require("./schema").default(Factor)
 
-      this._schemas = {
-        Post: new Schema(
-          Factor.$filters.apply("post-schema", {
-            title: { type: String, trim: true },
-            body: { type: String, trim: true },
-            author: [{ type: Schema.Types.ObjectId, ref: "User", autopopulate: true }],
-            permalink: {
-              type: String,
-              trim: true,
-              index: { unique: true },
-              minlength: 3,
-              validator: function(v) {
-                return /^[a-z0-9-]+$/.test(v)
-              },
-              message: props => `${props.value} is not URL compatible.`
-            }
-          }),
-          { timestamps: true }
-        )
+      const postSchema = new Factor.$mongoose.Schema(schema, options)
+
+      callback(postSchema)
+
+      this._schemas[name] = postSchema
+
+      this._models[name] = Factor.$mongoose.model(name, postSchema)
+
+      return this._models[name]
+    }
+
+    // For server restarts
+    resetModels() {
+      const existingModels = Factor.$mongoose.modelNames()
+
+      if (existingModels.length > 0) {
+        existingModels.forEach(name => {
+          delete Factor.$mongoose.models[name]
+          delete Factor.$mongoose.modelSchemas[name]
+        })
       }
+    }
 
-      this._schemas.Post.post("validation", function(error, doc, next) {
-        if (error) {
-          Factor.$error.create(error)
-        }
-
-        next()
-      })
-
-      const Post = model("Post", this._schemas.Post)
-      this._models = { Post }
+    setModels() {
+      this.resetModels()
+      this._schemas = {}
+      this._models = {}
+      const Post = this.createPostModel()
 
       const schemas = Factor.$filters.apply("data-schemas", [])
 
       schemas.forEach(({ name, schema, options = {}, callback = null }) => {
         options.discriminatorKey = "kind"
 
-        this._schemas[name] = new Schema(schema, options)
+        this._schemas[name] = new Factor.$mongoose.Schema(schema, options)
 
         if (callback) callback(this._schemas[name])
 
         this._models[name] = Post.discriminator(name, this._schemas[name])
       })
+    }
+
+    // Scans a schema and adds the populated field names to an array property
+    // Needed to help determine when/where to populate them
+    registerPopulatedFields(schema, options) {
+      const populated = []
+      schema.eachPath(function process(pathName, schemaType) {
+        if (pathName == "_id") return
+        if (schemaType.options.ref || (schemaType.caster && schemaType.caster.options.ref)) {
+          if (!populated.includes(pathName)) {
+            populated.push(pathName)
+          }
+        }
+      })
+
+      schema.populatedFields = populated
+    }
+
+    // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes
+    async _syncSchemaIndexes() {
+      for (let model of Object.values(this._models)) {
+        await model.syncIndexes()
+      }
+
+      return
     }
   })()
 }

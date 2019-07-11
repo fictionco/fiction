@@ -39,6 +39,14 @@ export function createStore() {
     store.replaceState(window.__INITIAL_STATE__)
   }
 
+  // Factor helper function for global/flat store pattern
+  store.add = (key, value) => {
+    store.commit("setItem", {
+      item: key,
+      value
+    })
+  }
+
   Factor.$store = store
 
   return store

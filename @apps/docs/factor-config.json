@@ -1,12 +1,12 @@
 {
   "config": {
     "app": {
-      "name": "Elastic Byte",
+      "name": "Factor.dev",
       "description": "",
       "email": "Fiction Support <support@fiction.com>"
     },
     "roles": {
-      "arpowers@gmail.com": "owner",
+      "arpowers@gmail.com": "admin",
       "andrew@fiction.com": "admin",
       "ray@fiction.com": "admin"
     }

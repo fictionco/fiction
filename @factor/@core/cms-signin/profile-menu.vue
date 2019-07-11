@@ -6,13 +6,13 @@
       :class="toggle ? 'active' : 'inactive'"
       @click.stop="setToggle($event)"
     >
-      <factor-avatar width="1.75em" />
+      <factor-avatar width="1.75em" :post="$currentUser" />
     </span>
     <transition name="leftfade">
       <div v-if="toggle" class="profile-menu-nav" @click.stop>
         <div class="nav-pad">
           <div class="user-basics">
-            <factor-avatar v-if="$userId" width="2.5em" />
+            <factor-avatar v-if="$userId" :post="$currentUser" width="2.5em" />
             <div class="content" :data-uid="$user._id()">
               <div class="name">{{ $user._item("displayName") || $user._item("email") }}</div>
               <div v-if="role.title" class="privs">

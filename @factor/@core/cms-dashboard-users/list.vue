@@ -2,12 +2,12 @@
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
     <slot slot="nav" name="nav" />
-    <dashboard-table-controls v-bind="$attrs" :tabs="tabs" />
+    <dashboard-table-controls v-bind="$attrs" :tabs="tabs" filter="role" :meta="meta" />
 
     <dashboard-table
       class="post-table"
       :structure="tableStructure()"
-      :row-items="rows"
+      :row-items="list"
       :zero-state="7"
     >
       <template slot-scope="{column, item, row}">
@@ -15,7 +15,7 @@
           <factor-input-checkbox label />
         </div>
         <div v-if="column == 'name'" class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{id: row.uid}">{{ row.displayName }}</factor-link>
+          <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.displayName }}</factor-link>
           <factor-link
             v-if="row.email"
             class="permalink"
@@ -24,40 +24,43 @@
         </div>
 
         <div v-else-if="column == 'photo'" class="author">
-          <factor-avatar :url="row.photoURL" />
+          <factor-avatar :post="row" />
         </div>
 
         <div v-else-if="column == 'role'" class="meta">
           <span class="meta status">
-            <span v-if="row.roles" class="val">{{ $utils.toLabel(row.roles.join(',')) }}</span>
+            <span v-if="row.role" class="val">{{ $utils.toLabel(row.role) }}</span>
           </span>
         </div>
 
-        <div v-else-if="column == 'activity'" class="meta">
-          <span class="meta date">
-            <span class="val">Signed Up: {{ $time.niceFormat(row.signedInAt) }}</span>
-          </span>
-          <span class="meta date">
-            <span class="val">Logged In: {{ $time.niceFormat(row.createdAt) }}</span>
-          </span>
-        </div>
+        <div v-else-if="column == 'signed-up'" class="meta">{{ $time.niceFormat(row.createdAt) }}</div>
+        <div v-else-if="column == 'last-seen'" class="meta">{{ $time.niceFormat(row.signedInAt) }}</div>
       </template>
     </dashboard-table>
   </dashboard-pane>
 </template>
   <script>
 export default {
+  name: "UserList",
   props: {
     title: { type: String, default: "" },
-    rows: { type: Array, default: () => [] },
-    index: { type: Object, default: () => {} },
+    list: { type: Array, default: () => [] },
+    meta: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false }
   },
   computed: {
     tabs() {
       return [`all`, `admin`, `moderator`, `member`].map(key => {
         const count =
-          key == "all" ? this.index.total : this.getCounts[key] || 0
+          key == "all"
+            ? this.meta.total
+            : this.$posts.getCount({
+                meta: this.meta,
+                field: "role",
+                key,
+                nullKey: "member"
+              })
+
         return {
           name: this.$utils.toLabel(key),
           value: key == "all" ? "" : key,
@@ -66,6 +69,7 @@ export default {
       })
     },
     getCounts() {
+      const roles = this.$userRoles.roles()
       const { categories: { accessLevel = {} } = {} } = this.index || {}
       const counts = {
         admin: 0,
@@ -100,24 +104,29 @@ export default {
         // },
         {
           column: "name",
-          class: "col-7",
+          class: "col-8",
           mobile: "mcol-16"
         },
 
         {
           column: "photo",
-          class: "col-3",
+          class: "col-2",
           mobile: "mcol-16"
         },
         {
           column: "role",
-          class: "col-3",
+          class: "col-2",
           mobile: "mcol-16"
         },
         {
-          column: "activity",
-          class: "col-3",
-          mobile: "mcol-16"
+          column: "signed-up",
+          class: "col-2",
+          mobile: "mcol-8"
+        },
+        {
+          column: "last-seen",
+          class: "col-2",
+          mobile: "mcol-8"
         }
       ]
     }

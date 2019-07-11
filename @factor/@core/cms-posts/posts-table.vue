@@ -12,12 +12,18 @@
         <factor-icon icon="arrow-right" />
       </dashboard-link>
     </template>
-    <dashboard-table-controls v-bind="$attrs" :tabs="tabs" :actions="['move-to-trash']" />
+    <dashboard-table-controls
+      v-bind="$attrs"
+      :tabs="tabs"
+      filter="role"
+      :meta="meta"
+      :actions="['move-to-trash']"
+    />
 
     <dashboard-table
       class="post-table"
       :structure="tableStructure()"
-      :row-items="rows"
+      :row-items="list"
       :zero-state="7"
     >
       <template slot-scope="{column, item, row}">
@@ -25,7 +31,7 @@
           <factor-input-checkbox label />
         </div>
         <div v-if="column == 'title'" class="post-title">
-          <dashboard-link :path="`${$route.path}/edit`" :query="{id: row.id}">{{ item }}</dashboard-link>
+          <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row.id}">{{ item }}</dashboard-link>
           <dashboard-link
             v-if="row.permalink"
             class="permalink"
@@ -53,22 +59,30 @@
 export default {
   props: {
     title: { type: String, default: "" },
-    rows: { type: Array, default: () => [] },
-    index: { type: Object, default: () => {} },
+    list: { type: Array, default: () => [] },
+    meta: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false }
   },
   computed: {
     tabs() {
-      return [`all`, `published`, `draft`, `trash`].map(status => {
+      return [`all`, `published`, `draft`, `trash`].map(key => {
         const count =
-          status == "all" ? this.index.total : this.statusDetails[status] || 0
+          key == "all"
+            ? this.meta.total
+            : this.$posts.getCount({
+                meta: this.meta,
+                key,
+                nullKey: "draft"
+              })
+
         return {
-          name: this.$utils.toLabel(status),
-          value: status == "all" ? "" : status,
+          name: this.$utils.toLabel(key),
+          value: key == "all" ? "" : key,
           count
         }
       })
     },
+
     statusDetails() {
       const { categories: { status = {} } = {} } = this.index || {}
       return status

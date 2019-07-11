@@ -13,6 +13,7 @@ export default Factor => {
           type,
           base,
           icon,
+          model: "BlogPost",
           nameIndex: "Blog",
           nameSingle: "Blog Post",
           namePlural: "Blog Posts"
