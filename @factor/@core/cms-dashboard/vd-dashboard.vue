@@ -1,13 +1,13 @@
 <template>
   <dashboard-page :loading="loading">
     <dashboard-splash
-      title="Your Admin"
-      sub-title="Want to learn more about Factor? Reach out to us or explore the docs."
+      title="Factor Admin"
+      sub-title="Welcome to your application post admin."
       :features="splash('features')"
     />
     <dashboard-chat
-      title="Tech Support"
-      sub-title="Get in touch with other travelers on the new chat group..."
+      title="Community Support"
+      sub-title="Join Factor and Fiction communities on Gitter."
       :media-url="splash('media')"
     />
   </dashboard-page>
@@ -37,16 +37,16 @@ export default {
       } else if (v == "features") {
         return [
           {
-            title: "Latest Plugins",
-            description: "plugins will go here",
+            title: "Get Plugins",
+            description: "Browse and download Factor extensions for your app.",
             content: "something",
             btn: "Get Plugins",
             path: "/plugins"
           },
           {
-            title: "Factor News",
+            title: "Updates and News",
             description:
-              "Monorepo Workflows - Public and Private Repos and Yarn Link",
+              "Katest news, tips and tutorials on creating next level apps.",
             btn: "More News",
             path: "/blog"
           },

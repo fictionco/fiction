@@ -7,7 +7,7 @@
         btn="primary"
         path="https://fiction.page.link/discord"
         target="_blank"
-      >Join the Fiction Chat Server</dashboard-link>
+      >Join Gitter Community</dashboard-link>
     </div>
   </dashboard-pane>
 </template>
