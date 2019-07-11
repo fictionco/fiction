@@ -168,10 +168,12 @@ export default Factor => {
       return { canonical, title, description, image }
     }
 
-    async getPostById({ _id }) {
-      const _post = await this.request("single", { _id })
-      console.log("___POST___", _post)
-      Factor.$store.add(_id, _post)
+    async getPostById({ _id, postType = "post" }) {
+      const _post = await this.request("single", { _id, postType })
+      console.log("the post", _post)
+      Factor.$store.add(_post._id, _post)
+
+      return _post
     }
 
     async getPostIndex(args) {
@@ -314,7 +316,7 @@ export default Factor => {
       }
     }
 
-    getCount({ meta, field, key, nullKey = false }) {
+    getCount({ meta, field = "status", key, nullKey = false }) {
       if (!meta[field]) {
         return 0
       }
@@ -438,8 +440,8 @@ export default Factor => {
           _prepared[f] = post[f]._id
         }
       })
-      const model = postType.charAt(0).toUpperCase() + postType.slice(1)
-      return await this.request("save", { data: _prepared, model })
+      console.log("__SAVE DATA__", _prepared)
+      return await this.request("save", { data: _prepared, postType })
     }
 
     async savePost(post) {

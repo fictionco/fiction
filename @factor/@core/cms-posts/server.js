@@ -4,21 +4,46 @@ module.exports.default = Factor => {
       Factor.$filters.callback("endpoints", { id: "posts", handler: this })
     }
 
-    async save({ data, model = "Post" }, { bearer }) {
+    getPostTypeModel(postType) {
+      const modelName = postType.charAt(0).toUpperCase() + postType.slice(1)
+      return Factor.$db.model(modelName)
+    }
+
+    async save({ data, postType = "post" }, { bearer }) {
+      const { _id } = data
+
       let _post
-      const PostModel = Factor.$db.model(model)
-      if (!data._id) {
-        _post = new PostModel(data)
-      } else {
-        _post = await PostModel.findById(data._id)
-        Object.assign(_post, data)
+      let PostTypeModel = this.getPostTypeModel(postType)
+
+      if (_id) {
+        _post = await PostTypeModel.findById(data._id)
       }
+
+      if (!_id || !_post) {
+        _post = new PostTypeModel()
+      }
+
+      Object.assign(_post, data)
+
+      console.log("SERVER SAVE__", _post)
 
       return await _post.save()
     }
 
-    async single({ _id, model = "Post", populate = "avatar images" }, { bearer }) {
-      let _post = await Factor.$db.model(model).findById(_id)
+    async single({ _id, postType = "post", populate = "avatar images" }, { bearer }) {
+      let _post
+      let PostTypeModel = this.getPostTypeModel(postType)
+
+      // If ID is available, first look for it.
+      if (_id) {
+        _post = await PostTypeModel.findById(_id)
+      }
+
+      // If ID is unset or if it isn't found, create a new post model/doc
+      // This is not saved at this point, leading to a post sometimes not existing although an ID exists
+      if (!_id || !_post) {
+        _post = new PostTypeModel({ author: [bearer._id] })
+      }
 
       if (_post) {
         const popped = this.getPostPopulatedFields(_post).join(" ")
@@ -47,14 +72,24 @@ module.exports.default = Factor => {
     }
 
     async list(params, { bearer }) {
-      const { model, conditions = {}, options } = params
+      let { model, conditions = {}, options } = params
+
+      options = Object.assign(
+        {},
+        {
+          sort: "-createdAt",
+          limit: 20,
+          skip: 0
+        },
+        options
+      )
 
       const _p = [
         this.indexMeta(params),
         Factor.$db
           .model(model)
           .find(conditions, null, options)
-          .populate("avatar")
+          .populate([{ path: "avatar" }, { path: "author", populate: "avatar" }])
       ]
 
       const [counts, posts] = await Promise.all(_p)

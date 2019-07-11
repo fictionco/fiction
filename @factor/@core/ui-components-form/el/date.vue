@@ -1,22 +1,10 @@
 <template>
-  <div id="sel" class="date-input">
-    <datepicker
-      ref="picker"
-      :value="val"
-      class="date-picker"
-      calendar-class="date-picker-cal"
-      format="yyyy-M-d"
-      v-on="listeners"
-    />
-  </div>
+  <div id="sel" class="date-input">date picker</div>
 </template>
 
 <script>
-import Datepicker from "vuejs-datepicker"
 export default {
-  components: {
-    Datepicker
-  },
+  components: {},
   props: {
     value: { type: [Number], default: null }
   },

@@ -32,7 +32,17 @@ export default {
   },
   methods: {
     async requestPost() {
-      await this.$posts.getPostById({ _id: this._id })
+      const post = await this.$posts.getPostById({
+        _id: this._id,
+        postType: this.postType
+      })
+
+      // If a new post was started, an id comes with it.
+      if (post._id != this._id) {
+        this.$router.replace({
+          query: { ...this.$route.query, _id: post._id }
+        })
+      }
     }
   }
 }

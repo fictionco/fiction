@@ -92,14 +92,12 @@ export default {
     "input-permalink": () => import("./el/permalink"),
     "input-tags": () => import("./el/tags")
   },
+
   data() {
     return {
       sending: false,
       sendingDraft: false,
-      loading: true,
-      post: {
-        revisions: []
-      },
+      loading: false,
       isNew: null,
       saveNeeded: false,
       willsave: null,
@@ -112,6 +110,12 @@ export default {
     }
   },
   computed: {
+    post() {
+      return this.$store.getters["getItem"](this._id) || {}
+    },
+    _id() {
+      return this.$route.query._id || ""
+    },
     injectedComponents() {
       const components = this.$filters.apply("post-edit-components", [])
 
@@ -119,9 +123,7 @@ export default {
         _ => !_.type || (_.type && _.type.includes(this.postType))
       )
     },
-    // injectedMetaComponents() {
-    //   return this.$filters.apply("post-edit-meta", [])
-    // },
+
     excerpt() {
       return this.$posts.excerpt(this.post.content)
     },
@@ -140,9 +142,7 @@ export default {
         permalink: this.post.permalink
       })
     },
-    id() {
-      return this.$route.query.id || this.$guid()
-    },
+
     lastRevision() {
       return this.post.revisions && this.post.revisions.length > 0
         ? this.post.revisions[0]
@@ -162,52 +162,27 @@ export default {
     }
   },
   watch: {
-    $route: function(to, from) {
-      this.loading = true
-      this.$user.init(async () => {
-        await this.start()
-
-        this.loading = false
-      })
-    }
+    $route: function(to, from) {}
   },
-  mounted() {
-    this.$user.init(async () => {
-      if (this.$userId) {
-        await this.start()
-      }
-
-      this.loading = false
-    })
-  },
+  mounted() {},
   methods: {
-    async start() {
-      const id = this.id
+    async savePost() {
+      this.sending = true
 
-      if (!this.$route.query.id) {
-        this.$router.replace({
-          query: { ...this.$route.query, id }
-        })
+      this.clearAutosave()
+
+      this.$events.$emit("lockPermalink")
+
+      const saved = await this.$posts.save({
+        post: this.post,
+        postType: this.postType
+      })
+
+      if (saved) {
+        this.$events.$emit("notify", `Saved!`)
       }
 
-      const starting = {
-        id,
-        type: this.postType,
-        authors: [this.$userId],
-        status: "draft",
-        date: this.$time.stamp(),
-        content: ""
-      }
-
-      const existing = await this.$posts.getPostById(id)
-      const lastRev =
-        existing && existing.revisions && existing.revisions.length > 0
-          ? existing.revisions[0].post
-          : {}
-
-      this.isNew = !existing || !existing.id ? true : false
-
-      this.post = Object.assign({}, starting, existing, lastRev)
+      this.sending = false
     },
 
     doAutosave() {
@@ -263,31 +238,6 @@ export default {
       await this.addRevision({ post: this.post, save: true })
 
       this.sendingDraft = false
-    },
-
-    async savePost() {
-      this.sending = true
-
-      this.clearAutosave()
-
-      this.$events.$emit("lockPermalink")
-
-      this.post.status = this.post.status ? this.post.status : "draft"
-
-      const save = { ...this.post, url: this.url }
-
-      this.post = await this.$posts.savePost(save)
-
-      this.$events.$emit("notify", "Saved")
-
-      this.sending = false
-    },
-    async trashPost() {
-      this.sending = true
-
-      await this.$posts.savePost(this.post)
-
-      this.sending = false
     }
   }
 }

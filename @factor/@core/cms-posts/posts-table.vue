@@ -15,7 +15,7 @@
     <dashboard-table-controls
       v-bind="$attrs"
       :tabs="tabs"
-      filter="role"
+      filter="status"
       :meta="meta"
       :actions="['move-to-trash']"
     />
@@ -31,7 +31,7 @@
           <factor-input-checkbox label />
         </div>
         <div v-if="column == 'title'" class="post-title">
-          <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row.id}">{{ item }}</dashboard-link>
+          <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ item }}</dashboard-link>
           <dashboard-link
             v-if="row.permalink"
             class="permalink"
@@ -40,17 +40,12 @@
         </div>
 
         <div v-else-if="column == 'author'" class="author">
-          <dashboard-user-card v-for="(user, ind) in row.authorData" :key="ind" :uid="user._id" />
+          <dashboard-user-card v-for="(user, ind) in row.author" :key="ind" :post="user" />
         </div>
 
-        <div v-else-if="column == 'meta'" class="meta">
-          <span class="meta status">
-            <span class="val">{{ $utils.toLabel(row.status) }}</span>
-          </span>
-          <span class="meta date">
-            <span class="val">{{ $time.niceFormat(row.date) }}</span>
-          </span>
-        </div>
+        <div v-else-if="column == 'status'" class="meta">{{ $utils.toLabel(row.status) }}</div>
+        <div v-else-if="column == 'updated'" class="meta">{{ $time.niceFormat(row.updatedAt) }}</div>
+        <div v-else-if="column == 'created'" class="meta">{{ $time.niceFormat(row.createdAt) }}</div>
       </template>
     </dashboard-table>
   </dashboard-pane>
@@ -114,7 +109,7 @@ export default {
         },
         {
           column: "title",
-          class: "col-7",
+          class: "col-5",
           mobile: "mcol-15"
         },
 
@@ -124,8 +119,18 @@ export default {
           mobile: "mcol-2-15"
         },
         {
-          column: "meta",
-          class: "col-4",
+          column: "status",
+          class: "col-2",
+          mobile: "mcol-2-15"
+        },
+        {
+          column: "created",
+          class: "col-2",
+          mobile: "mcol-2-15"
+        },
+        {
+          column: "updated",
+          class: "col-2",
           mobile: "mcol-2-15"
         }
       ]

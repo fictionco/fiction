@@ -105,12 +105,6 @@
 </template>
 <script>
 export default {
-  // components: {
-  //   "provider-link": () => import("./provider")
-  // },
-  props: {
-    //post: { type: Object, default: () => {} }
-  },
   data() {
     return {
       sending: false,

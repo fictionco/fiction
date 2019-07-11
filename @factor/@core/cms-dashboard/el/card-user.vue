@@ -1,8 +1,8 @@
 <template>
   <div class="card-user card-wrap">
-    <dashboard-link v-if="user" class="card" path="/profile" :query="{uid}">
-      <factor-avatar :url="user.photoURL" width="1.25em" />
-      <div class="name">{{ user.displayName }}</div>
+    <dashboard-link v-if="post" class="card" path="/profile" :query="{_id: post._id}">
+      <factor-avatar :url="post.avatar.url" width="1.25em" />
+      <div class="name">{{ post.displayName }}</div>
       <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
         <factor-icon icon="remove" />
       </div>
@@ -12,18 +12,9 @@
 <script>
 export default {
   props: {
-    uid: { type: String, default: "" },
+    post: { type: Object, default: () => {} },
     subText: { type: String, default: "" },
     remove: { type: Boolean, default: false }
-  },
-  data() {
-    return {
-      user: {}
-    }
-  },
-
-  async mounted() {
-    this.user = await this.$user.request(this.uid)
   }
 }
 </script>

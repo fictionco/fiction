@@ -5,16 +5,18 @@ export default Factor => {
     schema: Factor.$filters.apply("post-schema", {
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
-      body: { type: String, trim: true },
+      content: { type: String, trim: true },
       author: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "User" }],
       images: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "Image" }],
       avatar: { type: Factor.$mongoose.Schema.Types.ObjectId, ref: "Image" },
       tag: [String],
       category: [String],
+      revisions: [Object],
       status: {
         type: String,
         enum: ["published", "draft", "trash"],
-        index: true
+        index: true,
+        default: "draft"
       },
       permalink: {
         type: String,
