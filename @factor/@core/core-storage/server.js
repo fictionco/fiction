@@ -3,7 +3,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("endpoints", { id: "storage", handler: this })
-      Factor.$filters.callback("data-schemas", () => this.imageSchema())
+      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor))
 
       Factor.$filters.add("middleware", _ => {
         _.push({
@@ -32,19 +32,19 @@ module.exports.default = Factor => {
       return img.toObject()
     }
 
-    imageSchema() {
-      const _this = this // mongoose hooks need 'this'
-      return {
-        name: "Image",
-        callback: s => {},
-        schema: {
-          mimetype: String,
-          imageData: Buffer,
-          size: Number,
-          url: String
-        },
-        options: {}
-      }
-    }
+    // imageSchema() {
+    //   const _this = this // mongoose hooks need 'this'
+    //   return {
+    //     name: "Image",
+    //     callback: s => {},
+    //     schema: {
+    //       mimetype: String,
+    //       imageData: Buffer,
+    //       size: Number,
+    //       url: String
+    //     },
+    //     options: {}
+    //   }
+    // }
   })()
 }

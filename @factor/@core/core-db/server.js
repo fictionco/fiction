@@ -88,64 +88,44 @@ module.exports.default = Factor => {
       return this._schemas[name] || null
     }
 
+    createPostModel() {
+      const { schema, options, callback, name } = require("./schema").default(Factor)
+
+      const postSchema = new Factor.$mongoose.Schema(schema, options)
+
+      callback(postSchema)
+
+      this._schemas[name] = postSchema
+
+      this._models[name] = Factor.$mongoose.model(name, postSchema)
+
+      return this._models[name]
+    }
+
+    // For server restarts
+    resetModels() {
+      const existingModels = Factor.$mongoose.modelNames()
+
+      if (existingModels.length > 0) {
+        existingModels.forEach(name => {
+          delete Factor.$mongoose.models[name]
+          delete Factor.$mongoose.modelSchemas[name]
+        })
+      }
+    }
+
     setModels() {
-      // test
-      const { Schema, model } = Factor.$mongoose
-
-      const postSchema = new Schema(
-        Factor.$filters.apply("post-schema", {
-          postType: { type: String, index: true, sparse: true },
-          title: { type: String, trim: true },
-          body: { type: String, trim: true },
-          author: [{ type: Schema.Types.ObjectId, ref: "User" }],
-          images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-          avatar: { type: Schema.Types.ObjectId, ref: "Image" },
-          tag: [String],
-          category: [String],
-          status: {
-            type: String,
-            enum: ["published", "draft", "trash"],
-            index: true
-          },
-          permalink: {
-            type: String,
-            trim: true,
-            index: { unique: true, sparse: true },
-            minlength: 3,
-            validator: function(v) {
-              return /^[a-z0-9-]+$/.test(v)
-            },
-            message: props => `${props.value} is not URL compatible.`
-          }
-        }),
-        { timestamps: true }
-      )
-
-      postSchema.index({ status: 1, postType: 1 }, { sparse: true })
-      postSchema.index({ tag: 1, postType: 1 }, { sparse: true })
-      postSchema.index({ category: 1, postType: 1 }, { sparse: true })
-
-      postSchema.pre("save", function(next) {
-        if (this.images && this.images.length > 0) {
-          this.avatar = this.images[0]
-        }
-
-        this.postType = this.get("__t") || "Post"
-        next()
-      })
-
-      this._schemas = { Post: postSchema }
-
-      const Post = model("Post", postSchema)
-
-      this._models = { Post }
+      this.resetModels()
+      this._schemas = {}
+      this._models = {}
+      const Post = this.createPostModel()
 
       const schemas = Factor.$filters.apply("data-schemas", [])
 
       schemas.forEach(({ name, schema, options = {}, callback = null }) => {
         options.discriminatorKey = "kind"
 
-        this._schemas[name] = new Schema(schema, options)
+        this._schemas[name] = new Factor.$mongoose.Schema(schema, options)
 
         if (callback) callback(this._schemas[name])
 

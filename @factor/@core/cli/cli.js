@@ -23,16 +23,16 @@ const cli = async () => {
     async extend(args = {}) {
       const { parent, ...rest } = args
       const program = { ...parent, ...rest }
-      const { NODE_ENV = "development", install = false } = program
+      const { NODE_ENV = "development", install = false, restart = false } = program
 
-      if (install) {
+      if (install && !restart) {
         await this.runTasks(
           [
-            {
-              command: "rm",
-              args: ["-rf", "./node_modules/.cache"],
-              title: "Clear Cache"
-            },
+            // {
+            //   command: "rm",
+            //   args: ["-rf", "./node_modules/.cache"],
+            //   title: "Clear Cache"
+            // },
             { command: "yarn", args: ["install"], title: "Installing Dependencies" },
             {
               command: "factor",
@@ -52,6 +52,10 @@ const cli = async () => {
         .default(Factor)
         .run()
 
+      // Filters must be reloaded with every new extension.
+      // server resets "re-extend" the process
+      Factor.$filters.callback("rebuild-server-app", () => this.reloadNodeProcess(args))
+
       return program
     }
 
@@ -64,21 +68,24 @@ const cli = async () => {
         .option("--PORT <PORT>", "set server port. default: 3000")
         .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
         .option("--no-load-plugins", "Do not extend build for this command.")
+        .option("--restart", "Restart server process flag.")
 
       this.program
         .command("dev")
         .description("Start development server")
         .action(async args => {
-          await this.extend({ NODE_ENV: "development", install: true, ...args })
+          const NODE_ENV = "development"
+          await this.extend({ NODE_ENV, install: true, ...args })
           await this.cliTasks()
-          this.cliRunners()
+          this.runServer({ NODE_ENV, ...args })
         })
 
       this.program
         .command("start")
         .description("Start production build on local server")
         .action(async args => {
-          await this.extend({ NODE_ENV: "production", install: false, ...args })
+          const NODE_ENV = "production"
+          await this.extend({ NODE_ENV, install: false, ...args })
 
           await this.runTasks(
             [
@@ -91,7 +98,7 @@ const cli = async () => {
             { exitOnError: true }
           )
 
-          this.cliRunners()
+          this.runServer({ NODE_ENV, ...args })
         })
 
       this.program
@@ -100,9 +107,9 @@ const cli = async () => {
         .action(async (NODE_ENV, args) => {
           NODE_ENV = NODE_ENV || "production"
 
-          await this.extend({ NODE_ENV, COMMAND: "serve", ...args })
+          await this.extend({ NODE_ENV, ...args })
 
-          this.run("create-server", { NODE_ENV, ...args })
+          this.runServer({ NODE_ENV, ...args })
         })
 
       this.program
@@ -161,6 +168,26 @@ const cli = async () => {
       }
 
       return this.program
+    }
+
+    runServer(args) {
+      Factor.$log.formatted({
+        title: "Starting Server..."
+      })
+
+      this.run("create-server", args)
+    }
+
+    // Reloads all cached node files
+    // Needed for server reloading
+    async reloadNodeProcess(args) {
+      Object.keys(require.cache).forEach(function(id) {
+        if (/(@|\.)factor/.test(id)) {
+          delete require.cache[id]
+        }
+      })
+
+      await this.extend({ ...args, install: false })
     }
 
     async createDist(args) {
@@ -273,32 +300,6 @@ const cli = async () => {
       const tildePath = require("expand-tilde")("~")
 
       return txt.replace(tildePath, "~")
-    }
-
-    exitHandler() {
-      const exitCode = new Promise((resolve, reject) => {
-        Factor.$filters
-          .run("close-server")
-          .then(result => resolve(0))
-          .catch(error => reject(error))
-      })
-
-      process.exit(exitCode)
-    }
-
-    handleProcessExit() {
-      //do something when app is closing
-      process.on("exit", this.exitHandler())
-
-      //catches ctrl+c event
-      process.on("SIGINT", this.exitHandler())
-
-      // catches "kill pid" (for example: nodemon restart)
-      process.on("SIGUSR1", this.exitHandler())
-      process.on("SIGUSR2", this.exitHandler())
-
-      //catches uncaught exceptions
-      process.on("uncaughtException", this.exitHandler({ code: 1 }))
     }
   })()
 }

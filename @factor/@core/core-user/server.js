@@ -8,7 +8,7 @@ module.exports.default = Factor => {
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
-      Factor.$filters.callback("data-schemas", () => this.schema())
+      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor))
     }
 
     async save(data, { bearer }) {
@@ -110,85 +110,85 @@ module.exports.default = Factor => {
       }
     }
 
-    schema() {
-      const { Schema, model } = Factor.$mongoose
-      const _this = this // mongoose hooks need 'this'
-      return {
-        name: "User",
-        callback: Schema => {
-          // PASSWORDS
-          Schema.methods.comparePassword = async function comparePassword(candidate) {
-            return bcrypt.compare(candidate, this.password)
-          }
-          Schema.pre("save", async function(next) {
-            const user = this
-            if (!user.isModified("password")) {
-              return next()
-            }
+    // schema() {
+    //   const { Schema, model } = Factor.$mongoose
+    //   const _this = this // mongoose hooks need 'this'
+    //   return {
+    //     name: "User",
+    //     callback: Schema => {
+    //       // PASSWORDS
+    //       Schema.methods.comparePassword = async function comparePassword(candidate) {
+    //         return bcrypt.compare(candidate, this.password)
+    //       }
+    //       Schema.pre("save", async function(next) {
+    //         const user = this
+    //         if (!user.isModified("password")) {
+    //           return next()
+    //         }
 
-            try {
-              user.password = await _this.hashPassword(user.password)
-              return next()
-            } catch (error) {
-              return next(error)
-            }
-          })
+    //         try {
+    //           user.password = await _this.hashPassword(user.password)
+    //           return next()
+    //         } catch (error) {
+    //           return next(error)
+    //         }
+    //       })
 
-          Factor.$filters.apply("user-schema-hooks", Schema)
-        },
-        schema: Factor.$filters.apply("user-schema", {
-          signedInAt: Date,
-          username: {
-            type: String,
-            trim: true,
-            index: { unique: true, sparse: true },
-            minlength: 3
-          },
-          email: {
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true,
-            index: { unique: true },
-            validate: {
-              validator: v => Factor.$validator.isEmail(v),
-              message: props => `${props.value} is not a valid email.`
-            }
-          },
-          emailVerified: { type: Boolean, default: false },
-          password: {
-            select: false,
-            type: String,
-            trim: true,
-            minlength: 8
-          },
-          displayName: {
-            type: String,
-            trim: true
-          },
-          phoneNumber: {
-            type: String,
-            lowercase: true,
-            trim: true,
-            validate: {
-              validator: v => Factor.$validator.isMobilePhone(v),
-              message: props => `${props.value} is not a valid phone number (with country code).`
-            }
-          },
+    //       Factor.$filters.apply("user-schema-hooks", Schema)
+    //     },
+    //     schema: Factor.$filters.apply("user-schema", {
+    //       signedInAt: Date,
+    //       username: {
+    //         type: String,
+    //         trim: true,
+    //         index: { unique: true, sparse: true },
+    //         minlength: 3
+    //       },
+    //       email: {
+    //         type: String,
+    //         required: true,
+    //         trim: true,
+    //         lowercase: true,
+    //         index: { unique: true },
+    //         validate: {
+    //           validator: v => Factor.$validator.isEmail(v),
+    //           message: props => `${props.value} is not a valid email.`
+    //         }
+    //       },
+    //       emailVerified: { type: Boolean, default: false },
+    //       password: {
+    //         select: false,
+    //         type: String,
+    //         trim: true,
+    //         minlength: 8
+    //       },
+    //       displayName: {
+    //         type: String,
+    //         trim: true
+    //       },
+    //       phoneNumber: {
+    //         type: String,
+    //         lowercase: true,
+    //         trim: true,
+    //         validate: {
+    //           validator: v => Factor.$validator.isMobilePhone(v),
+    //           message: props => `${props.value} is not a valid phone number (with country code).`
+    //         }
+    //       },
 
-          covers: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-          birthday: Date,
-          gender: {
-            type: String,
-            enum: ["male", "female"]
-          },
-          about: String
-        }),
-        options: {
-          toObject: { virtuals: true },
-          toJSON: { virtuals: true }
-        }
-      }
-    }
+    //       covers: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+    //       birthday: Date,
+    //       gender: {
+    //         type: String,
+    //         enum: ["male", "female"]
+    //       },
+    //       about: String
+    //     }),
+    //     options: {
+    //       toObject: { virtuals: true },
+    //       toJSON: { virtuals: true }
+    //     }
+    //   }
+    // }
   })()
 }
