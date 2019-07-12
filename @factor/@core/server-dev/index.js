@@ -116,7 +116,7 @@ export default Factor => {
           ignored: `**/node_modules/**`
         })
         .on("all", (event, path) => {
-          if (path.includes("server") || path.includes("endpoint")) {
+          if (path.includes("server") || path.includes("endpoint") || path.includes("schema")) {
             Factor.$log.formatted({ title: `Server file changed, restarting server...` })
 
             Factor.$events.$emit("restart-server")
