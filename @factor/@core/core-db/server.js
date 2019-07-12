@@ -13,10 +13,7 @@ module.exports.default = Factor => {
       Factor.$filters.add("initialize-server", () => {
         this.setModels()
 
-        // sync indexes only on serve commands
-        if (process.env.FACTOR_COMMAND == "serve") {
-          this._syncSchemaIndexes()
-        }
+        this._syncSchemaIndexes()
       })
     }
 

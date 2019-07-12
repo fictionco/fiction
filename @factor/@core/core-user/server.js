@@ -20,11 +20,6 @@ module.exports.default = Factor => {
       return await _user.save()
     }
 
-    async hashPassword(password) {
-      const SALT_ROUNDS = 10
-      return await bcrypt.hash(password, SALT_ROUNDS)
-    }
-
     async authenticate(params) {
       const { newAccount, email, password, displayName } = params
 
@@ -32,13 +27,11 @@ module.exports.default = Factor => {
       if (newAccount) {
         try {
           user = await Factor.$db.model("User").create({ email, password, displayName })
+          Factor.$filters.apply("create-new-user", user)
+          return this.credential(user)
         } catch (error) {
-          Factor.$log.error(error, error.code)
+          Factor.$error.throw(400, error)
         }
-
-        Factor.$filters.apply("create-new-user", user)
-
-        return this.credential(user)
       } else {
         user = await Factor.$db.model("User").findOne({ email }, "+password")
 
@@ -55,6 +48,9 @@ module.exports.default = Factor => {
     }
 
     credential(user) {
+      if (!user) {
+        return {}
+      }
       user = user.toObject()
       delete user.password
       return {
@@ -109,86 +105,5 @@ module.exports.default = Factor => {
         Factor.$error.throw(error)
       }
     }
-
-    // schema() {
-    //   const { Schema, model } = Factor.$mongoose
-    //   const _this = this // mongoose hooks need 'this'
-    //   return {
-    //     name: "User",
-    //     callback: Schema => {
-    //       // PASSWORDS
-    //       Schema.methods.comparePassword = async function comparePassword(candidate) {
-    //         return bcrypt.compare(candidate, this.password)
-    //       }
-    //       Schema.pre("save", async function(next) {
-    //         const user = this
-    //         if (!user.isModified("password")) {
-    //           return next()
-    //         }
-
-    //         try {
-    //           user.password = await _this.hashPassword(user.password)
-    //           return next()
-    //         } catch (error) {
-    //           return next(error)
-    //         }
-    //       })
-
-    //       Factor.$filters.apply("user-schema-hooks", Schema)
-    //     },
-    //     schema: Factor.$filters.apply("user-schema", {
-    //       signedInAt: Date,
-    //       username: {
-    //         type: String,
-    //         trim: true,
-    //         index: { unique: true, sparse: true },
-    //         minlength: 3
-    //       },
-    //       email: {
-    //         type: String,
-    //         required: true,
-    //         trim: true,
-    //         lowercase: true,
-    //         index: { unique: true },
-    //         validate: {
-    //           validator: v => Factor.$validator.isEmail(v),
-    //           message: props => `${props.value} is not a valid email.`
-    //         }
-    //       },
-    //       emailVerified: { type: Boolean, default: false },
-    //       password: {
-    //         select: false,
-    //         type: String,
-    //         trim: true,
-    //         minlength: 8
-    //       },
-    //       displayName: {
-    //         type: String,
-    //         trim: true
-    //       },
-    //       phoneNumber: {
-    //         type: String,
-    //         lowercase: true,
-    //         trim: true,
-    //         validate: {
-    //           validator: v => Factor.$validator.isMobilePhone(v),
-    //           message: props => `${props.value} is not a valid phone number (with country code).`
-    //         }
-    //       },
-
-    //       covers: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-    //       birthday: Date,
-    //       gender: {
-    //         type: String,
-    //         enum: ["male", "female"]
-    //       },
-    //       about: String
-    //     }),
-    //     options: {
-    //       toObject: { virtuals: true },
-    //       toJSON: { virtuals: true }
-    //     }
-    //   }
-    // }
   })()
 }
