@@ -15,6 +15,11 @@ export default {
     post: { type: Object, default: () => {} },
     subText: { type: String, default: "" },
     remove: { type: Boolean, default: false }
+  },
+  computed: {
+    avatar() {
+      return post.avatar && post.avatar.url ? post.avatar.url : ""
+    }
   }
 }
 </script>

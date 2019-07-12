@@ -57,12 +57,6 @@ export default Factor => {
       //   return _
       // })
 
-      // Add page templates
-      Factor.$filters.add("register-components", _ => {
-        _["templates"] = this.registerTemplates()
-        return _
-      })
-
       Factor.$filters.callback("site-prefetch", _ => this.prefetchPost(_))
       Factor.$filters.callback("client-route-before-promises", _ => this.prefetchPost(_))
 
@@ -181,9 +175,9 @@ export default Factor => {
       })
 
       const skip = (page - 1) * limit
-      const model = postType.charAt(0).toUpperCase() + postType.slice(1)
+
       const indexData = await this.request("list", {
-        model,
+        postType,
         conditions,
         options: { limit, skip, page }
       })
@@ -191,10 +185,6 @@ export default Factor => {
       Factor.$store.add(postType, indexData)
 
       return indexData
-    }
-
-    toModelName(postType) {
-      return postType.charAt(0).toUpperCase() + string.slice(1)
     }
 
     async parsePosts(posts) {
@@ -233,29 +223,6 @@ export default Factor => {
       })
 
       return post
-    }
-
-    // Register Page Templates added by theme or app
-    registerTemplates() {
-      this.pageTemplates = this.getPageTemplates()
-
-      Factor.$filters.add("components", _ => {
-        this.pageTemplates.forEach(tpl => {
-          _[tpl.value] = tpl.component
-        })
-
-        return _
-      })
-    }
-
-    getPageTemplates() {
-      return Factor.$filters.apply("page-templates", []).map(_ => {
-        const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
-        return {
-          name,
-          ..._
-        }
-      })
     }
 
     getPostTypes() {
@@ -376,7 +343,7 @@ export default Factor => {
         revisions: this._cleanRevisions(revisions) // limit amount and frequency
       }
       const query = {
-        model: "Post",
+        model: "post",
         method: "findByIdAndUpdate",
         data,
         id

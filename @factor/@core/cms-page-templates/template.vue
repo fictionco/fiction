@@ -19,7 +19,7 @@ export default {
       return this.post.template ? this.post.template : "default"
     },
     templateLoader() {
-      const tpls = this.$posts.getPageTemplates()
+      const tpls = this.$templates.getPageTemplates()
 
       return tpls.find(_ => _.value == this.templateLocation).component
     },
@@ -30,7 +30,7 @@ export default {
   },
 
   async mounted() {
-    const tpls = this.$posts.getPageTemplates()
+    const tpls = this.$templates.getPageTemplates()
 
     const c = await tpls
       .find(_ => _.value == this.templateLocation)

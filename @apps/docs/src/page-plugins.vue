@@ -17,7 +17,7 @@
     <section class="plugins-wrap stripes-wrap">
       <div class="stripes" />
       <div class="mast plugins">
-        <h2 class="soon" @click="test()">Coming Soon</h2>
+        <h2 class="soon">Coming Soon</h2>
         <div class="sidebar">
           <h3 class="title">Categories</h3>
           <ul class="list-categories">
@@ -53,14 +53,14 @@
               <span>
                 <factor-icon icon="search" />
               </span>
-              <input type="text" name="search" placeholder="Search Plugins">
+              <input type="text" name="search" placeholder="Search Plugins" >
             </form>
           </div>
 
           <div class="items-wrap">
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal">
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Payment</span>
@@ -76,7 +76,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/algolia.jpg`)" alt="Algolia">
+                <img :src="require(`./img/algolia.jpg`)" alt="Algolia" >
                 <div>
                   <h3 class="title">Algolia</h3>
                   <span class="category">Search</span>
@@ -92,7 +92,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal">
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -108,7 +108,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal">
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -124,7 +124,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal">
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -140,7 +140,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal">
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -198,21 +198,6 @@ export default {
   },
 
   methods: {
-    async test() {
-      // const result = await this.$db.run("User", "create", [
-      //   {
-      //     username: "andrewpowers",
-      //     email: "arpowers+12@gmail.com",
-      //     password: "testing123"
-      //   }
-      // ])
-
-      const test = await this.$db.run("User", "find", [
-        {
-          username: "andrewpowers11d"
-        }
-      ])
-    },
     navItems() {
       const nav = [
         {

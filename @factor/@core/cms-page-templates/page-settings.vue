@@ -2,7 +2,7 @@
   <div class="edit-page-templates">
     <dashboard-input
       v-model="localPost.template"
-      :list="$posts.getPageTemplates()"
+      :list="$templates.getPageTemplates()"
       input="factor-input-select"
       label="Page Template"
     />
@@ -62,7 +62,7 @@ export default {
       const tplVal = this.localPost.template
 
       if (tplVal) {
-        const tpls = this.$posts.getPageTemplates()
+        const tpls = this.$templates.getPageTemplates()
 
         const { default: tpl } = await tpls
           .find(_ => _.value == tplVal)

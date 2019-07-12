@@ -21,7 +21,7 @@ export default Factor => {
         _.push({
           type: ["page"],
           name: "Page Template Settings",
-          component: () => import("./edit")
+          component: () => import("./page-settings")
         })
 
         return _
@@ -34,6 +34,35 @@ export default Factor => {
         })
 
         return _
+      })
+
+      // Add page templates
+      Factor.$filters.add("register-components", _ => {
+        _["templates"] = this.registerTemplates()
+        return _
+      })
+    }
+
+    // Register Page Templates added by theme or app
+    registerTemplates() {
+      this.pageTemplates = this.getPageTemplates()
+
+      Factor.$filters.add("components", _ => {
+        this.pageTemplates.forEach(tpl => {
+          _[tpl.value] = tpl.component
+        })
+
+        return _
+      })
+    }
+
+    getPageTemplates() {
+      return Factor.$filters.apply("page-templates", []).map(_ => {
+        const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
+        return {
+          name,
+          ..._
+        }
       })
     }
   })()

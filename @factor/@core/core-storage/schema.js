@@ -1,6 +1,6 @@
 export default Factor => {
   return {
-    name: "Image",
+    name: "attachment",
     callback: s => {},
     schema: {
       mimetype: String,

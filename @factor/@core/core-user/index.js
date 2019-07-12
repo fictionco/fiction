@@ -119,7 +119,7 @@ export default Factor => {
     }
 
     currentUser() {
-      return Factor.$store.getters["getItem"]("currentUser")
+      return Factor.$store.getters["getItem"]("currentUser") || {}
     }
 
     setUser({ user, token, current = false }) {
@@ -223,8 +223,8 @@ export default Factor => {
           return _r.meta.auth
         })
 
-        this.init(({ _id }) => {
-          if (auth === true && !_id) {
+        this.init(user => {
+          if (auth === true && (!user || !user._id)) {
             Factor.$router.push({
               path: "/signin",
               query: { redirect: to.path, from: from.path }

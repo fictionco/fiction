@@ -34,7 +34,7 @@ module.exports.default = Factor => {
         Factor.$error.throw(400, `Email verification user doesn't match the logged in account.`)
       }
 
-      const user = await Factor.$db.model("User").findOne({ _id }, "+emailVerificationCode")
+      const user = await Factor.$db.model("user").findOne({ _id }, "+emailVerificationCode")
 
       if (user.emailVerificationCode == code) {
         user.emailVerified = true
@@ -65,7 +65,7 @@ module.exports.default = Factor => {
     }
 
     async verifyAndResetPassword({ _id, code, password }) {
-      const user = await Factor.$db.model("User").findOne({ _id }, "+passwordResetCode")
+      const user = await Factor.$user.model().findOne({ _id }, "+passwordResetCode")
 
       if (!user) {
         Factor.$error.throw(400, `Couldn't find user.`)
@@ -84,7 +84,7 @@ module.exports.default = Factor => {
     async sendPasswordResetEmail({ email }) {
       const passwordResetCode = Factor.$randomToken()
 
-      const user = await Factor.$db.model("User").findOneAndUpdate({ email }, { passwordResetCode })
+      const user = await Factor.$user.model().findOneAndUpdate({ email }, { passwordResetCode })
 
       if (!user || !user._id) {
         Factor.$error.throw(400, "Could not find an user with that email.")

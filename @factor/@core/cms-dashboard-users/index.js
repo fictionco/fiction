@@ -37,7 +37,6 @@ export default Factor => {
           nameIndex: "Users",
           nameSingle: "User",
           namePlural: "Users",
-          model: "User",
           accessLevel: 500,
           list: () => import("./list"),
           edit: () => import("./edit.vue"),

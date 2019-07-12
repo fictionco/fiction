@@ -1,6 +1,6 @@
 export default Factor => {
   return {
-    name: "User",
+    name: "user",
     callback: _s => {
       // PASSWORDS
       _s.methods.comparePassword = async function comparePassword(candidate) {
@@ -62,7 +62,7 @@ export default Factor => {
         }
       },
 
-      covers: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "Image" }],
+      covers: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "attachment" }],
       birthday: Date,
       gender: {
         type: String,
