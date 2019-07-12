@@ -51,11 +51,11 @@ export default Factor => {
 
       // Assign Post Info to Route
       // Has to happen after all initialized
-      Factor.$filters.add("mixins", _ => {
-        //_.post = this.addPostToComponents()
+      // Factor.$filters.add("mixins", _ => {
+      //   //_.post = this.addPostToComponents()
 
-        return _
-      })
+      //   return _
+      // })
 
       // Add page templates
       Factor.$filters.add("register-components", _ => {
@@ -63,36 +63,8 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("stores", _ => {
-        _["posts"] = require("./store").default
-        return _
-      })
-
-      const prefetchPost = (_, { to = null } = {}) => {
-        const route = to || Factor.$router.currentRoute
-
-        const request = Factor.$filters.apply("post-params", { ...route.params, ...route.query })
-
-        const { permalink, id } = request
-
-        // Only add to the filter if permalink is set. That way we don't show loader for no reason.
-        if (permalink || id) {
-          const _promise = async () => {
-            let post = {}
-
-            post = await this.getPostByPermalink(request)
-
-            return await this.setPostData({ post })
-          }
-
-          _.push(_promise())
-        }
-
-        return _
-      }
-
-      Factor.$filters.add("site-prefetch", prefetchPost)
-      Factor.$filters.add("client-route-before-promises", prefetchPost)
+      Factor.$filters.callback("site-prefetch", _ => this.prefetchPost(_))
+      Factor.$filters.callback("client-route-before-promises", _ => this.prefetchPost(_))
 
       Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new", accessLevel }) => {
@@ -124,9 +96,18 @@ export default Factor => {
       })
     }
 
-    async setPostData({ post }) {
-      post = await this.addPostMeta(post)
-      Factor.$store.commit("setItem", { item: "post", value: post })
+    async prefetchPost({ to = null } = {}) {
+      const route = to || Factor.$router.currentRoute
+
+      //
+      const request = Factor.$filters.apply("post-params", { ...route.params, ...route.query })
+
+      const { permalink, _id } = request
+
+      // Only add to the filter if permalink is set. That way we don't show loader for no reason.
+      if (!permalink && !_id) return {}
+
+      return await this.getSinglePost(request)
     }
 
     addPostToComponents() {
@@ -170,8 +151,19 @@ export default Factor => {
 
     async getPostById({ _id, postType = "post" }) {
       const _post = await this.request("single", { _id, postType })
-      console.log("the post", _post)
+
       Factor.$store.add(_post._id, _post)
+
+      return _post
+    }
+
+    async getSinglePost({ permalink, field = "permalink", postType = "post" }) {
+      const conditions = { [field]: permalink }
+      const _post = await this.request("single", { conditions, postType })
+
+      if (_post) {
+        Factor.$store.add(_post._id, _post)
+      }
 
       return _post
     }
@@ -397,24 +389,10 @@ export default Factor => {
       return response
     }
 
-    async getPostByPermalink({ permalink, field = "permalink", id }) {
-      if (!permalink && id) {
-        return await this.getPostById(id)
-      } else {
-        const results = await Factor.$db.run({
-          model: "Post",
-          method: "find",
-          conditions: { [field]: permalink }
-        })
-
-        return results[0]
-      }
-    }
-
     // Verify a permalink is unique,
     // If not unique, then add number and recursively verify the new one
     async permalinkVerify({ permalink, id, field = "permalink" }) {
-      const post = await this.getPostByPermalink({ permalink, field })
+      const post = await this.getSinglePost({ permalink, field })
 
       if (post && post.id != id) {
         Factor.$events.$emit("notify", `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`)

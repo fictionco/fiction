@@ -164,6 +164,9 @@ export default Factor => {
     }
 
     token(token) {
+      if (typeof localStorage == "undefined") {
+        return ""
+      }
       const keyName = "token"
       if (token === false || token === null) {
         localStorage.removeItem(keyName)

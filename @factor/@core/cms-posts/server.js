@@ -30,13 +30,15 @@ module.exports.default = Factor => {
       return await _post.save()
     }
 
-    async single({ _id, postType = "post", populate = "avatar images" }, { bearer }) {
+    async single({ _id, postType = "post", conditions }, { bearer }) {
       let _post
       let PostTypeModel = this.getPostTypeModel(postType)
 
       // If ID is available, first look for it.
       if (_id) {
         _post = await PostTypeModel.findById(_id)
+      } else if (conditions) {
+        _post = await PostTypeModel.findOne({ conditions })
       }
 
       // If ID is unset or if it isn't found, create a new post model/doc
@@ -44,6 +46,8 @@ module.exports.default = Factor => {
       if (!_id || !_post) {
         _post = new PostTypeModel({ author: [bearer._id] })
       }
+
+      console.log("SERVER SINGLE__", _post)
 
       if (_post) {
         const popped = this.getPostPopulatedFields(_post)

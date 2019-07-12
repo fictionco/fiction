@@ -41,13 +41,13 @@ export function createRouter() {
 
 // Client-only checks before user navigates to a new route (e.g. auth)
 export async function clientRouterBefore(to, from, next) {
-  const doBefore = Factor.$filters.apply("client-route-before-promises", [], { to, from, next })
+  const doBefore = Factor.$filters.run("client-route-before-promises", { to, from, next })
 
   if (doBefore.length > 0) {
     Factor.$events.$emit("ssr-progress", "start")
 
     // The promises need to return "true" if navigation is to continue as usual
-    const results = await Promise.all(doBefore)
+    const results = await doBefore
 
     // If a user needs to sign in (with modal) or be redirected after an action
     // Those hooks may not want the navigation to continue
