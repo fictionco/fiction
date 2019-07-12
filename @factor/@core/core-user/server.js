@@ -39,7 +39,7 @@ module.exports.default = Factor => {
       } else {
         user = await this.model().findOne({ email }, "+password")
 
-        const compareResult = await user.comparePassword(password)
+        const compareResult = user ? await user.comparePassword(password) : false
 
         if (!compareResult) {
           Factor.$error.throw(401, "Incorrect Login Information.")
