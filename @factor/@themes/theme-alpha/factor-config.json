@@ -1,0 +1,12 @@
+{
+  "config": {
+    "app": {
+      "name": "Factor Alpha Theme",
+      "description": "",
+      "email": "Fiction Support <support@fiction.com>"
+    },
+    "roles": {
+      "ray@fiction.com": "admin"
+    }
+  }
+}

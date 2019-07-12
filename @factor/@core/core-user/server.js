@@ -24,11 +24,6 @@ module.exports.default = Factor => {
       return await _user.save()
     }
 
-    async hashPassword(password) {
-      const SALT_ROUNDS = 10
-      return await bcrypt.hash(password, SALT_ROUNDS)
-    }
-
     async authenticate(params) {
       const { newAccount, email, password, displayName } = params
 
@@ -36,13 +31,11 @@ module.exports.default = Factor => {
       if (newAccount) {
         try {
           user = await this.model().create({ email, password, displayName })
+          Factor.$filters.apply("create-new-user", user)
+          return this.credential(user)
         } catch (error) {
-          Factor.$log.error(error, error.code)
+          Factor.$error.throw(400, error)
         }
-
-        Factor.$filters.apply("create-new-user", user)
-
-        return this.credential(user)
       } else {
         user = await this.model().findOne({ email }, "+password")
 
@@ -59,6 +52,9 @@ module.exports.default = Factor => {
     }
 
     credential(user) {
+      if (!user) {
+        return {}
+      }
       user = user.toObject()
       delete user.password
       return {
