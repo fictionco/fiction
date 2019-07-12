@@ -28,6 +28,6 @@ files["uiComponentsStandard"] = require("@factor/ui-components-standard").defaul
 files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["metatags"] = require("@factor/cms-metatags").default
 files["pageTemplates"] = require("@factor/cms-page-templates").default
-files["posts"] = require("@factor/cms-posts").default
+files["posts"] = require("@factor/cms-posts/server").default
 files["userEmails"] = require("@factor/core-user-emails/server").default
 module.exports = files
