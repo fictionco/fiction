@@ -27,8 +27,8 @@ module.exports.default = Factor => {
 
           if (configRole && configRole != user.role) {
             user.role = configRole
-          } else if (user.isModified("role") && user.role != "member") {
-            return next(Factor.$error.create(400, `Can't edit role`))
+          } else if (user.isModified("role") && configRole != user.role) {
+            return next(Factor.$error.create(400, `Can't edit role ${user.role}`))
           }
 
           return next()

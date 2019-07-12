@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt")
 export default Factor => {
   return {
     name: "User",
@@ -13,7 +14,7 @@ export default Factor => {
         }
 
         try {
-          user.password = await _this.hashPassword(user.password)
+          user.password = await bcrypt.hash(user.password, 10)
           return next()
         } catch (error) {
           return next(error)
