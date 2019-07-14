@@ -1,6 +1,6 @@
 {
   "name": "@factor/cms-dashboard",
-  "version": "0.3.7",
+  "version": "0.4.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -13,10 +13,10 @@
     "id": "dashboard"
   },
   "dependencies": {
-    "@factor/cms-dashboard-users": "^0.3.7",
-    "@factor/cms-signin": "^0.3.7",
-    "@factor/ui-components-form": "^0.3.7",
-    "@factor/ui-components-standard": "^0.3.7"
+    "@factor/cms-dashboard-users": "^0.4.0",
+    "@factor/cms-signin": "^0.4.0",
+    "@factor/ui-components-form": "^0.4.0",
+    "@factor/ui-components-standard": "^0.4.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

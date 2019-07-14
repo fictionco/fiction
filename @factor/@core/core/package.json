@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "0.3.7",
+  "version": "0.4.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,20 +10,20 @@
     "id": "core"
   },
   "dependencies": {
-    "@factor/build": "^0.3.7",
-    "@factor/cli": "^0.3.7",
-    "@factor/core-db": "^0.3.7",
-    "@factor/core-email": "^0.3.7",
-    "@factor/core-endpoint": "^0.3.7",
+    "@factor/build": "^0.4.0",
+    "@factor/cli": "^0.4.0",
+    "@factor/core-db": "^0.4.0",
+    "@factor/core-email": "^0.4.0",
+    "@factor/core-endpoint": "^0.4.0",
+    "@factor/core-error": "^0.4.0",
     "@factor/core-events": "^0.3.7",
-    "@factor/core-log": "^0.3.7",
-    "@factor/core-error": "^0.3.7",
-    "@factor/server": "^0.3.7",
-    "@factor/core-stack": "^0.3.7",
-    "@factor/core-storage": "^0.3.7",
-    "@factor/core-theme": "^0.3.7",
-    "@factor/core-user": "^0.3.7",
-    "@factor/tools": "^0.3.7"
+    "@factor/core-log": "^0.4.0",
+    "@factor/core-stack": "^0.4.0",
+    "@factor/core-storage": "^0.4.0",
+    "@factor/core-theme": "^0.4.0",
+    "@factor/core-user": "^0.4.0",
+    "@factor/server": "^0.4.0",
+    "@factor/tools": "^0.4.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
