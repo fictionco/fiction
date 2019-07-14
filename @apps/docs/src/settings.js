@@ -145,21 +145,21 @@ export default Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "Create Beautiful Web Apps",
-      subHeadline: "Factor is a full-stack JS framework built for perfectionists with deadlines.",
+      headline: "Ship Amazing Web Apps, Faster.",
+      subHeadline: "A Javascript web-app platform for perfectionists with deadlines.",
       boxes: [
         {
-          title: "No Bloat",
+          title: "Post System",
           description:
             "From the ground up built for extensibility. Add features with plugins, services with stacks, UI with themes."
         },
         {
-          title: "Beautiful Apps",
+          title: "Modular",
           description:
             "Factor was built by front-end developers for front-end developers. We're here to help you create something beautiful."
         },
         {
-          title: "Easy To Start",
+          title: "5-Minute Setup",
           description:
             "Finally the JS world has a platform designed to help you ship production apps. Use Factor and stop the frustration."
         }

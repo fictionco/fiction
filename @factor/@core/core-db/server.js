@@ -10,11 +10,8 @@ module.exports.default = Factor => {
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
 
-      Factor.$filters.add("initialize-server", () => {
-        this.setModels()
-
-        this._syncSchemaIndexes()
-      })
+      Factor.$filters.callback("initialize-server", () => this.setModels())
+      // Factor.$filters.callback("initial-server-start", () => this._syncSchemaIndexes())
     }
 
     objectId(str) {
@@ -65,7 +62,7 @@ module.exports.default = Factor => {
 
     async populate({ _ids }) {
       const _in = Array.isArray(_ids) ? _ids : [_ids]
-      const result = await this.model("Post").find({
+      const result = await this.model("post").find({
         _id: { $in: _in }
       })
 
@@ -76,7 +73,7 @@ module.exports.default = Factor => {
     model(name) {
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
-        this._models[name] = this._models.Post.discriminator(name, new Factor.$mongoose.Schema())
+        this._models[name] = this.model("post").discriminator(name, new Factor.$mongoose.Schema())
       }
       return this._models[name]
     }
@@ -85,48 +82,72 @@ module.exports.default = Factor => {
       return this._schemas[name] || null
     }
 
-    createPostModel() {
-      const { schema, options, callback, name } = require("./schema").default(Factor)
+    // Set schemas and models
+    // For server restarting we need to inherit from already constructed mdb models if they exist
+    setModel(config, postModel = false) {
+      const { schema, options, callback, name } = config
 
-      const postSchema = new Factor.$mongoose.Schema(schema, options)
+      let _model
+      let _schema
+      if (Factor.$mongoose.models[name]) {
+        _schema = Factor.$mongoose.modelSchemas[name]
+        _model = Factor.$mongoose.models[name]
+      } else {
+        _schema = new Factor.$mongoose.Schema(schema, options)
+        if (callback) callback(_schema)
 
-      callback(postSchema)
+        if (!postModel) {
+          _model = Factor.$mongoose.model(name, _schema)
+        } else {
+          _model = postModel.discriminator(name, _schema)
+          _model.ensureIndexes()
+        }
+      }
 
-      this._schemas[name] = postSchema
+      this._schemas[name] = _schema
+      this._models[name] = _model
 
-      this._models[name] = Factor.$mongoose.model(name, postSchema)
-
-      return this._models[name]
+      return _model
     }
+
+    // setSchema(config) {
+    //   const { schema, options, callback, name } = config
+    //   let _schema
+    //   if (Factor.$mongoose.modelSchemas[name]) {
+    //     _schema = Factor.$mongoose.modelSchemas[name]
+    //   } else {
+    //     _schema = new Factor.$mongoose.Schema(schema, options)
+
+    //     if (callback) callback(_schema)
+    //   }
+
+    //   this._schemas[name] = _schema
+
+    //   return _schema
+    // }
 
     // For server restarts
-    resetModels() {
-      const existingModels = Factor.$mongoose.modelNames()
+    // resetModels() {
+    //   const existingModels = Factor.$mongoose.modelNames()
 
-      if (existingModels.length > 0) {
-        existingModels.forEach(name => {
-          delete Factor.$mongoose.models[name]
-          delete Factor.$mongoose.modelSchemas[name]
-        })
-      }
-    }
+    //   if (existingModels.length > 0) {
+    //     existingModels.forEach(name => {
+    //       delete Factor.$mongoose.models[name]
+    //       delete Factor.$mongoose.modelSchemas[name]
+    //     })
+    //   }
+    // }
 
     setModels() {
-      this.resetModels()
+      //   this.resetModels()
       this._schemas = {}
       this._models = {}
-      const Post = this.createPostModel()
+      const postModel = this.setModel(require("./schema").default(Factor))
 
-      const schemas = Factor.$filters.apply("data-schemas", [])
+      const postSchemas = Factor.$filters.apply("data-schemas", [])
 
-      schemas.forEach(({ name, schema, options = {}, callback = null }) => {
-        options.discriminatorKey = "kind"
-
-        this._schemas[name] = new Factor.$mongoose.Schema(schema, options)
-
-        if (callback) callback(this._schemas[name])
-
-        this._models[name] = Post.discriminator(name, this._schemas[name])
+      postSchemas.forEach(config => {
+        this.setModel(config, postModel)
       })
     }
 
@@ -146,12 +167,14 @@ module.exports.default = Factor => {
       schema.populatedFields = populated
     }
 
+    // Ensure all post indexes are up to date .
     // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes
     async _syncSchemaIndexes() {
-      for (let model of Object.values(this._models)) {
-        await model.syncIndexes()
-      }
+      for (let key of Object.keys(this._models)) {
+        const model = this._models[key]
 
+        await model.ensureIndexes()
+      }
       return
     }
   })()

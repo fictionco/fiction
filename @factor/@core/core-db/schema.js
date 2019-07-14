@@ -9,8 +9,8 @@ export default Factor => {
       author: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "user" }],
       images: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "attachment" }],
       avatar: { type: Factor.$mongoose.Schema.Types.ObjectId, ref: "attachment" },
-      tag: [String],
-      category: [String],
+      tag: { type: [String], index: true },
+      category: { type: [String], index: true },
       revisions: [Object],
       status: {
         type: String,
@@ -30,10 +30,6 @@ export default Factor => {
       }
     }),
     callback: _s => {
-      _s.index({ status: 1, postType: 1 }, { sparse: true })
-      _s.index({ tag: 1, postType: 1 }, { sparse: true })
-      _s.index({ category: 1, postType: 1 }, { sparse: true })
-
       _s.pre("save", function(next) {
         if (this.images && this.images.length > 0) {
           this.avatar = this.images[0]
