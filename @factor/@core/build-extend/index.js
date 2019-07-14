@@ -7,7 +7,7 @@ module.exports.default = Factor => {
       this.loadPlugins()
     }
 
-    run() {
+    async run(args = {}) {
       Factor.FACTOR_CONFIG = require("@factor/build-config").default(Factor)
       Factor.FACTOR_TARGET = "server"
 
@@ -16,7 +16,11 @@ module.exports.default = Factor => {
       // Loading plugins is sometimes not desireable e.g. when creating loaders
       if (Factor.FACTOR_CONFIG.loadPlugins !== false) {
         this.loadPlugins()
-        this.initialize()
+        await this.initialize()
+
+        if (!args.restart) {
+          Factor.$filters.run("initial-server-start")
+        }
       }
     }
 
@@ -51,7 +55,7 @@ module.exports.default = Factor => {
       })
     }
 
-    initialize() {
+    async initialize() {
       const { setup } = Factor.FACTOR_CONFIG
 
       // config defined setup hook/callback
@@ -60,7 +64,7 @@ module.exports.default = Factor => {
         setup(Factor)
       }
 
-      Factor.$filters.run("initialize-server")
+      await Factor.$filters.run("initialize-server")
     }
 
     loadPlugins() {

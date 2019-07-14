@@ -28,11 +28,6 @@ const cli = async () => {
       if (install && !restart) {
         await this.runTasks(
           [
-            // {
-            //   command: "rm",
-            //   args: ["-rf", "./node_modules/.cache"],
-            //   title: "Clear Cache"
-            // },
             { command: "yarn", args: ["install"], title: "Installing Dependencies" },
             {
               command: "factor",
@@ -48,9 +43,8 @@ const cli = async () => {
       process.env.FACTOR_ENV = program.ENV || NODE_ENV
       process.env.FACTOR_COMMAND = program._name
 
-      require("@factor/build-extend")
-        .default(Factor)
-        .run()
+      const extender = require("@factor/build-extend").default(Factor)
+      await extender.run(args)
 
       // Filters must be reloaded with every new extension.
       // server resets "re-extend" the process
@@ -84,7 +78,6 @@ const cli = async () => {
         .command("start")
         .description("Start production build on local server")
         .action(async args => {
-
           const NODE_ENV = "production"
           await this.extend({ NODE_ENV, install: false, ...args })
 
@@ -188,7 +181,7 @@ const cli = async () => {
         }
       })
 
-      await this.extend({ ...args, install: false })
+      await this.extend({ ...args, install: false, restart: true })
     }
 
     async createDist(args) {
@@ -199,7 +192,6 @@ const cli = async () => {
 
       return
     }
- 
 
     async cliTasks(t = []) {
       const tasks = Factor.$filters.apply("cli-tasks", t)

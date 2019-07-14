@@ -31,11 +31,13 @@ module.exports.default = Factor => {
       if (newAccount) {
         try {
           user = await this.model().create({ email, password, displayName })
-          Factor.$filters.apply("create-new-user", user)
-          return this.credential(user)
         } catch (error) {
-          Factor.$error.throw(400, error)
+          const e = error.code == 11000 ? `Account with email: "${email}" already exists.` : error
+          Factor.$error.throw(400, e)
         }
+
+        Factor.$filters.apply("create-new-user", user)
+        return this.credential(user)
       } else {
         user = await this.model().findOne({ email }, "+password")
 

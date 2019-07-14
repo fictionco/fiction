@@ -18,6 +18,8 @@ module.exports.default = Factor => {
       // https://mongoosejs.com/docs/guide.html#autoIndex
       if (process.env.NODE_ENV == "production") {
         Factor.$mongoose.set("autoIndex", false)
+      } else if (Factor.FACTOR_DEBUG) {
+        Factor.$mongoose.set("debug", true)
       }
     }
 
