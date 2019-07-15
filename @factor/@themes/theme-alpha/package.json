@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "0.4.0",
+  "version": "1.0.0-alpha.0",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -8,10 +8,13 @@
   },
   "factor": {
     "extend": "theme",
-    "target": ["server", "app"]
+    "target": [
+      "server",
+      "app"
+    ]
   },
   "dependencies": {
-    "@factor/post": "^0.4.0",
-    "@factor/plugin-notify": "^0.4.0"
+    "@factor/plugin-notify": "^1.0.0-alpha.0",
+    "@factor/post": "^1.0.0-alpha.0"
   }
 }
