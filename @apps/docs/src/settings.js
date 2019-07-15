@@ -149,19 +149,18 @@ export default Factor => {
       subHeadline: "A modern alternative to WordPress, created for perfectionists with deadlines.",
       boxes: [
         {
-          title: "Post System",
-          description:
-            "From the ground up built for extensibility. Add features with plugins, services with stacks, UI with themes."
+          title: "Everything is a Post",
+          description: "Factor makes use of a powerful post pattern that makes advanced app development simple."
         },
         {
-          title: "Modular",
+          title: "Plugins and Themes",
           description:
-            "Factor was built by front-end developers for front-end developers. We're here to help you create something beautiful."
+            "Factor is designed for drop-in, one-click extension. Building and using plugins and themes is easy."
         },
         {
-          title: "5-Minute Setup",
+          title: "Famous 5-Minute Setup",
           description:
-            "Finally the JS world has a platform designed to help you ship production apps. Use Factor and stop the frustration."
+            "You'll be up and running in less than 5 minutes with an app that does almost everything you want."
         }
       ],
       actions: [
