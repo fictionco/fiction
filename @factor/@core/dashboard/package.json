@@ -1,19 +1,22 @@
 {
   "name": "@factor/dashboard",
-  "version": "0.4.0",
+  "version": "1.0.0-alpha.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": ["app", "server"],
+    "target": [
+      "app",
+      "server"
+    ],
     "id": "dashboard"
   },
   "dependencies": {
-    "@factor/core-user-dashboard": "^0.4.0",
-    "@factor/dashboard-signin": "^0.4.0",
-    "@factor/ui-components-form": "^0.4.0",
-    "@factor/ui-components-standard": "^0.4.0"
+    "@factor/core-user-dashboard": "^1.0.0-alpha.0",
+    "@factor/dashboard-signin": "^1.0.0-alpha.0",
+    "@factor/ui-components-form": "^1.0.0-alpha.0",
+    "@factor/ui-components-standard": "^1.0.0-alpha.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
