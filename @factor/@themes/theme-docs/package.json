@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-docs",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
