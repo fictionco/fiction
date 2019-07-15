@@ -1,16 +1,17 @@
 {
-  "name": "@factor/cms-posts",
+  "name": "@factor/dashboard-signin",
   "version": "0.4.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": {
-      "app": "index",
-      "server": "server"
-    },
-    "id": "posts"
+    "target": ["app"],
+    "id": "signin"
+  },
+  "dependencies": {
+    "@factor/core": "^0.4.0",
+    "@factor/ui": "^0.4.0"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

@@ -1,15 +1,13 @@
 {
-  "name": "@factor/cms-metatags",
+  "name": "@factor/core-user-dashboard",
+  "factor": {
+    "target": ["app"]
+  },
   "version": "0.4.0",
   "license": "GPL-2.0",
   "publishConfig": {
-    "access": "public"
-  },
-  "factor": {
-    "target": [
-      "app"
-    ],
-    "id": "metatags"
+    "access": "public",
+    "id": "cmsUsers"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

@@ -1,0 +1,27 @@
+{
+  "name": "@factor/post",
+  "version": "0.4.0",
+  "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "target": {
+      "app": "index",
+      "server": "server"
+    },
+    "id": "posts"
+  },
+  "dependencies": {
+    "@factor/app": "^0.4.0",
+    "@factor/build": "^0.4.0",
+    "@factor/core": "^0.4.0",
+    "@factor/dashboard": "^0.4.0",
+    "@factor/dashboard-signin": "^0.4.0",
+    "@factor/post-metatags": "^0.4.0",
+    "@factor/post-page-templates": "^0.4.0",
+    "@factor/ui": "^0.4.0",
+    "scriptjs": "^2.5.9"
+  },
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+}

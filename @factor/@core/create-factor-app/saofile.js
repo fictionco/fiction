@@ -35,7 +35,7 @@ const config = {
       type: "list",
       choices: [
         {
-          name: "Complete (@factor/cms) - Core + Dashboard",
+          name: "Complete (@factor/post) - Core + Dashboard",
           value: "cms"
         },
         {

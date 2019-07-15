@@ -1,20 +1,17 @@
 {
-  "name": "@factor/cms-dashboard",
+  "name": "@factor/dashboard",
   "version": "0.4.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "target": [
-      "app",
-      "server"
-    ],
+    "target": ["app", "server"],
     "id": "dashboard"
   },
   "dependencies": {
-    "@factor/cms-dashboard-users": "^0.4.0",
-    "@factor/cms-signin": "^0.4.0",
+    "@factor/core-user-dashboard": "^0.4.0",
+    "@factor/dashboard-signin": "^0.4.0",
     "@factor/ui-components-form": "^0.4.0",
     "@factor/ui-components-standard": "^0.4.0"
   },
