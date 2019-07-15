@@ -9,12 +9,13 @@ export default {
     path: { type: String, default: "" },
     event: { type: String, default: "" },
     query: { type: Object, default: () => {} },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
+    text: { type: String, default: "" }
   },
 
   render: function(createElement) {
     let path = this.path
-    let text = this.$slots.default
+    let text = this.text || this.$slots.default
     let el = "span"
     let attrs = {}
     let props = {}

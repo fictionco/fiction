@@ -96,44 +96,24 @@ export default Factor => {
 
     async initializeUser({ user } = {}) {
       this._initializedUser = new Promise(async (resolve, reject) => {
-        if (this.currentUser() && !user) {
+        if (this.currentUser()._id && !user) {
           resolve(this.currentUser())
         } else {
-          const token = user && user.token ? user.token : this.token() ? this.token() : null
+          Factor.$events.$on("app-mounted", async () => {
+            const token = user && user.token ? user.token : this.token() ? this.token() : null
 
-          user = token ? await this.request("retrieveUser", { token }) : {}
+            user = token ? await this.request("retrieveUser", { token }) : {}
 
-          // Prevent hydration errors
-          // If current user is set too quickly Vue is throwing a mismatch error
-          this.setUser({ user, token, current: true })
+            // Prevent hydration errors
+            // If current user is set too quickly Vue is throwing a mismatch error
+            this.setUser({ user, token, current: true })
 
-          resolve(user)
+            resolve(user)
+          })
         }
       })
 
       return this._initializedUser
-    }
-
-    isCurrentUser(_id) {
-      return this.currentUser && this.currentUser._id == _id ? true : false
-    }
-
-    currentUser() {
-      return Factor.$store.getters["getItem"]("currentUser") || {}
-    }
-
-    setUser({ user, token, current = false }) {
-      const { _id } = user ? user : {}
-
-      if (current) {
-        if (token) this.token(token)
-        else if (user === null) this.token(null)
-
-        Factor.$store.commit("setItem", { item: "currentUser", value: user })
-        localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
-      }
-
-      Factor.$store.commit("setItem", { item: _id, value: user })
     }
 
     // Utility function that calls a callback when the user is set initially
@@ -146,12 +126,38 @@ export default Factor => {
       return user
     }
 
+    isCurrentUser(_id) {
+      return this.currentUser()._id == _id ? true : false
+    }
+
+    currentUser() {
+      return Factor.$store.getters["getItem"]("currentUser") || {}
+    }
+
+    isLoggedIn() {
+      return !!!Factor.$lodash.isEmpty(this.currentUser())
+    }
+
+    setUser({ user, token, current = false }) {
+      const { _id } = user ? user : {}
+
+      if (current) {
+        if (token && user) this.token(token)
+        else if (user === null) this.token(null)
+
+        Factor.$store.commit("setItem", { item: "currentUser", value: user })
+        localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
+      }
+
+      Factor.$store.commit("setItem", { item: _id, value: user })
+    }
+
     _id() {
-      return this.currentUser() ? this.currentUser()._id : ""
+      return this.currentUser() && this.currentUser()._id ? this.currentUser()._id : ""
     }
 
     _item(key) {
-      const user = this.currentUser() || {}
+      const user = this.currentUser()
       return user[key]
     }
 
@@ -210,7 +216,7 @@ export default Factor => {
           }
         })
 
-        if (auth === true && !user) {
+        if (auth === true && !user._id) {
           Factor.$events.$emit("signin-modal", {
             redirect: toPath
           })

@@ -135,8 +135,8 @@ export default {
     async sendVerifyEmail() {
       this.sending = true
       await this.$userEmails.sendVerifyEmail({
-        email: this.user.email,
-        _id: this.user._id
+        email: this.post.email,
+        _id: this.post._id
       })
       this.sending = false
     },

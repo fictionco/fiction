@@ -19,7 +19,11 @@ export default Factor => {
 
         const sendData = { method, params }
 
-        await Factor.$user.init()
+        // wait for user initialization
+        // except for actual request for user from token
+        if (!params.token) {
+          await Factor.$user.init()
+        }
 
         const {
           data: { result, error }

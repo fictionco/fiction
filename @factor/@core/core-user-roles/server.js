@@ -10,6 +10,15 @@ module.exports.default = Factor => {
           default: "member"
         }
 
+        _.accessLevel = {
+          type: Number,
+          min: 0,
+          max: 1000,
+          required: true,
+          default: 0,
+          index: true
+        }
+
         return _
       })
 
@@ -17,19 +26,22 @@ module.exports.default = Factor => {
       Factor.$filters.add("user-schema-hooks", Schema => {
         const _this = this
 
-        Schema.virtual("accessLevel").get(function() {
-          return this.role ? _this.roles()[this.role] : 0
-        })
+        // Schema.virtual("accessLevel").get(function() {
+        //   return this.role ? _this.roles()[this.role] : 0
+        // })
 
         Schema.pre("validate", async function(next) {
           const user = this
-          const configRole = Factor.$config.setting(`roles.${user.email}`)
+          const setting = Factor.$config.setting(`roles.${user.email}`)
+          const configRole = user.emailVerified && setting ? setting : "member"
 
           if (configRole && configRole != user.role) {
             user.role = configRole
           } else if (user.isModified("role") && configRole != user.role) {
             return next(Factor.$error.create(400, `Can't edit role ${user.role}`))
           }
+
+          user.accessLevel = _this.roles()[user.role] || 0
 
           return next()
         })

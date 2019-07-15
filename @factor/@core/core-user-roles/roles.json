@@ -1,6 +1,7 @@
 {
   "admin": 500,
   "moderator": 400,
+  "author": 100,
   "member": 1,
   "visitor": 0
 }

@@ -27,24 +27,9 @@ module.exports.default = Factor => {
 
       const author = [Factor.$db.objectId(bearer._id)]
       const url = Factor.$filters.apply("create-image-url", `data:${mimetype};base64,${buffer.toString("base64")}`)
-      const img = await Factor.$db.run("Image", "create", [{ url, mimetype, size, author }])
+      const img = await Factor.$db.model("attachment").create({ url, mimetype, size, author })
 
       return img.toObject()
     }
-
-    // imageSchema() {
-    //   const _this = this // mongoose hooks need 'this'
-    //   return {
-    //     name: "Image",
-    //     callback: s => {},
-    //     schema: {
-    //       mimetype: String,
-    //       imageData: Buffer,
-    //       size: Number,
-    //       url: String
-    //     },
-    //     options: {}
-    //   }
-    // }
   })()
 }

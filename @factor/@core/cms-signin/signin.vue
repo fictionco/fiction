@@ -41,6 +41,12 @@
         />
       </template>
 
+      <template v-else-if="!view && $user.isLoggedIn()">
+        <div class="action">
+          <dashboard-link btn="primary" text="Account" path="/dashboard/account" />
+        </div>
+      </template>
+
       <template v-else-if="!view">
         <dashboard-input
           v-if="newAccount"
@@ -170,6 +176,11 @@ export default {
         return {
           title: "Sign Up",
           subTitle: "Create A New Account"
+        }
+      } else if (this.$user.isLoggedIn()) {
+        return {
+          title: "Logged In",
+          subTitle: "You are successfully logged in."
         }
       } else {
         return {
