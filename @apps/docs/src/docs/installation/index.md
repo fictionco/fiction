@@ -4,7 +4,7 @@
 
 Starting a new Factor app is easy. The goal is to have you up-and-running in **less than 5-minutes**. 
 
-A simple project only needs `@factor/cms` referenced as a package.json dependency. This installs Factor CLI as well as some packages. Let's dig in...
+A simple project only needs `@factor/post` referenced as a package.json dependency. This installs Factor CLI as well as some packages. Let's dig in...
 
 > **Node + Yarn - Global Dependencies** <br/>
 > Factor requires [Node.js](https://nodejs.org/en/) version 10 or above, as well as [Yarn](https://yarnpkg.com/en/) for dependency management.

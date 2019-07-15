@@ -8,14 +8,11 @@
   },
   "factor": {
     "extend": "theme",
-    "target": [
-      "server",
-      "app"
-    ]
+    "target": ["server", "app"]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "@factor/cms": "^0.4.0",
+    "@factor/post": "^0.4.0",
     "@factor/plugin-notify": "^0.4.0",
     "prismjs": "^1.16.0"
   }

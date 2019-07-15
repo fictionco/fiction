@@ -218,8 +218,7 @@ const cli = async () => {
                 })
 
                 proc.stderr.on("data", data => {
-                  const taskError = data.toString()
-                  throw new Error(taskError)
+                  task.output = data.toString()
                 })
 
                 try {

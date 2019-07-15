@@ -11,6 +11,6 @@
   "dependencies": {
     "@factor/<%= scope %>": ">0.3.0" <% if(scope != 'cms'){ %>,
     "@factor/ui": ">0.3.0", 
-    "@factor/cms-metatags": ">0.3.0"<% } %>
+    "@factor/post-metatags": ">0.3.0"<% } %>
   }
 }

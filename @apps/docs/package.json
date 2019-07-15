@@ -12,7 +12,7 @@
     "target": ["app", "server"]
   },
   "dependencies": {
-    "@factor/cms": ">=0.3.0",
+    "@factor/post": ">=0.3.0",
     "@factor/theme-docs": ">=0.3.0"
   }
 }
