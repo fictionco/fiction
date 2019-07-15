@@ -80,7 +80,7 @@ export default {
       position: absolute;
       height: 5000px;
       bottom: 0;
-      background: #FFF;
+      background: #fff;
       left: 0;
       right: 0;
     }
@@ -153,8 +153,8 @@ export default {
           margin: 1em 0 2em;
         }
         h2 {
-          font-size: 1.4em;
-          line-height: 1em;
+          font-size: 1.2em;
+          line-height: 1.2em;
           font-weight: 800;
           margin: 0;
         }
