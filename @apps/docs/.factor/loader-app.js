@@ -1,14 +1,14 @@
 /******** GENERATED FILE ********/
 const files = {}
 files["events"] = require("@factor/core-events").default
-files["notify"] = require("@factor/plugin-notify").default
+files["http"] = require("@factor/tools-http").default
 files["setting"] = require("@factor/app-settings").default
 files["appDriver"] = require("@factor/app").default
 files["db"] = require("@factor/core-db").default
 files["email"] = require("@factor/core-email").default
 files["endpoint"] = require("@factor/core-endpoint").default
 files["posts"] = require("@factor/post").default
-files["docsApp"] = require("../src/index.js").default
+files["notify"] = require("@factor/plugin-notify").default
 files["storage"] = require("@factor/core-storage").default
 files["user"] = require("@factor/core-user").default
 files["userEmails"] = require("@factor/core-user-emails").default
@@ -25,5 +25,5 @@ files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["metatags"] = require("@factor/post-metatags").default
 files["templates"] = require("@factor/post-page-templates").default
 files["docs"] = require("@factor/theme-docs").default
-files["http"] = require("@factor/tools-http").default
+files["cwd"] = require("../src/index.js").default
 module.exports = files

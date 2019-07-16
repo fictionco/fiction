@@ -1,5 +1,6 @@
 const path = require("path")
 const { resolve, dirname } = path
+const { existsSync } = require("fs-extra")
 module.exports.default = Factor => {
   return new (class {
     constructor() {
@@ -11,7 +12,8 @@ module.exports.default = Factor => {
 
       Factor.$paths.add({
         "loader-app": resolve(gen, "loader-app.js"),
-        "loader-server": resolve(gen, "loader-server.js")
+        "loader-server": resolve(gen, "loader-server.js"),
+        "loader-settings": resolve(gen, "loader-settings.js")
       })
 
       this.cwdPackage = require(resolve(Factor.$paths.get("app"), "package.json"))
@@ -19,47 +21,8 @@ module.exports.default = Factor => {
       this.extensions = this.getExtensions()
 
       if (Factor.FACTOR_TARGET == "server") {
-        this.addWatchers()
-
         Factor.$filters.callback("cli-run-create-loaders", _ => this.generateLoaders(_))
       }
-    }
-
-    addWatchers() {
-      // Factor.$filters.add("after-build-config", () => {
-      //   const res = this.generateLoaders()
-      //   Factor.$log.success(res)
-      // })
-      // Factor.$filters.add("cli-tasks", _ => {
-      //   _.push({
-      //     command: (ctx, task) => {
-      //       task.title = this.generateLoaders()
-      //     },
-      //     title: "Generating extension loaders"
-      //   })
-      //   return _
-      // })
-      // Factor.$filters.add("build-watchers", _ => {
-      //   _.push({
-      //     name: "Generate Loaders - Package Added/Removed",
-      //     files: this.getExtensionPatterns(),
-      //     ignored: [],
-      //     callback: ({ event, path }) => {
-      //       // Any time there is a node_modules within a @factor package
-      //       // Then we don't want to watch it
-      //       // TODO - Ideally these wouldn't be included in the GLOB of packages
-      //       // Wasn't working so added this
-      //       const subModules = path.split("@factor").pop()
-      //       if ((event == "add" || event == "unlink") && (!subModules || !subModules.includes("node_modules"))) {
-      //         this.generateLoaders()
-      //         return true // update server
-      //       } else {
-      //         return false // server ignore
-      //       }
-      //     }
-      //   })
-      //   return _
-      // })
     }
 
     getExtended(type = false) {
@@ -71,23 +34,71 @@ module.exports.default = Factor => {
     }
 
     generateLoaders() {
-      this.makeLoaderFile({
+      this.makeModuleLoader({
         extensions: this.extensions,
         destination: Factor.$paths.get("loader-server"),
         buildTarget: ["server", "app"],
         mainTarget: "server"
       })
 
-      this.makeLoaderFile({
+      this.makeModuleLoader({
         extensions: this.extensions,
         destination: Factor.$paths.get("loader-app"),
         buildTarget: ["app"],
         mainTarget: "app"
       })
 
+      this.makeFileLoader({
+        extensions: this.extensions,
+        destination: Factor.$paths.get("loader-settings"),
+        filename: "theme-settings.js"
+      })
+
       console.log(`Loaders built for ${this.extensions.length} Extensions`)
 
       return
+    }
+
+    _cwdMainDir(requireRoot) {
+      const parts = [requireRoot]
+
+      const rel = Factor.$paths
+        .get("source")
+        .replace(`${process.cwd()}`, "")
+        .replace(/^\/|\/$/g, "")
+
+      if (rel) parts.push(rel)
+
+      return parts.join("/")
+    }
+
+    _moduleMainDir(requireRoot) {
+      const parts = [requireRoot]
+      const rel = dirname(require.resolve(requireRoot))
+        .split("/")
+        .pop()
+
+      if (rel) parts.push(rel)
+
+      return parts.join("/")
+    }
+
+    makeFileLoader({ extensions, destination, filename }) {
+      const files = []
+
+      extensions.forEach(_ => {
+        const { name, mainFile, mainDir, requireRoot, cwd, id } = _
+        const parts = [requireRoot]
+
+        const requireDir = cwd ? this._cwdMainDir(requireRoot) : this._moduleMainDir(requireRoot)
+        if (existsSync(resolve(mainDir, filename))) {
+          files.push({ id, file: `${requireDir}/${filename}` })
+        }
+      })
+
+      const fileLines = files.map(({ id, file }) => `files["${id}"] = require("${file}")`)
+
+      this._writeFile(Factor.$paths.get("loader-settings"), fileLines)
     }
 
     recursiveFactorDependencies(deps, pkg) {
@@ -117,34 +128,26 @@ module.exports.default = Factor => {
       return list
     }
 
-    moduleMainFile({ name, mainTarget, target }) {
-      let mainFile = name
+    moduleMainFile({ name, main, mainTarget, target, cwd }) {
+      let mroot = cwd ? ".." : name
+      let mainFileParts = [mroot]
+
       if (typeof target == "object" && !Array.isArray(target) && target[mainTarget] && target[mainTarget] != "index") {
-        return `${name}/${target[mainTarget]}`
+        if (target[mainTarget] != "index.js") {
+          mainFileParts.push(target[mainTarget])
+        }
+      } else if (cwd) {
+        mainFileParts.push(main)
       }
 
-      return mainFile
+      return mainFileParts.join("/")
     }
 
-    filterExtensions({ mainTarget, buildTarget, extensions }) {
-      let filtered = extensions
-        .filter(({ target }) => {
-          target = !Array.isArray(target) ? Object.keys(target) : target
-          return this.arrayIntersect(buildTarget, target)
-        })
-        .map(_ => {
-          const { name, target, cwd, main } = _
-
-          // If current directory/app then is not necessarily a module in the system
-          // for app dirs we need to load relative, as absolute path might be different from build time to serve time
-          if (cwd) {
-            _.mainFile = `../${main}`
-          } else {
-            _.mainFile = this.moduleMainFile({ name, target, mainTarget })
-          }
-
-          return _
-        })
+    filterExtensions({ buildTarget, extensions }) {
+      let filtered = extensions.filter(({ target }) => {
+        target = !Array.isArray(target) ? Object.keys(target) : target
+        return this.arrayIntersect(buildTarget, target)
+      })
 
       return Factor.$filters.apply(`packages-loader`, filtered, { buildTarget, extensions })
     }
@@ -161,8 +164,10 @@ module.exports.default = Factor => {
           main = "index.js"
         } = _
 
-        id = id || this.makeId(name)
         const cwd = name == this.cwdPackage.name ? true : false
+        id = cwd ? "cwd" : id || this.makeId(name)
+        // User App Comes Last (by default)
+        priority = cwd ? 1000 : priority
 
         fields = {
           version,
@@ -174,6 +179,12 @@ module.exports.default = Factor => {
           main,
           id
         }
+
+        fields.requireRoot = cwd ? ".." : name
+        fields.mainFile = this.moduleMainFile({ name, main, target, mainTarget: "app", cwd })
+        fields.mainFileServer = this.moduleMainFile({ name, main, target, mainTarget: "server", cwd })
+
+        fields.mainDir = cwd ? Factor.$paths.get("source") : dirname(require.resolve(fields.mainFile))
 
         loader.push(fields)
       })
@@ -188,32 +199,44 @@ module.exports.default = Factor => {
     // Webpack doesn't allow dynamic paths in require statements
     // In order to make dynamic require statements, we build loader files
     // Also an easier way to see what is included than by using other techniques
-    makeLoaderFile({ extensions, destination, mainTarget, buildTarget, requireAtRuntime = false }) {
-      const fs = require("fs-extra")
-
+    makeModuleLoader({ extensions, destination, mainTarget, buildTarget, requireAtRuntime = false }) {
       const filtered = this.filterExtensions({ mainTarget, buildTarget, extensions })
 
       const fileLines = []
       filtered.forEach(extension => {
-        const { id, mainFile } = extension
+        const { id, mainFile, mainFileServer } = extension
 
+        const theFile = mainTarget == "server" ? mainFileServer : mainFile
         if (requireAtRuntime) {
           fileLines.push(JSON.stringify(extension, null, "  "))
         } else {
-          fileLines.push(`files["${id}"] = require("${mainFile}").default`)
+          fileLines.push(`files["${id}"] = require("${theFile}").default`)
         }
       })
 
+      this._writeFile(destination, fileLines)
+
+      // let lines = [`/******** GENERATED FILE ********/`]
+
+      // lines.push("const files = {}")
+      // lines = lines.concat(fileLines)
+
+      // lines.push(`module.exports = files`)
+
+      // fs.ensureDirSync(path.dirname(destination))
+
+      // fs.writeFileSync(destination, lines.join("\n"))
+
+      // console.log(`File Made @${destination}`)
+    }
+
+    _writeFile(destination, fileLines) {
+      const fs = require("fs-extra")
       let lines = [`/******** GENERATED FILE ********/`]
 
-      if (requireAtRuntime) {
-        lines.push("const files = [")
-        lines.push(fileLines.join(`,\n`))
-        lines.push("]")
-      } else {
-        lines.push("const files = {}")
-        lines = lines.concat(fileLines)
-      }
+      lines.push("const files = {}")
+
+      lines = lines.concat(fileLines)
 
       lines.push(`module.exports = files`)
 
