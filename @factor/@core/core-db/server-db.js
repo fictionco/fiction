@@ -6,6 +6,7 @@ module.exports.default = Factor => {
 
       if (!this.DB_CONNECTION) {
         Factor.$log.warn("Missing the database connection string (DB_CONNECTION)")
+        return
       }
 
       Factor.$filters.callback("close-server", () => this.disconnectDb())
@@ -35,7 +36,7 @@ module.exports.default = Factor => {
     }
 
     async connectDb() {
-     
+
       if (!this._connected && this.readyState() != 'connected') {
         try {
           this._connected = true
