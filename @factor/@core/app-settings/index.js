@@ -8,20 +8,13 @@ export default Factor => {
       })
     }
 
-    sourceSettings() {
-      let request = require.context("@", false, /settings\.js/)
-
-      const valArray = request
-        .keys()
-        .map(request)
-        .map(_ => _.default)
-
-      return valArray.length > 0 && typeof valArray[0] == "function" ? valArray[0](Factor) : {}
-    }
-
     async setup() {
-      const settingsArray = Factor.$filters.apply("settings", [{}])
-      settingsArray.push(this.sourceSettings())
+      const settingsFiles = require("~/.factor/loader-settings")
+
+      const settingsArray = Factor.$filters.apply(
+        "theme-settings",
+        Object.values(settingsFiles).map(_obj => _obj(Factor))
+      )
 
       this._settings = Factor.$utils.deepMerge(settingsArray)
     }

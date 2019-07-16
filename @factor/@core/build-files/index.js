@@ -96,7 +96,7 @@ module.exports.default = Factor => {
         }
       })
 
-      const fileLines = files.map(({ id, file }) => `files["${id}"] = require("${file}")`)
+      const fileLines = files.map(({ id, file }) => `files["${id}"] = require("${file}").default`)
 
       this._writeFile(Factor.$paths.get("loader-settings"), fileLines)
     }
@@ -215,19 +215,6 @@ module.exports.default = Factor => {
       })
 
       this._writeFile(destination, fileLines)
-
-      // let lines = [`/******** GENERATED FILE ********/`]
-
-      // lines.push("const files = {}")
-      // lines = lines.concat(fileLines)
-
-      // lines.push(`module.exports = files`)
-
-      // fs.ensureDirSync(path.dirname(destination))
-
-      // fs.writeFileSync(destination, lines.join("\n"))
-
-      // console.log(`File Made @${destination}`)
     }
 
     _writeFile(destination, fileLines) {

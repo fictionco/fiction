@@ -3,7 +3,9 @@ const axios = require("axios")
 export default Factor => {
   return new (class {
     constructor() {
-      this.standardHeaders()
+      Factor.$filters.add("before-app", () => {
+        this.standardHeaders()
+      })
     }
     util() {
       return axios
