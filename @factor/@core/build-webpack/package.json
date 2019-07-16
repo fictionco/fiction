@@ -6,9 +6,7 @@
     "access": "public"
   },
   "factor": {
-    "target": [
-      "server"
-    ],
+    "target": ["server"],
     "id": "webpack"
   },
   "dependencies": {

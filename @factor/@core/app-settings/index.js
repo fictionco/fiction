@@ -1,3 +1,4 @@
+import Factor from "vue"
 export default Factor => {
   return new (class {
     constructor() {

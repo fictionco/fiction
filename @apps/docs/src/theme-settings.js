@@ -1,4 +1,4 @@
-export default Factor => {
+module.exports.default = Factor => {
   return {
     docs: {
       pages: [
@@ -145,7 +145,7 @@ export default Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "Do More, With Less...???",
+      headline: "Build Better Web Apps",
       subHeadline:
         "Factor is a modern, full-stack Javascript alternative to WordPress, created for perfectionists with deadlines.",
       boxes: [

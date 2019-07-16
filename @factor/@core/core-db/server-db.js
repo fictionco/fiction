@@ -35,7 +35,8 @@ module.exports.default = Factor => {
     }
 
     async connectDb() {
-      if (!this._connected) {
+     
+      if (!this._connected && this.readyState() != 'connected') {
         try {
           this._connected = true
           await Factor.$mongoose.connect(this.DB_CONNECTION, { useNewUrlParser: true })
@@ -45,9 +46,12 @@ module.exports.default = Factor => {
         }
       }
     }
-    readyStateMap() {
+    readyState() {
+      const activeState = Factor.$mongoose.connection.readyState
       //  console.log("Mongo", this.readyStateMap()[Factor.$mongoose.connection.readyState])
-      return ["disconnected", "connected", "connecting", "disconnecting"]
+      const states = ["disconnected", "connected", "connecting", "disconnecting"]
+
+      return states[activeState]
     }
   })()
 }
