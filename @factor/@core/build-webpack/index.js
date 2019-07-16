@@ -217,6 +217,7 @@ module.exports.default = Factor => {
         output: {
           publicPath: Factor.$paths.get("dist")
         },
+        module: {},
         plugins: [
           // new HardSourceWebpackPlugin({
           //   info: {
