@@ -145,8 +145,9 @@ export default Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "A Post System and CMS Framework for Javascript Developers",
-      subHeadline: "A modern alternative to WordPress, created for perfectionists with deadlines.",
+      headline: "Do More, With Less.",
+      subHeadline:
+        "Factor is a modern, full-stack Javascript alternative to WordPress, created for perfectionists with deadlines.",
       boxes: [
         {
           title: "Everything is a Post",

@@ -13,7 +13,7 @@
     "target": ["app", "server"]
   },
   "dependencies": {
-    "@factor/post": ">=0.3.0",
-    "@factor/theme-docs": ">=0.3.0"
+    "@factor/post": "^1.0.0-alpha.0",
+    "@factor/theme-docs": "^1.0.0-alpha.0"
   }
 }

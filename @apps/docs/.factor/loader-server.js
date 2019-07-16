@@ -1,7 +1,7 @@
 /******** GENERATED FILE ********/
 const files = {}
 files["events"] = require("@factor/core-events").default
-files["notify"] = require("@factor/plugin-notify").default
+files["userEmails"] = require("@factor/core-user-emails/server").default
 files["appFallbacks"] = require("@factor/app-fallbacks").default
 files["setting"] = require("@factor/app-settings").default
 files["appDriver"] = require("@factor/app").default
@@ -12,7 +12,7 @@ files["db"] = require("@factor/core-db/server").default
 files["email"] = require("@factor/core-email/server").default
 files["endpoint"] = require("@factor/core-endpoint/server").default
 files["posts"] = require("@factor/post/server").default
-files["docsApp"] = require("../src/index.js").default
+files["notify"] = require("@factor/plugin-notify").default
 files["storage"] = require("@factor/core-storage/server").default
 files["user"] = require("@factor/core-user/server").default
 files["error"] = require("@factor/core-error").default
@@ -30,5 +30,5 @@ files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["metatags"] = require("@factor/post-metatags").default
 files["templates"] = require("@factor/post-page-templates/server").default
 files["docs"] = require("@factor/theme-docs").default
-files["userEmails"] = require("@factor/core-user-emails/server").default
+files["cwd"] = require("../src/index.js").default
 module.exports = files
