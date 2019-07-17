@@ -6,6 +6,13 @@ module.exports.default = Factor => {
     constructor() {
       this.SECRET = Factor.$config.setting("TOKEN_SECRET")
 
+      if (!this.SECRET) {
+        Factor.$filters.callback("initial-server-start", () => {
+          Factor.$log.warn(Factor.$log.warn("No auth token secret provided. (.env/TOKEN_SECRET)"))
+        })
+
+      }
+
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
       Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor))
@@ -62,7 +69,7 @@ module.exports.default = Factor => {
       delete user.password
       return {
         ...user,
-        token: this.signJWT({ _id: user._id })
+        token: jwt.sign({ _id: user._id }, this.SECRET)
       }
     }
 
@@ -90,9 +97,15 @@ module.exports.default = Factor => {
 
     // Retrieve basic user document
     async retrieveUser({ token, mode = "app" }) {
-      const decoded = this.verifyJWT(token)
+      let decoded
+      try {
+        decoded = jwt.verify(token, this.SECRET)
+      } catch (error) {
+        Factor.$error.throw(error)
+      }
 
-      if (decoded) {
+
+      if (decoded && decoded._id) {
         const { _id } = decoded
 
         return await this.getUser({ _id, mode })
@@ -101,16 +114,6 @@ module.exports.default = Factor => {
       }
     }
 
-    signJWT(payload) {
-      return jwt.sign(payload, this.SECRET)
-    }
 
-    verifyJWT(token) {
-      try {
-        return jwt.verify(token, this.SECRET)
-      } catch (error) {
-        Factor.$error.throw(error)
-      }
-    }
   })()
 }

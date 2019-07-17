@@ -64,7 +64,12 @@ module.exports.default = Factor => {
         Factor.$error.throw(500, `Endpoint method ${method} is missing.`)
       }
 
-      return await _ep[method](params, meta)
+      try {
+        return await _ep[method](params, meta)
+      } catch (error) {
+        Factor.$error.throw(error)
+      }
+
     }
   })()
 

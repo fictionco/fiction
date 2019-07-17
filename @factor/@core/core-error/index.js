@@ -3,25 +3,24 @@ class FactorError extends Error {
     super(message)
 
     this.statusCode = statusCode && !isNaN(statusCode) ? statusCode : 500
-    Error.captureStackTrace(this, this.constructor)
+    Error.captureStackTrace(this.stackTrace, FactorError)
     this.description = message
-    this.stackTrace = this.stack || properties.stackTrace || new Error(message).stack
     this.properties = properties
   }
 }
 
 module.exports.default = Factor => {
   return new (class {
-    constructor() {}
+    constructor() { }
 
     create() {
       let args =
         arguments.length > 1
           ? {
-              statusCode: arguments[0],
-              message: arguments[1],
-              properties: arguments[2]
-            }
+            statusCode: arguments[0],
+            message: arguments[1],
+            properties: arguments[2]
+          }
           : arguments[0]
 
       if (typeof args == "string") {

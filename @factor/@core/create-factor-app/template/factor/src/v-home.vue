@@ -4,8 +4,8 @@
       <div class="splash">
         <div>
           <h1 class="title">
-            Factor Framework
-            <span class="alt">Get Started</span>
+            Congratulations!
+            <span class="alt">Welcome to Factor</span>
           </h1>
           <h4>{{ description }}</h4>
         </div>

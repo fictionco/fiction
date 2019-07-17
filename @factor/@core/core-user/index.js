@@ -114,13 +114,27 @@ export default Factor => {
 
       const token = user && user.token ? user.token : this.token() ? this.token() : null
 
-      user = token ? await this.request("retrieveUser", { token }) : {}
+      try {
+        user = token ? await this.request("retrieveUser", { token }) : {}
 
-      // Prevent hydration errors
-      // If current user is set too quickly Vue is throwing a mismatch error
-      this.setUser({ user, token, current: true })
+        // Prevent hydration errors
+        // If current user is set too quickly Vue is throwing a mismatch error
+        this.setUser({ user, token, current: true })
 
-      return user
+        return user
+
+      } catch (error) {
+        console.log('error', error)
+        console.log('error m', error.message)
+        // If JWT auth fails then delete token, etc. 
+        if (error.message.includes("invalid signature")) {
+          this.setUser({ user: null, current: true })
+        }
+
+      }
+
+
+
     }
 
     // Utility function that calls a callback when the user is set initially

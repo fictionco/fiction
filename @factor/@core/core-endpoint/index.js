@@ -36,7 +36,7 @@ export default Factor => {
 
         return result
       } catch (error) {
-        Factor.$error.notify(error)
+        Factor.$error.throw(error)
       }
     }
   })()
