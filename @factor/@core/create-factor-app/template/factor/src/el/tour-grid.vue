@@ -24,11 +24,11 @@
     </div>
     <div class="item">
       <icon-svg :theme="theme" icon="stacks" />
-      <h2 class="title">Stacks</h2>
+      <h2 class="title">Post System</h2>
       <p
         class="content"
-      >Stacks are like themes but for service APIs. No more days and months learning new APIs to get things working.</p>
-      <factor-link path="https://factor.dev/stacks" target="_blank">
+      >Factor uses posts for everything. Learn about the tools and CMS features that a post system provides.</p>
+      <factor-link path="https://factor.dev/guide/post-system" target="_blank">
         Learn More
         <factor-icon icon="arrow-right" />
       </factor-link>

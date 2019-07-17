@@ -48,8 +48,9 @@ const config = {
   ],
   templateData() {
     const urlName = config.slugify(this.answers.name)
+    const randomString = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 30)
 
-    return { urlName }
+    return { urlName, randomString }
   },
   slugify(text) {
     return text

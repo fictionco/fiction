@@ -5,9 +5,12 @@ module.exports.default = Factor => {
       this.dbConfig()
 
       if (!this.DB_CONNECTION) {
-        Factor.$log.warn("Missing the database connection string (DB_CONNECTION)")
+        Factor.$filters.callback("initial-server-start", () => {
+          Factor.$log.warn("No database connection string (.env/DB_CONNECTION)")
+        })
         return
       }
+
 
       Factor.$filters.callback("close-server", () => this.disconnectDb())
       Factor.$filters.add("initialize-server", () => {
