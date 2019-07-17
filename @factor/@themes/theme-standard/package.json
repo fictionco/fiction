@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-cicero",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.5",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -15,10 +15,10 @@
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "@factor/plugin-blog": "^1.0.0-alpha.0",
-    "@factor/plugin-seo": "^1.0.0-alpha.0",
-    "@factor/plugin-sitemap": "^1.0.0-alpha.0",
-    "@factor/plugin-ssr-bar": "^1.0.0-alpha.0",
-    "@factor/plugin-user-profiles": "^1.0.0-alpha.0"
+    "@factor/plugin-blog": "^1.0.0-alpha.5",
+    "@factor/plugin-seo": "^1.0.0-alpha.5",
+    "@factor/plugin-sitemap": "^1.0.0-alpha.5",
+    "@factor/plugin-ssr-bar": "^1.0.0-alpha.5",
+    "@factor/plugin-user-profiles": "^1.0.0-alpha.5"
   }
 }

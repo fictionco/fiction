@@ -3,15 +3,15 @@
   "factor": {
     "id": "tools"
   },
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/tools-http": "^1.0.0-alpha.4",
-    "@factor/tools-markdown": "^1.0.0-alpha.0",
-    "@factor/tools-time": "^1.0.0-alpha.0",
+    "@factor/tools-http": "^1.0.0-alpha.5",
+    "@factor/tools-markdown": "^1.0.0-alpha.5",
+    "@factor/tools-time": "^1.0.0-alpha.5",
     "axios": "^0.18.0",
     "deepmerge": "^3.2.0",
     "detect-node": "^2.0.4",
