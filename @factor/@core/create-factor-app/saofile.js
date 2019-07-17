@@ -35,15 +35,15 @@ const config = {
       type: "list",
       choices: [
         {
-          name: "Complete (@factor/post) - Core + Dashboard",
-          value: "cms"
+          name: "Complete (@factor/post) - Core Platorm + Post System + Dashboard",
+          value: "post"
         },
         {
-          name: "Core (@factor/app) - Vue/Node Framework and Server",
+          name: "Core (@factor/app) - Core Platorm",
           value: "app"
         }
       ],
-      default: "cms"
+      default: "post"
     }
   ],
   templateData() {
@@ -80,8 +80,9 @@ const config = {
     actions.push({
       type: "move",
       patterns: {
-        gitignore: ".gitignore",
-        "_package.json": "package.json"
+        _gitignore: ".gitignore",
+        "_package.json": "package.json",
+        _env: '.env'
       }
     })
 
@@ -112,7 +113,7 @@ const config = {
 
     console.log(this.chalk.bold(`  ${figures.star} Factor Docs:\n`))
 
-    console.log(`\thttps://factor.fiction.com/\n`)
+    console.log(`\thttps://factor.dev/\n`)
 
     console.log()
   }
