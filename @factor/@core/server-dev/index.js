@@ -62,7 +62,7 @@ export default Factor => {
     readFile(mfs, file) {
       try {
         return mfs.readFileSync(path.join(this.confClient.output.path, file), "utf-8")
-      } catch (error) {}
+      } catch (error) { }
     }
 
     // logServerUpdate({ title, value }) {
@@ -81,7 +81,7 @@ export default Factor => {
           this._spinner = ora("Building").start()
           this._loaders = { client: "loading", server: "loading" }
         } else if (vals.every(_ => _) && !vals.some(_ => _ == "start" || _ == "loading") && this._spinner) {
-          this._spinner.succeed(`Built! ${Math.max(...vals) / 1000}s ${this._reason}`)
+          this._spinner.succeed(`Built ${Math.max(...vals) / 1000}s ${this._reason}`)
           this._spinner = false
           this._loaders = {}
           this._reason = ""

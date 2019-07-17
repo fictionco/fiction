@@ -165,9 +165,23 @@ const cli = async () => {
     }
 
     runServer(args) {
-      Factor.$log.formatted({
-        title: "Starting Server..."
-      })
+
+      const url = Factor.$paths.localhostUrl()
+
+      const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
+
+      const message = {
+        title: "Starting Development Server...",
+        lines: [
+          { title: "URL", value: url, indent: true },
+          { title: "NODE_ENV", value: NODE_ENV, indent: true },
+          { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
+          { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
+          { title: "CWD", value: process.cwd(), indent: true }
+        ]
+      }
+
+      Factor.$log.formatted(message)
 
       this.run("create-server", args)
     }
@@ -175,7 +189,7 @@ const cli = async () => {
     // Reloads all cached node files
     // Needed for server reloading
     async reloadNodeProcess(args) {
-      Object.keys(require.cache).forEach(function(id) {
+      Object.keys(require.cache).forEach(function (id) {
         if (/(@|\.)factor/.test(id)) {
           delete require.cache[id]
         }
@@ -227,7 +241,7 @@ const cli = async () => {
                   task.title = options.done ? options.done : `${task.title} [Done!]`
 
                   return
-                } catch (error) {}
+                } catch (error) { }
               }
             }
           }
