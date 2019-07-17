@@ -1,7 +1,7 @@
 {
   "name": "@factor/cli",
   "homepage": "https://factor.dev",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.2",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -27,5 +27,13 @@
     "factor": "./cli.js"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
-  "keywords": ["cli", "factor", "factor-framework", "fiction", "mevn", "webpack", "vue"]
+  "keywords": [
+    "cli",
+    "factor",
+    "factor-framework",
+    "fiction",
+    "mevn",
+    "webpack",
+    "vue"
+  ]
 }
