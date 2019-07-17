@@ -48,6 +48,7 @@ module.exports.default = Factor => {
         } else {
           user.signedInAt = Date.now()
           await user.save()
+
           return this.credential(user)
         }
       }

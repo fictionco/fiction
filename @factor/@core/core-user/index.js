@@ -67,7 +67,7 @@ export default Factor => {
       await Factor.$filters.run("authenticated", user)
 
       if (user) {
-        user = await this.initializeUser({ user })
+        user = await this.initializeUser(user)
       }
 
       return user
@@ -94,26 +94,33 @@ export default Factor => {
       return await this.request("verifyEmail", { email })
     }
 
-    async initializeUser({ user } = {}) {
+    async initializeUser(user) {
       this._initializedUser = new Promise(async (resolve, reject) => {
         if (this.currentUser()._id && !user) {
           resolve(this.currentUser())
         } else {
-          Factor.$events.$on("app-mounted", async () => {
-            const token = user && user.token ? user.token : this.token() ? this.token() : null
 
-            user = token ? await this.request("retrieveUser", { token }) : {}
+          await Factor.$app.client()
+          user = await this.retrieveAndSetCurrentUser(user)
+          resolve(user)
 
-            // Prevent hydration errors
-            // If current user is set too quickly Vue is throwing a mismatch error
-            this.setUser({ user, token, current: true })
-
-            resolve(user)
-          })
         }
       })
 
       return this._initializedUser
+    }
+
+    async retrieveAndSetCurrentUser(user) {
+
+      const token = user && user.token ? user.token : this.token() ? this.token() : null
+
+      user = token ? await this.request("retrieveUser", { token }) : {}
+
+      // Prevent hydration errors
+      // If current user is set too quickly Vue is throwing a mismatch error
+      this.setUser({ user, token, current: true })
+
+      return user
     }
 
     // Utility function that calls a callback when the user is set initially
@@ -230,6 +237,7 @@ export default Factor => {
         })
 
         this.init(user => {
+
           if (auth === true && (!user || !user._id)) {
             Factor.$router.push({
               path: "/signin",
