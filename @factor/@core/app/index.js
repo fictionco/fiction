@@ -4,6 +4,30 @@ module.exports.default = Factor => {
       this.components()
       this.routes()
       this.errorPageComponent = () => import("#/404")
+
+      this.initializeClient()
+    }
+
+    // Allows components to definitively wait for client to init
+    // otherwise we might throw hydration errors 
+    async client(callback) {
+      await this._initializedClient
+
+      if (callback) callback()
+
+      return
+    }
+
+    initializeClient() {
+      this._initializedClient = new Promise(async (resolve, reject) => {
+
+        Factor.$events.$on("app-mounted", async () => {
+          resolve()
+        })
+
+      })
+
+      return this._initializedClient
     }
 
     components() {
