@@ -39,7 +39,6 @@ module.exports.default = Factor => {
 
     initialize() {
       const publicConfig = this.getConfig("public")
-      const privateConfig = this.getConfig("private")
 
       const configObjectsPublic = [
         Factor.FACTOR_CONFIG,
@@ -51,9 +50,6 @@ module.exports.default = Factor => {
       this._settingsPublic = Factor.$utils.deepMerge(configObjectsPublic)
 
       const configObjectsPrivate = [
-        privateConfig.config,
-        privateConfig[NODE_ENV],
-        privateConfig[FACTOR_ENV],
         process.env
       ].filter(_ => _)
 

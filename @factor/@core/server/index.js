@@ -113,26 +113,30 @@ module.exports.default = Factor => {
         Factor.$log.formatted({ title: `Server file changed, restarting server...` })
         this.listener.destroy()
         await Factor.$filters.run("rebuild-server-app")
-        this.startListener(() => {
-          Factor.$log.success("Success!")
-        })
+        this.startListener(this.onListenMessage)
       })
     }
 
-    onInitialListen() {
-      const url = Factor.$paths.localhostUrl()
+    onListenMessage() {
+      const { arrowUp, arrowDown } = figures
+      Factor.$log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` Ready`))
 
-      const message = {
-        title: "Development Server",
-        lines: [
-          { title: "URL", value: url, indent: true },
-          { title: "NODE_ENV", value: NODE_ENV, indent: true },
-          { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
-        ]
-      }
-
-      Factor.$log.formatted(message)
     }
+
+    // onInitialListen() {
+    //   const url = Factor.$paths.localhostUrl()
+
+    //   const message = {
+    //     title: "Development Server",
+    //     lines: [
+    //       { title: "URL", value: url, indent: true },
+    //       { title: "NODE_ENV", value: NODE_ENV, indent: true },
+    //       { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
+    //     ]
+    //   }
+
+    //   Factor.$log.formatted(message)
+    // }
 
     async startServerDevelopment() {
       const { middleware } = Factor.$filters.apply("development-server", bundled => {
@@ -140,7 +144,7 @@ module.exports.default = Factor => {
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
 
         if (!this.listener) {
-          this.startListener(this.onInitialListen)
+          this.startListener(this.onListenMessage)
         }
       })
 
