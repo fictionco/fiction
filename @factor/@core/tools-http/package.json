@@ -1,6 +1,6 @@
 {
   "name": "@factor/tools-http",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.4",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"

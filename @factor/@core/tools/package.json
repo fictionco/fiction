@@ -3,13 +3,13 @@
   "factor": {
     "id": "tools"
   },
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.4",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/tools-http": "^1.0.0-alpha.2",
+    "@factor/tools-http": "^1.0.0-alpha.4",
     "@factor/tools-markdown": "^1.0.0-alpha.0",
     "@factor/tools-time": "^1.0.0-alpha.0",
     "axios": "^0.18.0",
