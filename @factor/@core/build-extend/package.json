@@ -1,14 +1,14 @@
 {
   "name": "@factor/build-extend",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.2",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@factor/build-config": "^1.0.0-alpha.0",
-    "@factor/build-files": "^1.0.0-alpha.0",
-    "@factor/build-paths": "^1.0.0-alpha.0",
+    "@factor/build-files": "^1.0.0-alpha.2",
+    "@factor/build-paths": "^1.0.0-alpha.2",
     "@factor/build-transpiler": "^1.0.0-alpha.0",
     "@factor/filters": "^1.0.0-alpha.0",
     "@factor/server-config": "^1.0.0-alpha.0"
