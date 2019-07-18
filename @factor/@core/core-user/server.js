@@ -8,7 +8,7 @@ module.exports.default = Factor => {
 
       if (!this.SECRET) {
         Factor.$filters.callback("initial-server-start", () => {
-          Factor.$log.warn(Factor.$log.warn("No auth token secret provided. (.env/TOKEN_SECRET)"))
+          Factor.$log.warn("No auth token secret provided. (.env/TOKEN_SECRET)")
         })
 
       }
