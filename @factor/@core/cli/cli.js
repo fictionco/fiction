@@ -166,19 +166,21 @@ const cli = async () => {
 
     runServer(args) {
 
-      const url = Factor.$paths.localhostUrl()
 
       const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
 
       const message = {
-        title: "Starting Development Server...",
+        title: "Starting Server...",
         lines: [
-          { title: "URL", value: url, indent: true },
           { title: "NODE_ENV", value: NODE_ENV, indent: true },
           { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
           { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
           { title: "CWD", value: process.cwd(), indent: true }
         ]
+      }
+
+      if (NODE_ENV == 'development') {
+        message.lines.unshift({ title: "URL", value: Factor.$paths.localhostUrl(), indent: true })
       }
 
       Factor.$log.formatted(message)
