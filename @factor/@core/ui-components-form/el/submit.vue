@@ -1,13 +1,21 @@
 <template>
   <div class="form-submit">
-    <factor-btn v-bind="$attrs" type="submit" v-on="$listeners">
+    <component :is="btnComponent" v-bind="$attrs" type="submit" v-on="$listeners">
       <slot />
-    </factor-btn>
+    </component>
   </div>
 </template>
 <script>
 export default {
-  inheritAttrs: false
+  inheritAttrs: false,
+  props: {
+    el: { type: String, default: "" }
+  },
+  computed: {
+    btnComponent() {
+      return this.el ? this.el : "dashboard-btn"
+    }
+  }
 }
 </script>
 
