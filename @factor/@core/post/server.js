@@ -47,7 +47,6 @@ module.exports.default = Factor => {
         _post = new PostTypeModel({ author: [bearer._id] })
       }
 
-      console.log("SERVER SINGLE__", _post)
 
       if (_post) {
         const popped = this.getPostPopulatedFields(_post)
