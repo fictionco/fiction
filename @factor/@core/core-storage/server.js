@@ -3,7 +3,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("endpoints", { id: "storage", handler: this })
-      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor))
+      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor), { signature: "storage" })
 
       Factor.$filters.add("middleware", _ => {
         _.push({
