@@ -3,7 +3,6 @@ class FactorError extends Error {
     super(message)
 
     this.statusCode = statusCode && !isNaN(statusCode) ? statusCode : 500
-    Error.captureStackTrace(this.stackTrace, FactorError)
     this.description = message
     this.properties = properties
   }

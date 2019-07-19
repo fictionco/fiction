@@ -11,7 +11,7 @@ module.exports.default = Factor => {
       Factor.$filters.add("user-schema-hooks", Schema => {
         const _this = this
         // EMAIL
-        Schema.post("save", async function(doc, next) {
+        Schema.post("save", async function (doc, next) {
           const user = this
           if (!user.isModified("email")) return next()
 
@@ -31,7 +31,7 @@ module.exports.default = Factor => {
 
     async verifyEmail({ _id, code }, { bearer }) {
       if (!bearer || bearer._id != _id) {
-        Factor.$error.throw(400, `Email verification user doesn't match the logged in account.`)
+        throw new Error(`Email verification user doesn't match the logged in account.`)
       }
 
       const user = await Factor.$db.model("user").findOne({ _id }, "+emailVerificationCode")
@@ -42,7 +42,7 @@ module.exports.default = Factor => {
         await user.save()
         return "success"
       } else if (!user.emailVerified) {
-        Factor.$error.throw(400, "Verification code does not match.")
+        throw new Error("Verification code does not match.")
       }
     }
 
@@ -68,7 +68,7 @@ module.exports.default = Factor => {
       const user = await Factor.$user.model().findOne({ _id }, "+passwordResetCode")
 
       if (!user) {
-        Factor.$error.throw(400, `Couldn't find user.`)
+        throw new Error(`Could not find user.`)
       }
 
       if (user.passwordResetCode && user.passwordResetCode == code) {
@@ -77,7 +77,7 @@ module.exports.default = Factor => {
         await user.save()
         return "success"
       } else {
-        Factor.$error.throw(400, "Could not reset your password.")
+        throw new Error("Could not reset your password.")
       }
     }
 
@@ -87,7 +87,7 @@ module.exports.default = Factor => {
       const user = await Factor.$user.model().findOneAndUpdate({ email }, { passwordResetCode })
 
       if (!user || !user._id) {
-        Factor.$error.throw(400, "Could not find an user with that email.")
+        throw new Error("Could not find an user with that email.")
       }
 
       await this.sendEmail({

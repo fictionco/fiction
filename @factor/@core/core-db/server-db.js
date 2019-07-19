@@ -46,7 +46,7 @@ module.exports.default = Factor => {
           await Factor.$mongoose.connect(this.DB_CONNECTION, { useNewUrlParser: true })
           return
         } catch (error) {
-          Factor.$error.throw(error)
+          throw new Error(error)
         }
       }
     }

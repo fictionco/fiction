@@ -30,7 +30,7 @@ module.exports.default = Factor => {
         //   return this.role ? _this.roles()[this.role] : 0
         // })
 
-        Schema.pre("validate", async function(next) {
+        Schema.pre("validate", async function (next) {
           const user = this
           const setting = Factor.$config.setting(`roles.${user.email}`)
           const configRole = user.emailVerified && setting ? setting : "member"
@@ -38,7 +38,7 @@ module.exports.default = Factor => {
           if (configRole && configRole != user.role) {
             user.role = configRole
           } else if (user.isModified("role") && configRole != user.role) {
-            return next(Factor.$error.create(400, `Can't edit role ${user.role}`))
+            return next(new Error(`Can not edit role ${user.role}`))
           }
 
           user.accessLevel = _this.roles()[user.role] || 0
