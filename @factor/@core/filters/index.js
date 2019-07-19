@@ -103,6 +103,10 @@ module.exports.default = Factor => {
 
       context = context || this
 
+      if (this._filters[name][id]) {
+        console.log("Duplicate Filter", name)
+      }
+
       this._filters[name][id] = { callback, context, priority }
 
       return filter
@@ -112,7 +116,8 @@ module.exports.default = Factor => {
     callback(id, callback, options = {}) {
       // get unique signature which includes the caller path of function and stringified callback
       // added the caller because sometimes callbacks look the exact same in different files!
-      options.signature = this.uniqueHash(callback, require("caller")())
+      const { signature = "" } = options
+      options.signature = this.uniqueHash(callback, signature)
 
       const callable = typeof callback != "function" ? () => callback : callback
 
@@ -123,5 +128,7 @@ module.exports.default = Factor => {
     async run(id, args = {}) {
       return await Promise.all(this.apply(id, [], args))
     }
+
+
   })()
 }
