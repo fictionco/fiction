@@ -7,15 +7,15 @@
     },
     "id": "user"
   },
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
-    "@factor/core-user-emails": "^1.0.0-alpha.5",
-    "@factor/core-user-roles": "^1.0.0-alpha.5",
+    "@factor/core-user-emails": "^1.0.0-alpha.6",
+    "@factor/core-user-roles": "^1.0.0-alpha.6",
     "bcrypt": "^3.0.6",
     "email-validator": "^2.0.4",
     "jsonwebtoken": "^8.5.1"
