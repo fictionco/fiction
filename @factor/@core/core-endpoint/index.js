@@ -14,7 +14,7 @@ export default Factor => {
 
       try {
         if (!method) {
-          Factor.$error.throw(500, `Endpoint request to "${id}" requires a method.`)
+          throw new Error(`Endpoint request to "${id}" requires a method.`)
         }
 
         const sendData = { method, params }
@@ -30,13 +30,13 @@ export default Factor => {
         } = await Factor.$http.post(requestPath, sendData, { headers })
 
         if (error) {
-          const { statusCode, description, stackTrace } = error
-          Factor.$error.throw(statusCode, description, { stackTrace })
+          Factor.$events.$emit("error", error)
+          console.warn(error)
         }
 
         return result
       } catch (error) {
-        Factor.$error.throw(error)
+        throw new Error(error)
       }
     }
   })()

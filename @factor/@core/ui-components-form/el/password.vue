@@ -3,7 +3,7 @@
     :value="value"
     :autocomplete="$attrs.autocomplete || 'current-password'"
     type="password"
-    minlength="6"
+    minlength="8"
     :required="$attrs.required"
     v-bind="$attrs"
     v-on="listeners"

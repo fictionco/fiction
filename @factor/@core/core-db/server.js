@@ -38,25 +38,23 @@ module.exports.default = Factor => {
       const params =
         arguments.length > 1
           ? {
-              model: arguments[0],
-              method: arguments[1],
-              _arguments: arguments[2]
-            }
+            model: arguments[0],
+            method: arguments[1],
+            _arguments: arguments[2]
+          }
           : arguments[0]
       return await this.runRequest(params)
     }
     canEdit({ doc, bearer, scope }) {
-      if (!bearer) {
-        Factor.$error.throw(400, "Not authorized.")
-      }
+
       const { _id, authors = [] } = doc
-      if (
-        _id !== bearer._id &&
-        !authors.some(_ => _._id == bearer._id) &&
-        !bearer.accessLevel &&
-        bearer.accessLevel >= 300
+      if (!bearer ||
+        (_id !== bearer._id &&
+          !authors.some(_ => _._id == bearer._id) &&
+          !bearer.accessLevel &&
+          bearer.accessLevel >= 300)
       ) {
-        Factor.$error.throw(400, "Not authorized to edit")
+        throw new Error("Not authorized.")
       }
     }
 

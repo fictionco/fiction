@@ -55,19 +55,19 @@ module.exports.default = Factor => {
       const { method, params = {} } = data
 
       if (!method) {
-        Factor.$error.throw(500, `No method provided for "${id}" request`)
+        throw new Error(`No method provided for "${id}" request`)
       }
 
       const _ep = typeof handler == "function" ? handler(Factor, meta) : handler
 
       if (!_ep[method] || typeof _ep[method] !== "function") {
-        Factor.$error.throw(500, `Endpoint method ${method} is missing.`)
+        throw new Error(`Endpoint method ${method} is missing.`)
       }
 
       try {
         return await _ep[method](params, meta)
       } catch (error) {
-        Factor.$error.throw(error)
+        throw new Error(error)
       }
 
     }

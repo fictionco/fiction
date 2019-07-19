@@ -39,8 +39,9 @@ module.exports.default = Factor => {
         try {
           user = await this.model().create({ email, password, displayName })
         } catch (error) {
+
           const e = error.code == 11000 ? `Account with email: "${email}" already exists.` : error
-          Factor.$error.throw(400, e)
+          throw new Error(e)
         }
 
         Factor.$filters.apply("create-new-user", user)
@@ -51,7 +52,7 @@ module.exports.default = Factor => {
         const compareResult = user ? await user.comparePassword(password) : false
 
         if (!compareResult) {
-          Factor.$error.throw(401, "Incorrect Login Information.")
+          throw new Error("Incorrect Login Information.")
         } else {
           user.signedInAt = Date.now()
           await user.save()
@@ -101,7 +102,7 @@ module.exports.default = Factor => {
       try {
         decoded = jwt.verify(token, this.SECRET)
       } catch (error) {
-        Factor.$error.throw(error)
+        throw new Error(error)
       }
 
 
