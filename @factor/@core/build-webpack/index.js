@@ -3,12 +3,12 @@ const path = require("path")
 const merge = require("webpack-merge")
 const webpack = require("webpack")
 const nodeExternals = require("webpack-node-externals")
-const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin")
+
 const CopyPlugin = require("copy-webpack-plugin")
 const VueLoaderPlugin = require("vue-loader/lib/plugin")
 const CleanWebpackPlugin = require("clean-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
-var HardSourceWebpackPlugin = require("hard-source-webpack-plugin")
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
