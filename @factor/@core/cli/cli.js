@@ -43,6 +43,8 @@ const cli = async () => {
       process.env.FACTOR_ENV = program.ENV || NODE_ENV
       process.env.FACTOR_COMMAND = program._name
 
+      this.refineNodeRequire()
+
       const extender = require("@factor/build-extend").default(Factor)
       await extender.run(args)
 
@@ -186,6 +188,15 @@ const cli = async () => {
       Factor.$log.formatted(message)
 
       this.run("create-server", args)
+    }
+
+    refineNodeRequire() {
+
+      require.extensions['.md'] = () => { }
+      require.extensions['.svg'] = () => { }
+      require.extensions['.jpg'] = () => { }
+      require.extensions['.png'] = () => { }
+      require.extensions['.vue'] = () => { }
     }
 
     // Reloads all cached node files

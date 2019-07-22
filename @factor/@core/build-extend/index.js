@@ -1,6 +1,6 @@
 module.exports.default = Factor => {
   return new (class {
-    constructor() {}
+    constructor() { }
 
     reload() {
       this.loadCore()
@@ -41,6 +41,11 @@ module.exports.default = Factor => {
 
       // This just adds the dirname to config and other paths
       require("@factor/app/build").default(Factor)
+
+      // Add router and store to node, for utilities that need them
+      // For example: sitemaps need information from router.
+      require("@factor/app-store").createStore()
+      require("@factor/app-router").createRouter()
     }
 
     _install(id, plugin) {

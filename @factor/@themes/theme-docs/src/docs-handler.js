@@ -19,6 +19,8 @@ export default Factor => {
     }
 
     normalize(items) {
+
+
       return items.map(_ => {
         const d = {
           doc: _.doc,
