@@ -23,6 +23,7 @@
     <section class="boxes-wrap">
       <div class="boxes">
         <div v-for="(box ,i) in $setting.get('home.boxes')" :key="i" class="box">
+          <img class="icon" :src="require(`./img/` + box.icon)" :alt="box.title" >
           <h2>{{ box.title }}</h2>
           <p>{{ box.description }}</p>
         </div>
@@ -143,14 +144,18 @@ export default {
         padding: 2em;
         border-radius: 5px;
         background: #fff;
-        box-shadow: 0 0 0 0.4px rgba(50, 50, 93, 0.05),
-          0 50px 100px -20px rgba(50, 50, 93, 0.25),
-          0 30px 60px -30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(80, 102, 119, 0.1);
+        // box-shadow: 0 0 0 0.4px rgba(50, 50, 93, 0.05),
+        //   0 50px 100px -20px rgba(50, 50, 93, 0.25),
+        //   0 30px 60px -30px rgba(0, 0, 0, 0.3);
 
         margin: 2em 0;
 
         @media (max-width: 767px) {
           margin: 1em 0 2em;
+        }
+        .icon {
+          margin-bottom: 0.5em;
         }
         h2 {
           font-size: 1.2em;

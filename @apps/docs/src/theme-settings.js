@@ -150,15 +150,18 @@ module.exports.default = Factor => {
         "Factor is a modern, full-stack Javascript alternative to WordPress, created for perfectionists with deadlines.",
       boxes: [
         {
+          icon: "icon-post.svg",
           title: "Everything is a Post",
           description: "Factor makes use of a powerful post pattern that makes advanced app development simple."
         },
         {
+          icon: "icon-plugin.svg",
           title: "Plugins + Themes",
           description:
             "Factor is designed for drop-in, one-click extension. Building and using plugins and themes is easy."
         },
         {
+          icon: "icon-time.svg",
           title: "Famous 5-Minute Setup",
           description:
             "You'll be up and running in less than 5 minutes with an app that does almost everything you want."
