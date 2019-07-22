@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <section class="splash-wrap">
+    <section
+      class="splash-wrap"
+      :style="{'background-image': `url(`+ $setting.get('home.graphic') + `)` }"
+    >
       <div class="splash mast">
-        <div class="stripes">
-          <div class="wedge" />
-        </div>
-        <div class="mast-text">
+        <div class="splash-content">
           <h1 class="title">{{ $setting.get('home.headline') }}</h1>
           <p class="subtitle">{{ $setting.get('home.subHeadline') }}</p>
           <div class="actions">
@@ -19,6 +19,7 @@
           </div>
         </div>
       </div>
+      <div class="hhh" />
     </section>
     <section class="boxes-wrap">
       <div class="boxes">
@@ -51,86 +52,86 @@ export default {
 <style lang="less">
 .home {
   .mast {
-    padding: 0 2em;
+    position: relative;
     line-height: 1.2;
     margin: 0 auto;
-    position: relative;
-
-    .mast-text {
-      z-index: 1;
-      max-width: 700px;
-      padding: 6em 2em;
-      margin: 2em auto 0;
-      @media (max-width: 767px) {
-        padding: 2em 0;
-      }
-    }
-  }
-
-  .stripes {
-    pointer-events: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -72px;
-    top: 50%;
-    transform: skewY(-6deg);
-    transition: opacity 0.2s ease-out;
-    will-change: transform;
-    .wedge {
-      position: absolute;
-      height: 5000px;
-      bottom: 0;
-      background: #fff;
-      left: 0;
-      right: 0;
-    }
+    max-width: 1000px;
   }
 
   .splash-wrap {
+    padding: 7em 0;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: right 0 top 0;
+    @media (max-width: 767px) {
+      padding: 4em 0 1em;
+      background: none !important;
+    }
+    .hhh {
+      pointer-events: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 67%;
+      transform: skewY(-6deg);
+      background: #f5f8fc;
+      transition: opacity 0.2s ease-out;
+      will-change: transform;
+    }
     .splash {
+      z-index: 1;
       display: grid;
-      grid-template-columns: 1fr;
-      grid-column-gap: 60px;
-      align-items: center;
-      text-align: center;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 40px;
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+        padding: 0 1em;
+      }
 
-      .title {
-        font-weight: 800;
-        font-size: 3em;
-        letter-spacing: -0.03em;
-        line-height: 1.1;
-        margin-bottom: 0.2em;
-        @media (max-width: 767px) {
-          font-size: 2.2em;
-        }
-      }
-      .subtitle {
-        opacity: 0.5;
-        font-size: 1.6em;
-        line-height: 1.4em;
-        font-weight: 500;
-        @media (max-width: 767px) {
-          font-size: 1em;
-        }
-      }
-      .actions {
-        margin-top: 1.5em;
-        @media (max-width: 767px) {
-          margin-bottom: 1.5em;
-          a {
-            display: inline-block;
-            margin-bottom: 10px;
+      .splash-content {
+        .title {
+          font-weight: 800;
+          font-size: 3em;
+          letter-spacing: -0.03em;
+          line-height: 1.1;
+          margin-bottom: 0.2em;
+          @media (max-width: 767px) {
+            font-size: 2.2em;
           }
         }
+        .subtitle {
+          opacity: 0.5;
+          font-size: 1.6em;
+          line-height: 1.4em;
+          font-weight: 500;
+          @media (max-width: 767px) {
+            font-size: 1em;
+          }
+        }
+        .actions {
+          margin-top: 1.5em;
+          @media (max-width: 767px) {
+            margin-bottom: 1.5em;
+            a {
+              display: inline-block;
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+
+      .splash-graphic img {
+        width: 100%;
       }
     }
   }
 
   .boxes-wrap {
-    padding: 4em 1em;
+    padding: 2em 1em 4em;
     position: relative;
     z-index: 1;
+    background: #f5f8fc;
     .boxes {
       max-width: 1000px;
       margin: 0 auto;
@@ -145,10 +146,6 @@ export default {
         border-radius: 5px;
         background: #fff;
         border: 1px solid rgba(80, 102, 119, 0.1);
-        // box-shadow: 0 0 0 0.4px rgba(50, 50, 93, 0.05),
-        //   0 50px 100px -20px rgba(50, 50, 93, 0.25),
-        //   0 30px 60px -30px rgba(0, 0, 0, 0.3);
-
         margin: 2em 0;
 
         @media (max-width: 767px) {
