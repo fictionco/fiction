@@ -10,7 +10,11 @@ module.exports.default = Factor => {
           {
             path: "/themes",
             component: () => import("./page-themes")
-          }
+          },
+          {
+            path: "/compare",
+            component: () => import("./page-compare")
+          },
         ]
 
         return _.concat(routes)
