@@ -119,6 +119,10 @@ module.exports.default = Factor => {
           name: "Plugins"
         },
         {
+          path: "/compare",
+          name: "Compare"
+        },
+        {
           path: "https://gitter.im/factorjs/community",
           name: "Community",
           icon: "gitter"
