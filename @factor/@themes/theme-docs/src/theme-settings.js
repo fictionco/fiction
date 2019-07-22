@@ -68,16 +68,19 @@ export default Factor => {
       subHeadline: "A markdown based documentation theme for Factor",
       boxes: [
         {
+          icon: "icon-post.svg",
           title: "Simple",
           description:
             "People love simplicity! All you need to do for a fully working docs site (with SSR) is to add your markdown docs."
         },
         {
+          icon: "icon-plugin.svg",
           title: "Markdown",
           description:
             "The standard in writing docs. No messing with editors or other problematic formats. Use markdown files."
         },
         {
+          icon: "icon-time.svg",
           title: "Tools",
           description:
             "This theme includes tools for syntax highlighting with PrismJS and automatically generating your docs table-of-contents."
