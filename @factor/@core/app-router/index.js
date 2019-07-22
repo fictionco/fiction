@@ -26,8 +26,22 @@ export function createRouter() {
       var result = qs.stringify(query)
 
       return result ? "?" + result : ""
-    }
+    },
+
   })
+
+  router.registerRoute = (r) => {
+    if (!router._registeredRoutes) {
+      router._registeredRoutes = []
+    }
+
+    router._registeredRoutes.push(r)
+
+  }
+
+  router.getRegisteredRoutes = () => {
+    return router._registeredRoutes
+  }
 
   Factor.$router = router
 

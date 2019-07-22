@@ -4,9 +4,10 @@ export default Factor => {
     constructor() {
       this._settings = {}
 
-      Factor.$filters.add("initialize-app", () => {
-        this.setup()
-      })
+      this.setup()
+      // Factor.$filters.add("initialize-app", () => {
+      //   this.setup()
+      // })
     }
 
     async setup() {
@@ -18,6 +19,7 @@ export default Factor => {
       )
 
       this._settings = Factor.$utils.deepMerge(settingsArray)
+
     }
 
     get(key) {
