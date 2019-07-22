@@ -1,4 +1,4 @@
-module.exports = Factor => {
+export default Factor => {
   return {
     site: {
       logo: () => import("./el/logo-bulma"),
