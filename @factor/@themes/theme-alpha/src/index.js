@@ -7,7 +7,7 @@ module.exports.default = Factor => {
         this.addWorkPostType()
         this.addPaths()
         this.addComponents()
-        this.addSettings()
+
       }
     }
 
@@ -19,11 +19,6 @@ module.exports.default = Factor => {
       })
     }
 
-    addSettings() {
-      Factor.$filters.add("settings", _ => {
-        return [..._, require("./settings")(Factor)]
-      })
-    }
 
     addComponents() {
       Factor.$filters.add("components", _ => {
