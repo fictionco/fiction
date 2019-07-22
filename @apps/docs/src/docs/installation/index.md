@@ -37,6 +37,19 @@ $ yarn factor dev
 ```
 
 Now your basic starter application should be running at [`localhost:3000`](localhost:3000)
+
+## Using the Monorepo
+
+Alternatively, you can run projects from the [Factor monorepo](https://github.com/fiction-com/factor) by first cloning it: 
+```bash 
+$ git clone https://github.com/fiction-com/factor
+```
+
+And then running a [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) within the repo. As an example, you can run this site's code with the following command:
+```bash 
+$ yarn workspace @apps/docs factor dev
+```
+
 <!-- 
 ## Visit Your Dashboard 
 

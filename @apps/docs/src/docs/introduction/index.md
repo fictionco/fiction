@@ -1,22 +1,21 @@
 # Introduction
  
 ## [What is Factor?](#what-is-factor)
-> Factor is a web application operating system (webOS) used to create server rendered Javascript apps. It is built on top of NodeJS and VueJS and designed from the ground up for extension and content management.  
+> Factor is a Javascript web application system that worries about best practices so you don't have to...<br><br>It is built on top of amazing open source tools like Node, Vue, MongoDB/Mongoose and it also built from the ground up for extension with themes and plugins.<br><br>Factor's unique focus is on tools for eCommerce and content management.
 
 
 **Why Factor?** &mdash; 
 
-
-Most developers primary goal is to ship production apps. However, today the JS world has many pitfalls that lead to painful rewrites, complications or lock-in; and this inevitably results in delays, wasted time and money. 
+Most developers goal is to ship production apps. But today, most developers spend their time doing painful rewrites, dealing with unforeseen complications and getting stuck with vendor lock-in. All this inevitably results in delays, wasted money and ultimately failure.
 
 We faced this problem, and worked years to create a decent app architecture to avoid these problems. After many writes and rewrites this is what resulted in Factor.
 
-We believe that many modern devs are facing similar issues and so we've open-sourced it in the hopes that it may be useful to you. 
+It seems that many modern devs are facing similar issues and so we've open-sourced it in the hopes that it may be useful to you. 
 
 Use Factor if you want to: 
 - Avoid writing code that has been written countless times already
-- Minimize lock-in with services
-- Give your apps a rich CMS architecture to support common tasks
+- Minimize vendor lock-in 
+- Give your apps a rich CMS and eCommerce architecture 
 - Use best practices
 
 
@@ -24,6 +23,7 @@ Use Factor if you want to:
 
 You can think of Factor as a system that brings together the following:
 
+- A Dashboard, CMS and eCommerce Features
 - A Core Node/VueJS Framework
 - An Drop-In Extensions System
 - Build System and CLI for managing your app
@@ -35,10 +35,12 @@ You can think of Factor as a system that brings together the following:
   - Similar to WordPress' admin
   - User management / Authentication
   - Real time site editing (no builds and rebuilds)
+
 - Comprehensive VueJS/NodeJS framework
   - Server-side-rendered (SSR) for Performance and SEO
   - Reactive 
   - Routes(vue-router), Stores(vuex), CLI, Builds
+
 - Extensions System
   - Themes system for quickly creating beautiful apps
   - Stacks system for avoiding service learning curve and lock-in
@@ -63,17 +65,6 @@ Parts of the build system include:
 While in reality you'll be working across environments (cli, node, cloud, app(client/server)), the build system orchestrates this and makes it feel like a common VueJS/Javascript app.
 
 [Learn how to add components and routes](./framework)
-
-### [Stack Extensions](#stacks)
-
-Stacks solve problems when working with various service APIs. 
-- Lock-In &mdash; Almost every service you use attempts to lock you into their service by encouraging the co-mingling your app with their custom features and APIs. 
-- Exponential Learning Curve &mdash; Every service has a different API and approach. Some good and some bad. As you add more and more APIs this problem gets worse as you have more to remember.
-- Cost and Wasted Time &mdash; Comparing and shopping for services is a massive time suck. Then once you choose a service you have to optimize it or pay.
-
-Stacks are like themes, but for services. They compartmentalize and orchestrate service specific code into one place and create an interface for them to interact with your app. 
-
-[Learn more about stacks](./stacks)
 
 
 ### [Themes](#themes)
