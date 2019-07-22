@@ -149,9 +149,10 @@ module.exports.default = Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "Simple meets powerful...",
+      headline: "The CMS Engine for Javascript apps.",
       subHeadline:
         "Factor is a modern, full-stack Javascript alternative to WordPress, created for perfectionists with deadlines.",
+      graphic: require("./img/cms-engine.png"),
       boxes: [
         {
           icon: "icon-post.svg",

@@ -1,5 +1,5 @@
 {
-  "name": "@factor/theme-cicero",
+  "name": "@factor/theme-standard",
   "version": "1.0.0-alpha.5",
   "main": "src/index.js",
   "license": "GPL-2.0",
@@ -18,7 +18,6 @@
     "@factor/plugin-blog": "^1.0.0-alpha.5",
     "@factor/plugin-seo": "^1.0.0-alpha.5",
     "@factor/plugin-sitemap": "^1.0.0-alpha.5",
-    "@factor/plugin-ssr-bar": "^1.0.0-alpha.5",
     "@factor/plugin-user-profiles": "^1.0.0-alpha.5"
   }
 }
