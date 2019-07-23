@@ -54,6 +54,7 @@ module.exports.default = Factor => {
     async runMethod({ id, handler, data, meta }) {
       const { method, params = {} } = data
 
+
       if (!method) {
         throw new Error(`No method provided for "${id}" request`)
       }

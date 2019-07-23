@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-bulma",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -19,5 +19,6 @@
     "@factor/post": "^1.0.0-alpha.6",
     "prismjs": "^1.16.0",
     "bulma": "^0.7.5"
+
   }
 }

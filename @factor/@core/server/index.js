@@ -252,15 +252,15 @@ module.exports.default = Factor => {
       return `express/${expressVersion} vue-server-renderer/${ssrVersion}`
     }
 
-    handleError(req, res, err) {
-      if (err.url) {
-        res.redirect(err.url)
-      } else if (err.code === 404) {
-        res.status(404).send("404 | Page Not Found")
+    handleError(request, response, error) {
+      if (error.url) {
+        response.redirect(error.url)
+      } else if (error.code === 404) {
+        response.status(404).send("404 | Page Not Found")
       } else {
-        Factor.$log.info(`Factor Server Error  @[${req.url}]`)
-        Factor.$log.error(err)
-        res.status(500).send(this.wrp("500 | Server Error"))
+        Factor.$log.info(`Factor Server Error  @[${request.url}]`)
+        Factor.$log.error(error)
+        response.status(500).send(this.wrp("500 | Server Error"))
       }
     }
     wrp(txt) {
