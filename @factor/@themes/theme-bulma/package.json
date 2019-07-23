@@ -17,15 +17,7 @@
   "dependencies": {
     "@factor/plugin-notify": "^1.0.0-alpha.5",
     "@factor/post": "^1.0.0-alpha.6",
-    "prismjs": "^1.16.0"
-  },
-  "devDependencies": {
-    "bulma": "^0.7.5",
-    "node-sass": "^4.12.0"
-  },
-  "scripts": {
-    "css-build": "node-sass --omit-source-map-url ./sass/mystyles.scss ./css/",
-    "css-watch": "npm run css-build -- --watch",
-    "start": "npm run css-watch"
+    "prismjs": "^1.16.0",
+    "bulma": "^0.7.5"
   }
 }
