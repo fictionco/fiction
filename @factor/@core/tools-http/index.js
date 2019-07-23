@@ -82,9 +82,9 @@ export default Factor => {
 
         const port = process.env.PORT || 3000
 
-        axios.defaults.baseURL = `https://localhost:${port}`
+        //  axios.defaults.baseURL = `https://localhost:${port}`
         axios.defaults.proxy = {
-          host: '127.0.0.1',
+          host: '0.0.0.0',
           port
         }
       } else {
