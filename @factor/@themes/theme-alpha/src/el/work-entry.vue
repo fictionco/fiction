@@ -17,10 +17,7 @@
     </section>
 
     <factor-link v-if="format == 'listing'" :path="path">
-      <div
-        class="img-wrap"
-        :style="{'background-image': 'url(' + require(`../img/` + images) + ')' }"
-      />
+      <div class="img-wrap" :style="{'background-image': 'url(' + images[0] + ')' }" />
     </factor-link>
 
     <div class="entry-wrap">
@@ -164,7 +161,7 @@ export default {
       font-weight: 600;
       font-size: 2em;
       line-height: 1.1;
-      margin-bottom: .2em;
+      margin-bottom: 0.2em;
     }
     .category {
       opacity: 0.5;

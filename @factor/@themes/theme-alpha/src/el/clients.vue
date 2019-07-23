@@ -5,11 +5,11 @@
       <div v-for="(client, i) in $setting.get('site.clients')" :key="i" class="clients">
         <div v-if="client.path" class="client-image">
           <app-link :path="client.path" target="_blank">
-            <img :src="require(`../img/` + client.icon)" :alt="client.text" >
+            <img :src="client.icon" :alt="client.text" >
           </app-link>
         </div>
         <div v-else class="client-image">
-          <img :src="require(`../img/` + client.icon)" :alt="client.text" >
+          <img :src="client.icon" :alt="client.text" >
         </div>
       </div>
     </div>

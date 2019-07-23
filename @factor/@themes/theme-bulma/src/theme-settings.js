@@ -165,51 +165,51 @@ export default Factor => {
       graphic: () => import("./el/home-graphic"),
       logos: [
         {
-          imageURL: "github.svg",
+          imageURL: require("./img/github.svg"),
           imageAlt: "Github"
         },
         {
-          imageURL: "algolia.svg",
+          imageURL: require("./img/algolia.svg"),
           imageAlt: "Algolia"
         },
         {
-          imageURL: "bulma.svg",
+          imageURL: require("./img/bulma.svg"),
           imageAlt: "Bulma"
         },
         {
-          imageURL: "vue.svg",
+          imageURL: require("./img/vue.svg"),
           imageAlt: "Vue.js"
         },
         {
-          imageURL: "nodejs.svg",
+          imageURL: require("./img/nodejs.svg"),
           imageAlt: "NodeJS"
         },
         {
-          imageURL: "npm.svg",
+          imageURL: require("./img/npm.svg"),
           imageAlt: "NPM"
         }
       ],
       boxesHeadline: "Code Better and Ship Faster.",
       boxes: [
         {
-          imageURL: "icon-5-minute.svg",
+          imageURL: require("./img/icon-5-minute.svg"),
           title: "5 Minute Setup",
           description:
             "A Factor site can be installed and up and running in a matter of minutes, with only basic coding knowledge."
         },
         {
-          imageURL: "icon-mobile.svg",
+          imageURL: require("./img/icon-mobile.svg"),
           title: "Mobile-first",
           description: "Every element is mobile-first and optimizes for vertical reading. Built with five breakpoints."
         },
         {
-          imageURL: "icon-js.svg",
+          imageURL: require("./img/icon-js.svg"),
           title: "100% Javascript",
           description:
             "Factor provides a robust basis for the development of any JS application. Modular, minimal, and extensible."
         },
         {
-          imageURL: "icon-vue.svg",
+          imageURL: require("./img/icon-vue.svg"),
           title: "Build with Reactive VueJS",
           description:
             "Based on Vue.js so you code better and ship faster. Customize your front-end layout with vue.js components."
