@@ -155,18 +155,18 @@ module.exports.default = Factor => {
       graphic: require("./img/cms-engine.png"),
       boxes: [
         {
-          icon: "icon-post.svg",
+          icon: require("./img/icon-post.svg"),
           title: "Everything is a Post",
           description: "Factor makes use of a powerful post pattern that makes advanced app development simple."
         },
         {
-          icon: "icon-plugin.svg",
+          icon: require("./img/icon-plugin.svg"),
           title: "Plugins + Themes",
           description:
             "Factor is designed for drop-in, one-click extension. Building and using plugins and themes is easy."
         },
         {
-          icon: "icon-time.svg",
+          icon: require("./img/icon-time.svg"),
           title: "Famous 5-Minute Setup",
           description:
             "You'll be up and running in less than 5 minutes with an app that does almost everything you want."

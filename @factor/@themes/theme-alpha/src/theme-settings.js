@@ -50,22 +50,22 @@ export default Factor => {
       clients: [
         {
           path: "https://www.behance.net/",
-          icon: "client1.svg",
+          icon: require("./img/client1.svg"),
           text: "Behance"
         },
         {
           path: "https://dribbble.com/",
-          icon: "client2.svg",
+          icon: require("./img/client2.svg"),
           text: "Dribbble"
         },
         {
           path: "https://www.tomposer.com/",
-          icon: "client3.svg",
+          icon: require("./img/client3.svg"),
           text: "Tom Poser"
         },
         {
           path: "https://twitter.com",
-          icon: "client4.svg",
+          icon: require("./img/client4.svg"),
           text: "Twitter"
         }
       ],
@@ -110,22 +110,22 @@ export default Factor => {
       boxesTitle: "Check out the skills.",
       boxes: [
         {
-          icon: "icon-ux.svg",
+          icon: require("./img/icon-ux.svg"),
           heading: "User Experience Design",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: "icon-ui.svg",
+          icon: require("./img/icon-ui.svg"),
           heading: "User Interface Design",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: "icon-web.svg",
+          icon: require("./img/icon-web.svg"),
           heading: "Front-end Development",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: "icon-prototype.svg",
+          icon: require("./img/icon-prototype.svg"),
           heading: "Prototyping",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
@@ -141,7 +141,7 @@ export default Factor => {
       subheadline: "Designer and Illustrator based in San Francisco.",
       content:
         "Adam is an award-winning designer and art director based in San Francisco. His work appears internationally in magazines, newspapers, advertisements and children's books.",
-      heroImage: "about.jpg"
+      heroImage: require("./img/about.jpg")
     },
     work: {
       meta: {
@@ -153,11 +153,12 @@ export default Factor => {
       subheadline: "The simple way to showcase your work.",
       content:
         "Fully responsive and retina-display-ready. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: "test.jpg",
+      heroImage: require("./img/test.jpg"),
+
       posts: {
         data: [
           {
-            images: "test.jpg",
+            images: [require("./img/test.jpg")],
             title: "Pretty Thai",
             authorData: ["Ray", "Andrew"],
             content: "erer",
@@ -166,7 +167,7 @@ export default Factor => {
             path: "/"
           },
           {
-            images: "test.jpg",
+            images: [require("./img/test.jpg")],
             title: "Carbon Tech Pro",
             authorData: ["Ray", "Andrew"],
             content: "erer",
@@ -175,7 +176,7 @@ export default Factor => {
             path: "/"
           },
           {
-            images: "test.jpg",
+            images: [require("./img/test.jpg")],
             title: "PageLines",
             authorData: ["Ray", "Andrew"],
             content: "erer",
@@ -184,7 +185,7 @@ export default Factor => {
             path: "/"
           },
           {
-            images: "test.jpg",
+            images: [require("./img/test.jpg")],
             title: "Fiction",
             authorData: ["Ray", "Andrew"],
             content: "erer",
@@ -205,7 +206,7 @@ export default Factor => {
       subheadline: "The Latest From Alpha",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: "test.jpg",
+      heroImage: require("./img/test.jpg"),
       posts: {
         data: [
           {
@@ -254,7 +255,7 @@ export default Factor => {
       subheadline: "Let's Talk!",
       content:
         "Drop me a note and I’ll get back to you within 24 hours. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: "contact.jpg",
+      heroImage: require("./img/contact.jpg"),
       form: {
         namePlaceholder: "Name",
         emailPlaceholder: "Email Address",

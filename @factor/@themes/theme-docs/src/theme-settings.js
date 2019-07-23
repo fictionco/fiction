@@ -69,19 +69,19 @@ export default Factor => {
       graphic: require("./img/cms-engine.png"),
       boxes: [
         {
-          icon: "icon-post.svg",
+          icon: require("./img/icon-post.svg"),
           title: "Simple",
           description:
             "People love simplicity! All you need to do for a fully working docs site (with SSR) is to add your markdown docs."
         },
         {
-          icon: "icon-plugin.svg",
+          icon: require("./img/icon-plugin.svg"),
           title: "Markdown",
           description:
             "The standard in writing docs. No messing with editors or other problematic formats. Use markdown files."
         },
         {
-          icon: "icon-time.svg",
+          icon: require("./img/icon-time.svg"),
           title: "Tools",
           description:
             "This theme includes tools for syntax highlighting with PrismJS and automatically generating your docs table-of-contents."
