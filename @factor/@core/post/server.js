@@ -1,6 +1,7 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+
       Factor.$filters.callback("endpoints", { id: "posts", handler: this })
     }
 
@@ -44,7 +45,11 @@ module.exports.default = Factor => {
       // If ID is unset or if it isn't found, create a new post model/doc
       // This is not saved at this point, leading to a post sometimes not existing although an ID exists
       if (!_id || !_post) {
-        _post = new PostTypeModel({ author: [bearer._id] })
+        const initial = {}
+        if (bearer) {
+          initial.author = [bearer._id]
+        }
+        _post = new PostTypeModel(initial)
       }
 
 
