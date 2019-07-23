@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-ultra",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.7",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -8,7 +8,10 @@
   },
   "factor": {
     "extend": "theme",
-    "target": ["server", "app"]
+    "target": [
+      "server",
+      "app"
+    ]
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
