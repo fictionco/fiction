@@ -169,6 +169,11 @@ module.exports.default = Factor => {
       return p
     }
 
+    getBaseUrl() {
+      return process.env.baseURL || this.localhostUrl()
+
+    }
+
     localhostUrl() {
       const { routine, port } = this.getHttpDetails()
 
