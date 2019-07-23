@@ -4,7 +4,7 @@
       <h2>{{ $setting.get('site.cta.headline') }}</h2>
       <app-link btn="default" size="large" :path="$setting.get('site.cta.path')">
         {{ $setting.get('site.cta.text') }}
-        <i class="fa fa-arrow-right" />
+        <factor-icon icon="arrow-right" />
       </app-link>
     </div>
   </div>

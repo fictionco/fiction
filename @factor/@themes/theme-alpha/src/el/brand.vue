@@ -1,7 +1,7 @@
 <template>
   <div class="brand">
-    <factor-link path="/">
+    <app-link path="/">
       <component :is="$setting.get(`site.logo`)" />
-    </factor-link>
+    </app-link>
   </div>
 </template>
