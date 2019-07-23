@@ -4,11 +4,11 @@
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <factor-link class="back" path="/work">
-              <i class="fa fa-arrow-left" /> All
-            </factor-link>
+            <app-link class="back" path="/work">
+              <factor-icon icon="arrow-left" />All
+            </app-link>
             <h1 class="title">
-              <factor-link :path="path">{{ title }}</factor-link>
+              <app-link :path="path">{{ title }}</app-link>
             </h1>
             <el-tags class="tags" :tags="tags" />
           </div>
@@ -16,14 +16,14 @@
       </div>
     </section>
 
-    <factor-link v-if="format == 'listing'" :path="path">
-      <div class="img-wrap" :style="{'background-image': 'url(' + images[0] + ')' }" />
-    </factor-link>
+    <app-link v-if="format == 'listing'" :path="path">
+      <div class="img-wrap" :style="{'background-image': 'url(' + images + ')' }" />
+    </app-link>
 
     <div class="entry-wrap">
       <div v-if="format == 'listing'" class="entry-text">
         <h1 class="title">
-          <factor-link :path="path">{{ title }}</factor-link>
+          <app-link :path="path">{{ title }}</app-link>
         </h1>
         <el-tags class="tags" :tags="tags" />
       </div>
@@ -151,10 +151,10 @@ export default {
       background-repeat: no-repeat;
       height: 550px;
       margin-bottom: 1em;
-      transform: scale(1);
-      transition: all 0.2s ease-in-out;
+      transition: all 300ms ease 0s;
       &:hover {
-        transform: scale(0.95);
+        transform: scale(0.9) rotate(-3deg);
+        box-shadow: rgba(0, 0, 0, 0.28) 1px 5px 15px 2px;
       }
     }
     .title {
