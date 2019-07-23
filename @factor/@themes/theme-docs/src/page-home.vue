@@ -24,7 +24,7 @@
     <section class="boxes-wrap">
       <div class="boxes">
         <div v-for="(box ,i) in $setting.get('home.boxes')" :key="i" class="box">
-          <img class="icon" :src="require(`./img/` + box.icon)" :alt="box.title" >
+          <img class="icon" :src="box.icon" :alt="box.title" >
           <h2>{{ box.title }}</h2>
           <p>{{ box.description }}</p>
         </div>

@@ -8,10 +8,7 @@
           <slot name="hero-content" />
         </div>
         <div v-if="image != ''">
-          <div
-            :style="{'background-image': `url(`+ require(`../img/` + image ) + `)` }"
-            class="hero-image"
-          />
+          <div :style="{'background-image': `url(`+ image + `)` }" class="hero-image" />
         </div>
       </div>
     </div>
