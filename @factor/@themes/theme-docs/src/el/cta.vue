@@ -2,15 +2,20 @@
   <section class="mast">
     <div class="cta">
       <div>
-        <h3 class="title">Ready to Start Building?</h3>
-        <p class="subtitle">Get in touch or create an account</p>
+        <h3 class="title">{{ $setting.get('cta.title') }}</h3>
+        <p class="subtitle">{{ $setting.get('cta.subtitle') }}</p>
       </div>
       <div class="actions">
-        <app-link path="/docs" btn="primary" size="large">
-          Get Started
-          <i class="fa fa-arrow-right" />
+        <app-link
+          v-for="(action ,i) in $setting.get('cta.actions')"
+          :key="i"
+          :path="action.path"
+          :btn="action.btn"
+          size="large"
+        >
+          {{ action.text }}
+          <i v-if="action.btn == 'primary'" class="fa fa-arrow-right" />
         </app-link>
-        <app-link path="https://www.fiction.com/contact" btn="tertiary" size="large">Contact Us</app-link>
       </div>
     </div>
   </section>
