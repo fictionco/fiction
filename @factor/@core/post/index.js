@@ -7,6 +7,7 @@ export default Factor => {
     }
 
     async request(method, params) {
+      console.log("PREFETCH", method, params)
       return await Factor.$endpoint.request({ id: "posts", method, params })
     }
 
@@ -408,9 +409,9 @@ export default Factor => {
       Factor.$events.$emit("purge-url-cache", post.url)
 
       // Bust cache for url
-      if (!post.url.includes("localhost")) {
-        Factor.$http.request({ url: post.url, method: "PURGE" })
-      }
+      // if (!post.url.includes("localhost")) {
+      //   Factor.$http.request({ url: post.url, method: "PURGE" })
+      // }
 
       return data
     }
