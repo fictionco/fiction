@@ -27,7 +27,7 @@
       <div class="mast boxes-inner">
         <div v-for="(box, i) in $setting.get('home.boxes')" :key="i" class="box">
           <div v-if="box.icon" class="box-icon">
-            <img :src="require(`./img/` + box.icon)" :alt="box.heading" >
+            <img :src="box.icon" :alt="box.heading" >
           </div>
           <h2 class="box-title">{{ box.heading }}</h2>
           <p class="box-description">{{ box.description }}</p>
