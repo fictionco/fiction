@@ -55,7 +55,7 @@
               data-test="form-submit"
             >
               {{ $setting.get('contact.form.buttonText') }}
-              <i class="fa fa-angle-right" />
+              <factor-icon icon="arrow-right" />
             </factor-input-submit>
           </div>
         </factor-form>
@@ -184,7 +184,7 @@ export default {
     border-radius: 4px;
     font-size: 1.2em;
     color: var(--color-primary);
-    background: #fff;
+    background: var(--color-white);
     box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
       0 2px 10px rgba(71, 86, 144, 0.2);
 
