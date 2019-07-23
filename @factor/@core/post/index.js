@@ -7,7 +7,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-      console.log("PREFETCH", method, params)
+      console.log("PREFETCH?", method, params)
       return await Factor.$endpoint.request({ id: "posts", method, params })
     }
 
