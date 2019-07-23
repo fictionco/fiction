@@ -6,13 +6,14 @@
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {
+    "id": "fictionApp",
     "target": [
       "app",
       "server"
     ]
   },
   "dependencies": {
-    "@factor/post": "^1.0.0-alpha.0",
+    "@factor/post": "^1.0.0-alpha.7",
     "execa": "^2.0.3",
     "@factor/plugin-notify": "^1.0.0-alpha.0"
   }
