@@ -99,6 +99,22 @@ export default Factor => {
           text: "Read the Docs"
         }
       ]
+    },
+    cta: {
+      title: "Ready to Start Building?",
+      subtitle: "Get in touch or create an account",
+      actions: [
+        {
+          btn: "primary",
+          path: "/guide/quickstart",
+          text: "Get Started"
+        },
+        {
+          btn: "tertiary",
+          path: "https://www.fiction.com/contact",
+          text: "Contact Us"
+        }
+      ]
     }
   }
 }
