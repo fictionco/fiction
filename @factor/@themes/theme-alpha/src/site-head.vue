@@ -3,9 +3,13 @@
     <div class="site-head-pad">
       <site-brand />
       <div class="mob-nav-btn">
-        <factor-link :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
+        <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
-      <div class="nav-wrap" :class="{ active: showMobileMenu }">
+      <div
+        class="nav-wrap"
+        :class="{ active: showMobileMenu }"
+        @click="showMobileMenu = !showMobileMenu"
+      >
         <div class="nav">
           <template v-for="(item, index) in $setting.get('site.nav')">
             <factor-link :key="index" :path="item.path">
@@ -13,7 +17,6 @@
               <span>{{ item.name }}</span>
             </factor-link>
           </template>
-          <!-- <slot name="nav" /> -->
         </div>
         <div class="social">
           <template v-for="(item, index) in $setting.get('site.social')">
@@ -21,7 +24,6 @@
               <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
           </template>
-          <!-- <slot name="social" /> -->
         </div>
       </div>
     </div>
@@ -60,15 +62,15 @@ export default {
     flex: 1;
   }
   .mob-nav-btn {
-    display: none;
-
-    a {
+    div {
+      cursor: pointer;
       position: relative;
-      display: block;
+      display: none;
       width: 30px;
       height: 30px;
       &:before,
       &:after {
+        cursor: pointer;
         content: "";
         position: absolute;
         height: 2px;
@@ -86,12 +88,17 @@ export default {
         transform: rotate(0deg) translateY(5px);
       }
     }
+
     @media (max-width: 767px) {
-      display: block;
-      z-index: 210;
-      a.active {
+      div {
+        display: block;
+        z-index: 210;
+      }
+
+      div.active {
         &:before,
         &:after {
+          cursor: pointer;
           background-color: var(--color-text);
         }
         &:before {
@@ -140,6 +147,9 @@ export default {
       &.active,
       &.active-path {
         color: var(--color-tertiary);
+        @media (max-width: 767px) {
+          color: var(--color-primary);
+        }
       }
       @media (max-width: 767px) {
         font-size: 1.2em;
@@ -167,16 +177,6 @@ export default {
     @media (max-width: 767px) {
       display: grid;
     }
-
-    // .nav-dropdown-toggle {
-    //   padding: 4px 6px;
-    //   font-weight: 500;
-    //   border-radius: 4px;
-    //   &.active,
-    //   &:hover {
-    //     opacity: 0.6;
-    //   }
-    // }
   }
   .social {
     text-align: right;
