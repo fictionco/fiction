@@ -79,7 +79,9 @@ export default Factor => {
 
     async standardHeaders() {
       if (Factor.$isNode) {
+
         const port = process.env.PORT || 3000
+
         axios.defaults.baseURL = `https://localhost:${port}`
         axios.defaults.proxy = {
           host: '127.0.0.1',

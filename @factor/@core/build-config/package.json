@@ -9,6 +9,7 @@
     "id": "buildConfig"
   },
   "dependencies": {
+    "fs-extra": "^8.1.0",
     "yargs": "^13.2.2"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
