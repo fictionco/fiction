@@ -9,7 +9,7 @@
         <div v-if="post.buttonLink" class="actions">
           <factor-link :path="post.buttonLink" btn="default" size="large">
             {{ post.buttonText }}
-            <i class="fa fa-angle-right" />
+            <factor-icon icon="arrow-right" />
           </factor-link>
         </div>
       </div>
