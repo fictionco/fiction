@@ -33,7 +33,7 @@
               class="column is-one-third-mobile"
             >
               <figure class="image">
-                <img :src="require(`./img/` + logo.imageURL)" :alt="logo.imageAlt" >
+                <img :src="logo.imageURL" :alt="logo.imageAlt" >
               </figure>
             </div>
           </div>
@@ -56,7 +56,7 @@
               <div class="media">
                 <div class="media-left">
                   <figure class="image is-48x48 is-4by3">
-                    <img :src="require(`./img/` + box.imageURL)" :alt="box.title" >
+                    <img :src="box.imageURL" :alt="box.title" >
                   </figure>
                 </div>
                 <div class="media-content">
