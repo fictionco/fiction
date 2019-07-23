@@ -15,7 +15,7 @@ export default {
 .blog-author-card {
   display: flex;
   align-items: center;
-  margin-right: 1em;
+  margin-left: 1em;
   padding: 0.3em 0;
   .avatar {
     display: block;

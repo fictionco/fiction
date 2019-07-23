@@ -18,10 +18,6 @@
               :tags="post.tags"
               :path="post.path"
             />
-            <!-- 
-              :images="postImage(post.images)" 
-             :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
-            -->
           </div>
         </div>
       </div>
