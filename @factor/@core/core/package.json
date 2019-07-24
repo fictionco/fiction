@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-alpha.9",
+  "version": "1.0.0-alpha.10",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,7 +10,7 @@
     "id": "core"
   },
   "dependencies": {
-    "@factor/build": "^1.0.0-alpha.9",
+    "@factor/build": "^1.0.0-alpha.10",
     "@factor/cli": "^1.0.0-alpha.7",
     "@factor/core-db": "^1.0.0-alpha.6",
     "@factor/core-email": "^1.0.0-alpha.5",
