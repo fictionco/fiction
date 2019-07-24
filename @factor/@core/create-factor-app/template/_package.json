@@ -6,15 +6,9 @@
   "main": "src/index.js",
   "private": true,
   "factor": {
-    "target": [
-      "app",
-      "server"
-    ]
+    "target": ["app", "server"]
   },
   "dependencies": {
-    "@factor/<%= scope %>": "^1.0.0-alpha.0" <% if(scope != 'post'){ %>,
-      "@factor/ui": "^1.0.0-alpha.0",
-      "@factor/post-metatags": "^1.0.0-alpha.0"<%
-    } %>
+    "@factor/post": "^1.0.0-alpha.7"
   }
 }

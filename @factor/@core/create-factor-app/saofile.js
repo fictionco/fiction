@@ -28,27 +28,14 @@ const config = {
       type: "string",
       message: "Your Email",
       default: "{gitUser.email}"
-    },
-    {
-      name: "scope",
-      message: "What would you like to use?",
-      type: "list",
-      choices: [
-        {
-          name: "Complete (@factor/post) - Core Platorm + Post System + Dashboard",
-          value: "post"
-        },
-        {
-          name: "Core (@factor/app) - Core Platorm",
-          value: "app"
-        }
-      ],
-      default: "post"
     }
   ],
   templateData() {
     const urlName = config.slugify(this.answers.name)
-    const randomString = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 30)
+    const randomString = Math.random()
+      .toString(36)
+      .replace(/[^a-z]+/g, "")
+      .substr(0, 30)
 
     return { urlName, randomString }
   },
@@ -83,7 +70,7 @@ const config = {
       patterns: {
         _gitignore: ".gitignore",
         "_package.json": "package.json",
-        _env: '.env'
+        _env: ".env"
       }
     })
 
