@@ -1,6 +1,6 @@
 {
   "name": "@factor/dashboard",
-  "version": "1.0.0-alpha.9",
+  "version": "1.0.0-alpha.10",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@factor/core-user-dashboard": "^1.0.0-alpha.5",
-    "@factor/dashboard-signin": "^1.0.0-alpha.9",
+    "@factor/dashboard-signin": "^1.0.0-alpha.10",
     "@factor/ui-components-form": "^1.0.0-alpha.6",
     "@factor/ui-components-standard": "^1.0.0-alpha.6"
   },
