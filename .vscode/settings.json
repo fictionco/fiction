@@ -11,7 +11,8 @@
     "**/.factor/**": true,
     "**/.ref": true,
     "*.lock": true,
-    "*.log": true
+    "*.log": true,
+    "**/dist": true
   },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [
@@ -33,7 +34,11 @@
     }
   ],
   "eslint.options": {
-    "extensions": [".js", ".vue", ""]
+    "extensions": [
+      ".js",
+      ".vue",
+      ""
+    ]
   },
   "eslint.run": "onSave",
   "prettier.printWidth": 120,
