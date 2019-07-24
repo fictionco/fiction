@@ -1,19 +1,30 @@
-## Factor Docs Theme
+# Factor Ultra Theme
 
-To use as a theme just add to your Factor app's project dependencies: 
+A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.
+
+Live demo: https://ultra-theme.factor.dev/
+
+---
+
+## Installing & Customizing Themes
+
+### Install
+
+To install theme just add to your [Factor](https://factor.dev/) app's project dependencies:
 
 ```bash
 $ cd my-project
-$ yarn add @factor/docs-theme
+$ yarn add @factor/theme-ultra
 ```
 
-To use as a starting point for your app, simply download it and use it. 
+### Customize
 
-### Customizing Theme Settings
+This theme uses Factor's native theme settings system.
 
-This theme uses Factor's native theme settings system. 
+Copy the [theme-settings.js](https://github.com/fiction-com/factor/blob/master/%40factor/%40themes/theme-ultra/src/theme-settings.js) file and place in your applications source folder `src`.
 
-Copy the [theme settings.js file](https://github.com/fiction-com/factor/blob/master/%40factor/%40themes/theme-docs/src/settings.js) and place in your applications source folder `src`. 
+Edit the settings you'd like to change, the result will be merged with the theme settings file.
 
-Edit the settings you'd like to change, the result will be merged with the theme settings file. 
+## Documentation
 
+- [Factor Themes Guide](https://factor.dev/guide/themes)

@@ -193,7 +193,7 @@ module.exports.default = Factor => {
     }
 
     getWatchDirs() {
-      return this.extensions.map(_ => dirname(require.resolve(_.name)))
+      return this.extensions.map(_ => _.mainDir)
     }
 
     // Webpack doesn't allow dynamic paths in require statements
