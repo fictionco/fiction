@@ -6,9 +6,11 @@
   "main": "src/index.js",
   "private": true,
   "factor": {
-    "target": ["app", "server"]
+    "target": [
+      "app"
+    ]
   },
   "dependencies": {
-    "@factor/post": "^1.0.0-alpha.7"
+    "@factor/index": "^1.0.0-alpha.12"
   }
 }
