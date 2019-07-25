@@ -9,7 +9,6 @@
   "factor": {
     "id": "app",
     "target": [
-      "server",
       "app"
     ]
   },
