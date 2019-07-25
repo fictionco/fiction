@@ -3,7 +3,6 @@ const files = {}
 files["storageServer"] = require("@factor/core-storage/server").default
 files["endpointServer"] = require("@factor/core-endpoint/server").default
 files["setting"] = require("@factor/app-settings").default
-files["app"] = require("@factor/app").default
 files["setup"] = require("@factor/build-setup").default
 files["webpack"] = require("@factor/build-webpack").default
 files["serverDev"] = require("@factor/server-dev").default
