@@ -28,7 +28,17 @@ module.exports.default = Factor => {
       const _user = data.user ? data.user : await this.model().findById(data._id)
 
       Object.assign(_user, data)
-      return await _user.save()
+      console.log('user save')
+      try {
+        return await _user.save()
+      } catch (error) {
+
+        console.log(error)
+
+        const e = error.code == 11000 ? `Duplicate record` : error
+        throw new Error(e)
+      }
+
     }
 
     async authenticate(params) {

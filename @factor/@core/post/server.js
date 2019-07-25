@@ -27,8 +27,8 @@ module.exports.default = Factor => {
       Object.assign(_post, data)
 
       console.log("SERVER SAVE__", _post)
-
       return await _post.save()
+
     }
 
     async single({ _id, postType = "post", conditions }, { bearer }) {

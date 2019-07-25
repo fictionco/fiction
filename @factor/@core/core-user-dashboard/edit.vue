@@ -164,7 +164,7 @@ export default {
         post: this.post,
         postType: this.postType
       })
-
+      console.log("savewd?", saved)
       if (saved) {
         this.$events.$emit("notify", `Saved!`)
       }
