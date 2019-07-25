@@ -37,7 +37,7 @@ export default Factor => {
         if (authorization && authorization.startsWith("Bearer ")) {
           const token = authorization.split("Bearer ")[1]
 
-          meta.bearer = await Factor.$user.retrieveUser({ token, mode: "simple" })
+          meta.bearer = await Factor.$userServer.retrieveUser({ token, mode: "simple" })
         }
 
         responseJson.result = await handler({ data, meta })

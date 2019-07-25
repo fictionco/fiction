@@ -1,19 +1,18 @@
 /******** GENERATED FILE ********/
 const files = {}
-files["events"] = require("@factor/core-events").default
 files["http"] = require("@factor/tools-http").default
+files["endpoint"] = require("@factor/core-endpoint").default
 files["setting"] = require("@factor/app-settings").default
 files["app"] = require("@factor/app").default
 files["db"] = require("@factor/core-db").default
 files["email"] = require("@factor/core-email").default
-files["endpoint"] = require("@factor/core-endpoint").default
 files["posts"] = require("@factor/post").default
-files["notify"] = require("@factor/plugin-notify").default
+files["error"] = require("@factor/core-error").default
 files["storage"] = require("@factor/core-storage").default
 files["user"] = require("@factor/core-user").default
 files["userEmails"] = require("@factor/core-user-emails").default
 files["userRoles"] = require("@factor/core-user-roles").default
-files["error"] = require("@factor/core-error").default
+files["notify"] = require("@factor/plugin-notify").default
 files["markdown"] = require("@factor/tools-markdown").default
 files["time"] = require("@factor/tools-time").default
 files["dashboard"] = require("@factor/dashboard").default

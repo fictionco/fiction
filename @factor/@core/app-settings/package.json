@@ -7,7 +7,8 @@
   },
   "factor": {
     "target": [
-      "app"
+      "app",
+      "server"
     ],
     "id": "setting"
   },
