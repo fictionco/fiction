@@ -7,7 +7,7 @@ module.exports.default = Factor => {
 
     getPostTypeModel(postType) {
       //const modelName = postType.charAt(0).toUpperCase() + postType.slice(1)
-      return Factor.$db.model(postType)
+      return Factor.$dbServer.model(postType)
     }
 
     async save({ data, postType = "post" }, { bearer }) {
@@ -96,7 +96,7 @@ module.exports.default = Factor => {
 
       const _p = [
         this.indexMeta(params),
-        Factor.$db
+        Factor.$dbServer
           .model(postType)
           .find(conditions, null, options)
           .populate([{ path: "avatar" }, { path: "author", populate: "avatar" }])
@@ -110,7 +110,7 @@ module.exports.default = Factor => {
     async indexMeta(params) {
       const { model } = params
 
-      const ItemModel = Factor.$db.model(model)
+      const ItemModel = Factor.$dbServer.model(model)
 
       const aggregate = [
         {

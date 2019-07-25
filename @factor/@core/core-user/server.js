@@ -19,11 +19,11 @@ module.exports.default = Factor => {
     }
 
     model() {
-      return Factor.$db.model("user")
+      return Factor.$dbServer.model("user")
     }
 
     async save(data, { bearer }) {
-      Factor.$db.canEdit({ doc: data, bearer, scope: "memberOrAdmin" })
+      Factor.$dbServer.canEdit({ doc: data, bearer, scope: "memberOrAdmin" })
 
       const _user = data.user ? data.user : await this.model().findById(data._id)
 
@@ -88,7 +88,7 @@ module.exports.default = Factor => {
         pop = "avatar images covers"
       }
 
-      let user = await Factor.$user
+      let user = await Factor.$userServer
         .model()
         .findOne({ _id })
         .populate(pop)
