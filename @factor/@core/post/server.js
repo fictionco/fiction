@@ -31,7 +31,7 @@ module.exports.default = Factor => {
 
     }
 
-    async single({ _id, postType = "post", conditions }, { bearer }) {
+    async single({ _id, postType = "post", conditions, createOnEmpty = false }, { bearer }) {
       let _post
       let PostTypeModel = this.getPostTypeModel(postType)
 
@@ -46,7 +46,7 @@ module.exports.default = Factor => {
 
       // If ID is unset or if it isn't found, create a new post model/doc
       // This is not saved at this point, leading to a post sometimes not existing although an ID exists
-      if (!_post) {
+      if (!_post && createOnEmpty) {
         const initial = {}
         if (bearer) {
           initial.author = [bearer._id]
