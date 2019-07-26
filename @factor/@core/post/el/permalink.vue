@@ -1,7 +1,10 @@
 <template>
   <div class="permalink" @click.stop>
     <div class="linky">
-      <factor-link class="linky-link" :path="value ? $posts.getPermalink({ type, permalink}) : ''">
+      <factor-link
+        class="linky-link"
+        :path="value ? $posts.getPermalink({ type, permalink, root: false}) : ''"
+      >
         <span class="root">{{ $posts.getPermalink({ type, root: false}) }}</span>
         <span v-if="!toggleValue" class="permalink-value">
           <span class="val">{{ permalink }}</span>
