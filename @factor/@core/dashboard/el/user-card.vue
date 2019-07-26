@@ -12,13 +12,17 @@
 <script>
 export default {
   props: {
-    post: { type: Object, default: () => {} },
+    postId: { type: String, default: "" },
     subText: { type: String, default: "" },
     remove: { type: Boolean, default: false }
   },
   computed: {
+    post() {
+      return this.$store.getters["getItem"](this.postId) || {}
+    },
     avatar() {
-      return post.avatar && post.avatar.url ? post.avatar.url : ""
+      const { avatar: { url = "" } = {} } = this.post
+      return url
     }
   }
 }

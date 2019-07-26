@@ -6,9 +6,9 @@ export default Factor => {
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
       content: { type: String, trim: true },
-      author: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "user" }],
-      images: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "attachment" }],
-      avatar: { type: Factor.$mongoose.Schema.Types.ObjectId, ref: "attachment" },
+      author: [{ type: Factor.$mongo.objectIdType(), ref: "user" }],
+      images: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }],
+      avatar: { type: Factor.$mongo.objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
       category: { type: [String], index: true },
       revisions: [Object],
@@ -23,14 +23,14 @@ export default Factor => {
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
-        validator: function(v) {
+        validator: function (v) {
           return /^[a-z0-9-]+$/.test(v)
         },
         message: props => `${props.value} is not URL compatible.`
       }
     }),
     callback: _s => {
-      _s.pre("save", function(next) {
+      _s.pre("save", function (next) {
         if (this.images && this.images.length > 0) {
           this.avatar = this.images[0]
         }

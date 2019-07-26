@@ -1,7 +1,8 @@
 /******** GENERATED FILE ********/
 const files = {}
+files["mongo"] = require("@factor/tools-mongo").default
 files["storageServer"] = require("@factor/core-storage/server").default
-files["endpointServer"] = require("@factor/core-endpoint/server").default
+files["appFallbacks"] = require("@factor/app-fallbacks").default
 files["setting"] = require("@factor/app-settings").default
 files["setup"] = require("@factor/build-setup").default
 files["webpack"] = require("@factor/build-webpack").default
@@ -10,7 +11,7 @@ files["dbServer"] = require("@factor/core-db/server").default
 files["emailServer"] = require("@factor/core-email/server").default
 files["postsServer"] = require("@factor/post/server").default
 files["error"] = require("@factor/core-error").default
-files["appFallbacks"] = require("@factor/app-fallbacks").default
+files["endpointServer"] = require("@factor/core-endpoint/server").default
 files["userServer"] = require("@factor/core-user/server").default
 files["userEmailsServer"] = require("@factor/core-user-emails/server").default
 files["userRolesServer"] = require("@factor/core-user-roles/server").default

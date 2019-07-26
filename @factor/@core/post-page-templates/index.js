@@ -43,6 +43,28 @@ export default Factor => {
       })
     }
 
+    async getTemplate(_id) {
+      const _all = this.getPageTemplates()
+
+      let tpl = _all.find(_ => _._id == _id)
+
+      if (!tpl) {
+        tpl = _all.find(_ => _._id == 'default')
+      }
+
+      tpl.settings = await this.getTemplateSettings(tpl)
+
+      return tpl
+
+    }
+
+    async getTemplateSettings(tpl) {
+
+      const { default: { templateSettings } } = await tpl.component()
+
+      return templateSettings ? templateSettings() : []
+    }
+
     // Register Page Templates added by theme or app
     registerTemplates() {
       this.pageTemplates = this.getPageTemplates()
@@ -59,13 +81,13 @@ export default Factor => {
     getPageTemplates() {
       const tpls = [
         {
-          value: "default",
+          _id: "default",
           component: () => import("./tpl-default")
         }
       ]
 
       return Factor.$filters.apply("page-templates", tpls).map(_ => {
-        const name = _.name || Factor.$utils.toLabel(_.value.replace("tpl-", ""))
+        const name = _.name || Factor.$utils.toLabel(_._id.replace("tpl-", ""))
         return {
           name,
           ..._

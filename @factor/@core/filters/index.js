@@ -31,7 +31,11 @@ module.exports.default = Factor => {
       } else if (typeof obj == "function") {
         str = obj.toString()
       } else {
-        str = JSON.stringify(obj)
+        // Make sure to remove circular refs
+        // https://github.com/WebReflection/flatted#flatted
+        const { stringify } = require('flatted/cjs')
+        str = stringify(obj)
+
       }
 
       str = str + salt

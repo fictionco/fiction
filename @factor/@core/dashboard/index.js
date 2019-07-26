@@ -17,7 +17,7 @@ export default Factor => {
         _["dashboard-btn"] = () => import("./el/btn")
         _["dashboard-link"] = () => import("./el/link")
         _["dashboard-loader"] = () => import("./el/loader")
-        _["dashboard-user-card"] = () => import("./el/card-user")
+        _["dashboard-user-card"] = () => import("./el/user-card")
         _["dashboard-user-list"] = () => import("./el/user-list")
         _["factor-input-sortable"] = () => import("./el/sortable")
         return _

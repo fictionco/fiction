@@ -10,7 +10,7 @@
     <div class="feature-boxes">
       <div v-for="(box, i) in post.boxes" :key="i" class="box">
         <div v-if="box.icon" class="box-icon">
-          <img :src="box.icon[0].url">
+          <img :src="box.icon[0].url" >
         </div>
         <div class="box-heading">{{ box.heading }}</div>
         <div class="box-description">{{ box.description }}</div>
@@ -30,56 +30,52 @@ export default {
     }
   },
   watch: {},
-  pageTemplate() {
-    return {
-      name: "Landing Page",
-      description: "Minimalist landing page template.",
-      inputs: [
-        {
-          input: "text",
-          label: "Heading",
-          description: "Primary page heading",
-          key: "pageHeading",
-          default: "Landing Page Template"
-        },
-        {
-          input: "text",
-          label: "Sub Heading",
-          key: "pageHeadingSub",
-          default: "This is a landing page template."
-        },
-        {
-          key: "boxes",
-          input: "sortable",
-          label: "Feature Boxes",
-          description: "Some feature boxes",
-          default: [
-            { __title: "Box 1" },
-            { __title: "Box 2" },
-            { __title: "Box 3" }
-          ],
-          inputs: [
-            {
-              input: "text",
-              label: "Heading",
-              key: "heading",
-              default: "Box"
-            },
-            {
-              input: "textarea",
-              label: "Description",
-              key: "description",
-              default: "Box Description"
-            },
-            {
-              input: "image-upload",
-              label: "Icon",
-              key: "icon"
-            }
-          ]
-        }
-      ]
-    }
+  templateSettings() {
+    return [
+      {
+        input: "text",
+        label: "Heading",
+        description: "Primary page heading",
+        _id: "pageHeading",
+        default: "Landing Page Template"
+      },
+      {
+        input: "text",
+        label: "Sub Heading",
+        _id: "pageHeadingSub",
+        default: "This is a landing page template."
+      },
+      {
+        _id: "boxes",
+        input: "sortable",
+        label: "Feature Boxes",
+        description: "Some feature boxes",
+        default: [
+          { __title: "Box 1" },
+          { __title: "Box 2" },
+          { __title: "Box 3" }
+        ],
+        settings: [
+          {
+            input: "text",
+            label: "Heading",
+            _id: "heading",
+            default: "Box"
+          },
+          {
+            input: "textarea",
+            label: "Description",
+            _id: "description",
+            default: "Box Description"
+          },
+          {
+            input: "image-upload",
+            label: "Icon",
+            _id: "icon"
+          }
+        ]
+      }
+    ]
   },
   methods: {
     settings() {

@@ -9,6 +9,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@factor/tools-mongo": "^1.0.0-alpha.11",
     "@factor/tools-http": "^1.0.0-alpha.11",
     "@factor/tools-markdown": "^1.0.0-alpha.5",
     "@factor/tools-time": "^1.0.0-alpha.5",

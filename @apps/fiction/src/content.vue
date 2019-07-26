@@ -64,9 +64,7 @@ export default {
   },
   methods: {
     socialImage(post) {
-      return post.featuredImage
-        ? post.featuredImage[0].url
-        : post.images
+      return post.images && post.images.length > 0 && post.images[0].url
         ? post.images[0].url
         : ""
     }

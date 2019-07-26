@@ -2,26 +2,15 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
 
-      // https://github.com/Automattic/mongoose/issues/4965
-      Factor.$mongoose.set("applyPluginsToDiscriminators", true)
-
-      // Add an array of populated fields
-      Factor.$mongoose.plugin(this.registerPopulatedFields)
-
-      // Improve duplicate value validation errors
-      // https://github.com/matteodelabre/mongoose-beautiful-unique-validation
-      const beautifyUnique = require('mongoose-beautiful-unique-validation')
-      Factor.$mongoose.plugin(beautifyUnique)
-
+      this.mongo = Factor.$mongo.mongoose
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
-
       Factor.$filters.callback("initialize-server", () => this.setModels())
-      // Factor.$filters.callback("initial-server-start", () => this._syncSchemaIndexes())
+
     }
 
     objectId(str) {
-      return Factor.$mongoose.Types.ObjectId(str)
+      return this.mongo.Types.ObjectId(str)
     }
 
     async runRequest(params) {
@@ -75,9 +64,10 @@ module.exports.default = Factor => {
 
     // Must be non-async so we can use chaining
     model(name) {
+      const { Schema } = this.mongo
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
-        this._models[name] = this.model("post").discriminator(name, new Factor.$mongoose.Schema())
+        this._models[name] = this.model("post").discriminator(name, new Schema())
       }
       return this._models[name]
     }
@@ -89,19 +79,20 @@ module.exports.default = Factor => {
     // Set schemas and models
     // For server restarting we need to inherit from already constructed mdb models if they exist
     setModel(config, postModel = false) {
+      const { Schema } = this.mongo
       const { schema, options, callback, name } = config
 
       let _model
       let _schema
-      if (Factor.$mongoose.models[name]) {
-        _schema = Factor.$mongoose.modelSchemas[name]
-        _model = Factor.$mongoose.models[name]
+      if (this.mongo.models[name]) {
+        _schema = this.mongo.modelSchemas[name]
+        _model = this.mongo.models[name]
       } else {
-        _schema = new Factor.$mongoose.Schema(schema, options)
+        _schema = new Schema(schema, options)
         if (callback) callback(_schema)
 
         if (!postModel) {
-          _model = Factor.$mongoose.model(name, _schema)
+          _model = this.mongo.model(name, _schema)
         } else {
           _model = postModel.discriminator(name, _schema)
           _model.ensureIndexes()
@@ -114,39 +105,12 @@ module.exports.default = Factor => {
       return _model
     }
 
-    // setSchema(config) {
-    //   const { schema, options, callback, name } = config
-    //   let _schema
-    //   if (Factor.$mongoose.modelSchemas[name]) {
-    //     _schema = Factor.$mongoose.modelSchemas[name]
-    //   } else {
-    //     _schema = new Factor.$mongoose.Schema(schema, options)
-
-    //     if (callback) callback(_schema)
-    //   }
-
-    //   this._schemas[name] = _schema
-
-    //   return _schema
-    // }
-
-    // For server restarts
-    // resetModels() {
-    //   const existingModels = Factor.$mongoose.modelNames()
-
-    //   if (existingModels.length > 0) {
-    //     existingModels.forEach(name => {
-    //       delete Factor.$mongoose.models[name]
-    //       delete Factor.$mongoose.modelSchemas[name]
-    //     })
-    //   }
-    // }
 
     setModels() {
       //   this.resetModels()
       this._schemas = {}
       this._models = {}
-      const postModel = this.setModel(require("./schema").default(Factor))
+      const postModel = this.setModel(require("@factor/post/schema").default(Factor))
 
       const postSchemas = Factor.$filters.apply("data-schemas", [])
 
@@ -155,21 +119,7 @@ module.exports.default = Factor => {
       })
     }
 
-    // Scans a schema and adds the populated field names to an array property
-    // Needed to help determine when/where to populate them
-    registerPopulatedFields(schema, options) {
-      const populated = []
-      schema.eachPath(function process(pathName, schemaType) {
-        if (pathName == "_id") return
-        if (schemaType.options.ref || (schemaType.caster && schemaType.caster.options.ref)) {
-          if (!populated.includes(pathName)) {
-            populated.push(pathName)
-          }
-        }
-      })
 
-      schema.populatedFields = populated
-    }
 
     // Ensure all post indexes are up to date .
     // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes

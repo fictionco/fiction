@@ -7,14 +7,14 @@
       label="Page Template"
     />
     <dashboard-input
-      v-for="(field, i) in inputs"
+      v-for="(field, i) in settings"
       :key="i"
       :value="localPost[field.key]"
       :input="`factor-input-${field.input}`"
       :label="field.label"
       :description="field.description"
       :class="['engine-input', field.input]"
-      :inputs="field.inputs || []"
+      :inputs="field.settings || []"
       @input="setValue(field.key, $event)"
     />
   </div>
@@ -36,14 +36,15 @@ export default {
   computed: {
     localPost: {
       get() {
-        return this.post
+        return { template: "default", ...this.post }
       },
       set(localPost) {
         this.$emit("change", localPost)
       }
     },
-    inputs() {
-      return this.pageTemplate.inputs || []
+    settings() {
+      const { settings = [] } = this.pageTemplate
+      return settings
     }
   },
   watch: {
@@ -55,47 +56,37 @@ export default {
     }
   },
   methods: {
-    setValue(key, value) {
-      this.$set(this.localPost, key, value)
-    },
     async setPageTemplate() {
-      const tplVal = this.localPost.template
-
-      if (tplVal) {
-        const tpls = this.$templates.getPageTemplates()
-
-        const { default: tpl } = await tpls
-          .find(_ => _.value == tplVal)
-          .component()
-
-        this.pageTemplate = tpl.pageTemplate ? tpl.pageTemplate() : {}
-
-        this.initializePageTemplate()
-      } else {
-        this.pageTemplate = {}
-      }
+      this.pageTemplate = await this.$templates.getTemplate(
+        this.localPost.template
+      )
+      this.setTemplateDefaults()
     },
-    initializePageTemplate() {
-      this.inputs.forEach(_ => {
-        if (typeof this.localPost[_.key] == "undefined" && _.default) {
-          let defaultValue
-          if (_.inputs && Array.isArray(_.inputs)) {
-            defaultValue = []
-            _.default.forEach(item => {
-              _.inputs.forEach(__ => {
-                if (typeof item[__.key] == "undefined" && __.default) {
-                  item[__.key] = __.default
+    setTemplateDefaults() {
+      const _post = Object.assign({}, this.localPost) // detach
+
+      const settings = _post.settings || {}
+      console.log(this.pageTemplate, this.settings)
+      this.settings.forEach(_ => {
+        const _id = _._id
+
+        if (typeof settings[_id] == "undefined" && _.default) {
+          if (_.settings && Array.isArray(_.settings)) {
+            settings[_id] = _.default.map(item => {
+              _.settings.forEach(sub => {
+                if (typeof item[sub._id] == "undefined" && sub.default) {
+                  item[sub._id] = sub.default
                 }
               })
-              defaultValue.push(item)
+              return item
             })
           } else {
-            defaultValue = _.default
+            settings[_id] = _.default
           }
-
-          this.setValue(_.key, defaultValue)
         }
       })
+
+      this.localPost = { ..._post, settings }
     }
   }
 }

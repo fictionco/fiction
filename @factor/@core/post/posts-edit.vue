@@ -110,9 +110,15 @@ export default {
     }
   },
   computed: {
-    post() {
-      return this.$store.getters["getItem"](this._id) || {}
+    post: {
+      get() {
+        return this.$store.getters["getItem"](this._id) || {}
+      },
+      set(v) {
+        this.$store.add(this._id, v)
+      }
     },
+
     _id() {
       return this.$route.query._id || ""
     },

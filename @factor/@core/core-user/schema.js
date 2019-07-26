@@ -7,7 +7,7 @@ export default Factor => {
       _s.methods.comparePassword = async function comparePassword(candidate) {
         return bcrypt.compare(candidate, this.password)
       }
-      _s.pre("save", async function(next) {
+      _s.pre("save", async function (next) {
         const user = this
         if (!user.isModified("password")) {
           return next()
@@ -63,7 +63,7 @@ export default Factor => {
         }
       },
 
-      covers: [{ type: Factor.$mongoose.Schema.Types.ObjectId, ref: "attachment" }],
+      covers: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }],
       birthday: Date,
       gender: {
         type: String,
