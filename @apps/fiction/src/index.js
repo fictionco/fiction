@@ -27,16 +27,14 @@ module.exports.default = Factor => {
         return _.concat([
 
           {
-            name: "With Nav",
-            description: "Scans the page and creates a dynamic table of contents.",
-            value: "page-template-sidebar",
-            component: () => import("./page-template-sidebar")
+            name: "Sticky Sidebar",
+            value: "tpl-sticky-sidebar",
+            component: () => import("./tpl-sticky-sidebar")
           },
           {
             name: "Landing Page",
-            description: "Fancy landing page template",
-            value: "page-template-landing",
-            component: () => import("./page-template-landing"),
+            value: "tpl-landing-page",
+            component: () => import("./tpl-landing-page"),
             options: [
               {
                 type: "text",

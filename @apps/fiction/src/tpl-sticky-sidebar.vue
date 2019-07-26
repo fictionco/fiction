@@ -28,8 +28,10 @@
     </div>
     <div ref="scroller" class="grid-content">
       <div ref="content" class="entry-content">
-        <factor-post-edit :post="post" />
-        <h1 v-formatted-text="post.title" />
+        <div v-if="post.title" class="title">
+          <h1 v-formatted-text="post.title" />
+          <factor-post-edit :post="post" />
+        </div>
         <div class="admin-items">
           <div class="date">Updated &mdash; {{ $time.niceFormat(post.date) }}</div>
         </div>
@@ -91,8 +93,7 @@ export default {
 
       const anchors = this.$refs.scroller.querySelectorAll("h2, h3")
 
-      for (let i = 0; i < anchors.length; i++) {
-        const anchor = anchors[i]
+      for (const [i, anchor] of anchors.entries()) {
         const nextAnchor = anchors[i + 1]
 
         const isActive =
@@ -149,7 +150,7 @@ export default {
         .map(function(node) {
           if (node.nodeType === Node.TEXT_NODE) {
             return node.nodeValue
-          } else if (["CODE", "SPAN"].indexOf(node.tagName) !== -1) {
+          } else if (["CODE", "SPAN"].includes(node.tagName)) {
             return node.textContent
           } else {
             return ""
@@ -233,6 +234,19 @@ export default {
   }
   .entry-content {
     max-width: 650px;
+    .title {
+      border-bottom: 1px dotted rgba(0, 0, 0, 0.07);
+      margin-bottom: 1em;
+      padding: 0.75em 0;
+      letter-spacing: -0.02em;
+
+      display: flex;
+      justify-content: space-between;
+      h1 {
+        font-size: 1.5em;
+        font-weight: var(--font-weight-bold);
+      }
+    }
     .admin-items {
       display: flex;
       justify-content: space-between;

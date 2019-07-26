@@ -11,18 +11,19 @@ export default Factor => {
           linkify: true,
           typographer: false
         })
+
         this.lib.use(require("markdown-it-anchor").default, {
           slugify: Factor.$utils.slugify
         })
-        this.lib.use(require("markdown-it-video").default)
-        //this.lib.use(require("markdown-it-highlightjs"))
-        this.lib.use(require("markdown-it-link-attributes").default, {
+        this.lib.use(require("markdown-it-video"))
+
+        this.lib.use(require("markdown-it-link-attributes"), {
           attrs: {
             target: "_blank",
             rel: "noopener"
           }
         })
-        this.lib.use(require("markdown-it-implicit-figures").default, {
+        this.lib.use(require("markdown-it-implicit-figures"), {
           dataType: true, // <figure data-type="image">, default: false
           figcaption: true, // <figcaption>alternative text</figcaption>, default: false
           tabindex: false, // <figure tabindex="1+n">..., default: false
