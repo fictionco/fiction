@@ -5,7 +5,7 @@
       <factor-post-edit :post="post" />
     </div>
 
-    <div v-formatted-text="post.content" class="content entry-content" />
+    <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
   </div>
 </template>
 
