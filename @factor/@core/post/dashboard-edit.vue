@@ -34,7 +34,8 @@ export default {
     async requestPost() {
       const post = await this.$posts.getPostById({
         _id: this._id,
-        postType: this.postType
+        postType: this.postType,
+        createOnEmpty: true
       })
 
       // If a new post was started, an id comes with it.

@@ -7,7 +7,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-      console.log("PREFETCH?", method, params)
+
       return await Factor.$endpoint.request({ id: "posts", method, params })
     }
 
@@ -149,10 +149,13 @@ export default Factor => {
       return { canonical, title, description, image }
     }
 
-    async getPostById({ _id, postType = "post" }) {
-      const _post = await this.request("single", { _id, postType })
+    async getPostById({ _id, postType = "post", createOnEmpty = false }) {
+      const _post = await this.request("single", { _id, postType, createOnEmpty })
 
-      Factor.$store.add(_post._id, _post)
+      if (_post) {
+        Factor.$store.add(_post._id, _post)
+      }
+
 
       return _post
     }

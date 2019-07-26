@@ -27,9 +27,11 @@ button.app-btn {
   }
 
   &.tiny {
-    font-size: 11px;
-    padding: 2px 4px;
+    font-size: 10px;
+    padding: 3px 7px;
     font-weight: 500;
+    letter-spacing: -0.02em;
+    font-weight: 700;
   }
   &.small {
     font-size: 0.75em;
@@ -46,8 +48,11 @@ button.app-btn {
 
   &.default {
     background: #fff;
-    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
-      0 2px 10px rgba(71, 86, 144, 0.2);
+    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.4),
+      0 2px 5px rgba(71, 86, 144, 0.2);
+    &:hover {
+      opacity: 0.7;
+    }
   }
 
   &.primary {

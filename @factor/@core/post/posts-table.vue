@@ -35,7 +35,7 @@
           <dashboard-link
             v-if="row.permalink"
             class="permalink"
-            :path="postlink(row.type, row.permalink)"
+            :path="postlink(row.type, row.permalink, false)"
           >{{ postlink(row.type, row.permalink, false) }}</dashboard-link>
         </div>
 
