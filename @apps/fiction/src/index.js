@@ -25,11 +25,7 @@ module.exports.default = Factor => {
     async addPaths() {
       Factor.$filters.add("page-templates", _ => {
         return _.concat([
-          {
-            name: "Default",
-            value: "default",
-            component: () => import("./page-template-default")
-          },
+
           {
             name: "With Nav",
             description: "Scans the page and creates a dynamic table of contents.",

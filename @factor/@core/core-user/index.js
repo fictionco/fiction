@@ -26,7 +26,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-
+      console.log("user request")
       return await Factor.$endpoint.request({ id: "user", method, params })
     }
 

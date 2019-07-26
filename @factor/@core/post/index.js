@@ -94,7 +94,6 @@ export default Factor => {
     async prefetchPost({ to = null } = {}) {
       const route = to || Factor.$router.currentRoute
 
-      //
       const request = Factor.$filters.apply("post-params", { ...route.params, ...route.query })
 
       const { permalink, _id } = request
@@ -102,7 +101,13 @@ export default Factor => {
       // Only add to the filter if permalink is set. That way we don't show loader for no reason.
       if (!permalink && !_id) return {}
 
-      return await this.getSinglePost(request)
+      const _post = await this.getSinglePost(request)
+
+
+
+      Factor.$store.add('post', _post)
+
+      return _post
     }
 
     addPostToComponents() {
