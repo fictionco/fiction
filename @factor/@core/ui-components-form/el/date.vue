@@ -1,19 +1,30 @@
 <template>
-  <div id="sel" class="date-input">date picker</div>
+  <div id="sel" class="date-input">
+    <date-picker
+      ref="picker"
+      :value="val"
+      class="date-picker"
+      calendar-class="date-picker-cal"
+      format="yyyy-M-d"
+      v-on="listeners"
+    />
+  </div>
 </template>
 
 <script>
 export default {
-  components: {},
+  components: {
+    "date-picker": () => import("vuejs-datepicker")
+  },
   props: {
-    value: { type: [Number], default: null }
+    value: { type: Date, default: null }
   },
   data() {
     return { date: null }
   },
   computed: {
     val() {
-      return this.value ? this.$time.date(this.value) : null
+      return this.value ? this.$time.date(this.value) : this.$time.date()
     },
     listeners() {
       return {
@@ -23,7 +34,6 @@ export default {
     }
   },
 
-  mounted() {},
   methods: {
     clk() {
       this.$refs.picker.showCalendar()

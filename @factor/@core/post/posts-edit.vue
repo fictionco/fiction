@@ -21,7 +21,9 @@
           <component :is="item.component" v-model="post" />
         </dashboard-pane>-->
         <dashboard-pane title="Meta Info" class="post-media">
-          <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
+          <factor-client-only>
+            <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
+          </factor-client-only>
           <dashboard-input label="Tags">
             <input-tags v-model="post.tag" />
           </dashboard-input>

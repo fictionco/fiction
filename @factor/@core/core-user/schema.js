@@ -1,8 +1,9 @@
-const bcrypt = require("bcrypt")
+
 export default Factor => {
   return {
     name: "user",
     callback: _s => {
+      const bcrypt = require("bcrypt")
       // PASSWORDS
       _s.methods.comparePassword = async function comparePassword(candidate) {
         return bcrypt.compare(candidate, this.password)

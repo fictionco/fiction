@@ -8,9 +8,7 @@ export function createStore() {
     plugins: [],
     state: () => { },
     getters: {
-      getItem: state => item => {
-        return state[item]
-      }
+      getItem: state => item => state[item]
     },
     mutations: {
       setItem: (state, { item, value }) => {
@@ -47,8 +45,8 @@ export function createStore() {
     })
   }
 
-  store.val = (key, value) => {
-    return Factor.$store.getters["getItem"](key)
+  store.val = key => {
+    return store.getters["getItem"](key)
   }
 
   Factor.$store = store

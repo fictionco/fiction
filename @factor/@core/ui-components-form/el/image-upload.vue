@@ -3,9 +3,8 @@
     <div class="image-upload-input">
       <div ref="organizer" class="image-organizer">
         <div
-          v-for="(img, index) in images"
-          :id="img._id"
-          :key="img._id"
+          v-for="(img, index) in allImages"
+          :key="index"
           :class="max <= 1 ? 'no-sort-img' : 'sort-img'"
           class="image-item image-uploaded"
         >
@@ -36,7 +35,7 @@
           </div>
         </div>
         <div
-          v-if="max == 1 || images.length < max"
+          v-if="max == 1 || imageIds.length < max"
           ref="multiImageDrop"
           class="image-item ignore-sortable image-drop"
         >
@@ -62,8 +61,8 @@
         </div>
       </div>
     </div>
-    <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy">
-    <factor-lightbox :visible.sync="lightboxShow" :imgs="images" :index="lightboxIndex" />
+    <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" >
+    <factor-lightbox :visible.sync="lightboxShow" :imgs="populated" :index="lightboxIndex" />
   </div>
 </template>
 <script>
@@ -72,13 +71,13 @@ export default {
   props: {
     loading: { type: Boolean, default: false },
     value: { type: Array, default: () => [] },
-    customValidity: { type: String, default: "" },
-    watermark: { type: Boolean, default: false }
+    min: { type: Number, default: 0 },
+    max: { type: Number, default: 10 }
   },
   data() {
     return {
-      images: [],
-      imageMeta: {},
+      imageIds: [],
+      uploading: [],
       lightboxShow: false,
       lightboxIndex: 0,
       callback: null,
@@ -86,18 +85,14 @@ export default {
     }
   },
   computed: {
-    max() {
-      return this.$attrs["input-max"] ? parseInt(this.$attrs["input-max"]) : 10
-    },
-    min() {
-      return typeof this.$attrs["input-min"] != "undefined"
-        ? parseInt(this.$attrs["input-min"])
-        : typeof this.$attrs["required"] != "undefined"
-        ? 1
-        : 0
-    },
     isRequired() {
       return typeof this.$attrs["required"] != "undefined" ? true : false
+    },
+    populated() {
+      return this.imageIds.map(_ => this.$store.val(_)).filter(_ => _)
+    },
+    allImages() {
+      return [...this.populated, ...this.uploading]
     }
   },
 
@@ -112,8 +107,10 @@ export default {
     this.$watch(
       `value`,
       function(v) {
-        this.setImages(v)
-        this.setValidity()
+        console.log("val", v)
+        if (v) {
+          this.imageIds = v
+        }
       },
       { deep: true, immediate: true }
     )
@@ -122,7 +119,7 @@ export default {
   },
   methods: {
     action({ key, value }) {
-      const image = this.images[key]
+      const image = this.populated[key]
       if (value == "view") {
         this.lightboxShow = true
         this.lightboxIndex = key
@@ -138,10 +135,11 @@ export default {
         this.callback = null
       }
     },
-    copyUrl(key) {
-      const image = this.images[key]
+    copyUrl(index) {
+      const _id = this.imageIds[index]
+      const image = this.populated[index]
       this.copyText = image.url.includes("base64")
-        ? `[IMAGEID:${image._id}]`
+        ? `[IMAGEID:${_id}]`
         : image.url
       this.$nextTick(() => {
         this.$refs.copyInput.select()
@@ -215,30 +213,20 @@ export default {
       }
     },
 
-    setImages(v) {
-      if (this.images.length == 0 && Array.isArray(v) && v.length > 0) {
-        this.images = v.filter(_ => _ && _.url)
-      }
-    },
     updateValue() {
-      this.$emit("input", this.images)
+      this.$emit("input", this.imageIds)
 
       this.$emit("update:customValidity", this.validity)
-
-      // Delay autosave to make sure all models are correct
-      setTimeout(() => {
-        this.$emit("autosave", this.images)
-      }, 100)
     },
 
     removeImage(index) {
-      const image = this.images[index]
-      // If no path provided, we can't delete
-      if (image.path) {
-        this.$storage.delete({ path: image.path })
+      const _id = this.imageIds[index]
+
+      if (_id) {
+        this.$storage.delete({ _id })
       }
 
-      this.$delete(this.images, index)
+      this.$delete(this.imageIds, index)
       this.updateValue()
     },
 
@@ -248,17 +236,17 @@ export default {
 
     async handleMultiImage(files) {
       this.numFiles = 0
-      if (files[0] && this.max == 1 && this.images.length >= 1) {
+      if (files[0] && this.max == 1 && this.imageIds.length >= 1) {
         this.removeImage(0)
       }
 
       for (let file of files) {
-        if (this.images.length < this.max) {
+        if (this.imageIds.length < this.max) {
           const meta = {
             status: "preprocess"
           }
 
-          let index = this.images.push(meta) - 1
+          let index = this.uploading.push(meta) - 1
 
           this.numFiles++
           this.uploadFile({
@@ -271,8 +259,7 @@ export default {
     },
 
     uploadFile({ meta, file, index, path }) {
-      this.uploadedFiles = 0
-      const item = this.images[index]
+      const item = this.uploading[index]
 
       this.$emit("upload", { file, index, path, item })
 
@@ -292,24 +279,12 @@ export default {
           this.$set(item, "status", "error")
           this.$set(item, "message", error.message)
         },
-        onFinished: ({ url, _id }) => {
-          console.log("ON FINISHED", url, _id)
-          // preload
-          var img = new Image()
-          img.src = url
-          this.$set(item, "url", url)
-          this.$set(item, "_id", _id)
-          this.$set(item, "status", "complete")
-          this.uploadedFiles++
-
-          this.doCallback(item)
-
-          // Only update value once all images uploaded (multi)
-          if (this.uploadedFiles >= this.numFiles) {
-            setTimeout(() => {
-              this.updateValue()
-            }, 500)
-          }
+        onFinished: result => {
+          console.log("on fini")
+          const { url, _id } = result
+          this.imageIds.push(_id)
+          this.$delete(this.uploading, index)
+          this.updateValue()
         }
       })
     }

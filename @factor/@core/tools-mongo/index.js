@@ -8,6 +8,7 @@ export default Factor => {
     }
 
     init() {
+
       this.schemas = Factor.$filters.apply("data-schemas", {
         post: require("@factor/post/schema").default(Factor)
       })
@@ -54,16 +55,20 @@ export default Factor => {
     }
 
     getPopulatedFields({ postType = 'post', depth = 10 }) {
+      // console.log('this.schemas', this.schemas)
 
       let fields = this.schemas.post.populatedFields || []
 
       if (postType != 'post') {
-        console.log(postType, this.schemas[postType])
+
         const postTypePopulated = this.schemas[postType].populatedFields || []
         fields = [...fields, ...postTypePopulated]
       }
 
-      return fields.filter(_ => _.depth <= depth).map(_ => _.field)
+      const pop = fields.filter(_ => _.depth <= depth).map(_ => _.field)
+
+
+      return pop
     }
 
     // Scans a schema and adds the populated field names to an array property

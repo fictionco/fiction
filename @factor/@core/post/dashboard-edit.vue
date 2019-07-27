@@ -35,10 +35,9 @@ export default {
       const post = await this.$posts.getSinglePost({
         _id: this._id,
         postType: this.postType,
-        createOnEmpty: true
+        createOnEmpty: true,
+        depth: 100
       })
-
-      console.log("post", post)
 
       // If a new post was started, an id comes with it.
       if (post._id != this._id) {

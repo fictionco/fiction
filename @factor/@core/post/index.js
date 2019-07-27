@@ -160,7 +160,7 @@ export default Factor => {
       return _post
     }
 
-    async getSinglePost({ permalink, field = "permalink", postType = "post", _id, createOnEmpty = false }) {
+    async getSinglePost({ permalink, field = "permalink", postType = "post", _id, createOnEmpty = false, depth = 10 }) {
 
       const params = { postType, createOnEmpty }
 
@@ -174,7 +174,7 @@ export default Factor => {
 
       if (post) {
         Factor.$store.add(post._id, post)
-        await this.populateRecursively({ post, postType, depth: 10 })
+        await this.populateRecursively({ post, postType, depth })
       }
 
       return post
@@ -194,11 +194,17 @@ export default Factor => {
           }
         }
       })
+
+
       const filtered = _ids.filter(_id => {
-        return !Factor.$store.val(post._id, post)
+        const storeVal = Factor.$store.val(_id)
+
+        return !storeVal
       })
 
+
       if (filtered.length > 0) {
+
         const posts = await Factor.$db.request('populate', { _ids: filtered })
         const promises = posts.map(p => this.populateRecursively({ post: p, postType: p.postType }))
 

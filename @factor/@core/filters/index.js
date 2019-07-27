@@ -107,9 +107,6 @@ module.exports.default = Factor => {
 
       context = context || this
 
-      if (this._filters[name][id]) {
-        console.log("Duplicate Filter", name)
-      }
 
       this._filters[name][id] = { callback, context, priority }
 
