@@ -2,14 +2,14 @@ module.exports.default = Factor => {
   return new(class {
     constructor() {
       this.addPaths()
-      this.addSettings()
+      // this.addSettings()
     }
 
-    addSettings() {
-      Factor.$filters.add("settings", _ => {
-        return [..._, require("./settings")(Factor)]
-      })
-    }
+    // addSettings() {
+    //   Factor.$filters.add("settings", _ => {
+    //     return [..._, require("./theme-settings")(Factor)]
+    //   })
+    // }
 
     async addPaths() {
 
