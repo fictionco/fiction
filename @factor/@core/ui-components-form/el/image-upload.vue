@@ -4,7 +4,7 @@
       <div ref="organizer" class="image-organizer">
         <div
           v-for="(img, index) in allImages"
-          :key="index"
+          :key="img._id"
           :class="max <= 1 ? 'no-sort-img' : 'sort-img'"
           class="image-item image-uploaded"
         >
@@ -107,7 +107,6 @@ export default {
     this.$watch(
       `value`,
       function(v) {
-        console.log("val", v)
         if (v) {
           this.imageIds = v
         }
@@ -197,9 +196,9 @@ export default {
           filter: ".ignore-sortable",
           ghostClass: "sortable-ghost",
           onUpdate: e => {
-            if (this.images[e.oldIndex]) {
-              const moved = this.images.splice(e.oldIndex, 1)
-              this.images.splice(e.newIndex, 0, moved[0])
+            if (this.imageIds[e.oldIndex]) {
+              const moved = this.imageIds.splice(e.oldIndex, 1)
+              this.imageIds.splice(e.newIndex, 0, moved[0])
 
               this.updateValue()
             }
