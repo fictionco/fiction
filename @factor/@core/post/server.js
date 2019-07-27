@@ -7,7 +7,7 @@ module.exports.default = Factor => {
 
     getPostTypeModel(postType) {
       //const modelName = postType.charAt(0).toUpperCase() + postType.slice(1)
-      return Factor.$db.model(postType)
+      return Factor.$dbServer.model(postType)
     }
 
     async save({ data, postType = "post" }, { bearer }) {
@@ -27,11 +27,11 @@ module.exports.default = Factor => {
       Object.assign(_post, data)
 
       console.log("SERVER SAVE__", _post)
-
       return await _post.save()
+
     }
 
-    async single({ _id, postType = "post", conditions }, { bearer }) {
+    async single({ _id, postType = "post", conditions, createOnEmpty = false }, { bearer }) {
       let _post
       let PostTypeModel = this.getPostTypeModel(postType)
 
@@ -39,12 +39,14 @@ module.exports.default = Factor => {
       if (_id) {
         _post = await PostTypeModel.findById(_id)
       } else if (conditions) {
-        _post = await PostTypeModel.findOne({ conditions })
+        _post = await PostTypeModel.findOne(conditions)
       }
+
+
 
       // If ID is unset or if it isn't found, create a new post model/doc
       // This is not saved at this point, leading to a post sometimes not existing although an ID exists
-      if (!_id || !_post) {
+      if (!_post && createOnEmpty) {
         const initial = {}
         if (bearer) {
           initial.author = [bearer._id]
@@ -52,13 +54,13 @@ module.exports.default = Factor => {
         _post = new PostTypeModel(initial)
       }
 
-
       if (_post) {
         const popped = this.getPostPopulatedFields(_post)
 
         // https://mongoosejs.com/docs/api/document.html#document_Document-populate
         _post = await _post.populate(popped).execPopulate()
       }
+
 
       return _post
     }
@@ -96,7 +98,7 @@ module.exports.default = Factor => {
 
       const _p = [
         this.indexMeta(params),
-        Factor.$db
+        Factor.$dbServer
           .model(postType)
           .find(conditions, null, options)
           .populate([{ path: "avatar" }, { path: "author", populate: "avatar" }])
@@ -110,7 +112,7 @@ module.exports.default = Factor => {
     async indexMeta(params) {
       const { model } = params
 
-      const ItemModel = Factor.$db.model(model)
+      const ItemModel = Factor.$dbServer.model(model)
 
       const aggregate = [
         {

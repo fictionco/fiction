@@ -7,6 +7,7 @@ export default Factor => {
     }
 
     async request(method, params) {
+
       return await Factor.$endpoint.request({ id: "posts", method, params })
     }
 
@@ -93,7 +94,6 @@ export default Factor => {
     async prefetchPost({ to = null } = {}) {
       const route = to || Factor.$router.currentRoute
 
-      //
       const request = Factor.$filters.apply("post-params", { ...route.params, ...route.query })
 
       const { permalink, _id } = request
@@ -101,7 +101,13 @@ export default Factor => {
       // Only add to the filter if permalink is set. That way we don't show loader for no reason.
       if (!permalink && !_id) return {}
 
-      return await this.getSinglePost(request)
+      const _post = await this.getSinglePost(request)
+
+
+
+      Factor.$store.add('post', _post)
+
+      return _post
     }
 
     addPostToComponents() {
@@ -143,10 +149,13 @@ export default Factor => {
       return { canonical, title, description, image }
     }
 
-    async getPostById({ _id, postType = "post" }) {
-      const _post = await this.request("single", { _id, postType })
+    async getPostById({ _id, postType = "post", createOnEmpty = false }) {
+      const _post = await this.request("single", { _id, postType, createOnEmpty })
 
-      Factor.$store.add(_post._id, _post)
+      if (_post) {
+        Factor.$store.add(_post._id, _post)
+      }
+
 
       return _post
     }
@@ -408,9 +417,9 @@ export default Factor => {
       Factor.$events.$emit("purge-url-cache", post.url)
 
       // Bust cache for url
-      if (!post.url.includes("localhost")) {
-        Factor.$http.request({ url: post.url, method: "PURGE" })
-      }
+      // if (!post.url.includes("localhost")) {
+      //   Factor.$http.request({ url: post.url, method: "PURGE" })
+      // }
 
       return data
     }

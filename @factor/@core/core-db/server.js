@@ -1,11 +1,17 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+
       // https://github.com/Automattic/mongoose/issues/4965
       Factor.$mongoose.set("applyPluginsToDiscriminators", true)
 
       // Add an array of populated fields
       Factor.$mongoose.plugin(this.registerPopulatedFields)
+
+      // Improve duplicate value validation errors
+      // https://github.com/matteodelabre/mongoose-beautiful-unique-validation
+      const beautifyUnique = require('mongoose-beautiful-unique-validation')
+      Factor.$mongoose.plugin(beautifyUnique)
 
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })

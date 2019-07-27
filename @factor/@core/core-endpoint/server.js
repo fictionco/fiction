@@ -62,7 +62,8 @@ module.exports.default = Factor => {
       const _ep = typeof handler == "function" ? handler(Factor, meta) : handler
 
       if (!_ep[method] || typeof _ep[method] !== "function") {
-        throw new Error(`Endpoint method ${method} is missing.`)
+
+        throw new Error(`Endpoint method ${id}:${method} is missing.`)
       }
 
       try {

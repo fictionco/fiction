@@ -1,27 +1,13 @@
 <template>
   <article class="entry">
-    <!-- :class="formatClass" -->
     <div class="entry-wrap">
-      <div class="entry-meta">
-        <div class="post-author">
-          <!-- <author-tag v-for="(author) in authors" :key="author.uid" :author="author" /> -->
+      <img v-if="images" class="entry-image" :src="images" :alt="title" >
 
-          <div class="txt">
-            <span class="sep">on</span>
-            <span class="date">{{ $time.niceFormat(date) }}</span>
-            <!-- <factor-link
-              v-if="$posts.userCanEditPost({uid: this.$userId, post: {authors}})"
-              class="edit"
-              path="/admin/posts/edit"
-              :query="{id: postId}"
-            >Edit</factor-link>-->
-          </div>
-        </div>
-      </div>
+      <el-tags class="entry-tags" :tags="tags" />
 
       <div class="entry-text">
         <h1 class="entry-header">
-          <factor-link :path="path">{{ title }}</factor-link>
+          <app-link :path="path">{{ title }}</app-link>
         </h1>
 
         <div class="entry-content">
@@ -30,23 +16,30 @@
         </div>
       </div>
 
-      <el-tags class="entry-tags" :tags="tags" />
+      <div class="entry-meta">
+        <div class="post-author">
+          <div class="txt">
+            <span class="date">{{ $time.niceFormat(date) }}</span>
+          </div>
+          <author-tag v-for="(author) in authors" :key="author.uid" :author="author" />
+        </div>
+      </div>
 
       <div v-if="format == 'listing'" class="entry-action">
-        <factor-link size="large" btn="default" :path="path">
+        <app-link size="standard" btn="default" :path="path">
           Continue Reading
-          <i class="fa fa-arrow-right" />
-        </factor-link>
+          <factor-icon icon="arrow-right" />
+        </app-link>
       </div>
 
       <div v-if="format == 'single'" class="entry-action">
         <div class="share-wrap">
-          <factor-link path="/#">
-            <i class="fa fa-facebook" />
-          </factor-link>
-          <factor-link path="/#">
-            <i class="fa fa-twitter" />
-          </factor-link>
+          <app-link path="https://www.facebook.com/">
+            <factor-icon icon="facebook" />
+          </app-link>
+          <app-link path="https://twitter.com/">
+            <factor-icon icon="twitter" />
+          </app-link>
         </div>
       </div>
 
@@ -66,11 +59,12 @@
 <script>
 export default {
   components: {
-    "el-tags": () => import("./tags")
-    //"author-tag": () => import("./author-tag")
+    "el-tags": () => import("./tags"),
+    "author-tag": () => import("./author-tag")
   },
   props: {
     format: { type: String, default: "" },
+    images: { type: String, default: "" },
     authors: { type: Array, default: () => [] },
     title: { type: String, default: "" },
     content: { type: String, default: "" },
@@ -111,93 +105,66 @@ export default {
     }
   }
 }
-.entry {
-  letter-spacing: -0.03em;
-  background: #fff;
-  margin-bottom: 0;
-  transition: all 0.2s ease-in-out;
-  font-weight: 500;
-  min-width: 0;
-  // .entry-wrap {
-  //   padding: 30px;
-  //   display: block;
-  // }
-  a {
-    transition: all 0.2s ease-in-out;
-  }
 
-  .entry-header {
-    font-weight: 600;
-    font-size: 2.5em;
-    line-height: 1.1;
-    margin: 0.5em 0;
+.page-blog {
+  .entry {
+    min-width: 0;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+    color: var(--color-text);
+    background: var(--color-white);
 
-    @media (max-width: 767px) {
+    .entry-image {
+      width: 100%;
+    }
+    .entry-header {
+      font-weight: 600;
       font-size: 2em;
+      line-height: 1.1;
+      margin: 0.5em 0;
     }
-    // a {
-    //   color: inherit;
-    //   &:hover {
-    //     color: #0496ff;
-    //   }
-    //   &:active {
-    //     color: #ff0076;
-    //   }
-    // }
-  }
-  .entry-content {
-    margin: 0 0 1em 0;
-    font-size: 1.5em;
-    line-height: 1.4em;
-    @media (max-width: 767px) {
-      font-size: 1em;
-    }
-  }
-  .entry-action {
-    padding: 1.5em 0;
-  }
-
-  .author-about {
-    display: flex;
-    font-size: 1.3em;
-    line-height: 1.4;
-    margin: 1.5em 0;
-    .name {
+    .entry-content {
+      margin: 0 0 1em 0;
       font-size: 1.2em;
-      font-weight: 600;
+      line-height: 1.4em;
+      @media (max-width: 767px) {
+        font-size: 1em;
+      }
     }
-    .bio {
-      opacity: 0.6;
-    }
-    .avatar {
-      margin-right: 1em;
-    }
-  }
-
-  .post-author {
-    display: flex;
-    @media (max-width: 767px) {
-      flex-direction: column;
+    .entry-action {
+      padding: 1.5em 0;
     }
 
-    .txt {
+    .author-about {
       display: flex;
-      align-items: center;
-      font-size: 0.9em;
-      font-weight: 600;
-      .sep {
-        font-weight: 500;
-        font-style: italic;
-        margin: 0 1em 0 0;
-        opacity: 0.8;
+      font-size: 1.3em;
+      line-height: 1.4;
+      margin: 1.5em 0;
+      .name {
+        font-size: 1.2em;
+        font-weight: 600;
       }
-      .edit {
-        margin-left: 1em;
+      .bio {
+        opacity: 0.6;
+      }
+      .avatar {
+        margin-right: 1em;
       }
     }
-  }
-  .entry-tags {
-    margin-top: 1em;
+
+    .post-author {
+      display: flex;
+      @media (max-width: 767px) {
+        flex-direction: column;
+      }
+
+      .txt {
+        display: flex;
+        align-items: center;
+        font-size: 0.9em;
+        font-weight: 600;
+      }
+    }
   }
 }
 </style>

@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-config",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.8",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -9,6 +9,7 @@
     "id": "buildConfig"
   },
   "dependencies": {
+    "fs-extra": "^8.1.0",
     "yargs": "^13.2.2"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

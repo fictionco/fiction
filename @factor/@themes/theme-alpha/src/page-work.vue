@@ -56,33 +56,6 @@ export default {
         grid-template-columns: 1fr;
         grid-row-gap: 100px;
       }
-      // .post-item {
-      //   text-align: center;
-      //   &:nth-last-of-type(odd) {
-      //     margin-top: 120px;
-      //     @media (max-width: 767px) {
-      //       margin: 0;
-      //     }
-      //   }
-      //   .img-wrap {
-      //     background-size: cover;
-      //     background-position: center;
-      //     background-repeat: no-repeat;
-      //     height: 550px;
-      //     margin-bottom: 1em;
-      //     transform: scale(1);
-      //     transition: all 0.2s ease-in-out;
-      //     &:hover {
-      //       transform: scale(0.95);
-      //     }
-      //   }
-      //   .title {
-      //     font-weight: 600;
-      //   }
-      //   .category {
-      //     opacity: 0.5;
-      //   }
-      // }
     }
   }
 }

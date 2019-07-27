@@ -21,21 +21,16 @@ export default {
     templateLoader() {
       const tpls = this.$templates.getPageTemplates()
 
-      return tpls.find(_ => _.value == this.templateLocation).component
+      const selected = tpls.find(_ => _.value == this.templateLocation)
+
+      return selected && selected.component
+        ? selected.component
+        : () => import("./tpl-default")
     },
 
     post() {
       return this.$store.getters["getItem"]("post") || {}
     }
-  },
-
-  async mounted() {
-    const tpls = this.$templates.getPageTemplates()
-
-    const c = await tpls
-      .find(_ => _.value == this.templateLocation)
-      .component()
-  },
-  methods: {}
+  }
 }
 </script>,

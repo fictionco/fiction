@@ -37,7 +37,7 @@ module.exports.default = Factor => {
       this.makeModuleLoader({
         extensions: this.extensions,
         destination: Factor.$paths.get("loader-server"),
-        buildTarget: ["server", "app"],
+        buildTarget: ["server"],
         mainTarget: "server"
       })
 
@@ -193,7 +193,7 @@ module.exports.default = Factor => {
     }
 
     getWatchDirs() {
-      return this.extensions.map(_ => dirname(require.resolve(_.name)))
+      return this.extensions.map(_ => _.mainDir)
     }
 
     // Webpack doesn't allow dynamic paths in require statements
@@ -204,13 +204,21 @@ module.exports.default = Factor => {
 
       const fileLines = []
       filtered.forEach(extension => {
-        const { id, mainFile, mainFileServer } = extension
+        const { id, mainFile, mainFileServer, target } = extension
 
-        const theFile = mainTarget == "server" ? mainFileServer : mainFile
+        let theFile = mainFile
+        let theId = id
+        if (mainTarget == 'server') {
+          theFile = mainFileServer
+          if (typeof target == 'object' && !Array.isArray(target) && target.server) {
+            theId = `${id}Server`
+          }
+        }
+
         if (requireAtRuntime) {
           fileLines.push(JSON.stringify(extension, null, "  "))
         } else {
-          fileLines.push(`files["${id}"] = require("${theFile}").default`)
+          fileLines.push(`files["${theId}"] = require("${theFile}").default`)
         }
       })
 
@@ -271,7 +279,7 @@ module.exports.default = Factor => {
 
     makeId(name) {
       const base = name.split(/endpoint-|plugin-|theme-|service-|@factor|@fiction/gi).pop()
-      return base.replace(/\//gi, "").replace(/-([a-z])/g, function(g) {
+      return base.replace(/\//gi, "").replace(/-([a-z])/g, function (g) {
         return g[1].toUpperCase()
       })
     }

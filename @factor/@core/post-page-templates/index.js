@@ -57,8 +57,15 @@ export default Factor => {
     }
 
     getPageTemplates() {
-      return Factor.$filters.apply("page-templates", []).map(_ => {
-        const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
+      const tpls = [
+        {
+          value: "default",
+          component: () => import("./tpl-default")
+        }
+      ]
+
+      return Factor.$filters.apply("page-templates", tpls).map(_ => {
+        const name = _.name || Factor.$utils.toLabel(_.value.replace("tpl-", ""))
         return {
           name,
           ..._

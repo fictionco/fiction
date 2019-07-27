@@ -1,6 +1,6 @@
 <template>
   <div v-if="tags.length > 0" class="entry-tags">
-    <factor-link v-for="(tag, i) in tags" :key="i" class="entry-tag" :path="`/tag/${tag}`">{{ tag }}</factor-link>
+    <app-link v-for="(tag, i) in tags" :key="i" class="entry-tag" :path="`/tag/${tag}`">{{ tag }}</app-link>
   </div>
 </template>
 <script>
@@ -12,6 +12,7 @@ export default {
 </script>
 <style lang="less">
 .entry-tags {
+  margin-top: 1em;
   line-height: 1;
 }
 .entry-tags a {

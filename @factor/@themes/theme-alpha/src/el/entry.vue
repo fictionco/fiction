@@ -8,19 +8,19 @@
           <div class="txt">
             <span class="sep">on</span>
             <span class="date">{{ $time.niceFormat(date) }}</span>
-            <factor-link
+            <app-link
               v-if="$posts.userCanEditPost({uid: this.$userId, post: {authors}})"
               class="edit"
               path="/admin/posts/edit"
               :query="{id: postId}"
-            >Edit</factor-link>
+            >Edit</app-link>
           </div>
         </div>
       </div>
 
       <div class="entry-text">
         <h1 class="entry-header">
-          <factor-link :path="path">{{ title }}</factor-link>
+          <app-link :path="path">{{ title }}</app-link>
         </h1>
 
         <div class="entry-content">
@@ -32,20 +32,20 @@
       <el-tags class="entry-tags" :tags="tags" />
 
       <div v-if="format == 'listing'" class="entry-action">
-        <factor-link size="large" btn="default" :path="path">
+        <app-link size="large" btn="default" :path="path">
           Continue Reading
-          <i class="fa fa-arrow-right" />
-        </factor-link>
+          <factor-icon icon="arrow-right" />
+        </app-link>
       </div>
 
       <div v-if="format == 'single'" class="entry-action">
         <div class="share-wrap">
-          <factor-link path="/#">
-            <i class="fa fa-facebook" />
-          </factor-link>
-          <factor-link path="/#">
-            <i class="fa fa-twitter" />
-          </factor-link>
+          <app-link path="https://www.facebook.com/">
+            <factor-icon icon="facebook" />
+          </app-link>
+          <app-link path="https://twitter.com/">
+            <factor-icon icon="twitter" />
+          </app-link>
         </div>
       </div>
 
@@ -115,7 +115,7 @@ export default {
 }
 .entry {
   letter-spacing: -0.03em;
-  background: #fff;
+  background: var(--color-white);
   margin-bottom: 0;
   transition: all 0.2s ease-in-out;
   font-weight: 500;

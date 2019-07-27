@@ -139,7 +139,8 @@ export default {
     url() {
       return this.$posts.getPermalink({
         type: this.postType,
-        permalink: this.post.permalink
+        permalink: this.post.permalink,
+        root: false
       })
     },
 

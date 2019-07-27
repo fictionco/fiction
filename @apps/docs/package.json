@@ -6,14 +6,16 @@
   "main": "src/index.js",
   "author": "Fiction.com",
   "license": "GPL-2.0",
-
   "scripts": {},
   "factor": {
     "id": "docsApp",
-    "target": ["app", "server"]
+    "target": [
+      "app",
+      "server"
+    ]
   },
   "dependencies": {
-    "@factor/post": "^1.0.0-alpha.0",
+    "@factor/post": "^1.0.0-alpha.7",
     "@factor/theme-docs": "^1.0.0-alpha.0"
   }
 }
