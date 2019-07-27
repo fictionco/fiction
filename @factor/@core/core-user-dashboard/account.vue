@@ -17,7 +17,7 @@ export default {
     const user = await this.$user.init()
 
     if (this.$userId) {
-      await this.$posts.getPostById({ _id: this.$userId })
+      await this.$posts.getSinglePost({ _id: this.$userId, postType: "user" })
     }
   }
 }

@@ -4,6 +4,11 @@ export default Factor => {
       // image require wont work outside webpack
       const icon = Factor.FACTOR_TARGET == "app" ? require("./img/pages.svg") : ""
 
+      Factor.$filters.add("data-schemas", _ => {
+        _.page = require("./schema").default(Factor)
+        return _
+      })
+
       Factor.$filters.add("post-types", _ => {
         _.unshift({
           type: "page",

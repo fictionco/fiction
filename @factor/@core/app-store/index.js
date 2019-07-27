@@ -6,7 +6,7 @@ export function createStore() {
   const root = {
     strict: false,
     plugins: [],
-    state: () => {},
+    state: () => { },
     getters: {
       getItem: state => item => {
         return state[item]
@@ -45,6 +45,10 @@ export function createStore() {
       item: key,
       value
     })
+  }
+
+  store.val = (key, value) => {
+    return Factor.$store.getters["getItem"](key)
   }
 
   Factor.$store = store

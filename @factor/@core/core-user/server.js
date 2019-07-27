@@ -15,7 +15,12 @@ module.exports.default = Factor => {
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
-      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor), { signature: 'user' })
+      Factor.$filters.add("data-schemas", _ => {
+        _.user = require("./schema").default(Factor)
+        return _
+      })
+
+
     }
 
     model() {

@@ -2,34 +2,43 @@ export default Factor => {
   return new (class {
     constructor() {
       this.configureMongoose()
+
+      Factor.$filters.callback("initialize-server", () => this.init())
+      Factor.$filters.callback("initialize-app", () => this.init())
+    }
+
+    init() {
+      this.schemas = Factor.$filters.apply("data-schemas", {
+        post: require("@factor/post/schema").default(Factor)
+      })
     }
 
     configureMongoose() {
       if (Factor.$isNode) {
         this.mongoose = require("mongoose")
+
+        // https://github.com/Automattic/mongoose/issues/4965
+        this.mongoose.set("applyPluginsToDiscriminators", true)
+
+        // https://mongoosejs.com/docs/guide.html#autoIndex
+        if (process.env.NODE_ENV == "production") {
+          this.mongoose.set("autoIndex", false)
+        } else if (Factor.FACTOR_DEBUG) {
+          this.mongoose.set("debug", true)
+        }
+
+
+        // Improve duplicate value validation errors
+        // https://github.com/matteodelabre/mongoose-beautiful-unique-validation
+        const beautifyUnique = require('mongoose-beautiful-unique-validation')
+        this.mongoose.plugin(beautifyUnique)
+
       } else {
         this.mongoose = require("mongoose/browser")
       }
-
-      // https://github.com/Automattic/mongoose/issues/4965
-      this.mongoose.set("applyPluginsToDiscriminators", true)
-
-      // Add an array of populated fields
-      this.mongoose.plugin(this._registerPopulatedFields)
-
-      // Improve duplicate value validation errors
-      // https://github.com/matteodelabre/mongoose-beautiful-unique-validation
-      const beautifyUnique = require('mongoose-beautiful-unique-validation')
-      this.mongoose.plugin(beautifyUnique)
-
       // Factor.$filters.callback("initial-server-start", () => this._syncSchemaIndexes())
 
-      // https://mongoosejs.com/docs/guide.html#autoIndex
-      if (process.env.NODE_ENV == "production") {
-        this.mongoose.set("autoIndex", false)
-      } else if (Factor.FACTOR_DEBUG) {
-        this.mongoose.set("debug", true)
-      }
+
     }
 
     objectIdType() {
@@ -40,21 +49,38 @@ export default Factor => {
       return this.mongoose.Types.ObjectId(str)
     }
 
+    getSchemas() {
+      return this.schemas
+    }
+
+    getPopulatedFields({ postType = 'post', depth = 10 }) {
+
+      let fields = this.schemas.post.populatedFields || []
+
+      if (postType != 'post') {
+        console.log(postType, this.schemas[postType])
+        const postTypePopulated = this.schemas[postType].populatedFields || []
+        fields = [...fields, ...postTypePopulated]
+      }
+
+      return fields.filter(_ => _.depth <= depth).map(_ => _.field)
+    }
+
     // Scans a schema and adds the populated field names to an array property
     // Needed to help determine when/where to populate them
-    _registerPopulatedFields(schema, options) {
-      const populated = []
-      schema.eachPath(function process(pathName, schemaType) {
-        if (pathName == "_id") return
-        if (schemaType.options.ref || (schemaType.caster && schemaType.caster.options.ref)) {
-          if (!populated.includes(pathName)) {
-            populated.push(pathName)
-          }
-        }
-      })
+    // _registerPopulatedFields(schema, options) {
+    //   const populated = []
+    //   schema.eachPath(function process(pathName, schemaType) {
+    //     if (pathName == "_id") return
+    //     if (schemaType.options.ref || (schemaType.caster && schemaType.caster.options.ref)) {
+    //       if (!populated.includes(pathName)) {
+    //         populated.push(pathName)
+    //       }
+    //     }
+    //   })
 
-      schema.populatedFields = populated
-    }
+    //   schema.populatedFields = populated
+    // }
 
     // Ensure all post indexes are up to date .
     // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes

@@ -107,15 +107,19 @@ module.exports.default = Factor => {
 
 
     setModels() {
-      //   this.resetModels()
+
       this._schemas = {}
       this._models = {}
-      const postModel = this.setModel(require("@factor/post/schema").default(Factor))
 
-      const postSchemas = Factor.$filters.apply("data-schemas", [])
+      const postSchemas = Factor.$mongo.getSchemas()
 
-      postSchemas.forEach(config => {
-        this.setModel(config, postModel)
+      const primaryModel = this.setModel(postSchemas.post)
+
+      Object.keys(postSchemas).forEach(key => {
+        if (key != 'post') {
+          const config = postSchemas[key]
+          this.setModel(config, primaryModel)
+        }
       })
     }
 

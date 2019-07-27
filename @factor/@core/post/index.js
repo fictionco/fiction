@@ -160,15 +160,52 @@ export default Factor => {
       return _post
     }
 
-    async getSinglePost({ permalink, field = "permalink", postType = "post" }) {
-      const conditions = { [field]: permalink }
-      const _post = await this.request("single", { conditions, postType })
+    async getSinglePost({ permalink, field = "permalink", postType = "post", _id, createOnEmpty = false }) {
 
-      if (_post) {
-        Factor.$store.add(_post._id, _post)
+      const params = { postType, createOnEmpty }
+
+      if (_id) {
+        params._id = _id
+      } else {
+        params.conditions = { [field]: permalink }
       }
 
-      return _post
+      const post = await this.request("single", params)
+
+      if (post) {
+        Factor.$store.add(post._id, post)
+        await this.populateRecursively({ post, postType, depth: 10 })
+      }
+
+      return post
+    }
+
+    async populateRecursively({ post, postType, depth = 10 }) {
+      Factor.$store.add(post._id, post)
+      let _ids = []
+      const populatedFields = Factor.$mongo.getPopulatedFields({ postType, depth })
+      populatedFields.forEach(f => {
+        const v = post[f]
+        if (v) {
+          if (Array.isArray(v)) {
+            _ids = [..._ids, ...v]
+          } else {
+            _ids.push(v)
+          }
+        }
+      })
+      const filtered = _ids.filter(_id => {
+        return !Factor.$store.val(post._id, post)
+      })
+
+      if (filtered.length > 0) {
+        const posts = await Factor.$db.request('populate', { _ids: filtered })
+        const promises = posts.map(p => this.populateRecursively({ post: p, postType: p.postType }))
+
+        await Promise.all(promises)
+
+      }
+
     }
 
     async getPostIndex(args) {
@@ -252,11 +289,8 @@ export default Factor => {
       return postTypes.find(pt => pt.type == postType)
     }
 
-    populatedFields(postType) {
-      const defaultPopulated = ["author", "avatar", "images"]
-      const pt = this.postTypeMeta(postType).populated || []
-
-      return [...defaultPopulated, ...pt]
+    populatedFields({ postType, depth = 10 }) {
+      return Factor.$mongo.getPopulatedFields({ postType, depth })
     }
 
     getPermalink({ type, permalink = "", root = true, path = false } = {}) {
