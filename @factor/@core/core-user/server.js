@@ -1,9 +1,10 @@
-const bcrypt = require("bcrypt")
+
 const jwt = require("jsonwebtoken")
 
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      Factor.$filters.add('webpack-ignore-modules', _ => [..._, 'bcrypt'])
       this.SECRET = Factor.$config.setting("TOKEN_SECRET")
 
       if (!this.SECRET) {
@@ -15,7 +16,12 @@ module.exports.default = Factor => {
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
-      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor), { signature: 'user' })
+      Factor.$filters.add("data-schemas", _ => {
+        _.user = require("./schema").default(Factor)
+        return _
+      })
+
+
     }
 
     model() {

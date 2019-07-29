@@ -24,40 +24,14 @@ module.exports.default = Factor => {
 
     async addPaths() {
       Factor.$filters.add("page-templates", _ => {
-        return _.concat([
-
-          {
-            name: "Sticky Sidebar",
-            value: "tpl-sticky-sidebar",
-            component: () => import("./tpl-sticky-sidebar")
-          },
-          {
-            name: "Landing Page",
-            value: "tpl-landing-page",
-            component: () => import("./tpl-landing-page"),
-            options: [
-              {
-                type: "text",
-                label: "Heading",
-                description: "some desc"
-              },
-              {
-                type: "multi",
-                label: "Feature Boxes",
-                description: "Some feature boxes",
-                fields: [
-                  {
-                    type: "text",
-                    label: "Heading"
-                  },
-                  {
-                    type: "image",
-                    label: "Icon"
-                  }
-                ]
-              }
-            ]
-          }
+        return _.concat([{
+          _id: "sticky-sidebar",
+          component: () => import("./tpl-sticky-sidebar")
+        },
+        {
+          _id: "landing-page",
+          component: () => import("./tpl-landing-page")
+        }
         ])
       })
 

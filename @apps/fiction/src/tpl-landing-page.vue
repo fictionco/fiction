@@ -2,15 +2,15 @@
   <div class="landing-page">
     <div class="feature">
       <div class="feature-content">
-        <h1>{{ post.pageHeading }}</h1>
-        <div class="sub">{{ post.pageHeadingSub }}</div>
-        <factor-btn size="large" btn="primary">Button</factor-btn>
+        <h1>{{ post.settings.pageHeading }}</h1>
+        <div class="sub">{{ post.settings.pageHeadingSub }}</div>
+        <app-btn size="large" btn="primary">Button</app-btn>
       </div>
     </div>
     <div class="feature-boxes">
-      <div v-for="(box, i) in post.boxes" :key="i" class="box">
+      <div v-for="(box, i) in post.settings.boxes" :key="i" class="box">
         <div v-if="box.icon" class="box-icon">
-          <img :src="box.icon[0].url">
+          <img :src="box.icon[0].url" >
         </div>
         <div class="box-heading">{{ box.heading }}</div>
         <div class="box-description">{{ box.description }}</div>
@@ -30,56 +30,52 @@ export default {
     }
   },
   watch: {},
-  pageTemplate() {
-    return {
-      name: "Landing Page",
-      description: "Minimalist landing page template.",
-      inputs: [
-        {
-          input: "text",
-          label: "Heading",
-          description: "Primary page heading",
-          key: "pageHeading",
-          default: "Landing Page Template"
-        },
-        {
-          input: "text",
-          label: "Sub Heading",
-          key: "pageHeadingSub",
-          default: "This is a landing page template."
-        },
-        {
-          key: "boxes",
-          input: "sortable",
-          label: "Feature Boxes",
-          description: "Some feature boxes",
-          default: [
-            { __title: "Box 1" },
-            { __title: "Box 2" },
-            { __title: "Box 3" }
-          ],
-          inputs: [
-            {
-              input: "text",
-              label: "Heading",
-              key: "heading",
-              default: "Box"
-            },
-            {
-              input: "textarea",
-              label: "Description",
-              key: "description",
-              default: "Box Description"
-            },
-            {
-              input: "image-upload",
-              label: "Icon",
-              key: "icon"
-            }
-          ]
-        }
-      ]
-    }
+  templateSettings() {
+    return [
+      {
+        input: "text",
+        label: "Heading",
+        description: "Primary page heading",
+        _id: "pageHeading",
+        default: "Landing Page Template"
+      },
+      {
+        input: "text",
+        label: "Sub Heading",
+        _id: "pageHeadingSub",
+        default: "This is a landing page template."
+      },
+      {
+        _id: "boxes",
+        input: "sortable",
+        label: "Feature Boxes",
+        description: "Some feature boxes",
+        default: [
+          { __title: "Box 1" },
+          { __title: "Box 2" },
+          { __title: "Box 3" }
+        ],
+        settings: [
+          {
+            input: "text",
+            label: "Heading",
+            _id: "heading",
+            default: "Box"
+          },
+          {
+            input: "textarea",
+            label: "Description",
+            _id: "description",
+            default: "Box Description"
+          },
+          {
+            input: "image-upload",
+            label: "Icon",
+            _id: "icon"
+          }
+        ]
+      }
+    ]
   },
   methods: {
     settings() {
@@ -102,8 +98,8 @@ export default {
       padding: 2em;
     }
     h1 {
-      font-size: 3.5em;
-      font-weight: 600;
+      font-size: 2.5em;
+      font-weight: var(--font-weight-bold);
       line-height: 1;
       margin-bottom: 1rem;
     }
@@ -115,13 +111,13 @@ export default {
   }
   .feature-boxes {
     padding: 0 2em;
-    max-width: 960px;
-    margin: 3em auto;
+    max-width: 900px;
+
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1.5em;
-    margin: 2em auto;
+    margin: 2em auto 5em;
     .box {
       min-width: 0;
     }

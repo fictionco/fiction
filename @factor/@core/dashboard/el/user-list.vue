@@ -1,8 +1,8 @@
 <template>
   <div class="user-list-input">
     <div class="user-list-items">
-      <div v-for="(user, index) in items" :key="index" class="added-user">
-        <dashboard-user-card class="custom-list-item" :post="user" @remove="deleteItem(index)" />
+      <div v-for="(_id, index) in items" :key="index" class="added-user">
+        <dashboard-user-card class="custom-list-item" :post-id="_id" @remove="deleteItem(index)" />
       </div>
       <div class="input-text">
         <input

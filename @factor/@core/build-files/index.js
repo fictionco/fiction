@@ -34,6 +34,7 @@ module.exports.default = Factor => {
     }
 
     generateLoaders() {
+
       this.makeModuleLoader({
         extensions: this.extensions,
         destination: Factor.$paths.get("loader-server"),
