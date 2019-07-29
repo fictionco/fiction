@@ -30,14 +30,13 @@ export default Factor => {
 
       const { authorization } = headers
 
-
       const responseJson = { result: "", error: "" }
 
       try {
         if (authorization && authorization.startsWith("Bearer ")) {
           const token = authorization.split("Bearer ")[1]
 
-          meta.bearer = await Factor.$userServer.retrieveUser({ token, mode: "simple" })
+          meta.bearer = await Factor.$postsServer.single({ token })
         }
 
         responseJson.result = await handler({ data, meta })
@@ -58,40 +57,22 @@ export default Factor => {
       return
     }
 
-    async parseRequest(request) {
-      let meta = { request }
-
-      const { headers } = request
-      const { authorization } = headers
-
-      if (authorization && authorization.startsWith("Bearer ")) {
-        const token = authorization.split("Bearer ")[1]
-
-        meta.bearer = await Factor.$user.retrieveUser({ token })
-      }
-
-      return meta
-    }
-
     bearerToken() {
       return Factor.$user.token() ? `Bearer ${Factor.$user.token()}` : ""
     }
 
     async standardHeaders() {
       if (Factor.$isNode) {
-
         const port = process.env.PORT || 3000
 
         //  axios.defaults.baseURL = `https://localhost:${port}`
         axios.defaults.proxy = {
-          host: '0.0.0.0',
+          host: "0.0.0.0",
           port
         }
       } else {
         axios.defaults.headers.common["Authorization"] = this.bearerToken()
       }
-
-
     }
   })()
 }

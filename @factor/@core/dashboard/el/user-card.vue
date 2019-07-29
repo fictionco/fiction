@@ -1,8 +1,8 @@
 <template>
   <div class="card-user card-wrap">
-    <dashboard-link v-if="postSet" class="card" path="/profile" :query="{_id: post._id}">
-      <factor-avatar :url="avatar" width="1.25em" />
-      <div class="name">{{ post.displayName }}</div>
+    <dashboard-link v-if="postSet" class="card" path="/profile" :query="{_id: user._id}">
+      <factor-avatar :url="avatarUrl" width="1.25em" />
+      <div class="name">{{ user.displayName }}</div>
       <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
         <factor-icon icon="remove" />
       </div>
@@ -18,13 +18,16 @@ export default {
   },
   computed: {
     postSet() {
-      return this.$lodash.isEmpty(this.post) ? false : true
+      return this.$lodash.isEmpty(this.user) ? false : true
     },
-    post() {
-      return this.$store.getters["getItem"](this.postId) || {}
+    user() {
+      return this.$store.val(this.postId) || {}
     },
     avatar() {
-      const { avatar: { url = "" } = {} } = this.post
+      return this.user.avatar ? this.$store.val(this.user.avatar) : {}
+    },
+    avatarUrl() {
+      const { avatar: { url = "" } = {} } = this.avatar
       return url
     }
   }
