@@ -186,14 +186,13 @@ export default Factor => {
         params.conditions = { [field]: permalink }
       }
 
-      console.log("REQUEST POST", params)
       const post = await this.request("single", params)
-      console.log("RETURN POST", post)
+
       if (post) {
         Factor.$store.add(post._id, post)
         await this.populateRecursively({ post, postType, depth })
       }
-      console.log("POPULATED POST", post)
+
       return post
     }
 
@@ -219,14 +218,12 @@ export default Factor => {
       })
 
       if (filtered.length > 0) {
-        console.log("Request", filtered)
         const posts = await Factor.$db.request("populate", { _ids: filtered })
         const promises = posts.map(p =>
           this.populateRecursively({ post: p, postType: p.postType, token })
         )
 
         await Promise.all(promises)
-        console.log("fullll", promises)
       }
     }
 

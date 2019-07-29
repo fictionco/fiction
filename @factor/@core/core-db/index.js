@@ -3,7 +3,6 @@ export default Factor => {
     constructor() {}
 
     async request(method, params) {
-      console.log("db request", method, params)
       return await Factor.$endpoint.request({ id: "db", method, params })
     }
 
