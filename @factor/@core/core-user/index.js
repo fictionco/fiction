@@ -1,6 +1,7 @@
 export default Factor => {
   return new (class {
     constructor() {
+
       Factor.$filters.add("before-app", () => {
         this.mixin()
 
@@ -9,6 +10,11 @@ export default Factor => {
           this.initializeUser()
           this.handleAuthRouting()
         }
+      })
+
+      Factor.$filters.add("data-schemas", _ => {
+        _.user = require("./schema").default(Factor)
+        return _
       })
     }
 

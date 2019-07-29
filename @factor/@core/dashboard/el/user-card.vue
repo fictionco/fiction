@@ -1,7 +1,7 @@
 <template>
   <div class="card-user card-wrap">
-    <dashboard-link v-if="post" class="card" path="/profile" :query="{_id: post._id}">
-      <factor-avatar :url="post.avatar.url" width="1.25em" />
+    <dashboard-link v-if="postSet" class="card" path="/profile" :query="{_id: post._id}">
+      <factor-avatar :url="avatar" width="1.25em" />
       <div class="name">{{ post.displayName }}</div>
       <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
         <factor-icon icon="remove" />
@@ -12,13 +12,20 @@
 <script>
 export default {
   props: {
-    post: { type: Object, default: () => {} },
+    postId: { type: String, default: "" },
     subText: { type: String, default: "" },
     remove: { type: Boolean, default: false }
   },
   computed: {
+    postSet() {
+      return this.$lodash.isEmpty(this.post) ? false : true
+    },
+    post() {
+      return this.$store.getters["getItem"](this.postId) || {}
+    },
     avatar() {
-      return post.avatar && post.avatar.url ? post.avatar.url : ""
+      const { avatar: { url = "" } = {} } = this.post
+      return url
     }
   }
 }

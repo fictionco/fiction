@@ -6,5 +6,8 @@
     "access": "public"
   },
   "factor": {},
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
+  "dependencies": {
+    "flatted": "^2.0.1"
+  }
 }

@@ -20,8 +20,8 @@ export default {
     },
     templateLoader() {
       const tpls = this.$templates.getPageTemplates()
-
-      const selected = tpls.find(_ => _.value == this.templateLocation)
+      console.log("tpls", tpls)
+      const selected = tpls.find(_ => _._id == this.templateLocation)
 
       return selected && selected.component
         ? selected.component

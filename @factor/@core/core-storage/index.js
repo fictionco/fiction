@@ -2,7 +2,12 @@ const loadImage = require("blueimp-load-image")
 
 module.exports.default = Factor => {
   return new (class {
-    constructor() {}
+    constructor() {
+      Factor.$filters.add("data-schemas", _ => {
+        _.attachment = require("./schema").default(Factor)
+        return _
+      })
+    }
 
     // createPath(path, vars) {
     //   path = path.replace("__guid", vars.guid)
@@ -18,7 +23,7 @@ module.exports.default = Factor => {
       const reader = new FileReader()
 
       return new Promise((resolve, reject) => {
-        reader.addEventListener("load", function(e) {
+        reader.addEventListener("load", function (e) {
           resolve(e.target.result)
         })
 
@@ -47,7 +52,7 @@ module.exports.default = Factor => {
         headers: {
           "Content-Type": "multipart/form-data"
         },
-        onUploadProgress: function(progressEvent) {
+        onUploadProgress: function (progressEvent) {
           onChange(progressEvent)
         }
       })
@@ -55,6 +60,7 @@ module.exports.default = Factor => {
       if (error) {
         onError(error)
       } else {
+        Factor.$store.add(result._id, result)
         onFinished(result)
       }
     }

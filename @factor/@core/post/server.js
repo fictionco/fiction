@@ -42,8 +42,6 @@ module.exports.default = Factor => {
         _post = await PostTypeModel.findOne(conditions)
       }
 
-
-
       // If ID is unset or if it isn't found, create a new post model/doc
       // This is not saved at this point, leading to a post sometimes not existing although an ID exists
       if (!_post && createOnEmpty) {
@@ -53,14 +51,6 @@ module.exports.default = Factor => {
         }
         _post = new PostTypeModel(initial)
       }
-
-      if (_post) {
-        const popped = this.getPostPopulatedFields(_post)
-
-        // https://mongoosejs.com/docs/api/document.html#document_Document-populate
-        _post = await _post.populate(popped).execPopulate()
-      }
-
 
       return _post
     }

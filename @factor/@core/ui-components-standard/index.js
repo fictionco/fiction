@@ -1,3 +1,4 @@
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -6,6 +7,7 @@ export default Factor => {
 
     registerComponents() {
       Factor.$filters.add("components", _ => {
+        _["factor-client-only"] = () => import('vue-client-only')
         _["factor-link"] = () => import("./el/link")
         _["factor-btn"] = () => import("./el/btn")
         _["factor-modal"] = () => import("./el/modal")

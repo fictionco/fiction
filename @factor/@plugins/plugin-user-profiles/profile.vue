@@ -164,7 +164,10 @@ export default {
 
         this.$user.init(async uid => {
           if (uid) {
-            const post = await this.$posts.getPostById(uid)
+            const post = await this.$posts.getSinglePost({
+              _id: uid,
+              postType: "user"
+            })
 
             await this.$posts.setPostData({ post })
           }
