@@ -48,22 +48,23 @@ export default Factor => {
       })
     }
 
-    async getTemplate(_id) {
+    async getTemplate(templateId) {
+
       const _all = this.getPageTemplates()
 
-      let tpl = _all.find(_ => _._id == _id)
+      let tpl = _all.find(_ => _._id == templateId)
 
       if (!tpl) {
         tpl = _all.find(_ => _._id == 'default')
       }
 
-      tpl.settings = await this.getTemplateSettings(tpl)
+      tpl.fields = await this.getTemplateFields(tpl)
 
       return tpl
 
     }
 
-    async getTemplateSettings(tpl) {
+    async getTemplateFields(tpl) {
 
       const { default: { templateSettings } } = await tpl.component()
 

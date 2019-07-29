@@ -25,13 +25,11 @@ module.exports.default = Factor => {
     async addPaths() {
       Factor.$filters.add("page-templates", _ => {
         return _.concat([{
-          name: "Sticky Sidebar",
-          _id: "tpl-sticky-sidebar",
+          _id: "sticky-sidebar",
           component: () => import("./tpl-sticky-sidebar")
         },
         {
-          name: "Landing Page",
-          _id: "tpl-landing-page",
+          _id: "landing-page",
           component: () => import("./tpl-landing-page")
         }
         ])

@@ -1,21 +1,20 @@
 <template>
   <div class="edit-page-templates">
     <dashboard-input
-      v-model="localPost.template"
+      v-model="template"
       :list="$templates.getPageTemplates()"
       input="factor-input-select"
       label="Page Template"
     />
     <dashboard-input
-      v-for="(field, i) in settings"
+      v-for="(field, i) in fields"
       :key="i"
-      :value="localPost[field.key]"
+      v-model="settings[field._id]"
       :input="`factor-input-${field.input}`"
       :label="field.label"
       :description="field.description"
       :class="['engine-input', field.input]"
       :inputs="field.settings || []"
-      @input="setValue(field.key, $event)"
     />
   </div>
 </template>
@@ -30,7 +29,9 @@ export default {
   },
   data() {
     return {
-      pageTemplate: {}
+      template: "",
+      settings: {},
+      pageTemplateInfo: {}
     }
   },
   computed: {
@@ -39,41 +40,59 @@ export default {
         return { template: "default", ...this.post }
       },
       set(localPost) {
+        console.log("emit localpost", localPost)
         this.$emit("change", localPost)
       }
     },
-    settings() {
-      const { settings = [] } = this.pageTemplate
-      return settings
+    fields() {
+      return this.pageTemplateInfo.fields || []
     }
   },
   watch: {
+    settings: {
+      handler: function(v) {
+        this.localPost = { ...this.localPost, settings: v }
+      },
+      deep: true
+    },
+    template: {
+      handler: function(v) {
+        this.setPageTemplate(v)
+      }
+    },
     "post.template": {
       handler: function(v) {
-        this.setPageTemplate()
+        if (v && v != this.template) {
+          this.template = v
+        }
+      },
+      immediate: true
+    },
+    "post.settings": {
+      handler: function(v) {
+        if (v && v != this.settings) {
+          this.settings = v
+        }
       },
       immediate: true
     }
   },
   methods: {
-    async setPageTemplate() {
-      this.pageTemplate = await this.$templates.getTemplate(
-        this.localPost.template
-      )
+    async setPageTemplate(templateId) {
+      this.localPost = { ...this.localPost, template: templateId }
+
+      this.pageTemplateInfo = await this.$templates.getTemplate(templateId)
+
       this.setTemplateDefaults()
     },
     setTemplateDefaults() {
-      const _post = Object.assign({}, this.localPost) // detach
-
-      const settings = _post.settings || {}
-      console.log(this.pageTemplate, this.settings)
-      this.settings.forEach(_ => {
-        const _id = _._id
-
-        if (typeof settings[_id] == "undefined" && _.default) {
-          if (_.settings && Array.isArray(_.settings)) {
-            settings[_id] = _.default.map(item => {
-              _.settings.forEach(sub => {
+      this.fields.forEach(field => {
+        const _id = field._id
+        let val
+        if (typeof this.settings[_id] == "undefined" && field.default) {
+          if (field.settings && Array.isArray(field.settings)) {
+            val = field.default.map(item => {
+              field.settings.forEach(sub => {
                 if (typeof item[sub._id] == "undefined" && sub.default) {
                   item[sub._id] = sub.default
                 }
@@ -81,12 +100,12 @@ export default {
               return item
             })
           } else {
-            settings[_id] = _.default
+            val = field.default
           }
+
+          this.$set(this.settings, _id, val)
         }
       })
-
-      this.localPost = { ..._post, settings }
     }
   }
 }

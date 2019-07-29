@@ -2,13 +2,13 @@
   <div class="landing-page">
     <div class="feature">
       <div class="feature-content">
-        <h1>{{ post.pageHeading }}</h1>
-        <div class="sub">{{ post.pageHeadingSub }}</div>
-        <factor-btn size="large" btn="primary">Button</factor-btn>
+        <h1>{{ post.settings.pageHeading }}</h1>
+        <div class="sub">{{ post.settings.pageHeadingSub }}</div>
+        <app-btn size="large" btn="primary">Button</app-btn>
       </div>
     </div>
     <div class="feature-boxes">
-      <div v-for="(box, i) in post.boxes" :key="i" class="box">
+      <div v-for="(box, i) in post.settings.boxes" :key="i" class="box">
         <div v-if="box.icon" class="box-icon">
           <img :src="box.icon[0].url" >
         </div>
@@ -98,8 +98,8 @@ export default {
       padding: 2em;
     }
     h1 {
-      font-size: 3.5em;
-      font-weight: 600;
+      font-size: 2.5em;
+      font-weight: var(--font-weight-bold);
       line-height: 1;
       margin-bottom: 1rem;
     }
@@ -111,13 +111,13 @@ export default {
   }
   .feature-boxes {
     padding: 0 2em;
-    max-width: 960px;
-    margin: 3em auto;
+    max-width: 900px;
+
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1.5em;
-    margin: 2em auto;
+    margin: 2em auto 5em;
     .box {
       min-width: 0;
     }

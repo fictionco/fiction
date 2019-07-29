@@ -34,14 +34,14 @@
         <factor-input-wrap
           v-for="(field, i) in inputs"
           :key="i"
-          :value="getValue(field.key)"
+          :value="getValue(field._id)"
           :input="`factor-input-${field.input}`"
           :label="field.label"
           :description="field.description"
           :class="['engine-input', field.input]"
           :inputs="field.inputs || []"
-          :data-test="`input-${field.key}-${selected + 1}`"
-          @input="setValue(field.key, $event)"
+          :data-test="`input-${field._id}-${selected + 1}`"
+          @input="setValue(field._id, $event)"
         />
         <div>
           <dashboard-btn size="tiny" @click="removeItem(selected)">Remove Item</dashboard-btn>
@@ -124,18 +124,18 @@ export default {
         this.selected = 0
       }
     },
-    getValue(key) {
+    getValue(_id) {
       return this.localValue[this.selected]
-        ? this.localValue[this.selected][key]
+        ? this.localValue[this.selected][_id]
         : null
     },
-    setValue(key, val) {
+    setValue(_id, val) {
       const newLocalValue = this.localValue.slice()
       newLocalValue[this.selected] = Object.assign(
         {},
         newLocalValue[this.selected],
         {
-          [key]: val
+          [_id]: val
         }
       )
 
