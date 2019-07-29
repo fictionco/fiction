@@ -100,7 +100,6 @@ export default Factor => {
     }
 
     async initializeUser(user) {
-      console.log("INIT?", user)
       this._initializedUser = new Promise(async (resolve, reject) => {
         if (this.currentUser()._id && !user) {
           resolve(this.currentUser())
@@ -119,10 +118,7 @@ export default Factor => {
       const token = user && user.token ? user.token : this.token() ? this.token() : null
 
       try {
-        console.log("token?", token)
         user = token ? await Factor.$posts.getSinglePost({ token }) : {}
-
-        console.log("user", user)
 
         this.setUser({ user, token, current: true })
 
