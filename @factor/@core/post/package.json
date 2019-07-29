@@ -21,6 +21,7 @@
     "@factor/post-metatags": "^1.0.0-alpha.5",
     "@factor/post-page-templates": "^1.0.0-alpha.14",
     "@factor/ui": "^1.0.0-alpha.14",
+    "jsonwebtoken": "^8.5.1",
     "scriptjs": "^2.5.9"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

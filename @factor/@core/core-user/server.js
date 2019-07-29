@@ -1,17 +1,15 @@
-
 const jwt = require("jsonwebtoken")
 
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add('webpack-ignore-modules', _ => [..._, 'bcrypt'])
+      Factor.$filters.add("webpack-ignore-modules", _ => [..._, "bcrypt"])
       this.SECRET = Factor.$config.setting("TOKEN_SECRET")
 
       if (!this.SECRET) {
         Factor.$filters.callback("initial-server-start", () => {
           Factor.$log.warn("No auth token secret provided. (.env/TOKEN_SECRET)")
         })
-
       }
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
@@ -20,31 +18,6 @@ module.exports.default = Factor => {
         _.user = require("./schema").default(Factor)
         return _
       })
-
-
-    }
-
-    model() {
-      return Factor.$dbServer.model("user")
-    }
-
-    async save(data, { bearer }) {
-      Factor.$dbServer.canEdit({ doc: data, bearer, scope: "memberOrAdmin" })
-
-      const _user = data.user ? data.user : await this.model().findById(data._id)
-
-      Object.assign(_user, data)
-      console.log('user save')
-      try {
-        return await _user.save()
-      } catch (error) {
-
-        console.log(error)
-
-        const e = error.code == 11000 ? `Duplicate record` : error
-        throw new Error(e)
-      }
-
     }
 
     async authenticate(params) {
@@ -53,17 +26,19 @@ module.exports.default = Factor => {
       let user
       if (newAccount) {
         try {
-          user = await this.model().create({ email, password, displayName })
+          user = await Factor.$dbServer
+            .model("user")
+            .create({ email, password, displayName })
         } catch (error) {
-
-          const e = error.code == 11000 ? `Account with email: "${email}" already exists.` : error
+          const e =
+            error.code == 11000 ? `Account with email: "${email}" already exists.` : error
           throw new Error(e)
         }
 
         Factor.$filters.apply("create-new-user", user)
         return this.credential(user)
       } else {
-        user = await this.model().findOne({ email }, "+password")
+        user = await Factor.$dbServer.model("user").findOne({ email }, "+password")
 
         const compareResult = user ? await user.comparePassword(password) : false
 
@@ -90,47 +65,12 @@ module.exports.default = Factor => {
       }
     }
 
-    async account({ _id }) {
-      let user = await this.model().findOne({ _id })
-
-      return user
-    }
-
-    async getUser({ _id, mode = "app" }) {
-      let pop = ""
-      if (mode == "app") {
-        pop = "avatar"
-      } else if (mode == "profile") {
-        pop = "avatar images covers"
-      }
-
-      let user = await Factor.$userServer
-        .model()
-        .findOne({ _id })
-        .populate(pop)
-
-      return user
-    }
-
-    // Retrieve basic user document
-    async retrieveUser({ token, mode = "app" }) {
-      let decoded
+    decodeToken(token) {
       try {
-        decoded = jwt.verify(token, this.SECRET)
+        return jwt.verify(token, this.SECRET)
       } catch (error) {
         throw new Error(error)
       }
-
-
-      if (decoded && decoded._id) {
-        const { _id } = decoded
-
-        return await this.getUser({ _id, mode })
-      } else {
-        return {}
-      }
     }
-
-
   })()
 }

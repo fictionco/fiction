@@ -1,7 +1,6 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-
       Factor.$filters.callback("endpoints", { id: "posts", handler: this })
     }
 
@@ -28,12 +27,20 @@ module.exports.default = Factor => {
 
       console.log("SERVER SAVE__", _post)
       return await _post.save()
-
     }
 
-    async single({ _id, postType = "post", conditions, createOnEmpty = false }, { bearer }) {
+    async single(
+      { _id, token, postType = "post", conditions, createOnEmpty = false },
+      meta = {}
+    ) {
+      const { bearer } = meta
       let _post
       let PostTypeModel = this.getPostTypeModel(postType)
+
+      if (token) {
+        const decoded = Factor.$userServer.decodeToken(token)
+        _id = decoded._id
+      }
 
       // If ID is available, first look for it.
       if (_id) {
