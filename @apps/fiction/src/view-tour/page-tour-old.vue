@@ -3,13 +3,17 @@
     <section class="splash-wrap">
       <div class="splash mast">
         <div>
-          <div class="label label-blue">factor Arrives q3 2019</div>
           <h1 class="title">Built for Perfectionists</h1>
           <p
             class="subtitle"
           >A modern framework based on Vue.js that helps developers code better and ship faster.</p>
-          <app-link btn="primary" size="large" path="https://docs.fiction.com/getting-started">
-            Get Started
+          <app-link
+            btn="default"
+            size="large"
+            path="https://docs.fiction.com/getting-started"
+            disabled
+          >
+            Factor Arrives Q3 2019
             <factor-icon icon="arrow-right" />
           </app-link>
         </div>
@@ -277,16 +281,7 @@ export default {
     }
   }
 
-  .label {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    &.label-blue {
-      color: var(--color-primary);
-    }
-  }
-
   .splash-wrap {
-    background-color: #1b223c;
     .splash {
       display: grid;
       grid-template-columns: 1fr;
@@ -294,7 +289,7 @@ export default {
       align-items: center;
       text-align: center;
       max-width: 650px;
-      padding: 7em 0 5em;
+      padding: 7em 0 3em;
       @media (max-width: 767px) {
         padding: 4em 2em;
       }
@@ -303,8 +298,7 @@ export default {
         font-size: 3em;
         letter-spacing: -0.03em;
         line-height: 1;
-        margin: 0.3em 0;
-        color: #f9f9f9;
+        margin-bottom: 12px;
         @media (max-width: 767px) {
           font-size: 2em;
         }
@@ -314,7 +308,6 @@ export default {
         font-size: 1.4em;
         font-weight: 500;
         margin-bottom: 1.5em;
-        color: #d9d9d9;
 
         @media (max-width: 767px) {
           font-size: 1.2em;
