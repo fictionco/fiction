@@ -78,11 +78,11 @@
         <div class="item cols-1">
           <div>
             <el-svg icon="vue" color="#506677" />
-            <h2 class="title">Build with Reactive VueJS</h2>
-            <p>Customize your front-end layout with vue.js components</p>
+            <h2 class="title">Best of Breed Tools</h2>
+            <p>We've spent years learning best practices and making mistakes so you don't have to...</p>
             <div class="actions">
-              <factor-link path="https://docs.fiction.com/">
-                Explore the docs
+              <factor-link path="https://factor.dev/">
+                More About Factor Tech
                 <i class="fa fa-arrow-right" />
               </factor-link>
             </div>
