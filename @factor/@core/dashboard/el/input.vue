@@ -158,12 +158,6 @@
     }
   }
 
-  .card-user {
-    .card {
-      box-shadow: var(--input-shadow);
-    }
-  }
-
   .el-tag {
     box-shadow: var(--input-shadow);
   }

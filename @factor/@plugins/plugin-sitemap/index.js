@@ -23,7 +23,11 @@ export default Factor => {
     }
 
     async getPermalinks() {
-      const results = await Factor.$db.run({ method: "find", conditions: {}, limit: 1000 })
+      const results = await Factor.$db.run({
+        method: "find",
+        conditions: {},
+        limit: 1000
+      })
 
       const urls = results.data
         .filter(_ => _.permalink)
@@ -52,7 +56,6 @@ export default Factor => {
         .uniq(this.getRoutesRecursively(contentRoutes))
         .filter(perm => !perm.includes(":"))
 
-      // console.log("content routes", contentRoutes)
       return theRoutes.map(perm => `${Factor.$config.setting("url")}${perm}`)
     }
 
@@ -64,7 +67,11 @@ export default Factor => {
         .forEach(_ => {
           if (_.path) {
             const _p =
-              parent && !_.path.startsWith("/") ? `${parent}/${_.path}` : parent && _.path == "/" ? parent : _.path
+              parent && !_.path.startsWith("/")
+                ? `${parent}/${_.path}`
+                : parent && _.path == "/"
+                ? parent
+                : _.path
 
             out.push(_p)
           }

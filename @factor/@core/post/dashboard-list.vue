@@ -27,7 +27,7 @@ export default {
 
   computed: {
     postIndex() {
-      return this.$store.getters["getItem"](this.postType) || []
+      return this.$store.val(this.postType) || []
     },
     postTypeMeta() {
       return this.$posts.postTypeMeta(this.postType)

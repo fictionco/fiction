@@ -5,7 +5,6 @@ module.exports.default = Factor => {
     }
 
     getPostTypeModel(postType) {
-      //const modelName = postType.charAt(0).toUpperCase() + postType.slice(1)
       return Factor.$dbServer.model(postType)
     }
 
@@ -25,16 +24,15 @@ module.exports.default = Factor => {
 
       Object.assign(_post, data)
 
-      console.log("SERVER SAVE__", _post)
+      // console.log("^^^^^^^^^SAVE^^^^^^^^^", data, _post)
       return await _post.save()
     }
 
-    async single(
-      { _id, token, postType = "post", conditions, createOnEmpty = false },
-      meta = {}
-    ) {
+    async single(params, meta = {}) {
+      let { _id, token, postType = "post", conditions, createOnEmpty = false } = params
       const { bearer } = meta
       let _post
+
       let PostTypeModel = this.getPostTypeModel(postType)
 
       if (token) {
@@ -94,11 +92,8 @@ module.exports.default = Factor => {
       )
 
       const _p = [
-        this.indexMeta(params),
-        Factor.$dbServer
-          .model(postType)
-          .find(conditions, null, options)
-          .populate([{ path: "avatar" }, { path: "author", populate: "avatar" }])
+        this.indexMeta({ postType }),
+        Factor.$dbServer.model(postType).find(conditions, null, options)
       ]
 
       const [counts, posts] = await Promise.all(_p)
@@ -106,10 +101,8 @@ module.exports.default = Factor => {
       return { meta: { ...counts, ...options, conditions }, posts }
     }
 
-    async indexMeta(params) {
-      const { model } = params
-
-      const ItemModel = Factor.$dbServer.model(model)
+    async indexMeta({ postType }) {
+      const ItemModel = Factor.$dbServer.model(postType)
 
       const aggregate = [
         {
