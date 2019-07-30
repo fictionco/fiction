@@ -8,10 +8,10 @@
           <p
             class="subtitle"
           >A modern framework based on Vue.js that helps developers code better and ship faster.</p>
-          <app-link btn="primary" size="large" path="https://docs.fiction.com/getting-started">
+          <!-- <app-link btn="primary" size="large" path="https://factor.dev/guide/">
             Get Started
             <factor-icon icon="arrow-right" />
-          </app-link>
+          </app-link>-->
         </div>
       </div>
     </section>
@@ -24,7 +24,7 @@
             <h2 class="title">5 Minute Setup</h2>
             <p>Get started in 5 minutes. A Factor site can be installed and up and running in a matter of minutes, with only basic coding knowledge.</p>
             <div class="actions">
-              <factor-link path="https://docs.fiction.com/">
+              <factor-link path="https://factor.dev/guide/quickstart">
                 Learn How
                 <i class="fa fa-arrow-right" />
               </factor-link>
@@ -44,7 +44,7 @@
             <h2 class="title">Modular</h2>
             <p>Customize your project by including only the code you need. Using Factor means avoiding code bloat, reusable elements, and faster development.</p>
             <div class="actions">
-              <factor-link path="/plugins">
+              <factor-link path="https://factor.dev/plugins">
                 Get Plugins
                 <i class="fa fa-arrow-right" />
               </factor-link>
@@ -61,9 +61,9 @@
             <p>Build apps that handle production-ready traffic without worrying about server administration or scaling and make your idea live fast. Focus your efforts on what provides value to your users.</p>
           </div>
           <div>
-            <div class="bg-rect-right">
+            <figure class="figure">
               <img :src="require(`./ssr.svg`)" alt="Factor - Serverless and SSR" >
-            </div>
+            </figure>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@
             <h2 class="title">Build with Reactive VueJS</h2>
             <p>Customize your front-end layout with vue.js components</p>
             <div class="actions">
-              <factor-link path="https://docs.fiction.com/">
+              <factor-link path="https://factor.dev/guide">
                 Explore the docs
                 <i class="fa fa-arrow-right" />
               </factor-link>
@@ -99,13 +99,9 @@
             <p>Themes and plugins integrate seamlessly when you add them to your app. Fast development without complex configurations.</p>
           </div>
           <div>
-            <div class="bg-rect-left figure">
-              <img
-                class="img-zero-config"
-                :src="require(`./zero-config.svg`)"
-                alt="Factor - Themes and Plugins"
-              >
-            </div>
+            <figure class="figure">
+              <img :src="require(`./themes-plugins.svg`)" alt="Factor - Themes and Plugins" >
+            </figure>
           </div>
         </div>
         <div class="item cols-2">
@@ -115,13 +111,9 @@
             <p>You can add other users to access your site admin interface. To protect your sensitive information or restrict the actions they can perform, user roles limit their access. Each user is assigned a role when they are added.</p>
           </div>
           <div>
-            <div class="bg-rect-right figure">
-              <img
-                class="img-user-roles"
-                :src="require(`./user-roles.svg`)"
-                alt="Factor - User Roles and Permissions"
-              >
-            </div>
+            <figure class="figure">
+              <img :src="require(`./user-roles.svg`)" alt="Factor - User Roles and Permissions" >
+            </figure>
           </div>
         </div>
       </div>
@@ -137,13 +129,9 @@
             <p>The Markdown editor provides a great writing experience with simple formatting. It also saves time over hand-crafted HTML tags, and it’s faster than using a WYSIWYG.</p>
           </div>
           <div>
-            <div class="bg-rect-right">
-              <img
-                class="img-markdown"
-                :src="require(`./markdown-editor.png`)"
-                alt="Factor - Markdown"
-              >
-            </div>
+            <figure class="figure">
+              <img :src="require(`./markdown-editor.svg`)" alt="Factor - Markdown Editor" >
+            </figure>
           </div>
         </div>
         <div class="item cols-2">
@@ -153,9 +141,13 @@
             <p>Factor at its heart is simple and extremely flexible. Use Factor core and customize it to accomplish whatever you can think of...</p>
           </div>
           <div>
-            <div>
-              <img :src="require(`./scalable.svg`)" alt="Factor - Infinite Scalability" >
-            </div>
+            <figure class="figure">
+              <img
+                class="flexible"
+                :src="require(`./flexible.png`)"
+                alt="Factor - Infinite Possibilities"
+              >
+            </figure>
           </div>
         </div>
       </div>
@@ -220,6 +212,24 @@ export default {
 }
 </script>
 <style lang="less">
+.nav-light {
+  .site-head {
+    background: #1b223c;
+    .logo-img .thelogotext {
+      fill: #f7f7f7;
+    }
+    .mobile-logo .logo-img .thelogotext {
+      fill: initial;
+    }
+
+    .nav > a {
+      color: #f7f7f7;
+      @media (max-width: 767px) {
+        color: initial;
+      }
+    }
+  }
+}
 .page-tour {
   .mast {
     padding: 0 2em;
@@ -257,11 +267,9 @@ export default {
   pre {
     font-size: 0.8em;
     text-align: left;
-    background: #506677;
+    background: #1b223c;
     margin-top: 1em;
     border-radius: 4px;
-    border-left: 4px solid #506677;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
     box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
       0 20px 125px -30px rgba(80, 102, 119, 0.5),
       0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
@@ -286,17 +294,21 @@ export default {
   }
 
   .splash-wrap {
-    background-color: #1b223c;
+    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background-size: 80%;
+    @media (max-width: 767px) {
+      background-size: 100%;
+    }
     .splash {
       display: grid;
       grid-template-columns: 1fr;
       grid-column-gap: 60px;
       align-items: center;
       text-align: center;
-      max-width: 650px;
-      padding: 7em 0 5em;
+      max-width: 550px;
+      padding: 8em 0 5em;
       @media (max-width: 767px) {
-        padding: 4em 2em;
+        padding: 6em 2em 4em;
       }
       .title {
         font-weight: var(--font-weight-bold);
@@ -312,7 +324,7 @@ export default {
       .subtitle {
         opacity: 0.5;
         font-size: 1.4em;
-        font-weight: 500;
+        font-weight: 400;
         margin-bottom: 1.5em;
         color: #d9d9d9;
 
@@ -365,12 +377,6 @@ export default {
         }
       }
 
-      .figure {
-        display: grid;
-        justify-content: center;
-        padding: 3em 0;
-      }
-
       .title {
         font-size: 1.6em;
         line-height: 1;
@@ -389,36 +395,20 @@ export default {
         }
       }
 
-      .bg-rect-left {
-        background: url(./bg-rectangles-left.svg) no-repeat center center;
-        background-size: 80% 80%;
-      }
-      .bg-rect-right {
-        background: url(./bg-rectangles-right.svg) no-repeat center center;
-        background-size: 80% 80%;
+      .figure {
+        display: grid;
+        justify-content: center;
+        padding: 3em 0;
       }
 
       img {
         max-width: 100%;
         margin: 0 auto;
-        &.img-markdown {
-          min-height: 320px;
-          border-radius: 14px;
-          background: #fff;
-          box-shadow: 27.1px 62.5px 125px -25px rgba(80, 102, 119, 0.4),
-            16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.4);
-          transform: scale(0.7) perspective(1040px) rotateY(-5deg) rotateX(1deg)
-            rotate(1deg);
-        }
-        @media (max-width: 767px) {
-          &.img-markdown {
-            min-height: auto;
-            border-radius: 4px;
-            box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
-              0 20px 125px -30px rgba(80, 102, 119, 0.5),
-              0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
-            transform: scale(1) perspective(0) rotateY(0deg) rotateX(0deg)
-              rotate(0deg);
+        &.flexible {
+          max-width: 140%;
+          transform: translateX(-30%);
+          @media (max-width: 767px) {
+            transform: translateX(-18%);
           }
         }
       }
@@ -485,13 +475,13 @@ export default {
     }
     blockquote {
       width: 50%;
-      background: #fff url(./left-quote.svg) no-repeat 3em 1em;
+      background: #fff url(./left-quote.svg) no-repeat 3em 3em;
       background-size: 25px 25px;
-      padding: 3em;
+      padding: 5em 3em 3em;
       @media (max-width: 767px) {
-        background-position: 2em 1em;
+        background-position: 2em 2em;
         width: 100%;
-        padding: 3em 2em 2em;
+        padding: 4em 2em 2em;
       }
       p {
         font-size: 1.2em;
@@ -531,6 +521,9 @@ export default {
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        .app-btn + .app-btn {
+          margin-left: 1em;
+        }
         @media (max-width: 767px) {
           display: block;
           margin-top: 1.5em;
@@ -538,8 +531,8 @@ export default {
             display: inline-block;
             margin-bottom: 10px;
           }
-          .btn-link + .btn-link {
-            margin-left: 0;
+          .app-btn + .app-btn {
+            margin-left: 0.5em;
           }
         }
       }

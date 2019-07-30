@@ -51,7 +51,7 @@ module.exports.default = Factor => {
           {
             path: "/factor-js",
             component: () => import("./view-tour/page-tour"),
-            meta: { nav: true, bodyclass: "raymond" }
+            meta: { nav: true, pageClass: ["nav-light"] }
           },
           {
             path: "/how-it-works",
