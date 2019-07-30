@@ -1,12 +1,10 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-
       Factor.$filters.callback("endpoints", { id: "posts", handler: this })
     }
 
     getPostTypeModel(postType) {
-      //const modelName = postType.charAt(0).toUpperCase() + postType.slice(1)
       return Factor.$dbServer.model(postType)
     }
 
@@ -26,14 +24,21 @@ module.exports.default = Factor => {
 
       Object.assign(_post, data)
 
-      console.log("SERVER SAVE__", _post)
+      // console.log("^^^^^^^^^SAVE^^^^^^^^^", data, _post)
       return await _post.save()
-
     }
 
-    async single({ _id, postType = "post", conditions, createOnEmpty = false }, { bearer }) {
+    async single(params, meta = {}) {
+      let { _id, token, postType = "post", conditions, createOnEmpty = false } = params
+      const { bearer } = meta
       let _post
+
       let PostTypeModel = this.getPostTypeModel(postType)
+
+      if (token) {
+        const decoded = Factor.$userServer.decodeToken(token)
+        _id = decoded._id
+      }
 
       // If ID is available, first look for it.
       if (_id) {
@@ -55,22 +60,11 @@ module.exports.default = Factor => {
       return _post
     }
 
-    // Takes any post document and gets the fields that are meant to be populated
-    getPostPopulatedFields(doc) {
-      const docSchema = doc.schema
-      let p = []
-
-      if (docSchema.populatedFields) {
-        p = p.concat(docSchema.populatedFields)
-      }
-
-      if (docSchema._baseSchema && docSchema._baseSchema.populatedFields) {
-        p = p.concat(docSchema._baseSchema.populatedFields)
-      }
-
-      return p.map(_ => {
-        return { path: _, populate: "avatar" }
-      })
+    async updateManyById({ _ids, postType = "post", data }) {
+      return await this.getPostTypeModel(postType).update(
+        { _id: { $in: _ids } },
+        { $set: data }
+      )
     }
 
     async list(params, { bearer }) {
@@ -87,11 +81,8 @@ module.exports.default = Factor => {
       )
 
       const _p = [
-        this.indexMeta(params),
-        Factor.$dbServer
-          .model(postType)
-          .find(conditions, null, options)
-          .populate([{ path: "avatar" }, { path: "author", populate: "avatar" }])
+        this.indexMeta({ postType }),
+        Factor.$dbServer.model(postType).find(conditions, null, options)
       ]
 
       const [counts, posts] = await Promise.all(_p)
@@ -99,10 +90,8 @@ module.exports.default = Factor => {
       return { meta: { ...counts, ...options, conditions }, posts }
     }
 
-    async indexMeta(params) {
-      const { model } = params
-
-      const ItemModel = Factor.$dbServer.model(model)
+    async indexMeta({ postType }) {
+      const ItemModel = Factor.$dbServer.model(postType)
 
       const aggregate = [
         {

@@ -1,8 +1,7 @@
 <template>
   <div class="card-user card-wrap">
-    <dashboard-link v-if="postSet" class="card" path="/profile" :query="{_id: post._id}">
-      <factor-avatar :url="avatar" width="1.25em" />
-      <div class="name">{{ post.displayName }}</div>
+    <dashboard-link v-if="postSet" class="card" path="/profile" :query="{_id: user._id}">
+      <div class="name">{{ user.displayName }}</div>
       <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
         <factor-icon icon="remove" />
       </div>
@@ -18,14 +17,10 @@ export default {
   },
   computed: {
     postSet() {
-      return this.$lodash.isEmpty(this.post) ? false : true
+      return this.$lodash.isEmpty(this.user) ? false : true
     },
-    post() {
-      return this.$store.getters["getItem"](this.postId) || {}
-    },
-    avatar() {
-      const { avatar: { url = "" } = {} } = this.post
-      return url
+    user() {
+      return this.$store.val(this.postId) || {}
     }
   }
 }
@@ -35,6 +30,7 @@ export default {
 .card-user {
   display: inline-block;
   .card {
+    box-shadow: var(--input-shadow);
     color: inherit;
     &:hover {
       color: inherit;
@@ -42,11 +38,10 @@ export default {
     text-align: left;
     line-height: 1;
 
-    //box-shadow: @factor-input-shadow;
     display: flex;
     align-items: center;
     .name {
-      padding: 0 5px;
+      padding: 0 10px 0 10px;
       font-size: 0.9em;
     }
     border-radius: 1.25em;
@@ -58,6 +53,7 @@ export default {
       border-radius: 10px;
       opacity: 0.2;
       text-align: center;
+      margin-left: -5px;
       i {
         font-size: 0.85em;
       }

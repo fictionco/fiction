@@ -54,7 +54,7 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$posts.getCount({
+            : this.$posts.getStatusCount({
                 meta: this.meta,
                 field: "role",
                 key,

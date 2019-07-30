@@ -7,8 +7,11 @@ export default Factor => {
     }
 
     async request(method, params) {
-
       return await Factor.$endpoint.request({ id: "posts", method, params })
+    }
+
+    async save({ post, postType }) {
+      return await this.request("save", { data: post, postType })
     }
 
     filters() {
@@ -62,30 +65,32 @@ export default Factor => {
       Factor.$filters.callback("client-route-before-promises", _ => this.prefetchPost(_))
 
       Factor.$filters.add("admin-menu", _ => {
-        this.getPostTypes().forEach(({ type, namePlural, icon = "", add = "add-new", accessLevel }) => {
-          const subMenu = []
+        this.getPostTypes().forEach(
+          ({ type, namePlural, icon = "", add = "add-new", accessLevel }) => {
+            const subMenu = []
 
-          if (add) {
+            if (add) {
+              subMenu.push({
+                path: add,
+                name: Factor.$utils.toLabel(add)
+              })
+            }
+
             subMenu.push({
-              path: add,
-              name: Factor.$utils.toLabel(add)
+              path: "edit"
             })
-          }
 
-          subMenu.push({
-            path: "edit"
-          })
-
-          if (!accessLevel || Factor.$user.can({ accessLevel })) {
-            _.push({
-              group: type,
-              path: `posts/${type}`,
-              name: namePlural || Factor.$utils.toLabel(type),
-              icon,
-              items: Factor.$filters.apply(`admin-menu-post-${type}`, subMenu)
-            })
+            if (!accessLevel || Factor.$user.can({ accessLevel })) {
+              _.push({
+                group: type,
+                path: `posts/${type}`,
+                name: namePlural || Factor.$utils.toLabel(type),
+                icon,
+                items: Factor.$filters.apply(`admin-menu-post-${type}`, subMenu)
+              })
+            }
           }
-        })
+        )
 
         return _
       })
@@ -94,7 +99,10 @@ export default Factor => {
     async prefetchPost({ to = null } = {}) {
       const route = to || Factor.$router.currentRoute
 
-      const request = Factor.$filters.apply("post-params", { ...route.params, ...route.query })
+      const request = Factor.$filters.apply("post-params", {
+        ...route.params,
+        ...route.query
+      })
 
       const { permalink, _id } = request
 
@@ -103,9 +111,7 @@ export default Factor => {
 
       const _post = await this.getSinglePost(request)
 
-
-
-      Factor.$store.add('post', _post)
+      Factor.$store.add("post", _post)
 
       return _post
     }
@@ -144,7 +150,11 @@ export default Factor => {
 
       const title = post.titleTag || post.title || ""
       const description = post.description || this.excerpt(post.content) || ""
-      const image = post.featuredImage ? post.featuredImage[0].url : post.images ? post.images[0].url : ""
+      const image = post.featuredImage
+        ? post.featuredImage[0].url
+        : post.images
+        ? post.images[0].url
+        : ""
 
       return { canonical, title, description, image }
     }
@@ -156,16 +166,32 @@ export default Factor => {
         Factor.$store.add(_post._id, _post)
       }
 
-
       return _post
     }
 
-    async getSinglePost({ permalink, field = "permalink", postType = "post", _id, createOnEmpty = false, depth = 10 }) {
+    async getList(args) {
+      const { posts } = await this.request("list", args)
+
+      return posts
+    }
+
+    async getSinglePost(args) {
+      const {
+        permalink,
+        field = "permalink",
+        postType = "post",
+        _id,
+        token,
+        createOnEmpty = false,
+        depth = 10
+      } = args
 
       const params = { postType, createOnEmpty }
 
       if (_id) {
         params._id = _id
+      } else if (token) {
+        params.token = token
       } else {
         params.conditions = { [field]: permalink }
       }
@@ -174,44 +200,10 @@ export default Factor => {
 
       if (post) {
         Factor.$store.add(post._id, post)
-        await this.populateRecursively({ post, postType, depth })
+        await this.populateOneRecursively({ post, postType, depth })
       }
 
       return post
-    }
-
-    async populateRecursively({ post, postType, depth = 10 }) {
-      Factor.$store.add(post._id, post)
-      let _ids = []
-      const populatedFields = Factor.$mongo.getPopulatedFields({ postType, depth })
-      populatedFields.forEach(f => {
-        const v = post[f]
-        if (v) {
-          if (Array.isArray(v)) {
-            _ids = [..._ids, ...v]
-          } else {
-            _ids.push(v)
-          }
-        }
-      })
-
-
-      const filtered = _ids.filter(_id => {
-        const storeVal = Factor.$store.val(_id)
-
-        return !storeVal
-      })
-
-
-      if (filtered.length > 0) {
-
-        const posts = await Factor.$db.request('populate', { _ids: filtered })
-        const promises = posts.map(p => this.populateRecursively({ post: p, postType: p.postType }))
-
-        await Promise.all(promises)
-
-      }
-
     }
 
     async getPostIndex(args) {
@@ -226,6 +218,10 @@ export default Factor => {
         }
       })
 
+      if (!args.status) {
+        conditions.status = { $ne: "trash" }
+      }
+
       const skip = (page - 1) * limit
 
       const indexData = await this.request("list", {
@@ -236,45 +232,44 @@ export default Factor => {
 
       Factor.$store.add(postType, indexData)
 
+      this.populateManyRecursively({ posts: indexData.posts })
+
       return indexData
     }
 
-    async parsePosts(posts) {
-      if (!posts || posts.length == 0) {
-        return []
-      }
+    async populateManyRecursively({ posts, depth = 10 }) {
+      const promises = posts.map(p =>
+        this.populateOneRecursively({ post: p, postType: p.postType, depth })
+      )
 
-      const _promises = posts.reverse().map(async p => {
-        return await this.addPostMeta(p)
-      })
-
-      return await Promise.all(_promises)
+      await Promise.all(promises)
     }
 
-    async addPostMeta(post) {
-      if (!post) {
-        return
-      }
-      const { authors } = post || {}
-
-      let _promises = []
-      let _fields = []
-      if (authors && Array.isArray(authors) && authors.length > 0) {
-        const authorPromises = authors.map(async uid => {
-          return await Factor.$user.request(uid)
-        })
-        _fields.push("authorData")
-        _promises.push(Promise.all(authorPromises))
-      }
-
-      const promiseResults = await Promise.all(_promises)
-
-      promiseResults.forEach((result, index) => {
-        const fieldName = _fields[index]
-        post[fieldName] = result
+    async populateOneRecursively({ post, postType, depth = 10 }) {
+      Factor.$store.add(post._id, post)
+      let _ids = []
+      const populatedFields = Factor.$mongo.getPopulatedFields({ postType, depth })
+      populatedFields.forEach(f => {
+        const v = post[f]
+        if (v) {
+          if (Array.isArray(v)) {
+            _ids = [..._ids, ...v]
+          } else {
+            _ids.push(v)
+          }
+        }
       })
 
-      return post
+      const filtered = _ids.filter(_id => {
+        const storeVal = Factor.$store.val(_id)
+
+        return !storeVal
+      })
+
+      if (filtered.length > 0) {
+        const posts = await Factor.$db.request("populate", { _ids: filtered })
+        await this.populateManyRecursively({ posts, depth })
+      }
     }
 
     getPostTypes() {
@@ -324,7 +319,10 @@ export default Factor => {
       }
     }
 
-    getCount({ meta, field = "status", key, nullKey = false }) {
+    // Get the count of posts with a given status (or similar)
+    // Null values (e.g. status is unset) should be given the value assigned by nullKey
+    // Use in table control filtering
+    getStatusCount({ meta, field = "status", key, nullKey = false }) {
       if (!meta[field]) {
         return 0
       }
@@ -340,40 +338,17 @@ export default Factor => {
       return count
     }
 
-    getStatus(statusNumber) {
-      const statusList = [{ name: "Published", value: 1 }, { name: "Draft", value: 0 }, { name: "Archive", value: -2 }]
-      const item = statusList.find(_ => {
-        return _.value == statusNumber
-      })
-
-      return item.name
-    }
-
-    async startPost(type) {
-      const uid = Factor.$user._id()
-
-      if (!uid) {
-        throw new Error("Can't create post without a logged in user.")
-      } else if (!type) {
-        throw new Error("Specify a type of post to create.")
-      }
-
-      const author = { [Factor.$user._id()]: true }
-
-      return {
-        type,
-        id: Factor.$uniqId(),
-        author
-      }
-    }
-
     // Limit saved revisions to 20 and one per hour after first hour
     _cleanRevisions(revisions = []) {
       let counter
 
       const cleanedRevisions = revisions
         .filter(rev => {
-          if (counter && rev.timestamp > counter - 3600 && rev.timestamp < Factor.$time.stamp() - 3600) {
+          if (
+            counter &&
+            rev.timestamp > counter - 3600 &&
+            rev.timestamp < Factor.$time.stamp() - 3600
+          ) {
             return false
           } else {
             counter = rev.timestamp
@@ -411,7 +386,10 @@ export default Factor => {
       const post = await this.getSinglePost({ permalink, field })
 
       if (post && post.id != id) {
-        Factor.$events.$emit("notify", `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`)
+        Factor.$events.$emit(
+          "notify",
+          `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`
+        )
         let num = 1
         var matches = permalink.match(/\d+$/)
         if (matches) {
@@ -423,19 +401,6 @@ export default Factor => {
         })
       }
       return permalink
-    }
-
-    async save({ post, postType }) {
-      const _prepared = post
-      this.populatedFields(postType).forEach(f => {
-        if (Array.isArray(post[f])) {
-          _prepared[f] = post[f].filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-        } else if (post[f] && typeof post[f] == "object" && post[f]._id) {
-          _prepared[f] = post[f]._id
-        }
-      })
-      console.log("__SAVE DATA__", _prepared)
-      return await this.request("save", { data: _prepared, postType })
     }
 
     async savePost(post) {
@@ -487,12 +452,6 @@ export default Factor => {
       }
 
       return post
-    }
-
-    async trashPost({ id }) {
-      const query = { table: "posts", id, data: { status: -1 } }
-
-      return await Factor.$db.query(query)
     }
 
     excerpt(content, { length = 30 } = {}) {

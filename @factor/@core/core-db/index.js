@@ -1,6 +1,6 @@
 export default Factor => {
   return new (class {
-    constructor() { }
+    constructor() {}
 
     async request(method, params) {
       return await Factor.$endpoint.request({ id: "db", method, params })
@@ -14,10 +14,10 @@ export default Factor => {
       const params =
         arguments.length > 1
           ? {
-            model: arguments[0],
-            method: arguments[1],
-            _arguments: arguments[2]
-          }
+              model: arguments[0],
+              method: arguments[1],
+              _arguments: arguments[2]
+            }
           : arguments[0]
       return await Factor.$endpoint.request({ id: "db", method: "runRequest", params })
     }

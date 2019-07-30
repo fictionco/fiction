@@ -277,8 +277,7 @@ export default {
           this.$set(item, "message", error.message)
         },
         onFinished: result => {
-          console.log("on fini")
-          const { url, _id } = result
+          const { _id } = result
           this.imageIds.push(_id)
           this.$delete(this.uploading, index)
           this.updateValue()

@@ -3,11 +3,12 @@ export default Factor => {
     name: "post",
     options: { timestamps: true },
     populatedFields: [
-      { field: 'author', depth: 10 },
-      { field: 'images', depth: 50 },
-      { field: 'avatar', depth: 0 }
+      { field: "author", depth: 10 },
+      { field: "images", depth: 50 },
+      { field: "avatar", depth: 0 }
     ],
     schema: Factor.$filters.apply("post-schema", {
+      date: Date,
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
       content: { type: String, trim: true },
@@ -28,14 +29,14 @@ export default Factor => {
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
-        validator: function (v) {
+        validator: function(v) {
           return /^[a-z0-9-]+$/.test(v)
         },
         message: props => `${props.value} is not URL compatible.`
       }
     }),
     callback: _s => {
-      _s.pre("save", function (next) {
+      _s.pre("save", function(next) {
         if (this.images && this.images.length > 0) {
           this.avatar = this.images[0]
         }
