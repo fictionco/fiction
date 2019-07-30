@@ -10,6 +10,10 @@ export default Factor => {
       return await Factor.$endpoint.request({ id: "posts", method, params })
     }
 
+    async save({ post, postType }) {
+      return await this.request("save", { data: post, postType })
+    }
+
     filters() {
       Factor.$filters.add("components", _ => {
         _["factor-post-edit"] = () => import("./el/edit-link")
@@ -165,6 +169,12 @@ export default Factor => {
       return _post
     }
 
+    async getList(args) {
+      const { posts } = await this.request("list", args)
+
+      return posts
+    }
+
     async getSinglePost(args) {
       const {
         permalink,
@@ -190,13 +200,21 @@ export default Factor => {
 
       if (post) {
         Factor.$store.add(post._id, post)
-        await this.populateRecursively({ post, postType, depth })
+        await this.populateOneRecursively({ post, postType, depth })
       }
 
       return post
     }
 
-    async populateRecursively({ post, postType, token, depth = 10 }) {
+    async populateManyRecursively({ posts, depth = 10 }) {
+      const promises = posts.map(p =>
+        this.populateOneRecursively({ post: p, postType: p.postType, depth })
+      )
+
+      await Promise.all(promises)
+    }
+
+    async populateOneRecursively({ post, postType, depth = 10 }) {
       Factor.$store.add(post._id, post)
       let _ids = []
       const populatedFields = Factor.$mongo.getPopulatedFields({ postType, depth })
@@ -219,11 +237,12 @@ export default Factor => {
 
       if (filtered.length > 0) {
         const posts = await Factor.$db.request("populate", { _ids: filtered })
-        const promises = posts.map(p =>
-          this.populateRecursively({ post: p, postType: p.postType, token })
-        )
+        await this.populateManyRecursively({ posts, depth })
+        // const promises = posts.map(p =>
+        //   this.populateOneRecursively({ post: p, postType: p.postType })
+        // )
 
-        await Promise.all(promises)
+        // await Promise.all(promises)
       }
     }
 
@@ -248,6 +267,8 @@ export default Factor => {
       })
 
       Factor.$store.add(postType, indexData)
+
+      this.populateManyRecursively({ posts: indexData.posts })
 
       return indexData
     }
@@ -447,21 +468,6 @@ export default Factor => {
         })
       }
       return permalink
-    }
-
-    async save({ post, postType }) {
-      const _prepared = post
-      this.populatedFields(postType).forEach(f => {
-        if (Array.isArray(post[f])) {
-          _prepared[f] = post[f]
-            .filter(_ => _)
-            .map(_ => (typeof _ == "object" ? _._id : _))
-        } else if (post[f] && typeof post[f] == "object" && post[f]._id) {
-          _prepared[f] = post[f]._id
-        }
-      })
-      console.log("__SAVE DATA__", _prepared)
-      return await this.request("save", { data: _prepared, postType })
     }
 
     async savePost(post) {

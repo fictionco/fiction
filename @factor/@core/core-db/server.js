@@ -52,7 +52,6 @@ module.exports.default = Factor => {
     }
 
     async populate({ _ids }) {
-      console.log("POP", _ids)
       const _in = Array.isArray(_ids) ? _ids : [_ids]
       const result = await this.model("post").find({
         _id: { $in: _in }
@@ -66,6 +65,7 @@ module.exports.default = Factor => {
       const { Schema } = this.mongo
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
+        console.log("new discrim", name)
         this._models[name] = this.model("post").discriminator(name, new Schema())
       }
       return this._models[name]

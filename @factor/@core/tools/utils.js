@@ -25,28 +25,6 @@ module.exports.default = Factor => {
         return undefined
       }
     }
-    // dotSetting({ key, settings }) {
-    //   if (typeof settings[key] != "undefined") {
-    //     return settings[key]
-    //   } else {
-    //     const k = key.split(".")
-
-    //     let setting
-
-    //     k.forEach((_, index) => {
-    //       console.log("DOT", _, index)
-    //       if (setting && typeof setting == "object" && typeof setting[_] != "undefined") {
-    //         setting = setting[_]
-    //       } else if (index == 0 && typeof settings[_] != "undefined") {
-    //         setting = settings[_]
-    //       } else {
-    //         setting = undefined
-    //       }
-    //     })
-
-    //     return setting
-    //   }
-    // }
 
     // Parse to standard utility lists
     // Ideal for passing around config data and lists (inputs, etc.. )

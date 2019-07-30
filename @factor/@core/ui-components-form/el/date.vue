@@ -17,7 +17,7 @@ export default {
     "date-picker": () => import("vuejs-datepicker")
   },
   props: {
-    value: { type: Date, default: null }
+    value: { type: String, default: null }
   },
   data() {
     return { date: null }
@@ -29,7 +29,11 @@ export default {
     listeners() {
       return {
         ...this.$listeners,
-        input: event => this.$emit("input", this.$time.date(event))
+        input: event => {
+          console.log(event, typeof event, event.toISOString())
+
+          this.$emit("input", event.toISOString())
+        }
       }
     }
   },

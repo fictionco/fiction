@@ -1,40 +1,18 @@
 <template>
   <div class="user-list-input">
     <div class="user-list-items">
-      <div v-for="(_id, index) in items" :key="index" class="added-user">
+      <div v-for="(_id, index) in authors" :key="index" class="added-user">
         <dashboard-user-card class="custom-list-item" :post-id="_id" @remove="deleteItem(index)" />
       </div>
       <div class="input-text">
-        <input
-          ref="addNew"
-          v-model="searchText"
-          type="text"
-          placeholder="Search Users"
-          @input="searchUsers($event)"
-        >
+        <dashboard-input
+          v-model="newAuthor"
+          :list="potentialAuthors"
+          input="factor-input-select"
+          placeholder="Select Author"
+          @change="addAuthor($event)"
+        />
       </div>
-    </div>
-    <div class="search-area">
-      <factor-pop :toggle.sync="toggle">
-        <div class="custom-list-actions">
-          <div v-if="searchResults.length > 0" class="search-results">
-            <div class="res">
-              <div
-                v-for="(user, index) in searchResults"
-                :key="index"
-                class="search-result card-item"
-                @click="addItem(user._id)"
-              >
-                <div class="media">
-                  <img :src="user.avatar.url" >
-                </div>
-                <div class="text">{{ user.displayName }}</div>
-              </div>
-            </div>
-          </div>
-          <div v-else class="no-results">No Results</div>
-        </div>
-      </factor-pop>
     </div>
   </div>
 </template>
@@ -43,86 +21,55 @@ export default {
   props: {
     customValidity: { type: String, default: "" },
     value: { type: Array, default: () => [] },
-    filters: { type: String, default: "" },
     placeholder: { type: String, default: "Search" }
   },
   data() {
     return {
-      searchText: "",
+      potentialAuthors: [],
+      newAuthor: "",
       searchResults: [],
-      items: [],
+      authors: [],
       toggle: false
     }
   },
-  computed: {
-    min() {
-      if (typeof this.$attrs["input-min"] != "undefined") {
-        return parseInt(this.$attrs["input-min"])
-      } else if (typeof this.$attrs["required"] != "undefined") {
-        return 1
-      } else {
-        return 0
-      }
+  watch: {
+    authors: {
+      handler: function(v) {
+        this.$emit("input", v)
+      },
+      deep: true
     },
-    max() {
-      return this.$attrs["input-max"]
-        ? parseInt(this.$attrs["input-max"])
-        : 100000
+    value: {
+      handler: function(v) {
+        if (v && v != this.authors) {
+          this.authors = v
+        }
+      },
+      immediate: true
     }
   },
 
-  mounted() {
-    this.$watch(
-      `value`,
-      function(v) {
-        if (v && !this.$lodash.isEqual(v, this.items)) {
-          this.items = v
-        }
-      },
-      { immediate: true, deep: true }
-    )
+  async mounted() {
+    const posts = await this.$posts.getList({
+      postType: "user",
+      conditions: { accessLevel: { $gt: 99 } },
+      options: { limit: 100, depth: 0 }
+    })
 
-    this.$watch(
-      `items`,
-      function(v) {
-        if (v && !this.$lodash.isEqual(v, this.value)) {
-          this.$emit("input", v)
-        }
-        this.setValidity()
-      },
-      { immediate: true, deep: true }
-    )
+    this.potentialAuthors = posts.map(_ => {
+      return { name: `${_.displayName} (${_.email})`, value: _._id }
+    })
   },
   methods: {
-    async searchUsers() {
-      if (this.searchText) {
-        const results = await this.$db.run({
-          model: "User",
-          method: "find",
-          conditions: { $text: { $search: this.searchText } }
-        })
-        this.searchResults = results.data.filter(
-          _ => _.displayName && _.photoURL
-        )
-      } else {
-        this.searchResults = []
+    addAuthor() {
+      if (!this.authors.includes(this.newAuthor)) {
+        this.authors.push(this.newAuthor)
       }
 
-      this.toggle = !!this.searchText
-    },
-    sendItem(e) {
-      e.preventDefault()
-      this.addItem()
-    },
-    addItem(uid) {
-      this.toggle = false
-      this.items.push(uid)
-
-      this.searchText = ""
-      this.searchResults = []
+      this.newAuthor = ""
     },
     deleteItem(index) {
-      this.$delete(this.items, index)
+      this.$delete(this.authors, index)
     },
 
     setValidity() {

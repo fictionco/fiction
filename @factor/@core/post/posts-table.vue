@@ -40,7 +40,7 @@
         </div>
 
         <div v-else-if="column == 'author'" class="author">
-          <dashboard-user-card v-for="(user, ind) in row.author" :key="ind" :post="user" />
+          <dashboard-user-card v-for="(_id, index) in row.author" :key="index" :post-id="_id" />
         </div>
 
         <div v-else-if="column == 'status'" class="meta">{{ $utils.toLabel(row.status) }}</div>
@@ -48,6 +48,7 @@
         <div v-else-if="column == 'created'" class="meta">{{ $time.niceFormat(row.createdAt) }}</div>
       </template>
     </dashboard-table>
+    <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
 </template>
 <script>
