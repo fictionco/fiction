@@ -28,7 +28,7 @@
 export default {
   props: {
     width: { type: String, default: "32px" },
-    post: { type: Object, default: () => {} },
+    postId: { type: String, default: "" },
     url: { type: String, default: "" },
     loading: { type: Boolean, default: false }
   },
@@ -37,19 +37,15 @@ export default {
   },
   computed: {
     hasImage() {
-      return (this.post && this.post.avatar && this.post.avatar.url) || this.url
-        ? true
-        : false
+      return this.avatar.url ? true : false
     },
-    // userId() {
-    //   return this._id && this._id != "" ? this._id : this.$userId
-    // },
-    // user() {
-    //   return this.$store.getters["getItem"](this.userId) || {}
-    // },
+
+    avatar() {
+      return this.$store.val(this.postId) || {}
+    },
     src() {
-      if (this.post && this.post.avatar && this.post.avatar.url) {
-        return this.post.avatar.url
+      if (this.avatar && this.avatar.url) {
+        return this.avatar.url
       } else if (this.url) {
         return this.url
       } else {

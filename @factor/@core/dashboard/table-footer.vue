@@ -1,23 +1,17 @@
 <template>
-  <div class="table-controls">
-    <div v-if="actions && actions.length > 0" class="bulk-actions">
-      <dashboard-input
-        v-model="action"
-        input="factor-input-select"
-        placeholder="Actions"
-        format="simple"
-        :list="actions"
-      />
-      <dashboard-btn :disabled="!action" @click="$emit('action', action)">Apply</dashboard-btn>
-    </div>
-    <table-tabber :tabs="tabs" v-bind="$attrs" />
+  <div class="table-footer">
+    <table-pagination
+      :count="meta.total"
+      :page-count="pageCount(meta.total, meta.limit)"
+      :page-current="$route.query.page || 1"
+    />
   </div>
 </template>
 
 <script>
 export default {
   components: {
-    "table-tabber": () => import("./el/tabber")
+    "table-pagination": () => import("./el/pagination")
   },
   props: {
     tabs: { type: Array, default: () => [] },
@@ -43,11 +37,11 @@ export default {
 </script>
 
 <style lang="less">
-.table-controls {
+.table-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 0.5em 0 1em;
+  padding: 2em 0 0;
   @media (max-width: 767px) {
     display: grid;
     padding: 0 0 1em;

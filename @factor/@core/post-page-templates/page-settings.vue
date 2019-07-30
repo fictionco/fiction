@@ -40,7 +40,6 @@ export default {
         return { template: "default", ...this.post }
       },
       set(localPost) {
-        console.log("emit localpost", localPost)
         this.$emit("change", localPost)
       }
     },

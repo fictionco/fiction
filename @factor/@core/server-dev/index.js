@@ -62,14 +62,8 @@ export default Factor => {
     readFile(mfs, file) {
       try {
         return mfs.readFileSync(path.join(this.confClient.output.path, file), "utf-8")
-      } catch (error) { }
+      } catch (error) {}
     }
-
-    // logServerUpdate({ title, value }) {
-    //   const fTitle = chalk.cyan(title)
-    //   const fValue = chalk.dim(value)
-    //   console.log(`${fTitle} ${fValue}`)
-    // }
 
     loaders(target, value) {
       this._loaders[target] = value
@@ -80,7 +74,11 @@ export default Factor => {
         if (vals.every(_ => _ == "start") && !this._spinner) {
           this._spinner = ora("Building").start()
           this._loaders = { client: "loading", server: "loading" }
-        } else if (vals.every(_ => _) && !vals.some(_ => _ == "start" || _ == "loading") && this._spinner) {
+        } else if (
+          vals.every(_ => _) &&
+          !vals.some(_ => _ == "start" || _ == "loading") &&
+          this._spinner
+        ) {
           this._spinner.succeed(`Built ${Math.max(...vals) / 1000}s ${this._reason}`)
           this._spinner = false
           this._loaders = {}
@@ -116,7 +114,11 @@ export default Factor => {
           ignored: `**/node_modules/**`
         })
         .on("all", (event, path) => {
-          if (path.includes("server") || path.includes("endpoint") || path.includes("schema")) {
+          if (
+            path.includes("server") ||
+            path.includes("endpoint") ||
+            path.includes("schema")
+          ) {
             Factor.$events.$emit("restart-server")
           } else {
             this.updateServer({
@@ -129,7 +131,11 @@ export default Factor => {
       const customWatchers = Factor.$filters.apply("build-watchers", [
         {
           name: "Template",
-          files: [this.templatePath, Factor.$paths.get("config-file-public"), Factor.$paths.get("config-file-private")],
+          files: [
+            this.templatePath,
+            Factor.$paths.get("config-file-public"),
+            Factor.$paths.get("config-file-private")
+          ],
           callback: () => {
             this.template = this.getTemplate()
           }
@@ -137,17 +143,21 @@ export default Factor => {
       ])
 
       if (customWatchers.length > 0) {
-        customWatchers.forEach(({ name, files, ignored = [], event = "all", callback }) => {
-          chokidar.watch(files, { ignored, ignoreInitial: true }).on(event, (event, path) => {
-            const update = callback({ event, path })
-            if (update || typeof update == "undefined") {
-              this.updateServer({
-                title: event,
-                value: path
+        customWatchers.forEach(
+          ({ name, files, ignored = [], event = "all", callback }) => {
+            chokidar
+              .watch(files, { ignored, ignoreInitial: true })
+              .on(event, (event, path) => {
+                const update = callback({ event, path })
+                if (update || typeof update == "undefined") {
+                  this.updateServer({
+                    title: event,
+                    value: path
+                  })
+                }
               })
-            }
-          })
-        })
+          }
+        )
       }
     }
 
@@ -157,7 +167,10 @@ export default Factor => {
 
     compileClient() {
       // modify client config to work with hot middleware
-      this.confClient.entry.app = ["webpack-hot-middleware/client?quiet=true", this.confClient.entry.app]
+      this.confClient.entry.app = [
+        "webpack-hot-middleware/client?quiet=true",
+        this.confClient.entry.app
+      ]
       this.confClient.output.filename = "[name].js"
       this.confClient.plugins.push(
         new webpack.HotModuleReplacementPlugin(),
@@ -195,7 +208,10 @@ export default Factor => {
           if (errors.length !== 0) return
 
           this.clientManifest = JSON.parse(
-            this.readFile(devMiddleware.fileSystem, Factor.$paths.get("client-manifest-name"))
+            this.readFile(
+              devMiddleware.fileSystem,
+              Factor.$paths.get("client-manifest-name")
+            )
           )
           this.loaders("client", time)
         })
@@ -230,7 +246,9 @@ export default Factor => {
           return
         }
 
-        this.bundle = JSON.parse(this.readFile(mfs, Factor.$paths.get("server-bundle-name")))
+        this.bundle = JSON.parse(
+          this.readFile(mfs, Factor.$paths.get("server-bundle-name"))
+        )
 
         this.loaders("server", time)
       })

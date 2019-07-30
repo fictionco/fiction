@@ -1,12 +1,10 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-
       this.mongo = Factor.$mongo.mongoose
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
       Factor.$filters.callback("initialize-server", () => this.setModels())
-
     }
 
     objectId(str) {
@@ -33,17 +31,17 @@ module.exports.default = Factor => {
       const params =
         arguments.length > 1
           ? {
-            model: arguments[0],
-            method: arguments[1],
-            _arguments: arguments[2]
-          }
+              model: arguments[0],
+              method: arguments[1],
+              _arguments: arguments[2]
+            }
           : arguments[0]
       return await this.runRequest(params)
     }
     canEdit({ doc, bearer, scope }) {
-
       const { _id, authors = [] } = doc
-      if (!bearer ||
+      if (
+        !bearer ||
         (_id !== bearer._id &&
           !authors.some(_ => _._id == bearer._id) &&
           !bearer.accessLevel &&
@@ -67,6 +65,7 @@ module.exports.default = Factor => {
       const { Schema } = this.mongo
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
+        console.log("new discrim", name)
         this._models[name] = this.model("post").discriminator(name, new Schema())
       }
       return this._models[name]
@@ -105,9 +104,7 @@ module.exports.default = Factor => {
       return _model
     }
 
-
     setModels() {
-
       this._schemas = {}
       this._models = {}
 
@@ -116,14 +113,12 @@ module.exports.default = Factor => {
       const primaryModel = this.setModel(postSchemas.post)
 
       Object.keys(postSchemas).forEach(key => {
-        if (key != 'post') {
+        if (key != "post") {
           const config = postSchemas[key]
           this.setModel(config, primaryModel)
         }
       })
     }
-
-
 
     // Ensure all post indexes are up to date .
     // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes
