@@ -1,6 +1,6 @@
 {
   "name": "@factor/post-page-templates",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
