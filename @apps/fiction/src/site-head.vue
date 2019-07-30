@@ -105,6 +105,7 @@ export default {
   }
   .mob-nav-btn {
     display: none;
+    cursor: pointer;
 
     .toggle {
       cursor: pointer;
