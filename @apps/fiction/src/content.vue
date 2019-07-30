@@ -1,5 +1,5 @@
 <template>
-  <div class="cicero-theme content-layout">
+  <div class="content-layout">
     <site-head v-if="nav">
       <factor-link path="/factor-js">Factor JS</factor-link>
       <factor-link path="/about">About</factor-link>

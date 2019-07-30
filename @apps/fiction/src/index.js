@@ -24,14 +24,15 @@ module.exports.default = Factor => {
 
     async addPaths() {
       Factor.$filters.add("page-templates", _ => {
-        return _.concat([{
-          _id: "sticky-sidebar",
-          component: () => import("./tpl-sticky-sidebar")
-        },
-        {
-          _id: "landing-page",
-          component: () => import("./tpl-landing-page")
-        }
+        return _.concat([
+          {
+            _id: "sticky-sidebar",
+            component: () => import("./tpl-sticky-sidebar")
+          },
+          {
+            _id: "landing-page",
+            component: () => import("./tpl-landing-page")
+          }
         ])
       })
 
@@ -50,7 +51,7 @@ module.exports.default = Factor => {
           {
             path: "/factor-js",
             component: () => import("./view-tour/page-tour"),
-            meta: { nav: true }
+            meta: { nav: true, pageClass: ["nav-light"] }
           },
           {
             path: "/how-it-works",
