@@ -206,6 +206,37 @@ export default Factor => {
       return post
     }
 
+    async getPostIndex(args) {
+      const { limit = 20, page = 1, postType } = args
+
+      const taxonomies = ["tag", "category", "status", "role"]
+
+      const conditions = {}
+      taxonomies.forEach(_ => {
+        if (args[_]) {
+          conditions[_] = args[_]
+        }
+      })
+
+      if (!args.status) {
+        conditions.status = { $ne: "trash" }
+      }
+
+      const skip = (page - 1) * limit
+
+      const indexData = await this.request("list", {
+        postType,
+        conditions,
+        options: { limit, skip, page }
+      })
+
+      Factor.$store.add(postType, indexData)
+
+      this.populateManyRecursively({ posts: indexData.posts })
+
+      return indexData
+    }
+
     async populateManyRecursively({ posts, depth = 10 }) {
       const promises = posts.map(p =>
         this.populateOneRecursively({ post: p, postType: p.postType, depth })
@@ -238,77 +269,7 @@ export default Factor => {
       if (filtered.length > 0) {
         const posts = await Factor.$db.request("populate", { _ids: filtered })
         await this.populateManyRecursively({ posts, depth })
-        // const promises = posts.map(p =>
-        //   this.populateOneRecursively({ post: p, postType: p.postType })
-        // )
-
-        // await Promise.all(promises)
       }
-    }
-
-    async getPostIndex(args) {
-      const { limit = 20, page = 1, postType } = args
-
-      const taxonomies = ["tag", "category", "status", "role"]
-
-      const conditions = {}
-      taxonomies.forEach(_ => {
-        if (args[_]) {
-          conditions[_] = args[_]
-        }
-      })
-
-      const skip = (page - 1) * limit
-
-      const indexData = await this.request("list", {
-        postType,
-        conditions,
-        options: { limit, skip, page }
-      })
-
-      Factor.$store.add(postType, indexData)
-
-      this.populateManyRecursively({ posts: indexData.posts })
-
-      return indexData
-    }
-
-    async parsePosts(posts) {
-      if (!posts || posts.length == 0) {
-        return []
-      }
-
-      const _promises = posts.reverse().map(async p => {
-        return await this.addPostMeta(p)
-      })
-
-      return await Promise.all(_promises)
-    }
-
-    async addPostMeta(post) {
-      if (!post) {
-        return
-      }
-      const { authors } = post || {}
-
-      let _promises = []
-      let _fields = []
-      if (authors && Array.isArray(authors) && authors.length > 0) {
-        const authorPromises = authors.map(async uid => {
-          return await Factor.$user.request(uid)
-        })
-        _fields.push("authorData")
-        _promises.push(Promise.all(authorPromises))
-      }
-
-      const promiseResults = await Promise.all(_promises)
-
-      promiseResults.forEach((result, index) => {
-        const fieldName = _fields[index]
-        post[fieldName] = result
-      })
-
-      return post
     }
 
     getPostTypes() {
@@ -358,7 +319,10 @@ export default Factor => {
       }
     }
 
-    getCount({ meta, field = "status", key, nullKey = false }) {
+    // Get the count of posts with a given status (or similar)
+    // Null values (e.g. status is unset) should be given the value assigned by nullKey
+    // Use in table control filtering
+    getStatusCount({ meta, field = "status", key, nullKey = false }) {
       if (!meta[field]) {
         return 0
       }
@@ -372,37 +336,6 @@ export default Factor => {
         count += nullsCount ? nullsCount.count : 0
       }
       return count
-    }
-
-    getStatus(statusNumber) {
-      const statusList = [
-        { name: "Published", value: 1 },
-        { name: "Draft", value: 0 },
-        { name: "Archive", value: -2 }
-      ]
-      const item = statusList.find(_ => {
-        return _.value == statusNumber
-      })
-
-      return item.name
-    }
-
-    async startPost(type) {
-      const uid = Factor.$user._id()
-
-      if (!uid) {
-        throw new Error("Can't create post without a logged in user.")
-      } else if (!type) {
-        throw new Error("Specify a type of post to create.")
-      }
-
-      const author = { [Factor.$user._id()]: true }
-
-      return {
-        type,
-        id: Factor.$uniqId(),
-        author
-      }
     }
 
     // Limit saved revisions to 20 and one per hour after first hour
@@ -519,12 +452,6 @@ export default Factor => {
       }
 
       return post
-    }
-
-    async trashPost({ id }) {
-      const query = { table: "posts", id, data: { status: -1 } }
-
-      return await Factor.$db.query(query)
     }
 
     excerpt(content, { length = 30 } = {}) {

@@ -3,13 +3,9 @@
 </template>
 <script>
 export default {
-  data() {
-    return {}
-  },
-
   computed: {
     post() {
-      return this.$store.getters["getItem"](this._id) || {}
+      return this.$store.val(this._id) || {}
     },
     _id() {
       return this.$route.query._id || ""
