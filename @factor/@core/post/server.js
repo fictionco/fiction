@@ -60,22 +60,11 @@ module.exports.default = Factor => {
       return _post
     }
 
-    // Takes any post document and gets the fields that are meant to be populated
-    getPostPopulatedFields(doc) {
-      const docSchema = doc.schema
-      let p = []
-
-      if (docSchema.populatedFields) {
-        p = p.concat(docSchema.populatedFields)
-      }
-
-      if (docSchema._baseSchema && docSchema._baseSchema.populatedFields) {
-        p = p.concat(docSchema._baseSchema.populatedFields)
-      }
-
-      return p.map(_ => {
-        return { path: _, populate: "avatar" }
-      })
+    async updateManyById({ _ids, postType = "post", data }) {
+      return await this.getPostTypeModel(postType).update(
+        { _id: { $in: _ids } },
+        { $set: data }
+      )
     }
 
     async list(params, { bearer }) {

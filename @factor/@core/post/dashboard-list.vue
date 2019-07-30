@@ -6,6 +6,7 @@
       :meta="postsMeta"
       :loading="loading"
       :title="postTypeLabel"
+      @action="handlePostAction($event)"
     />
   </dashboard-page>
 </template>
@@ -49,12 +50,7 @@ export default {
     posts() {
       return this.postIndex && this.postIndex.posts ? this.postIndex.posts : []
     },
-    status() {
-      return this.$route.query.status || ""
-    },
-    page() {
-      return this.$route.query.page || 1
-    },
+
     filters() {
       const postType = this.postType
       const { page = 1, status, category, tag, role } = this.$route.query
@@ -77,23 +73,21 @@ export default {
     this.setPosts()
   },
   methods: {
-    postlink(type, permalink, root = true) {
-      return this.$posts.getPermalink({ type, permalink, root })
+    async handlePostAction({ action, selected }) {
+      if (selected.length == 0) return
+
+      await this.$posts.request("updateManyById", {
+        data: { status: action },
+        _ids: selected
+      })
+
+      this.setPosts()
     },
 
     async setPosts() {
       this.loading = true
       await this.$posts.getPostIndex(this.filters)
       this.loading = false
-    },
-
-    async trashPost(id, index) {
-      await this.$posts.trashPost({ id })
-
-      this.posts.splice(index, 1)
-    },
-    setDefault() {
-      return true
     }
   }
 }

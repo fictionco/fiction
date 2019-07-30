@@ -17,9 +17,9 @@
       :tabs="tabs"
       filter="status"
       :meta="meta"
-      :actions="['move-to-trash']"
+      :actions="[{value: 'published', name: 'Publish'}, {value: 'draft', name: 'Change to Draft'}, {value: 'trash', name: 'Move to Trash'}]"
+      @action="$emit('action', {action: $event, selected})"
     />
-
     <dashboard-table
       class="post-table"
       :structure="tableStructure()"
@@ -28,7 +28,7 @@
     >
       <template slot-scope="{column, item, row}">
         <div v-if="column == 'select'">
-          <factor-input-checkbox label />
+          <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
         </div>
         <div v-if="column == 'title'" class="post-title">
           <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ item }}</dashboard-link>
@@ -59,13 +59,18 @@ export default {
     meta: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false }
   },
+  data() {
+    return {
+      selected: []
+    }
+  },
   computed: {
     tabs() {
       return [`all`, `published`, `draft`, `trash`].map(key => {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$posts.getCount({
+            : this.$posts.getStatusCount({
                 meta: this.meta,
                 key,
                 nullKey: "draft"
