@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-standard",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -17,7 +17,7 @@
   "dependencies": {
     "@factor/plugin-blog": "^1.0.0-alpha.5",
     "@factor/plugin-seo": "^1.0.0-alpha.5",
-    "@factor/plugin-sitemap": "^1.0.0-alpha.5",
+    "@factor/plugin-sitemap": "^1.0.0-alpha.15",
     "@factor/plugin-user-profiles": "^1.0.0-alpha.14"
   }
 }
