@@ -14,12 +14,13 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeMeta() {
+      console.log("thispot", this.postType)
       return this.$posts.postTypeMeta(this.postType)
     },
     templateLoader() {
-      return this.postTypeMeta.edit
-        ? this.postTypeMeta.edit
-        : () => import("./posts-edit")
+      const { editTemplate } = this.postTypeMeta
+
+      return editTemplate ? editTemplate : () => import("./posts-edit")
     }
   },
 

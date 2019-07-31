@@ -7,7 +7,6 @@ module.exports.default = Factor => {
         this.addWorkPostType()
         this.addPaths()
         this.addComponents()
-
       }
     }
 
@@ -19,7 +18,6 @@ module.exports.default = Factor => {
       })
     }
 
-
     addComponents() {
       Factor.$filters.add("components", _ => {
         _["app-btn"] = () => import("./el/btn")
@@ -29,12 +27,10 @@ module.exports.default = Factor => {
     }
 
     addWorkPostType() {
-      const base = "work"
-      const type = "work"
       Factor.$filters.add("post-types", _ => {
         _.push({
-          type,
-          base,
+          postType: "work",
+          baseRoute: "work",
           icon: require("./img/work.svg"),
           model: "WorkPost",
           nameIndex: "Work",

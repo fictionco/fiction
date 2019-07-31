@@ -59,7 +59,6 @@
 <script>
 export default {
   components: {
-    "el-flame": () => import("./flame"),
     "el-tags": () => import("./tags"),
     "author-tag": () => import("./author-tag")
   },

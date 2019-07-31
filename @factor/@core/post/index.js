@@ -129,7 +129,7 @@ export default Factor => {
     }
 
     current() {
-      return this.$store.getters["getItem"]("post") || {}
+      return this.$store.val("post") || {}
     }
 
     init(cb) {
@@ -275,17 +275,18 @@ export default Factor => {
     getPostTypes() {
       return Factor.$filters.apply("post-types", []).map(_ => {
         return {
-          base: typeof _.base == "undefined" ? _.type : _.base,
-          nameIndex: Factor.$utils.toLabel(_.type),
-          nameSingle: Factor.$utils.toLabel(_.type),
-          namePlural: Factor.$utils.toLabel(_.type),
+          baseRoute: typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute,
+          nameIndex: Factor.$utils.toLabel(_.postType),
+          nameSingle: Factor.$utils.toLabel(_.postType),
+          namePlural: Factor.$utils.toLabel(_.postType),
           ..._
         }
       })
     }
 
     postTypeMeta(postType) {
-      return this.getPostTypes().find(pt => pt.type == postType)
+      console.log("PT", postType)
+      return this.getPostTypes().find(pt => pt.postType == postType)
     }
 
     populatedFields({ postType, depth = 10 }) {
@@ -293,21 +294,19 @@ export default Factor => {
     }
 
     link(_id) {
-      const parts = []
       const post = Factor.$store.val(_id)
 
       if (!post) return
 
-      const { base } = this.postTypeMeta(post.postType) || {}
+      const { postType, permalink } = post
 
-      if (base) parts.push(base)
+      console.log("post", _id, postType)
 
-      parts.push(post.permalink)
-
-      return parts.join("/")
+      return this.getPermalink({ postType, permalink })
     }
 
-    getPermalink({ type, permalink = "", root = true, path = false } = {}) {
+    getPermalink(args = {}) {
+      const { postType, permalink = "", root = false, path = false } = args
       const parts = []
 
       parts.push(root ? Factor.$config.setting("url") : "")
@@ -316,14 +315,10 @@ export default Factor => {
         parts.push(path)
         return parts.join("").replace(/\/$/, "") // remove trailing backslash
       } else {
-        if (type) {
-          const pt = this.getPostTypes().find(_ => _.type == type)
+        if (postType) {
+          const { baseRoute } = this.postTypeMeta(postType)
 
-          const base = pt ? pt.base : false
-
-          if (base) {
-            parts.push(base)
-          }
+          if (baseRoute) parts.push(baseRoute)
         }
 
         parts.push(permalink)

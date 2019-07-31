@@ -5,14 +5,13 @@ export default Factor => {
     }
 
     filters() {
-      const base = "entry"
-      const type = "blog"
-      const icon = require("./img/posts.svg")
+      const baseRoute = "entry"
+      const postType = "blog"
       Factor.$filters.add("post-types", _ => {
         _.push({
-          type,
-          base,
-          icon,
+          postType,
+          baseRoute,
+          icon: require("./img/posts.svg"),
           model: "BlogPost",
           nameIndex: "Blog",
           nameSingle: "Blog Post",
@@ -32,11 +31,11 @@ export default Factor => {
               component: () => import("#/blog-index.vue")
             },
             {
-              path: `/${base}`,
+              path: `/${baseRoute}`,
               component: () => import(`./single.vue`)
             },
             {
-              path: `/${base}/:permalink`,
+              path: `/${baseRoute}/:permalink`,
               component: () => import(`./single.vue`)
             },
             {

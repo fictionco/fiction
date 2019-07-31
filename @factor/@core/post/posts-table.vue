@@ -95,7 +95,7 @@ export default {
 
   methods: {
     postlink(type, permalink, root = true) {
-      return this.$posts.getPermalink({ type, permalink, root })
+      return this.$posts.getPermalink({ postType, permalink, root })
     },
 
     async trashPost(id, index) {

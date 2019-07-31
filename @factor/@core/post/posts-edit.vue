@@ -11,7 +11,11 @@
             @keyup="doAutosave()"
           />
           <dashboard-input label="Permalink">
-            <input-permalink v-model="post.permalink" :initial="post.title" :type="post.type" />
+            <input-permalink
+              v-model="post.permalink"
+              :initial="post.title"
+              :post-type="post.postType"
+            />
           </dashboard-input>
           <dashboard-input label="Post Content">
             <input-editor v-model="post.content" @keyup="doAutosave()" />
@@ -114,7 +118,7 @@ export default {
   computed: {
     post: {
       get() {
-        return this.$store.getters["getItem"](this._id) || {}
+        return this.$store.val(this._id) || {}
       },
       set(v) {
         this.$store.add(this._id, v)
@@ -128,7 +132,8 @@ export default {
       const components = this.$filters.apply("post-edit-components", [])
 
       return components.filter(
-        _ => !_.type || (_.type && _.type.includes(this.postType))
+        ({ postType }) =>
+          !postType || (postType && postType.includes(this.postType))
       )
     },
 
@@ -142,11 +147,11 @@ export default {
     },
 
     postType() {
-      return this.$route.params.postType || this.post.type || "page"
+      return this.$route.params.postType || this.post.postType || "page"
     },
     url() {
       return this.$posts.getPermalink({
-        type: this.postType,
+        postType: this.postType,
         permalink: this.post.permalink,
         root: false
       })

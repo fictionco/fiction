@@ -5,7 +5,7 @@
       <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
       <div
         class="plink"
-      >{{ $posts.getPermalink({type: post.type, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
+      >{{ $posts.getPermalink({postType: post.postType, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
       <div class="desc">{{ post.description || $posts.excerpt(post.content) || "No Description" }}</div>
     </div>
     <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
