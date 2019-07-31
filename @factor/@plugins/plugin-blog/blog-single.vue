@@ -1,29 +1,27 @@
 <template>
-  <blog-wrap class="single-entry">
+  <blog-content class="single-entry">
     <factor-link class="back" path="/blog">
-      <factor-icon icon="arrow-left" />All Posts
+      <factor-icon icon="arrow-left" />
+      <span>All Posts</span>
     </factor-link>
     <blog-entry format="single" :post-id="post._id">
       <div v-formatted-text="$markdown.render(post.content)" />
     </blog-entry>
     <part-related :post-id="post._id" />
-    <part-widget />
-  </blog-wrap>
+  </blog-content>
 </template>
 <script>
 export default {
   components: {
-    "blog-wrap": () => import("./wrap"),
+    "blog-content": () => import("./blog-content"),
     "blog-entry": () => import("./blog-entry"),
-    "part-related": () => import("./related"),
-    "part-widget": () => import("./widget")
+    "part-related": () => import("./related")
   },
   data() {
     return {
       date: "",
       path: "",
-      content: "",
-      authors: []
+      content: ""
     }
   },
   metatags() {
@@ -54,8 +52,6 @@ export default {
 // markdown-it code syntax theme
 @import "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/vs.min.css";
 .single-entry {
-  margin: 0 auto;
-  max-width: 760px;
   .back {
     margin-left: 30px;
     color: inherit;
@@ -67,33 +63,7 @@ export default {
   .entry.format-single .entry-header {
     margin: 0.5em 0 1em;
   }
-  .entry-content {
-    // div > p:nth-of-type(1) {
-    //   text-indent: 1.5em;
-    // }
-  }
-  .entry-action {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    @media (max-width: 767px) {
-      grid-template-columns: 2fr 1fr;
-    }
-    grid-gap: 0 10px;
-    padding: 1.5em 0;
-    border-bottom: 1px solid rgba(62, 62, 62, 0.1);
 
-    .share-wrap {
-      text-align: right;
-      line-height: 60px;
-      a {
-        font-size: 1.4em;
-        padding-left: 1em;
-        &:hover {
-          color: #0496ff;
-        }
-      }
-    }
-  }
   .post-author {
     &.post-author-bio {
       display: flex;

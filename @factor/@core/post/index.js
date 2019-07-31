@@ -66,7 +66,7 @@ export default Factor => {
 
       Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(
-          ({ type, namePlural, icon = "", add = "add-new", accessLevel }) => {
+          ({ postType, namePlural, icon = "", add = "add-new", accessLevel }) => {
             const subMenu = []
 
             if (add) {
@@ -82,11 +82,11 @@ export default Factor => {
 
             if (!accessLevel || Factor.$user.can({ accessLevel })) {
               _.push({
-                group: type,
-                path: `posts/${type}`,
-                name: namePlural || Factor.$utils.toLabel(type),
+                group: postType,
+                path: `posts/${postType}`,
+                name: namePlural || Factor.$utils.toLabel(postType),
                 icon,
-                items: Factor.$filters.apply(`admin-menu-post-${type}`, subMenu)
+                items: Factor.$filters.apply(`admin-menu-post-${postType}`, subMenu)
               })
             }
           }
@@ -192,7 +192,7 @@ export default Factor => {
         params._id = _id
       } else if (token) {
         params.token = token
-      } else {
+      } else if (permalink) {
         params.conditions = { [field]: permalink }
       }
 
@@ -285,7 +285,6 @@ export default Factor => {
     }
 
     postTypeMeta(postType) {
-      console.log("PT", postType)
       return this.getPostTypes().find(pt => pt.postType == postType)
     }
 
@@ -293,16 +292,14 @@ export default Factor => {
       return Factor.$mongo.getPopulatedFields({ postType, depth })
     }
 
-    link(_id) {
+    link(_id, options = {}) {
       const post = Factor.$store.val(_id)
 
       if (!post) return
 
       const { postType, permalink } = post
 
-      console.log("post", _id, postType)
-
-      return this.getPermalink({ postType, permalink })
+      return this.getPermalink({ postType, permalink, ...options })
     }
 
     getPermalink(args = {}) {
@@ -318,10 +315,13 @@ export default Factor => {
         if (postType) {
           const { baseRoute } = this.postTypeMeta(postType)
 
-          if (baseRoute) parts.push(baseRoute)
+          // trim slashes
+          if (baseRoute) parts.push(baseRoute.replace(/^\/|\/$/g, ""))
         }
 
         parts.push(permalink)
+
+        const route = parts.join("/")
 
         return parts.join("/")
       }

@@ -11,11 +11,7 @@
             @keyup="doAutosave()"
           />
           <dashboard-input label="Permalink">
-            <input-permalink
-              v-model="post.permalink"
-              :initial="post.title"
-              :post-type="post.postType"
-            />
+            <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
           </dashboard-input>
           <dashboard-input label="Post Content">
             <input-editor v-model="post.content" @keyup="doAutosave()" />
@@ -175,10 +171,7 @@ export default {
       }
     }
   },
-  watch: {
-    $route: function(to, from) {}
-  },
-  mounted() {},
+
   methods: {
     async savePost() {
       this.sending = true

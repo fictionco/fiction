@@ -22,13 +22,14 @@ export default {
   align-items: center;
   margin-right: 1em;
   padding: 0.3em 0;
+
   .avatar {
     display: block;
     margin-right: 10px;
     float: left;
   }
   .name {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
   }
 }
 </style>

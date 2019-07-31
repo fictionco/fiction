@@ -20,8 +20,9 @@
 
         <div class="entry-content">
           <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(post.content) }}</div>
-          <slot v-if="format == 'single'" />
-          <div v-if="format == 'listing'" class="entry-action">
+          <div v-else-if="format == 'single'" v-formatted-text="$markdown.render(post.content)" />
+
+          <div v-if="format == 'listing'" class="entry-read-more">
             <factor-link :path="$posts.link(post._id)">
               Continue Reading
               <factor-icon icon="arrow-right" />
@@ -34,11 +35,33 @@
 
       <div v-if="format == 'single'" class="entry-action">
         <div class="share-wrap">
-          <factor-link path="/#">
+          <factor-link
+            class="facebook"
+            btn="default"
+            :path="`https://www.facebook.com/sharer/sharer.php?u=${$posts.link(post._id, {root: true})}`"
+          >
             <factor-icon icon="facebook" />
           </factor-link>
-          <factor-link path="/#">
+          <factor-link
+            class="twitter"
+            btn="default"
+            :path="`https://twitter.com/home?status=${$posts.link(post._id, {root: true})}`"
+          >
             <factor-icon icon="twitter" />
+          </factor-link>
+          <factor-link
+            class="linkedin"
+            btn="default"
+            :path="`https://www.linkedin.com/shareArticle?mini=true&url=${$posts.link(post._id, {root: true})}`"
+          >
+            <factor-icon icon="linkedin" />
+          </factor-link>
+          <factor-link
+            class="pinterest"
+            btn="default"
+            :path="`https://pinterest.com/pin/create/button/?url=${$posts.link(post._id, {root: true})}`"
+          >
+            <factor-icon icon="pinterest" />
           </factor-link>
         </div>
       </div>
@@ -79,18 +102,6 @@ export default {
 }
 </script>
 <style lang="less">
-.ghost {
-  > div {
-    background-color: #f7f9ff;
-    height: 2em;
-    margin: 0.5em 0;
-    border-radius: 8px;
-    &:last-child {
-      width: 75%;
-      margin-bottom: 2em;
-    }
-  }
-}
 .entry {
   margin-bottom: 0;
   transition: all 0.2s ease-in-out;
@@ -116,23 +127,52 @@ export default {
     a {
       color: inherit;
       &:hover {
-        color: #0496ff;
+        color: var(--color-primary);
       }
       &:active {
-        color: #ff0076;
+        opacity: 0.7;
       }
     }
   }
   .entry-content {
-    margin: 0 0 1em 0;
     font-size: 1.25em;
     line-height: 1.4em;
     @media (max-width: 767px) {
       font-size: 1em;
     }
+    padding-bottom: 1rem;
+  }
+  .entry-read-more {
+    margin-top: 1rem;
   }
   .entry-action {
-    padding: 1rem 0;
+    .share-wrap {
+      .btn-link {
+        margin-right: 0.5em;
+        font-size: 1.1em;
+        line-height: 1;
+        color: #fff;
+        padding: 0.5em 0.75em;
+        border-radius: 5px;
+        width: 3em;
+        text-align: center;
+        &.facebook {
+          background: #1877f2;
+        }
+        &.twitter {
+          background: #1da1f2;
+        }
+        &.linkedin {
+          background: #007bb5;
+        }
+        &.pinterest {
+          background: #bd081c;
+        }
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
   }
 
   .author-about {
@@ -162,7 +202,7 @@ export default {
       display: flex;
       align-items: center;
       font-size: 0.9em;
-      font-weight: 600;
+      font-weight: var(--font-weight-bold);
       .sep {
         font-weight: 500;
         font-style: italic;

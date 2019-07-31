@@ -14,7 +14,6 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeMeta() {
-      console.log("thispot", this.postType)
       return this.$posts.postTypeMeta(this.postType)
     },
     templateLoader() {
@@ -23,9 +22,14 @@ export default {
       return editTemplate ? editTemplate : () => import("./posts-edit")
     }
   },
+  watch: {
+    $route: function(to, from) {
+      if (!this._id) this.requestPost()
+    }
+  },
 
   mounted() {
-    this.requestPost(this._id)
+    this.requestPost()
   },
   methods: {
     async requestPost() {

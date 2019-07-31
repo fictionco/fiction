@@ -1,6 +1,7 @@
 module.exports.default = Factor => {
   return {
     blog: {
+      baseRoute: "/entry",
       metatags: {
         index: {
           title: "Fiction Essays - Building Apps, Code, Remote Work",

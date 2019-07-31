@@ -35,8 +35,8 @@
           <dashboard-link
             v-if="row.permalink"
             class="permalink"
-            :path="postlink(row.type, row.permalink, false)"
-          >{{ postlink(row.type, row.permalink, false) }}</dashboard-link>
+            :path="postlink(row.postType, row.permalink, false)"
+          >{{ postlink(row.postType, row.permalink, false) }}</dashboard-link>
         </div>
 
         <div v-else-if="column == 'author'" class="author">
@@ -94,8 +94,8 @@ export default {
   },
 
   methods: {
-    postlink(type, permalink, root = true) {
-      return this.$posts.getPermalink({ postType, permalink, root })
+    postlink(postType, permalink) {
+      return this.$posts.getPermalink({ postType, permalink })
     },
 
     async trashPost(id, index) {

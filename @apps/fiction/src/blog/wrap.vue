@@ -14,8 +14,6 @@ export default {}
   .content-area {
     max-width: 960px;
     margin: 0 auto;
-    padding: 40px 0;
-    font-weight: 500;
   }
 }
 </style>

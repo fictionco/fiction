@@ -19,7 +19,7 @@
           <factor-link
             v-if="row.email"
             class="permalink"
-            :path="postlink(row.type, row.permalink)"
+            :path="postlink(row.postType, row.permalink)"
           >{{ row.email }}</factor-link>
         </div>
 
