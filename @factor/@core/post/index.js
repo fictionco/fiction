@@ -213,7 +213,6 @@ export default Factor => {
 
       // Create a mechanism to prevent multiple runs/pops for same data
       if (stored) {
-        console.log("use stored query")
         Factor.$store.add(postType, stored)
         return
       }
