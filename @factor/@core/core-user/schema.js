@@ -1,4 +1,3 @@
-
 export default Factor => {
   return {
     name: "user",
@@ -8,7 +7,7 @@ export default Factor => {
       _s.methods.comparePassword = async function comparePassword(candidate) {
         return bcrypt.compare(candidate, this.password)
       }
-      _s.pre("save", async function (next) {
+      _s.pre("save", async function(next) {
         const user = this
         if (!user.isModified("password")) {
           return next()
@@ -22,12 +21,18 @@ export default Factor => {
         }
       })
 
+      _s.pre("save", function(next) {
+        this.permalink = this.username ? `@${this.username}` : null
+
+        next()
+      })
+
       Factor.$filters.apply("user-schema-hooks", _s)
     },
     schema: Factor.$filters.apply("user-schema", {
       signedInAt: Date,
       username: {
-        type: String,
+        type: String``,
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3
@@ -60,7 +65,8 @@ export default Factor => {
         trim: true,
         validate: {
           validator: v => Factor.$validator.isMobilePhone(v),
-          message: props => `${props.value} is not a valid phone number (with country code).`
+          message: props =>
+            `${props.value} is not a valid phone number (with country code).`
         }
       },
 
