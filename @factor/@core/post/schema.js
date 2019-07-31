@@ -37,6 +37,11 @@ export default Factor => {
     }),
     callback: _s => {
       _s.pre("save", function(next) {
+        if (!this.date && this.status == "published") {
+          const now = new Date()
+          this.date = now.toISOString()
+        }
+
         if (this.images && this.images.length > 0) {
           this.avatar = this.images[0]
         }

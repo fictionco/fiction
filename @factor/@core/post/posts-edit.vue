@@ -186,6 +186,7 @@ export default {
       })
 
       if (saved) {
+        this.post = saved
         this.$events.$emit("notify", `Saved!`)
       }
 

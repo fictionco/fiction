@@ -207,7 +207,7 @@ export default Factor => {
     }
 
     async getPostIndex(args) {
-      const { limit = 20, page = 1, postType } = args
+      const { limit = 20, page = 1, postType, sort } = args
 
       const taxonomies = ["tag", "category", "status", "role"]
 
@@ -227,7 +227,7 @@ export default Factor => {
       const { posts, meta } = await this.request("list", {
         postType,
         conditions,
-        options: { limit, skip, page }
+        options: { limit, skip, page, sort }
       })
 
       Factor.$store.add(postType, { posts, meta })

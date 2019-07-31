@@ -24,14 +24,12 @@ export default {
   },
   computed: {
     val() {
-      return this.value ? this.$time.date(this.value) : this.$time.date()
+      return this.value ? this.$time.date(this.value) : ""
     },
     listeners() {
       return {
         ...this.$listeners,
         input: event => {
-          console.log(event, typeof event, event.toISOString())
-
           this.$emit("input", event.toISOString())
         }
       }

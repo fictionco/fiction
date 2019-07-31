@@ -79,7 +79,8 @@ export default {
       const r = await this.$posts.getPostIndex({
         postType: "blog",
         tag,
-        status: "published"
+        status: "published",
+        sort: "-date"
       })
 
       this.loading = false
