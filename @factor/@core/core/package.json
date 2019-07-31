@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,19 +10,19 @@
     "id": "core"
   },
   "dependencies": {
-    "@factor/build": "^1.0.0-alpha.14",
+    "@factor/build": "^1.0.0-alpha.15",
     "@factor/cli": "^1.0.0-alpha.7",
-    "@factor/core-db": "^1.0.0-alpha.14",
+    "@factor/core-db": "^1.0.0-alpha.15",
     "@factor/core-email": "^1.0.0-alpha.5",
-    "@factor/core-endpoint": "^1.0.0-alpha.14",
+    "@factor/core-endpoint": "^1.0.0-alpha.15",
     "@factor/core-error": "^1.0.0-alpha.6",
     "@factor/core-log": "^1.0.0-alpha.5",
     "@factor/core-stack": "^1.0.0-alpha.5",
     "@factor/core-storage": "^1.0.0-alpha.14",
     "@factor/core-theme": "^1.0.0-alpha.5",
-    "@factor/core-user": "^1.0.0-alpha.14",
+    "@factor/core-user": "^1.0.0-alpha.15",
     "@factor/server": "^1.0.0-alpha.7",
-    "@factor/tools": "^1.0.0-alpha.14"
+    "@factor/tools": "^1.0.0-alpha.15"
   },
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+  "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }
