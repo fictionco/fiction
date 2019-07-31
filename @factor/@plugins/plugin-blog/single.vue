@@ -3,19 +3,10 @@
     <factor-link class="back" path="/blog">
       <factor-icon icon="arrow-left" />All Posts
     </factor-link>
-    <part-entry
-      :format="'single'"
-      :post="post"
-      :authors="post.authorData"
-      :title="post.title"
-      :date="post.date"
-      :tags="post.tags"
-      :path="path"
-      :post-id="post.id"
-    >
-      <div v-formatted-text="content" />
+    <part-entry format="single" :post-id="post.id">
+      <div v-formatted-text="post.content" />
     </part-entry>
-    <part-related :post="post" />
+    <part-related :post-id="post._id" />
     <part-widget />
   </blog-wrap>
 </template>
@@ -23,7 +14,7 @@
 export default {
   components: {
     "blog-wrap": () => import("./wrap"),
-    "part-entry": () => import("./entry"),
+    "part-entry": () => import("./blog-entry"),
     "part-related": () => import("./related"),
     "part-widget": () => import("./widget")
   },
@@ -45,7 +36,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return this.$store.val("post") || {}
     }
   },
 

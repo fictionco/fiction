@@ -224,17 +224,17 @@ export default Factor => {
 
       const skip = (page - 1) * limit
 
-      const indexData = await this.request("list", {
+      const { posts, meta } = await this.request("list", {
         postType,
         conditions,
         options: { limit, skip, page }
       })
 
-      Factor.$store.add(postType, indexData)
+      Factor.$store.add(postType, { posts, meta })
 
-      this.populateManyRecursively({ posts: indexData.posts })
+      this.populateManyRecursively({ posts })
 
-      return indexData
+      return { posts, meta }
     }
 
     async populateManyRecursively({ posts, depth = 10 }) {
@@ -285,13 +285,24 @@ export default Factor => {
     }
 
     postTypeMeta(postType) {
-      const postTypes = this.getPostTypes()
-
-      return postTypes.find(pt => pt.type == postType)
+      return this.getPostTypes().find(pt => pt.type == postType)
     }
 
     populatedFields({ postType, depth = 10 }) {
       return Factor.$mongo.getPopulatedFields({ postType, depth })
+    }
+
+    link(_id) {
+      const parts = []
+      const post = Factor.$store.val(_id)
+
+      if (!post) return
+
+      const { base } = this.postTypeMeta(post.postType) || {}
+
+      if (base) parts.push(base)
+
+      return parts.join("/")
     }
 
     getPermalink({ type, permalink = "", root = true, path = false } = {}) {

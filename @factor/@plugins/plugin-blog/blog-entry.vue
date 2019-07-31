@@ -3,26 +3,26 @@
     <div class="entry-wrap">
       <div class="entry-meta">
         <div class="post-author">
-          <author-tag v-for="(author) in authors" :key="author.uid" :author="author" />
+          <author-tag v-for="(author) in post.author" :key="author._id" :post-id="author" />
 
           <div class="txt">
             <span class="sep">on</span>
-            <span class="date">{{ $time.niceFormat(date) }}</span>
-            <factor-post-edit :post="post" />
+            <span class="date">{{ $time.niceFormat(post.date) }}</span>
+            <factor-post-edit :post-id="post._id" />
           </div>
         </div>
       </div>
 
       <div class="entry-text">
         <h1 class="entry-header">
-          <factor-link :path="path">{{ title }}</factor-link>
+          <factor-link :path="$posts.link(post._id)">{{ post.title }}</factor-link>
         </h1>
 
         <div class="entry-content">
-          <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(content) }}</div>
+          <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(post.content) }}</div>
           <slot v-if="format == 'single'" />
           <div v-if="format == 'listing'" class="entry-action">
-            <factor-link :path="path">
+            <factor-link :path="$posts.link(post._id)">
               Continue Reading
               <factor-icon icon="arrow-right" />
             </factor-link>
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <el-tags class="entry-tags" :tags="tags" />
+      <el-tags class="entry-tags" :tags="post.tag" />
 
       <div v-if="format == 'single'" class="entry-action">
         <el-flame :post-id="postId" />
@@ -46,8 +46,8 @@
       </div>
 
       <div v-if="format == 'single'" class="post-author post-author-bio">
-        <div v-for="(author) in authors" :key="author.uid" class="author-about">
-          <factor-avatar :uid="author.uid" width="3em" />
+        <div v-for="(author) in post.author" :key="author._id" class="author-about">
+          <factor-avatar :post-id="author._id" width="3em" />
           <div class="text">
             <span class="name">{{ author.displayName }}</span>
             <div class="bio">{{ author.bio }}</div>
@@ -67,17 +67,12 @@ export default {
   },
   props: {
     format: { type: String, default: "" },
-    authors: { type: Array, default: () => [] },
-    title: { type: String, default: "" },
-    content: { type: String, default: "" },
-    date: { type: [String, Number], default: "" },
-    path: { type: String, default: "" },
-    tags: { type: Array, default: () => [] },
-    postId: { type: String, default: "" },
-    loading: { type: Boolean, default: false },
-    post: { type: Object, default: () => {} }
+    postId: { type: String, default: "" }
   },
   computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    },
     formatClass() {
       const f = this.format ? this.format : "single"
 

@@ -2,15 +2,8 @@
   <div class="related-wrap">
     <div class="related-entries">
       <div class="post-index">
-        <div v-for="(post, pi) in index" :key="'key-'+pi" class="related-entry">
-          <part-aside
-            :title="post.title"
-            :tags="post.tags"
-            :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
-            :images="post.images"
-            :date="post.date"
-            :authors="post.authorData"
-          />
+        <div v-for="(item) in index" :key="item._id" class="related-entry">
+          <blog-aside :post-id="item._id" />
         </div>
       </div>
     </div>
@@ -20,7 +13,7 @@
 <script>
 export default {
   components: {
-    "part-aside": () => import("./aside")
+    "blog-aside": () => import("./blog-aside")
   },
   props: {
     authors: { type: Array, default: () => [] },
@@ -36,14 +29,14 @@ export default {
     }
   },
   async created() {
-    const posts = await this.$posts.getPostIndex({
+    const { posts } = await this.$posts.getPostIndex({
       type: "blog",
       limit: 3,
       storeKey: "related",
-      status: ["published"]
+      status: "published"
     })
 
-    this.index = posts.data.filter(_ => _.id != this.post.id)
+    this.index = posts.filter(_ => _._id != this.post._id)
 
     this.loading = false
   }

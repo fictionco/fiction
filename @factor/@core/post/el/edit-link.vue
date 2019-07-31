@@ -1,6 +1,6 @@
 <template>
   <factor-link
-    v-if="canEdit"
+    v-if="postId && canEdit"
     btn="default"
     size="tiny"
     btn-element="app-btn"
@@ -13,10 +13,13 @@
 <script>
 export default {
   props: {
-    post: { type: Object, default: () => {} }
+    postId: { type: String, default: "" }
   },
 
   computed: {
+    post() {
+      return this.postId ? this.$store.val(this.postId) : {}
+    },
     authors() {
       return this.post && this.post.authors ? this.post.authors : []
     },

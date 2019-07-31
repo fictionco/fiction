@@ -1,6 +1,6 @@
 <template>
   <div class="long-form">
-    <factor-post-edit :post="post" />
+    <factor-post-edit :post-id="post._id" />
     <h1 v-formatted-text="post.title" class="title" />
     <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
   </div>

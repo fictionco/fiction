@@ -1,45 +1,29 @@
 <template>
   <blog-wrap class="entries">
     <div v-if="$route.params.tag" class="back-nav">
-      <factor-link btn="default" path="/blog">
+      <app-link btn="default" path="/blog">
         <factor-icon icon="arrow-left" />All Posts
-      </factor-link>
+      </app-link>
     </div>
     <div v-if="loading" class="loading-entries">
       <factor-loading-ring />
     </div>
 
-    <div v-else class="post-index">
+    <div v-else-if="blogPosts.length > 0" class="post-index">
       <div
-        v-for="(post, pi) in posts.data"
-        :key="'key-'+pi"
+        v-for="(post, pi) in blogPosts"
+        :key="post._id"
         class="grid-item"
         :class="pi % 3 == 0 ? 'grid-entry' : 'grid-aside'"
       >
-        <part-entry
-          v-if="pi % 3 == 0"
-          format="listing"
-          :post="post"
-          :authors="post.authorData"
-          :title="post.title"
-          :content="post.content"
-          :date="post.date"
-          :post-id="post.id"
-          :loading="loading"
-          :tags="post.tags"
-          :path="$posts.getPermalink({type: post.type, permalink: post.permalink, root: false})"
-        />
-        <part-aside
-          v-else
-          format="aside"
-          :title="post.title"
-          :authors="post.authorData"
-          :date="post.date"
-          :tags="post.tags"
-          :loading="loading"
-          :images="post.images"
-          :path="$posts.getPermalink({type: post.type, permalink: post.permalink, root: false})"
-        />
+        <blog-entry v-if="pi % 3 == 0" format="listing" :post-id="post._id" />
+        <blog-aside v-else format="aside" :post-id="post._id" />
+      </div>
+    </div>
+    <div v-else class="posts-not-found">
+      <div class="text">
+        <div class="title">{{ $setting.get("blog.notFound.title") }}</div>
+        <div class="sub-title">{{ $setting.get("blog.notFound.subTitle") }}</div>
       </div>
     </div>
     <!-- <part-pagination /> -->
@@ -49,8 +33,8 @@
 export default {
   components: {
     "blog-wrap": () => import("./wrap"),
-    "part-entry": () => import("./entry"),
-    "part-aside": () => import("./aside"),
+    "blog-entry": () => import("./blog-entry"),
+    "blog-aside": () => import("./blog-aside"),
     "part-pagination": () => import("./pagination")
   },
   data() {
@@ -64,11 +48,12 @@ export default {
     const tag = this.$route.params.tag || ""
     const title = tag
       ? `Tag "${tag}"`
-      : "Digital Nomad, Remote Work and Travel Lifestyle Articles"
+      : this.$setting.get("blog.metatags.index.title")
 
     const description = tag
       ? `Articles related to tag: ${tag}`
-      : "Learn about travel hacks, remote work, making money while you sleep, etc..."
+      : this.$setting.get("blog.metatags.index.description")
+
     return {
       title,
       description
@@ -78,18 +63,17 @@ export default {
     return this.getPosts()
   },
   computed: {
-    posts() {
-      return this.$store.getters["getItem"]("blog") || []
+    index() {
+      return this.$store.val("blog") || {}
+    },
+    blogPosts() {
+      const { posts = [] } = this.index
+      return posts
     }
   },
   watch: {
     $route: function(to) {
       this.getPosts()
-    }
-  },
-  async mounted() {
-    if (this.posts.length == 0) {
-      await this.getPosts()
     }
   },
 
@@ -99,9 +83,9 @@ export default {
       this.loading = true
 
       const r = await this.$posts.getPostIndex({
-        type: "blog",
+        postType: "blog",
         tag,
-        status: ["published"]
+        status: "published"
       })
 
       this.loading = false
@@ -111,6 +95,17 @@ export default {
 </script>
 
 <style lang="less">
+.posts-not-found {
+  min-height: 50vh;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  .title {
+    font-size: 1.4em;
+    font-weight: var(--font-weight-bold);
+  }
+}
 .entries {
   .grid-entry,
   .grid-aside {

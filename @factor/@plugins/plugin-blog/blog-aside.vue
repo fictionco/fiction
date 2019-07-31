@@ -2,22 +2,19 @@
   <article class="aside-entry">
     <div class="format-aside aside-wrap">
       <h2 class="aside-header">
-        <factor-link :path="path">{{ title }}</factor-link>
+        <factor-link :path="$posts.link(post._id)">{{ post.title }}</factor-link>
       </h2>
 
       <div class="aside-sub">
         <div v-if="authors != ''" class="aside-author">
           <div class="post-author">
-            <author-tag v-for="(author, ind) in authors.slice(0, 1)" :key="ind" :author="author" />
+            <author-tag
+              v-for="(author, ind) in post.author.slice(0, 1)"
+              :key="ind"
+              :post-id="author"
+            />
           </div>
         </div>
-        <!-- <div class="aside-meta">
-          <div class="date">
-            <span class="sep">on</span>
-            <span class="date">{{ $time.niceFormat(date) }}</span>
-          </div>
-          <el-tags :tags="tags" />
-        </div>-->
       </div>
     </div>
   </article>
@@ -26,24 +23,15 @@
 <script>
 export default {
   components: {
-    "el-tags": () => import("./tags"),
     "author-tag": () => import("./author-tag")
   },
   props: {
     format: { type: String, default: "" },
-    authors: { type: Array, default: () => [] },
-    title: { type: String, default: "" },
-    path: { type: String, default: "" },
-    tags: { type: Array, default: () => [] },
-    images: { type: Array, default: () => [] },
-    date: { type: [String, Number], default: "" }
+    postId: { type: String, default: "" }
   },
   computed: {
-    hasBackground() {
-      return this.images && this.images.length > 0 ? true : false
-    },
-    backgroundStyle() {
-      return this.hasBackground ? `url(${this.images[0].url})` : ""
+    post() {
+      return this.$store.val(this.postId) || {}
     }
   }
 }

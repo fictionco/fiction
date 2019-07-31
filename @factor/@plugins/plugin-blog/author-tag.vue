@@ -1,13 +1,18 @@
 <template>
   <div class="blog-author-card">
-    <factor-avatar :uid="author.uid" />
-    <span class="name">{{ author.displayName }}</span>
+    <factor-avatar :post-id="post.avatar" />
+    <span class="name">{{ post.displayName }}</span>
   </div>
 </template>
 <script>
 export default {
   props: {
-    author: { type: Object, default: () => {} }
+    postId: { type: String, default: "" }
+  },
+  computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    }
   }
 }
 </script>

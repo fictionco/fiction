@@ -7,7 +7,7 @@ export default Factor => {
     filters() {
       const base = "entry"
       const type = "blog"
-      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/posts.svg") : ""
+      const icon = require("./img/posts.svg")
       Factor.$filters.add("post-types", _ => {
         _.push({
           type,
@@ -25,11 +25,11 @@ export default Factor => {
       Factor.$filters.add("content-routes", _ => {
         _.push({
           path: "/blog",
-          component: () => import("./vc-blog-wrap"),
+          component: () => import("./blog-wrap"),
           children: [
             {
               path: "/",
-              component: () => import("./index.vue")
+              component: () => import("#/blog-index.vue")
             },
             {
               path: `/${base}`,
@@ -41,7 +41,7 @@ export default Factor => {
             },
             {
               path: `/tag/:tag`,
-              component: () => import(`./index.vue`)
+              component: () => import(`#/blog-index.vue`)
             }
           ]
         })
