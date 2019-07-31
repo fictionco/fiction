@@ -77,8 +77,7 @@
             <h2 class="title">Best of Breed Tools</h2>
             <p>We've spent years learning best practices and making mistakes so you don't have to...</p>
             <div class="actions">
-
-              <factor-link path="https://factor.dev/guide">
+      <factor-link path="https://factor.dev/guide">
                 More About The Tech
                 <i class="fa fa-arrow-right" />
               </factor-link>
