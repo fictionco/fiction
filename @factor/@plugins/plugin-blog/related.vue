@@ -12,9 +12,7 @@
 
 <script>
 export default {
-  components: {
-    "blog-aside": () => import("./blog-aside")
-  },
+  components: {},
   props: {
     authors: { type: Array, default: () => [] },
     title: { type: String, default: "" },

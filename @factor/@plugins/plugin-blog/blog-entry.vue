@@ -20,7 +20,9 @@
 
         <div class="entry-content">
           <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(post.content) }}</div>
-          <div v-else-if="format == 'single'" v-formatted-text="$markdown.render(post.content)" />
+          <highlight-code v-else-if="format == 'single'">
+            <div v-formatted-text="$markdown.render(post.content)" />
+          </highlight-code>
 
           <div v-if="format == 'listing'" class="entry-read-more">
             <factor-link :path="$posts.link(post._id)">
@@ -83,7 +85,9 @@
 export default {
   components: {
     "el-tags": () => import("./tags"),
-    "author-tag": () => import("./author-tag")
+    "author-tag": () => import("./author-tag"),
+    "highlight-code": () =>
+      import("@factor/plugin-highlight-code/highlight-code")
   },
   props: {
     format: { type: String, default: "" },

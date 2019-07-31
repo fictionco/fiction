@@ -1,14 +1,11 @@
 {
-  "name": "@factor/plugin-blog",
+  "name": "@factor/plugin-highlight-code",
   "version": "1.0.0-alpha.5",
   "license": "GPL-2.0",
   "factor": {
     "target": [
       "app"
     ]
-  },
-  "dependencies": {
-    "@factor/plugin-highlight-code": "^1.0.0-alpha.5"
   },
   "publishConfig": {
     "access": "public"

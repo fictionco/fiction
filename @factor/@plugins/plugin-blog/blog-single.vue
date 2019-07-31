@@ -4,9 +4,7 @@
       <factor-icon icon="arrow-left" />
       <span>All Posts</span>
     </factor-link>
-    <blog-entry format="single" :post-id="post._id">
-      <div v-formatted-text="$markdown.render(post.content)" />
-    </blog-entry>
+    <blog-entry format="single" :post-id="post._id" />
     <part-related :post-id="post._id" />
   </blog-content>
 </template>
@@ -49,8 +47,6 @@ export default {
 </script>
 
 <style lang="less">
-// markdown-it code syntax theme
-@import "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/styles/vs.min.css";
 .single-entry {
   .back {
     margin-left: 30px;

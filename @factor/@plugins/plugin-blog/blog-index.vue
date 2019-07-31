@@ -22,7 +22,6 @@ export default {
   components: {
     "blog-content": () => import("./blog-content"),
     "blog-entry": () => import("./blog-entry"),
-    "blog-aside": () => import("./blog-aside"),
     "part-pagination": () => import("./pagination")
   },
   data() {
