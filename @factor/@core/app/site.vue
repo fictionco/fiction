@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="factor-app">
+  <div id="app" class="factor-app" :class="$route.meta.pageClass">
     <router-view />
     <component :is="component" v-for="(component, k) in injectedComponents" :key="k" />
   </div>
