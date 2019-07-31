@@ -80,8 +80,6 @@ module.exports.default = Factor => {
         options
       )
 
-      console.log("search by", options)
-
       const _p = [
         this.indexMeta({ postType }),
         Factor.$dbServer.model(postType).find(conditions, null, options)

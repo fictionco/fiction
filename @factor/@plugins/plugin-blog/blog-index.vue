@@ -45,9 +45,9 @@ export default {
       description
     }
   },
-  // serverPrefetch() {
-  //   return this.getPosts()
-  // },
+  serverPrefetch() {
+    return this.getPosts()
+  },
   computed: {
     tag() {
       return this.$route.params.tag || this.$route.query.tag || ""
@@ -62,14 +62,13 @@ export default {
   },
   watch: {
     $route: {
-      immediate: true,
       handler: function(to) {
         this.getPosts()
       }
     }
   },
   mounted() {
-    //  this.getPosts()
+    this.getPosts()
   },
   methods: {
     async getPosts() {

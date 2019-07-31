@@ -21,7 +21,7 @@ export default Factor => {
 
       Factor.$filters.add("post-edit-components", _ => {
         _.push({
-          type: ["page"],
+          postType: ["page"],
           name: "Page Template Settings",
           component: () => import("./page-settings")
         })

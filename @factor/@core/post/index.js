@@ -2,7 +2,7 @@ export default Factor => {
   return new (class {
     constructor() {
       this.filters()
-
+      this.objectHash = require("object-hash")
       this.initialized = false
     }
 
@@ -200,7 +200,7 @@ export default Factor => {
 
       if (post) {
         Factor.$store.add(post._id, post)
-        await this.populateOneRecursively({ post, postType, depth })
+        await this.populatePosts({ posts: [post], depth })
       }
 
       return post
@@ -208,6 +208,15 @@ export default Factor => {
 
     async getPostIndex(args) {
       const { limit = 20, page = 1, postType, sort } = args
+      const queryHash = this.objectHash(args)
+      const stored = Factor.$store.val(queryHash)
+
+      // Create a mechanism to prevent multiple runs/pops for same data
+      if (stored) {
+        console.log("use stored query")
+        Factor.$store.add(postType, stored)
+        return
+      }
 
       const taxonomies = ["tag", "category", "status", "role"]
 
@@ -230,45 +239,44 @@ export default Factor => {
         options: { limit, skip, page, sort }
       })
 
+      Factor.$store.add(queryHash, { posts, meta })
       Factor.$store.add(postType, { posts, meta })
 
-      this.populateManyRecursively({ posts })
+      await this.populatePosts({ posts })
 
       return { posts, meta }
     }
 
-    async populateManyRecursively({ posts, depth = 10 }) {
-      const promises = posts.map(p =>
-        this.populateOneRecursively({ post: p, postType: p.postType, depth })
-      )
-
-      await Promise.all(promises)
-    }
-
-    async populateOneRecursively({ post, postType, depth = 10 }) {
-      Factor.$store.add(post._id, post)
+    async populatePosts({ posts, depth = 10 }) {
       let _ids = []
-      const populatedFields = Factor.$mongo.getPopulatedFields({ postType, depth })
-      populatedFields.forEach(f => {
-        const v = post[f]
-        if (v) {
-          if (Array.isArray(v)) {
-            _ids = [..._ids, ...v]
-          } else {
-            _ids.push(v)
+
+      posts.forEach(post => {
+        Factor.$store.add(post._id, post)
+
+        const populatedFields = Factor.$mongo.getPopulatedFields({
+          postType: post.postType,
+          depth
+        })
+
+        populatedFields.forEach(field => {
+          const v = post[field]
+          if (v) {
+            if (Array.isArray(v)) {
+              _ids = [..._ids, ...v]
+            } else {
+              _ids.push(v)
+            }
           }
-        }
+        })
       })
 
-      const filtered = _ids.filter(_id => {
-        const storeVal = Factor.$store.val(_id)
-
-        return !storeVal
+      const _idsFiltered = _ids.filter((_id, index, self) => {
+        return !Factor.$store.val(_id) && self.indexOf(_id) === index ? true : false
       })
 
-      if (filtered.length > 0) {
-        const posts = await Factor.$db.request("populate", { _ids: filtered })
-        await this.populateManyRecursively({ posts, depth })
+      if (_idsFiltered.length > 0) {
+        const posts = await Factor.$db.request("populate", { _ids: _idsFiltered })
+        await this.populatePosts({ posts, depth })
       }
     }
 
