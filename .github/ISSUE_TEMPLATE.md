@@ -1,5 +1,3 @@
-## Why you creating this issue?
-- [ ] Bugfix
-- [ ] Feature
+**Reason for this issue**
 
-## Steps to Reproduce
+**Steps to Reproduce**

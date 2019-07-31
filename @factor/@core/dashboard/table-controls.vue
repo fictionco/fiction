@@ -11,18 +11,12 @@
       <dashboard-btn :disabled="!action" @click="$emit('action', action)">Apply</dashboard-btn>
     </div>
     <table-tabber :tabs="tabs" v-bind="$attrs" />
-    <table-pagination
-      :count="meta.total"
-      :page-count="pageCount(meta.total, meta.limit)"
-      :page-current="$route.query.page || 1"
-    />
   </div>
 </template>
 
 <script>
 export default {
   components: {
-    "table-pagination": () => import("./el/pagination"),
     "table-tabber": () => import("./el/tabber")
   },
   props: {

@@ -4,6 +4,11 @@ export default Factor => {
       // image require wont work outside webpack
       const icon = Factor.FACTOR_TARGET == "app" ? require("./img/pages.svg") : ""
 
+      Factor.$filters.add("data-schemas", _ => {
+        _.page = require("./schema").default(Factor)
+        return _
+      })
+
       Factor.$filters.add("post-types", _ => {
         _.unshift({
           type: "page",
@@ -43,6 +48,29 @@ export default Factor => {
       })
     }
 
+    async getTemplate(templateId) {
+
+      const _all = this.getPageTemplates()
+
+      let tpl = _all.find(_ => _._id == templateId)
+
+      if (!tpl) {
+        tpl = _all.find(_ => _._id == 'default')
+      }
+
+      tpl.fields = await this.getTemplateFields(tpl)
+
+      return tpl
+
+    }
+
+    async getTemplateFields(tpl) {
+
+      const { default: { templateSettings } } = await tpl.component()
+
+      return templateSettings ? templateSettings() : []
+    }
+
     // Register Page Templates added by theme or app
     registerTemplates() {
       this.pageTemplates = this.getPageTemplates()
@@ -57,8 +85,15 @@ export default Factor => {
     }
 
     getPageTemplates() {
-      return Factor.$filters.apply("page-templates", []).map(_ => {
-        const name = _.name || Factor.$utils.toLabel(_.value.replace("page-template", ""))
+      const tpls = [
+        {
+          _id: "default",
+          component: () => import("./tpl-default")
+        }
+      ]
+
+      return Factor.$filters.apply("page-templates", tpls).map(_ => {
+        const name = _.name || Factor.$utils.toLabel(_._id.replace("tpl-", ""))
         return {
           name,
           ..._

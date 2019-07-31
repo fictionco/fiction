@@ -1,0 +1,25 @@
+@import "reset.less";
+@import "entry-content.less";
+@import "inputs.less";
+
+.ui-app {
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  font-family: var(--font-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  --font-weight-bold: 800;
+
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      color: var(--color-secondary);
+    }
+  }
+}

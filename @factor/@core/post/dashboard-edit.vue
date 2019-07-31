@@ -3,13 +3,9 @@
 </template>
 <script>
 export default {
-  data() {
-    return {}
-  },
-
   computed: {
     post() {
-      return this.$store.getters["getItem"](this._id) || {}
+      return this.$store.val(this._id) || {}
     },
     _id() {
       return this.$route.query._id || ""
@@ -32,9 +28,11 @@ export default {
   },
   methods: {
     async requestPost() {
-      const post = await this.$posts.getPostById({
+      const post = await this.$posts.getSinglePost({
         _id: this._id,
-        postType: this.postType
+        postType: this.postType,
+        createOnEmpty: true,
+        depth: 100
       })
 
       // If a new post was started, an id comes with it.

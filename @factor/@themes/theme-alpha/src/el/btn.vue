@@ -46,7 +46,7 @@ button.app-btn {
 
   &.default {
     color: var(--color-primary);
-    background: #fff;
+    background: var(--color-white);
     box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
       0 2px 10px rgba(71, 86, 144, 0.2);
     &:hover {

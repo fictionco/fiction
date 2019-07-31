@@ -22,7 +22,12 @@ export default Factor => {
     _install(id, plugin) {
       Factor.use({
         install(Factor) {
-          Factor[`$${id}`] = Factor.prototype[`$${id}`] = plugin(Factor)
+
+          // Some application modules have already been loaded in by server extension
+          // Check if they're already loaded that way we don't load twice
+          if (!Factor[`$${id}`]) {
+            Factor[`$${id}`] = Factor.prototype[`$${id}`] = plugin(Factor)
+          }
         }
       })
     }

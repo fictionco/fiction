@@ -11,11 +11,12 @@ export default Factor => {
           linkify: true,
           typographer: false
         })
-        this.lib.use(require("markdown-it-anchor"), {
+
+        this.lib.use(require("markdown-it-anchor").default, {
           slugify: Factor.$utils.slugify
         })
         this.lib.use(require("markdown-it-video"))
-        //this.lib.use(require("markdown-it-highlightjs"))
+
         this.lib.use(require("markdown-it-link-attributes"), {
           attrs: {
             target: "_blank",

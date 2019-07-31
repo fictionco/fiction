@@ -7,14 +7,10 @@
   "private": true,
   "factor": {
     "target": [
-      "app",
-      "server"
+      "app"
     ]
   },
   "dependencies": {
-    "@factor/<%= scope %>": "^1.0.0-alpha.0" <% if(scope != 'post'){ %>,
-      "@factor/ui": "^1.0.0-alpha.0",
-      "@factor/post-metatags": "^1.0.0-alpha.0"<%
-    } %>
+    "@factor/index": "^1.0.0-alpha.12"
   }
 }

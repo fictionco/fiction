@@ -3,7 +3,10 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("endpoints", { id: "storage", handler: this })
-      Factor.$filters.callback("data-schemas", () => require("./schema").default(Factor), { signature: "storage" })
+      Factor.$filters.add("data-schemas", _ => {
+        _.attachment = require("./schema").default(Factor)
+        return _
+      })
 
       Factor.$filters.add("middleware", _ => {
         _.push({
@@ -25,9 +28,9 @@ module.exports.default = Factor => {
         file: { buffer, mimetype, size }
       } = request
 
-      const author = [Factor.$db.objectId(bearer._id)]
+      const author = [Factor.$dbServer.objectId(bearer._id)]
       const url = Factor.$filters.apply("create-image-url", `data:${mimetype};base64,${buffer.toString("base64")}`)
-      const img = await Factor.$db.model("attachment").create({ url, mimetype, size, author })
+      const img = await Factor.$dbServer.model("attachment").create({ url, mimetype, size, author })
 
       return img.toObject()
     }

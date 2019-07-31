@@ -1,13 +1,14 @@
 {
   "name": "@factor/app-settings",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.11",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
     "target": [
-      "app"
+      "app",
+      "server"
     ],
     "id": "setting"
   },

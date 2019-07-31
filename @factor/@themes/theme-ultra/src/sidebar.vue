@@ -1,13 +1,13 @@
 <template>
-  <div class="sidebarContainer">
-    <div class="sidebarTitleContainer">
-      <h1 class="sidebarTitle">{{ $setting.get('sidebar.sidebarHeadline') }}</h1>
+  <div class="sidebar-container">
+    <div class="sidebar-title-container">
+      <h1 class="sidebar-title">{{ $setting.get('sidebar.sidebarHeadline') }}</h1>
     </div>
-    <div class="sidebarButtonsContainer">
+    <div class="sidebar-buttons-container">
       <div
         v-for="(ele, i) in $setting.get('sidebar.sidebarOptions')"
         :key="i"
-        class="sidebarButton"
+        class="sidebar-button"
       >
         <button
           class="btn-sidebar"
@@ -29,7 +29,9 @@ export default {
         "#homeContainerID",
         "#aboutContainerID",
         "#servicesContainerID",
-        "#portfolioContainerID"
+        "#portfolioContainerID",
+        "#newsContainerID",
+        "#contactPageContainerID"
       ]
     };
   },
@@ -45,7 +47,7 @@ export default {
             sidebarOption.classList.add("btn-sidebar-selected");
           }
         },
-        { threshold: [0.6] }
+        { threshold: [0.3] }
       );
       observer.observe(document.querySelector(ele));
     }
@@ -68,7 +70,7 @@ export default {
 </script>
 
 <style scoped>
-.sidebarContainer {
+.sidebar-container {
   position: fixed;
   font-family: Work Sans;
   display: grid;
@@ -78,17 +80,17 @@ export default {
   height: 100%;
   width: 20vw;
 }
-.sidebarTitleContainer {
+.sidebar-title-container {
   width: 100%;
   text-align: center;
 }
-.sidebarButtonsContainer {
+.sidebar-buttons-container {
   height: 45vh;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
-.sidebarButton {
+.sidebar-button {
   width: 100%;
   display: flex;
   justify-content: center;

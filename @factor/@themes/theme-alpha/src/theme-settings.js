@@ -153,42 +153,42 @@ export default Factor => {
       subheadline: "The simple way to showcase your work.",
       content:
         "Fully responsive and retina-display-ready. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: require("./img/test.jpg"),
+      heroImage: require("./img/work.jpg"),
 
       posts: {
         data: [
           {
-            images: [require("./img/test.jpg")],
-            title: "Pretty Thai",
-            authorData: ["Ray", "Andrew"],
-            content: "erer",
+            images: require("./img/project1.jpg"),
+            title: "Shallow Focus of Hand with Red Paint",
+            authorData: ["Ian Doodley"],
+            content: "placeholder",
             id: "1",
             tags: ["Design", "Branding"],
             path: "/"
           },
           {
-            images: [require("./img/test.jpg")],
-            title: "Carbon Tech Pro",
-            authorData: ["Ray", "Andrew"],
-            content: "erer",
+            images: require("./img/project2.jpg"),
+            title: "Yellow Coffee Cup",
+            authorData: ["Marion Michelle"],
+            content: "placeholder",
             id: "2",
             tags: ["Development"],
             path: "/"
           },
           {
-            images: [require("./img/test.jpg")],
-            title: "PageLines",
-            authorData: ["Ray", "Andrew"],
-            content: "erer",
+            images: require("./img/project3.jpg"),
+            title: "Low Angle of Yellow and Black Striped Building",
+            authorData: ["Ronak Jain"],
+            content: "placeholder",
             id: "3",
             tags: ["Prototype"],
             path: "/"
           },
           {
-            images: [require("./img/test.jpg")],
-            title: "Fiction",
-            authorData: ["Ray", "Andrew"],
-            content: "erer",
+            images: require("./img/project4.jpg"),
+            title: "Richly Colored Building with a Beautiful Sky.",
+            authorData: ["Alex Lanting"],
+            content: "placeholder",
             id: "4",
             tags: ["Design", "Prototype", "Development"],
             path: "/"
@@ -206,41 +206,53 @@ export default Factor => {
       subheadline: "The Latest From Alpha",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: require("./img/test.jpg"),
+      heroImage: require("./img/blog.jpg"),
       posts: {
         data: [
           {
             format: "listing",
-            images: "test.jpg",
             title: "7 Awesome Udemy Courses for App Development",
-            authorData: ["Ray", "Andrew"],
             content: "Udemy offers a wide range of courses covering a variety of topics...",
-            date: "April 11, 2019",
+            date: "April 11, 2020",
             id: "1",
             tags: ["Development"],
-            path: "/"
+            path: "/",
+            authorData: [
+              {
+                uid: 1,
+                displayName: "Raymond Aleman"
+              }
+            ]
           },
           {
             format: "listing",
-            images: "test.jpg",
-            title: "soemthing else",
-            authorData: ["Ray", "Andrew"],
+            title: "Something else about Factor and its benefits",
             content: "Two Udemy offers a wide range of courses covering a variety of topics...",
-            date: "April 11, 2019",
+            date: "April 25, 2020",
             id: "1",
             tags: ["Design"],
-            path: "/"
+            path: "/",
+            authorData: [
+              {
+                uid: 22,
+                displayName: "Andrew Powers"
+              }
+            ]
           },
           {
             format: "listing",
-            images: "test.jpg",
             title: "7 Awesome Udemy Courses for App Development",
-            authorData: ["Ray", "Andrew"],
             content: "Udemy offers a wide range of courses covering a variety of topics...",
-            date: "April 11, 2019",
+            date: "May 12, 2020",
             id: "1",
             tags: ["Development"],
-            path: "/"
+            path: "/",
+            authorData: [
+              {
+                uid: 22,
+                displayName: "Andrew Powers"
+              }
+            ]
           }
         ]
       }

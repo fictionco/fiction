@@ -21,7 +21,9 @@
           <component :is="item.component" v-model="post" />
         </dashboard-pane>-->
         <dashboard-pane title="Meta Info" class="post-media">
-          <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
+          <factor-client-only>
+            <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
+          </factor-client-only>
           <dashboard-input label="Tags">
             <input-tags v-model="post.tag" />
           </dashboard-input>
@@ -110,9 +112,15 @@ export default {
     }
   },
   computed: {
-    post() {
-      return this.$store.getters["getItem"](this._id) || {}
+    post: {
+      get() {
+        return this.$store.getters["getItem"](this._id) || {}
+      },
+      set(v) {
+        this.$store.add(this._id, v)
+      }
     },
+
     _id() {
       return this.$route.query._id || ""
     },
@@ -139,7 +147,8 @@ export default {
     url() {
       return this.$posts.getPermalink({
         type: this.postType,
-        permalink: this.post.permalink
+        permalink: this.post.permalink,
+        root: false
       })
     },
 

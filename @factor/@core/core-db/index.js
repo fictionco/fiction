@@ -7,7 +7,7 @@ export default Factor => {
     }
 
     objectId(str) {
-      return Factor.$mongoose.Types.ObjectId(str)
+      return Factor.$mongo.ObjectId(str)
     }
 
     async run() {

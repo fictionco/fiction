@@ -10,6 +10,11 @@ export default Factor => {
           this.handleAuthRouting()
         }
       })
+
+      Factor.$filters.add("data-schemas", _ => {
+        _.user = require("./schema").default(Factor)
+        return _
+      })
     }
 
     mixin() {
@@ -26,41 +31,40 @@ export default Factor => {
     }
 
     async request(method, params) {
-
       return await Factor.$endpoint.request({ id: "user", method, params })
     }
 
-    async load(_id) {
-      let user
-      const storedValue = Factor.$store.getters["getItem"](_id) || false
+    // async load(_id) {
+    //   let user
+    //   const storedValue = Factor.$store.val(_id) || false
 
-      if (storedValue) {
-        user = storedValue
-      } else {
-        user = await this.request("getUser", { _id })
+    //   if (storedValue) {
+    //     user = storedValue
+    //   } else {
+    //     user = await this.request("getUser", { _id })
 
-        Factor.$store.commit("setItem", { item: _id, value: user })
-      }
+    //     Factor.$store.add(_id, user)
+    //   }
 
-      return user
-    }
+    //   return user
+    // }
 
-    async save(user) {
-      const _save = { ...user } // mutable
+    // async save(user) {
+    //   const _save = { ...user } // mutable
 
-      let { images, covers } = _save
+    //   let { images, covers } = _save
 
-      _save.images = images.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-      _save.covers = covers.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
+    //   _save.images = images.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
+    //   _save.covers = covers.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
 
-      try {
-        const saved = await this.request("save", _save)
-        this.setUser({ user, current: this.isCurrentUser(user._id) })
-        return saved
-      } catch (error) {
-        throw new Error(error)
-      }
-    }
+    //   try {
+    //     const saved = await this.request("save", _save)
+    //     this.setUser({ user, current: this.isCurrentUser(user._id) })
+    //     return saved
+    //   } catch (error) {
+    //     throw new Error(error)
+    //   }
+    // }
 
     async authenticate(params) {
       let user = await this.request("authenticate", params)
@@ -100,11 +104,10 @@ export default Factor => {
         if (this.currentUser()._id && !user) {
           resolve(this.currentUser())
         } else {
-
           await Factor.$app.client()
+
           user = await this.retrieveAndSetCurrentUser(user)
           resolve(user)
-
         }
       })
 
@@ -112,30 +115,22 @@ export default Factor => {
     }
 
     async retrieveAndSetCurrentUser(user) {
-
       const token = user && user.token ? user.token : this.token() ? this.token() : null
 
       try {
-        user = token ? await this.request("retrieveUser", { token }) : {}
+        user = token ? await Factor.$posts.getSinglePost({ token }) : {}
 
-        // Prevent hydration errors
-        // If current user is set too quickly Vue is throwing a mismatch error
         this.setUser({ user, token, current: true })
 
         return user
-
       } catch (error) {
-        console.log('error', error)
-        console.log('error m', error.message)
-        // If JWT auth fails then delete token, etc. 
+        console.log("error", error)
+        console.log("error m", error.message)
+        // If JWT auth fails then delete token, etc.
         if (error.message.includes("invalid signature")) {
           this.setUser({ user: null, current: true })
         }
-
       }
-
-
-
     }
 
     // Utility function that calls a callback when the user is set initially
@@ -153,7 +148,7 @@ export default Factor => {
     }
 
     currentUser() {
-      return Factor.$store.getters["getItem"]("currentUser") || {}
+      return Factor.$store.val("currentUser") || {}
     }
 
     isLoggedIn() {
@@ -167,11 +162,11 @@ export default Factor => {
         if (token && user) this.token(token)
         else if (user === null) this.token(null)
 
-        Factor.$store.commit("setItem", { item: "currentUser", value: user })
+        Factor.$store.add("currentUser", user)
         localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
       }
 
-      Factor.$store.commit("setItem", { item: _id, value: user })
+      Factor.$store.add(_id, user)
     }
 
     _id() {
@@ -252,7 +247,6 @@ export default Factor => {
         })
 
         this.init(user => {
-
           if (auth === true && (!user || !user._id)) {
             Factor.$router.push({
               path: "/signin",

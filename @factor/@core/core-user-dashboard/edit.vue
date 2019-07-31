@@ -140,23 +140,6 @@ export default {
       })
       this.sending = false
     },
-    // saveObject(user) {
-    //   const _save = {} // mutable
-
-    //   let { images, covers, avatar } = user
-
-    //   _save.images = images
-    //     .filter(_ => _)
-    //     .map(_ => (typeof _ == "object" ? _._id : _))
-    //   _save.photosCover = photosCover
-    //     .filter(_ => _)
-    //     .map(_ => (typeof _ == "object" ? _._id : _))
-
-    //   _save.photoPrimary =
-    //     _save.images.length > 0 ? _save.images[0] : undefined
-
-    //   return { ...user, ..._save }
-    // },
     async save() {
       this.sending = true
 

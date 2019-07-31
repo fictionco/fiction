@@ -26,7 +26,6 @@ module.exports.default = Factor => {
                   response,
                   handler: _ => this.runMethod({ ..._, id, handler })
                 })
-                //return await this.parseRequest({ id, handler, request, response })
               }
             ],
             id
@@ -36,24 +35,8 @@ module.exports.default = Factor => {
       })
     }
 
-    // async parseRequest({ id, handler, request, response, meta }) {
-    //   const { query, body, headers } = request
-
-    //   const { method, params = {} } = { ...body, ...parse(query) }
-
-    //   const meta = await Factor.$http.parseRequest(request)
-
-    //   const jsonOut = await this.runMethod({ id, handler, params, method, meta })
-
-    //   response
-    //     .status(200)
-    //     .jsonp(jsonOut)
-    //     .end()
-    // }
-
     async runMethod({ id, handler, data, meta }) {
       const { method, params = {} } = data
-
 
       if (!method) {
         throw new Error(`No method provided for "${id}" request`)
@@ -62,7 +45,7 @@ module.exports.default = Factor => {
       const _ep = typeof handler == "function" ? handler(Factor, meta) : handler
 
       if (!_ep[method] || typeof _ep[method] !== "function") {
-        throw new Error(`Endpoint method ${method} is missing.`)
+        throw new Error(`Endpoint method ${id}:${method} is missing.`)
       }
 
       try {
@@ -70,7 +53,6 @@ module.exports.default = Factor => {
       } catch (error) {
         throw new Error(error)
       }
-
     }
   })()
 
