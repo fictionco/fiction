@@ -33,8 +33,6 @@
       <el-tags class="entry-tags" :tags="post.tag" />
 
       <div v-if="format == 'single'" class="entry-action">
-        <el-flame :post-id="postId" />
-
         <div class="share-wrap">
           <factor-link path="/#">
             <factor-icon icon="facebook" />
@@ -95,8 +93,6 @@ export default {
   }
 }
 .entry {
-  letter-spacing: -0.03em;
-
   margin-bottom: 0;
   transition: all 0.2s ease-in-out;
   font-weight: 500;
@@ -110,10 +106,10 @@ export default {
   }
 
   .entry-header {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     font-size: 2.5em;
     line-height: 1.1;
-    margin: 0.5em 0;
+    margin: 1rem 0;
 
     @media (max-width: 767px) {
       font-size: 2em;
@@ -130,14 +126,14 @@ export default {
   }
   .entry-content {
     margin: 0 0 1em 0;
-    font-size: 1.5em;
+    font-size: 1.25em;
     line-height: 1.4em;
     @media (max-width: 767px) {
       font-size: 1em;
     }
   }
   .entry-action {
-    padding: 1.5em 0;
+    padding: 1rem 0;
   }
 
   .author-about {

@@ -65,7 +65,6 @@ module.exports.default = Factor => {
       const { Schema } = this.mongo
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
-        console.log("new discrim", name)
         this._models[name] = this.model("post").discriminator(name, new Schema())
       }
       return this._models[name]

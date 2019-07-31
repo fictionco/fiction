@@ -3,9 +3,9 @@
     <factor-link class="back" path="/blog">
       <factor-icon icon="arrow-left" />All Posts
     </factor-link>
-    <part-entry format="single" :post-id="post.id">
-      <div v-formatted-text="post.content" />
-    </part-entry>
+    <blog-entry format="single" :post-id="post._id">
+      <div v-formatted-text="$markdown.render(post.content)" />
+    </blog-entry>
     <part-related :post-id="post._id" />
     <part-widget />
   </blog-wrap>
@@ -14,7 +14,7 @@
 export default {
   components: {
     "blog-wrap": () => import("./wrap"),
-    "part-entry": () => import("./blog-entry"),
+    "blog-entry": () => import("./blog-entry"),
     "part-related": () => import("./related"),
     "part-widget": () => import("./widget")
   },
@@ -40,16 +40,10 @@ export default {
     }
   },
 
-  async created() {
-    this.content = this.$markdown.render(this.post.content)
-  },
-
   methods: {
     socialImage(post) {
-      return post.featuredImage
-        ? post.featuredImage[0].url
-        : post.images
-        ? post.images[0].url
+      return post.avatar && this.$store.val(post.avatar)
+        ? this.$store.val(post.avatar).url
         : ""
     }
   }

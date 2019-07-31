@@ -302,6 +302,8 @@ export default Factor => {
 
       if (base) parts.push(base)
 
+      parts.push(post.permalink)
+
       return parts.join("/")
     }
 
