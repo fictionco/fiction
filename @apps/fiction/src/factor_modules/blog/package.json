@@ -1,0 +1,17 @@
+{
+  "name": "fiction-blog",
+  "version": "1.0.1",
+  "main": "index.js",
+  "author": "Fiction.com",
+  "license": "UNLICENSED",
+  "factor": {
+    "id": "fictionBlog",
+    "target": [
+      "app",
+      "server"
+    ]
+  },
+  "dependencies": {
+    "@factor/plugin-blog": "^1.0.0-alpha.5"
+  }
+}

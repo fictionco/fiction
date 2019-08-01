@@ -27,7 +27,6 @@ export default {
   }
 }
 </script>
-
 <style lang="less">
 .single-image {
   box-shadow: var(--panel-shadow);

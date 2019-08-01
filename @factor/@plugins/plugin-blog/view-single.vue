@@ -42,7 +42,7 @@ export default {
     }
   },
   created() {
-    Factor.siteVars.classes = ["nav-light"]
+    // Factor.siteVars.classes = ["nav-light"]
   },
   methods: {
     socialImage(post) {

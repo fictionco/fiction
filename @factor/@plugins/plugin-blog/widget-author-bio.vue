@@ -3,8 +3,8 @@
     <factor-avatar :post-id="post.avatar" width="3em" />
     <div class="text">
       <div class="sup">Written By</div>
-      <span class="name">{{ post.displayName }}</span>
-      <div v-if="post.bio" class="bio">{{ post.bio }}</div>
+      <div class="name">{{ post.displayName }}</div>
+      <div v-if="post.about" class="bio">{{ post.about }}</div>
     </div>
   </div>
 </template>

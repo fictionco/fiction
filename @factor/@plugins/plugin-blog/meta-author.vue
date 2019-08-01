@@ -10,10 +10,14 @@ export default {
     postId: { type: String, default: "" }
   },
   computed: {
+    postSet() {
+      return !this.$lodash.isEmpty(this.post) ? true : false
+    },
     post() {
       return this.$store.val(this.postId) || {}
     }
-  }
+  },
+  created() {}
 }
 </script>
 <style lang="less">

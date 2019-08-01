@@ -3,7 +3,7 @@
     <div class="entry-wrap">
       <slot name="before-entry" />
       <div class="entry-meta">
-        <meta-author v-for="authorId in post.author" :key="authorId" :post-id="authorId" />
+        <meta-author v-for="(_id) in post.author" :key="_id" :post-id="_id" />
 
         <div class="txt">
           <span class="sep">on</span>
@@ -11,14 +11,11 @@
           <factor-post-edit :post-id="post._id" />
         </div>
       </div>
-
       <div class="entry-text">
         <h1 class="entry-header">
           <factor-link :path="$posts.link(post._id)">{{ post.title }}</factor-link>
         </h1>
-
         <slot name="after-title" />
-
         <div class="entry-content">
           <div v-if="format == 'listing'" class="excerpt">
             {{ $posts.excerpt(post.content) }}
@@ -32,7 +29,6 @@
           </highlight-code>
         </div>
       </div>
-
       <widget-post-tags class="entry-tags" :tags="post.tag" />
       <slot name="after-entry" />
     </div>
