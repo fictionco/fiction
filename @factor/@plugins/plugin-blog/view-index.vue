@@ -4,8 +4,15 @@
       <factor-loading-ring />
     </div>
     <div v-else-if="blogPosts.length > 0" class="post-index">
-      <div v-for="(post) in blogPosts" :key="post._id" class="grid-item grid-entry">
-        <blog-entry format="listing" :post-id="post._id" />
+      <div v-for="(post) in blogPosts" :key="post._id">
+        <blog-entry format="listing" :post-id="post._id">
+          <template v-slot:before-entry>
+            <slot name="before-entry" />
+          </template>
+          <template v-slot:after-entry>
+            <slot name="after-entry" />
+          </template>
+        </blog-entry>
       </div>
     </div>
     <div v-else class="posts-not-found">
@@ -21,8 +28,7 @@
 export default {
   components: {
     "blog-content": () => import("./blog-content"),
-    "blog-entry": () => import("./blog-entry"),
-    "part-pagination": () => import("./pagination")
+    "blog-entry": () => import("./blog-entry")
   },
   data() {
     return {
@@ -72,12 +78,11 @@ export default {
   },
   methods: {
     async getPosts() {
-      const tag = this.$route.params.tag || ""
       this.loading = true
 
       const r = await this.$posts.getPostIndex({
         postType: "blog",
-        tag,
+        tag: this.tag,
         status: "published",
         sort: "-date"
       })

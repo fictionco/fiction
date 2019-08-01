@@ -4,7 +4,8 @@
       v-for="(tag, ti) in tags"
       :key="ti"
       class="entry-tag"
-      :path="`/tag/${tag}`"
+      :path="$setting.get('blog.indexRoute')"
+      :query="{tag}"
     >{{ tag }}</factor-link>
   </div>
 </template>
@@ -25,12 +26,13 @@ export default {
   opacity: 0.8;
   display: inline-block;
   font-size: 0.85em;
-  margin: 3px 3px 3px 0;
-  padding: 1px 5px 1px;
+  margin: 5px 5px 5px 0;
+  padding: 5px 10px;
   text-decoration: none;
   font-weight: 600;
   border-radius: 3px;
   &:hover {
+    color: inherit;
     opacity: 1;
   }
   &:not(:nth-child(1)) {

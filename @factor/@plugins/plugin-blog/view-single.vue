@@ -1,26 +1,32 @@
 <template>
   <blog-content class="single-entry">
-    <factor-link class="back" path="/blog">
+    <factor-link class="back" :path="$setting.get('blog.indexRoute')">
       <factor-icon icon="arrow-left" />
       <span>All Posts</span>
     </factor-link>
-    <blog-entry format="single" :post-id="post._id" />
-    <part-related :post-id="post._id" />
+
+    <blog-entry format="single" :post-id="post._id">
+      <template v-slot:before-entry>
+        <slot name="before-entry" />
+      </template>
+      <template v-slot:after-entry>
+        <slot name="after-entry" />
+      </template>
+      <template v-slot:after-title>
+        <slot name="after-title" />
+      </template>
+    </blog-entry>
   </blog-content>
 </template>
 <script>
+import Factor from "vue"
 export default {
   components: {
     "blog-content": () => import("./blog-content"),
-    "blog-entry": () => import("./blog-entry"),
-    "part-related": () => import("./related")
+    "blog-entry": () => import("./blog-entry")
   },
   data() {
-    return {
-      date: "",
-      path: "",
-      content: ""
-    }
+    return {}
   },
   metatags() {
     const post = this.post || {}
@@ -35,7 +41,9 @@ export default {
       return this.$store.val("post") || {}
     }
   },
-
+  created() {
+    Factor.siteVars.classes = ["nav-light"]
+  },
   methods: {
     socialImage(post) {
       return post.avatar && this.$store.val(post.avatar)

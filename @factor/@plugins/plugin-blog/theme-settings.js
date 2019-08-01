@@ -1,6 +1,7 @@
 module.exports.default = Factor => {
   return {
     blog: {
+      indexRoute: "/blog",
       baseRoute: "/entry",
       metatags: {
         index: {

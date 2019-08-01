@@ -32,7 +32,7 @@ export default Factor => {
     schema: Factor.$filters.apply("user-schema", {
       signedInAt: Date,
       username: {
-        type: String``,
+        type: String,
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3

@@ -8,7 +8,7 @@
 <script>
 export default {
   components: {
-    "blog-index": () => import("@factor/plugin-blog/blog-index")
+    "blog-index": () => import("@factor/plugin-blog/view-index")
   }
 }
 </script>

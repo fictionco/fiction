@@ -1,11 +1,12 @@
 <template>
-  <div id="app" class="factor-app" :class="$route.meta.pageClass">
+  <div id="app" class="factor-app" :class="classes">
     <router-view />
     <component :is="component" v-for="(component, k) in injectedComponents" :key="k" />
   </div>
 </template>
 <script>
 import Factor from "vue"
+
 export default {
   mixins: Factor.$filters.apply("site-mixins", []),
   computed: {
@@ -17,6 +18,11 @@ export default {
         this.$route.matched.find(_ => _.meta.ui) || {}
 
       return `ui-${ui}`
+    },
+    classes() {
+      const routeClasses = this.$route.meta.pageClass || []
+      const siteClasses = Factor.siteVars.classes || []
+      return [...routeClasses, ...siteClasses]
     }
   },
   watch: {
