@@ -11,7 +11,7 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     avatar() {
-      return this.post.avatar ? this.$store.val(this.post.avatar) : {}
+      return this.$store.val(this.post.avatar) || {}
     },
     avatarUrl() {
       return this.avatar.url || ""

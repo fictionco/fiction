@@ -3,7 +3,7 @@ module.exports.default = Factor => {
     blog: {
       indexRoute: "/blog",
       postRoute: "/entry",
-      limit: 2,
+      limit: 10,
       metatags: {
         index: {
           title: "Fiction Essays - Building Apps, Code, Remote Work",
