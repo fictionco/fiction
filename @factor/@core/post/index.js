@@ -97,6 +97,7 @@ export default Factor => {
     }
 
     async prefetchPost({ to = null } = {}) {
+      Factor.$store.add("post", {})
       const route = to || Factor.$router.currentRoute
 
       const request = Factor.$filters.apply("post-params", {
@@ -112,7 +113,6 @@ export default Factor => {
       const _post = await this.getSinglePost(request)
 
       Factor.$store.add("post", _post)
-
       return _post
     }
 
@@ -190,6 +190,11 @@ export default Factor => {
 
       if (_id) {
         params._id = _id
+        const existing = Factor.$store.val(_id)
+        if (existing) {
+          Factor.$store.add("post", existing)
+          return
+        }
       } else if (token) {
         params.token = token
       } else if (permalink) {
@@ -199,7 +204,6 @@ export default Factor => {
       const post = await this.request("single", params)
 
       if (post) {
-        Factor.$store.add(post._id, post)
         await this.populatePosts({ posts: [post], depth })
       }
 
