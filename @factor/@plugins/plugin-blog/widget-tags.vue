@@ -12,7 +12,15 @@
 <script>
 export default {
   props: {
-    tags: { type: Array, default: () => [] }
+    postId: { type: String, default: "" }
+  },
+  computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    },
+    tags() {
+      return this.post.tag || []
+    }
   }
 }
 </script>

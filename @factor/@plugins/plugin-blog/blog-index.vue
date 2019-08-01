@@ -4,15 +4,13 @@
       <factor-loading-ring />
     </div>
     <div v-else-if="blogPosts.length > 0" class="post-index">
-      <div v-for="(post) in blogPosts" :key="post._id">
-        <blog-entry format="listing" :post-id="post._id">
-          <template v-slot:before-entry>
-            <slot name="before-entry" />
-          </template>
-          <template v-slot:after-entry>
-            <slot name="after-entry" />
-          </template>
-        </blog-entry>
+      <div v-for="(post) in blogPosts" :key="post._id" class="post">
+        <component
+          :is="$setting.get(`blog.components.${comp}`)"
+          v-for="(comp, i) in $setting.get('blog.layout.index')"
+          :key="i"
+          :post-id="post._id"
+        />
       </div>
     </div>
     <div v-else class="posts-not-found">
@@ -27,8 +25,7 @@
 <script>
 export default {
   components: {
-    "blog-content": () => import("./blog-content"),
-    "blog-entry": () => import("./blog-entry")
+    "blog-content": () => import("./blog-content")
   },
   data() {
     return {
@@ -104,6 +101,11 @@ export default {
   .title {
     font-size: 1.4em;
     font-weight: var(--font-weight-bold);
+  }
+}
+.post-index {
+  .post {
+    margin: 4rem 0;
   }
 }
 </style>

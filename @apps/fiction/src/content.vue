@@ -35,7 +35,7 @@ export default {
     const post = this.post || {}
     return {
       title: post.titleTag || post.title,
-      description: post.description || this.$posts.excerpt(post.content),
+      description: post.description || this.$utils.excerpt(post.content),
       image: this.socialImage(post)
     }
   },

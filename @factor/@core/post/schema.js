@@ -11,6 +11,7 @@ export default Factor => {
       date: Date,
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
+      subTitle: { type: String, trim: true },
       content: { type: String, trim: true },
       author: [{ type: Factor.$mongo.objectIdType(), ref: "user" }],
       images: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }],

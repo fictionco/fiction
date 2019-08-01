@@ -8,13 +8,20 @@
             input="factor-input-text"
             label="Title"
             class="post-title"
-            @keyup="doAutosave()"
+            @keyup="doDraftSave()"
+          />
+          <dashboard-input
+            v-model="post.subTitle"
+            input="factor-input-text"
+            label="Sub Title / Teaser"
+            class="post-title"
+            @keyup="doDraftSave()"
           />
           <dashboard-input label="Permalink">
             <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
           </dashboard-input>
           <dashboard-input label="Post Content">
-            <input-editor v-model="post.content" @keyup="doAutosave()" />
+            <input-editor v-model="post.content" @keyup="doDraftSave()" />
           </dashboard-input>
         </dashboard-pane>
         <!-- <dashboard-pane v-for="(item, i) in injectedMetaComponents" :key="i" :title="item.name">
@@ -134,7 +141,7 @@ export default {
     },
 
     excerpt() {
-      return this.$posts.excerpt(this.post.content)
+      return this.$utils.excerpt(this.post.content)
     },
     title() {
       const mode = this.isNew ? "Add New" : "Edit"
@@ -193,7 +200,7 @@ export default {
       this.sending = false
     },
 
-    doAutosave() {
+    doDraftSave() {
       if (!this.willsave) {
         this.willsave = setTimeout(() => {
           this.saveDraft()

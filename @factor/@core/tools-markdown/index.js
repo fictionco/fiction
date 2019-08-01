@@ -7,7 +7,7 @@ export default Factor => {
     util() {
       if (!this.lib) {
         this.lib = require("markdown-it")({
-          html: false,
+          html: true,
           linkify: true,
           typographer: false
         })

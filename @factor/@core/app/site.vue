@@ -37,8 +37,8 @@ export default {
     }
   },
 
-  async serverPrefetch() {
-    return await this.$filters.run("site-prefetch")
+  serverPrefetch() {
+    return this.$filters.run("site-prefetch")
   }
 }
 </script>

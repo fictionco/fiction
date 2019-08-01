@@ -1,10 +1,12 @@
 <template>
-  <div class="author-card">
-    <factor-avatar :post-id="post.avatar" width="3em" />
-    <div class="text">
-      <div class="sup">Written By</div>
-      <div class="name">{{ post.displayName }}</div>
-      <div v-if="post.about" class="bio">{{ post.about }}</div>
+  <div class="author-bio">
+    <div v-for="_id in post.author" class="author-card" :key="_id">
+      <factor-avatar :post-id="getPost(_id).avatar" width="4em" />
+      <div class="text">
+        <div class="sup">Written By</div>
+        <div class="name">{{ getPost(_id).displayName }}</div>
+        <div v-if="getPost(_id).about" class="bio">{{ getPost(_id).about }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +18,11 @@ export default {
   computed: {
     post() {
       return this.$store.val(this.postId) || {}
+    }
+  },
+  methods: {
+    getPost(_id) {
+      return this.$store.val(_id) || {}
     }
   }
 }
@@ -30,9 +37,9 @@ export default {
   margin-right: 0;
   .avatar {
     margin-right: 20px;
+    flex-shrink: 0;
   }
   .text {
-    font-size: 1.5em;
     line-height: 1.4;
     .sup {
       font-size: 1rem;
@@ -41,11 +48,12 @@ export default {
       line-height: 1.2;
     }
     .name {
+      font-size: 1.5em;
       font-weight: var(--font-weight-bold);
     }
     .bio {
+      font-size: 1.3em;
       margin-top: 0.5em;
-      padding-left: 78px;
       opacity: 0.5;
     }
   }

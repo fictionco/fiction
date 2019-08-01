@@ -11,7 +11,7 @@
         </h1>
 
         <div class="entry-content">
-          <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(content) }}</div>
+          <div v-if="format == 'listing'" class="excerpt">{{ $utils.excerpt(content) }}</div>
           <slot v-if="format == 'single'" />
         </div>
       </div>

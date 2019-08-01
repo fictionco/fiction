@@ -1,4 +1,36 @@
-.entry-content {
+<template>
+  <div class="post-entry">
+    <highlight-code>
+      <div v-formatted-text="$markdown.render(post.content)" />
+    </highlight-code>
+  </div>
+</template>
+<script>
+export default {
+  components: {
+    "highlight-code": () =>
+      import("@factor/plugin-highlight-code/highlight-code")
+  },
+  props: {
+    postId: { type: String, default: "" }
+  },
+  computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    }
+  }
+}
+</script>
+<style lang="less">
+.post-entry {
+  font-size: 1.25em;
+  line-height: 1.4em;
+  @media (max-width: 767px) {
+    font-size: 1em;
+  }
+  padding-bottom: 1rem;
+  margin: 2rem 0;
+
   p,
   ol,
   ul {
@@ -12,7 +44,7 @@
   h1,
   h2,
   h3 {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold, 800);
     line-height: 1.2;
     margin-bottom: 0.4em;
   }
@@ -70,14 +102,6 @@
   ul {
     padding-left: 1.5em;
     margin-bottom: 1.5em;
-
-    li {
-      margin: 0 0 1em;
-
-      li:first-child {
-        margin-top: 1em;
-      }
-    }
   }
 
   hr {
@@ -102,12 +126,14 @@
 
     img {
       max-height: 60vh;
-      box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15),
+        0 1px 2px 0 rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease-in-out;
       border-radius: 5px;
 
       &:hover {
-        box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 15px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15),
+          0 1px 15px 0 rgba(0, 0, 0, 0.1);
         transform: translateY(-1px);
       }
     }
@@ -176,3 +202,4 @@
     }
   }
 }
+</style>

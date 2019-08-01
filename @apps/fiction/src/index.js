@@ -87,20 +87,6 @@ module.exports.default = Factor => {
           {
             path: "/network",
             component: () => import("./page-network")
-          },
-          {
-            path: "/blog",
-            component: () => import("./blog/wrap.vue"),
-            children: [
-              {
-                path: "/",
-                component: () => import("./blog/index.vue")
-              },
-              {
-                path: `/entry/:permalink`,
-                component: () => import(`./blog/single.vue`)
-              }
-            ]
           }
         ]
 

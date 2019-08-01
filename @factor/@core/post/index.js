@@ -2,6 +2,7 @@ export default Factor => {
   return new (class {
     constructor() {
       this.filters()
+      this.utils = require("./utils").default(Factor)
       this.objectHash = require("object-hash")
       this.initialized = false
     }
@@ -11,7 +12,16 @@ export default Factor => {
     }
 
     async save({ post, postType }) {
+      this.setCache(postType)
       return await this.request("save", { data: post, postType })
+    }
+
+    setCache(postType) {
+      Factor.$store.add(`${postType}Cache`, Factor.$time.stamp())
+    }
+
+    cacheKey(postType) {
+      return Factor.$store.val(`${postType}Cache`) || ""
     }
 
     filters() {
@@ -97,7 +107,6 @@ export default Factor => {
     }
 
     async prefetchPost({ to = null } = {}) {
-      Factor.$store.add("post", {})
       const route = to || Factor.$router.currentRoute
 
       const request = Factor.$filters.apply("post-params", {
@@ -212,7 +221,7 @@ export default Factor => {
 
     async getPostIndex(args) {
       const { limit = 20, page = 1, postType, sort } = args
-      const queryHash = this.objectHash(args)
+      const queryHash = this.objectHash({ ...args, cache: this.cacheKey(postType) })
       const stored = Factor.$store.val(queryHash)
 
       // Create a mechanism to prevent multiple runs/pops for same data
@@ -471,27 +480,6 @@ export default Factor => {
       }
 
       return post
-    }
-
-    excerpt(content, { length = 30 } = {}) {
-      if (!content) {
-        return ""
-      }
-      let splitContent = Factor.$markdown
-        .strip(content)
-        .replace(/\n|\r/g, " ")
-        .split(" ")
-
-      let excerpt
-
-      if (splitContent.length > length) {
-        splitContent = splitContent.slice(0, length)
-        excerpt = splitContent.join(" ") + "..."
-      } else {
-        excerpt = splitContent.join(" ")
-      }
-
-      return excerpt
     }
   })()
 }

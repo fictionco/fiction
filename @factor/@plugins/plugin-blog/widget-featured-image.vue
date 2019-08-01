@@ -1,5 +1,5 @@
 <template>
-  <div v-if="postId" class="featured-image" :style="style" />
+  <div v-if="avatarUrl" class="featured-image" :style="style" />
 </template>
 <script>
 export default {
@@ -10,10 +10,16 @@ export default {
     post() {
       return this.$store.val(this.postId) || {}
     },
+    avatar() {
+      return this.post.avatar ? this.$store.val(this.post.avatar) : {}
+    },
+    avatarUrl() {
+      return this.avatar.url || ""
+    },
     style() {
       const style = {}
 
-      style.backgroundImage = `url(${this.post.url})`
+      style.backgroundImage = `url(${this.avatarUrl})`
 
       return style
     }
@@ -24,7 +30,7 @@ export default {
 .featured-image {
   background-size: cover;
   background-position: 50%;
-  height: 50vh;
+  height: 40vh;
   margin: 1.5rem 0;
 }
 </style>
