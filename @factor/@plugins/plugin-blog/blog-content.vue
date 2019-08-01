@@ -1,11 +1,13 @@
 <template>
   <div class="blog-content">
-    <slot />
+    <router-view />
   </div>
 </template>
+
 <script>
 export default {}
 </script>
+
 
 <style lang="less">
 .blog-content {

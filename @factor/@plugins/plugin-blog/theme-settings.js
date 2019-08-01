@@ -3,6 +3,7 @@ module.exports.default = Factor => {
     blog: {
       indexRoute: "/blog",
       postRoute: "/entry",
+      limit: 2,
       metatags: {
         index: {
           title: "Fiction Essays - Building Apps, Code, Remote Work",
@@ -24,12 +25,13 @@ module.exports.default = Factor => {
           "social",
           "authorBio"
         ],
-        meta: ["authorDate"]
+        meta: ["authorDate", "tags"]
       },
       components: {
         blogContent: () => import("#/blog-content.vue"),
         blogIndex: () => import("#/blog-index.vue"),
         blogSingle: () => import("#/blog-single.vue"),
+        pagination: () => import("#/widget-pagination.vue"),
         returnLink: () => import("#/widget-return-link.vue"),
         authorDate: () => import("#/widget-author-date.vue"),
         authorBio: () => import("#/widget-author-bio.vue"),

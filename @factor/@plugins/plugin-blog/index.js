@@ -33,7 +33,7 @@ export default Factor => {
                 component: Factor.$setting.get("blog.components.blogIndex")
               },
               {
-                path: `${Factor.$setting.postRoute}/:permalink`,
+                path: `${Factor.$setting.get("blog.postRoute")}/:permalink`,
                 component: Factor.$setting.get("blog.components.blogSingle")
               }
             ]

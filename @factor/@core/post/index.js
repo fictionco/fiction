@@ -202,7 +202,7 @@ export default Factor => {
         const existing = Factor.$store.val(_id)
         if (existing) {
           Factor.$store.add("post", existing)
-          return
+          return existing
         }
       } else if (token) {
         params.token = token

@@ -81,7 +81,7 @@ module.exports.default = Factor => {
       )
 
       const _p = [
-        this.indexMeta({ postType }),
+        this.indexMeta({ postType, conditions, options }),
         Factor.$dbServer.model(postType).find(conditions, null, options)
       ]
 
@@ -90,7 +90,8 @@ module.exports.default = Factor => {
       return { meta: { ...counts, ...options, conditions }, posts }
     }
 
-    async indexMeta({ postType }) {
+    async indexMeta({ postType, conditions, options }) {
+      const { sort, limit = 20, skip = 0 } = options || {}
       const ItemModel = Factor.$dbServer.model(postType)
 
       const aggregate = [
@@ -118,10 +119,14 @@ module.exports.default = Factor => {
         }
       ]
 
-      const _p = [ItemModel.aggregate(aggregate), ItemModel.count()]
+      const _p = [ItemModel.aggregate(aggregate), ItemModel.find(conditions).count()]
+
       const [aggregations, total] = await Promise.all(_p)
 
-      const _out = { ...aggregations[0], total }
+      const pageCount = !total ? 1 : Math.ceil(total / limit)
+      const pageCurrent = 1 + Math.floor(skip / limit)
+
+      const _out = { ...aggregations[0], total, pageCount, pageCurrent }
 
       return _out
     }

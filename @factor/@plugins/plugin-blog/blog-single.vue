@@ -1,19 +1,16 @@
 <template>
-  <blog-content class="single-entry">
+  <div class="single-entry">
     <component
       :is="$setting.get(`blog.components.${comp}`)"
       v-for="(comp, i) in $setting.get('blog.layout.single')"
       :key="i"
       :post-id="post._id"
     />
-  </blog-content>
+  </div>
 </template>
 <script>
 import Factor from "vue"
 export default {
-  components: {
-    "blog-content": () => import("./blog-content")
-  },
   data() {
     return {}
   },

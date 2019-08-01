@@ -1,5 +1,6 @@
 <template>
-  <blog-content class="entries">
+  <div class="entries">
+    <component :is="$setting.get('blog.components.returnLink')" v-if="tag || page > 1" />
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
@@ -19,19 +20,15 @@
         <div class="sub-title">{{ $setting.get("blog.notFound.subTitle") }}</div>
       </div>
     </div>
-    <!-- <part-pagination /> -->
-  </blog-content>
+    <component :is="$setting.get('blog.components.pagination')" :post-type="postType" />
+  </div>
 </template>
 <script>
 export default {
-  components: {
-    "blog-content": () => import("./blog-content")
-  },
   data() {
     return {
-      loading: false,
-      parsedPosts: [{}, {}, {}],
-      storeKey: "index"
+      postType: "blog",
+      loading: false
     }
   },
   metatags() {
@@ -56,11 +53,14 @@ export default {
       return this.$route.params.tag || this.$route.query.tag || ""
     },
     index() {
-      return this.$store.val("blog") || {}
+      return this.$store.val(this.postType) || {}
     },
     blogPosts() {
       const { posts = [] } = this.index
       return posts
+    },
+    page() {
+      return this.$route.query.page || 1
     }
   },
   watch: {
@@ -78,10 +78,12 @@ export default {
       this.loading = true
 
       const r = await this.$posts.getPostIndex({
-        postType: "blog",
+        postType: this.postType,
         tag: this.tag,
         status: "published",
-        sort: "-date"
+        sort: "-date",
+        page: this.page,
+        limit: this.$setting.get("blog.limit")
       })
 
       this.loading = false
@@ -106,6 +108,9 @@ export default {
 .post-index {
   .post {
     margin: 4rem 0;
+    &:first-child {
+      margin-top: 0;
+    }
   }
 }
 </style>

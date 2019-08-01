@@ -1,4 +1,3 @@
-
 <template>
   <div class="return-link">
     <factor-link class="back" :path="$setting.get('blog.indexRoute')">
