@@ -37,6 +37,19 @@ export default Factor => {
     render(content = "", options = {}) {
       const util = this.util()
       if (typeof content == "string") {
+        const { variables } = options
+        if (variables) {
+          content = content.replace(/{{([\s\S]+?)}}/g, (matched, index, original) => {
+            const setting = matched.replace(/[{}]/g, "")
+            const val = Factor.$utils.dotSetting({
+              key: setting,
+              settings: Factor.$store.state
+            })
+
+            return val || ""
+          })
+        }
+
         return util.render(content, options)
       } else {
         return ""

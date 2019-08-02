@@ -1,7 +1,7 @@
 <template>
   <div class="post-entry">
     <highlight-code>
-      <div v-formatted-text="$markdown.render(post.content)" />
+      <div v-formatted-text="rendered" />
     </highlight-code>
   </div>
 </template>
@@ -17,6 +17,19 @@ export default {
   computed: {
     post() {
       return this.$store.val(this.postId) || {}
+    },
+    variables() {
+      const vars = {}
+      this.post.images.forEach(imageId => {
+        const img = this.$store.val(imageId) || {}
+        vars[imageId] = img.url || ""
+      })
+      return vars
+    },
+    rendered() {
+      return this.$markdown.render(this.post.content, {
+        variables: true
+      })
     }
   }
 }

@@ -192,7 +192,7 @@ export default Factor => {
         _id,
         token,
         createOnEmpty = false,
-        depth = 10
+        depth = 50
       } = args
 
       const params = { postType, createOnEmpty }

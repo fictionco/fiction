@@ -4,8 +4,8 @@ export default Factor => {
     options: { timestamps: true },
     populatedFields: [
       { field: "author", depth: 10 },
-      { field: "images", depth: 50 },
-      { field: "avatar", depth: 0 }
+      { field: "images", depth: 30 },
+      { field: "avatar", depth: 3 }
     ],
     schema: Factor.$filters.apply("post-schema", {
       date: Date,
