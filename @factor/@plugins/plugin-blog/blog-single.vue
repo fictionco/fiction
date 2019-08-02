@@ -15,11 +15,10 @@ export default {
     return {}
   },
   metatags() {
-    const post = this.post || {}
     return {
-      title: post.titleTag || post.title,
-      description: post.description || this.$utils.excerpt(post.content),
-      image: this.socialImage(post)
+      title: this.$metatags.titleTag(this.post._id),
+      description: this.$metatags.descriptionTag(this.post._id),
+      image: this.$metatags.shareImage(this.post._id)
     }
   },
   computed: {
@@ -30,13 +29,7 @@ export default {
   created() {
     // Factor.siteVars.classes = ["nav-light"]
   },
-  methods: {
-    socialImage(post) {
-      return post.avatar && this.$store.val(post.avatar)
-        ? this.$store.val(post.avatar).url
-        : ""
-    }
-  }
+  methods: {}
 }
 </script>
 
