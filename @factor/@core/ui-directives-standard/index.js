@@ -30,8 +30,9 @@ export default Factor => {
       return require("sanitize-html")(html, {
         allowedTags: false,
         allowedAttributes: false,
+        allowedSchemes: ["http", "https", "mailto"],
         allowedSchemesByTag: {
-          img: ["data"]
+          img: ["data", "http", "https"]
         }
       })
     }

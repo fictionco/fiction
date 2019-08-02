@@ -14,7 +14,11 @@ module.exports.default = Factor => {
           middleware: [
             multer().single("imageUpload"),
             async (request, response, next) => {
-              return await Factor.$http.process({ request, response, handler: _ => this.handleUpload(_) })
+              return await Factor.$http.process({
+                request,
+                response,
+                handler: _ => this.handleUpload(_)
+              })
             }
           ]
         })
@@ -29,10 +33,20 @@ module.exports.default = Factor => {
       } = request
 
       const author = [Factor.$dbServer.objectId(bearer._id)]
-      const url = Factor.$filters.apply("create-image-url", `data:${mimetype};base64,${buffer.toString("base64")}`)
-      const img = await Factor.$dbServer.model("attachment").create({ url, mimetype, size, author })
+      const url = await Factor.$filters.apply(
+        "create-attachment-url",
+        `data:${mimetype};base64,${buffer.toString("base64")}`
+      )
+      const img = await Factor.$dbServer
+        .model("attachment")
+        .create({ url, mimetype, size, author })
 
       return img.toObject()
+    }
+
+    async delete({ _id }) {
+      const deleted = await Factor.$filters.run("delete-attachment", { _id })
+      return await Factor.$dbServer.model("attachment").findByIdAndDelete(_id)
     }
   })()
 }

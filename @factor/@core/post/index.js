@@ -317,9 +317,7 @@ export default Factor => {
 
       if (!post) return
 
-      const { postType, permalink } = post
-
-      return this.getPermalink({ postType, permalink, ...options })
+      return this.getPermalink({ ...post, ...options })
     }
 
     getPermalink(args = {}) {
@@ -339,9 +337,11 @@ export default Factor => {
           if (baseRoute) parts.push(baseRoute.replace(/^\/|\/$/g, ""))
         }
 
-        parts.push(permalink)
-
-        const route = parts.join("/")
+        if (!permalink && args.title) {
+          parts.push(Factor.$utils.slugify(args.title))
+        } else {
+          parts.push(permalink)
+        }
 
         return parts.join("/")
       }
