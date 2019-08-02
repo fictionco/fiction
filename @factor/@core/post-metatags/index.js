@@ -77,7 +77,7 @@ export default Factor => {
               list.push(`<link rel="canonical" href="${canonical}" />`)
               list.push(`<meta property="og:url" content="${canonical}" />`)
             }
-            console.log("list", list)
+
             this.$ssrContext.extend.metatags = list.join("")
           }
         }

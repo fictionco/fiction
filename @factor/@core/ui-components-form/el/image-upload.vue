@@ -311,7 +311,7 @@ export default {
   .image-organizer {
     display: grid;
 
-    grid-template-columns: repeat(auto-fit, minmax(50px, 80px));
+    grid-template-columns: repeat(auto-fit, minmax(30px, 60px));
     grid-gap: 10px;
     &.hidden {
       display: none;
