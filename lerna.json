@@ -3,7 +3,7 @@
     "@factor/*",
     "@factor/@*/*"
   ],
-  "version": "1.0.0-y.0",
+  "version": "1.0.0-alpha.20",
   "npmClient": "yarn",
   "useWorkspaces": false
 }
