@@ -30,60 +30,58 @@ export default Factor => {
     }
 
     serverMetatags() {
-      return () => {
-        Factor.mixin({
-          async created() {
-            const mtOpt = this.$options.metatags
-            let mt = false
-            const list = []
+      Factor.mixin({
+        async created() {
+          const mtOpt = this.$options.metatags
+          let mt = false
+          const list = []
 
-            if (mtOpt) {
-              mt = typeof mtOpt === "function" ? mtOpt.call(this) : mtOpt
-            }
-
-            if (mt) {
-              const titleSuffix = mt.titleSuffix //|| this.$ssrContext.metatagsRaw.titleSuffix
-
-              if (titleSuffix && (!mt.title || !mt.title.includes(titleSuffix))) {
-                mt.title = mt.title + titleSuffix
-              }
-
-              if (mt.image && !mt.image.includes("//")) {
-                mt.image = Factor.$config.setting("url") + mt.image
-              }
-
-              // remove empty vals
-              mt = this.$lodash.pickBy(mt)
-
-              const existingMetatags = this.$ssrContext.metatags || {}
-
-              const metatags = { ...existingMetatags, ...mt }
-              this.$ssrContext.metatags = metatags
-
-              const { title, description, canonical, image } = metatags
-
-              if (title) {
-                list.push(`<title>${title}</title>`)
-              }
-
-              if (description) {
-                list.push(`<meta name="description" content="${description}" />`)
-              }
-
-              if (image) {
-                list.push(`<meta property="og:image" content="${image}" />`)
-              }
-
-              if (canonical) {
-                list.push(`<link rel="canonical" href="${canonical}" />`)
-                list.push(`<meta property="og:url" content="${canonical}" />`)
-              }
-
-              this.$ssrContext.extend.metatags = list.join("")
-            }
+          if (mtOpt) {
+            mt = typeof mtOpt === "function" ? mtOpt.call(this) : mtOpt
           }
-        })
-      }
+
+          if (mt) {
+            const titleSuffix = mt.titleSuffix //|| this.$ssrContext.metatagsRaw.titleSuffix
+
+            if (titleSuffix && (!mt.title || !mt.title.includes(titleSuffix))) {
+              mt.title = mt.title + titleSuffix
+            }
+
+            if (mt.image && !mt.image.includes("//")) {
+              mt.image = Factor.$config.setting("url") + mt.image
+            }
+
+            // remove empty vals
+            mt = this.$lodash.pickBy(mt)
+
+            const existingMetatags = this.$ssrContext.metatags || {}
+
+            const metatags = { ...existingMetatags, ...mt }
+            this.$ssrContext.metatags = metatags
+
+            const { title, description, canonical, image } = metatags
+
+            if (title) {
+              list.push(`<title>${title}</title>`)
+            }
+
+            if (description) {
+              list.push(`<meta name="description" content="${description}" />`)
+            }
+
+            if (image) {
+              list.push(`<meta property="og:image" content="${image}" />`)
+            }
+
+            if (canonical) {
+              list.push(`<link rel="canonical" href="${canonical}" />`)
+              list.push(`<meta property="og:url" content="${canonical}" />`)
+            }
+            console.log("list", list)
+            this.$ssrContext.extend.metatags = list.join("")
+          }
+        }
+      })
     }
 
     clientTitleTag() {
@@ -135,6 +133,23 @@ export default Factor => {
         ...metatagSettings,
         ...meta
       }
+    }
+
+    titleTag(_id) {
+      const { titleTag, title } = Factor.$store.val(_id) || {}
+      return titleTag || title || ""
+    }
+
+    descriptionTag(_id) {
+      const { descriptionTag, subTitle, content } = Factor.$store.val(_id) || {}
+      return descriptionTag || subTitle || Factor.$utils.excerpt(content) || ""
+    }
+
+    shareImage(_id) {
+      const { shareImage, avatar } = Factor.$store.val(_id) || {}
+      const imageId = shareImage ? shareImage : avatar
+      const { url } = Factor.$store.val(imageId) || {}
+      return url ? url : ""
     }
   })()
 }

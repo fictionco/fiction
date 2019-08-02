@@ -5,7 +5,7 @@
         <div
           v-for="(img, index) in allImages"
           :key="img._id"
-          :class="max <= 1 ? 'no-sort-img' : 'sort-img'"
+          :class="single ? 'no-sort-img' : 'sort-img'"
           class="image-item image-uploaded"
         >
           <div class="image-item-pad">
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div
-          v-if="max == 1 || imageIds.length < max"
+          v-if="single || imageIds.length < maxImages"
           ref="multiImageDrop"
           class="image-item ignore-sortable image-drop"
         >
@@ -70,7 +70,7 @@ import Sortable from "sortablejs"
 export default {
   props: {
     loading: { type: Boolean, default: false },
-    value: { type: Array, default: () => [] },
+    value: { type: [Array, String], default: () => [] },
     min: { type: Number, default: 0 },
     max: { type: Number, default: 10 }
   },
@@ -85,6 +85,12 @@ export default {
     }
   },
   computed: {
+    single() {
+      return typeof this.value == "string" || this.max == 1 ? true : false
+    },
+    maxImages() {
+      return this.single ? 1 : this.max
+    },
     isRequired() {
       return typeof this.$attrs["required"] != "undefined" ? true : false
     },
@@ -108,7 +114,7 @@ export default {
       `value`,
       function(v) {
         if (v) {
-          this.imageIds = v
+          this.imageIds = typeof v == "string" ? [v] : v
         }
       },
       { deep: true, immediate: true }
@@ -158,8 +164,8 @@ export default {
 
       if (this.images.length < this.min) {
         validity = `Please upload at least ${this.min} images.`
-      } else if (this.images.length > this.max) {
-        validity = `Please submit maximum ${this.max} images.`
+      } else if (this.images.length > this.maxImages) {
+        validity = `Please submit maximum ${this.maxImages} images.`
       }
 
       this.$emit("update:customValidity", validity)
@@ -191,7 +197,7 @@ export default {
         this.handleMultiImage(e.originalEvent.dataTransfer.files)
       })
 
-      if (this.max > 1) {
+      if (!this.single) {
         Sortable.create(this.$refs.organizer, {
           filter: ".ignore-sortable",
           ghostClass: "sortable-ghost",
@@ -213,7 +219,7 @@ export default {
     },
 
     updateValue() {
-      this.$emit("input", this.imageIds)
+      this.$emit("input", this.single ? this.imageIds[0] : this.imageIds)
 
       this.$emit("update:customValidity", this.validity)
     },
@@ -235,12 +241,12 @@ export default {
 
     async handleMultiImage(files) {
       this.numFiles = 0
-      if (files[0] && this.max == 1 && this.imageIds.length >= 1) {
+      if (files[0] && this.maxImages == 1 && this.imageIds.length >= 1) {
         this.removeImage(0)
       }
 
       for (let file of files) {
-        if (this.imageIds.length < this.max) {
+        if (this.imageIds.length < this.maxImages) {
           const meta = {
             status: "preprocess"
           }
