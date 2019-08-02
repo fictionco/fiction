@@ -1,6 +1,6 @@
 {
   "name": "@factor/dashboard-signin",
-  "version": "1.0.0-y.0",
+  "version": "1.0.0-alpha.20",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -12,8 +12,8 @@
     "id": "signin"
   },
   "dependencies": {
-    "@factor/core": "^1.0.0-y.0",
-    "@factor/ui": "^1.0.0-y.0"
+    "@factor/core": "^1.0.0-alpha.20",
+    "@factor/ui": "^1.0.0-alpha.20"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }

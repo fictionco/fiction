@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-y.0",
+  "version": "1.0.0-alpha.20",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,19 +10,19 @@
     "id": "core"
   },
   "dependencies": {
-    "@factor/build": "^1.0.0-y.0",
-    "@factor/cli": "^1.0.0-alpha.7",
-    "@factor/core-db": "^1.0.0-y.0",
-    "@factor/core-email": "^1.0.0-alpha.5",
-    "@factor/core-endpoint": "^1.0.0-y.0",
-    "@factor/core-error": "^1.0.0-alpha.6",
-    "@factor/core-log": "^1.0.0-alpha.5",
-    "@factor/core-stack": "^1.0.0-alpha.5",
-    "@factor/core-storage": "^1.0.0-alpha.14",
-    "@factor/core-theme": "^1.0.0-alpha.5",
-    "@factor/core-user": "^1.0.0-y.0",
-    "@factor/server": "^1.0.0-y.0",
-    "@factor/tools": "^1.0.0-y.0"
+    "@factor/build": "^1.0.0-alpha.20",
+    "@factor/cli": "^1.0.0-alpha.20",
+    "@factor/core-db": "^1.0.0-alpha.20",
+    "@factor/core-email": "^1.0.0-alpha.20",
+    "@factor/core-endpoint": "^1.0.0-alpha.20",
+    "@factor/core-error": "^1.0.0-alpha.20",
+    "@factor/core-log": "^1.0.0-alpha.20",
+    "@factor/core-stack": "^1.0.0-alpha.20",
+    "@factor/core-storage": "^1.0.0-alpha.20",
+    "@factor/core-theme": "^1.0.0-alpha.20",
+    "@factor/core-user": "^1.0.0-alpha.20",
+    "@factor/server": "^1.0.0-alpha.20",
+    "@factor/tools": "^1.0.0-alpha.20"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }
