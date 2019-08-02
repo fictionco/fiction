@@ -63,7 +63,8 @@ module.exports.default = Factor => {
     async updateManyById({ _ids, postType = "post", data }) {
       return await this.getPostTypeModel(postType).update(
         { _id: { $in: _ids } },
-        { $set: data }
+        { $set: data },
+        { multi: true }
       )
     }
 
