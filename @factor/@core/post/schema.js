@@ -2,11 +2,11 @@ export default Factor => {
   return {
     name: "post",
     options: { timestamps: true },
-    populatedFields: [
+    populatedFields: Factor.$filters.apply("post-populated-fields", [
       { field: "author", depth: 10 },
       { field: "images", depth: 30 },
       { field: "avatar", depth: 3 }
-    ],
+    ]),
     schema: Factor.$filters.apply("post-schema", {
       date: Date,
       postType: { type: String, index: true, sparse: true },
