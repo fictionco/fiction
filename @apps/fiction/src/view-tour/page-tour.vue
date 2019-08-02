@@ -77,7 +77,7 @@
             <h2 class="title">Best of Breed Tools</h2>
             <p>We've spent years learning best practices and making mistakes so you don't have to...</p>
             <div class="actions">
-      <factor-link path="https://factor.dev/guide">
+              <factor-link path="https://factor.dev/guide">
                 More About The Tech
                 <i class="fa fa-arrow-right" />
               </factor-link>
@@ -178,11 +178,10 @@
             <p class="subtitle">Get in touch or create an account</p>
           </div>
           <div class="actions">
-            <app-btn path="https://docs.fiction.com/getting-started" btn="primary" size="large">
+            <app-btn path="https://factor.dev/guide/quickstart" btn="primary" size="large">
               Quick Start
               <i class="fa fa-arrow-right" />
             </app-btn>
-            <app-btn path="/contact" btn="default" size="large">Contact Us</app-btn>
           </div>
         </div>
       </div>
@@ -216,14 +215,17 @@ export default {
   .site-head {
     background: #1b223c;
     .logo-img .thelogotext {
-      fill: #f7f7f7;
+      fill: var(--color-light);
     }
     .mobile-logo .logo-img .thelogotext {
       fill: initial;
     }
 
     .nav > a {
-      color: #f7f7f7;
+      color: var(--color-light);
+      &:hover {
+        color: var(--color-primary);
+      }
       @media (max-width: 767px) {
         color: initial;
       }
