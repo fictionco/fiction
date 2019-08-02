@@ -22,7 +22,7 @@ export default Factor => {
       })
 
       _s.pre("save", function(next) {
-        this.permalink = this.username ? `@${this.username}` : null
+        if (this.username) this.permalink = this.username
 
         next()
       })

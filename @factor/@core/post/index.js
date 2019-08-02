@@ -16,6 +16,14 @@ export default Factor => {
       return await this.request("save", { data: post, postType })
     }
 
+    async saveMany({ _ids, data, postType }) {
+      this.setCache(postType)
+      return await this.request("updateManyById", {
+        data,
+        _ids
+      })
+    }
+
     setCache(postType) {
       Factor.$store.add(`${postType}Cache`, Factor.$time.stamp())
     }
@@ -220,14 +228,14 @@ export default Factor => {
     }
 
     async getPostIndex(args) {
-      const { limit = 20, page = 1, postType, sort } = args
+      const { limit = 10, page = 1, postType, sort } = args
       const queryHash = this.objectHash({ ...args, cache: this.cacheKey(postType) })
       const stored = Factor.$store.val(queryHash)
 
       // Create a mechanism to prevent multiple runs/pops for same data
       if (stored) {
         Factor.$store.add(postType, stored)
-        return
+        return stored
       }
 
       const taxonomies = ["tag", "category", "status", "role"]
@@ -254,7 +262,7 @@ export default Factor => {
       Factor.$store.add(queryHash, { posts, meta })
       Factor.$store.add(postType, { posts, meta })
 
-      await this.populatePosts({ posts })
+      await this.populatePosts({ posts, depth: 5 })
 
       return { posts, meta }
     }
