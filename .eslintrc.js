@@ -1,14 +1,14 @@
 module.exports = {
   root: true,
-  parserOptions: {
-    sourceType: "module",
-    parser: "babel-eslint"
-  },
   globals: {
     __dirname: false,
     require: false,
     module: false,
     process: false
+  },
+  parserOptions: {
+    sourceType: "module",
+    parser: "babel-eslint"
   },
   env: {
     browser: true,
@@ -19,8 +19,6 @@ module.exports = {
   extends: ["plugin:vue/recommended", "plugin:unicorn/recommended"],
 
   plugins: ["vue", "json", "prettier", "unicorn", "import"],
-
-  settings: {},
 
   rules: {
     semi: ["error", "never"],
