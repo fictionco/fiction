@@ -34,7 +34,6 @@ module.exports.default = Factor => {
     }
 
     generateLoaders() {
-
       this.makeModuleLoader({
         extensions: this.extensions,
         destination: Factor.$paths.get("loader-server"),
@@ -79,7 +78,8 @@ module.exports.default = Factor => {
         .split("/")
         .pop()
 
-      if (rel) parts.push(rel)
+      // if sub folder, add (/src)
+      if (rel && rel != requireRoot.split("/").pop()) parts.push(rel)
 
       return parts.join("/")
     }
@@ -88,16 +88,20 @@ module.exports.default = Factor => {
       const files = []
 
       extensions.forEach(_ => {
-        const { name, mainFile, mainDir, requireRoot, cwd, id } = _
-        const parts = [requireRoot]
+        const { mainDir, requireRoot, cwd, id } = _
 
-        const requireDir = cwd ? this._cwdMainDir(requireRoot) : this._moduleMainDir(requireRoot)
+        const requireDir = cwd
+          ? this._cwdMainDir(requireRoot)
+          : this._moduleMainDir(requireRoot)
+
         if (existsSync(resolve(mainDir, filename))) {
           files.push({ id, file: `${requireDir}/${filename}` })
         }
       })
 
-      const fileLines = files.map(({ id, file }) => `files["${id}"] = require("${file}").default`)
+      const fileLines = files.map(
+        ({ id, file }) => `files["${id}"] = require("${file}").default`
+      )
 
       this._writeFile(Factor.$paths.get("loader-settings"), fileLines)
     }
@@ -133,7 +137,12 @@ module.exports.default = Factor => {
       let mroot = cwd ? ".." : name
       let mainFileParts = [mroot]
 
-      if (typeof target == "object" && !Array.isArray(target) && target[mainTarget] && target[mainTarget] != "index") {
+      if (
+        typeof target == "object" &&
+        !Array.isArray(target) &&
+        target[mainTarget] &&
+        target[mainTarget] != "index"
+      ) {
         if (target[mainTarget] != "index.js") {
           mainFileParts.push(target[mainTarget])
         }
@@ -150,7 +159,10 @@ module.exports.default = Factor => {
         return this.arrayIntersect(buildTarget, target)
       })
 
-      return Factor.$filters.apply(`packages-loader`, filtered, { buildTarget, extensions })
+      return Factor.$filters.apply(`packages-loader`, filtered, {
+        buildTarget,
+        extensions
+      })
     }
 
     getExtensionList(packagePaths) {
@@ -182,10 +194,24 @@ module.exports.default = Factor => {
         }
 
         fields.requireRoot = cwd ? ".." : name
-        fields.mainFile = this.moduleMainFile({ name, main, target, mainTarget: "app", cwd })
-        fields.mainFileServer = this.moduleMainFile({ name, main, target, mainTarget: "server", cwd })
+        fields.mainFile = this.moduleMainFile({
+          name,
+          main,
+          target,
+          mainTarget: "app",
+          cwd
+        })
+        fields.mainFileServer = this.moduleMainFile({
+          name,
+          main,
+          target,
+          mainTarget: "server",
+          cwd
+        })
 
-        fields.mainDir = cwd ? Factor.$paths.get("source") : dirname(require.resolve(fields.mainFile))
+        fields.mainDir = cwd
+          ? Factor.$paths.get("source")
+          : dirname(require.resolve(fields.mainFile))
 
         loader.push(fields)
       })
@@ -200,7 +226,13 @@ module.exports.default = Factor => {
     // Webpack doesn't allow dynamic paths in require statements
     // In order to make dynamic require statements, we build loader files
     // Also an easier way to see what is included than by using other techniques
-    makeModuleLoader({ extensions, destination, mainTarget, buildTarget, requireAtRuntime = false }) {
+    makeModuleLoader({
+      extensions,
+      destination,
+      mainTarget,
+      buildTarget,
+      requireAtRuntime = false
+    }) {
       const filtered = this.filterExtensions({ mainTarget, buildTarget, extensions })
 
       const fileLines = []
@@ -209,9 +241,9 @@ module.exports.default = Factor => {
 
         let theFile = mainFile
         let theId = id
-        if (mainTarget == 'server') {
+        if (mainTarget == "server") {
           theFile = mainFileServer
-          if (typeof target == 'object' && !Array.isArray(target) && target.server) {
+          if (typeof target == "object" && !Array.isArray(target) && target.server) {
             theId = `${id}Server`
           }
         }
@@ -248,9 +280,17 @@ module.exports.default = Factor => {
         return false
       } else if (targetA == "string" && targetB == "string" && targetA == targetB) {
         return true
-      } else if (typeof targetA == "string" && Array.isArray(targetB) && targetB.includes(targetA)) {
+      } else if (
+        typeof targetA == "string" &&
+        Array.isArray(targetB) &&
+        targetB.includes(targetA)
+      ) {
         return true
-      } else if (typeof targetB == "string" && Array.isArray(targetA) && targetA.includes(targetB)) {
+      } else if (
+        typeof targetB == "string" &&
+        Array.isArray(targetA) &&
+        targetA.includes(targetB)
+      ) {
         return true
       } else if (targetA.filter(value => targetB.includes(value)).length > 0) {
         return true
@@ -279,8 +319,10 @@ module.exports.default = Factor => {
     }
 
     makeId(name) {
-      const base = name.split(/endpoint-|plugin-|theme-|service-|@factor|@fiction/gi).pop()
-      return base.replace(/\//gi, "").replace(/-([a-z])/g, function (g) {
+      const base = name
+        .split(/endpoint-|plugin-|theme-|service-|@factor|@fiction/gi)
+        .pop()
+      return base.replace(/\//gi, "").replace(/-([a-z])/g, function(g) {
         return g[1].toUpperCase()
       })
     }

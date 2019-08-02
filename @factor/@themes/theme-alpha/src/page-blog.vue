@@ -25,7 +25,7 @@
             :post-id="post.id"
             :loading="loading"
             :tags="post.tags"
-            :path="$posts.getPermalink({type: post.type, permalink: post.permalink})"
+            :path="$posts.getPermalink({postType: post.postType, permalink: post.permalink})"
           />
         </div>
       </div>

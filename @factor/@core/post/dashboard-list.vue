@@ -34,9 +34,9 @@ export default {
       return this.$posts.postTypeMeta(this.postType)
     },
     templateLoader() {
-      return this.postTypeMeta.list
-        ? this.postTypeMeta.list
-        : () => import("./posts-table")
+      const { listTemplate } = this.postTypeMeta
+
+      return listTemplate ? listTemplate : () => import("./posts-table")
     },
     postType() {
       return this.$route.params.postType || ""

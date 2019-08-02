@@ -39,11 +39,11 @@ module.exports.default = Factor => {
       return await this.runRequest(params)
     }
     canEdit({ doc, bearer, scope }) {
-      const { _id, authors = [] } = doc
+      const { _id, author = [] } = doc
       if (
         !bearer ||
         (_id !== bearer._id &&
-          !authors.some(_ => _._id == bearer._id) &&
+          !author.some(_ => _._id == bearer._id) &&
           !bearer.accessLevel &&
           bearer.accessLevel >= 300)
       ) {
@@ -65,8 +65,13 @@ module.exports.default = Factor => {
       const { Schema } = this.mongo
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
-        console.log("new discrim", name)
-        this._models[name] = this.model("post").discriminator(name, new Schema())
+        // For server restarts
+        if (this.mongo.models[name]) {
+          this._schemas[name] = this.mongo.modelSchemas[name]
+          this._models[name] = this.mongo.models[name]
+        } else {
+          this._models[name] = this.model("post").discriminator(name, new Schema())
+        }
       }
       return this._models[name]
     }

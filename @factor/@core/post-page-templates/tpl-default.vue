@@ -2,7 +2,7 @@
   <div class="long-form">
     <div v-if="post.title" class="title">
       <h1 v-formatted-text="post.title" />
-      <factor-post-edit :post="post" />
+      <factor-post-edit :post-id="post._id" />
     </div>
 
     <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />

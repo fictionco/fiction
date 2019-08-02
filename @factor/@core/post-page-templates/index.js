@@ -1,9 +1,6 @@
 export default Factor => {
   return new (class {
     constructor() {
-      // image require wont work outside webpack
-      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/pages.svg") : ""
-
       Factor.$filters.add("data-schemas", _ => {
         _.page = require("./schema").default(Factor)
         return _
@@ -11,9 +8,9 @@ export default Factor => {
 
       Factor.$filters.add("post-types", _ => {
         _.unshift({
-          type: "page",
-          base: "",
-          icon,
+          postType: "page",
+          baseRoute: "",
+          icon: require("./img/pages.svg"),
           nameIndex: "Pages",
           nameSingle: "Page",
           namePlural: "Pages",
@@ -24,7 +21,7 @@ export default Factor => {
 
       Factor.$filters.add("post-edit-components", _ => {
         _.push({
-          type: ["page"],
+          postType: ["page"],
           name: "Page Template Settings",
           component: () => import("./page-settings")
         })
@@ -49,24 +46,23 @@ export default Factor => {
     }
 
     async getTemplate(templateId) {
-
       const _all = this.getPageTemplates()
 
       let tpl = _all.find(_ => _._id == templateId)
 
       if (!tpl) {
-        tpl = _all.find(_ => _._id == 'default')
+        tpl = _all.find(_ => _._id == "default")
       }
 
       tpl.fields = await this.getTemplateFields(tpl)
 
       return tpl
-
     }
 
     async getTemplateFields(tpl) {
-
-      const { default: { templateSettings } } = await tpl.component()
+      const {
+        default: { templateSettings }
+      } = await tpl.component()
 
       return templateSettings ? templateSettings() : []
     }

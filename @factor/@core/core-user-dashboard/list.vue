@@ -19,7 +19,7 @@
           <factor-link
             v-if="row.email"
             class="permalink"
-            :path="postlink(row.type, row.permalink)"
+            :path="postlink(row.postType, row.permalink)"
           >{{ row.email }}</factor-link>
         </div>
 
@@ -92,8 +92,8 @@ export default {
   },
 
   methods: {
-    postlink(type, permalink, root = true) {
-      return this.$posts.getPermalink({ type, permalink, root })
+    postlink(postType, permalink, root = true) {
+      return this.$posts.getPermalink({ postType, permalink, root })
     },
 
     tableStructure() {

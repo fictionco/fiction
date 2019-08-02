@@ -5,7 +5,6 @@ export default Factor => {
     }
 
     filters() {
-      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/users.svg") : ""
       Factor.$filters.add("dashboard-routes", _ => {
         _.push({
           path: "account",
@@ -22,7 +21,7 @@ export default Factor => {
           group: "account",
           path: "account",
           name: "Your Account",
-          icon
+          icon: require("./img/users.svg")
         })
 
         return _
@@ -30,16 +29,16 @@ export default Factor => {
 
       Factor.$filters.add("post-types", _ => {
         _.push({
-          type: "user",
-          base: "@",
-          icon,
+          postType: "user",
+          baseRoute: "@",
+          icon: require("./img/users.svg"),
           populated: ["covers"],
           nameIndex: "Users",
           nameSingle: "User",
           namePlural: "Users",
           accessLevel: 500,
-          list: () => import("./list"),
-          edit: () => import("./edit.vue"),
+          listTemplate: () => import("./list"),
+          editTemplate: () => import("./edit.vue"),
           add: false
         })
 

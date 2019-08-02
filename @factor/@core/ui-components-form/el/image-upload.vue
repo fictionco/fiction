@@ -137,7 +137,9 @@ export default {
     copyUrl(index) {
       const _id = this.imageIds[index]
       const image = this.populated[index]
-      this.copyText = image.url.includes("base64") ? `{{${_id}}}` : image.url
+      this.copyText = image.url.includes("base64")
+        ? `{{${_id}.url}}`
+        : image.url
       this.$nextTick(() => {
         this.$refs.copyInput.select()
 

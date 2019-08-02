@@ -32,7 +32,7 @@ export default Factor => {
       const urls = results.data
         .filter(_ => _.permalink)
         .map(({ type, permalink }) => {
-          return Factor.$posts.getPermalink({ type, permalink, root: false })
+          return Factor.$posts.getPermalink({ postType, permalink, root: false })
         })
 
       return urls.concat(this.getRouteUrls())

@@ -120,7 +120,7 @@ module.exports.default = Factor => {
       }
       return arr.sort((a, b) => {
         const ap = a.priority || 100
-        const bp = b.priority || 100
+        const bp = b.priority || 10
 
         if (ap < bp) {
           return -1
@@ -130,6 +130,27 @@ module.exports.default = Factor => {
           return 0
         }
       })
+    }
+
+    excerpt(content, { length = 42 } = {}) {
+      if (!content) {
+        return ""
+      }
+      let splitContent = Factor.$markdown
+        .strip(content)
+        .replace(/\n|\r/g, " ")
+        .split(" ")
+
+      let excerpt
+
+      if (splitContent.length > length) {
+        splitContent = splitContent.slice(0, length)
+        excerpt = splitContent.join(" ") + "..."
+      } else {
+        excerpt = splitContent.join(" ")
+      }
+
+      return excerpt
     }
   })()
 }

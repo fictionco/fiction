@@ -116,6 +116,7 @@ export default {
   }
   &.btn-link {
     display: inline-block;
+    line-height: 1;
   }
 }
 </style>

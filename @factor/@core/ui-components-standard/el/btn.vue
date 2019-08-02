@@ -2,7 +2,7 @@
   <button v-if="scope" :class="buttonClass" :type="type" v-on="$listeners">
     <span class="wrap-items">
       <span class="btn-content">
-        <img v-if="image" :src="image">
+        <img v-if="image" :src="image" >
         <slot />
         <span v-if="text" v-formatted-text="text" class="txt" />
       </span>
@@ -123,6 +123,8 @@ export default {
   }
 }
 .factor-btn {
+  background: transparent;
+  color: inherit;
   display: inline-block;
   margin-bottom: 0; // For input.btn
   text-align: center;

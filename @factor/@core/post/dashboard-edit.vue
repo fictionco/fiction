@@ -17,14 +17,19 @@ export default {
       return this.$posts.postTypeMeta(this.postType)
     },
     templateLoader() {
-      return this.postTypeMeta.edit
-        ? this.postTypeMeta.edit
-        : () => import("./posts-edit")
+      const { editTemplate } = this.postTypeMeta
+
+      return editTemplate ? editTemplate : () => import("./posts-edit")
+    }
+  },
+  watch: {
+    $route: function(to, from) {
+      if (!this._id) this.requestPost()
     }
   },
 
   mounted() {
-    this.requestPost(this._id)
+    this.requestPost()
   },
   methods: {
     async requestPost() {
