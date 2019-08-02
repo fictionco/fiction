@@ -46,7 +46,7 @@ module.exports.default = Factor => {
           {
             path: "/vip",
             component: () => import("./view-vip/page-vip"),
-            meta: { nav: true, background: "#fff" }
+            meta: { nav: true, pageClass: ["nav-light"], background: "#fff" }
           },
           {
             path: "/factor-js",
