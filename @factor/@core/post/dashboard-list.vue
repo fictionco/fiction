@@ -6,7 +6,7 @@
       :meta="postsMeta"
       :loading="loading"
       :title="postTypeLabel"
-      @action="handlePostAction($event)"
+      @refresh="test()"
     />
   </dashboard-page>
 </template>
@@ -71,19 +71,25 @@ export default {
   },
   mounted() {
     this.setPosts()
+    this.$events.$on("refresh-table", () => {
+      console.log("refresh me?")
+      this.setPosts()
+    })
   },
   methods: {
-    async handlePostAction({ action, selected }) {
-      if (selected.length == 0) return
+    // async handlePostAction({ action, selected }) {
+    //   if (selected.length == 0) return
 
-      await this.$posts.request("updateManyById", {
-        data: { status: action },
-        _ids: selected
-      })
+    //   await this.$posts.saveMany({
+    //     _ids: selected,
+    //     data: { status: "action" }
+    //   })
 
-      this.setPosts()
+    //   this.setPosts()
+    // },
+    test() {
+      console.log("refresh work?")
     },
-
     async setPosts() {
       this.loading = true
       await this.$posts.getPostIndex(this.filters)

@@ -6,6 +6,7 @@
       :class="toggle ? 'active' : 'inactive'"
       @click.stop="setToggle($event)"
     >
+      <div v-if="showName" class="display-name">{{ post.displayName }}</div>
       <factor-avatar width="1.75em" :post-id="$currentUser.avatar" />
     </span>
     <transition name="leftfade">
@@ -42,7 +43,9 @@
 </template>
 <script>
 export default {
-  components: {},
+  props: {
+    showName: { type: Boolean, default: false }
+  },
   data() {
     return {
       toggle: false,
@@ -50,6 +53,9 @@ export default {
     }
   },
   computed: {
+    post() {
+      return this.$store.val(this.$userId) || {}
+    },
     role() {
       return this.$user._item("role") || {}
     }
@@ -112,8 +118,11 @@ export default {
   display: flex;
   align-items: center;
   color: inherit;
+  .display-name {
+    margin-right: 0.7em;
+  }
   &.active {
-    opacity: 0.9;
+    opacity: 0.5;
   }
   cursor: pointer;
   .icon {
@@ -187,15 +196,15 @@ export default {
       text-transform: uppercase;
       opacity: 0.2;
     }
-    a {
+    .factor-link {
       padding: 3px 0;
       white-space: nowrap;
       display: block;
       color: inherit;
 
       &:hover {
-        //OLD color: #ff0076;
-        color: var(--color-secondary);
+        color: var(--color-primary);
+        cursor: pointer;
       }
     }
   }

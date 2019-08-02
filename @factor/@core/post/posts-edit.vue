@@ -45,14 +45,14 @@
         </dashboard-pane>
 
         <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">
-          <component :is="item.component" v-model="post" :post-id="post._id" />
+          <component :is="item.component" v-model="post" :post-id="_id" />
         </dashboard-pane>
       </div>
       <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
           <dashboard-input
             v-model="post.status"
-            :list="[{name: 'Published', value: 'published'}, {name: 'Draft', value: 'draft'}, {name: 'Move to Trash', value: 'trash'}]"
+            :list="['published', 'draft', 'trash']"
             input="factor-input-select"
           />
 

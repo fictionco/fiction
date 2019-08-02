@@ -16,15 +16,18 @@
       v-bind="$attrs"
       :tabs="tabs"
       filter="status"
+      :post-type="postType"
       :meta="meta"
       :actions="[{value: 'published', name: 'Publish'}, {value: 'draft', name: 'Change to Draft'}, {value: 'trash', name: 'Move to Trash'}]"
-      @action="$emit('action', {action: $event, selected})"
+      :loading="loadingAction"
+      @action="runAction($event)"
     />
     <dashboard-table
       class="post-table"
       :structure="tableStructure()"
       :row-items="list"
       :zero-state="7"
+      @select-all="selectAll($event)"
     >
       <template slot-scope="{column, item, row}">
         <div v-if="column == 'select'">
@@ -61,7 +64,8 @@ export default {
   },
   data() {
     return {
-      selected: []
+      selected: [],
+      loadingAction: false
     }
   },
   computed: {
@@ -94,6 +98,27 @@ export default {
   },
 
   methods: {
+    selectAll(val) {
+      if (!val) {
+        this.selected = []
+      } else {
+        this.selected = this.list.map(_ => _._id)
+      }
+    },
+    async runAction(action) {
+      this.loadingAction = true
+
+      if (this.selected.length == 0) return
+
+      await this.$posts.saveMany({
+        _ids: this.selected,
+        data: { status: action },
+        postType: this.postType
+      })
+
+      this.$events.$emit("refresh-table")
+      this.loadingAction = false
+    },
     postlink(postType, permalink) {
       return this.$posts.getPermalink({ postType, permalink })
     },
