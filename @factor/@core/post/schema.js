@@ -4,13 +4,14 @@ export default Factor => {
     options: { timestamps: true },
     populatedFields: [
       { field: "author", depth: 10 },
-      { field: "images", depth: 50 },
-      { field: "avatar", depth: 0 }
+      { field: "images", depth: 30 },
+      { field: "avatar", depth: 3 }
     ],
     schema: Factor.$filters.apply("post-schema", {
       date: Date,
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
+      subTitle: { type: String, trim: true },
       content: { type: String, trim: true },
       author: [{ type: Factor.$mongo.objectIdType(), ref: "user" }],
       images: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }],
@@ -37,6 +38,11 @@ export default Factor => {
     }),
     callback: _s => {
       _s.pre("save", function(next) {
+        if (!this.date && this.status == "published") {
+          const now = new Date()
+          this.date = now.toISOString()
+        }
+
         if (this.images && this.images.length > 0) {
           this.avatar = this.images[0]
         }

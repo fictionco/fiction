@@ -79,7 +79,10 @@ module.exports.default = Factor => {
       this.renderer = this.createRenderer(bundle, { template, clientManifest })
 
       // Set Express routine for all fallthrough paths
-      this.serverApp.get("*", async (request, response) => await this.render(request, response))
+      this.serverApp.get(
+        "*",
+        async (request, response) => await this.render(request, response)
+      )
 
       this.serverApp.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
     }
@@ -120,7 +123,6 @@ module.exports.default = Factor => {
     onListenMessage() {
       const { arrowUp, arrowDown } = figures
       Factor.$log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` Ready`))
-
     }
 
     // onInitialListen() {
@@ -182,9 +184,18 @@ module.exports.default = Factor => {
 
             details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
 
-            return `${chalk.cyan(figures.arrowUp) + chalk.cyan(figures.arrowDown)} Request: ${chalk.cyan(
-              tokens.url(req, res)
-            )} ${chalk.dim(details.join(" "))}`
+            let url = tokens.url(req, res)
+
+            // Server requests to endpoints have null as the value for url
+            // This is due to proxy
+            if (url.includes("null")) {
+              url = chalk.cyan(`server ${figures.arrowRight} ${url.split("null")[1]}`)
+            }
+
+            return `${chalk.cyan(figures.arrowUp) +
+              chalk.cyan(figures.arrowDown)} Request: ${chalk.cyan(url)} ${chalk.dim(
+              details.join(" ")
+            )}`
           },
           {
             skip: (request, response) => {
@@ -224,7 +235,9 @@ module.exports.default = Factor => {
 
     localListenRoutine(server) {
       const { routine, certConfig } = Factor.$paths.getHttpDetails()
-      return routine == "https" ? require("https").createServer(certConfig, server) : server
+      return routine == "https"
+        ? require("https").createServer(certConfig, server)
+        : server
     }
 
     serveStatic(path, cache) {

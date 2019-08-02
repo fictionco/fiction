@@ -29,7 +29,7 @@ export default {
     },
 
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return this.$store.val("post") || {}
     }
   }
 }

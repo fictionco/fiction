@@ -3,13 +3,13 @@
     <div class="entry-wrap">
       <div class="entry-meta">
         <div class="post-author">
-          <author-tag v-for="(author) in authors" :key="author.uid" :author="author" />
+          <author-tag v-for="(_id) in author" :key="_id" :post-id="_id" />
 
           <div class="txt">
             <span class="sep">on</span>
             <span class="date">{{ $time.niceFormat(date) }}</span>
             <app-link
-              v-if="$posts.userCanEditPost({uid: this.$userId, post: {authors}})"
+              v-if="$posts.userCanEditPost({uid: this.$userId, post: {author}})"
               class="edit"
               path="/admin/posts/edit"
               :query="{id: postId}"
@@ -24,7 +24,7 @@
         </h1>
 
         <div class="entry-content">
-          <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(content) }}</div>
+          <div v-if="format == 'listing'" class="excerpt">{{ $utils.excerpt(content) }}</div>
           <slot v-if="format == 'single'" />
         </div>
       </div>
@@ -50,7 +50,7 @@
       </div>
 
       <div v-if="format == 'single'" class="post-author post-author-bio">
-        <div v-for="(author) in authors" :key="author.uid" class="author-about">
+        <div v-for="(author) in author" :key="author.uid" class="author-about">
           <factor-avatar :uid="author.uid" :width="'60px'" />
           <div class="text">
             <span class="name">{{ author.displayName }}</span>
@@ -70,7 +70,7 @@ export default {
   },
   props: {
     format: { type: String, default: "" },
-    authors: { type: Array, default: () => [] },
+    author: { type: Array, default: () => [] },
     title: { type: String, default: "" },
     content: { type: String, default: "" },
     date: { type: [String, Number], default: "" },

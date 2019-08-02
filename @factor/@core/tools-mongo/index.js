@@ -8,7 +8,6 @@ export default Factor => {
     }
 
     init() {
-
       this.schemas = Factor.$filters.apply("data-schemas", {
         post: require("@factor/post/schema").default(Factor)
       })
@@ -28,18 +27,14 @@ export default Factor => {
           this.mongoose.set("debug", true)
         }
 
-
         // Improve duplicate value validation errors
         // https://github.com/matteodelabre/mongoose-beautiful-unique-validation
-        const beautifyUnique = require('mongoose-beautiful-unique-validation')
+        const beautifyUnique = require("mongoose-beautiful-unique-validation")
         this.mongoose.plugin(beautifyUnique)
-
       } else {
         this.mongoose = require("mongoose/browser")
       }
       // Factor.$filters.callback("initial-server-start", () => this._syncSchemaIndexes())
-
-
     }
 
     objectIdType() {
@@ -54,19 +49,17 @@ export default Factor => {
       return this.schemas
     }
 
-    getPopulatedFields({ postType = 'post', depth = 10 }) {
+    getPopulatedFields({ postType = "post", depth = 10 }) {
       // console.log('this.schemas', this.schemas)
 
       let fields = this.schemas.post.populatedFields || []
 
-      if (postType != 'post') {
-
+      if (postType != "post" && this.schemas[postType]) {
         const postTypePopulated = this.schemas[postType].populatedFields || []
         fields = [...fields, ...postTypePopulated]
       }
 
       const pop = fields.filter(_ => _.depth <= depth).map(_ => _.field)
-
 
       return pop
     }
@@ -97,6 +90,5 @@ export default Factor => {
       }
       return
     }
-
   })()
 }

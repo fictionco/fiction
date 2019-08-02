@@ -5,14 +5,13 @@ export default Factor => {
     }
 
     filters() {
-      const base = "entry"
-      const type = "blog"
-      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/posts.svg") : ""
+      const baseRoute = Factor.$setting.get("blog.postRoute")
+
       Factor.$filters.add("post-types", _ => {
         _.push({
-          type,
-          base,
-          icon,
+          postType: "blog",
+          baseRoute,
+          icon: require("./img/posts.svg"),
           model: "BlogPost",
           nameIndex: "Blog",
           nameSingle: "Blog Post",
@@ -23,30 +22,23 @@ export default Factor => {
       })
 
       Factor.$filters.add("content-routes", _ => {
-        _.push({
-          path: "/blog",
-          component: () => import("./vc-blog-wrap"),
-          children: [
-            {
-              path: "/",
-              component: () => import("./index.vue")
-            },
-            {
-              path: `/${base}`,
-              component: () => import(`./single.vue`)
-            },
-            {
-              path: `/${base}/:permalink`,
-              component: () => import(`./single.vue`)
-            },
-            {
-              path: `/tag/:tag`,
-              component: () => import(`./index.vue`)
-            }
-          ]
-        })
-
-        return _
+        return [
+          ..._,
+          {
+            path: Factor.$setting.get("blog.indexRoute"),
+            component: Factor.$setting.get("blog.components.blogContent"),
+            children: [
+              {
+                path: "/",
+                component: Factor.$setting.get("blog.components.blogIndex")
+              },
+              {
+                path: `${Factor.$setting.get("blog.postRoute")}/:permalink`,
+                component: Factor.$setting.get("blog.components.blogSingle")
+              }
+            ]
+          }
+        ]
       })
     }
   })()

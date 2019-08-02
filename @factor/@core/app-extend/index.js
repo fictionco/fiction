@@ -22,7 +22,6 @@ export default Factor => {
     _install(id, plugin) {
       Factor.use({
         install(Factor) {
-
           // Some application modules have already been loaded in by server extension
           // Check if they're already loaded that way we don't load twice
           if (!Factor[`$${id}`]) {
@@ -63,6 +62,8 @@ export default Factor => {
           }
         }
       }
+
+      Factor.siteVars = Factor.observable({ classes: [] })
 
       Factor.$filters.run("initialize-app")
     }

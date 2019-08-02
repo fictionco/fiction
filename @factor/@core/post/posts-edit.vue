@@ -8,13 +8,20 @@
             input="factor-input-text"
             label="Title"
             class="post-title"
-            @keyup="doAutosave()"
+            @keyup="doDraftSave()"
+          />
+          <dashboard-input
+            v-model="post.subTitle"
+            input="factor-input-text"
+            label="Sub Title / Teaser"
+            class="post-title"
+            @keyup="doDraftSave()"
           />
           <dashboard-input label="Permalink">
-            <input-permalink v-model="post.permalink" :initial="post.title" :type="post.type" />
+            <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
           </dashboard-input>
           <dashboard-input label="Post Content">
-            <input-editor v-model="post.content" @keyup="doAutosave()" />
+            <input-editor v-model="post.content" @keyup="doDraftSave()" />
           </dashboard-input>
         </dashboard-pane>
         <!-- <dashboard-pane v-for="(item, i) in injectedMetaComponents" :key="i" :title="item.name">
@@ -114,7 +121,7 @@ export default {
   computed: {
     post: {
       get() {
-        return this.$store.getters["getItem"](this._id) || {}
+        return this.$store.val(this._id) || {}
       },
       set(v) {
         this.$store.add(this._id, v)
@@ -128,12 +135,13 @@ export default {
       const components = this.$filters.apply("post-edit-components", [])
 
       return components.filter(
-        _ => !_.type || (_.type && _.type.includes(this.postType))
+        ({ postType }) =>
+          !postType || (postType && postType.includes(this.postType))
       )
     },
 
     excerpt() {
-      return this.$posts.excerpt(this.post.content)
+      return this.$utils.excerpt(this.post.content)
     },
     title() {
       const mode = this.isNew ? "Add New" : "Edit"
@@ -142,11 +150,11 @@ export default {
     },
 
     postType() {
-      return this.$route.params.postType || this.post.type || "page"
+      return this.$route.params.postType || this.post.postType || "page"
     },
     url() {
       return this.$posts.getPermalink({
-        type: this.postType,
+        postType: this.postType,
         permalink: this.post.permalink,
         root: false
       })
@@ -170,10 +178,7 @@ export default {
       }
     }
   },
-  watch: {
-    $route: function(to, from) {}
-  },
-  mounted() {},
+
   methods: {
     async savePost() {
       this.sending = true
@@ -188,13 +193,14 @@ export default {
       })
 
       if (saved) {
+        this.post = saved
         this.$events.$emit("notify", `Saved!`)
       }
 
       this.sending = false
     },
 
-    doAutosave() {
+    doDraftSave() {
       if (!this.willsave) {
         this.willsave = setTimeout(() => {
           this.saveDraft()
