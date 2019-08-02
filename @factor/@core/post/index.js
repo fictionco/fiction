@@ -231,13 +231,13 @@ export default Factor => {
       const { limit = 10, page = 1, postType, sort } = args
       const queryHash = this.objectHash({ ...args, cache: this.cacheKey(postType) })
       const stored = Factor.$store.val(queryHash)
-      console.log("run refresh888")
+
       // Create a mechanism to prevent multiple runs/pops for same data
       if (stored) {
         Factor.$store.add(postType, stored)
         return stored
       }
-      console.log("run new ")
+
       const taxonomies = ["tag", "category", "status", "role"]
 
       const conditions = {}

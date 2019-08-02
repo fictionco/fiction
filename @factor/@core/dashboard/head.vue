@@ -9,7 +9,7 @@
       </factor-link>
       <div class="nav">
         <slot />
-        <plugin-signin-profile-menu />
+        <plugin-signin-profile-menu :show-name="true" />
       </div>
     </div>
   </div>
