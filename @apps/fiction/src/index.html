@@ -4,22 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+  {{{ factor_head() }}}
   <script>
-    if (window.location.search && URLSearchParams && localStorage) {
-      var urlParams = new URLSearchParams(window.location.search)
-      var disable = urlParams.get("disable-analytics")
-
-      if (!disable || disable == "false" || disable == "0") {
-        localStorage.removeItem("disable-analytics")
-      } else {
-        localStorage.setItem("disable-analytics", 1)
-      }
-    }
-
-    if (localStorage && localStorage.getItem("disable-analytics")) {
-      var analyticsId = "UA-109072363-1"
-      window["ga-disable-" + analyticsId] = true
-    }
 
     ; (function (w, d, s, l, i) {
       w[l] = w[l] || []
@@ -33,13 +19,9 @@
     })(window, document, "script", "dataLayer", "GTM-THQBLTN")
   </script>
 
-
-
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="shortcut icon" sizes="48x48" href="/static/favicon.png" />
-
-  {{{ factor_head() }}}
 </head>
 
 <body {{{ factor_body_class() }}}>

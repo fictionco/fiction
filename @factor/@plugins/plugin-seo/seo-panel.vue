@@ -3,36 +3,61 @@
     <div class="search-preview">
       <div class="sup">Search Preview</div>
       <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
+      <div class="plink">{{ link }}</div>
       <div
-        class="plink"
-      >{{ $posts.getPermalink({postType: post.postType, permalink: post.permalink || $utils.slugify(post.title)}) }}</div>
-      <div class="desc">{{ post.description || $utils.excerpt(post.content) || "No Description" }}</div>
+        class="desc"
+      >{{ post.descriptionTag || post.subTitle || $utils.excerpt(post.content) || "No Description" }}</div>
     </div>
     <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
     <dashboard-input
-      v-model="post.description"
+      v-model="post.descriptionTag"
       input="factor-input-textarea"
       label="Description Meta Tag"
     />
     <dashboard-input
-      v-model="post.featuredImage"
+      v-model="post.shareImage"
       input="factor-input-image-upload"
       label="Sharing Image"
-      input-max="1"
+      :max="1"
     />
   </div>
 </template>
 <script>
 export default {
-  model: {
-    prop: "post",
-    event: "change"
-  },
+  // model: {
+  //   prop: "post",
+  //   event: "change"
+  // },
   props: {
-    post: { type: Object, required: true }
+    //   post: { type: Object, required: true },
+    postId: { type: String, required: true }
   },
   data() {
     return {}
+  },
+  computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    },
+    // post: {
+    //   get() {
+    //     return this.$store.val(this.postId) || {}
+    //   },
+    //   set(v) {
+    //     this.$store.add(this.postId, v)
+    //   }
+    // },
+    link() {
+      return this.$posts.link(this.postId, { root: true })
+    }
+  },
+  watch: {
+    // post: {
+    //   handler: function(v) {
+    //     this.post = v
+    //   },
+    //   deep: true
+    // }
   }
 }
 </script>

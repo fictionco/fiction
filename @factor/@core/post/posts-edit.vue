@@ -45,7 +45,7 @@
         </dashboard-pane>
 
         <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">
-          <component :is="item.component" v-model="post" />
+          <component :is="item.component" v-model="post" :post-id="post._id" />
         </dashboard-pane>
       </div>
       <div class="meta-column">
