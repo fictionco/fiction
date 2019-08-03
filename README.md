@@ -1,6 +1,7 @@
-<p align="center">
+<a href="https://factor.dev">
   <img src="./factor.svg" width="350" style="width: 350px;display:block;">
-  </p>
+</a>
+
  <p align="center">
   <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
   <a href="https://github.com/fiction-com/factor/commits/master"><img src="https://badgen.net/github/last-commit/fiction-com/factor" alt="Commit"></a>
@@ -8,7 +9,9 @@
   <a href="https://www.npmjs.com/package/@factor/cli"><img src="https://badgen.net/npm/dm/@factor/cli" alt="Downloads a Month"></a>
  </p>
 
-> A Javascript web-OS for shipping production web apps. Build a fully functional web app, blog or PWA (progressive-web-app) **Get started in less than 5 minutes.**
+*A full-stack post framework for professional Javascript developers. Impress your friends by building incredible CMS driven web apps that do exponentially more than they've seen elsewhere. Key tech: Vue SSR, Node, Mongo.* 
+
+**Try out the famous 3-minute setup: `npx create-factor-app`**
 
 ## Links
 
