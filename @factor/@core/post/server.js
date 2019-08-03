@@ -24,7 +24,6 @@ module.exports.default = Factor => {
 
       Object.assign(_post, data)
 
-      // console.log("^^^^^^^^^SAVE^^^^^^^^^", data, _post)
       return await _post.save()
     }
 
@@ -66,6 +65,10 @@ module.exports.default = Factor => {
         { $set: data },
         { multi: true }
       )
+    }
+
+    async deleteManyById({ _ids, postType = "post" }) {
+      return await this.getPostTypeModel(postType).remove({ _id: { $in: _ids } })
     }
 
     async list(params, { bearer }) {
@@ -120,14 +123,18 @@ module.exports.default = Factor => {
         }
       ]
 
-      const _p = [ItemModel.aggregate(aggregate), ItemModel.find(conditions).count()]
+      const _p = [
+        ItemModel.aggregate(aggregate),
+        ItemModel.find(conditions).count(),
+        ItemModel.count()
+      ]
 
-      const [aggregations, total] = await Promise.all(_p)
+      const [aggregations, totalForQuery, total] = await Promise.all(_p)
 
-      const pageCount = !total ? 1 : Math.ceil(total / limit)
+      const pageCount = !totalForQuery ? 1 : Math.ceil(totalForQuery / limit)
       const pageCurrent = 1 + Math.floor(skip / limit)
 
-      const _out = { ...aggregations[0], total, pageCount, pageCurrent }
+      const _out = { ...aggregations[0], total, totalForQuery, pageCount, pageCurrent }
 
       return _out
     }

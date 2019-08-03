@@ -18,7 +18,7 @@
       filter="status"
       :post-type="postType"
       :meta="meta"
-      :actions="[{value: 'published', name: 'Publish'}, {value: 'draft', name: 'Change to Draft'}, {value: 'trash', name: 'Move to Trash'}]"
+      :actions="controlActions"
       :loading="loadingAction"
       @action="runAction($event)"
     />
@@ -94,6 +94,22 @@ export default {
     },
     postType() {
       return this.$route.params.postType || ""
+    },
+    controlActions() {
+      return [
+        { value: "published", name: "Publish" },
+        { value: "draft", name: "Change to Draft" },
+        { value: "trash", name: "Move to Trash" },
+        { value: "delete", name: "Permanently Delete" }
+      ]
+        .filter(_ => {
+          return _.value != this.$route.query.status
+        })
+        .filter(
+          _ =>
+            _.value !== "delete" ||
+            (_.value == "delete" && this.$route.query.status == "trash")
+        )
     }
   },
 
@@ -110,11 +126,18 @@ export default {
 
       if (this.selected.length == 0) return
 
-      await this.$posts.saveMany({
-        _ids: this.selected,
-        data: { status: action },
-        postType: this.postType
-      })
+      if (action == "delete") {
+        await this.$posts.deleteMany({
+          _ids: this.selected,
+          postType: this.postType
+        })
+      } else {
+        await this.$posts.saveMany({
+          _ids: this.selected,
+          data: { status: action },
+          postType: this.postType
+        })
+      }
 
       this.$events.$emit("refresh-table")
       this.loadingAction = false

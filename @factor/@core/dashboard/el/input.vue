@@ -101,17 +101,6 @@
     flex-basis: 100%;
     max-width: 100%;
     position: relative;
-    .image-organizer {
-      display: grid;
-
-      grid-template-columns: repeat(auto-fit, minmax(50px, 100px));
-      grid-gap: 7px;
-      &.hidden {
-        display: none;
-      }
-
-      transition: opacity 0.5s;
-    }
   }
   .image-item {
     position: relative;

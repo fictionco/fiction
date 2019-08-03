@@ -1,6 +1,6 @@
 module.exports.default = Factor => {
   return new (class {
-    constructor() { }
+    constructor() {}
 
     reload() {
       this.loadCore()
@@ -73,6 +73,14 @@ module.exports.default = Factor => {
     }
 
     loadPlugins() {
+      const { pathExistsSync } = require("fs-extra")
+
+      if (!pathExistsSync(Factor.$paths.get("loader-server"))) {
+        throw new Error(
+          "Factor loaders are missing. Did you forget to run 'yarn factor build' before serving your app?"
+        )
+      }
+
       const plugins = require(Factor.$paths.get("loader-server"))
 
       this.injectPlugins(plugins)
