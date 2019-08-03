@@ -4,7 +4,7 @@
 </a>
 </p>
 
- <p align="center">
+ <p>
   <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
   <a href="https://github.com/fiction-com/factor/commits/master"><img src="https://badgen.net/github/last-commit/fiction-com/factor" alt="Commit"></a>
   <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
