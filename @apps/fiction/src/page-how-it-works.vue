@@ -28,7 +28,7 @@
             </ul>
           </div>
           <div>
-            <img :src="require(`./img/remote-work.png`)" alt="Remote Work">
+            <img :src="require(`./img/remote-work.png`)" alt="Remote Work" >
           </div>
         </div>
         <div class="item">
@@ -47,7 +47,7 @@
             </ul>
           </div>
           <div>
-            <img :src="require(`./img/home-exchange.png`)" alt="Home Exchange">
+            <img :src="require(`./img/home-exchange.png`)" alt="Home Exchange" >
           </div>
         </div>
         <div class="item">
@@ -70,7 +70,7 @@
             </ul>
           </div>
           <div>
-            <img :src="require(`./img/profile-network.png`)" alt="Travel Profile and Network">
+            <img :src="require(`./img/profile-network.png`)" alt="Travel Profile and Network" >
           </div>
         </div>
         <div class="item">
@@ -89,7 +89,7 @@
             </ul>
           </div>
           <div>
-            <img :src="require(`./img/city-information.png`)" alt="City Information">
+            <img :src="require(`./img/city-information.png`)" alt="City Information" >
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
 <script>
 export default {
   components: {
-    "el-cta": () => import("./el/cta")
+    "el-cta": () => import("./el/cta.vue")
   },
   data() {
     return {

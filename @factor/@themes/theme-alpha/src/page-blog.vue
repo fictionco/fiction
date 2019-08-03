@@ -38,9 +38,9 @@
 <script>
 export default {
   components: {
-    "el-hero": () => import("./el/hero"),
-    "part-blog-entry": () => import("./el/blog-entry"),
-    "el-cta": () => import("./el/cta")
+    "el-hero": () => import("./el/hero.vue"),
+    "part-blog-entry": () => import("./el/blog-entry.vue"),
+    "el-cta": () => import("./el/cta.vue")
   },
   // props: {
   //   post: { type: Object, default: () => {} }

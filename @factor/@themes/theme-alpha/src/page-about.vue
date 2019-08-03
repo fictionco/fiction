@@ -18,9 +18,9 @@
 <script>
 export default {
   components: {
-    "el-hero": () => import("./el/hero"),
-    "el-clients": () => import("./el/clients"),
-    "el-cta": () => import("./el/cta")
+    "el-hero": () => import("./el/hero.vue"),
+    "el-clients": () => import("./el/clients.vue"),
+    "el-cta": () => import("./el/cta.vue")
   },
   data() {
     return {
