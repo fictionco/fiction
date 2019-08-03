@@ -21,11 +21,13 @@
 
 ## Features
 
-- Add Plugins, Themes as easy as `yarn add [extension]`
-- Ship Production Apps Faster 
-- 100% Javascript Stack
-- A Powerful CMS Framework (Optional)
+- Post System - A CMS engine used to create all sort of dynamic extensions: blogs, eCommerce, portfolios, slider, forms
+- Themes System  - Use themes to get up in running in minutes instead of days or months. 
+- Plugins - Drop-in plugins that do all the installation and config automatically. Just add to `dependencies`.
+- MEVN Stack - Vue, Node, MongoDB
+- Tons more:
   - Dashboard
+  - Server Side Rendered
   - Markdown Page and Post Editing System  
   - Authentication, Image Management, DB
 
