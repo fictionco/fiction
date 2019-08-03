@@ -21,7 +21,7 @@
 
 ## Features
 
-- Add Plugins, Themes, Stacks as easy as `yarn add [extension]`
+- Add Plugins, Themes as easy as `yarn add [extension]`
 - Ship Production Apps Faster 
 - 100% Javascript Stack
 - A Powerful CMS Framework (Optional)
