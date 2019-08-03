@@ -51,6 +51,12 @@ export default {
   }
   .bulk-actions {
     display: flex;
+    align-items: center;
+    // .delete-items {
+    //   font-size: 0.85em;
+    //   margin-right: 25px;
+    //   color: #ff0076;
+    // }
     > * {
       margin-right: 10px;
     }

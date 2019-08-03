@@ -24,6 +24,11 @@ export default Factor => {
       })
     }
 
+    async deleteMany({ _ids, postType }) {
+      this.setCache(postType)
+      return await this.request("deleteManyById", { _ids })
+    }
+
     setCache(postType) {
       Factor.$store.add(`${postType}Cache`, Factor.$time.stamp())
     }

@@ -31,7 +31,7 @@ export default {
       return this.blogMeta.pageCount || 1
     },
     count() {
-      return this.blogMeta.total || 1
+      return this.blogMeta.totalForQuery || 1
     },
     pageCurrent() {
       return this.blogMeta.pageCurrent || 1
