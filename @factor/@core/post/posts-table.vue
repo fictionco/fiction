@@ -115,31 +115,33 @@ export default {
 
   methods: {
     selectAll(val) {
-      if (!val) {
-        this.selected = []
-      } else {
-        this.selected = this.list.map(_ => _._id)
-      }
+      this.selected = !val ? [] : this.list.map(_ => _._id)
     },
     async runAction(action) {
       this.loadingAction = true
 
-      if (this.selected.length == 0) return
-
-      if (action == "delete") {
-        await this.$posts.deleteMany({
-          _ids: this.selected,
-          postType: this.postType
-        })
-      } else {
-        await this.$posts.saveMany({
-          _ids: this.selected,
-          data: { status: action },
-          postType: this.postType
-        })
+      if (this.selected.length > 0) {
+        if (action == "delete") {
+          if (
+            confirm(
+              "Are you sure? This will permanently delete the selected posts."
+            )
+          ) {
+            await this.$posts.deleteMany({
+              _ids: this.selected,
+              postType: this.postType
+            })
+          }
+        } else {
+          await this.$posts.saveMany({
+            _ids: this.selected,
+            data: { status: action },
+            postType: this.postType
+          })
+        }
+        this.$events.$emit("refresh-table")
       }
 
-      this.$events.$emit("refresh-table")
       this.loadingAction = false
     },
     postlink(postType, permalink) {
