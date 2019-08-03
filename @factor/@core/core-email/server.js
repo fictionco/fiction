@@ -10,7 +10,9 @@ module.exports.default = Factor => {
 
       if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
         Factor.$filters.callback("initial-server-start", () => {
-          Factor.$log.warn("No SMTP credentials. Transactional email will not be sent. (.env/SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST)")
+          Factor.$log.warn(
+            "No SMTP credentials. Transactional email will not be sent. (.env/SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST)"
+          )
         })
 
         this.transporter = false
@@ -61,12 +63,19 @@ module.exports.default = Factor => {
         lines.push(textFooter)
       }
 
-      let info = await this.client.sendMail({
+      const theEmail = {
         from,
         to,
         subject,
         html: lines.map(_ => `<p>${_}</p>`).join("")
-      })
+      }
+
+      let info
+      if (this.client) {
+        info = await this.client.sendMail(theEmail)
+      } else {
+        Factor.$log.info("Email could not be sent.", theEmail)
+      }
 
       return info
     }
