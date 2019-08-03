@@ -174,14 +174,14 @@
       <div class="mast">
         <div class="cta">
           <div>
-            <h3 class="title">Start to App in 3 Minutes</h3>
+            <h3 class="title">From Start to App in 3 Minutes</h3>
             <p class="subtitle">Read the Factor docs for quickstart information.</p>
           </div>
           <div class="actions">
-            <app-link path="https://factor.dev" btn="primary" size="large">
-              View Factor.dev
+            <app-btn path="https://factor.dev/guide/quickstart" btn="primary" size="large">
+              Quick Start
               <i class="fa fa-arrow-right" />
-            </app-link>
+            </app-btn>
           </div>
         </div>
       </div>
@@ -215,14 +215,17 @@ export default {
   .site-head {
     background: #1b223c;
     .logo-img .thelogotext {
-      fill: #f7f7f7;
+      fill: var(--color-light);
     }
     .mobile-logo .logo-img .thelogotext {
       fill: initial;
     }
 
     .nav > a {
-      color: #f7f7f7;
+      color: var(--color-light);
+      &:hover {
+        color: var(--color-primary);
+      }
       @media (max-width: 767px) {
         color: initial;
       }

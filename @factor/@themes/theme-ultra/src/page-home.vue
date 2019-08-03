@@ -51,7 +51,7 @@ export default {
   width: 60%;
 }
 .home-main-quotes {
-  font-size: 2.7vw;
+  font-size: 3em;
   color: #f7f7f7;
 }
 .home-buttons-container {
