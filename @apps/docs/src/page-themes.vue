@@ -31,7 +31,7 @@
           <div v-for="(item, i) in extensions.themes" :key="i" class="item">
             <div class="item-top">
               <app-link :path="item.demo">
-                <img :src="item.screenshot" :alt="item.name">
+                <img :src="item.screenshot" :alt="item.name" >
               </app-link>
             </div>
             <div class="item-bottom">
@@ -77,7 +77,7 @@
 import extensions from "./extensions"
 export default {
   components: {
-    "el-cta": () => import("#/el/cta")
+    "el-cta": () => import("#/el/cta.vue")
   },
   data() {
     return {

@@ -60,19 +60,19 @@
       <div class="mast">
         <div class="brands">
           <div class="brand">
-            <img :src="require(`./img/icon/forbes.svg`)" alt="Forbes">
+            <img :src="require(`./img/icon/forbes.svg`)" alt="Forbes" >
           </div>
           <div class="brand">
-            <img :src="require(`./img/icon/bloomberg.svg`)" alt="Bloomberg Business">
+            <img :src="require(`./img/icon/bloomberg.svg`)" alt="Bloomberg Business" >
           </div>
           <!-- <div class="brand">
             <img :src="require(`./img/icon/thenewyorktimes.svg`)" alt="The New York Times">
           </div>-->
           <div class="brand">
-            <img :src="require(`./img/icon/fortune.svg`)" alt="Fortune">
+            <img :src="require(`./img/icon/fortune.svg`)" alt="Fortune" >
           </div>
           <div class="brand">
-            <img :src="require(`./img/icon/wallstreetjournal.svg`)" alt="The Wallstreet Journal">
+            <img :src="require(`./img/icon/wallstreetjournal.svg`)" alt="The Wallstreet Journal" >
           </div>
         </div>
       </div>
@@ -112,9 +112,9 @@
 <script>
 export default {
   components: {
-    "el-cta": () => import("./el/cta"),
-    "el-svg": () => import("./el/el-svg"),
-    "member-avatar": () => import("./el/member-avatar")
+    "el-cta": () => import("./el/cta.vue"),
+    "el-svg": () => import("./el/el-svg.vue"),
+    "member-avatar": () => import("./el/member-avatar.vue")
   },
   data() {
     return {
