@@ -77,7 +77,7 @@
             <h2 class="title">Best of Breed Tools</h2>
             <p>We've spent years learning best practices and making mistakes so you don't have to...</p>
             <div class="actions">
-      <factor-link path="https://factor.dev/guide">
+              <factor-link path="https://factor.dev/guide">
                 More About The Tech
                 <i class="fa fa-arrow-right" />
               </factor-link>
@@ -174,15 +174,14 @@
       <div class="mast">
         <div class="cta">
           <div>
-            <h3 class="title">Ready to Start Building?</h3>
-            <p class="subtitle">Get in touch or create an account</p>
+            <h3 class="title">Start to App in 3 Minutes</h3>
+            <p class="subtitle">Read the Factor docs for quickstart information.</p>
           </div>
           <div class="actions">
-            <app-btn path="https://docs.fiction.com/getting-started" btn="primary" size="large">
-              Quick Start
+            <app-link path="https://factor.dev" btn="primary" size="large">
+              View Factor.dev
               <i class="fa fa-arrow-right" />
-            </app-btn>
-            <app-btn path="/contact" btn="default" size="large">Contact Us</app-btn>
+            </app-link>
           </div>
         </div>
       </div>
@@ -498,8 +497,11 @@ export default {
   .cta-wrap {
     padding: 3em 0;
     .cta {
+      margin: 0 auto;
+      max-width: 700px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      grid-template-columns: 2fr 1fr;
       grid-column-gap: 60px;
       @media (max-width: 767px) {
         text-align: center;
@@ -507,7 +509,7 @@ export default {
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 2.6em;
+        font-size: 2em;
         letter-spacing: -0.03em;
         line-height: 1.2em;
         margin-bottom: 0.2em;
