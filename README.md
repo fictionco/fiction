@@ -1,6 +1,8 @@
+<p>
 <a href="https://factor.dev">
   <img src="./factor.svg" width="350" style="width: 350px;display:block;">
 </a>
+</p>
 
  <p align="center">
   <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
