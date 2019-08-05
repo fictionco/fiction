@@ -2,11 +2,10 @@ module.exports.default = Factor => {
   return {
     blog: {
       components: {
-        blogContent: () => import("./blog/wrap.vue"),
-        customImage: () => import("./blog/custom.vue")
+        blogContent: () => import("./blog/wrap.vue")
       },
       layout: {
-        index: ["customImage", "headers", "excerpt", "meta"],
+        index: ["headers", "excerpt", "meta"],
         single: [
           "returnLink",
           "featuredImage",
