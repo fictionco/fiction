@@ -26,11 +26,7 @@ module.exports.default = Factor => {
     }
 
     getExtended(type = false) {
-      if (!type) {
-        return this.extensions
-      } else {
-        return this.extensions.filter(_ => _.extend == type)
-      }
+      return type ? this.extensions.filter(_ => _.extend == type) : this.extensions
     }
 
     generateLoaders() {
@@ -49,7 +45,7 @@ module.exports.default = Factor => {
       this.makeFileLoader({
         extensions: this.extensions,
         destination: Factor.$paths.get("loader-settings"),
-        filename: "theme-settings.js"
+        filename: "factor-settings.js"
       })
 
       console.log(`Loaders built for ${this.extensions.length} Extensions`)

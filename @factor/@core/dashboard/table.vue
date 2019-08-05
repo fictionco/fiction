@@ -11,7 +11,7 @@
           <template v-if="col.column == 'select'">
             <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" >
           </template>
-          <span v-else class="head-text">{{ $utils.toLabel(col.column) }}</span>
+          <span v-else class="head-text">{{ col.name || $utils.toLabel(col.column) }}</span>
         </div>
       </div>
       <div

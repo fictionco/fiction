@@ -21,7 +21,7 @@ $ yarn add @factor/theme-alpha
 
 This theme uses Factor's native theme settings system.
 
-Copy the [theme-settings.js](https://github.com/fiction-com/factor/blob/master/%40factor/%40themes/theme-alpha/src/theme-settings.js) file and place in your applications source folder `src`.
+Copy the [factor-settings.js](https://github.com/fiction-com/factor/blob/master/%40factor/%40themes/theme-alpha/src/factor-settings.js) file and place in your applications source folder `src`.
 
 Edit the settings you'd like to change, the result will be merged with the theme settings file.
 
