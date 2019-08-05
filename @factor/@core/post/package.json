@@ -13,7 +13,7 @@
         "index"
       ]
     },
-    "id": "posts"
+    "id": "post"
   },
   "dependencies": {
     "@factor/app": "^1.0.0-alpha.20",

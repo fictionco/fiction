@@ -343,8 +343,10 @@ export default Factor => {
         parts.push(path)
         return parts.join("").replace(/\/$/, "") // remove trailing backslash
       } else {
-        if (postType) {
-          const { baseRoute } = this.postTypeMeta(postType)
+        const postTypeMeta = postType ? this.postTypeMeta(postType) : false
+
+        if (postTypeMeta) {
+          const { baseRoute } = postTypeMeta
 
           // trim slashes
           if (baseRoute) parts.push(baseRoute.replace(/^\/|\/$/g, ""))

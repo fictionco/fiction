@@ -6,10 +6,10 @@
     "access": "public"
   },
   "factor": {
-    "target": {
-      "app": "index",
-      "server": "server"
-    },
+    "target": [
+      "app",
+      "server"
+    ],
     "id": "templates"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
