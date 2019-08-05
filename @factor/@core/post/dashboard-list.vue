@@ -31,7 +31,7 @@ export default {
       return this.$store.val(this.postType) || []
     },
     postTypeMeta() {
-      return this.$posts.postTypeMeta(this.postType)
+      return this.$post.postTypeMeta(this.postType)
     },
     templateLoader() {
       const { listTemplate } = this.postTypeMeta
@@ -80,7 +80,7 @@ export default {
     // async handlePostAction({ action, selected }) {
     //   if (selected.length == 0) return
 
-    //   await this.$posts.saveMany({
+    //   await this.$post.saveMany({
     //     _ids: selected,
     //     data: { status: "action" }
     //   })
@@ -92,7 +92,7 @@ export default {
     },
     async setPosts() {
       this.loading = true
-      await this.$posts.getPostIndex(this.filters)
+      await this.$post.getPostIndex(this.filters)
       this.loading = false
     }
   }

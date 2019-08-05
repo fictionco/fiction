@@ -164,12 +164,12 @@ export default {
 
         this.$user.init(async uid => {
           if (uid) {
-            const post = await this.$posts.getSinglePost({
+            const post = await this.$post.getSinglePost({
               _id: uid,
               postType: "user"
             })
 
-            await this.$posts.setPostData({ post })
+            await this.$post.setPostData({ post })
           }
           this.loading = false
         })

@@ -31,7 +31,7 @@
     >
       <template slot-scope="{column, item, row}">
         <div v-if="column == 'select'">
-          <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
+          <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id">
         </div>
         <div v-if="column == 'title'" class="post-title">
           <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ item }}</dashboard-link>
@@ -74,7 +74,7 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$posts.getStatusCount({
+            : this.$post.getStatusCount({
                 meta: this.meta,
                 key,
                 nullKey: "draft"
@@ -127,13 +127,13 @@ export default {
               "Are you sure? This will permanently delete the selected posts."
             )
           ) {
-            await this.$posts.deleteMany({
+            await this.$post.deleteMany({
               _ids: this.selected,
               postType: this.postType
             })
           }
         } else {
-          await this.$posts.saveMany({
+          await this.$post.saveMany({
             _ids: this.selected,
             data: { status: action },
             postType: this.postType
@@ -145,11 +145,11 @@ export default {
       this.loadingAction = false
     },
     postlink(postType, permalink) {
-      return this.$posts.getPermalink({ postType, permalink })
+      return this.$post.getPermalink({ postType, permalink })
     },
 
     async trashPost(id, index) {
-      await this.$posts.trashPost({ id })
+      await this.$post.trashPost({ id })
 
       this.posts.splice(index, 1)
     },

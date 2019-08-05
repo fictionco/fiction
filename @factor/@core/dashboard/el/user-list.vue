@@ -50,7 +50,7 @@ export default {
   },
 
   async mounted() {
-    const posts = await this.$posts.getList({
+    const posts = await this.$post.getList({
       postType: "user",
       conditions: { accessLevel: { $gt: 99 } },
       options: { limit: 100, depth: 0 }

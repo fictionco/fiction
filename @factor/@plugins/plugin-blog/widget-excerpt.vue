@@ -1,7 +1,7 @@
 <template>
   <div class="post-excerpt">
     <span class="inline-excerpt">{{ $utils.excerpt(post.content) }}</span>
-    <factor-link class="read-link" :path="$posts.link(post._id)">
+    <factor-link class="read-link" :path="$post.link(post._id)">
       Read
       <factor-icon icon="arrow-right" />
     </factor-link>

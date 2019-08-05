@@ -51,7 +51,7 @@ module.exports.default = Factor => {
     async sendVerifyEmail({ email, _id, user }, { bearer }) {
       const emailVerificationCode = Factor.$randomToken()
 
-      await Factor.$postsServer.save(
+      await Factor.$postServer.save(
         { data: { _id, emailVerificationCode, postType: "user" } },
         { bearer }
       )
