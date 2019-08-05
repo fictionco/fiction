@@ -59,7 +59,9 @@ export default {
   }
 
   .splash-wrap {
-    padding: 7em 0;
+    position: relative;
+    padding: 6em 1em 10em;
+    background-color: #fff;
     background-repeat: no-repeat;
     background-size: auto 100%;
     background-position: right 0 top 0;
@@ -70,17 +72,19 @@ export default {
     .hhh {
       pointer-events: none;
       position: absolute;
+      z-index: 1;
       left: 0;
       right: 0;
       bottom: 0;
-      top: 67%;
-      transform: skewY(-6deg);
-      background: #f5f8fc;
+      top: 80%;
+      transform: skewY(-3deg);
+      height: 150px;
+      background: #fafbff;
       transition: opacity 0.2s ease-out;
       will-change: transform;
     }
     .splash {
-      z-index: 1;
+      z-index: 2;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-column-gap: 40px;
@@ -130,8 +134,7 @@ export default {
   .boxes-wrap {
     padding: 2em 1em 4em;
     position: relative;
-    z-index: 1;
-    background: #f5f8fc;
+    z-index: 2;
     .boxes {
       max-width: 1000px;
       margin: 0 auto;

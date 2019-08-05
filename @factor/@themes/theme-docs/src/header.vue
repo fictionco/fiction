@@ -23,6 +23,12 @@ export default {
 }
 </script>
 <style lang="less">
+.nav-bg-light .site-head {
+  background: #fff;
+}
+.nav-bg-gray .site-head {
+  background: #f5f8fc;
+}
 .site-head {
   padding: 0 1.5em;
   position: relative;
