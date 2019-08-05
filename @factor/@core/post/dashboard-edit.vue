@@ -14,7 +14,7 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeMeta() {
-      return this.$posts.postTypeMeta(this.postType)
+      return this.$post.postTypeMeta(this.postType)
     },
     templateLoader() {
       const { editTemplate } = this.postTypeMeta
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     async requestPost() {
-      const post = await this.$posts.getSinglePost({
+      const post = await this.$post.getSinglePost({
         _id: this._id,
         postType: this.postType,
         createOnEmpty: true,

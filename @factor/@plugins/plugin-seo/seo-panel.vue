@@ -48,7 +48,7 @@ export default {
     //   }
     // },
     link() {
-      return this.$posts.link(this.postId, { root: true })
+      return this.$post.link(this.postId, { root: true })
     }
   },
   watch: {

@@ -118,7 +118,7 @@ export default Factor => {
       const token = user && user.token ? user.token : this.token() ? this.token() : null
 
       try {
-        user = token ? await Factor.$posts.getSinglePost({ token }) : {}
+        user = token ? await Factor.$post.getSinglePost({ token }) : {}
 
         this.setUser({ user, token, current: true })
 

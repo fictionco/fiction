@@ -23,17 +23,15 @@ export default Factor => {
     }
 
     async getPermalinks() {
-      const results = await Factor.$db.run({
-        method: "find",
-        conditions: {},
-        limit: 1000
-      })
-
-      const urls = results.data
-        .filter(_ => _.permalink)
-        .map(({ type, permalink }) => {
-          return Factor.$posts.getPermalink({ postType, permalink, root: false })
+      const posts = await Factor.$dbServer
+        .model("post")
+        .find({ permalink: { $ne: null }, status: "published" }, "permalink postType", {
+          limit: 2000
         })
+
+      const urls = posts.map(({ postType, permalink }) => {
+        return Factor.$post.getPermalink({ postType, permalink })
+      })
 
       return urls.concat(this.getRouteUrls())
     }

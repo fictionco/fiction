@@ -6,6 +6,7 @@
     "access": "public"
   },
   "factor": {
+    "priority": 10,
     "target": [
       "app",
       "server"

@@ -143,7 +143,7 @@ export default {
     async save() {
       this.sending = true
 
-      const saved = await this.$posts.save({
+      const saved = await this.$post.save({
         post: this.post,
         postType: this.postType
       })

@@ -3,9 +3,9 @@
     <div class="linky">
       <factor-link
         class="linky-link"
-        :path="value ? $posts.getPermalink({ postType, permalink }) : ''"
+        :path="value ? $post.getPermalink({ postType, permalink }) : ''"
       >
-        <span class="root">{{ $posts.getPermalink({ postType }) }}</span>
+        <span class="root">{{ $post.getPermalink({ postType }) }}</span>
         <span v-if="!toggleValue" class="permalink-value">
           <span class="val">{{ permalink }}</span>
         </span>
