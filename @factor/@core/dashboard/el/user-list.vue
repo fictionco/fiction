@@ -53,7 +53,7 @@ export default {
     const posts = await this.$post.getList({
       postType: "user",
       conditions: { accessLevel: { $gt: 99 } },
-      options: { limit: 100, depth: 0 }
+      options: { limit: 100 }
     })
 
     this.potentialAuthors = posts.map(_ => {

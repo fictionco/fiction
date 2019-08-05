@@ -4,7 +4,9 @@
       <div v-for="(tag, index) in tags" :key="index" class="tag">
         <span class="tx">{{ tag }}</span>
 
-        <factor-icon class="rm" icon="remove" @click="removeTag(index)" />
+        <span class="rm" @click="removeTag(index)">
+          <factor-icon icon="remove" />
+        </span>
       </div>
     </div>
     <div class="the-input">
@@ -55,6 +57,7 @@ export default {
       this.$emit("input", this.tags)
     },
     removeTag(index) {
+      console.log("REMOVE", index, this.tags)
       this.tags.splice(index)
       this.$emit("input", this.tags)
     }
@@ -70,7 +73,7 @@ export default {
   .tag {
     display: inline-block;
     padding: 3px 0.5em;
-    box-shadow: var(--dashboard-input-shadow);
+    box-shadow: var(--input-shadow);
     border-radius: 5px;
     margin: 0 0.5em 0.5em 0;
     .tx {

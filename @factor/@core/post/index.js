@@ -191,12 +191,6 @@ export default Factor => {
       return _post
     }
 
-    async getList(args) {
-      const { posts } = await this.request("list", args)
-
-      return posts
-    }
-
     async getSinglePost(args) {
       const {
         permalink,
@@ -232,6 +226,22 @@ export default Factor => {
       return post
     }
 
+    async getList(args) {
+      const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = args
+
+      const skip = (page - 1) * limit
+
+      const posts = await this.request("postList", {
+        postType,
+        conditions,
+        options: { limit, skip, page, sort }
+      })
+
+      await this.populatePosts({ posts, depth })
+
+      return posts
+    }
+
     async getPostIndex(args) {
       const { limit = 10, page = 1, postType, sort } = args
       const queryHash = this.objectHash({ ...args, cache: this.cacheKey(postType) })
@@ -258,7 +268,7 @@ export default Factor => {
 
       const skip = (page - 1) * limit
 
-      const { posts, meta } = await this.request("list", {
+      const { posts, meta } = await this.request("postIndex", {
         postType,
         conditions,
         options: { limit, skip, page, sort }
@@ -267,7 +277,7 @@ export default Factor => {
       Factor.$store.add(queryHash, { posts, meta })
       Factor.$store.add(postType, { posts, meta })
 
-      await this.populatePosts({ posts, depth: 5 })
+      await this.populatePosts({ posts, depth: 20 })
 
       return { posts, meta }
     }
