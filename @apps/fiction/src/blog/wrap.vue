@@ -1,6 +1,5 @@
 <template>
   <div class="blog-content">
-    Fiction Blog
     <router-view />
   </div>
 </template>
@@ -12,7 +11,7 @@ export default {}
 
 <style lang="less">
 .blog-content {
-  max-width: 80rem;
+  max-width: 50rem;
   margin: 0 auto;
   padding: 1rem 0;
 }
