@@ -8,7 +8,10 @@
   "factor": {
     "target": {
       "app": "index",
-      "server": "server"
+      "server": [
+        "server",
+        "index"
+      ]
     },
     "id": "posts"
   },

@@ -125,21 +125,6 @@ module.exports.default = Factor => {
       Factor.$log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` Ready`))
     }
 
-    // onInitialListen() {
-    //   const url = Factor.$paths.localhostUrl()
-
-    //   const message = {
-    //     title: "Development Server",
-    //     lines: [
-    //       { title: "URL", value: url, indent: true },
-    //       { title: "NODE_ENV", value: NODE_ENV, indent: true },
-    //       { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
-    //     ]
-    //   }
-
-    //   Factor.$log.formatted(message)
-    // }
-
     async startServerDevelopment() {
       const { middleware } = Factor.$filters.apply("development-server", bundled => {
         const { bundle, template, clientManifest } = bundled

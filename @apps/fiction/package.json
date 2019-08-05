@@ -13,10 +13,11 @@
     ]
   },
   "dependencies": {
-    "@factor/post": "^1.0.0-alpha.20",
+    "@factor/index": "^1.0.0-alpha.20",
     "execa": "^2.0.3",
     "@factor/plugin-notify": "^1.0.0-alpha.20",
     "@factor/plugin-blog": "^1.0.0-alpha.20",
-    "@factor/plugin-seo": "^1.0.0-alpha.20"
+    "@factor/plugin-seo": "^1.0.0-alpha.20",
+    "@factor/plugin-sitemap": "^1.0.0-alpha.20"
   }
 }
