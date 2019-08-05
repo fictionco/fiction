@@ -71,7 +71,23 @@ module.exports.default = Factor => {
       return await this.getPostTypeModel(postType).remove({ _id: { $in: _ids } })
     }
 
-    async list(params, { bearer }) {
+    async postList(params, { bearer }) {
+      let { postType, conditions = {}, select = null, options } = params
+
+      options = Object.assign(
+        {},
+        {
+          sort: "-createdAt",
+          limit: 20,
+          skip: 0
+        },
+        options
+      )
+
+      return await Factor.$dbServer.model(postType).find(conditions, select, options)
+    }
+
+    async postIndex(params, { bearer }) {
       let { postType, conditions = {}, options } = params
 
       options = Object.assign(

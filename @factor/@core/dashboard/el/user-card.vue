@@ -31,6 +31,7 @@ export default {
   display: inline-block;
   .card {
     box-shadow: var(--input-shadow);
+    border-radius: 5px;
     color: inherit;
     &:hover {
       color: inherit;
@@ -44,7 +45,7 @@ export default {
       padding: 0 10px 0 10px;
       font-size: 0.9em;
     }
-    border-radius: 1.25em;
+
     padding: 2px;
     .remove {
       width: 1.25em;

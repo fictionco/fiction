@@ -31,7 +31,7 @@
     >
       <template slot-scope="{column, item, row}">
         <div v-if="column == 'select'">
-          <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id">
+          <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
         </div>
         <div v-if="column == 'title'" class="post-title">
           <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ item }}</dashboard-link>
@@ -48,7 +48,7 @@
 
         <div v-else-if="column == 'status'" class="meta">{{ $utils.toLabel(row.status) }}</div>
         <div v-else-if="column == 'updated'" class="meta">{{ $time.niceFormat(row.updatedAt) }}</div>
-        <div v-else-if="column == 'created'" class="meta">{{ $time.niceFormat(row.createdAt) }}</div>
+        <div v-else-if="column == 'publish-date'" class="meta">{{ $time.niceFormat(row.date) }}</div>
       </template>
     </dashboard-table>
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
@@ -180,7 +180,7 @@ export default {
           mobile: "mcol-2-15"
         },
         {
-          column: "created",
+          column: "publish-date",
           class: "col-2",
           mobile: "mcol-2-15"
         },
