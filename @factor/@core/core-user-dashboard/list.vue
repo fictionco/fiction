@@ -24,7 +24,7 @@
         </div>
 
         <div v-else-if="column == 'photo'" class="author">
-          <factor-avatar :post="row" />
+          <factor-avatar :post-id="row.avatar" />
         </div>
 
         <div v-else-if="column == 'role'" class="meta">
