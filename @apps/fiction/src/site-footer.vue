@@ -23,8 +23,8 @@
       </div>
       <div class="footer-col">
         <div class="menu-header">Company</div>
-        <factor-link path="/about">About</factor-link>
-        <factor-link path="/about#careers">Careers</factor-link>
+        <!-- <factor-link path="/about">About</factor-link> -->
+        <factor-link path="/careers">Careers</factor-link>
       </div>
       <div class="footer-col">
         <div>
@@ -53,6 +53,7 @@ export default {
   max-width: 1200px;
   margin: 3em auto;
   position: relative;
+  border-top: 1px solid rgba(80, 102, 119, 0.1);
   .content-footer-pad {
     margin: 0 auto;
     padding: 1.5rem 2em 1rem;

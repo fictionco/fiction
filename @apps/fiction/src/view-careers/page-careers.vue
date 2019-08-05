@@ -279,7 +279,7 @@ export default {
           grid-template-columns: 40px 1fr;
           .fa {
             font-size: 22px;
-            opacity: 0.5;
+            color: var(--color-secondary);
           }
           .box-title {
             font-size: 1.4em;
@@ -360,7 +360,8 @@ export default {
   // Careers
   .careers {
     position: relative;
-    background-color: #fff;
+    //background-color: #fff;
+    border-top: 1px solid rgba(80, 102, 119, 0.1);
     padding: 3em 0;
     .careers-inner {
       display: grid;
@@ -385,6 +386,7 @@ export default {
           }
           &:last-child {
             margin-bottom: 0;
+            border-bottom: none;
           }
           h3 {
             font-weight: var(--font-weight-bold);
