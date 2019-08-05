@@ -1,5 +1,5 @@
 <template>
-  <div class="page-tour">
+  <div class="view-tour">
     <section class="splash-wrap">
       <div class="splash mast">
         <div>
@@ -211,32 +211,11 @@ export default {
 }
 </script>
 <style lang="less">
-.nav-light {
-  .site-head {
-    background: #1b223c;
-    .logo-img .thelogotext {
-      fill: var(--color-light);
-    }
-    .mobile-logo .logo-img .thelogotext {
-      fill: initial;
-    }
-
-    .nav > a {
-      color: var(--color-light);
-      &:hover {
-        color: var(--color-primary);
-      }
-      @media (max-width: 767px) {
-        color: initial;
-      }
-    }
-  }
-}
-.page-tour {
+.view-tour {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
@@ -324,11 +303,11 @@ export default {
         }
       }
       .subtitle {
-        opacity: 0.5;
+        opacity: 0.7;
         font-size: 1.4em;
         font-weight: 400;
         margin-bottom: 1.5em;
-        color: #d9d9d9;
+        color: var(--color-light);
 
         @media (max-width: 767px) {
           font-size: 1.2em;

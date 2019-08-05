@@ -7,13 +7,6 @@ module.exports.default = Factor => {
       }
     }
 
-    // addComponents() {
-    //   Factor.$filters.add("components", _ => {
-    //     _["el-btn"] = () => import("./el/btn.vue")
-    //     return _
-    //   })
-    // }
-
     addComponents() {
       Factor.$filters.add("components", _ => {
         _["app-btn"] = () => import("./el/btn")
@@ -44,23 +37,24 @@ module.exports.default = Factor => {
             meta: { nav: true }
           },
           {
-            path: "/vip",
-            component: () => import("./view-vip/page-vip"),
-            meta: { nav: true, pageClass: ["nav-light"], background: "#fff" }
-          },
-          {
             path: "/factor-js",
             component: () => import("./view-tour/page-tour"),
             meta: { nav: true, pageClass: ["nav-light"] }
           },
           {
+            path: "/careers",
+            component: () => import("./view-careers/page-careers"),
+            meta: { nav: true, pageClass: ["nav-light"] }
+          },
+          {
+            path: "/vip",
+            component: () => import("./view-vip/page-vip"),
+            meta: { nav: true, pageClass: ["nav-light"], background: "#fff" }
+          },
+          {
             path: "/how-it-works",
             component: () => import("./page-how-it-works"),
             meta: { background: "#f7f9ff" }
-          },
-          {
-            path: "/about",
-            component: () => import("./view-about/page-about")
           },
           {
             path: "/contact",
@@ -79,10 +73,6 @@ module.exports.default = Factor => {
           {
             path: "/staying",
             component: () => import("./page-staying")
-          },
-          {
-            path: "/careers",
-            component: () => import("./page-careers")
           },
           {
             path: "/network",

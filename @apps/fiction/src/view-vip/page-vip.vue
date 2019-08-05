@@ -307,10 +307,6 @@ export default {
       grid-gap: 30px;
       align-items: center;
       padding: 7em 0 10em;
-      @media (max-width: 767px) {
-        padding: 4em 0;
-        grid-template-columns: 1fr;
-      }
       .title {
         font-weight: 600;
         font-size: 3em;
@@ -329,6 +325,15 @@ export default {
       }
       img {
         max-width: 100%;
+        margin: 0 auto;
+      }
+      @media (max-width: 767px) {
+        text-align: center;
+        padding: 4em 0;
+        grid-template-columns: 1fr;
+        img.title {
+          margin-left: 40px;
+        }
       }
     }
   }
@@ -356,7 +361,7 @@ export default {
         }
         .box-title {
           font-size: 1.4em;
-          font-weight: 600;
+          font-weight: var(--font-weight-bold);
           letter-spacing: -0.03em;
           margin-bottom: 0.5em;
         }
@@ -371,6 +376,9 @@ export default {
       }
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
+        transform: translateY(0);
+        margin: 0 2em 2em;
+        padding: 2em;
         .box {
           padding: 0;
         }
@@ -392,7 +400,7 @@ export default {
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       grid-gap: 2em;
       align-items: center;
       margin: 3em auto;
@@ -421,6 +429,9 @@ export default {
       background: #f5f8fc;
       transition: opacity 0.2s ease-out;
       will-change: transform;
+      @media (max-width: 767px) {
+        bottom: -20%;
+      }
     }
   }
 
@@ -431,7 +442,7 @@ export default {
     margin-top: 7em;
 
     .contact-inner {
-      padding: 4em 0 2em;
+      padding: 4em 2em 2em;
       position: relative;
       z-index: 1;
       max-width: 650px;

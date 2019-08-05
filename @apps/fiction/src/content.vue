@@ -2,7 +2,7 @@
   <div class="content-layout">
     <site-head v-if="nav">
       <factor-link path="/factor-js">Factor JS</factor-link>
-      <factor-link path="/about">About</factor-link>
+      <factor-link path="/careers">Careers</factor-link>
 
       <factor-link v-if="!$userId" event="signin-modal" data-test="login">
         Sign In

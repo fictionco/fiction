@@ -75,5 +75,14 @@ button.app-btn {
     color: var(--color-primary);
     background: var(--color-tertiary);
   }
+  &.quaternary {
+    color: var(--color-light);
+    border: 1px solid var(--color-light);
+    &:hover {
+      color: var(--color-secondary);
+      background: var(--color-light);
+      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
+    }
+  }
 }
 </style>
