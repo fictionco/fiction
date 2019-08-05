@@ -25,7 +25,7 @@
             :post-id="post.id"
             :loading="loading"
             :tags="post.tags"
-            :path="$posts.getPermalink({postType: post.postType, permalink: post.permalink})"
+            :path="$post.getPermalink({postType: post.postType, permalink: post.permalink})"
           />
         </div>
       </div>
@@ -74,7 +74,7 @@ export default {
   //   async getPosts() {
   //     const tag = this.$route.params.tag || ""
   //     this.loading = true
-  //     const r = await this.$posts.getPostIndex({
+  //     const r = await this.$post.getPostIndex({
   //       type: "blog",
   //       tag,
   //       storeKey: "index",

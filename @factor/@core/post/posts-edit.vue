@@ -153,7 +153,7 @@ export default {
       return this.$route.params.postType || this.post.postType || "page"
     },
     url() {
-      return this.$posts.getPermalink({
+      return this.$post.getPermalink({
         postType: this.postType,
         permalink: this.post.permalink,
         root: false
@@ -187,7 +187,7 @@ export default {
 
       this.$events.$emit("lockPermalink")
 
-      const saved = await this.$posts.save({
+      const saved = await this.$post.save({
         post: this.post,
         postType: this.postType
       })
@@ -216,7 +216,7 @@ export default {
     addRevision({ post, meta }) {
       this.clearAutosave()
 
-      const postData = this.$posts.addRevision({ post, meta })
+      const postData = this.$post.addRevision({ post, meta })
 
       this.$set(this.post, "revisions", postData.revisions)
 

@@ -28,7 +28,7 @@ export default Factor => {
         .find({ permalink: { $ne: null } }, null, { limit: 2000 })
 
       const urls = posts.map(({ postType, permalink }) => {
-        return Factor.$posts.getPermalink({ postType, permalink, root: false })
+        return Factor.$post.getPermalink({ postType, permalink, root: false })
       })
 
       return urls.concat(this.getRouteUrls())
