@@ -11,8 +11,10 @@ export default {}
 
 <style lang="less">
 .blog-content {
-  max-width: 50rem;
-  margin: 0 auto;
-  padding: 1rem 0;
+  .entries {
+    max-width: 50rem;
+    margin: -100px auto 0;
+    padding: 1rem 0;
+  }
 }
 </style>
