@@ -33,8 +33,10 @@ module.exports.default = Factor => {
         const fileName = basename(resource.request)
         const src = Factor.$paths.get("source")
 
-        const inApp = this.findInDirectory({ directory: src, fileName })
-
+        //const inApp = this.findInDirectory({ directory: src, fileName })
+        const inApp = this._fileExists(
+          resource.request.replace("#", Factor.$paths.get("source"))
+        )
         let filePath = ""
         if (inApp) {
           filePath = inApp
@@ -42,7 +44,9 @@ module.exports.default = Factor => {
           if (this.themes.length > 0) {
             this.themes.some(_ => {
               const themeSrc = dirname(require.resolve(_.name))
-              const inTheme = this.findInDirectory({ fileName, directory: themeSrc })
+              // const inTheme = this.findInDirectory({ fileName, directory: themeSrc })
+
+              const inTheme = this._fileExists(resource.request.replace("#", themeSrc))
 
               if (inTheme) {
                 filePath = inTheme

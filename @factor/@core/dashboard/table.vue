@@ -261,7 +261,7 @@ export default {
       }
 
       &:last-child {
-        //text-align: right;
+        text-align: right;
         .zero-lines .line {
           float: right;
           width: 50%;

@@ -1,12 +1,11 @@
 <template>
-  <dashboard-page :key="postType" :loading="loading" class="posts-dashboard">
+  <dashboard-page :key="postType" class="posts-dashboard">
     <component
       :is="templateLoader"
       :list="posts"
       :meta="postsMeta"
       :loading="loading"
       :title="postTypeLabel"
-      @refresh="test()"
     />
   </dashboard-page>
 </template>
@@ -72,7 +71,6 @@ export default {
   mounted() {
     this.setPosts()
     this.$events.$on("refresh-table", () => {
-      console.log("refresh me?")
       this.setPosts()
     })
   },
@@ -87,9 +85,7 @@ export default {
 
     //   this.setPosts()
     // },
-    test() {
-      console.log("refresh work?")
-    },
+
     async setPosts() {
       this.loading = true
       await this.$post.getPostIndex(this.filters)
