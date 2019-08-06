@@ -40,7 +40,7 @@ export default {
   .post-entry,
   .social-share,
   .author-bio {
-    max-width: 736px;
+    max-width: 50rem;
     margin: 1rem auto;
     padding: 0;
   }
@@ -49,6 +49,7 @@ export default {
     .return-link,
     .entry-headers,
     .post-entry,
+    .entry-meta,
     .social-share,
     .author-bio {
       padding: 0 1em;
