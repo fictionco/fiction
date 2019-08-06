@@ -19,6 +19,7 @@ export default Factor => {
       tag: { type: [String], index: true },
       category: { type: [String], index: true },
       revisions: [Object],
+      settings: {},
       status: {
         type: String,
         enum: ["published", "draft", "trash"],
@@ -38,6 +39,7 @@ export default Factor => {
     }),
     callback: _s => {
       _s.pre("save", function(next) {
+        this.markModified("settings")
         if (!this.date && this.status == "published") {
           const now = new Date()
           this.date = now.toISOString()
