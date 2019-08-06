@@ -126,6 +126,9 @@ export default {
     &:first-child {
       margin-top: 0;
     }
+    @media (max-width: 767px) {
+      margin: 2rem 1rem;
+    }
   }
 }
 .label {
