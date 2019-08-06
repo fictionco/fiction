@@ -35,6 +35,7 @@ export default {
   border-radius: 5px 5px 0 0;
 }
 .single-entry .featured-image {
+  border-radius: 0;
   height: 60vh;
 }
 </style>

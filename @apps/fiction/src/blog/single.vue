@@ -40,9 +40,18 @@ export default {
   .post-entry,
   .social-share,
   .author-bio {
-    max-width: 1000px;
+    max-width: 736px;
     margin: 1rem auto;
     padding: 0;
+  }
+  @media (max-width: 767px) {
+    .return-link,
+    .entry-headers,
+    .post-entry,
+    .social-share,
+    .author-bio {
+      padding: 0 1em;
+    }
   }
 }
 </style>
