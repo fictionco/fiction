@@ -3,15 +3,15 @@
   "factor": {
     "id": "tools"
   },
-  "version": "1.0.0-alpha.20",
+  "version": "1.0.0-alpha.21",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/tools-http": "^1.0.0-alpha.20",
+    "@factor/tools-http": "^1.0.0-alpha.21",
     "@factor/tools-markdown": "^1.0.0-alpha.20",
-    "@factor/tools-mongo": "^1.0.0-alpha.20",
+    "@factor/tools-mongo": "^1.0.0-alpha.21",
     "@factor/tools-time": "^1.0.0-alpha.20",
     "axios": "^0.18.0",
     "deepmerge": "^3.2.0",
