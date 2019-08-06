@@ -27,7 +27,11 @@ export default {
 <style lang="less">
 .entry-tags {
   line-height: 1;
-  padding: 0 2em;
+  padding: 1em 0 0;
+
+  // @media (max-width: 767px) {
+  //   padding: 0 1em;
+  // }
 }
 .entry-tags a {
   color: var(--color-primary);

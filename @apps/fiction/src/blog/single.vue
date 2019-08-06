@@ -35,8 +35,8 @@ export default {
 
 <style lang="less">
 .single-entry {
-  .return-link,
-  .entry-headers,
+  .widget-date,
+  .entry-meta,
   .post-entry,
   .social-share,
   .author-bio {
@@ -44,6 +44,7 @@ export default {
     margin: 1rem auto;
     padding: 0;
   }
+
   @media (max-width: 767px) {
     .return-link,
     .entry-headers,
