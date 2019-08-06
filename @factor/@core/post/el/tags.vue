@@ -52,13 +52,15 @@ export default {
   },
   methods: {
     addTag() {
-      this.tags.push(this.addedSlug)
+      if (this.addedSlug && !this.tags.includes(this.addedSlug)) {
+        this.tags.push(this.addedSlug)
+
+        this.$emit("input", this.tags)
+      }
       this.addedText = ""
-      this.$emit("input", this.tags)
     },
     removeTag(index) {
-      console.log("REMOVE", index, this.tags)
-      this.tags.splice(index)
+      this.tags.splice(index, 1)
       this.$emit("input", this.tags)
     }
   }
