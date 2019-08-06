@@ -7,13 +7,6 @@ module.exports.default = Factor => {
       }
     }
 
-    // addComponents() {
-    //   Factor.$filters.add("components", _ => {
-    //     _["el-btn"] = () => import("./el/btn.vue")
-    //     return _
-    //   })
-    // }
-
     addComponents() {
       Factor.$filters.add("components", _ => {
         _["app-btn"] = () => import("./el/btn")
