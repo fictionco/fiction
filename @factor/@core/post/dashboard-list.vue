@@ -5,7 +5,9 @@
       :list="posts"
       :meta="postsMeta"
       :loading="loading"
+      :sending="sending"
       :title="postTypeLabel"
+      @action="runPostAction($event)"
     />
   </dashboard-page>
 </template>
@@ -16,7 +18,8 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      sending: false
     }
   },
   metatags() {
@@ -75,16 +78,33 @@ export default {
     })
   },
   methods: {
-    // async handlePostAction({ action, selected }) {
-    //   if (selected.length == 0) return
+    async runPostAction({ action, selected }) {
+      this.sending = true
 
-    //   await this.$post.saveMany({
-    //     _ids: selected,
-    //     data: { status: "action" }
-    //   })
+      if (selected.length > 0) {
+        if (action == "delete") {
+          if (
+            confirm(
+              "Are you sure? This will permanently delete the selected posts."
+            )
+          ) {
+            await this.$post.deleteMany({
+              _ids: selected,
+              postType: this.postType
+            })
+          }
+        } else {
+          await this.$post.saveMany({
+            _ids: selected,
+            data: { status: action },
+            postType: this.postType
+          })
+        }
+        this.setPosts()
+      }
 
-    //   this.setPosts()
-    // },
+      this.sending = false
+    },
 
     async setPosts() {
       this.loading = true
