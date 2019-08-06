@@ -1,6 +1,5 @@
 <template>
   <div class="entry-meta">
-    {{ $setting.get('blog.layout.meta') }}
     <component
       :is="$setting.get(`blog.components.${comp}`)"
       v-for="(comp, i) in $setting.get('blog.layout.meta')"
@@ -23,10 +22,17 @@ export default {
 </script>
 <style lang="less">
 .entry-meta {
-  display: flex;
+  display: grid;
   align-items: center;
   margin-right: 1em;
-  padding: 0.3em 0;
+  padding: 0.3em 2em 2em;
   justify-content: space-between;
+  .entry-tags {
+    padding: 1em 0 0;
+  }
+  @media (max-width: 767px) {
+    padding: 0.3em 1em 1em;
+    margin: 0;
+  }
 }
 </style>

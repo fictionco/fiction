@@ -20,8 +20,12 @@ export default {
 </script>
 <style lang="less">
 .entry-headers {
-  margin: 1rem 0;
-  padding: 0 2em;
+  margin: 1em 0;
+  padding: 1em 2em 0;
+  @media (max-width: 767px) {
+    padding: 1em 1em 0;
+  }
+
   .entry-title {
     font-weight: var(--font-weight-bold);
     font-size: 2.5em;

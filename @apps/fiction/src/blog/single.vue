@@ -35,19 +35,21 @@ export default {
 
 <style lang="less">
 .single-entry {
-  .return-link,
-  .entry-headers,
+  .widget-date,
+  .entry-meta,
   .post-entry,
   .social-share,
   .author-bio {
-    max-width: 736px;
+    max-width: 50rem;
     margin: 1rem auto;
     padding: 0;
   }
+
   @media (max-width: 767px) {
     .return-link,
     .entry-headers,
     .post-entry,
+    .entry-meta,
     .social-share,
     .author-bio {
       padding: 0 1em;
