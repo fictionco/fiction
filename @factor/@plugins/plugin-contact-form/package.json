@@ -1,0 +1,16 @@
+{
+  "name": "@factor/plugin-contact-form",
+  "version": "1.0.0-alpha.20",
+  "license": "GPL-2.0",
+  "factor": {
+    "id": "contactForm",
+    "target": [
+      "app"
+    ]
+  },
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+}

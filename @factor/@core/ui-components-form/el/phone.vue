@@ -3,7 +3,7 @@
     <input
       :value="phone"
       type="tel"
-      placeholder="+15555555555"
+      v-bind="$attrs"
       pattern="^[0-9-+s()]{6,16}"
       autocomplete="tel"
       size="15"
@@ -15,6 +15,7 @@
 </template>
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     value: { type: [String, Number], default: "" }
   },
