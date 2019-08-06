@@ -47,7 +47,7 @@ module.exports.default = Factor => {
       response.setHeader("Server", this.getServerInfo())
 
       const { url } = request
-      const context = { url, extend: {} }
+      const context = { url, headTags: {} }
 
       try {
         const html = await this.renderer.renderToString(context)
@@ -237,8 +237,8 @@ module.exports.default = Factor => {
         this.serverApp.use(require("serve-favicon")(fav))
       }
 
-      // Global and Static Images/Manifests, etc..
-      this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
+      // // Global and Static Images/Manifests, etc..
+      // this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
 
       // Serve distribution folder at Root URL
       this.serverApp.use("/", this.serveStatic(Factor.$paths.get("dist"), true))
