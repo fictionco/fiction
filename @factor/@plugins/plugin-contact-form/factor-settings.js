@@ -1,6 +1,7 @@
 module.exports.default = Factor => {
   return {
     contactForm: {
+      email: Factor.$config.setting("app.email"),
       form: () => import("./contact-form"),
       submitText: "Contact Us",
       inputFormat: "horizontal",
