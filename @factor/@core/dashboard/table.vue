@@ -49,7 +49,7 @@ export default {
   props: {
     rowItems: { type: Array, default: () => [] },
     structure: { type: Array, default: () => [] },
-    zeroState: { type: Number, default: 0 },
+    zeroState: { type: Number, default: 2 },
     rowNumber: { type: Number, default: 0 },
     path: { type: String, default: "" }
   },
