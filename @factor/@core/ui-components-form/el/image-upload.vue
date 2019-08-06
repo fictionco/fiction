@@ -462,7 +462,7 @@ export default {
     width: 100%;
     opacity: 0;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 40;
   }
 }
 </style>

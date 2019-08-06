@@ -21,8 +21,8 @@ export default Factor => {
       this._settings = Factor.$utils.deepMerge(settingsArray)
     }
 
-    get(key) {
-      return Factor.$utils.dotSetting({ key, settings: this._settings })
+    get(key, defaultValue) {
+      return Factor.$utils.dotSetting({ key, settings: this._settings }) || defaultValue
     }
   })()
 }

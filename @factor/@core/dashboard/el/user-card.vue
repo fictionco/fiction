@@ -1,11 +1,11 @@
 <template>
   <div class="card-user card-wrap">
-    <dashboard-link v-if="postSet" class="card" path="/profile" :query="{_id: user._id}">
+    <div v-if="postSet" class="card">
       <div class="name">{{ user.displayName }}</div>
       <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
         <factor-icon icon="remove" />
       </div>
-    </dashboard-link>
+    </div>
   </div>
 </template>
 <script>
