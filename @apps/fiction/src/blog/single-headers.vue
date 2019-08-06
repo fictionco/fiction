@@ -60,14 +60,14 @@ export default {
     padding: 5em 0;
     margin: 0 auto;
     @media (max-width: 767px) {
-      padding: 6em 2em 4em;
+      padding: 6em 1em 4em;
     }
 
     .entry-title {
       font-weight: var(--font-weight-bold);
       font-size: 3em;
       letter-spacing: -0.03em;
-      line-height: 1;
+      line-height: 1.4em;
       margin: 0.3em 0;
       color: #f9f9f9;
       a:hover {
