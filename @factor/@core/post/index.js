@@ -124,13 +124,14 @@ export default Factor => {
 
       const request = Factor.$filters.apply("post-params", {
         ...route.params,
-        ...route.query
+        ...route.query,
+        status: "published"
       })
 
       const { permalink, _id } = request
 
       // Only add to the filter if permalink is set. That way we don't show loader for no reason.
-      if (!permalink && !_id) return {}
+      if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
       const _post = await this.getSinglePost(request)
 
@@ -199,10 +200,11 @@ export default Factor => {
         _id,
         token,
         createOnEmpty = false,
+        status = "all",
         depth = 50
       } = args
 
-      const params = { postType, createOnEmpty }
+      const params = { postType, createOnEmpty, status }
 
       if (_id) {
         params._id = _id

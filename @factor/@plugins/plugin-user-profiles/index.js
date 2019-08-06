@@ -18,17 +18,17 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("post-params", params => {
-        const { username } = params
-        if (username) {
-          params = {
-            ...params,
-            permalink: username,
-            field: "username"
-          }
-        }
-        return params
-      })
+      // Factor.$filters.add("post-params", params => {
+      //   const { username } = params
+      //   if (username) {
+      //     params = {
+      //       ...params,
+      //       permalink: username,
+      //       field: "username"
+      //     }
+      //   }
+      //   return params
+      // })
 
       Factor.$filters.add(
         "profile-menu",
