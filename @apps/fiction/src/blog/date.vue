@@ -1,7 +1,6 @@
 <template>
   <div class="widget-date">
     <span class="date">{{ $time.niceFormat(post.date) }}</span>
-    <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 <script>
