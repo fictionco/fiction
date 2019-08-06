@@ -41,7 +41,7 @@ export default Factor => {
           }
 
           if (mt) {
-            const titleSuffix = mt.titleSuffix //|| this.$ssrContext.metatagsRaw.titleSuffix
+            const titleSuffix = mt.titleSuffix
 
             if (titleSuffix && (!mt.title || !mt.title.includes(titleSuffix))) {
               mt.title = mt.title + titleSuffix
@@ -78,7 +78,7 @@ export default Factor => {
               list.push(`<meta property="og:url" content="${canonical}" />`)
             }
 
-            this.$ssrContext.extend.metatags = list.join("")
+            this.$ssrContext.headTags.metatags = list.join("")
           }
         }
       })
