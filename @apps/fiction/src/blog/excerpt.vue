@@ -27,26 +27,13 @@ export default {
   line-height: 1.4em;
   padding: 0 1.6em 1rem;
   transform: all 0.2s ease-in-out;
-  &:after {
-    display: block;
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    height: 50px;
-    width: 100%;
-    background: linear-gradient(0, #fff 0, hsla(0, 0%, 100%, 0));
-  }
-  &:hover:after {
-    display: none;
-  }
   .inline-excerpt {
     margin-right: 1rem;
   }
 
   @media (max-width: 767px) {
     font-size: 1em;
+    padding: 0 1em 1rem;
   }
 }
 </style>

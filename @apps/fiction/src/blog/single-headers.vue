@@ -1,0 +1,117 @@
+<template>
+  <div class="entry-headers">
+    <div class="splash">
+      <factor-link class="back label label-yellow" :path="$setting.get('blog.indexRoute')">
+        <factor-icon icon="arrow-left" />
+        <span>Blog</span>
+      </factor-link>
+
+      <h1 class="entry-title">
+        <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+      </h1>
+
+      <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  props: {
+    postId: { type: String, default: "" }
+  },
+  computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    }
+  }
+}
+</script>
+<style lang="less">
+.single-entry .entry-headers {
+  margin: 0;
+  padding: 0 2em;
+  background: #1b223c url(./rectangles.svg) no-repeat center center;
+  background-size: 80%;
+
+  @media (max-width: 767px) {
+    background-size: 100%;
+    padding: 0 1em;
+  }
+
+  .label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    &.label-yellow {
+      color: #f3c101;
+      &:hover {
+        color: #f3c101;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .splash {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-column-gap: 60px;
+    align-items: center;
+    text-align: left;
+    max-width: 50rem;
+    padding: 5em 0;
+    margin: 0 auto;
+    @media (max-width: 767px) {
+      padding: 6em 2em 4em;
+    }
+
+    .entry-title {
+      font-weight: var(--font-weight-bold);
+      font-size: 3em;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin: 0.3em 0;
+      color: #f9f9f9;
+      a:hover {
+        color: inherit;
+        opacity: 0.5;
+      }
+      @media (max-width: 767px) {
+        font-size: 2em;
+      }
+    }
+    .entry-sub-title {
+      opacity: 0.5;
+      font-size: 1.4em;
+      font-weight: 400;
+      margin-bottom: 1.5em;
+      color: #d9d9d9;
+
+      @media (max-width: 767px) {
+        font-size: 1.2em;
+      }
+    }
+  }
+
+  .entry-title {
+    font-weight: var(--font-weight-bold);
+    font-size: 2.5em;
+    line-height: 1.1;
+
+    @media (max-width: 767px) {
+      font-size: 2em;
+    }
+    a {
+      color: inherit;
+      &:hover {
+        color: var(--color-primary);
+      }
+      &:active {
+        opacity: 0.7;
+      }
+    }
+  }
+  .entry-sub-title {
+    font-size: 1.4em;
+    opacity: 0.7;
+  }
+}
+</style>
