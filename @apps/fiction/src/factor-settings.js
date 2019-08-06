@@ -1,5 +1,8 @@
 module.exports.default = Factor => {
   return {
+    contactForm: {
+      email: "andrew@fiction.com"
+    },
     blog: {
       components: {
         blogFeaturedImage: () => import("./blog/featured-image.vue"),

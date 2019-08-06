@@ -22,7 +22,28 @@ export default Factor => {
 
     async save(form) {
       const post = { settings: form }
-      return await Factor.$post.save({ post, postType: this.postType })
+      const saved = await Factor.$post.save({ post, postType: this.postType })
+      this.sendEmail(form)
+      return saved
+    }
+
+    async sendEmail(form) {
+      const to = Factor.$setting.get("contactForm.email")
+
+      const text = Object.entries(form)
+        .map(
+          ([key, value]) =>
+            `<p><div><strong>${Factor.$utils.toLabel(
+              key
+            )}</strong></div><div><i>${value}</i></div></p>`
+        )
+        .join("")
+
+      return await Factor.$email.request("sendTransactional", {
+        to,
+        subject: "Contact Form Submitted",
+        text
+      })
     }
   })()
 }
