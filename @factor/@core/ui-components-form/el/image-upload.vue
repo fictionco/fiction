@@ -16,7 +16,7 @@
             >
               <div class="status-bar">
                 <div
-                  v-if="img.status == 'progress' || img.status === 'preprocess'"
+                  v-if="['progress', 'preprocess', 'processing'].includes(img.status)"
                   class="image-status overlay"
                   :class="img.status"
                 >
@@ -271,7 +271,7 @@ export default {
       this.$storage.upload({
         file,
         onPrep: ({ mode, percent, preview = false }) => {
-          this.$set(item, "url", preview)
+          if (preview) this.$set(item, "url", preview)
           this.$set(item, "status", "preprocess")
         },
         onChange: progressEvent => {
@@ -279,6 +279,10 @@ export default {
 
           this.$set(item, "status", "progress")
           this.$set(item, "progress", (loaded / total) * 100)
+
+          if (loaded / total >= 1) {
+            this.$set(item, "status", "processing")
+          }
         },
         onError: error => {
           this.$set(item, "status", "error")
@@ -297,6 +301,14 @@ export default {
 </script>
 
 <style lang="less">
+@keyframes barberpole {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 60px 30px;
+  }
+}
 .image-upload-input {
   .validity {
     position: absolute;
@@ -377,6 +389,20 @@ export default {
       border-radius: 8px;
       transition: width 0.8s;
       transition: all 0.2s;
+    }
+    &.processing .bar {
+      background-size: 20px 20px;
+      background-image: linear-gradient(
+        45deg,
+        rgba(black, 0.1) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(black, 0.1) 50%,
+        rgba(black, 0.1) 75%,
+        transparent 75%,
+        transparent
+      );
+      animation: barberpole 0.5s linear infinite;
     }
   }
   .menu {
