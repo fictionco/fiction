@@ -9,10 +9,12 @@
               class="subtitle"
             >Premium digital experiences and web application development services powered by Factor.</div>
             <div class="actions">
-              <app-link path="#contact" btn="primary" size="large">
-                Start Your Web App
-                <i class="fa fa-arrow-right" />
-              </app-link>
+              <a href="#contact">
+                <app-btn path="#contact" btn="primary" size="large">
+                  Start Your Web App
+                  <i class="fa fa-arrow-down" />
+                </app-btn>
+              </a>
             </div>
           </div>
           <div>
@@ -67,7 +69,7 @@
     </section>
 
     <section class="clients">
-      <div class="title">Trusted by:</div>
+      <!-- <div class="title">Brands:</div> -->
       <div class="mast clients-inner">
         <div class="client">
           <div class="client-image">
@@ -391,6 +393,9 @@ export default {
     position: relative;
     background-color: #f5f8fc;
     padding: 3em 0;
+    @media (max-width: 767px) {
+      padding: 3em 0 1em;
+    }
     .title {
       text-align: center;
       font-size: 1.2em;

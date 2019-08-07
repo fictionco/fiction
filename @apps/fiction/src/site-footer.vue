@@ -25,14 +25,12 @@
         <div class="menu-header">Company</div>
         <!-- <factor-link path="/about">About</factor-link> -->
         <factor-link path="/careers">Careers</factor-link>
+        <factor-link path="/terms-of-service">Terms of Service</factor-link>
+        <factor-link path="/privacy-policy">Privacy Policy</factor-link>
       </div>
       <div class="footer-col">
         <div>
           <div class="copyright">&copy; Fiction.com Inc.</div>
-          <div class="terms">
-            <factor-link path="/terms-of-service">Terms of Service</factor-link>
-            <factor-link path="/privacy-policy">Privacy Policy</factor-link>
-          </div>
         </div>
       </div>
     </div>
@@ -50,12 +48,12 @@ export default {
 <style lang="less">
 .content-footer {
   padding: 0;
-  max-width: 1200px;
+  //max-width: 1200px;
   margin: 3em auto;
   position: relative;
   .content-footer-pad {
     margin: 0 auto;
-    padding: 1.5rem 2em 1rem;
+    padding: 1.5rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 0;
@@ -94,20 +92,10 @@ export default {
           color: #ff0076;
         }
       }
-      .copyright,
-      .terms {
+      .copyright {
         font-size: 0.7em;
         text-align: right;
-      }
-      .copyright {
         padding-bottom: 0.5em;
-      }
-      .terms {
-        opacity: 0.5;
-        a {
-          display: inline-block;
-          padding-left: 10px;
-        }
       }
     }
   }
@@ -117,7 +105,7 @@ export default {
     .content-footer-pad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      padding: 0 1em;
+      padding: 0 2em;
       .footer-col {
         padding-bottom: 2em;
         &:nth-child(1),
@@ -130,8 +118,7 @@ export default {
         a {
           margin: 0;
         }
-        .copyright,
-        .terms {
+        .copyright {
           text-align: right;
           a {
             padding: 0;

@@ -14,6 +14,7 @@
           </app-link>-->
         </div>
       </div>
+      <div class="hhh" />
     </section>
 
     <section class="items-wrap">
@@ -277,30 +278,30 @@ export default {
   .splash-wrap {
     background: #1b223c url(./rectangles.svg) no-repeat center center;
     background-size: 80%;
+    position: relative;
     @media (max-width: 767px) {
       background-size: 100%;
     }
     .splash {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr;
       grid-column-gap: 60px;
       align-items: center;
       text-align: center;
       max-width: 550px;
-      padding: 8em 0 5em;
+      padding: 7em 0 10em;
       @media (max-width: 767px) {
-        padding: 6em 2em 4em;
+        padding: 6em 1em 10em;
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 3em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 1;
         margin: 0.3em 0;
-        color: #f9f9f9;
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
+        color: var(--color-light);
       }
       .subtitle {
         opacity: 0.7;
@@ -313,6 +314,18 @@ export default {
           font-size: 1.2em;
         }
       }
+    }
+    .hhh {
+      pointer-events: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -120px;
+      top: 84%;
+      transform: skewY(-4deg);
+      background: #f5f8fc;
+      transition: opacity 0.2s ease-out;
+      will-change: transform;
     }
   }
 
@@ -348,6 +361,13 @@ export default {
           grid-gap: 2em;
           padding: 2em;
           text-align: left;
+        }
+      }
+
+      &:first-child {
+        transform: translateY(-80px);
+        @media (max-width: 767px) {
+          transform: translateY(0);
         }
       }
 

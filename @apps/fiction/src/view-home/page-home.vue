@@ -4,18 +4,16 @@
       <div class="hero-pad">
         <div class="intro">
           <div class="content">
-            <h2 class="title">The Modern Alternative to WordPress</h2>
-            <p
-              class="sub-title"
-            >Meet Factor. A full-stack platform, dashboard, and post system for Javascript.</p>
+            <h2 class="title">Premium Digital Experiences</h2>
+            <p class="sub-title">Fiction makes tools and services for growing web businesses.</p>
 
-            <app-link path="https://factor.dev" btn="primary" size="large">
+            <app-link path="/vip" btn="primary" size="large">
               Learn More
               <factor-icon icon="arrow-right" />
-            </app-link>&nbsp;
-            <app-link path="https://github.com/fiction-com/factor" btn="default" size="large">
-              <factor-icon icon="github" />
             </app-link>
+            <!-- &nbsp;<app-link path="https://github.com/fiction-com/factor" btn="default" size="large">
+              <factor-icon icon="github" />
+            </app-link>-->
           </div>
           <div class="graphic">
             <img class="img-dashboard" :src="require(`./dashboard.jpg`)" alt="Factor Framework" >
@@ -23,7 +21,7 @@
           </div>
         </div>
 
-        <div class="features">
+        <!-- <div class="features">
           <div>
             <h6>
               <strong>5-Minutes</strong> From Start to App
@@ -46,7 +44,7 @@
               <strong>Themes + Plugins</strong> Rapid Development
             </h6>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
 
@@ -102,7 +100,6 @@ export default {
 </script>
 <style lang="less">
 .page-home {
-  //background: url(./img/triangle-bg.svg) no-repeat top right;
   .primary-content {
     max-width: 1200px;
     padding: 0 2em;
@@ -110,10 +107,10 @@ export default {
   }
   .hero {
     .hero-pad {
-      box-shadow: var(--panel-shadow);
-      background: #fff;
-      border-radius: 0.5em;
-      padding: 6em 2em 2em;
+      // box-shadow: var(--panel-shadow);
+      // background: #fff;
+      //border-radius: 0.5em;
+      padding: 2em 0;
       @media (max-width: 767px) {
         background: transparent;
         box-shadow: none;
@@ -136,13 +133,12 @@ export default {
       text-align: center;
     }
     .content {
-      padding: 0 2em;
       .title,
       .sub-title {
         letter-spacing: -0.03em;
       }
       .title {
-        font-size: 2.2em;
+        font-size: 4em;
         font-weight: 800;
         line-height: 1.1;
         margin: 0.3em 0;

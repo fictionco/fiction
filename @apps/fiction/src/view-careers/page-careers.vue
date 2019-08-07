@@ -69,7 +69,7 @@
         <ul class="careers-list">
           <li>
             <div>
-              <img :src="require(`./icon-developer.svg`)" alt="Factor Developer" />
+              <img :src="require(`./icon-developer.svg`)" alt="Factor Developer" >
             </div>
             <div>
               <h3>
@@ -110,26 +110,26 @@ export default {
   data() {
     return {
       loading: true
-    };
+    }
   },
   mounted() {
     this.$user.init(() => {
-      this.loading = false;
-    });
+      this.loading = false
+    })
   },
   metatags() {
     return {
       title: "Fiction Careers",
       description:
         "Fiction is on a mission to help frontend developers create better Javascript apps."
-    };
+    }
   },
   methods: {
     hash(name) {
-      this.$router.replace({ hash: name });
+      this.$router.replace({ hash: name })
     }
   }
-};
+}
 </script>
 <style lang="less">
 .view-about {
@@ -166,24 +166,21 @@ export default {
     .splash {
       display: grid;
       grid-template-columns: 1fr;
-      grid-column-gap: 60px;
+      //grid-column-gap: 60px;
       align-items: center;
       text-align: center;
-      max-width: 550px;
+      max-width: 670px;
       padding: 6em 0 12em;
       @media (max-width: 767px) {
         padding: 6em 2em 8em;
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 3em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 1;
         margin: 0.3em 0;
         color: #f9f9f9;
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
       }
       .subtitle {
         opacity: 0.7;
@@ -264,6 +261,10 @@ export default {
     position: relative;
     //background-color: #fff;
     padding: 3em 0;
+    .title {
+      font-size: 2.5em;
+      font-weight: var(--font-weight-bold);
+    }
     .careers-inner {
       display: grid;
       grid-template-columns: 1fr;
@@ -323,10 +324,6 @@ export default {
           }
         }
       }
-    }
-    .title {
-      font-size: 2.5em;
-      font-weight: var(--font-weight-bold);
     }
   }
 }
