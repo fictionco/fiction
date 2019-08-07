@@ -59,8 +59,14 @@ module.exports.default = Factor => {
     }
 
     async delete({ _id }) {
-      const deleted = await Factor.$filters.run("delete-attachment", { _id })
-      return await Factor.$dbServer.model("attachment").findByIdAndDelete(_id)
+      const doc2 = await Factor.$dbServer.model("attachment").findById(_id)
+      const doc = await Factor.$dbServer.model("attachment").findOneAndDelete({ _id })
+
+      if (doc && !doc.url.includes("base64")) {
+        await Factor.$filters.run("delete-attachment", doc)
+      }
+
+      return doc
     }
   })()
 }

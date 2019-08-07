@@ -9,7 +9,7 @@
         :key="i"
         class="toggle-item"
         :data-test="`menu-${action.value}`"
-        @click.stop="sendEvent(itemKey, action.value)"
+        @click.stop="sendEvent(action.value)"
       >{{ action.name }}</div>
     </div>
   </div>
@@ -29,8 +29,8 @@ export default {
     }
   },
   methods: {
-    sendEvent(key, value) {
-      this.$emit("action", { key, value })
+    sendEvent(value) {
+      this.$emit("action", value)
       this.toggle = false
     },
     setToggle() {

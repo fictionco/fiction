@@ -22,6 +22,15 @@ module.exports.default = Factor => {
           })
         })
       })
+
+      Factor.$filters.callback("delete-attachment", async doc => {
+        const key = doc.url.split("amazonaws.com/")[1]
+
+        if (key) {
+          var params = { Bucket: this.bucket, Key: key }
+          return await this.S3.deleteObject(params).promise()
+        }
+      })
     }
   })()
 }
