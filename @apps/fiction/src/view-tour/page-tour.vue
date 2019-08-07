@@ -1,5 +1,5 @@
 <template>
-  <div class="page-tour">
+  <div class="view-tour">
     <section class="splash-wrap">
       <div class="splash mast">
         <div>
@@ -14,6 +14,7 @@
           </app-link>-->
         </div>
       </div>
+      <div class="hhh" />
     </section>
 
     <section class="items-wrap">
@@ -175,13 +176,15 @@
         <div class="cta">
           <div>
             <h3 class="title">From Start to App in 3 Minutes</h3>
-            <p class="subtitle">Read the Factor docs for quickstart information.</p>
+
+            <p class="subtitle">Read the Factor docs for a quickstart.</p>
+
           </div>
           <div class="actions">
-            <app-btn path="https://factor.dev/guide/quickstart" btn="primary" size="large">
+            <app-link path="https://factor.dev/guide/quickstart" btn="primary" size="large">
               Quick Start
               <i class="fa fa-arrow-right" />
-            </app-btn>
+            </app-link>
           </div>
         </div>
       </div>
@@ -211,32 +214,11 @@ export default {
 }
 </script>
 <style lang="less">
-.nav-light {
-  .site-head {
-    background: #1b223c;
-    .logo-img .thelogotext {
-      fill: var(--color-light);
-    }
-    .mobile-logo .logo-img .thelogotext {
-      fill: initial;
-    }
-
-    .nav > a {
-      color: var(--color-light);
-      &:hover {
-        color: var(--color-primary);
-      }
-      @media (max-width: 767px) {
-        color: initial;
-      }
-    }
-  }
-}
-.page-tour {
+.view-tour {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
@@ -298,42 +280,54 @@ export default {
   .splash-wrap {
     background: #1b223c url(./rectangles.svg) no-repeat center center;
     background-size: 80%;
+    position: relative;
     @media (max-width: 767px) {
       background-size: 100%;
     }
     .splash {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr;
       grid-column-gap: 60px;
       align-items: center;
       text-align: center;
       max-width: 550px;
-      padding: 8em 0 5em;
+      padding: 7em 0 10em;
       @media (max-width: 767px) {
-        padding: 6em 2em 4em;
+        padding: 6em 1em 10em;
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 3em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 1;
         margin: 0.3em 0;
-        color: #f9f9f9;
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
+        color: var(--color-light);
       }
       .subtitle {
-        opacity: 0.5;
+        opacity: 0.7;
         font-size: 1.4em;
         font-weight: 400;
         margin-bottom: 1.5em;
-        color: #d9d9d9;
+        color: var(--color-light);
 
         @media (max-width: 767px) {
           font-size: 1.2em;
         }
       }
+    }
+    .hhh {
+      pointer-events: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -120px;
+      top: 84%;
+      transform: skewY(-4deg);
+      background: #f5f8fc;
+      transition: opacity 0.2s ease-out;
+      will-change: transform;
     }
   }
 
@@ -369,6 +363,13 @@ export default {
           grid-gap: 2em;
           padding: 2em;
           text-align: left;
+        }
+      }
+
+      &:first-child {
+        transform: translateY(-80px);
+        @media (max-width: 767px) {
+          transform: translateY(0);
         }
       }
 
@@ -418,9 +419,9 @@ export default {
   }
 
   .testimonial {
+    margin: 2em 0 -100px;
     position: relative;
     overflow: hidden;
-    margin: 2em 0;
     border-radius: 4px;
     background: #fff;
     box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
@@ -430,7 +431,7 @@ export default {
       position: absolute;
       overflow: hidden;
       z-index: 2;
-      right: -30px;
+      right: -40px;
       top: 0;
       left: calc(50% + 100px);
       -webkit-transform: skewX(12deg);
@@ -498,14 +499,19 @@ export default {
   }
 
   .cta-wrap {
-    padding: 3em 0;
+    padding: 8em 0 4em;
+    color: var(--color-light);
+    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background-size: 80%;
     .cta {
       margin: 0 auto;
       max-width: 700px;
       display: grid;
-      align-items: center;
-      grid-template-columns: 2fr 1fr;
+
+      grid-template-columns: 1fr;
+
       grid-column-gap: 60px;
+      text-align: center;
       @media (max-width: 767px) {
         text-align: center;
         grid-template-columns: 1fr;
@@ -523,8 +529,9 @@ export default {
         font-weight: 500;
       }
       .actions {
+        margin-top: 2em;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         .app-btn + .app-btn {
           margin-left: 1em;

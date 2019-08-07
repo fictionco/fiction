@@ -10,6 +10,7 @@
   line-height: 1.5;
   font-weight: 500;
   --font-weight-bold: 800;
+  --font-weight-normal: 400;
 
   strong {
     font-weight: var(--font-weight-bold);
@@ -20,6 +21,32 @@
 
     &:hover {
       color: var(--color-secondary);
+    }
+  }
+
+  .nav-light {
+    .site-head {
+      background: #1b223c;
+
+      .logo-img .thelogotext {
+        fill: var(--color-light);
+      }
+
+      .mobile-logo .logo-img .thelogotext {
+        fill: initial;
+      }
+
+      .nav>a {
+        color: var(--color-light);
+
+        &:hover {
+          color: var(--color-primary);
+        }
+
+        @media (max-width: 767px) {
+          color: initial;
+        }
+      }
     }
   }
 }
