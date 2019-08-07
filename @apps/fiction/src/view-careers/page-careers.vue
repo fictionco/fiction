@@ -69,7 +69,7 @@
         <ul class="careers-list">
           <li>
             <div>
-              <img :src="require(`./icon-developer.svg`)" alt="Factor Developer" >
+              <img :src="require(`./icon-developer.svg`)" alt="Factor Developer" />
             </div>
             <div>
               <h3>
@@ -110,26 +110,26 @@ export default {
   data() {
     return {
       loading: true
-    }
+    };
   },
   mounted() {
     this.$user.init(() => {
-      this.loading = false
-    })
+      this.loading = false;
+    });
   },
   metatags() {
     return {
       title: "Fiction Careers",
       description:
         "Fiction is on a mission to help frontend developers create better Javascript apps."
-    }
+    };
   },
   methods: {
     hash(name) {
-      this.$router.replace({ hash: name })
+      this.$router.replace({ hash: name });
     }
   }
-}
+};
 </script>
 <style lang="less">
 .view-about {
@@ -230,7 +230,7 @@ export default {
           grid-template-columns: 40px 1fr;
           .fa {
             font-size: 22px;
-            opacity: 0.5;
+            color: var(--color-secondary);
           }
           .box-title {
             font-size: 1.4em;
@@ -287,6 +287,7 @@ export default {
           }
           &:last-child {
             margin-bottom: 0;
+            border-bottom: none;
           }
           h3 {
             font-weight: var(--font-weight-bold);
