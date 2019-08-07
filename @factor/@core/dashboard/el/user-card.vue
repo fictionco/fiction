@@ -1,11 +1,11 @@
 <template>
   <div class="card-user card-wrap">
-    <dashboard-link v-if="postSet" class="card" path="/profile" :query="{_id: user._id}">
+    <div v-if="postSet" class="card">
       <div class="name">{{ user.displayName }}</div>
       <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
         <factor-icon icon="remove" />
       </div>
-    </dashboard-link>
+    </div>
   </div>
 </template>
 <script>
@@ -31,6 +31,7 @@ export default {
   display: inline-block;
   .card {
     box-shadow: var(--input-shadow);
+    border-radius: 5px;
     color: inherit;
     &:hover {
       color: inherit;
@@ -44,7 +45,7 @@ export default {
       padding: 0 10px 0 10px;
       font-size: 0.9em;
     }
-    border-radius: 1.25em;
+
     padding: 2px;
     .remove {
       width: 1.25em;

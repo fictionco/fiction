@@ -47,7 +47,7 @@ module.exports.default = Factor => {
       response.setHeader("Server", this.getServerInfo())
 
       const { url } = request
-      const context = { url, extend: {} }
+      const context = { url, headTags: {} }
 
       try {
         const html = await this.renderer.renderToString(context)
@@ -124,21 +124,6 @@ module.exports.default = Factor => {
       const { arrowUp, arrowDown } = figures
       Factor.$log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` Ready`))
     }
-
-    // onInitialListen() {
-    //   const url = Factor.$paths.localhostUrl()
-
-    //   const message = {
-    //     title: "Development Server",
-    //     lines: [
-    //       { title: "URL", value: url, indent: true },
-    //       { title: "NODE_ENV", value: NODE_ENV, indent: true },
-    //       { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
-    //     ]
-    //   }
-
-    //   Factor.$log.formatted(message)
-    // }
 
     async startServerDevelopment() {
       const { middleware } = Factor.$filters.apply("development-server", bundled => {
@@ -252,8 +237,8 @@ module.exports.default = Factor => {
         this.serverApp.use(require("serve-favicon")(fav))
       }
 
-      // Global and Static Images/Manifests, etc..
-      this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
+      // // Global and Static Images/Manifests, etc..
+      // this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
 
       // Serve distribution folder at Root URL
       this.serverApp.use("/", this.serveStatic(Factor.$paths.get("dist"), true))

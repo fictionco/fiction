@@ -14,16 +14,15 @@ export default Factor => {
       const settingsFiles = require("~/.factor/loader-settings")
 
       const settingsArray = Factor.$filters.apply(
-        "theme-settings",
+        "factor-settings",
         Object.values(settingsFiles).map(_obj => _obj(Factor))
       )
 
       this._settings = Factor.$utils.deepMerge(settingsArray)
-
     }
 
-    get(key) {
-      return Factor.$utils.dotSetting({ key, settings: this._settings })
+    get(key, defaultValue) {
+      return Factor.$utils.dotSetting({ key, settings: this._settings }) || defaultValue
     }
   })()
 }

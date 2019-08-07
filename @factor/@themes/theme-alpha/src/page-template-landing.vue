@@ -52,7 +52,7 @@
 <script>
 export default {
   components: {
-    "el-cta": () => import("./el/cta")
+    "el-cta": () => import("./el/cta.vue")
   },
   props: {
     post: { type: Object, default: () => {} }

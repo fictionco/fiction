@@ -18,7 +18,7 @@
       filter="status"
       :post-type="postType"
       :meta="meta"
-      :actions="[{value: 'published', name: 'Publish'}, {value: 'draft', name: 'Change to Draft'}, {value: 'trash', name: 'Move to Trash'}]"
+      :actions="controlActions"
       :loading="loadingAction"
       @action="runAction($event)"
     />
@@ -48,7 +48,7 @@
 
         <div v-else-if="column == 'status'" class="meta">{{ $utils.toLabel(row.status) }}</div>
         <div v-else-if="column == 'updated'" class="meta">{{ $time.niceFormat(row.updatedAt) }}</div>
-        <div v-else-if="column == 'created'" class="meta">{{ $time.niceFormat(row.createdAt) }}</div>
+        <div v-else-if="column == 'publish-date'" class="meta">{{ $time.niceFormat(row.date) }}</div>
       </template>
     </dashboard-table>
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
@@ -74,7 +74,7 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$posts.getStatusCount({
+            : this.$post.getStatusCount({
                 meta: this.meta,
                 key,
                 nullKey: "draft"
@@ -94,37 +94,62 @@ export default {
     },
     postType() {
       return this.$route.params.postType || ""
+    },
+    controlActions() {
+      return [
+        { value: "published", name: "Publish" },
+        { value: "draft", name: "Change to Draft" },
+        { value: "trash", name: "Move to Trash" },
+        { value: "delete", name: "Permanently Delete" }
+      ]
+        .filter(_ => {
+          return _.value != this.$route.query.status
+        })
+        .filter(
+          _ =>
+            _.value !== "delete" ||
+            (_.value == "delete" && this.$route.query.status == "trash")
+        )
     }
   },
 
   methods: {
     selectAll(val) {
-      if (!val) {
-        this.selected = []
-      } else {
-        this.selected = this.list.map(_ => _._id)
-      }
+      this.selected = !val ? [] : this.list.map(_ => _._id)
     },
     async runAction(action) {
       this.loadingAction = true
 
-      if (this.selected.length == 0) return
+      if (this.selected.length > 0) {
+        if (action == "delete") {
+          if (
+            confirm(
+              "Are you sure? This will permanently delete the selected posts."
+            )
+          ) {
+            await this.$post.deleteMany({
+              _ids: this.selected,
+              postType: this.postType
+            })
+          }
+        } else {
+          await this.$post.saveMany({
+            _ids: this.selected,
+            data: { status: action },
+            postType: this.postType
+          })
+        }
+        this.$events.$emit("refresh-table")
+      }
 
-      await this.$posts.saveMany({
-        _ids: this.selected,
-        data: { status: action },
-        postType: this.postType
-      })
-
-      this.$events.$emit("refresh-table")
       this.loadingAction = false
     },
     postlink(postType, permalink) {
-      return this.$posts.getPermalink({ postType, permalink })
+      return this.$post.getPermalink({ postType, permalink })
     },
 
     async trashPost(id, index) {
-      await this.$posts.trashPost({ id })
+      await this.$post.trashPost({ id })
 
       this.posts.splice(index, 1)
     },
@@ -155,7 +180,7 @@ export default {
           mobile: "mcol-2-15"
         },
         {
-          column: "created",
+          column: "publish-date",
           class: "col-2",
           mobile: "mcol-2-15"
         },

@@ -1,7 +1,7 @@
 <template>
   <div class="entry-headers">
     <h1 class="entry-title">
-      <factor-link :path="$posts.link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
   </div>

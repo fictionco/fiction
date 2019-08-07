@@ -16,7 +16,7 @@
             >
               <div class="status-bar">
                 <div
-                  v-if="img.status == 'progress' || img.status === 'preprocess'"
+                  v-if="['progress', 'preprocess', 'processing'].includes(img.status)"
                   class="image-status overlay"
                   :class="img.status"
                 >
@@ -25,10 +25,9 @@
 
                 <factor-menu
                   v-else
-                  :item-key="index"
                   class="menu"
                   :list="['view', 'copy-URL', 'delete']"
-                  @action="action($event)"
+                  @action="action(img._id,$event)"
                 />
               </div>
             </div>
@@ -123,15 +122,14 @@ export default {
     this.dom()
   },
   methods: {
-    action({ key, value }) {
-      const image = this.populated[key]
-      if (value == "view") {
+    action(_id, action) {
+      if (action == "view") {
         this.lightboxShow = true
-        this.lightboxIndex = key
-      } else if (value == "copy-URL") {
-        this.copyUrl(key)
-      } else if (value == "delete") {
-        this.removeImage(key)
+        this.lightboxIndex = this.populated.findIndex(_ => _._id == _id)
+      } else if (action == "copy-URL") {
+        this.copyUrl(_id)
+      } else if (action == "delete") {
+        this.removeImage(_id)
       }
     },
     doCallback(img) {
@@ -140,9 +138,8 @@ export default {
         this.callback = null
       }
     },
-    copyUrl(index) {
-      const _id = this.imageIds[index]
-      const image = this.populated[index]
+    copyUrl(_id) {
+      const image = this.populated.findIndex(_ => _._id == _id)
       this.copyText = image.url.includes("base64")
         ? `{{${_id}.url}}`
         : image.url
@@ -219,18 +216,22 @@ export default {
     },
 
     updateValue() {
-      this.$emit("input", this.single ? this.imageIds[0] : this.imageIds)
+      const v = this.imageIds.filter(_id =>
+        this.populated.find(_ => _._id == _id)
+      )
+      this.$emit("input", this.single ? v[0] : v)
 
       this.$emit("update:customValidity", this.validity)
     },
 
-    removeImage(index) {
-      const _id = this.imageIds[index]
-
+    removeImage(_id) {
       if (_id) {
         this.$storage.delete({ _id })
       }
 
+      const index = this.imageIds.findIndex(__id => __id == _id)
+
+      console.log("remove inde4x", this.imageIds, index)
       this.$delete(this.imageIds, index)
       this.updateValue()
     },
@@ -242,7 +243,7 @@ export default {
     async handleMultiImage(files) {
       this.numFiles = 0
       if (files[0] && this.maxImages == 1 && this.imageIds.length >= 1) {
-        this.removeImage(0)
+        this.removeImage(this.imageIds[0])
       }
 
       for (let file of files) {
@@ -271,7 +272,7 @@ export default {
       this.$storage.upload({
         file,
         onPrep: ({ mode, percent, preview = false }) => {
-          this.$set(item, "url", preview)
+          if (preview) this.$set(item, "url", preview)
           this.$set(item, "status", "preprocess")
         },
         onChange: progressEvent => {
@@ -279,6 +280,10 @@ export default {
 
           this.$set(item, "status", "progress")
           this.$set(item, "progress", (loaded / total) * 100)
+
+          if (loaded / total >= 1) {
+            this.$set(item, "status", "processing")
+          }
         },
         onError: error => {
           this.$set(item, "status", "error")
@@ -297,6 +302,14 @@ export default {
 </script>
 
 <style lang="less">
+@keyframes barberpole {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 60px 30px;
+  }
+}
 .image-upload-input {
   .validity {
     position: absolute;
@@ -377,6 +390,20 @@ export default {
       border-radius: 8px;
       transition: width 0.8s;
       transition: all 0.2s;
+    }
+    &.processing .bar {
+      background-size: 20px 20px;
+      background-image: linear-gradient(
+        45deg,
+        rgba(black, 0.1) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(black, 0.1) 50%,
+        rgba(black, 0.1) 75%,
+        transparent 75%,
+        transparent
+      );
+      animation: barberpole 0.5s linear infinite;
     }
   }
   .menu {
@@ -462,7 +489,7 @@ export default {
     width: 100%;
     opacity: 0;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 40;
   }
 }
 </style>

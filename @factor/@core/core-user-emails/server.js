@@ -11,7 +11,7 @@ module.exports.default = Factor => {
       Factor.$filters.add("user-schema-hooks", Schema => {
         const _this = this
         // EMAIL
-        Schema.post("save", async function (doc, next) {
+        Schema.post("save", async function(doc, next) {
           const user = this
           if (!user.isModified("email")) return next()
 
@@ -34,7 +34,9 @@ module.exports.default = Factor => {
         throw new Error(`Email verification user doesn't match the logged in account.`)
       }
 
-      const user = await Factor.$dbServer.model("user").findOne({ _id }, "+emailVerificationCode")
+      const user = await Factor.$dbServer
+        .model("user")
+        .findOne({ _id }, "+emailVerificationCode")
 
       if (user.emailVerificationCode == code) {
         user.emailVerified = true
@@ -49,7 +51,10 @@ module.exports.default = Factor => {
     async sendVerifyEmail({ email, _id, user }, { bearer }) {
       const emailVerificationCode = Factor.$randomToken()
 
-      await Factor.$user.save({ _id, emailVerificationCode, user }, { bearer })
+      await Factor.$postServer.save(
+        { data: { _id, emailVerificationCode, postType: "user" } },
+        { bearer }
+      )
 
       await this.sendEmail({
         to: email,
@@ -65,7 +70,7 @@ module.exports.default = Factor => {
     }
 
     async verifyAndResetPassword({ _id, code, password }) {
-      const user = await Factor.$user.model().findOne({ _id }, "+passwordResetCode")
+      const user = await Factor.$dbServer.model().findOne({ _id }, "+passwordResetCode")
 
       if (!user) {
         throw new Error(`Could not find user.`)
@@ -84,7 +89,9 @@ module.exports.default = Factor => {
     async sendPasswordResetEmail({ email }) {
       const passwordResetCode = Factor.$randomToken()
 
-      const user = await Factor.$userServer.model().findOneAndUpdate({ email }, { passwordResetCode })
+      const user = await Factor.$dbServer
+        .model("user")
+        .findOneAndUpdate({ email }, { passwordResetCode })
 
       if (!user || !user._id) {
         throw new Error("Could not find an user with that email.")
@@ -106,9 +113,11 @@ module.exports.default = Factor => {
 
     async sendEmail(args) {
       const { to, subject, action, _id, code, text, linkText } = args
-      const linkUrl = `${Factor.$config.setting("url")}?_action=${action}&code=${code}&_id=${_id}`
+      const linkUrl = `${Factor.$config.setting(
+        "url"
+      )}?_action=${action}&code=${code}&_id=${_id}`
 
-      return await Factor.$email.sendTransactional({
+      return await Factor.$emailServer.sendTransactional({
         to,
         subject,
         text,

@@ -25,7 +25,7 @@
             :post-id="post.id"
             :loading="loading"
             :tags="post.tags"
-            :path="$posts.getPermalink({postType: post.postType, permalink: post.permalink})"
+            :path="$post.getPermalink({postType: post.postType, permalink: post.permalink})"
           />
         </div>
       </div>
@@ -38,9 +38,9 @@
 <script>
 export default {
   components: {
-    "el-hero": () => import("./el/hero"),
-    "part-blog-entry": () => import("./el/blog-entry"),
-    "el-cta": () => import("./el/cta")
+    "el-hero": () => import("./el/hero.vue"),
+    "part-blog-entry": () => import("./el/blog-entry.vue"),
+    "el-cta": () => import("./el/cta.vue")
   },
   // props: {
   //   post: { type: Object, default: () => {} }
@@ -74,7 +74,7 @@ export default {
   //   async getPosts() {
   //     const tag = this.$route.params.tag || ""
   //     this.loading = true
-  //     const r = await this.$posts.getPostIndex({
+  //     const r = await this.$post.getPostIndex({
   //       type: "blog",
   //       tag,
   //       storeKey: "index",

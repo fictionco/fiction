@@ -24,13 +24,21 @@ module.exports.default = Factor => {
 
       Object.assign(_post, data)
 
-      // console.log("^^^^^^^^^SAVE^^^^^^^^^", data, _post)
       return await _post.save()
     }
 
     async single(params, meta = {}) {
-      let { _id, token, postType = "post", conditions, createOnEmpty = false } = params
       const { bearer } = meta
+
+      let {
+        _id,
+        token,
+        postType = "post",
+        conditions,
+        createOnEmpty = false,
+        status = "all"
+      } = params
+
       let _post
 
       let PostTypeModel = this.getPostTypeModel(postType)
@@ -47,9 +55,19 @@ module.exports.default = Factor => {
         _post = await PostTypeModel.findOne(conditions)
       }
 
+      if (_post) {
+        // Check publication status. If author or mod, still return the post
+        if (
+          status == "published" &&
+          _post.status != "published" &&
+          (!bearer || (!_post.author.includes(bearer._id) && bearer.accessLevel < 100))
+        ) {
+          return null
+        }
+      }
       // If ID is unset or if it isn't found, create a new post model/doc
       // This is not saved at this point, leading to a post sometimes not existing although an ID exists
-      if (!_post && createOnEmpty) {
+      else if (createOnEmpty) {
         const initial = {}
         if (bearer) {
           initial.author = [bearer._id]
@@ -68,7 +86,27 @@ module.exports.default = Factor => {
       )
     }
 
-    async list(params, { bearer }) {
+    async deleteManyById({ _ids, postType = "post" }) {
+      return await this.getPostTypeModel(postType).remove({ _id: { $in: _ids } })
+    }
+
+    async postList(params, { bearer }) {
+      let { postType, conditions = {}, select = null, options } = params
+
+      options = Object.assign(
+        {},
+        {
+          sort: "-createdAt",
+          limit: 20,
+          skip: 0
+        },
+        options
+      )
+
+      return await Factor.$dbServer.model(postType).find(conditions, select, options)
+    }
+
+    async postIndex(params, { bearer }) {
       let { postType, conditions = {}, options } = params
 
       options = Object.assign(
@@ -120,14 +158,18 @@ module.exports.default = Factor => {
         }
       ]
 
-      const _p = [ItemModel.aggregate(aggregate), ItemModel.find(conditions).count()]
+      const _p = [
+        ItemModel.aggregate(aggregate),
+        ItemModel.find(conditions).count(),
+        ItemModel.count()
+      ]
 
-      const [aggregations, total] = await Promise.all(_p)
+      const [aggregations, totalForQuery, total] = await Promise.all(_p)
 
-      const pageCount = !total ? 1 : Math.ceil(total / limit)
+      const pageCount = !totalForQuery ? 1 : Math.ceil(totalForQuery / limit)
       const pageCurrent = 1 + Math.floor(skip / limit)
 
-      const _out = { ...aggregations[0], total, pageCount, pageCurrent }
+      const _out = { ...aggregations[0], total, totalForQuery, pageCount, pageCurrent }
 
       return _out
     }

@@ -24,6 +24,11 @@ export default Factor => {
       })
     }
 
+    async deleteMany({ _ids, postType }) {
+      this.setCache(postType)
+      return await this.request("deleteManyById", { _ids })
+    }
+
     setCache(postType) {
       Factor.$store.add(`${postType}Cache`, Factor.$time.stamp())
     }
@@ -119,13 +124,14 @@ export default Factor => {
 
       const request = Factor.$filters.apply("post-params", {
         ...route.params,
-        ...route.query
+        ...route.query,
+        status: "published"
       })
 
       const { permalink, _id } = request
 
       // Only add to the filter if permalink is set. That way we don't show loader for no reason.
-      if (!permalink && !_id) return {}
+      if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
       const _post = await this.getSinglePost(request)
 
@@ -186,12 +192,6 @@ export default Factor => {
       return _post
     }
 
-    async getList(args) {
-      const { posts } = await this.request("list", args)
-
-      return posts
-    }
-
     async getSinglePost(args) {
       const {
         permalink,
@@ -200,10 +200,11 @@ export default Factor => {
         _id,
         token,
         createOnEmpty = false,
+        status = "all",
         depth = 50
       } = args
 
-      const params = { postType, createOnEmpty }
+      const params = { postType, createOnEmpty, status }
 
       if (_id) {
         params._id = _id
@@ -225,6 +226,22 @@ export default Factor => {
       }
 
       return post
+    }
+
+    async getList(args) {
+      const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = args
+
+      const skip = (page - 1) * limit
+
+      const posts = await this.request("postList", {
+        postType,
+        conditions,
+        options: { limit, skip, page, sort }
+      })
+
+      await this.populatePosts({ posts, depth })
+
+      return posts
     }
 
     async getPostIndex(args) {
@@ -253,7 +270,7 @@ export default Factor => {
 
       const skip = (page - 1) * limit
 
-      const { posts, meta } = await this.request("list", {
+      const { posts, meta } = await this.request("postIndex", {
         postType,
         conditions,
         options: { limit, skip, page, sort }
@@ -262,7 +279,7 @@ export default Factor => {
       Factor.$store.add(queryHash, { posts, meta })
       Factor.$store.add(postType, { posts, meta })
 
-      await this.populatePosts({ posts, depth: 5 })
+      await this.populatePosts({ posts, depth: 20 })
 
       return { posts, meta }
     }
@@ -338,8 +355,10 @@ export default Factor => {
         parts.push(path)
         return parts.join("").replace(/\/$/, "") // remove trailing backslash
       } else {
-        if (postType) {
-          const { baseRoute } = this.postTypeMeta(postType)
+        const postTypeMeta = postType ? this.postTypeMeta(postType) : false
+
+        if (postTypeMeta) {
+          const { baseRoute } = postTypeMeta
 
           // trim slashes
           if (baseRoute) parts.push(baseRoute.replace(/^\/|\/$/g, ""))

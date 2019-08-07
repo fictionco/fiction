@@ -15,18 +15,16 @@ module.exports.default = Factor => {
 
     async addPaths() {
       // Register doc routes for sitemap
-      Factor.$filters.add('initial-server-start', () => {
+      Factor.$filters.add("initial-server-start", () => {
         const base = Factor.$setting.get("docs.base")
         const pages = Factor.$setting.get("docs.pages")
         pages.forEach(p => {
           if (p.doc) {
             Factor.$router.registerRoute(`/${base}/${p.doc}`)
           }
-
         })
         // console.log("Factor.$router.registered()", Factor.$router.getRegisteredRoutes())
       })
-
 
       Factor.$filters.add("page-templates", _ => {
         return _.concat([
@@ -44,7 +42,7 @@ module.exports.default = Factor => {
           {
             path: "/",
             component: () => import("./page-home"),
-            meta: { background: "#fafbff" }
+            meta: { pageClass: ["nav-bg-light"], background: "#fafbff" }
           },
           {
             path: `/${base}`,

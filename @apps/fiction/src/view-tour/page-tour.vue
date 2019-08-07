@@ -176,7 +176,9 @@
         <div class="cta">
           <div>
             <h3 class="title">From Start to App in 3 Minutes</h3>
+
             <p class="subtitle">Read the Factor docs for a quickstart.</p>
+
           </div>
           <div class="actions">
             <app-link path="https://factor.dev/guide/quickstart" btn="primary" size="large">
@@ -502,8 +504,12 @@ export default {
     background: #1b223c url(./rectangles.svg) no-repeat center center;
     background-size: 80%;
     .cta {
+      margin: 0 auto;
+      max-width: 700px;
       display: grid;
+
       grid-template-columns: 1fr;
+
       grid-column-gap: 60px;
       text-align: center;
       @media (max-width: 767px) {
@@ -512,7 +518,7 @@ export default {
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 2.6em;
+        font-size: 2em;
         letter-spacing: -0.03em;
         line-height: 1.2em;
         margin-bottom: 0.2em;

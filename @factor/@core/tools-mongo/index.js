@@ -1,6 +1,8 @@
 export default Factor => {
   return new (class {
     constructor() {
+      Factor.$filters.add("webpack-ignore-modules", _ => [..._, "mongoose"])
+
       this.configureMongoose()
 
       Factor.$filters.callback("initialize-server", () => this.init())
@@ -14,7 +16,7 @@ export default Factor => {
     }
 
     configureMongoose() {
-      if (Factor.$isNode) {
+      if (Factor.$isNode && Factor.FACTOR_TARGET == "server") {
         this.mongoose = require("mongoose")
 
         // https://github.com/Automattic/mongoose/issues/4965

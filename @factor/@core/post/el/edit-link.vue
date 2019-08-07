@@ -24,7 +24,7 @@ export default {
     },
     meta() {
       return this.post.postType
-        ? this.$posts.postTypeMeta(this.post.postType)
+        ? this.$post.postTypeMeta(this.post.postType)
         : {}
     },
     post() {

@@ -1,35 +1,59 @@
 <template>
-  <div class="blog-view-single">
-    <view-single>
-      <!-- <template #after-entry>
-        <widget-share-post :post-id="post._id" />
-        <widget-author-bio v-for="_id in post.author" :key="_id" :post-id="_id" />
-      </template>
-      <template #after-title>
-        <widget-featured-image :post-id="post.avatar" class="single-image" />
-      </template>-->
-    </view-single>
+  <div class="single-entry">
+    <component
+      :is="$setting.get(`blog.components.${comp}`)"
+      v-for="(comp, i) in $setting.get('blog.layout.single')"
+      :key="i"
+      :post-id="post._id"
+    />
   </div>
 </template>
 <script>
+import Factor from "vue"
 export default {
-  components: {
-    "view-single": () => import("@factor/plugin-blog/view-single")
-    // "widget-author-bio": () => import("@factor/plugin-blog/widget-author-bio"),
-    // "widget-share-post": () => import("@factor/plugin-blog/widget-share-post"),
-    // "widget-featured-image": () =>
-    //   import("@factor/plugin-blog/widget-featured-image")
+  data() {
+    return {}
+  },
+  metatags() {
+    return {
+      title: this.$metatags.titleTag(this.post._id),
+      description: this.$metatags.descriptionTag(this.post._id),
+      image: this.$metatags.shareImage(this.post._id)
+    }
   },
   computed: {
     post() {
       return this.$store.val("post") || {}
     }
-  }
+  },
+  // created() {
+  //   // Factor.siteVars.classes = ["nav-light"]
+  // },
+  methods: {}
 }
 </script>
+
 <style lang="less">
-.single-image {
-  box-shadow: var(--panel-shadow);
-  border-radius: 5px;
+.single-entry {
+  .widget-date,
+  .entry-meta,
+  .post-entry,
+  .social-share,
+  .author-bio {
+    max-width: 50rem;
+    margin: 1rem auto;
+    padding: 0;
+  }
+
+  @media (max-width: 767px) {
+    .return-link,
+    .entry-headers,
+    .post-entry,
+    .entry-meta,
+    .social-share,
+    .author-bio {
+      padding: 0 1em;
+    }
+  }
 }
 </style>

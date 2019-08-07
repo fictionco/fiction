@@ -74,7 +74,7 @@ export default {
   //   async getPosts() {
   //     const tag = this.$route.params.tag || ""
   //     this.loading = true
-  //     const r = await this.$posts.getPostIndex({
+  //     const r = await this.$post.getPostIndex({
   //       type: "work",
   //       tag,
   //       status: ["published"]

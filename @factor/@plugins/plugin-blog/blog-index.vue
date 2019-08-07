@@ -77,7 +77,7 @@ export default {
     async getPosts() {
       this.loading = true
 
-      const r = await this.$posts.getPostIndex({
+      const r = await this.$post.getPostIndex({
         postType: this.postType,
         tag: this.tag,
         status: "published",

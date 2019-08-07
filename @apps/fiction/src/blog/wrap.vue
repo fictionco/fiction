@@ -1,19 +1,23 @@
 <template>
-  <div class="blog">
-    <div class="content-area">
-      <router-view />
-    </div>
+  <div class="blog-content">
+    <router-view />
   </div>
 </template>
+
 <script>
 export default {}
 </script>
 
+
 <style lang="less">
-.blog {
-  .content-area {
-    max-width: 960px;
-    margin: 0 auto;
+.blog-content {
+  .entries {
+    max-width: 50rem;
+    margin: -100px auto 0;
+    padding: 1rem 0;
+    @media (max-width: 767px) {
+      margin: 0 auto;
+    }
   }
 }
 </style>

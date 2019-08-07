@@ -33,7 +33,7 @@ module.exports.default = Factor => {
         if (pathExistsSync(p)) {
           copyItems.push({
             from: p,
-            to: "static",
+            to: "",
             ignore: [".*"]
           })
         }
@@ -171,7 +171,6 @@ module.exports.default = Factor => {
 
     getBaseUrl() {
       return process.env.baseURL || this.localhostUrl()
-
     }
 
     localhostUrl() {
