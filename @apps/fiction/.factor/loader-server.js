@@ -19,6 +19,7 @@ files["serverDev"] = require("@factor/server-dev").default
 files["setup"] = require("@factor/build-setup").default
 files["sitemap"] = require("@factor/plugin-sitemap").default
 files["storageServer"] = require("@factor/core-storage/server").default
+files["storageS3"] = require("@factor/plugin-storage-s3").default
 files["templates"] = require("@factor/post-page-templates").default
 files["time"] = require("@factor/tools-time").default
 files["userServer"] = require("@factor/core-user/server").default

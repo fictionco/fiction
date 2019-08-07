@@ -34,38 +34,6 @@ export default Factor => {
       return await Factor.$endpoint.request({ id: "user", method, params })
     }
 
-    // async load(_id) {
-    //   let user
-    //   const storedValue = Factor.$store.val(_id) || false
-
-    //   if (storedValue) {
-    //     user = storedValue
-    //   } else {
-    //     user = await this.request("getUser", { _id })
-
-    //     Factor.$store.add(_id, user)
-    //   }
-
-    //   return user
-    // }
-
-    // async save(user) {
-    //   const _save = { ...user } // mutable
-
-    //   let { images, covers } = _save
-
-    //   _save.images = images.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-    //   _save.covers = covers.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-
-    //   try {
-    //     const saved = await this.request("save", _save)
-    //     this.setUser({ user, current: this.isCurrentUser(user._id) })
-    //     return saved
-    //   } catch (error) {
-    //     throw new Error(error)
-    //   }
-    // }
-
     async authenticate(params) {
       let user = await this.request("authenticate", params)
 
