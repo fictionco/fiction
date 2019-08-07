@@ -7,12 +7,10 @@
         <p
           class="subtitle"
         >Fiction is on a mission to help frontend developers create better Javascript apps.</p>
-        <a href="#current-openings">
-          <app-btn path="#current-openings" btn="quaternary" size="large">
-            Check Our Current Openings
-            <factor-icon icon="arrow-down" />
-          </app-btn>
-        </a>
+        <app-link btn="quaternary" size="large" path="#">
+          Check Our Current Openings
+          <factor-icon icon="arrow-down" />
+        </app-link>
       </div>
     </section>
 
@@ -62,7 +60,34 @@
       </div>
     </section>
 
-    <section id="current-openings" class="careers">
+    <!-- <section class="clients">
+      <div class="title">Trusted by:</div>
+      <div class="mast clients-inner">
+        <div class="client">
+          <div class="client-image">
+            <img :src="require(`./elasticbyte.svg`)" alt="Elastic Byte" >
+          </div>
+        </div>
+        <div class="client">
+          <div class="client-image">
+            <img :src="require(`./carbontechpro.svg`)" alt="Carbon Tech Pro" >
+          </div>
+        </div>
+        <div class="client">
+          <div class="client-image">
+            <img :src="require(`./pagelines.svg`)" alt="PageLines" >
+          </div>
+        </div>
+        <div class="client">
+          <div class="client-image">
+            <img :src="require(`./aqualuna.svg`)" alt="AquaLuna" >
+          </div>
+        </div>
+      </div>
+      <div class="hhh" />
+    </section>-->
+
+    <section class="careers">
       <div class="mast careers-inner">
         <h1 class="title">Current Job Openings</h1>
 
@@ -83,25 +108,54 @@
               </app-link>
             </div>
           </li>
-          <!-- <li>
-            <div>
-              <img :src="require(`./icon-designer.svg`)" alt="Factor Designer" >
-            </div>
-            <div>
-              <h3>
-                Product Designer
-                <span>Salt Lake City</span>
-              </h3>
-              <p>Looking for a new home? Our design team is growing. To thrive in this role, you’ll have 2+ years of design experience under your belt, as well as a demonstrated understanding of the pace and variety of agency work...</p>
-              <app-link path="/#">
-                Learn More
-                <factor-icon icon="arrow-right" />
-              </app-link>
-            </div>
-          </li>-->
         </ul>
       </div>
     </section>
+
+    <!-- <section class="member-wrap">
+      <div class="mast">
+        <h1 class="title">Leadership at Fiction</h1>
+        <div class="member">
+          <figure>
+            <img :src="require(`./andrew.jpg`)" alt="Andrew Powers" >
+    </figure>
+    <div class="content">
+      <h3 class="title">Andrew Powers</h3>
+      <h4 class="sub-title">Founder &amp; CEO</h4>
+      <p class="desc">
+        Andrew is a serial entrepreneur who has founded several successful companies in different industries. Prior to founding Fiction, Andrew bootstrapped
+        <a
+          href="https://www.pagelines.com"
+        >PageLines.com</a> to over 30k paying customers.
+      </p>
+    </div>
+  </div>
+  <div class="member">
+    <figure>
+      <img :src="require(`./raymond.jpg`)" alt="Raymond Aleman">
+    </figure>
+    <div class="content">
+      <h3 class="title">Raymond Aleman</h3>
+      <h4 class="sub-title">Founder / VP Design</h4>
+      <p
+        class="desc"
+      >Ray is a designer and UX specialist and has previously led design at several successful startups throughout the United States, including Omni Studio, Wearable World and PageLines.</p>
+    </div>
+  </div>
+  </div>
+    </section>-->
+
+    <!-- <section class="cta">
+      <div class="mast">
+        <div class="cta-inner">
+          <h1 class="title">Have a project to discuss?</h1>
+          <app-link btn="primary" size="large" path="/contact">
+            Let's Talk
+            <factor-icon icon="arrow-right" />
+          </app-link>
+        </div>
+      </div>
+    </section>-->
   </div>
 </template>
 
@@ -119,14 +173,9 @@ export default {
   },
   metatags() {
     return {
-      title: "Fiction Careers",
+      title: "About Fiction",
       description:
-        "Fiction is on a mission to help frontend developers create better Javascript apps."
-    }
-  },
-  methods: {
-    hash(name) {
-      this.$router.replace({ hash: name })
+        "Fiction was created to help you live a better life by seeing more of it. We’re focused on making software and services that solve the unique problems of long-term travelers."
     }
   }
 }
@@ -259,10 +308,59 @@ export default {
     }
   }
 
+  // Clients
+  // .clients {
+  //   position: relative;
+  //   background-color: #f5f8fc;
+  //   padding: 3em 0;
+  //   .title {
+  //     text-align: center;
+  //     font-size: 1.2em;
+  //     line-height: 1.6em;
+  //   }
+  //   .clients-inner {
+  //     position: relative;
+  //     z-index: 2;
+  //     display: grid;
+  //     grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  //     grid-gap: 2em;
+  //     align-items: center;
+  //     margin: 3em auto;
+  //     .client-image {
+  //       max-width: 100%;
+  //       img {
+  //         max-width: 100%;
+  //         display: block;
+  //         margin: 0 auto;
+  //       }
+  //     }
+  //     @media (max-width: 767px) {
+  //       grid-template-columns: 1fr 1fr;
+  //       grid-gap: 2em;
+  //     }
+  //   }
+  //   .hhh {
+  //     pointer-events: none;
+  //     position: absolute;
+  //     z-index: 1;
+  //     left: 0;
+  //     right: 0;
+  //     bottom: -40%;
+  //     top: 50%;
+  //     transform: skewY(-4deg);
+  //     background: #f5f8fc;
+  //     transition: opacity 0.2s ease-out;
+  //     will-change: transform;
+  //     @media (max-width: 767px) {
+  //       bottom: -20%;
+  //     }
+  //   }
+  // }
+
   // Careers
   .careers {
     position: relative;
-    //background-color: #fff;
+    background-color: #fff;
     padding: 3em 0;
     .careers-inner {
       display: grid;
@@ -328,5 +426,113 @@ export default {
       font-weight: var(--font-weight-bold);
     }
   }
+
+  // Member
+  // .member-wrap {
+  //   padding: 0 2px;
+  //   line-height: 1.2;
+  //   max-width: 1000px;
+  //   margin: 2em auto;
+  //   padding-top: 3em;
+  //   h1.title {
+  //     font-size: 2.5em;
+  //     text-align: center;
+  //     font-weight: var(--font-weight-bold);
+  //   }
+  //   .member {
+  //     display: grid;
+  //     grid-template-columns: 3fr 4fr;
+  //     grid-gap: 40px;
+  //     position: relative;
+  //     overflow: visible;
+  //     margin: 4em 0 7em;
+  //     box-shadow: var(--panel-shadow);
+  //     background: var(--color-light);
+  //     border-radius: 0.5em;
+
+  //     figure {
+  //       position: relative;
+  //       overflow: hidden;
+  //       transform: skewX(-8deg);
+  //       margin-top: -30px;
+  //       margin-left: 30px;
+  //       margin-bottom: -30px;
+  //       border-radius: 0.5em;
+  //       box-shadow: var(--panel-shadow);
+
+  //       img {
+  //         height: 120%;
+  //         width: auto;
+  //         position: absolute;
+  //         top: -40px;
+  //         bottom: 0;
+  //         left: -40px;
+  //         transform: skewX(8deg);
+  //       }
+  //     }
+  //     .content {
+  //       grid-column: 2;
+  //       padding: 3em;
+  //       line-height: 1.4;
+  //       font-size: 1.2em;
+  //       .title {
+  //         font-weight: var(--font-weight-bold);
+  //         font-size: 1.5em;
+  //       }
+  //       .sub-title {
+  //         font-weight: normal;
+  //       }
+  //       p {
+  //         margin-top: 1em;
+  //         opacity: 0.7;
+  //         font-weight: 500;
+  //       }
+  //       cite {
+  //         display: block;
+  //         margin-top: 1em;
+  //       }
+  //     }
+  //   }
+  //   @media (max-width: 767px) {
+  //     .title {
+  //       font-size: 2em;
+  //     }
+  //     .member {
+  //       grid-template-columns: 1fr;
+  //       grid-gap: 0;
+  //       figure {
+  //         transform: skewX(0);
+  //         margin: 0;
+  //         border-radius: 0.5em 0.5em 0 0;
+  //         img {
+  //           width: 100%;
+  //           height: auto;
+  //           position: relative;
+  //           top: 0;
+  //           bottom: 0;
+  //           left: 0;
+  //           transform: skewX(0);
+  //         }
+  //       }
+  //       .content {
+  //         grid-column: auto;
+  //         width: 100%;
+  //         padding: 1em;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // .cta {
+  //   .cta-inner {
+  //     text-align: center;
+  //     margin-bottom: 4em;
+  //     .title {
+  //       font-size: 2.5em;
+  //       font-weight: var(--font-weight-bold);
+  //       margin-bottom: 0.5em;
+  //     }
+  //   }
+  // }
 }
 </style>

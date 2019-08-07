@@ -67,7 +67,7 @@
         <p>Essays on web development, remote-life and web business.</p>
       </factor-link>
 
-      <factor-link path="/about" class="item">
+      <factor-link path="/careers" class="item">
         <h3>
           Work With
           <strong>Fiction</strong>

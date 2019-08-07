@@ -23,8 +23,8 @@
       </div>
       <div class="footer-col">
         <div class="menu-header">Company</div>
-        <factor-link path="/about">About</factor-link>
-        <factor-link path="/about#careers">Careers</factor-link>
+        <!-- <factor-link path="/about">About</factor-link> -->
+        <factor-link path="/careers">Careers</factor-link>
       </div>
       <div class="footer-col">
         <div>

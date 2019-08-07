@@ -174,14 +174,14 @@
       <div class="mast">
         <div class="cta">
           <div>
-            <h3 class="title">Ready to Start Building?</h3>
-            <p class="subtitle">Get in touch or create an account</p>
+            <h3 class="title">From Start to App in 3 Minutes</h3>
+            <p class="subtitle">Read the Factor docs for a quickstart.</p>
           </div>
           <div class="actions">
-            <app-btn path="https://factor.dev/guide/quickstart" btn="primary" size="large">
+            <app-link path="https://factor.dev/guide/quickstart" btn="primary" size="large">
               Quick Start
               <i class="fa fa-arrow-right" />
-            </app-btn>
+            </app-link>
           </div>
         </div>
       </div>
@@ -397,9 +397,9 @@ export default {
   }
 
   .testimonial {
+    margin: 2em 0 -100px;
     position: relative;
     overflow: hidden;
-    margin: 2em 0;
     border-radius: 4px;
     background: #fff;
     box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
@@ -409,7 +409,7 @@ export default {
       position: absolute;
       overflow: hidden;
       z-index: 2;
-      right: -30px;
+      right: -40px;
       top: 0;
       left: calc(50% + 100px);
       -webkit-transform: skewX(12deg);
@@ -477,11 +477,15 @@ export default {
   }
 
   .cta-wrap {
-    padding: 3em 0;
+    padding: 8em 0 4em;
+    color: var(--color-light);
+    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background-size: 80%;
     .cta {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       grid-column-gap: 60px;
+      text-align: center;
       @media (max-width: 767px) {
         text-align: center;
         grid-template-columns: 1fr;
@@ -499,8 +503,9 @@ export default {
         font-weight: 500;
       }
       .actions {
+        margin-top: 2em;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         .app-btn + .app-btn {
           margin-left: 1em;
