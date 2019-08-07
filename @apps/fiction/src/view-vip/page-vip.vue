@@ -103,52 +103,7 @@
           <app-link path="mailto:contact@fiction.com">contact@fiction.com</app-link>— it’ll get to us either way.
         </p>
 
-        <factor-form
-          ref="form"
-          class="contact-form"
-          data-test="contact-form"
-          :class="formStatus"
-          @submit="send()"
-        >
-          <div v-if="sent" class="confirm" data-test="confirm">
-            <div class="title">Got it!</div>
-            <div class="description">
-              We’ll get back to you as soon as possible
-              at the email you provided.
-            </div>
-          </div>
-          <div v-else class="inputs">
-            <factor-input-wrap
-              v-model="form.name"
-              format="horizontal"
-              data-test="form-name"
-              input="factor-input-text"
-              label="Your Name"
-              required
-            />
-            <factor-input-wrap
-              v-model="form.email"
-              format="horizontal"
-              data-test="form-email"
-              input="factor-input-email"
-              label="Email Address"
-              required
-            />
-            <factor-input-wrap
-              v-model="form.message"
-              format="horizontal"
-              input="factor-input-textarea"
-              label="Message"
-              placeholder="How can we help you succeed?"
-              required
-              data-test="form-message"
-            />
-            <factor-input-submit btn="primary" :loading="sending" data-test="form-submit">
-              Contact
-              <factor-icon icon="arrow-right" />
-            </factor-input-submit>
-          </div>
-        </factor-form>
+        <component :is="$setting.get('contactForm.form')" />
       </div>
     </section>
   </div>
