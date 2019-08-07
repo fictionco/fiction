@@ -89,6 +89,8 @@ export default {
       if (typeof item.click == "function") {
         item.click()
       }
+
+      this.clickHandler()
     },
     clickHandler(e) {
       if (this.toggle) {
