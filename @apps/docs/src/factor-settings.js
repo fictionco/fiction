@@ -119,15 +119,11 @@ module.exports.default = Factor => {
           path: "/plugins",
           name: "Plugins"
         },
-        {
-          path: "/compare",
-          name: "Compare"
-        },
-        {
-          path: "https://gitter.im/factorjs/community",
-          name: "Community",
-          icon: "gitter"
-        },
+        // {
+        //   path: "https://gitter.im/factorjs/community",
+        //   name: "Community",
+        //   icon: "gitter"
+        // },
         {
           path: "https://github.com/fiction-com/factor",
           name: "Github",
