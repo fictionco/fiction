@@ -31,7 +31,7 @@ export default {
 .single-entry .entry-headers {
   margin: 0;
   padding: 0 2em;
-  background: #1b223c url(./img/rectangles.svg) no-repeat center center;
+  background: #1b223c url(./img/rectangles-pink.svg) no-repeat center center;
   background-size: 80%;
 
   @media (max-width: 767px) {
@@ -43,9 +43,9 @@ export default {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     &.label-aqua {
-      color: #55bab5;
+      color: #ff0076;
       &:hover {
-        color: #55bab5;
+        color: #ff0076;
         opacity: 0.7;
       }
     }
@@ -65,7 +65,7 @@ export default {
     }
 
     .entry-title {
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight-bold, 800);
       font-size: 3em;
       letter-spacing: -0.03em;
       line-height: 1.4em;
@@ -103,7 +103,7 @@ export default {
   }
 
   .entry-title {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold, 800);
     font-size: 2.5em;
     line-height: 1.1;
 
@@ -113,7 +113,7 @@ export default {
     a {
       color: inherit;
       &:hover {
-        color: var(--color-primary);
+        color: var(--color-primary, #0496ff);
       }
       &:active {
         opacity: 0.7;

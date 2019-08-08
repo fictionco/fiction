@@ -26,7 +26,7 @@ export default {
   }
 
   .entry-title {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold, 800);
     font-size: 1.2em;
     margin-bottom: 1em;
 
@@ -35,7 +35,7 @@ export default {
       max-width: 65%;
       color: inherit;
       &:hover {
-        color: var(--color-primary);
+        color: var(--color-primary, #0496ff);
       }
       &:active {
         opacity: 0.7;

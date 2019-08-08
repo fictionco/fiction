@@ -23,7 +23,6 @@ export default {
 .jobs-post-excerpt {
   font-size: 1.25em;
   line-height: 1.4em;
-  padding-bottom: 1rem;
   @media (max-width: 767px) {
     font-size: 1em;
     padding: 0 1em;

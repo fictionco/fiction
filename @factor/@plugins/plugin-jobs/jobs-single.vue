@@ -1,6 +1,5 @@
 <template>
   <div class="single-entry">
-    <!-- {{post.jobIcon}} -->
     <component
       :is="$setting.get(`jobs.components.${comp}`)"
       v-for="(comp, i) in $setting.get('jobs.layout.single')"
