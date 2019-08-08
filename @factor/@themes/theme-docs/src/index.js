@@ -42,7 +42,7 @@ module.exports.default = Factor => {
           {
             path: "/",
             component: () => import("./page-home"),
-            meta: { pageClass: ["nav-bg-light"], background: "#fafbff" }
+            meta: {}
           },
           {
             path: `/${base}`,
