@@ -138,8 +138,9 @@ export default {
   },
   metatags() {
     return {
-      title: this.$setting.get("home.meta.title"),
-      description: this.$setting.get("home.meta.description")
+      title: "VIP - Enterprise Web Application Development and Support",
+      description:
+        "Need the professional touch for your website or web application? Get in touch with us about enterprise development and support,"
     }
   },
   methods: {

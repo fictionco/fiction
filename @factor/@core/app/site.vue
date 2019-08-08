@@ -20,9 +20,10 @@ export default {
       return `ui-${ui}`
     },
     classes() {
-      const routeClasses = this.$route.meta.pageClass || []
-      const siteClasses = Factor.siteVars.classes || []
-      return [...routeClasses, ...siteClasses]
+      const metaClass = this.$route.meta.routeClass || []
+      const siteClasses = this.$globals.routeClass || []
+
+      return [...metaClass, , ...siteClasses]
     }
   },
   watch: {

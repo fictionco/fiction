@@ -39,17 +39,17 @@ module.exports.default = Factor => {
           {
             path: "/factor-js",
             component: () => import("./view-tour/page-tour"),
-            meta: { nav: true, pageClass: ["nav-light"] }
+            meta: { nav: true, routeClass: ["nav-light"] }
           },
           {
             path: "/careers",
             component: () => import("./view-careers/page-careers"),
-            meta: { nav: true, pageClass: ["nav-light"] }
+            meta: { nav: true, routeClass: ["nav-light"] }
           },
           {
             path: "/vip",
             component: () => import("./view-vip/page-vip"),
-            meta: { nav: true, pageClass: ["nav-light"], background: "#fff" }
+            meta: { nav: true, routeClass: ["nav-light"], background: "#fff" }
           },
           {
             path: "/how-it-works",

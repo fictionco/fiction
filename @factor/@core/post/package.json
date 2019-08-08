@@ -21,7 +21,7 @@
     "@factor/core": "^1.0.0-alpha.21",
     "@factor/dashboard": "^1.0.0-alpha.21",
     "@factor/dashboard-signin": "^1.0.0-alpha.21",
-    "@factor/post-metatags": "^1.0.0-alpha.21",
+    "@factor/metatags": "^1.0.0-alpha.21",
     "@factor/post-page-templates": "^1.0.0-alpha.21",
     "@factor/ui": "^1.0.0-alpha.21",
     "jsonwebtoken": "^8.5.1",

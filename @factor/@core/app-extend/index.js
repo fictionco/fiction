@@ -63,7 +63,10 @@ export default Factor => {
         }
       }
 
-      Factor.siteVars = Factor.observable({ classes: [] })
+      Factor.$globals = Factor.prototype.$globals = Factor.observable({
+        routeClass: [],
+        metatags: []
+      })
 
       Factor.$filters.run("initialize-app")
     }

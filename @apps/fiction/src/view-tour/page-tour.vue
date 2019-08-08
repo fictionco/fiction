@@ -3,15 +3,9 @@
     <section class="splash-wrap">
       <div class="splash mast">
         <div>
-          <div class="label label-blue">factor Arrives q3 2019</div>
-          <h1 class="title">Built for Perfectionists</h1>
-          <p
-            class="subtitle"
-          >A modern framework based on Vue.js that helps developers code better and ship faster.</p>
-          <!-- <app-link btn="primary" size="large" path="https://factor.dev/guide/">
-            Get Started
-            <factor-icon icon="arrow-right" />
-          </app-link>-->
+          <div class="label label-blue">Currently In Alpha</div>
+          <h1 class="title">A Universal Javascript Platform for Professional Web Developers</h1>
+          <p class="subtitle">Build rock-solid server-rendered Vue.js apps in hours not months</p>
         </div>
       </div>
       <div class="hhh" />
@@ -178,7 +172,6 @@
             <h3 class="title">From Start to App in 3 Minutes</h3>
 
             <p class="subtitle">Read the Factor docs for a quickstart.</p>
-
           </div>
           <div class="actions">
             <app-link path="https://factor.dev/guide/quickstart" btn="primary" size="large">
@@ -199,16 +192,14 @@ export default {
   },
   data() {
     return {
-      loading: true,
-      title: "some title"
+      loading: true
     }
   },
-  mounted() {},
   metatags() {
     return {
-      title: "How Factor Works",
-      description: "",
-      image: ""
+      title: "Factor JS - A Platform for Universal VueJS Apps",
+      description:
+        "Build server-rendered web applications that stun your friends and followers with Factor JS Universal VueJS platform."
     }
   }
 }
@@ -292,7 +283,7 @@ export default {
       grid-column-gap: 60px;
       align-items: center;
       text-align: center;
-      max-width: 550px;
+      max-width: 800px;
       padding: 7em 0 10em;
       @media (max-width: 767px) {
         padding: 6em 1em 10em;
@@ -333,6 +324,11 @@ export default {
 
   .items-wrap {
     padding: 2em 0;
+    position: relative;
+    margin-top: -140px;
+    // @media (max-width: 767px) {
+    //   margin-top: 0;
+    // }
     .item {
       display: grid;
       grid-gap: 6em;
@@ -363,13 +359,6 @@ export default {
           grid-gap: 2em;
           padding: 2em;
           text-align: left;
-        }
-      }
-
-      &:first-child {
-        transform: translateY(-80px);
-        @media (max-width: 767px) {
-          transform: translateY(0);
         }
       }
 

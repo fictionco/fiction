@@ -42,6 +42,9 @@ export default {
       loading: false
     }
   },
+  routeClass() {
+    return ["nav-light"]
+  },
   metatags() {
     const title = this.tag
       ? `Tag "${this.tag}"`

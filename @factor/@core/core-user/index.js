@@ -184,35 +184,32 @@ export default Factor => {
     }
 
     handleAuthRouting() {
-      Factor.$filters.callback(
-        "client-route-before-promises",
-        async ({ to, from, next }) => {
-          const user = await this.init() //this.currentUser()
-          const { path: toPath } = to
+      Factor.$filters.callback("client-route-before", async ({ to, from, next }) => {
+        const user = await this.init() //this.currentUser()
+        const { path: toPath } = to
 
-          // Is authentication needed
-          const auth = to.matched.some(_r => {
-            return _r.meta.auth
-          })
+        // Is authentication needed
+        const auth = to.matched.some(_r => {
+          return _r.meta.auth
+        })
 
-          // Get accessLevel needed
-          let accessLevel = 0
-          to.matched.forEach(_r => {
-            if (_r.meta.accessLevel) {
-              accessLevel = _r.meta.accessLevel
-            }
-          })
-
-          if (auth === true && !user._id) {
-            Factor.$events.$emit("signin-modal", {
-              redirect: toPath
-            })
-            next(false)
+        // Get accessLevel needed
+        let accessLevel = 0
+        to.matched.forEach(_r => {
+          if (_r.meta.accessLevel) {
+            accessLevel = _r.meta.accessLevel
           }
-        }
-      )
+        })
 
-      Factor.$filters.add("client-route-loaded", (_, { to, from }) => {
+        if (auth === true && !user._id) {
+          Factor.$events.$emit("signin-modal", {
+            redirect: toPath
+          })
+          next(false)
+        }
+      })
+
+      Factor.$filters.add("client-route-after", (_, { to, from }) => {
         const auth = to.matched.some(_r => {
           return _r.meta.auth
         })

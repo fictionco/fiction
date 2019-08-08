@@ -85,7 +85,7 @@ export default Factor => {
       // })
 
       Factor.$filters.callback("site-prefetch", _ => this.prefetchPost(_))
-      Factor.$filters.callback("client-route-before-promises", _ => this.prefetchPost(_))
+      Factor.$filters.callback("client-route-before", _ => this.prefetchPost(_))
 
       Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(
@@ -133,10 +133,12 @@ export default Factor => {
       // Only add to the filter if permalink is set. That way we don't show loader for no reason.
       if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
-      const _post = await this.getSinglePost(request)
+      const post = await this.getSinglePost(request)
 
-      Factor.$store.add("post", _post)
-      return _post
+      this.postStandardMetatags(post._id)
+
+      Factor.$store.add("post", post)
+      return post
     }
 
     addPostToComponents() {
@@ -166,20 +168,20 @@ export default Factor => {
       }
     }
 
-    getMetatags({ post = {}, parts }) {
-      const metatags = {}
+    postStandardMetatags(_id) {
+      const post = Factor.$store.val(_id) || {}
 
-      const canonical = this.getPermalink(parts)
+      const out = {
+        canonical: this.link(_id, { root: true }),
+        title: post.titleTag || post.title || "",
+        description: post.descriptionTag || Factor.$utils.excerpt(post.content) || "",
+        image:
+          post.avatar && Factor.$store.val(post.avatar)
+            ? Factor.$store.val(post.avatar).url
+            : ""
+      }
 
-      const title = post.titleTag || post.title || ""
-      const description = post.description || this.excerpt(post.content) || ""
-      const image = post.featuredImage
-        ? post.featuredImage[0].url
-        : post.images
-        ? post.images[0].url
-        : ""
-
-      return { canonical, title, description, image }
+      Factor.$globals.metatags.push(out)
     }
 
     async getPostById({ _id, postType = "post", createOnEmpty = false }) {
