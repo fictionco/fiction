@@ -5,7 +5,8 @@ module.exports.default = Factor => {
         {
           doc: "quickstart",
           title: "Installation and Quickstart",
-          description: "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
+          description:
+            "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
           file: require("./docs/installation/index.md")
         },
         {
@@ -140,7 +141,8 @@ module.exports.default = Factor => {
 
     footer: {
       headline: "Released under the GPL-2 License",
-      legal: "Copyright &copy; - The Contibutors",
+      legal:
+        "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a> and The Contibutors",
       logo: () => import("./el/logo-fiction")
     },
     home: {
@@ -149,15 +151,16 @@ module.exports.default = Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "The CMS Engine for Javascript apps.",
+      headline: "Create Dynamic Javascript Apps",
       subHeadline:
-        "Factor is a modern, full-stack Javascript alternative to WordPress, created for perfectionists with deadlines.",
+        "Factor is a platform for universal web apps built with Vue.js, MongoDB and Node.",
       graphic: require("./img/cms-engine.png"),
       boxes: [
         {
           icon: require("./img/icon-post.svg"),
-          title: "Everything is a Post",
-          description: "Factor makes use of a powerful post pattern that makes advanced app development simple."
+          title: "Post System",
+          description:
+            "A powerful post pattern that makes CMS and eCommerce easy to add. "
         },
         {
           icon: require("./img/icon-plugin.svg"),
@@ -167,9 +170,9 @@ module.exports.default = Factor => {
         },
         {
           icon: require("./img/icon-time.svg"),
-          title: "Famous 5-Minute Setup",
+          title: "Famous 3-Minute Setup",
           description:
-            "You'll be up and running in less than 5 minutes with an app that does almost everything you want."
+            "You'll be up and running in 3 minutes with a full-stack universal web app."
         }
       ],
       actions: [

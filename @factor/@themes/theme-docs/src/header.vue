@@ -30,9 +30,12 @@ export default {
   background: #f5f8fc;
 }
 .site-head {
+  background-color: rgba(255, 255, 255, 1);
   padding: 0 1.5em;
-  position: relative;
+  position: fixed;
+  width: 100%;
   z-index: 10;
+  font-weight: var(--font-weight-bold, 600);
 }
 
 .site-head-pad {
@@ -42,7 +45,6 @@ export default {
   justify-content: space-between;
 
   .primary-nav {
-    font-weight: 600;
     display: flex;
     align-items: center;
 
@@ -54,6 +56,7 @@ export default {
       letter-spacing: -0.03em;
       font-size: 0.9em;
       color: var(--color-text);
+
       margin: 0 1em;
       @media (max-width: 767px) {
         margin: 0 1em;
