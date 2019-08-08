@@ -41,11 +41,11 @@ module.exports.default = Factor => {
             component: () => import("./view-tour/page-tour"),
             meta: { nav: true, routeClass: ["nav-light"] }
           },
-          {
-            path: "/careers",
-            component: () => import("./view-careers/page-careers"),
-            meta: { nav: true, routeClass: ["nav-light"] }
-          },
+          // {
+          //   path: "/careers",
+          //   component: () => import("./view-careers/page-careers"),
+          //   meta: { nav: true, routeClass: ["nav-light"] }
+          // },
           {
             path: "/vip",
             component: () => import("./view-vip/page-vip"),
