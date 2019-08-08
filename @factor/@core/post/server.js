@@ -22,6 +22,8 @@ module.exports.default = Factor => {
         _post = new PostTypeModel()
       }
 
+      console.log("SAVE DATA", _post, data, postType)
+
       Object.assign(_post, data)
 
       return await _post.save()

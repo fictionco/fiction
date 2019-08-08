@@ -7,7 +7,6 @@
       <factor-link path="/careers">Careers</factor-link>
       <factor-link path="/blog">Blog</factor-link>
 
-
       <factor-link v-if="!$userId" event="signin-modal" data-test="login">
         Sign In
         <factor-icon icon="arrow-right" />
@@ -36,33 +35,33 @@ export default {
   },
 
   metatags() {
-    const post = this.post || {}
+    const post = this.post || {};
     return {
       title: post.titleTag || post.title,
       description: post.description || this.$utils.excerpt(post.content),
       image: this.socialImage(post)
-    }
+    };
   },
 
   computed: {
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return this.$store.getters["getItem"]("post") || {};
     },
 
     nav() {
       return typeof this.$route.meta.nav != "undefined"
         ? this.$route.meta.nav
-        : true
+        : true;
     },
     bg() {
-      const background = this.$route.meta.background || false
+      const background = this.$route.meta.background || false;
 
       if (!background) {
-        return ""
+        return "";
       } else {
         return {
           background
-        }
+        };
       }
     }
   },
@@ -70,10 +69,10 @@ export default {
     socialImage(post) {
       return post.images && post.images.length > 0 && post.images[0].url
         ? post.images[0].url
-        : ""
+        : "";
     }
   }
-}
+};
 </script>
 
 <style lang="less">

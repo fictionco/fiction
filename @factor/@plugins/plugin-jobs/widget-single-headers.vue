@@ -69,7 +69,7 @@ export default {
       font-size: 3em;
       letter-spacing: -0.03em;
       line-height: 1.4em;
-      margin: 0.3em 0;
+      margin: 0.3em 0 0;
       color: #f9f9f9;
       a:hover {
         color: inherit;

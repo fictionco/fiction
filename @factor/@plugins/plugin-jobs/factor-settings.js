@@ -4,19 +4,9 @@ module.exports.default = Factor => {
       indexRoute: "/jobs",
       postRoute: "/jobs",
       limit: 10,
-      metatags: {
-        index: {
-          title: "Fiction Jobs - Building Apps, Code, Remote Work",
-          description: "Fiction jobs."
-        }
-      },
       notFound: {
         title: "No Posts",
         subTitle: "Couldn't find any job posts."
-      },
-      layout: {
-        index: ["headers", "excerpt"],
-        single: ["singleHeaders", "featuredImage", "entry", "cta"]
       },
       components: {
         jobsContent: () => import("./jobs-content.vue"),
@@ -29,6 +19,16 @@ module.exports.default = Factor => {
         headers: () => import("./widget-headers.vue"),
         singleHeaders: () => import("./widget-single-headers.vue"),
         cta: () => import("./widget-cta.vue")
+      },
+      layout: {
+        index: ["headers", "excerpt"],
+        single: ["singleHeaders", "featuredImage", "entry", "cta"]
+      },
+      metatags: {
+        index: {
+          title: "Fiction Jobs - Building Apps, Code, Remote Work",
+          description: "Fiction jobs."
+        }
       }
     }
   }

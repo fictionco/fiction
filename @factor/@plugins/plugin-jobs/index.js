@@ -22,9 +22,9 @@ export default Factor => {
           baseRoute,
           icon: require("./img/jobs.svg"),
           model: "JobPost",
-          nameIndex: "Job",
-          nameSingle: "Job Post",
-          namePlural: "Job Posts"
+          nameIndex: "Jobs",
+          nameSingle: "Jobs Post",
+          namePlural: "Jobs Posts"
         })
 
         return _

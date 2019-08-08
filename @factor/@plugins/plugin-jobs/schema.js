@@ -1,20 +1,16 @@
 export default Factor => {
   return {
     name: "jobs",
-    callback: _s => {},
+    callback: _s => {
+      _s.pre("validate", function(next) {
+        //console.log("THIS", typeof this.jobIcon)
+        next()
+      })
+    },
     schema: {
-      jobIcon: { type: Factor.$mongo.objectIdType(), ref: "attachment" },
-      //jobIcon: Factor.$mongo.objectIdType(),
       jobLocation: String,
-      jobApplyEmail: String
+      jobApplyEmail: String,
+      jobIcon: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }]
     }
-    // name: "attachment",
-    // callback: _s => {},
-    // schema: {
-    //   mimetype: String,
-    //   imageData: Buffer,
-    //   size: Number,
-    //   url: String
-    // }
   }
 }

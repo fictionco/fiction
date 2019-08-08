@@ -7,8 +7,7 @@
     <div v-else-if="jobsPosts.length > 0" class="jobs-post-index">
       <div v-for="(post) in jobsPosts" :key="post._id" class="jobs-post">
         <div>
-          <img :src="require(`./img/icon-developer.svg`)" alt="Factor Developer" />
-          Custom Icon
+          <img :src="getPost(post.jobIcon).url || require(`./img/icon-default.svg`)" />
         </div>
         <div>
           <component
@@ -80,6 +79,9 @@ export default {
     this.getPosts();
   },
   methods: {
+    getPost(_id) {
+      return this.$store.val(_id) || {};
+    },
     async getPosts() {
       this.loading = true;
 
@@ -112,7 +114,6 @@ export default {
   }
 }
 .jobs-entries {
-  //padding: 1em 2em;
   .jobs-post-index {
     margin-top: 3em;
 

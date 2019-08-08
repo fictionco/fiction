@@ -2,7 +2,7 @@
   <div class="edit-job-templates">
     <dashboard-input
       v-model="post.jobIcon"
-      input-max="1"
+      :max="1"
       input="factor-input-image-upload"
       label="Custom Icon"
       @autosave="$emit('autosave')"
