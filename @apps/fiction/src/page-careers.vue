@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="apply-image">
-          <img :src="require(`./img/careers.jpg`)" alt="Careers" >
+          <img :src="require(`./img/careers.jpg`)" alt="Careers" />
         </div>
       </div>
     </div>
@@ -66,21 +66,21 @@ export default {
   data() {
     return {
       loading: true
-    }
+    };
   },
   mounted() {
     this.$user.init(() => {
-      this.loading = false
-    })
+      this.loading = false;
+    });
   },
   metatags() {
     return {
       title: "Fiction Careers",
       description: "Let’s Build a World-Class Product Together",
       image: require("./img/fiction.jpg")
-    }
+    };
   }
-}
+};
 </script>
 <style lang="less">
 .view-careers {

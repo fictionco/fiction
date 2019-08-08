@@ -27,6 +27,24 @@ module.exports.default = Factor => {
         ],
         meta: ["authorDate", "tags"]
       }
+    },
+    jobs: {
+      indexRoute: "/careers",
+      postRoute: "/careers",
+      limit: 10,
+      metatags: {
+        index: {
+          title: "Fiction Careers - Building Apps, Code, Remote Work",
+          description: "Fiction Careers."
+        }
+      }
+      // components: {
+      //   jobsIndex: () => import("./jobs/index.vue")
+      // }
+      // layout: {
+      //   index: ["headers", "excerpt"],
+      //   single: ["singleHeaders", "featuredImage", "entry", "cta"]
+      // }
     }
   }
 }

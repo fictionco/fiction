@@ -135,7 +135,9 @@ export default Factor => {
 
       const post = await this.getSinglePost(request)
 
-      this.postStandardMetatags(post._id)
+      if (post) {
+        this.postStandardMetatags(post._id)
+      }
 
       Factor.$store.add("post", post)
       return post
