@@ -3,7 +3,6 @@ export default Factor => {
     name: "jobs",
     callback: _s => {
       _s.pre("validate", function(next) {
-        //console.log("THIS", typeof this.jobIcon)
         next()
       })
     },
