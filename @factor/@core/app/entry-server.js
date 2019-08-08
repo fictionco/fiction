@@ -27,9 +27,13 @@ export default async ssrContext => {
   const { meta: { ui = "app" } = {} } =
     router.currentRoute.matched.find(_ => _.meta.ui) || {}
 
+  Factor.$filters.run("ssr-matched-components", router.getMatchedComponents(fullPath))
+
   // the html template extension mechanism
   // This uses a callback because the component's 'created' hooks are called after this point
-  ssrContext.factor_head = () => Object.values(ssrContext.headTags).join("")
+  ssrContext.factor_head = () => {
+    return Factor.$filters.apply("factor_head", []).join("")
+  }
 
   ssrContext.factor_html_attr = () => ['lang="en"', `class="ui-${ui}"`].join(" ")
 

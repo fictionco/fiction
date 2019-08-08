@@ -2,12 +2,22 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       const AWS = require("aws-sdk")
+
+      this.AWS_ACCESS_KEY = Factor.$config.setting("AWS_ACCESS_KEY")
+      this.AWS_ACCESS_KEY_SECRET = Factor.$config.setting("AWS_ACCESS_KEY_SECRET")
+      this.AWS_S3_BUCKET = Factor.$config.setting("AWS_S3_BUCKET")
+
+      if (!this.AWS_ACCESS_KEY || !this.AWS_ACCESS_KEY_SECRET || !this.AWS_S3_BUCKET) {
+        console.warn("AWS S3 Plugin is missing keys")
+        return
+      }
+
       AWS.config.update({
-        accessKeyId: Factor.$config.setting("AWS_ACCESS_KEY"),
-        secretAccessKey: Factor.$config.setting("AWS_ACCESS_KEY_SECRET")
+        accessKeyId: this.AWS_ACCESS_KEY,
+        secretAccessKey: this.AWS_ACCESS_KEY_SECRET
       })
 
-      this.bucket = Factor.$config.setting("AWS_S3_BUCKET")
+      this.bucket = this.AWS_S3_BUCKET
       this.S3 = new AWS.S3()
 
       Factor.$filters.add("storage-attachment-url", ({ buffer, key }) => {

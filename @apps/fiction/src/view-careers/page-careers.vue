@@ -119,9 +119,9 @@ export default {
   },
   metatags() {
     return {
-      title: "Fiction Careers",
+      title: "Fiction Careers - Work on the Future of the Web",
       description:
-        "Fiction is on a mission to help frontend developers create better Javascript apps."
+        "Apply for a job with Fiction.com to help build the future of web business and remote work."
     }
   },
   methods: {

@@ -53,7 +53,7 @@ export function createRouter() {
 
 // Client-only checks before user navigates to a new route (e.g. auth)
 export async function clientRouterBefore(to, from, next) {
-  const doBefore = Factor.$filters.run("client-route-before-promises", { to, from, next })
+  const doBefore = Factor.$filters.run("client-route-before", { to, from, next })
 
   if (doBefore.length > 0) {
     Factor.$events.$emit("ssr-progress", "start")
@@ -79,7 +79,7 @@ export async function clientRouterBefore(to, from, next) {
 // check for specifics related to the user
 export function clientRouterAfter(to, from) {
   Factor.$events.$emit("ssr-progress", "finish")
-  Factor.$filters.apply("client-route-loaded", [], { to, from })
+  Factor.$filters.apply("client-route-after", [], { to, from })
 
   const { query } = to
   if (query._action) {
