@@ -1,8 +1,8 @@
 <template>
   <div class="single-entry">
     <component
-      :is="$setting.get(`blog.components.${comp}`)"
-      v-for="(comp, i) in $setting.get('blog.layout.single')"
+      :is="$setting.get(`jobs.components.${comp}`)"
+      v-for="(comp, i) in $setting.get('jobs.layout.single')"
       :key="i"
       :post-id="post._id"
     />
@@ -29,9 +29,6 @@ export default {
       return this.$store.val("post") || {};
     }
   },
-  // created() {
-  //   // Factor.siteVars.classes = ["nav-light"]
-  // },
   methods: {}
 };
 </script>
@@ -41,8 +38,7 @@ export default {
   .widget-date,
   .entry-meta,
   .post-entry,
-  .social-share,
-  .author-bio {
+  .social-share {
     max-width: 50rem;
     margin: 1rem auto;
     padding: 0;
@@ -53,8 +49,7 @@ export default {
     .entry-headers,
     .post-entry,
     .entry-meta,
-    .social-share,
-    .author-bio {
+    .social-share {
       padding: 0 1em;
     }
   }

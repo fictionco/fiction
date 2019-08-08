@@ -40,7 +40,8 @@ module.exports.default = Factor => {
       },
       components: {
         jobsContent: () => import("./jobs/content.vue"),
-        jobsIndex: () => import("./jobs/index.vue")
+        jobsIndex: () => import("./jobs/index.vue"),
+        jobsSingle: () => import("./jobs/single.vue")
       }
     }
   }
