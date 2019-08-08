@@ -39,7 +39,7 @@ module.exports.default = Factor => {
           {
             path: "/factor-js",
             component: () => import("./view-tour/page-tour"),
-            meta: { nav: true, routeClass: ["nav-light"] }
+            meta: { nav: true }
           },
           // {
           //   path: "/careers",

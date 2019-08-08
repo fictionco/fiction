@@ -73,7 +73,10 @@
           <div v-else-if="jobsPosts.length > 0" class="jobs-post-index">
             <div v-for="(post) in jobsPosts" :key="post._id" class="jobs-post">
               <div>
-                <img :src="getPost(post.jobIcon).url" />
+                <img
+                  :src="getPost(post.jobIcon).url || require(`./img/icon-default.svg`)"
+                  class="jobs-post-icon"
+                />
               </div>
               <div>
                 <component
@@ -118,6 +121,9 @@ export default {
       title,
       description
     };
+  },
+  routeClass() {
+    return ["nav-light"];
   },
   serverPrefetch() {
     return this.getPosts();
@@ -339,6 +345,10 @@ export default {
         &:last-child {
           margin-bottom: 0;
           border-bottom: none;
+        }
+        .jobs-post-icon {
+          width: 30px;
+          height: auto;
         }
         p {
           font-size: 1.2em;
