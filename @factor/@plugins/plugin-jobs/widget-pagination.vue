@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination">
+  <div class="jobs-pagination">
     <div class="items">{{ count }} Items</div>
     <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">
       <factor-icon icon="arrow-left" />
@@ -15,9 +15,6 @@
 export default {
   props: {
     postType: { type: String, default: "" }
-    // pageCount: { type: Number, default: 0 },
-    // pageCurrent: { type: Number, default: 0 },
-    // count: { type: Number, default: 0 }
   },
   computed: {
     index() {
@@ -55,9 +52,10 @@ export default {
 </script>
 
 <style lang="less">
-.pagination {
+.jobs-pagination {
   display: flex;
   align-items: center;
+  margin-top: 2em;
   @media (max-width: 767px) {
     justify-content: flex-end;
     .items,

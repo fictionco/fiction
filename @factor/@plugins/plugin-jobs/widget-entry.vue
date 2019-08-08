@@ -16,23 +16,23 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return this.$store.val(this.postId) || {};
     },
     variables() {
-      const vars = {}
+      const vars = {};
       this.post.images.forEach(imageId => {
-        const img = this.$store.val(imageId) || {}
-        vars[imageId] = img.url || ""
-      })
-      return vars
+        const img = this.$store.val(imageId) || {};
+        vars[imageId] = img.url || "";
+      });
+      return vars;
     },
     rendered() {
       return this.$markdown.render(this.post.content, {
         variables: true
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang="less">
 .post-entry {
@@ -100,10 +100,10 @@ export default {
   }
 
   a {
-    color: var(--color-primary);
+    color: var(--color-primary, #0496ff);
 
     &:hover {
-      color: var(--color-secondary);
+      color: var(--color-secondary, #ff0076);
     }
   }
 
@@ -203,7 +203,7 @@ export default {
   blockquote {
     margin: 1em 0;
     padding: 0.5em 0 0.5em 1.5em;
-    border-left: 5px solid var(--color-primary);
+    border-left: 5px solid var(--color-primary, #0496ff);
     font-style: italic;
 
     @media (max-width: 767px) {
