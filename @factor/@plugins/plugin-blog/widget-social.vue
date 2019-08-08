@@ -7,7 +7,11 @@
     >
       <factor-icon icon="facebook" />
     </factor-link>
-    <factor-link class="twitter" btn="default" :path="`https://twitter.com/home?status=${link}`">
+    <factor-link
+      class="twitter"
+      btn="default"
+      :path="`https://twitter.com/intent/tweet?text=${post.title}+${link}`"
+    >
       <factor-icon icon="twitter" />
     </factor-link>
     <factor-link
@@ -33,10 +37,13 @@ export default {
   },
   computed: {
     link() {
-      return this.$post.link(this.postId, { root: true })
+      return this.$post.link(this.postId, { root: true });
+    },
+    post() {
+      return this.$store.val(this.postId) || {};
     }
   }
-}
+};
 </script>
 <style lang="less">
 .social-share {
