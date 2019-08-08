@@ -65,41 +65,7 @@
     <section id="current-openings" class="careers">
       <div class="mast careers-inner">
         <h1 class="title">Current Job Openings</h1>
-
-        <ul class="careers-list">
-          <li>
-            <div>
-              <img :src="require(`./icon-developer.svg`)" alt="Factor Developer" >
-            </div>
-            <div>
-              <h3>
-                Full-Stack Developer
-                <span>Salt Lake City</span>
-              </h3>
-              <p>We’re looking for a full-stack developer to join our talented engineering team. You will work with us on our internal application platform. The responsibilities of this job include designing extensions, components, and...</p>
-              <app-link path="/careers/full-stack-developer">
-                Learn More
-                <factor-icon icon="arrow-right" />
-              </app-link>
-            </div>
-          </li>
-          <!-- <li>
-            <div>
-              <img :src="require(`./icon-designer.svg`)" alt="Factor Designer" >
-            </div>
-            <div>
-              <h3>
-                Product Designer
-                <span>Salt Lake City</span>
-              </h3>
-              <p>Looking for a new home? Our design team is growing. To thrive in this role, you’ll have 2+ years of design experience under your belt, as well as a demonstrated understanding of the pace and variety of agency work...</p>
-              <app-link path="/#">
-                Learn More
-                <factor-icon icon="arrow-right" />
-              </app-link>
-            </div>
-          </li>-->
-        </ul>
+        <component :is="$setting.get('jobs.components.jobsIndex')" />
       </div>
     </section>
   </div>
@@ -110,26 +76,26 @@ export default {
   data() {
     return {
       loading: true
-    }
+    };
   },
   mounted() {
     this.$user.init(() => {
-      this.loading = false
-    })
+      this.loading = false;
+    });
   },
   metatags() {
     return {
       title: "Fiction Careers",
       description:
         "Fiction is on a mission to help frontend developers create better Javascript apps."
-    }
+    };
   },
   methods: {
     hash(name) {
-      this.$router.replace({ hash: name })
+      this.$router.replace({ hash: name });
     }
   }
-}
+};
 </script>
 <style lang="less">
 .view-about {
@@ -273,57 +239,57 @@ export default {
       text-align: left;
       max-width: 650px;
 
-      ul.careers-list {
-        list-style: none;
-        margin-top: 3em;
+      // ul.careers-list {
+      //   list-style: none;
+      //   margin-top: 3em;
 
-        li {
-          display: grid;
-          grid-template-columns: 80px 1fr;
-          border-bottom: 1px solid rgba(80, 102, 119, 0.1);
-          padding-bottom: 2em;
-          margin-bottom: 2em;
-          @media (max-width: 767px) {
-            grid-template-columns: 1fr;
-          }
-          &:last-child {
-            margin-bottom: 0;
-            border-bottom: none;
-          }
-          h3 {
-            font-weight: var(--font-weight-bold);
-            font-size: 1.2em;
-            letter-spacing: -0.03em;
-            margin-bottom: 1em;
-            span {
-              float: right;
-              font-size: 0.9em;
-              font-weight: 300;
-              letter-spacing: 0.1em;
-              text-transform: uppercase;
-              text-align: right;
+      //   li {
+      //     display: grid;
+      //     grid-template-columns: 80px 1fr;
+      //     border-bottom: 1px solid rgba(80, 102, 119, 0.1);
+      //     padding-bottom: 2em;
+      //     margin-bottom: 2em;
+      //     @media (max-width: 767px) {
+      //       grid-template-columns: 1fr;
+      //     }
+      //     &:last-child {
+      //       margin-bottom: 0;
+      //       border-bottom: none;
+      //     }
+      //     h3 {
+      //       font-weight: var(--font-weight-bold);
+      //       font-size: 1.2em;
+      //       letter-spacing: -0.03em;
+      //       margin-bottom: 1em;
+      //       span {
+      //         float: right;
+      //         font-size: 0.9em;
+      //         font-weight: 300;
+      //         letter-spacing: 0.1em;
+      //         text-transform: uppercase;
+      //         text-align: right;
 
-              @media (max-width: 767px) {
-                display: block;
-                clear: both;
-                float: initial;
-                text-align: left;
-                margin: 0.5em 0;
-              }
-            }
-          }
-          p {
-            font-size: 1.2em;
-            font-weight: var(--font-weight-normal);
-            line-height: 1.6em;
-            margin-bottom: 1em;
-            opacity: 0.7;
-            @media (max-width: 767px) {
-              clear: both;
-            }
-          }
-        }
-      }
+      //         @media (max-width: 767px) {
+      //           display: block;
+      //           clear: both;
+      //           float: initial;
+      //           text-align: left;
+      //           margin: 0.5em 0;
+      //         }
+      //       }
+      //     }
+      //     p {
+      //       font-size: 1.2em;
+      //       font-weight: var(--font-weight-normal);
+      //       line-height: 1.6em;
+      //       margin-bottom: 1em;
+      //       opacity: 0.7;
+      //       @media (max-width: 767px) {
+      //         clear: both;
+      //       }
+      //     }
+      //   }
+      // }
     }
   }
 }
