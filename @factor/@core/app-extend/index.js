@@ -13,7 +13,7 @@ export default Factor => {
 
       this._install("filters", require("@factor/filters").default)
       this._install("config", require("@factor/app-config").default)
-      this._install("stack", require("@factor/core-stack").default)
+      //  this._install("stack", require("@factor/core-stack").default)
 
       this.loadPlugins()
       this.initializeApp()

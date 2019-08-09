@@ -8,7 +8,16 @@ module.exports.default = Factor => {
       this.AWS_S3_BUCKET = Factor.$config.setting("AWS_S3_BUCKET")
 
       if (!this.AWS_ACCESS_KEY || !this.AWS_ACCESS_KEY_SECRET || !this.AWS_S3_BUCKET) {
-        console.warn("AWS S3 Plugin is missing keys")
+        Factor.$filters.add("setup-needed", _ => {
+          const item = {
+            title: "Plugin: S3 Storage Credentials",
+            value: "The S3 storage plugin requires AWS S3 information to run correctly.",
+            location: ".env/AWS_ACCESS_KEY, AWS_ACCESS_KEY_SECRET, AWS_S3_BUCKET"
+          }
+
+          return [..._, item]
+        })
+
         return
       }
 

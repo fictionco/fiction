@@ -1,5 +1,5 @@
 {
-  "name": "@factor/build-setup",
+  "name": "@factor/setup",
   "version": "1.0.0-alpha.20",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -15,6 +15,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "cli-highlight": "^2.1.1",
+    "envfile": "^3.0.0",
     "figures": "^3.0.0",
     "fs-extra": "^7.0.1",
     "inquirer": "^6.3.1",

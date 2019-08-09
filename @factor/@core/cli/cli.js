@@ -122,8 +122,13 @@ const cli = async () => {
         .command("setup [filter]")
         .description("Setup and verify your Factor app")
         .action(async (filter, args) => {
-          const program = await this.extend({ NODE_ENV: "development", filter, install: true, ...args })
-          await this.extend(program)
+          const program = await this.extend({
+            NODE_ENV: "development",
+            filter,
+            install: true,
+            ...args
+          })
+
           await this.run(`cli-setup`, { inquirer, program })
         })
 
@@ -131,7 +136,11 @@ const cli = async () => {
         .command("run <filter>")
         .description("Run CLI utilities based on filter name (see documentation)")
         .action(async (filter, args) => {
-          const program = await this.extend({ NODE_ENV: "development", COMMAND: "run", ...args })
+          const program = await this.extend({
+            NODE_ENV: "development",
+            COMMAND: "run",
+            ...args
+          })
 
           try {
             await this.run(`cli-run-${filter}`, { inquirer, program })
@@ -167,8 +176,6 @@ const cli = async () => {
     }
 
     runServer(args) {
-
-
       const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
 
       const message = {
@@ -181,8 +188,12 @@ const cli = async () => {
         ]
       }
 
-      if (NODE_ENV == 'development') {
-        message.lines.unshift({ title: "URL", value: Factor.$paths.localhostUrl(), indent: true })
+      if (NODE_ENV == "development") {
+        message.lines.unshift({
+          title: "URL",
+          value: Factor.$paths.localhostUrl(),
+          indent: true
+        })
       }
 
       Factor.$log.formatted(message)
@@ -191,18 +202,17 @@ const cli = async () => {
     }
 
     refineNodeRequire() {
-
-      require.extensions['.md'] = () => { }
-      require.extensions['.svg'] = () => { }
-      require.extensions['.jpg'] = () => { }
-      require.extensions['.png'] = () => { }
-      require.extensions['.vue'] = () => { }
+      require.extensions[".md"] = () => {}
+      require.extensions[".svg"] = () => {}
+      require.extensions[".jpg"] = () => {}
+      require.extensions[".png"] = () => {}
+      require.extensions[".vue"] = () => {}
     }
 
     // Reloads all cached node files
     // Needed for server reloading
     async reloadNodeProcess(args) {
-      Object.keys(require.cache).forEach(function (id) {
+      Object.keys(require.cache).forEach(function(id) {
         if (/(@|\.)factor/.test(id)) {
           delete require.cache[id]
         }
@@ -212,7 +222,11 @@ const cli = async () => {
     }
 
     async createDist(args) {
-      const program = await this.extend({ NODE_ENV: "production", install: true, ...args })
+      const program = await this.extend({
+        NODE_ENV: "production",
+        install: true,
+        ...args
+      })
       await this.run("create-distribution-app", program)
 
       await this.cliTasks()
@@ -231,7 +245,12 @@ const cli = async () => {
         return
       }
       const taskMap = t.map(
-        ({ title, command, args, options = { cwd: process.cwd(), done: false, output: false } }) => {
+        ({
+          title,
+          command,
+          args,
+          options = { cwd: process.cwd(), done: false, output: false }
+        }) => {
           return {
             title,
             task: async (ctx, task) => {
@@ -254,7 +273,7 @@ const cli = async () => {
                   task.title = options.done ? options.done : `${task.title} [Done!]`
 
                   return
-                } catch (error) { }
+                } catch (error) {}
               }
             }
           }
