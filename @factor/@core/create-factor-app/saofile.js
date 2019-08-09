@@ -104,6 +104,12 @@ const config = {
     console.log(`\thttps://factor.dev/\n`)
 
     console.log()
+
+    console.log(this.chalk.bold(`  ${figures.star} Additional Setup:\n`))
+
+    console.log(`\tyarn factor setup\n`)
+
+    console.log()
   }
 }
 

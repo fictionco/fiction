@@ -147,9 +147,9 @@ module.exports.default = Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "Create Dynamic Javascript Apps",
+      headline: "The Future of Frontend Development",
       subHeadline:
-        "Factor is a platform for universal web apps built with Vue.js, MongoDB and Node.",
+        "A platform for building impressive universal apps with VueJS, MongoDB and extensions.",
       graphic: require("./img/cms-engine.png"),
       boxes: [
         {
