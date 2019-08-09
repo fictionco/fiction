@@ -30,7 +30,7 @@ module.exports.default = Factor => {
         //   return this.role ? _this.roles()[this.role] : 0
         // })
 
-        Schema.pre("validate", async function (next) {
+        Schema.pre("validate", async function(next) {
           const user = this
           const setting = Factor.$config.setting(`roles.${user.email}`)
           const configRole = user.emailVerified && setting ? setting : "member"
@@ -50,12 +50,13 @@ module.exports.default = Factor => {
       // CLI admin setup utility
       Factor.$filters.add("cli-add-setup", _ => {
         const setupAdmins = {
-          name: "Admins - Add new admin users",
+          name: "User Roles - Add admin privileges to specific users.",
           value: "admins",
           callback: async ({ program, inquirer }) => {
-            const choices = Object.keys(this.possibleRoles).map(_ => {
+            const roles = this.roles()
+            const choices = Object.keys(roles).map(_ => {
               return {
-                name: `${_} (${this.possibleRoles[_]})`,
+                name: `${_} (${roles[_]})`,
                 value: _
               }
             })
@@ -84,10 +85,10 @@ module.exports.default = Factor => {
               }
             ]
 
-            let admins = []
+            let admins = {}
             const ask = async () => {
-              let { askAgain, ...answers } = await inquirer.prompt(questions)
-              admins.push({ ...answers })
+              let { askAgain, email, role } = await inquirer.prompt(questions)
+              admins[email] = role
               if (askAgain) {
                 await ask()
               }
@@ -95,7 +96,7 @@ module.exports.default = Factor => {
 
             await ask()
 
-            let write = { public: { config: { admins } } }
+            let write = { "factor-config": { config: { roles: admins } } }
 
             return write
           }

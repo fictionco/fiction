@@ -9,14 +9,10 @@ module.exports.default = Factor => {
       const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = Factor.$config.settings()
 
       if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
-        Factor.$filters.callback("initial-server-start", () => {
-          Factor.$log.warn(
-            "No SMTP credentials. Transactional email will not be sent. (.env/SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST)"
-          )
-        })
+        require("./setup").default(Factor)
 
         this.transporter = false
-        return
+        return false
       }
 
       this.transporter = require("nodemailer").createTransport({

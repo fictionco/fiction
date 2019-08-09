@@ -46,15 +46,15 @@ module.exports.default = Factor => {
       console.log(boxen(chalk.bold(msg), { padding: 1, borderStyle: "double" }))
     }
 
-    formatted({ title, lines = [], format = false, box = true }) {
+    formatted({ title, lines = [], format = false, box = true, color = "cyan" }) {
       const msg = []
 
       lines.forEach(({ title, value, indent }) => {
         if (!title && !value) {
           msg.push("")
         } else if (typeof value != "undefined") {
-          const formattedTitle = indent ? "  " + chalk.cyan(title) : chalk.bold(title)
-          msg.push(`${formattedTitle}: ${value}`)
+          const formattedTitle = indent ? "  " + chalk[color](title) : chalk.bold(title)
+          msg.push(`${formattedTitle}${value ? ":" : ""} ${value}`)
         }
       })
 
