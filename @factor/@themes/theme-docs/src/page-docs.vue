@@ -78,6 +78,7 @@ export default {
 
 <style lang="less">
 .page-docs {
+  padding-top: 5em;
   .mast {
     padding: 0 2em;
 

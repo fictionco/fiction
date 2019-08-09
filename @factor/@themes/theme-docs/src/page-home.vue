@@ -6,7 +6,7 @@
     >
       <div class="splash mast">
         <div class="splash-content">
-          <h1 class="title">{{ $setting.get('home.headline') }}</h1>
+          <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
           <p class="subtitle">{{ $setting.get('home.subHeadline') }}</p>
           <div class="actions">
             <app-link
