@@ -11,7 +11,7 @@
 
           <a href="/vip#contact">
             <app-btn path="/vip#contact" btn="secondary" size="large">
-              Contact Sales
+              Start Your App
               <i class="fa fa-arrow-right" />
             </app-btn>
           </a>
