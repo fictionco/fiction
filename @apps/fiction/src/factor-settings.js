@@ -1,7 +1,7 @@
 module.exports.default = Factor => {
   return {
     contactForm: {
-      email: "ray@fiction.com",
+      email: "andrew@fiction.com",
       confirm: {
         title: "Got your message.",
         subTitle: "We'll take a look and be in touch as soon as possible."

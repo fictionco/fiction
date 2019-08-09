@@ -17,15 +17,14 @@
         <factor-link path="/vip">VIP</factor-link>
       </div>
       <div class="footer-col">
-        <div class="menu-header">Connect</div>
-
-        <factor-link path="/contact">Contact Us</factor-link>
-        <factor-link path="/chat">Support</factor-link>
-      </div>
-      <div class="footer-col">
         <div class="menu-header">Company</div>
         <factor-link path="/careers">Careers</factor-link>
         <factor-link path="/blog">Blog</factor-link>
+      </div>
+      <div class="footer-col">
+        <div class="menu-header">Connect</div>
+        <factor-link path="/contact">Contact Us</factor-link>
+        <factor-link path="/chat">Support</factor-link>
       </div>
       <div class="footer-col">
         <div class="menu-header">Legal</div>
