@@ -16,6 +16,25 @@ module.exports.default = Factor => {
           title: "Introduction: Why Use Factor"
         },
         {
+          group: "Dashboard and Posts"
+        },
+        {
+          doc: "setting-up",
+          file: require("./docs/service/setup.md"),
+          title: "Setting Up the Dashboard and CMS"
+        },
+        {
+          doc: "database",
+          file: require("./docs/service/database.md"),
+          title: "Factor CMS Service Layer Abstraction"
+        },
+        {
+          name: "Serving Your App",
+          doc: "serving",
+          file: require("./docs/server/serving.md"),
+          title: "Hosting and Serving Your Factor App"
+        },
+        {
           group: "Framework"
         },
         {
@@ -78,28 +97,6 @@ module.exports.default = Factor => {
           doc: "endpoints",
           file: require("./docs/server/endpoints.md"),
           title: "Creating and Using Factor Endpoints"
-        },
-        {
-          group: "Service Layer"
-        },
-        {
-          doc: "stacks",
-          file: require("./docs/service/stacks.md"),
-          title: "Creating Factor Services Stacks"
-        },
-        {
-          doc: "database",
-          file: require("./docs/service/database.md"),
-          title: "Factor CMS Service Layer Abstraction"
-        },
-        {
-          name: "Serving Your App",
-          doc: "serving",
-          file: require("./docs/server/serving.md"),
-          title: "Hosting and Serving Your Factor App"
-        },
-        {
-          group: "CMS"
         }
       ],
       base: "guide"
