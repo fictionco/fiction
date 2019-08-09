@@ -46,7 +46,7 @@
             </div>
           </div>
           <figure class="figure">
-            <img class="img-modular" :src="require(`./modular.svg`)" alt="Factor - Modular" />
+            <img class="img-modular" :src="require(`./img/modular.svg`)" alt="Factor - Modular" />
           </figure>
         </div>
         <div class="item cols-2">
@@ -57,7 +57,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./ssr.svg`)" alt="Factor - Serverless and SSR" />
+              <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" />
             </figure>
           </div>
         </div>
@@ -95,7 +95,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
+              <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
             </figure>
           </div>
         </div>
@@ -107,7 +107,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./user-roles.svg`)" alt="Factor - User Roles and Permissions" />
+              <img :src="require(`./img/user-roles.svg`)" alt="Factor - User Roles and Permissions" />
             </figure>
           </div>
         </div>
@@ -125,7 +125,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./markdown-editor.svg`)" alt="Factor - Markdown Editor" />
+              <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" />
             </figure>
           </div>
         </div>
@@ -139,7 +139,7 @@
             <figure class="figure">
               <img
                 class="flexible"
-                :src="require(`./flexible.png`)"
+                :src="require(`./img/flexible.png`)"
                 alt="Factor - Infinite Possibilities"
               />
             </figure>
@@ -272,7 +272,7 @@ export default {
   }
 
   .splash-wrap {
-    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background: #1b223c url(./img/rectangles.svg) no-repeat center center;
     background-size: 80%;
     position: relative;
     @media (max-width: 767px) {
@@ -329,10 +329,9 @@ export default {
     padding: 2em 0;
     position: relative;
     margin-top: -140px;
-    // @media (max-width: 767px) {
-    //   margin-top: 0;
-    // }
     .item {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-gap: 6em;
       align-items: center;
@@ -443,7 +442,7 @@ export default {
       span {
         display: block;
         position: absolute;
-        background-image: url(./testimonial.jpg);
+        background-image: url(./img/testimonial.jpg);
         background-size: cover;
         background-position: center center;
         height: 100%;
@@ -470,7 +469,7 @@ export default {
     }
     blockquote {
       width: 50%;
-      background: #fff url(./left-quote.svg) no-repeat 3em 3em;
+      background: #fff url(./img/left-quote.svg) no-repeat 3em 3em;
       background-size: 25px 25px;
       padding: 5em 3em 3em;
       @media (max-width: 767px) {
@@ -493,7 +492,7 @@ export default {
   .cta-wrap {
     padding: 8em 0 4em;
     color: var(--color-light);
-    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background: #1b223c url(./img/rectangles.svg) no-repeat center center;
     background-size: 80%;
     .cta {
       margin: 0 auto;
