@@ -4,7 +4,7 @@
       <div class="mast">
         <div class="intro-inner">
           <div>
-            <img class="title" :src="require(`./factor-vip-logo.svg`)" alt="Factor VIP" >
+            <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" />
             <div
               class="subtitle"
             >Premium digital experiences and web application development services powered by Factor.</div>
@@ -19,7 +19,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./factor-vip.svg`)" alt="Factor VIP" >
+              <img :src="require(`./img/factor-vip.svg`)" alt="Factor VIP" />
             </figure>
           </div>
         </div>
@@ -73,22 +73,22 @@
       <div class="mast clients-inner">
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./elasticbyte.svg`)" alt="Elastic Byte" >
+            <img :src="require(`./img/elasticbyte.svg`)" alt="Elastic Byte" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./carbontechpro.svg`)" alt="Carbon Tech Pro" >
+            <img :src="require(`./img/carbontechpro.svg`)" alt="Carbon Tech Pro" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./pagelines.svg`)" alt="PageLines" >
+            <img :src="require(`./img/pagelines.svg`)" alt="PageLines" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./aqualuna.svg`)" alt="AquaLuna" >
+            <img :src="require(`./img/aqualuna.svg`)" alt="AquaLuna" />
           </div>
         </div>
       </div>
@@ -113,96 +113,18 @@
 export default {
   data() {
     return {
-      loading: true,
-      sending: false,
-      form: {},
-      sent: false,
-      formStatus: "unchecked"
-    }
+      loading: true
+    };
   },
   computed: {},
-  mounted() {
-    this.$user.init(() => {
-      this.loading = false
-    })
-
-    this.$watch(
-      "form",
-      function() {
-        const v = this.$refs.form.$el.checkValidity()
-
-        this.formStatus = v ? "valid" : "invalid"
-      },
-      { deep: true }
-    )
-  },
   metatags() {
     return {
       title: "VIP - Enterprise Web Application Development and Support",
       description:
         "Need the professional touch for your website or web application? Get in touch with us about enterprise development and support,"
-    }
-  },
-  methods: {
-    async send() {
-      this.sending = true
-      const { name, email, message } = this.form
-      // this.$email.send({
-      //   to: ["letters@fiction.com"],
-      //   subject: `Contact Form: ${name} ${email}`,
-      //   message: `A form was submitted by ${name}.`,
-      //   meta: this.form
-      // })
-
-      if (!name || !email || !message) {
-        this.$notify.error(
-          "Please enter your contact information into the form."
-        )
-
-        return;
-      }
-
-      try {
-        let _p = []
-
-        _p.push(
-          this.$notify.sendEmail({
-            to: email,
-            subject: `Got your message.`,
-            message: `This is to confirm we've recieved a form you submitted. We'll take a look and be in touch as soon as possible.`,
-            title: "Contact",
-            table: this.form,
-            btn: {
-              link: "https://www.fiction.com",
-              text: "View Fiction",
-              class: "default"
-            }
-          })
-        )
-
-        _p.push(
-          this.$db.update({
-            collection: "admin",
-            data: {
-              ...this.form,
-              source: "/contact",
-              category: "General",
-              type: "Contact"
-            }
-          })
-        )
-
-        await Promise.all(_p)
-
-        this.sent = true
-      } catch (error) {
-        this.$events.$emit("error", "There was an issue sending your form.")
-      }
-
-      this.sending = false
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="less">
@@ -231,14 +153,14 @@ export default {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
   // feature
   .intro {
     position: relative;
-    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background: #1b223c url(./img/rectangles.svg) no-repeat center center;
     background-size: 80%;
     @media (max-width: 767px) {
       background-size: 100%;
