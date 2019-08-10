@@ -100,7 +100,7 @@
         <h3 class="title">Getting started is easy.</h3>
         <p class="subtitle">
           You can reach out via the form below, or send a message to
-          <app-link path="mailto:contact@fiction.com">contact@fiction.com</app-link>— it’ll get to us either way.
+          <app-link path="mailto:contact@fiction.com">contact@fiction.com</app-link>&nbsp;— it’ll get to us either way.
         </p>
 
         <component :is="$setting.get('contactForm.form')" />
@@ -224,6 +224,8 @@ export default {
   //Boxes
   .boxes {
     background-color: #f5f8fc;
+    padding: 0 2em 2em;
+
     .boxes-inner {
       box-shadow: var(--panel-shadow);
       background: var(--color-light);
@@ -240,7 +242,7 @@ export default {
         grid-template-columns: 40px 1fr;
         .fa {
           font-size: 22px;
-          opacity: 0.5;
+          opacity: 0.7;
         }
         .box-title {
           font-size: 1.4em;
@@ -254,13 +256,12 @@ export default {
           line-height: 1.6em;
         }
         .box-description {
-          opacity: 0.5;
+          opacity: 0.7;
         }
       }
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
         transform: translateY(0);
-        margin: 0 2em 2em;
         padding: 2em;
         .box {
           padding: 0;
@@ -275,7 +276,7 @@ export default {
     background-color: #f5f8fc;
     padding: 3em 0;
     @media (max-width: 767px) {
-      padding: 3em 0 1em;
+      padding: 1em 0;
     }
     .title {
       text-align: center;
@@ -331,23 +332,32 @@ export default {
       padding: 4em 2em 2em;
       position: relative;
       z-index: 1;
-      max-width: 650px;
+      max-width: 720px;
       .title,
       .subtitle {
         text-align: center;
+        @media (max-width: 767px) {
+          text-align: left;
+        }
       }
       .title {
-        font-size: 3em;
-        font-weight: var(--font-weight-bold);
+        font-size: 4em;
+        font-weight: var(--font-weight-bold, 800);
         letter-spacing: -0.03em;
         margin-bottom: 0.3em;
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
-        opacity: 0.5;
-        font-size: 1.2em;
+        opacity: 0.7;
+        font-size: 1.4em;
         line-height: 1.6em;
         max-width: 650px;
         margin: 0 auto;
+        @media (max-width: 767px) {
+          font-size: 1.2em;
+        }
       }
       .contact-form {
         box-shadow: var(--panel-shadow);
