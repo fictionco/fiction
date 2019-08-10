@@ -202,7 +202,10 @@ export default {
     background-repeat: no-repeat;
     background-size: contain;
     @media (max-width: 767px) {
-      background-position: left -300px center, right -300px center;
+      background-position: left -300px center, right -350px center;
+      button.app-btn.large {
+        font-size: 1em;
+      }
     }
     .splash {
       display: grid;
