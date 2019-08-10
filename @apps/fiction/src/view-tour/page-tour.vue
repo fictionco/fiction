@@ -289,7 +289,8 @@ export default {
       max-width: 800px;
       padding: 7em 0 10em;
       @media (max-width: 767px) {
-        padding: 6em 1em 10em;
+        padding: 6em 2em 10em;
+        text-align: left;
       }
       .title {
         font-weight: var(--font-weight-bold);
@@ -298,10 +299,14 @@ export default {
         line-height: 1;
         margin: 0.3em 0;
         color: var(--color-light);
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
         opacity: 0.7;
         font-size: 1.4em;
+        line-height: 1.6em;
         font-weight: 400;
         margin-bottom: 1.5em;
         color: var(--color-light);
@@ -341,7 +346,7 @@ export default {
         box-shadow: var(--panel-shadow);
         background: #fff;
         border-radius: 5px;
-        padding: 3em;
+        padding: 2em;
       }
       &.cols-1 {
         grid-template-columns: 1fr;
@@ -359,7 +364,7 @@ export default {
         &.cols-2 {
           grid-template-columns: 1fr;
           grid-gap: 2em;
-          padding: 2em;
+          //padding: 2em;
           text-align: left;
         }
       }
@@ -380,7 +385,7 @@ export default {
       p {
         font-size: 1.2em;
         line-height: 1.6em;
-        opacity: 0.5;
+        opacity: 0.7;
       }
       .actions {
         margin-top: 1em;
@@ -480,7 +485,7 @@ export default {
       p {
         font-size: 1.2em;
         line-height: 1.6em;
-        opacity: 0.6;
+        opacity: 0.7;
       }
       cite {
         display: block;
@@ -496,11 +501,9 @@ export default {
     background-size: 80%;
     .cta {
       margin: 0 auto;
-      max-width: 700px;
+      max-width: 600px;
       display: grid;
-
       grid-template-columns: 1fr;
-
       grid-column-gap: 60px;
       text-align: center;
       @media (max-width: 767px) {
@@ -509,15 +512,19 @@ export default {
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 2em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 1.2em;
         margin-bottom: 0.2em;
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
-        opacity: 0.5;
-        font-size: 1.4em;
-        font-weight: 500;
+        opacity: 0.7;
+        font-size: 1.2em;
+        line-height: 1.6em;
+        font-weight: 400;
       }
       .actions {
         margin-top: 2em;

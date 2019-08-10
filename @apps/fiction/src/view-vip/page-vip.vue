@@ -189,16 +189,22 @@ export default {
       padding: 7em 0 10em;
       .title {
         font-weight: 600;
-        font-size: 3em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         margin-bottom: 0.3em;
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
-        opacity: 0.5;
+        opacity: 0.7;
         font-size: 1.4em;
         font-weight: 400;
         line-height: 1.6em;
         color: var(--color-light);
+        @media (max-width: 767px) {
+          font-size: 1.2em;
+        }
       }
       .actions {
         margin-top: 1.5em;
@@ -208,12 +214,9 @@ export default {
         margin: 0 auto;
       }
       @media (max-width: 767px) {
-        text-align: center;
+        text-align: left;
         padding: 4em 0;
         grid-template-columns: 1fr;
-        img.title {
-          margin-left: 40px;
-        }
       }
     }
   }

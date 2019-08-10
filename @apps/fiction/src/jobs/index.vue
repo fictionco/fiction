@@ -202,21 +202,18 @@ export default {
     background-repeat: no-repeat;
     background-size: contain;
     @media (max-width: 767px) {
-      background-position: left -240px center, right -440px center;
-      button.app-btn.large {
-        font-size: 1em;
-      }
+      background-position: left -300px center, right -300px center;
     }
     .splash {
       display: grid;
       grid-template-columns: 1fr;
-      //grid-column-gap: 60px;
       align-items: center;
       text-align: center;
       max-width: 670px;
       padding: 6em 0 12em;
       @media (max-width: 767px) {
         padding: 6em 2em 8em;
+        text-align: left;
       }
       .title {
         font-weight: var(--font-weight-bold);
@@ -225,10 +222,14 @@ export default {
         line-height: 1;
         margin: 0.3em 0;
         color: #f9f9f9;
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
         opacity: 0.7;
         font-size: 1.4em;
+        line-height: 1.6em;
         font-weight: 400;
         margin-bottom: 1.5em;
         color: #fff;
@@ -285,7 +286,7 @@ export default {
             line-height: 1.6em;
           }
           .box-description {
-            font-weight: var(--font-weight-normal);
+            font-weight: var(--font-weight-normal, 400);
             opacity: 0.7;
           }
         }
@@ -314,7 +315,7 @@ export default {
       grid-column-gap: 60px;
       align-items: center;
       text-align: left;
-      max-width: 650px;
+      max-width: 700px;
     }
   }
   .jobs-posts-not-found,
@@ -352,7 +353,7 @@ export default {
         }
         p {
           font-size: 1.2em;
-          font-weight: var(--font-weight-normal);
+          font-weight: var(--font-weight-normal, 400);
           line-height: 1.6em;
           margin-bottom: 1em;
           opacity: 0.7;

@@ -161,21 +161,22 @@ export default {
     }
     .title {
       font-weight: var(--font-weight-bold);
-      font-size: 3em;
+      font-size: 4em;
       letter-spacing: -0.03em;
       line-height: 1;
       margin: 0.3em 0;
       color: #f9f9f9;
       @media (max-width: 767px) {
-        font-size: 2em;
+        font-size: 2.6em;
       }
     }
     .subtitle {
-      opacity: 0.5;
+      opacity: 0.7;
       font-size: 1.4em;
+      line-height: 1.6em;
       font-weight: 400;
       margin-bottom: 1.5em;
-      color: #d9d9d9;
+      color: #fff;
 
       @media (max-width: 767px) {
         font-size: 1.2em;
