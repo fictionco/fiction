@@ -21,12 +21,9 @@ export default {
 </script>
 <style lang="less">
 .jobs-post-excerpt {
-  font-size: 1.25em;
-  line-height: 1.4em;
-  @media (max-width: 767px) {
-    font-size: 1em;
-    padding: 0 1em;
-  }
+  font-size: 1.2em;
+  line-height: 1.6em;
+  font-weight: var(--font-weight-normal, 400);
   .inline-excerpt {
     margin-right: 1rem;
   }
