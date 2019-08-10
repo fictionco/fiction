@@ -11,7 +11,7 @@
 
           <a href="/vip#contact">
             <app-btn path="/vip#contact" btn="secondary" size="large">
-              Start Your App
+              Contact Sales
               <i class="fa fa-arrow-right" />
             </app-btn>
           </a>
@@ -107,7 +107,7 @@ export default {
 
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
-        text-align: center;
+        //text-align: center;
       }
       .content {
         color: #fff;
@@ -117,19 +117,22 @@ export default {
           font-weight: 800;
           letter-spacing: -0.03em;
           line-height: 1.1;
+          @media (max-width: 767px) {
+            font-size: 2.6em;
+          }
         }
         .subtitle {
           margin: 0.3em 0 1em;
           opacity: 0.7;
-          font-size: 1.5em;
+          font-size: 1.4em;
+          line-height: 1.6em;
           letter-spacing: -0.03em;
-          line-height: 1.4;
+          @media (max-width: 767px) {
+            font-size: 1.2em;
+          }
         }
         @media (max-width: 960px) {
           padding: 0;
-          .title {
-            font-size: 3em;
-          }
         }
         @media (max-width: 767px) {
           .btn-fiction + .btn-fiction {
