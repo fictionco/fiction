@@ -134,12 +134,12 @@ export default Factor => {
       if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
       const post = await this.getSinglePost(request)
+      Factor.$store.add("post", post)
 
       if (post) {
         this.postStandardMetatags(post._id)
       }
 
-      Factor.$store.add("post", post)
       return post
     }
 
@@ -217,10 +217,10 @@ export default Factor => {
           Factor.$store.add("post", existing)
           return existing
         }
-      } else if (token) {
-        params.token = token
       } else if (permalink) {
         params.conditions = { [field]: permalink }
+      } else if (token) {
+        params.token = token
       }
 
       const post = await this.request("single", params)
