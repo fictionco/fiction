@@ -1,7 +1,11 @@
 module.exports.default = Factor => {
   return {
     contactForm: {
-      email: "andrew@fiction.com"
+      email: "andrew@fiction.com",
+      confirm: {
+        title: "Got your message.",
+        subTitle: "We'll take a look and be in touch as soon as possible."
+      }
     },
     blog: {
       components: {

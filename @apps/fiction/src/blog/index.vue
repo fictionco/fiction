@@ -40,56 +40,56 @@ export default {
     return {
       postType: "blog",
       loading: false
-    }
+    };
   },
   routeClass() {
-    return ["nav-light"]
+    return ["nav-light"];
   },
   metatags() {
     const title = this.tag
       ? `Tag "${this.tag}"`
-      : this.$setting.get("blog.metatags.index.title")
+      : this.$setting.get("blog.metatags.index.title");
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : this.$setting.get("blog.metatags.index.description")
+      : this.$setting.get("blog.metatags.index.description");
 
     return {
       title,
       description
-    }
+    };
   },
   serverPrefetch() {
-    return this.getPosts()
+    return this.getPosts();
   },
   computed: {
     tag() {
-      return this.$route.params.tag || this.$route.query.tag || ""
+      return this.$route.params.tag || this.$route.query.tag || "";
     },
     index() {
-      return this.$store.val(this.postType) || {}
+      return this.$store.val(this.postType) || {};
     },
     blogPosts() {
-      const { posts = [] } = this.index
-      return posts
+      const { posts = [] } = this.index;
+      return posts;
     },
     page() {
-      return this.$route.query.page || 1
+      return this.$route.query.page || 1;
     }
   },
   watch: {
     $route: {
       handler: function(to) {
-        this.getPosts()
+        this.getPosts();
       }
     }
   },
   mounted() {
-    this.getPosts()
+    this.getPosts();
   },
   methods: {
     async getPosts() {
-      this.loading = true
+      this.loading = true;
 
       const r = await this.$post.getPostIndex({
         postType: this.postType,
@@ -98,12 +98,12 @@ export default {
         sort: "-date",
         page: this.page,
         limit: this.$setting.get("blog.limit")
-      })
+      });
 
-      this.loading = false
+      this.loading = false;
     }
   }
-}
+};
 </script>
 
 <style lang="less">
@@ -134,7 +134,7 @@ export default {
     }
   }
 }
-.label {
+.blog .label {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   &.label-yellow {
@@ -161,21 +161,22 @@ export default {
     }
     .title {
       font-weight: var(--font-weight-bold);
-      font-size: 3em;
+      font-size: 4em;
       letter-spacing: -0.03em;
       line-height: 1;
       margin: 0.3em 0;
       color: #f9f9f9;
       @media (max-width: 767px) {
-        font-size: 2em;
+        font-size: 2.6em;
       }
     }
     .subtitle {
-      opacity: 0.5;
+      opacity: 0.7;
       font-size: 1.4em;
+      line-height: 1.6em;
       font-weight: 400;
       margin-bottom: 1.5em;
-      color: #d9d9d9;
+      color: #fff;
 
       @media (max-width: 767px) {
         font-size: 1.2em;

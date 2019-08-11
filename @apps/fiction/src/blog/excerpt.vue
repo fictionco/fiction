@@ -14,26 +14,26 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return this.$store.val(this.postId) || {};
     }
   }
-}
+};
 </script>
 <style lang="less">
 .post-excerpt {
   position: relative;
   overflow: hidden;
-  font-size: 1.25em;
-  line-height: 1.4em;
+  font-size: 1.4em;
+  line-height: 1.6em;
   padding: 0 1.6em 1rem;
   transform: all 0.2s ease-in-out;
-  .inline-excerpt {
-    margin-right: 1rem;
-  }
+  // .inline-excerpt {
+  //   margin-right: 1rem;
+  // }
 
   @media (max-width: 767px) {
-    font-size: 1em;
     padding: 0 1em 1rem;
+    font-size: 1.2em;
   }
 }
 </style>
