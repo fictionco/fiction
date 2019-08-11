@@ -106,7 +106,6 @@ export default {
   border-radius: 4px;
   .ace_content {
     background-color: var(--input-bg);
-    padding: 10px 0;
   }
   .ace_layer .ace_cursor {
     color: var(--color-text);
