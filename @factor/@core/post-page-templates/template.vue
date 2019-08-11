@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-    <div v-if="!$lodash.isEmpty(post)">
-      <component :is="templateLoader" :post="post" />
+    <div v-if="post._id">
+      <component :is="templateLoader" :post-id="post._id" />
     </div>
     <error-404 v-else />
   </div>
