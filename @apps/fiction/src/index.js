@@ -41,20 +41,10 @@ module.exports.default = Factor => {
             component: () => import("./view-tour/page-tour"),
             meta: { nav: true }
           },
-          // {
-          //   path: "/careers",
-          //   component: () => import("./view-careers/page-careers"),
-          //   meta: { nav: true, routeClass: ["nav-light"] }
-          // },
           {
             path: "/vip",
             component: () => import("./view-vip/page-vip"),
             meta: { nav: true, routeClass: ["nav-light"], background: "#fff" }
-          },
-          {
-            path: "/how-it-works",
-            component: () => import("./page-how-it-works"),
-            meta: { background: "#f7f9ff" }
           },
           {
             path: "/contact",
@@ -65,19 +55,24 @@ module.exports.default = Factor => {
             path: "/chat",
             component: () => import("./page-chat"),
             meta: { background: "#f7f9ff", auth: true }
-          },
-          {
-            path: "/hosting",
-            component: () => import("./page-hosting")
-          },
-          {
-            path: "/staying",
-            component: () => import("./page-staying")
-          },
-          {
-            path: "/network",
-            component: () => import("./page-network")
           }
+          // {
+          //   path: "/how-it-works",
+          //   component: () => import("./page-how-it-works"),
+          //   meta: { background: "#f7f9ff" }
+          // },
+          // {
+          //   path: "/hosting",
+          //   component: () => import("./page-hosting")
+          // },
+          // {
+          //   path: "/staying",
+          //   component: () => import("./page-staying")
+          // },
+          // {
+          //   path: "/network",
+          //   component: () => import("./page-network")
+          // }
         ]
 
         return _.concat(routes)

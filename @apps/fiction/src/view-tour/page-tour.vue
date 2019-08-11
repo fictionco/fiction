@@ -46,7 +46,7 @@
             </div>
           </div>
           <figure class="figure">
-            <img class="img-modular" :src="require(`./modular.svg`)" alt="Factor - Modular" />
+            <img class="img-modular" :src="require(`./img/modular.svg`)" alt="Factor - Modular" />
           </figure>
         </div>
         <div class="item cols-2">
@@ -57,7 +57,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./ssr.svg`)" alt="Factor - Serverless and SSR" />
+              <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" />
             </figure>
           </div>
         </div>
@@ -95,7 +95,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
+              <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
             </figure>
           </div>
         </div>
@@ -107,7 +107,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./user-roles.svg`)" alt="Factor - User Roles and Permissions" />
+              <img :src="require(`./img/user-roles.svg`)" alt="Factor - User Roles and Permissions" />
             </figure>
           </div>
         </div>
@@ -125,7 +125,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./markdown-editor.svg`)" alt="Factor - Markdown Editor" />
+              <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" />
             </figure>
           </div>
         </div>
@@ -139,7 +139,7 @@
             <figure class="figure">
               <img
                 class="flexible"
-                :src="require(`./flexible.png`)"
+                :src="require(`./img/flexible.png`)"
                 alt="Factor - Infinite Possibilities"
               />
             </figure>
@@ -272,7 +272,7 @@ export default {
   }
 
   .splash-wrap {
-    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background: #1b223c url(./img/rectangles.svg) no-repeat center center;
     background-size: 80%;
     position: relative;
     @media (max-width: 767px) {
@@ -289,7 +289,8 @@ export default {
       max-width: 800px;
       padding: 7em 0 10em;
       @media (max-width: 767px) {
-        padding: 6em 1em 10em;
+        padding: 6em 2em 10em;
+        text-align: left;
       }
       .title {
         font-weight: var(--font-weight-bold);
@@ -298,10 +299,14 @@ export default {
         line-height: 1;
         margin: 0.3em 0;
         color: var(--color-light);
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
         opacity: 0.7;
         font-size: 1.4em;
+        line-height: 1.6em;
         font-weight: 400;
         margin-bottom: 1.5em;
         color: var(--color-light);
@@ -329,10 +334,9 @@ export default {
     padding: 2em 0;
     position: relative;
     margin-top: -140px;
-    // @media (max-width: 767px) {
-    //   margin-top: 0;
-    // }
     .item {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-gap: 6em;
       align-items: center;
@@ -342,7 +346,7 @@ export default {
         box-shadow: var(--panel-shadow);
         background: #fff;
         border-radius: 5px;
-        padding: 3em;
+        padding: 2em;
       }
       &.cols-1 {
         grid-template-columns: 1fr;
@@ -360,7 +364,7 @@ export default {
         &.cols-2 {
           grid-template-columns: 1fr;
           grid-gap: 2em;
-          padding: 2em;
+          //padding: 2em;
           text-align: left;
         }
       }
@@ -381,7 +385,7 @@ export default {
       p {
         font-size: 1.2em;
         line-height: 1.6em;
-        opacity: 0.5;
+        opacity: 0.7;
       }
       .actions {
         margin-top: 1em;
@@ -443,7 +447,7 @@ export default {
       span {
         display: block;
         position: absolute;
-        background-image: url(./testimonial.jpg);
+        background-image: url(./img/testimonial.jpg);
         background-size: cover;
         background-position: center center;
         height: 100%;
@@ -470,7 +474,7 @@ export default {
     }
     blockquote {
       width: 50%;
-      background: #fff url(./left-quote.svg) no-repeat 3em 3em;
+      background: #fff url(./img/left-quote.svg) no-repeat 3em 3em;
       background-size: 25px 25px;
       padding: 5em 3em 3em;
       @media (max-width: 767px) {
@@ -481,7 +485,7 @@ export default {
       p {
         font-size: 1.2em;
         line-height: 1.6em;
-        opacity: 0.6;
+        opacity: 0.7;
       }
       cite {
         display: block;
@@ -493,15 +497,13 @@ export default {
   .cta-wrap {
     padding: 8em 0 4em;
     color: var(--color-light);
-    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background: #1b223c url(./img/rectangles.svg) no-repeat center center;
     background-size: 80%;
     .cta {
       margin: 0 auto;
-      max-width: 700px;
+      max-width: 600px;
       display: grid;
-
       grid-template-columns: 1fr;
-
       grid-column-gap: 60px;
       text-align: center;
       @media (max-width: 767px) {
@@ -510,15 +512,19 @@ export default {
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 2em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 1.2em;
         margin-bottom: 0.2em;
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
-        opacity: 0.5;
-        font-size: 1.4em;
-        font-weight: 500;
+        opacity: 0.7;
+        font-size: 1.2em;
+        line-height: 1.6em;
+        font-weight: 400;
       }
       .actions {
         margin-top: 2em;

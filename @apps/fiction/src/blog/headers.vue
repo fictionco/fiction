@@ -13,10 +13,10 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return this.$store.val(this.postId) || {};
     }
   }
-}
+};
 </script>
 <style lang="less">
 .entry-headers {
@@ -28,8 +28,8 @@ export default {
 
   .entry-title {
     font-weight: var(--font-weight-bold);
-    font-size: 2.5em;
-    line-height: 1.1;
+    font-size: 2.6em;
+    line-height: 1;
 
     @media (max-width: 767px) {
       font-size: 2em;
@@ -46,7 +46,11 @@ export default {
   }
   .entry-sub-title {
     font-size: 1.4em;
+    line-height: 1.6em;
     opacity: 0.7;
+    @media (max-width: 767px) {
+      font-size: 1.2em;
+    }
   }
 }
 </style>

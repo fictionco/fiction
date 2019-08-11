@@ -13,18 +13,21 @@
       </div>
       <div class="footer-col">
         <div class="menu-header">Products</div>
-        <factor-link path="https://factor.dev">Factor JS</factor-link>
+        <factor-link path="/factor-js">Factor JS</factor-link>
+        <factor-link path="/vip">VIP</factor-link>
+      </div>
+      <div class="footer-col">
+        <div class="menu-header">Company</div>
+        <factor-link path="/careers">Careers</factor-link>
+        <factor-link path="/blog">Blog</factor-link>
       </div>
       <div class="footer-col">
         <div class="menu-header">Connect</div>
-
         <factor-link path="/contact">Contact Us</factor-link>
         <factor-link path="/chat">Support</factor-link>
       </div>
       <div class="footer-col">
-        <div class="menu-header">Company</div>
-        <!-- <factor-link path="/about">About</factor-link> -->
-        <factor-link path="/careers">Careers</factor-link>
+        <div class="menu-header">Legal</div>
         <factor-link path="/terms-of-service">Terms of Service</factor-link>
         <factor-link path="/privacy-policy">Privacy Policy</factor-link>
       </div>
@@ -39,23 +42,23 @@
 <script>
 export default {
   data: () => {
-    return {}
+    return {};
   },
   computed: {}
-}
+};
 </script>
 
 <style lang="less">
 .content-footer {
   padding: 0;
-  //max-width: 1200px;
+  max-width: 1200px;
   margin: 3em auto;
   position: relative;
   .content-footer-pad {
     margin: 0 auto;
     padding: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-gap: 0;
 
     .footer-col {
@@ -104,16 +107,14 @@ export default {
   .content-footer {
     .content-footer-pad {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       padding: 0 2em;
       .footer-col {
         padding-bottom: 2em;
         &:nth-child(1),
-        &:nth-child(5) {
+        &:nth-child(6) {
           order: 1;
-        }
-        &:nth-child(5) {
-          grid-column: span 2;
+          //grid-column: span 2;
         }
         a {
           margin: 0;
