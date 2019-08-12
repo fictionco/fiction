@@ -45,7 +45,9 @@ module.exports.default = Factor => {
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
       require("@factor/app-store").createStore()
-      require("@factor/app-router").createRouter()
+      require("@factor/app-router")
+        .default(Factor)
+        .create()
     }
 
     _install(id, plugin) {

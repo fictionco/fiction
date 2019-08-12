@@ -13,6 +13,7 @@
     "@factor/app": "^1.0.0-alpha.21",
     "@factor/post": "^1.0.0-alpha.21",
     "@factor/build": "^1.0.0-alpha.21",
+    "@factor/plugin-ssr-bar": "^1.0.0-alpha.20",
     "@factor/cli": "^1.0.0-alpha.20",
     "@factor/core-db": "^1.0.0-alpha.21",
     "@factor/core-email": "^1.0.0-alpha.21",
