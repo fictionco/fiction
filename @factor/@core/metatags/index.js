@@ -102,7 +102,7 @@ export default Factor => {
     clientTitleTag() {
       const _this = this
 
-      Factor.$filters.callback("client-route-before", ({ to, from, next }) => {
+      Factor.$filters.callback("client-route-after", ({ to, from, next }) => {
         Factor.$globals.routeClass = []
         Factor.$globals.metatags = []
       })

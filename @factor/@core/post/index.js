@@ -38,6 +38,11 @@ export default Factor => {
     }
 
     filters() {
+      Factor.$filters.callback("site-prefetch", _ => this.prefetchPost(_))
+      Factor.$filters.callback("client-route-before", _ =>
+        this.prefetchPost({ clientOnly: true, ..._ })
+      )
+
       Factor.$filters.add("components", _ => {
         _["factor-post-edit"] = () => import("./el/edit-link")
         return _
@@ -84,9 +89,6 @@ export default Factor => {
       //   return _
       // })
 
-      Factor.$filters.callback("site-prefetch", _ => this.prefetchPost(_))
-      Factor.$filters.callback("client-route-before", _ => this.prefetchPost(_))
-
       Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(
           ({ postType, namePlural, icon = "", add = "add-new", accessLevel }) => {
@@ -119,7 +121,18 @@ export default Factor => {
       })
     }
 
-    async prefetchPost({ to = null } = {}) {
+    // setPrefetch() {
+    //   Factor.$filters.callback("ssr-prefetch", async () => {
+    //     this.prefetch = this.prefetchPost()
+    //     return await this.prefetch
+    //   })
+    // }
+
+    // serverPrefetch() {
+    //   return this.prefetch || null
+    // }
+
+    async prefetchPost({ to = null, clientOnly = false } = {}) {
       const route = to || Factor.$router.currentRoute
 
       const request = Factor.$filters.apply("post-params", {
@@ -133,15 +146,18 @@ export default Factor => {
       // Only add to the filter if permalink is set. That way we don't show loader for no reason.
       if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
-      const post = await this.getSinglePost(request)
+      // For prefetching that happens only in the browser
+      // If this applied on server it causes a mismatch (store set with full post then set to loading)
+      if (clientOnly) {
+        Factor.$store.add("post", { loading: true })
+      }
 
-      console.log("prefetched post", post, request)
+      const post = await this.getSinglePost(request)
 
       Factor.$store.add("post", post)
 
       if (post) {
         this.postStandardMetatags(post._id)
-        console.log("metatags added", post._id)
       }
 
       return post

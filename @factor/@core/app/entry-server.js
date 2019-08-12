@@ -16,18 +16,18 @@ export default async ssrContext => {
   // set router's location
   router.push(fullPath !== url ? fullPath : url)
 
-  // wait until router has resolved possible async hooks
+  // Wait until router has resolved async imports
   await new Promise((resolve, reject) => {
-    router.onReady(async () => {
-      ssrContext.state = store.state
-
-      resolve(true)
-    }, reject)
+    router.onReady(() => resolve(true), reject)
   })
+
   const { meta: { ui = "app" } = {} } =
     router.currentRoute.matched.find(_ => _.meta.ui) || {}
 
-  Factor.$filters.run("ssr-matched-components", router.getMatchedComponents(fullPath))
+  await Promise.all([
+    Factor.$filters.run("ssr-prefetch", fullPath),
+    Factor.$filters.run("ssr-matched-components", router.getMatchedComponents(fullPath))
+  ])
 
   // the html template extension mechanism
   // This uses a callback because the component's 'created' hooks are called after this point
@@ -38,5 +38,8 @@ export default async ssrContext => {
   ssrContext.factor_html_attr = () => ['lang="en"', `class="ui-${ui}"`].join(" ")
 
   ssrContext.factor_body_class = (additional = "") => `class="${additional}"`
+
+  ssrContext.state = store.state
+
   return app
 }
