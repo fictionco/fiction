@@ -160,12 +160,16 @@ code {
   }
   blockquote {
     margin-bottom: 2em;
-    padding: 0.75em 1.5em 0.75em;
+    padding: 1em 0 1em 1.5em;
 
     border-left: 3px solid var(--color-text);
     background-color: #f7f9fb;
-    p {
-      padding-bottom: 0;
+    p,
+    ul,
+    ol {
+      &:last-child {
+        padding-bottom: 0;
+      }
     }
   }
   .alert {

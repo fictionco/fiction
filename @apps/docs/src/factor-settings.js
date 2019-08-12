@@ -19,19 +19,13 @@ module.exports.default = Factor => {
           group: "Dashboard and Posts"
         },
         {
-          doc: "dashboard",
-          file: require("./docs/service/setup.md"),
+          doc: "dashboard-setup",
+          file: require("./docs/dashboard/setup.md"),
           title: "Setting Up the Dashboard and CMS"
         },
 
         {
-          group: "Framework"
-        },
-        {
-          doc: "framework",
-          name: "Overview",
-          file: require("./docs/framework/tools.md"),
-          title: "Factor's VueJS Framework - Routes, Stores, Views"
+          group: "App Development"
         },
         {
           doc: "config",

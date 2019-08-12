@@ -25,28 +25,43 @@ The only thing that is required to get Factor's dashboard and post system runnin
 Once you have it, just add the string to your `.env` file under the variable `DB_CONNECTION` as follows:
 
 ```git
-# .env
-# Mongo Like Connection
+# .env - DB Connection (Mongo Connection String)
 DB_CONNECTION="mongodb://db1.example.net:27017,db2.example.net:2500/?replicaSet=test"
 ```
 
 To make it easier, you can also run `yarn factor setup` which includes a simple utility for adding this string along with any other configuration your app/plugins may need. More on that below.
 
-## Basic Auth
+## Users: Auth and Roles
 
-Now that you have your DB set up, all you need for users and auth is to add a "token secret."
+### Token Setup
+
+Json Web Tokens (JWTs) are a standard, simple and effective way of managing authentication for your users with Factor.
+
+All that is needed to make JWTs work is a "token secret" used for encoding them on your server. To add it:
 
 ```git
-# .env
-# Token Secret: Treat like a password, can be whatever you want
+# .env - Token Secret: Treat like a password, can be whatever you want
 TOKEN_SECRET="SOME-LONG-STRING-WHATEVER"
 ```
 
-Factor uses Json Web Tokens to handle all typical authentication needs. Here's how it works:
+### User Roles
 
-- When a user logs in a token is created using their ID along with the token secret you've added.
-- This token is sent along with all server requests
-- The server then decodes the token using the secret, which securly tells the server the ID of the logged in user
+Factor includes a basic user role system controlled via your `factor-config.json` file. To add your first admin users, you'll need to add them to this file directly (or using `factor setup` CLI command described below).
+
+```json
+// factor-config.json
+{
+  "config": {
+    "roles": {
+      "admin@email.com": "admin",
+      "moderator@email.com": "moderator",
+      "author@email.com": "author"
+    }
+  }
+}
+```
+
+> **Note:** User account's email addresses must be successfully verified in order for admin privileges to be applied.
 
 ## Accessing Your Dashboard
 
@@ -60,15 +75,48 @@ Once you've added yourself as admin and verified your email address, you should 
 
 ![Factor Dashboard](./dashboard.png)
 
-## Essentials: Email & Storage
+## Essential Services
 
 There are some services needed to power even the most basic apps:
 
-- **Email: SMTP Service**
-  Basic email is needed for notifications and critical account tools like 'forgot password'
+### Transactional Email
 
-- **Storage: Image hosting**
-  In order to provide efficient image handling, you'll need to add an image storage service plugin to Factor.
+Basic email is needed for notifications and critical account tools like 'forgot password.' For this reason, Factor includes a simple email system that is powered by the standard SMTP.
+
+To set up, just add the following to your `.env` file (or run `factor setup`)
+
+```git
+# .env - SMTP connection info
+SMTP_USERNAME="YOURUSERNAME"
+SMTP_PASSWORD="---YOURPASSWORD---"
+SMTP_HOST="your.host.com"
+
+```
+
+> **Note:** We recommend [AWS SES](https://aws.amazon.com/ses/) for SMTP email
+
+### Image Storage
+
+By default, Factor uses your DB for image storage, this is _not_ ideal for performance reasons. Ideally, Factor needs an image storage plugin to process and store images then return a URL to save in the DB.
+
+#### S3 Plugin
+
+While it is possible to use any image storage service to store your images, Fiction has created a simple plugin that uses [AWS S3](https://aws.amazon.com/s3/) for storage.
+
+To install Fiction's S3 image storage plugin:
+
+```bash
+$ yarn add @factor/plugin-storage-s3
+```
+
+**Required S3 Configuration**
+
+```git
+# .env / AWS config info
+AWS_ACCESS_KEY="YOURKEY"
+AWS_ACCESS_KEY_SECRET="YOURSECRET"
+AWS_S3_BUCKET="your-bucket-name"
+```
 
 ## `$ yarn factor setup`
 

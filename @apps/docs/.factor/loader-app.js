@@ -22,6 +22,7 @@ files["notify"] = require("@factor/plugin-notify").default
 files["post"] = require("@factor/post").default
 files["seo"] = require("@factor/plugin-seo").default
 files["signin"] = require("@factor/dashboard-signin").default
+files["ssrBar"] = require("@factor/plugin-ssr-bar").default
 files["storage"] = require("@factor/core-storage").default
 files["templates"] = require("@factor/post-page-templates").default
 files["time"] = require("@factor/tools-time").default
