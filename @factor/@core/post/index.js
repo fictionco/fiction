@@ -134,10 +134,14 @@ export default Factor => {
       if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
       const post = await this.getSinglePost(request)
+
+      console.log("prefetched post", post, request)
+
       Factor.$store.add("post", post)
 
       if (post) {
         this.postStandardMetatags(post._id)
+        console.log("metatags added", post._id)
       }
 
       return post
