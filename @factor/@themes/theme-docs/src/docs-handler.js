@@ -6,7 +6,7 @@ export default Factor => {
     }
     getMarkdownHTML(doc) {
       const { file } = this.selected(doc) || {}
-      return file ? file : null
+      return file ? Factor.$markdown.render(file) : null
     }
 
     selected(doc) {
@@ -19,8 +19,6 @@ export default Factor => {
     }
 
     normalize(items) {
-
-
       return items.map(_ => {
         const d = {
           doc: _.doc,
