@@ -93,30 +93,34 @@
         </div>
       </section>
     </div>
+
+    <section-benefits />
   </div>
 </template>
 
 <script>
 export default {
   components: {
-    "el-header-graphic": () => import("./el-header-graphic")
+    "el-header-graphic": () => import("./el-header-graphic"),
+    "section-benefits": () => import("./section-benefits")
   },
   data() {
     return {
       loading: true
-    };
+    }
   },
   metatags() {
     return {
       title: "Copy Terminal",
       description: "Terminal Page Description.",
       image: require("../img/fiction.jpg")
-    };
+    }
   }
-};
+}
 </script>
 <style lang="less">
 .view-terminal {
+  // Common
   .common-UppercaseTitle {
     font-size: 21px;
     line-height: 32px;
@@ -170,17 +174,113 @@ export default {
       }
     }
   }
+  .common-BodyTitle {
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 32px;
+    color: #32325d;
+  }
+  .common-BodyText {
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 28px;
+    color: #525f7f;
+  }
+  .common-StripeGrid {
+    --stripe-height: 48px;
+    --content-columns: 12;
+    --gutter-columns: 4;
+    @media (min-width: 670px) {
+      --stripe-height: 64px;
+    }
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
 
+    .grid {
+      --content-column-width: minmax(0, calc(1040px / var(--content-columns)));
+      --gutter-column-width: 1fr;
+
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: repeat(auto-fill, var(--stripe-height));
+      grid-template-columns:
+        [viewport-start] 1fr [left-gutter-start] repeat(
+          var(--gutter-columns),
+          var(--gutter-column-width)
+        )
+        [left-gutter-end content-start] repeat(
+          var(--content-columns),
+          var(--content-column-width)
+        )
+        [content-end right-gutter-start] repeat(
+          var(--gutter-columns),
+          var(--gutter-column-width)
+        )
+        [right-gutter-end] 1fr [viewport-end];
+
+      @media (min-width: 1040px) {
+        --gutter-column-width: var(--content-column-width);
+        min-width: calc(
+          1040px / var(--content-columns) *
+            (var(--gutter-columns) * 2 + var(--content-columns))
+        );
+      }
+    }
+
+    .backgroundContainer,
+    .stripeContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform: skewY(-12deg);
+    }
+    .backgroundContainer {
+      .grid {
+        grid-template-columns: 1fr;
+        min-width: 0;
+      }
+      .background {
+        grid-row: 1 / -1;
+        grid-column: 1 / -1;
+        z-index: -1;
+      }
+    }
+    .stripeContainer {
+      overflow: visible;
+    }
+
+    &.anchorBottom {
+      .backgroundContainer,
+      .stripeContainer {
+        justify-content: flex-end;
+      }
+      .grid {
+        height: 200%;
+        align-content: end;
+      }
+    }
+  }
+
+  .container-lg {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  // Header
   .header-wrapper {
     max-width: 100vw;
-    overflow: hidden;
-
-    .container-lg {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 0 20px;
-      width: 100%;
-    }
+    overflow: visible;
 
     .header-layout {
       display: flex;
@@ -192,16 +292,92 @@ export default {
 
     .header {
       position: relative;
-      padding: 115px 0 60px;
+      z-index: 0;
+      padding: 130px 0;
 
       @media (min-width: 670px) {
-        padding: 130px 0;
+        padding-bottom: 250px;
+        margin-bottom: 6vw;
+      }
+      @media (max-width: 767px) {
+        padding: 115px 0 60px;
+      }
+
+      .common-StripeGrid {
+        .background {
+          background-color: blue; //#f6f9fc;
+          grid-row-end: -4;
+        }
+        .stripeContainer {
+          overflow: visible;
+        }
+        .stripe {
+          &:first-child {
+            box-shadow: inset 0 0 0 2px #e6ebf1;
+            grid-column: e("16 / 19");
+            grid-row: e("19 / 20");
+          }
+          &:nth-child(2) {
+            box-shadow: inset 0 0 0 2px #e6ebf1;
+            grid-column: 4 / left-gutter-end;
+            grid-row: e("-5 / -6");
+            transform: translateY(2px);
+          }
+          &:nth-child(3) {
+            background-color: #32325d;
+            grid-column: left-gutter-start / span 4;
+            grid-row: e("-4 / -5");
+            z-index: 1;
+          }
+          &:nth-child(4) {
+            background-color: #e6ebf1;
+            grid-column: content-start / 9;
+            grid-row: e("-4 / -5");
+          }
+          &:nth-child(5) {
+            background-color: #32325d;
+            grid-column: 14 / right-gutter-end;
+            grid-row: e("-4 / -5");
+          }
+          &:nth-child(6) {
+            background-color: #fcd669;
+            grid-column: viewport-start / 5;
+            grid-row: e("-3 / -4");
+          }
+          &:nth-child(7) {
+            background-color: #87bbfd;
+            grid-column: e("15 / 18");
+            grid-row: e("-3 / -4");
+          }
+          &:nth-child(8) {
+            background-color: #6772e5;
+            grid-column: 18 / viewport-end;
+            grid-row: e("-3 / -4");
+          }
+          &:nth-child(9) {
+            background-color: #fcd669;
+            grid-column: e("17 / 20");
+            grid-row: e("-2 / -3");
+            z-index: 1;
+          }
+          &:nth-child(10) {
+            box-shadow: inset 0 0 0 2px #e6ebf1;
+            grid-column: e("16 / 19");
+            grid-row: e("-1 / -2");
+            transform: translateY(-2px);
+          }
+        }
       }
 
       .header-content {
         flex: 1;
         min-width: 520px;
         margin: 0 60px 0 0;
+
+        @media (max-width: 767px) {
+          min-width: 320px;
+          margin: 0 0 40px;
+        }
 
         .product-title {
           display: flex;
@@ -214,6 +390,9 @@ export default {
             margin-right: 16px;
             width: 48px;
             height: 48px;
+            @media (max-width: 767px) {
+              margin-left: 0;
+            }
           }
           .product-title-text {
             display: flex;
@@ -289,126 +468,6 @@ export default {
             }
           }
         }
-      }
-
-      .common-StripeGrid {
-        --stripe-height: 48px;
-        --content-columns: 12;
-        --gutter-columns: 4;
-
-        @media (min-width: 670px) {
-          --stripe-height: 64px;
-        }
-
-        position: absolute;
-        width: 100%;
-        top: 0;
-        bottom: 0;
-        z-index: -1;
-        pointer-events: none;
-
-        // .backgroundContainer,
-        // .stripeContainer {
-        //   display: flex;
-        //   flex-direction: column;
-        //   align-items: center;
-        //   position: absolute;
-        //   width: 100%;
-        //   height: 100%;
-        //   transform: skewY(-12deg);
-        // }
-
-        // .stripeContainer {
-        //   overflow: visible;
-        //   justify-content: flex-end;
-        // }
-
-        // .background {
-        //   background-color: #f6f9fc;
-        //   grid-row-end: -4;
-        // }
-
-        // .grid {
-        //   --content-column-width: minmax(0, calc(1040px / var(--content-columns)));
-        //   --gutter-column-width: 1fr;
-
-        //   position: absolute;
-        //   width: 100%;
-        //   height: 100%;
-        //   display: grid;
-        //   grid-template-rows: repeat(auto-fill, var(--stripe-height));
-        //   grid-template-columns:
-        //     [viewport-start] 1fr [left-gutter-start] repeat(
-        //       var(--gutter-columns),
-        //       var(--gutter-column-width)
-        //     )
-        //     [left-gutter-end content-start] repeat(
-        //       var(--content-columns),
-        //       var(--content-column-width)
-        //     )
-        //     [content-end right-gutter-start] repeat(
-        //       var(--gutter-columns),
-        //       var(--gutter-column-width)
-        //     )
-        //     [right-gutter-end] 1fr [viewport-end];
-        // }
-
-        // .stripe {
-        //   &:first-child {
-        //     box-shadow: inset 0 0 0 2px #e6ebf1;
-        //     grid-column: 16/19;
-        //     grid-row: 19/20;
-        //   }
-        //   &:nth-child(2) {
-        //     box-shadow: inset 0 0 0 2px #e6ebf1;
-        //     grid-column: 4 / left-gutter-end;
-        //     grid-row: -5/-6;
-        //     transform: translateY(2px);
-        //   }
-        //   &:nth-child(3) {
-        //     background-color: #32325d;
-        //     grid-column: left-gutter-start/span 4;
-        //     grid-row: -4/-5;
-        //     z-index: 1;
-        //   }
-        //   &:nth-child(4) {
-        //     background-color: #e6ebf1;
-        //     grid-column: content-start/9;
-        //     grid-row: -4/-5;
-        //   }
-        //   &:nth-child(5) {
-        //     background-color: #32325d;
-        //     grid-column: 14 / right-gutter-end;
-        //     grid-row: -4/-5;
-        //   }
-        //   &:nth-child(6) {
-        //     background-color: #fcd669;
-        //     grid-column: viewport-start/5;
-        //     grid-row: -3/-4;
-        //   }
-        //   &:nth-child(7) {
-        //     background-color: #87bbfd;
-        //     grid-column: 15/18;
-        //     grid-row: -3/-4;
-        //   }
-        //   &:nth-child(8) {
-        //     background-color: #6772e5;
-        //     grid-column: 18 / viewport-end;
-        //     grid-row: -3/-4;
-        //   }
-        //   &:nth-child(9) {
-        //     background-color: #fcd669;
-        //     grid-column: 17/20;
-        //     grid-row: -2/-3;
-        //     z-index: 1;
-        //   }
-        //   &:nth-child(10) {
-        //     box-shadow: inset 0 0 0 2px #e6ebf1;
-        //     grid-column: 16/19;
-        //     grid-row: -1/-2;
-        //     transform: translateY(-2px);
-        //   }
-        // }
       }
     }
   }
