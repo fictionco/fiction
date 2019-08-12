@@ -1,16 +1,16 @@
 # Dashboard and Post System
 
-> The primary feature that makes Factor unique is it's simple-yet-powerful post system and dashboard. These features allow extension developers to create incredibly powerful plugins and themes.
+> By default, Factor includes a CMS-like post management system and dashboard. These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage.
 
 ## Overview
 
-Almost every app needs to have the following:
+A typical web app usually needs the following:
 
 - User Management and Authentication
 - A Database System
 - Image Storage
 
-And while JS frameworks typically help you structure your codebase, they leave it up to you on how to best add this functionality. For most developers, setting all this up represents months of work including many painful rewrites as you learn "best practices."
+For many developers, setting all this up represents months of work including many painful rewrites as you learn "best practices."
 
 That's why Factor takes an opinionated approach to how to best handle these common services. Doing so allows us to create a platform on which extension developers can build, as well as helps you save many many days of debugging and pain.
 
@@ -25,15 +25,32 @@ The only thing that is required to get Factor's dashboard and post system runnin
 Once you have it, just add the string to your `.env` file under the variable `DB_CONNECTION` as follows:
 
 ```git
+# .env
 # Mongo Like Connection
 DB_CONNECTION="mongodb://db1.example.net:27017,db2.example.net:2500/?replicaSet=test"
 ```
 
 To make it easier, you can also run `yarn factor setup` which includes a simple utility for adding this string along with any other configuration your app/plugins may need. More on that below.
 
+## Basic Auth
+
+Now that you have your DB set up, all you need for users and auth is to add a "token secret."
+
+```git
+# .env
+# Token Secret: Treat like a password, can be whatever you want
+TOKEN_SECRET="SOME-LONG-STRING-WHATEVER"
+```
+
+Factor uses Json Web Tokens to handle all typical authentication needs. Here's how it works:
+
+- When a user logs in a token is created using their ID along with the token secret you've added.
+- This token is sent along with all server requests
+- The server then decodes the token using the secret, which securly tells the server the ID of the logged in user
+
 ## Accessing Your Dashboard
 
-Once you've successfully added your `DB_CONNECTION`, all you need to do is visit [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "signup." Just create an account and _viola_ you should be able to see your dashboard.
+With DB and auth setup, all you need to do is visit [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "signup." Just create an account and you should be able to see your dashboard.
 
 At first, the dashboard will be bare-bones. This is because you likely haven't been made an admin and you haven't installed any plugins. So as a first step, run `yarn factor setup` and add your email as an admin. (This writes info to your `factor-config`).
 
@@ -43,9 +60,19 @@ Once you've added yourself as admin and verified your email address, you should 
 
 ![Factor Dashboard](./dashboard.png)
 
-## `yarn factor setup`
+## Essentials: Email & Storage
 
-Along with the DB connection, many Factor plugins are designed around services that require additional API config and setup. The reduce the amount of guesswork needed to identify and add this information, Factor provides you the useful `setup` command.
+There are some services needed to power even the most basic apps:
+
+- **Email: SMTP Service**
+  Basic email is needed for notifications and critical account tools like 'forgot password'
+
+- **Storage: Image hosting**
+  In order to provide efficient image handling, you'll need to add an image storage service plugin to Factor.
+
+## `$ yarn factor setup`
+
+Factor setup reduces guesswork needed to configure your app.
 
 To run it, enter the following:
 
@@ -56,5 +83,3 @@ $ yarn factor setup
 From here you'll be provided with a listing of needed configuration, as well as tools for adding or changing existing configuration options.
 
 ![Factor Setup](./factor-setup.png)
-
-## Email and Image Storage
