@@ -151,7 +151,7 @@ code {
   p,
   ul,
   ol {
-    line-height: 1.7;
+    line-height: 1.6;
     padding-bottom: 1.2em;
   }
   ol,
@@ -160,9 +160,10 @@ code {
   }
   blockquote {
     margin-bottom: 2em;
-    padding: 1em 2em;
-    border-radius: 5px;
-    box-shadow: var(--input-shadow);
+    padding: 0.75em 1.5em 0.75em;
+
+    border-left: 3px solid var(--color-text);
+    background-color: #f7f9fb;
     p {
       padding-bottom: 0;
     }
