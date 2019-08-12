@@ -1,6 +1,6 @@
 <p>
 <a href="https://factor.dev">
-  <img src="./factor.svg" width="350" style="width: 350px;display:block;">
+  <img src="./factor.png" width="250" style="width: 350px;display:block;">
 </a>
 </p>
 
@@ -11,7 +11,7 @@
   <a href="https://www.npmjs.com/package/@factor/cli"><img src="https://badgen.net/npm/dm/@factor/cli" alt="Downloads a Month"></a>
  </p>
 
-*A full-stack post framework for professional Javascript developers. Impress your friends by building incredible CMS driven web apps that do exponentially more than they've seen elsewhere. Key tech: Vue SSR, Node, Mongo.* 
+_A full-stack post framework for professional Javascript developers. Impress your friends by building incredible CMS driven web apps that do exponentially more than they've seen elsewhere. Key tech: Vue SSR, Node, Mongo._
 
 **Try out the famous 3-minute setup: `npx create-factor-app`**
 
@@ -22,18 +22,16 @@
 ## Features
 
 - Post System - A CMS engine used to create all sort of dynamic extensions: blogs, eCommerce, portfolios, slider, forms
-- Themes System  - Use themes to get up in running in minutes instead of days or months. 
+- Themes System - Use themes to get up in running in minutes instead of days or months.
 - Plugins - Drop-in plugins that do all the installation and config automatically. Just add to `dependencies`.
 - MEVN Stack - Vue, Node, MongoDB
 - Tons more:
   - Dashboard
   - Server Side Rendered
-  - Markdown Page and Post Editing System  
+  - Markdown Page and Post Editing System
   - Authentication, Image Management, DB
 
-
 Learn more at [factor.dev](https://factor.dev).
-
 
 ## Getting started
 
@@ -48,6 +46,7 @@ $ npx create-factor-app <project-name>
 It's as simple as that!
 
 ## Themes
+
 Start by using the basic Factor app [starter theme](#starter-theme-url)
 
 ## Examples
@@ -66,8 +65,8 @@ Then run `now` and enjoy!
 
 Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
 
-
 ## Contributors
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
 <table>
@@ -84,7 +83,6 @@ Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
 ## Contributing
 
 Please refer to our [Contribution Guide](https://factor.dev/contribution)
-
 
 ## Security
 
