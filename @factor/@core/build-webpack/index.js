@@ -287,11 +287,7 @@ module.exports.default = Factor => {
               test: /\.md$/,
               use: [
                 {
-                  loader: "html-loader"
-                },
-                {
-                  loader: "markdown-loader",
-                  options: {}
+                  loader: "markdown-image-loader"
                 }
               ]
             }
