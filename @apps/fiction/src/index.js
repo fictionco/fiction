@@ -1,18 +1,18 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.addPaths()
+      this.addPaths();
       if (Factor.FACTOR_TARGET == "app") {
-        this.addComponents()
+        this.addComponents();
       }
     }
 
     addComponents() {
       Factor.$filters.add("components", _ => {
-        _["app-btn"] = () => import("./el/btn")
-        _["app-link"] = () => import("./el/link")
-        return _
-      })
+        _["app-btn"] = () => import("./el/btn");
+        _["app-link"] = () => import("./el/link");
+        return _;
+      });
     }
 
     async addPaths() {
@@ -26,8 +26,8 @@ module.exports.default = Factor => {
             _id: "landing-page",
             component: () => import("./tpl-landing-page")
           }
-        ])
-      })
+        ]);
+      });
 
       Factor.$filters.add("content-routes", _ => {
         const routes = [
@@ -55,6 +55,11 @@ module.exports.default = Factor => {
             path: "/chat",
             component: () => import("./page-chat"),
             meta: { background: "#f7f9ff", auth: true }
+          },
+          {
+            path: "/terminal",
+            component: () => import("./view-terminal/page-terminal"),
+            meta: { background: "#fff" }
           }
           // {
           //   path: "/how-it-works",
@@ -73,10 +78,10 @@ module.exports.default = Factor => {
           //   path: "/network",
           //   component: () => import("./page-network")
           // }
-        ]
+        ];
 
-        return _.concat(routes)
-      })
+        return _.concat(routes);
+      });
     }
-  })()
-}
+  })();
+};
