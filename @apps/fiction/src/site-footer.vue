@@ -27,13 +27,13 @@
         <factor-link path="/chat">Support</factor-link>
       </div>
       <div class="footer-col">
-        <div class="menu-header">Legal</div>
-        <factor-link path="/terms-of-service">Terms of Service</factor-link>
-        <factor-link path="/privacy-policy">Privacy Policy</factor-link>
-      </div>
-      <div class="footer-col">
+        <factor-link path="/careers" class="hiring">We're Hiring!</factor-link>
         <div>
-          <div class="copyright">&copy; Fiction.com Inc.</div>
+          <div class="copyright">
+            <span>&copy; Fiction.com Inc.</span>
+            <factor-link path="/terms-of-service">Terms</factor-link>
+            <factor-link path="/privacy-policy">Privacy</factor-link>
+          </div>
         </div>
       </div>
     </div>
@@ -42,23 +42,24 @@
 <script>
 export default {
   data: () => {
-    return {};
+    return {}
   },
   computed: {}
-};
+}
 </script>
 
 <style lang="less">
 .content-footer {
-  padding: 0;
-  max-width: 1200px;
-  margin: 3em auto;
   position: relative;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 4em auto;
+  padding: 0;
   .content-footer-pad {
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: 1.5rem 2em;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     grid-gap: 0;
 
     .footer-col {
@@ -70,35 +71,50 @@ export default {
           opacity: 0.2;
         }
       }
-      &:last-child {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
-      }
 
       .menu-header {
-        font-weight: 600;
-        opacity: 0.3;
+        font-size: 0.875em;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
         margin-bottom: 0.5rem;
+        color: #1b223c;
+        opacity: 0.5;
       }
       a {
         display: block;
-        font-size: 0.9em;
-        color: inherit;
+        font-size: 0.875em;
+        color: #1b223c;
+        opacity: 0.5;
         font-weight: 500;
         line-height: 2em;
         cursor: pointer;
         text-decoration: none;
-        transition: color 0.2s;
+        transition: opacity 0.1s;
         &:hover {
+          opacity: 1;
+        }
+        &.hiring {
           color: #ff0076;
+          opacity: 1;
+          font-weight: 700;
+          line-height: inherit;
         }
       }
       .copyright {
-        font-size: 0.7em;
-        text-align: right;
+        margin-top: 4em;
         padding-bottom: 0.5em;
+        span,
+        a {
+          font-size: 0.7em;
+          color: #1b223c;
+          opacity: 0.5;
+          display: inline-block;
+          margin-left: 5px;
+        }
+        a:hover {
+          opacity: 1;
+        }
       }
     }
   }
@@ -107,24 +123,10 @@ export default {
   .content-footer {
     .content-footer-pad {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
       padding: 0 2em;
       .footer-col {
         padding-bottom: 2em;
-        &:nth-child(1),
-        &:nth-child(6) {
-          order: 1;
-          //grid-column: span 2;
-        }
-        a {
-          margin: 0;
-        }
-        .copyright {
-          text-align: right;
-          a {
-            padding: 0;
-          }
-        }
       }
     }
   }

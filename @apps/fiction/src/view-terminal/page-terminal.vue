@@ -31,10 +31,10 @@
               </div>
 
               <h1 class="common-PageTitle">
-                Extend Stripe payments to your point of sale
+                Extend Fiction payments to your point of sale
               </h1>
               <p class="common-IntroText">
-                Stripe Terminal extends your online presence into the physical world,
+                Fiction Terminal extends your online presence into the physical world,
                 enabling you to build your own in-person checkout. Built with modern
                 retailers and platforms in mind, Terminal helps you unify your online and
                 offline channels with flexible developer tools, pre-certified card
@@ -44,7 +44,7 @@
               <ul class="header-ctas" role="presentation">
                 <li>
                   <a
-                    href="https://dashboard.stripe.com/terminal"
+                    href="#"
                     data-analytics-action="start_now"
                     data-analytics-source="header_cta"
                     class="common-Button common-Button--default"
@@ -54,7 +54,7 @@
                 </li>
                 <li>
                   <a
-                    href="https://stripe.com/contact/sales"
+                    href="#"
                     data-analytics-action="contact_sales"
                     data-analytics-source="header_cta"
                     class="common-Button"
@@ -95,6 +95,12 @@
     </div>
 
     <section-benefits />
+
+    <section-customers />
+
+    <section-features />
+
+    <section-testimonials />
   </div>
 </template>
 
@@ -102,7 +108,10 @@
 export default {
   components: {
     "el-header-graphic": () => import("./el-header-graphic"),
-    "section-benefits": () => import("./section-benefits")
+    "section-benefits": () => import("./section-benefits"),
+    "section-customers": () => import("./section-customers"),
+    "section-features": () => import("./section-features"),
+    "section-testimonials": () => import("./section-testimonials")
   },
   data() {
     return {
@@ -186,6 +195,19 @@ export default {
     line-height: 28px;
     color: #525f7f;
   }
+  .common-MediumBodyText {
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 32px;
+    color: #525f7f;
+  }
+  .common-Link {
+    color: #6772e5;
+    font-weight: 500;
+    -webkit-transition: color 0.1s ease;
+    transition: color 0.1s ease;
+    cursor: pointer;
+  }
   .common-StripeGrid {
     --stripe-height: 48px;
     --content-columns: 12;
@@ -249,8 +271,8 @@ export default {
         min-width: 0;
       }
       .background {
-        grid-row: 1 / -1;
-        grid-column: 1 / -1;
+        grid-row: e("1 / -1");
+        grid-column: e("1 / -1");
         z-index: -1;
       }
     }
@@ -277,6 +299,105 @@ export default {
     width: 100%;
   }
 
+  // Header Stripes
+  .header {
+    .common-StripeGrid {
+      .background {
+        background-color: #f6f9fc;
+        grid-row-end: -4;
+      }
+      .stripeContainer {
+        overflow: visible;
+      }
+      .stripe {
+        &:first-child {
+          box-shadow: inset 0 0 0 2px #e6ebf1;
+          grid-column: e("16 / 19");
+          grid-row: e("19 / 20");
+        }
+        &:nth-child(2) {
+          box-shadow: inset 0 0 0 2px #e6ebf1;
+          grid-column: 4 / left-gutter-end;
+          grid-row: e("-5 / -6");
+          transform: translateY(2px);
+        }
+        &:nth-child(3) {
+          background-color: #32325d;
+          grid-column: left-gutter-start / span 4;
+          grid-row: e("-4 / -5");
+          z-index: 1;
+        }
+        &:nth-child(4) {
+          background-color: #e6ebf1;
+          grid-column: content-start / 9;
+          grid-row: e("-4 / -5");
+        }
+        &:nth-child(5) {
+          background-color: #32325d;
+          grid-column: 14 / right-gutter-end;
+          grid-row: e("-4 / -5");
+        }
+        &:nth-child(6) {
+          background-color: #fcd669;
+          grid-column: viewport-start / 5;
+          grid-row: e("-3 / -4");
+        }
+        &:nth-child(7) {
+          background-color: #87bbfd;
+          grid-column: e("15 / 18");
+          grid-row: e("-3 / -4");
+        }
+        &:nth-child(8) {
+          background-color: #6772e5;
+          grid-column: 18 / viewport-end;
+          grid-row: e("-3 / -4");
+        }
+        &:nth-child(9) {
+          background-color: #fcd669;
+          grid-column: e("17 / 20");
+          grid-row: e("-2 / -3");
+          z-index: 1;
+        }
+        &:nth-child(10) {
+          box-shadow: inset 0 0 0 2px #e6ebf1;
+          grid-column: e("16 / 19");
+          grid-row: e("-1 / -2");
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+  // Feature Stripes
+  // .features {
+  //   position: relative;
+  //   z-index: 0;
+  //   .common-StripeGrid {
+  //     .background {
+  //       background-color: #f6f9fc;
+  //       grid-row: e("3 / -2");
+  //     }
+
+  //     .stripe {
+  //       &:first-child {
+  //         box-shadow: inset 0 0 0 2px #e6ebf1;
+  //         grid-column: e("5 / 8");
+  //         grid-row: e("1 / 2");
+  //         transform: translateY(2px);
+  //       }
+  //       &:nth-child(2) {
+  //         background-color: #e6ebf1;
+  //         grid-column: left-gutter-start / 7;
+  //         grid-row: e("2 / 3");
+  //       }
+  //       &:nth-child(3) {
+  //         background-color: #87bbfd;
+  //         grid-column: viewport-start / 8;
+  //         grid-row: e("3 / 4");
+  //       }
+  //     }
+  //   }
+  // }
+
   // Header
   .header-wrapper {
     max-width: 100vw;
@@ -295,78 +416,12 @@ export default {
       z-index: 0;
       padding: 130px 0;
 
-      @media (min-width: 670px) {
-        padding-bottom: 250px;
-        margin-bottom: 6vw;
-      }
       @media (max-width: 767px) {
         padding: 115px 0 60px;
       }
-
-      .common-StripeGrid {
-        .background {
-          background-color: blue; //#f6f9fc;
-          grid-row-end: -4;
-        }
-        .stripeContainer {
-          overflow: visible;
-        }
-        .stripe {
-          &:first-child {
-            box-shadow: inset 0 0 0 2px #e6ebf1;
-            grid-column: e("16 / 19");
-            grid-row: e("19 / 20");
-          }
-          &:nth-child(2) {
-            box-shadow: inset 0 0 0 2px #e6ebf1;
-            grid-column: 4 / left-gutter-end;
-            grid-row: e("-5 / -6");
-            transform: translateY(2px);
-          }
-          &:nth-child(3) {
-            background-color: #32325d;
-            grid-column: left-gutter-start / span 4;
-            grid-row: e("-4 / -5");
-            z-index: 1;
-          }
-          &:nth-child(4) {
-            background-color: #e6ebf1;
-            grid-column: content-start / 9;
-            grid-row: e("-4 / -5");
-          }
-          &:nth-child(5) {
-            background-color: #32325d;
-            grid-column: 14 / right-gutter-end;
-            grid-row: e("-4 / -5");
-          }
-          &:nth-child(6) {
-            background-color: #fcd669;
-            grid-column: viewport-start / 5;
-            grid-row: e("-3 / -4");
-          }
-          &:nth-child(7) {
-            background-color: #87bbfd;
-            grid-column: e("15 / 18");
-            grid-row: e("-3 / -4");
-          }
-          &:nth-child(8) {
-            background-color: #6772e5;
-            grid-column: 18 / viewport-end;
-            grid-row: e("-3 / -4");
-          }
-          &:nth-child(9) {
-            background-color: #fcd669;
-            grid-column: e("17 / 20");
-            grid-row: e("-2 / -3");
-            z-index: 1;
-          }
-          &:nth-child(10) {
-            box-shadow: inset 0 0 0 2px #e6ebf1;
-            grid-column: e("16 / 19");
-            grid-row: e("-1 / -2");
-            transform: translateY(-2px);
-          }
-        }
+      @media (min-width: 670px) {
+        padding-bottom: 250px;
+        margin-bottom: 6vw;
       }
 
       .header-content {
