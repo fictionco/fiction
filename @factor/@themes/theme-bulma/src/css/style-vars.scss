@@ -3,37 +3,15 @@
 @import "./reset.scss";
 
 // Import and Set Fonts
-@import url('https://fonts.googleapis.com/css?family=Kanit:300|Prompt:400,600&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Kanit:300|Prompt:400,600&display=swap");
 
-$family-primary: 'Kanit',
-BlinkMacSystemFont,
--apple-system,
-"Segoe UI",
-"Roboto",
-"Oxygen",
-"Ubuntu",
-"Cantarell",
-"Fira Sans",
-"Droid Sans",
-"Helvetica Neue",
-"Helvetica",
-"Arial",
-sans-serif;
+$family-primary: "Kanit", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto",
+  "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  "Helvetica", "Arial", sans-serif;
 
-$family-secondary: 'Prompt',
-BlinkMacSystemFont,
--apple-system,
-"Segoe UI",
-"Roboto",
-"Oxygen",
-"Ubuntu",
-"Cantarell",
-"Fira Sans",
-"Droid Sans",
-"Helvetica Neue",
-"Helvetica",
-"Arial",
-sans-serif;
+$family-secondary: "Prompt", BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto",
+  "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  "Helvetica", "Arial", sans-serif;
 
 $title-family: $family-secondary;
 
@@ -53,8 +31,8 @@ $success: #23d160;
 $warning: #ffdd57;
 $danger: #ff3860;
 $dark: #293347;
-$grey-dark: #34495E;
-$primary-dark: #1E392A;
+$grey-dark: #34495e;
+$primary-dark: #1e392a;
 
 $body-background-color: #f5f5f5;
 $text: $dark;
@@ -68,16 +46,13 @@ $link-hover: $primary-dark;
 $section-padding: 3.5rem 1.25rem;
 
 //Elements
-$box-shadow: 0 6px 14px 0 rgba(24, 32, 41, 0.06),
-0 12px 34px 0 rgba(24, 32, 41, 0.04);
+$box-shadow: 0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
-$card-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
-0 6px 14px 0 rgba(24, 32, 41, 0.06),
-0 12px 34px 0 rgba(24, 32, 41, 0.04);
+$card-shadow: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
+  0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
 $dropdown-content-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
-0 6px 14px 0 rgba(24, 32, 41, 0.06),
-0 12px 34px 0 rgba(24, 32, 41, 0.04);
+  0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
 $button-focus-border-color: $primary;
 
@@ -89,7 +64,7 @@ $pagination-focus-border-color: $primary;
 @import "bulma/bulma.sass";
 
 // Assign sass variables to css
-.ui-app {
+.factor-app {
   --weight-normal: #{$weight-normal};
   --weight-semibold: #{$weight-semibold};
   --weight-bold: #{$weight-bold};
@@ -102,11 +77,8 @@ $pagination-focus-border-color: $primary;
 
   --section-padding: #{$section-padding};
 
-
   --color-primary: #0496ff;
-  --color-primary-rgb: 42,
-    116,
-    229;
+  --color-primary-rgb: 42, 116, 229;
   --color-secondary: #ff0076;
   --color-tertiary: #eff6ff;
   --color-text: #506677;
@@ -124,19 +96,11 @@ $pagination-focus-border-color: $primary;
   --color-bg-dark: var(--color-text);
 
   --font-primary: -apple-system,
-    /* Chrome < 56 for OS X (San Francisco)  */
-    BlinkMacSystemFont,
-    /* Windows  */
-    "Segoe UI",
-    /* Android  */
-    "Roboto",
-    /* Basic web fallback  */
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
+    /* Chrome < 56 for OS X (San Francisco)  */ BlinkMacSystemFont,
+    /* Windows  */ "Segoe UI", /* Android  */ "Roboto",
+    /* Basic web fallback  */ "Helvetica Neue", Arial, sans-serif;
 
-  --panel-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
-    0 6px 14px 0 rgba(24, 32, 41, 0.06),
+  --panel-shadow: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
     0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
   --input-shadow: 0 0 0 1px rgba(0, 43, 93, 0.2);
@@ -165,7 +129,7 @@ $pagination-focus-border-color: $primary;
 .card,
 .box {
   &.is-fullheight {
-    height: 100%
+    height: 100%;
   }
 }
 
@@ -175,7 +139,6 @@ $pagination-focus-border-color: $primary;
   .media-content {
     padding-left: 1em;
   }
-
 }
 
 @media screen and (max-width: 768px) {
@@ -189,7 +152,7 @@ $pagination-focus-border-color: $primary;
 }
 
 .mb-2 {
-  margin-bottom: .5rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .mb-4 {
@@ -201,5 +164,5 @@ $pagination-focus-border-color: $primary;
 }
 
 .ml-2 {
-  margin-left: .5rem !important;
+  margin-left: 0.5rem !important;
 }

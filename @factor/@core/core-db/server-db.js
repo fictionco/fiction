@@ -22,9 +22,7 @@ module.exports.default = Factor => {
       }
 
       Factor.$filters.callback("close-server", () => this.disconnectDb())
-      Factor.$filters.add("initialize-server", () => {
-        this.connectDb()
-      })
+      Factor.$filters.callback("initialize-server", () => this.connectDb())
     }
 
     dbConfig() {
@@ -54,7 +52,7 @@ module.exports.default = Factor => {
           await this.mongo.connect(this.DB_CONNECTION, { useNewUrlParser: true })
           return
         } catch (error) {
-          throw new Error(error)
+          Factor.$log.error(error)
         }
       }
     }
