@@ -1,35 +1,11 @@
 <template>
-  <div id="features" class="features">
-    <div class="common-StripeGrid">
-      <!-- Background -->
-      <div class="backgroundContainer">
-        <div class="grid">
-          <div class="background"></div>
-        </div>
-      </div>
-      <!-- Stripes -->
-      <div class="stripeContainer">
-        <div class="grid">
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-          <div class="stripe"></div>
-        </div>
-      </div>
-    </div>
+  <div class="features">
+    <el-stripes :num-stripes="11" />
+
     <section id="developer-centric" class="feature feature--developer feature--reversed">
       <div class="container-lg">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">
-            Build your perfect point of sale
-          </h3>
+          <h3 class="common-UppercaseTitle feature-title">Build your perfect point of sale</h3>
           <p class="common-MediumBodyText">
             Break free from the constraints of off-the-shelf point of sale software.
             Fiction Terminal makes it easier to build your point of sale and own your
@@ -43,38 +19,35 @@
             data-analytics-action="docs_terminal"
             data-analytics-source="feature_developer_centric"
           >
-            Explore the docs <factor-icon icon="arrow-right" />
+            Explore the docs
+            <factor-icon icon="arrow-right" />
           </a>
         </article>
 
         <figure class="floating-cards">
           <div class="card">
             <div class="code-container">
-              <pre
-                class="language-javascript"
-              ><code class="prism language-javascript"><span class="token keyword">const</span> terminal <span class="token operator">=</span> FictionTerminal<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token punctuation">{</span>  
-  onFetchConnectionToken<span class="token punctuation">:</span> server<span class="token punctuation">.</span>fetchConnectionToken<span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <pre><code class="prism language-javascript">const terminal = StripeTerminal.create({
+  onFetchConnectionToken: server.fetchConnectionToken,
+});
 
-<span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token keyword">await</span> terminal<span class="token punctuation">.</span><span class="token function">discoverReaders</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> reader <span class="token operator">=</span> result<span class="token punctuation">.</span>discoveredReaders<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token keyword">await</span> terminal<span class="token punctuation">.</span><span class="token function">connectReader</span><span class="token punctuation">(</span>reader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+const result = await terminal.discoverReaders();
+const reader = result.discoveredReaders[0];
+await terminal.connectReader(reader);
 
-<span class="token keyword">const</span> item <span class="token operator">=</span> <span class="token punctuation">{</span>
-  description<span class="token punctuation">:</span> <span class="token string">'High Growth Handbook'</span><span class="token punctuation">,</span>
-  amount<span class="token punctuation">:</span> <span class="token number">2000</span><span class="token punctuation">,</span>
-  quantity<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> cart <span class="token operator">=</span> <span class="token punctuation">{</span>
-  lineItems<span class="token punctuation">:</span> <span class="token punctuation">[</span>item<span class="token punctuation">]</span><span class="token punctuation">,</span>
-  currency<span class="token punctuation">:</span> <span class="token string">'usd'</span><span class="token punctuation">,</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span>
+const item = {
+  description: 'High Growth Handbook',
+  amount: 2000,
+  quantity: 1,
+};
+const cart = {
+  lineItems: [item],
+  currency: 'usd',
+};
 
-terminal<span class="token punctuation">.</span><span class="token function">setReaderDisplay</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'cart'</span><span class="token punctuation">,</span> cart <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</code>
-              </pre>
+terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
             </div>
-            <div class="shine"></div>
+            <div class="shine" />
           </div>
         </figure>
       </div>
@@ -83,13 +56,13 @@ terminal<span class="token punctuation">.</span><span class="token function">set
     <section id="pre-certified-hardware" class="feature feature--hardware">
       <div class="container-lg">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">
-            Pre-certified card readers
-          </h3>
+          <h3 class="common-UppercaseTitle feature-title">Pre-certified card readers</h3>
           <p class="common-MediumBodyText">
             Save months of developer and certification time with our EMV Level 1, 2, 3
             pre-certified Fiction card readers. They provide
-            <span class="feature-no-break-english">end-to-end</span> encryption, natively
+            <span
+              class="feature-no-break-english"
+            >end-to-end</span> encryption, natively
             support chip cards and contactless payments, including Apple Pay and Google
             Pay, and help protect you against liability for counterfeit&nbsp;fraud.
           </p>
@@ -99,13 +72,14 @@ terminal<span class="token punctuation">.</span><span class="token function">set
             data-analytics-action="docs_terminal_readers"
             data-analytics-source="feature_pre_certified_hardware"
           >
-            See reader options <factor-icon icon="arrow-right" />
+            See reader options
+            <factor-icon icon="arrow-right" />
           </a>
         </article>
 
         <figure class="floating-cards">
           <div class="card">
-            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" />
+            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" >
           </div>
         </figure>
       </div>
@@ -114,9 +88,7 @@ terminal<span class="token punctuation">.</span><span class="token function">set
     <section id="fleet-management" class="feature feature--reversed feature--fleet">
       <div class="container-lg">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">
-            Centralized fleet management
-          </h3>
+          <h3 class="common-UppercaseTitle feature-title">Centralized fleet management</h3>
           <p class="common-MediumBodyText">
             Manage your entire fleet of Fiction card readers right from the Fiction
             Dashboard, where you can register hardware to a location, monitor device
@@ -129,7 +101,8 @@ terminal<span class="token punctuation">.</span><span class="token function">set
             data-analytics-action="docs_terminal_readers"
             data-analytics-source="feature_fleet_management"
           >
-            Learn more <factor-icon icon="arrow-right" />
+            Learn more
+            <factor-icon icon="arrow-right" />
           </a>
         </article>
 
@@ -138,7 +111,7 @@ terminal<span class="token punctuation">.</span><span class="token function">set
             <img
               :src="require(`./img/screenshot-fleet-updated.jpg`)"
               alt="Fiction Dashboard screenshot of managing your fleet hardware."
-            />
+            >
           </div>
         </figure>
       </div>
@@ -147,6 +120,9 @@ terminal<span class="token punctuation">.</span><span class="token function">set
 </template>
 <script>
 export default {
+  components: {
+    "el-stripes": () => import("./el-stripes")
+  },
   mounted() {}
 }
 </script>
@@ -158,76 +134,6 @@ export default {
 
   @media (min-width: 670px) {
     padding: 130px 0;
-  }
-
-  .common-StripeGrid {
-    .background {
-      background-color: #f6f9fc;
-      grid-row: e("3 / -2") !important;
-    }
-
-    .stripe {
-      &:first-child {
-        box-shadow: inset 0 0 0 2px #e6ebf1;
-        grid-column: e("5 / 8");
-        grid-row: e("1 / 2");
-        transform: translateY(2px);
-      }
-      &:nth-child(2) {
-        background-color: #e6ebf1;
-        grid-column: left-gutter-start / 7;
-        grid-row: e("2 / 3");
-      }
-      &:nth-child(3) {
-        background-color: #87bbfd;
-        grid-column: viewport-start / 8;
-        grid-row: e("3 / 4");
-      }
-      &:nth-child(4) {
-        background-color: #e6ebf1;
-        grid-column: e("8 / 10");
-        grid-row: e("3 / 4");
-      }
-      &:nth-child(5) {
-        background-color: #e6ebf1;
-        grid-column: right-gutter;
-        grid-row: e("3 / 4");
-      }
-      &:nth-child(6) {
-        display: none;
-        background-color: #32325d;
-        grid-column: e("3 / 8");
-        grid-row: e("4 / 5");
-        @media (min-width: 670px) {
-          display: block;
-        }
-      }
-      &:nth-child(7) {
-        background-color: #6772e5;
-        grid-column: e("3 / 6");
-        grid-row: e("-5 / -4");
-      }
-      &:nth-child(8) {
-        background-color: #32325d;
-        grid-column: viewport-start/8;
-        grid-row: e("-4 / -3");
-      }
-      &:nth-child(9) {
-        background-color: #87bbfd;
-        grid-column: e("8 / 10");
-        grid-row: e("-4 / -3");
-      }
-      &:nth-child(10) {
-        background-color: #e6ebf1;
-        grid-column: e("6 / 9");
-        grid-row: e("-3 / -2");
-      }
-      &:nth-child(11) {
-        box-shadow: inset 0 0 0 2px #e6ebf1;
-        grid-column: e("3 / 6");
-        grid-row: e("-2 / -1");
-      }
-    }
   }
 
   .common-Link {
