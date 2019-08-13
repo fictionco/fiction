@@ -37,7 +37,7 @@ Learn more at [factor.dev](https://factor.dev).
 
 To scaffold a new project:
 
-```bash
+```shell
 $ yarn create factor-app <project-name>
 ```
 
