@@ -73,6 +73,8 @@
     <section-features />
 
     <section-testimonials />
+
+    <section-integrate />
   </div>
 </template>
 
@@ -84,7 +86,8 @@ export default {
     "section-benefits": () => import("./section-benefits"),
     "section-customers": () => import("./section-customers"),
     "section-features": () => import("./section-features"),
-    "section-testimonials": () => import("./section-testimonials")
+    "section-testimonials": () => import("./section-testimonials"),
+    "section-integrate": () => import("./section-integrate")
   },
   data() {
     return {
@@ -130,6 +133,16 @@ export default {
     margin: 0 0 20px;
     color: #32325d;
     letter-spacing: -0.01em;
+  }
+  .common-SectionTitle {
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 44px;
+    color: #32325d;
+    @media (min-width: 670px) {
+      font-size: 42px;
+      line-height: 52px;
+    }
   }
   .common-IntroText {
     font-size: 24px;
