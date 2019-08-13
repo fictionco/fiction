@@ -140,6 +140,11 @@ code {
       font-weight: 800;
       opacity: 0.15;
     }
+    @media (max-width: 767px) {
+      &:before {
+        display: none;
+      }
+    }
   }
   a {
     color: var(--color-primary);
@@ -163,7 +168,7 @@ code {
     padding: 1em 0 1em 1.5em;
 
     border-left: 3px solid var(--color-text);
-    background-color: #f7f9fb;
+    background-color: var(--color-contrast);
     p,
     ul,
     ol {

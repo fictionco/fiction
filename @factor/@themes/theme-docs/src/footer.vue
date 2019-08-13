@@ -22,13 +22,22 @@ export default {}
   justify-content: center;
   line-height: 1.6em;
   font-size: 0.9em;
-  padding: 2em 0 4em;
+  padding: 2em 1em 4em;
   margin-top: 4em;
+  @media (max-width: 767px) {
+    display: block;
+    .logo {
+      margin-bottom: 1em;
+    }
+  }
   .logo {
     margin-right: 3em;
   }
   .pin {
     display: inline-block;
+  }
+  .legal {
+    line-height: 1.3;
   }
   .license {
     font-weight: var(--font-weight-bold);

@@ -80,7 +80,7 @@ export default {
 .page-docs {
   padding-top: 5em;
   .mast {
-    padding: 0 2em;
+    padding: 0 1em;
 
     max-width: 1000px;
     margin: 0 auto;
