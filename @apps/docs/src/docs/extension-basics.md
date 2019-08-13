@@ -62,3 +62,10 @@ In the above example, a `factor-settings` file in your application would overrid
   <div>{{ $setting.get("myCar.color") }}</div>
 </template>
 ```
+
+## Working With Themes
+
+You have the option of using themes in one of two primary ways:
+
+- Starting Point: Use a theme as your app and customize its files directly. Thie approach sacrifices the ability to upgrade the theme for more ability to customize things.
+- Dependency: If you use the theme as a dependency, you can easily upgrade it as new features are added.
