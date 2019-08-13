@@ -2,7 +2,7 @@
   <div class="view-terminal">
     <div class="header-wrapper">
       <section class="header">
-        <div class="container-lg">
+        <div class="mast">
           <div class="header-layout">
             <div class="header-content">
               <div class="product-title">
@@ -102,10 +102,23 @@ export default {
 </script>
 <style lang="less">
 .view-terminal {
+  .mast {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 1.27em;
+    width: 100%;
+  }
   // Common
   .common-UppercaseTitle {
     font-size: 21px;
     line-height: 32px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+  }
+  .common-UppercaseText {
+    font-size: 17px;
+    line-height: 28px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.025em;
@@ -157,13 +170,13 @@ export default {
       }
     }
   }
-  .common-BodyTitle {
+  .common-bodytitle {
     font-weight: 500;
     font-size: 19px;
     line-height: 32px;
     color: #32325d;
   }
-  .common-BodyText {
+  .common-bodytext {
     font-weight: 400;
     font-size: 17px;
     line-height: 28px;
@@ -175,18 +188,11 @@ export default {
     line-height: 32px;
     color: #525f7f;
   }
-  .common-Link {
+  .common-link {
     color: #6772e5;
     font-weight: 500;
     transition: color 0.1s ease;
     cursor: pointer;
-  }
-
-  .container-lg {
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 0 1.27em;
-    width: 100%;
   }
 
   // Header

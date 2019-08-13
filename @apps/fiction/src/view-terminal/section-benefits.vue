@@ -1,6 +1,6 @@
 <template>
   <section class="benefits">
-    <div class="container-lg">
+    <div class="mast">
       <div class="benefit">
         <figure class="benefit-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
@@ -19,27 +19,27 @@
           </svg>
         </figure>
 
-        <h3 class="common-BodyTitle benefit-title">Unify your payments stack</h3>
+        <h3 class="common-bodytitle benefit-title">Unify your payments stack</h3>
 
-        <p class="common-BodyText">
+        <p class="common-bodytext">
           Manage all your online and offline sales in one place with a single Stripe
           integration, simplifying reporting and reconciliation. Terminal works
           seamlessly with Stripe
           <a
             href="/payments"
-            class="common-Link"
+            class="common-link"
             data-analytics-action="visit_payments"
             data-analytics-source="benefits"
           >Payments</a>,
           <a
             href="/connect"
-            class="common-Link"
+            class="common-link"
             data-analytics-action="visit_connect"
             data-analytics-source="benefits"
           >Connect</a>, and
           <a
             href="/billing"
-            class="common-Link"
+            class="common-link"
             data-analytics-action="visit_billing"
             data-analytics-source="benefits"
           >Billing</a>.
@@ -63,9 +63,9 @@
           </svg>
         </figure>
 
-        <h3 class="common-BodyTitle benefit-title">Own your in-store experience</h3>
+        <h3 class="common-bodytitle benefit-title">Own your in-store experience</h3>
 
-        <p class="common-BodyText">
+        <p class="common-bodytext">
           Provide a seamless customer experience across channels, like reserving online
           and picking up in store. Our SDKs make it easy to integrate Stripe into your
           own mobile and web applications to accept in-store payments.
@@ -89,14 +89,14 @@
           </svg>
         </figure>
 
-        <h3 class="common-BodyTitle benefit-title">Grow your platform’s revenue</h3>
+        <h3 class="common-bodytitle benefit-title">Grow your platform’s revenue</h3>
 
-        <p class="common-BodyText">
+        <p class="common-bodytext">
           Add in-person payments to your platform or marketplace. Using Stripe Terminal
           with
           <a
             href="/connect"
-            class="common-Link"
+            class="common-link"
             data-analytics-action="visit_connect"
             data-analytics-source="benefits"
           >Connect</a>, you can onboard users for online and in-person payments, and unify their
@@ -115,17 +115,12 @@ export default {
 // Benefits
 .benefits {
   position: relative;
-  .container-lg {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  .mast {
     display: grid;
     grid-template-rows: repeat(3, auto);
     grid-gap: 26px 0;
-    gap: 26px 0;
     @media (min-width: 670px) {
       grid-gap: 0 26px;
-      gap: 0 26px;
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(1, 1fr);
     }
@@ -136,10 +131,10 @@ export default {
       margin: 0;
     }
     .benefit-icon {
-      min-height: 48px;
-      margin: 0 0 16px;
       display: grid;
       align-items: end;
+      min-height: 48px;
+      margin: 0 0 16px;
     }
   }
 }

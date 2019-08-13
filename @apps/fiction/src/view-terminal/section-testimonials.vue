@@ -1,18 +1,20 @@
 <template>
-  <section class="testimonials">
-    <div class="container-lg">
-      <div class="Helm-UserCard">
-        <div class="Helm-UserCard__content">
-          <button class="Helm-UserCard__button Helm-UserCard__button--prev">Previous</button>
-          <button class="Helm-UserCard__button Helm-UserCard__button--next">Next</button>
+  <section class="testimonials-wrap">
+    <div class="mast">
+      <div class="card">
+        <div class="card-content">
+          <button class="card-btn card-btn-prev">
+            <factor-icon icon="arrow-left" />
+          </button>
+          <button class="card-btn card-btn-next">
+            <factor-icon icon="arrow-right" />
+          </button>
 
-          <div class="common-Card Helm-UserCard__card">
-            <figure class="Helm-UserCard__imageContainer">
+          <div class="common-card">
+            <figure class="card-image-container">
               <ul>
-                <li
-                  class="Helm-UserCard__image testimonials--universe Helm__text--black Helm__background--black"
-                >
-                  <span class="Helm-UserLogo">
+                <li class="card-image testimonials--universe">
+                  <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="95"
@@ -26,10 +28,8 @@
                     </svg>
                   </span>
                 </li>
-                <li
-                  class="Helm-UserCard__image testimonials--squire Helm__text--slate1 Helm__background--slate1"
-                >
-                  <span class="Helm-UserLogo">
+                <li class="card-image testimonials--squire Helm__background--slate1">
+                  <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="84"
@@ -44,10 +44,8 @@
                     </svg>
                   </span>
                 </li>
-                <li
-                  class="Helm-UserCard__image testimonials--showclix Helm__text--slate1 Helm__background--slate1"
-                >
-                  <span class="Helm-UserLogo">
+                <li class="card-image testimonials--showclix Helm__background--slate1">
+                  <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="139"
@@ -63,10 +61,8 @@
                     </svg>
                   </span>
                 </li>
-                <li
-                  class="Helm-UserCard__image testimonials--zenoti Helm__text--slate1 Helm__background--slate1"
-                >
-                  <span class="Helm-UserLogo">
+                <li class="card-image testimonials--zenoti Helm__background--slate1">
+                  <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="91"
@@ -82,10 +78,8 @@
                     </svg>
                   </span>
                 </li>
-                <li
-                  class="Helm-UserCard__image testimonials--house-call-pro Helm__text--slate1 Helm__background--slate1 active"
-                >
-                  <span class="Helm-UserLogo">
+                <li class="card-image testimonials--house-call-pro Helm__background--slate1 active">
+                  <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="171"
@@ -103,72 +97,67 @@
               </ul>
             </figure>
 
-            <div class="Helm-UserCard__stories">
-              <ul
-                class="Helm-UserCard__storyList"
-                style="width: 500%; transform: translateX(-80%);"
-              >
-                <li class="Helm-UserCard__storyItem">
-                  <div class="Helm-UserCard__quote">
-                    <p class="common-BodyTitle Helm__text--slate1">
+            <div class="card-stories">
+              <ul class="card-story-list" style="width: 500%; transform: translateX(-80%);">
+                <li class="card-story-item">
+                  <div class="card-quote">
+                    <p class="common-bodytitle">
                       We integrated Terminal in only a few sprints with three developers,
                       not a team of 20 or 30.
                     </p>
                   </div>
 
-                  <div class="Helm-UserCard__link">
-                    <a
-                      data-analytics-action="universe_case_study"
-                      data-analytics-source="testimonials"
-                      href="https://b.stripecdn.com/site-srv/assets/files/terminal/stripe_terminal_universe_case_study-14e647fb3cb16e1ca79a23668be3646c88bfcfbd.pdf"
-                      class="common-Link--arrow common-Link"
-                    >Read the Universe case study</a>
+                  <div class="card__link">
+                    <a href="#" class="common-link">
+                      Read the Universe case study
+                      <i class="fa fa-arrow-right" />
+                    </a>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthor">
-                    <p class="common-UppercaseText Helm__text--slate1">Joshua Kelly</p>
+                  <div class="card-quote-author">
+                    <p class="common-UppercaseText">Joshua Kelly</p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthorTitle">
-                    <p class="common-BodyText Helm__text--slate1">CTO</p>
+                  <div class="card-quote-author-title">
+                    <p class="common-bodytext">CTO</p>
                   </div>
                 </li>
-                <li class="Helm-UserCard__storyItem">
-                  <div class="Helm-UserCard__quote">
-                    <p class="common-BodyTitle Helm__text--slate1">
+                <li class="card-story-item">
+                  <div class="card-quote">
+                    <p class="common-bodytitle">
                       We created a rich customer experience within our app to accept
                       in-person payments, and it only took us a week of development time.
                     </p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthor">
-                    <p class="common-UppercaseText Helm__text--slate1">Troy Payne</p>
+                  <div class="card-quote-author">
+                    <p class="common-UppercaseText">Troy Payne</p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthorTitle">
-                    <p class="common-BodyText Helm__text--slate1">Head of Engineering</p>
+                  <div class="card-quote-author-title">
+                    <p class="common-bodytext">Head of Engineering</p>
                   </div>
                 </li>
-                <li class="Helm-UserCard__storyItem">
-                  <div class="Helm-UserCard__quote">
-                    <p class="common-BodyTitle Helm__text--slate1">
+                <li class="card-story-item">
+                  <div class="card-quote">
+                    <p class="common-bodytitle">
                       Terminal allowed us to take advantage of the EMV liability shift and
                       offer in-person payments that are PCI compliant, with less fraud and
                       lower chargeback risk.
                     </p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthor">
-                    <p class="common-UppercaseText Helm__text--slate1">Jarrett Hawrylak</p>
+                  <div class="card-quote-author">
+                    <p class="common-UppercaseText">Jarrett Hawrylak</p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthorTitle">
-                    <p class="common-BodyText Helm__text--slate1">VP of Software Engineering</p>
+                  <div class="card-quote-author-title">
+                    <p class="common-bodytext">VP of Software Engineering</p>
                   </div>
                 </li>
-                <li class="Helm-UserCard__storyItem">
-                  <div class="Helm-UserCard__quote">
-                    <p class="common-BodyTitle Helm__text--slate1">
+                <li class="card-story-item">
+                  <div class="card-quote">
+                    <p class="common-bodytitle">
                       With other providers, it can take anywhere from two to four weeks to
                       onboard a merchant. With Stripe, a merchant can onboard themselves
                       and start processing transactions in seconds. That’s a clear
@@ -176,26 +165,24 @@
                     </p>
                   </div>
 
-                  <div class="Helm-UserCard__link">
-                    <a
-                      data-analytics-action="zenoti_case_study"
-                      data-analytics-source="testimonials"
-                      href="https://b.stripecdn.com/site-srv/assets/files/terminal/stripe_terminal_zenoti_case_study-701108cb3a6fd02286c080cfc2ec6621cf5686e1.pdf"
-                      class="common-Link--arrow common-Link"
-                    >Read the Zenoti case study</a>
+                  <div class="card__link">
+                    <a href="#" class="common-link">
+                      Read the Zenoti case study
+                      <i class="fa fa-arrow-right" />
+                    </a>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthor">
-                    <p class="common-UppercaseText Helm__text--slate1">Vamshidhar Reddy</p>
+                  <div class="card-quote-author">
+                    <p class="common-UppercaseText">Vamshidhar Reddy</p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthorTitle">
-                    <p class="common-BodyText Helm__text--slate1">VP of Product Management</p>
+                  <div class="card-quote-author-title">
+                    <p class="common-bodytext">VP of Product Management</p>
                   </div>
                 </li>
-                <li class="Helm-UserCard__storyItem active">
-                  <div class="Helm-UserCard__quote">
-                    <p class="common-BodyTitle Helm__text--slate1">
+                <li class="card-story-item active">
+                  <div class="card-quote">
+                    <p class="common-bodytitle">
                       In two weeks we were able to integrate Terminal and start getting it
                       in the hands of 1,500 of our Pros. That’s 1,500 small businesses
                       that are now saving money on in-person payments, saving time with
@@ -204,14 +191,12 @@
                     </p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthor">
-                    <p class="common-UppercaseText Helm__text--slate1">Sean Devlin</p>
+                  <div class="card-quote-author">
+                    <p class="common-UppercaseText">Sean Devlin</p>
                   </div>
 
-                  <div class="Helm-UserCard__quoteAuthorTitle">
-                    <p
-                      class="common-BodyText Helm__text--slate1"
-                    >Senior Director of Special Projects</p>
+                  <div class="card-quote-author-title">
+                    <p class="common-bodytext">Senior Director of Special Projects</p>
                   </div>
                 </li>
               </ul>
@@ -219,11 +204,11 @@
           </div>
         </div>
 
-        <div class="Helm-UserCard__logoBar">
-          <ul class="Helm-LogoRow__logoRow">
-            <li class="Helm-LogoRow__logo">
-              <a class="Helm-LogoRow__logoLink">
-                <span class="Helm-UserLogo">
+        <div class="card-logobar">
+          <ul class="card-logorow">
+            <li>
+              <a class="card-logorow-link">
+                <span class="card-logo">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="95"
@@ -238,9 +223,9 @@
                 </span>
               </a>
             </li>
-            <li class="Helm-LogoRow__logo">
-              <a class="Helm-LogoRow__logoLink">
-                <span class="Helm-UserLogo">
+            <li>
+              <a class="card-logorow-link">
+                <span class="card-logo">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="84"
@@ -256,9 +241,9 @@
                 </span>
               </a>
             </li>
-            <li class="Helm-LogoRow__logo">
-              <a class="Helm-LogoRow__logoLink">
-                <span class="Helm-UserLogo">
+            <li>
+              <a class="card-logorow-link">
+                <span class="card-logo">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="139"
@@ -275,9 +260,9 @@
                 </span>
               </a>
             </li>
-            <li class="Helm-LogoRow__logo">
-              <a class="Helm-LogoRow__logoLink">
-                <span class="Helm-UserLogo">
+            <li>
+              <a class="card-logorow-link">
+                <span class="card-logo">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="91"
@@ -294,9 +279,9 @@
                 </span>
               </a>
             </li>
-            <li class="Helm-LogoRow__logo">
-              <a class="Helm-LogoRow__logoLink active">
-                <span class="Helm-UserLogo">
+            <li>
+              <a class="card-logorow-link active">
+                <span class="card-logo">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="171"
@@ -324,70 +309,303 @@ export default {
 }
 </script>
 <style lang="less">
-.testimonials {
+.testimonials-wrap {
   margin: 80px 0 0;
-  .Helm-UserCard__logoBar,
-  .Helm-UserCard__quoteAuthor {
-    margin-top: 20px;
+
+  .mast {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 1.27em;
+    width: 100%;
   }
-  @media (min-width: 880px) {
-    .Helm-UserCard__logoBar {
-      margin-top: 40px;
+
+  .card-content {
+    position: relative;
+    z-index: 10;
+
+    .card-btn {
+      position: absolute;
+      z-index: 10;
+      top: calc(100px - 23px);
+      width: 46px;
+      height: 46px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25),
+        0 3px 7px -3px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      color: #32325d;
+      cursor: pointer;
+      transition: all 0.15s;
+      @media (min-width: 670px) {
+        top: calc(50% - 23px);
+      }
+      &:focus {
+        outline: 0;
+      }
+
+      &.card-btn-prev {
+        left: -15px;
+        @media (min-width: 1160px) {
+          left: -23px;
+        }
+      }
+
+      &.card-btn-next {
+        right: -15px;
+        @media (min-width: 1160px) {
+          right: -23px;
+        }
+      }
+    }
+
+    .common-card {
+      position: relative;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 0;
+      overflow: hidden;
+      z-index: 1;
+      will-change: transform;
+      box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+        0 18px 36px -18px rgba(0, 0, 0, 0.3),
+        0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+    }
+
+    .card-image-container {
+      position: relative;
+      height: 200px;
+      background: #525f7f;
+      overflow: hidden;
+
+      @media (min-width: 670px) {
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+        left: -500px;
+        top: 0;
+        right: calc(50% + 70px);
+        transform: skewX(-12deg);
+      }
+      @media (min-width: 880px) {
+        right: calc(50% + 100px);
+      }
+
+      .card-image {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-position: 50%;
+        background-size: cover;
+        opacity: 0;
+        transition: opacity 0.35s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 40px;
+        @media (min-width: 670px) {
+          left: 480px;
+          right: -50px;
+          transform: skewX(12deg);
+        }
+        @media (min-width: 880px) {
+          padding: 0 80px 0 60px;
+        }
+        &.active {
+          opacity: 1;
+        }
+        &.testimonials--universe {
+          background-color: #3a66e5;
+          @media (min-width: 880px) {
+            svg {
+              width: 170px;
+              height: auto;
+            }
+          }
+        }
+        &.testimonials--squire {
+          background-color: #00a79d;
+          @media (min-width: 880px) {
+            svg {
+              width: 150px;
+              height: auto;
+            }
+          }
+        }
+        &.testimonials--showclix {
+          background-color: #6baadb;
+          @media (min-width: 880px) {
+            svg {
+              width: 190px;
+              height: auto;
+            }
+          }
+        }
+        &.testimonials--zenoti {
+          background-color: #f47528;
+          @media (min-width: 880px) {
+            svg {
+              width: 150px;
+              height: auto;
+            }
+          }
+        }
+        &.testimonials--house-call-pro {
+          background-color: #2196f3;
+          @media (min-width: 880px) {
+            svg {
+              width: 220px;
+              height: auto;
+            }
+          }
+        }
+
+        .card-logo {
+          position: relative;
+          z-index: 2;
+          max-width: 250px;
+          max-height: 100px;
+          * {
+            fill: #fff !important;
+            display: block;
+            max-width: 90%;
+            margin: 0 auto;
+
+            @media (min-width: 670px) {
+              max-width: none;
+              margin: initial;
+              display: inline;
+            }
+          }
+        }
+      }
+    }
+
+    .card-stories {
+      padding-left: 20px;
+      @media (min-width: 420px) {
+        padding-left: 40px;
+      }
+      @media (min-width: 670px) {
+        padding-left: 50%;
+      }
+
+      .card-story-list {
+        display: flex;
+        padding: 20px 0;
+        margin: 0;
+        transition: transform 0.35s;
+        list-style: none;
+
+        @media (min-width: 420px) {
+          padding: 40px 0;
+        }
+        @media (min-width: 670px) {
+          padding: 60px 0;
+        }
+
+        .card-story-item {
+          opacity: 0;
+          transition: opacity 0.35s;
+          padding-right: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          flex: 1;
+          color: #32325d;
+          @media (min-width: 420px) {
+            padding-right: 40px;
+          }
+          @media (min-width: 670px) {
+            justify-content: center;
+            padding-right: 60px;
+          }
+          &.active {
+            opacity: 1;
+          }
+          .card-quote > {
+            * {
+              position: relative;
+              font-weight: 400;
+              font-style: italic;
+            }
+            :before {
+              content: open-quote;
+              position: absolute;
+              left: -10px;
+            }
+          }
+          .card-quote-author {
+            margin-top: 20px;
+          }
+        }
+      }
     }
   }
 
-  .Helm-LogoRow__logoRow {
-    position: relative;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    @media (min-width: 670px) {
-      justify-content: space-between;
+  .card-logobar {
+    margin-top: 20px;
+    @media (min-width: 880px) {
+      margin-top: 40px;
     }
-    svg {
-      max-width: 100%;
-      max-height: 45px;
-      display: none;
-      @media (min-width: 670px) {
-        display: block;
-      }
-    }
-    a {
+    .card-logorow {
+      position: relative;
       display: flex;
-      cursor: pointer;
-    }
-    li {
-      padding: 0 15px;
-      display: flex;
+      justify-content: space-around;
       align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
       @media (min-width: 670px) {
-        margin-bottom: 24px;
-        &:first-child {
-          padding-left: 0;
+        justify-content: space-between;
+      }
+      svg {
+        max-width: 100%;
+        max-height: 45px;
+        display: none;
+        @media (min-width: 670px) {
+          display: block;
         }
       }
-      @media (min-width: 880px) {
-        padding: 0 18px;
+      a {
+        display: flex;
+        cursor: pointer;
       }
-      @media (min-width: 1040px) {
-        padding: 0 22px;
-      }
-      .Helm-LogoRow__logoLink {
-        opacity: 0.5;
-        transition: opacity 0.35s;
+      li {
+        padding: 0 15px;
         display: flex;
         align-items: center;
-        min-width: 8px;
-        min-height: 8px;
-        border-radius: 50%;
-        background: #aab7c4;
         @media (min-width: 670px) {
-          background: none;
-          border-radius: 0;
-          min-width: 48px;
+          margin-bottom: 24px;
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+        @media (min-width: 880px) {
+          padding: 0 18px;
+        }
+        @media (min-width: 1040px) {
+          padding: 0 22px;
+        }
+        .card-logorow-link {
+          opacity: 0.5;
+          transition: opacity 0.35s;
+          display: flex;
+          align-items: center;
+          min-width: 8px;
+          min-height: 8px;
+          border-radius: 50%;
+          background: #aab7c4;
+          @media (min-width: 670px) {
+            background: none;
+            border-radius: 0;
+            min-width: 48px;
+          }
+          &.active {
+            opacity: 1;
+          }
         }
       }
     }

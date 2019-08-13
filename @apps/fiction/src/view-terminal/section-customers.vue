@@ -1,5 +1,5 @@
 <template>
-  <section class="container-lg">
+  <section class="mast">
     <div class="customers logos">
       <ul>
         <li title="warbyparker">
