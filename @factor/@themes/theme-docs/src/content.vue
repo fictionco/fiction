@@ -10,7 +10,7 @@
     </div>
   </div>
 </template>
-<style src="#/css/theme-styles.css"></style>
+
 <style src="#/css/style.less" lang="less"></style>
 <script>
 export default {
