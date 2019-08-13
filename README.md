@@ -15,9 +15,9 @@ _A full-stack post framework for professional Javascript developers. Impress you
 
 **Try out the famous 3-minute setup: `npx create-factor-app`**
 
-## Links
+## 📘Documentation
 
-- 📘 Documentation: [https://factor.dev](https://factor.dev)
+[https://factor.dev](https://factor.dev)
 
 ## Features
 
@@ -47,23 +47,12 @@ It's as simple as that!
 
 ## Themes
 
-Start by using the basic Factor app [starter theme](#starter-theme-url)
+[https://factor.dev/themes](https://factor.dev/themes)
 
 ## Examples
 
-Please take a look at https://factor.dev/examples
+[COMING SOON] 
 
-## Production deployment
-
-To deploy, instead of running factor, you probably want to build ahead of time. Therefore, building and starting are separate commands:
-
-```bash
-yarn factor deploy <environment>
-```
-
-Then run `now` and enjoy!
-
-Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
 
 ## Contributors
 
