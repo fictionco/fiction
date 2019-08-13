@@ -28,21 +28,9 @@
           <a
             href="/payments"
             class="common-link"
-            data-analytics-action="visit_payments"
-            data-analytics-source="benefits"
           >Payments</a>,
-          <a
-            href="/connect"
-            class="common-link"
-            data-analytics-action="visit_connect"
-            data-analytics-source="benefits"
-          >Connect</a>, and
-          <a
-            href="/billing"
-            class="common-link"
-            data-analytics-action="visit_billing"
-            data-analytics-source="benefits"
-          >Billing</a>.
+          <a href="/connect" class="common-link">Connect</a>, and
+          <a href="/billing" class="common-link">Billing</a>.
         </p>
       </div>
       <div class="benefit">
@@ -97,8 +85,6 @@
           <a
             href="/connect"
             class="common-link"
-            data-analytics-action="visit_connect"
-            data-analytics-source="benefits"
           >Connect</a>, you can onboard users for online and in-person payments, and unify their
           payouts across channels.
         </p>
