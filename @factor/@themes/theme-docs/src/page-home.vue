@@ -105,16 +105,16 @@ export default {
           line-height: 1.1;
           margin-bottom: 0.2em;
           @media (max-width: 767px) {
-            font-size: 2.2em;
+            font-size: 2.6em;
           }
         }
         .subtitle {
-          opacity: 0.5;
+          opacity: 0.7;
           font-size: 1.6em;
           line-height: 1.4em;
           font-weight: 500;
           @media (max-width: 767px) {
-            font-size: 1em;
+            font-size: 1.2em;
           }
         }
         .actions {
