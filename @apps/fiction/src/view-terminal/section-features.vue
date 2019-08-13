@@ -3,7 +3,7 @@
     <el-stripes :num-stripes="11" />
 
     <section id="developer-centric" class="feature feature--developer feature--reversed">
-      <div class="container-lg">
+      <div class="mast">
         <article class="feature-content">
           <h3 class="common-UppercaseTitle feature-title">Build your perfect point of sale</h3>
           <p class="common-MediumBodyText">
@@ -15,7 +15,7 @@
           </p>
           <a
             href="#"
-            class="common-Link common-Link--arrow common-MediumBodyText"
+            class="common-link common-link--arrow common-MediumBodyText"
             data-analytics-action="docs_terminal"
             data-analytics-source="feature_developer_centric"
           >
@@ -54,7 +54,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
     </section>
 
     <section id="pre-certified-hardware" class="feature feature--hardware">
-      <div class="container-lg">
+      <div class="mast">
         <article class="feature-content">
           <h3 class="common-UppercaseTitle feature-title">Pre-certified card readers</h3>
           <p class="common-MediumBodyText">
@@ -68,7 +68,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
           </p>
           <a
             href="#"
-            class="common-Link common-Link--arrow common-MediumBodyText"
+            class="common-link common-link--arrow common-MediumBodyText"
             data-analytics-action="docs_terminal_readers"
             data-analytics-source="feature_pre_certified_hardware"
           >
@@ -86,7 +86,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
     </section>
 
     <section id="fleet-management" class="feature feature--reversed feature--fleet">
-      <div class="container-lg">
+      <div class="mast">
         <article class="feature-content">
           <h3 class="common-UppercaseTitle feature-title">Centralized fleet management</h3>
           <p class="common-MediumBodyText">
@@ -97,7 +97,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
           </p>
           <a
             href="#"
-            class="common-BodyText common-Link common-Link--arrow"
+            class="common-bodytext common-link common-link--arrow"
             data-analytics-action="docs_terminal_readers"
             data-analytics-source="feature_fleet_management"
           >
@@ -136,7 +136,7 @@ export default {
     padding: 130px 0;
   }
 
-  .common-Link {
+  .common-link {
     margin: 13px 0 0;
   }
 
@@ -167,7 +167,7 @@ export default {
         }
       }
     }
-    .container-lg {
+    .mast {
       display: flex;
       flex-direction: column;
       @media (min-width: 670px) {
