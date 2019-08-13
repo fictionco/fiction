@@ -1,6 +1,6 @@
 <p>
 <a href="https://factor.dev">
-  <img src="./factor.png" width="250" style="width: 350px;display:block;">
+  <img src="./factor-midnight.jpg" width="200" style="width: 350px;display:block;">
 </a>
 </p>
 
@@ -15,7 +15,7 @@ _A full-stack post framework for professional Javascript developers. Impress you
 
 **Try out the famous 3-minute setup: `npx create-factor-app`**
 
-## 📘Documentation
+## Documentation
 
 [https://factor.dev](https://factor.dev)
 
