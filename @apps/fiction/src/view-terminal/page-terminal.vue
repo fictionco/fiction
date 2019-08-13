@@ -1,7 +1,7 @@
 <template>
   <div class="view-terminal">
     <div class="header-wrapper">
-      <section id="header" class="header">
+      <section class="header">
         <div class="container-lg">
           <div class="header-layout">
             <div class="header-content">
@@ -14,15 +14,15 @@
                     viewBox="0 0 48 48"
                   >
                     <title>48-light-bg</title>
-                    <path d="M38,8H10L.19,27a24,24,0,0,0,47.62,0Z" fill="#87bbfd"></path>
+                    <path d="M38,8H10L.19,27a24,24,0,0,0,47.62,0Z" fill="#87bbfd" />
                     <path
                       d="M10,24V39.48A3,3,0,0,0,11.29,42a22,22,0,0,0,25.42,0A3,3,0,0,0,38,39.48V24Z"
                       fill="#fff"
-                    ></path>
+                    />
                     <path
                       d="M24,0A24,24,0,0,0,.19,27H47.81A24,24,0,0,0,24,0ZM38,21H10V14a4,4,0,0,1,4-4H34a4,4,0,0,1,4,4Z"
                       fill="#555abf"
-                    ></path>
+                    />
                   </svg>
                 </figure>
                 <div class="product-title-text">
@@ -30,9 +30,7 @@
                 </div>
               </div>
 
-              <h1 class="common-PageTitle">
-                Extend Fiction payments to your point of sale
-              </h1>
+              <h1 class="common-PageTitle">Extend Fiction payments to your point of sale</h1>
               <p class="common-IntroText">
                 Fiction Terminal extends your online presence into the physical world,
                 enabling you to build your own in-person checkout. Built with modern
@@ -48,9 +46,7 @@
                     data-analytics-action="start_now"
                     data-analytics-source="header_cta"
                     class="common-Button common-Button--default"
-                  >
-                    Start now
-                  </a>
+                  >Start now</a>
                 </li>
                 <li>
                   <a
@@ -58,9 +54,7 @@
                     data-analytics-action="contact_sales"
                     data-analytics-source="header_cta"
                     class="common-Button"
-                  >
-                    Contact sales
-                  </a>
+                  >Contact sales</a>
                 </li>
               </ul>
             </div>
@@ -68,29 +62,7 @@
           </div>
         </div>
 
-        <div class="common-StripeGrid anchorBottom">
-          <!-- Background -->
-          <div class="backgroundContainer">
-            <div class="grid">
-              <div class="background"></div>
-            </div>
-          </div>
-          <!-- Stripes -->
-          <div class="stripeContainer">
-            <div class="grid">
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-              <div class="stripe"></div>
-            </div>
-          </div>
-        </div>
+        <el-stripes class="anchorBottom" :num-stripes="10" />
       </section>
     </div>
 
@@ -107,6 +79,7 @@
 <script>
 export default {
   components: {
+    "el-stripes": () => import("./el-stripes"),
     "el-header-graphic": () => import("./el-header-graphic"),
     "section-benefits": () => import("./section-benefits"),
     "section-customers": () => import("./section-customers"),
@@ -171,7 +144,8 @@ export default {
     &:hover {
       color: #7795f8;
       transform: translateY(-1px);
-      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.08);
     }
 
     &.common-Button--default {
@@ -204,199 +178,16 @@ export default {
   .common-Link {
     color: #6772e5;
     font-weight: 500;
-    -webkit-transition: color 0.1s ease;
     transition: color 0.1s ease;
     cursor: pointer;
-  }
-  .common-StripeGrid {
-    --stripe-height: 48px;
-    --content-columns: 12;
-    --gutter-columns: 4;
-    @media (min-width: 670px) {
-      --stripe-height: 64px;
-    }
-    position: absolute;
-    width: 100%;
-    top: 0;
-    bottom: 0;
-    z-index: -1;
-    pointer-events: none;
-
-    .grid {
-      --content-column-width: minmax(0, calc(1040px / var(--content-columns)));
-      --gutter-column-width: 1fr;
-
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-rows: repeat(auto-fill, var(--stripe-height));
-      grid-template-columns:
-        [viewport-start] 1fr [left-gutter-start] repeat(
-          var(--gutter-columns),
-          var(--gutter-column-width)
-        )
-        [left-gutter-end content-start] repeat(
-          var(--content-columns),
-          var(--content-column-width)
-        )
-        [content-end right-gutter-start] repeat(
-          var(--gutter-columns),
-          var(--gutter-column-width)
-        )
-        [right-gutter-end] 1fr [viewport-end];
-
-      @media (min-width: 1040px) {
-        --gutter-column-width: var(--content-column-width);
-        min-width: calc(
-          1040px / var(--content-columns) *
-            (var(--gutter-columns) * 2 + var(--content-columns))
-        );
-      }
-    }
-
-    .backgroundContainer,
-    .stripeContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform: skewY(-12deg);
-    }
-    .backgroundContainer {
-      .grid {
-        grid-template-columns: 1fr;
-        min-width: 0;
-      }
-      .background {
-        grid-row: e("1 / -1");
-        grid-column: e("1 / -1");
-        z-index: -1;
-      }
-    }
-    .stripeContainer {
-      overflow: visible;
-    }
-
-    &.anchorBottom {
-      .backgroundContainer,
-      .stripeContainer {
-        justify-content: flex-end;
-      }
-      .grid {
-        height: 200%;
-        align-content: end;
-      }
-    }
   }
 
   .container-lg {
     max-width: 1040px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 1.27em;
     width: 100%;
   }
-
-  // Header Stripes
-  .header {
-    .common-StripeGrid {
-      .background {
-        background-color: #f6f9fc;
-        grid-row-end: -4;
-      }
-      .stripeContainer {
-        overflow: visible;
-      }
-      .stripe {
-        &:first-child {
-          box-shadow: inset 0 0 0 2px #e6ebf1;
-          grid-column: e("16 / 19");
-          grid-row: e("19 / 20");
-        }
-        &:nth-child(2) {
-          box-shadow: inset 0 0 0 2px #e6ebf1;
-          grid-column: 4 / left-gutter-end;
-          grid-row: e("-5 / -6");
-          transform: translateY(2px);
-        }
-        &:nth-child(3) {
-          background-color: #32325d;
-          grid-column: left-gutter-start / span 4;
-          grid-row: e("-4 / -5");
-          z-index: 1;
-        }
-        &:nth-child(4) {
-          background-color: #e6ebf1;
-          grid-column: content-start / 9;
-          grid-row: e("-4 / -5");
-        }
-        &:nth-child(5) {
-          background-color: #32325d;
-          grid-column: 14 / right-gutter-end;
-          grid-row: e("-4 / -5");
-        }
-        &:nth-child(6) {
-          background-color: #fcd669;
-          grid-column: viewport-start / 5;
-          grid-row: e("-3 / -4");
-        }
-        &:nth-child(7) {
-          background-color: #87bbfd;
-          grid-column: e("15 / 18");
-          grid-row: e("-3 / -4");
-        }
-        &:nth-child(8) {
-          background-color: #6772e5;
-          grid-column: 18 / viewport-end;
-          grid-row: e("-3 / -4");
-        }
-        &:nth-child(9) {
-          background-color: #fcd669;
-          grid-column: e("17 / 20");
-          grid-row: e("-2 / -3");
-          z-index: 1;
-        }
-        &:nth-child(10) {
-          box-shadow: inset 0 0 0 2px #e6ebf1;
-          grid-column: e("16 / 19");
-          grid-row: e("-1 / -2");
-          transform: translateY(-2px);
-        }
-      }
-    }
-  }
-  // Feature Stripes
-  // .features {
-  //   position: relative;
-  //   z-index: 0;
-  //   .common-StripeGrid {
-  //     .background {
-  //       background-color: #f6f9fc;
-  //       grid-row: e("3 / -2");
-  //     }
-
-  //     .stripe {
-  //       &:first-child {
-  //         box-shadow: inset 0 0 0 2px #e6ebf1;
-  //         grid-column: e("5 / 8");
-  //         grid-row: e("1 / 2");
-  //         transform: translateY(2px);
-  //       }
-  //       &:nth-child(2) {
-  //         background-color: #e6ebf1;
-  //         grid-column: left-gutter-start / 7;
-  //         grid-row: e("2 / 3");
-  //       }
-  //       &:nth-child(3) {
-  //         background-color: #87bbfd;
-  //         grid-column: viewport-start / 8;
-  //         grid-row: e("3 / 4");
-  //       }
-  //     }
-  //   }
-  // }
 
   // Header
   .header-wrapper {
