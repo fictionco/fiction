@@ -15,7 +15,7 @@ _A full-stack post framework for professional Javascript developers. Impress you
 
 **Try out the famous 3-minute setup: `npx create-factor-app`**
 
-## 📘Documentation
+## Documentation
 
 [https://factor.dev](https://factor.dev)
 
