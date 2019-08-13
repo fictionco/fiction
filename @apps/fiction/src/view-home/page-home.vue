@@ -1,24 +1,35 @@
 <template>
   <div class="page-home">
     <section class="intro-wrap">
-      <div class="intro mast">
-        <div class="content">
-          <h2 class="title">Professional Web Apps for Publishing and eCommerce</h2>
+      <div class="mast">
+        <div class="intro">
+          <div class="content">
+            <h2 class="title">Professional Web Apps for Publishing and eCommerce</h2>
 
-          <p
-            class="subtitle"
-          >One platform with customizable features you need to start, run, manage, and grow your web app fast.</p>
+            <p class="subtitle">
+              One platform with customizable features you need to start, run, manage, and
+              grow your web app fast.
+            </p>
 
-          <a href="/vip#contact">
-            <app-btn path="/vip#contact" btn="secondary" size="large">
-              Contact Sales
-              <i class="fa fa-arrow-right" />
-            </app-btn>
-          </a>
-        </div>
-        <div class="graphic">
-          <img class="img-dashboard" :src="require(`./img/dashboard.jpg`)" alt="Factor Framework" >
-          <img class="img-theme" :src="require(`./img/theme-alpha.jpg`)" alt="Factor Theme Alpha" >
+            <a href="/vip#contact">
+              <app-btn path="/vip#contact" btn="secondary" size="large">
+                Contact Sales
+                <i class="fa fa-arrow-right" />
+              </app-btn>
+            </a>
+          </div>
+          <div class="graphic">
+            <img
+              class="img-dashboard"
+              :src="require(`./img/dashboard.jpg`)"
+              alt="Factor Framework"
+            />
+            <img
+              class="img-theme"
+              :src="require(`./img/theme-alpha.jpg`)"
+              alt="Factor Theme Alpha"
+            />
+          </div>
         </div>
       </div>
       <div class="hhh" />
@@ -29,16 +40,14 @@
         <factor-link path="https://factor.dev" class="item">
           <h3>
             Get Started
-            <br >with
+            <br />with
             <strong>Factor</strong>
           </h3>
           <pre><code class="hljs language-bash">$ yarn factor dev</code></pre>
         </factor-link>
 
         <factor-link path="/blog" class="item">
-          <h3>
-            <strong>Essays</strong> by Fiction
-          </h3>
+          <h3><strong>Essays</strong> by Fiction</h3>
           <p>Essays on web development, remote-life and web business.</p>
         </factor-link>
 
@@ -51,11 +60,15 @@
         </factor-link>
       </div>
     </section>
+    <el-to-top />
   </div>
 </template>
 
 <script>
 export default {
+  components: {
+    "el-to-top": () => import("../el/el-to-top")
+  },
   data() {
     return {
       loading: true
@@ -82,15 +95,18 @@ export default {
 <style lang="less">
 .page-home {
   .mast {
-    max-width: 1200px;
     margin: 0 auto;
+    max-width: var(--max-width);
     padding: 0 2em;
+    @media (max-width: 767px) {
+      padding: 0 2em;
+    }
   }
   .intro-wrap {
     position: relative;
     background: #1b223c url(./img/rectangles-pink.svg) no-repeat 50%;
     background-size: 80%;
-    padding: 5em 2em 6em;
+    padding: 5em 0 7em;
 
     @media (max-width: 767px) {
       padding: 4em 0 2em;
@@ -103,11 +119,9 @@ export default {
       grid-template-columns: 4fr 3fr;
       grid-gap: 2em;
       align-items: center;
-      margin: 0 auto;
 
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
-        //text-align: center;
       }
       .content {
         color: #fff;
@@ -154,15 +168,14 @@ export default {
           border-radius: 0.5em;
           box-shadow: 39px 62.5px 125px -25px rgba(77, 77, 109, 0.1),
             23.4px 37.5px 75px -37.5px rgba(0, 0, 0, 0.4);
-          transform: translateX(0px) translateY(0) perspective(1190px)
-            rotateY(-7deg) rotateX(2deg) rotate(0.7deg);
+          transform: translateX(0px) translateY(0) perspective(1190px) rotateY(-7deg)
+            rotateX(2deg) rotate(0.7deg);
           @media (max-width: 767px) {
             max-width: 100%;
-            transform: translateX(0) translateY(0) perspective(0) rotateY(0)
-              rotateX(0) rotate(0);
+            transform: translateX(0) translateY(0) perspective(0) rotateY(0) rotateX(0)
+              rotate(0);
             box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-              0 18px 36px -18px rgba(0, 0, 0, 0.3),
-              0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+              0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
           }
         }
         .img-theme {
@@ -174,8 +187,7 @@ export default {
           width: 400px;
           max-width: 100%;
           border-radius: 0.5em;
-          transform: translate(0) rotate3d(-5.5, 4.866, -0.5, -10deg)
-            rotate(-1deg);
+          transform: translate(0) rotate3d(-5.5, 4.866, -0.5, -10deg) rotate(-1deg);
           box-shadow: 39px 62.5px 125px -25px rgba(77, 77, 109, 0.1),
             23.4px 37.5px 75px -37.5px rgba(0, 0, 0, 0.4);
           @media (max-width: 960px) {
@@ -216,7 +228,7 @@ export default {
         font-size: 1.9em;
         line-height: 1.1em;
         padding: 1em;
-        min-height: 200px;
+        //min-height: 200px;
         border-radius: 0.5rem;
         background: linear-gradient(#fff, #f7f7f7);
         background-size: cover;
@@ -232,7 +244,7 @@ export default {
           align-items: flex-end;
           flex-direction: column;
           justify-content: center;
-          text-align: right;
+          //text-align: right;
           color: #fff;
           text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
           background-image: url(./img/code.jpg),

@@ -17,6 +17,11 @@ button.app-btn {
   line-height: 1;
   border-radius: 4px;
   color: var(--color-text);
+  transition: all 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 
   &:focus {
     outline: none;
@@ -48,8 +53,7 @@ button.app-btn {
 
   &.default {
     background: #fff;
-    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.4),
-      0 2px 5px rgba(71, 86, 144, 0.2);
+    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.4), 0 2px 5px rgba(71, 86, 144, 0.2);
     &:hover {
       opacity: 0.7;
     }
@@ -62,6 +66,7 @@ button.app-btn {
     transition: all 0.2s ease-in-out;
 
     &:hover {
+      background: #66bfff;
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
@@ -69,6 +74,12 @@ button.app-btn {
   &.secondary {
     color: var(--color-light);
     background: var(--color-secondary);
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      background: #ff66ad;
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    }
   }
 
   &.tertiary {

@@ -4,8 +4,12 @@
       <div class="splash mast">
         <div>
           <div class="label label-blue">Currently In Alpha</div>
-          <h1 class="title">A Universal Javascript Platform for Professional Web Developers</h1>
-          <p class="subtitle">Build rock-solid server-rendered Vue.js apps in hours not months</p>
+          <h1 class="title">
+            A Universal Javascript Platform for Professional Web Developers
+          </h1>
+          <p class="subtitle">
+            Build rock-solid server-rendered Vue.js apps in hours not months
+          </p>
         </div>
       </div>
       <div class="hhh" />
@@ -17,7 +21,10 @@
           <div>
             <el-svg icon="fast-clock" color="#506677" />
             <h2 class="title">5 Minute Setup</h2>
-            <p>Get started in 5 minutes. A Factor site can be installed and up and running in a matter of minutes, with only basic coding knowledge.</p>
+            <p>
+              Get started in 5 minutes. A Factor site can be installed and up and running
+              in a matter of minutes, with only basic coding knowledge.
+            </p>
             <div class="actions">
               <factor-link path="https://factor.dev/guide/quickstart">
                 Learn How
@@ -37,7 +44,10 @@
           <div>
             <el-svg icon="puzzle" color="#506677" />
             <h2 class="title">Modular</h2>
-            <p>Customize your project by including only the code you need. Using Factor means avoiding code bloat, reusable elements, and faster development.</p>
+            <p>
+              Customize your project by including only the code you need. Using Factor
+              means avoiding code bloat, reusable elements, and faster development.
+            </p>
             <div class="actions">
               <factor-link path="https://factor.dev/plugins">
                 Get Plugins
@@ -46,14 +56,22 @@
             </div>
           </div>
           <figure class="figure">
-            <img class="img-modular" :src="require(`./img/modular.svg`)" alt="Factor - Modular" />
+            <img
+              class="img-modular"
+              :src="require(`./img/modular.svg`)"
+              alt="Factor - Modular"
+            />
           </figure>
         </div>
         <div class="item cols-2">
           <div>
             <el-svg icon="serverless" color="#506677" />
             <h2 class="title">Server Rendered</h2>
-            <p>Build apps that handle production-ready traffic without worrying about server administration or scaling and make your idea live fast. Focus your efforts on what provides value to your users.</p>
+            <p>
+              Build apps that handle production-ready traffic without worrying about
+              server administration or scaling and make your idea live fast. Focus your
+              efforts on what provides value to your users.
+            </p>
           </div>
           <div>
             <figure class="figure">
@@ -70,7 +88,10 @@
           <div>
             <el-svg icon="vue" color="#506677" />
             <h2 class="title">Best of Breed Tools</h2>
-            <p>We've spent years learning best practices and making mistakes so you don't have to...</p>
+            <p>
+              We've spent years learning best practices and making mistakes so you don't
+              have to...
+            </p>
             <div class="actions">
               <factor-link path="https://factor.dev/guide">
                 More About The Tech
@@ -91,11 +112,17 @@
           <div>
             <el-svg icon="themes" color="#506677" />
             <h2 class="title">Themes &amp; Plugins</h2>
-            <p>Themes and plugins integrate seamlessly when you add them to your app. Fast development without complex configurations.</p>
+            <p>
+              Themes and plugins integrate seamlessly when you add them to your app. Fast
+              development without complex configurations.
+            </p>
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
+              <img
+                :src="require(`./img/themes-plugins.svg`)"
+                alt="Factor - Themes and Plugins"
+              />
             </figure>
           </div>
         </div>
@@ -103,11 +130,18 @@
           <div>
             <el-svg icon="user" color="#506677" />
             <h2 class="title">User Roles &amp; Permissions</h2>
-            <p>You can add other users to access your site admin interface. To protect your sensitive information or restrict the actions they can perform, user roles limit their access. Each user is assigned a role when they are added.</p>
+            <p>
+              You can add other users to access your site admin interface. To protect your
+              sensitive information or restrict the actions they can perform, user roles
+              limit their access. Each user is assigned a role when they are added.
+            </p>
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./img/user-roles.svg`)" alt="Factor - User Roles and Permissions" />
+              <img
+                :src="require(`./img/user-roles.svg`)"
+                alt="Factor - User Roles and Permissions"
+              />
             </figure>
           </div>
         </div>
@@ -121,11 +155,18 @@
           <div>
             <el-svg icon="markdown" color="#506677" />
             <h2 class="title">Markdown Editor</h2>
-            <p>The Markdown editor provides a great writing experience with simple formatting. It also saves time over hand-crafted HTML tags, and it’s faster than using a WYSIWYG.</p>
+            <p>
+              The Markdown editor provides a great writing experience with simple
+              formatting. It also saves time over hand-crafted HTML tags, and it’s faster
+              than using a WYSIWYG.
+            </p>
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" />
+              <img
+                :src="require(`./img/markdown-editor.svg`)"
+                alt="Factor - Markdown Editor"
+              />
             </figure>
           </div>
         </div>
@@ -133,7 +174,10 @@
           <div>
             <el-svg icon="infinite" color="#506677" />
             <h2 class="title">Infinite Possibilities</h2>
-            <p>Factor at its heart is simple and extremely flexible. Use Factor core and customize it to accomplish whatever you can think of...</p>
+            <p>
+              Factor at its heart is simple and extremely flexible. Use Factor core and
+              customize it to accomplish whatever you can think of...
+            </p>
           </div>
           <div>
             <figure class="figure">
@@ -155,7 +199,11 @@
             <span />
           </figure>
           <blockquote>
-            <p>Before I used Factor, I was struggling to build stable Javascript apps without months of frustration. The key is that this framework gives me all the structure I need to build modern apps fast.</p>
+            <p>
+              Before I used Factor, I was struggling to build stable Javascript apps
+              without months of frustration. The key is that this framework gives me all
+              the structure I need to build modern apps fast.
+            </p>
             <footer>
               <cite>Marcus W.</cite>
               New York, NY
@@ -169,12 +217,17 @@
       <div class="mast">
         <div class="cta">
           <div>
-            <h3 class="title">From Start to App in 3 Minutes</h3>
-
-            <p class="subtitle">Read the Factor docs for a quickstart.</p>
+            <h3 class="title">
+              Try Factor for free, and explore all the tools you need to start, run, and
+              release your web app.
+            </h3>
           </div>
           <div class="actions">
-            <app-link path="https://factor.dev/guide/quickstart" btn="primary" size="large">
+            <app-link
+              path="https://factor.dev/guide/quickstart"
+              btn="primary"
+              size="large"
+            >
               Quick Start
               <i class="fa fa-arrow-right" />
             </app-link>
@@ -193,26 +246,26 @@ export default {
   data() {
     return {
       loading: true
-    };
+    }
   },
   routeClass() {
-    return ["nav-light"];
+    return ["nav-light"]
   },
   metatags() {
     return {
       title: "Factor JS - A Platform for Universal VueJS Apps",
       description:
         "Build server-rendered web applications that stun your friends and followers with Factor JS Universal VueJS platform."
-    };
+    }
   }
-};
+}
 </script>
 <style lang="less">
 .view-tour {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1000px;
+    max-width: 1040px;
     margin: 0 auto;
   }
 
@@ -249,8 +302,7 @@ export default {
     margin-top: 1em;
     border-radius: 4px;
     box-shadow: 0 2px 6px rgba(50, 50, 93, 0.11),
-      0 20px 125px -30px rgba(80, 102, 119, 0.5),
-      0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
+      0 20px 125px -30px rgba(80, 102, 119, 0.5), 0 50px 65px -47.5px rgba(0, 0, 0, 0.3);
     code {
       overflow-x: auto;
       opacity: 0.7;
@@ -512,13 +564,14 @@ export default {
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 4em;
+        font-size: 1.6em;
         letter-spacing: -0.03em;
-        line-height: 1.2em;
+        line-height: 1.4em;
         margin-bottom: 0.2em;
-        @media (max-width: 767px) {
-          font-size: 2.6em;
-        }
+        // @media (max-width: 767px) {
+        //       font-size: 1.6em;
+        //   font-size: 2.6em;
+        // }
       }
       .subtitle {
         opacity: 0.7;
