@@ -21,8 +21,8 @@ _A full-stack post framework for professional Javascript developers. Impress you
 
 ## Features
 
-- Post System - A CMS engine used to create all sort of dynamic extensions: blogs, eCommerce, portfolios, slider, forms
-- Themes System - Use themes to get up in running in minutes instead of days or months.
+- CMS/eCommerce Dashboard - A CMS engine used to create all sort of dynamic extensions: blogs, eCommerce, portfolios, slider, forms
+- Themes - Use themes to get up in running in minutes instead of days or months.
 - Plugins - Drop-in plugins that do all the installation and config automatically. Just add to `dependencies`.
 - MEVN Stack - Vue, Node, MongoDB
 - Tons more:
@@ -37,10 +37,8 @@ Learn more at [factor.dev](https://factor.dev).
 
 To scaffold a new project:
 
-```
+```bash
 $ yarn create factor-app <project-name>
-
-$ npx create-factor-app <project-name>
 ```
 
 It's as simple as that!
