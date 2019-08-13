@@ -1,6 +1,7 @@
 const path = require("path")
 const { resolve, dirname } = path
-const { existsSync } = require("fs-extra")
+const { existsSync, writeFileSync, ensureDirSync } = require("fs-extra")
+const glob = require("glob").sync
 module.exports.default = Factor => {
   return new (class {
     constructor() {
@@ -13,7 +14,8 @@ module.exports.default = Factor => {
       Factor.$paths.add({
         "loader-app": resolve(gen, "loader-app.js"),
         "loader-server": resolve(gen, "loader-server.js"),
-        "loader-settings": resolve(gen, "loader-settings.js")
+        "loader-settings": resolve(gen, "loader-settings.js"),
+        "loader-styles": resolve(gen, "loader-styles.less")
       })
 
       this.cwdPackage = require(resolve(Factor.$paths.get("app"), "package.json"))
@@ -44,8 +46,28 @@ module.exports.default = Factor => {
 
       this.makeFileLoader({
         extensions: this.extensions,
-        destination: Factor.$paths.get("loader-settings"),
-        filename: "factor-settings.js"
+        filename: "factor-settings.js",
+        callback: files => {
+          const fileLines = files.map(
+            ({ id, file }) => `files["${id}"] = require("${file}").default`
+          )
+
+          this._writeFile(Factor.$paths.get("loader-settings"), fileLines)
+        }
+      })
+
+      this.makeFileLoader({
+        extensions: this.extensions,
+        filename: "factor-styles.*",
+        callback: files => {
+          const imports = files.map(_ => `@import (less) "~${_.file}";`).join(`\n`)
+          const content = `${imports}`
+
+          this.writeFile({
+            destination: Factor.$paths.get("loader-styles"),
+            content
+          })
+        }
       })
 
       console.log(`Loaders built for ${this.extensions.length} Extensions`)
@@ -78,26 +100,28 @@ module.exports.default = Factor => {
       return parts.join("/")
     }
 
-    makeFileLoader({ extensions, destination, filename }) {
+    makeFileLoader({ extensions, filename, callback }) {
       const files = []
 
       extensions.forEach(_ => {
-        const { mainDir, requireRoot, cwd, id } = _
+        const { mainDir, requireRoot, cwd, id, priority } = _
 
         const requireDir = cwd
           ? this._cwdMainDir(requireRoot)
           : this._moduleMainDir(requireRoot)
 
-        if (existsSync(resolve(mainDir, filename))) {
-          files.push({ id, file: `${requireDir}/${filename}` })
-        }
+        glob(`${mainDir}/**/${filename}`)
+          .map((fullPath, index) => {
+            return {
+              id: index == 0 ? id : `${id}_${index}`,
+              file: fullPath.replace(mainDir, requireDir),
+              path: fullPath
+            }
+          })
+          .forEach(lPath => files.push(lPath))
       })
 
-      const fileLines = files.map(
-        ({ id, file }) => `files["${id}"] = require("${file}").default`
-      )
-
-      this._writeFile(Factor.$paths.get("loader-settings"), fileLines)
+      callback(files)
     }
 
     recursiveFactorDependencies(deps, pkg) {
@@ -171,7 +195,7 @@ module.exports.default = Factor => {
 
         let {
           name,
-          factor: { id, priority = 100, target = false, extend = "plugin" } = {},
+          factor: { id, priority, target = false, extend = "plugin" } = {},
           version,
           main = "index.js"
         } = _
@@ -180,8 +204,11 @@ module.exports.default = Factor => {
 
         const cwd = name == this.cwdPackage.name ? true : false
         id = cwd ? "cwd" : id || this.makeId(name)
-        // User App Comes Last (by default)
-        priority = cwd ? 1000 : priority
+
+        if (!priority) {
+          // App > Theme > Plugin
+          priority = cwd ? 1000 : extend == "theme" ? 150 : 100
+        }
 
         fields = {
           version,
@@ -242,6 +269,14 @@ module.exports.default = Factor => {
       this._writeFile(destination, fileLines)
     }
 
+    writeFile({ destination, content }) {
+      ensureDirSync(path.dirname(destination))
+
+      writeFileSync(destination, content)
+
+      Factor.$log.success(`File Made @${destination}`)
+    }
+
     _writeFile(destination, fileLines) {
       const fs = require("fs-extra")
       let lines = [`/******** GENERATED FILE ********/`]
@@ -252,7 +287,7 @@ module.exports.default = Factor => {
 
       lines.push(`module.exports = files`)
 
-      fs.ensureDirSync(path.dirname(destination))
+      ensureDirSync(path.dirname(destination))
 
       fs.writeFileSync(destination, lines.join("\n"))
 
