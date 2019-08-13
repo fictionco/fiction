@@ -23,14 +23,32 @@ module.exports.default = Factor => {
           file: require("./docs/dashboard/setup.md"),
           title: "Setting Up the Dashboard and CMS"
         },
-
+        {
+          group: "Themes / Plugins"
+        },
+        {
+          name: "Using Extensions",
+          doc: "extension-basics",
+          file: require("./docs/extension-basics.md"),
+          title: "Using Plugins / Themes"
+        },
+        {
+          doc: "creating-plugins",
+          file: require("./docs/creating-plugins.md"),
+          title: "Using and Creating Factor Themes"
+        },
+        {
+          doc: "creating-themes",
+          file: require("./docs/creating-themes.md"),
+          title: "Using and Creating Factor Themes"
+        },
         {
           group: "App Development"
         },
         {
           doc: "config",
           name: "Config",
-          file: require("./docs/config/index.md"),
+          file: require("./docs/config.md"),
           title: "Factor Config and Setup CLI"
         },
         {
@@ -55,19 +73,6 @@ module.exports.default = Factor => {
           title: "Factor Components - Views and Elements"
         },
 
-        {
-          group: "Extensions"
-        },
-        {
-          doc: "extending-factor",
-          file: require("./docs/extension/index.md"),
-          title: "Extending Factor"
-        },
-        {
-          doc: "themes",
-          file: require("./docs/extension/themes.md"),
-          title: "Using and Creating Factor Themes"
-        },
         {
           group: "Server"
         },
@@ -134,9 +139,9 @@ module.exports.default = Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "The Future of Frontend Development",
+      headline: "Create Powerful Web Apps",
       subHeadline:
-        "A platform for building impressive universal apps with VueJS, MongoDB and extensions.",
+        "An open-source platform for building impressive universal apps with VueJS, MongoDB and extensions.",
       graphic: require("./img/cms-engine.png"),
       boxes: [
         {

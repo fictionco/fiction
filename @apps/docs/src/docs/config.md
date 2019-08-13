@@ -2,11 +2,11 @@
 
 Factor provides a robust configuration system that works in harmony with most common approaches. Below we'll discuss the approach and conventions to setting up Factor config.
 
-> **3 Types of Config Files**
->
-> - **Public Config** &rarr; `factor-config.json`<br> Publicly accessible configuration for your application. Including admin users, public API keys, etc.
-> - **Private Config** &rarr; `.env`<br> A standard way of storing your private keys and information (powered by [Dotenv](https://github.com/motdotla/dotenv)). Anything here gets translated to "environmental variables" when you are running your app.
-> - **Customization** &rarr; `factor-settings.js`<br> The customization engine for your plugins, themes, etc. This is where you'll change text, set plugin options, override components, etc.
+## Overview - 3 Types of Config Files
+
+- **Public Config** &rarr; `factor-config.json`<br> Publicly accessible configuration for your application. Including admin users, public API keys, etc.
+- **Private Config** &rarr; `.env`<br> A standard way of storing your private keys and information (powered by [Dotenv](https://github.com/motdotla/dotenv)). Anything here gets translated to "environmental variables" when you are running your app.
+- **Customization** &rarr; `factor-settings.js`<br> The customization engine for your plugins, themes, etc. This is where you'll change text, set plugin options, override components, etc.
 
 ## Environmental Variables
 
@@ -53,8 +53,6 @@ Config object example:
   }
 }
 ```
-
-## Customize: `factor-settings.js`
 
 ## Factor Environments
 
