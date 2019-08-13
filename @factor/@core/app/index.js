@@ -16,7 +16,7 @@ module.exports.default = Factor => {
             const { meta: { ui = "app" } = {} } =
               this.$route.matched.find(_ => _.meta.ui) || {}
 
-            return `ui-${ui}`
+            return `factor-${ui}`
           }
         },
         watch: {

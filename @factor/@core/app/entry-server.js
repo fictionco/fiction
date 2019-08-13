@@ -35,7 +35,7 @@ export default async ssrContext => {
     return Factor.$filters.apply("factor_head", []).join("")
   }
 
-  ssrContext.factor_html_attr = () => ['lang="en"', `class="ui-${ui}"`].join(" ")
+  ssrContext.factor_html_attr = () => ['lang="en"', `class="factor-${ui}"`].join(" ")
 
   ssrContext.factor_body_class = (additional = "") => `class="${additional}"`
 
