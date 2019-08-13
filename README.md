@@ -1,6 +1,6 @@
 <p>
 <a href="https://factor.dev">
-  <img src="./factor-midnight.jpg" width="100%" style="width: 350px;display:block;">
+  <img src="./factor-midnight-banner.jpg" width="100%" style="display:block;">
 </a>
 </p>
 
@@ -49,8 +49,7 @@ It's as simple as that!
 
 ## Examples
 
-[COMING SOON] 
-
+[COMING SOON]
 
 ## Contributors
 
