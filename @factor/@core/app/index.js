@@ -5,7 +5,32 @@ module.exports.default = Factor => {
       this.routes()
       this.errorPageComponent = () => import("#/404.vue")
 
+      Factor.$filters.add("site-mixins", _ => [..._, this.siteMixin()])
       this.initializeClient()
+    }
+
+    siteMixin() {
+      return {
+        computed: {
+          ui() {
+            const { meta: { ui = "app" } = {} } =
+              this.$route.matched.find(_ => _.meta.ui) || {}
+
+            return `ui-${ui}`
+          }
+        },
+        watch: {
+          ui: {
+            handler: function(to, from) {
+              if (typeof document != "undefined") {
+                const _el = document.documentElement
+                _el.classList.remove(from)
+                _el.classList.add(to)
+              }
+            }
+          }
+        }
+      }
     }
 
     // Allows components to definitively wait for client to init

@@ -2,7 +2,7 @@
   --color-primary: #1a49bd;
   --color-primary-sub: #62bdff;
   --color-secondary: #ff0076;
-  --color-tertiary: #9AFECB;
+  --color-tertiary: #9afecb;
 
   --color-text: #303030;
   --color-placeholder: #bdcad4;
@@ -14,20 +14,11 @@
   --color-facebook: #4568b2;
 
   --color-bg: #fff;
-  --color-bg-alt: #F3F5FB;
+  --color-bg-alt: #f3f5fb;
 
-  --font-primary: "poppins",
-    /* Safari for OS X and iOS (San Francisco)*/
-    -apple-system,
-    /* Chrome < 56 for OS X (San Francisco)*/
-    BlinkMacSystemFont,
-    /* Windows*/
-    "Segoe UI",
-    /* Android*/
-    "Roboto",
-    /* Basic web fallback*/
-    "Helvetica Neue",
-    Arial, sans-serif;
+  --font-primary: "poppins", /* Safari for OS X and iOS (San Francisco)*/ -apple-system,
+    /* Chrome < 56 for OS X (San Francisco)*/ BlinkMacSystemFont, /* Windows*/ "Segoe UI",
+    /* Android*/ "Roboto", /* Basic web fallback*/ "Helvetica Neue", Arial, sans-serif;
 
   /* Alpha Theme Variables */
   --color-white: #ffffff;

@@ -4,6 +4,7 @@
     <component :is="component" v-for="(component, k) in injectedComponents" :key="k" />
   </div>
 </template>
+<style src="~/.factor/loader-styles.less" lang="less"></style>
 <script>
 import Factor from "vue"
 
@@ -13,28 +14,12 @@ export default {
     injectedComponents() {
       return this.$filters.apply("site-components", {})
     },
-    ui() {
-      const { meta: { ui = "app" } = {} } =
-        this.$route.matched.find(_ => _.meta.ui) || {}
 
-      return `ui-${ui}`
-    },
     classes() {
       const metaClass = this.$route.meta.routeClass || []
       const siteClasses = this.$globals.routeClass || []
 
       return [...metaClass, , ...siteClasses]
-    }
-  },
-  watch: {
-    ui: {
-      handler: function(to, from) {
-        if (typeof document != "undefined") {
-          const _el = document.documentElement
-          _el.classList.remove(from)
-          _el.classList.add(to)
-        }
-      }
     }
   },
 
