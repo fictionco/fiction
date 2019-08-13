@@ -41,20 +41,10 @@
 
               <ul class="header-ctas" role="presentation">
                 <li>
-                  <a
-                    href="#"
-                    data-analytics-action="start_now"
-                    data-analytics-source="header_cta"
-                    class="common-Button common-Button--default"
-                  >Start now</a>
+                  <a href="#" class="common-Button common-Button--default">Start now</a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    data-analytics-action="contact_sales"
-                    data-analytics-source="header_cta"
-                    class="common-Button"
-                  >Contact sales</a>
+                  <a href="#" class="common-Button">Contact sales</a>
                 </li>
               </ul>
             </div>

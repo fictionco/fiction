@@ -13,12 +13,7 @@
             screens. Our APIs and SDKs simplify the integration of Terminal into
             JavaScript web apps, or iOS and Android mobile apps.
           </p>
-          <a
-            href="#"
-            class="common-link common-link--arrow common-MediumBodyText"
-            data-analytics-action="docs_terminal"
-            data-analytics-source="feature_developer_centric"
-          >
+          <a href="#" class="common-link common-link--arrow common-MediumBodyText">
             Explore the docs
             <factor-icon icon="arrow-right" />
           </a>
@@ -66,12 +61,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
             support chip cards and contactless payments, including Apple Pay and Google
             Pay, and help protect you against liability for counterfeit&nbsp;fraud.
           </p>
-          <a
-            href="#"
-            class="common-link common-link--arrow common-MediumBodyText"
-            data-analytics-action="docs_terminal_readers"
-            data-analytics-source="feature_pre_certified_hardware"
-          >
+          <a href="#" class="common-link common-link--arrow common-MediumBodyText">
             See reader options
             <factor-icon icon="arrow-right" />
           </a>
@@ -95,12 +85,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
             status, and order card readers. We’ll take care of delivering the hardware
             where you need&nbsp;it.
           </p>
-          <a
-            href="#"
-            class="common-bodytext common-link common-link--arrow"
-            data-analytics-action="docs_terminal_readers"
-            data-analytics-source="feature_fleet_management"
-          >
+          <a href="#" class="common-bodytext common-link common-link--arrow">
             Learn more
             <factor-icon icon="arrow-right" />
           </a>
