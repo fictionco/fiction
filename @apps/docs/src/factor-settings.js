@@ -3,11 +3,7 @@ module.exports.default = Factor => {
     docs: {
       pages: [
         {
-          doc: "quickstart",
-          title: "Installation and Quickstart",
-          description:
-            "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
-          file: require("./docs/quickstart.md")
+          group: "Getting Started"
         },
         {
           doc: "",
@@ -15,6 +11,14 @@ module.exports.default = Factor => {
           file: require("./docs/introduction/index.md"),
           title: "Introduction: Why Use Factor"
         },
+        {
+          doc: "quickstart",
+          title: "Installation and Quickstart",
+          description:
+            "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
+          file: require("./docs/quickstart.md")
+        },
+
         {
           group: "CMS"
         },
