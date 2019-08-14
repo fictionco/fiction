@@ -7,47 +7,94 @@
             <h2 class="title">Professional Web Apps for Publishing and eCommerce</h2>
 
             <p class="subtitle">
-              One platform with customizable features you need to start, run, manage, and
+              One platform with customizable features you need to start, build, manage, and
               grow your web app fast.
             </p>
 
             <a href="/vip#contact">
-              <app-btn path="/vip#contact" btn="secondary" size="large">
+              <app-btn path="/vip#contact" btn="primary" size="large">
                 Contact Sales
                 <i class="fa fa-arrow-right" />
               </app-btn>
             </a>
           </div>
           <div class="graphic">
-            <img
-              class="img-dashboard"
-              :src="require(`./img/dashboard.jpg`)"
-              alt="Factor Framework"
-            />
-            <img
-              class="img-theme"
-              :src="require(`./img/theme-alpha.jpg`)"
-              alt="Factor Theme Alpha"
-            />
+            <img class="img-dashboard" :src="require(`./img/dashboard.jpg`)" alt="Factor Framework" >
+            <img class="img-theme" :src="require(`./img/theme-alpha.jpg`)" alt="Factor Theme Alpha" >
           </div>
         </div>
       </div>
       <div class="hhh" />
     </section>
 
-    <section class="promo-wrap mast">
+    <section class="home-features">
+      <div class="mast">
+        <div class="heading">
+          <h2 class="title">The professional solution for small business</h2>
+          <p
+            class="subtitle"
+          >Fiction is powered by open source, developer friendly Javascript software. No walled gardens or limits on the technology you can use.</p>
+        </div>
+
+        <div class="feature">
+          <div class="illustration">
+            <img class="img-left" :src="require(`./img/theme-ultra.png`)" alt="Factor Theme Ultra" >
+          </div>
+          <div class="content">
+            <h3 class="title">Start — your web app</h3>
+            <p>While your competition is struggling with technical hurdles or walled gardens, you’ll out innovate and outperform.</p>
+            <a href="#">
+              Explore the docs
+              <i class="fa fa-arrow-right" />
+            </a>
+          </div>
+        </div>
+
+        <div class="feature feature-reverse">
+          <div class="illustration">
+            <img class="img-right" :src="require(`./img/theme-alpha.jpg`)" alt="Factor Theme Alpha" >
+          </div>
+          <div class="content">
+            <h3 class="title">Build — with one platform</h3>
+            <p>Build your app with speed and freedom. Include only what you need from a modular structure.</p>
+            <a href="#">
+              Explore the tools to help you build
+              <i class="fa fa-arrow-right" />
+            </a>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="illustration">
+            <img class="img-left" :src="require(`./img/dashboard.jpg`)" alt="Dashboard" >
+          </div>
+          <div class="content">
+            <h3 class="title">Manage — smarter, grow fast</h3>
+            <p>A single, centralized home for all your web application's activity including content and user management. Gain the insights and knowledge you need to grow.</p>
+            <a href="#">
+              More about the tech
+              <i class="fa fa-arrow-right" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="promo-wrap mast">
       <div class="promo">
         <factor-link path="https://factor.dev" class="item">
           <h3>
             Get Started
-            <br />with
+            <br >with
             <strong>Factor</strong>
           </h3>
           <pre><code class="hljs language-bash">$ yarn factor dev</code></pre>
         </factor-link>
 
         <factor-link path="/blog" class="item">
-          <h3><strong>Essays</strong> by Fiction</h3>
+          <h3>
+            <strong>Essays</strong> by Fiction
+          </h3>
           <p>Essays on web development, remote-life and web business.</p>
         </factor-link>
 
@@ -59,7 +106,8 @@
           <p>Join a talented team working on big ideas.</p>
         </factor-link>
       </div>
-    </section>
+    </section>-->
+
     <el-to-top />
   </div>
 </template>
@@ -104,9 +152,10 @@ export default {
   }
   .intro-wrap {
     position: relative;
-    background: #1b223c url(./img/rectangles-pink.svg) no-repeat 50%;
+    background: #1b223c url(./img/rectangles-blue.svg) no-repeat 50%;
     background-size: 80%;
     padding: 5em 0 7em;
+    z-index: 0;
 
     @media (max-width: 767px) {
       padding: 4em 0 2em;
@@ -157,6 +206,7 @@ export default {
 
       .graphic {
         position: relative;
+        perspective: 1500px;
         padding-top: 5em;
         @media (max-width: 960px) {
           padding-top: 0;
@@ -168,14 +218,15 @@ export default {
           border-radius: 0.5em;
           box-shadow: 39px 62.5px 125px -25px rgba(77, 77, 109, 0.1),
             23.4px 37.5px 75px -37.5px rgba(0, 0, 0, 0.4);
-          transform: translateX(0px) translateY(0) perspective(1190px) rotateY(-7deg)
-            rotateX(2deg) rotate(0.7deg);
+          transform: translateX(0px) translateY(0) perspective(1190px)
+            rotateY(-7deg) rotateX(2deg) rotate(0.7deg);
           @media (max-width: 767px) {
             max-width: 100%;
-            transform: translateX(0) translateY(0) perspective(0) rotateY(0) rotateX(0)
-              rotate(0);
+            transform: translateX(0) translateY(0) perspective(0) rotateY(0)
+              rotateX(0) rotate(0);
             box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-              0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+              0 18px 36px -18px rgba(0, 0, 0, 0.3),
+              0 -12px 36px -8px rgba(0, 0, 0, 0.025);
           }
         }
         .img-theme {
@@ -187,7 +238,8 @@ export default {
           width: 400px;
           max-width: 100%;
           border-radius: 0.5em;
-          transform: translate(0) rotate3d(-5.5, 4.866, -0.5, -10deg) rotate(-1deg);
+          transform: translate(0) rotate3d(-5.5, 4.866, -0.5, -10deg)
+            rotate(-1deg);
           box-shadow: 39px 62.5px 125px -25px rgba(77, 77, 109, 0.1),
             23.4px 37.5px 75px -37.5px rgba(0, 0, 0, 0.4);
           @media (max-width: 960px) {
@@ -211,72 +263,140 @@ export default {
     }
   }
 
-  .promo-wrap {
+  .home-features {
     position: relative;
     z-index: 1;
-    .promo {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 2em;
-      margin-top: 2em;
-      @media (max-width: 767px) {
-        grid-template-columns: 1fr;
+    .heading {
+      text-align: center;
+      max-width: 650px;
+      margin: 0 auto;
+      .title {
+        font-weight: 800;
+        font-size: 2.625em;
+        line-height: 1.25em;
+        color: #1b223c;
       }
-      .item {
-        box-shadow: var(--panel-shadow);
-        color: inherit;
-        font-size: 1.9em;
-        line-height: 1.1em;
-        padding: 1em;
-        //min-height: 200px;
-        border-radius: 0.5rem;
-        background: linear-gradient(#fff, #f7f7f7);
-        background-size: cover;
-        background-position: 50%;
-        p {
-          font-size: 0.7em;
-          line-height: 1.3;
-          margin-top: 5px;
-          opacity: 0.9;
-        }
-        &:nth-child(1) {
-          display: flex;
-          align-items: flex-end;
-          flex-direction: column;
-          justify-content: center;
-          //text-align: right;
-          color: #fff;
-          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-          background-image: url(./img/code.jpg),
-            linear-gradient(-126.24deg, #506677 4.42%, #2b3034 70.27%);
-
-          h3 {
-            margin-bottom: 10px;
-          }
-          pre code {
-            font-size: 0.7em;
-            padding: 8px 16px;
-            background: rgba(0, 0, 0, 0.5);
+      .subtitle {
+        margin: 20px auto 14px;
+        font-weight: 400;
+        font-size: 1.19em;
+        line-height: 1.7em;
+        color: #525f7f;
+      }
+    }
+    .feature {
+      display: grid;
+      grid-gap: 2em;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 3em 0;
+      &.feature-reverse {
+        direction: rtl;
+      }
+      .illustration {
+        perspective: 1500px;
+        position: relative;
+        img {
+          max-width: 100%;
+          &.img-left {
             border-radius: 8px;
-            box-shadow: 0px 0px 5px rgba(4, 149, 254, 0.25);
-            color: #fff;
+            margin-right: 50px;
+            transform: rotate3d(0.5, 0.866, 0, 15deg) rotate(-1deg);
+            box-shadow: -27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
+              -16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
+          }
+          &.img-right {
+            border-radius: 8px;
+            margin-left: 50px;
+            transform: rotate3d(0.5, -0.866, 0, 15deg) rotateZ(1deg);
+            box-shadow: 27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
+              16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
           }
         }
-        &:nth-child(2) {
-          text-align: center;
-          text-shadow: 0 1px 0px rgba(255, 255, 255, 0.5);
-          background-image: url(./img/blog.jpg);
-          padding-top: 85px;
-        }
-        &:nth-child(3) {
-          color: #fff;
-          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 1);
-          text-align: center;
-          background-image: url(./img/team.jpg);
-          padding-top: 25px;
+      }
+      .content {
+        font-size: 1.19em;
+        line-height: 2em;
+        font-weight: 400;
+        padding: 3em;
+        text-align: left;
+        direction: initial;
+        .title {
+          font-size: 1.6em;
+          font-weight: 800;
+          margin: 0 0 10px;
+          color: #1b223c;
         }
       }
     }
   }
+
+  // .promo-wrap {
+  //   position: relative;
+  //   z-index: 1;
+  //   .promo {
+  //     display: grid;
+  //     grid-template-columns: repeat(3, 1fr);
+  //     grid-gap: 2em;
+  //     margin-top: 2em;
+  //     @media (max-width: 767px) {
+  //       grid-template-columns: 1fr;
+  //     }
+  //     .item {
+  //       box-shadow: var(--panel-shadow);
+  //       color: inherit;
+  //       font-size: 1.9em;
+  //       line-height: 1.1em;
+  //       padding: 1em;
+  //       //min-height: 200px;
+  //       border-radius: 0.5rem;
+  //       background: linear-gradient(#fff, #f7f7f7);
+  //       background-size: cover;
+  //       background-position: 50%;
+  //       p {
+  //         font-size: 0.7em;
+  //         line-height: 1.3;
+  //         margin-top: 5px;
+  //         opacity: 0.9;
+  //       }
+  //       &:nth-child(1) {
+  //         display: flex;
+  //         align-items: flex-end;
+  //         flex-direction: column;
+  //         justify-content: center;
+  //         //text-align: right;
+  //         color: #fff;
+  //         text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  //         background-image: url(./img/code.jpg),
+  //           linear-gradient(-126.24deg, #506677 4.42%, #2b3034 70.27%);
+
+  //         h3 {
+  //           margin-bottom: 10px;
+  //         }
+  //         pre code {
+  //           font-size: 0.7em;
+  //           padding: 8px 16px;
+  //           background: rgba(0, 0, 0, 0.5);
+  //           border-radius: 8px;
+  //           box-shadow: 0px 0px 5px rgba(4, 149, 254, 0.25);
+  //           color: #fff;
+  //         }
+  //       }
+  //       &:nth-child(2) {
+  //         text-align: center;
+  //         text-shadow: 0 1px 0px rgba(255, 255, 255, 0.5);
+  //         background-image: url(./img/blog.jpg);
+  //         padding-top: 85px;
+  //       }
+  //       &:nth-child(3) {
+  //         color: #fff;
+  //         text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 1);
+  //         text-align: center;
+  //         background-image: url(./img/team.jpg);
+  //         padding-top: 25px;
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>

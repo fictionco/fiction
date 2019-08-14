@@ -13,7 +13,7 @@
           <div class="common-card">
             <figure class="card-image-container">
               <ul>
-                <li class="card-image testimonials--universe">
+                <li class="card-image testimonials-universe">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--squire bg-dark-blue">
+                <li class="card-image testimonials-squire bg-dark-blue">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--showclix bg-dark-blue">
+                <li class="card-image testimonials-showclix bg-dark-blue">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--zenoti bg-dark-blue">
+                <li class="card-image testimonials-zenoti bg-dark-blue">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--house-call-pro bg-dark-blue active">
+                <li class="card-image testimonials-house-call-pro bg-dark-blue active">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -98,10 +98,7 @@
             </figure>
 
             <div class="card-stories">
-              <ul
-                class="card-story-list"
-                style="width: 500%; transform: translateX(-80%);"
-              >
+              <ul class="card-story-list" style="width: 500%; transform: translateX(-80%);">
                 <li class="card-story-item">
                   <div class="card-quote">
                     <p class="common-body-title">
@@ -316,9 +313,11 @@ export default {
   margin: 80px 0 0;
 
   .mast {
-    max-width: 1040px;
+    //max-width: 1040px;
+    max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 1.27em;
+    //padding: 0 1.27em;
+    padding: 0 2em;
     width: 100%;
   }
 
@@ -371,7 +370,8 @@ export default {
       z-index: 1;
       will-change: transform;
       box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-        0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+        0 18px 36px -18px rgba(0, 0, 0, 0.3),
+        0 -12px 36px -8px rgba(0, 0, 0, 0.025);
     }
 
     .card-image-container {
@@ -418,49 +418,39 @@ export default {
         &.active {
           opacity: 1;
         }
-        &.testimonials--universe {
+        &.testimonials-universe {
           background-color: #3a66e5;
-          @media (min-width: 880px) {
-            svg {
-              width: 170px;
-              height: auto;
-            }
+          svg {
+            width: 170px;
+            height: auto;
           }
         }
-        &.testimonials--squire {
+        &.testimonials-squire {
           background-color: #00a79d;
-          @media (min-width: 880px) {
-            svg {
-              width: 150px;
-              height: auto;
-            }
+          svg {
+            width: 150px;
+            height: auto;
           }
         }
-        &.testimonials--showclix {
+        &.testimonials-showclix {
           background-color: #6baadb;
-          @media (min-width: 880px) {
-            svg {
-              width: 190px;
-              height: auto;
-            }
+          svg {
+            width: 190px;
+            height: auto;
           }
         }
-        &.testimonials--zenoti {
+        &.testimonials-zenoti {
           background-color: #f47528;
-          @media (min-width: 880px) {
-            svg {
-              width: 150px;
-              height: auto;
-            }
+          svg {
+            width: 150px;
+            height: auto;
           }
         }
-        &.testimonials--house-call-pro {
+        &.testimonials-house-call-pro {
           background-color: #2196f3;
-          @media (min-width: 880px) {
-            svg {
-              width: 220px;
-              height: auto;
-            }
+          svg {
+            width: 220px;
+            height: auto;
           }
         }
 
@@ -471,14 +461,13 @@ export default {
           max-height: 100px;
           * {
             fill: #fff !important;
-            display: block;
-            max-width: 90%;
-            margin: 0 auto;
-
-            @media (min-width: 670px) {
-              max-width: none;
-              margin: initial;
-              display: inline;
+            max-width: none;
+            margin: initial;
+            display: inline;
+            @media (max-width: 767px) {
+              max-width: 90%;
+              margin: 0 auto;
+              display: block;
             }
           }
         }
