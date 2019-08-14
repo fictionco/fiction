@@ -7,10 +7,9 @@ const destroyer = require("server-destroy")
 
 const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
-const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
 const IS_PRODUCTION = NODE_ENV === "production"
-// Add for Firebase
-global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+// // Add for Firebase
+// global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 module.exports.default = Factor => {
   const PORT = process.env.PORT || Factor.$config.setting("PORT") || 3000
@@ -32,15 +31,6 @@ module.exports.default = Factor => {
         directives: Factor.$filters.apply("server-directives", {})
       })
     }
-
-    // // Endpoint Helper method, return function that processes (req, res)
-    // requestHandler() {
-    //   return async (request, response) => {
-    //     const args = { serve: false }
-    //     const server = await this.startServer(args)
-    //     return server(request, response)
-    //   }
-    // }
 
     async render(request, response) {
       response.setHeader("Content-Type", "text/html")
@@ -200,6 +190,9 @@ module.exports.default = Factor => {
     }
 
     extendMiddleware() {
+      this.serverApp.use(require("compression")())
+      this.serverApp.use(require("helmet")())
+
       // parse application/x-www-form-urlencoded
       this.serverApp.use(bodyParser.urlencoded({ extended: false }))
 
