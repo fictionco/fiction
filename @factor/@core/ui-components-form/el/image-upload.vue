@@ -3,7 +3,7 @@
     <div class="image-upload-input">
       <div ref="organizer" class="image-organizer">
         <div
-          v-for="(img, index) in allImages"
+          v-for="(img) in allImages"
           :key="img._id"
           :class="single ? 'no-sort-img' : 'sort-img'"
           class="image-item image-uploaded"

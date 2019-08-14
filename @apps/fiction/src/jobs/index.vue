@@ -76,7 +76,7 @@
                 <img
                   :src="getPost(post.jobIcon).url || require(`./img/icon-default.svg`)"
                   class="jobs-post-icon"
-                />
+                >
               </div>
               <div>
                 <component
@@ -106,59 +106,59 @@ export default {
     return {
       postType: "jobs",
       loading: false
-    };
+    }
   },
   metatags() {
     const title = this.tag
       ? `Tag "${this.tag}"`
-      : this.$setting.get("jobs.metatags.index.title");
+      : this.$setting.get("jobs.metatags.index.title")
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : this.$setting.get("jobs.metatags.index.description");
+      : this.$setting.get("jobs.metatags.index.description")
 
     return {
       title,
       description
-    };
+    }
   },
   routeClass() {
-    return ["nav-light"];
+    return ["nav-light"]
   },
   serverPrefetch() {
-    return this.getPosts();
+    return this.getPosts()
   },
   computed: {
     tag() {
-      return this.$route.params.tag || this.$route.query.tag || "";
+      return this.$route.params.tag || this.$route.query.tag || ""
     },
     index() {
-      return this.$store.val(this.postType) || {};
+      return this.$store.val(this.postType) || {}
     },
     jobsPosts() {
-      const { posts = [] } = this.index;
-      return posts;
+      const { posts = [] } = this.index
+      return posts
     },
     page() {
-      return this.$route.query.page || 1;
+      return this.$route.query.page || 1
     }
   },
   watch: {
     $route: {
       handler: function(to) {
-        this.getPosts();
+        this.getPosts()
       }
     }
   },
   mounted() {
-    this.getPosts();
+    this.getPosts()
   },
   methods: {
     getPost(_id) {
-      return this.$store.val(_id) || {};
+      return this.$store.val(_id) || {}
     },
     async getPosts() {
-      this.loading = true;
+      this.loading = true
 
       const r = await this.$post.getPostIndex({
         postType: this.postType,
@@ -167,12 +167,12 @@ export default {
         sort: "-date",
         page: this.page,
         limit: this.$setting.get("jobs.limit")
-      });
+      })
 
-      this.loading = false;
+      this.loading = false
     }
   }
-};
+}
 </script>
 
 <style lang="less">

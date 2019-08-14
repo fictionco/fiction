@@ -16,18 +16,14 @@ export default Factor => {
     filters() {
       const baseRoute = Factor.$setting.get("jobs.postRoute")
 
-      Factor.$filters.add("post-types", _ => {
-        _.push({
-          postType: "jobs",
-          baseRoute,
-          icon: require("./img/jobs.svg"),
-          model: "JobPost",
-          nameIndex: "Jobs",
-          nameSingle: "Jobs Post",
-          namePlural: "Jobs Posts"
-        })
-
-        return _
+      Factor.$filters.push("post-types", {
+        postType: "jobs",
+        baseRoute,
+        icon: require("./img/jobs.svg"),
+        model: "JobPost",
+        nameIndex: "Jobs",
+        nameSingle: "Jobs Post",
+        namePlural: "Jobs Posts"
       })
 
       Factor.$filters.add("content-routes", _ => {
