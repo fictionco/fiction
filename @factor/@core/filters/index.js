@@ -33,16 +33,20 @@ module.exports.default = Factor => {
       } else {
         // Make sure to remove circular refs
         // https://github.com/WebReflection/flatted#flatted
-        const { stringify } = require('flatted/cjs')
+        const { stringify } = require("flatted/cjs")
         str = stringify(obj)
-
       }
 
       str = str + salt
 
       str = str.substring(0, 500)
 
-      return str.split("").reduce((prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0, 0)
+      return str
+        .split("")
+        .reduce(
+          (prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
+          0
+        )
     }
 
     // Get total number of filters added on an id
@@ -107,10 +111,23 @@ module.exports.default = Factor => {
 
       context = context || this
 
-
       this._filters[name][id] = { callback, context, priority }
 
       return filter
+    }
+
+    push(id, item, options = {}) {
+      this.add(
+        id,
+        _ => {
+          if (Array.isArray(_)) {
+            return [..._, item]
+          } else if (typeof _ == "object") {
+            return { ..._, [this.uniqueHash(item)]: item }
+          }
+        },
+        options
+      )
     }
 
     // Add callbacks into an array of promises, meant to be used with $filters.run
@@ -129,7 +146,5 @@ module.exports.default = Factor => {
     async run(id, args = {}) {
       return await Promise.all(this.apply(id, [], args))
     }
-
-
   })()
 }

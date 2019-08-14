@@ -19,6 +19,23 @@ Below we'll discuss the basics of adding your own "post types" and configuring y
 
 ## Working With Posts
 
-### Post Types
+### Creating a Post Type
+
+It's easy to add a new post type to Factor, all you need to do is add a new object via the `post-types` filter.
+
+```js
+// index.js
+Factor.$filters.push("post-types", {
+  postType: "jobs",
+  baseRoute,
+  icon: require("./img/jobs.svg"),
+  model: "JobPost",
+  nameIndex: "Jobs",
+  nameSingle: "Jobs Post",
+  namePlural: "Jobs Posts"
+})
+```
+
+By default this adds a new tab in the dashboard to help you with post management.
 
 ### Data Schemas
