@@ -24,7 +24,7 @@ The scope of Factor plugins is to deliver new features or functionality to Facto
 
 Can't find the plugin you're looking for? Factor plugins are just NPM modules, so it's easy to create your own.
 
-Learn more about [creating plugins](./creating-plugins).
+Learn more about [creating plugins &rarr;](./creating-plugins)
 
 ## Themes
 
@@ -36,3 +36,5 @@ You have the option of using themes in one of two primary ways:
 - **Dependency:** If you use the theme as a dependency, you can easily upgrade it as new features are added.
 
 The best way to think about a theme is as a more "opinionated" baseline for your app. For example, if you think Google Material is the best UI framework, you can start from the Factor Material theme.
+
+Learn more about [creating themes &rarr;](./creating-themes)
