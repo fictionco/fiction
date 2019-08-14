@@ -40,6 +40,6 @@ Now your basic starter application should be running at [`localhost:3000`](local
 
 ## Next Steps
 
-Now that you have Factor running on your local server, the next step is to [setup your dashboard](./dashboard-setup) and then learn [how to use plugins and themes](./extension-basics).
+**Keep up the good work!**
 
-Keep up the good work!
+Now that you have Factor running on your local server, the next step is to [setup your dashboard &rarr;](./dashboard-setup)

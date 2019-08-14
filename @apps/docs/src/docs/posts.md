@@ -17,6 +17,8 @@ The Factor dashboard is designed as an interface to your post system. Each type 
 
 Below we'll discuss the basics of adding your own "post types" and configuring your dashboard to edit and manage them.
 
+![Dashboard Post List View](./img/dashboard-post-type.jpg)
+
 ## Working With Posts
 
 ### Creating a Post Type
@@ -39,8 +41,6 @@ Factor.$filters.push("post-types", {
 
 Adding a new post type will add a new tab in the dashboard. With the default **list** and **edit** views.
 
-![New Jobs Post Type](./img/dashboard-post-type.jpg)
-
 Now that you have your post type, it is possible to easily override the dashboard editing templates if you need custom functionality.
 
 To do so, all you need to do is add your own components:
@@ -59,6 +59,48 @@ Now that we've set up the post type, let's add a validation schema and learn how
 
 ### Data Schemas
 
-With NoSQL databases there is no hard coded table schema. While this is often an advantage, there are some benefits to validating data structure on a post-type level. To do this, we'll use schemas.
+With NoSQL databases there is no hard coded table structure. While this is often an advantage, there are some benefits to validating data format on a post-type level. To do this, we'll use schemas.
 
-For data modeling, Factor schemas use the Mongoose library for MongoDB.
+> **Mongoose** <br>For data modeling, Factor schemas use the [Mongoose library for MongoDB](https://mongoosejs.com). Make sure to check out its concepts and docs.
+
+#### The Base "Post" Schema
+
+Initially, all post types inherit the basic post schema that you can [reference here](https://github.com/fiction-com/factor/blob/master/%40factor/%40core/post/schema.js). This sets up all functionality that is typical between different post types, for example date tracking, tags/categories, permalinks, etc..
+
+For many cases, automatically added base schema is enough. However it is possible to add additional functionality and validation...
+
+#### Extending the Base Schema
+
+If you'd like to extend the basic post schema, then you'll need to add it using a Factor schema object + filter. As follows:
+
+```js
+// index.js To register a new data schema
+Factor.$filters.push("data-schemas", {
+   // Post Type Name: url friendly
+  name: "post-type-name",
+  // Mongoose Middleware/hooks https://mongoosejs.com/docs/middleware.html
+  callback: schema => {
+    // Mongoose hooks belong here. Actions that take place on save, update, etc.
+    schema.pre("save", async function(next) {
+      const myPost = this
+      // modify document 'this' before it is saved (mongoose 'hook')
+      next()
+    })
+  },
+  // Mongoose Schema: https://mongoosejs.com/docs/guide.html
+  schema: {
+    example: { type: String, trim: true },
+    company: [{ type: Factor.$mongo.objectIdType(), ref: "business-profile" }],
+  }
+  // Schema options: https://mongoosejs.com/docs/guide.html#options
+  options: {},
+  populatedFields: [
+    // List the schema reference fields that should be populated in addition to the post
+    // For example, if your post connects with a "company" post type, it would retrieve those posts as well
+    // the depth value helps Factor determine when to populate: 0 for no population, 100 for all. Default 20
+    { field: "company", depth: 10 }
+  ],
+})
+```
+
+> **Note**<br> Currently, schema changes require a full server restart. That is because Mongo/Mongoose can't reload them dynamically.
