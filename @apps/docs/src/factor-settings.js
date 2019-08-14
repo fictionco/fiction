@@ -7,7 +7,7 @@ module.exports.default = Factor => {
           title: "Installation and Quickstart",
           description:
             "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
-          file: require("./docs/installation/index.md")
+          file: require("./docs/quickstart.md")
         },
         {
           doc: "",
@@ -24,13 +24,23 @@ module.exports.default = Factor => {
           title: "Setting Up the Dashboard and CMS"
         },
         {
+          doc: "post-system",
+          file: require("./docs/posts.md"),
+          title: "The Post System"
+        },
+        {
           group: "Themes / Plugins"
         },
         {
-          name: "Using Extensions",
+          name: "Adding Extensions",
           doc: "extension-basics",
           file: require("./docs/extension-basics.md"),
           title: "Using Plugins / Themes"
+        },
+        {
+          doc: "customization",
+          file: require("./docs/customization.md"),
+          title: "Customizing Factor Plugins and Themes"
         },
         {
           doc: "creating-plugins",
@@ -92,6 +102,14 @@ module.exports.default = Factor => {
           doc: "serving",
           file: require("./docs/server/serving.md"),
           title: "Hosting and Serving Your Factor App"
+        },
+        {
+          group: "Contributing"
+        },
+        {
+          doc: "guidelines",
+          file: require("./docs/contribution.md"),
+          title: "Contributing Guidelines"
         }
       ],
       base: "guide"
