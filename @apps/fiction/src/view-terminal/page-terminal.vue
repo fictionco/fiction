@@ -30,9 +30,7 @@
                 </div>
               </div>
 
-              <h1 class="common-PageTitle">
-                Extend Fiction payments to your point of sale
-              </h1>
+              <h1 class="common-PageTitle">Extend Fiction payments to your point of sale</h1>
               <p class="common-IntroText">
                 Fiction Terminal extends your online presence into the physical world,
                 enabling you to build your own in-person checkout. Built with modern
@@ -101,9 +99,11 @@ export default {
 <style lang="less">
 .view-terminal {
   .mast {
-    max-width: 1040px;
+    // max-width: 1040px;
+    max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 1.27em;
+    //padding: 0 1.27em;
+    padding: 0 2em;
     width: 100%;
   }
   // Common
@@ -165,7 +165,8 @@ export default {
     &:hover {
       color: #7795f8;
       transform: translateY(-1px);
-      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.08);
     }
 
     &.common-Button--default {

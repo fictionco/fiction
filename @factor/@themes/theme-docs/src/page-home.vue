@@ -59,7 +59,7 @@ export default {
     position: relative;
     line-height: 1.2;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: var(--max-width);
   }
 
   .splash-wrap {

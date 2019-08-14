@@ -5,9 +5,7 @@
     <section class="feature feature--developer feature--reversed">
       <div class="mast">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">
-            Build your perfect point of sale
-          </h3>
+          <h3 class="common-UppercaseTitle feature-title">Build your perfect point of sale</h3>
           <p class="common-MediumBodyText">
             Break free from the constraints of off-the-shelf point of sale software.
             Fiction Terminal makes it easier to build your point of sale and own your
@@ -50,7 +48,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
       </div>
     </section>
 
-    <section class="feature feature--hardware">
+    <section class="feature feature-hardware">
       <div class="mast">
         <article class="feature-content">
           <h3 class="common-UppercaseTitle feature-title">Pre-certified card readers</h3>
@@ -68,18 +66,16 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
 
         <figure class="floating-cards">
           <div class="card">
-            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" />
+            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" >
           </div>
         </figure>
       </div>
     </section>
 
-    <section class="feature feature--reversed feature--fleet">
+    <section class="feature feature--reversed feature-fleet">
       <div class="mast">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">
-            Centralized fleet management
-          </h3>
+          <h3 class="common-UppercaseTitle feature-title">Centralized fleet management</h3>
           <p class="common-MediumBodyText">
             Manage your entire fleet of Fiction card readers right from the Fiction
             Dashboard, where you can register hardware to a location, monitor device
@@ -97,7 +93,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
             <img
               :src="require(`./img/screenshot-fleet-updated.jpg`)"
               alt="Fiction Dashboard screenshot of managing your fleet hardware."
-            />
+            >
           </div>
         </figure>
       </div>
@@ -214,7 +210,7 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 25px 30px;
-          font-size: 14px;
+          font-size: 0.875em;
           line-height: normal;
           color: #e6ebf1;
           pre {
@@ -222,7 +218,7 @@ export default {
             color: #e6ebf1;
             white-space: pre;
             code {
-              font-family: Source Code Pro, Consolas, Menlo, monospace;
+              font-family: monospace;
             }
           }
         }
@@ -237,7 +233,7 @@ export default {
         }
       }
     }
-    &.feature--hardware {
+    &.feature-hardware {
       max-width: 100vw;
       .card img {
         max-width: 100%;
@@ -248,7 +244,7 @@ export default {
         }
       }
     }
-    &.feature--fleet {
+    &.feature-fleet {
       max-width: 100vw;
       figure {
         display: flex;
