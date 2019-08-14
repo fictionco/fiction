@@ -422,7 +422,7 @@ export default {
     height: 100%;
     top: 0;
   }
-  //box-shadow: inset @factor-input-shadow;
+  //box-shadow: inset @factor-box-shadow-input;
   transition: 0.1s all;
   border-radius: 6px;
   width: 100%;

@@ -75,7 +75,7 @@ export default {
   .tag {
     display: inline-block;
     padding: 3px 0.5em;
-    box-shadow: var(--input-shadow);
+    box-shadow: var(--box-shadow-input);
     border-radius: 5px;
     margin: 0 0.5em 0.5em 0;
     .tx {

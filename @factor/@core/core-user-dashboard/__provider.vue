@@ -114,7 +114,7 @@ export default {
   font-size: 0.85em;
   font-weight: 500;
   display: inline-block;
-  box-shadow: inset var(--input-shadow);
+  box-shadow: inset var(--box-shadow-input);
 
   background-color: var(--input-bg);
   border-radius: 5px;

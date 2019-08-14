@@ -70,7 +70,7 @@ code {
   /* Code blocks */
   pre {
     background: #f7f9fb;
-    box-shadow: var(--input-shadow);
+    box-shadow: var(--box-shadow-input);
     border-radius: 5px;
     position: relative;
     padding: 1.5em;
@@ -168,7 +168,7 @@ code {
     padding: 1em 0 1em 1.5em;
 
     border-left: 3px solid var(--color-text);
-    background-color: var(--color-contrast);
+    background-color: var(--color-bg-contrast);
     p,
     ul,
     ol {

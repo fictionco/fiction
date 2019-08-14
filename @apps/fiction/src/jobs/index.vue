@@ -248,7 +248,7 @@ export default {
   .boxes-wrap {
     background-color: #f5f8fc;
     .boxes-inner {
-      box-shadow: var(--panel-shadow);
+      box-shadow: var(--box-shadow-panel);
       background: var(--color-light);
       border-radius: 0.5em;
       padding: 3em;

@@ -95,7 +95,7 @@ export default {
   --color-red: #ff0076;
 
   color: var(--color-text);
-  box-shadow: var(--input-shadow);
+  box-shadow: var(--box-shadow-input);
 
   height: 600px;
 

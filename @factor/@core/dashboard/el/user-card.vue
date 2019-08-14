@@ -30,7 +30,7 @@ export default {
 .card-user {
   display: inline-block;
   .card {
-    box-shadow: var(--input-shadow);
+    box-shadow: var(--box-shadow-input);
     border-radius: 5px;
     color: inherit;
     &:hover {
