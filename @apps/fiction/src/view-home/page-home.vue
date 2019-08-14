@@ -98,6 +98,7 @@
               content and user management. Gain the insights and knowledge you need to
               grow.
             </p>
+
             <a href="#">
               More about the tech
               <i class="fa fa-arrow-right" />
@@ -317,39 +318,6 @@ export default {
       padding: 3em 0;
       &.feature-reverse {
         direction: rtl;
-      }
-      .item {
-        box-shadow: var(--box-shadow-panel);
-        color: inherit;
-        font-size: 1.9em;
-        line-height: 1.1em;
-        padding: 1em;
-        //min-height: 200px;
-        border-radius: 0.5rem;
-        background: linear-gradient(#fff, #f7f7f7);
-        background-size: cover;
-        background-position: 50%;
-        p {
-          font-size: 0.7em;
-          line-height: 1.3;
-          margin-top: 5px;
-          opacity: 0.9;
-        }
-        &:nth-child(1) {
-          display: flex;
-          align-items: flex-end;
-          flex-direction: column;
-          justify-content: center;
-          //text-align: right;
-          color: #fff;
-          text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-          background-image: url(./img/code.jpg),
-            linear-gradient(-126.24deg, #506677 4.42%, #2b3034 70.27%);
-
-          h3 {
-            margin-bottom: 10px;
-          }
-        }
       }
       .illustration {
         perspective: 1500px;
