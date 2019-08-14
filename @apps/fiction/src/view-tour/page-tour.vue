@@ -343,7 +343,7 @@ export default {
       padding: 3em 0;
       &.banner {
         margin: 0 auto;
-        box-shadow: var(--panel-shadow);
+        box-shadow: var(--box-shadow-panel);
         background: #fff;
         border-radius: 5px;
         padding: 2em;

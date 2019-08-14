@@ -27,7 +27,7 @@
   textarea,
   select,
   .checkbox-label {
-    font-family: var(--font-primary);
+    font-family: var(--font-family-primary);
   }
 
   input[type="email"],
@@ -39,7 +39,7 @@
   select {
     -webkit-appearance: none;
     background-color: var(--input-bg);
-    box-shadow: inset var(--input-shadow);
+    box-shadow: inset var(--box-shadow-input);
     border-radius: 4px;
   }
 
@@ -117,7 +117,7 @@
   }
 
   .image-item-content {
-    box-shadow: inset var(--input-shadow);
+    box-shadow: inset var(--box-shadow-input);
 
     background-color: var(--input-bg);
 
@@ -128,13 +128,13 @@
   .image-drop .image-item-content {
     color: var(--color-placeholder);
     background-color: var(--input-bg);
-    box-shadow: inset var(--input-shadow);
+    box-shadow: inset var(--box-shadow-input);
   }
 
   .sortable-items {
     .controls {
       .sortable-item {
-        box-shadow: var(--input-shadow);
+        box-shadow: var(--box-shadow-input);
 
         &.active {
           background: var(--canvas-bg);
@@ -143,12 +143,12 @@
     }
 
     .inputs {
-      box-shadow: var(--input-shadow);
+      box-shadow: var(--box-shadow-input);
     }
   }
 
   .el-tag {
-    box-shadow: var(--input-shadow);
+    box-shadow: var(--box-shadow-input);
   }
 }
 </style>

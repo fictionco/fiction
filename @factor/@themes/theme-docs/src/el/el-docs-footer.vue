@@ -25,7 +25,7 @@ export default {
   padding: 1em 1em 1em 1.5em;
   margin-top: 2em;
   font-size: 0.9em;
-  background-color: var(--color-contrast);
+  background-color: var(--color-bg-contrast);
 }
 </style>
 

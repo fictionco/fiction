@@ -17,8 +17,8 @@
           </a>
         </div>
         <div class="graphic">
-          <img class="img-dashboard" :src="require(`./img/dashboard.jpg`)" alt="Factor Framework" />
-          <img class="img-theme" :src="require(`./img/theme-alpha.jpg`)" alt="Factor Theme Alpha" />
+          <img class="img-dashboard" :src="require(`./img/dashboard.jpg`)" alt="Factor Framework" >
+          <img class="img-theme" :src="require(`./img/theme-alpha.jpg`)" alt="Factor Theme Alpha" >
         </div>
       </div>
       <div class="hhh" />
@@ -29,7 +29,7 @@
         <factor-link path="https://factor.dev" class="item">
           <h3>
             Get Started
-            <br />with
+            <br >with
             <strong>Factor</strong>
           </h3>
           <pre><code class="hljs language-bash">$ yarn factor dev</code></pre>
@@ -59,12 +59,12 @@ export default {
   data() {
     return {
       loading: true
-    };
+    }
   },
   mounted() {
     this.$user.init(() => {
-      this.loading = false;
-    });
+      this.loading = false
+    })
   },
   metatags() {
     return {
@@ -72,12 +72,12 @@ export default {
       description:
         "Fiction builds Javascipt (Vue, Node) and serverless development tools for web developers.",
       image: require("./img/meta-image.jpg")
-    };
+    }
   },
   routeClass() {
-    return ["nav-light"];
+    return ["nav-light"]
   }
-};
+}
 </script>
 <style lang="less">
 .page-home {
@@ -211,7 +211,7 @@ export default {
         grid-template-columns: 1fr;
       }
       .item {
-        box-shadow: var(--panel-shadow);
+        box-shadow: var(--box-shadow-panel);
         color: inherit;
         font-size: 1.9em;
         line-height: 1.1em;

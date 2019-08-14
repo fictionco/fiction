@@ -122,7 +122,7 @@ export default {
 .post-index {
   .post {
     margin: 4rem 0;
-    box-shadow: var(--panel-shadow);
+    box-shadow: var(--box-shadow-panel);
     background: #fff;
     border-radius: 5px;
     padding: 0;

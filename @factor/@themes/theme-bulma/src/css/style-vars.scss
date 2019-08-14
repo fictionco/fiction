@@ -95,15 +95,15 @@ $pagination-focus-border-color: $primary;
   --color-bg-alt: #f6f9fc;
   --color-bg-dark: var(--color-text);
 
-  --font-primary: -apple-system,
+  --font-family-primary: -apple-system,
     /* Chrome < 56 for OS X (San Francisco)  */ BlinkMacSystemFont,
     /* Windows  */ "Segoe UI", /* Android  */ "Roboto",
     /* Basic web fallback  */ "Helvetica Neue", Arial, sans-serif;
 
-  --panel-shadow: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
+  --box-shadow-panel: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
     0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
-  --input-shadow: 0 0 0 1px rgba(0, 43, 93, 0.2);
+  --box-shadow-input: 0 0 0 1px rgba(0, 43, 93, 0.2);
 }
 
 //The following css are modifications for the theme

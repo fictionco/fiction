@@ -204,7 +204,7 @@ export default {
         font-size: 1.2em;
         padding: 0.75em;
         margin: 0;
-        box-shadow: var(--input-shadow);
+        box-shadow: var(--box-shadow-input);
         background: #fff;
       }
       &:hover,
