@@ -1,4 +1,4 @@
-# Dashboard and Post System
+# Dashboard Setup
 
 > By default, Factor includes a CMS-like post management system and dashboard. These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage.
 
