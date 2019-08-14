@@ -55,6 +55,10 @@ module.exports.default = Factor => {
             path: "/chat",
             component: () => import("./page-chat"),
             meta: { background: "#f7f9ff", auth: true }
+          },
+          {
+            path: "/sigma",
+            component: () => import("./view-sigma/page-sigma")
           }
           // {
           //   path: "/how-it-works",
