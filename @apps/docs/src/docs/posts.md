@@ -27,15 +27,38 @@ It's easy to add a new post type to Factor, all you need to do is add a new obje
 // index.js
 Factor.$filters.push("post-types", {
   postType: "jobs",
-  baseRoute,
-  icon: require("./img/jobs.svg"),
-  model: "JobPost",
   nameIndex: "Jobs",
   nameSingle: "Jobs Post",
-  namePlural: "Jobs Posts"
+  namePlural: "Jobs Posts",
+  icon: require("./img/jobs.svg"), // dashboard icon
+  baseRoute: "career", // base permalink route
+  accessLevel: 100, // user access level needed to edit/add
+  add: true // can new posts be added via dashboard
 })
 ```
 
-By default this adds a new tab in the dashboard to help you with post management.
+Adding a new post type will add a new tab in the dashboard. With the default **list** and **edit** views.
+
+![New Jobs Post Type](./img/dashboard-post-type.jpg)
+
+Now that you have your post type, it is possible to easily override the dashboard editing templates if you need custom functionality.
+
+To do so, all you need to do is add your own components:
+
+```js
+// index.js
+Factor.$filters.push("post-types", {
+  postType: "my-post-type",
+  listTemplate: () => import("./custom-dashboard-list-view.vue"),
+  editTemplate: () => import("./custom-post-edit-view.vue")
+  // ... other post type options
+})
+```
+
+Now that we've set up the post type, let's add a validation schema and learn how to work with it on the front end.
 
 ### Data Schemas
+
+With NoSQL databases there is no hard coded table schema. While this is often an advantage, there are some benefits to validating data structure on a post-type level. To do this, we'll use schemas.
+
+For data modeling, Factor schemas use the Mongoose library for MongoDB.
