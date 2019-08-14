@@ -11,10 +11,12 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.add("data-schemas", _ => {
-        _.user = require("./schema").default(Factor)
-        return _
-      })
+      // Factor.$filters.add("data-schemas", _ => {
+      //   _.user = require("./schema").default(Factor)
+      //   return _
+      // })
+
+      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
     }
 
     mixin() {

@@ -16,7 +16,7 @@ module.exports.default = Factor => {
           title: "Introduction: Why Use Factor"
         },
         {
-          group: "Dashboard and Posts"
+          group: "CMS"
         },
         {
           doc: "dashboard-setup",
@@ -29,7 +29,7 @@ module.exports.default = Factor => {
           title: "The Post System"
         },
         {
-          group: "Themes / Plugins"
+          group: "Extend"
         },
         {
           name: "Adding Extensions",
@@ -53,7 +53,7 @@ module.exports.default = Factor => {
           title: "Using and Creating Factor Themes"
         },
         {
-          group: "App Development"
+          group: "Framework"
         },
         {
           doc: "config",
