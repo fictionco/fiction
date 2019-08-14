@@ -2,10 +2,12 @@
   <div class="features">
     <el-stripes :num-stripes="11" />
 
-    <section id="developer-centric" class="feature feature--developer feature--reversed">
+    <section class="feature feature--developer feature--reversed">
       <div class="mast">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">Build your perfect point of sale</h3>
+          <h3 class="common-UppercaseTitle feature-title">
+            Build your perfect point of sale
+          </h3>
           <p class="common-MediumBodyText">
             Break free from the constraints of off-the-shelf point of sale software.
             Fiction Terminal makes it easier to build your point of sale and own your
@@ -48,18 +50,15 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
       </div>
     </section>
 
-    <section id="pre-certified-hardware" class="feature feature--hardware">
+    <section class="feature feature--hardware">
       <div class="mast">
         <article class="feature-content">
           <h3 class="common-UppercaseTitle feature-title">Pre-certified card readers</h3>
           <p class="common-MediumBodyText">
             Save months of developer and certification time with our EMV Level 1, 2, 3
-            pre-certified Fiction card readers. They provide
-            <span
-              class="feature-no-break-english"
-            >end-to-end</span> encryption, natively
-            support chip cards and contactless payments, including Apple Pay and Google
-            Pay, and help protect you against liability for counterfeit&nbsp;fraud.
+            pre-certified Fiction card readers. They provide end-to-end encryption,
+            natively support chip cards and contactless payments, including Apple Pay and
+            Google Pay, and help protect you against liability for counterfeit fraud.
           </p>
           <a href="#" class="common-link common-link--arrow common-MediumBodyText">
             See reader options
@@ -69,21 +68,23 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
 
         <figure class="floating-cards">
           <div class="card">
-            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" >
+            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" />
           </div>
         </figure>
       </div>
     </section>
 
-    <section id="fleet-management" class="feature feature--reversed feature--fleet">
+    <section class="feature feature--reversed feature--fleet">
       <div class="mast">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">Centralized fleet management</h3>
+          <h3 class="common-UppercaseTitle feature-title">
+            Centralized fleet management
+          </h3>
           <p class="common-MediumBodyText">
             Manage your entire fleet of Fiction card readers right from the Fiction
             Dashboard, where you can register hardware to a location, monitor device
             status, and order card readers. We’ll take care of delivering the hardware
-            where you need&nbsp;it.
+            where you need it.
           </p>
           <a href="#" class="common-bodytext common-link common-link--arrow">
             Learn more
@@ -96,7 +97,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
             <img
               :src="require(`./img/screenshot-fleet-updated.jpg`)"
               alt="Fiction Dashboard screenshot of managing your fleet hardware."
-            >
+            />
           </div>
         </figure>
       </div>

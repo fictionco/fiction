@@ -28,7 +28,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--squire Helm__background--slate1">
+                <li class="card-image testimonials--squire bg-dark-blue">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--showclix Helm__background--slate1">
+                <li class="card-image testimonials--showclix bg-dark-blue">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--zenoti Helm__background--slate1">
+                <li class="card-image testimonials--zenoti bg-dark-blue">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@
                     </svg>
                   </span>
                 </li>
-                <li class="card-image testimonials--house-call-pro Helm__background--slate1 active">
+                <li class="card-image testimonials--house-call-pro bg-dark-blue active">
                   <span class="card-logo">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -98,10 +98,13 @@
             </figure>
 
             <div class="card-stories">
-              <ul class="card-story-list" style="width: 500%; transform: translateX(-80%);">
+              <ul
+                class="card-story-list"
+                style="width: 500%; transform: translateX(-80%);"
+              >
                 <li class="card-story-item">
                   <div class="card-quote">
-                    <p class="common-bodytitle">
+                    <p class="common-body-title">
                       We integrated Terminal in only a few sprints with three developers,
                       not a team of 20 or 30.
                     </p>
@@ -115,7 +118,7 @@
                   </div>
 
                   <div class="card-quote-author">
-                    <p class="common-UppercaseText">Joshua Kelly</p>
+                    <p class="common-uppercase-text">Joshua Kelly</p>
                   </div>
 
                   <div class="card-quote-author-title">
@@ -124,14 +127,14 @@
                 </li>
                 <li class="card-story-item">
                   <div class="card-quote">
-                    <p class="common-bodytitle">
+                    <p class="common-body-title">
                       We created a rich customer experience within our app to accept
                       in-person payments, and it only took us a week of development time.
                     </p>
                   </div>
 
                   <div class="card-quote-author">
-                    <p class="common-UppercaseText">Troy Payne</p>
+                    <p class="common-uppercase-text">Troy Payne</p>
                   </div>
 
                   <div class="card-quote-author-title">
@@ -140,7 +143,7 @@
                 </li>
                 <li class="card-story-item">
                   <div class="card-quote">
-                    <p class="common-bodytitle">
+                    <p class="common-body-title">
                       Terminal allowed us to take advantage of the EMV liability shift and
                       offer in-person payments that are PCI compliant, with less fraud and
                       lower chargeback risk.
@@ -148,7 +151,7 @@
                   </div>
 
                   <div class="card-quote-author">
-                    <p class="common-UppercaseText">Jarrett Hawrylak</p>
+                    <p class="common-uppercase-text">Jarrett Hawrylak</p>
                   </div>
 
                   <div class="card-quote-author-title">
@@ -157,7 +160,7 @@
                 </li>
                 <li class="card-story-item">
                   <div class="card-quote">
-                    <p class="common-bodytitle">
+                    <p class="common-body-title">
                       With other providers, it can take anywhere from two to four weeks to
                       onboard a merchant. With Stripe, a merchant can onboard themselves
                       and start processing transactions in seconds. That’s a clear
@@ -173,7 +176,7 @@
                   </div>
 
                   <div class="card-quote-author">
-                    <p class="common-UppercaseText">Vamshidhar Reddy</p>
+                    <p class="common-uppercase-text">Vamshidhar Reddy</p>
                   </div>
 
                   <div class="card-quote-author-title">
@@ -182,7 +185,7 @@
                 </li>
                 <li class="card-story-item active">
                   <div class="card-quote">
-                    <p class="common-bodytitle">
+                    <p class="common-body-title">
                       In two weeks we were able to integrate Terminal and start getting it
                       in the hands of 1,500 of our Pros. That’s 1,500 small businesses
                       that are now saving money on in-person payments, saving time with
@@ -192,7 +195,7 @@
                   </div>
 
                   <div class="card-quote-author">
-                    <p class="common-UppercaseText">Sean Devlin</p>
+                    <p class="common-uppercase-text">Sean Devlin</p>
                   </div>
 
                   <div class="card-quote-author-title">
@@ -368,8 +371,7 @@ export default {
       z-index: 1;
       will-change: transform;
       box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-        0 18px 36px -18px rgba(0, 0, 0, 0.3),
-        0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+        0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
     }
 
     .card-image-container {

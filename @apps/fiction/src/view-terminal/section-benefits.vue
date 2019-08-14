@@ -3,7 +3,12 @@
     <div class="mast">
       <div class="benefit">
         <figure class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48px"
+            height="48px"
+            viewBox="0 0 48 48"
+          >
             <g fill="none" fill-rule="evenodd">
               <path
                 fill="#87BBFD"
@@ -19,23 +24,25 @@
           </svg>
         </figure>
 
-        <h3 class="common-bodytitle benefit-title">Unify your payments stack</h3>
+        <h3 class="common-body-title benefit-title">Unify your payments stack</h3>
 
         <p class="common-bodytext">
           Manage all your online and offline sales in one place with a single Stripe
-          integration, simplifying reporting and reconciliation. Terminal works
-          seamlessly with Stripe
-          <a
-            href="/payments"
-            class="common-link"
-          >Payments</a>,
+          integration, simplifying reporting and reconciliation. Terminal works seamlessly
+          with Stripe
+          <a href="/payments" class="common-link">Payments</a>,
           <a href="/connect" class="common-link">Connect</a>, and
           <a href="/billing" class="common-link">Billing</a>.
         </p>
       </div>
       <div class="benefit">
         <figure class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48px"
+            height="48px"
+            viewBox="0 0 48 48"
+          >
             <g fill="none" fill-rule="evenodd">
               <path
                 fill="#555ABF"
@@ -51,17 +58,22 @@
           </svg>
         </figure>
 
-        <h3 class="common-bodytitle benefit-title">Own your in-store experience</h3>
+        <h3 class="common-body-title benefit-title">Own your in-store experience</h3>
 
         <p class="common-bodytext">
           Provide a seamless customer experience across channels, like reserving online
-          and picking up in store. Our SDKs make it easy to integrate Stripe into your
-          own mobile and web applications to accept in-store payments.
+          and picking up in store. Our SDKs make it easy to integrate Stripe into your own
+          mobile and web applications to accept in-store payments.
         </p>
       </div>
       <div class="benefit">
         <figure class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48px"
+            height="48px"
+            viewBox="0 0 48 48"
+          >
             <g fill="none" fill-rule="evenodd">
               <path
                 fill="#555ABF"
@@ -77,16 +89,13 @@
           </svg>
         </figure>
 
-        <h3 class="common-bodytitle benefit-title">Grow your platform’s revenue</h3>
+        <h3 class="common-body-title benefit-title">Grow your platform’s revenue</h3>
 
         <p class="common-bodytext">
           Add in-person payments to your platform or marketplace. Using Stripe Terminal
           with
-          <a
-            href="/connect"
-            class="common-link"
-          >Connect</a>, you can onboard users for online and in-person payments, and unify their
-          payouts across channels.
+          <a href="/connect" class="common-link">Connect</a>, you can onboard users for
+          online and in-person payments, and unify their payouts across channels.
         </p>
       </div>
     </div>
