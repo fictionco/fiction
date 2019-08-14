@@ -3,10 +3,12 @@ const loadImage = require("blueimp-load-image")
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("data-schemas", _ => {
-        _.attachment = require("./schema").default(Factor)
-        return _
-      })
+      // Factor.$filters.add("data-schemas", _ => {
+      //   _.attachment = require("./schema").default(Factor)
+      //   return _
+      // })
+
+      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
     }
 
     // createPath(path, vars) {

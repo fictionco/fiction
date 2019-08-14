@@ -1,10 +1,12 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("data-schemas", _ => {
-        _.page = require("./schema").default(Factor)
-        return _
-      })
+      // Factor.$filters.add("data-schemas", _ => {
+      //   _.page = require("./schema").default(Factor)
+      //   return _
+      // })
+
+      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
 
       Factor.$filters.add("post-types", _ => {
         _.unshift({
