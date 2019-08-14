@@ -1,6 +1,6 @@
 <p>
 <a href="https://factor.dev">
-  <img src="./factor-midnight-banner.jpg" width="100%" style="display:block;">
+  <img src="./banner.jpg" width="100%" style="display:block;">
 </a>
 </p>
 
