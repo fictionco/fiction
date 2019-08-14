@@ -30,7 +30,9 @@
                 </div>
               </div>
 
-              <h1 class="common-PageTitle">Extend Fiction payments to your point of sale</h1>
+              <h1 class="common-PageTitle">
+                Extend Fiction payments to your point of sale
+              </h1>
               <p class="common-IntroText">
                 Fiction Terminal extends your online presence into the physical world,
                 enabling you to build your own in-person checkout. Built with modern
@@ -65,6 +67,8 @@
     <section-testimonials />
 
     <section-integrate />
+
+    <el-cta />
   </div>
 </template>
 
@@ -77,7 +81,8 @@ export default {
     "section-customers": () => import("./section-customers"),
     "section-features": () => import("./section-features"),
     "section-testimonials": () => import("./section-testimonials"),
-    "section-integrate": () => import("./section-integrate")
+    "section-integrate": () => import("./section-integrate"),
+    "el-cta": () => import("../el/cta")
   },
   data() {
     return {
@@ -109,7 +114,7 @@ export default {
     text-transform: uppercase;
     letter-spacing: 0.025em;
   }
-  .common-UppercaseText {
+  .common-uppercase-text {
     font-size: 17px;
     line-height: 28px;
     font-weight: 600;
@@ -160,8 +165,7 @@ export default {
     &:hover {
       color: #7795f8;
       transform: translateY(-1px);
-      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
-        0 3px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
     }
 
     &.common-Button--default {
@@ -173,7 +177,7 @@ export default {
       }
     }
   }
-  .common-bodytitle {
+  .common-body-title {
     font-weight: 500;
     font-size: 19px;
     line-height: 32px;
@@ -214,7 +218,7 @@ export default {
     .header {
       position: relative;
       z-index: 0;
-      padding: 130px 0;
+      padding: 70px 0 130px;
 
       @media (max-width: 767px) {
         padding: 115px 0 60px;

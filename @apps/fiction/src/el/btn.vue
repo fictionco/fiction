@@ -66,7 +66,7 @@ button.app-btn {
     transition: all 0.2s ease-in-out;
 
     &:hover {
-      background: #66bfff;
+      background: #0072c3; //#66bfff;
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
@@ -77,7 +77,7 @@ button.app-btn {
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 
     &:hover {
-      background: #ff66ad;
+      background: #da0066; //#ff66ad;
       box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
     }
   }

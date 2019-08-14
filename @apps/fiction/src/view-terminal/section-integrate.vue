@@ -3,38 +3,37 @@
     <div class="mast">
       <div class="integrate-intro">
         <h2 class="common-SectionTitle">Hardware</h2>
-        <p
-          class="common-MediumBodyText integrate-intro-paragraph"
-        >Stripe Terminal works with pre-certified third-party hardware to support a range of use-cases. We currently offer two reader and SDK combinations, with more coming&nbsp;soon.</p>
+        <p class="common-MediumBodyText integrate-intro-paragraph">
+          Fiction Terminal works with pre-certified third-party hardware to support a
+          range of use-cases. We currently offer two reader and SDK combinations, with
+          more coming soon.
+        </p>
       </div>
     </div>
 
-    <div class="mast-lg table-container">
-      <div class="Helm-FeatureTable Helm-FeatureTable--noFooter">
-        <div class="Helm-FeatureTable__content">
-          <div class="Helm-FeatureTable__labels">
-            <div class="Helm-FeatureTable__label">
-              <span class="common-UppercaseText Helm__text--slate3">Stripe SDK</span>
+    <div class="mast-lg feature-table-wrap">
+      <div class="feature-table">
+        <div class="feature-table-content">
+          <div class="labels">
+            <div class="label">
+              <span class="common-uppercase-text">Fiction SDK</span>
             </div>
-            <div class="Helm-FeatureTable__label">
-              <span class="common-UppercaseText Helm__text--slate3">Reader</span>
+            <div class="label">
+              <span class="common-uppercase-text">Reader</span>
             </div>
           </div>
 
-          <div class="Helm-FeatureTable__column Helm-FeatureTable__column--dominant">
-            <div class="Helm-FeatureTable__header Helm__background--slate1">
-              <h1 class="common-BodyTitle Helm__text--slate9">Native mobile app</h1>
+          <div class="column column-dominant">
+            <div class="header bg-dark-blue">
+              <h1 class="common-body-title">Native mobile app</h1>
             </div>
 
-            <div class="Helm-FeatureTable__subHeader">
-              <span class="common-UppercaseText Helm__text--slate3">Stripe SDK</span>
+            <div class="subheader">
+              <span class="common-uppercase-text">Fiction SDK</span>
             </div>
 
-            <div class="Helm-FeatureTable__item">
-              <p
-                class-name="Helm-FeatureTable__small"
-                class="common-BodyText Helm-FeatureTable__small"
-              >
+            <div class="item">
+              <p class="common-bodytext text-small">
                 <span>iOS</span>
                 <span class="second">
                   Android
@@ -42,52 +41,39 @@
                 </span>
               </p>
             </div>
-            <div class="Helm-FeatureTable__subHeader">
-              <span class="common-UppercaseText Helm__text--slate3">Reader</span>
+            <div class="subheader">
+              <span class="common-uppercase-text">Reader</span>
             </div>
 
-            <div class="Helm-FeatureTable__item Helm-FeatureTable__item--alternate">
-              <p
-                class-name="Helm-FeatureTable__small"
-                class="common-BodyText Helm-FeatureTable__small"
-              >
-                <span>
-                  <span class="reader-logo reader-logo--bbpos">bbPOS</span> Chipper™ 2X BT
-                </span>
+            <div class="item item-alternate">
+              <p class="common-bodytext text-small">
+                <span class="long-label"> <span>bbPOS</span> Chipper™ 2X BT</span>
                 <span class="second long-label">
-                  <span>
-                    <span class="reader-logo reader-logo--verifone">Verifone</span>® P400
-                  </span>
+                  <span><span>Verifone</span>® P400</span>
                   <span class="annotation-label">Coming soon</span>
                 </span>
               </p>
             </div>
           </div>
-          <div class="Helm-FeatureTable__column">
-            <div class="Helm-FeatureTable__header Helm__background--slate1">
-              <h1 class="common-BodyTitle Helm__text--slate9">Desktop or mobile&nbsp;web</h1>
+          <div class="column">
+            <div class="header bg-dark-blue">
+              <h1 class="common-body-title ">
+                Desktop or mobile web
+              </h1>
             </div>
 
-            <div class="Helm-FeatureTable__subHeader" />
+            <div class="subheader" />
 
-            <div class="Helm-FeatureTable__item">
-              <p
-                class-name="Helm-FeatureTable__small"
-                class="common-BodyText Helm-FeatureTable__small"
-              >
+            <div class="item">
+              <p class="common-bodytext text-small">
                 <span>JavaScript</span>
               </p>
             </div>
-            <div class="Helm-FeatureTable__subHeader" />
+            <div class="subheader" />
 
-            <div class="Helm-FeatureTable__item Helm-FeatureTable__item--alternate">
-              <p
-                class-name="Helm-FeatureTable__small"
-                class="common-BodyText Helm-FeatureTable__small"
-              >
-                <span class="second">
-                  <span class="reader-logo reader-logo--verifone">Verifone</span>® P400
-                </span>
+            <div class="item item-alternate">
+              <p class="common-bodytext text-small">
+                <span class="second"> <span>Verifone</span>® P400 </span>
               </p>
             </div>
           </div>
@@ -104,10 +90,11 @@ export default {
 <style lang="less">
 .integrate {
   position: relative;
-  padding-top: 60px;
-  @media (min-width: 670px) {
-    padding-top: 120px;
+  padding-top: 120px;
+  @media (max-width: 767px) {
+    padding-top: 60px;
   }
+
   .integrate-intro {
     text-align: center;
   }
@@ -115,98 +102,100 @@ export default {
     max-width: 880px;
     margin: 20px auto 14px;
   }
-  .table-container {
+  .feature-table-wrap {
     max-width: 1100px;
     margin: 30px auto 0;
     padding: 0;
     position: relative;
-    border-bottom: 1px solid #f6f9fc;
-    @media (min-width: 880px) {
-      border-bottom: none;
+    border-bottom: none;
+    @media (max-width: 767px) {
+      border-bottom: 1px solid #f6f9fc;
     }
   }
 
-  .Helm-FeatureTable {
-    --cell-min-height: 85px;
+  .feature-table {
     --border-radius: 8px;
+    --cell-min-height: 105px;
+    @media (max-width: 767px) {
+      --cell-min-height: 85px;
+    }
     width: 100%;
     max-width: 100%;
-    @media (min-width: 670px) {
-      --cell-min-height: 105px;
-      --font-size: 17px;
-    }
-    @media (min-width: 880px) {
-      padding: 20px 5px;
+    padding: 20px 5px;
+    @media (max-width: 767px) {
+      padding: 0;
     }
 
-    .Helm-FeatureTable__small {
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 20px;
+    .text-small {
+      font-size: 1em;
     }
 
-    .Helm-FeatureTable__content {
+    .feature-table-content {
       display: flex;
       justify-content: flex-start;
-      .Helm-FeatureTable__labels {
+      .labels {
         flex: 0 0.7 320px;
         max-width: 320px;
         min-width: 160px;
         align-self: flex-end;
         border-radius: var(--border-radius) 0 0 var(--border-radius);
-        box-shadow: 0 3px 3px 0 rgba(23, 55, 87, 0.03),
-          0 0 5px 1px rgba(0, 0, 0, 0.05);
-        margin-bottom: 64px;
-        display: none;
-        @media (min-width: 880px) {
-          display: block;
+        box-shadow: 0 3px 3px 0 rgba(23, 55, 87, 0.03), 0 0 5px 1px rgba(0, 0, 0, 0.05);
+        margin-bottom: 5px;
+        display: block;
+
+        @media (max-width: 767px) {
+          display: none;
         }
 
-        .Helm-FeatureTable__label {
+        .label {
           padding: 0 32px;
           color: #32325d;
           background: #fff;
-          min-height: var(--cell-min-height);
           display: flex;
           flex-direction: column;
           justify-content: center;
+          min-height: calc(var(--cell-min-height) - 5px);
+          @media (max-width: 767px) {
+            min-height: var(--cell-min-height);
+          }
           &:first-child {
             border-top-left-radius: 4px;
           }
           &:nth-child(2n) {
             background: #f6f9fc;
           }
-          @media (min-width: 880px) {
-            min-height: calc(var(--cell-min-height) - 5px);
-          }
         }
       }
-      .Helm-FeatureTable__column {
+      .column {
         display: flex;
         flex-direction: column;
         position: relative;
-        flex: 1;
-        @media (min-width: 880px) {
-          border-radius: var(--border-radius);
-          margin-right: 8px;
-          flex: 1 0.3 420px;
-          max-width: 420px;
-          min-width: 170px;
-          box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1),
-            0 5px 15px 0 rgba(0, 0, 0, 0.07);
+        flex: 1 0.3 420px;
+        border-radius: var(--border-radius);
+        margin-right: 8px;
+        max-width: 420px;
+        min-width: 170px;
+        box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1), 0 5px 15px 0 rgba(0, 0, 0, 0.07);
+        @media (max-width: 767px) {
+          flex: 1;
+          border-radius: 0;
+          margin-right: 0;
+          max-width: initial;
+          min-width: initial;
+          box-shadow: none;
         }
-        &.Helm-FeatureTable__column--dominant .Helm-FeatureTable__subHeader {
+        &.column-dominant .subheader {
           width: 200%;
           z-index: 2;
         }
-        .Helm__background--slate1 {
-          color: #f6f9fc;
-          background-color: #32325d;
+        .bg-dark-blue {
+          background-color: #1b223c;
+          h1 {
+            color: #f6f9fc;
+          }
         }
-        .Helm-FeatureTable__header {
-          padding: 16px 20px;
+        .header {
           text-align: center;
-          position: sticky;
           z-index: 1;
           min-height: 96px;
           display: flex;
@@ -215,31 +204,35 @@ export default {
           flex-grow: 1;
           top: 0;
           bottom: 64px;
+          border-radius: var(--border-radius) var(--border-radius) 0 0;
+          position: relative;
+          padding: 16px 40px;
 
-          @media (min-width: 880px) {
-            position: relative;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
-            padding: 16px 40px;
+          @media (max-width: 767px) {
+            position: sticky;
+            padding: 16px 20px;
+            border-radius: 0;
           }
+
           h1 {
-            font-size: 17px;
-            line-height: 23px;
+            font-size: 1.063em;
+            line-height: 1.4em;
           }
         }
-        .Helm-FeatureTable__subHeader {
+        .subheader {
           min-height: 54px;
           background-color: #f6f9fc;
-          display: flex;
           width: 0;
           justify-content: center;
           align-items: center;
           position: relative;
           z-index: 1;
-          @media (min-width: 880px) {
-            display: none;
+          display: none;
+          @media (max-width: 767px) {
+            display: flex;
           }
         }
-        .Helm-FeatureTable__item {
+        .item {
           min-height: var(--cell-min-height);
           display: flex;
           flex-direction: column;
@@ -248,30 +241,38 @@ export default {
           text-align: center;
           position: relative;
           z-index: 1;
-          padding: 0 15px;
           background-color: #fff;
-          @media (min-width: 880px) {
-            &.Helm-FeatureTable__item--alternate {
-              background: #f6f9fc;
+          padding: 0 24px;
+
+          @media (max-width: 767px) {
+            padding: 0 15px;
+          }
+
+          &:last-of-type {
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+          }
+
+          &.item-alternate {
+            background-color: #f6f9fc;
+            @media (max-width: 767px) {
+              background-color: #fff;
             }
           }
-          @media (min-width: 670px) {
-            padding: 0 24px;
-          }
+
           span {
-            line-height: 21px;
+            line-height: 1.313em;
             color: #525f7f;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: var(--font-size);
+
             &.second {
               margin: 8px 0 0;
             }
             &.long-label {
-              flex-direction: column;
-              @media (min-width: 420px) {
-                flex-direction: row;
+              flex-direction: row;
+              @media (max-width: 420px) {
+                flex-direction: column;
               }
             }
           }
@@ -286,15 +287,6 @@ export default {
             top: 1px;
           }
         }
-      }
-    }
-
-    &.Helm-FeatureTable--noFooter {
-      .Helm-FeatureTable__labels {
-        margin-bottom: 5px;
-      }
-      .Helm-FeatureTable__item:last-of-type {
-        border-radius: 0 0 var(--border-radius) var(--border-radius);
       }
     }
   }
