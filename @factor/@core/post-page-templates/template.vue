@@ -1,7 +1,10 @@
 <template>
   <div class="page">
-    <div v-if="!$lodash.isEmpty(post)">
-      <component :is="templateLoader" :post="post" />
+    <div v-if="post.loading" class="post-loading">
+      <factor-loading-ring />
+    </div>
+    <div v-else-if="post._id">
+      <component :is="templateLoader" :post-id="post._id" />
     </div>
     <error-404 v-else />
   </div>
@@ -29,8 +32,19 @@ export default {
     },
 
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return this.$store.val("post") || {}
     }
   }
 }
 </script>,
+<style lang="less">
+.page {
+  .post-loading {
+    min-height: 30vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>

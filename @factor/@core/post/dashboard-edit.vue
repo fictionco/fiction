@@ -14,21 +14,26 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeMeta() {
-      return this.$posts.postTypeMeta(this.postType)
+      return this.$post.postTypeMeta(this.postType)
     },
     templateLoader() {
-      return this.postTypeMeta.edit
-        ? this.postTypeMeta.edit
-        : () => import("./posts-edit")
+      const { editTemplate } = this.postTypeMeta
+
+      return editTemplate ? editTemplate : () => import("./posts-edit")
+    }
+  },
+  watch: {
+    $route: function(to, from) {
+      if (!this._id) this.requestPost()
     }
   },
 
   mounted() {
-    this.requestPost(this._id)
+    this.requestPost()
   },
   methods: {
     async requestPost() {
-      const post = await this.$posts.getSinglePost({
+      const post = await this.$post.getSinglePost({
         _id: this._id,
         postType: this.postType,
         createOnEmpty: true,

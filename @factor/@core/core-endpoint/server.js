@@ -51,6 +51,7 @@ module.exports.default = Factor => {
       try {
         return await _ep[method](params, meta)
       } catch (error) {
+        Factor.$log.error(`${error.message} in ${id}:${method}`)
         throw new Error(error)
       }
     }

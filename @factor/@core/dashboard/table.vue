@@ -7,7 +7,12 @@
           :key="iCol"
           class="dbt-col"
           :class="[col.column, col.class, col.mobile]"
-        >{{ $utils.toLabel(col.column) }}</div>
+        >
+          <template v-if="col.column == 'select'">
+            <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" >
+          </template>
+          <span v-else class="head-text">{{ col.name || $utils.toLabel(col.column) }}</span>
+        </div>
       </div>
       <div
         v-for="(row, iRow) in rows"
@@ -44,9 +49,14 @@ export default {
   props: {
     rowItems: { type: Array, default: () => [] },
     structure: { type: Array, default: () => [] },
-    zeroState: { type: Number, default: 0 },
+    zeroState: { type: Number, default: 2 },
     rowNumber: { type: Number, default: 0 },
     path: { type: String, default: "" }
+  },
+  data() {
+    return {
+      selected: false
+    }
   },
   computed: {
     rows() {
@@ -70,6 +80,15 @@ export default {
     }
   },
   methods: {
+    selectAll() {
+      if (this.selected) {
+        this.selected = false
+      } else {
+        this.selected = true
+      }
+
+      this.$emit("select-all", this.selected)
+    },
     navigate(row) {
       if (this.path) {
         const path = this.interpolate(this.path, row)
@@ -242,7 +261,7 @@ export default {
       }
 
       &:last-child {
-        //text-align: right;
+        text-align: right;
         .zero-lines .line {
           float: right;
           width: 50%;
@@ -259,8 +278,10 @@ export default {
   }
 
   .dbt-head {
-    opacity: 0.3;
-
+    .head-text {
+      opacity: 0.3;
+    }
+    font-weight: var(--font-weight-bold, 800);
     @media (max-width: 960px) {
       .author,
       .meta {

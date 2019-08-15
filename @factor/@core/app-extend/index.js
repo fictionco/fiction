@@ -13,7 +13,7 @@ export default Factor => {
 
       this._install("filters", require("@factor/filters").default)
       this._install("config", require("@factor/app-config").default)
-      this._install("stack", require("@factor/core-stack").default)
+      //  this._install("stack", require("@factor/core-stack").default)
 
       this.loadPlugins()
       this.initializeApp()
@@ -22,7 +22,6 @@ export default Factor => {
     _install(id, plugin) {
       Factor.use({
         install(Factor) {
-
           // Some application modules have already been loaded in by server extension
           // Check if they're already loaded that way we don't load twice
           if (!Factor[`$${id}`]) {
@@ -63,6 +62,11 @@ export default Factor => {
           }
         }
       }
+
+      Factor.$globals = Factor.prototype.$globals = Factor.observable({
+        routeClass: [],
+        metatags: []
+      })
 
       Factor.$filters.run("initialize-app")
     }

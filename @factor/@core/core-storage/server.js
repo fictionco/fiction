@@ -2,11 +2,14 @@ const multer = require("multer")
 module.exports.default = Factor => {
   return new (class {
     constructor() {
+      this.mime = require("mime-types")
       Factor.$filters.callback("endpoints", { id: "storage", handler: this })
-      Factor.$filters.add("data-schemas", _ => {
-        _.attachment = require("./schema").default(Factor)
-        return _
-      })
+      // Factor.$filters.add("data-schemas", _ => {
+      //   _.attachment = require("./schema").default(Factor)
+      //   return _
+      // })
+
+      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
 
       Factor.$filters.add("middleware", _ => {
         _.push({
@@ -14,7 +17,11 @@ module.exports.default = Factor => {
           middleware: [
             multer().single("imageUpload"),
             async (request, response, next) => {
-              return await Factor.$http.process({ request, response, handler: _ => this.handleUpload(_) })
+              return await Factor.$http.process({
+                request,
+                response,
+                handler: _ => this.handleUpload(_)
+              })
             }
           ]
         })
@@ -25,14 +32,43 @@ module.exports.default = Factor => {
     async handleUpload({ meta }) {
       const { bearer, request } = meta
       const {
-        file: { buffer, mimetype, size }
+        file: { buffer, mimetype, size, name }
       } = request
 
-      const author = [Factor.$dbServer.objectId(bearer._id)]
-      const url = Factor.$filters.apply("create-image-url", `data:${mimetype};base64,${buffer.toString("base64")}`)
-      const img = await Factor.$dbServer.model("attachment").create({ url, mimetype, size, author })
+      const attachmentModel = Factor.$dbServer.model("attachment")
+      const attachment = new attachmentModel()
 
-      return img.toObject()
+      Object.assign(attachment, {
+        author: [Factor.$dbServer.objectId(bearer._id)],
+        mimetype,
+        size
+      })
+
+      const attachmentUrl = await Factor.$filters.apply("storage-attachment-url", {
+        buffer,
+        key: `${attachment._id}.${this.mime.extension(mimetype)}`,
+        _id: attachment._id
+      })
+
+      attachment.url =
+        typeof attachmentUrl == "string"
+          ? attachmentUrl
+          : `data:${mimetype};base64,${buffer.toString("base64")}`
+
+      await attachment.save()
+
+      return attachment.toObject()
+    }
+
+    async delete({ _id }) {
+      const doc2 = await Factor.$dbServer.model("attachment").findById(_id)
+      const doc = await Factor.$dbServer.model("attachment").findOneAndDelete({ _id })
+
+      if (doc && !doc.url.includes("base64")) {
+        await Factor.$filters.run("delete-attachment", doc)
+      }
+
+      return doc
     }
   })()
 }

@@ -75,12 +75,24 @@ export default {
 
 
 <style lang="less">
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-  transition: all 0.3s;
-}
 .mobile-head {
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.3s ease;
+  }
+  .fade-enter-to,
+  .fade-leave {
+    .mobile-sidebar-canvas {
+      transform: translateX(0);
+    }
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+    .mobile-sidebar-canvas {
+      transform: translateX(-20px);
+    }
+  }
   .mobile-bar {
     display: flex;
     position: relative;
@@ -99,9 +111,10 @@ export default {
     display: block;
     z-index: 10;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
     .mobile-sidebar-canvas {
+      transition: all 0.3s ease;
       position: relative;
       width: 70%;
       height: 100vh;
@@ -116,13 +129,15 @@ export default {
       padding: 0;
     }
     .closer {
-      font-size: 1.6em;
+      font-size: 1.8em;
       padding: 10px;
       display: inline-block;
       line-height: 1;
       position: absolute;
-      right: 5px;
+      right: 0;
       opacity: 0.3;
+      cursor: pointer;
+      z-index: 50;
     }
   }
   .mobile-toggle {

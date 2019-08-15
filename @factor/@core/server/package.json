@@ -1,6 +1,6 @@
 {
   "name": "@factor/server",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.21",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -14,8 +14,10 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "chalk": "^2.4.2",
+    "compression": "^1.7.4",
     "express": "^4.16.4",
     "figures": "^3.0.0",
+    "helmet": "^3.20.0",
     "http-proxy-middleware": "^0.19.1",
     "https": ">0.0.1",
     "lru-cache": "^5.1.1",

@@ -3,10 +3,10 @@
     :style="{
       'width': percent+'%',
       'height': height,
-      'background-color': canSuccess? color : failedColor,
       'opacity': show ? 1 : 0
     }"
     class="progress"
+    :class="canSuccess ? 'working' : 'failed'"
   />
 </template>
 
@@ -18,15 +18,10 @@ export default {
       show: false,
       canSuccess: true,
       duration: 3000,
-      height: "2px",
-      color: "#0496FF",
-      failedColor: "#ff0076"
+      height: "2px"
     }
   },
   mounted() {
-    // this.$jquery(this.$el).remove()
-    // document.querySelector("#app").append(this.$el)
-
     this.$events.$on("ssr-progress", action => {
       this[action]()
     })
@@ -101,11 +96,14 @@ export default {
   top: 0px;
   left: 0px;
   right: 0px;
-  height: 2px;
+  height: 4px;
   width: 0%;
   transition: width 0.2s, opacity 0.4s;
   opacity: 1;
-  background-color: #efc14e;
+  background-color: var(--color-primary);
   z-index: 999999;
+  &.failed {
+    background-color: var(--color-secondary);
+  }
 }
 </style>

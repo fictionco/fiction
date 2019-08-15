@@ -5,20 +5,24 @@ module.exports.default = Factor => {
       this.DB_CONNECTION = Factor.$config.setting("DB_CONNECTION")
       this.dbConfig()
 
-
+      require("./setup").default(Factor)
 
       if (!this.DB_CONNECTION) {
-        Factor.$filters.callback("initial-server-start", () => {
-          Factor.$log.warn("No database connection string (.env/DB_CONNECTION)")
+        Factor.$filters.add("setup-needed", _ => {
+          const item = {
+            title: "DB Connection",
+            value: "Needed for auth, users, posts, dashboard, etc...",
+            location: ".env / DB_CONNECTION"
+          }
+
+          return [..._, item]
         })
+
         return
       }
 
-
       Factor.$filters.callback("close-server", () => this.disconnectDb())
-      Factor.$filters.add("initialize-server", () => {
-        this.connectDb()
-      })
+      Factor.$filters.callback("initialize-server", () => this.connectDb())
     }
 
     dbConfig() {
@@ -42,14 +46,13 @@ module.exports.default = Factor => {
     }
 
     async connectDb() {
-
-      if (!this._connected && this.readyState() != 'connected') {
+      if (!this._connected && this.readyState() != "connected") {
         try {
           this._connected = true
           await this.mongo.connect(this.DB_CONNECTION, { useNewUrlParser: true })
           return
         } catch (error) {
-          throw new Error(error)
+          Factor.$log.error(error)
         }
       }
     }

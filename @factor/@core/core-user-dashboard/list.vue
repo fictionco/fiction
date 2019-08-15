@@ -19,12 +19,12 @@
           <factor-link
             v-if="row.email"
             class="permalink"
-            :path="postlink(row.type, row.permalink)"
+            :path="postlink(row.postType, row.permalink)"
           >{{ row.email }}</factor-link>
         </div>
 
         <div v-else-if="column == 'photo'" class="author">
-          <factor-avatar :post="row" />
+          <factor-avatar :post-id="row.avatar" />
         </div>
 
         <div v-else-if="column == 'role'" class="meta">
@@ -54,7 +54,7 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$posts.getStatusCount({
+            : this.$post.getStatusCount({
                 meta: this.meta,
                 field: "role",
                 key,
@@ -92,8 +92,8 @@ export default {
   },
 
   methods: {
-    postlink(type, permalink, root = true) {
-      return this.$posts.getPermalink({ type, permalink, root })
+    postlink(postType, permalink, root = true) {
+      return this.$post.getPermalink({ postType, permalink, root })
     },
 
     tableStructure() {

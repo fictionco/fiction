@@ -1,11 +1,14 @@
 <template>
   <div class="content-footer">
-    <factor-link path="https://www.fiction.com" class="pin">
-      <component :is="$setting.get(`footer.logo`)" />
-    </factor-link>
-
-    <div v-formatted-text="$setting.get('footer.headline')" class="license" />
-    <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
+    <div class="logo">
+      <factor-link path="https://www.fiction.com" class="pin">
+        <component :is="$setting.get(`footer.logo`)" />
+      </factor-link>
+    </div>
+    <div class="legal">
+      <div v-formatted-text="$setting.get('footer.headline')" class="license" />
+      <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
+    </div>
   </div>
 </template>
 <script>
@@ -14,21 +17,37 @@ export default {}
 
 <style lang="less">
 .content-footer {
-  max-width: 600px;
-  text-align: center;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1.6em;
   font-size: 0.9em;
-  padding: 2em 0 4em;
+  padding: 2em 1em 4em;
+  margin-top: 4em;
+  @media (max-width: 767px) {
+    display: block;
+    .logo {
+      margin-bottom: 1em;
+    }
+  }
+  .logo {
+    margin-right: 3em;
+  }
   .pin {
-    margin-bottom: 1.5em;
     display: inline-block;
+  }
+  .legal {
+    line-height: 1.3;
   }
   .license {
     font-weight: var(--font-weight-bold);
   }
   .copyright {
     opacity: 0.7;
+  }
+  a {
+    color: inherit;
+    text-decoration: underline;
   }
 }
 </style>

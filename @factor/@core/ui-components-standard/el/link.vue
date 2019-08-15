@@ -28,6 +28,8 @@ export default {
 
     path = !path && !_.isEmpty(query) ? this.$route.path : path
 
+    path = path.trim()
+
     if (path.startsWith("http") || this.event) {
       el = "a"
       attrs = { href: path }
@@ -116,6 +118,7 @@ export default {
   }
   &.btn-link {
     display: inline-block;
+    line-height: 1;
   }
 }
 </style>

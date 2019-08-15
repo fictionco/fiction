@@ -29,7 +29,11 @@ export default Factor => {
     sanitizeHtml(html) {
       return require("sanitize-html")(html, {
         allowedTags: false,
-        allowedAttributes: false
+        allowedAttributes: false,
+        allowedSchemes: ["http", "https", "mailto"],
+        allowedSchemesByTag: {
+          img: ["data", "http", "https"]
+        }
       })
     }
   })()

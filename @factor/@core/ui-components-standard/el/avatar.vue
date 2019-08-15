@@ -94,7 +94,7 @@ export default {
   .user-blank {
     opacity: 0.6;
     fill: var(--color-placeholder);
-    box-shadow: var(--input-shadow);
+    box-shadow: var(--box-shadow-input);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
   }

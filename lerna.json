@@ -1,9 +1,9 @@
 {
+  "version": "1.0.0-alpha.21",
+  "npmClient": "yarn",
+  "useWorkspaces": false,
   "packages": [
     "@factor/*",
     "@factor/@*/*"
-  ],
-  "version": "1.0.0-alpha.15",
-  "npmClient": "yarn",
-  "useWorkspaces": false
+  ]
 }

@@ -7,10 +7,9 @@ const destroyer = require("server-destroy")
 
 const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
-const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
 const IS_PRODUCTION = NODE_ENV === "production"
-// Add for Firebase
-global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
+// // Add for Firebase
+// global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 module.exports.default = Factor => {
   const PORT = process.env.PORT || Factor.$config.setting("PORT") || 3000
@@ -33,21 +32,12 @@ module.exports.default = Factor => {
       })
     }
 
-    // // Endpoint Helper method, return function that processes (req, res)
-    // requestHandler() {
-    //   return async (request, response) => {
-    //     const args = { serve: false }
-    //     const server = await this.startServer(args)
-    //     return server(request, response)
-    //   }
-    // }
-
     async render(request, response) {
       response.setHeader("Content-Type", "text/html")
       response.setHeader("Server", this.getServerInfo())
 
       const { url } = request
-      const context = { url, extend: {} }
+      const context = { url, headTags: {} }
 
       try {
         const html = await this.renderer.renderToString(context)
@@ -79,7 +69,10 @@ module.exports.default = Factor => {
       this.renderer = this.createRenderer(bundle, { template, clientManifest })
 
       // Set Express routine for all fallthrough paths
-      this.serverApp.get("*", async (request, response) => await this.render(request, response))
+      this.serverApp.get(
+        "*",
+        async (request, response) => await this.render(request, response)
+      )
 
       this.serverApp.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
     }
@@ -120,23 +113,7 @@ module.exports.default = Factor => {
     onListenMessage() {
       const { arrowUp, arrowDown } = figures
       Factor.$log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` Ready`))
-
     }
-
-    // onInitialListen() {
-    //   const url = Factor.$paths.localhostUrl()
-
-    //   const message = {
-    //     title: "Development Server",
-    //     lines: [
-    //       { title: "URL", value: url, indent: true },
-    //       { title: "NODE_ENV", value: NODE_ENV, indent: true },
-    //       { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true }
-    //     ]
-    //   }
-
-    //   Factor.$log.formatted(message)
-    // }
 
     async startServerDevelopment() {
       const { middleware } = Factor.$filters.apply("development-server", bundled => {
@@ -182,9 +159,18 @@ module.exports.default = Factor => {
 
             details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
 
-            return `${chalk.cyan(figures.arrowUp) + chalk.cyan(figures.arrowDown)} Request: ${chalk.cyan(
-              tokens.url(req, res)
-            )} ${chalk.dim(details.join(" "))}`
+            let url = tokens.url(req, res)
+
+            // Server requests to endpoints have null as the value for url
+            // This is due to proxy
+            if (url.includes("null")) {
+              url = chalk.cyan(`server ${figures.arrowRight} ${url.split("null")[1]}`)
+            }
+
+            return `${chalk.cyan(figures.arrowUp) +
+              chalk.cyan(figures.arrowDown)} Request: ${chalk.cyan(url)} ${chalk.dim(
+              details.join(" ")
+            )}`
           },
           {
             skip: (request, response) => {
@@ -204,6 +190,9 @@ module.exports.default = Factor => {
     }
 
     extendMiddleware() {
+      this.serverApp.use(require("compression")())
+      this.serverApp.use(require("helmet")())
+
       // parse application/x-www-form-urlencoded
       this.serverApp.use(bodyParser.urlencoded({ extended: false }))
 
@@ -224,7 +213,9 @@ module.exports.default = Factor => {
 
     localListenRoutine(server) {
       const { routine, certConfig } = Factor.$paths.getHttpDetails()
-      return routine == "https" ? require("https").createServer(certConfig, server) : server
+      return routine == "https"
+        ? require("https").createServer(certConfig, server)
+        : server
     }
 
     serveStatic(path, cache) {
@@ -239,8 +230,8 @@ module.exports.default = Factor => {
         this.serverApp.use(require("serve-favicon")(fav))
       }
 
-      // Global and Static Images/Manifests, etc..
-      this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
+      // // Global and Static Images/Manifests, etc..
+      // this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
 
       // Serve distribution folder at Root URL
       this.serverApp.use("/", this.serveStatic(Factor.$paths.get("dist"), true))

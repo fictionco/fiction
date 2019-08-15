@@ -18,8 +18,8 @@
 <script>
 export default {
   components: {
-    "el-hero": () => import("./el/hero"),
-    "el-cta": () => import("./el/cta")
+    "el-hero": () => import("./el/hero.vue"),
+    "el-cta": () => import("./el/cta.vue")
   },
   props: {
     post: { type: Object, default: () => {} }

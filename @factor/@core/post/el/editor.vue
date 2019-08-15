@@ -95,7 +95,7 @@ export default {
   --color-red: #ff0076;
 
   color: var(--color-text);
-  box-shadow: var(--input-shadow);
+  box-shadow: var(--box-shadow-input);
 
   height: 600px;
 
@@ -106,7 +106,6 @@ export default {
   border-radius: 4px;
   .ace_content {
     background-color: var(--input-bg);
-    padding: 10px 0;
   }
   .ace_layer .ace_cursor {
     color: var(--color-text);

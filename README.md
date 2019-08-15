@@ -1,66 +1,58 @@
-<p align="center">
-  <img src="./factor.svg" width="350" style="width: 350px;display:block;">
-  </p>
- <p align="center">
+<p>
+<a href="https://factor.dev">
+  <img src="./banner.jpg" width="100%" style="display:block;">
+</a>
+</p>
+
+ <p>
   <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
   <a href="https://github.com/fiction-com/factor/commits/master"><img src="https://badgen.net/github/last-commit/fiction-com/factor" alt="Commit"></a>
   <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
   <a href="https://www.npmjs.com/package/@factor/cli"><img src="https://badgen.net/npm/dm/@factor/cli" alt="Downloads a Month"></a>
  </p>
 
-> A Javascript web-OS for shipping production web apps. Build a fully functional web app, blog or PWA (progressive-web-app) **Get started in less than 5 minutes.**
+_A full-stack post framework for professional Javascript developers. Impress your friends by building incredible CMS driven web apps that do exponentially more than they've seen elsewhere. Key tech: Vue SSR, Node, Mongo._
 
-## Links
+**Try out the famous 3-minute setup: `npx create-factor-app`**
 
-- 📘 Documentation: [https://factor.dev](https://factor.dev)
+## Documentation
+
+[https://factor.dev](https://factor.dev)
 
 ## Features
 
-- Add Plugins, Themes, Stacks as easy as `yarn add [extension]`
-- Ship Production Apps Faster 
-- 100% Javascript Stack
-- A Powerful CMS Framework (Optional)
+- CMS/eCommerce Dashboard - A CMS engine used to create all sort of dynamic extensions: blogs, eCommerce, portfolios, slider, forms
+- Themes - Use themes to get up in running in minutes instead of days or months.
+- Plugins - Drop-in plugins that do all the installation and config automatically. Just add to `dependencies`.
+- MEVN Stack - Vue, Node, MongoDB
+- Tons more:
   - Dashboard
-  - Markdown Page and Post Editing System  
+  - Server Side Rendered
+  - Markdown Page and Post Editing System
   - Authentication, Image Management, DB
 
-
 Learn more at [factor.dev](https://factor.dev).
-
 
 ## Getting started
 
 To scaffold a new project:
 
-```
+```shell
 $ yarn create factor-app <project-name>
-
-$ npx create-factor-app <project-name>
 ```
 
 It's as simple as that!
 
 ## Themes
-Start by using the basic Factor app [starter theme](#starter-theme-url)
+
+[https://factor.dev/themes](https://factor.dev/themes)
 
 ## Examples
 
-Please take a look at https://factor.dev/examples
-
-## Production deployment
-
-To deploy, instead of running factor, you probably want to build ahead of time. Therefore, building and starting are separate commands:
-
-```bash
-yarn factor deploy <environment>
-```
-
-Then run `now` and enjoy!
-
-Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
-
+[COMING SOON]
 
 ## Contributors
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
 <table>
@@ -77,7 +69,6 @@ Note: we recommend putting `.factor` in `.npmignore` or `.gitignore`.
 ## Contributing
 
 Please refer to our [Contribution Guide](https://factor.dev/contribution)
-
 
 ## Security
 

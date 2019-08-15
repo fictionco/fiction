@@ -134,9 +134,16 @@ module.exports.default = Factor => {
 
       const packageConfig = Factor.$filters.apply("package-webpack-config", {})
 
-      const merged = merge(baseConfig, buildConfig, targetConfig, packageConfig, testingConfig, {
-        plugins
-      })
+      const merged = merge(
+        baseConfig,
+        buildConfig,
+        targetConfig,
+        packageConfig,
+        testingConfig,
+        {
+          plugins
+        }
+      )
 
       //const smp = new SpeedMeasurePlugin()
 
@@ -280,11 +287,7 @@ module.exports.default = Factor => {
               test: /\.md$/,
               use: [
                 {
-                  loader: "html-loader"
-                },
-                {
-                  loader: "markdown-loader",
-                  options: {}
+                  loader: "markdown-image-loader"
                 }
               ]
             }
@@ -321,7 +324,7 @@ module.exports.default = Factor => {
       const ignoreRegex = ignoreMods.length > 0 ? ignoreMods.join("|") : ""
 
       if (ignoreRegex) {
-        const createRegex = new RegExp(`${ignoreRegex}`)
+        const createRegex = new RegExp(`^(${ignoreRegex})$`)
 
         out.plugins.push(new webpack.IgnorePlugin(createRegex))
       }

@@ -5,45 +5,31 @@ export default Factor => {
     }
 
     filters() {
-      const icon = Factor.FACTOR_TARGET == "app" ? require("./img/users.svg") : ""
-      Factor.$filters.add("dashboard-routes", _ => {
-        _.push({
-          path: "account",
-          component: () => import("./account"),
-          meta: {
-            postType: "user"
-          }
-        })
-
-        return _
+      Factor.$filters.push("dashboard-routes", {
+        path: "account",
+        component: () => import("./account"),
+        meta: {
+          postType: "user"
+        }
       })
-      Factor.$filters.add("dashboard-menu", _ => {
-        _.push({
-          group: "account",
-          path: "account",
-          name: "Your Account",
-          icon
-        })
-
-        return _
+      Factor.$filters.push("dashboard-menu", {
+        group: "account",
+        path: "account",
+        name: "Your Account",
+        icon: require("./img/users.svg")
       })
 
-      Factor.$filters.add("post-types", _ => {
-        _.push({
-          type: "user",
-          base: "@",
-          icon,
-          populated: ["covers"],
-          nameIndex: "Users",
-          nameSingle: "User",
-          namePlural: "Users",
-          accessLevel: 500,
-          list: () => import("./list"),
-          edit: () => import("./edit.vue"),
-          add: false
-        })
-
-        return _
+      Factor.$filters.push("post-types", {
+        postType: "user",
+        icon: require("./img/users.svg"),
+        nameIndex: "Users",
+        nameSingle: "User",
+        namePlural: "Users",
+        listTemplate: () => import("./list"),
+        editTemplate: () => import("./edit.vue"),
+        baseRoute: "@",
+        accessLevel: 500,
+        add: false
       })
     }
   })()

@@ -11,39 +11,39 @@ module.exports.default = Factor => {
       return this.mongo.Types.ObjectId(str)
     }
 
-    async runRequest(params) {
-      const { model, method, _arguments = [] } = params
-      const DataModel = await this.model(model)
-      let result
-      if (!DataModel) {
-        throw new Error(`DB Model for ${model} does not exist.`)
-      } else {
-        try {
-          result = await DataModel[method].apply(DataModel, _arguments)
-        } catch (error) {
-          throw new Error(error)
-        }
-      }
+    // async runRequest(params) {
+    //   const { model, method, _arguments = [] } = params
+    //   const DataModel = await this.model(model)
+    //   let result
+    //   if (!DataModel) {
+    //     throw new Error(`DB Model for ${model} does not exist.`)
+    //   } else {
+    //     try {
+    //       result = await DataModel[method].apply(DataModel, _arguments)
+    //     } catch (error) {
+    //       throw new Error(error)
+    //     }
+    //   }
 
-      return result
-    }
-    async run() {
-      const params =
-        arguments.length > 1
-          ? {
-              model: arguments[0],
-              method: arguments[1],
-              _arguments: arguments[2]
-            }
-          : arguments[0]
-      return await this.runRequest(params)
-    }
+    //   return result
+    // }
+    // async run() {
+    //   const params =
+    //     arguments.length > 1
+    //       ? {
+    //           model: arguments[0],
+    //           method: arguments[1],
+    //           _arguments: arguments[2]
+    //         }
+    //       : arguments[0]
+    //   return await this.runRequest(params)
+    // }
     canEdit({ doc, bearer, scope }) {
-      const { _id, authors = [] } = doc
+      const { _id, author = [] } = doc
       if (
         !bearer ||
         (_id !== bearer._id &&
-          !authors.some(_ => _._id == bearer._id) &&
+          !author.some(_ => _._id == bearer._id) &&
           !bearer.accessLevel &&
           bearer.accessLevel >= 300)
       ) {
@@ -65,8 +65,13 @@ module.exports.default = Factor => {
       const { Schema } = this.mongo
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
-        console.log("new discrim", name)
-        this._models[name] = this.model("post").discriminator(name, new Schema())
+        // For server restarts
+        if (this.mongo.models[name]) {
+          this._schemas[name] = this.mongo.modelSchemas[name]
+          this._models[name] = this.mongo.models[name]
+        } else {
+          this._models[name] = this.model("post").discriminator(name, new Schema())
+        }
       }
       return this._models[name]
     }
@@ -109,13 +114,12 @@ module.exports.default = Factor => {
       this._models = {}
 
       const postSchemas = Factor.$mongo.getSchemas()
+      const primarySchema = Factor.$mongo.getSchema("post")
+      const primaryModel = this.setModel(primarySchema)
 
-      const primaryModel = this.setModel(postSchemas.post)
-
-      Object.keys(postSchemas).forEach(key => {
-        if (key != "post") {
-          const config = postSchemas[key]
-          this.setModel(config, primaryModel)
+      postSchemas.forEach(s => {
+        if (s.name != "post") {
+          this.setModel(s, primaryModel)
         }
       })
     }

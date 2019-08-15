@@ -153,7 +153,7 @@ export default {
   .controls {
     text-align: right;
     .sortable-item {
-      //box-shadow: @factor-input-shadow;
+      //box-shadow: @factor-box-shadow-input;
       font-size: 0.9em;
       margin-bottom: 0.75em;
       padding: 0.3em 0.5em;
@@ -173,7 +173,7 @@ export default {
   }
 
   .inputs {
-    //box-shadow: @factor-input-shadow;
+    //box-shadow: @factor-box-shadow-input;
     padding: 1.5em;
     border-radius: 5px;
     background: #fff;

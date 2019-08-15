@@ -1,12 +1,13 @@
 <template>
-  <dashboard-page :key="postType" :loading="loading" class="posts-dashboard">
+  <dashboard-page :key="postType" class="posts-dashboard">
     <component
       :is="templateLoader"
       :list="posts"
       :meta="postsMeta"
       :loading="loading"
+      :sending="sending"
       :title="postTypeLabel"
-      @action="handlePostAction($event)"
+      @action="runPostAction($event)"
     />
   </dashboard-page>
 </template>
@@ -17,7 +18,8 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      sending: false
     }
   },
   metatags() {
@@ -31,12 +33,12 @@ export default {
       return this.$store.val(this.postType) || []
     },
     postTypeMeta() {
-      return this.$posts.postTypeMeta(this.postType)
+      return this.$post.postTypeMeta(this.postType)
     },
     templateLoader() {
-      return this.postTypeMeta.list
-        ? this.postTypeMeta.list
-        : () => import("./posts-table")
+      const { listTemplate } = this.postTypeMeta
+
+      return listTemplate ? listTemplate : () => import("./posts-table")
     },
     postType() {
       return this.$route.params.postType || ""
@@ -71,22 +73,42 @@ export default {
   },
   mounted() {
     this.setPosts()
+    this.$events.$on("refresh-table", () => {
+      this.setPosts()
+    })
   },
   methods: {
-    async handlePostAction({ action, selected }) {
-      if (selected.length == 0) return
+    async runPostAction({ action, selected }) {
+      this.sending = true
 
-      await this.$posts.request("updateManyById", {
-        data: { status: action },
-        _ids: selected
-      })
+      if (selected.length > 0) {
+        if (action == "delete") {
+          if (
+            confirm(
+              "Are you sure? This will permanently delete the selected posts."
+            )
+          ) {
+            await this.$post.deleteMany({
+              _ids: selected,
+              postType: this.postType
+            })
+          }
+        } else {
+          await this.$post.saveMany({
+            _ids: selected,
+            data: { status: action },
+            postType: this.postType
+          })
+        }
+        this.setPosts()
+      }
 
-      this.setPosts()
+      this.sending = false
     },
 
     async setPosts() {
       this.loading = true
-      await this.$posts.getPostIndex(this.filters)
+      await this.$post.getPostIndex(this.filters)
       this.loading = false
     }
   }

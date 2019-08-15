@@ -204,6 +204,7 @@ export default {
   },
   methods: {
     trigger(ref) {
+      this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
     },
     async send({ action, next }) {

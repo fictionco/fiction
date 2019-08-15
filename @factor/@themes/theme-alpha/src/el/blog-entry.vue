@@ -11,7 +11,7 @@
         </h1>
 
         <div class="entry-content">
-          <div v-if="format == 'listing'" class="excerpt">{{ $posts.excerpt(content) }}</div>
+          <div v-if="format == 'listing'" class="excerpt">{{ $utils.excerpt(content) }}</div>
           <slot v-if="format == 'single'" />
         </div>
       </div>
@@ -21,7 +21,7 @@
           <div class="txt">
             <span class="date">{{ $time.niceFormat(date) }}</span>
           </div>
-          <author-tag v-for="(author) in authors" :key="author.uid" :author="author" />
+          <author-tag v-for="(author) in author" :key="author._id" :author="author" />
         </div>
       </div>
 
@@ -44,8 +44,8 @@
       </div>
 
       <div v-if="format == 'single'" class="post-author post-author-bio">
-        <div v-for="(author) in authors" :key="author.uid" class="author-about">
-          <factor-avatar :uid="author.uid" :width="'60px'" />
+        <div v-for="(author) in author" :key="author._id" class="author-about">
+          <factor-avatar :post-id="author._id" :width="'60px'" />
           <div class="text">
             <span class="name">{{ author.displayName }}</span>
             <div class="bio">{{ author.bio }}</div>
@@ -65,7 +65,7 @@ export default {
   props: {
     format: { type: String, default: "" },
     images: { type: String, default: "" },
-    authors: { type: Array, default: () => [] },
+    author: { type: Array, default: () => [] },
     title: { type: String, default: "" },
     content: { type: String, default: "" },
     date: { type: [String, Number], default: "" },

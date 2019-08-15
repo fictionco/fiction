@@ -2,7 +2,8 @@ export default Factor => {
   return new (class {
     constructor() {
       this.filters()
-
+      this.utils = require("./utils").default(Factor)
+      this.objectHash = require("object-hash")
       this.initialized = false
     }
 
@@ -11,10 +12,37 @@ export default Factor => {
     }
 
     async save({ post, postType }) {
+      this.setCache(postType)
       return await this.request("save", { data: post, postType })
     }
 
+    async saveMany({ _ids, data, postType }) {
+      this.setCache(postType)
+      return await this.request("updateManyById", {
+        data,
+        _ids
+      })
+    }
+
+    async deleteMany({ _ids, postType }) {
+      this.setCache(postType)
+      return await this.request("deleteManyById", { _ids })
+    }
+
+    setCache(postType) {
+      Factor.$store.add(`${postType}Cache`, Factor.$time.stamp())
+    }
+
+    cacheKey(postType) {
+      return Factor.$store.val(`${postType}Cache`) || ""
+    }
+
     filters() {
+      Factor.$filters.callback("site-prefetch", _ => this.prefetchPost(_))
+      Factor.$filters.callback("client-route-before", _ =>
+        this.prefetchPost({ clientOnly: true, ..._ })
+      )
+
       Factor.$filters.add("components", _ => {
         _["factor-post-edit"] = () => import("./el/edit-link")
         return _
@@ -61,12 +89,9 @@ export default Factor => {
       //   return _
       // })
 
-      Factor.$filters.callback("site-prefetch", _ => this.prefetchPost(_))
-      Factor.$filters.callback("client-route-before-promises", _ => this.prefetchPost(_))
-
       Factor.$filters.add("admin-menu", _ => {
         this.getPostTypes().forEach(
-          ({ type, namePlural, icon = "", add = "add-new", accessLevel }) => {
+          ({ postType, namePlural, icon = "", add = "add-new", accessLevel }) => {
             const subMenu = []
 
             if (add) {
@@ -82,11 +107,11 @@ export default Factor => {
 
             if (!accessLevel || Factor.$user.can({ accessLevel })) {
               _.push({
-                group: type,
-                path: `posts/${type}`,
-                name: namePlural || Factor.$utils.toLabel(type),
+                group: postType,
+                path: `posts/${postType}`,
+                name: namePlural || Factor.$utils.toLabel(postType),
                 icon,
-                items: Factor.$filters.apply(`admin-menu-post-${type}`, subMenu)
+                items: Factor.$filters.apply(`admin-menu-post-${postType}`, subMenu)
               })
             }
           }
@@ -96,24 +121,46 @@ export default Factor => {
       })
     }
 
-    async prefetchPost({ to = null } = {}) {
+    // setPrefetch() {
+    //   Factor.$filters.callback("ssr-prefetch", async () => {
+    //     this.prefetch = this.prefetchPost()
+    //     return await this.prefetch
+    //   })
+    // }
+
+    // serverPrefetch() {
+    //   return this.prefetch || null
+    // }
+
+    async prefetchPost({ to = null, clientOnly = false } = {}) {
       const route = to || Factor.$router.currentRoute
 
       const request = Factor.$filters.apply("post-params", {
         ...route.params,
-        ...route.query
+        ...route.query,
+        status: "published"
       })
 
       const { permalink, _id } = request
 
       // Only add to the filter if permalink is set. That way we don't show loader for no reason.
-      if (!permalink && !_id) return {}
+      if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
-      const _post = await this.getSinglePost(request)
+      // For prefetching that happens only in the browser
+      // If this applied on server it causes a mismatch (store set with full post then set to loading)
+      if (clientOnly) {
+        Factor.$store.add("post", { loading: true })
+      }
 
-      Factor.$store.add("post", _post)
+      const post = await this.getSinglePost(request)
 
-      return _post
+      Factor.$store.add("post", post)
+
+      if (post) {
+        this.postStandardMetatags(post._id)
+      }
+
+      return post
     }
 
     addPostToComponents() {
@@ -129,7 +176,7 @@ export default Factor => {
     }
 
     current() {
-      return this.$store.getters["getItem"]("post") || {}
+      return this.$store.val("post") || {}
     }
 
     init(cb) {
@@ -143,20 +190,20 @@ export default Factor => {
       }
     }
 
-    getMetatags({ post = {}, parts }) {
-      const metatags = {}
+    postStandardMetatags(_id) {
+      const post = Factor.$store.val(_id) || {}
 
-      const canonical = this.getPermalink(parts)
+      const out = {
+        canonical: this.link(_id, { root: true }),
+        title: post.titleTag || post.title || "",
+        description: post.descriptionTag || Factor.$utils.excerpt(post.content) || "",
+        image:
+          post.avatar && Factor.$store.val(post.avatar)
+            ? Factor.$store.val(post.avatar).url
+            : ""
+      }
 
-      const title = post.titleTag || post.title || ""
-      const description = post.description || this.excerpt(post.content) || ""
-      const image = post.featuredImage
-        ? post.featuredImage[0].url
-        : post.images
-        ? post.images[0].url
-        : ""
-
-      return { canonical, title, description, image }
+      Factor.$globals.metatags.push(out)
     }
 
     async getPostById({ _id, postType = "post", createOnEmpty = false }) {
@@ -169,12 +216,6 @@ export default Factor => {
       return _post
     }
 
-    async getList(args) {
-      const { posts } = await this.request("list", args)
-
-      return posts
-    }
-
     async getSinglePost(args) {
       const {
         permalink,
@@ -183,31 +224,60 @@ export default Factor => {
         _id,
         token,
         createOnEmpty = false,
-        depth = 10
+        status = "all",
+        depth = 50
       } = args
 
-      const params = { postType, createOnEmpty }
+      const params = { postType, createOnEmpty, status }
 
       if (_id) {
         params._id = _id
+        const existing = Factor.$store.val(_id)
+        if (existing) {
+          Factor.$store.add("post", existing)
+          return existing
+        }
+      } else if (permalink) {
+        params.conditions = { [field]: permalink }
       } else if (token) {
         params.token = token
-      } else {
-        params.conditions = { [field]: permalink }
       }
 
       const post = await this.request("single", params)
 
       if (post) {
-        Factor.$store.add(post._id, post)
-        await this.populateOneRecursively({ post, postType, depth })
+        await this.populatePosts({ posts: [post], depth })
       }
 
       return post
     }
 
+    async getList(args) {
+      const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = args
+
+      const skip = (page - 1) * limit
+
+      const posts = await this.request("postList", {
+        postType,
+        conditions,
+        options: { limit, skip, page, sort }
+      })
+
+      await this.populatePosts({ posts, depth })
+
+      return posts
+    }
+
     async getPostIndex(args) {
-      const { limit = 20, page = 1, postType } = args
+      const { limit = 10, page = 1, postType, sort } = args
+      const queryHash = this.objectHash({ ...args, cache: this.cacheKey(postType) })
+      const stored = Factor.$store.val(queryHash)
+
+      // Create a mechanism to prevent multiple runs/pops for same data
+      if (stored) {
+        Factor.$store.add(postType, stored)
+        return stored
+      }
 
       const taxonomies = ["tag", "category", "status", "role"]
 
@@ -224,77 +294,83 @@ export default Factor => {
 
       const skip = (page - 1) * limit
 
-      const indexData = await this.request("list", {
+      const { posts, meta } = await this.request("postIndex", {
         postType,
         conditions,
-        options: { limit, skip, page }
+        options: { limit, skip, page, sort }
       })
 
-      Factor.$store.add(postType, indexData)
+      Factor.$store.add(queryHash, { posts, meta })
+      Factor.$store.add(postType, { posts, meta })
 
-      this.populateManyRecursively({ posts: indexData.posts })
+      await this.populatePosts({ posts, depth: 20 })
 
-      return indexData
+      return { posts, meta }
     }
 
-    async populateManyRecursively({ posts, depth = 10 }) {
-      const promises = posts.map(p =>
-        this.populateOneRecursively({ post: p, postType: p.postType, depth })
-      )
-
-      await Promise.all(promises)
-    }
-
-    async populateOneRecursively({ post, postType, depth = 10 }) {
-      Factor.$store.add(post._id, post)
+    async populatePosts({ posts, depth = 10 }) {
       let _ids = []
-      const populatedFields = Factor.$mongo.getPopulatedFields({ postType, depth })
-      populatedFields.forEach(f => {
-        const v = post[f]
-        if (v) {
-          if (Array.isArray(v)) {
-            _ids = [..._ids, ...v]
-          } else {
-            _ids.push(v)
+
+      posts.forEach(post => {
+        Factor.$store.add(post._id, post)
+
+        const populatedFields = Factor.$mongo.getPopulatedFields({
+          postType: post.postType,
+          depth
+        })
+
+        populatedFields.forEach(field => {
+          const v = post[field]
+          if (v) {
+            if (Array.isArray(v)) {
+              _ids = [..._ids, ...v]
+            } else {
+              _ids.push(v)
+            }
           }
-        }
+        })
       })
 
-      const filtered = _ids.filter(_id => {
-        const storeVal = Factor.$store.val(_id)
-
-        return !storeVal
+      const _idsFiltered = _ids.filter((_id, index, self) => {
+        return !Factor.$store.val(_id) && self.indexOf(_id) === index ? true : false
       })
 
-      if (filtered.length > 0) {
-        const posts = await Factor.$db.request("populate", { _ids: filtered })
-        await this.populateManyRecursively({ posts, depth })
+      if (_idsFiltered.length > 0) {
+        const posts = await Factor.$db.request("populate", { _ids: _idsFiltered })
+        await this.populatePosts({ posts, depth })
       }
     }
 
     getPostTypes() {
       return Factor.$filters.apply("post-types", []).map(_ => {
         return {
-          base: typeof _.base == "undefined" ? _.type : _.base,
-          nameIndex: Factor.$utils.toLabel(_.type),
-          nameSingle: Factor.$utils.toLabel(_.type),
-          namePlural: Factor.$utils.toLabel(_.type),
+          baseRoute: typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute,
+          nameIndex: Factor.$utils.toLabel(_.postType),
+          nameSingle: Factor.$utils.toLabel(_.postType),
+          namePlural: Factor.$utils.toLabel(_.postType),
           ..._
         }
       })
     }
 
     postTypeMeta(postType) {
-      const postTypes = this.getPostTypes()
-
-      return postTypes.find(pt => pt.type == postType)
+      return this.getPostTypes().find(pt => pt.postType == postType)
     }
 
     populatedFields({ postType, depth = 10 }) {
       return Factor.$mongo.getPopulatedFields({ postType, depth })
     }
 
-    getPermalink({ type, permalink = "", root = true, path = false } = {}) {
+    link(_id, options = {}) {
+      const post = Factor.$store.val(_id)
+
+      if (!post) return
+
+      return this.getPermalink({ ...post, ...options })
+    }
+
+    getPermalink(args = {}) {
+      const { postType, permalink = "", root = false, path = false } = args
       const parts = []
 
       parts.push(root ? Factor.$config.setting("url") : "")
@@ -303,17 +379,20 @@ export default Factor => {
         parts.push(path)
         return parts.join("").replace(/\/$/, "") // remove trailing backslash
       } else {
-        if (type) {
-          const pt = this.getPostTypes().find(_ => _.type == type)
+        const postTypeMeta = postType ? this.postTypeMeta(postType) : false
 
-          const base = pt ? pt.base : false
+        if (postTypeMeta) {
+          const { baseRoute } = postTypeMeta
 
-          if (base) {
-            parts.push(base)
-          }
+          // trim slashes
+          if (baseRoute) parts.push(baseRoute.replace(/^\/|\/$/g, ""))
         }
 
-        parts.push(permalink)
+        if (!permalink && args.title) {
+          parts.push(Factor.$utils.slugify(args.title))
+        } else {
+          parts.push(permalink)
+        }
 
         return parts.join("/")
       }
@@ -452,27 +531,6 @@ export default Factor => {
       }
 
       return post
-    }
-
-    excerpt(content, { length = 30 } = {}) {
-      if (!content) {
-        return ""
-      }
-      let splitContent = Factor.$markdown
-        .strip(content)
-        .replace(/\n|\r/g, " ")
-        .split(" ")
-
-      let excerpt
-
-      if (splitContent.length > length) {
-        splitContent = splitContent.slice(0, length)
-        excerpt = splitContent.join(" ") + "..."
-      } else {
-        excerpt = splitContent.join(" ")
-      }
-
-      return excerpt
     }
   })()
 }

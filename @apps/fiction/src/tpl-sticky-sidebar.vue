@@ -30,7 +30,7 @@
       <div ref="content" class="entry-content">
         <div v-if="post.title" class="title">
           <h1 v-formatted-text="post.title" />
-          <factor-post-edit :post="post" />
+          <factor-post-edit :post-id="post._id" />
         </div>
         <div class="admin-items">
           <div class="date">Updated &mdash; {{ $time.niceFormat(post.date) }}</div>

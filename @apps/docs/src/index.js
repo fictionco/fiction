@@ -13,8 +13,9 @@ module.exports.default = Factor => {
           },
           {
             path: "/compare",
-            component: () => import("./page-compare")
-          },
+            component: () => import("./page-compare"),
+            meta: { routeClass: ["nav-bg-gray"] }
+          }
         ]
 
         return _.concat(routes)

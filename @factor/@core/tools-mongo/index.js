@@ -1,6 +1,8 @@
 export default Factor => {
   return new (class {
     constructor() {
+      Factor.$filters.add("webpack-ignore-modules", _ => [..._, "mongoose"])
+
       this.configureMongoose()
 
       Factor.$filters.callback("initialize-server", () => this.init())
@@ -8,14 +10,13 @@ export default Factor => {
     }
 
     init() {
-
-      this.schemas = Factor.$filters.apply("data-schemas", {
-        post: require("@factor/post/schema").default(Factor)
-      })
+      this.schemas = Factor.$filters.apply("data-schemas", [
+        require("@factor/post/schema").default(Factor)
+      ])
     }
 
     configureMongoose() {
-      if (Factor.$isNode) {
+      if (Factor.$isNode && Factor.FACTOR_TARGET == "server") {
         this.mongoose = require("mongoose")
 
         // https://github.com/Automattic/mongoose/issues/4965
@@ -28,18 +29,14 @@ export default Factor => {
           this.mongoose.set("debug", true)
         }
 
-
         // Improve duplicate value validation errors
         // https://github.com/matteodelabre/mongoose-beautiful-unique-validation
-        const beautifyUnique = require('mongoose-beautiful-unique-validation')
+        const beautifyUnique = require("mongoose-beautiful-unique-validation")
         this.mongoose.plugin(beautifyUnique)
-
       } else {
         this.mongoose = require("mongoose/browser")
       }
       // Factor.$filters.callback("initial-server-start", () => this._syncSchemaIndexes())
-
-
     }
 
     objectIdType() {
@@ -54,38 +51,24 @@ export default Factor => {
       return this.schemas
     }
 
-    getPopulatedFields({ postType = 'post', depth = 10 }) {
-      // console.log('this.schemas', this.schemas)
+    getSchema(postType = "post") {
+      return this.schemas.find(_ => _.name == postType)
+    }
 
-      let fields = this.schemas.post.populatedFields || []
+    getPopulatedFields({ postType = "post", depth = 10 }) {
+      let fields = this.getSchema("post").populatedFields || []
 
-      if (postType != 'post') {
+      const schema = this.getSchema(postType)
 
-        const postTypePopulated = this.schemas[postType].populatedFields || []
+      if (postType != "post" && schema) {
+        const postTypePopulated = schema.populatedFields || []
         fields = [...fields, ...postTypePopulated]
       }
 
       const pop = fields.filter(_ => _.depth <= depth).map(_ => _.field)
 
-
       return pop
     }
-
-    // Scans a schema and adds the populated field names to an array property
-    // Needed to help determine when/where to populate them
-    // _registerPopulatedFields(schema, options) {
-    //   const populated = []
-    //   schema.eachPath(function process(pathName, schemaType) {
-    //     if (pathName == "_id") return
-    //     if (schemaType.options.ref || (schemaType.caster && schemaType.caster.options.ref)) {
-    //       if (!populated.includes(pathName)) {
-    //         populated.push(pathName)
-    //       }
-    //     }
-    //   })
-
-    //   schema.populatedFields = populated
-    // }
 
     // Ensure all post indexes are up to date .
     // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes
@@ -97,6 +80,5 @@ export default Factor => {
       }
       return
     }
-
   })()
 }

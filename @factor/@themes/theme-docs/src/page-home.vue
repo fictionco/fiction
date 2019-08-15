@@ -2,11 +2,11 @@
   <div class="home">
     <section
       class="splash-wrap"
-      :style="{'background-image': `url(`+ $setting.get('home.graphic') + `)` }"
+      :style="{'background-image': `url(${$setting.get('home.graphic')})` }"
     >
       <div class="splash mast">
         <div class="splash-content">
-          <h1 class="title">{{ $setting.get('home.headline') }}</h1>
+          <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
           <p class="subtitle">{{ $setting.get('home.subHeadline') }}</p>
           <div class="actions">
             <app-link
@@ -24,9 +24,13 @@
     <section class="boxes-wrap">
       <div class="boxes">
         <div v-for="(box ,i) in $setting.get('home.boxes')" :key="i" class="box">
-          <img class="icon" :src="box.icon" :alt="box.title" >
-          <h2>{{ box.title }}</h2>
-          <p>{{ box.description }}</p>
+          <div class="box-media">
+            <div class="icon" :style="{'background-image': `url(${box.icon})` }" />
+          </div>
+          <div class="text">
+            <h2>{{ box.title }}</h2>
+            <p>{{ box.description }}</p>
+          </div>
         </div>
       </div>
     </section>
@@ -55,13 +59,15 @@ export default {
     position: relative;
     line-height: 1.2;
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 1200px;
   }
 
   .splash-wrap {
-    padding: 7em 0;
+    position: relative;
+    padding: 10em 1em 8em;
+    background-color: #fff;
     background-repeat: no-repeat;
-    background-size: auto 100%;
+    background-size: auto 110%;
     background-position: right 0 top 0;
     @media (max-width: 767px) {
       padding: 4em 0 1em;
@@ -70,17 +76,19 @@ export default {
     .hhh {
       pointer-events: none;
       position: absolute;
+      z-index: 1;
       left: 0;
       right: 0;
       bottom: 0;
-      top: 67%;
-      transform: skewY(-6deg);
-      background: #f5f8fc;
+      top: 90%;
+      transform: skewY(-3deg);
+      height: 250px;
+      background: #fff;
       transition: opacity 0.2s ease-out;
       will-change: transform;
     }
     .splash {
-      z-index: 1;
+      z-index: 2;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-column-gap: 40px;
@@ -92,21 +100,21 @@ export default {
       .splash-content {
         .title {
           font-weight: 800;
-          font-size: 3em;
+          font-size: 4em;
           letter-spacing: -0.03em;
           line-height: 1.1;
           margin-bottom: 0.2em;
           @media (max-width: 767px) {
-            font-size: 2.2em;
+            font-size: 2.6em;
           }
         }
         .subtitle {
-          opacity: 0.5;
+          opacity: 0.7;
           font-size: 1.6em;
           line-height: 1.4em;
           font-weight: 500;
           @media (max-width: 767px) {
-            font-size: 1em;
+            font-size: 1.2em;
           }
         }
         .actions {
@@ -128,12 +136,12 @@ export default {
   }
 
   .boxes-wrap {
-    padding: 2em 1em 4em;
+    padding: 2em 1em;
     position: relative;
-    z-index: 1;
-    background: #f5f8fc;
+    z-index: 2;
     .boxes {
-      max-width: 1000px;
+      font-size: 1.23em;
+      max-width: 1200px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -142,17 +150,20 @@ export default {
         display: block;
       }
       .box {
-        padding: 2em;
         border-radius: 5px;
         background: #fff;
-        border: 1px solid rgba(80, 102, 119, 0.1);
-        margin: 2em 0;
 
         @media (max-width: 767px) {
           margin: 1em 0 2em;
         }
+        display: flex;
         .icon {
-          margin-bottom: 0.5em;
+          margin: 0 1em 0 0;
+          height: 60px;
+          background-repeat: no-repeat;
+          width: 60px;
+          background-position: 50% 20%;
+          border-radius: 7px;
         }
         h2 {
           font-size: 1.2em;

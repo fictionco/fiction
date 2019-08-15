@@ -1,10 +1,13 @@
 {
   "name": "@factor/core-theme",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.21",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {},
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
+  "dependencies": {
+    "find-up": "^4.1.0"
+  }
 }

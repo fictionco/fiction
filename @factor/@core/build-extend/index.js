@@ -1,6 +1,6 @@
 module.exports.default = Factor => {
   return new (class {
-    constructor() { }
+    constructor() {}
 
     reload() {
       this.loadCore()
@@ -33,7 +33,7 @@ module.exports.default = Factor => {
 
       this._install("files", require("@factor/build-files").default)
       this._install("theme", require("@factor/core-theme").default)
-      this._install("stack", require("@factor/core-stack").default)
+      //  this._install("stack", require("@factor/core-stack").default)
 
       this._install("config", require("@factor/server-config").default)
 
@@ -45,7 +45,9 @@ module.exports.default = Factor => {
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
       require("@factor/app-store").createStore()
-      require("@factor/app-router").createRouter()
+      require("@factor/app-router")
+        .default(Factor)
+        .create()
     }
 
     _install(id, plugin) {
@@ -73,6 +75,14 @@ module.exports.default = Factor => {
     }
 
     loadPlugins() {
+      const { pathExistsSync } = require("fs-extra")
+
+      if (!pathExistsSync(Factor.$paths.get("loader-server"))) {
+        throw new Error(
+          "Factor loaders are missing. Did you forget to run 'yarn factor build' before serving your app?"
+        )
+      }
+
       const plugins = require(Factor.$paths.get("loader-server"))
 
       this.injectPlugins(plugins)

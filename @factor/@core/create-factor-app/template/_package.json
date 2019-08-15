@@ -6,11 +6,15 @@
   "main": "src/index.js",
   "private": true,
   "factor": {
-    "target": [
-      "app"
-    ]
+    "target": ["app"]
   },
   "dependencies": {
-    "@factor/index": "^1.0.0-alpha.12"
+    "@factor/core": "^1.0.0-alpha.20",
+    "@factor/plugin-notify": "^1.0.0-alpha.20",
+    "@factor/plugin-seo": "^1.0.0-alpha.20",
+    "@factor/plugin-sitemap": "^1.0.0-alpha.20",
+    "@factor/plugin-contact-form": "^1.0.0-alpha.20",
+    "@factor/plugin-storage-s3": "^1.0.0-alpha.20",
+    "@factor/theme-alpha": "^1.0.0-alpha.20"
   }
 }

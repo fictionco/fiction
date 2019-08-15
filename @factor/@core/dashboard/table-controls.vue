@@ -8,7 +8,7 @@
         format="simple"
         :list="actions"
       />
-      <dashboard-btn :disabled="!action" @click="$emit('action', action)">Apply</dashboard-btn>
+      <dashboard-btn :disabled="!action" :loading="loading" @click="send($event)">Apply</dashboard-btn>
     </div>
     <table-tabber :tabs="tabs" v-bind="$attrs" />
   </div>
@@ -22,21 +22,18 @@ export default {
   props: {
     tabs: { type: Array, default: () => [] },
     actions: { type: Array, default: () => [] },
-    meta: { type: Object, default: () => {} },
-    count: { type: Number, default: 0 },
-    pageCurrent: { type: Number, default: 0 }
+    postType: { type: String, default: "" },
+    loading: { type: Boolean, default: false }
   },
   data() {
     return {
       action: ""
     }
   },
-  computed: {},
   methods: {
-    pageCount(total, limit) {
-      if (total == 0) {
-        return 1
-      } else return Math.ceil(total / limit)
+    send(action) {
+      this.$emit("action", this.action)
+      this.action = ""
     }
   }
 }
@@ -54,6 +51,12 @@ export default {
   }
   .bulk-actions {
     display: flex;
+    align-items: center;
+    // .delete-items {
+    //   font-size: 0.85em;
+    //   margin-right: 25px;
+    //   color: #ff0076;
+    // }
     > * {
       margin-right: 10px;
     }

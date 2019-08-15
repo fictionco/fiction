@@ -42,7 +42,7 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
-      const postTypeInfo = this.$posts.postTypeInfo(this.postType)
+      const postTypeInfo = this.$post.postTypeInfo(this.postType)
       return postTypeInfo.namePlural
     },
     activeIndex() {
@@ -76,12 +76,12 @@ export default {
     })
   },
   methods: {
-    postlink(type, permalink, root = true) {
-      return this.$posts.getPermalink({ type, permalink, root })
+    postlink(postType, permalink, root = true) {
+      return this.$post.getPermalink({ postType, permalink, root })
     },
     async setFiltered() {
       if (this.status) {
-        this.filtered = await this.$posts.getPostIndex({
+        this.filtered = await this.$post.getPostIndex({
           model: "User",
           status: this.status
         })
@@ -96,7 +96,7 @@ export default {
     },
 
     async getIndex(args = {}) {
-      return await this.$posts.getPostIndex({
+      return await this.$post.getPostIndex({
         type: this.postType,
         page: this.page,
         ...args
@@ -104,7 +104,7 @@ export default {
     },
 
     async trashPost(id, index) {
-      await this.$posts.trashPost({ id })
+      await this.$post.trashPost({ id })
 
       this.posts.splice(index, 1)
     }

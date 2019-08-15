@@ -7,17 +7,25 @@ module.exports.default = Factor => {
       this.SECRET = Factor.$config.setting("TOKEN_SECRET")
 
       if (!this.SECRET) {
-        Factor.$filters.callback("initial-server-start", () => {
-          Factor.$log.warn("No auth token secret provided. (.env/TOKEN_SECRET)")
+        Factor.$filters.add("setup-needed", _ => {
+          const item = {
+            title: "JWT Secret",
+            value: "A JWT string secret, used for verifying authentication status.",
+            location: ".env/TOKEN_SECRET"
+          }
+
+          return [..._, item]
         })
       }
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
-      Factor.$filters.add("data-schemas", _ => {
-        _.user = require("./schema").default(Factor)
-        return _
-      })
+      // Factor.$filters.add("data-schemas", _ => {
+      //   _.user = require("./schema").default(Factor)
+      //   return _
+      // })
+
+      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
     }
 
     async authenticate(params) {

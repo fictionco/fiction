@@ -7,13 +7,6 @@ module.exports.default = Factor => {
       }
     }
 
-    // addComponents() {
-    //   Factor.$filters.add("components", _ => {
-    //     _["el-btn"] = () => import("./el/btn.vue")
-    //     return _
-    //   })
-    // }
-
     addComponents() {
       Factor.$filters.add("components", _ => {
         _["app-btn"] = () => import("./el/btn")
@@ -44,23 +37,14 @@ module.exports.default = Factor => {
             meta: { nav: true }
           },
           {
-            path: "/vip",
-            component: () => import("./view-vip/page-vip"),
-            meta: { nav: true, background: "#fff" }
-          },
-          {
             path: "/factor-js",
             component: () => import("./view-tour/page-tour"),
-            meta: { nav: true, pageClass: ["nav-light"] }
+            meta: { nav: true }
           },
           {
-            path: "/how-it-works",
-            component: () => import("./page-how-it-works"),
-            meta: { background: "#f7f9ff" }
-          },
-          {
-            path: "/about",
-            component: () => import("./view-about/page-about")
+            path: "/vip",
+            component: () => import("./view-vip/page-vip"),
+            meta: { nav: true, routeClass: ["nav-light"], background: "#fff" }
           },
           {
             path: "/contact",
@@ -73,21 +57,27 @@ module.exports.default = Factor => {
             meta: { background: "#f7f9ff", auth: true }
           },
           {
-            path: "/hosting",
-            component: () => import("./page-hosting")
-          },
-          {
-            path: "/staying",
-            component: () => import("./page-staying")
-          },
-          {
-            path: "/careers",
-            component: () => import("./page-careers")
-          },
-          {
-            path: "/network",
-            component: () => import("./page-network")
+            path: "/sigma",
+            component: () => import("./view-sigma/page-sigma"),
+            meta: { background: "#e6ebf1" }
           }
+          // {
+          //   path: "/how-it-works",
+          //   component: () => import("./page-how-it-works"),
+          //   meta: { background: "#f7f9ff" }
+          // },
+          // {
+          //   path: "/hosting",
+          //   component: () => import("./page-hosting")
+          // },
+          // {
+          //   path: "/staying",
+          //   component: () => import("./page-staying")
+          // },
+          // {
+          //   path: "/network",
+          //   component: () => import("./page-network")
+          // }
         ]
 
         return _.concat(routes)

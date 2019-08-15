@@ -9,11 +9,14 @@
         :key="i"
         class="sidebar-button"
       >
-        <button
+        <a
           class="btn-sidebar"
-          :class="ele.target"
+          :class="[ele.target, {'btn-sidebar-selected' : selected === ele.path}]"
           @click="sidebarPath(ele.path)"
-        >{{ ele.text }}</button>
+        >
+          {{ ele.text }}
+          <span :class="{'btn-sidebar-line-selected' : selected === ele.path}" />
+        </a>
       </div>
     </div>
   </div>
@@ -32,7 +35,8 @@ export default {
         "#portfolioContainerID",
         "#newsContainerID",
         "#contactPageContainerID"
-      ]
+      ],
+      selected: undefined
     };
   },
   mounted: function() {
@@ -40,11 +44,7 @@ export default {
       const observer = new IntersectionObserver(
         entries => {
           if (entries[0].isIntersecting) {
-            this.removeSelector();
-            let sidebarOption = document.querySelector(
-              `.btn-sidebar.${entries[0].target.id}`
-            );
-            sidebarOption.classList.add("btn-sidebar-selected");
+            this.selected = `#${entries[0].target.id}`;
           }
         },
         { threshold: [0.3] }
@@ -56,14 +56,6 @@ export default {
     sidebarPath(path) {
       let ele = document.querySelector(path);
       ele.scrollIntoView();
-    },
-    removeSelector() {
-      let selectedOptions = document.querySelectorAll(".btn-sidebar-selected");
-      if (selectedOptions.length > 0) {
-        for (const ele of selectedOptions) {
-          ele.classList.remove("btn-sidebar-selected");
-        }
-      }
     }
   }
 };
@@ -74,7 +66,7 @@ export default {
   position: fixed;
   font-family: Work Sans;
   display: grid;
-  grid-template-rows: 20% 80%;
+  grid-template-rows: 5% 95%;
   color: #f7f7f7;
   background: linear-gradient(304.61deg, #732b29 -122.45%, #111010 97.32%);
   height: 100%;
@@ -84,16 +76,20 @@ export default {
   width: 100%;
   text-align: center;
 }
+.sidebar-title {
+  font-size: 3em;
+}
 .sidebar-buttons-container {
-  height: 45vh;
+  height: 34vh;
   display: flex;
-  justify-content: center;
+  align-self: center;
   flex-wrap: wrap;
 }
 .sidebar-button {
   width: 100%;
   display: flex;
-  justify-content: center;
+  height: 20px;
+  margin-left: 32%;
 }
 .btn-sidebar-selected {
   color: #f7f7f7 !important;
@@ -101,12 +97,21 @@ export default {
 }
 .btn-sidebar {
   color: #9e9e9e;
-  font-size: 1.1vw;
+  font-size: 1.5em;
   background-color: transparent;
   border: none;
   outline: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 .btn-sidebar:hover {
   color: #f7f7f7;
+}
+.btn-sidebar-line-selected {
+  position: absolute;
+  background: #fa5855;
+  width: 50px;
+  height: 5px;
+  margin: -15px 0 0 120px;
 }
 </style>

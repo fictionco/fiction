@@ -1,19 +1,14 @@
 <template>
-  <div class="page-tour">
+  <div class="view-tour">
     <section class="splash-wrap">
       <div class="splash mast">
         <div>
-          <div class="label label-blue">factor Arrives q3 2019</div>
-          <h1 class="title">Built for Perfectionists</h1>
-          <p
-            class="subtitle"
-          >A modern framework based on Vue.js that helps developers code better and ship faster.</p>
-          <!-- <app-link btn="primary" size="large" path="https://factor.dev/guide/">
-            Get Started
-            <factor-icon icon="arrow-right" />
-          </app-link>-->
+          <div class="label label-blue">Currently In Alpha</div>
+          <h1 class="title">A Universal Javascript Platform for Professional Web Developers</h1>
+          <p class="subtitle">Build rock-solid server-rendered Vue.js apps in hours not months</p>
         </div>
       </div>
+      <div class="hhh" />
     </section>
 
     <section class="items-wrap">
@@ -51,7 +46,7 @@
             </div>
           </div>
           <figure class="figure">
-            <img class="img-modular" :src="require(`./modular.svg`)" alt="Factor - Modular" >
+            <img class="img-modular" :src="require(`./img/modular.svg`)" alt="Factor - Modular" >
           </figure>
         </div>
         <div class="item cols-2">
@@ -62,7 +57,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./ssr.svg`)" alt="Factor - Serverless and SSR" >
+              <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" >
             </figure>
           </div>
         </div>
@@ -77,7 +72,7 @@
             <h2 class="title">Best of Breed Tools</h2>
             <p>We've spent years learning best practices and making mistakes so you don't have to...</p>
             <div class="actions">
-      <factor-link path="https://factor.dev/guide">
+              <factor-link path="https://factor.dev/guide">
                 More About The Tech
                 <i class="fa fa-arrow-right" />
               </factor-link>
@@ -100,7 +95,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./themes-plugins.svg`)" alt="Factor - Themes and Plugins" >
+              <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" >
             </figure>
           </div>
         </div>
@@ -112,7 +107,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./user-roles.svg`)" alt="Factor - User Roles and Permissions" >
+              <img :src="require(`./img/user-roles.svg`)" alt="Factor - User Roles and Permissions" >
             </figure>
           </div>
         </div>
@@ -130,7 +125,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./markdown-editor.svg`)" alt="Factor - Markdown Editor" >
+              <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" >
             </figure>
           </div>
         </div>
@@ -144,7 +139,7 @@
             <figure class="figure">
               <img
                 class="flexible"
-                :src="require(`./flexible.png`)"
+                :src="require(`./img/flexible.png`)"
                 alt="Factor - Infinite Possibilities"
               >
             </figure>
@@ -174,15 +169,15 @@
       <div class="mast">
         <div class="cta">
           <div>
-            <h3 class="title">Ready to Start Building?</h3>
-            <p class="subtitle">Get in touch or create an account</p>
+            <h3 class="title">From Start to App in 3 Minutes</h3>
+
+            <p class="subtitle">Read the Factor docs for a quickstart.</p>
           </div>
           <div class="actions">
-            <app-btn path="https://docs.fiction.com/getting-started" btn="primary" size="large">
+            <app-link path="https://factor.dev/guide/quickstart" btn="primary" size="large">
               Quick Start
               <i class="fa fa-arrow-right" />
-            </app-btn>
-            <app-btn path="/contact" btn="default" size="large">Contact Us</app-btn>
+            </app-link>
           </div>
         </div>
       </div>
@@ -197,44 +192,27 @@ export default {
   },
   data() {
     return {
-      loading: true,
-      title: "some title"
+      loading: true
     }
   },
-  mounted() {},
+  routeClass() {
+    return ["nav-light"]
+  },
   metatags() {
     return {
-      title: "How Factor Works",
-      description: "",
-      image: ""
+      title: "Factor JS - A Platform for Universal VueJS Apps",
+      description:
+        "Build server-rendered web applications that stun your friends and followers with Factor JS Universal VueJS platform."
     }
   }
 }
 </script>
 <style lang="less">
-.nav-light {
-  .site-head {
-    background: #1b223c;
-    .logo-img .thelogotext {
-      fill: #f7f7f7;
-    }
-    .mobile-logo .logo-img .thelogotext {
-      fill: initial;
-    }
-
-    .nav > a {
-      color: #f7f7f7;
-      @media (max-width: 767px) {
-        color: initial;
-      }
-    }
-  }
-}
-.page-tour {
+.view-tour {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
@@ -294,60 +272,81 @@ export default {
   }
 
   .splash-wrap {
-    background: #1b223c url(./rectangles.svg) no-repeat center center;
+    background: #1b223c url(./img/rectangles.svg) no-repeat center center;
     background-size: 80%;
+    position: relative;
     @media (max-width: 767px) {
       background-size: 100%;
     }
     .splash {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr;
       grid-column-gap: 60px;
       align-items: center;
       text-align: center;
-      max-width: 550px;
-      padding: 8em 0 5em;
+      max-width: 800px;
+      padding: 7em 0 10em;
       @media (max-width: 767px) {
-        padding: 6em 2em 4em;
+        padding: 6em 2em 10em;
+        text-align: left;
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 3em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 1;
         margin: 0.3em 0;
-        color: #f9f9f9;
+        color: var(--color-light);
         @media (max-width: 767px) {
-          font-size: 2em;
+          font-size: 2.6em;
         }
       }
       .subtitle {
-        opacity: 0.5;
+        opacity: 0.7;
         font-size: 1.4em;
+        line-height: 1.6em;
         font-weight: 400;
         margin-bottom: 1.5em;
-        color: #d9d9d9;
+        color: var(--color-light);
 
         @media (max-width: 767px) {
           font-size: 1.2em;
         }
       }
     }
+    .hhh {
+      pointer-events: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -120px;
+      top: 84%;
+      transform: skewY(-4deg);
+      background: #f5f8fc;
+      transition: opacity 0.2s ease-out;
+      will-change: transform;
+    }
   }
 
   .items-wrap {
     padding: 2em 0;
+    position: relative;
+    margin-top: -140px;
     .item {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-gap: 6em;
       align-items: center;
       padding: 3em 0;
       &.banner {
         margin: 0 auto;
-        box-shadow: var(--panel-shadow);
+        box-shadow: var(--box-shadow-panel);
         background: #fff;
         border-radius: 5px;
-        padding: 3em;
+        padding: 2em;
       }
       &.cols-1 {
         grid-template-columns: 1fr;
@@ -365,7 +364,7 @@ export default {
         &.cols-2 {
           grid-template-columns: 1fr;
           grid-gap: 2em;
-          padding: 2em;
+          //padding: 2em;
           text-align: left;
         }
       }
@@ -386,7 +385,7 @@ export default {
       p {
         font-size: 1.2em;
         line-height: 1.6em;
-        opacity: 0.5;
+        opacity: 0.7;
       }
       .actions {
         margin-top: 1em;
@@ -416,9 +415,9 @@ export default {
   }
 
   .testimonial {
+    margin: 2em 0 -100px;
     position: relative;
     overflow: hidden;
-    margin: 2em 0;
     border-radius: 4px;
     background: #fff;
     box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
@@ -428,7 +427,7 @@ export default {
       position: absolute;
       overflow: hidden;
       z-index: 2;
-      right: -30px;
+      right: -40px;
       top: 0;
       left: calc(50% + 100px);
       -webkit-transform: skewX(12deg);
@@ -448,7 +447,7 @@ export default {
       span {
         display: block;
         position: absolute;
-        background-image: url(./testimonial.jpg);
+        background-image: url(./img/testimonial.jpg);
         background-size: cover;
         background-position: center center;
         height: 100%;
@@ -475,7 +474,7 @@ export default {
     }
     blockquote {
       width: 50%;
-      background: #fff url(./left-quote.svg) no-repeat 3em 3em;
+      background: #fff url(./img/left-quote.svg) no-repeat 3em 3em;
       background-size: 25px 25px;
       padding: 5em 3em 3em;
       @media (max-width: 767px) {
@@ -486,7 +485,7 @@ export default {
       p {
         font-size: 1.2em;
         line-height: 1.6em;
-        opacity: 0.6;
+        opacity: 0.7;
       }
       cite {
         display: block;
@@ -496,30 +495,41 @@ export default {
   }
 
   .cta-wrap {
-    padding: 3em 0;
+    padding: 8em 0 4em;
+    color: var(--color-light);
+    background: #1b223c url(./img/rectangles.svg) no-repeat center center;
+    background-size: 80%;
     .cta {
+      margin: 0 auto;
+      max-width: 600px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       grid-column-gap: 60px;
+      text-align: center;
       @media (max-width: 767px) {
         text-align: center;
         grid-template-columns: 1fr;
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 2.6em;
+        font-size: 4em;
         letter-spacing: -0.03em;
         line-height: 1.2em;
         margin-bottom: 0.2em;
+        @media (max-width: 767px) {
+          font-size: 2.6em;
+        }
       }
       .subtitle {
-        opacity: 0.5;
-        font-size: 1.4em;
-        font-weight: 500;
+        opacity: 0.7;
+        font-size: 1.2em;
+        line-height: 1.6em;
+        font-weight: 400;
       }
       .actions {
+        margin-top: 2em;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         .app-btn + .app-btn {
           margin-left: 1em;

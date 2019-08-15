@@ -128,42 +128,38 @@ export default Factor => {
           }
         })
 
-      const customWatchers = Factor.$filters.apply("build-watchers", [
-        {
-          name: "Template",
-          files: [
-            this.templatePath,
-            Factor.$paths.get("config-file-public"),
-            Factor.$paths.get("config-file-private")
-          ],
-          callback: () => {
-            this.template = this.getTemplate()
-          }
-        }
-      ])
+      // const customWatchers = Factor.$filters.apply("build-watchers", [
+      //   {
+      //     name: "Template",
+      //     files: [
+      //       this.templatePath,
+      //       Factor.$paths.get("config-file-public"),
+      //       Factor.$paths.get("config-file-private")
+      //     ],
+      //     callback: () => {
+      //       this.template = this.getTemplate()
+      //     }
+      //   }
+      // ])
 
-      if (customWatchers.length > 0) {
-        customWatchers.forEach(
-          ({ name, files, ignored = [], event = "all", callback }) => {
-            chokidar
-              .watch(files, { ignored, ignoreInitial: true })
-              .on(event, (event, path) => {
-                const update = callback({ event, path })
-                if (update || typeof update == "undefined") {
-                  this.updateServer({
-                    title: event,
-                    value: path
-                  })
-                }
-              })
-          }
-        )
-      }
+      // if (customWatchers.length > 0) {
+      //   customWatchers.forEach(
+      //     ({ name, files, ignored = [], event = "all", callback }) => {
+      //       chokidar
+      //         .watch(files, { ignored, ignoreInitial: true })
+      //         .on(event, (event, path) => {
+      //           const update = callback({ event, path })
+      //           if (update || typeof update == "undefined") {
+      //             this.updateServer({
+      //               title: event,
+      //               value: path
+      //             })
+      //           }
+      //         })
+      //     }
+      //   )
+      // }
     }
-
-    // flat(arr) {
-    //   return [].concat.apply([], arr).filter(_ => _)
-    // }
 
     compileClient() {
       // modify client config to work with hot middleware

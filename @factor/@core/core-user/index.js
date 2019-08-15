@@ -11,10 +11,12 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.add("data-schemas", _ => {
-        _.user = require("./schema").default(Factor)
-        return _
-      })
+      // Factor.$filters.add("data-schemas", _ => {
+      //   _.user = require("./schema").default(Factor)
+      //   return _
+      // })
+
+      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
     }
 
     mixin() {
@@ -33,38 +35,6 @@ export default Factor => {
     async request(method, params) {
       return await Factor.$endpoint.request({ id: "user", method, params })
     }
-
-    // async load(_id) {
-    //   let user
-    //   const storedValue = Factor.$store.val(_id) || false
-
-    //   if (storedValue) {
-    //     user = storedValue
-    //   } else {
-    //     user = await this.request("getUser", { _id })
-
-    //     Factor.$store.add(_id, user)
-    //   }
-
-    //   return user
-    // }
-
-    // async save(user) {
-    //   const _save = { ...user } // mutable
-
-    //   let { images, covers } = _save
-
-    //   _save.images = images.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-    //   _save.covers = covers.filter(_ => _).map(_ => (typeof _ == "object" ? _._id : _))
-
-    //   try {
-    //     const saved = await this.request("save", _save)
-    //     this.setUser({ user, current: this.isCurrentUser(user._id) })
-    //     return saved
-    //   } catch (error) {
-    //     throw new Error(error)
-    //   }
-    // }
 
     async authenticate(params) {
       let user = await this.request("authenticate", params)
@@ -118,7 +88,7 @@ export default Factor => {
       const token = user && user.token ? user.token : this.token() ? this.token() : null
 
       try {
-        user = token ? await Factor.$posts.getSinglePost({ token }) : {}
+        user = token ? await Factor.$post.getSinglePost({ token }) : {}
 
         this.setUser({ user, token, current: true })
 
@@ -216,8 +186,8 @@ export default Factor => {
     }
 
     handleAuthRouting() {
-      Factor.$filters.add("client-route-before-promises", (_, { to, from, next }) => {
-        const user = this.currentUser()
+      Factor.$filters.callback("client-route-before", async ({ to, from, next }) => {
+        const user = await this.init() //this.currentUser()
         const { path: toPath } = to
 
         // Is authentication needed
@@ -241,7 +211,7 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.add("client-route-loaded", (_, { to, from }) => {
+      Factor.$filters.add("client-route-after", (_, { to, from }) => {
         const auth = to.matched.some(_r => {
           return _r.meta.auth
         })

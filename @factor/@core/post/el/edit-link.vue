@@ -1,31 +1,44 @@
 <template>
   <factor-link
-    v-if="canEdit"
+    v-if="postId && canEdit"
     btn="default"
     size="tiny"
     btn-element="app-btn"
     class="edit"
     :path="`/dashboard/posts/${post.postType}/edit`"
     :query="{_id: post._id}"
-  >Edit {{ $utils.toLabel(post.postType) }}</factor-link>
+  >{{ editText }}</factor-link>
 </template>
 
 <script>
 export default {
   props: {
-    post: { type: Object, default: () => {} }
+    postId: { type: String, default: "" }
   },
 
   computed: {
-    authors() {
-      return this.post && this.post.authors ? this.post.authors : []
+    editText() {
+      return this.meta && this.meta.nameSingle
+        ? `Edit ${this.meta.nameSingle}`
+        : "Edit"
+    },
+    meta() {
+      return this.post.postType
+        ? this.$post.postTypeMeta(this.post.postType)
+        : {}
+    },
+    post() {
+      return this.postId ? this.$store.val(this.postId) : {}
+    },
+    author() {
+      return this.post && this.post.author ? this.post.author : []
     },
     accessLevel() {
       const { accessLevel } = this.$currentUser
       return accessLevel || 0
     },
     canEdit() {
-      return this.accessLevel > 100 || this.authors.includes(this.$userId)
+      return this.accessLevel > 100 || this.author.includes(this.$userId)
     }
   },
   mounted() {}

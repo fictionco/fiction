@@ -70,7 +70,7 @@ code {
   /* Code blocks */
   pre {
     background: #f7f9fb;
-    box-shadow: var(--input-shadow);
+    box-shadow: var(--box-shadow-input);
     border-radius: 5px;
     position: relative;
     padding: 1.5em;
@@ -140,6 +140,11 @@ code {
       font-weight: 800;
       opacity: 0.15;
     }
+    @media (max-width: 767px) {
+      &:before {
+        display: none;
+      }
+    }
   }
   a {
     color: var(--color-primary);
@@ -151,7 +156,7 @@ code {
   p,
   ul,
   ol {
-    line-height: 1.7;
+    line-height: 1.6;
     padding-bottom: 1.2em;
   }
   ol,
@@ -160,11 +165,16 @@ code {
   }
   blockquote {
     margin-bottom: 2em;
-    padding: 1em 2em;
-    border-radius: 5px;
-    box-shadow: var(--input-shadow);
-    p {
-      padding-bottom: 0;
+    padding: 1em 0 1em 1.5em;
+
+    border-left: 3px solid var(--color-text);
+    background-color: var(--color-bg-contrast);
+    p,
+    ul,
+    ol {
+      &:last-child {
+        padding-bottom: 0;
+      }
     }
   }
   .alert {
@@ -224,6 +234,37 @@ code {
     }
     td {
       padding: 10px;
+    }
+  }
+
+  figure {
+    margin: 2em 0;
+    text-align: center;
+
+    figcaption {
+      margin-top: 0.1em;
+      opacity: 0.3;
+      text-align: center;
+    }
+
+    > a,
+    > img {
+      text-align: center;
+      display: inline-block;
+    }
+
+    img {
+      max-height: 60vh;
+      box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15),
+        0 1px 2px 0 rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease-in-out;
+      border-radius: 5px;
+
+      &:hover {
+        box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15),
+          0 1px 15px 0 rgba(0, 0, 0, 0.1);
+        transform: translateY(-1px);
+      }
     }
   }
 }

@@ -2,6 +2,9 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {}
 
+    sortMerge(arr) {
+      return this.deepMerge(this.sortPriority(arr))
+    }
     // Deep merge an array of objects into a single object
     // Replaces arrays instead of concats
     deepMerge(items) {
@@ -115,21 +118,35 @@ module.exports.default = Factor => {
     }
 
     sortPriority(arr) {
-      if (!arr || arr.length == 0) {
-        return arr
-      }
+      if (!arr || arr.length == 0) return arr
+
       return arr.sort((a, b) => {
         const ap = a.priority || 100
         const bp = b.priority || 100
 
-        if (ap < bp) {
-          return -1
-        } else if (ap > bp) {
-          return 1
-        } else {
-          return 0
-        }
+        return ap < bp ? -1 : ap > bp ? 1 : 0
       })
+    }
+
+    excerpt(content, { length = 42 } = {}) {
+      if (!content) {
+        return ""
+      }
+      let splitContent = Factor.$markdown
+        .strip(content)
+        .replace(/\n|\r/g, " ")
+        .split(" ")
+
+      let excerpt
+
+      if (splitContent.length > length) {
+        splitContent = splitContent.slice(0, length)
+        excerpt = splitContent.join(" ") + "..."
+      } else {
+        excerpt = splitContent.join(" ")
+      }
+
+      return excerpt
     }
   })()
 }

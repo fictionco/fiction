@@ -2,8 +2,9 @@
   <div class="content-layout">
     <site-head v-if="nav">
       <factor-link path="/factor-js">Factor JS</factor-link>
-      <factor-link path="/about">About</factor-link>
-
+      <factor-link path="/vip">VIP</factor-link>
+      <factor-link path="/careers">Careers</factor-link>
+      <factor-link path="/blog">Blog</factor-link>
       <factor-link v-if="!$userId" event="signin-modal" data-test="login">
         Sign In
         <factor-icon icon="arrow-right" />
@@ -22,8 +23,7 @@
     </div>
   </div>
 </template>
-<style src="./css/theme-styles.css"></style>
-<style src="./css/style.less" lang="less"></style>
+
 <script>
 export default {
   components: {
@@ -35,7 +35,7 @@ export default {
     const post = this.post || {}
     return {
       title: post.titleTag || post.title,
-      description: post.description || this.$posts.excerpt(post.content),
+      description: post.description || this.$utils.excerpt(post.content),
       image: this.socialImage(post)
     }
   },

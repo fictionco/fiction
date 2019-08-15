@@ -1,6 +1,6 @@
 {
   "name": "@factor/post",
-  "version": "1.0.0-alpha.15",
+  "version": "1.0.0-alpha.21",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -8,20 +8,24 @@
   "factor": {
     "target": {
       "app": "index",
-      "server": "server"
+      "server": [
+        "server",
+        "index"
+      ]
     },
-    "id": "posts"
+    "id": "post"
   },
   "dependencies": {
-    "@factor/app": "^1.0.0-alpha.15",
-    "@factor/build": "^1.0.0-alpha.15",
-    "@factor/core": "^1.0.0-alpha.15",
-    "@factor/dashboard": "^1.0.0-alpha.15",
-    "@factor/dashboard-signin": "^1.0.0-alpha.15",
-    "@factor/post-metatags": "^1.0.0-alpha.5",
-    "@factor/post-page-templates": "^1.0.0-alpha.15",
-    "@factor/ui": "^1.0.0-alpha.15",
+    "@factor/app": "^1.0.0-alpha.21",
+    "@factor/build": "^1.0.0-alpha.21",
+    "@factor/core": "^1.0.0-alpha.21",
+    "@factor/dashboard": "^1.0.0-alpha.21",
+    "@factor/dashboard-signin": "^1.0.0-alpha.21",
+    "@factor/metatags": "^1.0.0-alpha.21",
+    "@factor/post-page-templates": "^1.0.0-alpha.21",
+    "@factor/ui": "^1.0.0-alpha.21",
     "jsonwebtoken": "^8.5.1",
+    "object-hash": "^1.3.1",
     "scriptjs": "^2.5.9"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"

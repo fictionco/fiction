@@ -3,9 +3,9 @@
     <div class="image-upload-input">
       <div ref="organizer" class="image-organizer">
         <div
-          v-for="(img, index) in allImages"
+          v-for="(img) in allImages"
           :key="img._id"
-          :class="max <= 1 ? 'no-sort-img' : 'sort-img'"
+          :class="single ? 'no-sort-img' : 'sort-img'"
           class="image-item image-uploaded"
         >
           <div class="image-item-pad">
@@ -16,7 +16,7 @@
             >
               <div class="status-bar">
                 <div
-                  v-if="img.status == 'progress' || img.status === 'preprocess'"
+                  v-if="['progress', 'preprocess', 'processing'].includes(img.status)"
                   class="image-status overlay"
                   :class="img.status"
                 >
@@ -25,17 +25,16 @@
 
                 <factor-menu
                   v-else
-                  :item-key="index"
                   class="menu"
                   :list="['view', 'copy-URL', 'delete']"
-                  @action="action($event)"
+                  @action="action(img._id,$event)"
                 />
               </div>
             </div>
           </div>
         </div>
         <div
-          v-if="max == 1 || imageIds.length < max"
+          v-if="single || imageIds.length < maxImages"
           ref="multiImageDrop"
           class="image-item ignore-sortable image-drop"
         >
@@ -70,7 +69,7 @@ import Sortable from "sortablejs"
 export default {
   props: {
     loading: { type: Boolean, default: false },
-    value: { type: Array, default: () => [] },
+    value: { type: [Array, String], default: () => [] },
     min: { type: Number, default: 0 },
     max: { type: Number, default: 10 }
   },
@@ -85,6 +84,12 @@ export default {
     }
   },
   computed: {
+    single() {
+      return typeof this.value == "string" || this.max == 1 ? true : false
+    },
+    maxImages() {
+      return this.single ? 1 : this.max
+    },
     isRequired() {
       return typeof this.$attrs["required"] != "undefined" ? true : false
     },
@@ -108,7 +113,7 @@ export default {
       `value`,
       function(v) {
         if (v) {
-          this.imageIds = v
+          this.imageIds = typeof v == "string" ? [v] : v
         }
       },
       { deep: true, immediate: true }
@@ -117,15 +122,14 @@ export default {
     this.dom()
   },
   methods: {
-    action({ key, value }) {
-      const image = this.populated[key]
-      if (value == "view") {
+    action(_id, action) {
+      if (action == "view") {
         this.lightboxShow = true
-        this.lightboxIndex = key
-      } else if (value == "copy-URL") {
-        this.copyUrl(key)
-      } else if (value == "delete") {
-        this.removeImage(key)
+        this.lightboxIndex = this.populated.findIndex(_ => _._id == _id)
+      } else if (action == "copy-URL") {
+        this.copyUrl(_id)
+      } else if (action == "delete") {
+        this.removeImage(_id)
       }
     },
     doCallback(img) {
@@ -134,10 +138,11 @@ export default {
         this.callback = null
       }
     },
-    copyUrl(index) {
-      const _id = this.imageIds[index]
-      const image = this.populated[index]
-      this.copyText = image.url.includes("base64") ? `{{${_id}}}` : image.url
+    copyUrl(_id) {
+      const image = this.populated.findIndex(_ => _._id == _id)
+      this.copyText = image.url.includes("base64")
+        ? `{{${_id}.url}}`
+        : image.url
       this.$nextTick(() => {
         this.$refs.copyInput.select()
 
@@ -156,8 +161,8 @@ export default {
 
       if (this.images.length < this.min) {
         validity = `Please upload at least ${this.min} images.`
-      } else if (this.images.length > this.max) {
-        validity = `Please submit maximum ${this.max} images.`
+      } else if (this.images.length > this.maxImages) {
+        validity = `Please submit maximum ${this.maxImages} images.`
       }
 
       this.$emit("update:customValidity", validity)
@@ -189,7 +194,7 @@ export default {
         this.handleMultiImage(e.originalEvent.dataTransfer.files)
       })
 
-      if (this.max > 1) {
+      if (!this.single) {
         Sortable.create(this.$refs.organizer, {
           filter: ".ignore-sortable",
           ghostClass: "sortable-ghost",
@@ -211,18 +216,22 @@ export default {
     },
 
     updateValue() {
-      this.$emit("input", this.imageIds)
+      const v = this.imageIds.filter(_id =>
+        this.populated.find(_ => _._id == _id)
+      )
+      this.$emit("input", this.single ? v[0] : v)
 
       this.$emit("update:customValidity", this.validity)
     },
 
-    removeImage(index) {
-      const _id = this.imageIds[index]
-
+    removeImage(_id) {
       if (_id) {
         this.$storage.delete({ _id })
       }
 
+      const index = this.imageIds.findIndex(__id => __id == _id)
+
+      console.log("remove inde4x", this.imageIds, index)
       this.$delete(this.imageIds, index)
       this.updateValue()
     },
@@ -233,12 +242,12 @@ export default {
 
     async handleMultiImage(files) {
       this.numFiles = 0
-      if (files[0] && this.max == 1 && this.imageIds.length >= 1) {
-        this.removeImage(0)
+      if (files[0] && this.maxImages == 1 && this.imageIds.length >= 1) {
+        this.removeImage(this.imageIds[0])
       }
 
       for (let file of files) {
-        if (this.imageIds.length < this.max) {
+        if (this.imageIds.length < this.maxImages) {
           const meta = {
             status: "preprocess"
           }
@@ -263,7 +272,7 @@ export default {
       this.$storage.upload({
         file,
         onPrep: ({ mode, percent, preview = false }) => {
-          this.$set(item, "url", preview)
+          if (preview) this.$set(item, "url", preview)
           this.$set(item, "status", "preprocess")
         },
         onChange: progressEvent => {
@@ -271,6 +280,10 @@ export default {
 
           this.$set(item, "status", "progress")
           this.$set(item, "progress", (loaded / total) * 100)
+
+          if (loaded / total >= 1) {
+            this.$set(item, "status", "processing")
+          }
         },
         onError: error => {
           this.$set(item, "status", "error")
@@ -289,6 +302,14 @@ export default {
 </script>
 
 <style lang="less">
+@keyframes barberpole {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 60px 30px;
+  }
+}
 .image-upload-input {
   .validity {
     position: absolute;
@@ -303,7 +324,7 @@ export default {
   .image-organizer {
     display: grid;
 
-    grid-template-columns: repeat(auto-fit, minmax(50px, 80px));
+    grid-template-columns: repeat(auto-fit, minmax(30px, 60px));
     grid-gap: 10px;
     &.hidden {
       display: none;
@@ -370,6 +391,20 @@ export default {
       transition: width 0.8s;
       transition: all 0.2s;
     }
+    &.processing .bar {
+      background-size: 20px 20px;
+      background-image: linear-gradient(
+        45deg,
+        rgba(black, 0.1) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(black, 0.1) 50%,
+        rgba(black, 0.1) 75%,
+        transparent 75%,
+        transparent
+      );
+      animation: barberpole 0.5s linear infinite;
+    }
   }
   .menu {
     height: 100%;
@@ -387,7 +422,7 @@ export default {
     height: 100%;
     top: 0;
   }
-  //box-shadow: inset @factor-input-shadow;
+  //box-shadow: inset @factor-box-shadow-input;
   transition: 0.1s all;
   border-radius: 6px;
   width: 100%;
@@ -454,7 +489,7 @@ export default {
     width: 100%;
     opacity: 0;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 40;
   }
 }
 </style>

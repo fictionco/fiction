@@ -113,8 +113,13 @@ export default {
     }
   },
   computed: {
-    post() {
-      return this.$store.getters["getItem"](this._id) || {}
+    post: {
+      get() {
+        return this.$store.val(this._id) || {}
+      },
+      set(v) {
+        this.$store.add(this._id, v)
+      }
     },
 
     profile() {
@@ -143,12 +148,13 @@ export default {
     async save() {
       this.sending = true
 
-      const saved = await this.$posts.save({
+      const saved = await this.$post.save({
         post: this.post,
         postType: this.postType
       })
 
       if (saved) {
+        this.post = saved
         this.$events.$emit("notify", `Saved!`)
       }
 

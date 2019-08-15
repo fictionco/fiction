@@ -29,21 +29,7 @@ export default Factor => {
       Factor.$filters.add("routes", _ => {
         _.push({
           path: "/admin",
-          component: () => import("./wrap"),
-          children: Factor.$filters.apply("admin-routes", [
-            {
-              path: "/",
-              component: () => import("./vd-admin.vue"),
-              meta: { auth: true }
-            },
-            {
-              path: "*",
-              component: () => import("./vd-404.vue"),
-              meta: { auth: true },
-              priority: 3000
-            }
-          ]),
-          meta: { auth: true, priv: "admin", format: "admin", ui: "dashboard" }
+          redirect: "/dashboard"
         })
 
         _.push({
