@@ -33,25 +33,23 @@ Factor.$config.setting("MY_VAL") // "VAL"
 
 Factor config is where publicly accessible configuration for your app should be stored. This file is structured so that you can optionally load in different config values based on your app's environment (NODE_ENV and FACTOR_ENV)
 
-- `config:{}` is loaded across all environments
-- `development:{}` or `production:{}` will be loaded for `NODE_ENV=development` or `NODE_ENV=production` respectively
-- Additional keys, e.g. _testing_, will load based on `FACTOR_ENV` and be merged with global and NODE_ENV config
+- Base config values are loaded across all environments
+- If you set `development` or `production` keys, the corresponding objects will be loaded and merged for `NODE_ENV=development` or `NODE_ENV=production` respectively
+- Any keys matching the value of `FACTOR_ENV`, will load be loaded and merged with global and NODE_ENV config (`FACTOR_ENV` defaults to the value of `NODE_ENV`)
 
 Config object example:
 
 ```json
 {
-  "config": {
-    "my_global_key": "value"
-  },
+  "my_global_setting": "value",
   "development": {
-    "my_development_key": "value"
+    "my_development_setting": "value"
   },
   "production": {
-    "my_production_key": "value"
+    "my_production_setting": "value"
   },
   "testing": {
-    "my_development_key": "override_value"
+    "my_development_setting": "override_value"
   }
 }
 ```
