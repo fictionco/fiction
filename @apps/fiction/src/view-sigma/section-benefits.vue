@@ -1,16 +1,16 @@
 <template>
   <section class="big-section sigma-benefits">
-    <div class="container-lg">
+    <div class="mast">
       <header class="section-header narrow-container">
-        <h1 class="common-SectionTitle">Instant answers powered by&nbsp;SQL</h1>
-        <p class="common-MediumBodyText">
-          We built Stripe Sigma to help businesses quickly analyze their Stripe data and
-          to enable teams to get faster business insights.
+        <h1 class=" common-sectiontitle">Instant answers powered by MongoDB</h1>
+        <p class="common-medium-bodytext">
+          We built Factor to help businesses quickly analyze their data and to enable
+          teams to get faster business insights.
         </p>
       </header>
 
-      <ul class="xs-rows sm-cols">
-        <li class="feature-block xs-icon-top">
+      <ul class="features-list">
+        <li class="feature-block">
           <figure class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
               <path
@@ -23,15 +23,15 @@
               ></path>
             </svg>
           </figure>
-          <h3 class="common-BodyTitle">Know your&nbsp;company</h3>
-          <p class="common-BodyText">
+          <h3 class="common-bodytitle">Know your&nbsp;company</h3>
+          <p class="common-bodytext">
             With structured access to your data, you can identify which customers are
             least likely to churn this year, look up which geographies contribute the most
             revenue, see which products are most popular in February, and much&nbsp;more.
           </p>
         </li>
 
-        <li class="feature-block xs-icon-top">
+        <li class="feature-block">
           <figure class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px">
               <path
@@ -44,15 +44,15 @@
               ></path>
             </svg>
           </figure>
-          <h3 class="common-BodyTitle">No setup, no&nbsp;ETLs</h3>
-          <p class="common-BodyText">
+          <h3 class="common-bodytitle">No setup, no&nbsp;ETLs</h3>
+          <p class="common-bodytext">
             Just write SQL queries to create custom reports and get instant answers, right
             inside the Dashboard—no need to dedicate engineers to build or maintain data
             pipelines or warehouses.
           </p>
         </li>
 
-        <li class="feature-block xs-icon-top">
+        <li class="feature-block">
           <figure class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
               <path
@@ -73,8 +73,8 @@
               ></path>
             </svg>
           </figure>
-          <h3 class="common-BodyTitle">Democratize&nbsp;data</h3>
-          <p class="common-BodyText">
+          <h3 class="common-bodytitle">Democratize&nbsp;data</h3>
+          <p class="common-bodytext">
             Free data from silos and let teammates from finance, support, product
             management, and other teams run reports directly and take action&nbsp;faster.
           </p>
@@ -83,16 +83,16 @@
 
       <div class="interstitial-cta">
         <div class="text">
-          <h2 class="common-SectionTitleHighlight">Ready to use Stripe&nbsp;Sigma?</h2>
-          <h2 class="common-SectionTitle">
+          <h2 class="common-section-titlehighlight">Ready to use Factor?</h2>
+          <h2 class=" common-sectiontitle">
             Activate a free trial for your business or learn more&nbsp;below.
           </h2>
         </div>
 
         <div class="buttons">
           <a
-            href="https://dashboard.stripe.com/sigma/activate"
-            class="common-Button common-Button--default"
+            href="#"
+            class="common-button common-button-default"
             data-analytics-action="request_access"
             data-analytics-source="interstitial_cta"
           >
@@ -106,10 +106,81 @@
 
 <script>
 export default {
-  methods() {}
+  methods: {}
 }
 </script>
 <style lang="less">
 .sigma-benefits {
+  position: relative;
+  z-index: 10;
+  padding-bottom: 120px;
+
+  @media (max-width: 767px) {
+    padding-bottom: 80px;
+  }
+
+  &.big-section {
+    padding: 180px 0;
+    @media (max-width: 767px) {
+      padding: 100px 0 20px;
+    }
+  }
+  .narrow-container {
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 50px;
+    p {
+      margin-top: 20px;
+    }
+  }
+  .features-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    list-style: none;
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+    .feature-block {
+      position: relative;
+      .icon {
+        width: 48px;
+        height: 48px;
+        margin-left: -1px;
+        margin: 10px 0 20px -3px;
+      }
+      h3,
+      p {
+        margin-bottom: 10px;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .interstitial-cta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    border-top: 2px solid #f6f9fc;
+    margin: 60px -20px 0;
+    padding: 60px 20px 0;
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+    .text h2 {
+      font-size: 24px;
+      line-height: 36px;
+    }
+    .buttons {
+      margin: 0 0 0 20px;
+      @media (max-width: 767px) {
+        margin: 20px 0 0 0;
+      }
+    }
+  }
 }
 </style>

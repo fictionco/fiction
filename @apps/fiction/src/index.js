@@ -59,7 +59,7 @@ module.exports.default = Factor => {
           {
             path: "/sigma",
             component: () => import("./view-sigma/page-sigma"),
-            meta: { background: "#e6ebf1" }
+            meta: { background: "#fff" }
           }
           // {
           //   path: "/how-it-works",
