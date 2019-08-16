@@ -50,6 +50,8 @@
     <section-share />
 
     <section-quotes />
+
+    <section-pricing />
     <!--
 
     <section-features />
@@ -70,7 +72,8 @@ export default {
     "section-ide": () => import("./section-ide"),
     "section-data": () => import("./section-data"),
     "section-share": () => import("./section-share"),
-    "section-quotes": () => import("./section-quotes")
+    "section-quotes": () => import("./section-quotes"),
+    "section-pricing": () => import("./section-pricing")
   },
   data() {
     return {
