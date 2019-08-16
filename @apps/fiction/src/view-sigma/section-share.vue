@@ -67,7 +67,7 @@ export default {
 <style lang="less">
 .sigma-share {
   background: #e6ebf1;
-  margin-bottom: -500px;
+  margin-bottom: -660px;
   overflow: hidden;
   position: relative;
   padding: 180px 0;
@@ -114,6 +114,9 @@ export default {
         position: relative;
         z-index: 20;
         flex-grow: 1;
+        @media (max-width: 767px) {
+          margin: 0 auto;
+        }
 
         .conversation {
           display: flex;
