@@ -1,5 +1,5 @@
 {
-  "name": "@factor/build-extend",
+  "name": "@factor/server-extend",
   "version": "1.0.0-alpha.21",
   "license": "GPL-2.0",
   "publishConfig": {

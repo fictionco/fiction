@@ -64,21 +64,20 @@ Setting this up can be a painful experience for end-users. Factor's setup utilit
 
 To add a custom command, all that is needed a filter. When a user selects your option, you will be provided the [Commander](https://www.npmjs.com/package/commander) program and [Inquirer utility](https://www.npmjs.com/package/inquirer) to work with.
 
-Using those tools, gather the information you need from your user. Return the information to write in an object following the format:
+Using those tools, gather the information you need from your user.
+
+To write to the app's private or public config, use `Factor.$setup.writeConfig` as follows:
 
 ```js
-// returned write object for .env
-return {
-  private: {
-    VAR_TO_WRITE: "VAL"
-  }
-}
-// returned write object for factor-config.json
-return {
-  public: {
-    configValToWrite: "VAL"
-  }
-}
+// PRIVATE CONFIG: .env
+await Factor.$setup.writeConfig(".env", {
+  SOME_PRIVATE_SETTING: "VALUE"
+})
+
+// PUBLIC CONFIG: factor-config.json
+await Factor.$setup.writeConfig("factor-config", {
+  some_setting: "value"
+})
 ```
 
 ### Example
@@ -105,9 +104,7 @@ Factor.$filters.push("cli-add-setup", ({ privateConfig }) => {
 
       let { connection } = await inquirer.prompt(questions)
 
-      let write = { ".env": { DB_CONNECTION: connection } }
-
-      return write
+      await Factor.$setup.writeConfig(".env", { DB_CONNECTION: connection })
     }
   }
 })

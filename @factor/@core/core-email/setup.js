@@ -45,9 +45,11 @@ module.exports.default = Factor => {
               questions
             )
 
-            let write = { [this.configFile]: { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } }
-
-            return write
+            await Factor.$setup.writeConfig(".env", {
+              SMTP_USERNAME,
+              SMTP_PASSWORD,
+              SMTP_HOST
+            })
           }
         }
 
