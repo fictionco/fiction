@@ -1,29 +1,12 @@
 <template>
   <section class="big-section sigma-ide">
-    <image-pattern pattern="bubbles"></image-pattern>
-
     <div class="mast split-feature">
       <article class="feature-content">
-        <figure class="icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72">
-            <path
-              fill="#A78CE9"
-              d="M36-.008c19.882 0 36 16.118 36 36s-16.118 36-36 36-36-16.118-36-36 16.118-36 36-36z"
-            ></path>
-            <path
-              fill="#573E8E"
-              d="M61.898 11H46.5A1.5 1.5 0 0 1 45 9.5v-2A1.5 1.5 0 0 1 46.5 6h9.41a36.153 36.153 0 0 1 5.988 5zM41 7.5v2a1.5 1.5 0 0 1-1.5 1.5H10.102a36.153 36.153 0 0 1 5.99-5H39.5A1.5 1.5 0 0 1 41 7.5zm-15 11v2a1.5 1.5 0 0 1-1.5 1.5H2.82a35.93 35.93 0 0 1 2.6-5H24.5a1.5 1.5 0 0 1 1.5 1.5zM16.5 39a1.5 1.5 0 0 1 1.5 1.5v2a1.5 1.5 0 0 1-1.5 1.5H.905a35.926 35.926 0 0 1-.77-5H16.5zm5.5 3.5v-2a1.5 1.5 0 0 1 1.5-1.5h15a1.5 1.5 0 0 1 1.5 1.5v2a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5zM31.5 17h18a1.5 1.5 0 0 1 1.5 1.5v2a1.5 1.5 0 0 1-1.5 1.5h-18a1.5 1.5 0 0 1-1.5-1.5v-2a1.5 1.5 0 0 1 1.5-1.5zM35 29.5v2a1.5 1.5 0 0 1-1.5 1.5H.134c.14-1.703.398-3.372.767-5h32.6a1.5 1.5 0 0 1 1.5 1.5zM2.827 50H28.5a1.5 1.5 0 0 1 1.5 1.5v2a1.5 1.5 0 0 1-1.5 1.5H5.43a35.952 35.952 0 0 1-2.603-5z"
-            ></path>
-            <path
-              fill="#FFF"
-              d="M56 32v.05c-2.8.257-5 2.584-5 5.45v13c0 2.866 2.2 5.193 5 5.45V56a1 1 0 0 1 1 1v2a.99.99 0 0 1-.887.977A9.47 9.47 0 0 1 49 56.317a9.47 9.47 0 0 1-7.113 3.66A.99.99 0 0 1 41 59v-2a1 1 0 0 1 1-1v-.05c2.8-.257 5-2.584 5-5.45v-13c0-2.866-2.2-5.193-5-5.45V32a1 1 0 0 1-1-1v-2c0-.512.39-.92.887-.977A9.47 9.47 0 0 1 49 31.683a9.47 9.47 0 0 1 7.113-3.66A.99.99 0 0 1 57 29v2a1 1 0 0 1-1 1z"
-            ></path>
-          </svg>
-        </figure>
+        <home-icon icon="ssr" />
 
-        <h1 class="common-sectiontitle">Optimized for fast answers</h1>
+        <h1 class="section-title">Universal SSR</h1>
 
-        <p class="common-medium-bodytext">
+        <p class="medium-body-text">
           We’ve already written the queries for the most useful reports for different
           types of businesses: From computing MRR to ARPU to analyzing the payment methods
           your customers prefer, you can jump in quickly by editing one of our pre-built
@@ -32,59 +15,85 @@
           columns—it’s like a built-in IDE for writing queries.
         </p>
 
-        <p class="common-medium-bodytext">
-          <a class="common-Link" href="#"
-            >Syntax documentation <factor-icon icon="arrow-right"
-          /></a>
+        <p class="medium-body-text">
+          <a class="common-Link" href="#">
+            Syntax documentation
+            <factor-icon icon="arrow-right" />
+          </a>
         </p>
       </article>
 
       <figure class="feature-figure">
         <div class="ide-animation">
           <div class="code sigma-query-code">
-            <div class="line-numbers">1<br />2<br />3<br />4<br />5<br />6</div>
+            <div class="line-numbers">
+              1
+              <br >2
+              <br >3
+              <br >4
+              <br >5
+              <br >6
+            </div>
             <pre>
               <span class="bold" style="transform: translate(60px, 20px); opacity: 1;">s</span>
             </pre>
           </div>
           <div class="popups">
             <!-- 2 : cu -->
-            <ul
-              data-x="2"
-              data-y="4"
-              style="transform: translate(82px, 136px); opacity: 1;"
-            >
+            <ul data-x="2" data-y="4" style="transform: translate(82px, 136px); opacity: 1;">
               <li>
-                <span><code>customers</code><small>Table</small></span>
+                <span>
+                  <code>customers</code>
+                  <small>Table</small>
+                </span>
               </li>
               <li>
-                <span><code>customers.account_balance</code><small>Bigint</small></span>
+                <span>
+                  <code>customers.account_balance</code>
+                  <small>Bigint</small>
+                </span>
               </li>
               <li>
-                <span><code>customers.business_vat_id</code><small>Varchar</small></span>
+                <span>
+                  <code>customers.business_vat_id</code>
+                  <small>Varchar</small>
+                </span>
               </li>
               <li>
-                <span><code>customers.created</code><small>Timestamp</small></span>
+                <span>
+                  <code>customers.created</code>
+                  <small>Timestamp</small>
+                </span>
               </li>
               <li>
-                <span><code>customers.currency</code><small>Varchar</small></span>
+                <span>
+                  <code>customers.currency</code>
+                  <small>Varchar</small>
+                </span>
               </li>
               <li>
-                <span
-                  ><code>customers.default_source_id</code><small>Varchar</small></span
-                >
+                <span>
+                  <code>customers.default_source_id</code>
+                  <small>Varchar</small>
+                </span>
               </li>
               <li>
-                <span><code>customers.delinquent</code><small>Boolean</small></span>
+                <span>
+                  <code>customers.delinquent</code>
+                  <small>Boolean</small>
+                </span>
               </li>
               <li>
-                <span><code>customers.description</code><small>Varchar</small></span>
+                <span>
+                  <code>customers.description</code>
+                  <small>Varchar</small>
+                </span>
               </li>
               <li>
-                <span
-                  ><code>customers.discount_coupon_id</code
-                  ><small>Foreign key</small></span
-                >
+                <span>
+                  <code>customers.discount_coupon_id</code>
+                  <small>Foreign key</small>
+                </span>
               </li>
             </ul>
           </div>
@@ -97,6 +106,7 @@
 <script>
 export default {
   components: {
+    "home-icon": () => import("./icon.vue"),
     "image-pattern": () => import("./el-image-pattern")
   },
   methods: {}
@@ -106,7 +116,7 @@ export default {
 .sigma-ide {
   position: relative;
   overflow: hidden;
-  background: #f6f9fc;
+
   padding: 180px 0;
   @media (max-width: 767px) {
     padding: 100px 0 20px;
@@ -159,7 +169,8 @@ export default {
           min-width: 400px;
           border-radius: 8px;
           box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-            0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+            0 18px 36px -18px rgba(0, 0, 0, 0.3),
+            0 -12px 36px -8px rgba(0, 0, 0, 0.025);
           font-family: monospace;
           font-size: 18px;
           line-height: 29px;

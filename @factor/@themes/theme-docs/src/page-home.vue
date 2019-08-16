@@ -1,9 +1,6 @@
 <template>
   <div class="home">
-    <section
-      class="splash-wrap"
-      :style="{'background-image': `url(${$setting.get('home.graphic')})` }"
-    >
+    <section class="splash-wrap">
       <div class="splash mast">
         <div class="splash-content">
           <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
@@ -59,12 +56,13 @@ export default {
     position: relative;
     line-height: 1.2;
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 700px;
+    text-align: center;
   }
 
   .splash-wrap {
     position: relative;
-    padding: 10em 1em 8em;
+    padding: 10em 1em;
     background-color: #fff;
     background-repeat: no-repeat;
     background-size: auto 110%;
@@ -89,9 +87,9 @@ export default {
     }
     .splash {
       z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 40px;
+      // display: grid;
+      // grid-template-columns: repeat(2, 1fr);
+      // grid-column-gap: 40px;
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
         padding: 0 1em;
@@ -99,8 +97,7 @@ export default {
 
       .splash-content {
         .title {
-          font-weight: 800;
-          font-size: 4em;
+          font-size: 3.5em;
           letter-spacing: -0.03em;
           line-height: 1.1;
           margin-bottom: 0.2em;
@@ -110,7 +107,7 @@ export default {
         }
         .subtitle {
           opacity: 0.7;
-          font-size: 1.6em;
+          font-size: 1.4em;
           line-height: 1.4em;
           font-weight: 500;
           @media (max-width: 767px) {

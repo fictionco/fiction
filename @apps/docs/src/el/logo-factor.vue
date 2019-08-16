@@ -58,4 +58,12 @@
     fill: var(--color-primary);
   }
 }
+#app.nav-light:not(.scrolled) {
+  .pin {
+    fill: var(--color-secondary);
+  }
+  .letters {
+    fill: #fff;
+  }
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="pattern">
-    <canvas class="pattern-bubbles" :width="width" :height="height" ref="area"></canvas>
+    <canvas ref="area" class="pattern-bubbles" :width="width" :height="height" />
   </div>
 </template>
 <script>
@@ -58,8 +58,6 @@ export default {
         })
         .filter(p => p)
 
-      console.log("point", points)
-
       for (var t = 10; t < this.height; t += 25) {
         ctx.beginPath()
         const a = 50 * this.noise(92 * t + 2e-4)
@@ -90,7 +88,7 @@ export default {
         perlin_amp_falloff = 0.5,
         scaled_cosine = function(e) {
           return 0.5 * (1 - Math.cos(e * Math.PI))
-        }
+        };
 
       if (null == perlin) {
         perlin = new Array(PERLIN_SIZE + 1)
@@ -133,8 +131,8 @@ export default {
           if (t < Math.abs(s)) r = i = null
           else {
             const t = (n.x - e.x) / o,
-              a = (n.y - e.y) / o
-            ;(r = {
+              a = (n.y - e.y) / o;
+            (r = {
               x: e.x + s * t - c * a,
               y: e.y + s * a + c * t
             }),
@@ -150,16 +148,19 @@ export default {
         for (let e = 0; e < 128; ++e) {
           const t = a + i * e
           for (let a = 0; a < 128; ++a) {
-            s(n, t + (a % 3 ? 0 : 0.3 * i), o, r + i * a + (e % 3 ? 0 : 0.3 * i)).forEach(
-              e => {
-                e &&
-                  e.x < 1 &&
-                  e.x > -1 &&
-                  e.y < 1 &&
-                  e.y > -1 &&
-                  POINTS_CACHE.push([e.x, e.y])
-              }
-            )
+            s(
+              n,
+              t + (a % 3 ? 0 : 0.3 * i),
+              o,
+              r + i * a + (e % 3 ? 0 : 0.3 * i)
+            ).forEach(e => {
+              e &&
+                e.x < 1 &&
+                e.x > -1 &&
+                e.y < 1 &&
+                e.y > -1 &&
+                POINTS_CACHE.push([e.x, e.y])
+            })
           }
         }
       return POINTS_CACHE

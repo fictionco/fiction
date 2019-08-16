@@ -93,6 +93,8 @@ export default Factor => {
 
         if (typeof routeClassArray == "string") {
           routeClassArray = [routeClassArray]
+        } else if (!routeClassArray) {
+          return
         }
 
         Factor.$globals.routeClass.push(...routeClassArray)
