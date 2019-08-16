@@ -3,7 +3,7 @@
     <section class="header">
       <div class="headline">
         <div class="mast">
-          <h1 class="common-PageTitle">Your business data at your fingertips</h1>
+          <h1 class="common-pagetitle">Your business data at your fingertips</h1>
         </div>
       </div>
 
@@ -12,31 +12,21 @@
           <div />
           <div />
           <div class="pattern" />
-
           <div />
-          <div class="dyn businessOperations" />
-          <div class="dyn finance" />
-          <div class="dyn dataAnalysis" />
-          <div class="dyn productManagement" />
         </div>
 
         <div class="mast screencast-container">
           <figure class="screencast">
             <video
-              poster="/img/v3/sigma/header/screencast-poster.jpg"
-              playsinline
+              poster="require(`./img/screencast-poster.jpg`)"
+              playsinline="true"
+              autoplay
               muted
               loop
               preload="true"
             >
-              <source
-                type="video/ogg"
-                src="//d37ugbyn3rpeym.cloudfront.net/videos/sigma/screencast-full.ogv"
-              >
-              <source
-                type="video/mp4"
-                src="//d37ugbyn3rpeym.cloudfront.net/videos/sigma/screencast-full.mp4"
-              >
+              <!-- <source :src="oggvideourl" type="video/ogg" /> -->
+              <source :src="mp4videourl" type="video/mp4" />
             </video>
             <div class="play-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
@@ -47,110 +37,20 @@
               </svg>
             </div>
           </figure>
-
-          <div class="screencast-chat">
-            <div class="background" style="transform: scale(0.5); opacity: 0;" />
-            <ul class="bubbles">
-              <li
-                style="transform: scale(0.5); opacity: 0;"
-              >Can you send me that list of unpaid invoices?</li>
-              <li style="transform: scale(0.5); opacity: 0;">
-                Sure, here’s the report in&nbsp;Sigma:
-                <a
-                  style="transform: scale(1.1); opacity: 0;"
-                >https://dashboard.stripe.com/query/p893j4rv1x</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="examples animate loaded" data-experience="sigma-query-popup">
-          <script nonce>
-            const QUERY_CATEGORIES = {
-            businessOperations: {
-            title: "Business operations",
-            text:
-            "Business teams use Stripe Sigma to run their company more efficiently."
-            },
-            finance: {
-            title: "Finance",
-            text: "Finance teams use Stripe Sigma to close the books&nbsp;faster."
-            },
-            dataAnalysis: {
-            title: "Data analysis",
-            text:
-            "Data teams use Stripe Sigma to analyze everything from ARPU to&nbsp;churn."
-            },
-            productManagement: {
-            title: "Product management",
-            text:
-            "Product management uses Stripe Sigma to find new business opportunities."
-            }
-            };
-
-            const QUERY_EXAMPLES = {
-            businessOperations: [
-            "What percentage of disputes did we contest?",
-            "What was our charge volume in February?",
-            "Which customers have not paid their invoices?"
-            ],
-            finance: [
-            "What is our company’s daily balance?",
-            "Which charges reconcile with our latest bank payout?",
-            "How does our cash flow change from month to month?",
-            "What is our monthly recurring revenue?"
-            ],
-            dataAnalysis: [
-            "How many active customers do we have?",
-            "Why do customers dispute payments?",
-            "What is our average revenue per user?"
-            ],
-            productManagement: [
-            "What are our most popular subscription plans?",
-            "How many payments are made with each payment card brand?",
-            "How much revenue comes from different customer channels?"
-            ]
-            };
-
-            const QUERY_HOVER_TEXT = "See query";
-          </script>
-          <div class="mast use-cases">
-            <div class="tabs">
-              <canvas
-                class="tabs-canvas"
-                width="1757"
-                height="76"
-                style="width: 878.56px; height: 38px;"
-              />
-            </div>
-            <div class="narrow-container texts" style="height: 53px;">
-              <p
-                class="businessOperations"
-              >Business teams use Stripe Sigma to run their company more efficiently.</p>
-              <p class="finance">Finance teams use Stripe Sigma to close the books&nbsp;faster.</p>
-              <p
-                class="dataAnalysis"
-              >Data teams use Stripe Sigma to analyze everything from ARPU to&nbsp;churn.</p>
-              <p
-                class="productManagement active"
-              >Product management uses Stripe Sigma to find new business opportunities.</p>
-            </div>
-          </div>
-          <div class="cards">
-            <canvas
-              class="cards-canvas"
-              width="3946"
-              height="480"
-              style="width: 1973px; height: 240px;"
-            />
-          </div>
         </div>
       </div>
     </section>
-    <!-- 
+
     <section-benefits />
 
-    <section-customers />
+    <section-ide />
+
+    <section-data />
+
+    <section-share />
+
+    <section-quotes />
+    <!--
 
     <section-features />
 
@@ -165,11 +65,18 @@
 <script>
 export default {
   components: {
-    "el-stripes": () => import("./el-stripes")
+    "el-stripes": () => import("./el-stripes"),
+    "section-benefits": () => import("./section-benefits"),
+    "section-ide": () => import("./section-ide"),
+    "section-data": () => import("./section-data"),
+    "section-share": () => import("./section-share"),
+    "section-quotes": () => import("./section-quotes")
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      //oggvideourl: require(`./img/screencast-full.ogv`),
+      mp4videourl: require(`./img/screencast-full.mp4`)
     }
   },
   metatags() {
@@ -178,21 +85,23 @@ export default {
       description: "Terminal Page Description.",
       image: require("../img/fiction.jpg")
     }
+  },
+  routeClass() {
+    return ["nav-absolute"]
   }
 }
 </script>
 <style lang="less">
 .view-sigma {
   .mast {
-    // max-width: 1040px;
-    max-width: var(--max-width);
+    //max-width: var(--max-width);
+    max-width: 1040px;
     margin: 0 auto;
-    //padding: 0 1.27em;
     padding: 0 2em;
     width: 100%;
   }
   // Common
-  .common-UppercaseTitle {
+  .common-uppercasetitle {
     font-size: 21px;
     line-height: 32px;
     font-weight: 600;
@@ -206,7 +115,7 @@ export default {
     text-transform: uppercase;
     letter-spacing: 0.025em;
   }
-  .common-PageTitle {
+  .common-pagetitle {
     font-size: 53px;
     line-height: 68px;
     font-weight: 400;
@@ -214,7 +123,7 @@ export default {
     color: #32325d;
     letter-spacing: -0.01em;
   }
-  .common-SectionTitle {
+  .common-sectiontitle {
     font-weight: 400;
     font-size: 34px;
     line-height: 44px;
@@ -224,13 +133,17 @@ export default {
       line-height: 52px;
     }
   }
+  .common-section-titlehighlight {
+    font-weight: 300;
+    color: #6772e5;
+  }
   .common-IntroText {
     font-size: 24px;
     line-height: 36px;
     font-weight: 300;
     color: #424770;
   }
-  .common-Button {
+  .common-button {
     white-space: nowrap;
     display: inline-block;
     height: 40px;
@@ -250,11 +163,10 @@ export default {
     &:hover {
       color: #7795f8;
       transform: translateY(-1px);
-      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
-        0 3px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
     }
 
-    &.common-Button--default {
+    &.common-button-default {
       color: #fff;
       background: #6772e5;
       &:hover {
@@ -263,7 +175,7 @@ export default {
       }
     }
   }
-  .common-body-title {
+  .common-bodytitle {
     font-weight: 500;
     font-size: 19px;
     line-height: 32px;
@@ -275,7 +187,7 @@ export default {
     line-height: 28px;
     color: #525f7f;
   }
-  .common-MediumBodyText {
+  .common-medium-bodytext {
     font-weight: 400;
     font-size: 19px;
     line-height: 32px;
@@ -323,14 +235,20 @@ export default {
         //   rgba(190, 176, 244, 0.15)
         // );
       }
+      &:nth-child(4) {
+        bottom: calc(-20px - 245px);
+        background: linear-gradient(90deg, rgba(237, 241, 245, 0) 75%, #edf1f5);
+      }
     }
   }
 
   .header {
     .headline {
       background: #e6ebf1;
-      padding: 150px 0 690px;
-      margin-bottom: -650px;
+      padding: 150px 0 310px;
+      margin-bottom: -270px;
+      // padding: 150px 0 690px;
+      // margin-bottom: -650px;
       text-align: center;
       @media (min-height: 1000px) {
         padding-top: 170px;
@@ -353,6 +271,48 @@ export default {
         bottom: -20px;
         transform: skewY(-12deg);
         background: #323a5a linear-gradient(192deg, #51557d, #222d49);
+      }
+    }
+    .screencast-container {
+      position: relative;
+      .screencast {
+        width: 100%;
+        padding-top: 56.25%;
+        padding-top: calc(9 / 16 * 100%);
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
+          0 50px 100px rgba(50, 50, 93, 0.1);
+        background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
+        background-size: contain;
+        video {
+          position: absolute;
+          left: 0;
+          top: 0;
+          min-width: 100%;
+          max-width: 100%;
+          height: auto;
+          border-radius: 7px;
+        }
+        .play-button {
+          display: none;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+          background: #32325d;
+          opacity: 0.9;
+          border-radius: 50%;
+          box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+          width: 72px;
+          height: 72px;
+          @media (max-width: 767px) {
+            display: block;
+          }
+        }
       }
     }
   }
