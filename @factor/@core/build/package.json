@@ -10,7 +10,7 @@
     "id": "build"
   },
   "dependencies": {
-    "@factor/build-extend": "^1.0.0-alpha.21",
+    "@factor/server-extend": "^1.0.0-alpha.21",
     "@factor/setup": "^1.0.0-alpha.20",
     "@factor/build-webpack": "^1.0.0-alpha.21",
     "@factor/cli": "^1.0.0-alpha.20",

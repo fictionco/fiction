@@ -17,10 +17,12 @@ module.exports.default = Factor => {
   let configFile = {}
 
   if (existsSync(configFilePath)) {
-    configFile = require(resolve(baseDir, "factor-config.json"))
+    configFile = require(configFilePath)
   }
 
-  const configObjects = [configFile[env], configFile.config, { env }].filter(_ => typeof _ != "undefined")
+  const configObjects = [configFile[env], configFile, { env }].filter(
+    _ => typeof _ != "undefined"
+  )
 
   USER_CONFIG = Object.assign({}, USER_CONFIG, merge.all(configObjects))
 

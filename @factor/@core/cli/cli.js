@@ -45,7 +45,7 @@ const cli = async () => {
 
       this.refineNodeRequire()
 
-      const extender = require("@factor/build-extend").default(Factor)
+      const extender = require("@factor/server-extend").default(Factor)
       await extender.run(args)
 
       // Filters must be reloaded with every new extension.
