@@ -1,5 +1,15 @@
 # Customizing Extensions
 
+## Overview
+
+Factor gives you several methods to easily customize plugins or themes that you've added to your app. In this document we'll discuss the approaches and tradeoffs.
+
+### Updateability
+
+The goal when customizing is to modify an extensions code while still retaining the ability to update the extension. Using styles, settings and overrides below allow you to do this because you aren't changing the extension itself.
+
+If you do decide to modify an extensions source, that is possible and sometimes necessary; but this approach prevents you from updating the "forked" extension (without using more advanced merging techniques, etc.).
+
 ## Styling with `factor-styles`
 
 Factor includes an optional style system that can be used for your global application styles. It works by gathering all `factor-styles` files in your app, themes and plugins and combining them in a specific order so that the app has the highest priority followed by themes then plugins.

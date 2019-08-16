@@ -38,3 +38,9 @@ You have the option of using themes in one of two primary ways:
 The best way to think about a theme is as a more "opinionated" baseline for your app. For example, if you think Google Material is the best UI framework, you can start from the Factor Material theme.
 
 Learn more about [creating themes &rarr;](./creating-themes)
+
+## Customizing
+
+Once you've installed a plugin or theme, you'll likely want to customize it. To learn more read the doc:
+
+[customizing things in Factor &rarr;](./customization)

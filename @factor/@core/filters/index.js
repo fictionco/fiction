@@ -119,7 +119,8 @@ module.exports.default = Factor => {
     push(id, item, options = {}) {
       this.add(
         id,
-        _ => {
+        (_, args) => {
+          item = typeof item == "function" ? item(args) : item
           if (Array.isArray(_)) {
             return [..._, item]
           } else if (typeof _ == "object") {

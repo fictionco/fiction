@@ -18,47 +18,28 @@ module.exports.default = Factor => {
             "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
           file: require("./docs/quickstart.md")
         },
-
-        {
-          group: "CMS"
-        },
         {
           doc: "dashboard-setup",
           file: require("./docs/dashboard/setup.md"),
           title: "Setting Up the Dashboard and CMS"
         },
+
         {
-          doc: "post-system",
-          file: require("./docs/posts.md"),
-          title: "The Post System"
+          group: "App Development"
         },
         {
-          group: "Extend"
-        },
-        {
-          name: "Adding Extensions",
+          name: "Add Extensions",
           doc: "extension-basics",
           file: require("./docs/extension-basics.md"),
           title: "Using Plugins / Themes"
         },
+
         {
-          doc: "customization",
-          file: require("./docs/customization.md"),
-          title: "Customizing Factor Plugins and Themes"
+          doc: "customize",
+          file: require("./docs/customize.md"),
+          title: "Customize Factor Plugins and Themes"
         },
-        {
-          doc: "creating-plugins",
-          file: require("./docs/creating-plugins.md"),
-          title: "Using and Creating Factor Themes"
-        },
-        {
-          doc: "creating-themes",
-          file: require("./docs/creating-themes.md"),
-          title: "Using and Creating Factor Themes"
-        },
-        {
-          group: "Framework"
-        },
+
         {
           doc: "config",
           name: "Config",
@@ -67,8 +48,8 @@ module.exports.default = Factor => {
         },
         {
           doc: "cli",
-          name: "Commands",
-          file: require("./docs/cli/index.md"),
+          name: "Use the CLI",
+          file: require("./docs/cli.md"),
           title: "Using Factor CLI and Creating Custom Commands"
         },
         {
@@ -87,6 +68,31 @@ module.exports.default = Factor => {
           title: "Factor Components - Views and Elements"
         },
 
+        {
+          group: "Plugin Development"
+        },
+        {
+          name: "Post System",
+          doc: "post-system",
+          file: require("./docs/posts.md"),
+          title: "Working with Posts"
+        },
+        {
+          doc: "create-plugins",
+          file: require("./docs/creating-plugins.md"),
+          title: "Using and Creating Factor Themes"
+        },
+        {
+          doc: "create-themes",
+          file: require("./docs/creating-themes.md"),
+          title: "Using and Creating Factor Themes"
+        },
+        {
+          name: "Extend the CLI",
+          doc: "extend-the-CLI",
+          file: require("./docs/cli-dev.md"),
+          title: "Extending the Factor CLI"
+        },
         {
           group: "Server"
         },
