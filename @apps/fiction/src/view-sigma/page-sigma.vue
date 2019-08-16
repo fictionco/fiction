@@ -3,7 +3,7 @@
     <section class="header">
       <div class="headline">
         <div class="mast">
-          <h1 class="common-PageTitle">Your business data at your fingertips</h1>
+          <h1 class="common-pagetitle">Your business data at your fingertips</h1>
         </div>
       </div>
 
@@ -12,12 +12,7 @@
           <div />
           <div />
           <div class="pattern" />
-
           <div />
-          <div class="dyn businessOperations" />
-          <div class="dyn finance" />
-          <div class="dyn dataAnalysis" />
-          <div class="dyn productManagement" />
         </div>
 
         <div class="mast screencast-container">
@@ -47,8 +42,15 @@
     </section>
 
     <section-benefits />
+
+    <section-ide />
+
+    <section-data />
+
+    <section-share />
+
+    <section-quotes />
     <!--
-    <section-customers />
 
     <section-features />
 
@@ -64,7 +66,11 @@
 export default {
   components: {
     "el-stripes": () => import("./el-stripes"),
-    "section-benefits": () => import("./section-benefits")
+    "section-benefits": () => import("./section-benefits"),
+    "section-ide": () => import("./section-ide"),
+    "section-data": () => import("./section-data"),
+    "section-share": () => import("./section-share"),
+    "section-quotes": () => import("./section-quotes")
   },
   data() {
     return {
@@ -95,7 +101,7 @@ export default {
     width: 100%;
   }
   // Common
-  .common-UppercaseTitle {
+  .common-uppercasetitle {
     font-size: 21px;
     line-height: 32px;
     font-weight: 600;
@@ -109,7 +115,7 @@ export default {
     text-transform: uppercase;
     letter-spacing: 0.025em;
   }
-  .common-PageTitle {
+  .common-pagetitle {
     font-size: 53px;
     line-height: 68px;
     font-weight: 400;
@@ -117,7 +123,7 @@ export default {
     color: #32325d;
     letter-spacing: -0.01em;
   }
-  .common-SectionTitle {
+  .common-sectiontitle {
     font-weight: 400;
     font-size: 34px;
     line-height: 44px;
@@ -127,13 +133,17 @@ export default {
       line-height: 52px;
     }
   }
+  .common-section-titlehighlight {
+    font-weight: 300;
+    color: #6772e5;
+  }
   .common-IntroText {
     font-size: 24px;
     line-height: 36px;
     font-weight: 300;
     color: #424770;
   }
-  .common-Button {
+  .common-button {
     white-space: nowrap;
     display: inline-block;
     height: 40px;
@@ -156,7 +166,7 @@ export default {
       box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
     }
 
-    &.common-Button--default {
+    &.common-button-default {
       color: #fff;
       background: #6772e5;
       &:hover {
@@ -165,7 +175,7 @@ export default {
       }
     }
   }
-  .common-body-title {
+  .common-bodytitle {
     font-weight: 500;
     font-size: 19px;
     line-height: 32px;
@@ -177,7 +187,7 @@ export default {
     line-height: 28px;
     color: #525f7f;
   }
-  .common-MediumBodyText {
+  .common-medium-bodytext {
     font-weight: 400;
     font-size: 19px;
     line-height: 32px;
@@ -235,8 +245,10 @@ export default {
   .header {
     .headline {
       background: #e6ebf1;
-      padding: 150px 0 690px;
-      margin-bottom: -650px;
+      padding: 150px 0 310px;
+      margin-bottom: -270px;
+      // padding: 150px 0 690px;
+      // margin-bottom: -650px;
       text-align: center;
       @media (min-height: 1000px) {
         padding-top: 170px;
