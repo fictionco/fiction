@@ -4,6 +4,8 @@
 
 Factor is an "extension-first" framework. Meaning it is itself a simple core system with first class support for extensibility by plugins and themes. Almost anything in Factor can be customized given the right plugin.
 
+![Adding Extensions](./img/adding-extensions.svg)
+
 ## Adding Extensions
 
 Factor is designed for "drop-in" extension.
