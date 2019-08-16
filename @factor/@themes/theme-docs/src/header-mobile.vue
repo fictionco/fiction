@@ -5,7 +5,6 @@
         <div class="bars" @click="toggleNav()">
           <div class="bar" />
           <div class="bar" />
-          <div class="bar" />
         </div>
       </div>
       <site-brand class="mobile-brand" />
@@ -95,12 +94,14 @@ export default {
   }
   .mobile-bar {
     display: flex;
-    position: relative;
+    position: fixed;
     z-index: 10;
     justify-content: space-between;
     align-items: center;
     height: 45px;
     padding: 0 0.5em;
+    width: 100%;
+    background: #fff;
   }
   .mobile-sidebar {
     position: fixed;
@@ -144,15 +145,15 @@ export default {
     font-size: 2em;
     z-index: 10;
     position: relative;
-    width: 1.3em;
+    width: 1.2em;
     opacity: 0.3;
     padding: 5px;
 
     .bar {
       border-radius: 5px;
       width: 100%;
-      margin: 5px 0;
-      height: 4px;
+      margin: 6px 0;
+      height: 3px;
       background-color: var(--color-text);
     }
   }

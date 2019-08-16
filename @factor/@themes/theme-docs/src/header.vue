@@ -23,19 +23,23 @@ export default {
 }
 </script>
 <style lang="less">
-.nav-bg-light .site-head {
-  background: #fff;
+.nav-light:not(.scrolled) .site-head {
+  color: #fff;
+  background: transparent;
 }
-.nav-bg-gray .site-head {
-  background: #f5f8fc;
-}
+
 .site-head {
-  background-color: rgba(255, 255, 255, 1);
+  transition: all 0.3s;
+
   padding: 0 1.5em;
   position: fixed;
   width: 100%;
-  z-index: 10;
+  z-index: 50;
   font-weight: var(--font-weight-bold, 600);
+}
+
+.scrolled .site-head {
+  background: #fff;
 }
 
 .site-head-pad {
@@ -55,7 +59,7 @@ export default {
     > a {
       letter-spacing: -0.03em;
       font-size: 0.9em;
-      color: var(--color-text);
+      color: inherit;
 
       margin: 0 1em;
       @media (max-width: 767px) {
@@ -66,16 +70,15 @@ export default {
       }
       &:hover,
       &.router-link-active {
-        color: var(--color-primary);
+        opacity: 0.8;
       }
       &:active {
-        color: var(--color-secondary);
+        opacity: 0.5;
       }
       &.factor-link {
         .fa {
           margin-right: 4px;
           opacity: 0.7;
-          color: var(--color-primary);
         }
       }
     }
