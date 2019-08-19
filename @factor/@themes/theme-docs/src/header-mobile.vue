@@ -95,7 +95,7 @@ export default {
   .mobile-bar {
     display: flex;
     position: fixed;
-    z-index: 10;
+    z-index: 1000;
     justify-content: space-between;
     align-items: center;
     height: 45px;

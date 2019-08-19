@@ -1,16 +1,16 @@
 # Dashboard Setup
 
-> By default, Factor includes a CMS-like post management system and dashboard. These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage.
+_By default, Factor includes a CMS-like post management system and dashboard. These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage._
 
 ## Overview
 
-A typical web app usually needs the following:
+A web app usually needs the following:
 
 - User Management and Authentication
 - A Database System
 - Image Storage
 
-For many developers, setting all this up represents months of work including many painful rewrites as you learn "best practices."
+For many developers, setting this up can represent months of work and include many painful rewrites as you learn "best practices."
 
 That's why Factor takes an opinionated approach to how to best handle these common services. Doing so allows us to create a platform on which extension developers can build, as well as helps you save many many days of debugging and pain.
 
