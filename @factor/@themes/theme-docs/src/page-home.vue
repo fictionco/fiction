@@ -52,6 +52,7 @@ export default {
 </script>
 <style lang="less">
 .home {
+  padding-top: 45px;
   .mast {
     position: relative;
     line-height: 1.2;
@@ -93,6 +94,7 @@ export default {
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
         padding: 0 1em;
+        text-align: left;
       }
 
       .splash-content {
@@ -102,7 +104,8 @@ export default {
           line-height: 1.1;
           margin-bottom: 0.2em;
           @media (max-width: 767px) {
-            font-size: 2.6em;
+            font-size: 1.8em;
+            font-weight: 600;
           }
         }
         .subtitle {
@@ -165,7 +168,7 @@ export default {
         h2 {
           font-size: 1.2em;
           line-height: 1.2em;
-          font-weight: 800;
+
           margin: 0;
         }
         p {

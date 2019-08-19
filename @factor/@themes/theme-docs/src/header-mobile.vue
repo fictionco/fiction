@@ -95,7 +95,7 @@ export default {
   .mobile-bar {
     display: flex;
     position: fixed;
-    z-index: 1000;
+    z-index: 100;
     justify-content: space-between;
     align-items: center;
     height: 45px;
@@ -110,7 +110,7 @@ export default {
     overflow-y: scroll;
 
     display: block;
-    z-index: 10;
+    z-index: 120;
     top: 0;
     background-color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
