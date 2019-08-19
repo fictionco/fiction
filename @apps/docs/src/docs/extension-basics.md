@@ -4,8 +4,6 @@
 
 Factor is an "extension-first" framework. Meaning it is itself a simple core system with first class support for extensibility by plugins and themes. Almost anything in Factor can be customized given the right plugin.
 
-![Adding Extensions](./img/adding-extensions.svg)
-
 ## Adding Extensions
 
 Factor is designed for "drop-in" extension.
@@ -17,6 +15,8 @@ $ yarn add some-factor-plugin
 ```
 
 When you run Factor, it detects your extensions and loads them for you. Extensions will then use Factor's filter and settings system to install and configure themselves.
+
+![Adding Extensions](./img/adding-extensions.svg)
 
 ## Plugins
 
