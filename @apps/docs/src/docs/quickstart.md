@@ -6,6 +6,8 @@ If you're already familiar with the basics of Javascript-driven apps (e.g. Node,
 
 To install Factor, all that is really needed is to run `yarn add @factor/core` which adds Factor as a dependency and installs its packages. Although ideally, you'll want to configure your app according to the conventions used in Factor apps, which is what **create-factor-app** is designed to help you with.
 
+![Getting Started](./img/getting-started.svg)
+
 ### Before You Start
 
 - Factor requires [Node.js](https://nodejs.org/en/) version 10 or above, as well as [Yarn](https://yarnpkg.com/en/) for dependency management.
