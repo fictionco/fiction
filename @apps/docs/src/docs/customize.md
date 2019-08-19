@@ -6,9 +6,9 @@ Factor gives you several methods to easily customize plugins or themes that you'
 
 ### Updateability
 
-The goal when customizing is to modify an extensions code while still retaining the ability to update the extension. Using styles, settings and overrides below allow you to do this because you aren't changing the extension itself.
+When customizing a plugin or theme, ths goal is to make your modification but still retain the your ability to upgrade. To help you with this, use the styles, settings and overrides techniques discussed below.
 
-If you do decide to modify an extensions source, that is possible and sometimes necessary; but this approach prevents you from updating the "forked" extension (without using more advanced merging techniques, etc.).
+If you do decide to modify an extensions source, that is possible (and sometimes necessary;) but this approach prevents you from updating the "forked" extension (without using more advanced merging techniques, etc.).
 
 ## Styling with `factor-styles`
 

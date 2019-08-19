@@ -168,10 +168,10 @@ code {
     //padding: 1em 0 1em 1.5em;
     // border-left: 3px solid var(--color-text);
     // background-color: var(--color-bg-contrast);
-    padding: 0.8em 0.8em 0.8em 3.3em;
-    border-left: 3px solid #d6ecff;
-    background: #f7fafc url(../img/icon-info.svg) 15px 14px no-repeat;
-
+    padding: 1em 1.4em;
+    //border: 1px solid var(--color-placeholder);
+    box-shadow: var(--box-shadow-input);
+    border-radius: 6px;
     p,
     ul,
     ol {

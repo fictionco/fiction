@@ -1,39 +1,34 @@
 <template>
   <div class="view-home">
     <section class="header">
-      <div class="headline">
-        <div class="mast">
-          <h1 class="page-title">An Engine for Javascript Apps</h1>
-          <h3
-            class="page-title-sub"
-          >A platform for universal VueJS Apps designed for front-end developers.</h3>
-        </div>
-
-        <div class="actions">
-          <app-link
-            v-for="(action ,i) in $setting.get('home.actions')"
-            :key="i"
-            :path="action.path"
-            :btn="action.btn"
-            size="large"
-          >{{ action.text }}</app-link>
+      <div class="headline content">
+        <div class="content-pad">
+          <h1 class="page-title">
+            The Universal VueJS Platform
+            <span
+              class="highlight"
+            >for Professional Front-End Developers</span>
+          </h1>
+          <h3 class="page-title-sub">
+            Perfect for websites, blogs, dashboard-driven apps, CMS and eCommerce.
+            <br >Open source and built with Vue, Mongo, and Node.
+          </h3>
+          <div class="actions">
+            <app-link path="/guide/quickstart" btn="primary" size="large">Get Started &rarr;</app-link>
+            <app-link path="https://github.com/fiction-com/factor" btn="default" size="large">
+              <span>
+                <i>v</i>
+                <span>1.0ALPHA</span>
+              </span>
+            </app-link>
+          </div>
         </div>
       </div>
-
-      <div class="content">
-        <div class="mast screencast-container">
+      <div class="content screencast-container">
+        <div class="content-pad">
           <figure class="screencast">
-            <video
-              poster="require(`./img/screencast-poster.jpg`)"
-              playsinline="true"
-              autoplay
-              muted
-              loop
-              preload="true"
-            >
-              <!-- <source :src="oggvideourl" type="video/ogg" /> -->
-              <source :src="mp4videourl" type="video/mp4" >
-            </video>
+            <video preload="true" :poster="poster" playsinline="true" autoplay muted
+loop />
             <div class="play-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
                 <path
@@ -47,7 +42,9 @@
       </div>
     </section>
 
-    <section-benefits />
+    <section class="benefits content">
+      <section-benefits class="content-pad" />
+    </section>
 
     <section-ide />
 
@@ -75,8 +72,7 @@ export default {
   data() {
     return {
       loading: true,
-      //oggvideourl: require(`./img/screencast-full.ogv`),
-      mp4videourl: require(`./img/screencast-full.mp4`)
+      poster: require(`./img/screencast-poster.jpg`) // 1280x720
     }
   },
   metatags() {
@@ -92,154 +88,21 @@ export default {
 </script>
 <style lang="less">
 .view-home {
-  .mast {
-    //max-width: var(--max-width);
-    max-width: 1040px;
+  padding-top: 45px;
+  font-weight: 400;
+  .content-pad {
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 2em 2em;
+    padding: 0 1.5em;
     width: 100%;
+    z-index: 10;
+    position: relative;
   }
 
-  .page-title {
-    font-size: 3em;
-    line-height: 1.1;
-    margin: 0 0 1rem;
-    letter-spacing: -0.02em;
-  }
-  .page-title-sub {
-    font-size: 1.4em;
-    opacity: 0.7;
-  }
-  .section-title {
-    font-weight: var(--font-weight-light);
-    font-size: 2em;
-    line-height: 44px;
-
-    @media (min-width: 670px) {
-      font-size: 42px;
-      line-height: 52px;
-    }
-  }
-  .body-title {
-    font-weight: 500;
-    font-size: 1.35em;
-    line-height: 1.5em;
-  }
-  .body-text {
-    font-weight: 400;
-
-    opacity: 0.85;
-  }
-  .section-title-highlight {
-    font-weight: 300;
-    color: var(--color-primary);
-  }
-  .medium-body-text {
-    font-weight: 400;
-    font-size: 1.3em;
-    line-height: 1.6;
-  }
-  // .common-IntroText {
-  //   font-size: 24px;
-  //   line-height: 36px;
-  //   font-weight: 300;
-  //   color: #424770;
-  // }
-  // .common-button {
-  //   white-space: nowrap;
-  //   display: inline-block;
-  //   height: 40px;
-  //   line-height: 40px;
-  //   padding: 0 14px;
-  //   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  //   background: #fff;
-  //   border-radius: 4px;
-  //   font-size: 15px;
-  //   font-weight: 600;
-  //   text-transform: uppercase;
-  //   letter-spacing: 0.025em;
-  //   color: #6772e5;
-  //   text-decoration: none;
-  //   transition: all 0.15s ease;
-
-  //   &:hover {
-  //     color: #7795f8;
-  //     transform: translateY(-1px);
-  //     box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
-  //       0 3px 6px rgba(0, 0, 0, 0.08);
-  //   }
-
-  //   &.common-button-default {
-  //     color: #fff;
-  //     background: #6772e5;
-  //     &:hover {
-  //       color: #fff;
-  //       background-color: #7795f8;
-  //     }
-  //   }
-  // }
-
-  // .common-link {
-  //   color: #6772e5;
-  //   font-weight: 500;
-  //   transition: color 0.1s ease;
-  //   cursor: pointer;
-  // }
-
-  // .stripes-container {
-  //   pointer-events: none;
-  //   .pattern {
-  //     display: block;
-  //     background-size: 100%, 1000px 245px;
-  //     background-position: center center;
-  //   }
-  //   > div {
-  //     position: absolute;
-  //     left: 0;
-  //     right: 0;
-  //     height: 245px;
-  //     transform: skewY(-10deg);
-  //     &:first-child {
-  //       top: calc(126px + 245px * -3);
-  //       background: linear-gradient(
-  //         90deg,
-  //         var(--color-bg-contrast),
-  //         rgba(215, 222, 232, 0) 20%
-  //       );
-  //     }
-  //     &:nth-child(2) {
-  //       top: calc(126px + 245px * -1);
-  //       background: linear-gradient(
-  //         90deg,
-  //         rgba(224, 226, 241, 0) 60%,
-  //         var(--color-bg-contrast)
-  //       );
-  //     }
-  //     &:nth-child(3) {
-  //       top: calc(126px);
-  //       // background: linear-gradient(
-  //       //   90deg,
-  //       //   rgba(190, 176, 244, 0),
-  //       //   rgba(190, 176, 244, 0.15)
-  //       // );
-  //     }
-  //     &:nth-child(4) {
-  //       bottom: calc(-20px - 245px);
-  //       background: linear-gradient(
-  //         90deg,
-  //         rgba(255, 255, 255, 0) 75%,
-  //         var(--color-bg-contrast)
-  //       );
-  //     }
-  //   }
-  // }
-
+  /* HEADER */
   .header {
     .headline {
-      padding: 150px 0 310px;
-      margin-bottom: -270px;
-      // padding: 150px 0 690px;
-      // margin-bottom: -650px;
+      padding: 6em 2em 4em;
       text-align: center;
       @media (min-height: 1000px) {
         padding-top: 170px;
@@ -248,28 +111,65 @@ export default {
         z-index: 5;
         position: relative;
       }
-    }
-    .content {
-      position: relative;
-      z-index: 2;
-      &:before {
-        content: "";
-        position: absolute;
-        z-index: -1;
-        left: 0;
-        top: 126px;
-        right: 0;
-        bottom: -20px;
-        transform: skewY(-10deg);
-        background: linear-gradient(
-          190deg,
-          var(--color-bg-contrast),
-          hsla(0, 0%, 100%, 0) 75%
-        );
+
+      .page-title {
+        font-size: 3.5em;
+        line-height: 1.1;
+        margin: 0 0 1rem;
+        letter-spacing: -0.02em;
+        .highlight {
+          display: block;
+          opacity: 0.9;
+        }
+      }
+      .page-title-sub {
+        font-size: 1.4em;
+        opacity: 0.7;
+      }
+      @media (max-width: 767px) {
+        text-align: left;
+        padding: 3rem 0;
+        .page-title {
+          font-weight: 600;
+          font-size: 1.7em;
+          line-height: 1.3;
+        }
+        .page-title .highlight {
+          color: var(--color-primary);
+        }
+      }
+      .actions {
+        margin-top: 1.5em;
+        .factor-btn {
+          margin: 0 0.5em 0 0;
+        }
       }
     }
+
+    // .content {
+    //   position: relative;
+    //   z-index: 2;
+    //   &:before {
+    //     content: "";
+    //     position: absolute;
+    //     z-index: -1;
+    //     left: 0;
+    //     top: 126px;
+    //     right: 0;
+    //     bottom: -20px;
+    //     transform: skewY(-10deg);
+    //     background: linear-gradient(
+    //       190deg,
+    //       var(--color-bg-contrast),
+    //       hsla(0, 0%, 100%, 0) 75%
+    //     );
+    //   }
+    // }
     .screencast-container {
       position: relative;
+      .content-pad {
+        max-width: 1024px;
+      }
       .screencast {
         width: 100%;
         padding-top: 56.25%;
@@ -307,6 +207,46 @@ export default {
         }
       }
     }
+  }
+
+  .benefits {
+    .content-pad {
+      padding-top: 10rem;
+      padding-bottom: 10rem;
+      @media (max-width: 767px) {
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+      }
+    }
+  }
+
+  .section-title {
+    font-size: 3em;
+    line-height: 1.1;
+
+    @media (max-width: 670px) {
+      font-size: 2em;
+      line-height: 1.2;
+    }
+  }
+  .body-title {
+    font-weight: 500;
+    font-size: 1.35em;
+    line-height: 1.5em;
+  }
+  .body-text {
+    font-weight: 400;
+
+    opacity: 0.85;
+  }
+  .section-title-highlight {
+    font-weight: 300;
+    color: var(--color-primary);
+  }
+  .medium-body-text {
+    font-weight: 400;
+    font-size: 1.3em;
+    line-height: 1.6;
   }
 }
 </style>

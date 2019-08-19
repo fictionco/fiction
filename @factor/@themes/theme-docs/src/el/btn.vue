@@ -16,7 +16,8 @@ button.app-btn {
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
-  color: var(--color-text);
+  letter-spacing: -.02em;
+  color: rgba(var(--color-text-rgb), 0.8);
 
   &:focus {
     outline: none;
@@ -37,6 +38,7 @@ button.app-btn {
   }
   &.large {
     font-size: 1.2em;
+    padding: 0.8em 1.4em 0.9em;
   }
 
   &.subtle {
