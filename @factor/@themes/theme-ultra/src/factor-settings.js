@@ -49,13 +49,13 @@ export default Factor => {
       mainQuotes: "A modern one page theme for personal or portfolio exposure with unique effects and features.",
       homeButtons: [{
           text: "Start a Project",
-          class: 'homeButtonStart',
+          class: 'home-button-start',
           icon: "right-arrow",
           path: "#servicesContainerID"
         },
         {
           text: "More About Ultra",
-          class: 'homeButtonMore',
+          class: 'home-button-more',
           icon: "right-arrow",
           path: "#aboutContainerID"
         },
