@@ -28,6 +28,24 @@ const config = {
       type: "string",
       message: "Your Email",
       default: "{gitUser.email}"
+    },
+    {
+      name: "addDb",
+      type: "list",
+      message: "Do you have a MongoDB connection string?",
+      choices: ["yes", "no"]
+    },
+    {
+      name: "db",
+      type: "string",
+      message: "Your MongoDB Connection String (mongodb://...)",
+      default: "",
+      validate: val => {
+        return !val || val.includes("mongodb")
+          ? true
+          : "Doesn't seem to be a valid connection string..."
+      },
+      when: answers => answers.addDb != "no"
     }
   ],
   templateData() {
@@ -95,19 +113,14 @@ const config = {
     }
 
     console.log()
-    console.log(this.chalk.bold(`  ${figures.tick} To get started:\n`))
+    console.log(this.chalk.bold(`  ${figures.tick} Start your local server:\n`))
     cd()
     console.log(`\tyarn factor dev\n`)
-
-    console.log(this.chalk.bold(`  ${figures.star} Factor Docs:\n`))
-
-    console.log(`\thttps://factor.dev/\n`)
-
     console.log()
 
-    console.log(this.chalk.bold(`  ${figures.star} Additional Setup:\n`))
+    console.log(`  ${figures.arrowRight} Factor Docs: https://factor.dev/`)
 
-    console.log(`\tyarn factor setup\n`)
+    console.log(`  ${figures.arrowRight} Setup CLI: yarn factor setup`)
 
     console.log()
   }
