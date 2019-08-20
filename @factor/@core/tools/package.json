@@ -3,16 +3,16 @@
   "factor": {
     "id": "tools"
   },
-  "version": "1.0.0-alpha.23",
+  "version": "1.0.0-alpha.24",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/tools-http": "^1.0.0-alpha.23",
-    "@factor/tools-markdown": "^1.0.0-alpha.23",
-    "@factor/tools-mongo": "^1.0.0-alpha.23",
-    "@factor/tools-time": "^1.0.0-alpha.23",
+    "@factor/tools-http": "^1.0.0-alpha.24",
+    "@factor/tools-markdown": "^1.0.0-alpha.24",
+    "@factor/tools-mongo": "^1.0.0-alpha.24",
+    "@factor/tools-time": "^1.0.0-alpha.24",
     "axios": "^0.18.0",
     "deepmerge": "^3.2.0",
     "detect-node": "^2.0.4",

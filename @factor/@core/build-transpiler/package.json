@@ -1,6 +1,6 @@
 {
   "name": "@factor/build-transpiler",
-  "version": "1.0.0-alpha.23",
+  "version": "1.0.0-alpha.24",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
