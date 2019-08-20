@@ -3,7 +3,8 @@
 
 # -- All DB Handled by Mongo
 # -- Recommended: https://www.mongodb.com/cloud/atlas
-# DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"
+<% if(db){ %>DB_CONNECTION="<%= db %>"
+<% } else { %># DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"<% } %>
 
 # -- JsonWebToken based Auth
 # TOKEN_SECRET="<JWT SECRET - CAN BE ANYTHING>"

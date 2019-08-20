@@ -16,20 +16,16 @@
 import { name, description } from "../package"
 export default {
   components: {
-    "site-head": () => import("./header"),
-    "site-footer": () => import("./footer")
+    "site-head": () => import("./base-header"),
+    "site-footer": () => import("./base-footer")
   },
   data() {
-    return {}
+    return {
+      siteName: this.$utils.toLabel(name),
+      description
+    }
   },
   computed: {
-    siteName() {
-      return this.$utils.toLabel(name)
-    },
-    description() {
-      return description
-    },
-
     // This allows us to set style information from the route
     // Use full when we want the styles 'full page' and on a route by route basis
     routeStyle() {

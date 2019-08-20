@@ -1,14 +1,10 @@
 {
-  "config": {
-    "app": {
-      "name": "<%= name %>",
-      "description": "<%= description %>",
-      "email": "<%= name %> <<%= email %>>"
-    },
-    "roles": {
-      "<%= email %>": "admin"
-    }
+  "app": {
+    "name": "<%= name %>",
+    "description": "<%= description %>",
+    "email": "<%= name %> <<%= email %>>"
   },
-  "development": {},
-  "production": {}
+  "roles": {
+    "<%= email %>": "admin"
+  }
 }
