@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-storage-s3",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.22",
   "license": "GPL-2.0",
   "factor": {
     "id": "storageS3",

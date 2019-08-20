@@ -1,6 +1,6 @@
 {
   "name": "@factor/ui-components-form",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.22",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
