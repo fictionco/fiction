@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-alpha.22",
+  "version": "1.0.0-alpha.23",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,21 +10,21 @@
     "id": "core"
   },
   "dependencies": {
-    "@factor/app": "^1.0.0-alpha.22",
-    "@factor/build": "^1.0.0-alpha.22",
-    "@factor/cli": "^1.0.0-alpha.22",
-    "@factor/core-db": "^1.0.0-alpha.22",
-    "@factor/core-email": "^1.0.0-alpha.22",
-    "@factor/core-endpoint": "^1.0.0-alpha.22",
-    "@factor/core-error": "^1.0.0-alpha.20",
-    "@factor/core-log": "^1.0.0-alpha.22",
-    "@factor/core-storage": "^1.0.0-alpha.22",
-    "@factor/core-theme": "^1.0.0-alpha.22",
-    "@factor/core-user": "^1.0.0-alpha.22",
-    "@factor/plugin-ssr-bar": "^1.0.0-alpha.22",
-    "@factor/post": "^1.0.0-alpha.22",
-    "@factor/server": "^1.0.0-alpha.22",
-    "@factor/tools": "^1.0.0-alpha.22"
+    "@factor/app": "^1.0.0-alpha.23",
+    "@factor/build": "^1.0.0-alpha.23",
+    "@factor/cli": "^1.0.0-alpha.23",
+    "@factor/core-db": "^1.0.0-alpha.23",
+    "@factor/core-email": "^1.0.0-alpha.23",
+    "@factor/core-endpoint": "^1.0.0-alpha.23",
+    "@factor/core-error": "^1.0.0-alpha.23",
+    "@factor/core-log": "^1.0.0-alpha.23",
+    "@factor/core-storage": "^1.0.0-alpha.23",
+    "@factor/core-theme": "^1.0.0-alpha.23",
+    "@factor/core-user": "^1.0.0-alpha.23",
+    "@factor/plugin-ssr-bar": "^1.0.0-alpha.23",
+    "@factor/post": "^1.0.0-alpha.23",
+    "@factor/server": "^1.0.0-alpha.23",
+    "@factor/tools": "^1.0.0-alpha.23"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }

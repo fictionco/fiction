@@ -1,6 +1,6 @@
 {
   "name": "create-factor-app",
-  "version": "1.0.0-alpha.22",
+  "version": "1.0.0-alpha.23",
   "description": "Create a Factor App in seconds.",
   "bin": "cli.js",
   "files": [

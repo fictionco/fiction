@@ -1,13 +1,13 @@
 {
   "name": "@factor/app-extend",
-  "version": "1.0.0-alpha.22",
+  "version": "1.0.0-alpha.23",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/app-config": "^1.0.0-alpha.20",
-    "@factor/filters": "^1.0.0-alpha.22"
+    "@factor/app-config": "^1.0.0-alpha.23",
+    "@factor/filters": "^1.0.0-alpha.23"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }

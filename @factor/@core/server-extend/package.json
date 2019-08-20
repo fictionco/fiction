@@ -1,17 +1,17 @@
 {
   "name": "@factor/server-extend",
-  "version": "1.0.0-alpha.22",
+  "version": "1.0.0-alpha.23",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/build-config": "^1.0.0-alpha.22",
-    "@factor/build-files": "^1.0.0-alpha.22",
-    "@factor/build-paths": "^1.0.0-alpha.22",
-    "@factor/build-transpiler": "^1.0.0-alpha.22",
-    "@factor/filters": "^1.0.0-alpha.22",
-    "@factor/server-config": "^1.0.0-alpha.22"
+    "@factor/build-config": "^1.0.0-alpha.23",
+    "@factor/build-files": "^1.0.0-alpha.23",
+    "@factor/build-paths": "^1.0.0-alpha.23",
+    "@factor/build-transpiler": "^1.0.0-alpha.23",
+    "@factor/filters": "^1.0.0-alpha.23",
+    "@factor/server-config": "^1.0.0-alpha.23"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
 }
