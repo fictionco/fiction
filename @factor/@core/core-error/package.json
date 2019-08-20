@@ -1,6 +1,6 @@
 {
   "name": "@factor/core-error",
-  "version": "1.0.0-alpha.20",
+  "version": "1.0.0-alpha.23",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
