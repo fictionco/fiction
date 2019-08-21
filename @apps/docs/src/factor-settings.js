@@ -167,35 +167,35 @@ module.exports.default = Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "Get Started With Factor",
+      headline: "Universal VueJS Framework for Front-End Developers",
       subHeadline:
         "An open-source platform for building impressive universal apps with VueJS, MongoDB and extensions.",
       //graphic: require("./img/cms-engine.png"),
       boxes: [
         {
           icon: require("./img/icon-post.svg"),
-          title: "Post System",
+          title: "Dashboard and Posts",
           description:
-            "A powerful post pattern that makes CMS and eCommerce easy to add. "
+            "Weild a powerful dashboard and post system to build advanced app functionality. "
         },
         {
           icon: require("./img/icon-plugin.svg"),
-          title: "Plugins + Themes",
+          title: "Plugins and Themes",
           description:
             "Factor is designed for drop-in, one-click extension. Building and using plugins and themes is easy."
         },
         {
           icon: require("./img/icon-time.svg"),
-          title: "Famous 3-Minute Setup",
+          title: "Open Source",
           description:
-            "You'll be up and running in 3 minutes with a full-stack universal web app."
+            "Factor is built on the GPL2 license. The same used by projects like WordPress."
         }
       ],
       actions: [
         {
           btn: "primary",
           path: "/guide/quickstart",
-          text: "Get Started"
+          text: "Start Now"
         },
         {
           btn: "tertiary",

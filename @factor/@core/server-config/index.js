@@ -53,10 +53,24 @@ module.exports.default = Factor => {
 
       this._settingsPrivate = Factor.$utils.deepMerge(configObjectsPrivate)
 
-      this._settings = Factor.$utils.deepMerge([
+      const mergedConfig = Factor.$utils.deepMerge([
         this._settingsPublic,
         this._settingsPrivate
       ])
+
+      this._settings = this.addCalculatedConfig(mergedConfig)
+    }
+
+    addCalculatedConfig(mergedConfig) {
+      const currentUrl =
+        NODE_ENV == "development" || !mergedConfig.url
+          ? Factor.$paths.localhostUrl()
+          : mergedConfig.url
+
+      return {
+        ...mergedConfig,
+        currentUrl
+      }
     }
 
     publicSettings() {

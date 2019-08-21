@@ -8,14 +8,20 @@ export default Factor => {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
+
+      Factor.$globals = Factor.prototype.$globals = Factor.observable({
+        routeClass: [],
+        metatags: []
+      })
+
       this._install("tools", require("@factor/tools").default)
       this._install("log", require("@factor/core-log").default)
 
       this._install("filters", require("@factor/filters").default)
       this._install("config", require("@factor/app-config").default)
-      //  this._install("stack", require("@factor/core-stack").default)
 
       this.loadPlugins()
+
       this.initializeApp()
     }
 
@@ -58,11 +64,6 @@ export default Factor => {
           }
         }
       }
-
-      Factor.$globals = Factor.prototype.$globals = Factor.observable({
-        routeClass: [],
-        metatags: []
-      })
 
       Factor.$filters.run("initialize-app")
     }

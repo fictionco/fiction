@@ -92,11 +92,13 @@ export default {
       this.redirectOnDefault()
     }
   },
-  mounted() {
+  async mounted() {
     this.menus = { dashboard: [] }
-    this.$user.init(user => {
-      this.initializeMenu()
-    })
+
+    // Wait for user, and if logged out don't initialize
+    // Initializing a logged out user causes problems with signin redirects
+    const user = await this.$user.init()
+    if (user._id) this.initializeMenu()
   },
   methods: {
     initializeMenu() {

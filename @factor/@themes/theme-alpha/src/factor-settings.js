@@ -1,5 +1,9 @@
 export default Factor => {
   return {
+    headTags: {
+      font:
+        '<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />'
+    },
     site: {
       logo: () => import("./el/logo"),
       nav: [
@@ -100,7 +104,8 @@ export default Factor => {
       },
       preheadline: "Alpha Theme",
       headline: "Hello, I’m Alpha. <br>A minimal, personal or portfolio theme.",
-      subheadline: "Built with focus on a minimal and functional interface that delivers a bold visual experience.",
+      subheadline:
+        "Built with focus on a minimal and functional interface that delivers a bold visual experience.",
       actions: [
         {
           path: "/work",
@@ -112,22 +117,26 @@ export default Factor => {
         {
           icon: require("./img/icon-ux.svg"),
           heading: "User Experience Design",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-ui.svg"),
           heading: "User Interface Design",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-web.svg"),
           heading: "Front-end Development",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-prototype.svg"),
           heading: "Prototyping",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
       ]
     },
@@ -212,7 +221,8 @@ export default Factor => {
           {
             format: "listing",
             title: "7 Awesome Udemy Courses for App Development",
-            content: "Udemy offers a wide range of courses covering a variety of topics...",
+            content:
+              "Udemy offers a wide range of courses covering a variety of topics...",
             date: "April 11, 2020",
             id: "1",
             tags: ["Development"],
@@ -227,7 +237,8 @@ export default Factor => {
           {
             format: "listing",
             title: "Something else about Factor and its benefits",
-            content: "Two Udemy offers a wide range of courses covering a variety of topics...",
+            content:
+              "Two Udemy offers a wide range of courses covering a variety of topics...",
             date: "April 25, 2020",
             id: "1",
             tags: ["Design"],
@@ -242,7 +253,8 @@ export default Factor => {
           {
             format: "listing",
             title: "7 Awesome Udemy Courses for App Development",
-            content: "Udemy offers a wide range of courses covering a variety of topics...",
+            content:
+              "Udemy offers a wide range of courses covering a variety of topics...",
             date: "May 12, 2020",
             id: "1",
             tags: ["Development"],

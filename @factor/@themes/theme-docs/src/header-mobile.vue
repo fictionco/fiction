@@ -26,7 +26,6 @@
 export default {
   components: {
     "page-sidebar": () => import("./sidebar"),
-
     "site-brand": () => import("./el/brand")
   },
   data() {
@@ -145,10 +144,13 @@ export default {
     font-size: 2em;
     z-index: 10;
     position: relative;
-    width: 1.2em;
+    width: 1.5em;
     opacity: 0.3;
-    padding: 5px;
-
+    padding: 0 0.3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
     .bar {
       border-radius: 5px;
       width: 100%;
