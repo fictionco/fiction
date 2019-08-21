@@ -1,5 +1,9 @@
 export default Factor => {
   return {
+    headTags: {
+      font:
+        '<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />'
+    },
     site: {
       logo: () => import("./el/logo"),
       nav: [

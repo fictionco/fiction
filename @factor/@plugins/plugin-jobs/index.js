@@ -1,12 +1,9 @@
 export default Factor => {
   return new (class {
     constructor() {
-      // Factor.$filters.add("data-schemas", _ => {
-      //   _.jobs = require("./schema").default(Factor)
-      //   return _
-      // })
-
-      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
+      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+        key: "jobs"
+      })
 
       this.filters()
 
