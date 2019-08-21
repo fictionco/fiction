@@ -98,7 +98,7 @@ export default {
           color: inherit;
           &:hover,
           &:active {
-            color: var(--color-primary);
+            color: var(--color-primary, #1a49bd);
           }
         }
         .back {

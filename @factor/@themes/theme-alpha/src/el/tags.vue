@@ -27,7 +27,7 @@ export default {
   font-weight: 600;
   border-radius: 3px;
   &:hover {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     opacity: 1;
     background: var(--color-tertiary);
   }

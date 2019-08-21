@@ -100,7 +100,8 @@ export default Factor => {
       },
       preheadline: "Alpha Theme",
       headline: "Hello, I’m Alpha. <br>A minimal, personal or portfolio theme.",
-      subheadline: "Built with focus on a minimal and functional interface that delivers a bold visual experience.",
+      subheadline:
+        "Built with focus on a minimal and functional interface that delivers a bold visual experience.",
       actions: [
         {
           path: "/work",
@@ -112,22 +113,26 @@ export default Factor => {
         {
           icon: require("./img/icon-ux.svg"),
           heading: "User Experience Design",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-ui.svg"),
           heading: "User Interface Design",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-web.svg"),
           heading: "Front-end Development",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-prototype.svg"),
           heading: "Prototyping",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
       ]
     },
@@ -197,22 +202,51 @@ export default Factor => {
       }
     },
     blog: {
-      meta: {
-        title: "Blog - Factor Alpha Theme",
-        description:
-          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
-      },
+      indexRoute: "/articles",
+      postRoute: "/articles",
+      limit: 2,
       headline: "Blog",
       subheadline: "The Latest From Alpha",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
       heroImage: require("./img/blog.jpg"),
+      meta: {
+        title: "Blog - Factor Alpha Theme",
+        description:
+          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+      },
+      components: {
+        blogFeaturedImage: () => import("./blog/featured-image.vue"),
+        blogHeaders: () => import("./blog/headers.vue"),
+        blogSingleHeaders: () => import("./blog/single-headers.vue"),
+        returnLink: () => import("./blog/return-link.vue"),
+        blogExcerpt: () => import("./blog/excerpt.vue"),
+        blogMeta: () => import("./blog/meta.vue"),
+        blogTags: () => import("./blog/tags.vue"),
+        blogIndex: () => import("./blog/index.vue"),
+        blogContent: () => import("./blog/wrap.vue")
+      },
+      layout: {
+        index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
+        single: [
+          "returnLink",
+          "blogSingleHeaders",
+          "blogMeta",
+          "blogFeaturedImage",
+          "entry",
+          "social",
+          "authorBio"
+        ],
+        meta: ["authorDate"]
+      },
+      OLD: "",
       posts: {
         data: [
           {
             format: "listing",
             title: "7 Awesome Udemy Courses for App Development",
-            content: "Udemy offers a wide range of courses covering a variety of topics...",
+            content:
+              "Udemy offers a wide range of courses covering a variety of topics...",
             date: "April 11, 2020",
             id: "1",
             tags: ["Development"],
@@ -227,7 +261,8 @@ export default Factor => {
           {
             format: "listing",
             title: "Something else about Factor and its benefits",
-            content: "Two Udemy offers a wide range of courses covering a variety of topics...",
+            content:
+              "Two Udemy offers a wide range of courses covering a variety of topics...",
             date: "April 25, 2020",
             id: "1",
             tags: ["Design"],
@@ -242,7 +277,8 @@ export default Factor => {
           {
             format: "listing",
             title: "7 Awesome Udemy Courses for App Development",
-            content: "Udemy offers a wide range of courses covering a variety of topics...",
+            content:
+              "Udemy offers a wide range of courses covering a variety of topics...",
             date: "May 12, 2020",
             id: "1",
             tags: ["Development"],

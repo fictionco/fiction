@@ -28,14 +28,15 @@ export default {
 <style lang="less">
 // Hero
 .hero {
+  position: relative;
+  overflow: hidden;
+
   .mast {
     padding: 0 2em;
     line-height: 1.2;
     max-width: 1000px;
     margin: 0 auto;
   }
-
-  position: relative;
   &:before {
     content: "";
     display: block;
@@ -81,9 +82,6 @@ export default {
       font-size: 1.2em;
       line-height: 1.6em;
       opacity: 0.5;
-      // p {
-      //   opacity: 0.5;
-      // }
     }
     .hero-image {
       background-position: center;

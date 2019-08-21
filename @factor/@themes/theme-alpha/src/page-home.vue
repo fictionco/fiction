@@ -166,7 +166,7 @@ export default {
 
   // feature
   .feature {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary, #1a49bd);
     color: var(--color-white);
     position: relative;
 
