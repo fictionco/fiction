@@ -1,27 +1,34 @@
 <template>
   <div class="app-wrap">
-    <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
-      <dashboard-nav />
-    </div>
-
-    <div class="app-layout" :class="toggle ? 'nav-overlay': ''">
-      <dashboard-head class="app-head" />
-
-      <div class="app-nav" @click.stop>
+    <template v-if="loading">
+      <div class="user-loading">
+        <factor-loading-ring width="4em" />
+      </div>
+    </template>
+    <template v-else>
+      <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
         <dashboard-nav />
       </div>
-      <div class="app-main">
-        <div class="app-main-content">
-          <div class="mobile-nav-toggle-wrap" @click.stop>
-            <dashboard-btn @click="toggleNav()">
-              <factor-icon icon="arrow-left" />&nbsp;Menu
-            </dashboard-btn>
+
+      <div class="app-layout" :class="toggle ? 'nav-overlay': ''">
+        <dashboard-head class="app-head" />
+
+        <div class="app-nav" @click.stop>
+          <dashboard-nav />
+        </div>
+        <div class="app-main">
+          <div class="app-main-content">
+            <div class="mobile-nav-toggle-wrap" @click.stop>
+              <dashboard-btn @click="toggleNav()">
+                <factor-icon icon="arrow-left" />&nbsp;Menu
+              </dashboard-btn>
+            </div>
+            <slot v-if="$slots.default" />
+            <router-view v-else />
           </div>
-          <slot v-if="$slots.default" />
-          <router-view v-else />
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -56,10 +63,9 @@ export default {
       this.toggleNav(false)
     }
   },
-  mounted() {
-    this.$user.init(user => {
-      // this.loading = false
-    })
+  async mounted() {
+    const user = await this.$user.init()
+    this.loading = false
   },
 
   methods: {

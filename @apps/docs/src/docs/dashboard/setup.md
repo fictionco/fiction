@@ -65,7 +65,7 @@ Factor includes a basic user role system controlled via your `factor-config.json
 
 ## Accessing Your Dashboard
 
-With DB and auth setup, all you need to do is visit [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "signup." Just create an account and you should be able to see your dashboard.
+With DB and auth setup, all you need to do is visit [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "signup." Just hit "signup" and cteate an account and you should be able to see your dashboard.
 
 At first, the dashboard will be bare-bones. This is because you likely haven't been made an admin and you haven't installed any plugins. So as a first step, run `yarn factor setup` and add your email as an admin. (This writes info to your `factor-config`).
 
