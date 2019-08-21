@@ -31,13 +31,27 @@ export default async ssrContext => {
 
   // the html template extension mechanism
   // This uses a callback because the component's 'created' hooks are called after this point
-  ssrContext.factor_head = () => {
-    return Factor.$filters.apply("factor_head", []).join("")
-  }
 
-  ssrContext.factor_html_attr = () => ['lang="en"', `class="factor-${ui}"`].join(" ")
+  const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
 
-  ssrContext.factor_body_class = (additional = "") => `class="${additional}"`
+  metaHooks.forEach(h => {
+    ssrContext[h] = () => {
+      return Factor.$filters.apply(h, []).join("")
+    }
+  })
+
+  const attrHooks = [
+    { name: "factor_html_attr", attr: ['lang="en"'], classes: [`factor-${ui}`] },
+    { name: "factor_body_attr", attr: [], classes: [] }
+  ]
+
+  attrHooks.forEach(({ name, attr, classes }) => {
+    ssrContext[name] = additional => {
+      classes.push(additional)
+      attr.push(`class="${classes.join(" ")}"`)
+      return Factor.$filters.apply(name, attr).join(" ")
+    }
+  })
 
   ssrContext.state = store.state
 
