@@ -1,21 +1,17 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      if (Factor.FACTOR_TARGET == "server") {
-        this.addLessVars()
-      } else {
-        this.addWorkPostType()
-        this.addPaths()
-        this.addComponents()
-      }
-    }
+      this.addWorkPostType()
+      this.addPaths()
+      this.addComponents()
 
-    addLessVars() {
-      const { resolve } = require("path")
-      Factor.$filters.add("prepended-style-var-files", _ => {
-        _.push(resolve(__dirname, "css/style-vars.less"))
-        return _
-      })
+      Factor.$filters.push(
+        "factor_head",
+        [
+          '<link href="https://cdn.jsdelivr.net/npm/ficons@1.1.52/dist/ficons/font.css" rel="stylesheet" />',
+          Factor.$setting.get("headtags.font")
+        ].join("")
+      )
     }
 
     addComponents() {

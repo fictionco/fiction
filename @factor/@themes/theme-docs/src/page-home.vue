@@ -120,7 +120,7 @@ export default {
         .actions {
           margin-top: 1.5em;
           @media (max-width: 767px) {
-            margin-bottom: 1.5em;
+            margin-bottom: 0.5em;
             a {
               display: inline-block;
               margin-bottom: 10px;
@@ -136,7 +136,7 @@ export default {
   }
 
   .boxes-wrap {
-    padding: 2em 1em;
+    padding: 1em;
     position: relative;
     z-index: 2;
     .boxes {
@@ -152,11 +152,8 @@ export default {
       .box {
         border-radius: 5px;
         background: #fff;
-
-        @media (max-width: 767px) {
-          margin: 1em 0 2em;
-        }
         display: flex;
+
         .icon {
           margin: 0 1em 0 0;
           height: 60px;
@@ -164,6 +161,14 @@ export default {
           width: 60px;
           background-position: 50% 20%;
           border-radius: 7px;
+        }
+
+        @media (max-width: 767px) {
+          margin: 1em 0 2em;
+          display: block;
+          .icon {
+            background-position: 0;
+          }
         }
         h2 {
           font-size: 1.2em;
