@@ -7,14 +7,14 @@
     },
     "id": "user"
   },
-  "version": "1.0.0-alpha.24",
+  "version": "1.0.0-alpha.26",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203",
   "dependencies": {
-    "@factor/core-user-emails": "^1.0.0-alpha.24",
+    "@factor/core-user-emails": "^1.0.0-alpha.26",
     "@factor/core-user-roles": "^1.0.0-alpha.24",
     "bcrypt": "^3.0.6",
     "email-validator": "^2.0.4",
