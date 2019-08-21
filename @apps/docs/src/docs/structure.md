@@ -19,6 +19,8 @@ Inside package.json, factor apps need a `factor` key that supports the following
 ```js
 // package.json
 {
+  // This sets your source folder to 'src', default is simply index.js
+  "main": "src/index.js",
   "factor": {
     // unique reference ID for the module: Factor.$docsApp
     "id": "docsApp",
@@ -52,7 +54,9 @@ Here is how you should think of the two key folders of your app:
 
 ### The Main File: index.js
 
-Index.js is the main entry file for your app, plugin and theme Factor modules. These are what is processed when the package is included. What this means is that its generally the best place to add customizations via filters or add any custom code your app will need. This file is also ideal for adding routes or advanced functionality.
+Index.js is the main entry file for Factor apps and modules. The main file is generally the best place to add customizations via filters, custom routes and any other custom code your app will need.
+
+#### Closure Class Convention
 
 Factor entry files follow a special "closure" design pattern that looks like this:
 
@@ -72,7 +76,15 @@ And once loaded your exported class is accessible via `Factor.$appId` throughout
 
 Your index.html template is the skeleton for every page on your app. It is optional, but can be used to manually add metatags or other info that may not be in the default one.
 
-The most basic index.html must include three functions: `factor_html_attr()`, `factor_head()`, and `factor_body_class()`. These functions are what plugins use if they need to add information to your head, etc.
+The most basic index.html should include these functions:
+
+- `factor_html_attr()` (Accepts an argument which adds classes to `<html>`)
+- `factor_head()`
+- `factor_body_attr()` (Accepts an argument which adds classes to `<body>`)
+- `factor_body_start()`
+- `factor_body_end()`
+
+These functions are what plugins use if they need to add information to your head, etc.
 
 ```html
 <!-- The default index.html file -->
@@ -87,8 +99,10 @@ The most basic index.html must include three functions: `factor_html_attr()`, `f
     {{{ factor_head() }}}
   </head>
 
-  <body {{{ factor_body_class() }}}>
+  <body {{{ factor_body_attr() }}}>
+    {{{ factor_body_start() }}}
     <!--vue-ssr-outlet-->
+    {{{ factor_body_end() }}}
   </body>
 </html>
 ```
@@ -99,25 +113,25 @@ The most basic index.html must include three functions: `factor_html_attr()`, `f
 
 The `factor-config` file is used to add public config to your project. It is a writeable file used by plugins and the `factor setup` CLI command.
 
-More information about this file can be found under the [config](./config) doc.
+More information about this file can be found under [config](./config).
 
 ### .env
 
 The `.env` file is a standard file based on the [Dotenv](https://github.com/motdotla/dotenv) module.
 
-More information about this file can be found under the [config](./config) doc.
+More information about this file can be found under [config](./config).
 
 ## Customization Files
 
 ### factor-settings.js
 
-The `factor-settings` file is where apps, plugins, and themes add settings that can be accessed via `Factor.$settings.get('some.setting')`. It is super powerful and supports all sort of values from nav item arrays, to components, etc.
+The `factor-settings` file is where apps, plugins, and themes add settings that can be accessed via `Factor.$settings.get('some.setting')`. It is powerful and supports all everything from nav item arrays, to components, etc.
 
 More info about this file under [customize](./customize).
 
 ### factor-styles.css
 
-The `factor-styles.css` file (`.less` and `.scss` also supported) is the recommended way of adding your CSS and CSS variables. They are parsed and loaded in the ideal order for overriding values (_app > theme > plugin_).
+The `factor-styles.css` file _(`.less` and `.scss` also supported)_ is the recommended way of adding your CSS and CSS variables. They are parsed and loaded in the ideal order for overriding values (_app > theme > plugin_).
 
 More info about this file under [customize](./customize).
 
