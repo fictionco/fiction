@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-jobs",
-  "version": "1.0.0-alpha.26",
+  "version": "1.0.0-alpha.27",
   "license": "GPL-2.0",
   "factor": {
     "target": [
@@ -9,7 +9,7 @@
     ]
   },
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.0.0-alpha.24"
+    "@factor/plugin-highlight-code": "^1.0.0-alpha.27"
   },
   "publishConfig": {
     "access": "public"
