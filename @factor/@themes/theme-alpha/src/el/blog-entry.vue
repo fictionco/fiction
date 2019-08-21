@@ -95,7 +95,7 @@ export default {
 <style lang="less">
 .ghost {
   > div {
-    background-color: #f7f9ff;
+    background-color: var(--color-bg-alt, #f7f9ff);
     height: 2em;
     margin: 0.5em 0;
     border-radius: 8px;
@@ -122,6 +122,9 @@ export default {
       font-size: 2em;
       line-height: 1.1;
       margin: 0.5em 0;
+      &:hover {
+        color: var(--color-primary-sub);
+      }
     }
     .entry-content {
       margin: 0 0 1em 0;

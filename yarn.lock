@@ -741,6 +741,65 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@factor/app-extend@^1.0.0-alpha.25":
+  version "1.0.0-alpha.25"
+  resolved "https://registry.yarnpkg.com/@factor/app-extend/-/app-extend-1.0.0-alpha.25.tgz#07c44f407532870753b71379eed20f5e9863a05d"
+  integrity sha512-QooUhsHx/SVFzUK9oRXPijx6UKJPdFKL6dTMCRuuRFqrK80HJOX0KkixLnazVCeL+YvkRyuCrJnmYv5Veiy0AA==
+  dependencies:
+    "@factor/app-config" "^1.0.0-alpha.24"
+    "@factor/filters" "^1.0.0-alpha.24"
+
+"@factor/app@^1.0.0-alpha.25":
+  version "1.0.0-alpha.25"
+  resolved "https://registry.yarnpkg.com/@factor/app/-/app-1.0.0-alpha.25.tgz#b8909ce895c4bf806b112a4cd8c2f9c9f76395c0"
+  integrity sha512-SdIMm/S7TE5qayFmtEugA2k+H24JGsJaOJtP7Mit1s4I8LTWXHtdYrSRsNoi6QTQt4jSOMJzcTvHJkGgHZH2tA==
+  dependencies:
+    "@factor/app-extend" "^1.0.0-alpha.25"
+    "@factor/app-fallbacks" "^1.0.0-alpha.24"
+    "@factor/app-router" "^1.0.0-alpha.24"
+    "@factor/app-settings" "^1.0.0-alpha.24"
+    "@factor/app-store" "^1.0.0-alpha.24"
+    "@factor/cli" "^1.0.0-alpha.24"
+    vue "^2.6.7"
+
+"@factor/core@^1.0.0-alpha.25":
+  version "1.0.0-alpha.25"
+  resolved "https://registry.yarnpkg.com/@factor/core/-/core-1.0.0-alpha.25.tgz#804547325cb397c6a80b10efffd8445604514224"
+  integrity sha512-X0yqO6JM1h0vI/5Td5TWQdt+FnMwOPC+DUJqxszvyDPbtjKvOGIQzqw7vIHfT6G4R5oCK429hFEIzSltZ6Vh8g==
+  dependencies:
+    "@factor/app" "^1.0.0-alpha.25"
+    "@factor/build" "^1.0.0-alpha.24"
+    "@factor/cli" "^1.0.0-alpha.24"
+    "@factor/core-db" "^1.0.0-alpha.24"
+    "@factor/core-email" "^1.0.0-alpha.24"
+    "@factor/core-endpoint" "^1.0.0-alpha.24"
+    "@factor/core-error" "^1.0.0-alpha.24"
+    "@factor/core-log" "^1.0.0-alpha.24"
+    "@factor/core-storage" "^1.0.0-alpha.24"
+    "@factor/core-theme" "^1.0.0-alpha.24"
+    "@factor/core-user" "^1.0.0-alpha.24"
+    "@factor/plugin-ssr-bar" "^1.0.0-alpha.24"
+    "@factor/post" "^1.0.0-alpha.25"
+    "@factor/server" "^1.0.0-alpha.24"
+    "@factor/tools" "^1.0.0-alpha.24"
+
+"@factor/post@^1.0.0-alpha.25":
+  version "1.0.0-alpha.25"
+  resolved "https://registry.yarnpkg.com/@factor/post/-/post-1.0.0-alpha.25.tgz#fd812192f952425667e146e17968cad5b0845308"
+  integrity sha512-sSEz3MgsWKOjt2KqMj1u9pPGErLS2byWOrF9o3g2dKt7hY2p1szXHVD7wMnZk2N+WcTm6VPzP9ZSLEySEkHmkg==
+  dependencies:
+    "@factor/app" "^1.0.0-alpha.25"
+    "@factor/build" "^1.0.0-alpha.24"
+    "@factor/core" "^1.0.0-alpha.25"
+    "@factor/dashboard" "^1.0.0-alpha.24"
+    "@factor/dashboard-signin" "^1.0.0-alpha.24"
+    "@factor/metatags" "^1.0.0-alpha.24"
+    "@factor/post-page-templates" "^1.0.0-alpha.24"
+    "@factor/ui" "^1.0.0-alpha.24"
+    jsonwebtoken "^8.5.1"
+    object-hash "^1.3.1"
+    scriptjs "^2.5.9"
+
 "@lerna/add@3.16.2":
   version "3.16.2"
   resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.16.2.tgz#90ecc1be7051cfcec75496ce122f656295bd6e94"
