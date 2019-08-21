@@ -1,11 +1,11 @@
 .factor-app {
   --color-primary: #1a49bd;
-  --color-primary-sub: #62bdff;
   --color-secondary: #ff0076;
   --color-tertiary: #9afecb;
 
   --color-text: #303030;
   --color-placeholder: #bdcad4;
+  --color-placeholder-2: #eeeef1;
 
   --color-success: #26d12b;
   --color-info: #fdf700;

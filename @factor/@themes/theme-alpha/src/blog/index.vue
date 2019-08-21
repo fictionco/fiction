@@ -1,22 +1,29 @@
 <template>
-  <div class="page-blog blog">
+  <div class="page-blog">
     <el-hero
+      v-if="page == 1 && !tag"
       :headline="$setting.get('blog.headline')"
       :subheadline="$setting.get('blog.subheadline')"
       :image="$setting.get('blog.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="$setting.get('blog.content')" class="content entry-content" />
+        <div
+          v-formatted-text="$setting.get('blog.content')"
+          class="content entry-content"
+        />
       </template>
     </el-hero>
 
     <div class="entries">
-      <component :is="$setting.get('blog.components.returnLink')" v-if="tag || page > 1" />
+      <component
+        :is="$setting.get('blog.components.returnLink')"
+        v-if="tag || page > 1"
+      />
       <div v-if="loading" class="posts-loading">
         <factor-loading-ring />
       </div>
       <div v-else-if="blogPosts.length > 0" class="post-index">
-        <div v-for="(post) in blogPosts" :key="post._id" class="post">
+        <div v-for="post in blogPosts" :key="post._id" class="post">
           <component
             :is="$setting.get(`blog.components.${comp}`)"
             v-for="(comp, i) in $setting.get('blog.layout.index')"

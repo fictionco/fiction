@@ -6,7 +6,10 @@
       :image="$setting.get('contact.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="$setting.get('contact.content')" class="content entry-content" />
+        <div
+          v-formatted-text="$setting.get('contact.content')"
+          class="content entry-content"
+        />
 
         <factor-form
           ref="form"
@@ -18,8 +21,7 @@
           <div v-if="sent" class="confirm" data-test="confirm">
             <div class="title">Got it!</div>
             <div class="description">
-              We’ll get back to you as soon as possible
-              at the email you provided.
+              We’ll get back to you as soon as possible at the email you provided.
             </div>
           </div>
           <div v-else class="inputs">
@@ -49,12 +51,12 @@
             />
 
             <factor-input-submit
-              :loading="sending"
               btn="default"
               size="large"
+              :loading="sending"
               data-test="form-submit"
             >
-              {{ $setting.get('contact.form.buttonText') }}
+              {{ $setting.get("contact.form.buttonText") }}
               <factor-icon icon="arrow-right" />
             </factor-input-submit>
           </div>
@@ -69,9 +71,6 @@ export default {
   components: {
     "el-hero": () => import("./el/hero")
   },
-  props: {
-    post: { type: Object, default: () => {} }
-  },
   data() {
     return {
       loading: true,
@@ -83,8 +82,8 @@ export default {
   },
   metatags() {
     return {
-      title: this.$setting.get("contact.meta.title"),
-      description: this.$setting.get("contact.meta.description")
+      title: this.$setting.get("contact.metatags.title"),
+      description: this.$setting.get("contact.metatags.description")
     }
   },
   mounted() {
@@ -127,10 +126,8 @@ export default {
       // })
 
       // if (!name || !email || !message) {
-      //   this.$notify.error(
-      //     "Please enter your contact information into the form."
-      //   )
-      //   return;
+      //   this.$notify.error("Please enter your contact information into the form.")
+      //   return
       // }
 
       try {
@@ -177,21 +174,6 @@ export default {
     margin: 0 auto;
   }
 
-  .factor-btn.default {
-    padding: 0.6em 1.2em;
-    font-weight: 700;
-    line-height: 1;
-    border-radius: 4px;
-    font-size: 1.2em;
-    color: var(--color-primary, #1a49bd);
-    background: var(--color-white);
-    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
-      0 2px 10px rgba(71, 86, 144, 0.2);
-
-    &:hover {
-      color: var(--color-primary-sub);
-    }
-  }
   .contact-form {
     margin-top: 40px;
     input[type="text"],
@@ -201,9 +183,12 @@ export default {
     input[type="text"],
     input[type="email"],
     textarea.standard-textarea {
-      background: var(--color-white);
+      background: var(--color-white, #ffffff);
       border: 1px solid rgba(48, 48, 48, 0.1);
       border-radius: 4px;
+      &:focus {
+        outline: var(--color-primary, #9afecb) auto 5px;
+      }
     }
     .form-submit {
       margin: 1em 0;

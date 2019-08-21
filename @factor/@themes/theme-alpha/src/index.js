@@ -72,11 +72,11 @@ module.exports.default = Factor => {
               }
             ]
           },
-          {
-            path: "/blog",
-            component: () => import("./page-blog"),
-            meta: { nav: true }
-          },
+          // {
+          //   path: "/blog",
+          //   component: () => import("./page-blog"),
+          //   meta: { nav: true }
+          // },
           {
             path: "/contact",
             component: () => import("./page-contact"),
