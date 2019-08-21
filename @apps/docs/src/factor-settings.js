@@ -28,6 +28,12 @@ module.exports.default = Factor => {
           group: "App Development"
         },
         {
+          name: "File Structure",
+          doc: "file-structure",
+          file: require("./docs/structure.md"),
+          title: "Factor File Structure"
+        },
+        {
           name: "Add Extensions",
           doc: "extension-basics",
           file: require("./docs/extension-basics.md"),
