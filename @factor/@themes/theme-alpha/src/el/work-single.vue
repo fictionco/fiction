@@ -1,5 +1,8 @@
 <template>
   <div class="single-entry">
+    <pre>
+    {{ post }} //post.permalink 
+    </pre>
     <part-work-entry
       :format="'single'"
       :authors="post.authorData"

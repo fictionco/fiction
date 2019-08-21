@@ -8,14 +8,13 @@
   },
   "factor": {
     "extend": "theme",
-    "target": [
-      "server",
-      "app"
-    ]
+    "target": ["server", "app"]
   },
   "dependencies": {
+    "@factor/core": "^1.0.0-alpha.25",
+    "@factor/index": "^1.0.0-alpha.20",
     "@factor/plugin-notify": "^1.0.0-alpha.24",
-    "@factor/post": "^1.0.0-alpha.24"
+    "@factor/plugin-blog": "^1.0.0-alpha.20"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }

@@ -167,12 +167,12 @@ export default {
   }
 
   .factor-btn.default {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     letter-spacing: -0.03em;
   }
   // feature
   .feature {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary, #1a49bd);
     color: var(--color-white);
     position: relative;
 
