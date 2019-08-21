@@ -3,12 +3,10 @@
   "version": "1.0.0-alpha.24",
   "license": "GPL-2.0",
   "factor": {
-    "target": [
-      "app",
-      "server"
-    ]
+    "target": ["app", "server"]
   },
   "dependencies": {
+    "@factor/core": "^1.0.0-alpha.25",
     "@factor/plugin-highlight-code": "^1.0.0-alpha.24"
   },
   "publishConfig": {

@@ -42,7 +42,7 @@ export default {
   }
 
   .factor-btn.default {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     letter-spacing: -0.03em;
   }
 

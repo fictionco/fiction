@@ -206,16 +206,44 @@ export default Factor => {
       }
     },
     blog: {
-      meta: {
-        title: "Blog - Factor Alpha Theme",
-        description:
-          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
-      },
+      indexRoute: "/articles",
+      postRoute: "/articles",
+      limit: 2,
       headline: "Blog",
       subheadline: "The Latest From Alpha",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
       heroImage: require("./img/blog.jpg"),
+      meta: {
+        title: "Blog - Factor Alpha Theme",
+        description:
+          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+      },
+      components: {
+        blogFeaturedImage: () => import("./blog/featured-image.vue"),
+        blogHeaders: () => import("./blog/headers.vue"),
+        blogSingleHeaders: () => import("./blog/single-headers.vue"),
+        returnLink: () => import("./blog/return-link.vue"),
+        blogExcerpt: () => import("./blog/excerpt.vue"),
+        blogMeta: () => import("./blog/meta.vue"),
+        blogTags: () => import("./blog/tags.vue"),
+        blogIndex: () => import("./blog/index.vue"),
+        blogContent: () => import("./blog/wrap.vue")
+      },
+      layout: {
+        index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
+        single: [
+          "returnLink",
+          "blogSingleHeaders",
+          "blogMeta",
+          "blogFeaturedImage",
+          "entry",
+          "social",
+          "authorBio"
+        ],
+        meta: ["authorDate"]
+      },
+      OLD: "",
       posts: {
         data: [
           {

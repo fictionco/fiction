@@ -52,12 +52,12 @@
   }
 
   a {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     text-decoration: underline;
 
     &:hover {
       cursor: pointer;
-      color: var(--color-primary);
+      color: var(--color-primary, #1a49bd);
       opacity: .7;
     }
   }
@@ -174,7 +174,7 @@
   blockquote {
     margin: 1em;
     padding: 0.5em;
-    border-left: 0.2em solid var(--color-primary);
+    border-left: 0.2em solid var(--color-primary, #1a49bd);
     font-style: italic;
     quotes: "“""”";
 

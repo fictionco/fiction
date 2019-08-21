@@ -46,7 +46,7 @@ export default {
   position: relative;
   z-index: 10;
   padding: 0 1.5em;
-  background: var(--color-primary);
+  background: var(--color-primary, #1a49bd);
   color: var(--color-white);
 }
 
@@ -129,7 +129,7 @@ export default {
       left: 0;
       right: 0;
       bottom: 0;
-      border: 14px solid var(--color-primary);
+      border: 14px solid var(--color-primary, #1a49bd);
       background-color: var(--color-white);
       transition: 0.55s cubic-bezier(0.52, 0.01, 0.16, 1);
     }
@@ -148,7 +148,7 @@ export default {
       &.active-path {
         color: var(--color-tertiary);
         @media (max-width: 767px) {
-          color: var(--color-primary);
+          color: var(--color-primary, #1a49bd);
         }
       }
       @media (max-width: 767px) {
@@ -158,10 +158,10 @@ export default {
         padding: 1.5em 0;
         &:hover,
         &.active {
-          color: var(--color-primary);
+          color: var(--color-primary, #1a49bd);
         }
         &:active {
-          color: var(--color-primary);
+          color: var(--color-primary, #1a49bd);
         }
       }
     }

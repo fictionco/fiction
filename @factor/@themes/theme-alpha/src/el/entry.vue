@@ -103,7 +103,7 @@ export default {
 <style lang="less">
 .ghost {
   > div {
-    background-color: #f7f9ff;
+    background-color: var(--color-bg-alt, #f7f9ff);
     height: 2em;
     margin: 0.5em 0;
     border-radius: 8px;

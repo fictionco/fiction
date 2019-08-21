@@ -17,9 +17,16 @@
   --color-bg-alt: #f3f5fb;
 
   --font-family-primary: "poppins",
-    /* Safari for OS X and iOS (San Francisco)*/ -apple-system,
-    /* Chrome < 56 for OS X (San Francisco)*/ BlinkMacSystemFont, /* Windows*/ "Segoe UI",
-    /* Android*/ "Roboto", /* Basic web fallback*/ "Helvetica Neue", Arial, sans-serif;
+    /* Safari for OS X and iOS (San Francisco)*/
+    -apple-system,
+    /* Chrome < 56 for OS X (San Francisco)*/
+    BlinkMacSystemFont,
+    /* Windows*/
+    "Segoe UI",
+    /* Android*/
+    "Roboto",
+    /* Basic web fallback*/
+    "Helvetica Neue", Arial, sans-serif;
 
   /* Alpha Theme Variables */
   --color-white: #ffffff;
