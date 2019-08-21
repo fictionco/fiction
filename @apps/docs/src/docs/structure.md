@@ -41,7 +41,16 @@ Inside package.json, factor apps need a `factor` key that supports the following
 }
 ```
 
-### index.js
+## Source vs Root Folder
+
+In a Factor app, the source or `src` folder is determined by the folder containing your primary `main` file of your app. If, for example, your app package.json sets main to `src/index.js` then the folder `src` will be treated as your app source.
+
+Here is how you should think of the two key folders of your app:
+
+- **Source** - (`/src`) - This is your application source code. It should include all components, images, static files, templates, etc..
+- **Root** - (`/`) - The root of your app should be used for configuration (factor-config, .env, package.json), build and test code, etc..
+
+### The Main File: index.js
 
 Index.js is the main entry file for your app, plugin and theme Factor modules. These are what is processed when the package is included. What this means is that its generally the best place to add customizations via filters or add any custom code your app will need. This file is also ideal for adding routes or advanced functionality.
 
@@ -59,7 +68,7 @@ export default Factor => {
 
 And once loaded your exported class is accessible via `Factor.$appId` throughout your components and elsewhere (Id is added in package.json).
 
-### index.html
+### Template: index.html
 
 Your index.html template is the skeleton for every page on your app. It is optional, but can be used to manually add metatags or other info that may not be in the default one.
 
@@ -108,16 +117,32 @@ More info about this file under [customize](./customize).
 
 ### factor-styles.css
 
+The `factor-styles.css` file (`.less` and `.scss` also supported) is the recommended way of adding your CSS and CSS variables. They are parsed and loaded in the ideal order for overriding values (_app > theme > plugin_).
+
+More info about this file under [customize](./customize).
+
 ## The "static" folder
 
-### Favicon
+Anything you add to the static folder will be moved to the `dist` folder directly during build and then served from there directly. For example, if you add the file `screenshot.png` to this folder, it will be available at `https://yoursite.com/screenshot.png` when you are serving your app.
 
-### Icon
+Recommended files for your static folder include:
+
+- **Favicon.png** - Square 100pxx100px - A standard and portable icon for your app. Used in browser tabs and elsewhere.
+- **Icon.png** - Square 300pxx300px - Your apps standard icon, used by plugins and themes to add your branding.
 
 ## Essential Components: Site, Content, 404
 
+Factor apps require some special components that are used to control behavior of your app. These include:
+
+- **Site.vue** - This is the master wrapper component for your app in both your dashboard and front-end. It is possible to override this file but should be considered advanced to do so.
+- **Content.vue** - This is the wrapper for the pages on the front-end of your site. Overriding this file can make it easy to customize footer and page layout.
+- **404.vue** - The fallback component if no route is setup for a URL someone visits.
+
+To override any of these, all you need to do is add a component with the same name to your `src` folder.
+
 ## Built Folders: dist and .factor
 
-## Other Files
+When you build your app, Factor generates two folders.
 
-### .gitignore
+- **Dist**- THis is the production build of your application. In other words, it is what is served when you host your app.
+- **.factor** - This folder contains your module loaders and is generated whenever you run a Factor build.
