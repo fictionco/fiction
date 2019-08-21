@@ -5,8 +5,9 @@
       :key="ti"
       class="entry-tag"
       :path="$setting.get('blog.indexRoute')"
-      :query="{tag}"
-    >{{ tag }}</factor-link>
+      :query="{ tag }"
+      >{{ tag }}</factor-link
+    >
   </div>
 </template>
 <script>
@@ -31,7 +32,7 @@ export default {
 
   a {
     color: var(--color-primary, #1a49bd);
-    background: rgba(50, 50, 93, 0.1);
+    background: var(--color-placeholder-2, #eeeef1);
     display: inline-block;
     opacity: 0.7;
     font-size: 0.85em;
@@ -47,6 +48,14 @@ export default {
     }
     &:not(:nth-child(1)) {
       margin-left: 3px;
+    }
+  }
+}
+.blog-single-entry {
+  .entry-tags {
+    padding: 0 2em 2em;
+    @media (max-width: 767px) {
+      padding: 0 1em 2em;
     }
   }
 }

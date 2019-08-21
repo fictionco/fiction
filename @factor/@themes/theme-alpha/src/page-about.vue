@@ -6,7 +6,10 @@
       :image="$setting.get('about.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="$setting.get('about.content')" class="content entry-content" />
+        <div
+          v-formatted-text="$setting.get('about.content')"
+          class="content entry-content"
+        />
       </template>
     </el-hero>
 
@@ -67,7 +70,7 @@ export default {
     letter-spacing: -0.03em;
   }
   .hero {
-    border-bottom: 2px solid var(--color-bg);
+    border-bottom: 2px solid var(--color-bg, #ffffff);
   }
 }
 </style>

@@ -32,12 +32,9 @@ export default {
 .featured-image {
   background-size: cover;
   background-position: 50%;
-  height: 300px;
+  min-height: 300px;
+  height: 40vh;
   margin: 0;
   border-radius: 5px 5px 0 0;
-}
-.single-entry .featured-image {
-  border-radius: 0;
-  height: 400px;
 }
 </style>

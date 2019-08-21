@@ -21,6 +21,10 @@ export default {
 <style lang="less">
 .single-entry-headers {
   margin: 1rem 0;
+  padding: 2em;
+  @media (max-width: 767px) {
+    padding: 2em 1em;
+  }
   .entry-title {
     font-weight: var(--font-weight-bold);
     font-size: 2.5em;
@@ -30,9 +34,10 @@ export default {
       font-size: 2em;
     }
     a {
-      color: inherit;
+      color: var(--color-primary, #1a49bd);
       &:hover {
-        color: var(--color-primary);
+        text-decoration: underline;
+        text-decoration-color: var(--color-tertiary, #9afecb);
       }
       &:active {
         opacity: 0.7;
@@ -40,6 +45,7 @@ export default {
     }
   }
   .entry-sub-title {
+    padding-top: 0.3em;
     font-size: 1.4em;
     opacity: 0.7;
   }

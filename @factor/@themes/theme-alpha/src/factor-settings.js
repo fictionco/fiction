@@ -1,8 +1,7 @@
 export default Factor => {
   return {
     headTags: {
-      font:
-        '<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />'
+      font: `<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />`
     },
     site: {
       logo: () => import("./el/logo"),
@@ -208,16 +207,18 @@ export default Factor => {
     blog: {
       indexRoute: "/articles",
       postRoute: "/articles",
-      limit: 2,
+      limit: 4,
       headline: "Blog",
       subheadline: "The Latest From Alpha",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
       heroImage: require("./img/blog.jpg"),
-      meta: {
-        title: "Blog - Factor Alpha Theme",
-        description:
-          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+      metatags: {
+        index: {
+          title: "Blog - The Latest from Factor Alpha Theme",
+          description:
+            "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+        }
       },
       components: {
         blogFeaturedImage: () => import("./blog/featured-image.vue"),
@@ -228,6 +229,7 @@ export default Factor => {
         blogMeta: () => import("./blog/meta.vue"),
         blogTags: () => import("./blog/tags.vue"),
         blogIndex: () => import("./blog/index.vue"),
+        blogSingle: () => import("./blog/single.vue"),
         blogContent: () => import("./blog/wrap.vue")
       },
       layout: {
@@ -235,70 +237,18 @@ export default Factor => {
         single: [
           "returnLink",
           "blogSingleHeaders",
-          "blogMeta",
+          "blogTags",
           "blogFeaturedImage",
+          "meta",
           "entry",
           "social",
           "authorBio"
         ],
         meta: ["authorDate"]
-      },
-      OLD: "",
-      posts: {
-        data: [
-          {
-            format: "listing",
-            title: "7 Awesome Udemy Courses for App Development",
-            content:
-              "Udemy offers a wide range of courses covering a variety of topics...",
-            date: "April 11, 2020",
-            id: "1",
-            tags: ["Development"],
-            path: "/",
-            authorData: [
-              {
-                uid: 1,
-                displayName: "Raymond Aleman"
-              }
-            ]
-          },
-          {
-            format: "listing",
-            title: "Something else about Factor and its benefits",
-            content:
-              "Two Udemy offers a wide range of courses covering a variety of topics...",
-            date: "April 25, 2020",
-            id: "1",
-            tags: ["Design"],
-            path: "/",
-            authorData: [
-              {
-                uid: 22,
-                displayName: "Andrew Powers"
-              }
-            ]
-          },
-          {
-            format: "listing",
-            title: "7 Awesome Udemy Courses for App Development",
-            content:
-              "Udemy offers a wide range of courses covering a variety of topics...",
-            date: "May 12, 2020",
-            id: "1",
-            tags: ["Development"],
-            path: "/",
-            authorData: [
-              {
-                uid: 22,
-                displayName: "Andrew Powers"
-              }
-            ]
-          }
-        ]
       }
     },
     contact: {
-      meta: {
+      metatags: {
         title: "Contact - Factor Alpha Theme",
         description:
           "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."

@@ -10,14 +10,14 @@
             <h1 class="title">
               <app-link :path="path">{{ title }}</app-link>
             </h1>
-            <el-tags class="tags" :tags="tags" />
+            <!-- <el-tags class="tags" :tags="tags" /> -->
           </div>
         </div>
       </div>
     </section>
 
     <app-link v-if="format == 'listing'" :path="path">
-      <div class="img-wrap" :style="{'background-image': 'url(' + images + ')' }" />
+      <div class="img-wrap" :style="{ 'background-image': 'url(' + images + ')' }" />
     </app-link>
 
     <div class="entry-wrap">
@@ -25,7 +25,7 @@
         <h1 class="title">
           <app-link :path="path">{{ title }}</app-link>
         </h1>
-        <el-tags class="tags" :tags="tags" />
+        <!-- <el-tags class="tags" :tags="tags" /> -->
       </div>
 
       <div v-if="format == 'single'" class="entry-text">
@@ -40,9 +40,9 @@
 </template>
 <script>
 export default {
-  components: {
-    "el-tags": () => import("./tags")
-  },
+  // components: {
+  //   "el-tags": () => import("./tags")
+  // },
   props: {
     format: { type: String, default: "" },
     images: { type: String, default: "" },
@@ -51,7 +51,7 @@ export default {
     content: { type: String, default: "" },
     date: { type: [String, Number], default: "" },
     path: { type: String, default: "" },
-    tags: { type: Array, default: () => [] },
+    //tags: { type: Array, default: () => [] },
     postId: { type: String, default: "" },
     loading: { type: Boolean, default: false }
   },
@@ -84,7 +84,7 @@ export default {
         top: 0;
         right: 0;
         bottom: 0;
-        background-color: var(--color-bg-alt);
+        background-color: var(--color-bg-alt, #f3f5fb);
         @media (max-width: 1024px) {
           width: 100%;
         }

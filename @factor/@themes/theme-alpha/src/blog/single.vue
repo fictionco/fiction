@@ -1,12 +1,14 @@
 <template>
-  <div class="single-entry">
-    here
-    <component
-      :is="$setting.get(`blog.components.${comp}`)"
-      v-for="(comp, i) in $setting.get('blog.layout.single')"
-      :key="i"
-      :post-id="post._id"
-    />
+  <div class="blog-single-entry">
+    <div v-if="!$lodash.isEmpty(post)">
+      <component
+        :is="$setting.get(`blog.components.${comp}`)"
+        v-for="(comp, i) in $setting.get('blog.layout.single')"
+        :key="i"
+        :post-id="post._id"
+      />
+    </div>
+    <error-404 v-else />
   </div>
 </template>
 <script>
@@ -22,9 +24,6 @@ export default {
       image: this.$metatags.shareImage(this.post._id)
     }
   },
-  routeClass() {
-    return ["nav-light"]
-  },
   computed: {
     post() {
       return this.$store.val("post") || {}
@@ -35,25 +34,41 @@ export default {
 </script>
 
 <style lang="less">
-.single-entry {
+.blog-single-entry {
+  .return-link,
+  .entry-tags,
+  .single-entry-headers,
   .widget-date,
   .entry-meta,
   .post-entry,
   .social-share,
   .author-bio {
-    max-width: 50rem;
-    margin: 1rem auto;
-    padding: 0;
+    line-height: 1.2;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .return-link,
+  .entry-meta,
+  .post-entry,
+  .social-share,
+  .author-card {
+    padding: 1em 2em;
+  }
+  .entry-meta {
+    justify-content: normal;
+  }
+  .featured-image {
+    border-radius: 0;
   }
 
   @media (max-width: 767px) {
     .return-link,
-    .entry-headers,
-    .post-entry,
     .entry-meta,
+    .post-entry,
     .social-share,
-    .author-bio {
-      padding: 0 1em;
+    .author-card {
+      padding: 1em;
     }
   }
 }

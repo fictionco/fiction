@@ -8,7 +8,7 @@
           <slot name="hero-content" />
         </div>
         <div v-if="image != ''">
-          <div :style="{'background-image': `url(`+ image + `)` }" class="hero-image" />
+          <div :style="{ 'background-image': `url(` + image + `)` }" class="hero-image" />
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@ export default {
     top: 0;
     right: auto;
     bottom: 0;
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg-alt, #f3f5fb);
     @media (max-width: 1024px) {
       width: 100%;
     }
@@ -70,7 +70,7 @@ export default {
       text-transform: uppercase;
     }
     .heading {
-      font-weight: 600;
+      font-weight: var(--font-weight-bold, 800);
       font-size: 3em;
       letter-spacing: -0.03em;
       margin: 0.5em 0;
