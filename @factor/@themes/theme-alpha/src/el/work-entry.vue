@@ -1,5 +1,7 @@
 <template>
   <article class="entry" :class="formatClass">
+    <h3 v-if="format == 'single'">Single</h3>
+    <h3 v-if="format == 'index'">Index</h3>
     <section v-if="format == 'single'" class="hero">
       <div class="mast">
         <div class="hero-inner">
@@ -7,23 +9,32 @@
             <app-link class="back" path="/work">
               <factor-icon icon="arrow-left" />All
             </app-link>
-            <h1 class="title">
+            <h1 class="heading">
               <app-link :path="path">{{ title }}</app-link>
             </h1>
             <!-- <el-tags class="tags" :tags="tags" /> -->
           </div>
+          <!-- <div v-if="images != ''">
+            <div
+              :style="{ 'background-image': `url(` + images + `)` }"
+              class="hero-image"
+            />
+          </div> -->
         </div>
       </div>
     </section>
 
-    <app-link v-if="format == 'listing'" :path="path">
+    <!-- <app-link v-if="format == 'index'" :path="path">
+      <pre>{{ post }}</pre>
+      IMAGE
       <div class="img-wrap" :style="{ 'background-image': 'url(' + images + ')' }" />
-    </app-link>
+      IMAGE
+    </app-link> -->
 
     <div class="entry-wrap">
-      <div v-if="format == 'listing'" class="entry-text">
+      <div v-if="format == 'index'" class="entry-text">
         <h1 class="title">
-          <app-link :path="path">{{ title }}</app-link>
+          <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
         </h1>
         <!-- <el-tags class="tags" :tags="tags" /> -->
       </div>
@@ -56,6 +67,9 @@ export default {
     loading: { type: Boolean, default: false }
   },
   computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    },
     formatClass() {
       const f = this.format ? this.format : "single"
 
@@ -93,7 +107,6 @@ export default {
       .hero-inner {
         position: relative;
         padding: 3em 0;
-        max-width: 650px;
         a {
           color: inherit;
           &:hover,
@@ -142,7 +155,7 @@ export default {
   }
 
   // Listing Post
-  &.format-listing {
+  &.format-index {
     text-align: center;
 
     .img-wrap {
