@@ -29,6 +29,7 @@
             v-for="(comp, i) in $setting.get('blog.layout.index')"
             :key="i"
             :post-id="post._id"
+            scope="index"
           />
         </div>
       </div>
