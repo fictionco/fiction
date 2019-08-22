@@ -93,6 +93,11 @@ export default {
             "Factor is a universal Javascript framework which means you can dynamically make changes to your content and see them reflected immediately (without a build step). This also enables custom endpoints and server-side rendering (SSR) important for SEO, social, and performance reasons."
         },
         {
+          title: "Dynamic SSR Apps",
+          text:
+            "Factor is a universal Javascript framework which means you can dynamically make changes to your content and see them reflected immediately (without a build step). This also enables custom endpoints and server-side rendering (SSR) important for SEO, social, and performance reasons."
+        },
+        {
           title: "Dashboard and Posts",
           text: `Factor core comes with a professional dashboard and post management system.
           This tool was carefully crafted to give you maximum powerful but with minimum bloat. It is simple by default but can be extended to handle even the most complext tasks.`
@@ -106,12 +111,12 @@ export default {
           title: "Customizeable Themes",
           text:
             "Ever seen a theming system for Javascript apps that you could work with? We hadn't either. Factor was developed from the start with customizeable theming and rapid app development in mind."
-        },
-        {
-          title: "GPL Licensed",
-          text:
-            "Factor core is free and open-source, built on the time-proven GPLv2 license that powers platforms like WordPress and Linux. "
         }
+        // {
+        //   title: "GPL Licensed",
+        //   text:
+        //     "Factor core is free and open-source, built on the time-proven GPLv2 license that powers platforms like WordPress and Linux. "
+        // }
       ]
     }
   },
