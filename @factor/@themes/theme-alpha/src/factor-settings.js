@@ -162,7 +162,6 @@ export default Factor => {
       content:
         "Fully responsive and retina-display-ready. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
       heroImage: require("./img/work.jpg"),
-
       posts: {
         data: [
           {
@@ -223,10 +222,8 @@ export default Factor => {
       components: {
         blogFeaturedImage: () => import("./blog/featured-image.vue"),
         blogHeaders: () => import("./blog/headers.vue"),
-        blogSingleHeaders: () => import("./blog/single-headers.vue"),
         returnLink: () => import("./blog/return-link.vue"),
         blogExcerpt: () => import("./blog/excerpt.vue"),
-        blogMeta: () => import("./blog/meta.vue"),
         blogTags: () => import("./blog/tags.vue"),
         blogIndex: () => import("./blog/index.vue"),
         blogSingle: () => import("./blog/single.vue"),
@@ -236,7 +233,7 @@ export default Factor => {
         index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
         single: [
           "returnLink",
-          "blogSingleHeaders",
+          "blogHeaders",
           "blogTags",
           "blogFeaturedImage",
           "meta",
