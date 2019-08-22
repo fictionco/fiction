@@ -152,45 +152,34 @@ export default Factor => {
       heroImage: require("./img/about.jpg")
     },
     work: {
-      meta: {
+      headline: "Work",
+      subheadline: "The simple way to showcase your work.",
+      content:
+        "Showcase your work in a breeze using modern technology. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
+      heroImage: require("./img/work.jpg"),
+      metatags: {
         title: "Work - Factor Alpha Theme",
         description:
           "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
       },
-      headline: "Work",
-      subheadline: "The simple way to showcase your work.",
-      content:
-        "Fully responsive and retina-display-ready. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: require("./img/work.jpg"),
+      indexRoute: "/work",
+      postRoute: "/work",
+      limit: 10,
+      layout: {
+        index: ["workFeaturedImage", "workEntry", "workTags"],
+        single: ["workFeaturedImage", "workEntry"],
+        meta: ["authorDate", "tags"]
+      },
+      components: {
+        workWrap: () => import("./el/work-wrap.vue"),
+        workIndex: () => import("./el/work-index.vue"),
+        workFeaturedImage: () => import("./el/work-featured-image.vue"),
+        workTags: () => import("./el/work-tags.vue"),
+        workEntry: () => import("./el/work-entry.vue"),
+        workSingle: () => import("./el/work-single.vue")
+      },
       posts: {
         data: [
-          {
-            images: require("./img/project1.jpg"),
-            title: "Shallow Focus of Hand with Red Paint",
-            authorData: ["Ian Doodley"],
-            content: "placeholder",
-            id: "1",
-            tags: ["Design", "Branding"],
-            path: "/"
-          },
-          {
-            images: require("./img/project2.jpg"),
-            title: "Yellow Coffee Cup",
-            authorData: ["Marion Michelle"],
-            content: "placeholder",
-            id: "2",
-            tags: ["Development"],
-            path: "/"
-          },
-          {
-            images: require("./img/project3.jpg"),
-            title: "Low Angle of Yellow and Black Striped Building",
-            authorData: ["Ronak Jain"],
-            content: "placeholder",
-            id: "3",
-            tags: ["Prototype"],
-            path: "/"
-          },
           {
             images: require("./img/project4.jpg"),
             title: "Richly Colored Building with a Beautiful Sky.",
@@ -199,7 +188,43 @@ export default Factor => {
             id: "4",
             tags: ["Design", "Prototype", "Development"],
             path: "/"
+          },
+          {
+            images: require("./img/project1.jpg"),
+            title: "Shallow Focus of Hand with Red Paint",
+            authorData: ["Ian Doodley"],
+            content: "placeholder",
+            id: "1",
+            tags: ["Design", "Branding"],
+            path: "/"
           }
+          // {
+          //   images: require("./img/project2.jpg"),
+          //   title: "Yellow Coffee Cup",
+          //   authorData: ["Marion Michelle"],
+          //   content: "placeholder",
+          //   id: "2",
+          //   tags: ["Development"],
+          //   path: "/"
+          // }
+          // {
+          //   images: require("./img/project3.jpg"),
+          //   title: "Low Angle of Yellow and Black Striped Building",
+          //   authorData: ["Ronak Jain"],
+          //   content: "placeholder",
+          //   id: "3",
+          //   tags: ["Prototype"],
+          //   path: "/"
+          // },
+          // {
+          //   images: require("./img/project4.jpg"),
+          //   title: "Richly Colored Building with a Beautiful Sky.",
+          //   authorData: ["Alex Lanting"],
+          //   content: "placeholder",
+          //   id: "4",
+          //   tags: ["Design", "Prototype", "Development"],
+          //   path: "/"
+          // }
         ]
       }
     },
