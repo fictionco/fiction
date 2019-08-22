@@ -4,7 +4,7 @@
       v-for="(tag, ti) in tags"
       :key="ti"
       class="entry-tag"
-      :path="$setting.get('blog.indexRoute')"
+      :path="$setting.get('work.indexRoute')"
       :query="{ tag }"
       >{{ tag }}</factor-link
     >
@@ -48,14 +48,6 @@ export default {
     }
     &:not(:nth-child(1)) {
       margin-left: 3px;
-    }
-  }
-}
-.blog-single-entry {
-  .entry-tags {
-    padding: 0 2em 2em;
-    @media (max-width: 767px) {
-      padding: 0 1em 2em;
     }
   }
 }

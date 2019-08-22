@@ -2,13 +2,13 @@
   <div class="page-landing">
     <section class="feature">
       <div class="feature-inner">
-        <h3 class="pre-title">{{ $setting.get('home.preheadline') }}</h3>
+        <h3 class="pre-title">{{ $setting.get("home.preheadline") }}</h3>
         <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
-        <div class="subtitle">{{ $setting.get('home.subheadline') }}</div>
+        <div class="subtitle">{{ $setting.get("home.subheadline") }}</div>
 
         <div class="actions">
           <app-link
-            v-for="(action ,i) in $setting.get('home.actions')"
+            v-for="(action, i) in $setting.get('home.actions')"
             :key="i"
             :path="action.path"
             btn="default"
@@ -27,7 +27,7 @@
       <div class="mast boxes-inner">
         <div v-for="(box, i) in $setting.get('home.boxes')" :key="i" class="box">
           <div v-if="box.icon" class="box-icon">
-            <img :src="box.icon" :alt="box.heading" >
+            <img :src="box.icon" :alt="box.heading" />
           </div>
           <h2 class="box-title">{{ box.heading }}</h2>
           <p class="box-description">{{ box.description }}</p>
@@ -210,7 +210,7 @@ export default {
         }
       }
       .title {
-        font-weight: 600;
+        font-weight: var(--font-weight-bold, 800);
         font-size: 3em;
         letter-spacing: -0.03em;
         margin: 0.5em;

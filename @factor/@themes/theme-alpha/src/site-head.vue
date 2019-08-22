@@ -3,7 +3,10 @@
     <div class="site-head-pad">
       <site-brand />
       <div class="mob-nav-btn">
-        <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
+        <div
+          :class="{ active: showMobileMenu }"
+          @click="showMobileMenu = !showMobileMenu"
+        />
       </div>
       <div
         class="nav-wrap"
@@ -20,7 +23,12 @@
         </div>
         <div class="social">
           <template v-for="(item, index) in $setting.get('site.social')">
-            <factor-link :key="index" :path="item.path" class="factor-icon" target="_blank">
+            <factor-link
+              :key="index"
+              :path="item.path"
+              class="factor-icon"
+              target="_blank"
+            >
               <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
           </template>
@@ -78,7 +86,7 @@ export default {
         left: 0;
         top: 50%;
         margin-top: -1px;
-        background-color: var(--color-white);
+        background-color: var(--color-white, #ffffff);
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       }
       &:before {
@@ -99,7 +107,7 @@ export default {
         &:before,
         &:after {
           cursor: pointer;
-          background-color: var(--color-text);
+          background-color: var(--color-text, #303030);
         }
         &:before {
           transform: rotate(45deg) translateY(0);
@@ -153,7 +161,7 @@ export default {
       }
       @media (max-width: 767px) {
         font-size: 1.2em;
-        color: var(--color-text);
+        color: var(--color-text, #303030);
         text-align: center;
         padding: 1.5em 0;
         &:hover,
