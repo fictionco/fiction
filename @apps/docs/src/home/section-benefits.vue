@@ -11,7 +11,7 @@
     <ul class="features-list">
       <li class="feature-block">
         <home-icon />
-        <h3 class="title">Dashboard &amp; Posts</h3>
+        <h3 class="title">Dashboard and Posts</h3>
         <p class="text">
           Weild a powerful post system and dashboard to make advanced apps simple.
           No more cobbling things together, Factor does it all and more...
@@ -29,7 +29,7 @@
 
       <li class="feature-block">
         <home-icon />
-        <h3 class="title">Universal Javascript</h3>
+        <h3 class="title">Free and Open Source</h3>
         <p
           class="text"
         >Factor uses the same time-proven open source license as projects like WordPress and Linux. Factor is powered by the freedom of its users.</p>
