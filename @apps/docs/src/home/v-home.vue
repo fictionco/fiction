@@ -46,11 +46,23 @@ loop />
       <section-benefits class="content-pad" />
     </section>
 
-    <section-ide />
-
-    <section-data />
-
-    <section-share />
+    <section v-for="(feature, index) in features" :key="index" class="features content">
+      <div class="split-feature content-pad" :class="index % 2 == 0 ? 'even' : 'odd'">
+        <div class="feature-content-container">
+          <div class="feature-content">
+            <home-icon class="feature-icon" icon="ssr" />
+            <h2 class="title">{{ feature.title }}</h2>
+            <div class="text">{{ feature.text }}</div>
+            <div class="action">
+              <app-link path="/read">Something &rarr;</app-link>
+            </div>
+          </div>
+        </div>
+        <div class="feature-figure-container">
+          <div class="figure-container" />
+        </div>
+      </div>
+    </section>
 
     <section-quotes />
 
@@ -61,6 +73,7 @@ loop />
 <script>
 export default {
   components: {
+    "home-icon": () => import("./icon.vue"),
     "el-stripes": () => import("./el-stripes"),
     "section-benefits": () => import("./section-benefits"),
     "section-ide": () => import("./section-ide"),
@@ -72,7 +85,34 @@ export default {
   data() {
     return {
       loading: true,
-      poster: require(`./img/screencast-poster.jpg`) // 1280x720
+      poster: require(`./img/screencast-poster.jpg`), // 1280x720,
+      features: [
+        {
+          title: "Powered by VueJS and MongoDB",
+          text:
+            "Factor is a universal Javascript framework which means you can dynamically make changes to your content and see them reflected immediately (without a build step). This also enables custom endpoints and server-side rendering (SSR) important for SEO, social, and performance reasons."
+        },
+        {
+          title: "Dashboard and Posts",
+          text: `Factor core comes with a professional dashboard and post management system.
+          This tool was carefully crafted to give you maximum powerful but with minimum bloat. It is simple by default but can be extended to handle even the most complext tasks.`
+        },
+        {
+          title: "Drop-In Plugins",
+          text:
+            "Most Javascript frameworks make you do way too much coding and customization to make plugins work. That's why Factor makes plugins dead simple with intelligent defaults and no mandatory customization."
+        },
+        {
+          title: "Customizeable Themes",
+          text:
+            "Ever seen a theming system for Javascript apps that you could work with? We hadn't either. Factor was developed from the start with customizeable theming and rapid app development in mind."
+        },
+        {
+          title: "GPL Licensed",
+          text:
+            "Factor core is free and open-source, built on the time-proven GPLv2 license that powers platforms like WordPress and Linux. "
+        }
+      ]
     }
   },
   metatags() {
@@ -217,6 +257,53 @@ export default {
         padding-top: 6rem;
         padding-bottom: 3rem;
       }
+    }
+  }
+
+  .features {
+    &.content {
+      padding: 10rem 0;
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+    }
+    .split-feature {
+      display: grid;
+      grid-column-gap: 2rem;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "a b";
+      &.odd {
+        grid-template-areas: "b a";
+      }
+      .feature-content-container {
+        grid-area: a;
+      }
+      .feature-figure-container {
+        grid-area: b;
+      }
+    }
+
+    .feature-content {
+      letter-spacing: -0.01em;
+    }
+    .feature-figure {
+    }
+    .feature-icon {
+      margin-bottom: 1rem;
+    }
+    .title {
+      font-size: 3em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .text {
+      font-weight: 400;
+      font-size: 1.4em;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+    .action {
+      font-weight: 600;
+      font-size: 1.3em;
     }
   }
 

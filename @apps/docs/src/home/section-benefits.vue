@@ -1,7 +1,7 @@
 <template>
   <section class="factor-benefits">
     <header class="section-header">
-      <h1 class="section-title">Perfect for Perfectionists with Deadlines</h1>
+      <h1 class="section-title">Perfect for Perfectionists</h1>
       <p class="medium-body-text">
         Factor will help you launch apps that impress and astonish your clients and colleagues.
         No more re-inventing the wheel, or rewriting and refactoring where it's unneeded.
@@ -20,7 +20,7 @@
 
       <li class="feature-block">
         <home-icon />
-        <h3 class="title">Beautiful Themes, Rad Plugins</h3>
+        <h3 class="title">Themes and Plugins</h3>
         <p class="text">
           Factor is designed from the start for theming.
           Start your app with a beautiful and professional foundation; then customize as much as you need.
@@ -29,7 +29,7 @@
 
       <li class="feature-block">
         <home-icon />
-        <h3 class="title">GPL Licensed</h3>
+        <h3 class="title">Universal Javascript</h3>
         <p
           class="text"
         >Factor uses the same time-proven open source license as projects like WordPress and Linux. Factor is powered by the freedom of its users.</p>
@@ -38,8 +38,8 @@
 
     <div class="interstitial-cta">
       <div class="text">
-        <h2 class="title">Build Your App</h2>
-        <h2 class="title-sub">Be up and running with Factor in 3 minutes</h2>
+        <h2 class="title">Ready to build world's next amazing web app?</h2>
+        <h2 class="title-sub">Factor is here to help.</h2>
       </div>
 
       <div class="buttons">
