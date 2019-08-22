@@ -6,7 +6,10 @@
       :image="$setting.get('work.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="$setting.get('work.content')" class="content entry-content" />
+        <div
+          v-formatted-text="$setting.get('work.content')"
+          class="content entry-content"
+        />
       </template>
     </el-hero>
 
@@ -18,8 +21,8 @@
 <script>
 export default {
   components: {
-    "el-hero": () => import("./el/hero.vue"),
-    "el-cta": () => import("./el/cta.vue")
+    "el-hero": () => import("./el/hero.vue")
+    //"el-cta": () => import("./el/cta.vue")
   },
   props: {
     post: { type: Object, default: () => {} }
@@ -27,6 +30,12 @@ export default {
   data() {
     return {
       loading: false
+    }
+  },
+  metatags() {
+    return {
+      title: this.$setting.get("work.metatags.title"),
+      description: this.$setting.get("work.metatags.description")
     }
   }
 }

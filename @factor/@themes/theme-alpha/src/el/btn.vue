@@ -16,7 +16,7 @@ button.app-btn {
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
-  color: var(--color-text);
+  color: var(--color-text, #303030);
 
   &:focus {
     outline: none;
@@ -28,7 +28,7 @@ button.app-btn {
 
   &.tiny {
     font-size: 11px;
-    padding: 2px 4px;
+    padding: 4px 6px;
     font-weight: 500;
   }
   &.small {
