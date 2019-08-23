@@ -47,7 +47,7 @@ loop />
     </section>
 
     <section v-for="(feature, index) in features" :key="index" class="features content">
-      <div class="split-feature content-pad" :class="index % 2 == 0 ? 'even' : 'odd'">
+      <div class="split-feature content-pad" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
         <div class="feature-content-container">
           <div class="feature-content">
             <home-icon class="feature-icon" icon="ssr" />
@@ -64,9 +64,37 @@ loop />
       </div>
     </section>
 
-    <section-quotes />
+    <div class="quotes">
+      <article
+        v-for="(quote, index) in quotes"
+        :key="index"
+        :class="[index % 2 == 0 ? 'odd' : 'even', index % 4 == 0 || index % 4 == 3 ? 'diagonal' : '']"
+      >
+        <blockquote>
+          <a class="quote-image" href="#">
+            <factor-avatar width="64px" />
+          </a>
+          <p class="quote-body">{{ quote.text }}</p>
+          <footer>{{ quote.attribution }}</footer>
+        </blockquote>
+      </article>
+    </div>
 
-    <section-pricing />
+    <div class="pro content">
+      <div class="content-pad">
+        <div class="head">
+          <h2 class="title">Ready to go pro?</h2>
+          <h3 class="sub-title">Create a Fiction Account</h3>
+        </div>
+        <div class="text">
+          Fiction has a robust community of developers building the next big things for the web.
+          Join to get the latest updates and support.
+        </div>
+        <div class="action">
+          <a href="#">Create An Account &rarr;</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -86,6 +114,36 @@ export default {
     return {
       loading: true,
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
+      quotes: [
+        {
+          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
+            manually combining multiple data sources each month, we’re now able to run a
+            few simple queries in Sigma, enabling faster monthly reconciliation for credit
+            card transactions.`,
+          attribution: "Kelly Hofmann, Revenue Accounting"
+        },
+        {
+          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
+            manually combining multiple data sources each month, we’re now able to run a
+            few simple queries in Sigma, enabling faster monthly reconciliation for credit
+            card transactions.`,
+          attribution: "Kelly Hofmann, Revenue Accounting"
+        },
+        {
+          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
+            manually combining multiple data sources each month, we’re now able to run a
+            few simple queries in Sigma, enabling faster monthly reconciliation for credit
+            card transactions.`,
+          attribution: "Kelly Hofmann, Revenue Accounting"
+        },
+        {
+          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
+            manually combining multiple data sources each month, we’re now able to run a
+            few simple queries in Sigma, enabling faster monthly reconciliation for credit
+            card transactions.`,
+          attribution: "Kelly Hofmann, Revenue Accounting"
+        }
+      ],
       features: [
         {
           title: "Powered by VueJS and MongoDB",
@@ -309,6 +367,79 @@ export default {
     .action {
       font-weight: 600;
       font-size: 1.3em;
+    }
+  }
+
+  .quotes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 2rem;
+    transform: skewY(-10deg);
+    background: var(--color-bg-contrast);
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+    article {
+      position: relative;
+      display: flex;
+      &.diagonal {
+      }
+      &.odd {
+        justify-content: flex-end;
+      }
+      blockquote {
+        background: #fff;
+        border-radius: 6px;
+        box-shadow: var(--box-shadow-panel);
+        transform: skewY(10deg);
+        max-width: 550px;
+        padding: 6rem 5rem;
+        font-size: 1.3em;
+        line-height: 1.8;
+        text-align: center;
+        .quote-image {
+          display: block;
+          text-align: center;
+          .avatar {
+            display: inline-block;
+          }
+          margin-bottom: 1rem;
+        }
+        footer {
+          margin-top: 1rem;
+          text-transform: uppercase;
+          opacity: 0.5;
+          font-size: 0.8em;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .pro {
+    text-align: center;
+    padding: 12rem;
+    .content-pad {
+      max-width: 700px;
+    }
+    .head {
+    }
+    .title {
+      font-size: 3em;
+      line-height: 1.1;
+    }
+    .sub-title {
+      font-size: 2em;
+      opacity: 0.8;
+      // color: var(--color-primary);
+    }
+    .text,
+    .action {
+      font-size: 1.3em;
+    }
+    .text {
+      margin: 2rem;
     }
   }
 
