@@ -53,22 +53,29 @@ The "id" property makes it so you can reference the returned module elsewhere in
     // EXTENSION ID
     "id": "myFactorModule", // Can reference via Factor.$myFactorModule
 
-    // AUTOLOAD TARGET
+    // MODULE ENVIRONMENT TARGET
     // default: If empty or undefined, no autoloading will take place
-    "target": "app", // Loads in both express server and webpack app
+    "target": ["app"], // Loads module in App
     // or
-    "target": "server", // Loads only in express server
+    "target": ["server"], // Loads module on server (e.g. endpoints, build)
     // or
     "target": {
-      "app": "", // Loads index.js (default) in webpack app
+      "app": "index", // Loads index.js (default) in webpack app
       "server": "server" // Loads server.js on Express server
+    },
+    // or (Advanced Example)
+    "target": {
+      "app": ["index", "another"], // Loads index.js and another.js (Available as $myFactorModuleAnother)
+      "server": ["server", "index"] // Loads server.js and index.js on Server
     },
 
     // EXTENSION TYPE
     // Default: If empty or undefined, defaults to "plugin"
     "extend": "theme", // Treats as a theme extension
     // or
-    "extend": "stack" // Treats as a stack extension
+    "extend": "plugin", // Default
+    // or
+    "extend": "app"
   }
 }
 ```
