@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-content">
+  <div class="blog-wrap">
     <router-view />
   </div>
 </template>
@@ -10,7 +10,7 @@ export default {}
 
 
 <style lang="less">
-.blog-content {
+.blog-wrap {
   max-width: 50rem;
   margin: 0 auto;
   padding: 1rem 0;

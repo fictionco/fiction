@@ -44,17 +44,21 @@ export default {
   .social-share,
   .author-bio {
     line-height: 1.2;
-    max-width: 1000px;
+    max-width: 50rem;
     margin: 0 auto;
   }
 
-  .return-link,
+  .return-link {
+    padding: 2em 2em 1em;
+  }
+
   .entry-meta,
   .post-entry,
   .social-share,
   .author-card {
     padding: 1em 2em;
   }
+
   .entry-meta {
     justify-content: normal;
   }

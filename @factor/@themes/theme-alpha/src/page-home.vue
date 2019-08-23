@@ -22,12 +22,14 @@
     </section>
 
     <section class="boxes">
-      <div v-formatted-text="$setting.get('home.boxesTitle')" class="title" />
+      <div class="mast">
+        <div v-formatted-text="$setting.get('home.boxesTitle')" class="title" />
+      </div>
 
       <div class="mast boxes-inner">
         <div v-for="(box, i) in $setting.get('home.boxes')" :key="i" class="box">
           <div v-if="box.icon" class="box-icon">
-            <img :src="box.icon" :alt="box.heading" />
+            <img :src="box.icon" :alt="box.heading" >
           </div>
           <h2 class="box-title">{{ box.heading }}</h2>
           <p class="box-description">{{ box.description }}</p>
@@ -219,7 +221,7 @@ export default {
         }
       }
       .subtitle {
-        opacity: 0.5;
+        opacity: 0.7;
         font-size: 1.2em;
         line-height: 1.6em;
       }
@@ -256,6 +258,9 @@ export default {
             max-width: 50px;
             display: block;
             margin: 0 auto;
+            @media (max-width: 767px) {
+              margin: 0;
+            }
           }
         }
         .box-title {
@@ -274,6 +279,7 @@ export default {
         grid-template-columns: 1fr;
         .box {
           padding: 0;
+          text-align: left;
         }
       }
     }

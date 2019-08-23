@@ -2,7 +2,7 @@
   <div class="return-link">
     <factor-link class="back" :path="$setting.get('blog.indexRoute')">
       <factor-icon icon="arrow-left" />
-      <span>All Posts</span>
+      <span>{{ returnLinkText }}</span>
     </factor-link>
   </div>
 </template>
@@ -14,6 +14,9 @@ export default {
   computed: {
     post() {
       return this.$store.val(this.postId) || {}
+    },
+    returnLinkText() {
+      return this.$setting.get("blog.returnLinkText") || "All Posts"
     }
   }
 }

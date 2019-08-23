@@ -26,7 +26,7 @@ export default Factor => {
           ..._,
           {
             path: Factor.$setting.get("blog.indexRoute"),
-            component: Factor.$setting.get("blog.components.blogContent"),
+            component: Factor.$setting.get("blog.components.blogWrap"),
             children: [
               {
                 path: "/",
