@@ -75,7 +75,21 @@ module.exports.default = Factor => {
         },
 
         {
-          group: "Plugin Development"
+          name: "Server and Endpoints",
+          doc: "server",
+          file: require("./docs/server.md"),
+          title: "Factor Vue Server Side Rendering (SSR)"
+        },
+
+        {
+          name: "Hosting Your App",
+          doc: "serving",
+          file: require("./docs/hosting.md"),
+          title: "Hosting and Serving Your Factor App"
+        },
+
+        {
+          group: "Extension Development"
         },
         {
           name: "Post System",
@@ -99,26 +113,7 @@ module.exports.default = Factor => {
           file: require("./docs/cli-dev.md"),
           title: "Extending the Factor CLI"
         },
-        {
-          group: "Server"
-        },
-        {
-          doc: "server-side-rendering",
-          file: require("./docs/server/ssr.md"),
-          title: "Factor Vue Server Side Rendering (SSR)"
-        },
-        {
-          name: "Endpoints and Middleware",
-          doc: "endpoints",
-          file: require("./docs/server/endpoints.md"),
-          title: "Creating and Using Factor Endpoints"
-        },
-        {
-          name: "Hosting Your App",
-          doc: "serving",
-          file: require("./docs/server/serving.md"),
-          title: "Hosting and Serving Your Factor App"
-        },
+
         {
           group: "Contributing"
         },
