@@ -1,14 +1,10 @@
 # Extending Factor
 
-## Overview
+## Adding Extensions
 
 Factor is an "extension-first" framework. Meaning it is itself a simple core system with first class support for extensibility by plugins and themes. Almost anything in Factor can be customized given the right plugin.
 
-## Adding Extensions
-
-Factor is designed for "drop-in" extension.
-
-To be "up and running" with new plugins and themes, all you do is run `yarn add my-extension`...
+Factor is designed for "drop-in" extension. That means that to be "up and running" with new plugins and themes, all you do is run `yarn add my-extension`...
 
 ```bash
 $ yarn add some-factor-plugin
@@ -18,7 +14,15 @@ When you run Factor, it detects your extensions and loads them for you. Extensio
 
 ![Adding Extensions](./img/adding-extensions.svg)
 
-## Plugins
+## Customize Extensions
+
+Once you've installed a plugin or theme, you'll likely want to customize it. To learn more read the doc:
+
+[customizing things in Factor &rarr;](./customization)
+
+## Create Your Own
+
+### Plugins
 
 > Plugins add new features and functionality.
 
@@ -28,7 +32,7 @@ Can't find the plugin you're looking for? Factor plugins are just NPM modules, s
 
 Learn more about [creating plugins &rarr;](./creating-plugins)
 
-## Themes
+### Themes
 
 > Themes are an opinionated starting point for your app.
 
@@ -40,9 +44,3 @@ You have the option of using themes in one of two primary ways:
 The best way to think about a theme is as a more "opinionated" baseline for your app. For example, if you think Google Material is the best UI framework, you can start from the Factor Material theme.
 
 Learn more about [creating themes &rarr;](./creating-themes)
-
-## Customizing
-
-Once you've installed a plugin or theme, you'll likely want to customize it. To learn more read the doc:
-
-[customizing things in Factor &rarr;](./customization)
