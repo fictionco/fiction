@@ -1,45 +1,9 @@
 <template>
   <section class="sigma-quotes">
-    <!-- <div class="stripes-container">
-      <div></div>
-      <div></div>
-    </div>-->
-    <div class="stripes-container-new">
-      <div />
-      <div />
-    </div>
-
     <div class="quotes-row">
       <article class="cell top-left">
         <blockquote class="inner">
-          <a title="Slack" class="icon" target="_blank" href="https://slack.com">
-            <svg viewBox="0 0 147 38" width="147" height="38" xmlns="http://www.w3.org/2000/svg">
-              <g fill="#FFF" fill-rule="evenodd">
-                <path
-                  d="M47.08 29.37l1.83-4.25a12.2 12.2 0 0 0 7.2 2.24c1.92 0 3.13-.73 3.13-1.86-.03-3.13-11.48-.68-11.57-8.53-.03-3.98 3.51-7.05 8.53-7.05 2.98 0 5.97.74 8.09 2.42l-1.71 4.34a12.92 12.92 0 0 0-6.67-2.13c-1.57 0-2.6.74-2.6 1.68.03 3.07 11.57 1.4 11.69 8.89 0 4.07-3.45 6.94-8.41 6.94-3.63 0-6.97-.86-9.5-2.69M117.3 23.58a5.28 5.28 0 1 1 0-5.2l5.05-2.8a11.07 11.07 0 1 0 0 10.8l-5.05-2.8zM67.53.74h6.32v30.91h-6.32zM124.83.74v30.9h6.32v-9.27l7.5 9.27h8.08l-9.53-11 8.83-10.28h-7.74l-7.14 8.53V.74z"
-                />
-                <path
-                  d="M92.63 23.64a5.83 5.83 0 0 1-4.93 2.63 5.28 5.28 0 1 1 0-10.57 5.83 5.83 0 0 1 4.93 2.72v5.22zm0-13.28v2.51c-1.04-1.74-3.6-2.95-6.29-2.95-5.55 0-9.92 4.9-9.92 11.04 0 6.14 4.37 11.1 9.92 11.1 2.69 0 5.25-1.21 6.29-2.96v2.51h6.31V10.36h-6.31z"
-                  fill-rule="nonzero"
-                />
-                <g>
-                  <path
-                    d="M8.03 23.61a3.9 3.9 0 1 1-3.9-3.9h3.9v3.9zM9.98 23.61a3.9 3.9 0 1 1 7.79 0v9.75a3.9 3.9 0 1 1-7.8 0V23.6zM13.87 7.97a3.9 3.9 0 1 1 3.9-3.9v3.9h-3.9zM13.87 9.95a3.9 3.9 0 1 1 0 7.79H4.1a3.9 3.9 0 1 1 0-7.8h9.77z"
-                  />
-                  <g>
-                    <path
-                      d="M29.49 13.84a3.9 3.9 0 1 1 3.9 3.9h-3.9v-3.9zM27.54 13.84a3.9 3.9 0 1 1-7.8 0V4.07a3.9 3.9 0 1 1 7.8 0v9.77z"
-                    />
-                  </g>
-                  <g>
-                    <path
-                      d="M23.64 29.46a3.9 3.9 0 1 1-3.9 3.9v-3.9h3.9zM23.64 27.51a3.9 3.9 0 1 1 0-7.8h9.77a3.9 3.9 0 1 1 0 7.8h-9.77z"
-                    />
-                  </g>
-                </g>
-              </g>
-            </svg>
-          </a>
+          <a title="Slack" class="icon" target="_blank" href="https://slack.com"/>
           <p class="quote-body">
             Stripe Sigma has helped accelerate our financial close process. Instead of
             manually combining multiple data sources each month, we’re now able to run a
@@ -128,17 +92,17 @@ export default {
     transform: skewY(-10deg);
     div {
       height: 245px;
-      &:first-child {
-        background: linear-gradient(90deg, #d7dee8, rgba(215, 222, 232, 0) 30%);
-      }
-      &:nth-child(2) {
-        transform: translateY(50%);
-        background: linear-gradient(90deg, rgba(207, 217, 228, 0) 70%, #cfd9e4);
-      }
+      // &:first-child {
+      //   background: linear-gradient(90deg, #d7dee8, rgba(215, 222, 232, 0) 30%);
+      // }
+      // &:nth-child(2) {
+      //   transform: translateY(50%);
+      //   background: linear-gradient(90deg, rgba(207, 217, 228, 0) 70%, #cfd9e4);
+      // }
     }
   }
   .quotes-row {
-    transform: skewY(-10deg);
+    transform: skewY(-5deg);
     margin: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -154,7 +118,7 @@ export default {
         }
       }
       .inner {
-        transform: skewY(10deg);
+        transform: skewY(5deg);
         padding: 140px 80px;
         text-align: center;
         max-width: calc(1160px / 2);
@@ -172,13 +136,13 @@ export default {
         }
         .attribution {
           margin-top: 25px;
-          color: #a78ce9;
+          opacity: 0.7;
         }
       }
     }
     .top-left {
       padding-top: 0;
-      background: #222d49 linear-gradient(192deg, #222d49, #32385c);
+      background: var(--color-primary);
       @media (max-width: 767px) {
         padding-top: 60px;
       }
