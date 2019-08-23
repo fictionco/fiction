@@ -17,7 +17,9 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     formatClass() {
-      const f = this.scope ? "entry-headers" : "entry-headers single-entry-headers"
+      const f = this.scope
+        ? "entry-headers"
+        : "entry-headers single-entry-headers"
 
       return f
     }
@@ -33,8 +35,8 @@ export default {
 
   .entry-title {
     font-weight: var(--font-weight-bold);
-    font-size: 2em;
-    line-height: 1.1;
+    font-size: 1.8em;
+    line-height: 1.2;
     margin: 0.5em 0;
 
     @media (max-width: 767px) {
@@ -60,6 +62,7 @@ export default {
     }
     .entry-title {
       font-size: 2.5em;
+      margin: 0.5em 0 0;
 
       @media (max-width: 767px) {
         font-size: 2em;
