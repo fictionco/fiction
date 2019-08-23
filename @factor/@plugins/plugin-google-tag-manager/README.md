@@ -16,7 +16,7 @@ Config for this plugin is public only and stored in your `factor-config.json` fi
 
 ### Options
 
-```json
+```jsonc
 // factor-config.json
 {
   "google_tag_manager": {
