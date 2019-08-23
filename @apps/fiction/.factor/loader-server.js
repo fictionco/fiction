@@ -10,6 +10,7 @@ files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["emailServer"] = require("@factor/core-email/server").default
 files["endpointServer"] = require("@factor/core-endpoint/server").default
 files["error"] = require("@factor/core-error").default
+files["googleTagManager"] = require("@factor/plugin-google-tag-manager").default
 files["http"] = require("@factor/tools-http").default
 files["jobs"] = require("@factor/plugin-jobs").default
 files["postServer"] = require("@factor/post/server").default

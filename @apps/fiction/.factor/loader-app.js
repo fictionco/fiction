@@ -13,6 +13,7 @@ files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["email"] = require("@factor/core-email").default
 files["endpoint"] = require("@factor/core-endpoint").default
 files["error"] = require("@factor/core-error").default
+files["googleTagManager"] = require("@factor/plugin-google-tag-manager").default
 files["highlightCode"] = require("@factor/plugin-highlight-code").default
 files["http"] = require("@factor/tools-http").default
 files["jobs"] = require("@factor/plugin-jobs").default
