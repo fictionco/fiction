@@ -1,16 +1,16 @@
 # Dashboard Setup
 
-> By default, Factor includes a CMS-like post management system and dashboard. These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage.
+_By default, Factor includes a CMS-like post management system and dashboard. These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage._
 
 ## Overview
 
-A typical web app usually needs the following:
+A web app usually needs the following:
 
 - User Management and Authentication
 - A Database System
 - Image Storage
 
-For many developers, setting all this up represents months of work including many painful rewrites as you learn "best practices."
+For many developers, setting this up can represent months of work and include many painful rewrites as you learn "best practices."
 
 That's why Factor takes an opinionated approach to how to best handle these common services. Doing so allows us to create a platform on which extension developers can build, as well as helps you save many many days of debugging and pain.
 
@@ -65,7 +65,7 @@ Factor includes a basic user role system controlled via your `factor-config.json
 
 ## Accessing Your Dashboard
 
-With DB and auth setup, all you need to do is visit [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "signup." Just create an account and you should be able to see your dashboard.
+With DB and auth setup, all you need to do is visit [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "signup." Just hit "signup" and cteate an account and you should be able to see your dashboard.
 
 At first, the dashboard will be bare-bones. This is because you likely haven't been made an admin and you haven't installed any plugins. So as a first step, run `yarn factor setup` and add your email as an admin. (This writes info to your `factor-config`).
 
@@ -97,7 +97,7 @@ SMTP_HOST="your.host.com"
 
 ### Image Storage
 
-By default, Factor uses your DB for image storage, this is _not_ ideal for performance reasons. Ideally, Factor needs an image storage plugin to process and store images then return a URL to save in the DB.
+By default, Factor uses your DB for image storage, this is _not_ ideal for performance reasons. The good news is that adding an image storage plugin is easy. These plugins process and store images then return a URL to save in the DB, all done behind the scenes without any work on your part (after adding your API keys).
 
 #### S3 Plugin
 
@@ -118,7 +118,7 @@ AWS_ACCESS_KEY_SECRET="YOURSECRET"
 AWS_S3_BUCKET="your-bucket-name"
 ```
 
-## `$ yarn factor setup`
+## The Setup CLI
 
 Factor setup reduces guesswork needed to configure your app.
 

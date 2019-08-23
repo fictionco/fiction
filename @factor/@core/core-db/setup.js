@@ -18,9 +18,7 @@ module.exports.default = Factor => {
 
             let { connection } = await inquirer.prompt(questions)
 
-            let write = { ".env": { DB_CONNECTION: connection } }
-
-            return write
+            await Factor.$setup.writeConfig(".env", { DB_CONNECTION: connection })
           }
         }
 

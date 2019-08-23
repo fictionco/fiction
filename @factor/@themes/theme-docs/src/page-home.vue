@@ -1,9 +1,6 @@
 <template>
   <div class="home">
-    <section
-      class="splash-wrap"
-      :style="{'background-image': `url(${$setting.get('home.graphic')})` }"
-    >
+    <section class="splash-wrap">
       <div class="splash mast">
         <div class="splash-content">
           <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
@@ -55,16 +52,19 @@ export default {
 </script>
 <style lang="less">
 .home {
+  padding-top: 45px;
   .mast {
     position: relative;
     line-height: 1.2;
     margin: 0 auto;
+
     max-width: var(--max-width);
+
   }
 
   .splash-wrap {
     position: relative;
-    padding: 10em 1em 8em;
+    padding: 10em 1em;
     background-color: #fff;
     background-repeat: no-repeat;
     background-size: auto 110%;
@@ -89,28 +89,29 @@ export default {
     }
     .splash {
       z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-column-gap: 40px;
+      // display: grid;
+      // grid-template-columns: repeat(2, 1fr);
+      // grid-column-gap: 40px;
       @media (max-width: 767px) {
         grid-template-columns: 1fr;
         padding: 0 1em;
+        text-align: left;
       }
 
       .splash-content {
         .title {
-          font-weight: 800;
-          font-size: 4em;
+          font-size: 3.5em;
           letter-spacing: -0.03em;
           line-height: 1.1;
           margin-bottom: 0.2em;
           @media (max-width: 767px) {
-            font-size: 2.6em;
+            font-size: 1.8em;
+            font-weight: 600;
           }
         }
         .subtitle {
           opacity: 0.7;
-          font-size: 1.6em;
+          font-size: 1.4em;
           line-height: 1.4em;
           font-weight: 500;
           @media (max-width: 767px) {
@@ -120,7 +121,7 @@ export default {
         .actions {
           margin-top: 1.5em;
           @media (max-width: 767px) {
-            margin-bottom: 1.5em;
+            margin-bottom: 0.5em;
             a {
               display: inline-block;
               margin-bottom: 10px;
@@ -136,7 +137,7 @@ export default {
   }
 
   .boxes-wrap {
-    padding: 2em 1em;
+    padding: 1em;
     position: relative;
     z-index: 2;
     .boxes {
@@ -152,11 +153,8 @@ export default {
       .box {
         border-radius: 5px;
         background: #fff;
-
-        @media (max-width: 767px) {
-          margin: 1em 0 2em;
-        }
         display: flex;
+
         .icon {
           margin: 0 1em 0 0;
           height: 60px;
@@ -165,10 +163,18 @@ export default {
           background-position: 50% 20%;
           border-radius: 7px;
         }
+
+        @media (max-width: 767px) {
+          margin: 1em 0 2em;
+          display: block;
+          .icon {
+            background-position: 0;
+          }
+        }
         h2 {
           font-size: 1.2em;
           line-height: 1.2em;
-          font-weight: 800;
+
           margin: 0;
         }
         p {

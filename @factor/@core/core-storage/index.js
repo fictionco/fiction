@@ -3,21 +3,10 @@ const loadImage = require("blueimp-load-image")
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("data-schemas", _ => {
-        _.attachment = require("./schema").default(Factor)
-        return _
+      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+        key: "storage"
       })
     }
-
-    // createPath(path, vars) {
-    //   path = path.replace("__guid", vars.guid)
-    //   path = path.replace("__uid", vars.uid)
-    //   path = path.replace("__name", vars.name)
-    //   path = path.replace("__ext", vars.ext)
-    //   path = path.replace("__month", Factor.$time.iMonth())
-
-    //   return path
-    // }
 
     async dataURL(file) {
       const reader = new FileReader()

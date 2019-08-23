@@ -10,9 +10,11 @@ export default Factor => {
     }
 
     init() {
-      this.schemas = Factor.$filters.apply("data-schemas", {
-        post: require("@factor/post/schema").default(Factor)
-      })
+      this.schemas = Factor.$filters
+        .apply("data-schemas", [require("@factor/post/schema").default(Factor)])
+        .map(schema => {
+          return typeof schema == "function" ? schema() : schema
+        })
     }
 
     configureMongoose() {
@@ -51,13 +53,17 @@ export default Factor => {
       return this.schemas
     }
 
+    getSchema(postType = "post") {
+      return this.schemas.find(_ => _.name == postType)
+    }
+
     getPopulatedFields({ postType = "post", depth = 10 }) {
-      // console.log('this.schemas', this.schemas)
+      let fields = this.getSchema("post").populatedFields || []
 
-      let fields = this.schemas.post.populatedFields || []
+      const schema = this.getSchema(postType)
 
-      if (postType != "post" && this.schemas[postType]) {
-        const postTypePopulated = this.schemas[postType].populatedFields || []
+      if (postType != "post" && schema) {
+        const postTypePopulated = schema.populatedFields || []
         fields = [...fields, ...postTypePopulated]
       }
 
@@ -65,22 +71,6 @@ export default Factor => {
 
       return pop
     }
-
-    // Scans a schema and adds the populated field names to an array property
-    // Needed to help determine when/where to populate them
-    // _registerPopulatedFields(schema, options) {
-    //   const populated = []
-    //   schema.eachPath(function process(pathName, schemaType) {
-    //     if (pathName == "_id") return
-    //     if (schemaType.options.ref || (schemaType.caster && schemaType.caster.options.ref)) {
-    //       if (!populated.includes(pathName)) {
-    //         populated.push(pathName)
-    //       }
-    //     }
-    //   })
-
-    //   schema.populatedFields = populated
-    // }
 
     // Ensure all post indexes are up to date .
     // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes

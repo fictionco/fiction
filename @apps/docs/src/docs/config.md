@@ -1,14 +1,16 @@
-# Environment and Config
+# App Environment and Config
+
+## Overview
 
 Factor provides a robust configuration system that works in harmony with most common approaches. Below we'll discuss the approach and conventions to setting up Factor config.
 
-## Overview - 3 Types of Config Files
+### 3 Types of Config Files
 
 - **Public Config** &rarr; `factor-config.json`<br> Publicly accessible configuration for your application. Including admin users, public API keys, etc.
 - **Private Config** &rarr; `.env`<br> A standard way of storing your private keys and information (powered by [Dotenv](https://github.com/motdotla/dotenv)). Anything here gets translated to "environmental variables" when you are running your app.
 - **Customization** &rarr; `factor-settings.js`<br> The customization engine for your plugins, themes, etc. This is where you'll change text, set plugin options, override components, etc.
 
-## Environmental Variables
+## Secrets with Dotenv
 
 Factor uses the popular [Dotenv](https://github.com/motdotla/dotenv) system to help you manage your private keys and app information.
 
@@ -27,29 +29,27 @@ Factor.$config.setting("MY_VAL") // "VAL"
 
 **Note:** `.env` files should never be added to source control. Environmental variables should be setup and managed manually for each server environment.
 
-## Configure: `factor-config.json`
+## App Config: `factor-config.json`
 
 Factor config is where publicly accessible configuration for your app should be stored. This file is structured so that you can optionally load in different config values based on your app's environment (NODE_ENV and FACTOR_ENV)
 
-- `config:{}` is loaded across all environments
-- `development:{}` or `production:{}` will be loaded for `NODE_ENV=development` or `NODE_ENV=production` respectively
-- Additional keys, e.g. _testing_, will load based on `FACTOR_ENV` and be merged with global and NODE_ENV config
+- Base config values are loaded across all environments
+- If you set `development` or `production` keys, the corresponding objects will be loaded and merged for `NODE_ENV=development` or `NODE_ENV=production` respectively
+- Any keys matching the value of `FACTOR_ENV`, will load be loaded and merged with global and NODE_ENV config (`FACTOR_ENV` defaults to the value of `NODE_ENV`)
 
 Config object example:
 
 ```json
 {
-  "config": {
-    "my_global_key": "value"
-  },
+  "my_global_setting": "value",
   "development": {
-    "my_development_key": "value"
+    "my_development_setting": "value"
   },
   "production": {
-    "my_production_key": "value"
+    "my_production_setting": "value"
   },
   "testing": {
-    "my_development_key": "override_value"
+    "my_development_setting": "override_value"
   }
 }
 ```

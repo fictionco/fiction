@@ -1,5 +1,8 @@
 export default Factor => {
   return {
+    headTags: {
+      font: `<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />`
+    },
     site: {
       logo: () => import("./el/logo"),
       nav: [
@@ -100,7 +103,8 @@ export default Factor => {
       },
       preheadline: "Alpha Theme",
       headline: "Hello, I’m Alpha. <br>A minimal, personal or portfolio theme.",
-      subheadline: "Built with focus on a minimal and functional interface that delivers a bold visual experience.",
+      subheadline:
+        "Built with focus on a minimal and functional interface that delivers a bold visual experience.",
       actions: [
         {
           path: "/work",
@@ -112,22 +116,26 @@ export default Factor => {
         {
           icon: require("./img/icon-ux.svg"),
           heading: "User Experience Design",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-ui.svg"),
           heading: "User Interface Design",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-web.svg"),
           heading: "Front-end Development",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/icon-prototype.svg"),
           heading: "Prototyping",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
       ]
     },
@@ -144,121 +152,78 @@ export default Factor => {
       heroImage: require("./img/about.jpg")
     },
     work: {
-      meta: {
+      headline: "Work",
+      subheadline: "The simple way to showcase your work.",
+      content:
+        "Showcase your work in a breeze using modern technology. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
+      heroImage: require("./img/work.jpg"),
+      metatags: {
         title: "Work - Factor Alpha Theme",
         description:
           "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
       },
-      headline: "Work",
-      subheadline: "The simple way to showcase your work.",
-      content:
-        "Fully responsive and retina-display-ready. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: require("./img/work.jpg"),
-
-      posts: {
-        data: [
-          {
-            images: require("./img/project1.jpg"),
-            title: "Shallow Focus of Hand with Red Paint",
-            authorData: ["Ian Doodley"],
-            content: "placeholder",
-            id: "1",
-            tags: ["Design", "Branding"],
-            path: "/"
-          },
-          {
-            images: require("./img/project2.jpg"),
-            title: "Yellow Coffee Cup",
-            authorData: ["Marion Michelle"],
-            content: "placeholder",
-            id: "2",
-            tags: ["Development"],
-            path: "/"
-          },
-          {
-            images: require("./img/project3.jpg"),
-            title: "Low Angle of Yellow and Black Striped Building",
-            authorData: ["Ronak Jain"],
-            content: "placeholder",
-            id: "3",
-            tags: ["Prototype"],
-            path: "/"
-          },
-          {
-            images: require("./img/project4.jpg"),
-            title: "Richly Colored Building with a Beautiful Sky.",
-            authorData: ["Alex Lanting"],
-            content: "placeholder",
-            id: "4",
-            tags: ["Design", "Prototype", "Development"],
-            path: "/"
-          }
-        ]
+      indexRoute: "/work",
+      postRoute: "/work",
+      limit: 8,
+      returnLinkText: "All Projects",
+      layout: {
+        index: ["workFeaturedImage", "workHeaders"],
+        single: ["workHeaders", "workFeaturedImage", "workTags", "workEntry"]
+      },
+      components: {
+        workWrap: () => import("./work/work-wrap.vue"),
+        workIndex: () => import("./work/work-index.vue"),
+        workSingle: () => import("./work/work-single.vue"),
+        workFeaturedImage: () => import("./work/el-featured-image.vue"),
+        workHeaders: () => import("./work/el-headers.vue"),
+        workTags: () => import("./work/el-tags.vue"),
+        workEntry: () => import("./work/el-entry.vue")
       }
     },
     blog: {
-      meta: {
-        title: "Blog - Factor Alpha Theme",
-        description:
-          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
-      },
+      indexRoute: "/articles",
+      postRoute: "/articles",
+      limit: 4,
+      returnLinkText: "All Articles",
       headline: "Blog",
       subheadline: "The Latest From Alpha",
       content:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
       heroImage: require("./img/blog.jpg"),
-      posts: {
-        data: [
-          {
-            format: "listing",
-            title: "7 Awesome Udemy Courses for App Development",
-            content: "Udemy offers a wide range of courses covering a variety of topics...",
-            date: "April 11, 2020",
-            id: "1",
-            tags: ["Development"],
-            path: "/",
-            authorData: [
-              {
-                uid: 1,
-                displayName: "Raymond Aleman"
-              }
-            ]
-          },
-          {
-            format: "listing",
-            title: "Something else about Factor and its benefits",
-            content: "Two Udemy offers a wide range of courses covering a variety of topics...",
-            date: "April 25, 2020",
-            id: "1",
-            tags: ["Design"],
-            path: "/",
-            authorData: [
-              {
-                uid: 22,
-                displayName: "Andrew Powers"
-              }
-            ]
-          },
-          {
-            format: "listing",
-            title: "7 Awesome Udemy Courses for App Development",
-            content: "Udemy offers a wide range of courses covering a variety of topics...",
-            date: "May 12, 2020",
-            id: "1",
-            tags: ["Development"],
-            path: "/",
-            authorData: [
-              {
-                uid: 22,
-                displayName: "Andrew Powers"
-              }
-            ]
-          }
-        ]
+      metatags: {
+        index: {
+          title: "Blog - The Latest from Factor Alpha Theme",
+          description:
+            "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+        }
+      },
+      components: {
+        blogWrap: () => import("./blog/blog-wrap.vue"),
+        blogIndex: () => import("./blog/blog-index.vue"),
+        blogSingle: () => import("./blog/blog-single.vue"),
+        blogFeaturedImage: () => import("./blog/el-featured-image.vue"),
+        blogHeaders: () => import("./blog/el-headers.vue"),
+        blogTags: () => import("./blog/el-tags.vue"),
+        blogReturnLink: () => import("./blog/el-return-link.vue"),
+        blogExcerpt: () => import("./blog/el-excerpt.vue"),
+      },
+      layout: {
+        index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
+        single: [
+          "blogReturnLink",
+          "blogHeaders",
+          "blogTags",
+          "blogFeaturedImage",
+          "meta",
+          "entry",
+          "social",
+          "authorBio"
+        ],
+        meta: ["authorDate"]
       }
     },
     contact: {
-      meta: {
+      metatags: {
         title: "Contact - Factor Alpha Theme",
         description:
           "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."

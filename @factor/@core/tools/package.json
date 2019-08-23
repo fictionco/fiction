@@ -3,16 +3,16 @@
   "factor": {
     "id": "tools"
   },
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.27",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/tools-http": "^1.0.0-alpha.21",
-    "@factor/tools-markdown": "^1.0.0-alpha.20",
-    "@factor/tools-mongo": "^1.0.0-alpha.21",
-    "@factor/tools-time": "^1.0.0-alpha.20",
+    "@factor/tools-http": "^1.0.0-alpha.27",
+    "@factor/tools-markdown": "^1.0.0-alpha.27",
+    "@factor/tools-mongo": "^1.0.0-alpha.27",
+    "@factor/tools-time": "^1.0.0-alpha.27",
     "axios": "^0.18.0",
     "deepmerge": "^3.2.0",
     "detect-node": "^2.0.4",
@@ -23,5 +23,5 @@
     "uniqid": "^5.0.3",
     "validator": "^11.0.0"
   },
-  "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
+  "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4"
 }

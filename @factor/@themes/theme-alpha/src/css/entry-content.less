@@ -1,4 +1,4 @@
-.entry-content {
+.factor-app .post-entry {
 
   p,
   ol,
@@ -19,7 +19,7 @@
     font-weight: 600;
     line-height: 1.4em;
     margin-bottom: 0.5em;
-    color: var(--color-text);
+    color: var(--color-text, #303030);
   }
 
   h1 {
@@ -52,13 +52,14 @@
   }
 
   a {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     text-decoration: underline;
 
     &:hover {
       cursor: pointer;
-      color: var(--color-primary);
-      opacity: .7;
+      color: var(--color-primary, #1a49bd);
+      text-decoration: underline;
+      text-decoration-color: var(--color-tertiary, #9afecb);
     }
   }
 
@@ -174,7 +175,8 @@
   blockquote {
     margin: 1em;
     padding: 0.5em;
-    border-left: 0.2em solid var(--color-primary);
+    border-left: 0.2em solid var(--color-primary, #1a49bd);
+    background-color: var(--color-placeholder-2, #eeeef1);
     font-style: italic;
     quotes: "“""”";
 
@@ -201,5 +203,9 @@
     p {
       display: inline;
     }
+  }
+
+  .code-toolbar {
+    background-color: var(--color-placeholder-2, #eeeef1);
   }
 }

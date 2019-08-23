@@ -2,7 +2,7 @@
 
 ## [What is Factor?](#what-is-factor)
 
-> Factor is a 100% Javascript, web application platform built on the best-of-class MEVN Stack (MongoDB, Express, VueJs, NodeJS). It's purpose is to worry about best practices so you don't have to...<br><br>Factor is like a "framework," but takes things a few steps further by adding a CMS-like post system and dashboard. This allows people to create much more useful plugins and themes, which leverage these toolsets.<br><br>Factor's unique focus is on helping you build web apps perform better in every metric: functionality, performance, development time needed, etc...
+> Factor is a 100% Javascript, web application platform built on the best-of-class MEVN Stack (MongoDB, Express, VueJs, NodeJS). Its purpose is to worry about best practices so you don't have to...<br><br>Factor is like a "framework," but takes things a few steps further by adding a CMS-like post system and dashboard. This allows people to create much more useful plugins and themes, which leverage these toolsets.<br><br>Factor's unique focus is on helping you build web apps perform better in every metric: functionality, performance, development time needed, etc...
 
 **Why Factor?** &mdash;
 

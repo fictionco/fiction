@@ -3,11 +3,7 @@ module.exports.default = Factor => {
     docs: {
       pages: [
         {
-          doc: "quickstart",
-          title: "Installation and Quickstart",
-          description:
-            "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
-          file: require("./docs/quickstart.md")
+          group: "Getting Started"
         },
         {
           doc: "",
@@ -16,45 +12,40 @@ module.exports.default = Factor => {
           title: "Introduction: Why Use Factor"
         },
         {
-          group: "Dashboard and Posts"
+          doc: "quickstart",
+          title: "Installation and Quickstart",
+          description:
+            "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
+          file: require("./docs/quickstart.md")
         },
         {
           doc: "dashboard-setup",
           file: require("./docs/dashboard/setup.md"),
           title: "Setting Up the Dashboard and CMS"
         },
+
         {
-          doc: "post-system",
-          file: require("./docs/posts.md"),
-          title: "The Post System"
+          group: "App Development"
         },
         {
-          group: "Themes / Plugins"
+          name: "File Structure",
+          doc: "file-structure",
+          file: require("./docs/structure.md"),
+          title: "Factor File Structure"
         },
         {
-          name: "Adding Extensions",
+          name: "Add Extensions",
           doc: "extension-basics",
           file: require("./docs/extension-basics.md"),
           title: "Using Plugins / Themes"
         },
+
         {
-          doc: "customization",
-          file: require("./docs/customization.md"),
-          title: "Customizing Factor Plugins and Themes"
+          doc: "customize",
+          file: require("./docs/customize.md"),
+          title: "Customize Factor Plugins and Themes"
         },
-        {
-          doc: "creating-plugins",
-          file: require("./docs/creating-plugins.md"),
-          title: "Using and Creating Factor Themes"
-        },
-        {
-          doc: "creating-themes",
-          file: require("./docs/creating-themes.md"),
-          title: "Using and Creating Factor Themes"
-        },
-        {
-          group: "App Development"
-        },
+
         {
           doc: "config",
           name: "Config",
@@ -63,8 +54,8 @@ module.exports.default = Factor => {
         },
         {
           doc: "cli",
-          name: "Commands",
-          file: require("./docs/cli/index.md"),
+          name: "Use the CLI",
+          file: require("./docs/cli.md"),
           title: "Using Factor CLI and Creating Custom Commands"
         },
         {
@@ -84,25 +75,45 @@ module.exports.default = Factor => {
         },
 
         {
-          group: "Server"
-        },
-        {
-          doc: "server-side-rendering",
-          file: require("./docs/server/ssr.md"),
+          name: "Server and Endpoints",
+          doc: "server",
+          file: require("./docs/server.md"),
           title: "Factor Vue Server Side Rendering (SSR)"
         },
-        {
-          name: "Endpoints and Middleware",
-          doc: "endpoints",
-          file: require("./docs/server/endpoints.md"),
-          title: "Creating and Using Factor Endpoints"
-        },
+
         {
           name: "Hosting Your App",
           doc: "serving",
-          file: require("./docs/server/serving.md"),
+          file: require("./docs/hosting.md"),
           title: "Hosting and Serving Your Factor App"
         },
+
+        {
+          group: "Extension Development"
+        },
+        {
+          name: "Post System",
+          doc: "post-system",
+          file: require("./docs/posts.md"),
+          title: "Working with Posts"
+        },
+        {
+          doc: "create-plugins",
+          file: require("./docs/creating-plugins.md"),
+          title: "Using and Creating Factor Themes"
+        },
+        {
+          doc: "create-themes",
+          file: require("./docs/creating-themes.md"),
+          title: "Using and Creating Factor Themes"
+        },
+        {
+          name: "Extend the CLI",
+          doc: "extend-the-CLI",
+          file: require("./docs/cli-dev.md"),
+          title: "Extending the Factor CLI"
+        },
+
         {
           group: "Contributing"
         },
@@ -157,35 +168,35 @@ module.exports.default = Factor => {
         description: "Factor is a modular CMS framework based on Vue.js.."
       },
 
-      headline: "Create Powerful Web Apps",
+      headline: "Universal VueJS Framework for Front-End Developers",
       subHeadline:
         "An open-source platform for building impressive universal apps with VueJS, MongoDB and extensions.",
-      graphic: require("./img/cms-engine.png"),
+      //graphic: require("./img/cms-engine.png"),
       boxes: [
         {
           icon: require("./img/icon-post.svg"),
-          title: "Post System",
+          title: "Dashboard and Posts",
           description:
-            "A powerful post pattern that makes CMS and eCommerce easy to add. "
+            "Weild a powerful dashboard and post system to build advanced app functionality. "
         },
         {
           icon: require("./img/icon-plugin.svg"),
-          title: "Plugins + Themes",
+          title: "Plugins and Themes",
           description:
             "Factor is designed for drop-in, one-click extension. Building and using plugins and themes is easy."
         },
         {
           icon: require("./img/icon-time.svg"),
-          title: "Famous 3-Minute Setup",
+          title: "Open Source",
           description:
-            "You'll be up and running in 3 minutes with a full-stack universal web app."
+            "Factor is built on the GPL2 license. The same used by projects like WordPress."
         }
       ],
       actions: [
         {
           btn: "primary",
           path: "/guide/quickstart",
-          text: "Get Started"
+          text: "Start Now"
         },
         {
           btn: "tertiary",

@@ -35,7 +35,7 @@
           <div>
             <strong>Install Factor</strong>
             <pre><code class="language-html">yarn add @factor/post</code></pre>
-            <br />
+            <br >
             <strong>Or use the "Starter Kit"</strong>
             <pre><code class="language-html">yarn create-factor-app</code></pre>
           </div>
@@ -56,11 +56,13 @@
             </div>
           </div>
           <figure class="figure">
+
             <img
               class="img-modular"
               :src="require(`./img/modular.svg`)"
               alt="Factor - Modular"
             />
+
           </figure>
         </div>
         <div class="item cols-2">
@@ -75,7 +77,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" />
+              <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" >
             </figure>
           </div>
         </div>
@@ -119,10 +121,12 @@
           </div>
           <div>
             <figure class="figure">
+
               <img
                 :src="require(`./img/themes-plugins.svg`)"
                 alt="Factor - Themes and Plugins"
               />
+
             </figure>
           </div>
         </div>
@@ -138,10 +142,12 @@
           </div>
           <div>
             <figure class="figure">
+
               <img
                 :src="require(`./img/user-roles.svg`)"
                 alt="Factor - User Roles and Permissions"
               />
+
             </figure>
           </div>
         </div>
@@ -163,10 +169,12 @@
           </div>
           <div>
             <figure class="figure">
+
               <img
                 :src="require(`./img/markdown-editor.svg`)"
                 alt="Factor - Markdown Editor"
               />
+
             </figure>
           </div>
         </div>
@@ -185,7 +193,7 @@
                 class="flexible"
                 :src="require(`./img/flexible.png`)"
                 alt="Factor - Infinite Possibilities"
-              />
+              >
             </figure>
           </div>
         </div>

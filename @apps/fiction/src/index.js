@@ -61,6 +61,7 @@ module.exports.default = Factor => {
             component: () => import("./view-terminal/page-terminal"),
             meta: { background: "#ffffff" }
           }
+
           // {
           //   path: "/how-it-works",
           //   component: () => import("./page-how-it-works"),

@@ -96,9 +96,7 @@ module.exports.default = Factor => {
 
             await ask()
 
-            let write = { "factor-config": { config: { roles: admins } } }
-
-            return write
+            await Factor.$setup.writeConfig("factor-config", { roles: admins })
           }
         }
 

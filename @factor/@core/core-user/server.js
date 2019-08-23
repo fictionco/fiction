@@ -20,9 +20,8 @@ module.exports.default = Factor => {
 
       Factor.$filters.callback("endpoints", { id: "user", handler: this })
 
-      Factor.$filters.add("data-schemas", _ => {
-        _.user = require("./schema").default(Factor)
-        return _
+      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+        key: "user"
       })
     }
 

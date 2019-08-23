@@ -2,13 +2,13 @@
   <div class="page-landing">
     <section class="feature">
       <div class="feature-inner">
-        <h3 class="pre-title">{{ $setting.get('home.preheadline') }}</h3>
+        <h3 class="pre-title">{{ $setting.get("home.preheadline") }}</h3>
         <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
-        <div class="subtitle">{{ $setting.get('home.subheadline') }}</div>
+        <div class="subtitle">{{ $setting.get("home.subheadline") }}</div>
 
         <div class="actions">
           <app-link
-            v-for="(action ,i) in $setting.get('home.actions')"
+            v-for="(action, i) in $setting.get('home.actions')"
             :key="i"
             :path="action.path"
             btn="default"
@@ -22,7 +22,9 @@
     </section>
 
     <section class="boxes">
-      <div v-formatted-text="$setting.get('home.boxesTitle')" class="title" />
+      <div class="mast">
+        <div v-formatted-text="$setting.get('home.boxesTitle')" class="title" />
+      </div>
 
       <div class="mast boxes-inner">
         <div v-for="(box, i) in $setting.get('home.boxes')" :key="i" class="box">
@@ -166,7 +168,7 @@ export default {
 
   // feature
   .feature {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary, #1a49bd);
     color: var(--color-white);
     position: relative;
 
@@ -210,7 +212,7 @@ export default {
         }
       }
       .title {
-        font-weight: 600;
+        font-weight: var(--font-weight-bold, 800);
         font-size: 3em;
         letter-spacing: -0.03em;
         margin: 0.5em;
@@ -219,7 +221,7 @@ export default {
         }
       }
       .subtitle {
-        opacity: 0.5;
+        opacity: 0.7;
         font-size: 1.2em;
         line-height: 1.6em;
       }
@@ -256,6 +258,9 @@ export default {
             max-width: 50px;
             display: block;
             margin: 0 auto;
+            @media (max-width: 767px) {
+              margin: 0;
+            }
           }
         }
         .box-title {
@@ -274,6 +279,7 @@ export default {
         grid-template-columns: 1fr;
         .box {
           padding: 0;
+          text-align: left;
         }
       }
     }

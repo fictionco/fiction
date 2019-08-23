@@ -13,13 +13,6 @@ export default {
   computed: {
     injectedComponents() {
       return this.$filters.apply("site-components", {})
-    },
-
-    classes() {
-      const metaClass = this.$route.meta.routeClass || []
-      const siteClasses = this.$globals.routeClass || []
-
-      return [...metaClass, , ...siteClasses]
     }
   },
 

@@ -8,7 +8,7 @@
           <slot name="hero-content" />
         </div>
         <div v-if="image != ''">
-          <div :style="{'background-image': `url(`+ image + `)` }" class="hero-image" />
+          <div :style="{ 'background-image': `url(` + image + `)` }" class="hero-image" />
         </div>
       </div>
     </div>
@@ -28,14 +28,15 @@ export default {
 <style lang="less">
 // Hero
 .hero {
+  position: relative;
+  overflow: hidden;
+
   .mast {
     padding: 0 2em;
     line-height: 1.2;
     max-width: 1000px;
     margin: 0 auto;
   }
-
-  position: relative;
   &:before {
     content: "";
     display: block;
@@ -45,7 +46,7 @@ export default {
     top: 0;
     right: auto;
     bottom: 0;
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-bg-alt, #f3f5fb);
     @media (max-width: 1024px) {
       width: 100%;
     }
@@ -57,7 +58,7 @@ export default {
     grid-template-columns: 2fr 1fr;
     grid-gap: 60px;
     align-items: center;
-    padding: 7em 0;
+    padding: 5em 0;
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
     }
@@ -69,10 +70,10 @@ export default {
       text-transform: uppercase;
     }
     .heading {
-      font-weight: 600;
+      font-weight: var(--font-weight-bold, 800);
       font-size: 3em;
       letter-spacing: -0.03em;
-      margin: 0.5em 0;
+      margin: 0.3em 0;
       @media (max-width: 767px) {
         font-size: 2em;
       }
@@ -81,9 +82,6 @@ export default {
       font-size: 1.2em;
       line-height: 1.6em;
       opacity: 0.5;
-      // p {
-      //   opacity: 0.5;
-      // }
     }
     .hero-image {
       background-position: center;

@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.27",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -8,14 +8,14 @@
   },
   "factor": {
     "extend": "theme",
-    "target": [
-      "server",
-      "app"
-    ]
+    "target": ["server", "app"]
   },
   "dependencies": {
-    "@factor/plugin-notify": "^1.0.0-alpha.20",
-    "@factor/post": "^1.0.0-alpha.21"
+    "@factor/core": "^1.0.0-alpha.27",
+    "@factor/index": "^1.0.0-alpha.27",
+    "@factor/plugin-blog": "^1.0.0-alpha.27",
+    "@factor/plugin-highlight-code": "^1.0.0-alpha.27",
+    "@factor/plugin-notify": "^1.0.0-alpha.27"
   },
-  "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
+  "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4"
 }

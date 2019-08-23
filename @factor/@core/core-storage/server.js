@@ -4,9 +4,9 @@ module.exports.default = Factor => {
     constructor() {
       this.mime = require("mime-types")
       Factor.$filters.callback("endpoints", { id: "storage", handler: this })
-      Factor.$filters.add("data-schemas", _ => {
-        _.attachment = require("./schema").default(Factor)
-        return _
+
+      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+        key: "storage"
       })
 
       Factor.$filters.add("middleware", _ => {
