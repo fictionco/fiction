@@ -6,8 +6,7 @@
       class="entry-tag"
       :path="$setting.get('work.indexRoute')"
       :query="{ tag }"
-      >{{ tag }}</factor-link
-    >
+    >{{ tag }}</factor-link>
   </div>
 </template>
 <script>

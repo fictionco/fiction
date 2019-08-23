@@ -7,18 +7,12 @@
       :image="$setting.get('blog.heroImage')"
     >
       <template v-slot:hero-content>
-        <div
-          v-formatted-text="$setting.get('blog.content')"
-          class="content entry-content"
-        />
+        <div v-formatted-text="$setting.get('blog.content')" class="content entry-content" />
       </template>
     </el-hero>
 
-    <div class="entries">
-      <component
-        :is="$setting.get('blog.components.returnLink')"
-        v-if="tag || page > 1"
-      />
+    <div class="blog-posts">
+      <component :is="$setting.get('blog.components.blogReturnLink')" v-if="tag || page > 1" />
       <div v-if="loading" class="posts-loading">
         <factor-loading-ring />
       </div>
@@ -121,37 +115,47 @@ export default {
 </script>
 
 <style lang="less">
-.posts-not-found,
-.posts-loading {
-  min-height: 50vh;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  .title {
-    font-size: 1.4em;
-    font-weight: var(--font-weight-bold);
+.page-blog {
+  .posts-not-found,
+  .posts-loading {
+    min-height: 50vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    .title {
+      font-size: 1.4em;
+      font-weight: var(--font-weight-bold);
+    }
   }
-}
-.post-index {
-  display: grid;
-  grid-gap: 30px;
-  grid-template-columns: repeat(2, 1fr);
-  margin-bottom: 2em;
-  @media (max-width: 767px) {
-    grid-template-columns: 1fr;
-    grid-row-gap: 100px;
-  }
-  .post {
-    border-radius: 8px;
-    border: 1px solid rgba(90, 122, 190, 0.08);
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 3px 0 0 rgba(90, 122, 190, 0.12);
-    &:hover {
-      transform: translateY(-6px);
-      border: 1px solid rgba(90, 122, 190, 0.08);
-      box-shadow: 0 1px 1px 0 rgba(90, 122, 190, 0.1),
-        0 10px 20px 0 rgba(90, 122, 190, 0.2);
+  .blog-posts {
+    padding: 4em 2em;
+    line-height: 1.2;
+    max-width: 50rem;
+    margin: 0 auto;
+
+    .post-index {
+      display: grid;
+      grid-gap: 3em;
+      grid-template-columns: 1fr;
+      margin-bottom: 2em;
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+        grid-row-gap: 100px;
+      }
+      .post {
+        border-radius: 8px;
+        border: 1px solid rgba(90, 122, 190, 0.08);
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 3px 0 0 rgba(90, 122, 190, 0.12);
+
+        &:hover {
+          transform: translateY(-6px);
+          border: 1px solid rgba(90, 122, 190, 0.08);
+          box-shadow: 0 1px 1px 0 rgba(90, 122, 190, 0.1),
+            0 10px 20px 0 rgba(90, 122, 190, 0.2);
+        }
+      }
     }
   }
 }

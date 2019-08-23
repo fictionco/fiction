@@ -7,19 +7,29 @@
       :image="$setting.get('work.heroImage')"
     >
       <template v-slot:hero-content>
-        <div
-          v-formatted-text="$setting.get('work.content')"
-          class="content entry-content"
-        />
+        <div v-formatted-text="$setting.get('work.content')" class="content entry-content" />
       </template>
     </el-hero>
+
+    <section v-else-if="tag" class="hero">
+      <div class="mast">
+        <div class="hero-inner">
+          <div>
+            <app-link class="back" :path="$setting.get('work.indexRoute')">
+              <factor-icon icon="arrow-left" />
+              {{ returnLinkText }}
+            </app-link>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div v-if="loading" class="loading-entries">
       <factor-loading-ring />
     </div>
     <section class="work-posts">
       <div class="mast">
-        <div if="workPosts.length > 0" class="posts-inner">
+        <div if="workPosts.length > 0" class="posts-index">
           <div v-for="post in workPosts" :key="post._id" class="post">
             <component
               :is="$setting.get(`work.components.${comp}`)"
@@ -30,19 +40,6 @@
             />
           </div>
         </div>
-        <!-- <div v-for="(post, i) in $setting.get('work.posts.data')" :key="i">
-            <part-work-entry
-              format="listing"
-              :images="post.images"
-              :title="post.title"
-              :authors="post.authorData"
-              :content="post.content"
-              :post-id="post._id"
-              :loading="loading"
-              :tags="post.tags"
-              :path="post.path"
-            />
-          </div> -->
       </div>
     </section>
   </div>
@@ -50,8 +47,7 @@
 <script>
 export default {
   components: {
-    "el-hero": () => import("./hero.vue"),
-    "part-work-entry": () => import("./work-entry")
+    "el-hero": () => import("../el/hero.vue")
   },
   data() {
     return {
@@ -63,7 +59,9 @@ export default {
     const tag = this.$route.params.tag || ""
     const title = tag ? `Tag "${tag}"` : "Projects"
 
-    const description = tag ? `Articles related to tag: ${tag}` : "Projects and more..."
+    const description = tag
+      ? `Articles related to tag: ${tag}`
+      : "Projects and more..."
     return {
       title,
       description
@@ -85,6 +83,9 @@ export default {
     },
     page() {
       return this.$route.query.page || 1
+    },
+    returnLinkText() {
+      return this.$setting.get("work.returnLinkText") || "All Projects"
     }
   },
   watch: {
@@ -117,25 +118,31 @@ export default {
 </script>
 
 <style lang="less">
-.work-posts {
-  .posts-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 2em;
-  }
-}
 .page-work {
   .loading-entries {
     height: 50vh;
     padding: 5em;
   }
-}
-.posts-inner {
-  > div {
-    &:nth-last-of-type(odd) {
-      margin-top: 120px;
+  .work-posts {
+    padding: 6em 2em;
+    line-height: 1.2;
+    max-width: 1000px;
+    margin: 0 auto;
+    .posts-index {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 2em;
       @media (max-width: 767px) {
-        margin: 0;
+        grid-template-columns: 1fr;
+      }
+
+      > div {
+        &:nth-child(2n) {
+          margin-top: 120px;
+          @media (max-width: 767px) {
+            margin: 0;
+          }
+        }
       }
     }
   }

@@ -58,7 +58,7 @@ export default {
     grid-template-columns: 2fr 1fr;
     grid-gap: 60px;
     align-items: center;
-    padding: 7em 0;
+    padding: 5em 0;
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
     }
@@ -73,7 +73,7 @@ export default {
       font-weight: var(--font-weight-bold, 800);
       font-size: 3em;
       letter-spacing: -0.03em;
-      margin: 0.5em 0;
+      margin: 0.3em 0;
       @media (max-width: 767px) {
         font-size: 2em;
       }
