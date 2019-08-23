@@ -97,7 +97,7 @@ SMTP_HOST="your.host.com"
 
 ### Image Storage
 
-By default, Factor uses your DB for image storage, this is _not_ ideal for performance reasons. Ideally, Factor needs an image storage plugin to process and store images then return a URL to save in the DB.
+By default, Factor uses your DB for image storage, this is _not_ ideal for performance reasons. The good news is that adding an image storage plugin is easy. These plugins process and store images then return a URL to save in the DB, all done behind the scenes without any work on your part (after adding your API keys).
 
 #### S3 Plugin
 
@@ -118,7 +118,7 @@ AWS_ACCESS_KEY_SECRET="YOURSECRET"
 AWS_S3_BUCKET="your-bucket-name"
 ```
 
-## `$ yarn factor setup`
+## The Setup CLI
 
 Factor setup reduces guesswork needed to configure your app.
 

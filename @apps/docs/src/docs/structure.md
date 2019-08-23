@@ -1,12 +1,12 @@
 # App File Structure
 
-## Overview
+## Setting Up An App
 
-Factor apps follow simple conventions and their structure is easily customizeable to meet your needs. This doc will discuss the basic structure along with the purpose and proper use of the different files you'll encounter.
+The easiest way to set up a Factor app is to start with an example app or use the helpful `create-factor-app` utility. This way you'll be sure to have the proper config and filenames, etc..
 
-> Fallbacks: Note that some files have fallbacks that will be used if they aren't found in your app. These include: 404.vue, content.vue, icon.png, index.html.
+However, it is also easy and helpful to understand the function of each file and the ways that an app can be customized. This doc will discuss the basic Factor module structure along with the purpose and proper use of the different files you'll encounter.
 
-## Control Files
+## Standard Module Files
 
 The following files are used to control the handling of your Factor app.
 
@@ -43,7 +43,11 @@ Inside package.json, factor apps need a `factor` key that supports the following
 }
 ```
 
-## Source vs Root Folder
+### The Main File: index.js
+
+Index.js is the main entry file for Factor apps and modules. The main file is generally the best place to add customizations via filters, custom routes and any other custom code your app will need.
+
+### Source vs Root Folder
 
 In a Factor app, the source or `src` folder is determined by the folder containing your primary `main` file of your app. If, for example, your app package.json sets main to `src/index.js` then the folder `src` will be treated as your app source.
 
@@ -52,11 +56,7 @@ Here is how you should think of the two key folders of your app:
 - **Source** - (`/src`) - This is your application source code. It should include all components, images, static files, templates, etc..
 - **Root** - (`/`) - The root of your app should be used for configuration (factor-config, .env, package.json), build and test code, etc..
 
-### The Main File: index.js
-
-Index.js is the main entry file for Factor apps and modules. The main file is generally the best place to add customizations via filters, custom routes and any other custom code your app will need.
-
-#### Closure Class Convention
+### Class Export Convention
 
 Factor entry files follow a special "closure" design pattern that looks like this:
 
@@ -72,7 +72,7 @@ export default Factor => {
 
 And once loaded your exported class is accessible via `Factor.$appId` throughout your components and elsewhere (Id is added in package.json).
 
-### Template: index.html
+## Template: index.html
 
 Your index.html template is the skeleton for every page on your app. It is optional, but can be used to manually add metatags or other info that may not be in the default one.
 
