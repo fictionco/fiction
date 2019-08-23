@@ -57,8 +57,9 @@ export default {
     position: relative;
     line-height: 1.2;
     margin: 0 auto;
-    max-width: 700px;
-    text-align: center;
+
+    max-width: var(--max-width);
+
   }
 
   .splash-wrap {
