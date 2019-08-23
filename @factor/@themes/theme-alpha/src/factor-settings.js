@@ -164,74 +164,27 @@ export default Factor => {
       },
       indexRoute: "/work",
       postRoute: "/work",
-      limit: 10,
+      limit: 8,
+      returnLinkText: "All Projects",
       layout: {
-        index: ["workFeaturedImage", "workEntry", "workTags"],
-        single: ["workFeaturedImage", "workEntry"],
-        meta: ["authorDate", "tags"]
+        index: ["workFeaturedImage", "workHeaders"],
+        single: ["workHeaders", "workFeaturedImage", "workTags", "workEntry"]
       },
       components: {
-        workWrap: () => import("./el/work-wrap.vue"),
-        workIndex: () => import("./el/work-index.vue"),
-        workFeaturedImage: () => import("./el/work-featured-image.vue"),
-        workTags: () => import("./el/work-tags.vue"),
-        workEntry: () => import("./el/work-entry.vue"),
-        workSingle: () => import("./el/work-single.vue")
-      },
-      posts: {
-        data: [
-          {
-            images: require("./img/project4.jpg"),
-            title: "Richly Colored Building with a Beautiful Sky.",
-            authorData: ["Alex Lanting"],
-            content: "placeholder",
-            id: "4",
-            tags: ["Design", "Prototype", "Development"],
-            path: "/"
-          },
-          {
-            images: require("./img/project1.jpg"),
-            title: "Shallow Focus of Hand with Red Paint",
-            authorData: ["Ian Doodley"],
-            content: "placeholder",
-            id: "1",
-            tags: ["Design", "Branding"],
-            path: "/"
-          }
-          // {
-          //   images: require("./img/project2.jpg"),
-          //   title: "Yellow Coffee Cup",
-          //   authorData: ["Marion Michelle"],
-          //   content: "placeholder",
-          //   id: "2",
-          //   tags: ["Development"],
-          //   path: "/"
-          // }
-          // {
-          //   images: require("./img/project3.jpg"),
-          //   title: "Low Angle of Yellow and Black Striped Building",
-          //   authorData: ["Ronak Jain"],
-          //   content: "placeholder",
-          //   id: "3",
-          //   tags: ["Prototype"],
-          //   path: "/"
-          // },
-          // {
-          //   images: require("./img/project4.jpg"),
-          //   title: "Richly Colored Building with a Beautiful Sky.",
-          //   authorData: ["Alex Lanting"],
-          //   content: "placeholder",
-          //   id: "4",
-          //   tags: ["Design", "Prototype", "Development"],
-          //   path: "/"
-          // }
-        ]
+        workWrap: () => import("./work/work-wrap.vue"),
+        workIndex: () => import("./work/work-index.vue"),
+        workSingle: () => import("./work/work-single.vue"),
+        workFeaturedImage: () => import("./work/el-featured-image.vue"),
+        workHeaders: () => import("./work/el-headers.vue"),
+        workTags: () => import("./work/el-tags.vue"),
+        workEntry: () => import("./work/el-entry.vue")
       }
     },
     blog: {
       indexRoute: "/articles",
       postRoute: "/articles",
       limit: 4,
+      returnLinkText: "All Articles",
       headline: "Blog",
       subheadline: "The Latest From Alpha",
       content:
@@ -245,19 +198,19 @@ export default Factor => {
         }
       },
       components: {
-        blogFeaturedImage: () => import("./blog/featured-image.vue"),
-        blogHeaders: () => import("./blog/headers.vue"),
-        returnLink: () => import("./blog/return-link.vue"),
-        blogExcerpt: () => import("./blog/excerpt.vue"),
-        blogTags: () => import("./blog/tags.vue"),
-        blogIndex: () => import("./blog/index.vue"),
-        blogSingle: () => import("./blog/single.vue"),
-        blogContent: () => import("./blog/wrap.vue")
+        blogWrap: () => import("./blog/blog-wrap.vue"),
+        blogIndex: () => import("./blog/blog-index.vue"),
+        blogSingle: () => import("./blog/blog-single.vue"),
+        blogFeaturedImage: () => import("./blog/el-featured-image.vue"),
+        blogHeaders: () => import("./blog/el-headers.vue"),
+        blogTags: () => import("./blog/el-tags.vue"),
+        blogReturnLink: () => import("./blog/el-return-link.vue"),
+        blogExcerpt: () => import("./blog/el-excerpt.vue"),
       },
       layout: {
         index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
         single: [
-          "returnLink",
+          "blogReturnLink",
           "blogHeaders",
           "blogTags",
           "blogFeaturedImage",

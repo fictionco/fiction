@@ -3,28 +3,12 @@ module.exports.default = Factor => {
     constructor() {
       this.addPaths()
       if (Factor.FACTOR_TARGET == "app") {
-        //this.addWorkPostType()
         this.filters()
         this.addPaths()
         this.addComponents()
       }
     }
 
-    // addWorkPostType() {
-    //   Factor.$filters.add("post-types", _ => {
-    //     _.push({
-    //       postType: "work",
-    //       baseRoute: "work",
-    //       icon: require("./img/work.svg"),
-    //       model: "WorkPost",
-    //       nameIndex: "Work",
-    //       nameSingle: "Work Post",
-    //       namePlural: "Work Posts"
-    //     })
-
-    //     return _
-    //   })
-    // }
 
     filters() {
       const baseRoute = Factor.$setting.get("work.postRoute")
@@ -43,12 +27,6 @@ module.exports.default = Factor => {
         return _
       })
 
-      // Factor.$filters.add("content-routes", _ => {
-      //   return [
-      //     ..._,
-
-      //   ]
-      // })
     }
 
     addComponents() {
@@ -70,7 +48,6 @@ module.exports.default = Factor => {
         ])
       })
 
-      //const base = "work"
 
       Factor.$filters.add("content-routes", _ => {
         const routes = [
@@ -98,20 +75,6 @@ module.exports.default = Factor => {
               }
             ]
           },
-          // {
-          //   path: "/work",
-          //   component: () => import("./page-work"),
-          //   children: [
-          //     {
-          //       path: `/${base}/`,
-          //       component: () => import("./el/work-index.vue")
-          //     },
-          //     {
-          //       path: `/${base}/:permalink`,
-          //       component: () => import(`./el/work-single.vue`)
-          //     }
-          //   ]
-          // },
           {
             path: "/contact",
             component: () => import("./page-contact"),
