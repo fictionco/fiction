@@ -11,33 +11,6 @@ module.exports.default = Factor => {
       return this.mongo.Types.ObjectId(str)
     }
 
-    // async runRequest(params) {
-    //   const { model, method, _arguments = [] } = params
-    //   const DataModel = await this.model(model)
-    //   let result
-    //   if (!DataModel) {
-    //     throw new Error(`DB Model for ${model} does not exist.`)
-    //   } else {
-    //     try {
-    //       result = await DataModel[method].apply(DataModel, _arguments)
-    //     } catch (error) {
-    //       throw new Error(error)
-    //     }
-    //   }
-
-    //   return result
-    // }
-    // async run() {
-    //   const params =
-    //     arguments.length > 1
-    //       ? {
-    //           model: arguments[0],
-    //           method: arguments[1],
-    //           _arguments: arguments[2]
-    //         }
-    //       : arguments[0]
-    //   return await this.runRequest(params)
-    // }
     canEdit({ doc, bearer, scope }) {
       const { _id, author = [] } = doc
       if (

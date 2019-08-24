@@ -1,58 +1,30 @@
 <template>
-  <div class="view-terminal">
+  <div class="view-home-version-2">
     <div class="header-wrapper">
       <section class="header">
         <div class="mast">
           <div class="header-layout">
             <div class="header-content">
-              <div class="product-title">
-                <figure class="product-icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="48"
-                    height="48"
-                    viewBox="0 0 48 48"
-                  >
-                    <title>48-light-bg</title>
-                    <path d="M38,8H10L.19,27a24,24,0,0,0,47.62,0Z" fill="#87bbfd" />
-                    <path
-                      d="M10,24V39.48A3,3,0,0,0,11.29,42a22,22,0,0,0,25.42,0A3,3,0,0,0,38,39.48V24Z"
-                      fill="#fff"
-                    />
-                    <path
-                      d="M24,0A24,24,0,0,0,.19,27H47.81A24,24,0,0,0,24,0ZM38,21H10V14a4,4,0,0,1,4-4H34a4,4,0,0,1,4,4Z"
-                      fill="#555abf"
-                    />
-                  </svg>
-                </figure>
-                <div class="product-title-text">
-                  <span class="common-UppercaseTitle">Terminal</span>
-                </div>
+              <div class="header-tag">
+                <div class="header-icon-text">Front-End Development Software</div>
               </div>
 
-              <h1 class="common-PageTitle">Extend Fiction payments to your point of sale</h1>
-              <p class="common-IntroText">
-                Fiction Terminal extends your online presence into the physical world,
-                enabling you to build your own in-person checkout. Built with modern
-                retailers and platforms in mind, Terminal helps you unify your online and
-                offline channels with flexible developer tools, pre-certified card
-                readers, and cloud-based hardware management.
+              <h1 class="header-title">Ship the world's next great web and eCommerce apps</h1>
+              <p class="header-text">
+                Fiction helps professional front-end developers build Javascript apps that take things to the next level.
+                Need to build scaleable, enterprise-grade applications? Get in touch for a free consultation.
               </p>
 
-              <ul class="header-ctas" role="presentation">
-                <li>
-                  <a href="#" class="common-Button common-Button--default">Start now</a>
-                </li>
-                <li>
-                  <a href="#" class="common-Button">Contact sales</a>
-                </li>
-              </ul>
+              <div class="header-actions">
+                <app-btn btn="primary">Start Your App &rarr;</app-btn>
+                <app-btn btn="default">Free VIP Consultation &rarr;</app-btn>
+              </div>
             </div>
-            <el-header-graphic />
+            <div class="header-figure">
+              <figure>tbd</figure>
+            </div>
           </div>
         </div>
-
-        <el-stripes class="anchorBottom" :num-stripes="10" />
       </section>
     </div>
 
@@ -89,7 +61,7 @@ export default {
   },
   metatags() {
     return {
-      title: "Copy Terminal",
+      title: "Build the World's next great app.",
       description: "Terminal Page Description.",
       image: require("../img/fiction.jpg")
     }
@@ -97,7 +69,63 @@ export default {
 }
 </script>
 <style lang="less">
-.view-terminal {
+.view-home-version-2 {
+  .header-title {
+    font-size: 3.5em;
+    line-height: 1.2;
+    font-weight: 400;
+    margin: 0 0 0.5em;
+    letter-spacing: -0.01em;
+  }
+
+  .header-text {
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 300;
+    opacity: 0.8;
+  }
+
+  .header-actions {
+    margin-top: 2em;
+  }
+
+  .header-tag {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 32px;
+
+    .header-icon {
+      margin-left: -20px;
+      margin-right: 16px;
+      width: 48px;
+      height: 48px;
+      @media (max-width: 767px) {
+        margin-left: 0;
+      }
+    }
+    .header-icon-text {
+      opacity: 0.4;
+      font-size: 1.3em;
+
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+  }
+
+  .header-figure {
+    position: relative;
+    perspective: 1500px;
+    padding-top: 2em;
+    figure {
+      width: 800px;
+      height: 500px;
+      background: #fff;
+      box-shadow: var(--box-shadow-panel);
+    }
+  }
+
   .mast {
     // max-width: 1040px;
     max-width: var(--max-width);
@@ -106,14 +134,7 @@ export default {
     padding: 0 2em;
     width: 100%;
   }
-  // Common
-  .common-UppercaseTitle {
-    font-size: 21px;
-    line-height: 32px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
-  }
+
   .common-uppercase-text {
     font-size: 17px;
     line-height: 28px;
@@ -139,12 +160,7 @@ export default {
       line-height: 52px;
     }
   }
-  .common-IntroText {
-    font-size: 24px;
-    line-height: 36px;
-    font-weight: 300;
-    color: #424770;
-  }
+
   .common-Button {
     white-space: nowrap;
     display: inline-block;
@@ -239,28 +255,6 @@ export default {
           margin: 0 0 40px;
         }
 
-        .product-title {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          margin-bottom: 32px;
-          color: #6772e5;
-          .product-icon {
-            margin-left: -20px;
-            margin-right: 16px;
-            width: 48px;
-            height: 48px;
-            @media (max-width: 767px) {
-              margin-left: 0;
-            }
-          }
-          .product-title-text {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin-top: 0;
-          }
-        }
         .header-ctas {
           display: flex;
           flex-wrap: wrap;

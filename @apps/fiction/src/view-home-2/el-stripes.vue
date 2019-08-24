@@ -86,7 +86,7 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
-    transform: skewY(-12deg);
+    transform: skewY(-4deg);
   }
   .backgroundContainer {
     .grid {
@@ -133,7 +133,7 @@ export default {
       transform: translateY(2px);
     }
     &:nth-child(3) {
-      background-color: #32325d;
+      background-color: var(--color-primary);
       grid-column: left-gutter-start / span 4;
       grid-row: e("-4 / -5");
       z-index: 1;
@@ -144,7 +144,7 @@ export default {
       grid-row: e("-4 / -5");
     }
     &:nth-child(5) {
-      background-color: #32325d;
+      background-color: var(--color-primary);
       grid-column: 14 / right-gutter-end;
       grid-row: e("-4 / -5");
     }
@@ -159,7 +159,7 @@ export default {
       grid-row: e("-3 / -4");
     }
     &:nth-child(8) {
-      background-color: #6772e5;
+      background-color: var(--color-primary);
       grid-column: 18 / viewport-end;
       grid-row: e("-3 / -4");
     }

@@ -57,9 +57,8 @@ module.exports.default = Factor => {
             meta: { background: "#f7f9ff", auth: true }
           },
           {
-            path: "/terminal",
-            component: () => import("./view-terminal/page-terminal"),
-            meta: { background: "#ffffff" }
+            path: "/home",
+            component: () => import("./view-home-2/v-home")
           }
 
           // {

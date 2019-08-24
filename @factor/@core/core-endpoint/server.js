@@ -49,6 +49,9 @@ module.exports.default = Factor => {
       }
 
       try {
+        if (typeof handler.permissions == "function") {
+          await _ep.permissions({ method, meta, params })
+        }
         return await _ep[method](params, meta)
       } catch (error) {
         Factor.$log.error(`${error.message} in ${id}:${method}`)
