@@ -11,8 +11,8 @@ export default {
 
 <style lang="less">
 button.app-btn {
-  padding: 0.6em 1.2em;
-  font-size: 0.9em;
+  padding: 0.7em 1.4em;
+
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
@@ -53,7 +53,8 @@ button.app-btn {
 
   &.default {
     background: #fff;
-    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.4), 0 2px 5px rgba(71, 86, 144, 0.2);
+    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.4),
+      0 2px 5px rgba(71, 86, 144, 0.2);
     &:hover {
       opacity: 0.7;
     }
@@ -78,7 +79,8 @@ button.app-btn {
 
     &:hover {
       background: #da0066; //#ff66ad;
-      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.08);
     }
   }
 
@@ -94,6 +96,10 @@ button.app-btn {
       background: var(--color-light);
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
+  }
+
+  & + .app-btn {
+    margin-left: 1em;
   }
 }
 </style>
