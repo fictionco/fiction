@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "1.0.0-alpha.27",
+  "version": "1.0.0-alpha.28",
   "main": "index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -13,8 +13,8 @@
     ]
   },
   "dependencies": {
-    "@factor/app-extend": "^1.0.0-alpha.27",
-    "@factor/app-fallbacks": "^1.0.0-alpha.27",
+    "@factor/app-extend": "^1.0.0-alpha.28",
+    "@factor/app-fallbacks": "^1.0.0-alpha.28",
     "@factor/app-router": "^1.0.0-alpha.27",
     "@factor/app-settings": "^1.0.0-alpha.27",
     "@factor/app-store": "^1.0.0-alpha.27",
