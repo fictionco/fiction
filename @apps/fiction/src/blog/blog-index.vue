@@ -10,7 +10,7 @@
       </div>
     </section>
     <div class="entries">
-      <component :is="$setting.get('blog.components.returnLink')" v-if="tag || page > 1" />
+      <component :is="$setting.get('blog.components.blogReturnLink')" v-if="tag || page > 1" />
       <div v-if="loading" class="posts-loading">
         <factor-loading-ring />
       </div>
@@ -21,6 +21,7 @@
             v-for="(comp, i) in $setting.get('blog.layout.index')"
             :key="i"
             :post-id="post._id"
+            format="index"
           />
         </div>
       </div>
@@ -40,56 +41,56 @@ export default {
     return {
       postType: "blog",
       loading: false
-    };
+    }
   },
   routeClass() {
-    return ["nav-light"];
+    return ["nav-light"]
   },
   metatags() {
     const title = this.tag
       ? `Tag "${this.tag}"`
-      : this.$setting.get("blog.metatags.index.title");
+      : this.$setting.get("blog.metatags.index.title")
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : this.$setting.get("blog.metatags.index.description");
+      : this.$setting.get("blog.metatags.index.description")
 
     return {
       title,
       description
-    };
+    }
   },
   serverPrefetch() {
-    return this.getPosts();
+    return this.getPosts()
   },
   computed: {
     tag() {
-      return this.$route.params.tag || this.$route.query.tag || "";
+      return this.$route.params.tag || this.$route.query.tag || ""
     },
     index() {
-      return this.$store.val(this.postType) || {};
+      return this.$store.val(this.postType) || {}
     },
     blogPosts() {
-      const { posts = [] } = this.index;
-      return posts;
+      const { posts = [] } = this.index
+      return posts
     },
     page() {
-      return this.$route.query.page || 1;
+      return this.$route.query.page || 1
     }
   },
   watch: {
     $route: {
       handler: function(to) {
-        this.getPosts();
+        this.getPosts()
       }
     }
   },
   mounted() {
-    this.getPosts();
+    this.getPosts()
   },
   methods: {
     async getPosts() {
-      this.loading = true;
+      this.loading = true
 
       const r = await this.$post.getPostIndex({
         postType: this.postType,
@@ -98,12 +99,12 @@ export default {
         sort: "-date",
         page: this.page,
         limit: this.$setting.get("blog.limit")
-      });
+      })
 
-      this.loading = false;
+      this.loading = false
     }
   }
-};
+}
 </script>
 
 <style lang="less">
