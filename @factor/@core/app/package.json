@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.28",
   "main": "index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -13,14 +13,13 @@
     ]
   },
   "dependencies": {
-    "@factor/app-extend": "^1.0.0-alpha.20",
-    "@factor/app-fallbacks": "^1.0.0-alpha.21",
-    "@factor/app-router": "^1.0.0-alpha.20",
-    "@factor/app-settings": "^1.0.0-alpha.21",
-    "@factor/app-store": "^1.0.0-alpha.20",
-    "@factor/cli": "^1.0.0-alpha.20",
-    "@factor/core": "^1.0.0-alpha.21",
+    "@factor/app-extend": "^1.0.0-alpha.28",
+    "@factor/app-fallbacks": "^1.0.0-alpha.28",
+    "@factor/app-router": "^1.0.0-alpha.27",
+    "@factor/app-settings": "^1.0.0-alpha.27",
+    "@factor/app-store": "^1.0.0-alpha.27",
+    "@factor/cli": "^1.0.0-alpha.27",
     "vue": "^2.6.7"
   },
-  "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
+  "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4"
 }

@@ -1,14 +1,10 @@
 # Extending Factor
 
-## Overview
+## Adding Extensions
 
 Factor is an "extension-first" framework. Meaning it is itself a simple core system with first class support for extensibility by plugins and themes. Almost anything in Factor can be customized given the right plugin.
 
-## Adding Extensions
-
-Factor is designed for "drop-in" extension.
-
-To be "up and running" with new plugins and themes, all you do is run `yarn add my-extension`...
+Factor is designed for "drop-in" extension. That means that to be "up and running" with new plugins and themes, all you do is run `yarn add my-extension`...
 
 ```bash
 $ yarn add some-factor-plugin
@@ -16,7 +12,17 @@ $ yarn add some-factor-plugin
 
 When you run Factor, it detects your extensions and loads them for you. Extensions will then use Factor's filter and settings system to install and configure themselves.
 
-## Plugins
+![Adding Extensions](./img/adding-extensions.svg)
+
+## Customize Extensions
+
+Once you've installed a plugin or theme, you'll likely want to customize it. To learn more read the doc:
+
+[customizing things in Factor &rarr;](./customization)
+
+## Create Your Own
+
+### Plugins
 
 > Plugins add new features and functionality.
 
@@ -26,7 +32,7 @@ Can't find the plugin you're looking for? Factor plugins are just NPM modules, s
 
 Learn more about [creating plugins &rarr;](./creating-plugins)
 
-## Themes
+### Themes
 
 > Themes are an opinionated starting point for your app.
 

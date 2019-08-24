@@ -4,10 +4,15 @@
       <div class="mast">
         <div class="intro-inner">
           <div>
-            <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" >
-            <div
-              class="subtitle"
-            >Premium digital experiences and web application development services powered by Factor.</div>
+            <img
+              class="title"
+              :src="require(`./img/factor-vip-logo.svg`)"
+              alt="Factor VIP"
+            />
+            <div class="subtitle">
+              Premium digital experiences and web application development services powered
+              by Factor.
+            </div>
             <div class="actions">
               <a href="#contact">
                 <app-btn path="#contact" btn="primary" size="large">
@@ -19,7 +24,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./img/factor-vip.svg`)" alt="Factor VIP" >
+              <img :src="require(`./img/factor-vip.svg`)" alt="Factor VIP" />
             </figure>
           </div>
         </div>
@@ -33,36 +38,40 @@
           <factor-icon icon="arrow-circle-right" />
           <div>
             <h3 class="box-title">Enterprise Factor Platform</h3>
-            <p
-              class="box-description"
-            >VIP is a fully managed Factor cloud platform for unparalleled scale, security, flexibility, and performance.</p>
+            <p class="box-description">
+              VIP is a fully managed Factor cloud platform for unparalleled scale,
+              security, flexibility, and performance.
+            </p>
           </div>
         </div>
         <div class="box">
           <factor-icon icon="arrow-circle-right" />
           <div>
             <h3 class="box-title">Implementation &amp; Support</h3>
-            <p
-              class="box-description"
-            >End-to-end guidance and hands-on support, from project consideration through launch and every day thereafter.</p>
+            <p class="box-description">
+              End-to-end guidance and hands-on support, from project consideration through
+              launch and every day thereafter.
+            </p>
           </div>
         </div>
         <div class="box">
           <factor-icon icon="arrow-circle-right" />
           <div>
             <h3 class="box-title">Build Your Digital Experiences</h3>
-            <p
-              class="box-description"
-            >Solutions at the ready. Factor powers mission critical enterprise media and marketing systems.</p>
+            <p class="box-description">
+              Solutions at the ready. Factor powers mission critical enterprise media and
+              marketing systems.
+            </p>
           </div>
         </div>
         <div class="box">
           <factor-icon icon="arrow-circle-right" />
           <div>
             <h3 class="box-title">A Complete Solution</h3>
-            <p
-              class="box-description"
-            >Ready models, processes, and plugins to deliver your business goals. Deep, extensible capabilities.</p>
+            <p class="box-description">
+              Ready models, processes, and plugins to deliver your business goals. Deep,
+              extensible capabilities.
+            </p>
           </div>
         </div>
       </div>
@@ -73,22 +82,22 @@
       <div class="mast clients-inner">
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/elasticbyte.svg`)" alt="Elastic Byte" >
+            <img :src="require(`./img/elasticbyte.svg`)" alt="Elastic Byte" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/carbontechpro.svg`)" alt="Carbon Tech Pro" >
+            <img :src="require(`./img/carbontechpro.svg`)" alt="Carbon Tech Pro" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/pagelines.svg`)" alt="PageLines" >
+            <img :src="require(`./img/pagelines.svg`)" alt="PageLines" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/aqualuna.svg`)" alt="AquaLuna" >
+            <img :src="require(`./img/aqualuna.svg`)" alt="AquaLuna" />
           </div>
         </div>
       </div>
@@ -100,7 +109,8 @@
         <h3 class="title">Getting started is easy.</h3>
         <p class="subtitle">
           You can reach out via the form below, or send a message to
-          <app-link path="mailto:contact@fiction.com">contact@fiction.com</app-link>&nbsp;— it’ll get to us either way.
+          <app-link path="mailto:contact@fiction.com">contact@fiction.com</app-link
+          >&nbsp;— it’ll get to us either way.
         </p>
 
         <component :is="$setting.get('contactForm.form')" />
@@ -153,7 +163,7 @@ export default {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
-    max-width: 1200px;
+    max-width: 1040px;
     margin: 0 auto;
   }
 

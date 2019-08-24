@@ -1,13 +1,17 @@
-# Installation
+# Quickstart
 
-## Famous 5-Minute Install
+## Overview
 
-Starting a new Factor app is easy. The goal is to have you up-and-running in **less than 3-minutes**.
+If you're already familiar with the basics of Javascript-driven apps (e.g. Node, NPM, etc...) then starting a new Factor app is straight-forward. The goal with this quickstart is to get you up-and-running in **less than 3-minutes**.
 
-A simple project only needs `@factor/core` referenced as a package.json dependency. This installs Factor CLI as well as some packages. Let's dig in...
+To install Factor, all that is really needed is to run `yarn add @factor/core` which adds Factor as a dependency and installs its packages. Although ideally, you'll want to configure your app according to the conventions used in Factor apps, which is what **create-factor-app** is designed to help you with.
 
-> **Node + Yarn - Global Dependencies** <br/>
-> Factor requires [Node.js](https://nodejs.org/en/) version 10 or above, as well as [Yarn](https://yarnpkg.com/en/) for dependency management.
+![Getting Started](./img/getting-started.svg)
+
+### Before You Start
+
+- Factor requires [Node.js](https://nodejs.org/en/) version 10 or above, as well as [Yarn](https://yarnpkg.com/en/) for dependency management.
+- If you're using Windows you might need to install [standard build tools](https://github.com/felixrieseberg/windows-build-tools) which includes Python, etc.
 
 ## [Using `create-factor-app`](#create-factor-app)
 
@@ -42,4 +46,4 @@ Now your basic starter application should be running at [`localhost:3000`](local
 
 **Keep up the good work!**
 
-Now that you have Factor running on your local server, the next step is to [setup your dashboard &rarr;](./dashboard-setup)
+Now that you have Factor running locally, the next step is to [setup your dashboard &rarr;](./dashboard-setup)

@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-blog",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-alpha.28",
   "license": "GPL-2.0",
   "factor": {
     "target": [
@@ -9,10 +9,11 @@
     ]
   },
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.0.0-alpha.20"
+    "@factor/core": "^1.0.0-alpha.28",
+    "@factor/plugin-highlight-code": "^1.0.0-alpha.27"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+  "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4"
 }

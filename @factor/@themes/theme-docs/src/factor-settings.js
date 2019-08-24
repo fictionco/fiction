@@ -66,7 +66,7 @@ export default Factor => {
 
       headline: "Factor Docs Theme",
       subHeadline: "A markdown based documentation theme for Factor",
-      graphic: require("./img/cms-engine.png"),
+
       boxes: [
         {
           icon: require("./img/icon-post.svg"),

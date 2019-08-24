@@ -20,8 +20,13 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: true
     }
+  },
+  async mounted() {
+    console.log("load")
+    await this.$user.init()
+    this.loading = false
   },
   metatags() {
     return {

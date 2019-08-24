@@ -11,9 +11,9 @@
         <!-- <div class="search">Search</div> -->
       </div>
       <transition name="fade">
-        <div v-if="toggle" class="overlay" :class="{open: toggle}" />
+        <div v-if="toggle" class="overlay" :class="{ open: toggle }" />
       </transition>
-      <div class="nav" :class="{open: toggle}">
+      <div class="nav" :class="{ open: toggle }">
         <factor-link class="mobile-logo" path="/">
           <site-logo />
         </factor-link>
@@ -45,7 +45,7 @@ export default {
         this.toggle = false
 
         document.removeEventListener("click", this.clickHandler)
-      };
+      }
 
       if (this.toggle) {
         document.addEventListener("click", this.clickHandler)
@@ -58,9 +58,8 @@ export default {
 </script>
 <style lang="less">
 .site-head {
-  padding: 0 1.5em;
+  padding: 1em 1.5em;
   //box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
-  //background: #fff;
   position: relative;
   z-index: 11;
   @media (max-width: 767px) {
@@ -69,6 +68,16 @@ export default {
 }
 
 .site-head-pad {
+  max-width: var(--max-width);
+  padding: 0 2em;
+  margin: 0 auto;
+  width: 100%;
+
+  height: 45px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
   .fade-enter-active,
   .fade-leave-active {
     transition: opacity 0.5s;
@@ -76,10 +85,6 @@ export default {
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
   }
-  height: 45px;
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
   .mobile-logo {
     display: none;
   }

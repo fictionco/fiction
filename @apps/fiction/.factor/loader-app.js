@@ -2,7 +2,6 @@
 const files = {}
 files["setting"] = require("@factor/app-settings").default
 files["mongo"] = require("@factor/tools-mongo").default
-files["http"] = require("@factor/tools-http").default
 files["blog"] = require("@factor/plugin-blog").default
 files["componentsForm"] = require("@factor/ui-components-form").default
 files["contactForm"] = require("@factor/plugin-contact-form").default
@@ -14,7 +13,9 @@ files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["email"] = require("@factor/core-email").default
 files["endpoint"] = require("@factor/core-endpoint").default
 files["error"] = require("@factor/core-error").default
+files["googleTagManager"] = require("@factor/plugin-google-tag-manager").default
 files["highlightCode"] = require("@factor/plugin-highlight-code").default
+files["http"] = require("@factor/tools-http").default
 files["app"] = require("@factor/app").default
 files["jobs"] = require("@factor/plugin-jobs").default
 files["markdown"] = require("@factor/tools-markdown").default

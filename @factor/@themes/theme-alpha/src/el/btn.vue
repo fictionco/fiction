@@ -16,7 +16,7 @@ button.app-btn {
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
-  color: var(--color-text);
+  color: var(--color-text, #303030);
 
   &:focus {
     outline: none;
@@ -28,7 +28,7 @@ button.app-btn {
 
   &.tiny {
     font-size: 11px;
-    padding: 2px 4px;
+    padding: 4px 6px;
     font-weight: 500;
   }
   &.small {
@@ -45,18 +45,18 @@ button.app-btn {
   }
 
   &.default {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     background: var(--color-white);
     box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
       0 2px 10px rgba(71, 86, 144, 0.2);
     &:hover {
-      color: var(--color-primary-sub);
+      background: var(--color-tertiary, #9afecb);
     }
   }
 
   &.primary {
     color: var(--color-white);
-    background: var(--color-primary);
+    background: var(--color-primary, #1a49bd);
     box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.3);
     transition: all 0.2s ease-in-out;
 
@@ -71,7 +71,7 @@ button.app-btn {
   }
 
   &.tertiary {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     background: var(--color-tertiary);
   }
 }

@@ -1,30 +1,35 @@
 <template>
-  <div class="sidebar-container">
-    <div class="sidebar-title-container">
-      <h1 class="sidebar-title">{{ $setting.get('sidebar.sidebarHeadline') }}</h1>
-    </div>
-    <div class="sidebar-buttons-container">
-      <div
-        v-for="(ele, i) in $setting.get('sidebar.sidebarOptions')"
-        :key="i"
-        class="sidebar-button"
-      >
-        <a
-          class="btn-sidebar"
-          :class="[ele.target, {'btn-sidebar-selected' : selected === ele.path}]"
-          @click="sidebarPath(ele.path)"
+  <transition name="fade">
+    <div v-if="!_props.mobile || _props.showSidebar" class="sidebar-container">
+      <div class="sidebar-title-container">
+        <h1
+          :class="!_props.mobile ? 'sidebar-title' : 'sidebar-title-mobile'"
+        >{{ $setting.get('sidebar.sidebarHeadline') }}</h1>
+      </div>
+      <div class="sidebar-buttons-container">
+        <div
+          v-for="(ele, i) in $setting.get('sidebar.sidebarOptions')"
+          :key="i"
+          :class="!_props.mobile ? 'sidebar-button' : 'sidebar-button-mobile'"
         >
-          {{ ele.text }}
-          <span :class="{'btn-sidebar-line-selected' : selected === ele.path}" />
-        </a>
+          <a
+            class="btn-sidebar"
+            :class="[ele.target, {'btn-sidebar-selected' : selected === ele.path}]"
+            @click="sidebarPath(ele.path)"
+          >
+            {{ ele.text }}
+            <span :class="{'btn-sidebar-line-selected' : selected === ele.path}" />
+          </a>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 /* eslint-disable */
 export default {
+  props: ["mobile", "show-sidebar"],
   data() {
     return {
       loading: true,
@@ -62,6 +67,13 @@ export default {
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .sidebar-container {
   position: fixed;
   font-family: Work Sans;
@@ -75,6 +87,10 @@ export default {
 .sidebar-title-container {
   width: 100%;
   text-align: center;
+}
+.sidebar-title-mobile {
+  font-size: 3em;
+  margin-left: 50px;
 }
 .sidebar-title {
   font-size: 3em;
@@ -90,6 +106,12 @@ export default {
   display: flex;
   height: 20px;
   margin-left: 32%;
+}
+.sidebar-button-mobile {
+  width: 100%;
+  display: flex;
+  height: 20px;
+  margin-left: 40px;
 }
 .btn-sidebar-selected {
   color: #f7f7f7 !important;

@@ -37,7 +37,7 @@ export default {}
     display: inline-block;
   }
   .legal {
-    line-height: 1.3;
+    line-height: 1.8;
   }
   .license {
     font-weight: var(--font-weight-bold);

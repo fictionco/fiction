@@ -1,38 +1,31 @@
 <template>
   <article class="entry" :class="formatClass">
-    <section v-if="format == 'single'" class="hero">
+    <div v-if="format == 'index'" class="entry-text">
+      <h1 class="title">
+        <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+      </h1>
+    </div>
+    <section v-else-if="format == 'single'" class="hero">
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <app-link class="back" path="/work">
+            <app-link class="back" :path="$setting.get('work.indexRoute')">
               <factor-icon icon="arrow-left" />All
             </app-link>
-            <h1 class="title">
+            <h1 class="heading">
               <app-link :path="path">{{ title }}</app-link>
             </h1>
-            <el-tags class="tags" :tags="tags" />
           </div>
         </div>
       </div>
     </section>
 
-    <app-link v-if="format == 'listing'" :path="path">
-      <div class="img-wrap" :style="{'background-image': 'url(' + images + ')' }" />
-    </app-link>
-
-    <div class="entry-wrap">
-      <div v-if="format == 'listing'" class="entry-text">
-        <h1 class="title">
-          <app-link :path="path">{{ title }}</app-link>
-        </h1>
-        <el-tags class="tags" :tags="tags" />
-      </div>
-
-      <div v-if="format == 'single'" class="entry-text">
-        <div class="mast">
-          <div class="content">
-            <slot />
-          </div>
+    <div v-if="format == 'single'" class="entry-text">
+      <div class="mast">
+        <div class="content">
+          <highlight-code>
+            <div v-formatted-text="rendered" />
+          </highlight-code>
         </div>
       </div>
     </div>
@@ -41,25 +34,36 @@
 <script>
 export default {
   components: {
-    "el-tags": () => import("./tags")
+    "highlight-code": () =>
+      import("@factor/plugin-highlight-code/highlight-code")
   },
+  // components: {
+  //   "el-tags": () => import("./tags")
+  // },
   props: {
     format: { type: String, default: "" },
-    images: { type: String, default: "" },
     authors: { type: Array, default: () => [] },
     title: { type: String, default: "" },
     content: { type: String, default: "" },
     date: { type: [String, Number], default: "" },
     path: { type: String, default: "" },
-    tags: { type: Array, default: () => [] },
+    //tags: { type: Array, default: () => [] },
     postId: { type: String, default: "" },
     loading: { type: Boolean, default: false }
   },
   computed: {
+    post() {
+      return this.$store.val(this.postId) || {}
+    },
     formatClass() {
       const f = this.format ? this.format : "single"
 
       return `format-${f}`
+    },
+    rendered() {
+      return this.$markdown.render(this.post.content, {
+        variables: true
+      })
     }
   },
   methods: {}
@@ -67,14 +71,18 @@ export default {
 </script>
 <style lang="less">
 .entry {
-  a {
-    transition: all 0.2s ease-in-out;
-  }
-
   // Single Post
   &.format-single {
     .hero {
       position: relative;
+      overflow: hidden;
+
+      .mast {
+        padding: 0 2em;
+        line-height: 1.2;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
       &:before {
         content: "";
         display: block;
@@ -82,9 +90,9 @@ export default {
         width: 70%;
         height: 100%;
         top: 0;
-        right: 0;
+        right: auto;
         bottom: 0;
-        background-color: var(--color-bg-alt);
+        background-color: var(--color-bg-alt, #f3f5fb);
         @media (max-width: 1024px) {
           width: 100%;
         }
@@ -92,33 +100,52 @@ export default {
 
       .hero-inner {
         position: relative;
-        padding: 3em 0;
-        max-width: 650px;
-        a {
-          color: inherit;
-          &:hover,
-          &:active {
-            color: var(--color-primary);
-          }
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-gap: 60px;
+        align-items: center;
+        padding: 5em 0;
+        @media (max-width: 1024px) {
+          grid-template-columns: 1fr;
         }
-        .back {
+        @media (max-width: 767px) {
+          padding: 4em 0;
+        }
+        .title {
           font-size: 1.1em;
           text-transform: uppercase;
         }
-        .title {
-          font-weight: 600;
+        .heading {
+          font-weight: var(--font-weight-bold, 800);
           font-size: 3em;
           letter-spacing: -0.03em;
-          margin: 0.5em 0;
+          margin: 0.3em 0;
           @media (max-width: 767px) {
             font-size: 2em;
           }
+          a:hover {
+            text-decoration: underline;
+            text-decoration-color: var(--color-tertiary);
+          }
         }
-        // .tags {
-        //   opacity: 0.5;
-        //   font-size: 1.2em;
-        //   line-height: 1.6em;
-        // }
+        .content {
+          font-size: 1.2em;
+          line-height: 1.6em;
+          opacity: 0.5;
+        }
+        .hero-image {
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          height: 450px;
+          max-width: 300px;
+          box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
+          border-top-left-radius: 40px;
+          @media (max-width: 767px) {
+            margin: 0 auto;
+            max-width: 100%;
+          }
+        }
       }
     }
     .entry-text {
@@ -142,7 +169,7 @@ export default {
   }
 
   // Listing Post
-  &.format-listing {
+  &.format-index {
     text-align: center;
 
     .img-wrap {
@@ -158,9 +185,9 @@ export default {
       }
     }
     .title {
-      font-weight: 600;
-      font-size: 2em;
-      line-height: 1.1;
+      font-weight: var(--font-weight-bold, 800);
+      font-size: 1.8em;
+      line-height: 1.2;
       margin-bottom: 0.2em;
     }
     .category {

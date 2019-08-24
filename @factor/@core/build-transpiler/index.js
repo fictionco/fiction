@@ -20,8 +20,12 @@ module.exports.default = Factor => {
         ignore: [
           // **not** compiled if `true` is returned.
           function(filepath) {
-            const modulePath = filepath.includes("node_modules") ? filepath.split("node_modules").pop() : filepath
-            return modulePath.includes("@factor") ? false : true
+            const modulePath = filepath.includes("node_modules")
+              ? filepath.split("node_modules").pop()
+              : filepath
+            return modulePath.includes("@factor") || !filepath.includes("node_modules")
+              ? false
+              : true
           }
         ],
         plugins,

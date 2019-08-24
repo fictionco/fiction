@@ -21,7 +21,7 @@
       <div class="mast boxes-inner">
         <div v-for="(box, i) in post.boxes" :key="i" class="box">
           <div v-if="box.icon" class="box-icon">
-            <img :src="box.icon[0].url" >
+            <img :src="box.icon[0].url" />
           </div>
           <h2 class="box-title">{{ box.heading }}</h2>
           <p class="box-description">{{ box.description }}</p>
@@ -35,11 +35,11 @@
         <div v-for="(brand, i) in post.brands" :key="i" class="brand">
           <div v-if="brand.link" class="brand-image">
             <factor-link :path="brand.link" target="_blank">
-              <img :src="brand.image[0].url" >
+              <img :src="brand.image[0].url" />
             </factor-link>
           </div>
           <div v-else class="brand-image">
-            <img :src="brand.image[0].url" >
+            <img :src="brand.image[0].url" />
           </div>
         </div>
       </div>
@@ -167,12 +167,12 @@ export default {
   }
 
   .factor-btn.default {
-    color: var(--color-primary);
+    color: var(--color-primary, #1a49bd);
     letter-spacing: -0.03em;
   }
   // feature
   .feature {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary, #1a49bd);
     color: var(--color-white);
     position: relative;
 
@@ -284,7 +284,7 @@ export default {
   }
 
   .brands {
-    background: var(--color-bg-alt);
+    background: var(--color-bg-alt, #f3f5fb);
     padding: 3em 0;
     .title {
       font-weight: 600;

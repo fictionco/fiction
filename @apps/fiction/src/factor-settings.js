@@ -8,21 +8,24 @@ module.exports.default = Factor => {
       }
     },
     blog: {
+      indexRoute: "/blog",
+      postRoute: "/entry",
+      limit: 6,
+      returnLinkText: "Back",
       components: {
-        blogFeaturedImage: () => import("./blog/featured-image.vue"),
-        blogHeaders: () => import("./blog/headers.vue"),
-        blogSingleHeaders: () => import("./blog/single-headers.vue"),
-        returnLink: () => import("./blog/return-link.vue"),
-        blogExcerpt: () => import("./blog/excerpt.vue"),
-        blogMeta: () => import("./blog/meta.vue"),
-        blogSingle: () => import("./blog/single.vue"),
-        blogIndex: () => import("./blog/index.vue"),
-        blogContent: () => import("./blog/wrap.vue")
+        blogWrap: () => import("./blog/blog-wrap.vue"),
+        blogIndex: () => import("./blog/blog-index.vue"),
+        blogSingle: () => import("./blog/blog-single.vue"),
+        blogFeaturedImage: () => import("./blog/el-featured-image.vue"),
+        blogHeaders: () => import("./blog/el-headers.vue"),
+        blogReturnLink: () => import("./blog/el-return-link.vue"),
+        blogExcerpt: () => import("./blog/el-excerpt.vue"),
+        blogMeta: () => import("./blog/el-meta.vue")
       },
       layout: {
         index: ["blogFeaturedImage", "blogHeaders", "blogExcerpt", "blogMeta"],
         single: [
-          "blogSingleHeaders",
+          "blogHeaders",
           "blogFeaturedImage",
           "blogMeta",
           "entry",

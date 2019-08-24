@@ -237,6 +237,8 @@ export default {
         newAccount: this.newAccount
       })
 
+      console.log("done auth", user)
+
       if (user) {
         // this.$user.setUser({ user, current: true })
         this.done(user)

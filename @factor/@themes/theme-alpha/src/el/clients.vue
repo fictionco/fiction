@@ -5,11 +5,11 @@
       <div v-for="(client, i) in $setting.get('site.clients')" :key="i" class="clients">
         <div v-if="client.path" class="client-image">
           <app-link :path="client.path" target="_blank">
-            <img :src="client.icon" :alt="client.text" >
+            <img :src="client.icon" :alt="client.text" />
           </app-link>
         </div>
         <div v-else class="client-image">
-          <img :src="client.icon" :alt="client.text" >
+          <img :src="client.icon" :alt="client.text" />
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@ export default {
 
 <style lang="less">
 .clients {
-  background: var(--color-bg-alt);
+  background: var(--color-bg-alt, #f3f5fb);
   padding: 3em 0;
   .title {
     font-weight: 600;

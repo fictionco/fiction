@@ -57,10 +57,10 @@ module.exports.default = Factor => {
             meta: { background: "#f7f9ff", auth: true }
           },
           {
-            path: "/sigma",
-            component: () => import("./view-sigma/page-sigma"),
-            meta: { background: "#e6ebf1" }
+            path: "/home",
+            component: () => import("./view-home-2/v-home")
           }
+
           // {
           //   path: "/how-it-works",
           //   component: () => import("./page-how-it-works"),

@@ -4,6 +4,14 @@ module.exports.default = Factor => {
       Factor.$filters.callback("endpoints", { id: "posts", handler: this })
     }
 
+    canUpdatePost({ post, bearer }) {
+      if (bearer.accessLevel >= 300 || post.author.includes(bearer._id)) {
+        return true
+      } else {
+        throw new Error("Insufficient permissions.")
+      }
+    }
+
     getPostTypeModel(postType) {
       return Factor.$dbServer.model(postType)
     }
@@ -11,20 +19,20 @@ module.exports.default = Factor => {
     async save({ data, postType = "post" }, { bearer }) {
       const { _id } = data
 
-      let _post
+      let post
       let PostTypeModel = this.getPostTypeModel(postType)
 
       if (_id) {
-        _post = await PostTypeModel.findById(data._id)
+        post = await PostTypeModel.findById(data._id)
       }
 
-      if (!_id || !_post) {
-        _post = new PostTypeModel()
+      if (!_id || !post) {
+        post = new PostTypeModel()
       }
 
-      Object.assign(_post, data)
+      Object.assign(post, data)
 
-      return await _post.save()
+      return this.canUpdatePost({ post, bearer }) ? await post.save() : null
     }
 
     async single(params, meta = {}) {
@@ -78,16 +86,47 @@ module.exports.default = Factor => {
       return _post
     }
 
-    async updateManyById({ _ids, postType = "post", data }) {
+    isAuthor(bearer) {
+      return bearer.accessLevel >= 300 ? {} : { author: bearer._id }
+    }
+
+    async updateManyById({ _ids, postType = "post", data }, { bearer }) {
       return await this.getPostTypeModel(postType).update(
-        { _id: { $in: _ids } },
+        { $and: [...this.isAuthor(bearer), { _id: { $in: _ids } }] },
         { $set: data },
         { multi: true }
       )
     }
 
-    async deleteManyById({ _ids, postType = "post" }) {
-      return await this.getPostTypeModel(postType).remove({ _id: { $in: _ids } })
+    async deleteManyById({ _ids, postType = "post" }, { bearer }) {
+      return await this.getPostTypeModel(postType).remove({
+        $and: [...this.isAuthor(bearer), { _id: { $in: _ids } }]
+      })
+    }
+
+    // async checkPriveliges({ _ids, bearer }) {
+    //   let canEdit = false
+
+    //   if (bearer.accessLevel > 300) {
+    //     canEdit = true
+    //   } else if (bearer._id) {
+    //     const posts = await this.populate({ _ids })
+
+    //     canEdit = posts.every(post => post.author.includes(bearer._id))
+    //   }
+
+    //   if (!canEdit) {
+    //     throw new Error("Insufficient permissions.")
+    //   }
+    // }
+
+    async populate({ _ids }) {
+      const _in = Array.isArray(_ids) ? _ids : [_ids]
+      const result = await this.model("post").find({
+        _id: { $in: _in }
+      })
+
+      return Array.isArray(_ids) ? result : result[0]
     }
 
     async postList(params, { bearer }) {

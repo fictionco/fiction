@@ -8,14 +8,10 @@ module.exports.default = Factor => {
       require("./setup").default(Factor)
 
       if (!this.DB_CONNECTION) {
-        Factor.$filters.add("setup-needed", _ => {
-          const item = {
-            title: "DB Connection",
-            value: "Needed for auth, users, posts, dashboard, etc...",
-            location: ".env / DB_CONNECTION"
-          }
-
-          return [..._, item]
+        Factor.$filters.push("setup-needed", {
+          title: "DB Connection",
+          value: "Needed for auth, users, posts, dashboard, etc...",
+          location: ".env / DB_CONNECTION"
         })
 
         return

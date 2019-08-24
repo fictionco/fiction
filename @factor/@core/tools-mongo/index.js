@@ -10,9 +10,11 @@ export default Factor => {
     }
 
     init() {
-      this.schemas = Factor.$filters.apply("data-schemas", [
-        require("@factor/post/schema").default(Factor)
-      ])
+      this.schemas = Factor.$filters
+        .apply("data-schemas", [require("@factor/post/schema").default(Factor)])
+        .map(schema => {
+          return typeof schema == "function" ? schema() : schema
+        })
     }
 
     configureMongoose() {

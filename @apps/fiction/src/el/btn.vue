@@ -11,12 +11,17 @@ export default {
 
 <style lang="less">
 button.app-btn {
-  padding: 0.6em 1.2em;
-  font-size: 0.9em;
+  padding: 0.7em 1.4em;
+
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
   color: var(--color-text);
+  transition: all 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
 
   &:focus {
     outline: none;
@@ -62,6 +67,7 @@ button.app-btn {
     transition: all 0.2s ease-in-out;
 
     &:hover {
+      background: #0072c3; //#66bfff;
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
@@ -69,6 +75,13 @@ button.app-btn {
   &.secondary {
     color: var(--color-light);
     background: var(--color-secondary);
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      background: #da0066; //#ff66ad;
+      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
+        0 3px 6px rgba(0, 0, 0, 0.08);
+    }
   }
 
   &.tertiary {
@@ -83,6 +96,10 @@ button.app-btn {
       background: var(--color-light);
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
+  }
+
+  & + .app-btn {
+    margin-left: 1em;
   }
 }
 </style>

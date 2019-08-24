@@ -11,12 +11,36 @@ export default Factor => {
         }
       })
 
-      // Factor.$filters.add("data-schemas", _ => {
-      //   _.user = require("./schema").default(Factor)
-      //   return _
-      // })
+      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+        key: "user"
+      })
+    }
 
-      Factor.$filters.push("data-schemas", require("./schema").default(Factor))
+    // Utility function that calls a callback when the user is set initially
+    // If due to route change then initialized var is set and its called immediately
+    async init(callback) {
+      const user = await this._initializedUser
+
+      if (callback) callback(user)
+
+      return user
+    }
+
+    async initializeUser(user) {
+      this._initializedUser = new Promise(async (resolve, reject) => {
+        if (this.currentUser()._id && !user) {
+          user = this.currentUser()
+        } else {
+          await Factor.$app.client()
+          user = await this.retrieveAndSetCurrentUser(user)
+        }
+
+        await Factor.$filters.run("before-user-init", user)
+
+        resolve(user)
+      })
+
+      return this._initializedUser
     }
 
     mixin() {
@@ -69,21 +93,6 @@ export default Factor => {
       return await this.request("verifyEmail", { email })
     }
 
-    async initializeUser(user) {
-      this._initializedUser = new Promise(async (resolve, reject) => {
-        if (this.currentUser()._id && !user) {
-          resolve(this.currentUser())
-        } else {
-          await Factor.$app.client()
-
-          user = await this.retrieveAndSetCurrentUser(user)
-          resolve(user)
-        }
-      })
-
-      return this._initializedUser
-    }
-
     async retrieveAndSetCurrentUser(user) {
       const token = user && user.token ? user.token : this.token() ? this.token() : null
 
@@ -101,16 +110,6 @@ export default Factor => {
           this.setUser({ user: null, current: true })
         }
       }
-    }
-
-    // Utility function that calls a callback when the user is set initially
-    // If due to route change then initialized var is set and its called immediately
-    async init(callback) {
-      const user = await this._initializedUser
-
-      if (callback) callback(user)
-
-      return user
     }
 
     isCurrentUser(_id) {
@@ -211,19 +210,16 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.add("client-route-after", (_, { to, from }) => {
-        const auth = to.matched.some(_r => {
-          return _r.meta.auth
-        })
+      Factor.$filters.callback("before-user-init", user => {
+        const { path, matched } = Factor.$router.currentRoute
+        const auth = matched.some(_r => _r.meta.auth)
 
-        this.init(user => {
-          if (auth === true && (!user || !user._id)) {
-            Factor.$router.push({
-              path: "/signin",
-              query: { redirect: to.path, from: from.path }
-            })
-          }
-        })
+        if (auth === true && (!user || !user._id)) {
+          Factor.$router.push({
+            path: "/signin",
+            query: { redirect: path }
+          })
+        }
       })
     }
   })()

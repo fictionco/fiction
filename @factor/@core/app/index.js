@@ -11,12 +11,34 @@ module.exports.default = Factor => {
 
     siteMixin() {
       return {
+        data() {
+          return {
+            scrollClass: "top"
+          }
+        },
+        mounted() {
+          this.setScrollClass()
+          window.addEventListener("scroll", () => {
+            this.setScrollClass()
+          })
+        },
         computed: {
           ui() {
             const { meta: { ui = "app" } = {} } =
               this.$route.matched.find(_ => _.meta.ui) || {}
 
             return `factor-${ui}`
+          },
+          classes() {
+            const metaClass = this.$route.meta.routeClass || []
+            const siteClasses = this.$globals.routeClass || []
+
+            return [...metaClass, , ...siteClasses, this.scrollClass]
+          }
+        },
+        methods: {
+          setScrollClass() {
+            this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
           }
         },
         watch: {
