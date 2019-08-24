@@ -7,10 +7,17 @@
       <Sidebar />
     </div>
     <div v-else class="home-sidebar-container">
-      <div :class="showSidebar ? 'home-sidebar-mobile' : 'home-sidebar-arrows'">
-        <Sidebar :mobile="mobile" :show-sidebar="showSidebar" class="sidebar-component" />
+      <div
+        :class="[showSidebar ? 'home-sidebar-mobile' : 'home-sidebar-arrows', (orientationH && showSidebar) ? 'home-sidebar-horizontal' : '']"
+      >
+        <Sidebar
+          :mobile="mobile"
+          :orientation-h="orientationH"
+          :show-sidebar="showSidebar"
+          class="sidebar-component"
+        />
         <img
-          :class="showSidebar ? 'arrows-to-right' : 'arrows-icon'"
+          :class="[showSidebar ? 'arrows-to-right' : 'arrows-icon', (orientationH && showSidebar) ? 'arrows-horizontal' : '']"
           src="./img/arrows.svg"
           alt="arrows"
           @click="toggleSidebar()"
@@ -18,7 +25,7 @@
       </div>
     </div>
     <div class="content-main">
-      <PageHome :mobile="mobile" />
+      <PageHome :mobile="mobile" :orientation-h="orientationH" />
       <PageAbout />
       <PageServices />
       <PagePortfolio />
@@ -48,12 +55,23 @@ export default {
   data() {
     return {
       mobile: null,
+      orientationH: false,
       showSidebar: false
     }
   },
   computed: {},
   mounted() {
     this.mobile = navigator.userAgent.match(/Android|iPhone|iPad/g)
+    if (window.orientation === 90 || window.orientation === -90) {
+      this.orientationH = true
+    }
+    window.addEventListener("orientationchange", () => {
+      if (window.orientation === 90 || window.orientation === -90) {
+        this.orientationH = true
+      } else {
+        this.orientationH = false
+      }
+    })
   },
   methods: {
     toggleSidebar() {
@@ -104,6 +122,9 @@ export default {
   -webkit-transition: 0.8s; /* For Safari 3.1 to 6.0 */
   transition: 0.8s;
 }
+.home-sidebar-horizontal {
+  width: 39vw;
+}
 .arrows-icon {
   width: 30px;
   height: 30px;
@@ -119,6 +140,9 @@ export default {
   z-index: 5;
   -webkit-transition: 0.8s; /* For Safari 3.1 to 6.0 */
   transition: 0.8s;
+}
+.arrows-horizontal {
+  margin-left: 35vw;
 }
 .content-main {
   height: 100%;
