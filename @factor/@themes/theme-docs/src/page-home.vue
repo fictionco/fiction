@@ -53,18 +53,17 @@ export default {
 <style lang="less">
 .home {
   padding-top: 45px;
-  .mast {
+  .splash.mast {
     position: relative;
     line-height: 1.2;
     margin: 0 auto;
-
-    max-width: var(--max-width);
-
+    text-align: center;
+    max-width: 700px;
   }
 
   .splash-wrap {
     position: relative;
-    padding: 10em 1em;
+    padding: 8em 1em;
     background-color: #fff;
     background-repeat: no-repeat;
     background-size: auto 110%;
