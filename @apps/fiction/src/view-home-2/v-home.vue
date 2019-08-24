@@ -1,12 +1,12 @@
 <template>
   <div class="view-home-version-2">
     <div class="header-wrapper">
-      <section class="header">
-        <div class="mast">
+      <section class="header content">
+        <div class="content-pad">
           <div class="header-layout">
             <div class="header-content">
               <div class="header-tag">
-                <div class="header-icon-text">Front-End Development Software</div>
+                <div class="header-icon-text">For Front-End Professionals</div>
               </div>
 
               <h1 class="header-title">Ship the world's next great web and eCommerce apps</h1>
@@ -28,9 +28,37 @@
       </section>
     </div>
 
-    <section-benefits />
+    <div class="benefits content">
+      <div class="content-pad">
+        <div v-for="(benefit, index) in benefits" :key="index" class="benefit">
+          <figure class="benefit-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+              <g fill="none" fill-rule="evenodd">
+                <path
+                  fill="#ff0076"
+                  fill-rule="nonzero"
+                  d="M46 33.44v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98zm0-10v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98zm0-10v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98z"
+                />
+                <path
+                  fill="#ff0076"
+                  fill-rule="nonzero"
+                  d="M46 3.44v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98z"
+                />
+              </g>
+            </svg>
+          </figure>
 
-    <section-customers />
+          <h3 class="title">{{ benefit.title }}</h3>
+
+          <p class="text">{{ benefit.text }}</p>
+          <div class="action">
+            <a href="#">Go &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <section-customers /> -->
 
     <section-features />
 
@@ -56,7 +84,24 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      benefits: [
+        {
+          title: "Front-End Focused",
+          text: `Fiction focuses solely on the needs of front-end professionals. 
+            We don't bloat your apps with unecessary features, and we help you build apps the way you actually want to.`
+        },
+        {
+          title: "Coding, Just the Fun Parts",
+          text: `The best apps are handcrafted with custom CSS and components. 
+              Fiction helps you code where its fun and creative; but takes away the pitfalls, bugs and quirks common in JS apps.`
+        },
+        {
+          title: "Professional Support",
+          text:
+            "Build your app along with with people that know design and can answer advanced coding questions. Fiction provides only top-tier support run by expert designers and application devs. "
+        }
+      ]
     }
   },
   metatags() {
@@ -70,6 +115,48 @@ export default {
 </script>
 <style lang="less">
 .view-home-version-2 {
+  .content-pad {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2em;
+    width: 100%;
+  }
+
+  // Header
+  .header-wrapper {
+    max-width: 100vw;
+    overflow: visible;
+    .header {
+      position: relative;
+      z-index: 0;
+      padding: 70px 0 6rem;
+
+      @media (max-width: 767px) {
+        padding: 115px 0 60px;
+      }
+      @media (min-width: 670px) {
+        padding-bottom: 10rem;
+        margin-bottom: 6vw;
+      }
+      .header-content {
+        flex: 1;
+        min-width: 520px;
+        margin: 0 60px 0 0;
+
+        @media (max-width: 767px) {
+          min-width: 320px;
+          margin: 0 0 40px;
+        }
+      }
+      .header-layout {
+        display: flex;
+        flex-direction: row;
+        @media (max-width: 767px) {
+          flex-direction: column;
+        }
+      }
+    }
+  }
   .header-title {
     font-size: 3.5em;
     line-height: 1.2;
@@ -126,13 +213,29 @@ export default {
     }
   }
 
-  .mast {
-    // max-width: 1040px;
-    max-width: var(--max-width);
-    margin: 0 auto;
-    //padding: 0 1.27em;
-    padding: 0 2em;
-    width: 100%;
+  // BENEFITS
+
+  .benefits {
+    .content-pad {
+      display: grid;
+      grid-template-rows: repeat(3, auto);
+      grid-gap: 2em 0;
+      @media (min-width: 670px) {
+        grid-gap: 0 2em;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(1, 1fr);
+      }
+
+      .benefit {
+        .title {
+          font-size: 1.3em;
+        }
+        .text {
+          opacity: 0.7;
+          margin: 1rem 0;
+        }
+      }
+    }
   }
 
   .common-uppercase-text {
@@ -221,109 +324,106 @@ export default {
 
   // Header
   .header-wrapper {
-    max-width: 100vw;
-    overflow: visible;
+    // .header-layout {
+    //   display: flex;
+    //   flex-direction: row;
+    //   @media (max-width: 767px) {
+    //     flex-direction: column;
+    //   }
+    // }
 
-    .header-layout {
-      display: flex;
-      flex-direction: row;
-      @media (max-width: 767px) {
-        flex-direction: column;
-      }
-    }
+    // .header {
+    //   position: relative;
+    //   z-index: 0;
+    //   padding: 70px 0 130px;
 
-    .header {
-      position: relative;
-      z-index: 0;
-      padding: 70px 0 130px;
+    //   @media (max-width: 767px) {
+    //     padding: 115px 0 60px;
+    //   }
+    //   @media (min-width: 670px) {
+    //     padding-bottom: 250px;
+    //     margin-bottom: 6vw;
+    //   }
 
-      @media (max-width: 767px) {
-        padding: 115px 0 60px;
-      }
-      @media (min-width: 670px) {
-        padding-bottom: 250px;
-        margin-bottom: 6vw;
-      }
+    //   .header-content {
+    //     flex: 1;
+    //     min-width: 520px;
+    //     margin: 0 60px 0 0;
 
-      .header-content {
-        flex: 1;
-        min-width: 520px;
-        margin: 0 60px 0 0;
+    //     @media (max-width: 767px) {
+    //       min-width: 320px;
+    //       margin: 0 0 40px;
+    //     }
 
-        @media (max-width: 767px) {
-          min-width: 320px;
-          margin: 0 0 40px;
-        }
+    //     .header-ctas {
+    //       display: flex;
+    //       flex-wrap: wrap;
+    //       justify-content: flex-start;
+    //       margin: 35px 0 0;
+    //       li {
+    //         margin: 0 16px 16px 0;
+    //         position: relative;
+    //         display: flex;
+    //         flex-direction: column;
+    //       }
+    //     }
+    //   }
 
-        .header-ctas {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: flex-start;
-          margin: 35px 0 0;
-          li {
-            margin: 0 16px 16px 0;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-          }
-        }
-      }
+    // .header-graphic {
+    //   flex: 1;
+    //   display: flex;
+    //   align-items: center;
+    //   justify-content: center;
+    //   perspective: 1500px;
+    //   transform: none;
+    //   margin-top: 0;
 
-      .header-graphic {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        perspective: 1500px;
-        transform: none;
-        margin-top: 0;
+    //   @media (max-width: 767px) {
+    //     transform: scale(0.7);
+    //   }
 
-        @media (max-width: 767px) {
-          transform: scale(0.7);
-        }
+    //   .illustration {
+    //     position: relative;
+    //     margin: 0;
+    //     padding: 0;
+    //     .register {
+    //       border-radius: 8px;
+    //       transform: rotate3d(0.5, -0.866, 0, 15deg);
+    //       box-shadow: 27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
+    //         16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
+    //       transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    //       transition-delay: 0.3s;
+    //       will-change: transform;
 
-        .illustration {
-          position: relative;
-          margin: 0;
-          padding: 0;
-          .register {
-            border-radius: 8px;
-            transform: rotate3d(0.5, -0.866, 0, 15deg);
-            box-shadow: 27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
-              16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            transition-delay: 0.3s;
-            will-change: transform;
-
-            svg {
-              width: 700px;
-              vertical-align: top;
-              border-radius: 8px;
-            }
-          }
-          .reader {
-            position: absolute;
-            top: -48px;
-            left: 48px;
-            perspective: 1500px;
-            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            will-change: transform;
-            &:before {
-              content: "";
-              position: absolute;
-              top: 0;
-              bottom: 8px;
-              left: 1px;
-              right: -2px;
-              border-radius: 24px;
-              transform: rotate3d(0.4, 1, 0, 24deg);
-              box-shadow: 27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
-                16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
-            }
-          }
-        }
-      }
-    }
+    //       svg {
+    //         width: 700px;
+    //         vertical-align: top;
+    //         border-radius: 8px;
+    //       }
+    //     }
+    //     .reader {
+    //       position: absolute;
+    //       top: -48px;
+    //       left: 48px;
+    //       perspective: 1500px;
+    //       transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    //       will-change: transform;
+    //       &:before {
+    //         content: "";
+    //         position: absolute;
+    //         top: 0;
+    //         bottom: 8px;
+    //         left: 1px;
+    //         right: -2px;
+    //         border-radius: 24px;
+    //         transform: rotate3d(0.4, 1, 0, 24deg);
+    //         box-shadow: 27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
+    //           16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
+    //       }
+    //     }
+    //   }
+    // }
+    // }
   }
 }
 </style>
