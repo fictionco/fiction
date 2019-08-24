@@ -8,7 +8,6 @@
   "factor": {},
   "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4",
   "dependencies": {
-    "caller-callsite": "^4.1.0",
     "flatted": "^2.0.1"
   }
 }
