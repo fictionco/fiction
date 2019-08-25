@@ -10,7 +10,6 @@
     "ray@fiction.com": "admin"
   },
   "google_tag_manager": {
-    "gtm_id": "GTM-THQBLTN",
-    "development_mode": true
+    "gtm_id": "GTM-THQBLTN"
   }
 }

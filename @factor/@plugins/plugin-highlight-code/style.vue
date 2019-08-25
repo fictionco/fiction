@@ -1,44 +1,3 @@
-<template>
-  <div class="highlight-code-wrap">
-    <slot />
-  </div>
-</template>
-
-<script>
-export default {
-  mounted() {
-    require("./prism/prism.js")
-    this.prism = window.Prism
-    this.setPage()
-  },
-  methods: {
-    style() {
-      return this.$setting.get("highlightCode.style")
-    },
-    setPage() {
-      if (this.prism) {
-        // wait til content is done rendering
-        setTimeout(() => {
-          this.prism.highlightAll()
-        }, 500)
-      }
-    }
-  }
-}
-</script>
-<style lang="less">
-.code-toolbar {
-  font-family: "Roboto Mono", Monaco, courier, monospace;
-  padding: 1em 2em;
-  border-radius: 5px;
-  margin-bottom: 1.5rem;
-  background-color: rgba(0, 0, 0, 0.02);
-  font-family: "Roboto Mono", Monaco, courier, monospace;
-  font-size: 0.85em;
-  -webkit-font-smoothing: initial;
-  -moz-osx-font-smoothing: initial;
-}
-
 /* Code blocks */
 pre {
   margin: 0;
@@ -91,7 +50,7 @@ pre[class*="language-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: var(--code-color-comment, #a3b6ca);
+  color: #a3b6ca;
 }
 
 .namespace {
@@ -106,11 +65,11 @@ pre[class*="language-"] {
 .token.deleted,
 .token.function,
 .token.class-name {
-  color: var(--code-color-tag, #5458d2);
+  color: #5458d2;
 }
 
 .token.punctuation {
-  color: var(--code-color-punctuation, #5490f5);
+  color: #5490f5;
 }
 
 .token.property {
@@ -122,7 +81,7 @@ pre[class*="language-"] {
 .token.char,
 .token.builtin,
 .token.inserted {
-  color: var(--code-color-selector, #42b983);
+  color: #42b983;
 }
 
 .token.operator,
@@ -136,13 +95,13 @@ pre[class*="language-"] {
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  color: var(--code-color-keyword, #0063ab);
+  color: #0063ab;
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-  color: var(--code-color-variable, #e90);
+  color: #e90;
 }
 
 .token.important,
@@ -212,4 +171,3 @@ div.code-toolbar > .toolbar span:focus {
   color: inherit;
   text-decoration: none;
 }
-</style>
