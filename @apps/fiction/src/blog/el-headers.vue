@@ -1,23 +1,25 @@
 <template>
-  <div class="entry-headers">
+  <div v-if="format == 'index'" class="entry-headers">
+    <h1 class="entry-title">
+      <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+    </h1>
+    <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
+  </div>
+  <div v-else class="entry-headers">
     <div class="splash">
-      <factor-link class="back label label-yellow" :path="$setting.get('blog.indexRoute')">
-        <factor-icon icon="arrow-left" />
-        <span>Blog</span>
-      </factor-link>
-
+      <component :is="$setting.get('blog.components.blogReturnLink')" />
       <h1 class="entry-title">
         <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
       </h1>
-
-      <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
+      <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
     </div>
   </div>
 </template>
 <script>
 export default {
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
+    format: { type: String, default: "" }
   },
   computed: {
     post() {
@@ -27,6 +29,47 @@ export default {
 }
 </script>
 <style lang="less">
+// Index
+.blog-wrap {
+  .post-index {
+    .entry-headers {
+      margin: 1em 0;
+      padding: 1em 2em 0;
+      @media (max-width: 767px) {
+        padding: 1em 1em 0;
+      }
+
+      .entry-title {
+        font-weight: var(--font-weight-bold);
+        font-size: 2.6em;
+        line-height: 1;
+
+        @media (max-width: 767px) {
+          font-size: 2em;
+        }
+        a {
+          color: inherit;
+          &:hover {
+            color: var(--color-primary);
+          }
+          &:active {
+            opacity: 0.7;
+          }
+        }
+      }
+      .entry-subtitle {
+        font-size: 1.4em;
+        line-height: 1.6em;
+        opacity: 0.7;
+        @media (max-width: 767px) {
+          font-size: 1.2em;
+        }
+      }
+    }
+  }
+}
+
+// Single
 .single-entry .entry-headers {
   margin: 0;
   padding: 0 2em;
@@ -36,18 +79,6 @@ export default {
   @media (max-width: 767px) {
     background-size: 100%;
     padding: 0 1em;
-  }
-
-  .label {
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    &.label-yellow {
-      color: #f3c101;
-      &:hover {
-        color: #f3c101;
-        opacity: 0.7;
-      }
-    }
   }
 
   .splash {
@@ -78,7 +109,7 @@ export default {
         font-size: 2em;
       }
     }
-    .entry-sub-title {
+    .entry-subtitle {
       opacity: 0.5;
       font-size: 1.4em;
       font-weight: 400;
@@ -109,7 +140,7 @@ export default {
       }
     }
   }
-  .entry-sub-title {
+  .entry-subtitle {
     font-size: 1.4em;
     opacity: 0.7;
   }
