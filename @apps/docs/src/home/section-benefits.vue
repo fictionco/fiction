@@ -10,7 +10,7 @@
 
     <ul class="features-list">
       <li class="feature-block">
-        <home-icon />
+        <home-icon icon="dashboard" />
         <h3 class="title">Dashboard and Posts</h3>
         <p class="text">
           Weild a powerful post system and dashboard to make advanced apps simple.
@@ -19,7 +19,7 @@
       </li>
 
       <li class="feature-block">
-        <home-icon />
+        <home-icon icon="build" />
         <h3 class="title">Themes and Plugins</h3>
         <p class="text">
           Factor is designed from the start for theming.
@@ -28,7 +28,7 @@
       </li>
 
       <li class="feature-block">
-        <home-icon />
+        <home-icon icon="open-source" />
         <h3 class="title">Free and Open Source</h3>
         <p
           class="text"
