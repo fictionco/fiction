@@ -14,6 +14,62 @@
         d="M56 32v.05c-2.8.257-5 2.584-5 5.45v13c0 2.866 2.2 5.193 5 5.45V56a1 1 0 0 1 1 1v2a.99.99 0 0 1-.887.977A9.47 9.47 0 0 1 49 56.317a9.47 9.47 0 0 1-7.113 3.66A.99.99 0 0 1 41 59v-2a1 1 0 0 1 1-1v-.05c2.8-.257 5-2.584 5-5.45v-13c0-2.866-2.2-5.193-5-5.45V32a1 1 0 0 1-1-1v-2c0-.512.39-.92.887-.977A9.47 9.47 0 0 1 49 31.683a9.47 9.47 0 0 1 7.113-3.66A.99.99 0 0 1 57 29v2a1 1 0 0 1-1 1z"
       />
     </svg>
+    <svg v-else-if="icon == 'dashboard'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <path
+        d="M16.49,59.65a30,30,0,0,1,31,0,30,30,0,1,0-31,0Z"
+        style="fill:none;stroke:#0496ff;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <path
+        d="M33.31,39.73V18.51H30.43V39.8a5.33,5.33,0,1,0,2.88-.07ZM32,46.92a2,2,0,1,1,2-2A2,2,0,0,1,32,46.92Z"
+        style="fill:#0496ff"
+      />
+      <path
+        d="M11.57,30.56a20.48,20.48,0,0,1,40.55,0s.14,1.31.18,2.87h3l-.1-1.53a23.36,23.36,0,0,0-46.61,0l-.1,1.53h2.93C11.39,32,11.57,30.56,11.57,30.56Z"
+        style="fill:#8eccfd"
+      />
+      <rect x="30.37" y="8.72" width="3" height="6" rx="1.34"
+ry="1.34" style="fill:#0496ff" />
+      <rect
+        x="45.84"
+        y="14.97"
+        width="3"
+        height="6"
+        rx="1.35"
+        ry="1.35"
+        transform="translate(26.58 -28.21) rotate(45)"
+        style="fill:#0496ff"
+      />
+      <rect
+        x="14.92"
+        y="14.97"
+        width="3"
+        height="6"
+        rx="1.35"
+        ry="1.35"
+        transform="translate(-7.9 16.88) rotate(-45)"
+        style="fill:#0496ff"
+      />
+      <rect
+        x="8.51"
+        y="30.44"
+        width="3"
+        height="6"
+        rx="1.34"
+        ry="1.34"
+        transform="translate(-23.43 43.46) rotate(-90)"
+        style="fill:#0496ff"
+      />
+      <rect
+        x="52.31"
+        y="30.44"
+        width="3"
+        height="6"
+        rx="1.34"
+        ry="1.34"
+        transform="translate(87.25 -20.36) rotate(90)"
+        style="fill:#0496ff"
+      />
+    </svg>
     <svg
       v-else-if="icon == 'slack'"
       viewBox="0 0 147 38"
@@ -45,6 +101,92 @@
           </g>
         </g>
       </g>
+    </svg>
+    <svg v-else-if="icon == 'open-source'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <title>open-source</title>
+      <path
+        d="M32,4.05A29.94,29.94,0,0,0,16.49,59.61l.18-.1,9.56-15.9a11.26,11.26,0,1,1,11.59.09l9.49,15.8.2.11A29.94,29.94,0,0,0,32,4.05Z"
+        style="fill:none;stroke:#0496ff;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <path
+        d="M32,10.1h-.16A23.41,23.41,0,0,0,8.54,31.86l-.1,1.54h2.93c0-1.44.2-2.88.2-2.88A20.54,20.54,0,0,1,31.84,13H32Z"
+        style="fill:#8eccfd"
+      />
+    </svg>
+    <svg v-else-if="icon == 'build'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <title>build</title>
+      <line
+        x1="16.48"
+        y1="5.26"
+        x2="20.36"
+        y2="5.26"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <line
+        x1="32.04"
+        y1="5.26"
+        x2="35.92"
+        y2="5.26"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <line
+        x1="16.48"
+        y1="45.73"
+        x2="20.36"
+        y2="45.73"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <line
+        x1="32.04"
+        y1="45.73"
+        x2="35.92"
+        y2="45.73"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <line
+        x1="5.26"
+        y1="35.84"
+        x2="5.26"
+        y2="31.96"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <line
+        x1="5.26"
+        y1="20.29"
+        x2="5.26"
+        y2="16.41"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <line
+        x1="47.03"
+        y1="35.84"
+        x2="47.03"
+        y2="31.96"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <line
+        x1="47.03"
+        y1="20.29"
+        x2="47.03"
+        y2="16.41"
+        style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
+      />
+      <rect width="10.52" height="10.52" rx="1.96" ry="1.96" style="fill:#0496ff" />
+      <rect x="3.96" y="3.96" width="2.61" height="2.61" rx="0.04"
+ry="0.04" style="fill:#fff" />
+      <rect y="40.46" width="10.52" height="10.52" rx="1.96" ry="1.96"
+style="fill:#0496ff" />
+      <rect x="3.96" y="44.42" width="2.61" height="2.61" rx="0.04"
+ry="0.04" style="fill:#fff" />
+      <rect x="41.77" width="10.52" height="10.52" rx="1.96" ry="1.96"
+style="fill:#0496ff" />
+      <rect x="45.72" y="3.96" width="2.61" height="2.61" rx="0.04"
+ry="0.04" style="fill:#fff" />
+      <rect x="9.7" y="27.43" width="32.97" height="13.09" style="fill:#8eccfd" />
+      <path
+        d="M49.09,63.48h0a1.32,1.32,0,0,1-1.2-.82L37.43,36.55a1.31,1.31,0,0,1,.35-1.46,1.3,1.3,0,0,1,1.5-.16L62.77,48a1.28,1.28,0,0,1,.67,1.2,1.3,1.3,0,0,1-.79,1.14L54,54l-3.71,8.65A1.3,1.3,0,0,1,49.09,63.48ZM41.22,39l7.91,19.77,2.67-6.24a1.35,1.35,0,0,1,.68-.69L59.18,49Z"
+        style="fill:#0496ff;stroke:#0496ff;stroke-miterlimit:10"
+      />
     </svg>
     <svg v-else xmlns="http://www.w3.org/2000/svg" width="64" height="64">
       <path
