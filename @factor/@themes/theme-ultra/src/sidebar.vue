@@ -6,11 +6,14 @@
           :class="!_props.mobile ? 'sidebar-title' : 'sidebar-title-mobile'"
         >{{ $setting.get('sidebar.sidebarHeadline') }}</h1>
       </div>
-      <div class="sidebar-buttons-container">
+      <div
+        class="sidebar-buttons-container"
+        :class="(_props.mobile && _props.orientationH) ? 'sidebar-button-container-horizontal' : ''"
+      >
         <div
           v-for="(ele, i) in $setting.get('sidebar.sidebarOptions')"
           :key="i"
-          :class="!_props.mobile ? 'sidebar-button' : 'sidebar-button-mobile'"
+          :class="[!_props.mobile ? 'sidebar-button' : 'sidebar-button-mobile', (_props.mobile && _props.orientationH) ? 'sidebar-button-horizontal' : '']"
         >
           <a
             class="btn-sidebar"
@@ -29,7 +32,7 @@
 <script>
 /* eslint-disable */
 export default {
-  props: ["mobile", "show-sidebar"],
+  props: ["mobile", "orientation-h", "show-sidebar"],
   data() {
     return {
       loading: true,
@@ -52,7 +55,7 @@ export default {
             this.selected = `#${entries[0].target.id}`;
           }
         },
-        { threshold: [0.3] }
+        { threshold: [0.2] }
       );
       observer.observe(document.querySelector(ele));
     }
@@ -101,6 +104,9 @@ export default {
   align-self: center;
   flex-wrap: wrap;
 }
+.sidebar-button-container-horizontal {
+  height: 58vh;
+}
 .sidebar-button {
   width: 100%;
   display: flex;
@@ -112,6 +118,9 @@ export default {
   display: flex;
   height: 20px;
   margin-left: 40px;
+}
+.sidebar-button-horizontal {
+  margin: 22px 0 0 52px;
 }
 .btn-sidebar-selected {
   color: #f7f7f7 !important;
