@@ -15,6 +15,16 @@
       />
     </svg>
     <svg v-else-if="icon == 'dashboard'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <path d="M3.79,3.81H26.28v30H3.79Z" style="fill:#8eccfd" />
+      <path d="M60.2,30.21v30.1H37.71V30.21Z" style="fill:#8eccfd" />
+      <path d="M37.71,3.8H60.2v15H37.71Z" style="fill:#8eccfd" />
+      <path d="M26.28,45.25v15H3.78v-15Z" style="fill:#8eccfd" />
+      <path d="M30.05,37.63H0V0h30ZM3.76,3.8v30h22.5V3.8Z" style="fill:#0496ff" />
+      <path d="M64,64H34V26.46H64ZM60.2,30.21H37.72V60.26H60.2Z" style="fill:#0496ff" />
+      <path d="M64,22.53H34V0H64ZM37.71,3.79v15h22.5v-15Z" style="fill:#0496ff" />
+      <path d="M0,64V41.48H30.08V64ZM26.28,45.25H3.78v15h22.5Z" style="fill:#0496ff" />
+    </svg>
+    <svg v-else-if="icon == 'dashboard2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <path
         d="M16.49,59.65a30,30,0,0,1,31,0,30,30,0,1,0-31,0Z"
         style="fill:none;stroke:#0496ff;stroke-miterlimit:10;stroke-width:4px"
@@ -103,7 +113,12 @@ ry="1.34" style="fill:#0496ff" />
       </g>
     </svg>
     <svg v-else-if="icon == 'open-source'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-      <title>open-source</title>
+      <path
+        d="M32,4.05A29.94,29.94,0,0,0,16.49,59.61l.18-.1,9.56-15.9a11.26,11.26,0,1,1,11.59.09l9.49,15.8.2.11A29.94,29.94,0,0,0,32,4.05Z"
+        style="fill:#8eccfd;stroke:#0496ff;stroke-miterlimit:10;stroke-width:4px"
+      />
+    </svg>
+    <svg v-else-if="icon == 'open-source2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <path
         d="M32,4.05A29.94,29.94,0,0,0,16.49,59.61l.18-.1,9.56-15.9a11.26,11.26,0,1,1,11.59.09l9.49,15.8.2.11A29.94,29.94,0,0,0,32,4.05Z"
         style="fill:none;stroke:#0496ff;stroke-miterlimit:10;stroke-width:4px"
@@ -114,6 +129,16 @@ ry="1.34" style="fill:#0496ff" />
       />
     </svg>
     <svg v-else-if="icon == 'build'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <path
+        d="M38.71,62a10.86,10.86,0,0,0-21.63,0H6.56A4.57,4.57,0,0,1,2,57.44V46.92A10.86,10.86,0,0,0,2,25.29V14.77a4.55,4.55,0,0,1,4.53-4.56H21.69v-2a6.21,6.21,0,1,1,12.41,0v2H49.23a4.56,4.56,0,0,1,4.56,4.56V29.9h2a6.21,6.21,0,1,1,0,12.41h-2V57.44A4.56,4.56,0,0,1,49.23,62Z"
+        style="fill:#8eccfd"
+      />
+      <path
+        d="M27.9,4a4.21,4.21,0,0,1,4.2,4.21v4H49.23a2.59,2.59,0,0,1,2.56,2.56V31.9h4a4.21,4.21,0,1,1,0,8.41h-4V57.44A2.59,2.59,0,0,1,49.23,60H40.4a12.86,12.86,0,0,0-25,0H6.56A2.59,2.59,0,0,1,4,57.44V48.61A12.89,12.89,0,0,0,13.85,36.1,12.88,12.88,0,0,0,4,23.61V14.77a2.55,2.55,0,0,1,2.53-2.56H23.69v-4A4.22,4.22,0,0,1,27.9,4m0-4a8.22,8.22,0,0,0-8.21,8.21H6.56A6.55,6.55,0,0,0,0,14.77V27.24H1A8.86,8.86,0,1,1,1,45H0V57.44A6.58,6.58,0,0,0,6.56,64H19V63a8.86,8.86,0,1,1,17.72,0v1H49.23a6.58,6.58,0,0,0,6.56-6.56V44.31a8.21,8.21,0,1,0,0-16.41V14.77a6.58,6.58,0,0,0-6.56-6.56H36.1A8.21,8.21,0,0,0,27.9,0Z"
+        style="fill:#0496ff"
+      />
+    </svg>
+    <svg v-else-if="icon == 'build2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <title>build</title>
       <line
         x1="16.48"

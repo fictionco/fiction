@@ -91,16 +91,17 @@ export default {
       position: relative;
       .title {
         font-weight: 500;
-        font-size: 1.35em;
+        font-size: 1.2em;
         line-height: 1.5em;
       }
       .text {
-        font-size: 1.05em;
+        font-size: 0.94em;
+        line-height: 1.7em;
         opacity: 0.85;
       }
       .icon {
-        width: 48px;
-        height: 48px;
+        width: 36px;
+        height: 36px;
         margin-left: -1px;
         margin: 10px 0 20px -3px;
       }
