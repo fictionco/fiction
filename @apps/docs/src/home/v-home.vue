@@ -50,7 +50,7 @@ loop />
       <div class="split-feature content-pad" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
         <div class="feature-content-container">
           <div class="feature-content">
-            <home-icon class="feature-icon" icon="ssr" />
+            <home-icon class="feature-icon" :icon="feature.icon" />
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div class="action">
@@ -146,26 +146,31 @@ export default {
       ],
       features: [
         {
+          icon: "powered",
           title: "Powered by VueJS and MongoDB",
           text:
             "Factor is a universal Javascript framework which means you can dynamically make changes to your content and see them reflected immediately (without a build step). This also enables custom endpoints and server-side rendering (SSR) important for SEO, social, and performance reasons."
         },
         {
+          icon: "ssr",
           title: "Dynamic SSR Apps",
           text:
             "Factor is a universal Javascript framework which means you can dynamically make changes to your content and see them reflected immediately (without a build step). This also enables custom endpoints and server-side rendering (SSR) important for SEO, social, and performance reasons."
         },
         {
+          icon: "dashboard2",
           title: "Dashboard and Posts",
           text: `Factor core comes with a professional dashboard and post management system.
           This tool was carefully crafted to give you maximum powerful but with minimum bloat. It is simple by default but can be extended to handle even the most complext tasks.`
         },
         {
+          icon: "plugins",
           title: "Drop-In Plugins",
           text:
             "Most Javascript frameworks make you do way too much coding and customization to make plugins work. That's why Factor makes plugins dead simple with intelligent defaults and no mandatory customization."
         },
         {
+          icon: "brush",
           title: "Customizeable Themes",
           text:
             "Ever seen a theming system for Javascript apps that you could work with? We hadn't either. Factor was developed from the start with customizeable theming and rapid app development in mind."
@@ -350,6 +355,8 @@ export default {
     .feature-figure {
     }
     .feature-icon {
+      height: 72px;
+      width: 72px;
       margin-bottom: 1rem;
     }
     .title {
