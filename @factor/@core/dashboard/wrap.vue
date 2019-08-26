@@ -101,6 +101,9 @@ export default {
 }
 .app-wrap {
   padding: 0 2em;
+  @media (max-width: 767px) {
+    padding: 0 0.75em;
+  }
   .mobile-nav {
     display: none;
     &.toggle-nav {

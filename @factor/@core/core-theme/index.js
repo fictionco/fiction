@@ -29,48 +29,56 @@ module.exports.default = Factor => {
 
     modulePathWebpackPlugin(webpack) {
       return new webpack.NormalModuleReplacementPlugin(/^\#/, resource => {
-        const req = resource.request
-        const fileName = basename(resource.request)
-        const src = Factor.$paths.get("source")
+        // if (resource.request.includes("#setting")) {
+        //   const regex = /(?<=\#setting.)(.*?)(?=\/)/gim
+        //   console.log(resource.request.match(regex))
+        //   return Factor.$setting.get("highlightCode.style")
+        // } else {
 
-        //const inApp = this.findInDirectory({ directory: src, fileName })
-        const inApp = this._fileExists(
-          resource.request.replace("#", Factor.$paths.get("source"))
-        )
-        let filePath = ""
-        if (inApp) {
-          filePath = inApp
-        } else {
-          if (this.themes.length > 0) {
-            this.themes.some(_ => {
-              const themeSrc = dirname(require.resolve(_.name))
-              // const inTheme = this.findInDirectory({ fileName, directory: themeSrc })
+        // }
 
-              const inTheme = this._fileExists(resource.request.replace("#", themeSrc))
+        resource.request = this.handleAsOverride(resource)
+      })
+    }
 
-              if (inTheme) {
-                filePath = inTheme
-                return true
-              }
-            })
-          }
+    handleAsOverride(resource) {
+      //const inApp = this.findInDirectory({ directory: src, fileName })
+      const inApp = this._fileExists(
+        resource.request.replace("#", Factor.$paths.get("source"))
+      )
+      let filePath = ""
+      if (inApp) {
+        filePath = inApp
+      } else {
+        if (this.themes.length > 0) {
+          this.themes.some(_ => {
+            const themeSrc = dirname(require.resolve(_.name))
+            // const inTheme = this.findInDirectory({ fileName, directory: themeSrc })
 
-          if (!filePath) {
-            const relPath = this._fileExists(
-              resource.request.replace("#", resource.context)
-            )
+            const inTheme = this._fileExists(resource.request.replace("#", themeSrc))
 
-            const fallbackPath = this._fileExists(
-              resource.request.replace("#", Factor.$paths.get("fallbacks"))
-            )
-
-            if (relPath) filePath = relPath
-            else if (fallbackPath) filePath = fallbackPath
-          }
+            if (inTheme) {
+              filePath = inTheme
+              return true
+            }
+          })
         }
 
-        resource.request = filePath ? filePath : resource.request
-      })
+        if (!filePath) {
+          const relPath = this._fileExists(
+            resource.request.replace("#", resource.context)
+          )
+
+          const fallbackPath = this._fileExists(
+            resource.request.replace("#", Factor.$paths.get("fallbacks"))
+          )
+
+          if (relPath) filePath = relPath
+          else if (fallbackPath) filePath = fallbackPath
+        }
+      }
+
+      return filePath ? filePath : resource.request
     }
 
     findInDirectory({ directory, fileName }) {

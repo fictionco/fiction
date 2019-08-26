@@ -125,7 +125,7 @@ More information about this file can be found under [config](./config).
 
 ### factor-settings.js
 
-The `factor-settings` file is where apps, plugins, and themes add settings that can be accessed via `Factor.$settings.get('some.setting')`. It is powerful and supports all everything from nav item arrays, to components, etc.
+The `factor-settings` file is where apps, plugins, and themes add settings that can be accessed via `Factor.$setting.get('some.setting')`. It is powerful and supports all everything from nav item arrays, to components, etc.
 
 More info about this file under [customize](./customize).
 
