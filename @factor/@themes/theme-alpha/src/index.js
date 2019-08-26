@@ -11,6 +11,17 @@ module.exports.default = Factor => {
 
 
     filters() {
+      Factor.$filters.add(
+        "factor_head",
+        _ => {
+          const add = Factor.$setting.get('headTags.font')
+
+          return [..._, add]
+        },
+        { priority: 200 }
+      )
+
+
       const baseRoute = Factor.$setting.get("work.postRoute")
 
       Factor.$filters.add("post-types", _ => {
