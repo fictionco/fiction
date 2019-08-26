@@ -16,8 +16,8 @@
               </p>
 
               <div class="header-actions">
-                <app-btn btn="primary">Start Your App &rarr;</app-btn>
-                <app-btn btn="default">Free VIP Consultation &rarr;</app-btn>
+                <input type="email" placeholder="Email Address" >
+                <app-btn btn="primary">Request Invite &rarr;</app-btn>
               </div>
             </div>
             <div class="header-figure">
@@ -61,8 +61,11 @@
     <div v-for="(feature, index) in features" :key="index" class="features content">
       <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even' ]">
         <div class="feature-content-container">
-          <div class="title">{{ feature.title }}</div>
-          <div class="text">{{ feature.text }}</div>
+          <div class="feature-content">
+            <div class="super">{{ feature.super }}</div>
+            <div class="title">{{ feature.title }}</div>
+            <div class="text">{{ feature.text }}</div>
+          </div>
         </div>
         <div v-if="feature.figure" class="feature-figure-container">
           <component :is="feature.figure" />
@@ -70,11 +73,31 @@
       </div>
     </div>
 
-    <section-testimonials />
+    <div class="compare content">
+      <div class="content-pad">
+        <div class="mast-head">
+          <div class="title">Let's Create Something Beautiful Together</div>
+          <div class="sub-title">
+            Fiction is here to help you create the world's next great web apps.
+            <br >Let's get started...
+          </div>
+        </div>
+        <div class="feature-table-wrap">
+          <div class="feature-table">
+            <div
+              v-for="(col, index) in compare"
+              :key="index"
+              class="column"
+              :class="index == 0 ? 'label' : 'data'"
+            >
+              <div v-for="(row, rowIndex) in col.items" :key="rowIndex" class="row">{{ row }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <section-integrate />
-
-    <el-cta />
+      <el-cta />
+    </div>
   </div>
 </template>
 
@@ -108,28 +131,74 @@ export default {
       ],
       features: [
         {
-          title:
-            "Powered by Open-Source: VueJS, MongoDB and The Factor Platform",
-          text: `Break free from the constraints of off-the-shelf point of sale software.
-            Fiction Terminal makes it easier to build your point of sale and own your
-            checkout experience, including creating customized email receipts or splash
-            screens. Our APIs and SDKs simplify the integration of Terminal into
-            JavaScript web apps, or iOS and Android mobile apps.`,
-          figure: () => import("./figure-code.vue")
+          super: "Factor JS",
+          title: "Create Dynamic Javascript Apps Powered by VueJS, MongoDB",
+          text: `Factor is a state of the art Javascript development platform for front-end developers. 
+            It includes a CMS engine powered by an advanced dashboard and post system. It also has first class support for drop-in plugins and themes.
+            Factor is free and open-source, powered by VueJS, MongoDB and Node. `,
+          figure: () => import("./figure-code.vue"),
+          link: {
+            path: "https://www.factor.dev",
+            text: "Factor Development Site &rarr;"
+          }
         },
         {
+          super: "Factor Pro",
           title:
-            "Designed to meet the needs of professional front-end developers.",
-          text: `Break free from the constraints of off-the-shelf point of sale software.
-            Fiction Terminal makes it easier to build your point of sale and own your
-            checkout experience, including creating customized email receipts or splash
-            screens. Our APIs and SDKs simplify the integration of Terminal into
-            JavaScript web apps, or iOS and Android mobile apps.`
+            "Dedicated Support and Extensions for Professional Front-End Devs",
+          text: `Designed to meet the needs of professional front-end developers.`,
+          link: {
+            path: "/pro",
+            text: "Learn More &rarr;"
+          }
         },
         {
-          title: "Your Virtual Development Team",
+          super: "Factor VIP",
+          title: "Your Development Team, Delivered",
           text: `Being a Fiction customer means you'll have a 24/7 team of expert developers ready to help you. 
-            No more countless hours of debugging, or unexpected surprises, Fiction will be here to help you build, deploy and scale your apps.`
+            No more countless hours of debugging, or unexpected surprises, Fiction will be here to help you build, deploy and scale your apps.`,
+          link: {
+            path: "/vip",
+            text: "Learn More &rarr;"
+          }
+        }
+      ],
+      compare: [
+        {
+          items: ["", "Ideal For", "Summary"]
+        },
+        {
+          items: [
+            "Factor JS",
+            "Front-End Developers",
+            "A free platform to ship beautiful JS apps fast."
+          ],
+          link: {
+            path: "https://www.factor.dev",
+            text: "Visit Factor.dev &rarr;"
+          }
+        },
+        {
+          items: [
+            "Factor Pro",
+            "Professional Front-End Developers",
+            "Advanced features, options and tools. Technical support from Fiction."
+          ],
+          link: {
+            path: "https://www.factor.dev",
+            text: "Visit Factor.dev &rarr;"
+          }
+        },
+        {
+          items: [
+            "Factor VIP",
+            "Enterprise Front-End Developers",
+            "Dedicated developers and managed infrastructure. Virtual dev team."
+          ],
+          link: {
+            path: "https://www.factor.dev",
+            text: "Visit Factor.dev &rarr;"
+          }
         }
       ]
     }
@@ -151,7 +220,7 @@ export default {
     padding: 0 2em;
     width: 100%;
     &.wide {
-      max-width: 1300px;
+      max-width: 1200px;
     }
   }
 
@@ -206,7 +275,17 @@ export default {
   }
 
   .header-actions {
+    font-size: 1.1em;
     margin-top: 2em;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    grid-gap: 1.5em;
+
+    input {
+      margin: 0;
+      font-size: 1.5em;
+      background: #fff;
+    }
   }
 
   .header-tag {
@@ -295,11 +374,19 @@ export default {
 
     .feature-content {
       letter-spacing: -0.01em;
+      max-width: 500px;
     }
-    .feature-figure {
-    }
+
     .feature-icon {
       margin-bottom: 1rem;
+    }
+    .super {
+      text-transform: uppercase;
+      font-weight: 600;
+
+      font-size: 1.3em;
+      color: var(--color-primary);
+      margin-bottom: 1em;
     }
     .title {
       font-size: 2em;
@@ -316,6 +403,63 @@ export default {
     .action {
       font-weight: 600;
       font-size: 1.3em;
+    }
+  }
+
+  .compare {
+    .mast-head {
+      text-align: center;
+      .title {
+        font-size: 2.5em;
+      }
+      .sub-title {
+        font-size: 1.4em;
+        opacity: 0.5;
+      }
+      margin-bottom: 3em;
+    }
+    .feature-table {
+      display: grid;
+      grid-template-columns: 10rem 1fr 1fr 1fr;
+      grid-gap: 1em;
+      .column {
+        text-align: center;
+        background: #fff;
+
+        border-radius: 6px;
+        overflow: hidden;
+
+        &.data {
+          box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1),
+            0 5px 15px 0 rgba(0, 0, 0, 0.07);
+          .row {
+            border-bottom: 1px solid #eee;
+            &:last-child {
+              border: none;
+            }
+          }
+          .row:first-child {
+            background: #1b223c;
+            color: #fff;
+            font-weight: 700;
+          }
+        }
+      }
+
+      .column:nth-child(1) {
+        box-shadow: none;
+        background: none;
+        text-align: right;
+        font-weight: 700;
+        opacity: 0.5;
+      }
+      .row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 100px;
+        padding: 1em 2em;
+      }
     }
   }
 

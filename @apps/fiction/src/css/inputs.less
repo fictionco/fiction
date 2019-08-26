@@ -46,7 +46,10 @@ select {
   border: 0;
   font-weight: 500;
   color: var(--color-text);
-  background-color: transparent;
+  background-color: var(--input-bg);
+  box-shadow: var(--box-shadow-input);
+  border-radius: 4px;
+  width: 100%;
 
   &.disabled {
     opacity: 0.5;
@@ -67,13 +70,4 @@ select {
     /* Chrome/Opera/Safari */
     color: var(--color-placeholder);
   }
-}
-
-input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
-textarea,
-select {
-  background-color: var(--input-bg);
-  box-shadow: var(--box-shadow-input);
-  border-radius: 4px;
-  width: 100%;
 }
