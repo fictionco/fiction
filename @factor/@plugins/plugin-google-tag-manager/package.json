@@ -6,6 +6,7 @@
     "access": "public"
   },
   "factor": {
+    "id": "tagManager",
     "target": [
       "app",
       "server"
