@@ -121,6 +121,7 @@ export default {
   align-items: center;
   color: inherit;
   .display-name {
+    text-align: right;
     margin-right: 0.7em;
   }
   &.active {

@@ -54,6 +54,17 @@ export default {
     order: -1;
     grid-column-start: 1;
     grid-column-end: 3;
+    display: block;
+    .tabb {
+      margin: 0.4em 0;
+    }
+  }
+
+  @media (max-width: 550px) {
+    display: block;
+    .tabb {
+      margin: 0.4em 0;
+    }
   }
 
   .tabb {
