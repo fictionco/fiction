@@ -1,17 +1,22 @@
 <template>
-  <div id="homeContainerID" :class="!mobile ? 'home-container' : 'home-container-mobile'">
+  <div
+    id="homeContainerID"
+    :class="[!mobile ? 'home-container' : 'home-container-mobile', (mobile && orientationH) ? 'home-container-horizontal': '']"
+  >
     <div class="home-quotes-container">
-      <h5 :class="!mobile ? 'home-quotes' : 'home-quotes-mobile'">{{ $setting.get('home.quotes') }}</h5>
+      <h5
+        :class="[!mobile ? 'home-quotes' : 'home-quotes-mobile', (mobile && orientationH) ? 'home-quotes-horizontal': '']"
+      >{{ $setting.get('home.quotes') }}</h5>
     </div>
     <div class="home-main-quotes-container">
       <h1
-        :class="!mobile ? 'home-main-quotes' : 'home-main-quotes-mobile'"
+        :class="[!mobile ? 'home-main-quotes' : 'home-main-quotes-mobile', (mobile && orientationH) ? 'home-main-quotes-horizontal': '']"
       >{{ $setting.get('home.mainQuotes') }}</h1>
     </div>
     <div class="home-buttons-container">
       <div v-for="(ele, i) in $setting.get('home.homeButtons')" :key="i" class="home-buttons">
         <button
-          :class="[!mobile ? 'home-button' : 'home-button-mobile', ele.class]"
+          :class="[!mobile ? 'home-button' : 'home-button-mobile', (mobile && orientationH) ? 'home-button-horizontal': '', ele.class]"
           @click="homePaths(ele.path)"
         >{{ ele.text }}</button>
       </div>
@@ -22,7 +27,7 @@
 <script>
 export default {
   components: {},
-  props: ["mobile"],
+  props: ["mobile", "orientationH"],
   data() {
     return {
       loading: true
@@ -54,6 +59,9 @@ export default {
   height: 100%;
   padding-left: 34px;
 }
+.home-container-horizontal {
+  grid-template-rows: 60px 182px 60px;
+}
 .home-quotes-container {
   margin: 1.2vw 0 0 1.2vw;
 }
@@ -64,6 +72,10 @@ export default {
 .home-quotes-mobile {
   color: #9e9e9e;
   font-size: 6vw;
+}
+.home-quotes-horizontal {
+  font-size: 4vw;
+  margin: 25px;
 }
 .home-main-quotes-container {
   margin: 0.6vw 0 0 1.2vw;
@@ -77,6 +89,10 @@ export default {
   font-size: 2.3em;
   color: #f7f7f7;
   width: 280px;
+}
+.home-main-quotes-horizontal {
+  width: 500px;
+  margin-left: 25px;
 }
 .home-buttons-container {
   margin: 7vw 0 0 1.2px;
@@ -99,6 +115,9 @@ export default {
   font-weight: bold;
   border-radius: 3px;
   margin: 1.2vw;
+}
+.home-button-horizontal {
+  height: 15vh;
 }
 .home-button-start {
   background: #fa5855;
