@@ -5,7 +5,11 @@ module.exports.default = Factor => {
     }
 
     canUpdatePost({ post, bearer }) {
-      if (bearer.accessLevel >= 300 || post.author.includes(bearer._id)) {
+      if (
+        bearer.accessLevel >= 300 ||
+        post.author.includes(bearer._id) ||
+        bearer._id.toString() == post._id.toString()
+      ) {
         return true
       } else {
         throw new Error("Insufficient permissions.")
