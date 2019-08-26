@@ -6,8 +6,6 @@ export default Factor => {
         "google_tag_manager.development_mode"
       )
 
-      this.test = Factor.$config.setting("google_tag_manager")
-
       this.setupTitle = "Plugin: Google Tag Manager"
       this.addSetupCli(this.setupTitle)
 
