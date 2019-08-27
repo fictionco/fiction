@@ -101,6 +101,10 @@ code {
     font-size: 1.15em;
     opacity: 0.4;
   }
+  h5 {
+    margin: 1em 0;
+    font-weight: 700;
+  }
   h1,
   h2,
   h3,
