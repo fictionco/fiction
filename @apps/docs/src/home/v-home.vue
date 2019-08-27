@@ -171,7 +171,7 @@ export default {
         },
         {
           icon: "brush",
-          title: "Customizeable Themes",
+          title: "Customizable Themes",
           text:
             "Ever seen a theming system for Javascript apps that you could work with? We hadn't either. Factor was developed from the start with customizeable theming and rapid app development in mind."
         }
