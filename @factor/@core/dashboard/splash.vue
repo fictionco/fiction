@@ -10,7 +10,7 @@
       </div>
       <div class="splash-media">
         <figure>
-          <span :style="mediaStyle" />
+          <span />
         </figure>
       </div>
     </div>
@@ -20,7 +20,7 @@
         <slot name="content" />
         <div class="sp description">{{ f.description }}</div>
         <div class="sp sp2 action">
-          <dashboard-link btn="default" :path="f.path">{{ f.btn }}</dashboard-link>
+          <dashboard-link v-formatted-text="f.btn" :path="f.path" />
         </div>
       </div>
     </div>
@@ -39,7 +39,10 @@ export default {
   computed: {
     mediaStyle() {
       return {
-        "background-image": `url(${this.mediaUrl})`
+        "background-image": `url(${this.$setting.get(
+          "dashboard.icon",
+          require("#/icon.png")
+        )})`
       }
     }
   }
@@ -73,7 +76,7 @@ export default {
       flex-direction: column;
       justify-content: center;
       font-size: 1.2em;
-      padding: 3em 2em;
+      padding: 6em 2rem;
       line-height: 1.4;
       width: 50%;
       // min-height: 250px;
@@ -81,6 +84,7 @@ export default {
       // max-height: 50vh;
       @media (max-width: 767px) {
         width: 100%;
+        padding: 3em 2rem;
       }
     }
     .title {
@@ -105,8 +109,8 @@ export default {
   .splash-features {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 1.5em;
-    padding: 2em;
+    grid-gap: 2em;
+    padding: 2rem;
     border-top: 1px solid rgba(62, 62, 62, 0.1);
     line-height: 1.4;
 
@@ -143,9 +147,12 @@ export default {
       right: -50px;
       top: 0;
       left: 55%;
-      transform: skewX(12deg);
+      transform: skewX(10deg);
+      background: var(--color-bg-contrast);
       span {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: absolute;
 
         background-size: cover;
@@ -155,11 +162,15 @@ export default {
         top: 0;
         bottom: 0;
         left: -110px;
-        transform: skewX(-12deg);
+        transform: skewX(-10deg);
+        svg {
+          max-width: 150px;
+        }
       }
     }
     @media (max-width: 767px) {
       figure {
+        display: none;
         position: relative;
         height: 200px;
         background: #525f7f;

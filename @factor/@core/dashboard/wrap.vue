@@ -106,10 +106,11 @@ export default {
   }
   .mobile-nav {
     display: none;
-    &.toggle-nav {
-      display: block;
-    }
+
     @media (max-width: 960px) {
+      &.toggle-nav {
+        display: block;
+      }
       display: block;
       position: fixed;
       width: 270px;
@@ -143,9 +144,6 @@ export default {
     "header header"
     "nav main";
 
-  &.nav-overlay {
-    opacity: 0.6;
-  }
   .app-head {
     grid-area: header;
     align-self: center;
@@ -158,6 +156,9 @@ export default {
   }
 
   @media (max-width: 960px) {
+    &.nav-overlay {
+      opacity: 0.6;
+    }
     grid-template-areas:
       "header header"
       "main main";

@@ -1,14 +1,10 @@
 <template>
   <dashboard-page :loading="loading">
     <dashboard-splash
-      title="Factor Admin"
-      sub-title="Welcome to your application post admin."
+      title="Admin"
+      sub-title="Manage your app content and users."
       :features="splash('features')"
-    />
-    <dashboard-chat
-      title="Community Support"
-      sub-title="Join Factor and Fiction communities on Gitter."
-      :media-url="splash('media')"
+      :media-url="require('./resource/splash-factor.jpg')"
     />
   </dashboard-page>
 </template>
@@ -45,23 +41,22 @@ export default {
             title: "Get Plugins",
             description: "Browse and download Factor extensions for your app.",
             content: "something",
-            btn: "Get Plugins",
-            path: "/plugins"
+            btn: "Get Plugins &rarr;",
+            path: "https://factor.dev/plugins"
           },
           {
-            title: "Updates and News",
+            title: "Latest Updates",
             description:
               "Katest news, tips and tutorials on creating next level apps.",
-            btn: "More News",
-            path: "/blog"
+            btn: "Blog &rarr;",
+            path: "https://www.fiction.com/blog"
           },
           {
-            title: "Developer Portal",
+            title: "Factor Docs",
             description:
-              "The go-to place for all developer related content and social activities, where you can ask questions and learn from each other.",
-            btn: "Join Portal",
-            path:
-              "https://gitter.im/fiction-com/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link"
+              "Need some help getting things rolling? Check out Factor.dev.",
+            btn: "Go &rarr;",
+            path: "https://factor.dev"
           }
         ]
       }
