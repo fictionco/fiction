@@ -197,6 +197,13 @@ export default {
     .post-actions {
       position: sticky;
       top: 1em;
+      @media (max-width: 767px) {
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        left: 0;
+      }
     }
   }
   .compose {

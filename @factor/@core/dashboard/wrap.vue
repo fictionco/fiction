@@ -112,7 +112,8 @@ export default {
     @media (max-width: 960px) {
       display: block;
       position: fixed;
-      width: 350px;
+      width: 270px;
+
       padding: 1.5em;
       top: 0;
       bottom: 0;

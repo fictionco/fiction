@@ -289,20 +289,29 @@ export default {
     .post-actions {
       top: 20px;
       position: sticky;
+      @media (max-width: 767px) {
+        .foot {
+          position: fixed;
+          bottom: 0;
+          top: auto;
+          width: 100%;
+          left: 0;
+        }
+      }
     }
 
-    @media (max-width: 960px) {
-      display: grid; // Added to order items
-      .post-media {
-        order: 1;
-      }
-      .post-actions {
-        order: 2;
-      }
-      .post-tags {
-        order: 3;
-      }
-    }
+    // @media (max-width: 960px) {
+    //   display: grid; // Added to order items
+    //   .post-media {
+    //     order: 1;
+    //   }
+    //   .post-actions {
+    //     order: 2;
+    //   }
+    //   .post-tags {
+    //     order: 3;
+    //   }
+    // }
   }
 
   .save-info {

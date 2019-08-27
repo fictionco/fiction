@@ -61,7 +61,7 @@ export default {
   }
 
   .cont {
-    padding: 2em;
+    padding: 1em;
     > :last-child {
       margin-bottom: 0;
     }
