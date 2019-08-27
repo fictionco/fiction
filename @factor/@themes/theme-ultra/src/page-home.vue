@@ -1,7 +1,8 @@
 <template>
   <div
     id="homeContainerID"
-    :class="[!mobile ? 'home-container' : 'home-container-mobile', (mobile && orientationH) ? 'home-container-horizontal': '']"
+    class="home-container"
+    :class="[mobile ? 'home-container-mobile' : '', (mobile && orientationH) ? 'home-container-horizontal': '']"
   >
     <div class="home-quotes-container">
       <h5
@@ -47,16 +48,11 @@ export default {
   font-family: Work Sans;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 60px 160px 60px;
-  height: 100%;
+  grid-template-rows: 60px 400px 60px;
+  height: 100vh;
 }
 .home-container-mobile {
-  background: linear-gradient(294.11deg, #732b29 0%, #111010 100%);
-  font-family: Work Sans;
-  display: grid;
-  grid-template-columns: 1fr;
   grid-template-rows: 60px 500px 60px;
-  height: 100%;
   padding-left: 34px;
 }
 .home-container-horizontal {
@@ -71,14 +67,14 @@ export default {
 }
 .home-quotes-mobile {
   color: #9e9e9e;
-  font-size: 6vw;
+  font-size: 30px;
 }
 .home-quotes-horizontal {
   font-size: 4vw;
   margin: 25px;
 }
 .home-main-quotes-container {
-  margin: 0.6vw 0 0 1.2vw;
+  margin: 6vw 0 0 1.2vw;
   width: 60%;
 }
 .home-main-quotes {
