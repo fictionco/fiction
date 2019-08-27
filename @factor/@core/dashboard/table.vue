@@ -113,7 +113,8 @@ export default {
 </script>
 <style lang="less">
 .dbt {
-  font-weight: 500;
+  letter-spacing: -0.02em;
+  padding-right: 0.5em;
   .dbt-grid {
     display: grid;
 

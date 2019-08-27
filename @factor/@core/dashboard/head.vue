@@ -3,7 +3,7 @@
     <div class="dashboard-head-pad">
       <factor-link path="/" class="brand">
         <div class="icon">
-          <img :src="$setting.get('dashboard.icon', iconUrl)" />
+          <img :src="$setting.get('dashboard.icon', require('#/icon.png'))" >
         </div>
         <div class="name">{{ $config.setting('app.name') }}</div>
       </factor-link>
@@ -18,10 +18,10 @@
 export default {
   computed: {
     iconUrl() {
-      return require("#/icon.png");
+      return require("#/icon.png")
     }
   }
-};
+}
 </script>
 <style lang="less">
 .dashboard-head {
