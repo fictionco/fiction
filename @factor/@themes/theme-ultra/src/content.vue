@@ -26,11 +26,11 @@
     </div>
     <div class="content-main">
       <PageHome :mobile="mobile" :orientation-h="orientationH" />
-      <PageAbout />
-      <PageServices />
-      <PagePortfolio />
-      <PageNews />
-      <PageContact />
+      <PageAbout :mobile="mobile" :orientation-h="orientationH" />
+      <PageServices :mobile="mobile" :orientation-h="orientationH" />
+      <PagePortfolio :mobile="mobile" :orientation-h="orientationH" />
+      <PageNews :mobile="mobile" :orientation-h="orientationH" />
+      <PageContact :mobile="mobile" :orientation-h="orientationH" />
     </div>
   </div>
 </template>
@@ -109,6 +109,7 @@ export default {
   transition: 0.8s;
 }
 .home-sidebar-mobile {
+  z-index: 2;
   position: fixed;
   font-family: Work Sans;
   display: grid;
