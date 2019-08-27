@@ -2,43 +2,130 @@
 
 ## Overview
 
-Factor extensions are just standard node modules that integrate and work with core Factor tools like [\$filters](/guide/filters). So creating a Factor module starts with simply creating a new NPM module.
+A Factor plugin is a standard node module that has a few tweaks to make it work elegantly with Factor core. The goal with Factor plugins is to make them "drop-in" which means the following:
 
-Once you have your module created, it should include a `package.json` file. In that file, Factor plugins use the `factor` property to add information about how Factor plugins should be loaded and included.
+- No code needed for basic use
+- Intelligent, sensible defaults
+- Minimal configuration
+- Easily added and deleted
 
-### Defining a Plugin
+Luckily, Factor makes all this easy to do using [\$filters](/guide/filters) along with the core extensions system.
 
-Setting the property `factor` tells Factor that it is seeing a Factor plugin and to treat it accordingly. All Factor plugins should set this property:
+> Note: The easiest way to start a plugin is to reference an [existing plugin](https://github.com/fiction-com/factor/tree/master/%40factor/%40plugins) or clone one
+
+## Defining a Plugin
+
+To start a plugin, create a folder in your local development directory that includes a standard `package.json` file. This single step defines a NPM module, which is the basis for your plugin.
+
+In your `package.json`, add a `factor` property. This is where we'll add Factor specific configuration info and tells Factor it's a plugin.
+
+An example `factor` property looks like this:
 
 ```json
 // package.json
 {
-  "factor": {}
+  "name": "my-factor-plugin",
+  "factor": {
+    "id": "someId", // Adds main file to Factor as Factor.$someId
+
+    "target": ["app"], // Loads in app env.
+    // or
+    "target": ["app", "server"], // loads index.js in app & server env.
+    // or
+    "target": {
+      "app": "index", // Loads index.js in app env and server.js in server env
+      "server": "server"
+    },
+    // or advanced
+    "target": {
+      "app": ["index", "secondFile"], // Advanced case, full control of several files and where they load
+      "server": ["server", "index", "somethingElse"]
+    },
+
+    "extend": "theme", // or "plugin" ... defaults to "plugin"
+
+    "priority": 100 // Load priority ... defaults to 100. (Lower number is earlier load)
+  }
 }
 ```
 
-#### Autoload Your Extension
+### Setting Up Development
 
-Field: **target**
+To setup development of a plugin, you'll need to create a basic "example" app that can be used as the place you'll run the `factor dev` cli command. Here you'll reference your plugin by adding it as a dependency. There are two ways to do this elegantly:
 
-The "target" option tells Factor if it should "autoload" the extension if it's listed as a dependency. Autoloading can really help user experience as your extension can "just work" and often times it can seem like magic to your users.
+- Monorepo: Use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) and a monorepo to make locally referencing packages a breeze. (We use this approach for Factor and [Factor Extend](https://github.com/fiction-com/factor-extend).)
+- `file:` prefix: it's possible to locally reference modules using the NPM `file:` prefix [discussed here](https://docs.npmjs.com/files/package.json#local-paths).
 
-> **About:**
-> Factor works between two primary target environments, the webpack-generated "app" and the Express/Node "server". It's important to note that many modules that work fine in Node, will throw errors if used with a webpack driven app. Therefore, this option helps you control how extensions are loaded.
+Once you've successfully setup your development environment, you should start your "example" app using `yarn factor dev`. Then you should be able to work on your plugin and see how changes affect your app in real-time.
 
-If target is set to "app" then the plugin will be autoloaded in both the server environment and the Vue app environments.
+## Loading Extensions
 
-#### The Type of Extension
+### Main Files
 
-Field: **extend**
+A main file is a convention in JS modules that tells the system what file should be loaded when a module is imported into a script. In Factor, the default is `index.js` but the **target** attribute gives you fine control over what is loaded and where (discussed below).
 
-The "extend" property just tells Factor what type of extension you're adding: plugin, theme, or stack. This helps Factor identify the purpose and scope of the extension.
+#### Class Pattern
+
+Inside Factor main files, Factor recommends you use a standard class "closure" pattern that makes it easy to access the `Factor` global and also work with your plugin throughout the Factor system. The pattern looks like this:
+
+```js
+// index.js or server.js (main file)
+export default Factor => {
+  return new (class {
+    constructor() {
+      // Initialize
+    }
+  })()
+}
+```
+
+### Loading in Server vs App Environment
+
+Factor has two key environments: _"app"_ and _"server"_.
+
+- **APP** - The app environment consists of a standard Webpack driven VueJS application. This is compiled during build into an optimized "bundle" and is where all your components, routes, CSS, etc live.
+
+- **SERVER** - The server environment consists of the CLI and endpoint environments. Endpoints are where trusted actions like API calls (that require private keys) take place, while the CLI is where your application is built and served.
+
+#### The Problem
+
+##### Webpack analysis vs Node process
+
+Both these environments run Javascript and Factor goes to lots of effort to make both of these environments work together nicely. However, there are some realities of the underlying software you'll need to be aware of to work effectively (_and avoid painful bugs!_). These are:
+
+- **Webpack Static Analysis** - Webpack does static analysis of all files it sees in its compile path. This means that code that isn't ever technically run in the app environment still gets included in the build. Some NodeJS code is simply not compatible with the browser environment and will throw mysterious errors in your terminal.
+
+- **Node "Long-Running" Process** - Your Node process should be considered "long running" meaning info that is stored in memory will last a long time, as opposed to in the browser where everything starts from scratch with every page load. For that reason, server code sometimes needs to be written to accomodate this and avoid "[stateful singletons](https://ssr.vuejs.org/guide/structure.html#avoid-stateful-singletons)."
+
+While it's often ok to load the same code into both environments, these differences can sometime make it important to separate code into app vs server files. That's why Factor introduces the "target" attribute discussed below.
+
+#### The Solution
+
+##### The "Target" Attribute
+
+Configuring the `target` attribute in package.json tells Factor how it should load main files for an extension. There are two environments: "app" and "server" and they can be set to load the default `index.js`, a different file for each environment, or many files based on environment.
+
+```js
+"target": ["app"] // load index.js only in app environment
+"target": ["app", "server"] // load index.js in both server and app
+"target": {"app": "index", "server": "server"} // load index.js in app, server.js on server
+```
+
+## Working with Your Plugin
+
+...
 
 #### Reference the Extension
 
 Field: **id**
 
 The "id" property makes it so you can reference the returned module elsewhere in your app. If you include an id of "apple", you'll be able to access the module in your app as `Factor.$apple`.
+
+## The Type of Extension
+
+Field: **extend**
+
+The "extend" property just tells Factor what type of extension you're adding: plugin, theme, or stack. This helps Factor identify the purpose and scope of the extension.
 
 ### Example
 

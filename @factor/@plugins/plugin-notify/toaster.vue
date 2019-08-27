@@ -32,7 +32,7 @@ export default {
   mounted() {
     this.$events.$on(
       "notify-toast",
-      ({ type, message = "", duration = 4000 }) => {
+      ({ type, message = "", duration = 2000 }) => {
         const time = +new Date()
         if (type == "error") {
           this.errors.push({ time, message })
