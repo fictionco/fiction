@@ -24,40 +24,16 @@
 </template>
 <script>
 export default {
-  // model: {
-  //   prop: "post",
-  //   event: "change"
-  // },
   props: {
-    //   post: { type: Object, required: true },
     postId: { type: String, required: true }
-  },
-  data() {
-    return {}
   },
   computed: {
     post() {
       return this.$store.val(this.postId) || {}
     },
-    // post: {
-    //   get() {
-    //     return this.$store.val(this.postId) || {}
-    //   },
-    //   set(v) {
-    //     this.$store.add(this.postId, v)
-    //   }
-    // },
     link() {
       return this.$post.link(this.postId, { root: true })
     }
-  },
-  watch: {
-    // post: {
-    //   handler: function(v) {
-    //     this.post = v
-    //   },
-    //   deep: true
-    // }
   }
 }
 </script>

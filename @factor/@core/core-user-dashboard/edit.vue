@@ -87,6 +87,7 @@
             </div>
           </div>
         </dashboard-pane>
+        <slot name="edit" />
       </div>
 
       <div class="meta-column">
@@ -99,6 +100,7 @@
             </dashboard-btn>
           </template>
         </dashboard-pane>
+        <slot name="meta" />
       </div>
     </div>
   </dashboard-page>

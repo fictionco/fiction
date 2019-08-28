@@ -102,13 +102,7 @@ loop />
 export default {
   components: {
     "home-icon": () => import("./icon.vue"),
-    "el-stripes": () => import("./el-stripes"),
-    "section-benefits": () => import("./section-benefits"),
-    "section-ide": () => import("./section-ide"),
-    "section-data": () => import("./section-data"),
-    "section-share": () => import("./section-share"),
-    "section-quotes": () => import("./section-quotes"),
-    "section-pricing": () => import("./section-pricing")
+    "section-benefits": () => import("./section-benefits")
   },
   data() {
     return {
@@ -116,32 +110,20 @@ export default {
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
       quotes: [
         {
-          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
-            manually combining multiple data sources each month, we’re now able to run a
-            few simple queries in Sigma, enabling faster monthly reconciliation for credit
-            card transactions.`,
-          attribution: "Kelly Hofmann, Revenue Accounting"
+          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+          attribution: "John Smith, Company Inc."
         },
         {
-          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
-            manually combining multiple data sources each month, we’re now able to run a
-            few simple queries in Sigma, enabling faster monthly reconciliation for credit
-            card transactions.`,
-          attribution: "Kelly Hofmann, Revenue Accounting"
+          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+          attribution: "John Smith, Company Inc."
         },
         {
-          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
-            manually combining multiple data sources each month, we’re now able to run a
-            few simple queries in Sigma, enabling faster monthly reconciliation for credit
-            card transactions.`,
-          attribution: "Kelly Hofmann, Revenue Accounting"
+          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+          attribution: "John Smith, Company Inc."
         },
         {
-          text: `Stripe Sigma has helped accelerate our financial close process. Instead of
-            manually combining multiple data sources each month, we’re now able to run a
-            few simple queries in Sigma, enabling faster monthly reconciliation for credit
-            card transactions.`,
-          attribution: "Kelly Hofmann, Revenue Accounting"
+          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+          attribution: "John Smith, Company Inc."
         }
       ],
       features: [

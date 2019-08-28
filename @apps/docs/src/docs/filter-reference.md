@@ -49,3 +49,31 @@ Factor.$filters.add("components", _ => {
   return _
 })
 ```
+
+## Post Filters
+
+### The Base "Post" Post Type
+
+There are several filters available to extend the base "post" type which because this is the foundation of all posts, will affect all post types in your app.
+
+Some use cases might be adding meta information like a 'social sharing' image and so on.
+
+#### Post Schema
+
+`post-schema` filter: To extend the base post schema:
+
+```js
+// Takes and returns an object {}
+Factor.$filters.add("post-schema", _ => {
+  return {
+    ..._,
+    myPluginSetting: { type: String, trim: true }
+  }
+})
+```
+
+`post-populated-fields` filter: To extend the base schema fields that should be [populated](https://mongoosejs.com/docs/populate.html) on retrieval
+
+```js
+Factor.$filters.push("post-populated-fields", { field: "shareImage", depth: 20 })
+```

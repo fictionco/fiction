@@ -1,5 +1,11 @@
 <template>
-  <component :is="templateLoader" :post="post" />
+  <component :is="templateLoader" :post-id="_id" :post="post">
+    <template v-slot:edit>
+      <dashboard-pane v-for="(item, i) in editComponents" :key="i" :title="item.name">
+        <component :is="item.component" v-model="post" :post-id="_id" />
+      </dashboard-pane>
+    </template>
+  </component>
 </template>
 <script>
 export default {
@@ -20,6 +26,14 @@ export default {
       const { editTemplate } = this.postTypeMeta
 
       return editTemplate ? editTemplate : () => import("./posts-edit")
+    },
+    editComponents() {
+      const components = this.$filters.apply("post-edit-components", [])
+
+      return components.filter(
+        ({ postType }) =>
+          !postType || (postType && postType.includes(this.postType))
+      )
     }
   },
   watch: {

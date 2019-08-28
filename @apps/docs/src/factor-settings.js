@@ -109,6 +109,12 @@ module.exports.default = Factor => {
           title: "Working with Posts"
         },
         {
+          name: "Extend The Dashboard",
+          doc: "extend-dashboard",
+          file: require("./docs/dashboard.md"),
+          title: "Extending the Factor Dashboard"
+        },
+        {
           name: "Extend the CLI",
           doc: "extend-the-CLI",
           file: require("./docs/cli-dev.md"),
