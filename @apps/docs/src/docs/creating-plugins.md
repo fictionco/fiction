@@ -231,6 +231,13 @@ Icons are used in grids, graphics and other places plugins might be 'scanned' fo
 
 The name of your extension should generally include the word `factor-`. This way its possible to scan and search for Factor plugins and have your plugin come up.
 
+### Naming Ids, Fields and Filters
+
+When naming your plugin, assigning the ID, naming fields and filters and so on make sure you namespace somehow in order to avoid naming collisions with other authors and developers.
+
+- **Don't** name your filter/field/id: `comments` or `job`
+- **Do** prefix your filters/fields/id with a namespace or similar: `my-plugin-comments`, `myPluginId`
+
 ### Documenting Your Plugin
 
 Documentation is a critical piece in getting people to use and appreciate software. While Factor provides conventions and context to help people understand your plugin, you should never assume people know even the basics. Thats why we recommend adding the following instructions to your `README.md` at a minimum:
