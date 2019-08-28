@@ -4,13 +4,13 @@
 
 The Factor dashboard is designed to a minimal and extendable interface useful for common functional tasks in both end-user and admin scenarios.
 
-Example use cases for admins:
+**Example use cases for admins:**
 
 - Writing blog posts
-- Adding job listing
+- Adding job listings
 - Managing forms
 
-Example use cases for end-users:
+**Example use cases for end-users:**
 
 - Manage orders or tickets
 - View and manage bookings

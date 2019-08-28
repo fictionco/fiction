@@ -204,3 +204,49 @@ Handling multiple references per plugin is easy. If the main file is named somet
 ### Settings and Styles
 
 Plugins are also fully compatible with Factor's native `factor-settings` and `factor-styles` systems. Read more about them in the [customization doc](./customize).
+
+## Asset and Convention Guidelines
+
+Once you've created your plugin, you likely want to set it up for distribution and general use. For this purpose, Factor outlines some standards for assets like screenshots, icons and naming that will help your plugin appear professional as well as provide formatting consistency in places your plugin may be listed.
+
+### Screenshots
+
+In listings of your plugin, users typically like to scan through some screenshots.
+
+- **Naming:** screenshot.jpg, screenshot-2.jpg, screenshot-3.jpg. These will be ordered according to the number (with the default screenshot not needing a number).
+- **Sizing** The standard screenshot size is [720p](https://en.wikipedia.org/wiki/720p): 1280px-by-720px.
+- **Quality Conventions**
+  - You may want to annotate your screenshots to provide context about what exactly does.
+
+### Icon
+
+Icons are used in grids, graphics and other places plugins might be 'scanned' for. You'll want to make sure your icon is simple and professional designed.
+
+- **Naming** - icon.svg
+- **Sizing** - Since SVG icons are scaleable all that is required is that the icon is square. We recommend a 64px-by-64px default sizing.
+- **Quality Conventions**
+  - Don't add text to your icon. Text is always provided alongside icons.
+
+### Plugin Name
+
+The name of your extension should generally include the word `factor-`. This way its possible to scan and search for Factor plugins and have your plugin come up.
+
+### Documenting Your Plugin
+
+Documentation is a critical piece in getting people to use and appreciate software. While Factor provides conventions and context to help people understand your plugin, you should never assume people know even the basics. Thats why we recommend adding the following instructions to your `README.md` at a minimum:
+
+- Overview including Purpose and/or motivation behind the plugin
+- Installation
+- Options and Settings
+- Utilities available (`factor setup`)
+- FAQ or Related documentation and context links
+
+### License
+
+All plugins built and distributed for Factor must be compatible with the [GPLv2 license](https://en.wikipedia.org/wiki/GNU_General_Public_License).
+
+### Distributing
+
+All that is needed to distribute your plugin for use by the public is to [publish it as an NPM package](https://docs.npmjs.com/cli/publish).
+
+If you're using a monorepo (the recommended dev setup), then using [Lerna](https://github.com/lerna/lerna) may help coordinate the publishing and management of several plugins and themes.

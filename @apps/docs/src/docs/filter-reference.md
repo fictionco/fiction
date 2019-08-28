@@ -60,7 +60,7 @@ Some use cases might be adding meta information like a 'social sharing' image an
 
 #### Post Schema
 
-`post-schema` filter: To extend the base post schema:
+Filter: `post-schema` - To extend the base post schema:
 
 ```js
 // Takes and returns an object {}
@@ -72,7 +72,7 @@ Factor.$filters.add("post-schema", _ => {
 })
 ```
 
-`post-populated-fields` filter: To extend the base schema fields that should be [populated](https://mongoosejs.com/docs/populate.html) on retrieval
+Filter: `post-populated-fields` - To extend the base schema fields that should be [populated](https://mongoosejs.com/docs/populate.html) on retrieval
 
 ```js
 Factor.$filters.push("post-populated-fields", { field: "shareImage", depth: 20 })
