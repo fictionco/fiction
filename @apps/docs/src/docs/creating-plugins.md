@@ -11,7 +11,7 @@ A Factor plugin is a standard node module that has a few tweaks to make it work 
 
 Luckily, Factor makes all this easy to do using [\$filters](/guide/filters) along with the core extensions system.
 
-> Note: The easiest way to start a plugin is to reference an [existing plugin](https://github.com/fiction-com/factor/tree/master/%40factor/%40plugins) or clone one
+> Note: The easiest way to start a plugin is copy and edit an [existing plugin](https://github.com/fiction-com/factor/tree/master/%40factor/%40plugins)
 
 ## Defining a Plugin
 
@@ -106,106 +106,101 @@ While it's often ok to load the same code into both environments, these differen
 Configuring the `target` attribute in package.json tells Factor how it should load main files for an extension. There are two environments: "app" and "server" and they can be set to load the default `index.js`, a different file for each environment, or many files based on environment.
 
 ```js
-"target": ["app"] // load index.js only in app environment
-"target": ["app", "server"] // load index.js in both server and app
-"target": {"app": "index", "server": "server"} // load index.js in app, server.js on server
+// package.json
+"main": "index.js",
+"factor": {
+  "target": ["app"] // load index.js only in app environment
+  "target": ["app", "server"] // load index.js in both server and app
+  "target": {"app": "index", "server": "server"} // load index.js in app, server.js on server
+}
+
 ```
 
 ## Working with Your Plugin
 
-...
+Once you have your plugin loading, you're ready to start working on your plugin. Plugins add or alter functionality to a Factor app in these primary ways:
 
-#### Reference the Extension
+### Filters and Events
 
-Field: **id**
+[Filters](./filters) provide a standard and versatile way to modify data and functionality of functions elsewhere in Factor. Typically all you need to do is place your filters in the plugins main file and use these to add the functionality you need.
 
-The "id" property makes it so you can reference the returned module elsewhere in your app. If you include an id of "apple", you'll be able to access the module in your app as `Factor.$apple`.
+Also, Factor has a special `Factor.$events` utility that makes it easy to emit or listen for events using the following:
 
-## The Type of Extension
-
-Field: **extend**
-
-The "extend" property just tells Factor what type of extension you're adding: plugin, theme, or stack. This helps Factor identify the purpose and scope of the extension.
-
-### Example
-
-```json
-// package.json
-{
-  "name": "my-factor-module",
-  "description": "...",
-
-  // Setting the 'factor' property is required for the module to be treated as a Factor plugin
-  "factor": {
-    // EXTENSION ID
-    "id": "myFactorModule", // Can reference via Factor.$myFactorModule
-
-    // MODULE ENVIRONMENT TARGET
-    // default: If empty or undefined, no autoloading will take place
-    "target": ["app"], // Loads module in App
-    // or
-    "target": ["server"], // Loads module on server (e.g. endpoints, build)
-    // or
-    "target": {
-      "app": "index", // Loads index.js (default) in webpack app
-      "server": "server" // Loads server.js on Express server
-    },
-    // or (Advanced Example)
-    "target": {
-      "app": ["index", "another"], // Loads index.js and another.js (Available as $myFactorModuleAnother)
-      "server": ["server", "index"] // Loads server.js and index.js on Server
-    },
-
-    // EXTENSION TYPE
-    // Default: If empty or undefined, defaults to "plugin"
-    "extend": "theme", // Treats as a theme extension
-    // or
-    "extend": "plugin", // Default
-    // or
-    "extend": "app"
-  }
-}
+```js
+Factor.$events.$on("some-event", eventParams => console.log(eventParams)) // listen
+Factor.$events.$emit("some-event", eventParams) // emit
 ```
 
-## Module Format
+#### Example: Routes, Components, Events
 
-Factor extension files follow a specific JS class format, designed to allow for maximum convenience and flexibility when working. In a nutshell, extension entry files take a single `Factor` argument (which includes references to most critical Factor utilities) and return a class.
-
-As an example, if you set up an extension file like this:
-
-```javascript
+```js
 // index.js
 export default Factor => {
   return new (class {
     constructor() {
-      // Initialization and Filters
+      this.addRoutes()
+      this.addComponents()
+      this.events()
     }
 
-    async sendEmail(email) {
-      // Send email code
+    addRoutes() {
+      // Takes an array []
+      Factor.$filters.add("content-routes", routes => {
+        return [
+          ...routes,
+          {
+            path: "/my-route",
+            component: () => import("./component-for-my-route")
+          }
+        ]
+      })
     }
 
-    // other methods...
+    addComponents() {
+      // Takes an Object {}
+      Factor.$filters.add("components", components => {
+        return { ...components, "my-component-name": () => import("./my-component.vue") }
+      })
+    }
+
+    // listen for events
+    events() {
+      Factor.$events.$on("some-event", params => {
+        console.log("params")
+      })
+    }
+
+    // emit events
+    notify(message) {
+      Factor.$events.$emit("notify", message)
+    }
   })()
 }
 ```
 
-And apply some basic setup in package.json like this;
+### Plugin Global Reference
 
-```json
+All Factor extensions add a reference to the global `Factor` variable so that they can be referenced elsewhere directly if needed.
+
+The "id" property you set in your `package.json` determines the name of the reference. For example, if your id is `myEmailExtension` then once it's loaded it will be available by reference as `Factor.$myEmailExtension` everywhere else in your app.
+
+```js
 // package.json
 "factor": {
     "id": "myEmailPlugin",
     "target": "app"
 }
-```
 
-In your app, you'll be able to reference and use the extension like this:
-
-```javascript
-// Some component
+// Inside a component
 async myComponentMethod(){
   await Factor.$myEmailPlugin.sendEmail() // send an email or something
 }
-
 ```
+
+#### Handling Multiple References
+
+Handling multiple references per plugin is easy. If the main file is named something other than `index.js` then the name of the file will be appended to the ID with the first letter capitalized. If loading `server.js` then that class is reference as `Factor.$myIdServer`.
+
+### Settings and Styles
+
+Plugins are also fully compatible with Factor's native `factor-settings` and `factor-styles` systems. Read more about them in the [customization doc](./customize).

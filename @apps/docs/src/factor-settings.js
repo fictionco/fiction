@@ -113,6 +113,11 @@ module.exports.default = Factor => {
           file: require("./docs/cli-dev.md"),
           title: "Extending the Factor CLI"
         },
+        {
+          doc: "filter-reference",
+          file: require("./docs/filter-reference.md"),
+          title: "Factor Filters Reference"
+        },
 
         {
           group: "Contributing"
