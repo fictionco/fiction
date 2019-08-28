@@ -13,9 +13,6 @@
 </template>
 <script>
 export default {
-  components: {
-    "posts-table": () => import("./posts-table")
-  },
   data() {
     return {
       loading: true,
