@@ -10,7 +10,9 @@
       </div>
       <div class="splash-media">
         <figure>
-          <span />
+          <div class="reverse">
+            <span />
+          </div>
         </figure>
       </div>
     </div>
@@ -147,8 +149,15 @@ export default {
       right: -50px;
       top: 0;
       left: 55%;
-      transform: skewX(10deg);
-      background: var(--color-bg-contrast);
+      transform: skewX(15deg);
+      .reverse {
+        position: absolute;
+        left: -100%;
+        width: 200%;
+        height: 200%;
+        transform: skewX(-15deg);
+        background-image: url("./resource/dot.svg");
+      }
       span {
         display: flex;
         align-items: center;
