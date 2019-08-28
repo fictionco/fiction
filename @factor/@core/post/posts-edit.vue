@@ -44,9 +44,7 @@
           <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
         </dashboard-pane>
 
-        <dashboard-pane v-for="(item, i) in injectedComponents" :key="i" :title="item.name">
-          <component :is="item.component" v-model="post" :post-id="_id" />
-        </dashboard-pane>
+        <slot name="edit" />
       </div>
       <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
@@ -89,6 +87,7 @@
             </dashboard-link>
           </template>
         </dashboard-pane>
+        <slot name="meta" />
       </div>
       <div class="content-column plugin-column" />
     </div>

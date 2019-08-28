@@ -1,13 +1,9 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("post-edit-components", _ => {
-        _.push({
-          name: "SEO and Sharing",
-          component: () => import("./seo-panel.vue")
-        })
-
-        return _
+      Factor.$filters.push("post-edit-components", {
+        name: "SEO and Sharing",
+        component: () => import("./seo-panel.vue")
       })
 
       Factor.$filters.add("post-schema", _ => {
