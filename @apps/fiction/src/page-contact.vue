@@ -5,7 +5,7 @@
         <div class="wedge" />
       </div>
       <div class="text">
-        <h1 class="title">Contact Us</h1>
+        <h1 class="title">Contact Fiction</h1>
         <div
           class="sub-title"
         >We're happy to answer your questions. Fill out the form and we’ll be in touch as soon as possible.</div>
@@ -31,16 +31,16 @@ export default {
   data() {
     return {
       loading: true
-    };
+    }
   },
   metatags() {
     return {
       title: "Contact Sales or Support at Fiction",
       description: "Contact sales or support at Fiction.",
       image: require("./img/fiction.jpg")
-    };
+    }
   }
-};
+}
 </script>
 <style lang="less">
 .view-contact {
@@ -65,7 +65,7 @@ export default {
     }
     .title {
       font-size: 3em;
-      font-weight: 800;
+
       @media (max-width: 767px) {
         font-size: 2.5em;
       }
