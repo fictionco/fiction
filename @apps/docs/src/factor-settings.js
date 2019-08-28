@@ -91,12 +91,7 @@ module.exports.default = Factor => {
         {
           group: "Extension Development"
         },
-        {
-          name: "Post System",
-          doc: "post-system",
-          file: require("./docs/posts.md"),
-          title: "Working with Posts"
-        },
+
         {
           doc: "create-plugins",
           file: require("./docs/creating-plugins.md"),
@@ -106,6 +101,12 @@ module.exports.default = Factor => {
           doc: "create-themes",
           file: require("./docs/creating-themes.md"),
           title: "Using and Creating Factor Themes"
+        },
+        {
+          name: "Working With Posts",
+          doc: "post-system",
+          file: require("./docs/posts.md"),
+          title: "Working with Posts"
         },
         {
           name: "Extend the CLI",
