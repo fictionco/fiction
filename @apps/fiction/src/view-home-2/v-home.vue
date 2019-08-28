@@ -90,13 +90,36 @@
               class="column"
               :class="index == 0 ? 'label' : 'data'"
             >
-              <div v-for="(row, rowIndex) in col.items" :key="rowIndex" class="row">{{ row }}</div>
+              <div
+                v-for="(row, rowIndex) in col.items"
+                :key="rowIndex"
+                class="row"
+                :class="row ? 'has-content' : 'empty'"
+              >{{ row }}</div>
+              <div v-if="col.link" class="footer-row row">
+                <app-link btn="default" :path="col.link.path">
+                  <span v-formatted-text="col.link.text" />
+                </app-link>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <el-cta />
+      <div class="final-cta content">
+        <div class="content-pad">
+          <div>
+            <h1>
+              <span class="title">We're here to help.</span>
+              <span class="sub-title">Let's take your apps to the next level.</span>
+            </h1>
+          </div>
+          <div class="buttons">
+            <app-link action="signinModal" btn="secondary">Create An Account</app-link>
+            <app-link path="/contact" btn="default">Contact Fiction</app-link>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -175,7 +198,7 @@ export default {
           ],
           link: {
             path: "https://www.factor.dev",
-            text: "Visit Factor.dev &rarr;"
+            text: "Go to Factor.dev &rarr;"
           }
         },
         {
@@ -185,8 +208,8 @@ export default {
             "Advanced features, options and tools. Technical support from Fiction."
           ],
           link: {
-            path: "https://www.factor.dev",
-            text: "Visit Factor.dev &rarr;"
+            path: "/pro",
+            text: "Learn More &rarr;"
           }
         },
         {
@@ -196,8 +219,8 @@ export default {
             "Dedicated developers and managed infrastructure. Virtual dev team."
           ],
           link: {
-            path: "https://www.factor.dev",
-            text: "Visit Factor.dev &rarr;"
+            path: "/vip",
+            text: "Learn More &rarr;"
           }
         }
       ]
@@ -430,6 +453,8 @@ export default {
         overflow: hidden;
 
         &.data {
+          position: relative;
+          z-index: 1;
           box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1),
             0 5px 15px 0 rgba(0, 0, 0, 0.07);
           .row {
@@ -439,6 +464,7 @@ export default {
             }
           }
           .row:first-child {
+            font-size: 1.2em;
             background: #1b223c;
             color: #fff;
             font-weight: 700;
@@ -450,15 +476,55 @@ export default {
         box-shadow: none;
         background: none;
         text-align: right;
-        font-weight: 700;
-        opacity: 0.5;
+        text-transform: uppercase;
+        font-weight: 600;
+        opacity: 0.4;
+        z-index: 0;
+        margin-right: -1em;
+
+        .has-content {
+          background: #fff;
+          margin-right: -1em;
+        }
       }
       .row {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        min-height: 100px;
+        height: 100px;
         padding: 1em 2em;
+      }
+    }
+  }
+
+  .final-cta {
+    .content-pad {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+      padding-top: 5em;
+      padding-bottom: 3em;
+
+      position: relative;
+      z-index: 100;
+      h1 {
+        font-size: 2em;
+        font-weight: 400;
+      }
+      .title {
+        margin: 0.75em 0;
+      }
+      .sub-title {
+        color: var(--color-secondary);
+        display: block;
+        font-size: 0.9em;
+      }
+      .buttons {
+        display: flex;
+        justify-content: flex-end;
+        // .factor-btn + .factor-btn {
+        //   margin-left: 10px;
+        // }
       }
     }
   }
