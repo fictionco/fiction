@@ -8,7 +8,7 @@
 
 It is based on the MEVN Stack ([MongoDB](https://github.com/mongodb/mongo), [Express](https://expressjs.com), [VueJs](https://vuejs.org), [NodeJS](https://nodejs.org/en/)) and its purpose is to worry about best practices so you don't have to...
 
-Unlike most Javascript frameworks, Factor has its primary focus on extension via plugins and themes. It also includes a standard dashboard and conventions for content management (which can be leveraged by extensions).
+Unlike most Javascript frameworks, Factor has its primary focus on extension via plugins and themes. It also includes a CMS-oriented dashboard and data model (which are leveraged by extensions).
 
 Factor's end goal is to help you build complete web apps without spending time reinventing the wheel.
 
