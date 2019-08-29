@@ -8,7 +8,7 @@ module.exports.default = Factor => {
         {
           doc: "",
           name: "Introduction",
-          file: require("./docs/introduction/index.md"),
+          file: require("./docs/intro.md"),
           title: "Introduction: Why Use Factor"
         },
         {
