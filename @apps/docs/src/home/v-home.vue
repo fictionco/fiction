@@ -47,7 +47,7 @@ loop />
     </section>
 
     <section v-for="(feature, index) in features" :key="index" class="features content">
-      <div class="split-feature content-pad" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
+      <div class="split-feature" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
         <div class="feature-content-container">
           <div class="feature-content">
             <home-icon class="feature-icon" :icon="feature.icon" />
@@ -153,25 +153,25 @@ export default {
           icon: "dashboard2",
           title: "Dashboard and Posts",
           text: `Factor core comes with a professional dashboard and post management system.
-          This tool was carefully crafted to give you maximum powerful but with minimum bloat. It is simple by default but can be extended to handle even the most complext tasks.`
+            This tool was carefully crafted to give you maximum powerful but with minimum bloat. 
+            It is simple by default but can be extended to handle even the most complext tasks.`,
+          figure: () => import("./figure-dashboard.vue")
         },
         {
           icon: "plugins",
           title: "Drop-In Plugins",
-          text:
-            "Most Javascript frameworks make you do way too much coding and customization to make plugins work. That's why Factor makes plugins dead simple with intelligent defaults and no mandatory customization."
+          text: `Most Javascript frameworks make you do way too much coding and customization 
+              to make plugins work. That's why Factor makes plugins dead simple with intelligent 
+              defaults and no mandatory customization.`,
+          figure: () => import("./figure-plugins.vue")
         },
         {
           icon: "brush",
           title: "Customizable Themes",
-          text:
-            "Ever seen a theming system for Javascript apps that you could work with? We hadn't either. Factor was developed from the start with customizeable theming and rapid app development in mind."
+          text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either. 
+              Factor was developed from the start with customizeable theming and rapid app development in mind.`,
+          figure: () => import("./figure-themes.vue")
         }
-        // {
-        //   title: "GPL Licensed",
-        //   text:
-        //     "Factor core is free and open-source, built on the time-proven GPLv2 license that powers platforms like WordPress and Linux. "
-        // }
       ]
     }
   },
@@ -323,7 +323,6 @@ export default {
 
   .features {
     &.content {
-      padding: 10rem 0;
       box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
 
       @media (max-width: 767px) {
@@ -336,15 +335,33 @@ export default {
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "a b";
       align-items: center;
+      &.even {
+        .feature-content-container {
+          justify-self: flex-end;
+        }
+      }
       &.odd {
         grid-template-areas: "b a";
+        .feature-figure-container {
+          justify-self: flex-end;
+        }
       }
       .feature-content-container {
         grid-area: a;
+
+        .feature-content {
+          padding: 10rem 0;
+          max-width: 550px;
+        }
       }
       .feature-figure-container {
         grid-area: b;
         min-width: 0; // defaults content width
+        height: 100%;
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
       }
       @media (max-width: 767px) {
         grid-template-columns: 1fr;

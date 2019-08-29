@@ -45,14 +45,14 @@ export default {
   },
   computed: {
     scale() {
-      return this.width / 500
+      return Math.min(this.width / 500, 1)
     }
   },
   mounted() {
-    this.width = this.$refs.wrapper.clientWidth
+    this.width = this.$refs.wrapper.clientWidth || 100
 
     window.addEventListener("resize", () => {
-      this.width = this.$refs.wrapper.clientWidth
+      this.width = this.$refs.wrapper.clientWidth || 100
     })
   }
 }

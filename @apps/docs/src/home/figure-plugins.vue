@@ -1,0 +1,178 @@
+<template>
+  <figure ref="wrapper" class="stage-container plugins-figure">
+    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+      <div class="stage">
+        <div class="plugin-icon">
+          <img src="./img/icon-google-analytics.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-google-analytics.svg" >
+        </div>
+        <div class="plugin-icon twitter">
+          <img src="./img/icon-twitter.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-gtm.svg" >
+        </div>
+        <div class="plugin-icon facebook">
+          <img src="./img/icon-facebook.svg" >
+        </div>
+
+        <div class="plugin-icon">
+          <img src="./img/icon-google-analytics.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-google-analytics.svg" >
+        </div>
+
+        <div class="plugin-icon">
+          <img src="./img/icon-google-analytics.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-aws.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-aws.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-google-analytics.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-google-analytics.svg" >
+        </div>
+        <div class="plugin-icon">
+          <img src="./img/icon-sitemap.svg" >
+        </div>
+      </div>
+    </div>
+  </figure>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      width: 500
+    }
+  },
+  computed: {
+    scale() {
+      return Math.max(Math.min(this.width / 500, 1), 0.5)
+    }
+  },
+  mounted() {
+    this.width = this.$refs.wrapper.clientWidth
+
+    window.addEventListener("resize", () => {
+      this.width = this.$refs.wrapper.clientWidth
+    })
+  }
+}
+</script>
+
+<style lang="less">
+figure.plugins-figure {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  .stage-wrap {
+    transform-origin: center left;
+  }
+  .stage-wrap,
+  .stage {
+    width: 100%;
+    height: 100%;
+  }
+  .stage {
+    position: absolute;
+    perspective: 1000px;
+
+    left: 0;
+    top: 0;
+
+    @media (max-width: 767px) {
+      transform: translate(-0, -0px);
+    }
+    perspective: 1000px;
+    transform: rotateX(10deg) rotateY(0deg) rotate(-1deg) scale(1)
+      translateX(-15px);
+    .plugin-icon {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
+      &.facebook {
+        background: #1776f2;
+      }
+      &.twitter {
+        background: #1ea1f2;
+      }
+      &:nth-child(1) {
+        top: 5%;
+        left: 5%;
+      }
+      &:nth-child(2) {
+        top: 5%;
+        left: 38%;
+      }
+      &:nth-child(3) {
+        top: 8%;
+        left: 78%;
+        transform: scale(0.7);
+      }
+      &:nth-child(4) {
+        top: 25%;
+        left: 65%;
+      }
+      &:nth-child(5) {
+        top: 75%;
+        left: 15%;
+      }
+      &:nth-child(6) {
+        top: 63%;
+        left: 30%;
+        transform: scale(0.6);
+      }
+      &:nth-child(7) {
+        top: 87%;
+        left: 67%;
+        transform: scale(1.8);
+      }
+      &:nth-child(8) {
+        top: 50%;
+        left: 45%;
+      }
+      &:nth-child(9) {
+        top: 25%;
+        left: 5%;
+        transform: scale(0.85);
+      }
+      &:nth-child(10) {
+        top: 55%;
+        left: 80%;
+      }
+      &:nth-child(11) {
+        top: 35%;
+        left: 80%;
+      }
+      &:nth-child(12) {
+        top: 33%;
+        left: 30%;
+        transform: scale(1.5);
+      }
+      &:nth-child(13) {
+        top: 66%;
+        left: 4%;
+        transform: scale(1.5);
+      }
+    }
+  }
+}
+</style>
