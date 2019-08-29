@@ -4,25 +4,15 @@ _By default, Factor includes a CMS-like post management system and dashboard. Th
 
 ## Overview
 
-A web app usually needs the following:
-
-- User Management and Authentication
-- A Database System
-- Image Storage
-
-For many developers, setting this up can represent months of work and include many painful rewrites as you learn "best practices."
-
-That's why Factor takes an opinionated approach to how to best handle these common services. Doing so allows us to create a platform on which extension developers can build, as well as helps you save many many days of debugging and pain.
-
 To use the dashboard all you need is a [MongoDB connection string](https://docs.mongodb.com/manual/reference/connection-string/), which gives us the datastore needed to save data, do auth, etc.
 
 From there, different plugins may require different config information. E.g. AWS credentials. But ultimately the system is super simple to work with and extend. Let's discuss things in more detail below...
 
 ## The DB Connection
 
-The only thing that is required to get Factor's dashboard and post system running is a MongoDB/Mongoose compatible DB connection string. If you are not familiar with this, all you need to do is sign up for a service like [Mongo Atlas](https://www.mongodb.com/cloud/atlas) and they will walk you through the steps needed to get your string.
+The only thing that is required to get the dashboard running is a MongoDB/Mongoose compatible DB connection string. If you are not familiar with this, all you need to do is sign up for a service like [Mongo Atlas](https://www.mongodb.com/cloud/atlas) and they will walk you through the steps needed.
 
-Once you have it, just add the string to your `.env` file under the variable `DB_CONNECTION` as follows:
+Once you have it, just add the string to your `.env` file under the variable `DB_CONNECTION`.
 
 ```git
 # .env - DB Connection (Mongo Connection String)

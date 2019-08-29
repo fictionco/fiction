@@ -247,17 +247,11 @@ code {
   figure {
     margin: 2em 0;
     text-align: center;
-
+    background-image: url("../img/dot.svg");
     figcaption {
       margin-top: 0.1em;
       opacity: 0.3;
       text-align: center;
-    }
-
-    > a,
-    > img {
-      text-align: center;
-      display: inline-block;
     }
 
     img {
