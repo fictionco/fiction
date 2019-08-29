@@ -11,6 +11,8 @@
   "private": true,
   "license": "GPL-2.0",
   "scripts": {
+    "publish:docs": "heroku git:remote -a factor-dev && git push heroku master",
+    "publish:fiction": "heroku git:remote -a fiction-com && git push heroku master",
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
     "deploy": "git push heroku-factor-dev master"
