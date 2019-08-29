@@ -1,8 +1,8 @@
 <template>
   <div class="mobile-head">
-    <div class="mobile-bar">
-      <div class="mobile-toggle" @click.stop>
-        <div class="bars" @click="toggleNav()">
+    <div class="mobile-bar" @click.stop>
+      <div class="mobile-toggle" @click="toggleNav()">
+        <div class="bars">
           <div class="bar" />
           <div class="bar" />
         </div>

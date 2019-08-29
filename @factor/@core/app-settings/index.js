@@ -18,7 +18,10 @@ export default Factor => {
         Object.values(settingsFiles).map(_obj => _obj(Factor))
       )
 
-      this._settings = Factor.$utils.deepMerge(settingsArray)
+      this._settings = Factor.$filters.apply(
+        "merged-factor-settings",
+        Factor.$utils.deepMerge(settingsArray)
+      )
     }
 
     get(key, defaultValue) {

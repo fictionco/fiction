@@ -158,5 +158,5 @@ To override any of these, all you need to do is add a component with the same na
 
 When you build your app, Factor generates two folders.
 
-- **Dist**- THis is the production build of your application. In other words, it is what is served when you host your app.
+- **Dist**- The production build of your application. In other words, it is what is served when you host your app.
 - **.factor** - This folder contains your module loaders and is generated whenever you run a Factor build.
