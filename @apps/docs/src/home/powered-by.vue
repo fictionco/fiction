@@ -70,7 +70,7 @@ figure.powered-by {
     padding: 30% 0;
     width: 500px;
     position: relative;
-    transform: translateX(-70px) scale(1.1);
+    transform: translateX(-70px) scale(1.3);
     .factor-stack {
       position: absolute;
       left: 80%;
@@ -78,7 +78,7 @@ figure.powered-by {
       z-index: 100;
       transform: translateX(-46px);
     }
-    perspective: 2500px;
+    perspective: 1000px;
     .scene {
       background-image: url("./img/dot.svg");
       position: absolute;
