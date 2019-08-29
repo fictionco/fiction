@@ -4,7 +4,7 @@
 
 ![](./img/factor-logo-2.svg)
 
-**Factor** is a platform that makes it easy to build web apps using Javascript and open source technologies.
+**Factor** is a platform that makes it easy to build impressive Javascript apps.
 
 It is based on the MEVN Stack ([MongoDB](https://github.com/mongodb/mongo), [Express](https://expressjs.com), [VueJs](https://vuejs.org), [NodeJS](https://nodejs.org/en/)) and its purpose is to worry about best practices so you don't have to...
 
