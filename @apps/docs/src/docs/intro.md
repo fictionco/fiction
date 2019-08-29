@@ -35,46 +35,18 @@ If you work with Javascript and spend lots of time doing rewrites, dealing with 
 - No UI framework bloat e.g. Material, Bootstrap (_can be added via themes_)
 - No bloat in general (yes, we hate bloat)
 
-## Core Ideas
+## Core Idea
 
 Factor is a combination of the following:
 
 - An extension system for plugins and themes
 - A "Universal" Javascript framework (Vue SSR, Node)
-- A CMS oriented dashboard and data management model
+- A CMS oriented dashboard and data model
 
 ![Factor Diagram](./img/factor-venn-diagram.svg)
 
-### The Framework
-
-Factor, at its heart, is a system that coordinates different developer tools and environments to create a consistent and simple development experience.
-
-While you've probably seen many JS frameworks out there, what sets Factor apart is an effort on simplicity and extension.
-
-### Extensions
-
-#### Plugins
-
-In Factor, adding (or removing) plugins is as simple as `yarn add some-plugin`. Plugins automatically set themselves up and even add tools for setting options and config (with the `factor setup` CLI).
-
-Plugins can add all sorts of functionality. We've already added plugins for things like SEO, sitemaps, analytics, notifications, comments and more.
-
-#### Themes
-
-Theming has been neglected in JS frameworks. Factor seeks to remedy this.
-
-The scope of a Factor theme is to give you an advanced starting point for your app and it can save you a ton of time. Themes add or include extensions of their own, and include useful templates and UI tools.
-
-<hr>
-
-Learn more about [adding extensions &rarr;](./extension-basics)
-
-### Dashboard
-
-The real magic behind Factor is all about the dashboard and data model. Because these are standard, plugins and themes can leverage this to help you with "CMS oriented" functionality like user logins, page editing and so on.
-
-With the dashboard, something like adding a new blog post takes seconds. No more worrying about rebuilding your app every time you need to make a change.
-
 ## Next Steps
 
-We’ve briefly introduced the most basic features of Factor - the rest of this guide will cover them and other advanced features with much finer details, so let's dig in.
+We'll dive into the details of the dashboard, data model, plugins, themes and framework in a bit.
+
+If you haven't installed Factor yet, let's move on to the [Factor Quickstart &rarr;](./quickstart)

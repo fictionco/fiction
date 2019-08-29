@@ -59,7 +59,11 @@ loop />
           </div>
         </div>
         <div class="feature-figure-container">
-          <div class="figure-container" />
+          <div class="figure-container">
+            <factor-client-only>
+              <component :is="feature.figure" />
+            </factor-client-only>
+          </div>
         </div>
       </div>
     </section>
@@ -130,8 +134,11 @@ export default {
         {
           icon: "powered",
           title: "Powered by VueJS and MongoDB",
-          text:
-            "Factor is a universal Javascript framework which means you can dynamically make changes to your content and see them reflected immediately (without a build step). This also enables custom endpoints and server-side rendering (SSR) important for SEO, social, and performance reasons."
+          text: `Factor is a universal Javascript framework which means you can dynamically 
+              make changes to your content and see them reflected immediately (without a build step). 
+              This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
+              social, and performance reasons.`,
+          figure: () => import("./powered-by.vue")
         },
         {
           icon: "ssr",
@@ -317,9 +324,10 @@ export default {
     }
     .split-feature {
       display: grid;
-      grid-column-gap: 2rem;
+      grid-column-gap: 3rem;
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "a b";
+      align-items: center;
       &.odd {
         grid-template-areas: "b a";
       }
@@ -328,6 +336,7 @@ export default {
       }
       .feature-figure-container {
         grid-area: b;
+        min-width: 0; // defaults content width
       }
     }
 
