@@ -138,13 +138,16 @@ export default {
               make changes to your content and see them reflected immediately (without a build step). 
               This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
               social, and performance reasons.`,
-          figure: () => import("./powered-by.vue")
+          figure: () => import("./figure-powered-by.vue")
         },
         {
           icon: "ssr",
           title: "Dynamic SSR Apps",
-          text:
-            "Factor is a universal Javascript framework which means you can dynamically make changes to your content and see them reflected immediately (without a build step). This also enables custom endpoints and server-side rendering (SSR) important for SEO, social, and performance reasons."
+          text: `Factor is a universal Javascript framework which means you can dynamically make changes
+              to your content and see them reflected immediately (without a build step). 
+              This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
+              social, and performance reasons.`,
+          figure: () => import("./figure-live-changes.vue")
         },
         {
           icon: "dashboard2",
