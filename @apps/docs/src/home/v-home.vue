@@ -190,6 +190,7 @@ export default {
 .view-home {
   padding-top: 45px;
   font-weight: 400;
+  overflow: hidden;
   .content-pad {
     max-width: 1100px;
     margin: 0 auto;
@@ -324,6 +325,10 @@ export default {
     &.content {
       padding: 10rem 0;
       box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+
+      @media (max-width: 767px) {
+        padding: 8rem 0;
+      }
     }
     .split-feature {
       display: grid;
@@ -340,6 +345,16 @@ export default {
       .feature-figure-container {
         grid-area: b;
         min-width: 0; // defaults content width
+      }
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+        grid-template-areas: "a" "b";
+        &.odd {
+          grid-template-areas: "a" "b";
+        }
+        .feature-figure-container {
+          padding-top: 3em;
+        }
       }
     }
 

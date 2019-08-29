@@ -51,6 +51,9 @@ figure.live-changes {
     width: 500px;
     position: relative;
     transform: translate(-120px, -50px) scale(1.1);
+    @media (max-width: 767px) {
+      transform: translate(-0, -0px);
+    }
     .annotation {
       position: absolute;
       top: 0;
@@ -77,7 +80,7 @@ figure.live-changes {
         transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg)
           rotate(2deg);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
-          19px 25.5px 115px -25px rgba(50, 50, 93, 0.3),
+          19px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
           13.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         border-radius: 4px;
@@ -90,8 +93,8 @@ figure.live-changes {
         transform: scale(1) perspective(1040px) rotateY(11deg) rotateX(-2deg)
           rotate(-2deg);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
-          -19px 32.5px 125px -25px rgba(50, 50, 93, 0.3),
-          13.4px 37.5px 75px -37.5px rgba(0, 0, 0, 0.3);
+          -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
+          13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         border-radius: 4px;
       }
