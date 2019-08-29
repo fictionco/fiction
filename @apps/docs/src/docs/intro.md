@@ -71,9 +71,9 @@ Learn more about [adding extensions &rarr;](./extension-basics)
 
 ### Dashboard
 
-The true magic behind Factor is all about what we can add because of a standardized dashboard and data model. Because these are standard, plugins and themes can leverage this and implement all sorts of "CMS oriented" stuff.
+The real magic behind Factor is all about the dashboard and data model. Because these are standard, plugins and themes can leverage this to help you with "CMS oriented" functionality like user logins, page editing and so on.
 
-With the dashboard adding a new page to your app takes seconds. Adding a blog can be done in a few clicks. Not only that, it can all be edited in real time without worrying about rebuilding your site (as is done in JAMstack apps).
+With the dashboard, something like adding a new blog post takes seconds. No more worrying about rebuilding your app every time you need to make a change.
 
 ## Next Steps
 
