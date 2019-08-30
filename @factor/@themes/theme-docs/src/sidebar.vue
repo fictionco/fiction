@@ -1,6 +1,6 @@
 <template>
-  <div class="docs-sidebar" :class="rendered ? 'rendered': ''" @click.stop>
-    <div ref="nav" class="sidebar-inner">
+  <div class="docs-sidebar" @click.stop>
+    <div v-show="hydrated" ref="nav" class="sidebar-inner">
       <div v-if="mode =='mobile'" class="site-links">
         <factor-link
           v-for="(item, index) in $setting.get('site.nav')"
@@ -55,7 +55,7 @@ export default {
       headers: [],
       allHeaders: [],
       activeHash: this.$route.hash,
-      rendered: false
+      hydrated: false
     }
   },
   computed: {
@@ -80,6 +80,7 @@ export default {
     window.removeEventListener("scroll", this.onScroll())
   },
   mounted() {
+    this.hydrated = true
     this.setPage()
   },
   methods: {
@@ -93,7 +94,6 @@ export default {
 
           window.addEventListener("scroll", this.onScroll())
         }
-        this.rendered = true
       }, 40)
     },
     onScroll() {
@@ -189,10 +189,6 @@ export default {
 <style lang="less">
 // Docs Sidebar
 .docs-sidebar {
-  display: none;
-  &.rendered {
-    display: block;
-  }
   position: fixed;
   top: 45px;
   padding-bottom: 5em;
