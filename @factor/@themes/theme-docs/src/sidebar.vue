@@ -1,5 +1,5 @@
 <template>
-  <div class="docs-sidebar" @click.stop>
+  <div class="docs-sidebar" :class="rendered ? 'rendered': ''" @click.stop>
     <div ref="nav" class="sidebar-inner">
       <div v-if="mode =='mobile'" class="site-links">
         <factor-link
@@ -54,7 +54,8 @@ export default {
       scroller: null,
       headers: [],
       allHeaders: [],
-      activeHash: this.$route.hash
+      activeHash: this.$route.hash,
+      rendered: false
     }
   },
   computed: {
@@ -92,7 +93,8 @@ export default {
 
           window.addEventListener("scroll", this.onScroll())
         }
-      }, 50)
+        this.rendered = true
+      }, 40)
     },
     onScroll() {
       return this.$lodash.throttle(() => {
@@ -187,6 +189,10 @@ export default {
 <style lang="less">
 // Docs Sidebar
 .docs-sidebar {
+  display: none;
+  &.rendered {
+    display: block;
+  }
   position: fixed;
   top: 45px;
   padding-bottom: 5em;
