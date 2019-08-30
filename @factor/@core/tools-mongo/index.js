@@ -12,8 +12,9 @@ export default Factor => {
     init() {
       this.schemas = Factor.$filters
         .apply("data-schemas", [require("@factor/post/schema").default(Factor)])
-        .map(schema => {
-          return typeof schema == "function" ? schema() : schema
+        .map(schemaConfig => {
+          const _s = typeof schemaConfig == "function" ? schemaConfig() : schemaConfig
+          return Factor.$filters.apply(`data-schema-${_s.name}`, _s)
         })
     }
 

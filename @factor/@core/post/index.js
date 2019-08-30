@@ -90,8 +90,14 @@ export default Factor => {
       // })
 
       Factor.$filters.add("admin-menu", _ => {
-        this.getPostTypes().forEach(
-          ({ postType, namePlural, icon = "", add = "add-new", accessLevel }) => {
+        this.getPostTypes()
+          .filter(({ showAdmin, accessLevel }) => {
+            return showAdmin === false ||
+              (accessLevel && !Factor.$user.can({ accessLevel }))
+              ? false
+              : true
+          })
+          .forEach(({ postType, namePlural, icon = "", add = "add-new" }) => {
             const subMenu = []
 
             if (add) {
@@ -105,17 +111,14 @@ export default Factor => {
               path: "edit"
             })
 
-            if (!accessLevel || Factor.$user.can({ accessLevel })) {
-              _.push({
-                group: postType,
-                path: `posts/${postType}`,
-                name: namePlural || Factor.$utils.toLabel(postType),
-                icon,
-                items: Factor.$filters.apply(`admin-menu-post-${postType}`, subMenu)
-              })
-            }
-          }
-        )
+            _.push({
+              group: postType,
+              path: `posts/${postType}`,
+              name: namePlural || Factor.$utils.toLabel(postType),
+              icon,
+              items: Factor.$filters.apply(`admin-menu-post-${postType}`, subMenu)
+            })
+          })
 
         return _
       })
