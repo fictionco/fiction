@@ -45,15 +45,20 @@ export default {
   },
   computed: {
     scale() {
-      return Math.min(this.width / 500, 1)
+      return Math.max(Math.min(this.width / 500, 1), 0.5)
     }
   },
   mounted() {
-    this.width = this.$refs.wrapper.clientWidth || 100
+    this.width = this.getWidth()
 
     window.addEventListener("resize", () => {
-      this.width = this.$refs.wrapper.clientWidth || 100
+      this.width = this.getWidth()
     })
+  },
+  methods: {
+    getWidth() {
+      return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
+    }
   }
 }
 </script>

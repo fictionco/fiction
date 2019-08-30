@@ -61,11 +61,16 @@ export default {
     }
   },
   mounted() {
-    this.width = this.$refs.wrapper.clientWidth
+    this.width = this.getWidth()
 
     window.addEventListener("resize", () => {
-      this.width = this.$refs.wrapper.clientWidth
+      this.width = this.getWidth()
     })
+  },
+  methods: {
+    getWidth() {
+      return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
+    }
   }
 }
 </script>
@@ -126,6 +131,7 @@ figure.plugins-figure {
         top: 8%;
         left: 78%;
         transform: scale(0.7);
+        opacity: 0.8;
       }
       &:nth-child(4) {
         top: 25%;
@@ -139,6 +145,7 @@ figure.plugins-figure {
         top: 63%;
         left: 30%;
         transform: scale(0.6);
+        opacity: 0.8;
       }
       &:nth-child(7) {
         top: 87%;
