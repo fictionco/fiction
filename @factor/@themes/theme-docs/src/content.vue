@@ -21,9 +21,11 @@ export default {
   },
   computed: {
     bg() {
-      return {
-        background: this.$route.meta.background || ""
-      }
+      return this.$route.meta.background
+        ? {
+            background: this.$route.meta.background || ""
+          }
+        : ""
     }
   }
 }

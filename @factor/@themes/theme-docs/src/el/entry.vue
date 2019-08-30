@@ -75,7 +75,9 @@ code {
     position: relative;
     padding: 1.5em;
     overflow-x: auto;
-    line-height: normal;
+
+    font-size: 0.9em;
+    line-height: 1.4;
     code {
       color: inherit;
       margin: 0;
@@ -166,6 +168,12 @@ code {
   ol,
   ul {
     padding-left: 1.5em;
+    li {
+      margin-bottom: 0.25em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
   blockquote {
     margin-bottom: 2em;
