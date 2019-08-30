@@ -1,6 +1,6 @@
 <template>
   <div class="docs-sidebar" @click.stop>
-    <div v-show="hydrated" ref="nav" class="sidebar-inner">
+    <div ref="nav" :style="{opacity: hydrated ? 1 : 0}" class="sidebar-inner">
       <div v-if="mode =='mobile'" class="site-links">
         <factor-link
           v-for="(item, index) in $setting.get('site.nav')"
@@ -223,6 +223,7 @@ export default {
   .sidebar-inner {
     max-width: 300px;
     padding: 40px 20px 60px 40px;
+    transition: opacity 0.3s;
   }
 
   ul {
