@@ -35,7 +35,8 @@ Factor.$filters.push("post-types", {
   icon: require("./img/jobs.svg"), // dashboard icon
   baseRoute: "career", // base permalink route
   accessLevel: 100, // user access level needed to edit/add
-  add: true // can new posts be added via dashboard
+  add: true, // can new posts be added via dashboard
+  showAdmin: true // Set to false to hide list/edit menu in admin
 })
 ```
 
@@ -57,19 +58,19 @@ Factor.$filters.push("post-types", {
 
 Now that we've set up the post type, let's add a validation schema and learn how to work with it on the front end.
 
-### Data Schemas
+## DB Schemas
 
-With NoSQL databases there is no hard coded table structure. While this is often an advantage, there are some benefits to validating data format on a post-type level. To do this, we'll use schemas.
+With NoSQL databases there is no hard coded table structure. This is an advantage, but there are some benefits to validating data format on a post-type level. To do this, we'll use schemas.
 
 > **Mongoose** <br>For data modeling, Factor schemas use the [Mongoose library for MongoDB](https://mongoosejs.com). Make sure to check out its concepts and docs.
 
-#### The Base "Post" Schema
+### The Base "Post" Schema
 
 Initially, all post types inherit the basic post schema that you can [reference here](https://github.com/fiction-com/factor/blob/master/%40factor/%40core/post/schema.js). This sets up all functionality that is typical between different post types, for example date tracking, tags/categories, permalinks, etc..
 
-For many cases, automatically added base schema is enough. However it is possible to add additional functionality and validation...
+For many cases, the base schema is enough. However it is easy to add additional schemas or to extend existings ones...
 
-#### Extending the Base Schema
+### Adding a New Post Type Schema
 
 If you'd like to extend the basic post schema, then you'll need to add it using a Factor schema object + filter. As follows:
 
@@ -104,3 +105,31 @@ Factor.$filters.push("data-schemas", {
 ```
 
 > **Note**<br> Currently, schema changes require a full server restart. That is because Mongo/Mongoose can't reload them dynamically.
+
+### Extending an Existing Schema
+
+If you'd like to extend an existing schema, it's easy through the `data-schema-[POST TYPE]` filter. Just hook in and add your fields:
+
+```js
+Factor.$filters.add('data-schema-page', schemaConfig => {
+
+  // Add to schema
+  schemaConfig.schema = {...schemaConfig.schema, {
+    comments: [],
+  }}
+
+  // Add callback hooks (don't forget to call the original)
+  const originalCallback = schemaConfig.callback
+  schemaConfig.callback = _schema => {
+    originalCallback(_schema)
+    schema.pre("save", async function(next) {
+      const myPost = this
+      // modify document 'this' before it is saved (mongoose 'hook')
+      next()
+    })
+
+  }
+
+  return schemaConfig
+})
+```
