@@ -1,25 +1,27 @@
 <template>
-  <div v-if="vis" class="el-modal" :class="modalClass" data-test="modal-window">
-    <div class="el-modal-wrap">
-      <div v-show="vis" class="el-modal-content" @click.stop>
-        <div class="el-modal-pad modal-content" data-test="modal-content">
-          <span class="close" @click.stop="close">
-            <factor-icon icon="remove" />
-          </span>
-          <div class="modal-text">
-            <div class="modal-text-content">
-              <div class="modal-header">
-                <h3 class="title">{{ title }}</h3>
-                <div class="sub-title">{{ sub }}</div>
-              </div>
+  <transition name="scaleInModal">
+    <div v-if="vis" class="el-modal" :class="modalClass" data-test="modal-window">
+      <div class="el-modal-wrap">
+        <div v-show="vis" class="el-modal-content" @click.stop>
+          <div class="el-modal-pad modal-content" data-test="modal-content">
+            <span class="close" @click.stop="close">
+              <factor-icon icon="remove" />
+            </span>
+            <div class="modal-text">
+              <div class="modal-text-content">
+                <div class="modal-header">
+                  <h3 class="title">{{ title }}</h3>
+                  <div class="sub-title">{{ sub }}</div>
+                </div>
 
-              <slot />
+                <slot />
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 <script>
 export default {
@@ -78,6 +80,27 @@ export default {
 }
 </script>
 <style lang="less">
+.scaleInModal-enter-active,
+.scaleInModal-leave-active {
+  transition: all 0.3s ease;
+  .el-modal-pad{
+    transition: all 0.2s ease;
+  }
+}
+.scaleInModal-enter,
+.scaleInModal-leave-to {
+  opacity: 0;
+  .el-modal-pad{
+     opacity: 0;
+    transform: scale(.7)  rotateX(90deg);
+  }
+}
+.scaleInModal-enter-to,
+.scaleInModal-leave {
+  .el-modal-pad{
+    transform: scale(1) rotateX(0deg);
+  }
+}
 .el-modal {
   position: fixed;
   z-index: 1000;
@@ -89,7 +112,7 @@ export default {
   -webkit-transform: translate3d(0, 0, 0);
 
   //background-color: rgba(0, 0, 0, 0.75);
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color:  rgba(22, 22, 25, 0.8);
   .el-modal-wrap {
     height: 100%;
   }
@@ -116,6 +139,8 @@ export default {
       padding: 3em;
       background: #fff;
       border-radius: 0.5em;
+      box-shadow: 1px 1px 4px 0 rgba(22, 22, 25, 0.4),
+              -9px 22.5px 65px -5px rgba(22, 22, 25, 0.8);
       .close {
         position: absolute;
         z-index: 50;

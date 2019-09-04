@@ -48,10 +48,12 @@ export default Factor => {
 
     // After plugins added
     initializeApp() {
+      Factor.$components = {}
       const comps = Factor.$filters.apply("components", {})
       for (var _ in comps) {
         if (comps[_]) {
           Factor.component(_, comps[_])
+          Factor.$components[_] = comps[_]
         }
       }
 

@@ -23,7 +23,6 @@
   opacity: 0.95;
   font-weight: var(--font-weight-bold);
   padding: 0.5em 1em;
-  font-size: 0.9em;
   border: none;
   border-radius: 4px;
   background-color: #fff;

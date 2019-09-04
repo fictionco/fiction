@@ -290,24 +290,24 @@ export default {
   margin: 1em auto 1em;
   width: 300px;
   text-align: center;
+  font-size: 1.15em;
   .signin-header {
     margin-bottom: 1.5em;
     .title {
-      font-size: 1.6em;
-      font-weight: var(--font-weight-bold);
+      font-size: 1.8em;
     }
     .sub-title {
       font-weight: 500;
       opacity: 0.7;
-      line-height: 1.2;
+    
     }
   }
   .alt-links {
     margin-top: 2em;
     text-align: center;
     font-weight: 500;
-    font-size: 0.9em;
-    line-height: 1.5;
+
+    line-height: 1.8;
     a {
       cursor: pointer;
       color: var(--color-primary);

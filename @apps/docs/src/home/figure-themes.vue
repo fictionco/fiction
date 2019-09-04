@@ -51,16 +51,14 @@ export default {
 <style lang="less">
 figure.themes-figure {
   max-width: 100%;
-  .stage-wrap {
-    transform-origin: center left;
-  }
+
   .stage {
     padding: 30% 0;
     width: 500px;
     position: relative;
     transform: translateX(3em);
     @media (max-width: 767px) {
-      transform: translate(-0, -0px);
+      transform: translate(-4em, 3em);
     }
 
     perspective: 800px;
@@ -76,7 +74,7 @@ figure.themes-figure {
         -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
         13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
       overflow: hidden;
-      transform-origin: 0 0;
+
       img {
         width: 100%;
         display: block;
