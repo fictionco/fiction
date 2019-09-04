@@ -160,7 +160,7 @@ export default {
         },
         {
           icon: "dashboard2",
-          title: "Dashboard and Posts",
+          title: "Dashboard Included",
           text: `Factor comes with a professional dashboard and post management system.
             This tool was carefully crafted to give you maximum powerful but with minimum bloat. 
             It is simple by default but can be extended to handle even the most complext tasks.`,
