@@ -46,7 +46,12 @@ loop />
       <section-benefits class="content-pad" />
     </section>
 
-    <section v-for="(feature, index) in features" :key="index" class="features content">
+    <section
+      v-for="(feature, index) in features"
+      :key="index"
+      class="features content"
+      :class="index == features.length - 1 ? 'last':''"
+    >
       <div class="split-feature" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
         <div class="feature-content-container">
           <div class="feature-content">
@@ -68,20 +73,28 @@ loop />
       </div>
     </section>
 
-    <div class="quotes">
-      <article
-        v-for="(quote, index) in quotes"
-        :key="index"
-        :class="[index % 2 == 0 ? 'odd' : 'even', index % 4 == 0 || index % 4 == 3 ? 'diagonal' : '']"
-      >
-        <blockquote>
-          <a class="quote-image" href="#">
-            <factor-avatar width="64px" />
-          </a>
-          <p class="quote-body">{{ quote.text }}</p>
-          <footer>{{ quote.attribution }}</footer>
-        </blockquote>
-      </article>
+    <div class="quotes-wrap">
+      <div class="quotes">
+        <div class="quotes-pad">
+          <article
+            v-for="(quote, index) in quotes"
+            :key="index"
+            :class="[index % 2 == 0 ? 'odd' : 'even', index % 4 == 0 || index % 4 == 3 ? 'diagonal' : '']"
+          >
+            <blockquote>
+              <div class="quote-media">
+                <a class="quote-image" href="#">
+                  <img :src="quote.img" >
+                </a>
+              </div>
+              <p class="quote-body">"{{ quote.text }}"</p>
+              <footer>
+                <a href="#">{{ quote.attribution }}</a>
+              </footer>
+            </blockquote>
+          </article>
+        </div>
+      </div>
     </div>
 
     <div class="pro content">
@@ -114,20 +127,16 @@ export default {
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
       quotes: [
         {
-          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-          attribution: "John Smith, Company Inc."
+          text: `Before I moved to Factor I needed six different APIs and services to power my site. Now I just add Factor plugins and its 10x easier.`,
+          attribution: "Justin Keller, CEO Elastic Byte",
+          img: require("./img/vue.svg"),
+          link: "https://www.elasticbyte.net"
         },
         {
           text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-          attribution: "John Smith, Company Inc."
-        },
-        {
-          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-          attribution: "John Smith, Company Inc."
-        },
-        {
-          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-          attribution: "John Smith, Company Inc."
+          attribution: "John Smith, Company Inc.",
+          img: require("./img/nodejs.svg"),
+          link: "https://www.elasticbyte.net"
         }
       ],
       features: [
@@ -142,7 +151,7 @@ export default {
         },
         {
           icon: "ssr",
-          title: "Dynamic SSR Apps",
+          title: "Dynamic Beats Static",
           text: `Factor is a universal Javascript framework which means you can dynamically make changes
               to your content and see them reflected immediately (without a build step). 
               This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
@@ -152,14 +161,14 @@ export default {
         {
           icon: "dashboard2",
           title: "Dashboard and Posts",
-          text: `Factor core comes with a professional dashboard and post management system.
+          text: `Factor comes with a professional dashboard and post management system.
             This tool was carefully crafted to give you maximum powerful but with minimum bloat. 
             It is simple by default but can be extended to handle even the most complext tasks.`,
           figure: () => import("./figure-dashboard.vue")
         },
         {
           icon: "plugins",
-          title: "Drop-In Plugins",
+          title: `Plugins that just work`,
           text: `Most Javascript frameworks make you do way too much coding and customization 
               to make plugins work. That's why Factor makes plugins dead simple with intelligent 
               defaults and no mandatory customization.`,
@@ -167,7 +176,7 @@ export default {
         },
         {
           icon: "brush",
-          title: "Customizable Themes",
+          title: "Theming for the 21st Century",
           text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either. 
               Factor was developed from the start with customizeable theming and rapid app development in mind.`,
           figure: () => import("./figure-themes.vue")
@@ -177,7 +186,7 @@ export default {
   },
   metatags() {
     return {
-      title: "Factor JS - Universal VueJS Apps for Front-End Pros",
+      title: "Factor JS - Universal JS Platform for Front-End Professionals",
       description: "Terminal Page Description."
     }
   },
@@ -323,8 +332,10 @@ export default {
 
   .features {
     &.content {
-      box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
-
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+      &.last {
+        box-shadow: none;
+      }
       @media (max-width: 767px) {
         padding: 8rem 0;
       }
@@ -403,48 +414,94 @@ export default {
     }
   }
 
-  .quotes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 2rem;
-    transform: skewY(-10deg);
-    background: var(--color-bg-contrast);
-    @media (max-width: 767px) {
-      grid-template-columns: 1fr;
-    }
-    article {
-      position: relative;
-      display: flex;
-      &.diagonal {
+  .quotes-wrap {
+    position: relative;
+    background-image: url("./img/dot.svg");
+    // &:after {
+    //   content: "";
+    //   position: absolute;
+    //   background-image: linear-gradient(160deg, #eee, transparent);
+    //   transform: translateY(-4em) skewY(-10deg);
+    //   left: 0;
+    //   top: 0;
+    //   width: 100%;
+    //   height: 4em;
+    // }
+    margin-top: 5em;
+    .quotes {
+      transform: skewY(-10deg);
+
+      .quotes-pad {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 4em;
+        perspective: 800px;
       }
-      &.odd {
-        justify-content: flex-end;
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
       }
-      blockquote {
-        background: #fff;
-        border-radius: 6px;
-        box-shadow: var(--box-shadow-panel);
-        transform: skewY(10deg);
-        max-width: 550px;
-        padding: 6rem 5rem;
-        font-size: 1.3em;
-        line-height: 1.8;
-        text-align: center;
-        .quote-image {
-          display: block;
-          text-align: center;
-          .avatar {
-            display: inline-block;
+      article {
+        position: relative;
+        display: flex;
+
+        &:nth-child(1) {
+          transform: rotateX(2deg) rotateY(7deg);
+          //    background-image: linear-gradient(45deg, #fff, #f7f7f7);
+          blockquote {
+            box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
+              -9px 22.5px 65px -5px rgba(50, 50, 93, 0.2);
           }
-          margin-bottom: 1rem;
         }
-        footer {
-          margin-top: 1rem;
-          text-transform: uppercase;
-          opacity: 0.5;
-          font-size: 0.8em;
-          font-weight: 600;
+        &:nth-child(2) {
+          transform: rotateX(1deg) rotateY(-7deg);
+          // background-image: linear-gradient(45deg, #fff, #f7f7f7);
+          blockquote {
+            box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
+              19px 22.5px 75px -5px rgba(50, 50, 93, 0.2);
+          }
+        }
+        &.diagonal {
+        }
+        &.odd {
+          justify-content: flex-end;
+        }
+        blockquote {
+          transform: skewY(10deg);
+
+          max-width: 550px;
+          padding: 8rem 4rem;
+          font-size: 1.4em;
+          line-height: 1.8;
+          text-align: center;
+          background: #fff;
+          border-radius: 6px;
+
+          .quote-media {
+            display: block;
+            text-align: center;
+            a {
+              display: inline-block;
+              width: 100px;
+
+              img {
+                display: block;
+                width: 100%;
+              }
+            }
+
+            margin-bottom: 1rem;
+          }
+          footer {
+            margin-top: 1rem;
+            text-transform: uppercase;
+
+            font-size: 0.8em;
+            font-weight: 600;
+            // a {
+            //   color: inherit;
+            //   opacity: 0.4;
+            // }
+          }
         }
       }
     }
