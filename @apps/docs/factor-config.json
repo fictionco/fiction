@@ -9,5 +9,8 @@
     "andrew@fiction.com": "admin",
     "ray@fiction.com": "admin",
     "andrew@pagelines.com": "admin"
+  },
+  "google_tag_manager": {
+    "gtm_id": "GTM-THQBLTN"
   }
 }

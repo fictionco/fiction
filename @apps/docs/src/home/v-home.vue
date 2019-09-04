@@ -45,9 +45,10 @@
 
     <section
       v-for="(feature, index) in features"
+      :id="feature.id"
       :key="index"
       class="features content"
-      :class="index == features.length - 1 ? 'last':''"
+      :class="[index == features.length - 1 ? 'last':'']"
     >
       <div class="split-feature" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
         <div class="feature-content-container">
@@ -55,8 +56,8 @@
             <home-icon v-if="feature.icon" class="feature-icon" :icon="feature.icon" />
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
-            <div class="action">
-              <app-link path="/read">Something &rarr;</app-link>
+            <div v-if="feature.link" class="action">
+              <app-link :path="feature.link.path">{{ feature.link.text }} &rarr;</app-link>
             </div>
           </div>
         </div>
@@ -86,7 +87,7 @@
               </div>
               <p class="quote-body">"{{ quote.text }}"</p>
               <footer>
-                <a href="#">{{ quote.attribution }}</a>
+                <a :href="quote.link" target="_blank">{{ quote.attribution }}</a>
               </footer>
             </blockquote>
           </article>
@@ -94,18 +95,19 @@
       </div>
     </div>
 
-    <div class="pro content">
+    <div class="alpha-program content">
       <div class="content-pad">
         <div class="head">
-          <h2 class="title">Ready to go pro?</h2>
-          <h3 class="sub-title">Create a Fiction Account</h3>
+          <div class="glyph">&alpha;</div>
+          <h2 class="title">Join The Alpha Program</h2>
+          <h3 class="sub-title">Request an Invite or Contact Us</h3>
         </div>
         <div class="text">
           Fiction has a robust community of developers building the next big things for the web.
-          Join to get the latest updates and support.
+          Join to get chat access, latest updates and support.
         </div>
         <div class="action">
-          <a href="#">Create An Account &rarr;</a>
+          <a href="#">Request An Invite &rarr;</a>
         </div>
       </div>
     </div>
@@ -124,14 +126,14 @@ export default {
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
       quotes: [
         {
-          text: `Before I moved to Factor I needed six different APIs and services to power my site. Now I just add Factor plugins and its 10x easier.`,
+          text: `Really enjoying @factordev! Brilliant design here, you can basically do everythign with a plugin. #js #factordev`,
           attribution: "Justin Keller, CEO Elastic Byte",
           img: require("./img/vue.svg"),
           link: "https://www.elasticbyte.net"
         },
         {
-          text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
-          attribution: "John Smith, Company Inc.",
+          text: `wow! So impressed with the speed and ease of use of @factordev for creating universal #vuejs apps 💨 #factorjs`,
+          attribution: "Edgar Cheverier, Dono Inc.",
           img: require("./img/nodejs.svg"),
           link: "https://www.elasticbyte.net"
         }
@@ -144,7 +146,8 @@ export default {
               make changes to your content and see them reflected immediately (without a build step). 
               This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
               social, and performance reasons.`,
-          figure: () => import("./figure-powered-by.vue")
+          figure: () => import("./figure-powered-by.vue"),
+          link: { path: "/guide/quickstart", text: "View Quickstart" }
         },
         {
           icon: "ssr",
@@ -153,7 +156,8 @@ export default {
               to your content and see them reflected immediately (without a build step). 
               This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
               social, and performance reasons.`,
-          figure: () => import("./figure-live-changes.vue")
+          figure: () => import("./figure-live-changes.vue"),
+          link: { path: "/guide", text: "Try Factor" }
         },
         {
           icon: "dashboard2",
@@ -161,20 +165,24 @@ export default {
           text: `Factor comes with a professional dashboard and post management system.
             This tool was carefully crafted to give you maximum powerful but with minimum bloat. 
             It is simple by default but can be extended to handle even the most complext tasks.`,
-          figure: () => import("./figure-dashboard.vue")
+          figure: () => import("./figure-dashboard.vue"),
+          link: { path: "/guide", text: "Learn More" }
         },
         {
+          id: "plugins-feature",
           title: `Plugins that just work`,
           text: `Most Javascript frameworks make you do way too much coding and customization 
               to make plugins work. That's why Factor makes plugins dead simple with intelligent 
               defaults and no mandatory customization.`,
-          figure: () => import("./figure-plugins.vue")
+          figure: () => import("./figure-plugins.vue"),
+          link: { path: "/plugins", text: "View Plugins" }
         },
         {
           title: "Theming for the 21st Century",
           text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either. 
               Factor was developed from the start with customizeable theming and rapid app development in mind.`,
-          figure: () => import("./figure-themes.vue")
+          figure: () => import("./figure-themes.vue"),
+          link: { path: "/themes", text: "View Themes" }
         }
       ]
     }
@@ -333,7 +341,8 @@ export default {
         box-shadow: none;
       }
       @media (max-width: 767px) {
-        padding: 8rem 0;
+        padding: 6rem 0;
+        box-shadow: none;
       }
     }
     .split-feature {
@@ -342,6 +351,7 @@ export default {
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "a b";
       align-items: center;
+      min-height: 80vh;
       &.even {
         .feature-content-container {
           justify-self: flex-end;
@@ -350,7 +360,10 @@ export default {
       &.odd {
         grid-template-areas: "b a";
         .feature-figure-container {
-          justify-self: flex-end;
+          justify-content: flex-end;
+          @media (max-width: 767px) {
+            justify-content: center;
+          }
         }
       }
       .feature-content-container {
@@ -376,8 +389,14 @@ export default {
         &.odd {
           grid-template-areas: "a" "b";
         }
+        .feature-content-container {
+          .feature-content {
+            padding: 5rem 1.5rem 1rem;
+            max-width: 100%;
+          }
+        }
         .feature-figure-container {
-          padding-top: 3em;
+          justify-content: center;
         }
       }
     }
@@ -413,16 +432,7 @@ export default {
   .quotes-wrap {
     position: relative;
     background-image: url("./img/dot.svg");
-    // &:after {
-    //   content: "";
-    //   position: absolute;
-    //   background-image: linear-gradient(160deg, #eee, transparent);
-    //   transform: translateY(-4em) skewY(-10deg);
-    //   left: 0;
-    //   top: 0;
-    //   width: 100%;
-    //   height: 4em;
-    // }
+
     margin-top: 5em;
     .quotes {
       transform: skewY(-10deg);
@@ -434,13 +444,20 @@ export default {
         perspective: 800px;
       }
       @media (max-width: 767px) {
-        grid-template-columns: 1fr;
+        .quotes-pad {
+          grid-template-columns: 1fr;
+          article:nth-child(odd),
+          article:nth-child(even) {
+            transform: none;
+            margin: 0 auto;
+          }
+        }
       }
       article {
         position: relative;
         display: flex;
 
-        &:nth-child(1) {
+        &:nth-child(odd) {
           transform: rotateX(2deg) rotateY(7deg);
           //    background-image: linear-gradient(45deg, #fff, #f7f7f7);
           blockquote {
@@ -448,7 +465,7 @@ export default {
               -9px 22.5px 65px -5px rgba(50, 50, 93, 0.2);
           }
         }
-        &:nth-child(2) {
+        &:nth-child(even) {
           transform: rotateX(1deg) rotateY(-7deg);
           // background-image: linear-gradient(45deg, #fff, #f7f7f7);
           blockquote {
@@ -503,13 +520,22 @@ export default {
     }
   }
 
-  .pro {
+  .alpha-program {
     text-align: center;
-    padding: 12rem;
+    padding: 12rem 0;
     .content-pad {
       max-width: 700px;
     }
-    .head {
+    .glyph {
+      color: #ff0076;
+
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      font-size: 3.5em;
+
+      border-radius: 50%;
+      margin: 1rem auto;
     }
     .title {
       font-size: 3em;

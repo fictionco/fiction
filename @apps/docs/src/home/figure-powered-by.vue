@@ -97,9 +97,18 @@ figure.powered-by {
 
       .icon-box {
         position: absolute;
+        transform: translateZ(1px);
+        transform-style: preserve-3d;
         .box {
+          transform-style: preserve-3d;
           text-align: center;
           background: #fff;
+          box-shadow: 0 0 1px var(--color-wire);
+          overflow: visible;
+
+          padding: 10px 15px;
+
+          z-index: 5;
           img {
             max-width: 48px;
             display: inline-block;
@@ -109,13 +118,7 @@ figure.powered-by {
             font-size: 0.8em;
             text-align: center;
           }
-          overflow: visible;
-          // border: 1px solid blue;
-          //  border-radius: 5px;
-          padding: 10px 15px;
 
-          z-index: 5;
-          border: 1px solid #e6ebf1;
           &:after {
             background-color: var(--color-shaded);
             bottom: 0;

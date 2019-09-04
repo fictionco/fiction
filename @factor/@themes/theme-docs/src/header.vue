@@ -4,11 +4,12 @@
       <site-brand class="site-brand" />
 
       <div class="primary-nav">
-        <template v-for="(item, index) in $setting.get('site.nav')">
-          <component :is="item.component" v-if="item.component" :key="index" />
-          <factor-link v-else :key="index" :path="item.path">
+        <template v-for="(item, index) in siteNav" >
+          <component :is="item.component()" v-if="item.component" :key="index" />
+          <factor-link v-else :key="index" :path="item.path" :event="item.event">
+           
             <factor-icon v-if="item.icon" :icon="item.icon" />
-            <span>{{ item.name }}</span>
+            <span v-formatted-text="item.name" />
           </factor-link>
         </template>
       </div>
@@ -19,6 +20,16 @@
 export default {
   components: {
     "site-brand": () => import("./el/brand")
+  },
+  data(){
+    return {
+      navConfig: this.$setting.get("site.nav")
+    }
+  }, 
+  computed: {
+    siteNav() {
+      return this.navConfig.filter(item => !item.condition || item.condition())
+    }
   }
 }
 </script>

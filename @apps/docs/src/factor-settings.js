@@ -155,18 +155,20 @@ module.exports.default = Factor => {
           path: "/plugins",
           name: "Plugins"
         },
-        // {
-        //   path: "https://gitter.im/factorjs/community",
-        //   name: "Community",
-        //   icon: "gitter"
-        // },
+
         {
           path: "https://github.com/fiction-com/factor",
           name: "Github",
           icon: "github"
         },
         {
-          component: Factor.options.components["plugin-signin-profile-menu"]
+          event: "signin-modal",
+          name: "Sign In &rarr;",
+          condition: () => !Factor.$user.isLoggedIn()
+        },
+        {
+          component: () => Factor.$components["plugin-signin-profile-menu"],
+          condition: () => Factor.$user.isLoggedIn()
         }
       ]
     },
