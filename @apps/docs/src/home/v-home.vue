@@ -4,10 +4,8 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Universal VueJS Platform
-            <span
-              class="highlight"
-            >for Professional Front-End Developers</span>
+            The Javascript App Platform
+            <span class="highlight">for Professional Front-End Developers</span>
           </h1>
           <h3 class="page-title-sub">
             Perfect for websites, blogs, dashboard-driven apps, CMS and eCommerce.
@@ -27,8 +25,7 @@
       <div class="content screencast-container">
         <div class="content-pad">
           <figure class="screencast">
-            <video preload="true" :poster="poster" playsinline="true" autoplay muted
-loop />
+            <video preload="true" :poster="poster" playsinline="true" autoplay muted />
             <div class="play-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
                 <path
@@ -55,7 +52,7 @@ loop />
       <div class="split-feature" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
         <div class="feature-content-container">
           <div class="feature-content">
-            <home-icon class="feature-icon" :icon="feature.icon" />
+            <home-icon v-if="feature.icon" class="feature-icon" :icon="feature.icon" />
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div class="action">
@@ -167,7 +164,6 @@ export default {
           figure: () => import("./figure-dashboard.vue")
         },
         {
-          icon: "plugins",
           title: `Plugins that just work`,
           text: `Most Javascript frameworks make you do way too much coding and customization 
               to make plugins work. That's why Factor makes plugins dead simple with intelligent 
@@ -175,7 +171,6 @@ export default {
           figure: () => import("./figure-plugins.vue")
         },
         {
-          icon: "brush",
           title: "Theming for the 21st Century",
           text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either. 
               Factor was developed from the start with customizeable theming and rapid app development in mind.`,
@@ -230,6 +225,7 @@ export default {
         .highlight {
           display: block;
           opacity: 0.9;
+          color: #0496ff;
         }
       }
       .page-title-sub {
