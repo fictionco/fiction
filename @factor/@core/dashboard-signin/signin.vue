@@ -290,7 +290,9 @@ export default {
   margin: 1em auto 1em;
   width: 300px;
   text-align: center;
-  font-size: 1.15em;
+  form{
+    font-size: 1.2em;
+  }
   .signin-header {
     margin-bottom: 1.5em;
     .title {
