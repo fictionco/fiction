@@ -48,7 +48,9 @@
 
           <p class="text">{{ benefit.text }}</p>
           <div v-if="benefit.link" class="action">
-            <app-link :path="benefit.link.path">{{ benefit.link.text }}</app-link>
+            <app-link :path="benefit.link.path">
+              <span v-formatted-text="benefit.link.text" />
+            </app-link>
           </div>
         </div>
       </div>
@@ -66,6 +68,11 @@
             <div class="super">{{ feature.super }}</div>
             <div class="title">{{ feature.title }}</div>
             <div class="text">{{ feature.text }}</div>
+            <div v-if="feature.link" class="action">
+              <app-link :path="feature.link.path">
+                <span v-formatted-text="feature.link.text" />
+              </app-link>
+            </div>
           </div>
         </div>
         <div v-if="feature.figure" class="feature-figure-container">
@@ -156,6 +163,7 @@ export default {
       ],
       features: [
         {
+          id: "feature-factor",
           super: "Factor JS",
           title: "Create Dynamic Javascript Apps Powered by VueJS, MongoDB",
           text: `Factor is a state of the art Javascript development platform for front-end developers. 
@@ -588,6 +596,7 @@ export default {
       box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
     }
     .split-feature {
+      min-height: 90vh;
       display: grid;
       grid-column-gap: 4rem;
       grid-template-columns: 1fr 1fr;
