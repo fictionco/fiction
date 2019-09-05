@@ -172,7 +172,9 @@ export default {
           super: "Factor Pro",
           title:
             "Dedicated Support and Extensions for Professional Front-End Devs",
-          text: `Designed to meet the needs of professional front-end developers.`,
+          text: `Professional features designed for professional front-end developers. 
+            Get access to the best web app platform money can buy including pro eCommerce and web publishing extensions, 
+            enhanced SEO and brand capabilities and more. `,
           figure: () => import("./figure-pro.vue"),
           link: {
             path: "/pro",

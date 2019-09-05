@@ -19,6 +19,8 @@ export default {
 
 <style lang="less">
 #feature-vip {
+  position: relative;
+  z-index: 1;
   .feature-content {
     color: #fff;
   }
