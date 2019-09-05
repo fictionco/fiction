@@ -126,7 +126,7 @@ export default {
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
       quotes: [
         {
-          text: `Really enjoying @factordev! Brilliant design here, you can basically do everythign with a plugin. #js #factordev`,
+          text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
           attribution: "Justin Keller, CEO Elastic Byte",
           img: require("./img/vue.svg"),
           link: "https://www.elasticbyte.net"
