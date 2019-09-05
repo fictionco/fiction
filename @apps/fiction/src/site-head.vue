@@ -68,13 +68,25 @@ export default {
   transition: all 0.3s;
   will-change: padding;
 }
-.factor-site.scrolled {
+.factor-site {
   .site-head {
-    padding: 0rem 1rem;
-    background: #fff;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+  }
+  &.scrolled,
+  &.top {
+    .site-head {
+      opacity: 1;
+    }
+  }
+  &.scrolled {
+    .site-head {
+      padding: 0rem 1rem;
+      background: #fff;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
   }
 }
+
 .site-head-pad {
   max-width: var(--max-width);
   padding: 0 1.5rem;
