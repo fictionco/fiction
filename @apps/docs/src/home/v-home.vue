@@ -9,11 +9,17 @@
           </h1>
           <h3 class="page-title-sub">
             Perfect for websites, blogs, dashboard-driven apps, CMS and eCommerce.
-            <br >Open source and built with Vue, Mongo, and Node.
+            <br />Open source and built with Vue, Mongo, and Node.
           </h3>
           <div class="actions">
-            <app-link path="/guide/quickstart" btn="primary" size="large">Get Started &rarr;</app-link>
-            <app-link path="https://github.com/fiction-com/factor" btn="default" size="large">
+            <app-link path="/guide/quickstart" btn="primary" size="large"
+              >Get Started &rarr;</app-link
+            >
+            <app-link
+              path="https://github.com/fiction-com/factor"
+              btn="default"
+              size="large"
+            >
               <span>
                 <i>v</i>
                 <span>1.0ALPHA</span>
@@ -48,16 +54,18 @@
       :id="feature.id"
       :key="index"
       class="features content"
-      :class="[index == features.length - 1 ? 'last':'']"
+      :class="[index == features.length - 1 ? 'last' : '']"
     >
-      <div class="split-feature" :class="[index % 2 == 0 ? 'even' : 'odd' ]">
+      <div class="split-feature" :class="[index % 2 == 0 ? 'even' : 'odd']">
         <div class="feature-content-container">
           <div class="feature-content">
             <home-icon v-if="feature.icon" class="feature-icon" :icon="feature.icon" />
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <app-link :path="feature.link.path">{{ feature.link.text }} &rarr;</app-link>
+              <app-link :path="feature.link.path"
+                >{{ feature.link.text }} &rarr;</app-link
+              >
             </div>
           </div>
         </div>
@@ -77,12 +85,15 @@
           <article
             v-for="(quote, index) in quotes"
             :key="index"
-            :class="[index % 2 == 0 ? 'odd' : 'even', index % 4 == 0 || index % 4 == 3 ? 'diagonal' : '']"
+            :class="[
+              index % 2 == 0 ? 'odd' : 'even',
+              index % 4 == 0 || index % 4 == 3 ? 'diagonal' : ''
+            ]"
           >
             <blockquote>
               <div class="quote-media">
                 <a class="quote-image" href="#">
-                  <img :src="quote.img" >
+                  <img :src="quote.img" />
                 </a>
               </div>
               <p class="quote-body">"{{ quote.text }}"</p>
@@ -103,8 +114,8 @@
           <h3 class="sub-title">Request an Invite or Contact Us</h3>
         </div>
         <div class="text">
-          Fiction has a robust community of developers building the next big things for the web.
-          Join to get chat access, latest updates and support.
+          Fiction has a robust community of developers building the next big things for
+          the web. Join to get chat access, latest updates and support.
         </div>
         <div class="action">
           <a href="#">Request An Invite &rarr;</a>
@@ -126,9 +137,9 @@ export default {
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
       quotes: [
         {
-          text: `Really enjoying @factordev! Brilliant design here, you can basically do everythign with a plugin. #js #factordev`,
+          text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
           attribution: "Justin Keller, CEO Elastic Byte",
-          img: require("./img/vue.svg"),
+          img: require("./img/elastic-byte.svg"),
           link: "https://www.elasticbyte.net"
         },
         {
@@ -170,6 +181,7 @@ export default {
         },
         {
           id: "plugins-feature",
+          //icon: "plugins",
           title: `Plugins that just work`,
           text: `Most Javascript frameworks make you do way too much coding and customization 
               to make plugins work. That's why Factor makes plugins dead simple with intelligent 
@@ -178,6 +190,7 @@ export default {
           link: { path: "/plugins", text: "View Plugins" }
         },
         {
+          //icon: "brush",
           title: "Theming for the 21st Century",
           text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either. 
               Factor was developed from the start with customizeable theming and rapid app development in mind.`,
@@ -291,8 +304,8 @@ export default {
         position: relative;
         border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
-          0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
+          0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: contain;
         video {
@@ -314,8 +327,7 @@ export default {
           opacity: 0.9;
           border-radius: 50%;
           box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-            0 8px 16px -8px rgba(0, 0, 0, 0.3),
-            0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
           width: 72px;
           height: 72px;
         }
@@ -552,6 +564,9 @@ export default {
     }
     .text {
       margin: 2rem;
+    }
+    .action {
+      font-weight: 600;
     }
   }
 
