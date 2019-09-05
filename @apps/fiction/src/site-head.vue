@@ -45,7 +45,7 @@ export default {
         this.toggle = false
 
         document.removeEventListener("click", this.clickHandler)
-      }
+      };
 
       if (this.toggle) {
         document.addEventListener("click", this.clickHandler)
@@ -58,18 +58,26 @@ export default {
 </script>
 <style lang="less">
 .site-head {
-  padding: 1em 1.5em;
-  //box-shadow: 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 15px rgba(0, 0, 0, 0.03);
-  position: relative;
+  padding: 1rem 1rem;
+  width: 100%;
+  position: fixed;
   z-index: 11;
   @media (max-width: 767px) {
     padding: 0 0.5em;
   }
+  transition: all 0.3s;
+  will-change: padding;
 }
-
+.factor-site.scrolled {
+  .site-head {
+    padding: 0rem 1rem;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  }
+}
 .site-head-pad {
   max-width: var(--max-width);
-  padding: 0 2em;
+  padding: 0 1.5rem;
   margin: 0 auto;
   width: 100%;
 
