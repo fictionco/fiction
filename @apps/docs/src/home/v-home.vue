@@ -9,17 +9,11 @@
           </h1>
           <h3 class="page-title-sub">
             Perfect for websites, blogs, dashboard-driven apps, CMS and eCommerce.
-            <br />Open source and built with Vue, Mongo, and Node.
+            <br >Open source and built with Vue, Mongo, and Node.
           </h3>
           <div class="actions">
-            <app-link path="/guide/quickstart" btn="primary" size="large"
-              >Get Started &rarr;</app-link
-            >
-            <app-link
-              path="https://github.com/fiction-com/factor"
-              btn="default"
-              size="large"
-            >
+            <app-link path="/guide/quickstart" btn="primary" size="large">Get Started &rarr;</app-link>
+            <app-link path="https://github.com/fiction-com/factor" btn="default" size="large">
               <span>
                 <i>v</i>
                 <span>1.0ALPHA</span>
@@ -63,9 +57,7 @@
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <app-link :path="feature.link.path"
-                >{{ feature.link.text }} &rarr;</app-link
-              >
+              <app-link :path="feature.link.path">{{ feature.link.text }} &rarr;</app-link>
             </div>
           </div>
         </div>
@@ -93,7 +85,7 @@
             <blockquote>
               <div class="quote-media">
                 <a class="quote-image" href="#">
-                  <img :src="quote.img" />
+                  <img :src="quote.img" >
                 </a>
               </div>
               <p class="quote-body">"{{ quote.text }}"</p>
@@ -303,8 +295,8 @@ export default {
         position: relative;
         border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
-          0 50px 100px rgba(50, 50, 93, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
+          0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: contain;
         video {
@@ -326,7 +318,8 @@ export default {
           opacity: 0.9;
           border-radius: 50%;
           box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+            0 8px 16px -8px rgba(0, 0, 0, 0.3),
+            0 -6px 16px -6px rgba(0, 0, 0, 0.025);
           width: 72px;
           height: 72px;
         }
