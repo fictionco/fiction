@@ -153,10 +153,9 @@ export default {
         {
           icon: "powered",
           title: "Powered by VueJS and MongoDB",
-          text: `Factor is a universal Javascript framework which means you can dynamically 
-              make changes to your content and see them reflected immediately (without a build step). 
-              This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
-              social, and performance reasons.`,
+          text: `When you use Factor you'll be using best-of-class open source software under the hood. 
+            Stop worrying about lock-in and immature tech. No more endlessly comparing new tools and techniques. 
+            Just trust Factor and get started building your app.`,
           figure: () => import("./figure-powered-by.vue"),
           link: { path: "/guide/quickstart", text: "View Quickstart" }
         },
