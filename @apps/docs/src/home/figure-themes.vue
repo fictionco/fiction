@@ -1,9 +1,9 @@
 <template>
   <figure ref="wrapper" class="themes-figure">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div v-for="(screenshot, i) in screenshots" :key="i" class="screenshot-wrap">
-          <img :src="screenshot.img" >
+          <img :src="screenshot.img" />
         </div>
       </div>
     </div>
@@ -17,13 +17,13 @@ export default {
       width: 500,
       screenshots: [
         {
-          img: require("./img/screenshot.jpg")
+          img: require("./img/theme-alpha.jpg")
         },
         {
-          img: require("./img/screenshot.jpg")
+          img: require("./img/theme-ultra.jpg")
         },
         {
-          img: require("./img/screenshot.jpg")
+          img: require("./img/theme-alpha-yellow.jpg")
         }
       ]
     }
@@ -87,14 +87,14 @@ figure.themes-figure {
         left: 2em;
 
         z-index: 9;
-        transform: rotateX(4deg) rotateY(-15deg) translateZ(-8em)
-          translateY(1rem) translateX(1rem);
+        transform: rotateX(4deg) rotateY(-15deg) translateZ(-8em) translateY(1rem)
+          translateX(1rem);
       }
       &:nth-child(3) {
         left: 4em;
         z-index: 8;
-        transform: rotateX(4deg) rotateY(-15deg) translateZ(-16em)
-          translateY(2rem) translateX(2rem);
+        transform: rotateX(4deg) rotateY(-15deg) translateZ(-16em) translateY(2rem)
+          translateX(2rem);
       }
     }
   }
