@@ -276,9 +276,13 @@ export default {
     .logo-img .thelogotext {
       fill: var(--color-light);
     }
+    .site-head-pad .mob-nav-btn .toggle:after,
+    .site-head-pad .mob-nav-btn .toggle:before {
+      background-color: var(--color-light);
+    }
 
     .mobile-logo .logo-img .thelogotext {
-      fill: initial;
+      fill: var(--color-text);
     }
 
     .nav > a {
@@ -288,8 +292,8 @@ export default {
         color: var(--color-primary);
       }
 
-      @media (max-width: 767px) {
-        color: initial;
+      @media (max-width: 900px) {
+        color: var(--color-text);
       }
     }
   }
@@ -305,7 +309,7 @@ export default {
   .content-pad {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 2em;
+    padding: 0 1.5rem;
     width: 100%;
     &.wide {
       max-width: 1200px;
@@ -327,6 +331,7 @@ export default {
       );
       transform: translateY(-4rem);
       perspective: 1000px;
+
       .grid {
         backface-visibility: none;
         opacity: 0.5;
@@ -448,7 +453,7 @@ export default {
     padding: 8rem 0 6rem;
 
     color: #fff;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       padding: 115px 0 60px;
     }
     @media (min-width: 670px) {
@@ -462,8 +467,11 @@ export default {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 4rem;
-      @media (max-width: 767px) {
-        flex-direction: column;
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        .header-figure {
+          min-width: 0;
+        }
       }
     }
 
@@ -471,7 +479,7 @@ export default {
       flex: 1;
       min-width: 520px;
       text-shadow: 0 1px 1px rgba(20, 20, 25, 0.7);
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         min-width: 320px;
         margin: 0 0 40px;
       }
@@ -543,6 +551,9 @@ export default {
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: cover;
         transition: opacity 0.2s;
+        @media (max-width: 900px) {
+          width: 100%;
+        }
         &:hover {
           cursor: pointer;
           .play-button {
@@ -585,13 +596,14 @@ export default {
       display: grid;
       grid-template-rows: repeat(3, auto);
       grid-gap: 2em 0;
-      @media (min-width: 670px) {
+      @media (min-width: 900px) {
         grid-gap: 0 2em;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(1, 1fr);
       }
 
       .benefit {
+        max-width: 500px;
         .feature-icon {
           width: 4rem;
           margin-bottom: 0.75rem;
@@ -613,6 +625,7 @@ export default {
     }
     .split-feature {
       min-height: 90vh;
+
       display: grid;
       grid-column-gap: 4rem;
       grid-template-columns: 1fr 1fr;
@@ -630,6 +643,23 @@ export default {
         position: relative;
         height: 100%;
       }
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        grid-template-areas: "a" "b";
+        &.odd {
+          grid-template-areas: "a" "b";
+        }
+        .feature-content-container {
+          padding: 0;
+          .feature-content {
+            padding: 5rem 0 1rem;
+            max-width: 100%;
+          }
+        }
+        .feature-figure-container {
+          justify-content: center;
+        }
+      }
     }
 
     .feature-content {
@@ -642,6 +672,7 @@ export default {
         grid-gap: 1rem;
         .bullet {
           font-weight: 600;
+          display: flex;
           .bullet-text {
             opacity: 0.7;
           }
@@ -698,6 +729,7 @@ export default {
       .title {
         font-size: 2em;
         letter-spacing: -0.02em;
+        line-height: 1.4;
       }
       .sub-title {
         font-size: 1.4em;
@@ -706,10 +738,10 @@ export default {
       margin-bottom: 3em;
     }
     .feature-table {
-      padding: 1rem;
       display: grid;
       grid-template-columns: 10rem 1fr 1fr 1fr;
-      grid-gap: 1em;
+      grid-gap: 1.5rem;
+
       .column {
         text-align: center;
         background: #fff;
@@ -760,6 +792,16 @@ export default {
         height: 100px;
         padding: 1em 2em;
       }
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+
+        .column {
+          text-align: left;
+          &:nth-child(1) {
+            display: none;
+          }
+        }
+      }
     }
   }
 
@@ -788,95 +830,24 @@ export default {
       .buttons {
         display: flex;
         justify-content: flex-end;
-        // .factor-btn + .factor-btn {
-        //   margin-left: 10px;
-        // }
+        .btn-link + .btn-link {
+          margin-left: 1rem;
+        }
+      }
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        .buttons {
+          margin-top: 2rem;
+          justify-content: flex-start;
+          display: grid;
+          grid-gap: 1rem;
+          grid-template-columns: repeat(auto-fill, 186px);
+          .btn-link + .btn-link {
+            margin-left: 0;
+          }
+        }
       }
     }
-  }
-
-  .common-uppercase-text {
-    font-size: 17px;
-    line-height: 28px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
-  }
-  .common-PageTitle {
-    font-size: 53px;
-    line-height: 68px;
-    font-weight: 400;
-    margin: 0 0 20px;
-    color: #32325d;
-    letter-spacing: -0.01em;
-  }
-  .common-SectionTitle {
-    font-weight: 400;
-    font-size: 34px;
-    line-height: 44px;
-    color: #32325d;
-    @media (min-width: 670px) {
-      font-size: 42px;
-      line-height: 52px;
-    }
-  }
-
-  .common-Button {
-    white-space: nowrap;
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 14px;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-    background: #fff;
-    border-radius: 4px;
-    font-size: 15px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
-    color: #6772e5;
-    text-decoration: none;
-    transition: all 0.15s ease;
-
-    &:hover {
-      color: #7795f8;
-      transform: translateY(-1px);
-      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
-        0 3px 6px rgba(0, 0, 0, 0.08);
-    }
-
-    &.common-Button--default {
-      color: #fff;
-      background: #6772e5;
-      &:hover {
-        color: #fff;
-        background-color: #7795f8;
-      }
-    }
-  }
-  .common-body-title {
-    font-weight: 500;
-    font-size: 19px;
-    line-height: 32px;
-    color: #32325d;
-  }
-  .common-bodytext {
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 28px;
-    color: #525f7f;
-  }
-  .common-MediumBodyText {
-    font-weight: 400;
-    font-size: 19px;
-    line-height: 32px;
-    color: #525f7f;
-  }
-  .common-link {
-    color: #6772e5;
-    font-weight: 500;
-    transition: color 0.1s ease;
-    cursor: pointer;
   }
 }
 </style>

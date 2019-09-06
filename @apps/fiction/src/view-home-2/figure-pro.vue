@@ -36,9 +36,9 @@ export default {
   .feature-figure-container {
     width: 170%;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .feature-figure-container {
-      height: 500px;
+      height: 300px;
     }
   }
 }
@@ -97,6 +97,8 @@ figure.pro-figure {
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 0.75rem;
+        text-align: center;
         &:hover {
           color: #ff0076;
           box-shadow: 0 22.5px 25px -25px rgba(50, 50, 93, 0.5),
@@ -104,6 +106,18 @@ figure.pro-figure {
         }
       }
     }
+  }
+  @media (max-width: 900px) {
+    opacity: 0.6;
+    transform: translateY(1em);
+    .stage {
+      transform: translateX(-4em);
+    }
+    // .stage-wrap,
+    // .stage {
+    //   width: 100%;
+    //   height: 110%;
+    // }
   }
 }
 </style>

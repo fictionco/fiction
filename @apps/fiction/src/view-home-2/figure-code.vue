@@ -1,26 +1,31 @@
 <template>
-  <figure class="factor-figure">
-    <div class="card">
-      <div class="code-container">
-        <plugin-highlight-code>
-          <pre><code class="prism language-html">{{ code() }}</code></pre>
-        </plugin-highlight-code>
+  <figure ref="wrapper" class="factor-figure">
+    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+      <div class="card">
+        <div class="code-container">
+          <plugin-highlight-code>
+            <pre><code class="prism language-html">{{ code() }}</code></pre>
+          </plugin-highlight-code>
+        </div>
+        <div class="shine" />
       </div>
-      <div class="shine" />
-    </div>
-    <div class="screenshots">
-      <div class="screenshot factor">
-        <img src="./img/screencast-poster.jpg" >
-      </div>
-      <div class="screenshot alpha">
-        <img src="./img/theme-alpha.jpg" >
+      <div class="screenshots">
+        <div class="screenshot factor">
+          <img src="./img/screencast-poster.jpg" >
+        </div>
+        <div class="screenshot alpha">
+          <img src="./img/theme-alpha.jpg" >
+        </div>
       </div>
     </div>
   </figure>
 </template>
 
 <script>
+import pageUtils from "./utils"
 export default {
+  components: {},
+  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
   methods: {
     code() {
       return `<template>
@@ -51,19 +56,26 @@ export default {
   .feature-figure-container {
     align-self: center;
     height: auto;
+    min-width: 0;
+  }
+  @media (max-width: 900px) {
+    .feature-figure-container {
+      transform-origin: center center;
+
+      figure {
+        transform: translateX(0) translateY(2rem);
+      }
+    }
   }
 }
 figure.factor-figure {
   perspective: 2000px;
   position: relative;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-
   transform: translateX(-3rem);
 
   .screenshots {
     .screenshot {
+      max-width: 500px;
       z-index: 10;
       transform-origin: bottom center;
       position: absolute;
