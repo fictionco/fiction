@@ -689,6 +689,9 @@ export default {
 
   .compare {
     background-color: var(--color-bg-alt);
+    background-image: linear-gradient(var(--color-bg-alt) 90%, #eff6ff);
+
+    box-shadow: inset 0px -1px 1px #c3dcfd;
     padding: 10rem 0;
     .mast-head {
       text-align: center;
