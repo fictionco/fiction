@@ -1,47 +1,47 @@
 <template>
   <figure ref="wrapper" class="stage-container plugins-figure">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" >
+          <img src="./img/icon-blog.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" >
+          <img src="./img/icon-notify.svg" />
         </div>
         <div class="plugin-icon twitter">
-          <img src="./img/icon-twitter.svg" >
+          <img src="./img/icon-twitter.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-gtm.svg" >
+          <img src="./img/icon-gtm.svg" />
         </div>
         <div class="plugin-icon facebook">
-          <img src="./img/icon-facebook.svg" >
+          <img src="./img/icon-facebook.svg" />
         </div>
 
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" >
+          <img src="./img/icon-user-profiles.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" >
+          <img src="./img/icon-google-analytics.svg" />
         </div>
 
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" >
+          <img src="./img/icon-syntax.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-aws.svg" >
+          <img src="./img/icon-contact-form.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-aws.svg" >
+          <img src="./img/icon-aws.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" >
+          <img src="./img/icon-jobs.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" >
+          <img src="./img/icon-seo.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-sitemap.svg" >
+          <img src="./img/icon-sitemap.svg" />
         </div>
       </div>
     </div>
@@ -77,6 +77,7 @@ export default {
 
 <style lang="less">
 #plugins-feature {
+  background: linear-gradient(0deg, #ebeff3, transparent);
   @media (max-width: 767px) {
     .feature-figure-container {
       height: 500px;
@@ -109,8 +110,7 @@ figure.plugins-figure {
       transform: translate(-0, -0px);
     }
     perspective: 1000px;
-    transform: rotateX(10deg) rotateY(0deg) rotate(-1deg) scale(1)
-      translateX(-15px);
+    transform: rotateX(10deg) rotateY(0deg) rotate(-1deg) scale(1) translateX(-15px);
     .plugin-icon {
       position: absolute;
       width: 100px;
@@ -120,7 +120,7 @@ figure.plugins-figure {
       align-items: center;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.3);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11), 0px 1px 3px rgba(0, 0, 0, 0.08);
       &.facebook {
         background: #1776f2;
       }
@@ -153,7 +153,6 @@ figure.plugins-figure {
         top: 63%;
         left: 30%;
         transform: scale(0.6);
-        opacity: 0.8;
       }
       &:nth-child(7) {
         top: 87%;
