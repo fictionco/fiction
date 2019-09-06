@@ -10,7 +10,7 @@
         <div class="header-text">
           <div class="header-tag">
             <home-icon class="feature-icon" icon="powered" />
-            <div class="header-icon-text">Web Publishing and ECommerce</div>
+            <div class="header-icon-text">Introducting Factor JS</div>
           </div>
 
           <h1 class="title">Create the world's next great web app</h1>
@@ -68,8 +68,16 @@
             <div class="super">{{ feature.super }}</div>
             <div class="title">{{ feature.title }}</div>
             <div class="text">{{ feature.text }}</div>
+            <div v-if="feature.bullets" class="bullets">
+              <div v-for="(bullet, i) in feature.bullets" :key="i" class="bullet">
+                <span class="bullet-icon">
+                  <factor-icon icon="check" />
+                </span>
+                <span class="bullet-text">{{ bullet }}</span>
+              </div>
+            </div>
             <div v-if="feature.link" class="action">
-              <app-link :path="feature.link.path">
+              <app-link :path="feature.link.path" btn="primary">
                 <span v-formatted-text="feature.link.text" />
               </app-link>
             </div>
@@ -85,10 +93,7 @@
       <div class="content-pad">
         <div class="mast-head">
           <div class="title">Let's Create Something Beautiful Together</div>
-          <div class="sub-title">
-            Fiction is here to help you create the world's next great web apps.
-            <br >Let's get started...
-          </div>
+          <div class="sub-title">Create an account or get in touch.</div>
         </div>
         <div class="feature-table-wrap">
           <div class="feature-table">
@@ -101,9 +106,10 @@
               <div
                 v-for="(row, rowIndex) in col.items"
                 :key="rowIndex"
+                v-formatted-text="row"
                 class="row"
                 :class="row ? 'has-content' : 'empty'"
-              >{{ row }}</div>
+              />
               <div v-if="col.link" class="footer-row row">
                 <app-link btn="default" :path="col.link.path">
                   <span v-formatted-text="col.link.text" />
@@ -199,12 +205,22 @@ export default {
           link: {
             path: "/vip",
             text: "Learn More &rarr;"
-          }
+          },
+          bullets: [
+            "Design",
+            "Development",
+            "Managed Infrastructure",
+            "SEO",
+            "Dedicated Developers",
+            "Guaranteed Satisfaction",
+            "Phone Support",
+            "Free Setup"
+          ]
         }
       ],
       compare: [
         {
-          items: ["", "Ideal For", "Summary"]
+          items: ["", "Ideal For &rarr;", "Summary  &rarr;"]
         },
         {
           items: [
@@ -619,6 +635,28 @@ export default {
     .feature-content {
       letter-spacing: -0.01em;
       max-width: 500px;
+      .bullets {
+        margin: 2rem 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+        .bullet {
+          font-weight: 600;
+          .bullet-text {
+            opacity: 0.7;
+          }
+          .bullet-icon {
+            background: #ff0076;
+            border-radius: 50%;
+
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            text-align: center;
+            margin-right: 0.5rem;
+          }
+        }
+      }
     }
 
     .feature-icon {
@@ -645,17 +683,18 @@ export default {
       opacity: 0.8;
     }
     .action {
-      font-weight: 600;
-      font-size: 1.3em;
+      margin-top: 2rem;
     }
   }
 
   .compare {
+    background-color: var(--color-bg-alt);
     padding: 10rem 0;
     .mast-head {
       text-align: center;
       .title {
-        font-size: 2.5em;
+        font-size: 2em;
+        letter-spacing: -0.02em;
       }
       .sub-title {
         font-size: 1.4em;
@@ -664,6 +703,7 @@ export default {
       margin-bottom: 3em;
     }
     .feature-table {
+      padding: 1rem;
       display: grid;
       grid-template-columns: 10rem 1fr 1fr 1fr;
       grid-gap: 1em;
@@ -700,7 +740,8 @@ export default {
         text-align: right;
         text-transform: uppercase;
         font-weight: 600;
-        opacity: 0.4;
+        color: var(--color-primary);
+
         z-index: 0;
         margin-right: -1em;
 
