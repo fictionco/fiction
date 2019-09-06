@@ -56,6 +56,7 @@ figure.dashboard-figure {
     width: 500px;
     position: relative;
     transform: translate(80px, -50px) scale(1.1);
+    transform-style: preserve-3d;
     @media (max-width: 767px) {
       transform: translate(-0, -0px);
     }
@@ -77,7 +78,8 @@ figure.dashboard-figure {
         // filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.1));
       }
       &.code-mockup {
-        z-index: 0;
+        transform: translateZ(-50px);
+        //z-index: 0;
 
         top: 0;
         left: 0px;
@@ -86,11 +88,12 @@ figure.dashboard-figure {
       }
       &.dashboard-mockup {
         top: 15px;
-        z-index: 1;
+        //z-index: 1;
         right: 0;
         top: 50px;
         padding: 5px;
-        transform: scale(1) perspective(2040px) rotateY(-11deg) rotateX(2deg) rotate(2deg);
+        transform: scale(1) perspective(2040px) rotateY(-11deg) rotateX(2deg) rotate(2deg)
+          translateZ(0);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           19px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
           13.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);
@@ -98,12 +101,12 @@ figure.dashboard-figure {
         border-radius: 4px;
       }
       &.dashboard-tabs-mockup {
-        z-index: 5;
+        //z-index: 5;
         top: 110px;
         left: 0;
         padding: 5px;
         transform: scale(1) perspective(1040px) rotateY(11deg) rotateX(-2deg)
-          rotate(-2deg);
+          rotate(-2deg) translateZ(20px);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
           13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);

@@ -56,6 +56,7 @@ figure.live-changes {
     width: 500px;
     position: relative;
     transform: translate(-120px, -50px) scale(1.1);
+    transform-style: preserve-3d;
     @media (max-width: 767px) {
       transform: translate(-0, -0px);
     }
@@ -63,7 +64,7 @@ figure.live-changes {
       position: absolute;
       top: 0;
       left: 15%;
-      z-index: 10;
+      transform: translateZ(10px);
       img {
         width: 300px;
       }
@@ -72,22 +73,20 @@ figure.live-changes {
       top: 35px;
       background: #fff;
       display: inline-block;
-      //box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25),
-      //0 3px 7px -3px rgba(0, 0, 0, 0.3);
       img {
         max-width: 100%;
-        // filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.1));
       }
       &.theme {
         position: absolute;
         right: 0;
         z-index: 0;
         padding: 5px;
-        transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg) rotate(2deg);
+        transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg) rotate(2deg)
+          translateZ(-40px);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           19px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
           13.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);
-        //overflow: hidden;
+        overflow: hidden;
         border-radius: 4px;
       }
       &.edit-post {
@@ -100,7 +99,7 @@ figure.live-changes {
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
           13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
-        // overflow: hidden;
+        overflow: hidden;
         border-radius: 4px;
       }
     }
