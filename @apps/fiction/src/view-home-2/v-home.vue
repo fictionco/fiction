@@ -1,70 +1,78 @@
 <template>
   <div class="view-home-version-2">
-    <div class="header-wrapper">
-      <section class="header content">
-        <div class="content-pad">
-          <div class="header-layout">
-            <div class="header-content">
-              <div class="header-tag">
-                <div class="header-icon-text">For Front-End Professionals</div>
-              </div>
+    <section class="header content">
+      <div class="header-bg">
+        <div class="grid">
+          <div v-for="r in 16" :key="r" class="row" />
+        </div>
+      </div>
+      <div class="content-pad">
+        <div class="header-text">
+          <div class="header-tag">
+            <home-icon class="feature-icon" icon="powered" />
+            <div class="header-icon-text">Web Publishing and ECommerce</div>
+          </div>
 
-              <h1 class="header-title">Ship the world's next great web and eCommerce apps</h1>
-              <p class="header-text">
-                Fiction helps professional front-end developers build Javascript apps that take things to the next level.
-                Need to build scaleable, enterprise-grade applications? Get in touch for a free consultation.
-              </p>
+          <h1 class="title">Create the world's next great web app</h1>
+          <p
+            class="text"
+          >One platform with everything you need to professionally start, build, manage, and grow your business on the web.</p>
 
-              <div class="header-actions">
-                <input type="email" placeholder="Email Address" >
-                <app-btn btn="primary">Request Invite &rarr;</app-btn>
-              </div>
-            </div>
-            <div class="header-figure">
-              <figure>tbd</figure>
-            </div>
+          <div class="header-actions">
+            <input type="email" placeholder="Email Address" >
+            <app-btn btn="primary">Request Invite &rarr;</app-btn>
           </div>
         </div>
-      </section>
-    </div>
+        <div class="header-figure">
+          <figure class="screencast">
+            <video preload="true" :poster="poster" playsinline="true" autoplay muted />
+            <div class="play-button">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+                <path
+                  d="M22.5 19.8v32.5c0 1.5 1.7 2.5 3 1.7l28.3-16.2c1.3-.8 1.3-2.7 0-3.5L25.5 18c-1.4-.7-3 .2-3 1.8z"
+                  fill="#fff"
+                />
+              </svg>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
 
     <div class="benefits content">
       <div class="content-pad">
         <div v-for="(benefit, index) in benefits" :key="index" class="benefit">
-          <figure class="benefit-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
-              <g fill="none" fill-rule="evenodd">
-                <path
-                  fill="#ff0076"
-                  fill-rule="nonzero"
-                  d="M46 33.44v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98zm0-10v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98zm0-10v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98z"
-                />
-                <path
-                  fill="#ff0076"
-                  fill-rule="nonzero"
-                  d="M46 3.44v3.09a1 1 0 0 1-.8.97l-42 8.93a1 1 0 0 1-1.2-.98v-3.09a1 1 0 0 1 .8-.97l42-8.93a1 1 0 0 1 1.2.98z"
-                />
-              </g>
-            </svg>
-          </figure>
+          <home-icon v-if="benefit.icon" class="feature-icon" :icon="benefit.icon" />
 
           <h3 class="title">{{ benefit.title }}</h3>
 
           <p class="text">{{ benefit.text }}</p>
-          <div class="action">
-            <a href="#">Go &rarr;</a>
+          <div v-if="benefit.link" class="action">
+            <app-link :path="benefit.link.path">
+              <span v-formatted-text="benefit.link.text" />
+            </app-link>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-for="(feature, index) in features" :key="index" class="features content">
+    <div
+      v-for="(feature, index) in features"
+      :id="feature.id"
+      :key="index"
+      class="features content"
+    >
       <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even' ]">
         <div class="feature-content-container">
           <div class="feature-content">
             <div class="super">{{ feature.super }}</div>
             <div class="title">{{ feature.title }}</div>
             <div class="text">{{ feature.text }}</div>
+            <div v-if="feature.link" class="action">
+              <app-link :path="feature.link.path">
+                <span v-formatted-text="feature.link.text" />
+              </app-link>
+            </div>
           </div>
         </div>
         <div v-if="feature.figure" class="feature-figure-container">
@@ -110,7 +118,7 @@
         <div class="content-pad">
           <div>
             <h1>
-              <span class="title">We're here to help.</span>
+              <span class="title">Sign Up Free</span>
               <span class="sub-title">Let's take your apps to the next level.</span>
             </h1>
           </div>
@@ -127,26 +135,27 @@
 <script>
 export default {
   components: {
-    "section-features": () => import("./section-features"),
-    "section-testimonials": () => import("./section-testimonials"),
-    "section-integrate": () => import("./section-integrate"),
-    "el-cta": () => import("../el/cta")
+    "home-icon": () => import("./icon.vue")
   },
   data() {
     return {
+      poster: require("./img/screencast-poster.jpg"),
       loading: true,
       benefits: [
         {
+          icon: "dashboard",
           title: "Front-End Focused",
           text: `Fiction focuses solely on the needs of front-end professionals. 
             We don't bloat your apps with unecessary features, and we help you build apps the way you actually want to.`
         },
         {
+          icon: "open-source",
           title: "Coding, Just the Fun Parts",
           text: `The best apps are handcrafted with custom CSS and components. 
               Fiction helps you code where its fun and creative; but takes away the pitfalls, bugs and quirks common in JS apps.`
         },
         {
+          icon: "build",
           title: "Professional Support",
           text: `Build your app along with with people that know design and can answer advanced coding questions. 
               Fiction provides only top-tier support run by expert designers and application devs. `
@@ -154,6 +163,7 @@ export default {
       ],
       features: [
         {
+          id: "feature-factor",
           super: "Factor JS",
           title: "Create Dynamic Javascript Apps Powered by VueJS, MongoDB",
           text: `Factor is a state of the art Javascript development platform for front-end developers. 
@@ -166,20 +176,26 @@ export default {
           }
         },
         {
+          id: "feature-pro",
           super: "Factor Pro",
           title:
             "Dedicated Support and Extensions for Professional Front-End Devs",
-          text: `Designed to meet the needs of professional front-end developers.`,
+          text: `Professional features designed for professional front-end developers. 
+            Get access to the best web app platform money can buy including pro eCommerce and web publishing extensions, 
+            enhanced SEO and brand capabilities and more. `,
+          figure: () => import("./figure-pro.vue"),
           link: {
             path: "/pro",
             text: "Learn More &rarr;"
           }
         },
         {
+          id: "feature-vip",
           super: "Factor VIP",
           title: "Your Development Team, Delivered",
           text: `Being a Fiction customer means you'll have a 24/7 team of expert developers ready to help you. 
             No more countless hours of debugging, or unexpected surprises, Fiction will be here to help you build, deploy and scale your apps.`,
+          figure: () => import("./figure-vip.vue"),
           link: {
             path: "/vip",
             text: "Learn More &rarr;"
@@ -226,6 +242,9 @@ export default {
       ]
     }
   },
+  routeClass() {
+    return "nav-white"
+  },
   metatags() {
     return {
       title: "Build the World's next great app.",
@@ -236,7 +255,37 @@ export default {
 }
 </script>
 <style lang="less">
+.nav-white.top {
+  .site-head {
+    .logo-img .thelogotext {
+      fill: var(--color-light);
+    }
+
+    .mobile-logo .logo-img .thelogotext {
+      fill: initial;
+    }
+
+    .nav > a {
+      color: var(--color-light);
+
+      &:hover {
+        color: var(--color-primary);
+      }
+
+      @media (max-width: 767px) {
+        color: initial;
+      }
+    }
+  }
+}
 .view-home-version-2 {
+  --color-bg-splash: #1b223c;
+  --color-bg-splash-contrast: #233575;
+  --gutter-columns: 4;
+  --content-columns: 12;
+  --row-height: 64px;
+  --content-column-width: minmax(0, calc(1040px / var(--content-columns)));
+  --gutter-column-width: var(--content-column-width);
   .content-pad {
     max-width: 1100px;
     margin: 0 auto;
@@ -248,103 +297,268 @@ export default {
   }
 
   // Header
-  .header-wrapper {
-    max-width: 100vw;
-    overflow: visible;
-    .header {
-      position: relative;
-      z-index: 0;
-      padding: 70px 0 6rem;
+  .header {
+    .header-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(
+        35deg,
+        var(--color-bg-splash) 70%,
+        var(--color-bg-splash-contrast)
+      );
+      transform: translateY(-4rem);
+      perspective: 1000px;
+      .grid {
+        backface-visibility: none;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotateY(30deg) translateX(10rem) rotate(2deg) rotateX(34deg);
+        display: grid;
+        grid-template-rows: repeat(auto-fill, var(--row-height));
+        grid-template-columns:
+          [viewport-start] 1fr [left-gutter-start] repeat(
+            var(--gutter-columns),
+            var(--gutter-column-width)
+          )
+          [left-gutter-end content-start] repeat(
+            var(--content-columns),
+            var(--content-column-width)
+          )
+          [content-end right-gutter-start] repeat(
+            var(--gutter-columns),
+            var(--gutter-column-width)
+          )
+          [right-gutter-end] 1fr [viewport-end];
 
-      @media (max-width: 767px) {
-        padding: 115px 0 60px;
-      }
-      @media (min-width: 670px) {
-        padding-bottom: 10rem;
-        margin-bottom: 6vw;
-      }
-      .header-content {
-        flex: 1;
-        min-width: 520px;
-        margin: 0 60px 0 0;
+        grid-auto-rows: 1fr;
+        .row {
+          border-radius: 5px;
+          &:first-child {
+            background-color: var(--color-bg-splash-contrast);
+            grid-column: ~"16 / 17";
+            grid-row: ~"-3 / -4";
+          }
+          &:nth-child(2) {
+            background-color: var(--color-bg-splash-contrast);
 
-        @media (max-width: 767px) {
-          min-width: 320px;
-          margin: 0 0 40px;
+            grid-column: ~"4/5";
+            grid-row: ~"-6/-5";
+            opacity: 0.4;
+          }
+          &:nth-child(3) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"6/7";
+            grid-row: ~"-4/-5";
+            opacity: 0.4;
+          }
+          &:nth-child(4) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"12/13";
+            grid-row: ~"-1/-2";
+          }
+          &:nth-child(5) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"6/7";
+            grid-row: ~"1/2";
+          }
+          &:nth-child(6) {
+            background-color: #ff0076;
+
+            grid-column: ~"10/11";
+            grid-row: ~"-4/-5";
+          }
+          &:nth-child(8) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"14 / 15";
+            grid-row: ~"-2 / -3";
+          }
+          &:nth-child(9) {
+            background-color: var(--color-bg-splash-contrast);
+            grid-column: ~"6/7";
+            grid-row: ~"-2/-3";
+          }
+          &:nth-child(10) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"13 / 14";
+            grid-row: ~"-6 / -7";
+          }
+          &:nth-child(11) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"11 / 12";
+            grid-row: ~"-7 / -8";
+          }
+          &:nth-child(11) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"3 / 4";
+            grid-row: ~"-2 / -3";
+          }
+          &:nth-child(12) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"5 / 6";
+            grid-row: ~"3 / 4";
+          }
+          &:nth-child(13) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"9 / 10";
+            grid-row: ~"4 / 5";
+          }
+          &:nth-child(14) {
+            background-color: var(--color-bg-splash-contrast);
+
+            grid-column: ~"2 / 3";
+            grid-row: ~"-1 / -2";
+          }
         }
       }
-      .header-layout {
-        display: flex;
-        flex-direction: row;
-        @media (max-width: 767px) {
-          flex-direction: column;
-        }
-      }
     }
-  }
-  .header-title {
-    font-size: 3.5em;
-    line-height: 1.2;
-    font-weight: 400;
-    margin: 0 0 0.5em;
-    letter-spacing: -0.01em;
-  }
-
-  .header-text {
-    font-size: 24px;
-    line-height: 36px;
-    font-weight: 300;
-    opacity: 0.8;
-  }
-
-  .header-actions {
-    font-size: 1.1em;
-    margin-top: 2em;
-    display: grid;
-    grid-template-columns: 1fr 200px;
-    grid-gap: 1.5em;
-
-    input {
-      margin: 0;
-      font-size: 1.5em;
-      background: #fff;
-    }
-  }
-
-  .header-tag {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 32px;
-
-    .header-icon {
-      margin-left: -20px;
-      margin-right: 16px;
-      width: 48px;
-      height: 48px;
-      @media (max-width: 767px) {
-        margin-left: 0;
-      }
-    }
-    .header-icon-text {
-      opacity: 0.4;
-      font-size: 1.3em;
-
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.025em;
-    }
-  }
-
-  .header-figure {
     position: relative;
-    perspective: 1500px;
-    padding-top: 2em;
-    figure {
-      width: 800px;
-      height: 500px;
-      background: #fff;
-      box-shadow: var(--box-shadow-panel);
+    z-index: 0;
+    padding: 8rem 0 6rem;
+
+    color: #fff;
+    @media (max-width: 767px) {
+      padding: 115px 0 60px;
+    }
+    @media (min-width: 670px) {
+      padding-bottom: 10rem;
+      margin-bottom: 6vw;
+    }
+    .content-pad {
+      // opacity: 0.1;
+      z-index: 1;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 4rem;
+      @media (max-width: 767px) {
+        flex-direction: column;
+      }
+    }
+
+    .header-text {
+      flex: 1;
+      min-width: 520px;
+      text-shadow: 0 1px 1px rgba(20, 20, 25, 0.7);
+      @media (max-width: 767px) {
+        min-width: 320px;
+        margin: 0 0 40px;
+      }
+      .header-tag {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 32px;
+
+        .icon {
+          width: 50px;
+          margin-left: -4rem;
+          margin-right: 1rem;
+        }
+        .header-icon-text {
+          font-size: 1.3em;
+
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+        }
+      }
+      .title {
+        font-size: 3em;
+        line-height: 1.2;
+        font-weight: 400;
+        margin: 0 0 0.5em;
+        letter-spacing: -0.02em;
+      }
+
+      .text {
+        font-size: 1.5em;
+        line-height: 1.5;
+        opacity: 0.7;
+        mix-blend-mode: overlay;
+      }
+      .header-actions {
+        font-size: 1.1em;
+        margin-top: 2em;
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        grid-gap: 1.5em;
+
+        input {
+          margin: 0;
+          font-size: 1.5em;
+          background: #fff;
+        }
+      }
+    }
+
+    .header-figure {
+      position: relative;
+      perspective: 1500px;
+      padding-top: 2em;
+
+      figure.screencast {
+        width: 800px;
+        // transform: rotateY(-7deg);
+        background: #fff;
+        box-shadow: var(--box-shadow-panel);
+        padding-top: 56.25%;
+        padding-top: calc(9 / 16 * 100%);
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
+          0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
+        background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
+        background-size: cover;
+        transition: opacity 0.2s;
+        &:hover {
+          cursor: pointer;
+          .play-button {
+            opacity: 0.8;
+          }
+        }
+        video {
+          position: absolute;
+          left: 0;
+          top: 0;
+          min-width: 100%;
+          max-width: 100%;
+          height: auto;
+          border-radius: 7px;
+        }
+        .play-button {
+          transition: opacity 0.2s;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+          background: var(--color-text);
+          opacity: 0.9;
+          border-radius: 50%;
+          box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+            0 8px 16px -8px rgba(0, 0, 0, 0.3),
+            0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+          width: 72px;
+          height: 72px;
+        }
+      }
     }
   }
 
@@ -362,6 +576,10 @@ export default {
       }
 
       .benefit {
+        .feature-icon {
+          width: 4rem;
+          margin-bottom: 0.75rem;
+        }
         .title {
           font-size: 1.3em;
         }
@@ -375,10 +593,10 @@ export default {
 
   .features {
     &.content {
-      padding: 10rem 0;
       box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
     }
     .split-feature {
+      min-height: 90vh;
       display: grid;
       grid-column-gap: 4rem;
       grid-template-columns: 1fr 1fr;
@@ -389,9 +607,12 @@ export default {
       }
       .feature-content-container {
         grid-area: a;
+        padding: 10rem 0;
       }
       .feature-figure-container {
         grid-area: b;
+        position: relative;
+        height: 100%;
       }
     }
 
@@ -430,6 +651,7 @@ export default {
   }
 
   .compare {
+    padding: 10rem 0;
     .mast-head {
       text-align: center;
       .title {
@@ -465,7 +687,7 @@ export default {
           }
           .row:first-child {
             font-size: 1.2em;
-            background: #1b223c;
+            background: var(--color-bg-splash);
             color: #fff;
             font-weight: 700;
           }
