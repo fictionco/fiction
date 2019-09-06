@@ -10,7 +10,7 @@
         <div class="header-text">
           <div class="header-tag">
             <home-icon class="feature-icon" icon="powered" />
-            <div class="header-icon-text">Introducting Factor JS</div>
+            <div class="header-icon-text">Factor App Platform</div>
           </div>
 
           <h1 class="title">Create the world's next great web app</h1>
