@@ -1,33 +1,39 @@
 <template>
   <figure ref="wrapper" class="powered-by">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="factor-stack">
-          <img src="./img/factor-stack.svg" >
+          <img src="./img/factor-stack.svg" />
         </div>
         <div class="scene">
           <div class="box-1 icon-box">
             <div class="line depart" />
             <div class="line arrive" />
             <div class="box a">
-              <img src="./img/vue.svg" >
-              <caption>Vue.js</caption>
+              <img src="./img/vue.svg" />
+              <div class="caption">
+                Vue.js
+              </div>
             </div>
           </div>
           <div class="box-2 icon-box">
             <div class="line depart" />
             <div class="line arrive" />
             <div class="box b">
-              <img src="./img/nodejs.svg" >
-              <caption>Node.js</caption>
+              <img src="./img/nodejs.svg" />
+              <div class="caption">
+                Node.js
+              </div>
             </div>
           </div>
           <div class="box-3 icon-box">
             <div class="line depart" />
 
             <div class="box">
-              <img src="./img/mongodb.svg" >
-              <caption>MongoDB</caption>
+              <img src="./img/mongodb.svg" />
+              <div class="caption">
+                MongoDB
+              </div>
             </div>
           </div>
         </div>
@@ -113,7 +119,7 @@ figure.powered-by {
             max-width: 48px;
             display: inline-block;
           }
-          caption {
+          .caption {
             display: block;
             font-size: 0.8em;
             text-align: center;
@@ -169,8 +175,7 @@ figure.powered-by {
             border-right-width: 2px;
             border-bottom-width: 2px;
             border-bottom-right-radius: 7px;
-            transform: translateY(-100%) translateY(-2em) translateY(2px)
-              translateX(7px);
+            transform: translateY(-100%) translateY(-2em) translateY(2px) translateX(7px);
           }
         }
         &.box-2 {
@@ -194,8 +199,7 @@ figure.powered-by {
             border-left-width: 2px;
             border-bottom-width: 2px;
             border-bottom-left-radius: 7px;
-            transform: translateY(-100%) translateY(-2em) translateY(2px)
-              translateX(-7px);
+            transform: translateY(-100%) translateY(-2em) translateY(2px) translateX(-7px);
           }
         }
         &.box-3 {
@@ -219,8 +223,7 @@ figure.powered-by {
             border-left-width: 2px;
             border-bottom-width: 2px;
             border-bottom-left-radius: 7px;
-            transform: translateY(-100%) translateY(-3em) translateY(2px)
-              translateX(-7px);
+            transform: translateY(-100%) translateY(-3em) translateY(2px) translateX(-7px);
           }
         }
       }

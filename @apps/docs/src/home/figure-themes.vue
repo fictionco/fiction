@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper" class="themes-figure">
+  <figure ref="wrapper" class="themes-graph">
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div v-for="(screenshot, i) in screenshots" :key="i" class="screenshot-wrap">
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="less">
-figure.themes-figure {
+figure.themes-graph {
   max-width: 100%;
 
   .stage {
