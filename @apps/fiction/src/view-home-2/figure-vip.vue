@@ -43,11 +43,14 @@ export default {
   }
 
   background: var(--color-bg-splash);
-  // @media (max-width: 767px) {
-  //   .feature-figure-container {
-  //     height: 500px;
-  //   }
-  // }
+  @media (max-width: 900px) {
+    .feature-figure-container {
+      height: 500px;
+      transform: translate(1rem, -2rem);
+      .stage {
+      }
+    }
+  }
 }
 figure.vip-figure {
   max-width: 100%;

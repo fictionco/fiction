@@ -10,9 +10,8 @@
   + .app-btn,
   + .btn-link {
     margin-left: 1rem;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       margin-left: 0;
-      margin-top: 1em;
     }
   }
 }
