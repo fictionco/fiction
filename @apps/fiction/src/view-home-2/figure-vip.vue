@@ -1,6 +1,6 @@
 <template>
   <figure ref="wrapper" class="stage-container vip-figure">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="feature-circle">
           <div class="core">
@@ -12,11 +12,14 @@
           </div>
 
           <div class="rotater">
-            <div v-for="i in 8" :key="i" class="rad">
+            <div v-for="(vipicon, index) in vipicons" :key="index" class="rad">
+              <page-icon v-if="vipicon.icon" class="rad-icon" :icon="vipicon.icon" />
+            </div>
+            <!-- <div v-for="i in 8" :key="i" class="rad">
               <div class="rad-icon">
                 <page-icon icon="powered" />
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -29,6 +32,36 @@ import pageUtils from "./utils"
 export default {
   components: {
     "page-icon": () => import("./icon-vip.vue")
+  },
+  data() {
+    return {
+      vipicons: [
+        {
+          icon: "powered"
+        },
+        {
+          icon: "design"
+        },
+        {
+          icon: "dev"
+        },
+        {
+          icon: "node"
+        },
+        {
+          icon: "github"
+        },
+        {
+          icon: "infrastructure"
+        },
+        {
+          icon: "support"
+        },
+        {
+          icon: "powered"
+        }
+      ]
+    }
   },
   mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })]
 }
