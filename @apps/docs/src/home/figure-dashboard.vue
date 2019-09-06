@@ -1,6 +1,6 @@
 <template>
   <figure ref="wrapper" class="dashboard-figure">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="screenshot dashboard-tabs-mockup">
           <img src="./img/dashboard-tabs.svg" >
@@ -90,8 +90,7 @@ figure.dashboard-figure {
         right: 0;
         top: 50px;
         padding: 5px;
-        transform: scale(1) perspective(2040px) rotateY(-11deg) rotateX(2deg)
-          rotate(2deg);
+        transform: scale(1) perspective(2040px) rotateY(-11deg) rotateX(2deg) rotate(2deg);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           19px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
           13.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);

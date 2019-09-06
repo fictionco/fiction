@@ -1,6 +1,6 @@
 <template>
   <figure ref="wrapper" class="live-changes">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="annotation">
           <img src="./img/live-changes.svg" >
@@ -81,13 +81,13 @@ figure.live-changes {
       &.theme {
         position: absolute;
         right: 0;
+        z-index: 0;
         padding: 5px;
-        transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg)
-          rotate(2deg);
+        transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg) rotate(2deg);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           19px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
           13.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
+        //overflow: hidden;
         border-radius: 4px;
       }
       &.edit-post {
@@ -95,12 +95,12 @@ figure.live-changes {
         top: 110px;
         left: 0;
         padding: 5px;
-        transform: scale(1) perspective(1040px) rotateY(11deg) rotateX(-2deg)
+        transform: scale(1) perspective(1050px) rotateY(11deg) rotateX(-2deg)
           rotate(-2deg);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
           13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
+        // overflow: hidden;
         border-radius: 4px;
       }
     }
