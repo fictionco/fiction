@@ -37,7 +37,7 @@ export default {
     return {
       vipicons: [
         {
-          icon: "powered"
+          icon: "seo"
         },
         {
           icon: "design"
@@ -58,7 +58,7 @@ export default {
           icon: "support"
         },
         {
-          icon: "powered"
+          icon: "infrastructure2"
         }
       ]
     }
