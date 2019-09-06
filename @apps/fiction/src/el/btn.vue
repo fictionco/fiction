@@ -55,47 +55,28 @@ button.app-btn {
     background: #fff;
     box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.4),
       0 2px 5px rgba(71, 86, 144, 0.2);
-    &:hover {
-      opacity: 0.7;
-    }
+  }
+
+  &.primary,
+  &.secondary,
+  &.tertiary {
+    box-shadow: 0 2px 5px rgba(71, 86, 144, 0.2);
   }
 
   &.primary {
     color: var(--color-light);
     background: var(--color-primary);
-    box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.3);
     transition: all 0.2s ease-in-out;
-
-    &:hover {
-      background: #0072c3; //#66bfff;
-      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
-    }
   }
 
   &.secondary {
     color: var(--color-light);
     background: var(--color-secondary);
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-
-    &:hover {
-      background: #da0066; //#ff66ad;
-      box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1),
-        0 3px 6px rgba(0, 0, 0, 0.08);
-    }
   }
 
   &.tertiary {
     color: var(--color-primary);
     background: var(--color-tertiary);
-  }
-  &.quaternary {
-    color: var(--color-light);
-    border: 1px solid var(--color-light);
-    &:hover {
-      color: var(--color-secondary);
-      background: var(--color-light);
-      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
-    }
   }
 
   & + .app-btn {

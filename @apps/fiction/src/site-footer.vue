@@ -53,7 +53,6 @@ export default {
   margin: 4em auto;
   padding: 0;
   .content-footer-pad {
-    border-top: 1px solid rgba(0, 0, 0, 0.04);
     margin-top: 2em;
     padding: 4em 2em;
     display: grid;
