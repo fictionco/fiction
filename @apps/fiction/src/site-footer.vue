@@ -21,7 +21,7 @@
         <factor-link path="/contact">Contact Us</factor-link>
       </div>
       <div class="footer-col">
-        <app-link btn="secondary" path="/careers">We're Hiring! &rarr;</app-link>
+        <app-link btn="primary" path="/careers">We're Hiring! &rarr;</app-link>
         <div>
           <div class="copyright">
             <span>&copy; Fiction.com Inc.</span>
