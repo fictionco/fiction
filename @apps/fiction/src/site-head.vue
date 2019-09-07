@@ -62,7 +62,7 @@ export default {
   width: 100%;
   position: fixed;
   z-index: 11;
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     padding: 0 0.5em;
   }
   transition: all 0.3s;
@@ -108,7 +108,7 @@ export default {
   .mobile-logo {
     display: none;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     flex-direction: column;
     justify-content: center;
     .mobile-logo {
@@ -157,7 +157,7 @@ export default {
         transform: rotate(0deg) translateY(5px);
       }
     }
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       position: absolute;
       right: 1em;
       top: 0.5em;
@@ -199,7 +199,7 @@ export default {
     font-weight: var(--font-weight-bold);
     display: flex;
     align-items: center;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       // flex-grow: 2;
       // justify-content: flex-end;
       position: fixed;
@@ -223,7 +223,7 @@ export default {
       font-size: 0.9em;
       color: #506677;
       margin: 0 1em;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         display: block;
         text-align: left;
         font-size: 1.2em;
@@ -245,7 +245,7 @@ export default {
       // .avatar {
       //   background-color: rgba(38, 67, 89, 0.06);
       // }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         display: none;
       }
     }

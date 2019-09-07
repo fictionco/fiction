@@ -19,8 +19,7 @@
           >One platform with everything you need to professionally start, build, manage, and grow your business on the web.</p>
 
           <div class="header-actions">
-            <input type="email" placeholder="Email Address" >
-            <app-btn btn="primary">Request Invite &rarr;</app-btn>
+            <component :is="$setting.get('emailList.form.component')" />
           </div>
         </div>
         <div class="header-figure">
@@ -519,14 +518,16 @@ export default {
       .header-actions {
         font-size: 1.1em;
         margin-top: 2em;
-        display: grid;
-        grid-template-columns: 1fr 200px;
-        grid-gap: 1.5em;
+        // display: grid;
+        // grid-template-columns: 1fr 200px;
+        // grid-gap: 1.5em;
+        .email-list-form {
+          font-size: 1.3em;
+          input {
+            margin: 0;
 
-        input {
-          margin: 0;
-          font-size: 1.5em;
-          background: #fff;
+            background: #fff;
+          }
         }
       }
     }

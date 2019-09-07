@@ -1,6 +1,6 @@
 <template>
   <transition name="scaleInModal">
-    <div v-if="vis" class="el-modal" :class="modalClass" data-test="modal-window">
+    <div v-if="vis && appended" class="el-modal" :class="modalClass" data-test="modal-window">
       <div class="el-modal-wrap">
         <div v-show="vis" class="el-modal-content" @click.stop>
           <div class="el-modal-pad modal-content" data-test="modal-content">
@@ -9,7 +9,7 @@
             </span>
             <div class="modal-text">
               <div class="modal-text-content">
-                <div class="modal-header">
+                <div v-if="title" class="modal-header">
                   <h3 class="title">{{ title }}</h3>
                   <div class="sub-title">{{ sub }}</div>
                 </div>
@@ -32,6 +32,11 @@ export default {
     sub: { type: String, default: "" },
     modalClass: { type: String, default: "" }
   },
+  data() {
+    return {
+      appended: false
+    }
+  },
   watch: {
     $route(to, from) {
       if (to.path != from.path) {
@@ -43,11 +48,12 @@ export default {
       this.$events.$emit("modal", v)
     }
   },
-  mounted: function() {
+  mounted() {
     this.$nextTick(() => {
       // Append to Body
       this.$jquery(this.$el).remove()
       document.querySelector("#app").append(this.$el)
+      this.appended = true
     })
   },
   methods: {
@@ -83,21 +89,21 @@ export default {
 .scaleInModal-enter-active,
 .scaleInModal-leave-active {
   transition: all 0.3s ease;
-  .el-modal-pad{
+  .el-modal-pad {
     transition: all 0.2s ease;
   }
 }
 .scaleInModal-enter,
 .scaleInModal-leave-to {
   opacity: 0;
-  .el-modal-pad{
-     opacity: 0;
-    transform: scale(.7)  rotateX(90deg);
+  .el-modal-pad {
+    opacity: 0;
+    transform: scale(0.7) rotateX(90deg);
   }
 }
 .scaleInModal-enter-to,
 .scaleInModal-leave {
-  .el-modal-pad{
+  .el-modal-pad {
     transform: scale(1) rotateX(0deg);
   }
 }
@@ -112,7 +118,7 @@ export default {
   -webkit-transform: translate3d(0, 0, 0);
 
   //background-color: rgba(0, 0, 0, 0.75);
-  background-color:  rgba(22, 22, 25, 0.8);
+  background-color: rgba(22, 22, 25, 0.8);
   .el-modal-wrap {
     height: 100%;
   }
@@ -136,11 +142,11 @@ export default {
     }
     .el-modal-pad {
       position: relative;
-      padding: 3em;
+      padding: 5rem 3rem;
       background: #fff;
       border-radius: 0.5em;
       box-shadow: 1px 1px 4px 0 rgba(22, 22, 25, 0.4),
-              -9px 22.5px 65px -5px rgba(22, 22, 25, 0.8);
+        -9px 22.5px 65px -5px rgba(22, 22, 25, 0.8);
       .close {
         position: absolute;
         z-index: 50;
