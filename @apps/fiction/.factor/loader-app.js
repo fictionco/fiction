@@ -11,6 +11,7 @@ files["dashboard"] = require("@factor/dashboard").default
 files["db"] = require("@factor/core-db").default
 files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["email"] = require("@factor/core-email").default
+files["emailList"] = require("@factor/plugin-email-list").default
 files["endpoint"] = require("@factor/core-endpoint").default
 files["error"] = require("@factor/core-error").default
 files["highlightCode"] = require("@factor/plugin-highlight-code").default

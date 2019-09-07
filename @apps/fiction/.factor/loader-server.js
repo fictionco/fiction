@@ -8,6 +8,7 @@ files["dashboard"] = require("@factor/dashboard").default
 files["dbServer"] = require("@factor/core-db/server").default
 files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["emailServer"] = require("@factor/core-email/server").default
+files["emailListServer"] = require("@factor/plugin-email-list/server").default
 files["endpointServer"] = require("@factor/core-endpoint/server").default
 files["error"] = require("@factor/core-error").default
 files["http"] = require("@factor/tools-http").default

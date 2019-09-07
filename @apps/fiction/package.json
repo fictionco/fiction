@@ -23,6 +23,7 @@
     "@factor/plugin-seo": "^1.0.0-alpha.20",
     "@factor/plugin-sitemap": "^1.0.0-alpha.20",
     "@factor/plugin-storage-s3": "^1.0.0-alpha.20",
-    "execa": "^2.0.3"
+    "execa": "^2.0.3",
+    "@factor/plugin-email-list": "^1.0.0-alpha.27"
   }
 }

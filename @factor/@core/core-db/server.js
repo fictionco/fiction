@@ -42,8 +42,10 @@ module.exports.default = Factor => {
         if (this.mongo.models[name]) {
           this._schemas[name] = this.mongo.modelSchemas[name]
           this._models[name] = this.mongo.models[name]
-        } else {
+        } else if (name) {
           this._models[name] = this.model("post").discriminator(name, new Schema())
+        } else {
+          this._models[name] = this.model("post")
         }
       }
       return this._models[name]
