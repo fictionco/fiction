@@ -156,7 +156,7 @@ export default {
             We don't bloat your apps with unecessary features, and we help you build apps the way you actually want to.`
         },
         {
-          icon: "coding-fun",
+          icon: "code",
           title: "Coding, Just the Fun Parts",
           text: `The best apps are handcrafted with custom CSS and components. 
               Fiction helps you code where its fun and creative; but takes away the pitfalls, bugs and quirks common in JS apps.`
@@ -549,16 +549,16 @@ export default {
           0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: cover;
-        transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(1deg)
-          rotate(1deg);
+        transform: scale(1) perspective(1040px) rotateY(0deg) rotateX(0deg)
+          rotate(0deg);
         transition: opacity 0.2s, transform 0.2s;
         @media (max-width: 900px) {
           width: 100%;
         }
         &:hover {
           cursor: pointer;
-          transform: scale(1) perspective(1040px) rotateY(0deg) rotateX(0deg)
-            rotate(0deg);
+          transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(1deg)
+            rotate(1deg) translateY(-6px);
           .play-button {
             opacity: 0.8;
           }
@@ -607,8 +607,8 @@ export default {
 
       .benefit {
         max-width: 500px;
-        .feature-icon {
-          width: 4rem;
+        .feature-icon svg {
+          width: 3rem;
           margin-bottom: 0.75rem;
         }
         .title {
