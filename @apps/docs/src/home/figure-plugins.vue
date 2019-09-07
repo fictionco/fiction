@@ -3,45 +3,45 @@
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="plugin-icon">
-          <img src="./img/icon-blog.svg" />
+          <img src="./img/icon-blog.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-notify.svg" />
+          <img src="./img/icon-notify.svg" >
         </div>
         <div class="plugin-icon twitter">
-          <img src="./img/icon-twitter.svg" />
+          <img src="./img/icon-twitter.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-gtm.svg" />
+          <img src="./img/icon-gtm.svg" >
         </div>
         <div class="plugin-icon facebook">
-          <img src="./img/icon-facebook.svg" />
+          <img src="./img/icon-facebook.svg" >
         </div>
 
         <div class="plugin-icon">
-          <img src="./img/icon-user-profiles.svg" />
+          <img src="./img/icon-user-profiles.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" />
+          <img src="./img/icon-google-analytics.svg" >
         </div>
 
         <div class="plugin-icon">
-          <img src="./img/icon-syntax.svg" />
+          <img src="./img/icon-syntax.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-contact-form.svg" />
+          <img src="./img/icon-contact-form.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-aws.svg" />
+          <img src="./img/icon-aws.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-jobs.svg" />
+          <img src="./img/icon-jobs.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-seo.svg" />
+          <img src="./img/icon-seo.svg" >
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-sitemap.svg" />
+          <img src="./img/icon-sitemap.svg" >
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@ export default {
 
 <style lang="less">
 #plugins-feature {
-  background: linear-gradient(0deg, #ebeff3, transparent);
+  background: linear-gradient(0deg, rgba(235, 239, 243, 1), rgba(235, 239, 243, 0));
   @media (max-width: 767px) {
     .feature-figure-container {
       height: 500px;

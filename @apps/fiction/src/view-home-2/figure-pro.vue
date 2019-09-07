@@ -1,20 +1,12 @@
 <template>
   <figure ref="wrapper" class="stage-container pro-figure">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="grid">
-          <div class="cell">Pro Extensions</div>
-          <div class="cell">Enhanced Support</div>
-          <div class="cell">Community</div>
-          <div class="cell">eCommerce</div>
-          <div class="cell">White Label</div>
-          <div class="cell">Client Tools</div>
-          <div class="cell">SEO and Social</div>
-          <div class="cell">Developer Options</div>
-          <div class="cell">Community</div>
-          <div class="cell">Business</div>
-          <div class="cell">Developer</div>
-          <div class="cell">Community</div>
+          <div v-for="(feature, index) in features" :key="index" class="cell">
+            <icon-pro v-if="feature.icon" class="icon-pro" :icon="feature.icon" />
+            {{ feature.text }}
+          </div>
         </div>
       </div>
     </div>
@@ -24,7 +16,65 @@
 <script>
 import pageUtils from "./utils"
 export default {
-  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })]
+  components: {
+    "icon-pro": () => import("./icon-pro.vue")
+  },
+  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
+  data() {
+    return {
+      features: [
+        {
+          icon: "pro-extensions",
+          text: `Pro Extensions`
+        },
+        {
+          icon: "support",
+          text: `Enhanced Support`
+        },
+        {
+          icon: "community",
+          text: `Community`
+        },
+        {
+          icon: "code",
+          text: `Developer Options`
+        },
+
+        {
+          icon: "white-label",
+          text: `White Label`
+        },
+        {
+          icon: "tools",
+          text: `Client Tools`
+        },
+        {
+          icon: "seo",
+          text: `SEO and Social`
+        },
+        {
+          icon: "ecommerce",
+          text: `eCommerce`
+        },
+        {
+          icon: "business",
+          text: `Business`
+        },
+        {
+          icon: "community",
+          text: `Community`
+        },
+        {
+          icon: "code",
+          text: `Developer`
+        },
+        {
+          icon: "community",
+          text: `Community`
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -38,7 +88,7 @@ export default {
   }
   @media (max-width: 900px) {
     .feature-figure-container {
-      height: 300px;
+      height: 350px;
     }
   }
 }
@@ -99,6 +149,9 @@ figure.pro-figure {
         align-items: center;
         padding: 0.75rem;
         text-align: center;
+        .icon-pro {
+          margin-right: 1em;
+        }
         &:hover {
           color: #ff0076;
           box-shadow: 0 22.5px 25px -25px rgba(50, 50, 93, 0.5),
@@ -111,7 +164,11 @@ figure.pro-figure {
     opacity: 0.6;
     transform: translateY(1em);
     .stage {
-      transform: translateX(-4em);
+      perspective: 0;
+      .grid {
+        transform: scale(0.8) rotateY(0deg) rotateX(15deg) translateX(-13em);
+        // transform: rotateY(0deg) rotateX(2deg) translateX(-4em);
+      }
     }
     // .stage-wrap,
     // .stage {
