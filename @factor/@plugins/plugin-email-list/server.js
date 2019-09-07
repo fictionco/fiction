@@ -13,7 +13,7 @@ export default Factor => {
           { upsert: true }
         )
 
-      this.sendEmail()
+      await this.sendConfirmEmail({ email, listId })
       // const doc = await Factor.$dbServer.model("post").findOne({ permalink: "emailList" })
 
       // console.log("LIST", email, doc.list, doc)
@@ -21,23 +21,32 @@ export default Factor => {
       return true
     }
 
-    verifyEmail() {
+    async verifyEmail({ email, list, code }) {
+      console.log("VERIFY THAT EMAIL")
+
+      const doc = await Factor.$dbServer.model("post").findOne({ permalink: list })
+
+      console.log("LIST", doc, { email, list, code })
       //   db.students.updateOne(
       //     { _id: 4, "grades.grade": 85 },
       //     { $set: { "grades.$.std" : 6 } }
       //  )
     }
 
-    async emails() {}
+    async sendConfirmEmail({ email, listId }) {
+      const action = `verify-email-list`
+      const code = Factor.$randomToken()
+      const { subject, text, linkText } = Factor.$emailList.getSetting({
+        key: "emails.confirm",
+        listId
+      })
 
-    async sendEmail(args) {
-      const { to, subject, action, _id, code, text, linkText } = args
       const linkUrl = `${Factor.$config.setting(
         "currentUrl"
-      )}?_action=${action}&code=${code}&_id=${_id}`
+      )}?_action=${action}&code=${code}&email=${email}&list=${listId}`
 
       return await Factor.$emailServer.sendTransactional({
-        to,
+        to: email,
         subject,
         text,
         linkText,
