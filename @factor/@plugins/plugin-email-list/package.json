@@ -6,7 +6,10 @@
     "id": "emailList",
     "target": {
       "app": "index",
-      "server": "server"
+      "server": [
+        "server",
+        "index"
+      ]
     }
   },
   "dependencies": {},

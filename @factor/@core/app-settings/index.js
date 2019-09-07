@@ -5,9 +5,6 @@ export default Factor => {
       this._settings = {}
 
       this.setup()
-      // Factor.$filters.add("initialize-app", () => {
-      //   this.setup()
-      // })
     }
 
     async setup() {
