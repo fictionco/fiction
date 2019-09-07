@@ -1,10 +1,11 @@
 <template>
-  <section class="factor-benefits">
+  <div class="factor-benefits">
     <header class="section-header">
       <h1 class="section-title">Perfect for Perfectionists</h1>
       <p class="medium-body-text">
-        Factor will help you launch apps that impress and astonish your clients and colleagues.
-        No more re-inventing the wheel, or rewriting and refactoring where it's unneeded.
+        Factor will help you launch apps that impress and astonish your clients and
+        colleagues. No more re-inventing the wheel, or rewriting and refactoring where
+        it's unneeded.
       </p>
     </header>
 
@@ -13,8 +14,8 @@
         <home-icon icon="dashboard" />
         <h3 class="title">Dashboard and Posts</h3>
         <p class="text">
-          Weild a powerful post system and dashboard to make advanced apps simple.
-          No more cobbling things together, Factor does it all and more...
+          Weild a powerful post system and dashboard to make advanced apps simple. No more
+          cobbling things together, Factor does it all and more...
         </p>
       </li>
 
@@ -22,17 +23,18 @@
         <home-icon icon="build" />
         <h3 class="title">Themes and Plugins</h3>
         <p class="text">
-          Factor is designed from the start for theming.
-          Start your app with a beautiful and professional foundation; then customize as much as you need.
+          Factor is designed from the start for theming. Start your app with a beautiful
+          and professional foundation; then customize as much as you need.
         </p>
       </li>
 
       <li class="feature-block">
         <home-icon icon="open-source" />
         <h3 class="title">Free and Open Source</h3>
-        <p
-          class="text"
-        >Factor uses the same time-proven open source license as projects like WordPress and Linux. Factor is powered by the freedom of its users.</p>
+        <p class="text">
+          Factor uses the same time-proven open source license as projects like WordPress
+          and Linux. Factor is powered by the freedom of its users.
+        </p>
       </li>
     </ul>
 
@@ -46,7 +48,7 @@
         <app-link btn="primary" size="large">View Quickstart &rarr;</app-link>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

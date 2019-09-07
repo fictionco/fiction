@@ -14,9 +14,10 @@
           </div>
 
           <h1 class="title">Create the world's next great web app</h1>
-          <p
-            class="text"
-          >One platform with everything you need to professionally start, build, manage, and grow your business on the web.</p>
+          <p class="text">
+            One platform with everything you need to professionally start, build, manage,
+            and grow your business on the web.
+          </p>
 
           <div class="header-actions">
             <component :is="$setting.get('emailList.form.component')" />
@@ -61,7 +62,7 @@
       :key="index"
       class="features content"
     >
-      <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even' ]">
+      <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even']">
         <div class="feature-content-container">
           <div class="feature-content">
             <div class="super">{{ feature.super }}</div>
@@ -110,7 +111,7 @@
                 :class="row ? 'has-content' : 'empty'"
               />
               <div v-if="col.link" class="footer-row row">
-                <app-link btn="default" :path="col.link.path">
+                <app-link :path="col.link.path">
                   <span v-formatted-text="col.link.text" />
                 </app-link>
               </div>
@@ -148,19 +149,19 @@ export default {
       loading: true,
       benefits: [
         {
-          icon: "dashboard",
+          icon: "front-end",
           title: "Front-End Focused",
           text: `Fiction focuses solely on the needs of front-end professionals. 
             We don't bloat your apps with unecessary features, and we help you build apps the way you actually want to.`
         },
         {
-          icon: "open-source",
+          icon: "coding-fun",
           title: "Coding, Just the Fun Parts",
           text: `The best apps are handcrafted with custom CSS and components. 
               Fiction helps you code where its fun and creative; but takes away the pitfalls, bugs and quirks common in JS apps.`
         },
         {
-          icon: "build",
+          icon: "pro-support",
           title: "Professional Support",
           text: `Build your app along with with people that know design and can answer advanced coding questions. 
               Fiction provides only top-tier support run by expert designers and application devs. `
@@ -539,9 +540,7 @@ export default {
 
       figure.screencast {
         width: 800px;
-        // transform: rotateY(-7deg);
         background: #fff;
-        box-shadow: var(--box-shadow-panel);
         padding-top: 56.25%;
         padding-top: calc(9 / 16 * 100%);
         position: relative;
@@ -551,12 +550,16 @@ export default {
           0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: cover;
-        transition: opacity 0.2s;
+        transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(1deg)
+          rotate(1deg);
+        transition: opacity 0.2s, transform 0.2s;
         @media (max-width: 900px) {
           width: 100%;
         }
         &:hover {
           cursor: pointer;
+          transform: scale(1) perspective(1040px) rotateY(0deg) rotateX(0deg)
+            rotate(0deg);
           .play-button {
             opacity: 0.8;
           }
@@ -741,7 +744,7 @@ export default {
     .feature-table {
       display: grid;
       grid-template-columns: 10rem 1fr 1fr 1fr;
-      grid-gap: 1.5rem;
+      grid-gap: 1rem;
 
       .column {
         text-align: center;
@@ -750,13 +753,31 @@ export default {
         border-radius: 6px;
         overflow: hidden;
 
+        &.label {
+          box-shadow: none;
+          background: none;
+          text-align: right;
+          text-transform: uppercase;
+          font-weight: 600;
+          color: var(--color-bg-splash);
+          z-index: 0;
+          margin-right: -1em;
+
+          .has-content {
+            background: #fff;
+          }
+        }
+
         &.data {
           position: relative;
           z-index: 1;
           box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1),
             0 5px 15px 0 rgba(0, 0, 0, 0.07);
+          transition: 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
           .row {
             border-bottom: 1px solid #eee;
+            transition: 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+
             &:last-child {
               border: none;
             }
@@ -767,39 +788,59 @@ export default {
             color: #fff;
             font-weight: 700;
           }
+          .footer-row {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px 10px;
+            height: 56px;
+            transform: translateY(50%);
+            opacity: 0;
+          }
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 50px 100px -20px rgba(50, 50, 93, 0.25),
+              0 30px 60px -30px rgba(0, 0, 0, 0.3),
+              0 -18px 60px -10px rgba(0, 0, 0, 0.025);
+            .row:nth-last-child(2) {
+              padding-bottom: 4em;
+            }
+            .footer-row {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
         }
       }
 
-      .column:nth-child(1) {
-        box-shadow: none;
-        background: none;
-        text-align: right;
-        text-transform: uppercase;
-        font-weight: 600;
-        color: var(--color-primary);
-
-        z-index: 0;
-        margin-right: -1em;
-
-        .has-content {
-          background: #fff;
-          margin-right: -1em;
-        }
-      }
       .row {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        height: 100px;
+        height: 140px;
         padding: 1em 2em;
+        &:nth-child(1) {
+          height: 100px;
+        }
       }
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
-
+        .row {
+          height: 100px;
+        }
         .column {
           text-align: left;
           &:nth-child(1) {
             display: none;
+          }
+          &.data {
+            .footer-row {
+              position: relative;
+              opacity: 1;
+              transform: none;
+            }
           }
         }
       }
