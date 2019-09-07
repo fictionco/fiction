@@ -19,6 +19,7 @@ export default {
   components: {
     "icon-pro": () => import("./icon-pro.vue")
   },
+  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
   data() {
     return {
       features: [
@@ -35,9 +36,10 @@ export default {
           text: `Community`
         },
         {
-          icon: "ecommerce",
-          text: `eCommerce`
+          icon: "code",
+          text: `Developer Options`
         },
+
         {
           icon: "white-label",
           text: `White Label`
@@ -51,8 +53,8 @@ export default {
           text: `SEO and Social`
         },
         {
-          icon: "code",
-          text: `Developer Options`
+          icon: "ecommerce",
+          text: `eCommerce`
         },
         {
           icon: "business",
@@ -72,8 +74,7 @@ export default {
         }
       ]
     }
-  },
-  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })]
+  }
 }
 </script>
 

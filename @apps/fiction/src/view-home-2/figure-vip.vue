@@ -13,13 +13,8 @@
 
           <div class="rotater">
             <div v-for="(vipicon, index) in vipicons" :key="index" class="rad">
-              <page-icon v-if="vipicon.icon" class="rad-icon" :icon="vipicon.icon" />
+              <page-icon v-if="vipicon.icon" :icon="vipicon.icon" class="rad-icon" />
             </div>
-            <!-- <div v-for="i in 8" :key="i" class="rad">
-              <div class="rad-icon">
-                <page-icon icon="powered" />
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -33,6 +28,7 @@ export default {
   components: {
     "page-icon": () => import("./icon-vip.vue")
   },
+  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
   data() {
     return {
       vipicons: [
@@ -62,8 +58,7 @@ export default {
         }
       ]
     }
-  },
-  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })]
+  }
 }
 </script>
 
@@ -80,8 +75,6 @@ export default {
     .feature-figure-container {
       height: 500px;
       transform: translate(1rem, -2rem);
-      .stage {
-      }
     }
   }
 }
@@ -111,6 +104,8 @@ figure.vip-figure {
     width: 100%;
     height: 100%;
     position: relative;
+    transform: rotateY(15deg);
+    transition: all 0.5s;
 
     .rad {
       position: absolute;
@@ -126,22 +121,32 @@ figure.vip-figure {
       top: 45%;
       left: 40%;
     }
-    @keyframes spin {
-      100% {
-        transform: rotate(1turn);
-      }
-    }
-    transform: rotateY(15deg);
-    transition: all 0.5s;
+
+    // @keyframes spinOn {
+    //   100% {
+    //     transform: rotate(15urn);
+    //   }
+    // }
+    // @keyframes spinOff {
+    //   100% {
+    //     transform: rotate(2turn);
+    //   }
+    // }
+
     &:hover {
       transform: rotateY(25deg);
       .rotater {
-        animation: spin 30s infinite linear;
+        //animation: spinOn 30s infinite linear;
+        transform: rotate(5turn);
+        transition: transform 60s cubic-bezier(0.25, 0.1, 0.25, 1);
       }
     }
     .rotater {
       width: 100px;
       height: 100px;
+      //animation: spinOff 1.5s linear;
+      transform: rotate(2turn);
+      transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 
       .rad {
         .rad-icon {
