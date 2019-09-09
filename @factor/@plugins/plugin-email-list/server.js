@@ -4,38 +4,51 @@ export default Factor => {
       Factor.$filters.callback("endpoints", { id: "emailList", handler: this })
     }
 
+    // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
     async addEmail({ email, listId = "emailList" }) {
-      const result = await Factor.$dbServer
-        .model("post")
-        .updateOne(
-          { permalink: listId },
-          { $addToSet: { list: { email, verified: false } } },
-          { upsert: true }
-        )
+      const code = Factor.$randomToken()
 
-      await this.sendConfirmEmail({ email, listId })
-      // const doc = await Factor.$dbServer.model("post").findOne({ permalink: "emailList" })
+      const postModel = Factor.$dbServer.model("post")
 
-      // console.log("LIST", email, doc.list, doc)
+      // const exists = await postModel.findOne({ uniqueId: listId }, "_id")
+      // if (!exists) {
+      //   await postModel.create({ uniqueId: listId })
+      // }
+
+      const result = await postModel.updateOne(
+        { uniqueId: listId },
+        { $addToSet: { list: { email, verified: false, code } } },
+        { upsert: true }
+      )
+
+      console.log("result", result)
+
+      await this.sendConfirmEmail({ email, listId, code })
 
       return true
     }
 
+    // Positional Operator
+    // https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
     async verifyEmail({ email, list, code }) {
-      console.log("VERIFY THAT EMAIL")
+      const result = await Factor.$dbServer
+        .model("post")
+        .updateOne(
+          { uniqueId: list, "list.code": code, "list.email": email },
+          { $set: { "list.$.verified": true, "list.$.code": null } }
+        )
 
-      const doc = await Factor.$dbServer.model("post").findOne({ permalink: list })
+      await Promise.all([
+        this.sendNotifyEmail({ email, listId }),
+        this.sendVerifiedEmail({ email, listId })
+      ])
 
-      console.log("LIST", doc, { email, list, code })
-      //   db.students.updateOne(
-      //     { _id: 4, "grades.grade": 85 },
-      //     { $set: { "grades.$.std" : 6 } }
-      //  )
+      return result
     }
 
-    async sendConfirmEmail({ email, listId }) {
+    async sendConfirmEmail({ email, listId, code }) {
       const action = `verify-email-list`
-      const code = Factor.$randomToken()
+
       const { subject, text, linkText } = Factor.$emailList.getSetting({
         key: "emails.confirm",
         listId
@@ -43,7 +56,7 @@ export default Factor => {
 
       const linkUrl = `${Factor.$config.setting(
         "currentUrl"
-      )}?_action=${action}&code=${code}&email=${email}&list=${listId}`
+      )}?_action=${action}&code=${code}&email=${encodeURIComponent(email)}&list=${listId}`
 
       return await Factor.$emailServer.sendTransactional({
         to: email,
@@ -52,6 +65,36 @@ export default Factor => {
         linkText,
         linkUrl
       })
+    }
+
+    async sendVerifiedEmail({ email, listId }) {
+      const { subject, text } = Factor.$emailList.getSetting({
+        key: "emails.verified",
+        listId
+      })
+
+      return await Factor.$emailServer.sendTransactional({
+        to: email,
+        subject,
+        text
+      })
+    }
+
+    async sendNotify({ email, listId }) {
+      let { subject, text, to } = Factor.$emailList.getSetting({
+        key: "emails.notify",
+        listId
+      })
+
+      if (to) {
+        await Factor.$emailServer.sendTransactional({
+          to,
+          subject,
+          text: text + `<p><strong>Email:</strong> ${email}</p>`
+        })
+      }
+
+      return
     }
   })()
 }

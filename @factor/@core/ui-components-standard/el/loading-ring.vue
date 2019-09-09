@@ -1,9 +1,9 @@
 <template>
   <div class="loading-ring-wrap">
     <div :style="{width}" class="loader">
-      <svg class="circular" viewBox="25 25 50 50">
+      <svg class="ring-circular" viewBox="25 25 50 50">
         <circle
-          class="path"
+          class="ring-path"
           cx="50"
           cy="50"
           r="20"
@@ -40,7 +40,7 @@ export default {
   }
 }
 
-.circular {
+.ring-circular {
   animation: rotate 1s linear infinite;
   height: 100%;
   transform-origin: center center;
@@ -53,16 +53,13 @@ export default {
   margin: auto;
 }
 
-.path {
+.ring-path {
   will-change: stroke-dasharray;
   will-change: stroke-dashoffset;
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
   stroke: var(--color-placeholder);
   stroke-linecap: round;
-}
-
-.path {
   animation: dash 1s ease-in-out infinite;
 }
 
