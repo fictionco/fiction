@@ -28,8 +28,8 @@ export default {
           text: `Pro Extensions`
         },
         {
-          icon: "support",
-          text: `Enhanced Support`
+          icon: "white-label",
+          text: `White Label`
         },
         {
           icon: "community",
@@ -39,11 +39,11 @@ export default {
           icon: "code",
           text: `Developer Options`
         },
-
         {
-          icon: "white-label",
-          text: `White Label`
+          icon: "support",
+          text: `Enhanced Support`
         },
+        
         {
           icon: "tools",
           text: `Client Tools`
@@ -145,10 +145,8 @@ figure.pro-figure {
         text-transform: uppercase;
         font-weight: 700;
         display: flex;
-        justify-content: center;
         align-items: center;
-        padding: 0.75rem;
-        text-align: center;
+        padding: 0.5rem 1rem 0.5rem 2rem;
         .icon-pro {
           margin-right: 1em;
         }
@@ -168,6 +166,9 @@ figure.pro-figure {
       .grid {
         transform: scale(0.8) rotateY(0deg) rotateX(15deg) translateX(-13em);
         // transform: rotateY(0deg) rotateX(2deg) translateX(-4em);
+        .cell {
+          padding: 0.5rem 1rem 0.5rem;
+        }
       }
     }
     // .stage-wrap,
