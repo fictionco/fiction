@@ -77,7 +77,11 @@ export default {
 
 <style lang="less">
 #plugins-feature {
-  background: linear-gradient(0deg, rgba(235, 239, 243, 1), rgba(235, 239, 243, 0));
+  background: linear-gradient(
+    0deg,
+    rgba(235, 239, 243, 1),
+    rgba(235, 239, 243, 0)
+  );
   @media (max-width: 767px) {
     .feature-figure-container {
       height: 500px;
@@ -110,7 +114,8 @@ figure.plugins-figure {
       transform: translate(-0, -0px);
     }
     perspective: 1000px;
-    transform: rotateX(10deg) rotateY(0deg) rotate(-1deg) scale(1) translateX(-15px);
+    transform: rotateX(10deg) rotateY(0deg) rotate(-1deg) scale(1)
+      translateX(-15px);
     .plugin-icon {
       position: absolute;
       width: 100px;
@@ -120,7 +125,8 @@ figure.plugins-figure {
       align-items: center;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11), 0px 1px 3px rgba(0, 0, 0, 0.08);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11),
+        0px 1px 3px rgba(0, 0, 0, 0.08);
       &.facebook {
         background: #1776f2;
       }
