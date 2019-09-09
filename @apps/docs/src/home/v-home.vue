@@ -12,13 +12,15 @@
             <br >Open source and built with Vue, Mongo, and Node.
           </h3>
           <div class="actions">
-            <app-link path="/guide/quickstart" btn="primary" size="large">Get Started &rarr;</app-link>
-            <app-link path="https://github.com/fiction-com/factor" btn="default" size="large">
+            <factor-email-list list-id="alphaProgram" />
+
+            <factor-link path="https://github.com/fiction-com/factor">
               <span>
+                Github
                 <i>v</i>
                 <span>1.0ALPHA</span>
               </span>
-            </app-link>
+            </factor-link>
           </div>
         </div>
       </div>
@@ -255,8 +257,20 @@ export default {
       }
       .actions {
         margin-top: 1.5em;
-        .factor-btn {
-          margin: 0 0.5em 0 0;
+        .factor-link {
+          margin-top: 1rem;
+          display: inline-block;
+          color: inherit;
+          font-weight: 600;
+          opacity: 0.4;
+        }
+        .email-list-form {
+          max-width: 550px;
+          font-size: 1.3em;
+          margin: 0 auto;
+          @media (max-width: 767px) {
+            font-size: 1em;
+          }
         }
       }
     }
@@ -559,33 +573,33 @@ export default {
     }
   }
 
-  .section-title {
-    font-size: 3em;
-    line-height: 1.1;
+  // .section-title {
+  //   font-size: 3em;
+  //   line-height: 1.1;
 
-    @media (max-width: 670px) {
-      font-size: 2em;
-      line-height: 1.2;
-    }
-  }
-  .body-title {
-    font-weight: 500;
-    font-size: 1.35em;
-    line-height: 1.5em;
-  }
-  .body-text {
-    font-weight: 400;
+  //   @media (max-width: 670px) {
+  //     font-size: 2em;
+  //     line-height: 1.2;
+  //   }
+  // }
+  // .body-title {
+  //   font-weight: 500;
+  //   font-size: 1.35em;
+  //   line-height: 1.5em;
+  // }
+  // .body-text {
+  //   font-weight: 400;
 
-    opacity: 0.85;
-  }
-  .section-title-highlight {
-    font-weight: 300;
-    color: var(--color-primary);
-  }
-  .medium-body-text {
-    font-weight: 400;
-    font-size: 1.3em;
-    line-height: 1.6;
-  }
+  //   opacity: 0.85;
+  // }
+  // .section-title-highlight {
+  //   font-weight: 300;
+  //   color: var(--color-primary);
+  // }
+  // .medium-body-text {
+  //   font-weight: 400;
+  //   font-size: 1.3em;
+  //   line-height: 1.6;
+  // }
 }
 </style>

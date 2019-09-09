@@ -20,6 +20,9 @@ module.exports.default = Factor => {
             text: "A new email was added to a list.",
             to: "Andrew Powers <andrew@fiction.com>"
           }
+        },
+        form: {
+          buttonText: "Request Alpha Invite &rarr;"
         }
       }
     },
