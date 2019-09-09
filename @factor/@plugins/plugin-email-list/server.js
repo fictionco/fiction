@@ -4,44 +4,45 @@ export default Factor => {
       Factor.$filters.callback("endpoints", { id: "emailList", handler: this })
     }
 
+    uniqueId(listId) {
+      return `email-list-${listId}`
+    }
+
     // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
-    async addEmail({ email, listId = "emailList" }) {
+    async addEmail({ email, listId = "default" }) {
       const code = Factor.$randomToken()
 
       const postModel = Factor.$dbServer.model("post")
 
-      // const exists = await postModel.findOne({ uniqueId: listId }, "_id")
-      // if (!exists) {
-      //   await postModel.create({ uniqueId: listId })
-      // }
-
       const result = await postModel.updateOne(
-        { uniqueId: listId },
+        { uniqueId: this.uniqueId(listId) },
         { $addToSet: { list: { email, verified: false, code } } },
         { upsert: true }
       )
 
-      console.log("result", result)
-
-      await this.sendConfirmEmail({ email, listId, code })
+      if (Factor.$emailServer.hasEmail) {
+        await this.sendConfirmEmail({ email, listId, code })
+      }
 
       return true
     }
 
     // Positional Operator
     // https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
-    async verifyEmail({ email, list, code }) {
+    async verifyEmail({ email, list: listId, code }) {
       const result = await Factor.$dbServer
         .model("post")
         .updateOne(
-          { uniqueId: list, "list.code": code, "list.email": email },
+          { uniqueId: this.uniqueId(listId), "list.code": code, "list.email": email },
           { $set: { "list.$.verified": true, "list.$.code": null } }
         )
 
-      await Promise.all([
-        this.sendNotifyEmail({ email, listId }),
-        this.sendVerifiedEmail({ email, listId })
-      ])
+      if (result && result.nModified > 0) {
+        await Promise.all([
+          this.sendNotifyEmail({ email, listId }),
+          this.sendCompleteEmail({ email, listId })
+        ])
+      }
 
       return result
     }
@@ -49,10 +50,16 @@ export default Factor => {
     async sendConfirmEmail({ email, listId, code }) {
       const action = `verify-email-list`
 
-      const { subject, text, linkText } = Factor.$emailList.getSetting({
+      const format = Factor.$emailList.getSetting({
         key: "emails.confirm",
         listId
       })
+
+      if (!format) {
+        return await sendCompleteEmail({ email, listId })
+      }
+
+      const { subject, text, from, linkText } = format
 
       const linkUrl = `${Factor.$config.setting(
         "currentUrl"
@@ -60,6 +67,7 @@ export default Factor => {
 
       return await Factor.$emailServer.sendTransactional({
         to: email,
+        from,
         subject,
         text,
         linkText,
@@ -67,30 +75,40 @@ export default Factor => {
       })
     }
 
-    async sendVerifiedEmail({ email, listId }) {
-      const { subject, text } = Factor.$emailList.getSetting({
-        key: "emails.verified",
+    async sendCompleteEmail({ email, listId }) {
+      const format = Factor.$emailList.getSetting({
+        key: "emails.complete",
         listId
       })
+
+      if (!format) return
+
+      const { subject, text, from } = format
 
       return await Factor.$emailServer.sendTransactional({
         to: email,
         subject,
-        text
+        text,
+        from
       })
     }
 
-    async sendNotify({ email, listId }) {
-      let { subject, text, to } = Factor.$emailList.getSetting({
+    async sendNotifyEmail({ email, listId }) {
+      const format = Factor.$emailList.getSetting({
         key: "emails.notify",
         listId
       })
+
+      if (!format) return
+
+      let { subject, text, to, from } = format
 
       if (to) {
         await Factor.$emailServer.sendTransactional({
           to,
           subject,
-          text: text + `<p><strong>Email:</strong> ${email}</p>`
+          text: text + `<p><strong>Email:</strong> ${email}</p>`,
+          from
         })
       }
 
