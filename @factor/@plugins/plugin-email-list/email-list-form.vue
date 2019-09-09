@@ -8,20 +8,20 @@
       <input
         v-model="email"
         type="email"
-        :placeholder="setting('emailList.form.placeholder')"
+        :placeholder="setting('form.placeholder')"
         @keyup.enter="add()"
       >
       <factor-app-btn btn="primary" :loading="sending" @click="add()">
-        <span v-formatted-text="setting('emailList.form.buttonText')" />
+        <span v-formatted-text="setting('form.buttonText')" />
       </factor-app-btn>
     </div>
-    <component :is="confirmModal" v-if="confirmModal" :added="added" />
+    <component :is="confirmModal" v-if="confirmModal" :added="added" :list-id="listId" />
   </div>
 </template>
 <script>
 export default {
   props: {
-    listId: { type: String, default: "emailList" }
+    listId: { type: String, default: "default" }
   },
   data() {
     return {
@@ -29,12 +29,12 @@ export default {
       sending: false,
       added: false,
       validation: "",
-      confirmModal: this.setting(`emailList.success.modal`)
+      confirmModal: this.setting(`success.modal`)
     }
   },
   computed: {
     settings() {
-      return this.$setting.get(this.listId)
+      return this.$emailList.settings(this.listId)
     }
   },
   methods: {
@@ -88,17 +88,6 @@ export default {
 </script>
 
 <style lang="less">
-// .added-modal {
-//   .added-title {
-//     font-size: 2em;
-//   }
-//   .confirm-icon {
-//     svg {
-//       height: 64px;
-//       width: 64px;
-//     }
-//   }
-// }
 .email-list-form {
   .add-email {
     display: grid;

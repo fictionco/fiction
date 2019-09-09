@@ -10,10 +10,12 @@ module.exports.default = Factor => {
 
       if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
         require("./setup").default(Factor)
-
+        this.hasEmail = false
         this.transporter = false
         return false
       }
+
+      this.hasEmail = true
 
       this.transporter = require("nodemailer").createTransport({
         host: SMTP_HOST,
