@@ -1,8 +1,8 @@
 <template>
   <div class="factor-benefits">
     <header class="section-header">
-      <h1 class="section-title">Perfect for Perfectionists</h1>
-      <p class="medium-body-text">
+      <h1 class="title">Perfect for Perfectionists</h1>
+      <p class="text">
         Factor will help you launch apps that impress and astonish your clients and
         colleagues. No more re-inventing the wheel, or rewriting and refactoring where
         it's unneeded.
@@ -73,8 +73,20 @@ export default {
     max-width: 900px;
     margin: 0 auto;
     margin-bottom: 50px;
-    p {
+    .title {
+      font-size: 3em;
+      line-height: 1.1;
+
+      @media (max-width: 670px) {
+        font-size: 2em;
+        line-height: 1.2;
+      }
+    }
+    .text {
       margin-top: 20px;
+      font-weight: 400;
+      font-size: 1.3em;
+      line-height: 1.6;
     }
     @media (max-width: 767px) {
       text-align: left;

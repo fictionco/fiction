@@ -265,9 +265,12 @@ export default {
           opacity: 0.4;
         }
         .email-list-form {
-          max-width: 500px;
+          max-width: 550px;
           font-size: 1.3em;
           margin: 0 auto;
+          @media (max-width: 767px) {
+            font-size: 1em;
+          }
         }
       }
     }
@@ -570,33 +573,33 @@ export default {
     }
   }
 
-  .section-title {
-    font-size: 3em;
-    line-height: 1.1;
+  // .section-title {
+  //   font-size: 3em;
+  //   line-height: 1.1;
 
-    @media (max-width: 670px) {
-      font-size: 2em;
-      line-height: 1.2;
-    }
-  }
-  .body-title {
-    font-weight: 500;
-    font-size: 1.35em;
-    line-height: 1.5em;
-  }
-  .body-text {
-    font-weight: 400;
+  //   @media (max-width: 670px) {
+  //     font-size: 2em;
+  //     line-height: 1.2;
+  //   }
+  // }
+  // .body-title {
+  //   font-weight: 500;
+  //   font-size: 1.35em;
+  //   line-height: 1.5em;
+  // }
+  // .body-text {
+  //   font-weight: 400;
 
-    opacity: 0.85;
-  }
-  .section-title-highlight {
-    font-weight: 300;
-    color: var(--color-primary);
-  }
-  .medium-body-text {
-    font-weight: 400;
-    font-size: 1.3em;
-    line-height: 1.6;
-  }
+  //   opacity: 0.85;
+  // }
+  // .section-title-highlight {
+  //   font-weight: 300;
+  //   color: var(--color-primary);
+  // }
+  // .medium-body-text {
+  //   font-weight: 400;
+  //   font-size: 1.3em;
+  //   line-height: 1.6;
+  // }
 }
 </style>
