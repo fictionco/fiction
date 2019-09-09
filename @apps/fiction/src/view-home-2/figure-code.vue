@@ -82,18 +82,18 @@ figure.factor-figure {
 
       bottom: 0;
       left: 0;
-      box-shadow: -27.1px 42.5px 125px -25px rgba(50, 50, 93, 0.3),
-        -16.2px 27.5px 55px -37.5px rgba(0, 0, 0, 0.6);
+      box-shadow: -20px 0px 125px -25px rgba(50, 50, 93, 0.3),
+        -15px -16px 20px rgba(0, 0, 0, 0.1), 0px -18px 36px rgba(0, 0, 0, 0.1);
       border-radius: 6px;
       overflow: hidden;
       img {
         width: 100%;
       }
       &.factor {
-        transform: translateZ(1px) rotateY(5deg) translateX(-2rem);
+        transform: translateZ(-10px) rotateY(5deg) translateX(-2rem);
       }
       &.alpha {
-        transform: translateZ(1px) scale(0.7) rotateY(5deg)
+        transform: translateZ(10px) scale(0.9) rotateY(5deg)
           translate(8rem, 2rem);
       }
     }
@@ -105,8 +105,7 @@ figure.factor-figure {
     position: relative;
     width: 525px;
 
-    transform: rotate3d(0.1, 0.866, 0, 15deg) rotateZ(-1deg)
-      translate(-7rem, -2rem);
+    transform: rotate(-1deg) translateZ(-25px) translate(-7rem, -2rem);
     // box-shadow: -27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
     //   -16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
     background: #fff;
