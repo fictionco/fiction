@@ -27,6 +27,11 @@ export default Factor => {
         index: true,
         default: "draft"
       },
+      uniqueId: {
+        type: String,
+        trim: true,
+        index: { unique: true, sparse: true }
+      },
       permalink: {
         type: String,
         trim: true,

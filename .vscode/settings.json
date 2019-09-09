@@ -43,6 +43,5 @@
   "editor.fontWeight": "600",
   "vetur.format.defaultFormatter.html": "prettyhtml",
   "eslint.autoFixOnSave": true,
-  "editor.formatOnSave": true,
-  "vetur.experimental.templateInterpolationService": true
+  "editor.formatOnSave": true
 }
