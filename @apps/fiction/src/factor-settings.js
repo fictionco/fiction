@@ -1,5 +1,29 @@
 module.exports.default = Factor => {
   return {
+    emailList: {
+      alphaProgram: {
+        emails: {
+          confirm: {
+            successMessage: "Your email is confirmed. Check your email for next steps.",
+            subject: "Factor Alpha Program: Email confirmation",
+            text: `We're glad you've requested access to the Alpha program. Just one more step, please confirm your email.`
+          },
+          complete: {
+            subject: "Success! Next steps...",
+            text: `<p>Currently the Alpha Program includes a developer Slack channel and optional weekly meetings.</p>
+              <p>We are happy to have you when the time is right. The current priority is working with people looking to actively build with Factor.</p>
+              <p>That you? Great. Can you tell me what you're looking to build or experiment with? (reply to email)</p>`,
+            from: "Andrew Powers <andrew@fiction.com>"
+          },
+          notify: {
+            subject: "New Confirmed Email",
+            text: "A new email was added to a list.",
+            to: "Andrew Powers <andrew@fiction.com>"
+          }
+        }
+      }
+    },
+
     contactForm: {
       email: "andrew@fiction.com",
       confirm: {

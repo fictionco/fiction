@@ -82,6 +82,7 @@ export default Factor => {
       Factor.$filters.apply("client-route-after", [], { to, from })
 
       const { query } = to
+
       if (query._action) {
         Factor.$filters.run(`route-query-action-${query._action}`, query)
       }
