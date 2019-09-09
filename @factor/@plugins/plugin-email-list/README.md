@@ -89,3 +89,39 @@ To use your new custom list just add the list ID to the component:
   <factor-email-list list-id="customListId" />
 </template>
 ```
+
+## Disable Emails
+
+If you don't want to use the confirmation emails from this plugin, it's possible to disable one or all of the emails.
+
+To disable a specific email, e.g. the 'complete' email, then just set it to `false` in `factor-settings`.
+
+```js
+// app factor-settings.js
+export default Factor => {
+  return {
+    emailList: {
+      customListId: {
+        emails: {
+          complete: false
+        }
+      }
+    }
+  }
+}
+```
+
+To disable all emails, set the emails key to false:
+
+```js
+// app factor-settings.js
+export default Factor => {
+  return {
+    emailList: {
+      customListId: {
+        emails: false
+      }
+    }
+  }
+}
+```
