@@ -20,7 +20,7 @@
           </p>
 
           <div class="header-actions">
-            <component :is="$setting.get('emailList.form.component')" />
+            <component :is="$setting.get('emailList.form.component')" list-id="alphaProgram" />
           </div>
         </div>
         <div class="header-figure">

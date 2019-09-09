@@ -19,7 +19,7 @@ export default Factor => {
     settings(listId = "") {
       return Factor.$utils.deepMerge([
         Factor.$setting.get(`emailList`),
-        Factor.$setting.get(`emailList.customList.${listId}`)
+        Factor.$setting.get(`emailList.customLists.${listId}`)
       ])
     }
 

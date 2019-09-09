@@ -11,6 +11,8 @@ export default {
 
 <style lang="less">
 button.app-btn {
+  --shadow-btn: 0 2px 10px rgba(71, 86, 144, 0.2);
+  --shadow-btn-hover: 0 4px 10px rgba(71, 86, 144, 0.2);
   padding: 0.6em 1.2em;
   font-size: 0.9em;
   font-weight: 700;
@@ -18,7 +20,7 @@ button.app-btn {
   border-radius: 4px;
   letter-spacing: -0.02em;
   color: rgba(var(--color-text-rgb), 0.8);
-
+  transition: all 0.2s ease-in-out;
   &:focus {
     outline: none;
   }
@@ -48,29 +50,34 @@ button.app-btn {
 
   &.default {
     background: #fff;
-    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3),
-      0 2px 10px rgba(71, 86, 144, 0.2);
+    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3), var(--shadow-btn);
+  }
+
+  &.primary,
+  &.secondary {
+    box-shadow: var(--shadow-btn);
+
+    &:hover {
+      box-shadow: var(--shadow-btn-hover);
+    }
   }
 
   &.primary {
-    color: var(--color-light);
+    color: var(--color-primary-text, #fff);
     background: var(--color-primary);
-    box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.3);
-    transition: all 0.2s ease-in-out;
 
-    &:hover {
-      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
+    .ring-path {
+      stroke: var(--color-primary-text, #fff);
     }
   }
 
   &.secondary {
-    color: var(--color-light);
+    color: var(--color-secondary-text, #fff);
     background: var(--color-secondary);
-  }
 
-  &.tertiary {
-    color: var(--color-primary);
-    background: var(--color-tertiary);
+    .ring-path {
+      stroke: var(--color-secondary-text, #fff);
+    }
   }
 }
 </style>x

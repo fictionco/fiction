@@ -8,11 +8,11 @@
       <input
         v-model="email"
         type="email"
-        :placeholder="$setting.get('emailList.form.placeholder')"
+        :placeholder="setting('emailList.form.placeholder')"
         @keyup.enter="add()"
       >
       <factor-app-btn btn="primary" :loading="sending" @click="add()">
-        <span v-formatted-text="$setting.get('emailList.form.buttonText')" />
+        <span v-formatted-text="setting('emailList.form.buttonText')" />
       </factor-app-btn>
     </div>
     <component :is="confirmModal" v-if="confirmModal" :added="added" />
@@ -29,10 +29,21 @@ export default {
       sending: false,
       added: false,
       validation: "",
-      confirmModal: this.$setting.get(`emailList.success.modal`)
+      confirmModal: this.setting(`emailList.success.modal`)
+    }
+  },
+  computed: {
+    settings() {
+      return this.$setting.get(this.listId)
     }
   },
   methods: {
+    setting(key) {
+      return this.$emailList.getSetting({
+        key,
+        listId: this.listId
+      })
+    },
     async add() {
       this.sending = true
 

@@ -1,14 +1,14 @@
 export default Factor => {
   return {
     emailList: {
-      customList: {},
+      customLists: {},
       emails: {
         confirm: {
           subject: "Please confirm your email",
           text: "We've received your request. Please confirm your email.",
           linkText: "Confirm Email"
         },
-        completed: {
+        verified: {
           subject: "Your email has been confirmed",
           text: "Thanks! You'll be hearing from us soon."
         },
@@ -26,7 +26,7 @@ export default Factor => {
       success: {
         modal: () => import("./modal-confirm.vue"),
         title: "Success",
-        text: "We have your email and you'll be hearing from us soon."
+        text: "Please check your email to confirm your email address."
       }
     }
   }
