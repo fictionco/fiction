@@ -136,9 +136,8 @@ export default {
         },
         {
           text: `wow! So impressed with the speed and ease of use of @factordev for creating universal #vuejs apps 💨 #factorjs`,
-          attribution: "Edgar Cheverier, Dono Inc.",
-          img: require("./img/nodejs.svg"),
-          link: "https://www.elasticbyte.net"
+          attribution: "Nick Dryburgh, Zeno co.",
+          img: require("./img/zeno.svg")
         }
       ],
       features: [
