@@ -492,7 +492,7 @@ export default {
         .icon {
           width: 50px;
           margin-left: -4rem;
-          margin-right: 1rem;
+          margin-right: 0.5rem;
         }
         .header-icon-text {
           font-size: 1.3em;
@@ -550,16 +550,12 @@ export default {
           0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: cover;
-        transform: scale(1) perspective(1040px) rotateY(0deg) rotateX(0deg)
-          rotate(0deg);
-        transition: opacity 0.2s, transform 0.2s;
+        transition: opacity 0.2s;
         @media (max-width: 900px) {
           width: 100%;
         }
         &:hover {
           cursor: pointer;
-          transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(1deg)
-            rotate(1deg) translateY(-6px);
           .play-button {
             opacity: 0.8;
           }
@@ -793,7 +789,7 @@ export default {
             bottom: 0;
             left: 0;
             width: 100%;
-            padding: 8px 10px;
+            //padding: 8px 10px;
             height: 56px;
             transform: translateY(50%);
             opacity: 0;
@@ -855,8 +851,8 @@ export default {
       padding-top: 5em;
       padding-bottom: 3em;
 
-      position: relative;
-      z-index: 100;
+      //position: relative;
+      //z-index: 100;
       h1 {
         font-size: 2em;
         font-weight: 400;

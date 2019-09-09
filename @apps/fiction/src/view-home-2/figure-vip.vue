@@ -54,7 +54,7 @@ export default {
           icon: "support"
         },
         {
-          icon: "dev"
+          icon: "cloud"
         }
       ]
     }
