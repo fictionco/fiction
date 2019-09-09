@@ -23,6 +23,7 @@
     "@factor/plugin-sitemap": "^1.0.0-alpha.20",
     "@factor/plugin-contact-form": "^1.0.0-alpha.20",
     "@factor/plugin-storage-s3": "^1.0.0-alpha.20",
-    "@factor/plugin-google-tag-manager": "^1.0.0-alpha.20"
+    "@factor/plugin-google-tag-manager": "^1.0.0-alpha.20",
+    "@factor/plugin-email-list": "^1.0.0-alpha.27"
   }
 }
