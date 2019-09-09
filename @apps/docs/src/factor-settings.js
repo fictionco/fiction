@@ -203,7 +203,8 @@ module.exports.default = Factor => {
       headline: "Released under the GPL-2 License",
       legal:
         "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a> and The Contibutors",
-      logo: () => import("./el/logo-fiction")
+      logo: () => import("./el/logo-fiction"),
+      logo2: () => import("./el/logo-pagelines")
     },
     home: {
       meta: {

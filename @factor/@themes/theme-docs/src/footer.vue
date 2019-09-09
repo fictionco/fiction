@@ -4,6 +4,9 @@
       <factor-link path="https://www.fiction.com" class="pin">
         <component :is="$setting.get(`footer.logo`)" />
       </factor-link>
+      <factor-link path="https://pagelines.com" class="pin">
+        <component :is="$setting.get(`footer.logo2`)" />
+      </factor-link>
     </div>
     <div class="legal">
       <div v-formatted-text="$setting.get('footer.headline')" class="license" />
@@ -18,6 +21,7 @@ export default {}
 <style lang="less">
 .content-footer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   line-height: 1.6em;
@@ -26,18 +30,19 @@ export default {}
   margin-top: 4em;
   @media (max-width: 767px) {
     display: block;
-    .logo {
-      margin-bottom: 1em;
-    }
   }
   .logo {
-    margin-right: 3em;
+    margin-bottom: 1em;
   }
   .pin {
     display: inline-block;
+    &:last-of-type {
+      margin-left: 15px;
+    }
   }
   .legal {
     line-height: 1.8;
+    text-align: center;
   }
   .license {
     font-weight: var(--font-weight-bold);
