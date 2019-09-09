@@ -12,19 +12,15 @@
             <br >Open source and built with Vue, Mongo, and Node.
           </h3>
           <div class="actions">
-            <app-link
-path="/guide/quickstart"
-btn="primary" size="large">Get Started &rarr;</app-link>
-            <app-link
-              path="https://github.com/fiction-com/factor"
-              btn="default"
-              size="large"
-            >
+            <factor-email-list list-id="alphaProgram" />
+
+            <factor-link path="https://github.com/fiction-com/factor">
               <span>
+                Github
                 <i>v</i>
                 <span>1.0ALPHA</span>
               </span>
-            </app-link>
+            </factor-link>
           </div>
         </div>
       </div>
@@ -63,8 +59,7 @@ btn="primary" size="large">Get Started &rarr;</app-link>
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <app-link
-:path="feature.link.path">{{ feature.link.text }} &rarr;</app-link>
+              <app-link :path="feature.link.path">{{ feature.link.text }} &rarr;</app-link>
             </div>
           </div>
         </div>
@@ -263,8 +258,17 @@ export default {
       }
       .actions {
         margin-top: 1.5em;
-        .factor-btn {
-          margin: 0 0.5em 0 0;
+        .factor-link {
+          margin-top: 1rem;
+          display: inline-block;
+          color: inherit;
+          font-weight: 600;
+          opacity: 0.4;
+        }
+        .email-list-form {
+          max-width: 500px;
+          font-size: 1.3em;
+          margin: 0 auto;
         }
       }
     }
@@ -300,8 +304,8 @@ export default {
         position: relative;
         border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
-          0 50px 100px rgba(50, 50, 93, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
+          0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: contain;
         video {
@@ -323,7 +327,8 @@ export default {
           opacity: 0.9;
           border-radius: 50%;
           box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+            0 8px 16px -8px rgba(0, 0, 0, 0.3),
+            0 -6px 16px -6px rgba(0, 0, 0, 0.025);
           width: 72px;
           height: 72px;
         }
