@@ -96,7 +96,7 @@ module.exports.default = Factor => {
 
     async updateManyById({ _ids, postType = "post", data }, { bearer }) {
       return await this.getPostTypeModel(postType).update(
-        { $and: [...this.isAuthor(bearer), { _id: { $in: _ids } }] },
+        { $and: [this.isAuthor(bearer), { _id: { $in: _ids } }] },
         { $set: data },
         { multi: true }
       )
@@ -104,7 +104,7 @@ module.exports.default = Factor => {
 
     async deleteManyById({ _ids, postType = "post" }, { bearer }) {
       return await this.getPostTypeModel(postType).remove({
-        $and: [...this.isAuthor(bearer), { _id: { $in: _ids } }]
+        $and: [this.isAuthor(bearer), { _id: { $in: _ids } }]
       })
     }
 

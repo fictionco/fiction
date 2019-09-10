@@ -12,7 +12,9 @@
       ]
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "export-to-csv": "^0.2.1"
+  },
   "publishConfig": {
     "access": "public"
   },

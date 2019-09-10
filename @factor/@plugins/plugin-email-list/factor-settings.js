@@ -28,6 +28,11 @@ export default Factor => {
           modal: () => import("./modal-confirm.vue"),
           title: "Success",
           text: "Please check your email to confirm your email address."
+        },
+        validation: {
+          error: "Whoops.. There was an issue adding your email.",
+          empty: `Please enter an email address.`,
+          notEmail: `Please enter a valid email address`
         }
       }
     }
