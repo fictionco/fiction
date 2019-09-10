@@ -84,12 +84,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 .content-container {
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 1fr 4fr;
   width: 100%;
   height: 100vh;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 }
 .home-sidebar-container {
   background: linear-gradient(304.61deg, #732b29 -122.45%, #111010 97.32%);

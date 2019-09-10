@@ -9,7 +9,33 @@ export default Factor => {
     },
     site: {
       logo: () => import("./el/logo-ultra"),
-      logoTitle: "Ultra Theme"
+      logoTitle: "Ultra Theme",
+      nav: [
+        {
+          path: "#homeContainerID",
+          name: "Home"
+        },
+        {
+          path: "#aboutContainerID",
+          name: "About"
+        },
+        {
+          path: "#servicesContainerID",
+          name: "Services"
+        },
+        {
+          path: "#portfolioContainerID",
+          name: "Portfolio"
+        },
+        {
+          path: "#newsContainerID",
+          name: "News"
+        },
+        {
+          path: "#contactPageContainerID",
+          name: "Contact"
+        }
+      ]
     },
 
     sidebar: {
@@ -48,36 +74,36 @@ export default Factor => {
     },
 
     home: {
+      pretitle: "Welcome To Ultra",
+      title:
+        "A modern one page theme for personal or portfolio exposure with unique effects and features.",
+      actions: [
+        {
+          btn: "primary",
+          path: "#servicesContainerID",
+          text: "Start a Project",
+          icon: "right-arrow"
+        },
+        {
+          btn: "primary-ol",
+          path: "#aboutContainerID",
+          text: "More About Ultra",
+          icon: "right-arrow"
+        }
+      ],
       meta: {
         title: "Docs Theme - Factor.js",
         description: "A simple portfolio theme for Factor.js framework."
-      },
-      quotes: "Welcome To Ultra",
-      mainQuotes:
-        "A modern one page theme for personal or portfolio exposure with unique effects and features.",
-      homeButtons: [
-        {
-          text: "Start a Project",
-          class: "home-button-start",
-          icon: "right-arrow",
-          path: "#servicesContainerID"
-        },
-        {
-          text: "More About Ultra",
-          class: "home-button-more",
-          icon: "right-arrow",
-          path: "#aboutContainerID"
-        }
-      ]
+      }
     },
 
     about: {
-      title: "About Me",
-      contentTitle: "I am Ultra",
-      aboutContentText:
-        "Did shy say mention enabled through elderly improve. As at so believe account evening behaved hearted is. House is tiled we aware. It ye greatest removing concerns an overcame appetite. Manner result square father boy behind its his. Their above spoke match ye mr right oh as first. Be my depending to believing perfectly concealed household. Point could to built no hours smile sense.",
+      pretitle: "About Me",
+      title: "I am Ultra",
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
       picture: require("./img/about.jpg"),
-      aboutData: [
+      counter: [
         {
           text: "Awards Received",
           number: "56"
@@ -97,8 +123,8 @@ export default Factor => {
       ]
     },
     services: {
-      quote: "What I Do",
-      title: "Everything you need to lunch and grow your business",
+      pretitle: "What I Do",
+      title: "Everything you need to launch and grow your business",
       contentBlocks: [
         {
           title: "Illustration",
