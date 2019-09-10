@@ -1,7 +1,7 @@
 <template>
   <div
     id="portfolioContainerID"
-    class="portfolio-container"
+    class="portfolio-container page-container"
     :class="[mobile ? 'portfolio-container-mobile' : '', (mobile && orientationH) ? 'portfolio-container-horizontal' : '']"
   >
     <div class="portfolio-header-container">
@@ -21,8 +21,8 @@
       <div
         v-for="(ele, i) in $setting.get('portfolio.pictures')"
         :key="i"
-        class="portfolio-picture-container"
-        :class="[mobile ? 'portfolio-picture-container-mobile' : '', (mobile && orientationH) ? 'portfolio-picture-container-horizontal' : '']"
+        class="item"
+        :class="[mobile ? 'item-mobile' : '', (mobile && orientationH) ? 'item-horizontal' : '']"
       >
         <img :class="ele.pictureClass" :src="ele.picture" :alt="ele.alt" >
       </div>
@@ -54,18 +54,16 @@
 
 <script>
 export default {
-  props: ["mobile", "orientationH"]
+  props: {
+    mobile: { type: String, default: () => {} },
+    orientationH: { type: String, default: () => {} }
+  }
 }
 </script>
 
-<style>
+<style lang="less" scope>
 .portfolio-container {
   background: #111010;
-  font-family: Work Sans;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60px 160px 60px;
-  height: 40%;
 }
 .portfolio-container-mobile {
   grid-template-rows: 0.4fr 1.2fr 0.7fr;
@@ -73,7 +71,6 @@ export default {
 }
 .portfolio-header-container {
   text-align: center;
-  margin-top: 2vh;
 }
 .portfolio-quote {
   color: #9e9e9e;
@@ -93,42 +90,48 @@ export default {
   margin: 10px 0 0 20px;
 }
 .portfolio-gallery-container {
-  margin: 15vh 0 0 26vw;
-  width: 20vw;
-  display: grid;
-  grid-template-areas:
-    "div div"
-    "div div"
-    "div div";
-  justify-items: center;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: center;
+  max-width: 800px;
+
+  .item {
+    width: 50%;
+    /* Optional */
+    position: relative;
+    padding: 5px;
+    box-sizing: border-box;
+    flex-grow: 1;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
 }
-.portfolio-gallery-container-mobile {
-  margin: 0 0 0 50px;
-}
-.portfolio-gallery-container-horizontal {
-  margin: 10px 0 0 120px;
-  grid-template-areas:
-    "div div div"
-    "div div div";
-}
-.portfolio-picture-container {
-  width: 15vw;
-  height: 32vh;
-}
-.portfolio-picture-container-mobile {
-  width: 150px;
-  height: 160px;
-}
-.portfolio-picture-container-horizontal {
-  width: 200px;
-  height: 110px;
-}
-.pictureClasslong {
-  width: 100%;
-  height: 100%;
-}
+// .portfolio-gallery-container-mobile {
+//   margin: 0 0 0 50px;
+// }
+// .portfolio-gallery-container-horizontal {
+//   margin: 10px 0 0 120px;
+//   grid-template-areas:
+//     "div div div"
+//     "div div div";
+// }
+// .item {
+//   width: 100%;
+//   height: auto;
+// }
+// .item-mobile {
+//   width: 150px;
+//   height: 160px;
+// }
+// .item-horizontal {
+//   width: 200px;
+//   height: 110px;
+// }
+
 .portfolio-previous-content-container {
-  margin: 96vh 0 0 3.5vw;
   text-align: center;
 }
 .portfolio-previous-content-container-mobile {

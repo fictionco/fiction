@@ -1,5 +1,5 @@
 <template>
-  <div id="contactPageContainerID" class="contact-page-container">
+  <div id="contactPageContainerID" class="contact-page-container page-container">
     <div class="contact-quote-container">
       <h4
         class="contact-quote"
@@ -117,11 +117,6 @@ export default {
 <style>
 .contact-page-container {
   background: #fa5855;
-  font-family: Work Sans;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60px 160px 60px;
-  height: 100vh;
 }
 .contact-quote-container {
   margin: 1.2vw 0 0 1.2vw;
@@ -132,10 +127,10 @@ export default {
   font-size: 1.4vw;
   font-weight: bold;
 }
-.contact-quote-mobile {
+/* .contact-quote-mobile {
   font-size: 25px;
   margin: 10px 0;
-}
+} */
 .contact-quote-horizontal {
   margin: 10px 0 0 0;
 }
@@ -150,8 +145,7 @@ export default {
   margin: 0 0 0 26px;
 }
 .contact-container {
-  margin: auto;
-  margin-top: 28vh;
+  margin: 2rem auto;
   width: 52vw;
   height: 60vh;
   border-radius: 12px;

@@ -4,13 +4,13 @@
     :class="!mobile ? 'content-container' : 'mobile-content-container'"
   >
     <div v-if="!mobile">
-      <Sidebar />
+      <sidebar />
     </div>
     <div v-else class="home-sidebar-container">
       <div
         :class="[showSidebar ? 'home-sidebar-mobile' : 'home-sidebar-arrows', (orientationH && showSidebar) ? 'home-sidebar-horizontal' : '']"
       >
-        <Sidebar
+        <sidebar
           :mobile="mobile"
           :orientation-h="orientationH"
           :show-sidebar="showSidebar"
@@ -34,8 +34,9 @@
     </div>
   </div>
 </template>
+<style src="#/css/style.less" lang="less"></style>
 <script>
-import Sidebar from "./sidebar.vue"
+//import Sidebar from "./sidebar.vue"
 import PageHome from "./page-home.vue"
 import PageAbout from "./page-about.vue"
 import PageServices from "./page-services.vue"
@@ -44,7 +45,9 @@ import PageNews from "./page-news.vue"
 import PageContact from "./page-contact.vue"
 export default {
   components: {
-    Sidebar,
+    sidebar: () => import("./sidebar"),
+
+    // Sidebar,
     PageHome,
     PageAbout,
     PageServices,
@@ -98,7 +101,7 @@ export default {
 }
 .home-sidebar-arrows {
   position: fixed;
-  font-family: Work Sans;
+  font-family: var(--font-family-primary);
   display: grid;
   align-items: center;
   color: #f7f7f7;
@@ -111,7 +114,7 @@ export default {
 .home-sidebar-mobile {
   z-index: 2;
   position: fixed;
-  font-family: Work Sans;
+  font-family: var(--font-family-primary);
   display: grid;
   grid-template-columns: 10% 90%;
   align-items: center;
