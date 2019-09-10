@@ -1,7 +1,7 @@
 <template>
   <div
     id="aboutContainerID"
-    class="about-container"
+    class="about-container page-container"
     :class="[mobile ? 'about-container-mobile' : '', (mobile && orientationH) ? 'about-container-horizontal' : '']"
   >
     <div class="about-quote-container">
@@ -57,14 +57,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 .about-container {
   background: #f7ecea;
-  font-family: Work Sans;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60px 200px 60px;
-  height: 100vh;
 }
 .about-container-mobile {
   padding-left: 34px;

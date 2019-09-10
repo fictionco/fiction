@@ -1,7 +1,7 @@
 <template>
   <div
     id="newsContainerID"
-    class="news-container"
+    class="news-container page-container"
     :class="[mobile ? 'news-container-mobile' : '', (mobile && orientationH) ? 'news-container-horizontal' : '']"
   >
     <div
@@ -106,14 +106,6 @@ export default {
 <style>
 .news-container {
   background: #f7ecea;
-  font-family: Work Sans;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60px 160px 60px;
-  height: 40%;
-}
-.news-container-mobile {
-  height: 100vh;
 }
 .news-quote-container {
   margin: 2vh 0 0 9.5vw;
