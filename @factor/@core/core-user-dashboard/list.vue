@@ -2,19 +2,13 @@
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
     <slot slot="nav" name="nav" />
-    <dashboard-table-controls v-bind="$attrs" :tabs="tabs" filter="role" :meta="meta" />
+    <dashboard-grid-controls>
+      <dashboard-grid-filter filter-id="role" :filter-tabs="tabs" />
+    </dashboard-grid-controls>
 
-    <dashboard-table
-      class="post-table"
-      :structure="tableStructure()"
-      :row-items="list"
-      :zero-state="7"
-    >
-      <template slot-scope="{column, item, row}">
-        <div v-if="column == 'select'">
-          <factor-input-checkbox label />
-        </div>
-        <div v-if="column == 'name'" class="post-title">
+    <dashboard-grid :structure="tableStructure()" :rows="list" :zero-state="7">
+      <template #name="{row}">
+        <div class="post-title">
           <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.displayName }}</factor-link>
           <factor-link
             v-if="row.email"
@@ -22,21 +16,16 @@
             :path="postlink(row.postType, row.permalink)"
           >{{ row.email }}</factor-link>
         </div>
-
-        <div v-else-if="column == 'photo'" class="author">
-          <factor-avatar :post-id="row.avatar" />
-        </div>
-
-        <div v-else-if="column == 'role'" class="meta">
-          <span class="meta status">
-            <span v-if="row.role" class="val">{{ $utils.toLabel(row.role) }}</span>
-          </span>
-        </div>
-
-        <div v-else-if="column == 'signed-up'" class="meta">{{ $time.niceFormat(row.createdAt) }}</div>
-        <div v-else-if="column == 'last-seen'" class="meta">{{ $time.niceFormat(row.signedInAt) }}</div>
       </template>
-    </dashboard-table>
+
+      <template #photo="{row}">
+        <factor-avatar :post-id="row.avatar" />
+      </template>
+
+      <template #role="{row}">{{ $utils.toLabel(row.role) }}</template>
+      <template #signed-up="{row}">{{ $time.niceFormat(row.createdAt) }}</template>
+      <template #last-seen="{row}">{{ $time.niceFormat(row.signedInAt) }}</template>
+    </dashboard-grid>
   </dashboard-pane>
 </template>
   <script>
@@ -103,30 +92,25 @@ export default {
         //   class: "col-fixed-40"
         // },
         {
-          column: "name",
-          class: "col-8",
-          mobile: "mcol-16"
+          _id: "name",
+          width: "minmax(150px, 1fr)"
         },
 
         {
-          column: "photo",
-          class: "col-2",
-          mobile: "mcol-16"
+          _id: "photo",
+          width: "70px"
         },
         {
-          column: "role",
-          class: "col-2",
-          mobile: "mcol-16"
+          _id: "role",
+          width: "minmax(100px, 200px)"
         },
         {
-          column: "signed-up",
-          class: "col-2",
-          mobile: "mcol-8"
+          _id: "signed-up",
+          width: "minmax(100px, 125px)"
         },
         {
-          column: "last-seen",
-          class: "col-2",
-          mobile: "mcol-8"
+          _id: "last-seen",
+          width: "minmax(100px, 125px)"
         }
       ]
     }
@@ -135,19 +119,6 @@ export default {
 </script>
 <style lang="less">
 .posts-dashboard {
-  .post-table {
-    font-size: 0.85em;
-
-    .dbt-head {
-      @media (max-width: 767px) {
-        .photo,
-        .role,
-        .activity {
-          display: none;
-        }
-      }
-    }
-  }
   .post-title {
     > a {
       display: block;
@@ -175,9 +146,6 @@ export default {
     .user-card-wrap {
       margin: 0 3px 3px 0;
     }
-  }
-  .select {
-    text-align: center;
   }
 }
 </style>

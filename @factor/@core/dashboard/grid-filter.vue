@@ -44,7 +44,7 @@ export default {
 .tabber {
   display: flex;
   > div {
-    margin: 0 6px;
+    margin-right: 6px;
   }
   @media (max-width: 767px) {
     padding-bottom: 1em;

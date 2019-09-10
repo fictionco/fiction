@@ -12,45 +12,43 @@
         <factor-icon icon="arrow-right" />
       </dashboard-link>
     </template>
-    <dashboard-table-controls
-      v-bind="$attrs"
-      :tabs="tabs"
-      filter="status"
-      :post-type="postType"
-      :meta="meta"
-      :actions="controlActions"
-      :loading="loadingAction"
-      @action="runAction($event)"
-    />
-    <dashboard-table
-      class="post-table"
+    <dashboard-grid-controls>
+      <dashboard-grid-actions
+        :actions="controlActions"
+        :loading="loadingAction"
+        @action="runAction($event)"
+      />
+      <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
+    </dashboard-grid-controls>
+
+    <dashboard-grid
       :structure="tableStructure()"
-      :row-items="list"
+      :rows="list"
       :zero-state="7"
       @select-all="selectAll($event)"
     >
-      <template slot-scope="{column, item, row}">
-        <div v-if="column == 'select'">
-          <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
-        </div>
-        <div v-if="column == 'title'" class="post-title">
-          <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ item }}</dashboard-link>
+      <template #select="{row}">
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
+      </template>
+      <template #title="{row}">
+        <div class="post-title">
+          <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</dashboard-link>
           <dashboard-link
             v-if="row.permalink"
             class="permalink"
             :path="postlink(row.postType, row.permalink, false)"
           >{{ postlink(row.postType, row.permalink, false) }}</dashboard-link>
         </div>
-
-        <div v-else-if="column == 'author'" class="author">
-          <dashboard-user-card v-for="(_id, index) in row.author" :key="index" :post-id="_id" />
-        </div>
-
-        <div v-else-if="column == 'status'" class="meta">{{ $utils.toLabel(row.status) }}</div>
-        <div v-else-if="column == 'updated'" class="meta">{{ $time.niceFormat(row.updatedAt) }}</div>
-        <div v-else-if="column == 'publish-date'" class="meta">{{ $time.niceFormat(row.date) }}</div>
       </template>
-    </dashboard-table>
+
+      <template #author="{row}">
+        <dashboard-user-card v-for="(_id, index) in row.author" :key="index" :post-id="_id" />
+      </template>
+
+      <template #status="{row}">{{ $utils.toLabel(row.status) }}</template>
+      <template #updated="{row}">{{ $time.niceFormat(row.updatedAt) }}</template>
+      <template #publish-date="{row}">{{ $time.niceFormat(row.date) }}</template>
+    </dashboard-grid>
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
 </template>
@@ -159,35 +157,29 @@ export default {
     tableStructure() {
       return [
         {
-          column: "select",
-          class: "col-fixed-40",
-          mobile: "mcol-1"
+          _id: "select",
+          width: "25px"
         },
         {
-          column: "title",
-          class: "col-5",
-          mobile: "mcol-15"
+          _id: "title",
+          width: "minmax(400px, 550px)"
         },
 
         {
-          column: "author",
-          class: "col-4",
-          mobile: "mcol-2-15"
+          _id: "author",
+          width: "minmax(150px, 250px)"
         },
         {
-          column: "status",
-          class: "col-2",
-          mobile: "mcol-2-15"
+          _id: "status",
+          width: "minmax(100px, 200px)"
         },
         {
-          column: "publish-date",
-          class: "col-2",
-          mobile: "mcol-2-15"
+          _id: "publish-date",
+          width: "minmax(100px, 200px)"
         },
         {
-          column: "updated",
-          class: "col-2",
-          mobile: "mcol-2-15"
+          _id: "updated",
+          width: "minmax(100px, 200px)"
         }
       ]
     }
@@ -196,9 +188,6 @@ export default {
 </script>
 <style lang="less">
 .posts-dashboard {
-  .post-table {
-    font-size: 0.85em;
-  }
   .post-title {
     > a {
       display: block;

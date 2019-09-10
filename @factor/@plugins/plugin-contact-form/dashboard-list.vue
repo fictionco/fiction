@@ -1,36 +1,38 @@
 <template>
   <dashboard-pane :title="title">
-    <dashboard-table-controls
-      v-bind="$attrs"
-      :tabs="tabs"
-      filter="status"
-      :post-type="$contactForm.postType"
-      :meta="meta"
-      :actions="controlActions"
-      :loading="sending"
-      @action="$emit('action',{action: $event, selected})"
-    />
-    <dashboard-table
+    <dashboard-grid-controls>
+      <dashboard-grid-actions
+        :actions="controlActions"
+        :loading="sending"
+        @action="$emit('action',{action: $event, selected})"
+      />
+      <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
+    </dashboard-grid-controls>
+
+    <dashboard-grid
       class="contact-form-table"
       :structure="tableStructure()"
-      :row-items="tableList"
+      :rows="tableList"
       @select-all="selectAll($event)"
     >
-      <template slot-scope="{column, item, row}">
-        <div v-if="column == 'select'">
-          <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
-        </div>
-        <div v-if="column == 'info'" class="contact-info">
-          <div v-for="([key, value], i) in fields(row, column)" :key="i" class="dat">
-            <strong>{{ $utils.toLabel(key) }}:</strong>
-            <i>{{ value }}</i>
+      <template #select="{row}">
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
+      </template>
+      <template #info="{row}">
+        <div class="form-fields-wrap">
+          <div class="form-fields">
+            <div v-for="([key, value], i) in fields(row)" :key="i" class="dat">
+              <strong>{{ $utils.toLabel(key) }}:</strong>
+              <i>{{ value }}</i>
+            </div>
           </div>
         </div>
-        <div v-if="column == 'message'" class="contact-message">{{ row.message }}</div>
-
-        <div v-if="column == 'created'" class="meta">{{ $time.niceFormat(row.createdAt) }}</div>
       </template>
-    </dashboard-table>
+      <template #message="{row}">
+        <div class="message">{{ row.message }}</div>
+      </template>
+      <template #created="{row}">{{ $time.niceFormat(row.createdAt) }}</template>
+    </dashboard-grid>
   </dashboard-pane>
 </template>
   <script>
@@ -46,6 +48,7 @@ export default {
   data() {
     return {
       selected: [],
+      showInfo: [],
       loadingAction: false
     }
   },
@@ -90,8 +93,8 @@ export default {
     selectAll(val) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },
-    fields(item, type) {
-      const { message, createdAt, _id, ...rest } = item
+    fields(row) {
+      const { message, createdAt, _id, ...rest } = row
       return Object.entries(rest).filter(([key, value]) => value)
     },
     postlink(postType, permalink, root = true) {
@@ -101,25 +104,21 @@ export default {
     tableStructure() {
       return [
         {
-          column: "select",
-          class: "col-fixed-40",
-          mobile: "mcol-1"
+          _id: "select",
+          width: "50px"
         },
 
         {
-          column: "message",
-          class: "col-7",
-          mobile: "mco-7"
+          _id: "message",
+          width: "minmax(200px, 300px)"
         },
         {
-          column: "info",
-          class: "col-6",
-          mobile: "mcol-8"
+          _id: "info",
+          width: "minmax(300px, 600px)"
         },
         {
-          column: "created",
-          class: "col-2",
-          mobile: "mcol-8"
+          _id: "created",
+          width: "minmax(100px, 150px)"
         }
       ]
     }
@@ -128,16 +127,17 @@ export default {
 </script>
 <style lang="less">
 .contact-form-table {
-  .dbt-body-row {
+  .dashboard-grid-body-row {
     font-size: 0.85em;
     .message {
       line-height: 1.4;
     }
-    .contact-info {
+    .form-fields {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 10px;
       .dat {
+        min-width: 0;
         strong {
           display: block;
         }
