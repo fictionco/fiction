@@ -19,7 +19,7 @@ module.exports.default = Factor => {
           _.push({
             path: `${this.endpointBase}/${id}`,
             middleware: [
-              cors(),
+              //cors(),
               async (request, response, next) => {
                 return await Factor.$http.process({
                   request,

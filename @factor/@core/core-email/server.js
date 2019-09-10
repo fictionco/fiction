@@ -70,6 +70,7 @@ module.exports.default = Factor => {
 
       let info
       if (this.client) {
+        console.log("Send Email", to)
         info = await this.client.sendMail(theEmail)
       } else {
         Factor.$log.info("Email could not be sent.", theEmail)
