@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "1.0.0-alpha.30",
+  "version": "1.0.0-alpha.31",
   "main": "index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -13,10 +13,10 @@
     ]
   },
   "dependencies": {
-    "@factor/app-extend": "^1.0.0-alpha.28",
+    "@factor/app-extend": "^1.0.0-alpha.31",
     "@factor/app-fallbacks": "^1.0.0-alpha.28",
-    "@factor/app-router": "^1.0.0-alpha.27",
-    "@factor/app-settings": "^1.0.0-alpha.30",
+    "@factor/app-router": "^1.0.0-alpha.31",
+    "@factor/app-settings": "^1.0.0-alpha.31",
     "@factor/app-store": "^1.0.0-alpha.27",
     "@factor/cli": "^1.0.0-alpha.27",
     "vue": "^2.6.7"
