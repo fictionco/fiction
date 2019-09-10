@@ -1,7 +1,7 @@
 <template>
   <div
     id="servicesContainerID"
-    class="services-container"
+    class="services-container page-container"
     :class="[mobile ? 'services-container-mobile' : '', (mobile && orientationH) ? 'services-container-horizontal' : '']"
   >
     <div class="services-quote-container">
@@ -24,20 +24,13 @@
       :class="[mobile ? 'services-content-container-mobile' : '', (mobile && orientationH) ? 'services-content-container-horizontal' : '']"
     >
       <div
-        v-for="(ele, i) in $setting.get('services.contentBlocks')"
+        v-for="(service, i) in $setting.get('services.contentBlocks')"
         :key="i"
-        class="services-content"
-        :class="[ele.title, mobile ? 'services-content-mobile' : '', (mobile && orientationH) ? 'services-content-horizontal' : '']"
+        class="services-item"
       >
-        <img class="services-content-icon" :src="ele.icon" :alt="ele.alt" >
-        <h4
-          class="services-content-title"
-          :class="[mobile ? 'services-content-title-mobile' : '', (mobile && orientationH) ? 'services-content-title-horizontal' : '']"
-        >{{ ele.title }}</h4>
-        <p
-          class="services-content-text"
-          :class="[mobile ? 'services-content-text-mobile' : '', (mobile && orientationH) ? 'services-content-text-horizontal' : '']"
-        >{{ ele.text }}</p>
+        <img class="icon" :src="service.icon" :alt="service.alt" >
+        <h4>{{ service.title }}</h4>
+        <p>{{ service.text }}</p>
       </div>
     </div>
   </div>
@@ -49,21 +42,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scope>
 .services-container {
   background: #fa5855;
-  font-family: Work Sans;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60px 160px 60px;
-  height: 100vh;
 }
-.services-container-mobile {
-  grid-template-rows: 60px 110px 60px;
-}
-.services-container-horizontal {
-  grid-template-rows: 60px 60px 60px;
-}
+// .services-container-mobile {
+//   grid-template-rows: 60px 110px 60px;
+// }
+// .services-container-horizontal {
+//   grid-template-rows: 60px 60px 60px;
+// }
 .services-quote-container {
   margin: 1.2vw 0 0 1.2vw;
   text-align: center;
@@ -94,11 +82,13 @@ export default {
   margin-top: 0;
 }
 .services-content-container {
-  margin-left: 9.5vw;
+  margin: 2rem auto;
   display: grid;
-  grid-template-areas:
-    "div div"
-    "div div";
+  grid-gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  // grid-template-areas:
+  //   "div div"
+  //   "div div";
 }
 .services-content-container-mobile {
   margin-left: 32px;
@@ -106,41 +96,51 @@ export default {
 .services-content-container-horizontal {
   margin-left: 80px;
 }
-.services-content {
-  width: 25vw;
-  padding: 1vw;
-  margin-bottom: 1.2vw;
+.services-item {
+  height: 100%;
+  padding: 2rem;
   background: #da524f;
   border-radius: 12px;
   color: #f7f7f7;
+  transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  &:hover {
+    background: #f7f7f7;
+    color: #111010;
+    transform: translateY(-2px);
+    box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.4),
+      0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .icon {
+    width: 3rem;
+    margin-bottom: 1rem;
+  }
+  h4 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    font-size: 1.4rem;
+  }
 }
-.services-content-mobile {
-  width: 159px;
-  height: 240px;
-  padding: 5px;
-}
-.services-content-horizontal {
-  width: 300px;
-  height: 109px;
-}
-.Illustration {
-  background: #f7f7f7;
-  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.4), 0px 4px 4px rgba(0, 0, 0, 0.25);
-  color: #111010;
-}
+// .services-content-mobile {
+//   width: 159px;
+//   height: 240px;
+//   padding: 5px;
+// }
+// .services-content-horizontal {
+//   width: 300px;
+//   height: 109px;
+// }
 .services-content-title-mobile {
   margin: 0;
   font-size: 13px;
 }
-.services-content-text-mobile {
-  margin: 5px 0 0 0;
-  font-size: 11px;
-}
-.services-content-text-horizontal {
-  font-size: 9.5px;
-}
-.services-content-icon {
-  width: 5.5vw;
-  height: 5.5vh;
-}
+// .services-content-text-mobile {
+//   margin: 5px 0 0 0;
+//   font-size: 11px;
+// }
+// .services-content-text-horizontal {
+//   font-size: 9.5px;
+// }
 </style>

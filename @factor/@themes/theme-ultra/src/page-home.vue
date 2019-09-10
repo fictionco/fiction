@@ -1,7 +1,7 @@
 <template>
   <div
     id="homeContainerID"
-    class="home-container"
+    class="home-container page-container"
     :class="[mobile ? 'home-container-mobile' : '', (mobile && orientationH) ? 'home-container-horizontal': '']"
   >
     <div class="home-quotes-container">
@@ -42,22 +42,21 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
 .home-container {
-  background: linear-gradient(294.11deg, #732b29 0%, #111010 100%);
-  font-family: Work Sans;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 60px 400px 60px;
-  height: 100vh;
+  background-image: radial-gradient(
+    at bottom -30% right -30%,
+    #732b29 0%,
+    #111010 100%
+  );
+  background-color: #111010;
 }
 .home-container-mobile {
-  grid-template-rows: 60px 500px 60px;
   padding-left: 34px;
 }
-.home-container-horizontal {
-  grid-template-rows: 60px 182px 60px;
-}
+// .home-container-horizontal {
+//   grid-template-rows: 60px 182px 60px;
+// }
 .home-quotes-container {
   margin: 1.2vw 0 0 1.2vw;
 }

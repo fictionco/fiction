@@ -2,9 +2,7 @@
   <transition name="fade">
     <div v-if="!_props.mobile || _props.showSidebar" class="sidebar-container">
       <div class="sidebar-title-container">
-        <h1
-          :class="!_props.mobile ? 'sidebar-title' : 'sidebar-title-mobile'"
-        >{{ $setting.get('sidebar.sidebarHeadline') }}</h1>
+        <site-brand class="site-brand" />
       </div>
       <div
         class="sidebar-buttons-container"
@@ -32,6 +30,9 @@
 <script>
 /* eslint-disable */
 export default {
+  components: {
+    "site-brand": () => import("./el/brand")
+  },
   props: ["mobile", "orientation-h", "show-sidebar"],
   data() {
     return {
@@ -69,7 +70,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.4s;
@@ -79,25 +80,26 @@ export default {
 }
 .sidebar-container {
   position: fixed;
-  font-family: Work Sans;
+  font-family: var(--font-family-primary);
   display: grid;
   grid-template-rows: 5% 95%;
   color: #f7f7f7;
-  background: linear-gradient(304.61deg, #732b29 -122.45%, #111010 97.32%);
-  height: 100%;
+  background: linear-gradient(90deg, #732b29 -122.45%, #231515 97.32%);
+  min-height: 100vh;
+  height: auto;
   width: 20vw;
 }
-.sidebar-title-container {
-  width: 100%;
-  text-align: center;
-}
-.sidebar-title-mobile {
-  font-size: 3em;
-  margin-left: 50px;
-}
-.sidebar-title {
-  font-size: 3em;
-}
+// .sidebar-title-container {
+//   width: 100%;
+//   text-align: center;
+// }
+// .sidebar-title-mobile {
+//   font-size: 3em;
+//   margin-left: 50px;
+// }
+// .sidebar-title {
+//   font-size: 3em;
+// }
 .sidebar-buttons-container {
   height: 34vh;
   display: flex;
@@ -109,8 +111,6 @@ export default {
 }
 .sidebar-button {
   width: 100%;
-  display: flex;
-  height: 20px;
   margin-left: 32%;
 }
 .sidebar-button-mobile {
@@ -129,11 +129,13 @@ export default {
 .btn-sidebar {
   color: #9e9e9e;
   font-size: 1.5em;
+  line-height: 1.6;
   background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
   text-decoration: none;
+  position: relative;
 }
 .btn-sidebar:hover {
   color: #f7f7f7;
@@ -143,6 +145,8 @@ export default {
   background: #fa5855;
   width: 50px;
   height: 5px;
-  margin: -15px 0 0 120px;
+  // margin: -15px 0 0 120px;
+  left: 120%;
+  top: 50%;
 }
 </style>
