@@ -10,7 +10,7 @@ export default {
 </script>
 
 <style lang="less">
-button.app-btn {
+button.factor-btn {
   padding: 0.6em 1.2em;
   font-size: 0.9em;
   font-weight: 700;
@@ -63,6 +63,7 @@ button.app-btn {
     transition: all 0.2s ease-in-out;
 
     &:hover {
+      background: var(--color-primary-dark);
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
@@ -74,13 +75,20 @@ button.app-btn {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     &:hover {
+      color: var(--color-text);
+      background: var(--color-primary);
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
 
   &.secondary {
-    color: var(--color-light);
-    background: var(--color-secondary);
+    color: var(--color-primary);
+    background: var(--color-text);
+    border: 1px solid var(--color-text);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    &:hover {
+      color: var(--color-primary-darker);
+    }
   }
 
   &.tertiary {

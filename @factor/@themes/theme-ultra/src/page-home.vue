@@ -1,7 +1,7 @@
 <template>
-  <div id="homeContainerID" class="home-container page-container">
+  <section id="homeContainerID" class="home-container page-container">
     <div class="splash-content">
-      <h5 class="pretitle">{{ $setting.get('home.pretitle') }}</h5>
+      <h2 class="pretitle">{{ $setting.get('home.pretitle') }}</h2>
       <h1 class="title">{{ $setting.get('home.title') }}</h1>
       <div class="actions">
         <app-link
@@ -16,7 +16,7 @@
         </app-link>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -50,7 +50,7 @@ export default {
     max-width: 650px;
 
     .pretitle {
-      color: #9e9e9e;
+      color: var(--color-text-gray);
       font-size: 1.4em;
     }
     .title {

@@ -1,49 +1,43 @@
 <template>
-  <section class="mast">
-    <div class="cta">
-      <div>
-        <h3 class="title">Ready to Start Building?</h3>
-        <p class="subtitle">Get in touch or create an account</p>
-      </div>
-      <div class="actions">
-        <app-link path="/docs" btn="primary" size="large">
-          Get Started
-          <i class="fa fa-arrow-right" />
-        </app-link>
-        <app-link path="https://www.fiction.com/contact" btn="tertiary" size="large">Contact Us</app-link>
-      </div>
+  <div class="cta">
+    <div class="cta-inner">
+      <h2>{{ $setting.get('site.cta.headline') }}</h2>
+      <app-link btn="default" size="large" :path="$setting.get('site.cta.path')">
+        {{ $setting.get('site.cta.text') }}
+        <factor-icon icon="arrow-right" />
+      </app-link>
     </div>
-  </section>
+  </div>
 </template>
+
+<script>
+export default {}
+</script>
 
 <style lang="less">
 .cta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 60px;
   padding: 4em 0;
-  @media (max-width: 767px) {
-    display: block;
+  text-align: center;
+  position: relative;
+  //z-index: 100;
+  background: var(--color-primary, #1a49bd);
+  color: var(--color-white);
+  .cta-inner {
+    max-width: 650px;
+    margin: 0 auto;
   }
-  .title {
-    font-weight: 800;
-    font-size: 2em;
+  h2 {
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 1em;
+  }
+  .factor-btn {
     letter-spacing: -0.03em;
-    line-height: 1.2em;
-    margin-bottom: 0.2em;
   }
-  .subtitle {
-    opacity: 0.5;
-    font-size: 1.2em;
-    font-weight: 500;
-  }
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    @media (max-width: 767px) {
-      display: block;
-      margin-top: 1.5em;
+  @media (max-width: 767px) {
+    padding: 4em 2em;
+    h2 {
+      font-size: 2em;
     }
   }
 }

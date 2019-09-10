@@ -1,11 +1,15 @@
 .factor-app {
   --color-primary: #fa5855;
+  --color-primary-dark: #da524f;
+  --color-primary-darker: #bc4947;
   --color-primary-rgb: 250, 88, 85;
   --color-secondary: #ff0076;
   --color-tertiary: #9afecb;
 
   --color-text: #f7f7f7;
+  --color-text-gray: #9e9e9e;
   --color-text-dark: #111010;
+  --color-white: #ffffff;
   --color-placeholder: #bdcad4;
   --color-placeholder-2: #eeeef1;
 
@@ -22,11 +26,8 @@
     /* Safari for OS X and iOS (San Francisco)*/ -apple-system,
     /* Chrome < 56 for OS X (San Francisco)*/ BlinkMacSystemFont, /* Windows*/ "Segoe UI",
     /* Android*/ "Roboto", /* Basic web fallback*/ "Helvetica Neue", Arial, sans-serif;
-
-  /* Ultra Theme Variables */
-  --color-white: #ffffff;
-
   --font-weight-normal: 400;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  --border-radius: 12px;
 }
