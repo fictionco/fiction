@@ -50,6 +50,8 @@ export default {
   .head {
     border-radius: 4px 4px 0 0;
     border-bottom: 1px solid var(--border-color-subtle);
+    font-weight: 600;
+    opacity: 0.4;
   }
 
   .foot {

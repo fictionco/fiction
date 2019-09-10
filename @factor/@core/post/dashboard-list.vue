@@ -7,6 +7,7 @@
       :loading="loading"
       :sending="sending"
       :title="postTypeLabel"
+      :post-type="postType"
       @action="runPostAction($event)"
     />
   </dashboard-page>

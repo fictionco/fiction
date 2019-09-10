@@ -150,6 +150,7 @@ export default {
   }
   .app-main {
     grid-area: main;
+    min-width: 0;
   }
   .app-nav {
     grid-area: nav;

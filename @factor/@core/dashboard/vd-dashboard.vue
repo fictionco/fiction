@@ -11,7 +11,6 @@
 <script>
 export default {
   components: {
-    "dashboard-chat": () => import("./chat"),
     "dashboard-splash": () => import("./splash")
   },
   data() {
