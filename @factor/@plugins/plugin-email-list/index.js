@@ -1,6 +1,8 @@
 export default Factor => {
   return new (class {
     constructor() {
+      this.postType = "emailList"
+
       Factor.$filters.callback("route-query-action-verify-email-list", _ =>
         this.verifyEmail(_)
       )
@@ -8,6 +10,16 @@ export default Factor => {
       Factor.$filters.add("components", _ => {
         _["factor-email-list"] = () => import("./wrap.vue")
         return _
+      })
+
+      Factor.$filters.push("post-types", {
+        postType: this.postType,
+        nameIndex: "Email Lists",
+        nameSingle: "List",
+        namePlural: "Email Lists",
+        listTemplate: () => import("./dashboard-list.vue"),
+        editTemplate: () => import("./dashboard-edit.vue"),
+        add: false
       })
     }
 
@@ -39,7 +51,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-      return await Factor.$endpoint.request({ id: "emailList", method, params })
+      return await Factor.$endpoint.request({ id: this.postType, method, params })
     }
 
     async addEmail({ email, listId }) {

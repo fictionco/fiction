@@ -163,7 +163,7 @@ export default {
     position: relative;
     .primary-item-icon {
       position: absolute;
-      left: 0;
+      left: 6px;
       top: 6px;
       opacity: 0.8;
       width: 16px;
@@ -204,7 +204,7 @@ export default {
       .primary-item-icon {
         filter: initial;
         position: absolute;
-        left: 0;
+
         opacity: 1;
       }
     }

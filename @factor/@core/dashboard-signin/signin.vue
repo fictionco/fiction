@@ -14,7 +14,7 @@
           placeholder="Email"
           @keyup.enter="trigger('forgot-password')"
         />
-        <dashboard-btn
+        <factor-btn-app
           ref="forgot-password"
           :loading="loading"
           data-test="send-password-email"
@@ -33,7 +33,7 @@
           placeholder="Password"
           @keyup.enter="trigger('reset-password')"
         />
-        <dashboard-btn
+        <factor-btn-app
           ref="reset-password"
           :loading="loading"
           text="Reset Password"
@@ -76,7 +76,7 @@
         />
 
         <div class="action">
-          <dashboard-btn
+          <factor-btn-app
             ref="submit"
             data-test="submit-login"
             :loading="loading"
@@ -290,7 +290,7 @@ export default {
   margin: 1em auto 1em;
   width: 300px;
   text-align: center;
-  form{
+  form {
     font-size: 1.2em;
   }
   .signin-header {
@@ -301,7 +301,6 @@ export default {
     .sub-title {
       font-weight: 500;
       opacity: 0.7;
-    
     }
   }
   .alt-links {
