@@ -1,20 +1,24 @@
 <template>
-  <div id="servicesContainerID" class="services-container page-container">
-    <p class="pretitle">{{ $setting.get('services.pretitle') }}</p>
+  <section id="servicesContainerID" class="services-container page-container">
+    <h2 class="pretitle">{{ $setting.get('services.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('services.title') }}</h1>
-    <div class="services-content-container">
-      <div
-        v-for="(service, i) in $setting.get('services.contentBlocks')"
-        :key="i"
-        class="services-item"
-      >
-        <img class="icon" :src="service.icon" :alt="service.alt" >
+    <div class="content">
+      <div v-for="(service, i) in $setting.get('services.items')" :key="i" class="services-item">
+        <services-icon class="icon" :icon="service.icon" :title="service.title" />
         <h4>{{ service.title }}</h4>
         <p>{{ service.text }}</p>
       </div>
     </div>
-  </div>
+  </section>
 </template>
+
+<script>
+export default {
+  components: {
+    "services-icon": () => import("./icon-services.vue")
+  }
+}
+</script>
 
 <style lang="less" scope>
 .services-container {
@@ -33,60 +37,47 @@
     text-align: center;
     color: var(--color-text);
   }
-}
-.services-quote-container {
-  margin: 1.2vw 0 0 1.2vw;
-  text-align: center;
-}
+  .content {
+    margin: 2rem auto;
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: 1fr 1fr;
 
-.services-quote {
-  color: #f7ecea;
-  font-size: 1.4vw;
-  font-weight: bold;
-}
-.services-title-container {
-  margin: 1.2vw 0 0 1.2vw;
-  text-align: center;
-}
-.services-title {
-  color: #f7f7f7;
-  font-size: 2.2vw;
-  font-weight: bold;
-}
-.services-content-container {
-  margin: 2rem auto;
-  display: grid;
-  grid-gap: 2rem;
-  grid-template-columns: 1fr 1fr;
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .services-item {
+    height: 100%;
+    padding: 2rem;
+    background-color: var(--color-primary-dark);
+    border-radius: var(--border-radius);
+    color: var(--color-text);
+    transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-  }
-}
-.services-item {
-  height: 100%;
-  padding: 2rem;
-  background: #da524f;
-  border-radius: 12px;
-  color: #f7f7f7;
-  transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
-
-  &:hover {
-    background: #f7f7f7;
-    color: #111010;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  }
-  .icon {
-    width: 3rem;
-    margin-bottom: 1rem;
-  }
-  h4 {
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
-  }
-  p {
-    font-size: 1.4rem;
+    &:hover {
+      background: var(--color-text);
+      color: var(--color-text-dark);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+        0 15px 12px rgba(0, 0, 0, 0.22);
+      svg path {
+        fill: var(--color-primary);
+      }
+    }
+    .icon {
+      width: 3rem;
+      margin-bottom: 1rem;
+    }
+    h4 {
+      font-size: 1.4rem;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+    }
   }
 }
 </style>

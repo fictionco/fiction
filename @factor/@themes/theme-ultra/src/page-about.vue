@@ -1,9 +1,9 @@
 <template>
-  <div id="aboutContainerID" class="page-container about-container">
+  <section id="aboutContainerID" class="page-container about-container">
     <div class="about-content">
       <div class="content-photo">
         <div>
-          <h4 class="pretitle">{{ $setting.get('about.pretitle') }}</h4>
+          <h2 class="pretitle">{{ $setting.get('about.pretitle') }}</h2>
           <h1 class="title">{{ $setting.get('about.title') }}</h1>
           <p class="text">{{ $setting.get('about.content') }}</p>
         </div>
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style lang="less">

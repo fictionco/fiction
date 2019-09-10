@@ -9,8 +9,8 @@
           <factor-link
             :key="index"
             :path="item.path"
-            class="btn-sidebar"
-            :class="[item.target, {'btn-sidebar-selected' : selected === item.path}]"
+            class="nav-link"
+            :class="[item.target, {'nav-link-selected' : selected === item.path}]"
             @click="sidebarPath(item.path)"
           >
             <span>{{ item.name }}</span>
@@ -95,12 +95,13 @@ export default {
   background: linear-gradient(90deg, #732b29 -100%, #101010 100%);
   min-height: 100vh;
   height: auto;
-  //max-width: 200px;
+  max-width: 280px;
   //width: 100%;
 
   nav {
     display: grid;
-    justify-content: center;
+    padding: 0 2em;
+    //justify-content: center;
   }
 
   > div:last-child {
@@ -133,31 +134,34 @@ export default {
 .sidebar-button-horizontal {
   margin: 22px 0 0 52px;
 }
-.btn-sidebar-selected {
-  color: #f7f7f7 !important;
-  font-weight: bold !important;
-}
-.btn-sidebar {
+
+.nav-link {
   color: #9e9e9e;
   font-size: 1.5em;
   line-height: 1.6;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
   text-decoration: none;
-  position: relative;
-}
-.btn-sidebar:hover {
-  color: #f7f7f7;
-}
-.btn-sidebar-line-selected {
-  position: absolute;
-  background: #fa5855;
-  width: 50px;
-  height: 5px;
-  // margin: -15px 0 0 120px;
-  right: -64px;
-  top: 50%;
+
+  &:hover {
+    color: var(--color-text);
+  }
+
+  // &.router-link-active,
+  &.nav-link-selected {
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+    span {
+      position: relative;
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        right: -54px;
+        top: 50%;
+        width: 40px;
+        height: 3px;
+        background: var(--color-primary);
+      }
+    }
+  }
 }
 </style>
