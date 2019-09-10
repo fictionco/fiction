@@ -4,15 +4,22 @@
       <div class="sidebar-title-container">
         <site-brand class="site-brand" />
       </div>
-      <div
-        class="sidebar-buttons-container"
-        :class="(_props.mobile && _props.orientationH) ? 'sidebar-button-container-horizontal' : ''"
-      >
-        <div
-          v-for="(ele, i) in $setting.get('sidebar.sidebarOptions')"
-          :key="i"
-          :class="[!_props.mobile ? 'sidebar-button' : 'sidebar-button-mobile', (_props.mobile && _props.orientationH) ? 'sidebar-button-horizontal' : '']"
-        >
+      <nav>
+        <template v-for="(item, index) in $setting.get('site.nav')">
+          <factor-link
+            :key="index"
+            :path="item.path"
+            class="btn-sidebar"
+            :class="[item.target, {'btn-sidebar-selected' : selected === item.path}]"
+            @click="sidebarPath(item.path)"
+          >
+            <span>{{ item.name }}</span>
+          </factor-link>
+        </template>
+      </nav>
+      <!-- <div class="sidebar-buttons-container">
+        
+        <div v-for="(ele, i) in $setting.get('sidebar.sidebarOptions')" :key="i">
           <a
             class="btn-sidebar"
             :class="[ele.target, {'btn-sidebar-selected' : selected === ele.path}]"
@@ -22,18 +29,20 @@
             <span :class="{'btn-sidebar-line-selected' : selected === ele.path}" />
           </a>
         </div>
-      </div>
+      </div>-->
+      <div class="copyright">&copy; Copyright 2019. All Rights are Reserved.</div>
     </div>
   </transition>
 </template>
 
 <script>
-/* eslint-disable */
 export default {
   components: {
     "site-brand": () => import("./el/brand")
   },
-  props: ["mobile", "orientation-h", "show-sidebar"],
+  props: {
+    showSidebar: { type: String, default: () => {} }
+  },
   data() {
     return {
       loading: true,
@@ -46,28 +55,28 @@ export default {
         "#contactPageContainerID"
       ],
       selected: undefined
-    };
+    }
   },
   mounted: function() {
     for (const ele of this.options) {
       const observer = new IntersectionObserver(
         entries => {
           if (entries[0].isIntersecting) {
-            this.selected = `#${entries[0].target.id}`;
+            this.selected = `#${entries[0].target.id}`
           }
         },
         { threshold: [0.2] }
-      );
-      observer.observe(document.querySelector(ele));
+      )
+      observer.observe(document.querySelector(ele))
     }
   },
   methods: {
     sidebarPath(path) {
-      let ele = document.querySelector(path);
-      ele.scrollIntoView();
+      let ele = document.querySelector(path)
+      ele.scrollIntoView()
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
@@ -82,36 +91,38 @@ export default {
   position: fixed;
   font-family: var(--font-family-primary);
   display: grid;
-  grid-template-rows: 5% 95%;
   color: #f7f7f7;
-  background: linear-gradient(90deg, #732b29 -122.45%, #231515 97.32%);
+  background: linear-gradient(90deg, #732b29 -100%, #101010 100%);
   min-height: 100vh;
   height: auto;
-  width: 20vw;
+  //max-width: 200px;
+  //width: 100%;
+
+  nav {
+    display: grid;
+    justify-content: center;
+  }
+
+  > div:last-child {
+    display: flex;
+    align-self: end;
+    padding: 1rem 2rem;
+  }
+
+  .copyright {
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 900px) {
+    left: -100%;
+  }
 }
-// .sidebar-title-container {
-//   width: 100%;
-//   text-align: center;
-// }
-// .sidebar-title-mobile {
-//   font-size: 3em;
-//   margin-left: 50px;
-// }
-// .sidebar-title {
-//   font-size: 3em;
-// }
 .sidebar-buttons-container {
-  height: 34vh;
-  display: flex;
   align-self: center;
-  flex-wrap: wrap;
-}
-.sidebar-button-container-horizontal {
-  height: 58vh;
+  padding: 2rem;
 }
 .sidebar-button {
   width: 100%;
-  margin-left: 32%;
 }
 .sidebar-button-mobile {
   width: 100%;
@@ -146,7 +157,7 @@ export default {
   width: 50px;
   height: 5px;
   // margin: -15px 0 0 120px;
-  left: 120%;
+  right: -64px;
   top: 50%;
 }
 </style>
