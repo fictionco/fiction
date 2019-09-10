@@ -56,7 +56,7 @@
 export default {
   props: {
     mobile: { type: String, default: () => {} },
-    orientationH: { type: String, default: () => {} }
+    orientationH: { type: Boolean, default: () => {} }
   }
 }
 </script>

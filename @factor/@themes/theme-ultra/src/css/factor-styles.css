@@ -1,9 +1,11 @@
 .factor-app {
-  --color-primary: #1a49bd;
+  --color-primary: #fa5855;
+  --color-primary-rgb: 250, 88, 85;
   --color-secondary: #ff0076;
   --color-tertiary: #9afecb;
 
-  --color-text: #303030;
+  --color-text: #f7f7f7;
+  --color-text-dark: #111010;
   --color-placeholder: #bdcad4;
   --color-placeholder-2: #eeeef1;
 
@@ -14,7 +16,7 @@
   --color-facebook: #4568b2;
 
   --color-bg: #fff;
-  --color-bg-alt: #f3f5fb;
+  --color-bg-alt: #f7ecea;
 
   --font-family-primary: "Work Sans",
     /* Safari for OS X and iOS (San Francisco)*/ -apple-system,
@@ -23,6 +25,8 @@
 
   /* Ultra Theme Variables */
   --color-white: #ffffff;
+
   --font-weight-normal: 400;
-  --font-weight-bold: 800;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 }

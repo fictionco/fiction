@@ -1,28 +1,8 @@
 <template>
-  <div
-    id="servicesContainerID"
-    class="services-container page-container"
-    :class="[mobile ? 'services-container-mobile' : '', (mobile && orientationH) ? 'services-container-horizontal' : '']"
-  >
-    <div class="services-quote-container">
-      <p
-        class="services-quote"
-        :class="[mobile ? 'services-quote-mobile' : '', (mobile && orientationH) ? 'services-quote-horizontal' : '']"
-      >{{ $setting.get('services.quote') }}</p>
-    </div>
-    <div
-      class="services-title-container"
-      :class="[mobile ? 'services-title-container-mobile' : '', (mobile && orientationH) ? 'services-title-container-horizontal' : '']"
-    >
-      <h1
-        class="services-title"
-        :class="[mobile ? 'services-title-mobile' : '', (mobile && orientationH) ? 'services-title-horizontal' : '']"
-      >{{ $setting.get('services.title') }}</h1>
-    </div>
-    <div
-      class="services-content-container"
-      :class="[mobile ? 'services-content-container-mobile' : '', (mobile && orientationH) ? 'services-content-container-horizontal' : '']"
-    >
+  <div id="servicesContainerID" class="services-container page-container">
+    <p class="pretitle">{{ $setting.get('services.pretitle') }}</p>
+    <h1 class="title">{{ $setting.get('services.title') }}</h1>
+    <div class="services-content-container">
       <div
         v-for="(service, i) in $setting.get('services.contentBlocks')"
         :key="i"
@@ -36,65 +16,52 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ["mobile", "orientationH"]
-}
-</script>
-
 <style lang="less" scope>
 .services-container {
-  background: #fa5855;
+  background: var(--color-primary);
+
+  .pretitle {
+    color: var(--color-text);
+    font-size: 1.4em;
+    text-align: center;
+  }
+  .title {
+    font-size: 3.2em;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    text-align: center;
+    color: var(--color-text);
+  }
 }
-// .services-container-mobile {
-//   grid-template-rows: 60px 110px 60px;
-// }
-// .services-container-horizontal {
-//   grid-template-rows: 60px 60px 60px;
-// }
 .services-quote-container {
   margin: 1.2vw 0 0 1.2vw;
   text-align: center;
 }
+
 .services-quote {
   color: #f7ecea;
   font-size: 1.4vw;
   font-weight: bold;
 }
-.services-quote-mobile {
-  font-size: 18px;
-  margin-bottom: 0;
-}
 .services-title-container {
   margin: 1.2vw 0 0 1.2vw;
   text-align: center;
-}
-.services-title-container-mobile {
-  margin: 1.2vw 0 0 7.2vw;
 }
 .services-title {
   color: #f7f7f7;
   font-size: 2.2vw;
   font-weight: bold;
 }
-.services-title-mobile {
-  font-size: 18px;
-  margin-top: 0;
-}
 .services-content-container {
   margin: 2rem auto;
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: 1fr 1fr;
-  // grid-template-areas:
-  //   "div div"
-  //   "div div";
-}
-.services-content-container-mobile {
-  margin-left: 32px;
-}
-.services-content-container-horizontal {
-  margin-left: 80px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
 }
 .services-item {
   height: 100%;
@@ -107,9 +74,8 @@ export default {
   &:hover {
     background: #f7f7f7;
     color: #111010;
-    transform: translateY(-2px);
-    box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.4),
-      0px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   }
   .icon {
     width: 3rem;
@@ -123,24 +89,4 @@ export default {
     font-size: 1.4rem;
   }
 }
-// .services-content-mobile {
-//   width: 159px;
-//   height: 240px;
-//   padding: 5px;
-// }
-// .services-content-horizontal {
-//   width: 300px;
-//   height: 109px;
-// }
-.services-content-title-mobile {
-  margin: 0;
-  font-size: 13px;
-}
-// .services-content-text-mobile {
-//   margin: 5px 0 0 0;
-//   font-size: 11px;
-// }
-// .services-content-text-horizontal {
-//   font-size: 9.5px;
-// }
 </style>

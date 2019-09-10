@@ -16,8 +16,12 @@ button.app-btn {
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   color: rgba(var(--color-text-rgb), 0.8);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 
   &:focus {
     outline: none;
@@ -53,10 +57,21 @@ button.app-btn {
   }
 
   &.primary {
-    color: var(--color-light);
+    color: var(--color-white);
     background: var(--color-primary);
-    box-shadow: 0 4px 10px rgba(var(--color-primary-rgb), 0.3);
+    border-color: var(--color-primary);
     transition: all 0.2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
+    }
+  }
+
+  &.primary-ol {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     &:hover {
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
