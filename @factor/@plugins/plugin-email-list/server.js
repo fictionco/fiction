@@ -14,6 +14,9 @@ export default Factor => {
 
     // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
     async addEmail({ email, listId = "default" }) {
+      // Allow for external services to hook in
+      Factor.$filters.apply(`plugin-email-list-add-${listId}`, email)
+
       const code = Factor.$randomToken()
 
       // Ensure that the post exists
