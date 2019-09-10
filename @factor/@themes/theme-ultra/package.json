@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-ultra",
-  "version": "1.0.0-alpha.30",
+  "version": "1.0.0-alpha.31",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {

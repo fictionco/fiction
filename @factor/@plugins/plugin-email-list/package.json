@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-email-list",
-  "version": "1.0.0-alpha.30",
+  "version": "1.0.0-alpha.31",
   "license": "GPL-2.0",
   "factor": {
     "id": "emailList",
@@ -12,7 +12,9 @@
       ]
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "export-to-csv": "^0.2.1"
+  },
   "publishConfig": {
     "access": "public"
   },

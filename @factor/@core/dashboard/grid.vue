@@ -114,7 +114,7 @@ export default {
 
       display: grid;
       grid-template-columns: var(--column-structure);
-      grid-column-gap: 1em;
+      grid-column-gap: 1.5em;
 
       &.clickable:hover {
         cursor: pointer;

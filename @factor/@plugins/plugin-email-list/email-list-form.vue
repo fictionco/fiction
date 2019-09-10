@@ -59,7 +59,7 @@ export default {
           this.added = true
           this.email = ""
         } else {
-          this.validate("Whoops.. There was an issue adding your email.")
+          this.validate(this.setting("validation.error"))
         }
       }
 
@@ -69,9 +69,9 @@ export default {
       this.validation = validationMessage
 
       if (!this.email) {
-        this.validation = `Please enter an email address. ${this.email}`
+        this.validation = this.setting("validation.empty")
       } else if (!this.regex().test(this.email)) {
-        this.validation = `Please enter a valid email address`
+        this.validation = this.setting("validation.notEmail")
       }
 
       setTimeout(() => {

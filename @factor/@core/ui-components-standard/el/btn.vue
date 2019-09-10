@@ -135,6 +135,7 @@ export default {
   text-decoration: none;
   user-select: none;
   line-height: 1;
+  font-size: 0.9em;
   &.disabled {
     cursor: not-allowed;
     pointer-events: none; // Future-proof disabling of clicks
