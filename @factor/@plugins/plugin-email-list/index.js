@@ -23,6 +23,31 @@ export default Factor => {
       })
     }
 
+    async deleteEmails({ emails, listId }) {
+      let result
+      if (
+        confirm(
+          `Are you sure? This will permanently delete ${emails.length} items from the "${listId}" list.`
+        )
+      ) {
+        result = await this.request("deleteEmails", { emails, listId })
+      }
+
+      return result
+    }
+
+    csvExport({ filename, data }) {
+      filename += `-${Factor.$time.stamp()}`
+
+      console.log("export", data)
+
+      const ExportToCsv = require("export-to-csv").ExportToCsv
+
+      const csvExporter = new ExportToCsv({ filename })
+
+      csvExporter.generateCsv(data)
+    }
+
     async verifyEmail(query) {
       const result = await this.request("verifyEmail", query)
 

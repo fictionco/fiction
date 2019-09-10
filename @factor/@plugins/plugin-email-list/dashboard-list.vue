@@ -4,7 +4,7 @@
       <dashboard-grid-actions
         :actions="controlActions"
         :loading="sending"
-        @action="$emit('action',{action: $event, selected})"
+        @action="handleAction($event)"
       />
       <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
     </dashboard-grid-controls>
@@ -71,16 +71,48 @@ export default {
     },
     controlActions() {
       return [
-        { value: "explort-csv", name: "Export List to CSV" },
-        { value: "trash", name: "Move to Trash" },
+        { value: "export-csv", name: "Export List to CSV" },
+        {
+          value: "trash",
+          name: "Move to Trash",
+          condition: query => query.status != "trash"
+        },
+        {
+          value: "publish",
+          name: "Move to Published",
+          condition: query => query.status == "trash"
+        },
         { value: "delete", name: "Permanently Delete" }
-      ].filter(_ => {
-        return _.value != this.$route.query.status
-      })
+      ]
     }
   },
 
   methods: {
+    handleAction(action) {
+      if (action == "export-csv") {
+        const data = []
+        const name = ["email-list"]
+        this.selected.forEach(_id => {
+          const p = this.$store.val(_id)
+          if (p.list) {
+            data.push(
+              p.list.map(_ => {
+                const { code, ...rest } = _
+                return rest
+              })
+            )
+            name.push(p.title)
+          }
+        })
+
+        this.$emailList.csvExport({
+          filename: name.join("-"),
+          data: [].concat.apply([], data)
+        })
+      } else {
+        this.$emit("action", { action, selected: this.selected })
+      }
+    },
     selectAll(val) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },

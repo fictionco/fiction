@@ -125,3 +125,15 @@ export default Factor => {
   }
 }
 ```
+
+## Using with External Services
+
+If you'd like to use this plugin to add emails to external services like email systems or CRM systems, you can easily do that with the `email-list-add-[listId]` filter.
+
+```js
+Factor.$filters.add(`plugin-email-list-add-myListId`, email => {
+  someExternalApi.addEmail(email)
+
+  return email
+})
+```

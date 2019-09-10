@@ -5,7 +5,7 @@
       input="factor-input-select"
       placeholder="Actions"
       format="simple"
-      :list="actions"
+      :list="filteredActions"
     />
     <dashboard-btn :disabled="!action" :loading="loading" @click="send($event)">Apply</dashboard-btn>
   </div>
@@ -20,6 +20,13 @@ export default {
   data() {
     return {
       action: ""
+    }
+  },
+  computed: {
+    filteredActions() {
+      return this.actions.filter(
+        _ => !_.condition || _.condition(this.$route.query)
+      )
     }
   },
   methods: {

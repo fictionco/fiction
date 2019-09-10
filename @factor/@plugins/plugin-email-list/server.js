@@ -8,17 +8,37 @@ export default Factor => {
       return `_plugin-emailList-${listId}`
     }
 
+    postModel() {
+      return Factor.$dbServer.model("emailList")
+    }
+
     // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
     async addEmail({ email, listId = "default" }) {
+      // Allow for external services to hook in
+      Factor.$filters.apply(`plugin-email-list-add-${listId}`, email)
+
       const code = Factor.$randomToken()
 
-      const postModel = Factor.$dbServer.model("emailList")
-
-      const result = await postModel.updateOne(
+      // Ensure that the post exists
+      // Can't do all this in one query or it prevents detection of dupes / create unique index problems
+      const r = await this.postModel().updateOne(
         { uniqueId: this.uniqueId(listId) },
-        { $addToSet: { list: { email, verified: false, code } }, title: listId },
+        { title: listId },
         { upsert: true }
       )
+
+      const result = await this.postModel().updateOne(
+        { uniqueId: this.uniqueId(listId), "list.email": { $ne: email } },
+        { $addToSet: { list: { email, verified: false, code } } }
+      )
+
+      // If email already exists, update it with new code
+      if (result.nModified == 0) {
+        const r2 = await this.postModel().updateOne(
+          { uniqueId: this.uniqueId(listId), "list.email": email },
+          { $set: { "list.$.code": code } }
+        )
+      }
 
       if (Factor.$emailServer.hasEmail) {
         await this.sendConfirmEmail({ email, listId, code })
@@ -27,15 +47,23 @@ export default Factor => {
       return true
     }
 
+    async deleteEmails({ emails, listId = "default" }, { bearer }) {
+      // query resource: https://stackoverflow.com/a/48933447/1858322
+      const result = await this.postModel().updateOne(
+        { uniqueId: this.uniqueId(listId) },
+        { $pull: { list: { email: { $in: emails } } } }
+      )
+
+      return result
+    }
+
     // Positional Operator
     // https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
     async verifyEmail({ email, list: listId, code }) {
-      const result = await Factor.$dbServer
-        .model("emailList")
-        .updateOne(
-          { uniqueId: this.uniqueId(listId), "list.code": code, "list.email": email },
-          { $set: { "list.$.verified": true, "list.$.code": null } }
-        )
+      const result = await this.postModel().updateOne(
+        { uniqueId: this.uniqueId(listId), "list.code": code, "list.email": email },
+        { $set: { "list.$.verified": true, "list.$.code": null } }
+      )
 
       if (result && result.nModified > 0) {
         await Promise.all([
