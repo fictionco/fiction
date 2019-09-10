@@ -1,0 +1,29 @@
+@import "reset.less";
+
+body {
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      color: var(--color-secondary);
+    }
+  }
+  .page-container {
+    min-height: 100vh;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 4em 2em;
+  }
+}
