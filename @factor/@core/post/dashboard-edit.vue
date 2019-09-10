@@ -1,5 +1,5 @@
 <template>
-  <component :is="templateLoader" :post-id="_id" :post="post">
+  <component :is="templateLoader" :post-id="_id" :post="post" :post-type="postType">
     <template v-slot:edit>
       <dashboard-pane v-for="(item, i) in editComponents" :key="i" :title="item.name">
         <component :is="item.component" v-model="post" :post-id="_id" />

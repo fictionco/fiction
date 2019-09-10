@@ -263,7 +263,7 @@ export default {
   },
   metatags() {
     return {
-      title: "Build the World's next great app.",
+      title: "Professional Tools for Web Apps",
       description: "Terminal Page Description.",
       image: require("../img/fiction.jpg")
     }

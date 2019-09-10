@@ -5,18 +5,18 @@ export default Factor => {
     }
 
     uniqueId(listId) {
-      return `email-list-${listId}`
+      return `_plugin-emailList-${listId}`
     }
 
     // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
     async addEmail({ email, listId = "default" }) {
       const code = Factor.$randomToken()
 
-      const postModel = Factor.$dbServer.model("post")
+      const postModel = Factor.$dbServer.model("emailList")
 
       const result = await postModel.updateOne(
         { uniqueId: this.uniqueId(listId) },
-        { $addToSet: { list: { email, verified: false, code } } },
+        { $addToSet: { list: { email, verified: false, code } }, title: listId },
         { upsert: true }
       )
 
@@ -31,7 +31,7 @@ export default Factor => {
     // https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
     async verifyEmail({ email, list: listId, code }) {
       const result = await Factor.$dbServer
-        .model("post")
+        .model("emailList")
         .updateOne(
           { uniqueId: this.uniqueId(listId), "list.code": code, "list.email": email },
           { $set: { "list.$.verified": true, "list.$.code": null } }

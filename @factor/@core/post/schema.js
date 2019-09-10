@@ -20,7 +20,10 @@ export default Factor => {
       category: { type: [String], index: true },
       revisions: [Object],
       settings: {},
-      list: [Object], // Vanilla global schema for of items like comments, emails
+      // Vanilla global schema for of items like comments, emails
+      list: {
+        type: [Object]
+      },
       status: {
         type: String,
         enum: ["published", "draft", "trash"],

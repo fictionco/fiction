@@ -11,9 +11,9 @@
         :placeholder="setting('form.placeholder')"
         @keyup.enter="add()"
       >
-      <factor-app-btn btn="primary" :loading="sending" @click="add()">
+      <factor-btn-app btn="primary" :loading="sending" @click="add()">
         <span v-formatted-text="setting('form.buttonText')" />
-      </factor-app-btn>
+      </factor-btn-app>
     </div>
     <component :is="confirmModal" v-if="confirmModal" :added="added" :list-id="listId" />
   </div>
