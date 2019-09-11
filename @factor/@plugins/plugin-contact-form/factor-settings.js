@@ -5,7 +5,7 @@ module.exports.default = Factor => {
       form: () => import("./contact-form"),
       submit: {
         btn: "primary",
-        size: "large",
+        size: "",
         text: "Contact Us"
       },
       inputFormat: "horizontal",

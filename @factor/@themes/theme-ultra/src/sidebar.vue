@@ -30,7 +30,7 @@
           </a>
         </div>
       </div>-->
-      <div class="copyright">&copy; Copyright 2019. All Rights are Reserved.</div>
+      <div v-formatted-text="$setting.get('site.copyright')" class="copyright" />
     </div>
   </transition>
 </template>
@@ -91,17 +91,17 @@ export default {
   position: fixed;
   font-family: var(--font-family-primary);
   display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
   color: #f7f7f7;
   background: linear-gradient(90deg, #732b29 -100%, #101010 100%);
   min-height: 100vh;
   height: auto;
-  max-width: 280px;
-  //width: 100%;
+  width: 280px;
 
   nav {
     display: grid;
+    align-items: center;
     padding: 0 2em;
-    //justify-content: center;
   }
 
   > div:last-child {
@@ -115,7 +115,8 @@ export default {
   }
 
   @media (max-width: 900px) {
-    left: -100%;
+    left: -280px;
+    z-index: 10;
   }
 }
 .sidebar-buttons-container {
@@ -137,8 +138,8 @@ export default {
 
 .nav-link {
   color: #9e9e9e;
-  font-size: 1.5em;
-  line-height: 1.6;
+  font-size: 1.4em;
+  line-height: 1;
   text-decoration: none;
 
   &:hover {
