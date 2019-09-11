@@ -5,7 +5,10 @@
         <div class="splash content-pad">
           <div class="content-width">
             <div class="label label-blue">Currently In Alpha</div>
-            <h1 class="title">A Universal Javascript Platform for Professional Front-End Developers</h1>
+            <h1 class="title" role="textbox">
+              A Universal Javascript Platform
+              <span class="alt">for Professional Front-End Developers</span>
+            </h1>
             <p class="subtitle">Build rock-solid server-rendered Vue.js apps in hours not months</p>
             <div class="action">
               <factor-email-list list-id="alphaProgram" />
@@ -131,9 +134,12 @@
           </div>
           <div class="cta">
             <div>
-              <h3
-                class="title"
-              >Ready to launch an impressive web app? We're currently inviting developers to participate in alpha/beta testing.</h3>
+              <h3 class="title">
+                Ready to launch an impressive web app?
+                <span
+                  class="alt"
+                >We're currently inviting developers to participate in alpha/beta testing.</span>
+              </h3>
             </div>
             <div class="actions">
               <factor-email-list list-id="alphaProgram" />
@@ -238,6 +244,7 @@ export default {
   --color-bg-splash: #1b223c;
   --color-bg-splash-contrast: #233575;
   --color-bg-contast: #f5f8fc;
+  --color-text-splash: #949cb8;
   .email-list-form {
     font-size: 1.3em;
     max-width: 600px;
@@ -267,6 +274,15 @@ export default {
     img {
       width: 100%;
       margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      font-size: 1em;
+      .title {
+        font-size: 1.1em;
+        .alt {
+          display: block;
+        }
+      }
     }
   }
 
@@ -372,7 +388,7 @@ export default {
       margin: 0 auto;
       padding: 7em 0 10em;
       @media (max-width: 767px) {
-        padding: 6em 2em 10em;
+        padding: 6em 2em 15em;
         text-align: left;
       }
       .title {
@@ -382,16 +398,16 @@ export default {
         margin: 0.3em 0;
         color: var(--color-light);
         @media (max-width: 767px) {
-          font-size: 2.6em;
+          font-size: 1.8em;
         }
       }
       .subtitle {
         opacity: 0.7;
         font-size: 1.4em;
         line-height: 1.6em;
-        font-weight: 400;
+
         margin-bottom: 1.5em;
-        color: var(--color-light);
+        color: var(--color-text-splash);
 
         @media (max-width: 767px) {
           font-size: 1.2em;
@@ -416,6 +432,14 @@ export default {
       grid-gap: 4em;
       grid-template-columns: 1fr 1fr;
     }
+    @media (max-width: 900px) {
+      .banner {
+        grid-template-columns: 1fr;
+        padding: 1em;
+        border-radius: 0;
+      }
+      margin-top: -170px;
+    }
   }
 
   .features-wrap {
@@ -433,16 +457,22 @@ export default {
         z-index: 1;
         min-height: 90vh;
         display: grid;
-        grid-column-gap: 6rem;
+        grid-column-gap: 4rem;
         grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr);
         grid-template-areas: "a b";
         align-items: center;
+      }
+      @media (max-width: 900px) {
       }
 
       .figure {
         display: flex;
         padding: 3em 0;
         width: 100%;
+        @media (max-width: 900px) {
+          padding: 2em;
+          max-width: 600px;
+        }
       }
       &.even {
         .feature-content-container {
@@ -469,8 +499,10 @@ export default {
           }
         }
         &.power {
-          .feature-content-container {
-            padding-bottom: 12em;
+          @media (min-width: 900px) {
+            .feature-content-container {
+              padding-bottom: 12em;
+            }
           }
         }
         &.hello {
@@ -479,11 +511,14 @@ export default {
           .feature-wrap {
             transform: skewY(0);
             background: #fff;
-            width: 1100px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 3em;
             min-height: auto;
             box-shadow: var(--box-shadow-panel);
+            @media (max-width: 900px) {
+              padding: 3em 1em;
+            }
           }
           .feature-content-container {
             padding: 0;
@@ -507,6 +542,9 @@ export default {
                   color: #0496ff;
                 }
               }
+              @media (max-width: 900px) {
+                font-size: 0.9em;
+              }
             }
           }
         }
@@ -520,21 +558,26 @@ export default {
         position: relative;
       }
       .feature-content {
-        max-width: 450px;
-        padding: 4em 0;
+        max-width: 500px;
+        padding: 4em 1em;
         font-size: 1.3em;
       }
 
       @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        grid-template-areas: "a" "b";
-        &.odd {
+        .feature-wrap {
+          grid-template-columns: 1fr;
           grid-template-areas: "a" "b";
+        }
+
+        &.odd {
+          .feature-wrap {
+            grid-template-areas: "a" "b";
+          }
         }
         .feature-content-container {
           padding: 0;
           .feature-content {
-            padding: 5rem 0 1rem;
+            padding: 5rem 1em 1rem;
             max-width: 100%;
           }
         }
@@ -634,10 +677,11 @@ export default {
 
   .cta-wrap {
     transform: skewY(-3deg);
-    padding: 8em 0;
+    padding: 8em 1em;
     color: var(--color-light);
     background: #1b223c url(./img/rectangles.svg) no-repeat center center;
     background-size: 80%;
+
     .content-pad {
       transform: skewY(3deg);
     }
@@ -649,19 +693,15 @@ export default {
       grid-column-gap: 60px;
       text-align: center;
       @media (max-width: 767px) {
-        text-align: center;
+        text-align: left;
         grid-template-columns: 1fr;
       }
       .title {
-        font-weight: var(--font-weight-bold);
+        font-weight: 600;
         font-size: 1.6em;
         letter-spacing: -0.03em;
         line-height: 1.4em;
         margin-bottom: 0.2em;
-        // @media (max-width: 767px) {
-        //       font-size: 1.6em;
-        //   font-size: 2.6em;
-        // }
       }
       .subtitle {
         opacity: 0.7;
