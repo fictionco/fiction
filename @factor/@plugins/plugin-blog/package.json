@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-blog",
-  "version": "1.0.0-alpha.31",
+  "version": "1.0.0-alpha.32",
   "license": "GPL-2.0",
   "factor": {
     "target": [
@@ -9,7 +9,7 @@
     ]
   },
   "dependencies": {
-    "@factor/core": "^1.0.0-alpha.31",
+    "@factor/core": "^1.0.0-alpha.32",
     "@factor/plugin-highlight-code": "^1.0.0-alpha.31"
   },
   "publishConfig": {
