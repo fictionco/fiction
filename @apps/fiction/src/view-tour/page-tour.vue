@@ -1,7 +1,7 @@
 <template>
   <div class="view-tour">
-    <section class="splash-wrap stark-bg">
-      <div class="stark-bg-image">
+    <section class="splash-wrap stark-bg skew-bg">
+      <div class="stark-bg-image unskew-bg">
         <div class="splash content-pad">
           <div class="content-width">
             <div class="label label-blue">Currently In Alpha</div>
@@ -147,6 +147,7 @@
           </div>
         </div>
       </div>
+      <div class="hhh" />
     </section>
   </div>
 </template>
@@ -287,9 +288,9 @@ export default {
   }
 
   .skew-bg {
-    transform: skewY(-4deg);
+    transform: scale(1.25) skewY(-4deg);
     .unskew-bg {
-      transform: skewY(4deg);
+      transform: skewY(4deg) scale(0.8);
     }
   }
 
@@ -304,7 +305,7 @@ export default {
       background-image: url(./img/rectangles.svg);
       background-repeat: no-repeat;
       background-size: 80%;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         background-size: 100%;
       }
     }
@@ -315,11 +316,10 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -120px;
-    top: 84%;
-    transform: skewY(-4deg);
+    bottom: -5em;
+    height: 5em;
     background-color: #fff;
-    background-image: linear-gradient(45deg, #fff, var(--color-bg-contast) 90%);
+    background-image: linear-gradient(15deg, #fff, var(--color-bg-contast) 90%);
   }
 
   .stripes-wrap {
@@ -387,7 +387,7 @@ export default {
       max-width: 800px;
       margin: 0 auto;
       padding: 7em 0 10em;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         padding: 6em 2em 15em;
         text-align: left;
       }
@@ -397,7 +397,7 @@ export default {
         line-height: 1.1;
         margin: 0.3em 0;
         color: var(--color-light);
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           font-size: 1.8em;
         }
       }
@@ -409,7 +409,7 @@ export default {
         margin-bottom: 1.5em;
         color: var(--color-text-splash);
 
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           font-size: 1.2em;
         }
       }
@@ -609,7 +609,7 @@ export default {
 
       transform: skewX(-8deg);
 
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         position: relative;
         height: 200px;
         background: #525f7f;
@@ -634,7 +634,7 @@ export default {
 
         transform: skewX(8deg);
 
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           display: block;
           position: absolute;
           left: 0;
@@ -655,7 +655,7 @@ export default {
       background-position: 3em 3em;
       background-size: 25px 25px;
       padding: 5em 3em 3em;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         background-position: 2em 2em;
         width: 100%;
         padding: 4em 2em 2em;
@@ -692,7 +692,7 @@ export default {
       grid-template-columns: 1fr;
       grid-column-gap: 60px;
       text-align: center;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         text-align: left;
         grid-template-columns: 1fr;
       }
@@ -702,6 +702,9 @@ export default {
         letter-spacing: -0.03em;
         line-height: 1.4em;
         margin-bottom: 0.2em;
+        .alt {
+          opacity: 0.7;
+        }
       }
       .subtitle {
         opacity: 0.7;
@@ -717,7 +720,7 @@ export default {
         .app-btn + .app-btn {
           margin-left: 1em;
         }
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           display: block;
           margin-top: 1.5em;
           a {
