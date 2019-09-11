@@ -37,4 +37,7 @@ export default {
 </script>
 
 <style lang="less">
+.single-entry {
+  color: var(--color-text-dark);
+}
 </style>

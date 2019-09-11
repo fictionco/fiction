@@ -22,7 +22,8 @@ export default {
 
 <style lang="less" scope>
 .services-container {
-  background: var(--color-primary);
+  background: var(--color-primary) url(./img/circles-bg.svg) top center
+    no-repeat;
 
   .pretitle {
     color: var(--color-text);
