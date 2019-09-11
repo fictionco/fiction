@@ -86,6 +86,9 @@ export default Factor => {
     }
 
     setRouteClass(options) {
+      if (!options) {
+        return
+      }
       const { routeClass } = options
       if (routeClass) {
         let routeClassArray =

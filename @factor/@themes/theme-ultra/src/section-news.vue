@@ -1,5 +1,5 @@
 <template>
-  <section id="newsContainerID" class="news-container page-container">
+  <section id="news" class="news-container page-container">
     <h2 class="pretitle">{{ $setting.get('news.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('news.title') }}</h1>
     <blog-index />

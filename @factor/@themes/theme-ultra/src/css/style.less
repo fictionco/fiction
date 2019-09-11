@@ -1,5 +1,8 @@
 @import "reset.less";
 
+html {
+  scroll-behavior: smooth;
+}
 body {
   color: var(--color-text);
   background: var(--color-bg);
@@ -18,16 +21,5 @@ body {
     &:hover {
       color: var(--color-primary-darker);
     }
-  }
-}
-
-.page-container {
-  min-height: 100vh;
-  height: auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  padding: 4em;
-  @media (max-width: 900px) {
-    padding: 2em;
   }
 }
