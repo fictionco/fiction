@@ -9,8 +9,8 @@
           <factor-link
             :key="index"
             :path="item.path"
-            class="btn-sidebar"
-            :class="[item.target, {'btn-sidebar-selected' : selected === item.path}]"
+            class="nav-link"
+            :class="[item.target, {'nav-link-selected' : selected === item.path}]"
             @click="sidebarPath(item.path)"
           >
             <span>{{ item.name }}</span>
@@ -30,7 +30,7 @@
           </a>
         </div>
       </div>-->
-      <div class="copyright">&copy; Copyright 2019. All Rights are Reserved.</div>
+      <div v-formatted-text="$setting.get('site.copyright')" class="copyright" />
     </div>
   </transition>
 </template>
@@ -91,16 +91,17 @@ export default {
   position: fixed;
   font-family: var(--font-family-primary);
   display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
   color: #f7f7f7;
   background: linear-gradient(90deg, #732b29 -100%, #101010 100%);
   min-height: 100vh;
   height: auto;
-  //max-width: 200px;
-  //width: 100%;
+  width: 280px;
 
   nav {
     display: grid;
-    justify-content: center;
+    align-items: center;
+    padding: 0 2em;
   }
 
   > div:last-child {
@@ -114,7 +115,8 @@ export default {
   }
 
   @media (max-width: 900px) {
-    left: -100%;
+    left: -280px;
+    z-index: 10;
   }
 }
 .sidebar-buttons-container {
@@ -133,31 +135,34 @@ export default {
 .sidebar-button-horizontal {
   margin: 22px 0 0 52px;
 }
-.btn-sidebar-selected {
-  color: #f7f7f7 !important;
-  font-weight: bold !important;
-}
-.btn-sidebar {
+
+.nav-link {
   color: #9e9e9e;
-  font-size: 1.5em;
-  line-height: 1.6;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
+  font-size: 1.4em;
+  line-height: 1;
   text-decoration: none;
-  position: relative;
-}
-.btn-sidebar:hover {
-  color: #f7f7f7;
-}
-.btn-sidebar-line-selected {
-  position: absolute;
-  background: #fa5855;
-  width: 50px;
-  height: 5px;
-  // margin: -15px 0 0 120px;
-  right: -64px;
-  top: 50%;
+
+  &:hover {
+    color: var(--color-text);
+  }
+
+  // &.router-link-active,
+  &.nav-link-selected {
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+    span {
+      position: relative;
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        right: -54px;
+        top: 50%;
+        width: 40px;
+        height: 3px;
+        background: var(--color-primary);
+      }
+    }
+  }
 }
 </style>
