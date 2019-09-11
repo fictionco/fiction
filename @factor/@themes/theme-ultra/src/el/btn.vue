@@ -76,7 +76,6 @@ button.factor-btn {
 
     &:hover {
       color: var(--color-text);
-      border: 1px solid var(--color-text);
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
@@ -89,11 +88,6 @@ button.factor-btn {
     &:hover {
       color: var(--color-primary-darker);
     }
-  }
-
-  &.tertiary {
-    color: var(--color-primary);
-    background: var(--color-tertiary);
   }
 }
 </style>

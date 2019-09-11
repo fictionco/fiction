@@ -1,11 +1,11 @@
 <template>
-  <div class="entries">
+  <div>
     <component :is="$setting.get('blog.components.returnLink')" v-if="tag || page > 1" />
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
-    <div v-else-if="blogPosts.length > 0" class="post-index">
-      <div v-for="(post) in blogPosts" :key="post._id" class="post">
+    <div v-else-if="blogPosts.length > 0" class="news-wrap">
+      <div v-for="(post) in blogPosts" :key="post._id" class="news-item">
         <component
           :is="$setting.get(`blog.components.${comp}`)"
           v-for="(comp, i) in $setting.get('blog.layout.index')"
@@ -23,7 +23,7 @@
     <component :is="$setting.get('blog.components.pagination')" :post-type="postType" />
   </div>
 </template>
-<script>
+  <script>
 export default {
   data() {
     return {
@@ -103,14 +103,6 @@ export default {
   .title {
     font-size: 1.4em;
     font-weight: var(--font-weight-bold);
-  }
-}
-.post-index {
-  .post {
-    margin: 4rem 0;
-    &:first-child {
-      margin-top: 0;
-    }
   }
 }
 </style>

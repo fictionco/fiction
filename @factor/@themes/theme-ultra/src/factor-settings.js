@@ -38,7 +38,7 @@ export default Factor => {
           target: "contactPageContainerID"
         }
       ],
-      copyright: "&copy; Copyright 2019. All Rights are Reserved."
+      copyright: "&copy; Copyright 2019."
     },
     home: {
       pretitle: "Welcome To Ultra",
@@ -183,87 +183,42 @@ export default Factor => {
         }
       ]
     },
-    blog: {
-      indexRoute: "/news",
-      postRoute: "/news",
-      limit: 4,
-      returnLinkText: "All Articles",
-      metatags: {
-        index: {
-          title: "Blog - The Latest from Factor Alpha Theme",
-          description:
-            "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
-        }
-      },
-      components: {
-        blogWrap: () => import("./blog/blog-wrap.vue"),
-        blogIndex: () => import("./blog/blog-index.vue"),
-        blogSingle: () => import("./blog/blog-single.vue")
-      },
-      layout: {
-        index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
-        single: [
-          "blogReturnLink",
-          "blogHeaders",
-          "blogTags",
-          "blogFeaturedImage",
-          "meta",
-          "entry",
-          "social",
-          "authorBio"
-        ],
-        meta: ["authorDate"]
-      }
-    },
     news: {
       pretitle: "News",
-      title: "Latest News",
-      content: [
-        {
-          date: "July 6, 2020",
-          title: "User Onboarding Done Right: Using The Power of Story.",
-          content:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          action: {
-            btn: "default",
-            path: "/post-url-goes-here",
-            text: "Read More..."
-          }
-        },
-        {
-          date: "July 6, 2020",
-          title: "User Onboarding Done Right: Using The Power of Story.",
-          content:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          action: {
-            btn: "default",
-            path: "/post-url-goes-here",
-            text: "Read More..."
-          }
-        },
-        {
-          date: "July 6, 2020",
-          title: "User Onboarding Done Right: Using The Power of Story.",
-          content:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          action: {
-            btn: "default",
-            path: "/post-url-goes-here",
-            text: "Read More..."
-          }
-        },
-        {
-          date: "July 6, 2020",
-          title: "User Onboarding Done Right: Using The Power of Story.",
-          content:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          action: {
-            btn: "default",
-            path: "/post-url-goes-here",
-            text: "Read More..."
-          }
-        }
-      ]
+      title: "Latest News"
+      // content: [
+      //   {
+      //     date: "July 6, 2020",
+      //     title: "User Onboarding Done Right: Using The Power of Story.",
+      //     content:
+      //       "User onboarding is perhaps the most important piece of the entire customer conversion process.",
+      //     action: {
+      //       btn: "default",
+      //       path: "/post-url-goes-here",
+      //       text: "Read More..."
+      //     }
+      //   }
+      // ]
+    },
+    blog: {
+      indexRoute: "/#newsContainerID",
+      postRoute: "/news",
+      limit: 4,
+      returnLinkText: "All News",
+      components: {
+        headers: () => import("./blog/widget-headers.vue"),
+        featuredImage: () => import("./blog/widget-featured-image.vue"),
+        tags: () => import("./blog/widget-tags.vue"),
+        date: () => import("./blog/widget-date.vue"),
+        returnLink: () => import("./blog/widget-return-link.vue"),
+        excerpt: () => import("./blog/widget-excerpt.vue"),
+        pagination: () => import("./blog/widget-pagination.vue")
+      },
+      layout: {
+        index: ["date", "headers", "excerpt"],
+        single: ["returnLink", "headers", "featuredImage", "tags", "entry", "authorBio"],
+        meta: ["authorDate"]
+      }
     },
     contactForm: {
       email: "contact@fiction.com",

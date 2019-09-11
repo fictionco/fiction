@@ -2,45 +2,23 @@
   <section id="newsContainerID" class="news-container page-container">
     <h2 class="pretitle">{{ $setting.get('news.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('news.title') }}</h1>
-    <div class="news-wrap">
+    <blog-index />
+    <!-- <div class="news-wrap">
       <div v-for="(item, i) in $setting.get('news.content')" :key="i" class="news-item">
         <p class="date">{{ item.date }}</p>
         <h4 class="title">{{ item.title }}</h4>
         <p class="content">{{ item.content }}</p>
         <factor-link :path="item.action.path" class="read-more">{{ item.action.text }}</factor-link>
       </div>
-    </div>
-    <div class="blog">
-      <div class="blog-posts">
-        <!-- <component :is="$setting.get('blog.components.blogReturnLink')" v-if="tag || page > 1" /> -->
-        <div v-if="loading" class="posts-loading">
-          <factor-loading-ring />
-        </div>
-        <div v-else-if="blogPosts.length > 0" class="post-index">
-          <div v-for="post in blogPosts" :key="post._id" class="post">
-            <component
-              :is="$setting.get(`blog.components.${comp}`)"
-              v-for="(comp, i) in $setting.get('blog.layout.index')"
-              :key="i"
-              :post-id="post._id"
-            />
-            <!-- scope="index" -->
-          </div>
-        </div>
-        <!-- <div v-else class="posts-not-found">
-          <div class="text">
-            <div class="title">{{ $setting.get("blog.notFound.title") }}</div>
-            <div class="sub-title">{{ $setting.get("blog.notFound.subTitle") }}</div>
-          </div>
-        </div>-->
-        <component :is="$setting.get('blog.components.pagination')" :post-type="postType" />
-      </div>
-    </div>
+    </div>-->
   </section>
 </template>
 
 <script>
 export default {
+  components: {
+    "blog-index": () => import("./blog/blog-index")
+  },
   data() {
     return {
       postType: "blog",
@@ -51,9 +29,9 @@ export default {
     return this.getPosts()
   },
   computed: {
-    // tag() {
-    //   return this.$route.params.tag || this.$route.query.tag || ""
-    // },
+    tag() {
+      return this.$route.params.tag || this.$route.query.tag || ""
+    },
     index() {
       return this.$store.val(this.postType) || {}
     },
@@ -96,11 +74,6 @@ export default {
 
 <style lang="less">
 .news-container {
-  .post {
-    color: gray;
-  }
-}
-.news-container {
   background: var(--color-bg-alt);
 
   .pretitle {
@@ -118,6 +91,12 @@ export default {
     line-height: 1.1;
     @media (max-width: 900px) {
       font-size: 2.2rem;
+    }
+    a {
+      color: var(--color-text-dark);
+      &:hover {
+        color: var(--color-primary);
+      }
     }
   }
   .news-wrap {
@@ -140,7 +119,6 @@ export default {
     transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
     &:hover {
-      padding: 2rem 2rem 3rem;
       background: var(--color-white);
       color: var(--color-text-dark);
       transform: translateY(-2px) scale(1.02);

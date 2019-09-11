@@ -3,12 +3,6 @@
     <div>
       <sidebar />
     </div>
-    <!-- <div v-else class="home-sidebar-container">
-      <div>
-        <sidebar class="sidebar-component" />
-        <img src="./img/arrows.svg" alt="arrows" @click="toggleSidebar()" >
-      </div>
-    </div>-->
     <div class="content-main">
       <router-view />
       <home />
@@ -31,14 +25,14 @@ export default {
     portfolio: () => import("./page-portfolio"),
     news: () => import("./page-news"),
     contact: () => import("./page-contact")
+  },
+  data() {
+    return {
+      // mobile: null,
+      // orientationH: false,
+      showSidebar: false
+    }
   }
-  // data() {
-  //   return {
-  //     mobile: null,
-  //     orientationH: false,
-  //     showSidebar: false
-  //   }
-  // },
   // computed: {},
   // mounted() {
   //   this.mobile = navigator.userAgent.match(/Android|iPhone|iPad/g)
