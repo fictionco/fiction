@@ -26,11 +26,10 @@
     <section class="home-features">
       <div class="mast">
         <div class="heading">
-          <h2 class="title">The professional solution for small business</h2>
-          <p class="subtitle">
-            Fiction is powered by open source, developer friendly Javascript software. No
-            walled gardens or limits on the technology you can use.
-          </p>
+          <h2 class="title">Build the world's next amazing web app.</h2>
+          <p
+            class="subtitle"
+          >Fiction is building a revolutionary JS platform powered by open source, developer friendly Javascript software.</p>
         </div>
 
         <div class="feature">
@@ -38,51 +37,20 @@
             <img class="img-left" :src="require(`./img/theme-ultra.png`)" alt="Factor Theme Ultra" >
           </div>
           <div class="content">
-            <h3 class="title">Start — your web app</h3>
+            <h5 class="super">Now In Alpha</h5>
+            <h3 class="title">
+              <factor-link path="/factor-js">Factor JS</factor-link>
+            </h3>
             <p>
               While your competition is struggling with technical hurdles or walled
               gardens, you’ll out innovate and outperform.
             </p>
-            <a href="#">
-              Explore the docs
-              <i class="fa fa-arrow-right" />
-            </a>
-          </div>
-        </div>
-
-        <div class="feature feature-reverse">
-          <div class="illustration">
-            <img class="img-right" :src="require(`./img/theme-alpha.jpg`)" alt="Factor Theme Alpha" >
-          </div>
-          <div class="content">
-            <h3 class="title">Build — with one platform</h3>
-            <p>
-              Build your app with speed and freedom. Include only what you need from a
-              modular structure.
-            </p>
-            <a href="#">
-              Explore the tools to help you build
-              <i class="fa fa-arrow-right" />
-            </a>
-          </div>
-        </div>
-
-        <div class="feature">
-          <div class="illustration">
-            <img class="img-left" :src="require(`./img/dashboard.jpg`)" alt="Dashboard" >
-          </div>
-          <div class="content">
-            <h3 class="title">Manage — smarter, grow fast</h3>
-            <p>
-              A single, centralized home for all your web application's activity including
-              content and user management. Gain the insights and knowledge you need to
-              grow.
-            </p>
-
-            <a href="#">
-              More about the tech
-              <i class="fa fa-arrow-right" />
-            </a>
+            <div class="actions">
+              <factor-link btn="primary" path="https://factor.dev">
+                Explore the docs
+                &rarr;
+              </factor-link>
+            </div>
           </div>
         </div>
       </div>
@@ -245,20 +213,22 @@ export default {
   }
 
   .home-features {
+    padding: 7em;
     position: relative;
     z-index: 1;
     .heading {
       text-align: center;
       max-width: 650px;
       margin: 0 auto;
+      letter-spacing: -0.03em;
       .title {
-        font-weight: 800;
-        font-size: 2.625em;
+        font-weight: 600;
+        font-size: 2em;
         line-height: 1.25em;
       }
       .subtitle {
         margin: 20px auto 14px;
-        font-weight: 400;
+        opacity: 0.7;
         font-size: 1.19em;
         line-height: 1.7em;
       }
@@ -268,9 +238,13 @@ export default {
       grid-gap: 2em;
       grid-template-columns: 1fr 1fr;
       align-items: center;
-      padding: 3em 0;
+      padding: 6em 0;
       &.feature-reverse {
         direction: rtl;
+      }
+      .super {
+        text-transform: uppercase;
+        color: var(--color-primary);
       }
       .illustration {
         perspective: 1500px;
@@ -302,8 +276,14 @@ export default {
         direction: initial;
         .title {
           font-size: 1.6em;
-          font-weight: 800;
+          font-weight: 600;
           margin: 0 0 10px;
+          a {
+            color: inherit;
+          }
+        }
+        .actions {
+          margin-top: 1em;
         }
       }
     }
