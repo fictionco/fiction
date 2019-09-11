@@ -55,32 +55,60 @@
     }
   }
 
-  .nav-absolute {
-    .content-layout {
-      position: relative;
-    }
+  // .nav-absolute {
+  //   .content-layout {
+  //     position: relative;
+  //   }
 
+  //   .site-head {
+  //     background: transparent;
+  //     position: absolute;
+  //     left: 0;
+  //     top: 0;
+  //     right: 0;
+  //     z-index: 500;
+  //     height: 50px;
+  //   }
+  // }
+
+  // .nav-light {
+  //   .site-head {
+  //     background: #1b223c;
+
+  //     .logo-img .thelogotext {
+  //       fill: var(--color-light);
+  //     }
+
+  //     .mobile-logo .logo-img .thelogotext {
+  //       fill: initial;
+  //     }
+
+  //     .nav > a {
+  //       color: var(--color-light);
+
+  //       &:hover {
+  //         color: var(--color-primary);
+  //       }
+
+  //       @media (max-width: 767px) {
+  //         color: initial;
+  //       }
+  //     }
+  //   }
+  // }
+
+  .nav-white.top {
     .site-head {
-      background: transparent;
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      z-index: 500;
-      height: 50px;
-    }
-  }
-
-  .nav-light {
-    .site-head {
-      background: #1b223c;
-
       .logo-img .thelogotext {
         fill: var(--color-light);
       }
+      .site-head-pad .mob-nav-btn .toggle:after,
+      .site-head-pad .mob-nav-btn .toggle:before {
+        background-color: var(--color-light);
+      }
 
       .mobile-logo .logo-img .thelogotext {
-        fill: initial;
+        fill: var(--color-text);
       }
 
       .nav > a {
@@ -90,8 +118,8 @@
           color: var(--color-primary);
         }
 
-        @media (max-width: 767px) {
-          color: initial;
+        @media (max-width: 900px) {
+          color: var(--color-text);
         }
       }
     }
