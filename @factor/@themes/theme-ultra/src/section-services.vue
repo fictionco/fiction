@@ -1,5 +1,5 @@
 <template>
-  <section id="servicesContainerID" class="services-container page-container">
+  <section id="services" class="services-container page-container">
     <h2 class="pretitle">{{ $setting.get('services.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('services.title') }}</h1>
     <div class="content">

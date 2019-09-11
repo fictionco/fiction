@@ -32,6 +32,22 @@ module.exports.default = Factor => {
         },
         { priority: 200 }
       )
+
+      const portfolioBaseRoute = Factor.$setting.get("portfolio.postRoute")
+
+      Factor.$filters.add("post-types", _ => {
+        _.push({
+          postType: "portfolio",
+          portfolioBaseRoute,
+          icon: require("./img/work.svg"),
+          model: "portfolioPost",
+          nameIndex: "Portfolio",
+          nameSingle: "Portfolio Post",
+          namePlural: "Portfolio Posts"
+        })
+
+        return _
+      })
     }
 
     async addPaths() {
@@ -45,16 +61,31 @@ module.exports.default = Factor => {
         ])
       })
 
-      // Factor.$filters.add("content-routes", _ => {
-      //   const routes = [
-      //     {
-      //       path: "/",
-      //       component: () => import("./page-home")
-      //     }
-      //   ]
+      Factor.$filters.add("content-routes", _ => {
+        const routes = [
+          {
+            path: "/",
+            component: () => import("./page-home"),
+            meta: { nav: true }
+          },
+          {
+            path: Factor.$setting.get("portfolio.indexRoute"),
+            component: Factor.$setting.get("portfolio.components.portfolioWrap"),
+            children: [
+              {
+                path: "/",
+                component: Factor.$setting.get("portfolio.components.portfolioIndex")
+              },
+              {
+                path: `${Factor.$setting.get("portfolio.postRoute")}/:permalink`,
+                component: Factor.$setting.get("portfolio.components.portfolioSingle")
+              }
+            ]
+          }
+        ]
 
-      //   return _.concat(routes)
-      // })
+        return _.concat(routes)
+      })
     }
   })()
 }
