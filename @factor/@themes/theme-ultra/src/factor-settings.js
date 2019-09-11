@@ -8,34 +8,28 @@ export default Factor => {
       logoTitle: "Ultra Theme",
       nav: [
         {
-          path: "#homeContainerID",
-          name: "Home",
-          target: "homeContainerID"
+          path: "/",
+          name: "Home"
         },
         {
-          path: "#aboutContainerID",
-          name: "About",
-          target: "aboutContainerID"
+          path: "/#about",
+          name: "About"
         },
         {
-          path: "#servicesContainerID",
-          name: "Services",
-          target: "servicesContainerID"
+          path: "/#services",
+          name: "Services"
         },
         {
-          path: "#portfolioContainerID",
-          name: "Portfolio",
-          target: "portfolioContainerID"
+          path: "/#portfolio",
+          name: "Portfolio"
         },
         {
-          path: "#newsContainerID",
-          name: "News",
-          target: "newsContainerID"
+          path: "/#news",
+          name: "News"
         },
         {
-          path: "#contactPageContainerID",
-          name: "Contact",
-          target: "contactPageContainerID"
+          path: "/#contact",
+          name: "Contact"
         }
       ],
       copyright: "&copy; Copyright 2019."
@@ -47,13 +41,13 @@ export default Factor => {
       actions: [
         {
           btn: "primary",
-          path: "#contactPageContainerID",
+          path: "#contact",
           text: "Start a Project",
           icon: "right-arrow"
         },
         {
           btn: "primary-ol",
-          path: "/#aboutContainerID",
+          path: "/#about",
           text: "More About Ultra",
           icon: "right-arrow"
         }
@@ -122,39 +116,25 @@ export default Factor => {
     portfolio: {
       pretitle: "Portfolio",
       title: "Check out some of the latest creative work.",
-      pictures: [
-        {
-          picture: require("./img/portfolio01.jpg"),
-          alt: "portfolio01",
-          pictureClass: "pictureClasslong"
-        },
-        {
-          picture: require("./img/portfolio06.jpg"),
-          alt: "portfolio06",
-          pictureClass: "pictureClasslong"
-        },
-
-        {
-          picture: require("./img/portfolio02.jpg"),
-          alt: "portfolio02",
-          pictureClass: "pictureClasslong"
-        },
-        {
-          picture: require("./img/portfolio03.jpg"),
-          alt: "portfolio03",
-          pictureClass: "pictureClasslong"
-        },
-        {
-          picture: require("./img/portfolio04.jpg"),
-          alt: "portfolio04",
-          pictureClass: "pictureClasslong"
-        },
-        {
-          picture: require("./img/portfolio05.jpg"),
-          alt: "portfolio05",
-          pictureClass: "pictureClasslong"
-        }
-      ],
+      indexRoute: "/",
+      postRoute: "/portfolio",
+      limit: 8,
+      returnLinkText: "All Projects",
+      components: {
+        portfolioWrap: () => import("./portfolio/portfolio-wrap.vue"),
+        portfolioIndex: () => import("./portfolio/portfolio-index.vue"),
+        portfolioSingle: () => import("./portfolio/portfolio-single.vue"),
+        portfolioEntry: () => import("./portfolio/widget-entry.vue"),
+        headers: () => import("./portfolio/widget-headers.vue"),
+        featuredImage: () => import("./portfolio/widget-featured-image.vue"),
+        tags: () => import("./portfolio/widget-tags.vue"),
+        returnLink: () => import("./portfolio/widget-return-link.vue"),
+        pagination: () => import("./portfolio/widget-pagination.vue")
+      },
+      layout: {
+        index: ["featuredImage"],
+        single: ["returnLink", "headers", "featuredImage", "tags", "portfolioEntry"]
+      },
       clientsTitle: "Previous Clients",
       clients: [
         {
@@ -181,7 +161,33 @@ export default Factor => {
           picture: require("./img/wearable-world.svg"),
           alt: "Wearable World"
         }
-      ]
+      ],
+      cta: {
+        headline: "headline",
+        path: "path",
+        text: "text do it"
+      }
+    },
+    blog: {
+      indexRoute: "/#news",
+      postRoute: "/news",
+      limit: 4,
+      returnLinkText: "All News",
+      components: {
+        blogSingle: () => import("./blog/blog-single.vue"),
+        headers: () => import("./blog/widget-headers.vue"),
+        featuredImage: () => import("./blog/widget-featured-image.vue"),
+        tags: () => import("./blog/widget-tags.vue"),
+        date: () => import("./blog/widget-date.vue"),
+        returnLink: () => import("./blog/widget-return-link.vue"),
+        excerpt: () => import("./blog/widget-excerpt.vue"),
+        pagination: () => import("./blog/widget-pagination.vue")
+      },
+      layout: {
+        index: ["date", "headers", "excerpt"],
+        single: ["returnLink", "headers", "featuredImage", "tags", "entry", "authorBio"],
+        meta: ["authorDate"]
+      }
     },
     news: {
       pretitle: "News",
@@ -199,26 +205,6 @@ export default Factor => {
       //     }
       //   }
       // ]
-    },
-    blog: {
-      indexRoute: "/#newsContainerID",
-      postRoute: "/news",
-      limit: 4,
-      returnLinkText: "All News",
-      components: {
-        headers: () => import("./blog/widget-headers.vue"),
-        featuredImage: () => import("./blog/widget-featured-image.vue"),
-        tags: () => import("./blog/widget-tags.vue"),
-        date: () => import("./blog/widget-date.vue"),
-        returnLink: () => import("./blog/widget-return-link.vue"),
-        excerpt: () => import("./blog/widget-excerpt.vue"),
-        pagination: () => import("./blog/widget-pagination.vue")
-      },
-      layout: {
-        index: ["date", "headers", "excerpt"],
-        single: ["returnLink", "headers", "featuredImage", "tags", "entry", "authorBio"],
-        meta: ["authorDate"]
-      }
     },
     contactForm: {
       email: "contact@fiction.com",

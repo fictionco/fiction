@@ -1,5 +1,5 @@
 <template>
-  <section id="contactPageContainerID" class="contact-container page-container">
+  <section id="contact" class="contact-container page-container">
     <h2 class="pretitle">{{ $setting.get('contact.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('contact.title') }}</h1>
     <div class="form-wrap">
