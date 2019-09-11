@@ -31,20 +31,20 @@ export default {
       loading: false
     }
   },
-  metatags() {
-    const title = this.tag
-      ? `Tag "${this.tag}"`
-      : this.$setting.get("blog.metatags.index.title")
+  // metatags() {
+  //   const title = this.tag
+  //     ? `Tag "${this.tag}"`
+  //     : this.$setting.get("blog.metatags.index.title")
 
-    const description = this.tag
-      ? `Articles related to tag: ${this.tag}`
-      : this.$setting.get("blog.metatags.index.description")
+  //   const description = this.tag
+  //     ? `Articles related to tag: ${this.tag}`
+  //     : this.$setting.get("blog.metatags.index.description")
 
-    return {
-      title,
-      description
-    }
-  },
+  //   return {
+  //     title,
+  //     description
+  //   }
+  // },
   serverPrefetch() {
     return this.getPosts()
   },

@@ -1,5 +1,5 @@
 <template>
-  <section id="aboutContainerID" class="page-container about-container">
+  <section id="about" class="page-container about-container">
     <div class="about-content">
       <div class="content-photo">
         <div class="content-wrap">
@@ -73,6 +73,7 @@ export default {}
     .photo-wrap {
       .photo {
         position: relative;
+        transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
         @media (max-width: 900px) {
           max-width: 400px;
@@ -81,25 +82,36 @@ export default {}
           width: 100%;
           position: relative;
           z-index: 1;
+          border-radius: 4px;
         }
-        &:before {
+        &:before,
+        &:after {
           content: "";
           width: 100%;
           position: absolute;
+          border-radius: 4px;
+          border: 4px solid var(--color-primary);
+        }
+        &:before {
           top: -10px;
           bottom: 16px;
           left: 12px;
           right: -10px;
-          border: 4px solid var(--color-primary);
         }
         &:after {
-          content: "";
-          position: absolute;
-          top: -20px;
-          bottom: 28px;
-          left: 26px;
-          right: -22px;
-          border: 4px solid var(--color-primary);
+          top: 0;
+          right: 0;
+          bottom: 8px;
+          left: 0;
+          transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        &:hover {
+          &:after {
+            top: -20px;
+            bottom: 28px;
+            left: 26px;
+            right: -22px;
+          }
         }
       }
     }
