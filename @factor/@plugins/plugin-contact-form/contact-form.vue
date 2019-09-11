@@ -19,14 +19,16 @@
         :input="`factor-input-${c.inputType}`"
         :required="!!c.required"
         :label="getLabel(c)"
+        :placeholder="getPlaceholder(c)"
         :format="$setting.get('contactForm.inputFormat', 'horizontal')"
       />
       <factor-input-submit
         el="app-btn"
-        btn="primary"
+        :btn="$setting.get('contactForm.submit.btn')"
+        :size="$setting.get('contactForm.submit.size')"
         :loading="sending"
         data-test="contact-form-submit"
-      >{{ $setting.get('contactForm.submitText') }}</factor-input-submit>
+      >{{ $setting.get('contactForm.submit.text') }}</factor-input-submit>
     </div>
   </factor-form>
 </template>
@@ -62,10 +64,17 @@ export default {
     },
     getLabel(c) {
       const label = [c.label]
-      if (c.required) {
+      if (c.required && c.label) {
         label.push("*")
       }
       return label.join(" ")
+    },
+    getPlaceholder(c) {
+      const placeholder = [c.placeholder]
+      if (c.required && c.placeholder && !c.label) {
+        placeholder.push("*")
+      }
+      return placeholder.join(" ")
     }
   }
 }
