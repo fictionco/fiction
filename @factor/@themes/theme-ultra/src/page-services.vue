@@ -28,6 +28,9 @@ export default {
     color: var(--color-text);
     font-size: 1.4em;
     text-align: center;
+    @media (max-width: 900px) {
+      font-size: 1.2rem;
+    }
   }
   .title {
     font-size: 3.2em;
@@ -36,6 +39,9 @@ export default {
     line-height: 1.1;
     text-align: center;
     color: var(--color-text);
+    @media (max-width: 900px) {
+      font-size: 2.2rem;
+    }
   }
   .content {
     margin: 2rem auto;

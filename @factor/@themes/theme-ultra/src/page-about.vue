@@ -2,7 +2,7 @@
   <section id="aboutContainerID" class="page-container about-container">
     <div class="about-content">
       <div class="content-photo">
-        <div>
+        <div class="content-wrap">
           <h2 class="pretitle">{{ $setting.get('about.pretitle') }}</h2>
           <h1 class="title">{{ $setting.get('about.title') }}</h1>
           <p class="text">{{ $setting.get('about.content') }}</p>
@@ -37,11 +37,20 @@
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
+      .content-wrap {
+        order: 2;
+      }
+      .photo-wrap {
+        order: 1;
+      }
     }
 
     .pretitle {
       color: var(--color-primary);
       font-size: 1.4em;
+      @media (max-width: 900px) {
+        font-size: 1.2rem;
+      }
     }
     .title {
       font-size: 3.2em;
@@ -50,6 +59,9 @@
       line-height: 1.1;
       color: var(--color-text-dark);
       margin-bottom: 1rem;
+      @media (max-width: 900px) {
+        font-size: 2.2rem;
+      }
     }
     .text {
       color: var(--color-text-dark);
@@ -58,6 +70,10 @@
     .photo-wrap {
       .photo {
         position: relative;
+
+        @media (max-width: 900px) {
+          max-width: 400px;
+        }
         img {
           width: 100%;
           position: relative;

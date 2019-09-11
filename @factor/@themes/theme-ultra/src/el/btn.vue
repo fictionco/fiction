@@ -76,7 +76,7 @@ button.factor-btn {
 
     &:hover {
       color: var(--color-text);
-      background: var(--color-primary);
+      border: 1px solid var(--color-text);
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }

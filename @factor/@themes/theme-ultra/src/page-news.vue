@@ -10,6 +10,32 @@
         <factor-link :path="item.action.path" class="read-more">{{ item.action.text }}</factor-link>
       </div>
     </div>
+    <div class="blog">
+      <div class="blog-posts">
+        <!-- <component :is="$setting.get('blog.components.blogReturnLink')" v-if="tag || page > 1" /> -->
+        <div v-if="loading" class="posts-loading">
+          <factor-loading-ring />
+        </div>
+        <div v-else-if="blogPosts.length > 0" class="post-index">
+          <div v-for="post in blogPosts" :key="post._id" class="post">
+            <component
+              :is="$setting.get(`blog.components.${comp}`)"
+              v-for="(comp, i) in $setting.get('blog.layout.index')"
+              :key="i"
+              :post-id="post._id"
+            />
+            <!-- scope="index" -->
+          </div>
+        </div>
+        <!-- <div v-else class="posts-not-found">
+          <div class="text">
+            <div class="title">{{ $setting.get("blog.notFound.title") }}</div>
+            <div class="sub-title">{{ $setting.get("blog.notFound.subTitle") }}</div>
+          </div>
+        </div>-->
+        <component :is="$setting.get('blog.components.pagination')" :post-type="postType" />
+      </div>
+    </div>
   </section>
 </template>
 
@@ -17,26 +43,72 @@
 export default {
   data() {
     return {
-      showMoreContent: false,
-      newsContainer: null,
-      newsMoreContent: null,
-      moreContent: {}
+      postType: "blog",
+      loading: false
+    }
+  },
+  serverPrefetch() {
+    return this.getPosts()
+  },
+  computed: {
+    // tag() {
+    //   return this.$route.params.tag || this.$route.query.tag || ""
+    // },
+    index() {
+      return this.$store.val(this.postType) || {}
+    },
+    blogPosts() {
+      const { posts = [] } = this.index
+      return posts
+    },
+    page() {
+      return this.$route.query.page || 1
+    }
+  },
+  watch: {
+    $route: {
+      handler: function(to) {
+        this.getPosts()
+      }
     }
   },
   mounted() {
-    this.newsContainer = document.querySelector(".news-container")
-    this.newsMoreContent = document.querySelector(".news-more-content")
+    this.getPosts()
+  },
+  methods: {
+    async getPosts() {
+      this.loading = true
+
+      const r = await this.$post.getPostIndex({
+        postType: this.postType,
+        tag: this.tag,
+        status: "published",
+        sort: "-date",
+        page: this.page,
+        limit: this.$setting.get("blog.limit")
+      })
+
+      this.loading = false
+    }
   }
 }
 </script>
 
 <style lang="less">
 .news-container {
+  .post {
+    color: gray;
+  }
+}
+.news-container {
   background: var(--color-bg-alt);
 
   .pretitle {
     color: var(--color-primary);
     font-size: 1.4em;
+    @media (max-width: 900px) {
+      font-size: 1.2rem;
+    }
   }
   .title {
     color: var(--color-text-dark);
@@ -44,6 +116,9 @@ export default {
     font-weight: var(--font-weight-bold);
     letter-spacing: -0.03em;
     line-height: 1.1;
+    @media (max-width: 900px) {
+      font-size: 2.2rem;
+    }
   }
   .news-wrap {
     display: grid;
@@ -57,6 +132,7 @@ export default {
   }
   .news-item {
     position: relative;
+    height: 100%;
     padding: 3rem 2rem;
     border: 1px solid rgba(17, 16, 16, 0.1);
     border-radius: var(--border-radius);

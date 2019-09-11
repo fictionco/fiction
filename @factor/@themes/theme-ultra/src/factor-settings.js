@@ -29,50 +29,17 @@ export default Factor => {
         },
         {
           path: "#newsContainerID",
-          name: "News"
+          name: "News",
+          target: "newsContainerID"
         },
         {
           path: "#contactPageContainerID",
-          name: "Contact"
+          name: "Contact",
+          target: "contactPageContainerID"
         }
-      ]
+      ],
+      copyright: "&copy; Copyright 2019. All Rights are Reserved."
     },
-
-    // sidebar: {
-    //   sidebarOptions: [
-    //     {
-    //       text: "Home",
-    //       path: "#homeContainerID",
-    //       target: "homeContainerID"
-    //     },
-    //     {
-    //       text: "About",
-    //       path: "#aboutContainerID",
-    //       target: "aboutContainerID"
-    //     },
-    //     {
-    //       text: "Services",
-    //       path: "#servicesContainerID",
-    //       target: "servicesContainerID"
-    //     },
-    //     {
-    //       text: "Portfolio",
-    //       path: "#portfolioContainerID",
-    //       target: "portfolioContainerID"
-    //     },
-    //     {
-    //       text: "News",
-    //       path: "#newsContainerID",
-    //       target: "newsContainerID"
-    //     },
-    //     {
-    //       text: "Contact",
-    //       path: "#contactPageContainerID",
-    //       target: "contactPageContainerID"
-    //     }
-    //   ]
-    // },
-
     home: {
       pretitle: "Welcome To Ultra",
       title:
@@ -80,13 +47,13 @@ export default Factor => {
       actions: [
         {
           btn: "primary",
-          path: "#servicesContainerID",
+          path: "#contactPageContainerID",
           text: "Start a Project",
           icon: "right-arrow"
         },
         {
           btn: "primary-ol",
-          path: "#aboutContainerID",
+          path: "/#aboutContainerID",
           text: "More About Ultra",
           icon: "right-arrow"
         }
@@ -217,15 +184,10 @@ export default Factor => {
       ]
     },
     blog: {
-      indexRoute: "/articles",
-      postRoute: "/articles",
+      indexRoute: "/news",
+      postRoute: "/news",
       limit: 4,
       returnLinkText: "All Articles",
-      headline: "Blog",
-      subheadline: "The Latest From Alpha",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-      heroImage: require("./img/blog.jpg"),
       metatags: {
         index: {
           title: "Blog - The Latest from Factor Alpha Theme",
@@ -236,12 +198,7 @@ export default Factor => {
       components: {
         blogWrap: () => import("./blog/blog-wrap.vue"),
         blogIndex: () => import("./blog/blog-index.vue"),
-        blogSingle: () => import("./blog/blog-single.vue"),
-        blogFeaturedImage: () => import("./blog/el-featured-image.vue"),
-        blogHeaders: () => import("./blog/el-headers.vue"),
-        blogTags: () => import("./blog/el-tags.vue"),
-        blogReturnLink: () => import("./blog/el-return-link.vue"),
-        blogExcerpt: () => import("./blog/el-excerpt.vue")
+        blogSingle: () => import("./blog/blog-single.vue")
       },
       layout: {
         index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
@@ -305,6 +262,38 @@ export default Factor => {
             path: "/post-url-goes-here",
             text: "Read More..."
           }
+        }
+      ]
+    },
+    contactForm: {
+      email: "contact@fiction.com",
+      submit: {
+        btn: "secondary",
+        text: "Submit"
+      },
+      inputFormat: "vertical",
+      confirm: {
+        title: "Got your message.",
+        subTitle: "We’ll get back to you as soon as possible at the email you provided."
+      },
+      layout: [
+        {
+          placeholder: "Your Name",
+          _id: "name",
+          inputType: "text",
+          required: true
+        },
+        {
+          placeholder: "Your Email",
+          _id: "email",
+          inputType: "email",
+          required: true
+        },
+        {
+          _id: "message",
+          inputType: "textarea",
+          required: true,
+          placeholder: "Your Message"
         }
       ]
     },

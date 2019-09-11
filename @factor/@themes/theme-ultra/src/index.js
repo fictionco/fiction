@@ -45,19 +45,16 @@ module.exports.default = Factor => {
         ])
       })
 
-      Factor.$filters.add("content-routes", _ => {
-        const routes = [
-          {
-            path: "/",
-            component: () => import("./page-home"),
-            meta: {
-              background: "#fafbff"
-            }
-          }
-        ]
+      // Factor.$filters.add("content-routes", _ => {
+      //   const routes = [
+      //     {
+      //       path: "/",
+      //       component: () => import("./page-home")
+      //     }
+      //   ]
 
-        return _.concat(routes)
-      })
+      //   return _.concat(routes)
+      // })
     }
   })()
 }
