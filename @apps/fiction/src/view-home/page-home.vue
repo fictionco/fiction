@@ -4,7 +4,8 @@
       <div class="mast">
         <div class="intro">
           <div class="content">
-            <h2 class="title">Professional Web Apps for Publishing and eCommerce</h2>
+            <div class="super">The Factor Platorm &rarr; Coming Soon</div>
+            <h2 class="title">Build the world's next amazing web app.</h2>
 
             <p class="subtitle">
               One platform with customizable features you need to start, build, manage,
@@ -18,39 +19,6 @@
           <div class="graphic">
             <img class="img-dashboard" :src="require(`./img/dashboard.jpg`)" alt="Factor Framework" >
             <img class="img-theme" :src="require(`./img/theme-alpha.jpg`)" alt="Factor Theme Alpha" >
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="home-features">
-      <div class="mast">
-        <div class="heading">
-          <h2 class="title">Build the world's next amazing web app.</h2>
-          <p
-            class="subtitle"
-          >Fiction is building a revolutionary JS platform powered by open source, developer friendly Javascript software.</p>
-        </div>
-
-        <div class="feature">
-          <div class="illustration">
-            <img class="img-left" :src="require(`./img/theme-ultra.png`)" alt="Factor Theme Ultra" >
-          </div>
-          <div class="content">
-            <h5 class="super">Now In Alpha</h5>
-            <h3 class="title">
-              <factor-link path="/factor-js">Factor JS</factor-link>
-            </h3>
-            <p>
-              While your competition is struggling with technical hurdles or walled
-              gardens, you’ll out innovate and outperform.
-            </p>
-            <div class="actions">
-              <factor-link btn="primary" path="https://factor.dev">
-                Explore the docs
-                &rarr;
-              </factor-link>
-            </div>
           </div>
         </div>
       </div>
@@ -86,6 +54,18 @@ export default {
 </script>
 <style lang="less">
 .page-home {
+  --color-bg-splash: #1b223c;
+  --color-bg-splash-contrast: #233575;
+  --color-bg-contast: #f5f8fc;
+  --color-text-splash: #949cb8;
+  transform: skewY(-4deg);
+  background-image: linear-gradient(
+    35deg,
+    var(--color-bg-splash) 70%,
+    var(--color-bg-splash-contrast)
+  );
+  color: #fff;
+  margin-top: -10em;
   .email-list-form {
     font-size: 1.3em;
     max-width: 600px;
@@ -100,14 +80,21 @@ export default {
     }
   }
   .intro-wrap {
+    padding: 15em 0 7em;
+
+    transform: skewY(4deg);
     position: relative;
-    background: #1b223c url(./img/rectangles-blue.svg) no-repeat 50%;
+    background-image: url(./img/rectangles-blue.svg);
+    background-repeat: no-repeat;
     background-size: 80%;
-    padding: 5em 0 7em;
+    @media (max-width: 900px) {
+      background-size: 100%;
+    }
+
     z-index: 0;
 
     @media (max-width: 767px) {
-      padding: 4em 0 2em;
+      padding: 14em 0 2em;
     }
 
     .intro {
@@ -123,6 +110,11 @@ export default {
       }
       .content {
         color: #fff;
+        .super {
+          text-transform: uppercase;
+          font-weight: 600;
+          font-size: 1.1em;
+        }
         .title {
           margin: 0.3em 0;
           font-size: 4em;
@@ -142,6 +134,9 @@ export default {
           @media (max-width: 767px) {
             font-size: 1.2em;
           }
+        }
+        .actions {
+          margin-top: 3.5em;
         }
         @media (max-width: 960px) {
           padding: 0;
