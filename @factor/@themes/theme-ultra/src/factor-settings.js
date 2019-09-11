@@ -3,76 +3,43 @@ export default Factor => {
     headTags: {
       font: `<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700" rel="stylesheet" />`
     },
-    docs: {
-      pages: [],
-      base: "docs"
-    },
     site: {
       logo: () => import("./el/logo-ultra"),
       logoTitle: "Ultra Theme",
       nav: [
         {
           path: "#homeContainerID",
-          name: "Home"
-        },
-        {
-          path: "#aboutContainerID",
-          name: "About"
-        },
-        {
-          path: "#servicesContainerID",
-          name: "Services"
-        },
-        {
-          path: "#portfolioContainerID",
-          name: "Portfolio"
-        },
-        {
-          path: "#newsContainerID",
-          name: "News"
-        },
-        {
-          path: "#contactPageContainerID",
-          name: "Contact"
-        }
-      ]
-    },
-
-    sidebar: {
-      sidebarOptions: [
-        {
-          text: "Home",
-          path: "#homeContainerID",
+          name: "Home",
           target: "homeContainerID"
         },
         {
-          text: "About",
           path: "#aboutContainerID",
+          name: "About",
           target: "aboutContainerID"
         },
         {
-          text: "Services",
           path: "#servicesContainerID",
+          name: "Services",
           target: "servicesContainerID"
         },
         {
-          text: "Portfolio",
           path: "#portfolioContainerID",
+          name: "Portfolio",
           target: "portfolioContainerID"
         },
         {
-          text: "News",
           path: "#newsContainerID",
+          name: "News",
           target: "newsContainerID"
         },
         {
-          text: "Contact",
           path: "#contactPageContainerID",
+          name: "Contact",
           target: "contactPageContainerID"
         }
-      ]
+      ],
+      copyright: "&copy; Copyright 2019."
     },
-
     home: {
       pretitle: "Welcome To Ultra",
       title:
@@ -80,19 +47,19 @@ export default Factor => {
       actions: [
         {
           btn: "primary",
-          path: "#servicesContainerID",
+          path: "#contactPageContainerID",
           text: "Start a Project",
           icon: "right-arrow"
         },
         {
           btn: "primary-ol",
-          path: "#aboutContainerID",
+          path: "/#aboutContainerID",
           text: "More About Ultra",
           icon: "right-arrow"
         }
       ],
       meta: {
-        title: "Docs Theme - Factor.js",
+        title: "Ultra Theme - Built with Factor.js",
         description: "A simple portfolio theme for Factor.js framework."
       }
     },
@@ -125,40 +92,36 @@ export default Factor => {
     services: {
       pretitle: "What I Do",
       title: "Everything you need to launch and grow your business",
-      contentBlocks: [
+      items: [
         {
           title: "Illustration",
           text:
             "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
-          icon: require("./img/square.svg"),
-          alt: "square"
+          icon: "illustration"
         },
         {
           title: "Branding",
           text:
             "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
-          icon: require("./img/paint.svg"),
-          alt: "paint"
+          icon: "branding"
         },
         {
           title: "Marketing",
           text:
             "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
-          icon: require("./img/horn.svg"),
-          alt: "horn"
+          icon: "marketing"
         },
         {
           title: "Web Development",
           text:
             "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
-          icon: require("./img/world.svg"),
-          alt: "world"
+          icon: "webdev"
         }
       ]
     },
     portfolio: {
-      quote: "Portfolio",
-      title: "Check out some of the latest creative works.",
+      pretitle: "Portfolio",
+      title: "Check out some of the latest creative work.",
       pictures: [
         {
           picture: require("./img/portfolio01.jpg"),
@@ -192,114 +155,105 @@ export default Factor => {
           pictureClass: "pictureClasslong"
         }
       ],
-      previousTitle: "Previous Clients",
+      clientsTitle: "Previous Clients",
       clients: [
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/twitter.svg"),
+          alt: "Twitter"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/dribbble.svg"),
+          alt: "Dribbble"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/behance.svg"),
+          alt: "Behance"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/carbon-tech-pro.svg"),
+          alt: "Carbon Tech Pro"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/amazon.svg"),
+          alt: "Amazon"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/wearable-world.svg"),
+          alt: "Wearable World"
         }
       ]
     },
     news: {
-      quote: "News",
-      title: "Latest News",
-      content: [
+      pretitle: "News",
+      title: "Latest News"
+      // content: [
+      //   {
+      //     date: "July 6, 2020",
+      //     title: "User Onboarding Done Right: Using The Power of Story.",
+      //     content:
+      //       "User onboarding is perhaps the most important piece of the entire customer conversion process.",
+      //     action: {
+      //       btn: "default",
+      //       path: "/post-url-goes-here",
+      //       text: "Read More..."
+      //     }
+      //   }
+      // ]
+    },
+    blog: {
+      indexRoute: "/#newsContainerID",
+      postRoute: "/news",
+      limit: 4,
+      returnLinkText: "All News",
+      components: {
+        headers: () => import("./blog/widget-headers.vue"),
+        featuredImage: () => import("./blog/widget-featured-image.vue"),
+        tags: () => import("./blog/widget-tags.vue"),
+        date: () => import("./blog/widget-date.vue"),
+        returnLink: () => import("./blog/widget-return-link.vue"),
+        excerpt: () => import("./blog/widget-excerpt.vue"),
+        pagination: () => import("./blog/widget-pagination.vue")
+      },
+      layout: {
+        index: ["date", "headers", "excerpt"],
+        single: ["returnLink", "headers", "featuredImage", "tags", "entry", "authorBio"],
+        meta: ["authorDate"]
+      }
+    },
+    contactForm: {
+      email: "contact@fiction.com",
+      submit: {
+        btn: "secondary",
+        text: "Submit"
+      },
+      inputFormat: "vertical",
+      confirm: {
+        title: "Got your message.",
+        subTitle: "We’ll get back to you as soon as possible at the email you provided."
+      },
+      layout: [
         {
-          date: "July 6, 2020",
-          title:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          text:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          fullContent:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          contentClass: "firstNews",
-          buttonText: "Read more...",
-          closeButtonText: "Close"
+          placeholder: "Your Name",
+          _id: "name",
+          inputType: "text",
+          required: true
         },
         {
-          date: "July 6, 2020",
-          title:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          text:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          fullContent:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          contentClass: "secondNews",
-          buttonText: "Read more...",
-          closeButtonText: "Close"
+          placeholder: "Your Email",
+          _id: "email",
+          inputType: "email",
+          required: true
         },
         {
-          date: "July 6, 2020",
-          title:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          text:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          fullContent:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          contentClass: "thirdNews",
-          buttonText: "Read more...",
-          closeButtonText: "Close"
-        },
-        {
-          date: "July 6, 2020",
-          title:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          text:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          fullContent:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          contentClass: "quarteNews",
-          buttonText: "Read more...",
-          closeButtonText: "Close"
-        },
-        {
-          date: "July 6, 2020",
-          title:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          text:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          fullContent:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          contentClass: "fifthNews",
-          buttonText: "Read more...",
-          closeButtonText: "Close"
-        },
-        {
-          date: "July 6, 2020",
-          title:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          text:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          fullContent:
-            "User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process. User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.User onboarding is perhaps the most important piece of the entire customer conversion process.",
-          contentClass: "sixthNews",
-          buttonText: "Read more...",
-          closeButtonText: "Close"
+          _id: "message",
+          inputType: "textarea",
+          required: true,
+          placeholder: "Your Message"
         }
       ]
     },
     contact: {
-      quote: "Contact",
+      pretitle: "Contact",
       title: "Reach out for a new project or just say hello",
       form: {
         title: "Send a message",
@@ -308,22 +262,26 @@ export default Factor => {
           email: "Your Email",
           text: "Your Message"
         },
-        buttonText: "Submit"
+        buttonText: "Submit",
+        confirmation: {
+          title: "Got it!",
+          content: "We’ll get back to you as soon as possible at the email you provided."
+        }
       },
       info: {
         title: "Contact Info",
-        contactInfo: [
+        items: [
           {
             title: "Address",
             text: "123 Main St. Mountain View, Ca 94043"
           },
           {
             title: "Email me",
-            text: "contact@factor.com"
+            text: "contact@fiction.com"
           },
           {
             title: "Call",
-            text: "(+1) 619-777-7777"
+            text: "(+1)619-777-7777"
           }
         ]
       }

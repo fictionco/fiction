@@ -1,7 +1,7 @@
 <template>
-  <div id="homeContainerID" class="home-container page-container">
+  <section id="homeContainerID" class="home-container page-container">
     <div class="splash-content">
-      <h5 class="pretitle">{{ $setting.get('home.pretitle') }}</h5>
+      <h2 class="pretitle">{{ $setting.get('home.pretitle') }}</h2>
       <h1 class="title">{{ $setting.get('home.title') }}</h1>
       <div class="actions">
         <app-link
@@ -16,7 +16,7 @@
         </app-link>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -25,13 +25,13 @@ export default {
     return {
       loading: true
     }
-  },
-  methods: {
-    homePaths(path) {
-      let ele = document.querySelector(path)
-      ele.scrollIntoView()
-    }
   }
+  // methods: {
+  //   homePaths(path) {
+  //     let action = document.querySelector(path)
+  //     action.scrollIntoView()
+  //   }
+  // }
 }
 </script>
 <style lang="less" scoped>
@@ -50,20 +50,37 @@ export default {
     max-width: 650px;
 
     .pretitle {
-      color: #9e9e9e;
-      font-size: 1.4em;
+      color: var(--color-text-gray);
+      font-size: 1.4rem;
+      @media (max-width: 900px) {
+        font-size: 1.2rem;
+      }
     }
     .title {
-      font-size: 3.2em;
+      font-size: 3.2rem;
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
       color: var(--color-text);
+      @media (max-width: 900px) {
+        font-size: 2.2rem;
+      }
     }
     .actions {
       margin-top: 2rem;
+
       .btn-link + .btn-link {
         margin-left: 1rem;
+      }
+
+      @media (max-width: 900px) {
+        .btn-link {
+          display: grid;
+        }
+        .btn-link + .btn-link {
+          margin-top: 1rem;
+          margin-left: 0;
+        }
       }
     }
   }
