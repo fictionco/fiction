@@ -6,7 +6,12 @@ module.exports.default = Factor => {
     }
 
     init() {
-      const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = Factor.$config.settings()
+      const {
+        SMTP_USERNAME,
+        SMTP_PASSWORD,
+        SMTP_HOST,
+        SMTP_PORT
+      } = Factor.$config.settings()
 
       if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
         require("./setup").default(Factor)
@@ -19,8 +24,8 @@ module.exports.default = Factor => {
 
       this.transporter = require("nodemailer").createTransport({
         host: SMTP_HOST,
-        port: 465,
-        secure: true, // true for 465, false for other ports
+        port: SMTP_PORT || 587,
+        secure: true, // true for 587, false for other ports
         auth: {
           user: SMTP_USERNAME,
           pass: SMTP_PASSWORD
