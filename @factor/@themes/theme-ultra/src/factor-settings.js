@@ -158,28 +158,28 @@ export default Factor => {
       clientsTitle: "Previous Clients",
       clients: [
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/twitter.svg"),
+          alt: "Twitter"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/dribbble.svg"),
+          alt: "Dribbble"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/behance.svg"),
+          alt: "Behance"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/carbon-tech-pro.svg"),
+          alt: "Carbon Tech Pro"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/amazon.svg"),
+          alt: "Amazon"
         },
         {
-          picture: require("./img/fiction.png"),
-          alt: "fiction"
+          picture: require("./img/wearable-world.svg"),
+          alt: "Wearable World"
         }
       ]
     },
