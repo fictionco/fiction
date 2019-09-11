@@ -25,7 +25,7 @@ module.exports.default = Factor => {
       this.transporter = require("nodemailer").createTransport({
         host: SMTP_HOST,
         port: SMTP_PORT || 587,
-        secure: true, // true for 587, false for other ports
+        secure: false, // true for 587, false for other ports
         auth: {
           user: SMTP_USERNAME,
           pass: SMTP_PASSWORD
