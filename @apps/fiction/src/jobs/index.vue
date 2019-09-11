@@ -123,7 +123,7 @@ export default {
     }
   },
   routeClass() {
-    return ["nav-light"]
+    return "nav-white"
   },
   serverPrefetch() {
     return this.getPosts()

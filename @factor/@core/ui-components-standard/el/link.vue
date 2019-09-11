@@ -30,7 +30,17 @@ export default {
 
     path = path.trim()
 
-    if (path.startsWith("http") || this.event) {
+    const schemes = [
+      "http:",
+      "https:",
+      "ftp:",
+      "mailto:",
+      "file:",
+      "data:",
+      "irc:"
+    ]
+
+    if (schemes.some(scheme => path.includes(scheme)) || this.event) {
       el = "a"
       attrs = { href: path }
       props = []

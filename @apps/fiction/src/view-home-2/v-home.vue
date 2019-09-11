@@ -271,33 +271,6 @@ export default {
 }
 </script>
 <style lang="less">
-.nav-white.top {
-  .site-head {
-    .logo-img .thelogotext {
-      fill: var(--color-light);
-    }
-    .site-head-pad .mob-nav-btn .toggle:after,
-    .site-head-pad .mob-nav-btn .toggle:before {
-      background-color: var(--color-light);
-    }
-
-    .mobile-logo .logo-img .thelogotext {
-      fill: var(--color-text);
-    }
-
-    .nav > a {
-      color: var(--color-light);
-
-      &:hover {
-        color: var(--color-primary);
-      }
-
-      @media (max-width: 900px) {
-        color: var(--color-text);
-      }
-    }
-  }
-}
 .view-home-version-2 {
   --color-bg-splash: #1b223c;
   --color-bg-splash-contrast: #233575;

@@ -4,19 +4,15 @@
       <div class="mast">
         <div class="intro-inner">
           <div>
-            <img
-              class="title"
-              :src="require(`./img/factor-vip-logo.svg`)"
-              alt="Factor VIP"
-            />
-            <div class="subtitle">
+            <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" >
+            <h1 class="subtitle">
               Premium digital experiences and web application development services powered
               by Factor.
-            </div>
+            </h1>
             <div class="actions">
               <a href="#contact">
                 <app-btn path="#contact" btn="primary" size="large">
-                  Start Your Web App
+                  Contact Sales
                   <i class="fa fa-arrow-down" />
                 </app-btn>
               </a>
@@ -24,7 +20,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./img/factor-vip.svg`)" alt="Factor VIP" />
+              <img :src="require(`./img/factor-vip.svg`)" alt="Factor VIP" >
             </figure>
           </div>
         </div>
@@ -82,22 +78,22 @@
       <div class="mast clients-inner">
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/elasticbyte.svg`)" alt="Elastic Byte" />
+            <img :src="require(`./img/elasticbyte.svg`)" alt="Elastic Byte" >
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/carbontechpro.svg`)" alt="Carbon Tech Pro" />
+            <img :src="require(`./img/carbontechpro.svg`)" alt="Carbon Tech Pro" >
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/pagelines.svg`)" alt="PageLines" />
+            <img :src="require(`./img/pagelines.svg`)" alt="PageLines" >
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/aqualuna.svg`)" alt="AquaLuna" />
+            <img :src="require(`./img/aqualuna.svg`)" alt="AquaLuna" >
           </div>
         </div>
       </div>
@@ -109,8 +105,7 @@
         <h3 class="title">Getting started is easy.</h3>
         <p class="subtitle">
           You can reach out via the form below, or send a message to
-          <app-link path="mailto:contact@fiction.com">contact@fiction.com</app-link
-          >&nbsp;— it’ll get to us either way.
+          <app-link path="mailto:vip@fiction.com">vip@fiction.com</app-link>&nbsp;— it’ll get to us either way.
         </p>
 
         <component :is="$setting.get('contactForm.form')" />
