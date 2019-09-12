@@ -122,6 +122,7 @@ figure.factor-figure {
     line-height: normal;
 
     pre {
+      overflow: auto;
       position: relative;
       white-space: pre;
       code {
