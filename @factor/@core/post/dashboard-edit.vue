@@ -10,8 +10,13 @@
 <script>
 export default {
   computed: {
-    post() {
-      return this.$store.val(this._id) || {}
+    post: {
+      get() {
+        return this.$store.val(this._id) || {}
+      },
+      set(v) {
+        this.$store.add(this._id, v)
+      }
     },
     _id() {
       return this.$route.query._id || ""
@@ -64,4 +69,3 @@ export default {
   }
 }
 </script>
- 
