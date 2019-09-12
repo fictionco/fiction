@@ -1,17 +1,27 @@
-node_modules
-*/node_modules
-**/node_modules
-@fiction
+# Factor
+**/dist
+**/.factor
 
+# Monorepo
+@demo
 server.crt
 server.key
 
-yarn-error*
-.DS_Store
+# Ignore Mac system files
+.DS_store
 
-@demo
-**/dist
-.DS_Store
-*secrets*
+# Ignore node_modules folder
+node_modules
 
+# Ignore all text files
+*.txt
+
+# Ignore files related to API keys
+.env
+**/**.env
+
+# Ignore SASS config files
+.sass-cache
+
+# Logs
 *.log
