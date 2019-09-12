@@ -74,6 +74,7 @@ figure.factor-figure {
   transform: translateX(-3rem);
 
   .screenshots {
+    min-height: 250px;
     .screenshot {
       max-width: 500px;
       z-index: 10;
@@ -112,6 +113,9 @@ figure.factor-figure {
     opacity: 0.4;
     display: flex;
     flex-direction: column;
+    @media (max-width: 900px) {
+      display: none;
+    }
   }
   .code-container {
     position: relative;

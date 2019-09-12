@@ -33,7 +33,7 @@ module.exports.default = Factor => {
         const routes = [
           {
             path: "/",
-            component: () => import("./view-home-2/v-home")
+            component: () => import("./home/v-home")
           },
           {
             path: "/factor-js",
