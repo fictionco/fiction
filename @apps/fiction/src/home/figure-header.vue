@@ -7,7 +7,7 @@
           <div class="icons">
             <div v-for="icon in icons" :key="icon.name" class="icon-wrap">
               <div class="icon">
-                <img :src="icon.img" >
+                <img :src="icon.img" :alt="`${icon.name} icon`" >
               </div>
               <div class="name">{{ icon.name }}</div>
             </div>

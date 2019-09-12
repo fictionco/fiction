@@ -18,8 +18,12 @@
             <span class="alt">for Front-End Professionals</span>
           </h1>
           <p class="text">
-            Powered by VueJS, MongoDB and Node, Factor is a platform that helps you professionally develop, manage,
-            and scale your app on the web.
+            Powered by VueJS, MongoDB and Node,
+            <factor-link path="/factor-js">Factor</factor-link>
+            <span>
+              is a platform that helps you professionally develop, manage,
+              and scale your app on the web.
+            </span>
           </p>
 
           <div class="header-actions">
@@ -471,7 +475,11 @@ export default {
       .text {
         font-size: 1.5em;
         line-height: 1.5;
-        opacity: 0.8;
+
+        color: rgba(255, 255, 255, 0.6);
+        a {
+          color: inherit;
+        }
       }
       .header-actions {
         font-size: 1.1em;
@@ -494,6 +502,7 @@ export default {
         .title {
           font-size: 2em;
           .alt {
+            color: var(--color-primary);
             display: block;
           }
         }
