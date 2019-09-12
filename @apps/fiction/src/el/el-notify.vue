@@ -3,14 +3,14 @@
     <div class="notify-toast toasty">
       <transition-group name="notification-top">
         <div v-for="e in notification" :key="e.time" class="toast">
-          <div class="tx">{{ e.message }}</div>
+          <div v-formatted-text="e.message" class="tx"/>
         </div>
       </transition-group>
     </div>
     <div class="error-toast toasty">
       <transition-group name="notification-bottom">
         <div v-for="e in errors" :key="e.time" class="toast">
-          <div class="tx">{{ e.message }}</div>
+          <div v-formatted-text="e.message" class="tx"/>
         </div>
       </transition-group>
     </div>
