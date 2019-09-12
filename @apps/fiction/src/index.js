@@ -33,8 +33,7 @@ module.exports.default = Factor => {
         const routes = [
           {
             path: "/",
-            component: () => import("./view-home/page-home"),
-            meta: { nav: true }
+            component: () => import("./view-home-2/v-home")
           },
           {
             path: "/factor-js",
@@ -55,11 +54,11 @@ module.exports.default = Factor => {
             path: "/chat",
             component: () => import("./page-chat"),
             meta: { background: "#f7f9ff", auth: true }
-          },
-          {
-            path: "/home",
-            component: () => import("./view-home-2/v-home")
           }
+          // {
+          //   path: "/home",
+          //   component: () => import("./view-home-2/v-home")
+          // }
 
           // {
           //   path: "/how-it-works",
