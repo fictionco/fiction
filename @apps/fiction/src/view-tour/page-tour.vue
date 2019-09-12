@@ -544,7 +544,7 @@ export default {
                 }
               }
               @media (max-width: 900px) {
-                font-size: 0.9em;
+                font-size: 1.4em;
               }
             }
           }
