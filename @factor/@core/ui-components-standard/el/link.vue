@@ -127,6 +127,7 @@ export default {
     pointer-events: none; // Future-proof disabling of clicks
   }
   &.btn-link {
+    color: inherit;
     display: inline-block;
     line-height: 1;
   }

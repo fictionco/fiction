@@ -6,7 +6,7 @@
           <div v-for="r in 16" :key="r" class="row" />
         </div>
       </div>
-      <div class="content-pad">
+      <div class="content-pad wide">
         <div class="header-text">
           <div class="header-tag">
             <home-icon class="feature-icon" icon="powered" />
@@ -23,19 +23,7 @@
             <factor-email-list list-id="alphaProgram" />
           </div>
         </div>
-        <div class="header-figure">
-          <figure class="screencast">
-            <video preload="true" :poster="poster" playsinline="true" autoplay muted />
-            <div class="play-button">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                <path
-                  d="M22.5 19.8v32.5c0 1.5 1.7 2.5 3 1.7l28.3-16.2c1.3-.8 1.3-2.7 0-3.5L25.5 18c-1.4-.7-3 .2-3 1.8z"
-                  fill="#fff"
-                />
-              </svg>
-            </div>
-          </figure>
-        </div>
+        <figure-header />
       </div>
     </section>
 
@@ -120,17 +108,19 @@
         </div>
       </div>
 
-      <div class="final-cta content">
+      <div class="alpha-program content">
         <div class="content-pad">
-          <div>
-            <h1>
-              <span class="title">Sign Up Free</span>
-              <span class="sub-title">Let's take your apps to the next level.</span>
-            </h1>
+          <div class="head">
+            <div class="glyph">&alpha;</div>
+            <h2 class="title">Join The Alpha Program</h2>
+            <h3 class="sub-title">Request an Invite or Contact Us</h3>
           </div>
-          <div class="buttons">
-            <app-link action="signinModal" btn="secondary">Create An Account</app-link>
-            <app-link path="/contact" btn="default">Contact Fiction</app-link>
+          <div class="text">
+            Fiction has a robust community of developers building the next big things for
+            the web. Join to get chat access, latest updates and support.
+          </div>
+          <div class="action">
+            <factor-email-list list-id="alphaProgram" />
           </div>
         </div>
       </div>
@@ -141,7 +131,8 @@
 <script>
 export default {
   components: {
-    "home-icon": () => import("./icon.vue")
+    "home-icon": () => import("./icon.vue"),
+    "figure-header": () => import("./figure-header.vue")
   },
   data() {
     return {
@@ -191,7 +182,7 @@ export default {
             enhanced SEO and brand capabilities and more. `,
           figure: () => import("./figure-pro.vue"),
           link: {
-            path: "/pro",
+            path: "/vip",
             text: "Learn More &rarr;"
           }
         },
@@ -277,7 +268,7 @@ export default {
   --gutter-columns: 4;
   --content-columns: 12;
   --row-height: 64px;
-  --content-column-width: minmax(0, calc(1040px / var(--content-columns)));
+  --content-column-width: minmax(0, calc(1200px / var(--content-columns)));
   --gutter-column-width: var(--content-column-width);
   .content-pad {
     max-width: 1100px;
@@ -412,12 +403,6 @@ export default {
             grid-column: ~"9 / 10";
             grid-row: ~"4 / 5";
           }
-          &:nth-child(14) {
-            background-color: var(--color-bg-splash-contrast);
-
-            grid-column: ~"2 / 3";
-            grid-row: ~"-1 / -2";
-          }
         }
       }
     }
@@ -439,7 +424,7 @@ export default {
       position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-gap: 4rem;
+      grid-column-gap: 4rem;
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
         .header-figure {
@@ -496,7 +481,7 @@ export default {
         // grid-template-columns: 1fr 200px;
         // grid-gap: 1.5em;
         .email-list-form {
-          font-size: 1.3em;
+          font-size: 1.2em;
           input {
             margin: 0;
 
@@ -507,10 +492,6 @@ export default {
     }
 
     .header-figure {
-      position: relative;
-      perspective: 1500px;
-      padding-top: 2em;
-
       figure.screencast {
         width: 800px;
         background: #fff;
@@ -728,7 +709,7 @@ export default {
           text-align: right;
           text-transform: uppercase;
           font-weight: 600;
-          color: var(--color-bg-splash);
+          color: var(--color-primary);
           z-index: 0;
           margin-right: -1em;
 
@@ -816,48 +797,50 @@ export default {
     }
   }
 
-  .final-cta {
+  .alpha-program {
+    text-align: center;
+    padding: 7rem 0 4em;
     .content-pad {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      align-items: center;
-      padding-top: 5em;
-      padding-bottom: 3em;
+      max-width: 750px;
+    }
+    .glyph {
+      color: var(--color-primary);
 
-      //position: relative;
-      //z-index: 100;
-      h1 {
-        font-size: 2em;
-        font-weight: 400;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      font-size: 3.5em;
+
+      border-radius: 50%;
+      margin: 1rem auto;
+    }
+    .title {
+      font-size: 3em;
+      line-height: 1.1;
+    }
+    .sub-title {
+      font-size: 2em;
+      opacity: 0.8;
+      font-weight: 400;
+      // color: var(--color-primary);
+    }
+    .text,
+    .action {
+      font-size: 1.3em;
+    }
+    .text {
+      margin: 2rem;
+      font-weight: 400;
+    }
+    .action {
+      font-weight: 600;
+    }
+    .email-list-form {
+      input {
+        background: #fff;
       }
-      .title {
-        margin: 0.75em 0;
-      }
-      .sub-title {
-        color: var(--color-secondary);
-        display: block;
-        font-size: 0.9em;
-      }
-      .buttons {
-        display: flex;
-        justify-content: flex-end;
-        .btn-link + .btn-link {
-          margin-left: 1rem;
-        }
-      }
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        .buttons {
-          margin-top: 2rem;
-          justify-content: flex-start;
-          display: grid;
-          grid-gap: 1rem;
-          grid-template-columns: repeat(auto-fill, 186px);
-          .btn-link + .btn-link {
-            margin-left: 0;
-          }
-        }
-      }
+      max-width: 500px;
+      margin: 0 auto;
     }
   }
 }
