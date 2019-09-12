@@ -254,8 +254,9 @@ export default {
   },
   metatags() {
     return {
-      title: "Professional Tools for Web Apps",
-      description: "Terminal Page Description.",
+      title: "A Platform and Tools for Front-End Developers",
+      description: `Fiction designs and devolops tools and services for front-end developers and remote workers. 
+        Including Factor Platform built with Vue, Mongo, and Node.`,
       image: require("../img/fiction.jpg")
     }
   }
