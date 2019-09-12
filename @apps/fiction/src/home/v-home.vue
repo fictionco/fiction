@@ -238,7 +238,7 @@ export default {
             "Advanced features, options and tools. Technical support from Fiction."
           ],
           link: {
-            path: "/pro",
+            path: "/vip",
             text: "Learn More &rarr;"
           }
         },
