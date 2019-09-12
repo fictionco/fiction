@@ -15,8 +15,8 @@
 
           <h1 class="title">Create the world's next great web app</h1>
           <p class="text">
-            One platform with everything you need to professionally start, build, manage,
-            and grow your business on the web.
+            One platform with everything you need to professionally develop, manage,
+            and scale your app on the web.
           </p>
 
           <div class="header-actions">
@@ -28,7 +28,7 @@
     </section>
 
     <div class="benefits content">
-      <div class="content-pad">
+      <div class="content-pad wide">
         <div v-for="(benefit, index) in benefits" :key="index" class="benefit">
           <home-icon v-if="benefit.icon" class="feature-icon" :icon="benefit.icon" />
 
@@ -154,7 +154,7 @@ export default {
         {
           icon: "pro-support",
           title: "Professional Support",
-          text: `Build your app along with with people that know design and can answer advanced coding questions. 
+          text: `Build your app witb people that know design and can answer advanced coding questions. 
               Fiction provides only top-tier support run by expert designers and application devs. `
         }
       ],
@@ -408,16 +408,13 @@ export default {
     }
     position: relative;
     z-index: 0;
-    padding: 8rem 0 6rem;
+    padding: 8rem 0 14rem;
 
     color: #fff;
     @media (max-width: 900px) {
-      padding: 115px 0 60px;
+      padding: 8rem 0 9rem;
     }
-    @media (min-width: 670px) {
-      padding-bottom: 10rem;
-      margin-bottom: 6vw;
-    }
+
     .content-pad {
       // opacity: 0.1;
       z-index: 1;
@@ -461,7 +458,7 @@ export default {
         }
       }
       .title {
-        font-size: 3em;
+        font-size: 3.7em;
         line-height: 1.2;
         font-weight: 400;
         margin: 0 0 0.5em;
@@ -471,8 +468,7 @@ export default {
       .text {
         font-size: 1.5em;
         line-height: 1.5;
-        opacity: 0.7;
-        mix-blend-mode: overlay;
+        opacity: 0.8;
       }
       .header-actions {
         font-size: 1.1em;
@@ -546,29 +542,43 @@ export default {
   // BENEFITS
 
   .benefits {
+    margin: -7rem 1rem 0;
+    background: url("./img/dot.svg");
     .content-pad {
+      z-index: 100;
+      position: relative;
+      border-radius: 7px;
+      box-shadow: var(--box-shadow-panel);
+      background: #fff;
+      padding: 2rem 2.5rem;
       display: grid;
-      grid-template-rows: repeat(3, auto);
-      grid-gap: 2em 0;
-      @media (min-width: 900px) {
-        grid-gap: 0 2em;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(1, 1fr);
-      }
+      grid-gap: 0 2em;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(1, 1fr);
 
       .benefit {
         max-width: 500px;
+        font-size: 1.1em;
         .feature-icon svg {
           width: 3rem;
           margin-bottom: 0.75rem;
         }
         .title {
-          font-size: 1.3em;
+          font-size: 1.1em;
         }
         .text {
+          font-weight: 400;
           opacity: 0.7;
           margin: 1rem 0;
         }
+      }
+    }
+    @media (max-width: 900px) {
+      .content-pad {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, auto);
+        grid-gap: 2em 0;
+        padding: 1rem;
       }
     }
   }
