@@ -74,7 +74,6 @@ figure.factor-figure {
   transform: translateX(-3rem);
 
   .screenshots {
-    min-height: 250px;
     .screenshot {
       max-width: 500px;
       z-index: 10;
@@ -97,6 +96,9 @@ figure.factor-figure {
         transform: translateZ(10px) scale(0.9) rotateY(5deg)
           translate(8rem, 2rem);
       }
+    }
+    @media (max-width: 900px) {
+      min-height: 250px;
     }
   }
 
