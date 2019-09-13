@@ -27,11 +27,11 @@ export default {
 <style lang="less">
 .entry-tags {
   line-height: 1;
-  padding: 1em 2em 0;
+  //padding: 1em 2em 0;
 
   a {
-    color: var(--color-primary, #1a49bd);
-    background: var(--color-placeholder-2, #eeeef1);
+    color: var(--color-primary);
+    background: var(--color-placeholder-2);
     display: inline-block;
     opacity: 0.7;
     font-size: 0.85em;
@@ -41,9 +41,9 @@ export default {
     text-decoration: none;
     border-radius: 3px;
     &:hover {
-      color: var(--color-primary, #1a49bd);
+      color: var(--color-white);
       opacity: 1;
-      background: var(--color-tertiary, #9afecb);
+      background: var(--color-primary-dark);
     }
     &:not(:nth-child(1)) {
       margin-left: 3px;

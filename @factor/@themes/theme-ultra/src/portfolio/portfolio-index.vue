@@ -1,23 +1,25 @@
 <template>
-  <div class="portfolio-page">
+  <div class="posts-wrap">
     <div v-if="loading" class="loading-entries">
       <factor-loading-ring />
     </div>
-    <section class="portfolio-posts">
-      <div class="mast">
-        <div if="portfolioPosts.length > 0" class="posts-index">
-          <div v-for="post in portfolioPosts" :key="post._id" class="post">
-            <component
-              :is="$setting.get(`portfolio.components.${comp}`)"
-              v-for="(comp, i) in $setting.get('portfolio.layout.index')"
-              :key="i"
-              :post-id="post._id"
-              format="index"
-            />
-          </div>
-        </div>
+    <div v-else-if="portfolioPosts.length > 0" class="portfolio-posts">
+      <section v-for="post in portfolioPosts" :key="post._id" class="post">
+        <component
+          :is="$setting.get(`portfolio.components.${comp}`)"
+          v-for="(comp, i) in $setting.get('portfolio.layout.index')"
+          :key="i"
+          :post-id="post._id"
+          format="index"
+        />
+      </section>
+    </div>
+    <div v-else class="posts-not-found">
+      <div class="text">
+        <div class="title">{{ $setting.get("portfolio.notFound.title") }}</div>
+        <div class="sub-title">{{ $setting.get("portfolio.notFound.subTitle") }}</div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 <script>
@@ -91,11 +93,13 @@ export default {
 </script>
 
 <style lang="less">
-.page-portfolio {
+.posts-wrap {
   .loading-entries {
     height: 50vh;
     padding: 5em;
   }
+}
+.page-portfolio {
   .portfolio-posts {
     padding: 6em 2em;
     line-height: 1.2;

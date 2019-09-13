@@ -22,14 +22,14 @@ export default {
 }
 </script>
 <style lang="less">
-.return-link {
-  margin-bottom: 2rem;
-  .back {
-    color: var(--color-primary);
-    font-weight: var(--font-weight-bold);
-    &:hover {
-      color: var(--color-primary);
-    }
-  }
-}
+// .return-link {
+//   margin: 0;
+//   .back {
+//     color: var(--color-primary);
+//     font-weight: var(--font-weight-bold);
+//     &:hover {
+//       color: var(--color-primary-dark);
+//     }
+//   }
+// }
 </style>
