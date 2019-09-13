@@ -10,7 +10,10 @@
           :class="primary.title ? 'has-title' : ''"
         >
           <div v-if="primary.title" class="group-title">{{ primary.title }}</div>
-          <div class="nav-group">
+          <div class="nav-group" :class="activeGroup == primary.group ? 'active': ''">
+            <div class="primary-item-icon">
+              <img class :src="primary.icon || defaultIcon" :alt="`${primary.name} Icon`" >
+            </div>
             <factor-link
               class="primary-item"
               :class="primary.class"
@@ -19,11 +22,6 @@
               :action="primary.action"
               :data-test="`app-nav-${$utils.slugify(primary.name)}` "
             >
-              <img
-                class="primary-item-icon"
-                :src="primary.icon || defaultIcon"
-                :alt="`${primary.name} Icon`"
-              >
               <span v-formatted-text="primary.name" />
             </factor-link>
 
@@ -144,6 +142,7 @@ export default {
 </script>
 <style lang="less">
 .app-nav-pad .nav-list {
+  font-size: 0.95em;
   .nav-scope {
     margin-bottom: 0.75em;
     padding-bottom: 0.75em;
@@ -159,18 +158,35 @@ export default {
     }
   }
   .nav-group {
+    display: grid;
+    grid-template-columns: 25px 1fr;
+    grid-template-areas:
+      "icon primary"
+      ".    sub";
     margin-bottom: 0.3em;
     position: relative;
     .primary-item-icon {
-      position: absolute;
-      left: 6px;
-      top: 6px;
-      opacity: 0.8;
-      width: 16px;
-      @media (max-width: 960px) {
-        width: 22px;
-        top: 10px;
+      grid-area: icon;
+      align-self: center;
+      img {
+        width: 16px;
+        display: block;
       }
+      // position: absolute;
+      // left: 6px;
+      // top: 6px;
+      // opacity: 0.8;
+
+      // @media (max-width: 960px) {
+      //   width: 22px;
+      //   top: 10px;
+      // }
+    }
+    .primary-item {
+      grid-area: primary;
+    }
+    .sub-menu {
+      grid-area: sub;
     }
   }
   .nav-set.has-title {
@@ -181,12 +197,9 @@ export default {
     opacity: 0.2;
   }
   a {
-    margin-left: 1.5em;
-    padding: 0.3em;
-
+    padding: 0.25em;
     font-weight: 500;
     color: inherit;
-    opacity: 0.7;
     display: block;
     transition: opacity 0.2s, color 0.2s;
     @media (max-width: 960px) {

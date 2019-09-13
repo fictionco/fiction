@@ -133,7 +133,7 @@ export default {
 }
 .app-layout {
   min-height: 100vh;
-  max-width: 1300px;
+  max-width: 1100px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 200px 1fr;
@@ -187,6 +187,5 @@ export default {
     @media (max-width: 767px) {
     }
   }
- 
 }
 </style>
