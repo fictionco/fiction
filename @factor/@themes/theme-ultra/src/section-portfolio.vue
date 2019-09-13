@@ -1,16 +1,11 @@
 <template>
-  <section id="portfolio" class="portfolio-container page-container">
+  <section id="portfolio" class="page-container portfolio-container">
     <div class="header">
       <h2 class="pretitle">{{ $setting.get('portfolio.pretitle') }}</h2>
       <h1 class="title">{{ $setting.get('portfolio.title') }}</h1>
     </div>
-    <div class="portfolio-content">
+    <div class="content">
       <portfolio-index />
-      <!-- <div class="portfolio-gallery-container">
-        <div v-for="(ele, i) in $setting.get('portfolio.pictures')" :key="i" class="item">
-          <img :class="ele.pictureClass" :src="ele.picture" :alt="ele.alt" >
-        </div>
-      </div>-->
 
       <div class="clients-wrap">
         <h2 class="clients-title">{{ $setting.get('portfolio.clientsTitle') }}</h2>
@@ -35,9 +30,14 @@ export default {
 <style lang="less">
 .portfolio-container {
   padding: 0;
+
   .header {
-    background: var(--color-text-dark);
+    background: var(--color-text);
     padding: 4em 4em 8em;
+
+    @media (max-width: 900px) {
+      padding: 3em 2em 5em;
+    }
 
     .pretitle {
       color: var(--color-text-gray);
@@ -52,7 +52,7 @@ export default {
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      color: var(--color-text);
+      color: var(--color-text-light);
       margin-bottom: 1rem;
       text-align: center;
       @media (max-width: 900px) {
@@ -60,10 +60,24 @@ export default {
       }
     }
   }
-  .portfolio-content {
-    background: var(--color-text);
+
+  .content {
+    background: var(--color-white);
     padding: 0 4em 4em;
-    margin-top: -2em;
+    @media (max-width: 900px) {
+      padding: 0 2em 3em;
+    }
+
+    .posts-wrap {
+      margin-top: -4em;
+      .portfolio-posts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        @media (max-width: 900px) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
   }
 
   .clients-wrap {
@@ -74,7 +88,7 @@ export default {
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      color: var(--color-text-dark);
+      color: var(--color-text);
       margin-bottom: 2rem;
       text-align: center;
       @media (max-width: 900px) {
@@ -84,10 +98,7 @@ export default {
     .clients {
       display: grid;
       grid-gap: 3em;
-      grid-template-columns: minmax(100px, 1fr) minmax(100px, 1fr) minmax(
-          100px,
-          1fr
-        );
+      grid-template-columns: 1fr 1fr 1fr 1fr;
       align-items: center;
 
       @media (max-width: 900px) {

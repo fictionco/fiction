@@ -1,11 +1,10 @@
 <template>
-  <section id="contact" class="contact-container page-container">
+  <section id="contact" class="page-container contact-container">
     <h2 class="pretitle">{{ $setting.get('contact.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('contact.title') }}</h1>
     <div class="form-wrap">
       <div>
         <h2 class="heading">{{ $setting.get('contact.form.title') }}</h2>
-
         <component :is="$setting.get('contactForm.form')" />
       </div>
       <div>
@@ -41,7 +40,7 @@ export default {
   .title {
     max-width: 800px;
     text-align: center;
-    color: var(--color-text);
+    color: var(--color-text-light);
   }
 
   .pretitle {
@@ -67,6 +66,7 @@ export default {
     margin-bottom: 2rem;
     border-radius: var(--border-radius);
     overflow: hidden;
+    color: var(--color-text-light);
     background: var(--color-primary-dark);
 
     @media (max-width: 900px) {

@@ -32,6 +32,10 @@ export default {}
   padding: 4em 8em;
   align-items: center;
 
+  @media (max-width: 900px) {
+    padding: 3em 2em;
+  }
+
   .content-photo {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -60,14 +64,12 @@ export default {}
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      color: var(--color-text-dark);
       margin-bottom: 1rem;
       @media (max-width: 900px) {
         font-size: 2.2rem;
       }
     }
     .text {
-      color: var(--color-text-dark);
       font-size: 1.2rem;
     }
     .photo-wrap {
@@ -131,7 +133,6 @@ export default {}
     .item-number {
       font-size: 4em;
       font-weight: var(--font-weight-bold);
-      color: var(--color-text-dark);
     }
     .item-text {
       color: var(--color-primary);

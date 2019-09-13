@@ -39,11 +39,11 @@ module.exports.default = Factor => {
         _.push({
           postType: "portfolio",
           portfolioBaseRoute,
-          icon: require("./img/work.svg"),
+          icon: require("./img/portfolio.svg"),
           model: "portfolioPost",
           nameIndex: "Portfolio",
           nameSingle: "Portfolio Post",
-          namePlural: "Portfolio Posts"
+          namePlural: "Portfolio"
         })
 
         return _
@@ -65,8 +65,7 @@ module.exports.default = Factor => {
         const routes = [
           {
             path: "/",
-            component: () => import("./page-home"),
-            meta: { nav: true }
+            component: () => import("./page-home")
           },
           {
             path: Factor.$setting.get("portfolio.indexRoute"),
