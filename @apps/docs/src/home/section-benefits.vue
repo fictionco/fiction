@@ -40,12 +40,12 @@
 
     <div class="interstitial-cta">
       <div class="text">
-        <h2 class="title">Ready to build world's next amazing web app?</h2>
-        <h2 class="title-sub">Factor is here to help.</h2>
+        <h2 class="title">Built for Perfectionists</h2>
+        <h2 class="title-sub">Get Started with Factor</h2>
       </div>
 
       <div class="buttons">
-        <app-link btn="primary" size="large">View Quickstart &rarr;</app-link>
+        <factor-link btn="primary" size="large">View Quickstart &rarr;</factor-link>
       </div>
     </div>
   </div>

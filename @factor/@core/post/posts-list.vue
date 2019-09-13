@@ -3,14 +3,14 @@
     <slot slot="title" name="title" />
 
     <template slot="nav">
-      <dashboard-link
+      <factor-link
         :path="`/dashboard/posts/${postType}/add-new`"
         btn="primary"
         data-test="add-post"
       >
         Add New
         <factor-icon icon="arrow-right" />
-      </dashboard-link>
+      </factor-link>
     </template>
     <dashboard-grid-controls>
       <dashboard-grid-actions
@@ -32,12 +32,12 @@
       </template>
       <template #title="{row}">
         <div class="post-title">
-          <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</dashboard-link>
-          <dashboard-link
+          <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</factor-link>
+          <factor-link
             v-if="row.permalink"
             class="permalink"
             :path="postlink(row.postType, row.permalink, false)"
-          >{{ postlink(row.postType, row.permalink, false) }}</dashboard-link>
+          >{{ postlink(row.postType, row.permalink, false) }}</factor-link>
         </div>
       </template>
 

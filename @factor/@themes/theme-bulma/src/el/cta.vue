@@ -10,14 +10,14 @@
             <p>{{ $setting.get('site.cta.subheadline') }}</p>
           </div>
           <div class="column level-item">
-            <app-link
+            <factor-link
               class="button is-primary is-outlined is-rounded is-medium has-text-white"
               :path="$setting.get('site.cta.path')"
               target="_blank"
             >
               {{ $setting.get('site.cta.text') }}
               <factor-icon icon="arrow-right" class="ml-2" />
-            </app-link>
+            </factor-link>
           </div>
         </div>
       </div>

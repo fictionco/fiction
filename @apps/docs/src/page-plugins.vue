@@ -6,10 +6,10 @@
           <h1 class="title">Factor Plugins</h1>
           <p class="subtitle">Extend your project features and do more with Factor.</p>
           <!-- <div class="actions">
-            <app-link path="/docs" btn="primary" size="large">
+            <factor-link path="/docs" btn="primary" size="large">
               How to Install
               <factor-icon icon="arrow-right" />
-            </app-link>
+            </factor-link>
           </div>-->
         </div>
       </div>
@@ -22,28 +22,28 @@
           <h3 class="title">Categories</h3>
           <ul class="list-categories">
             <li>
-              <app-link path="/plugins">All</app-link>
+              <factor-link path="/plugins">All</factor-link>
             </li>
             <li>
-              <app-link path="/plugins/monitoring">Monitoring</app-link>
+              <factor-link path="/plugins/monitoring">Monitoring</factor-link>
             </li>
             <li>
-              <app-link path="/plugins/payment">Payment</app-link>
+              <factor-link path="/plugins/payment">Payment</factor-link>
             </li>
             <li>
-              <app-link path="/plugins/emailing">Emailing</app-link>
+              <factor-link path="/plugins/emailing">Emailing</factor-link>
             </li>
             <li>
-              <app-link path="/plugins/search">Search</app-link>
+              <factor-link path="/plugins/search">Search</factor-link>
             </li>
             <li>
-              <app-link path="/plugins/admin">Admin</app-link>
+              <factor-link path="/plugins/admin">Admin</factor-link>
             </li>
             <li>
-              <app-link path="/plugins/security">Security</app-link>
+              <factor-link path="/plugins/security">Security</factor-link>
             </li>
             <li>
-              <app-link path="/plugins/maps">Maps</app-link>
+              <factor-link path="/plugins/maps">Maps</factor-link>
             </li>
           </ul>
         </div>

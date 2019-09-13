@@ -7,7 +7,7 @@
         <div class="subtitle">{{ $setting.get("home.subheadline") }}</div>
 
         <div class="actions">
-          <app-link
+          <factor-link
             v-for="(action, i) in $setting.get('home.actions')"
             :key="i"
             :path="action.path"
@@ -16,7 +16,7 @@
           >
             {{ action.text }}
             <factor-icon icon="arrow-right" />
-          </app-link>
+          </factor-link>
         </div>
       </div>
     </section>

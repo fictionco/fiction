@@ -9,11 +9,11 @@
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <app-link class="back" :path="$setting.get('work.indexRoute')">
+            <factor-link class="back" :path="$setting.get('work.indexRoute')">
               <factor-icon icon="arrow-left" />All
-            </app-link>
+            </factor-link>
             <h1 class="heading">
-              <app-link :path="path">{{ title }}</app-link>
+              <factor-link :path="path">{{ title }}</factor-link>
             </h1>
           </div>
         </div>

@@ -1,10 +1,10 @@
 <template>
   <div class="job-entry-cta">
-    <a v-bind:href="'mailto:' + post.jobApplyEmail">
-      <app-btn btn="primary" size="large">
+    <a :href="`mailto:${post.jobApplyEmail}` ">
+      <factor-btn btn="primary" size="large">
         Apply Now
         <factor-icon icon="arrow-right" />
-      </app-btn>
+      </factor-btn>
     </a>
   </div>
 </template>
@@ -15,10 +15,10 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {};
+      return this.$store.val(this.postId) || {}
     }
   }
-};
+}
 </script>
 <style lang="less">
 .job-entry-cta {

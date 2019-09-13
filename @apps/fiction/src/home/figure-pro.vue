@@ -43,7 +43,7 @@ export default {
           icon: "support",
           text: `Enhanced Support`
         },
-        
+
         {
           icon: "tools",
           text: `Client Tools`
@@ -164,7 +164,7 @@ figure.pro-figure {
     .stage {
       perspective: 0;
       .grid {
-        transform: scale(0.8) rotateY(0deg) rotateX(15deg) translateX(-13em);
+        transform: scale(0.8);
         // transform: rotateY(0deg) rotateX(2deg) translateX(-4em);
         .cell {
           padding: 0.5rem 1rem 0.5rem;

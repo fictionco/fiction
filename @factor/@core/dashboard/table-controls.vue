@@ -8,7 +8,7 @@
         format="simple"
         :list="actions"
       />
-      <dashboard-btn :disabled="!action" :loading="loading" @click="send($event)">Apply</dashboard-btn>
+      <factor-btn-dashboard :disabled="!action" :loading="loading" @click="send($event)">Apply</factor-btn-dashboard>
     </div>
     <table-tabber :tabs="tabs" v-bind="$attrs" />
   </div>

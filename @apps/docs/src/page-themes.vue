@@ -6,10 +6,10 @@
           <h1 class="title">Factor Themes</h1>
           <p class="subtitle">Built for perfectionists with deadlines.</p>
           <div class="actions">
-            <app-link path="/docs" btn="primary" size="large">
+            <factor-link path="/docs" btn="primary" size="large">
               How to Install
               <factor-icon icon="arrow-right" />
-            </app-link>
+            </factor-link>
           </div>
         </div>
       </div>
@@ -30,38 +30,38 @@
         <div class="items-wrap">
           <div v-for="(item, i) in extensions.themes" :key="i" class="item">
             <div class="item-top">
-              <app-link :path="item.demo">
+              <factor-link :path="item.demo">
                 <img :src="item.screenshot" :alt="item.name" >
-              </app-link>
+              </factor-link>
             </div>
             <div class="item-bottom">
               <div>
                 <h3 class="title">
-                  <app-link :path="item.url">{{ item.name }}</app-link>
+                  <factor-link :path="item.url">{{ item.name }}</factor-link>
                 </h3>
                 <span class="category">
-                  <app-link
+                  <factor-link
                     :path="`/extensions/category/${item.category}`"
-                  >{{ $utils.toLabel(item.category) }}</app-link>
+                  >{{ $utils.toLabel(item.category) }}</factor-link>
                 </span>
               </div>
               <div>
                 <div class="downloads">
-                  <app-link btn="default" size="small" :path="item.demo">
+                  <factor-link btn="default" size="small" :path="item.demo">
                     <i class="fa fa-arrow-right" /> Demo
-                  </app-link>
-                  <app-link btn="primary" size="small" @click="showModal(item)">
+                  </factor-link>
+                  <factor-link btn="primary" size="small" @click="showModal(item)">
                     <i class="fa fa-arrow-down" /> Install
-                  </app-link>
-                  <app-link btn="default" size="small" :path="item.github">
+                  </factor-link>
+                  <factor-link btn="default" size="small" :path="item.github">
                     <factor-icon icon="github" />
-                  </app-link>
+                  </factor-link>
                 </div>
                 <div class="author">
-                  <app-link btn="subtle" size="small" :path="item.author.url">
+                  <factor-link btn="subtle" size="small" :path="item.author.url">
                     <factor-icon :icon="item.author.icon" />
                     {{ item.author.name }}
-                  </app-link>
+                  </factor-link>
                 </div>
               </div>
             </div>

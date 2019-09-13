@@ -4,9 +4,9 @@
     <div class="mast clients-inner">
       <div v-for="(client, i) in $setting.get('site.clients')" :key="i" class="clients">
         <div v-if="client.path" class="client-image">
-          <app-link :path="client.path" target="_blank">
+          <factor-link :path="client.path" target="_blank">
             <img :src="client.icon" :alt="client.text" />
-          </app-link>
+          </factor-link>
         </div>
         <div v-else class="client-image">
           <img :src="client.icon" :alt="client.text" />

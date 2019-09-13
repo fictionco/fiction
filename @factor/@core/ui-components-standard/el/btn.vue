@@ -1,145 +1,85 @@
 <template>
-  <button v-if="scope" :class="buttonClass" :type="type" v-on="$listeners">
-    <span class="wrap-items">
-      <span class="btn-content">
-        <img v-if="image" :src="image" >
-        <slot />
-        <span v-if="text" v-formatted-text="text" class="txt" />
-      </span>
-      <transition v-if="loading" name="fade">
-        <div v-if="loading" class="waitload">
-          <factor-loading-ring :class="circleClass" width="1.2em" />
-        </div>
-      </transition>
-    </span>
-  </button>
+  <btn-base class="app-btn" v-bind="$attrs" v-on="$listeners">
+    <slot />
+  </btn-base>
 </template>
-
 <script>
 export default {
-  props: {
-    image: { type: String, default: "" },
-    text: { type: String, default: "" },
-    type: { type: String, default: "button" },
-    loading: { type: Boolean, default: false },
-    circle: { type: String, default: "" },
-    btn: { type: String, default: "" },
-    disabled: { type: Boolean, default: false },
-    size: { type: String, default: "" }
-  },
-  data() {
-    return {
-      backupCircleClass: "lightcolor"
-    }
-  },
-  computed: {
-    scope() {
-      return this.btn == "test" && !this.$testing.isTest ? false : true
-    },
-    buttonClass() {
-      const btnClass = ["factor-btn", "factor-btn-load"]
-
-      if (this.loading) {
-        btnClass.push("loading")
-      }
-
-      if (this.image) {
-        btnClass.push("with-img")
-      }
-
-      if (this.disabled) {
-        btnClass.push("disabled")
-      }
-
-      if (this.btn) {
-        btnClass.push(this.btn)
-      } else {
-        btnClass.push("default")
-      }
-
-      if (this.size) {
-        btnClass.push(this.size)
-      }
-
-      return btnClass
-    },
-    circleClass() {
-      if (this.circle) {
-        return this.circle
-      }
-
-      let out = "lightcolor"
-      const dark = ["google", "default", "subtle"]
-
-      dark.forEach(_ => {
-        if (
-          (this.$el && this.$el.classList.contains(_)) ||
-          this.buttonClass.includes(_)
-        ) {
-          out = "darkcolor"
-        }
-      })
-
-      return out
-    }
+  components: {
+    "btn-base": () => import("./btn-base")
   }
 }
 </script>
 
 <style lang="less">
-.factor-btn-load {
-  transition: 0.2s all;
-  position: relative;
-  overflow: hidden;
-  .wrap-items {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+button.app-btn {
+  --shadow-btn: 0 2px 10px rgba(71, 86, 144, 0.2);
+  --shadow-btn-hover: 0 4px 10px rgba(71, 86, 144, 0.2);
+  padding: 0.6em 1.2em;
+  font-size: 0.9em;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 4px;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  transition: all 0.2s ease-in-out;
+  &:focus {
+    outline: none;
   }
-  &.with-img .btn-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    img {
-      display: block;
-      width: 1em;
-      left: 1em;
-      margin-right: 1em;
+  &:active {
+    opacity: 0.8;
+    transition: 0s all;
+  }
+
+  &.tiny {
+    font-size: 11px;
+    padding: 2px 4px;
+    font-weight: 500;
+  }
+  &.small {
+    font-size: 0.75em;
+    padding: 0.35em 0.5em;
+  }
+  &.large {
+    font-size: 1.2em;
+    padding: 0.8em 1.4em 0.9em;
+  }
+
+  &.subtle {
+    box-shadow: none;
+    opacity: 0.6;
+  }
+
+  &.default {
+    background: #fff;
+    box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3), var(--shadow-btn);
+  }
+
+  &.primary,
+  &.secondary {
+    box-shadow: var(--shadow-btn);
+
+    &:hover {
+      box-shadow: var(--shadow-btn-hover);
     }
   }
 
-  .btn-content {
-    transition: opacity 0.2s;
-  }
-  &.loading {
-    .btn-content {
-      opacity: 0;
+  &.primary {
+    color: var(--color-primary-text, #fff);
+    background: var(--color-primary);
+
+    .ring-path {
+      stroke: var(--color-primary-text, #fff);
     }
   }
-  .waitload {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+
+  &.secondary {
+    color: var(--color-secondary-text, #fff);
+    background: var(--color-secondary);
+
+    .ring-path {
+      stroke: var(--color-secondary-text, #fff);
+    }
   }
 }
-.factor-btn {
-  background: transparent;
-  color: inherit;
-  display: inline-block;
-  margin-bottom: 0; // For input.btn
-  text-align: center;
-  vertical-align: middle;
-  touch-action: manipulation;
-  cursor: pointer;
-  white-space: nowrap;
-  text-decoration: none;
-  user-select: none;
-  line-height: 1;
-  font-size: 0.9em;
-  &.disabled {
-    cursor: not-allowed;
-    pointer-events: none; // Future-proof disabling of clicks
-    opacity: 0.6;
-  }
-}
-</style>
+</style>x

@@ -11,10 +11,10 @@
             </h1>
             <div class="actions">
               <a href="#contact">
-                <app-btn path="#contact" btn="primary" size="large">
+                <factor-btn path="#contact" btn="primary" size="large">
                   Contact Sales
                   <i class="fa fa-arrow-down" />
-                </app-btn>
+                </factor-btn>
               </a>
             </div>
           </div>
@@ -105,7 +105,7 @@
         <h3 class="title">Getting started is easy.</h3>
         <p class="subtitle">
           You can reach out via the form below, or send a message to
-          <app-link path="mailto:vip@fiction.com">vip@fiction.com</app-link>&nbsp;— it’ll get to us either way.
+          <factor-link path="mailto:vip@fiction.com">vip@fiction.com</factor-link>&nbsp;— it’ll get to us either way.
         </p>
 
         <component :is="$setting.get('contactForm.form')" />

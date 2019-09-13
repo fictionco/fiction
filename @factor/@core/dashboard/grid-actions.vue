@@ -7,7 +7,7 @@
       format="simple"
       :list="filteredActions"
     />
-    <dashboard-btn :disabled="!action" :loading="loading" @click="send($event)">Apply</dashboard-btn>
+    <factor-btn-dashboard :disabled="!action" :loading="loading" @click="send($event)">Apply</factor-btn-dashboard>
   </div>
 </template>
 

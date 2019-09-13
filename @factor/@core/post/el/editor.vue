@@ -1,18 +1,18 @@
 <template>
   <div class="editor-input">
     <div class="toolbar">
-      <dashboard-btn size="small" @click="insert('image')">
+      <factor-btn-dashboard size="small" @click="insert('image')">
         <factor-icon icon="image" />
-      </dashboard-btn>
-      <dashboard-btn size="small" @click="insert('link')">
+      </factor-btn-dashboard>
+      <factor-btn-dashboard size="small" @click="insert('link')">
         <factor-icon icon="link" />
-      </dashboard-btn>
-      <dashboard-btn size="small" @click="insert('bold')">
+      </factor-btn-dashboard>
+      <factor-btn-dashboard size="small" @click="insert('bold')">
         <factor-icon icon="bold" />
-      </dashboard-btn>
-      <dashboard-btn size="small" @click="insert('italic')">
+      </factor-btn-dashboard>
+      <factor-btn-dashboard size="small" @click="insert('italic')">
         <factor-icon icon="italic" />
-      </dashboard-btn>
+      </factor-btn-dashboard>
     </div>
     <pre id="editor" ref="editor" class="editor" @keyup="$emit('keyup')" />
   </div>

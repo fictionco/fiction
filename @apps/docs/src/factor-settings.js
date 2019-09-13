@@ -4,7 +4,8 @@ module.exports.default = Factor => {
       alphaProgram: {
         emails: {
           confirm: {
-            successMessage: "Your email is confirmed. Check your email for next steps.",
+            successMessage:
+              "Your email is confirmed. Please your email for next steps (no email? check spam).",
             subject: "Factor Alpha Program: Email confirmation",
             text: `We're glad you've requested access to the Alpha program. Just one more step, please confirm your email.`
           },
@@ -240,12 +241,12 @@ module.exports.default = Factor => {
         {
           btn: "primary",
           path: "/guide/quickstart",
-          text: "Start Now"
+          text: "Start Now &rarr;"
         },
         {
-          btn: "tertiary",
+          btn: "default",
           path: "/guide",
-          text: "Read the Docs"
+          text: "Read the Docs &rarr;"
         }
       ]
     }

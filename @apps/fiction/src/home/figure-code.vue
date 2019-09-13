@@ -97,6 +97,9 @@ figure.factor-figure {
           translate(8rem, 2rem);
       }
     }
+    @media (max-width: 900px) {
+      min-height: 250px;
+    }
   }
 
   .card {
@@ -112,6 +115,9 @@ figure.factor-figure {
     opacity: 0.4;
     display: flex;
     flex-direction: column;
+    @media (max-width: 900px) {
+      display: none;
+    }
   }
   .code-container {
     position: relative;

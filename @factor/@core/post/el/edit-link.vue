@@ -3,7 +3,7 @@
     v-if="postId && canEdit"
     btn="default"
     size="tiny"
-    btn-element="app-btn"
+    btn-element="factor-btn"
     class="edit"
     :path="`/dashboard/posts/${post.postType}/edit`"
     :query="{_id: post._id}"
