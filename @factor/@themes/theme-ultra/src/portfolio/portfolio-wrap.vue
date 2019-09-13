@@ -4,10 +4,10 @@
     <div class="cta">
       <div class="cta-inner">
         <h2>{{ $setting.get('portfolio.cta.headline') }}</h2>
-        <app-link btn="default" size="large" :path="$setting.get('portfolio.cta.path')">
+        <factor-link btn="default" size="large" :path="$setting.get('portfolio.cta.path')">
           {{ $setting.get('portfolio.cta.text') }}
           <factor-icon icon="arrow-right" />
-        </app-link>
+        </factor-link>
       </div>
     </div>
   </div>

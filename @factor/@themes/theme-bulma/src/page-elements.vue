@@ -2193,19 +2193,19 @@
 
               <nav class="navbar">
                 <div class="navbar-brand">
-                  <app-link class="navbar-item" path="#">
+                  <factor-link class="navbar-item" path="#">
                     <site-brand />
-                  </app-link>
-                  <app-link class="navbar-item is-hidden-desktop" path="#" target="_blank">
+                  </factor-link>
+                  <factor-link class="navbar-item is-hidden-desktop" path="#" target="_blank">
                     <span class="icon">
                       <factor-icon icon="github" />
                     </span>
-                  </app-link>
-                  <app-link class="navbar-item is-hidden-desktop" path="#" target="_blank">
+                  </factor-link>
+                  <factor-link class="navbar-item is-hidden-desktop" path="#" target="_blank">
                     <span class="icon">
                       <factor-icon icon="twitter" />
                     </span>
-                  </app-link>
+                  </factor-link>
                   <div class="navbar-burger burger" data-target="navMenuExample1">
                     <span />
                     <span />
@@ -2214,14 +2214,14 @@
                 </div>
                 <div id="navMenuExample1" class="navbar-menu">
                   <div class="navbar-start">
-                    <app-link class="navbar-item" path="#">Home</app-link>
+                    <factor-link class="navbar-item" path="#">Home</factor-link>
                     <div class="navbar-item has-dropdown is-hoverable">
-                      <app-link class="navbar-link is-active" path="#">Docs</app-link>
+                      <factor-link class="navbar-link is-active" path="#">Docs</factor-link>
                       <div class="navbar-dropdown">
-                        <app-link class="navbar-item" path="#">Overview</app-link>
-                        <app-link class="navbar-item" path="#">Modifiers</app-link>
-                        <app-link class="navbar-item is-active" path="#">Grid</app-link>
-                        <app-link class="navbar-item" path="#">Elements</app-link>
+                        <factor-link class="navbar-item" path="#">Overview</factor-link>
+                        <factor-link class="navbar-item" path="#">Modifiers</factor-link>
+                        <factor-link class="navbar-item is-active" path="#">Grid</factor-link>
+                        <factor-link class="navbar-item" path="#">Elements</factor-link>
                         <hr class="navbar-divider" >
                         <div class="navbar-item">
                           <div>
@@ -2232,34 +2232,34 @@
                       </div>
                     </div>
                     <div class="navbar-item has-dropdown is-hoverable">
-                      <app-link class="navbar-link" path="#">Blog</app-link>
+                      <factor-link class="navbar-link" path="#">Blog</factor-link>
                       <div id="blogDropdown" class="navbar-dropdown" data-style="width: 18rem;">
-                        <app-link class="navbar-item" path="#">
+                        <factor-link class="navbar-item" path="#">
                           <div class="navbar-content">
                             <p>
                               <small class="has-text-primary">10 Mar 2020</small>
                             </p>
                             <p>New field element (for better controls)</p>
                           </div>
-                        </app-link>
-                        <app-link class="navbar-item" path="#">
+                        </factor-link>
+                        <factor-link class="navbar-item" path="#">
                           <div class="navbar-content">
                             <p>
                               <small class="has-text-primary">11 Apr 2020</small>
                             </p>
                             <p>Metro UI CSS grid with Bulma tiles</p>
                           </div>
-                        </app-link>
-                        <app-link class="navbar-item" path="#">
+                        </factor-link>
+                        <factor-link class="navbar-item" path="#">
                           <div class="navbar-content">
                             <p>
                               <small class="has-text-primary">09 Feb 2020</small>
                             </p>
                             <p>Blog launched, new responsive columns, new helpers</p>
                           </div>
-                        </app-link>
+                        </factor-link>
 
-                        <app-link class="navbar-item" path="#">More posts</app-link>
+                        <factor-link class="navbar-item" path="#">More posts</factor-link>
                         <hr class="navbar-divider" >
                         <div class="navbar-item">
                           <div class="navbar-content">
@@ -2271,12 +2271,12 @@
                               </div>
                               <div class="level-right">
                                 <div class="level-item">
-                                  <app-link class="button is-rss is-small" path="#">
+                                  <factor-link class="button is-rss is-small" path="#">
                                     <span class="icon is-small">
                                       <factor-icon icon="rss" />
                                     </span>
                                     <span>Subscribe</span>
-                                  </app-link>
+                                  </factor-link>
                                 </div>
                               </div>
                             </div>
@@ -2287,7 +2287,7 @@
                     <div class="navbar-item has-dropdown is-hoverable">
                       <div class="navbar-link">More</div>
                       <div id="moreDropdown" class="navbar-dropdown">
-                        <app-link class="navbar-item" path="#">
+                        <factor-link class="navbar-item" path="#">
                           <div class="level is-mobile">
                             <div class="level-left">
                               <div class="level-item">
@@ -2299,30 +2299,30 @@
                               </div>
                             </div>
                           </div>
-                        </app-link>
+                        </factor-link>
                       </div>
                     </div>
                   </div>
                   <div class="navbar-end">
-                    <app-link class="navbar-item" path="#">Github</app-link>
-                    <app-link class="navbar-item" path="#">Twitter</app-link>
+                    <factor-link class="navbar-item" path="#">Github</factor-link>
+                    <factor-link class="navbar-item" path="#">Twitter</factor-link>
                     <div class="navbar-item">
                       <div class="field is-grouped">
                         <p class="control">
-                          <app-link class="button" path="#">
+                          <factor-link class="button" path="#">
                             <span class="icon">
                               <factor-icon icon="twitter" />
                             </span>
                             <span>Tweet</span>
-                          </app-link>
+                          </factor-link>
                         </p>
                         <p class="control">
-                          <app-link class="button is-primary" path="#">
+                          <factor-link class="button is-primary" path="#">
                             <span class="icon">
                               <factor-icon icon="download" />
                             </span>
                             <span>Download</span>
-                          </app-link>
+                          </factor-link>
                         </p>
                       </div>
                     </div>
@@ -2336,61 +2336,61 @@
               <h1 class="title">Pagination</h1>
               <hr >
               <nav class="pagination">
-                <app-link class="pagination-previous is-disabled" path="#">Previous</app-link>
-                <app-link class="pagination-next" path="#">Next</app-link>
+                <factor-link class="pagination-previous is-disabled" path="#">Previous</factor-link>
+                <factor-link class="pagination-next" path="#">Next</factor-link>
                 <ul class="pagination-list">
                   <li>
-                    <app-link class="pagination-link">1</app-link>
+                    <factor-link class="pagination-link">1</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-ellipsis">…</app-link>
+                    <factor-link class="pagination-ellipsis">…</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-link">45</app-link>
+                    <factor-link class="pagination-link">45</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-link">46</app-link>
+                    <factor-link class="pagination-link">46</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-link">47</app-link>
+                    <factor-link class="pagination-link">47</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-ellipsis">…</app-link>
+                    <factor-link class="pagination-ellipsis">…</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-link">89</app-link>
+                    <factor-link class="pagination-link">89</factor-link>
                   </li>
                 </ul>
               </nav>
               <br >
               <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
-                <app-link class="pagination-previous is-disabled" path="#">Previous</app-link>
-                <app-link class="pagination-next" path="#">Next</app-link>
+                <factor-link class="pagination-previous is-disabled" path="#">Previous</factor-link>
+                <factor-link class="pagination-next" path="#">Next</factor-link>
                 <ul class="pagination-list">
                   <li>
-                    <app-link class="pagination-link" aria-label="Goto page 1">1</app-link>
+                    <factor-link class="pagination-link" aria-label="Goto page 1">1</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-ellipsis">…</app-link>
+                    <factor-link class="pagination-ellipsis">…</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-link" aria-label="Goto page 45">45</app-link>
+                    <factor-link class="pagination-link" aria-label="Goto page 45">45</factor-link>
                   </li>
                   <li>
-                    <app-link
+                    <factor-link
                       class="pagination-link is-current"
                       aria-label="Goto page 46"
                       aria-current="page"
-                    >46</app-link>
+                    >46</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-link" aria-label="Goto page 47">47</app-link>
+                    <factor-link class="pagination-link" aria-label="Goto page 47">47</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-ellipsis">…</app-link>
+                    <factor-link class="pagination-ellipsis">…</factor-link>
                   </li>
                   <li>
-                    <app-link class="pagination-link" aria-label="Goto page 89">89</app-link>
+                    <factor-link class="pagination-link" aria-label="Goto page 89">89</factor-link>
                   </li>
                 </ul>
               </nav>
@@ -2411,10 +2411,10 @@
                     </p>
                   </div>
                   <p class="panel-tabs">
-                    <app-link class="is-active">All</app-link>
-                    <app-link>Public</app-link>
-                    <app-link>Private</app-link>
-                    <app-link>Sources</app-link>
+                    <factor-link class="is-active">All</factor-link>
+                    <factor-link>Public</factor-link>
+                    <factor-link>Private</factor-link>
+                    <factor-link>Sources</factor-link>
                   </p>
                   <a class="panel-block is-active">
                     <span class="panel-icon">
@@ -2462,16 +2462,16 @@
               <div class="tabs">
                 <ul>
                   <li class="is-active">
-                    <app-link>Pictures</app-link>
+                    <factor-link>Pictures</factor-link>
                   </li>
                   <li>
-                    <app-link>Music</app-link>
+                    <factor-link>Music</factor-link>
                   </li>
                   <li>
-                    <app-link>Videos</app-link>
+                    <factor-link>Videos</factor-link>
                   </li>
                   <li>
-                    <app-link>Documents</app-link>
+                    <factor-link>Documents</factor-link>
                   </li>
                 </ul>
               </div>
@@ -2479,36 +2479,36 @@
               <div class="tabs is-centered">
                 <ul>
                   <li class="is-active">
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="image" />
                       </span>
                       <span>Pictures</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="music" />
                       </span>
                       <span>Music</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="film" />
                       </span>
                       <span>Videos</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="file-text-o" />
                       </span>
                       <span>Documents</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                 </ul>
               </div>
@@ -2516,16 +2516,16 @@
               <div class="tabs is-small">
                 <ul>
                   <li class="is-active">
-                    <app-link>Pictures</app-link>
+                    <factor-link>Pictures</factor-link>
                   </li>
                   <li>
-                    <app-link>Music</app-link>
+                    <factor-link>Music</factor-link>
                   </li>
                   <li>
-                    <app-link>Videos</app-link>
+                    <factor-link>Videos</factor-link>
                   </li>
                   <li>
-                    <app-link>Documents</app-link>
+                    <factor-link>Documents</factor-link>
                   </li>
                 </ul>
               </div>
@@ -2533,16 +2533,16 @@
               <div class="tabs is-medium">
                 <ul>
                   <li class="is-active">
-                    <app-link>Pictures</app-link>
+                    <factor-link>Pictures</factor-link>
                   </li>
                   <li>
-                    <app-link>Music</app-link>
+                    <factor-link>Music</factor-link>
                   </li>
                   <li>
-                    <app-link>Videos</app-link>
+                    <factor-link>Videos</factor-link>
                   </li>
                   <li>
-                    <app-link>Documents</app-link>
+                    <factor-link>Documents</factor-link>
                   </li>
                 </ul>
               </div>
@@ -2550,16 +2550,16 @@
               <div class="tabs is-large">
                 <ul>
                   <li class="is-active">
-                    <app-link>Pictures</app-link>
+                    <factor-link>Pictures</factor-link>
                   </li>
                   <li>
-                    <app-link>Music</app-link>
+                    <factor-link>Music</factor-link>
                   </li>
                   <li>
-                    <app-link>Videos</app-link>
+                    <factor-link>Videos</factor-link>
                   </li>
                   <li>
-                    <app-link>Documents</app-link>
+                    <factor-link>Documents</factor-link>
                   </li>
                 </ul>
               </div>
@@ -2567,36 +2567,36 @@
               <div class="tabs is-boxed">
                 <ul>
                   <li class="is-active">
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="image" />
                       </span>
                       <span>Pictures</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="music" />
                       </span>
                       <span>Music</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="film" />
                       </span>
                       <span>Videos</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="file-text-o" />
                       </span>
                       <span>Documents</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                 </ul>
               </div>
@@ -2604,36 +2604,36 @@
               <div class="tabs is-toggle">
                 <ul>
                   <li class="is-active">
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="image" />
                       </span>
                       <span>Pictures</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="music" />
                       </span>
                       <span>Music</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="film" />
                       </span>
                       <span>Videos</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="file-text-o" />
                       </span>
                       <span>Documents</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                 </ul>
               </div>
@@ -2641,36 +2641,36 @@
               <div class="tabs is-toggle is-toggle-rounded">
                 <ul>
                   <li class="is-active">
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="image" />
                       </span>
                       <span>Pictures</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="music" />
                       </span>
                       <span>Music</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="film" />
                       </span>
                       <span>Videos</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="file-text-o" />
                       </span>
                       <span>Documents</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                 </ul>
               </div>
@@ -2678,28 +2678,28 @@
               <div class="tabs is-fullwidth">
                 <ul>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon">
                         <factor-icon icon="angle-left" />
                       </span>
                       <span>Left</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon">
                         <factor-icon icon="angle-up" />
                       </span>
                       <span>Up</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span>Right</span>
                       <span class="icon">
                         <factor-icon icon="angle-right" />
                       </span>
-                    </app-link>
+                    </factor-link>
                   </li>
                 </ul>
               </div>
@@ -2707,36 +2707,36 @@
               <div class="tabs is-centered is-boxed">
                 <ul>
                   <li class="is-active">
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="image" />
                       </span>
                       <span>Pictures</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="music" />
                       </span>
                       <span>Music</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="film" />
                       </span>
                       <span>Videos</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon is-small">
                         <factor-icon icon="file-text-o" />
                       </span>
                       <span>Documents</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                 </ul>
               </div>
@@ -2744,36 +2744,36 @@
               <div class="tabs is-toggle is-fullwidth is-large">
                 <ul>
                   <li class="is-active">
-                    <app-link>
+                    <factor-link>
                       <span class="icon">
                         <factor-icon icon="image" />
                       </span>
                       <span>Pictures</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon">
                         <factor-icon icon="music" />
                       </span>
                       <span>Music</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon">
                         <factor-icon icon="film" />
                       </span>
                       <span>Videos</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                   <li>
-                    <app-link>
+                    <factor-link>
                       <span class="icon">
                         <factor-icon icon="file-text-o" />
                       </span>
                       <span>Documents</span>
-                    </app-link>
+                    </factor-link>
                   </li>
                 </ul>
               </div>
@@ -2782,11 +2782,11 @@
             <section id="more" class="section">
               <h1 class="title">Learn More</h1>
               <hr >Even more elements like a versatile delete section, color helpers, tiles, typography helpers, footer, etc. Learn more on the
-              <app-link
+              <factor-link
                 class="is-link"
                 path="https://bulma.io/documentation"
                 target="_blank"
-              >Bulma website</app-link>
+              >Bulma website</factor-link>
             </section>
           </div>
         </div>

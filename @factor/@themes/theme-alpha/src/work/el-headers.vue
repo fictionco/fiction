@@ -10,12 +10,12 @@
     <div class="mast">
       <div class="hero-inner">
         <div>
-          <app-link class="back" :path="$setting.get('work.indexRoute')">
+          <factor-link class="back" :path="$setting.get('work.indexRoute')">
             <factor-icon icon="arrow-left" />
             {{ returnLinkText }}
-          </app-link>
+          </factor-link>
           <h1 class="heading">
-            <app-link :path="$post.link(post._id)">{{ post.title }}</app-link>
+            <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
           </h1>
           <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
           <factor-post-edit :post-id="post._id" />

@@ -241,12 +241,12 @@ module.exports.default = Factor => {
         {
           btn: "primary",
           path: "/guide/quickstart",
-          text: "Start Now"
+          text: "Start Now &rarr;"
         },
         {
-          btn: "tertiary",
+          btn: "default",
           path: "/guide",
-          text: "Read the Docs"
+          text: "Read the Docs &rarr;"
         }
       ]
     }
