@@ -28,9 +28,7 @@ export default {}
   font-size: 0.9em;
   padding: 2em 1em 4em;
   margin-top: 4em;
-  @media (max-width: 767px) {
-    display: block;
-  }
+
   .logo {
     margin-bottom: 1em;
   }
@@ -53,6 +51,13 @@ export default {}
   a {
     color: inherit;
     text-decoration: underline;
+  }
+  @media (max-width: 900px) {
+    display: block;
+    text-align: left;
+    .legal {
+      text-align: left;
+    }
   }
 }
 </style>

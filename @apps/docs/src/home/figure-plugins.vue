@@ -1,6 +1,6 @@
 <template>
   <figure ref="wrapper" class="stage-container plugins-figure">
-    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
+    <div class="stage-wrap">
       <div class="stage">
         <div class="plugin-icon">
           <img src="./img/icon-blog.svg" >
@@ -50,28 +50,27 @@
 
 <script>
 export default {
-  data() {
-    return {
-      width: 500
-    }
-  },
-  computed: {
-    scale() {
-      return Math.max(Math.min(this.width / 500, 1), 0.5)
-    }
-  },
-  mounted() {
-    this.width = this.getWidth()
-
-    window.addEventListener("resize", () => {
-      this.width = this.getWidth()
-    })
-  },
-  methods: {
-    getWidth() {
-      return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
-    }
-  }
+  // data() {
+  //   return {
+  //     width: 500
+  //   }
+  // },
+  // computed: {
+  //   scale() {
+  //     return Math.max(Math.min(this.width / 500, 1), 0.5)
+  //   }
+  // },
+  // mounted() {
+  //   this.width = this.getWidth()
+  //   window.addEventListener("resize", () => {
+  //     this.width = this.getWidth()
+  //   })
+  // },
+  // methods: {
+  //   getWidth() {
+  //     return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
+  //   }
+  // }
 }
 </script>
 
@@ -82,7 +81,7 @@ export default {
     rgba(235, 239, 243, 1),
     rgba(235, 239, 243, 0)
   );
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .feature-figure-container {
       height: 500px;
     }
@@ -95,9 +94,7 @@ figure.plugins-figure {
   position: absolute;
   top: 0;
   left: 0;
-  .stage-wrap {
-    transform-origin: center left;
-  }
+
   .stage-wrap,
   .stage {
     width: 100%;
@@ -106,11 +103,11 @@ figure.plugins-figure {
   .stage {
     position: absolute;
     perspective: 1000px;
-
+    min-width: 500px;
     left: 0;
     top: 0;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       transform: translate(-0, -0px);
     }
     perspective: 1000px;

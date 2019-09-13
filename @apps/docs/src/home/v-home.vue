@@ -241,8 +241,9 @@ export default {
       .page-title {
         font-size: 3.5em;
         line-height: 1.1;
+        font-weight: 600;
         margin: 0 0 1rem;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.03em;
         .highlight {
           display: block;
           opacity: 0.9;
@@ -253,7 +254,7 @@ export default {
         font-size: 1.4em;
         opacity: 0.7;
       }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         text-align: left;
         padding: 3rem 0;
         .page-title {
@@ -278,7 +279,7 @@ export default {
           max-width: 550px;
           font-size: 1.3em;
           margin: 0 auto;
-          @media (max-width: 767px) {
+          @media (max-width: 900px) {
             font-size: 1em;
           }
         }
@@ -381,7 +382,7 @@ export default {
     .content-pad {
       padding-top: 10rem;
       padding-bottom: 10rem;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         padding-top: 6rem;
         padding-bottom: 3rem;
       }
@@ -394,8 +395,8 @@ export default {
       &.last {
         box-shadow: none;
       }
-      @media (max-width: 767px) {
-        padding: 6rem 0;
+      @media (max-width: 900px) {
+        padding: 4rem 0;
         box-shadow: none;
       }
     }
@@ -415,7 +416,7 @@ export default {
         grid-template-areas: "b a";
         .feature-figure-container {
           justify-content: flex-end;
-          @media (max-width: 767px) {
+          @media (max-width: 900px) {
             justify-content: center;
           }
         }
@@ -436,8 +437,11 @@ export default {
         width: 100%;
         display: flex;
         align-items: center;
+        .figure-container {
+          max-width: 100%;
+        }
       }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         grid-template-columns: 1fr;
         grid-template-areas: "a" "b";
         &.odd {
@@ -445,7 +449,7 @@ export default {
         }
         .feature-content-container {
           .feature-content {
-            padding: 5rem 1.5rem 1rem;
+            padding: 3rem 1.5rem 1rem;
             max-width: 100%;
           }
         }
@@ -466,6 +470,7 @@ export default {
       margin-bottom: 1rem;
     }
     .title {
+      font-weight: 600;
       font-size: 3em;
       line-height: 1.1;
       margin-bottom: 1.5rem;
@@ -480,6 +485,14 @@ export default {
     .action {
       font-weight: 600;
       font-size: 1.3em;
+    }
+    @media (max-width: 900px) {
+      .title {
+        font-size: 1.8em;
+      }
+      .text {
+        font-size: 1.1em;
+      }
     }
   }
 
@@ -497,13 +510,22 @@ export default {
         grid-gap: 4em;
         perspective: 800px;
       }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         .quotes-pad {
           grid-template-columns: 1fr;
           article:nth-child(odd),
           article:nth-child(even) {
             transform: none;
             margin: 0 auto;
+          }
+          article {
+            blockquote {
+              padding: 4rem 2rem;
+              text-align: left;
+              .quote-media {
+                text-align: left;
+              }
+            }
           }
         }
       }
@@ -591,9 +613,10 @@ export default {
       border-radius: 50%;
       margin: 1rem auto;
     }
+    line-height: 1.1;
     .title {
       font-size: 3em;
-      line-height: 1.1;
+      font-weight: 600;
     }
     .sub-title {
       font-size: 2em;
@@ -605,10 +628,21 @@ export default {
       font-size: 1.3em;
     }
     .text {
-      margin: 2rem;
+      line-height: 1.5;
+      margin: 2rem 0;
     }
     .action {
       font-weight: 600;
+    }
+    @media (max-width: 900px) {
+      text-align: left;
+      padding: 7rem 0;
+      .title {
+        font-size: 2em;
+      }
+      .glyph {
+        margin: 0;
+      }
     }
   }
 

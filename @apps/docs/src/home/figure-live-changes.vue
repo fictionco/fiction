@@ -57,7 +57,7 @@ figure.live-changes {
     position: relative;
     transform: translate(-120px, -50px) scale(1.1);
     transform-style: preserve-3d;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       transform: translate(-0, -0px);
     }
     .annotation {
@@ -81,8 +81,8 @@ figure.live-changes {
         right: 0;
         z-index: 0;
         padding: 5px;
-        transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg) rotate(2deg)
-          translateZ(-40px);
+        transform: scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg)
+          rotate(2deg) translateZ(-40px);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           19px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
           13.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);

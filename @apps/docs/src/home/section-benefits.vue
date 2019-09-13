@@ -40,8 +40,8 @@
 
     <div class="interstitial-cta">
       <div class="text">
-        <h2 class="title">Built for Perfectionists</h2>
-        <h2 class="title-sub">Get Started with Factor</h2>
+        <h2 class="title">Ready to Try Factor?</h2>
+        <h2 class="title-sub">Up and Running in 5 Minutes</h2>
       </div>
 
       <div class="buttons">
@@ -73,8 +73,10 @@ export default {
     max-width: 900px;
     margin: 0 auto;
     margin-bottom: 50px;
+    letter-spacing: -0.02em;
     .title {
       font-size: 3em;
+      font-weight: 600;
       line-height: 1.1;
 
       @media (max-width: 670px) {
@@ -114,10 +116,10 @@ export default {
         opacity: 0.85;
       }
       .icon {
-        width: 36px;
-        height: 36px;
-        margin-left: -1px;
-        margin: 10px 0 20px -3px;
+        width: 48px;
+        height: 48px;
+
+        margin: 10px 0 20px 0;
       }
       h3,
       p {
