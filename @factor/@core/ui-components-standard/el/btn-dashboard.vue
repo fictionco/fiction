@@ -1,9 +1,15 @@
 <template>
-  <factor-btn class="btn-dashboard" v-bind="$attrs" v-on="$listeners">
+  <btn-base class="btn-dashboard" v-bind="$attrs" v-on="$listeners">
     <slot />
-  </factor-btn>
+  </btn-base>
 </template>
-
+<script>
+export default {
+  components: {
+    "btn-base": () => import("./btn-base")
+  }
+}
+</script>
 <style lang="less">
 .btn-dashboard {
   + .btn-dashboard,

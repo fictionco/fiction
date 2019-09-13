@@ -66,25 +66,25 @@
               >Draft Saved at {{ $time.util(lastRevision.timestamp).format("h:mma (M/D)") }}</div>
             </template>
             <div class="draft-actions">
-              <dashboard-btn size="tiny" class="save-draft" @click="saveDraft()">Save Draft</dashboard-btn>
-              <dashboard-btn
+              <factor-btn size="tiny" class="save-draft" @click="saveDraft()">Save Draft</factor-btn>
+              <factor-btn
                 v-if="canRevert"
                 size="tiny"
                 class="revert"
                 @click="revertChanges()"
-              >Revert to published?</dashboard-btn>
+              >Revert to published?</factor-btn>
             </div>
           </div>
           <template slot="actions">
-            <dashboard-btn btn="primary" :loading="sending" @click="savePost()">
+            <factor-btn btn="primary" :loading="sending" @click="savePost()">
               Update
               &nbsp;
               <factor-icon icon="arrow-up" />
-            </dashboard-btn>
-            <dashboard-link v-if="post.permalink" :path="url" btn="default" data-test="add-post">
+            </factor-btn>
+            <factor-link v-if="post.permalink" :path="url" btn="default" data-test="add-post">
               View
               <factor-icon icon="arrow-right" />
-            </dashboard-link>
+            </factor-link>
           </template>
         </dashboard-pane>
         <slot name="meta" />

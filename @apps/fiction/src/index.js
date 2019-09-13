@@ -7,13 +7,7 @@ module.exports.default = Factor => {
       }
     }
 
-    addComponents() {
-      Factor.$filters.add("components", _ => {
-        _["app-btn"] = () => import("./el/btn")
-        _["app-link"] = () => import("./el/link")
-        return _
-      })
-    }
+    addComponents() {}
 
     async addPaths() {
       Factor.$filters.add("page-templates", _ => {
@@ -33,7 +27,7 @@ module.exports.default = Factor => {
         const routes = [
           {
             path: "/",
-            component: () => import("./view-home-2/v-home")
+            component: () => import("./home/v-home")
           },
           {
             path: "/factor-js",

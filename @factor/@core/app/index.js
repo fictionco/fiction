@@ -84,10 +84,8 @@ module.exports.default = Factor => {
 
     routes() {
       Factor.$filters.add("routes", _ => {
-        _.push({
-          path: "/",
-          component: () => import("#/content.vue"),
-          children: Factor.$filters.apply("content-routes", [
+        const contentRoutes = Factor.$filters
+          .apply("content-routes", [
             {
               name: "forbidden",
               path: "/forbidden",
@@ -95,6 +93,16 @@ module.exports.default = Factor => {
               meta: { error: 403 }
             }
           ])
+          .filter((route, index, self) => {
+            // remove duplicate paths
+            const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
+            return index === lastIndexOf
+          })
+
+        _.push({
+          path: "/",
+          component: () => import("#/content.vue"),
+          children: contentRoutes
         })
 
         _.push({

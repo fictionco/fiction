@@ -7,13 +7,13 @@
             <h1 class="title is-1">{{ $setting.get('home.headline') }}</h1>
             <p class="subtitle">{{ $setting.get('home.subheadline') }}</p>
             <div class="field buttons">
-              <app-link
+              <factor-link
                 v-for="(action ,i) in $setting.get('home.actions')"
                 :key="i"
                 :path="action.path"
                 :class="action.class"
                 size="medium"
-              >{{ action.text }}</app-link>
+              >{{ action.text }}</factor-link>
             </div>
           </div>
           <div class="column is-6 is-offset-1">

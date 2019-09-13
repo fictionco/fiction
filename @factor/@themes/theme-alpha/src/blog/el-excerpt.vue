@@ -1,10 +1,10 @@
 <template>
   <div class="post-excerpt">
     <span class="inline-excerpt">{{ $utils.excerpt(post.content) }}</span>
-    <app-link btn="default" size="standard" class="read-link" :path="$post.link(post._id)">
+    <factor-link btn="default" size="standard" class="read-link" :path="$post.link(post._id)">
       Continue Reading
       <factor-icon icon="arrow-right" />
-    </app-link>
+    </factor-link>
   </div>
 </template>
 <script>

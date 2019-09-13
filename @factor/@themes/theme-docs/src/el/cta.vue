@@ -6,7 +6,7 @@
         <p class="subtitle">{{ $setting.get('cta.subtitle') }}</p>
       </div>
       <div class="actions">
-        <app-link
+        <factor-link
           v-for="(action ,i) in $setting.get('cta.actions')"
           :key="i"
           :path="action.path"
@@ -15,7 +15,7 @@
         >
           {{ action.text }}
           <i v-if="action.btn == 'primary'" class="fa fa-arrow-right" />
-        </app-link>
+        </factor-link>
       </div>
     </div>
   </section>

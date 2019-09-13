@@ -41,10 +41,6 @@ export default Factor => {
 
         responseJson.result = await handler({ data, meta })
       } catch (error) {
-        // if (!error.statusCode) {
-        //   error.statusCode = error.name == "ValidationError" ? 400 : 500
-        // }
-
         responseJson.error = error.message || 500
         Factor.$log.error(error)
       }

@@ -10,13 +10,20 @@
         <div class="header-text">
           <div class="header-tag">
             <home-icon class="feature-icon" icon="powered" />
-            <div class="header-icon-text">Factor App Platform</div>
+            <div class="header-icon-text">Factor JS &rarr; Platform</div>
           </div>
 
-          <h1 class="title">Create the world's next great web app</h1>
+          <h1 class="title">
+            A Javascript App Platform
+            <span class="alt">for Front-End Professionals</span>
+          </h1>
           <p class="text">
-            One platform with everything you need to professionally develop, manage,
-            and scale your app on the web.
+            Powered by VueJS, MongoDB and Node,
+            <factor-link path="/factor-js">Factor</factor-link>
+            <span>
+              is a platform that helps you professionally develop, manage,
+              and scale your app on the web.
+            </span>
           </p>
 
           <div class="header-actions">
@@ -36,9 +43,9 @@
 
           <p class="text">{{ benefit.text }}</p>
           <div v-if="benefit.link" class="action">
-            <app-link :path="benefit.link.path">
+            <factor-link :path="benefit.link.path">
               <span v-formatted-text="benefit.link.text" />
-            </app-link>
+            </factor-link>
           </div>
         </div>
       </div>
@@ -65,9 +72,9 @@
               </div>
             </div>
             <div v-if="feature.link" class="action">
-              <app-link :path="feature.link.path" btn="primary">
+              <factor-link :path="feature.link.path" btn="primary">
                 <span v-formatted-text="feature.link.text" />
-              </app-link>
+              </factor-link>
             </div>
           </div>
         </div>
@@ -99,9 +106,9 @@
                 :class="row ? 'has-content' : 'empty'"
               />
               <div v-if="col.link" class="footer-row row">
-                <app-link :path="col.link.path">
+                <factor-link :path="col.link.path">
                   <span v-formatted-text="col.link.text" />
-                </app-link>
+                </factor-link>
               </div>
             </div>
           </div>
@@ -231,7 +238,7 @@ export default {
             "Advanced features, options and tools. Technical support from Fiction."
           ],
           link: {
-            path: "/pro",
+            path: "/vip",
             text: "Learn More &rarr;"
           }
         },
@@ -413,7 +420,7 @@ export default {
 
     color: #fff;
     @media (max-width: 900px) {
-      padding: 8rem 0 9rem;
+      padding: 5rem 0 9rem;
     }
 
     .content-pad {
@@ -444,32 +451,35 @@ export default {
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 32px;
-
+        opacity: 0.4;
         .icon {
-          width: 50px;
-          margin-left: -4rem;
-          margin-right: 0.5rem;
+          display: none;
         }
         .header-icon-text {
-          font-size: 1.3em;
+          font-size: 1.2em;
 
-          font-weight: 600;
+          font-weight: 500;
           text-transform: uppercase;
           letter-spacing: 0.025em;
         }
       }
       .title {
-        font-size: 3.7em;
-        line-height: 1.2;
-        font-weight: 400;
+        font-size: 3em;
+        line-height: 1.1;
+
         margin: 0 0 0.5em;
         letter-spacing: -0.02em;
+        font-weight: 600;
       }
 
       .text {
         font-size: 1.5em;
         line-height: 1.5;
-        opacity: 0.8;
+
+        color: rgba(255, 255, 255, 0.6);
+        a {
+          color: inherit;
+        }
       }
       .header-actions {
         font-size: 1.1em;
@@ -483,6 +493,28 @@ export default {
             margin: 0;
 
             background: #fff;
+          }
+        }
+      }
+
+      @media (max-width: 900px) {
+        font-size: 1em;
+        .title {
+          font-size: 2em;
+          .alt {
+            color: var(--color-primary);
+            display: block;
+          }
+        }
+        .text {
+          font-size: 1.2em;
+          line-height: 1.5;
+          opacity: 0.8;
+        }
+        .header-tag {
+          opacity: 0.4;
+          .icon {
+            display: none;
           }
         }
       }
@@ -691,16 +723,20 @@ export default {
     padding: 10rem 0;
     .mast-head {
       text-align: center;
+      line-height: 1.1;
+      font-size: 1.8em;
+      letter-spacing: -0.02em;
       .title {
-        font-size: 2em;
-        letter-spacing: -0.02em;
-        line-height: 1.4;
+        font-weight: 600;
       }
       .sub-title {
-        font-size: 1.4em;
-        opacity: 0.5;
+        margin: 0.5em 0;
+        opacity: 0.7;
       }
       margin-bottom: 3em;
+      @media (max-width: 900px) {
+        text-align: left;
+      }
     }
     .feature-table {
       display: grid;
@@ -833,6 +869,8 @@ export default {
       font-size: 2em;
       opacity: 0.8;
       font-weight: 400;
+      line-height: 1.1;
+      margin: 1em 0;
       // color: var(--color-primary);
     }
     .text,
@@ -840,7 +878,7 @@ export default {
       font-size: 1.3em;
     }
     .text {
-      margin: 2rem;
+      margin: 2rem 0;
       font-weight: 400;
     }
     .action {
@@ -852,6 +890,13 @@ export default {
       }
       max-width: 500px;
       margin: 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      text-align: left;
+      .glyph {
+        margin: 0;
+      }
     }
   }
 }

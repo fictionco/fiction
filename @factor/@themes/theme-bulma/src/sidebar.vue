@@ -23,14 +23,14 @@
         </template>
       </div>
       <div class="buttons">
-        <app-link
+        <factor-link
           :path="$setting.get('site.nav_cta.path')"
           class="button is-outlined is-rounded"
           target="_blank"
         >
           {{ $setting.get('site.nav_cta.name') }}
           <factor-icon icon="arrow-right" class="ml-2" />
-        </app-link>
+        </factor-link>
       </div>
     </div>
   </div>

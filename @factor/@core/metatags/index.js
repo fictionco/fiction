@@ -76,6 +76,7 @@ export default Factor => {
     }
 
     setMetatags(context) {
+      //onsole.log("context", context)
       const { metatags } = context.$options
       if (metatags) {
         let metatagsObject =

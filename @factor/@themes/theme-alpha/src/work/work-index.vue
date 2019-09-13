@@ -15,10 +15,10 @@
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <app-link class="back" :path="$setting.get('work.indexRoute')">
+            <factor-link class="back" :path="$setting.get('work.indexRoute')">
               <factor-icon icon="arrow-left" />
               {{ returnLinkText }}
-            </app-link>
+            </factor-link>
           </div>
         </div>
       </div>

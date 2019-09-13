@@ -3,7 +3,7 @@
     <h2 v-formatted-text="setting('success.title')" class="added-title" />
     <div v-formatted-text="setting('success.text')" class="added-text" />
     <div class="actions">
-      <factor-btn-app btn="primary" @click="vis = false">Close</factor-btn-app>
+      <factor-btn btn="primary" @click="vis = false">Close</factor-btn>
     </div>
   </factor-app-modal>
 </template>

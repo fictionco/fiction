@@ -7,7 +7,7 @@ module.exports.default = Factor => {
 
     addComponents() {
       Factor.$filters.add("components", _ => {
-        _["app-link"] = () => import("./el/link")
+        _["factor-link"] = () => import("./el/link")
         return _
       })
     }

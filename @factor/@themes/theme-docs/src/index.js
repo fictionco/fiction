@@ -5,13 +5,7 @@ module.exports.default = Factor => {
       this.addComponents()
     }
 
-    addComponents() {
-      Factor.$filters.add("components", _ => {
-        _["app-btn"] = () => import("./el/btn")
-        _["app-link"] = () => import("./el/link")
-        return _
-      })
-    }
+    addComponents() {}
 
     async addPaths() {
       // Register doc routes for sitemap
@@ -41,8 +35,7 @@ module.exports.default = Factor => {
         const routes = [
           {
             path: "/",
-            component: () => import("./page-home"),
-            meta: {}
+            component: () => import("./page-home")
           },
           {
             path: `/${base}`,
@@ -53,7 +46,6 @@ module.exports.default = Factor => {
             component: () => import("./page-docs")
           }
         ]
-
         return _.concat(routes)
       })
     }

@@ -1,13 +1,13 @@
 <template>
   <div class="pagination">
     <div class="items">{{ count }} Items</div>
-    <dashboard-btn :disabled="pageCurrent == 1" @click="page('previous')">
+    <factor-btn-dashboard :disabled="pageCurrent == 1" @click="page('previous')">
       <factor-icon icon="arrow-left" />
-    </dashboard-btn>
+    </factor-btn-dashboard>
     <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
-    <dashboard-btn :disabled="pageCurrent == pageCount" @click="page('next')">
+    <factor-btn-dashboard :disabled="pageCurrent == pageCount" @click="page('next')">
       <factor-icon icon="arrow-right" />
-    </dashboard-btn>
+    </factor-btn-dashboard>
   </div>
 </template>
 

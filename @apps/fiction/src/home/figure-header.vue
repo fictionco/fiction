@@ -7,7 +7,7 @@
           <div class="icons">
             <div v-for="icon in icons" :key="icon.name" class="icon-wrap">
               <div class="icon">
-                <img :src="icon.img" >
+                <img :src="icon.img" :alt="`${icon.name} icon`" >
               </div>
               <div class="name">{{ icon.name }}</div>
             </div>
@@ -77,7 +77,7 @@ export default {
       // height: 300px;
       z-index: 70;
       display: flex;
-      max-width: 350px;
+      max-width: 330px;
       margin: 0 auto;
       justify-content: space-between;
       .icon-wrap {
@@ -103,13 +103,13 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 4em;
-        height: 4em;
+        width: 3.2em;
+        height: 3.2em;
 
         border-radius: 50%;
         img {
-          max-width: 30px;
-          max-height: 35px;
+          max-width: 25px;
+          max-height: 32px;
         }
       }
     }
@@ -120,6 +120,9 @@ export default {
       min-height: 370px;
       .icons {
         top: 0;
+      }
+      .panel {
+        transform: none;
       }
     }
     img {

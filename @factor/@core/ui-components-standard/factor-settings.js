@@ -3,13 +3,12 @@ export default Factor => {
     core: {
       components: {
         btn: () => import("./el/btn.vue"),
-        btnApp: () => import("./el/btn-app.vue"),
         btnDashboard: () => import("./el/btn-dashboard.vue"),
+        link: () => import("./el/link.vue"),
         loadingRing: () => import("./el/loading-ring.vue"),
         modal: () => import("./el/modal.vue"),
         modalApp: () => import("./el/modal.vue"),
-        lightbox: () => import("./el/lightbox.vue"),
-        link: () => import("./el/link.vue")
+        lightbox: () => import("./el/lightbox.vue")
       }
     }
   }

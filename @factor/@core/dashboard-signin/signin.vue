@@ -14,7 +14,7 @@
           placeholder="Email"
           @keyup.enter="trigger('forgot-password')"
         />
-        <factor-btn-app
+        <factor-btn
           ref="forgot-password"
           :loading="loading"
           data-test="send-password-email"
@@ -33,7 +33,7 @@
           placeholder="Password"
           @keyup.enter="trigger('reset-password')"
         />
-        <factor-btn-app
+        <factor-btn
           ref="reset-password"
           :loading="loading"
           text="Reset Password"
@@ -43,7 +43,7 @@
 
       <template v-else-if="!view && $user.isLoggedIn()">
         <div class="action">
-          <dashboard-link btn="primary" text="Account" path="/dashboard/account" />
+          <factor-link btn="primary" text="Account" path="/dashboard/account" />
         </div>
       </template>
 
@@ -76,7 +76,7 @@
         />
 
         <div class="action">
-          <factor-btn-app
+          <factor-btn
             ref="submit"
             data-test="submit-login"
             :loading="loading"
@@ -292,6 +292,10 @@ export default {
   text-align: center;
   form {
     font-size: 1.2em;
+    input {
+      width: 100%;
+      max-width: 350px;
+    }
   }
   .signin-header {
     margin-bottom: 1.5em;
