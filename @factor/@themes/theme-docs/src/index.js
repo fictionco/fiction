@@ -35,8 +35,7 @@ module.exports.default = Factor => {
         const routes = [
           {
             path: "/",
-            component: () => import("./page-home"),
-            meta: {}
+            component: () => import("./page-home")
           },
           {
             path: `/${base}`,
@@ -47,7 +46,6 @@ module.exports.default = Factor => {
             component: () => import("./page-docs")
           }
         ]
-
         return _.concat(routes)
       })
     }
