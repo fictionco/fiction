@@ -1,10 +1,10 @@
 <template>
   <section class="back-to-top">
     <div class="mast">
-      <factor-btn-app btn="link" size="normal" @click="scrollToTop">
+      <factor-btn btn="link" size="normal" @click="scrollToTop">
         Back to Top
         <factor-icon icon="arrow-up" />
-      </factor-btn-app>
+      </factor-btn>
     </div>
   </section>
 </template>

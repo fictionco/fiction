@@ -17,9 +17,9 @@
         placeholder="Add Tag"
         @keyup.enter="addTag()"
       />
-      <dashboard-btn @click="addTag()">
+      <factor-btn-dashboard @click="addTag()">
         <factor-icon icon="plus" />
-      </dashboard-btn>
+      </factor-btn-dashboard>
     </div>
   </div>
 </template>

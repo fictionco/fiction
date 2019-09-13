@@ -74,7 +74,7 @@ export default {
         ? this.btnElement
         : this.$route.path.includes("dashboard")
         ? "factor-btn-dashboard"
-        : "factor-btn-app"
+        : "factor-btn"
       console.log("btnElement", this.btn, btnElement)
       text = createElement(
         btnElement,

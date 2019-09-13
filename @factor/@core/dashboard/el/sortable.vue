@@ -14,7 +14,7 @@
             <factor-icon icon="arrow-right" />
           </div>
         </div>
-        <dashboard-btn btn="primary" @click="addItem()">+</dashboard-btn>
+        <factor-btn-dashboard btn="primary" @click="addItem()">+</factor-btn-dashboard>
       </div>
 
       <div class="inputs">
@@ -44,7 +44,7 @@
           @input="setValue(field._id, $event)"
         />
         <div>
-          <dashboard-btn size="tiny" @click="removeItem(selected)">Remove Item</dashboard-btn>
+          <factor-btn-dashboard size="tiny" @click="removeItem(selected)">Remove Item</factor-btn-dashboard>
         </div>
       </div>
     </div>

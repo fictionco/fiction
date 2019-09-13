@@ -2,7 +2,7 @@
   <factor-link
     class="dashboard-input"
     v-bind="$attrs"
-    btn-element="dashboard-btn"
+    btn-element="factor-btn-dashboard"
     v-on="$listeners"
   >
     <slot />

@@ -1,10 +1,10 @@
 <template>
   <div class="job-entry-cta">
     <a :href="`mailto:${post.jobApplyEmail}` ">
-      <factor-btn-app btn="primary" size="large">
+      <factor-btn btn="primary" size="large">
         Apply Now
         <factor-icon icon="arrow-right" />
-      </factor-btn-app>
+      </factor-btn>
     </a>
   </div>
 </template>

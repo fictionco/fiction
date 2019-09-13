@@ -23,7 +23,7 @@
         <div class="sp description">{{ f.description }}</div>
         <div class="sp sp2 action">
           <factor-link btn="default" :path="f.path">
-            <span v-formatted-text="f.btn"/>
+            <span v-formatted-text="f.btn" />
           </factor-link>
         </div>
       </div>
@@ -39,16 +39,6 @@ export default {
     subTitle: { type: String, default: "" },
     mediaUrl: { type: String, default: "" },
     features: { type: Array, default: () => {} }
-  },
-  computed: {
-    mediaStyle() {
-      return {
-        "background-image": `url(${this.$setting.get(
-          "dashboard.icon",
-          require("#/icon.png")
-        )})`
-      }
-    }
   }
 }
 </script>
