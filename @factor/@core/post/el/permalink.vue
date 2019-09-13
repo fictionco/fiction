@@ -16,8 +16,8 @@
       </span>
     </div>
     <div v-if="!toggleValue" class="edit-actions">
-      <dashboard-btn size="tiny" class="edit" @click="setToggle()">Edit Permalink</dashboard-btn>
-      <dashboard-btn size="tiny" class="edit" @click="updateFromInitial()">Update from Title</dashboard-btn>
+      <factor-btn-dashboard size="tiny" class="edit" @click="setToggle()">Edit Permalink</factor-btn-dashboard>
+      <factor-btn-dashboard size="tiny" class="edit" @click="updateFromInitial()">Update from Title</factor-btn-dashboard>
     </div>
   </div>
 </template>

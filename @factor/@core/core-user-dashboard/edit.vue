@@ -24,8 +24,12 @@
             label="Email Address"
           >
             <div v-if="post.email && !post.emailVerified">
-              <dashboard-btn size="tiny" btn="subtle">Unverified</dashboard-btn>
-              <dashboard-btn size="tiny" :loading="sending" @click="sendVerifyEmail()">Resend Email</dashboard-btn>
+              <factor-btn-dashboard size="tiny" btn="subtle">Unverified</factor-btn-dashboard>
+              <factor-btn-dashboard
+                size="tiny"
+                :loading="sending"
+                @click="sendVerifyEmail()"
+              >Resend Email</factor-btn-dashboard>
             </div>
           </dashboard-input>
 
@@ -93,11 +97,11 @@
       <div class="meta-column">
         <dashboard-pane class="post-actions">
           <template slot="actions">
-            <dashboard-btn btn="primary" :loading="sending" @click="save()">
+            <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
               Save
               &nbsp;
               <factor-icon icon="arrow-up" />
-            </dashboard-btn>
+            </factor-btn-dashboard>
           </template>
         </dashboard-pane>
         <slot name="meta" />

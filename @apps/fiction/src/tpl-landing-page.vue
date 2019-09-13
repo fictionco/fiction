@@ -4,7 +4,7 @@
       <div class="feature-content">
         <h1>{{ post.settings.pageHeading }}</h1>
         <div class="sub">{{ post.settings.pageHeadingSub }}</div>
-        <factor-btn-app size="large" btn="primary">Button</factor-btn-app>
+        <factor-btn size="large" btn="primary">Button</factor-btn>
       </div>
     </div>
     <div class="feature-boxes">

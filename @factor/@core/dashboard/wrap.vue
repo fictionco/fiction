@@ -19,9 +19,9 @@
         <div class="app-main">
           <div class="app-main-content">
             <div class="mobile-nav-toggle-wrap" @click.stop>
-              <dashboard-btn @click="toggleNav()">
+              <factor-btn-dashboard @click="toggleNav()">
                 <factor-icon icon="arrow-left" />&nbsp;Menu
-              </dashboard-btn>
+              </factor-btn-dashboard>
             </div>
             <slot v-if="$slots.default" />
             <router-view v-else />
@@ -31,8 +31,6 @@
     </template>
   </div>
 </template>
-
-
 <script>
 export default {
   components: {
@@ -189,10 +187,6 @@ export default {
     @media (max-width: 767px) {
     }
   }
-  // .app-main {
-  //   @media (max-width: 767px) {
-  //     grid-template-columns: 1fr;
-  //   }
-  // }
+ 
 }
 </style>
