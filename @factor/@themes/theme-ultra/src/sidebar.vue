@@ -1,19 +1,24 @@
 <template>
-  <transition name="fade">
-    <div class="sidebar-container">
-      <div class="sidebar-title-container">
-        <site-brand class="site-brand" />
-      </div>
-      <nav>
-        <template v-for="(item, index) in $setting.get('site.nav')">
-          <factor-link :key="index" :path="item.path" class="nav-link">
-            <span>{{ item.name }}</span>
-          </factor-link>
-        </template>
-      </nav>
-      <div v-formatted-text="$setting.get('site.copyright')" class="copyright" />
+  <div class="sidebar-container">
+    <div class="sidebar-title-container">
+      <site-brand class="site-brand" />
     </div>
-  </transition>
+    <nav>
+      <template v-for="(item, index) in $setting.get('site.nav')">
+        <factor-link
+          :key="index"
+          :path="item.path"
+          class="nav-link"
+          :class="[item.target, {'nav-link-active' : selected === item.path}]"
+          @click="sidebarPath(item.path)"
+        >
+          <span>{{ item.name }}</span>
+        </factor-link>
+      </template>
+    </nav>
+
+    <div v-formatted-text="$setting.get('site.copyright')" class="copyright" />
+  </div>
 </template>
 
 <script>
@@ -21,25 +26,50 @@ export default {
   components: {
     "site-brand": () => import("./el/brand")
   },
-  props: {
-    showSidebar: { type: String, default: () => {} }
-  },
+  // props: {
+  //   showSidebar: { type: String, default: () => {} }
+  // },
   data() {
     return {
-      loading: true
+      loading: true,
+      options: [
+        "#intro",
+        "#about",
+        "#services",
+        "#portfolio",
+        "#news",
+        "#contact"
+      ],
+      selected: undefined
+    }
+  },
+  mounted: function() {
+    for (const ele of this.options) {
+      //this.$route.hash
+
+      const observer = new IntersectionObserver(
+        entries => {
+          if (entries[0].isIntersecting) {
+            this.selected = `#${entries[0].target.id}`
+          }
+        },
+        { threshold: [0.2] }
+      )
+      observer.observe(document.querySelector(ele))
+    }
+  },
+  methods: {
+    sidebarPath(path) {
+      const ele = document.querySelector(path)
+      if (ele) {
+        ele.scrollIntoView()
+      }
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-// .fade-enter-active,
-// .fade-leave-active {
-//   transition: opacity 0.4s;
-// }
-// .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-//   opacity: 0;
-// }
 .sidebar-container {
   position: fixed;
   font-family: var(--font-family-primary);
@@ -47,6 +77,7 @@ export default {
   grid-template-rows: 1fr 1fr 1fr;
   color: #f7f7f7;
   background: linear-gradient(90deg, #732b29 -100%, #101010 100%);
+  background-color: #351a19;
   min-height: 100vh;
   height: auto;
   width: 280px;
@@ -75,12 +106,11 @@ export default {
       min-height: 30px;
 
       &:hover {
-        color: var(--color-text);
+        color: var(--color-text-light);
       }
 
-      // &.router-link-active,
-      &.nav-link-selected {
-        color: var(--color-text);
+      &.nav-link-active {
+        color: var(--color-text-light);
         font-weight: var(--font-weight-semibold);
         span {
           position: relative;

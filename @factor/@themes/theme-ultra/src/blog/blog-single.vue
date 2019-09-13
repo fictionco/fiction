@@ -38,6 +38,6 @@ export default {
 
 <style lang="less">
 .single-entry {
-  color: var(--color-text-dark);
+  color: var(--color-text);
 }
 </style>

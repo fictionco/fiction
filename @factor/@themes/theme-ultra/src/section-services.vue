@@ -1,5 +1,5 @@
 <template>
-  <section id="services" class="services-container page-container">
+  <section id="services" class="page-container services-container">
     <h2 class="pretitle">{{ $setting.get('services.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('services.title') }}</h1>
     <div class="content">
@@ -26,7 +26,7 @@ export default {
     no-repeat;
 
   .pretitle {
-    color: var(--color-text);
+    color: var(--color-text-light);
     font-size: 1.4em;
     text-align: center;
     @media (max-width: 900px) {
@@ -39,7 +39,7 @@ export default {
     letter-spacing: -0.03em;
     line-height: 1.1;
     text-align: center;
-    color: var(--color-text);
+    color: var(--color-text-light);
     @media (max-width: 900px) {
       font-size: 2.2rem;
     }
@@ -59,12 +59,12 @@ export default {
     padding: 2rem;
     background-color: var(--color-primary-dark);
     border-radius: var(--border-radius);
-    color: var(--color-text);
+    color: var(--color-text-light);
     transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
     &:hover {
-      background: var(--color-text);
-      color: var(--color-text-dark);
+      background: var(--color-text-light);
+      color: var(--color-text);
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
         0 15px 12px rgba(0, 0, 0, 0.22);

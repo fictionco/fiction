@@ -8,33 +8,39 @@ export default Factor => {
       logoTitle: "Ultra Theme",
       nav: [
         {
-          path: "/",
-          name: "Home"
+          name: "Intro",
+          path: "#intro",
+          target: "intro"
         },
         {
-          path: "/#about",
-          name: "About"
+          name: "About",
+          path: "#about",
+          target: "about"
         },
         {
-          path: "/#services",
-          name: "Services"
+          name: "Services",
+          path: "#services",
+          target: "services"
         },
         {
-          path: "/#portfolio",
-          name: "Portfolio"
+          name: "Portfolio",
+          path: "#portfolio",
+          target: "portfolio"
         },
         {
-          path: "/#news",
-          name: "News"
+          name: "News",
+          path: "#news",
+          target: "news"
         },
         {
-          path: "/#contact",
-          name: "Contact"
+          name: "Contact",
+          path: "#contact",
+          target: "contact"
         }
       ],
       copyright: "&copy; Copyright 2019."
     },
-    home: {
+    intro: {
       pretitle: "Welcome To Ultra",
       title:
         "A modern one page theme for personal or portfolio exposure with unique effects and features.",
@@ -47,7 +53,7 @@ export default Factor => {
         },
         {
           btn: "primary-ol",
-          path: "/#about",
+          path: "#about",
           text: "More About Ultra",
           icon: "right-arrow"
         }
@@ -120,12 +126,16 @@ export default Factor => {
       postRoute: "/portfolio",
       limit: 8,
       returnLinkText: "All Projects",
+      notFound: {
+        title: "No Projects",
+        subTitle: "Couldn't find any projects."
+      },
       components: {
         portfolioWrap: () => import("./portfolio/portfolio-wrap.vue"),
         portfolioIndex: () => import("./portfolio/portfolio-index.vue"),
         portfolioSingle: () => import("./portfolio/portfolio-single.vue"),
         portfolioEntry: () => import("./portfolio/widget-entry.vue"),
-        headers: () => import("./portfolio/widget-headers.vue"),
+        hero: () => import("./portfolio/widget-hero.vue"),
         featuredImage: () => import("./portfolio/widget-featured-image.vue"),
         tags: () => import("./portfolio/widget-tags.vue"),
         returnLink: () => import("./portfolio/widget-return-link.vue"),
@@ -133,7 +143,7 @@ export default Factor => {
       },
       layout: {
         index: ["featuredImage"],
-        single: ["returnLink", "headers", "featuredImage", "tags", "portfolioEntry"]
+        single: ["returnLink", "hero", "featuredImage", "tags", "portfolioEntry"]
       },
       clientsTitle: "Previous Clients",
       clients: [
@@ -150,16 +160,8 @@ export default Factor => {
           alt: "Behance"
         },
         {
-          picture: require("./img/carbon-tech-pro.svg"),
-          alt: "Carbon Tech Pro"
-        },
-        {
           picture: require("./img/amazon.svg"),
           alt: "Amazon"
-        },
-        {
-          picture: require("./img/wearable-world.svg"),
-          alt: "Wearable World"
         }
       ],
       cta: {
@@ -169,11 +171,19 @@ export default Factor => {
       }
     },
     blog: {
+      pretitle: "News",
+      title: "Latest News",
       indexRoute: "/#news",
       postRoute: "/news",
       limit: 4,
       returnLinkText: "All News",
+      notFound: {
+        title: "No News",
+        subTitle: "Couldn't find any news."
+      },
       components: {
+        blogWrap: () => import("./blog/blog-wrap.vue"),
+        blogIndex: () => import("./blog/blog-index.vue"),
         blogSingle: () => import("./blog/blog-single.vue"),
         headers: () => import("./blog/widget-headers.vue"),
         featuredImage: () => import("./blog/widget-featured-image.vue"),
@@ -188,23 +198,6 @@ export default Factor => {
         single: ["returnLink", "headers", "featuredImage", "tags", "entry", "authorBio"],
         meta: ["authorDate"]
       }
-    },
-    news: {
-      pretitle: "News",
-      title: "Latest News"
-      // content: [
-      //   {
-      //     date: "July 6, 2020",
-      //     title: "User Onboarding Done Right: Using The Power of Story.",
-      //     content:
-      //       "User onboarding is perhaps the most important piece of the entire customer conversion process.",
-      //     action: {
-      //       btn: "default",
-      //       path: "/post-url-goes-here",
-      //       text: "Read More..."
-      //     }
-      //   }
-      // ]
     },
     contactForm: {
       email: "contact@fiction.com",

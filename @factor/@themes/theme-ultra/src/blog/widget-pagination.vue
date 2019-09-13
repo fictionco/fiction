@@ -58,7 +58,6 @@ export default {
 .pagination {
   display: flex;
   align-items: center;
-  color: var(--color-text-dark);
   @media (max-width: 767px) {
     justify-content: flex-end;
     .items,

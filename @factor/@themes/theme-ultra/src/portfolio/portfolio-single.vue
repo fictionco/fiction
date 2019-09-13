@@ -35,21 +35,30 @@ export default {
 
 <style lang="less">
 .portfolio-single-entry {
-  .return-link,
-  .entry-tags,
-  .single-entry-headers,
-  .widget-date,
-  .entry-meta,
-  .post-entry,
-  .social-share,
-  .author-bio {
-    line-height: 1.2;
-    max-width: 50rem;
-    margin: 0 auto;
-  }
+  background: var(--color-bg-alt);
+  // .return-link,
+  // .entry-tags,
+  // .single-entry-headers,
+  // .widget-date,
+  // .entry-meta,
+  // .post-entry,
+  // .social-share,
+  // .author-bio {
+  //   line-height: 1.2;
+  //   max-width: 50rem;
+  //   margin: 0 auto;
+  // }
 
   .return-link {
-    padding: 2em 2em 1em;
+    margin: 0;
+    padding: 1em 2em;
+    .back {
+      color: var(--color-primary);
+      font-weight: var(--font-weight-bold);
+      &:hover {
+        color: var(--color-primary-dark);
+      }
+    }
   }
 
   .entry-meta,

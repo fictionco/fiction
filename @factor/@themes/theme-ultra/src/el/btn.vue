@@ -75,15 +75,15 @@ button.factor-btn {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     &:hover {
-      color: var(--color-text);
+      color: var(--color-text-light);
       box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
 
   &.secondary {
     color: var(--color-primary);
-    background: var(--color-text);
-    border: 1px solid var(--color-text);
+    background: var(--color-text-light);
+    border: 1px solid var(--color-text-light);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     &:hover {
       color: var(--color-primary-darker);
