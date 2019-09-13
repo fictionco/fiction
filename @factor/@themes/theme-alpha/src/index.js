@@ -9,18 +9,16 @@ module.exports.default = Factor => {
       }
     }
 
-
     filters() {
       Factor.$filters.add(
         "factor_head",
         _ => {
-          const add = Factor.$setting.get('headTags.font')
+          const add = Factor.$setting.get("headTags.font")
 
           return [..._, add]
         },
         { priority: 200 }
       )
-
 
       const baseRoute = Factor.$setting.get("work.postRoute")
 
@@ -37,13 +35,12 @@ module.exports.default = Factor => {
 
         return _
       })
-
     }
 
     addComponents() {
       Factor.$filters.add("components", _ => {
         _["app-btn"] = () => import("./el/btn")
-        _["app-link"] = () => import("./el/link")
+        _["factor-link"] = () => import("./el/link")
         return _
       })
     }
@@ -58,7 +55,6 @@ module.exports.default = Factor => {
           }
         ])
       })
-
 
       Factor.$filters.add("content-routes", _ => {
         const routes = [

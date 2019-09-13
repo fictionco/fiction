@@ -6,13 +6,15 @@
           <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
           <p class="subtitle">{{ $setting.get('home.subHeadline') }}</p>
           <div class="actions">
-            <app-link
+            <factor-link
               v-for="(action ,i) in $setting.get('home.actions')"
               :key="i"
               :path="action.path"
               :btn="action.btn"
               size="large"
-            >{{ action.text }}</app-link>
+            >
+              <span v-formatted-text="action.text" />
+            </factor-link>
           </div>
         </div>
       </div>
@@ -68,7 +70,7 @@ export default {
     background-repeat: no-repeat;
     background-size: auto 110%;
     background-position: right 0 top 0;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       padding: 4em 0 1em;
       background: none !important;
     }
@@ -91,7 +93,7 @@ export default {
       // display: grid;
       // grid-template-columns: repeat(2, 1fr);
       // grid-column-gap: 40px;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         grid-template-columns: 1fr;
         padding: 0 1em;
         text-align: left;
@@ -103,7 +105,7 @@ export default {
           letter-spacing: -0.03em;
           line-height: 1.1;
           margin-bottom: 0.2em;
-          @media (max-width: 767px) {
+          @media (max-width: 900px) {
             font-size: 1.8em;
             font-weight: 600;
           }
@@ -113,17 +115,20 @@ export default {
           font-size: 1.4em;
           line-height: 1.4em;
           font-weight: 500;
-          @media (max-width: 767px) {
+          @media (max-width: 900px) {
             font-size: 1.2em;
           }
         }
         .actions {
           margin-top: 1.5em;
-          @media (max-width: 767px) {
+          a {
+            margin: 20px;
+          }
+          @media (max-width: 900px) {
             margin-bottom: 0.5em;
             a {
               display: inline-block;
-              margin-bottom: 10px;
+              margin-left: 0;
             }
           }
         }
@@ -146,7 +151,7 @@ export default {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       grid-column-gap: 1em;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         display: block;
       }
       .box {
@@ -163,7 +168,7 @@ export default {
           border-radius: 7px;
         }
 
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           margin: 1em 0 2em;
           display: block;
           .icon {

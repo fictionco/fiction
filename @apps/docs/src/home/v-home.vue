@@ -59,7 +59,7 @@
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <app-link :path="feature.link.path">{{ feature.link.text }} &rarr;</app-link>
+              <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
             </div>
           </div>
         </div>
