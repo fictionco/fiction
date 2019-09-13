@@ -26,7 +26,12 @@
       </div>
       <div class="content screencast-container">
         <div class="content-pad">
-          <figure class="screencast">
+          <div class="screenshots">
+            <div v-for="(s, i) in screenshots" :key="i" class="screenshot">
+              <img :src="s.img" >
+            </div>
+          </div>
+          <!-- <figure class="screencast">
             <video preload="true" :poster="poster" playsinline="true" autoplay muted />
             <div class="play-button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
@@ -36,7 +41,7 @@
                 />
               </svg>
             </div>
-          </figure>
+          </figure>-->
         </div>
       </div>
     </section>
@@ -110,7 +115,7 @@
           the web. Join to get chat access, latest updates and support.
         </div>
         <div class="action">
-          <a href="#">Request An Invite &rarr;</a>
+          <factor-email-list list-id="alphaProgram" />
         </div>
       </div>
     </div>
@@ -127,6 +132,11 @@ export default {
     return {
       loading: true,
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
+      screenshots: [
+        { img: require("./img/theme-ultra.jpg"), name: "Alpha Theme" },
+        { img: require("./img/screencast-poster.jpg"), name: "Dashboard" },
+        { img: require("./img/theme-alpha.jpg"), name: "Ultra Theme" }
+      ],
       quotes: [
         {
           text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
@@ -296,8 +306,37 @@ export default {
     // }
     .screencast-container {
       position: relative;
+      background-image: url("./img/dot.svg");
+
       .content-pad {
-        max-width: 1024px;
+        max-width: 100%;
+      }
+      .screenshots {
+        display: grid;
+        grid-gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        grid-template-columns: repeat(3, minmax(370px, 800px));
+        perspective: 1000px;
+        width: 220%;
+        margin-left: -60%;
+        .screenshot {
+          img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
+              0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
+          }
+          &:nth-child(1) {
+            transform: translateX(-30%);
+          }
+          &:nth-child(2) {
+            z-index: 50;
+          }
+          &:nth-child(3) {
+            transform: translateX(30%);
+          }
+        }
       }
       .screencast {
         width: 100%;

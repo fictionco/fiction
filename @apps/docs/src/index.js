@@ -2,7 +2,8 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.add("content-routes", _ => {
-        const routes = [
+        return [
+          ..._,
           {
             path: "/plugins",
             component: () => import("./page-plugins")
@@ -13,16 +14,13 @@ module.exports.default = Factor => {
           },
           {
             path: "/compare",
-            component: () => import("./page-compare"),
-            meta: { routeClass: ["nav-bg-gray"] }
+            component: () => import("./page-compare")
           },
           {
-            path: "/home",
+            path: "/",
             component: () => import("./home/v-home")
           }
         ]
-
-        return _.concat(routes)
       })
     }
   })()
