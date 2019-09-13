@@ -28,14 +28,4 @@ export default {
 </script>
 
 <style lang="less">
-.page-container {
-  min-height: 100vh;
-  height: auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  padding: 4em;
-  @media (max-width: 900px) {
-    padding: 2em;
-  }
-}
 </style>

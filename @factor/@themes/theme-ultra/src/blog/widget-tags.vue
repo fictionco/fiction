@@ -29,7 +29,6 @@ export default {
   line-height: 1;
 }
 .entry-tags a {
-  color: var(--color-text-dark);
   background: rgba(50, 50, 93, 0.1);
   opacity: 0.8;
   display: inline-block;

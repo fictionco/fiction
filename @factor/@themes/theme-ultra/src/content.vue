@@ -54,4 +54,14 @@ export default {
     grid-template-columns: 1fr;
   }
 }
+.page-container {
+  min-height: 100vh;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 4em;
+  @media (max-width: 900px) {
+    padding: 3em 2em;
+  }
+}
 </style>

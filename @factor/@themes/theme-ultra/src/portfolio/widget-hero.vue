@@ -1,12 +1,5 @@
 <template>
-  <div v-if="format == 'index'" class="title">
-    <h1 class="heading">
-      <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
-    </h1>
-    <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
-    <factor-post-edit :post-id="post._id" />
-  </div>
-  <section v-else class="hero">
+  <section class="hero">
     <div class="mast">
       <div class="hero-inner">
         <div>
@@ -14,7 +7,7 @@
             <factor-icon icon="arrow-left" />
             {{ returnLinkText }}
           </app-link>
-          <h1 class="heading">
+          <h1 class="title">
             <app-link :path="$post.link(post._id)">{{ post.title }}</app-link>
           </h1>
           <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
@@ -41,36 +34,18 @@ export default {
 }
 </script>
 <style lang="less">
-// Index
-.portfolio-posts {
-  .posts-index {
-    .title {
-      padding: 2em 2em 0;
-      @media (max-width: 767px) {
-        padding: 2em 0 0;
-      }
-      .heading {
-        font-weight: var(--font-weight-bold);
-        font-size: 1.8em;
-        line-height: 1.2;
-        margin-bottom: 0.2em;
-        a:hover {
-          text-decoration: underline;
-          text-decoration-color: var(--color-tertiary);
-        }
-      }
-      .entry-subtitle {
-        line-height: 1.7;
-      }
-    }
-  }
-}
-
 // Single
 .portfolio-single-entry {
   .hero {
     position: relative;
     overflow: hidden;
+    background-image: radial-gradient(
+      at bottom -30% right -30%,
+      #732b29 0%,
+      #111010 75%,
+      #111010 100%
+    );
+    background-color: #351a19;
 
     .mast {
       padding: 0 2em;
@@ -78,26 +53,12 @@ export default {
       max-width: 1000px;
       margin: 0 auto;
     }
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 70%;
-      height: 100%;
-      top: 0;
-      right: auto;
-      bottom: 0;
-      background-color: var(--color-bg-alt, #f3f5fb);
-      @media (max-width: 1024px) {
-        width: 100%;
-      }
-    }
 
     .hero-inner {
       position: relative;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-gap: 60px;
+      // display: grid;
+      // grid-template-columns: 2fr 1fr;
+      // grid-gap: 60px;
       align-items: center;
       padding: 5em 0;
       @media (max-width: 1024px) {
@@ -106,17 +67,7 @@ export default {
       @media (max-width: 767px) {
         padding: 4em 0;
       }
-      .back {
-        font-size: 1em;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        &:hover {
-          opacity: 1;
-          color: var(--color-primary, #1a49bd);
-          background: var(--color-tertiary, #9afecb);
-        }
-      }
-      .heading {
+      .title {
         font-weight: var(--font-weight-bold, 800);
         font-size: 3em;
         letter-spacing: -0.03em;

@@ -1,11 +1,11 @@
 <template>
-  <section id="intro" class="home-container page-container">
+  <section id="intro" class="page-container intro-container">
     <div class="splash-content">
-      <h2 class="pretitle">{{ $setting.get('home.pretitle') }}</h2>
-      <h1 class="title">{{ $setting.get('home.title') }}</h1>
+      <h2 class="pretitle">{{ $setting.get('intro.pretitle') }}</h2>
+      <h1 class="title">{{ $setting.get('intro.title') }}</h1>
       <div class="actions">
         <app-link
-          v-for="(action ,i) in $setting.get('home.actions')"
+          v-for="(action ,i) in $setting.get('intro.actions')"
           :key="i"
           :path="action.path"
           :btn="action.btn"
@@ -26,16 +26,10 @@ export default {
       loading: true
     }
   }
-  // methods: {
-  //   homePaths(path) {
-  //     let action = document.querySelector(path)
-  //     action.scrollIntoView()
-  //   }
-  // }
 }
 </script>
 <style lang="less" scoped>
-.home-container {
+.intro-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,6 +39,7 @@ export default {
     #111010 75%,
     #111010 100%
   );
+  background-color: #351a19;
   .splash-content {
     margin: 0 auto;
     max-width: 650px;
@@ -61,7 +56,7 @@ export default {
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      color: var(--color-text);
+      color: var(--color-text-light);
       @media (max-width: 900px) {
         font-size: 2.2rem;
       }
