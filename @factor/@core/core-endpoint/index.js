@@ -31,7 +31,7 @@ export default Factor => {
 
         if (error) {
           Factor.$events.$emit("error", error)
-          console.warn(error)
+          throw new Error(error)
         }
 
         return result

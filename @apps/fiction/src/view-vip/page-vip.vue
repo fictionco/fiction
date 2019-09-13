@@ -11,10 +11,10 @@
             </h1>
             <div class="actions">
               <a href="#contact">
-                <app-btn path="#contact" btn="primary" size="large">
+                <factor-btn-app path="#contact" btn="primary" size="large">
                   Contact Sales
                   <i class="fa fa-arrow-down" />
-                </app-btn>
+                </factor-btn-app>
               </a>
             </div>
           </div>

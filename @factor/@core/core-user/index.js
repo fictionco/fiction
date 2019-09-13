@@ -103,12 +103,12 @@ export default Factor => {
 
         return user
       } catch (error) {
-        console.log("error", error)
-        console.log("error m", error.message)
         // If JWT auth fails then delete token, etc.
         if (error.message.includes("invalid signature")) {
           this.setUser({ user: null, current: true })
         }
+
+        console.error(error)
       }
     }
 

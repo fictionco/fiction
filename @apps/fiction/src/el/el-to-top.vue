@@ -1,10 +1,10 @@
 <template>
   <section class="back-to-top">
     <div class="mast">
-      <app-btn v-on:click="scrollToTop" btn="link" size="normal">
+      <factor-btn-app btn="link" size="normal" @click="scrollToTop">
         Back to Top
         <factor-icon icon="arrow-up" />
-      </app-btn>
+      </factor-btn-app>
     </div>
   </section>
 </template>

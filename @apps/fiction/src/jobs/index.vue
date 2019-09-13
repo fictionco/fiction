@@ -8,10 +8,10 @@
           class="subtitle"
         >Fiction is on a mission to help frontend developers create better Javascript apps.</p>
         <a href="#current-openings">
-          <app-btn path="#current-openings" btn="quaternary" size="large">
+          <factor-btn-app path="#current-openings" btn="quaternary" size="large">
             Check Our Current Openings
             <factor-icon icon="arrow-down" />
-          </app-btn>
+          </factor-btn-app>
         </a>
       </div>
     </section>

@@ -43,9 +43,9 @@
 
           <p class="text">{{ benefit.text }}</p>
           <div v-if="benefit.link" class="action">
-            <app-link :path="benefit.link.path">
+            <factor-link-app :path="benefit.link.path">
               <span v-formatted-text="benefit.link.text" />
-            </app-link>
+            </factor-link-app>
           </div>
         </div>
       </div>
@@ -72,9 +72,9 @@
               </div>
             </div>
             <div v-if="feature.link" class="action">
-              <app-link :path="feature.link.path" btn="primary">
+              <factor-link-app :path="feature.link.path" btn="primary">
                 <span v-formatted-text="feature.link.text" />
-              </app-link>
+              </factor-link-app>
             </div>
           </div>
         </div>
@@ -106,9 +106,9 @@
                 :class="row ? 'has-content' : 'empty'"
               />
               <div v-if="col.link" class="footer-row row">
-                <app-link :path="col.link.path">
+                <factor-link-app :path="col.link.path">
                   <span v-formatted-text="col.link.text" />
-                </app-link>
+                </factor-link-app>
               </div>
             </div>
           </div>

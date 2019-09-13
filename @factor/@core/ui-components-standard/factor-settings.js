@@ -9,7 +9,8 @@ export default Factor => {
         modal: () => import("./el/modal.vue"),
         modalApp: () => import("./el/modal.vue"),
         lightbox: () => import("./el/lightbox.vue"),
-        link: () => import("./el/link.vue")
+        link: () => import("./el/link.vue"),
+        linkApp: () => import("./el/link-app.vue")
       }
     }
   }
