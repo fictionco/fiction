@@ -22,7 +22,9 @@
         <slot name="content" />
         <div class="sp description">{{ f.description }}</div>
         <div class="sp sp2 action">
-          <dashboard-link v-formatted-text="f.btn" :path="f.path" />
+          <factor-link btn="default" :path="f.path">
+            <span v-formatted-text="f.btn"/>
+          </factor-link>
         </div>
       </div>
     </div>

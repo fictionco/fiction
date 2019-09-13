@@ -17,12 +17,6 @@ export default Factor => {
         _["factor-lightbox"] = Factor.$setting.get("core.components.lightbox")
         _["factor-link"] = Factor.$setting.get("core.components.link")
 
-        // _["factor-btn-app"] = Factor.$setting.get("core.components.btn")
-        // _["factor-app-loading-ring"] = Factor.$setting.get("core.components.loadingRing")
-        // _["factor-app-modal"] = Factor.$setting.get("core.components.modal")
-        // _["factor-app-lightbox"] = Factor.$setting.get("core.components.lightbox")
-        // _["factor-app-link"] = Factor.$setting.get("core.components.link")
-
         _["factor-client-only"] = () => import("vue-client-only")
 
         _["factor-avatar"] = () => import("./el/avatar")
