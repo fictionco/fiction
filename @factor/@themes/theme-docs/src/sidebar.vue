@@ -2,12 +2,8 @@
   <div class="docs-sidebar" @click.stop>
     <div ref="nav" :style="{opacity: hydrated ? 1 : 0}" class="sidebar-inner">
       <div v-if="mode =='mobile'" class="site-links">
-        <factor-link
-          v-for="(item, index) in $setting.get('site.nav')"
-          :key="index"
-          :path="item.path"
-        >
-          <span>{{ item.name }}</span>
+        <factor-link v-for="(item, index) in siteNav" :key="index" :path="item.path">
+          <span v-formatted-text="item.name" />
           <factor-icon v-if="item.icon" :icon="item.icon" />
         </factor-link>
       </div>
@@ -16,7 +12,9 @@
         <div v-for="(item, itemIndex) in nav" :key="itemIndex">
           <div v-if="item.group" class="group">{{ item.group }}</div>
           <li v-else class="doc-menu">
-            <factor-link class="primary-doc-link" :path="item.route">{{ item.name }}</factor-link>
+            <factor-link class="primary-doc-link" :path="item.route">
+              <span v-formatted-text="item.name" />
+            </factor-link>
             <div v-if="item.doc == activeDoc" class="scroll-menu">
               <li v-for="(h2, indexParent) in headers" :key="indexParent">
                 <a
@@ -59,6 +57,9 @@ export default {
     }
   },
   computed: {
+    siteNav() {
+      return this.$setting.get("site.nav").filter(_ => _ && _.name)
+    },
     nav() {
       return docs(this).config()
     },
@@ -199,7 +200,7 @@ export default {
     width: 0;
   }
   .site-links {
-    font-size: 1.2em;
+    font-size: 1em;
     border-bottom: 1px solid #eee;
     padding-bottom: 1em;
     margin-bottom: 2em;
@@ -222,7 +223,7 @@ export default {
 
   .sidebar-inner {
     max-width: 300px;
-    padding: 40px 20px 60px 40px;
+    padding: 40px 20px 60px 20px;
     transition: opacity 0.3s;
   }
 

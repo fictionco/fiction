@@ -3,7 +3,7 @@
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div v-for="(screenshot, i) in screenshots" :key="i" class="screenshot-wrap">
-          <img :src="screenshot.img" />
+          <img :src="screenshot.img" >
         </div>
       </div>
     </div>
@@ -51,13 +51,16 @@ export default {
 <style lang="less">
 figure.themes-graph {
   max-width: 100%;
-
+  .stage-wrap {
+    transform-origin: 0;
+  }
   .stage {
     padding: 30% 0;
     width: 500px;
     position: relative;
     transform: translateX(3em);
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
+      width: 300px;
       transform: translate(-4em, 3em);
     }
 
@@ -80,21 +83,16 @@ figure.themes-graph {
         display: block;
       }
       &:nth-child(1) {
-        transform: rotateX(4deg) rotateY(-15deg) translateZ(0em);
         z-index: 10;
       }
       &:nth-child(2) {
         left: 2em;
 
         z-index: 9;
-        transform: rotateX(4deg) rotateY(-15deg) translateZ(-8em) translateY(1rem)
-          translateX(1rem);
       }
       &:nth-child(3) {
         left: 4em;
         z-index: 8;
-        transform: rotateX(4deg) rotateY(-15deg) translateZ(-16em) translateY(2rem)
-          translateX(2rem);
       }
     }
   }
