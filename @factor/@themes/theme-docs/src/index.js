@@ -5,13 +5,7 @@ module.exports.default = Factor => {
       this.addComponents()
     }
 
-    addComponents() {
-      // Factor.$filters.add("components", _ => {
-      //   _["app-btn"] = () => import("./el/btn")
-      //   _["factor-link"] = () => import("./el/link")
-      //   return _
-      // })
-    }
+    addComponents() {}
 
     async addPaths() {
       // Register doc routes for sitemap
