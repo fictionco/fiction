@@ -6,11 +6,11 @@ module.exports.default = Factor => {
     }
 
     addComponents() {
-      Factor.$filters.add("components", _ => {
-        _["app-btn"] = () => import("./el/btn")
-        _["app-link"] = () => import("./el/link")
-        return _
-      })
+      // Factor.$filters.add("components", _ => {
+      //   _["app-btn"] = () => import("./el/btn")
+      //   _["app-link"] = () => import("./el/link")
+      //   return _
+      // })
     }
 
     async addPaths() {

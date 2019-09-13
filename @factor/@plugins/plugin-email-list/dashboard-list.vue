@@ -14,7 +14,7 @@
         <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
       </template>
       <template #listId="{row}">
-        <dashboard-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</dashboard-link>
+        <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</factor-link>
       </template>
       <template
         #emailCount="{row}"

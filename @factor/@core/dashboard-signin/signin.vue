@@ -43,7 +43,7 @@
 
       <template v-else-if="!view && $user.isLoggedIn()">
         <div class="action">
-          <dashboard-link btn="primary" text="Account" path="/dashboard/account" />
+          <factor-link btn="primary" text="Account" path="/dashboard/account" />
         </div>
       </template>
 

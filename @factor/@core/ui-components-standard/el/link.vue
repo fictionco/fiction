@@ -3,7 +3,7 @@ export default {
   props: {
     pg: { type: String, default: "" },
     btn: { type: String, default: "" },
-    btnElement: { type: String, default: "factor-btn" },
+    btnElement: { type: String, default: "" },
     size: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     path: { type: String, default: "" },
@@ -70,8 +70,14 @@ export default {
         loading: this.loading
       }
 
+      const btnElement = this.btnElement
+        ? this.btnElement
+        : this.$route.path.includes("dashboard")
+        ? "factor-btn-dashboard"
+        : "factor-btn-app"
+      console.log("btnElement", this.btn, btnElement)
       text = createElement(
-        this.btnElement,
+        btnElement,
         {
           props: passed,
           attrs: passed

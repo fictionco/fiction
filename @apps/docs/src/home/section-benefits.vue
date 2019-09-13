@@ -45,7 +45,7 @@
       </div>
 
       <div class="buttons">
-        <factor-link-app btn="primary" size="large">View Quickstart &rarr;</factor-link-app>
+        <factor-link btn="primary" size="large">View Quickstart &rarr;</factor-link>
       </div>
     </div>
   </div>
