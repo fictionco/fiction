@@ -718,18 +718,13 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        .app-btn + .app-btn {
-          margin-left: 1em;
-        }
+
         @media (max-width: 900px) {
           display: block;
           margin-top: 1.5em;
           a {
             display: inline-block;
             margin-bottom: 10px;
-          }
-          .app-btn + .app-btn {
-            margin-left: 0.5em;
           }
         }
       }

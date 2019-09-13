@@ -292,6 +292,10 @@ export default {
   text-align: center;
   form {
     font-size: 1.2em;
+    input {
+      width: 100%;
+      max-width: 350px;
+    }
   }
   .signin-header {
     margin-bottom: 1.5em;

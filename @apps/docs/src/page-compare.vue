@@ -7,10 +7,10 @@
             <h1 class="title">A Modern Alternative to WordPress</h1>
             <div class="subtitle">Created for perfectionists with deadlines.</div>
             <div class="actions">
-              <app-link path="/guide/quickstart" btn="primary" size="large">
+              <factor-link-app path="/guide/quickstart" btn="primary" size="large">
                 Start Your Web App
                 <i class="fa fa-arrow-right" />
-              </app-link>
+              </factor-link-app>
             </div>
           </div>
           <div>

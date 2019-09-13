@@ -95,7 +95,6 @@ export default {
       ? {
           click: e => {
             e.preventDefault()
-            //e.stopPropagation()
 
             this.$events.$emit(this.event, query)
 

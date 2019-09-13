@@ -8,8 +8,11 @@
         </h1>
       </div>
       <div class="buttons">
-        <app-btn action="signinModal" class="common-Button common-Button--default">Get Started</app-btn>
-        <app-btn path="/contact" class="common-Button">Contact Sales</app-btn>
+        <factor-btn-app
+          action="signinModal"
+          class="common-Button common-Button--default"
+        >Get Started</factor-btn-app>
+        <factor-btn-app path="/contact" class="common-Button">Contact Sales</factor-btn-app>
       </div>
     </div>
   </div>
