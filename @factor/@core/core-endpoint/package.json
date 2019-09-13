@@ -1,6 +1,6 @@
 {
   "name": "@factor/core-endpoint",
-  "version": "1.0.0-alpha.31",
+  "version": "1.0.0-alpha.33",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
