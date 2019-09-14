@@ -25,19 +25,25 @@
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span>GPL 2.0</span>
+              <span class="text">GPL 2.0</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span>MEVN Stack</span>
+              <span class="text">MEVN Stack</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span>Universal JS SSR</span>
+              <span class="text">Universal JS SSR</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">Themes + Plugins</span>
             </div>
           </div>
         </div>
@@ -281,6 +287,7 @@ export default {
           margin: 0 1rem;
           text-transform: uppercase;
           font-weight: 600;
+
           &:hover {
             .arrow {
               background: var(--color-primary);
@@ -288,6 +295,7 @@ export default {
           }
         }
         .arrow {
+          text-align: center;
           transition: all 0.3s;
           color: #fff;
           background: var(--color-text);
@@ -311,6 +319,13 @@ export default {
         }
         .page-title .highlight {
           color: var(--color-primary);
+        }
+        .points {
+          display: block;
+          text-align: left;
+          .point {
+            margin: 0.3em 0;
+          }
         }
       }
       .actions {
