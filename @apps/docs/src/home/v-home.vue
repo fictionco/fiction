@@ -4,10 +4,11 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Javascript App Platform
+            The VueJS Platform
             <span class="highlight">for Professional Front-End Developers</span>
           </h1>
-          <h3 class="page-title-sub">Open source and built on MongoDB, Express, VueJS and Node</h3>
+          <h3 class="page-title-sub">Do much more, with much less.</h3>
+
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
 
@@ -19,8 +20,29 @@
               </span>
             </factor-link>
           </div>
+          <div class="points">
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span>GPL 2.0</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span>MEVN Stack</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span>Universal JS SSR</span>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="content screencast-container">
         <div class="content-pad">
           <div class="screenshots">
@@ -225,7 +247,7 @@ export default {
   /* HEADER */
   .header {
     .headline {
-      padding: 6em 2em 4em;
+      padding: 6em 2em 2em;
       text-align: center;
       @media (min-height: 1000px) {
         padding-top: 170px;
@@ -247,8 +269,34 @@ export default {
         }
       }
       .page-title-sub {
-        font-size: 1.4em;
+        font-size: 2em;
         opacity: 0.7;
+      }
+      .points {
+        display: flex;
+        margin: 2rem auto 1rem;
+        justify-content: center;
+        opacity: 0.3;
+        .point {
+          margin: 0 1rem;
+          text-transform: uppercase;
+          font-weight: 600;
+          &:hover {
+            .arrow {
+              background: var(--color-primary);
+            }
+          }
+        }
+        .arrow {
+          transition: all 0.3s;
+          color: #fff;
+          background: var(--color-text);
+          border-radius: 50%;
+          width: 1.5em;
+          height: 1.5em;
+          display: inline-block;
+          margin-right: 0.5em;
+        }
       }
       @media (max-width: 900px) {
         text-align: left;
