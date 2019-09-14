@@ -1,8 +1,8 @@
 <template>
   <div class="logo-factor">
     <svg
-      width="200"
-      height="51"
+      width="100"
+      height="25.5"
       viewBox="0 0 200 51"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

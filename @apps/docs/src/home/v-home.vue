@@ -433,7 +433,7 @@ export default {
         min-width: 0; // defaults content width
         height: 100%;
         position: relative;
-        width: 100%;
+        // width: 100%;
         display: flex;
         align-items: center;
         .figure-container {
