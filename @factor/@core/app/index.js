@@ -13,7 +13,7 @@ module.exports.default = Factor => {
       return {
         data() {
           return {
-            scrollClass: "top"
+            scrollClass: ""
           }
         },
         mounted() {
