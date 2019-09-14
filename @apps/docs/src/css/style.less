@@ -1,0 +1,24 @@
+@import "reset.less";
+@import "entry-content.less";
+@import "inputs.less";
+
+body {
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      color: var(--color-secondary);
+    }
+  }
+}

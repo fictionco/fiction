@@ -2,14 +2,23 @@
   <div class="docs-sidebar" @click.stop>
     <div ref="nav" :style="{opacity: hydrated ? 1 : 0}" class="sidebar-inner">
       <div v-if="mode =='mobile'" class="site-links">
-        <factor-link v-for="(item, index) in siteNav" :key="index" :path="item.path">
-          <span v-formatted-text="item.name" />
-          <factor-icon v-if="item.icon" :icon="item.icon" />
-        </factor-link>
+        <template v-for="(item, index) in siteNav">
+          <component :is="item.component()" v-if="item.component" :key="index" />
+          <factor-link
+            v-else
+            :key="index"
+            :path="item.path"
+            :event="item.event"
+            :target="item.target"
+          >
+            <factor-icon v-if="item.icon" :icon="item.icon" />
+            <span v-formatted-text="item.name" />
+          </factor-link>
+        </template>
       </div>
 
       <ul class="menu-root">
-        <div v-for="(item, itemIndex) in nav" :key="itemIndex">
+        <div v-for="(item, itemIndex) in nav" :key="itemIndex" class="menu-item">
           <div v-if="item.group" class="group">{{ item.group }}</div>
           <li v-else class="doc-menu">
             <factor-link class="primary-doc-link" :path="item.route">
@@ -53,12 +62,14 @@ export default {
       headers: [],
       allHeaders: [],
       activeHash: this.$route.hash,
-      hydrated: false
+      hydrated: false,
+      navConfig: this.$setting.get("site.nav")
     }
   },
+
   computed: {
     siteNav() {
-      return this.$setting.get("site.nav").filter(_ => _ && _.name)
+      return this.navConfig.filter(item => !item.condition || item.condition())
     },
     nav() {
       return docs(this).config()
@@ -205,6 +216,7 @@ export default {
     padding-bottom: 1em;
     margin-bottom: 2em;
     a {
+      margin-bottom: 0.3em;
       color: inherit;
       display: block;
       padding: 4px 0;
