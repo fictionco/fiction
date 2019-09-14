@@ -76,6 +76,9 @@ figure.powered-by {
     width: 500px;
     position: relative;
     transform: translateX(-70px) scale(1.3);
+    @media (max-width: 900px) {
+      transform: translateX(-120px) translateY(50px) scale(1.2);
+    }
     .factor-stack {
       position: absolute;
       left: 80%;

@@ -7,10 +7,7 @@
             The Javascript App Platform
             <span class="highlight">for Professional Front-End Developers</span>
           </h1>
-          <h3 class="page-title-sub">
-            Perfect for websites, blogs, dashboard-driven apps, CMS and eCommerce.
-            <br >Open source and built with Vue, Mongo, and Node.
-          </h3>
+          <h3 class="page-title-sub">Open source and built on MongoDB, Express, VueJS and Node</h3>
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
 
@@ -241,13 +238,12 @@ export default {
       .page-title {
         font-size: 3.5em;
         line-height: 1.1;
-        font-weight: 600;
+        font-weight: 500;
         margin: 0 0 1rem;
         letter-spacing: -0.03em;
         .highlight {
           display: block;
           opacity: 0.9;
-          color: #0496ff;
         }
       }
       .page-title-sub {
@@ -258,9 +254,12 @@ export default {
         text-align: left;
         padding: 3rem 0;
         .page-title {
-          font-weight: 600;
+          font-weight: 500;
           font-size: 1.7em;
           line-height: 1.3;
+          .highlight {
+            color: #0496ff;
+          }
         }
         .page-title .highlight {
           color: var(--color-primary);
@@ -272,7 +271,7 @@ export default {
           margin-top: 1rem;
           display: inline-block;
           color: inherit;
-          font-weight: 600;
+          font-weight: 500;
           opacity: 0.4;
         }
         .email-list-form {
@@ -423,7 +422,7 @@ export default {
       }
       .feature-content-container {
         grid-area: a;
-
+        min-width: 0;
         .feature-content {
           padding: 10rem 0;
           max-width: 550px;
@@ -470,7 +469,7 @@ export default {
       margin-bottom: 1rem;
     }
     .title {
-      font-weight: 600;
+      font-weight: 500;
       font-size: 3em;
       line-height: 1.1;
       margin-bottom: 1.5rem;
@@ -483,7 +482,7 @@ export default {
       opacity: 0.8;
     }
     .action {
-      font-weight: 600;
+      font-weight: 500;
       font-size: 1.3em;
     }
     @media (max-width: 900px) {
@@ -585,7 +584,7 @@ export default {
             text-transform: uppercase;
 
             font-size: 0.8em;
-            font-weight: 600;
+            font-weight: 500;
             // a {
             //   color: inherit;
             //   opacity: 0.4;
@@ -616,7 +615,7 @@ export default {
     line-height: 1.1;
     .title {
       font-size: 3em;
-      font-weight: 600;
+      font-weight: 500;
     }
     .sub-title {
       font-size: 2em;
@@ -632,7 +631,7 @@ export default {
       margin: 2rem 0;
     }
     .action {
-      font-weight: 600;
+      font-weight: 500;
     }
     @media (max-width: 900px) {
       text-align: left;

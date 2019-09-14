@@ -186,7 +186,8 @@ module.exports.default = Factor => {
         {
           path: "https://github.com/fiction-com/factor",
           name: "Github",
-          icon: "github"
+          icon: "github",
+          target: "_blank"
         },
         {
           event: "signin-modal",
