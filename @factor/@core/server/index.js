@@ -250,7 +250,7 @@ module.exports.default = Factor => {
         response.status(404).send("404 | Page Not Found")
       } else {
         Factor.$log.info(`Factor Server Error  @[${request.url}]`)
-        console.log("WTF", error)
+
         Factor.$log.error(error)
         response.status(500).send(this.wrp("500 | Server Error"))
       }
