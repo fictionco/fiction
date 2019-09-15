@@ -4,13 +4,11 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Javascript App Platform
+            The VueJS Platform
             <span class="highlight">for Professional Front-End Developers</span>
           </h1>
-          <h3 class="page-title-sub">
-            Perfect for websites, blogs, dashboard-driven apps, CMS and eCommerce.
-            <br >Open source and built with Vue, Mongo, and Node.
-          </h3>
+          <h3 class="page-title-sub">Do much more, with much less.</h3>
+
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
 
@@ -22,8 +20,35 @@
               </span>
             </factor-link>
           </div>
+          <div class="points">
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">GPL 2.0</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">MEVN Stack</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">Universal JS SSR</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">Themes + Plugins</span>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="content screencast-container">
         <div class="content-pad">
           <div class="screenshots">
@@ -228,7 +253,7 @@ export default {
   /* HEADER */
   .header {
     .headline {
-      padding: 6em 2em 4em;
+      padding: 6em 2em 2em;
       text-align: center;
       @media (min-height: 1000px) {
         padding-top: 170px;
@@ -241,29 +266,70 @@ export default {
       .page-title {
         font-size: 3.5em;
         line-height: 1.1;
-        font-weight: 600;
+        font-weight: 500;
         margin: 0 0 1rem;
         letter-spacing: -0.03em;
         .highlight {
           display: block;
           opacity: 0.9;
-          color: #0496ff;
         }
       }
       .page-title-sub {
-        font-size: 1.4em;
+        font-size: 2em;
         opacity: 0.7;
+      }
+      .points {
+        display: flex;
+        margin: 2rem auto 1rem;
+        justify-content: center;
+        opacity: 0.3;
+        .point {
+          margin: 0 1rem;
+          text-transform: uppercase;
+          font-weight: 600;
+
+          &:hover {
+            .arrow {
+              background: var(--color-primary);
+            }
+          }
+        }
+        .arrow {
+          text-align: center;
+          transition: all 0.3s;
+          color: #fff;
+          background: var(--color-text);
+          border-radius: 50%;
+          width: 1.5em;
+          height: 1.5em;
+          display: inline-block;
+          margin-right: 0.5em;
+        }
       }
       @media (max-width: 900px) {
         text-align: left;
         padding: 3rem 0;
         .page-title {
-          font-weight: 600;
+          font-weight: 500;
           font-size: 1.7em;
           line-height: 1.3;
+          .highlight {
+            color: #0496ff;
+          }
         }
         .page-title .highlight {
           color: var(--color-primary);
+        }
+        .page-title-sub {
+          font-size: 1.4em;
+          line-height: 1.1;
+        }
+        .points {
+          display: block;
+          text-align: left;
+          .point {
+            margin: 0.3em 0;
+          }
         }
       }
       .actions {
@@ -272,7 +338,7 @@ export default {
           margin-top: 1rem;
           display: inline-block;
           color: inherit;
-          font-weight: 600;
+          font-weight: 500;
           opacity: 0.4;
         }
         .email-list-form {
@@ -391,7 +457,7 @@ export default {
 
   .features {
     &.content {
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 0 rgba(227, 228, 249, 1);
       &.last {
         box-shadow: none;
       }
@@ -423,9 +489,9 @@ export default {
       }
       .feature-content-container {
         grid-area: a;
-
+        min-width: 0;
         .feature-content {
-          padding: 10rem 0;
+          padding: 10rem 1.5rem;
           max-width: 550px;
         }
       }
@@ -434,7 +500,7 @@ export default {
         min-width: 0; // defaults content width
         height: 100%;
         position: relative;
-        width: 100%;
+        // width: 100%;
         display: flex;
         align-items: center;
         .figure-container {
@@ -470,7 +536,7 @@ export default {
       margin-bottom: 1rem;
     }
     .title {
-      font-weight: 600;
+      font-weight: 500;
       font-size: 3em;
       line-height: 1.1;
       margin-bottom: 1.5rem;
@@ -483,7 +549,7 @@ export default {
       opacity: 0.8;
     }
     .action {
-      font-weight: 600;
+      font-weight: 500;
       font-size: 1.3em;
     }
     @media (max-width: 900px) {
@@ -585,7 +651,7 @@ export default {
             text-transform: uppercase;
 
             font-size: 0.8em;
-            font-weight: 600;
+            font-weight: 500;
             // a {
             //   color: inherit;
             //   opacity: 0.4;
@@ -616,7 +682,7 @@ export default {
     line-height: 1.1;
     .title {
       font-size: 3em;
-      font-weight: 600;
+      font-weight: 500;
     }
     .sub-title {
       font-size: 2em;
@@ -632,7 +698,7 @@ export default {
       margin: 2rem 0;
     }
     .action {
-      font-weight: 600;
+      font-weight: 500;
     }
     @media (max-width: 900px) {
       text-align: left;

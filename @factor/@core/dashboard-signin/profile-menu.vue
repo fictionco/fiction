@@ -177,7 +177,7 @@ export default {
       padding: 1em;
       display: flex;
       align-items: center;
-
+      overflow: hidden;
       .name {
         font-size: 1.2em;
         white-space: nowrap;

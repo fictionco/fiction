@@ -4,10 +4,15 @@
       <site-brand class="site-brand" />
 
       <div class="primary-nav">
-        <template v-for="(item, index) in siteNav" >
+        <template v-for="(item, index) in siteNav">
           <component :is="item.component()" v-if="item.component" :key="index" />
-          <factor-link v-else :key="index" :path="item.path" :event="item.event">
-           
+          <factor-link
+            v-else
+            :key="index"
+            :path="item.path"
+            :event="item.event"
+            :target="item.target"
+          >
             <factor-icon v-if="item.icon" :icon="item.icon" />
             <span v-formatted-text="item.name" />
           </factor-link>
@@ -21,11 +26,11 @@ export default {
   components: {
     "site-brand": () => import("./el/brand")
   },
-  data(){
+  data() {
     return {
       navConfig: this.$setting.get("site.nav")
     }
-  }, 
+  },
   computed: {
     siteNav() {
       return this.navConfig.filter(item => !item.condition || item.condition())
@@ -46,11 +51,26 @@ export default {
   position: fixed;
   width: 100%;
   z-index: 50;
-  font-weight: var(--font-weight-bold, 600);
+  font-weight: 600;
 }
 
-.scrolled .site-head {
-  background: #fff;
+.factor-site {
+  .site-head {
+    opacity: 0;
+  }
+  &.scrolled,
+  &.top {
+    .site-head {
+      opacity: 1;
+    }
+  }
+  &.scrolled {
+    .site-head {
+      padding: 0rem 2rem;
+      background: #fff;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    }
+  }
 }
 
 .site-head-pad {
