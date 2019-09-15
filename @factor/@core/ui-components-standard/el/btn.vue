@@ -1,14 +1,10 @@
 <template>
-  <btn-base class="app-btn" v-bind="$attrs" v-on="$listeners">
+  <factor-btn-base class="app-btn" v-bind="$attrs" v-on="$listeners">
     <slot />
-  </btn-base>
+  </factor-btn-base>
 </template>
 <script>
-export default {
-  components: {
-    "btn-base": () => import("./btn-base")
-  }
-}
+export default {}
 </script>
 
 <style lang="less">
