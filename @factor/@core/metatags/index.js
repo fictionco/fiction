@@ -19,23 +19,17 @@ export default Factor => {
         }
       })
 
-      // Factor.$filters.add("site-mixins", _ => {
-      //   _.push(this.siteMixin())
-      //   return _
-      // })
+      Factor.$filters.push("site-mixins", this.siteMixin())
     }
 
-    // siteMixin() {
-    //   const _this = this
-    //   return {
-    //     metatags() {
-    //       return {
-    //         ..._this.defaultMetatags(),
-    //         priority: 20
-    //       }
-    //     }
-    //   }
-    // }
+    siteMixin() {
+      const _this = this
+      return {
+        metatags() {
+          return _this.defaultMetatags()
+        }
+      }
+    }
 
     serverMetatags() {
       const _this = this
@@ -148,11 +142,12 @@ export default Factor => {
     }
 
     defaultMetatags(meta = {}) {
-      const metatagSettings = Factor.$config.setting("metatags") || {}
+      const metatagSettings = Factor.$setting.get("metatags.default") || {}
       const currentPath = Factor.$router.currentRoute.path
 
       return {
         title: Factor.$utils.toLabel(currentPath.split("/").pop()),
+        titleTemplate: "",
         description: "",
         image: "",
         titleSuffix: "",
