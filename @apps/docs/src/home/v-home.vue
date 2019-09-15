@@ -320,6 +320,10 @@ export default {
         .page-title .highlight {
           color: var(--color-primary);
         }
+        .page-title-sub {
+          font-size: 1.4em;
+          line-height: 1.1;
+        }
         .points {
           display: block;
           text-align: left;
@@ -453,7 +457,7 @@ export default {
 
   .features {
     &.content {
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1px 0 rgba(227, 228, 249, 1);
       &.last {
         box-shadow: none;
       }
@@ -487,7 +491,7 @@ export default {
         grid-area: a;
         min-width: 0;
         .feature-content {
-          padding: 10rem 0;
+          padding: 10rem 1.5rem;
           max-width: 550px;
         }
       }
