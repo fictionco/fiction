@@ -44,9 +44,9 @@ export default {
     }
   },
   mounted: function() {
+    //console.log(this.$route.hash)
+    //console.log(this.options)
     for (const ele of this.options) {
-      //this.$route.hash
-
       const observer = new IntersectionObserver(
         entries => {
           if (entries[0].isIntersecting) {

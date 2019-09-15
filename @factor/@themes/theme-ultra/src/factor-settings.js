@@ -1,5 +1,10 @@
 export default Factor => {
   return {
+    core: {
+      components: {
+        btn: () => import("./el/btn.vue")
+      }
+    },
     headTags: {
       font: `<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700" rel="stylesheet" />`
     },
@@ -122,7 +127,7 @@ export default Factor => {
     portfolio: {
       pretitle: "Portfolio",
       title: "Check out some of the latest creative work.",
-      indexRoute: "/",
+      indexRoute: "#portfolio",
       postRoute: "/portfolio",
       limit: 8,
       returnLinkText: "All Projects",
