@@ -1,25 +1,7 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.addPaths()
-      this.addComponents()
-      if (Factor.FACTOR_TARGET == "app") {
-        this.filters()
-      }
-    }
-
-    // addSettings() {
-    //   Factor.$filters.add("settings", _ => {
-    //     return [..._, require("./factor-settings")(Factor)]
-    //   })
-    // }
-
-    addComponents() {
-      // Factor.$filters.add("components", _ => {
-      //   _["app-btn"] = () => import("./el/btn")
-      //   _["factor-link"] = () => import("./el/link")
-      //   return _
-      // })
+      this.filters()
     }
 
     filters() {
