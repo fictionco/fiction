@@ -1,5 +1,10 @@
 module.exports.default = Factor => {
   return {
+    metatags: {
+      default: {
+        image: require("./static/factor-logo.jpg")
+      }
+    },
     emailList: {
       alphaProgram: {
         emails: {

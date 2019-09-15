@@ -27,16 +27,16 @@ module.exports.default = Factor => {
         const routes = [
           {
             path: "/",
-            component: () => import("./home/v-home")
+            component: () => import("./v-home/v-home")
           },
           {
             path: "/factor-js",
-            component: () => import("./view-tour/page-tour"),
+            component: () => import("./v-tour/page-tour"),
             meta: { nav: true }
           },
           {
             path: "/vip",
-            component: () => import("./view-vip/page-vip"),
+            component: () => import("./v-vip/page-vip"),
             meta: { nav: true, routeClass: ["nav-light"], background: "#fff" }
           },
           {
@@ -49,28 +49,6 @@ module.exports.default = Factor => {
             component: () => import("./page-chat"),
             meta: { background: "#f7f9ff", auth: true }
           }
-          // {
-          //   path: "/home",
-          //   component: () => import("./view-home-2/v-home")
-          // }
-
-          // {
-          //   path: "/how-it-works",
-          //   component: () => import("./page-how-it-works"),
-          //   meta: { background: "#f7f9ff" }
-          // },
-          // {
-          //   path: "/hosting",
-          //   component: () => import("./page-hosting")
-          // },
-          // {
-          //   path: "/staying",
-          //   component: () => import("./page-staying")
-          // },
-          // {
-          //   path: "/network",
-          //   component: () => import("./page-network")
-          // }
         ]
 
         return _.concat(routes)

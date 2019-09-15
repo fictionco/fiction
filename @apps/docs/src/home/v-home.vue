@@ -227,8 +227,9 @@ export default {
   },
   metatags() {
     return {
-      title: "Factor JS - Universal JS Platform for Front-End Professionals",
-      description: "Terminal Page Description."
+      title: "Factor JS - Universal VueJS Platform for Front-End Developers",
+      description:
+        "Factor is an extension focused platform for building universal server-rendered JS apps with the MEVN stack."
     }
   },
   routeClass() {
