@@ -15,8 +15,10 @@ export default Factor => {
         routes,
         mode: "history", // abstract
         scrollBehavior(to, from, savedPosition) {
-          if (to.path == from.path && to.hash != from.hash) {
-            return false
+          if (to.hash) {
+            return {
+              selector: to.hash
+            }
           } else if (savedPosition) {
             return savedPosition
           } else {
