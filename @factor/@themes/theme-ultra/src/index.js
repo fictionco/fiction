@@ -30,9 +30,7 @@ module.exports.default = Factor => {
 
         return _
       })
-    }
 
-    async addPaths() {
       Factor.$filters.add("page-templates", _ => {
         return _.concat([
           {
@@ -54,7 +52,7 @@ module.exports.default = Factor => {
             component: Factor.$setting.get("portfolio.components.portfolioWrap"),
             children: [
               {
-                path: "/",
+                path: "/#portfolio",
                 component: Factor.$setting.get("portfolio.components.portfolioIndex")
               },
               {

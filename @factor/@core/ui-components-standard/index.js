@@ -7,6 +7,7 @@ export default Factor => {
     registerComponents() {
       Factor.$filters.add("components", _ => {
         _["factor-btn"] = Factor.$setting.get("core.components.btn")
+        _["factor-btn-base"] = Factor.$setting.get("core.components.btnBase")
         _["factor-btn-dashboard"] = Factor.$setting.get("core.components.btnDashboard")
 
         _["factor-modal"] = Factor.$setting.get("core.components.modal")
