@@ -8,7 +8,7 @@
         </div>
       </div>
       <site-brand class="mobile-brand" />
-      <div class="aux">TBD</div>
+      <div class="aux">&mdash;&mdash;</div>
     </div>
     <transition name="fade">
       <div v-if="toggle" class="mobile-sidebar">

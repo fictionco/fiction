@@ -76,11 +76,7 @@ export default {
 
 <style lang="less">
 #plugins-feature {
-  background: linear-gradient(
-    0deg,
-    rgba(235, 239, 243, 1),
-    rgba(235, 239, 243, 0)
-  );
+  background: linear-gradient(0deg, #edf6ff, rgba(235, 239, 243, 0));
   @media (max-width: 900px) {
     .feature-figure-container {
       height: 500px;

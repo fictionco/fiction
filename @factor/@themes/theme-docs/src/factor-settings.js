@@ -57,64 +57,6 @@ export default Factor => {
       headline: "Footer Headline",
       legal: "Copyright &copy; 2017-2019 Your Company, Inc.",
       logo: () => import("./el/logo-fiction")
-    },
-    home: {
-      meta: {
-        title: "Docs Theme - Factor.js",
-        description: "A simple documentation theme for Factor.js framework."
-      },
-
-      headline: "Factor Docs Theme",
-      subHeadline: "A markdown based documentation theme for Factor",
-
-      boxes: [
-        {
-          icon: require("./img/icon-post.svg"),
-          title: "Simple",
-          description:
-            "People love simplicity! All you need to do for a fully working docs site (with SSR) is to add your markdown docs."
-        },
-        {
-          icon: require("./img/icon-plugin.svg"),
-          title: "Markdown",
-          description:
-            "The standard in writing docs. No messing with editors or other problematic formats. Use markdown files."
-        },
-        {
-          icon: require("./img/icon-time.svg"),
-          title: "Tools",
-          description:
-            "This theme includes tools for syntax highlighting with PrismJS and automatically generating your docs table-of-contents."
-        }
-      ],
-      actions: [
-        {
-          btn: "primary",
-          path: "/docs/quickstart",
-          text: "Get Started"
-        },
-        {
-          btn: "tertiary",
-          path: "/docs",
-          text: "Read the Docs"
-        }
-      ]
-    },
-    cta: {
-      title: "Ready to Start Building?",
-      subtitle: "Get in touch or create an account",
-      actions: [
-        {
-          btn: "primary",
-          path: "/guide/quickstart",
-          text: "Get Started"
-        },
-        {
-          btn: "tertiary",
-          path: "https://www.fiction.com/contact",
-          text: "Contact Us"
-        }
-      ]
     }
   }
 }

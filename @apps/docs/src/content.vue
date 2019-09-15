@@ -1,5 +1,5 @@
 <template>
-  <div class="content-layout" :style="bg">
+  <div class="content-layout">
     <header-primary class="show-desktop" />
     <header-mobile class="show-mobile" />
     <div class="content-main">
@@ -15,18 +15,9 @@
 <script>
 export default {
   components: {
-    "header-primary": () => import("#/header"),
-    "footer-primary": () => import("#/footer"),
-    "header-mobile": () => import("#/header-mobile")
-  },
-  computed: {
-    bg() {
-      return this.$route.meta.background
-        ? {
-            background: this.$route.meta.background || ""
-          }
-        : ""
-    }
+    "header-primary": () => import("./header"),
+    "footer-primary": () => import("./footer"),
+    "header-mobile": () => import("./header-mobile")
   }
 }
 </script>
@@ -39,14 +30,14 @@ export default {
 
   .show-mobile {
     display: none;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       display: block;
     }
   }
 
   .show-desktop {
     display: block;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       display: none;
     }
   }
