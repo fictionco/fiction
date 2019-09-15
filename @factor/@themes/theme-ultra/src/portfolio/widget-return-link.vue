@@ -21,15 +21,3 @@ export default {
   }
 }
 </script>
-<style lang="less">
-// .return-link {
-//   margin: 0;
-//   .back {
-//     color: var(--color-primary);
-//     font-weight: var(--font-weight-bold);
-//     &:hover {
-//       color: var(--color-primary-dark);
-//     }
-//   }
-// }
-</style>

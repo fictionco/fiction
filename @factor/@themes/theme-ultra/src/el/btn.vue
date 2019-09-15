@@ -1,16 +1,14 @@
 <template>
-  <factor-btn class="app-btn" v-bind="$attrs" v-on="$listeners">
+  <factor-btn-base class="app-btn" v-bind="$attrs" v-on="$listeners">
     <slot />
-  </factor-btn>
+  </factor-btn-base>
 </template>
 <script>
-export default {
-  mounted() {}
-}
+export default {}
 </script>
 
 <style lang="less">
-button.factor-btn {
+button.app-btn {
   padding: 0.6em 1.2em;
   font-size: 0.9em;
   font-weight: 700;
