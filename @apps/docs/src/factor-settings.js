@@ -157,9 +157,17 @@ module.exports.default = Factor => {
           group: "Contributing"
         },
         {
-          doc: "guidelines",
+          name: "Contribution Guidelines",
+          doc: "contribution",
           file: require("./docs/contribution.md"),
           title: "Contributing Guidelines"
+        },
+
+        {
+          name: "Philosophy and Style",
+          doc: "philosophy",
+          file: require("./docs/philosophy.md"),
+          title: "Factor Philosophy"
         },
         {
           group: "Reference"

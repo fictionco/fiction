@@ -1,23 +1,16 @@
 # Contributing to Factor
 
-## Development Philosophy
+**Any contribution to Factor is more than welcome.** Below we provide some specific technical guidance as well as some philosophy and style guidelines.
 
-Factor follows [Unix Philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) regarding the way it's developed. This can be summarized by the following:
+## Getting started
 
-- **Each module should do one thing well.** For something new, start a new module instead of adding new features.
-- **Portability over efficiency.** Modular code that can be removed or included stand-alone (e.g. in a test) is more important than concepts like DRY.
-- **Small and opinionated over options and features.** Parts of the Factor program should strive to be as small in size and scope as possible. Options should be removed in favor of elegant defaults.
-- **Code for fewer special cases.** Strive to code in a way that doesn't require special cases (i.e. if/else's).
-  Read [Linus stack on "Good Taste" in code &rarr;](https://medium.com/@bartobri/applying-the-linus-tarvolds-good-taste-coding-requirement-99749f37684a)
+1. [Fork](https://help.github.com/articles/fork-a-repo/) the [Factor monorepo](https://github.com/fiction-com/factor) to your own account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device.
+2. Run `npm install` or `yarn install` to install the dependencies.
+3. Factor is running in a Monorepo configuration. Using [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna). (Make sure to read about the concepts behind these tools.)
+4. Run the monorepo (shown below)
+5. Follow the [Github Flow](https://guides.github.com/introduction/flow/) and [Feature Branches](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) workflow.
 
-## Workflow
-
-Factor code is hosted on [Github](https://github.com/fiction-com/factor).
-
-### Concepts
-
-- [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) and [Lerna](https://github.com/lerna/lerna)
-- [Github Flow](https://guides.github.com/introduction/flow/) and [Feature Branches](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
+> Note that you should be running the latest Yarn utility and Node version 10 or above.
 
 ### Running Apps Using the Monorepo
 
@@ -35,9 +28,9 @@ And then running a [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/
 $ yarn workspace @apps/docs factor dev
 ```
 
-### Getting Code Into Core
+### Basic Flow
 
-There are many ways of getting code into core. The typical and reconmended way of getting changes made is by making a pull request from a feature branch which includes your changes or fixes.
+The typical and reconmended way of getting changes made is by making a pull request from a feature branch which includes your changes or fixes.
 
 The workflow looks like this:
 
@@ -45,3 +38,20 @@ The workflow looks like this:
 - Create a new branch for your specific changes (e.g. branch named: fix/some-bug/issue321)
 - Create pull request discussing reasons for change
 - If you're request is reasonable, then we may request code refactoring via code review or accept your pull request as is.
+
+## Testing
+
+(Coming Soon)
+
+## Linting
+
+As you might have noticed already, we are using ESLint to enforce a code standard. Please run `yarn factor lint` before committing
+your changes to verify that the code style is correct. If not, you can use `yarn factor lint --fix`. If there are still errors left, you must correct them manually.
+
+## Documentation
+
+If you are adding a new feature, or changing behavior you'll likely want to document the changes.
+
+Please do so with a change to the [docs](https://github.com/fiction-com/factor/tree/master/%40apps/docs) package inside the Factor repo.
+
+No need to write documentation up immediately but please do so whenever your change is made stable and ready for production.
