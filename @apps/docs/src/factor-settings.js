@@ -44,6 +44,12 @@ module.exports.default = Factor => {
           title: "Introduction: Why Use Factor"
         },
         {
+          doc: "framework-comparison",
+          name: "Compare",
+          file: require("./docs/compare.md"),
+          title: "Comparing Web App Frameworks"
+        },
+        {
           doc: "quickstart",
           title: "Installation and Quickstart",
           description:
@@ -85,6 +91,11 @@ module.exports.default = Factor => {
           title: "Factor Config and Setup CLI"
         },
         {
+          doc: "pages",
+          file: require("./docs/pages.md"),
+          title: "Pages and Page Templates"
+        },
+        {
           doc: "cli",
           name: "Use the CLI",
           file: require("./docs/cli.md"),
@@ -99,11 +110,6 @@ module.exports.default = Factor => {
           doc: "routes-and-stores",
           file: require("./docs/framework/routes-stores.md"),
           title: "Factor Routes and Stores"
-        },
-        {
-          doc: "components",
-          file: require("./docs/framework/components.md"),
-          title: "Factor Components - Views and Elements"
         },
 
         {
