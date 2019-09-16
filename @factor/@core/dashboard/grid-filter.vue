@@ -52,13 +52,6 @@ export default {
     justify-content: center;
   }
 
-  // @media (max-width: 550px) {
-  //   display: block;
-  //   .tabb {
-  //     margin: 0.4em 0;
-  //   }
-  // }
-
   .tabb {
     text-align: center;
     user-select: none;

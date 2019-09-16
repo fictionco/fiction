@@ -28,7 +28,7 @@ This component is easily overridden using `factor-settings` under core > compone
 
 **Important** There is both a front-end button and dashboard button added to Factor, so any overriding of this element will affect the front-end only (as the dashboard button is separate).
 
-Alternatively to a full override, the `btn` property simply adds a class to the buttons. So you can use any value you want and then apply custom styling (or override the default styling with specificity.)
+Alternatively, all the `btn` and `size` properties really do is add classes to the buttons. So you can use any value you want and then apply custom styling (or override the default styling with specificity.)
 
 #### Links
 
