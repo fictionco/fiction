@@ -78,6 +78,11 @@ To configure these settings, add a config array to the page template component:
 ```js
 export default {
   // ...other component code
+  computed: {
+    post() {
+      return this.$store.val("post") || {}
+    }
+  },
   templateSettings() {
     return [
       {
@@ -125,7 +130,7 @@ export default {
 }
 ```
 
-To use the values in your component, just reference the `_id` from the settings:
+To use the values in your component, just reference the `_id` from the settings as it relates to the `post` object which is automatically set when a dynamic page template is loaded. (The `post` variable is set in the computed property above).
 
 ```html
 <template>
