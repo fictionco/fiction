@@ -36,18 +36,13 @@ export default {
 <style lang="less">
 .portfolio-single-entry {
   background: var(--color-bg-alt);
-  // .return-link,
-  // .entry-tags,
-  // .single-entry-headers,
-  // .widget-date,
-  // .entry-meta,
-  // .post-entry,
-  // .social-share,
-  // .author-bio {
-  //   line-height: 1.2;
-  //   max-width: 50rem;
-  //   margin: 0 auto;
-  // }
+
+  .featured-image-wrap,
+  .entry-meta,
+  .post-entry,
+  .author-card {
+    padding: 1em 2em;
+  }
 
   .return-link {
     margin: 0;
@@ -61,24 +56,13 @@ export default {
     }
   }
 
-  .entry-meta,
-  .post-entry,
-  .social-share,
-  .author-card {
-    padding: 1em 2em;
-  }
-
   .entry-meta {
     justify-content: normal;
   }
-  .featured-image {
-    border-radius: 0;
-  }
 
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .return-link,
     .entry-meta,
-    .social-share,
     .author-card {
       padding: 1em;
     }

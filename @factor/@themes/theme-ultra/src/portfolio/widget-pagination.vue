@@ -58,7 +58,7 @@ export default {
 .pagination {
   display: flex;
   align-items: center;
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     justify-content: flex-end;
     .items,
     .sep {

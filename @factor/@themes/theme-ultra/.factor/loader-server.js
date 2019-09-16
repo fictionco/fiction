@@ -2,7 +2,7 @@
 const files = {}
 files["setting"] = require("@factor/app-settings").default
 files["mongo"] = require("@factor/tools-mongo").default
-files["blog"] = require("@factor/plugin-blog").default
+files["http"] = require("@factor/tools-http").default
 files["userRolesServer"] = require("@factor/core-user-roles/server").default
 files["dashboard"] = require("@factor/dashboard").default
 files["dbServer"] = require("@factor/core-db/server").default
@@ -10,7 +10,6 @@ files["directivesStandard"] = require("@factor/ui-directives-standard").default
 files["emailServer"] = require("@factor/core-email/server").default
 files["endpointServer"] = require("@factor/core-endpoint/server").default
 files["error"] = require("@factor/core-error").default
-files["http"] = require("@factor/tools-http").default
 files["postServer"] = require("@factor/post/server").default
 files["post"] = require("@factor/post").default
 files["server"] = require("@factor/server").default

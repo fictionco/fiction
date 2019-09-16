@@ -1,9 +1,9 @@
 <template>
-  <div class="single-entry">
+  <div class="news-single-entry">
     <div v-if="!$lodash.isEmpty(post)">
       <component
-        :is="$setting.get(`blog.components.${comp}`)"
-        v-for="(comp, i) in $setting.get('blog.layout.single')"
+        :is="$setting.get(`news.components.${comp}`)"
+        v-for="(comp, i) in $setting.get('news.layout.single')"
         :key="i"
         :post-id="post._id"
       />
@@ -29,15 +29,32 @@ export default {
       return this.$store.val("post") || {}
     }
   },
-  created() {
-    // Factor.siteVars.classes = ["nav-light"]
-  },
   methods: {}
 }
 </script>
 
 <style lang="less">
-.single-entry {
-  color: var(--color-text);
+.news-single-entry {
+  background: var(--color-bg-alt);
+  overflow: hidden;
+
+  .featured-image-wrap,
+  .entry-meta,
+  .post-entry,
+  .author-card {
+    padding: 1em 2em;
+  }
+
+  .entry-meta {
+    justify-content: normal;
+  }
+
+  @media (max-width: 900px) {
+    .return-link,
+    .entry-meta,
+    .author-card {
+      padding: 1em;
+    }
+  }
 }
 </style>
