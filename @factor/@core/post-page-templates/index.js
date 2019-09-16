@@ -80,20 +80,22 @@ export default Factor => {
     }
 
     getPageTemplates() {
-      const tpls = [
-        {
-          _id: "default",
-          component: () => import("./tpl-default")
-        }
-      ]
+      const tpls = Factor.$setting.get("pageTemplates.templates")
 
-      return Factor.$filters.apply("page-templates", tpls).map(_ => {
-        const name = _.name || Factor.$utils.toLabel(_._id.replace("tpl-", ""))
-        return {
-          name,
-          ..._
-        }
-      })
+      return Factor.$filters
+        .apply("page-templates", tpls)
+        .filter((page, index, self) => {
+          // remove duplicates, favor the last
+          const lastIndexOf = self.map(_ => _._id).lastIndexOf(page._id)
+          return index === lastIndexOf
+        })
+        .map(_ => {
+          const name = _.name || Factor.$utils.toLabel(_._id.replace("tpl-", ""))
+          return {
+            name,
+            ..._
+          }
+        })
     }
   })()
 }
