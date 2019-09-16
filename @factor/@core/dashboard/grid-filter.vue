@@ -1,8 +1,8 @@
 <template>
-  <div class="tabber">
+  <div class="grid-filter">
     <div
-      v-for="(tab) in filterTabs"
-      :key="tab.value"
+      v-for="(tab, i) in filterTabs"
+      :key="i"
       class="tabb"
       :class="activeItem == tab.value ? 'active': 'not-active'"
     >
@@ -41,31 +41,19 @@ export default {
 </script>
 
 <style lang="less">
-.tabber {
+.grid-filter {
   display: flex;
+  justify-content: flex-end;
+  font-size: 0.85rem;
   > div {
-    margin-right: 6px;
+    margin-right: 0.5rem;
   }
-  @media (max-width: 767px) {
-    padding-bottom: 1em;
+  @media (max-width: 900px) {
     justify-content: center;
-    order: -1;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    display: block;
-    .tabb {
-      margin: 0.4em 0;
-    }
-  }
-
-  @media (max-width: 550px) {
-    display: block;
-    .tabb {
-      margin: 0.4em 0;
-    }
   }
 
   .tabb {
+    text-align: center;
     user-select: none;
     .facet {
       &:hover {

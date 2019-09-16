@@ -45,27 +45,20 @@ export default {
 <style lang="less">
 .tabber {
   display: flex;
+  justify-content: flex-end;
   > div {
     margin-right: 6px;
   }
-  @media (max-width: 767px) {
-    padding-bottom: 1em;
+  @media (max-width: 900px) {
     justify-content: center;
-    order: -1;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    display: block;
-    .tabb {
-      margin: 0.4em 0;
-    }
   }
 
-  @media (max-width: 550px) {
-    display: block;
-    .tabb {
-      margin: 0.4em 0;
-    }
-  }
+  // @media (max-width: 550px) {
+  //   display: block;
+  //   .tabb {
+  //     margin: 0.4em 0;
+  //   }
+  // }
 
   .tabb {
     user-select: none;

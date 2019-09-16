@@ -28,7 +28,7 @@ module.exports.default = Factor => {
           }
         },
         form: {
-          buttonText: "Join Alpha Program &rarr;"
+          buttonText: "Request Alpha Invite &rarr;"
         }
       }
     },
@@ -157,9 +157,17 @@ module.exports.default = Factor => {
           group: "Contributing"
         },
         {
-          doc: "guidelines",
+          name: "Contribution Guidelines",
+          doc: "contribution",
           file: require("./docs/contribution.md"),
           title: "Contributing Guidelines"
+        },
+
+        {
+          name: "Philosophy and Style",
+          doc: "philosophy",
+          file: require("./docs/philosophy.md"),
+          title: "Factor Philosophy"
         },
         {
           group: "Reference"
@@ -209,7 +217,7 @@ module.exports.default = Factor => {
     footer: {
       headline: "Released under the GPL-2 License",
       legal:
-        "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a> and The Contibutors",
+        "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>, <a href='https://www.pagelines.com'>PageLines</a> and The Contibutors",
       logo: () => import("./el/logo-fiction"),
       logo2: () => import("./el/logo-pagelines")
     },
