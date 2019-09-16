@@ -4,7 +4,7 @@
     <div class="cta">
       <div class="cta-inner">
         <h2>{{ $setting.get('portfolio.cta.headline') }}</h2>
-        <factor-link btn="default" size="large" :path="$setting.get('portfolio.cta.path')">
+        <factor-link btn="secondary" size="large" :path="$setting.get('portfolio.cta.path')">
           {{ $setting.get('portfolio.cta.text') }}
           <factor-icon icon="arrow-right" />
         </factor-link>
@@ -36,7 +36,7 @@ export default {}
   .factor-btn {
     letter-spacing: -0.03em;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     padding: 4em 2em;
     h2 {
       font-size: 2em;

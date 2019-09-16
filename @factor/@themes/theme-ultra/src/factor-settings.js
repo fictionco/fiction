@@ -127,7 +127,7 @@ export default Factor => {
     portfolio: {
       pretitle: "Portfolio",
       title: "Check out some of the latest creative work.",
-      indexRoute: "#portfolio",
+      indexRoute: "/#portfolio",
       postRoute: "/portfolio",
       limit: 8,
       returnLinkText: "All Projects",
@@ -143,12 +143,12 @@ export default Factor => {
         hero: () => import("./portfolio/widget-hero.vue"),
         featuredImage: () => import("./portfolio/widget-featured-image.vue"),
         tags: () => import("./portfolio/widget-tags.vue"),
-        returnLink: () => import("./portfolio/widget-return-link.vue"),
+        //returnLink: () => import("./portfolio/widget-return-link.vue"),
         pagination: () => import("./portfolio/widget-pagination.vue")
       },
       layout: {
         index: ["featuredImage"],
-        single: ["returnLink", "hero", "featuredImage", "tags", "portfolioEntry"]
+        single: ["hero", "featuredImage", "tags", "portfolioEntry"]
       },
       clientsTitle: "Previous Clients",
       clients: [
@@ -170,38 +170,38 @@ export default Factor => {
         }
       ],
       cta: {
-        headline: "headline",
-        path: "path",
-        text: "text do it"
+        headline: "Interested in Working Together? ",
+        path: "/#contact",
+        text: "Start Your Project"
       }
     },
-    blog: {
+    news: {
       pretitle: "News",
       title: "Latest News",
       indexRoute: "/#news",
       postRoute: "/news",
-      limit: 4,
+      limit: 2,
       returnLinkText: "All News",
       notFound: {
         title: "No News",
         subTitle: "Couldn't find any news."
       },
       components: {
-        blogWrap: () => import("./blog/blog-wrap.vue"),
-        blogIndex: () => import("./blog/blog-index.vue"),
-        blogSingle: () => import("./blog/blog-single.vue"),
-        headers: () => import("./blog/widget-headers.vue"),
-        featuredImage: () => import("./blog/widget-featured-image.vue"),
-        tags: () => import("./blog/widget-tags.vue"),
-        date: () => import("./blog/widget-date.vue"),
-        returnLink: () => import("./blog/widget-return-link.vue"),
-        excerpt: () => import("./blog/widget-excerpt.vue"),
-        pagination: () => import("./blog/widget-pagination.vue")
+        newsWrap: () => import("./news/news-wrap.vue"),
+        newsIndex: () => import("./news/news-index.vue"),
+        newsSingle: () => import("./news/news-single.vue"),
+        newsEntry: () => import("./news/widget-entry.vue"),
+        newsExcerpt: () => import("./news/widget-excerpt.vue"),
+        newsHero: () => import("./news/widget-hero.vue"),
+        date: () => import("./news/widget-date.vue"),
+        featuredImage: () => import("./news/widget-featured-image.vue"),
+        authorBio: () => import("./news/widget-author-bio.vue"),
+        tags: () => import("./news/widget-tags.vue")
+        //pagination: () => import("./news/widget-pagination.vue")
       },
       layout: {
-        index: ["date", "headers", "excerpt"],
-        single: ["returnLink", "headers", "featuredImage", "tags", "entry", "authorBio"],
-        meta: ["authorDate"]
+        index: ["date", "newsHero", "newsExcerpt"],
+        single: ["newsHero", "featuredImage", "tags", "newsEntry", "authorBio"]
       }
     },
     contactForm: {

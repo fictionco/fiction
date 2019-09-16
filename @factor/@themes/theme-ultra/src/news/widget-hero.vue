@@ -1,8 +1,13 @@
 <template>
   <div class="hero">
     <div class="hero-inner">
-      <div>
-        <factor-link class="back" :path="$setting.get('portfolio.indexRoute')">
+      <div v-if="format == 'index'">
+        <h1 class="title">
+          <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+        </h1>
+      </div>
+      <div v-else>
+        <factor-link class="back" :path="$setting.get('news.indexRoute')">
           <factor-icon icon="arrow-left" />
           {{ returnLinkText }}
         </factor-link>
@@ -26,14 +31,14 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     returnLinkText() {
-      return this.$setting.get("portfolio.returnLinkText") || "All Projects"
+      return this.$setting.get("news.returnLinkText") || "All Projects"
     }
   }
 }
 </script>
 <style lang="less">
 // Single
-.portfolio-single-entry {
+.news-single-entry {
   .hero {
     position: relative;
     overflow: hidden;
@@ -66,7 +71,7 @@ export default {
           font-size: 2em;
         }
         a {
-          color: var(--color-white);
+          color: var(--color-text-light);
           &:hover {
             text-decoration: underline;
             text-decoration-color: var(--color-tertiary);
@@ -75,6 +80,7 @@ export default {
       }
       .entry-subtitle {
         line-height: 1.7;
+        color: var(--color-text-light);
       }
       .content {
         font-size: 1.2em;

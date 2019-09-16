@@ -73,9 +73,16 @@ export default {
       .portfolio-posts {
         display: grid;
         grid-gap: 10px;
-        //grid-template-columns: 1fr 1fr;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        grid-auto-rows: 20px;
+        grid-template-columns: 1fr 1fr;
+        // display: flex;
+        // flex-flow: column wrap;
+        // max-height: 1600px;
+        // overflow: hidden;
+        // margin-left: -8px; /* Adjustment for the gutter */
+        //
+        // .post {
+        //   width: 50%;
+        // }
         @media (max-width: 900px) {
           grid-template-columns: 1fr;
         }
