@@ -1,7 +1,6 @@
 <script>
 export default {
   props: {
-    pg: { type: String, default: "" },
     btn: { type: String, default: "" },
     btnElement: { type: String, default: "" },
     size: { type: String, default: "" },
@@ -55,10 +54,6 @@ export default {
     let classes = {}
 
     classes["factor-link"] = true
-
-    if (this.pg) {
-      classes[`link-${this.pg}`] = true
-    }
 
     if (this.btn) {
       classes[`btn-link`] = true
