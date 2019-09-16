@@ -202,9 +202,6 @@ export default {
     color: inherit;
     display: block;
     transition: opacity 0.2s, color 0.2s;
-    @media (max-width: 960px) {
-      font-size: 1.4em;
-    }
 
     &:hover {
       opacity: 0.85;
