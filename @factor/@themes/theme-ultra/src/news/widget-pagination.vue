@@ -15,26 +15,26 @@
 export default {
   props: {
     postType: { type: String, default: "" }
-    // pageCount: { type: Number, default: 0 },
-    // pageCurrent: { type: Number, default: 0 },
-    // count: { type: Number, default: 0 }
+    //pageCount: { type: Number, default: 0 },
+    //pageCurrent: { type: Number, default: 0 },
+    //count: { type: Number, default: 0 }
   },
   computed: {
     index() {
       return this.$store.val(this.postType) || {}
     },
-    blogMeta() {
+    newsMeta() {
       const { meta = [] } = this.index
       return meta
     },
     pageCount() {
-      return this.blogMeta.pageCount || 1
+      return this.newsMeta.pageCount || 1
     },
     count() {
-      return this.blogMeta.totalForQuery || 1
+      return this.newsMeta.totalForQuery || 1
     },
     pageCurrent() {
-      return this.blogMeta.pageCurrent || 1
+      return this.newsMeta.pageCurrent || 1
     }
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
 .pagination {
   display: flex;
   align-items: center;
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     justify-content: flex-end;
     .items,
     .sep {

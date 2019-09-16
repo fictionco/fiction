@@ -4,8 +4,8 @@
       v-for="(tag, ti) in tags"
       :key="ti"
       class="entry-tag"
-      :path="$setting.get('blog.indexRoute')"
-      :query="{tag}"
+      :path="$setting.get('news.indexRoute')"
+      :query="{ tag }"
     >{{ tag }}</factor-link>
   </div>
 </template>
@@ -27,23 +27,27 @@ export default {
 <style lang="less">
 .entry-tags {
   line-height: 1;
-}
-.entry-tags a {
-  background: rgba(50, 50, 93, 0.1);
-  opacity: 0.8;
-  display: inline-block;
-  font-size: 0.85em;
-  margin: 5px 5px 5px 0;
-  padding: 5px 10px;
-  text-decoration: none;
-  font-weight: 600;
-  border-radius: 3px;
-  &:hover {
+  //padding: 1em 2em 0;
+
+  a {
     color: var(--color-primary);
-    opacity: 1;
-  }
-  &:not(:nth-child(1)) {
-    margin-left: 3px;
+    background: var(--color-placeholder-2);
+    display: inline-block;
+    opacity: 0.7;
+    font-size: 0.85em;
+    font-weight: var(--font-weight-bold);
+    margin: 5px 5px 5px 0;
+    padding: 5px 10px;
+    text-decoration: none;
+    border-radius: 3px;
+    &:hover {
+      color: var(--color-white);
+      opacity: 1;
+      background: var(--color-primary-dark);
+    }
+    &:not(:nth-child(1)) {
+      margin-left: 3px;
+    }
   }
 }
 </style>

@@ -34,14 +34,15 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .post-entry {
-  margin: 2rem 0;
   padding-bottom: 1rem;
   font-size: 1.25em;
   line-height: 1.4;
+  max-width: 800px;
+  margin: 0 auto;
 
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     font-size: 1em;
   }
 
@@ -53,12 +54,13 @@ export default {
 
   p {
     margin: 0 0 1.5em 0;
+    margin-bottom: 1em;
   }
 
   h1,
   h2,
   h3 {
-    font-weight: var(--font-weight-bold, 800);
+    font-weight: var(--font-weight-bold);
     line-height: 1.2;
     margin-bottom: 0.4em;
   }
@@ -66,7 +68,7 @@ export default {
   h4,
   h5,
   h6 {
-    font-weight: var(--font-weight-semibold, 600);
+    font-weight: var(--font-weight-semibold);
     line-height: 1.4em;
     margin-bottom: 0.5em;
   }
@@ -124,12 +126,12 @@ export default {
 
   figure {
     margin: 2em 0;
-    text-align: center;
+    // text-align: center;
 
     figcaption {
       margin-top: 0.5em;
       opacity: 0.3;
-      text-align: center;
+      // text-align: center;
     }
 
     > a,
@@ -160,15 +162,15 @@ export default {
   table {
     margin: 0.5em 0 1.4em;
     width: 100%;
-    border: 1px solid #e7ebed;
+    border: 1px solid var(--color-bg-alt-dark);
 
     tr:nth-child(even) {
-      background: #f3f5fa;
+      background: var(--color-bg-alt-dark);
     }
 
     th {
       font-weight: 600;
-      border-bottom: 1px solid #e7ebed;
+      border-bottom: 1px solid var(--color-bg-alt-dark);
     }
 
     th,
@@ -177,10 +179,15 @@ export default {
     }
   }
 
+  .code-toolbar {
+    background: var(--color-bg-alt-dark);
+    margin-bottom: 1.4em;
+  }
+
   .embed-responsive {
     margin: 0.5em 0;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       position: relative;
       padding-bottom: 56.25%;
       /* 16:9 */
@@ -191,7 +198,7 @@ export default {
     iframe {
       width: 100%;
 
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         position: absolute;
         top: 0;
         left: 0;
@@ -207,7 +214,7 @@ export default {
     border-left: 5px solid var(--color-primary);
     font-style: italic;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       margin: 0.5em 0;
     }
 

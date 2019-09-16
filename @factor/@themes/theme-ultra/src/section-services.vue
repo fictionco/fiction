@@ -15,7 +15,7 @@
 <script>
 export default {
   components: {
-    "services-icon": () => import("./icon-services.vue")
+    "services-icon": () => import("./el/icon-services.vue")
   }
 }
 </script>

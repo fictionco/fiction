@@ -1,50 +1,47 @@
 <template>
-  <div>
-    <component :is="$setting.get('blog.components.returnLink')" v-if="tag || page > 1" />
-    <div v-if="loading" class="posts-loading">
+  <div class="news-wrap">
+    <div v-if="loading" class="loading-entries">
       <factor-loading-ring />
     </div>
-    <div v-else-if="blogPosts.length > 0" class="news-wrap">
-      <div v-for="(post) in blogPosts" :key="post._id" class="news-item">
+    <div v-else-if="newsPosts.length > 0" class="news-posts">
+      <section v-for="post in newsPosts" :key="post._id" class="news-item">
         <component
-          :is="$setting.get(`blog.components.${comp}`)"
-          v-for="(comp, i) in $setting.get('blog.layout.index')"
+          :is="$setting.get(`news.components.${comp}`)"
+          v-for="(comp, i) in $setting.get('news.layout.index')"
           :key="i"
           :post-id="post._id"
+          format="index"
         />
-      </div>
+      </section>
     </div>
     <div v-else class="posts-not-found">
       <div class="text">
-        <div class="title">{{ $setting.get("blog.notFound.title") }}</div>
-        <div class="sub-title">{{ $setting.get("blog.notFound.subTitle") }}</div>
+        <div class="title">{{ $setting.get("news.notFound.title") }}</div>
+        <div class="sub-title">{{ $setting.get("news.notFound.subTitle") }}</div>
       </div>
     </div>
-    <component :is="$setting.get('blog.components.pagination')" :post-type="postType" />
   </div>
 </template>
-  <script>
+<script>
 export default {
   data() {
     return {
-      postType: "blog",
+      postType: "news",
       loading: false
     }
   },
-  // metatags() {
-  //   const title = this.tag
-  //     ? `Tag "${this.tag}"`
-  //     : this.$setting.get("blog.metatags.index.title")
+  metatags() {
+    const tag = this.$route.params.tag || ""
+    const title = tag ? `Tag "${tag}"` : "Projects"
 
-  //   const description = this.tag
-  //     ? `Articles related to tag: ${this.tag}`
-  //     : this.$setting.get("blog.metatags.index.description")
-
-  //   return {
-  //     title,
-  //     description
-  //   }
-  // },
+    const description = tag
+      ? `Articles related to tag: ${tag}`
+      : "News and more..."
+    return {
+      title,
+      description
+    }
+  },
   serverPrefetch() {
     return this.getPosts()
   },
@@ -55,12 +52,15 @@ export default {
     index() {
       return this.$store.val(this.postType) || {}
     },
-    blogPosts() {
+    newsPosts() {
       const { posts = [] } = this.index
       return posts
     },
     page() {
       return this.$route.query.page || 1
+    },
+    returnLinkText() {
+      return this.$setting.get("news.returnLinkText") || "All News"
     }
   },
   watch: {
@@ -83,7 +83,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("blog.limit")
+        limit: this.$setting.get("news.limit")
       })
 
       this.loading = false
@@ -93,6 +93,16 @@ export default {
 </script>
 
 <style lang="less">
+.news-posts {
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  margin: 2rem auto;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
 .posts-not-found,
 .posts-loading {
   min-height: 50vh;

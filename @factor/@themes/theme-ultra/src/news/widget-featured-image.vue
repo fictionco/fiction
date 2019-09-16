@@ -61,7 +61,7 @@ export default {
 }
 </script>
 <style lang="less">
-.portfolio-posts {
+.news-posts {
   .image-wrap {
     display: block;
     position: relative;
@@ -107,7 +107,7 @@ export default {
   }
 }
 
-.portfolio-single-entry {
+.news-single-entry {
   .featured-image-wrap {
     position: relative;
     z-index: 1;

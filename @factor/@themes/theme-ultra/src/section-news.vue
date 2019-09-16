@@ -1,19 +1,21 @@
 <template>
   <section id="news" class="page-container news-container">
-    <h2 class="pretitle">{{ $setting.get('blog.pretitle') }}</h2>
-    <h1 class="title">{{ $setting.get('blog.title') }}</h1>
-    <blog-index />
+    <h2 class="pretitle">{{ $setting.get('news.pretitle') }}</h2>
+    <h1 class="title">{{ $setting.get('news.title') }}</h1>
+    <news-index />
+    <news-pagination />
   </section>
 </template>
 
 <script>
 export default {
   components: {
-    "blog-index": () => import("./blog/blog-index")
+    "news-index": () => import("./news/news-index"),
+    "news-pagination": () => import("./news/widget-pagination")
   },
   data() {
     return {
-      postType: "blog",
+      postType: "news",
       loading: false
     }
   },
@@ -27,7 +29,7 @@ export default {
     index() {
       return this.$store.val(this.postType) || {}
     },
-    blogPosts() {
+    newsPosts() {
       const { posts = [] } = this.index
       return posts
     },
@@ -55,7 +57,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("blog.limit")
+        limit: this.$setting.get("news.limit")
       })
 
       this.loading = false
@@ -90,16 +92,7 @@ export default {
       }
     }
   }
-  .news-wrap {
-    display: grid;
-    grid-gap: 2rem;
-    grid-template-columns: 1fr 1fr;
-    margin: 2rem auto;
 
-    @media (max-width: 900px) {
-      grid-template-columns: 1fr;
-    }
-  }
   .news-item {
     position: relative;
     height: 100%;
