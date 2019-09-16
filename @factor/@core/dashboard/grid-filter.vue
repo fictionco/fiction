@@ -1,5 +1,5 @@
 <template>
-  <div class="tabber">
+  <div class="grid-filter">
     <div
       v-for="(tab) in filterTabs"
       :key="tab.value"
@@ -41,31 +41,25 @@ export default {
 </script>
 
 <style lang="less">
-.tabber {
+.grid-filter {
   display: flex;
+  justify-content: flex-end;
   > div {
     margin-right: 6px;
   }
-  @media (max-width: 767px) {
-    padding-bottom: 1em;
+  @media (max-width: 900px) {
     justify-content: center;
-    order: -1;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    display: block;
-    .tabb {
-      margin: 0.4em 0;
-    }
   }
 
-  @media (max-width: 550px) {
-    display: block;
-    .tabb {
-      margin: 0.4em 0;
-    }
-  }
+  // @media (max-width: 550px) {
+  //   display: block;
+  //   .tabb {
+  //     margin: 0.4em 0;
+  //   }
+  // }
 
   .tabb {
+    text-align: center;
     user-select: none;
     .facet {
       &:hover {
