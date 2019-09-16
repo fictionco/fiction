@@ -10,8 +10,8 @@ export default Factor => {
         _["factor-btn-base"] = Factor.$setting.get("core.components.btnBase")
         _["factor-btn-dashboard"] = Factor.$setting.get("core.components.btnDashboard")
 
-        _["factor-modal"] = Factor.$setting.get("core.components.modal")
-        _["factor-app-modal"] = Factor.$setting.get("core.components.modal")
+        _["factor-modal"] = Factor.$setting.get("core.components.modalApp")
+        _["factor-modal-dashboard"] = Factor.$setting.get("core.components.modal")
 
         _["factor-loading-ring"] = Factor.$setting.get("core.components.loadingRing")
         _["factor-lightbox"] = Factor.$setting.get("core.components.lightbox")

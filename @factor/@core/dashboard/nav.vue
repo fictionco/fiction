@@ -188,32 +188,10 @@ export default {
     .sub-menu {
       grid-area: sub;
     }
-  }
-  .nav-set.has-title {
-    margin: 1em 0;
-  }
-  .group-title {
-    font-size: 0.9em;
-    opacity: 0.2;
-  }
-  a {
-    padding: 0.25em;
-    font-weight: 500;
-    color: inherit;
-    display: block;
-    transition: opacity 0.2s, color 0.2s;
-    @media (max-width: 960px) {
-      font-size: 1.4em;
+    .primary-item-icon {
+      opacity: 0.6;
     }
-
-    &:hover {
-      opacity: 0.85;
-    }
-
-    &.active-path {
-      font-weight: var(--font-weight-bold);
-
-      opacity: 1;
+    &.active {
       .primary-item-icon {
         filter: initial;
         position: absolute;
@@ -221,14 +199,26 @@ export default {
         opacity: 1;
       }
     }
-    .external {
-      opacity: 0.8;
-      transition: all 0.2s;
-      transform: rotate(45deg) translate(-4px, 0px);
-      display: inline-block;
+  }
+  .nav-set.has-title {
+    margin: 1em 0;
+  }
+
+  a {
+    padding: 0.25em;
+    font-weight: 500;
+    color: inherit;
+    display: block;
+    transition: opacity 0.2s, color 0.2s;
+    opacity: 0.75;
+    &:hover {
+      opacity: 0.85;
     }
-    &:hover .external {
-      transform: rotate(45deg) translate(-3px, -4px);
+
+    &.active-path {
+      font-weight: 700;
+
+      opacity: 1;
     }
   }
 }

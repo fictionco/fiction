@@ -6,7 +6,7 @@ The easiest way to set up a Factor app is to start with an example app or use th
 
 However, it is also easy and helpful to understand the function of each file and the ways that an app can be customized. This doc will discuss the basic Factor module structure along with the purpose and proper use of the different files you'll encounter.
 
-## Standard Module Files
+## Standard Files
 
 The following files are used to control the handling of your Factor app.
 
