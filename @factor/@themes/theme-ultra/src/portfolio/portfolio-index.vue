@@ -4,7 +4,7 @@
       <factor-loading-ring />
     </div>
     <div v-else-if="portfolioPosts.length > 0" class="portfolio-posts">
-      <section v-for="post in portfolioPosts" :key="post._id" class="post">
+      <section v-for="post in portfolioPosts" :key="post._id" class="post card">
         <component
           :is="$setting.get(`portfolio.components.${comp}`)"
           v-for="(comp, i) in $setting.get('portfolio.layout.index')"
@@ -97,31 +97,6 @@ export default {
   .loading-entries {
     height: 50vh;
     padding: 5em;
-  }
-}
-.page-portfolio {
-  .portfolio-posts {
-    padding: 6em 2em;
-    line-height: 1.2;
-    max-width: 1000px;
-    margin: 0 auto;
-    .posts-index {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 2em;
-      @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-      }
-
-      > div {
-        &:nth-child(2n) {
-          margin-top: 120px;
-          @media (max-width: 767px) {
-            margin: 0;
-          }
-        }
-      }
-    }
   }
 }
 </style>

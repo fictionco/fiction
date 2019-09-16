@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     btnComponent() {
-      return this.el ? this.el : "factor-btn-dashboard"
+      return this.el ? this.el : "factor-btn"
     }
   }
 }

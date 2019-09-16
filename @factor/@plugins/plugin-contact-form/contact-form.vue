@@ -23,7 +23,6 @@
         :format="$setting.get('contactForm.inputFormat', 'horizontal')"
       />
       <factor-input-submit
-        el="app-btn"
         :btn="$setting.get('contactForm.submit.btn')"
         :size="$setting.get('contactForm.submit.size')"
         :loading="sending"
