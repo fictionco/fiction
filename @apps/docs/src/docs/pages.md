@@ -62,9 +62,11 @@ export default Factor => {
 
 Note that if two pages have the same `_id` then the first will be removed and the second used. This allows applications and themes to override templates easily. This is also useful is changing the "default" template.
 
-## Adding Options
+## Template Settings
 
 The key part of the page template system is the simple page-by-page template setting feature.
+
+### Configure Settings
 
 This feature supports the following input types:
 
@@ -129,6 +131,8 @@ export default {
   // ...other component code
 }
 ```
+
+### Using Settings
 
 To use the values in your component, just reference the `_id` from the settings as it relates to the `post` object which is automatically set when a dynamic page template is loaded. (The `post` variable is set in the computed property above).
 
