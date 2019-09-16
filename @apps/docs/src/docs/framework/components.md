@@ -61,6 +61,20 @@ This component takes the following props:
 
 #### Modals
 
+Modals are the standard "popup" style elements that sometimes appear for confirmation messages or actions like logging in. Since these is such a useful tool, that is also simple, it is included as standard.
+
+The standard modal takes the following props:
+
+- `vis.sync` - The modal uses this synced property to determine the visibility of the modal. Setting `true` means the modal is visible. This value will change based on the modal's inner workings (like the close button) therefore it requires the `.sync` modifier.
+- `<slot>` - Whatever you place inside the components slot (between opening and closing tags) will be shown inside the modal when `vis` is true.
+
+```html
+<!-- Link to external site or resource -->
+<factor-modal vis.sync="showModal">
+  <div class="my-modal-content">Content shown in modal.</div>
+</factor-btn>
+```
+
 ### Forms and Inputs
 
 #### Standard Inputs

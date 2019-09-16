@@ -1,8 +1,8 @@
 <template>
   <div class="grid-filter">
     <div
-      v-for="(tab) in filterTabs"
-      :key="tab.value"
+      v-for="(tab, i) in filterTabs"
+      :key="i"
       class="tabb"
       :class="activeItem == tab.value ? 'active': 'not-active'"
     >
@@ -44,8 +44,9 @@ export default {
 .grid-filter {
   display: flex;
   justify-content: flex-end;
+  font-size: 0.85rem;
   > div {
-    margin-right: 6px;
+    margin-right: 0.5rem;
   }
   @media (max-width: 900px) {
     justify-content: center;

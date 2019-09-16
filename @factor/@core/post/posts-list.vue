@@ -191,7 +191,7 @@ export default {
   .post-title {
     > a {
       display: block;
-      font-size: 1.4em;
+      font-size: 1.2em;
       line-height: 1.2;
     }
     .permalink {
