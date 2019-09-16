@@ -1,11 +1,11 @@
 <template>
-  <factor-app-modal class="added-modal" :vis.sync="vis">
+  <factor-modal class="added-modal" :vis.sync="vis">
     <h2 v-formatted-text="setting('success.title')" class="added-title" />
     <div v-formatted-text="setting('success.text')" class="added-text" />
     <div class="actions">
       <factor-btn btn="primary" @click="vis = false">Close</factor-btn>
     </div>
-  </factor-app-modal>
+  </factor-modal>
 </template>
 <script>
 export default {
