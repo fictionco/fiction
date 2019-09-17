@@ -1,6 +1,6 @@
 {
-  "name": "Fiction.com",
-  "short_name": "Fiction",
+  "name": "Factor JS - Ultra Theme",
+  "short_name": "Ultra Theme",
   "icons": [
     {
       "src": "/logo-120.png",
@@ -26,10 +26,15 @@
       "src": "/logo-256.png",
       "sizes": "256x256",
       "type": "image/png"
+    },
+    {
+      "src": "/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "start_url": "/",
-  "background_color": "#FFFFFF",
+  "background_color": "#000",
   "display": "standalone",
-  "theme_color": "#FF0076"
+  "theme_color": "#FA5855"
 }
