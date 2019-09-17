@@ -3,15 +3,13 @@
     <h2 class="pretitle">{{ $setting.get('news.pretitle') }}</h2>
     <h1 class="title">{{ $setting.get('news.title') }}</h1>
     <news-index />
-    <news-pagination />
   </section>
 </template>
 
 <script>
 export default {
   components: {
-    "news-index": () => import("./news/news-index"),
-    "news-pagination": () => import("./news/widget-pagination")
+    "news-index": () => import("./news/news-index")
   },
   data() {
     return {

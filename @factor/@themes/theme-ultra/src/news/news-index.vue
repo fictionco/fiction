@@ -20,6 +20,7 @@
         <div class="sub-title">{{ $setting.get("news.notFound.subTitle") }}</div>
       </div>
     </div>
+    <component :is="$setting.get('news.components.pagination')" :post-type="postType" />
   </div>
 </template>
 <script>

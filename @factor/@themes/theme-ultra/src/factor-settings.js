@@ -180,7 +180,7 @@ export default Factor => {
       title: "Latest News",
       indexRoute: "/#news",
       postRoute: "/news",
-      limit: 2,
+      limit: 4,
       returnLinkText: "All News",
       notFound: {
         title: "No News",
@@ -196,8 +196,8 @@ export default Factor => {
         date: () => import("./news/widget-date.vue"),
         featuredImage: () => import("./news/widget-featured-image.vue"),
         authorBio: () => import("./news/widget-author-bio.vue"),
-        tags: () => import("./news/widget-tags.vue")
-        //pagination: () => import("./news/widget-pagination.vue")
+        tags: () => import("./news/widget-tags.vue"),
+        pagination: () => import("./news/widget-pagination.vue")
       },
       layout: {
         index: ["date", "newsHero", "newsExcerpt"],

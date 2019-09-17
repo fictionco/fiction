@@ -66,7 +66,7 @@ export default {
           font-size: 2em;
         }
         a {
-          color: var(--color-white);
+          color: var(--color-text-light);
           &:hover {
             text-decoration: underline;
             text-decoration-color: var(--color-tertiary);
@@ -75,6 +75,7 @@ export default {
       }
       .entry-subtitle {
         line-height: 1.7;
+        color: var(--color-text-light);
       }
       .content {
         font-size: 1.2em;

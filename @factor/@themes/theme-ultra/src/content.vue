@@ -1,7 +1,8 @@
 <template>
   <div id="siteWrap" class="content-container">
     <div>
-      <sidebar />
+      <header-mobile class="show-mobile" />
+      <sidebar class="show-desktop" />
     </div>
     <div class="content-main">
       <router-view />
@@ -12,7 +13,8 @@
 <script>
 export default {
   components: {
-    sidebar: () => import("./sidebar")
+    sidebar: () => import("./sidebar"),
+    "header-mobile": () => import("./header-mobile")
   },
   data() {
     return {
@@ -21,25 +23,6 @@ export default {
       //showSidebar: false
     }
   }
-  // computed: {},
-  // mounted() {
-  //   this.mobile = navigator.userAgent.match(/Android|iPhone|iPad/g)
-  //   if (window.orientation === 90 || window.orientation === -90) {
-  //     this.orientationH = true
-  //   }
-  //   window.addEventListener("orientationchange", () => {
-  //     if (window.orientation === 90 || window.orientation === -90) {
-  //       this.orientationH = true
-  //     } else {
-  //       this.orientationH = false
-  //     }
-  //   })
-  // },
-  // methods: {
-  //   toggleSidebar() {
-  //     this.showSidebar = !this.showSidebar
-  //   }
-  // }
 }
 </script>
 
