@@ -15,13 +15,6 @@ export default {
   components: {
     sidebar: () => import("./sidebar"),
     "header-mobile": () => import("./header-mobile")
-  },
-  data() {
-    return {
-      // mobile: null,
-      // orientationH: false,
-      //showSidebar: false
-    }
   }
 }
 </script>

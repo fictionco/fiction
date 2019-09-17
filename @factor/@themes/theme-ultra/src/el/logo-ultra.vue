@@ -31,6 +31,10 @@
   svg {
     width: 130px;
     display: block;
+
+    @media (max-width: 900px) {
+      width: 100px;
+    }
   }
   .letters {
     fill: var(--color-white);

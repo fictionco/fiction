@@ -57,7 +57,7 @@ export default {
       max-width: 800px;
       margin: 0 auto;
       @media (max-width: 900px) {
-        padding: 3em 2em;
+        padding: 6em 2em 5em;
       }
       .back {
         font-weight: var(--font-weight-bold);
