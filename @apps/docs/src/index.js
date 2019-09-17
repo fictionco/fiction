@@ -20,8 +20,7 @@ module.exports.default = Factor => {
       Factor.$filters.add("page-templates", _ => {
         return _.concat([
           {
-            name: "Default",
-            value: "default",
+            _id: "default",
             component: () => import("./page-template-default")
           }
         ])
