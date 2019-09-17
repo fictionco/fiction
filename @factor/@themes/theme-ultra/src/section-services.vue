@@ -40,6 +40,8 @@ export default {
     line-height: 1.1;
     text-align: center;
     color: var(--color-text-light);
+    max-width: 800px;
+    margin: 0 auto 1rem;
     @media (max-width: 900px) {
       font-size: 2.2rem;
     }

@@ -108,6 +108,7 @@ export default {}
           transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
         &:hover {
+          transform: rotate3d(1, 1, 1, 2deg);
           &:after {
             top: -20px;
             bottom: 28px;
