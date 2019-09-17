@@ -82,9 +82,17 @@ export default {
   height: auto;
   width: 280px;
 
+  &.show-desktop {
+    display: grid;
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+
   @media (max-width: 900px) {
-    left: -280px;
+    position: relative;
     z-index: 10;
+    // left: -280px;
   }
 
   > div:last-child {

@@ -15,9 +15,9 @@
 export default {
   props: {
     postType: { type: String, default: "" }
-    //pageCount: { type: Number, default: 0 },
-    //pageCurrent: { type: Number, default: 0 },
-    //count: { type: Number, default: 0 }
+    // pageCount: { type: Number, default: 0 },
+    // pageCurrent: { type: Number, default: 0 },
+    // count: { type: Number, default: 0 }
   },
   computed: {
     index() {
@@ -54,11 +54,11 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .pagination {
   display: flex;
   align-items: center;
-  @media (max-width: 900px) {
+  @media (max-width: 767px) {
     justify-content: flex-end;
     .items,
     .sep {
