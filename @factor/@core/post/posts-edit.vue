@@ -10,13 +10,7 @@
             class="post-title"
             @keyup="doDraftSave()"
           />
-          <dashboard-input
-            v-model="post.subTitle"
-            input="factor-input-text"
-            label="Sub Title / Teaser"
-            class="post-title"
-            @keyup="doDraftSave()"
-          />
+
           <dashboard-input label="Permalink">
             <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
           </dashboard-input>
@@ -28,6 +22,13 @@
           <component :is="item.component" v-model="post" />
         </dashboard-pane>-->
         <dashboard-pane title="Meta Info" class="post-media">
+          <dashboard-input
+            v-model="post.subTitle"
+            input="factor-input-text"
+            label="Sub Title / Teaser"
+            class="post-title"
+            @keyup="doDraftSave()"
+          />
           <factor-client-only>
             <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
           </factor-client-only>
@@ -76,11 +77,11 @@
             </div>
           </div>
           <template slot="actions">
-            <factor-btn btn="primary" :loading="sending" @click="savePost()">
+            <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
               Update
               &nbsp;
               <factor-icon icon="arrow-up" />
-            </factor-btn>
+            </factor-btn-dashboard>
             <factor-link v-if="post.permalink" :path="url" btn="default" data-test="add-post">
               View
               <factor-icon icon="arrow-right" />

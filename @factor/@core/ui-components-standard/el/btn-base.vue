@@ -123,6 +123,7 @@ export default {
   }
 }
 .factor-btn {
+   -webkit-appearance: none;
   background: transparent;
   color: inherit;
   display: inline-block;
