@@ -1,5 +1,10 @@
 export default Factor => {
   return {
+    metatags: {
+      default: {
+        image: require("./static/factor-logo.jpg")
+      }
+    },
     core: {
       components: {
         btn: () => import("./el/btn.vue")
