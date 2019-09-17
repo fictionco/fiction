@@ -1,6 +1,6 @@
 {
   "name": "@factor/index",
-  "version": "1.0.0-alpha.33",
+  "version": "1.0.0-beta.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -9,9 +9,9 @@
     "id": "index"
   },
   "dependencies": {
-    "@factor/app": "^1.0.0-alpha.33",
-    "@factor/core": "^1.0.0-alpha.33",
-    "@factor/post": "^1.0.0-alpha.33"
+    "@factor/app": "^1.0.0-beta.0",
+    "@factor/core": "^1.0.0-beta.0",
+    "@factor/post": "^1.0.0-beta.0"
   },
   "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4"
 }

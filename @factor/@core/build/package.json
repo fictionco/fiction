@@ -1,7 +1,7 @@
 {
   "name": "@factor/build",
   "description": "Bundle",
-  "version": "1.0.0-alpha.28",
+  "version": "1.0.0-beta.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,11 +10,11 @@
     "id": "build"
   },
   "dependencies": {
-    "@factor/build-webpack": "^1.0.0-alpha.27",
-    "@factor/cli": "^1.0.0-alpha.27",
-    "@factor/server-dev": "^1.0.0-alpha.27",
-    "@factor/server-extend": "^1.0.0-alpha.28",
-    "@factor/setup": "^1.0.0-alpha.27"
+    "@factor/build-webpack": "^1.0.0-beta.0",
+    "@factor/cli": "^1.0.0-beta.0",
+    "@factor/server-dev": "^1.0.0-beta.0",
+    "@factor/server-extend": "^1.0.0-beta.0",
+    "@factor/setup": "^1.0.0-beta.0"
   },
   "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4"
 }

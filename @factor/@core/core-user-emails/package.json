@@ -7,7 +7,7 @@
     },
     "id": "userEmails"
   },
-  "version": "1.0.0-alpha.27",
+  "version": "1.0.0-beta.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
