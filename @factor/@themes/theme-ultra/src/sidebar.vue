@@ -26,9 +26,6 @@ export default {
   components: {
     "site-brand": () => import("./el/brand")
   },
-  // props: {
-  //   showSidebar: { type: String, default: () => {} }
-  // },
   data() {
     return {
       loading: true,
@@ -44,8 +41,6 @@ export default {
     }
   },
   mounted: function() {
-    //console.log(this.$route.hash)
-    //console.log(this.options)
     for (const ele of this.options) {
       const observer = new IntersectionObserver(
         entries => {
@@ -82,8 +77,15 @@ export default {
   height: auto;
   width: 280px;
 
+  &.show-desktop {
+    display: grid;
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+
   @media (max-width: 900px) {
-    left: -280px;
+    position: relative;
     z-index: 10;
   }
 

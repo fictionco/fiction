@@ -53,8 +53,9 @@ export default {
       letter-spacing: -0.03em;
       line-height: 1.1;
       color: var(--color-text-light);
-      margin-bottom: 1rem;
       text-align: center;
+      max-width: 800px;
+      margin: 0 auto 1rem;
       @media (max-width: 900px) {
         font-size: 2.2rem;
       }
@@ -74,15 +75,7 @@ export default {
         display: grid;
         grid-gap: 10px;
         grid-template-columns: 1fr 1fr;
-        // display: flex;
-        // flex-flow: column wrap;
-        // max-height: 1600px;
-        // overflow: hidden;
-        // margin-left: -8px; /* Adjustment for the gutter */
-        //
-        // .post {
-        //   width: 50%;
-        // }
+
         @media (max-width: 900px) {
           grid-template-columns: 1fr;
         }

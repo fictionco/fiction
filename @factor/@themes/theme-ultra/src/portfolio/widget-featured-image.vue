@@ -4,7 +4,6 @@
     :path="$post.link(post._id)"
     class="image-wrap"
   >
-    <!-- <div class="featured-image" :style="style" /> -->
     <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="image" >
     <div class="header-content">
       <svg
