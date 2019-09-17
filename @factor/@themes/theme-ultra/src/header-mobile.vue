@@ -1,16 +1,15 @@
 <template>
   <div class="mobile-head">
     <div class="mobile-bar" @click.stop>
-      <!-- <site-brand class="mobile-brand" /> -->
+      <site-brand class="mobile-brand" />
       <div class="mobile-toggle" @click="toggleNav()">
-        Menu
+        <div>Menu</div>
         <div class="bars">
           <div class="bar" />
           <div class="bar" />
           <div class="bar" />
         </div>
       </div>
-      <div class="aux">&mdash;&mdash;</div>
     </div>
     <transition name="fade">
       <div v-if="toggle" class="mobile-sidebar">
@@ -18,7 +17,7 @@
           <div class="closer" @click="toggleNav(false)">
             <factor-icon icon="remove" />
           </div>
-          <page-sidebar mode="mobile" />
+          <page-sidebar />
         </div>
       </div>
     </transition>
@@ -27,8 +26,8 @@
 <script>
 export default {
   components: {
-    "page-sidebar": () => import("./sidebar")
-    //"site-brand": () => import("./el/brand")
+    "page-sidebar": () => import("./sidebar"),
+    "site-brand": () => import("./el/brand")
   },
   data() {
     return {
@@ -115,7 +114,6 @@ export default {
     width: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-
     display: block;
     z-index: 120;
     top: 0;
@@ -140,37 +138,42 @@ export default {
       position: absolute;
       right: 0;
       opacity: 0.8;
-      color: var(--color-text-light);
+      color: var(--color-primary);
       cursor: pointer;
       z-index: 50;
+      &:hover {
+        opacity: 1;
+        color: var(--color-text-light);
+      }
     }
+  }
+  .mobile-brand {
+    margin: 0.5rem 1rem;
   }
   .mobile-toggle {
+    margin: 0.5rem 1rem;
     display: flex;
-    z-index: 10;
-    position: relative;
-    //width: 1.5em;
-    opacity: 1;
-    padding: 0 0.3em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    text-align: right;
+    align-items: center;
     color: var(--color-text-light);
     font-weight: var(--font-weight-semibold);
+    font-size: 1.2rem;
+    letter-spacing: -0.03em;
     cursor: pointer;
-    .bar {
-      font-size: 1.4em;
-      border-radius: 5px;
-      width: 100%;
-      margin: 6px 0;
-      height: 3px;
+    .bars {
+      width: 1.6rem;
+      margin-left: 1em;
+      .bar {
+        font-size: 1.4em;
+        border-radius: 5px;
+        width: 100%;
+        margin: 6px 0;
+        height: 3px;
+        background-color: var(--color-primary);
+      }
+    }
+    &:hover .bar {
       background-color: var(--color-text-light);
     }
-  }
-  .aux {
-    opacity: 0;
   }
 }
 </style>
