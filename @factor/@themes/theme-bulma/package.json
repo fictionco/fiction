@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-bulma",
-  "version": "1.0.0-alpha.33",
+  "version": "1.0.0-beta.0",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -15,8 +15,8 @@
   },
   "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4",
   "dependencies": {
-    "@factor/plugin-notify": "^1.0.0-alpha.30",
-    "@factor/post": "^1.0.0-alpha.33",
+    "@factor/plugin-notify": "^1.0.0-beta.0",
+    "@factor/post": "^1.0.0-beta.0",
     "bulma": "^0.7.5",
     "prismjs": "^1.16.0"
   }
