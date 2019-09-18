@@ -249,21 +249,19 @@ export default {
     }
   }
   .splash {
-    padding: 7em 0;
+    padding: 10em 0 7em 0;
     text-align: center;
-    @media (max-width: 767px) {
-      padding: 4em 0;
-    }
+
     .title {
       font-weight: 600;
-      font-size: 3em;
+      font-size: 2em;
       letter-spacing: -0.03em;
       line-height: 0.9;
       margin-bottom: 0.2em;
     }
     .subtitle {
       opacity: 0.5;
-      font-size: 1.5em;
+      font-size: 1.3em;
       font-weight: 500;
       @media (max-width: 767px) {
         font-size: 1.2em;
@@ -287,7 +285,7 @@ export default {
       .soon {
         display: flex;
         justify-content: center;
-        align-items: center;
+
         position: absolute;
         z-index: 5;
         font-weight: 600;
