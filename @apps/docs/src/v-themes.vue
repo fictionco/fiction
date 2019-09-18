@@ -1,5 +1,5 @@
 <template>
-  <div class="plugins-container">
+  <div class="themes-container">
     <section class="mast">
       <div class="splash">
         <div>
@@ -14,9 +14,9 @@
         </div>
       </div>
     </section>
-    <section class="plugins-wrap stripes-wrap">
+    <section class="themes-wrap stripes-wrap">
       <div class="stripes" />
-      <div class="mast plugins">
+      <div class="mast themes">
         <h2 class="soon">Coming Soon</h2>
         <div class="sidebar">
           <h3 class="title">Categories</h3>
@@ -104,7 +104,7 @@ export default {
     }
   },
   computed: {
-    pluginsPage() {
+    themesPage() {
       return this.$route.params.doc || "introduction"
     },
     normalizedNav() {
@@ -145,7 +145,7 @@ export default {
   },
   metatags() {
     return {
-      title: "Factor Plugins",
+      title: "Factor Themes",
       description: "Extend your project features and do more with Factor.",
       image: ""
     }
@@ -153,7 +153,7 @@ export default {
 }
 </script>
 <style lang="less">
-.plugins-container {
+.themes-container {
   .mast {
     padding: 0 2em;
     line-height: 1.2;
@@ -178,19 +178,17 @@ export default {
   .splash {
     padding: 7em 0;
     text-align: center;
-    @media (max-width: 767px) {
-      padding: 4em 0;
-    }
+
     .title {
       font-weight: 600;
-      font-size: 3em;
+      font-size: 2em;
       letter-spacing: -0.03em;
       line-height: 0.9;
       margin-bottom: 0.2em;
     }
     .subtitle {
       opacity: 0.5;
-      font-size: 1.5em;
+      font-size: 1.3em;
       font-weight: 500;
       @media (max-width: 767px) {
         font-size: 1.2em;
@@ -203,10 +201,10 @@ export default {
       }
     }
   }
-  .plugins-wrap {
+  .themes-wrap {
     padding: 6em 0;
     margin: 0 0 4em;
-    .plugins {
+    .themes {
       display: grid;
       grid-template-columns: 1fr 5fr;
       grid-column-gap: 2em;
@@ -214,7 +212,6 @@ export default {
       .soon {
         display: flex;
         justify-content: center;
-        align-items: center;
         position: absolute;
         z-index: 5;
         font-weight: 600;

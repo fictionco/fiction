@@ -4,9 +4,6 @@
       <factor-link path="https://www.fiction.com" class="pin">
         <component :is="$setting.get(`footer.logo`)" />
       </factor-link>
-      <factor-link path="https://pagelines.com" class="pin">
-        <component :is="$setting.get(`footer.logo2`)" />
-      </factor-link>
     </div>
     <div class="legal">
       <div v-formatted-text="$setting.get('footer.headline')" class="license" />
