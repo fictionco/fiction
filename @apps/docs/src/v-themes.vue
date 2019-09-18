@@ -3,8 +3,8 @@
     <section class="mast">
       <div class="splash">
         <div>
-          <h1 class="title">Factor Plugins</h1>
-          <p class="subtitle">Extend your project features and do more with Factor.</p>
+          <h1 class="title">Factor Themes</h1>
+          <p class="subtitle">Create beautiful apps in minutes</p>
           <!-- <div class="actions">
             <factor-link path="/docs" btn="primary" size="large">
               How to Install
@@ -22,28 +22,19 @@
           <h3 class="title">Categories</h3>
           <ul class="list-categories">
             <li>
-              <factor-link path="/plugins">All</factor-link>
+              <factor-link path="/themes">All</factor-link>
             </li>
             <li>
-              <factor-link path="/plugins/monitoring">Monitoring</factor-link>
+              <factor-link path="/themes/monitoring">Business</factor-link>
             </li>
             <li>
-              <factor-link path="/plugins/payment">Payment</factor-link>
+              <factor-link path="/themes/payment">Portfolio</factor-link>
             </li>
             <li>
-              <factor-link path="/plugins/emailing">Emailing</factor-link>
+              <factor-link path="/themes/emailing">eCommerce</factor-link>
             </li>
             <li>
-              <factor-link path="/plugins/search">Search</factor-link>
-            </li>
-            <li>
-              <factor-link path="/plugins/admin">Admin</factor-link>
-            </li>
-            <li>
-              <factor-link path="/plugins/security">Security</factor-link>
-            </li>
-            <li>
-              <factor-link path="/plugins/maps">Maps</factor-link>
+              <factor-link path="/themes/search">Framework</factor-link>
             </li>
           </ul>
         </div>
@@ -53,20 +44,20 @@
               <span>
                 <factor-icon icon="search" />
               </span>
-              <input type="text" name="search" placeholder="Search Plugins" >
+              <input type="text" name="search" placeholder="Search Themes" >
             </form>
           </div>
 
           <div class="items-wrap">
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
+                <img :src="require(`./img/theme-ultra.jpg`)" alt="Ultra" >
                 <div>
-                  <h3 class="title">Paypal</h3>
-                  <span class="category">Payment</span>
+                  <h3 class="title">Ultra</h3>
+                  <span class="category">Portfolio</span>
                 </div>
               </div>
-              <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
+              <p>A single page portfolio theme.</p>
               <p class="downloads">
                 <i class="fa fa-download" /> 254 Downloads
               </p>
@@ -76,77 +67,13 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/algolia.jpg`)" alt="Algolia" >
+                <img :src="require(`./img/theme-alpha.jpg`)" alt="Alpha" >
                 <div>
-                  <h3 class="title">Algolia</h3>
-                  <span class="category">Search</span>
+                  <h3 class="title">Alpha</h3>
+                  <span class="category">Website</span>
                 </div>
               </div>
-              <p>Enable blazing fast search for your project.</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
-            </a>
-            <a href="#" class="item">
-              <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
-                <div>
-                  <h3 class="title">Paypal</h3>
-                  <span class="category">Search</span>
-                </div>
-              </div>
-              <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
-            </a>
-            <a href="#" class="item">
-              <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
-                <div>
-                  <h3 class="title">Paypal</h3>
-                  <span class="category">Search</span>
-                </div>
-              </div>
-              <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
-            </a>
-            <a href="#" class="item">
-              <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
-                <div>
-                  <h3 class="title">Paypal</h3>
-                  <span class="category">Search</span>
-                </div>
-              </div>
-              <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
-            </a>
-            <a href="#" class="item">
-              <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
-                <div>
-                  <h3 class="title">Paypal</h3>
-                  <span class="category">Search</span>
-                </div>
-              </div>
-              <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
+              <p>A comprehensive application theme.</p>
               <p class="downloads">
                 <i class="fa fa-download" /> 254 Downloads
               </p>
@@ -381,14 +308,13 @@ export default {
           0 1px 3px rgba(0, 0, 0, 0.08), 0 11px 16px rgba(50, 50, 93, 0.2);
       }
       .item-top {
-        display: flex;
-        flex: 0 1 auto;
+        // display: flex;
+        // flex: 0 1 auto;
         align-items: center;
         margin-bottom: 15px;
         img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
+          width: 100%;
+
           margin-right: 15px;
           box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
             0 1px 3px rgba(0, 0, 0, 0.08);

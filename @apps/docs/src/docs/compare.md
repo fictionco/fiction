@@ -14,12 +14,10 @@ The Factor concept itself was created because of the wish list of features and i
 
 #### Goals
 
-- **Designer friendly code only** (Abstract away painful-to-work-with tools.)
-- **Useful theming that works**
-- **Easy to install plugins**
+- **Useful, easy to work with plugin and theme systems**
 - **No proprietary APIs or lock in**
 - **Full-Stack Javascript**
-- **No reinventing the wheel**
+- **Measured and minimal core features**
 
 #### Non-Goals
 

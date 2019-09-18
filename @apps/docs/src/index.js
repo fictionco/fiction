@@ -37,7 +37,7 @@ module.exports.default = Factor => {
           },
           {
             path: "/themes",
-            component: () => import("./page-themes")
+            component: () => import("./v-themes")
           },
           {
             path: "/compare",
