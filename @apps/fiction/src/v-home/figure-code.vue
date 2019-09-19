@@ -1,6 +1,7 @@
 <template>
   <figure ref="wrapper" class="factor-figure">
-    <div class="stage-wrap" :style="{transform: `scale(${scale})`}">
+    <!-- <div class="stage-wrap" :style="{transform: `scale(${scale})`}"> -->
+      <div class="stage-wrap" >
       <div class="card">
         <div class="code-container">
           <plugin-highlight-code>
@@ -22,10 +23,10 @@
 </template>
 
 <script>
-import pageUtils from "./utils"
+//import pageUtils from "./utils"
 export default {
   components: {},
-  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
+  //mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
   methods: {
     code() {
       return `<template>
@@ -62,8 +63,11 @@ export default {
     .feature-figure-container {
       transform-origin: center center;
 
+      // figure {
+      //   transform: translateX(0) translateY(2rem);
+      // }
       figure {
-        transform: translateX(0) translateY(2rem);
+        transform: none;
       }
     }
   }
@@ -77,11 +81,10 @@ figure.factor-figure {
     .screenshot {
       max-width: 500px;
       z-index: 10;
-      transform-origin: bottom center;
-      position: absolute;
-
-      bottom: 0;
-      left: 0;
+      transform-origin: top center;
+      // position: absolute;
+      // bottom: 0;
+      // left: 0;
       box-shadow: -20px 0px 125px -25px rgba(50, 50, 93, 0.3),
         -15px -16px 20px rgba(0, 0, 0, 0.1), 0px -18px 36px rgba(0, 0, 0, 0.1);
       border-radius: 6px;
@@ -90,15 +93,36 @@ figure.factor-figure {
         width: 100%;
       }
       &.factor {
-        transform: translateZ(-10px) rotateY(5deg) translateX(-2rem);
+        //transform: translateZ(-10px) rotateY(5deg) translateX(-2rem);
+        transform: translateZ(-10px) rotateY(5deg) translateX(-2rem) translateY(-10rem);
       }
       &.alpha {
-        transform: translateZ(10px) scale(0.9) rotateY(5deg)
-          translate(8rem, 2rem);
+        position: absolute;
+        bottom: 6em;
+        right: -4em;
+        transform: translateZ(10px) scale(.9) rotateY(5deg);
       }
     }
     @media (max-width: 900px) {
       min-height: 250px;
+      margin: 3em 0;
+      .screenshot{
+        &.factor {
+          transform: scale(.85) translateX(-2em);
+          top: -2em;
+          right: auto;
+          bottom: auto;
+          left: 0;
+          box-shadow: 0 4px 35px 0 rgba(23,55,87,.1), 0 5px 15px 0 rgba(0,0,0,.07);
+        }
+        &.alpha {
+          transform: scale(.85) translateX(2em);
+          top: 3em;
+          right: 0;
+          bottom: auto;
+          left: auto;
+        }
+      }
     }
   }
 
@@ -107,8 +131,8 @@ figure.factor-figure {
     border-radius: 8px;
     position: relative;
     width: 525px;
-
-    transform: rotate(-1deg) translateZ(-25px) translate(-7rem, -2rem);
+    transform: rotate(-1deg) translateZ(-25px) translate(-7rem,5rem);
+    //transform: rotate(-1deg) translateZ(-25px) translate(-7rem, -2rem);
     // box-shadow: -27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
     //   -16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);
     background: #fff;

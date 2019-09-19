@@ -491,8 +491,12 @@ export default {
           font-size: 1.2em;
           input {
             margin: 0;
-
             background: #fff;
+          }
+          @media (max-width: 900px) {
+            .app-btn{
+              width: 100%;
+            }
           }
         }
       }
@@ -665,8 +669,11 @@ export default {
       .bullets {
         margin: 2rem 0;
         display: grid;
-        grid-template-columns: 1fr 1fr;
         grid-gap: 1rem;
+        grid-template-columns: 1fr 1fr;
+        @media (max-width: 900px) {
+          grid-template-columns: 1fr;
+        }
         .bullet {
           font-weight: 600;
           display: flex;
@@ -696,7 +703,7 @@ export default {
 
       font-size: 1.3em;
       color: var(--color-primary);
-      margin-bottom: 1em;
+      margin-bottom: .6em;
     }
     .title {
       font-size: 2em;
