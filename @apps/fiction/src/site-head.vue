@@ -61,7 +61,7 @@ export default {
   padding: 1rem 1rem;
   width: 100%;
   position: fixed;
-  z-index: 11;
+  z-index: 110;
   @media (max-width: 900px) {
     padding: 0 0.5em;
   }
