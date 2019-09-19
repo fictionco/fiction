@@ -7,6 +7,7 @@ module.exports.default = Factor => {
     },
     emailList: {
       alphaProgram: {
+        tags: ["factor-dev"],
         emails: {
           confirm: {
             successMessage:
@@ -28,7 +29,7 @@ module.exports.default = Factor => {
           }
         },
         form: {
-          buttonText: "Request Alpha Invite &rarr;"
+          buttonText: "Request Invite &rarr;"
         }
       }
     },

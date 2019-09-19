@@ -2,11 +2,16 @@
   "name": "@factor/wrapper",
   "author": "Fiction.com <support@fiction.com> (https://www.fiction.com)",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fiction-com/factor.git"
+  },
   "workspaces": [
     "@apps/*",
     "@factor/*",
     "@factor/@*/*",
-    "@demo/*"
+    "@demo/*",
+    "test/fixtures/*"
   ],
   "private": true,
   "license": "GPL-2.0",
@@ -15,15 +20,20 @@
     "publish:fiction": "heroku git:remote -a fiction-com && git push heroku master",
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
-    "deploy": "git push heroku-factor-dev master"
+    "deploy": "git push heroku-factor-dev master",
+    "test": "jest test/unit @factor --forceExit --detectOpenHandles"
   },
-  "dependencies": {
-    "cz-conventional-changelog": "^2.1.0",
-    "prettier": "^1.17.1"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@vue/server-test-utils": "^1.0.0-beta.29",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "all-contributors-cli": "^6.7.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.9.0",
+    "consola": "^2.10.1",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.12.0",
     "eslint-config-prettier": "^3.5.0",
     "eslint-import-resolver-webpack": "^0.10.1",
@@ -37,8 +47,17 @@
     "eslint-plugin-unicorn": "^8.0.2",
     "eslint-plugin-vue": "^5.1.0",
     "execa": "^1.0.0",
+    "exit": "^0.1.2",
+    "get-port": "^5.0.0",
+    "jest": "^24.9.0",
+    "jest-junit": "^8.0.0",
     "lerna": "^3.13.0",
+    "prettier": "^1.17.1",
     "prettier-eslint": "^8.8.2",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
+    "std-env": "^2.2.1",
+    "vue-jest": "^3.0.5",
     "webpack": "^4.29.6"
   }
 }
