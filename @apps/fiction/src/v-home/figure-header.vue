@@ -2,8 +2,8 @@
   <figure ref="wrapper" class="header-figure">
     <div class="stage-wrap">
       <div class="stage">
-        <div class="panel dashboard">
-          <img src="./img/dashboard.svg" >
+        <div class="panel">
+          <img src="./img/dashboard.svg" class="dashboard">
           <div class="icons">
             <div v-for="icon in icons" :key="icon.name" class="icon-wrap">
               <div class="icon">
@@ -47,7 +47,7 @@ export default {
     position: relative;
 
     .panel {
-      padding-right: 1.5em;
+      padding-right: 2em;
       position: relative;
       z-index: 10;
       transform: scale(1.1) perspective(800px) rotateY(-4deg) rotateX(2deg)
@@ -55,6 +55,9 @@ export default {
       box-shadow: -1px 1px 4px 0 rgba(26, 26, 67, 0.1),
         -9px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
         -10.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);
+      img.dashboard{
+        margin-bottom: 2em;
+      }
     }
     .dot-circle {
       position: absolute;
@@ -116,13 +119,16 @@ export default {
   }
   @media (max-width: 900px) {
     .stage {
-      //  transform: scale(0.8);
       min-height: 370px;
       .icons {
         top: 0;
       }
       .panel {
         transform: none;
+        padding: 2em 0 0;
+        img.dashboard{
+          margin-bottom: 2em;
+        }
       }
     }
     img {
