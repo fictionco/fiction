@@ -25,3 +25,8 @@ node_modules
 
 # Logs
 *.log
+
+# Coverage reports
+coverage
+*.lcov
+.nyc_output
