@@ -74,7 +74,7 @@ export default {
   @media (max-width: 900px) {
     .feature-figure-container {
       height: 500px;
-      transform: translate(1rem, -2rem);
+      transform: translate(0, -2rem);
     }
   }
 }
@@ -106,6 +106,9 @@ figure.vip-figure {
     position: relative;
     transform: rotateY(15deg);
     transition: all 0.5s;
+    @media (max-width: 900px) {
+      transform: rotateY(0);
+    }
 
     .rad {
       position: absolute;
