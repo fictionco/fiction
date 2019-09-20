@@ -6,7 +6,7 @@
 
 **Factor** is a platform that makes it easy to build impressive Javascript apps.
 
-It is based on the MEVN Stack ([MongoDB](https://github.com/mongodb/mongo), [Express](https://expressjs.com), [VueJs](https://vuejs.org), [NodeJS](https://nodejs.org/en/)) and its purpose is to worry about best practices so you don't have to...
+It is based on the VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)) and its purpose is to worry about best practices so you don't have to...
 
 Unlike most Javascript frameworks, Factor has its primary focus on extension via plugins and themes. It also includes a CMS-oriented dashboard and data model (which are leveraged by extensions).
 

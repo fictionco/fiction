@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="1" time="60.517">
-  <testsuite name="cli" errors="0" failures="1" skipped="0" timestamp="2019-09-19T08:26:38" time="60.488" tests="1">
-    <testcase classname="cli CLI: factor dev" name="cli CLI: factor dev" time="60.011">
-      <failure>: Timeout - Async callback was not invoked within the 60000ms timeout specified by jest.setTimeout.Timeout - Async callback was not invoked within the 60000ms timeout specified by jest.setTimeout.Error: 
-    at new Spec (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmine/Spec.js:116:22)
-    at new Spec (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/setup_jest_globals.js:80:9)
-    at specFactory (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmine/Env.js:575:24)
-    at Env.it (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmine/Env.js:644:24)
-    at Env.it (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:132:23)
-    at it (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:93:21)
-    at Suite.test (/Users/arpowers/projects/factor/test/unit/config.test.js:42:3)
-    at addSpecsToSuite (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmine/Env.js:496:51)
-    at Env.describe (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmine/Env.js:466:11)
-    at Function.describe [as posix] (/Users/arpowers/projects/factor/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:81:18)</failure>
+<testsuites name="jest tests" tests="1" failures="0" time="12.931">
+  <testsuite name="cli" errors="0" failures="0" skipped="0" timestamp="2019-09-20T06:46:33" time="12.9" tests="1">
+    <testcase classname="cli CLI: factor dev" name="cli CLI: factor dev" time="12.285">
     </testcase>
   </testsuite>
 </testsuites>
