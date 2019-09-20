@@ -73,11 +73,11 @@ The apps that power [Fiction.com](https://www.fiction.com) and [Factor.dev](http
 
 ## Contributing
 
-Please refer to our [Contribution Guide](https://factor.dev/contribution)
+Please refer to our [Contribution Guide](https://factor.dev/guide/contribution)
 
 ## Security
 
-If you discover a security vulnerability regarding Factor, please send an e-mail to the team via letters@fiction.com! All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability regarding Factor, please send an e-mail to the team via hi@fiction.com. All security vulnerabilities will be promptly addressed.
 
 ## License
 
