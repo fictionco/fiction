@@ -31,7 +31,7 @@
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">MEVN Stack</span>
+              <span class="text">VENM Stack</span>
             </div>
             <div class="point">
               <span class="arrow">
@@ -229,7 +229,7 @@ export default {
     return {
       title: "Factor JS - Universal VueJS Platform for Front-End Developers",
       description:
-        "Factor is an extension focused platform for building universal server-rendered JS apps with the MEVN stack."
+        "Factor is an extension focused platform for building universal server-rendered JS apps with VENM (or MEVN) stack."
     }
   },
   routeClass() {
