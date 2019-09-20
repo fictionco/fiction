@@ -5,10 +5,14 @@
 </p>
 
  <p>
-  <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
+  <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>
+  <a href="https://dev.azure.com/fiction-com/factor/_build/latest?definitionId=1"><img src="https://dev.azure.com/fiction-com/factor/_apis/build/status/factor" alt="Azure Build Status"></a>
+  <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/master" alt="Coverage Status"></a>
+  <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/v/@factor/core" alt="Version"></a>
+  <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
   <a href="https://github.com/fiction-com/factor/commits/master"><img src="https://badgen.net/github/last-commit/fiction-com/factor" alt="Commit"></a>
   <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
-  <a href="https://www.npmjs.com/package/@factor/cli"><img src="https://badgen.net/npm/dm/@factor/cli" alt="Downloads a Month"></a>
+  <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/dm/@factor/core" alt="Downloads a Month"></a>
  </p>
 
 _An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
