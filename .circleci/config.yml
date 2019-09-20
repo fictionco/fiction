@@ -72,15 +72,15 @@ jobs:
           key: lock-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-            - @factor/*/node_modules
+            - "@factor/*/node_modules"
 
       # Persist workspace
       - persist_to_workspace:
           root: ~/project
           paths:
             - node_modules
-            - @factor/*/node_modules
-            - @factor/*/dist
+            - "@factor/*/node_modules"
+            - "@factor/*/dist"
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
