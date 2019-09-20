@@ -72,20 +72,18 @@ jobs:
           key: lock-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-            - packages/*/node_modules
-            - distributions/*/node_modules
+            - @factor/*/node_modules
 
       # Persist workspace
       - persist_to_workspace:
           root: ~/project
           paths:
             - node_modules
-            - packages/*/node_modules
-            - distributions/*/node_modules
-            - packages/*/dist
+            - @factor/*/node_modules
+            - @factor/*/dist
 
   # --------------------------------------------------------------------------
-  # Phase 2: Lint + Audit + Build Nuxt and fixtures
+  # Phase 2: Lint + Audit + Build
   # --------------------------------------------------------------------------
   lint:
     executor: node
