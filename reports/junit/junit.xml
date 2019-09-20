@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="1" failures="0" time="12.931">
-  <testsuite name="cli" errors="0" failures="0" skipped="0" timestamp="2019-09-20T06:46:33" time="12.9" tests="1">
-    <testcase classname="cli CLI: factor dev" name="cli CLI: factor dev" time="12.285">
-    </testcase>
-  </testsuite>
-</testsuites>

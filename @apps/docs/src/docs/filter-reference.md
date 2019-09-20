@@ -77,3 +77,20 @@ Filter: `post-populated-fields` - To extend the base schema fields that should b
 ```js
 Factor.$filters.push("post-populated-fields", { field: "shareImage", depth: 20 })
 ```
+
+## Server Filters
+
+Filter: `server-renderer-options` - Adjust server renderer options to alter SSR output. This can be particularly important for testing.
+
+Options can be found on [Vue SSR site](https://ssr.vuejs.org/api/#renderer-options).
+
+```js
+// Prevent injection in template
+Factor.$filters.add("server-renderer-options", options => {
+  options.inject = false
+  options.template = (result, context) => {
+    return "hi"
+  }
+  return options
+})
+```

@@ -24,11 +24,14 @@ module.exports.default = Factor => {
     }
 
     createRenderer(bundle, options) {
+      // Allow for changing default options when rendering
+      // particulary important for testing
+      options = Factor.$filters.apply("server-renderer-options", options)
       return createBundleRenderer(bundle, {
-        ...options,
         cache: new LRU({ max: 1000, maxAge: 1000 * 60 * 15 }),
         runInNewContext: false,
-        directives: Factor.$filters.apply("server-directives", {})
+        directives: Factor.$filters.apply("server-directives", {}),
+        ...options
       })
     }
 
