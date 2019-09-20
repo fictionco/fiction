@@ -17,7 +17,7 @@ const start = (cmd, env, cb) => {
   return new Promise(resolve => {
     const FactorProcess = spawnFactor(cmd, { env, detached: true })
     const listener = data => {
-      if (data.includes(`Ready`)) {
+      if (data.includes(`Ready`) || data.includes(`Listening on PORT`)) {
         FactorProcess.stdout.removeListener("data", listener)
         resolve(FactorProcess)
       }
@@ -74,7 +74,7 @@ describe.posix("cli", () => {
     expect(error).toBe(undefined)
 
     const html = await rp(url("/"))
-    expect(html).toMatch("<div>CLI Test</div>")
+    expect(html).toMatch("hi")
 
     await close(startProcess)
   })

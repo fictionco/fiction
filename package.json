@@ -23,8 +23,7 @@
     "deploy": "git push heroku-factor-dev master",
     "test": "jest test/unit @factor --forceExit --detectOpenHandles"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "@vue/server-test-utils": "^1.0.0-beta.29",
@@ -59,5 +58,6 @@
     "std-env": "^2.2.1",
     "vue-jest": "^3.0.5",
     "webpack": "^4.29.6"
-  }
+  },
+  "devDependencies": {}
 }

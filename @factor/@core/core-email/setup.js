@@ -5,7 +5,7 @@ module.exports.default = Factor => {
       this.configVars = ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST"]
       Factor.$filters.add("setup-needed", _ => {
         const item = {
-          title: "Transactional Email Credentials",
+          title: "SMTP Email Credentials",
           value: "Needed for transactional emails (e.g. forgot password)",
           file: this.configFile,
           vars: this.configVars

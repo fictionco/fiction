@@ -30,3 +30,4 @@ node_modules
 coverage
 *.lcov
 .nyc_output
+reports
