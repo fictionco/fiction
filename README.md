@@ -5,10 +5,11 @@
 </p>
 
  <p>
-  <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/badge/license/GPL/blue" alt="GPL"></a>
+  <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/v/@factor/core" alt="Version"></a>
+  <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
   <a href="https://github.com/fiction-com/factor/commits/master"><img src="https://badgen.net/github/last-commit/fiction-com/factor" alt="Commit"></a>
   <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
-  <a href="https://www.npmjs.com/package/@factor/cli"><img src="https://badgen.net/npm/dm/@factor/cli" alt="Downloads a Month"></a>
+  <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/dm/@factor/core" alt="Downloads a Month"></a>
  </p>
 
 _An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
@@ -73,11 +74,11 @@ The apps that power [Fiction.com](https://www.fiction.com) and [Factor.dev](http
 
 ## Contributing
 
-Please refer to our [Contribution Guide](https://factor.dev/contribution)
+Please refer to our [Contribution Guide](https://factor.dev/guide/contribution)
 
 ## Security
 
-If you discover a security vulnerability regarding Factor, please send an e-mail to the team via letters@fiction.com! All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability regarding Factor, please send an e-mail to the team via hi@fiction.com. All security vulnerabilities will be promptly addressed.
 
 ## License
 
