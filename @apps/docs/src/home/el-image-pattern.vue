@@ -32,7 +32,7 @@ export default {
     const image = new Image()
 
     image.src = this.imageUrl
-    image.onload = () => this.drawPattern({ ctx, image })
+    image.addEventListener("load", () => this.drawPattern({ ctx, image }))
   },
   methods: {
     drawPattern({ ctx, image }) {
@@ -144,7 +144,7 @@ export default {
         } else r = i = null
         return [r, i]
       }
-      if (!POINTS_CACHE.length)
+      if (POINTS_CACHE.length == 0)
         for (let e = 0; e < 128; ++e) {
           const t = a + i * e
           for (let a = 0; a < 128; ++a) {
