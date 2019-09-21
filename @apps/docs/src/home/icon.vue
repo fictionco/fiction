@@ -207,16 +207,11 @@
         style="fill:none;stroke:#0496ff;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4px"
       />
       <rect width="10.52" height="10.52" rx="1.96" ry="1.96" style="fill:#0496ff" />
-      <rect x="3.96" y="3.96" width="2.61" height="2.61" rx="0.04"
-ry="0.04" style="fill:#fff" />
-      <rect y="40.46" width="10.52" height="10.52" rx="1.96" ry="1.96"
-style="fill:#0496ff" />
-      <rect x="3.96" y="44.42" width="2.61" height="2.61" rx="0.04"
-ry="0.04" style="fill:#fff" />
-      <rect x="41.77" width="10.52" height="10.52" rx="1.96" ry="1.96"
-style="fill:#0496ff" />
-      <rect x="45.72" y="3.96" width="2.61" height="2.61" rx="0.04"
-ry="0.04" style="fill:#fff" />
+      <rect x="3.96" y="3.96" width="2.61" height="2.61" rx="0.04" ry="0.04" style="fill:#fff" />
+      <rect y="40.46" width="10.52" height="10.52" rx="1.96" ry="1.96" style="fill:#0496ff" />
+      <rect x="3.96" y="44.42" width="2.61" height="2.61" rx="0.04" ry="0.04" style="fill:#fff" />
+      <rect x="41.77" width="10.52" height="10.52" rx="1.96" ry="1.96" style="fill:#0496ff" />
+      <rect x="45.72" y="3.96" width="2.61" height="2.61" rx="0.04" ry="0.04" style="fill:#fff" />
       <rect x="9.7" y="27.43" width="32.97" height="13.09" style="fill:#8eccfd" />
       <path
         d="M49.09,63.48h0a1.32,1.32,0,0,1-1.2-.82L37.43,36.55a1.31,1.31,0,0,1,.35-1.46,1.3,1.3,0,0,1,1.5-.16L62.77,48a1.28,1.28,0,0,1,.67,1.2,1.3,1.3,0,0,1-.79,1.14L54,54l-3.71,8.65A1.3,1.3,0,0,1,49.09,63.48ZM41.22,39l7.91,19.77,2.67-6.24a1.35,1.35,0,0,1,.68-.69L59.18,49Z"

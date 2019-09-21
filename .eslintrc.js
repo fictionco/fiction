@@ -34,6 +34,7 @@ module.exports = {
         vue: "never"
       }
     ],
+    "vue/html-self-closing": 0,
     "vue/html-closing-bracket-spacing": "off",
     "vue/multiline-html-element-content-newline": "off",
     "vue/singleline-html-element-content-newline": "off",

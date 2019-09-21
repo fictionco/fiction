@@ -83,7 +83,7 @@ export default {
       // Disable this behavior after click actions (not actual scrolls)
       if (this.clicked || !this.$refs.scroller) {
         this.clicked = false
-        return;
+        return
       }
       const scrollTop = Math.max(
         window.pageYOffset,
@@ -109,7 +109,7 @@ export default {
             hash: decodeURIComponent(anchor.id),
             meta: { noscroll: true }
           })
-          return;
+          return
         }
       }
     },

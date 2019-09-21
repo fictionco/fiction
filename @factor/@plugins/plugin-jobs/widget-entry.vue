@@ -8,31 +8,30 @@
 <script>
 export default {
   components: {
-    "highlight-code": () =>
-      import("@factor/plugin-highlight-code/highlight-code")
+    "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code")
   },
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {};
+      return this.$store.val(this.postId) || {}
     },
     variables() {
-      const vars = {};
+      const vars = {}
       this.post.images.forEach(imageId => {
-        const img = this.$store.val(imageId) || {};
-        vars[imageId] = img.url || "";
-      });
-      return vars;
+        const img = this.$store.val(imageId) || {}
+        vars[imageId] = img.url || ""
+      })
+      return vars
     },
     rendered() {
       return this.$markdown.render(this.post.content, {
         variables: true
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang="less">
 .post-entry {
@@ -139,14 +138,12 @@ export default {
 
     img {
       max-height: 60vh;
-      box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15),
-        0 1px 2px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease-in-out;
       border-radius: 5px;
 
       &:hover {
-        box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15),
-          0 1px 15px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 15px 0 rgba(0, 0, 0, 0.1);
         transform: translateY(-1px);
       }
     }

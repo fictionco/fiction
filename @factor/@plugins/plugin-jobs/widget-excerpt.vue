@@ -14,10 +14,10 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {};
+      return this.$store.val(this.postId) || {}
     }
   }
-};
+}
 </script>
 <style lang="less">
 .jobs-post-excerpt {
