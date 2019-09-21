@@ -107,7 +107,7 @@ jobs:
       - attach-project
       - run:
           name: Build Fixtures
-          command: yarn test:fixtures -i --coverage && yarn coverage -F fixtures
+          command: yarn test:fixtures -i --coverage && yarn test:coverage -F fixtures
           environment:
             JEST_JUNIT_OUTPUT_NAME: fixtures.xml
       - store-test-results
@@ -133,7 +133,7 @@ jobs:
       - attach-project
       - run:
           name: Unit Tests
-          command: yarn test:unit -w=2 --coverage && yarn coverage -F unit
+          command: yarn test:unit -w=2 --coverage && yarn test:coverage -F unit
           environment:
             JEST_JUNIT_OUTPUT_NAME: unit.xml
       - store-test-results

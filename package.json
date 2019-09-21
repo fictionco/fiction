@@ -22,6 +22,8 @@
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
     "deploy": "git push heroku-factor-dev master",
     "test": "yarn test:fixtures && yarn test:unit",
+    "test:lint": "",
+    "test:coverage": "codecov",
     "test:unit": "jest test/unit @factor --forceExit --detectOpenHandles",
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests"
   },
@@ -33,6 +35,7 @@
     "all-contributors-cli": "^6.7.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
+    "codecov": "^3.6.1",
     "consola": "^2.10.1",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.12.0",
