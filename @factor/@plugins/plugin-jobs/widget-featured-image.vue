@@ -8,23 +8,23 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {};
+      return this.$store.val(this.postId) || {}
     },
     avatar() {
-      return this.$store.val(this.post.avatar) || {};
+      return this.$store.val(this.post.avatar) || {}
     },
     avatarUrl() {
-      return this.avatar.url || "";
+      return this.avatar.url || ""
     },
     style() {
-      const style = {};
+      const style = {}
 
-      style.backgroundImage = `url(${this.avatarUrl})`;
+      style.backgroundImage = `url(${this.avatarUrl})`
 
-      return style;
+      return style
     }
   }
-};
+}
 </script>
 <style lang="less">
 .featured-image {

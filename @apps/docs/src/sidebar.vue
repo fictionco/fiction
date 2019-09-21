@@ -117,7 +117,7 @@ export default {
       // Disable this behavior after click actions (not actual scrolls)
       if (this.clicked || !this.scroller) {
         this.clicked = false
-        return;
+        return
       }
 
       const scrollTop = Math.max(
@@ -142,7 +142,7 @@ export default {
         ) {
           this.activeHash = `#${anchor.id}`
 
-          return;
+          return
         }
       }
     },

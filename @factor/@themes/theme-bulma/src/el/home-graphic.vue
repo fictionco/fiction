@@ -2,8 +2,7 @@
   <div class="hero-graphic-wrap">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1502 965" class="hero-graphic">
       <defs>
-        <linearGradient id="a" x1="22" y1="463" x2="1462" y2="463"
-gradientUnits="userSpaceOnUse">
+        <linearGradient id="a" x1="22" y1="463" x2="1462" y2="463" gradientUnits="userSpaceOnUse">
           <stop offset="0" stop-color="#34495e" />
           <stop offset=".53" stop-color="#00bfa3" />
           <stop offset="1" stop-color="#00c1a5" />
@@ -18,8 +17,7 @@ gradientUnits="userSpaceOnUse">
           stroke-width="20"
           stroke="url(#a)"
         />
-        <rect x="127.57" y="30.44" width="474.85" height="579.3" rx="40"
-ry="40" fill="#fff" />
+        <rect x="127.57" y="30.44" width="474.85" height="579.3" rx="40" ry="40" fill="#fff" />
         <rect
           x="127.57"
           y="30.44"
@@ -281,8 +279,7 @@ ry="40" fill="#fff" />
           <tspan x="32.1" y="0" letter-spacing="-.015em">b</tspan>
           <tspan x="51.6" y="0">s</tspan>
         </text>
-        <rect x="967.59" y="377.46" width="474.85" height="171.09" rx="40"
-ry="40" fill="#fff" />
+        <rect x="967.59" y="377.46" width="474.85" height="171.09" rx="40" ry="40" fill="#fff" />
         <rect
           x="967.59"
           y="377.46"

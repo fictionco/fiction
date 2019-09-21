@@ -45,7 +45,7 @@ export default {
         this.toggle = false
 
         document.removeEventListener("click", this.clickHandler)
-      };
+      }
 
       if (this.toggle) {
         document.addEventListener("click", this.clickHandler)

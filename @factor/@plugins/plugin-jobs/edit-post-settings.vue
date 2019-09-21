@@ -33,21 +33,21 @@ export default {
       template: "",
       settings: {},
       pageTemplateInfo: {}
-    };
+    }
   },
   computed: {
     post: {
       get() {
-        return this.$store.val(this.postId) || {};
+        return this.$store.val(this.postId) || {}
       },
       set(v) {
-        this.$store.add(this.postId, v);
+        this.$store.add(this.postId, v)
       }
     }
   },
   watch: {},
   methods: {}
-};
+}
 </script>
 <style lang="less">
 </style>

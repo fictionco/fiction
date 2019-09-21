@@ -9,25 +9,25 @@
   </div>
 </template>
 <script>
-import Factor from "vue";
+import Factor from "vue"
 export default {
   data() {
-    return {};
+    return {}
   },
   metatags() {
     return {
       title: this.$metatags.titleTag(this.post._id),
       description: this.$metatags.descriptionTag(this.post._id),
       image: this.$metatags.shareImage(this.post._id)
-    };
+    }
   },
   computed: {
     post() {
-      return this.$store.val("post") || {};
+      return this.$store.val("post") || {}
     }
   },
   methods: {}
-};
+}
 </script>
 
 <style lang="less">

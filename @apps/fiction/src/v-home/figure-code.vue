@@ -1,7 +1,7 @@
 <template>
   <figure ref="wrapper" class="factor-figure">
     <!-- <div class="stage-wrap" :style="{transform: `scale(${scale})`}"> -->
-      <div class="stage-wrap" >
+    <div class="stage-wrap">
       <div class="card">
         <div class="code-container">
           <plugin-highlight-code>
@@ -12,10 +12,10 @@
       </div>
       <div class="screenshots">
         <div class="screenshot factor">
-          <img src="./img/screencast-poster.jpg" >
+          <img src="./img/screencast-poster.jpg" />
         </div>
         <div class="screenshot alpha">
-          <img src="./img/theme-alpha.jpg" >
+          <img src="./img/theme-alpha.jpg" />
         </div>
       </div>
     </div>
@@ -100,23 +100,23 @@ figure.factor-figure {
         position: absolute;
         bottom: 6em;
         right: -4em;
-        transform: translateZ(10px) scale(.9) rotateY(5deg);
+        transform: translateZ(10px) scale(0.9) rotateY(5deg);
       }
     }
     @media (max-width: 900px) {
       min-height: 250px;
       margin: 3em 0;
-      .screenshot{
+      .screenshot {
         &.factor {
-          transform: scale(.85) translateX(-2em);
+          transform: scale(0.85) translateX(-2em);
           top: -2em;
           right: auto;
           bottom: auto;
           left: 0;
-          box-shadow: 0 4px 35px 0 rgba(23,55,87,.1), 0 5px 15px 0 rgba(0,0,0,.07);
+          box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1), 0 5px 15px 0 rgba(0, 0, 0, 0.07);
         }
         &.alpha {
-          transform: scale(.85) translateX(2em);
+          transform: scale(0.85) translateX(2em);
           top: 3em;
           right: 0;
           bottom: auto;
@@ -131,7 +131,7 @@ figure.factor-figure {
     border-radius: 8px;
     position: relative;
     width: 525px;
-    transform: rotate(-1deg) translateZ(-25px) translate(-7rem,5rem);
+    transform: rotate(-1deg) translateZ(-25px) translate(-7rem, 5rem);
     //transform: rotate(-1deg) translateZ(-25px) translate(-7rem, -2rem);
     // box-shadow: -27.1px 62.5px 125px -25px rgba(50, 50, 93, 0.5),
     //   -16.2px 37.5px 75px -37.5px rgba(0, 0, 0, 0.6);

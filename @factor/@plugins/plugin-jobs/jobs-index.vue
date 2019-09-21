@@ -37,56 +37,56 @@ export default {
     return {
       postType: "jobs",
       loading: false
-    };
+    }
   },
   metatags() {
     const title = this.tag
       ? `Tag "${this.tag}"`
-      : this.$setting.get("jobs.metatags.index.title");
+      : this.$setting.get("jobs.metatags.index.title")
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : this.$setting.get("jobs.metatags.index.description");
+      : this.$setting.get("jobs.metatags.index.description")
 
     return {
       title,
       description
-    };
+    }
   },
   serverPrefetch() {
-    return this.getPosts();
+    return this.getPosts()
   },
   computed: {
     tag() {
-      return this.$route.params.tag || this.$route.query.tag || "";
+      return this.$route.params.tag || this.$route.query.tag || ""
     },
     index() {
-      return this.$store.val(this.postType) || {};
+      return this.$store.val(this.postType) || {}
     },
     jobsPosts() {
-      const { posts = [] } = this.index;
-      return posts;
+      const { posts = [] } = this.index
+      return posts
     },
     page() {
-      return this.$route.query.page || 1;
+      return this.$route.query.page || 1
     }
   },
   watch: {
     $route: {
       handler: function(to) {
-        this.getPosts();
+        this.getPosts()
       }
     }
   },
   mounted() {
-    this.getPosts();
+    this.getPosts()
   },
   methods: {
     getPost(_id) {
-      return this.$store.val(_id) || {};
+      return this.$store.val(_id) || {}
     },
     async getPosts() {
-      this.loading = true;
+      this.loading = true
 
       const r = await this.$post.getPostIndex({
         postType: this.postType,
@@ -95,12 +95,12 @@ export default {
         sort: "-date",
         page: this.page,
         limit: this.$setting.get("jobs.limit")
-      });
+      })
 
-      this.loading = false;
+      this.loading = false
     }
   }
-};
+}
 </script>
 
 <style lang="less">
@@ -119,8 +119,8 @@ export default {
 .jobs-entries {
   .jobs-post-index {
     padding: 1em 2em;
-    box-shadow: 0 0 1px rgba(58, 55, 148, 0.25),
-      0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
+    box-shadow: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
+      0 12px 34px 0 rgba(24, 32, 41, 0.04);
     background: #fff;
     .jobs-post {
       display: grid;

@@ -18,37 +18,37 @@ export default {
   },
   computed: {
     index() {
-      return this.$store.val(this.postType) || {};
+      return this.$store.val(this.postType) || {}
     },
     jobsMeta() {
-      const { meta = [] } = this.index;
-      return meta;
+      const { meta = [] } = this.index
+      return meta
     },
     pageCount() {
-      return this.jobsMeta.pageCount || 1;
+      return this.jobsMeta.pageCount || 1
     },
     count() {
-      return this.jobsMeta.totalForQuery || 1;
+      return this.jobsMeta.totalForQuery || 1
     },
     pageCurrent() {
-      return this.jobsMeta.pageCurrent || 1;
+      return this.jobsMeta.pageCurrent || 1
     }
   },
   methods: {
     page(direction) {
-      let page;
+      let page
       if (direction == "next" && this.pageCurrent !== this.pageCount) {
-        page = this.pageCurrent + 1;
+        page = this.pageCurrent + 1
       } else if (this.pageCurrent > 1) {
-        page = this.pageCurrent - 1;
+        page = this.pageCurrent - 1
       }
 
       if (page) {
-        this.$router.push({ query: { ...this.$route.query, page } });
+        this.$router.push({ query: { ...this.$route.query, page } })
       }
     }
   }
-};
+}
 </script>
 
 <style lang="less">

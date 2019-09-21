@@ -37,13 +37,13 @@ export default {
   },
   computed: {
     link() {
-      return this.$post.link(this.postId, { root: true });
+      return this.$post.link(this.postId, { root: true })
     },
     post() {
-      return this.$store.val(this.postId) || {};
+      return this.$store.val(this.postId) || {}
     }
   }
-};
+}
 </script>
 <style lang="less">
 .social-share {
