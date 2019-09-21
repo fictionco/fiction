@@ -107,8 +107,7 @@
     </template>
     <template v-if="icon == 'js'">
       <svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0.5" y="0.5" width="24" height="24" fill="none"
-:stroke="color" />
+        <rect x="0.5" y="0.5" width="24" height="24" fill="none" :stroke="color" />
         <path
           d="M11.0494 11H13.3772V17.1203C13.3772 19.8797 11.9672 20.8418 9.71682 20.8418C9.16667 20.8418 8.46169 20.7562 8 20.611L8.25987 18.8449C8.58057 18.9461 8.99526 19.0161 9.45419 19.0161C10.4356 19.0161 11.0466 18.5985 11.0466 17.1048V11H11.0494Z"
           :fill="color"

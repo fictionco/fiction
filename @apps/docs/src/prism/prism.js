@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* PrismJS 1.16.0
 https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+bash+css-extras+markup-templating+ejs+git+json+jsonp+json5+yaml+regex&plugins=toolbar+normalize-whitespace+show-language */
 var _self =
@@ -178,7 +179,8 @@ var Prism = (function(_self) {
     highlightAllUnder: function(container, async, callback) {
       var env = {
         callback: callback,
-        selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
+        selector:
+          'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'
       }
 
       _.hooks.run("before-highlightall", env)
@@ -206,14 +208,18 @@ var Prism = (function(_self) {
       }
 
       // Set language on the element, if not present
-      element.className = element.className.replace(lang, "").replace(/\s+/g, " ") + " language-" + language
+      element.className =
+        element.className.replace(lang, "").replace(/\s+/g, " ") + " language-" + language
 
       if (element.parentNode) {
         // Set language on the parent, for styling
         parent = element.parentNode
 
         if (/pre/i.test(parent.nodeName)) {
-          parent.className = parent.className.replace(lang, "").replace(/\s+/g, " ") + " language-" + language
+          parent.className =
+            parent.className.replace(lang, "").replace(/\s+/g, " ") +
+            " language-" +
+            language
         }
       }
 
@@ -313,7 +319,11 @@ var Prism = (function(_self) {
           pattern = pattern.pattern || pattern
 
           // Don’t cache length as it changes during the loop
-          for (var i = index, pos = startPos; i < strarr.length; pos += strarr[i].length, ++i) {
+          for (
+            var i = index, pos = startPos;
+            i < strarr.length;
+            pos += strarr[i].length, ++i
+          ) {
             var str = strarr[i]
 
             if (strarr.length > text.length) {
@@ -337,7 +347,11 @@ var Prism = (function(_self) {
                 k = i,
                 p = pos
 
-              for (var len = strarr.length; k < len && (p < to || (!strarr[k].type && !strarr[k - 1].greedy)); ++k) {
+              for (
+                var len = strarr.length;
+                k < len && (p < to || (!strarr[k].type && !strarr[k - 1].greedy));
+                ++k
+              ) {
                 p += strarr[k].length
                 // Move the index i to the element in strarr that is closest to from
                 if (from >= p) {
@@ -388,7 +402,13 @@ var Prism = (function(_self) {
               args.push(before)
             }
 
-            var wrapped = new Token(token, inside ? _.tokenize(match, inside) : match, alias, match, greedy)
+            var wrapped = new Token(
+              token,
+              inside ? _.tokenize(match, inside) : match,
+              alias,
+              match,
+              greedy
+            )
 
             args.push(wrapped)
 
@@ -541,7 +561,8 @@ var Prism = (function(_self) {
   }
 
   //Get current script and highlight
-  var script = document.currentScript || [].slice.call(document.querySelectorAll("script")).pop()
+  var script =
+    document.currentScript || [].slice.call(document.querySelectorAll("script")).pop()
 
   if (script) {
     _.filename = script.src
@@ -610,7 +631,8 @@ Prism.languages.markup = {
   entity: /&#?[\da-z]{1,8};/i
 }
 
-Prism.languages.markup["tag"].inside["attr-value"].inside["entity"] = Prism.languages.markup["entity"]
+Prism.languages.markup["tag"].inside["attr-value"].inside["entity"] =
+  Prism.languages.markup["entity"]
 
 // Plugin to make entity title show the real entity, idea by Roman Komarov
 Prism.hooks.add("wrap", function(env) {
@@ -654,7 +676,10 @@ Object.defineProperty(Prism.languages.markup.tag, "addInlined", {
     var def = {}
     def[tagName] = {
       pattern: new RegExp(
-        /(<__[\s\S]*?>)(?:<!\[CDATA\[[\s\S]*?\]\]>\s*|[\s\S])*?(?=<\/__>)/.source.replace(/__/g, tagName),
+        /(<__[\s\S]*?>)(?:<!\[CDATA\[[\s\S]*?\]\]>\s*|[\s\S])*?(?=<\/__>)/.source.replace(
+          /__/g,
+          tagName
+        ),
         "i"
       ),
       lookbehind: true,
@@ -1052,7 +1077,7 @@ Prism.languages.insertBefore("css", "function", {
           var placeholder
 
           // Check for existing strings
-          while (env.code.indexOf((placeholder = getPlaceholder(language, i))) !== -1) ++i
+          while (env.code.includes((placeholder = getPlaceholder(language, i)))) ++i
 
           // Create a sparse array
           tokenStack[i] = match
@@ -1090,7 +1115,10 @@ Prism.languages.insertBefore("css", "function", {
             }
 
             var token = tokens[i]
-            if (typeof token === "string" || (token.content && typeof token.content === "string")) {
+            if (
+              typeof token === "string" ||
+              (token.content && typeof token.content === "string")
+            ) {
               var k = keys[j]
               var t = env.tokenStack[k]
               var s = typeof token === "string" ? token : token.content
@@ -1101,7 +1129,12 @@ Prism.languages.insertBefore("css", "function", {
                 ++j
 
                 var before = s.substring(0, index)
-                var middle = new Prism.Token(language, Prism.tokenize(t, env.grammar), "language-" + language, t)
+                var middle = new Prism.Token(
+                  language,
+                  Prism.tokenize(t, env.grammar),
+                  "language-" + language,
+                  t
+                )
                 var after = s.substring(index + placeholder.length)
 
                 var replacement = []
@@ -1392,19 +1425,21 @@ Prism.languages.yml = Prism.languages.yaml
     quantifier: /[+*?]|\{(?:\d+,?\d*)\}/,
     alternation: /\|/
   }
-  ;["actionscript", "coffescript", "flow", "javascript", "typescript", "vala"].forEach(function(lang) {
-    var grammar = Prism.languages[lang]
-    if (grammar) {
-      grammar["regex"].inside = {
-        "regex-flags": /[a-z]+$/,
-        "regex-delimiter": /^\/|\/$/,
-        "language-regex": {
-          pattern: /[\s\S]+/,
-          inside: Prism.languages.regex
+  ;["actionscript", "coffescript", "flow", "javascript", "typescript", "vala"].forEach(
+    function(lang) {
+      var grammar = Prism.languages[lang]
+      if (grammar) {
+        grammar["regex"].inside = {
+          "regex-flags": /[a-z]+$/,
+          "regex-delimiter": /^\/|\/$/,
+          "language-regex": {
+            pattern: /[\s\S]+/,
+            inside: Prism.languages.regex
+          }
         }
       }
     }
-  })
+  )
 })(Prism)
 ;(function() {
   if (typeof self === "undefined" || !self.Prism || !self.document) {
@@ -1595,7 +1630,12 @@ Prism.languages.yml = Prism.languages.yaml
 
       for (var name in settings) {
         var methodName = toCamelCase(name)
-        if (name !== "normalize" && methodName !== "setDefaults" && settings[name] && this[methodName]) {
+        if (
+          name !== "normalize" &&
+          methodName !== "setDefaults" &&
+          settings[name] &&
+          this[methodName]
+        ) {
           input = this[methodName].call(this, input, settings[name])
         }
       }
@@ -1898,10 +1938,16 @@ Prism.languages.yml = Prism.languages.yaml
       if (!id) {
         return id
       }
-      return (id.substring(0, 1).toUpperCase() + id.substring(1)).replace(/s(?=cript)/, "S")
+      return (id.substring(0, 1).toUpperCase() + id.substring(1)).replace(
+        /s(?=cript)/,
+        "S"
+      )
     }
 
-    var language = pre.getAttribute("data-language") || Languages[env.language] || guessTitle(env.language)
+    var language =
+      pre.getAttribute("data-language") ||
+      Languages[env.language] ||
+      guessTitle(env.language)
 
     if (!language) {
       return
