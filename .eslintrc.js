@@ -15,6 +15,10 @@ module.exports = {
     es6: true,
     node: true
   },
+  rules: {
+    "no-console": "error",
+    "no-debugger": "error"
+  },
 
   extends: ["plugin:vue/recommended", "plugin:unicorn/recommended"],
 
