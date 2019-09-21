@@ -116,14 +116,6 @@ jobs:
           paths:
             - test/fixtures
 
-  lint-app:
-    executor: node
-    steps:
-      - attach-project
-      - run:
-          name: Lint vue-app templates
-          command: yarn lint:app
-
   # --------------------------------------------------------------------------
   # Phase 3: Unit and E2E tests
   # --------------------------------------------------------------------------
@@ -138,26 +130,6 @@ jobs:
             JEST_JUNIT_OUTPUT_NAME: unit.xml
       - store-test-results
 
-  # test-e2e:
-  #   executor:
-  #     name: node
-  #     browsers: true
-  #   steps:
-  #     - attach-project
-  #     - run:
-  #         name: Download Chromium
-  #         command: |
-  #           cd /opt
-  #           sudo wget https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/641430/chrome-linux.zip
-  #           sudo unzip chrome-linux.zip
-  #           sudo ln -s `pwd`/chrome-linux/chrome /bin/chromium
-  #     - run:
-  #         name: E2E Tests
-  #         command: CHROME_PATH=/bin/chromium yarn test:e2e && yarn coverage -F e2e
-  #         environment:
-  #           JEST_JUNIT_OUTPUT_NAME: e2e.xml
-  #     - store-test-results
-
   # --------------------------------------------------------------------------
   # Phase 4: Release (dev branch only)
   # --------------------------------------------------------------------------
@@ -166,12 +138,12 @@ jobs:
     steps:
       - release
 
-  # release-nightly:
-  #   executor: node
-  #   steps:
-  #     - release
-  #   environment:
-  #     COMMIT_MSG: "[release]"
+  release-nightly:
+    executor: node
+    steps:
+      - release
+    environment:
+      COMMIT_MSG: "[release]"
 
 # Workflow definition
 workflows:
@@ -185,26 +157,8 @@ workflows:
       - lint: { requires: [setup] }
       - audit: { requires: [setup] }
       - build: { requires: [setup] }
-      - lint-app: { requires: [build] }
       - test-unit: { requires: [build] }
       - release-commit:
-          requires: [build, lint, lint-app, audit, test-unit]
+          requires: [build, lint, audit, test-unit]
           filters:
             <<: *release_branches
-  # Release nightly builds on release branches
-  # nightly:
-  #   jobs:
-  #     - setup
-  #     - lint: { requires: [setup] }
-  #     - audit: { requires: [setup] }
-  #     - build: { requires: [setup] }
-  #     - lint-app: { requires: [build] }
-  #     - test-unit: { requires: [build] }
-  #     - test-e2e: { requires: [build] }
-  #     - release-nightly:
-  #         requires: [build, lint, lint-app, audit, test-unit, test-e2e]
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 0 * * *"
-  #         filters:
-  #           <<: *release_branches

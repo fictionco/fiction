@@ -22,7 +22,7 @@
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
     "deploy": "git push heroku-factor-dev master",
     "test": "yarn test:fixtures && yarn test:unit",
-    "test:lint": "",
+    "test:lint": "eslint --ext .js,.vue .",
     "test:coverage": "codecov",
     "test:unit": "jest test/unit @factor --forceExit --detectOpenHandles",
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests"
@@ -42,6 +42,7 @@
     "eslint-config-prettier": "^3.5.0",
     "eslint-import-resolver-webpack": "^0.10.1",
     "eslint-loader": "^2.1.1",
+    "eslint-multiplexer": "^2.0.0",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-html": "^5.0.0",
     "eslint-plugin-import": "^2.7.0",

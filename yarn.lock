@@ -5107,6 +5107,15 @@ eslint-module-utils@^2.4.0:
     debug "^2.6.8"
     pkg-dir "^2.0.0"
 
+eslint-multiplexer@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-multiplexer/-/eslint-multiplexer-2.0.0.tgz#34d00218f5027b417b89a4add81f1536d4197a7d"
+  integrity sha512-hZA86lQ6d3srMwVlEjYVsX24mk/AImm4zL0r0AR8jNsJYoznQT7O2xgeaT6gNsLIxzRP79VkpeMVRxu4+GRWOA==
+  dependencies:
+    cross-spawn "^6.0.5"
+    minimist "^1.2.0"
+    minimist-options "^4.0.1"
+
 eslint-plugin-babel@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-babel/-/eslint-plugin-babel-5.3.0.tgz#2e7f251ccc249326da760c1a4c948a91c32d0023"
@@ -8949,6 +8958,14 @@ minimist-options@^3.0.1:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/minimist-options/-/minimist-options-3.0.2.tgz#fba4c8191339e13ecf4d61beb03f070103f3d954"
   integrity sha512-FyBrT/d0d4+uiZRbqznPXqw3IpZZG3gl3wKWiX784FycUKVwBt0uLBFkQrtE4tZOrgo78nZp2jnKz3L65T5LdQ==
+  dependencies:
+    arrify "^1.0.1"
+    is-plain-obj "^1.1.0"
+
+minimist-options@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/minimist-options/-/minimist-options-4.0.1.tgz#7acffad2a4885859737f9430b2f634328e02732a"
+  integrity sha512-mM6mNIRActjNAB6tHeB9qBPg4LqGWVGrnB8mHupgVu7SwrcyTO3qUB184L1H+MuJS8lQYHCu+NzE3HDf5hu/pw==
   dependencies:
     arrify "^1.0.1"
     is-plain-obj "^1.1.0"
