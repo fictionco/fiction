@@ -1,0 +1,17 @@
+{
+  "name": "@examples/plugin-commentizer",
+  "author": "<chpmnrssll@gmail.com>",
+  "main": "src/index.js",
+  "version": "1.0.0-beta.0",
+  "license": "GPL-2.0",
+  "factor": {
+    "target": [
+      "app",
+      "server"
+    ]
+  },
+  "dependencies": {
+    "@factor/plugin-commentizer": "^1.0.0-beta.0",
+    "@factor/core": "^1.0.0-beta.0"
+  }
+}
