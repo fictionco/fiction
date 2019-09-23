@@ -1,7 +1,7 @@
 {
   "name": "@factor/build",
   "description": "Bundle",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@factor/build-webpack": "^1.0.0-beta.0",
-    "@factor/cli": "^1.0.0-beta.0",
+    "@factor/cli": "1.0.0-beta.1",
     "@factor/server-dev": "^1.0.0-beta.0",
     "@factor/server-extend": "^1.0.0-beta.0",
     "@factor/setup": "^1.0.0-beta.0"

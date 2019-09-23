@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-blog",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "license": "GPL-2.0",
   "factor": {
     "target": [
@@ -9,8 +9,8 @@
     ]
   },
   "dependencies": {
-    "@factor/core": "^1.0.0-beta.0",
-    "@factor/plugin-highlight-code": "^1.0.0-beta.0"
+    "@factor/core": "1.0.0-beta.1",
+    "@factor/plugin-highlight-code": "1.0.0-beta.1"
   },
   "publishConfig": {
     "access": "public"
