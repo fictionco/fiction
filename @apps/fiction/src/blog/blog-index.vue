@@ -44,7 +44,7 @@ export default {
     }
   },
   routeClass() {
-    return ["nav-light"]
+    return "nav-white"
   },
   metatags() {
     const title = this.tag

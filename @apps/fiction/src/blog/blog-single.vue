@@ -28,11 +28,7 @@ export default {
     post() {
       return this.$store.val("post") || {}
     }
-  },
-  // created() {
-  //   // Factor.siteVars.classes = ["nav-light"]
-  // },
-  methods: {}
+  }
 }
 </script>
 
