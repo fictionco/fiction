@@ -36,8 +36,7 @@ module.exports.default = Factor => {
           },
           {
             path: "/vip",
-            component: () => import("./v-vip/page-vip"),
-            meta: { nav: true, routeClass: ["nav-light"], background: "#fff" }
+            component: () => import("./v-vip/v-vip")
           },
           {
             path: "/contact",

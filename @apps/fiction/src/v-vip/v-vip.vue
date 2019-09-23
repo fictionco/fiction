@@ -4,7 +4,7 @@
       <div class="mast">
         <div class="intro-inner">
           <div>
-            <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" >
+            <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" />
             <h1 class="subtitle">
               Premium digital experiences and web application development services powered
               by Factor.
@@ -20,7 +20,7 @@
           </div>
           <div>
             <figure class="figure">
-              <img :src="require(`./img/factor-vip.svg`)" alt="Factor VIP" >
+              <img :src="require(`./img/factor-vip.svg`)" alt="Factor VIP" />
             </figure>
           </div>
         </div>
@@ -78,22 +78,22 @@
       <div class="mast clients-inner">
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/elasticbyte.svg`)" alt="Elastic Byte" >
+            <img :src="require(`./img/elasticbyte.svg`)" alt="Elastic Byte" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/carbontechpro.svg`)" alt="Carbon Tech Pro" >
+            <img :src="require(`./img/carbontechpro.svg`)" alt="Carbon Tech Pro" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/pagelines.svg`)" alt="PageLines" >
+            <img :src="require(`./img/pagelines.svg`)" alt="PageLines" />
           </div>
         </div>
         <div class="client">
           <div class="client-image">
-            <img :src="require(`./img/aqualuna.svg`)" alt="AquaLuna" >
+            <img :src="require(`./img/aqualuna.svg`)" alt="AquaLuna" />
           </div>
         </div>
       </div>
@@ -128,6 +128,9 @@ export default {
       description:
         "Need the professional touch for your website or web application? Get in touch with us about enterprise development and support,"
     }
+  },
+  routeClass() {
+    return "nav-white"
   }
 }
 </script>
