@@ -1,0 +1,10 @@
+{
+  "app": {
+    "name": "@examples/plugin-commentizer",
+    "description": "Factor commentizer example project",
+    "email": "@examples/plugin-commentizer <chpmnrssll@gmail.com>"
+  },
+  "roles": {
+    "chpmnrssll@gmail.com": "admin"
+  }
+}
