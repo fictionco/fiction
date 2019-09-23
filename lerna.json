@@ -2,8 +2,24 @@
   "version": "1.0.0-beta.0",
   "npmClient": "yarn",
   "useWorkspaces": false,
-  "packages": [
-    "@factor/*",
-    "@factor/@*/*"
-  ]
+  "exact": true,
+  "conventionalCommits": true,
+  "packages": ["@factor/*", "@factor/@*/*"],
+  "command": {
+    "publish": {
+      "npmClient": "npm"
+    },
+    "init": {
+      "exact": true
+    }
+  },
+  "changelog": {
+    "labels": {
+      "feat": "New Feature",
+      "fix": "Bug Fix",
+      "docs": "Documentation",
+      "perf": "Performance",
+      "refactor": "Code Refactoring"
+    }
+  }
 }

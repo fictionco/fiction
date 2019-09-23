@@ -1,3 +1,1 @@
-export default Factor => {
-  return new (class {})()
-}
+export default Factor => {}

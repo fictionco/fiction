@@ -51,6 +51,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-unicorn": "^8.0.2",
     "eslint-plugin-vue": "^5.1.0",
+    "esm": "^3.2.25",
     "execa": "^1.0.0",
     "exit": "^0.1.2",
     "get-port": "^5.0.0",

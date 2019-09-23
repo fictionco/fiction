@@ -1,5 +1,1 @@
-export default Factor => {
-  return new (class {
-    constructor() {}
-  })()
-}
+export default Factor => {}

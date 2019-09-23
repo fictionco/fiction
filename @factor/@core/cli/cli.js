@@ -7,12 +7,12 @@ const listr = require("listr")
 const program = require("commander")
 const inquirer = require("inquirer")
 const pkg = require("./package")
-const consola = require("consola")
+// const consola = require("consola")
 
 process.noDeprecation = true
 process.maxOldSpaceSize = 8000
 
-const cli = async () => {
+const cli = () => {
   return new (class {
     constructor() {
       this.passedArguments = process.argv.filter(_ => _.includes("--"))
@@ -168,9 +168,9 @@ const cli = async () => {
       this.program.parse(process.argv)
       const { args } = this.program
 
-      if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
-        console.log("No commands found. Use 'factor help' for info on using the CLI")
-      }
+      // if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
+      //   console.log("No commands found. Use 'factor help' for info on using the CLI")
+      // }
 
       return this.program
     }
@@ -259,21 +259,23 @@ const cli = async () => {
               } else {
                 const proc = execa(command, args, options)
 
-                proc.stdout.on("data", data => {
-                  task.output = data.toString()
-                })
+                if (proc) {
+                  proc.stdout.on("data", data => {
+                    task.output = data.toString()
+                  })
 
-                proc.stderr.on("data", data => {
-                  task.output = data.toString()
-                })
+                  proc.stderr.on("data", data => {
+                    task.output = data.toString()
+                  })
 
-                try {
-                  await proc
+                  try {
+                    await proc
 
-                  task.title = options.done ? options.done : `${task.title} [Done!]`
+                    task.title = options.done ? options.done : `${task.title} [Done!]`
 
-                  return
-                } catch (error) {}
+                    return
+                  } catch (error) {}
+                }
               }
             }
           }
@@ -303,4 +305,5 @@ const cli = async () => {
 }
 
 // Run class
-cli()
+
+module.exports.default = cli()
