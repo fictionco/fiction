@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 
 const Factor = require("vue")
-
 const execa = require("execa")
 const listr = require("listr")
 const program = require("commander")
 const inquirer = require("inquirer")
 const pkg = require("./package")
-// const consola = require("consola")
 
 process.noDeprecation = true
-process.maxOldSpaceSize = 8000
+process.maxOldSpaceSize = 8192
 
 const cli = () => {
   return new (class {
@@ -20,12 +18,102 @@ const cli = () => {
       this.setupProgram()
     }
 
+    setupProgram() {
+      this.program = program
+
+      // options added by filters, plugins or if not wanted in '--help'
+      this.program.allowUnknownOption(true)
+
+      this.program
+        .version(pkg.version)
+        .description("CLI for managing Factor data, builds and deployments")
+        .option("--PORT <PORT>", "set server port. default: 3000")
+        .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
+        .option("--no-load-plugins", "Do not extend build for this command.")
+        .option("--restart", "Restart server process flag.")
+
+      this.program
+        .command("dev")
+        .description("Start development server")
+        .action(_arguments =>
+          this.runCommand({ command: "dev", _arguments, NODE_ENV: "development" })
+        )
+
+      this.program
+        .command("start")
+        .description("Build and then serve production app.")
+        .action(_arguments => this.runCommand({ command: "start", _arguments }))
+
+      this.program
+        .command("serve [NODE_ENV]")
+        .description("Serve app in selected environment.")
+        .action((NODE_ENV, _arguments) =>
+          this.runCommand({ command: "start", _arguments, NODE_ENV })
+        )
+
+      this.program
+        .command("build")
+        .option("--analyze", "Analyze package size")
+        .option("--speed", "Output build speed data")
+        .description("Build production app")
+        .action(args => this.runCommand({ command: "build" }))
+
+      this.program
+        .command("setup [filter]")
+        .description("Setup and verify your Factor app")
+        .action((filter, _arguments) =>
+          this.runCommand({ command: "setup", filter, _arguments })
+        )
+
+      this.program
+        .command("run <filter>")
+        .description("Run CLI utilities based on filter name (see documentation)")
+        .action((filter, _arguments) =>
+          this.runCommand({ command: "run", filter, install: false, _arguments })
+        )
+
+      // Default to 'dev' command
+      if (process.argv.length === 2) {
+        process.argv.push("dev")
+      }
+
+      this.program.parse(process.argv)
+
+      return this.program
+    }
+
+    async runCommand({ command, _arguments, filter, install, NODE_ENV }) {
+      NODE_ENV = NODE_ENV ? NODE_ENV : command == "dev" ? "development" : "production"
+
+      await this.extend({ NODE_ENV, command, filter, install, ..._arguments })
+
+      try {
+        if (["build", "start"].includes(command)) {
+          await Factor.$filters.run("create-distribution-app", program)
+        } else if (command == "setup") {
+          await Factor.$filters.run(`cli-setup`, { inquirer, program })
+        } else if (command == "run") {
+          await Factor.$filters.run(`cli-run-${filter}`, { inquirer, program })
+
+          Factor.$log.success(`Successfully ran "${filter}"\n\n`)
+        }
+
+        if (["start", "dev", "serve"].includes(command)) {
+          // Long running process
+          this.runServer({ NODE_ENV, ..._arguments })
+        }
+      } catch (error) {
+        Factor.$log ? Factor.$log.error(error) : console.error(error)
+      }
+    }
+
     async extend(args = {}) {
       const { parent, ...rest } = args
       const program = { ...parent, ...rest }
-      const { NODE_ENV = "development", install = false, restart = false } = program
 
-      if (install && !restart) {
+      const { NODE_ENV, install = true, command } = program
+
+      if (install) {
         await this.runTasks(
           [
             { command: "yarn", args: ["install"], title: "Installing Dependencies" },
@@ -40,8 +128,8 @@ const cli = () => {
       }
 
       process.env.NODE_ENV = NODE_ENV
-      process.env.FACTOR_ENV = program.ENV || NODE_ENV
-      process.env.FACTOR_COMMAND = program._name
+      process.env.FACTOR_ENV = program.ENV || process.env.FACTOR_ENV || NODE_ENV
+      process.env.FACTOR_COMMAND = command || program._name
 
       this.refineNodeRequire()
 
@@ -53,126 +141,6 @@ const cli = () => {
       Factor.$filters.callback("rebuild-server-app", () => this.reloadNodeProcess(args))
 
       return program
-    }
-
-    setupProgram() {
-      this.program = program
-      this.program.allowUnknownOption(true) // options added by filters
-      this.program
-        .version(pkg.version)
-        .description("CLI for managing Factor data, builds and deployments")
-        .option("--PORT <PORT>", "set server port. default: 3000")
-        .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
-        .option("--no-load-plugins", "Do not extend build for this command.")
-        .option("--restart", "Restart server process flag.")
-
-      this.program
-        .command("dev")
-        .description("Start development server")
-        .action(async args => {
-          const NODE_ENV = "development"
-          await this.extend({ NODE_ENV, install: true, ...args })
-          await this.cliTasks()
-          this.runServer({ NODE_ENV, ...args })
-        })
-
-      this.program
-        .command("start")
-        .description("Start production build on local server")
-        .action(async args => {
-          const NODE_ENV = "production"
-          await this.extend({ NODE_ENV, install: false, ...args })
-
-          await this.runTasks(
-            [
-              {
-                command: "factor",
-                args: ["build"],
-                title: "Generating Distribution App"
-              }
-            ],
-            { exitOnError: true }
-          )
-
-          this.runServer({ NODE_ENV, ...args })
-        })
-
-      this.program
-        .command("serve [NODE_ENV]")
-        .description("Create local server")
-        .action(async (NODE_ENV, args) => {
-          NODE_ENV = NODE_ENV || "production"
-
-          await this.extend({ NODE_ENV, ...args })
-
-          this.runServer({ NODE_ENV, ...args })
-        })
-
-      this.program
-        .command("build")
-        .option("--analyze", "Analyze package size")
-        .option("--speed", "Output build speed data")
-        .description("Build production app")
-        .action(async args => {
-          await this.createDist(args)
-          process.exit(0)
-        })
-
-      this.program
-        .command("setup [filter]")
-        .description("Setup and verify your Factor app")
-        .action(async (filter, args) => {
-          const program = await this.extend({
-            NODE_ENV: "development",
-            filter,
-            install: true,
-            ...args
-          })
-
-          await this.run(`cli-setup`, { inquirer, program })
-        })
-
-      this.program
-        .command("run <filter>")
-        .description("Run CLI utilities based on filter name (see documentation)")
-        .action(async (filter, args) => {
-          const program = await this.extend({
-            NODE_ENV: "development",
-            COMMAND: "run",
-            ...args
-          })
-
-          try {
-            await this.run(`cli-run-${filter}`, { inquirer, program })
-            Factor.$log.success(`Successfully ran "${filter}"\n\n`)
-            process.exit(0)
-          } catch (error) {
-            Factor.$log.error(error)
-            throw new Error(error)
-          }
-        })
-
-      this.program
-        .command("help")
-        .description("Show CLI commands and options")
-        .action(args => {
-          this.program.outputHelp(_ => {
-            return _
-          })
-          // console.log()
-          // console.log("Examples:")
-          // console.log("  $ custom-help --help")
-          // console.log("  $ custom-help -h")
-        })
-
-      this.program.parse(process.argv)
-      const { args } = this.program
-
-      // if (!args || args.length == 0 || !args.some(_ => typeof _ == "object")) {
-      //   console.log("No commands found. Use 'factor help' for info on using the CLI")
-      // }
-
-      return this.program
     }
 
     runServer(args) {
@@ -198,7 +166,7 @@ const cli = () => {
 
       Factor.$log.formatted(message)
 
-      this.run("create-server", args)
+      Factor.$filters.run("create-server", args)
     }
 
     refineNodeRequire() {
@@ -218,26 +186,12 @@ const cli = () => {
         }
       })
 
-      await this.extend({ ...args, install: false, restart: true })
-    }
-
-    async createDist(args) {
-      const program = await this.extend({
-        NODE_ENV: "production",
-        install: true,
-        ...args
+      await this.extend({
+        ...args,
+        install: false,
+        restart: true,
+        NODE_ENV: "development"
       })
-      await this.run("create-distribution-app", program)
-
-      await this.cliTasks()
-
-      return
-    }
-
-    async cliTasks(t = []) {
-      const tasks = Factor.$filters.apply("cli-tasks", t)
-
-      return await this.runTasks(tasks)
     }
 
     async runTasks(t, opts = {}) {
@@ -286,20 +240,6 @@ const cli = () => {
 
       await tasks.run()
       return
-    }
-
-    async run(id, args) {
-      try {
-        await Factor.$filters.run(id, args)
-      } catch (error) {
-        Factor.$log.error(error)
-      }
-    }
-
-    tilde(txt) {
-      const tildePath = require("expand-tilde")("~")
-
-      return txt.replace(tildePath, "~")
     }
   })()
 }
