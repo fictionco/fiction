@@ -78,6 +78,8 @@ module.exports.default = Factor => {
       const { pathExistsSync } = require("fs-extra")
 
       if (!pathExistsSync(Factor.$paths.get("loader-server"))) {
+        if (process.env.FACTOR_ENV == "test") return
+
         throw new Error(
           "Factor loaders are missing. Did you forget to run 'yarn factor build' before serving your app?"
         )

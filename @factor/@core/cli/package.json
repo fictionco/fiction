@@ -10,17 +10,11 @@
     "id": "cli"
   },
   "dependencies": {
-    "boxen": "^3.1.0",
-    "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "consola": "^2.6.1",
     "execa": "^1.0.0",
-    "expand-tilde": "^2.0.2",
-    "figures": "^3.0.0",
     "inquirer": "^6.3.1",
     "listr": "^0.14.3",
-    "opener": "^1.5.1",
-    "rimraf": "^2.6.3",
     "yargs": "^13.2.2"
   },
   "bin": {
