@@ -51,13 +51,6 @@ module.exports.default = Factor => {
       this.folderNames = Factor.$filters.apply("folder-names", _)
     }
 
-    assignNodeAlias() {
-      const moduleAlias = require("module-alias")
-
-      moduleAlias.addAlias("~", this.get("app"))
-      moduleAlias.addAlias("@", this.get("source"))
-    }
-
     assignPaths() {
       const _ = {}
       _.app = this.baseDir
@@ -146,6 +139,13 @@ module.exports.default = Factor => {
       } else {
         this.paths[p] = value
       }
+    }
+
+    assignNodeAlias() {
+      const moduleAlias = require("module-alias")
+
+      moduleAlias.addAlias("~", this.get("app"))
+      moduleAlias.addAlias("@", this.get("source"))
     }
 
     getAliases() {

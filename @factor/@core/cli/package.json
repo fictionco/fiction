@@ -3,6 +3,7 @@
   "homepage": "https://factor.dev",
   "version": "1.0.0-beta.1",
   "license": "GPL-2.0",
+  "main": "cli.js",
   "publishConfig": {
     "access": "public"
   },

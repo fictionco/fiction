@@ -9,7 +9,8 @@ module.exports.default = Factor => {
   Factor.config.devtools = true
   Factor.config.silent = false
 
-  const baseDir = process.cwd()
+  // Allow CWD to be set manually
+  const baseDir = process.env.FACTOR_CWD || process.cwd()
 
   let { factor: USER_CONFIG = {}, ...pkg } = require(resolve(baseDir, "package"))
 

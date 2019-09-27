@@ -108,10 +108,10 @@ const cli = () => {
     }
 
     async extend(args = {}) {
-      const { parent, ...rest } = args
+      const { parent = {}, ...rest } = args
       const program = { ...parent, ...rest }
 
-      const { NODE_ENV, install = true, command } = program
+      const { NODE_ENV = "production", install = true, command } = program
 
       if (install) {
         await this.runTasks(
@@ -129,7 +129,7 @@ const cli = () => {
 
       process.env.NODE_ENV = NODE_ENV
       process.env.FACTOR_ENV = program.ENV || process.env.FACTOR_ENV || NODE_ENV
-      process.env.FACTOR_COMMAND = command || program._name
+      process.env.FACTOR_COMMAND = command || program._name || "none"
 
       this.refineNodeRequire()
 
@@ -140,7 +140,8 @@ const cli = () => {
       // server resets "re-extend" the process
       Factor.$filters.callback("rebuild-server-app", () => this.reloadNodeProcess(args))
 
-      return program
+      // When an extended Factor object is needed outside of this CLI (tests)
+      return Factor
     }
 
     runServer(args) {
@@ -152,7 +153,7 @@ const cli = () => {
           { title: "NODE_ENV", value: NODE_ENV, indent: true },
           { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
           { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
-          { title: "CWD", value: process.cwd(), indent: true }
+          { title: "CWD", value: Factor.$paths.get("app"), indent: true }
         ]
       }
 
@@ -198,13 +199,11 @@ const cli = () => {
       if (t.length == 0) {
         return
       }
+
+      const cwd = process.env.FACTOR_CWD || process.cwd()
+
       const taskMap = t.map(
-        ({
-          title,
-          command,
-          args,
-          options = { cwd: process.cwd(), done: false, output: false }
-        }) => {
+        ({ title, command, args, options = { cwd, done: false, output: false } }) => {
           return {
             title,
             task: async (ctx, task) => {
@@ -222,13 +221,11 @@ const cli = () => {
                     task.output = data.toString()
                   })
 
-                  try {
-                    await proc
+                  await proc
 
-                    task.title = options.done ? options.done : `${task.title} [Done!]`
+                  task.title = options.done ? options.done : `${task.title} [Done!]`
 
-                    return
-                  } catch (error) {}
+                  return
                 }
               }
             }
@@ -239,6 +236,7 @@ const cli = () => {
       const tasks = new listr(taskMap, opts) //, { concurrent: true }
 
       await tasks.run()
+
       return
     }
   })()

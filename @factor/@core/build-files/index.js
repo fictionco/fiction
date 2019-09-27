@@ -80,7 +80,7 @@ module.exports.default = Factor => {
 
       const rel = Factor.$paths
         .get("source")
-        .replace(`${process.cwd()}`, "")
+        .replace(`${Factor.$paths.get("app")}`, "")
         .replace(/^\/|\/$/g, "")
 
       if (rel) parts.push(rel)
