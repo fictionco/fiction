@@ -4,7 +4,7 @@ import { writeFileSync } from "fs-extra"
 import { getPort, rp, waitFor } from "../utils"
 
 let port
-const rootDir = resolve(__dirname, "..", "fixtures/cli")
+const rootDir = resolve(__dirname, "..", "fixtures/cli-build")
 
 const url = route => "http://localhost:" + port + route
 
@@ -44,8 +44,8 @@ const close = FactorProcess => {
   })
 }
 
-describe.posix("cli", () => {
-  test("yarn factor dev", async () => {
+describe.posix("build-commands", () => {
+  test("build from factor dev", async () => {
     const { env } = process
     env.PORT = port = await getPort()
 
@@ -59,7 +59,7 @@ describe.posix("cli", () => {
     await close(FactorProcess)
   })
 
-  test("yarn factor start", async () => {
+  test("build with factor start", async () => {
     let error
 
     const { env } = process

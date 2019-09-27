@@ -29,7 +29,7 @@ module.exports.default = Factor => {
       this._install("tools", require("@factor/tools").default)
 
       this._install("filters", require("@factor/filters").default)
-      this._install("paths", require("@factor/build-paths").default)
+      this._install("paths", require("@factor/paths/server").default)
 
       this._install("files", require("@factor/build-files").default)
       this._install("theme", require("@factor/core-theme").default)
