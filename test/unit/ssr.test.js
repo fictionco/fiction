@@ -2,19 +2,20 @@ import { resolve, join } from "path"
 import { loadFixture } from "../utils/build"
 import { getPort, waitFor } from "../utils"
 let Factor
+let port
 describe("SSR", () => {
   beforeAll(async () => {
-    Factor = await loadFixture("@test/cli")
-    process.env.PORT = await getPort()
-    await Factor.$filters.run("create-server")
+    Factor = await loadFixture("@test/ssr")
+    port = await getPort()
+    await Factor.$server.createServer({ port })
   })
   test("basic ssr route", async () => {
-    const { html } = await Factor.$utils.renderRoute("/basic")
+    const html = await Factor.$server.renderRoute({ url: "/basic" })
     expect(html).toContain("<h1>Basic</h1>")
   })
 
   // Close server and ask nuxt to stop listening to file changes
   afterAll(async () => {
-    await Factor.$filters.run("close-server")
+    await Factor.$server.closeServer()
   })
 })
