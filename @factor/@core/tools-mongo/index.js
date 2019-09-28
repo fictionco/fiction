@@ -39,7 +39,7 @@ export default Factor => {
       } else {
         this.mongoose = require("mongoose/browser")
       }
-      // Factor.$filters.callback("initial-server-start", () => this._syncSchemaIndexes())
+      // Factor.$filters.callback("after-first-server-extend", () => this._syncSchemaIndexes())
     }
 
     objectIdType() {

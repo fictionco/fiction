@@ -6,7 +6,7 @@ module.exports.default = Factor => {
 
     async addFilters() {
       // Register doc routes for sitemap
-      Factor.$filters.add("initial-server-start", () => {
+      Factor.$filters.add("after-first-server-extend", () => {
         const base = Factor.$setting.get("docs.base")
         const pages = Factor.$setting.get("docs.pages")
         pages.forEach(p => {

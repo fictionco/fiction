@@ -8,19 +8,23 @@ const destroyer = require("server-destroy")
 const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
 const IS_PRODUCTION = NODE_ENV === "production"
-// // Add for Firebase
-// global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
 
 module.exports.default = Factor => {
-  const PORT = process.env.PORT || Factor.$config.setting("PORT") || 3000
-
   return new (class {
     constructor() {
-      // After all extensions/filters added
-      // Needed for webpack and dev server
-      Factor.$filters.add("create-server", (_, args) => {
-        return [..._, this.startServer()]
-      })
+      // // After all extensions/filters added
+      // // Needed for webpack and dev server
+      // Factor.$filters.add("create-server", (_, { port }) => {
+      //   this.PORT = this.getPort(port)
+      //   return [..._, this.startServer()]
+      // })
+
+      Factor.$filters.callback("create-server", _ => this.createServer(_))
+      Factor.$filters.callback("close-server", _ => this.closeServer(_))
+    }
+
+    getPort(port) {
+      return port || process.env.PORT || Factor.$config.setting("PORT") || 3000
     }
 
     createRenderer(bundle, options) {
@@ -77,7 +81,9 @@ module.exports.default = Factor => {
         async (request, response) => await this.render(request, response)
       )
 
-      this.serverApp.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`))
+      this.serverApp.listen(this.PORT, () =>
+        Factor.$log.success(`Listening on PORT: ${this.PORT}`)
+      )
     }
 
     createServerApp() {
@@ -98,7 +104,7 @@ module.exports.default = Factor => {
       this.serverApp.get("*", async (request, response) => {
         await this.render(request, response)
       })
-      this.listener = this.localListenRoutine(this.serverApp).listen(PORT, () => {
+      this.listener = this.localListenRoutine(this.serverApp).listen(this.PORT, () => {
         if (onListen) {
           onListen()
         }
@@ -131,7 +137,8 @@ module.exports.default = Factor => {
       this.middleware.push(middleware)
     }
 
-    async startServer() {
+    async createServer({ port }) {
+      this.PORT = this.getPort(port)
       this.middleware = []
 
       if (NODE_ENV == "production") {
@@ -141,6 +148,10 @@ module.exports.default = Factor => {
       }
 
       return
+    }
+
+    async closeServer() {
+      this.listener.destroy()
     }
 
     logging() {

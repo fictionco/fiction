@@ -100,7 +100,7 @@ const cli = () => {
 
         if (["start", "dev", "serve"].includes(command)) {
           // Long running process
-          this.runServer({ NODE_ENV, ..._arguments })
+          await this.runServer({ NODE_ENV, ..._arguments })
         }
       } catch (error) {
         Factor.$log ? Factor.$log.error(error) : console.error(error)
@@ -144,8 +144,8 @@ const cli = () => {
       return Factor
     }
 
-    runServer(args) {
-      const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
+    async runServer(args) {
+      const { NODE_ENV = process.env.NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
 
       const message = {
         title: "Starting Server...",
@@ -167,7 +167,7 @@ const cli = () => {
 
       Factor.$log.formatted(message)
 
-      Factor.$filters.run("create-server", args)
+      await Factor.$filters.run("create-server", args)
     }
 
     refineNodeRequire() {
@@ -196,10 +196,12 @@ const cli = () => {
     }
 
     async runTasks(t, opts = {}) {
-      if (t.length == 0) {
-        return
-      }
+      if (t.length == 0) return
 
+      // Don't log during tests
+      if (process.env.FACTOR_ENV == "test") opts.renderer = "silent"
+
+      // Allow dynamically set CWD
       const cwd = process.env.FACTOR_CWD || process.cwd()
 
       const taskMap = t.map(

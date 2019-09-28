@@ -15,7 +15,7 @@ module.exports.default = Factor => {
       this.secretsFile = Factor.$paths.get("config-file-private")
       Factor.$filters.callback("cli-setup", _ => this.runSetup(_))
 
-      Factor.$filters.callback("initial-server-start", () => {
+      Factor.$filters.callback("after-first-server-extend", () => {
         this.setupNeeded = Factor.$filters.apply("setup-needed", [])
         if (this.setupNeeded.length > 0) {
           let lines = this.setupNeeded.map(_ => {

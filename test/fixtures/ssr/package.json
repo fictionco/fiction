@@ -1,5 +1,5 @@
 {
-  "name": "@test/cli",
+  "name": "@test/ssr",
   "version": "1.0.0",
   "url": "https://www.fiction.com",
   "main": "index.js",

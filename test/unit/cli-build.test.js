@@ -45,7 +45,7 @@ const close = FactorProcess => {
 }
 
 describe.posix("build-commands", () => {
-  test("build from factor dev", async () => {
+  test.skip("build from factor dev", async () => {
     const { env } = process
     env.PORT = port = await getPort()
 
@@ -59,7 +59,7 @@ describe.posix("build-commands", () => {
     await close(FactorProcess)
   })
 
-  test("build with factor start", async () => {
+  test.skip("build with factor start", async () => {
     let error
 
     const { env } = process
