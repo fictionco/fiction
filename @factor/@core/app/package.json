@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "main": "index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -16,9 +16,9 @@
     "@factor/app-extend": "^1.0.0-beta.0",
     "@factor/app-fallbacks": "^1.0.0-beta.0",
     "@factor/app-router": "^1.0.0-beta.0",
-    "@factor/app-settings": "^1.0.0-beta.0",
+    "@factor/app-settings": "1.0.0-beta.2",
     "@factor/app-store": "^1.0.0-beta.0",
-    "@factor/cli": "1.0.0-beta.1",
+    "@factor/cli": "1.0.0-beta.2",
     "vue": "^2.6.7"
   },
   "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4"
