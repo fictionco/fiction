@@ -5,6 +5,11 @@ export default Factor => {
         path: "/basic",
         component: () => import("./basic.vue")
       })
+
+      Factor.$filters.push("content-routes", {
+        path: "/mutation",
+        component: () => import("./mutation.vue")
+      })
     }
   })()
 }
