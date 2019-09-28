@@ -47,6 +47,9 @@ module.exports.default = Factor => {
     }
 
     formatted({ title, lines = [], format = false, box = true, color = "cyan" }) {
+      // Don't log during tests
+      if (process.env.FACTOR_ENV == "test") return
+
       const msg = []
 
       lines.forEach(({ title, value, indent }) => {
@@ -69,12 +72,12 @@ module.exports.default = Factor => {
       }
 
       const ttl = `${prefix} ${chalk.bold(title)}`
-      console.log()
+      console.log("")
       console.group(ttl)
       if (msg.length > 0) {
         console.log(msg.join(`\n`))
       }
-      console.log()
+      console.log("")
       console.groupEnd()
     }
   })()

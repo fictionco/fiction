@@ -60,15 +60,17 @@ module.exports.default = Factor => {
       compiler.run((err, stats) => {
         bar.stop()
 
-        process.stdout.write(
-          stats.toString({
-            colors: true,
-            modules: false,
-            children: false,
-            chunks: false,
-            chunkModules: false
-          }) + "\n\n"
-        )
+        if (process.env.FACTOR_ENV != "test") {
+          process.stdout.write(
+            stats.toString({
+              colors: true,
+              modules: false,
+              children: false,
+              chunks: false,
+              chunkModules: false
+            }) + "\n\n"
+          )
+        }
 
         if (err || stats.hasErrors()) {
           Factor.$log.error(err)
@@ -119,7 +121,14 @@ module.exports.default = Factor => {
 
       const targetConfig = target == "server" ? this.server() : this.client()
 
-      const testingConfig = testing ? { devtool: "#cheap-module-source-map" } : {}
+      const testingConfig = testing
+        ? {
+            devtool: "",
+            optimization: {
+              minimize: false
+            }
+          }
+        : {}
 
       // Only run this once (server build)
       // If it runs twice it cleans it after the first

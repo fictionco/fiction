@@ -1,3 +1,3 @@
 import { buildFixture } from "../../utils/build"
 
-buildFixture("@test/cli")
+buildFixture("@test/ssr")

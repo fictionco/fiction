@@ -19,7 +19,7 @@ module.exports.default = Factor => {
         await this.initialize()
 
         if (!args.restart) {
-          Factor.$filters.run("initial-server-start")
+          Factor.$filters.run("after-first-server-extend")
         }
       }
     }
