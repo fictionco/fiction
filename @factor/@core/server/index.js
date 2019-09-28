@@ -12,13 +12,6 @@ const IS_PRODUCTION = NODE_ENV === "production"
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      // // After all extensions/filters added
-      // // Needed for webpack and dev server
-      // Factor.$filters.add("create-server", (_, { port }) => {
-      //   this.PORT = this.getPort(port)
-      //   return [..._, this.startServer()]
-      // })
-
       Factor.$filters.callback("create-server", _ => this.createServer(_))
       Factor.$filters.callback("close-server", _ => this.closeServer(_))
     }
@@ -39,20 +32,25 @@ module.exports.default = Factor => {
       })
     }
 
-    async render(request, response) {
+    async renderRequest(request, response) {
       response.setHeader("Content-Type", "text/html")
       response.setHeader("Server", this.getServerInfo())
 
-      const { url } = request
-      const context = { url, headTags: {} }
-
       try {
-        const html = await this.renderer.renderToString(context)
+        const { url } = request
+        const html = await this.renderRoute({ url })
+
         response.set("cache-control", `public, max-age=${15 * 30}, s-maxage=${15 * 60}`)
         response.send(html)
       } catch (error) {
         this.handleError(request, response, error)
       }
+    }
+
+    async renderRoute({ url }) {
+      const context = { url, headTags: {} }
+
+      return await this.renderer.renderToString(context)
     }
 
     async ssrFiles() {
@@ -78,7 +76,7 @@ module.exports.default = Factor => {
       // Set Express routine for all fallthrough paths
       this.serverApp.get(
         "*",
-        async (request, response) => await this.render(request, response)
+        async (request, response) => await this.renderRequest(request, response)
       )
 
       this.serverApp.listen(this.PORT, () =>
@@ -102,7 +100,7 @@ module.exports.default = Factor => {
       this.createServerApp()
       // Set Express routine for all fallthrough paths
       this.serverApp.get("*", async (request, response) => {
-        await this.render(request, response)
+        await this.renderRequest(request, response)
       })
       this.listener = this.localListenRoutine(this.serverApp).listen(this.PORT, () => {
         if (onListen) {
