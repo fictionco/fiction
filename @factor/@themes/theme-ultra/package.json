@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-ultra",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -17,6 +17,6 @@
   "dependencies": {
     "@factor/plugin-contact-form": "^1.0.0-beta.0",
     "@factor/plugin-notify": "^1.0.0-beta.0",
-    "@factor/post": "1.0.0-beta.2"
+    "@factor/post": "1.0.0-beta.3"
   }
 }
