@@ -110,14 +110,19 @@ module.exports.default = Factor => {
         {
           doc: "routes-and-stores",
           file: require("./docs/framework/routes-stores.md"),
-          title: "Factor Routes and Stores"
+          title: "Configuring Routes and Stores"
+        },
+        {
+          doc: "meta",
+          file: require("./docs/meta.md"),
+          title: "Setting Meta and Metatags"
         },
 
         {
           name: "Server and Endpoints",
           doc: "server",
           file: require("./docs/server.md"),
-          title: "Factor Vue Server Side Rendering (SSR)"
+          title: "Using Server Side Rendering (SSR)"
         },
 
         {
