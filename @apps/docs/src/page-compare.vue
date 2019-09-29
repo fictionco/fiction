@@ -18,7 +18,7 @@
               <img
                 :src="require(`./img/compare.svg`)"
                 alt="Compare Factor to WordPress and modern JS frameworks"
-              >
+              />
             </figure>
           </div>
         </div>
@@ -29,9 +29,9 @@
     <section class="graphic-splash">
       <div class="mast">
         <div class="splash-wrap">
-          <img class="theme-ultra" :src="require(`./img/theme-ultra.jpg`)" alt="Theme Ultra" >
-          <img class="dashboard" :src="require(`./img/dashboard.svg`)" alt="Factor Dashboard" >
-          <img class="theme-alpha" :src="require(`./img/theme-alpha.jpg`)" alt="Theme Alpha" >
+          <img class="theme-ultra" :src="require(`./img/theme-ultra.jpg`)" alt="Theme Ultra" />
+          <img class="dashboard" :src="require(`./img/dashboard.svg`)" alt="Factor Dashboard" />
+          <img class="theme-alpha" :src="require(`./img/theme-alpha.jpg`)" alt="Theme Alpha" />
         </div>
       </div>
     </section>
@@ -53,7 +53,7 @@
           </div>
           <div id="column2" class="column">
             <span class="img-wrap">
-              <img :src="require(`./img/wordpress.svg`)" alt="WordPress" >
+              <img :src="require(`./img/wordpress.svg`)" alt="WordPress" />
             </span>
             <span>
               <factor-icon icon="check" />
@@ -99,7 +99,7 @@
           </div>
           <div id="column4" class="column">
             <span class="img-wrap">
-              <img :src="require(`./img/js-frameworks.svg`)" alt="JavaScript frameworks" >
+              <img :src="require(`./img/js-frameworks.svg`)" alt="JavaScript frameworks" />
             </span>
             <span>
               <factor-icon icon="close" />
@@ -181,11 +181,10 @@ export default {
       return nav
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "Compare Factor",
-      description: "Compare Factor to WordPress and modern JS frameworks.",
-      image: ""
+      description: "Compare Factor to WordPress and modern JS frameworks."
     }
   }
 }
@@ -262,8 +261,7 @@ export default {
       &.theme-ultra {
         max-width: 350px;
         box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-          0 8px 16px -8px rgba(0, 0, 0, 0.3),
-          0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+          0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
       }
       &.theme-ultra {
         z-index: 3;
@@ -318,8 +316,7 @@ export default {
         grid-template-columns: repeat(4, minmax(180px, 1fr));
         border: 1px solid rgba(80, 102, 119, 0.1);
         box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-          0 8px 16px -8px rgba(0, 0, 0, 0.3),
-          0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+          0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
 
         @media (max-width: 767px) {
           overflow-x: visible;
@@ -376,8 +373,7 @@ export default {
           border: 1px solid rgba(80, 102, 119, 0.1);
           border-radius: 4px;
           box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-            0 8px 16px -8px rgba(0, 0, 0, 0.3),
-            0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
           span:nth-child(1) {
             padding-top: 1.6em;
             padding-bottom: 1.6em;

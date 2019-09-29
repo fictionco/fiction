@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  metatags() {
+  metaInfo() {
     return {
       title: `${this.errorText} Error`,
       description: `Looks like you've hit a ${this.errorText} error.`

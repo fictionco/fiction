@@ -38,7 +38,7 @@
           <div class="banner-figure">
             <strong>Install Factor</strong>
             <pre><code class="language-html">yarn add @factor/post</code></pre>
-            <br >
+            <br />
             <strong>Or use the "Starter Kit"</strong>
             <pre><code class="language-html">yarn create-factor-app</code></pre>
           </div>
@@ -78,10 +78,10 @@
                     class="img-modular"
                     :src="require(`./img/modular.svg`)"
                     alt="Factor - Modular"
-                  >
+                  />
                 </template>
                 <template v-if="feature.figure == 'ssr'">
-                  <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" >
+                  <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" />
                 </template>
                 <template v-else-if="feature.figure == 'hello'">
                   <pre><code class="javascript"><span>var</span> app = new <span class="a">Factor</span>({
@@ -96,19 +96,19 @@
                     class="flexible"
                     :src="require(`./img/flexible.png`)"
                     alt="Factor - Infinite Possibilities"
-                  >
+                  />
                 </template>
                 <template v-else-if="feature.figure == 'markdown'">
-                  <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" >
+                  <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" />
                 </template>
                 <template v-else-if="feature.figure == 'power'">
-                  <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" >
+                  <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
                 </template>
                 <template v-if="feature.figure=='roles'">
                   <img
                     :src="require(`./img/user-roles.svg`)"
                     alt="Factor - User Roles and Permissions"
-                  >
+                  />
                 </template>
               </figure>
             </div>
@@ -230,7 +230,7 @@ export default {
   routeClass() {
     return "nav-white"
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "Factor JS - A Platform for Universal VueJS Apps",
       description:
@@ -481,11 +481,7 @@ export default {
       }
       &.odd {
         background-color: #fff;
-        background-image: linear-gradient(
-          45deg,
-          var(--color-bg-contast),
-          #fff 90%
-        );
+        background-image: linear-gradient(45deg, var(--color-bg-contast), #fff 90%);
         transform: skewY(-3deg);
         .feature-wrap {
           grid-template-areas: "b a";

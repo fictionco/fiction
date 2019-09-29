@@ -13,6 +13,8 @@ export default async ssrContext => {
   const { url } = ssrContext
   const { fullPath } = router.resolve(url).route
 
+  ssrContext = Factor.$filters.apply("ssr-context", ssrContext, { app, router, store })
+
   // set router's location
   router.push(fullPath !== url ? fullPath : url)
 
@@ -21,6 +23,7 @@ export default async ssrContext => {
     router.onReady(() => resolve(true), reject)
   })
 
+  // Distinguish between content and dashboard UI
   const { meta: { ui = "app" } = {} } =
     router.currentRoute.matched.find(_ => _.meta.ui) || {}
 
@@ -36,20 +39,21 @@ export default async ssrContext => {
 
   metaHooks.forEach(h => {
     ssrContext[h] = () => {
-      return Factor.$filters.apply(h, []).join("")
+      return Factor.$filters.apply(h, [], { ssrContext }).join("")
     }
   })
 
   const attrHooks = [
-    { name: "factor_html_attr", attr: ['lang="en"'], classes: [`factor-${ui}`] },
-    { name: "factor_body_attr", attr: [], classes: [] }
+    { name: "factor_html_attr", attr: [], classes: [`factor-${ui}`] },
+    { name: "factor_body_attr", attr: [], classes: [] },
+    { name: "factor_head_attr", attr: [], classes: [] }
   ]
 
   attrHooks.forEach(({ name, attr, classes }) => {
     ssrContext[name] = additional => {
       classes.push(additional)
       attr.push(`class="${classes.join(" ")}"`)
-      return Factor.$filters.apply(name, attr).join(" ")
+      return Factor.$filters.apply(name, attr, { ssrContext }).join(" ")
     }
   })
 

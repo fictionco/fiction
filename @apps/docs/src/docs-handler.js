@@ -15,6 +15,7 @@ export default Factor => {
 
     metatags(doc) {
       const { title, description } = this.selected(doc) || {}
+
       return { title, description }
     }
 

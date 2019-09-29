@@ -49,15 +49,13 @@ export default {
         },
         {
           title: "Latest Updates",
-          description:
-            "Katest news, tips and tutorials on creating next level apps.",
+          description: "Katest news, tips and tutorials on creating next level apps.",
           btn: "Blog &rarr;",
           path: "https://www.fiction.com/blog"
         },
         {
           title: "Factor Docs",
-          description:
-            "Need some help getting things rolling? Check out Factor.dev.",
+          description: "Need some help getting things rolling? Check out Factor.dev.",
           btn: "Go &rarr;",
           path: "https://factor.dev"
         }
@@ -68,7 +66,7 @@ export default {
     await this.$user.init()
     this.loading = false
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "Admin",
       description: "Fiction.com dashboard overview.",

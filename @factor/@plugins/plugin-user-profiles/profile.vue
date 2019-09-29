@@ -82,7 +82,7 @@
 </template>
 <script>
 export default {
-  metatags() {
+  metaInfo() {
     if (this.post && this.post.displayName) {
       return {
         title: `${this.post.displayName} Profile`,
@@ -137,8 +137,7 @@ export default {
     primaryAvatar: function() {
       const imgs = this.avatars
 
-      const url =
-        imgs.length > 0 && imgs[0] ? imgs[0].url : require("./user.svg")
+      const url = imgs.length > 0 && imgs[0] ? imgs[0].url : require("./user.svg")
       return `url(${url})`
     }
   },
@@ -228,8 +227,8 @@ export default {
     padding: 2em;
     border-radius: 4px;
     background: #fff;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04),
-      0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
+      0 12px 34px 0 rgba(24, 32, 41, 0.04);
     .panel {
       line-height: 1.6;
       font-size: 1.2em;
@@ -322,8 +321,7 @@ export default {
       &:hover {
         transform: translateY(-2px);
         cursor: pointer;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1),
-          0 3px 10px rgba(0, 0, 0, 0.07);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(0, 0, 0, 0.07);
       }
     }
   }

@@ -31,13 +31,11 @@ export default {
       loading: false
     }
   },
-  metatags() {
+  metaInfo() {
     const tag = this.$route.params.tag || ""
     const title = tag ? `Tag "${tag}"` : "Projects"
 
-    const description = tag
-      ? `Articles related to tag: ${tag}`
-      : "News and more..."
+    const description = tag ? `Articles related to tag: ${tag}` : "News and more..."
     return {
       title,
       description

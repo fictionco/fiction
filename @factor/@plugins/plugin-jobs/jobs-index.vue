@@ -39,7 +39,7 @@ export default {
       loading: false
     }
   },
-  metatags() {
+  metaInfo() {
     const title = this.tag
       ? `Tag "${this.tag}"`
       : this.$setting.get("jobs.metatags.index.title")

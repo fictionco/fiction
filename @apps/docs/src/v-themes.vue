@@ -44,14 +44,14 @@
               <span>
                 <factor-icon icon="search" />
               </span>
-              <input type="text" name="search" placeholder="Search Themes" >
+              <input type="text" name="search" placeholder="Search Themes" />
             </form>
           </div>
 
           <div class="items-wrap">
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/theme-ultra.jpg`)" alt="Ultra" >
+                <img :src="require(`./img/theme-ultra.jpg`)" alt="Ultra" />
                 <div>
                   <h3 class="title">Ultra</h3>
                   <span class="category">Portfolio</span>
@@ -67,7 +67,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/theme-alpha.jpg`)" alt="Alpha" >
+                <img :src="require(`./img/theme-alpha.jpg`)" alt="Alpha" />
                 <div>
                   <h3 class="title">Alpha</h3>
                   <span class="category">Website</span>
@@ -143,11 +143,10 @@ export default {
       return nav
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "Factor Themes",
-      description: "Extend your project features and do more with Factor.",
-      image: ""
+      description: "Extend your project features and do more with Factor."
     }
   }
 }
@@ -296,13 +295,12 @@ export default {
       margin-bottom: 1.5em;
       background-color: #fff;
       border-radius: 4px;
-      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-        0 1px 3px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
       transition: all 0.2s ease-in-out;
       &:hover {
         transform: translateY(-0.5em);
-        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-          0 1px 3px rgba(0, 0, 0, 0.08), 0 11px 16px rgba(50, 50, 93, 0.2);
+        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08),
+          0 11px 16px rgba(50, 50, 93, 0.2);
       }
       .item-top {
         // display: flex;
@@ -313,8 +311,7 @@ export default {
           width: 100%;
 
           margin-right: 15px;
-          box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-            0 1px 3px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
         }
         .title {
           color: #0496ff;

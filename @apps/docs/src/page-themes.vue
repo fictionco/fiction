@@ -31,7 +31,7 @@
           <div v-for="(item, i) in extensions.themes" :key="i" class="item">
             <div class="item-top">
               <factor-link :path="item.demo">
-                <img :src="item.screenshot" :alt="item.name" >
+                <img :src="item.screenshot" :alt="item.name" />
               </factor-link>
             </div>
             <div class="item-bottom">
@@ -99,7 +99,7 @@ export default {
       this.vis = true
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "Factor Themes Built and Curated by the Factor Team.",
       description:
@@ -211,13 +211,12 @@ export default {
         img {
           width: 100%;
           border-radius: 4px;
-          box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-            0 1px 3px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
           transition: all 0.2s ease-in-out;
           &:hover {
             transform: translateY(-0.1em);
-            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-              0 1px 3px rgba(0, 0, 0, 0.08), 0 11px 16px rgba(50, 50, 93, 0.2);
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08),
+              0 11px 16px rgba(50, 50, 93, 0.2);
           }
         }
       }

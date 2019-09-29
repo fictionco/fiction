@@ -401,6 +401,23 @@ export default Factor => {
       }
     }
 
+    titleTag(_id) {
+      const { titleTag, title } = Factor.$store.val(_id) || {}
+      return titleTag || title || ""
+    }
+
+    descriptionTag(_id) {
+      const { descriptionTag, subTitle, content } = Factor.$store.val(_id) || {}
+      return descriptionTag || subTitle || Factor.$utils.excerpt(content) || ""
+    }
+
+    shareImage(_id) {
+      const { shareImage, avatar } = Factor.$store.val(_id) || {}
+      const imageId = shareImage ? shareImage : avatar
+      const { url } = Factor.$store.val(imageId) || {}
+      return url ? url : ""
+    }
+
     // Get the count of posts with a given status (or similar)
     // Null values (e.g. status is unset) should be given the value assigned by nullKey
     // Use in table control filtering
