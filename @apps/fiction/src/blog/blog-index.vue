@@ -46,7 +46,7 @@ export default {
   routeClass() {
     return "nav-white"
   },
-  metatags() {
+  metaInfo() {
     const title = this.tag
       ? `Tag "${this.tag}"`
       : this.$setting.get("blog.metatags.index.title")

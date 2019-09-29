@@ -31,10 +31,11 @@ export default {
     "content-footer": () => import("./site-footer")
   },
 
-  metatags() {
+  metaInfo() {
     const post = this.post || {}
     return {
       title: post.titleTag || post.title,
+      titleTemplate: "%s - Fiction.com",
       description: post.description || this.$utils.excerpt(post.content),
       image: this.socialImage(post)
     }
@@ -46,9 +47,7 @@ export default {
     },
 
     nav() {
-      return typeof this.$route.meta.nav != "undefined"
-        ? this.$route.meta.nav
-        : true
+      return typeof this.$route.meta.nav != "undefined" ? this.$route.meta.nav : true
     },
     bg() {
       const background = this.$route.meta.background || false

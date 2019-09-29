@@ -6,10 +6,7 @@
       :image="$setting.get('about.heroImage')"
     >
       <template v-slot:hero-content>
-        <div
-          v-formatted-text="$setting.get('about.content')"
-          class="content entry-content"
-        />
+        <div v-formatted-text="$setting.get('about.content')" class="content entry-content" />
       </template>
     </el-hero>
 
@@ -30,7 +27,7 @@ export default {
       loading: true
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: this.$setting.get("about.meta.title"),
       description: this.$setting.get("about.meta.description")

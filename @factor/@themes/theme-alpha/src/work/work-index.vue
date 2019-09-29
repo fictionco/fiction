@@ -55,13 +55,11 @@ export default {
       loading: false
     }
   },
-  metatags() {
+  metaInfo() {
     const tag = this.$route.params.tag || ""
     const title = tag ? `Tag "${tag}"` : "Projects"
 
-    const description = tag
-      ? `Articles related to tag: ${tag}`
-      : "Projects and more..."
+    const description = tag ? `Articles related to tag: ${tag}` : "Projects and more..."
     return {
       title,
       description

@@ -14,11 +14,11 @@ export default {
   data() {
     return {}
   },
-  metatags() {
+  metaInfo() {
     return {
-      title: this.$metatags.titleTag(this.post._id),
-      description: this.$metatags.descriptionTag(this.post._id),
-      image: this.$metatags.shareImage(this.post._id)
+      title: this.$post.titleTag(this.post._id),
+      description: this.$post.descriptionTag(this.post._id),
+      image: this.$post.shareImage(this.post._id)
     }
   },
   routeClass() {

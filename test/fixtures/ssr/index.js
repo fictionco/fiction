@@ -3,12 +3,17 @@ export default Factor => {
     constructor() {
       Factor.$filters.push("content-routes", {
         path: "/basic",
-        component: () => import("./basic.vue")
+        component: () => import("./v-basic.vue")
       })
 
       Factor.$filters.push("content-routes", {
         path: "/mutation",
-        component: () => import("./mutation.vue")
+        component: () => import("./v-mutation.vue")
+      })
+
+      Factor.$filters.push("content-routes", {
+        path: "/store-data",
+        component: () => import("./v-store-data.vue")
       })
     }
   })()

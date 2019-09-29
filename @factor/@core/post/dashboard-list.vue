@@ -20,7 +20,7 @@ export default {
       sending: false
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: this.postTypeLabel
     }
@@ -81,11 +81,7 @@ export default {
 
       if (selected.length > 0) {
         if (action == "delete") {
-          if (
-            confirm(
-              "Are you sure? This will permanently delete the selected posts."
-            )
-          ) {
+          if (confirm("Are you sure? This will permanently delete the selected posts.")) {
             await this.$post.deleteMany({
               _ids: selected,
               postType: this.postType

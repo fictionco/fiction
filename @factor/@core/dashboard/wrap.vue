@@ -37,13 +37,13 @@ export default {
     "dashboard-nav": () => import("./nav"),
     "dashboard-head": () => import("./head")
   },
-  metatags() {
+  metaInfo() {
     const pageName = this.$route.path.split("/").pop()
     const niceName = this.$utils.toLabel(pageName)
     return {
       title: niceName,
       description: `Dashboard`,
-      titleSuffix: " - Fiction Dashboard",
+      titleTemplate: "%s - Fiction Dashboard",
       priority: 50
     }
   },

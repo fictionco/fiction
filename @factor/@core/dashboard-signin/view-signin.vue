@@ -8,7 +8,7 @@ export default {
   components: {
     "el-signin": () => import("./signin")
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "Login / Sign Up",
       description: "Login or register an account."

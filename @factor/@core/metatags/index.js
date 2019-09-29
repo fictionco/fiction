@@ -6,10 +6,10 @@ export default Factor => {
 
       Factor.$filters.callback("ssr-matched-components", _ => this.ssrRouteClass(_))
 
-      Factor.$filters.add("factor_head", _ => {
-        _.push(this.getMetatagHtml(this.getMetatags()))
-        return _
-      })
+      // Factor.$filters.add("factor_head", _ => {
+      //   _.push(this.getMetatagHtml(this.getMetatags()))
+      //   return _
+      // })
 
       Factor.$filters.add("before-app", () => {
         if (Factor.FACTOR_SSR == "server") {
@@ -110,12 +110,12 @@ export default Factor => {
       Factor.mixin({
         created() {
           _this.setRouteClass(this.$options)
-          _this.setMetatags(this)
+          //   _this.setMetatags(this)
         },
         watch: {
           $route: {
             handler: function() {
-              _this.setMetatags(this)
+              //_this.setMetatags(this)
 
               _this.setRouteClass(this.$options)
             }
@@ -124,17 +124,17 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.add("client-route-after", () => {
-        // Wait for all components to load
-        setTimeout(() => {
-          const { title, titleSuffix } = {
-            ...this.defaultMetatags(),
-            ...this.getMetatags()
-          }
+      // Factor.$filters.add("client-route-after", () => {
+      //   // Wait for all components to load
+      //   setTimeout(() => {
+      //     const { title, titleSuffix } = {
+      //       ...this.defaultMetatags(),
+      //       ...this.getMetatags()
+      //     }
 
-          document.title = `${title} ${titleSuffix}`
-        }, 70)
-      })
+      //     document.title = `${title} ${titleSuffix}`
+      //   }, 70)
+      // })
     }
 
     getMetatags() {
@@ -154,23 +154,6 @@ export default Factor => {
         priority: 20,
         ...metatagSettings
       }
-    }
-
-    titleTag(_id) {
-      const { titleTag, title } = Factor.$store.val(_id) || {}
-      return titleTag || title || ""
-    }
-
-    descriptionTag(_id) {
-      const { descriptionTag, subTitle, content } = Factor.$store.val(_id) || {}
-      return descriptionTag || subTitle || Factor.$utils.excerpt(content) || ""
-    }
-
-    shareImage(_id) {
-      const { shareImage, avatar } = Factor.$store.val(_id) || {}
-      const imageId = shareImage ? shareImage : avatar
-      const { url } = Factor.$store.val(imageId) || {}
-      return url ? url : ""
     }
   })()
 }

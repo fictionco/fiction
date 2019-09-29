@@ -27,7 +27,7 @@ export default {
       authors: []
     }
   },
-  metatags() {
+  metaInfo() {
     const post = this.post || {}
     return {
       title: post.titleTag || post.title,

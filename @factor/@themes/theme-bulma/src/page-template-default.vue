@@ -17,7 +17,7 @@ export default {
     }
   },
 
-  metatags() {
+  metaInfo() {
     return {
       title: "Theme Bulma",
       description:

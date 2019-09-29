@@ -76,7 +76,7 @@
                 <img
                   :src="getPost(post.jobIcon).url || require(`./img/icon-default.svg`)"
                   class="jobs-post-icon"
-                >
+                />
               </div>
               <div>
                 <component
@@ -108,7 +108,7 @@ export default {
       loading: false
     }
   },
-  metatags() {
+  metaInfo() {
     const title = this.tag
       ? `Tag "${this.tag}"`
       : this.$setting.get("jobs.metatags.index.title")

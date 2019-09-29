@@ -53,14 +53,14 @@
               <span>
                 <factor-icon icon="search" />
               </span>
-              <input type="text" name="search" placeholder="Search Plugins" >
+              <input type="text" name="search" placeholder="Search Plugins" />
             </form>
           </div>
 
           <div class="items-wrap">
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" />
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Payment</span>
@@ -76,7 +76,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/algolia.jpg`)" alt="Algolia" >
+                <img :src="require(`./img/algolia.jpg`)" alt="Algolia" />
                 <div>
                   <h3 class="title">Algolia</h3>
                   <span class="category">Search</span>
@@ -92,7 +92,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" />
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -108,7 +108,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" />
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -124,7 +124,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" />
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -140,7 +140,7 @@
             </a>
             <a href="#" class="item">
               <div class="item-top">
-                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" >
+                <img :src="require(`./img/paypal.jpg`)" alt="Paypal" />
                 <div>
                   <h3 class="title">Paypal</h3>
                   <span class="category">Search</span>
@@ -216,11 +216,15 @@ export default {
       return nav
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "Factor Plugins",
-      description: "Extend your project features and do more with Factor.",
-      image: ""
+      meta: [
+        {
+          name: "description",
+          content: "Extend your project features and do more with Factor."
+        }
+      ]
     }
   }
 }
@@ -370,13 +374,12 @@ export default {
       margin-bottom: 1.5em;
       background-color: #fff;
       border-radius: 4px;
-      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-        0 1px 3px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
       transition: all 0.2s ease-in-out;
       &:hover {
         transform: translateY(-0.5em);
-        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-          0 1px 3px rgba(0, 0, 0, 0.08), 0 11px 16px rgba(50, 50, 93, 0.2);
+        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08),
+          0 11px 16px rgba(50, 50, 93, 0.2);
       }
       .item-top {
         display: flex;
@@ -388,8 +391,7 @@ export default {
           height: 50px;
           border-radius: 50%;
           margin-right: 15px;
-          box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11),
-            0 1px 3px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
         }
         .title {
           color: #0496ff;

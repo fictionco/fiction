@@ -53,7 +53,7 @@
         <div class="content-pad">
           <div class="screenshots">
             <div v-for="(s, i) in screenshots" :key="i" class="screenshot">
-              <img :src="s.img" >
+              <img :src="s.img" />
             </div>
           </div>
           <!-- <figure class="screencast">
@@ -115,7 +115,7 @@
             <blockquote>
               <div class="quote-media">
                 <a class="quote-image" href="#">
-                  <img :src="quote.img" >
+                  <img :src="quote.img" />
                 </a>
               </div>
               <p class="quote-body">"{{ quote.text }}"</p>
@@ -225,9 +225,9 @@ export default {
       ]
     }
   },
-  metatags() {
+  metaInfo() {
     return {
-      title: "Factor JS - Universal VueJS Platform for Front-End Developers",
+      title: "Universal VueJS Platform for Front-End Developers",
       description:
         "Factor is an extension focused platform for building universal server-rendered JS apps with VENM (or MEVN) stack."
     }
@@ -392,8 +392,8 @@ export default {
           img {
             width: 100%;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
-              0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
+              0 50px 100px rgba(50, 50, 93, 0.1);
           }
           &:nth-child(1) {
             transform: translateX(-30%);
@@ -413,8 +413,8 @@ export default {
         position: relative;
         border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
-          0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
+          0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: contain;
         video {
@@ -436,8 +436,7 @@ export default {
           opacity: 0.9;
           border-radius: 50%;
           box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-            0 8px 16px -8px rgba(0, 0, 0, 0.3),
-            0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
           width: 72px;
           height: 72px;
         }

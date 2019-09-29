@@ -49,7 +49,7 @@ export default {
       }
     }
   },
-  metatags() {
+  metaInfo() {
     return this.docs.metatags(this.doc)
   },
 

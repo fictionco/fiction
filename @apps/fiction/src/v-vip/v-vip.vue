@@ -122,7 +122,7 @@ export default {
     }
   },
   computed: {},
-  metatags() {
+  metaInfo() {
     return {
       title: "VIP - Enterprise Web Application Development and Support",
       description:

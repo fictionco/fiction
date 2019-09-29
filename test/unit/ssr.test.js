@@ -20,6 +20,11 @@ describe("SSR", () => {
     expect(html).toContain("<h1>mutated</h1>")
   })
 
+  test("/store-data", async () => {
+    const html = await Factor.$server.renderRoute({ url: "/store-data" })
+    expect(html).toContain("<h1>loaded</h1>")
+  })
+
   // Close server and ask nuxt to stop listening to file changes
   afterAll(async () => {
     await Factor.$server.closeServer()

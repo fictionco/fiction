@@ -182,8 +182,7 @@ export default {
         {
           id: "feature-pro",
           super: "Factor Pro",
-          title:
-            "Dedicated Support and Extensions for Professional Front-End Devs",
+          title: "Dedicated Support and Extensions for Professional Front-End Devs",
           text: `Professional features designed for professional front-end developers. 
             Get access to the best web app platform money can buy including pro eCommerce and web publishing extensions, 
             enhanced SEO and brand capabilities and more. `,
@@ -259,7 +258,7 @@ export default {
   routeClass() {
     return "nav-white"
   },
-  metatags() {
+  metaInfo() {
     return {
       title: "A Platform and Tools for Front-End Developers",
       description: `Fiction designs and devolops tools and services for front-end developers and remote workers. 
@@ -494,7 +493,7 @@ export default {
             background: #fff;
           }
           @media (max-width: 900px) {
-            .app-btn{
+            .app-btn {
               width: 100%;
             }
           }
@@ -533,8 +532,8 @@ export default {
         position: relative;
         border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),
-          0 15px 35px rgba(0, 0, 0, 0.1), 0 50px 100px rgba(50, 50, 93, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
+          0 50px 100px rgba(50, 50, 93, 0.1);
         background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
         background-size: cover;
         transition: opacity 0.2s;
@@ -567,8 +566,7 @@ export default {
           opacity: 0.9;
           border-radius: 50%;
           box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-            0 8px 16px -8px rgba(0, 0, 0, 0.3),
-            0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
           width: 72px;
           height: 72px;
         }
@@ -703,7 +701,7 @@ export default {
 
       font-size: 1.3em;
       color: var(--color-primary);
-      margin-bottom: .6em;
+      margin-bottom: 0.6em;
     }
     .title {
       font-size: 2em;
@@ -775,8 +773,7 @@ export default {
         &.data {
           position: relative;
           z-index: 1;
-          box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1),
-            0 5px 15px 0 rgba(0, 0, 0, 0.07);
+          box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1), 0 5px 15px 0 rgba(0, 0, 0, 0.07);
           transition: 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
           .row {
             border-bottom: 1px solid #eee;

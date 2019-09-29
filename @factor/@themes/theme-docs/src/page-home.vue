@@ -44,7 +44,7 @@ export default {
     }
   },
 
-  metatags() {
+  metaInfo() {
     return {
       title: this.$setting.get("home.meta.title"),
       description: this.$setting.get("home.meta.description")

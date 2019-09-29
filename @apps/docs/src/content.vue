@@ -18,6 +18,12 @@ export default {
     "header-primary": () => import("./header"),
     "footer-primary": () => import("./footer"),
     "header-mobile": () => import("./header-mobile")
+  },
+  metaInfo() {
+    return {
+      title: "No Title",
+      titleTemplate: "%s - Factor JS"
+    }
   }
 }
 </script>

@@ -113,7 +113,7 @@ export default {
       settings: []
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: this.title
     }
@@ -135,8 +135,7 @@ export default {
       const components = this.$filters.apply("post-edit-components", [])
 
       return components.filter(
-        ({ postType }) =>
-          !postType || (postType && postType.includes(this.postType))
+        ({ postType }) => !postType || (postType && postType.includes(this.postType))
       )
     },
 

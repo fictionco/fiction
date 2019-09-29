@@ -6,10 +6,7 @@
       :image="$setting.get('contact.heroImage')"
     >
       <template v-slot:hero-content>
-        <div
-          v-formatted-text="$setting.get('contact.content')"
-          class="content entry-content"
-        />
+        <div v-formatted-text="$setting.get('contact.content')" class="content entry-content" />
 
         <factor-form
           ref="form"
@@ -20,9 +17,9 @@
         >
           <div v-if="sent" class="confirm" data-test="confirm">
             <div class="title">Got it!</div>
-            <div class="description">
-              We’ll get back to you as soon as possible at the email you provided.
-            </div>
+            <div
+              class="description"
+            >We’ll get back to you as soon as possible at the email you provided.</div>
           </div>
           <div v-else class="inputs">
             <factor-input-wrap
@@ -80,7 +77,7 @@ export default {
       formStatus: "unchecked"
     }
   },
-  metatags() {
+  metaInfo() {
     return {
       title: this.$setting.get("contact.metatags.title"),
       description: this.$setting.get("contact.metatags.description")
