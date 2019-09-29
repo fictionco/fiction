@@ -1,6 +1,6 @@
 {
   "name": "@factor/post",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -16,12 +16,12 @@
     "id": "post"
   },
   "dependencies": {
-    "@factor/app": "1.0.0-beta.2",
+    "@factor/app": "1.0.0-beta.3",
     "@factor/build": "1.0.0-beta.2",
-    "@factor/core": "1.0.0-beta.2",
-    "@factor/dashboard": "1.0.0-beta.2",
-    "@factor/dashboard-signin": "1.0.0-beta.2",
-    "@factor/metatags": "^1.0.0-beta.0",
+    "@factor/core": "1.0.0-beta.3",
+    "@factor/dashboard": "1.0.0-beta.3",
+    "@factor/dashboard-signin": "1.0.0-beta.3",
+    "@factor/metatags": "1.0.0-beta.3",
     "@factor/post-page-templates": "^1.0.0-beta.0",
     "@factor/ui": "1.0.0-beta.2",
     "jsonwebtoken": "^8.5.1",

@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "main": "index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@factor/app-extend": "^1.0.0-beta.0",
-    "@factor/app-fallbacks": "^1.0.0-beta.0",
+    "@factor/app-fallbacks": "1.0.0-beta.3",
+    "@factor/app-meta": "1.0.0-beta.3",
     "@factor/app-router": "^1.0.0-beta.0",
-    "@factor/app-meta": "^1.0.0-beta.0",
     "@factor/app-settings": "1.0.0-beta.2",
     "@factor/app-store": "^1.0.0-beta.0",
     "@factor/cli": "1.0.0-beta.2",
