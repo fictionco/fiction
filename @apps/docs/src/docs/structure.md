@@ -74,28 +74,17 @@ And once loaded your exported class is accessible via `Factor.$appId` throughout
 
 ## Template: index.html
 
-Your index.html template is the skeleton for every page on your app. It is optional, but can be used to manually add metatags or other info that may not be in the default one.
+Your index.html template is the skeleton for every page on your app. It can be overridden, but it has a rich "hook" system that allows you to accomplish almost anything with either [Vue Meta](https://github.com/nuxt/vue-meta) or any of several direct Factor hook functions.
 
-The most basic index.html should include these functions:
+Learn more about setting meta on the [meta guide](./meta).
 
-- `factor_html_attr()` (Accepts an argument which adds classes to `<html>`)
-- `factor_head()`
-- `factor_body_attr()` (Accepts an argument which adds classes to `<body>`)
-- `factor_body_start()`
-- `factor_body_end()`
-
-These functions are what plugins use if they need to add information to your head, etc.
+The default index.html file looks like this:
 
 ```html
 <!-- The default index.html file -->
 <!DOCTYPE html>
 <html {{{ factor_html_attr() }}}>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
-    />
+  <head {{{ factor_head_attr() }}}>
     {{{ factor_head() }}}
   </head>
 
