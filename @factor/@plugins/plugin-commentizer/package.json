@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-commentizer",
   "author": "chpmnrssll@gmail.com",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"

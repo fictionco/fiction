@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-ssr-bar",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
