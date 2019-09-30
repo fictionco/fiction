@@ -138,6 +138,9 @@ module.exports.default = Factor => {
 
     async createServer({ port }) {
       this.PORT = this.getPort(port)
+
+      console.log("Starting on PORT", this.PORT)
+
       this.middleware = []
 
       if (NODE_ENV == "production") {
