@@ -7,6 +7,8 @@ export default Factor => {
     }
 
     async setup() {
+      const config = Factor.$config.settings()
+
       // This is a workaround to deal with problems including
       // a CWD relative file across environments
       // Webpack throws 'request is an expression' issues if a var is used
@@ -20,10 +22,8 @@ export default Factor => {
         Object.values(settingsFiles).map(_obj => _obj(Factor))
       )
 
-      this._settings = Factor.$filters.apply(
-        "merged-factor-settings",
-        Factor.$utils.deepMerge(settingsArray)
-      )
+      const merged = Factor.$utils.deepMerge([config, ...settingsArray])
+      this._settings = Factor.$filters.apply("merged-factor-settings", merged)
     }
 
     get(key, defaultValue) {

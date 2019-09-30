@@ -6,19 +6,36 @@ export default Factor => {
     constructor() {
       this.clientApiKey = Factor.$config.setting("bugsnag.client_api_key")
 
-      if (!this.clientApiKey) {
+      if (!this.clientApiKey || process.env.NODE_ENV == "development") {
         return
       }
 
-      const bugsnagClient = bugsnag({ apiKey: this.clientApiKey })
+      this.appVersion = Factor.$setting.get("version") || "0.0.0"
+
+      const bugsnagClient = bugsnag({
+        apiKey: this.clientApiKey,
+        logger: this.customLogger(),
+        appVersion: this.appVersion
+      })
 
       bugsnagClient.use(bugsnagVue, Factor)
 
-      Factor.$events.$on("error", e => bugsnagClient.notify(e))
+      Factor.$filters.add("initialize-app", () => {
+        Factor.$events.$on("error", e => bugsnagClient.notify(e))
 
-      Factor.$user.init(user => {
-        if (user) bugsnagClient.user = user
+        Factor.$user.init(user => {
+          if (user) bugsnagClient.user = user
+        })
       })
+    }
+
+    customLogger() {
+      return {
+        debug: () => {},
+        info: () => {},
+        warn: () => {},
+        error: () => Factor.$log.error
+      }
     }
   })()
 }
