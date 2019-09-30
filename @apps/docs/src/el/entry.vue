@@ -44,8 +44,8 @@ code {
   padding: 3px 5px;
   margin: 0 2px;
   border-radius: 5px;
-  color: #ff0076;
-  background-color: #f7f9fb;
+  color: #ff5c04;
+  background-color: #fff5f0;
   font-family: "Roboto Mono", Monaco, courier, monospace;
   font-size: 0.85em;
   -webkit-font-smoothing: initial;
