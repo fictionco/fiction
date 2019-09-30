@@ -1,0 +1,20 @@
+{
+  "name": "@factor/plugin-bugsnag",
+  "author": "andrew@fiction.com",
+  "version": "1.0.0-beta.2",
+  "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "id": "bugsnag",
+    "target": {
+      "app": "index",
+      "server": "server"
+    }
+  },
+  "dependencies": {
+    "@bugsnag/js": "^6.4.1",
+    "@bugsnag/plugin-vue": "^6.4.1"
+  }
+}
