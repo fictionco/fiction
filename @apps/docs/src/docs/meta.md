@@ -24,7 +24,7 @@ export default {
 }
 ```
 
-## Tips and Tricks
+## Tips
 
 Here are few Factor specific additions and tips for working with your app's meta information:
 
