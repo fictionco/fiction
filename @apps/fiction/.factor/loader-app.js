@@ -5,6 +5,7 @@ files["mongo"] = require("@factor/tools-mongo").default
 files["app"] = require("@factor/app").default
 files["appMeta"] = require("@factor/app-meta").default
 files["blog"] = require("@factor/plugin-blog").default
+files["bugsnag"] = require("@factor/plugin-bugsnag").default
 files["componentsForm"] = require("@factor/ui-components-form").default
 files["contactForm"] = require("@factor/plugin-contact-form").default
 files["coreUserDashboard"] = require("@factor/core-user-dashboard").default
