@@ -18,10 +18,10 @@ export default Factor => {
         this.lib.use(require("markdown-it-video"))
 
         this.lib.use(require("markdown-it-link-attributes"), {
-          attrs: {
-            target: "_blank",
-            rel: "noopener"
-          }
+          // attrs: {
+          //   target: "_blank",
+          //   rel: "noopener"
+          // }
         })
         this.lib.use(require("markdown-it-implicit-figures"), {
           dataType: true, // <figure data-type="image">, default: false
