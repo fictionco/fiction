@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,21 +10,21 @@
     "id": "core"
   },
   "dependencies": {
-    "@factor/app": "1.0.0-beta.3",
-    "@factor/build": "1.0.0-beta.2",
-    "@factor/cli": "1.0.0-beta.2",
-    "@factor/core-db": "^1.0.0-beta.0",
-    "@factor/core-email": "1.0.0-beta.1",
-    "@factor/core-endpoint": "^1.0.0-beta.0",
-    "@factor/core-error": "^1.0.0-beta.0",
-    "@factor/core-log": "1.0.0-beta.2",
-    "@factor/core-storage": "^1.0.0-beta.0",
-    "@factor/core-theme": "^1.0.0-beta.0",
-    "@factor/core-user": "^1.0.0-beta.0",
-    "@factor/plugin-ssr-bar": "^1.0.0-beta.0",
-    "@factor/post": "1.0.0-beta.3",
-    "@factor/server": "1.0.0-beta.2",
-    "@factor/tools": "1.0.0-beta.2"
+    "@factor/app": "1.0.0-beta.4",
+    "@factor/build": "1.0.0-beta.4",
+    "@factor/cli": "1.0.0-beta.4",
+    "@factor/core-db": "1.0.0-beta.4",
+    "@factor/core-email": "1.0.0-beta.4",
+    "@factor/core-endpoint": "1.0.0-beta.4",
+    "@factor/core-error": "1.0.0-beta.4",
+    "@factor/core-log": "1.0.0-beta.4",
+    "@factor/core-storage": "1.0.0-beta.4",
+    "@factor/core-theme": "1.0.0-beta.4",
+    "@factor/core-user": "1.0.0-beta.4",
+    "@factor/plugin-ssr-bar": "1.0.0-beta.4",
+    "@factor/post": "1.0.0-beta.4",
+    "@factor/server": "1.0.0-beta.4",
+    "@factor/tools": "1.0.0-beta.4"
   },
   "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb"
 }
