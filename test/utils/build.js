@@ -2,6 +2,7 @@ import { resolve, join, dirname } from "path"
 export const buildFixture = fixture => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
   process.env.FACTOR_ENV = "test"
+
   test(`Build ${fixture}`, async () => {
     const cli = require("@factor/cli").default
 

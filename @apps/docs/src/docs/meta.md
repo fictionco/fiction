@@ -15,7 +15,7 @@ export default {
     return {
       title: "My title",
       description: "My description",
-      image: require("./my-image.jpg"),
+      image: require("./my-og-image.jpg"),
       meta: [
         // additional metatags
       ]

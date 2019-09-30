@@ -12,8 +12,9 @@ export default {
   metaInfo() {
     return {
       title: "title",
-      titleTemplate: "%s - template",
-      description: "the description",
+      titleTemplate: "%s template",
+      description: "this is the description",
+      image: require("./factor.png"),
       htmlAttrs: {
         lang: "en",
         amp: true
