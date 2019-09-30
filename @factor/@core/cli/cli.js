@@ -101,13 +101,14 @@ const cli = () => {
         if (["start", "dev", "serve"].includes(command)) {
           // Long running process
           await this.runServer({ NODE_ENV, ..._arguments })
+        } else {
+          Factor.$log.success(`Successfully ran [${command}]`)
+          process.exit(0)
         }
       } catch (error) {
         Factor.$log ? Factor.$log.error(error) : console.error(error)
       }
 
-      Factor.$log.success(`Finished [${command}]`)
-      process.exit(0)
       return
     }
 
