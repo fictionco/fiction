@@ -56,7 +56,7 @@ const cli = () => {
         .option("--analyze", "Analyze package size")
         .option("--speed", "Output build speed data")
         .description("Build production app")
-        .action(args => this.runCommand({ command: "build" }))
+        .action(_arguments => this.runCommand({ command: "build", _arguments }))
 
       this.program
         .command("setup [filter]")
@@ -82,10 +82,17 @@ const cli = () => {
       return this.program
     }
 
-    async runCommand({ command, _arguments, filter, install, NODE_ENV }) {
-      NODE_ENV = NODE_ENV ? NODE_ENV : command == "dev" ? "development" : "production"
+    async runCommand(options) {
+      const {
+        command,
+        _arguments,
+        filter,
+        install,
+        NODE_ENV = command == "dev" ? "development" : "production",
+        extend = true
+      } = options
 
-      await this.extend({ NODE_ENV, command, filter, install, ..._arguments })
+      await this.factorize({ NODE_ENV, command, filter, install, ..._arguments, extend })
 
       try {
         if (["build", "start"].includes(command)) {
@@ -112,11 +119,11 @@ const cli = () => {
       return
     }
 
-    async extend(args = {}) {
-      const { parent = {}, ...rest } = args
+    async factorize(_arguments = {}) {
+      const { parent = {}, ...rest } = _arguments
       const program = { ...parent, ...rest }
 
-      const { NODE_ENV = "production", install = true, command } = program
+      const { NODE_ENV = "production", install = true, extend = true, command } = program
 
       if (install) {
         await this.runTasks(
@@ -138,18 +145,22 @@ const cli = () => {
 
       this.refineNodeRequire()
 
-      const extender = require("@factor/server-extend").default(Factor)
-      await extender.run(args)
+      if (extend) {
+        const extender = require("@factor/server-extend").default(Factor)
+        await extender.run(_arguments)
+      }
 
       // Filters must be reloaded with every new extension.
       // server resets "re-extend" the process
-      Factor.$filters.callback("rebuild-server-app", () => this.reloadNodeProcess(args))
+      Factor.$filters.callback("rebuild-server-app", () =>
+        this.reloadNodeProcess(_arguments)
+      )
 
       // When an extended Factor object is needed outside of this CLI (tests)
       return Factor
     }
 
-    async runServer(args) {
+    async runServer(_arguments) {
       const { NODE_ENV = process.env.NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
 
       const message = {
@@ -172,7 +183,7 @@ const cli = () => {
 
       Factor.$log.formatted(message)
 
-      await Factor.$filters.run("create-server", args)
+      await Factor.$filters.run("create-server", _arguments)
     }
 
     refineNodeRequire() {
@@ -192,7 +203,7 @@ const cli = () => {
         }
       })
 
-      await this.extend({
+      await this.factorize({
         ...args,
         install: false,
         restart: true,
