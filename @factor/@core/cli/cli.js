@@ -48,7 +48,7 @@ const cli = () => {
         .command("serve [NODE_ENV]")
         .description("Serve app in selected environment.")
         .action((NODE_ENV, _arguments) =>
-          this.runCommand({ command: "start", _arguments, NODE_ENV })
+          this.runCommand({ command: "serve", _arguments, install: false, NODE_ENV })
         )
 
       this.program
