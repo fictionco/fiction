@@ -13,6 +13,7 @@ export default Factor => {
 
     post(path, data, options = {}) {
       const { headers = {} } = options
+
       options.headers = { Authorization: this.bearerToken(), ...headers }
 
       return axios.post(path, data, options)

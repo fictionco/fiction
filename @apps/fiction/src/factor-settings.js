@@ -12,9 +12,7 @@ module.exports.default = Factor => {
           },
           complete: {
             subject: "Success! Next steps...",
-            text: `<p>Currently the Alpha Program includes a developer Slack channel and optional weekly meetings.</p>
-              <p>We are happy to have you when the time is right. The current priority is working with people looking to actively build with Factor.</p>
-              <p>That you? Great. Can you tell me what you're looking to build or experiment with? (reply to email)</p>`,
+            text: `<p>Glad you joined up!</p><p>Stay tuned, we'll be in touch in a few days about your invite to the Factor developer program. In the meantime, hit me up at this email if you have any questions.</p>`,
             from: "Andrew Powers <andrew@fiction.com>"
           },
           notify: {
