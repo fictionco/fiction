@@ -128,11 +128,11 @@ const cli = () => {
       if (install) {
         await this.runTasks(
           [
-            { command: "yarn", args: ["install"], title: "Installing Dependencies" },
+            { command: "yarn", args: ["install"], title: "Verify Dependencies" },
             {
               command: "factor",
               args: ["run", "create-loaders", "--no-load-plugins"],
-              title: "Creating Extension Loaders"
+              title: "Verify Extensions"
             }
           ],
           { exitOnError: true }
