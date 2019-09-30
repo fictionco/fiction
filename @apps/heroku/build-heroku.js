@@ -6,4 +6,6 @@ if (!BUILD_ENV) {
   return
 }
 
-execa("yarn", ["workspace", BUILD_ENV, "factor", "build"]).stdout.pipe(process.stdout)
+execa("yarn", ["workspace", BUILD_ENV, "factor", "build"])
+  .stdout.pipe(process.stdout)
+  .stderr.pipe(process.stderr)

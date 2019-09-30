@@ -105,6 +105,10 @@ const cli = () => {
       } catch (error) {
         Factor.$log ? Factor.$log.error(error) : console.error(error)
       }
+
+      Factor.$log.success(`Finished [${command}]`)
+      process.exit(0)
+      return
     }
 
     async extend(args = {}) {
