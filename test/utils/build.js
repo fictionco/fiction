@@ -6,7 +6,7 @@ export const buildFixture = fixture => {
   test(`Build ${fixture}`, async () => {
     const cli = require("@factor/cli").default
 
-    const Factor = await cli.extend()
+    const Factor = await cli.factorize()
 
     await Factor.$filters.run("create-distribution-app", { testing: true })
 
@@ -19,5 +19,5 @@ export const loadFixture = async fixture => {
   process.env.FACTOR_ENV = "test"
   const cli = require("@factor/cli").default
 
-  return await cli.extend()
+  return await cli.factorize()
 }
