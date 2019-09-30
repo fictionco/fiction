@@ -6,10 +6,15 @@ export default Factor => {
         component: () => import("./v-basic.vue")
       })
 
-      // Factor.$filters.push("content-routes", {
-      //   path: "/mutation",
-      //   component: () => import("./v-mutation.vue")
-      // })
+      Factor.$filters.push("content-routes", {
+        path: "/mutation",
+        component: () => import("./v-mutation.vue")
+      })
+
+      Factor.$filters.push("content-routes", {
+        path: "/async",
+        component: () => import("./v-async.vue")
+      })
 
       // Factor.$filters.push("content-routes", {
       //   path: "/store-data",

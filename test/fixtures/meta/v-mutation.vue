@@ -1,16 +1,20 @@
 <template>
-  <h1>{{ text }}</h1>
+  <h1>Mutation</h1>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      text: "nope"
+      title: "change-title",
+      description: "change-description"
     }
   },
-  created() {
-    this.text = "mutated"
+  metaInfo() {
+    return {
+      title: this.title,
+      description: this.description
+    }
   }
 }
 </script>
