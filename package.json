@@ -62,7 +62,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "std-env": "^2.2.1",
-    "vue-jest": "^3.0.5",
+    "vue-jest": "^4.0.0-beta.2",
     "webpack": "^4.29.6"
   },
   "devDependencies": {}
