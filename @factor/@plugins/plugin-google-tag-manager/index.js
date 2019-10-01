@@ -1,10 +1,8 @@
 export default Factor => {
   return new (class {
     constructor() {
-      this.gtm_id = Factor.$config.setting("google_tag_manager.gtm_id")
-      this.development_mode = Factor.$config.setting(
-        "google_tag_manager.development_mode"
-      )
+      this.gtm_id = Factor.$setting.get("google_tag_manager.gtm_id")
+      this.development_mode = Factor.$setting.get("google_tag_manager.development_mode")
 
       this.setupTitle = "Plugin: Google Tag Manager"
       this.addSetupCli(this.setupTitle)

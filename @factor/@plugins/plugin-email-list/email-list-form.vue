@@ -10,7 +10,7 @@
         type="email"
         :placeholder="setting('form.placeholder')"
         @keyup.enter="add()"
-      >
+      />
       <factor-btn btn="primary" :loading="sending" @click="add()">
         <span v-formatted-text="setting('form.buttonText')" />
       </factor-btn>
@@ -35,6 +35,9 @@ export default {
   computed: {
     settings() {
       return this.$emailList.settings(this.listId)
+    },
+    tags() {
+      return this.setting("tags") || []
     }
   },
   methods: {
@@ -52,7 +55,8 @@ export default {
       if (validated) {
         const result = await this.$emailList.addEmail({
           email: this.email,
-          listId: this.listId
+          listId: this.listId,
+          tags: this.tags
         })
 
         if (result) {

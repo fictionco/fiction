@@ -79,8 +79,9 @@ export default Factor => {
       return await Factor.$endpoint.request({ id: this.postType, method, params })
     }
 
-    async addEmail({ email, listId }) {
-      return await this.request("addEmail", { email, listId })
+    async addEmail({ email, listId, tags = [] }) {
+      Factor.$events.$emit("email-list-new-email-requested", { email, listId, tags })
+      return await this.request("addEmail", { email, listId, tags })
     }
   })()
 }

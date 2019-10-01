@@ -7,5 +7,6 @@ files["highlightCode"] = require("@factor/plugin-highlight-code/factor-settings.
 files["jobs"] = require("@factor/plugin-jobs/factor-settings.js").default
 files["templates"] = require("@factor/post-page-templates/factor-settings.js").default
 files["uiComponentsStandard"] = require("@factor/ui-components-standard/factor-settings.js").default
+files["appShared"] = require("@factor/theme-shared/src/factor-settings.js").default
 files["cwd"] = require("../src/factor-settings.js").default
 module.exports = files
