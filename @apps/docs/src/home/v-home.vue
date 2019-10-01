@@ -4,7 +4,7 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The VueJS Platform
+            The Full-Stack JS Platform
             <span class="highlight">for Professional Front-End Developers</span>
           </h1>
           <h3 class="page-title-sub">Do much more, with much less.</h3>

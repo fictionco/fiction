@@ -13,7 +13,7 @@ export default Factor => {
     }
 
     // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
-    async addEmail({ email, listId = "default" }) {
+    async addEmail({ email, listId = "default", tags = [] }) {
       // Allow for external services to hook in
       email = Factor.$filters.apply(`plugin-email-list-add-${listId}`, email)
 
@@ -29,7 +29,7 @@ export default Factor => {
 
       const result = await this.postModel().updateOne(
         { uniqueId: this.uniqueId(listId), "list.email": { $ne: email } },
-        { $addToSet: { list: { email, verified: false, code } } }
+        { $addToSet: { list: { email, verified: false, code, tags } } }
       )
 
       // If email already exists, update it with new code
@@ -44,7 +44,7 @@ export default Factor => {
         await this.sendConfirmEmail({ email, listId, code })
       }
 
-      Factor.$events.$emit("email-list-new-email-added", { email, listId })
+      Factor.$events.$emit("email-list-new-email-added", { email, listId, tags })
 
       return true
     }

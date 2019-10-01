@@ -1,34 +1,13 @@
 module.exports.default = Factor => {
   return {
-    metatags: {
+    metaInfo: {
       default: {
         image: require("./static/factor-logo.jpg")
       }
     },
     emailList: {
       alphaProgram: {
-        tags: ["factor-dev"],
-        emails: {
-          confirm: {
-            successMessage:
-              "Your email is confirmed. Please your email for next steps (no email? check spam).",
-            subject: "Factor Alpha Program: Email confirmation",
-            text: `We're glad you've requested access to the Alpha program. Just one more step, please confirm your email.`
-          },
-          complete: {
-            subject: "Success!...",
-            text: `<p>Glad you joined up!</p><p>Stay tuned, we'll be in touch in a few days about your invite to the Factor developer program. In the meantime, hit me up at this email if you have any questions.</p>`,
-            from: "Andrew Powers <andrew@fiction.com>"
-          },
-          notify: {
-            subject: "New Confirmed Email",
-            text: "A new email was added to a list.",
-            to: "Andrew Powers <andrew@fiction.com>"
-          }
-        },
-        form: {
-          buttonText: "Request Invite &rarr;"
-        }
+        tags: ["factor-dev"]
       }
     },
     docs: {
@@ -229,49 +208,6 @@ module.exports.default = Factor => {
       legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
       logo: () => import("./el/logo-fiction"),
       logo2: () => import("./el/logo-pagelines")
-    },
-    home: {
-      meta: {
-        title: "Factor.js - VueJS Framework and Web App OS",
-        description: "Factor is a modular CMS framework based on Vue.js.."
-      },
-
-      headline: "Universal VueJS Framework for Front-End Developers",
-      subHeadline:
-        "An open-source platform for building impressive universal apps with VueJS, MongoDB and extensions.",
-      //graphic: require("./img/cms-engine.png"),
-      boxes: [
-        {
-          icon: require("./img/icon-post.svg"),
-          title: "Dashboard and Posts",
-          description:
-            "Weild a powerful dashboard and post system to build advanced app functionality. "
-        },
-        {
-          icon: require("./img/icon-plugin.svg"),
-          title: "Plugins and Themes",
-          description:
-            "Factor is designed for drop-in, one-click extension. Building and using plugins and themes is easy."
-        },
-        {
-          icon: require("./img/icon-time.svg"),
-          title: "Open Source",
-          description:
-            "Factor is built on the GPL2 license. The same used by projects like WordPress."
-        }
-      ],
-      actions: [
-        {
-          btn: "primary",
-          path: "/guide/quickstart",
-          text: "Start Now &rarr;"
-        },
-        {
-          btn: "default",
-          path: "/guide",
-          text: "Read the Docs &rarr;"
-        }
-      ]
     }
   }
 }
