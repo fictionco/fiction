@@ -1,0 +1,17 @@
+{
+  "name": "@factor/theme-shared",
+  "version": "1.0.0",
+  "url": "https://www.fiction.com",
+  "main": "src/index.js",
+  "author": "Fiction.com",
+  "license": "UNLICENSED",
+  "factor": {
+    "id": "appShared",
+    "extend": "theme",
+    "target": [
+      "app",
+      "server"
+    ]
+  },
+  "dependencies": {}
+}
