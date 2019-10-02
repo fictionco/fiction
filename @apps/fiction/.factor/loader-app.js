@@ -34,5 +34,7 @@ files["time"] = require("@factor/tools-time").default
 files["uiComponentsStandard"] = require("@factor/ui-components-standard").default
 files["user"] = require("@factor/core-user").default
 files["userEmails"] = require("@factor/core-user-emails").default
+files["userRoles"] = require("@factor/core-user-roles").default
+files["appShared"] = require("@factor/theme-shared").default
 files["cwd"] = require("../src/index.js").default
 module.exports = files
