@@ -31,5 +31,6 @@ files["time"] = require("@factor/tools-time").default
 files["userServer"] = require("@factor/core-user/server").default
 files["userEmailsServer"] = require("@factor/core-user-emails/server").default
 files["webpack"] = require("@factor/build-webpack").default
+files["appShared"] = require("@factor/theme-shared").default
 files["cwd"] = require("../src/index.js").default
 module.exports = files
