@@ -3,7 +3,7 @@ module.exports.default = Factor => {
     constructor() {
       this.components()
       this.routes()
-      this.errorPageComponent = () => import("#/404.vue")
+      this.errorPageComponent = Factor.$setting.get("app.error404")
 
       Factor.$filters.add("site-mixins", _ => [..._, this.siteMixin()])
       this.initializeClient()
@@ -101,13 +101,13 @@ module.exports.default = Factor => {
 
         _.push({
           path: "/",
-          component: () => import("#/content.vue"),
+          component: Factor.$setting.get("app.content"),
           children: contentRoutes
         })
 
         _.push({
           path: "*",
-          component: () => import("#/content.vue"),
+          component: Factor.$setting.get("app.content"),
           children: Factor.$filters.apply("content-routes-unmatched", [
             {
               name: "notFound",

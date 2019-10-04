@@ -32,7 +32,7 @@ module.exports.default = Factor => {
       this._install("paths", require("@factor/paths/server").default)
 
       this._install("files", require("@factor/build-files").default)
-      this._install("theme", require("@factor/core-theme").default)
+      this._install("theme", require("@factor/core-override").default)
       //  this._install("stack", require("@factor/core-stack").default)
 
       this._install("config", require("@factor/server-config").default)

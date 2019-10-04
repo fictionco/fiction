@@ -26,7 +26,7 @@ export default Factor => {
     }
 
     createRunner() {
-      this.templatePath = Factor.$paths.resolveFilePath("#/index.html")
+      this.templatePath = Factor.$setting.get("app.templatePath")
 
       if (!this.templatePath) {
         throw new Error("Couldn't locate the index.html template file")

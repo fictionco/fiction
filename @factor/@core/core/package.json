@@ -19,7 +19,7 @@
     "@factor/core-error": "1.0.0-beta.4",
     "@factor/core-log": "1.0.0-beta.4",
     "@factor/core-storage": "1.0.0-beta.4",
-    "@factor/core-theme": "1.0.0-beta.4",
+    "@factor/core-override": "1.0.0-beta.4",
     "@factor/core-user": "1.0.0-beta.4",
     "@factor/plugin-ssr-bar": "1.0.0-beta.4",
     "@factor/post": "1.0.0-beta.4",

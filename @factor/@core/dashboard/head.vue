@@ -3,7 +3,7 @@
     <div class="dashboard-head-pad">
       <factor-link path="/" class="brand">
         <div class="icon">
-          <img :src="iconUrl" >
+          <img :src="iconUrl" />
         </div>
         <div class="name">{{ $config.setting('app.name') }}</div>
       </factor-link>
@@ -18,7 +18,7 @@
 export default {
   computed: {
     iconUrl() {
-      return this.$setting.get("dashboard.icon", require("#/icon.png"))
+      return this.$setting.get("dashboard.icon", Factor.$setting.get("app.icon"))
     }
   }
 }
@@ -53,8 +53,7 @@ export default {
         width: 100%;
         display: block;
         border-radius: 5px;
-        box-shadow: 0 2px 5px 0 rgba(60, 66, 87, 0.1),
-          0 1px 1px 0 rgba(0, 0, 0, 0.07);
+        box-shadow: 0 2px 5px 0 rgba(60, 66, 87, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.07);
       }
     }
     .name {

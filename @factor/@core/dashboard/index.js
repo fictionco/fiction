@@ -9,7 +9,6 @@ export default Factor => {
       Factor.$filters.add("components", _ => {
         _["dashboard-pane"] = () => import("./pane")
         _["dashboard-page"] = () => import("./page")
-        //_["dashboard-banner"] = () => import("./banner")
         _["dashboard-table"] = () => import("./table")
         _["dashboard-grid"] = () => import("./grid")
         _["dashboard-grid-controls"] = () => import("./grid-controls")
@@ -17,7 +16,6 @@ export default Factor => {
         _["dashboard-grid-filter"] = () => import("./grid-filter")
         _["dashboard-table-controls"] = () => import("./table-controls")
         _["dashboard-table-footer"] = () => import("./table-footer")
-        //_["dashboard-form-grid"] = () => import("./form-grid")
         _["dashboard-input"] = () => import("./el/input")
         _["dashboard-loader"] = () => import("./el/loader")
         _["dashboard-user-card"] = () => import("./el/user-card")
@@ -28,14 +26,16 @@ export default Factor => {
     }
 
     paths() {
+      const dashboardRoute = Factor.$setting.get("dashboard.route")
+
       Factor.$filters.add("routes", _ => {
         _.push({
           path: "/admin",
-          redirect: "/dashboard"
+          redirect: dashboardRoute
         })
 
         _.push({
-          path: "/dashboard",
+          path: dashboardRoute,
           component: () => import("./wrap"),
           children: Factor.$filters.apply("dashboard-routes", [
             {

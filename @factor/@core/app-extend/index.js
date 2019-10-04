@@ -20,6 +20,9 @@ export default Factor => {
       this._install("filters", require("@factor/filters").default)
       this._install("config", require("@factor/app-config").default)
 
+      // Filler
+      this._install("paths", require("@factor/paths").default)
+
       this.loadPlugins()
 
       this.initializeApp()
