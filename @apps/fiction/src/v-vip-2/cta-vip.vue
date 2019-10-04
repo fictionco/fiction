@@ -21,13 +21,10 @@ export default {}
 <style lang="less">
 .cta {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 3fr 1fr;
   align-items: center;
-  padding: 50px 0;
   border-bottom: 2px solid rgba(207, 215, 223, 0.25);
-  //padding: 2em 0;
-  position: relative;
-  z-index: 100;
+  padding: 2em 0;
   .title {
     font-weight: 400;
     font-size: 30px;
@@ -45,6 +42,12 @@ export default {}
     justify-content: flex-end;
     .factor-btn + .factor-btn {
       margin-left: 10px;
+    }
+  }
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    .buttons {
+      justify-content: flex-start;
     }
   }
 }
