@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper" class="stage-container vip-figure">
+  <figure ref="wrapper" class="stage-container figure-vip">
     <div class="stage-wrap">
       <div class="stage" :style="{ transform: `scale(${scale})` }">
         <div class="feature-circle">
@@ -59,22 +59,7 @@ export default {
 </script>
 
 <style lang="less">
-#feature-vip {
-  position: relative;
-  z-index: 1;
-  .feature-content {
-    color: #fff;
-  }
-
-  background: var(--color-bg-splash);
-  @media (max-width: 900px) {
-    .feature-figure-container {
-      height: 500px;
-      transform: translate(0, -2rem);
-    }
-  }
-}
-figure.vip-figure {
+figure.figure-vip {
   align-self: center;
   justify-self: center;
   width: 100%;

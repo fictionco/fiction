@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper" class="factor-figure">
+  <figure ref="wrapper" class="factor-figure figure-sketch">
     <div class="sketches">
       <div v-for="(sketch, index) in sketches" :key="index" class="sketch" :class="sketch.class">
         <img :src="sketch.image" :alt="sketch.alt" />
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="less">
-figure.factor-figure {
+figure.figure-sketch {
   position: relative;
 
   .sketches {

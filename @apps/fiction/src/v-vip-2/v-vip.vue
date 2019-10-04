@@ -479,13 +479,17 @@ export default {
           grid-gap: 1rem;
           grid-template-columns: 1fr;
           .number-item {
+            a {
+              color: var(--color-text);
+              opacity: 0.7;
+            }
             &.active {
               color: var(--color-primary);
               font-weight: 600;
+              a {
+                opacity: 1;
+              }
             }
-            // .bullet-text {
-            //   opacity: 0.7;
-            // }
           }
         }
       }
