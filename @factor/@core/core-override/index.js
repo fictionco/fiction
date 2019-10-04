@@ -1,7 +1,6 @@
-const { dirname, basename, resolve } = require("path")
+const { dirname } = require("path")
 const { pathExistsSync } = require("fs-extra")
 const glob = require("glob").sync
-const findUp = require("find-up").sync
 
 module.exports.default = Factor => {
   return new (class {
@@ -29,14 +28,6 @@ module.exports.default = Factor => {
 
     modulePathWebpackPlugin(webpack) {
       return new webpack.NormalModuleReplacementPlugin(/^\#/, resource => {
-        // if (resource.request.includes("#setting")) {
-        //   const regex = /(?<=\#setting.)(.*?)(?=\/)/gim
-        //   console.log(resource.request.match(regex))
-        //   return Factor.$setting.get("highlightCode.style")
-        // } else {
-
-        // }
-
         resource.request = this.handleAsOverride(resource)
       })
     }

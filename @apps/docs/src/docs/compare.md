@@ -8,21 +8,22 @@ Here we'll discuss some of the various development approaches and their advantag
 
 ### The "Target" User
 
-As discussed in the [Factor Introduction](./), Factor is designed for **front-end developers** (like us).
+As discussed in the [Factor Introduction](./), Factor is designed for **front-end developers**.
 
-The Factor concept itself was created because of the wish list of features and ideas we wanted to see in a JS platform.
+What does this mean? Well, it means we **won't** be adding lots of "no-code" tools ideal for non-technical users. Instead we focus on helping front-end devs do the "fun parts" like designing and developing an amazing app as opposed to debugging Node or Webpack.
+
+The Factor concept itself was created because of the wish list of features and ideas we &mdash;as fellow front-enders&mdash;wanted to see in a JS platform.
 
 #### Goals
 
-- **Useful, easy to work with plugin and theme systems**
-- **No proprietary APIs or lock in**
-- **Full-Stack Javascript**
-- **Measured and minimal core features**
+- **Extension First:** Useful, easy to work with plugin and theme systems
+- **Elegant** Full-Stack Javascript built on open-source tech. Minimize proprietary APIs and lock in.
+- **Minimalist:** Measured and minimal core features. Everything has it's purpose.
 
 #### Non-Goals
 
 - **No "magic"** - Things should not just happen without having to explicitly define the functionality. For example, routes should not auto generate. Magic creates bloat (as you modify and customize) and mysterious bugs.
-- **No builders or drag-and-drop** - The concept of "no coding" is usually not what front-end developers want. They'd rather build things to a "standard" as opposed to learning proprietary (and often janky) drag and drop tools. (Note that extensions could easily provide this functionality.)
+- **Avoid "No Code" Concepts (builders or drag-and-drop)** - The concept of "no coding" is usually not what front-end developers want. They'd rather build things to a "standard" as opposed to learning proprietary (and often janky) drag and drop tools. (Note that extensions could easily provide this functionality.)
 
 ## Why choose Factor?
 
@@ -38,6 +39,10 @@ It accomplishes this primary by focusing on helping extensions do more, and help
 Factor is built for front-end developers who don't mind a little coding, but just want to deal with the "fun parts" of coding (not technical docs or debugging!).
 
 This means Factor development isn't for the completely non-technical folks, (although it is easy for a Factor developer to create something that is).
+
+Also, in order to accomodate advanced functionality in extensions Factor includes a standard dashboard and data model. This has the advantage of a 1000% increase in extensibility but at the cost of additional core standards (opinions).
+
+If you're the type that likes to "build from scratch" then Factor may get in your way. (The goal however is to minimize this).
 
 ## Comparisons
 
@@ -102,3 +107,33 @@ Factor is meant to be fully dynamic, although static generator style features ar
 
 - Confusing and tedious "build and rebuild" editing
 - No dynamic features like auth, endpoints etc.. without 3rd party tools (which mean cost + lock-in)
+
+### Headless CMS
+
+**Advantages**
+
+- Managed and intuitive content editing through service
+- No backend to manage for basic content
+
+**Disadvantages**
+
+- Maximized Lock-in
+- Still need to build app
+- More expensive to scale
+- Complicated API spaghetti
+- Non-standard tech
+- No point if you need more than basic CMS
+
+### Builders and No-Code Tools
+
+**Advantages**
+
+- Non-technical
+- No code or backend
+
+**Disadvantages**
+
+- Maximized Lock-in
+- Expensive to scale
+- Inefficient to manage (non-standard tech)
+- Basic functionality with additional lock-in, complication and costs as you add functionality via plugins, etc.

@@ -69,6 +69,8 @@ module.exports.default = Factor => {
 
       _.modules = this.getModulesFolders()
 
+      _.coreApp = dirname(require.resolve("@factor/app"))
+
       this.paths = Factor.$filters.apply("paths", _)
     }
 
@@ -94,7 +96,8 @@ module.exports.default = Factor => {
         }
 
         if (!filePath) {
-          const fallbackPath = file.replace("#", this.paths.fallbacks)
+          const fallbackPath = file.replace("#", this.get("coreApp"))
+
           if (pathExistsSync(fallbackPath)) {
             filePath = fallbackPath
           }
@@ -146,6 +149,7 @@ module.exports.default = Factor => {
 
       moduleAlias.addAlias("~", this.get("app"))
       moduleAlias.addAlias("@", this.get("source"))
+      moduleAlias.addAlias("#", this.get("coreApp"))
     }
 
     getAliases() {

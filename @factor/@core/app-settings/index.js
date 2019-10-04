@@ -26,6 +26,10 @@ export default Factor => {
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
     }
 
+    all() {
+      return this._settings
+    }
+
     get(key, defaultValue) {
       return Factor.$utils.dotSetting({ key, settings: this._settings }) || defaultValue
     }

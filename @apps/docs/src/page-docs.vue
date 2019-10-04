@@ -87,7 +87,7 @@ export default {
   }
 
   .scroller {
-    max-width: 730px;
+    max-width: 700px;
     padding: 3em 0;
     padding-left: 50px;
     margin: 0 auto;

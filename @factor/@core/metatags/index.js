@@ -4,80 +4,15 @@ export default Factor => {
       this.metatags = []
       this.routeClass = []
 
-      Factor.$filters.callback("ssr-matched-components", _ => this.ssrRouteClass(_))
-
-      // Factor.$filters.add("factor_head", _ => {
-      //   _.push(this.getMetatagHtml(this.getMetatags()))
-      //   return _
-      // })
+      Factor.$filters.callback("ssr-matched-components", components =>
+        components.forEach(_ => this.setRouteClass(_))
+      )
 
       Factor.$filters.add("before-app", () => {
-        if (Factor.FACTOR_SSR == "server") {
-          this.serverMetatags()
-        } else {
-          this.clientTitleTag()
+        if (Factor.FACTOR_SSR !== "server") {
+          this.manageClient()
         }
       })
-
-      Factor.$filters.push("site-mixins", this.siteMixin())
-    }
-
-    siteMixin() {
-      const _this = this
-      return {
-        metatags() {
-          return _this.defaultMetatags()
-        }
-      }
-    }
-
-    serverMetatags() {
-      const _this = this
-      Factor.mixin({
-        async created() {
-          _this.setMetatags(this)
-        }
-      })
-    }
-
-    getMetatagHtml(metatags) {
-      const { title, description, canonical, image } = metatags
-
-      const list = []
-
-      if (title) {
-        list.push(`<title>${title}</title>`)
-      }
-
-      if (description) {
-        list.push(`<meta name="description" content="${description}" />`)
-      }
-
-      if (canonical) {
-        list.push(`<link rel="canonical" href="${canonical}" />`)
-        list.push(`<meta property="og:url" content="${canonical}" />`)
-      }
-
-      if (image && !image.includes("base64")) {
-        list.push(`<meta property="og:image" content="${image}" />`)
-      }
-
-      return list.join("")
-    }
-
-    async ssrRouteClass(components) {
-      components.forEach(_ => this.setRouteClass(_))
-    }
-
-    setMetatags(context) {
-      //onsole.log("context", context)
-      const { metatags } = context.$options
-      if (metatags) {
-        let metatagsObject =
-          typeof metatags === "function" ? metatags.call(context) : metatags
-
-        Factor.$globals.metatags.push(metatagsObject)
-      }
     }
 
     setRouteClass(options) {
@@ -99,7 +34,7 @@ export default Factor => {
       }
     }
 
-    clientTitleTag() {
+    manageClient() {
       const _this = this
 
       Factor.$filters.callback("client-route-after", ({ to, from, next }) => {
@@ -110,50 +45,16 @@ export default Factor => {
       Factor.mixin({
         created() {
           _this.setRouteClass(this.$options)
-          //   _this.setMetatags(this)
         },
         watch: {
           $route: {
             handler: function() {
-              //_this.setMetatags(this)
-
               _this.setRouteClass(this.$options)
             }
           },
           immediate: true
         }
       })
-
-      // Factor.$filters.add("client-route-after", () => {
-      //   // Wait for all components to load
-      //   setTimeout(() => {
-      //     const { title, titleSuffix } = {
-      //       ...this.defaultMetatags(),
-      //       ...this.getMetatags()
-      //     }
-
-      //     document.title = `${title} ${titleSuffix}`
-      //   }, 70)
-      // })
-    }
-
-    getMetatags() {
-      return Factor.$lodash.pickBy(Factor.$utils.sortMerge(Factor.$globals.metatags))
-    }
-
-    defaultMetatags(meta = {}) {
-      const metatagSettings = Factor.$setting.get("metatags.default") || {}
-      const currentPath = Factor.$router.currentRoute.path
-
-      return {
-        title: Factor.$utils.toLabel(currentPath.split("/").pop()),
-        titleTemplate: "",
-        description: "",
-        image: "",
-        titleSuffix: "",
-        priority: 20,
-        ...metatagSettings
-      }
     }
   })()
 }

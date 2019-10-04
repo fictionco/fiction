@@ -11,5 +11,10 @@ export default Factor => {
         return ""
       }
     }
+
+    // Used for server paths. For app, just return input
+    resolveFilePath(path) {
+      return path
+    }
   })()
 }

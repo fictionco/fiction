@@ -1,5 +1,5 @@
 {
-  "name": "@factor/core-theme",
+  "name": "@factor/core-override",
   "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -7,7 +7,5 @@
   },
   "factor": {},
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
-  "dependencies": {
-    "find-up": "^4.1.0"
-  }
+  "dependencies": {}
 }

@@ -15,7 +15,7 @@ export function createApp() {
   // here we inject the router, store and ssr context to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   // App Entry Component
-  const site = () => import("#/site.vue")
+  const site = Factor.$setting.get("app.site")
 
   const app = new Factor({
     router,

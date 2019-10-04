@@ -56,7 +56,7 @@ module.exports.default = Factor => {
 
     async ssrFiles() {
       const paths = {
-        template: Factor.$paths.resolveFilePath("#/index.html"),
+        template: Factor.$setting.get("app.templatePath"),
         bundle: Factor.$paths.get("server-bundle"),
         clientManifest: Factor.$paths.get("client-manifest")
       }
@@ -239,7 +239,7 @@ module.exports.default = Factor => {
     }
 
     serveStaticAssets() {
-      const fav = Factor.$paths.resolveFilePath("#/static/favicon.png", "static")
+      const fav = Factor.$setting.get("app.faviconPath")
       if (fav) {
         this.serverApp.use(require("serve-favicon")(fav))
       }
