@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper" class="factor-figure">
+  <figure ref="wrapper" class="factor-figure figure-design">
     <div class="designs">
       <div class="designs-left">
         <div
@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style lang="less">
-figure.factor-figure {
+figure.figure-design {
   position: relative;
 
   .designs {

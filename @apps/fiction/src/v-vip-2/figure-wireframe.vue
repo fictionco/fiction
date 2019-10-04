@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper" class="factor-figure">
+  <figure ref="wrapper" class="factor-figure figure-wireframe">
     <div class="wireframes">
       <div
         v-for="(wireframe, index) in wireframes"
@@ -36,8 +36,7 @@ export default {
 </script>
 
 <style lang="less">
-figure.factor-figure {
-  //perspective: 2000px;
+figure.figure-wireframe {
   position: relative;
 
   .wireframes {

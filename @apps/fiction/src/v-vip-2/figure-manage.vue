@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper" class="factor-figure traffic-figure">
+  <figure ref="wrapper" class="factor-figure figure-manage">
     <img :src="require(`./img/traffic.svg`)" alt="Sparkline Traffic" />
     <div class="sparkline">
       <div v-for="(point, index) in points" :key="index" class="point-wrap">
@@ -42,7 +42,7 @@ export default {
 </script>
 
  <style lang="less">
-figure.traffic-figure {
+figure.figure-manage {
   position: relative;
   height: auto;
   padding-bottom: 4rem;
