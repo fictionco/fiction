@@ -1,21 +1,10 @@
 <template>
-  <figure ref="wrapper" class="stage-container vip-figure">
-    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
-      <div class="stage">
-        <div class="feature-circle">
-          <div class="core">
-            <div class="rad">
-              <div class="rad-icon">
-                <page-icon icon="core" />
-              </div>
-            </div>
-          </div>
-
-          <div class="rotater">
-            <div v-for="(vipicon, index) in vipicons" :key="index" class="rad">
-              <page-icon v-if="vipicon.icon" :icon="vipicon.icon" class="rad-icon" />
-            </div>
-          </div>
+  <figure ref="wrapper" class="factor-figure traffic-figure">
+    <img :src="require(`./img/traffic.svg`)" alt="Sparkline Traffic" />
+    <div class="sparkline">
+      <div v-for="(point, index) in points" :key="index" class="point-wrap">
+        <div class="point">
+          <div class="point-text">{{ point.text }}</div>
         </div>
       </div>
     </div>
@@ -23,38 +12,28 @@
 </template>
 
 <script>
-import pageUtils from "./utils"
 export default {
-  components: {
-    "page-icon": () => import("./icon-vip.vue")
-  },
-  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
+  components: {},
   data() {
     return {
-      vipicons: [
+      points: [
         {
-          icon: "seo"
+          text: `Social`
         },
         {
-          icon: "design"
+          text: `SEO`
         },
         {
-          icon: "dev"
+          text: `DevOps`
         },
         {
-          icon: "node"
+          text: `Support`
         },
         {
-          icon: "github"
+          text: `Debugging`
         },
         {
-          icon: "infrastructure"
-        },
-        {
-          icon: "support"
-        },
-        {
-          icon: "cloud"
+          text: `Scaling`
         }
       ]
     }
@@ -62,152 +41,63 @@ export default {
 }
 </script>
 
-<style lang="less">
-#feature-vip {
+ <style lang="less">
+figure.traffic-figure {
   position: relative;
-  z-index: 1;
-  .feature-content {
-    color: #fff;
-  }
-
-  background: var(--color-bg-splash);
-  @media (max-width: 900px) {
-    .feature-figure-container {
-      height: 500px;
-      transform: translate(0, -2rem);
-    }
-  }
-}
-figure.vip-figure {
-  max-width: 100%;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  // .stage-wrap {
-  //   transform-origin: center left;
-  // }
-  .stage-wrap,
-  .stage {
+  height: auto;
+  padding-bottom: 4rem;
+  img {
     width: 100%;
-    height: 100%;
+    max-width: 500px;
+    margin: 0 auto;
   }
-  .stage {
+  .sparkline {
     position: absolute;
-    perspective: 1000px;
-
-    left: 0;
-    top: 0;
-  }
-  .feature-circle {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform: rotateY(-15deg);
-    transition: all 0.5s;
-    @media (max-width: 900px) {
-      transform: rotateY(0);
-    }
-
-    .rad {
+    top: 45%;
+    left: 40%;
+    height: 33px;
+    .point-wrap {
       position: absolute;
-      width: 80px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-    }
-
-    .core,
-    .rotater {
-      position: absolute;
-      top: 45%;
-      left: 40%;
-    }
-
-    // @keyframes spinOn {
-    //   100% {
-    //     transform: rotate(15urn);
-    //   }
-    // }
-    // @keyframes spinOff {
-    //   100% {
-    //     transform: rotate(2turn);
-    //   }
-    // }
-
-    &:hover {
-      transform: rotateY(-25deg);
-      .rotater {
-        //animation: spinOn 30s infinite linear;
-        transform: rotate(5turn);
-        transition: transform 60s cubic-bezier(0.25, 0.1, 0.25, 1);
+      width: auto;
+      height: 33px;
+      .point {
+        background: #32394f;
+        padding: 0 0.7rem;
+        border-radius: 4px;
+        .point-text {
+          font-size: 1.6rem;
+          line-height: 1.4;
+          transform: skew(7deg, 0);
+        }
       }
-    }
-    .rotater {
-      width: 100px;
-      height: 100px;
-      //animation: spinOff 1.5s linear;
-      transform: rotate(2turn);
-      transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-
-      .rad {
-        .rad-icon {
-          width: 100%;
-          height: 100%;
-          background: #1b223c;
-          box-shadow: 0px 4px 1px rgba(255, 255, 255, 0.16),
-            inset 0px 4px 0px rgba(0, 0, 0, 0.42);
-          // background: rgba(255, 255, 255, 0.1);
-          border-radius: 50%;
+      &:nth-child(1) {
+        .point {
+          transform: skew(-7deg, 0) translateY(-7rem) translateX(0rem);
         }
-        &:nth-child(1) {
-          transform: rotate(45deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-45deg);
-          }
+      }
+      &:nth-child(2) {
+        .point {
+          transform: skew(-7deg, 0) translateY(-10rem) translateX(9rem);
         }
-        &:nth-child(2) {
-          transform: rotate(90deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-90deg);
-          }
+      }
+      &:nth-child(3) {
+        .point {
+          transform: skew(-7deg, 0) translateY(1rem) translateX(9rem);
         }
-        &:nth-child(3) {
-          transform: rotate(135deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-135deg);
-          }
+      }
+      &:nth-child(4) {
+        .point {
+          transform: skew(-7deg, 0) translateY(-9rem) translateX(-10rem);
         }
-        &:nth-child(4) {
-          transform: rotate(180deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-180deg);
-          }
+      }
+      &:nth-child(5) {
+        .point {
+          transform: skew(-7deg, 0) translateY(5rem) translateX(-1rem);
         }
-        &:nth-child(5) {
-          transform: rotate(225deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-225deg);
-          }
-        }
-        &:nth-child(6) {
-          transform: rotate(270deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-270deg);
-          }
-        }
-        &:nth-child(7) {
-          transform: rotate(315deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-315deg);
-          }
-        }
-        &:nth-child(8) {
-          transform: rotate(0deg);
-          .rad-icon {
-            transform: translateY(12rem) rotate(-0deg);
-          }
+      }
+      &:nth-child(6) {
+        .point {
+          transform: skew(-7deg, 0) translateY(-1rem) translateX(-13rem);
         }
       }
     }

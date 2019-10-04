@@ -1,17 +1,13 @@
 <template>
   <figure ref="wrapper" class="stage-container vip-figure">
-    <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
-      <div class="stage">
+    <div class="stage-wrap">
+      <div class="stage" :style="{ transform: `scale(${scale})` }">
         <div class="feature-circle">
           <div class="core">
-            <div class="rad">
-              <div class="rad-icon">
-                <page-icon icon="core" />
-              </div>
-            </div>
+            <page-icon icon="core" />
           </div>
 
-          <div class="rotater">
+          <div class="rotator">
             <div v-for="(vipicon, index) in vipicons" :key="index" class="rad">
               <page-icon v-if="vipicon.icon" :icon="vipicon.icon" class="rad-icon" />
             </div>
@@ -79,32 +75,20 @@ export default {
   }
 }
 figure.vip-figure {
-  max-width: 100%;
+  align-self: center;
+  justify-self: center;
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  // .stage-wrap {
-  //   transform-origin: center left;
-  // }
   .stage-wrap,
   .stage {
     width: 100%;
     height: 100%;
   }
-  .stage {
-    position: absolute;
-    perspective: 1000px;
-
-    left: 0;
-    top: 0;
-  }
   .feature-circle {
     width: 100%;
     height: 100%;
     position: relative;
-    transform: rotateY(15deg);
+    transform: rotateY(-5deg);
     transition: all 0.5s;
     @media (max-width: 900px) {
       transform: rotateY(0);
@@ -117,37 +101,32 @@ figure.vip-figure {
       display: flex;
       align-items: center;
     }
-
-    .core,
-    .rotater {
+    .core {
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      height: 100%;
+    }
+    .rotator {
       position: absolute;
-      top: 45%;
-      left: 40%;
+      top: 40%;
+      left: 43%;
+      @media (max-width: 900px) {
+        left: 40%;
+      }
     }
 
-    // @keyframes spinOn {
-    //   100% {
-    //     transform: rotate(15urn);
-    //   }
-    // }
-    // @keyframes spinOff {
-    //   100% {
-    //     transform: rotate(2turn);
-    //   }
-    // }
-
     &:hover {
-      transform: rotateY(-25deg);
-      .rotater {
-        //animation: spinOn 30s infinite linear;
+      transform: rotateY(-15deg);
+      .rotator {
         transform: rotate(5turn);
         transition: transform 60s cubic-bezier(0.25, 0.1, 0.25, 1);
       }
     }
-    .rotater {
-      width: 100px;
-      height: 100px;
-      //animation: spinOff 1.5s linear;
+    .rotator {
+      width: 80px;
+      height: 80px;
       transform: rotate(2turn);
       transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 
@@ -158,7 +137,6 @@ figure.vip-figure {
           background: #1b223c;
           box-shadow: 0px 4px 1px rgba(255, 255, 255, 0.16),
             inset 0px 4px 0px rgba(0, 0, 0, 0.42);
-          // background: rgba(255, 255, 255, 0.1);
           border-radius: 50%;
         }
         &:nth-child(1) {
@@ -211,6 +189,11 @@ figure.vip-figure {
         }
       }
     }
+  }
+
+  @media (max-width: 900px) {
+    height: 420px;
+    margin: 2rem 0;
   }
 }
 </style>

@@ -26,16 +26,15 @@
             </factor-link>
           </div>
         </div>
-        <div class="header-figure">
-          <figure-vip />
-        </div>
+
+        <figure-vip />
       </div>
     </section>
 
     <div class="benefits content">
       <div class="content-pad wide">
         <div v-for="(benefit, index) in benefits" :key="index" class="benefit">
-          <vip-icon v-if="benefit.icon" class="feature-icon" :icon="benefit.icon" />
+          <icon-vip v-if="benefit.icon" class="feature-icon" :icon="benefit.icon" />
 
           <h3 class="title">{{ benefit.title }}</h3>
 
@@ -57,10 +56,11 @@
           <ol class="number-list">
             <li
               v-for="(step, index) in process.processList"
-              :id="step.id"
               :key="index"
               class="number-item active"
-            >{{ step.title }}</li>
+            >
+              <factor-link :path="`#` + step.id">{{ step.title }}</factor-link>
+            </li>
           </ol>
           <div class="action">
             <factor-link :path="process.link.path" btn="primary">
@@ -73,6 +73,7 @@
             v-for="(step, index) in process.processList"
             :id="step.id"
             :key="index"
+            :name="step.id"
             class="process"
           >
             <div v-if="step.figure" class="process-figure-container">
@@ -119,7 +120,7 @@
 <script>
 export default {
   components: {
-    "vip-icon": () => import("./icon.vue"),
+    "icon-vip": () => import("./icon-vip.vue"),
     "figure-vip": () => import("./figure-vip.vue"),
     "figure-manage": () => import("./figure-manage.vue"),
     "el-cta-vip": () => import("./cta-vip.vue")
@@ -182,13 +183,13 @@ export default {
           },
           {
             id: "process-design",
-            figure: () => import("./figure-sketch.vue"),
+            figure: () => import("./figure-design.vue"),
             title: "Design",
             text: `Layouts for complex web apps are a lot less daunting when taking a methodical approach like ours.  By using research information and all previous steps these layouts come together like magic.`
           },
           {
             id: "process-develop",
-            figure: () => import("./figure-sketch.vue"),
+            figure: () => import("./figure-develop.vue"),
             title: "Develop",
             text: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.`
           }
@@ -219,6 +220,9 @@ export default {
 }
 </script>
 <style lang="less">
+// .content-layout {
+//   display: contents;
+// }
 .view-vip-version-2 {
   --color-bg-splash: #1b223c;
   --color-bg-splash-contrast: #233575;
@@ -239,6 +243,16 @@ export default {
 
   // Header
   .intro {
+    position: relative;
+    z-index: 0;
+    padding: 9rem 0 15rem;
+    color: #fff;
+    background: linear-gradient(
+      35deg,
+      var(--color-bg-splash) 70%,
+      var(--color-bg-splash-contrast)
+    );
+
     .header-bg {
       position: absolute;
       top: 0;
@@ -248,6 +262,7 @@ export default {
       background: url("./img/dot.svg");
       transform: translateY(-4rem);
       perspective: 1000px;
+
       &:before {
         content: "";
         position: absolute;
@@ -262,58 +277,33 @@ export default {
         );
       }
     }
-    background: linear-gradient(
-      35deg,
-      var(--color-bg-splash) 70%,
-      var(--color-bg-splash-contrast)
-    );
-    position: relative;
-    z-index: 0;
-    padding: 9rem 0 15rem;
-    color: #fff;
-
-    @media (max-width: 900px) {
-      padding: 5rem 0 9rem;
-    }
 
     .content-pad {
-      // opacity: 0.1;
       z-index: 1;
       position: relative;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-column-gap: 4rem;
-      .header-figure {
-        position: relative;
-      }
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        .header-figure {
-          min-width: 0;
-        }
-      }
     }
 
     .header-text {
       flex: 1;
       min-width: 520px;
       text-shadow: 0 1px 1px rgba(20, 20, 25, 0.7);
-      @media (max-width: 900px) {
-        min-width: 320px;
-        margin: 0 0 40px;
-      }
+
       .header-tag {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 32px;
         opacity: 0.4;
+
         .icon {
           display: none;
         }
+
         .header-icon-text {
           font-size: 1.2em;
-
           font-weight: 500;
           text-transform: uppercase;
           letter-spacing: 0.025em;
@@ -322,7 +312,6 @@ export default {
       .title {
         font-size: 3em;
         line-height: 1.1;
-
         margin: 0 0 0.5em;
         letter-spacing: -0.02em;
         font-weight: 600;
@@ -331,8 +320,8 @@ export default {
       .text {
         font-size: 1.5em;
         line-height: 1.5;
-
         color: rgba(255, 255, 255, 0.6);
+
         a {
           color: inherit;
         }
@@ -342,11 +331,13 @@ export default {
         display: grid;
         grid-gap: 1rem;
         grid-template-columns: 1fr 1fr;
+
         .bullet {
           font-weight: 600;
           display: flex;
+
           .bullet-icon {
-            background: #ff0076;
+            background: var(--color-primary);
             border-radius: 50%;
             width: 1.5rem;
             height: 1.5rem;
@@ -354,14 +345,37 @@ export default {
             text-align: center;
             margin-right: 0.5rem;
           }
+
           .bullet-text {
             opacity: 0.7;
           }
         }
       }
+    }
 
-      @media (max-width: 900px) {
+    @media (max-width: 900px) {
+      padding: 5rem 0 9rem;
+
+      .header-bg {
+        width: 100%;
+      }
+
+      .content-pad {
+        grid-template-columns: 1fr;
+      }
+
+      .header-text {
         font-size: 1em;
+        min-width: 320px;
+        margin: 0 0 40px;
+
+        .header-tag {
+          opacity: 0.4;
+          .icon {
+            display: none;
+          }
+        }
+
         .title {
           font-size: 2em;
           .alt {
@@ -369,16 +383,15 @@ export default {
             display: block;
           }
         }
+
         .text {
           font-size: 1.2em;
           line-height: 1.5;
           opacity: 0.8;
         }
-        .header-tag {
-          opacity: 0.4;
-          .icon {
-            display: none;
-          }
+
+        .bullets {
+          grid-template-columns: 1fr;
         }
       }
     }
@@ -390,6 +403,7 @@ export default {
     margin: -7rem 0 0;
     padding: 0 1rem 4rem;
     background: #f6f9fc url("./img/dot.svg");
+
     .content-pad {
       z-index: 100;
       position: relative;
@@ -440,19 +454,15 @@ export default {
       display: grid;
       grid-column-gap: 4rem;
       grid-template-areas: "a" "b";
-      grid-template-columns: 1fr 1fr;
-      justify-content: flex-start;
+      grid-template-columns: repeat(2, minmax(100px, 1fr));
 
-      // .process-sticky {
-      //   height: 350px;
-      //   position: -webkit-sticky;
-      //   position: sticky;
-      //   top: 0;
-      //   z-index: 2;
-      //   background: aqua;
-      // }
       .process-sticky {
         padding: 4rem 0;
+        align-self: start;
+        // Note: this won't work due to "display: flex;" in .content-layout div. Needs to be "display: contents;" or "display: initial;"
+        // position: -webkit-sticky;
+        // position: sticky;
+        // top: 0;
         .super {
           text-transform: uppercase;
           font-weight: 600;
@@ -482,13 +492,10 @@ export default {
 
       .process-list {
         .process {
-          //min-height: 90vh;
+          min-height: 90vh;
           background: url("./img/dot-gray.svg");
           position: relative;
-          padding: 2rem 0;
-          &:first-child {
-            padding: 4rem 0 2rem;
-          }
+          padding: 4rem 0;
           &:before {
             content: "";
             position: absolute;
@@ -511,7 +518,6 @@ export default {
     }
     .process-content {
       letter-spacing: -0.01em;
-      max-width: 500px;
     }
     .super {
       text-transform: uppercase;
@@ -546,7 +552,7 @@ export default {
           padding: 4rem 0 3rem;
         }
         .process-list .process {
-          padding: 2rem 0;
+          padding: 2rem 0 3rem;
           .process-content-container {
             padding: 4rem 0 1rem;
             .process-content {
@@ -567,13 +573,14 @@ export default {
     );
     position: relative;
     z-index: 0;
-    padding: 9rem 0;
+    padding: 5rem 0;
+    min-height: 90vh;
     color: #fff;
     .content-pad {
-      z-index: 1;
+      //z-index: 1;
       position: relative;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(100px, 1fr));
       grid-column-gap: 4rem;
     }
     .manage-bg {
@@ -634,6 +641,19 @@ export default {
             opacity: 0.7;
           }
         }
+      }
+    }
+    @media (max-width: 900px) {
+      .content-pad {
+        grid-template-columns: 1fr;
+      }
+      .manage-content {
+        .bullets {
+          grid-template-columns: 1fr;
+        }
+      }
+      .manage-bg {
+        width: 100%;
       }
     }
   }

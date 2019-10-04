@@ -1,14 +1,8 @@
 <template>
   <figure ref="wrapper" class="factor-figure">
     <div class="sketches">
-      <div class="sketch intro">
-        <img src="./img/sketch-intro.svg" />
-      </div>
-      <div class="sketch boxes">
-        <img src="./img/sketch-boxes.svg" />
-      </div>
-      <div class="sketch feature">
-        <img src="./img/sketch-feature.svg" />
+      <div v-for="(sketch, index) in sketches" :key="index" class="sketch" :class="sketch.class">
+        <img :src="sketch.image" :alt="sketch.alt" />
       </div>
     </div>
   </figure>
@@ -16,20 +10,39 @@
 
 <script>
 export default {
-  components: {}
+  components: {},
+  data() {
+    return {
+      sketches: [
+        {
+          class: `feature`,
+          image: require("./img/sketch-feature.svg"),
+          alt: `Sketch - Feature`
+        },
+        {
+          class: `intro`,
+          image: require("./img/sketch-intro.svg"),
+          alt: `Sketch - Intro`
+        },
+        {
+          class: `boxes`,
+          image: require("./img/sketch-boxes.svg"),
+          alt: `Sketch - Boxes`
+        }
+      ]
+    }
+  }
 }
 </script>
 
 <style lang="less">
 figure.factor-figure {
-  //perspective: 2000px;
   position: relative;
 
   .sketches {
+    padding: 0 0 7rem;
     .sketch {
-      max-width: 500px;
       z-index: 10;
-      //transform-origin: top center;
       background: #ffffff;
       box-shadow: 0px 5px 15px rgba(27, 34, 60, 0.1), 0px 15px 35px rgba(27, 34, 60, 0.1),
         0px 50px 100px rgba(27, 34, 60, 0.1);
@@ -38,44 +51,46 @@ figure.factor-figure {
       img {
         width: 100%;
       }
-      &.intro {
-        padding: 2rem 2rem 0;
-        transform: translateZ(-10px) translateX(0) translateY(3rem);
-        width: 80%;
-      }
       &.feature {
-        padding: 1.5rem;
+        width: 150px;
         max-width: 150px;
-        transform: translateZ(-10px) translateX(24rem) translateY(-15rem);
-      }
-      &.boxes {
         padding: 1.5rem;
         position: absolute;
-        bottom: 0em;
-        left: 8em;
+        top: 0;
+        right: 0;
+      }
+      &.intro {
+        width: 430px;
+        max-width: 430px;
+        padding: 2rem 2rem 0;
+      }
+      &.boxes {
+        width: 430px;
+        max-width: 430px;
+        padding: 1.5rem;
+        position: absolute;
+        //top: 17rem;
+        right: -2rem;
+        bottom: 0;
       }
     }
-    // @media (max-width: 900px) {
-    //   min-height: 250px;
-    //   margin: 3em 0;
-    //   .sketch {
-    //     &.feature {
-    //       transform: scale(0.85) translateX(-2em);
-    //       top: -2em;
-    //       right: auto;
-    //       bottom: auto;
-    //       left: 0;
-    //       box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1), 0 5px 15px 0 rgba(0, 0, 0, 0.07);
-    //     }
-    //     &.intro {
-    //       transform: scale(0.85) translateX(2em);
-    //       top: 3em;
-    //       right: 0;
-    //       bottom: auto;
-    //       left: auto;
-    //     }
-    //   }
-    // }
+    @media (max-width: 900px) {
+      padding: 2rem 0 4rem;
+      .sketch {
+        &.feature {
+          width: 28%;
+          padding: 1rem;
+        }
+        &.intro {
+          width: 80%;
+          padding: 1rem 1rem 0;
+        }
+        &.boxes {
+          width: 80%;
+          padding: 1rem;
+        }
+      }
+    }
   }
 }
 </style>
