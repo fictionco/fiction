@@ -38,6 +38,10 @@ module.exports.default = Factor => {
             component: () => import("./page-plugins")
           },
           {
+            path: "/pluginsnew",
+            component: () => import("./plugins/v-plugins")
+          },
+          {
             path: "/themes",
             component: () => import("./v-themes")
           },
