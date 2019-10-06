@@ -1,7 +1,28 @@
 <template>
   <div class="plugins-sidebar">
     <div class="sidebar-inner">
-      <h2>Siderbar Header</h2>
+      <section class="plugins-featured">
+        <header class="section-header">
+          <h1 class="title">Popular</h1>
+        </header>
+        <section-plugins :text="false" />
+      </section>
+
+      <section class="plugins-featured">
+        <header class="section-header">
+          <h1 class="title">New</h1>
+        </header>
+        <section-plugins :text="false" />
+      </section>
+
+      <section class="plugins-featured">
+        <header class="section-header">
+          <h1 class="title">Recently Updated</h1>
+        </header>
+        <section-plugins :text="false" />
+      </section>
+
+      <!-- <h2>Sidebar Header</h2>
       <ul class="menu-root">
         <li>
           <factor-link path="/">Dynamic List Item Will Go Here</factor-link>
@@ -10,20 +31,25 @@
           <factor-link path="/">Dynamic List Item Will Go Here</factor-link>
         </li>
         <li>
-          <factor-link path="/">Really Really Really Really Loooooong Dynamic List Item Will Go Here</factor-link>
+          <factor-link
+path="/">Really Really Really Really Loooooong Dynamic List Item Will Go
+            Here</factor-link>
         </li>
-      </ul>
+      </ul>-->
     </div>
   </div>
 </template>
 <script>
-export default {}
+export default {
+  components: {
+    "section-plugins": () => import("./section-plugins")
+  }
+}
 </script>
 
 <style lang="less">
 // Plugins Sidebar
 .plugins-sidebar {
-  background: yellow;
-  padding: 2rem;
+  padding: 0;
 }
 </style>

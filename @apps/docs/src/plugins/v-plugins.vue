@@ -18,15 +18,39 @@
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
+          <section-plugins :category="'featured'" />
+        </section>
+
+        <section class="plugins-all">
+          <header class="section-header">
+            <h1 class="title">All</h1>
+          </header>
           <section-plugins />
         </section>
       </div>
       <div class="sidebar">
         <plugins-sidebar />
-        <section-plugins />
       </div>
     </div>
-    <h2>CTA will go here</h2>
+
+    <section>
+      <div class="content-pad">
+        <div class="plugins-cta">
+          <div class="text">
+            <h2 class="title">Create and Submit Your Plugin</h2>
+            <h2 class="title-sub">
+              Learn about extension development and how to submit your extension to the
+              Factor library.
+            </h2>
+          </div>
+
+          <div class="buttons">
+            <factor-link btn="primary" path="/guide/">Submit a Plugin &rarr;</factor-link>
+            <factor-link btn="default" path="/guide/create-plugins">Create a Plugin &rarr;</factor-link>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -122,12 +146,10 @@ export default {
     grid-template-columns: 3fr 1fr;
     grid-gap: 2rem;
     padding-top: 3rem;
-    padding-bottom: 3rem;
 
     .section-header {
-      margin-bottom: 2rem;
       .title {
-        font-size: 2em;
+        font-size: 1.4em;
         font-weight: 600;
         line-height: 1.1;
         letter-spacing: -0.02em;
@@ -141,6 +163,43 @@ export default {
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
+    }
+  }
+
+  .plugins-featured {
+    .section-header {
+      margin: 0 0 1rem;
+    }
+  }
+
+  .plugins-all {
+    .section-header {
+      margin: 4rem 0 1rem;
+    }
+  }
+
+  /* CTA */
+  .plugins-cta {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    border-top: 2px solid #f6f9fc;
+    margin: 2rem 0 0;
+    padding: 3rem 0;
+    @media (max-width: 767px) {
+      grid-template-columns: 1fr;
+    }
+    .text h2 {
+      &.title {
+        color: var(--color-primary);
+      }
+      font-size: 1.5em;
+    }
+    .buttons {
+      margin: 0 0 0 20px;
+      @media (max-width: 767px) {
+        margin: 20px 0 0 0;
+      }
     }
   }
 }
