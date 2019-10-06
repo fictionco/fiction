@@ -15,8 +15,9 @@
           <factor-link :path="post.link.path">{{ post.title }}</factor-link>
         </h3>
         <div class="meta">
-          <span class="author">by {{ post.author }}</span> in
-          <div v-if="post.categories.length > 0" class="categories">
+          <span v-if="showAuthor != false" class="author">by {{ post.author }}</span>
+          <div v-if="post.categories.length > 0 && showCategories != false" class="categories">
+            in
             <span
               v-for="(cat, ci) in filterCategories(post.categories)"
               :key="ci"
@@ -38,6 +39,8 @@
 <script>
 export default {
   props: {
+    showAuthor: { type: Boolean, default: true },
+    showCategories: { type: Boolean, default: true },
     category: { type: String, default: "" },
     text: { type: Boolean, default: true }
   },
@@ -57,21 +60,13 @@ export default {
               id: 2,
               name: "Featured",
               slug: "featured"
-            },
-            {
-              id: 7,
-              name: "Raymond",
-              slug: "raymond"
-            },
-            {
-              id: 8,
-              name: "Why not",
-              slug: "whynot"
             }
           ],
           downloads: `1262`,
           text: `Create a sitemap for your factor site.`,
-          link: { path: "/factor-sitemap", text: "Details" }
+          link: { path: "/factor-sitemap", text: "Details" },
+          created_at: "2019-01-26T19:01:12Z",
+          updated_at: "2019-01-26T19:14:43Z"
         },
         {
           title: "Storage S3",
@@ -85,7 +80,9 @@ export default {
           ],
           downloads: `962`,
           text: `Enables you to deploy your Factor site to an S3 bucket. Requires very little configuration, while optimizing your site as much as possible.`,
-          link: { path: "/storage-s3", text: "Details" }
+          link: { path: "/storage-s3", text: "Details" },
+          created_at: "2019-01-26T19:01:12Z",
+          updated_at: "2019-01-26T19:14:43Z"
         },
         {
           title: "Google Tag Manager",
@@ -99,7 +96,9 @@ export default {
           ],
           downloads: `878`,
           text: `Easily add Google Tag Manager to your Factor site.`,
-          link: { path: "/factor-google-tagmanager", text: "Details" }
+          link: { path: "/factor-google-tagmanager", text: "Details" },
+          created_at: "2019-01-26T19:01:12Z",
+          updated_at: "2019-01-26T19:14:43Z"
         },
         {
           title: `Factor Google Analytics`,
@@ -118,7 +117,9 @@ export default {
           ],
           downloads: `894`,
           text: `Easily add Google Analytics to your Factor site.`,
-          link: { path: "/factor-google-analytics", text: "Details" }
+          link: { path: "/factor-google-analytics", text: "Details" },
+          created_at: "2019-01-26T19:01:12Z",
+          updated_at: "2019-01-26T19:14:43Z"
         },
         {
           title: "Factor Algolia",
@@ -137,7 +138,9 @@ export default {
           ],
           downloads: `767`,
           text: `A Factor plugin to push to Algolia based on a certain query.`,
-          link: { path: "/factor-algolia", text: "Details" }
+          link: { path: "/factor-algolia", text: "Details" },
+          created_at: "2019-01-26T19:01:12Z",
+          updated_at: "2019-01-26T19:14:43Z"
         }
       ]
     }
@@ -184,26 +187,20 @@ export default {
 <style lang="less">
 .section-plugins {
   .post {
-    padding: 1rem;
-    margin-bottom: 1rem;
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-gap: 2rem;
-    background: #fff;
-    border-radius: 6px;
-    border: 1px solid var(--color-bg-contrast-more);
-    transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-    &:hover {
-      box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.07), 0px 18px 26px rgba(80, 102, 119, 0.16);
-      transform: translateY(-0.4rem);
-    }
+    align-items: flex-start;
+    margin-bottom: 1rem;
     .post-image {
       display: flex;
       justify-content: center;
       height: 130px;
-      border: 1px solid var(--color-bg-contrast-more);
+      padding: 4px;
       border-radius: 6px;
-      background: var(--color-bg-contrast);
+      img {
+        max-width: 100%;
+      }
     }
     .title {
       font-weight: 500;
@@ -237,13 +234,13 @@ export default {
       line-height: 1.7em;
       margin-top: 1rem;
     }
-    h3,
-    p {
-      margin-bottom: 10px;
-    }
-    p:last-child {
-      margin-bottom: 0;
-    }
+    // h3,
+    // p {
+    //   margin-bottom: 10px;
+    // }
+    // p:last-child {
+    //   margin-bottom: 0;
+    // }
   }
 }
 </style>
