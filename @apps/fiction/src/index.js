@@ -46,10 +46,6 @@ module.exports.default = Factor => {
           },
           {
             path: "/vip",
-            component: () => import("./v-vip/v-vip")
-          },
-          {
-            path: "/vipnew",
             component: () => import("./v-vip-2/v-vip")
           },
           {

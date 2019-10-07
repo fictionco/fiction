@@ -30,11 +30,17 @@ module.exports.default = Factor => {
             return `factor-${ui}`
           },
           classes() {
-            const metaClass = this.$route.meta.routeClass || []
             const siteClasses = this.$globals.routeClass || []
 
-            return [...metaClass, , ...siteClasses, this.scrollClass]
+            return [...siteClasses, this.scrollClass]
+          },
+          injectedComponents() {
+            return this.$filters.apply("site-components", {})
           }
+        },
+
+        serverPrefetch() {
+          return this.$filters.run("site-prefetch")
         },
         methods: {
           setScrollClass() {

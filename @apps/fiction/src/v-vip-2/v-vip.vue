@@ -50,22 +50,24 @@
 
     <div class="process-wrap content">
       <div class="content-pad wide">
-        <div class="process-sticky">
-          <div class="super">{{ process.preheading }}</div>
-          <p class="text">{{ process.text }}</p>
-          <ol class="number-list">
-            <li
-              v-for="(step, index) in process.processList"
-              :key="index"
-              class="number-item active"
-            >
-              <factor-link :path="`#` + step.id">{{ step.title }}</factor-link>
-            </li>
-          </ol>
-          <div class="action">
-            <factor-link :path="process.link.path" btn="primary">
-              <span v-formatted-text="process.link.text" />
-            </factor-link>
+        <div class="sticky-container">
+          <div class="process-sticky">
+            <div class="super">{{ process.preheading }}</div>
+            <p class="text">{{ process.text }}</p>
+            <ol class="number-list">
+              <li
+                v-for="(step, index) in process.processList"
+                :key="index"
+                class="number-item active"
+              >
+                <factor-link :path="`#` + step.id">{{ step.title }}</factor-link>
+              </li>
+            </ol>
+            <div class="action">
+              <factor-link :path="process.link.path" btn="primary">
+                <span v-formatted-text="process.link.text" />
+              </factor-link>
+            </div>
           </div>
         </div>
         <div class="process-list">
@@ -165,7 +167,7 @@ export default {
         }
       ],
       process: {
-        preheading: "Why Factor?",
+        preheading: "The Design Process",
         text:
           "Your app built with a beautiful and professional foundation. Turn ideas into realities and improve your product as it evolves. The process",
         processList: [
@@ -196,7 +198,7 @@ export default {
         ],
         link: {
           path: "/contact",
-          text: "Contact &rarr;"
+          text: "Learn More &rarr;"
         }
       },
       manage: {
@@ -459,10 +461,9 @@ export default {
       .process-sticky {
         padding: 4rem 0;
         align-self: start;
-        // Note: this won't work due to "display: flex;" in .content-layout div. Needs to be "display: contents;" or "display: initial;"
-        // position: -webkit-sticky;
-        // position: sticky;
-        // top: 0;
+
+        position: sticky;
+        top: 3em;
         .super {
           text-transform: uppercase;
           font-weight: 600;
@@ -546,9 +547,10 @@ export default {
     .action {
       margin-top: 2rem;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 1200px) {
       .content-pad {
         grid-template-columns: 1fr;
+        overflow: hidden;
         .process-figure-container {
           justify-content: center;
         }
@@ -560,7 +562,8 @@ export default {
           .process-content-container {
             padding: 4rem 0 1rem;
             .process-content {
-              max-width: 100%;
+              max-width: 500px;
+              margin: 0 auto;
             }
           }
         }
@@ -580,6 +583,7 @@ export default {
     padding: 5rem 0;
     min-height: 90vh;
     color: #fff;
+    overflow: hidden;
     .content-pad {
       //z-index: 1;
       position: relative;
@@ -587,6 +591,7 @@ export default {
       grid-template-columns: repeat(2, minmax(100px, 1fr));
       grid-column-gap: 4rem;
     }
+
     .manage-bg {
       position: absolute;
       top: 0;

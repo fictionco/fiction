@@ -2,7 +2,6 @@
 const files = {}
 files["setting"] = require("@factor/app-settings").default
 files["mongo"] = require("@factor/tools-mongo").default
-files["appServer"] = require("@factor/app/server").default
 files["blog"] = require("@factor/plugin-blog").default
 files["bugsnagServer"] = require("@factor/plugin-bugsnag/server").default
 files["dashboard"] = require("@factor/dashboard").default

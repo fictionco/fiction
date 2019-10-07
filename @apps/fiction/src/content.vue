@@ -73,10 +73,10 @@ export default {
 
 <style lang="less">
 .content-layout {
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
   min-height: 100vh;
-  overflow-x: hidden;
+  //
   @media (max-width: 767px) {
     .dashboard-link {
       display: none;
