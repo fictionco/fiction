@@ -44,8 +44,6 @@ export default {
 </script>
 <style lang="less">
 .view-contact {
-  margin-top: 3em;
-
   .hhh {
     position: relative;
     text-align: center;

@@ -246,6 +246,7 @@ export default {
   --color-bg-splash-contrast: #233575;
   --color-bg-contast: #f5f8fc;
   --color-text-splash: #949cb8;
+
   .email-list-form {
     font-size: 1.3em;
     max-width: 600px;
@@ -288,10 +289,10 @@ export default {
   }
 
   .skew-bg {
-    transform: scale(1.25) skewY(-4deg);
-    .unskew-bg {
-      transform: skewY(4deg) scale(0.8);
-    }
+    // transform: translateY(-5em) skewY(-4deg);
+    // .unskew-bg {
+    //   transform: skewY(4deg) scale(0.8);
+    // }
   }
 
   .stark-bg {
@@ -451,7 +452,10 @@ export default {
     //   );
     //   color: #fff;
     // }
+    overflow-x: hidden;
+    overflow: visible;
     .feature {
+      overflow-x: visible;
       .feature-wrap {
         position: relative;
         z-index: 1;
@@ -488,6 +492,7 @@ export default {
           transform: skewY(3deg);
         }
         .feature-figure-container {
+          min-width: 0;
           width: 100%;
           justify-self: flex-end;
           figure {
@@ -514,6 +519,7 @@ export default {
             box-shadow: var(--box-shadow-panel);
             @media (max-width: 900px) {
               padding: 3em 1em;
+              overflow: hidden;
             }
           }
           .feature-content-container {
@@ -580,6 +586,9 @@ export default {
         }
         .feature-figure-container {
           justify-content: center;
+          .figure {
+            justify-content: flex-start;
+          }
         }
       }
       perspective: 1000px;

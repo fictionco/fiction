@@ -61,43 +61,42 @@ figure.figure-manage {
       width: auto;
       height: 33px;
       .point {
-        background: #32394f;
-        padding: 0 0.7rem;
-        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.1);
+        padding: 0.2rem 1rem;
+        border-radius: 8px;
         .point-text {
           font-size: 1.6rem;
           line-height: 1.4;
-          transform: skew(7deg, 0);
         }
       }
       &:nth-child(1) {
         .point {
-          transform: skew(-7deg, 0) translateY(-7rem) translateX(0rem);
+          transform: translateY(-7rem) translateX(0rem);
         }
       }
       &:nth-child(2) {
         .point {
-          transform: skew(-7deg, 0) translateY(-10rem) translateX(9rem);
+          transform: translateY(-10rem) translateX(9rem);
         }
       }
       &:nth-child(3) {
         .point {
-          transform: skew(-7deg, 0) translateY(1rem) translateX(9rem);
+          transform: translateY(1rem) translateX(9rem);
         }
       }
       &:nth-child(4) {
         .point {
-          transform: skew(-7deg, 0) translateY(-9rem) translateX(-10rem);
+          transform: translateY(-9rem) translateX(-10rem);
         }
       }
       &:nth-child(5) {
         .point {
-          transform: skew(-7deg, 0) translateY(5rem) translateX(-1rem);
+          transform: translateY(5rem) translateX(-1rem);
         }
       }
       &:nth-child(6) {
         .point {
-          transform: skew(-7deg, 0) translateY(-1rem) translateX(-13rem);
+          transform: translateY(-1rem) translateX(-13rem);
         }
       }
     }
