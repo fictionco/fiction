@@ -1,6 +1,6 @@
 <template>
   <div v-if="!$userId" class="mast">
-    <div class="cta">
+    <div class="cta-vip">
       <div>
         <h1 class="title">
           <span class="subtitle">We’re here to help.</span>
@@ -19,7 +19,7 @@ export default {}
 </script>
 
 <style lang="less">
-.cta {
+.cta-vip {
   display: grid;
   grid-template-columns: 3fr 1fr;
   align-items: center;
