@@ -1,5 +1,5 @@
 <template>
-  <div class="view-plugins">
+  <div class="plugins-container">
     <section class="header">
       <div class="content-pad">
         <div class="header-content">
@@ -12,7 +12,7 @@
       </div>
     </section>
 
-    <div class="plugins-container content-pad">
+    <div class="plugins-wrap content-pad">
       <div class="content">
         <section class="plugins-featured">
           <header class="section-header">
@@ -78,7 +78,7 @@ export default {
 }
 </script>
 <style lang="less">
-.view-plugins {
+.plugins-container {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
@@ -141,21 +141,21 @@ export default {
   }
 
   /* PAGE CONTENT */
-  .plugins-container {
+  .plugins-wrap {
     display: grid;
     grid-template-columns: 7fr 3fr;
     grid-gap: 2rem;
-    padding-top: 3rem;
+    padding-top: 4rem;
 
     .section-header {
       .title {
         font-size: 1.6em;
-        font-weight: 600;
+        font-weight: 500;
         line-height: 1.1;
         letter-spacing: -0.02em;
 
-        @media (max-width: 670px) {
-          font-size: 2em;
+        @media (max-width: 900px) {
+          font-size: 1.7em;
           line-height: 1.2;
         }
       }
@@ -171,7 +171,7 @@ export default {
     .section-header {
       margin: 0 0 1rem;
     }
-    .section-plugins .post {
+    .section-plugins .entry-plugin {
       padding: 1rem;
       background: #fff;
       border-radius: 6px;
@@ -182,7 +182,7 @@ export default {
           0px 18px 26px rgba(80, 102, 119, 0.16);
         transform: translateY(-0.4rem);
       }
-      .post-image {
+      .entry-image {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
       }
@@ -194,7 +194,7 @@ export default {
     .section-header {
       margin: 4rem 0 1rem;
     }
-    .section-plugins .post {
+    .section-plugins .entry-plugin {
       padding: 1rem;
       background: #fff;
       border-radius: 6px;
@@ -205,7 +205,7 @@ export default {
           0px 18px 26px rgba(80, 102, 119, 0.16);
         transform: translateY(-0.4rem);
       }
-      .post-image {
+      .entry-image {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
       }
@@ -220,7 +220,7 @@ export default {
     border-top: 2px solid #f6f9fc;
     margin: 2rem 0 0;
     padding: 3rem 0;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       grid-template-columns: 1fr;
     }
     .text h2 {
@@ -231,7 +231,7 @@ export default {
     }
     .buttons {
       margin: 0 0 0 20px;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         margin: 20px 0 0 0;
       }
     }

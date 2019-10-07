@@ -5,21 +5,21 @@
         <header class="section-header">
           <h1 class="title">Popular</h1>
         </header>
-        <section-plugins :text="false" :show-author="false" :show-categories="false" />
+        <section-plugins :limit="4" :show-author="false" :show-categories="false" :text="false" />
       </section>
 
       <section class="plugins-new">
         <header class="section-header">
           <h1 class="title">New</h1>
         </header>
-        <section-plugins :text="false" :show-author="false" :show-categories="false" />
+        <section-plugins :limit="4" :show-author="false" :show-categories="false" :text="false" />
       </section>
 
       <section class="plugins-updated">
         <header class="section-header">
           <h1 class="title">Recently Updated</h1>
         </header>
-        <section-plugins :text="false" :show-author="false" :show-categories="false" />
+        <section-plugins :limit="4" :show-author="false" :show-categories="false" :text="false" />
       </section>
     </div>
   </div>
@@ -49,11 +49,11 @@ export default {
   }
 
   // Popular, New, & Recently Updated
-  .section-plugins .post {
+  .section-plugins .entry-plugin {
     grid-template-columns: auto 3fr;
     grid-gap: 1rem;
     margin-bottom: 2rem;
-    .post-image {
+    .entry-image {
       height: 70px;
       width: 70px;
       border-radius: 50%;
@@ -81,13 +81,16 @@ export default {
         transform: translateY(-0.4rem);
       }
 
-      .post-image {
+      .entry-image {
         height: 130px;
         width: auto;
         border-radius: 0;
         box-shadow: none;
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
+      }
+      .title {
+        font-size: 1.6em;
       }
     }
   }
