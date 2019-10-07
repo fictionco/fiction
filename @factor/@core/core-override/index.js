@@ -61,7 +61,7 @@ module.exports.default = Factor => {
           )
 
           const fallbackPath = this._fileExists(
-            resource.request.replace("#", Factor.$paths.get("fallbacks"))
+            resource.request.replace("#", Factor.$paths.get("coreApp"))
           )
 
           if (relPath) filePath = relPath

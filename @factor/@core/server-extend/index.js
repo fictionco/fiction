@@ -39,8 +39,8 @@ module.exports.default = Factor => {
 
       require("@factor/build-transpiler").default(Factor)
 
-      // This just adds the dirname to config and other paths
-      require("@factor/app/build").default(Factor)
+      // // This just adds the dirname to config and other paths
+      // require("@factor/app/build").default(Factor)
 
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.

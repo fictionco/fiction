@@ -13,16 +13,21 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    node: true
+    node: true,
+    "jest/globals": true
   },
   rules: {
     "no-console": "error",
     "no-debugger": "error"
   },
 
-  extends: ["plugin:vue/recommended", "plugin:unicorn/recommended"],
+  extends: [
+    "plugin:vue/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:jest/recommended"
+  ],
 
-  plugins: ["vue", "json", "prettier", "unicorn", "import"],
+  plugins: ["vue", "json", "prettier", "unicorn", "import", "jest"],
 
   rules: {
     semi: ["error", "never"],

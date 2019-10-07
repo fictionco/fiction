@@ -9,17 +9,20 @@ module.exports = {
 
   setupFilesAfterEnv: ["./test/utils/setup"],
 
-  coverageDirectory: "./coverage",
-
-  collectCoverageFrom: ["**/@factor/**/*.js"],
-
-  coveragePathIgnorePatterns: ["node_modules/(?!(@factor|factor))"],
-
   testPathIgnorePatterns: [
     "node_modules/(?!(@factor|factor))",
     "test/fixtures/.*/.*?/",
     "examples/.*"
   ],
+
+  moduleNameMapper: {
+    "#(.*)$": "<rootDir>/@factor/@core/app/$1",
+    "~/(.*)$": "<rootDir>/test/modules/alias/$1",
+    "@/(.*)$": "<rootDir>/test/modules/alias/$1",
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+      "<rootDir>/test/utils/mock-file.js",
+    "\\.(css|less)$": "<rootDir>/test/utils/mock-style.js"
+  },
 
   transformIgnorePatterns: ["node_modules/(?!(@factor|factor))"],
 
@@ -29,6 +32,12 @@ module.exports = {
   },
 
   moduleFileExtensions: ["js", "json"],
+
+  coverageDirectory: "./coverage",
+
+  collectCoverageFrom: ["**/@factor/**/*.js"],
+
+  coveragePathIgnorePatterns: ["node_modules/(?!(@factor|factor))"],
 
   reporters: ["default", ["jest-junit", { outputDirectory: "reports/junit" }]]
 }

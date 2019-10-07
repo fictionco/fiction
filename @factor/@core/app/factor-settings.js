@@ -6,7 +6,7 @@ export default Factor => {
       site: () => import("#/site.vue"),
       templatePath: Factor.$paths.resolveFilePath("#/index.html"),
       faviconPath: Factor.$paths.resolveFilePath("#/static/favicon.png"),
-      icon: require("#/icon.png")
+      icon: require("./icon.png")
     }
   }
 }
