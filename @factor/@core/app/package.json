@@ -8,10 +8,9 @@
   },
   "factor": {
     "id": "app",
-    "target": {
-      "app": "index",
-      "server": "server"
-    }
+    "target": [
+      "app"
+    ]
   },
   "dependencies": {
     "@factor/app-extend": "1.0.0-beta.4",

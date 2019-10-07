@@ -71,6 +71,9 @@ module.exports.default = Factor => {
 
       _.coreApp = dirname(require.resolve("@factor/app"))
 
+      _["entry-client"] = resolve(_.coreApp, "entry-client.js")
+      _["entry-server"] = resolve(_.coreApp, "entry-server.js")
+
       this.paths = Factor.$filters.apply("paths", _)
     }
 

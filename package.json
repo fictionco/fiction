@@ -12,7 +12,8 @@
     "@factor/*",
     "@factor/@*/*",
     "@demo/*",
-    "test/fixtures/*"
+    "test/fixtures/*",
+    "test/modules/*"
   ],
   "private": true,
   "license": "GPL-2.0",
@@ -26,11 +27,14 @@
     "test:lint": "eslint --ext .js,.vue .",
     "test:coverage": "codecov",
     "test:unit": "jest test/unit @factor --forceExit --detectOpenHandles",
-    "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests"
+    "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
+    "@vue/server-test-utils": "^1.0.0-beta.29",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "all-contributors-cli": "^6.7.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
@@ -45,6 +49,7 @@
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-html": "^5.0.0",
     "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jest": "^22.17.0",
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-prettier": "^3.0.1",
@@ -62,7 +67,10 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "std-env": "^2.2.1",
+    "vue": "^2.6.10",
     "vue-jest": "^4.0.0-beta.2",
+    "vue-server-renderer": "^2.6.10",
+    "vue-template-compiler": "^2.6.10",
     "webpack": "^4.29.6"
   },
   "devDependencies": {}

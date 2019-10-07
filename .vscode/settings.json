@@ -1,5 +1,6 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+  "jest.pathToConfig": "jest.config.js",
   "editor.tabSize": 2,
   "files.associations": {
     "*.vue": "vue"
