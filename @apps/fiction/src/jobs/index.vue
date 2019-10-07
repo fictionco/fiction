@@ -182,6 +182,9 @@ export default {
     line-height: 1.2;
     max-width: 1000px;
     margin: 0 auto;
+    @media (max-width: 900px) {
+      padding: 0.5em;
+    }
   }
 
   .label {

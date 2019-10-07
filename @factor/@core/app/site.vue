@@ -7,17 +7,9 @@
 <style src="~/.factor/loader-styles.less" lang="less"></style>
 <script>
 import Factor from "vue"
+import siteMixin from "./site-mixin"
 
 export default {
-  mixins: Factor.$filters.apply("site-mixins", []),
-  computed: {
-    injectedComponents() {
-      return this.$filters.apply("site-components", {})
-    }
-  },
-
-  serverPrefetch() {
-    return this.$filters.run("site-prefetch")
-  }
+  mixins: Factor.$filters.apply("site-mixins", [siteMixin])
 }
 </script>
