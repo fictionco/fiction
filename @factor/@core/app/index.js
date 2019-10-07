@@ -30,6 +30,7 @@ module.exports.default = Factor => {
             return `factor-${ui}`
           },
           classes() {
+            const siteClasses = this.$globals.routeClass || []
             return [...siteClasses, this.scrollClass]
           },
           injectedComponents() {
