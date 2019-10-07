@@ -18,6 +18,7 @@ files["markdown"] = require("@factor/tools-markdown").default
 files["metatags"] = require("@factor/metatags").default
 files["notify"] = require("@factor/plugin-notify").default
 files["post"] = require("@factor/post").default
+files["appMeta"] = require("@factor/app-meta").default
 files["signin"] = require("@factor/dashboard-signin").default
 files["ssrBar"] = require("@factor/plugin-ssr-bar").default
 files["storage"] = require("@factor/core-storage").default

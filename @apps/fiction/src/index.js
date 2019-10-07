@@ -49,6 +49,10 @@ module.exports.default = Factor => {
             component: () => import("./v-vip/v-vip")
           },
           {
+            path: "/vipnew",
+            component: () => import("./v-vip-2/v-vip")
+          },
+          {
             path: "/contact",
             component: () => import("./page-contact"),
             meta: { background: "#fafbff" }
