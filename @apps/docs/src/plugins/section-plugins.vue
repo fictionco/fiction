@@ -1,36 +1,36 @@
 <template>
   <div class="section-plugins">
     <section
-      v-for="(post, index) in filteredPosts"
-      :id="post.id"
+      v-for="(entry, index) in filteredEntries"
+      :id="entry.id"
       :key="index"
-      class="post"
-      :class="post.class"
+      class="entry-plugin"
+      :class="entry.class"
     >
-      <div class="post-image">
+      <div class="entry-image">
         <img src="./img/icon-aws.svg" />
       </div>
-      <div class="post-content">
+      <div class="entry-content">
         <h3 class="title">
-          <factor-link :path="post.link.path">{{ post.title }}</factor-link>
+          <factor-link :path="entry.link.path">{{ entry.title }}</factor-link>
         </h3>
         <div class="meta">
-          <span v-if="showAuthor != false" class="author">by {{ post.author }}</span>
-          <div v-if="post.categories.length > 0 && showCategories != false" class="categories">
+          <span v-if="showAuthor != false" class="author">by {{ entry.author }}</span>
+          <div v-if="entry.categories.length > 0 && showCategories != false" class="categories">
             in
             <span
-              v-for="(cat, ci) in filterCategories(post.categories)"
+              v-for="(cat, ci) in filterCategories(entry.categories)"
               :key="ci"
               class="category"
             >{{ cat.name }}</span>
           </div>
           <div
-            v-if="post.downloads && post.downloads > 0"
+            v-if="entry.downloads && entry.downloads > 0"
             class="downloads"
-          >{{ post.downloads }} downloads</div>
+          >{{ entry.downloads }} downloads</div>
         </div>
-        <p v-if="text != false" class="text">{{ post.text }}</p>
-        <factor-link :path="post.link.path">{{ post.link.text }} &rarr;</factor-link>
+        <p v-if="text != false" class="text">{{ entry.text }}</p>
+        <factor-link :path="entry.link.path">{{ entry.link.text }} &rarr;</factor-link>
       </div>
     </section>
   </div>
@@ -41,12 +41,13 @@ export default {
   props: {
     showAuthor: { type: Boolean, default: true },
     showCategories: { type: Boolean, default: true },
+    limit: { type: Number, default: -1 },
     category: { type: String, default: "" },
     text: { type: Boolean, default: true }
   },
   data() {
     return {
-      posts: [
+      entries: [
         {
           title: "Factor Sitemap",
           author: "Factor",
@@ -146,13 +147,13 @@ export default {
     }
   },
   computed: {
-    filteredPosts() {
-      let posts = this.posts
+    filteredEntries() {
+      let entries = this.entries
 
-      // Post Category
+      // Entry Category
       if (this.category && this.category !== "") {
-        posts = posts.filter(post => {
-          let foundCategory = post.categories.findIndex(c => {
+        entries = entries.filter(entry => {
+          let foundCategory = entry.categories.findIndex(c => {
             return c.slug === this.category
           })
           return foundCategory !== -1
@@ -171,13 +172,17 @@ export default {
       //   return this.posts
       // }
 
-      return posts
+      //return this.limit ? this.object.slice(0,2) : this.object
+
+      // Entry list based
+      return entries.slice(0, this.limit)
     }
   },
+
   methods: {
     filterCategories: function(items) {
       return items.filter(function(item) {
-        // Remove featured category
+        // Don't display featured category
         return item.slug != "featured"
       })
     }
@@ -186,13 +191,16 @@ export default {
 </script>
 <style lang="less">
 .section-plugins {
-  .post {
+  .entry-plugin {
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-gap: 2rem;
     align-items: flex-start;
     margin-bottom: 1rem;
-    .post-image {
+    a {
+      text-decoration: none;
+    }
+    .entry-image {
       display: flex;
       justify-content: center;
       height: 130px;
@@ -202,45 +210,40 @@ export default {
         max-width: 100%;
       }
     }
-    .title {
-      font-weight: 500;
-      font-size: 1.6em;
-      line-height: 1.2em;
-      a {
-        color: var(--color-text);
-        &:hover {
-          color: var(--color-primary);
+    .entry-content {
+      .title {
+        font-size: 1.6em;
+        line-height: 1.2em;
+        margin-bottom: 5px;
+        //font-weight: 500;
+        a {
+          color: var(--color-text);
+          &:hover {
+            color: var(--color-primary);
+          }
         }
       }
-    }
-    .meta {
-      color: rgba(var(--color-text-rgb), 0.6);
-      .categories {
-        display: inline;
-        .category {
-          &:after {
-            content: ", ";
-          }
-          &:last-of-type {
+      .meta {
+        color: rgba(var(--color-text-rgb), 0.6);
+        .categories {
+          display: inline;
+          .category {
             &:after {
-              content: initial;
+              content: ", ";
+            }
+            &:last-of-type {
+              &:after {
+                content: initial;
+              }
             }
           }
         }
       }
+      .text {
+        line-height: 1.7em;
+        margin-top: 1rem;
+      }
     }
-    .text {
-      //font-size: 0.94em;
-      line-height: 1.7em;
-      margin-top: 1rem;
-    }
-    // h3,
-    // p {
-    //   margin-bottom: 10px;
-    // }
-    // p:last-child {
-    //   margin-bottom: 0;
-    // }
   }
 }
 </style>
