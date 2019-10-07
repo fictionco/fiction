@@ -2,8 +2,6 @@
 const files = {}
 files["setting"] = require("@factor/app-settings").default
 files["mongo"] = require("@factor/tools-mongo").default
-files["jobs"] = require("@factor/plugin-jobs").default
-files["userRolesServer"] = require("@factor/core-user-roles/server").default
 files["blog"] = require("@factor/plugin-blog").default
 files["bugsnagServer"] = require("@factor/plugin-bugsnag/server").default
 files["userEmailsServer"] = require("@factor/core-user-emails/server").default
