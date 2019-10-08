@@ -17,7 +17,7 @@ module.exports.default = Factor => {
     }
 
     getPort(port) {
-      return port || process.env.PORT || Factor.$config.setting("PORT") || 3000
+      return port || process.env.PORT || Factor.$setting.get("PORT") || 3000
     }
 
     createRenderer(bundle, options) {

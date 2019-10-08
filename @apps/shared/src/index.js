@@ -20,8 +20,7 @@ module.exports.default = Factor => {
 
             Factor.$http.request({
               method: "post",
-              url:
-                "https://hooks.slack.com/services/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",
+              url: SLACK_NOTIFY_URL,
               data: { text }
             })
           }

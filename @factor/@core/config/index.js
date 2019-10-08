@@ -1,9 +1,7 @@
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     settings() {
-      const publicSettings = process.env.FACTOR_APP_CONFIG
-
-      return publicSettings
+      return process.env.FACTOR_APP_CONFIG
     }
 
     setting(key) {

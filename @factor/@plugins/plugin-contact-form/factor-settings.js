@@ -1,7 +1,7 @@
 module.exports.default = Factor => {
   return {
     contactForm: {
-      email: Factor.$config.setting("app.email"),
+      email: () => Factor.$setting.get("app.email"),
       form: () => import("./contact-form"),
       submit: {
         btn: "primary",
@@ -11,7 +11,7 @@ module.exports.default = Factor => {
       inputFormat: "horizontal",
       confirm: {
         title: "Got it!",
-        subTitle: "We’ll get back to you as soon as possible."
+        subTitle: "We’ll get back t o you as soon as possible."
       },
       layout: [
         {
@@ -32,26 +32,26 @@ module.exports.default = Factor => {
           label: "Phone",
           _id: "phone",
           inputType: "phone",
-          placeholder: "(xxx) xxx-xxxx",
+          placeholder: "(xxx) xxx-xxxx"
         },
         {
           label: "Website",
           _id: "website",
           inputType: "text",
-          placeholder: "http://www.example.com",
+          placeholder: "http://www.example.com"
         },
         {
           label: "Location",
           _id: "location",
           inputType: "text",
-          placeholder: "Enter your location",
+          placeholder: "Enter your location"
         },
 
         {
           label: "Message",
           _id: "message",
           inputType: "textarea",
-          placeholder: "Enter your message",
+          placeholder: "Enter your message"
         }
       ]
     }

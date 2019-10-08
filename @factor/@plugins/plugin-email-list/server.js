@@ -91,7 +91,7 @@ export default Factor => {
 
       const { subject, text, from, linkText } = format
 
-      const linkUrl = `${Factor.$config.setting(
+      const linkUrl = `${Factor.$setting.get(
         "currentUrl"
       )}?_action=${action}&code=${code}&email=${encodeURIComponent(email)}&list=${listId}`
 

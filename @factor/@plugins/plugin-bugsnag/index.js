@@ -4,9 +4,9 @@ import bugsnagVue from "@bugsnag/plugin-vue"
 export default Factor => {
   return new (class {
     constructor() {
-      this.clientApiKey = Factor.$config.setting("bugsnag.client_api_key")
+      this.clientApiKey = Factor.$setting.get("bugsnag.client_api_key")
 
-      if (!this.clientApiKey || process.env.NODE_ENV == "development") {
+      if (!this.clientApiKey) {
         return
       }
 
@@ -33,7 +33,7 @@ export default Factor => {
       return {
         debug: () => {},
         info: () => {},
-        warn: () => {},
+        warn: () => Factor.$log.warn,
         error: () => Factor.$log.error
       }
     }

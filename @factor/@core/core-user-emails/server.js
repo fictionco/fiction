@@ -113,7 +113,7 @@ module.exports.default = Factor => {
 
     async sendEmail(args) {
       const { to, subject, action, _id, code, text, linkText } = args
-      const linkUrl = `${Factor.$config.setting(
+      const linkUrl = `${Factor.$setting.get(
         "currentUrl"
       )}?_action=${action}&code=${code}&_id=${_id}`
 

@@ -3,9 +3,9 @@ module.exports.default = Factor => {
     constructor() {
       const AWS = require("aws-sdk")
 
-      this.AWS_ACCESS_KEY = Factor.$config.setting("AWS_ACCESS_KEY")
-      this.AWS_ACCESS_KEY_SECRET = Factor.$config.setting("AWS_ACCESS_KEY_SECRET")
-      this.AWS_S3_BUCKET = Factor.$config.setting("AWS_S3_BUCKET")
+      this.AWS_ACCESS_KEY = Factor.$setting.get("AWS_ACCESS_KEY")
+      this.AWS_ACCESS_KEY_SECRET = Factor.$setting.get("AWS_ACCESS_KEY_SECRET")
+      this.AWS_S3_BUCKET = Factor.$setting.get("AWS_S3_BUCKET")
 
       if (!this.AWS_ACCESS_KEY || !this.AWS_ACCESS_KEY_SECRET || !this.AWS_S3_BUCKET) {
         Factor.$filters.add("setup-needed", _ => {

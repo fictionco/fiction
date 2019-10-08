@@ -5,7 +5,7 @@
         <div class="icon">
           <img :src="iconUrl" />
         </div>
-        <div class="name">{{ $config.setting('app.name') }}</div>
+        <div class="name">{{ $setting.get('app.name') }}</div>
       </factor-link>
       <div class="nav">
         <slot />

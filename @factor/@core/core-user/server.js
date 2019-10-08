@@ -4,7 +4,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       Factor.$filters.add("webpack-ignore-modules", _ => [..._, "bcrypt"])
-      this.SECRET = Factor.$config.setting("TOKEN_SECRET")
+      this.SECRET = Factor.$setting.get("TOKEN_SECRET")
 
       if (!this.SECRET) {
         Factor.$filters.add("setup-needed", _ => {

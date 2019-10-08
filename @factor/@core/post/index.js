@@ -377,7 +377,7 @@ export default Factor => {
       const { postType, permalink = "", root = false, path = false } = args
       const parts = []
 
-      parts.push(root ? Factor.$config.setting("url") : "")
+      parts.push(root ? Factor.$setting.get("url") : "")
 
       if (path) {
         parts.push(path)
