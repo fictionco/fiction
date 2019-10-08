@@ -6,11 +6,8 @@ files["jobs"] = require("@factor/plugin-jobs").default
 files["userRolesServer"] = require("@factor/core-user-roles/server").default
 files["blog"] = require("@factor/plugin-blog").default
 files["bugsnagServer"] = require("@factor/plugin-bugsnag/server").default
-<<<<<<< HEAD
 files["contactFormServer"] = require("@factor/plugin-contact-form/server").default
-=======
 files["userEmailsServer"] = require("@factor/core-user-emails/server").default
->>>>>>> 9921ab8d06d1e1c8c114fbf3b130e447f3ffdce9
 files["dashboard"] = require("@factor/dashboard").default
 files["dbServer"] = require("@factor/core-db/server").default
 files["directivesStandard"] = require("@factor/ui-directives-standard").default
