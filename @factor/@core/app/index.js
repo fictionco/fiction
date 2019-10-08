@@ -5,7 +5,7 @@ module.exports.default = Factor => {
       this.routes()
       this.errorPageComponent = Factor.$setting.get("app.error404")
 
-      Factor.$filters.push("site-mixins", require("./site-mixin").default)
+      //   Factor.$filters.push("site-mixins", require("./site-mixin").default)
       this.initializeClient()
     }
 
