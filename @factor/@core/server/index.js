@@ -49,7 +49,7 @@ module.exports.default = Factor => {
 
     // SSR - Renders a route (url) to HTML.
     async renderRoute({ url }) {
-      const context = { url, headTags: {} }
+      const context = { url }
 
       return await this.renderer.renderToString(context)
     }

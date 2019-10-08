@@ -16,14 +16,12 @@ export default Factor => {
 
       const router = new FactorRouter({
         routes,
-        mode: "history", // abstract
+        mode: "history",
 
         // https://router.vuejs.org/guide/advanced/scroll-behavior.html#async-scrolling
         scrollBehavior(to, from, savedPosition) {
           if (to.hash) {
-            return {
-              selector: to.hash
-            }
+            return { selector: to.hash }
           } else if (savedPosition) {
             return savedPosition
           } else {

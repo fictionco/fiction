@@ -4,8 +4,8 @@ export default Factor => {
       this.metatags = []
       this.routeClass = []
 
-      Factor.$filters.callback("ssr-matched-components", components =>
-        components.forEach(_ => this.setRouteClass(_))
+      Factor.$filters.callback("ssr-context-callbacks", ({ matchedComponents }) =>
+        matchedComponents.forEach(_ => this.setRouteClass(_))
       )
 
       Factor.$filters.add("before-app", () => {
