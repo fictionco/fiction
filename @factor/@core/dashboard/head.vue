@@ -18,7 +18,7 @@
 export default {
   computed: {
     iconUrl() {
-      return this.$setting.get("dashboard.icon", Factor.$setting.get("app.icon"))
+      return this.$setting.get("dashboard.icon", this.$setting.get("app.icon"))
     }
   }
 }
