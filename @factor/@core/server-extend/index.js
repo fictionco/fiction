@@ -35,7 +35,7 @@ module.exports.default = Factor => {
       this._install("theme", require("@factor/core-override").default)
       //  this._install("stack", require("@factor/core-stack").default)
 
-      this._install("config", require("@factor/server-config").default)
+      this._install("configServer", require("@factor/config/server").default)
 
       require("@factor/build-transpiler").default(Factor)
 

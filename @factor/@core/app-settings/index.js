@@ -7,7 +7,9 @@ export default Factor => {
     }
 
     async setup() {
-      const config = Factor.$config.settings()
+      const config = Factor.$configServer
+        ? Factor.$configServer.settings()
+        : Factor.$config.settings() || {}
 
       // This is a workaround to deal with problems including
       // a CWD relative file across environments
@@ -23,6 +25,7 @@ export default Factor => {
       )
 
       const merged = Factor.$utils.deepMerge([config, ...settingsArray])
+
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
     }
 

@@ -28,7 +28,7 @@ export default Factor => {
     }
 
     async sendEmail(form) {
-      const to = Factor.$setting.get("contactForm.email")
+      const to = Factor.$setting.get("contactForm.email")()
 
       const text = Object.entries(form)
         .map(

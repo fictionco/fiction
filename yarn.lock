@@ -776,6 +776,11 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@factor/app-config@1.0.0-beta.4":
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@factor/app-config/-/app-config-1.0.0-beta.4.tgz#0c94c20dc2cb4220e33b116857f53652e580683b"
+  integrity sha512-1gDOaEjZmiErRMZToZEwhTXHUxQmlPCYjehRHmMadDIJlL/+HrY0z/kkfJ0cusi6kFHt+sv3Xsmm+BIZ2klO+w==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"

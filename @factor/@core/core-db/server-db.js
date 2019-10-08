@@ -2,7 +2,7 @@ module.exports.default = Factor => {
   return new (class {
     constructor() {
       this.mongo = Factor.$mongo.mongoose
-      this.DB_CONNECTION = Factor.$config.setting("DB_CONNECTION")
+      this.DB_CONNECTION = Factor.$setting.get("DB_CONNECTION")
       this.dbConfig()
 
       require("./setup").default(Factor)

@@ -24,8 +24,6 @@
     "@factor/plugin-notify": "^1.0.0-beta.0",
     "@factor/plugin-seo": "^1.0.0-beta.0",
     "@factor/plugin-sitemap": "^1.0.0-beta.0",
-    "@factor/plugin-storage-s3": "^1.0.0-beta.0",
-    "@factor/plugin-email-list": "^1.0.0-beta.0",
-    "@factor/plugin-bugsnag": "^1.0.0-beta.0"
+    "@factor/plugin-storage-s3": "^1.0.0-beta.0"
   }
 }

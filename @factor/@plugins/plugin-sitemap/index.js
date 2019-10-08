@@ -40,7 +40,7 @@ export default Factor => {
       const urls = await this.getPermalinks()
 
       return require("sitemap").createSitemap({
-        hostname: Factor.$config.setting("url"),
+        hostname: Factor.$setting.get("url"),
         cacheTime: 1000 * 60 * 60 * 24, // 600 sec - cache purge period
         urls
       })
@@ -54,7 +54,7 @@ export default Factor => {
         .uniq(this.getRoutesRecursively(contentRoutes))
         .filter(perm => !perm.includes(":"))
 
-      return theRoutes.map(perm => `${Factor.$config.setting("url")}${perm}`)
+      return theRoutes.map(perm => `${Factor.$setting.get("url")}${perm}`)
     }
 
     getRoutesRecursively(routes, parent = false) {

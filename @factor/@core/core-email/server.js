@@ -6,12 +6,7 @@ module.exports.default = Factor => {
     }
 
     init() {
-      const {
-        SMTP_USERNAME,
-        SMTP_PASSWORD,
-        SMTP_HOST,
-        SMTP_PORT
-      } = Factor.$config.settings()
+      const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT } = Factor.$setting.all()
 
       if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
         require("./setup").default(Factor)
@@ -43,10 +38,10 @@ module.exports.default = Factor => {
       let { to, from, subject, title, text, linkText, linkUrl, textFooter } = args
 
       if (!from) {
-        from = Factor.$config.setting("app.email")
+        from = Factor.$setting.get("app.email")
       }
 
-      subject = `${subject} - ${Factor.$config.setting("app.name")}`
+      subject = `${subject} - ${Factor.$setting.get("app.name")}`
 
       const lines = []
 

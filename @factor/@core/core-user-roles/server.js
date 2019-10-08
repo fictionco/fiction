@@ -32,7 +32,7 @@ module.exports.default = Factor => {
 
         Schema.pre("validate", async function(next) {
           const user = this
-          const setting = Factor.$config.setting(`roles.${user.email}`)
+          const setting = Factor.$setting.get(`roles.${user.email}`)
           const configRole = user.emailVerified && setting ? setting : "member"
 
           if (configRole && configRole != user.role) {
