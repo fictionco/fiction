@@ -4,6 +4,7 @@ files["setting"] = require("@factor/app-settings").default
 files["mongo"] = require("@factor/tools-mongo").default
 files["blog"] = require("@factor/plugin-blog").default
 files["bugsnagServer"] = require("@factor/plugin-bugsnag/server").default
+files["contactFormServer"] = require("@factor/plugin-contact-form/server").default
 files["dashboard"] = require("@factor/dashboard").default
 files["dbServer"] = require("@factor/core-db/server").default
 files["directivesStandard"] = require("@factor/ui-directives-standard").default

@@ -11,19 +11,6 @@ module.exports.default = Factor => {
       return this.mongo.Types.ObjectId(str)
     }
 
-    // canEdit({ doc, bearer, scope }) {
-    //   const { _id, author = [] } = doc
-    //   if (
-    //     !bearer ||
-    //     (_id !== bearer._id &&
-    //       !author.some(_ => _._id == bearer._id) &&
-    //       !bearer.accessLevel &&
-    //       bearer.accessLevel >= 300)
-    //   ) {
-    //     throw new Error("Not authorized.")
-    //   }
-    // }
-
     async populate({ _ids }) {
       const _in = Array.isArray(_ids) ? _ids : [_ids]
       const result = await this.model("post").find({

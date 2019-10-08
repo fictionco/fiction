@@ -6,9 +6,10 @@ module.exports.default = Factor => {
 
     canUpdatePost({ post, bearer }) {
       if (
-        bearer.accessLevel >= 300 ||
-        post.author.includes(bearer._id) ||
-        bearer._id.toString() == post._id.toString()
+        bearer &&
+        (bearer.accessLevel >= 300 ||
+          post.author.includes(bearer._id) ||
+          bearer._id.toString() == post._id.toString())
       ) {
         return true
       } else {
@@ -24,19 +25,23 @@ module.exports.default = Factor => {
       const { _id } = data
 
       let post
-      let PostTypeModel = this.getPostTypeModel(postType)
+      let isNew
+      let _model = this.getPostTypeModel(postType)
 
       if (_id) {
-        post = await PostTypeModel.findById(data._id)
+        post = await _model.findById(data._id)
       }
 
       if (!_id || !post) {
-        post = new PostTypeModel()
+        isNew = true
+        post = new _model()
       }
 
       Object.assign(post, data)
 
-      return this.canUpdatePost({ post, bearer }) ? await post.save() : null
+      return Factor.$mongo.canUpdatePost({ post, bearer, isNew, action: "save" })
+        ? await post.save()
+        : null
     }
 
     async single(params, meta = {}) {
