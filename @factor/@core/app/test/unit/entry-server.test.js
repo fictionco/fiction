@@ -53,5 +53,7 @@ describe("app", () => {
       expect.objectContaining({ url: expect.any(String) }),
       expecter()
     )
+
+    return
   })
 })

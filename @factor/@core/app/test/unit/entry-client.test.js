@@ -30,5 +30,7 @@ describe("app", () => {
     expect(window.FactorReady).toBeTruthy()
 
     expect(_app.app.$mount).toHaveBeenCalled()
+
+    return
   })
 })
