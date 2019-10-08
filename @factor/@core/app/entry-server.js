@@ -7,56 +7,40 @@ import { createApp } from "./app"
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default async ssrContext => {
-  Factor.$ssrContext = ssrContext
-
-  const { app, router, store } = createApp({ target: "server" })
+  const { app, router, store } = createApp()
   const { url } = ssrContext
+
   const { fullPath } = router.resolve(url).route
 
-  ssrContext = Factor.$filters.apply("ssr-context", ssrContext, { app, router, store })
+  // Account for redirects
+  router.push(fullPath !== url ? fullPath : url).catch(error => console.error(error))
 
-  // set router's location
-  router.push(fullPath !== url ? fullPath : url)
+  ssrContext = Factor.$filters.apply("ssr-context-init", ssrContext, {
+    app,
+    router,
+    store
+  })
 
   // Wait until router has resolved async imports
+  // https://router.vuejs.org/api/#router-onready
   await new Promise((resolve, reject) => {
     router.onReady(() => resolve(true), reject)
   })
 
-  // Distinguish between content and dashboard UI
-  const { meta: { ui = "app" } = {} } =
-    router.currentRoute.matched.find(_ => _.meta.ui) || {}
+  const ssrConfig = {
+    ssrContext,
+    fullPath,
+    matchedComponents: router.getMatchedComponents(fullPath),
+    app,
+    router,
+    store
+  }
 
-  await Promise.all([
-    Factor.$filters.run("ssr-prefetch", fullPath),
-    Factor.$filters.run("ssr-matched-components", router.getMatchedComponents(fullPath))
-  ])
+  await Factor.$filters.run("ssr-context-callbacks", ssrConfig)
 
-  // the html template extension mechanism
-  // This uses a callback because the component's 'created' hooks are called after this point
+  ssrContext = Factor.$filters.apply("ssr-context-ready", ssrContext, ssrConfig)
 
-  const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
-
-  metaHooks.forEach(h => {
-    ssrContext[h] = () => {
-      return Factor.$filters.apply(h, [], { ssrContext }).join("")
-    }
-  })
-
-  const attrHooks = [
-    { name: "factor_html_attr", attr: [], classes: [`factor-${ui}`] },
-    { name: "factor_body_attr", attr: [], classes: [] },
-    { name: "factor_head_attr", attr: [], classes: [] }
-  ]
-
-  attrHooks.forEach(({ name, attr, classes }) => {
-    ssrContext[name] = additional => {
-      classes.push(additional)
-      attr.push(`class="${classes.join(" ")}"`)
-      return Factor.$filters.apply(name, attr, { ssrContext }).join(" ")
-    }
-  })
-
+  // Add this last as the final "state" of the server context should always be rendered to page
   ssrContext.state = store.state
 
   return app

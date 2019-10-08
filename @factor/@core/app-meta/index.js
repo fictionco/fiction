@@ -13,6 +13,46 @@ export default Factor => {
       this.setDefault()
 
       this.refineMetaHandling()
+
+      this.addSSRHooks()
+    }
+
+    addSSRHooks() {
+      Factor.$filters.add("ssr-context-ready", (ssrContext, { app, router }) => {
+        // Add Vue-Meta
+        ssrContext.metaInfo = app.$meta()
+
+        // the html template extension mechanism
+        // This uses a callback because the component's 'created' hooks are called after this point
+
+        const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
+
+        metaHooks.forEach(h => {
+          ssrContext[h] = () => {
+            return Factor.$filters.apply(h, [], { ssrContext }).join("")
+          }
+        })
+
+        // Distinguish between content and dashboard UI
+        const { meta: { ui = "app" } = {} } =
+          router.currentRoute.matched.find(_ => _.meta.ui) || {}
+
+        const attrHooks = [
+          { name: "factor_html_attr", attr: [], classes: [`factor-${ui}`] },
+          { name: "factor_body_attr", attr: [], classes: [] },
+          { name: "factor_head_attr", attr: [], classes: [] }
+        ]
+
+        attrHooks.forEach(({ name, attr, classes }) => {
+          ssrContext[name] = additional => {
+            classes.push(additional)
+            attr.push(`class="${classes.join(" ")}"`)
+            return Factor.$filters.apply(name, attr, { ssrContext }).join(" ")
+          }
+        })
+
+        return ssrContext
+      })
     }
 
     setDefault() {
@@ -76,11 +116,6 @@ export default Factor => {
     }
 
     installMeta() {
-      Factor.$filters.add("ssr-context", (ssrContext, { app }) => {
-        ssrContext.metaInfo = app.$meta()
-        return ssrContext
-      })
-
       Factor.$filters.add("factor_head", (_, { ssrContext }) => {
         const {
           title,

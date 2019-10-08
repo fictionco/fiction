@@ -6,12 +6,13 @@ const { app, router, store } = createApp()
 // Add to <window> for external use
 // For example, inside of integration tests
 window.FactorApp = { app, router, store, Factor }
-window.appReady = true
 
+// Mount after router has resolved
 router.onReady(() => {
   app.$mount("#app")
+  window.FactorReady = true
 })
 
-if (module.hot) {
-  module.hot.accept()
-}
+// Webpack hot reload
+/* istanbul ignore next */
+if (module && module.hot) module.hot.accept()
