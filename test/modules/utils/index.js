@@ -1,4 +1,6 @@
 import { resolve, join, dirname } from "path"
+export { default as getPort } from "get-port"
+export { default as rp } from "request-promise-native"
 
 export const waitFor = ms => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
@@ -11,9 +13,13 @@ export const buildFixture = fixture => {
   test(`Build ${fixture}`, async () => {
     const cli = require("@factor/cli").default
 
-    const Factor = await cli.factorize()
+    try {
+      const Factor = await cli.factorize()
 
-    await Factor.$filters.run("create-distribution-app", { testing: true })
+      await Factor.$filters.run("create-distribution-app", { testing: true })
+    } catch (error) {
+      console.error(error)
+    }
 
     expect(2).toBe(2)
   }, 100000)

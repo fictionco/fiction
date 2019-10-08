@@ -1,8 +1,8 @@
 import { resolve, join } from "path"
 import { spawn } from "cross-spawn"
 import { writeFileSync } from "fs-extra"
-import { getPort, rp, waitFor } from "../utils"
 
+import { getPort, rp, waitFor } from "@test/utils"
 let port
 const rootDir = resolve(__dirname, "..", "fixtures/cli-build")
 

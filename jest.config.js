@@ -15,6 +15,8 @@ module.exports = {
     "examples/.*"
   ],
 
+  watchPathIgnorePatterns: ["dist/.*", ".factor/.*"],
+
   moduleNameMapper: {
     "#(.*)$": "<rootDir>/@factor/@core/app/$1",
     "~/(.*)$": "<rootDir>/test/modules/alias/$1",
