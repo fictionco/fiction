@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper" class="factor-figure">
+  <figure ref="wrapper" class="factor-figure figure-code">
     <!-- <div class="stage-wrap" :style="{transform: `scale(${scale})`}"> -->
     <div class="stage-wrap">
       <div class="card">
@@ -72,7 +72,7 @@ export default {
     }
   }
 }
-figure.factor-figure {
+.figure-code.factor-figure {
   perspective: 2000px;
   position: relative;
   transform: translateX(-3rem);

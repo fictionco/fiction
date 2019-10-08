@@ -76,7 +76,7 @@ figure.figure-manage {
       }
       &:nth-child(2) {
         .point {
-          transform: translateY(-10rem) translateX(9rem);
+          transform: translateY(-10rem) translateX(15vw);
         }
       }
       &:nth-child(3) {
@@ -86,7 +86,7 @@ figure.figure-manage {
       }
       &:nth-child(4) {
         .point {
-          transform: translateY(-9rem) translateX(-10rem);
+          transform: translateY(-9rem) translateX(-20vw);
         }
       }
       &:nth-child(5) {
@@ -96,7 +96,7 @@ figure.figure-manage {
       }
       &:nth-child(6) {
         .point {
-          transform: translateY(-1rem) translateX(-13rem);
+          transform: translateY(-1rem) translateX(-24vw);
         }
       }
     }
