@@ -444,6 +444,14 @@ export default {
   }
 
   .features-wrap {
+    // &.stripes-wrap {
+    //   background-image: linear-gradient(
+    //     35deg,
+    //     var(--color-bg-splash) 70%,
+    //     var(--color-bg-splash-contrast)
+    //   );
+    //   color: #fff;
+    // }
     overflow-x: hidden;
     overflow: visible;
     .feature {
@@ -576,13 +584,10 @@ export default {
             max-width: 100%;
           }
         }
-        &,
-        &.odd {
-          .feature-figure-container {
-            justify-content: center;
-            .figure {
-              justify-content: flex-start;
-            }
+        .feature-figure-container {
+          justify-content: center;
+          .figure {
+            justify-content: flex-start;
           }
         }
       }
