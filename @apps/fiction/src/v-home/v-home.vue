@@ -277,7 +277,6 @@ export default {
   --row-height: 64px;
   --content-column-width: minmax(0, calc(1200px / var(--content-columns)));
   --gutter-column-width: var(--content-column-width);
-
   .features,
   .header {
     overflow: hidden;

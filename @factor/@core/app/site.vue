@@ -7,7 +7,6 @@
 <style src="~/.factor/loader-styles.less" lang="less"></style>
 <script>
 import Factor from "vue"
-
 export default {
   mixins: Factor.$filters.apply("site-mixins", [])
 }

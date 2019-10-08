@@ -461,7 +461,6 @@ export default {
       .process-sticky {
         padding: 4rem 0;
         align-self: start;
-
         position: sticky;
         top: 3em;
         .super {
@@ -591,7 +590,6 @@ export default {
       grid-template-columns: repeat(2, minmax(100px, 1fr));
       grid-column-gap: 4rem;
     }
-
     .manage-bg {
       position: absolute;
       top: 0;
