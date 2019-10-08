@@ -3,5 +3,7 @@
   "version": "1.0.0",
   "author": "Fiction.com",
   "license": "UNLICENSED",
-  "dependencies": {}
+  "dependencies": {
+    "get-port": "^5.0.0"
+  }
 }

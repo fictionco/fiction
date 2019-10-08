@@ -1,3 +1,2 @@
-import { buildFixture } from "../../utils/build"
-
+import { buildFixture } from "@test/utils"
 buildFixture("@test/ssr")
