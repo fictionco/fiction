@@ -150,7 +150,7 @@ export default {
           icon: "front-end",
           title: "Front-End Focused",
           text: `Fiction focuses solely on the needs of front-end professionals. 
-            We don't bloat your apps with unecessary features, and we help you build apps the way you actually want to.`
+            We don't bloat your apps with unnecessary features, and we help you build apps the way you actually want to.`
         },
         {
           icon: "code",
