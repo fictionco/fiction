@@ -58,6 +58,23 @@ export default Factor => {
       return this.schemas.find(_ => _.name == postType)
     }
 
+    canUpdatePost({ user, post, action, isNew }) {
+      const schema = this.getSchema(post.__t)
+
+      if (isNew && action == "save" && schema.anonymousUserCanCreate) {
+        return true
+      } else if (
+        bearer &&
+        (bearer.accessLevel >= 300 ||
+          post.author.includes(bearer._id) ||
+          bearer._id.toString() == post._id.toString())
+      ) {
+        return true
+      } else {
+        throw new Error("Insufficient permissions.")
+      }
+    }
+
     getPopulatedFields({ postType = "post", depth = 10 }) {
       let fields = this.getSchema("post").populatedFields || []
 

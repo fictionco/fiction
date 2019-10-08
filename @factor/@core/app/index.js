@@ -5,61 +5,61 @@ module.exports.default = Factor => {
       this.routes()
       this.errorPageComponent = Factor.$setting.get("app.error404")
 
-      Factor.$filters.add("site-mixins", _ => [..._, this.siteMixin()])
+      Factor.$filters.push("site-mixins", require("./site-mixin").default)
       this.initializeClient()
     }
 
-    siteMixin() {
-      return {
-        data() {
-          return {
-            scrollClass: ""
-          }
-        },
-        mounted() {
-          this.setScrollClass()
-          window.addEventListener("scroll", () => {
-            this.setScrollClass()
-          })
-        },
-        computed: {
-          ui() {
-            const { meta: { ui = "app" } = {} } =
-              this.$route.matched.find(_ => _.meta.ui) || {}
+    // siteMixin() {
+    //   return {
+    //     data() {
+    //       return {
+    //         scrollClass: ""
+    //       }
+    //     },
+    //     mounted() {
+    //       this.setScrollClass()
+    //       window.addEventListener("scroll", () => {
+    //         this.setScrollClass()
+    //       })
+    //     },
+    //     computed: {
+    //       ui() {
+    //         const { meta: { ui = "app" } = {} } =
+    //           this.$route.matched.find(_ => _.meta.ui) || {}
 
-            return `factor-${ui}`
-          },
-          classes() {
-            const siteClasses = this.$globals.routeClass || []
+    //         return `factor-${ui}`
+    //       },
+    //       classes() {
+    //         const siteClasses = this.$globals.routeClass || []
 
-            return [...siteClasses, this.scrollClass]
-          },
-          injectedComponents() {
-            return this.$filters.apply("site-components", {})
-          }
-        },
+    //         return [...siteClasses, this.scrollClass]
+    //       },
+    //       injectedComponents() {
+    //         return this.$filters.apply("site-components", {})
+    //       }
+    //     },
 
-        serverPrefetch() {
-          return this.$filters.run("site-prefetch")
-        },
-        methods: {
-          setScrollClass() {
-            this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
-          }
-        },
-        watch: {
-          ui: {
-            handler: function(to, from) {
-              if (typeof document != "undefined") {
-                const _el = document.documentElement
-                _el.classList.remove(from)
-                _el.classList.add(to)
-              }
-            }
-          }
-        }
-      }
-    }
+    //     serverPrefetch() {
+    //       return this.$filters.run("site-prefetch")
+    //     },
+    //     methods: {
+    //       setScrollClass() {
+    //         this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
+    //       }
+    //     },
+    //     watch: {
+    //       ui: {
+    //         handler: function(to, from) {
+    //           if (typeof document != "undefined") {
+    //             const _el = document.documentElement
+    //             _el.classList.remove(from)
+    //             _el.classList.add(to)
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     // Allows components to definitively wait for client to init
     // otherwise we might throw hydration errors

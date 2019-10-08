@@ -4,9 +4,10 @@
   "license": "GPL-2.0",
   "factor": {
     "id": "contactForm",
-    "target": [
-      "app"
-    ]
+    "target": {
+      "app": "index",
+      "server": "server"
+    }
   },
   "publishConfig": {
     "access": "public"
