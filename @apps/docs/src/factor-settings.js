@@ -205,7 +205,6 @@ module.exports.default = Factor => {
     plugins: {
       indexRoute: "/pluginsnew", //indexRoute: "/blog"
       postRoute: "/plugin", //postRoute: "/entry"
-      limit: 10,
       layout: {
         index: () => import("./plugins/v-plugins.vue"),
         single: () => import("./plugins/plugins-single.vue")
