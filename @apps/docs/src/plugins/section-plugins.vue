@@ -10,12 +10,17 @@
       <div class="entry-image">
         <img v-if="entry.image" :src="require(`./img/${entry.image}`)" :alt="entry.title" />
       </div>
+
       <div class="entry-content">
         <h3 class="title">
-          <factor-link :path="entry.permalink">{{ entry.title }}</factor-link>
+          <factor-link
+            :path="$setting.get('plugins.postRoute') + '/' + entry.permalink"
+          >{{ entry.title }}</factor-link>
         </h3>
+
         <div class="meta">
-          <span v-if="showAuthor != false" class="author">by {{ entry.author }}</span>
+          <div v-if="showAuthor != false" class="author">by {{ entry.author }}</div>
+
           <div v-if="entry.categories.length > 0 && showCategories != false" class="categories">
             in
             <span
@@ -24,13 +29,19 @@
               class="category"
             >{{ cat.name }}</span>
           </div>
+
           <div
             v-if="entry.downloads && entry.downloads > 0"
             class="downloads"
           >{{ entry.downloads }} downloads</div>
         </div>
+
         <p v-if="text != false" class="text">{{ entry.text }}</p>
-        <factor-link :path="entry.permalink" class="entry-link">{{ entry.link.text }} &rarr;</factor-link>
+
+        <factor-link
+          :path="$setting.get('plugins.postRoute') + '/' + entry.permalink"
+          class="entry-link"
+        >{{ entry.link.text }} &rarr;</factor-link>
       </div>
     </section>
   </div>
@@ -66,20 +77,8 @@ export default {
         })
       }
 
-      // Entry Count
-      //let entryCount = this.count
-      // if (entryCount != -1) {
-      //   return this.entries.slice(0, +entryCount)
-      //   // Do it through filter
-      //   // entries = entries.filter(entry => {
-      //   // ugh
-      //   // })
-      // } else {
-      //   return this.entries
-      // }
-
       // Limit Post Count
-      if (this.limit && this.limit !== "") {
+      if (this.limit && this.limit !== -1) {
         return entries.slice(0, this.limit)
       } else {
         return entries
@@ -121,7 +120,7 @@ export default {
       padding: 4px;
       border-radius: 6px;
       img {
-        width: 70px;
+        width: 50px;
         max-width: 100%;
       }
     }
