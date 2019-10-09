@@ -34,9 +34,7 @@ export default Factor => {
       const text = Object.entries(form)
         .map(
           ([key, value]) =>
-            `<p><div><strong>${Factor.$utils.toLabel(
-              key
-            )}</strong></div><div><i>${value}</i></div></p>`
+            `<p><strong>${Factor.$utils.toLabel(key)}</strong><br><i>${value}</i></p>`
         )
         .join("")
 
