@@ -156,7 +156,7 @@ export default Factor => {
     }
 
     token(token) {
-      if (typeof localStorage == "undefined") {
+      if (typeof localStorage == "undefined" || !localStorage) {
         return ""
       }
       const keyName = "token"

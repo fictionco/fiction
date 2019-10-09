@@ -13,7 +13,7 @@
     ]
   },
   "dependencies": {
-    "@factor/app-extend": "1.0.0-beta.4",
+    "@factor/extend": "1.0.0-beta.4",
     "@factor/app-meta": "1.0.0-beta.4",
     "@factor/app-router": "1.0.0-beta.4",
     "@factor/app-settings": "1.0.0-beta.4",

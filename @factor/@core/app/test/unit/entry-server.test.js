@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import Factor from "vue"
-import extendApp from "@factor/app-extend"
+import extendApp from "@factor/extend"
 
 import { createApp } from "../../app"
 import { waitFor } from "@test/utils"
