@@ -5,7 +5,10 @@
         <div class="wedge" />
       </div>
       <div class="text">
-        <h1 class="title">Contact Fiction</h1>
+        <h1 class="title">
+          Contact
+          <span class="arrow">&darr;</span>
+        </h1>
         <div
           class="sub-title"
         >We're happy to answer your questions. Fill out the form and we’ll be in touch as soon as possible.</div>
@@ -44,6 +47,7 @@ export default {
 </script>
 <style lang="less">
 .view-contact {
+  padding-top: 4rem;
   .hhh {
     position: relative;
     text-align: center;
@@ -51,21 +55,29 @@ export default {
     letter-spacing: -0.03em;
     padding: 5em 0;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       padding: 1em 0;
+      text-align: left;
     }
 
     .text {
-      max-width: 500px;
+      max-width: 600px;
       margin: 0 auto;
       position: relative;
       z-index: 10;
+      padding: 0 1rem;
+      letter-spacing: -0.03em;
+
+      .arrow {
+        color: var(--color-primary);
+      }
     }
     .title {
       font-size: 3em;
-
-      @media (max-width: 767px) {
-        font-size: 2.5em;
+      margin-bottom: 1rem;
+      line-height: 1;
+      @media (max-width: 900px) {
+        font-size: 2em;
       }
     }
 
@@ -73,9 +85,8 @@ export default {
       font-size: 1.3em;
       font-weight: 500;
       opacity: 0.6;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         font-size: 1.2em;
-        padding: 0 5%;
       }
     }
 
@@ -112,7 +123,7 @@ export default {
       align-items: center;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         grid-template-columns: 1fr;
       }
     }
