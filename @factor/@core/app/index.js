@@ -1,12 +1,8 @@
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
-      this.components()
-      this.routes()
-      this.errorPageComponent = Factor.$setting.get("app.error404")
-
-      //   Factor.$filters.push("site-mixins", require("./site-mixin").default)
-      this.initializeClient()
+      this.configure()
+      this._initializedClient = this.initializeClient()
     }
 
     // Allows components to definitively wait for client to init
@@ -16,34 +12,31 @@ module.exports.default = Factor => {
 
       if (callback) callback()
 
-      return
+      return true
     }
 
     initializeClient() {
-      this._initializedClient = new Promise(async (resolve, reject) => {
-        Factor.$events.$on("app-mounted", async () => {
-          resolve()
-        })
+      return new Promise(resolve => {
+        Factor.$events.$on("app-mounted", () => resolve())
       })
-
-      return this._initializedClient
     }
 
-    components() {
+    configure() {
+      const error404 = Factor.$setting.get("app.error404")
+      const content = Factor.$setting.get("app.content")
+
       Factor.$filters.add("components", _ => {
-        _["error-404"] = this.errorPageComponent
+        _["error-404"] = error404
         return _
       })
-    }
 
-    routes() {
       Factor.$filters.add("routes", _ => {
         const contentRoutes = Factor.$filters
           .apply("content-routes", [
             {
               name: "forbidden",
               path: "/forbidden",
-              component: this.errorPageComponent,
+              component: error404,
               meta: { error: 403 }
             }
           ])
@@ -55,18 +48,18 @@ module.exports.default = Factor => {
 
         _.push({
           path: "/",
-          component: Factor.$setting.get("app.content"),
+          component: content,
           children: contentRoutes
         })
 
         _.push({
           path: "*",
-          component: Factor.$setting.get("app.content"),
+          component: content,
           children: Factor.$filters.apply("content-routes-unmatched", [
             {
               name: "notFound",
               path: "*",
-              component: this.errorPageComponent,
+              component: error404,
               meta: { error: 404 }
             }
           ]),

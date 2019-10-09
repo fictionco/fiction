@@ -146,7 +146,7 @@ const cli = () => {
       this.refineNodeRequire()
 
       if (extend) {
-        const extender = require("@factor/server-extend").default(Factor)
+        const extender = require("@factor/extend/server").default(Factor)
         await extender.run(_arguments)
       }
 

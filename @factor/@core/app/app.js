@@ -1,6 +1,6 @@
 import Factor from "vue"
 
-import extendApp from "@factor/app-extend"
+import extendApp from "@factor/extend"
 import { createStore } from "@factor/app-store"
 import FactorRouter from "@factor/app-router"
 
