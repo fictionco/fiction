@@ -1,7 +1,10 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.slack()
+      if (process.env.FACTOR_TARGET == "server") {
+        this.slack()
+      }
+
       this.facebook()
     }
 
