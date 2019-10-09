@@ -34,43 +34,47 @@ module.exports.default = Factor => {
       return this.transporter
     }
 
-    async sendTransactional(args) {
-      let { to, from, subject, title, text, linkText, linkUrl, textFooter } = args
+    async sendTransactional(_arguments) {
+      let {
+        _id = "none",
+        to,
+        from,
+        subject,
+        title,
+        text,
+        linkText,
+        linkUrl,
+        textFooter
+      } = Factor.$filters.apply("transactional-email-arguments", _arguments)
 
-      if (!from) {
-        from = Factor.$setting.get("app.email")
-      }
+      if (!from) from = Factor.$setting.get("app.email")
 
       subject = `${subject} - ${Factor.$setting.get("app.name")}`
 
       const lines = []
 
-      if (title) {
-        lines.push(`<b style="font-size: 1.1em">${title}</b>`)
-      }
+      if (title) lines.push(`<b style="font-size: 1.1em">${title}</b>`)
 
-      if (text) {
-        lines.push(text)
-      }
+      if (text) lines.push(text)
 
-      if (linkText && linkUrl) {
-        lines.push(`<a href="${linkUrl}">${linkText}</a>`)
-      }
+      if (linkText && linkUrl) lines.push(`<a href="${linkUrl}">${linkText}</a>`)
 
-      if (textFooter) {
-        lines.push(textFooter)
-      }
+      if (textFooter) lines.push(textFooter)
 
-      const theEmail = {
+      const html = lines.map(_ => `<p>${_}</p>`).join("")
+      const plainText = require("html-to-text").fromString(html)
+
+      const theEmail = Factor.$filters.apply("transactional-email", {
+        _id,
         from,
         to,
         subject,
-        html: lines.map(_ => `<p>${_}</p>`).join("")
-      }
+        html,
+        text: plainText
+      })
 
       let info
       if (this.client) {
-        console.log("Send Email", to)
         info = await this.client.sendMail(theEmail)
       } else {
         Factor.$log.info("Email could not be sent.", theEmail)

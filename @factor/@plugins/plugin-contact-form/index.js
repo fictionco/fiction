@@ -23,11 +23,11 @@ export default Factor => {
     async save(form) {
       const post = { settings: form }
       const saved = await Factor.$post.save({ post, postType: this.postType })
-      this.sendEmail(form)
+      this.send(form)
       return saved
     }
 
-    async sendEmail(form) {
+    async send(form) {
       const to = Factor.$setting.get("contactForm.email")()
 
       const text = Object.entries(form)
@@ -40,6 +40,7 @@ export default Factor => {
         .join("")
 
       return await Factor.$email.request("sendTransactional", {
+        _id: "contact-form",
         to,
         subject: "Contact Form Submitted",
         text

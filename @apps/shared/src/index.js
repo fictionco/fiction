@@ -1,10 +1,11 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      this.events()
+      this.slack()
+      this.facebook()
     }
 
-    events() {
+    slack() {
       const SLACK_NOTIFY_URL = Factor.$setting.get("SLACK_NOTIFY_URL")
 
       if (SLACK_NOTIFY_URL) {
@@ -25,8 +26,22 @@ module.exports.default = Factor => {
             })
           }
         )
-      }
 
+        Factor.$filters.add("transactional-email", email => {
+          Factor.$http.request({
+            method: "post",
+            url: SLACK_NOTIFY_URL,
+            data: {
+              pretext: `Email Sent to "${email.to}" from "${email.from}"`,
+              title: email.subject,
+              text: email.text
+            }
+          })
+        })
+      }
+    }
+
+    facebook() {
       Factor.$events.$on("email-list-new-email-requested", ({ email, listId }) => {
         if (typeof fbq != "undefined") {
           fbq("track", "Subscribe")
