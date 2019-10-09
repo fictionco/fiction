@@ -6,7 +6,7 @@ export default Factor => {
     constructor() {
       this.clientApiKey = Factor.$setting.get("bugsnag.client_api_key")
 
-      if (!this.clientApiKey) {
+      if (!this.clientApiKey || process.env.NODE_ENV == "development") {
         return
       }
 
