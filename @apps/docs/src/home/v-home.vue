@@ -227,9 +227,9 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Universal VueJS Platform for Front-End Developers",
+      title: "The Javascript CMS and Apps Platform",
       description:
-        "Factor is an extension focused platform for building universal server-rendered JS apps with VENM (or MEVN) stack."
+        "A Javascript CMS and application platform built with Vue, Express, Node.js and MongoDB. Build impressive Javascipt apps with plugins and themes."
     }
   },
   routeClass() {
