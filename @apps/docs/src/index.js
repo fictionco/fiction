@@ -37,10 +37,10 @@ module.exports.default = Factor => {
             path: "/plugins",
             component: () => import("./page-plugins")
           },
-          {
-            path: "/pluginsnew",
-            component: () => import("./plugins/v-plugins")
-          },
+          // {
+          //   path: "/pluginsnew",
+          //   component: () => import("./plugins/v-plugins")
+          // },
           {
             path: "/themes",
             component: () => import("./v-themes")
@@ -60,6 +60,22 @@ module.exports.default = Factor => {
           {
             path: `/${base}/:doc`,
             component: () => import("./page-docs")
+          },
+          {
+            path: Factor.$setting.get("plugins.indexRoute"),
+            component: () => import("./plugins/v-plugins"),
+            children: [
+              {
+                path: "/pluginsnew",
+                //component: () => import("./plugins/v-plugins")
+                component: Factor.$setting.get("plugins.layout.index")
+              },
+              {
+                path: `${Factor.$setting.get("plugins.postRoute")}/:permalink`,
+                //component: () => import("./plugins/v-plugins-single")
+                component: Factor.$setting.get("plugins.layout.single")
+              }
+            ]
           }
         ]
       })

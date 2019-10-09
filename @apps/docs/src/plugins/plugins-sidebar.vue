@@ -52,7 +52,7 @@ export default {
   .section-plugins .entry-plugin {
     grid-template-columns: auto 3fr;
     grid-gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     .entry-image {
       height: 70px;
       width: 70px;
@@ -60,7 +60,7 @@ export default {
       background: #fff;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
       img {
-        max-width: 80%;
+        max-width: 60%;
       }
     }
     .title {

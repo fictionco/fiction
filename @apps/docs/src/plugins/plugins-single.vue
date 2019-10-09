@@ -1,16 +1,8 @@
 <template>
-  <div class="single-entry">
-    single entry
-    <!-- <component
-      :is="$setting.get(`blog.components.${comp}`)"
-      v-for="(comp, i) in $setting.get('blog.layout.single')"
-      :key="i"
-      :post-id="post._id"
-    />-->
-  </div>
+  <div class="single-plugin-entry">single plugin entry</div>
 </template>
 <script>
-//import Factor from "vue"
+import Factor from "vue"
 export default {
   data() {
     return {}
@@ -34,7 +26,7 @@ export default {
 </script>
 
 <style lang="less">
-.single-entry {
+.single-plugin-entry {
   .widget-date,
   .entry-meta,
   .post-entry,

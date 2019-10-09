@@ -8,11 +8,11 @@
       :class="entry.class"
     >
       <div class="entry-image">
-        <img src="./img/icon-aws.svg" />
+        <img v-if="entry.image" :src="require(`./img/${entry.image}`)" :alt="entry.title" />
       </div>
       <div class="entry-content">
         <h3 class="title">
-          <factor-link :path="entry.link.path">{{ entry.title }}</factor-link>
+          <factor-link :path="entry.permalink">{{ entry.title }}</factor-link>
         </h3>
         <div class="meta">
           <span v-if="showAuthor != false" class="author">by {{ entry.author }}</span>
@@ -30,152 +30,60 @@
           >{{ entry.downloads }} downloads</div>
         </div>
         <p v-if="text != false" class="text">{{ entry.text }}</p>
-        <factor-link :path="entry.link.path">{{ entry.link.text }} &rarr;</factor-link>
+        <factor-link :path="entry.permalink" class="entry-link">{{ entry.link.text }} &rarr;</factor-link>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import getPlugins from "./json/entries"
+
 export default {
   props: {
+    limit: { type: Number, default: Infinity, required: false },
     showAuthor: { type: Boolean, default: true },
     showCategories: { type: Boolean, default: true },
-    limit: { type: Number, default: -1 },
-    category: { type: String, default: "" },
-    text: { type: Boolean, default: true }
+    text: { type: Boolean, default: true },
+    category: { type: String, default: "" }
   },
   data() {
     return {
-      entries: [
-        {
-          title: "Factor Sitemap",
-          author: "Factor",
-          categories: [
-            {
-              id: 1,
-              name: "SEO",
-              slug: "seo"
-            },
-            {
-              id: 2,
-              name: "Featured",
-              slug: "featured"
-            }
-          ],
-          downloads: `1262`,
-          text: `Create a sitemap for your factor site.`,
-          link: { path: "/factor-sitemap", text: "Details" },
-          created_at: "2019-01-26T19:01:12Z",
-          updated_at: "2019-01-26T19:14:43Z"
-        },
-        {
-          title: "Storage S3",
-          author: "Factor",
-          categories: [
-            {
-              id: 3,
-              name: "Utilities",
-              slug: "utilities"
-            }
-          ],
-          downloads: `962`,
-          text: `Enables you to deploy your Factor site to an S3 bucket. Requires very little configuration, while optimizing your site as much as possible.`,
-          link: { path: "/storage-s3", text: "Details" },
-          created_at: "2019-01-26T19:01:12Z",
-          updated_at: "2019-01-26T19:14:43Z"
-        },
-        {
-          title: "Google Tag Manager",
-          author: "Factor",
-          categories: [
-            {
-              id: 3,
-              name: "Utilities",
-              slug: "utilities"
-            }
-          ],
-          downloads: `878`,
-          text: `Easily add Google Tag Manager to your Factor site.`,
-          link: { path: "/factor-google-tagmanager", text: "Details" },
-          created_at: "2019-01-26T19:01:12Z",
-          updated_at: "2019-01-26T19:14:43Z"
-        },
-        {
-          title: `Factor Google Analytics`,
-          author: "Factor",
-          categories: [
-            {
-              id: 2,
-              name: "Featured",
-              slug: "featured"
-            },
-            {
-              id: 3,
-              name: "Utilities",
-              slug: "utilities"
-            }
-          ],
-          downloads: `894`,
-          text: `Easily add Google Analytics to your Factor site.`,
-          link: { path: "/factor-google-analytics", text: "Details" },
-          created_at: "2019-01-26T19:01:12Z",
-          updated_at: "2019-01-26T19:14:43Z"
-        },
-        {
-          title: "Factor Algolia",
-          author: "Factor",
-          categories: [
-            {
-              id: 4,
-              name: "Search",
-              slug: "search"
-            },
-            {
-              id: 2,
-              name: "Featured",
-              slug: "featured"
-            }
-          ],
-          downloads: `767`,
-          text: `A Factor plugin to push to Algolia based on a certain query.`,
-          link: { path: "/factor-algolia", text: "Details" },
-          created_at: "2019-01-26T19:01:12Z",
-          updated_at: "2019-01-26T19:14:43Z"
-        }
-      ]
+      entriesJSON: getPlugins
     }
   },
   computed: {
     filteredEntries() {
-      let entries = this.entries
+      let entries = this.entriesJSON.entries
 
       // Entry Category
       if (this.category && this.category !== "") {
         entries = entries.filter(entry => {
           let foundCategory = entry.categories.findIndex(c => {
-            return c.slug === this.category
+            return c.slug == this.category
           })
           return foundCategory !== -1
         })
       }
 
-      // Post Count
-      //let postCount = this.count
-      // if (postCount != -1) {
-      //   return this.posts.slice(0, +postCount)
+      // Entry Count
+      //let entryCount = this.count
+      // if (entryCount != -1) {
+      //   return this.entries.slice(0, +entryCount)
       //   // Do it through filter
-      //   // posts = posts.filter(post => {
+      //   // entries = entries.filter(entry => {
       //   // ugh
       //   // })
       // } else {
-      //   return this.posts
+      //   return this.entries
       // }
 
-      //return this.limit ? this.object.slice(0,2) : this.object
-
-      // Entry list based
-      return entries.slice(0, this.limit)
+      // Limit Post Count
+      if (this.limit && this.limit !== "") {
+        return entries.slice(0, this.limit)
+      } else {
+        return entries
+      }
     }
   },
 
@@ -197,6 +105,12 @@ export default {
     grid-gap: 2rem;
     align-items: flex-start;
     margin-bottom: 1rem;
+    &:hover {
+      .entry-content .entry-link {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
     a {
       text-decoration: none;
     }
@@ -207,10 +121,12 @@ export default {
       padding: 4px;
       border-radius: 6px;
       img {
+        width: 70px;
         max-width: 100%;
       }
     }
     .entry-content {
+      overflow: hidden;
       .title {
         font-size: 1.6em;
         line-height: 1.2em;
@@ -241,7 +157,13 @@ export default {
       }
       .text {
         line-height: 1.7em;
-        margin-top: 1rem;
+        margin: 1em 0 0.5em;
+      }
+      .entry-link {
+        display: block;
+        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+        transform: translateY(3rem);
+        opacity: 0.2;
       }
     }
   }

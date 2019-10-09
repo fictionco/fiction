@@ -45,8 +45,8 @@
           </div>
 
           <div class="buttons">
-            <factor-link btn="primary" path="/guide/">Submit a Plugin &rarr;</factor-link>
-            <factor-link btn="default" path="/guide/create-plugins">Create a Plugin &rarr;</factor-link>
+            <factor-link btn="primary" path="/guide/">Submit Plugin &rarr;</factor-link>
+            <factor-link btn="default" path="/guide/create-plugins">Create Plugin &rarr;</factor-link>
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@ export default {
   .plugins-wrap {
     display: grid;
     grid-template-columns: 7fr 3fr;
-    grid-gap: 2rem;
+    grid-gap: 4rem;
     padding-top: 4rem;
 
     .section-header {
@@ -231,6 +231,9 @@ export default {
     }
     .buttons {
       margin: 0 0 0 20px;
+      .btn-link + .btn-link {
+        margin-left: 1rem;
+      }
       @media (max-width: 900px) {
         margin: 20px 0 0 0;
       }
