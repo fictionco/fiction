@@ -28,7 +28,8 @@ export default Factor => {
     }
 
     async send(form) {
-      const to = Factor.$setting.get("contactForm.email")()
+      const toSetting = Factor.$setting.get("contactForm.email")
+      const to = typeof toSetting == "function" ? toSetting() : toSetting
 
       const text = Object.entries(form)
         .map(

@@ -10,16 +10,16 @@ class FactorError extends Error {
 
 module.exports.default = Factor => {
   return new (class {
-    constructor() { }
+    constructor() {}
 
     create() {
       let args =
         arguments.length > 1
           ? {
-            statusCode: arguments[0],
-            message: arguments[1],
-            properties: arguments[2]
-          }
+              statusCode: arguments[0],
+              message: arguments[1],
+              properties: arguments[2]
+            }
           : arguments[0]
 
       if (typeof args == "string") {
