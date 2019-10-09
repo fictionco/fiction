@@ -1,5 +1,17 @@
 <template>
-  <div class="single-plugin-entry">single plugin entry</div>
+  <div class="single-plugin-entry plugins-container">
+    <section class="header">
+      <div class="content-pad">
+        <div class="header-content">
+          <h1 class="page-title">Single Plugin Entry</h1>
+          <h3 class="page-title-sub">Plugin short description.</h3>
+        </div>
+        <div class="header-figure">
+          <!-- <figure-plugins /> -->
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 <script>
 import Factor from "vue"

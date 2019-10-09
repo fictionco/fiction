@@ -63,7 +63,8 @@ module.exports.default = Factor => {
           },
           {
             path: Factor.$setting.get("plugins.indexRoute"),
-            component: () => import("./plugins/v-plugins"),
+            component: () => import("./plugins/plugins-wrap"),
+            //component: Factor.$setting.get("plugins.layout.index"),
             children: [
               {
                 path: "/pluginsnew",
