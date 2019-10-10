@@ -207,7 +207,7 @@ module.exports.default = Factor => {
 
         if (!priority) {
           // App > Theme > Plugin
-          priority = cwd ? 1000 : extend == "theme" ? 150 : 100
+          priority = cwd ? 1000 : (extend == "theme" ? 150 : 100)
         }
 
         fields = {
@@ -329,13 +329,13 @@ module.exports.default = Factor => {
         .sort(function(a, b) {
           const ap = a.id
           const bp = b.id
-          return ap < bp ? -1 : ap > bp ? 1 : 0
+          return ap < bp ? -1 : (ap > bp ? 1 : 0)
         })
         .sort((a, b) => {
           const ap = a.priority || 100
           const bp = b.priority || 100
 
-          return ap < bp ? -1 : ap > bp ? 1 : 0
+          return ap < bp ? -1 : (ap > bp ? 1 : 0)
         })
     }
   })()

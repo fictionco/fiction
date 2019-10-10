@@ -29,11 +29,11 @@ module.exports.default = Factor => {
       return new FactorError(args)
     }
     throw() {
-      throw this.create.apply(this, arguments)
+      throw Reflect.apply(this.create, this, arguments)
     }
 
     notify() {
-      const err = this.create.apply(this, arguments)
+      const err = Reflect.apply(this.create, this, arguments)
       const { stackTrace, statusCode, description } = err
 
       if (statusCode < 500 && statusCode >= 400) {
