@@ -36,6 +36,21 @@ export default {
 // Plugins Sidebar
 .plugins-sidebar {
   padding: 0;
+
+  .section-header {
+    .title {
+      font-size: 1.6em;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+
+      @media (max-width: 900px) {
+        font-size: 1.7em;
+        line-height: 1.2;
+      }
+    }
+  }
+
   .plugins-popular {
     .section-header {
       margin: 0 0 1rem;

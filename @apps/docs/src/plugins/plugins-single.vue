@@ -1,31 +1,90 @@
 <template>
-  <div class="single-plugin-entry plugins-container">
-    <section class="header">
-      <div class="content-pad">
-        <div class="header-content">
-          <h1 class="page-title">Single Plugin Entry</h1>
-          <h3 class="page-title-sub">Plugin short description.</h3>
+  <div class="plugins-single single-plugin-entry">
+    <div v-if="!$lodash.isEmpty(post)">
+      <widget-header :image="post.image" :title="post.title">
+        <div slot="subtitle">
+          Author, Categories, and Download Count.
+          <span v-if="post.author">by {{ post.author }}</span>
+          <span v-if="post.categories">in{{ post.categories }}</span>
+          <span v-if="post.downloads">{{ post.downloads }} Downloads</span>
         </div>
-        <div class="header-figure">
-          <!-- <figure-plugins /> -->
+      </widget-header>
+      <div class="plugins-single-wrap content-pad">
+        <div class="content">
+          <p>Author: {{ post.author }}</p>
+          <p>Text: {{ post.text }}</p>
+          <div>
+            Rendered Content:
+            <div v-formatted-text="getReadme" />
+          </div>
+          <!-- <pre>
+        {{ post }}
+          </pre>-->
+        </div>
+        <div class="sidebar">
+          <plugins-sidebar />
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 <script>
-import Factor from "vue"
+import getPlugins from "./json/entries"
+
 export default {
+  components: {
+    "widget-header": () => import("./widget-header"),
+    "plugins-sidebar": () => import("./plugins-sidebar")
+  },
   data() {
-    return {}
+    return {
+      entriesJSON: getPlugins
+    }
+  },
+  computed: {
+    // postOld() {
+    //   // Get post
+    //   // return this.$store.val(this.postId) || {}
+    //   return this.$store.val(this) || {}
+    // },
+    post() {
+      // All Posts
+      let entries = this.entriesJSON.entries
+
+      // Page Slug
+      let pageSlug = this.$route.params.permalink
+
+      // Find post with same page slug
+      let post = entries.find(entry => entry.permalink === pageSlug)
+
+      return post
+    },
+    getReadme() {
+      //let markdownFile = this.post.content
+      let markdownContent = require(`${this.post.content}`)
+
+      // return this.$markdown.render("./commentizer/" + this.post.content, {
+      //   variables: false
+      // })
+
+      // this.$markdown.render(markdownContent, {
+      //   variables: false
+      // })
+
+      return markdownContent
+        ? this.$markdown.render(markdownContent, { variables: true })
+        : ""
+
+      //return $markdown.render(markdownContent, { variables: true })
+    }
+  },
+  metaInfo() {
+    return {
+      title: this.$post.titleTag(this.post._id),
+      description: this.$post.descriptionTag(this.post._id),
+      image: this.$post.shareImage(this.post._id)
+    }
   }
-  // metaInfo() {
-  //   return {
-  //     title: this.$post.titleTag(this.post._id),
-  //     description: this.$post.descriptionTag(this.post._id),
-  //     image: this.$post.shareImage(this.post._id)
-  //   }
-  // },
   // routeClass() {
   //   return "nav-white"
   // },
@@ -38,26 +97,24 @@ export default {
 </script>
 
 <style lang="less">
-.single-plugin-entry {
-  .widget-date,
-  .entry-meta,
-  .post-entry,
-  .social-share,
-  .author-bio {
-    max-width: 50rem;
-    margin: 1rem auto;
-    padding: 0;
+.plugins-single {
+  padding-top: 45px;
+  font-weight: 400;
+  overflow: hidden;
+  background-color: #f6f9fc;
+  .content-pad {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5em;
+    width: 100%;
+    z-index: 10;
+    position: relative;
   }
-
-  @media (max-width: 767px) {
-    .return-link,
-    .entry-headers,
-    .post-entry,
-    .entry-meta,
-    .social-share,
-    .author-bio {
-      padding: 0 1em;
-    }
+  .plugins-single-wrap {
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    grid-gap: 4rem;
+    padding-top: 4rem;
   }
 }
 </style>
