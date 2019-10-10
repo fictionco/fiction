@@ -18,9 +18,9 @@ export default Factor => {
     }
 
     addSSRHooks() {
-      Factor.$filters.add("ssr-context-ready", (ssrContext, { app, router }) => {
+      Factor.$filters.add("ssr-context-ready", (context, { app, router }) => {
         // Add Vue-Meta
-        ssrContext.metaInfo = app.$meta()
+        context.metaInfo = app.$meta()
 
         // the html template extension mechanism
         // This uses a callback because the component's 'created' hooks are called after this point
@@ -28,8 +28,8 @@ export default Factor => {
         const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
 
         metaHooks.forEach(h => {
-          ssrContext[h] = () => {
-            return Factor.$filters.apply(h, [], { ssrContext }).join("")
+          context[h] = () => {
+            return Factor.$filters.apply(h, [], { context }).join("")
           }
         })
 
@@ -44,14 +44,14 @@ export default Factor => {
         ]
 
         attrHooks.forEach(({ name, attr, classes }) => {
-          ssrContext[name] = additional => {
+          context[name] = additional => {
             classes.push(additional)
             attr.push(`class="${classes.join(" ")}"`)
-            return Factor.$filters.apply(name, attr, { ssrContext }).join(" ")
+            return Factor.$filters.apply(name, attr, { context }).join(" ")
           }
         })
 
-        return ssrContext
+        return context
       })
     }
 
@@ -118,15 +118,8 @@ export default Factor => {
     }
 
     installMeta() {
-      Factor.$filters.add("factor_head", (_, { ssrContext }) => {
-        const {
-          title,
-          link,
-          style,
-          script,
-          noscript,
-          meta
-        } = ssrContext.metaInfo.inject()
+      Factor.$filters.add("factor_head", (_, { context }) => {
+        const { title, link, style, script, noscript, meta } = context.metaInfo.inject()
 
         return [
           ..._,
@@ -139,21 +132,21 @@ export default Factor => {
         ]
       })
 
-      Factor.$filters.add("factor_html_attr", (_, { ssrContext }) => {
-        const { htmlAttrs } = ssrContext.metaInfo.inject()
+      Factor.$filters.add("factor_html_attr", (_, { context }) => {
+        const { htmlAttrs } = context.metaInfo.inject()
         return [..._, htmlAttrs.text(true)]
       })
-      Factor.$filters.add("factor_body_attr", (_, { ssrContext }) => {
-        const { bodyAttrs } = ssrContext.metaInfo.inject()
+      Factor.$filters.add("factor_body_attr", (_, { context }) => {
+        const { bodyAttrs } = context.metaInfo.inject()
         return [..._, bodyAttrs.text()]
       })
-      Factor.$filters.add("factor_head_attr", (_, { ssrContext }) => {
-        const { headAttrs } = ssrContext.metaInfo.inject()
+      Factor.$filters.add("factor_head_attr", (_, { context }) => {
+        const { headAttrs } = context.metaInfo.inject()
         return [..._, headAttrs.text()]
       })
 
-      Factor.$filters.add("factor_body_start", (_, { ssrContext }) => {
-        const { style, script, noscript } = ssrContext.metaInfo.inject()
+      Factor.$filters.add("factor_body_start", (_, { context }) => {
+        const { style, script, noscript } = context.metaInfo.inject()
 
         return [
           ..._,
@@ -163,8 +156,8 @@ export default Factor => {
         ]
       })
 
-      Factor.$filters.add("factor_body_end", (_, { ssrContext }) => {
-        const { style, script, noscript } = ssrContext.metaInfo.inject()
+      Factor.$filters.add("factor_body_end", (_, { context }) => {
+        const { style, script, noscript } = context.metaInfo.inject()
 
         return [
           ..._,

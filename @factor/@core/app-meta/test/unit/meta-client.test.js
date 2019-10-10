@@ -13,7 +13,7 @@ import { waitFor, indexHtml } from "@test/utils"
 import { createStore } from "@factor/app-store"
 import FactorRouter from "@factor/app-router"
 
-describe("site component", () => {
+describe("meta info client", () => {
   beforeAll(() => {
     document.open()
     document.write(indexHtml())
