@@ -67,16 +67,17 @@ export default {
       //   variables: false
       // })
 
-      // this.$markdown.render(markdownContent, {
-      //   variables: false
-      // })
-
       return markdownContent
         ? this.$markdown.render(markdownContent, { variables: true })
         : ""
 
       //return $markdown.render(markdownContent, { variables: true })
     }
+  },
+  mounted() {
+    require("../prism/prism.js")
+
+    this.prism = window.Prism
   },
   metaInfo() {
     return {
@@ -97,6 +98,8 @@ export default {
 </script>
 
 <style lang="less">
+@import "../prism/prism.less";
+
 .plugins-single {
   padding-top: 45px;
   font-weight: 400;
