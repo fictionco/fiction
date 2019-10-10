@@ -1,10 +1,11 @@
-export default Factor => {
+export default (Factor, options = {}) => {
   return new (class {
     constructor() {
       this.setup()
+      this.initialize()
     }
 
-    setup() {
+    async setup() {
       Factor.config.productionTip = false
       Factor.config.devtools = true
       Factor.config.silent = false
@@ -21,9 +22,7 @@ export default Factor => {
 
       this._install("paths", require("@factor/paths").default) // Filler
 
-      this.loadPlugins()
-
-      this.initializeApp()
+      this._install("setting", require("@factor/app-settings").default)
     }
 
     _install(id, plugin) {
@@ -35,7 +34,9 @@ export default Factor => {
     }
 
     loadPlugins() {
-      const plugins = require("~/.factor/loader-app")
+      const loaderPlugins = require("~/.factor/loader-app")
+      const optionPlugins = options.plugins || {}
+      const plugins = { ...loaderPlugins, ...optionPlugins }
       for (var _p in plugins) {
         if (plugins[_p]) {
           const plugin = plugins[_p]
@@ -48,7 +49,13 @@ export default Factor => {
     }
 
     // After plugins added
-    initializeApp() {
+    async initialize() {
+      if (options.settings) {
+        Factor.$setting.add(options.settings)
+      }
+
+      this.loadPlugins()
+
       Factor.$components = {}
       const comps = Factor.$filters.apply("components", {})
       for (var _ in comps) {
@@ -68,7 +75,7 @@ export default Factor => {
         }
       }
 
-      Factor.$filters.run("initialize-app")
+      await Factor.$filters.run("initialize-app")
     }
   })()
 }

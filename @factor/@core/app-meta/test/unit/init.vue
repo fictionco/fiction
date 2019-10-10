@@ -1,5 +1,5 @@
 <template>
-  <h1>Meta</h1>
+  <h1>Init</h1>
 </template>
 
 <script>
@@ -11,9 +11,9 @@ export default {
   },
   metaInfo() {
     return {
-      title: "meta title",
-      titleTemplate: "%s template",
-      description: "this is the description",
+      title: "init",
+      titleTemplate: "%s init",
+      description: "init description",
       image: require("./factor.png"),
       htmlAttrs: {
         lang: "en",

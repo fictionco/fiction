@@ -35,8 +35,8 @@ export default Factor => {
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
     }
 
-    addFactory({ key, factory }) {
-      this.added[key] = factory
+    add(files = {}) {
+      this.added = { ...this.added, ...files }
       this.load()
     }
 
