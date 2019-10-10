@@ -1,3 +1,8 @@
-/******** GENERATED FILE ********/
-const files = {}
-module.exports = files
+const cwd = process.env.FACTOR_CWD || process.cwd()
+
+let m = {}
+try {
+  m = require(`${cwd}/.factor/loader-settings.js`)
+} catch (error) {}
+
+module.exports = m
