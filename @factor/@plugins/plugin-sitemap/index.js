@@ -67,9 +67,9 @@ export default Factor => {
             const _p =
               parent && !_.path.startsWith("/")
                 ? `${parent}/${_.path}`
-                : parent && _.path == "/"
+                : (parent && _.path == "/"
                 ? parent
-                : _.path
+                : _.path)
 
             out.push(_p)
           }

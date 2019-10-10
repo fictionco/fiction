@@ -17,8 +17,8 @@ module.exports.default = Factor => {
     // TODO unit test this
     // Cases: [port] [app.name] [roles.arpowers@gmail.com]
     dotSetting({ key, settings }) {
-      const currentKey = key.substr(0, key.indexOf("."))
-      const subKeys = key.substr(key.indexOf(".") + 1)
+      const currentKey = key.slice(0, key.indexOf("."))
+      const subKeys = key.slice(key.indexOf(".") + 1)
 
       if (typeof settings[key] !== "undefined") {
         return settings[key]
@@ -124,7 +124,7 @@ module.exports.default = Factor => {
         const ap = a.priority || 100
         const bp = b.priority || 100
 
-        return ap < bp ? -1 : ap > bp ? 1 : 0
+        return ap < bp ? -1 : (ap > bp ? 1 : 0)
       })
     }
 

@@ -49,9 +49,9 @@ export default {
     socialImage(post) {
       return post.featuredImage
         ? post.featuredImage[0].url
-        : post.images
+        : (post.images
         ? post.images[0].url
-        : ""
+        : "")
     }
   }
 }
