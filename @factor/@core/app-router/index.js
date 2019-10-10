@@ -7,12 +7,11 @@ export default Factor => {
   return new (class {
     constructor() {
       this.initialPageLoad = true
-      this.routes = Factor.$filters.apply("routes", []).filter(_ => _) // remove undefined
     }
 
     // This is rebuilt for every page load
     create() {
-      const routes = this.routes
+      const routes = Factor.$filters.apply("routes", []).filter(_ => _) // remove undefined
 
       const router = new FactorRouter({
         routes,

@@ -17,14 +17,29 @@ jest.setTimeout(60000)
 
 consola.mockTypes(() => jest.fn())
 
-function errorTrap(error) {
-  process.stderr.write("\n" + error.stack + "\n")
+function errorTrap(error, data) {
+  if (error && error.stack) {
+    process.stderr.write(`\n${error.stack}\n`)
+  } else {
+    process.stderr.write(require("util").inspect(data))
+  }
+
   exit(1)
 }
 
-process.on("unhandledRejection", errorTrap)
-process.on("uncaughtException", errorTrap)
+process.on("unhandledRejection", error =>
+  errorTrap(error, { context: "unhandledRejection" })
+)
+process.on("uncaughtException", error =>
+  errorTrap(error, { context: "uncaughtException" })
+)
 
+if (typeof window !== "undefined") {
+  const noop = () => {}
+  Object.defineProperty(window, "scrollTo", { value: noop, writable: true })
+}
+
+// EXTEND
 expect.extend({
   toContainObject(received, argument) {
     const pass = this.equals(

@@ -2,12 +2,12 @@ export default Factor => {
   return new (class {
     constructor() {
       this._settings = {}
-
+      this.added = {}
       this.setup()
     }
 
     async setup() {
-      const config = Factor.$configServer
+      this.config = Factor.$configServer
         ? Factor.$configServer.settings()
         : Factor.$config.settings() || {}
 
@@ -15,18 +15,29 @@ export default Factor => {
       // a CWD relative file across environments
       // Webpack throws 'request is an expression' issues if a var is used
       // While there are problems with using aliases across resolvers (jest v node)
-      const settingsFiles = !process.env.FACTOR_SSR
+      this.settingsFiles = !process.env.FACTOR_SSR
         ? require("./server.js").default(Factor)
         : require("./client.js").default(Factor)
 
+      this.load()
+    }
+
+    load() {
+      const factories = { ...this.settingsFiles, ...this.added }
+
       const settingsArray = Factor.$filters.apply(
         "factor-settings",
-        Object.values(settingsFiles).map(_obj => _obj(Factor))
+        Object.values(factories).map(_obj => _obj(Factor))
       )
 
-      const merged = Factor.$utils.deepMerge([config, ...settingsArray])
+      const merged = Factor.$utils.deepMerge([this.config, ...settingsArray])
 
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
+    }
+
+    addFactory({ key, factory }) {
+      this.added[key] = factory
+      this.load()
     }
 
     all() {

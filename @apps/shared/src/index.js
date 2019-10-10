@@ -1,9 +1,7 @@
 module.exports.default = Factor => {
   return new (class {
     constructor() {
-      if (process.env.FACTOR_TARGET == "server") {
-        this.slack()
-      }
+      this.slack()
 
       this.facebook()
     }
@@ -11,6 +9,9 @@ module.exports.default = Factor => {
     slack() {
       const SLACK_NOTIFY_URL = Factor.$setting.get("SLACK_NOTIFY_URL")
 
+      if (SLACK_NOTIFY_URL) {
+        this.SLACK_NOTIFY_URL = SLACK_NOTIFY_URL
+      }
       if (SLACK_NOTIFY_URL) {
         // Track email sign up events
         Factor.$events.$on(
@@ -24,7 +25,7 @@ module.exports.default = Factor => {
 
             Factor.$http.request({
               method: "post",
-              url: SLACK_NOTIFY_URL,
+              url: this.SLACK_NOTIFY_URL,
               data: { text }
             })
           }
@@ -33,7 +34,7 @@ module.exports.default = Factor => {
         Factor.$filters.add("transactional-email", email => {
           Factor.$http.request({
             method: "post",
-            url: SLACK_NOTIFY_URL,
+            url: this.SLACK_NOTIFY_URL,
             data: {
               pretext: `Email Sent to "${email.to}" from "${email.from}"`,
               title: email.subject,

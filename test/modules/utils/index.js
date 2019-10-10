@@ -6,6 +6,20 @@ export const waitFor = ms => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
 }
 
+export const indexHtml = () => {
+  return `<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>NOT SET</title>
+    </head>
+    <body>
+      <div id="app"></div> 
+    </body>
+  </html>`
+}
+
 export const buildFixture = fixture => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
   process.env.FACTOR_ENV = "test"
