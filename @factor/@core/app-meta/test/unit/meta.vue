@@ -16,7 +16,7 @@ export default {
       description: "this is the description",
       image: require("./factor.png"),
       htmlAttrs: {
-        lang: "en",
+        lang: "fr",
         amp: true
       }
     }
