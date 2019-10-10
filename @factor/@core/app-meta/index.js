@@ -88,7 +88,9 @@ export default Factor => {
 
             const meta = typeof opt == "function" ? opt.call(this) : opt
 
-            return Factor.$filters.apply("meta-refine", meta)
+            const refined = Factor.$filters.apply("meta-refine", meta)
+
+            return refined
           }
         })
       })

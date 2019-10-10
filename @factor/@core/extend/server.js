@@ -39,6 +39,8 @@ module.exports.default = Factor => {
 
       require("@factor/build-transpiler").default(Factor)
 
+      this._install("setting", require("@factor/app-settings").default)
+
       // // This just adds the dirname to config and other paths
       // require("@factor/app/build").default(Factor)
 

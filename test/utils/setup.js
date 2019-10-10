@@ -2,6 +2,9 @@ import consola from "consola"
 import chalk from "chalk"
 import env from "std-env"
 import exit from "exit"
+import Factor from "vue"
+
+Factor.config.devtools = false
 
 const isWin = env.windows
 

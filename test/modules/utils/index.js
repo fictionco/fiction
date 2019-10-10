@@ -11,7 +11,6 @@ export const indexHtml = () => {
   <html>
     <head>
       <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <title>NOT SET</title>
     </head>
     <body>

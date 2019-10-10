@@ -3,37 +3,37 @@
  */
 
 import Factor from "vue"
+Factor.config.devtools = false
 import extendApp from "@factor/extend"
-import { createApp } from "@factor/app/app"
-import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
-import { render, renderToString } from "@vue/server-test-utils"
+// import { createApp } from "@factor/app/app"
+// import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
+// import { render, renderToString } from "@vue/server-test-utils"
 
 import { waitFor, indexHtml } from "@test/utils"
 import { createStore } from "@factor/app-store"
 import FactorRouter from "@factor/app-router"
 
-let App
-let localVue
-let router
 describe("site component", () => {
   beforeAll(() => {
-    extendApp(Factor)
-    Factor.$setting.addFactory({
-      key: "app",
-      factory: require("@factor/app/factor-settings.js").default
-    })
-    //document.body.innerHTML = `<div id="app"></div>`
     document.open()
     document.write(indexHtml())
     document.close()
+
+    extendApp(Factor, {
+      plugins: {
+        factorMeta: require("../..").default
+      },
+      settings: {
+        app: require("@factor/app/factor-settings.js").default
+      }
+    })
+    Factor.config.devtools = false
   })
 
   it("loads title correctly", async () => {
-    const meta = await import("./meta.vue")
-
     Factor.$filters.push("routes", {
       path: "/meta",
-      component: meta.default
+      component: () => import("./meta.vue")
     })
 
     const store = createStore()
@@ -41,25 +41,21 @@ describe("site component", () => {
 
     const site = await Factor.$setting.get("app.site")()
 
-    console.log(site)
     const app = new Factor({
       router,
       store,
       render: h => h(site.default)
     })
 
-    const App = app.$mount("#app")
+    app.$mount("#app")
 
-    await new Promise(resolve => router.onReady(() => resolve()))
+    //await new Promise(resolve => router.onReady(() => resolve()))
 
-    const r = await router.push("/meta")
+    await router.push("/meta")
 
-    waitFor(1000)
+    // Is triggered by lifecycle hook
+    await waitFor(100)
 
-    console.log("document.title", r, document.title.length, document.body.innerHTML)
-
-    debugger
-
-    // expect(Factor.$store).toBeTruthy()
+    expect(document.title).toContain(`meta title template`)
   })
 })

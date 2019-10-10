@@ -7,10 +7,6 @@
   },
   "factor": {
     "priority": 10,
-    "target": [
-      "app",
-      "server"
-    ],
     "id": "setting"
   },
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
