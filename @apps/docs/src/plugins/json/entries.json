@@ -1,6 +1,7 @@
 {
   "entries": [
     {
+      "_id": "123123123",
       "title": "Factor Sitemap",
       "image": "icon-sitemap.svg",
       "author": "Factor",
@@ -18,12 +19,14 @@
       ],
       "downloads": "1262",
       "text": "Create a sitemap for your factor site. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+      "content": "./commentizer/README.md",
       "permalink": "factor-sitemap",
       "link": { "path": "/factor-sitemap", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Factor Blog",
       "image": "icon-blog.svg",
       "author": "Factor",
@@ -36,12 +39,14 @@
       ],
       "downloads": "716",
       "text": "A Factor plugin to display blog posts and manage them through the dashboard.",
+      "content": "./commentizer/README.md",
       "permalink": "factor-blog",
       "link": { "path": "/factor-blog", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Factor Jobs",
       "image": "icon-jobs.svg",
       "author": "Factor",
@@ -59,12 +64,14 @@
       ],
       "downloads": "694",
       "text": "Create and manage job portal on your Factor app.",
+      "content": "./commentizer/README.md",
       "permalink": "factor-jobs",
       "link": { "path": "/factor-jobs", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Storage S3",
       "image": "icon-aws.svg",
       "author": "Factor",
@@ -77,12 +84,14 @@
       ],
       "downloads": "962",
       "text": "Enables you to deploy your Factor site to an S3 bucket. Requires very little configuration, while optimizing your site as much as possible.",
+      "content": "./commentizer/README.md",
       "permalink": "storage-s3",
       "link": { "path": "/storage-s3", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Factor Commentizer",
       "image": "icon-commentizer.svg",
       "author": "Factor",
@@ -95,12 +104,14 @@
       ],
       "downloads": "774",
       "text": "Adds comments to your posts and enables management via the Factor dashboard.",
+      "content": "./commentizer/README.md",
       "permalink": "factor-commentizer",
       "link": { "path": "/factor-commentizer", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Factor Highlight Code",
       "image": "icon-syntax.svg",
       "author": "Factor",
@@ -113,12 +124,14 @@
       ],
       "downloads": "654",
       "text": "Adds a syntax highlighting component for content using PrismJS.",
+      "content": "./commentizer/README.md",
       "permalink": "factor-highlight-code",
       "link": { "path": "/factor-highlight-code", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Factor Bugsnag",
       "image": "icon-bugsnag.svg",
       "author": "Factor",
@@ -131,12 +144,14 @@
       ],
       "downloads": "743",
       "text": "Implements Bugsnag in your Factor app which helps you stay informed about errors encountered by users.",
+      "content": "./commentizer/README.md",
       "permalink": "factor-bugsnag",
       "link": { "path": "/factor-bugsnag", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Google Tag Manager",
       "image": "icon-gtm.svg",
       "author": "Factor",
@@ -149,12 +164,14 @@
       ],
       "downloads": "878",
       "text": "Easily add Google Tag Manager to your Factor site.",
+      "content": "./commentizer/README.md",
       "permalink": "factor-google-tagmanager",
       "link": { "path": "/factor-google-tagmanager", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
       "updated_at": "2019-01-26T19:14:43Z"
     },
     {
+      "_id": "5d7b05dd11939540637075de",
       "title": "Factor Google Analytics",
       "image": "icon-google-analytics.svg",
       "author": "Factor",
@@ -167,6 +184,7 @@
       ],
       "downloads": "894",
       "text": "Easily add Google Analytics to your Factor site.",
+      "content": "./commentizer/README.md",
       "permalink": "factor-google-analytics",
       "link": { "path": "/factor-google-analytics", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",

@@ -1,6 +1,10 @@
 <template>
   <div class="plugins-container">
-    <section class="header">
+    <widget-header :title="`Factor Plugin Library`">
+      <p slot="subtitle">Extend your project features and do more with Factor.</p>
+      <figure-plugins slot="figure" />
+    </widget-header>
+    <!-- <section class="header">
       <div class="content-pad">
         <div class="header-content">
           <h1 class="page-title">Factor Plugin Library</h1>
@@ -10,7 +14,7 @@
           <figure-plugins />
         </div>
       </div>
-    </section>
+    </section>-->
 
     <div class="plugins-wrap content-pad">
       <div class="content">
@@ -57,6 +61,7 @@
 <script>
 export default {
   components: {
+    "widget-header": () => import("./widget-header"),
     "plugins-sidebar": () => import("./plugins-sidebar"),
     "figure-plugins": () => import("./figure-plugins"),
     "section-plugins": () => import("./section-plugins")
@@ -70,6 +75,11 @@ export default {
     return {
       title: "Factor Plugin Library",
       description: "Extend your project features and do more with Factor."
+    }
+  },
+  computed: {
+    headerFigure() {
+      return () => import("./figure-plugins.vue")
     }
   },
   routeClass() {
