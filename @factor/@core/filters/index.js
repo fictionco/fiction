@@ -73,6 +73,7 @@ module.exports.default = Factor => {
         const _sorted = this._sort(_addedArray)
 
         for (const element of _sorted) {
+          const { callback, context } = element
           const result = callback.apply(context, params)
 
           // Add into what is passed into next item
