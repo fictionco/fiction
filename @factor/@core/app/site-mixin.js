@@ -37,7 +37,6 @@ export default Factor => {
     watch: {
       ui: {
         handler: function(to, from) {
-          console.log("///", to, from, document)
           if (typeof document != "undefined") {
             const _el = document.documentElement
             _el.classList.remove(from)
