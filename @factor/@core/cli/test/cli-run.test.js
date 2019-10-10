@@ -34,7 +34,7 @@ describe("cli scripts", () => {
     })
     expect(process.env.FACTOR_COMMAND).toBe("dev")
 
-    expect(spy).toBeCalledWith(
+    expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
         NODE_ENV: "development"
       })
@@ -46,7 +46,7 @@ describe("cli scripts", () => {
 
     await cli.runCommand({ command: "build", extend: false })
 
-    expect(spy).toBeCalledWith("create-distribution-app", expect.any(Object))
+    expect(spy).toHaveBeenCalledWith("create-distribution-app", expect.any(Object))
     expect(process.exit).toHaveBeenCalledTimes(1)
   })
 
@@ -57,11 +57,11 @@ describe("cli scripts", () => {
 
     await cli.runCommand({ ..._args, NODE_ENV: "development" })
 
-    expect(spy).toBeCalledWith(expect.objectContaining({ NODE_ENV: "development" }))
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ NODE_ENV: "development" }))
 
     await cli.runCommand({ ..._args, NODE_ENV: "production" })
 
-    expect(spy).toBeCalledWith(expect.objectContaining({ NODE_ENV: "production" }))
+    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ NODE_ENV: "production" }))
   })
 
   test("extend installs and creates loaders", async () => {

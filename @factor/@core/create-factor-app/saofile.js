@@ -53,7 +53,7 @@ const config = {
     const randomString = Math.random()
       .toString(36)
       .replace(/[^a-z]+/g, "")
-      .substr(0, 30)
+      .slice(0, 30)
 
     return { urlName, randomString }
   },

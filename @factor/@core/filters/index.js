@@ -39,7 +39,7 @@ module.exports.default = Factor => {
 
       str = str + salt
 
-      str = str.substring(0, 500)
+      str = str.slice(0, 500)
 
       return str
         .split("")
@@ -72,9 +72,7 @@ module.exports.default = Factor => {
         const _addedArray = Object.keys(_added).map(i => _added[i])
         const _sorted = this._sort(_addedArray)
 
-        for (let i = 0; i < _sorted.length; i++) {
-          const { callback, context } = _sorted[i]
-
+        for (const element of _sorted) {
           const result = callback.apply(context, params)
 
           // Add into what is passed into next item
