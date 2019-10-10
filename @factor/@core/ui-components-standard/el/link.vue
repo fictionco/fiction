@@ -29,15 +29,7 @@ export default {
 
     path = path.trim()
 
-    const schemes = [
-      "http:",
-      "https:",
-      "ftp:",
-      "mailto:",
-      "file:",
-      "data:",
-      "irc:"
-    ]
+    const schemes = ["http:", "https:", "ftp:", "mailto:", "file:", "data:", "irc:"]
 
     if (schemes.some(scheme => path.includes(scheme)) || this.event) {
       el = "a"
@@ -67,9 +59,9 @@ export default {
 
       const btnElement = this.btnElement
         ? this.btnElement
-        : this.$route.path.includes("dashboard")
+        : (this.$route.path.includes("dashboard")
         ? "factor-btn-dashboard"
-        : "factor-btn"
+        : "factor-btn")
 
       text = createElement(
         btnElement,
@@ -85,10 +77,7 @@ export default {
       classes["disabled"] = true
     }
 
-    if (
-      this.$route.path == this.path ||
-      this.$route.meta.activePath == this.path
-    ) {
+    if (this.$route.path == this.path || this.$route.meta.activePath == this.path) {
       classes["active-path"] = true
     }
 
