@@ -72,6 +72,9 @@ figure.figure-manage {
       &:nth-child(1) {
         .point {
           transform: translateY(-7rem) translateX(0rem);
+          @media (max-width: 900px) {
+            transform: translateY(-6rem) translateX(-1rem);
+          }
         }
       }
       &:nth-child(2) {
@@ -82,6 +85,9 @@ figure.figure-manage {
       &:nth-child(3) {
         .point {
           transform: translateY(1rem) translateX(9rem);
+          @media (max-width: 900px) {
+            transform: translateY(0rem) translateX(6rem);
+          }
         }
       }
       &:nth-child(4) {
@@ -97,6 +103,9 @@ figure.figure-manage {
       &:nth-child(6) {
         .point {
           transform: translateY(-1rem) translateX(-24vw);
+          @media (max-width: 900px) {
+            transform: translateY(-3rem) translateX(-36vw);
+          }
         }
       }
     }
