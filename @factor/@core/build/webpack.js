@@ -171,9 +171,7 @@ export default Factor => {
           filename: "server-bundle.js",
           libraryTarget: "commonjs2"
         },
-        resolve: {
-          alias
-        },
+        resolve: { alias },
         // https://webpack.js.org/configuration/externals/#externals
         // https://github.com/liady/webpack-node-externals
         externals: [
@@ -208,9 +206,7 @@ export default Factor => {
       return {
         mode: "production",
         devtool: "source-map",
-        output: {
-          publicPath: "/"
-        },
+        output: { publicPath: "/" },
         plugins: [
           new MiniCssExtractPlugin({
             filename: "css/[name].[hash].css",
@@ -234,18 +230,7 @@ export default Factor => {
           publicPath: Factor.$paths.get("dist")
         },
         module: {},
-        plugins: [
-          // new HardSourceWebpackPlugin({
-          //   info: {
-          //     level: "error"
-          //   }
-          // })
-          // new HardSourceWebpackPlugin.ExcludeModulePlugin([
-          //   {
-          //     test: /less-loader/
-          //   }
-          // ])
-        ],
+        plugins: [],
         performance: { hints: false } // Warns about large dev file sizes,
       }
     }
@@ -265,7 +250,7 @@ export default Factor => {
         module: {
           rules: Factor.$filters.apply("webpack-loaders", [
             {
-              test: /\.(vue|fact)$/,
+              test: /\.vue$/,
               loader: "vue-loader"
             },
 
@@ -305,9 +290,7 @@ export default Factor => {
         performance: {
           maxEntrypointSize: 600000
         },
-        node: {
-          fs: "empty"
-        },
+        node: { fs: "empty" },
         plugins: [
           new CopyPlugin(Factor.$filters.apply("webpack-copy-files-config", [])),
           new VueLoaderPlugin(),

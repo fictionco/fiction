@@ -5,7 +5,7 @@ jest.mock("execa")
 
 process.env.FACTOR_ENV = "test"
 
-const cli = require("../cli.js").default
+const cli = require("../../cli.js").default
 describe("cli scripts", () => {
   beforeAll(async () => {
     await cli.factorize()

@@ -4,7 +4,7 @@ const figures = require("figures")
 const express = require("express")
 const chalk = require("chalk")
 const destroyer = require("server-destroy")
-
+const { readFileSync } = require("fs-extra")
 const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
 const IS_PRODUCTION = NODE_ENV === "production"
@@ -62,7 +62,7 @@ export default Factor => {
       }
 
       return {
-        template: Factor.$files.readHtmlFile(paths.template),
+        template: readFileSync(paths.template, "utf-8"),
         bundle: require(paths.bundle),
         clientManifest: require(paths.clientManifest)
       }

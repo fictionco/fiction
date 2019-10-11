@@ -5,7 +5,7 @@ const MFS = require("memory-fs")
 const chokidar = require("chokidar")
 const webpack = require("webpack")
 const ora = require("ora")
-
+const { readFileSync } = require("fs-extra")
 const webpackHotMiddleware = require("webpack-hot-middleware")
 const webpackDevMiddleware = require("webpack-dev-middleware")
 const argv = require("yargs").argv
@@ -47,7 +47,7 @@ export default Factor => {
       //   this.ready = resolve
       // })
 
-      this.template = this.getTemplate()
+      this.template = readFileSync(this.templatePath, "utf-8")
 
       this.watcher()
 
@@ -102,9 +102,7 @@ export default Factor => {
         })
       }
     }
-    getTemplate() {
-      return Factor.$files.readHtmlFile(this.templatePath)
-    }
+
     watcher() {
       const watchDirs = Factor.$files.getWatchDirs().map(_ => `${_}/**`)
 
