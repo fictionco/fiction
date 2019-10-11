@@ -5,21 +5,21 @@
         <header class="section-header">
           <h1 class="title">Popular</h1>
         </header>
-        <section-plugins :limit="4" :show-author="false" :show-categories="false" :text="false" />
+        <plugins-index :limit="4" :show-author="false" :show-categories="false" :text="false" />
       </section>
 
       <section class="plugins-new">
         <header class="section-header">
           <h1 class="title">New</h1>
         </header>
-        <section-plugins :limit="4" :show-author="false" :show-categories="false" :text="false" />
+        <plugins-index :limit="4" :show-author="false" :show-categories="false" :text="false" />
       </section>
 
       <section class="plugins-updated">
         <header class="section-header">
           <h1 class="title">Recently Updated</h1>
         </header>
-        <section-plugins :limit="4" :show-author="false" :show-categories="false" :text="false" />
+        <plugins-index :limit="4" :show-author="false" :show-categories="false" :text="false" />
       </section>
     </div>
   </div>
@@ -27,7 +27,7 @@
 <script>
 export default {
   components: {
-    "section-plugins": () => import("./section-plugins")
+    "plugins-index": () => import("./plugins-index")
   }
 }
 </script>
@@ -36,6 +36,7 @@ export default {
 // Plugins Sidebar
 .plugins-sidebar {
   padding: 0;
+  margin-bottom: 4rem;
 
   .section-header {
     .title {
@@ -51,37 +52,58 @@ export default {
     }
   }
 
+  // Popular
   .plugins-popular {
     .section-header {
-      margin: 0 0 1rem;
+      margin: 0 0 1.5rem;
     }
   }
+  // New & Recently Updated
   .plugins-new,
   .plugins-updated {
     .section-header {
-      margin: 3rem 0 1rem;
+      margin: 4rem 0 1.5rem;
     }
   }
 
   // Popular, New, & Recently Updated
-  .section-plugins .entry-plugin {
+  .plugins-index .entry-plugin {
     grid-template-columns: auto 3fr;
     grid-gap: 1rem;
     margin-bottom: 1rem;
+    padding: 0.5rem 1rem 0.5rem 0;
+    border-radius: 6px;
+    transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+    position: relative;
     .entry-image {
       height: 70px;
       width: 70px;
       border-radius: 50%;
       background: #fff;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      transform-origin: right top;
+      transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       img {
         max-width: 60%;
       }
     }
-    .title {
-      font-size: 1.2rem;
-      margin-bottom: 5px;
+    .entry-content {
+      .title {
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
     }
+    &:hover {
+      box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+      background-color: #fff;
+      transform: translateY(-0.4rem);
+      .entry-image {
+        transform: scale(0.85);
+      }
+    }
+
     @media (max-width: 900px) {
       grid-template-columns: 1fr 3fr;
       padding: 1rem;
@@ -94,8 +116,10 @@ export default {
         box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.07),
           0px 18px 26px rgba(80, 102, 119, 0.16);
         transform: translateY(-0.4rem);
+        .entry-image {
+          transform: none;
+        }
       }
-
       .entry-image {
         height: 130px;
         width: auto;
@@ -104,8 +128,10 @@ export default {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
       }
-      .title {
-        font-size: 1.6em;
+      .entry-content {
+        .title {
+          font-size: 1.6em;
+        }
       }
     }
   }

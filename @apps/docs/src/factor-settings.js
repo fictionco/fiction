@@ -203,34 +203,13 @@ export default Factor => {
       ]
     },
     plugins: {
-      indexRoute: "/pluginsnew", //indexRoute: "/blog"
+      indexRoute: "/pluginsnew", //indexRoute: "/posts"
       postRoute: "/plugin", //postRoute: "/entry"
+      returnLinkText: "All Plugins",
       layout: {
         index: () => import("./plugins/v-plugins.vue"),
         single: () => import("./plugins/plugins-single.vue")
       }
-      // components: {
-      //   blogWrap: () => import("./blog/blog-wrap.vue"),
-      //   blogIndex: () => import("./blog/blog-index.vue"),
-      //   blogSingle: () => import("./blog/blog-single.vue"),
-      //   blogFeaturedImage: () => import("./blog/el-featured-image.vue"),
-      //   blogHeaders: () => import("./blog/el-headers.vue"),
-      //   blogReturnLink: () => import("./blog/el-return-link.vue"),
-      //   blogExcerpt: () => import("./blog/el-excerpt.vue"),
-      //   blogMeta: () => import("./blog/el-meta.vue")
-      // },
-      // layout: {
-      //   index: ["blogFeaturedImage", "blogHeaders", "blogExcerpt", "blogMeta"],
-      //   single: [
-      //     "blogHeaders",
-      //     "blogFeaturedImage",
-      //     "blogMeta",
-      //     "entry",
-      //     "social",
-      //     "authorBio"
-      //   ],
-      //   meta: ["authorDate", "tags"]
-      // }
     },
 
     footer: {
