@@ -1,5 +1,5 @@
 <template>
-  <div class="plugins-wrap">
+  <div class="factor-plugins">
     <router-view />
   </div>
 </template>
