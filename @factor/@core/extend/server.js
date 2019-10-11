@@ -33,7 +33,6 @@ module.exports.default = Factor => {
 
       this._install("files", require("@factor/build-files").default)
       this._install("theme", require("@factor/core-override").default)
-      //  this._install("stack", require("@factor/core-stack").default)
 
       this._install("configServer", require("@factor/config/server").default)
 
@@ -46,8 +45,10 @@ module.exports.default = Factor => {
 
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
-      require("@factor/app-store").createStore()
-      require("@factor/app-router")
+      require("@factor/app/store")
+        .default(Factor)
+        .create()
+      require("@factor/app/router")
         .default(Factor)
         .create()
     }
