@@ -3,7 +3,7 @@ const chalk = require("chalk")
 const boxen = require("boxen")
 const figures = require("figures")
 
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       this.logger = consola.create({

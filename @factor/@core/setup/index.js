@@ -8,7 +8,7 @@ const {
 const chalk = require("chalk")
 const figures = require("figures")
 const envfile = require("envfile")
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       this.configFile = Factor.$paths.get("config-file-public")

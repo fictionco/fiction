@@ -24,7 +24,7 @@ Example:
 
 ```javascript
 // index.js
-module.exports.default = Factor => {
+export default Factor => {
   return new class {
     constructor() {
 

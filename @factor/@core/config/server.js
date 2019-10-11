@@ -1,9 +1,7 @@
 const { resolve } = require("path")
 const { existsSync } = require("fs-extra")
-const NODE_ENV = process.env.NODE_ENV == "development" ? "development" : "production"
-const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
-
-module.exports.default = Factor => {
+const { NODE_ENV, FACTOR_ENV } = process.env
+export default Factor => {
   return new (class {
     constructor() {
       // Match the public config to what is available in the webpack app
@@ -30,10 +28,10 @@ module.exports.default = Factor => {
 
       if (!conf) {
         const configFilePath = Factor.$paths.get(`config-file-${scope}`)
-        if (existsSync(configFilePath)) {
-          conf = require(configFilePath)
-        }
+
+        if (existsSync(configFilePath)) conf = require(configFilePath)
       }
+
       return conf || {}
     }
 

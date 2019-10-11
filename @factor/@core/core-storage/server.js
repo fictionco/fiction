@@ -1,5 +1,5 @@
 const multer = require("multer")
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       this.mime = require("mime-types")

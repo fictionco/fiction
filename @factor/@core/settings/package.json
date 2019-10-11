@@ -1,7 +1,8 @@
 {
-  "name": "@factor/app-settings",
+  "name": "@factor/settings",
   "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },

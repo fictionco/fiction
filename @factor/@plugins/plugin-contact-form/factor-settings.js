@@ -1,4 +1,4 @@
-module.exports.default = Factor => {
+export default Factor => {
   return {
     contactForm: {
       email: () => Factor.$setting.get("app.email"),

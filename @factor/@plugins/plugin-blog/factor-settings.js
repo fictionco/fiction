@@ -1,4 +1,4 @@
-module.exports.default = Factor => {
+export default Factor => {
   return {
     blog: {
       indexRoute: "/blog",

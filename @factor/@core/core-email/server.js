@@ -1,4 +1,4 @@
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("endpoints", { id: "email", handler: this })

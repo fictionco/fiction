@@ -11,15 +11,8 @@ export default Factor => {
         ? Factor.$configServer.settings()
         : Factor.$config.settings() || {}
 
-      // This is a workaround to deal with problems including
-      // a CWD relative file across environments
-      // Webpack throws 'request is an expression' issues if a var is used
-      // While there are problems with using aliases across resolvers (jest v node)
-      // this.settingsFiles = !process.env.FACTOR_SSR
-      //   ? require("./server.js").default(Factor)
-      //   : require("./client.js").default(Factor)
-
       this.settingsFiles = require(`~/.factor/loader-settings.js`)
+
       this.load()
     }
 

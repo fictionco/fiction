@@ -9,7 +9,7 @@ const { createBundleRenderer } = require("vue-server-renderer")
 const NODE_ENV = process.env.NODE_ENV || "production"
 const IS_PRODUCTION = NODE_ENV === "production"
 
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("create-server", _ => this.createServer(_))
