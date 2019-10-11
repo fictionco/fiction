@@ -8,13 +8,13 @@ export default Factor => {
     }
 
     async run(args = {}) {
-      Factor.FACTOR_CONFIG = require("@factor/build").default(Factor)
+      Factor.FACTOR_INITIAL_CONFIG = require("@factor/build").default(Factor)
       Factor.FACTOR_TARGET = "server"
 
       this.loadCore()
 
       // Loading plugins is sometimes not desireable e.g. when creating loaders
-      if (Factor.FACTOR_CONFIG.loadPlugins !== false) {
+      if (Factor.FACTOR_INITIAL_CONFIG.loadPlugins !== false) {
         this.loadPlugins()
         await this.initialize()
 
@@ -66,7 +66,7 @@ export default Factor => {
     }
 
     async initialize() {
-      const { setup } = Factor.FACTOR_CONFIG
+      const { setup } = Factor.FACTOR_INITIAL_CONFIG
 
       // config defined setup hook/callback
       // Useful for overriding and programmatic config

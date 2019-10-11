@@ -41,7 +41,7 @@ export default Factor => {
       const publicConfig = this.getConfig("public")
 
       const configObjectsPublic = [
-        Factor.FACTOR_CONFIG,
+        Factor.FACTOR_INITIAL_CONFIG,
         publicConfig,
         publicConfig[NODE_ENV],
         publicConfig[FACTOR_ENV]
