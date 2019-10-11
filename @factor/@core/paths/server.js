@@ -3,9 +3,7 @@ const { pathExistsSync } = require("fs-extra")
 export default Factor => {
   return new (class {
     constructor() {
-      const { baseDir } = Factor.FACTOR_CONFIG
-
-      this.baseDir = baseDir
+      this.baseDir = process.env.FACTOR_CWD || process.cwd()
 
       this.assignFolderNames()
       this.assignPaths()
@@ -190,7 +188,7 @@ export default Factor => {
       if (this.httpDetails) {
         return this.httpDetails
       } else {
-        const port = Factor.FACTOR_CONFIG.port || 3000
+        const port = Factor.FACTOR_INITIAL_CONFIG.port || 3000
 
         let routine = "http"
         let certDir = false

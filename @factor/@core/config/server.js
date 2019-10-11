@@ -14,7 +14,6 @@ export default Factor => {
       })
 
       // Add environmental variables from .env if available
-
       const dotEnvPath = resolve(Factor.$paths.get("app"), ".env")
       if (dotEnvPath) {
         require("dotenv").config({ path: dotEnvPath })
@@ -23,23 +22,24 @@ export default Factor => {
       this.initialize()
     }
 
-    getConfig(scope) {
-      let conf = Factor.$filters.apply(`config-${scope}`, null, { NODE_ENV, FACTOR_ENV })
+    publicConfig() {
+      const _f = Factor.$paths.get(`config-file-public`)
 
-      if (!conf) {
-        const configFilePath = Factor.$paths.get(`config-file-${scope}`)
-
-        if (existsSync(configFilePath)) conf = require(configFilePath)
+      let out = {}
+      try {
+        out = require(_f)
+      } catch (error) {
+        if (!error instanceof Error || error.code !== "MODULE_NOT_FOUND") throw error
       }
 
-      return conf || {}
+      return out
     }
 
     initialize() {
-      const publicConfig = this.getConfig("public")
+      const publicConfig = this.publicConfig("public")
 
       const configObjectsPublic = [
-        Factor.FACTOR_CONFIG,
+        Factor.FACTOR_INITIAL_CONFIG,
         publicConfig,
         publicConfig[NODE_ENV],
         publicConfig[FACTOR_ENV]
