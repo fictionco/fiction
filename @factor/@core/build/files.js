@@ -1,4 +1,4 @@
-import { resolve, dirname, basename } from "path"
+import { dirname } from "path"
 import { writeFileSync, ensureDirSync } from "fs-extra"
 import { sync as glob } from "glob"
 const { FACTOR_CWD } = process.env
@@ -15,9 +15,9 @@ export default Factor => {
 
     generateExtensionList(packagePaths) {
       const loader = []
-      console.log(packagePaths)
+
       packagePaths.forEach(_ => {
-        let {
+        const {
           name,
           factor: { id, priority, target = false, extend = "plugin" } = {},
           version,
