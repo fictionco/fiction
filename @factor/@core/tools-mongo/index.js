@@ -19,7 +19,7 @@ export default Factor => {
     }
 
     configureMongoose() {
-      if (Factor.$isNode && Factor.FACTOR_TARGET == "server") {
+      if (Factor.$isNode && process.env.FACTOR_TARGET == "server") {
         this.mongoose = require("mongoose")
 
         // https://github.com/Automattic/mongoose/issues/4965

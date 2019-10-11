@@ -139,6 +139,7 @@ const cli = () => {
         )
       }
 
+      process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
       process.env.NODE_ENV = NODE_ENV
       process.env.FACTOR_ENV = program.ENV || process.env.FACTOR_ENV || NODE_ENV
       process.env.FACTOR_COMMAND = command || program._name || "none"

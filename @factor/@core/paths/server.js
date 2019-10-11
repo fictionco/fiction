@@ -71,6 +71,10 @@ export default Factor => {
 
       _["entry-client"] = resolve(_.coreApp, "entry-client.js")
       _["entry-server"] = resolve(_.coreApp, "entry-server.js")
+      _["loader-app"] = resolve(_.generated, "loader-app.js")
+      _["loader-server"] = resolve(_.generated, "loader-server.js")
+      _["loader-settings"] = resolve(_.generated, "loader-settings.js")
+      _["loader-styles"] = resolve(_.generated, "loader-styles.less")
 
       this.paths = Factor.$filters.apply("paths", _)
     }
@@ -82,7 +86,7 @@ export default Factor => {
         return appPath
       } else {
         let filePath = ""
-        const themes = Factor.$files.getExtended("theme")
+        const themes = Factor.$files.getExtensions("theme")
 
         if (themes.length > 0) {
           themes.some(_ => {
@@ -188,7 +192,7 @@ export default Factor => {
       if (this.httpDetails) {
         return this.httpDetails
       } else {
-        const port = Factor.FACTOR_INITIAL_CONFIG.port || 3000
+        const port = process.env.PORT || 3000
 
         let routine = "http"
         let certDir = false

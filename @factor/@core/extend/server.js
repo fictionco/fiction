@@ -1,3 +1,6 @@
+import { resolve } from "path"
+import { argv } from "yargs"
+
 export default Factor => {
   return new (class {
     constructor() {}
@@ -8,15 +11,15 @@ export default Factor => {
     }
 
     async run(args = {}) {
-      Factor.FACTOR_INITIAL_CONFIG = require("@factor/build").default(Factor)
-      Factor.FACTOR_TARGET = "server"
+      process.env.FACTOR_TARGET = "server"
 
       this.loadCore()
 
       // Loading plugins is sometimes not desireable e.g. when creating loaders
-      if (Factor.FACTOR_INITIAL_CONFIG.loadPlugins !== false) {
+      if (argv.loadPlugins !== false) {
         this.loadPlugins()
-        await this.initialize()
+
+        await Factor.$filters.run("initialize-server")
 
         if (!args.restart) {
           Factor.$filters.run("after-first-server-extend")
@@ -40,9 +43,6 @@ export default Factor => {
 
       this._install("webpack", require("@factor/build/webpack").default)
 
-      // // This just adds the dirname to config and other paths
-      // require("@factor/app/build").default(Factor)
-
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
       require("@factor/app/store")
@@ -65,18 +65,6 @@ export default Factor => {
       })
     }
 
-    async initialize() {
-      const { setup } = Factor.FACTOR_INITIAL_CONFIG
-
-      // config defined setup hook/callback
-      // Useful for overriding and programmatic config
-      if (typeof setup == "function") {
-        setup(Factor)
-      }
-
-      await Factor.$filters.run("initialize-server")
-    }
-
     loadPlugins() {
       const { pathExistsSync } = require("fs-extra")
 
@@ -97,10 +85,8 @@ export default Factor => {
 
     injectPlugins(plugins) {
       for (var _p in plugins) {
-        if (plugins[_p]) {
-          if (typeof plugins[_p] == "function") {
-            this._install(_p, plugins[_p])
-          }
+        if (plugins[_p] && typeof plugins[_p] == "function") {
+          this._install(_p, plugins[_p])
         }
       }
     }
