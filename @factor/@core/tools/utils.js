@@ -96,25 +96,18 @@ export default Factor => {
     }
 
     camelToKebab(string) {
-      if (!string) {
-        return string
-      } else {
-        return string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
-      }
+      return !string ? string : string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
     }
 
     stopWordLowercase(str) {
       const words = str.split(" ")
 
-      if (words.length <= 1) {
-        return str
-      }
+      if (words.length <= 1) return str
+
       const stopwords = require("./resource/stopwords")
 
       const regex = new RegExp("\\b(" + stopwords.join("|") + ")\\b", "gi")
-      return str.replace(regex, match => {
-        return match.toLowerCase()
-      })
+      return str.replace(regex, match => match.toLowerCase())
     }
 
     sortPriority(arr) {

@@ -1,15 +1,11 @@
 const path = require("path")
 const { resolve, dirname } = path
-const { existsSync, writeFileSync, ensureDirSync } = require("fs-extra")
+const { writeFileSync, ensureDirSync } = require("fs-extra")
 const glob = require("glob").sync
 export default Factor => {
   return new (class {
     constructor() {
       const gen = Factor.$paths.get("generated")
-
-      this.namespace = "factor"
-
-      this.build = process.env.NODE_ENV === "production" ? "production" : "development"
 
       Factor.$paths.add({
         "loader-app": resolve(gen, "loader-app.js"),
@@ -27,6 +23,7 @@ export default Factor => {
       }
     }
 
+    // Returns all extensions or all of certain type
     getExtended(type = false) {
       return type ? this.extensions.filter(_ => _.extend == type) : this.extensions
     }
@@ -125,7 +122,7 @@ export default Factor => {
     }
 
     recursiveFactorDependencies(deps, pkg) {
-      const { name, factor, dependencies = {}, devDependencies = {} } = pkg
+      const { dependencies = {}, devDependencies = {} } = pkg
 
       const d = { ...dependencies, ...devDependencies }
 
@@ -210,16 +207,7 @@ export default Factor => {
           priority = cwd ? 1000 : (extend == "theme" ? 150 : 100)
         }
 
-        fields = {
-          version,
-          name,
-          priority,
-          target,
-          extend,
-          cwd,
-          main,
-          id
-        }
+        fields = { version, name, priority, target, extend, cwd, main, id }
 
         fields.requireRoot = cwd ? ".." : name
         fields.mainFile = this.moduleMainFile(fields)
@@ -230,7 +218,7 @@ export default Factor => {
         loader.push(fields)
       })
 
-      return this.sortPriority(loader)
+      return Factor.$utils.sortPriority(loader)
     }
 
     getWatchDirs() {
@@ -295,9 +283,7 @@ export default Factor => {
     }
 
     readHtmlFile(filePath, { minify = true, name = "" } = {}) {
-      const fs = require("fs-extra")
-
-      let str = fs.readFileSync(filePath, "utf-8")
+      let str = require("fs-extra").readFileSync(filePath, "utf-8")
 
       if (minify) {
         str = require("html-minifier").minify(str, {
@@ -320,23 +306,6 @@ export default Factor => {
       return base.replace(/\//gi, "").replace(/-([a-z])/g, function(g) {
         return g[1].toUpperCase()
       })
-    }
-
-    sortPriority(arr) {
-      if (!arr || arr.length == 0) return arr
-
-      return arr
-        .sort(function(a, b) {
-          const ap = a.id
-          const bp = b.id
-          return ap < bp ? -1 : (ap > bp ? 1 : 0)
-        })
-        .sort((a, b) => {
-          const ap = a.priority || 100
-          const bp = b.priority || 100
-
-          return ap < bp ? -1 : (ap > bp ? 1 : 0)
-        })
     }
   })()
 }
