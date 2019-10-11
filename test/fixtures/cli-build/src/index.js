@@ -1,4 +1,4 @@
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       // Prevent injection in template

@@ -1,6 +1,6 @@
 const chalk = require("chalk")
 
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {}
 

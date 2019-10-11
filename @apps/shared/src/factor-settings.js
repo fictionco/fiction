@@ -1,4 +1,4 @@
-module.exports.default = Factor => {
+export default Factor => {
   return {
     google_tag_manager: {
       gtm_id: "GTM-THQBLTN"

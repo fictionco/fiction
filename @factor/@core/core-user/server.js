@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       Factor.$filters.add("webpack-ignore-modules", _ => [..._, "bcrypt"])

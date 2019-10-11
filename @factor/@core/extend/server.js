@@ -1,4 +1,4 @@
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {}
 
@@ -8,7 +8,7 @@ module.exports.default = Factor => {
     }
 
     async run(args = {}) {
-      Factor.FACTOR_CONFIG = require("@factor/build-config").default(Factor)
+      Factor.FACTOR_CONFIG = require("@factor/build").default(Factor)
       Factor.FACTOR_TARGET = "server"
 
       this.loadCore()
@@ -31,14 +31,14 @@ module.exports.default = Factor => {
       this._install("filters", require("@factor/filters").default)
       this._install("paths", require("@factor/paths/server").default)
 
-      this._install("files", require("@factor/build-files").default)
+      this._install("files", require("@factor/build/files").default)
       this._install("theme", require("@factor/core-override").default)
 
       this._install("configServer", require("@factor/config/server").default)
 
-      require("@factor/build-transpiler").default(Factor)
+      this._install("setting", require("@factor/settings").default)
 
-      this._install("setting", require("@factor/app-settings").default)
+      this._install("webpack", require("@factor/build/webpack").default)
 
       // // This just adds the dirname to config and other paths
       // require("@factor/app/build").default(Factor)

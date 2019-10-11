@@ -1,7 +1,7 @@
 const cors = require("cors")
 const parse = require("qs").parse
 
-module.exports.default = Factor => {
+export default Factor => {
   const util = require(".").default(Factor)
   const server = new (class {
     constructor() {

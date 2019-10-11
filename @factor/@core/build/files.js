@@ -2,7 +2,7 @@ const path = require("path")
 const { resolve, dirname } = path
 const { existsSync, writeFileSync, ensureDirSync } = require("fs-extra")
 const glob = require("glob").sync
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       const gen = Factor.$paths.get("generated")

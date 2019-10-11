@@ -1,6 +1,6 @@
 const { resolve, dirname } = require("path")
 const { pathExistsSync } = require("fs-extra")
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       const { baseDir } = Factor.FACTOR_CONFIG

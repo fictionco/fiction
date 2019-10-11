@@ -2,7 +2,7 @@ const { dirname } = require("path")
 const { pathExistsSync } = require("fs-extra")
 const glob = require("glob").sync
 
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       this.themes = Factor.$files.getExtended("theme")

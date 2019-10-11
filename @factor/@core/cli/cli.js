@@ -145,6 +145,8 @@ const cli = () => {
 
       this.refineNodeRequire()
 
+      require("@factor/build/transpiler").default(Factor)
+
       if (extend) {
         const extender = require("@factor/extend/server").default(Factor)
         await extender.run(_arguments)

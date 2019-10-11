@@ -22,7 +22,7 @@ export default (Factor, options = {}) => {
 
       this._install("paths", require("@factor/paths").default) // Filler
 
-      this._install("setting", require("@factor/app-settings").default)
+      this._install("setting", require("@factor/settings").default)
     }
 
     _install(id, plugin) {

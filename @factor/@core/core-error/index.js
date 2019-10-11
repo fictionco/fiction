@@ -8,7 +8,7 @@ class FactorError extends Error {
   }
 }
 
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {}
 

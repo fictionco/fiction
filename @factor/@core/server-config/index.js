@@ -3,7 +3,7 @@ const { existsSync } = require("fs-extra")
 const NODE_ENV = process.env.NODE_ENV == "development" ? "development" : "production"
 const FACTOR_ENV = process.env.FACTOR_ENV || NODE_ENV
 
-module.exports.default = Factor => {
+export default Factor => {
   return new (class {
     constructor() {
       // Match the public config to what is available in the webpack app
