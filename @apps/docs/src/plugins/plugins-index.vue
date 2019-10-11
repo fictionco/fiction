@@ -1,5 +1,5 @@
 <template>
-  <div class="section-plugins">
+  <div class="plugins-index">
     <section
       v-for="(entry, index) in filteredEntries"
       :id="entry.id"
@@ -97,7 +97,7 @@ export default {
 }
 </script>
 <style lang="less">
-.section-plugins {
+.plugins-index {
   .entry-plugin {
     display: grid;
     grid-template-columns: 1fr 3fr;
@@ -140,6 +140,10 @@ export default {
       }
       .meta {
         color: rgba(var(--color-text-rgb), 0.6);
+        .author,
+        .categories {
+          display: inline-block;
+        }
         .categories {
           display: inline;
           .category {
@@ -163,6 +167,10 @@ export default {
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
         transform: translateY(3rem);
         opacity: 0.2;
+        @media (max-width: 900px) {
+          transform: none;
+          opacity: 1;
+        }
       }
     }
   }

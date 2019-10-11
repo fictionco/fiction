@@ -10,15 +10,10 @@
           "id": 1,
           "name": "SEO",
           "slug": "seo"
-        },
-        {
-          "id": 2,
-          "name": "Featured",
-          "slug": "featured"
         }
       ],
       "downloads": "1262",
-      "text": "Create a sitemap for your factor site. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+      "text": "Create a sitemap for your factor site. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "content": "./commentizer/README.md",
       "permalink": "factor-sitemap",
       "link": { "path": "/factor-sitemap", "text": "Details" },
@@ -55,11 +50,6 @@
           "id": 9,
           "name": "Jobs",
           "slug": "jobs"
-        },
-        {
-          "id": 2,
-          "name": "Featured",
-          "slug": "featured"
         }
       ],
       "downloads": "694",
@@ -97,6 +87,11 @@
       "author": "Factor",
       "categories": [
         {
+          "id": 2,
+          "name": "Featured",
+          "slug": "featured"
+        },
+        {
           "id": 7,
           "name": "Comments",
           "slug": "comments"
@@ -116,6 +111,11 @@
       "image": "icon-syntax.svg",
       "author": "Factor",
       "categories": [
+        {
+          "id": 2,
+          "name": "Featured",
+          "slug": "featured"
+        },
         {
           "id": 8,
           "name": "Syntax",
@@ -164,7 +164,7 @@
       ],
       "downloads": "878",
       "text": "Easily add Google Tag Manager to your Factor site.",
-      "content": "./commentizer/README.md",
+      "content": "./gtm/README.md",
       "permalink": "factor-google-tagmanager",
       "link": { "path": "/factor-google-tagmanager", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",

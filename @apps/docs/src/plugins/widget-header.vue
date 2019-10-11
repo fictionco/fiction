@@ -2,17 +2,15 @@
   <section class="plugins-widget-header">
     <div class="content-pad">
       <div class="header-content">
-        <div class="entry-image">
-          <img v-if="image" :src="require(`./img/${image}`)" :alt="title" />
+        <div v-if="image" class="header-image">
+          <img :src="require(`./img/${image}`)" :alt="title" />
         </div>
-        <h1 class="page-title">{{ title }}</h1>
-        <h3 class="page-title-sub">
-          <slot name="subtitle"></slot>
-          <!-- {{ subtitle }} -->
-          <!-- <span v-if="post.author">by {{ post.author }}</span>
-          <span v-if="post.categories">in{{ post.categories }}</span>
-          <span v-if="post.downloads">{{ post.downloads }} Downloads</span>-->
-        </h3>
+        <div>
+          <h1 class="page-title">{{ title }}</h1>
+          <h3 class="page-title-sub">
+            <slot name="subtitle"></slot>
+          </h3>
+        </div>
       </div>
       <div class="header-figure">
         <slot name="figure"></slot>
@@ -24,14 +22,8 @@
 export default {
   props: {
     image: { type: String, default: "" },
-    title: { type: String, default: "", required: true },
-    subtitle: { type: String, default: "" }
+    title: { type: String, default: "", required: true }
   }
-  // computed: {
-  //   post() {
-  //     return this.$store.val(this.postId) || {}
-  //   }
-  // }
 }
 </script>
 <style lang="less">
