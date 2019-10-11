@@ -68,12 +68,10 @@ module.exports.default = Factor => {
             children: [
               {
                 path: "/pluginsnew",
-                //component: () => import("./plugins/v-plugins")
                 component: Factor.$setting.get("plugins.layout.index")
               },
               {
                 path: `${Factor.$setting.get("plugins.postRoute")}/:permalink`,
-                //component: () => import("./plugins/v-plugins-single")
                 component: Factor.$setting.get("plugins.layout.single")
               }
             ]

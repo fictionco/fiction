@@ -1,4 +1,4 @@
-# Factor Commentizer Plugin
+# Factor Commentizer
 
 ## Overview
 
