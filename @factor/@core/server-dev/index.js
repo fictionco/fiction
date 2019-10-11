@@ -42,11 +42,6 @@ export default Factor => {
         ...argv
       })
 
-      // this.ready
-      // const readyPromise = new Promise(resolve => {
-      //   this.ready = resolve
-      // })
-
       this.template = readFileSync(this.templatePath, "utf-8")
 
       this.watcher()
@@ -94,7 +89,6 @@ export default Factor => {
       }
 
       if (this.bundle && this.clientManifest) {
-        //this.ready() // triggers promise resolution
         this.cb({
           bundle: this.bundle,
           template: this.template,
@@ -125,38 +119,6 @@ export default Factor => {
             })
           }
         })
-
-      // const customWatchers = Factor.$filters.apply("build-watchers", [
-      //   {
-      //     name: "Template",
-      //     files: [
-      //       this.templatePath,
-      //       Factor.$paths.get("config-file-public"),
-      //       Factor.$paths.get("config-file-private")
-      //     ],
-      //     callback: () => {
-      //       this.template = this.getTemplate()
-      //     }
-      //   }
-      // ])
-
-      // if (customWatchers.length > 0) {
-      //   customWatchers.forEach(
-      //     ({ name, files, ignored = [], event = "all", callback }) => {
-      //       chokidar
-      //         .watch(files, { ignored, ignoreInitial: true })
-      //         .on(event, (event, path) => {
-      //           const update = callback({ event, path })
-      //           if (update || typeof update == "undefined") {
-      //             this.updateServer({
-      //               title: event,
-      //               value: path
-      //             })
-      //           }
-      //         })
-      //     }
-      //   )
-      // }
     }
 
     compileClient() {

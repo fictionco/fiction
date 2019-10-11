@@ -5,6 +5,8 @@ const glob = require("glob").sync
 export default Factor => {
   return new (class {
     constructor() {
+      this.cwdPackage = require(resolve(Factor.$paths.get("app"), "package.json"))
+
       const gen = Factor.$paths.get("generated")
 
       Factor.$paths.add({
@@ -14,13 +16,9 @@ export default Factor => {
         "loader-styles": resolve(gen, "loader-styles.less")
       })
 
-      this.cwdPackage = require(resolve(Factor.$paths.get("app"), "package.json"))
-
       this.extensions = this.getExtensions()
 
-      if (Factor.FACTOR_TARGET == "server") {
-        Factor.$filters.callback("cli-run-create-loaders", _ => this.generateLoaders(_))
-      }
+      Factor.$filters.callback("cli-run-create-loaders", _ => this.generateLoaders(_))
     }
 
     // Returns all extensions or all of certain type
@@ -49,7 +47,7 @@ export default Factor => {
             ({ id, file }) => `files["${id}"] = require("${file}").default`
           )
 
-          this._writeFile(Factor.$paths.get("loader-settings"), fileLines)
+          this.writeFileWithLines(Factor.$paths.get("loader-settings"), fileLines)
         }
       })
 
@@ -143,9 +141,7 @@ export default Factor => {
     // factor dependency tree
     getExtensions() {
       const deps = this.recursiveFactorDependencies([this.cwdPackage], this.cwdPackage)
-      const list = this.getExtensionList(deps)
-
-      return list
+      return this.getExtensionList(deps)
     }
 
     moduleMainFile({ name, main, cwd }) {
@@ -254,7 +250,7 @@ export default Factor => {
         })
       })
 
-      this._writeFile(destination, fileLines)
+      this.writeFileWithLines(destination, fileLines)
     }
 
     writeFile({ destination, content }) {
@@ -265,7 +261,7 @@ export default Factor => {
       Factor.$log.success(`File Made @${destination}`)
     }
 
-    _writeFile(destination, fileLines) {
+    writeFileWithLines(destination, fileLines) {
       const fs = require("fs-extra")
       let lines = [`/******** GENERATED FILE ********/`]
 
@@ -282,30 +278,9 @@ export default Factor => {
       console.log(`File Made @${destination}`)
     }
 
-    readHtmlFile(filePath, { minify = true, name = "" } = {}) {
-      let str = require("fs-extra").readFileSync(filePath, "utf-8")
-
-      if (minify) {
-        str = require("html-minifier").minify(str, {
-          minifyJS: true,
-          collapseWhitespace: true
-        })
-      }
-
-      if (name) {
-        str = `<!-- ${name} -->${str}<!-- / ${name} -->`
-      }
-
-      return str
-    }
-
     makeId(name) {
-      const base = name
-        .split(/endpoint-|plugin-|theme-|service-|@factor|@fiction/gi)
-        .pop()
-      return base.replace(/\//gi, "").replace(/-([a-z])/g, function(g) {
-        return g[1].toUpperCase()
-      })
+      const base = name.split(/endpoint-|plugin-|theme-|@factor/gi).pop()
+      return base.replace(/\//gi, "").replace(/-([a-z])/g, g => g[1].toUpperCase())
     }
   })()
 }
