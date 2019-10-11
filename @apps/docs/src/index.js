@@ -11,12 +11,16 @@ module.exports.default = Factor => {
       Factor.$filters.add("after-first-server-extend", () => {
         const base = Factor.$setting.get("docs.base")
         const pages = Factor.$setting.get("docs.pages")
-        pages.forEach(p => {
-          if (p.doc) {
-            Factor.$router.registerRoute(`/${base}/${p.doc}`)
-          }
-        })
-        // console.log("Factor.$router.registered()", Factor.$router.getRegisteredRoutes())
+        const canonical = pages
+          .map(p => {
+            return p.doc
+              ? { path: `/${base}/${p.doc}`, component: () => import("./page-docs") }
+              : ""
+          })
+          .filter(_ => _)
+
+        // Add canonical routes (sitemaps, etc)
+        Factor.$router.addRoutes(canonical)
       })
 
       Factor.$filters.add("page-templates", _ => {

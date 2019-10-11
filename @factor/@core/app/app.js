@@ -1,8 +1,8 @@
 import Factor from "vue"
 
 import extendApp from "@factor/extend"
-import { createStore } from "@factor/app-store"
-import FactorRouter from "@factor/app-router"
+import FactorStore from "@factor/app/store"
+import FactorRouter from "@factor/app/router"
 
 Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
@@ -15,7 +15,7 @@ export function createApp(options = {}) {
 
   if (extend) extendApp(Factor)
 
-  const store = createStore()
+  const store = FactorStore(Factor).create()
   const router = FactorRouter(Factor).create()
 
   // Extend with mixins, etc... happens after router and store
