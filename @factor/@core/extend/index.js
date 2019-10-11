@@ -7,7 +7,7 @@ export default (Factor, options = {}) => {
 
     async setup() {
       Factor.config.productionTip = false
-      Factor.config.devtools = true
+      Factor.config.devtools = false
       Factor.config.silent = false
 
       Factor.$globals = Factor.prototype.$globals = Factor.observable({

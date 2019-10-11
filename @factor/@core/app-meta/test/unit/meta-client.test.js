@@ -10,8 +10,8 @@ import extendApp from "@factor/extend"
 // import { render, renderToString } from "@vue/server-test-utils"
 
 import { waitFor, indexHtml } from "@test/utils"
-import { createStore } from "@factor/app-store"
-import FactorRouter from "@factor/app-router"
+import FactorStore from "@factor/app/store"
+import FactorRouter from "@factor/app/router"
 
 describe("meta info client", () => {
   beforeAll(() => {
@@ -36,7 +36,7 @@ describe("meta info client", () => {
       component: () => import("./meta.vue")
     })
 
-    const store = createStore()
+    const store = FactorStore(Factor).create()
     const router = FactorRouter(Factor).create()
 
     const site = await Factor.$setting.get("app.site")()

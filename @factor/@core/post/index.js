@@ -183,7 +183,6 @@ export default Factor => {
     }
 
     init(cb) {
-      console.log("CB", cb)
       if (this.initialized) {
         cb()
       } else {
