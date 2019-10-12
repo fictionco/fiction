@@ -7,9 +7,9 @@
         </div>
         <div>
           <h1 class="page-title">{{ title }}</h1>
-          <h3 class="page-title-sub">
+          <div class="page-title-sub">
             <slot name="subtitle"></slot>
-          </h3>
+          </div>
         </div>
       </div>
       <div class="header-figure">
@@ -43,7 +43,7 @@ export default {
       font-size: 3.5em;
       line-height: 1.1;
       font-weight: 500;
-      margin: 0 0 1rem;
+      //margin: 0 0 .5rem;
       letter-spacing: -0.03em;
     }
     .page-title-sub {
@@ -53,12 +53,12 @@ export default {
     @media (max-width: 900px) {
       padding: 3rem 0;
       .page-title {
-        font-size: 1.7em;
+        font-size: 2.4rem;
         line-height: 1.3;
       }
       .page-title-sub {
-        font-size: 1.4em;
-        line-height: 1.1;
+        font-size: 1.4rem;
+        line-height: 1.3;
       }
     }
   }

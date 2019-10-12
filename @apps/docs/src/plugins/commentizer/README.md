@@ -2,7 +2,7 @@
 
 ## Overview
 
-This plugin that adds comments to your posts.
+Adds comments to your posts and enables management via the Factor dashboard.
 
 ## Installation
 
@@ -19,5 +19,10 @@ Config for this plugin is public only and stored in your `factor-config.json` fi
 ## Utilities available (factor setup)
 
 ## FAQ or Related documentation and context links
+
+1. A numbered list
+   1. A nested numbered list
+   2. Which is numbered
+2. Which is numbered
 
 Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
