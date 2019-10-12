@@ -21,10 +21,10 @@
     "figures": "^3.0.0",
     "lodash": "^4.17.11",
     "sao": "^1.6.1",
-    "superb": "^2.0.0"
+    "superb": "^4.0.0"
   },
   "devDependencies": {
-    "standard-version": "^5.0.1"
+    "standard-version": "^7.0.0"
   },
   "license": "GPL-2.0",
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a"

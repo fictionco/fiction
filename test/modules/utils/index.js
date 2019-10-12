@@ -10,7 +10,6 @@ export const indexHtml = () => {
   return `<!DOCTYPE html>
   <html>
     <head>
-      <meta charset="utf-8">
       <title>NOT SET</title>
     </head>
     <body>

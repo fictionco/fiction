@@ -39,7 +39,7 @@ module.exports = {
 
   collectCoverageFrom: ["**/@factor/**/*.js"],
 
-  coveragePathIgnorePatterns: ["node_modules/(?!(@factor|factor))"],
+  coveragePathIgnorePatterns: ["node_modules/(?!(@factor|factor))", "fixtures"],
 
   reporters: ["default", ["jest-junit", { outputDirectory: "reports/junit" }]]
 }

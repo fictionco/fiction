@@ -15,19 +15,11 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
 //const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
-const NODE_ENV = process.env.NODE_ENV
 
 export default Factor => {
+  const { NODE_ENV } = process.env
   return new (class {
     constructor() {
-      // Allow for running plugin outside of app (e.g. cypress)
-      // should be able to call for webpack config directly from module
-      if (Factor.$filters) {
-        this.addFilters()
-      }
-    }
-
-    addFilters() {
       Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
       Factor.$filters.add("webpack-config", args => {
         return this.getConfig(args)
@@ -327,12 +319,8 @@ export default Factor => {
     cssLoaders({ target, build, lang }) {
       let finishing
 
-      //const prependedFiles = Factor.$filters.apply("prepended-style-var-files", [])
-
-      const baseLoaders = [
-        {
-          loader: "css-loader"
-        },
+      const _base = [
+        { loader: "css-loader" },
         {
           loader: "postcss-loader",
           options: {
@@ -343,37 +331,25 @@ export default Factor => {
       ]
 
       if (lang == "less") {
-        baseLoaders.push({
-          loader: "less-loader"
-        })
+        _base.push({ loader: "less-loader" })
       } else if (lang == "sass") {
-        baseLoaders.push({
-          loader: "sass-loader"
-        })
+        _base.push({ loader: "sass-loader" })
       }
 
       // For development use runtime style loader
       if (build != "production") {
-        finishing = [
-          {
-            loader: "vue-style-loader"
-          }
-        ]
+        finishing = [{ loader: "vue-style-loader" }]
       }
       // For production builds, extract css to own file
       else if (target == "client" && build == "production") {
-        finishing = [
-          {
-            loader: MiniCssExtractPlugin.loader
-          }
-        ]
+        finishing = [{ loader: MiniCssExtractPlugin.loader }]
       }
       // SSR builds can't have extracted css (causes error)
       else if (target == "server" && build == "production") {
         finishing = [{ loader: "null-loader" }]
       }
 
-      return [...finishing, ...baseLoaders]
+      return [...finishing, ..._base]
     }
   })()
 }

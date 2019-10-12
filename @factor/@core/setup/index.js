@@ -110,19 +110,13 @@ export default Factor => {
     }
 
     extensionNames(type, format = "join") {
-      const exts = Factor.$files.getExtensions(type)
+      const exts = Factor.$loaders.getExtensions().filter(_ => _.extend == type)
 
       if (exts && exts.length > 0) {
         const names = exts.map(_ => _.name)
 
-        if (format == "count") {
-          return names.length
-        } else {
-          return names.join(", ")
-        }
-      } else {
-        return "none"
-      }
+        return format == "count" ? names.length : names.join(", ")
+      } else return "none"
     }
 
     prettyJson(data) {
