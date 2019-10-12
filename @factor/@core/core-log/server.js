@@ -14,8 +14,10 @@ export default Factor => {
       })
     }
 
-    util(type, params) {
-      this.logger[type].apply(null, params)
+    util(type, _arguments) {
+      this.logger[type].apply(null, _arguments)
+
+      return _arguments
     }
 
     custom({ type, params, target }) {

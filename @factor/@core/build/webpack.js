@@ -21,36 +21,25 @@ export default Factor => {
   return new (class {
     constructor() {
       Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
-      Factor.$filters.add("webpack-config", args => {
-        return this.getConfig(args)
-      })
+      Factor.$filters.add("webpack-config", args => this.getConfig(args))
     }
 
     augmentBuild(name, compiler, { resolve, reject }) {
       var ProgressPlugin = require("webpack/lib/ProgressPlugin")
-      const progressBar = require("cli-progress")
+      const { Bar, Presets } = require("cli-progress")
 
-      let bar = new progressBar.Bar(
-        {
-          format: `${name} [{bar}] {percentage}% {msg}`
-        },
-        progressBar.Presets.rect
-      )
+      let _bar = new Bar({ format: `${name} [{bar}] {percentage}% {msg}` }, Presets.rect)
 
-      bar.start(100, 1, { msg: "" })
+      _bar.start(100, 1, { msg: "" })
 
       compiler.apply(
         new ProgressPlugin((ratio, msg) => {
-          const percent = ratio * 100
-
-          bar.update(percent, {
-            msg
-          })
+          _bar.update(ratio * 100, { msg })
         })
       )
 
       compiler.run((err, stats) => {
-        bar.stop()
+        _bar.stop()
 
         if (process.env.FACTOR_ENV != "test") {
           process.stdout.write(
@@ -64,13 +53,8 @@ export default Factor => {
           )
         }
 
-        if (err || stats.hasErrors()) {
-          Factor.$log.error(err)
-          reject(err)
-        } else {
-          Factor.$log.success(`[${name}] Built`)
-          resolve()
-        }
+        if (err || stats.hasErrors()) reject(Factor.$log.error(err))
+        else resolve(Factor.$log.success(`[${name}] Built`))
       })
     }
 
@@ -236,8 +220,6 @@ export default Factor => {
         resolve: {
           extensions: [".js", ".vue", ".json"],
           alias: Factor.$paths.getAliases()
-          // modules: Factor.$filters.apply("webpack-resolve-modules", Factor.$paths.get("modules")),
-          // symlinks: false // for performance
         },
         module: {
           rules: Factor.$filters.apply("webpack-loaders", [
@@ -249,10 +231,7 @@ export default Factor => {
             {
               test: /\.(png|jpg|gif|svg)$/,
               loader: "file-loader",
-              options: {
-                limit: 10000,
-                name: "[name].[hash].[ext]"
-              }
+              options: { limit: 10000, name: "[name].[hash].[ext]" }
             },
             { test: /\.(mov|mp4)$/, use: ["file-loader"] },
 
@@ -271,18 +250,11 @@ export default Factor => {
 
             {
               test: /\.md$/,
-              use: [
-                {
-                  loader: "markdown-image-loader"
-                }
-              ]
+              use: [{ loader: "markdown-image-loader" }]
             }
           ])
         },
-        performance: {
-          maxEntrypointSize: 600000
-        },
-        node: { fs: "empty" },
+
         plugins: [
           new CopyPlugin(Factor.$filters.apply("webpack-copy-files-config", [])),
           new VueLoaderPlugin(),
@@ -301,16 +273,17 @@ export default Factor => {
             })
           }
         ],
-        stats: { children: false }
+        stats: { children: false },
+        performance: { maxEntrypointSize: 500000 },
+        node: { fs: "empty" }
       }
 
+      // Allow for ignoring of files that should not be packaged for client
       const ignoreMods = Factor.$filters.apply("webpack-ignore-modules", [])
       const ignoreRegex = ignoreMods.length > 0 ? ignoreMods.join("|") : ""
 
       if (ignoreRegex) {
-        const createRegex = new RegExp(`^(${ignoreRegex})$`)
-
-        out.plugins.push(new webpack.IgnorePlugin(createRegex))
+        out.plugins.push(new webpack.IgnorePlugin(new RegExp(`^(${ignoreRegex})$`)))
       }
 
       return out
