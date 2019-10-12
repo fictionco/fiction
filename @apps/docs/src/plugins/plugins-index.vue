@@ -147,6 +147,7 @@ export default {
         .categories {
           display: inline;
           .category {
+            display: inherit;
             &:after {
               content: ", ";
             }

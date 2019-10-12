@@ -1,7 +1,7 @@
 <template>
   <div class="plugins-container">
     <widget-header :title="`Factor Plugin Library`">
-      <p slot="subtitle">Extend your project features and do more with Factor.</p>
+      <h3 slot="subtitle">Extend your project features and do more with Factor.</h3>
       <figure-plugins slot="figure" />
     </widget-header>
 
@@ -22,7 +22,7 @@
             required
             label="Search"
           />
-          <!-- v-model="post.gender" -->
+
           <factor-input-wrap
             :list="['seo', 'Utilities', 'Jobs', 'Comments', 'Syntax']"
             input="factor-input-select"
@@ -42,24 +42,7 @@
       </div>
     </div>
 
-    <section>
-      <div class="content-pad">
-        <div class="plugins-cta">
-          <div class="text">
-            <h2 class="title">Create and Submit Your Plugin</h2>
-            <h2 class="title-sub">
-              Learn about extension development and how to submit your extension to the
-              Factor library.
-            </h2>
-          </div>
-
-          <div class="buttons">
-            <factor-link btn="primary" path="/guide/">Submit Plugin &rarr;</factor-link>
-            <factor-link btn="default" path="/guide/create-plugins">Create Plugin &rarr;</factor-link>
-          </div>
-        </div>
-      </div>
-    </section>
+    <widget-cta />
   </div>
 </template>
 
@@ -67,9 +50,10 @@
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
-    "plugins-sidebar": () => import("./plugins-sidebar"),
     "figure-plugins": () => import("./figure-plugins"),
-    "plugins-index": () => import("./plugins-index")
+    "plugins-index": () => import("./plugins-index"),
+    "plugins-sidebar": () => import("./plugins-sidebar"),
+    "widget-cta": () => import("./widget-plugins-cta")
   },
   data() {
     return {
@@ -86,9 +70,6 @@ export default {
     headerFigure() {
       return () => import("./figure-plugins.vue")
     }
-  },
-  routeClass() {
-    //return ["nav-light"]
   }
 }
 </script>
@@ -221,34 +202,6 @@ export default {
       .entry-image {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
-      }
-    }
-  }
-
-  /* CTA */
-  .plugins-cta {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    border-top: 2px solid #f6f9fc;
-    margin: 2rem 0 0;
-    padding: 3rem 0;
-    @media (max-width: 900px) {
-      grid-template-columns: 1fr;
-    }
-    .text h2 {
-      &.title {
-        color: var(--color-primary);
-      }
-      font-size: 1.5em;
-    }
-    .buttons {
-      margin: 0 0 0 20px;
-      .btn-link + .btn-link {
-        margin-left: 1rem;
-      }
-      @media (max-width: 900px) {
-        margin: 20px 0 0 0;
       }
     }
   }
