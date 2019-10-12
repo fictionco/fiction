@@ -2,7 +2,7 @@ export default Factor => {
   return new (class {
     constructor() {
       this.addPaths()
-      if (Factor.FACTOR_TARGET == "app") {
+      if (process.env.FACTOR_TARGET == "app") {
         this.filters()
         this.addPaths()
         this.addComponents()

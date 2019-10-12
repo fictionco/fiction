@@ -8,5 +8,8 @@
   "factor": {
     "priority": 30
   },
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a"
+  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
+  "dependencies": {
+    "dotenv": "^8.1.0"
+  }
 }

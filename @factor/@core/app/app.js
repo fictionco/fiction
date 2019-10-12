@@ -6,7 +6,7 @@ import FactorRouter from "@factor/app/router"
 
 Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
-Factor.FACTOR_TARGET = process.env.FACTOR_TARGET = "app"
+process.env.FACTOR_TARGET = "app"
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
