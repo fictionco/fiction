@@ -34,7 +34,7 @@ export default Factor => {
       this._install("filters", require("@factor/filters").default)
       this._install("paths", require("@factor/paths/server").default)
 
-      this._install("files", require("@factor/build/files").default)
+      this._install("loaders", require("@factor/build/loaders").default)
       this._install("theme", require("@factor/core-override").default)
 
       this._install("configServer", require("@factor/config/server").default)

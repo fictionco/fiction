@@ -98,7 +98,7 @@ export default Factor => {
     }
 
     watcher() {
-      const watchDirs = Factor.$files.getWatchDirs().map(_ => `${_}/**`)
+      const watchDirs = Factor.$loaders.getFactorDirectories().map(_ => `${_}/**`)
 
       chokidar
         .watch([`${Factor.$paths.get("source")}/**`, ...watchDirs], {

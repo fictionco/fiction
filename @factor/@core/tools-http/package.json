@@ -15,13 +15,13 @@
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203",
   "dependencies": {
     "axios": "^0.19.0",
-    "markdown-it": "^8.4.2",
+    "markdown-it": "^10.0.0",
     "markdown-it-anchor": "^5.0.2",
     "markdown-it-implicit-figures": "^0.9.0",
-    "markdown-it-link-attributes": "^2.1.0",
+    "markdown-it-link-attributes": "^3.0.0",
     "markdown-it-video": "^0.6.3",
     "qs": "^6.7.0",
-    "remark": "^10.0.1",
+    "remark": "^11.0.0",
     "strip-markdown": "^3.0.3"
   }
 }

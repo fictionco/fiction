@@ -11,7 +11,7 @@
     ]
   },
   "dependencies": {
-    "sitemap": "^2.1.0"
+    "sitemap": "^5.0.0"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }

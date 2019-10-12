@@ -1,9 +1,10 @@
 import { dirname } from "path"
 import { writeFileSync, ensureDirSync } from "fs-extra"
 import { sync as glob } from "glob"
-const { FACTOR_CWD } = process.env
 
 export default Factor => {
+  const { FACTOR_CWD } = process.env
+
   return new (class {
     constructor() {
       this.cwdPackage = require(`${FACTOR_CWD}/package.json`)
@@ -39,20 +40,17 @@ export default Factor => {
       return Factor.$utils.sortPriority(loader)
     }
 
-    // Returns all extensions or all of certain type
-    getExtensions(type = false) {
-      return type ? this.extensions.filter(_ => _.extend == type) : this.extensions
-    }
-
     generateLoaders() {
       this.makeModuleLoader({
         extensions: this.extensions,
         loadTarget: "server",
         callback: files => {
-          this.writeFileWithLines(
-            Factor.$paths.get("loader-server"),
-            files.map(({ id, file }) => `files["${id}"] = require("${file}").default`)
-          )
+          const content = this.loaderString(files)
+
+          this.writeFile({
+            destination: Factor.$paths.get("loader-server"),
+            content
+          })
         }
       })
 
@@ -61,11 +59,12 @@ export default Factor => {
 
         loadTarget: "app",
         callback: files => {
-          const fileLines = files.map(
-            ({ id, file }) => `files["${id}"] = require("${file}").default`
-          )
+          const content = this.loaderString(files)
 
-          this.writeFileWithLines(Factor.$paths.get("loader-app"), fileLines)
+          this.writeFile({
+            destination: Factor.$paths.get("loader-app"),
+            content
+          })
         }
       })
 
@@ -73,11 +72,12 @@ export default Factor => {
         extensions: this.extensions,
         filename: "factor-settings.js",
         callback: files => {
-          const fileLines = files.map(
-            ({ id, file }) => `files["${id}"] = require("${file}").default`
-          )
+          const content = this.loaderString(files)
 
-          this.writeFileWithLines(Factor.$paths.get("loader-settings"), fileLines)
+          this.writeFile({
+            destination: Factor.$paths.get("loader-settings"),
+            content
+          })
         }
       })
 
@@ -185,7 +185,11 @@ export default Factor => {
       writeFileSync(destination, content)
     }
 
-    writeFileWithLines(destination, fileLines) {
+    loaderString(files) {
+      const fileLines = files.map(
+        ({ id, file }) => `files["${id}"] = require("${file}").default`
+      )
+
       let lines = [`/******** GENERATED FILE - DO NOT EDIT DIRECTLY ********/`]
 
       lines.push("const files = {}")
@@ -194,12 +198,15 @@ export default Factor => {
 
       lines.push(`module.exports = files`)
 
-      ensureDirSync(dirname(destination))
-
-      writeFileSync(destination, lines.join("\n"))
+      return lines.join("\n")
     }
 
-    getWatchDirs() {
+    // Returns all extensions or all of certain type
+    getExtensions() {
+      return this.extensions
+    }
+
+    getFactorDirectories() {
       return this.extensions.map(({ name, cwd, main }) =>
         this.getDirectory({ cwd, name, main })
       )

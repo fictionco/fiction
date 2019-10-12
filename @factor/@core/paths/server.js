@@ -86,7 +86,7 @@ export default Factor => {
         return appPath
       } else {
         let filePath = ""
-        const themes = Factor.$files.getExtensions("theme")
+        const themes = Factor.$loaders.getExtensions().filter(_ => _.extend == "theme")
 
         if (themes.length > 0) {
           themes.some(_ => {

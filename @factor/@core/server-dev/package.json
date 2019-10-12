@@ -13,16 +13,16 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
-    "chokidar": "^2.1.2",
+    "chokidar": "^3.1.2",
     "figures": "^3.0.0",
     "fs-extra": "^8.1.0",
-    "memory-fs": "^0.4.1",
-    "ora": "^3.4.0",
+    "memory-fs": "^0.5.0",
+    "ora": "^4.0.2",
     "vue": "^2.6.8",
     "webpack": "^4.29.6",
     "webpack-dev-middleware": "^3.6.0",
     "webpack-hot-middleware": "^2.24.3",
-    "yargs": "^13.2.1"
+    "yargs": "^14.2.0"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }
