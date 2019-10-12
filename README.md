@@ -10,6 +10,7 @@
   <a href="https://github.com/fiction-com/factor/commits/master"><img src="https://badgen.net/github/last-commit/fiction-com/factor" alt="Commit"></a>
   <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
   <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/dm/@factor/core" alt="Downloads a Month"></a>
+  <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>
  </p>
 
 _An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
@@ -23,8 +24,9 @@ _An extension-driven platform for VueJS developers. Impress your friends by buil
 ## Features
 
 - Dashboard - Manage users, posts, whatever you can imagine. Use it for admin or application functionality.
-- Themes - Use themes to get up in running in minutes instead of days or months.
-- Plugins - Drop-in plugins just `yarn add [plugin]`
+- Themes - Beautiful design in minutes not months.
+- Plugins - Zero-config functionality just `yarn add [plugin]`
+- Data Model - Stop worrying about your backend config.
 - Open-source built on the MEVN Stack - Vue, Node, MongoDB
 - Tons more:
   - Server Side Rendered
