@@ -110,7 +110,7 @@ export default Factor => {
     }
 
     extensionNames(type, format = "join") {
-      const exts = Factor.$files.getExtended(type)
+      const exts = Factor.$files.getExtensions(type)
 
       if (exts && exts.length > 0) {
         const names = exts.map(_ => _.name)

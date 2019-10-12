@@ -5,7 +5,7 @@ const glob = require("glob").sync
 export default Factor => {
   return new (class {
     constructor() {
-      this.themes = Factor.$files.getExtended("theme")
+      this.themes = Factor.$files.getExtensions("theme")
 
       Factor.$filters.add("webpack-aliases", _ => {
         _["@theme"] =

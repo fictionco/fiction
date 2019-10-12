@@ -69,16 +69,13 @@
         </div>
       </div>
     </section>
-    <el-cta />
   </div>
 </template>
 
 <script>
 import extensions from "./extensions"
 export default {
-  components: {
-    "el-cta": () => import("#/el/cta.vue")
-  },
+  components: {},
   data() {
     return {
       loading: true,
