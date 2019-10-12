@@ -53,7 +53,7 @@ export default {
     "figure-plugins": () => import("./figure-plugins"),
     "plugins-index": () => import("./plugins-index"),
     "plugins-sidebar": () => import("./plugins-sidebar"),
-    "widget-cta": () => import("./widget-plugins-cta")
+    "widget-cta": () => import("./widget-cta")
   },
   data() {
     return {

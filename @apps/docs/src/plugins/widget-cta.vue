@@ -11,8 +11,8 @@
         </div>
 
         <div class="buttons">
-          <factor-link btn="primary" path="/guide/">Submit Plugin &rarr;</factor-link>
           <factor-link btn="default" path="/guide/create-plugins">Create Plugin &rarr;</factor-link>
+          <factor-link btn="primary" path="/guide/">Submit Plugin &rarr;</factor-link>
         </div>
       </div>
     </div>
@@ -41,11 +41,14 @@ export default {}
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
     }
-    .text h2 {
-      &.title {
-        color: var(--color-primary);
+    .text {
+      max-width: 500px;
+      h2 {
+        &.title {
+          color: var(--color-primary);
+        }
+        font-size: 1.5em;
       }
-      font-size: 1.5em;
     }
     .buttons {
       margin: 0 0 0 20px;

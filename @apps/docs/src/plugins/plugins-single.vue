@@ -23,6 +23,9 @@
           <factor-icon icon="arrow-left" />
           <span>{{ returnLinkText }}</span>
         </factor-link>
+        <div>
+          <h3>Screenshots will go here</h3>
+        </div>
         <div v-formatted-text="getReadme" class="plugin-content" />
       </div>
 
@@ -41,7 +44,7 @@ export default {
   components: {
     "widget-header": () => import("./widget-header"),
     "plugins-sidebar": () => import("./plugins-sidebar"),
-    "widget-cta": () => import("./widget-plugins-cta")
+    "widget-cta": () => import("./widget-cta")
   },
   data() {
     return {
