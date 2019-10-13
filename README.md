@@ -11,6 +11,8 @@
   <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
   <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/dm/@factor/core" alt="Downloads a Month"></a>
   <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>
+  <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/master" alt="Coverage Status"></a>
+
  </p>
 
 _An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
@@ -29,13 +31,12 @@ _An extension-driven platform for VueJS developers. Impress your friends by buil
 - **Data Model** - Stop worrying about your backend.
 - **Open-Source** Built on the VENM Stack - Vue, Express, Node, MongoDB
 
-- and tons more:
-  - Server Side Rendered
-  - Markdown Page and Post Editing System
-  - Authentication, Image Management, DB
-  - CLI
-  - Endpoints and Middleware
-  - Dynamic Editing
+- **and tons more,,,**
+  - SEO / Social Optimized
+  - Markdown Editor
+  - User Auth, Image Management
+  - Complete Server Framework (Endpoints and Middleware)
+  - Post Management (like WordPress)
 
 Learn more at [factor.dev](https://factor.dev).
 

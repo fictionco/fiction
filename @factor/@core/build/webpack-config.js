@@ -1,6 +1,5 @@
 import webpack from "webpack"
-
-const path = require("path")
+import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
 const merge = require("webpack-merge")
 
@@ -16,14 +15,13 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
-import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
 export default Factor => {
   const { NODE_ENV, FACTOR_ENV } = process.env
   return new (class {
     constructor() {
       Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
-      Factor.$filters.add("webpack-config", args => this.getConfig(args))
+      Factor.$filters.add("webpack-config", _ => this.getConfig(_))
     }
 
     async buildProduction(args) {
@@ -55,14 +53,13 @@ export default Factor => {
         ? { devtool: "", optimization: { minimize: false } }
         : {}
 
-      // Only run this once (server build)
-      // If it runs twice it cleans it after the first
       const plugins = Factor.$filters.apply("webpack-plugins", [], {
         ..._arguments,
         webpack
       })
 
-      //analyze = true
+      // Only run this once (server build)
+      // If it runs twice it cleans it after the first
       if (NODE_ENV == "production" && target == "server") {
         plugins.push(new CleanWebpackPlugin())
       } else if (target == "client" && analyze) {
