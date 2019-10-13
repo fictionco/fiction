@@ -17,29 +17,26 @@ const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
 
 export default Factor => {
-  const { NODE_ENV, FACTOR_ENV } = process.env
   return new (class {
     constructor() {
       Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
       Factor.$filters.add("webpack-config", _ => this.getConfig(_))
     }
 
-    async buildProduction(args) {
-      try {
-        return await Promise.all(
-          ["server", "client"].map(target =>
-            enhancedBuild({
-              config: this.getConfig({ ...args, target }),
-              name: target
-            })
-          )
+    async buildProduction(_arguments = {}) {
+      return await Promise.all(
+        ["server", "client"].map(target =>
+          enhancedBuild({
+            config: this.getConfig({ ..._arguments, target }),
+            name: target
+          })
         )
-      } catch (error) {
-        Factor.$log.error(error)
-      }
+      )
     }
 
     getConfig(_arguments) {
+      const { NODE_ENV } = process.env
+
       let { target, analyze = false, testing = false } = _arguments
 
       const baseConfig = this.base({ target })
@@ -83,9 +80,11 @@ export default Factor => {
     }
 
     server() {
+      const entry = Factor.$paths.get("entry-server")
+      const filename = Factor.$paths.get("server-bundle-name")
       return {
         target: "node",
-        entry: Factor.$paths.get("entry-server"),
+        entry,
         output: {
           filename: "server-bundle.js",
           libraryTarget: "commonjs2"
@@ -93,31 +92,18 @@ export default Factor => {
 
         // https://webpack.js.org/configuration/externals/#externals
         // https://github.com/liady/webpack-node-externals
-        externals: [
-          nodeExternals({
-            // do not externalize CSS files in case we need to import it from a dep
-            whitelist: [/\.css$/, /factor/]
-          })
-        ],
-        plugins: [
-          new VueSSRServerPlugin({
-            filename: Factor.$paths.get("server-bundle-name")
-          })
-        ]
+        // do not externalize CSS files in case we need to import it from a dep
+        externals: [nodeExternals({ whitelist: [/\.css$/, /factor/] })],
+        plugins: [new VueSSRServerPlugin({ filename })]
       }
     }
 
     client() {
+      const app = Factor.$paths.get("entry-client")
+      const filename = Factor.$paths.get("client-manifest-name")
       return {
-        entry: {
-          app: Factor.$paths.get("entry-client")
-        },
-
-        plugins: [
-          new VueSSRClientPlugin({
-            filename: Factor.$paths.get("client-manifest-name")
-          })
-        ]
+        entry: { app },
+        plugins: [new VueSSRClientPlugin({ filename })]
       }
     }
 
@@ -197,8 +183,8 @@ export default Factor => {
           new webpack.DefinePlugin(
             Factor.$filters.apply("webpack-define", {
               "process.env.FACTOR_SSR": JSON.stringify(target),
-              "process.env.FACTOR_ENV": JSON.stringify(FACTOR_ENV),
-              "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
+              "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
+              "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
               "process.env.VUE_ENV": JSON.stringify(target)
             })
           ),

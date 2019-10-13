@@ -8,7 +8,15 @@
     "access": "public"
   },
   "factor": {
-    "id": "build"
+    "id": "build",
+    "target": {
+      "server": [
+        {
+          "id": "webpack",
+          "file": "webpack-config.js"
+        }
+      ]
+    }
   },
   "dependencies": {
     "@factor/cli": "1.0.0-beta.4",

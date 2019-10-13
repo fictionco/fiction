@@ -149,7 +149,7 @@ const cli = () => {
 
       if (extend) {
         const extender = require("@factor/extend/server").default(Factor)
-        await extender.run(_arguments)
+        await extender.extend(_arguments)
       }
 
       // Filters must be reloaded with every new extension.

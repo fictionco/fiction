@@ -62,8 +62,11 @@ export async function enhancedBuild({ name, config }) {
         process.stdout.write(s)
       }
 
-      if (err || stats.hasErrors()) reject(Factor.$log.error(err))
-      else resolve(Factor.$log.success(`[${name}] built`))
+      if (err || stats.hasErrors()) reject(err)
+      else {
+        Factor.$log.success(`[${name}] built`)
+        resolve(true)
+      }
     })
   })
 }
