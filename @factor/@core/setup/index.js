@@ -39,7 +39,7 @@ export default Factor => {
     }
 
     // Setup entry. Give basic information and create an extensible select option for setup.
-    async runSetup({ program, inquirer }) {
+    async runSetup({ _arguments, inquirer }) {
       let answers
 
       Factor.$log.formatted({
@@ -60,7 +60,7 @@ export default Factor => {
           {
             name: "Exit Setup",
             value: "exit",
-            callback: async ({ program, inquirer }) => {
+            callback: async () => {
               // eslint-disable-next-line unicorn/no-process-exit
               process.exit()
             },
@@ -87,7 +87,7 @@ export default Factor => {
 
         const setupRunner = setups.find(_ => _.value == answers.setupItem)
 
-        await setupRunner.callback({ program, inquirer })
+        await setupRunner.callback({ _arguments, inquirer })
 
         if (askAgain) {
           await ask()

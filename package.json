@@ -27,8 +27,8 @@
     "test": "yarn test:fixtures && yarn test:unit",
     "test:lint": "eslint --ext .js,.vue .",
     "test:coverage": "codecov",
-    "test:unit": "jest test/unit @factor --forceExit",
-    "test:fixtures": "jest test/fixtures --forceExit --passWithNoTests",
+    "test:unit": "jest test/unit @factor --forceExit --detectOpenHandles --passWithNoTests",
+    "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "dependencies": {

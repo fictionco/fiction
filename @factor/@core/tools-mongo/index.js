@@ -1,8 +1,7 @@
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.push("webpack-ignore-modules", "mongoose")
-
+      Factor.$filters.add("webpack-ignore-modules", _ => [..._, "mongoose"])
       this.configureMongoose()
 
       Factor.$filters.callback("initialize-server", () => this.init())
