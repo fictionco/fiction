@@ -32,7 +32,7 @@ _An extension-driven platform for VueJS developers. Impress your friends by buil
 - **Data Model** - Stop worrying about your backend.
 - **Open-Source** Built on the VENM Stack - Vue, Express, Node, MongoDB
 
-- **and tons more,,,**
+- **and tons more...**
   - SEO / Social Optimized
   - Markdown Editor
   - User Auth, Image Management
