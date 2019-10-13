@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.push("webpack-ignore-modules", "brypt")
+      Factor.$filters.add("webpack-ignore-modules", _ => [..._, "bcrypt"])
       this.SECRET = Factor.$setting.get("TOKEN_SECRET")
 
       if (!this.SECRET) {

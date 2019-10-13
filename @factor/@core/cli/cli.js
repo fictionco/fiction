@@ -96,11 +96,11 @@ const cli = () => {
 
       try {
         if (["build", "start"].includes(command)) {
-          await Factor.$filters.run("create-distribution-app", program)
+          await Factor.$filters.run("create-distribution-app", _arguments)
         } else if (command == "setup") {
-          await Factor.$filters.run(`cli-setup`, { inquirer, program })
+          await Factor.$filters.run(`cli-setup`, { inquirer, _arguments })
         } else if (command == "run") {
-          await Factor.$filters.run(`cli-run-${filter}`, { inquirer, program })
+          await Factor.$filters.run(`cli-run-${filter}`, { inquirer, _arguments })
 
           Factor.$log.success(`Successfully ran "${filter}"\n\n`)
         }
@@ -113,7 +113,7 @@ const cli = () => {
           process.exit(0)
         }
       } catch (error) {
-        Factor.$log ? Factor.$log.error(error) : console.error(error)
+        Factor.$log.error(error)
       }
 
       return

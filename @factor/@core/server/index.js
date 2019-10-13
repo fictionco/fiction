@@ -190,13 +190,11 @@ export default Factor => {
             skip: (request, response) => {
               let { url } = request
               if (url.indexOf("?") > 0) url = url.slice(0, url.indexOf("?"))
-              if (url.match(/(js|svg|jpg|png|css|json)$/gi)) {
-                return true
-              } else if (url.match(/__webpack_hmr/gi)) {
-                return true
-              } else {
-                return false
-              }
+
+              return url.match(/(js|svg|jpg|png|css|json)$/gi) ||
+                url.match(/__webpack_hmr/gi)
+                ? true
+                : false
             }
           }
         )

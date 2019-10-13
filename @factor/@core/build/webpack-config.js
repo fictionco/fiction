@@ -1,0 +1,232 @@
+import webpack from "webpack"
+
+const path = require("path")
+
+const merge = require("webpack-merge")
+
+const nodeExternals = require("webpack-node-externals")
+
+const CopyPlugin = require("copy-webpack-plugin")
+const VueLoaderPlugin = require("vue-loader/lib/plugin")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
+
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
+const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
+import { cssLoaders, enhancedBuild } from "./webpack-utils"
+
+export default Factor => {
+  const { NODE_ENV, FACTOR_ENV } = process.env
+  return new (class {
+    constructor() {
+      Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
+      Factor.$filters.add("webpack-config", args => this.getConfig(args))
+    }
+
+    async buildProduction(args) {
+      try {
+        return await Promise.all(
+          ["server", "client"].map(target =>
+            enhancedBuild({
+              config: this.getConfig({ ...args, target }),
+              name: target
+            })
+          )
+        )
+      } catch (error) {
+        Factor.$log.error(error)
+      }
+    }
+
+    getConfig(_arguments) {
+      let { target, analyze = false, testing = false } = _arguments
+
+      const baseConfig = this.base({ target })
+
+      const buildConfig =
+        NODE_ENV == "production" ? this.production() : this.development()
+
+      const targetConfig = target == "server" ? this.server() : this.client()
+
+      const testingConfig = testing
+        ? { devtool: "", optimization: { minimize: false } }
+        : {}
+
+      // Only run this once (server build)
+      // If it runs twice it cleans it after the first
+      const plugins = Factor.$filters.apply("webpack-plugins", [], {
+        ..._arguments,
+        webpack
+      })
+
+      //analyze = true
+      if (NODE_ENV == "production" && target == "server") {
+        plugins.push(new CleanWebpackPlugin())
+      } else if (target == "client" && analyze) {
+        plugins.push(new BundleAnalyzerPlugin({ generateStatsFile: true }))
+      }
+
+      const packageConfig = Factor.$filters.apply("package-webpack-config", {})
+
+      const config = merge(
+        baseConfig,
+        buildConfig,
+        targetConfig,
+        packageConfig,
+        testingConfig,
+        {
+          plugins
+        }
+      )
+
+      return config
+    }
+
+    server() {
+      return {
+        target: "node",
+        entry: Factor.$paths.get("entry-server"),
+        output: {
+          filename: "server-bundle.js",
+          libraryTarget: "commonjs2"
+        },
+
+        // https://webpack.js.org/configuration/externals/#externals
+        // https://github.com/liady/webpack-node-externals
+        externals: [
+          nodeExternals({
+            // do not externalize CSS files in case we need to import it from a dep
+            whitelist: [/\.css$/, /factor/]
+          })
+        ],
+        plugins: [
+          new VueSSRServerPlugin({
+            filename: Factor.$paths.get("server-bundle-name")
+          })
+        ]
+      }
+    }
+
+    client() {
+      return {
+        entry: {
+          app: Factor.$paths.get("entry-client")
+        },
+
+        plugins: [
+          new VueSSRClientPlugin({
+            filename: Factor.$paths.get("client-manifest-name")
+          })
+        ]
+      }
+    }
+
+    production() {
+      return {
+        mode: "production",
+        output: { publicPath: "/" },
+        plugins: [
+          new MiniCssExtractPlugin({
+            filename: "css/[name].[hash].css",
+            chunkFilename: "css/[name].[hash].css"
+          })
+        ],
+        performance: { hints: "warning" },
+        optimization: {
+          minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})]
+        }
+      }
+    }
+
+    development() {
+      const publicPath = Factor.$paths.get("dist")
+      return {
+        mode: "development",
+        output: { publicPath },
+        performance: { hints: false } // Warns about large dev file sizes,
+      }
+    }
+
+    base(_arguments) {
+      const { target } = _arguments
+      const out = {
+        output: {
+          path: Factor.$paths.get("dist"),
+          filename: "js/[name].[chunkhash].js"
+        },
+        resolve: {
+          extensions: [".js", ".vue", ".json"],
+          alias: Factor.$paths.getAliases()
+        },
+        module: {
+          rules: Factor.$filters.apply("webpack-loaders", [
+            {
+              test: /\.vue$/,
+              loader: "vue-loader"
+            },
+
+            {
+              test: /\.(png|jpg|gif|svg|mov|mp4)$/,
+              loader: "file-loader",
+              options: { name: "[name].[hash].[ext]" }
+            },
+
+            {
+              test: /\.css/,
+              use: cssLoaders({ target, lang: "css" })
+            },
+            {
+              test: /\.less/,
+              use: cssLoaders({ target, lang: "less" })
+            },
+            {
+              test: /\.(scss|sass)/,
+              use: cssLoaders({ target, lang: "sass" })
+            },
+
+            {
+              test: /\.md$/,
+              use: [{ loader: "markdown-image-loader" }]
+            }
+          ])
+        },
+
+        plugins: [
+          new CopyPlugin(Factor.$filters.apply("webpack-copy-files-config", [])),
+          new VueLoaderPlugin(),
+          new webpack.DefinePlugin(
+            Factor.$filters.apply("webpack-define", {
+              "process.env.FACTOR_SSR": JSON.stringify(target),
+              "process.env.FACTOR_ENV": JSON.stringify(FACTOR_ENV),
+              "process.env.NODE_ENV": JSON.stringify(NODE_ENV),
+              "process.env.VUE_ENV": JSON.stringify(target)
+            })
+          ),
+          function() {
+            this.plugin("done", function(stats) {
+              const { errors } = stats.compilation
+              if (errors && errors.length > 0) console.error(errors)
+            })
+          }
+        ],
+        stats: { children: false },
+        performance: { maxEntrypointSize: 500000 },
+        node: { fs: "empty" }
+      }
+
+      // Allow for ignoring of files that should not be packaged for client
+      const ignoreMods = Factor.$filters.apply("webpack-ignore-modules", [])
+
+      if (ignoreMods.length > 0) {
+        out.plugins.push(
+          new webpack.IgnorePlugin(new RegExp(`^(${ignoreMods.join("|")})$`))
+        )
+      }
+
+      return out
+    }
+  })()
+}

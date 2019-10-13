@@ -41,7 +41,7 @@ export default Factor => {
 
       this._install("setting", require("@factor/settings").default)
 
-      this._install("webpack", require("@factor/build/webpack").default)
+      this._install("webpack", require("@factor/build/webpack-config").default)
 
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
