@@ -39,7 +39,8 @@ export default Factor => {
     }
 
     // Setup entry. Give basic information and create an extensible select option for setup.
-    async runSetup({ _arguments, inquirer }) {
+    async runSetup(_arguments) {
+      const { inquirer } = _arguments
       let answers
 
       Factor.$log.formatted({
@@ -87,7 +88,7 @@ export default Factor => {
 
         const setupRunner = setups.find(_ => _.value == answers.setupItem)
 
-        await setupRunner.callback({ _arguments, inquirer })
+        await setupRunner.callback(_arguments)
 
         if (askAgain) {
           await ask()
