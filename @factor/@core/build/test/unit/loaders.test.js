@@ -1,4 +1,4 @@
-import extendApp from "@factor/extend"
+import extendServer from "@factor/extend/server"
 import buildLoaders from "@factor/build/loaders"
 import { dirname } from "path"
 import Factor from "vue"
@@ -11,7 +11,7 @@ describe("files", () => {
   beforeAll(() => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
 
-    extendApp(Factor)
+    extendServer(Factor).extend()
 
     builder = buildLoaders(Factor)
 

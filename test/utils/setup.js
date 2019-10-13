@@ -4,6 +4,8 @@ import env from "std-env"
 import exit from "exit"
 import Factor from "vue"
 
+process.env.FACTOR_ENV = "test"
+
 Factor.config.devtools = false
 
 const isWin = env.windows

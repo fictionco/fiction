@@ -1,15 +1,15 @@
 <template>
   <div class="dashboard-grid-wrap">
-    <style>
+    <component :is="'style'" class="dynamic-var">
       .dashboard-grid-wrap{
       --column-structure: {{ columns }}
       }
-    </style>
+    </component>
     <div class="dashboard-grid">
       <div class="dashboard-grid-head dashboard-grid-row">
         <div v-for="col in structure" :key="col._id" class="cell">
           <template v-if="col._id == 'select'">
-            <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" >
+            <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" />
           </template>
           <span v-else class="head-text">{{ col.name || $utils.toLabel(col._id) }}</span>
         </div>

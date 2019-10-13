@@ -1,4 +1,4 @@
-import { dirname } from "path"
+import { dirname, parse } from "path"
 import { writeFileSync, ensureDirSync } from "fs-extra"
 import { sync as glob } from "glob"
 
@@ -18,12 +18,14 @@ export default Factor => {
       const loader = []
 
       packagePaths.forEach(_ => {
-        const {
+        let {
           name,
           factor: { id, priority, target = false, extend = "plugin" } = {},
           version,
           main = "index.js"
         } = _
+
+        id = this.getId({ id, name })
 
         loader.push({
           version,
@@ -31,9 +33,9 @@ export default Factor => {
           main,
           extend,
           priority: this.getPriority({ priority, name, extend }),
-          target: this.normalizeTarget({ target, main }),
+          target: this.normalizeTarget({ target, main, id }),
           cwd: this.isCWD(name),
-          id: this.getId({ id, name })
+          id
         })
       })
 
@@ -45,25 +47,20 @@ export default Factor => {
         extensions: this.extensions,
         loadTarget: "server",
         callback: files => {
-          const content = this.loaderString(files)
-
           this.writeFile({
             destination: Factor.$paths.get("loader-server"),
-            content
+            content: this.loaderString(files)
           })
         }
       })
 
       this.makeModuleLoader({
         extensions: this.extensions,
-
         loadTarget: "app",
         callback: files => {
-          const content = this.loaderString(files)
-
           this.writeFile({
             destination: Factor.$paths.get("loader-app"),
-            content
+            content: this.loaderString(files)
           })
         }
       })
@@ -72,11 +69,9 @@ export default Factor => {
         extensions: this.extensions,
         filename: "factor-settings.js",
         callback: files => {
-          const content = this.loaderString(files)
-
           this.writeFile({
             destination: Factor.$paths.get("loader-settings"),
-            content
+            content: this.loaderString(files)
           })
         }
       })
@@ -109,10 +104,10 @@ export default Factor => {
       filtered.forEach(extension => {
         const { id, target, name, cwd } = extension
 
-        target[loadTarget].forEach(fileName => {
+        target[loadTarget].forEach(({ id, file }) => {
           files.push({
-            id: this.getId({ id, name, fileName }),
-            file: `${cwd ? ".." : name}/${fileName}`
+            id,
+            file: `${cwd ? ".." : name}/${file}`
           })
         })
       })
@@ -161,22 +156,37 @@ export default Factor => {
       return deps
     }
 
-    normalizeTarget({ target, main }) {
-      const out = {}
+    // Normalize target key from package.json
+    // Allow for both simple syntax or full control
+    // target: ["app", "server"] - load main on app/server
+    // target: {
+    //  "server": ["id": "myId", "file": "some-file.js"]
+    // }
+    normalizeTarget({ target, main, id }) {
+      const __ = {}
 
-      if (!target) return out
+      if (!target) return __
 
       if (Array.isArray(target)) {
-        target.forEach(_ => {
-          out[_] = [main]
+        target.forEach(t => {
+          __[t] = [{ file: main, id }]
         })
       } else if (typeof target == "object") {
-        Object.keys(target).forEach(k => {
-          const val = target[k]
-          out[k] = Array.isArray(val) ? val : [val]
+        Object.keys(target).forEach(t => {
+          const val = target[t]
+
+          if (!Array.isArray(val)) {
+            __[t] = [{ file: val, id: this.getId({ id, main, file: val }) }]
+          } else {
+            __[t] = val.map(v => {
+              return typeof v == "string"
+                ? { file: v, id: this.getId({ id, main, file: v }) }
+                : v
+            })
+          }
         })
       }
-      return out
+      return __
     }
 
     writeFile({ destination, content }) {
@@ -244,8 +254,8 @@ export default Factor => {
     }
 
     // Get standard reference ID
-    getId({ id, name, fileName = "" }) {
-      let out = this.isCWD(name)
+    getId({ id, name = "", main = "index", file = "" }) {
+      let __ = this.isCWD(name)
         ? "cwd"
         : (id
         ? id
@@ -256,11 +266,22 @@ export default Factor => {
             .replace(/-([a-z])/g, g => g[1].toUpperCase()))
 
       // Add file specific ID to end
-      if (fileName && !fileName.includes("index")) {
-        out += Factor.$lodash.capitalize(fileName)
+      if (file && parse(file).name != parse(main).name) {
+        __ += Factor.$utils.toPascalCase(file)
       }
 
-      return out
+      return __
+    }
+
+    makeEmptyLoaders() {
+      const l = ["loader-server", "loader-app", "loader-styles", "loader-settings"]
+      l.forEach(_ => {
+        const content = _ == "loader-styles" ? "" : `module.exports = {}`
+        this.writeFile({
+          destination: Factor.$paths.get(_),
+          content
+        })
+      })
     }
   })()
 }

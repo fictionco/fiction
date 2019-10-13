@@ -1,6 +1,3 @@
-import { resolve } from "path"
-import { argv } from "yargs"
-
 export default Factor => {
   return new (class {
     constructor() {}
@@ -10,38 +7,31 @@ export default Factor => {
       this.loadPlugins()
     }
 
-    async run(args = {}) {
+    async extend(_arguments) {
+      const { loadPlugins = true, restart = false } = _arguments || {}
       process.env.FACTOR_TARGET = "server"
 
       this.loadCore()
 
       // Loading plugins is sometimes not desireable e.g. when creating loaders
-      if (argv.loadPlugins !== false) {
+      if (loadPlugins !== false) {
         this.loadPlugins()
 
         await Factor.$filters.run("initialize-server")
 
-        if (!args.restart) {
-          Factor.$filters.run("after-first-server-extend")
-        }
+        if (!restart) Factor.$filters.run("after-first-server-extend")
       }
     }
 
     loadCore() {
       this._install("log", require("@factor/core-log/server").default)
       this._install("tools", require("@factor/tools").default)
-
       this._install("filters", require("@factor/filters").default)
       this._install("paths", require("@factor/paths/server").default)
-
       this._install("loaders", require("@factor/build/loaders").default)
       this._install("theme", require("@factor/core-override").default)
-
       this._install("configServer", require("@factor/config/server").default)
-
       this._install("setting", require("@factor/settings").default)
-
-      this._install("webpack", require("@factor/build/webpack-config").default)
 
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
@@ -71,7 +61,7 @@ export default Factor => {
       if (!pathExistsSync(Factor.$paths.get("loader-server"))) {
         if (process.env.FACTOR_ENV == "test") return
 
-        throw new Error(
+        console.warn(
           "Factor loaders are missing. Did you forget to run 'yarn factor build' before serving your app?"
         )
       }
