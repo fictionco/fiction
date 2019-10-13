@@ -98,16 +98,15 @@ const cli = () => {
         if (["build", "start"].includes(command)) {
           await Factor.$filters.run("create-distribution-app", _arguments)
         } else if (command == "setup") {
-          await Factor.$filters.run(`cli-setup`, { inquirer, _arguments })
+          await Factor.$filters.run(`cli-setup`, { inquirer, ..._arguments })
         } else if (command == "run") {
-          await Factor.$filters.run(`cli-run-${filter}`, { inquirer, _arguments })
+          await Factor.$filters.run(`cli-run-${filter}`, { inquirer, ..._arguments })
 
           Factor.$log.success(`Successfully ran "${filter}"\n\n`)
         }
 
         if (["start", "dev", "serve"].includes(command)) {
-          // Long running process
-          await this.runServer({ NODE_ENV, ..._arguments })
+          await this.runServer({ NODE_ENV, ..._arguments }) // Long running process
         } else {
           Factor.$log.success(`Successfully ran [${command}]`)
           process.exit(0)

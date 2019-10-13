@@ -1,1 +1,5 @@
-describe("webpack", () => {})
+describe("webpack", () => {
+  it("generated production app", () => {
+    expect(2).toBe(2)
+  })
+})
