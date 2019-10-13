@@ -23,12 +23,13 @@ _An extension-driven platform for VueJS developers. Impress your friends by buil
 
 ## Features
 
-- Dashboard - Manage users, posts, whatever you can imagine. Use it for admin or application functionality.
-- Themes - Beautiful design in minutes not months.
-- Plugins - Zero-config functionality just `yarn add [plugin]`
-- Data Model - Stop worrying about your backend config.
-- Open-source built on the MEVN Stack - Vue, Node, MongoDB
-- Tons more:
+- **Dashboard / Admin** - Manage users, pages, posts, or whatever else you can imagine.
+- **Themes** - Beautiful design in minutes not months.
+- **Plugins** - Zero-config functionality just `yarn add [plugin]`.
+- **Data Model** - Stop worrying about your backend.
+- **Open-Source** Built on the VENM Stack - Vue, Express, Node, MongoDB
+
+- and tons more:
   - Server Side Rendered
   - Markdown Page and Post Editing System
   - Authentication, Image Management, DB

@@ -85,7 +85,7 @@ const cli = () => {
     async runCommand(options) {
       const {
         command,
-        _arguments,
+        _arguments = {},
         filter,
         install,
         NODE_ENV = command == "dev" ? "development" : "production",
