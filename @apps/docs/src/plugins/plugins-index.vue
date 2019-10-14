@@ -31,17 +31,17 @@
           </div>
 
           <div
-            v-if="entry.downloads && entry.downloads > 0"
+            v-if="entry.download_count && showDownloads != false"
             class="downloads"
-          >{{ entry.downloads }} downloads</div>
+          >{{ entry.download_count }} downloads</div>
         </div>
 
         <p v-if="text != false" class="text">{{ entry.text }}</p>
 
-        <factor-link
+        <!-- <factor-link
           :path="$setting.get('plugins.postRoute') + '/' + entry.permalink"
           class="entry-link"
-        >{{ entry.link.text }} &rarr;</factor-link>
+        >{{ entry.link.text }} &rarr;</factor-link>-->
       </div>
     </section>
   </div>
@@ -55,6 +55,7 @@ export default {
     limit: { type: Number, default: Infinity, required: false },
     showAuthor: { type: Boolean, default: true },
     showCategories: { type: Boolean, default: true },
+    showDownloads: { type: Boolean, default: true },
     text: { type: Boolean, default: true },
     category: { type: String, default: "" }
   },
@@ -104,12 +105,18 @@ export default {
     grid-gap: 2rem;
     align-items: flex-start;
     margin-bottom: 1rem;
+
     &:hover {
-      .entry-content .entry-link {
-        transform: translateY(0);
-        opacity: 1;
+      .entry-content .title a {
+        color: var(--color-primary);
       }
     }
+    // &:hover {
+    //   .entry-content .entry-link {
+    //     transform: translateY(0);
+    //     opacity: 1;
+    //   }
+    // }
     a {
       text-decoration: none;
     }
@@ -134,6 +141,7 @@ export default {
         a {
           color: var(--color-text);
           &:hover {
+            //color: var(--color-text);
             color: var(--color-primary);
           }
         }
@@ -141,11 +149,13 @@ export default {
       .meta {
         color: rgba(var(--color-text-rgb), 0.6);
         .author,
-        .categories {
+        .categories,
+        .downloads {
           display: inline-block;
         }
         .categories {
-          display: inline;
+          //display: inline;
+          margin-right: 1rem;
           .category {
             display: inherit;
             &:after {
@@ -158,21 +168,24 @@ export default {
             }
           }
         }
+        // .downloads {
+        //   margin-left: 1rem;
+        // }
       }
       .text {
         line-height: 1.7em;
-        margin: 1em 0 0.5em;
+        margin: 0.5em 0;
       }
-      .entry-link {
-        display: block;
-        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-        transform: translateY(3rem);
-        opacity: 0.2;
-        @media (max-width: 900px) {
-          transform: none;
-          opacity: 1;
-        }
-      }
+      // .entry-link {
+      //   display: block;
+      //   transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+      //   transform: translateY(3rem);
+      //   opacity: 0.2;
+      //   @media (max-width: 900px) {
+      //     transform: none;
+      //     opacity: 1;
+      //   }
+      // }
     }
   }
 }

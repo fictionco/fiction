@@ -209,6 +209,11 @@ export default Factor => {
       layout: {
         index: () => import("./plugins/v-plugins.vue"),
         single: () => import("./plugins/plugins-single.vue")
+      },
+      cta: {
+        title: "Create and Submit Your Plugin",
+        subtitle:
+          "Learn about extension development and how to submit your extension to the Factor library."
       }
     },
 
