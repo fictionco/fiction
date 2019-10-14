@@ -11,30 +11,25 @@
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
-          <plugins-index :category="'featured'" />
+          <plugins-index :category="'featured'" :show-downloads="false" />
         </section>
-
         <div class="plugins-search-wrap">
           <factor-input-wrap
-            format="vertical"
             input="factor-input-text"
             :placeholder="`Search Factor plugins`"
             required
-            label="Search"
           />
-
           <factor-input-wrap
             :list="['seo', 'Utilities', 'Jobs', 'Comments', 'Syntax']"
             input="factor-input-select"
             :placeholder="`All Categories`"
-            label="Categories"
           />
         </div>
         <section class="plugins-all">
           <header class="section-header">
             <h1 class="title">All</h1>
           </header>
-          <plugins-index />
+          <plugins-index :show-downloads="false" />
         </section>
       </div>
       <div class="sidebar">
@@ -141,7 +136,7 @@ export default {
     display: grid;
     grid-template-columns: 7fr 3fr;
     grid-gap: 6rem;
-    padding-top: 4rem;
+    padding-top: 2rem;
 
     .section-header {
       .title {
@@ -165,18 +160,18 @@ export default {
   //  ENTRIES FEATURED
   .plugins-featured {
     .section-header {
-      margin: 0 0 1.5rem;
+      margin: 0 0 1rem;
     }
     .plugins-index .entry-plugin {
       padding: 1rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
-      transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-      &:hover {
-        box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-        transform: translateY(-0.4rem);
-      }
+      //transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+      // &:hover {
+      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+      //   transform: translateY(-0.4rem);
+      // }
       .entry-image {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
@@ -195,10 +190,10 @@ export default {
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
       transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-      &:hover {
-        box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-        transform: translateY(-0.4rem);
-      }
+      // &:hover {
+      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+      //   transform: translateY(-0.4rem);
+      // }
       .entry-image {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);

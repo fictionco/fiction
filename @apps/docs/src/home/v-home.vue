@@ -200,7 +200,7 @@ export default {
           title: "Dashboard Included",
           text: `Factor comes with a professional dashboard and post management system.
             This tool was carefully crafted to give you maximum powerful but with minimum bloat. 
-            It is simple by default but can be extended to handle even the most complext tasks.`,
+            It is simple by default but can be extended to handle even the most complex tasks.`,
           figure: () => import("./figure-dashboard.vue"),
           link: { path: "/guide", text: "Learn More" }
         },
@@ -218,7 +218,7 @@ export default {
           //icon: "brush",
           title: "Theming for the 21st Century",
           text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either. 
-              Factor was developed from the start with customizeable theming and rapid app development in mind.`,
+              Factor was developed from the start with customizable theming and rapid app development in mind.`,
           figure: () => import("./figure-themes.vue"),
           link: { path: "/themes", text: "View Themes" }
         }
