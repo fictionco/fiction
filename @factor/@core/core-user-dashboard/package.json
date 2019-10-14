@@ -9,7 +9,7 @@
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public",
-    "id": "cmsUsers"
+    "_id": "cmsUsers"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203"
 }

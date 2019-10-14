@@ -120,9 +120,9 @@ const cli = () => {
 
     async factorize(_arguments = {}) {
       const { parent = {}, ...rest } = _arguments
-      const program = { ...parent, ...rest }
+      const _config = { ...parent, ...rest }
 
-      const { NODE_ENV = "production", install = true, extend = true, command } = program
+      const { NODE_ENV = "production", install = true, extend = true, command } = _config
 
       if (install) {
         await this.runTasks(
@@ -140,26 +140,29 @@ const cli = () => {
 
       process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
       process.env.NODE_ENV = NODE_ENV
-      process.env.FACTOR_ENV = program.ENV || process.env.FACTOR_ENV || NODE_ENV
+      process.env.FACTOR_ENV = _config.ENV || process.env.FACTOR_ENV || NODE_ENV
       process.env.FACTOR_COMMAND = command || program._name || "none"
 
       this.refineNodeRequire()
 
       require("@factor/build/transpiler").default(Factor)
 
-      if (extend) {
-        const extender = require("@factor/extend/server").default(Factor)
-        await extender.extend(_arguments)
-      }
+      if (extend) this.extend(_config)
 
       // Filters must be reloaded with every new extension.
       // server resets "re-extend" the process
       Factor.$filters.callback("rebuild-server-app", () =>
-        this.reloadNodeProcess(_arguments)
+        this.reloadNodeProcess(_config)
       )
 
       // When an extended Factor object is needed outside of this CLI (tests)
       return Factor
+    }
+
+    async extend(_config) {
+      const extender = require("@factor/extend/server").default(Factor)
+
+      return await extender.extend(_config)
     }
 
     async runServer(_arguments) {

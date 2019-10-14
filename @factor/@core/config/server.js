@@ -13,11 +13,7 @@ export default Factor => {
         return _
       })
 
-      // Add environmental variables from .env if available
-      const dotEnvPath = resolve(Factor.$paths.get("app"), ".env")
-      if (dotEnvPath) {
-        require("dotenv").config({ path: dotEnvPath })
-      }
+      require("dotenv").config({ path: resolve(Factor.$paths.get("app"), ".env") })
 
       this.initialize()
     }

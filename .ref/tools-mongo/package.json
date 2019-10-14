@@ -11,7 +11,7 @@
       "app",
       "server"
     ],
-    "id": "mongo"
+    "_id": "mongo"
   },
   "gitHead": "fe03a2da2c07518d5b2b0a27427f1b7325cfcaf4",
   "dependencies": {

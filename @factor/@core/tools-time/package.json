@@ -10,7 +10,7 @@
       "server",
       "app"
     ],
-    "id": "time"
+    "_id": "time"
   },
   "dependencies": {
     "dayjs": "^1.8.10"

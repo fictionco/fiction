@@ -10,7 +10,7 @@
       "app",
       "server"
     ],
-    "id": "http"
+    "_id": "http"
   },
   "gitHead": "599600c31535a26339786e86dc904c7bad5ad203",
   "dependencies": {

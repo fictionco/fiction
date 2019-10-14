@@ -8,11 +8,11 @@
     "access": "public"
   },
   "factor": {
-    "id": "build",
+    "_id": "build",
     "target": {
       "server": [
         {
-          "id": "webpack",
+          "_id": "webpack",
           "file": "webpack-config.js"
         }
       ]

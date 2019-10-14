@@ -20,12 +20,12 @@ export default Factor => {
       packagePaths.forEach(_ => {
         let {
           name,
-          factor: { id, priority, target = false, extend = "plugin" } = {},
+          factor: { _id, priority, target = false, extend = "plugin" } = {},
           version,
           main = "index.js"
         } = _
 
-        id = this.getId({ id, name })
+        _id = this.getId({ _id, name })
 
         loader.push({
           version,
@@ -33,9 +33,9 @@ export default Factor => {
           main,
           extend,
           priority: this.getPriority({ priority, name, extend }),
-          target: this.normalizeTarget({ target, main, id }),
+          target: this.normalizeTarget({ target, main, _id }),
           cwd: this.isCWD(name),
-          id
+          _id
         })
       })
 
@@ -102,24 +102,21 @@ export default Factor => {
       const filtered = extensions.filter(({ target }) => target[loadTarget])
 
       filtered.forEach(extension => {
-        const { id, target, name, cwd } = extension
+        const { _id, target, name, cwd } = extension
 
-        target[loadTarget].forEach(({ id, file }) => {
-          files.push({
-            id,
-            file: `${cwd ? ".." : name}/${file}`
-          })
+        target[loadTarget].forEach(({ _id, file, priority = 100 }) => {
+          files.push({ _id, file: `${cwd ? ".." : name}/${file}`, priority })
         })
       })
 
-      callback(files)
+      callback(Factor.$utils.sortPriority(files))
     }
 
     makeFileLoader({ extensions, filename, callback }) {
       const files = []
 
       extensions.forEach(_ => {
-        const { name, cwd, id, main } = _
+        const { name, cwd, _id, main } = _
 
         const dir = this.getDirectory({ cwd, name, main })
         const requireBase = this.getRequireBase({ cwd, name, main })
@@ -127,7 +124,7 @@ export default Factor => {
         glob(`${dir}/**/${filename}`)
           .map((fullPath, index) => {
             return {
-              id: index == 0 ? id : `${id}_${index}`,
+              _id: index == 0 ? _id : `${_id}_${index}`,
               file: fullPath.replace(dir, requireBase),
               path: fullPath
             }
@@ -160,27 +157,27 @@ export default Factor => {
     // Allow for both simple syntax or full control
     // target: ["app", "server"] - load main on app/server
     // target: {
-    //  "server": ["id": "myId", "file": "some-file.js"]
+    //  "server": ["_id": "myId", "file": "some-file.js"]
     // }
-    normalizeTarget({ target, main, id }) {
+    normalizeTarget({ target, main, _id }) {
       const __ = {}
 
       if (!target) return __
 
       if (Array.isArray(target)) {
         target.forEach(t => {
-          __[t] = [{ file: main, id }]
+          __[t] = [{ file: main, _id }]
         })
       } else if (typeof target == "object") {
         Object.keys(target).forEach(t => {
           const val = target[t]
 
           if (!Array.isArray(val)) {
-            __[t] = [{ file: val, id: this.getId({ id, main, file: val }) }]
+            __[t] = [{ file: val, _id: this.getId({ _id, main, file: val }) }]
           } else {
             __[t] = val.map(v => {
               return typeof v == "string"
-                ? { file: v, id: this.getId({ id, main, file: v }) }
+                ? { file: v, _id: this.getId({ _id, main, file: v }) }
                 : v
             })
           }
@@ -197,7 +194,7 @@ export default Factor => {
 
     loaderString(files) {
       const fileLines = files.map(
-        ({ id, file }) => `files["${id}"] = require("${file}").default`
+        ({ _id, file }) => `files["${_id}"] = require("${file}").default`
       )
 
       let lines = [`/******** GENERATED FILE - DO NOT EDIT DIRECTLY ********/`]
@@ -254,11 +251,11 @@ export default Factor => {
     }
 
     // Get standard reference ID
-    getId({ id, name = "", main = "index", file = "" }) {
+    getId({ _id, name = "", main = "index", file = "" }) {
       let __ = this.isCWD(name)
         ? "cwd"
-        : (id
-        ? id
+        : (_id
+        ? _id
         : name
             .split(/plugin-|theme-|@factor/gi)
             .pop()

@@ -16,7 +16,7 @@ describe("cli scripts", () => {
     process.exit.mockRestore()
   })
 
-  test("verify cli commands exist", () => {
+  it("has cli commands", () => {
     const programCommands = cli.program.commands.map(c => c._name)
     const cmds = ["dev", "start", "setup", "build", "serve", "run"]
 
@@ -25,7 +25,7 @@ describe("cli scripts", () => {
     })
   })
 
-  test("command: dev", async () => {
+  it("command: dev works", async () => {
     const spy = jest.spyOn(cli, "runServer").mockImplementation(_ => _)
     await cli.runCommand({
       command: "dev",
@@ -41,7 +41,7 @@ describe("cli scripts", () => {
     )
   })
 
-  test("command: build", async () => {
+  it("command: build works", async () => {
     const spy = jest.spyOn(Factor.$filters, "run").mockImplementation(_ => _)
 
     await cli.runCommand({ command: "build", extend: false })
@@ -50,7 +50,7 @@ describe("cli scripts", () => {
     expect(process.exit).toHaveBeenCalledTimes(1)
   })
 
-  test("command: serve", async () => {
+  it("command: serve works", async () => {
     const spy = jest.spyOn(cli, "runServer").mockImplementation(_ => _)
 
     const _args = { command: "serve", extend: false, install: false }
@@ -64,7 +64,7 @@ describe("cli scripts", () => {
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ NODE_ENV: "production" }))
   })
 
-  test("extend installs and creates loaders", async () => {
+  it("extend installs and creates loaders", async () => {
     await cli.factorize({ install: true })
 
     expect(execa).toHaveBeenCalledWith(
@@ -76,6 +76,21 @@ describe("cli scripts", () => {
       "yarn",
       expect.arrayContaining(["install"]),
       expect.any(Object)
+    )
+  })
+
+  it("handles create loaders correctly ", async () => {
+    const _s = jest.spyOn(cli, "extend")
+    await cli.runCommand({
+      filter: "create-loaders",
+      command: "run",
+      _arguments: { parent: { loadPlugins: false } }
+    })
+
+    expect(_s).toHaveBeenCalledWith(
+      expect.objectContaining({
+        loadPlugins: false
+      })
     )
   })
 })

@@ -6,7 +6,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "setup",
+    "_id": "setup",
     "target": [
       "server"
     ]

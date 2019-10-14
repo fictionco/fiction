@@ -6,7 +6,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "email",
+    "_id": "email",
     "target": {
       "app": "index",
       "server": "server"
