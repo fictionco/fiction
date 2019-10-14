@@ -6,7 +6,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "index"
+    "_id": "index"
   },
   "dependencies": {
     "@factor/app": "1.0.0-beta.4",

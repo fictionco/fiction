@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
   "factor": {
-    "id": "storageS3",
+    "_id": "storageS3",
     "target": [
       "server"
     ]

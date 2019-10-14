@@ -6,7 +6,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "tagManager",
+    "_id": "tagManager",
     "target": [
       "app",
       "server"

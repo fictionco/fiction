@@ -9,7 +9,7 @@
     "target": [
       "app"
     ],
-    "id": "factorMeta"
+    "_id": "factorMeta"
   },
   "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb",
   "dependencies": {

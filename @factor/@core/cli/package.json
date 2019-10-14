@@ -8,7 +8,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "cli"
+    "_id": "cli"
   },
   "dependencies": {
     "commander": "^3.0.0",

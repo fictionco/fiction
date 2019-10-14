@@ -4,7 +4,7 @@
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public",
-    "id": "componentsStandard"
+    "_id": "componentsStandard"
   },
   "factor": {
     "target": [

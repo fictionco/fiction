@@ -7,7 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "bugsnag",
+    "_id": "bugsnag",
     "target": {
       "app": "index",
       "server": "server"

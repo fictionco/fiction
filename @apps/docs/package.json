@@ -8,7 +8,7 @@
   "license": "GPL-2.0",
   "scripts": {},
   "factor": {
-    "id": "docsApp",
+    "_id": "docsApp",
     "target": [
       "app",
       "server"

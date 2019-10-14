@@ -6,7 +6,7 @@ export default Factor => {
         const setupAdmins = {
           name: "DB Connection - Add/edit the connection string for MongoDB",
           value: "db",
-          callback: async ({ program, inquirer }) => {
+          callback: async ({ inquirer }) => {
             const questions = [
               {
                 name: "connection",

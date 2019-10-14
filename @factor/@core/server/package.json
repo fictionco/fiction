@@ -9,7 +9,7 @@
     "target": [
       "server"
     ],
-    "id": "server"
+    "_id": "server"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

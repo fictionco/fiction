@@ -7,7 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "commentizer",
+    "_id": "commentizer",
     "target": {
       "app": "index",
       "server": "server"

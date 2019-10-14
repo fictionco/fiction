@@ -6,7 +6,7 @@
     "access": "public"
   },
   "factor": {
-    "id": "endpoint",
+    "_id": "endpoint",
     "target": {
       "app": "index",
       "server": "server"

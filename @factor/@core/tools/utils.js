@@ -122,24 +122,14 @@ export default Factor => {
     }
 
     excerpt(content, { length = 42 } = {}) {
-      if (!content) {
-        return ""
-      }
-      let splitContent = Factor.$markdown
+      if (!content) return ""
+
+      let __ = Factor.$markdown
         .strip(content)
         .replace(/\n|\r/g, " ")
         .split(" ")
 
-      let excerpt
-
-      if (splitContent.length > length) {
-        splitContent = splitContent.slice(0, length)
-        excerpt = splitContent.join(" ") + "..."
-      } else {
-        excerpt = splitContent.join(" ")
-      }
-
-      return excerpt
+      return __.length > length ? __.slice(0, length).join(" ") + "..." : __.join(" ")
     }
 
     toPascalCase(string) {

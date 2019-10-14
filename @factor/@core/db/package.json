@@ -1,0 +1,41 @@
+{
+  "name": "@factor/db",
+  "factor": {
+    "_id": "db",
+    "target": {
+      "app": [
+        {
+          "file": "index.js",
+          "_id": "db"
+        },
+        {
+          "file": "mongo.js",
+          "_id": "mongo",
+          "priority": 50
+        }
+      ],
+      "server": [
+        {
+          "file": "server.js",
+          "_id": "dbServer"
+        },
+        {
+          "file": "mongo.js",
+          "_id": "mongo",
+          "priority": 50
+        }
+      ]
+    }
+  },
+  "version": "1.0.0-beta.4",
+  "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "599600c31535a26339786e86dc904c7bad5ad203",
+  "dependencies": {
+    "mongodb": "^3.2.7",
+    "mongoose": "^5.6.0",
+    "mongoose-beautiful-unique-validation": "^7.1.1"
+  }
+}

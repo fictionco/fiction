@@ -9,7 +9,7 @@
     "target": [
       "app"
     ],
-    "id": "signin"
+    "_id": "signin"
   },
   "dependencies": {
     "@factor/ui": "1.0.0-beta.4"

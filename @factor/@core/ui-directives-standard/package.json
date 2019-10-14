@@ -10,7 +10,7 @@
       "server",
       "app"
     ],
-    "id": "directivesStandard"
+    "_id": "directivesStandard"
   },
   "dependencies": {
     "sanitize-html": "^1.20.0"

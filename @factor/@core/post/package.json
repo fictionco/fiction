@@ -13,7 +13,7 @@
         "index"
       ]
     },
-    "id": "post"
+    "_id": "post"
   },
   "dependencies": {
     "@factor/app": "1.0.0-beta.4",

@@ -5,7 +5,7 @@
       "app": "index",
       "server": "server"
     },
-    "id": "userRoles"
+    "_id": "userRoles"
   },
   "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
