@@ -80,8 +80,9 @@ export default {
       width: 30px;
       border-radius: 50%;
       background: #fff;
-      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      // box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      //   rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
       transform-origin: right top;
       transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       img {

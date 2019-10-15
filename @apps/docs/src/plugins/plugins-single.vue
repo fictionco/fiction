@@ -23,6 +23,16 @@
           <factor-icon icon="arrow-left" />
           <span>{{ returnLinkText }}</span>
         </factor-link>
+        <!-- <factor-modal class="install-modal" :vis.sync="vis">
+          <h2>selected Theme</h2>
+          <div
+            class="description"
+          >Use this theme by adding it to your app dependencies using the command:</div>
+          <div class="command">
+            yarn add
+            <span class="package-name">{{ selectedPkg }}</span>
+          </div>
+        </factor-modal>-->
         <div v-if="entry.screenshots" class="plugin-images">
           <div v-for="(image, i) in entry.screenshots" :key="i" class="image-item">
             <div :style="styleImageBG(image)" class="image-item-content"></div>
@@ -197,7 +207,7 @@ export default {
     }
     .plugin-images {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(50px, 100px));
+      grid-template-columns: repeat(auto-fit, minmax(100px, 150px));
       grid-gap: 1rem;
       margin: 0 0 1.5rem;
       .image-item {
@@ -213,7 +223,7 @@ export default {
           background-size: cover;
           transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
           &:hover {
-            transform: translateY(-0.2rem);
+            transform: scale(1.05);
           }
         }
       }

@@ -179,6 +179,12 @@ export default {
     }
   }
 
+  // SEARCH AND CATEGORIES
+  .plugins-search-wrap {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
   //  ENTRIES ALL
   .plugins-all {
     .section-header {

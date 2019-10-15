@@ -30,7 +30,9 @@ export default {
 .plugins-widget-header {
   background-image: url("./img/dot.svg");
   overflow: hidden;
-  box-shadow: inset 0 0 1px 3px rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  //box-shadow: inset 0 0 1px 3px rgba(0, 0, 0, 0.03);
 
   .content-pad {
     display: grid;
