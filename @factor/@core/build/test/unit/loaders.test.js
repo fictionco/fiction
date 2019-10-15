@@ -8,10 +8,10 @@ jest.mock("fs-extra")
 let builder
 let spies
 describe("files", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
 
-    extendServer(Factor).extend()
+    await extendServer(Factor).extend()
 
     builder = buildLoaders(Factor)
 

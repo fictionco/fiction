@@ -15,21 +15,21 @@ let renderer
 let App
 describe("meta info server", () => {
   beforeAll(async () => {
-    extendApp(Factor, {
+    await extendApp({
       plugins: {
-        factorMeta: require("../..").default
+        factorMeta: () => import("../..")
       },
       settings: {
-        app: require("@factor/app/factor-settings.js").default
+        app: () => import("@factor/app/factor-settings.js")
       }
-    })
+    }).extend()
 
     Factor.$filters.push("routes", {
       path: "/meta",
       component: () => import("./meta.vue")
     })
 
-    App = createApp({ extend: false })
+    App = await createApp({ extend: false })
 
     const dir = dirname(require.resolve("@factor/app"))
     renderer = createRenderer({ template: readFileSync(`${dir}/index.html`, "utf-8") })

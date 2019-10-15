@@ -13,8 +13,8 @@ let _app
 let localVue
 let router
 describe("site component", () => {
-  beforeAll(() => {
-    extendApp(Factor)
+  beforeAll(async () => {
+    await extendApp().extend()
     localVue = createLocalVue()
     localVue.use(VueRouter)
     router = new VueRouter({

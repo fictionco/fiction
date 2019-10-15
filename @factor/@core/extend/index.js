@@ -1,8 +1,8 @@
 import plugins from "~/.factor/loader-app"
 import { importPlugins } from "./util"
-
-export default (Factor, options = {}) => {
-  return new (class {
+import Factor from "@factor/core"
+export default (options = {}) =>
+  new (class {
     constructor() {}
 
     async extend() {
@@ -25,14 +25,15 @@ export default (Factor, options = {}) => {
 
       await importPlugins(core)
 
-      await this.initialize()
+      await this.initialize(options)
     }
 
     // After plugins added
     async initialize() {
-      if (options.settings) Factor.$setting.add(options.settings)
+      const { plugins: __plugins = {}, settings: __settings } = options
+      if (__settings) Factor.$setting.add(__settings)
 
-      const optionPlugins = options.plugins || {}
+      const optionPlugins = __plugins || {}
       const allPlugins = { ...plugins, ...optionPlugins }
 
       await importPlugins(allPlugins)
@@ -59,4 +60,3 @@ export default (Factor, options = {}) => {
       await Factor.$filters.run("initialize-app")
     }
   })()
-}

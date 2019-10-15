@@ -8,8 +8,8 @@ import { waitFor } from "@test/utils"
 import FactorStore from "@factor/app/store"
 let store
 describe("store", () => {
-  beforeAll(() => {
-    extendApp(Factor)
+  beforeAll(async () => {
+    await extendApp().extend()
   })
   it("loads correctly", () => {
     window.__INITIAL_STATE__ = { test: 123 }

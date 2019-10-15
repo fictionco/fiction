@@ -14,19 +14,19 @@ import FactorStore from "@factor/app/store"
 import FactorRouter from "@factor/app/router"
 
 describe("meta info client", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     document.open()
     document.write(indexHtml())
     document.close()
 
-    extendApp(Factor, {
+    await extendApp({
       plugins: {
-        factorMeta: require("../..").default
+        factorMeta: () => import("../..")
       },
       settings: {
-        app: require("@factor/app/factor-settings.js").default
+        app: () => import("@factor/app/factor-settings.js")
       }
-    })
+    }).extend()
     Factor.config.devtools = false
   })
 

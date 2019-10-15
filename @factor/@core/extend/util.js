@@ -15,6 +15,7 @@ export function installPlugin(key, _module) {
     Factor.use({
       install(Factor) {
         const plugin = typeof _module == "function" ? _module(Factor) : _module
+
         Factor[`$${key}`] = Factor.prototype[`$${key}`] = plugin
       }
     })

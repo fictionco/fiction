@@ -6,8 +6,8 @@ import { waitFor } from "@test/utils"
 let _app
 let spies
 describe("app", () => {
-  beforeAll(() => {
-    extendApp(Factor)
+  beforeAll(async () => {
+    await extendApp().extend()
     spies = {
       routes: jest.spyOn(Factor.$filters, "add"),
       components: jest.spyOn(Factor.$filters, "add")

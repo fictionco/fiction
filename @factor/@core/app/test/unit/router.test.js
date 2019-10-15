@@ -8,8 +8,8 @@ import { waitFor } from "@test/utils"
 import FactorRouter from "@factor/app/router"
 
 describe("router", () => {
-  beforeAll(() => {
-    extendApp(Factor)
+  beforeAll(async () => {
+    await extendApp().extend()
   })
   it("loads correctly", () => {
     const router = FactorRouter(Factor).create()

@@ -72,11 +72,6 @@ const cli = () => {
           this.runCommand({ command: "run", filter, install: false, _arguments })
         )
 
-      // Default to 'dev' command
-      if (process.argv.length === 2) {
-        process.argv.push("dev")
-      }
-
       this.program.parse(process.argv)
 
       return this.program
@@ -146,13 +141,15 @@ const cli = () => {
       // Do this for every reset of server
       require("@factor/build/transpiler")
 
-      if (extend) await this.extend(_config)
+      if (extend) {
+        await this.extend(_config)
 
-      // Filters must be reloaded with every new restart of server.
-      // This adds the filter each time to allow for restart
-      Factor.$filters.callback("rebuild-server-app", () =>
-        this.reloadNodeProcess(_config)
-      )
+        // Filters must be reloaded with every new restart of server.
+        // This adds the filter each time to allow for restart
+        Factor.$filters.callback("rebuild-server-app", () =>
+          this.reloadNodeProcess(_config)
+        )
+      }
 
       // When an extended Factor object is needed outside of this CLI (tests)
       return Factor
@@ -192,7 +189,7 @@ const cli = () => {
 
     // Reloads all cached node files
     // Needed for server reloading
-    async reloadNodeProcess(args) {
+    async reloadNodeProcess(_arguments) {
       Object.keys(require.cache).forEach(function(id) {
         if (/(@|\.)factor/.test(id)) {
           delete require.cache[id]
