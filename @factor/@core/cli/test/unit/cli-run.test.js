@@ -9,6 +9,7 @@ const cli = require("../../cli.js").default
 describe("cli scripts", () => {
   beforeAll(async () => {
     await cli.factorize()
+
     jest.spyOn(process, "exit").mockImplementation(code => code)
   })
 
@@ -27,11 +28,13 @@ describe("cli scripts", () => {
 
   it("command: dev works", async () => {
     const spy = jest.spyOn(cli, "runServer").mockImplementation(_ => _)
+
     await cli.runCommand({
       command: "dev",
       install: false,
       extend: false
     })
+
     expect(process.env.FACTOR_COMMAND).toBe("dev")
 
     expect(spy).toHaveBeenCalledWith(
@@ -53,13 +56,13 @@ describe("cli scripts", () => {
   it("command: serve works", async () => {
     const spy = jest.spyOn(cli, "runServer").mockImplementation(_ => _)
 
-    const _args = { command: "serve", extend: false, install: false }
+    const _arguments = { command: "serve", extend: false, install: false }
 
-    await cli.runCommand({ ..._args, NODE_ENV: "development" })
+    await cli.runCommand({ ..._arguments, NODE_ENV: "development" })
 
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ NODE_ENV: "development" }))
 
-    await cli.runCommand({ ..._args, NODE_ENV: "production" })
+    await cli.runCommand({ ..._arguments, NODE_ENV: "production" })
 
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ NODE_ENV: "production" }))
   })

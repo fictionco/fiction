@@ -94,20 +94,12 @@ export default Factor => {
     }
 
     add(id, filter, { context = false, priority = 100, key = "", reloads = false } = {}) {
-      if (!this._filters[id]) {
-        this._filters[id] = {}
-      }
+      if (!this._filters[id]) this._filters[id] = {}
 
       // create unique ID
       // In certain situations (HMR, dev), the same filter can be added twice
       // Using objects and a hash identifier solves that
-      const filterKey = `key_${this.uniqueHash(filter, key)}`
-
-      if (this._filters[id][filterKey] && !reloads) {
-        console.warn(
-          `Duplicate filter signature detected adding to "${id}" filter.\nSet "key" option to a unique value or set "reloads" true to silence this warning.`
-        )
-      }
+      const filterKey = `key_${this.uniqueHash(filter, this.callerKey(key))}`
 
       // For simpler assignments where no callback is needed
       const callback = typeof filter != "function" ? () => filter : filter
@@ -119,19 +111,42 @@ export default Factor => {
       return filter
     }
 
-    push(id, item, options = {}) {
+    // Use the function that called the filter in the key
+    // this prevents issues where two filters in different may match each other
+    // which causes difficult to solve bugs (data-schemas is an example)
+    callerKey(key) {
+      return (
+        key +
+        new Error().stack
+          .toString()
+          .split("at")
+          .find(line => !line.match(/(filter|Error)/))
+      )
+    }
+
+    push(_id, item, options = {}) {
       const { key = "" } = options
-      options.key = this.uniqueHash(item, key)
+      options.key = this.uniqueHash(item, this.caller(key))
 
       this.add(
-        id,
+        _id,
         (_, args) => {
           item = typeof item == "function" ? item(args) : item
-          if (Array.isArray(_)) {
-            return [..._, item]
-          } else if (typeof _ == "object") {
-            return { ..._, [this.uniqueHash(item)]: item }
-          }
+          return [..._, item]
+        },
+        options
+      )
+    }
+
+    register(_id, _property, item, options = {}) {
+      const { key = "" } = options
+      options.key = this.uniqueHash(item, this.caller(key))
+
+      this.add(
+        _id,
+        (_, args) => {
+          item = typeof item == "function" ? item(args) : item
+          return { ..._, [_property]: item }
         },
         options
       )
@@ -142,7 +157,7 @@ export default Factor => {
       // get unique signature which includes the caller path of function and stringified callback
       // added the caller because sometimes callbacks look the exact same in different files!
       const { key = "" } = options
-      options.key = this.uniqueHash(callback, key)
+      options.key = this.uniqueHash(callback, this.caller(key))
 
       const callable = typeof callback != "function" ? () => callback : callback
 

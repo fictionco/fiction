@@ -4,6 +4,7 @@ export default Factor => {
   return new (class {
     constructor() {
       this._settings = {}
+      this._modules = []
       this.added = {}
       this.setup()
     }
@@ -13,26 +14,31 @@ export default Factor => {
         ? Factor.$configServer.settings()
         : Factor.$config.settings() || {}
 
-      const _promises = Object.keys(settingsFiles).map(
-        async k => (await settingsFiles[k]()).default
-      )
-
-      const _modules = await Promise.all(_promises)
-
-      this.load(_modules)
+      await this.load()
     }
 
-    load(_modules) {
-      const factories = [..._modules, ...Object.values(this.added)]
+    async load() {
+      const _imports = { ...settingsFiles, ...this.added }
+
+      const _modules = await this.importModules(_imports)
 
       const settingsArray = Factor.$filters.apply(
         "factor-settings",
-        factories.map(_obj => (typeof _obj == "function" ? _obj(Factor) : _obj))
+        _modules.map(_obj => (typeof _obj == "function" ? _obj(Factor) : _obj))
       )
 
       const merged = Factor.$utils.deepMerge([this.config, ...settingsArray])
 
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
+    }
+
+    async importModules(_imports) {
+      return await Promise.all(
+        Object.keys(_imports).map(async k => {
+          const { default: val } = await _imports[k]()
+          return val
+        })
+      )
     }
 
     add(files = {}) {

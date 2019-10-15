@@ -4,29 +4,29 @@ import { createApp } from "../../app"
 import { waitFor } from "@test/utils"
 
 describe("app", () => {
-  beforeAll(() => {
-    extendApp(Factor)
+  beforeAll(async () => {
+    await extendApp().extend()
   })
   beforeEach(() => {
     jest.clearAllMocks()
   })
   it("adds router", async () => {
-    createApp({ extend: false })
+    await createApp({ extend: false })
     expect(Factor.$router).toBeTruthy()
   })
   it("adds store", async () => {
-    createApp({ extend: false })
+    await createApp({ extend: false })
     expect(Factor.$store).toBeTruthy()
   })
   it("calls 'before-app' hook", async () => {
     const spy = jest.spyOn(Factor.$filters, "run")
-    createApp({ extend: false })
+    await createApp({ extend: false })
     expect(spy).toHaveBeenCalledWith("before-app")
   })
 
   it("mounts app wrapper", async () => {
     const spy = jest.spyOn(Factor.$events, "$emit")
-    const { app, router } = createApp({ extend: false })
+    const { app, router } = await createApp({ extend: false })
     await router.onReady()
     const mounted = app.$mount("#app")
     expect(mounted._isMounted).toBeTruthy()
