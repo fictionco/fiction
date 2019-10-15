@@ -1,5 +1,7 @@
+import { objectIdType } from "@factor/db/util"
+
 export default Factor => {
-  return new(class {
+  return new (class {
     constructor() {
       // Add commentizer post type
       Factor.$filters.push("post-types", {
@@ -8,7 +10,7 @@ export default Factor => {
         nameSingle: "Comment",
         namePlural: "Comments",
         showAdmin: false,
-        add: false,
+        add: false
       })
 
       // Add commentizer post type schema
@@ -27,10 +29,12 @@ export default Factor => {
           schemaConfig.schema = {
             ...schemaConfig.schema,
             commentizerEnabled: { type: Boolean, default: false },
-            commentizerComments: [{
-              type: Factor.$mongo.objectIdType(),
-              ref: "commentizer"
-            }]
+            commentizerComments: [
+              {
+                type: objectIdType(),
+                ref: "commentizer"
+              }
+            ]
           }
 
           // TODO: Fix - NOT WORKING!!!
@@ -39,6 +43,5 @@ export default Factor => {
         })
       })
     }
-
   })()
 }

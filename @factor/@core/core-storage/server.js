@@ -1,4 +1,5 @@
 const multer = require("multer")
+import { objectIdType, objectId } from "@factor/db/util"
 export default Factor => {
   return new (class {
     constructor() {
@@ -37,7 +38,7 @@ export default Factor => {
       const attachment = new attachmentModel()
 
       Object.assign(attachment, {
-        author: [Factor.$dbServer.objectId(bearer._id)],
+        author: [objectId(bearer._id)],
         mimetype,
         size
       })

@@ -1,3 +1,5 @@
+import { objectId } from "./util"
+
 export default Factor => {
   return new (class {
     constructor() {}
@@ -7,7 +9,7 @@ export default Factor => {
     }
 
     objectId(str) {
-      return Factor.$mongo.ObjectId(str)
+      return objectId(str)
     }
 
     async run() {

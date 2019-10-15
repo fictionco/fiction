@@ -7,7 +7,7 @@ export default Factor => {
 
       this.assignFolderNames()
       this.assignPaths()
-      this.assignNodeAlias()
+
       this.addServerPaths()
       this.dataPaths()
 

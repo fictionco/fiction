@@ -1,3 +1,5 @@
+import settingsFiles from "~/.factor/loader-settings"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -11,17 +13,21 @@ export default Factor => {
         ? Factor.$configServer.settings()
         : Factor.$config.settings() || {}
 
-      this.settingsFiles = require(`~/.factor/loader-settings.js`)
+      const _promises = Object.keys(settingsFiles).map(
+        async k => (await settingsFiles[k]()).default
+      )
 
-      this.load()
+      const _modules = await Promise.all(_promises)
+
+      this.load(_modules)
     }
 
-    load() {
-      const factories = { ...this.settingsFiles, ...this.added }
+    load(_modules) {
+      const factories = [..._modules, ...Object.values(this.added)]
 
       const settingsArray = Factor.$filters.apply(
         "factor-settings",
-        Object.values(factories).map(_obj => _obj(Factor))
+        factories.map(_obj => (typeof _obj == "function" ? _obj(Factor) : _obj))
       )
 
       const merged = Factor.$utils.deepMerge([this.config, ...settingsArray])

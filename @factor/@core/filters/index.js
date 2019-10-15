@@ -21,9 +21,7 @@ export default Factor => {
     }
 
     uniqueHash(obj, salt = "") {
-      if (!obj) {
-        return obj
-      }
+      if (!obj) return obj
 
       let str
       if (typeof obj == "string") {
@@ -106,10 +104,9 @@ export default Factor => {
       const filterKey = `key_${this.uniqueHash(filter, key)}`
 
       if (this._filters[id][filterKey] && !reloads) {
-        Factor.$log.warn(
+        console.warn(
           `Duplicate filter signature detected adding to "${id}" filter.\nSet "key" option to a unique value or set "reloads" true to silence this warning.`
         )
-        //console.log(filter.toString())
       }
 
       // For simpler assignments where no callback is needed

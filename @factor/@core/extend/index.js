@@ -1,11 +1,11 @@
+import plugins from "~/.factor/loader-app"
+import { importPlugins } from "./util"
+
 export default (Factor, options = {}) => {
   return new (class {
-    constructor() {
-      this.setup()
-      this.initialize()
-    }
+    constructor() {}
 
-    async setup() {
+    async extend() {
       Factor.config.productionTip = false
       Factor.config.devtools = false
       Factor.config.silent = false
@@ -14,47 +14,28 @@ export default (Factor, options = {}) => {
         routeClass: []
       })
 
-      this._install("tools", require("@factor/tools").default)
-      this._install("log", require("@factor/core-log").default)
-
-      this._install("filters", require("@factor/filters").default)
-      this._install("config", require("@factor/config").default)
-
-      this._install("paths", require("@factor/paths").default) // Filler
-
-      this._install("setting", require("@factor/settings").default)
-    }
-
-    _install(id, plugin) {
-      Factor.use({
-        install(Factor) {
-          Factor[`$${id}`] = Factor.prototype[`$${id}`] = plugin(Factor)
-        }
-      })
-    }
-
-    loadPlugins() {
-      const loaderPlugins = require("~/.factor/loader-app")
-      const optionPlugins = options.plugins || {}
-      const plugins = { ...loaderPlugins, ...optionPlugins }
-      for (var _p in plugins) {
-        if (plugins[_p]) {
-          const plugin = plugins[_p]
-
-          if (typeof plugin == "function") {
-            this._install(_p, plugin)
-          }
-        }
+      const core = {
+        log: () => import("@factor/core-log"),
+        tools: () => import("@factor/tools"),
+        filters: () => import("@factor/filters"),
+        paths: () => import("@factor/paths"),
+        config: () => import("@factor/config"),
+        setting: () => import("@factor/settings")
       }
+
+      await importPlugins(core)
+
+      await this.initialize()
     }
 
     // After plugins added
     async initialize() {
-      if (options.settings) {
-        Factor.$setting.add(options.settings)
-      }
+      if (options.settings) Factor.$setting.add(options.settings)
 
-      this.loadPlugins()
+      const optionPlugins = options.plugins || {}
+      const allPlugins = { ...plugins, ...optionPlugins }
+
+      await importPlugins(allPlugins)
 
       Factor.$components = {}
       const comps = Factor.$filters.apply("components", {})

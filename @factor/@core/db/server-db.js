@@ -1,7 +1,9 @@
+import mongoose from "mongoose"
+
 export default Factor => {
   return new (class {
     constructor() {
-      this.mongo = Factor.$mongo.mongoose
+      this.mongo = mongoose
       this.DB_CONNECTION = Factor.$setting.get("DB_CONNECTION")
       this.dbConfig()
 
@@ -25,7 +27,9 @@ export default Factor => {
       // https://mongoosejs.com/docs/guide.html#autoIndex
       if (process.env.NODE_ENV == "production") {
         this.mongo.set("autoIndex", false)
-      } else if (Factor.FACTOR_DEBUG) {
+      }
+
+      if (Factor.FACTOR_DEBUG) {
         this.mongo.set("debug", true)
       }
     }

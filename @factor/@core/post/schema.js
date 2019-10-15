@@ -1,3 +1,5 @@
+import { objectIdType } from "@factor/db/util"
+
 export default Factor => {
   return {
     name: "post",
@@ -13,9 +15,9 @@ export default Factor => {
       title: { type: String, trim: true },
       subTitle: { type: String, trim: true },
       content: { type: String, trim: true },
-      author: [{ type: Factor.$mongo.objectIdType(), ref: "user" }],
-      images: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }],
-      avatar: { type: Factor.$mongo.objectIdType(), ref: "attachment" },
+      author: [{ type: objectIdType(), ref: "user" }],
+      images: [{ type: objectIdType(), ref: "attachment" }],
+      avatar: { type: objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
       category: { type: [String], index: true },
       revisions: [Object],

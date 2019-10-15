@@ -143,14 +143,13 @@ const cli = () => {
       process.env.FACTOR_ENV = _config.ENV || process.env.FACTOR_ENV || NODE_ENV
       process.env.FACTOR_COMMAND = command || program._name || "none"
 
-      this.refineNodeRequire()
+      // Do this for every reset of server
+      require("@factor/build/transpiler")
 
-      require("@factor/build/transpiler").default(Factor)
+      if (extend) await this.extend(_config)
 
-      if (extend) this.extend(_config)
-
-      // Filters must be reloaded with every new extension.
-      // server resets "re-extend" the process
+      // Filters must be reloaded with every new restart of server.
+      // This adds the filter each time to allow for restart
       Factor.$filters.callback("rebuild-server-app", () =>
         this.reloadNodeProcess(_config)
       )
@@ -189,14 +188,6 @@ const cli = () => {
       Factor.$log.formatted(message)
 
       await Factor.$filters.run("create-server", _arguments)
-    }
-
-    refineNodeRequire() {
-      require.extensions[".md"] = () => {}
-      require.extensions[".svg"] = () => {}
-      require.extensions[".jpg"] = () => {}
-      require.extensions[".png"] = () => {}
-      require.extensions[".vue"] = () => {}
     }
 
     // Reloads all cached node files

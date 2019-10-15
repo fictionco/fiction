@@ -75,6 +75,7 @@ For many cases, the base schema is enough. However it is easy to add additional 
 If you'd like to extend the basic post schema, then you'll need to add it using a Factor schema object + filter. As follows:
 
 ```js
+import { objectIdType } from "@factor/db/util"
 // index.js To register a new data schema
 Factor.$filters.push("data-schemas", {
    // Post Type Name: url friendly
@@ -91,7 +92,7 @@ Factor.$filters.push("data-schemas", {
   // Mongoose Schema: https://mongoosejs.com/docs/guide.html
   schema: {
     example: { type: String, trim: true },
-    company: [{ type: Factor.$mongo.objectIdType(), ref: "business-profile" }],
+    company: [{ type: objectIdType(), ref: "business-profile" }],
   }
   // Schema options: https://mongoosejs.com/docs/guide.html#options
   options: {},

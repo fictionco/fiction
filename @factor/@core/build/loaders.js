@@ -194,7 +194,7 @@ export default Factor => {
 
     loaderString(files) {
       const fileLines = files.map(
-        ({ _id, file }) => `files["${_id}"] = require("${file}").default`
+        ({ _id, file }) => `files["${_id}"] = () => import("${file}")`
       )
 
       let lines = [`/******** GENERATED FILE - DO NOT EDIT DIRECTLY ********/`]
@@ -203,7 +203,7 @@ export default Factor => {
 
       lines = lines.concat(fileLines)
 
-      lines.push(`module.exports = files`)
+      lines.push(`export default files`)
 
       return lines.join("\n")
     }

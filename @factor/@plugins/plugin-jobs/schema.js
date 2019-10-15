@@ -1,15 +1,13 @@
+import { objectIdType } from "@factor/db/util"
+
 export default Factor => {
   return {
     name: "jobs",
-    callback: _s => {
-      _s.pre("validate", function(next) {
-        next()
-      })
-    },
+    callback: _s => {},
     schema: {
       jobLocation: String,
       jobApplyEmail: String,
-      jobIcon: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }]
+      jobIcon: [{ type: objectIdType(), ref: "attachment" }]
     }
   }
 }

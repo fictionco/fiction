@@ -1,3 +1,5 @@
+import { objectIdType } from "@factor/db/util"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -11,7 +13,7 @@ export default Factor => {
           ..._,
           titleTag: { type: String, trim: true },
           descriptionTag: { type: String, trim: true },
-          shareImage: { type: Factor.$mongo.objectIdType(), ref: "attachment" }
+          shareImage: { type: objectIdType(), ref: "attachment" }
         }
       })
 
