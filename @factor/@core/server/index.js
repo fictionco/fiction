@@ -110,7 +110,7 @@ export default Factor => {
       })
       destroyer(this.listener)
 
-      Factor.$events.$on("restart-server", async () => {
+      Factor.$filters.callback("restart-server", async () => {
         Factor.$log.formatted({ title: `Server file changed, restarting server...` })
         this.listener.destroy()
         await Factor.$filters.run("rebuild-server-app")

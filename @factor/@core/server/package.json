@@ -23,7 +23,7 @@
     "lru-cache": "^5.1.1",
     "module-alias": "^2.2.0",
     "morgan": "^1.9.1",
-    "open": "^6.3.0",
+    "open": "^7.0.0",
     "ora": "^4.0.2",
     "serve-favicon": "^2.5.0",
     "server-destroy": "^1.0.1",

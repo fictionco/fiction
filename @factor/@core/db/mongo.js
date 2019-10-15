@@ -41,13 +41,13 @@ export default Factor => {
       // Factor.$filters.callback("after-first-server-extend", () => this._syncSchemaIndexes())
     }
 
-    objectIdType() {
-      return this.mongoose.Schema.Types.ObjectId
-    }
+    // objectIdType() {
+    //   return this.mongoose.Schema.Types.ObjectId
+    // }
 
-    objectId(str) {
-      return this.mongoose.Types.ObjectId(str)
-    }
+    // objectId(str) {
+    //   return this.mongoose.Types.ObjectId(str)
+    // }
 
     getSchemas() {
       return this.schemas
