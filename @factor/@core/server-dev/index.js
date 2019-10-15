@@ -105,19 +105,19 @@ export default Factor => {
           ignoreInitial: true,
           ignored: `**/node_modules/**`
         })
-        .on("all", (event, path) => {
+        .on("all", async (event, path) => {
           if (
             path.includes("server") ||
             path.includes("endpoint") ||
             path.includes("schema")
           ) {
-            Factor.$events.$emit("restart-server")
-          } else {
-            this.updateServer({
-              title: event,
-              value: path
-            })
+            await Factor.$filters.run("restart-server")
           }
+
+          this.updateServer({
+            title: event,
+            value: path
+          })
         })
     }
 

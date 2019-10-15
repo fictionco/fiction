@@ -8,22 +8,6 @@ export default Factor => {
       return await Factor.$endpoint.request({ id: "db", method, params })
     }
 
-    objectId(str) {
-      return objectId(str)
-    }
-
-    async run() {
-      const params =
-        arguments.length > 1
-          ? {
-              model: arguments[0],
-              method: arguments[1],
-              _arguments: arguments[2]
-            }
-          : arguments[0]
-      return await Factor.$endpoint.request({ id: "db", method: "runRequest", params })
-    }
-
     async populate(obj, fields) {
       if (!obj._populated) {
         let _ids = []

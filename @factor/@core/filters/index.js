@@ -111,22 +111,9 @@ export default Factor => {
       return filter
     }
 
-    // Use the function that called the filter in the key
-    // this prevents issues where two filters in different may match each other
-    // which causes difficult to solve bugs (data-schemas is an example)
-    callerKey(key) {
-      return (
-        key +
-        new Error().stack
-          .toString()
-          .split("at")
-          .find(line => !line.match(/(filter|Error)/))
-      )
-    }
-
     push(_id, item, options = {}) {
       const { key = "" } = options
-      options.key = this.uniqueHash(item, this.caller(key))
+      options.key = this.uniqueHash(item, this.callerKey(key))
 
       this.add(
         _id,
@@ -140,7 +127,7 @@ export default Factor => {
 
     register(_id, _property, item, options = {}) {
       const { key = "" } = options
-      options.key = this.uniqueHash(item, this.caller(key))
+      options.key = this.uniqueHash(item, this.callerKey(key))
 
       this.add(
         _id,
@@ -157,7 +144,7 @@ export default Factor => {
       // get unique signature which includes the caller path of function and stringified callback
       // added the caller because sometimes callbacks look the exact same in different files!
       const { key = "" } = options
-      options.key = this.uniqueHash(callback, this.caller(key))
+      options.key = this.uniqueHash(callback, this.callerKey(key))
 
       const callable = typeof callback != "function" ? () => callback : callback
 
@@ -167,6 +154,19 @@ export default Factor => {
     // Run array of promises and await the result
     async run(id, args = {}) {
       return await Promise.all(this.apply(id, [], args))
+    }
+
+    // Use the function that called the filter in the key
+    // this prevents issues where two filters in different may match each other
+    // which causes difficult to solve bugs (data-schemas is an example)
+    callerKey(key) {
+      return (
+        key +
+        new Error().stack
+          .toString()
+          .split("at")
+          .find(line => !line.match(/(filter|Error)/))
+      )
     }
   })()
 }

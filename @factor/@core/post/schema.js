@@ -1,6 +1,7 @@
+import Factor from "@factor/core"
 import { objectIdType } from "@factor/db/util"
 
-export default Factor => {
+export default () => {
   return {
     name: "post",
     options: { timestamps: true },

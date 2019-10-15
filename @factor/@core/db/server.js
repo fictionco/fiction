@@ -1,101 +1,74 @@
 import mongoose from "mongoose"
+import connectDb from "./connect-db"
+import addSetupCli from "./setup-cli"
+import { getAddedSchemas } from "./util"
+import endpoint from "./endpoint"
 
 export default Factor => {
   return new (class {
     constructor() {
-      this.DB = require("./server-db").default(Factor)
-      Factor.$filters.callback("endpoints", { id: "db", handler: this })
-      Factor.$filters.callback("initialize-server", () => this.setModels())
+      addSetupCli()
+      connectDb()
+      Factor.$filters.callback("endpoints", { id: "db", handler: endpoint })
+      Factor.$filters.callback("initialize-server", () => this.initialize())
     }
 
-    objectId(str) {
-      return mongoose.Types.ObjectId(str)
-    }
+    initialize() {
+      this.__schemas = {}
+      this.__models = {}
 
-    async populate({ _ids }) {
-      const _in = Array.isArray(_ids) ? _ids : [_ids]
-      const result = await this.model("post").find({
-        _id: { $in: _in }
-      })
+      const allPostSchemas = getAddedSchemas()
+      const baseSchema = allPostSchemas.find(_ => _.name == "post")
 
-      return Array.isArray(_ids) ? result : result[0]
-    }
+      const { model: baseModel } = this.setModel(baseSchema)
 
-    // Must be non-async so we can use chaining
-    model(name) {
-      const { Schema } = mongoose
-      // If model doesnt exist, create a vanilla one
-      if (!this._models[name]) {
-        // For server restarts
-        if (mongoose.models[name]) {
-          this._schemas[name] = mongoose.modelSchemas[name]
-          this._models[name] = mongoose.models[name]
-        } else if (name) {
-          this._models[name] = this.model("post").discriminator(name, new Schema())
-        } else {
-          this._models[name] = this.model("post")
-        }
-      }
-      return this._models[name]
-    }
-
-    schema(name) {
-      return this._schemas[name] || null
+      allPostSchemas
+        .filter(s => s.name != "post")
+        .forEach(s => this.setModel(s, baseModel))
     }
 
     // Set schemas and models
     // For server restarting we need to inherit from already constructed mdb models if they exist
-    setModel(config, postModel = false) {
-      const { Schema } = mongoose
-      const { schema, options, callback, name } = config
+    setModel(config, baseModel = false) {
+      const { Schema, modelSchemas, models, model } = mongoose
+      const { schema = {}, options = {}, callback, name } = config
 
-      let _model
-      let _schema
-      if (mongoose.models[name]) {
-        _schema = mongoose.modelSchemas[name]
-        _model = mongoose.models[name]
+      let _model_
+      let _schema_
+
+      // If already set in mongoose
+      if (models[name]) {
+        _schema_ = modelSchemas[name]
+        _model_ = models[name]
       } else {
-        _schema = new Schema(schema, options)
-        if (callback) callback(_schema)
+        _schema_ = new Schema(schema, options)
 
-        if (!postModel) {
-          _model = mongoose.model(name, _schema)
-        } else {
-          _model = postModel.discriminator(name, _schema)
-          _model.ensureIndexes()
-        }
+        // Callback for hooks, etc.
+        if (callback) callback(_schema_)
+
+        _model_ = !baseModel
+          ? model(name, _schema_)
+          : baseModel.discriminator(name, _schema_)
+
+        _model_.ensureIndexes()
       }
 
-      this._schemas[name] = _schema
-      this._models[name] = _model
+      this.__schemas[name] = _schema_
+      this.__models[name] = _model_
 
-      return _model
+      return { schema: _schema_, model: _model_ }
     }
 
-    setModels() {
-      this._schemas = {}
-      this._models = {}
+    // Must be non-async so we can use chaining
+    model(name) {
+      // If model doesnt exist, create a vanilla one
+      if (!this.__models[name]) this.setModel({ name }, this.model("post"))
 
-      const postSchemas = Factor.$mongo.getSchemas()
-      const primarySchema = Factor.$mongo.getSchema("post")
-      const primaryModel = this.setModel(primarySchema)
-
-      postSchemas.forEach(s => {
-        if (s.name != "post") {
-          this.setModel(s, primaryModel)
-        }
-      })
+      return this.__models[name]
     }
 
-    // Ensure all post indexes are up to date .
-    // https://thecodebarbarian.com/whats-new-in-mongoose-5-2-syncindexes
-    async _syncSchemaIndexes() {
-      for (let key of Object.keys(this._models)) {
-        const model = this._models[key]
-
-        await model.ensureIndexes()
-      }
-      return
+    schema(name) {
+      return this.__schemas[name] || null
     }
   })()
 }
