@@ -154,8 +154,7 @@ export default {
       } else if (this.view == "password-email-sent") {
         return {
           title: "Reset Email Sent",
-          subTitle:
-            "Check your inbox for instructions on recovering your password."
+          subTitle: "Check your inbox for instructions on recovering your password."
         }
       } else if (this.view == "successful-password-reset") {
         return {
@@ -197,9 +196,7 @@ export default {
     },
     redirectPath() {
       const defaultRedirect = this.$route.name == "signin" ? "/" : false
-      return this.redirect
-        ? this.redirect
-        : this.$route.query.redirect || defaultRedirect
+      return this.redirect ? this.redirect : this.$route.query.redirect || defaultRedirect
     }
   },
   methods: {
@@ -237,12 +234,7 @@ export default {
         newAccount: this.newAccount
       })
 
-      console.log("done auth", user)
-
-      if (user) {
-        // this.$user.setUser({ user, current: true })
-        this.done(user)
-      }
+      if (user) this.done(user)
 
       this.loading = false
     },

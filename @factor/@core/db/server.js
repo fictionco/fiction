@@ -1,14 +1,15 @@
+import mongoose from "mongoose"
+
 export default Factor => {
   return new (class {
     constructor() {
-      this.mongo = Factor.$mongo.mongoose
       this.DB = require("./server-db").default(Factor)
       Factor.$filters.callback("endpoints", { id: "db", handler: this })
       Factor.$filters.callback("initialize-server", () => this.setModels())
     }
 
     objectId(str) {
-      return this.mongo.Types.ObjectId(str)
+      return mongoose.Types.ObjectId(str)
     }
 
     async populate({ _ids }) {
@@ -22,13 +23,13 @@ export default Factor => {
 
     // Must be non-async so we can use chaining
     model(name) {
-      const { Schema } = this.mongo
+      const { Schema } = mongoose
       // If model doesnt exist, create a vanilla one
       if (!this._models[name]) {
         // For server restarts
-        if (this.mongo.models[name]) {
-          this._schemas[name] = this.mongo.modelSchemas[name]
-          this._models[name] = this.mongo.models[name]
+        if (mongoose.models[name]) {
+          this._schemas[name] = mongoose.modelSchemas[name]
+          this._models[name] = mongoose.models[name]
         } else if (name) {
           this._models[name] = this.model("post").discriminator(name, new Schema())
         } else {
@@ -45,20 +46,20 @@ export default Factor => {
     // Set schemas and models
     // For server restarting we need to inherit from already constructed mdb models if they exist
     setModel(config, postModel = false) {
-      const { Schema } = this.mongo
+      const { Schema } = mongoose
       const { schema, options, callback, name } = config
 
       let _model
       let _schema
-      if (this.mongo.models[name]) {
-        _schema = this.mongo.modelSchemas[name]
-        _model = this.mongo.models[name]
+      if (mongoose.models[name]) {
+        _schema = mongoose.modelSchemas[name]
+        _model = mongoose.models[name]
       } else {
         _schema = new Schema(schema, options)
         if (callback) callback(_schema)
 
         if (!postModel) {
-          _model = this.mongo.model(name, _schema)
+          _model = mongoose.model(name, _schema)
         } else {
           _model = postModel.discriminator(name, _schema)
           _model.ensureIndexes()

@@ -1,3 +1,4 @@
+import { objectIdType } from "@factor/db/util"
 export default Factor => {
   return {
     name: "user",
@@ -70,7 +71,7 @@ export default Factor => {
         }
       },
 
-      covers: [{ type: Factor.$mongo.objectIdType(), ref: "attachment" }],
+      covers: [{ type: objectIdType(), ref: "attachment" }],
       birthday: Date,
       gender: {
         type: String,

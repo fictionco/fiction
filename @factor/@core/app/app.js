@@ -10,10 +10,13 @@ process.env.FACTOR_TARGET = "app"
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export function createApp(options = {}) {
+export async function createApp(options = {}) {
   const { extend = true } = options
 
-  if (extend) extendApp(Factor)
+  if (extend) {
+    const extender = extendApp(Factor)
+    await extender.extend()
+  }
 
   const store = FactorStore(Factor).create()
   const router = FactorRouter(Factor).create()

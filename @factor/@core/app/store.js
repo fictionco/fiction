@@ -1,8 +1,8 @@
-import Factor from "vue"
+import Factor from "@factor/core"
 import FactorStore from "vuex"
 Factor.use(FactorStore)
 
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {}
     create() {

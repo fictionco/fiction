@@ -1,9 +1,9 @@
-import Factor from "vue"
+import Factor from "@factor/core"
 import FactorRouter from "vue-router"
 import { parse, stringify } from "qs"
 Factor.use(FactorRouter)
 
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {
       this.initialPageLoad = true
