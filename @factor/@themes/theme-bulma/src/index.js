@@ -1,18 +1,12 @@
 export default Factor => {
   return new (class {
     constructor() {
-      this.addPaths()
-      this.addComponents()
+      this.filters()
     }
 
-    addComponents() {
-      Factor.$filters.add("components", _ => {
-        _["factor-link"] = () => import("./el/link")
-        return _
-      })
-    }
+    filters() {
+      // PAGE TEMPLATES
 
-    async addPaths() {
       Factor.$filters.add("page-templates", _ => {
         return _.concat([
           {
@@ -22,6 +16,8 @@ export default Factor => {
           }
         ])
       })
+
+      // CONTENT ROUTES
 
       Factor.$filters.add("content-routes", _ => {
         const routes = [
