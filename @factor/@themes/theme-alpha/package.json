@@ -13,12 +13,10 @@
       "app"
     ]
   },
+  "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb",
   "dependencies": {
-    "@factor/core": "1.0.0-beta.4",
-    "@factor/index": "1.0.0-beta.4",
     "@factor/plugin-blog": "1.0.0-beta.4",
     "@factor/plugin-highlight-code": "1.0.0-beta.4",
     "@factor/plugin-notify": "1.0.0-beta.4"
-  },
-  "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb"
+  }
 }
