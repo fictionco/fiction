@@ -1,12 +1,7 @@
 export default Factor => {
   return new (class {
     constructor() {
-      this.addPaths()
-      if (process.env.FACTOR_TARGET == "app") {
-        this.filters()
-        this.addPaths()
-        this.addComponents()
-      }
+      this.filters()
     }
 
     filters() {
@@ -19,6 +14,8 @@ export default Factor => {
         },
         { priority: 200 }
       )
+
+      // POST TYPES
 
       const baseRoute = Factor.$setting.get("work.postRoute")
 
@@ -35,17 +32,9 @@ export default Factor => {
 
         return _
       })
-    }
 
-    addComponents() {
-      Factor.$filters.add("components", _ => {
-        _["app-btn"] = () => import("./el/btn")
-        _["factor-link"] = () => import("./el/link")
-        return _
-      })
-    }
+      // PAGE TEMPLATES
 
-    async addPaths() {
       Factor.$filters.add("page-templates", _ => {
         return _.concat([
           {
@@ -55,6 +44,8 @@ export default Factor => {
           }
         ])
       })
+
+      // CONTENT ROUTES
 
       Factor.$filters.add("content-routes", _ => {
         const routes = [

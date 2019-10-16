@@ -13,7 +13,7 @@
           </header>
           <plugins-index :category="'featured'" :show-downloads="false" />
         </section>
-        <div class="plugins-search-wrap">
+        <!-- <div class="plugins-search-wrap">
           <factor-input-wrap
             input="factor-input-text"
             :placeholder="`Search Factor plugins`"
@@ -24,7 +24,7 @@
             input="factor-input-select"
             :placeholder="`All Categories`"
           />
-        </div>
+        </div>-->
         <section class="plugins-all">
           <header class="section-header">
             <h1 class="title">All</h1>
@@ -182,6 +182,7 @@ export default {
   // SEARCH AND CATEGORIES
   .plugins-search-wrap {
     display: grid;
+    grid-gap: 1rem;
     grid-template-columns: 1fr auto;
   }
 

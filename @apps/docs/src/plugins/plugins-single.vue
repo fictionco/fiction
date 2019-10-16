@@ -223,6 +223,8 @@ export default {
           background-size: cover;
           transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
           &:hover {
+            box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25),
+              0 3px 7px -3px rgba(0, 0, 0, 0.3);
             transform: scale(1.05);
           }
         }
