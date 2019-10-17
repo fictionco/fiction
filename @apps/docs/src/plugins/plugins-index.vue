@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import dataUtility from "./plugin-data"
+
 import getPlugins from "./json/entries"
 
 export default {
@@ -87,9 +87,6 @@ export default {
       }
     }
   },
-  // async mounted() {
-  //   const data = await dataUtility().getReadme()
-  // },
 
   methods: {
     filterCategories: function(items) {

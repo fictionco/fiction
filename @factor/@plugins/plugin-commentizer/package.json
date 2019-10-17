@@ -12,5 +12,12 @@
       "app": "index",
       "server": "server"
     }
-  }
+  },
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction",
+    "webpack",
+    "vue"
+  ]
 }

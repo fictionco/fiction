@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import dataUtility from "./plugin-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
@@ -55,15 +56,20 @@ export default {
       loading: true
     }
   },
+  computed: {
+    headerFigure() {
+      return () => import("./figure-plugins.vue")
+    }
+  },
+  async mounted() {
+    console.log("mount")
+    const data = await dataUtility().getReadme()
+  },
+
   metaInfo() {
     return {
       title: "Factor Plugin Library",
       description: "Extend your project features and do more with Factor."
-    }
-  },
-  computed: {
-    headerFigure() {
-      return () => import("./figure-plugins.vue")
     }
   }
 }
