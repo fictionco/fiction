@@ -1,0 +1,3 @@
+{
+  "plugins": ["@factor/plugin-email-list", "@factor/plugin-blog"]
+}
