@@ -10,17 +10,21 @@ export default () => {
       console.log("START QU")
       const _promises = plugins.map(async plugin => {
         const _queries = [
-          axios.get(`https://cors-anywhere.herokuapp.com/registry.npmjs.org/${plugin}`)
-          //axios.get("https://api.npms.io/v2/search?q=keywords%3Afactor-plugin")
+          axios.get(`https://cors-anywhere.herokuapp.com/registry.npmjs.org/${plugin}`),
+          axios.get(
+            "https://cors-anywhere.herokuapp.com/https://api.npms.io/v2/search?q=keywords%3Afactor-plugin"
+          )
         ]
 
-        // plugin package name/url
+        // plugin package name
         //console.log(plugin)
 
         //Get npm downloads from last month
-        // const downloads = axios
-        //   .get(`https://api.npmjs.org/downloads/point/last-month/${plugin}`)
-        //   .then(d => console.log("D", d))
+        const downloads = axios
+          .get(
+            `https://cors-anywhere.herokuapp.com/https://api.npmjs.org/downloads/point/last-month/${plugin}`
+          )
+          .then(d => console.log("DOWNLOAAAADS", d))
 
         const [{ data }, index] = await Promise.all(_queries)
 
