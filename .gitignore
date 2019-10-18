@@ -33,3 +33,14 @@ coverage
 
 # Junit reports
 reports
+
+# Local SSL
+rootCA.key
+rootCA.pem
+rootCA.srl
+server.crt
+server.key
+server.csr
+server.csr.cnf
+v3.ext
+
