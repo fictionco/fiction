@@ -1,3 +1,5 @@
+import { getModel } from "@factor/post/util-server"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -23,11 +25,13 @@ export default Factor => {
     }
 
     async getPermalinks() {
-      const posts = await Factor.$dbServer
-        .model("post")
-        .find({ permalink: { $ne: null }, status: "published" }, "permalink postType", {
+      const posts = await getModel("post").find(
+        { permalink: { $ne: null }, status: "published" },
+        "permalink postType",
+        {
           limit: 2000
-        })
+        }
+      )
 
       const urls = posts.map(({ postType, permalink }) => {
         return Factor.$post.getPermalink({ postType, permalink })

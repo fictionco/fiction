@@ -1,5 +1,7 @@
-const parse = require("qs").parse
-const axios = require("axios")
+import { parse } from "qs"
+import axios from "axios"
+import { getSinglePost } from "@factor/post/util-server"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -37,7 +39,7 @@ export default Factor => {
         if (authorization && authorization.startsWith("Bearer ")) {
           const token = authorization.split("Bearer ")[1]
 
-          meta.bearer = await Factor.$postServer.single({ token })
+          meta.bearer = await getSinglePost({ token })
         }
 
         responseJson.result = await handler({ data, meta })

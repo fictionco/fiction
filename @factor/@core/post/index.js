@@ -1,8 +1,10 @@
+import { getPopulatedFields } from "./util"
+import { toLabel, excerpt, slugify } from "@factor/tools/utils"
 export default Factor => {
   return new (class {
     constructor() {
       this.filters()
-      this.utils = require("./utils").default(Factor)
+
       this.objectHash = require("object-hash")
       this.initialized = false
     }
@@ -103,7 +105,7 @@ export default Factor => {
             if (add) {
               subMenu.push({
                 path: add,
-                name: Factor.$utils.toLabel(add)
+                name: toLabel(add)
               })
             }
 
@@ -114,7 +116,7 @@ export default Factor => {
             _.push({
               group: postType,
               path: `posts/${postType}`,
-              name: namePlural || Factor.$utils.toLabel(postType),
+              name: namePlural || toLabel(postType),
               icon,
               items: Factor.$filters.apply(`admin-menu-post-${postType}`, subMenu)
             })
@@ -199,7 +201,7 @@ export default Factor => {
       const out = {
         canonical: this.link(_id, { root: true }),
         title: post.titleTag || post.title || "",
-        description: post.descriptionTag || Factor.$utils.excerpt(post.content) || "",
+        description: post.descriptionTag || excerpt(post.content) || "",
         image:
           post.avatar && Factor.$store.val(post.avatar)
             ? Factor.$store.val(post.avatar).url
@@ -317,7 +319,7 @@ export default Factor => {
       posts.forEach(post => {
         Factor.$store.add(post._id, post)
 
-        const populatedFields = Factor.$mongo.getPopulatedFields({
+        const populatedFields = getPopulatedFields({
           postType: post.postType,
           depth
         })
@@ -339,7 +341,7 @@ export default Factor => {
       })
 
       if (_idsFiltered.length > 0) {
-        const posts = await Factor.$db.request("populate", { _ids: _idsFiltered })
+        const posts = await this.request("populate", { _ids: _idsFiltered })
         await this.populatePosts({ posts, depth })
       }
     }
@@ -348,9 +350,9 @@ export default Factor => {
       return Factor.$filters.apply("post-types", []).map(_ => {
         return {
           baseRoute: typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute,
-          nameIndex: Factor.$utils.toLabel(_.postType),
-          nameSingle: Factor.$utils.toLabel(_.postType),
-          namePlural: Factor.$utils.toLabel(_.postType),
+          nameIndex: toLabel(_.postType),
+          nameSingle: toLabel(_.postType),
+          namePlural: toLabel(_.postType),
           ..._
         }
       })
@@ -361,7 +363,7 @@ export default Factor => {
     }
 
     populatedFields({ postType, depth = 10 }) {
-      return Factor.$mongo.getPopulatedFields({ postType, depth })
+      return getPopulatedFields({ postType, depth })
     }
 
     link(_id, options = {}) {
@@ -392,7 +394,7 @@ export default Factor => {
         }
 
         if (!permalink && args.title) {
-          parts.push(Factor.$utils.slugify(args.title))
+          parts.push(slugify(args.title))
         } else {
           parts.push(permalink)
         }
@@ -408,7 +410,7 @@ export default Factor => {
 
     descriptionTag(_id) {
       const { descriptionTag, subTitle, content } = Factor.$store.val(_id) || {}
-      return descriptionTag || subTitle || Factor.$utils.excerpt(content) || ""
+      return descriptionTag || subTitle || excerpt(content) || ""
     }
 
     shareImage(_id) {
@@ -461,23 +463,23 @@ export default Factor => {
 
     // Save revisions to post
     // This should be merged into existing post (update)
-    async saveDraft({ id, revisions }) {
-      const data = {
-        revisions: this._cleanRevisions(revisions) // limit amount and frequency
-      }
-      const query = {
-        model: "post",
-        method: "findByIdAndUpdate",
-        data,
-        id
-      }
+    // async saveDraft({ id, revisions }) {
+    //   const data = {
+    //     revisions: this._cleanRevisions(revisions) // limit amount and frequency
+    //   }
+    //   const query = {
+    //     model: "post",
+    //     method: "findByIdAndUpdate",
+    //     data,
+    //     id
+    //   }
 
-      const response = await Factor.$db.run(query)
+    //   const response = await Factor.$db.run(query)
 
-      console.log("[draft saved]", query, data, revisions)
+    //   console.log("[draft saved]", query, data, revisions)
 
-      return response
-    }
+    //   return response
+    // }
 
     // Verify a permalink is unique,
     // If not unique, then add number and recursively verify the new one
@@ -485,10 +487,7 @@ export default Factor => {
       const post = await this.getSinglePost({ permalink, field })
 
       if (post && post.id != id) {
-        Factor.$events.$emit(
-          "notify",
-          `${Factor.$utils.toLabel(field)} "${permalink}" already exists.`
-        )
+        Factor.$events.$emit("notify", `${toLabel(field)} "${permalink}" already exists.`)
         let num = 1
         var matches = permalink.match(/\d+$/)
         if (matches) {
@@ -502,31 +501,31 @@ export default Factor => {
       return permalink
     }
 
-    async savePost(post) {
-      let data = Object.assign({}, post)
-      const { id } = data
-      data.permalink = await this.permalinkVerify({ permalink: data.permalink, id })
-      data = await this.addRevision({ post: data, meta: { published: true } })
+    // async savePost(post) {
+    //   let data = Object.assign({}, post)
+    //   const { id } = data
+    //   data.permalink = await this.permalinkVerify({ permalink: data.permalink, id })
+    //   data = await this.addRevision({ post: data, meta: { published: true } })
 
-      const query = {
-        collection: "public",
-        data,
-        id,
-        type: post.type,
-        merge: false
-      }
+    //   const query = {
+    //     collection: "public",
+    //     data,
+    //     id,
+    //     type: post.type,
+    //     merge: false
+    //   }
 
-      const response = await Factor.$db.update(query)
+    //   const response = await Factor.$db.update(query)
 
-      Factor.$events.$emit("purge-url-cache", post.url)
+    //   Factor.$events.$emit("purge-url-cache", post.url)
 
-      // Bust cache for url
-      // if (!post.url.includes("localhost")) {
-      //   Factor.$http.request({ url: post.url, method: "PURGE" })
-      // }
+    //   // Bust cache for url
+    //   // if (!post.url.includes("localhost")) {
+    //   //   Factor.$http.request({ url: post.url, method: "PURGE" })
+    //   // }
 
-      return data
-    }
+    //   return data
+    // }
 
     async addRevision({ post, meta, save = false }) {
       let { revisions, ...postData } = post

@@ -1,5 +1,7 @@
 const multer = require("multer")
-import { objectIdType, objectId } from "@factor/db/util"
+import { getModel } from "@factor/post/util-server"
+
+import { objectIdType, objectId } from "@factor/post/util"
 export default Factor => {
   return new (class {
     constructor() {
@@ -34,7 +36,7 @@ export default Factor => {
         file: { buffer, mimetype, size, name }
       } = request
 
-      const attachmentModel = Factor.$dbServer.model("attachment")
+      const attachmentModel = getModel("attachment")
       const attachment = new attachmentModel()
 
       Object.assign(attachment, {
@@ -60,8 +62,7 @@ export default Factor => {
     }
 
     async delete({ _id }) {
-      const doc2 = await Factor.$dbServer.model("attachment").findById(_id)
-      const doc = await Factor.$dbServer.model("attachment").findOneAndDelete({ _id })
+      const doc = await getModel("attachment").findOneAndDelete({ _id })
 
       if (doc && !doc.url.includes("base64")) {
         await Factor.$filters.run("delete-attachment", doc)

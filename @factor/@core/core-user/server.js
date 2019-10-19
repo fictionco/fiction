@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+import { getModel, savePost } from "@factor/post/util-server"
 
 export default Factor => {
   return new (class {
@@ -31,9 +32,7 @@ export default Factor => {
       let user
       if (newAccount) {
         try {
-          user = await Factor.$dbServer
-            .model("user")
-            .create({ email, password, displayName })
+          user = await getModel("user").create({ email, password, displayName })
         } catch (error) {
           const e =
             error.code == 11000 ? `Account with email: "${email}" already exists.` : error
@@ -43,7 +42,7 @@ export default Factor => {
         Factor.$filters.apply("create-new-user", user)
         return this.credential(user)
       } else {
-        user = await Factor.$dbServer.model("user").findOne({ email }, "+password")
+        user = await getModel("user").findOne({ email }, "+password")
 
         const compareResult = user ? await user.comparePassword(password) : false
 

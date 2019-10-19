@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import extendApp from "@factor/extend"
-import connectorUtility from "../../connect-db"
+import connectorUtility from "../../db-connection"
 import mongoose from "mongoose"
 jest.mock("mongoose")
 
@@ -64,13 +64,5 @@ describe("db-connect", () => {
     await connector.connectDb()
 
     expect(__s).toHaveBeenCalledWith(__err)
-  })
-
-  it("debug mode", async () => {
-    process.env.FACTOR_DEBUG = true
-
-    connector = connectorUtility()
-
-    expect(mongoose.set).toHaveBeenCalledWith("debug", true)
   })
 })

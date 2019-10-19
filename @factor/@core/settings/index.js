@@ -1,4 +1,4 @@
-import settingsFiles from "~/.factor/loader-settings"
+import * as settingsFiles from "~/.factor/loader-settings"
 
 export default Factor => {
   return new (class {
@@ -18,25 +18,22 @@ export default Factor => {
     }
 
     async load() {
-      const _imports = { ...settingsFiles, ...this.added }
+      const _objects = await this.importModules({ ...settingsFiles, ...this.added })
 
-      const _modules = await this.importModules(_imports)
-
-      const settingsArray = Factor.$filters.apply(
-        "factor-settings",
-        _modules.map(_obj => (typeof _obj == "function" ? _obj(Factor) : _obj))
-      )
+      const settingsArray = Factor.$filters.apply("factor-settings", _objects)
 
       const merged = Factor.$utils.deepMerge([this.config, ...settingsArray])
 
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
+
+      return
     }
 
     async importModules(_imports) {
       return await Promise.all(
-        Object.keys(_imports).map(async k => {
-          const { default: val } = await _imports[k]()
-          return val
+        Object.values(_imports).map(async _module => {
+          const _object = await _module // async imports
+          return typeof _object == "function" ? _object(Factor) : _object
         })
       )
     }

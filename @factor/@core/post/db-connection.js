@@ -7,8 +7,6 @@ export default () => {
     constructor() {
       if (!DB_CONNECTION) return
 
-      if (FACTOR_DEBUG) mongoose.set("debug", true)
-
       Factor.$filters.callback("close-server", () => this.disconnectDb())
       Factor.$filters.callback("initialize-server", () => this.connectDb())
     }

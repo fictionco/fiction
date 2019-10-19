@@ -197,7 +197,7 @@ const cli = () => {
       })
 
       await this.factorize({
-        ...args,
+        ..._arguments,
         install: false,
         restart: true,
         NODE_ENV: "development"

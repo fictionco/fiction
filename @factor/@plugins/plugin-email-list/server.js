@@ -1,3 +1,5 @@
+import { getModel } from "@factor/post/util-server"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -9,7 +11,7 @@ export default Factor => {
     }
 
     postModel() {
-      return Factor.$dbServer.model("emailList")
+      return getModel("emailList")
     }
 
     // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects

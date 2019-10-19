@@ -194,16 +194,12 @@ export default Factor => {
 
     loaderString(files) {
       const fileLines = files.map(
-        ({ _id, file }) => `files["${_id}"] = () => import("${file}")`
+        ({ _id, file }) => `export { default as ${_id} } from "${file}"`
       )
 
       let lines = [`/******** GENERATED FILE - DO NOT EDIT DIRECTLY ********/`]
 
-      lines.push("const files = {}")
-
       lines = lines.concat(fileLines)
-
-      lines.push(`export default files`)
 
       return lines.join("\n")
     }
@@ -273,7 +269,7 @@ export default Factor => {
     makeEmptyLoaders() {
       const l = ["loader-server", "loader-app", "loader-styles", "loader-settings"]
       l.forEach(_ => {
-        const content = _ == "loader-styles" ? "" : `module.exports = {}`
+        const content = _ == "loader-styles" ? "" : ``
         this.writeFile({
           destination: Factor.$paths.get(_),
           content
