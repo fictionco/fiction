@@ -1,3 +1,5 @@
+import { getModel, savePost } from "@factor/post/util-server"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -34,9 +36,7 @@ export default Factor => {
         throw new Error(`Email verification user doesn't match the logged in account.`)
       }
 
-      const user = await Factor.$dbServer
-        .model("user")
-        .findOne({ _id }, "+emailVerificationCode")
+      const user = await getModel("user").findOne({ _id }, "+emailVerificationCode")
 
       if (user.emailVerificationCode == code) {
         user.emailVerified = true
@@ -51,7 +51,7 @@ export default Factor => {
     async sendVerifyEmail({ email, _id, user }, { bearer }) {
       const emailVerificationCode = Factor.$randomToken()
 
-      await Factor.$postServer.save(
+      await savePost(
         { data: { _id, emailVerificationCode, postType: "user" } },
         { bearer }
       )
@@ -70,7 +70,7 @@ export default Factor => {
     }
 
     async verifyAndResetPassword({ _id, code, password }) {
-      const user = await Factor.$dbServer.model().findOne({ _id }, "+passwordResetCode")
+      const user = await getModel("post").findOne({ _id }, "+passwordResetCode")
 
       if (!user) {
         throw new Error(`Could not find user.`)
@@ -89,9 +89,10 @@ export default Factor => {
     async sendPasswordResetEmail({ email }) {
       const passwordResetCode = Factor.$randomToken()
 
-      const user = await Factor.$dbServer
-        .model("user")
-        .findOneAndUpdate({ email }, { passwordResetCode })
+      const user = await getModel("user").findOneAndUpdate(
+        { email },
+        { passwordResetCode }
+      )
 
       if (!user || !user._id) {
         throw new Error("Could not find an user with that email.")

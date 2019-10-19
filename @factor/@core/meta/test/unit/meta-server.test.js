@@ -8,7 +8,8 @@ const { createRenderer } = require("vue-server-renderer")
 const { dirname } = require("path")
 const { readFileSync } = require("fs-extra")
 import { waitFor } from "@test/utils"
-
+import factorMeta from "../.."
+import appSettings from "@factor/app/factor-settings"
 // import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
 // import { render, renderToString } from "@vue/server-test-utils"
 let renderer
@@ -16,12 +17,8 @@ let App
 describe("meta info server", () => {
   beforeAll(async () => {
     await extendApp({
-      plugins: {
-        factorMeta: () => import("../..")
-      },
-      settings: {
-        app: () => import("@factor/app/factor-settings.js")
-      }
+      plugins: { factorMeta },
+      settings: { appSettings }
     }).extend()
 
     Factor.$filters.push("routes", {
@@ -37,6 +34,7 @@ describe("meta info server", () => {
 
   it("renders default meta", async () => {
     const context = await handleContext(Factor, { context: { url: "/" }, ...App })
+
     const html = await renderer.renderToString(App.vm, context)
 
     expect(html).toContain(`charset="utf-8"`)

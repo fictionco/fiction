@@ -13,7 +13,6 @@
     "@factor/app": "1.0.0-beta.4",
     "@factor/build": "1.0.0-beta.4",
     "@factor/cli": "1.0.0-beta.4",
-    "@factor/db": "1.0.0-beta.4",
     "@factor/core-email": "1.0.0-beta.4",
     "@factor/core-endpoint": "1.0.0-beta.4",
     "@factor/core-error": "1.0.0-beta.4",

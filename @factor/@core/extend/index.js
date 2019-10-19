@@ -1,4 +1,4 @@
-import plugins from "~/.factor/loader-app"
+import * as plugins from "~/.factor/loader-app"
 import { importPlugins } from "./util"
 import Factor from "@factor/core"
 export default (options = {}) =>
@@ -15,15 +15,15 @@ export default (options = {}) =>
       })
 
       const core = {
-        log: () => import("@factor/core-log"),
-        tools: () => import("@factor/tools"),
-        filters: () => import("@factor/filters"),
-        paths: () => import("@factor/paths"),
-        config: () => import("@factor/config"),
-        setting: () => import("@factor/settings")
+        log: import("@factor/core-log"),
+        tools: import("@factor/tools"),
+        filters: import("@factor/filters"),
+        paths: import("@factor/paths"),
+        config: import("@factor/config"),
+        setting: import("@factor/settings")
       }
 
-      await importPlugins(core)
+      await importPlugins(core, { async: true })
 
       await this.initialize(options)
     }
@@ -31,12 +31,14 @@ export default (options = {}) =>
     // After plugins added
     async initialize() {
       const { plugins: __plugins = {}, settings: __settings } = options
-      if (__settings) Factor.$setting.add(__settings)
 
       const optionPlugins = __plugins || {}
       const allPlugins = { ...plugins, ...optionPlugins }
 
       await importPlugins(allPlugins)
+
+      // Add settings from tests, etc.
+      if (__settings) Factor.$setting.add(__settings)
 
       Factor.$components = {}
       const comps = Factor.$filters.apply("components", {})

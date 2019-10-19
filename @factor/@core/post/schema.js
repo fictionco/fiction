@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { objectIdType } from "@factor/db/util"
+import { objectIdType } from "@factor/post/util"
 
 export default () => {
   return {

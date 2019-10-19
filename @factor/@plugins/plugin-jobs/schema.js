@@ -1,4 +1,4 @@
-import { objectIdType } from "@factor/db/util"
+import { objectIdType } from "@factor/post/util"
 
 export default Factor => {
   return {

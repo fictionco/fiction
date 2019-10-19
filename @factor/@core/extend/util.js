@@ -1,10 +1,16 @@
 import Factor from "@factor/core"
 
-export async function importPlugins(plugins) {
+export async function importPlugins(plugins, { async = false } = {}) {
   for (let key of Object.keys(plugins)) {
-    const { default: _module } = await plugins[key]()
+    let plugin
+    if (async) {
+      const _module = await plugins[key]
+      plugin = _module.default
+    } else {
+      plugin = plugins[key]
+    }
 
-    installPlugin(key, _module)
+    installPlugin(key, plugin)
   }
 
   return

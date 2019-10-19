@@ -1,4 +1,4 @@
-import plugins from "~/.factor/loader-server"
+import Factor from "@factor/core"
 import { importPlugins } from "./util"
 export default Factor => {
   return new (class {
@@ -17,7 +17,7 @@ export default Factor => {
 
       // Loading plugins is sometimes not desireable e.g. when creating loaders
       if (loadPlugins !== false) {
-        await importPlugins(plugins)
+        await this.loadPlugins()
 
         await Factor.$filters.run("initialize-server")
 
@@ -25,19 +25,15 @@ export default Factor => {
       }
     }
 
-    async loadCore() {
-      const core = {
-        log: () => import("@factor/core-log/server"),
-        tools: () => import("@factor/tools"),
-        filters: () => import("@factor/filters"),
-        paths: () => import("@factor/paths/server"),
-        loaders: () => import("@factor/build/loaders"),
-        override: () => import("@factor/core-override"),
-        configServer: () => import("@factor/config/server"),
-        setting: () => import("@factor/settings")
-      }
-
-      await importPlugins(core)
+    async loadPlugins() {
+      // Settings should only be loaded if loadPlugins option is set
+      // It depends on generated loaders
+      await importPlugins(
+        {
+          setting: import("@factor/settings")
+        },
+        { async: true }
+      )
 
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
@@ -47,6 +43,24 @@ export default Factor => {
 
       router().create()
       store().create()
+
+      const plugins = await import("~/.factor/loader-server")
+
+      await importPlugins(plugins)
+    }
+
+    async loadCore() {
+      const core = {
+        log: import("@factor/core-log/server"),
+        tools: import("@factor/tools"),
+        filters: import("@factor/filters"),
+        paths: import("@factor/paths/server"),
+        loaders: import("@factor/build/loaders"),
+        override: import("@factor/core-override"),
+        configServer: import("@factor/config/server")
+      }
+
+      await importPlugins(core, { async: true })
     }
   })()
 }

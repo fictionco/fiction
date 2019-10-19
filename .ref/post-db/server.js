@@ -9,7 +9,7 @@ export default Factor => {
     constructor() {
       addSetupCli()
       connectDb()
-      Factor.$filters.callback("endpoints", { id: "db", handler: endpoint })
+
       Factor.$filters.callback("initialize-server", () => this.initialize())
     }
 
