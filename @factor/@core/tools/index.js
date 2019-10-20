@@ -9,8 +9,4 @@ export default Factor => {
   Factor.$validator = require("validator")
   Factor.$events = Factor.prototype.$events = new Factor()
   Factor.$randomToken = () => require("rand-token").generate(16)
-  Factor.$mongoose =
-    process.env.FACTOR_TARGET == "server"
-      ? require("mongoose")
-      : require("mongoose/browser")
 }

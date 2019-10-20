@@ -110,6 +110,7 @@ export default Factor => {
     production() {
       return {
         mode: "production",
+        devtool: "source-map",
         output: { publicPath: "/" },
         plugins: [
           new MiniCssExtractPlugin({
