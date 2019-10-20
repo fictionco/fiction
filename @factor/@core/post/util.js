@@ -1,10 +1,11 @@
 import Factor from "@factor/core"
 import schemaPost from "@factor/post/schema"
+import mongoose from "mongoose/browser"
 
-export const objectIdType = () => Factor.$mongoose.Schema.Types.ObjectId
+export const objectIdType = () => mongoose.Schema.Types.ObjectId
 
 export function objectId(str) {
-  return Factor.$mongoose.Types.ObjectId(str)
+  return mongoose.Types.ObjectId(str)
 }
 
 export function isAuthor(bearer) {

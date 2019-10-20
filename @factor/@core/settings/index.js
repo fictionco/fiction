@@ -18,7 +18,9 @@ export default Factor => {
     }
 
     async load() {
-      const _objects = await this.importModules({ ...settingsFiles, ...this.added })
+      const _objects = Object.values({ ...settingsFiles, ...this.added }).map(_object => {
+        return typeof _object == "function" ? _object(Factor) : _object
+      })
 
       const settingsArray = Factor.$filters.apply("factor-settings", _objects)
 
@@ -27,15 +29,6 @@ export default Factor => {
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
 
       return
-    }
-
-    async importModules(_imports) {
-      return await Promise.all(
-        Object.values(_imports).map(async _module => {
-          const _object = await _module // async imports
-          return typeof _object == "function" ? _object(Factor) : _object
-        })
-      )
     }
 
     add(files = {}) {
