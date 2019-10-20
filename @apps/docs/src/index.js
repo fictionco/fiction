@@ -1,12 +1,51 @@
+import dataUtility from "./plugins/plugin-data"
+
 export default Factor => {
   return new (class {
     constructor() {
+      // Get plugins - try #1a
+      //this.addPlugins()
+
       this.addFilters()
+
+      // Get plugins - try #2
+      // Factor.$filters.callback("site-prefetch", async () => {
+      //   const list = await dataUtility().getReadme()
+
+      //   Factor.$store.add("myPlugins", list)
+
+      //   return list
+      // })
     }
 
-    events() {}
+    // Get plugins - try #1b
+    // addPlugins() {
+    //   Factor.$filters.callback("site-prefetch", async () => {
+    //     const list = await dataUtility().getReadme()
+
+    //     Factor.$store.add("myPlugins", list)
+    //   })
+    // }
 
     async addFilters() {
+      // Setup plugins post type
+      // // Setup Plugins Post Type
+      // const baseRoute = Factor.$setting.get("plugins.postRoute")
+
+      // Factor.$filters.add("post-types", _ => {
+      //   _.push({
+      //     postType: "plugins",
+      //     baseRoute,
+      //     //icon: require("./img/posts.svg"),
+      //     model: "PluginPost",
+      //     nameIndex: "Plugins",
+      //     nameSingle: "Plugin",
+      //     namePlural: "Plugins"
+      //   })
+
+      //   return _
+      // })
+
       // Register doc routes for sitemap
       Factor.$filters.add("after-first-server-extend", () => {
         const base = Factor.$setting.get("docs.base")
@@ -34,6 +73,9 @@ export default Factor => {
 
       Factor.$filters.add("content-routes", _ => {
         const base = Factor.$setting.get("docs.base")
+
+        //const pluginsIndex = Factor.$setting.get("plugins.layout.index")
+        //const pluginsSingle =  Factor.$setting.get("plugins.layout.single")
 
         return [
           ..._,

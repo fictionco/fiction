@@ -203,8 +203,8 @@ export default Factor => {
       ]
     },
     plugins: {
-      indexRoute: "/pluginsnew", //indexRoute: "/posts"
-      postRoute: "/plugin", //postRoute: "/entry"
+      indexRoute: "/pluginsnew",
+      postRoute: "/plugin",
       returnLinkText: "All Plugins",
       layout: {
         index: () => import("./plugins/v-plugins.vue"),

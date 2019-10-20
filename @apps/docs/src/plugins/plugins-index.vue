@@ -48,7 +48,6 @@
 </template>
 
 <script>
-
 import getPlugins from "./json/entries"
 
 export default {
