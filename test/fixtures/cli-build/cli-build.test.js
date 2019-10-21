@@ -42,13 +42,14 @@ const close = __process => {
   })
 }
 
-describe.posix("build-commands", () => {
+describe("build-commands", () => {
   beforeEach(() => {
     removeSync(resolve(rootDir, ".factor"))
     removeSync(resolve(rootDir, "dist"))
   })
 
-  test("build from factor dev", async () => {
+  it("builds factor dev", async () => {
+    let error
     const { env } = process
     env.PORT = port = await getPort()
 
@@ -61,12 +62,16 @@ describe.posix("build-commands", () => {
     // Wait 2s for picking up changes
     await waitFor(2000)
 
+    expect(error).toBe(undefined)
+
     // [Add actual test for changes here]
 
     await close(__process)
+
+    return
   })
 
-  test("build with factor start", async () => {
+  it("builds factor start", async () => {
     let error
 
     const { env } = process
