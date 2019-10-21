@@ -6,6 +6,7 @@ import Factor from "vue"
 describe("webpack", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
+
     await extender(Factor).extend({ loadPlugins: false })
     buildLoaders(Factor).makeEmptyLoaders()
   })

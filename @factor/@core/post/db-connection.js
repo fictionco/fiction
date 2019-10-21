@@ -1,42 +1,14 @@
-import mongoose from "mongoose"
 import Factor from "@factor/core"
-
+import { dbConnect, dbDisconnect } from "./util-server"
+import { addCallback } from "@factor/filters/util"
 export default () => {
-  const { DB_CONNECTION, NODE_ENV, FACTOR_DEBUG } = process.env
+  const { DB_CONNECTION, DB_CONNECTION_TEST, NODE_ENV, FACTOR_DEBUG } = process.env
   return new (class {
     constructor() {
-      if (!DB_CONNECTION) return
+      if (!DB_CONNECTION && !DB_CONNECTION_TEST) return
 
-      Factor.$filters.callback("close-server", () => this.disconnectDb())
-      Factor.$filters.callback("initialize-server", () => this.connectDb())
-    }
-
-    async disconnectDb(callback) {
-      if (this.isConnected) {
-        await mongoose.connection.close()
-
-        if (callback) callback()
-
-        this.isConnected = false
-      }
-      return
-    }
-
-    async connectDb() {
-      if (!this.isConnected && this.readyState() != "connected") {
-        try {
-          this.isConnected = true
-          await mongoose.connect(DB_CONNECTION, { useNewUrlParser: true })
-          return
-        } catch (error) {
-          Factor.$log.error(error)
-        }
-      }
-    }
-    readyState() {
-      const states = ["disconnected", "connected", "connecting", "disconnecting"]
-
-      return states[mongoose.connection.readyState]
+      addCallback("close-server", () => dbDisconnect())
+      addCallback("initialize-server", () => dbConnect())
     }
   })()
 }

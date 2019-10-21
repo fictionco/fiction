@@ -1,6 +1,6 @@
 const cwd = process.env.FACTOR_CWD || process.cwd()
 
-let m = {}
+let m = { settings: "" }
 try {
   m = require(`${cwd}/.factor/loader-server.js`)
 } catch (error) {}

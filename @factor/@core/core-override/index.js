@@ -1,13 +1,14 @@
-const { dirname } = require("path")
-const { pathExistsSync } = require("fs-extra")
 const glob = require("glob").sync
-
+import { pathExistsSync } from "fs-extra"
+import { dirname, resolve } from "path"
+import { addFilter } from "@factor/filters/util"
+import { getExtensions } from "@factor/build/util"
 export default Factor => {
   return new (class {
     constructor() {
-      this.themes = Factor.$loaders.getExtensions().filter(_ => _.extend == "theme")
+      this.themes = getExtensions().filter(_ => _.extend == "theme")
 
-      Factor.$filters.add("webpack-aliases", _ => {
+      addFilter("webpack-aliases", _ => {
         _["@theme"] =
           this.themes.length > 0
             ? dirname(require.resolve(this.themes[0].name))
@@ -20,9 +21,25 @@ export default Factor => {
       // Notes:
       // - Uses "#" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
       // - TODO if a file is added to app, then server needs a restart, fix should be possible
-      Factor.$filters.add("webpack-plugins", (_, { webpack }) => {
+      addFilter("webpack-plugins", (_, { webpack }) => {
         _.push(this.modulePathWebpackPlugin(webpack))
+        _.push(this.browserReplacement(webpack))
         return _
+      })
+    }
+
+    // Server utils sometimes aren't compatible with webpack
+    // Replace with polyfill if a
+    browserReplacement(webpack) {
+      return new webpack.NormalModuleReplacementPlugin(/util$/, resource => {
+        if (resource.context.includes("@factor")) {
+          const resolvedDirectory = dirname(
+            require.resolve(resource.request, { paths: [resource.context] })
+          )
+          const clientUtil = this._fileExists(resolve(resolvedDirectory, `util-browser`))
+
+          if (clientUtil) resource.request = clientUtil
+        }
       })
     }
 

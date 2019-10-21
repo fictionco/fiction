@@ -48,25 +48,23 @@ describe.posix("build-commands", () => {
     removeSync(resolve(rootDir, "dist"))
   })
 
-  // test("build from factor dev", async () => {
-  //   console.log("dev tst")
-  //   const { env } = process
-  //   env.PORT = port = await getPort()
+  test("build from factor dev", async () => {
+    const { env } = process
+    env.PORT = port = await getPort()
 
-  //   const __process = await start("dev", env, __process => {
-  //     __process.on("error", err => {
-  //       error = err
-  //     })
-  //   })
+    const __process = await start("dev", env, __process => {
+      __process.on("error", err => {
+        error = err
+      })
+    })
 
-  //   // Wait 2s for picking up changes
-  //   await waitFor(2000)
+    // Wait 2s for picking up changes
+    await waitFor(2000)
 
-  //   // [Add actual test for changes here]
+    // [Add actual test for changes here]
 
-  //   await close(__process)
-
-  // })
+    await close(__process)
+  })
 
   test("build with factor start", async () => {
     let error
@@ -82,7 +80,6 @@ describe.posix("build-commands", () => {
 
     expect(error).toBe(undefined)
     const theUrl = url("/")
-    console.log("RULR", theUrl)
 
     const html = await rp(theUrl)
     expect(html).toMatch("hi")

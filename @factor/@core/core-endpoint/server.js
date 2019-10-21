@@ -1,5 +1,7 @@
 const cors = require("cors")
-const parse = require("qs").parse
+
+import { parse } from "qs"
+import { getSinglePost } from "@factor/post/util-server"
 
 export default Factor => {
   const util = require(".").default(Factor)
@@ -21,7 +23,7 @@ export default Factor => {
             middleware: [
               //cors(),
               async (request, response, next) => {
-                return await Factor.$http.process({
+                return await this.process({
                   request,
                   response,
                   handler: _ => this.runMethod({ ..._, id, handler })
@@ -57,6 +59,37 @@ export default Factor => {
         Factor.$log.error(`${error.message} in ${id}:${method}`)
         throw new Error(error)
       }
+    }
+
+    async process({ request, response, handler }) {
+      const { query, body, headers } = request
+
+      const meta = { request, response }
+      const data = { ...body, ...parse(query) }
+
+      const { authorization } = headers
+
+      const responseJson = { result: "", error: "" }
+
+      try {
+        if (authorization && authorization.startsWith("Bearer ")) {
+          const token = authorization.split("Bearer ")[1]
+
+          meta.bearer = await getSinglePost({ token })
+        }
+
+        responseJson.result = await handler({ data, meta })
+      } catch (error) {
+        responseJson.error = error.message || 500
+        Factor.$log.error(error)
+      }
+
+      response
+        .status(200)
+        .jsonp(responseJson)
+        .end()
+
+      return
     }
   })()
 

@@ -1,50 +1,12 @@
-export default Factor => {
-  return new (class {
+import Factor from "@factor/core"
+import { sortPriority, uniqueObjectHash } from "@factor/tools/utils"
+
+// Singleton
+if (!Factor.$filters) {
+  class FactorFilters {
     constructor() {
       this._filters = {}
       this._applied = {}
-    }
-
-    _sort(arr) {
-      return arr.sort((a, b) => {
-        const ap = a.priority || 100
-        const bp = b.priority || 100
-
-        if (ap < bp) {
-          return -1
-        } else if (ap > bp) {
-          return 1
-        } else {
-          return 0
-        }
-      })
-    }
-
-    uniqueHash(obj, salt = "") {
-      if (!obj) return obj
-
-      let str
-      if (typeof obj == "string") {
-        str = obj
-      } else if (typeof obj == "function") {
-        str = obj.toString()
-      } else {
-        // Make sure to remove circular refs
-        // https://github.com/WebReflection/flatted#flatted
-        const { stringify } = require("flatted/cjs")
-        str = stringify(obj)
-      }
-
-      str = str + salt
-
-      str = str.slice(0, 500)
-
-      return str
-        .split("")
-        .reduce(
-          (prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
-          0
-        )
     }
 
     // Get total number of filters added on an id
@@ -68,7 +30,7 @@ export default Factor => {
       // Thread through filters if they exist
       if (_added && Object.keys(_added).length > 0) {
         const _addedArray = Object.keys(_added).map(i => _added[i])
-        const _sorted = this._sort(_addedArray)
+        const _sorted = sortPriority(_addedArray)
 
         for (const element of _sorted) {
           const { callback, context } = element
@@ -85,7 +47,7 @@ export default Factor => {
 
       // Sort priority if array is returned
       if (Array.isArray(data)) {
-        data = this._sort(data)
+        data = sortPriority(data)
       }
 
       this._applied[name] = data
@@ -99,7 +61,7 @@ export default Factor => {
       // create unique ID
       // In certain situations (HMR, dev), the same filter can be added twice
       // Using objects and a hash identifier solves that
-      const filterKey = `key_${this.uniqueHash(filter, this.callerKey(key))}`
+      const filterKey = `key_${uniqueObjectHash(filter, this.callerKey(key))}`
 
       // For simpler assignments where no callback is needed
       const callback = typeof filter != "function" ? () => filter : filter
@@ -113,7 +75,7 @@ export default Factor => {
 
     push(_id, item, options = {}) {
       const { key = "" } = options
-      options.key = this.uniqueHash(item, this.callerKey(key))
+      options.key = uniqueObjectHash(item, this.callerKey(key))
 
       this.add(
         _id,
@@ -127,7 +89,7 @@ export default Factor => {
 
     register(_id, _property, item, options = {}) {
       const { key = "" } = options
-      options.key = this.uniqueHash(item, this.callerKey(key))
+      options.key = uniqueObjectHash(item, this.callerKey(key))
 
       this.add(
         _id,
@@ -144,7 +106,7 @@ export default Factor => {
       // get unique signature which includes the caller path of function and stringified callback
       // added the caller because sometimes callbacks look the exact same in different files!
       const { key = "" } = options
-      options.key = this.uniqueHash(callback, this.callerKey(key))
+      options.key = uniqueObjectHash(callback, this.callerKey(key))
 
       const callable = typeof callback != "function" ? () => callback : callback
 
@@ -152,8 +114,8 @@ export default Factor => {
     }
 
     // Run array of promises and await the result
-    async run(id, args = {}) {
-      return await Promise.all(this.apply(id, [], args))
+    async run(id, _arguments = {}) {
+      return await Promise.all(this.apply(id, [], _arguments))
     }
 
     // Use the function that called the filter in the key
@@ -168,5 +130,9 @@ export default Factor => {
           .find(line => !line.match(/(filter|Error)/))
       )
     }
-  })()
+  }
+
+  Factor.$filters = Factor.prototype.$filters = new FactorFilters()
 }
+
+export default Factor.$filters
