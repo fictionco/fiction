@@ -25,6 +25,10 @@ export default Factor => {
       const error404 = Factor.$setting.get("app.error404")
       const content = Factor.$setting.get("app.content")
 
+      if (!error404 || !content) {
+        throw new Error("Factor core app components are undefined.")
+      }
+
       Factor.$filters.add("components", _ => {
         _["error-404"] = error404
         return _

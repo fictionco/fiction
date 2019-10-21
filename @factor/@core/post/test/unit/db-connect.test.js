@@ -2,6 +2,10 @@ import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import connectorUtility from "../../db-connection"
 import mongoose from "mongoose"
+import * as filters from "@factor/filters/util"
+import * as errors from "@factor/core-log/util"
+import { dbConnect, dbDisconnect } from "../../util-server"
+
 jest.mock("mongoose")
 
 let connector
@@ -11,7 +15,7 @@ describe("db-connect", () => {
   })
 
   it("adds filters", async () => {
-    const spyCallback = jest.spyOn(Factor.$filters, "callback")
+    const spyCallback = jest.spyOn(filters, "addCallback")
     connector = connectorUtility()
 
     expect(spyCallback).not.toHaveBeenCalled()
@@ -30,9 +34,8 @@ describe("db-connect", () => {
       close: jest.fn(() => Promise.resolve())
     }
     mongoose.connect.mockImplementation(() => Promise.resolve())
-    await Factor.$filters.run("initialize-server")
 
-    expect(connector.isConnected).toBe(true)
+    await filters.runCallbacks("initialize-server")
 
     expect(mongoose.connect).toHaveBeenCalledWith(process.env.DB_CONNECTION, {
       useNewUrlParser: true
@@ -40,28 +43,33 @@ describe("db-connect", () => {
   })
 
   it("disconnects correctly", async () => {
-    const mock1 = mongoose.connection.close.mockImplementation(() => Promise.resolve())
-    await Factor.$filters.run("close-server")
+    mongoose.connection = {
+      readyState: 1, // connected
+      close: jest.fn(() => Promise.resolve())
+    }
+
+    await filters.runCallbacks("close-server")
 
     expect(mongoose.connection.close).toHaveBeenCalled()
 
-    mock1.mockClear()
+    mongoose.connection = {
+      readyState: 0, // disconnected
+      close: jest.fn(() => Promise.resolve())
+    }
 
-    connector.isConnected = false
-
-    await Factor.$filters.run("close-server")
+    await filters.runCallbacks("close-server")
 
     expect(mongoose.connection.close).not.toHaveBeenCalled()
   })
 
   it("handles connection error", async () => {
-    const __s = jest.spyOn(Factor.$log, "error").mockImplementation(_ => _)
+    const __s = jest.spyOn(errors, "logError").mockImplementation(_ => _)
     const __err = new Error("some error")
     mongoose.connect.mockImplementation(() => {
       throw __err
     })
 
-    await connector.connectDb()
+    await dbConnect()
 
     expect(__s).toHaveBeenCalledWith(__err)
   })

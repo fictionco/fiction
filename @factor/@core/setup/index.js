@@ -8,6 +8,9 @@ const {
 const chalk = require("chalk")
 const figures = require("figures")
 const envfile = require("envfile")
+
+import { getExtensions } from "@factor/build/util"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -111,7 +114,7 @@ export default Factor => {
     }
 
     extensionNames(type, format = "join") {
-      const exts = Factor.$loaders.getExtensions().filter(_ => _.extend == type)
+      const exts = getExtensions().filter(_ => _.extend == type)
 
       if (exts && exts.length > 0) {
         const names = exts.map(_ => _.name)

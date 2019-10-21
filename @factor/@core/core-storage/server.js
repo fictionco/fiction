@@ -18,7 +18,7 @@ export default Factor => {
           middleware: [
             multer().single("imageUpload"),
             async (request, response, next) => {
-              return await Factor.$http.process({
+              return await Factor.$endpointServer.process({
                 request,
                 response,
                 handler: _ => this.handleUpload(_)

@@ -15,12 +15,12 @@ export default (options = {}) =>
       })
 
       const core = {
-        log: import("@factor/core-log"),
-        tools: import("@factor/tools"),
-        filters: import("@factor/filters"),
-        paths: import("@factor/paths"),
-        config: import("@factor/config"),
-        setting: import("@factor/settings")
+        log: () => import("@factor/core-log"),
+        tools: () => import("@factor/tools"),
+        filters: () => import("@factor/filters"),
+        paths: () => import("@factor/paths"),
+        config: () => import("@factor/config"),
+        setting: () => import("@factor/settings")
       }
 
       await importPlugins(core, { async: true })

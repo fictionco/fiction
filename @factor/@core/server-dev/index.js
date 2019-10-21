@@ -9,6 +9,7 @@ const { readFileSync } = require("fs-extra")
 const webpackHotMiddleware = require("webpack-hot-middleware")
 const webpackDevMiddleware = require("webpack-dev-middleware")
 const argv = require("yargs").argv
+import { getFactorDirectories } from "@factor/build/util"
 
 export default Factor => {
   return new (class {
@@ -98,7 +99,7 @@ export default Factor => {
     }
 
     watcher() {
-      const watchDirs = Factor.$loaders.getFactorDirectories().map(_ => `${_}/**`)
+      const watchDirs = getFactorDirectories().map(_ => `${_}/**`)
 
       chokidar
         .watch([`${Factor.$paths.get("source")}/**`, ...watchDirs], {

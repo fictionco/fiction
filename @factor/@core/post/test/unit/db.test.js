@@ -1,28 +1,41 @@
 import Factor from "@factor/core"
-import extendApp from "@factor/extend"
+import extender from "@factor/extend/server"
 import dbUtility from "../../db"
 import mongoose from "mongoose"
-jest.mock("mongoose")
+import { getModel } from "../../util-server"
+import { dirname } from "path"
 
 let db
-describe("db-connect", () => {
+describe("db-utility", () => {
   beforeAll(async () => {
-    await extendApp().extend()
+    process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
+    await extender().extend({ buildLoaders: true })
   })
 
   it("debug mode", async () => {
     process.env.FACTOR_DEBUG = true
 
+    const s = jest.spyOn(mongoose, "set")
+
     db = dbUtility()
 
-    expect(mongoose.set).toHaveBeenCalledWith("debug", true)
+    expect(s).toHaveBeenCalledWith("debug", true)
   })
 
-  it("adds callback", async () => {
+  it("loads models", async () => {
     const _s = jest.spyOn(Factor.$filters, "callback")
 
     db = dbUtility()
 
     expect(_s).toHaveBeenCalledWith("initialize-server", expect.any(Function))
+
+    await Factor.$filters.run("initialize-server")
+
+    expect(db.__schemas.post).toBeTruthy()
+    expect(db.__models.post).toBeTruthy()
+
+    const postModel = db.model("post")
+
+    expect(postModel).toBe(getModel("post"))
   })
 })

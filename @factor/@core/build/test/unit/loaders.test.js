@@ -13,7 +13,7 @@ describe("files", () => {
 
     await extendServer(Factor).extend()
 
-    builder = buildLoaders(Factor)
+    builder = buildLoaders()
 
     spies = {
       writeFile: jest.spyOn(builder, "writeFile")

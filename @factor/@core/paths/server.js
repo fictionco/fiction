@@ -1,20 +1,19 @@
-const { resolve, dirname } = require("path")
-const { pathExistsSync } = require("fs-extra")
-export default Factor => {
-  return new (class {
+import Factor from "@factor/core"
+import { resolve, dirname } from "path"
+import { pathExistsSync } from "fs-extra"
+import { addFilter, applyFilters } from "@factor/filters/util"
+import { getExtensions } from "@factor/build/util"
+if (!Factor.$paths) {
+  class FactorPaths {
     constructor() {
       this.baseDir = process.env.FACTOR_CWD || process.cwd()
 
       this.assignFolderNames()
       this.assignPaths()
-
       this.addServerPaths()
-      this.dataPaths()
 
       // Add static folder copy config to webpack copy plugin
-      Factor.$filters.add("webpack-copy-files-config", _ => {
-        return _.concat(this.staticCopyConfig())
-      })
+      addFilter("webpack-copy-files-config", _ => [..._, ...this.staticCopyConfig()])
     }
 
     // Returns configuration array for webpacks copy plugin
@@ -28,13 +27,7 @@ export default Factor => {
       const copyItems = []
 
       paths.forEach(p => {
-        if (pathExistsSync(p)) {
-          copyItems.push({
-            from: p,
-            to: "",
-            ignore: [".*"]
-          })
-        }
+        if (pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
       })
 
       return copyItems
@@ -46,7 +39,7 @@ export default Factor => {
       _.generated = ".factor"
       _.static = "static"
 
-      this.folderNames = Factor.$filters.apply("folder-names", _)
+      this.folderNames = applyFilters("folder-names", _)
     }
 
     assignPaths() {
@@ -76,7 +69,7 @@ export default Factor => {
       _["loader-settings"] = resolve(_.generated, "loader-settings.js")
       _["loader-styles"] = resolve(_.generated, "loader-styles.less")
 
-      this.paths = Factor.$filters.apply("paths", _)
+      this.paths = applyFilters("paths", _)
     }
 
     resolveFilePath(file) {
@@ -86,7 +79,7 @@ export default Factor => {
         return appPath
       } else {
         let filePath = ""
-        const themes = Factor.$loaders.getExtensions().filter(_ => _.extend == "theme")
+        const themes = getExtensions().filter(_ => _.extend == "theme")
 
         if (themes.length > 0) {
           themes.some(_ => {
@@ -127,12 +120,6 @@ export default Factor => {
       })
     }
 
-    dataPaths() {
-      this.add({
-        "data-exports": resolve(this.get("app"), "data-exports")
-      })
-    }
-
     get(p) {
       return this.paths[p] || ""
     }
@@ -149,34 +136,26 @@ export default Factor => {
       }
     }
 
-    assignNodeAlias() {
-      const moduleAlias = require("module-alias")
-
-      moduleAlias.addAlias("~", this.get("app"))
-      moduleAlias.addAlias("@", this.get("source"))
-      moduleAlias.addAlias("#", this.get("coreApp"))
-    }
-
     getAliases() {
       const a = {
         "@": this.get("source"),
         "~": this.get("app")
       }
 
-      return Factor.$filters.apply("webpack-aliases", a)
+      return applyFilters("webpack-aliases", a)
     }
 
-    replaceWithAliases(p) {
-      const aliases = this.getAliases()
+    // replaceWithAliases(p) {
+    //   const aliases = this.getAliases()
 
-      for (const ali in aliases) {
-        if (aliases[ali]) {
-          p = p.replace(aliases[ali], ali)
-        }
-      }
+    //   for (const ali in aliases) {
+    //     if (aliases[ali]) {
+    //       p = p.replace(aliases[ali], ali)
+    //     }
+    //   }
 
-      return p
-    }
+    //   return p
+    // }
 
     getBaseUrl() {
       return process.env.baseURL || this.localhostUrl()
@@ -221,5 +200,9 @@ export default Factor => {
         return this.httpDetails
       }
     }
-  })()
+  }
+
+  Factor.$paths = new FactorPaths()
 }
+
+export default Factor.$paths

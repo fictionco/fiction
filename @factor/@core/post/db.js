@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import connectDb from "./db-connection"
+import dbConnector from "./db-connection"
 import addSetupCli from "./db-setup-cli"
 import { getAddedSchemas } from "./util"
 import Factor from "@factor/core"
@@ -8,7 +8,7 @@ export default () => {
   return new (class {
     constructor() {
       addSetupCli()
-      connectDb()
+      dbConnector()
       this.configure()
       Factor.$filters.callback("initialize-server", () => this.initializeModels())
     }

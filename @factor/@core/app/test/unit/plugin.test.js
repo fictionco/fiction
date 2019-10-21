@@ -1,13 +1,16 @@
 import Factor from "vue"
-import extendApp from "@factor/extend"
+import extender from "@factor/extend"
 import plugin from "@factor/app"
 import { waitFor } from "@test/utils"
-
+import { buildLoaders } from "@factor/build/util"
+import { dirname } from "path"
 let _app
 let spies
 describe("app", () => {
   beforeAll(async () => {
-    await extendApp().extend()
+    process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
+    buildLoaders()
+    await extender().extend()
     spies = {
       routes: jest.spyOn(Factor.$filters, "add"),
       components: jest.spyOn(Factor.$filters, "add")

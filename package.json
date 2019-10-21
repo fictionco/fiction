@@ -73,5 +73,7 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.29.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "mongodb-memory-server": "^5.2.8"
+  }
 }

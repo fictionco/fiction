@@ -4,7 +4,7 @@ export async function importPlugins(plugins, { async = false } = {}) {
   for (let key of Object.keys(plugins)) {
     let plugin
     if (async) {
-      const _module = await plugins[key]
+      const _module = await plugins[key]()
       plugin = _module.default
     } else {
       plugin = plugins[key]
@@ -18,13 +18,8 @@ export async function importPlugins(plugins, { async = false } = {}) {
 
 export function installPlugin(key, _module) {
   try {
-    Factor.use({
-      install(Factor) {
-        const plugin = typeof _module == "function" ? _module(Factor) : _module
-
-        Factor[`$${key}`] = Factor.prototype[`$${key}`] = plugin
-      }
-    })
+    Factor[`$${key}`] = Factor.prototype[`$${key}`] =
+      typeof _module == "function" ? _module(Factor) : _module
   } catch (error) {
     console.error(error)
   }
