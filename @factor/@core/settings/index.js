@@ -1,5 +1,5 @@
 import * as settingsFiles from "~/.factor/loader-settings"
-
+import { dotSetting } from "@factor/tools/utils"
 export default Factor => {
   return new (class {
     constructor() {
@@ -43,7 +43,7 @@ export default Factor => {
     }
 
     get(key, defaultValue) {
-      return Factor.$utils.dotSetting({ key, settings: this._settings }) || defaultValue
+      return dotSetting({ key, settings: this._settings }) || defaultValue
     }
   })()
 }
