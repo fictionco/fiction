@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import mongoose from "mongoose"
-import { logError } from "@factor/core-log/util"
+import { logError } from "@factor/logger/util"
 
 // POSTS
 

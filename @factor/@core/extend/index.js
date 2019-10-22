@@ -15,7 +15,7 @@ export default (options = {}) =>
       })
 
       const core = {
-        log: () => import("@factor/core-log"),
+        log: () => import("@factor/logger"),
         tools: () => import("@factor/tools"),
         filters: () => import("@factor/filters"),
         paths: () => import("@factor/paths"),

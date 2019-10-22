@@ -16,7 +16,7 @@ export default () => {
       process.env.FACTOR_TARGET = "server"
 
       const core = {
-        log: () => import("@factor/core-log/server"),
+        log: () => import("@factor/logger/server"),
         tools: () => import("@factor/tools"),
         filters: () => import("@factor/filters"),
         paths: () => import("@factor/paths/server"),
