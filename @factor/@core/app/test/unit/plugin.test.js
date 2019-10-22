@@ -2,7 +2,7 @@ import Factor from "@factor/core"
 import extender from "@factor/extend"
 import plugin from "@factor/app"
 import { waitFor } from "@test/utils"
-import { buildLoaders } from "@factor/build/util"
+import { generateLoaders } from "@factor/build/util"
 import { dirname } from "path"
 import { applyFilters } from "@factor/filters/util"
 let _app
@@ -11,8 +11,7 @@ describe("app", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
 
-    console.log("process.env.FACTOR_CWD", process.env.FACTOR_CWD)
-    buildLoaders()
+    generateLoaders()
     await extender().extend()
     spies = {
       routes: jest.spyOn(Factor.$filters, "add"),

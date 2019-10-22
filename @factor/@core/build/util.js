@@ -1,6 +1,6 @@
 import loaderUtility from "./loaders"
 
-export function buildLoaders() {
+export function generateLoaders() {
   return loaderUtility().generateLoaders()
 }
 

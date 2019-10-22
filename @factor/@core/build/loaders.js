@@ -95,6 +95,8 @@ class FactorLoaderUtility {
       }
     })
 
+    console.log("Files Made", process.env.FACTOR_CWD || process.cwd())
+
     return
   }
 
