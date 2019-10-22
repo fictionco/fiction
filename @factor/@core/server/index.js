@@ -6,14 +6,15 @@ const chalk = require("chalk")
 const destroyer = require("server-destroy")
 const { readFileSync } = require("fs-extra")
 const { createBundleRenderer } = require("vue-server-renderer")
-const NODE_ENV = process.env.NODE_ENV || "production"
-const IS_PRODUCTION = NODE_ENV === "production"
+import Factor from "@factor/core"
+import { getPath } from "@factor/paths/util"
+import { addCallback, applyFilters } from "@factor/filters/util"
 
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("create-server", _ => this.createServer(_))
-      Factor.$filters.callback("close-server", _ => this.closeServer(_))
+      addCallback("create-server", _ => this.createServer(_))
+      addCallback("close-server", _ => this.closeServer(_))
     }
 
     getPort(port) {
@@ -23,11 +24,11 @@ export default Factor => {
     createRenderer(bundle, options) {
       // Allow for changing default options when rendering
       // particulary important for testing
-      options = Factor.$filters.apply("server-renderer-options", options)
+      options = applyFilters("server-renderer-options", options)
       return createBundleRenderer(bundle, {
         cache: new LRU({ max: 1000, maxAge: 1000 * 60 * 15 }),
         runInNewContext: false,
-        directives: Factor.$filters.apply("server-directives", {}),
+        directives: applyFilters("server-directives", {}),
         ...options
       })
     }
@@ -57,8 +58,8 @@ export default Factor => {
     async ssrFiles() {
       const paths = {
         template: Factor.$setting.get("app.templatePath"),
-        bundle: Factor.$paths.get("server-bundle"),
-        clientManifest: Factor.$paths.get("client-manifest")
+        bundle: getPath("server-bundle"),
+        clientManifest: getPath("client-manifest")
       }
 
       return {
@@ -110,7 +111,7 @@ export default Factor => {
       })
       destroyer(this.listener)
 
-      Factor.$filters.callback("restart-server", async () => {
+      addCallback("restart-server", async () => {
         Factor.$log.formatted({ title: `Server file changed, restarting server...` })
         this.listener.destroy()
         await Factor.$filters.run("rebuild-server-app")
@@ -124,7 +125,7 @@ export default Factor => {
     }
 
     async startServerDevelopment() {
-      const { middleware } = Factor.$filters.apply("development-server", bundled => {
+      const { middleware } = applyFilters("development-server", bundled => {
         const { bundle, template, clientManifest } = bundled
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
 
@@ -141,7 +142,7 @@ export default Factor => {
 
       this.middleware = []
 
-      if (NODE_ENV == "production") {
+      if (process.env.NODE_ENV == "production") {
         await this.startServerProduction()
       } else {
         await this.startServerDevelopment()
@@ -213,7 +214,7 @@ export default Factor => {
 
       this.middleware.forEach(_ => this.serverApp.use(_))
 
-      const ware = Factor.$filters.apply("middleware", [])
+      const ware = applyFilters("middleware", [])
 
       if (ware.length > 0) {
         ware.forEach(({ path = "/", middleware }) => {
@@ -232,7 +233,7 @@ export default Factor => {
 
     serveStatic(path, cache) {
       return express.static(path, {
-        maxAge: cache && IS_PRODUCTION ? 1000 * 60 * 60 * 24 : 0
+        maxAge: cache && process.env.NODE_ENV == "production" ? 1000 * 60 * 60 * 24 : 0
       })
     }
 
@@ -242,11 +243,8 @@ export default Factor => {
         this.serverApp.use(require("serve-favicon")(fav))
       }
 
-      // // Global and Static Images/Manifests, etc..
-      // this.serverApp.use("/static", this.serveStatic(Factor.$paths.get("static"), true))
-
       // Serve distribution folder at Root URL
-      this.serverApp.use("/", this.serveStatic(Factor.$paths.get("dist"), true))
+      this.serverApp.use("/", this.serveStatic(getPath("dist"), true))
     }
 
     getServerInfo() {
