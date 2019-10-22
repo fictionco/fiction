@@ -1,8 +1,12 @@
 const cwd = process.env.FACTOR_CWD || process.cwd()
 
-let m = { settings: "" }
+let m = {}
 try {
-  m = require(`${cwd}/.factor/loader-server.js`)
-} catch (error) {}
+  const mod = require(`${cwd}/.factor/loader-server.js`).default
 
-module.exports = m
+  if (mod) m = mod
+} catch (error) {
+  console.error(error)
+}
+
+export default m

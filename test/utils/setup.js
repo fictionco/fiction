@@ -3,9 +3,12 @@ import chalk from "chalk"
 import env from "std-env"
 import exit from "exit"
 import Factor from "vue"
+import { generateLoaders } from "@factor/build/util"
+import { dirname } from "path"
 
 process.env.FACTOR_ENV = "test"
-
+// process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
+// generateLoaders()
 Factor.config.devtools = false
 
 const isWin = env.windows

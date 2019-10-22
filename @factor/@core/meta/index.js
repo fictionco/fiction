@@ -1,11 +1,11 @@
-import Factor from "vue"
+import Factor from "@factor/core"
 import FactorMeta from "vue-meta"
 
 Factor.use(FactorMeta, {
   keyName: "metaInfoCore"
 })
 
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {
       this.installMeta()

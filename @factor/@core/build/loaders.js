@@ -19,6 +19,11 @@ class FactorLoaderUtility {
     return process.env.FACTOR_CWD || process.cwd()
   }
 
+  // Determine if a package name is the CWD
+  isCWD(name) {
+    return name == this.cwdPackage.name ? true : false
+  }
+
   generateExtensionList(packagePaths) {
     const loader = []
 
@@ -95,7 +100,7 @@ class FactorLoaderUtility {
       }
     })
 
-    console.log("Files Made", process.env.FACTOR_CWD || process.cwd())
+    //console.log("Files Made @", process.env.FACTOR_CWD || process.cwd())
 
     return
   }
@@ -197,18 +202,15 @@ class FactorLoaderUtility {
 
   writeFile({ destination, content }) {
     ensureDirSync(dirname(destination))
-
     writeFileSync(destination, content)
   }
 
   loaderString(files) {
-    const fileLines = files.map(
-      ({ _id, file }) => `export { default as ${_id} } from "${file}"`
-    )
+    const fileLines = files
+      .map(({ _id, file }) => `  ${_id}: () => import("${file}")`)
+      .join(`,\n`)
 
-    let lines = [`/******** GENERATED FILE - DO NOT EDIT DIRECTLY ********/`]
-
-    lines = lines.concat(fileLines)
+    let lines = [`/* GENERATED FILE */`, `export default {`, fileLines, `}`]
 
     return lines.join("\n")
   }
@@ -233,18 +235,14 @@ class FactorLoaderUtility {
   }
 
   getDirectory({ name, main }) {
-    const root = require.resolve(this.isCWD(name) ? this.cwd() : name, main)
+    const resolver = this.isCWD(name) ? this.cwd() : name
+    const root = require.resolve(resolver, main)
 
     return dirname(root)
   }
 
   getRequireBase({ cwd, name, main }) {
     return dirname([cwd ? ".." : name, main].join("/"))
-  }
-
-  // Determine if a package name is the CWD
-  isCWD(name) {
-    return name == this.cwdPackage.name ? true : false
   }
 
   // Set priority by extension type

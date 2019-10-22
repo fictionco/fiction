@@ -10,7 +10,7 @@
 <script>
 export default {
   components: {
-    "el-signin": () => import("./signin")
+    "el-signin": () => import("./signin.vue")
   },
   data: function() {
     return {

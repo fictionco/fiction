@@ -1,4 +1,4 @@
-import Factor from "vue"
+import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import { createApp } from "../../app"
 import { waitFor } from "@test/utils"
@@ -26,11 +26,15 @@ describe("app", () => {
 
   it("mounts app wrapper", async () => {
     const spy = jest.spyOn(Factor.$events, "$emit")
+
     const { app, router } = await createApp({ extend: false })
+
     await router.onReady()
+    await waitFor(10)
     const mounted = app.$mount("#app")
     expect(mounted._isMounted).toBeTruthy()
     await waitFor(10)
+
     expect(spy).toHaveBeenCalledWith("app-mounted", expect.anything())
     return
   })
