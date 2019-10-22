@@ -1,3 +1,7 @@
 {
-  "plugins": ["@factor/plugin-email-list", "@factor/plugin-highlight-code"]
+  "plugins": [
+    "@factor/plugin-email-list",
+    "@factor/plugin-highlight-code",
+    "@factor/plugin-commentizer"
+  ]
 }
