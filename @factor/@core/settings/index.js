@@ -14,7 +14,7 @@ export default Factor => {
         ? Factor.$configServer.settings()
         : Factor.$config.settings() || {}
 
-      await this.load()
+      this.load()
     }
 
     async load() {
@@ -27,6 +27,8 @@ export default Factor => {
       const merged = Factor.$utils.deepMerge([this.config, ...settingsArray])
 
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
+
+      console.log("settings loaded", Object.keys(settingsFiles))
 
       return
     }
