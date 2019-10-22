@@ -28,7 +28,11 @@ export default Factor => {
 
       this._settings = Factor.$filters.apply("merged-factor-settings", merged)
 
-      console.log("settings loaded", Object.keys(settingsFiles))
+      console.log("settings loaded", process.version, Object.keys(settingsFiles))
+
+      if (settingsFiles.default) {
+        console.log(settingsFiles.default)
+      }
 
       return
     }
