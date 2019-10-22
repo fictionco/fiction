@@ -32,7 +32,7 @@
       </div>
 
       <div class="sidebar">
-        <plugins-sidebar />
+        <!-- <plugins-sidebar /> -->
       </div>
     </div>
 
@@ -46,7 +46,7 @@ export default {
   components: {
     "widget-header": () => import("./widget-header"),
     "plugin-entry": () => import("../el/entry"),
-    "plugins-sidebar": () => import("./plugins-sidebar"),
+    //"plugins-sidebar": () => import("./plugins-sidebar"),
     "widget-cta": () => import("./widget-cta")
   },
   data() {

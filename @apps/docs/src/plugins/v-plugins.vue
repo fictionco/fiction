@@ -10,9 +10,13 @@
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
-
-          <div v-for="(entry, index) in getData" :key="index">
-            <plugins-item :entry="entry" :show-downloads="false" />
+          <div v-if="loading" class="posts-loading">
+            <factor-loading-ring />
+          </div>
+          <div v-else-if="getData.length > 0">
+            <div v-for="(entry, index) in pluginsFeatured" :key="index">
+              <plugins-item :entry="entry" :show-downloads="false" />
+            </div>
           </div>
         </section>
         <!-- 
@@ -33,8 +37,13 @@
           <header class="section-header">
             <h1 class="title">All</h1>
           </header>
-          <div v-for="(entry, index) in getData" :key="index">
-            <plugins-item :entry="entry" :show-downloads="false" />
+          <div v-if="loading" class="posts-loading">
+            <factor-loading-ring />
+          </div>
+          <div v-else-if="getData.length > 0">
+            <div v-for="(entry, index) in getData" :key="index">
+              <plugins-item :entry="entry" :show-downloads="false" />
+            </div>
           </div>
         </section>
       </div>
@@ -44,13 +53,18 @@
             <header class="section-header">
               <h1 class="title">Popular</h1>
             </header>
-            <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
-              <plugins-item
-                :entry="entry"
-                :show-author="false"
-                :show-categories="false"
-                :text="false"
-              />
+            <div v-if="loading" class="posts-loading">
+              <factor-loading-ring />
+            </div>
+            <div v-else-if="getData.length > 0">
+              <div v-for="(entry, index) in pluginsPopular" :key="index" class="plugins-item">
+                <plugins-item
+                  :entry="entry"
+                  :show-author="false"
+                  :show-categories="false"
+                  :text="false"
+                />
+              </div>
             </div>
           </section>
 
@@ -58,13 +72,18 @@
             <header class="section-header">
               <h1 class="title">New</h1>
             </header>
-            <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
-              <plugins-item
-                :entry="entry"
-                :show-author="false"
-                :show-categories="false"
-                :text="false"
-              />
+            <div v-if="loading" class="posts-loading">
+              <factor-loading-ring />
+            </div>
+            <div v-else-if="getData.length > 0">
+              <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
+                <plugins-item
+                  :entry="entry"
+                  :show-author="false"
+                  :show-categories="false"
+                  :text="false"
+                />
+              </div>
             </div>
           </section>
 
@@ -72,13 +91,18 @@
             <header class="section-header">
               <h1 class="title">Recently Updated</h1>
             </header>
-            <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
-              <plugins-item
-                :entry="entry"
-                :show-author="false"
-                :show-categories="false"
-                :text="false"
-              />
+            <div v-if="loading" class="posts-loading">
+              <factor-loading-ring />
+            </div>
+            <div v-else-if="getData.length > 0">
+              <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
+                <plugins-item
+                  :entry="entry"
+                  :show-author="false"
+                  :show-categories="false"
+                  :text="false"
+                />
+              </div>
             </div>
           </section>
         </div>
@@ -100,19 +124,33 @@ export default {
   },
   data() {
     return {
-      loading: true,
+      loading: false,
       getData: ""
     }
   },
   computed: {
     headerFigure() {
       return () => import("./figure-plugins.vue")
+    },
+    pluginsFeatured: function() {
+      return _.pickBy(this.getData, function(u) {
+        return u.index.data.downloads > 100 || ""
+      })
+    },
+    pluginsPopular: function() {
+      return _.pickBy(this.getData, function(u) {
+        return u.index.data.downloads > 100 || ""
+      })
     }
   },
   async mounted() {
+    this.loading = true
+
     const data = await dataUtility().getReadme()
 
     this.getData = data
+
+    this.loading = false
   },
 
   metaInfo() {

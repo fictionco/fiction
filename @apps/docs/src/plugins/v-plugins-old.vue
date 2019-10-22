@@ -33,7 +33,7 @@
         </section>
       </div>
       <div class="sidebar">
-        <plugins-sidebar />
+        <!-- <plugins-sidebar /> -->
       </div>
     </div>
 
@@ -47,7 +47,7 @@ export default {
     "widget-header": () => import("./widget-header"),
     "figure-plugins": () => import("./figure-plugins"),
     "plugins-index": () => import("./plugins-index"),
-    "plugins-sidebar": () => import("./plugins-sidebar"),
+    //"plugins-sidebar": () => import("./plugins-sidebar"),
     "widget-cta": () => import("./widget-cta")
   },
   data() {

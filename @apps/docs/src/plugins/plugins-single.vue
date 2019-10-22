@@ -1,111 +1,112 @@
 <template>
   <div class="plugins-container-single">
-    <section v-for="(entry, index) in getData" :key="index">
-      <plugins-item :entry="entry" :show-downloads="false" />
-    </section>
+    <div v-if="loading" class="posts-loading">
+      <factor-loading-ring />
+    </div>
+    <div v-else-if="getData.length > 0">
+      <section v-for="(entry, index) in pluginData" :key="index">
+        <widget-header :image="`icon-jobs.svg`" :title="`${entry.name}`">
+          <div slot="subtitle">
+            <!-- <pre> {{ entry.maintainers }} </pre> -->
+            <div v-if="entry.maintainers" class="authors">
+              by
+              <span
+                v-for="(author, au) in entry.maintainers"
+                :key="au"
+                class="author"
+              >{{ author.name }}</span>
+            </div>
 
-    <widget-header :image="`icon-jobs.svg`" :title="`Entry Title`">
-      <div slot="subtitle">Subtitle</div>
-    </widget-header>
+            <div
+              v-if="entry.index.data.downloads"
+              class="downloads"
+            >{{ entry.index.data.downloads }} downloads</div>
+          </div>
+        </widget-header>
+        <div class="plugins-wrap content-pad">
+          <div class="content">
+            <factor-link class="back" :path="$setting.get('plugins.indexRoute')">
+              <factor-icon icon="arrow-left" />
+              <span>{{ $setting.get('plugins.returnLinkText') }}</span>
+            </factor-link>
+            <ul>
+              <li>– screenshots</li>
+            </ul>
+            <plugin-entry :text="getReadme(entry.readme)" class="plugin-content" />
+          </div>
 
-    <div class="plugins-wrap content-pad">
-      <div class="content">
-        <ul>
-          <li>– back link</li>
-          <li>– screenshots</li>
-          <li>– readme.md</li>
-        </ul>
-      </div>
-
-      <div class="sidebar">
-        Sidebar
-        <!-- <plugins-sidebar /> -->
-      </div>
+          <div class="sidebar">
+            Sidebar
+            <!-- <plugins-sidebar /> -->
+          </div>
+        </div>
+      </section>
     </div>
 
     <widget-cta />
   </div>
 </template>
 <script>
-//import getPlugins from "./json/entries"
 import dataUtility from "./plugin-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
-    "plugins-item": () => import("./plugins-item"),
-    // "plugin-entry": () => import("../el/entry"),
+    "plugin-entry": () => import("../el/entry"),
     // "plugins-sidebar": () => import("./plugins-sidebar"),
     "widget-cta": () => import("./widget-cta")
   },
-  // props: {
-  //   entry: { type: Object, required: true }
-  // },
   data() {
     return {
-      getData: ""
-      //entriesJSON: getPlugins
+      getData: "",
+      entry: "",
+      loading: false
     }
   },
   computed: {
     returnLinkText() {
       return this.$setting.get("plugins.returnLinkText") || "All Plugins Here"
+    },
+    pluginData: function() {
+      let pageSlug = this.$route.params.permalink
+
+      return _.pickBy(this.getData, function(u) {
+        let name = u.name.replace("@factor/", "")
+        return name === pageSlug || ""
+      })
     }
-    // entry() {
-    //   // Current page path
-    //   let pageSlug = this.$route.path
-
-    //   console.log(pageSlug)
-
-    //   // Find plugin with same page slug
-    //   //let entry = entries.find(entry => entry._name === pageSlug)
-
-    //   let entry = ""
-
-    //   return entry || {}
-    // }
-    // entry1() {
-    //   // All plugins
-    //   let entries = this.entriesJSON.entries
-
-    //   // Current page slug
-    //   let pageSlug = this.$route.params.permalink
-
-    //   // Find plugin with same page slug
-    //   let entry = entries.find(entry => entry.permalink === pageSlug)
-
-    //   return entry
-    // },
-    // getReadme() {
-    //   //let markdownFile = this.post.content
-    //   let markdownContent = require(`${this.entry.content}`)
-
-    //   return markdownContent
-    //     ? this.$markdown.render(markdownContent, { variables: true })
-    //     : ""
-    // }
   },
   async mounted() {
-    //console.log("mount")
+    this.loading = true
     const data = await dataUtility().getReadme()
-
     this.getData = data
 
     require("../prism/prism.js")
 
     this.prism = window.Prism
+
+    this.loading = false
   },
   methods: {
-    // styleImageBG(img) {
-    //   const { url } = img
-    //   return url ? { backgroundImage: `url(${url})` } : {}
-    // },
-    // filterCategories: function(items) {
-    //   return items.filter(function(item) {
-    //     // Don't display featured category
-    //     return item.slug != "featured"
-    //   })
-    // }
+    getReadme(value) {
+      let markdownContent = value
+
+      return markdownContent
+        ? this.$markdown.render(markdownContent, { variables: true })
+        : ""
+    }
   }
+  // methods: {
+  // styleImageBG(img) {
+  //   const { url } = img
+  //   return url ? { backgroundImage: `url(${url})` } : {}
+  // },
+  // filterCategories: function(items) {
+  //   return items.filter(function(item) {
+  //     // Don't display featured category
+  //     return item.slug != "featured"
+  //   })
+  // }
+  // }
   // metaInfo() {
   //   return {
   //     title: this.$post.titleTag(this.entry._id),
@@ -169,9 +170,11 @@ export default {
           max-width: 100%;
         }
       }
+      .page-title-sub .authors,
       .page-title-sub .categories {
         display: inline-block;
-        .category {
+        .category,
+        .author {
           display: inherit;
           &:after {
             content: ", ";

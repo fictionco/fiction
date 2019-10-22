@@ -9,6 +9,9 @@ export default () => {
     async getReadme() {
       const _promises = plugins.map(async plugin => {
         const _queries = [
+          // axios.get(
+          //   `https://cors-anywhere.herokuapp.com/registry.npmjs.org/${plugin}/latest`
+          // ),
           axios.get(`https://cors-anywhere.herokuapp.com/registry.npmjs.org/${plugin}`),
           axios.get(
             `https://cors-anywhere.herokuapp.com/https://api.npmjs.org/downloads/point/last-month/${plugin}`
