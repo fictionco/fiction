@@ -4,6 +4,7 @@ import plugin from "@factor/app"
 import { waitFor } from "@test/utils"
 import { buildLoaders } from "@factor/build/util"
 import { dirname } from "path"
+import { applyFilters } from "@factor/filters/util"
 let _app
 let spies
 describe("app", () => {
@@ -17,7 +18,7 @@ describe("app", () => {
     }
     _app = plugin(Factor)
   })
-  beforeEach(() => {})
+
   it("has initialization system", async () => {
     setTimeout(() => {
       Factor.$events.$emit("app-mounted")
@@ -34,8 +35,8 @@ describe("app", () => {
     expect(spies.routes).toHaveBeenCalledWith("routes", expect.anything())
     expect(spies.components).toHaveBeenCalledWith("components", expect.anything())
 
-    const routes = Factor.$filters.apply("routes", [])
-    const components = Factor.$filters.apply("components", [])
+    const routes = applyFilters("routes", [])
+    const components = applyFilters("components", [])
 
     expect(routes).toContainObject({ path: "/" })
     expect(routes).toContainObject({ path: "*" })
