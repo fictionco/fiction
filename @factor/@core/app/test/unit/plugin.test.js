@@ -1,4 +1,4 @@
-import Factor from "vue"
+import Factor from "@factor/core"
 import extender from "@factor/extend"
 import plugin from "@factor/app"
 import { waitFor } from "@test/utils"
