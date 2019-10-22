@@ -5,8 +5,10 @@ import { waitFor } from "@test/utils"
 import { generateLoaders } from "@factor/build/util"
 import { dirname } from "path"
 import { applyFilters } from "@factor/filters/util"
+
 let _app
 let spies
+
 describe("app", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
