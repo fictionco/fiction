@@ -26,6 +26,7 @@ export default Factor => {
       const content = Factor.$setting.get("app.content")
 
       if (!error404 || !content) {
+        console.log(Factor.$setting.all())
         throw new Error("Factor core app components are undefined.")
       }
 
