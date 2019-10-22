@@ -10,6 +10,8 @@ let spies
 describe("app", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
+
+    console.log("process.env.FACTOR_CWD", process.env.FACTOR_CWD)
     buildLoaders()
     await extender().extend()
     spies = {

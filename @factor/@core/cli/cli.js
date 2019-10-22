@@ -8,7 +8,7 @@ const inquirer = require("inquirer")
 const pkg = require("./package")
 
 process.noDeprecation = true
-process.maxOldSpaceSize = 8192
+process.maxOldSpaceSize = 4096
 
 const cli = () => {
   return new (class {
