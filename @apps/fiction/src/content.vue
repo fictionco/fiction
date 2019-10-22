@@ -1,6 +1,6 @@
 <template>
   <div class="content-layout">
-    <site-head v-if="nav">
+    <site-head>
       <factor-link path="/factor-js">Factor JS</factor-link>
       <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>

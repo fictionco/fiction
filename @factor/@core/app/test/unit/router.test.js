@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import Factor from "vue"
+import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import { waitFor } from "@test/utils"
 import FactorRouter from "@factor/app/router"

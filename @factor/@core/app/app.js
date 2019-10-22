@@ -1,4 +1,4 @@
-import Factor from "vue"
+import Factor from "@factor/core"
 
 import extendApp from "@factor/extend"
 import FactorStore from "@factor/app/store"

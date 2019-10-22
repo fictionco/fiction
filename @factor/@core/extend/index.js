@@ -1,4 +1,3 @@
-import * as plugins from "~/.factor/loader-app"
 import { importPlugins } from "./util"
 import Factor from "@factor/core"
 export default (options = {}) =>
@@ -14,22 +13,28 @@ export default (options = {}) =>
         routeClass: []
       })
 
-      const core = {
+      await importPlugins({
         log: () => import("@factor/logger"),
         tools: () => import("@factor/tools"),
         filters: () => import("@factor/filters"),
         paths: () => import("@factor/paths"),
         config: () => import("@factor/config"),
-        setting: () => import("@factor/settings")
-      }
+        setting: () => import("@factor/settings"),
+        __router: () => import("@factor/app/router"),
+        __store: () => import("@factor/app/store")
+      })
 
-      await importPlugins(core, { async: true })
+      await Factor.$setting.create()
+      Factor.$__router.create()
+      Factor.$__store.create()
 
       await this.initialize(options)
     }
 
     // After plugins added
     async initialize() {
+      const { default: plugins } = await import("~/.factor/loader-app")
+
       const { plugins: __plugins = {}, settings: __settings } = options
 
       const optionPlugins = __plugins || {}

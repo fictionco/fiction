@@ -22,7 +22,7 @@ export default Factor => {
         _.push({
           postType: ["page"],
           name: "Page Template Settings",
-          component: () => import("./page-settings")
+          component: () => import("./page-settings.vue")
         })
 
         return _
@@ -31,7 +31,7 @@ export default Factor => {
       Factor.$filters.add("content-routes-unmatched", _ => {
         _.unshift({
           path: "/:permalink",
-          component: () => import("./template")
+          component: () => import("./template.vue")
         })
 
         return _

@@ -9,7 +9,7 @@ let db
 describe("db-utility", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
-    await extender().extend({ buildLoaders: true })
+    await extender().extend()
   })
 
   it("debug mode", async () => {

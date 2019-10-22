@@ -11,8 +11,7 @@ export default () => {
     }
 
     async extend(_arguments) {
-      const { loadPlugins = true, restart = false, buildLoaders = false } =
-        _arguments || {}
+      const { loadPlugins = true, restart = false } = _arguments || {}
       process.env.FACTOR_TARGET = "server"
 
       const core = {
@@ -25,13 +24,8 @@ export default () => {
         configServer: () => import("@factor/config/server")
       }
 
-      await importPlugins(core, { async: true })
+      await importPlugins(core)
 
-      if (buildLoaders) {
-        await Factor.$filters.run(`cli-run-create-loaders`)
-      }
-
-      // Loading plugins is sometimes not desireable e.g. when creating loaders
       if (loadPlugins !== false) {
         await this.loadPlugins()
 
@@ -50,15 +44,16 @@ export default () => {
         __router: () => import("@factor/app/router"),
         __store: () => import("@factor/app/store")
       }
-      await importPlugins(mods, { async: true })
+      await importPlugins(mods)
 
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
       // Router/Store are reserved words in Vue, that why we use "__"
+      await Factor.$setting.create()
       Factor.$__router.create()
       Factor.$__store.create()
 
-      const plugins = await import("~/.factor/loader-server")
+      const { default: plugins } = await import("~/.factor/loader-server")
 
       await importPlugins(plugins)
     }

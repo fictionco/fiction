@@ -1,7 +1,7 @@
 import extendServer from "@factor/extend/server"
 import buildLoaders from "@factor/build/loaders"
 import { dirname } from "path"
-import Factor from "vue"
+import Factor from "@factor/core"
 
 jest.mock("fs-extra")
 
@@ -11,7 +11,7 @@ describe("files", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
 
-    await extendServer(Factor).extend()
+    await extendServer().extend()
 
     builder = buildLoaders()
 

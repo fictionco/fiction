@@ -9,12 +9,12 @@ export default Factor => {
       this.themes = getExtensions().filter(_ => _.extend == "theme")
 
       addFilter("webpack-aliases", _ => {
-        _["@theme"] =
+        const p =
           this.themes.length > 0
             ? dirname(require.resolve(this.themes[0].name))
             : Factor.$paths.get("source")
 
-        return _
+        return { ..._, "@theme": p }
       })
 
       // This allows for overriding of files from themes

@@ -165,10 +165,7 @@ export default Factor => {
           if (errors.length !== 0) return
 
           this.clientManifest = JSON.parse(
-            this.readFile(
-              devMiddleware.fileSystem,
-              Factor.$paths.get("client-manifest-name")
-            )
+            this.readFile(devMiddleware.fileSystem, "factor-client.json")
           )
           this.loaders("client", time)
         })
@@ -203,9 +200,7 @@ export default Factor => {
           return
         }
 
-        this.bundle = JSON.parse(
-          this.readFile(mfs, Factor.$paths.get("server-bundle-name"))
-        )
+        this.bundle = JSON.parse(this.readFile(mfs, "factor-server.json"))
 
         this.loaders("server", time)
       })
