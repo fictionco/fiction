@@ -1,8 +1,8 @@
 {
   "plugins": [
+    "@factor/plugin-email-list",
     "@factor/plugin-posts-flames",
     "@factor/plugin-commentizer",
-    "@factor/plugin-email-list",
     "@factor/plugin-highlight-code"
   ]
 }
