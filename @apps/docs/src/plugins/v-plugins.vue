@@ -76,11 +76,12 @@
               <factor-loading-ring />
             </div>
             <div v-else-if="getData.length > 0">
-              <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
+              <div v-for="(entry, index) in pluginsNew" :key="index" class="plugins-item">
                 <plugins-item
                   :entry="entry"
                   :show-author="false"
                   :show-categories="false"
+                  :show-downloads="false"
                   :text="false"
                 />
               </div>
@@ -95,7 +96,11 @@
               <factor-loading-ring />
             </div>
             <div v-else-if="getData.length > 0">
-              <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
+              <div
+                v-for="(entry, index) in pluginsRecentlyUpdated"
+                :key="index"
+                class="plugins-item"
+              >
                 <plugins-item
                   :entry="entry"
                   :show-author="false"
@@ -125,7 +130,8 @@ export default {
   data() {
     return {
       loading: false,
-      getData: ""
+      getData: "",
+      today: new Date()
     }
   },
   computed: {
@@ -138,9 +144,35 @@ export default {
       })
     },
     pluginsPopular: function() {
-      return _.pickBy(this.getData, function(u) {
-        return u.index.data.downloads > 100 || ""
+      let getPlugins = this.getData.slice()
+
+      getPlugins.sort((a, b) => {
+        return new Date(b.index.data.downloads) - new Date(a.index.data.downloads)
       })
+
+      // return _.pickBy(getPlugins, function(u) {
+      //   return u.index.data.downloads > 8 || ""
+      // })
+
+      return getPlugins
+    },
+    pluginsNew: function() {
+      let getPlugins = this.getData.slice()
+
+      getPlugins.sort((a, b) => {
+        return new Date(b.time.created) - new Date(a.time.created)
+      })
+
+      return getPlugins //.slice(0, 4) Limit to 4
+    },
+    pluginsRecentlyUpdated: function() {
+      let getPlugins = this.getData.slice()
+
+      getPlugins.sort((a, b) => {
+        return new Date(b.time.modified) - new Date(a.time.modified)
+      })
+
+      return getPlugins //.slice(0, 4) Limit to 4
     }
   },
   async mounted() {
@@ -152,7 +184,6 @@ export default {
 
     this.loading = false
   },
-
   metaInfo() {
     return {
       title: "Factor Plugin Library",
