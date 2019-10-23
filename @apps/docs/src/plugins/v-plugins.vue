@@ -4,41 +4,108 @@
       <h3 slot="subtitle">Extend your project features and do more with Factor.</h3>
       <figure-plugins slot="figure" />
     </widget-header>
-
     <div class="plugins-wrap content-pad">
       <div class="content">
         <section class="plugins-featured">
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
-          <plugins-index :category="'featured'" />
+          <div v-if="loading" class="posts-loading">
+            <factor-loading-ring />
+          </div>
+          <div v-else-if="getData.length > 0">
+            <div v-for="(entry, index) in pluginsFeatured" :key="index">
+              <plugins-item :entry="entry" :show-downloads="false" />
+            </div>
+          </div>
         </section>
-
-        <div class="plugins-search-wrap">
+        <!-- 
+          Plugins Categories and Search
+          <div class="plugins-search-wrap">
           <factor-input-wrap
-            format="vertical"
             input="factor-input-text"
             :placeholder="`Search Factor plugins`"
             required
-            label="Search"
           />
-
           <factor-input-wrap
             :list="['seo', 'Utilities', 'Jobs', 'Comments', 'Syntax']"
             input="factor-input-select"
             :placeholder="`All Categories`"
-            label="Categories"
           />
-        </div>
+        </div>-->
         <section class="plugins-all">
           <header class="section-header">
             <h1 class="title">All</h1>
           </header>
-          <plugins-index />
+          <div v-if="loading" class="posts-loading">
+            <factor-loading-ring />
+          </div>
+          <div v-else-if="getData.length > 0">
+            <div v-for="(entry, index) in getData" :key="index">
+              <plugins-item :entry="entry" :show-downloads="false" />
+            </div>
+          </div>
         </section>
       </div>
-      <div class="sidebar">
-        <plugins-sidebar />
+      <div class="plugins-sidebar">
+        <div class="sidebar-inner">
+          <section class="plugins-popular">
+            <header class="section-header">
+              <h1 class="title">Popular</h1>
+            </header>
+            <div v-if="loading" class="posts-loading">
+              <factor-loading-ring />
+            </div>
+            <div v-else-if="getData.length > 0">
+              <div v-for="(entry, index) in pluginsPopular" :key="index" class="plugins-item">
+                <plugins-item
+                  :entry="entry"
+                  :show-author="false"
+                  :show-categories="false"
+                  :text="false"
+                />
+              </div>
+            </div>
+          </section>
+
+          <section class="plugins-new">
+            <header class="section-header">
+              <h1 class="title">New</h1>
+            </header>
+            <div v-if="loading" class="posts-loading">
+              <factor-loading-ring />
+            </div>
+            <div v-else-if="getData.length > 0">
+              <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
+                <plugins-item
+                  :entry="entry"
+                  :show-author="false"
+                  :show-categories="false"
+                  :text="false"
+                />
+              </div>
+            </div>
+          </section>
+
+          <section class="plugins-updated">
+            <header class="section-header">
+              <h1 class="title">Recently Updated</h1>
+            </header>
+            <div v-if="loading" class="posts-loading">
+              <factor-loading-ring />
+            </div>
+            <div v-else-if="getData.length > 0">
+              <div v-for="(entry, index) in getData" :key="index" class="plugins-item">
+                <plugins-item
+                  :entry="entry"
+                  :show-author="false"
+                  :show-categories="false"
+                  :text="false"
+                />
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
 
@@ -47,28 +114,49 @@
 </template>
 
 <script>
+import dataUtility from "./plugin-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
     "figure-plugins": () => import("./figure-plugins"),
-    "plugins-index": () => import("./plugins-index"),
-    "plugins-sidebar": () => import("./plugins-sidebar"),
+    "plugins-item": () => import("./plugins-item"),
     "widget-cta": () => import("./widget-cta")
   },
   data() {
     return {
-      loading: true
-    }
-  },
-  metaInfo() {
-    return {
-      title: "Factor Plugin Library",
-      description: "Extend your project features and do more with Factor."
+      loading: false,
+      getData: ""
     }
   },
   computed: {
     headerFigure() {
       return () => import("./figure-plugins.vue")
+    },
+    pluginsFeatured: function() {
+      return _.pickBy(this.getData, function(u) {
+        return u.index.data.downloads > 100 || ""
+      })
+    },
+    pluginsPopular: function() {
+      return _.pickBy(this.getData, function(u) {
+        return u.index.data.downloads > 100 || ""
+      })
+    }
+  },
+  async mounted() {
+    this.loading = true
+
+    const data = await dataUtility().getReadme()
+
+    this.getData = data
+
+    this.loading = false
+  },
+
+  metaInfo() {
+    return {
+      title: "Factor Plugin Library",
+      description: "Extend your project features and do more with Factor."
     }
   }
 }
@@ -141,7 +229,7 @@ export default {
     display: grid;
     grid-template-columns: 7fr 3fr;
     grid-gap: 6rem;
-    padding-top: 4rem;
+    padding-top: 2rem;
 
     .section-header {
       .title {
@@ -165,18 +253,18 @@ export default {
   //  ENTRIES FEATURED
   .plugins-featured {
     .section-header {
-      margin: 0 0 1.5rem;
+      margin: 0 0 1rem;
     }
-    .plugins-index .entry-plugin {
+    .plugins-item .entry-plugin {
       padding: 1rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
-      transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-      &:hover {
-        box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-        transform: translateY(-0.4rem);
-      }
+      //transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+      // &:hover {
+      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+      //   transform: translateY(-0.4rem);
+      // }
       .entry-image {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
@@ -184,24 +272,139 @@ export default {
     }
   }
 
+  // SEARCH AND CATEGORIES
+  .plugins-search-wrap {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr auto;
+  }
+
   //  ENTRIES ALL
   .plugins-all {
     .section-header {
       margin: 4rem 0 1.5rem;
     }
-    .plugins-index .entry-plugin {
+    .plugins-item .entry-plugin {
       padding: 1rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
       transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-      &:hover {
-        box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-        transform: translateY(-0.4rem);
-      }
+      // &:hover {
+      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+      //   transform: translateY(-0.4rem);
+      // }
       .entry-image {
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
+      }
+    }
+  }
+
+  // PLUGINS SIDEBAR
+  .plugins-sidebar {
+    padding: 0;
+    margin-bottom: 4rem;
+
+    .section-header {
+      .title {
+        font-size: 1.6em;
+        font-weight: 500;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+
+        @media (max-width: 900px) {
+          font-size: 1.7em;
+          line-height: 1.2;
+        }
+      }
+    }
+
+    // Popular
+    .plugins-popular {
+      .section-header {
+        margin: 0 0 1rem;
+      }
+    }
+    // New & Recently Updated
+    .plugins-new,
+    .plugins-updated {
+      .section-header {
+        margin: 2rem 0 1rem;
+      }
+    }
+
+    // Popular, New, & Recently Updated
+    .plugins-item .entry-plugin {
+      grid-template-columns: auto 3fr;
+      grid-gap: 1rem;
+      margin-bottom: 0rem;
+      padding: 0.5rem 1rem 0.5rem 0;
+      border-radius: 6px;
+      transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+      position: relative;
+      .entry-image {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        background: #fff;
+        // box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        //   rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        transform-origin: right top;
+        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+        img {
+          max-width: 70%;
+        }
+      }
+      .entry-content {
+        .title {
+          font-size: 1rem;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+        .meta {
+          font-size: 0.8rem;
+        }
+      }
+      // &:hover {
+      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+      //   background-color: #fff;
+      //   transform: translateY(-0.4rem);
+      //   .entry-image {
+      //     transform: scale(0.85);
+      //   }
+      // }
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr 3fr;
+        padding: 1rem;
+        background: #fff;
+        border-radius: 6px;
+        border: 1px solid var(--color-bg-contrast-more);
+        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+
+        &:hover {
+          box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.07),
+            0px 18px 26px rgba(80, 102, 119, 0.16);
+          //transform: translateY(-0.4rem);
+          // .entry-image {
+          //   transform: none;
+          // }
+        }
+        .entry-image {
+          height: 130px;
+          width: auto;
+          border-radius: 0;
+          box-shadow: none;
+          background: var(--color-bg-contrast);
+          border: 1px solid var(--color-bg-contrast-more);
+        }
+        .entry-content {
+          .title {
+            font-size: 1.6em;
+          }
+        }
       }
     }
   }

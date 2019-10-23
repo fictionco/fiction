@@ -14,5 +14,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb"
+  "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb",
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction",
+    "webpack",
+    "vue"
+  ]
 }

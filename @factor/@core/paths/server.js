@@ -210,6 +210,10 @@ export default Factor => {
             key: fs.readFileSync(resolve(certDir, "server.key")),
             cert: fs.readFileSync(resolve(certDir, "server.crt"))
           }
+
+          if (process.env.CERTIFICATE_PASSPHRASE) {
+            certConfig.passphrase = process.env.CERTIFICATE_PASSPHRASE
+          }
         }
 
         this.httpDetails = { port, routine, certDir, certConfig }

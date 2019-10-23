@@ -3,11 +3,8 @@
     <div class="content-pad">
       <div class="plugins-cta">
         <div class="text">
-          <h2 class="title">Create and Submit Your Plugin</h2>
-          <h2 class="title-sub">
-            Learn about extension development and how to submit your extension to the
-            Factor library.
-          </h2>
+          <h2 class="title">{{ $setting.get("plugins.cta.title") }}</h2>
+          <h2 class="title-sub">{{ $setting.get("plugins.cta.subtitle") }}</h2>
         </div>
 
         <div class="buttons">
