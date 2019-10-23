@@ -6,6 +6,8 @@ import { getPort, rp, waitFor } from "@test/utils"
 let port
 const rootDir = __dirname
 
+jest.setTimeout(120000)
+
 const url = route => `http://localhost:${port}${route}`
 
 const spawnFactor = (command, _options) =>
