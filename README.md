@@ -8,6 +8,9 @@
   <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>  
   <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/master" alt="Coverage Status"></a>
   <a href="https://github.com/fiction-com/factor/commits/master"><img src="https://badgen.net/github/last-commit/fiction-com/factor" alt="Commit"></a>
+  <a href="https://codeclimate.com/github/fiction-com/factor/maintainability"><img src="https://badgen.net/codeclimate/maintainability/fiction-com/factor" alt="Maintainability"></a>
+  <a href="https://codeclimate.com/github/fiction-com/factor/tech-debt"><img src="https://badgen.net/codeclimate/tech-debt/fiction-com/factor" alt="Technical Debt"></a>
+
 </p>
  <p>
   <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/v/@factor/core" alt="Version"></a>
@@ -66,15 +69,14 @@ The apps that power [Fiction.com](https://www.fiction.com) and [Factor.dev](http
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/arpowers"><img src="https://avatars2.githubusercontent.com/u/308134?s=460&v=4" width="100px;" alt="Andrew Powers"/><br /><sub><b>Andrew Powers</b></sub></a><br /><a href="https://github.com/fiction-com/factor/issues?q=author%3Aarpowers" title="Bug reports">🐛</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Code">💻</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/finestpixels"><img src="https://avatars3.githubusercontent.com/u/2752967?s=460&v=4" width="100px;" alt="Raymond Aleman"/><br /><sub><b>Raymond Aleman</b></sub></a><br /><a href="#design-finestpixels" title="Design">🎨</a> <a href="https://github.com/fiction-com/factor/commits?author=finestpixels" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/edgarcheverier"><img src="https://avatars0.githubusercontent.com/u/25775115?v=4" width="100px;" alt="Edgar Cheverier"/><br /><sub><b>Edgar Cheverier</b></sub></a><br /><a href="https://github.com/fiction-com/factor/commits?author=edgarcheverier" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/arpowers"><img src="https://avatars2.githubusercontent.com/u/308134?s=460&v=4" width="50px;" alt="Andrew Powers"/><br /><sub><b>Andrew Powers</b></sub></a><br /><a href="https://github.com/fiction-com/factor/issues?q=author%3Aarpowers" title="Bug reports">🐛</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Code">💻</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/finestpixels"><img src="https://avatars3.githubusercontent.com/u/2752967?s=460&v=4" width="50px;" alt="Raymond Aleman"/><br /><sub><b>Raymond Aleman</b></sub></a><br /><a href="#design-finestpixels" title="Design">🎨</a> <a href="https://github.com/fiction-com/factor/commits?author=finestpixels" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/edgarcheverier"><img src="https://avatars0.githubusercontent.com/u/25775115?v=4" width="50px;" alt="Edgar Cheverier"/><br /><sub><b>Edgar Cheverier</b></sub></a><br /><a href="https://github.com/fiction-com/factor/commits?author=edgarcheverier" title="Code">💻</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Contributing
