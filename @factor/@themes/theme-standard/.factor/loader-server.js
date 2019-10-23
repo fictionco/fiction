@@ -1,8 +1,27 @@
-/******** GENERATED FILE ********/
+/******** GENERATED FILE - DO NOT EDIT DIRECTLY ********/
 const files = {}
-files["blog"] = require("@factor/plugin-blog").default
-files["seo"] = require("@factor/plugin-seo").default
-files["sitemap"] = require("@factor/plugin-sitemap").default
-files["userProfiles"] = require("@factor/plugin-user-profiles").default
+files["mongo"] = require("@factor/db/mongo.js").default
+files["userRolesServer"] = require("@factor/core-user-roles/server").default
+files["serverDev"] = require("@factor/server-dev/index.js").default
+files["setup"] = require("@factor/setup/index.js").default
+files["dbServer"] = require("@factor/db/server.js").default
+files["userEmailsServer"] = require("@factor/core-user-emails/server").default
+files["emailServer"] = require("@factor/core-email/server").default
+files["endpointServer"] = require("@factor/core-endpoint/server").default
+files["error"] = require("@factor/core-error/index.js").default
+files["storageServer"] = require("@factor/core-storage/server").default
+files["userServer"] = require("@factor/core-user/server").default
+files["blog"] = require("@factor/plugin-blog/index.js").default
+files["webpack"] = require("@factor/build/webpack-config.js").default
+files["postServer"] = require("@factor/post/server").default
+files["post"] = require("@factor/post/index").default
+files["dashboard"] = require("@factor/dashboard/index.js").default
+files["http"] = require("@factor/tools-http/index.js").default
+files["time"] = require("@factor/tools-time/index.js").default
+files["directivesStandard"] = require("@factor/ui-directives-standard/index.js").default
+files["templates"] = require("@factor/post-page-templates/index.js").default
+files["server"] = require("@factor/server/index.js").default
+files["seo"] = require("@factor/plugin-seo/index.js").default
+files["sitemap"] = require("@factor/plugin-sitemap/index.js").default
 files["cwd"] = require("../src/index.js").default
 module.exports = files

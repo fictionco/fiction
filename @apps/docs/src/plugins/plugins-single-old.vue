@@ -1,112 +1,102 @@
 <template>
   <div class="plugins-container-single">
-    <div v-if="loading" class="posts-loading">
-      <factor-loading-ring />
-    </div>
-    <div v-else-if="getData.length > 0">
-      <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="`icon-jobs.svg`" :title="`${entry.name}`">
-          <div slot="subtitle">
-            <!-- <pre> {{ entry.maintainers }} </pre> -->
-            <div v-if="entry.maintainers" class="authors">
-              by
-              <span
-                v-for="(author, au) in entry.maintainers"
-                :key="au"
-                class="author"
-              >{{ author.name }}</span>
-            </div>
+    <widget-header :image="entry.image" :title="entry.title">
+      <div slot="subtitle">
+        <span v-if="entry.author">by {{ entry.author }}</span>
 
-            <div
-              v-if="entry.index.data.downloads"
-              class="downloads"
-            >{{ entry.index.data.downloads }} downloads</div>
-          </div>
-        </widget-header>
-        <div class="plugins-wrap content-pad">
-          <div class="content">
-            <factor-link class="back" :path="$setting.get('plugins.indexRoute')">
-              <factor-icon icon="arrow-left" />
-              <span>{{ $setting.get('plugins.returnLinkText') }}</span>
-            </factor-link>
-            <ul>
-              <li>– screenshots</li>
-            </ul>
-            <plugin-entry :text="getReadme(entry.readme)" class="plugin-content" />
-          </div>
+        <div v-if="entry.categories.length > 0" class="categories">
+          in
+          <span
+            v-for="(cat, ci) in filterCategories(entry.categories)"
+            :key="ci"
+            class="category"
+          >{{ cat.name }}</span>
+        </div>
 
-          <div class="sidebar">
-            Sidebar
-            <!-- <plugins-sidebar /> -->
+        <div v-if="entry.download_count" class="downloads">{{ entry.download_count }} Downloads</div>
+      </div>
+    </widget-header>
+
+    <div class="plugins-wrap content-pad">
+      <div class="content">
+        <factor-link class="back" :path="$setting.get('plugins.indexRoute')">
+          <factor-icon icon="arrow-left" />
+          <span>{{ returnLinkText }}</span>
+        </factor-link>
+        <div v-if="entry.screenshots" class="plugin-images">
+          <div v-for="(image, i) in entry.screenshots" :key="i" class="image-item">
+            <div :style="styleImageBG(image)" class="image-item-content"></div>
           </div>
         </div>
-      </section>
+        <plugin-entry :text="getReadme" class="plugin-content" />
+      </div>
+
+      <div class="sidebar">
+        <!-- <plugins-sidebar /> -->
+      </div>
     </div>
 
     <widget-cta />
   </div>
 </template>
 <script>
-import dataUtility from "./plugin-data"
+import getPlugins from "./json/entries"
+
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
     "plugin-entry": () => import("../el/entry"),
-    // "plugins-sidebar": () => import("./plugins-sidebar"),
+    //"plugins-sidebar": () => import("./plugins-sidebar"),
     "widget-cta": () => import("./widget-cta")
   },
   data() {
     return {
-      getData: "",
-      entry: "",
-      loading: false
+      entriesJSON: getPlugins
     }
   },
   computed: {
     returnLinkText() {
       return this.$setting.get("plugins.returnLinkText") || "All Plugins Here"
     },
-    pluginData: function() {
+    entry() {
+      // All plugins
+      let entries = this.entriesJSON.entries
+
+      // Current page slug
       let pageSlug = this.$route.params.permalink
 
-      return _.pickBy(this.getData, function(u) {
-        let name = u.name.replace("@factor/", "")
-        return name === pageSlug || ""
-      })
-    }
-  },
-  async mounted() {
-    this.loading = true
-    const data = await dataUtility().getReadme()
-    this.getData = data
+      // Find plugin with same page slug
+      let entry = entries.find(entry => entry.permalink === pageSlug)
 
-    require("../prism/prism.js")
-
-    this.prism = window.Prism
-
-    this.loading = false
-  },
-  methods: {
-    getReadme(value) {
-      let markdownContent = value
+      return entry
+    },
+    getReadme() {
+      //let markdownFile = this.post.content
+      let markdownContent = require(`${this.entry.content}`)
 
       return markdownContent
         ? this.$markdown.render(markdownContent, { variables: true })
         : ""
     }
+  },
+  mounted() {
+    require("../prism/prism.js")
+
+    this.prism = window.Prism
+  },
+  methods: {
+    styleImageBG(img) {
+      const { url } = img
+
+      return url ? { backgroundImage: `url(${url})` } : {}
+    },
+    filterCategories: function(items) {
+      return items.filter(function(item) {
+        // Don't display featured category
+        return item.slug != "featured"
+      })
+    }
   }
-  // methods: {
-  // styleImageBG(img) {
-  //   const { url } = img
-  //   return url ? { backgroundImage: `url(${url})` } : {}
-  // },
-  // filterCategories: function(items) {
-  //   return items.filter(function(item) {
-  //     // Don't display featured category
-  //     return item.slug != "featured"
-  //   })
-  // }
-  // }
   // metaInfo() {
   //   return {
   //     title: this.$post.titleTag(this.entry._id),
@@ -170,11 +160,9 @@ export default {
           max-width: 100%;
         }
       }
-      .page-title-sub .authors,
       .page-title-sub .categories {
         display: inline-block;
-        .category,
-        .author {
+        .category {
           display: inherit;
           &:after {
             content: ", ";

@@ -12,7 +12,7 @@
           "slug": "seo"
         }
       ],
-      "downloads": "1262",
+      "download_count": "1262",
       "text": "Create a sitemap for your factor site. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       "content": "./commentizer/README.md",
       "permalink": "factor-sitemap",
@@ -32,7 +32,7 @@
           "slug": "blog"
         }
       ],
-      "downloads": "716",
+      "download_count": "716",
       "text": "A Factor plugin to display blog posts and manage them through the dashboard.",
       "content": "./commentizer/README.md",
       "permalink": "factor-blog",
@@ -52,7 +52,7 @@
           "slug": "jobs"
         }
       ],
-      "downloads": "694",
+      "download_count": "694",
       "text": "Create and manage job portal on your Factor app.",
       "content": "./commentizer/README.md",
       "permalink": "factor-jobs",
@@ -72,7 +72,7 @@
           "slug": "utilities"
         }
       ],
-      "downloads": "962",
+      "download_count": "962",
       "text": "Enables you to deploy your Factor site to an S3 bucket. Requires very little configuration, while optimizing your site as much as possible.",
       "content": "./commentizer/README.md",
       "permalink": "storage-s3",
@@ -92,17 +92,12 @@
           "slug": "featured"
         },
         {
-          "id": 7,
-          "name": "Comments",
-          "slug": "comments"
-        },
-        {
           "id": 5,
           "name": "Blog",
           "slug": "blog"
         }
       ],
-      "downloads": "774",
+      "download_count": "774",
       "text": "Adds comments to your posts and enables management via the Factor dashboard.",
       "content": "./commentizer/README.md",
       "permalink": "factor-commentizer",
@@ -112,7 +107,7 @@
     },
     {
       "_id": "6d7b05dd11939540637075de",
-      "title": "Factor Highlight Code",
+      "title": "Factor Syntax Highlight",
       "image": "icon-syntax.svg",
       "author": "Factor",
       "categories": [
@@ -127,9 +122,17 @@
           "slug": "syntax"
         }
       ],
-      "downloads": "654",
+      "download_count": "654",
+      "screenshots": [
+        {
+          "url": "https://www.vuescript.com/wp-content/uploads/2019/01/Vue-Prism-Code-Editor.png"
+        },
+        {
+          "url": "https://miro.medium.com/max/1200/1*yy9I_SW02YiNlcdB7LaGlA.png"
+        }
+      ],
       "text": "Adds a syntax highlighting component for content using PrismJS.",
-      "content": "./commentizer/README.md",
+      "content": "./highlight/README.md",
       "permalink": "factor-highlight-code",
       "link": { "path": "/factor-highlight-code", "text": "Details" },
       "created_at": "2019-01-26T19:01:12Z",
@@ -147,7 +150,7 @@
           "slug": "debugger"
         }
       ],
-      "downloads": "743",
+      "download_count": "743",
       "text": "Implements Bugsnag in your Factor app which helps you stay informed about errors encountered by users.",
       "content": "./commentizer/README.md",
       "permalink": "factor-bugsnag",
@@ -167,7 +170,7 @@
           "slug": "utilities"
         }
       ],
-      "downloads": "878",
+      "download_count": "878",
       "text": "Easily add Google Tag Manager to your Factor site.",
       "content": "./gtm/README.md",
       "permalink": "factor-google-tagmanager",
@@ -187,7 +190,7 @@
           "slug": "utilities"
         }
       ],
-      "downloads": "894",
+      "download_count": "894",
       "text": "Easily add Google Analytics to your Factor site.",
       "content": "./commentizer/README.md",
       "permalink": "factor-google-analytics",

@@ -14,5 +14,12 @@
   "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
   "dependencies": {
     "aws-sdk": "^2.504.0"
-  }
+  },
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction",
+    "webpack",
+    "vue"
+  ]
 }

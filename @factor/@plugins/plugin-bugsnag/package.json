@@ -16,5 +16,12 @@
   "dependencies": {
     "@bugsnag/js": "^6.4.1",
     "@bugsnag/plugin-vue": "^6.4.1"
-  }
+  },
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction",
+    "webpack",
+    "vue"
+  ]
 }
