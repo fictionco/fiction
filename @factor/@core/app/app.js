@@ -1,4 +1,4 @@
-import Factor from "vue"
+import Factor from "@factor/core"
 
 import extendApp from "@factor/extend"
 import FactorStore from "@factor/app/store"
@@ -13,10 +13,7 @@ process.env.FACTOR_TARGET = "app"
 export async function createApp(options = {}) {
   const { extend = true } = options
 
-  if (extend) {
-    const extender = extendApp(Factor)
-    await extender.extend()
-  }
+  if (extend) await extendApp().extend()
 
   const store = FactorStore(Factor).create()
   const router = FactorRouter(Factor).create()

@@ -75,7 +75,7 @@ For many cases, the base schema is enough. However it is easy to add additional 
 If you'd like to extend the basic post schema, then you'll need to add it using a Factor schema object + filter. As follows:
 
 ```js
-import { objectIdType } from "@factor/db/util"
+import { objectIdType } from "@factor/post/util"
 // index.js To register a new data schema
 Factor.$filters.push("data-schemas", {
    // Post Type Name: url friendly

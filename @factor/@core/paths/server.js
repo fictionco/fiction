@@ -1,104 +1,110 @@
-const { resolve, dirname } = require("path")
-const { pathExistsSync } = require("fs-extra")
-export default Factor => {
-  return new (class {
+import Factor from "@factor/core"
+import { resolve, dirname, relative } from "path"
+import { pathExistsSync } from "fs-extra"
+import { addFilter, applyFilters } from "@factor/filters/util"
+import { getExtensions } from "@factor/build/util"
+if (!Factor.$paths) {
+  class FactorPaths {
     constructor() {
-      this.baseDir = process.env.FACTOR_CWD || process.cwd()
-
-      this.assignFolderNames()
-      this.assignPaths()
-
-      this.addServerPaths()
-      this.dataPaths()
-
       // Add static folder copy config to webpack copy plugin
-      Factor.$filters.add("webpack-copy-files-config", _ => {
-        return _.concat(this.staticCopyConfig())
+      addFilter("webpack-copy-files-config", _ => [..._, ...this.staticCopyConfig()])
+      addFilter("webpack-aliases", _ => {
+        return {
+          ..._,
+          "@": this.get("source"),
+          "~": this.get("app")
+        }
       })
+    }
+
+    CWD() {
+      return process.env.FACTOR_CWD || process.cwd()
+    }
+
+    get(key) {
+      const rel = this.relativePath(key)
+      const full = typeof rel != "undefined" ? resolve(this.CWD(), rel) : false
+
+      return full
     }
 
     // Returns configuration array for webpacks copy plugin
     // if static folder is in app or theme, contents should copied to dist
     staticCopyConfig() {
-      const themeRoot = this.paths.theme
-      const themePath = themeRoot ? resolve(themeRoot, this.folder("static")) : false
-      const appPath = this.paths.static
+      const themeRoot = this.get("theme")
+      const themePath = themeRoot ? resolve(themeRoot, "static") : false
+      const appPath = this.get("static")
 
       const paths = [themePath, appPath]
       const copyItems = []
 
       paths.forEach(p => {
-        if (pathExistsSync(p)) {
-          copyItems.push({
-            from: p,
-            to: "",
-            ignore: [".*"]
-          })
-        }
+        if (pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
       })
 
       return copyItems
     }
 
-    assignFolderNames() {
-      const _ = {}
-      _.dist = "dist"
-      _.generated = ".factor"
-      _.static = "static"
+    relativePath(key) {
+      const { main = "index.js" } = require(resolve(this.CWD(), "package.json"))
+      const sourceDirectory = dirname(resolve(this.CWD(), main))
 
-      this.folderNames = Factor.$filters.apply("folder-names", _)
+      const app = "."
+
+      const source = relative(this.CWD(), sourceDirectory)
+      const dist = [app, "dist"]
+      const generated = [app, ".factor"]
+      const coreApp = dirname(require.resolve("@factor/app"))
+
+      const paths = applyFilters("paths", {
+        app,
+        source,
+        dist,
+        generated,
+        coreApp,
+        static: [source, "static"],
+        "entry-client": [coreApp, "entry-client.js"],
+        "entry-server": [coreApp, "entry-server.js"],
+        "config-file-public": [app, "factor-config.json"],
+        "config-file-private": [app, ".env"],
+        "loader-app": [...generated, "loader-app.js"],
+        "loader-server": [...generated, "loader-server.js"],
+        "loader-settings": [...generated, "loader-settings.js"],
+        "loader-styles": [...generated, "loader-styles.less"],
+        "client-manifest": [...dist, "factor-client.json"],
+        "server-bundle": [...dist, "factor-server.json"]
+      })
+
+      const p = paths[key]
+
+      return Array.isArray(p) ? p.join("/") : p
     }
 
-    assignPaths() {
-      const _ = {}
-      _.app = this.baseDir
-      const { main = "index.js" } = require(resolve(this.baseDir, "package.json"))
+    fileExistsInTheme(file) {
+      let filePath = ""
+      const themes = getExtensions().filter(_ => _.extend == "theme")
+      if (themes.length > 0) {
+        themes.some(_ => {
+          const themeRoot = dirname(require.resolve(_.name))
+          const themePath = file.replace("#", themeRoot)
 
-      _.source = dirname(resolve(this.baseDir, main))
+          if (pathExistsSync(themePath)) {
+            filePath = themePath
+            return true
+          }
+        })
+      }
 
-      _.dist = resolve(this.baseDir, this.folder("dist"))
-      _.generated = resolve(this.baseDir, this.folder("generated"))
-      _.config = resolve(this.baseDir)
-
-      _["config-file-public"] = resolve(_.app, "factor-config.json")
-      _["config-file-private"] = resolve(_.app, ".env")
-
-      _.static = resolve(_.source, "static")
-
-      _.modules = this.getModulesFolders()
-
-      _.coreApp = dirname(require.resolve("@factor/app"))
-
-      _["entry-client"] = resolve(_.coreApp, "entry-client.js")
-      _["entry-server"] = resolve(_.coreApp, "entry-server.js")
-      _["loader-app"] = resolve(_.generated, "loader-app.js")
-      _["loader-server"] = resolve(_.generated, "loader-server.js")
-      _["loader-settings"] = resolve(_.generated, "loader-settings.js")
-      _["loader-styles"] = resolve(_.generated, "loader-styles.less")
-
-      this.paths = Factor.$filters.apply("paths", _)
+      return filePath
     }
 
     resolveFilePath(file) {
-      const appPath = file.replace("#", this.paths.source)
+      const appPath = file.replace("#", this.get("source"))
 
       if (pathExistsSync(appPath)) {
         return appPath
       } else {
-        let filePath = ""
-        const themes = Factor.$loaders.getExtensions().filter(_ => _.extend == "theme")
-
-        if (themes.length > 0) {
-          themes.some(_ => {
-            const themeRoot = dirname(require.resolve(_.name))
-            const themePath = file.replace("#", themeRoot)
-
-            if (pathExistsSync(themePath)) {
-              filePath = themePath
-              return true
-            }
-          })
-        }
+        let filePath = this.fileExistsInTheme(file)
 
         if (!filePath) {
           const fallbackPath = file.replace("#", this.get("coreApp"))
@@ -110,72 +116,6 @@ export default Factor => {
 
         return filePath
       }
-    }
-
-    getModulesFolders() {
-      const relativeNodeFolders = require("find-node-modules")({ cwd: this.baseDir })
-
-      return relativeNodeFolders.map(_ => resolve(this.baseDir, _))
-    }
-
-    addServerPaths() {
-      this.add({
-        "server-bundle-name": "factor-server.json",
-        "client-manifest-name": "factor-client.json",
-        "client-manifest": resolve(this.get("dist"), "factor-client.json"),
-        "server-bundle": resolve(this.get("dist"), "factor-server.json")
-      })
-    }
-
-    dataPaths() {
-      this.add({
-        "data-exports": resolve(this.get("app"), "data-exports")
-      })
-    }
-
-    get(p) {
-      return this.paths[p] || ""
-    }
-
-    folder(f) {
-      return this.folderNames[f] || ""
-    }
-
-    add(p, value) {
-      if (typeof p == "object") {
-        this.paths = Object.assign({}, this.paths, p)
-      } else {
-        this.paths[p] = value
-      }
-    }
-
-    assignNodeAlias() {
-      const moduleAlias = require("module-alias")
-
-      moduleAlias.addAlias("~", this.get("app"))
-      moduleAlias.addAlias("@", this.get("source"))
-      moduleAlias.addAlias("#", this.get("coreApp"))
-    }
-
-    getAliases() {
-      const a = {
-        "@": this.get("source"),
-        "~": this.get("app")
-      }
-
-      return Factor.$filters.apply("webpack-aliases", a)
-    }
-
-    replaceWithAliases(p) {
-      const aliases = this.getAliases()
-
-      for (const ali in aliases) {
-        if (aliases[ali]) {
-          p = p.replace(aliases[ali], ali)
-        }
-      }
-
-      return p
     }
 
     getBaseUrl() {
@@ -221,5 +161,9 @@ export default Factor => {
         return this.httpDetails
       }
     }
-  })()
+  }
+
+  Factor.$paths = new FactorPaths()
 }
+
+export default Factor.$paths

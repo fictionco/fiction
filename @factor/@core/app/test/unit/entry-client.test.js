@@ -10,9 +10,9 @@ import { waitFor } from "@test/utils"
 let _app
 
 describe("app", () => {
-  beforeAll(() => {
-    extendApp(Factor)
-    _app = createApp({ extend: false })
+  beforeAll(async () => {
+    await extendApp().extend()
+    _app = await createApp({ extend: false })
     _app.app.$mount = jest.fn()
   })
 
@@ -23,9 +23,11 @@ describe("app", () => {
 
     require("../../entry-client.js")
 
+    await waitFor(20)
+
     expect(window.FactorApp).toBeTruthy()
 
-    waitFor(20)
+    await waitFor(20)
 
     expect(window.FactorReady).toBeTruthy()
 

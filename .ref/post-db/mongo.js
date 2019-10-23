@@ -33,21 +33,21 @@ export default Factor => {
 
         // Improve duplicate value validation errors
         // https://github.com/matteodelabre/mongoose-beautiful-unique-validation
-        const beautifyUnique = require("mongoose-beautiful-unique-validation")
-        this.mongoose.plugin(beautifyUnique)
+
+        this.mongoose.plugin(require("mongoose-beautiful-unique-validation"))
       } else {
         this.mongoose = require("mongoose/browser")
       }
       // Factor.$filters.callback("after-first-server-extend", () => this._syncSchemaIndexes())
     }
 
-    objectIdType() {
-      return this.mongoose.Schema.Types.ObjectId
-    }
+    // objectIdType() {
+    //   return this.mongoose.Schema.Types.ObjectId
+    // }
 
-    objectId(str) {
-      return this.mongoose.Types.ObjectId(str)
-    }
+    // objectId(str) {
+    //   return this.mongoose.Types.ObjectId(str)
+    // }
 
     getSchemas() {
       return this.schemas

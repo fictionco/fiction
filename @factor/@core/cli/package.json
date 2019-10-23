@@ -13,7 +13,7 @@
   "dependencies": {
     "commander": "^3.0.0",
     "consola": "^2.6.1",
-    "execa": "^2.0.0",
+    "execa": "^3.1.0",
     "inquirer": "^7.0.0",
     "listr": "^0.14.3",
     "yargs": "^14.2.0"

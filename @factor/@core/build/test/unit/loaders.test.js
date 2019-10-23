@@ -1,19 +1,19 @@
 import extendServer from "@factor/extend/server"
 import buildLoaders from "@factor/build/loaders"
 import { dirname } from "path"
-import Factor from "vue"
+import Factor from "@factor/core"
 
 jest.mock("fs-extra")
 
 let builder
 let spies
 describe("files", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
 
-    extendServer(Factor).extend()
+    await extendServer().extend()
 
-    builder = buildLoaders(Factor)
+    builder = buildLoaders()
 
     spies = {
       writeFile: jest.spyOn(builder, "writeFile")

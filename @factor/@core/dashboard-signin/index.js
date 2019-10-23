@@ -5,20 +5,20 @@ export default Factor => {
         _.push({
           name: "signin",
           path: "/signin",
-          component: () => import("./view-signin")
+          component: () => import("./view-signin.vue")
         })
 
         return _
       })
 
       Factor.$filters.add("components", _ => {
-        _["plugin-signin-profile-menu"] = () => import("./profile-menu")
+        _["plugin-signin-profile-menu"] = () => import("./profile-menu.vue")
 
         return _
       })
 
       Factor.$filters.add("site-components", _ => {
-        _["plugin-signin-modal"] = () => import("./modal")
+        _["plugin-signin-modal"] = () => import("./modal.vue")
 
         return _
       })

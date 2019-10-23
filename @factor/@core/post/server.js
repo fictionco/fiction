@@ -1,24 +1,15 @@
-export default Factor => {
+import db from "./db"
+
+import { canUpdatePost } from "./util"
+import { getModel } from "./util-server"
+import Factor from "@factor/core"
+
+export default () => {
   return new (class {
     constructor() {
+      this.db = db()
+
       Factor.$filters.callback("endpoints", { id: "posts", handler: this })
-    }
-
-    canUpdatePost({ post, bearer }) {
-      if (
-        bearer &&
-        (bearer.accessLevel >= 300 ||
-          post.author.includes(bearer._id) ||
-          bearer._id.toString() == post._id.toString())
-      ) {
-        return true
-      } else {
-        throw new Error("Insufficient permissions.")
-      }
-    }
-
-    getPostTypeModel(postType) {
-      return Factor.$dbServer.model(postType)
     }
 
     async save({ data, postType = "post" }, { bearer }) {
@@ -26,20 +17,18 @@ export default Factor => {
 
       let post
       let isNew
-      let _model = this.getPostTypeModel(postType)
+      let Model = getModel(postType)
 
-      if (_id) {
-        post = await _model.findById(data._id)
-      }
+      if (_id) post = await Model.findById(data._id)
 
       if (!_id || !post) {
         isNew = true
-        post = new _model()
+        post = new Model()
       }
 
       Object.assign(post, data)
 
-      return Factor.$mongo.canUpdatePost({ post, bearer, isNew, action: "save" })
+      return canUpdatePost({ post, bearer, isNew, action: "save" })
         ? await post.save()
         : null
     }
@@ -58,7 +47,7 @@ export default Factor => {
 
       let _post
 
-      let PostTypeModel = this.getPostTypeModel(postType)
+      let Model = getModel(postType)
 
       if (token) {
         const decoded = Factor.$userServer.decodeToken(token)
@@ -67,9 +56,9 @@ export default Factor => {
 
       // If ID is available, first look for it.
       if (_id) {
-        _post = await PostTypeModel.findById(_id)
+        _post = await Model.findById(_id)
       } else if (conditions) {
-        _post = await PostTypeModel.findOne(conditions)
+        _post = await Model.findOne(conditions)
       }
 
       if (_post) {
@@ -86,54 +75,34 @@ export default Factor => {
       // This is not saved at this point, leading to a post sometimes not existing although an ID exists
       else if (createOnEmpty) {
         const initial = {}
-        if (bearer) {
-          initial.author = [bearer._id]
-        }
-        _post = new PostTypeModel(initial)
+        if (bearer) initial.author = [bearer._id]
+        _post = new Model(initial)
       }
 
       return _post
     }
 
-    isAuthor(bearer) {
+    authorCondition(bearer) {
       return bearer.accessLevel >= 300 ? {} : { author: bearer._id }
     }
 
     async updateManyById({ _ids, postType = "post", data }, { bearer }) {
-      return await this.getPostTypeModel(postType).update(
-        { $and: [this.isAuthor(bearer), { _id: { $in: _ids } }] },
+      return await getModel(postType).update(
+        { $and: [this.authorCondition(bearer), { _id: { $in: _ids } }] },
         { $set: data },
         { multi: true }
       )
     }
 
     async deleteManyById({ _ids, postType = "post" }, { bearer }) {
-      return await this.getPostTypeModel(postType).remove({
-        $and: [this.isAuthor(bearer), { _id: { $in: _ids } }]
+      return await getModel(postType).remove({
+        $and: [this.authorCondition(bearer), { _id: { $in: _ids } }]
       })
     }
 
-    // async checkPriveliges({ _ids, bearer }) {
-    //   let canEdit = false
-
-    //   if (bearer.accessLevel > 300) {
-    //     canEdit = true
-    //   } else if (bearer._id) {
-    //     const posts = await this.populate({ _ids })
-
-    //     canEdit = posts.every(post => post.author.includes(bearer._id))
-    //   }
-
-    //   if (!canEdit) {
-    //     throw new Error("Insufficient permissions.")
-    //   }
-    // }
-
     async populate({ _ids }) {
       const _in = Array.isArray(_ids) ? _ids : [_ids]
-      const result = await this.model("post").find({
-        _id: { $in: _in }
-      })
+      const result = await getModel("post").find({ _id: { $in: _in } })
 
       return Array.isArray(_ids) ? result : result[0]
     }
@@ -151,7 +120,7 @@ export default Factor => {
         options
       )
 
-      return await Factor.$dbServer.model(postType).find(conditions, select, options)
+      return await getModel(postType).find(conditions, select, options)
     }
 
     async postIndex(params, { bearer }) {
@@ -169,7 +138,7 @@ export default Factor => {
 
       const _p = [
         this.indexMeta({ postType, conditions, options }),
-        Factor.$dbServer.model(postType).find(conditions, null, options)
+        getModel(postType).find(conditions, null, options)
       ]
 
       const [counts, posts] = await Promise.all(_p)
@@ -179,7 +148,7 @@ export default Factor => {
 
     async indexMeta({ postType, conditions, options }) {
       const { sort, limit = 20, skip = 0 } = options || {}
-      const ItemModel = Factor.$dbServer.model(postType)
+      const ItemModel = getModel(postType)
 
       const aggregate = [
         {

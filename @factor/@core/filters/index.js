@@ -1,50 +1,12 @@
-export default Factor => {
-  return new (class {
+import Factor from "@factor/core"
+import { sortPriority, uniqueObjectHash } from "@factor/tools/utils"
+
+// Singleton
+if (!Factor.$filters) {
+  class FactorFilters {
     constructor() {
       this._filters = {}
       this._applied = {}
-    }
-
-    _sort(arr) {
-      return arr.sort((a, b) => {
-        const ap = a.priority || 100
-        const bp = b.priority || 100
-
-        if (ap < bp) {
-          return -1
-        } else if (ap > bp) {
-          return 1
-        } else {
-          return 0
-        }
-      })
-    }
-
-    uniqueHash(obj, salt = "") {
-      if (!obj) return obj
-
-      let str
-      if (typeof obj == "string") {
-        str = obj
-      } else if (typeof obj == "function") {
-        str = obj.toString()
-      } else {
-        // Make sure to remove circular refs
-        // https://github.com/WebReflection/flatted#flatted
-        const { stringify } = require("flatted/cjs")
-        str = stringify(obj)
-      }
-
-      str = str + salt
-
-      str = str.slice(0, 500)
-
-      return str
-        .split("")
-        .reduce(
-          (prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
-          0
-        )
     }
 
     // Get total number of filters added on an id
@@ -68,7 +30,7 @@ export default Factor => {
       // Thread through filters if they exist
       if (_added && Object.keys(_added).length > 0) {
         const _addedArray = Object.keys(_added).map(i => _added[i])
-        const _sorted = this._sort(_addedArray)
+        const _sorted = sortPriority(_addedArray)
 
         for (const element of _sorted) {
           const { callback, context } = element
@@ -85,7 +47,7 @@ export default Factor => {
 
       // Sort priority if array is returned
       if (Array.isArray(data)) {
-        data = this._sort(data)
+        data = sortPriority(data)
       }
 
       this._applied[name] = data
@@ -94,20 +56,12 @@ export default Factor => {
     }
 
     add(id, filter, { context = false, priority = 100, key = "", reloads = false } = {}) {
-      if (!this._filters[id]) {
-        this._filters[id] = {}
-      }
+      if (!this._filters[id]) this._filters[id] = {}
 
       // create unique ID
       // In certain situations (HMR, dev), the same filter can be added twice
       // Using objects and a hash identifier solves that
-      const filterKey = `key_${this.uniqueHash(filter, key)}`
-
-      if (this._filters[id][filterKey] && !reloads) {
-        console.warn(
-          `Duplicate filter signature detected adding to "${id}" filter.\nSet "key" option to a unique value or set "reloads" true to silence this warning.`
-        )
-      }
+      const filterKey = `key_${uniqueObjectHash(filter, this.callerKey(key))}`
 
       // For simpler assignments where no callback is needed
       const callback = typeof filter != "function" ? () => filter : filter
@@ -119,19 +73,29 @@ export default Factor => {
       return filter
     }
 
-    push(id, item, options = {}) {
+    push(_id, item, options = {}) {
       const { key = "" } = options
-      options.key = this.uniqueHash(item, key)
+      options.key = uniqueObjectHash(item, this.callerKey(key))
 
       this.add(
-        id,
+        _id,
         (_, args) => {
           item = typeof item == "function" ? item(args) : item
-          if (Array.isArray(_)) {
-            return [..._, item]
-          } else if (typeof _ == "object") {
-            return { ..._, [this.uniqueHash(item)]: item }
-          }
+          return [..._, item]
+        },
+        options
+      )
+    }
+
+    register(_id, _property, item, options = {}) {
+      const { key = "" } = options
+      options.key = uniqueObjectHash(item, this.callerKey(key))
+
+      this.add(
+        _id,
+        (_, args) => {
+          item = typeof item == "function" ? item(args) : item
+          return { ..._, [_property]: item }
         },
         options
       )
@@ -142,7 +106,7 @@ export default Factor => {
       // get unique signature which includes the caller path of function and stringified callback
       // added the caller because sometimes callbacks look the exact same in different files!
       const { key = "" } = options
-      options.key = this.uniqueHash(callback, key)
+      options.key = uniqueObjectHash(callback, this.callerKey(key))
 
       const callable = typeof callback != "function" ? () => callback : callback
 
@@ -150,8 +114,25 @@ export default Factor => {
     }
 
     // Run array of promises and await the result
-    async run(id, args = {}) {
-      return await Promise.all(this.apply(id, [], args))
+    async run(id, _arguments = {}) {
+      return await Promise.all(this.apply(id, [], _arguments))
     }
-  })()
+
+    // Use the function that called the filter in the key
+    // this prevents issues where two filters in different may match each other
+    // which causes difficult to solve bugs (data-schemas is an example)
+    callerKey(key) {
+      return (
+        key +
+        new Error().stack
+          .toString()
+          .split("at")
+          .find(line => !line.match(/(filter|Error)/))
+      )
+    }
+  }
+
+  Factor.$filters = Factor.prototype.$filters = new FactorFilters()
 }
+
+export default Factor.$filters

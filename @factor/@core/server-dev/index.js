@@ -9,6 +9,7 @@ const { readFileSync } = require("fs-extra")
 const webpackHotMiddleware = require("webpack-hot-middleware")
 const webpackDevMiddleware = require("webpack-dev-middleware")
 const argv = require("yargs").argv
+import { getFactorDirectories } from "@factor/build/util"
 
 export default Factor => {
   return new (class {
@@ -98,26 +99,26 @@ export default Factor => {
     }
 
     watcher() {
-      const watchDirs = Factor.$loaders.getFactorDirectories().map(_ => `${_}/**`)
+      const watchDirs = getFactorDirectories().map(_ => `${_}/**`)
 
       chokidar
         .watch([`${Factor.$paths.get("source")}/**`, ...watchDirs], {
           ignoreInitial: true,
           ignored: `**/node_modules/**`
         })
-        .on("all", (event, path) => {
+        .on("all", async (event, path) => {
           if (
             path.includes("server") ||
             path.includes("endpoint") ||
             path.includes("schema")
           ) {
-            Factor.$events.$emit("restart-server")
-          } else {
-            this.updateServer({
-              title: event,
-              value: path
-            })
+            await Factor.$filters.run("restart-server")
           }
+
+          this.updateServer({
+            title: event,
+            value: path
+          })
         })
     }
 
@@ -164,10 +165,7 @@ export default Factor => {
           if (errors.length !== 0) return
 
           this.clientManifest = JSON.parse(
-            this.readFile(
-              devMiddleware.fileSystem,
-              Factor.$paths.get("client-manifest-name")
-            )
+            this.readFile(devMiddleware.fileSystem, "factor-client.json")
           )
           this.loaders("client", time)
         })
@@ -202,9 +200,7 @@ export default Factor => {
           return
         }
 
-        this.bundle = JSON.parse(
-          this.readFile(mfs, Factor.$paths.get("server-bundle-name"))
-        )
+        this.bundle = JSON.parse(this.readFile(mfs, "factor-server.json"))
 
         this.loaders("server", time)
       })

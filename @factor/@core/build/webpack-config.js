@@ -81,7 +81,8 @@ export default Factor => {
 
     server() {
       const entry = Factor.$paths.get("entry-server")
-      const filename = Factor.$paths.get("server-bundle-name")
+
+      const filename = "factor-server.json"
       return {
         target: "node",
         entry,
@@ -100,7 +101,7 @@ export default Factor => {
 
     client() {
       const app = Factor.$paths.get("entry-client")
-      const filename = Factor.$paths.get("client-manifest-name")
+      const filename = "factor-client.json"
       return {
         entry: { app },
         plugins: [new VueSSRClientPlugin({ filename })]
@@ -110,6 +111,7 @@ export default Factor => {
     production() {
       return {
         mode: "production",
+        devtool: "source-map",
         output: { publicPath: "/" },
         plugins: [
           new MiniCssExtractPlugin({
@@ -142,7 +144,7 @@ export default Factor => {
         },
         resolve: {
           extensions: [".js", ".vue", ".json"],
-          alias: Factor.$paths.getAliases()
+          alias: Factor.$filters.apply("webpack-aliases", {})
         },
         module: {
           rules: Factor.$filters.apply("webpack-loaders", [
