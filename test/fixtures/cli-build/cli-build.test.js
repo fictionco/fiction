@@ -3,6 +3,7 @@ import { spawn } from "cross-spawn"
 import { writeFileSync, removeSync } from "fs-extra"
 
 import { getPort, rp, waitFor } from "@test/utils"
+
 let port
 const rootDir = __dirname
 
@@ -23,6 +24,7 @@ const start = (cmd, env, cb) => {
         resolve(__process)
       }
     }
+
     if (typeof cb === "function") cb(__process)
 
     __process.stdout.on("data", listener)
