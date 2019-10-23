@@ -6,7 +6,7 @@ try {
 
   if (mod) m = mod
 } catch (error) {
-  console.error(error)
+  if (!error instanceof Error || error.code !== "MODULE_NOT_FOUND") console.error(error)
 }
 
 export default m

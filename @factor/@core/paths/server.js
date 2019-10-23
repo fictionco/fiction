@@ -80,26 +80,31 @@ if (!Factor.$paths) {
       return Array.isArray(p) ? p.join("/") : p
     }
 
+    fileExistsInTheme(file) {
+      let filePath = ""
+      const themes = getExtensions().filter(_ => _.extend == "theme")
+      if (themes.length > 0) {
+        themes.some(_ => {
+          const themeRoot = dirname(require.resolve(_.name))
+          const themePath = file.replace("#", themeRoot)
+
+          if (pathExistsSync(themePath)) {
+            filePath = themePath
+            return true
+          }
+        })
+      }
+
+      return filePath
+    }
+
     resolveFilePath(file) {
       const appPath = file.replace("#", this.get("source"))
 
       if (pathExistsSync(appPath)) {
         return appPath
       } else {
-        let filePath = ""
-        const themes = getExtensions().filter(_ => _.extend == "theme")
-
-        if (themes.length > 0) {
-          themes.some(_ => {
-            const themeRoot = dirname(require.resolve(_.name))
-            const themePath = file.replace("#", themeRoot)
-
-            if (pathExistsSync(themePath)) {
-              filePath = themePath
-              return true
-            }
-          })
-        }
+        let filePath = this.fileExistsInTheme(file)
 
         if (!filePath) {
           const fallbackPath = file.replace("#", this.get("coreApp"))
