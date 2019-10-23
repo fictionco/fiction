@@ -11,7 +11,7 @@ executors:
     working_directory: ~/project
     environment:
       NODE_ENV: test
-      NODE_OPTIONS: --max_old_space_size=4096
+      NODE_OPTIONS: --max_old_space_size=8192
 
 commands:
   attach-project:
