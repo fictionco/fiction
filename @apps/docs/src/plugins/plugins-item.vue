@@ -21,6 +21,16 @@
         v-if="entry.index.data.downloads && showDownloads != false"
         class="downloads"
       >{{ entry.index.data.downloads }} downloads</div>
+
+      <div
+        v-if="entry.time.created && showReleased != false"
+        class="released"
+      >Released {{ entry.time.created }}</div>
+
+      <div
+        v-if="entry.time.modified && showUpdated != false"
+        class="updated"
+      >Updated {{ entry.time.modified }}</div>
     </div>
 
     <!-- 
@@ -74,6 +84,8 @@ export default {
     showAuthor: { type: Boolean, default: true },
     showCategories: { type: Boolean, default: true },
     showDownloads: { type: Boolean, default: true },
+    showReleased: { type: Boolean, default: true },
+    showUpdated: { type: Boolean, default: true },
     text: { type: Boolean, default: true },
     category: { type: String, default: "" }
   },
