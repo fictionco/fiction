@@ -1,5 +1,5 @@
-const parse = require("qs").parse
-const axios = require("axios")
+import axios from "axios"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -21,37 +21,6 @@ export default Factor => {
 
     request() {
       return axios.request.apply(axios, arguments)
-    }
-
-    async process({ request, response, handler }) {
-      const { query, body, headers } = request
-
-      const meta = { request, response }
-      const data = { ...body, ...parse(query) }
-
-      const { authorization } = headers
-
-      const responseJson = { result: "", error: "" }
-
-      try {
-        if (authorization && authorization.startsWith("Bearer ")) {
-          const token = authorization.split("Bearer ")[1]
-
-          meta.bearer = await Factor.$postServer.single({ token })
-        }
-
-        responseJson.result = await handler({ data, meta })
-      } catch (error) {
-        responseJson.error = error.message || 500
-        Factor.$log.error(error)
-      }
-
-      response
-        .status(200)
-        .jsonp(responseJson)
-        .end()
-
-      return
     }
 
     bearerToken() {

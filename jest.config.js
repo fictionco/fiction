@@ -33,7 +33,7 @@ module.exports = {
     "^.+\\.vue$": "vue-jest"
   },
 
-  moduleFileExtensions: ["js", "json"],
+  moduleFileExtensions: ["js", "json", "vue"],
 
   coverageDirectory: "./coverage",
 

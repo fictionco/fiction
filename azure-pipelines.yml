@@ -12,7 +12,7 @@ trigger:
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: "^10.10.0"
+      versionSpec: "^12.13.0"
     displayName: "Install Node.js"
 
   - script: |
@@ -28,7 +28,7 @@ steps:
     displayName: "Test: Run unit tests"
 
   - task: PublishTestResults@2
-    inputs:
+    inputs
       testResultsFormat: "JUnit"
       testResultsFiles: "reports/junit/*"
     displayName: "Publish test results to Azure Pipelines"

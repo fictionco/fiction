@@ -6,7 +6,7 @@ export default Factor => {
     }
 
     init() {
-      const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT } = Factor.$setting.all()
+      const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT } = process.env
 
       if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
         require("./setup").default(Factor)

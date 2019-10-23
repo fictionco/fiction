@@ -17,7 +17,6 @@ export default () => {
       const router = new FactorRouter({
         routes,
         mode: "history",
-
         scrollBehavior: (to, from, saved) => {
           return to.hash ? { selector: to.hash } : (saved ? saved : { x: 0, y: 0 })
         },

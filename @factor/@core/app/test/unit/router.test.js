@@ -2,14 +2,14 @@
  * @jest-environment jsdom
  */
 
-import Factor from "vue"
+import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import { waitFor } from "@test/utils"
 import FactorRouter from "@factor/app/router"
 
 describe("router", () => {
-  beforeAll(() => {
-    extendApp(Factor)
+  beforeAll(async () => {
+    await extendApp().extend()
   })
   it("loads correctly", () => {
     const router = FactorRouter(Factor).create()

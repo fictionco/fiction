@@ -1,6 +1,7 @@
-import plugins from "~/.factor/loader-server"
+import Factor from "@factor/core"
 import { importPlugins } from "./util"
-export default Factor => {
+
+export default () => {
   return new (class {
     constructor() {}
 
@@ -13,11 +14,20 @@ export default Factor => {
       const { loadPlugins = true, restart = false } = _arguments || {}
       process.env.FACTOR_TARGET = "server"
 
-      await this.loadCore()
+      const core = {
+        log: () => import("@factor/logger/server"),
+        tools: () => import("@factor/tools"),
+        filters: () => import("@factor/filters"),
+        paths: () => import("@factor/paths/server"),
+        loaders: () => import("@factor/build/loaders"),
+        override: () => import("@factor/core-override"),
+        configServer: () => import("@factor/config/server")
+      }
 
-      // Loading plugins is sometimes not desireable e.g. when creating loaders
+      await importPlugins(core)
+
       if (loadPlugins !== false) {
-        await importPlugins(plugins)
+        await this.loadPlugins()
 
         await Factor.$filters.run("initialize-server")
 
@@ -25,28 +35,27 @@ export default Factor => {
       }
     }
 
-    async loadCore() {
-      const core = {
-        log: () => import("@factor/core-log/server"),
-        tools: () => import("@factor/tools"),
-        filters: () => import("@factor/filters"),
-        paths: () => import("@factor/paths/server"),
-        loaders: () => import("@factor/build/loaders"),
-        override: () => import("@factor/core-override"),
-        configServer: () => import("@factor/config/server"),
-        setting: () => import("@factor/settings")
-      }
+    async loadPlugins() {
+      // Settings should only be loaded if loadPlugins option is set
+      // It depends on generated loaders
 
-      await importPlugins(core)
+      const mods = {
+        setting: () => import("@factor/settings"),
+        __router: () => import("@factor/app/router"),
+        __store: () => import("@factor/app/store")
+      }
+      await importPlugins(mods)
 
       // Add router and store to node, for utilities that need them
       // For example: sitemaps need information from router.
+      // Router/Store are reserved words in Vue, that why we use "__"
+      await Factor.$setting.create()
+      Factor.$__router.create()
+      Factor.$__store.create()
 
-      const { default: router } = await import("@factor/app/router")
-      const { default: store } = await import("@factor/app/store")
+      const { default: plugins } = await import("~/.factor/loader-server")
 
-      router().create()
-      store().create()
+      await importPlugins(plugins)
     }
   })()
 }

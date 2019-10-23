@@ -12,21 +12,19 @@ import extendApp from "@factor/extend"
 import { waitFor, indexHtml } from "@test/utils"
 import FactorStore from "@factor/app/store"
 import FactorRouter from "@factor/app/router"
+import appSettings from "@factor/app/factor-settings"
+import factorMeta from "../.."
 
 describe("meta info client", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     document.open()
     document.write(indexHtml())
     document.close()
 
-    extendApp(Factor, {
-      plugins: {
-        factorMeta: require("../..").default
-      },
-      settings: {
-        app: require("@factor/app/factor-settings.js").default
-      }
-    })
+    await extendApp({
+      plugins: { factorMeta },
+      settings: { app: appSettings }
+    }).extend()
     Factor.config.devtools = false
   })
 
@@ -39,12 +37,12 @@ describe("meta info client", () => {
     const store = FactorStore(Factor).create()
     const router = FactorRouter(Factor).create()
 
-    const site = await Factor.$setting.get("app.site")()
+    const { default: site } = await Factor.$setting.get("app.site")()
 
     const app = new Factor({
       router,
       store,
-      render: h => h(site.default)
+      render: h => h(site)
     })
 
     app.$mount("#app")

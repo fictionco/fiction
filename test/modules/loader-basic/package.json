@@ -1,0 +1,16 @@
+{
+  "name": "@test/loader-basic",
+  "version": "1.0.0",
+  "url": "https://www.fiction.com",
+  "license": "UNLICENSED",
+  "factor": {
+    "_id": "fictionApp",
+    "target": [
+      "app",
+      "server"
+    ]
+  },
+  "dependencies": {
+    "@factor/core": "^1.0.0-beta.0"
+  }
+}

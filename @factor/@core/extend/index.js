@@ -1,8 +1,7 @@
-import plugins from "~/.factor/loader-app"
 import { importPlugins } from "./util"
-
-export default (Factor, options = {}) => {
-  return new (class {
+import Factor from "@factor/core"
+export default (options = {}) =>
+  new (class {
     constructor() {}
 
     async extend() {
@@ -14,28 +13,37 @@ export default (Factor, options = {}) => {
         routeClass: []
       })
 
-      const core = {
-        log: () => import("@factor/core-log"),
+      await importPlugins({
+        log: () => import("@factor/logger"),
         tools: () => import("@factor/tools"),
         filters: () => import("@factor/filters"),
         paths: () => import("@factor/paths"),
         config: () => import("@factor/config"),
-        setting: () => import("@factor/settings")
-      }
+        setting: () => import("@factor/settings"),
+        __router: () => import("@factor/app/router"),
+        __store: () => import("@factor/app/store")
+      })
 
-      await importPlugins(core)
+      await Factor.$setting.create()
+      Factor.$__router.create()
+      Factor.$__store.create()
 
-      await this.initialize()
+      await this.initialize(options)
     }
 
     // After plugins added
     async initialize() {
-      if (options.settings) Factor.$setting.add(options.settings)
+      const { default: plugins } = await import("~/.factor/loader-app")
 
-      const optionPlugins = options.plugins || {}
+      const { plugins: __plugins = {}, settings: __settings } = options
+
+      const optionPlugins = __plugins || {}
       const allPlugins = { ...plugins, ...optionPlugins }
 
       await importPlugins(allPlugins)
+
+      // Add settings from tests, etc.
+      if (__settings) Factor.$setting.add(__settings)
 
       Factor.$components = {}
       const comps = Factor.$filters.apply("components", {})
@@ -59,4 +67,3 @@ export default (Factor, options = {}) => {
       await Factor.$filters.run("initialize-app")
     }
   })()
-}
