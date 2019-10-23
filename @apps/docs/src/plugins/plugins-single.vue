@@ -7,7 +7,6 @@
       <section v-for="(entry, index) in pluginData" :key="index">
         <widget-header :image="`icon-jobs.svg`" :title="`${entry.name}`">
           <div slot="subtitle">
-            <!-- <pre> {{ entry.maintainers }} </pre> -->
             <div v-if="entry.maintainers" class="authors">
               by
               <span
