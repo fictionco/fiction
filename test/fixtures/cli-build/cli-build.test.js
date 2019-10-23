@@ -46,7 +46,8 @@ const close = __process => {
   })
 }
 
-describe("build-commands", () => {
+// Don't run these in windows
+describe.posix("build-commands", () => {
   beforeEach(() => {
     removeSync(resolve(rootDir, ".factor"))
     removeSync(resolve(rootDir, "dist"))
