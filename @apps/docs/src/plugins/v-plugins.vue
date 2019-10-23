@@ -15,7 +15,12 @@
           </div>
           <div v-else-if="getData.length > 0">
             <div v-for="(entry, index) in pluginsFeatured" :key="index">
-              <plugins-item :entry="entry" :show-downloads="false" />
+              <plugins-item
+                :entry="entry"
+                :show-downloads="false"
+                :show-released="false"
+                :show-updated="false"
+              />
             </div>
           </div>
         </section>
@@ -42,7 +47,12 @@
           </div>
           <div v-else-if="getData.length > 0">
             <div v-for="(entry, index) in getData" :key="index">
-              <plugins-item :entry="entry" :show-downloads="false" />
+              <plugins-item
+                :entry="entry"
+                :show-downloads="false"
+                :show-released="false"
+                :show-updated="false"
+              />
             </div>
           </div>
         </section>
@@ -62,6 +72,8 @@
                   :entry="entry"
                   :show-author="false"
                   :show-categories="false"
+                  :show-released="false"
+                  :show-updated="false"
                   :text="false"
                 />
               </div>
@@ -82,6 +94,7 @@
                   :show-author="false"
                   :show-categories="false"
                   :show-downloads="false"
+                  :show-updated="false"
                   :text="false"
                 />
               </div>
@@ -105,6 +118,7 @@
                   :entry="entry"
                   :show-author="false"
                   :show-categories="false"
+                  :show-released="false"
                   :text="false"
                 />
               </div>
