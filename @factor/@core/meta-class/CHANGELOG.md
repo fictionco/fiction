@@ -5,12 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.0.0-beta.6](https://github.com/fiction-com/factor/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2019-10-25)
 
-**Note:** Version bump only for package @factor/paths
-
-
-
-
-
-# [1.0.0-beta.5](https://github.com/fiction-com/factor/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2019-10-25)
-
-**Note:** Version bump only for package @factor/paths
+**Note:** Version bump only for package @factor/meta-class

@@ -7,7 +7,7 @@
     },
     "_id": "storage"
   },
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -17,5 +17,5 @@
     "mime-types": "^2.1.24",
     "multer": "^1.4.1"
   },
-  "gitHead": "098e7bcc0db49f88078d227a2b11a17cc21fd23d"
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
