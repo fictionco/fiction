@@ -1,4 +1,4 @@
-export default Factor => {
+export default () => {
   return {
     emailList: {
       alphaProgram: {

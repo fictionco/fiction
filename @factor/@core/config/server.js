@@ -1,7 +1,9 @@
-const { resolve } = require("path")
-const { existsSync } = require("fs-extra")
-const { NODE_ENV, FACTOR_ENV } = process.env
-export default Factor => {
+import { resolve } from "path"
+
+import Factor from "@factor/core"
+
+export default () => {
+  const { NODE_ENV, FACTOR_ENV } = process.env
   return new (class {
     constructor() {
       // Match the public config to what is available in the webpack app

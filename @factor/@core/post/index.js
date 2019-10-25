@@ -1,6 +1,7 @@
+import Factor from "@factor/core"
 import { getPopulatedFields } from "./util"
 import { toLabel, excerpt, slugify } from "@factor/tools/utils"
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {
       this.filters()

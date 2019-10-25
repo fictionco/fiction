@@ -1,4 +1,5 @@
-export default Factor => {
+import Factor from "@factor/core"
+export default () => {
   return new (class {
     settings() {
       return process.env.FACTOR_APP_CONFIG

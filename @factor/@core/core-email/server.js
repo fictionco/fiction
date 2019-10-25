@@ -1,4 +1,5 @@
-export default Factor => {
+import Factor from "@factor/core"
+export default () => {
   return new (class {
     constructor() {
       Factor.$filters.callback("endpoints", { id: "email", handler: this })

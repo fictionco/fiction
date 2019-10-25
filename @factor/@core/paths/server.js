@@ -1,8 +1,9 @@
 import Factor from "@factor/core"
 import { resolve, dirname, relative } from "path"
-import { pathExistsSync } from "fs-extra"
+import fs from "fs-extra"
 import { addFilter, applyFilters } from "@factor/filters/util"
 import { getExtensions } from "@factor/build/util"
+
 if (!Factor.$paths) {
   class FactorPaths {
     constructor() {
@@ -39,7 +40,7 @@ if (!Factor.$paths) {
       const copyItems = []
 
       paths.forEach(p => {
-        if (pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
+        if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
       })
 
       return copyItems
@@ -88,7 +89,7 @@ if (!Factor.$paths) {
           const themeRoot = dirname(require.resolve(_.name))
           const themePath = file.replace("#", themeRoot)
 
-          if (pathExistsSync(themePath)) {
+          if (fs.pathExistsSync(themePath)) {
             filePath = themePath
             return true
           }
@@ -101,7 +102,7 @@ if (!Factor.$paths) {
     resolveFilePath(file) {
       const appPath = file.replace("#", this.get("source"))
 
-      if (pathExistsSync(appPath)) {
+      if (fs.pathExistsSync(appPath)) {
         return appPath
       } else {
         let filePath = this.fileExistsInTheme(file)
@@ -109,7 +110,7 @@ if (!Factor.$paths) {
         if (!filePath) {
           const fallbackPath = file.replace("#", this.get("coreApp"))
 
-          if (pathExistsSync(fallbackPath)) {
+          if (fs.pathExistsSync(fallbackPath)) {
             filePath = fallbackPath
           }
         }

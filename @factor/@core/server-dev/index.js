@@ -1,14 +1,20 @@
-const chalk = require("chalk")
+import chalk from "chalk"
+import path from "path"
+import webpack from "webpack"
+import chokidar from "chokidar"
+import ora from "ora"
 
-const path = require("path")
-const MFS = require("memory-fs")
-const chokidar = require("chokidar")
-const webpack = require("webpack")
-const ora = require("ora")
-const { readFileSync } = require("fs-extra")
-const webpackHotMiddleware = require("webpack-hot-middleware")
-const webpackDevMiddleware = require("webpack-dev-middleware")
-const argv = require("yargs").argv
+import MFS from "memory-fs"
+
+import fs from "fs-extra"
+
+import webpackHotMiddleware from "webpack-hot-middleware"
+import webpackDevMiddleware from "webpack-dev-middleware"
+
+import yargs from "yargs"
+
+const argv = yargs.argv
+
 import { getFactorDirectories } from "@factor/build/util"
 
 export default Factor => {
@@ -43,7 +49,7 @@ export default Factor => {
         ...argv
       })
 
-      this.template = readFileSync(this.templatePath, "utf-8")
+      this.template = fs.readFileSync(this.templatePath, "utf-8")
 
       this.watcher()
 

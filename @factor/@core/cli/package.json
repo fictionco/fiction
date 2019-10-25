@@ -3,7 +3,7 @@
   "homepage": "https://factor.dev",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
-  "main": "cli.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
@@ -19,7 +19,7 @@
     "yargs": "^14.2.0"
   },
   "bin": {
-    "factor": "./cli.js"
+    "factor": "./index.js"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [

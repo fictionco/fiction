@@ -1,6 +1,6 @@
 import { resolveFilePath } from "@factor/paths/util"
 
-export default Factor => {
+export default () => {
   return {
     app: {
       error404: () => import("#/404.vue"),
@@ -8,7 +8,7 @@ export default Factor => {
       site: () => import("#/site.vue"),
       templatePath: resolveFilePath("#/index.html"),
       faviconPath: resolveFilePath("#/static/favicon.png"),
-      icon: require("./icon.png")
+      icon: () => import("./icon.png")
     }
   }
 }

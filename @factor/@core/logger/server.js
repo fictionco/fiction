@@ -1,7 +1,6 @@
-const consola = require("consola")
-
+import consola from "consola"
 import { logFormatted } from "@factor/logger/util"
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {
       this.logger = consola.create({

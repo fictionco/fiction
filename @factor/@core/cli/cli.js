@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const Factor = require("vue")
 const execa = require("execa")
 const listr = require("listr")
@@ -9,8 +7,12 @@ const pkg = require("./package")
 
 process.noDeprecation = true
 process.maxOldSpaceSize = 8192
+import extender from "@factor/extend/server"
+import transpiler from "@factor/build/transpiler"
 
-const cli = () => {
+// Run class
+
+export default () => {
   return new (class {
     constructor() {
       this.passedArguments = process.argv.filter(_ => _.includes("--"))
@@ -139,7 +141,8 @@ const cli = () => {
       process.env.FACTOR_COMMAND = command || program._name || "none"
 
       // Do this for every reset of server
-      require("@factor/build/transpiler")
+      // require("@factor/build/transpiler")
+      transpiler()
 
       if (extend) {
         await this.extend(_config)
@@ -156,9 +159,9 @@ const cli = () => {
     }
 
     async extend(_config) {
-      const extender = require("@factor/extend/server").default(Factor)
+      //const extender = require("@factor/extend/server").default(Factor)
 
-      return await extender.extend(_config)
+      return await extender().extend(_config)
     }
 
     async runServer(_arguments) {
@@ -252,7 +255,3 @@ const cli = () => {
     }
   })()
 }
-
-// Run class
-
-module.exports = cli()
