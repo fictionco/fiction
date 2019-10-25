@@ -140,7 +140,7 @@ export default {
   components: {
     "widget-header": () => import("./widget-header"),
     "figure-plugins": () => import("./figure-plugins"),
-    "plugins-item": () => import("./plugins-item"),
+    //"plugins-item": () => import("./plugins-item"),
     "widget-cta": () => import("./widget-cta")
   },
   data() {
@@ -223,8 +223,6 @@ export default {
   //         recursive: "1"
   //       }
   //     })
-
-  //     token = `8d571b7087b3398ea8a403365dc8c49cfc8a142f`
 
   //     github(url, opts)
   //       .then(response => {
