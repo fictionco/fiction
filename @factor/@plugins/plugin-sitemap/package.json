@@ -13,7 +13,7 @@
   "dependencies": {
     "sitemap": "^5.0.0"
   },
-  "gitHead": "599600c31535a26339786e86dc904c7bad5ad203",
+  "gitHead": "098e7bcc0db49f88078d227a2b11a17cc21fd23d",
   "keywords": [
     "factor",
     "factor-plugin",
