@@ -10,7 +10,7 @@
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
-          <div v-if="loading" class="posts-loading">
+          <!-- <div v-if="loading" class="posts-loading">
             <factor-loading-ring />
           </div>
           <div v-else-if="getData.length > 0">
@@ -22,7 +22,7 @@
                 :show-updated="false"
               />
             </div>
-          </div>
+          </div>-->
         </section>
         <!-- 
           Plugins Categories and Search
@@ -38,7 +38,7 @@
             :placeholder="`All Categories`"
           />
         </div>-->
-        <section class="plugins-all">
+        <!-- <section class="plugins-all">
           <header class="section-header">
             <h1 class="title">All</h1>
           </header>
@@ -55,9 +55,9 @@
               />
             </div>
           </div>
-        </section>
+        </section>-->
       </div>
-      <div class="plugins-sidebar">
+      <!-- <div class="plugins-sidebar">
         <div class="sidebar-inner">
           <section class="plugins-popular">
             <header class="section-header">
@@ -118,6 +118,7 @@
                   :entry="entry"
                   :show-author="false"
                   :show-categories="false"
+                  :show-downloads="false"
                   :show-released="false"
                   :text="false"
                 />
@@ -125,7 +126,7 @@
             </div>
           </section>
         </div>
-      </div>
+      </div>-->
     </div>
 
     <widget-cta />
@@ -134,6 +135,7 @@
 
 <script>
 import dataUtility from "./plugin-data"
+import plugins from "../extensions"
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
@@ -148,56 +150,107 @@ export default {
       today: new Date()
     }
   },
-  computed: {
-    headerFigure() {
-      return () => import("./figure-plugins.vue")
-    },
-    pluginsFeatured: function() {
-      return _.pickBy(this.getData, function(u) {
-        return u.index.data.downloads > 100 || ""
-      })
-    },
-    pluginsPopular: function() {
-      let getPlugins = this.getData.slice()
+  async serverPrefetch() {
+    const data = await dataUtility().getIndex()
 
-      getPlugins.sort((a, b) => {
-        return new Date(b.index.data.downloads) - new Date(a.index.data.downloads)
-      })
-
-      // return _.pickBy(getPlugins, function(u) {
-      //   return u.index.data.downloads > 8 || ""
-      // })
-
-      return getPlugins
-    },
-    pluginsNew: function() {
-      let getPlugins = this.getData.slice()
-
-      getPlugins.sort((a, b) => {
-        return new Date(b.time.created) - new Date(a.time.created)
-      })
-
-      return getPlugins //.slice(0, 4) Limit to 4
-    },
-    pluginsRecentlyUpdated: function() {
-      let getPlugins = this.getData.slice()
-
-      getPlugins.sort((a, b) => {
-        return new Date(b.time.modified) - new Date(a.time.modified)
-      })
-
-      return getPlugins //.slice(0, 4) Limit to 4
-    }
+    this.$store.add("plugins-index", data)
   },
+  // computed: {
+  //   headerFigure() {
+  //     return () => import("./figure-plugins.vue")
+  //   },
+  //   pluginsFeatured: function() {
+  //     return _.pickBy(this.getData, function(u) {
+  //       return u.index.data.downloads > 100 || ""
+  //     })
+  //   },
+  //   pluginsPopular: function() {
+  //     let getPlugins = this.getData.slice()
+
+  //     getPlugins.sort((a, b) => {
+  //       return new Date(b.index.data.downloads) - new Date(a.index.data.downloads)
+  //     })
+
+  //     // return _.pickBy(getPlugins, function(u) {
+  //     //   return u.index.data.downloads > 8 || ""
+  //     // })
+
+  //     return getPlugins
+  //   },
+  //   pluginsNew: function() {
+  //     let getPlugins = this.getData.slice()
+
+  //     getPlugins.sort((a, b) => {
+  //       return new Date(b.time.created) - new Date(a.time.created)
+  //     })
+
+  //     return getPlugins
+  //   },
+  //   pluginsRecentlyUpdated: function() {
+  //     let getPlugins = this.getData.slice()
+
+  //     getPlugins.sort((a, b) => {
+  //       return new Date(b.time.modified) - new Date(a.time.modified)
+  //     })
+
+  //     return getPlugins //.slice(0, 4) Limit to 4
+  //   }
+  // },
   async mounted() {
     this.loading = true
 
-    const data = await dataUtility().getReadme()
+    const data = this.$store.val("plugins-index")
+
+    // const data = await dataUtility().getReadme()
+
+    console.log(data)
 
     this.getData = data
 
     this.loading = false
   },
+  // methods: {
+  //   pluginIcon(value) {
+  //     const URL = require("url")
+  //     const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
+  //     const branch = "master"
+
+  //     const url = URL.format({
+  //       protocol: "https:",
+  //       hostname: "api.github.com",
+  //       pathname: `repos/fiction-com/${value}/git/trees/${branch}`,
+  //       query: {
+  //         recursive: "1"
+  //       }
+  //     })
+
+  //     token = `8d571b7087b3398ea8a403365dc8c49cfc8a142f`
+
+  //     github(url, opts)
+  //       .then(response => {
+  //         var images = []
+  //         console.log(response.body.tree)
+  //         if (response && response.body && response.body.tree) {
+  //           images = response.body.tree
+  //             .filter(image => !!image.path.match(imagePattern))
+  //             .map(image => {
+  //               image.rawgit = URL.format({
+  //                 protocol: "https:",
+  //                 hostname: "cdn.rawgit.com",
+  //                 pathname: `${value}/${branch}/${image.path}`
+  //               })
+  //               return image
+  //             })
+  //         }
+  //         return callback(null, images)
+  //       })
+  //       .catch(error => {
+  //         return callback(error)
+  //       })
+
+  //     return url
+  //   }
+  // },
   metaInfo() {
     return {
       title: "Factor Plugin Library",
@@ -234,13 +287,6 @@ export default {
     .header-content {
       padding: 4em 0;
 
-      .page-title {
-        font-size: 3.5em;
-        line-height: 1.1;
-        font-weight: 500;
-        margin: 0 0 1rem;
-        letter-spacing: -0.03em;
-      }
       .page-title-sub {
         font-size: 1.6em;
         opacity: 0.7;

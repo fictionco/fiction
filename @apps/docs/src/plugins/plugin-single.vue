@@ -3,9 +3,9 @@
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
-    <div v-else-if="getData.length > 0">
-      <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="`icon-jobs.svg`" :title="`${entry.name}`">
+    <div v-else>
+      <section v-for="(entry, index) in getData" :key="index">
+        <widget-header :image="`icon-jobs.svg`" :title="entry.name">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -16,17 +16,16 @@
               >{{ author.name }}</span>
             </div>
 
-            <div
-              v-if="entry.index.data.downloads"
-              class="downloads"
-            >{{ entry.index.data.downloads }} downloads</div>
+            <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>
           </div>
         </widget-header>
+
         <div class="plugins-wrap content-pad">
           <div class="content">
-            <factor-link class="back" :path="$setting.get('plugins.indexRoute')">
+            <factor-link class="back" :path="`/pluginsnew`">
+              <!-- $setting.get('plugins.indexRoute') -->
               <factor-icon icon="arrow-left" />
-              <span>{{ $setting.get('plugins.returnLinkText') }}</span>
+              <span>All Plugins</span>
             </factor-link>
             <ul>
               <li>– screenshots</li>
@@ -34,10 +33,7 @@
             <plugin-entry :text="getReadme(entry.readme)" class="plugin-content" />
           </div>
 
-          <div class="sidebar">
-            Sidebar
-            <!-- <plugins-sidebar /> -->
-          </div>
+          <div class="sidebar">Sidebar</div>
         </div>
       </section>
     </div>
@@ -57,32 +53,44 @@ export default {
   data() {
     return {
       getData: "",
-      entry: "",
-      loading: false
+      loading: true
     }
   },
-  computed: {
-    returnLinkText() {
-      return this.$setting.get("plugins.returnLinkText") || "All Plugins Here"
-    },
-    pluginData: function() {
-      let pageSlug = this.$route.params.permalink
+  async serverPrefetch() {
+    const data = await dataUtility().getReadme("@factor/" + this.$route.params.slug)
 
-      return _.pickBy(this.getData, function(u) {
-        let name = u.name.replace("@factor/", "")
-        return name === pageSlug || ""
-      })
-    }
+    this.$store.add("plugins-index", data)
   },
+  // computed: {
+  //   returnLinkText() {
+  //     return this.$setting.get("plugins.returnLinkText") || "All Plugins Here"
+  //   }
+  //   pluginData: function() {
+  //     let pageSlug = this.$route.params.slug
+  //     return _.pickBy(this.getData, function(u) {
+  //       let name = u.name.replace("@factor/", "")
+  //       return name === pageSlug || ""
+  //     })
+  //   }
+  //   pluginName() {
+  //     return _.pickBy(this.getData, function(u) {
+  //       let name = u.name.replace(/(?:^|[\s\-\_\.])/g, " ")
+  //       return name.replace("@factor/", "") || ""
+  //     })
+  //   }
+  // },
   async mounted() {
-    this.loading = true
-    const data = await dataUtility().getReadme()
+    console.log("VALLL", this.$store.val("plugins-index"))
+
+    const data = this.$store.val("plugins-index")
     this.getData = data
 
-    require("../prism/prism.js")
+    //console.log("VALLL", this.getData)
 
-    this.prism = window.Prism
-
+    //this.getData = data
+    //   const data = await dataUtility().getReadme()
+    // require("../prism/prism.js")
+    // this.prism = window.Prism
     this.loading = false
   },
   methods: {
@@ -93,19 +101,17 @@ export default {
         ? this.$markdown.render(markdownContent, { variables: true })
         : ""
     }
+    // pluginName(value) {
+    //   let entryName = value.replace(/(?:^|[\s\-\_\.])/g, " ")
+
+    //   return entryName.replace("@factor/", "")
+
+    //   //return _.pickBy(this.getData, function(u) {
+    //   //     let name = u.name.replace(/(?:^|[\s\-\_\.])/g, " ")
+    //   //     return name.replace("@factor/", "") || ""
+    //   //   })
+    // }
   }
-  // methods: {
-  // styleImageBG(img) {
-  //   const { url } = img
-  //   return url ? { backgroundImage: `url(${url})` } : {}
-  // },
-  // filterCategories: function(items) {
-  //   return items.filter(function(item) {
-  //     // Don't display featured category
-  //     return item.slug != "featured"
-  //   })
-  // }
-  // }
   // metaInfo() {
   //   return {
   //     title: this.$post.titleTag(this.entry._id),
@@ -139,7 +145,7 @@ export default {
     grid-template-columns: 7fr 3fr;
     grid-gap: 6rem;
     align-items: start;
-    padding-top: 4rem;
+    padding-top: 2rem;
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
     }
@@ -154,7 +160,11 @@ export default {
       display: grid;
       grid-template-columns: 150px 3fr;
       grid-gap: 2rem;
-      align-items: flex-start;
+      align-items: center;
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+      }
 
       .header-image {
         display: flex;
@@ -169,6 +179,7 @@ export default {
           max-width: 100%;
         }
       }
+
       .page-title-sub .authors,
       .page-title-sub .categories {
         display: inline-block;

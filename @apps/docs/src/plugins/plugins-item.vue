@@ -3,34 +3,29 @@
     <div class="entry-image">icon.svg</div>
 
     <div class="entry-content">
-      <!-- <pre>
-      {{ entry }}
-      </pre>-->
       <h3 class="title">
-        <factor-link
-          :path="$setting.get('plugins.postRoute') + '/' + pluginPermalink"
-        >{{ pluginName }}</factor-link>
+        <factor-link :path="pluginPermalink">{{ pluginName }}</factor-link>
       </h3>
       <div class="meta">
         <div v-if="showAuthor != false" class="author">by {{ entry.author }}</div>
+
+        <div
+          v-if="entry.index.data.downloads && showDownloads != false"
+          class="downloads"
+        >{{ entry.index.data.downloads }} downloads</div>
+
+        <div v-if="entry.time.created && showReleased != false" class="released">
+          Released
+          {{ formatDate(entry.time.created) }}
+        </div>
+
+        <div v-if="entry.time.modified && showUpdated != false" class="updated">
+          Updated
+          {{ formatDate(entry.time.modified) }}
+        </div>
       </div>
 
       <p v-if="text != false" class="text">{{ entry.description }}</p>
-
-      <div
-        v-if="entry.index.data.downloads && showDownloads != false"
-        class="downloads"
-      >{{ entry.index.data.downloads }} downloads</div>
-
-      <div
-        v-if="entry.time.created && showReleased != false"
-        class="released"
-      >Released {{ entry.time.created }}</div>
-
-      <div
-        v-if="entry.time.modified && showUpdated != false"
-        class="updated"
-      >Updated {{ entry.time.modified }}</div>
     </div>
 
     <!-- 
@@ -103,7 +98,42 @@ export default {
     pluginPermalink() {
       let getPermalink = this.entry.name.replace("@factor/", "")
 
-      return getPermalink
+      return `/pluginsnew/` + getPermalink
+    }
+  },
+  methods: {
+    formatDate(value) {
+      let something = value
+
+      let date = new Date(something)
+
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+
+      let year = date.getFullYear()
+      let month = date.toLocaleString("default", { month: "short" })
+      let dt = date.getDate()
+
+      if (dt < 10) {
+        dt = "0" + dt
+      }
+      if (month < 10) {
+        month = "0" + month
+      }
+
+      return dt + " " + month + " " + year
     }
   }
 }

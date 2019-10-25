@@ -32,10 +32,10 @@ export default Factor => {
         const port = process.env.PORT || 3000
 
         //  axios.defaults.baseURL = `https://localhost:${port}`
-        axios.defaults.proxy = {
-          host: "0.0.0.0",
-          port
-        }
+        // axios.defaults.proxy = {
+        //   host: "0.0.0.0",
+        //   port
+        // }
       } else {
         axios.defaults.headers.common["Authorization"] = this.bearerToken()
       }

@@ -43,11 +43,12 @@ export default {
     padding: 4em 0;
 
     .page-title {
-      font-size: 3.5em;
+      font-size: 2.5em;
       line-height: 1.1;
       font-weight: 500;
       //margin: 0 0 .5rem;
       letter-spacing: -0.03em;
+      text-transform: capitalize;
     }
     .page-title-sub {
       font-size: 1.6em;

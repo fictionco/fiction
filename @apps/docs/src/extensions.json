@@ -2,7 +2,7 @@
   "plugins": [
     "@factor/plugin-email-list",
     "@factor/plugin-posts-flames",
-    "@factor/plugin-commentizer",
+    "@factor/plugin-google-tag-manager",
     "@factor/plugin-highlight-code"
   ]
 }

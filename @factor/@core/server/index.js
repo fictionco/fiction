@@ -261,6 +261,7 @@ export default () => {
       } else {
         logInfo(`Factor Server Error  @[${request.url}]`)
         logError(error)
+
         response.status(500).send(this.wrp("500 | Server Error"))
       }
     }

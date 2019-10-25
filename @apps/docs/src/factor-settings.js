@@ -203,13 +203,14 @@ export default Factor => {
       ]
     },
     plugins: {
-      indexRoute: "/pluginsnew",
-      postRoute: "/plugin",
-      returnLinkText: "All Plugins",
-      layout: {
-        index: () => import("./plugins/v-plugins.vue"),
-        single: () => import("./plugins/plugins-single.vue")
-      },
+      // indexRoute: "/pluginsnew",
+      // postRoute: "/plugin",
+      // returnLinkText: "All Plugins",
+      // layout: {
+      //   wrap: () => import("./plugins/plugins-wrap"),
+      //   index: () => import("./plugins/v-plugins.vue"),
+      //   single: () => import("./plugins/plugins-single.vue")
+      // },
       cta: {
         title: "Create and Submit Your Plugin",
         subtitle:
