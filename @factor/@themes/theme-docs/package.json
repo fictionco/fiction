@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-docs",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -15,8 +15,8 @@
   },
   "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb",
   "dependencies": {
-    "@factor/plugin-notify": "1.0.0-beta.4",
-    "@factor/post": "1.0.0-beta.4",
+    "@factor/plugin-notify": "1.0.0-beta.5",
+    "@factor/post": "1.0.0-beta.5",
     "prismjs": "^1.16.0"
   }
 }
