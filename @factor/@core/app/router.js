@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import FactorRouter from "vue-router"
-import { parse, stringify } from "qs"
+import qs from "qs"
 Factor.use(FactorRouter)
 
 export default () => {
@@ -20,8 +20,8 @@ export default () => {
         scrollBehavior: (to, from, saved) => {
           return to.hash ? { selector: to.hash } : (saved ? saved : { x: 0, y: 0 })
         },
-        parseQuery: query => parse(query),
-        stringifyQuery: query => (stringify(query) ? `?${stringify(query)}` : "")
+        parseQuery: query => qs.parse(query),
+        stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
       })
 
       Factor.$router = router

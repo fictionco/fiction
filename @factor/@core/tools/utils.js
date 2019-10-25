@@ -1,5 +1,6 @@
 import Factor from "@factor/core"
-
+import deepMergeLib from "deepmerge"
+import stopwordsLib from "./resource/stopwords"
 // Sort objects in an array by a priority value that defaults to 100
 export function sortPriority(arr) {
   if (!arr || arr.length == 0) return arr
@@ -35,7 +36,7 @@ export function sortMerge(arr) {
 // Deep merge an array of objects into a single object
 // Replaces arrays instead of concats
 export function deepMerge(items) {
-  return require("deepmerge").all(items.filter(_ => _), {
+  return deepMergeLib.all(items.filter(_ => _), {
     arrayMerge: (destinationArray, sourceArray, options) => sourceArray
   })
 }
@@ -111,9 +112,7 @@ export function stopWordLowercase(str) {
 
   if (words.length <= 1) return str
 
-  const stopwords = require("./resource/stopwords")
-
-  const regex = new RegExp("\\b(" + stopwords.join("|") + ")\\b", "gi")
+  const regex = new RegExp("\\b(" + stopwordsLib.join("|") + ")\\b", "gi")
   return str.replace(regex, match => match.toLowerCase())
 }
 

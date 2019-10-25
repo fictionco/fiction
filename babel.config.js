@@ -5,6 +5,7 @@ function isBabelLoader(caller) {
 module.exports = function(api) {
   if (api.env("test") && !api.caller(isBabelLoader)) {
     return {
+      plugins: ["@babel/plugin-syntax-import-meta"],
       presets: [
         [
           "@babel/env",

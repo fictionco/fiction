@@ -1,5 +1,6 @@
 import qs from "qs"
-export default Factor => {
+import Factor from "@factor/core"
+export default () => {
   return new (class {
     constructor() {
       this.endpointBase = "/_api"

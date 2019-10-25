@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import { dirname, parse } from "path"
-import { writeFileSync, ensureDirSync } from "fs-extra"
-import { sync as glob } from "glob"
+import fs from "fs-extra"
+import glob from "glob"
 import { addCallback } from "@factor/filters/util"
 import { toPascalCase, sortPriority } from "@factor/tools/utils"
 import { getPath } from "@factor/paths/util"
@@ -133,7 +133,8 @@ class FactorLoaderUtility {
       const dir = this.getDirectory({ cwd, name, main })
       const requireBase = this.getRequireBase({ cwd, name, main })
 
-      glob(`${dir}/**/${filename}`)
+      glob
+        .sync(`${dir}/**/${filename}`)
         .map((fullPath, index) => {
           return {
             _id: index == 0 ? _id : `${_id}_${index}`,
@@ -201,8 +202,8 @@ class FactorLoaderUtility {
   }
 
   writeFile({ destination, content }) {
-    ensureDirSync(dirname(destination))
-    writeFileSync(destination, content)
+    fs.ensureDirSync(dirname(destination))
+    fs.writeFileSync(destination, content)
   }
 
   loaderString(files) {

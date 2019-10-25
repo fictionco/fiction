@@ -1,13 +1,8 @@
-const inquirer = require("inquirer")
-const {
-  pathExistsSync,
-  writeFileSync,
-  ensureFileSync,
-  writeJsonSync
-} = require("fs-extra")
-const chalk = require("chalk")
-const figures = require("figures")
-const envfile = require("envfile")
+import fs from "fs-extra"
+import inquirer from "inquirer"
+import chalk from "chalk"
+import figures from "figures"
+import envfile from "envfile"
 
 import { getExtensions } from "@factor/build/util"
 
@@ -102,12 +97,12 @@ export default Factor => {
     }
 
     existingSettings() {
-      if (!pathExistsSync(this.configFile)) {
-        writeJsonSync(this.configFile, { config: {} })
+      if (!fs.pathExistsSync(this.configFile)) {
+        fs.writeJsonSync(this.configFile, { config: {} })
       }
       const publicConfig = require(this.configFile)
 
-      ensureFileSync(this.secretsFile)
+      fs.ensureFileSync(this.secretsFile)
       const privateConfig = envfile.parseFileSync(this.secretsFile)
 
       return { publicConfig, privateConfig }
@@ -158,13 +153,13 @@ export default Factor => {
 
       if (file.includes("factor-config")) {
         const conf = Factor.$utils.deepMerge([publicConfig, values])
-        writeFileSync(this.configFile, JSON.stringify(conf, null, "  "))
+        fs.writeFileSync(this.configFile, JSON.stringify(conf, null, "  "))
       }
 
       if (file.includes("env")) {
         const sec = Factor.$utils.deepMerge([privateConfig, values])
 
-        writeFileSync(this.secretsFile, envfile.stringifySync(sec))
+        fs.writeFileSync(this.secretsFile, envfile.stringifySync(sec))
       }
     }
   })()

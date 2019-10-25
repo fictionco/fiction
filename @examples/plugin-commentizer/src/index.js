@@ -1,6 +1,7 @@
 // This is the standard format for a Factor extension
 // Use this file to add routes, global components, config, etc.
-export default Factor => {
+import Factor from "@factor/core"
+export default () => {
   return new (class {
     constructor() {
       // Here is where you can add routes/pages

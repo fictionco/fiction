@@ -1,7 +1,5 @@
 import Factor from "@factor/core"
-
 import { dotSetting } from "@factor/tools/utils"
-
 import { getExports } from "@factor/extend/util"
 
 if (!Factor.$setting) {

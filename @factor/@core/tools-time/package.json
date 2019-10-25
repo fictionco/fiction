@@ -2,6 +2,7 @@
   "name": "@factor/tools-time",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "url": "https://www.fiction.com",
   "main": "src/index.js",
+  "type": "module",
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {

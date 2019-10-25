@@ -27,5 +27,6 @@
     "standard-version": "^7.0.0"
   },
   "license": "GPL-2.0",
+  "type": "module",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }

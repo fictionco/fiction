@@ -2,6 +2,7 @@
   "name": "@test/importer-plugin",
   "version": "1.0.0-beta.4",
   "license": "GPL-2.0",
+  "type": "module",
   "factor": {
     "target": {
       "app": "index",

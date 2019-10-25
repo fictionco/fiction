@@ -4,7 +4,14 @@ import Factor from "@factor/core"
 export async function importPlugins(plugins) {
   const _modules = await Promise.all(
     Object.keys(plugins).map(async key => {
-      const _exports = await plugins[key]()
+      let _exports
+      try {
+        _exports = await plugins[key]()
+      } catch (error) {
+        error.message = `Importing "${key}": ${error.message}`
+        throw new Error(error)
+      }
+
       return { key, _exports }
     })
   )

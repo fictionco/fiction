@@ -1,6 +1,6 @@
-const loadImage = require("blueimp-load-image")
-
-export default Factor => {
+import loadImage from "blueimp-load-image"
+import Factor from "@factor/core"
+export default () => {
   return new (class {
     constructor() {
       Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {

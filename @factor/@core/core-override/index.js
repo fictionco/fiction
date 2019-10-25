@@ -1,9 +1,10 @@
-const glob = require("glob").sync
-import { pathExistsSync } from "fs-extra"
+import glob from "glob"
+import fs from "fs-extra"
 import { dirname, resolve } from "path"
 import { addFilter } from "@factor/filters/util"
 import { getExtensions } from "@factor/build/util"
-export default Factor => {
+import Factor from "@factor/core"
+export default () => {
   return new (class {
     constructor() {
       this.themes = getExtensions().filter(_ => _.extend == "theme")
@@ -92,17 +93,17 @@ export default Factor => {
     findInDirectory({ directory, fileName }) {
       //const baseFileName = fileName.substr(0, fileName.lastIndexOf("."))
       //console.log("baseFileName", baseFileName)
-      const files = glob(`${directory}/**/${fileName}`)
+      const files = glob.sync(`${directory}/**/${fileName}`)
       return files && files.length > 0 ? files[0] : false
     }
 
     _fileExists(path) {
       const basePath = path.split("?")[0]
       //const query = path.split("?")[1] || ""
-      if (pathExistsSync(basePath)) {
+      if (fs.pathExistsSync(basePath)) {
         return path
       } else {
-        const files = glob(`${basePath}.*`)
+        const files = glob.sync(`${basePath}.*`)
 
         if (files && files.length == 1) {
           return files[0]

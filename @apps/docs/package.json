@@ -6,6 +6,7 @@
   "main": "src/index.js",
   "author": "Fiction.com",
   "license": "GPL-2.0",
+  "type": "module",
   "scripts": {},
   "factor": {
     "_id": "docsApp",

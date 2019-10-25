@@ -1,3 +1,5 @@
+import Factor from "@factor/core"
+
 class FactorError extends Error {
   constructor({ message, statusCode, properties = {} }) {
     super(message)
@@ -8,7 +10,7 @@ class FactorError extends Error {
   }
 }
 
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {}
 

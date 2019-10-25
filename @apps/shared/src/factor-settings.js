@@ -1,4 +1,5 @@
-export default Factor => {
+import Factor from "@factor/core"
+export default () => {
   return {
     google_tag_manager: {
       gtm_id: "GTM-THQBLTN"
