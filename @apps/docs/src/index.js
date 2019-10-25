@@ -108,17 +108,22 @@ export default Factor => {
             component: () => import("./page-docs")
           },
           {
-            path: Factor.$setting.get("plugins.indexRoute"),
+            path: `/pluginsnew`,
             component: () => import("./plugins/plugins-wrap"),
-            //component: Factor.$setting.get("plugins.layout.index"),
+            //path: Factor.$setting.get("plugins.indexRoute"),
+            //component: Factor.$setting.get("plugins.layout.wrap")
             children: [
               {
-                path: "/pluginsnew",
-                component: Factor.$setting.get("plugins.layout.index")
+                path: `/`,
+                component: () => import("./plugins/v-plugins")
+                //path: Factor.$setting.get("plugins.indexRoute"),
+                //component: Factor.$setting.get("plugins.layout.index")
               },
               {
-                path: `${Factor.$setting.get("plugins.postRoute")}/:permalink`,
-                component: Factor.$setting.get("plugins.layout.single")
+                path: `/plugin/:slug`,
+                component: () => import("./plugins/plugin-single")
+                //path: `${Factor.$setting.get("plugins.postRoute")}/:permalink`,
+                //component: Factor.$setting.get("plugins.layout.single")
               }
             ]
           }
