@@ -1,6 +1,6 @@
 {
   "name": "create-factor-app",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "Create a Factor App in seconds.",
   "bin": "cli.js",
   "files": [
@@ -27,5 +27,5 @@
     "standard-version": "^7.0.0"
   },
   "license": "GPL-2.0",
-  "gitHead": "098e7bcc0db49f88078d227a2b11a17cc21fd23d"
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
