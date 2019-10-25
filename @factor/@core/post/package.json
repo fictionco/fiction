@@ -27,7 +27,7 @@
     "@factor/core": "1.0.0-beta.5",
     "@factor/dashboard": "1.0.0-beta.5",
     "@factor/dashboard-signin": "1.0.0-beta.5",
-    "@factor/metatags": "1.0.0-beta.5",
+    "@factor/meta-class": "1.0.0-beta.5",
     "@factor/post-page-templates": "1.0.0-beta.5",
     "@factor/ui": "1.0.0-beta.5",
     "jsonwebtoken": "^8.5.1",
