@@ -161,7 +161,7 @@ export default {
         {
           icon: "pro-support",
           title: "Professional Support",
-          text: `Build your app witb people that know design and can answer advanced coding questions. 
+          text: `Build your app with people that know design and can answer advanced coding questions. 
               Fiction provides only top-tier support run by expert designers and application devs. `
         }
       ],

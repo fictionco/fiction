@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-import { getModel, savePost } from "@factor/post/util-server"
+import { getModel, savePost } from "@factor/post/server"
 
 export default Factor => {
   return new (class {
