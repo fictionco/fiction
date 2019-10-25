@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-process-exit */
 const Factor = require("vue")
 const execa = require("execa")
 const listr = require("listr")
@@ -106,6 +107,7 @@ export default () => {
           await this.runServer({ NODE_ENV, ..._arguments }) // Long running process
         } else {
           Factor.$log.success(`Successfully ran [${command}]`)
+
           process.exit(0)
         }
       } catch (error) {
