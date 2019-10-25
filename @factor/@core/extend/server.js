@@ -1,6 +1,5 @@
 import Factor from "@factor/core"
 import { importPlugins } from "./util"
-
 export default () => {
   return new (class {
     constructor() {}

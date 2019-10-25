@@ -1,4 +1,4 @@
-import { getModel } from "@factor/post/util-server"
+import { getModel } from "@factor/post/server"
 
 export default Factor => {
   return new (class {

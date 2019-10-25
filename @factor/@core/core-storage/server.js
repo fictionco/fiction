@@ -1,5 +1,5 @@
 const multer = require("multer")
-import { getModel } from "@factor/post/util-server"
+import { getModel } from "@factor/post/server"
 
 import { objectIdType, objectId } from "@factor/post/util"
 export default Factor => {

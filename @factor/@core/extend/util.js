@@ -2,26 +2,45 @@ import Factor from "@factor/core"
 
 // Import plugins and assure load order
 export async function importPlugins(plugins) {
-  for (let key of Object.keys(plugins)) {
-    Factor[`$${key}`] = Factor.prototype[`$${key}`] = await importModule(plugins[key])
+  const _modules = await Promise.all(
+    Object.keys(plugins).map(async key => {
+      const _exports = await plugins[key]()
+      return { key, _exports }
+    })
+  )
+
+  for (let { key, _exports } of _modules) {
+    const { default: defaultExport, install } = _exports
+
+    if (defaultExport && typeof defaultExport == "function") {
+      Factor[`$${key}`] = Factor.prototype[`$${key}`] = await defaultExport(Factor)
+    }
+
+    if (install && typeof install == "function") {
+      await install()
+    }
   }
 
   return
 }
 
-export async function importModule(importCaller) {
-  const { default: _module } = await importCaller()
+export async function importModule(key, importCaller) {
+  const __exports = await importCaller()
 
-  const _export = typeof _module == "function" ? _module(Factor) : _module
+  const { default: _default } = __exports
 
-  return await _export
+  const _export = typeof _default == "function" ? _default(Factor) : _default
+
+  return await { key, _export }
 }
 
 export async function getExports(importers) {
   let _exports = {}
 
-  for (let key of Object.keys(importers)) {
-    _exports[key] = await importModule(importers[key])
+  for (let _key of Object.keys(importers)) {
+    const { _export } = await importModule(_key, importers[_key])
+
+    _exports[_key] = _export
   }
 
   return _exports

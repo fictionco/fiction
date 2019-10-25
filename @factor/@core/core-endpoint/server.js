@@ -1,22 +1,22 @@
 const cors = require("cors")
 
 import { parse } from "qs"
-import { getSinglePost } from "@factor/post/util-server"
-
+import { getSinglePost } from "@factor/post/server"
+import { addFilter, applyFilters } from "@factor/filters/util"
 export default Factor => {
   const util = require(".").default(Factor)
   const server = new (class {
     constructor() {
       this.endpointBase = "/_api"
-      Factor.$filters.add("initialize-server", () => {
+      addFilter("initialize-server", () => {
         this.addEndpointMiddleware()
       })
     }
 
     addEndpointMiddleware() {
-      const endpoints = Factor.$filters.apply("endpoints", [])
+      const endpoints = applyFilters("endpoints", [])
 
-      Factor.$filters.add("middleware", _ => {
+      addFilter("middleware", _ => {
         endpoints.forEach(({ id, handler }) => {
           _.push({
             path: `${this.endpointBase}/${id}`,
