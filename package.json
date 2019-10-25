@@ -32,6 +32,9 @@
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
+  "gitHooks": {
+    "pre-commit": "yarn test"
+  },
   "dependencies": {
     "@babel/core": "^7.6.0",
     "@babel/plugin-syntax-import-meta": "^7.2.0",
@@ -75,6 +78,7 @@
     "webpack": "^4.29.6"
   },
   "devDependencies": {
-    "mongodb-memory-server": "^5.2.8"
+    "mongodb-memory-server": "^5.2.8",
+    "yorkie": "^2.0.0"
   }
 }

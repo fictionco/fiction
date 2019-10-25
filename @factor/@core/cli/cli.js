@@ -11,8 +11,6 @@ process.maxOldSpaceSize = 8192
 import extender from "@factor/extend/server"
 import transpiler from "@factor/build/transpiler"
 
-// Run class
-
 export default () => {
   return new (class {
     constructor() {
