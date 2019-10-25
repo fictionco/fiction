@@ -41,7 +41,6 @@
     "babel-jest": "^24.9.0",
     "codecov": "^3.6.1",
     "consola": "^2.10.1",
-    "cz-conventional-changelog": "^3.0.0",
     "eslint": "^6.0.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-import-resolver-webpack": "^0.11.1",
