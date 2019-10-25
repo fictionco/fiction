@@ -2,7 +2,7 @@ import Factor from "@factor/core"
 import extender from "@factor/extend/server"
 import dbUtility from "../../db"
 import mongoose from "mongoose"
-import { getModel } from "../../util-server"
+import { getModel } from "../../server"
 import { dirname } from "path"
 
 let db

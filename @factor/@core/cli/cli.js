@@ -255,4 +255,4 @@ const cli = () => {
 
 // Run class
 
-module.exports.default = cli()
+module.exports = cli()

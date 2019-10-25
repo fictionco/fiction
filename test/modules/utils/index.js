@@ -23,24 +23,25 @@ export const buildFixture = fixture => {
   process.env.FACTOR_ENV = "test"
 
   test(`Build ${fixture}`, async () => {
-    const cli = require("@factor/cli").default
+    let error
+    const cli = require("@factor/cli")
 
     try {
       const Factor = await cli.factorize()
 
       await Factor.$filters.run("create-distribution-app", { testing: true })
-    } catch (error) {
-      console.error(error)
+    } catch (error_) {
+      error = error_
     }
 
-    expect(2).toBe(2)
+    expect(error).not.toBeTruthy()
   }, 100000)
 }
 
 export const loadFixture = async fixture => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
   process.env.FACTOR_ENV = "test"
-  const cli = require("@factor/cli").default
+  const cli = require("@factor/cli")
 
   return await cli.factorize()
 }
