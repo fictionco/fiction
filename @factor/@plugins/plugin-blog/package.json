@@ -15,7 +15,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb",
+  "gitHead": "098e7bcc0db49f88078d227a2b11a17cc21fd23d",
   "keywords": [
     "factor",
     "factor-plugin",

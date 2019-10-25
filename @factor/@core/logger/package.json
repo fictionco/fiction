@@ -8,7 +8,7 @@
   "factor": {
     "_id": "log"
   },
-  "gitHead": "280da840896291787f224a861e98d52cf0a6552a",
+  "gitHead": "098e7bcc0db49f88078d227a2b11a17cc21fd23d",
   "dependencies": {
     "chalk": "^2.4.2",
     "consola": "^2.6.2",
