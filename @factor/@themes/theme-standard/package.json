@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-standard",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -15,9 +15,9 @@
   },
   "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb",
   "dependencies": {
-    "@factor/plugin-blog": "1.0.0-beta.4",
-    "@factor/plugin-seo": "1.0.0-beta.4",
-    "@factor/plugin-sitemap": "1.0.0-beta.4",
-    "@factor/plugin-user-profiles": "1.0.0-beta.4"
+    "@factor/plugin-blog": "1.0.0-beta.5",
+    "@factor/plugin-seo": "1.0.0-beta.5",
+    "@factor/plugin-sitemap": "1.0.0-beta.5",
+    "@factor/plugin-user-profiles": "1.0.0-beta.5"
   }
 }
