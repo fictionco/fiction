@@ -3,13 +3,12 @@ import dbConnector from "./db-connection"
 import addSetupCli from "./db-setup-cli"
 import { getAddedSchemas } from "./util"
 import Factor from "@factor/core"
-
+import { addCallback } from "@factor/filters/util"
 class FactorDB {
   constructor() {
     addSetupCli()
     dbConnector()
-    this.configure()
-    Factor.$filters.callback("initialize-server", () => this.initializeModels())
+    addCallback("initialize-server", () => this.initialize())
   }
 
   // Must be non-async so we can use chaining
@@ -27,6 +26,7 @@ class FactorDB {
   configure() {
     if (process.env.FACTOR_DEBUG) mongoose.set("debug", true)
     mongoose.plugin(require("mongoose-beautiful-unique-validation"))
+    this.initializeModels()
   }
 
   initializeModels() {

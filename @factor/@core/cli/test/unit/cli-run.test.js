@@ -5,7 +5,7 @@ jest.mock("execa")
 
 process.env.FACTOR_ENV = "test"
 
-const cli = require("../../cli.js")
+const cli = require('../..')
 
 describe("cli scripts", () => {
   beforeAll(async () => {
