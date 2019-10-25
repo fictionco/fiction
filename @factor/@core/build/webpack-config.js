@@ -1,3 +1,4 @@
+import Factor from "@factor/core"
 import webpack from "webpack"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
@@ -16,7 +17,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
 
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {
       Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
@@ -111,7 +112,6 @@ export default Factor => {
     production() {
       return {
         mode: "production",
-        devtool: "source-map",
         output: { publicPath: "/" },
         plugins: [
           new MiniCssExtractPlugin({

@@ -2,7 +2,8 @@ import { dirname } from "path"
 import extender from "@factor/extend/server"
 import buildLoaders from "@factor/build/loaders"
 import webpackBuilder from "../../webpack-config"
-import Factor from "vue"
+import Factor from "@factor/core"
+
 describe("webpack", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
@@ -12,14 +13,14 @@ describe("webpack", () => {
   })
 
   it("generated production app", async () => {
-    const builder = webpackBuilder(Factor)
+    const builder = webpackBuilder()
     const results = await builder.buildProduction()
 
     expect(results).toEqual([true, true])
   })
 
   it("gets appropriate config", async () => {
-    const builder = webpackBuilder(Factor)
+    const builder = webpackBuilder()
     let config = builder.getConfig({ analyze: true, target: "client" })
 
     let plugins = config.plugins.map(_ => _.constructor.name)
