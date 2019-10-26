@@ -6,7 +6,7 @@
       <div class="plink">{{ link }}</div>
       <div
         class="desc"
-      >{{ post.descriptionTag || post.subTitle || $utils.excerpt(post.content) || "No Description" }}</div>
+      >{{ post.descriptionTag || post.subTitle || excerpt(post.content) || "No Description" }}</div>
     </div>
     <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
     <dashboard-input
@@ -23,6 +23,8 @@
   </div>
 </template>
 <script>
+import { link } from "@factor/post"
+import { excerpt } from "@factor/tools/utils"
 export default {
   props: {
     postId: { type: String, required: true }
@@ -32,7 +34,7 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     link() {
-      return this.$post.link(this.postId, { root: true })
+      return link(this.postId, { root: true })
     }
   }
 }

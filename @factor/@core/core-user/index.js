@@ -1,3 +1,5 @@
+import { requestPostSingle } from "@factor/post"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -97,7 +99,7 @@ export default Factor => {
       const token = user && user.token ? user.token : (this.token() ? this.token() : null)
 
       try {
-        user = token ? await Factor.$post.getSinglePost({ token }) : {}
+        user = token ? await requestPostSingle({ token }) : {}
 
         this.setUser({ user, token, current: true })
 

@@ -13,6 +13,8 @@
   </dashboard-page>
 </template>
 <script>
+import { requestPostIndex, getPermalink, postTypeMeta } from "@factor/post"
+
 export default {
   data() {
     return {
@@ -31,7 +33,7 @@ export default {
       return this.$store.val(this.postType) || []
     },
     postTypeMeta() {
-      return this.$post.postTypeMeta(this.postType)
+      return postTypeMeta(this.postType)
     },
     templateLoader() {
       const { listTemplate } = this.postTypeMeta
@@ -102,7 +104,7 @@ export default {
 
     async setPosts() {
       this.loading = true
-      await this.$post.getPostIndex(this.filters)
+      await requestPostIndex(this.filters)
       this.loading = false
     }
   }

@@ -1,13 +1,14 @@
 <template>
   <div class="job-entry-headers">
     <h1 class="entry-title">
-      <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
       <span>{{ post.jobLocation }}</span>
     </h1>
     <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
   </div>
 </template>
 <script>
+import { link } from "@factor/post"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -16,7 +17,8 @@ export default {
     post() {
       return this.$store.val(this.postId) || {}
     }
-  }
+  },
+  methods: { link }
 }
 </script>
 <style lang="less">

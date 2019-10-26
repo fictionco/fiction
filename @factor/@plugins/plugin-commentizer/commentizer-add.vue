@@ -16,14 +16,17 @@
         :label="getLabel(c)"
         :required="!!c.required"
       />
-      <factor-input-submit btn="primary" el="button" :loading="sending">
-        {{ $setting.get('commentizer.submitText') }}
-      </factor-input-submit>
+      <factor-input-submit
+        btn="primary"
+        el="button"
+        :loading="sending"
+      >{{ $setting.get('commentizer.submitText') }}</factor-input-submit>
     </div>
   </factor-form>
 </template>
 
 <script>
+import { requestPostSave } from "@factor/post"
 export default {
   props: {
     postId: { type: String, required: true }
@@ -37,7 +40,7 @@ export default {
     }
   },
   computed: {
-    post () {
+    post() {
       return this.$store.val(this.postId) || {}
     }
   },
@@ -57,7 +60,7 @@ export default {
 
       const newComment = await this.$commentizer.createComment(this.form)
       this.post.commentizerComments.push(newComment._id)
-      this.$post.save({ post: this.post, postType: this.post.postType })
+      requestPostSave({ post: this.post, postType: this.post.postType })
 
       // TODO: refresh local store after save
 
@@ -66,9 +69,7 @@ export default {
     },
     getLabel(c) {
       const label = [c.label]
-      if (c.required) {
-        label.push("*")
-      }
+      if (c.required) label.push("*")
       return label.join(" ")
     }
   }

@@ -1,3 +1,5 @@
+import { requestPostSave } from "@factor/post"
+import { pushToFilter } from "@factor/filters/util"
 export default Factor => {
   return new (class {
     constructor() {
@@ -6,23 +8,19 @@ export default Factor => {
     }
 
     filters() {
-      Factor.$filters.add("post-types", _ => {
-        _.push({
-          postType: this.postType,
-          nameIndex: "Contact Form",
-          nameSingle: "Submitted",
-          namePlural: "Contact Forms",
-          listTemplate: () => import("./dashboard-list.vue"),
-          add: false
-        })
-
-        return _
+      pushToFilter("post-types", {
+        postType: this.postType,
+        nameIndex: "Contact Form",
+        nameSingle: "Submitted",
+        namePlural: "Contact Forms",
+        listTemplate: () => import("./dashboard-list.vue"),
+        add: false
       })
     }
 
     async save(form) {
       const post = { settings: form }
-      const saved = await Factor.$post.save({ post, postType: this.postType })
+      const saved = await requestPostSave({ post, postType: this.postType })
       this.send(form)
       return saved
     }

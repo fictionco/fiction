@@ -28,7 +28,10 @@
     </dashboard-grid>
   </dashboard-pane>
 </template>
-  <script>
+
+<script>
+import { getStatusCount, getPermalink } from "@factor/post"
+import { toLabel } from "@factor/tools/utils"
 export default {
   name: "UserList",
   props: {
@@ -43,7 +46,7 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$post.getStatusCount({
+            : getStatusCount({
                 meta: this.meta,
                 field: "role",
                 key,
@@ -51,7 +54,7 @@ export default {
               })
 
         return {
-          name: this.$utils.toLabel(key),
+          name: toLabel(key),
           value: key == "all" ? "" : key,
           count
         }
@@ -82,7 +85,7 @@ export default {
 
   methods: {
     postlink(postType, permalink, root = true) {
-      return this.$post.getPermalink({ postType, permalink, root })
+      return getPermalink({ postType, permalink, root })
     },
 
     tableStructure() {

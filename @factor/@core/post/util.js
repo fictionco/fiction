@@ -8,10 +8,6 @@ export function objectId(str) {
   return mongoose.Types.ObjectId(str)
 }
 
-export function isAuthor(bearer) {
-  return bearer.accessLevel >= 300 ? {} : { author: bearer._id }
-}
-
 export function getAddedSchemas() {
   return Factor.$filters.apply("data-schemas", [schemaPost()]).map(s => {
     return Factor.$filters.apply(
@@ -27,7 +23,7 @@ export function getSchema(postType) {
   return schemas.find(s => s.name == postType)
 }
 
-export function getPopulatedFields({ postType = "post", depth = 10 }) {
+export function getSchemaPopulatedFields({ postType = "post", depth = 10 }) {
   let fields = getSchema("post").populatedFields || []
 
   const schema = getSchema(postType)
@@ -48,13 +44,32 @@ export function canUpdatePost({ user, post, action, isNew }) {
   if (isNew && action == "save" && schema.anonymousUserCanCreate) {
     return true
   } else if (
-    bearer &&
-    (bearer.accessLevel >= 300 ||
-      post.author.includes(bearer._id) ||
-      bearer._id.toString() == post._id.toString())
+    user &&
+    (user.accessLevel >= 300 ||
+      post.author.includes(user._id) ||
+      user._id.toString() == post._id.toString())
   ) {
     return true
   } else {
     throw new Error("Insufficient permissions.")
   }
+}
+
+// Get the count of posts with a given status (or similar)
+// Null values (e.g. status is unset) should be given the value assigned by nullKey
+// Use in table control filtering
+export function getStatusCount({ meta, field = "status", key, nullKey = false }) {
+  if (!meta[field]) {
+    return 0
+  }
+
+  let count
+  const result = meta[field].find(_ => _._id == key)
+
+  count = result ? result.count : 0
+  if (nullKey && key == nullKey) {
+    const nullsCount = meta[field].find(_ => _._id == null)
+    count += nullsCount ? nullsCount.count : 0
+  }
+  return count
 }

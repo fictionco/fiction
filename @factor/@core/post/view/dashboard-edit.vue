@@ -8,6 +8,7 @@
   </component>
 </template>
 <script>
+import { requestPostSingle } from "@factor/post"
 export default {
   computed: {
     post: {
@@ -36,8 +37,7 @@ export default {
       const components = this.$filters.apply("post-edit-components", [])
 
       return components.filter(
-        ({ postType }) =>
-          !postType || (postType && postType.includes(this.postType))
+        ({ postType }) => !postType || (postType && postType.includes(this.postType))
       )
     }
   },
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     async requestPost() {
-      const post = await this.$post.getSinglePost({
+      const post = await requestPostSingle({
         _id: this._id,
         postType: this.postType,
         createOnEmpty: true,

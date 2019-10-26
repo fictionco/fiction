@@ -81,6 +81,7 @@
   </div>
 </template>
 <script>
+import { requestPostSingle } from "@factor/post"
 export default {
   metaInfo() {
     if (this.post && this.post.displayName) {
@@ -163,12 +164,10 @@ export default {
 
         this.$user.init(async uid => {
           if (uid) {
-            const post = await this.$post.getSinglePost({
+            const post = await requestPostSingle({
               _id: uid,
               postType: "user"
             })
-
-            await this.$post.setPostData({ post })
           }
           this.loading = false
         })

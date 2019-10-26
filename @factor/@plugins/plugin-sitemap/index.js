@@ -1,5 +1,5 @@
 import { getModel } from "@factor/post/server"
-
+import { getPermalink } from "@factor/post"
 export default Factor => {
   return new (class {
     constructor() {
@@ -34,7 +34,7 @@ export default Factor => {
       )
 
       const urls = posts.map(({ postType, permalink }) => {
-        return Factor.$post.getPermalink({ postType, permalink })
+        return getPermalink({ postType, permalink })
       })
 
       return urls.concat(this.getRouteUrls())

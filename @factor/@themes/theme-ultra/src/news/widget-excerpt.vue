@@ -1,10 +1,12 @@
 <template>
   <div>
-    <p class="content">{{ $utils.excerpt(post.content) }}</p>
-    <factor-link class="read-more" :path="$post.link(post._id)">Read More...</factor-link>
+    <p class="content">{{ excerpt(post.content) }}</p>
+    <factor-link class="read-more" :path="link(post._id)">Read More...</factor-link>
   </div>
 </template>
 <script>
+import { link } from "@factor/post"
+import { excerpt } from "@factor/tools/utils"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -13,6 +15,10 @@ export default {
     post() {
       return this.$store.val(this.postId) || {}
     }
+  },
+  methods: {
+    link,
+    excerpt
   }
 }
 </script>

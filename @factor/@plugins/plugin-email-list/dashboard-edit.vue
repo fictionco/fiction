@@ -6,7 +6,7 @@
     </dashboard-grid-controls>
     <dashboard-grid :structure="grid()" :rows="post.list" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row.email" >
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row.email" />
       </template>
       <template #email="{row}">{{ row.email }}</template>
       <template #verified="{row}">{{ row.verified ? 'Yes' : 'No' }}</template>
@@ -16,7 +16,9 @@
     </dashboard-grid>
   </dashboard-pane>
 </template>
-  <script>
+
+<script>
+import { postTypeMeta } from "@factor/post"
 export default {
   name: "EmailListGrid",
   props: {
@@ -49,7 +51,7 @@ export default {
       }
     },
     postTypeMeta() {
-      return this.$post.postTypeMeta(this.postType)
+      return postTypeMeta(this.postType)
     },
 
     tabs() {

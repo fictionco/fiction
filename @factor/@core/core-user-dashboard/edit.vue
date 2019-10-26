@@ -110,6 +110,7 @@
   </dashboard-page>
 </template>
 <script>
+import { requestPostSave } from "@factor/post"
 export default {
   data() {
     return {
@@ -135,9 +136,7 @@ export default {
       return this.$route.query._id || this.$userId
     },
     url() {
-      return this.post.username
-        ? `/@${this.post.username}`
-        : `/@?_id=${this.post._id}`
+      return this.post.username ? `/@${this.post.username}` : `/@?_id=${this.post._id}`
     }
   },
 
@@ -154,7 +153,7 @@ export default {
     async save() {
       this.sending = true
 
-      const saved = await this.$post.save({
+      const saved = await requestPostSave({
         post: this.post,
         postType: this.postType
       })

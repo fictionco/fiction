@@ -1,13 +1,15 @@
 <template>
   <div class="jobs-post-excerpt">
-    <span class="inline-excerpt">{{ $utils.excerpt(post.content) }}</span>
-    <factor-link class="read-link" :path="$post.link(post._id)">
+    <span class="inline-excerpt">{{ excerpt(post.content) }}</span>
+    <factor-link class="read-link" :path="link(post._id)">
       Learn More
       <factor-icon icon="arrow-right" />
     </factor-link>
   </div>
 </template>
 <script>
+import { link } from "@factor/post"
+import { excerpt } from "@factor/tools/utils"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -16,7 +18,8 @@ export default {
     post() {
       return this.$store.val(this.postId) || {}
     }
-  }
+  },
+  methods: { link, excerpt }
 }
 </script>
 <style lang="less">

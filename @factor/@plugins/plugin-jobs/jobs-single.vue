@@ -9,16 +9,16 @@
   </div>
 </template>
 <script>
-import Factor from "vue"
+import { titleTag, descriptionTag, shareImage } from "@factor/post"
 export default {
   data() {
     return {}
   },
   metaInfo() {
     return {
-      title: this.$post.titleTag(this.post._id),
-      description: this.$post.descriptionTag(this.post._id),
-      image: this.$post.shareImage(this.post._id)
+      title: titleTag(this.post._id),
+      description: descriptionTag(this.post._id),
+      image: shareImage(this.post._id)
     }
   },
   computed: {

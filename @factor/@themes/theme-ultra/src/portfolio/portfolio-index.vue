@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+import { requestPostIndex } from "@factor/post"
 export default {
   data() {
     return {
@@ -75,7 +76,7 @@ export default {
     async getPosts() {
       this.loading = true
 
-      const r = await this.$post.getPostIndex({
+      const r = await requestPostIndex({
         postType: this.postType,
         tag: this.tag,
         status: "published",

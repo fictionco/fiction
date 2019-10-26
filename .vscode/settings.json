@@ -8,7 +8,6 @@
   "search.useIgnoreFiles": false,
   "files.exclude": {},
   "search.exclude": {
-    "**/factor_modules/**": true,
     "**/.factor/**": true,
     "**/.ref": true,
     "*.lock": true,
