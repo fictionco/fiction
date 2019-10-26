@@ -16,7 +16,7 @@
       @select-all="selectAll($event)"
     >
       <template #select="{row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
       </template>
       <template #info="{row}">
         <div class="form-fields-wrap">
@@ -35,7 +35,9 @@
     </dashboard-grid>
   </dashboard-pane>
 </template>
-  <script>
+<script>
+import { getPermalink, getStatusCount } from "@factor/post"
+import { toLabel } from "@factor/tools/utils"
 export default {
   name: "ContactFormList",
   props: {
@@ -67,13 +69,13 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$post.getStatusCount({
+            : getStatusCount({
                 meta: this.meta,
                 key
               })
 
         return {
-          name: this.$utils.toLabel(key),
+          name: toLabel(key),
           value: key == "all" ? "" : key,
           count
         }
@@ -98,7 +100,7 @@ export default {
       return Object.entries(rest).filter(([key, value]) => value)
     },
     postlink(postType, permalink, root = true) {
-      return this.$post.getPermalink({ postType, permalink, root })
+      return getPermalink({ postType, permalink, root })
     },
 
     tableStructure() {

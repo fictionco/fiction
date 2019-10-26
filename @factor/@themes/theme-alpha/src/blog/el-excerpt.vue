@@ -1,13 +1,15 @@
 <template>
   <div class="post-excerpt">
-    <span class="inline-excerpt">{{ $utils.excerpt(post.content) }}</span>
-    <factor-link btn="default" size="standard" class="read-link" :path="$post.link(post._id)">
+    <span class="inline-excerpt">{{ excerpt(post.content) }}</span>
+    <factor-link btn="default" size="standard" class="read-link" :path="link(post._id)">
       Continue Reading
       <factor-icon icon="arrow-right" />
     </factor-link>
   </div>
 </template>
 <script>
+import { link } from "@factor/post"
+import { excerpt } from "@factor/tools/utils"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -16,6 +18,10 @@ export default {
     post() {
       return this.$store.val(this.postId) || {}
     }
+  },
+  methods: {
+    link,
+    excerpt
   }
 }
 </script>

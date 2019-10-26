@@ -7,7 +7,7 @@
           {{ returnLinkText }}
         </factor-link>
         <h1 class="title">
-          <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+          <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
         </h1>
         <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
         <factor-post-edit :post-id="post._id" />
@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+import { link } from "@factor/post"
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -28,6 +29,9 @@ export default {
     returnLinkText() {
       return this.$setting.get("portfolio.returnLinkText") || "All Projects"
     }
+  },
+  methods: {
+    link
   }
 }
 </script>

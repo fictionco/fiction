@@ -4,7 +4,7 @@ import addSetupCli from "./db-setup-cli"
 import { getAddedSchemas } from "./util"
 import Factor from "@factor/core"
 import { addCallback } from "@factor/filters/util"
-class FactorDB {
+export default class FactorDB {
   constructor() {
     addSetupCli()
     dbConnector()
@@ -23,7 +23,7 @@ class FactorDB {
     return this.__schemas[name] || null
   }
 
-  configure() {
+  initialize() {
     if (process.env.FACTOR_DEBUG) mongoose.set("debug", true)
     mongoose.plugin(require("mongoose-beautiful-unique-validation"))
     this.initializeModels()
@@ -74,5 +74,3 @@ class FactorDB {
     return { schema: _schema_, model: _model_ }
   }
 }
-
-export default new FactorDB()

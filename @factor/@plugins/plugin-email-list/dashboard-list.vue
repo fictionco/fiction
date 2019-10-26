@@ -11,7 +11,7 @@
 
     <dashboard-grid :structure="grid()" :rows="list" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
       </template>
       <template #listId="{row}">
         <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</factor-link>
@@ -22,7 +22,9 @@
     </dashboard-grid>
   </dashboard-pane>
 </template>
-  <script>
+<script>
+import { getPermalink, postTypeMeta, getStatusCount } from "@factor/post"
+import { toLabel } from "@factor/tools/utils"
 export default {
   name: "EmailListGrid",
   props: {
@@ -41,7 +43,7 @@ export default {
   },
   computed: {
     postTypeMeta() {
-      return this.$post.postTypeMeta(this.postType)
+      return postTypeMeta(this.postType)
     },
     tableList() {
       return this.list.map(({ _id, createdAt, settings }) => {
@@ -57,13 +59,13 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$post.getStatusCount({
+            : getStatusCount({
                 meta: this.meta,
                 key
               })
 
         return {
-          name: this.$utils.toLabel(key),
+          name: toLabel(key),
           value: key == "all" ? "" : key,
           count
         }
@@ -121,7 +123,7 @@ export default {
       return Object.entries(rest).filter(([key, value]) => value)
     },
     postlink(postType, permalink, root = true) {
-      return this.$post.getPermalink({ postType, permalink, root })
+      return getPermalink({ postType, permalink, root })
     },
 
     grid() {

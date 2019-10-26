@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { requestPostIndex } from "@factor/post"
 export default {
   components: {
     "news-index": () => import("./news/news-index")
@@ -49,7 +50,7 @@ export default {
     async getPosts() {
       this.loading = true
 
-      const r = await this.$post.getPostIndex({
+      const r = await requestPostIndex({
         postType: this.postType,
         tag: this.tag,
         status: "published",
@@ -103,8 +104,7 @@ export default {
       background: var(--color-white);
       color: var(--color-text);
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-        0 15px 12px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 
       .read-more {
         opacity: 1;

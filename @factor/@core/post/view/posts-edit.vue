@@ -95,6 +95,7 @@
   </dashboard-page>
 </template>
 <script>
+import { getPermalink, requestPostSave } from "@factor/post"
 export default {
   components: {
     "input-editor": () => import("./el/editor"),
@@ -152,7 +153,7 @@ export default {
       return this.$route.params.postType || this.post.postType || "page"
     },
     url() {
-      return this.$post.getPermalink({
+      return getPermalink({
         postType: this.postType,
         permalink: this.post.permalink,
         root: false
@@ -186,7 +187,7 @@ export default {
 
       this.$events.$emit("lockPermalink")
 
-      const saved = await this.$post.save({
+      const saved = await requestPostSave({
         post: this.post,
         postType: this.postType
       })
@@ -215,7 +216,7 @@ export default {
     addRevision({ post, meta }) {
       this.clearAutosave()
 
-      const postData = this.$post.addRevision({ post, meta })
+      const postData = addRevision({ post, meta })
 
       this.$set(this.post, "revisions", postData.revisions)
 

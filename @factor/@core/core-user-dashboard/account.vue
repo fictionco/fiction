@@ -2,6 +2,7 @@
   <edit-user :post="post" />
 </template>
 <script>
+import { requestPostSingle } from "@factor/post"
 export default {
   components: {
     "edit-user": () => import("./edit")
@@ -17,7 +18,7 @@ export default {
     const user = await this.$user.init()
 
     if (this.$userId) {
-      await this.$post.getSinglePost({ _id: this.$userId, postType: "user" })
+      await requestPostSingle({ _id: this.$userId, postType: "user" })
     }
   }
 }

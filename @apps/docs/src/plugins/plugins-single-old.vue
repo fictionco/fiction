@@ -97,13 +97,6 @@ export default {
       })
     }
   }
-  // metaInfo() {
-  //   return {
-  //     title: this.$post.titleTag(this.entry._id),
-  //     description: this.$post.descriptionTag(this.entry._id),
-  //     image: this.$post.shareImage(this.entry._id)
-  //   }
-  // }
 }
 </script>
 

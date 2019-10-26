@@ -28,7 +28,7 @@
       @select-all="selectAll($event)"
     >
       <template #select="{row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" >
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
       </template>
       <template #title="{row}">
         <div class="post-title">
@@ -53,6 +53,13 @@
   </dashboard-pane>
 </template>
 <script>
+import {
+  getPermalink,
+  getStatusCount,
+  requestPostSaveMany,
+  requestPostDeleteMany
+} from "@factor/post"
+import { toLabel } from "@factor/tools/utils"
 export default {
   props: {
     title: { type: String, default: "" },
@@ -72,14 +79,14 @@ export default {
         const count =
           key == "all"
             ? this.meta.total
-            : this.$post.getStatusCount({
+            : getStatusCount({
                 meta: this.meta,
                 key,
                 nullKey: "draft"
               })
 
         return {
-          name: this.$utils.toLabel(key),
+          name: toLabel(key),
           value: key == "all" ? "" : key,
           count
         }
@@ -120,18 +127,14 @@ export default {
 
       if (this.selected.length > 0) {
         if (action == "delete") {
-          if (
-            confirm(
-              "Are you sure? This will permanently delete the selected posts."
-            )
-          ) {
-            await this.$post.deleteMany({
+          if (confirm("Are you sure? This will permanently delete the selected posts.")) {
+            await requestPostDeleteMany({
               _ids: this.selected,
               postType: this.postType
             })
           }
         } else {
-          await this.$post.saveMany({
+          await requestPostSaveMany({
             _ids: this.selected,
             data: { status: action },
             postType: this.postType
@@ -143,14 +146,9 @@ export default {
       this.loadingAction = false
     },
     postlink(postType, permalink) {
-      return this.$post.getPermalink({ postType, permalink })
+      return getPermalink({ postType, permalink })
     },
 
-    async trashPost(id, index) {
-      await this.$post.trashPost({ id })
-
-      this.posts.splice(index, 1)
-    },
     setDefault() {
       return true
     },

@@ -15,9 +15,10 @@
 </template>
 
 <script>
+import { requestPostById } from "@factor/post"
 export default {
   props: {
-    postId: { type: String, required: true },
+    postId: { type: String, required: true }
   },
   data: () => {
     return {
@@ -27,7 +28,7 @@ export default {
   computed: {
     post() {
       return this.$store.val(this.postId) || {}
-    },
+    }
     // TODO: Fix - Requires population to work!
     // comments() {
     //   return this.post.commentizerComments
@@ -37,9 +38,9 @@ export default {
     // TODO: Fix - Manually populate comments
     this.comments = await Promise.all(
       this.post.commentizerComments.map(async id => {
-        return await this.$post.getPostById({ postType: "commentizer", _id: id })
+        return await requestPostById({ postType: "commentizer", _id: id })
       })
     )
-  },
+  }
 }
 </script>

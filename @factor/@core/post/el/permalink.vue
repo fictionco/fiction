@@ -1,11 +1,8 @@
 <template>
   <div class="permalink" @click.stop>
     <div class="linky">
-      <factor-link
-        class="linky-link"
-        :path="value ? $post.getPermalink({ postType, permalink }) : ''"
-      >
-        <span class="root">{{ $post.getPermalink({ postType }) }}</span>
+      <factor-link class="linky-link" :path="value ? getPermalink({ postType, permalink }) : ''">
+        <span class="root">{{ getPermalink({ postType }) }}</span>
         <span v-if="!toggleValue" class="permalink-value">
           <span class="val">{{ permalink }}</span>
         </span>
@@ -22,6 +19,7 @@
   </div>
 </template>
 <script>
+import { getPermalink } from "@factor/post"
 export default {
   props: {
     value: { type: String, default: "" },
@@ -70,6 +68,7 @@ export default {
     })
   },
   methods: {
+    getPermalink,
     emit(v) {
       this.$emit("input", this.$utils.slugify(v))
     },

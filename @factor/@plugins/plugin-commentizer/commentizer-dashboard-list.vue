@@ -1,27 +1,26 @@
 <template>
   <div>
     <dashboard-grid-controls>
-      <dashboard-grid-actions :actions="controlActions" :loading="sending" @action="handleAction($event)" />
+      <dashboard-grid-actions
+        :actions="controlActions"
+        :loading="sending"
+        @action="handleAction($event)"
+      />
       <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
     </dashboard-grid-controls>
 
     <dashboard-grid :structure="grid()" :rows="comments" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id">
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
       </template>
-      <template #comment="{row}">
-        {{ row.content }}
-      </template>
-      <template #name="{row}">
-        {{ row.name }}
-      </template>
-      <template #email="{row}">
-        {{ row.email }}
-      </template>
+      <template #comment="{row}">{{ row.content }}</template>
+      <template #name="{row}">{{ row.name }}</template>
+      <template #email="{row}">{{ row.email }}</template>
     </dashboard-grid>
   </div>
 </template>
 <script>
+import { getPermalink } from "@factor/post"
 export default {
   props: {
     postId: { type: String, required: true },
@@ -51,9 +50,9 @@ export default {
     tabs() {
       return [`all`, `trash`].map(key => {
         const count =
-          key == "all" ?
-          this.meta.total :
-          this.$post.getStatusCount({ meta: this.meta, key })
+          key == "all"
+            ? this.meta.total
+            : this.$post.getStatusCount({ meta: this.meta, key })
 
         return {
           name: this.$utils.toLabel(key),
@@ -64,7 +63,11 @@ export default {
     },
     controlActions() {
       return [
-        { value: "trash", name: "Move to Trash", condition: query => query.status != "trash" },
+        {
+          value: "trash",
+          name: "Move to Trash",
+          condition: query => query.status != "trash"
+        },
         { value: "delete", name: "Permanently Delete" }
       ].filter(_ => {
         return _.value != this.$route.query.status
@@ -90,25 +93,19 @@ export default {
       this.selected = !val ? [] : this.comments.map(_ => _._id)
     },
     fields(item, type) {
-      const {
-        _id,
-        createdAt,
-        content,
-        email,
-        name,
-        ...rest
-      } = item
+      const { _id, createdAt, content, email, name, ...rest } = item
       return Object.entries(rest).filter(([key, value]) => value)
     },
     postlink(postType, permalink, root = true) {
-      return this.$post.getPermalink({
+      return getPermalink({
         postType,
         permalink,
         root
       })
     },
     grid() {
-      return [{
+      return [
+        {
           _id: "select",
           width: "40px"
         },

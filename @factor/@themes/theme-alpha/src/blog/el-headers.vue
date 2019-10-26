@@ -1,12 +1,13 @@
 <template>
   <div :class="formatClass">
     <h1 class="entry-title">
-      <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 v-if="scope != 'index'" class="entry-sub-title">{{ post.subTitle }}</h3>
   </div>
 </template>
 <script>
+import { link } from "@factor/post"
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -17,12 +18,13 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     formatClass() {
-      const f = this.scope
-        ? "entry-headers"
-        : "entry-headers single-entry-headers"
+      const f = this.scope ? "entry-headers" : "entry-headers single-entry-headers"
 
       return f
     }
+  },
+  methods: {
+    link
   }
 }
 </script>
