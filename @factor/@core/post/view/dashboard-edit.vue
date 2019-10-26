@@ -8,7 +8,7 @@
   </component>
 </template>
 <script>
-import { requestPostSingle } from "@factor/post"
+import { requestPostSingle, postTypeMeta } from "@factor/post"
 export default {
   computed: {
     post: {
@@ -26,7 +26,7 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeMeta() {
-      return this.$post.postTypeMeta(this.postType)
+      return postTypeMeta(this.postType)
     },
     templateLoader() {
       const { editTemplate } = this.postTypeMeta

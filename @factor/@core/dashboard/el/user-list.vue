@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import { requestPostList } from "@factor/post"
 export default {
   props: {
     customValidity: { type: String, default: "" },
@@ -50,7 +51,7 @@ export default {
   },
 
   async mounted() {
-    const posts = await this.$post.getList({
+    const posts = await requestPostList({
       postType: "user",
       conditions: { accessLevel: { $gt: 99 } },
       options: { limit: 100 }
