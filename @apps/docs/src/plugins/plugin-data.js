@@ -15,24 +15,45 @@ export default () => {
     }
 
     async getSingle(slug) {
-      // let ghToken = process.env.GITHUB_TOKEN
+      let githubToken = process.env.GITHUB_TOKEN
 
-      const results = await Promise.all([
-        axios.get(`https://registry.npmjs.org/${slug}`),
-        axios.get(`https://api.npmjs.org/downloads/point/last-month/${slug}`)
-        // axios.get("https://api.github.com/repos/fiction-com/factor/", {
-        //   headers: {
-        //     Authorization: `"Bearer ` + ghToken + `"`, //the token is a variable which holds the token
-        //     "Content-Type": "application/json"
-        //   }
-        // })
-      ])
+      let cleanSlug = slug.replace("@factor/", "")
 
-      const allData = deepMerge(results.map(r => r.data))
+      const requests = [
+        {
+          _id: "npmData",
+          url: `https://registry.npmjs.org/${slug}`
+        },
+        {
+          _id: "npmDownloads",
+          url: `https://api.npmjs.org/downloads/point/last-month/${slug}`
+        },
+        {
+          _id: "github",
+          url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@plugins/${cleanSlug}`,
+          options: {
+            headers: {
+              Authorization: `Bearer ${githubToken}`, //the token is a variable which holds the token
+              "Content-Type": "application/json"
+            }
+          }
+        }
+      ]
 
-      //return { myData: allData }
+      const results = await Promise.all(
+        requests.map(async ({ url, options = {} }) => {
+          return await axios.get(url, options)
+        })
+      )
 
-      return allData
+      const merged = deepMerge(
+        results.map((result, index) => {
+          const _id = requests[index]._id
+          return Array.isArray(result.data) ? { [_id]: result.data } : result.data
+        })
+      )
+
+      return merged
     }
 
     async getReadme(slug) {

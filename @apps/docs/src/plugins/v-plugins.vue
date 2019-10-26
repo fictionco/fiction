@@ -15,7 +15,9 @@
             <h1 class="title">Featured</h1>
           </header>
           <div v-for="(entry, index) in pluginsFeatured" :key="index" class="entry-plugin">
-            <div class="entry-image">icon.svg</div>
+            <div v-if="pluginIcon(entry.github)" class="entry-image">
+              <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+            </div>
 
             <div class="entry-content">
               <h3 class="title">
@@ -66,7 +68,9 @@
             <h1 class="title">All</h1>
           </header>
           <div v-for="(entry, index) in getData" :key="index" class="entry-plugin">
-            <div class="entry-image">icon.svg</div>
+            <div v-if="pluginIcon(entry.github)" class="entry-image">
+              <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+            </div>
 
             <div class="entry-content">
               <h3 class="title">
@@ -95,7 +99,9 @@
               <h1 class="title">Popular</h1>
             </header>
             <div v-for="(entry, index) in pluginsPopular" :key="index" class="entry-plugin">
-              <div class="entry-image">icon</div>
+              <div v-if="pluginIcon(entry.github)" class="entry-image">
+                <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+              </div>
 
               <div class="entry-content">
                 <h3 class="title">
@@ -113,7 +119,9 @@
               <h1 class="title">New</h1>
             </header>
             <div v-for="(entry, index) in pluginsNew" :key="index" class="entry-plugin">
-              <div class="entry-image">icon</div>
+              <div v-if="pluginIcon(entry.github)" class="entry-image">
+                <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+              </div>
 
               <div class="entry-content">
                 <h3 class="title">
@@ -134,8 +142,9 @@
               <h1 class="title">Recently Updated</h1>
             </header>
             <div v-for="(entry, index) in pluginsRecentlyUpdated" :key="index" class="entry-plugin">
-              <div class="entry-image">icon</div>
-
+              <div v-if="pluginIcon(entry.github)" class="entry-image">
+                <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+              </div>
               <div class="entry-content">
                 <h3 class="title">
                   <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry.name) }}</factor-link>
@@ -244,46 +253,23 @@ export default {
       }
 
       return dt + " " + month + " " + year
+    },
+    pluginIcon(entry) {
+      //const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
+      const imagePattern = `icon.svg`
+
+      let images = []
+
+      if (entry) {
+        images = entry
+          .filter(image => !!image.path.match(imagePattern))
+          .map(image => {
+            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+          })
+      }
+
+      return images[0]
     }
-
-    // pluginIcon(value) {
-    //   const URL = require("url")
-    //   const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
-    //   const branch = "master"
-
-    //   const url = URL.format({
-    //     protocol: "https:",
-    //     hostname: "api.github.com",
-    //     pathname: `repos/fiction-com/${value}/git/trees/${branch}`,
-    //     query: {
-    //       recursive: "1"
-    //     }
-    //   })
-
-    //   github(url, opts)
-    //     .then(response => {
-    //       var images = []
-    //       console.log(response.body.tree)
-    //       if (response && response.body && response.body.tree) {
-    //         images = response.body.tree
-    //           .filter(image => !!image.path.match(imagePattern))
-    //           .map(image => {
-    //             image.rawgit = URL.format({
-    //               protocol: "https:",
-    //               hostname: "cdn.rawgit.com",
-    //               pathname: `${value}/${branch}/${image.path}`
-    //             })
-    //             return image
-    //           })
-    //       }
-    //       return callback(null, images)
-    //     })
-    //     .catch(error => {
-    //       return callback(error)
-    //     })
-
-    //   return url
-    // }
   },
   metaInfo() {
     return {
@@ -573,6 +559,8 @@ export default {
       transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       position: relative;
       .entry-image {
+        display: flex;
+        justify-content: center;
         height: 30px;
         width: 30px;
         border-radius: 50%;
@@ -581,7 +569,7 @@ export default {
         transform-origin: right top;
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
         img {
-          max-width: 70%;
+          max-width: 60%;
         }
       }
       .entry-content {
