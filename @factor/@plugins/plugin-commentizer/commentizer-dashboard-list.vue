@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import { getPermalink } from "@factor/post"
+import { getPermalink, getStatusCount, requestPostById } from "@factor/post"
 export default {
   props: {
     postId: { type: String, required: true },
@@ -50,9 +50,7 @@ export default {
     tabs() {
       return [`all`, `trash`].map(key => {
         const count =
-          key == "all"
-            ? this.meta.total
-            : this.$post.getStatusCount({ meta: this.meta, key })
+          key == "all" ? this.meta.total : getStatusCount({ meta: this.meta, key })
 
         return {
           name: this.$utils.toLabel(key),
@@ -78,7 +76,7 @@ export default {
     // TODO: Fix - Manually populate comments
     this.comments = await Promise.all(
       this.post.commentizerComments.map(async id => {
-        return await this.$post.getPostById({ postType: "commentizer", _id: id })
+        return await requestPostById({ postType: "commentizer", _id: id })
       })
     )
   },

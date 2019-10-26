@@ -13,7 +13,13 @@
   </dashboard-page>
 </template>
 <script>
-import { requestPostIndex, getPermalink, postTypeMeta } from "@factor/post"
+import {
+  requestPostIndex,
+  getPermalink,
+  postTypeMeta,
+  requestPostDeleteMany,
+  requestPostSaveMany
+} from "@factor/post"
 
 export default {
   data() {
@@ -84,13 +90,13 @@ export default {
       if (selected.length > 0) {
         if (action == "delete") {
           if (confirm("Are you sure? This will permanently delete the selected posts.")) {
-            await this.$post.deleteMany({
+            await requestPostDeleteMany({
               _ids: selected,
               postType: this.postType
             })
           }
         } else {
-          await this.$post.saveMany({
+          await requestPostSaveMany({
             _ids: selected,
             data: { status: action },
             postType: this.postType

@@ -1,5 +1,5 @@
 import { addFilter, addCallback } from "@factor/filters/util"
-import { prefetchPost } from "./app"
+import { prefetchPost } from "@factor/post"
 
 addCallback("site-prefetch", _ => prefetchPost(_))
 addCallback("client-route-before", _ => prefetchPost({ clientOnly: true, ..._ }))
