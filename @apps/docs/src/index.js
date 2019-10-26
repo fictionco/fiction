@@ -110,20 +110,14 @@ export default Factor => {
           {
             path: `/pluginsnew`,
             component: () => import("./plugins/plugins-wrap"),
-            //path: Factor.$setting.get("plugins.indexRoute"),
-            //component: Factor.$setting.get("plugins.layout.wrap")
             children: [
               {
                 path: `/`,
                 component: () => import("./plugins/v-plugins")
-                //path: Factor.$setting.get("plugins.indexRoute"),
-                //component: Factor.$setting.get("plugins.layout.index")
               },
               {
                 path: `/plugin/:slug`,
                 component: () => import("./plugins/plugin-single")
-                //path: `${Factor.$setting.get("plugins.postRoute")}/:permalink`,
-                //component: Factor.$setting.get("plugins.layout.single")
               }
             ]
           }
