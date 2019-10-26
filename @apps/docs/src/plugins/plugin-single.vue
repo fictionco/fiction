@@ -5,6 +5,9 @@
     </div>
     <div v-else>
       <section v-for="(entry, index) in getData" :key="index">
+        <!-- <pre>
+        {{ entry }}
+        </pre>-->
         <widget-header :image="`icon-jobs.svg`" :title="entry.name">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
@@ -23,14 +26,15 @@
         <div class="plugins-wrap content-pad">
           <div class="content">
             <factor-link class="back" :path="`/pluginsnew`">
-              <!-- $setting.get('plugins.indexRoute') -->
               <factor-icon icon="arrow-left" />
               <span>All Plugins</span>
             </factor-link>
-            <ul>
-              <li>– screenshots</li>
-            </ul>
-            <plugin-entry :text="getReadme(entry.readme)" class="plugin-content" />
+            <!-- <div v-if="entry.screenshots" class="plugin-images">
+          <div v-for="(image, i) in entry.screenshots" :key="i" class="image-item">
+            <div :style="styleImageBG(image)" class="image-item-content"></div>
+          </div>
+            </div>-->
+            <plugin-entry :text="getContent(entry.readme)" class="plugin-content" />
           </div>
 
           <div class="sidebar">Sidebar</div>
@@ -80,10 +84,11 @@ export default {
   //   }
   // },
   async mounted() {
-    console.log("VALLL", this.$store.val("plugins-index"))
+    //console.log("VALLL", this.$store.val("plugins-index"))
 
-    const data = this.$store.val("plugins-index")
-    this.getData = data
+    const theData = this.$store.val("plugins-index")
+
+    this.getData = theData
 
     //console.log("VALLL", this.getData)
 
@@ -94,7 +99,12 @@ export default {
     this.loading = false
   },
   methods: {
-    getReadme(value) {
+    // styleImageBG(img) {
+    //   const { url } = img
+
+    //   return url ? { backgroundImage: `url(${url})` } : {}
+    // },
+    getContent(value) {
       let markdownContent = value
 
       return markdownContent
