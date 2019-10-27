@@ -1,16 +1,15 @@
-import Factor from "@factor/core"
 import { objectIdType } from "@factor/post/util"
-
+import { applyFilters } from "@factor/filters/util"
 export default () => {
   return {
     name: "post",
     options: { timestamps: true },
-    populatedFields: Factor.$filters.apply("post-populated-fields", [
+    populatedFields: applyFilters("post-populated-fields", [
       { field: "author", depth: 10 },
       { field: "images", depth: 30 },
       { field: "avatar", depth: 3 }
     ]),
-    schema: Factor.$filters.apply("post-schema", {
+    schema: applyFilters("post-schema", {
       date: Date,
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
