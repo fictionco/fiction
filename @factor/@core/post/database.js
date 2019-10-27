@@ -1,16 +1,7 @@
 import mongoose from "mongoose"
-import dbConnector from "./db-connection"
-import addSetupCli from "./db-setup-cli"
 import { getAddedSchemas } from "./util"
-import Factor from "@factor/core"
-import { addCallback } from "@factor/filters/util"
-export default class FactorDB {
-  constructor() {
-    addSetupCli()
-    dbConnector()
-    addCallback("initialize-server", () => this.initialize())
-  }
-
+import log from "@factor/logger"
+export class FactorDB {
   // Must be non-async so we can use chaining
   model(name) {
     // If model doesnt exist, create a vanilla one
@@ -23,7 +14,8 @@ export default class FactorDB {
     return this.__schemas[name] || null
   }
 
-  initialize() {
+  async initialize() {
+    await this.dbConnect()
     if (process.env.FACTOR_DEBUG) mongoose.set("debug", true)
     mongoose.plugin(require("mongoose-beautiful-unique-validation"))
     this.initializeModels()
@@ -73,4 +65,35 @@ export default class FactorDB {
 
     return { schema: _schema_, model: _model_ }
   }
+
+  async dbDisconnect() {
+    if (this.isConnected()) {
+      await mongoose.connection.close()
+    }
+  }
+
+  async dbConnect() {
+    if (!this.isConnected()) {
+      try {
+        const connectionString =
+          process.env.DB_CONNECTION_TEST || process.env.DB_CONNECTION
+
+        return await mongoose.connect(connectionString, { useNewUrlParser: true })
+      } catch (error) {
+        log.error(error)
+      }
+    }
+  }
+
+  isConnected() {
+    return ["connected", "connecting"].includes(this.dbReadyState())
+  }
+
+  dbReadyState() {
+    const states = ["disconnected", "connected", "connecting", "disconnecting"]
+
+    return states[mongoose.connection.readyState]
+  }
 }
+
+export const $DB = new FactorDB()

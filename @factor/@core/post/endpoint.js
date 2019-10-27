@@ -3,7 +3,7 @@ import { canUpdatePost } from "./util"
 import { getModel } from "./server"
 import { addCallback } from "@factor/filters/util"
 
-export default class PostEndpoint {
+export class PostServer {
   constructor() {
     addCallback("endpoints", { id: "posts", handler: this })
   }
@@ -187,3 +187,5 @@ export default class PostEndpoint {
     return _out
   }
 }
+
+export const $PostServer = new PostServer()
