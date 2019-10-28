@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import FactorRouter from "vue-router"
 import qs from "qs"
-import { emitEvent } from "@factor/tools"
+import { emitEvent, applyFilters } from "@factor/tools"
 Factor.use(FactorRouter)
 
 export default () => {
@@ -13,7 +13,7 @@ export default () => {
     // Scroll: https://router.vuejs.org/guide/advanced/scroll-behavior.html#async-scrolling
     // Query: set custom query resolver that allows for objects in GET requests
     create() {
-      const routes = Factor.$filters.apply("routes", []).filter(_ => _) // remove undefined
+      const routes = applyFilters("routes", []).filter(_ => _) // remove undefined
 
       const router = new FactorRouter({
         routes,
@@ -55,7 +55,7 @@ export default () => {
     clientRouterAfter(to, from) {
       this.initialPageLoad = false
       emitEvent("ssr-progress", "finish")
-      Factor.$filters.apply("client-route-after", [], { to, from })
+      applyFilters("client-route-after", [], { to, from })
 
       const { query } = to
 

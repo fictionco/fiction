@@ -1,5 +1,5 @@
 import { objectIdType } from "@factor/post/util"
-import { validator } from "@factor/tools"
+import { validator, applyFilters } from "@factor/tools"
 export default Factor => {
   return {
     name: "user",
@@ -29,9 +29,9 @@ export default Factor => {
         next()
       })
 
-      Factor.$filters.apply("user-schema-hooks", _s)
+      applyFilters("user-schema-hooks", _s)
     },
-    schema: Factor.$filters.apply("user-schema", {
+    schema: applyFilters("user-schema", {
       signedInAt: Date,
       username: {
         type: String,

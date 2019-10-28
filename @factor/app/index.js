@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { onEvent } from "@factor/tools"
+import { onEvent, applyFilters } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -61,7 +61,7 @@ export default () => {
         _.push({
           path: "*",
           component: content,
-          children: Factor.$filters.apply("content-routes-unmatched", [
+          children: applyFilters("content-routes-unmatched", [
             {
               name: "notFound",
               path: "*",

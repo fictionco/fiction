@@ -1,5 +1,5 @@
 import { getModel } from "@factor/post/server"
-import { randomToken, emitEvent } from "@factor/tools"
+import { randomToken, emitEvent, applyFilters } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -17,7 +17,7 @@ export default Factor => {
     // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
     async addEmail({ email, listId = "default", tags = [] }) {
       // Allow for external services to hook in
-      email = Factor.$filters.apply(`plugin-email-list-add-${listId}`, email)
+      email = applyFilters(`plugin-email-list-add-${listId}`, email)
 
       const code = randomToken()
 

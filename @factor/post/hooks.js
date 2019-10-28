@@ -1,5 +1,6 @@
 import { addFilter, addCallback } from "@factor/filters/util"
 import { prefetchPost } from "@factor/post"
+import { applyFilters } from "@factor/tools"
 
 addCallback("site-prefetch", _ => prefetchPost(_))
 addCallback("client-route-before", _ => prefetchPost({ clientOnly: true, ..._ }))
@@ -64,7 +65,7 @@ addFilter("admin-menu", _ => {
         path: `posts/${postType}`,
         name: namePlural || toLabel(postType),
         icon,
-        items: Factor.$filters.apply(`admin-menu-post-${postType}`, subMenu)
+        items: applyFilters(`admin-menu-post-${postType}`, subMenu)
       })
     })
 
