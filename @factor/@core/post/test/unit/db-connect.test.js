@@ -1,15 +1,11 @@
 import Factor from "@factor/core"
-import extendApp from "@factor/extend"
-import connectorUtility from "../../db-connection"
+
 import mongoose from "mongoose"
-import * as filters from "@factor/filters/util"
-import * as errors from "@factor/logger/util"
-import { dbConnect, dbDisconnect } from "../../server"
 
 jest.mock("mongoose")
 
 let connector
-describe("db-connect", () => {
+describe.skip("db-connect", () => {
   beforeAll(async () => {
     await extendApp().extend()
   })

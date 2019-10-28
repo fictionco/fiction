@@ -1,39 +1,39 @@
 import Factor from "@factor/core"
-import extender from "@factor/extend/server"
-import DB from "../../db"
+
+import { $DB, FactorDB } from "../../database"
 import mongoose from "mongoose"
 import { getModel } from "../../server"
 import { dirname } from "path"
 
+mongoose.connection = {
+  readyState: 0, // disconnected
+  close: jest.fn(() => Promise.resolve())
+}
+
 let db
 describe("db-utility", () => {
   beforeAll(async () => {
-    process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
-    await extender().extend()
+    db = new FactorDB()
   })
 
-  it.skip("debug mode", async () => {
-    process.env.FACTOR_DEBUG = true
-
-    const s = jest.spyOn(mongoose, "set")
-
-    db = dbUtility()
-
-    expect(s).toHaveBeenCalledWith("debug", true)
+  it("creates singleton", () => {
+    expect($DB).toBeInstanceOf(FactorDB)
   })
 
-  it("loads models", async () => {
-    const _s = jest.spyOn(Factor.$filters, "callback")
+  it("initializes DB", async () => {
+    await db.initialize()
 
-    expect(_s).toHaveBeenCalledWith("initialize-server", expect.any(Function))
-
-    await Factor.$filters.run("initialize-server")
-
-    expect(DB.__schemas.post).toBeTruthy()
-    expect(DB.__models.post).toBeTruthy()
-
-    const postModel = DB.model("post")
-
-    expect(postModel).toBe(getModel("post"))
+    expect(mongoose.connect).toHaveBeenCalled()
   })
+
+  // it("loads models", async () => {
+  //   expect(db.__schemas.post).toBeTruthy()
+  //   expect(db.__models.post).toBeTruthy()
+  // })
+
+  // it("getModel()", () => {
+  //   const postModel = db.model("post")
+
+  //   expect(postModel).toBe(getModel("post"))
+  // })
 })
