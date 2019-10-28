@@ -16,12 +16,6 @@ export default () => {
       const { loadPlugins = true, restart = false } = _arguments || {}
       process.env.FACTOR_TARGET = "server"
 
-      const core = {
-        configServer: () => import("@factor/config/server")
-      }
-
-      await importPlugins(core)
-
       if (loadPlugins !== false) {
         await this.loadPlugins()
 

@@ -125,7 +125,7 @@ export default () => {
     }
 
     async startServerDevelopment() {
-      const { middleware } = applyFilters("development-server", bundled => {
+      const { middleware } = await applyFilters("development-server", bundled => {
         const { bundle, template, clientManifest } = bundled
         this.renderer = this.createRenderer(bundle, { template, clientManifest })
 

@@ -26,22 +26,23 @@ export default () => {
     }
 
     async buildProduction(_arguments = {}) {
+      const config = await this.getConfig({ ..._arguments, target })
       return await Promise.all(
         ["server", "client"].map(target =>
           enhancedBuild({
-            config: this.getConfig({ ..._arguments, target }),
+            config,
             name: target
           })
         )
       )
     }
 
-    getConfig(_arguments) {
+    async getConfig(_arguments) {
       const { NODE_ENV } = process.env
 
       let { target, analyze = false, testing = false } = _arguments
 
-      const baseConfig = this.base({ target })
+      const baseConfig = await this.base({ target })
 
       const buildConfig =
         NODE_ENV == "production" ? this.production() : this.development()
@@ -136,7 +137,7 @@ export default () => {
       }
     }
 
-    base(_arguments) {
+    async base(_arguments) {
       const { target } = _arguments
       const out = {
         output: {
@@ -184,7 +185,7 @@ export default () => {
           new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
           new VueLoaderPlugin(),
           new webpack.DefinePlugin(
-            applyFilters("webpack-define", {
+            await applyFilters("webpack-define", {
               "process.env.FACTOR_SSR": JSON.stringify(target),
               "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
               "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),

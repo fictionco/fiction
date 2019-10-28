@@ -18,7 +18,10 @@ export class FactorPaths {
   }
 
   CWD() {
-    return process.env.FACTOR_CWD || process.cwd()
+    if (!process.env.FACTOR_CWD) {
+      throw new Error("FACTOR_CWD is needed for 'paths'")
+    }
+    return process.env.FACTOR_CWD
   }
 
   get(key) {

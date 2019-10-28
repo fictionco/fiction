@@ -15,9 +15,6 @@ export default (options = {}) =>
       })
 
       await importPlugins({
-        paths: () => import("@factor/paths"),
-        config: () => import("@factor/config"),
-        setting: () => import("@factor/settings"),
         __router: () => import("@factor/app/router"),
         __store: () => import("@factor/app/store")
       })
