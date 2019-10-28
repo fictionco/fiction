@@ -8,7 +8,7 @@ export * from "./time"
 export { default as isNode } from "detect-node"
 export { default as guid } from "uniqid"
 export { default as validator } from "validator"
-export { default as DOM } from "cash-dom"
+export { default as DOM } from "jquery"
 
 export const events = new Factor()
 

@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { sortPriority, uniqueObjectHash } from "@factor/tools/utils"
+import { sortPriority, uniqueObjectHash } from "@factor/tools"
 
 // Singleton
 if (!Factor.$filters) {

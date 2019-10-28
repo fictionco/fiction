@@ -1,5 +1,5 @@
 import { link } from "@factor/post"
-import { excerpt } from "@factor/tools/utils"
+import { excerpt } from "@factor/tools"
 
 export function titleTag(_id) {
   const { titleTag, title } = Factor.$store.val(_id) || {}

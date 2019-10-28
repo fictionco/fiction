@@ -2,6 +2,7 @@ import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import { createApp } from "../../app"
 import { waitFor } from "@test/utils"
+import * as tools from "@factor/tools"
 
 describe("app", () => {
   beforeAll(async () => {
@@ -25,7 +26,7 @@ describe("app", () => {
   })
 
   it("mounts app wrapper", async () => {
-    const spy = jest.spyOn(Factor.$events, "$emit")
+    const spy = jest.spyOn(tools, "emitEvent")
 
     const { app, router } = await createApp({ extend: false })
 

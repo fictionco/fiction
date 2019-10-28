@@ -6,7 +6,7 @@ import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import { waitFor } from "@test/utils"
 import FactorRouter from "@factor/app/router"
-import { emitEvent } from "@factor/tools"
+import * as tools from "@factor/tools"
 describe("router", () => {
   beforeAll(async () => {
     await extendApp().extend()
@@ -19,8 +19,8 @@ describe("router", () => {
 
   it("loads hooks/filters", async () => {
     const spies = {
-      ssrProgress: jest.spyOn(Factor.$events, "$emit"),
-      action: jest.spyOn(Factor.$filters, "run")
+      action: jest.spyOn(Factor.$filters, "run"),
+      emitEvent: jest.spyOn(tools, "emitEvent")
     }
     process.env.FACTOR_SSR = "client"
     const router = FactorRouter(Factor).create()
@@ -33,8 +33,8 @@ describe("router", () => {
 
     await waitFor(20)
 
-    expect(spies.ssrProgress).toHaveBeenCalledWith("ssr-progress", "start")
-    expect(spies.ssrProgress).toHaveBeenCalledWith("ssr-progress", "finish")
+    expect(spies.emitEvent).toHaveBeenCalledWith("ssr-progress", "start")
+    expect(spies.emitEvent).toHaveBeenCalledWith("ssr-progress", "finish")
 
     const q = "/s?_action=example"
     router.push(q)
