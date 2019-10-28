@@ -4,11 +4,8 @@
       <factor-loading-ring />
     </div>
     <div v-else>
-      <section v-for="(entry, index) in getData" :key="index">
-        <!-- <pre>
-        {{ entry }}
-        </pre>-->
-        <widget-header :image="`icon-jobs.svg`" :title="entry.name">
+      <section v-for="(entry, index) in pluginData" :key="index">
+        <widget-header :image="`icon-jobs.svg`" :title="formatName(entry.name)">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -61,28 +58,19 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await dataUtility().getReadme("@factor/" + this.$route.params.slug)
+    const data = await dataUtility().getIndex()
 
     this.$store.add("plugins-index", data)
   },
-  // computed: {
-  //   returnLinkText() {
-  //     return this.$setting.get("plugins.returnLinkText") || "All Plugins Here"
-  //   }
-  //   pluginData: function() {
-  //     let pageSlug = this.$route.params.slug
-  //     return _.pickBy(this.getData, function(u) {
-  //       let name = u.name.replace("@factor/", "")
-  //       return name === pageSlug || ""
-  //     })
-  //   }
-  //   pluginName() {
-  //     return _.pickBy(this.getData, function(u) {
-  //       let name = u.name.replace(/(?:^|[\s\-\_\.])/g, " ")
-  //       return name.replace("@factor/", "") || ""
-  //     })
-  //   }
-  // },
+  computed: {
+    pluginData: function() {
+      let pageSlug = this.$route.params.slug
+      return _.pickBy(this.getData, function(u) {
+        let name = u.name.replace("@factor/", "")
+        return name === pageSlug || ""
+      })
+    }
+  },
   async mounted() {
     //console.log("VALLL", this.$store.val("plugins-index"))
 
@@ -90,15 +78,18 @@ export default {
 
     this.getData = theData
 
-    //console.log("VALLL", this.getData)
-
-    //this.getData = data
-    //   const data = await dataUtility().getReadme()
-    // require("../prism/prism.js")
-    // this.prism = window.Prism
+    require("../prism/prism.js")
+    this.prism = window.Prism
     this.loading = false
   },
   methods: {
+    formatName(name) {
+      // Replace dashes with spaces to entry name
+      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+
+      // Return entry name without @factor text
+      return spacedName.replace("@factor/", "")
+    },
     // styleImageBG(img) {
     //   const { url } = img
 
