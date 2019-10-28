@@ -7,7 +7,7 @@ const destroyer = require("server-destroy")
 const { readFileSync } = require("fs-extra")
 const { createBundleRenderer } = require("vue-server-renderer")
 import Factor from "@factor/core"
-import { getPath } from "@factor/paths/util"
+import { getPath } from "@factor/paths"
 import { addCallback, runCallbacks, applyFilters } from "@factor/tools"
 import log from "@factor/logger"
 export default () => {
@@ -225,7 +225,7 @@ export default () => {
     }
 
     localListenRoutine(server) {
-      const { routine, certConfig } = Factor.$paths.getHttpDetails()
+      const { routine, certConfig } = getPathHttpDetails()
       return routine == "https"
         ? require("https").createServer(certConfig, server)
         : server

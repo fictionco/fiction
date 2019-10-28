@@ -2,6 +2,7 @@ import glob from "glob"
 import fs from "fs-extra"
 import { dirname, resolve } from "path"
 import { addFilter } from "@factor/tools"
+import { getPath } from "@factor/paths"
 import { getExtensions } from "@factor/build/util"
 import Factor from "@factor/core"
 export default () => {
@@ -13,7 +14,7 @@ export default () => {
         const p =
           this.themes.length > 0
             ? dirname(require.resolve(this.themes[0].name))
-            : Factor.$paths.get("source")
+            : getPath("source")
 
         return { ..._, "@theme": p }
       })
@@ -55,9 +56,7 @@ export default () => {
 
     handleAsOverride(resource) {
       //const inApp = this.findInDirectory({ directory: src, fileName })
-      const inApp = this._fileExists(
-        resource.request.replace("#", Factor.$paths.get("source"))
-      )
+      const inApp = this._fileExists(resource.request.replace("#", getPath("source")))
       let filePath = ""
       if (inApp) {
         filePath = inApp
@@ -82,7 +81,7 @@ export default () => {
           )
 
           const fallbackPath = this._fileExists(
-            resource.request.replace("#", Factor.$paths.get("coreApp"))
+            resource.request.replace("#", getPath("coreApp"))
           )
 
           if (relPath) filePath = relPath

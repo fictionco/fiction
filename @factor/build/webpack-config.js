@@ -1,5 +1,6 @@
 import Factor from "@factor/core"
 import webpack from "webpack"
+import { getPath } from "@factor/paths"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { applyFilters, addCallback, addFilter } from "@factor/tools"
 const merge = require("webpack-merge")
@@ -81,7 +82,7 @@ export default () => {
     }
 
     server() {
-      const entry = Factor.$paths.get("entry-server")
+      const entry = getPath("entry-server")
 
       const filename = "factor-server.json"
       return {
@@ -101,7 +102,7 @@ export default () => {
     }
 
     client() {
-      const app = Factor.$paths.get("entry-client")
+      const app = getPath("entry-client")
       const filename = "factor-client.json"
       return {
         entry: { app },
@@ -127,7 +128,7 @@ export default () => {
     }
 
     development() {
-      const publicPath = Factor.$paths.get("dist")
+      const publicPath = getPath("dist")
       return {
         mode: "development",
         output: { publicPath },
@@ -139,7 +140,7 @@ export default () => {
       const { target } = _arguments
       const out = {
         output: {
-          path: Factor.$paths.get("dist"),
+          path: getPath("dist"),
           filename: "js/[name].[chunkhash].js"
         },
         resolve: {
