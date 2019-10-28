@@ -2,19 +2,7 @@ import Factor from "@factor/core"
 
 // Import plugins and assure load order
 export async function importPlugins(plugins) {
-  const _modules = await Promise.all(
-    Object.keys(plugins).map(async key => {
-      let _exports
-      try {
-        _exports = await plugins[key]()
-      } catch (error) {
-        error.message = `Importing "${key}": ${error.message}`
-        throw new Error(error)
-      }
-
-      return { key, _exports }
-    })
-  )
+  const _modules = await getExports(plugins)
 
   for (let { key, _exports } of _modules) {
     const { default: defaultExport, install } = _exports
@@ -41,14 +29,18 @@ export async function importModule(key, importCaller) {
   return await { key, _export }
 }
 
-export async function getExports(importers) {
-  let _exports = {}
+export async function getExports(items) {
+  return await Promise.all(
+    Object.keys(items).map(async key => {
+      let _exports
+      try {
+        _exports = await plugins[key]()
+      } catch (error) {
+        error.message = `Importing "${key}": ${error.message}`
+        throw new Error(error)
+      }
 
-  for (let _key of Object.keys(importers)) {
-    const { _export } = await importModule(_key, importers[_key])
-
-    _exports[_key] = _export
-  }
-
-  return _exports
+      return { key, _exports }
+    })
+  )
 }

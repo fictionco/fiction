@@ -2,15 +2,16 @@ import Factor from "@factor/core"
 import { dotSetting, deepMerge, applyFilters } from "@factor/tools"
 import { getExports } from "@factor/extend/util"
 import { configSettings } from "@factor/tools/config"
-
+import settingsFiles from "~/.factor/loader-settings"
+import coreSettings from "@factor/app/core-settings"
 export class FactorSettings {
   constructor() {
     this.__settings = {}
     this.added = {}
   }
 
-  add(files = {}) {
-    this.added = { ...this.added, ...files }
+  add(settings) {
+    this.added = [...this.added, settings]
     this.load()
   }
 
@@ -18,30 +19,25 @@ export class FactorSettings {
     return this.__settings
   }
 
-  get(key, defaultValue) {
-    return dotSetting({ key, settings: this.__settings }) || defaultValue
+  get(key) {
+    return dotSetting({ key, settings: this.__settings })
   }
 
   async create() {
     this.config = await configSettings()
 
-    const { default: settingsModules } = await import("~/.factor/loader-settings")
-
-    this.settingsExports = await getExports(settingsModules)
+    this.settingsExports = await getExports(settingsFiles).map(({ _exports }) => _exports)
 
     this.load()
   }
 
   async load() {
-    const _objects = Object.values({ ...this.settingsExports, ...this.added }).map(
-      _object => {
-        return typeof _object == "function" ? _object(Factor) : _object
-      }
-    )
+    const settingsArray = applyFilters("factor-settings", [
+      ...this.settingsExports,
+      ...this.added
+    ])
 
-    const settingsArray = applyFilters("factor-settings", _objects)
-
-    const merged = deepMerge([this.config, ...settingsArray])
+    const merged = deepMerge([this.config, coreSettings, ...settingsArray])
 
     this.__settings = applyFilters("merged-factor-settings", merged)
 
@@ -49,4 +45,8 @@ export class FactorSettings {
   }
 }
 
-export default new FactorSettings()
+export const $settings = new FactorSettings()
+
+export function getSetting(key) {
+  return $settings.get(key)
+}
