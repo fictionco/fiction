@@ -32,6 +32,7 @@
   </div>
 </template>
 <script>
+import { toLabel } from "@factor/tools"
 export default {
   components: {
     "dashboard-nav": () => import("./nav"),
@@ -39,7 +40,7 @@ export default {
   },
   metaInfo() {
     const pageName = this.$route.path.split("/").pop()
-    const niceName = this.$utils.toLabel(pageName)
+    const niceName = toLabel(pageName)
     return {
       title: niceName,
       description: `Dashboard`,

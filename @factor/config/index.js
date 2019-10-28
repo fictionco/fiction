@@ -1,4 +1,5 @@
 import Factor from "@factor/core"
+import { dotSetting } from "@factor/tools"
 export default () => {
   return new (class {
     settings() {
@@ -6,7 +7,7 @@ export default () => {
     }
 
     setting(key) {
-      return Factor.$utils.dotSetting({ key, settings: this.settings() })
+      return dotSetting({ key, settings: this.settings() })
     }
   })()
 }

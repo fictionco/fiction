@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 v-text="$setting.get('commentizer.displayText')" />
-    <div v-if="!$lodash.isEmpty(comments)">
+    <div v-if="!isEmpty(comments)">
       <div v-for="(comment, i) in comments" :key="`comment-${i}`">
         <span class="commentizer-content" v-text="comment.content" />
         &mdash;
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { isEmpty } from "@factor/tools"
 import { requestPostById } from "@factor/post"
 export default {
   props: {
@@ -41,6 +42,7 @@ export default {
         return await requestPostById({ postType: "commentizer", _id: id })
       })
     )
-  }
+  },
+  methods: { isEmpty }
 }
 </script>

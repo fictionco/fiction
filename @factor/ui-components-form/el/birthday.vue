@@ -10,7 +10,7 @@
         title="Enter a number between 1 and 12"
         autocomplete="birthday-day"
         v-on="listeners"
-      >
+      />
 
       <div class="sep">-</div>
 
@@ -23,7 +23,7 @@
         title="Enter a number between 1 and 31"
         autocomplete="birthday-month"
         v-on="listeners"
-      >
+      />
 
       <div class="sep">-</div>
 
@@ -36,13 +36,13 @@
         maxlength="4"
         autocomplete="birthday-year"
         v-on="listeners"
-      >
+      />
     </div>
   </div>
 </template>
 <script>
 import { fluidInput } from "../utils"
-
+import { timeUtil } from "@factor/tools"
 export default {
   props: {
     customValidity: { type: String, default: "" },
@@ -101,7 +101,7 @@ export default {
       let bd = ""
 
       if (this.validity) {
-        bd = this.$time.util([this.year, this.month, this.day]).toDate()
+        bd = timeUtil([this.year, this.month, this.day]).toDate()
       }
       this.setValidity()
       return bd
@@ -113,7 +113,7 @@ export default {
       `value`,
       function(v) {
         if (v && v != this.birthday) {
-          const M = this.$time.util(v)
+          const M = timeUtil(v)
 
           this.day = M.date()
           this.monthUser = M.month() + 1

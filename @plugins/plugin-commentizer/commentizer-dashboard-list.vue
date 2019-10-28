@@ -21,6 +21,7 @@
 </template>
 <script>
 import { getPermalink, getStatusCount, requestPostById } from "@factor/post"
+import { toLabel } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, required: true },
@@ -53,7 +54,7 @@ export default {
           key == "all" ? this.meta.total : getStatusCount({ meta: this.meta, key })
 
         return {
-          name: this.$utils.toLabel(key),
+          name: toLabel(key),
           value: key == "all" ? "" : key,
           count
         }

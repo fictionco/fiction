@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { DOM } from "@factor/tools"
 export default {
   props: {
     value: { type: [String, Number], default: "" }
@@ -37,7 +38,7 @@ export default {
 
   methods: {
     setHeight() {
-      const ta = this.$jquery(this.$refs.textarea)
+      const ta = DOM(this.$refs.textarea)
       if (ta.length != 0) {
         const sh = ta.height(0).get(0).scrollHeight
         ta.height(sh)

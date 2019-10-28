@@ -82,12 +82,12 @@
           <div class="user-info">
             <div class="item">
               <div class="label">Logged In</div>
-              <div class="value">{{ $time.niceFormat(post.signedInAt) }}</div>
+              <div class="value">{{ standardDate(post.signedInAt) }}</div>
             </div>
 
             <div class="item">
               <div class="label">Signed up</div>
-              <div class="value">{{ $time.niceFormat(post.createdAt) }}</div>
+              <div class="value">{{ standardDate(post.createdAt) }}</div>
             </div>
           </div>
         </dashboard-pane>
@@ -110,6 +110,7 @@
   </dashboard-page>
 </template>
 <script>
+import { standardDate } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 export default {
   data() {
@@ -142,6 +143,7 @@ export default {
 
   async mounted() {},
   methods: {
+    standardDate,
     async sendVerifyEmail() {
       this.sending = true
       await this.$userEmails.sendVerifyEmail({

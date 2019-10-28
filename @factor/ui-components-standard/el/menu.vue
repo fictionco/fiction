@@ -5,7 +5,7 @@
     </div>
     <div v-if="toggle" class="toggle-content">
       <div
-        v-for="(action, i) in $utils.parseList(list)"
+        v-for="(action, i) in parseList(list)"
         :key="i"
         class="toggle-item"
         :data-test="`menu-${action.value}`"
@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import { DOM, parseList } from "@factor/tools"
 export default {
   props: {
     toggleClass: { type: String, default: "" },
@@ -29,6 +30,7 @@ export default {
     }
   },
   methods: {
+    parseList,
     sendEvent(value) {
       this.$emit("action", value)
       this.toggle = false
@@ -44,7 +46,7 @@ export default {
       }
 
       if (!this.toggle) {
-        this.$jquery("body").click()
+        DOM("body").click()
         this.toggle = true
 
         document.addEventListener("click", this.clickHandler, false)
@@ -68,8 +70,8 @@ export default {
   .toggle-content {
     position: absolute;
     bottom: 100%;
-    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3),
-      0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
+      0 12px 34px 0 rgba(24, 32, 41, 0.04);
     z-index: 100;
     font-weight: 500;
     width: 200px;

@@ -47,7 +47,7 @@
                 accept="image/*"
                 multiple
                 @change="handleMultiUpload($event)"
-              >
+              />
               <factor-loading-ring v-if="loading" width="2em" />
               <div v-else class="upload-status">
                 <div class="wrp">
@@ -60,11 +60,12 @@
         </div>
       </div>
     </div>
-    <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" >
+    <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
     <factor-lightbox :visible.sync="lightboxShow" :imgs="populated" :index="lightboxIndex" />
   </div>
 </template>
 <script>
+import { DOM } from "@factor/tools"
 import Sortable from "sortablejs"
 export default {
   props: {
@@ -140,9 +141,7 @@ export default {
     },
     copyUrl(_id) {
       const image = this.populated.findIndex(_ => _._id == _id)
-      this.copyText = image.url.includes("base64")
-        ? `{{${_id}.url}}`
-        : image.url
+      this.copyText = image.url.includes("base64") ? `{{${_id}.url}}` : image.url
       this.$nextTick(() => {
         this.$refs.copyInput.select()
 
@@ -168,7 +167,7 @@ export default {
       this.$emit("update:customValidity", validity)
     },
     dom() {
-      const jq = this.$jquery(this.$el)
+      const jq = DOM(this.$el)
       const dropEl = jq.find(".image-drop")
       this.imgInput = jq.find(`.input-upload`)
 
@@ -207,7 +206,7 @@ export default {
             }
           },
           onMove: e => {
-            if (this.$jquery(e.related).hasClass("ignore-sortable")) {
+            if (DOM(e.related).hasClass("ignore-sortable")) {
               return false
             }
           }
@@ -216,9 +215,7 @@ export default {
     },
 
     updateValue() {
-      const v = this.imageIds.filter(_id =>
-        this.populated.find(_ => _._id == _id)
-      )
+      const v = this.imageIds.filter(_id => this.populated.find(_ => _._id == _id))
       this.$emit("input", this.single ? v[0] : v)
 
       this.$emit("update:customValidity", this.validity)

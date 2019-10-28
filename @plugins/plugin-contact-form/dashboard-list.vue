@@ -22,7 +22,7 @@
         <div class="form-fields-wrap">
           <div class="form-fields">
             <div v-for="([key, value], i) in fields(row)" :key="i" class="dat">
-              <strong>{{ $utils.toLabel(key) }}:</strong>
+              <strong>{{ toLabel(key) }}:</strong>
               <i>{{ value }}</i>
             </div>
           </div>
@@ -31,13 +31,13 @@
       <template #message="{row}">
         <div class="message">{{ row.message }}</div>
       </template>
-      <template #created="{row}">{{ $time.niceFormat(row.createdAt) }}</template>
+      <template #created="{row}">{{ standardDate(row.createdAt) }}</template>
     </dashboard-grid>
   </dashboard-pane>
 </template>
 <script>
 import { getPermalink, getStatusCount } from "@factor/post"
-import { toLabel } from "@factor/tools/utils"
+import { toLabel, standardDate } from "@factor/tools"
 export default {
   name: "ContactFormList",
   props: {
@@ -92,6 +92,7 @@ export default {
   },
 
   methods: {
+    standardDate,
     selectAll(val) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },

@@ -3,24 +3,24 @@
     <div v-if="visible" class="img-swiper modal" @click.self="closeDialog">
       <div :class="{transition: imgTransitionStatus}" :style="imgStyle" class="img-wrapper">
         <!-- START: Imgs -->
-        <img :src="imgList[imgIndex]" class="img" alt draggable="false">
+        <img :src="imgList[imgIndex]" class="img" alt draggable="false" />
         <!-- END: Imgs -->
       </div>
       <!-- START: btns -->
       <div class="btns">
         <div v-if="imgList.length !== 1" class="btn__prev" @click="prev">
           <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-prev"/>
+            <use xlink:href="#icon-prev" />
           </svg>
         </div>
         <div v-if="imgList.length !== 1" class="btn__next" @click="next">
           <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-next"/>
+            <use xlink:href="#icon-next" />
           </svg>
         </div>
         <div class="btn__close" @click="closeDialog">
           <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-close"/>
+            <use xlink:href="#icon-close" />
           </svg>
         </div>
       </div>
@@ -35,7 +35,7 @@
 <script>
 // Code from:
 // https://github.com/XiongAmao/vue-easy-lightbox
-
+import { DOM } from "@factor/tools"
 export default {
   components: {},
   props: {
@@ -98,13 +98,13 @@ export default {
     require("./img/iconfont")
 
     this.$nextTick(() => {
-      this.$jquery(this.$el).remove()
+      DOM(this.$el).remove()
 
       document.querySelector("#app").append(this.$el)
     })
   },
   destroyed() {
-    this.$jquery(this.$el).remove()
+    DOM(this.$el).remove()
   },
   methods: {
     checkBtn(btn) {

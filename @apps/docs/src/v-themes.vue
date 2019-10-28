@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import { toLabel } from "@factor/tools"
 export default {
   components: {},
   data() {
@@ -109,7 +110,7 @@ export default {
         if (typeof _ == "string") {
           return {
             slug: _,
-            name: this.$utils.toLabel(_)
+            name: toLabel(_)
           }
         } else {
           return _

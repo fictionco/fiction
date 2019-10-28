@@ -1,7 +1,7 @@
 <template>
   <div class="view-user-profile">
     <factor-loading-ring v-if="loading" class="client-loading" />
-    <div v-else-if="!$lodash.isEmpty(post)" class="user-profile">
+    <div v-else-if="!isEmpty(post)" class="user-profile">
       <div class="profile-container">
         <figure class="cover loaded" :class="getCover ? 'has-cover' : 'no-cover'">
           <div
@@ -81,6 +81,7 @@
   </div>
 </template>
 <script>
+import { isEmpty, standardDate } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 export default {
   metaInfo() {
@@ -126,7 +127,7 @@ export default {
 
     memberSince() {
       const { createdAt } = this.post
-      return createdAt ? this.$time.niceFormat(createdAt) : ""
+      return createdAt ? standardDate(createdAt) : ""
     },
     getCover() {
       const imgs = this.covers
@@ -155,11 +156,12 @@ export default {
     this.setOwnUserProfile()
   },
   methods: {
+    isEmpty,
     setOwnUserProfile() {
       const { username } = this.$route.params
       const { id } = this.$route.query
 
-      if (!username && !id && this.$lodash.isEmpty(this.post)) {
+      if (!username && !id && isEmpty(this.post)) {
         this.loading = true
 
         this.$user.init(async uid => {

@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import { isEqual, slugify } from "@factor/tools"
 export default {
   props: {
     value: { type: Array, default: () => [] }
@@ -36,14 +37,14 @@ export default {
   },
   computed: {
     addedSlug() {
-      return this.$utils.slugify(this.addedText)
+      return slugify(this.addedText)
     }
   },
   mounted() {
     this.$watch(
       "value",
       function(v) {
-        if (v && !this.$lodash.isEqual(v, this.tags)) {
+        if (v && !isEqual(v, this.tags)) {
           this.tags = v
         }
       },

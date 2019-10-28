@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { excerpt } from "@factor/tools"
 export default {
   components: {
     "site-head": () => import("./site-head"),
@@ -36,7 +37,7 @@ export default {
     return {
       title: post.titleTag || post.title,
       titleTemplate: "%s - Fiction.com",
-      description: post.description || this.$utils.excerpt(post.content),
+      description: post.description || excerpt(post.content),
       image: this.socialImage(post)
     }
   },

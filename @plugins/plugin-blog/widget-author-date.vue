@@ -5,18 +5,19 @@
       <span class="name">{{ getPost(authorId).displayName }}</span>
     </div>
     <span class="sep">on</span>
-    <span class="date">{{ $time.niceFormat(post.date) }}</span>
+    <span class="date">{{ standardDate(post.date) }}</span>
     <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 <script>
+import { isEmpty, standardDate } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
     postSet() {
-      return !this.$lodash.isEmpty(this.post) ? true : false
+      return !isEmpty(this.post) ? true : false
     },
     post() {
       return this.$store.val(this.postId) || {}
@@ -25,7 +26,8 @@ export default {
   methods: {
     getPost(_id) {
       return this.$store.val(_id) || {}
-    }
+    },
+    standardDate
   }
 }
 </script>

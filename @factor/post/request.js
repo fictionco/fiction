@@ -3,7 +3,7 @@ import { setPostMetatags } from "./meta"
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
 import { applyFilters } from "@factor/filters/util"
-
+import { timestamp } from "@factor/tools"
 function storeSet(key, item) {
   return Factor.$store.add(key, item)
 }
@@ -13,7 +13,7 @@ function storeGet(key) {
 }
 
 function _setCache(postType) {
-  storeSet(`${postType}Cache`, Factor.$time.stamp())
+  storeSet(`${postType}Cache`, timestamp())
 }
 
 function _cacheKey(postType) {

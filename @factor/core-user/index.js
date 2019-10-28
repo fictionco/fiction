@@ -1,5 +1,5 @@
 import { requestPostSingle } from "@factor/post"
-
+import { isEmpty } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -123,7 +123,7 @@ export default Factor => {
     }
 
     isLoggedIn() {
-      return !!!Factor.$lodash.isEmpty(this.currentUser())
+      return !!!isEmpty(this.currentUser())
     }
 
     setUser({ user, token, current = false }) {

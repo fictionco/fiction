@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { toDate } from "@factor/tools"
 export default {
   components: {
     "date-picker": () => import("vuejs-datepicker")
@@ -24,7 +25,7 @@ export default {
   },
   computed: {
     val() {
-      return this.value ? this.$time.date(this.value) : ""
+      return this.value ? toDate(this.value) : ""
     },
     listeners() {
       return {
@@ -59,8 +60,7 @@ export default {
       right: 0;
       border: none;
       border-radius: 4px;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04),
-        0 6px 14px 0 rgba(24, 32, 41, 0.06),
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
         0 12px 34px 0 rgba(24, 32, 41, 0.04);
 
       .cell:not(.blank):not(.disabled) {

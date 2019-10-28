@@ -24,6 +24,7 @@
   </transition>
 </template>
 <script>
+import { DOM } from "@factor/tools"
 export default {
   inheritAttrs: false,
   props: {
@@ -51,7 +52,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       // Append to Body
-      this.$jquery(this.$el).remove()
+      DOM(this.$el).remove()
       document.querySelector("#app").append(this.$el)
       this.appended = true
     })

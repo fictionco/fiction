@@ -9,9 +9,9 @@
           :class="[col.column, col.class, col.mobile]"
         >
           <template v-if="col.column == 'select'">
-            <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" >
+            <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" />
           </template>
-          <span v-else class="head-text">{{ col.name || $utils.toLabel(col.column) }}</span>
+          <span v-else class="head-text">{{ col.name || toLabel(col.column) }}</span>
         </div>
       </div>
       <div
@@ -45,6 +45,7 @@
   </div>
 </template>
 <script>
+import { toLabel } from "@factor/tools"
 export default {
   props: {
     rowItems: { type: Array, default: () => [] },
@@ -80,6 +81,7 @@ export default {
     }
   },
   methods: {
+    toLabel,
     selectAll() {
       if (this.selected) {
         this.selected = false

@@ -2,7 +2,7 @@
   <div class="app-nav-pad">
     <div class="nav-list">
       <div v-for="(items, menu) in menus" :key="menu" class="nav-scope" :class="menu">
-        <div class="scope-title">{{ $utils.toLabel(menu) }}</div>
+        <div class="scope-title">{{ toLabel(menu) }}</div>
         <div
           v-for="(primary, index) in items"
           :key="index"
@@ -12,7 +12,7 @@
           <div v-if="primary.title" class="group-title">{{ primary.title }}</div>
           <div class="nav-group" :class="activeGroup == primary.group ? 'active': ''">
             <div class="primary-item-icon">
-              <img class :src="primary.icon || defaultIcon" :alt="`${primary.name} Icon`" >
+              <img class :src="primary.icon || defaultIcon" :alt="`${primary.name} Icon`" />
             </div>
             <factor-link
               class="primary-item"
@@ -20,7 +20,7 @@
               :path="getPath(primary.path, false, 'top')"
               :query="primary.query"
               :action="primary.action"
-              :data-test="`app-nav-${$utils.slugify(primary.name)}` "
+              :data-test="`app-nav-${slugify(primary.name)}`"
             >
               <span v-formatted-text="primary.name" />
             </factor-link>
@@ -34,7 +34,7 @@
                   :path="getPath(item.path, primary, 'sub')"
                   :query="item.query"
                   :action="item.action"
-                  :data-test="`app-subnav-${$utils.slugify(item.name)}`"
+                  :data-test="`app-subnav-${slugify(item.name)}`"
                 >
                   <span v-formatted-text="item.name" />
                 </factor-link>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { toLabel, slugify } from "@factor/tools"
 export default {
   data() {
     return {
@@ -99,6 +100,8 @@ export default {
     if (user._id) this.initializeMenu()
   },
   methods: {
+    toLabel,
+    slugify,
     initializeMenu() {
       if (this.$user.can({ role: "admin" })) {
         this.$set(this.menus, "admin", [])
@@ -109,14 +112,12 @@ export default {
       } = this.$route.matched.find(_ => _.meta.format) || {}
 
       Object.keys(this.menus).forEach(format => {
-        this.menus[format] = this.$filters
-          .apply(`${format}-menu`, [])
-          .map(_ => {
-            return {
-              ..._,
-              items: this.$filters.apply(`${format}-menu-${_.group}`, _.items)
-            }
-          })
+        this.menus[format] = this.$filters.apply(`${format}-menu`, []).map(_ => {
+          return {
+            ..._,
+            items: this.$filters.apply(`${format}-menu-${_.group}`, _.items)
+          }
+        })
       })
 
       this.redirectOnDefault()
@@ -130,9 +131,7 @@ export default {
       if (path.startsWith("/")) {
         return path
       } else {
-        const base = parent
-          ? this.getPath(parent.path)
-          : this.$route.matched[0].path
+        const base = parent ? this.getPath(parent.path) : this.$route.matched[0].path
 
         return `${base}/${path}`
       }

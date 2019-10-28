@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import { DOM } from "@factor/tools"
 export default {
   components: {
     "page-sidebar": () => import("./sidebar"),
@@ -42,9 +43,9 @@ export default {
     },
     toggle: function(v) {
       if (v) {
-        this.$jquery("body").addClass("mobile-nav")
+        DOM("body").addClass("mobile-nav")
       } else {
-        this.$jquery("body").removeClass("mobile-nav")
+        DOM("body").removeClass("mobile-nav")
       }
     }
   },

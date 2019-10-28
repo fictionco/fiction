@@ -1,4 +1,5 @@
 import { requestPostSave } from "@factor/post"
+import { toLabel } from "@factor/tools"
 import { pushToFilter } from "@factor/filters/util"
 export default Factor => {
   return new (class {
@@ -31,8 +32,7 @@ export default Factor => {
 
       const text = Object.entries(form)
         .map(
-          ([key, value]) =>
-            `<p><strong>${Factor.$utils.toLabel(key)}</strong><br><i>${value}</i></p>`
+          ([key, value]) => `<p><strong>${toLabel(key)}</strong><br><i>${value}</i></p>`
         )
         .join("")
 

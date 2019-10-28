@@ -1,3 +1,5 @@
+import { slugify, dotSetting } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -12,9 +14,7 @@ export default Factor => {
           typographer: false
         })
 
-        this.lib.use(require("markdown-it-anchor").default, {
-          slugify: Factor.$utils.slugify
-        })
+        this.lib.use(require("markdown-it-anchor").default, { slugify })
         this.lib.use(require("markdown-it-video"))
 
         this.lib.use(require("markdown-it-link-attributes"), {
@@ -41,7 +41,7 @@ export default Factor => {
         if (variables) {
           content = content.replace(/{{([\s\S]+?)}}/g, (matched, index, original) => {
             const setting = matched.replace(/[{}]/g, "")
-            const val = Factor.$utils.dotSetting({
+            const val = dotSetting({
               key: setting,
               settings: Factor.$store.state
             })

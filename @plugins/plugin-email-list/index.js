@@ -1,3 +1,4 @@
+import { timestamp, deepMerge, dotSetting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -37,7 +38,7 @@ export default Factor => {
     }
 
     csvExport({ filename, data }) {
-      filename += `-${Factor.$time.stamp()}`
+      filename += `-${timestamp()}`
 
       console.log("export", data)
 
@@ -68,11 +69,11 @@ export default Factor => {
 
         if (list) merge.push(list)
       }
-      return Factor.$utils.deepMerge(merge)
+      return deepMerge(merge)
     }
 
     getSetting({ listId, key, defaultValue = "" }) {
-      return Factor.$utils.dotSetting({ key, settings: this.settings(listId) })
+      return dotSetting({ key, settings: this.settings(listId) })
     }
 
     async request(method, params) {

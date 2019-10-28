@@ -1,12 +1,12 @@
 import Factor from "vue"
-
+import { DOM } from "@factor/tools"
 export function fluidInput(e, wrapEl) {
   // Jquery event to trigger on new input (if needed)
-  const NewEvent = Factor.$jquery.Event("keydown")
+  const NewEvent = DOM.Event("keydown")
   NewEvent.which = e.keyCode
 
-  const inp = Factor.$jquery(e.target)
-  const inputs = Factor.$jquery(wrapEl).find(":input")
+  const inp = DOM(e.target)
+  const inputs = DOM(wrapEl).find(":input")
   if (inputs.length == 0) {
     console.warn("No inputs found for input.")
   }
