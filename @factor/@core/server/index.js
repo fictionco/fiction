@@ -9,7 +9,7 @@ const { createBundleRenderer } = require("vue-server-renderer")
 import Factor from "@factor/core"
 import { getPath } from "@factor/paths/util"
 import { addCallback, runCallbacks, applyFilters } from "@factor/filters/util"
-import { logInfo, logSuccess, logFormatted, logError } from "@factor/logger/util"
+import log from "@factor/logger"
 export default () => {
   return new (class {
     constructor() {
@@ -82,7 +82,7 @@ export default () => {
       )
 
       this.serverApp.listen(this.PORT, () =>
-        logSuccess(`Listening on PORT: ${this.PORT}`)
+        log.success(`Listening on PORT: ${this.PORT}`)
       )
     }
 
@@ -112,7 +112,7 @@ export default () => {
       destroyer(this.listener)
 
       addCallback("restart-server", async () => {
-        logFormatted({ title: `Server file changed, restarting server...` })
+        log.formatted({ title: `Server file changed, restarting server...` })
         this.listener.destroy()
         await runCallbacks("rebuild-server-app")
         this.startListener(this.onListenMessage)
@@ -121,7 +121,7 @@ export default () => {
 
     onListenMessage() {
       const { arrowUp, arrowDown } = figures
-      logInfo(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` Ready`))
+      log.info(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` Ready`))
     }
 
     async startServerDevelopment() {
@@ -259,8 +259,8 @@ export default () => {
       } else if (error.code === 404) {
         response.status(404).send("404 | Page Not Found")
       } else {
-        logInfo(`Factor Server Error  @[${request.url}]`)
-        logError(error)
+        log.info(`Factor Server Error  @[${request.url}]`)
+        log.error(error)
 
         response.status(500).send(this.wrp("500 | Server Error"))
       }

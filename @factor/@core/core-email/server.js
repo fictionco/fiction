@@ -1,8 +1,10 @@
 import Factor from "@factor/core"
+import log from "@factor/logger"
+import { addCallback, applyFilters } from "@factor/filters/util"
 export default () => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("endpoints", { id: "email", handler: this })
+      addCallback("endpoints", { id: "email", handler: this })
       this.client = this.init()
     }
 
@@ -46,7 +48,7 @@ export default () => {
         linkText,
         linkUrl,
         textFooter
-      } = Factor.$filters.apply("transactional-email-arguments", _arguments)
+      } = applyFilters("transactional-email-arguments", _arguments)
 
       if (!from) from = Factor.$setting.get("app.email")
 
@@ -65,7 +67,7 @@ export default () => {
       const html = lines.map(_ => `<p>${_}</p>`).join("")
       const plainText = require("html-to-text").fromString(html)
 
-      const theEmail = Factor.$filters.apply("transactional-email", {
+      const theEmail = applyFilters("transactional-email", {
         _id,
         from,
         to,
@@ -78,7 +80,7 @@ export default () => {
       if (this.client) {
         info = await this.client.sendMail(theEmail)
       } else {
-        Factor.$log.info("Email could not be sent.", theEmail)
+        log.info("Email could not be sent.", theEmail)
       }
 
       return info

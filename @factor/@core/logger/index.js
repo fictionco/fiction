@@ -1,57 +1,71 @@
-const chalk = require("chalk")
+import consola from "consola"
+import figures from "figures"
+import chalk from "chalk"
 
-export default Factor => {
-  return new (class {
-    constructor() {}
+export class FactorLogger {
+  constructor() {
+    this.utility = consola.create({
+      level: 5,
+      defaults: {
+        additionalColor: "white"
+      }
+    })
+  }
 
-    util(type, params) {
-      var args = [].slice.call(params)
+  error() {
+    Reflect.apply(this.utility.error, null, arguments)
+  }
 
-      const func = console[type] ? console[type] : console.log
+  warn() {
+    Reflect.apply(this.utility.warn, null, arguments)
+  }
 
-      func.apply(null, args)
+  success() {
+    Reflect.apply(this.utility.success, null, arguments)
+  }
+
+  log() {
+    Reflect.apply(this.utility.log, null, arguments)
+  }
+
+  info() {
+    Reflect.apply(this.utility.info, null, arguments)
+  }
+
+  formatted({ title, lines = [], format = false, color = "cyan" }) {
+    // Don't log during tests
+    if (process.env.FACTOR_ENV == "test") return
+
+    const msg = []
+
+    lines.forEach(({ title, value, indent }) => {
+      if (!title && !value) {
+        msg.push("")
+      } else if (typeof value != "undefined") {
+        const formattedTitle = indent ? "  " + chalk[color](title) : chalk.bold(title)
+        msg.push(`${formattedTitle}${value ? ":" : ""} ${value}`)
+      }
+    })
+
+    let prefix = chalk.white(figures.pointer)
+
+    if (format == "warn") {
+      prefix = chalk.yellow(figures.warning)
+    } else if (format == "error") {
+      prefix = chalk.red(figures.cross)
+    } else if (format == "success") {
+      prefix = chalk.green(figures.tick)
     }
 
-    custom({ type, params, target }) {
-      this.util(type, params, target)
-    }
-
-    log() {
-      this.util("log", arguments)
-    }
-
-    info() {
-      this.util("info", arguments)
-    }
-
-    success() {
-      this.util("log", arguments)
-    }
-
-    error() {
-      this.util("error", arguments)
-    }
-
-    warn() {
-      this.util("warn", arguments)
-    }
-
-    box(msg) {
-      this.util("log", arguments)
-      // console.log(boxen(msg, { padding: 1 }))
-    }
-
-    formatted({ title, lines }) {
-      const msg = []
-
-      lines.forEach(({ title, value }) => {
-        if (typeof value != "undefined") {
-          msg.push(`${title}: ${value}`)
-        }
-      })
-      console.group(chalk.bold(title))
+    const ttl = `${prefix} ${chalk.bold(title)}`
+    console.log("")
+    console.group(ttl)
+    if (msg.length > 0) {
       console.log(msg.join(`\n`))
-      console.groupEnd()
     }
-  })()
+    console.log("")
+    console.groupEnd()
+  }
 }
+
+export default new FactorLogger()

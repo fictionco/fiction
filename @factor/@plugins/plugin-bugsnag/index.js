@@ -1,6 +1,6 @@
 import bugsnag from "@bugsnag/js"
 import bugsnagVue from "@bugsnag/plugin-vue"
-
+import log from "@factor/logger"
 export default Factor => {
   return new (class {
     constructor() {
@@ -33,8 +33,8 @@ export default Factor => {
       return {
         debug: () => {},
         info: () => {},
-        warn: () => Factor.$log.warn,
-        error: () => Factor.$log.error
+        warn: () => log.warn,
+        error: () => log.error
       }
     }
   })()

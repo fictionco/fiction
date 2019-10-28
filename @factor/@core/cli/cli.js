@@ -5,7 +5,7 @@ const listr = require("listr")
 const program = require("commander")
 const inquirer = require("inquirer")
 const pkg = require("./package")
-
+import log from "@factor/logger"
 process.noDeprecation = true
 process.maxOldSpaceSize = 8192
 import extender from "@factor/extend/server"
@@ -98,18 +98,18 @@ export default () => {
         } else if (command == "run") {
           await Factor.$filters.run(`cli-run-${filter}`, { inquirer, ..._arguments })
 
-          Factor.$log.success(`Successfully ran "${filter}"\n\n`)
+          log.success(`Successfully ran "${filter}"\n\n`)
         }
 
         if (["start", "dev", "serve"].includes(command)) {
           await this.runServer({ NODE_ENV, ..._arguments }) // Long running process
         } else {
-          Factor.$log.success(`Successfully ran [${command}]`)
+          log.success(`Successfully ran [${command}]`)
 
           process.exit(0)
         }
       } catch (error) {
-        Factor.$log.error(error)
+        log.error(error)
       }
 
       return
@@ -185,7 +185,7 @@ export default () => {
         })
       }
 
-      Factor.$log.formatted(message)
+      log.formatted(message)
 
       await Factor.$filters.run("create-server", _arguments)
     }
