@@ -1,7 +1,9 @@
+import { addFilter } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("content-routes", _ => {
+      addFilter("content-routes", _ => {
         _.push({
           name: "signin",
           path: "/signin",
@@ -11,13 +13,13 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("components", _ => {
+      addFilter("components", _ => {
         _["plugin-signin-profile-menu"] = () => import("./profile-menu.vue")
 
         return _
       })
 
-      Factor.$filters.add("site-components", _ => {
+      addFilter("site-components", _ => {
         _["plugin-signin-modal"] = () => import("./modal.vue")
 
         return _

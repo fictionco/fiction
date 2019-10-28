@@ -1,3 +1,4 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -18,7 +19,7 @@ export default Factor => {
         return
       }
 
-      Factor.$filters.add(
+      addFilter(
         "factor_head",
         _ => {
           const add = `<script>
@@ -39,7 +40,7 @@ export default Factor => {
         { priority: 200 }
       )
 
-      Factor.$filters.add("factor_body_start", _ => {
+      addFilter("factor_body_start", _ => {
         const add = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${this.gtm_id}" height="0" width="0"
         style="display:none;visibility:hidden"></iframe></noscript>
   `
@@ -49,7 +50,7 @@ export default Factor => {
 
     addSetupCli(name) {
       // CLI admin setup utility
-      Factor.$filters.add("cli-add-setup", _ => {
+      addFilter("cli-add-setup", _ => {
         const setupAdmins = {
           name,
           value: "gtm",

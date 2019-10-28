@@ -1,3 +1,5 @@
+import { addFilter } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -8,7 +10,7 @@ export default Factor => {
         matchedComponents.forEach(_ => this.setRouteClass(_))
       )
 
-      Factor.$filters.add("before-app", () => {
+      addFilter("before-app", () => {
         if (Factor.FACTOR_SSR !== "server") {
           this.manageClient()
         }

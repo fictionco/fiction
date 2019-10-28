@@ -21,7 +21,7 @@ export default () => {
   return new (class {
     constructor() {
       Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
-      Factor.$filters.add("webpack-config", _ => this.getConfig(_))
+      addFilter("webpack-config", _ => this.getConfig(_))
     }
 
     async buildProduction(_arguments = {}) {

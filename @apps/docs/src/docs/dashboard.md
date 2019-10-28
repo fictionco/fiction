@@ -92,7 +92,7 @@ Factor.$filters.push("post-edit-components", {
 If you're adding settings to a post type, don't forget to extend the schema for that post type (or the base post schema). The exact filter to extend a schema depends on the name of the associated filter. But extending the base schema can be done using the `post-schema` filter:
 
 ```js
-Factor.$filters.add("post-schema", _ => {
+addFilter("post-schema", _ => {
   return {
     ..._,
     myPluginSetting: { type: String, trim: true }

@@ -1,9 +1,9 @@
 import { requestPostSingle } from "@factor/post"
-import { isEmpty, isNode, emitEvent } from "@factor/tools"
+import { isEmpty, isNode, emitEvent, addFilter, pushToFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("before-app", () => {
+      addFilter("before-app", () => {
         this.mixin()
 
         // Authentication events only work after SSR
@@ -13,7 +13,7 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+      pushToFilter("data-schemas", () => require("./schema").default(Factor), {
         key: "user"
       })
     }

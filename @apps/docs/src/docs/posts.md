@@ -112,7 +112,7 @@ Factor.$filters.push("data-schemas", {
 If you'd like to extend an existing schema, it's easy through the `data-schema-[POST TYPE]` filter. Just hook in and add your fields:
 
 ```js
-Factor.$filters.add('data-schema-page', schemaConfig => {
+addFilter('data-schema-page', schemaConfig => {
 
   // Add to schema
   schemaConfig.schema = {...schemaConfig.schema, {

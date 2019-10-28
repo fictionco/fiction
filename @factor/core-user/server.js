@@ -1,14 +1,15 @@
 const jwt = require("jsonwebtoken")
+import { addFilter } from "@factor/tools"
 import { getModel, savePost } from "@factor/post/server"
 
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("webpack-ignore-modules", _ => [..._, "bcrypt"])
+      addFilter("webpack-ignore-modules", _ => [..._, "bcrypt"])
       this.SECRET = process.env.TOKEN_SECRET
 
       if (!this.SECRET) {
-        Factor.$filters.add("setup-needed", _ => {
+        addFilter("setup-needed", _ => {
           const item = {
             title: "JWT Secret",
             value: "A JWT string secret, used for verifying authentication status.",

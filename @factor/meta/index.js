@@ -1,5 +1,6 @@
 import Factor from "@factor/core"
 import FactorMeta from "vue-meta"
+import { addFilter } from "@factor/tools"
 
 Factor.use(FactorMeta, {
   keyName: "metaInfoCore"
@@ -18,7 +19,7 @@ export default () => {
     }
 
     addSSRHooks() {
-      Factor.$filters.add("ssr-context-ready", (context, { app, router }) => {
+      addFilter("ssr-context-ready", (context, { app, router }) => {
         // Add Vue-Meta
         context.metaInfo = app.$meta()
 
@@ -56,7 +57,7 @@ export default () => {
     }
 
     setDefault() {
-      Factor.$filters.add("site-mixins", _ => [
+      addFilter("site-mixins", _ => [
         ..._,
         {
           metaInfo() {
@@ -95,7 +96,7 @@ export default () => {
         })
       })
 
-      Factor.$filters.add("meta-refine", data => {
+      addFilter("meta-refine", data => {
         if (!data.meta) data.meta = []
 
         if (data.description) {
@@ -118,7 +119,7 @@ export default () => {
     }
 
     installMeta() {
-      Factor.$filters.add("factor_head", (_, { context }) => {
+      addFilter("factor_head", (_, { context }) => {
         const { title, link, style, script, noscript, meta } = context.metaInfo.inject()
 
         return [
@@ -132,20 +133,20 @@ export default () => {
         ]
       })
 
-      Factor.$filters.add("factor_html_attr", (_, { context }) => {
+      addFilter("factor_html_attr", (_, { context }) => {
         const { htmlAttrs } = context.metaInfo.inject()
         return [..._, htmlAttrs.text(true)]
       })
-      Factor.$filters.add("factor_body_attr", (_, { context }) => {
+      addFilter("factor_body_attr", (_, { context }) => {
         const { bodyAttrs } = context.metaInfo.inject()
         return [..._, bodyAttrs.text()]
       })
-      Factor.$filters.add("factor_head_attr", (_, { context }) => {
+      addFilter("factor_head_attr", (_, { context }) => {
         const { headAttrs } = context.metaInfo.inject()
         return [..._, headAttrs.text()]
       })
 
-      Factor.$filters.add("factor_body_start", (_, { context }) => {
+      addFilter("factor_body_start", (_, { context }) => {
         const { style, script, noscript } = context.metaInfo.inject()
 
         return [
@@ -156,7 +157,7 @@ export default () => {
         ]
       })
 
-      Factor.$filters.add("factor_body_end", (_, { context }) => {
+      addFilter("factor_body_end", (_, { context }) => {
         const { style, script, noscript } = context.metaInfo.inject()
 
         return [

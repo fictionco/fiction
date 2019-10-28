@@ -31,12 +31,12 @@ export default () => {
         throw new Error("Factor core app components are undefined.")
       }
 
-      Factor.$filters.add("components", _ => {
+      addFilter("components", _ => {
         _["error-404"] = error404
         return _
       })
 
-      Factor.$filters.add("routes", _ => {
+      addFilter("routes", _ => {
         const contentRoutes = Factor.$filters
           .apply("content-routes", [
             {

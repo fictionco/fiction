@@ -27,7 +27,7 @@ The above diagram is a typical use case. For example, application routes work in
 
 // From an extension
 // The callback recieves the list so just add another item to it
-Factor.$filters.add('my-item-list', list => {
+addFilter('my-item-list', list => {
   list.push(4)
   return list
 })
@@ -50,13 +50,13 @@ To change the order in which filters fire, use the `priority` option.  Filters a
 ```javascript
 
 // From an extension
-Factor.$filters.add('my-item-list', list => {
+addFilter('my-item-list', list => {
   list.push(4)
   return list
 }) // default priority 100
 
 // Later... From another extension
-Factor.$filters.add('my-item-list', list => {
+addFilter('my-item-list', list => {
   list.push(5)
   return list
 }, {priority: 20})

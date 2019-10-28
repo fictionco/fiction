@@ -1,11 +1,12 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
-  return new class {
+  return new (class {
     constructor() {
       this.registerComponents()
     }
 
     registerComponents() {
-      Factor.$filters.add("components", _ => {
+      addFilter("components", _ => {
         _["factor-form"] = () => import("./el/form")
         _["factor-input-email"] = () => import("./el/email")
         _["factor-input-date"] = () => import("./el/date")
@@ -27,5 +28,5 @@ export default Factor => {
         return _
       })
     }
-  }
+  })()
 }

@@ -1,8 +1,8 @@
-import { emitEvent, onEvent } from "@factor/tools"
+import { emitEvent, onEvent, addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("site-components", _ => {
+      addFilter("site-components", _ => {
         _["plugin-notify"] = () => import("./toaster")
 
         return _

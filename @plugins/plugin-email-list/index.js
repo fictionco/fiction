@@ -1,4 +1,11 @@
-import { timestamp, deepMerge, dotSetting, emitEvent } from "@factor/tools"
+import {
+  timestamp,
+  deepMerge,
+  dotSetting,
+  emitEvent,
+  addFilter,
+  pushToFilter
+} from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -8,12 +15,12 @@ export default Factor => {
         this.verifyEmail(_)
       )
 
-      Factor.$filters.add("components", _ => {
+      addFilter("components", _ => {
         _["factor-email-list"] = () => import("./wrap.vue")
         return _
       })
 
-      Factor.$filters.push("post-types", {
+      pushToFilter("post-types", {
         postType: this.postType,
         nameIndex: "Email Lists",
         nameSingle: "List",

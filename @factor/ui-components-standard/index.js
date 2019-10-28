@@ -1,3 +1,5 @@
+import { addFilter } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -5,7 +7,7 @@ export default Factor => {
     }
 
     registerComponents() {
-      Factor.$filters.add("components", _ => {
+      addFilter("components", _ => {
         _["factor-btn"] = Factor.$setting.get("core.components.btn")
         _["factor-btn-base"] = Factor.$setting.get("core.components.btnBase")
         _["factor-btn-dashboard"] = Factor.$setting.get("core.components.btnDashboard")

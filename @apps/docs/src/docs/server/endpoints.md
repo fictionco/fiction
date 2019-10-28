@@ -103,7 +103,7 @@ As an example, middleware for creating a sitemap might look like the following:
 export default Factor => {
   return new class{
     constructor(){
-      Factor.$filters.add('middleware', middlewares => {
+      addFilter('middleware', middlewares => {
         middlewares.push({
           path: '/sitemap.xml', 
           callback: async (request, response, next) => {

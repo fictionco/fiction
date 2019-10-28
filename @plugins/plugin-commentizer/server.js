@@ -1,10 +1,10 @@
 import { objectIdType } from "@factor/post/util"
-
+import { addFilter, pushToFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
       // Add commentizer post type
-      Factor.$filters.push("post-types", {
+      pushToFilter("post-types", {
         postType: "commentizer",
         nameIndex: "Commentizer",
         nameSingle: "Comment",
@@ -14,7 +14,7 @@ export default Factor => {
       })
 
       // Add commentizer post type schema
-      Factor.$filters.push("data-schemas", {
+      pushToFilter("data-schemas", {
         name: "commentizer",
         schema: {
           name: { type: String, trim: true },
@@ -25,7 +25,7 @@ export default Factor => {
 
       // Extend all postTypes listed in factor-settings with extra fields
       Factor.$setting.get("commentizer.postTypes").forEach(postType => {
-        Factor.$filters.add(`data-schema-${postType}`, schemaConfig => {
+        addFilter(`data-schema-${postType}`, schemaConfig => {
           schemaConfig.schema = {
             ...schemaConfig.schema,
             commentizerEnabled: { type: Boolean, default: false },

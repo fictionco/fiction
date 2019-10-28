@@ -145,7 +145,7 @@ export default Factor => {
 
     addRoutes() {
       // Takes an array []
-      Factor.$filters.add("content-routes", routes => {
+      addFilter("content-routes", routes => {
         return [
           ...routes,
           {
@@ -158,7 +158,7 @@ export default Factor => {
 
     addComponents() {
       // Takes an Object {}
-      Factor.$filters.add("components", components => {
+      addFilter("components", components => {
         return { ...components, "my-component-name": () => import("./my-component.vue") }
       })
     }

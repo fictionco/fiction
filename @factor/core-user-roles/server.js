@@ -1,8 +1,9 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
       // Add role property to user schema
-      Factor.$filters.add("user-schema", _ => {
+      addFilter("user-schema", _ => {
         _.role = {
           type: String,
           enum: Object.keys(this.roles()),
@@ -23,7 +24,7 @@ export default Factor => {
       })
 
       // Create a virtual accessLevel property based on role
-      Factor.$filters.add("user-schema-hooks", Schema => {
+      addFilter("user-schema-hooks", Schema => {
         const _this = this
 
         // Schema.virtual("accessLevel").get(function() {
@@ -48,7 +49,7 @@ export default Factor => {
       })
 
       // CLI admin setup utility
-      Factor.$filters.add("cli-add-setup", _ => {
+      addFilter("cli-add-setup", _ => {
         const setupAdmins = {
           name: "User Roles - Add admin privileges to specific users.",
           value: "admins",
