@@ -1,10 +1,10 @@
 import { getModel } from "@factor/post/server"
 import { getPermalink } from "@factor/post"
-import { uniq } from "@factor/tools"
+import { uniq, addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("middleware", _ => {
+      addFilter("middleware", _ => {
         _.push({
           path: "/sitemap.xml",
           middleware: [

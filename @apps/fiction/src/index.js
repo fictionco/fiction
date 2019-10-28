@@ -8,7 +8,7 @@ export default Factor => {
     events() {}
 
     async addPaths() {
-      Factor.$filters.add("page-templates", _ => {
+      addFilter("page-templates", _ => {
         return _.concat([
           {
             _id: "sticky-sidebar",
@@ -21,7 +21,7 @@ export default Factor => {
         ])
       })
 
-      Factor.$filters.add("content-routes", _ => {
+      addFilter("content-routes", _ => {
         const routes = [
           {
             path: "/",

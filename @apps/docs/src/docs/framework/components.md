@@ -107,7 +107,7 @@ export default Factor => {
     this.addComponents()
   }
   addComponents(){
-    Factor.$filters.add("components", components => {
+    addFilter("components", components => {
       // Adds the file ./my-component.vue as a globally available component
       // Available in your templates using <my-component />
       components["my-component"] = () => import("./my-component")

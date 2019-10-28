@@ -3,6 +3,7 @@ import path from "path"
 import webpack from "webpack"
 import chokidar from "chokidar"
 import ora from "ora"
+import { addFilter, applyFilters } from "@factor/tools"
 
 import MFS from "memory-fs"
 
@@ -25,7 +26,7 @@ export default Factor => {
 
       this.build = this.production ? "production" : "development"
 
-      Factor.$filters.add("development-server", cb => {
+      addFilter("development-server", cb => {
         this.cb = cb
 
         return this.createRunner()
@@ -39,12 +40,12 @@ export default Factor => {
         throw new Error("Couldn't locate the index.html template file")
       }
 
-      this.confServer = Factor.$filters.apply("webpack-config", {
+      this.confServer = applyFilters("webpack-config", {
         target: "server",
         ...argv
       })
 
-      this.confClient = Factor.$filters.apply("webpack-config", {
+      this.confClient = applyFilters("webpack-config", {
         target: "client",
         ...argv
       })

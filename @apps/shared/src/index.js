@@ -30,7 +30,7 @@ export default () => {
           })
         })
 
-        Factor.$filters.add("transactional-email", email => {
+        addFilter("transactional-email", email => {
           Factor.$http.request({
             method: "post",
             url: this.SLACK_NOTIFY_URL,

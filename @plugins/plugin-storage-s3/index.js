@@ -1,3 +1,4 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -8,7 +9,7 @@ export default Factor => {
       this.AWS_S3_BUCKET = Factor.$setting.get("AWS_S3_BUCKET")
 
       if (!this.AWS_ACCESS_KEY || !this.AWS_ACCESS_KEY_SECRET || !this.AWS_S3_BUCKET) {
-        Factor.$filters.add("setup-needed", _ => {
+        addFilter("setup-needed", _ => {
           const item = {
             title: "Plugin: S3 Storage Credentials",
             value: "The S3 storage plugin requires AWS S3 information to run correctly.",
@@ -29,7 +30,7 @@ export default Factor => {
       this.bucket = this.AWS_S3_BUCKET
       this.S3 = new AWS.S3()
 
-      Factor.$filters.add("storage-attachment-url", ({ buffer, key }) => {
+      addFilter("storage-attachment-url", ({ buffer, key }) => {
         return new Promise((resolve, reject) => {
           var params = { Bucket: this.bucket, Key: key, Body: buffer, ACL: "public-read" }
           this.S3.upload(params, (err, data) => {

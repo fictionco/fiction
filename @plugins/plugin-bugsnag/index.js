@@ -1,7 +1,7 @@
 import bugsnag from "@bugsnag/js"
 import bugsnagVue from "@bugsnag/plugin-vue"
 import log from "@factor/logger"
-import { onEvent } from "@factor/tools"
+import { onEvent, addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -21,7 +21,7 @@ export default Factor => {
 
       bugsnagClient.use(bugsnagVue, Factor)
 
-      Factor.$filters.add("initialize-app", () => {
+      addFilter("initialize-app", () => {
         onEvent("error", e => bugsnagClient.notify(e))
 
         Factor.$user.init(user => {

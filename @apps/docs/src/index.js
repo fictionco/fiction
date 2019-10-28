@@ -32,7 +32,7 @@ export default Factor => {
       // // Setup Plugins Post Type
       // const baseRoute = Factor.$setting.get("plugins.postRoute")
 
-      // Factor.$filters.add("post-types", _ => {
+      // addFilter("post-types", _ => {
       //   _.push({
       //     postType: "plugins",
       //     baseRoute,
@@ -47,7 +47,7 @@ export default Factor => {
       // })
 
       // Register doc routes for sitemap
-      Factor.$filters.add("after-first-server-extend", () => {
+      addFilter("after-first-server-extend", () => {
         const base = Factor.$setting.get("docs.base")
         const pages = Factor.$setting.get("docs.pages")
         const canonical = pages
@@ -62,7 +62,7 @@ export default Factor => {
         Factor.$router.addRoutes(canonical)
       })
 
-      Factor.$filters.add("page-templates", _ => {
+      addFilter("page-templates", _ => {
         return _.concat([
           {
             _id: "default",
@@ -71,7 +71,7 @@ export default Factor => {
         ])
       })
 
-      Factor.$filters.add("content-routes", _ => {
+      addFilter("content-routes", _ => {
         const base = Factor.$setting.get("docs.base")
 
         //const pluginsIndex = Factor.$setting.get("plugins.layout.index")

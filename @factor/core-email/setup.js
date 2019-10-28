@@ -1,10 +1,11 @@
 import Factor from "@factor/core"
+import { addFilter } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
       this.configFile = ".env"
       this.configVars = ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST"]
-      Factor.$filters.add("setup-needed", _ => {
+      addFilter("setup-needed", _ => {
         const item = {
           title: "SMTP Email Credentials",
           value: "Needed for transactional emails (e.g. forgot password)",
@@ -16,7 +17,7 @@ export default () => {
       })
 
       // CLI admin setup utility
-      Factor.$filters.add("cli-add-setup", (_, { privateConfig }) => {
+      addFilter("cli-add-setup", (_, { privateConfig }) => {
         const setupItem = {
           name: "Email Setup - Transactional Email SMTP Info",
           value: "email",

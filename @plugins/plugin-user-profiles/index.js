@@ -1,3 +1,4 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -5,7 +6,7 @@ export default Factor => {
     }
 
     filters() {
-      Factor.$filters.add("content-routes-unmatched", _ => {
+      addFilter("content-routes-unmatched", _ => {
         _.unshift({
           path: "/@",
           component: () => import("./profile")
@@ -18,7 +19,7 @@ export default Factor => {
         return _
       })
 
-      // Factor.$filters.add("post-params", params => {
+      // addFilter("post-params", params => {
       //   const { username } = params
       //   if (username) {
       //     params = {
@@ -30,7 +31,7 @@ export default Factor => {
       //   return params
       // })
 
-      Factor.$filters.add(
+      addFilter(
         "profile-menu",
         _ => {
           _.unshift({

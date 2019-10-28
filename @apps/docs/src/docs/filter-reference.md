@@ -21,7 +21,7 @@ Routes in Factor use [Vue Router](https://router.vuejs.org). These filters add r
 
 ```js
 // Takes an array []
-Factor.$filters.add("content-routes", routes => {
+addFilter("content-routes", routes => {
   return [
     ...routes,
     {
@@ -43,7 +43,7 @@ You can add global Vue components easily using the `components` filter.
 #### Example
 
 ```js
-Factor.$filters.add("components", _ => {
+addFilter("components", _ => {
   _["my-global-component-one"] = () => import("./one.vue")
   _["my-global-component-two"] = () => import("./two.vue")
   return _
@@ -64,7 +64,7 @@ Filter: `post-schema` - To extend the base post schema:
 
 ```js
 // Takes and returns an object {}
-Factor.$filters.add("post-schema", _ => {
+addFilter("post-schema", _ => {
   return {
     ..._,
     myPluginSetting: { type: String, trim: true }
@@ -86,7 +86,7 @@ Options can be found on [Vue SSR site](https://ssr.vuejs.org/api/#renderer-optio
 
 ```js
 // Prevent injection in template
-Factor.$filters.add("server-renderer-options", options => {
+addFilter("server-renderer-options", options => {
   options.inject = false
   options.template = (result, context) => {
     return "hi"

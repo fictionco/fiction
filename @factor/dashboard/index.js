@@ -1,3 +1,5 @@
+import { addFilter } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -6,7 +8,7 @@ export default Factor => {
     }
 
     components() {
-      Factor.$filters.add("components", _ => {
+      addFilter("components", _ => {
         _["dashboard-pane"] = () => import("./pane")
         _["dashboard-page"] = () => import("./page")
         _["dashboard-table"] = () => import("./table")
@@ -28,7 +30,7 @@ export default Factor => {
     paths() {
       const dashboardRoute = Factor.$setting.get("dashboard.route")
 
-      Factor.$filters.add("routes", _ => {
+      addFilter("routes", _ => {
         _.push({
           path: "/admin",
           redirect: dashboardRoute
@@ -56,7 +58,7 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add(
+      addFilter(
         "admin-menu",
         _ => {
           _.push({

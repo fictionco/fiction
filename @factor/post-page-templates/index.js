@@ -1,4 +1,4 @@
-import { toLabel } from "@factor/tools"
+import { toLabel, addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -6,7 +6,7 @@ export default Factor => {
         key: "page"
       })
 
-      Factor.$filters.add("post-types", _ => {
+      addFilter("post-types", _ => {
         _.unshift({
           postType: "page",
           baseRoute: "",
@@ -19,7 +19,7 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("post-edit-components", _ => {
+      addFilter("post-edit-components", _ => {
         _.push({
           postType: ["page"],
           name: "Page Template Settings",
@@ -29,7 +29,7 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("content-routes-unmatched", _ => {
+      addFilter("content-routes-unmatched", _ => {
         _.unshift({
           path: "/:permalink",
           component: () => import("./template.vue")
@@ -39,7 +39,7 @@ export default Factor => {
       })
 
       // Add page templates
-      Factor.$filters.add("register-components", _ => {
+      addFilter("register-components", _ => {
         _["templates"] = this.registerTemplates()
         return _
       })
@@ -71,7 +71,7 @@ export default Factor => {
     registerTemplates() {
       this.pageTemplates = this.getPageTemplates()
 
-      Factor.$filters.add("components", _ => {
+      addFilter("components", _ => {
         this.pageTemplates.forEach(tpl => {
           _[tpl.value] = tpl.component
         })

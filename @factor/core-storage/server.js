@@ -1,6 +1,6 @@
 const multer = require("multer")
 import { getModel } from "@factor/post/server"
-
+import { addFilter } from "@factor/tools"
 import { objectIdType, objectId } from "@factor/post/util"
 export default Factor => {
   return new (class {
@@ -12,7 +12,7 @@ export default Factor => {
         key: "storage"
       })
 
-      Factor.$filters.add("middleware", _ => {
+      addFilter("middleware", _ => {
         _.push({
           path: `/_upload`,
           middleware: [

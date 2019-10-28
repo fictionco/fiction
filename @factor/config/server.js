@@ -9,7 +9,7 @@ export default () => {
     constructor() {
       // Match the public config to what is available in the webpack app
       // Should NOT include private/secret config
-      Factor.$filters.add("webpack-define", _ => {
+      addFilter("webpack-define", _ => {
         _["process.env.NODE_ENV"] = JSON.stringify(NODE_ENV)
         _["process.env.FACTOR_ENV"] = JSON.stringify(FACTOR_ENV)
         _["process.env.FACTOR_APP_CONFIG"] = JSON.stringify(this.publicSettings())

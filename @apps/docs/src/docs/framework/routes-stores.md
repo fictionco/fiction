@@ -24,7 +24,7 @@ export default Factor => {
   // This will create two route "views" 
   // One makes your homepage based on page-home.vue component and the other at /tour from page-tour.vue
   addRoutes(){
-    Factor.$filters.add("content-routes", routes => {
+    addFilter("content-routes", routes => {
         const added = [
           {
             path: "/",
@@ -74,7 +74,7 @@ export default Factor => {
     this.addStore()
   }
   addStore(){
-    Factor.$filters.add("stores", stores => {
+    addFilter("stores", stores => {
       stores.myStore = require("./store").default
       return stores
     })

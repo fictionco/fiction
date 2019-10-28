@@ -1,16 +1,16 @@
 import { getModel, savePost } from "@factor/post/server"
-import { randomToken } from "@factor/tools"
+import { randomToken, addFilter, addCallback } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("endpoints", { id: "user-emails", handler: this })
+      addCallback("endpoints", { id: "user-emails", handler: this })
 
-      // Factor.$filters.add("create-new-user", user => {
+      // addFilter("create-new-user", user => {
       //   const { email, _id } = user
       //   this.sendVerifyEmail({ email, _id, user }, { bearer: user })
       // })
 
-      Factor.$filters.add("user-schema-hooks", Schema => {
+      addFilter("user-schema-hooks", Schema => {
         const _this = this
         // EMAIL
         Schema.post("save", async function(doc, next) {
@@ -23,7 +23,7 @@ export default Factor => {
         })
       })
 
-      Factor.$filters.add("user-schema", _ => {
+      addFilter("user-schema", _ => {
         _.emailVerificationCode = { type: String, select: false }
         _.passwordResetCode = { type: String, select: false }
 

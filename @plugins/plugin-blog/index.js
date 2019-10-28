@@ -1,3 +1,4 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -7,7 +8,7 @@ export default Factor => {
     filters() {
       const baseRoute = Factor.$setting.get("blog.postRoute")
 
-      Factor.$filters.add("post-types", _ => {
+      addFilter("post-types", _ => {
         _.push({
           postType: "blog",
           baseRoute,
@@ -21,7 +22,7 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("content-routes", _ => {
+      addFilter("content-routes", _ => {
         return [
           ..._,
           {

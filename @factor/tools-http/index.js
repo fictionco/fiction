@@ -1,9 +1,9 @@
 import axios from "axios"
-import { isNode } from "@factor/tools"
+import { isNode, addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("before-app", () => {
+      addFilter("before-app", () => {
         this.standardHeaders()
       })
     }
