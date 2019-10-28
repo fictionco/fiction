@@ -1,3 +1,6 @@
+import { link } from "@factor/post"
+import { excerpt } from "@factor/tools/utils"
+
 export function titleTag(_id) {
   const { titleTag, title } = Factor.$store.val(_id) || {}
   return titleTag || title || ""
@@ -19,7 +22,7 @@ export function setPostMetatags(_id) {
   const post = Factor.$store.val(_id) || {}
 
   const out = {
-    canonical: this.link(_id, { root: true }),
+    canonical: link(_id, { root: true }),
     title: post.titleTag || post.title || "",
     description: post.descriptionTag || excerpt(post.content) || "",
     image:
