@@ -46,7 +46,7 @@
             <plugin-entry :text="getContent(entry.readme)" class="plugin-content" />
           </div>
 
-          <div class="sidebar">Sidebar</div>
+          <widget-sidebar :get-data="getData" />
         </div>
       </section>
     </div>
@@ -59,9 +59,9 @@ import dataUtility from "./plugin-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
+    "widget-sidebar": () => import("./widget-sidebar"),
     "widget-lightbox": () => import("./widget-lightbox"),
     "plugin-entry": () => import("../el/entry"),
-    // "plugins-sidebar": () => import("./plugins-sidebar"),
     "widget-cta": () => import("./widget-cta")
   },
   data() {
