@@ -1,4 +1,4 @@
-import { addFilter, applyFilters } from "@factor/filters/util"
+import { addFilter, applyFilters } from "@factor/tools"
 
 export default () => {
   return {

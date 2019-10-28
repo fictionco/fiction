@@ -1,4 +1,5 @@
 import Factor from "@factor/core"
+import { runCallbacks, applyFilters } from "@factor/tools"
 export default () => {
   return {
     data() {
@@ -23,12 +24,12 @@ export default () => {
         return [...siteClasses, this.scrollClass]
       },
       injectedComponents() {
-        return this.$filters.apply("site-components", {})
+        return applyFilters("site-components", {})
       }
     },
 
     serverPrefetch() {
-      return this.$filters.run("site-prefetch")
+      return runCallbacks("site-prefetch")
     },
     methods: {
       setScrollClass() {

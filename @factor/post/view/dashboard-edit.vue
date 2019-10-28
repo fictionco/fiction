@@ -8,6 +8,7 @@
   </component>
 </template>
 <script>
+import { applyFilters } from "@factor/tools"
 import { requestPostSingle, postTypeMeta } from "@factor/post"
 export default {
   computed: {
@@ -34,7 +35,7 @@ export default {
       return editTemplate ? editTemplate : () => import("./posts-edit")
     },
     editComponents() {
-      const components = this.$filters.apply("post-edit-components", [])
+      const components = applyFilters("post-edit-components", [])
 
       return components.filter(
         ({ postType }) => !postType || (postType && postType.includes(this.postType))

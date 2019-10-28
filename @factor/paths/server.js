@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import { resolve, dirname, relative } from "path"
 import fs from "fs-extra"
-import { addFilter, applyFilters } from "@factor/filters/util"
+import { addFilter, applyFilters } from "@factor/tools"
 import { getExtensions } from "@factor/build/util"
 
 if (!Factor.$paths) {

@@ -1,11 +1,11 @@
 const execa = require("execa")
 const Factor = require("vue")
-
+import * as tools from "@factor/tools"
 jest.mock("execa")
 
 process.env.FACTOR_ENV = "test"
 
-const cli = require('../..')
+const cli = require("../..")
 
 describe("cli scripts", () => {
   beforeAll(async () => {
@@ -46,7 +46,7 @@ describe("cli scripts", () => {
   })
 
   it("command: build works", async () => {
-    const spy = jest.spyOn(Factor.$filters, "run").mockImplementation(_ => _)
+    const spy = jest.spyOn(tools, "runCallbacks").mockImplementation(_ => _)
 
     await cli.runCommand({ command: "build", extend: false })
 

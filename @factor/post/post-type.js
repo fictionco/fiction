@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { applyFilters } from "@factor/filters/util"
+import { applyFilters } from "@factor/tools"
 
 export function getPostTypes() {
   return applyFilters("post-types", []).map(_ => {

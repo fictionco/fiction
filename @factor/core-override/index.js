@@ -1,7 +1,7 @@
 import glob from "glob"
 import fs from "fs-extra"
 import { dirname, resolve } from "path"
-import { addFilter } from "@factor/filters/util"
+import { addFilter } from "@factor/tools"
 import { getExtensions } from "@factor/build/util"
 import Factor from "@factor/core"
 export default () => {

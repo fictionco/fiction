@@ -2,8 +2,8 @@ import Factor from "@factor/core"
 import { dirname, parse } from "path"
 import fs from "fs-extra"
 import glob from "glob"
-import { addCallback } from "@factor/filters/util"
-import { toPascalCase, sortPriority } from "@factor/tools"
+
+import { toPascalCase, sortPriority, addCallback } from "@factor/tools"
 import { getPath } from "@factor/paths/util"
 
 class FactorLoaderUtility {

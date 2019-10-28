@@ -8,7 +8,7 @@
   </factor-modal>
 </template>
 <script>
-import { onEvent } from "@factor/tools"
+import { onEvent, runCallbacks } from "@factor/tools"
 export default {
   components: {
     "el-signin": () => import("./signin.vue")
@@ -51,7 +51,7 @@ export default {
         this.vis = true
       })
 
-      this.$filters.run("signin-modal-loaded")
+      runCallbacks("signin-modal-loaded")
 
       // If shown erroneously because its triggered before USER is initialized
 

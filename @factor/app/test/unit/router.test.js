@@ -19,7 +19,7 @@ describe("router", () => {
 
   it("loads hooks/filters", async () => {
     const spies = {
-      action: jest.spyOn(Factor.$filters, "run"),
+      action: jest.spyOn(tools, "runCallbacks"),
       emitEvent: jest.spyOn(tools, "emitEvent")
     }
     process.env.FACTOR_SSR = "client"

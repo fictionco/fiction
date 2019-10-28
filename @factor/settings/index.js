@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
-import { dotSetting, deepMerge } from "@factor/tools"
+import { dotSetting, deepMerge, applyFilters } from "@factor/tools"
 import { getExports } from "@factor/extend/util"
-import { applyFilters } from "@factor/filters/util"
+
 if (!Factor.$setting) {
   class FactorSettings {
     constructor() {
