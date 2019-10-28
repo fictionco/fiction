@@ -1,6 +1,8 @@
 import Factor from "@factor/core"
 import { importPlugins } from "./util"
 import { runCallbacks } from "@factor/tools"
+import "@factor/build/loaders"
+import "@factor/build/override"
 export default () => {
   return new (class {
     constructor() {}
@@ -15,9 +17,6 @@ export default () => {
       process.env.FACTOR_TARGET = "server"
 
       const core = {
-        paths: () => import("@factor/paths"),
-        loaders: () => import("@factor/build/loaders"),
-        override: () => import("@factor/core-override"),
         configServer: () => import("@factor/config/server")
       }
 
