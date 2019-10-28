@@ -76,7 +76,7 @@ console.log(myItemList) // [1, 2, 3, 5, 4]
 
 A common scenario for using Filters is to fire and "await" a list of async callbacks at some point in Factor's lifecycle.
 
-Since this is encountered so often, Factor has two special helper functions specifically for creating and calling async callbacks `Factor.$filters.callback` and `runCallbacks`.
+Since this is encountered so often, Factor has two special helper functions specifically for creating and calling async callbacks `addCallback` and `runCallbacks`.
 
 Here is an example using these helpers:
 

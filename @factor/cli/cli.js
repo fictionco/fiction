@@ -10,7 +10,7 @@ process.noDeprecation = true
 process.maxOldSpaceSize = 8192
 import extender from "@factor/extend/server"
 import transpiler from "@factor/build/transpiler"
-import { runCallbacks } from "@factor/tools"
+import { runCallbacks, addCallback } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -149,9 +149,7 @@ export default () => {
 
         // Filters must be reloaded with every new restart of server.
         // This adds the filter each time to allow for restart
-        Factor.$filters.callback("rebuild-server-app", () =>
-          this.reloadNodeProcess(_config)
-        )
+        addCallback("rebuild-server-app", () => this.reloadNodeProcess(_config))
       }
 
       // When an extended Factor object is needed outside of this CLI (tests)

@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, addCallback } from "@factor/tools"
 
 export default Factor => {
   return new (class {
@@ -6,7 +6,7 @@ export default Factor => {
       this.metatags = []
       this.routeClass = []
 
-      Factor.$filters.callback("ssr-context-callbacks", ({ matchedComponents }) =>
+      addCallback("ssr-context-callbacks", ({ matchedComponents }) =>
         matchedComponents.forEach(_ => this.setRouteClass(_))
       )
 
@@ -39,7 +39,7 @@ export default Factor => {
     manageClient() {
       const _this = this
 
-      Factor.$filters.callback("client-route-after", ({ to, from, next }) => {
+      addCallback("client-route-after", ({ to, from, next }) => {
         Factor.$globals.routeClass = []
         Factor.$globals.metatags = []
       })

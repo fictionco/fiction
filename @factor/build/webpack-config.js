@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import webpack from "webpack"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
-import { applyFilters } from "@factor/tools"
+import { applyFilters, addCallback } from "@factor/tools"
 const merge = require("webpack-merge")
 
 const nodeExternals = require("webpack-node-externals")
@@ -20,7 +20,7 @@ const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
 export default () => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("create-distribution-app", _ => this.buildProduction(_))
+      addCallback("create-distribution-app", _ => this.buildProduction(_))
       addFilter("webpack-config", _ => this.getConfig(_))
     }
 

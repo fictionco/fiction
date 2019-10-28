@@ -1,5 +1,5 @@
 import dataUtility from "./plugins/plugin-data"
-
+import { addCallback } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -9,7 +9,7 @@ export default Factor => {
       this.addFilters()
 
       // Get plugins - try #2
-      // Factor.$filters.callback("site-prefetch", async () => {
+      // addCallback("site-prefetch", async () => {
       //   const list = await dataUtility().getReadme()
 
       //   Factor.$store.add("myPlugins", list)
@@ -20,7 +20,7 @@ export default Factor => {
 
     // Get plugins - try #1b
     // addPlugins() {
-    //   Factor.$filters.callback("site-prefetch", async () => {
+    //   addCallback("site-prefetch", async () => {
     //     const list = await dataUtility().getReadme()
 
     //     Factor.$store.add("myPlugins", list)

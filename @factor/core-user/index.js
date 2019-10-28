@@ -5,7 +5,8 @@ import {
   emitEvent,
   addFilter,
   pushToFilter,
-  runCallbacks
+  runCallbacks,
+  addCallback
 } from "@factor/tools"
 export default Factor => {
   return new (class {
@@ -194,7 +195,7 @@ export default Factor => {
     }
 
     handleAuthRouting() {
-      Factor.$filters.callback("client-route-before", async ({ to, from, next }) => {
+      addCallback("client-route-before", async ({ to, from, next }) => {
         const user = await this.init() //this.currentUser()
         const { path: toPath } = to
 
@@ -219,7 +220,7 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.callback("before-user-init", user => {
+      addCallback("before-user-init", user => {
         const { path, matched } = Factor.$router.currentRoute
         const auth = matched.some(_r => _r.meta.auth)
 

@@ -24,11 +24,12 @@ Example:
 
 ```javascript
 // index.js
+import { addCallback } from "@factor/tools"
 export default Factor => {
   return new class {
     constructor() {
 
-      Factor.$filters.callback("cli-run-database-import", args => this.databaseImport(args))
+      addCallback("cli-run-database-import", args => this.databaseImport(args))
     }
 
 

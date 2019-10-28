@@ -1,13 +1,9 @@
-import { emitEvent } from "@factor/tools"
+import { emitEvent, addCallback } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("route-query-action-verify-email", _ =>
-        this.verifyEmail(_)
-      )
-      Factor.$filters.callback("route-query-action-reset-password", _ =>
-        this.showResetPassword(_)
-      )
+      addCallback("route-query-action-verify-email", _ => this.verifyEmail(_))
+      addCallback("route-query-action-reset-password", _ => this.showResetPassword(_))
     }
 
     async request(method, params) {
@@ -34,7 +30,7 @@ export default Factor => {
     }
 
     async showResetPassword({ _id, code }) {
-      Factor.$filters.callback("signin-modal-loaded", () => {
+      addCallback("signin-modal-loaded", () => {
         emitEvent("signin-modal")
       })
     }

@@ -33,12 +33,13 @@ Example:
 
 ```javascript
 // index.js
+import { addCallback } from "@factor/tools"
 export default Factor => {
   return new class{
     constructor(){
 
       // This requests information and adds to Factor store
-      Factor.$filters.callback('site-prefetch', async () => {
+      addCallback('site-prefetch', async () => {
         const list = await this.getList()
 
         Factor.$store.add("myList", list)
@@ -152,7 +153,7 @@ export default Factor => {
     constructor() {
       // adds "this" representing the current class as the server endpoint handler
       // the endpoint ID is "myEndpoint"
-      Factor.$filters.callback("endpoints", {
+      addCallback("endpoints", {
         id: "myEndpoint",
         handler: this
       })
