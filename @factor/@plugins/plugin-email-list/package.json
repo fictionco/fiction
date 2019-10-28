@@ -1,5 +1,6 @@
 {
   "name": "@factor/plugin-email-list",
+  "description": "This plugin makes it easy to collect email addresses for something like an invite list, launch list or newletter.",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
   "factor": {
