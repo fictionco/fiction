@@ -16,7 +16,6 @@ export default {
   signin: () => import("@factor/dashboard-signin/index.js"),
   http: () => import("@factor/tools-http/index.js"),
   markdown: () => import("@factor/tools-markdown/index.js"),
-  time: () => import("@factor/tools-time/index.js"),
   componentsForm: () => import("@factor/ui-components-form/index.js"),
   uiComponentsStandard: () => import("@factor/ui-components-standard/index.js"),
   directivesStandard: () => import("@factor/ui-directives-standard/index.js"),

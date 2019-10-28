@@ -31,7 +31,7 @@
 
 <script>
 import { getStatusCount, getPermalink } from "@factor/post"
-import { toLabel, standardDate } from "@factor/tools/utils"
+import { toLabel, standardDate } from "@factor/tools"
 export default {
   name: "UserList",
   props: {

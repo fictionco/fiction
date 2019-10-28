@@ -1,6 +1,6 @@
 import Factor from "vue"
 import { plugins } from "../extensions"
-import { deepMerge } from "@factor/tools/utils"
+import { deepMerge } from "@factor/tools"
 import axios from "axios"
 export default () => {
   return new (class {

@@ -24,7 +24,7 @@
 </template>
 <script>
 import { getPermalink, postTypeMeta, getStatusCount } from "@factor/post"
-import { toLabel } from "@factor/tools/utils"
+import { toLabel } from "@factor/tools"
 export default {
   name: "EmailListGrid",
   props: {

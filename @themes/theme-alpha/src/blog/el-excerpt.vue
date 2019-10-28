@@ -9,7 +9,7 @@
 </template>
 <script>
 import { link } from "@factor/post"
-import { excerpt } from "@factor/tools/utils"
+import { excerpt } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
