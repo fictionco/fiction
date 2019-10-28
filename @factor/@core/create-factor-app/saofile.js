@@ -15,7 +15,7 @@ const config = {
     {
       name: "description",
       message: "Project description",
-      default: `My ${superb()} Factor project`
+      default: `My ${superb.random()} Factor project`
     },
     {
       name: "author",
