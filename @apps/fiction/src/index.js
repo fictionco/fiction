@@ -1,11 +1,10 @@
+import { addFilter } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {
       this.addPaths()
-      this.events()
     }
-
-    events() {}
 
     async addPaths() {
       addFilter("page-templates", _ => {

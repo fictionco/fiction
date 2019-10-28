@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import webpack from "webpack"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
-import { applyFilters, addCallback } from "@factor/tools"
+import { applyFilters, addCallback, addFilter } from "@factor/tools"
 const merge = require("webpack-merge")
 
 const nodeExternals = require("webpack-node-externals")

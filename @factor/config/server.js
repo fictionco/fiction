@@ -1,7 +1,7 @@
 import { resolve } from "path"
 
 import Factor from "@factor/core"
-import { dotSetting, deepMerge } from "@factor/tools"
+import { dotSetting, deepMerge, addFilter } from "@factor/tools"
 
 export default () => {
   const { NODE_ENV, FACTOR_ENV } = process.env
