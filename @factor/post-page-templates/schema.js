@@ -1,3 +1,4 @@
+import { applyFilters } from "@factor/tools"
 export default Factor => {
   return {
     name: "page",
@@ -7,7 +8,7 @@ export default Factor => {
       //   next()
       // })
     },
-    schema: Factor.$filters.apply("page-template-schema", {
+    schema: applyFilters("page-template-schema", {
       template: String
     }),
     options: {}

@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import webpack from "webpack"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
-
+import { applyFilters } from "@factor/tools"
 const merge = require("webpack-merge")
 
 const nodeExternals = require("webpack-node-externals")
@@ -51,7 +51,7 @@ export default () => {
         ? { devtool: "", optimization: { minimize: false } }
         : {}
 
-      const plugins = Factor.$filters.apply("webpack-plugins", [], {
+      const plugins = applyFilters("webpack-plugins", [], {
         ..._arguments,
         webpack
       })
@@ -64,7 +64,7 @@ export default () => {
         plugins.push(new BundleAnalyzerPlugin({ generateStatsFile: true }))
       }
 
-      const packageConfig = Factor.$filters.apply("package-webpack-config", {})
+      const packageConfig = applyFilters("package-webpack-config", {})
 
       const config = merge(
         baseConfig,
@@ -144,10 +144,10 @@ export default () => {
         },
         resolve: {
           extensions: [".js", ".vue", ".json"],
-          alias: Factor.$filters.apply("webpack-aliases", {})
+          alias: applyFilters("webpack-aliases", {})
         },
         module: {
-          rules: Factor.$filters.apply("webpack-loaders", [
+          rules: applyFilters("webpack-loaders", [
             {
               test: /\.vue$/,
               loader: "vue-loader"
@@ -180,10 +180,10 @@ export default () => {
         },
 
         plugins: [
-          new CopyPlugin(Factor.$filters.apply("webpack-copy-files-config", [])),
+          new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
           new VueLoaderPlugin(),
           new webpack.DefinePlugin(
-            Factor.$filters.apply("webpack-define", {
+            applyFilters("webpack-define", {
               "process.env.FACTOR_SSR": JSON.stringify(target),
               "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
               "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
@@ -203,7 +203,7 @@ export default () => {
       }
 
       // Allow for ignoring of files that should not be packaged for client
-      const ignoreMods = Factor.$filters.apply("webpack-ignore-modules", [])
+      const ignoreMods = applyFilters("webpack-ignore-modules", [])
 
       if (ignoreMods.length > 0) {
         out.plugins.push(

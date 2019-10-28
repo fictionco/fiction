@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, applyFilters } from "@factor/tools"
 
 export default Factor => {
   return new (class {
@@ -39,7 +39,7 @@ export default Factor => {
         _.push({
           path: dashboardRoute,
           component: () => import("./wrap"),
-          children: Factor.$filters.apply("dashboard-routes", [
+          children: applyFilters("dashboard-routes", [
             {
               path: "admin",
               component: () => import("./vd-dashboard.vue"),

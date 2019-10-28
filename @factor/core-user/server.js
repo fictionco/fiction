@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-import { addFilter, pushToFilter } from "@factor/tools"
+import { addFilter, pushToFilter, applyFilters } from "@factor/tools"
 import { getModel, savePost } from "@factor/post/server"
 
 export default Factor => {
@@ -40,7 +40,7 @@ export default Factor => {
           throw new Error(e)
         }
 
-        Factor.$filters.apply("create-new-user", user)
+        applyFilters("create-new-user", user)
         return this.credential(user)
       } else {
         user = await getModel("user").findOne({ email }, "+password")

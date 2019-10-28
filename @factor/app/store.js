@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import FactorStore from "vuex"
 Factor.use(FactorStore)
-
+import { applyFilters } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {}
@@ -19,7 +19,7 @@ export default () => {
           }
         },
 
-        modules: Factor.$filters.apply("stores", {})
+        modules: applyFilters("stores", {})
       }
 
       const store = new FactorStore.Store(root)

@@ -5,7 +5,7 @@ import figures from "figures"
 import envfile from "envfile"
 import log from "@factor/logger"
 import { getExtensions } from "@factor/build/util"
-import { sortPriority, deepMerge } from "@factor/tools"
+import { sortPriority, deepMerge, applyFilters } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -14,7 +14,7 @@ export default Factor => {
       Factor.$filters.callback("cli-setup", _ => this.runSetup(_))
 
       Factor.$filters.callback("after-first-server-extend", () => {
-        this.setupNeeded = Factor.$filters.apply("setup-needed", [])
+        this.setupNeeded = applyFilters("setup-needed", [])
         if (this.setupNeeded.length > 0) {
           let lines = this.setupNeeded.map(_ => {
             return {
@@ -53,7 +53,7 @@ export default Factor => {
         ]
       })
 
-      let setups = Factor.$filters.apply(
+      let setups = applyFilters(
         "cli-add-setup",
         [
           {

@@ -1,5 +1,6 @@
 import { importPlugins } from "./util"
 import Factor from "@factor/core"
+import { applyFilters } from "@factor/tools"
 export default (options = {}) =>
   new (class {
     constructor() {}
@@ -43,7 +44,7 @@ export default (options = {}) =>
       if (__settings) Factor.$setting.add(__settings)
 
       Factor.$components = {}
-      const comps = Factor.$filters.apply("components", {})
+      const comps = applyFilters("components", {})
       for (var _ in comps) {
         if (comps[_]) {
           Factor.component(_, comps[_])
@@ -52,7 +53,7 @@ export default (options = {}) =>
       }
 
       if (Factor.FACTOR_SSR == "client") {
-        const directives = Factor.$filters.apply("client-directives", {})
+        const directives = applyFilters("client-directives", {})
 
         for (var _ in directives) {
           if (directives[_]) {

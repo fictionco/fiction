@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import FactorMeta from "vue-meta"
-import { addFilter } from "@factor/tools"
+import { addFilter, applyFilters } from "@factor/tools"
 
 Factor.use(FactorMeta, {
   keyName: "metaInfoCore"
@@ -30,7 +30,7 @@ export default () => {
 
         metaHooks.forEach(h => {
           context[h] = () => {
-            return Factor.$filters.apply(h, [], { context }).join("")
+            return applyFilters(h, [], { context }).join("")
           }
         })
 
@@ -48,7 +48,7 @@ export default () => {
           context[name] = additional => {
             classes.push(additional)
             attr.push(`class="${classes.join(" ")}"`)
-            return Factor.$filters.apply(name, attr, { context }).join(" ")
+            return applyFilters(name, attr, { context }).join(" ")
           }
         })
 
@@ -61,7 +61,7 @@ export default () => {
         ..._,
         {
           metaInfo() {
-            return Factor.$filters.apply("meta-default", {
+            return applyFilters("meta-default", {
               htmlAttrs: {
                 lang: "en"
               },
@@ -89,7 +89,7 @@ export default () => {
 
             const meta = typeof opt == "function" ? opt.call(this) : opt
 
-            const refined = Factor.$filters.apply("meta-refine", meta)
+            const refined = applyFilters("meta-refine", meta)
 
             return refined
           }

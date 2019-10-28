@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import schemaPost from "@factor/post/schema"
 import mongoose from "mongoose/browser"
-
+import { applyFilters } from "@factor/tools"
 export const objectIdType = () => mongoose.Schema.Types.ObjectId
 
 export function objectId(str) {
@@ -9,11 +9,8 @@ export function objectId(str) {
 }
 
 export function getAddedSchemas() {
-  return Factor.$filters.apply("data-schemas", [schemaPost()]).map(s => {
-    return Factor.$filters.apply(
-      `data-schema-${s.name}`,
-      typeof s == "function" ? s() : s
-    )
+  return applyFilters("data-schemas", [schemaPost()]).map(s => {
+    return applyFilters(`data-schema-${s.name}`, typeof s == "function" ? s() : s)
   })
 }
 

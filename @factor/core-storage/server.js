@@ -1,6 +1,6 @@
 const multer = require("multer")
 import { getModel } from "@factor/post/server"
-import { addFilter, pushToFilter } from "@factor/tools"
+import { addFilter, pushToFilter, applyFilters } from "@factor/tools"
 import { objectIdType, objectId } from "@factor/post/util"
 export default Factor => {
   return new (class {
@@ -45,7 +45,7 @@ export default Factor => {
         size
       })
 
-      const attachmentUrl = await Factor.$filters.apply("storage-attachment-url", {
+      const attachmentUrl = await applyFilters("storage-attachment-url", {
         buffer,
         key: `${attachment._id}.${this.mime.extension(mimetype)}`,
         _id: attachment._id
