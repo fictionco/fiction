@@ -1,4 +1,5 @@
 <script>
+import { pickBy, isEmpty } from "@factor/tools"
 export default {
   props: {
     btn: { type: String, default: "" },
@@ -22,10 +23,10 @@ export default {
     // Remove any 'falsy' values from query
     // https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
     // Removing empty values ensures a reduction in any potential "duplicate content" issues with the default state
-    const _ = this.$lodash
-    let query = _.pickBy(this.query, _.identity) || {}
 
-    path = !path && !_.isEmpty(query) ? this.$route.path : path
+    let query = pickBy(this.query, _.identity) || {}
+
+    path = !path && !isEmpty(query) ? this.$route.path : path
 
     path = path.trim()
 

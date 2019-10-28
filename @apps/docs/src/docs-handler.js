@@ -1,4 +1,4 @@
-//import settings from "#/settings"
+import { toLabel } from "@factor/utils"
 export default Factor => {
   return new (class {
     config() {
@@ -24,8 +24,8 @@ export default Factor => {
         const d = {
           doc: _.doc,
           route: `/${Factor.$setting.get("docs.base")}/${_.doc}`,
-          name: Factor.$utils.toLabel(_.doc),
-          title: Factor.$utils.toLabel(_.doc),
+          name: toLabel(_.doc),
+          title: toLabel(_.doc),
           description: ""
         }
 

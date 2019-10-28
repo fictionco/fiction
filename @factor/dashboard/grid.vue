@@ -11,7 +11,7 @@
           <template v-if="col._id == 'select'">
             <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" />
           </template>
-          <span v-else class="head-text">{{ col.name || $utils.toLabel(col._id) }}</span>
+          <span v-else class="head-text">{{ col.name || toLabel(col._id) }}</span>
         </div>
       </div>
       <div
@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import { toLabel } from "@factor/tools"
 export default {
   props: {
     rows: { type: Array, default: () => [] },
@@ -68,6 +69,7 @@ export default {
     }
   },
   methods: {
+    toLabel,
     selectAll() {
       if (this.selected) {
         this.selected = false

@@ -5,7 +5,7 @@ import figures from "figures"
 import envfile from "envfile"
 import log from "@factor/logger"
 import { getExtensions } from "@factor/build/util"
-
+import { sortPriority, deepMerge } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -69,7 +69,7 @@ export default Factor => {
         this.existingSettings()
       )
 
-      setups = Factor.$utils.sortPriority(setups)
+      setups = sortPriority(setups)
 
       // Escapes the endless loop
       let askAgain = true
@@ -152,12 +152,12 @@ export default Factor => {
       const { publicConfig, privateConfig } = this.existingSettings()
 
       if (file.includes("factor-config")) {
-        const conf = Factor.$utils.deepMerge([publicConfig, values])
+        const conf = deepMerge([publicConfig, values])
         fs.writeFileSync(this.configFile, JSON.stringify(conf, null, "  "))
       }
 
       if (file.includes("env")) {
-        const sec = Factor.$utils.deepMerge([privateConfig, values])
+        const sec = deepMerge([privateConfig, values])
 
         fs.writeFileSync(this.secretsFile, envfile.stringifySync(sec))
       }

@@ -55,7 +55,7 @@
             input="factor-input-select"
           />
 
-          <div v-if="!$lodash.isEmpty(lastRevision)" class="save-info">
+          <div v-if="!isEmpty(lastRevision)" class="save-info">
             <factor-loading-ring v-if="sendingDraft" width="1.4em" />
             <template v-else>
               <div
@@ -64,7 +64,7 @@
               >There are unpublished changes.</div>
               <div
                 class="saved-at"
-              >Draft Saved at {{ $time.util(lastRevision.timestamp).format("h:mma (M/D)") }}</div>
+              >Draft Saved at {{ timeUtil(lastRevision.timestamp).format("h:mma (M/D)") }}</div>
             </template>
             <div class="draft-actions">
               <factor-btn size="tiny" class="save-draft" @click="saveDraft()">Save Draft</factor-btn>
@@ -95,6 +95,7 @@
   </dashboard-page>
 </template>
 <script>
+import { isEmpty, cloneDeep, toLabel, excerpt } from "@factor/tools"
 import { getPermalink, requestPostSave } from "@factor/post"
 export default {
   components: {
@@ -141,12 +142,12 @@ export default {
     },
 
     excerpt() {
-      return this.$utils.excerpt(this.post.content)
+      return excerpt(this.post.content)
     },
     title() {
       const mode = this.isNew ? "Add New" : "Edit"
 
-      return `${mode} ${this.$utils.toLabel(this.postType)}`
+      return `${mode} ${toLabel(this.postType)}`
     },
 
     postType() {
@@ -180,6 +181,8 @@ export default {
   },
 
   methods: {
+    isEmpty,
+    timeUtil,
     async savePost() {
       this.sending = true
 
@@ -227,7 +230,7 @@ export default {
       const { revisions, ...post } = this.post
 
       let revertTo = {}
-      const newRevisions = this.$lodash.cloneDeep(revisions)
+      const newRevisions = cloneDeep(revisions)
       revisions.some((r, index) => {
         if (r.published) {
           revertTo = r.post

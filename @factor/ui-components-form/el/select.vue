@@ -17,6 +17,7 @@
   </select>
 </template>
 <script>
+import { parseList } from "@factor/tools"
 export default {
   props: {
     value: { type: [Number, String, Boolean], default: "" },
@@ -41,7 +42,7 @@ export default {
 
     parsedList() {
       return this.list
-        ? this.$utils.parseList(this.list, {
+        ? parseList(this.list, {
             suffix: this.listSuffix
           })
         : []

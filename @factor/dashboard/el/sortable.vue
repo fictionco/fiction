@@ -26,7 +26,7 @@
             placeholder="Edit Title"
             :size="getValue('__title') ? getValue('__title').length + 2 : 8"
             @input="setValue('__title', $event.target.value)"
-          >
+          />
           <span class="edit-me">
             <factor-icon icon="pencil" />
           </span>
@@ -51,6 +51,7 @@
   </div>
 </template>
 <script>
+import { DOM } from "@factor/tools"
 import Sortable from "sortablejs"
 export default {
   props: {
@@ -100,7 +101,7 @@ export default {
           }
         },
         onMove: e => {
-          if (this.$jquery(e.related).hasClass("ignore-sortable")) {
+          if (DOM(e.related).hasClass("ignore-sortable")) {
             return false
           }
         }
@@ -125,19 +126,13 @@ export default {
       }
     },
     getValue(_id) {
-      return this.localValue[this.selected]
-        ? this.localValue[this.selected][_id]
-        : null
+      return this.localValue[this.selected] ? this.localValue[this.selected][_id] : null
     },
     setValue(_id, val) {
       const newLocalValue = this.localValue.slice()
-      newLocalValue[this.selected] = Object.assign(
-        {},
-        newLocalValue[this.selected],
-        {
-          [_id]: val
-        }
-      )
+      newLocalValue[this.selected] = Object.assign({}, newLocalValue[this.selected], {
+        [_id]: val
+      })
 
       this.localValue = newLocalValue
     }

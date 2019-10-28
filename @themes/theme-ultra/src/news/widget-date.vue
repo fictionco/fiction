@@ -1,9 +1,10 @@
 <template>
   <div>
-    <p class="date">{{ $time.niceFormat(post.date) }}</p>
+    <p class="date">{{ standardDate(post.date) }}</p>
   </div>
 </template>
 <script>
+import { standardDate } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -12,6 +13,9 @@ export default {
     post() {
       return this.$store.val(this.postId) || {}
     }
+  },
+  methods: {
+    standardDate
   }
 }
 </script>

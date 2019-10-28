@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import { excerpt } from "@factor/tools"
 export default {
   components: {
     "work-entry": () => import("./work-entry")
@@ -31,7 +32,7 @@ export default {
     const post = this.post || {}
     return {
       title: post.titleTag || post.title,
-      description: post.description || this.$utils.excerpt(post.content),
+      description: post.description || excerpt(post.content),
       image: this.socialImage(post)
     }
   },

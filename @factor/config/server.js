@@ -1,6 +1,7 @@
 import { resolve } from "path"
 
 import Factor from "@factor/core"
+import { dotSetting, deepMerge } from "@factor/tools"
 
 export default () => {
   const { NODE_ENV, FACTOR_ENV } = process.env
@@ -42,16 +43,13 @@ export default () => {
         publicConfig[FACTOR_ENV]
       ].filter(_ => _)
 
-      this._settingsPublic = Factor.$utils.deepMerge(configObjectsPublic)
+      this._settingsPublic = deepMerge(configObjectsPublic)
 
       const configObjectsPrivate = [process.env].filter(_ => _)
 
-      this._settingsPrivate = Factor.$utils.deepMerge(configObjectsPrivate)
+      this._settingsPrivate = deepMerge(configObjectsPrivate)
 
-      const mergedConfig = Factor.$utils.deepMerge([
-        this._settingsPublic,
-        this._settingsPrivate
-      ])
+      const mergedConfig = deepMerge([this._settingsPublic, this._settingsPrivate])
 
       this._settings = this.addCalculatedConfig(mergedConfig)
     }
@@ -77,7 +75,7 @@ export default () => {
     }
 
     setting(key, fallback) {
-      return Factor.$utils.dotSetting({ key, settings: this._settings }) || fallback
+      return dotSetting({ key, settings: this._settings }) || fallback
     }
   })()
 }

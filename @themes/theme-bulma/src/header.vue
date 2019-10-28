@@ -64,6 +64,7 @@
 </template>
 <style src="#/css/style-vars.scss" lang="sass"></style>
 <script>
+import { DOM } from "@factor/tools"
 export default {
   components: {
     "site-brand": () => import("./el/logo-bulma"),
@@ -82,9 +83,9 @@ export default {
     },
     toggle: function(v) {
       if (v) {
-        this.$jquery("body").addClass("mobile-nav")
+        DOM("body").addClass("mobile-nav")
       } else {
-        this.$jquery("body").removeClass("mobile-nav")
+        DOM("body").removeClass("mobile-nav")
       }
     }
   },
@@ -101,7 +102,7 @@ export default {
 
         document.removeEventListener("click", this.clickHandler)
         // eslint-disable-next-line semi
-      };
+      }
       if (this.toggle) {
         document.addEventListener("click", this.clickHandler)
       } else {

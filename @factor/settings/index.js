@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
-import { dotSetting } from "@factor/tools/utils"
+import { dotSetting, deepMerge } from "@factor/tools"
 import { getExports } from "@factor/extend/util"
-
+import { applyFilters } from "@factor/filters/util"
 if (!Factor.$setting) {
   class FactorSettings {
     constructor() {
@@ -41,11 +41,11 @@ if (!Factor.$setting) {
         }
       )
 
-      const settingsArray = Factor.$filters.apply("factor-settings", _objects)
+      const settingsArray = applyFilters("factor-settings", _objects)
 
-      const merged = Factor.$utils.deepMerge([this.config, ...settingsArray])
+      const merged = deepMerge([this.config, ...settingsArray])
 
-      this._settings = Factor.$filters.apply("merged-factor-settings", merged)
+      this._settings = applyFilters("merged-factor-settings", merged)
 
       return
     }

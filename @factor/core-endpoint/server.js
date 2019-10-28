@@ -4,6 +4,8 @@ import { parse } from "qs"
 import { getSinglePost } from "@factor/post/server"
 import { addFilter, applyFilters } from "@factor/filters/util"
 import log from "@factor/logger"
+import { merge } from "@factor/tools"
+
 export default () => {
   const util = require(".").default(Factor)
   const server = new (class {
@@ -94,5 +96,5 @@ export default () => {
     }
   })()
 
-  return Factor.$lodash.merge(util, server)
+  return merge(util, server)
 }

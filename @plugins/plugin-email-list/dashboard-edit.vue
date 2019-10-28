@@ -19,6 +19,7 @@
 
 <script>
 import { postTypeMeta } from "@factor/post"
+import { toLabel } from "@factor/tools"
 export default {
   name: "EmailListGrid",
   props: {
@@ -71,7 +72,7 @@ export default {
         }
 
         return {
-          name: this.$utils.toLabel(key),
+          name: toLabel(key),
           value: key == "all" ? "" : key,
           count
         }

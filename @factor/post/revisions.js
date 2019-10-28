@@ -1,3 +1,4 @@
+import { timestamp } from "@factor/tools"
 export default class PostRevisions {
   // Save revisions to post
   // This should be merged into existing post (update)
@@ -22,7 +23,7 @@ export default class PostRevisions {
     revisions = revisions || []
 
     const draft = {
-      timestamp: Factor.$time.stamp(),
+      timestamp: timestamp(),
       editor: Factor.$user._id(),
       post: postData,
       ...meta
@@ -50,7 +51,7 @@ export default class PostRevisions {
         if (
           counter &&
           rev.timestamp > counter - 3600 &&
-          rev.timestamp < Factor.$time.stamp() - 3600
+          rev.timestamp < timestamp() - 3600
         ) {
           return false
         } else {

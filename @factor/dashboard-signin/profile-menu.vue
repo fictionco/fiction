@@ -17,7 +17,7 @@
             <div class="content" :data-uid="$user._id()">
               <div class="name">{{ $user._item("displayName") || $user._item("email") }}</div>
               <div v-if="role.title" class="privs">
-                <span class="status">{{ $utils.toLabel(role.title) }}</span>
+                <span class="status">{{ toLabel(role.title) }}</span>
               </div>
             </div>
           </div>
@@ -42,6 +42,7 @@
   </div>
 </template>
 <script>
+import { toLabel } from "@factor/tools"
 export default {
   props: {
     showName: { type: Boolean, default: false }
@@ -85,6 +86,7 @@ export default {
     })
   },
   methods: {
+    toLabel,
     itemClick(item) {
       if (typeof item.click == "function") {
         item.click()
@@ -164,8 +166,7 @@ export default {
   top: 120%;
   z-index: 1000;
   box-shadow: 0px 0px 0px 1px rgba(136, 152, 170, 0.1),
-    0px 15px 35px 0px rgba(49, 49, 93, 0.1),
-    0px 5px 15px 0px rgba(0, 0, 0, 0.08);
+    0px 15px 35px 0px rgba(49, 49, 93, 0.1), 0px 5px 15px 0px rgba(0, 0, 0, 0.08);
   min-width: 250px;
   background: #fff;
   border-radius: 5px;

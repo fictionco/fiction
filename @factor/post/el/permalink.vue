@@ -19,6 +19,7 @@
   </div>
 </template>
 <script>
+import { slugify } from "@factor/tools"
 import { getPermalink } from "@factor/post"
 export default {
   props: {
@@ -44,7 +45,7 @@ export default {
       return this.tog || this.toggle ? true : false
     },
     initialPermalink() {
-      return this.$utils.slugify(this.initial)
+      return slugify(this.initial)
     },
     listeners() {
       return {
@@ -70,7 +71,7 @@ export default {
   methods: {
     getPermalink,
     emit(v) {
-      this.$emit("input", this.$utils.slugify(v))
+      this.$emit("input", slugify(v))
     },
     updateFromInitial() {
       this.emit(this.initialPermalink)

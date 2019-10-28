@@ -51,6 +51,7 @@
   </div>
 </template>
 <script>
+import { DOM, throttle } from "@factor/tools"
 import docs from "./docs-handler"
 export default {
   props: {
@@ -99,7 +100,7 @@ export default {
     setPage() {
       // Make sure new content is loaded before scanning for h2, h3
       setTimeout(() => {
-        this.scroller = this.$jquery.find(".scroller")[0]
+        this.scroller = DOM.find(".scroller")[0]
 
         if (this.scroller) {
           this.headers = this.getHeaders(this.scroller)
@@ -109,7 +110,7 @@ export default {
       }, 40)
     },
     onScroll() {
-      return this.$lodash.throttle(() => {
+      return throttle(() => {
         this.setActiveHash()
       }, 100)
     },

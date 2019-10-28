@@ -1,5 +1,6 @@
 import { getModel } from "@factor/post/server"
 import { getPermalink } from "@factor/post"
+import { uniq } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -54,9 +55,9 @@ export default Factor => {
       // get routes
       // then remove duplicated and dynamic routes (which include a colon (:))
       const contentRoutes = Factor.$filters.apply("content-routes", [])
-      const theRoutes = Factor.$lodash
-        .uniq(this.getRoutesRecursively(contentRoutes))
-        .filter(perm => !perm.includes(":"))
+      const theRoutes = uniq(this.getRoutesRecursively(contentRoutes)).filter(
+        perm => !perm.includes(":")
+      )
 
       return theRoutes.map(perm => `${Factor.$setting.get("url")}${perm}`)
     }

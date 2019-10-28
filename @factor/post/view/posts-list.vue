@@ -45,9 +45,9 @@
         <dashboard-user-card v-for="(_id, index) in row.author" :key="index" :post-id="_id" />
       </template>
 
-      <template #status="{row}">{{ $utils.toLabel(row.status) }}</template>
-      <template #updated="{row}">{{ $time.niceFormat(row.updatedAt) }}</template>
-      <template #publish-date="{row}">{{ $time.niceFormat(row.date) }}</template>
+      <template #status="{row}">{{ toLabel(row.status) }}</template>
+      <template #updated="{row}">{{ standardDate(row.updatedAt) }}</template>
+      <template #publish-date="{row}">{{ standardDate(row.date) }}</template>
     </dashboard-grid>
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
@@ -59,7 +59,7 @@ import {
   requestPostSaveMany,
   requestPostDeleteMany
 } from "@factor/post"
-import { toLabel } from "@factor/tools/utils"
+import { toLabel, standardDate } from "@factor/tools"
 export default {
   props: {
     title: { type: String, default: "" },
@@ -119,6 +119,8 @@ export default {
   },
 
   methods: {
+    toLabel,
+    standardDate,
     selectAll(val) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },

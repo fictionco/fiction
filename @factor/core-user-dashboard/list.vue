@@ -22,16 +22,16 @@
         <factor-avatar :post-id="row.avatar" />
       </template>
 
-      <template #role="{row}">{{ $utils.toLabel(row.role) }}</template>
-      <template #signed-up="{row}">{{ $time.niceFormat(row.createdAt) }}</template>
-      <template #last-seen="{row}">{{ $time.niceFormat(row.signedInAt) }}</template>
+      <template #role="{row}">{{ toLabel(row.role) }}</template>
+      <template #signed-up="{row}">{{ standardDate(row.createdAt) }}</template>
+      <template #last-seen="{row}">{{ standardDate(row.signedInAt) }}</template>
     </dashboard-grid>
   </dashboard-pane>
 </template>
 
 <script>
 import { getStatusCount, getPermalink } from "@factor/post"
-import { toLabel } from "@factor/tools/utils"
+import { toLabel, standardDate } from "@factor/tools/utils"
 export default {
   name: "UserList",
   props: {
@@ -84,6 +84,8 @@ export default {
   },
 
   methods: {
+    toLabel,
+    standardDate,
     postlink(postType, permalink, root = true) {
       return getPermalink({ postType, permalink, root })
     },

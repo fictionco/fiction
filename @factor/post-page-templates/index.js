@@ -1,3 +1,4 @@
+import { toLabel } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -90,7 +91,7 @@ export default Factor => {
           return index === lastIndexOf
         })
         .map(_ => {
-          const name = _.name || Factor.$utils.toLabel(_._id.replace("tpl-", ""))
+          const name = _.name || toLabel(_._id.replace("tpl-", ""))
           return {
             name,
             ..._
