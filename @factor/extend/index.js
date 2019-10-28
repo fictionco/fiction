@@ -14,8 +14,6 @@ export default (options = {}) =>
       })
 
       await importPlugins({
-        tools: () => import("@factor/tools"),
-        filters: () => import("@factor/filters"),
         paths: () => import("@factor/paths"),
         config: () => import("@factor/config"),
         setting: () => import("@factor/settings"),

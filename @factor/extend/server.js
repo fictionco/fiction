@@ -14,8 +14,6 @@ export default () => {
       process.env.FACTOR_TARGET = "server"
 
       const core = {
-        tools: () => import("@factor/tools"),
-        filters: () => import("@factor/filters"),
         paths: () => import("@factor/paths/server"),
         loaders: () => import("@factor/build/loaders"),
         override: () => import("@factor/core-override"),

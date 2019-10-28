@@ -1,4 +1,6 @@
+/* eslint-disable jest/no-export */
 import { resolve, join, dirname } from "path"
+import { runCallbacks } from "@factor/tools"
 export { default as getPort } from "get-port"
 export { default as rp } from "request-promise-native"
 
@@ -29,7 +31,7 @@ export const buildFixture = fixture => {
     try {
       const Factor = await cli.factorize()
 
-      await Factor.$filters.run("create-distribution-app", { testing: true })
+      await runCallbacks("create-distribution-app", { testing: true })
     } catch (error_) {
       error = error_
     }
