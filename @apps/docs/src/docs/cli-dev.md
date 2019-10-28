@@ -84,7 +84,8 @@ await Factor.$setup.writeConfig("factor-config", {
 
 ```js
 // server.js
-Factor.$filters.push("cli-add-setup", ({ privateConfig }) => {
+import { pushToFilter } from "@factor/tools"
+pushToFilter("cli-add-setup", ({ privateConfig }) => {
   return {
     // Name of selection
     name: "DB Connection - Add/edit the connection string for MongoDB",

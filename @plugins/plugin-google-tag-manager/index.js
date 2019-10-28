@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, pushToFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -9,7 +9,7 @@ export default Factor => {
       this.addSetupCli(this.setupTitle)
 
       if (!this.gtm_id) {
-        Factor.$filters.push("setup-needed", { title: this.setupTitle })
+        pushToFilter("setup-needed", { title: this.setupTitle })
 
         return
       }

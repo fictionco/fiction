@@ -1,3 +1,4 @@
+import { pushToFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -5,21 +6,21 @@ export default Factor => {
     }
 
     filters() {
-      Factor.$filters.push("dashboard-routes", {
+      pushToFilter("dashboard-routes", {
         path: "account",
         component: () => import("./account"),
         meta: {
           postType: "user"
         }
       })
-      Factor.$filters.push("dashboard-menu", {
+      pushToFilter("dashboard-menu", {
         group: "account",
         path: "account",
         name: "Your Account",
         icon: require("./img/users.svg")
       })
 
-      Factor.$filters.push("post-types", {
+      pushToFilter("post-types", {
         postType: "user",
         icon: require("./img/users.svg"),
         nameIndex: "Users",

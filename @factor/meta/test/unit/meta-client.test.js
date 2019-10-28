@@ -8,7 +8,7 @@ import extendApp from "@factor/extend"
 // import { createApp } from "@factor/app/app"
 // import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
 // import { render, renderToString } from "@vue/server-test-utils"
-
+import { pushToFilter } from "@factor/tools"
 import { waitFor, indexHtml } from "@test/utils"
 import FactorStore from "@factor/app/store"
 import FactorRouter from "@factor/app/router"
@@ -29,7 +29,7 @@ describe("meta info client", () => {
   })
 
   it("loads title correctly", async () => {
-    Factor.$filters.push("routes", {
+    pushToFilter("routes", {
       path: "/meta",
       component: () => import("./meta.vue")
     })

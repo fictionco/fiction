@@ -27,7 +27,8 @@ It's easy to add a new post type to Factor, all you need to do is add a new obje
 
 ```js
 // index.js
-Factor.$filters.push("post-types", {
+import { pushToFilter } from "@factor/tools"
+pushToFilter("post-types", {
   postType: "jobs",
   nameIndex: "Jobs",
   nameSingle: "Jobs Post",
@@ -48,7 +49,7 @@ To do so, all you need to do is add your own components:
 
 ```js
 // index.js
-Factor.$filters.push("post-types", {
+pushToFilter("post-types", {
   postType: "my-post-type",
   listTemplate: () => import("./custom-dashboard-list-view.vue"),
   editTemplate: () => import("./custom-post-edit-view.vue")
@@ -77,7 +78,7 @@ If you'd like to extend the basic post schema, then you'll need to add it using 
 ```js
 import { objectIdType } from "@factor/post/util"
 // index.js To register a new data schema
-Factor.$filters.push("data-schemas", {
+pushToFilter("data-schemas", {
    // Post Type Name: url friendly
   name: "post-type-name",
   // Mongoose Middleware/hooks https://mongoosejs.com/docs/middleware.html

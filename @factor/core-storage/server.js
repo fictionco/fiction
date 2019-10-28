@@ -1,6 +1,6 @@
 const multer = require("multer")
 import { getModel } from "@factor/post/server"
-import { addFilter } from "@factor/tools"
+import { addFilter, pushToFilter } from "@factor/tools"
 import { objectIdType, objectId } from "@factor/post/util"
 export default Factor => {
   return new (class {
@@ -8,7 +8,7 @@ export default Factor => {
       this.mime = require("mime-types")
       Factor.$filters.callback("endpoints", { id: "storage", handler: this })
 
-      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+      pushToFilter("data-schemas", () => require("./schema").default(Factor), {
         key: "storage"
       })
 
