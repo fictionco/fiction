@@ -1,3 +1,5 @@
+import { addFilter } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {
@@ -5,7 +7,7 @@ export default Factor => {
     }
 
     filters() {
-      Factor.$filters.add(
+      addFilter(
         "factor_head",
         _ => {
           const add = Factor.$setting.get("headTags.font")
@@ -19,7 +21,7 @@ export default Factor => {
 
       const baseRoute = Factor.$setting.get("work.postRoute")
 
-      Factor.$filters.add("post-types", _ => {
+      addFilter("post-types", _ => {
         _.push({
           postType: "work",
           baseRoute,
@@ -35,7 +37,7 @@ export default Factor => {
 
       // PAGE TEMPLATES
 
-      Factor.$filters.add("page-templates", _ => {
+      addFilter("page-templates", _ => {
         return _.concat([
           {
             name: "Default",
@@ -47,7 +49,7 @@ export default Factor => {
 
       // CONTENT ROUTES
 
-      Factor.$filters.add("content-routes", _ => {
+      addFilter("content-routes", _ => {
         const routes = [
           {
             path: "/",

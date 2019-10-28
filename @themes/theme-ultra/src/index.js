@@ -1,3 +1,4 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -5,7 +6,7 @@ export default Factor => {
     }
 
     filters() {
-      Factor.$filters.add(
+      addFilter(
         "factor_head",
         _ => {
           const add = Factor.$setting.get("headTags.font")
@@ -17,7 +18,7 @@ export default Factor => {
 
       const portfolioBaseRoute = Factor.$setting.get("portfolio.postRoute")
 
-      Factor.$filters.add("post-types", _ => {
+      addFilter("post-types", _ => {
         _.push({
           postType: "portfolio",
           portfolioBaseRoute,
@@ -33,7 +34,7 @@ export default Factor => {
 
       const newsBaseRoute = Factor.$setting.get("news.postRoute")
 
-      Factor.$filters.add("post-types", _ => {
+      addFilter("post-types", _ => {
         _.push({
           postType: "news",
           portfolioBaseRoute,
@@ -47,7 +48,7 @@ export default Factor => {
         return _
       })
 
-      Factor.$filters.add("page-templates", _ => {
+      addFilter("page-templates", _ => {
         return _.concat([
           {
             name: "Default",
@@ -57,7 +58,7 @@ export default Factor => {
         ])
       })
 
-      Factor.$filters.add("content-routes", _ => {
+      addFilter("content-routes", _ => {
         const routes = [
           {
             path: "/",

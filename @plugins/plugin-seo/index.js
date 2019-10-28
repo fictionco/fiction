@@ -1,14 +1,14 @@
 import { objectIdType } from "@factor/post/util"
-
+import { addFilter, pushToFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.push("post-edit-components", {
+      pushToFilter("post-edit-components", {
         name: "SEO and Sharing",
         component: () => import("./seo-panel.vue")
       })
 
-      Factor.$filters.add("post-schema", _ => {
+      addFilter("post-schema", _ => {
         return {
           ..._,
           titleTag: { type: String, trim: true },
@@ -17,7 +17,7 @@ export default Factor => {
         }
       })
 
-      Factor.$filters.add("post-populated-fields", _ => {
+      addFilter("post-populated-fields", _ => {
         _.push({ field: "shareImage", depth: 20 })
         return _
       })

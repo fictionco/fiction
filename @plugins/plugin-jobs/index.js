@@ -1,22 +1,20 @@
+import { addFilter, pushToFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.push("data-schemas", () => require("./schema").default(Factor), {
+      pushToFilter("data-schemas", () => require("./schema").default(Factor), {
         key: "jobs"
       })
 
       this.filters()
 
-      Factor.$filters.add("post-populated-fields", _ => {
-        _.push({ field: "jobIcon", depth: 20 })
-        return _
-      })
+      pushToFilter("post-populated-fields", { field: "jobIcon", depth: 20 })
     }
 
     filters() {
       const baseRoute = Factor.$setting.get("jobs.postRoute")
 
-      Factor.$filters.push("post-types", {
+      pushToFilter("post-types", {
         postType: "jobs",
         baseRoute,
         icon: require("./img/jobs.svg"),
@@ -26,34 +24,25 @@ export default Factor => {
         namePlural: "Jobs Posts"
       })
 
-      Factor.$filters.add("content-routes", _ => {
-        return [
-          ..._,
+      pushToFilter("content-routes", {
+        path: Factor.$setting.get("jobs.indexRoute"),
+        component: Factor.$setting.get("jobs.components.jobsContent"),
+        children: [
           {
-            path: Factor.$setting.get("jobs.indexRoute"),
-            component: Factor.$setting.get("jobs.components.jobsContent"),
-            children: [
-              {
-                path: "/",
-                component: Factor.$setting.get("jobs.components.jobsIndex")
-              },
-              {
-                path: `${Factor.$setting.get("jobs.postRoute")}/:permalink`,
-                component: Factor.$setting.get("jobs.components.jobsSingle")
-              }
-            ]
+            path: "/",
+            component: Factor.$setting.get("jobs.components.jobsIndex")
+          },
+          {
+            path: `${Factor.$setting.get("jobs.postRoute")}/:permalink`,
+            component: Factor.$setting.get("jobs.components.jobsSingle")
           }
         ]
       })
 
-      Factor.$filters.add("post-edit-components", _ => {
-        _.push({
-          postType: ["jobs"],
-          name: "Job Settings",
-          component: () => import("./edit-post-settings")
-        })
-
-        return _
+      pushToFilter("post-edit-components", {
+        postType: ["jobs"],
+        name: "Job Settings",
+        component: () => import("./edit-post-settings")
       })
     }
   })()

@@ -1,3 +1,4 @@
+import { addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -7,7 +8,7 @@ export default Factor => {
     filters() {
       // PAGE TEMPLATES
 
-      Factor.$filters.add("page-templates", _ => {
+      addFilter("page-templates", _ => {
         return _.concat([
           {
             name: "Default",
@@ -19,7 +20,7 @@ export default Factor => {
 
       // CONTENT ROUTES
 
-      Factor.$filters.add("content-routes", _ => {
+      addFilter("content-routes", _ => {
         const routes = [
           {
             path: "/",
