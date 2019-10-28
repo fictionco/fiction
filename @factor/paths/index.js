@@ -172,3 +172,7 @@ export function getPath(_id) {
 export function resolveFilePath(path) {
   return $paths.resolveFilePath(path)
 }
+
+export function localhostUrl(path) {
+  return $paths.localhostUrl(path)
+}

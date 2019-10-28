@@ -1,255 +1,260 @@
 /* eslint-disable unicorn/no-process-exit */
-const Factor = require("vue")
-const execa = require("execa")
-const listr = require("listr")
-const program = require("commander")
-const inquirer = require("inquirer")
-const pkg = require("./package")
+
+import Factor from "@factor/core"
+import execa from "execa"
+import listr from "listr"
+import program from "commander"
+import inquirer from "inquirer"
+import pkg from "./package"
 import log from "@factor/logger"
-process.noDeprecation = true
-process.maxOldSpaceSize = 8192
+
 import extender from "@factor/extend/server"
 import transpiler from "@factor/build/transpiler"
+import { getPath, localhostUrl } from "@factor/paths"
 import { runCallbacks, addCallback } from "@factor/tools"
-export default () => {
-  return new (class {
-    constructor() {
-      this.passedArguments = process.argv.filter(_ => _.includes("--"))
 
-      this.setupProgram()
-    }
+process.noDeprecation = true
+process.maxOldSpaceSize = 8192
 
-    setupProgram() {
-      this.program = program
+export class FactorCLI {
+  constructor() {
+    this.passedArguments = process.argv.filter(_ => _.includes("--"))
 
-      // options added by filters, plugins or if not wanted in '--help'
-      this.program.allowUnknownOption(true)
+    this.setupProgram()
+  }
 
-      this.program
-        .version(pkg.version)
-        .description("CLI for managing Factor data, builds and deployments")
-        .option("--PORT <PORT>", "set server port. default: 3000")
-        .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
-        .option("--no-load-plugins", "Do not extend build for this command.")
-        .option("--restart", "Restart server process flag.")
+  setupProgram() {
+    this.program = program
 
-      this.program
-        .command("dev")
-        .description("Start development server")
-        .action(_arguments =>
-          this.runCommand({ command: "dev", _arguments, NODE_ENV: "development" })
-        )
+    // options added by filters, plugins or if not wanted in '--help'
+    this.program.allowUnknownOption(true)
 
-      this.program
-        .command("start")
-        .description("Build and then serve production app.")
-        .action(_arguments => this.runCommand({ command: "start", _arguments }))
+    this.program
+      .version(pkg.version)
+      .description("CLI for managing Factor data, builds and deployments")
+      .option("--PORT <PORT>", "set server port. default: 3000")
+      .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
+      .option("--no-load-plugins", "Do not extend build for this command.")
+      .option("--restart", "Restart server process flag.")
 
-      this.program
-        .command("serve [NODE_ENV]")
-        .description("Serve app in selected environment.")
-        .action((NODE_ENV, _arguments) =>
-          this.runCommand({ command: "serve", _arguments, install: false, NODE_ENV })
-        )
+    this.program
+      .command("dev")
+      .description("Start development server")
+      .action(_arguments =>
+        this.runCommand({ command: "dev", _arguments, NODE_ENV: "development" })
+      )
 
-      this.program
-        .command("build")
-        .option("--analyze", "Analyze package size")
-        .option("--speed", "Output build speed data")
-        .description("Build production app")
-        .action(_arguments => this.runCommand({ command: "build", _arguments }))
+    this.program
+      .command("start")
+      .description("Build and then serve production app.")
+      .action(_arguments => this.runCommand({ command: "start", _arguments }))
 
-      this.program
-        .command("setup [filter]")
-        .description("Setup and verify your Factor app")
-        .action((filter, _arguments) =>
-          this.runCommand({ command: "setup", filter, _arguments })
-        )
+    this.program
+      .command("serve [NODE_ENV]")
+      .description("Serve app in selected environment.")
+      .action((NODE_ENV, _arguments) =>
+        this.runCommand({ command: "serve", _arguments, install: false, NODE_ENV })
+      )
 
-      this.program
-        .command("run <filter>")
-        .description("Run CLI utilities based on filter name (see documentation)")
-        .action((filter, _arguments) =>
-          this.runCommand({ command: "run", filter, install: false, _arguments })
-        )
+    this.program
+      .command("build")
+      .option("--analyze", "Analyze package size")
+      .option("--speed", "Output build speed data")
+      .description("Build production app")
+      .action(_arguments => this.runCommand({ command: "build", _arguments }))
 
-      this.program.parse(process.argv)
+    this.program
+      .command("setup [filter]")
+      .description("Setup and verify your Factor app")
+      .action((filter, _arguments) =>
+        this.runCommand({ command: "setup", filter, _arguments })
+      )
 
-      return this.program
-    }
+    this.program
+      .command("run <filter>")
+      .description("Run CLI utilities based on filter name (see documentation)")
+      .action((filter, _arguments) =>
+        this.runCommand({ command: "run", filter, install: false, _arguments })
+      )
 
-    async runCommand(options) {
-      const {
-        command,
-        _arguments = {},
-        filter,
-        install,
-        NODE_ENV = command == "dev" ? "development" : "production",
-        extend = true
-      } = options
+    this.program.parse(process.argv)
 
-      await this.factorize({ NODE_ENV, command, filter, install, ..._arguments, extend })
+    return this.program
+  }
 
-      try {
-        if (["build", "start"].includes(command)) {
-          await runCallbacks("create-distribution-app", _arguments)
-        } else if (command == "setup") {
-          await runCallbacks(`cli-setup`, { inquirer, ..._arguments })
-        } else if (command == "run") {
-          await runCallbacks(`cli-run-${filter}`, { inquirer, ..._arguments })
+  async runCommand(options) {
+    const {
+      command,
+      _arguments = {},
+      filter,
+      install,
+      NODE_ENV = command == "dev" ? "development" : "production",
+      extend = true
+    } = options
 
-          log.success(`Successfully ran "${filter}"\n\n`)
-        }
+    await this.factorize({ NODE_ENV, command, filter, install, ..._arguments, extend })
 
-        if (["start", "dev", "serve"].includes(command)) {
-          await this.runServer({ NODE_ENV, ..._arguments }) // Long running process
-        } else {
-          log.success(`Successfully ran [${command}]`)
+    try {
+      if (["build", "start"].includes(command)) {
+        await runCallbacks("create-distribution-app", _arguments)
+      } else if (command == "setup") {
+        await runCallbacks(`cli-setup`, { inquirer, ..._arguments })
+      } else if (command == "run") {
+        await runCallbacks(`cli-run-${filter}`, { inquirer, ..._arguments })
 
-          process.exit(0)
-        }
-      } catch (error) {
-        log.error(error)
+        log.success(`Successfully ran "${filter}"\n\n`)
       }
 
-      return
+      if (["start", "dev", "serve"].includes(command)) {
+        await this.runServer({ NODE_ENV, ..._arguments }) // Long running process
+      } else {
+        log.success(`Successfully ran [${command}]`)
+
+        process.exit(0)
+      }
+    } catch (error) {
+      log.error(error)
     }
 
-    async factorize(_arguments = {}) {
-      const { parent = {}, ...rest } = _arguments
-      const _config = { ...parent, ...rest }
+    return
+  }
 
-      const { NODE_ENV = "production", install = true, extend = true, command } = _config
+  async factorize(_arguments = {}) {
+    const { parent = {}, ...rest } = _arguments
+    const _config = { ...parent, ...rest }
 
-      if (install) {
-        await this.runTasks(
-          [
-            { command: "yarn", args: ["install"], title: "Verify Dependencies" },
-            {
-              command: "factor",
-              args: ["run", "create-loaders", "--no-load-plugins"],
-              title: "Verify Extensions"
-            }
-          ],
-          { exitOnError: true }
-        )
-      }
+    const { NODE_ENV = "production", install = true, extend = true, command } = _config
 
-      process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
-      process.env.NODE_ENV = NODE_ENV
-      process.env.FACTOR_ENV = _config.ENV || process.env.FACTOR_ENV || NODE_ENV
-      process.env.FACTOR_COMMAND = command || program._name || "none"
-
-      // Do this for every reset of server
-      // require("@factor/build/transpiler")
-      transpiler()
-
-      if (extend) {
-        await this.extend(_config)
-
-        // Filters must be reloaded with every new restart of server.
-        // This adds the filter each time to allow for restart
-        addCallback("rebuild-server-app", () => this.reloadNodeProcess(_config))
-      }
-
-      // When an extended Factor object is needed outside of this CLI (tests)
-      return Factor
+    if (install) {
+      await this.runTasks(
+        [
+          { command: "yarn", args: ["install"], title: "Verify Dependencies" },
+          {
+            command: "factor",
+            args: ["run", "create-loaders", "--no-load-plugins"],
+            title: "Verify Extensions"
+          }
+        ],
+        { exitOnError: true }
+      )
     }
 
-    async extend(_config) {
-      //const extender = require("@factor/extend/server").default(Factor)
+    process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
+    process.env.NODE_ENV = NODE_ENV
+    process.env.FACTOR_ENV = _config.ENV || process.env.FACTOR_ENV || NODE_ENV
+    process.env.FACTOR_COMMAND = command || program._name || "none"
 
-      return await extender().extend(_config)
+    // Do this for every reset of server
+    // require("@factor/build/transpiler")
+    transpiler()
+
+    if (extend) {
+      await this.extend(_config)
+
+      // Filters must be reloaded with every new restart of server.
+      // This adds the filter each time to allow for restart
+      addCallback("rebuild-server-app", () => this.reloadNodeProcess(_config))
     }
 
-    async runServer(_arguments) {
-      const { NODE_ENV = process.env.NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
+    // When an extended Factor object is needed outside of this CLI (tests)
+    return Factor
+  }
 
-      const message = {
-        title: "Starting Server...",
-        lines: [
-          { title: "NODE_ENV", value: NODE_ENV, indent: true },
-          { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
-          { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
-          { title: "CWD", value: Factor.$paths.get("app"), indent: true }
-        ]
-      }
+  async extend(_config) {
+    //const extender = require("@factor/extend/server").default(Factor)
 
-      if (NODE_ENV == "development") {
-        message.lines.unshift({
-          title: "URL",
-          value: Factor.$paths.localhostUrl(),
-          indent: true
-        })
-      }
+    return await extender().extend(_config)
+  }
 
-      log.formatted(message)
+  async runServer(_arguments) {
+    const { NODE_ENV = process.env.NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
 
-      await runCallbacks("create-server", _arguments)
+    const message = {
+      title: "Starting Server...",
+      lines: [
+        { title: "NODE_ENV", value: NODE_ENV, indent: true },
+        { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
+        { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
+        { title: "CWD", value: getPath("app"), indent: true }
+      ]
     }
 
-    // Reloads all cached node files
-    // Needed for server reloading
-    async reloadNodeProcess(_arguments) {
-      Object.keys(require.cache).forEach(function(id) {
-        if (/(@|\.)factor/.test(id)) {
-          delete require.cache[id]
-        }
-      })
-
-      await this.factorize({
-        ..._arguments,
-        install: false,
-        restart: true,
-        NODE_ENV: "development"
+    if (NODE_ENV == "development") {
+      message.lines.unshift({
+        title: "URL",
+        value: localhostUrl(),
+        indent: true
       })
     }
 
-    async runTasks(t, opts = {}) {
-      if (t.length == 0) return
+    log.formatted(message)
 
-      // Don't log during tests
-      if (process.env.FACTOR_ENV == "test") opts.renderer = "silent"
+    await runCallbacks("create-server", _arguments)
+  }
 
-      // Allow dynamically set CWD
-      const cwd = process.env.FACTOR_CWD || process.cwd()
+  // Reloads all cached node files
+  // Needed for server reloading
+  async reloadNodeProcess(_arguments) {
+    Object.keys(require.cache).forEach(function(id) {
+      if (/(@|\.)factor/.test(id)) {
+        delete require.cache[id]
+      }
+    })
 
-      const taskMap = t.map(
-        ({ title, command, args, options = { cwd, done: false, output: false } }) => {
-          return {
-            title,
-            task: async (ctx, task) => {
-              if (typeof command == "function") {
-                return await command(ctx, task)
-              } else {
-                const proc = execa(command, args, options)
+    await this.factorize({
+      ..._arguments,
+      install: false,
+      restart: true,
+      NODE_ENV: "development"
+    })
+  }
 
-                if (proc) {
-                  proc.stdout.on("data", data => {
-                    task.output = data.toString()
-                  })
+  async runTasks(t, opts = {}) {
+    if (t.length == 0) return
 
-                  proc.stderr.on("data", data => {
-                    task.output = data.toString()
-                  })
+    // Don't log during tests
+    if (process.env.FACTOR_ENV == "test") opts.renderer = "silent"
 
-                  await proc
+    // Allow dynamically set CWD
+    const cwd = process.env.FACTOR_CWD || process.cwd()
 
-                  task.title = options.done ? options.done : `${task.title} [Done!]`
+    const taskMap = t.map(
+      ({ title, command, args, options = { cwd, done: false, output: false } }) => {
+        return {
+          title,
+          task: async (ctx, task) => {
+            if (typeof command == "function") {
+              return await command(ctx, task)
+            } else {
+              const proc = execa(command, args, options)
 
-                  return
-                }
+              if (proc) {
+                proc.stdout.on("data", data => {
+                  task.output = data.toString()
+                })
+
+                proc.stderr.on("data", data => {
+                  task.output = data.toString()
+                })
+
+                await proc
+
+                task.title = options.done ? options.done : `${task.title} [Done!]`
+
+                return
               }
             }
           }
         }
-      )
+      }
+    )
 
-      const tasks = new listr(taskMap, opts) //, { concurrent: true }
+    const tasks = new listr(taskMap, opts) //, { concurrent: true }
 
-      await tasks.run()
+    await tasks.run()
 
-      return
-    }
-  })()
+    return
+  }
 }
+
+export default new FactorCLI()

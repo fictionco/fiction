@@ -2,7 +2,7 @@ import { resolve } from "path"
 
 import Factor from "@factor/core"
 import { dotSetting, deepMerge, addFilter } from "@factor/tools"
-
+import { getPath, localhostUrl } from "@factor/paths"
 export default () => {
   const { NODE_ENV, FACTOR_ENV } = process.env
   return new (class {
@@ -16,13 +16,13 @@ export default () => {
         return _
       })
 
-      require("dotenv").config({ path: resolve(Factor.$paths.get("app"), ".env") })
+      require("dotenv").config({ path: resolve(getPath("app"), ".env") })
 
       this.initialize()
     }
 
     publicConfig() {
-      const _f = Factor.$paths.get(`config-file-public`)
+      const _f = getPath(`config-file-public`)
 
       let out = {}
       try {
@@ -56,9 +56,7 @@ export default () => {
 
     addCalculatedConfig(mergedConfig) {
       const currentUrl =
-        NODE_ENV == "development" || !mergedConfig.url
-          ? Factor.$paths.localhostUrl()
-          : mergedConfig.url
+        NODE_ENV == "development" || !mergedConfig.url ? localhostUrl() : mergedConfig.url
 
       return {
         ...mergedConfig,

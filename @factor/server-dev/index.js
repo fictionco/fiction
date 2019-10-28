@@ -4,7 +4,7 @@ import webpack from "webpack"
 import chokidar from "chokidar"
 import ora from "ora"
 import { addFilter, applyFilters, runCallbacks } from "@factor/tools"
-
+import { getPath } from "@factor/paths"
 import MFS from "memory-fs"
 
 import fs from "fs-extra"
@@ -109,7 +109,7 @@ export default Factor => {
       const watchDirs = getFactorDirectories().map(_ => `${_}/**`)
 
       chokidar
-        .watch([`${Factor.$paths.get("source")}/**`, ...watchDirs], {
+        .watch([`${getPath("source")}/**`, ...watchDirs], {
           ignoreInitial: true,
           ignored: `**/node_modules/**`
         })
