@@ -20,8 +20,6 @@
     "deepmerge": "^4.1.1",
     "detect-node": "^2.0.4",
     "flatted": "^2.0.1",
-    "jquery": "^3.3.1",
-    "lodash": "^4.17.11",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isempty": "^4.4.0",
     "lodash.isequal": "^4.5.0",
