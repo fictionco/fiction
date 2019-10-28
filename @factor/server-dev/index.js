@@ -26,26 +26,26 @@ export default Factor => {
 
       this.build = this.production ? "production" : "development"
 
-      addFilter("development-server", cb => {
+      addFilter("development-server", async cb => {
         this.cb = cb
 
-        return this.createRunner()
+        return await this.createRunner()
       })
     }
 
-    createRunner() {
+    async createRunner() {
       this.templatePath = Factor.$setting.get("app.templatePath")
 
       if (!this.templatePath) {
         throw new Error("Couldn't locate the index.html template file")
       }
 
-      this.confServer = applyFilters("webpack-config", {
+      this.confServer = await applyFilters("webpack-config", {
         target: "server",
         ...argv
       })
 
-      this.confClient = applyFilters("webpack-config", {
+      this.confClient = await applyFilters("webpack-config", {
         target: "client",
         ...argv
       })

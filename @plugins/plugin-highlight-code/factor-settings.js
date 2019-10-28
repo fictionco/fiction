@@ -1,7 +1,5 @@
-export default Factor => {
-  return {
-    highlightCode: {
-      style: () => import("./style.vue")
-    }
+export default {
+  highlightCode: {
+    style: () => import("./style.vue")
   }
 }

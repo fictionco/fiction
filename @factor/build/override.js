@@ -32,18 +32,15 @@ export class FactorWebpackOverride {
   // Server utils sometimes aren't compatible with webpack
   // Replace with polyfill if a
   browserReplacement(webpack) {
-    return new webpack.NormalModuleReplacementPlugin(/.*$/, resource => {
-      console.log("resour", resource)
-      if (resource.context.includes("@factor")) {
-        const resolvedDirectory = dirname(
-          require.resolve(resource.request, { paths: [resource.context] })
-        )
-        const clientUtil = this._fileExists(
-          resolve(resolvedDirectory, `${resource.request}-browser`)
-        )
+    return new webpack.NormalModuleReplacementPlugin(/^@factor/, resource => {
+      const resolvedDirectory = dirname(
+        require.resolve(resource.request, { paths: [resource.context] })
+      )
+      const clientUtil = this._fileExists(
+        resolve(resolvedDirectory, `${resource.request}-browser`)
+      )
 
-        if (clientUtil) resource.request = clientUtil
-      }
+      if (clientUtil) resource.request = clientUtil
     })
   }
 

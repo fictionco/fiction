@@ -3,7 +3,7 @@ import fs from "fs-extra"
 import glob from "glob"
 
 import { toPascalCase, sortPriority, addCallback } from "@factor/tools"
-import { getPath } from "@factor/paths/util"
+import { getPath } from "@factor/paths"
 
 export class FactorLoaderUtility {
   constructor() {
