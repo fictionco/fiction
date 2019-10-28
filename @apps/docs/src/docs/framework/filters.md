@@ -76,19 +76,20 @@ console.log(myItemList) // [1, 2, 3, 5, 4]
 
 A common scenario for using Filters is to fire and "await" a list of async callbacks at some point in Factor's lifecycle.
 
-Since this is encountered so often, Factor has two special helper functions specifically for creating and calling async callbacks `Factor.$filters.callback` and `Factor.$filters.run`.
+Since this is encountered so often, Factor has two special helper functions specifically for creating and calling async callbacks `Factor.$filters.callback` and `runCallbacks`.
 
 Here is an example using these helpers:
 
 ```javascript
+import { runCallbacks, addCallback } from "@factor/tools"
 // Extension A
-Factor.$filters.callback("after-signup", args => sendWelcomeEmail(args))
+addCallback("after-signup", args => sendWelcomeEmail(args))
 
 // Extension B
-Factor.$filters.callback("after-signup", args => addToSpreadsheet(args))
+addCallback("after-signup", args => addToSpreadsheet(args))
 
 // From authentication extension
 // uses Promise.all to run all callbacks in parallel
 // Returns an array containing the results of all callbacks
-const results = await Factor.$filters.run("after-signup", args)
+const results = await runCallbacks("after-signup", args)
 ```

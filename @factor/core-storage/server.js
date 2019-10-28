@@ -1,6 +1,6 @@
 const multer = require("multer")
 import { getModel } from "@factor/post/server"
-import { addFilter, pushToFilter, applyFilters } from "@factor/tools"
+import { addFilter, pushToFilter, applyFilters, runCallbacks } from "@factor/tools"
 import { objectIdType, objectId } from "@factor/post/util"
 export default Factor => {
   return new (class {
@@ -65,7 +65,7 @@ export default Factor => {
       const doc = await getModel("attachment").findOneAndDelete({ _id })
 
       if (doc && !doc.url.includes("base64")) {
-        await Factor.$filters.run("delete-attachment", doc)
+        await runCallbacks("delete-attachment", doc)
       }
 
       return doc

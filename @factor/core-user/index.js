@@ -1,5 +1,12 @@
 import { requestPostSingle } from "@factor/post"
-import { isEmpty, isNode, emitEvent, addFilter, pushToFilter } from "@factor/tools"
+import {
+  isEmpty,
+  isNode,
+  emitEvent,
+  addFilter,
+  pushToFilter,
+  runCallbacks
+} from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -37,7 +44,7 @@ export default Factor => {
           user = await this.retrieveAndSetCurrentUser(user)
         }
 
-        await Factor.$filters.run("before-user-init", user)
+        await runCallbacks("before-user-init", user)
 
         resolve(user)
       })
@@ -65,7 +72,7 @@ export default Factor => {
     async authenticate(params) {
       let user = await this.request("authenticate", params)
 
-      await Factor.$filters.run("authenticated", user)
+      await runCallbacks("authenticated", user)
 
       if (user) {
         user = await this.initializeUser(user)

@@ -1,6 +1,6 @@
 import { importPlugins } from "./util"
 import Factor from "@factor/core"
-import { applyFilters } from "@factor/tools"
+import { applyFilters, runCallbacks } from "@factor/tools"
 export default (options = {}) =>
   new (class {
     constructor() {}
@@ -62,6 +62,6 @@ export default (options = {}) =>
         }
       }
 
-      await Factor.$filters.run("initialize-app")
+      await runCallbacks("initialize-app")
     }
   })()

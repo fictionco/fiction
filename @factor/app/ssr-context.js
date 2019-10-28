@@ -1,6 +1,6 @@
 // This configures the context information needed to SSR the page
 // Add lifecycle filters that allow plugins to control the context
-import { applyFilters } from "@factor/tools"
+import { applyFilters, runCallbacks } from "@factor/tools"
 export async function handleContext(Factor, { context, app, router, store }) {
   const { url } = context
 
@@ -30,7 +30,7 @@ export async function handleContext(Factor, { context, app, router, store }) {
     store
   }
 
-  await Factor.$filters.run("ssr-context-callbacks", ssrConfig)
+  await runCallbacks("ssr-context-callbacks", ssrConfig)
 
   context = applyFilters("ssr-context-ready", context, ssrConfig)
 
