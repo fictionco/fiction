@@ -50,3 +50,7 @@ export const $settings = new FactorSettings()
 export function getSetting(key) {
   return $settings.get(key)
 }
+
+export function addSettings(settings) {
+  return $settings.add(settings)
+}
