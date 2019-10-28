@@ -1,7 +1,6 @@
 import Factor from "vue"
 import { DOM } from "@factor/tools"
 export function fluidInput(e, wrapEl) {
-  // Jquery event to trigger on new input (if needed)
   const NewEvent = DOM.Event("keydown")
   NewEvent.which = e.keyCode
 
