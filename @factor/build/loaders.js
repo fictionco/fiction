@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { dirname, parse } from "path"
 import fs from "fs-extra"
 import glob from "glob"
@@ -6,7 +5,7 @@ import glob from "glob"
 import { toPascalCase, sortPriority, addCallback } from "@factor/tools"
 import { getPath } from "@factor/paths/util"
 
-class FactorLoaderUtility {
+export class FactorLoaderUtility {
   constructor() {
     this.cwdPackage = require(`${this.cwd()}/package.json`)
 
@@ -283,11 +282,4 @@ class FactorLoaderUtility {
   }
 }
 
-export default () => {
-  if (Factor.$loaders) {
-    return Factor.$loaders
-  } else {
-    Factor.$loaders = new FactorLoaderUtility()
-    return Factor.$loaders
-  }
-}
+export default new FactorLoaderUtility()
