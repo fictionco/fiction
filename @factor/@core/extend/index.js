@@ -14,7 +14,6 @@ export default (options = {}) =>
       })
 
       await importPlugins({
-        log: () => import("@factor/logger"),
         tools: () => import("@factor/tools"),
         filters: () => import("@factor/filters"),
         paths: () => import("@factor/paths"),

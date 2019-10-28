@@ -1,6 +1,8 @@
 import Factor from "vue"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import webpack from "webpack"
+import log from "@factor/logger"
+
 const { NODE_ENV, FACTOR_ENV } = process.env
 
 export function cssLoaders({ target, lang }) {
@@ -64,7 +66,7 @@ export async function enhancedBuild({ name, config }) {
 
       if (err || stats.hasErrors()) reject(err)
       else {
-        Factor.$log.success(`[${name}] built`)
+        log.success(`[${name}] built`)
         resolve(true)
       }
     })

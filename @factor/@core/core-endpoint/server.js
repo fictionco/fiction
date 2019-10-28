@@ -3,6 +3,7 @@ import Factor from "@factor/core"
 import { parse } from "qs"
 import { getSinglePost } from "@factor/post/server"
 import { addFilter, applyFilters } from "@factor/filters/util"
+import log from "@factor/logger"
 export default () => {
   const util = require(".").default(Factor)
   const server = new (class {
@@ -56,7 +57,7 @@ export default () => {
         }
         return await _ep[method](params, meta)
       } catch (error) {
-        Factor.$log.error(`${error.message} in ${id}:${method}`)
+        log.error(`${error.message} in ${id}:${method}`)
         throw new Error(error)
       }
     }
@@ -81,7 +82,7 @@ export default () => {
         responseJson.result = await handler({ data, meta })
       } catch (error) {
         responseJson.error = error.message || 500
-        Factor.$log.error(error)
+        log.error(error)
       }
 
       response

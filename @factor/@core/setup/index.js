@@ -3,7 +3,7 @@ import inquirer from "inquirer"
 import chalk from "chalk"
 import figures from "figures"
 import envfile from "envfile"
-
+import log from "@factor/logger"
 import { getExtensions } from "@factor/build/util"
 
 export default Factor => {
@@ -27,7 +27,7 @@ export default Factor => {
             lines.push({ title: "Run 'yarn factor setup'", value: "" })
           }
 
-          Factor.$log.formatted({
+          log.formatted({
             title: "Setup Needed",
             lines,
             color: "yellow"
@@ -41,7 +41,7 @@ export default Factor => {
       const { inquirer } = _arguments
       let answers
 
-      Factor.$log.formatted({
+      log.formatted({
         title: "Welcome to Factor Setup!",
         lines: [
           { title: "Theme", value: this.extensionNames("theme"), indent: true },
@@ -139,9 +139,9 @@ export default Factor => {
       console.log()
       if (answers.writeFiles) {
         this.writeFiles(file, values)
-        Factor.$log.success(`Wrote to ${file}...\n\n`)
+        log.success(`Wrote to ${file}...\n\n`)
       } else {
-        Factor.$log.log(`Writing skipped.`)
+        log.log(`Writing skipped.`)
       }
       console.log()
 
