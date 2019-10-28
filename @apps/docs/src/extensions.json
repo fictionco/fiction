@@ -2,9 +2,10 @@
   "plugins": [
     "@factor/plugin-email-list",
     "@factor/plugin-jobs",
-    "@factor/plugin-notify",
+    "@factor/plugin-storage-s3",
     "@factor/plugin-google-tag-manager",
     "@factor/plugin-highlight-code",
+    "@factor/plugin-notify",
     "@factor/plugin-contact-form"
   ]
 }

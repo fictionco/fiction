@@ -1,5 +1,6 @@
 {
   "name": "@factor/plugin-highlight-code",
+  "description": "This plugin adds a syntax highlighting component for content.",
   "version": "1.0.0-beta.7",
   "license": "GPL-2.0",
   "factor": {

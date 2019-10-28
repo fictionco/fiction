@@ -1,12 +1,14 @@
 {
   "name": "@factor/plugin-jobs",
+  "description": "This plugin makes it east to create a job board.",
   "version": "1.0.0-beta.7",
   "license": "GPL-2.0",
   "factor": {
     "target": [
       "app",
       "server"
-    ]
+    ],
+    "title": "Job Board"
   },
   "dependencies": {
     "@factor/plugin-highlight-code": "1.0.0-beta.7"
@@ -20,6 +22,11 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "job board",
+    "careers",
+    "jobs",
+    "gigs",
+    "board"
   ]
 }

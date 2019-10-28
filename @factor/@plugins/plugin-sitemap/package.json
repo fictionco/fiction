@@ -1,5 +1,6 @@
 {
   "name": "@factor/plugin-sitemap",
+  "description": "This is a simple plugin that generates a sitemap by crawling your app.",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -8,7 +9,8 @@
   "factor": {
     "target": [
       "server"
-    ]
+    ],
+    "title": "Sitemap"
   },
   "dependencies": {
     "sitemap": "^5.0.0"
@@ -19,6 +21,10 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "sitemap",
+    "sitemap.xml",
+    "generator",
+    "xml"
   ]
 }

@@ -1,5 +1,6 @@
 {
   "name": "@factor/plugin-bugsnag",
+  "description": "This plugin implements Bugsnag in your Factor app which helps you stay informed about errors encountered by users.",
   "author": "andrew@fiction.com",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
@@ -11,7 +12,8 @@
     "target": {
       "app": "index",
       "server": "server"
-    }
+    },
+    "title": "Bugsnag"
   },
   "dependencies": {
     "@bugsnag/js": "^6.4.1",
