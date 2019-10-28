@@ -19,8 +19,6 @@ export default () => {
 
       let cleanSlug = slug.replace("@factor/", "")
 
-      // console.log(` getSingleSlug:` + slug)
-
       const requests = [
         {
           _id: "npmData",

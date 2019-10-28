@@ -10,11 +10,9 @@ Just add to your application dependencies:
 $ yarn add @factor/plugin-google-tag-manager
 ```
 
-## Config
+## Options and Settings
 
 Config for this plugin is public only and stored in your `factor-config.json` file.
-
-### Options
 
 ```jsonc
 // factor-config.json

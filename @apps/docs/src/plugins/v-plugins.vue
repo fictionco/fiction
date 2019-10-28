@@ -255,14 +255,13 @@ export default {
       return dt + " " + month + " " + year
     },
     pluginIcon(entry) {
-      //const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
-      const imagePattern = `icon.svg`
+      const imageName = `icon.svg`
 
       let images = []
 
       if (entry) {
         images = entry
-          .filter(image => !!image.path.match(imagePattern))
+          .filter(image => !!image.path.match(imageName))
           .map(image => {
             return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
           })
@@ -424,14 +423,20 @@ export default {
             &:last-child {
               margin-right: 0;
             }
-            &.categories .category {
-              display: inherit;
-              &:after {
-                content: ", ";
-              }
-              &:last-of-type {
+            &.categories,
+            &.authors {
+              display: inline-block;
+              .category,
+              .author {
+                display: inherit;
                 &:after {
-                  content: initial;
+                  content: ", ";
+                  padding-right: 5px;
+                }
+                &:last-of-type {
+                  &:after {
+                    content: initial;
+                  }
                 }
               }
             }
@@ -512,14 +517,20 @@ export default {
             &:last-child {
               margin-right: 0;
             }
-            &.categories .category {
-              display: inherit;
-              &:after {
-                content: ", ";
-              }
-              &:last-of-type {
+            &.categories,
+            &.authors {
+              display: inline-block;
+              .category,
+              .author {
+                display: inherit;
                 &:after {
-                  content: initial;
+                  content: ", ";
+                  padding-right: 5px;
+                }
+                &:last-of-type {
+                  &:after {
+                    content: initial;
+                  }
                 }
               }
             }

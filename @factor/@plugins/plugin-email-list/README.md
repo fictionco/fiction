@@ -29,7 +29,7 @@ Once installed, this plugin adds a globally available component: `<factor-email-
 
 If you're using a custom list, with settings that are specific for that list, you'll need to add the `list-id` of the list you're using. More on that in the customization section below.
 
-## Settings and Customization
+## Options and Settings
 
 The customization system for this plugin is based on the standard `factor-settings.js` API that is provided by Factor.
 

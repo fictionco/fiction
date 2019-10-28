@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="`icon-jobs.svg`" :title="formatName(entry.name)">
+        <widget-header :image="pluginIcon(entry.github)" :title="formatName(entry.name)">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -26,11 +26,23 @@
               <factor-icon icon="arrow-left" />
               <span>All Plugins</span>
             </factor-link>
-            <!-- <div v-if="entry.screenshots" class="plugin-images">
-          <div v-for="(image, i) in entry.screenshots" :key="i" class="image-item">
-            <div :style="styleImageBG(image)" class="image-item-content"></div>
-          </div>
-            </div>-->
+
+            <widget-lightbox
+              :visible.sync="lightboxShow"
+              :imgs="screenshotsList(entry.github)"
+              :index="lightboxIndex"
+            />
+
+            <div v-if="entry.github" class="plugin-images">
+              <div v-for="(url, i) in screenshotsList(entry.github)" :key="i" class="image-item">
+                <div
+                  :style="{ backgroundImage: `url(${url})` }"
+                  class="image-item-content"
+                  @click="showModal(i)"
+                ></div>
+              </div>
+            </div>
+
             <plugin-entry :text="getContent(entry.readme)" class="plugin-content" />
           </div>
 
@@ -47,6 +59,7 @@ import dataUtility from "./plugin-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
+    "widget-lightbox": () => import("./widget-lightbox"),
     "plugin-entry": () => import("../el/entry"),
     // "plugins-sidebar": () => import("./plugins-sidebar"),
     "widget-cta": () => import("./widget-cta")
@@ -54,7 +67,9 @@ export default {
   data() {
     return {
       getData: "",
-      loading: true
+      loading: true,
+      lightboxShow: false,
+      lightboxIndex: 0
     }
   },
   async serverPrefetch() {
@@ -72,29 +87,58 @@ export default {
     }
   },
   async mounted() {
-    //console.log("VALLL", this.$store.val("plugins-index"))
-
     const theData = this.$store.val("plugins-index")
 
     this.getData = theData
 
     require("../prism/prism.js")
     this.prism = window.Prism
+
     this.loading = false
   },
   methods: {
     formatName(name) {
-      // Replace dashes with spaces to entry name
       let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
 
-      // Return entry name without @factor text
       return spacedName.replace("@factor/", "")
     },
-    // styleImageBG(img) {
-    //   const { url } = img
+    pluginIcon(entry) {
+      const imageName = `icon.svg`
 
-    //   return url ? { backgroundImage: `url(${url})` } : {}
-    // },
+      let images = []
+
+      if (entry) {
+        images = entry
+          .filter(image => !!image.path.match(imageName))
+          .map(image => {
+            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+          })
+      }
+
+      return images[0]
+    },
+    screenshotsList(list) {
+      const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
+      const imageName = `screenshot`
+
+      let screenshots = []
+
+      if (list) {
+        screenshots = list
+          .filter(
+            image => !!image.path.match(imagePattern) && !!image.path.match(imageName)
+          )
+          .map(image => {
+            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+          })
+      }
+
+      return screenshots
+    },
+    showModal(_ind) {
+      this.lightboxIndex = _ind
+      this.lightboxShow = true
+    },
     getContent(value) {
       let markdownContent = value
 
@@ -102,24 +146,14 @@ export default {
         ? this.$markdown.render(markdownContent, { variables: true })
         : ""
     }
-    // pluginName(value) {
-    //   let entryName = value.replace(/(?:^|[\s\-\_\.])/g, " ")
-
-    //   return entryName.replace("@factor/", "")
-
-    //   //return _.pickBy(this.getData, function(u) {
-    //   //     let name = u.name.replace(/(?:^|[\s\-\_\.])/g, " ")
-    //   //     return name.replace("@factor/", "") || ""
-    //   //   })
-    // }
+  },
+  metaInfo() {
+    return {
+      title: "Factor Plugin Library",
+      description: "Extend your project features and do more with Factor."
+      //image: this.$post.shareImage(this.entry._id)
+    }
   }
-  // metaInfo() {
-  //   return {
-  //     title: this.$post.titleTag(this.entry._id),
-  //     description: this.$post.descriptionTag(this.entry._id),
-  //     image: this.$post.shareImage(this.entry._id)
-  //   }
-  // }
 }
 </script>
 
@@ -218,12 +252,14 @@ export default {
       letter-spacing: -0.02em;
       margin: 0 0 1.5rem;
     }
+
     .plugin-images {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 150px));
       grid-gap: 1rem;
       margin: 0 0 1.5rem;
       .image-item {
+        cursor: pointer;
         .image-item-content {
           width: 100%;
           padding: 50% 0;

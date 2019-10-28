@@ -5,7 +5,8 @@
   "factor": {
     "target": [
       "app"
-    ]
+    ],
+    "title": "Syntax Highlight"
   },
   "publishConfig": {
     "access": "public"
@@ -16,6 +17,9 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "syntax",
+    "highlight",
+    "markdown"
   ]
 }

@@ -3,7 +3,7 @@
     <div class="content-pad">
       <div class="header-content">
         <div v-if="image" class="header-image">
-          <img :src="require(`./img/${image}`)" :alt="title" />
+          <img :src="image" :alt="title" />
         </div>
         <div>
           <h1 class="page-title">{{ title }}</h1>
