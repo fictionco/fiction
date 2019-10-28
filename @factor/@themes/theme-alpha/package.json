@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "main": "src/index.js",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -17,8 +17,8 @@
   "dependencies": {
     "@factor/core": "1.0.0-beta.6",
     "@factor/index": "1.0.0-beta.6",
-    "@factor/plugin-blog": "1.0.0-beta.6",
-    "@factor/plugin-highlight-code": "1.0.0-beta.6",
+    "@factor/plugin-blog": "1.0.0-beta.7",
+    "@factor/plugin-highlight-code": "1.0.0-beta.7",
     "@factor/plugin-notify": "1.0.0-beta.6"
   }
 }
