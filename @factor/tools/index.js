@@ -1,19 +1,3 @@
-// import * as utils from "./utils"
-// import jquery from "jquery"
-// import lodash from "lodash"
-// import uniqId from "uniqid"
-// import isNode from "detect-node"
-// import validator from "validator"
-
-// export default Factor => {
-
-//   Factor.$guid = Factor.prototype.$guid = uniqId
-//   Factor.$isNode = isNode
-//   Factor.$validator = validator
-//   Factor.$events = Factor.prototype.$events = new Factor()
-//   Factor.$randomToken = () => randToken.generate(16)
-// }
-
 import Factor from "@factor/core"
 import randToken from "rand-token"
 

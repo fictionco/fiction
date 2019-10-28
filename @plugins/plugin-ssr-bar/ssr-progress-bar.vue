@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { onEvent } from "@factor/tools"
 export default {
   data() {
     return {
@@ -22,7 +23,7 @@ export default {
     }
   },
   mounted() {
-    this.$events.$on("ssr-progress", action => {
+    onEvent("ssr-progress", action => {
       this[action]()
     })
   },

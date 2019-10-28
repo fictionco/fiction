@@ -1,5 +1,5 @@
 import { getModel } from "@factor/post/server"
-
+import { randomToken, emitEvent } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -19,7 +19,7 @@ export default Factor => {
       // Allow for external services to hook in
       email = Factor.$filters.apply(`plugin-email-list-add-${listId}`, email)
 
-      const code = Factor.$randomToken()
+      const code = randomToken()
 
       // Ensure that the post exists
       // Can't do all this in one query or it prevents detection of dupes / create unique index problems
@@ -46,7 +46,7 @@ export default Factor => {
         await this.sendConfirmEmail({ email, listId, code })
       }
 
-      Factor.$events.$emit("email-list-new-email-added", { email, listId, tags })
+      emitEvent("email-list-new-email-added", { email, listId, tags })
 
       return true
     }

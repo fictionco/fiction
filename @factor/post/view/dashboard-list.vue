@@ -20,7 +20,7 @@ import {
   requestPostDeleteMany,
   requestPostSaveMany
 } from "@factor/post"
-
+import { onEvent } from "@factor/tools"
 export default {
   data() {
     return {
@@ -79,7 +79,7 @@ export default {
   },
   mounted() {
     this.setPosts()
-    this.$events.$on("refresh-table", () => {
+    onEvent("refresh-table", () => {
       this.setPosts()
     })
   },

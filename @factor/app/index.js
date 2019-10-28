@@ -1,4 +1,5 @@
 import Factor from "@factor/core"
+import { onEvent } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -18,7 +19,7 @@ export default () => {
 
     initializeClient() {
       return new Promise(resolve => {
-        Factor.$events.$on("app-mounted", () => resolve())
+        onEvent("app-mounted", () => resolve())
       })
     }
 

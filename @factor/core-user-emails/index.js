@@ -1,8 +1,13 @@
+import { emitEvent } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("route-query-action-verify-email", _ => this.verifyEmail(_))
-      Factor.$filters.callback("route-query-action-reset-password", _ => this.showResetPassword(_))
+      Factor.$filters.callback("route-query-action-verify-email", _ =>
+        this.verifyEmail(_)
+      )
+      Factor.$filters.callback("route-query-action-reset-password", _ =>
+        this.showResetPassword(_)
+      )
     }
 
     async request(method, params) {
@@ -13,7 +18,7 @@ export default Factor => {
       const result = await this.request("sendVerifyEmail", { _id, email })
 
       if (result) {
-        Factor.$events.$emit("notify", "Verification email sent!")
+        emitEvent("notify", "Verification email sent!")
       }
 
       return result
@@ -23,14 +28,14 @@ export default Factor => {
       const result = await this.request("verifyEmail", { _id, code })
 
       if (result) {
-        Factor.$events.$emit("notify", "Email confirmed!")
+        emitEvent("notify", "Email confirmed!")
       }
       return result
     }
 
     async showResetPassword({ _id, code }) {
       Factor.$filters.callback("signin-modal-loaded", () => {
-        Factor.$events.$emit("signin-modal")
+        emitEvent("signin-modal")
       })
     }
 
@@ -38,7 +43,7 @@ export default Factor => {
       const result = await this.request("verifyAndResetPassword", args)
 
       if (result) {
-        Factor.$events.$emit("notify", "Password successfully reset!")
+        emitEvent("notify", "Password successfully reset!")
       }
 
       return result
@@ -48,7 +53,7 @@ export default Factor => {
       const result = await this.request("sendPasswordResetEmail", { email })
 
       if (result) {
-        Factor.$events.$emit("notify", "Password reset email sent.")
+        emitEvent("notify", "Password reset email sent.")
       }
 
       return result

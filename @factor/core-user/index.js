@@ -1,5 +1,5 @@
 import { requestPostSingle } from "@factor/post"
-import { isEmpty } from "@factor/tools"
+import { isEmpty, isNode, emitEvent } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -7,7 +7,7 @@ export default Factor => {
         this.mixin()
 
         // Authentication events only work after SSR
-        if (!Factor.$isNode) {
+        if (!isNode) {
           this.initializeUser()
           this.handleAuthRouting()
         }
@@ -76,14 +76,14 @@ export default Factor => {
 
     async logout(args = {}) {
       this.setUser({ user: null, current: true })
-      Factor.$events.$emit("logout")
-      Factor.$events.$emit("notify", "Successfully logged out.")
+      emitEvent("logout")
+      emitEvent("notify", "Successfully logged out.")
 
       if (args.redirect || Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
         const { redirect: path = "/" } = args
         Factor.$router.push({ path })
       } else {
-        Factor.$events.$emit("reset-ui")
+        emitEvent("reset-ui")
       }
     }
 
@@ -205,7 +205,7 @@ export default Factor => {
         })
 
         if (auth === true && !user._id) {
-          Factor.$events.$emit("signin-modal", {
+          emitEvent("signin-modal", {
             redirect: toPath
           })
           next(false)

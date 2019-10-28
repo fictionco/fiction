@@ -59,7 +59,7 @@ import {
   requestPostSaveMany,
   requestPostDeleteMany
 } from "@factor/post"
-import { toLabel, standardDate } from "@factor/tools"
+import { toLabel, standardDate, emitEvent } from "@factor/tools"
 export default {
   props: {
     title: { type: String, default: "" },
@@ -142,7 +142,7 @@ export default {
             postType: this.postType
           })
         }
-        this.$events.$emit("refresh-table")
+        emitEvent("refresh-table")
       }
 
       this.loadingAction = false

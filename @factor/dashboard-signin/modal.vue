@@ -8,6 +8,7 @@
   </factor-modal>
 </template>
 <script>
+import { onEvent } from "@factor/tools"
 export default {
   components: {
     "el-signin": () => import("./signin.vue")
@@ -32,7 +33,7 @@ export default {
     if (this.$route.query.signInView) {
       this.vis = true
     } else {
-      this.$events.$on("signin-modal", (args = {}) => {
+      onEvent("signin-modal", (args = {}) => {
         const {
           redirect = "",
           title = "",

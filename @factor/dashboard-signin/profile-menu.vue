@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import { toLabel } from "@factor/tools"
+import { toLabel, onEvent, emitEvent } from "@factor/tools"
 export default {
   props: {
     showName: { type: Boolean, default: false }
@@ -81,7 +81,7 @@ export default {
     this.$set(this, "profileMenu", menuStructure)
   },
   mounted() {
-    this.$events.$on("reset-ui", () => {
+    onEvent("reset-ui", () => {
       this.clickHandler()
     })
   },
@@ -102,7 +102,7 @@ export default {
     },
     setToggle(e) {
       if (!this.$userId) {
-        this.$events.$emit("signin-modal")
+        emitEvent("signin-modal")
         return ""
       }
 

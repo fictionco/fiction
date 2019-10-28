@@ -1,4 +1,5 @@
 import { objectIdType } from "@factor/post/util"
+import { validator } from "@factor/tools"
 export default Factor => {
   return {
     name: "user",
@@ -45,7 +46,7 @@ export default Factor => {
         lowercase: true,
         index: { unique: true },
         validate: {
-          validator: v => Factor.$validator.isEmail(v),
+          validator: v => validator.isEmail(v),
           message: props => `${props.value} is not a valid email.`
         }
       },
@@ -65,7 +66,7 @@ export default Factor => {
         lowercase: true,
         trim: true,
         validate: {
-          validator: v => Factor.$validator.isMobilePhone(v),
+          validator: v => validator.isMobilePhone(v),
           message: props =>
             `${props.value} is not a valid phone number (with country code).`
         }

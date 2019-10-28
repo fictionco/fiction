@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import { slugify } from "@factor/tools"
+import { slugify, onEvent } from "@factor/tools"
 import { getPermalink } from "@factor/post"
 export default {
   props: {
@@ -62,7 +62,7 @@ export default {
     }
   },
   mounted() {
-    this.$events.$on("lockPermalink", () => {
+    onEvent("lockPermalink", () => {
       if (!this.value) {
         this.emit(this.initialPermalink)
       }

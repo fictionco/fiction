@@ -24,7 +24,7 @@
   </transition>
 </template>
 <script>
-import { DOM } from "@factor/tools"
+import { DOM, emitEvent } from "@factor/tools"
 export default {
   inheritAttrs: false,
   props: {
@@ -46,7 +46,7 @@ export default {
     },
     vis: function(v) {
       this.handleCloseEvents(v)
-      this.$events.$emit("modal", v)
+      emitEvent("modal", v)
     }
   },
   mounted() {

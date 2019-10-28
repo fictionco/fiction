@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-
+import { emitEvent } from "@factor/tools"
 class FactorError extends Error {
   constructor({ message, statusCode, properties = {} }) {
     super(message)
@@ -39,7 +39,7 @@ export default () => {
       const { stackTrace, statusCode, description } = err
 
       if (statusCode < 500 && statusCode >= 400) {
-        Factor.$events.$emit("error", { message: description })
+        emitEvent("error", { message: description })
       } else {
         console.error(description, stackTrace)
       }
