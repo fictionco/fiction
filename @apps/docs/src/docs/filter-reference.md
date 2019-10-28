@@ -75,7 +75,8 @@ addFilter("post-schema", _ => {
 Filter: `post-populated-fields` - To extend the base schema fields that should be [populated](https://mongoosejs.com/docs/populate.html) on retrieval
 
 ```js
-Factor.$filters.push("post-populated-fields", { field: "shareImage", depth: 20 })
+import { pushToFilter } from "@factor/tools"
+pushToFilter("post-populated-fields", { field: "shareImage", depth: 20 })
 ```
 
 ## Server Filters

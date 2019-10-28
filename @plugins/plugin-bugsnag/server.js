@@ -1,3 +1,4 @@
+import { pushToFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -7,14 +8,14 @@ export default Factor => {
       this.addSetupCli(this.setupTitle)
 
       if (!this.clientApiKey) {
-        Factor.$filters.push("setup-needed", { title: this.setupTitle })
+        pushToFilter("setup-needed", { title: this.setupTitle })
 
         return
       }
     }
 
     addSetupCli(name) {
-      Factor.$filters.push("cli-add-setup", {
+      pushToFilter("cli-add-setup", {
         name,
         value: "bugsnag",
         callback: async ({ program, inquirer }) => {

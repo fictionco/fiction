@@ -2,7 +2,7 @@ import Factor from "vue"
 
 import { createApp } from "@factor/app/app"
 import extendApp from "@factor/extend"
-
+import { pushToFilter } from "@factor/tools"
 import { handleContext } from "@factor/app/ssr-context"
 const { createRenderer } = require("vue-server-renderer")
 const { dirname } = require("path")
@@ -21,7 +21,7 @@ describe("meta info server", () => {
       settings: { appSettings }
     }).extend()
 
-    Factor.$filters.push("routes", {
+    pushToFilter("routes", {
       path: "/meta",
       component: () => import("./meta.vue")
     })

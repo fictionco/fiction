@@ -3,7 +3,7 @@ import extender from "@factor/extend/server"
 import buildLoaders from "@factor/build/loaders"
 import webpackBuilder from "../../webpack-config"
 import Factor from "@factor/core"
-
+import { pushToFilter } from "@factor/tools"
 describe("webpack", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
@@ -29,7 +29,7 @@ describe("webpack", () => {
     process.env.NODE_ENV = "production"
 
     // test for ignore modules
-    Factor.$filters.push("webpack-ignore-modules", "mongoose")
+    pushToFilter("webpack-ignore-modules", "mongoose")
     config = builder.getConfig({ target: "server" })
     plugins = config.plugins.map(_ => _.constructor.name)
     expect(plugins).toEqual(

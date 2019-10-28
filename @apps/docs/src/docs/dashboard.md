@@ -29,7 +29,8 @@ When you add a new post type using the `post-types` filter, this will automatica
 
 ```js
 // index.js
-Factor.$filters.push("post-types", {
+import { pushToFilter } from "@factor/tools"
+pushToFilter("post-types", {
   postType: "examples",
   nameIndex: "Examples",
   nameSingle: "Example Post",
@@ -54,7 +55,7 @@ It's easy to extend the post editing interface of a post type. A common use case
 To add a new panel all that is needed is to use the `post-edit-components` filter and add a component which recieves the `postId` as a prop and makes changes to the post being edited in the store.
 
 ```js
-Factor.$filters.push("post-edit-components", {
+pushToFilter("post-edit-components", {
   name: "My Plugin Settings",
   component: () => import("./plugin-panel.vue"),
   postType: ["page", "blog"] // if missing, defaults to all post types
