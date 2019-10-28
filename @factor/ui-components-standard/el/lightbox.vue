@@ -35,7 +35,7 @@
 <script>
 // Code from:
 // https://github.com/XiongAmao/vue-easy-lightbox
-import { DOM } from "@factor/tools"
+import { DOM, emitEvent } from "@factor/tools"
 export default {
   components: {},
   props: {
@@ -91,7 +91,7 @@ export default {
         this.init()
       }
 
-      this.$events.$emit("modal", visible)
+      emitEvent("modal", visible)
     }
   },
   mounted() {

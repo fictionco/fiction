@@ -1,4 +1,4 @@
-import { timestamp, deepMerge, dotSetting } from "@factor/tools"
+import { timestamp, deepMerge, dotSetting, emitEvent } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -53,7 +53,7 @@ export default Factor => {
       const result = await this.request("verifyEmail", query)
 
       if (result) {
-        Factor.$events.$emit(
+        emitEvent(
           "notify",
           this.getSetting({ key: "emails.confirm.successMessage", listId: query.list })
         )
@@ -81,7 +81,7 @@ export default Factor => {
     }
 
     async addEmail({ email, listId, tags = [] }) {
-      Factor.$events.$emit("email-list-new-email-requested", { email, listId, tags })
+      emitEvent("email-list-new-email-requested", { email, listId, tags })
       return await this.request("addEmail", { email, listId, tags })
     }
   })()

@@ -6,7 +6,7 @@ import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import { waitFor } from "@test/utils"
 import FactorRouter from "@factor/app/router"
-
+import { emitEvent } from "@factor/tools"
 describe("router", () => {
   beforeAll(async () => {
     await extendApp().extend()

@@ -5,7 +5,7 @@ import { waitFor } from "@test/utils"
 import { generateLoaders } from "@factor/build/util"
 import { dirname } from "path"
 import { applyFilters } from "@factor/filters/util"
-
+import { emitEvent } from "@factor/tools"
 let _app
 let spies
 
@@ -24,7 +24,7 @@ describe("app", () => {
 
   it("has initialization system", async () => {
     setTimeout(() => {
-      Factor.$events.$emit("app-mounted")
+      emitEvent("app-mounted")
     }, 40)
 
     const _p = _app.client()

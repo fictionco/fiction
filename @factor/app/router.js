@@ -1,6 +1,7 @@
 import Factor from "@factor/core"
 import FactorRouter from "vue-router"
 import qs from "qs"
+import { emitEvent } from "@factor/tools"
 Factor.use(FactorRouter)
 
 export default () => {
@@ -40,7 +41,7 @@ export default () => {
       if (this.initialPageLoad) next()
       else {
         const doBefore = Factor.$filters.run("client-route-before", { to, from, next })
-        Factor.$events.$emit("ssr-progress", "start")
+        emitEvent("ssr-progress", "start")
         const results = await doBefore
 
         // If a user needs to sign in (with modal) or be redirected after an action
@@ -53,7 +54,7 @@ export default () => {
 
     clientRouterAfter(to, from) {
       this.initialPageLoad = false
-      Factor.$events.$emit("ssr-progress", "finish")
+      emitEvent("ssr-progress", "finish")
       Factor.$filters.apply("client-route-after", [], { to, from })
 
       const { query } = to

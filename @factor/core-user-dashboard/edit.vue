@@ -110,7 +110,7 @@
   </dashboard-page>
 </template>
 <script>
-import { standardDate } from "@factor/tools"
+import { standardDate, emitEvent } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 export default {
   data() {
@@ -162,7 +162,7 @@ export default {
 
       if (saved) {
         this.post = saved
-        this.$events.$emit("notify", `Saved!`)
+        emitEvent("notify", `Saved!`)
       }
 
       this.sending = false

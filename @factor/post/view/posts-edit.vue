@@ -95,7 +95,7 @@
   </dashboard-page>
 </template>
 <script>
-import { isEmpty, cloneDeep, toLabel, excerpt } from "@factor/tools"
+import { isEmpty, cloneDeep, toLabel, excerpt, emitEvent } from "@factor/tools"
 import { getPermalink, requestPostSave } from "@factor/post"
 export default {
   components: {
@@ -188,7 +188,7 @@ export default {
 
       this.clearAutosave()
 
-      this.$events.$emit("lockPermalink")
+      emitEvent("lockPermalink")
 
       const saved = await requestPostSave({
         post: this.post,
@@ -197,7 +197,7 @@ export default {
 
       if (saved) {
         this.post = saved
-        this.$events.$emit("notify", `Saved!`)
+        emitEvent("notify", `Saved!`)
       }
 
       this.sending = false

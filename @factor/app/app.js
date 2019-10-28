@@ -3,7 +3,7 @@ import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import FactorStore from "@factor/app/store"
 import FactorRouter from "@factor/app/router"
-
+import { emitEvent } from "@factor/tools"
 Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
 process.env.FACTOR_TARGET = "app"
@@ -35,7 +35,7 @@ export async function createApp(options = {}) {
       // Fire a mounted event so plugins that need to wait for SSR to be fully loaded can then fire
       // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
       setTimeout(() => {
-        Factor.$events.$emit("app-mounted", { router, store })
+        emitEvent("app-mounted", { router, store })
       }, 0)
     }
   })

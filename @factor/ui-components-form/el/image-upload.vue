@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import { DOM } from "@factor/tools"
+import { DOM, emitEvent, onEvent } from "@factor/tools"
 import Sortable from "sortablejs"
 export default {
   props: {
@@ -103,7 +103,7 @@ export default {
   },
 
   mounted() {
-    this.$events.$on("uploadImage", ({ selector, callback }) => {
+    onEvent("uploadImage", ({ selector, callback }) => {
       if (selector == this.selector) {
         this.callback = callback
         this.$refs.multiImageInput.click()
@@ -147,7 +147,7 @@ export default {
 
         document.execCommand("copy")
 
-        this.$events.$emit("notify", "Url Copied")
+        emitEvent("notify", "Url Copied")
       })
     },
     styleImageBG(img) {

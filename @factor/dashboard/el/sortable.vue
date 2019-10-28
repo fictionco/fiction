@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import { DOM } from "@factor/tools"
+import { DOM, guid } from "@factor/tools"
 import Sortable from "sortablejs"
 export default {
   props: {
@@ -81,7 +81,7 @@ export default {
     ensure(v) {
       return v.map(_ => {
         if (!_.__key) {
-          _.__key = this.$guid()
+          _.__key = guid()
         }
         return _
       })
@@ -110,7 +110,7 @@ export default {
     addItem() {
       const newLocalValue = this.localValue.slice()
 
-      newLocalValue.push({ __title: "", __key: this.$guid() })
+      newLocalValue.push({ __title: "", __key: guid() })
 
       this.localValue = newLocalValue
     },

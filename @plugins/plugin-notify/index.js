@@ -1,3 +1,4 @@
+import { emitEvent, onEvent } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -6,9 +7,9 @@ export default Factor => {
 
         return _
       })
-      Factor.$events.$on("notify", this.toasterNotification)
-      Factor.$events.$on("error", this.toasterError)
-      Factor.$events.$on("email", this.sendEmail)
+      onEvent("notify", this.toasterNotification)
+      onEvent("error", this.toasterError)
+      onEvent("email", this.sendEmail)
     }
 
     async sendEmail(obj) {}
@@ -22,19 +23,19 @@ export default Factor => {
         ;({ message = "", duration = 2000 } = obj)
       }
 
-      Factor.$events.$emit("notify-toast", { type: "notify", message, duration })
+      emitEvent("notify-toast", { type: "notify", message, duration })
     }
 
     toasterError(obj) {
       if (typeof obj == "string") {
-        Factor.$events.$emit("notify-toast", { type: "error", message: obj })
+        emitEvent("notify-toast", { type: "error", message: obj })
       } else {
         if (obj instanceof Error) {
           console.error(obj)
         }
 
         if (obj.message) {
-          Factor.$events.$emit("notify-toast", { type: "error", message: obj.message })
+          emitEvent("notify-toast", { type: "error", message: obj.message })
         }
       }
     }

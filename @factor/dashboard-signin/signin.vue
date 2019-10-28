@@ -132,6 +132,7 @@
 
 
 <script>
+import { emitEvent } from "@factor/tools"
 export default {
   components: {},
   props: {
@@ -256,7 +257,7 @@ export default {
 
     done(user) {
       if (user.email) {
-        this.$events.$emit("notify", {
+        emitEvent("notify", {
           message: `Signed in as ${user.email}`
         })
       }

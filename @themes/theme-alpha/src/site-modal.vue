@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { onEvent } from "@factor/tools"
 export default {
   data() {
     return {
@@ -28,16 +29,13 @@ export default {
     }
   },
   mounted() {
-    this.$events.$on(
-      "dialog",
-      ({ title, message = "", callback = false, actionText = "Go" }) => {
-        this.title = title
-        this.subTitle = message
-        this.callback = callback
-        this.actionText = actionText
-        this.vis = true
-      }
-    )
+    onEvent("dialog", ({ title, message = "", callback = false, actionText = "Go" }) => {
+      this.title = title
+      this.subTitle = message
+      this.callback = callback
+      this.actionText = actionText
+      this.vis = true
+    })
   },
   methods: {
     async run() {

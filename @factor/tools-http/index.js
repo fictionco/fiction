@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import { isNode } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -28,7 +28,7 @@ export default Factor => {
     }
 
     async standardHeaders() {
-      if (Factor.$isNode) {
+      if (isNode) {
         const port = process.env.PORT || 3000
 
         //  axios.defaults.baseURL = `https://localhost:${port}`

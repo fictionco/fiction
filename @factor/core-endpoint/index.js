@@ -1,5 +1,6 @@
 import qs from "qs"
 import Factor from "@factor/core"
+import { emitEvent } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -31,7 +32,7 @@ export default () => {
         } = await Factor.$http.post(requestPath, sendData, { headers })
 
         if (error) {
-          Factor.$events.$emit("error", error)
+          emitEvent("error", error)
           throw new Error(error)
         }
 

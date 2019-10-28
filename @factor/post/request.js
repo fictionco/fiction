@@ -3,7 +3,7 @@ import { setPostMetatags } from "./meta"
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
 import { applyFilters } from "@factor/filters/util"
-import { timestamp } from "@factor/tools"
+import { timestamp, emitEvent } from "@factor/tools"
 function storeSet(key, item) {
   return Factor.$store.add(key, item)
 }
@@ -212,7 +212,7 @@ export async function requestPermalinkVerify({ permalink, id, field = "permalink
   const post = await requestPostSingle({ permalink, field })
 
   if (post && post.id != id) {
-    Factor.$events.$emit("notify", `${toLabel(field)} "${permalink}" already exists.`)
+    emitEvent("notify", `${toLabel(field)} "${permalink}" already exists.`)
     let num = 1
 
     var matches = permalink.match(/\d+$/)

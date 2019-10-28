@@ -1,5 +1,5 @@
 <script>
-import { pickBy, isEmpty } from "@factor/tools"
+import { pickBy, isEmpty, emitEvent } from "@factor/tools"
 export default {
   props: {
     btn: { type: String, default: "" },
@@ -87,7 +87,7 @@ export default {
           click: e => {
             e.preventDefault()
 
-            this.$events.$emit(this.event, query)
+            emitEvent(this.event, query)
 
             return false
           }

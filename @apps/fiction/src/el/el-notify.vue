@@ -3,20 +3,21 @@
     <div class="notify-toast toasty">
       <transition-group name="notification-top">
         <div v-for="e in notification" :key="e.time" class="toast">
-          <div v-formatted-text="e.message" class="tx"/>
+          <div v-formatted-text="e.message" class="tx" />
         </div>
       </transition-group>
     </div>
     <div class="error-toast toasty">
       <transition-group name="notification-bottom">
         <div v-for="e in errors" :key="e.time" class="toast">
-          <div v-formatted-text="e.message" class="tx"/>
+          <div v-formatted-text="e.message" class="tx" />
         </div>
       </transition-group>
     </div>
   </div>
 </template>
 <script>
+import { onEvent } from "@factor/tools"
 export default {
   data() {
     return {
@@ -30,7 +31,7 @@ export default {
     }
   },
   mounted() {
-    this.$events.$on("notify", ({ type, message = "", duration = 4000 }) => {
+    onEvent("notify", ({ type, message = "", duration = 4000 }) => {
       const time = +new Date()
       if (type == "error") {
         this.errors.push({ time, message })
@@ -71,8 +72,8 @@ export default {
     color: #fff;
     border-radius: 6px;
     text-align: center;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06),
-      0 6px 14px 0 rgba(24, 32, 41, 0.12), 0 12px 34px 0 rgba(24, 32, 41, 0.08);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 6px 14px 0 rgba(24, 32, 41, 0.12),
+      0 12px 34px 0 rgba(24, 32, 41, 0.08);
     margin-bottom: 1em;
     .tx {
       flex-grow: 1;

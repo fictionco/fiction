@@ -4,7 +4,7 @@
       <h2 class="title">{{ title }}</h2>
       <div class="sub-title">{{ subTitle }}</div>
     </div>
-    
+
     <template v-if="callback">
       <factor-btn btn="default" @click="vis = false">Cancel</factor-btn>
       <factor-btn btn="primary" :loading="sending" @click="run()">{{ actionText }}</factor-btn>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { onEvent } from "@factor/tools"
 export default {
   data() {
     return {
@@ -28,16 +29,13 @@ export default {
     }
   },
   mounted() {
-    this.$events.$on(
-      "dialog",
-      ({ title, message = "", callback = false, actionText = "Go" }) => {
-        this.title = title
-        this.subTitle = message
-        this.callback = callback
-        this.actionText = actionText
-        this.vis = true
-      }
-    )
+    onEvent("dialog", ({ title, message = "", callback = false, actionText = "Go" }) => {
+      this.title = title
+      this.subTitle = message
+      this.callback = callback
+      this.actionText = actionText
+      this.vis = true
+    })
   },
   methods: {
     async run() {

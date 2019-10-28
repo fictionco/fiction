@@ -1,5 +1,5 @@
 import { getModel, savePost } from "@factor/post/server"
-
+import { randomToken } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -49,7 +49,7 @@ export default Factor => {
     }
 
     async sendVerifyEmail({ email, _id, user }, { bearer }) {
-      const emailVerificationCode = Factor.$randomToken()
+      const emailVerificationCode = randomToken()
 
       await savePost(
         { data: { _id, emailVerificationCode, postType: "user" } },
@@ -87,7 +87,7 @@ export default Factor => {
     }
 
     async sendPasswordResetEmail({ email }) {
-      const passwordResetCode = Factor.$randomToken()
+      const passwordResetCode = randomToken()
 
       const user = await getModel("user").findOneAndUpdate(
         { email },
