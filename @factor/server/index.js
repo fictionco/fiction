@@ -8,7 +8,7 @@ const { readFileSync } = require("fs-extra")
 const { createBundleRenderer } = require("vue-server-renderer")
 import Factor from "@factor/core"
 import { getPath } from "@factor/paths/util"
-import { addCallback, runCallbacks, applyFilters } from "@factor/filters/util"
+import { addCallback, runCallbacks, applyFilters } from "@factor/tools"
 import log from "@factor/logger"
 export default () => {
   return new (class {

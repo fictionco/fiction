@@ -1,5 +1,5 @@
 import { requestPostSave, getPostTypes } from "@factor/post"
-import { pushToFilter, addFilter } from "@factor/filters/util"
+import { pushToFilter, addFilter } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {

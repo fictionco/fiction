@@ -20,7 +20,7 @@ describe("app", () => {
     expect(Factor.$store).toBeTruthy()
   })
   it("calls 'before-app' hook", async () => {
-    const spy = jest.spyOn(Factor.$filters, "run")
+    const spy = jest.spyOn(tools, "runCallbacks")
     await createApp({ extend: false })
     expect(spy).toHaveBeenCalledWith("before-app")
   })

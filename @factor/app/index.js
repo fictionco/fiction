@@ -37,20 +37,18 @@ export default () => {
       })
 
       addFilter("routes", _ => {
-        const contentRoutes = Factor.$filters
-          .apply("content-routes", [
-            {
-              name: "forbidden",
-              path: "/forbidden",
-              component: error404,
-              meta: { error: 403 }
-            }
-          ])
-          .filter((route, index, self) => {
-            // remove duplicate paths
-            const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
-            return index === lastIndexOf
-          })
+        const contentRoutes = applyFilters("content-routes", [
+          {
+            name: "forbidden",
+            path: "/forbidden",
+            component: error404,
+            meta: { error: 403 }
+          }
+        ]).filter((route, index, self) => {
+          // remove duplicate paths
+          const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
+          return index === lastIndexOf
+        })
 
         _.push({
           path: "/",

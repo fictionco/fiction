@@ -6,7 +6,7 @@ import extendApp from "@factor/extend"
 
 import { createApp } from "../../app"
 import { waitFor } from "@test/utils"
-
+import * as tools from "@factor/tools"
 let _app
 
 describe("app", () => {
@@ -23,9 +23,9 @@ describe("app", () => {
     const ssrEntry = require("../../entry-server.js").default
 
     const spies = {
-      callbacks: jest.spyOn(Factor.$filters, "run"),
-      init: jest.spyOn(Factor.$filters, "apply"),
-      ready: jest.spyOn(Factor.$filters, "apply")
+      callbacks: jest.spyOn(tools, "runCallbacks"),
+      init: jest.spyOn(tools, "applyFilters"),
+      ready: jest.spyOn(tools, "applyFilters")
     }
 
     await ssrEntry({ url: "/" })

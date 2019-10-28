@@ -2,9 +2,9 @@ const cors = require("cors")
 import Factor from "@factor/core"
 import { parse } from "qs"
 import { getSinglePost } from "@factor/post/server"
-import { addFilter, applyFilters } from "@factor/filters/util"
+
 import log from "@factor/logger"
-import { merge } from "@factor/tools"
+import { merge, addFilter, applyFilters } from "@factor/tools"
 
 export default () => {
   const util = require(".").default(Factor)

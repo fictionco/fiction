@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { toLabel, slugify } from "@factor/tools"
+import { toLabel, slugify, applyFilters } from "@factor/tools"
 export default {
   data() {
     return {
@@ -112,10 +112,10 @@ export default {
       } = this.$route.matched.find(_ => _.meta.format) || {}
 
       Object.keys(this.menus).forEach(format => {
-        this.menus[format] = this.$filters.apply(`${format}-menu`, []).map(_ => {
+        this.menus[format] = applyFilters(`${format}-menu`, []).map(_ => {
           return {
             ..._,
-            items: this.$filters.apply(`${format}-menu-${_.group}`, _.items)
+            items: applyFilters(`${format}-menu-${_.group}`, _.items)
           }
         })
       })

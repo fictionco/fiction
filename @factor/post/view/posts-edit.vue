@@ -95,7 +95,14 @@
   </dashboard-page>
 </template>
 <script>
-import { isEmpty, cloneDeep, toLabel, excerpt, emitEvent } from "@factor/tools"
+import {
+  isEmpty,
+  cloneDeep,
+  toLabel,
+  excerpt,
+  emitEvent,
+  applyFilters
+} from "@factor/tools"
 import { getPermalink, requestPostSave } from "@factor/post"
 export default {
   components: {
@@ -134,7 +141,7 @@ export default {
       return this.$route.query._id || ""
     },
     injectedComponents() {
-      const components = this.$filters.apply("post-edit-components", [])
+      const components = applyFilters("post-edit-components", [])
 
       return components.filter(
         ({ postType }) => !postType || (postType && postType.includes(this.postType))

@@ -4,8 +4,8 @@ import plugin from "@factor/app"
 import { waitFor } from "@test/utils"
 import { generateLoaders } from "@factor/build/util"
 import { dirname } from "path"
-import { applyFilters } from "@factor/filters/util"
-import { emitEvent } from "@factor/tools"
+
+import * as tools from "@factor/tools"
 let _app
 let spies
 
@@ -16,15 +16,15 @@ describe("app", () => {
     generateLoaders()
     await extender().extend()
     spies = {
-      routes: jest.spyOn(Factor.$filters, "add"),
-      components: jest.spyOn(Factor.$filters, "add")
+      routes: jest.spyOn(tools, "addFilter"),
+      components: jest.spyOn(tools, "addFilter")
     }
     _app = plugin(Factor)
   })
 
   it("has initialization system", async () => {
     setTimeout(() => {
-      emitEvent("app-mounted")
+      tools.emitEvent("app-mounted")
     }, 40)
 
     const _p = _app.client()
@@ -38,8 +38,8 @@ describe("app", () => {
     expect(spies.routes).toHaveBeenCalledWith("routes", expect.anything())
     expect(spies.components).toHaveBeenCalledWith("components", expect.anything())
 
-    const routes = applyFilters("routes", [])
-    const components = applyFilters("components", [])
+    const routes = tools.applyFilters("routes", [])
+    const components = tools.applyFilters("components", [])
 
     expect(routes).toContainObject({ path: "/" })
     expect(routes).toContainObject({ path: "*" })

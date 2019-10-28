@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import { toLabel, onEvent, emitEvent } from "@factor/tools"
+import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/tools"
 export default {
   props: {
     showName: { type: Boolean, default: false }
@@ -62,7 +62,7 @@ export default {
     }
   },
   created() {
-    const menuStructure = this.$filters.apply("profile-menu", [
+    const menuStructure = applyFilters("profile-menu", [
       {
         items: [
           {

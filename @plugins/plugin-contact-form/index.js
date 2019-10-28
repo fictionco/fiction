@@ -1,6 +1,6 @@
 import { requestPostSave } from "@factor/post"
-import { toLabel } from "@factor/tools"
-import { pushToFilter } from "@factor/filters/util"
+import { toLabel, pushToFilter } from "@factor/tools"
+
 export default Factor => {
   return new (class {
     constructor() {

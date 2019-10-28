@@ -1,5 +1,5 @@
 import { objectIdType } from "@factor/post/util"
-import { applyFilters } from "@factor/filters/util"
+import { applyFilters } from "@factor/tools"
 export default () => {
   return {
     name: "post",

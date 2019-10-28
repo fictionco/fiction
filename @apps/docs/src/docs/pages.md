@@ -30,7 +30,6 @@ There are two easy ways to add a page template to your app or theme: the `page-t
 - `name` - The name of the page template in dashboard interfaces.
 
 ```js
-// Via $filters
 // (Important: This approach should be used by plugins)
 addFilter("page-templates", _ => {
   return [

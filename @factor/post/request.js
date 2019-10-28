@@ -2,8 +2,7 @@ import Factor from "@factor/core"
 import { setPostMetatags } from "./meta"
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
-import { applyFilters } from "@factor/filters/util"
-import { timestamp, emitEvent } from "@factor/tools"
+import { timestamp, emitEvent, applyFilters } from "@factor/tools"
 function storeSet(key, item) {
   return Factor.$store.add(key, item)
 }

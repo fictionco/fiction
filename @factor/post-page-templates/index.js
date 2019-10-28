@@ -1,4 +1,4 @@
-import { toLabel, addFilter, pushToFilter } from "@factor/tools"
+import { toLabel, addFilter, pushToFilter, applyFilters } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -83,8 +83,7 @@ export default Factor => {
     getPageTemplates() {
       const tpls = Factor.$setting.get("pageTemplates.templates")
 
-      return Factor.$filters
-        .apply("page-templates", tpls)
+      return applyFilters("page-templates", tpls)
         .filter((page, index, self) => {
           // remove duplicates, favor the last
           const lastIndexOf = self.map(_ => _._id).lastIndexOf(page._id)

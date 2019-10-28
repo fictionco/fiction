@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import log from "@factor/logger"
-import { addCallback, applyFilters } from "@factor/filters/util"
+import { addCallback, applyFilters } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
