@@ -19,8 +19,6 @@ export class FactorDB {
     if (process.env.FACTOR_DEBUG) mongoose.set("debug", true)
     mongoose.plugin(require("mongoose-beautiful-unique-validation"))
     this.initializeModels()
-
-    console.log("initialized")
   }
 
   initializeModels() {

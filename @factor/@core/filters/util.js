@@ -9,6 +9,10 @@ export function pushToFilter(_id, filter, options = {}) {
   return filters.push(_id, filter, options)
 }
 
+export function registerItem(_id, _property, item, options = {}) {
+  return filters.push(_id, _property, item, options)
+}
+
 export function applyFilters(_id, _initialData) {
   return filters.apply(_id, _initialData)
 }
