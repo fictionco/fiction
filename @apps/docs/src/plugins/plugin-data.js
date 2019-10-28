@@ -19,6 +19,8 @@ export default () => {
 
       let cleanSlug = slug.replace("@factor/", "")
 
+      // console.log(` getSingleSlug:` + slug)
+
       const requests = [
         {
           _id: "npmData",
@@ -56,15 +58,15 @@ export default () => {
       return merged
     }
 
-    async getReadme(slug) {
-      const results = await Promise.all([
-        axios.get(`https://registry.npmjs.org/${slug}`),
-        axios.get(`https://api.npmjs.org/downloads/point/last-month/${slug}`)
-      ])
+    // async getReadme(slug) {
+    //   const results = await Promise.all([
+    //     axios.get(`https://registry.npmjs.org/${slug}`),
+    //     axios.get(`https://api.npmjs.org/downloads/point/last-month/${slug}`)
+    //   ])
 
-      const allData = deepMerge(results.map(r => r.data))
+    //   const allData = deepMerge(results.map(r => r.data))
 
-      return { myData: allData }
-    }
+    //   return { myData: allData }
+    // }
   })()
 }
