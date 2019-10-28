@@ -10,7 +10,7 @@ process.noDeprecation = true
 process.maxOldSpaceSize = 8192
 import extender from "@factor/extend/server"
 import transpiler from "@factor/build/transpiler"
-
+import { runCallbacks } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -92,11 +92,11 @@ export default () => {
 
       try {
         if (["build", "start"].includes(command)) {
-          await Factor.$filters.run("create-distribution-app", _arguments)
+          await runCallbacks("create-distribution-app", _arguments)
         } else if (command == "setup") {
-          await Factor.$filters.run(`cli-setup`, { inquirer, ..._arguments })
+          await runCallbacks(`cli-setup`, { inquirer, ..._arguments })
         } else if (command == "run") {
-          await Factor.$filters.run(`cli-run-${filter}`, { inquirer, ..._arguments })
+          await runCallbacks(`cli-run-${filter}`, { inquirer, ..._arguments })
 
           log.success(`Successfully ran "${filter}"\n\n`)
         }
@@ -187,7 +187,7 @@ export default () => {
 
       log.formatted(message)
 
-      await Factor.$filters.run("create-server", _arguments)
+      await runCallbacks("create-server", _arguments)
     }
 
     // Reloads all cached node files

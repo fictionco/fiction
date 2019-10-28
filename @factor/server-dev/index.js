@@ -3,7 +3,7 @@ import path from "path"
 import webpack from "webpack"
 import chokidar from "chokidar"
 import ora from "ora"
-import { addFilter, applyFilters } from "@factor/tools"
+import { addFilter, applyFilters, runCallbacks } from "@factor/tools"
 
 import MFS from "memory-fs"
 
@@ -119,7 +119,7 @@ export default Factor => {
             path.includes("endpoint") ||
             path.includes("schema")
           ) {
-            await Factor.$filters.run("restart-server")
+            await runCallbacks("restart-server")
           }
 
           this.updateServer({

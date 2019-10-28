@@ -3,7 +3,7 @@ import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import FactorStore from "@factor/app/store"
 import FactorRouter from "@factor/app/router"
-import { emitEvent } from "@factor/tools"
+import { emitEvent, runCallbacks } from "@factor/tools"
 Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
 process.env.FACTOR_TARGET = "app"
@@ -19,7 +19,7 @@ export async function createApp(options = {}) {
   const router = FactorRouter(Factor).create()
 
   // Extend with mixins, etc... happens after router and store
-  Factor.$filters.run("before-app")
+  runCallbacks("before-app")
 
   // create the app instance.
   // here we inject the router, store and ssr context to all child components,

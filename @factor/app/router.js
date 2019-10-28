@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import FactorRouter from "vue-router"
 import qs from "qs"
-import { emitEvent, applyFilters } from "@factor/tools"
+import { emitEvent, applyFilters, runCallbacks } from "@factor/tools"
 Factor.use(FactorRouter)
 
 export default () => {
@@ -40,7 +40,7 @@ export default () => {
     async clientRouterBefore(to, from, next) {
       if (this.initialPageLoad) next()
       else {
-        const doBefore = Factor.$filters.run("client-route-before", { to, from, next })
+        const doBefore = runCallbacks("client-route-before", { to, from, next })
         emitEvent("ssr-progress", "start")
         const results = await doBefore
 
@@ -60,7 +60,7 @@ export default () => {
       const { query } = to
 
       if (query._action) {
-        Factor.$filters.run(`route-query-action-${query._action}`, query)
+        runCallbacks(`route-query-action-${query._action}`, query)
       }
     }
   })()

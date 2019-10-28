@@ -1,5 +1,6 @@
 import Factor from "@factor/core"
 import { importPlugins } from "./util"
+import { runCallbacks } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {}
@@ -25,9 +26,9 @@ export default () => {
       if (loadPlugins !== false) {
         await this.loadPlugins()
 
-        await Factor.$filters.run("initialize-server")
+        await runCallbacks("initialize-server")
 
-        if (!restart) Factor.$filters.run("after-first-server-extend")
+        if (!restart) runCallbacks("after-first-server-extend")
       }
     }
 
