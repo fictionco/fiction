@@ -9,8 +9,10 @@
   "workspaces": [
     "@apps/*",
     "@examples/*",
+    "@plugins/*",
+    "@themes/*",
+    "@examples/*",
     "@factor/*",
-    "@factor/@*/*",
     "@demo/*",
     "**/fixtures/*",
     "test/modules/*"
@@ -53,8 +55,8 @@
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jest": "^22.17.0",
-    "eslint-plugin-json": "^1.2.0",
+    "eslint-plugin-jest": "^23.0.1",
+    "eslint-plugin-json": "^2.0.1",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-unicorn": "^12.0.2",
@@ -63,7 +65,7 @@
     "execa": "^3.1.0",
     "exit": "^0.1.2",
     "jest": "^24.9.0",
-    "jest-junit": "^8.0.0",
+    "jest-junit": "^9.0.0",
     "jsdom": "^15.1.1",
     "lerna": "^3.13.0",
     "prettier": "^1.17.1",
@@ -78,7 +80,7 @@
     "webpack": "^4.29.6"
   },
   "devDependencies": {
-    "mongodb-memory-server": "^5.2.8",
+    "mongodb-memory-server": "^6.0.1",
     "yorkie": "^2.0.0"
   }
 }

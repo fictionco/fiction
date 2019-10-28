@@ -18,7 +18,7 @@
   "dependencies": {
     "@factor/plugin-notify": "1.0.0-beta.6",
     "@factor/post": "1.0.0-beta.6",
-    "bulma": "^0.7.5",
+    "bulma": "^0.8.0",
     "prismjs": "^1.16.0"
   }
 }
