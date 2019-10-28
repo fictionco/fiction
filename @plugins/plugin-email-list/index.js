@@ -4,16 +4,15 @@ import {
   dotSetting,
   emitEvent,
   addFilter,
-  pushToFilter
+  pushToFilter,
+  addCallback
 } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
       this.postType = "emailList"
 
-      Factor.$filters.callback("route-query-action-verify-email-list", _ =>
-        this.verifyEmail(_)
-      )
+      addCallback("route-query-action-verify-email-list", _ => this.verifyEmail(_))
 
       addFilter("components", _ => {
         _["factor-email-list"] = () => import("./wrap.vue")

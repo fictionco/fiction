@@ -5,15 +5,15 @@ import figures from "figures"
 import envfile from "envfile"
 import log from "@factor/logger"
 import { getExtensions } from "@factor/build/util"
-import { sortPriority, deepMerge, applyFilters } from "@factor/tools"
+import { sortPriority, deepMerge, applyFilters, addCallback } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
       this.configFile = Factor.$paths.get("config-file-public")
       this.secretsFile = Factor.$paths.get("config-file-private")
-      Factor.$filters.callback("cli-setup", _ => this.runSetup(_))
+      addCallback("cli-setup", _ => this.runSetup(_))
 
-      Factor.$filters.callback("after-first-server-extend", () => {
+      addCallback("after-first-server-extend", () => {
         this.setupNeeded = applyFilters("setup-needed", [])
         if (this.setupNeeded.length > 0) {
           let lines = this.setupNeeded.map(_ => {

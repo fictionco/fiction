@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, addCallback } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -43,7 +43,7 @@ export default Factor => {
         })
       })
 
-      Factor.$filters.callback("delete-attachment", async doc => {
+      addCallback("delete-attachment", async doc => {
         const key = doc.url.split("amazonaws.com/")[1]
 
         if (key) {

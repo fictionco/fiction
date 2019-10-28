@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import FactorMeta from "vue-meta"
-import { addFilter, applyFilters } from "@factor/tools"
+import { addFilter, applyFilters, addCallback } from "@factor/tools"
 
 Factor.use(FactorMeta, {
   keyName: "metaInfoCore"
@@ -80,7 +80,7 @@ export default () => {
     }
 
     refineMetaHandling() {
-      Factor.$filters.callback("initialize-app", () => {
+      addCallback("initialize-app", () => {
         Factor.mixin({
           metaInfoCore() {
             const opt = this.$options.metaInfo

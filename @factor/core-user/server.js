@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-import { addFilter, pushToFilter, applyFilters } from "@factor/tools"
+import { addFilter, pushToFilter, applyFilters, addCallback } from "@factor/tools"
 import { getModel, savePost } from "@factor/post/server"
 
 export default Factor => {
@@ -20,7 +20,7 @@ export default Factor => {
         })
       }
 
-      Factor.$filters.callback("endpoints", { id: "user", handler: this })
+      addCallback("endpoints", { id: "user", handler: this })
 
       pushToFilter("data-schemas", () => require("./schema").default(Factor), {
         key: "user"

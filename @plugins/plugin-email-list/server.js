@@ -1,9 +1,9 @@
 import { getModel } from "@factor/post/server"
-import { randomToken, emitEvent, applyFilters } from "@factor/tools"
+import { randomToken, emitEvent, applyFilters, addCallback } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("endpoints", { id: "emailList", handler: this })
+      addCallback("endpoints", { id: "emailList", handler: this })
     }
 
     uniqueId(listId) {
