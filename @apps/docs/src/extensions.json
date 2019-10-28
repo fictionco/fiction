@@ -4,6 +4,7 @@
     "@factor/plugin-jobs",
     "@factor/plugin-notify",
     "@factor/plugin-google-tag-manager",
-    "@factor/plugin-highlight-code"
+    "@factor/plugin-highlight-code",
+    "@factor/plugin-contact-form"
   ]
 }

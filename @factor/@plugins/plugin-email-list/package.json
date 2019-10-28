@@ -10,7 +10,8 @@
         "server",
         "index"
       ]
-    }
+    },
+    "title": "Email List"
   },
   "dependencies": {
     "export-to-csv": "^0.2.1"
@@ -24,6 +25,9 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "email",
+    "subscribe",
+    "form"
   ]
 }
