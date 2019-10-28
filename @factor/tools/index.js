@@ -4,6 +4,7 @@ import randToken from "rand-token"
 export * from "./utils"
 export * from "./utils-lodash"
 export * from "./time"
+export * from "./filters"
 
 export { default as isNode } from "detect-node"
 export { default as guid } from "uniqid"
