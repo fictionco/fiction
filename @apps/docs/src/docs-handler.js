@@ -1,8 +1,8 @@
-import { toLabel } from "@factor/utils"
+import { toLabel, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     config() {
-      return this.normalize(Factor.$setting.get("docs.pages"))
+      return this.normalize(setting("docs.pages"))
     }
     getMarkdownHTML(doc) {
       const { file } = this.selected(doc) || {}
@@ -23,7 +23,7 @@ export default Factor => {
       return items.map(_ => {
         const d = {
           doc: _.doc,
-          route: `/${Factor.$setting.get("docs.base")}/${_.doc}`,
+          route: `/${setting("docs.base")}/${_.doc}`,
           name: toLabel(_.doc),
           title: toLabel(_.doc),
           description: ""

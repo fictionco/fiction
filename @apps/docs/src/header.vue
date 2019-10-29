@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      navConfig: this.$setting.get("site.nav")
+      navConfig: setting("site.nav")
     }
   },
   computed: {
