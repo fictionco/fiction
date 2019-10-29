@@ -1,15 +1,15 @@
 <template>
   <section id="contact" class="page-container contact-container">
-    <h2 class="pretitle">{{ $setting.get('contact.pretitle') }}</h2>
-    <h1 class="title">{{ $setting.get('contact.title') }}</h1>
+    <h2 class="pretitle">{{ setting('contact.pretitle') }}</h2>
+    <h1 class="title">{{ setting('contact.title') }}</h1>
     <div class="form-wrap">
       <div>
-        <h2 class="heading">{{ $setting.get('contact.form.title') }}</h2>
-        <component :is="$setting.get('contactForm.form')" />
+        <h2 class="heading">{{ setting('contact.form.title') }}</h2>
+        <component :is="setting('contactForm.form')" />
       </div>
       <div>
-        <h2 class="heading">{{ $setting.get('contact.info.title') }}</h2>
-        <div v-for="(item, i) in $setting.get('contact.info.items')" :key="i" class="info-item">
+        <h2 class="heading">{{ setting('contact.info.title') }}</h2>
+        <div v-for="(item, i) in setting('contact.info.items')" :key="i" class="info-item">
           <h3 class="item-title">{{ item.title }}</h3>
           <p>{{ item.text }}</p>
         </div>
@@ -19,12 +19,14 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   data() {
     return {
       loading: true
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 

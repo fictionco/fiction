@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -9,14 +9,14 @@ export default Factor => {
       addFilter(
         "factor_head",
         _ => {
-          const add = Factor.$setting.get("headTags.font")
+          const add = setting("headTags.font")
 
           return [..._, add]
         },
         { priority: 200 }
       )
 
-      const portfolioBaseRoute = Factor.$setting.get("portfolio.postRoute")
+      const portfolioBaseRoute = setting("portfolio.postRoute")
 
       addFilter("post-types", _ => {
         _.push({
@@ -32,7 +32,7 @@ export default Factor => {
         return _
       })
 
-      const newsBaseRoute = Factor.$setting.get("news.postRoute")
+      const newsBaseRoute = setting("news.postRoute")
 
       addFilter("post-types", _ => {
         _.push({
@@ -65,30 +65,30 @@ export default Factor => {
             component: () => import("./page-home")
           },
           {
-            path: Factor.$setting.get("portfolio.indexRoute"),
-            component: Factor.$setting.get("portfolio.components.portfolioWrap"),
+            path: setting("portfolio.indexRoute"),
+            component: setting("portfolio.components.portfolioWrap"),
             children: [
               {
                 path: "/#portfolio",
-                component: Factor.$setting.get("portfolio.components.portfolioIndex")
+                component: setting("portfolio.components.portfolioIndex")
               },
               {
-                path: `${Factor.$setting.get("portfolio.postRoute")}/:permalink`,
-                component: Factor.$setting.get("portfolio.components.portfolioSingle")
+                path: `${setting("portfolio.postRoute")}/:permalink`,
+                component: setting("portfolio.components.portfolioSingle")
               }
             ]
           },
           {
-            path: Factor.$setting.get("news.indexRoute"),
-            component: Factor.$setting.get("news.components.newsWrap"),
+            path: setting("news.indexRoute"),
+            component: setting("news.components.newsWrap"),
             children: [
               {
                 path: "/#news",
-                component: Factor.$setting.get("news.components.newsIndex")
+                component: setting("news.components.newsIndex")
               },
               {
-                path: `${Factor.$setting.get("news.postRoute")}/:permalink`,
-                component: Factor.$setting.get("news.components.newsSingle")
+                path: `${setting("news.postRoute")}/:permalink`,
+                component: setting("news.components.newsSingle")
               }
             ]
           }

@@ -4,11 +4,11 @@
       <div class="container">
         <div class="columns is-vcentered">
           <div class="column is-5 has-text-centered has-text-left-tablet">
-            <h1 class="title is-1">{{ $setting.get('home.headline') }}</h1>
-            <p class="subtitle">{{ $setting.get('home.subheadline') }}</p>
+            <h1 class="title is-1">{{ setting('home.headline') }}</h1>
+            <p class="subtitle">{{ setting('home.subheadline') }}</p>
             <div class="field buttons">
               <factor-link
-                v-for="(action ,i) in $setting.get('home.actions')"
+                v-for="(action ,i) in setting('home.actions')"
                 :key="i"
                 :path="action.path"
                 :class="action.class"
@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="column is-6 is-offset-1">
-            <component :is="$setting.get(`home.graphic`)" />
+            <component :is="setting(`home.graphic`)" />
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
         <div class="container">
           <div class="columns is-centered is-mobile level is-variable is-8 logos">
             <div
-              v-for="(logo ,i) in $setting.get('home.logos')"
+              v-for="(logo ,i) in setting('home.logos')"
               :key="i"
               class="column is-one-third-mobile"
             >
@@ -45,13 +45,13 @@
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-three-fifths mb-4 has-text-centered">
-            <h1 class="title is-3">{{ $setting.get('home.boxesHeadline') }}</h1>
+            <h1 class="title is-3">{{ setting('home.boxesHeadline') }}</h1>
           </div>
         </div>
       </div>
       <div class="container">
         <div class="columns is-multiline">
-          <div v-for="(box ,i) in $setting.get('home.boxes')" :key="i" class="column is-half">
+          <div v-for="(box ,i) in setting('home.boxes')" :key="i" class="column is-half">
             <div class="box is-fullheight">
               <div class="media">
                 <div class="media-left">
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   components: {
     "el-cta": () => import("./el/cta.vue")
@@ -89,10 +90,11 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.$setting.get("home.meta.title"),
-      description: this.$setting.get("home.meta.description")
+      title: setting("home.meta.title"),
+      description: setting("home.meta.description")
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 <style lang="less">

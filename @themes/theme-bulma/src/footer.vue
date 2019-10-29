@@ -3,10 +3,10 @@
     <div class="container footer-top">
       <div class="columns is-tablet">
         <div class="column">
-          <h4 class="menu-label menu-label-indent">{{ $setting.get('footer.nav1Headline') }}</h4>
+          <h4 class="menu-label menu-label-indent">{{ setting('footer.nav1Headline') }}</h4>
 
           <ul class="menu-list">
-            <template v-for="(item, index) in $setting.get('footer.nav1')">
+            <template v-for="(item, index) in setting('footer.nav1')">
               <li :key="index">
                 <factor-link :path="item.path" class="navbar-item">
                   <span>{{ item.name }}</span>
@@ -16,9 +16,9 @@
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label menu-label-indent">{{ $setting.get('footer.nav2Headline') }}</h4>
+          <h4 class="menu-label menu-label-indent">{{ setting('footer.nav2Headline') }}</h4>
           <ul class="menu-list">
-            <template v-for="(item, index) in $setting.get('footer.nav2')">
+            <template v-for="(item, index) in setting('footer.nav2')">
               <li :key="index">
                 <factor-link :path="item.path" class="navbar-item">
                   <span>{{ item.name }}</span>
@@ -28,9 +28,9 @@
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label menu-label-indent">{{ $setting.get('footer.nav3Headline') }}</h4>
+          <h4 class="menu-label menu-label-indent">{{ setting('footer.nav3Headline') }}</h4>
           <ul class="menu-list">
-            <template v-for="(item, index) in $setting.get('footer.nav3')">
+            <template v-for="(item, index) in setting('footer.nav3')">
               <li :key="index">
                 <factor-link :path="item.path" class="navbar-item">
                   <span>{{ item.name }}</span>
@@ -40,9 +40,9 @@
           </ul>
         </div>
         <div class="column is-5">
-          <h4 class="menu-label">{{ $setting.get('footer.socialHeadline') }}</h4>
+          <h4 class="menu-label">{{ setting('footer.socialHeadline') }}</h4>
 
-          <template v-for="(item, index) in $setting.get('footer.social')">
+          <template v-for="(item, index) in setting('footer.social')">
             <factor-link
               :key="index"
               :path="item.path"
@@ -53,15 +53,15 @@
             </factor-link>
           </template>
 
-          <h4 class="menu-label">{{ $setting.get('footer.subscribeHeadline') }}</h4>
-          <component :is="$setting.get(`footer.subscribe`)" />
+          <h4 class="menu-label">{{ setting('footer.subscribeHeadline') }}</h4>
+          <component :is="setting(`footer.subscribe`)" />
         </div>
       </div>
     </div>
     <div class="container">
       <div class="columns">
         <div class="column">
-          <hr >
+          <hr />
         </div>
       </div>
     </div>
@@ -69,13 +69,13 @@
       <div class="columns">
         <div class="column is-2 has-text-centered-mobile has-text-left-desktop">
           <factor-link path="/" class="footer-logo">
-            <component :is="$setting.get(`footer.logo`)" />
+            <component :is="setting(`footer.logo`)" />
           </factor-link>
         </div>
         <div class="column has-text-centered-mobile has-text-right-tablet is-size-7">
-          <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
+          <div v-formatted-text="setting('footer.legal')" class="copyright" />
           <div class="terms">
-            <template v-for="(item, index) in $setting.get('footer.terms')">
+            <template v-for="(item, index) in setting('footer.terms')">
               <factor-link :key="index" :path="item.path">{{ item.text }}</factor-link>
             </template>
           </div>
@@ -85,7 +85,10 @@
   </footer>
 </template>
 <script>
-export default {}
+import { setting } from "@factor/tools"
+export default {
+  methods: { setting }
+}
 </script>
 
 <style lang="less">

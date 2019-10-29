@@ -2,7 +2,7 @@
   <div class="hero">
     <div class="hero-inner">
       <div>
-        <factor-link class="back" :path="$setting.get('portfolio.indexRoute')">
+        <factor-link class="back" :path="setting('portfolio.indexRoute')">
           <factor-icon icon="arrow-left" />
           {{ returnLinkText }}
         </factor-link>
@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   props: {
@@ -27,11 +28,12 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     returnLinkText() {
-      return this.$setting.get("portfolio.returnLinkText") || "All Projects"
+      return setting("portfolio.returnLinkText") || "All Projects"
     }
   },
   methods: {
-    link
+    link,
+    setting
   }
 }
 </script>

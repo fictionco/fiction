@@ -15,7 +15,7 @@
 
       <div class="navbar-menu">
         <div class="navbar-end">
-          <template v-for="(item, index) in $setting.get('site.nav')">
+          <template v-for="(item, index) in setting('site.nav')">
             <div v-if="item.subnav" :key="index" class="navbar-item has-dropdown is-hoverable">
               <factor-link :path="item.path" class="navbar-link">
                 <span>{{ item.name }}</span>
@@ -37,11 +37,11 @@
           <div class="navbar-item">
             <div class="buttons">
               <factor-link
-                :path="$setting.get('site.nav_cta.path')"
+                :path="setting('site.nav_cta.path')"
                 class="button is-outlined is-rounded"
                 target="_blank"
               >
-                {{ $setting.get('site.nav_cta.name') }}
+                {{ setting('site.nav_cta.name') }}
                 <factor-icon icon="arrow-right" class="ml-2" />
               </factor-link>
             </div>
@@ -64,7 +64,7 @@
 </template>
 <style src="#/css/style-vars.scss" lang="sass"></style>
 <script>
-import { DOM } from "@factor/tools"
+import { DOM, setting } from "@factor/tools"
 export default {
   components: {
     "site-brand": () => import("./el/logo-bulma"),
@@ -90,6 +90,7 @@ export default {
     }
   },
   methods: {
+    setting,
     toggleNav(v) {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle

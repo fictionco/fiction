@@ -7,7 +7,7 @@
         </h1>
       </div>
       <div v-else>
-        <factor-link class="back" :path="$setting.get('news.indexRoute')">
+        <factor-link class="back" :path="setting('news.indexRoute')">
           <factor-icon icon="arrow-left" />
           {{ returnLinkText }}
         </factor-link>
@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   props: {
@@ -32,11 +33,12 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     returnLinkText() {
-      return this.$setting.get("news.returnLinkText") || "All Projects"
+      return setting("news.returnLinkText") || "All Projects"
     }
   },
   methods: {
-    link
+    link,
+    setting
   }
 }
 </script>

@@ -4,7 +4,7 @@
       <site-brand class="site-brand" />
     </div>
     <nav>
-      <template v-for="(item, index) in $setting.get('site.nav')">
+      <template v-for="(item, index) in setting('site.nav')">
         <factor-link
           :key="index"
           :path="item.path"
@@ -17,11 +17,12 @@
       </template>
     </nav>
 
-    <div v-formatted-text="$setting.get('site.copyright')" class="copyright" />
+    <div v-formatted-text="setting('site.copyright')" class="copyright" />
   </div>
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   components: {
     "site-brand": () => import("./el/brand")
@@ -29,14 +30,7 @@ export default {
   data() {
     return {
       loading: true,
-      options: [
-        "#intro",
-        "#about",
-        "#services",
-        "#portfolio",
-        "#news",
-        "#contact"
-      ],
+      options: ["#intro", "#about", "#services", "#portfolio", "#news", "#contact"],
       selected: undefined
     }
   },
@@ -54,6 +48,7 @@ export default {
     }
   },
   methods: {
+    setting,
     sidebarPath(path) {
       const ele = document.querySelector(path)
       if (ele) {

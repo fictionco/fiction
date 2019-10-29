@@ -6,8 +6,8 @@
     <div v-else-if="portfolioPosts.length > 0" class="portfolio-posts">
       <section v-for="post in portfolioPosts" :key="post._id" class="post card">
         <component
-          :is="$setting.get(`portfolio.components.${comp}`)"
-          v-for="(comp, i) in $setting.get('portfolio.layout.index')"
+          :is="setting(`portfolio.components.${comp}`)"
+          v-for="(comp, i) in setting('portfolio.layout.index')"
           :key="i"
           :post-id="post._id"
           format="index"
@@ -16,13 +16,14 @@
     </div>
     <div v-else class="posts-not-found">
       <div class="text">
-        <div class="title">{{ $setting.get("portfolio.notFound.title") }}</div>
-        <div class="sub-title">{{ $setting.get("portfolio.notFound.subTitle") }}</div>
+        <div class="title">{{ setting("portfolio.notFound.title") }}</div>
+        <div class="sub-title">{{ setting("portfolio.notFound.subTitle") }}</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   data() {
@@ -59,7 +60,7 @@ export default {
       return this.$route.query.page || 1
     },
     returnLinkText() {
-      return this.$setting.get("portfolio.returnLinkText") || "All Projects"
+      return setting("portfolio.returnLinkText") || "All Projects"
     }
   },
   watch: {
@@ -73,6 +74,7 @@ export default {
     this.getPosts()
   },
   methods: {
+    setting,
     async getPosts() {
       this.loading = true
 
@@ -82,7 +84,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("portfolio.limit")
+        limit: setting("portfolio.limit")
       })
 
       this.loading = false

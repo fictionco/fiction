@@ -1,12 +1,13 @@
 <template>
   <div class="return-link">
-    <factor-link class="back" :path="$setting.get('portfolio.indexRoute')">
+    <factor-link class="back" :path="setting('portfolio.indexRoute')">
       <factor-icon icon="arrow-left" />
       <span>{{ returnLinkText }}</span>
     </factor-link>
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -16,8 +17,9 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     returnLinkText() {
-      return this.$setting.get("portfolio.returnLinkText") || "All Posts"
+      return setting("portfolio.returnLinkText") || "All Posts"
     }
-  }
+  },
+  methods: { setting }
 }
 </script>

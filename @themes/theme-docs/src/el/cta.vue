@@ -2,12 +2,12 @@
   <section class="mast">
     <div class="cta">
       <div>
-        <h3 class="title">{{ $setting.get('cta.title') }}</h3>
-        <p class="subtitle">{{ $setting.get('cta.subtitle') }}</p>
+        <h3 class="title">{{ setting('cta.title') }}</h3>
+        <p class="subtitle">{{ setting('cta.subtitle') }}</p>
       </div>
       <div class="actions">
         <factor-link
-          v-for="(action ,i) in $setting.get('cta.actions')"
+          v-for="(action ,i) in setting('cta.actions')"
           :key="i"
           :path="action.path"
           :btn="action.btn"
@@ -22,7 +22,10 @@
 </template>
 
 <script>
-export default {}
+import { setting } from "@factor/tools"
+export default {
+  methods: { setting }
+}
 </script>
 
 <style lang="less">
