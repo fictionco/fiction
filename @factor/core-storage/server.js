@@ -8,6 +8,7 @@ import {
   addCallback
 } from "@factor/tools"
 import { objectIdType, objectId } from "@factor/post/util"
+import { processEndpointRequest } from "@factor/endpoint/server"
 export default Factor => {
   return new (class {
     constructor() {
@@ -24,7 +25,7 @@ export default Factor => {
           middleware: [
             multer().single("imageUpload"),
             async (request, response, next) => {
-              return await Factor.$endpointServer.process({
+              return await processEndpointRequest({
                 request,
                 response,
                 handler: _ => this.handleUpload(_)

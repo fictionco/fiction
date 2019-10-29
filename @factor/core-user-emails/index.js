@@ -1,4 +1,5 @@
 import { emitEvent, addCallback } from "@factor/tools"
+import { endpointRequest } from "@factor/endpoint"
 export default Factor => {
   return new (class {
     constructor() {
@@ -7,7 +8,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-      return await Factor.$endpoint.request({ id: "user-emails", method, params })
+      return await endpointRequest({ id: "user-emails", method, params })
     }
 
     async sendVerifyEmail({ _id, email }) {

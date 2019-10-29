@@ -3,7 +3,7 @@ import { setPostMetatags } from "./meta"
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
 import { timestamp, emitEvent, applyFilters, storeItem, stored } from "@factor/tools"
-
+import { endpointRequest } from "@factor/endpoint"
 function _setCache(postType) {
   storeItem(`${postType}Cache`, timestamp())
 }
@@ -13,7 +13,7 @@ function _cacheKey(postType) {
 }
 
 export async function sendPostRequest(method, params) {
-  return await Factor.$endpoint.request({ id: "posts", method, params })
+  return await endpointRequest({ id: "posts", method, params })
 }
 
 export async function requestPostSave({ post, postType }) {

@@ -60,6 +60,7 @@ export default Factor => {
 And in another plugin in the client or app:
 
 ```javascript
+import { endpointRequest } from "@factor/endpoint"
 // Requesting an endpoint transaction from your app
 export default Factor => {
   return new (class {
@@ -67,7 +68,7 @@ export default Factor => {
 
     async requestEndpointMethod() {
       // Request and await transaction of endpointMethod
-      const response = await Factor.$endpoint.request({
+      const response = await endpointRequest({
         id: "myEndpoint",
         method: "endpointMethod",
         params: { myOption: 123 }
