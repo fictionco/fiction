@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 
 export default Factor => {
   return new (class {
@@ -10,7 +10,7 @@ export default Factor => {
       addFilter(
         "factor_head",
         _ => {
-          const add = Factor.$setting.get("headTags.font")
+          const add = setting("headTags.font")
 
           return [..._, add]
         },
@@ -19,7 +19,7 @@ export default Factor => {
 
       // POST TYPES
 
-      const baseRoute = Factor.$setting.get("work.postRoute")
+      const baseRoute = setting("work.postRoute")
 
       addFilter("post-types", _ => {
         _.push({
@@ -62,16 +62,16 @@ export default Factor => {
             meta: { nav: true }
           },
           {
-            path: Factor.$setting.get("work.indexRoute"),
-            component: Factor.$setting.get("work.components.workWrap"),
+            path: setting("work.indexRoute"),
+            component: setting("work.components.workWrap"),
             children: [
               {
                 path: "/",
-                component: Factor.$setting.get("work.components.workIndex")
+                component: setting("work.components.workIndex")
               },
               {
-                path: `${Factor.$setting.get("work.postRoute")}/:permalink`,
-                component: Factor.$setting.get("work.components.workSingle")
+                path: `${setting("work.postRoute")}/:permalink`,
+                component: setting("work.components.workSingle")
               }
             ]
           },

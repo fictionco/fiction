@@ -1,8 +1,8 @@
 <template>
   <section class="clients">
-    <div v-formatted-text="$setting.get('site.clientsTitle')" class="title" />
+    <div v-formatted-text="setting('site.clientsTitle')" class="title" />
     <div class="mast clients-inner">
-      <div v-for="(client, i) in $setting.get('site.clients')" :key="i" class="clients">
+      <div v-for="(client, i) in setting('site.clients')" :key="i" class="clients">
         <div v-if="client.path" class="client-image">
           <factor-link :path="client.path" target="_blank">
             <img :src="client.icon" :alt="client.text" />
@@ -17,12 +17,14 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   data() {
     return {
       loading: true
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 

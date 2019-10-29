@@ -3,12 +3,12 @@
     <div class="content-footer">
       <div class="content-footer-pad">
         <div class="footer-col">
-          <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
+          <div v-formatted-text="setting('footer.legal')" class="copyright" />
         </div>
         <div class="footer-col">
           <div>
             <div class="terms">
-              <template v-for="(item, index) in $setting.get('footer.nav')">
+              <template v-for="(item, index) in setting('footer.nav')">
                 <factor-link :key="index" :path="item.path">{{ item.text }}</factor-link>
               </template>
             </div>

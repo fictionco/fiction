@@ -1,12 +1,12 @@
 <template>
   <div class="page-contact">
     <el-hero
-      :headline="$setting.get('contact.headline')"
-      :subheadline="$setting.get('contact.subheadline')"
-      :image="$setting.get('contact.heroImage')"
+      :headline="setting('contact.headline')"
+      :subheadline="setting('contact.subheadline')"
+      :image="setting('contact.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="$setting.get('contact.content')" class="content entry-content" />
+        <div v-formatted-text="setting('contact.content')" class="content entry-content" />
 
         <factor-form
           ref="form"
@@ -27,7 +27,7 @@
               format="vertical"
               data-test="form-name"
               input="factor-input-text"
-              :placeholder="$setting.get('contact.form.namePlaceholder')"
+              :placeholder="setting('contact.form.namePlaceholder')"
               required
             />
             <factor-input-wrap
@@ -35,14 +35,14 @@
               format="vertical"
               data-test="form-email"
               input="factor-input-email"
-              :placeholder="$setting.get('contact.form.emailPlaceholder')"
+              :placeholder="setting('contact.form.emailPlaceholder')"
               required
             />
             <factor-input-wrap
               v-model="form.message"
               format="vertical"
               input="factor-input-textarea"
-              :placeholder="$setting.get('contact.form.messagePlaceholder')"
+              :placeholder="setting('contact.form.messagePlaceholder')"
               required
               data-test="form-message"
             />
@@ -53,7 +53,7 @@
               :loading="sending"
               data-test="form-submit"
             >
-              {{ $setting.get("contact.form.buttonText") }}
+              {{ setting("contact.form.buttonText") }}
               <factor-icon icon="arrow-right" />
             </factor-input-submit>
           </div>
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   components: {
     "el-hero": () => import("./el/hero")
@@ -79,8 +80,8 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.$setting.get("contact.metatags.title"),
-      description: this.$setting.get("contact.metatags.description")
+      title: setting("contact.metatags.title"),
+      description: setting("contact.metatags.description")
     }
   },
   mounted() {
@@ -112,6 +113,7 @@ export default {
   //   }
   // },
   methods: {
+    setting,
     async send() {
       this.sending = true
       const { name, email, message } = this.form

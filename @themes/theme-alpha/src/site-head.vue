@@ -3,10 +3,7 @@
     <div class="site-head-pad">
       <site-brand />
       <div class="mob-nav-btn">
-        <div
-          :class="{ active: showMobileMenu }"
-          @click="showMobileMenu = !showMobileMenu"
-        />
+        <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
       <div
         class="nav-wrap"
@@ -14,7 +11,7 @@
         @click="showMobileMenu = !showMobileMenu"
       >
         <div class="nav">
-          <template v-for="(item, index) in $setting.get('site.nav')">
+          <template v-for="(item, index) in setting('site.nav')">
             <factor-link :key="index" :path="item.path">
               <factor-icon v-if="item.icon" :icon="item.icon" />
               <span>{{ item.name }}</span>
@@ -22,13 +19,8 @@
           </template>
         </div>
         <div class="social">
-          <template v-for="(item, index) in $setting.get('site.social')">
-            <factor-link
-              :key="index"
-              :path="item.path"
-              class="factor-icon"
-              target="_blank"
-            >
+          <template v-for="(item, index) in setting('site.social')">
+            <factor-link :key="index" :path="item.path" class="factor-icon" target="_blank">
               <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
           </template>
@@ -38,6 +30,7 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 export default {
   components: {
     "site-brand": () => import("./el/brand")
@@ -46,7 +39,8 @@ export default {
     return {
       showMobileMenu: false
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 <style lang="less">
