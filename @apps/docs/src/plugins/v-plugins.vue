@@ -266,7 +266,7 @@ export default {
     }
     .entry-plugin {
       display: grid;
-      grid-template-columns: 1fr 3fr;
+      grid-template-columns: 70px 3fr;
       grid-gap: 2rem;
       align-items: flex-start;
       margin-bottom: 1rem;
@@ -286,13 +286,15 @@ export default {
       .entry-image {
         display: flex;
         justify-content: center;
-        height: 130px;
+        height: 70px;
         padding: 4px;
-        border-radius: 6px;
+        border-radius: 50%;
+        overflow: hidden;
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
-          width: 50px;
+          width: 100%;
           max-width: 100%;
         }
       }
@@ -359,7 +361,7 @@ export default {
     }
     .entry-plugin {
       display: grid;
-      grid-template-columns: 1fr 3fr;
+      grid-template-columns: 70px 3fr;
       grid-gap: 2rem;
       align-items: flex-start;
       margin-bottom: 1rem;
@@ -379,11 +381,13 @@ export default {
       .entry-image {
         display: flex;
         justify-content: center;
-        height: 130px;
+        height: 70px;
         padding: 4px;
-        border-radius: 6px;
+        border-radius: 50%;
+        overflow: hidden;
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
           width: 50px;
           max-width: 100%;
