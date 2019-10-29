@@ -14,7 +14,7 @@ import FactorStore from "@factor/app/store"
 import FactorRouter from "@factor/app/router"
 import appSettings from "@factor/app/factor-settings"
 import factorMeta from "../.."
-
+import { setting } from "@factor/tools"
 describe("meta info client", () => {
   beforeAll(async () => {
     document.open()
@@ -37,7 +37,7 @@ describe("meta info client", () => {
     const store = FactorStore(Factor).create()
     const router = FactorRouter(Factor).create()
 
-    const { default: site } = await Factor.$setting.get("app.site")()
+    const { default: site } = await setting("app.site")()
 
     const app = new Factor({
       router,

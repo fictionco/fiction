@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 
 export default Factor => {
   return new (class {
@@ -8,16 +8,16 @@ export default Factor => {
 
     registerComponents() {
       addFilter("components", _ => {
-        _["factor-btn"] = Factor.$setting.get("core.components.btn")
-        _["factor-btn-base"] = Factor.$setting.get("core.components.btnBase")
-        _["factor-btn-dashboard"] = Factor.$setting.get("core.components.btnDashboard")
+        _["factor-btn"] = setting("core.components.btn")
+        _["factor-btn-base"] = setting("core.components.btnBase")
+        _["factor-btn-dashboard"] = setting("core.components.btnDashboard")
 
-        _["factor-modal"] = Factor.$setting.get("core.components.modalApp")
-        _["factor-modal-dashboard"] = Factor.$setting.get("core.components.modal")
+        _["factor-modal"] = setting("core.components.modalApp")
+        _["factor-modal-dashboard"] = setting("core.components.modal")
 
-        _["factor-loading-ring"] = Factor.$setting.get("core.components.loadingRing")
-        _["factor-lightbox"] = Factor.$setting.get("core.components.lightbox")
-        _["factor-link"] = Factor.$setting.get("core.components.link")
+        _["factor-loading-ring"] = setting("core.components.loadingRing")
+        _["factor-lightbox"] = setting("core.components.lightbox")
+        _["factor-link"] = setting("core.components.link")
 
         _["factor-client-only"] = () => import("vue-client-only")
 

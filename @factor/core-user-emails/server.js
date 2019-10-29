@@ -1,5 +1,5 @@
 import { getModel, savePost } from "@factor/post/server"
-import { randomToken, addFilter, addCallback } from "@factor/tools"
+import { randomToken, addFilter, addCallback, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -114,9 +114,7 @@ export default Factor => {
 
     async sendEmail(args) {
       const { to, subject, action, _id, code, text, linkText } = args
-      const linkUrl = `${Factor.$setting.get(
-        "currentUrl"
-      )}?_action=${action}&code=${code}&_id=${_id}`
+      const linkUrl = `${setting("currentUrl")}?_action=${action}&code=${code}&_id=${_id}`
 
       return await Factor.$emailServer.sendTransactional({
         to,

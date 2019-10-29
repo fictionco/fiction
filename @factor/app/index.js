@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { onEvent, applyFilters } from "@factor/tools"
+import { onEvent, applyFilters, setting } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -24,8 +24,8 @@ export default () => {
     }
 
     configure() {
-      const error404 = Factor.$setting.get("app.error404")
-      const content = Factor.$setting.get("app.content")
+      const error404 = setting("app.error404")
+      const content = setting("app.content")
 
       if (!error404 || !content) {
         throw new Error("Factor core app components are undefined.")

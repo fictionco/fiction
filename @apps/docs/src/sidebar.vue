@@ -52,7 +52,7 @@
 </template>
 <script>
 import { DOM } from "@factor/tools/browser"
-import { throttle } from "@factor/tools"
+import { throttle, setting } from "@factor/tools"
 import docs from "./docs-handler"
 export default {
   props: {
@@ -65,7 +65,7 @@ export default {
       allHeaders: [],
       activeHash: this.$route.hash,
       hydrated: false,
-      navConfig: this.$setting.get("site.nav")
+      navConfig: setting("site.nav")
     }
   },
 
@@ -98,6 +98,7 @@ export default {
     this.setPage()
   },
   methods: {
+    setting,
     setPage() {
       // Make sure new content is loaded before scanning for h2, h3
       setTimeout(() => {

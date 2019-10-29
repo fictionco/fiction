@@ -7,7 +7,7 @@
   </div>
   <div v-else class="entry-headers">
     <div class="splash">
-      <component :is="$setting.get('blog.components.blogReturnLink')" />
+      <component :is="setting('blog.components.blogReturnLink')" />
       <h1 class="entry-title">
         <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
       </h1>
@@ -17,7 +17,7 @@
 </template>
 <script>
 import { link } from "@factor/post"
-
+import { setting } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -29,7 +29,8 @@ export default {
     }
   },
   methods: {
-    link
+    link,
+    setting
   }
 }
 </script>

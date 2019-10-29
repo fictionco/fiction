@@ -1,4 +1,4 @@
-import { addFilter, applyFilters } from "@factor/tools"
+import { addFilter, applyFilters, setting } from "@factor/tools"
 
 export default Factor => {
   return new (class {
@@ -28,7 +28,7 @@ export default Factor => {
     }
 
     paths() {
-      const dashboardRoute = Factor.$setting.get("dashboard.route")
+      const dashboardRoute = setting("dashboard.route")
 
       addFilter("routes", _ => {
         _.push({

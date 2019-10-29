@@ -8,7 +8,7 @@ const { readFileSync } = require("fs-extra")
 const { createBundleRenderer } = require("vue-server-renderer")
 import Factor from "@factor/core"
 import { getPath } from "@factor/paths"
-import { addCallback, runCallbacks, applyFilters } from "@factor/tools"
+import { addCallback, runCallbacks, applyFilters, setting } from "@factor/tools"
 import log from "@factor/logger"
 export default () => {
   return new (class {
@@ -18,7 +18,7 @@ export default () => {
     }
 
     getPort(port) {
-      return port || process.env.PORT || Factor.$setting.get("PORT") || 3000
+      return port || process.env.PORT || setting("PORT") || 3000
     }
 
     createRenderer(bundle, options) {
@@ -57,7 +57,7 @@ export default () => {
 
     async ssrFiles() {
       const paths = {
-        template: Factor.$setting.get("app.templatePath"),
+        template: setting("app.templatePath"),
         bundle: getPath("server-bundle"),
         clientManifest: getPath("client-manifest")
       }
@@ -238,7 +238,7 @@ export default () => {
     }
 
     serveStaticAssets() {
-      const fav = Factor.$setting.get("app.faviconPath")
+      const fav = setting("app.faviconPath")
       if (fav) {
         this.serverApp.use(require("serve-favicon")(fav))
       }

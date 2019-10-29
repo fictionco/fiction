@@ -105,7 +105,7 @@ In the above example, a `factor-settings` file in your application would overrid
 
 ```html
 <template>
-  <div>{{ $setting.get("myCar.color") }}</div>
+  <div>{{ setting("myCar.color") }}</div>
 </template>
 ```
 

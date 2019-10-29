@@ -108,13 +108,14 @@
           <factor-link path="mailto:vip@fiction.com">vip@fiction.com</factor-link>&nbsp;— it’ll get to us either way.
         </p>
 
-        <component :is="$setting.get('contactForm.form')" />
+        <component :is="setting('contactForm.form')" />
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   data() {
     return {
@@ -131,7 +132,8 @@ export default {
   },
   routeClass() {
     return "nav-white"
-  }
+  },
+  methods: { setting }
 }
 </script>
 

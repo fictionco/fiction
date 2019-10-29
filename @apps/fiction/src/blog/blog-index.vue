@@ -10,15 +10,15 @@
       </div>
     </section>
     <div class="entries">
-      <component :is="$setting.get('blog.components.blogReturnLink')" v-if="tag || page > 1" />
+      <component :is="setting('blog.components.blogReturnLink')" v-if="tag || page > 1" />
       <div v-if="loading" class="posts-loading">
         <factor-loading-ring />
       </div>
       <div v-else-if="blogPosts.length > 0" class="post-index">
         <div v-for="(post) in blogPosts" :key="post._id" class="post">
           <component
-            :is="$setting.get(`blog.components.${comp}`)"
-            v-for="(comp, i) in $setting.get('blog.layout.index')"
+            :is="setting(`blog.components.${comp}`)"
+            v-for="(comp, i) in setting('blog.layout.index')"
             :key="i"
             :post-id="post._id"
             format="index"
@@ -27,15 +27,16 @@
       </div>
       <div v-else class="posts-not-found">
         <div class="text">
-          <div class="title">{{ $setting.get("blog.notFound.title") }}</div>
-          <div class="sub-title">{{ $setting.get("blog.notFound.subTitle") }}</div>
+          <div class="title">{{ setting("blog.notFound.title") }}</div>
+          <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
         </div>
       </div>
-      <component :is="$setting.get('blog.components.pagination')" :post-type="postType" />
+      <component :is="setting('blog.components.pagination')" :post-type="postType" />
     </div>
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   data() {
@@ -48,13 +49,11 @@ export default {
     return "nav-white"
   },
   metaInfo() {
-    const title = this.tag
-      ? `Tag "${this.tag}"`
-      : this.$setting.get("blog.metatags.index.title")
+    const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : this.$setting.get("blog.metatags.index.description")
+      : setting("blog.metatags.index.description")
 
     return {
       title,
@@ -90,6 +89,7 @@ export default {
     this.getPosts()
   },
   methods: {
+    setting,
     async getPosts() {
       this.loading = true
 
@@ -99,7 +99,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("blog.limit")
+        limit: setting("blog.limit")
       })
 
       this.loading = false

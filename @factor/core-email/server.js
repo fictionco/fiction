@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import log from "@factor/logger"
-import { addCallback, applyFilters } from "@factor/tools"
+import { addCallback, applyFilters, setting } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -50,9 +50,9 @@ export default () => {
         textFooter
       } = applyFilters("transactional-email-arguments", _arguments)
 
-      if (!from) from = Factor.$setting.get("app.email")
+      if (!from) from = setting("app.email")
 
-      subject = `${subject} - ${Factor.$setting.get("app.name")}`
+      subject = `${subject} - ${setting("app.name")}`
 
       const lines = []
 

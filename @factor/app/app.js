@@ -3,7 +3,7 @@ import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 import FactorStore from "@factor/app/store"
 import FactorRouter from "@factor/app/router"
-import { emitEvent, runCallbacks } from "@factor/tools"
+import { emitEvent, runCallbacks, setting } from "@factor/tools"
 Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
 process.env.FACTOR_TARGET = "app"
@@ -25,7 +25,7 @@ export async function createApp(options = {}) {
   // here we inject the router, store and ssr context to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   // App Entry Component
-  const site = Factor.$setting.get("app.site")
+  const site = setting("app.site")
 
   const app = new Factor({
     router,

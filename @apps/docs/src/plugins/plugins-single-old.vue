@@ -19,7 +19,7 @@
 
     <div class="plugins-wrap content-pad">
       <div class="content">
-        <factor-link class="back" :path="$setting.get('plugins.indexRoute')">
+        <factor-link class="back" :path="setting('plugins.indexRoute')">
           <factor-icon icon="arrow-left" />
           <span>{{ returnLinkText }}</span>
         </factor-link>
@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import getPlugins from "./json/entries"
 
 export default {
@@ -56,7 +57,7 @@ export default {
   },
   computed: {
     returnLinkText() {
-      return this.$setting.get("plugins.returnLinkText") || "All Plugins Here"
+      return setting("plugins.returnLinkText") || "All Plugins Here"
     },
     entry() {
       // All plugins
@@ -85,6 +86,7 @@ export default {
     this.prism = window.Prism
   },
   methods: {
+    setting,
     styleImageBG(img) {
       const { url } = img
 

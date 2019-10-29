@@ -1,11 +1,11 @@
 import Factor from "@factor/core"
 import { postTypeMeta } from "@factor/post"
-
+import { setting } from "@factor/tools"
 export function getPermalink(args = {}) {
   const { postType, permalink = "", root = false, path = false } = args
   const parts = []
 
-  parts.push(root ? Factor.$setting.get("url") : "")
+  parts.push(root ? setting("url") : "")
 
   if (path) {
     parts.push(path)

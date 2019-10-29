@@ -1,4 +1,4 @@
-import { addFilter, pushToFilter } from "@factor/tools"
+import { addFilter, pushToFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -12,7 +12,7 @@ export default Factor => {
     }
 
     filters() {
-      const baseRoute = Factor.$setting.get("jobs.postRoute")
+      const baseRoute = setting("jobs.postRoute")
 
       pushToFilter("post-types", {
         postType: "jobs",
@@ -25,16 +25,16 @@ export default Factor => {
       })
 
       pushToFilter("content-routes", {
-        path: Factor.$setting.get("jobs.indexRoute"),
-        component: Factor.$setting.get("jobs.components.jobsContent"),
+        path: setting("jobs.indexRoute"),
+        component: setting("jobs.components.jobsContent"),
         children: [
           {
             path: "/",
-            component: Factor.$setting.get("jobs.components.jobsIndex")
+            component: setting("jobs.components.jobsIndex")
           },
           {
-            path: `${Factor.$setting.get("jobs.postRoute")}/:permalink`,
-            component: Factor.$setting.get("jobs.components.jobsSingle")
+            path: `${setting("jobs.postRoute")}/:permalink`,
+            component: setting("jobs.components.jobsSingle")
           }
         ]
       })
