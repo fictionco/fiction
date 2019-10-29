@@ -2,6 +2,7 @@
   <edit-user :post="post" />
 </template>
 <script>
+import { stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 export default {
   components: {
@@ -10,7 +11,7 @@ export default {
 
   computed: {
     post() {
-      return this.$store.getters["getItem"](this.$userId) || {}
+      return stored(this.$userId) || {}
     }
   },
 

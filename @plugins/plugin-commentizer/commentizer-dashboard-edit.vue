@@ -6,6 +6,7 @@
   </div>
 </template>
 <script>
+import { storeItem, stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -21,10 +22,10 @@ export default {
   computed: {
     comments: {
       get() {
-        return this.$store.val(this.postId) || {}
+        return stored(this.postId) || {}
       },
       set(v) {
-        this.$store.add(this.postId, v)
+        storeItem(this.postId, v)
       }
     }
   },

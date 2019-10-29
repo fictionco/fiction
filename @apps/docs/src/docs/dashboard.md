@@ -80,7 +80,7 @@ pushToFilter("post-edit-components", {
     },
     computed: {
       post() {
-        return this.$store.val(this.postId) || {}
+        return stored(this.postId) || {}
       }
     }
   }

@@ -81,7 +81,7 @@ export default {
   // ...other component code
   computed: {
     post() {
-      return this.$store.val("post") || {}
+      return stored("post") || {}
     }
   },
   templateSettings() {

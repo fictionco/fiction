@@ -3,9 +3,10 @@
 </template>
 
 <script>
+import { storeItem, stored } from "@factor/tools"
 export default {
   metaInfo() {
-    return this.$store.val("test") || {}
+    return stored("test") || {}
   },
   serverPrefetch() {
     return this.prefetch()
@@ -21,7 +22,7 @@ export default {
         }, 100)
       })
 
-      this.$store.add("test", r)
+      storeItem("test", r)
       return
     }
   }

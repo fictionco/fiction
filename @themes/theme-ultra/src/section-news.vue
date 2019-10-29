@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { setting } from "@factor/tools"
+import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   components: {
@@ -27,7 +27,7 @@ export default {
       return this.$route.params.tag || this.$route.query.tag || ""
     },
     index() {
-      return this.$store.val(this.postType) || {}
+      return stored(this.postType) || {}
     },
     newsPosts() {
       const { posts = [] } = this.index

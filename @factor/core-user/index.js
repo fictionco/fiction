@@ -6,7 +6,9 @@ import {
   addFilter,
   pushToFilter,
   runCallbacks,
-  addCallback
+  addCallback,
+  stored,
+  storeItem
 } from "@factor/tools"
 export default Factor => {
   return new (class {
@@ -57,7 +59,7 @@ export default Factor => {
       Factor.mixin({
         computed: {
           $currentUser() {
-            return this.$store.getters["getItem"]("currentUser") || {}
+            return stored("currentUser") || {}
           },
           $userId() {
             return this.$currentUser && this.$currentUser._id ? this.$currentUser._id : ""
@@ -104,7 +106,7 @@ export default Factor => {
     }
 
     async retrieveAndSetCurrentUser(user) {
-      const token = user && user.token ? user.token : (this.token() ? this.token() : null)
+      const token = user && user.token ? user.token : this.token() ? this.token() : null
 
       try {
         user = token ? await requestPostSingle({ token }) : {}
@@ -127,7 +129,7 @@ export default Factor => {
     }
 
     currentUser() {
-      return Factor.$store.val("currentUser") || {}
+      return stored("currentUser") || {}
     }
 
     isLoggedIn() {
@@ -141,11 +143,11 @@ export default Factor => {
         if (token && user) this.token(token)
         else if (user === null) this.token(null)
 
-        Factor.$store.add("currentUser", user)
+        storeItem("currentUser", user)
         localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
       }
 
-      Factor.$store.add(_id, user)
+      storeItem(_id, user)
     }
 
     _id() {

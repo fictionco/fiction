@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import { setting } from "@factor/tools"
+import { setting, stored, storeItem } from "@factor/tools"
 import dataUtility from "./plugin-data"
 export default {
   components: {
@@ -60,7 +60,7 @@ export default {
   async serverPrefetch() {
     const data = await dataUtility().getReadme("@factor/" + this.$route.params.slug)
 
-    this.$store.add("plugins-index", data)
+    storeItem("plugins-index", data)
   },
   // computed: {
   //   returnLinkText() {
@@ -81,9 +81,7 @@ export default {
   //   }
   // },
   async mounted() {
-    console.log("VALLL", this.$store.val("plugins-index"))
-
-    const data = this.$store.val("plugins-index")
+    const data = stored("plugins-index")
     this.getData = data
 
     //console.log("VALLL", this.getData)

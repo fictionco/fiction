@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import { stored } from "@factor/tools"
 export default {
   data() {
     return {
@@ -32,7 +33,7 @@ export default {
     },
 
     post() {
-      return this.$store.val("post") || {}
+      return stored("post") || {}
     }
   }
 }

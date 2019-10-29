@@ -12,7 +12,7 @@ export default Factor => {
       // addCallback("site-prefetch", async () => {
       //   const list = await dataUtility().getReadme()
 
-      //   Factor.$store.add("myPlugins", list)
+      //   storeItem("myPlugins", list)
 
       //   return list
       // })
@@ -23,7 +23,7 @@ export default Factor => {
     //   addCallback("site-prefetch", async () => {
     //     const list = await dataUtility().getReadme()
 
-    //     Factor.$store.add("myPlugins", list)
+    //     storeItem("myPlugins", list)
     //   })
     // }
 

@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import { excerpt } from "@factor/tools"
+import { excerpt, stored } from "@factor/tools"
 export default {
   components: {
     "work-entry": () => import("./work-entry")
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return stored("post") || {}
     }
   },
 
@@ -48,11 +48,11 @@ export default {
 
   methods: {
     socialImage(post) {
-      return post.featuredImage
-        ? post.featuredImage[0].url
-        : (post.images
-        ? post.images[0].url
-        : "")
+      const { featuredImage, images } = post
+
+      if (featuredImage) return featuredImage[0].url
+
+      return images ? images[0].url : ""
     }
   }
 }

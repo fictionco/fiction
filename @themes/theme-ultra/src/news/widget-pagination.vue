@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { stored } from "@factor/tools"
 export default {
   props: {
     postType: { type: String, default: "" }
@@ -21,7 +22,7 @@ export default {
   },
   computed: {
     index() {
-      return this.$store.val(this.postType) || {}
+      return stored(this.postType) || {}
     },
     newsMeta() {
       const { meta = [] } = this.index

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { setting } from "@factor/tools"
+import { setting, stored } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 export default {
   props: {
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
   },
   async mounted() {

@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+import { stored, storeItem } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, required: true }
@@ -38,10 +39,10 @@ export default {
   computed: {
     post: {
       get() {
-        return this.$store.val(this.postId) || {}
+        return stored(this.postId) || {}
       },
       set(v) {
-        this.$store.add(this.postId, v)
+        storeItem(this.postId, v)
       }
     }
   },

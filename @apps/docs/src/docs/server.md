@@ -33,7 +33,7 @@ Example:
 
 ```javascript
 // index.js
-import { addCallback } from "@factor/tools"
+import { addCallback, stored, storeItem } from "@factor/tools"
 export default Factor => {
   return new class{
     constructor(){
@@ -42,7 +42,7 @@ export default Factor => {
       addCallback('site-prefetch', async () => {
         const list = await this.getList()
 
-        Factor.$store.add("myList", list)
+        storeItem("myList", list)
       })
     }
   }()
@@ -54,7 +54,7 @@ export default Factor => {
 export default {
   computed: {
     myList() {
-      return this.$store.val("myList") || {}
+      return stored("myList") || {}
     }
   }
 }

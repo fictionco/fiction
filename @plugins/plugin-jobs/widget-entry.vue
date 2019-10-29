@@ -6,6 +6,7 @@
   </div>
 </template>
 <script>
+import { stored } from "@factor/tools"
 export default {
   components: {
     "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code")
@@ -15,12 +16,12 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     },
     variables() {
       const vars = {}
       this.post.images.forEach(imageId => {
-        const img = this.$store.val(imageId) || {}
+        const img = stored(imageId) || {}
         vars[imageId] = img.url || ""
       })
       return vars
