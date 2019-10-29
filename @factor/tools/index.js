@@ -8,6 +8,7 @@ export * from "./filters"
 export * from "./settings"
 export * from "./store-router"
 export * from "./markdown"
+export * from "./html"
 
 export { default as isNode } from "detect-node"
 export { default as guid } from "uniqid"

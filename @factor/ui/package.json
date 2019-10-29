@@ -8,7 +8,11 @@
     "access": "public"
   },
   "factor": {
-    "_id": "ui"
+    "_id": "ui",
+    "target": [
+      "app",
+      "server"
+    ]
   },
   "dependencies": {
     "@factor/tools": "1.0.0-beta.6",
