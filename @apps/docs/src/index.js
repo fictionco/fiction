@@ -1,5 +1,5 @@
 import dataUtility from "./plugins/plugin-data"
-import { addCallback } from "@factor/tools"
+import { addCallback, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -30,7 +30,7 @@ export default Factor => {
     async addFilters() {
       // Setup plugins post type
       // // Setup Plugins Post Type
-      // const baseRoute = Factor.$setting.get("plugins.postRoute")
+      // const baseRoute = setting("plugins.postRoute")
 
       // addFilter("post-types", _ => {
       //   _.push({
@@ -48,8 +48,8 @@ export default Factor => {
 
       // Register doc routes for sitemap
       addFilter("after-first-server-extend", () => {
-        const base = Factor.$setting.get("docs.base")
-        const pages = Factor.$setting.get("docs.pages")
+        const base = setting("docs.base")
+        const pages = setting("docs.pages")
         const canonical = pages
           .map(p => {
             return p.doc
@@ -72,10 +72,10 @@ export default Factor => {
       })
 
       addFilter("content-routes", _ => {
-        const base = Factor.$setting.get("docs.base")
+        const base = setting("docs.base")
 
-        //const pluginsIndex = Factor.$setting.get("plugins.layout.index")
-        //const pluginsSingle =  Factor.$setting.get("plugins.layout.single")
+        //const pluginsIndex = setting("plugins.layout.index")
+        //const pluginsSingle =  setting("plugins.layout.single")
 
         return [
           ..._,
@@ -110,20 +110,20 @@ export default Factor => {
           {
             path: `/pluginsnew`,
             component: () => import("./plugins/plugins-wrap"),
-            //path: Factor.$setting.get("plugins.indexRoute"),
-            //component: Factor.$setting.get("plugins.layout.wrap")
+            //path: setting("plugins.indexRoute"),
+            //component: setting("plugins.layout.wrap")
             children: [
               {
                 path: `/`,
                 component: () => import("./plugins/v-plugins")
-                //path: Factor.$setting.get("plugins.indexRoute"),
-                //component: Factor.$setting.get("plugins.layout.index")
+                //path: setting("plugins.indexRoute"),
+                //component: setting("plugins.layout.index")
               },
               {
                 path: `/plugin/:slug`,
                 component: () => import("./plugins/plugin-single")
-                //path: `${Factor.$setting.get("plugins.postRoute")}/:permalink`,
-                //component: Factor.$setting.get("plugins.layout.single")
+                //path: `${setting("plugins.postRoute")}/:permalink`,
+                //component: setting("plugins.layout.single")
               }
             ]
           }

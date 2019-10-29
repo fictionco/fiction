@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -33,7 +33,7 @@ export default Factor => {
 
         Schema.pre("validate", async function(next) {
           const user = this
-          const setting = Factor.$setting.get(`roles.${user.email}`)
+          const setting = setting(`roles.${user.email}`)
           const configRole = user.emailVerified && setting ? setting : "member"
 
           if (configRole && configRole != user.role) {

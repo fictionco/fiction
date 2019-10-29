@@ -1,14 +1,15 @@
 <template>
   <div class="entry-meta">
     <component
-      :is="$setting.get(`blog.components.${comp}`)"
-      v-for="(comp, i) in $setting.get('blog.layout.meta')"
+      :is="setting(`blog.components.${comp}`)"
+      v-for="(comp, i) in setting('blog.layout.meta')"
       :key="i"
       :post-id="postId"
     />
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -17,7 +18,8 @@ export default {
     post() {
       return this.$store.val(this.postId) || {}
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 <style lang="less">

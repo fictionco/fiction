@@ -92,7 +92,7 @@ To make theme customization easy for users, we recommend using CSS variables for
 
 ### Settings.js
 
-Factor uses a simple `settings.js` and `$setting.get('some.setting')` system to make theme customization lightning fast.
+Factor uses a simple `settings.js` and `setting('some.setting')` system to make theme customization lightning fast.
 
 All you need to do is place a `settings.js` file in your theme root. In this file place an exported JS object that includes all the settings you need throughout your theme.
 
@@ -110,12 +110,12 @@ export default {
 }
 
 // inside a component:
-const myValue = this.$setting.get("setting") // duck
-const myNestedValue = this.$setting.get("group.goose") // goose
+const myValue = setting("setting") // duck
+const myNestedValue = setting("group.goose") // goose
 
 // elsewhere
-const myValue = Factor.$setting.get("setting") // duck
-const myNestedValue = Factor.$setting.get("group.goose") // goose
+const myValue = setting("setting") // duck
+const myNestedValue = setting("group.goose") // goose
 ```
 
 #### Components in Settings.js
@@ -139,7 +139,7 @@ export default {
 Then use a dynamic Vue component to load this component in your templates:
 
 ```html
-<component :is="$setting.get(`logo`)" />
+<component :is="setting(`logo`)" />
 ```
 
 ## Package.json

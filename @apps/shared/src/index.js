@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { onEvent, addFilter } from "@factor/tools"
+import { onEvent, addFilter, setting } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -9,7 +9,7 @@ export default () => {
     }
 
     slack() {
-      const SLACK_NOTIFY_URL = Factor.$setting.get("SLACK_NOTIFY_URL")
+      const SLACK_NOTIFY_URL = setting("SLACK_NOTIFY_URL")
 
       if (SLACK_NOTIFY_URL) {
         this.SLACK_NOTIFY_URL = SLACK_NOTIFY_URL

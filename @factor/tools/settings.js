@@ -47,7 +47,7 @@ export class FactorSettings {
 
 export const $settings = new FactorSettings()
 
-export function getSetting(key) {
+export function setting(key) {
   return $settings.get(key)
 }
 

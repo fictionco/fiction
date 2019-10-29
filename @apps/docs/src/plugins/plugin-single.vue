@@ -23,7 +23,7 @@
         <div class="plugins-wrap content-pad">
           <div class="content">
             <factor-link class="back" :path="`/pluginsnew`">
-              <!-- $setting.get('plugins.indexRoute') -->
+              <!-- setting('plugins.indexRoute') -->
               <factor-icon icon="arrow-left" />
               <span>All Plugins</span>
             </factor-link>
@@ -42,6 +42,7 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import dataUtility from "./plugin-data"
 export default {
   components: {
@@ -63,7 +64,7 @@ export default {
   },
   // computed: {
   //   returnLinkText() {
-  //     return this.$setting.get("plugins.returnLinkText") || "All Plugins Here"
+  //     return setting("plugins.returnLinkText") || "All Plugins Here"
   //   }
   //   pluginData: function() {
   //     let pageSlug = this.$route.params.slug
@@ -94,6 +95,7 @@ export default {
     this.loading = false
   },
   methods: {
+    setting,
     getReadme(value) {
       let markdownContent = value
 

@@ -66,7 +66,7 @@
       <div class="mast careers-inner">
         <h1 class="title">Current Job Openings</h1>
         <div class="jobs-entries">
-          <component :is="$setting.get('jobs.components.returnLink')" v-if="page > 1" />
+          <component :is="setting('jobs.components.returnLink')" v-if="page > 1" />
           <div v-if="loading" class="jobs-posts-loading">
             <factor-loading-ring />
           </div>
@@ -80,8 +80,8 @@
               </div>
               <div>
                 <component
-                  :is="$setting.get(`jobs.components.${comp}`)"
-                  v-for="(comp, i) in $setting.get('jobs.layout.index')"
+                  :is="setting(`jobs.components.${comp}`)"
+                  v-for="(comp, i) in setting('jobs.layout.index')"
                   :key="i"
                   :post-id="post._id"
                 />
@@ -90,17 +90,18 @@
           </div>
           <div v-else class="job-posts-not-found">
             <div class="text">
-              <div class="title">{{ $setting.get("jobs.notFound.title") }}</div>
-              <div class="sub-title">{{ $setting.get("jobs.notFound.subTitle") }}</div>
+              <div class="title">{{ setting("jobs.notFound.title") }}</div>
+              <div class="sub-title">{{ setting("jobs.notFound.subTitle") }}</div>
             </div>
           </div>
-          <component :is="$setting.get('jobs.components.pagination')" :post-type="postType" />
+          <component :is="setting('jobs.components.pagination')" :post-type="postType" />
         </div>
       </div>
     </section>
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   data() {
@@ -110,13 +111,11 @@ export default {
     }
   },
   metaInfo() {
-    const title = this.tag
-      ? `Tag "${this.tag}"`
-      : this.$setting.get("jobs.metatags.index.title")
+    const title = this.tag ? `Tag "${this.tag}"` : setting("jobs.metatags.index.title")
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : this.$setting.get("jobs.metatags.index.description")
+      : setting("jobs.metatags.index.description")
 
     return {
       title,
@@ -155,6 +154,7 @@ export default {
     this.getPosts()
   },
   methods: {
+    setting,
     getPost(_id) {
       return this.$store.val(_id) || {}
     },
@@ -167,7 +167,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("jobs.limit")
+        limit: setting("jobs.limit")
       })
 
       this.loading = false

@@ -14,7 +14,7 @@
       <div class="entry-content">
         <h3 class="title">
           <factor-link
-            :path="$setting.get('plugins.postRoute') + '/' + entry.permalink"
+            :path="setting('plugins.postRoute') + '/' + entry.permalink"
           >{{ entry.title }}</factor-link>
         </h3>
 
@@ -39,7 +39,7 @@
         <p v-if="text != false" class="text">{{ entry.text }}</p>
 
         <!-- <factor-link
-          :path="$setting.get('plugins.postRoute') + '/' + entry.permalink"
+          :path="setting('plugins.postRoute') + '/' + entry.permalink"
           class="entry-link"
         >{{ entry.link.text }} &rarr;</factor-link>-->
       </div>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 import getPlugins from "./json/entries"
 
 export default {
@@ -88,6 +89,7 @@ export default {
   },
 
   methods: {
+    setting,
     filterCategories: function(items) {
       return items.filter(function(item) {
         // Don't display featured category

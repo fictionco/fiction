@@ -3,7 +3,7 @@ import path from "path"
 import webpack from "webpack"
 import chokidar from "chokidar"
 import ora from "ora"
-import { addFilter, applyFilters, runCallbacks } from "@factor/tools"
+import { addFilter, applyFilters, runCallbacks, setting } from "@factor/tools"
 import { getPath } from "@factor/paths"
 import MFS from "memory-fs"
 
@@ -34,7 +34,7 @@ export default Factor => {
     }
 
     async createRunner() {
-      this.templatePath = Factor.$setting.get("app.templatePath")
+      this.templatePath = setting("app.templatePath")
 
       if (!this.templatePath) {
         throw new Error("Couldn't locate the index.html template file")

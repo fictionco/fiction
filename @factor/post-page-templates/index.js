@@ -1,4 +1,4 @@
-import { toLabel, addFilter, pushToFilter, applyFilters } from "@factor/tools"
+import { toLabel, addFilter, pushToFilter, applyFilters, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -81,7 +81,7 @@ export default Factor => {
     }
 
     getPageTemplates() {
-      const tpls = Factor.$setting.get("pageTemplates.templates")
+      const tpls = setting("pageTemplates.templates")
 
       return applyFilters("page-templates", tpls)
         .filter((page, index, self) => {

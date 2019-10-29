@@ -1,14 +1,15 @@
 <template>
   <div class="single-entry">
     <component
-      :is="$setting.get(`blog.components.${comp}`)"
-      v-for="(comp, i) in $setting.get('blog.layout.single')"
+      :is="setting(`blog.components.${comp}`)"
+      v-for="(comp, i) in setting('blog.layout.single')"
       :key="i"
       :post-id="post._id"
     />
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { titleTag, descriptionTag, shareImage } from "@factor/post"
 export default {
   data() {
@@ -28,7 +29,8 @@ export default {
     post() {
       return this.$store.val("post") || {}
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 

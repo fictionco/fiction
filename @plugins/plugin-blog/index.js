@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -6,7 +6,7 @@ export default Factor => {
     }
 
     filters() {
-      const baseRoute = Factor.$setting.get("blog.postRoute")
+      const baseRoute = setting("blog.postRoute")
 
       addFilter("post-types", _ => {
         _.push({
@@ -26,16 +26,16 @@ export default Factor => {
         return [
           ..._,
           {
-            path: Factor.$setting.get("blog.indexRoute"),
-            component: Factor.$setting.get("blog.components.blogWrap"),
+            path: setting("blog.indexRoute"),
+            component: setting("blog.components.blogWrap"),
             children: [
               {
                 path: "/",
-                component: Factor.$setting.get("blog.components.blogIndex")
+                component: setting("blog.components.blogIndex")
               },
               {
-                path: `${Factor.$setting.get("blog.postRoute")}/:permalink`,
-                component: Factor.$setting.get("blog.components.blogSingle")
+                path: `${setting("blog.postRoute")}/:permalink`,
+                component: setting("blog.components.blogSingle")
               }
             ]
           }

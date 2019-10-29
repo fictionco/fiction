@@ -5,7 +5,7 @@
         <div class="icon">
           <img :src="iconUrl" />
         </div>
-        <div class="name">{{ $setting.get('app.name') }}</div>
+        <div class="name">{{ setting('app.name') }}</div>
       </factor-link>
       <div class="nav">
         <slot />
@@ -15,12 +15,14 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 export default {
   computed: {
     iconUrl() {
-      return this.$setting.get("dashboard.icon", this.$setting.get("app.icon"))
+      return setting("dashboard.icon", setting("app.icon"))
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 <style lang="less">
