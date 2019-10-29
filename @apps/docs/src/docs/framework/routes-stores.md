@@ -2,9 +2,9 @@
 
 ## Routes and Views
 
-Once you're familiar with the concept behind Factor's filters system, let's discuss how to add views to your app. 
+Once you're familiar with the concept behind Factor's filters system, let's discuss how to add views to your app.
 
-For routing, Factor implements the [Vue Router](https://router.vuejs.org/) module used by 99% of Vue apps. Therefore, the API is very similar with only one key difference: that routes are inserted via Factor filters. Also, there are different parent contexts available for routes, that are important depending on how the framework is being used. 
+For routing, Factor implements the [Vue Router](https://router.vuejs.org/) module used by 99% of Vue apps. Therefore, the API is very similar with only one key difference: that routes are inserted via Factor filters. Also, there are different parent contexts available for routes, that are important depending on how the framework is being used.
 
 #### View Components
 
@@ -12,7 +12,7 @@ View components are just regular Vue components, only they are designed to wrap 
 
 #### Content Routes
 
-Most front-end views in Factor are added via the simple `content-routes` filter.  This is a parent route, which uses the required `content.vue` component as a wrapper for all front-end routes. To add a front end view, like a home page or a tour, you'll just do the following: 
+Most front-end views in Factor are added via the simple `content-routes` filter. This is a parent route, which uses the required `content.vue` component as a wrapper for all front-end routes. To add a front end view, like a home page or a tour, you'll just do the following:
 
 ```javascript
 // index.js
@@ -21,7 +21,7 @@ export default Factor => {
     this.addRoutes()
   }
 
-  // This will create two route "views" 
+  // This will create two route "views"
   // One makes your homepage based on page-home.vue component and the other at /tour from page-tour.vue
   addRoutes(){
     addFilter("content-routes", routes => {
@@ -37,11 +37,11 @@ export default Factor => {
           }
         ]
 
-        // Important: 
-        // Return the modified value 
+        // Important:
+        // Return the modified value
         // Here we add new routes to any other added content routes
-        return routes.concat(added) 
-      
+        return routes.concat(added)
+
       })
   }
 }
@@ -54,18 +54,20 @@ In web frameworks, a "store" is a globally available object that holds applicati
 > Factor stores are built using [Vuex](https://vuex.vuejs.org/), Vue's standard store library
 
 ### Store SSR and SEO
-The store is primary how information will travel from the server-side to the client side and it's necessary in many cases where you would like to render dynamic information to source. 
+
+The store is primary how information will travel from the server-side to the client side and it's necessary in many cases where you would like to render dynamic information to source.
 
 > A common goal is to render dynamic content to the page for SEO purposes, this information must be added to the store
 
-So here we will discuss: 
-- Adding a custom store submodule 
+So here we will discuss:
+
+- Adding a custom store submodule
 - Factor's global store methods
 - Adding or retrieving information from the store
 
 #### Adding A Custom Store
 
-Factor provides a convenient and standard way of adding custom stores for your plugin or app. 
+Factor provides a convenient and standard way of adding custom stores for your plugin or app.
 
 ```javascript
 // index.js
@@ -82,7 +84,7 @@ export default Factor => {
 }
 ```
 
-An example of a custom store submodule might take this form: 
+An example of a custom store submodule might take this form:
 
 ```javascript
 export default {
@@ -100,11 +102,11 @@ export default {
     setItem: (state, { item, value }) => {
       Factor.set(state, item, value)
     }
-  },
+  }
 }
 ```
 
-Inside of a component, you can setup a computed property to stay synced with a store value. As follows: 
+Inside of a component, you can setup a computed property to stay synced with a store value. As follows:
 
 ```javascript
 // component.vue
@@ -114,6 +116,5 @@ export default {
   }
 }
 ```
-
 
 Note that this is all standard Vuex code, so you can read more about how stores work at the [Vuex site](https://vuex.vuejs.org/).

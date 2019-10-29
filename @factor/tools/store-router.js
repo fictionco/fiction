@@ -7,3 +7,7 @@ export function storeItem(key, item) {
 export function stored(key) {
   return Factor.$store.val(key)
 }
+
+export function getStoreState() {
+  return Factor.$store.state
+}

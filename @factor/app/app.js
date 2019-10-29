@@ -15,8 +15,8 @@ export async function createApp(options = {}) {
 
   if (extend) await extendApp().extend()
 
-  const store = FactorStore(Factor).create()
-  const router = FactorRouter(Factor).create()
+  const store = FactorStore.create()
+  const router = FactorRouter.create()
 
   // Extend with mixins, etc... happens after router and store
   runCallbacks("before-app")
