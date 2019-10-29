@@ -1,7 +1,7 @@
 <template>
   <div class="entry-headers">
     <div class="splash">
-      <factor-link class="back label label-aqua" :path="$setting.get('jobs.indexRoute')">
+      <factor-link class="back label label-aqua" :path="setting('jobs.indexRoute')">
         <factor-icon icon="arrow-left" />
         <span>All Jobs</span>
       </factor-link>
@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   props: {
@@ -26,7 +27,7 @@ export default {
       return this.$store.val(this.postId) || {}
     }
   },
-  methods: { link }
+  methods: { link, setting }
 }
 </script>
 <style lang="less">

@@ -1,5 +1,5 @@
 import { requestPostSave } from "@factor/post"
-import { toLabel, pushToFilter } from "@factor/tools"
+import { toLabel, pushToFilter, setting } from "@factor/tools"
 
 export default Factor => {
   return new (class {
@@ -27,7 +27,7 @@ export default Factor => {
     }
 
     async send(form) {
-      const toSetting = Factor.$setting.get("contactForm.email")
+      const toSetting = setting("contactForm.email")
       const to = typeof toSetting == "function" ? toSetting() : toSetting
 
       const text = Object.entries(form)

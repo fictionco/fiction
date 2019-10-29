@@ -5,7 +5,8 @@ import {
   emitEvent,
   addFilter,
   pushToFilter,
-  addCallback
+  addCallback,
+  setting
 } from "@factor/tools"
 export default Factor => {
   return new (class {
@@ -68,10 +69,10 @@ export default Factor => {
     }
 
     settings(listId = "") {
-      const merge = [Factor.$setting.get(`emailList.default`)]
+      const merge = [setting(`emailList.default`)]
 
       if (listId && listId != "default") {
-        const list = Factor.$setting.get(`emailList.${listId}`)
+        const list = setting(`emailList.${listId}`)
 
         if (list) merge.push(list)
       }

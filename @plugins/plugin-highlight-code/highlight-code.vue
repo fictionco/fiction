@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   mounted() {
     require("./prism/prism.js")
@@ -13,7 +14,7 @@ export default {
   },
   methods: {
     style() {
-      return this.$setting.get("highlightCode.style")
+      return setting("highlightCode.style")
     },
     setPage() {
       if (this.prism) {

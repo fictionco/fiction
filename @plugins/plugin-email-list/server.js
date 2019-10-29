@@ -1,5 +1,5 @@
 import { getModel } from "@factor/post/server"
-import { randomToken, emitEvent, applyFilters, addCallback } from "@factor/tools"
+import { randomToken, emitEvent, applyFilters, addCallback, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -93,7 +93,7 @@ export default Factor => {
 
       const { subject, text, from, linkText } = format
 
-      const linkUrl = `${Factor.$setting.get(
+      const linkUrl = `${setting(
         "currentUrl"
       )}?_action=${action}&code=${code}&email=${encodeURIComponent(email)}&list=${listId}`
 

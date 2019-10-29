@@ -10,7 +10,7 @@
     <div class="mast">
       <div class="hero-inner">
         <div>
-          <factor-link class="back" :path="$setting.get('work.indexRoute')">
+          <factor-link class="back" :path="setting('work.indexRoute')">
             <factor-icon icon="arrow-left" />
             {{ returnLinkText }}
           </factor-link>
@@ -25,6 +25,7 @@
   </section>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   props: {
@@ -36,11 +37,12 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     returnLinkText() {
-      return this.$setting.get("work.returnLinkText") || "All Projects"
+      return setting("work.returnLinkText") || "All Projects"
     }
   },
   methods: {
-    link
+    link,
+    setting
   }
 }
 </script>

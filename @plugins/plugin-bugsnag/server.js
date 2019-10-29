@@ -1,8 +1,8 @@
-import { pushToFilter } from "@factor/tools"
+import { pushToFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      this.clientApiKey = Factor.$setting.get("bugsnag.client_api_key")
+      this.clientApiKey = setting("bugsnag.client_api_key")
 
       this.setupTitle = "Plugin: Bugsnag"
       this.addSetupCli(this.setupTitle)
