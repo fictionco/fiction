@@ -1,5 +1,6 @@
 {
   "plugins": [
+    "@factor/plugin-sitemap",
     "@factor/plugin-email-list",
     "@factor/plugin-jobs",
     "@factor/plugin-storage-s3",
