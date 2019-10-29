@@ -1,18 +1,16 @@
 import { requestPostSave, getPostTypes } from "@factor/post"
-import { pushToFilter, addFilter } from "@factor/tools"
+import { pushToFilter, addFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
       this.addSetupCli()
 
       // Add dashboard component
-      Factor.$setting.get("commentizer.postTypes").forEach(postType => {
+      setting("commentizer.postTypes").forEach(postType => {
         addFilter("post-edit-components", components => {
           components.push({
             name: "commentizerDashboardPanel",
-            component: Factor.$setting.get(
-              "commentizer.components.commentizerDashboardPanel"
-            ),
+            component: setting("commentizer.components.commentizerDashboardPanel"),
             postType: postType
           })
           return components
@@ -21,16 +19,12 @@ export default Factor => {
 
       // Add global components
       addFilter("components", components => {
-        components["commentizer"] = Factor.$setting.get(
-          "commentizer.components.commentizer"
-        )
-        components["commentizerAdd"] = Factor.$setting.get(
-          "commentizer.components.commentizerAdd"
-        )
-        components["commentizerDisplay"] = Factor.$setting.get(
+        components["commentizer"] = setting("commentizer.components.commentizer")
+        components["commentizerAdd"] = setting("commentizer.components.commentizerAdd")
+        components["commentizerDisplay"] = setting(
           "commentizer.components.commentizerDisplay"
         )
-        components["commentizerDashboardList"] = Factor.$setting.get(
+        components["commentizerDashboardList"] = setting(
           "commentizer.components.commentizerDashboardList"
         )
         return components

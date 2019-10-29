@@ -1,17 +1,17 @@
 <template>
   <factor-form ref="form" :class="formStatus" @submit="send()">
-    <h2 v-text="$setting.get('commentizer.submitText')" />
+    <h2 v-text="setting('commentizer.submitText')" />
     <div v-if="sent">
-      <h3>{{ $setting.get('commentizer.confirm.title') }}</h3>
-      <div>{{ $setting.get('commentizer.confirm.subTitle') }}</div>
+      <h3>{{ setting('commentizer.confirm.title') }}</h3>
+      <div>{{ setting('commentizer.confirm.subTitle') }}</div>
     </div>
     <div v-else>
       <factor-input-wrap
-        v-for="(c, i) in $setting.get('commentizer.layout')"
+        v-for="(c, i) in setting('commentizer.layout')"
         :key="i"
         v-model="form[c._id]"
         :data-test="`commentizer-${c._id}`"
-        :format="$setting.get('commentizer.inputFormat', 'horizontal')"
+        :format="setting('commentizer.inputFormat', 'horizontal')"
         :input="`factor-input-${c.inputType}`"
         :label="getLabel(c)"
         :required="!!c.required"
@@ -20,12 +20,13 @@
         btn="primary"
         el="button"
         :loading="sending"
-      >{{ $setting.get('commentizer.submitText') }}</factor-input-submit>
+      >{{ setting('commentizer.submitText') }}</factor-input-submit>
     </div>
   </factor-form>
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 export default {
   props: {
@@ -55,6 +56,7 @@ export default {
     )
   },
   methods: {
+    setting,
     async send() {
       this.sending = true
 

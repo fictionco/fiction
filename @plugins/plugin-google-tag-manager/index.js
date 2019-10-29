@@ -1,9 +1,9 @@
-import { addFilter, pushToFilter } from "@factor/tools"
+import { addFilter, pushToFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
-      this.gtm_id = Factor.$setting.get("google_tag_manager.gtm_id")
-      this.development_mode = Factor.$setting.get("google_tag_manager.development_mode")
+      this.gtm_id = setting("google_tag_manager.gtm_id")
+      this.development_mode = setting("google_tag_manager.development_mode")
 
       this.setupTitle = "Plugin: Google Tag Manager"
       this.addSetupCli(this.setupTitle)

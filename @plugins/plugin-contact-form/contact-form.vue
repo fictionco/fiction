@@ -7,12 +7,12 @@
     @submit="send()"
   >
     <div v-if="sent" class="confirm" data-test="confirm">
-      <div class="title">{{ $setting.get('contactForm.confirm.title') }}</div>
-      <div class="description">{{ $setting.get('contactForm.confirm.subTitle') }}</div>
+      <div class="title">{{ setting('contactForm.confirm.title') }}</div>
+      <div class="description">{{ setting('contactForm.confirm.subTitle') }}</div>
     </div>
     <div v-else class="inputs">
       <factor-input-wrap
-        v-for="(c, i) in $setting.get('contactForm.layout')"
+        v-for="(c, i) in setting('contactForm.layout')"
         :key="i"
         v-model="form[c._id]"
         :data-test="`contact-form-${c._id}`"
@@ -20,19 +20,20 @@
         :required="!!c.required"
         :label="getLabel(c)"
         :placeholder="getPlaceholder(c)"
-        :format="$setting.get('contactForm.inputFormat', 'horizontal')"
+        :format="setting('contactForm.inputFormat', 'horizontal')"
       />
       <factor-input-submit
-        :btn="$setting.get('contactForm.submit.btn')"
-        :size="$setting.get('contactForm.submit.size')"
+        :btn="setting('contactForm.submit.btn')"
+        :size="setting('contactForm.submit.size')"
         :loading="sending"
         data-test="contact-form-submit"
-      >{{ $setting.get('contactForm.submit.text') }}</factor-input-submit>
+      >{{ setting('contactForm.submit.text') }}</factor-input-submit>
     </div>
   </factor-form>
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   data() {
     return {
@@ -54,6 +55,7 @@ export default {
     )
   },
   methods: {
+    setting,
     async send() {
       this.sending = true
       await this.$contactForm.save(this.form)

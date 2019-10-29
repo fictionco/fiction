@@ -1,5 +1,5 @@
 import { objectIdType } from "@factor/post/util"
-import { addFilter, pushToFilter } from "@factor/tools"
+import { addFilter, pushToFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -24,7 +24,7 @@ export default Factor => {
       })
 
       // Extend all postTypes listed in factor-settings with extra fields
-      Factor.$setting.get("commentizer.postTypes").forEach(postType => {
+      setting("commentizer.postTypes").forEach(postType => {
         addFilter(`data-schema-${postType}`, schemaConfig => {
           schemaConfig.schema = {
             ...schemaConfig.schema,
