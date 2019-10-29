@@ -1,5 +1,6 @@
 import { requestPostSave, getPostTypes } from "@factor/post"
 import { pushToFilter, addFilter, setting } from "@factor/tools"
+import { writeConfig } from "@factor/setup"
 export default Factor => {
   return new (class {
     constructor() {
@@ -62,7 +63,7 @@ export default Factor => {
           })
 
           const { postTypes } = await inquirer.prompt(questions)
-          await Factor.$setup.writeConfig("factor-config", {
+          await writeConfig("factor-config", {
             commentizer: {
               postTypes
             }

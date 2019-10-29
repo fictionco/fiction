@@ -1,4 +1,5 @@
 import { addFilter, setting } from "@factor/tools"
+import { writeConfig } from "@factor/setup"
 export default Factor => {
   return new (class {
     constructor() {
@@ -97,7 +98,7 @@ export default Factor => {
 
             await ask()
 
-            await Factor.$setup.writeConfig("factor-config", { roles: admins })
+            await writeConfig("factor-config", { roles: admins })
           }
         }
 

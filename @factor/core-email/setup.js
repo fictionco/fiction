@@ -1,5 +1,6 @@
 import Factor from "@factor/core"
 import { addFilter } from "@factor/tools"
+import { writeConfig } from "@factor/setup"
 export default () => {
   return new (class {
     constructor() {
@@ -47,7 +48,7 @@ export default () => {
               questions
             )
 
-            await Factor.$setup.writeConfig(".env", {
+            await writeConfig(".env", {
               SMTP_USERNAME,
               SMTP_PASSWORD,
               SMTP_HOST

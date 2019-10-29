@@ -1,4 +1,5 @@
 import { addFilter, pushToFilter, setting } from "@factor/tools"
+import { writeConfig } from "@factor/setup"
 export default Factor => {
   return new (class {
     constructor() {
@@ -71,7 +72,7 @@ export default Factor => {
             ]
             let { gtm_id, development_mode } = await inquirer.prompt(questions)
 
-            await Factor.$setup.writeConfig("factor-config", {
+            await writeConfig("factor-config", {
               google_tag_manager: { gtm_id, development_mode }
             })
           }

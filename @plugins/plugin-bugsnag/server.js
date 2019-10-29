@@ -1,4 +1,5 @@
 import { pushToFilter, setting } from "@factor/tools"
+import { writeConfig } from "@factor/setup"
 export default Factor => {
   return new (class {
     constructor() {
@@ -28,7 +29,7 @@ export default Factor => {
           ]
           let { client_api_key } = await inquirer.prompt(questions)
 
-          await Factor.$setup.writeConfig("factor-config", {
+          await writeConfig("factor-config", {
             bugsnag: { client_api_key }
           })
         }

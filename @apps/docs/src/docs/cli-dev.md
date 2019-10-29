@@ -67,16 +67,17 @@ To add a custom command, all that is needed a filter. When a user selects your o
 
 Using those tools, gather the information you need from your user.
 
-To write to the app's private or public config, use `Factor.$setup.writeConfig` as follows:
+To write to the app's private or public config, use `writeConfig` as follows:
 
 ```js
+import { writeConfig } from "@factor/setup"
 // PRIVATE CONFIG: .env
-await Factor.$setup.writeConfig(".env", {
+await writeConfig(".env", {
   SOME_PRIVATE_SETTING: "VALUE"
 })
 
 // PUBLIC CONFIG: factor-config.json
-await Factor.$setup.writeConfig("factor-config", {
+await writeConfig("factor-config", {
   some_setting: "value"
 })
 ```
@@ -85,6 +86,7 @@ await Factor.$setup.writeConfig("factor-config", {
 
 ```js
 // server.js
+import { writeConfig } from "@factor/setup"
 import { pushToFilter } from "@factor/tools"
 pushToFilter("cli-add-setup", ({ privateConfig }) => {
   return {
@@ -106,7 +108,7 @@ pushToFilter("cli-add-setup", ({ privateConfig }) => {
 
       let { connection } = await inquirer.prompt(questions)
 
-      await Factor.$setup.writeConfig(".env", { DB_CONNECTION: connection })
+      await writeConfig(".env", { DB_CONNECTION: connection })
     }
   }
 })
