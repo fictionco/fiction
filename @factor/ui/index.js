@@ -1,5 +1,32 @@
-export default Factor => {
-  return new (class {
-    constructor() {}
-  })()
-}
+import { addFilter } from "@factor/tools"
+import "./directives"
+
+addFilter("components", __ => {
+  __["factor-form"] = () => import("./form/form")
+  __["factor-input-email"] = () => import("./form/email")
+  __["factor-input-date"] = () => import("./form/date")
+  __["factor-input-password"] = () => import("./form/password")
+  __["factor-input-text"] = () => import("./form/text")
+  __["factor-input-textarea"] = () => import("./form/textarea")
+  __["factor-input-phone"] = () => import("./form/phone")
+  __["factor-input-checkbox"] = () => import("./form/checkbox")
+  __["factor-input-birthday"] = () => import("./form/birthday")
+  __["factor-input-image-upload"] = () => import("./form/image-upload")
+  __["factor-input-select"] = () => import("./form/select")
+  __["factor-input-submit"] = () => import("./form/submit")
+  __["factor-input-wrap"] = () => import("./form/wrap-input")
+  __["factor-btn"] = setting("core.components.btn")
+  __["factor-btn-base"] = setting("core.components.btnBase")
+  __["factor-btn-dashboard"] = setting("core.components.btnDashboard")
+  __["factor-modal"] = setting("core.components.modalApp")
+  __["factor-modal-dashboard"] = setting("core.components.modal")
+  __["factor-loading-ring"] = setting("core.components.loadingRing")
+  __["factor-lightbox"] = setting("core.components.lightbox")
+  __["factor-link"] = setting("core.components.link")
+  __["factor-client-only"] = () => import("vue-client-only")
+  __["factor-avatar"] = () => import("./el/avatar")
+  __["factor-pop"] = () => import("./el/pop")
+  __["factor-menu"] = () => import("./el/menu")
+  __["factor-icon"] = () => import("./el/icon")
+  return __
+})
