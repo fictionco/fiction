@@ -3,14 +3,12 @@ import { parse } from "qs"
 import { getSinglePost } from "@factor/post/server"
 
 import log from "@factor/logger"
-import { addFilter, applyFilters } from "@factor/tools"
+import { addCallback, addFilter, applyFilters } from "@factor/tools"
 
 import { endpointPath } from "@factor/endpoint"
 
 // Run after other imports have added themselves
-addFilter("initialize-server", () => {
-  initializeEndpointServer()
-})
+addCallback("initialize-server", () => initializeEndpointServer())
 
 export function initializeEndpointServer() {
   addFilter("middleware", _ => {
