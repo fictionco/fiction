@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
   },
   methods: {

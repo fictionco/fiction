@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { isEmpty } from "@factor/tools"
+import { isEmpty, stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -21,7 +21,7 @@ export default {
       return isEmpty(this.user) ? false : true
     },
     user() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
   }
 }

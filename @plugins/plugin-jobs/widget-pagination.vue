@@ -12,13 +12,14 @@
 </template>
 
 <script>
+import { stored } from "@factor/tools"
 export default {
   props: {
     postType: { type: String, default: "" }
   },
   computed: {
     index() {
-      return this.$store.val(this.postType) || {}
+      return stored(this.postType) || {}
     },
     jobsMeta() {
       const { meta = [] } = this.index

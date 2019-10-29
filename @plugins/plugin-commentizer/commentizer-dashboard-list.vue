@@ -21,7 +21,7 @@
 </template>
 <script>
 import { getPermalink, getStatusCount, requestPostById } from "@factor/post"
-import { toLabel } from "@factor/tools"
+import { toLabel, stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, required: true },
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     },
     // TODO: Fix - Requires population to work!
     // comments() {

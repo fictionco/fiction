@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/tools"
+import { toLabel, onEvent, emitEvent, applyFilters, stored } from "@factor/tools"
 export default {
   props: {
     showName: { type: Boolean, default: false }
@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.$userId) || {}
+      return stored(this.$userId) || {}
     },
     role() {
       return this.$user._item("role") || {}

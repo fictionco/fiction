@@ -9,14 +9,14 @@
 </template>
 <script>
 import { link } from "@factor/post"
-import { excerpt } from "@factor/tools"
+import { excerpt, stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
   },
   methods: { link, excerpt }

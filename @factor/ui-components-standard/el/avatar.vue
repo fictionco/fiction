@@ -25,6 +25,7 @@
   </div>
 </template>
 <script>
+import { stored } from "@factor/tools"
 export default {
   props: {
     width: { type: String, default: "32px" },
@@ -41,7 +42,7 @@ export default {
     },
 
     avatar() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     },
     src() {
       if (this.avatar && this.avatar.url) {

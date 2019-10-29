@@ -110,7 +110,7 @@
   </dashboard-page>
 </template>
 <script>
-import { standardDate, emitEvent } from "@factor/tools"
+import { standardDate, emitEvent, stored, storeItem } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 export default {
   data() {
@@ -123,10 +123,10 @@ export default {
   computed: {
     post: {
       get() {
-        return this.$store.val(this._id) || {}
+        return stored(this._id) || {}
       },
       set(v) {
-        this.$store.add(this._id, v)
+        storeItem(this._id, v)
       }
     },
 

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { isEmpty, setting } from "@factor/tools"
+import { isEmpty, setting, stored } from "@factor/tools"
 import { requestPostById } from "@factor/post"
 export default {
   props: {
@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
     // TODO: Fix - Requires population to work!
     // comments() {

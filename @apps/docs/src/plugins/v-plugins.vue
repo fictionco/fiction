@@ -134,6 +134,7 @@
 </template>
 
 <script>
+import { stored, storeItem } from "@factor/tools"
 import dataUtility from "./plugin-data"
 import plugins from "../extensions"
 export default {
@@ -153,7 +154,7 @@ export default {
   async serverPrefetch() {
     const data = await dataUtility().getIndex()
 
-    this.$store.add("plugins-index", data)
+    storeItem("plugins-index", data)
   },
   // computed: {
   //   headerFigure() {
@@ -199,7 +200,7 @@ export default {
   async mounted() {
     this.loading = true
 
-    const data = this.$store.val("plugins-index")
+    const data = stored("plugins-index")
 
     // const data = await dataUtility().getReadme()
 

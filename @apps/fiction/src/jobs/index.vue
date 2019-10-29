@@ -101,7 +101,7 @@
   </div>
 </template>
 <script>
-import { setting } from "@factor/tools"
+import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   data() {
@@ -133,7 +133,7 @@ export default {
       return this.$route.params.tag || this.$route.query.tag || ""
     },
     index() {
-      return this.$store.val(this.postType) || {}
+      return stored(this.postType) || {}
     },
     jobsPosts() {
       const { posts = [] } = this.index
@@ -156,7 +156,7 @@ export default {
   methods: {
     setting,
     getPost(_id) {
-      return this.$store.val(_id) || {}
+      return stored(_id) || {}
     },
     async getPosts() {
       this.loading = true

@@ -20,7 +20,7 @@ import {
   requestPostDeleteMany,
   requestPostSaveMany
 } from "@factor/post"
-import { onEvent } from "@factor/tools"
+import { onEvent, stored } from "@factor/tools"
 export default {
   data() {
     return {
@@ -36,7 +36,7 @@ export default {
 
   computed: {
     postIndex() {
-      return this.$store.val(this.postType) || []
+      return stored(this.postType) || []
     },
     postTypeMeta() {
       return postTypeMeta(this.postType)

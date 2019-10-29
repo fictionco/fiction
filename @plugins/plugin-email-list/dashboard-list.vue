@@ -24,7 +24,7 @@
 </template>
 <script>
 import { getPermalink, postTypeMeta, getStatusCount } from "@factor/post"
-import { toLabel } from "@factor/tools"
+import { toLabel, stored } from "@factor/tools"
 export default {
   name: "EmailListGrid",
   props: {
@@ -95,7 +95,7 @@ export default {
         const data = []
         const name = ["email-list"]
         this.selected.forEach(_id => {
-          const p = this.$store.val(_id)
+          const p = stored(_id)
           if (p.list) {
             data.push(
               p.list.map(_ => {

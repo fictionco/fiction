@@ -19,7 +19,7 @@
 
 <script>
 import { postTypeMeta } from "@factor/post"
-import { toLabel } from "@factor/tools"
+import { toLabel, storeItem, stored } from "@factor/tools"
 export default {
   name: "EmailListGrid",
   props: {
@@ -45,10 +45,10 @@ export default {
     },
     post: {
       get() {
-        return this.$store.val(this._id) || {}
+        return stored(this._id) || {}
       },
       set(v) {
-        this.$store.add(this._id, v)
+        storeItem(this._id, v)
       }
     },
     postTypeMeta() {

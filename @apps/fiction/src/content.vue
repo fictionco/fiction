@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { excerpt } from "@factor/tools"
+import { excerpt, stored } from "@factor/tools"
 export default {
   components: {
     "site-head": () => import("./site-head"),
@@ -44,7 +44,7 @@ export default {
 
   computed: {
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return stored("post") || {}
     },
 
     nav() {

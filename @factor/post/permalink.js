@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 import { postTypeMeta } from "@factor/post"
-import { setting } from "@factor/tools"
+import { setting, stored } from "@factor/tools"
 export function getPermalink(args = {}) {
   const { postType, permalink = "", root = false, path = false } = args
   const parts = []
@@ -27,7 +27,7 @@ export function getPermalink(args = {}) {
 }
 
 export function link(_id, options = {}) {
-  const post = Factor.$store.val(_id)
+  const post = stored(_id)
 
   if (!post) return
 

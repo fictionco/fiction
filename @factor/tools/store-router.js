@@ -1,9 +1,9 @@
 import Factor from "@factor/core"
 
-export function storeSet(key, item) {
+export function storeItem(key, item) {
   return Factor.$store.add(key, item)
 }
 
-export function storeGet(key) {
+export function stored(key) {
   return Factor.$store.val(key)
 }

@@ -1,6 +1,6 @@
 import loadImage from "blueimp-load-image"
 import Factor from "@factor/core"
-import { pushToFilter } from "@factor/tools"
+import { pushToFilter, storeItem } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
@@ -56,7 +56,7 @@ export default () => {
       if (error) {
         onError(error)
       } else {
-        Factor.$store.add(result._id, result)
+        storeItem(result._id, result)
         onFinished(result)
       }
     }

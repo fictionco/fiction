@@ -31,6 +31,7 @@
   </div>
 </template>
 <script>
+import { store } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   props: {
@@ -41,7 +42,7 @@ export default {
       return link(this.postId, { root: true })
     },
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
   }
 }

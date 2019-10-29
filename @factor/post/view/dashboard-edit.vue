@@ -8,16 +8,16 @@
   </component>
 </template>
 <script>
-import { applyFilters } from "@factor/tools"
+import { applyFilters, stored, storeItem } from "@factor/tools"
 import { requestPostSingle, postTypeMeta } from "@factor/post"
 export default {
   computed: {
     post: {
       get() {
-        return this.$store.val(this._id) || {}
+        return stored(this._id) || {}
       },
       set(v) {
-        this.$store.add(this._id, v)
+        storeItem(this._id, v)
       }
     },
     _id() {

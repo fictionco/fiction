@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import { isEmpty, standardDate } from "@factor/tools"
+import { isEmpty, standardDate, stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -20,12 +20,12 @@ export default {
       return !isEmpty(this.post) ? true : false
     },
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
   },
   methods: {
     getPost(_id) {
-      return this.$store.val(_id) || {}
+      return stored(_id) || {}
     },
     standardDate
   }

@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import { DOM, emitEvent, onEvent } from "@factor/tools"
+import { DOM, emitEvent, onEvent, stored } from "@factor/tools"
 import Sortable from "sortablejs"
 export default {
   props: {
@@ -95,7 +95,7 @@ export default {
       return typeof this.$attrs["required"] != "undefined" ? true : false
     },
     populated() {
-      return this.imageIds.map(_ => this.$store.val(_)).filter(_ => _)
+      return this.imageIds.map(_ => stored(_)).filter(_ => _)
     },
     allImages() {
       return [...this.populated, ...this.uploading]

@@ -81,7 +81,7 @@
   </div>
 </template>
 <script>
-import { isEmpty, standardDate } from "@factor/tools"
+import { isEmpty, standardDate, stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 export default {
   metaInfo() {
@@ -106,7 +106,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return stored("post") || {}
     },
     avatars() {
       const p = this.post

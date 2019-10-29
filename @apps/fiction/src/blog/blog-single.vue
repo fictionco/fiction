@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { setting } from "@factor/tools"
+import { setting, stored } from "@factor/tools"
 import { titleTag, descriptionTag, shareImage } from "@factor/post"
 export default {
   data() {
@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val("post") || {}
+      return stored("post") || {}
     }
   },
   methods: { setting }

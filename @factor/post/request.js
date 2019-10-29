@@ -2,21 +2,14 @@ import Factor from "@factor/core"
 import { setPostMetatags } from "./meta"
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
-import { timestamp, emitEvent, applyFilters } from "@factor/tools"
-function storeSet(key, item) {
-  return Factor.$store.add(key, item)
-}
-
-function storeGet(key) {
-  return Factor.$store.val(key)
-}
+import { timestamp, emitEvent, applyFilters, storeItem, stored } from "@factor/tools"
 
 function _setCache(postType) {
-  storeSet(`${postType}Cache`, timestamp())
+  storeItem(`${postType}Cache`, timestamp())
 }
 
 function _cacheKey(postType) {
-  return storeGet(`${postType}Cache`) || ""
+  return stored(`${postType}Cache`) || ""
 }
 
 export async function sendPostRequest(method, params) {
@@ -58,12 +51,12 @@ export async function prefetchPost({ to = null, clientOnly = false } = {}) {
   // For prefetching that happens only in the browser
   // If this applied on server it causes a mismatch (store set with full post then set to loading)
   if (clientOnly) {
-    storeSet("post", { loading: true })
+    storeItem("post", { loading: true })
   }
 
   const post = await requestPostSingle(request)
 
-  storeSet("post", post)
+  storeItem("post", post)
 
   if (post) {
     setPostMetatags(post._id)
@@ -88,9 +81,9 @@ export async function requestPostSingle(args) {
 
   if (_id) {
     params._id = _id
-    const existing = storeGet(_id)
+    const existing = stored(_id)
     if (existing) {
-      storeSet("post", existing)
+      storeItem("post", existing)
       return existing
     }
   } else if (permalink) {
@@ -112,7 +105,7 @@ export async function requestPostById({ _id, postType = "post", createOnEmpty = 
   const _post = await sendPostRequest("single", { _id, postType, createOnEmpty })
 
   if (_post) {
-    storeSet(_post._id, _post)
+    storeItem(_post._id, _post)
   }
 
   return _post
@@ -121,11 +114,11 @@ export async function requestPostById({ _id, postType = "post", createOnEmpty = 
 export async function requestPostIndex(args) {
   const { limit = 10, page = 1, postType, sort } = args
   const queryHash = objectHash({ ...args, cache: _cacheKey(postType) })
-  const stored = storeGet(queryHash)
+  const stored = stored(queryHash)
 
   // Create a mechanism to prevent multiple runs/pops for same data
   if (stored) {
-    storeSet(postType, stored)
+    storeItem(postType, stored)
     return stored
   }
 
@@ -146,8 +139,8 @@ export async function requestPostIndex(args) {
     options: { limit, skip, page, sort }
   })
 
-  storeSet(queryHash, { posts, meta })
-  storeSet(postType, { posts, meta })
+  storeItem(queryHash, { posts, meta })
+  storeItem(postType, { posts, meta })
 
   await requestPostsPopulate({ posts, depth: 20 })
 
@@ -176,7 +169,7 @@ export async function requestPostsPopulate({ posts, depth = 10 }) {
   let _ids = []
 
   posts.forEach(post => {
-    storeSet(post._id, post)
+    storeItem(post._id, post)
 
     const populatedFields = getSchemaPopulatedFields({
       postType: post.postType,
@@ -196,7 +189,7 @@ export async function requestPostsPopulate({ posts, depth = 10 }) {
   })
 
   const _idsFiltered = _ids.filter((_id, index, self) => {
-    return !storeGet(_id) && self.indexOf(_id) === index ? true : false
+    return !stored(_id) && self.indexOf(_id) === index ? true : false
   })
 
   if (_idsFiltered.length > 0) {

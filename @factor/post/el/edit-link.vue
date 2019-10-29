@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { stored } from "@factor/tools"
 import { postTypeMeta } from "@factor/post"
 export default {
   props: {
@@ -25,7 +26,7 @@ export default {
       return this.post.postType ? postTypeMeta(this.post.postType) : {}
     },
     post() {
-      return this.postId ? this.$store.val(this.postId) : {}
+      return this.postId ? stored(this.postId) : {}
     },
     author() {
       return this.post && this.post.author ? this.post.author : []

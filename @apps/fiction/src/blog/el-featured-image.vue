@@ -6,6 +6,7 @@
 </template>
 <script>
 import { link } from "@factor/post"
+import { stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -13,10 +14,10 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     },
     avatar() {
-      return this.$store.val(this.post.avatar) || {}
+      return stored(this.post.avatar) || {}
     },
     avatarUrl() {
       return this.avatar.url || ""

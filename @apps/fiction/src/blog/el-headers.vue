@@ -17,7 +17,7 @@
 </template>
 <script>
 import { link } from "@factor/post"
-import { setting } from "@factor/tools"
+import { setting, stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
   },
   methods: {

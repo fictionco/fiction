@@ -2,16 +2,17 @@
   <div v-if="avatarUrl" class="featured-image" :style="style" />
 </template>
 <script>
+import { stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     },
     avatar() {
-      return this.$store.val(this.post.avatar) || {}
+      return stored(this.post.avatar) || {}
     },
     avatarUrl() {
       return this.avatar.url || ""
