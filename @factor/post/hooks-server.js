@@ -2,7 +2,7 @@ import Factor from "@factor/core"
 import { addCallback, pushToFilter } from "@factor/tools"
 import { $DB } from "./database"
 import { $PostServer } from "./endpoint"
-
+import { writeConfig } from "@factor/setup"
 addCallback("endpoints", { id: "posts", handler: $PostServer })
 
 if (process.env.DB_CONNECTION) {
@@ -38,7 +38,7 @@ addCallback("initialize-server", () => {
 
         let { connection } = await inquirer.prompt(questions)
 
-        await Factor.$setup.writeConfig(".env", { DB_CONNECTION: connection })
+        await writeConfig(".env", { DB_CONNECTION: connection })
       }
     }
   })
