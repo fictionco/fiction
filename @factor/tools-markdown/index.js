@@ -1,4 +1,4 @@
-import { slugify, dotSetting } from "@factor/tools"
+import { slugify, dotSetting, getStoreState } from "@factor/tools"
 
 export default Factor => {
   return new (class {
@@ -43,7 +43,7 @@ export default Factor => {
             const setting = matched.replace(/[{}]/g, "")
             const val = dotSetting({
               key: setting,
-              settings: Factor.$store.state
+              settings: getStoreState()
             })
 
             return val || ""

@@ -13,7 +13,7 @@ describe("store", () => {
   })
   it("loads correctly", () => {
     window.__INITIAL_STATE__ = { test: 123 }
-    store = FactorStore(Factor).create()
+    store = FactorStore.create()
     expect(Factor.$store).toBeTruthy()
 
     expect(store.state.test).toBe(123)

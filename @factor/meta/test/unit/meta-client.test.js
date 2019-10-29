@@ -34,8 +34,8 @@ describe("meta info client", () => {
       component: () => import("./meta.vue")
     })
 
-    const store = FactorStore(Factor).create()
-    const router = FactorRouter(Factor).create()
+    const store = FactorStore.create()
+    const router = FactorRouter.create()
 
     const { default: site } = await setting("app.site")()
 
