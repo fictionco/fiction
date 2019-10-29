@@ -79,21 +79,21 @@ export default {
         return b.downloads - a.downloads
       })
 
-      return getPopular.slice(0, 3)
+      return getPopular.slice(0, 4)
     },
     pluginsNew: function() {
       let getNew = [].slice.call(this.getData).sort(function(a, b) {
         return new Date(b.time.created) - new Date(a.time.created)
       })
 
-      return getNew.slice(0, 3)
+      return getNew.slice(0, 4)
     },
     pluginsRecentlyUpdated: function() {
       let getRecentlyUpdated = [].slice.call(this.getData).sort(function(a, b) {
         return new Date(b.time.modified) - new Date(a.time.modified)
       })
 
-      return getRecentlyUpdated.slice(0, 3)
+      return getRecentlyUpdated.slice(0, 4)
     }
   },
   methods: {
