@@ -3,11 +3,11 @@
     <section class="splash-wrap">
       <div class="splash mast">
         <div class="splash-content">
-          <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
-          <p class="subtitle">{{ $setting.get('home.subHeadline') }}</p>
+          <h1 v-formatted-text="setting('home.headline')" class="title" />
+          <p class="subtitle">{{ setting('home.subHeadline') }}</p>
           <div class="actions">
             <factor-link
-              v-for="(action ,i) in $setting.get('home.actions')"
+              v-for="(action ,i) in setting('home.actions')"
               :key="i"
               :path="action.path"
               :btn="action.btn"
@@ -22,7 +22,7 @@
     </section>
     <section class="boxes-wrap">
       <div class="boxes">
-        <div v-for="(box ,i) in $setting.get('home.boxes')" :key="i" class="box">
+        <div v-for="(box ,i) in setting('home.boxes')" :key="i" class="box">
           <div class="box-media">
             <div class="icon" :style="{'background-image': `url(${box.icon})` }" />
           </div>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   data() {
     return {
@@ -46,9 +47,12 @@ export default {
 
   metaInfo() {
     return {
-      title: this.$setting.get("home.meta.title"),
-      description: this.$setting.get("home.meta.description")
+      title: setting("home.meta.title"),
+      description: setting("home.meta.description")
     }
+  },
+  methods: {
+    setting
   }
 }
 </script>

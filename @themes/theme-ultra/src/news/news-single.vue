@@ -2,8 +2,8 @@
   <div class="news-single-entry">
     <div v-if="!isEmpty(post)">
       <component
-        :is="$setting.get(`news.components.${comp}`)"
-        v-for="(comp, i) in $setting.get('news.layout.single')"
+        :is="setting(`news.components.${comp}`)"
+        v-for="(comp, i) in setting('news.layout.single')"
         :key="i"
         :post-id="post._id"
       />
@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { isEmpty } from "@factor/tools"
+import { isEmpty, setting } from "@factor/tools"
 import { titleTag, descriptionTag, shareImage } from "@factor/post"
 export default {
   data() {
@@ -30,7 +30,7 @@ export default {
       return this.$store.val("post") || {}
     }
   },
-  methods: { isEmpty }
+  methods: { isEmpty, setting }
 }
 </script>
 

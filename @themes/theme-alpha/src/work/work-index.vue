@@ -2,12 +2,12 @@
   <div class="page-work">
     <el-hero
       v-if="page == 1 && !tag"
-      :headline="$setting.get('work.headline')"
-      :subheadline="$setting.get('work.subheadline')"
-      :image="$setting.get('work.heroImage')"
+      :headline="setting('work.headline')"
+      :subheadline="setting('work.subheadline')"
+      :image="setting('work.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="$setting.get('work.content')" class="content entry-content" />
+        <div v-formatted-text="setting('work.content')" class="content entry-content" />
       </template>
     </el-hero>
 
@@ -15,7 +15,7 @@
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <factor-link class="back" :path="$setting.get('work.indexRoute')">
+            <factor-link class="back" :path="setting('work.indexRoute')">
               <factor-icon icon="arrow-left" />
               {{ returnLinkText }}
             </factor-link>
@@ -32,8 +32,8 @@
         <div if="workPosts.length > 0" class="posts-index">
           <div v-for="post in workPosts" :key="post._id" class="post">
             <component
-              :is="$setting.get(`work.components.${comp}`)"
-              v-for="(comp, i) in $setting.get('work.layout.index')"
+              :is="setting(`work.components.${comp}`)"
+              v-for="(comp, i) in setting('work.layout.index')"
               :key="i"
               :post-id="post._id"
               format="index"
@@ -45,6 +45,7 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   components: {
@@ -84,7 +85,7 @@ export default {
       return this.$route.query.page || 1
     },
     returnLinkText() {
-      return this.$setting.get("work.returnLinkText") || "All Projects"
+      return setting("work.returnLinkText") || "All Projects"
     }
   },
   watch: {
@@ -98,6 +99,7 @@ export default {
     this.getPosts()
   },
   methods: {
+    setting,
     async getPosts() {
       this.loading = true
 
@@ -107,7 +109,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("work.limit")
+        limit: setting("work.limit")
       })
 
       this.loading = false

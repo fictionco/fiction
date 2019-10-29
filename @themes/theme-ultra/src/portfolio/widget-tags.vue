@@ -4,12 +4,13 @@
       v-for="(tag, ti) in tags"
       :key="ti"
       class="entry-tag"
-      :path="$setting.get('portfolio.indexRoute')"
+      :path="setting('portfolio.indexRoute')"
       :query="{ tag }"
     >{{ tag }}</factor-link>
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -21,6 +22,9 @@ export default {
     tags() {
       return this.post.tag || []
     }
+  },
+  methods: {
+    setting
   }
 }
 </script>

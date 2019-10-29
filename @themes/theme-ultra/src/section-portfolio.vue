@@ -1,17 +1,17 @@
 <template>
   <section id="portfolio" class="page-container portfolio-container">
     <div class="header">
-      <h2 class="pretitle">{{ $setting.get('portfolio.pretitle') }}</h2>
-      <h1 class="title">{{ $setting.get('portfolio.title') }}</h1>
+      <h2 class="pretitle">{{ setting('portfolio.pretitle') }}</h2>
+      <h1 class="title">{{ setting('portfolio.title') }}</h1>
     </div>
     <div class="content">
       <portfolio-index />
 
       <div class="clients-wrap">
-        <h2 class="clients-title">{{ $setting.get('portfolio.clientsTitle') }}</h2>
+        <h2 class="clients-title">{{ setting('portfolio.clientsTitle') }}</h2>
         <div class="clients">
-          <div v-for="(logo, i) in $setting.get('portfolio.clients')" :key="i" class="logo">
-            <img :src="logo.picture" :alt="logo.alt" >
+          <div v-for="(logo, i) in setting('portfolio.clients')" :key="i" class="logo">
+            <img :src="logo.picture" :alt="logo.alt" />
           </div>
         </div>
       </div>
@@ -20,10 +20,12 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   components: {
     "portfolio-index": () => import("./portfolio/portfolio-index")
-  }
+  },
+  methods: { setting }
 }
 </script>
 

@@ -4,18 +4,18 @@
       <div class="box has-text-white">
         <div class="columns level">
           <div class="column level-item">
-            <h1 class="title">{{ $setting.get('site.cta.headline') }}</h1>
+            <h1 class="title">{{ setting('site.cta.headline') }}</h1>
           </div>
           <div class="column level-item">
-            <p>{{ $setting.get('site.cta.subheadline') }}</p>
+            <p>{{ setting('site.cta.subheadline') }}</p>
           </div>
           <div class="column level-item">
             <factor-link
               class="button is-primary is-outlined is-rounded is-medium has-text-white"
-              :path="$setting.get('site.cta.path')"
+              :path="setting('site.cta.path')"
               target="_blank"
             >
-              {{ $setting.get('site.cta.text') }}
+              {{ setting('site.cta.text') }}
               <factor-icon icon="arrow-right" class="ml-2" />
             </factor-link>
           </div>
@@ -25,7 +25,10 @@
   </section>
 </template>
 <script>
-export default {}
+import { setting } from "@factor/tools"
+export default {
+  methods: { setting }
+}
 </script>
 <style lang="less">
 .section.call-to-action {

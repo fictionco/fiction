@@ -6,8 +6,8 @@
     <div v-else-if="newsPosts.length > 0" class="news-posts">
       <section v-for="post in newsPosts" :key="post._id" class="news-item">
         <component
-          :is="$setting.get(`news.components.${comp}`)"
-          v-for="(comp, i) in $setting.get('news.layout.index')"
+          :is="setting(`news.components.${comp}`)"
+          v-for="(comp, i) in setting('news.layout.index')"
           :key="i"
           :post-id="post._id"
           format="index"
@@ -16,14 +16,15 @@
     </div>
     <div v-else class="posts-not-found">
       <div class="text">
-        <div class="title">{{ $setting.get("news.notFound.title") }}</div>
-        <div class="sub-title">{{ $setting.get("news.notFound.subTitle") }}</div>
+        <div class="title">{{ setting("news.notFound.title") }}</div>
+        <div class="sub-title">{{ setting("news.notFound.subTitle") }}</div>
       </div>
     </div>
-    <component :is="$setting.get('news.components.pagination')" :post-type="postType" />
+    <component :is="setting('news.components.pagination')" :post-type="postType" />
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   data() {
@@ -60,7 +61,7 @@ export default {
       return this.$route.query.page || 1
     },
     returnLinkText() {
-      return this.$setting.get("news.returnLinkText") || "All News"
+      return setting("news.returnLinkText") || "All News"
     }
   },
   watch: {
@@ -74,6 +75,7 @@ export default {
     this.getPosts()
   },
   methods: {
+    setting,
     async getPosts() {
       this.loading = true
 
@@ -83,7 +85,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("news.limit")
+        limit: setting("news.limit")
       })
 
       this.loading = false

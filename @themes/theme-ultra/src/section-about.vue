@@ -3,18 +3,18 @@
     <div class="about-content">
       <div class="content-photo">
         <div class="content-wrap">
-          <h2 class="pretitle">{{ $setting.get('about.pretitle') }}</h2>
-          <h1 class="title">{{ $setting.get('about.title') }}</h1>
-          <p class="text">{{ $setting.get('about.content') }}</p>
+          <h2 class="pretitle">{{ setting('about.pretitle') }}</h2>
+          <h1 class="title">{{ setting('about.title') }}</h1>
+          <p class="text">{{ setting('about.content') }}</p>
         </div>
         <div class="photo-wrap">
           <div class="photo">
-            <img :src="$setting.get('about.picture')" :alt="$setting.get('about.title')" >
+            <img :src="setting('about.picture')" :alt="setting('about.title')" />
           </div>
         </div>
       </div>
       <div class="counter">
-        <div v-for="(item, i) in $setting.get('about.counter')" :key="i" class="item">
+        <div v-for="(item, i) in setting('about.counter')" :key="i" class="item">
           <div class="item-number">{{ item.number }}</div>
           <div class="item-text">{{ item.text }}</div>
         </div>
@@ -23,7 +23,8 @@
   </section>
 </template>
 <script>
-export default {}
+import { setting } from "@factor/tools"
+export default { methods: { setting } }
 </script>
 
 <style lang="less">

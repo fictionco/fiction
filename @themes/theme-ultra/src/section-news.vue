@@ -1,12 +1,13 @@
 <template>
   <section id="news" class="page-container news-container">
-    <h2 class="pretitle">{{ $setting.get('news.pretitle') }}</h2>
-    <h1 class="title">{{ $setting.get('news.title') }}</h1>
+    <h2 class="pretitle">{{ setting('news.pretitle') }}</h2>
+    <h1 class="title">{{ setting('news.title') }}</h1>
     <news-index />
   </section>
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   components: {
@@ -47,6 +48,7 @@ export default {
     this.getPosts()
   },
   methods: {
+    setting,
     async getPosts() {
       this.loading = true
 
@@ -56,7 +58,7 @@ export default {
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: this.$setting.get("news.limit")
+        limit: setting("news.limit")
       })
 
       this.loading = false
