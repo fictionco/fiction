@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import { setting, stored, storeItem } from "@factor/tools"
+import { setting, stored, storeItem, renderMarkdown } from "@factor/tools"
 import dataUtility from "./plugin-data"
 export default {
   components: {
@@ -97,9 +97,7 @@ export default {
     getReadme(value) {
       let markdownContent = value
 
-      return markdownContent
-        ? this.$markdown.render(markdownContent, { variables: true })
-        : ""
+      return markdownContent ? renderMarkdown(markdownContent, { variables: true }) : ""
     }
     // pluginName(value) {
     //   let entryName = value.replace(/(?:^|[\s\-\_\.])/g, " ")

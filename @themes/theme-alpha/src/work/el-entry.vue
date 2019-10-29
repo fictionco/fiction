@@ -27,7 +27,7 @@ export default {
       return vars
     },
     rendered() {
-      return this.$markdown.render(this.post.content, {
+      return renderMarkdown(this.post.content, {
         variables: true
       })
     }

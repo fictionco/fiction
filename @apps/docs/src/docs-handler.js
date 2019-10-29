@@ -1,4 +1,4 @@
-import { toLabel, setting } from "@factor/tools"
+import { toLabel, setting, renderMarkdown } from "@factor/tools"
 export default Factor => {
   return new (class {
     config() {
@@ -6,7 +6,7 @@ export default Factor => {
     }
     getMarkdownHTML(doc) {
       const { file } = this.selected(doc) || {}
-      return file ? Factor.$markdown.render(file) : null
+      return file ? renderMarkdown(file) : null
     }
 
     selected(doc) {

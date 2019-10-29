@@ -32,7 +32,7 @@
   </article>
 </template>
 <script>
-import { setting, stored } from "@factor/tools"
+import { setting, stored, renderMarkdown } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   components: {
@@ -62,7 +62,7 @@ export default {
       return `format-${f}`
     },
     rendered() {
-      return this.$markdown.render(this.post.content, {
+      return renderMarkdown(this.post.content, {
         variables: true
       })
     }
