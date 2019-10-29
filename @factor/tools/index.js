@@ -6,6 +6,7 @@ export * from "./utils-lodash"
 export * from "./time"
 export * from "./filters"
 export * from "./settings"
+export * from "./store-router"
 
 export { default as isNode } from "detect-node"
 export { default as guid } from "uniqid"
