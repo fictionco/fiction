@@ -1,4 +1,5 @@
 import Factor from "@factor/core"
+import axios from "axios"
 import { onEvent, addFilter, setting } from "@factor/tools"
 export default () => {
   return new (class {
@@ -23,7 +24,7 @@ export default () => {
             text += ` Tags: ${tags.join(", ")}`
           }
 
-          Factor.$http.request({
+          axios.request({
             method: "post",
             url: this.SLACK_NOTIFY_URL,
             data: { text }
@@ -31,7 +32,7 @@ export default () => {
         })
 
         addFilter("transactional-email", email => {
-          Factor.$http.request({
+          axios.request({
             method: "post",
             url: this.SLACK_NOTIFY_URL,
             data: {

@@ -1,6 +1,7 @@
 import loadImage from "blueimp-load-image"
 import Factor from "@factor/core"
 import { pushToFilter, storeItem } from "@factor/tools"
+import { endpointRequest, authorizedRequest } from "@factor/endpoint"
 export default () => {
   return new (class {
     constructor() {
@@ -22,7 +23,7 @@ export default () => {
     }
 
     async request({ method, params, formData, headers = {} }) {
-      return await Factor.$endpoint.request({
+      return await endpointRequest({
         id: "storage",
         formData,
         method,
@@ -44,7 +45,7 @@ export default () => {
 
       const {
         data: { result, error }
-      } = await Factor.$http.post("/_upload", formData, {
+      } = await authorizedRequest("/_upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         },

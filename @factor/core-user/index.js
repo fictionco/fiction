@@ -1,4 +1,5 @@
 import { requestPostSingle } from "@factor/post"
+import { endpointRequest } from "@factor/endpoint"
 import {
   isEmpty,
   isNode,
@@ -69,7 +70,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-      return await Factor.$endpoint.request({ id: "user", method, params })
+      return await endpointRequest({ id: "user", method, params })
     }
 
     async authenticate(params) {

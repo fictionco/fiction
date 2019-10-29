@@ -1,5 +1,5 @@
 {
-  "name": "@factor/core-endpoint",
+  "name": "@factor/endpoint",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
   "type": "module",

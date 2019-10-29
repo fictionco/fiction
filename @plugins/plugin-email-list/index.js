@@ -8,6 +8,7 @@ import {
   addCallback,
   setting
 } from "@factor/tools"
+import { endpointRequest } from "@factor/endpoint"
 export default Factor => {
   return new (class {
     constructor() {
@@ -84,7 +85,7 @@ export default Factor => {
     }
 
     async request(method, params) {
-      return await Factor.$endpoint.request({ id: this.postType, method, params })
+      return await endpointRequest({ id: this.postType, method, params })
     }
 
     async addEmail({ email, listId, tags = [] }) {
