@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import { stored } from "@factor/tools"
+import { stored, renderMarkdown } from "@factor/tools"
 export default {
   components: {
     "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code")
@@ -27,7 +27,7 @@ export default {
       return vars
     },
     rendered() {
-      return this.$markdown.render(this.post.content, {
+      return renderMarkdown(this.post.content, {
         variables: true
       })
     }

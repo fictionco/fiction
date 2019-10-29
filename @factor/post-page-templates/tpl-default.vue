@@ -5,12 +5,12 @@
       <factor-post-edit :post-id="post._id" />
     </div>
 
-    <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
+    <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
   </div>
 </template>
 
 <script>
-import { stored } from "@factor/tools"
+import { stored, renderMarkdown } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -19,7 +19,8 @@ export default {
     post() {
       return stored("post") || {}
     }
-  }
+  },
+  methods: { renderMarkdown }
 }
 </script>
 

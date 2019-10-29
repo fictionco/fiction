@@ -2,13 +2,13 @@
   <div class="long-form">
     <factor-post-edit :post-id="post._id" />
     <h1 v-formatted-text="post.title" class="title" />
-    <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
+    <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
     <commentizer :post-id="post._id" />
   </div>
 </template>
 
 <script>
-import { stored } from "@factor/tools"
+import { stored, renderMarkdown } from "@factor/tools"
 export default {
   props: {
     postId: {
@@ -20,7 +20,8 @@ export default {
     post() {
       return stored("post") || {}
     }
-  }
+  },
+  methods: { renderMarkdown }
 }
 </script>
 

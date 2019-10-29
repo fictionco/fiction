@@ -35,14 +35,14 @@
         <div class="admin-items">
           <div class="date">Updated &mdash; {{ standardDate(post.date) }}</div>
         </div>
-        <div v-formatted-text="$markdown.render(post.content)" />
+        <div v-formatted-text="renderMarkdown(post.content)" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { throttle, standardDate } from "@factor/tools"
+import { throttle, standardDate, renderMarkdown } from "@factor/tools"
 export default {
   props: {
     post: { type: Object, default: () => {} }
@@ -71,6 +71,7 @@ export default {
   },
   methods: {
     standardDate,
+    renderMarkdown,
     setNav() {
       this.headers = this.getHeaders(this.$refs.content)
 

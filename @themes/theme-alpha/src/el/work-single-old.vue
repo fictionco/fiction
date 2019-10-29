@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import { excerpt, stored } from "@factor/tools"
+import { excerpt, stored, renderMarkdown } from "@factor/tools"
 export default {
   components: {
     "work-entry": () => import("./work-entry")
@@ -43,7 +43,7 @@ export default {
   },
 
   async created() {
-    this.content = this.$markdown.render(this.post.content)
+    this.content = renderMarkdown(this.post.content)
   },
 
   methods: {

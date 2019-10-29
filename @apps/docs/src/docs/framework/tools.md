@@ -67,17 +67,3 @@ The SSR engine is based on Vue's [server-rendering system](https://ssr.vuejs.org
 In many ways, Factor behaves like a typical Vue app but SSR leads to some important caveats (which are the same for all Vue SSR apps)
 
 [Read More About SSR](/guide/server-side-rendering)
-
-## Utilities
-
-Factor also includes a few useful JS utilities:
-
-- [Axios](https://github.com/axios/axios)
-- [Markdown It](https://github.com/markdown-it/markdown-it)
-
-You can access them as follows:
-
-```javascript
-Factor.$http // axios
-Factor.$markdown.util() // markdown-it
-```

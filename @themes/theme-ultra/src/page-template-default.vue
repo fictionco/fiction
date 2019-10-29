@@ -2,11 +2,12 @@
   <div class="long-form page-container">
     <factor-post-edit :post-id="post._id" />
     <h1 v-formatted-text="post.title" class="title" />
-    <div v-formatted-text="$markdown.render(post.content)" class="content entry-content" />
+    <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
   </div>
 </template>
 
 <script>
+import { renderMarkdown } from "@factor/tools"
 export default {
   props: {
     post: { type: Object, default: () => {} }
@@ -15,6 +16,9 @@ export default {
     return {
       content: ""
     }
+  },
+  methods: {
+    renderMarkdown
   }
 }
 </script>

@@ -40,7 +40,7 @@
   </div>
 </template>
 <script>
-import { setting } from "@factor/tools"
+import { setting, renderMarkdown } from "@factor/tools"
 import getPlugins from "./json/entries"
 
 export default {
@@ -75,9 +75,7 @@ export default {
       //let markdownFile = this.post.content
       let markdownContent = require(`${this.entry.content}`)
 
-      return markdownContent
-        ? this.$markdown.render(markdownContent, { variables: true })
-        : ""
+      return markdownContent ? renderMarkdown(markdownContent, { variables: true }) : ""
     }
   },
   mounted() {
