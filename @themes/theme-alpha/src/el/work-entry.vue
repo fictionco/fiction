@@ -9,7 +9,7 @@
       <div class="mast">
         <div class="hero-inner">
           <div>
-            <factor-link class="back" :path="$setting.get('work.indexRoute')">
+            <factor-link class="back" :path="setting('work.indexRoute')">
               <factor-icon icon="arrow-left" />All
             </factor-link>
             <h1 class="heading">
@@ -32,6 +32,7 @@
   </article>
 </template>
 <script>
+import { setting } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   components: {
@@ -67,7 +68,8 @@ export default {
     }
   },
   methods: {
-    link
+    link,
+    setting
   }
 }
 </script>

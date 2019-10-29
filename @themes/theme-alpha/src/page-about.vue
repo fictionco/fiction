@@ -1,12 +1,12 @@
 <template>
   <div class="page-about">
     <el-hero
-      :headline="$setting.get('about.headline')"
-      :subheadline="$setting.get('about.subheadline')"
-      :image="$setting.get('about.heroImage')"
+      :headline="setting('about.headline')"
+      :subheadline="setting('about.subheadline')"
+      :image="setting('about.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="$setting.get('about.content')" class="content entry-content" />
+        <div v-formatted-text="setting('about.content')" class="content entry-content" />
       </template>
     </el-hero>
 
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   components: {
     "el-hero": () => import("./el/hero.vue"),
@@ -29,10 +30,11 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.$setting.get("about.meta.title"),
-      description: this.$setting.get("about.meta.description")
+      title: setting("about.meta.title"),
+      description: setting("about.meta.description")
     }
-  }
+  },
+  methods: { setting }
   // pageTemplate() {
   //   return {
   //     name: "About Page",

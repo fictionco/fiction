@@ -1,12 +1,13 @@
 <template>
   <div class="return-link">
-    <factor-link class="back" :path="$setting.get('blog.indexRoute')">
+    <factor-link class="back" :path="setting('blog.indexRoute')">
       <factor-icon icon="arrow-left" />
       <span>{{ returnLinkText }}</span>
     </factor-link>
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -16,9 +17,10 @@ export default {
       return this.$store.val(this.postId) || {}
     },
     returnLinkText() {
-      return this.$setting.get("blog.returnLinkText") || "All Articles"
+      return setting("blog.returnLinkText") || "All Articles"
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 <style lang="less">

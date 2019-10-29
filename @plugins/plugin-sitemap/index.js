@@ -1,6 +1,6 @@
 import { getModel } from "@factor/post/server"
 import { getPermalink } from "@factor/post"
-import { uniq, addFilter, applyFilters } from "@factor/tools"
+import { uniq, addFilter, applyFilters, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -45,7 +45,7 @@ export default Factor => {
       const urls = await this.getPermalinks()
 
       return require("sitemap").createSitemap({
-        hostname: Factor.$setting.get("url"),
+        hostname: setting("url"),
         cacheTime: 1000 * 60 * 60 * 24, // 600 sec - cache purge period
         urls
       })
@@ -59,7 +59,7 @@ export default Factor => {
         perm => !perm.includes(":")
       )
 
-      return theRoutes.map(perm => `${Factor.$setting.get("url")}${perm}`)
+      return theRoutes.map(perm => `${setting("url")}${perm}`)
     }
 
     getRoutesRecursively(routes, parent = false) {

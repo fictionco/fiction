@@ -2,13 +2,13 @@
   <div class="page-landing">
     <section class="feature">
       <div class="feature-inner">
-        <h3 class="pre-title">{{ $setting.get("home.preheadline") }}</h3>
-        <h1 v-formatted-text="$setting.get('home.headline')" class="title" />
-        <div class="subtitle">{{ $setting.get("home.subheadline") }}</div>
+        <h3 class="pre-title">{{ setting("home.preheadline") }}</h3>
+        <h1 v-formatted-text="setting('home.headline')" class="title" />
+        <div class="subtitle">{{ setting("home.subheadline") }}</div>
 
         <div class="actions">
           <factor-link
-            v-for="(action, i) in $setting.get('home.actions')"
+            v-for="(action, i) in setting('home.actions')"
             :key="i"
             :path="action.path"
             btn="default"
@@ -23,11 +23,11 @@
 
     <section class="boxes">
       <div class="mast">
-        <div v-formatted-text="$setting.get('home.boxesTitle')" class="title" />
+        <div v-formatted-text="setting('home.boxesTitle')" class="title" />
       </div>
 
       <div class="mast boxes-inner">
-        <div v-for="(box, i) in $setting.get('home.boxes')" :key="i" class="box">
+        <div v-for="(box, i) in setting('home.boxes')" :key="i" class="box">
           <div v-if="box.icon" class="box-icon">
             <img :src="box.icon" :alt="box.heading" />
           </div>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   components: {
     "el-clients": () => import("./el/clients.vue"),
@@ -59,10 +60,11 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.$setting.get("home.meta.title"),
-      description: this.$setting.get("home.meta.description")
+      title: setting("home.meta.title"),
+      description: setting("home.meta.description")
     }
-  }
+  },
+  methods: { setting }
   // pageTemplate() {
   //   return {
   //     name: "Landing Page",
