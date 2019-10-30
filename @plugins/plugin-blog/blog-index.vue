@@ -78,7 +78,7 @@ export default {
     async getPosts() {
       this.loading = true
 
-      const r = await requestPostIndex({
+      await requestPostIndex({
         postType: this.postType,
         tag: this.tag,
         status: "published",

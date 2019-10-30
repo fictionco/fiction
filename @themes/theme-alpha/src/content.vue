@@ -15,8 +15,8 @@
 <script>
 export default {
   components: {
-    "site-head": () => import("./site-head"),
-    "site-footer": () => import("./site-footer")
+    "site-head": () => import("./site-head.vue"),
+    "site-footer": () => import("./site-footer.vue")
   },
   computed: {
     bg() {

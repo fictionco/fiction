@@ -1,7 +1,7 @@
 <template>
   <form ref="form" class="wrap-form" autocomplete="on" @submit="checkForm($event)">
     <slot />
-    <input ref="send" class="submit" type="submit" value="submit">
+    <input ref="send" class="submit" type="submit" value="submit" />
   </form>
 </template>
 <script>
@@ -21,7 +21,7 @@ export default {
   mounted() {
     this.$watch(
       "watchValid",
-      function(v) {
+      function() {
         this.$nextTick(() => {
           this.$emit("valid", this.$refs["form"].checkValidity())
         })
@@ -42,6 +42,5 @@ export default {
   input[type="submit"] {
     display: none;
   }
-
 }
 </style>

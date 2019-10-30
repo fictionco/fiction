@@ -64,7 +64,7 @@ export default {
         window.removeEventListener("keydown", this.escapeHandler)
       }
     },
-    clickHandler(e) {
+    clickHandler() {
       this.close()
       window.removeEventListener("click", this.clickHandler)
     },

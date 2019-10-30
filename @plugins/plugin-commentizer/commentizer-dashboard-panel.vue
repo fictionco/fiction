@@ -19,7 +19,7 @@
   </dashboard-pane>
 </template>
 <script>
-import { stored } from "@factor/stored"
+import { stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, required: true }

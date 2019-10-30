@@ -7,7 +7,7 @@ import {
   runCallbacks,
   addCallback
 } from "@factor/tools"
-import { objectIdType, objectId } from "@factor/post/util"
+import { objectId } from "@factor/post/util"
 import { processEndpointRequest } from "@factor/endpoint/server"
 export default Factor => {
   return new (class {
@@ -40,7 +40,7 @@ export default Factor => {
     async handleUpload({ meta }) {
       const { bearer, request } = meta
       const {
-        file: { buffer, mimetype, size, name }
+        file: { buffer, mimetype, size }
       } = request
 
       const attachmentModel = getModel("attachment")
