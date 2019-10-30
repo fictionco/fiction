@@ -187,7 +187,6 @@ export default {
 
   // Widget header custom styles
   .plugins-widget-header {
-    background-color: #f6f9fc;
     .content-pad {
       grid-template-columns: 1fr;
     }

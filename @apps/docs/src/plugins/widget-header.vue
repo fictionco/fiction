@@ -29,6 +29,7 @@ export default {
 <style lang="less">
 .plugins-widget-header {
   background-image: url("./img/dot.svg");
+  background-color: #f6f9fc;
   overflow: hidden;
   border-top: 1px solid rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
