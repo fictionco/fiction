@@ -79,13 +79,9 @@ export default Factor => {
 
         return [
           ..._,
-          {
-            path: "/plugins",
-            component: () => import("./page-plugins")
-          },
           // {
-          //   path: "/pluginsnew",
-          //   component: () => import("./plugins/v-plugins")
+          //   path: "/plugins",
+          //   component: () => import("./page-plugins")
           // },
           {
             path: "/themes",
@@ -108,7 +104,7 @@ export default Factor => {
             component: () => import("./page-docs")
           },
           {
-            path: `/pluginsnew`,
+            path: `/plugins`,
             component: () => import("./plugins/plugins-wrap"),
             children: [
               {
