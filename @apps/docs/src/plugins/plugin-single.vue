@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="pluginIcon(entry.github)" :title="formatName(entry.name)">
+        <widget-header :image="pluginIcon(entry.githubFiles)" :title="formatName(entry.name)">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -16,7 +16,10 @@
               >{{ author.name }}</span>
             </div>
 
-            <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>
+            <div
+              v-if="entry.downloads"
+              class="downloads"
+            >{{ formatDownloads(entry.downloads) }} downloads</div>
           </div>
         </widget-header>
 
@@ -29,12 +32,16 @@
 
             <widget-lightbox
               :visible.sync="lightboxShow"
-              :imgs="screenshotsList(entry.github)"
+              :imgs="screenshotsList(entry.githubFiles)"
               :index="lightboxIndex"
             />
 
-            <div v-if="entry.github" class="plugin-images">
-              <div v-for="(url, i) in screenshotsList(entry.github)" :key="i" class="image-item">
+            <div v-if="entry.githubFiles" class="plugin-images">
+              <div
+                v-for="(url, i) in screenshotsList(entry.githubFiles)"
+                :key="i"
+                class="image-item"
+              >
                 <div
                   :style="{ backgroundImage: `url(${url})` }"
                   class="image-item-content"
@@ -97,11 +104,6 @@ export default {
     this.loading = false
   },
   methods: {
-    formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
-
-      return spacedName.replace("@factor/", "")
-    },
     pluginIcon(entry) {
       const imageName = `icon.svg`
 
@@ -116,6 +118,15 @@ export default {
       }
 
       return images[0]
+    },
+    formatName(name) {
+      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+
+      return spacedName.replace("@factor/", "")
+    },
+    formatDownloads(number) {
+      let num = number
+      return num.toLocaleString("en", { useGrouping: true })
     },
     screenshotsList(list) {
       const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i

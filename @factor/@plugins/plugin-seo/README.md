@@ -2,7 +2,7 @@
 
 ## Overview
 
-This plugin makes it easy to implement, edit your SEO. It includes title and meta description templating for better branding and consistent snippets in the search results.
+This plugin makes it easy to implement and edit your SEO. It includes title and meta description templating for better branding and consistent snippets in the search results.
 
 The snippet preview shows you how your post or page will look in the search results. It also comes with an image uploader to customize how your link image appears in social streams.
 

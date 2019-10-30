@@ -10,14 +10,14 @@
     </div>
     <div v-else class="plugins-wrap content-pad">
       <div class="content">
-        <section class="plugins-featured">
+        <section v-if="pluginsFeatured.length > 0" class="plugins-featured">
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
           <div class="plugins-grid">
             <div v-for="(entry, index) in pluginsFeatured" :key="index" class="entry-plugin">
-              <div v-if="pluginIcon(entry.github)" class="entry-image">
-                <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+              <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
+                <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
               </div>
 
               <div class="entry-content">
@@ -33,18 +33,6 @@
                       class="author"
                     >{{ author.name }}</span>
                   </div>
-                  <!-- 
-
-                <div v-if="entry.keywords" class="keywords">
-                  in
-                  <span
-                    v-for="(keyword, key) in entry.keywords"
-                    :key="key"
-                    class="keyword"
-                  >{{ keyword }},</span>
-                </div>
-
-                  <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>-->
                 </div>
 
                 <p v-if="entry.description" class="text">{{ entry.description }}</p>
@@ -71,8 +59,8 @@
             <h1 class="title">All</h1>
           </header>
           <div v-for="(entry, index) in getData" :key="index" class="entry-plugin">
-            <div v-if="pluginIcon(entry.github)" class="entry-image">
-              <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+            <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
+              <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
             </div>
 
             <div class="entry-content">
@@ -131,10 +119,17 @@ export default {
     },
     pluginsFeatured: function() {
       let getFeatured = _.pickBy(this.getData, function(u) {
-        return u.downloads > 100 || ""
+        console.log(u)
+        return (
+          (u.keywords.includes("factor-plugin") &&
+            u.keywords.includes("factor-featured")) ||
+          ""
+        )
       })
 
-      return Object.values(getFeatured).slice(0, 3) //limit to 3 posts
+      let orderFeatured = _.orderBy(getFeatured, ["downloads"], ["desc"])
+
+      return Object.values(orderFeatured).slice(0, 2) //limit to 2 posts
     }
   },
   async mounted() {
@@ -269,15 +264,13 @@ export default {
     .plugins-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-gap: 1rem;
+      grid-gap: 1.5rem;
     }
     .entry-plugin {
       display: grid;
-      //grid-template-columns: 70px 3fr;
       grid-gap: 1rem;
       justify-content: center;
-      margin-bottom: 1rem;
-      padding: 2rem;
+      padding: 1.5rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
@@ -291,9 +284,6 @@ export default {
         text-decoration: none;
       }
       .entry-image {
-        // display: flex;
-        // justify-content: center;
-        margin: 0 auto;
         height: 70px;
         width: 70px;
         border-radius: 50%;
@@ -307,7 +297,6 @@ export default {
       }
       .entry-content {
         overflow: hidden;
-        text-align: center;
         .title {
           font-size: 1.6em;
           line-height: 1.2em;
@@ -365,7 +354,7 @@ export default {
   //  ENTRIES ALL
   .plugins-all {
     .section-header {
-      margin: 4rem 0 1.5rem;
+      margin: 2rem 0 1.5rem;
     }
     .entry-plugin {
       display: grid;
@@ -373,7 +362,7 @@ export default {
       grid-gap: 2rem;
       align-items: flex-start;
       margin-bottom: 1rem;
-      padding: 1rem;
+      padding: 1.5rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);

@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-highlight-code",
-  "description": "This plugin adds a syntax highlighting component for content.",
+  "description": "Add a syntax highlighting component to your Factor app.",
   "version": "1.0.0-beta.8",
   "license": "GPL-2.0",
   "factor": {
@@ -16,6 +16,7 @@
   "keywords": [
     "factor",
     "factor-plugin",
+    "factor-featured",
     "fiction",
     "webpack",
     "vue",

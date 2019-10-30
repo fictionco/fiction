@@ -6,8 +6,8 @@
           <h1 class="title">Popular</h1>
         </header>
         <div v-for="(entry, index) in pluginsPopular" :key="index" class="entry-plugin">
-          <div v-if="pluginIcon(entry.github)" class="entry-image">
-            <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
+            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
           </div>
 
           <div class="entry-content">
@@ -15,7 +15,10 @@
               <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry.name) }}</factor-link>
             </h3>
             <div class="meta">
-              <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>
+              <div
+                v-if="entry.downloads"
+                class="downloads"
+              >{{ formatDownloads(entry.downloads) }} downloads</div>
             </div>
           </div>
         </div>
@@ -26,8 +29,8 @@
           <h1 class="title">New</h1>
         </header>
         <div v-for="(entry, index) in pluginsNew" :key="index" class="entry-plugin">
-          <div v-if="pluginIcon(entry.github)" class="entry-image">
-            <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
+            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
           </div>
 
           <div class="entry-content">
@@ -49,8 +52,8 @@
           <h1 class="title">Recently Updated</h1>
         </header>
         <div v-for="(entry, index) in pluginsRecentlyUpdated" :key="index" class="entry-plugin">
-          <div v-if="pluginIcon(entry.github)" class="entry-image">
-            <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
+            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
           </div>
           <div class="entry-content">
             <h3 class="title">
@@ -106,6 +109,10 @@ export default {
     },
     pluginPermalink(permalink) {
       return `/plugin/` + permalink.replace("@factor/", "")
+    },
+    formatDownloads(number) {
+      let num = number
+      return num.toLocaleString("en", { useGrouping: true })
     },
     formatDate(value) {
       let date = new Date(value)
