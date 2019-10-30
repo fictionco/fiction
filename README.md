@@ -1,8 +1,11 @@
+
 <p>
 <a href="https://factor.dev">
   <img src="./banner.jpg" width="100%" style="display:block;">
 </a>
 </p>
+
+> Status: Currently working on quality and stability. Public beta arrives with 80%+ testing coverage. 
 
 <p>
   <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>  
