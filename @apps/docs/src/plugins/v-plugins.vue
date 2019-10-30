@@ -36,6 +36,10 @@
                       class="author"
                     >{{ author.name }}</span>
                   </div>
+                  <div
+                    v-if="entry.downloads"
+                    class="downloads"
+                  >{{ formatDownloads(entry.downloads) }} downloads</div>
                 </div>
 
                 <p v-if="entry.description" class="text">{{ entry.description }}</p>
@@ -149,6 +153,10 @@ export default {
       let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
 
       return spacedName.replace("@factor/", "")
+    },
+    formatDownloads(number) {
+      let num = number
+      return num.toLocaleString("en", { useGrouping: true })
     },
     pluginPermalink(permalink) {
       return `/plugin/` + permalink.replace("@factor/", "")
