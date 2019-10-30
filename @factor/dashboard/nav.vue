@@ -69,7 +69,7 @@ export default {
       let out = ""
       Object.keys(this.menus).forEach(m => {
         this.menus[m].forEach(primary => {
-          const { group, items = [] } = primary
+          const { items = [] } = primary
           if (this.getPath(primary.path, false, "44") == path) {
             out = primary.group
           }
@@ -87,7 +87,7 @@ export default {
     }
   },
   watch: {
-    $route: function(v) {
+    $route: function() {
       this.redirectOnDefault()
     }
   },
@@ -107,9 +107,9 @@ export default {
         this.$set(this.menus, "admin", [])
       }
 
-      const {
-        meta: { format = "dashboard" }
-      } = this.$route.matched.find(_ => _.meta.format) || {}
+      // const {
+      //   meta: { format = "dashboard" }
+      // } = this.$route.matched.find(_ => _.meta.format) || {}
 
       Object.keys(this.menus).forEach(format => {
         this.menus[format] = applyFilters(`${format}-menu`, []).map(_ => {
@@ -127,7 +127,7 @@ export default {
         this.$router.replace({ path: this.getPath(this.firstItem.path) })
       }
     },
-    getPath(path, parent = false, from = "") {
+    getPath(path, parent = false) {
       if (path.startsWith("/")) {
         return path
       } else {

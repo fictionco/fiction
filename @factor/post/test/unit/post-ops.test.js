@@ -1,6 +1,5 @@
 // import { createTestDbServer } from "@test/utils"
 
-let mongod
 describe("post-operations", () => {
   beforeAll(async () => {
     //mongod = await createTestDbServer()

@@ -1,5 +1,4 @@
-import Factor from "@factor/core"
-import { onEvent, applyFilters, setting } from "@factor/tools"
+import { onEvent, addFilter, applyFilters, setting } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {

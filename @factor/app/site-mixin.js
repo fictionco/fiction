@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { runCallbacks, applyFilters } from "@factor/tools"
 export default () => {
   return {

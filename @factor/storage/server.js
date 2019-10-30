@@ -24,7 +24,7 @@ export default Factor => {
           path: `/_upload`,
           middleware: [
             multer().single("imageUpload"),
-            async (request, response, next) => {
+            async (request, response) => {
               return await processEndpointRequest({
                 request,
                 response,

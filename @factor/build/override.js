@@ -40,7 +40,7 @@ function browserReplacement(webpack) {
 }
 
 function modulePathWebpackPlugin(webpack) {
-  return new webpack.NormalModuleReplacementPlugin(/^\#/, resource => {
+  return new webpack.NormalModuleReplacementPlugin(/^#/, resource => {
     resource.request = handleAsOverride(resource)
   })
 }
