@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import { getPageTemplates } from "@factor/templates"
 import { stored } from "@factor/tools"
 export default {
   data() {
@@ -23,9 +24,7 @@ export default {
       return this.post.template ? this.post.template : "default"
     },
     templateLoader() {
-      const tpls = this.$templates.getPageTemplates()
-
-      const selected = tpls.find(_ => _._id == this.templateLocation)
+      const selected = getPageTemplates().find(_ => _._id == this.templateLocation)
 
       return selected && selected.component
         ? selected.component

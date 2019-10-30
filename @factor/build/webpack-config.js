@@ -18,6 +18,8 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const VueSSRClientPlugin = require("vue-server-renderer/client-plugin")
 const VueSSRServerPlugin = require("vue-server-renderer/server-plugin")
 
+import "@factor/build/override"
+
 export default () => {
   return new (class {
     constructor() {

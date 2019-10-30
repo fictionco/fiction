@@ -1,8 +1,8 @@
 import Factor from "@factor/core"
 
-import extendApp from "@factor/extend"
-import FactorStore from "@factor/app/store"
-import FactorRouter from "@factor/app/router"
+import { extendApp } from "@factor/extend"
+import { createStore } from "@factor/app/store"
+import { createRouter } from "@factor/app/router"
 import { emitEvent, runCallbacks, setting } from "@factor/tools"
 Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
 Factor.FACTOR_SSR = process.env.FACTOR_SSR
@@ -13,10 +13,10 @@ process.env.FACTOR_TARGET = "app"
 export async function createApp(options = {}) {
   const { extend = true } = options
 
-  if (extend) await extendApp().extend()
+  if (extend) await extendApp()
 
-  const store = FactorStore.create()
-  const router = FactorRouter.create()
+  const store = createStore()
+  const router = createRouter()
 
   // Extend with mixins, etc... happens after router and store
   runCallbacks("before-app")

@@ -17,6 +17,7 @@
     "dayjs": "^1.8.16",
     "deepmerge": "^4.1.1",
     "detect-node": "^2.0.4",
+    "dotenv": "^8.2.0",
     "flatted": "^2.0.1",
     "jquery": "^3.4.1",
     "lodash.clonedeep": "^4.5.0",
@@ -26,17 +27,17 @@
     "lodash.pickby": "^4.6.0",
     "lodash.throttle": "^4.1.1",
     "lodash.uniq": "^4.5.0",
-    "rand-token": "^0.4.0",
-    "stopwords": "^0.0.9",
-    "uniqid": "^5.0.3",
-    "validator": "^12.0.0",
     "markdown-it": "^10.0.0",
     "markdown-it-anchor": "^5.0.2",
     "markdown-it-implicit-figures": "^0.9.0",
     "markdown-it-link-attributes": "^3.0.0",
     "markdown-it-video": "^0.6.3",
+    "rand-token": "^0.4.0",
     "remark": "^11.0.0",
-    "strip-markdown": "^3.0.3"
+    "stopwords": "^0.0.9",
+    "strip-markdown": "^3.0.3",
+    "uniqid": "^5.0.3",
+    "validator": "^12.0.0"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }

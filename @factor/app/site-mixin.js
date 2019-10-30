@@ -19,7 +19,11 @@ export default () => {
         return `factor-${ui}`
       },
       classes() {
-        const siteClasses = this.$globals.routeClass || []
+        // Use observables for classes as these can change at any time
+        const siteClasses = applyFilters("observable-class-keys", [])
+          .map(_ => this.$globals[_])
+          .filter(_ => _)
+          .join(" ")
 
         return [...siteClasses, this.scrollClass]
       },

@@ -29,7 +29,7 @@
     "@factor/dashboard": "1.0.0-beta.6",
     "@factor/dashboard-signin": "1.0.0-beta.6",
     "@factor/meta-class": "1.0.0-beta.6",
-    "@factor/post-page-templates": "1.0.0-beta.6",
+    "@factor/templates": "1.0.0-beta.6",
     "@factor/ui": "1.0.0-beta.6",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.7",

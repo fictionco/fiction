@@ -19,16 +19,6 @@ export async function importPlugins(plugins) {
   return
 }
 
-export async function importModule(key, importCaller) {
-  const __exports = await importCaller()
-
-  const { default: _default } = __exports
-
-  const _export = typeof _default == "function" ? _default(Factor) : _default
-
-  return await { key, _export }
-}
-
 export async function getExports(items) {
   return await Promise.all(
     Object.keys(items).map(async key => {

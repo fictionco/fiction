@@ -5,7 +5,7 @@
 import Factor from "@factor/core"
 import extendApp from "@factor/extend"
 
-import FactorStore from "@factor/app/store"
+import { createStore } from "@factor/app/store"
 let store
 describe("store", () => {
   beforeAll(async () => {
@@ -13,7 +13,7 @@ describe("store", () => {
   })
   it("loads correctly", () => {
     window.__INITIAL_STATE__ = { test: 123 }
-    store = FactorStore.create()
+    store = createStore()
     expect(Factor.$store).toBeTruthy()
 
     expect(store.state.test).toBe(123)
