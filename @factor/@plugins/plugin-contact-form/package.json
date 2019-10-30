@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-contact-form",
   "description": "This plugin makes it easy to add a contact form.",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "license": "GPL-2.0",
   "factor": {
     "_id": "contactForm",

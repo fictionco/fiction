@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-storage-s3",
   "description": "This plugin configures Factor to use AWS S3 for Factor image storage.",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.8",
   "license": "GPL-2.0",
   "factor": {
     "_id": "storageS3",
