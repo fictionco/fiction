@@ -65,6 +65,7 @@
   </div>
 </template>
 <script>
+import { uploadImage, requestDeleteImage } from "@factor/storage"
 import { DOM, emitEvent, onEvent, stored } from "@factor/tools"
 import Sortable from "sortablejs"
 export default {
@@ -221,14 +222,11 @@ export default {
       this.$emit("update:customValidity", this.validity)
     },
 
-    removeImage(_id) {
-      if (_id) {
-        this.$storage.delete({ _id })
-      }
+    async removeImage(_id) {
+      if (_id) await requestDeleteImage({ _id })
 
       const index = this.imageIds.findIndex(__id => __id == _id)
 
-      console.log("remove inde4x", this.imageIds, index)
       this.$delete(this.imageIds, index)
       this.updateValue()
     },
@@ -250,13 +248,8 @@ export default {
           }
 
           let index = this.uploading.push(meta) - 1
-
           this.numFiles++
-          this.uploadFile({
-            meta,
-            file,
-            index
-          })
+          this.uploadFile({ meta, file, index })
         }
       }
     },
@@ -266,7 +259,7 @@ export default {
 
       this.$emit("upload", { file, index, path, item })
 
-      this.$storage.upload({
+      uploadImage({
         file,
         onPrep: ({ mode, percent, preview = false }) => {
           if (preview) this.$set(item, "url", preview)
