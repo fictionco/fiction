@@ -1,4 +1,3 @@
-import dataUtility from "./plugins/plugin-data"
 import { addFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
@@ -55,7 +54,7 @@ export default Factor => {
             return p.doc
               ? {
                   path: `/${base}/${p.doc}`,
-                  component: () => import("./page-docs")
+                  component: () => import("./page-docs.vue")
                 }
               : ""
           })
