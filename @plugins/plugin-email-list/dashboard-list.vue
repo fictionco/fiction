@@ -23,6 +23,7 @@
   </dashboard-pane>
 </template>
 <script>
+/* eslint-disable no-unused-vars */
 import { getPermalink, postTypeMeta, getStatusCount } from "@factor/post"
 import { toLabel, stored } from "@factor/tools"
 export default {
