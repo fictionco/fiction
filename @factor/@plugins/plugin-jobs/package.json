@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-jobs",
   "description": "This plugin makes it east to create a job board.",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "license": "GPL-2.0",
   "factor": {
     "target": [
@@ -11,7 +11,7 @@
     "title": "Job Board"
   },
   "dependencies": {
-    "@factor/plugin-highlight-code": "1.0.0-beta.7"
+    "@factor/plugin-highlight-code": "1.0.0-beta.8"
   },
   "publishConfig": {
     "access": "public"
