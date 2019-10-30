@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { endpointRequest } from "@factor/endpoint"
 export default () => {
   return new (class {

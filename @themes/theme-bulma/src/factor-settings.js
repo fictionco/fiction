@@ -1,7 +1,7 @@
 export default Factor => {
   return {
     site: {
-      logo: () => import("./el/logo-bulma"),
+      logo: () => import("./el/logo-bulma.vue"),
       nav: [
         {
           path: "/",
@@ -40,7 +40,8 @@ export default Factor => {
       },
       cta: {
         headline: "Made with Factor",
-        subheadline: "Interested in using the factor framework with bulma? We should get started. I’ll setup bulma.",
+        subheadline:
+          "Interested in using the factor framework with bulma? We should get started. I’ll setup bulma.",
         path: "https://factor.dev/themes",
         text: "Let's do this"
       }
@@ -144,7 +145,8 @@ export default Factor => {
     home: {
       meta: {
         title: "Bulma Theme - Factor.js",
-        description: "A simple theme for easy implementation of the Bulma CSS framework in Factor.js."
+        description:
+          "A simple theme for easy implementation of the Bulma CSS framework in Factor.js."
       },
 
       headline: "Theme Bulma",
@@ -200,7 +202,8 @@ export default Factor => {
         {
           imageURL: require("./img/icon-mobile.svg"),
           title: "Mobile-first",
-          description: "Every element is mobile-first and optimizes for vertical reading. Built with five breakpoints."
+          description:
+            "Every element is mobile-first and optimizes for vertical reading. Built with five breakpoints."
         },
         {
           imageURL: require("./img/icon-js.svg"),

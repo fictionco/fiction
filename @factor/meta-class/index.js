@@ -1,5 +1,5 @@
 import { addFilter, addCallback, pushToFilter, registerOnFilter } from "@factor/tools"
-
+import Factor from "@factor/core"
 addCallback("ssr-context-callbacks", ({ matchedComponents }) =>
   matchedComponents.forEach(_ => setRouteClass(_))
 )

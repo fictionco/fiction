@@ -40,7 +40,7 @@ export class FactorMarkdown {
     if (typeof content == "string") {
       const { variables } = options
       if (variables) {
-        content = content.replace(/{{([\s\S]+?)}}/g, (matched, index, original) => {
+        content = content.replace(/{{([\s\S]+?)}}/g, matched => {
           const setting = matched.replace(/[{}]/g, "")
           const val = dotSetting({
             key: setting,

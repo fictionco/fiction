@@ -2,7 +2,14 @@ import Factor from "@factor/core"
 import { setPostMetatags } from "./meta"
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
-import { timestamp, emitEvent, applyFilters, storeItem, stored } from "@factor/tools"
+import {
+  timestamp,
+  toLabel,
+  emitEvent,
+  applyFilters,
+  storeItem,
+  stored
+} from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
 function _setCache(postType) {
   storeItem(`${postType}Cache`, timestamp())

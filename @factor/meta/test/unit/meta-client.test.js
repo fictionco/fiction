@@ -4,17 +4,14 @@
 
 import Factor from "vue"
 Factor.config.devtools = false
-import extendApp from "@factor/extend"
-// import { createApp } from "@factor/app/app"
-// import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
-// import { render, renderToString } from "@vue/server-test-utils"
-import { pushToFilter } from "@factor/tools"
+import { extendApp } from "@factor/extend"
+
+import { pushToFilter, setting } from "@factor/tools"
 import { waitFor, indexHtml } from "@test/utils"
-import FactorStore from "@factor/app/store"
-import FactorRouter from "@factor/app/router"
-import appSettings from "@factor/app/factor-settings"
-import factorMeta from "../.."
-import { setting } from "@factor/tools"
+import { createStore } from "@factor/app/store"
+import { createRouter } from "@factor/app/router"
+import appSettings from "@factor/app/core-settings"
+
 describe("meta info client", () => {
   beforeAll(async () => {
     document.open()
@@ -22,9 +19,8 @@ describe("meta info client", () => {
     document.close()
 
     await extendApp({
-      plugins: { factorMeta },
       settings: { app: appSettings }
-    }).extend()
+    })
     Factor.config.devtools = false
   })
 
@@ -34,8 +30,8 @@ describe("meta info client", () => {
       component: () => import("./meta.vue")
     })
 
-    const store = FactorStore.create()
-    const router = FactorRouter.create()
+    const store = createStore()
+    const router = createRouter()
 
     const { default: site } = await setting("app.site")()
 

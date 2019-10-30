@@ -2,6 +2,9 @@ import { setting } from "@factor/tools"
 import { getPath } from "@factor/paths"
 import express from "express"
 import serveFavicon from "serve-favicon"
+import log from "@factor/logger"
+import figures from "figures"
+import chalk from "chalk"
 
 export function serverErrorWrap() {
   return `<h1 style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 2em; opacity:.1; font-weight: 400;">${txt}</h1>`

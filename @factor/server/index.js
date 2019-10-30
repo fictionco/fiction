@@ -8,12 +8,11 @@ import LRU from "lru-cache"
 import renderUtility from "vue-server-renderer"
 
 import "./server-dev"
+import { handleServerError, getPort, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 
-import { handleServerError, getPort, getServerInfo, logServerReady } from "./util"
-
 let PORT
-let middleware = []
+
 let _listening
 let renderer
 let _application
@@ -22,8 +21,6 @@ addCallback("close-server", _ => closeServer(_))
 
 export async function createServer({ port }) {
   PORT = getPort(port)
-
-  middleware = []
 
   if (process.env.NODE_ENV == "production") {
     await startServerProduction()

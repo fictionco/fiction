@@ -66,7 +66,7 @@ export default Factor => {
         return _.concat([
           {
             _id: "default",
-            component: () => import("./page-template-default")
+            component: () => import("./page-template-default.vue")
           }
         ])
       })

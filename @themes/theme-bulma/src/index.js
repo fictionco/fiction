@@ -13,7 +13,7 @@ export default Factor => {
           {
             name: "Default",
             value: "default",
-            component: () => import("./page-template-default")
+            component: () => import("./page-template-default.vue")
           }
         ])
       })

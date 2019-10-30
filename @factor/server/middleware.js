@@ -1,12 +1,12 @@
+import { applyFilters, setting } from "@factor/tools"
+import { getPath } from "@factor/paths"
+import { serveFavicon } from "serve-favicon"
 import bodyParser from "body-parser"
 import compression from "compression"
 import helmet from "helmet"
-import logger from "./logger"
-import { applyFilters , setting } from "@factor/tools"
-
-import { getPath } from "@factor/paths"
 
 import { serveStatic } from "./util"
+import logger from "./logger"
 
 export function loadMiddleware(app, middleware = []) {
   const fav = setting("app.faviconPath")

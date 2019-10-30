@@ -10,6 +10,7 @@ export async function extendServer({ restart = false }) {
 
   await runCallbacks("before-server-plugins")
 
+  // eslint-disable-next-line import/no-unresolved
   const { default: plugins } = await import("~/.factor/loader-server")
 
   await importPlugins(plugins)

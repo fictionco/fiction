@@ -33,7 +33,7 @@ export default Factor => {
       base: "docs"
     },
     site: {
-      logo: () => import("./el/logo-factor"),
+      logo: () => import("./el/logo-factor.vue"),
       nav: [
         {
           path: "/docs",

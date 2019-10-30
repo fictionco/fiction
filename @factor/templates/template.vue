@@ -28,7 +28,7 @@ export default {
 
       return selected && selected.component
         ? selected.component
-        : () => import("./tpl-default")
+        : () => import("./tpl-default.vue")
     },
 
     post() {

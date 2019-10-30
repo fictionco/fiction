@@ -91,16 +91,14 @@ export default {
     selectAll(val) {
       this.selected = !val ? [] : this.comments.map(_ => _._id)
     },
-    fields(item, type) {
+    fields(item) {
+      // eslint-disable-next-line no-unused-vars
       const { _id, createdAt, content, email, name, ...rest } = item
+      // eslint-disable-next-line no-unused-vars
       return Object.entries(rest).filter(([key, value]) => value)
     },
     postlink(postType, permalink, root = true) {
-      return getPermalink({
-        postType,
-        permalink,
-        root
-      })
+      return getPermalink({ postType, permalink, root })
     },
     grid() {
       return [

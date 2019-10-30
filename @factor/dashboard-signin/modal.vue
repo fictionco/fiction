@@ -23,7 +23,7 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       if (to.query.signInView) {
         this.vis = true
       }

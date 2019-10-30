@@ -9,20 +9,20 @@ export default Factor => {
 
     components() {
       addFilter("components", _ => {
-        _["dashboard-pane"] = () => import("./pane")
-        _["dashboard-page"] = () => import("./page")
-        _["dashboard-table"] = () => import("./table")
-        _["dashboard-grid"] = () => import("./grid")
-        _["dashboard-grid-controls"] = () => import("./grid-controls")
-        _["dashboard-grid-actions"] = () => import("./grid-actions")
-        _["dashboard-grid-filter"] = () => import("./grid-filter")
-        _["dashboard-table-controls"] = () => import("./table-controls")
-        _["dashboard-table-footer"] = () => import("./table-footer")
-        _["dashboard-input"] = () => import("./el/input")
-        _["dashboard-loader"] = () => import("./el/loader")
-        _["dashboard-user-card"] = () => import("./el/user-card")
-        _["dashboard-user-list"] = () => import("./el/user-list")
-        _["factor-input-sortable"] = () => import("./el/sortable")
+        _["dashboard-pane"] = () => import("./pane.vue")
+        _["dashboard-page"] = () => import("./page.vue")
+        _["dashboard-table"] = () => import("./table.vue")
+        _["dashboard-grid"] = () => import("./grid.vue")
+        _["dashboard-grid-controls"] = () => import("./grid-controls.vue")
+        _["dashboard-grid-actions"] = () => import("./grid-actions.vue")
+        _["dashboard-grid-filter"] = () => import("./grid-filter.vue")
+        _["dashboard-table-controls"] = () => import("./table-controls.vue")
+        _["dashboard-table-footer"] = () => import("./table-footer.vue")
+        _["dashboard-input"] = () => import("./el/input.vue")
+        _["dashboard-loader"] = () => import("./el/loader.vue")
+        _["dashboard-user-card"] = () => import("./el/user-card.vue")
+        _["dashboard-user-list"] = () => import("./el/user-list.vue")
+        _["factor-input-sortable"] = () => import("./el/sortable.vue")
         return _
       })
     }
@@ -38,7 +38,7 @@ export default Factor => {
 
         _.push({
           path: dashboardRoute,
-          component: () => import("./wrap"),
+          component: () => import("./wrap.vue"),
           children: applyFilters("dashboard-routes", [
             {
               path: "admin",

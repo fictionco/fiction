@@ -67,8 +67,8 @@
 import { DOM, setting } from "@factor/tools"
 export default {
   components: {
-    "site-brand": () => import("./el/logo-bulma"),
-    "page-sidebar": () => import("./sidebar")
+    "site-brand": () => import("./el/logo-bulma.vue"),
+    "page-sidebar": () => import("./sidebar.vue")
   },
   data() {
     return {

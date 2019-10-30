@@ -1,11 +1,12 @@
 import { prefetchPost } from "@factor/post"
-import { applyFilters, addFilter, addCallback } from "@factor/tools"
+import { applyFilters, addFilter, addCallback, toLabel } from "@factor/tools"
+import { can } from "@factor/user"
 
 addCallback("site-prefetch", _ => prefetchPost(_))
 addCallback("client-route-before", _ => prefetchPost({ clientOnly: true, ..._ }))
 
 addFilter("components", _ => {
-  _["factor-post-edit"] = () => import("./el/edit-link")
+  _["factor-post-edit"] = () => import("./el/edit-link.vue")
   return _
 })
 
@@ -14,23 +15,23 @@ addFilter("dashboard-routes", _ => {
     ..._,
     {
       path: "posts",
-      component: () => import("./view/dashboard-list")
+      component: () => import("./view/dashboard-list.vue")
     },
     {
       path: "posts/edit",
-      component: () => import("./view/dashboard-edit")
+      component: () => import("./view/dashboard-edit.vue")
     },
     {
       path: "posts/:postType/edit",
-      component: () => import("./view/dashboard-edit")
+      component: () => import("./view/dashboard-edit.vue")
     },
     {
       path: "posts/:postType/add-new",
-      component: () => import("./view/dashboard-edit")
+      component: () => import("./view/dashboard-edit.vue")
     },
     {
       path: "posts/:postType",
-      component: () => import("./view/dashboard-list")
+      component: () => import("./view/dashboard-list.vue")
     }
   ]
 })
@@ -46,9 +47,7 @@ addFilter("dashboard-routes", _ => {
 addFilter("admin-menu", _ => {
   this.getPostTypes()
     .filter(({ showAdmin, accessLevel }) => {
-      return showAdmin === false || (accessLevel && !Factor.$user.can({ accessLevel }))
-        ? false
-        : true
+      return showAdmin === false || (accessLevel && !can({ accessLevel })) ? false : true
     })
     .forEach(({ postType, namePlural, icon = "", add = "add-new" }) => {
       const subMenu = []

@@ -4,15 +4,11 @@ import Factor from "@factor/core"
 export async function importPlugins(plugins) {
   const _modules = await getExports(plugins)
 
-  for (let { key, _exports } of _modules) {
-    const { default: defaultExport, install } = _exports
+  for (let { _exports } of _modules) {
+    const { default: defaultExport } = _exports
 
     if (defaultExport && typeof defaultExport == "function") {
-      Factor[`$${key}`] = Factor.prototype[`$${key}`] = await defaultExport(Factor)
-    }
-
-    if (install && typeof install == "function") {
-      await install()
+      await defaultExport(Factor)
     }
   }
 
@@ -24,7 +20,7 @@ export async function getExports(items) {
     Object.keys(items).map(async key => {
       let _exports
       try {
-        _exports = await plugins[key]()
+        _exports = await items[key]()
       } catch (error) {
         error.message = `Importing "${key}": ${error.message}`
         throw new Error(error)

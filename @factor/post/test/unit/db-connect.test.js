@@ -1,5 +1,3 @@
-import Factor from "@factor/core"
-
 import mongoose from "mongoose"
 
 jest.mock("mongoose")

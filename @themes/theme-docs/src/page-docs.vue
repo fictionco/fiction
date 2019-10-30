@@ -20,7 +20,7 @@ import docs from "./docs-handler"
 export default {
   components: {
     "page-sidebar": () => import("./sidebar"),
-    "docs-footer": () => import("./el/el-docs-footer"),
+    "docs-footer": () => import("./el/el-docs-footer.vue"),
     "docs-entry": () => import("./el/entry")
   },
   data() {

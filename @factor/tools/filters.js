@@ -52,7 +52,7 @@ export class FactorFilters {
     return this._applied[name]
   }
 
-  add(id, filter, { context = false, priority = 100, key = "", reloads = false } = {}) {
+  add(id, filter, { context = false, priority = 100, key = "" } = {}) {
     if (!this._filters[id]) this._filters[id] = {}
 
     // create unique ID
