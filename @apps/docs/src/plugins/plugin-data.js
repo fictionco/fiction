@@ -29,7 +29,7 @@ export default () => {
           url: `https://api.npmjs.org/downloads/point/last-month/${slug}`
         },
         {
-          _id: "github",
+          _id: "githubFiles",
           url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@plugins/${cleanSlug}`,
           options: {
             headers: {
