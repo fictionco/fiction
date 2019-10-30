@@ -1,5 +1,5 @@
 import loadImage from "blueimp-load-image"
-import Factor from "@factor/core"
+
 import { pushToFilter, storeItem } from "@factor/tools"
 import { endpointRequest, authorizedRequest } from "@factor/endpoint"
 import storageSchema from "./schema"
@@ -9,7 +9,7 @@ pushToFilter("data-schemas", () => storageSchema())
 export async function dataURL(file) {
   const reader = new FileReader()
 
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     reader.addEventListener("load", function(e) {
       resolve(e.target.result)
     })

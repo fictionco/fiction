@@ -67,7 +67,7 @@
 import { setting } from "@factor/tools"
 export default {
   components: {
-    "el-hero": () => import("./el/hero")
+    "el-hero": () => import("./el/hero.vue")
   },
   data() {
     return {
@@ -116,7 +116,7 @@ export default {
     setting,
     async send() {
       this.sending = true
-      const { name, email, message } = this.form
+      const { email } = this.form
       // this.$email.send({
       //   to: ["raylopezaleman@gmail.com"],
       //   subject: `Contact Form: ${name} ${email}`,

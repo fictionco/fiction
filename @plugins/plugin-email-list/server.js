@@ -36,7 +36,7 @@ export default Factor => {
 
       // If email already exists, update it with new code
       if (result.nModified == 0) {
-        const r2 = await this.postModel().updateOne(
+        await this.postModel().updateOne(
           { uniqueId: this.uniqueId(listId), "list.email": email },
           { $set: { "list.$.code": code } }
         )

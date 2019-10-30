@@ -29,7 +29,7 @@ export default {
   mounted() {
     this.$watch(
       `value`,
-      function(v) {
+      function() {
         this.setHeight()
       },
       { immediate: true }

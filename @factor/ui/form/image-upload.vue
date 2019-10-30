@@ -172,13 +172,13 @@ export default {
       const dropEl = jq.find(".image-drop")
       this.imgInput = jq.find(`.input-upload`)
 
-      dropEl.on("dragenter", e => {
+      dropEl.on("dragenter", () => {
         dropEl.addClass("dragover")
       })
-      dropEl.on("dragleave", e => {
+      dropEl.on("dragleave", () => {
         dropEl.removeClass("dragover")
       })
-      dropEl.on("drop", e => {
+      dropEl.on("drop", () => {
         dropEl.removeClass("dragover")
       })
 
@@ -254,14 +254,14 @@ export default {
       }
     },
 
-    uploadFile({ meta, file, index, path }) {
+    uploadFile({ file, index, path }) {
       const item = this.uploading[index]
 
       this.$emit("upload", { file, index, path, item })
 
       uploadImage({
         file,
-        onPrep: ({ mode, percent, preview = false }) => {
+        onPrep: ({ preview = false }) => {
           if (preview) this.$set(item, "url", preview)
           this.$set(item, "status", "preprocess")
         },

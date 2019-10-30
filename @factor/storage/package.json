@@ -1,5 +1,5 @@
 {
-  "name": "@factor/core-storage",
+  "name": "@factor/storage",
   "factor": {
     "target": {
       "app": "index",
