@@ -26,7 +26,7 @@
 <script>
 export default {
   components: {
-    "site-logo": () => import("./logo")
+    "site-logo": () => import("./logo.vue")
   },
   data() {
     return {
@@ -41,7 +41,7 @@ export default {
         this.toggle = v
       }
 
-      this.clickHandler = e => {
+      this.clickHandler = () => {
         this.toggle = false
 
         document.removeEventListener("click", this.clickHandler)

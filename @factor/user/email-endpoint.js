@@ -41,7 +41,7 @@ export async function verifyEmail({ _id, code }, { bearer }) {
   }
 }
 
-export async function sendVerifyEmail({ email, _id, user }, { bearer }) {
+export async function sendVerifyEmail({ email, _id }, { bearer }) {
   const emailVerificationCode = randomToken()
 
   await savePost({ data: { _id, emailVerificationCode, postType: "user" } }, { bearer })

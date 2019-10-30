@@ -51,8 +51,8 @@
   </div>
 </template>
 <script>
-import { DOM } from "@factor/tools/browser"
-import { throttle, setting } from "@factor/tools"
+import { DOM , throttle, setting } from "@factor/tools"
+
 import docs from "./docs-handler"
 export default {
   props: {

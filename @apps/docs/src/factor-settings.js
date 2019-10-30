@@ -1,3 +1,5 @@
+import { isLoggedIn } from "@factor/user"
+
 export default {
   metaInfo: {
     default: {
@@ -193,11 +195,11 @@ export default {
       {
         event: "signin-modal",
         name: "Sign In &rarr;",
-        condition: () => !Factor.$user.isLoggedIn()
+        condition: () => !isLoggedIn()
       },
       {
         component: () => Factor.$components["plugin-signin-profile-menu"],
-        condition: () => Factor.$user.isLoggedIn()
+        condition: () => isLoggedIn()
       }
     ]
   },

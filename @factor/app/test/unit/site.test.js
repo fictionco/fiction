@@ -2,19 +2,17 @@
  * @jest-environment jsdom
  */
 
-import Factor from "vue"
-import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
-import { render, renderToString } from "@vue/server-test-utils"
-import extendApp from "@factor/extend"
-import { waitFor } from "@test/utils"
+import { mount, createLocalVue } from "@vue/test-utils"
+import { renderToString } from "@vue/server-test-utils"
+import { extendApp } from "@factor/extend"
+
 import VueRouter from "vue-router"
 
-let _app
 let localVue
 let router
 describe("site component", () => {
   beforeAll(async () => {
-    await extendApp().extend()
+    await extendApp()
     localVue = createLocalVue()
     localVue.use(VueRouter)
     router = new VueRouter({

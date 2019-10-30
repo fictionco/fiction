@@ -44,11 +44,11 @@
 <script>
 export default {
   components: {
-    "widget-header": () => import("./widget-header"),
-    "figure-plugins": () => import("./figure-plugins"),
-    "plugins-index": () => import("./plugins-index"),
-    //"plugins-sidebar": () => import("./plugins-sidebar"),
-    "widget-cta": () => import("./widget-cta")
+    "widget-header": () => import("./widget-header.vue"),
+    "figure-plugins": () => import("./figure-plugins.vue"),
+    "plugins-index": () => import("./plugins-index.vue"),
+    //"plugins-sidebar": () => import("./plugins-sidebar.vue"),
+    "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {

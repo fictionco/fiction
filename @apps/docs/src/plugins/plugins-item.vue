@@ -91,7 +91,7 @@ export default {
   computed: {
     pluginName() {
       // Replace dashes with spaces to entry name
-      let spacedName = this.entry.name.replace(/(?:^|[\s\-\_\.])/g, " ")
+      let spacedName = this.entry.name.replace(/(?:^|[\s\-_.])/g, " ")
 
       // Return entry name without @factor text
       return spacedName.replace("@factor/", "")
@@ -108,21 +108,6 @@ export default {
       let something = value
 
       let date = new Date(something)
-
-      const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-      ]
 
       let year = date.getFullYear()
       let month = date.toLocaleString("default", { month: "short" })
