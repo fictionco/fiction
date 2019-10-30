@@ -1,4 +1,4 @@
-import { sanitizeHtml } from "@factor/tools"
+import { sanitizeHtml, addFilter } from "@factor/tools"
 
 addFilter("client-directives", _ => {
   _["formatted-text"] = function(el, binding) {

@@ -1,9 +1,6 @@
-import { resolve, join } from "path"
+import { getPort, loadFixture } from "@test/utils"
 
-import { loadFixture, getPort, waitFor } from "@test/utils"
-
-let Factor
-let port
+let Factor, port
 describe("Meta", () => {
   beforeAll(async () => {
     Factor = await loadFixture("@test/meta")
@@ -16,8 +13,8 @@ describe("Meta", () => {
 
     expect(html).toContain("<title>title template</title>")
     expect(html).toContain("this is the description")
-    expect(html).toContain(`lang="en"`)
-    expect(html).toContain(`amp`)
+    expect(html).toContain('lang="en"')
+    expect(html).toContain("amp")
   })
 
   test("/mutation", async () => {
@@ -33,10 +30,12 @@ describe("Meta", () => {
     expect(html).toContain("async-description")
   })
 
-  // test("/store-data", async () => {
-  //   const html = await Factor.$server.renderRoute({ url: "/store-data" })
-  //   expect(html).toContain("<h1>loaded</h1>")
-  // })
+  /*
+   * Test("/store-data", async () => {
+   *   const html = await Factor.$server.renderRoute({ url: "/store-data" })
+   *   expect(html).toContain("<h1>loaded</h1>")
+   * })
+   */
 
   // Close server and ask nuxt to stop listening to file changes
   afterAll(async () => {

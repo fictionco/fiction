@@ -1,6 +1,6 @@
 <template>
   <label class="checkbox-wrap">
-    <input type="checkbox" class="checkbox" :value="value" v-on="listeners" >
+    <input type="checkbox" class="checkbox" :value="value" v-on="listeners" />
     <span v-if="label" class="checkbox-label">{{ label }}</span>
   </label>
 </template>

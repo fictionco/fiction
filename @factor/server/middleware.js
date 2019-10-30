@@ -2,8 +2,8 @@ import bodyParser from "body-parser"
 import compression from "compression"
 import helmet from "helmet"
 import logger from "./logger"
-import { applyFilters } from "@factor/tools"
-import { setting } from "@factor/tools"
+import { applyFilters , setting } from "@factor/tools"
+
 import { getPath } from "@factor/paths"
 
 import { serveStatic } from "./util"

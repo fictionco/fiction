@@ -1,6 +1,4 @@
-import { resolve, join } from "path"
-
-import { loadFixture, getPort, waitFor } from "@test/utils"
+import { loadFixture, getPort } from "@test/utils"
 let Factor
 let port
 describe("SSR", () => {

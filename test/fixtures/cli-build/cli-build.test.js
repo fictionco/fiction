@@ -1,6 +1,6 @@
-import { resolve, join } from "path"
+import { resolve } from "path"
 import { spawn } from "cross-spawn"
-import { writeFileSync, removeSync } from "fs-extra"
+import { removeSync } from "fs-extra"
 
 import { getPort, rp, waitFor } from "@test/utils"
 
