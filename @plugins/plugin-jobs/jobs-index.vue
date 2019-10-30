@@ -73,7 +73,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(to) {
+      handler: function() {
         this.getPosts()
       }
     }
@@ -89,7 +89,7 @@ export default {
     async getPosts() {
       this.loading = true
 
-      const r = await requestPostIndex({
+      await requestPostIndex({
         postType: this.postType,
         tag: this.tag,
         status: "published",

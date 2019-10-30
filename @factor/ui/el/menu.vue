@@ -37,8 +37,8 @@ export default {
     },
     setToggle() {
       // removeListener only works with named functions
-      const that = this
-      this.clickHandler = e => {
+
+      this.clickHandler = () => {
         if (this.toggle) {
           this.toggle = false
           document.removeEventListener("click", this.clickHandler, false)

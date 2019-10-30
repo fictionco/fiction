@@ -1,7 +1,5 @@
-export default Factor => {
-  return {
-    dashboard: {
-      route: "/dashboard"
-    }
+export default {
+  dashboard: {
+    route: "/dashboard"
   }
 }

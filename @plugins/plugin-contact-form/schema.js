@@ -1,6 +1,4 @@
-export default Factor => {
-  return {
-    name: "contact-form",
-    anonymousUserCanCreate: true
-  }
+export default {
+  name: "contact-form",
+  anonymousUserCanCreate: true
 }

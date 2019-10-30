@@ -1,39 +1,35 @@
 import { pushToFilter, setting } from "@factor/tools"
 import { writeConfig } from "@factor/setup"
-export default Factor => {
-  return new (class {
-    constructor() {
-      this.clientApiKey = setting("bugsnag.client_api_key")
 
-      this.setupTitle = "Plugin: Bugsnag"
-      this.addSetupCli(this.setupTitle)
+const clientApiKey = setting("bugsnag.client_api_key")
 
-      if (!this.clientApiKey) {
-        pushToFilter("setup-needed", { title: this.setupTitle })
+const setupTitle = "Plugin: Bugsnag"
 
-        return
-      }
-    }
+addSetupCli(setupTitle)
 
-    addSetupCli(name) {
-      pushToFilter("cli-add-setup", {
-        name,
-        value: "bugsnag",
-        callback: async ({ program, inquirer }) => {
-          const questions = [
-            {
-              name: "client_api_key",
-              message: "What's your public client API key?",
-              type: "input"
-            }
-          ]
-          let { client_api_key } = await inquirer.prompt(questions)
+if (!clientApiKey) {
+  pushToFilter("setup-needed", { title: setupTitle })
 
-          await writeConfig("factor-config", {
-            bugsnag: { client_api_key }
-          })
+  return
+}
+
+function addSetupCli(name) {
+  pushToFilter("cli-add-setup", {
+    name,
+    value: "bugsnag",
+    callback: async ({ inquirer }) => {
+      const questions = [
+        {
+          name: "client_api_key",
+          message: "What's your public client API key?",
+          type: "input"
         }
+      ]
+      let { client_api_key } = await inquirer.prompt(questions)
+
+      await writeConfig("factor-config", {
+        bugsnag: { client_api_key }
       })
     }
-  })()
+  })
 }

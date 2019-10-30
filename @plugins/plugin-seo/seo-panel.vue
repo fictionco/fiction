@@ -36,7 +36,8 @@ export default {
     link() {
       return link(this.postId, { root: true })
     }
-  }
+  },
+  methods: { excerpt }
 }
 </script>
 <style lang="less">

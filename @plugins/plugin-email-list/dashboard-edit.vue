@@ -1,3 +1,4 @@
+
 <template>
   <dashboard-pane :title="title" class="email-list-edit">
     <dashboard-grid-controls>
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import { postTypeMeta } from "@factor/post"
 import { toLabel, storeItem, stored } from "@factor/tools"
 export default {

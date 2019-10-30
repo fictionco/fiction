@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { emitEvent } from "@factor/tools"
 class FactorError extends Error {
   constructor({ message, statusCode, properties = {} }) {

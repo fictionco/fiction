@@ -36,6 +36,7 @@
   </dashboard-pane>
 </template>
 <script>
+/* eslint-disable no-unused-vars */
 import { getPermalink, getStatusCount } from "@factor/post"
 import { toLabel, standardDate } from "@factor/tools"
 export default {
