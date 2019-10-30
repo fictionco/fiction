@@ -33,7 +33,6 @@ export default {
   overflow: hidden;
   border-top: 1px solid rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  //box-shadow: inset 0 0 1px 3px rgba(0, 0, 0, 0.03);
 
   .content-pad {
     display: grid;
@@ -47,7 +46,6 @@ export default {
       font-size: 2.5em;
       line-height: 1.1;
       font-weight: 500;
-      //margin: 0 0 .5rem;
       letter-spacing: -0.03em;
       text-transform: capitalize;
     }

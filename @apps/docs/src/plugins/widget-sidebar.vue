@@ -5,15 +5,18 @@
         <header class="section-header">
           <h1 class="title">Popular</h1>
         </header>
-        <div v-for="(entry, index) in pluginsPopular" :key="index" class="entry-plugin">
+        <factor-link
+          v-for="(entry, index) in pluginsPopular"
+          :key="index"
+          :path="pluginPermalink(entry._id)"
+          class="entry-plugin"
+        >
           <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
             <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
           </div>
 
           <div class="entry-content">
-            <h3 class="title">
-              <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry.name) }}</factor-link>
-            </h3>
+            <h3 class="title">{{ formatName(entry.name) }}</h3>
             <div class="meta">
               <div
                 v-if="entry.downloads"
@@ -21,22 +24,25 @@
               >{{ formatDownloads(entry.downloads) }} downloads</div>
             </div>
           </div>
-        </div>
+        </factor-link>
       </section>
 
       <section class="plugins-new">
         <header class="section-header">
           <h1 class="title">New</h1>
         </header>
-        <div v-for="(entry, index) in pluginsNew" :key="index" class="entry-plugin">
+        <factor-link
+          v-for="(entry, index) in pluginsNew"
+          :key="index"
+          :path="pluginPermalink(entry._id)"
+          class="entry-plugin"
+        >
           <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
             <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
           </div>
 
           <div class="entry-content">
-            <h3 class="title">
-              <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry.name) }}</factor-link>
-            </h3>
+            <h3 class="title">{{ formatName(entry.name) }}</h3>
             <div class="meta">
               <div v-if="entry.time.created" class="released">
                 Released
@@ -44,21 +50,24 @@
               </div>
             </div>
           </div>
-        </div>
+        </factor-link>
       </section>
 
       <section class="plugins-updated">
         <header class="section-header">
           <h1 class="title">Recently Updated</h1>
         </header>
-        <div v-for="(entry, index) in pluginsRecentlyUpdated" :key="index" class="entry-plugin">
+        <factor-link
+          v-for="(entry, index) in pluginsRecentlyUpdated"
+          :key="index"
+          :path="pluginPermalink(entry._id)"
+          class="entry-plugin"
+        >
           <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
             <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
           </div>
           <div class="entry-content">
-            <h3 class="title">
-              <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry.name) }}</factor-link>
-            </h3>
+            <h3 class="title">{{ formatName(entry.name) }}</h3>
             <div class="meta">
               <div v-if="entry.time.created" class="released">
                 Updated
@@ -66,7 +75,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </factor-link>
       </section>
     </div>
   </div>
@@ -101,10 +110,7 @@ export default {
   },
   methods: {
     formatName(name) {
-      // Replace dashes with spaces to entry name
       let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
-
-      // Return entry name without @factor text
       return spacedName.replace("@factor/", "")
     },
     pluginPermalink(permalink) {
@@ -153,7 +159,6 @@ export default {
 // Plugins Sidebar
 .plugins-sidebar {
   padding: 0;
-  margin-bottom: 4rem;
 
   .section-header {
     .title {
@@ -188,14 +193,18 @@ export default {
       display: grid;
       grid-template-columns: auto 3fr;
       grid-gap: 1rem;
-      margin-bottom: 0rem;
-      padding: 0.5rem 1rem 0.5rem 0;
+      padding: 0.5rem 0;
       border-radius: 6px;
       transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       position: relative;
-      a {
-        text-decoration: none;
+      color: var(--color-text);
+      &:hover {
+        background: #f6f9fc;
+        .entry-content .title {
+          color: var(--color-primary);
+        }
       }
+
       .entry-image {
         display: flex;
         justify-content: center;
@@ -209,7 +218,6 @@ export default {
         overflow: hidden;
         img {
           width: 100%;
-          //max-width: 100%;
         }
       }
       .entry-content {
@@ -218,12 +226,6 @@ export default {
           font-weight: 500;
           margin-bottom: 5px;
           text-transform: capitalize;
-          a {
-            color: var(--color-text);
-            &:hover {
-              color: var(--color-primary);
-            }
-          }
         }
         .meta {
           font-size: 0.8rem;
@@ -231,23 +233,16 @@ export default {
       }
 
       @media (max-width: 900px) {
-        grid-template-columns: 1fr 3fr;
-        padding: 1rem;
-        background: #fff;
-        border-radius: 6px;
-        border: 1px solid var(--color-bg-contrast-more);
-        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
         .entry-image {
-          height: 130px;
-          width: auto;
-          border-radius: 0;
-          box-shadow: none;
-          background: var(--color-bg-contrast);
-          border: 1px solid var(--color-bg-contrast-more);
+          height: 50px;
+          width: 50px;
         }
         .entry-content {
           .title {
-            font-size: 1.6em;
+            font-size: 1.3em;
+          }
+          .meta {
+            font-size: 1em;
           }
         }
       }
