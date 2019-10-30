@@ -35,7 +35,5 @@ export async function handleContext(Factor, { context, app, router, store }) {
   context = applyFilters("ssr-context-ready", context, ssrConfig)
 
   // Add this last as the final "state" of the server context should always be rendered to page
-  context.state = store.state
-
-  return context
+  return { ...context, state: store.state }
 }

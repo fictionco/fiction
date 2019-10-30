@@ -1,6 +1,7 @@
 import { applyFilters, runCallbacks } from "@factor/tools"
 import Factor from "@factor/core"
 import loaderPlugins from "~/.factor/loader-app"
+
 import { importPlugins } from "./util"
 
 Factor.config.productionTip = false

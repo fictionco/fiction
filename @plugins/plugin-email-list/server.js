@@ -51,7 +51,7 @@ export default Factor => {
       return true
     }
 
-    async deleteEmails({ emails, listId = "default" }, { bearer }) {
+    async deleteEmails({ emails, listId = "default" }) {
       // query resource: https://stackoverflow.com/a/48933447/1858322
       const result = await this.postModel().updateOne(
         { uniqueId: this.uniqueId(listId) },

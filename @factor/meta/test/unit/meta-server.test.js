@@ -8,8 +8,8 @@ const { createRenderer } = require("vue-server-renderer")
 const { dirname } = require("path")
 const { readFileSync } = require("fs-extra")
 
-import factorMeta from "../.."
-import appSettings from "@factor/app/factor-settings"
+import "../.."
+import appSettings from "@factor/app/core-settings"
 // import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
 // import { render, renderToString } from "@vue/server-test-utils"
 let renderer
@@ -17,7 +17,6 @@ let App
 describe("meta info server", () => {
   beforeAll(async () => {
     await extendApp({
-      plugins: { factorMeta },
       settings: { appSettings }
     })
 

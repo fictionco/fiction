@@ -1,6 +1,6 @@
 import { link } from "@factor/post"
 import { excerpt, stored } from "@factor/tools"
-
+import Factor from "@factor/core"
 export function titleTag(_id) {
   const { titleTag, title } = stored(_id) || {}
   return titleTag || title || ""

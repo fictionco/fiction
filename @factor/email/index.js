@@ -1,10 +1,5 @@
 import { endpointRequest } from "@factor/endpoint"
-export default () => {
-  return new (class {
-    constructor() {}
 
-    async request(method, params) {
-      return await endpointRequest({ id: "email", method, params })
-    }
-  })()
+export async function sendEmailRequest(method, params) {
+  return await endpointRequest({ id: "email", method, params })
 }

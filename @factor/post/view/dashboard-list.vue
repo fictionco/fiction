@@ -15,7 +15,6 @@
 <script>
 import {
   requestPostIndex,
-  getPermalink,
   postTypeMeta,
   requestPostDeleteMany,
   requestPostSaveMany
@@ -44,7 +43,7 @@ export default {
     templateLoader() {
       const { listTemplate } = this.postTypeMeta
 
-      return listTemplate ? listTemplate : () => import("./posts-list")
+      return listTemplate ? listTemplate : () => import("./posts-list.vue")
     },
     postType() {
       return this.$route.params.postType || ""
@@ -73,7 +72,7 @@ export default {
     }
   },
   watch: {
-    $route: function(to, from) {
+    $route: function() {
       this.setPosts()
     }
   },
