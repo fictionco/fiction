@@ -153,7 +153,7 @@ export default {
   },
   methods: {
     formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
 
       return spacedName.replace("@factor/", "")
     },

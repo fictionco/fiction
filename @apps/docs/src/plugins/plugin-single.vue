@@ -62,7 +62,7 @@
   </div>
 </template>
 <script>
-import { setting, stored, storeItem, renderMarkdown } from "@factor/tools"
+import { setting, storeItem, renderMarkdown, pickBy } from "@factor/tools"
 import dataUtility from "./plugin-data"
 export default {
   components: {
@@ -88,7 +88,7 @@ export default {
   computed: {
     pluginData: function() {
       let pageSlug = this.$route.params.slug
-      return _.pickBy(this.getData, function(u) {
+      return pickBy(this.getData, function(u) {
         let name = u.name.replace("@factor/", "")
         return name === pageSlug || ""
       })
@@ -122,7 +122,7 @@ export default {
       return images[0]
     },
     formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
 
       return spacedName.replace("@factor/", "")
     },

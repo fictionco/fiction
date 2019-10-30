@@ -5,7 +5,7 @@ export default () => {
   return new (class {
     constructor() {}
 
-    async getIndex(page = 1) {
+    async getIndex() {
       const slugs = plugins //["axios", "open", "lodash"]
 
       const index = await Promise.all(slugs.map(async slug => this.getSingle(slug)))

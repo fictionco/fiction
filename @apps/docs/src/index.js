@@ -1,5 +1,5 @@
 import dataUtility from "./plugins/plugin-data"
-import { addCallback, setting } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 export default Factor => {
   return new (class {
     constructor() {
@@ -88,35 +88,35 @@ export default Factor => {
           // },
           {
             path: "/themes",
-            component: () => import("./v-themes")
+            component: () => import("./v-themes.vue")
           },
           {
             path: "/compare",
-            component: () => import("./page-compare")
+            component: () => import("./page-compare.vue")
           },
           {
             path: "/",
-            component: () => import("./home/v-home")
+            component: () => import("./home/v-home.vue")
           },
           {
             path: `/${base}`,
-            component: () => import("./page-docs")
+            component: () => import("./page-docs.vue")
           },
           {
             path: `/${base}/:doc`,
-            component: () => import("./page-docs")
+            component: () => import("./page-docs.vue")
           },
           {
             path: `/plugins`,
-            component: () => import("./plugins/plugins-wrap"),
+            component: () => import("./plugins/plugins-wrap.vue"),
             children: [
               {
                 path: `/`,
-                component: () => import("./plugins/v-plugins")
+                component: () => import("./plugins/v-plugins.vue")
               },
               {
                 path: `/plugin/:slug`,
-                component: () => import("./plugins/plugin-single")
+                component: () => import("./plugins/plugin-single.vue")
               }
             ]
           }
