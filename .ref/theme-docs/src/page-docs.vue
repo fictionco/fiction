@@ -19,9 +19,9 @@
 import docs from "./docs-handler"
 export default {
   components: {
-    "page-sidebar": () => import("./sidebar"),
+    "page-sidebar": () => import("./sidebar.vue"),
     "docs-footer": () => import("./el/el-docs-footer.vue"),
-    "docs-entry": () => import("./el/entry")
+    "docs-entry": () => import("./el/entry.vue")
   },
   data() {
     return {

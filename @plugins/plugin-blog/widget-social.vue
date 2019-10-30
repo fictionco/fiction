@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { store } from "@factor/tools"
+import { stored } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   props: {

@@ -32,7 +32,7 @@ export default Factor => {
         return _
       })
 
-      const newsBaseRoute = setting("news.postRoute")
+      //const newsBaseRoute = setting("news.postRoute")
 
       addFilter("post-types", _ => {
         _.push({

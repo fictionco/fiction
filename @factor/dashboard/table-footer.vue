@@ -11,7 +11,7 @@
 <script>
 export default {
   components: {
-    "table-pagination": () => import("./el/pagination")
+    "table-pagination": () => import("./el/pagination.vue")
   },
   props: {
     tabs: { type: Array, default: () => [] },

@@ -27,7 +27,7 @@
 import { DOM } from "@factor/tools"
 export default {
   components: {
-    "page-sidebar": () => import("./sidebar"),
+    "page-sidebar": () => import("./sidebar.vue"),
     "site-brand": () => import("./el/brand.vue")
   },
   data() {
@@ -57,7 +57,7 @@ export default {
         this.toggle = v
       }
 
-      this.clickHandler = e => {
+      this.clickHandler = () => {
         this.toggle = false
 
         document.removeEventListener("click", this.clickHandler)

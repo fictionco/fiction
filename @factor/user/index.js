@@ -13,7 +13,7 @@ import {
 } from "@factor/tools"
 import log from "@factor/logger"
 import userSchema from "./schema"
-
+import Factor from "@factor/core"
 addFilter("before-app", () => {
   addMixin()
 
@@ -39,18 +39,20 @@ export async function init(callback) {
 }
 
 async function initializeUser(user) {
-  _initializedUser = new Promise(async (resolve, reject) => {
+  _initializedUser = async resolve => {
+    let resolvedUser
     if (currentUser()._id && !user) {
-      user = currentUser()
+      resolvedUser = currentUser()
     } else {
       await Factor.$app.client()
-      user = await retrieveAndSetCurrentUser(user)
+
+      resolvedUser = await retrieveAndSetCurrentUser(user)
     }
 
-    await runCallbacks("before-user-init", user)
+    await runCallbacks("before-user-init", resolvedUser)
 
-    resolve(user)
-  })
+    resolve(resolvedUser)
+  }
 
   return _initializedUser
 }
@@ -189,8 +191,8 @@ export function can({ role, accessLevel }) {
 }
 
 function handleAuthRouting() {
-  addCallback("client-route-before", async ({ to, from, next }) => {
-    const user = await this.init() //currentUser()
+  addCallback("client-route-before", async ({ to, next }) => {
+    const user = await init() //currentUser()
     const { path: toPath } = to
 
     // Is authentication needed
@@ -199,7 +201,8 @@ function handleAuthRouting() {
     })
 
     // Get accessLevel needed
-    let accessLevel = 0
+    // eslint-disable-next-line no-unused-vars
+    let accessLevel
     to.matched.forEach(_r => {
       if (_r.meta.accessLevel) {
         accessLevel = _r.meta.accessLevel
@@ -207,9 +210,7 @@ function handleAuthRouting() {
     })
 
     if (auth === true && !user._id) {
-      emitEvent("signin-modal", {
-        redirect: toPath
-      })
+      emitEvent("signin-modal", { redirect: toPath })
       next(false)
     }
   })
@@ -219,10 +220,7 @@ function handleAuthRouting() {
     const auth = matched.some(_r => _r.meta.auth)
 
     if (auth === true && (!user || !user._id)) {
-      Factor.$router.push({
-        path: "/signin",
-        query: { redirect: path }
-      })
+      Factor.$router.push({ path: "/signin", query: { redirect: path } })
     }
   })
 }
