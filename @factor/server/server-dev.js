@@ -21,7 +21,7 @@ let configClient
 
 let updateCallback
 let updateReason
-const updateLoaders = {}
+let updateLoaders = {}
 let updateSpinner
 let template
 
@@ -158,7 +158,7 @@ function clientCompiler() {
 
     return { compiler: clientCompiler }
   } catch (error) {
-    consola.error("[WEBPACK CLIENT COMPILER]", error)
+    log.error("[WEBPACK CLIENT COMPILER]", error)
   }
 }
 

@@ -19,7 +19,7 @@ addFilter("before-app", () => {
 
   // Authentication events only work after SSR
   if (!isNode) {
-    initializeUser()
+    requestInitializeUser()
     handleAuthRouting()
   }
 })
@@ -30,7 +30,7 @@ let _initializedUser
 
 // Utility function that calls a callback when the user is set initially
 // If due to route change then initialized var is set and its called immediately
-export async function init(callback) {
+export async function userInitialized(callback) {
   const user = await _initializedUser
 
   if (callback) callback(user)
@@ -38,7 +38,7 @@ export async function init(callback) {
   return user
 }
 
-async function initializeUser(user) {
+async function requestInitializeUser(user) {
   _initializedUser = async resolve => {
     let resolvedUser
     if (currentUser()._id && !user) {
@@ -80,7 +80,7 @@ export async function authenticate(params) {
   await runCallbacks("authenticated", user)
 
   if (user) {
-    user = await initializeUser(user)
+    user = await requestInitializeUser(user)
   }
 
   return user

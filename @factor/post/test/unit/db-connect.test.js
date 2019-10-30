@@ -1,22 +1,20 @@
 import mongoose from "mongoose"
-
+import * as tools from "@factor/tools"
+import { extendApp } from "@factor/extend"
+import log from "@factor/logger"
 jest.mock("mongoose")
 
-let connector
-describe.skip("db-connect", () => {
+describe("db-connect", () => {
   beforeAll(async () => {
-    await extendApp().extend()
+    await extendApp()
   })
 
   it("adds filters", async () => {
-    const spyCallback = jest.spyOn(filters, "addCallback")
-    connector = connectorUtility()
+    const spyCallback = jest.spyOn(tools, "addCallback")
 
     expect(spyCallback).not.toHaveBeenCalled()
 
     process.env.DB_CONNECTION = "FAKECONNECTIONKEY"
-
-    connector = connectorUtility()
 
     expect(spyCallback).toHaveBeenCalledWith("close-server", expect.any(Function))
     expect(spyCallback).toHaveBeenCalledWith("initialize-server", expect.any(Function))
@@ -29,7 +27,7 @@ describe.skip("db-connect", () => {
     }
     mongoose.connect.mockImplementation(() => Promise.resolve())
 
-    await filters.runCallbacks("initialize-server")
+    await tools.runCallbacks("initialize-server")
 
     expect(mongoose.connect).toHaveBeenCalledWith(process.env.DB_CONNECTION, {
       useNewUrlParser: true
@@ -42,7 +40,7 @@ describe.skip("db-connect", () => {
       close: jest.fn(() => Promise.resolve())
     }
 
-    await filters.runCallbacks("close-server")
+    await tools.runCallbacks("close-server")
 
     expect(mongoose.connection.close).toHaveBeenCalled()
 
@@ -51,13 +49,13 @@ describe.skip("db-connect", () => {
       close: jest.fn(() => Promise.resolve())
     }
 
-    await filters.runCallbacks("close-server")
+    await tools.runCallbacks("close-server")
 
     expect(mongoose.connection.close).not.toHaveBeenCalled()
   })
 
   it("handles connection error", async () => {
-    const __s = jest.spyOn(errors, "logError").mockImplementation(_ => _)
+    const __s = jest.spyOn(log, "error").mockImplementation(_ => _)
     const __err = new Error("some error")
     mongoose.connect.mockImplementation(() => {
       throw __err

@@ -2,11 +2,12 @@
   <edit-user :post="post" />
 </template>
 <script>
+import { userInitialized } from "@factor/user"
 import { stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 export default {
   components: {
-    "edit-user": () => import("./edit")
+    "edit-user": () => import("./edit.vue")
   },
 
   computed: {
@@ -16,11 +17,8 @@ export default {
   },
 
   async mounted() {
-    const user = await this.$user.init()
-
-    if (this.$userId) {
-      await requestPostSingle({ _id: this.$userId, postType: "user" })
-    }
+    const user = await userInitialized()
+    if (user._id) await requestPostSingle({ _id: user._id, postType: "user" })
   }
 }
 </script>

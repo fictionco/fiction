@@ -2,7 +2,7 @@ import { pushToFilter } from "@factor/tools"
 
 pushToFilter("dashboard-routes", {
   path: "account",
-  component: () => import("./account.vue"),
+  component: () => import("./v-account.vue"),
   meta: {
     postType: "user"
   }
@@ -20,8 +20,8 @@ pushToFilter("post-types", {
   nameIndex: "Users",
   nameSingle: "User",
   namePlural: "Users",
-  listTemplate: () => import("./list"),
-  editTemplate: () => import("./edit.vue"),
+  listTemplate: () => import("./v-list.vue"),
+  editTemplate: () => import("./v-edit.vue"),
   baseRoute: "@",
   accessLevel: 500,
   add: false
