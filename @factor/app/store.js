@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 import Vuex from "vuex"
 Factor.use(Vuex)
-import { applyFilters } from "@factor/tools"
+import { applyFilters, addCallback } from "@factor/tools"
 
 addCallback("before-server-plugins", () => createStore())
 

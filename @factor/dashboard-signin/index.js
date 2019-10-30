@@ -1,29 +1,13 @@
-import { addFilter } from "@factor/tools"
+import { pushToFilter, registerOnFilter } from "@factor/tools"
 
-export default Factor => {
-  return new (class {
-    constructor() {
-      addFilter("content-routes", _ => {
-        _.push({
-          name: "signin",
-          path: "/signin",
-          component: () => import("./view-signin.vue")
-        })
+pushToFilter("content-routes", {
+  name: "signin",
+  path: "/signin",
+  component: () => import("./view-signin.vue")
+})
 
-        return _
-      })
+registerOnFilter("components", "plugin-signin-profile-menu", () =>
+  import("./profile-menu.vue")
+)
 
-      addFilter("components", _ => {
-        _["plugin-signin-profile-menu"] = () => import("./profile-menu.vue")
-
-        return _
-      })
-
-      addFilter("site-components", _ => {
-        _["plugin-signin-modal"] = () => import("./modal.vue")
-
-        return _
-      })
-    }
-  })()
-}
+registerOnFilter("site-components", "plugin-signin-modal", () => import("./modal.vue"))

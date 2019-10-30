@@ -2,7 +2,7 @@ import { toLabel, addFilter, pushToFilter, applyFilters, setting } from "@factor
 
 import pageSchema from "./schema"
 
-pushToFilter("data-schemas", () => pageSchema, { key: "page" })
+pushToFilter("data-schemas", () => pageSchema(), { key: "page" })
 
 addFilter("post-types", _ => {
   _.unshift({

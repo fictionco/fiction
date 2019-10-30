@@ -24,7 +24,7 @@ export async function endpointRequest({ id, method, params = {}, headers = {} })
 }
 
 export function endpointPath(_id) {
-  return `/_api/${_id}`
+  return `/_api_/${_id}`
 }
 
 export async function authorizedRequest(path, data, options = {}) {
