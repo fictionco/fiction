@@ -24,7 +24,7 @@
 <script>
 export default {
   components: {
-    "site-brand": () => import("./el/brand")
+    "site-brand": () => import("./el/brand.vue")
   },
   data() {
     return {

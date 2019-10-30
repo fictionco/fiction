@@ -94,13 +94,13 @@ export default {
 
       this.clickHandler()
     },
-    clickHandler(e) {
+    clickHandler() {
       if (this.toggle) {
         this.toggle = false
         document.removeEventListener("click", this.clickHandler, false)
       }
     },
-    setToggle(e) {
+    setToggle() {
       if (!this.$userId) {
         emitEvent("signin-modal")
         return ""

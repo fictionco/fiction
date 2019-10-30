@@ -1,11 +1,8 @@
-import cors from "cors"
-import { parse } from "qs"
-import { getSinglePost } from "@factor/post/server"
-
-import log from "@factor/logger"
 import { addCallback, addFilter, applyFilters } from "@factor/tools"
-
 import { endpointPath } from "@factor/endpoint"
+import { getSinglePost } from "@factor/post/server"
+import { parse } from "qs"
+import log from "@factor/logger"
 
 // Run after other imports have added themselves
 addCallback("initialize-server", () => initializeEndpointServer())
@@ -16,8 +13,7 @@ export function initializeEndpointServer() {
       _.push({
         path: endpointPath(id),
         middleware: [
-          //cors(),
-          async (request, response, next) => {
+          async (request, response) => {
             return await processEndpointRequest({
               request,
               response,

@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { addCallback, pushToFilter } from "@factor/tools"
 import { $DB } from "./database"
 import { $PostServer } from "./endpoint"

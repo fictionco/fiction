@@ -1,6 +1,5 @@
 /* eslint-disable unicorn/no-process-exit */
 
-import Factor from "@factor/core"
 import execa from "execa"
 import listr from "listr"
 import commander from "commander"
@@ -8,7 +7,7 @@ import inquirer from "inquirer"
 import pkg from "./package"
 import log from "@factor/logger"
 
-import extender from "@factor/extend/server"
+import { extendServer } from "@factor/extend/server"
 import transpiler from "@factor/build/transpiler"
 import { getPath, localhostUrl } from "@factor/paths"
 import { runCallbacks, addCallback } from "@factor/tools"
@@ -79,7 +78,7 @@ commander
 commander
   .command("create-loaders")
   .description("Generate extension loaders")
-  .action(_arguments => loaderUtility.generateLoaders())
+  .action(() => loaderUtility.generateLoaders())
 
 commander.parse(process.argv)
 
@@ -145,7 +144,7 @@ async function factorize(_arguments = {}) {
   // Do this for every reset of server
   transpiler()
 
-  await extender().extend(_config)
+  await extendServer(_config)
 
   // Filters must be reloaded with every new restart of server.
   // This adds the filter each time to allow for restart

@@ -169,7 +169,7 @@ export default {
     base: "guide"
   },
   site: {
-    logo: () => import("./el/logo-factor"),
+    logo: () => import("./el/logo-factor.vue"),
     nav: [
       {
         path: "/guide",

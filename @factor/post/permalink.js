@@ -1,6 +1,5 @@
-import Factor from "@factor/core"
 import { postTypeMeta } from "@factor/post"
-import { setting, stored } from "@factor/tools"
+import { setting, stored, slugify } from "@factor/tools"
 export function getPermalink(args = {}) {
   const { postType, permalink = "", root = false, path = false } = args
   const parts = []

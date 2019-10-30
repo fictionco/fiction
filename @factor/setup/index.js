@@ -81,6 +81,7 @@ export async function runSetup(_arguments) {
       type: "list",
       name: `setupItem`,
       message: `What would you like to do?`,
+      // eslint-disable-next-line no-unused-vars
       choices: setups.map(({ callback, ...keep }) => keep)
     })
 

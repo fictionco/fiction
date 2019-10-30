@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import schemaPost from "@factor/post/schema"
 import mongoose from "mongoose/browser"
 import { applyFilters } from "@factor/tools"

@@ -103,7 +103,7 @@ export class PostServer {
     return Array.isArray(_ids) ? result : result[0]
   }
 
-  async postList(params, { bearer }) {
+  async postList(params) {
     let { postType, conditions = {}, select = null, options } = params
 
     options = Object.assign(
@@ -119,7 +119,7 @@ export class PostServer {
     return await getModel(postType).find(conditions, select, options)
   }
 
-  async postIndex(params, { bearer }) {
+  async postIndex(params) {
     let { postType, conditions = {}, options } = params
 
     options = Object.assign(

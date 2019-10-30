@@ -173,7 +173,7 @@ export function resolveFilePath(path) {
   return $paths.resolveFilePath(path)
 }
 
-export function localhostUrl(path) {
+export function localhostUrl() {
   const { routine, port } = this.getHttpDetails()
 
   return `${routine}://localhost:${port}`

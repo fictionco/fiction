@@ -12,12 +12,12 @@
 <script>
 export default {
   components: {
-    sectionIntro: () => import("./section-intro"),
-    sectionAbout: () => import("./section-about"),
-    sectionServices: () => import("./section-services"),
-    sectionPortfolio: () => import("./section-portfolio"),
-    sectionNews: () => import("./section-news"),
-    sectionContact: () => import("./section-contact")
+    sectionIntro: () => import("./section-intro.vue"),
+    sectionAbout: () => import("./section-about.vue"),
+    sectionServices: () => import("./section-services.vue"),
+    sectionPortfolio: () => import("./section-portfolio.vue"),
+    sectionNews: () => import("./section-news.vue"),
+    sectionContact: () => import("./section-contact.vue")
   },
   data() {
     return {

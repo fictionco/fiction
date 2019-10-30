@@ -35,8 +35,8 @@
 import { toLabel } from "@factor/tools"
 export default {
   components: {
-    "dashboard-nav": () => import("./nav"),
-    "dashboard-head": () => import("./head")
+    "dashboard-nav": () => import("./nav.vue"),
+    "dashboard-head": () => import("./head.vue")
   },
   metaInfo() {
     const pageName = this.$route.path.split("/").pop()

@@ -11,7 +11,7 @@ import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   components: {
-    "news-index": () => import("./news/news-index")
+    "news-index": () => import("./news/news-index.vue")
   },
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(to) {
+      handler: function() {
         this.getPosts()
       }
     }
@@ -52,7 +52,7 @@ export default {
     async getPosts() {
       this.loading = true
 
-      const r = await requestPostIndex({
+      await requestPostIndex({
         postType: this.postType,
         tag: this.tag,
         status: "published",

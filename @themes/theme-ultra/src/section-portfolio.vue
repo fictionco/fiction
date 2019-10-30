@@ -23,7 +23,7 @@
 import { setting } from "@factor/tools"
 export default {
   components: {
-    "portfolio-index": () => import("./portfolio/portfolio-index")
+    "portfolio-index": () => import("./portfolio/portfolio-index.vue")
   },
   methods: { setting }
 }

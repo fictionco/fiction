@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken")
 import { addFilter, pushToFilter, applyFilters, addCallback } from "@factor/tools"
-import { getModel, savePost } from "@factor/post/server"
+import { getModel } from "@factor/post/server"
+import jwt from "jsonwebtoken"
 
 export default Factor => {
   return new (class {

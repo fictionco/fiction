@@ -27,7 +27,7 @@ import { DOM } from "@factor/tools"
 export default {
   components: {
     "page-sidebar": () => import("./sidebar"),
-    "site-brand": () => import("./el/brand")
+    "site-brand": () => import("./el/brand.vue")
   },
   data() {
     return {

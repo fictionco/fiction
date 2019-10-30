@@ -2,12 +2,12 @@ export default {
   commentizer: {
     postTypes: ["page"],
     components: {
-      commentizer: () => import("./commentizer"),
-      commentizerAdd: () => import("./commentizer-add"),
-      commentizerDisplay: () => import("./commentizer-display"),
-      commentizerDashboardPanel: () => import("./commentizer-dashboard-panel"),
-      commentizerDashboardList: () => import("./commentizer-dashboard-list"),
-      commentizerDashboardEdit: () => import("./commentizer-dashboard-edit")
+      commentizer: () => import("./commentizer.vue"),
+      commentizerAdd: () => import("./commentizer-add.vue"),
+      commentizerDisplay: () => import("./commentizer-display.vue"),
+      commentizerDashboardPanel: () => import("./commentizer-dashboard-panel.vue"),
+      commentizerDashboardList: () => import("./commentizer-dashboard-list.vue"),
+      commentizerDashboardEdit: () => import("./commentizer-dashboard-edit.vue")
     },
     displayText: "Comments",
     submitText: "Submit Comment",

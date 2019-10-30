@@ -3,7 +3,7 @@ export default {
     templates: [
       {
         _id: "default",
-        component: () => import("./tpl-default")
+        component: () => import("./tpl-default.vue")
       }
     ]
   }

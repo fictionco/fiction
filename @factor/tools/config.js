@@ -20,7 +20,7 @@ export async function configSettings() {
 
   const [config, { factor = {} }] = await Promise.all([
     configImport,
-    import(`${FACTOR_CWD}/package.json`)
+    import(`${process.env.FACTOR_CWD}/package.json`)
   ])
 
   const merged = deepMerge([factor, config])

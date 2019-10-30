@@ -1,5 +1,5 @@
 {
-  "name": "@factor/core-user",
+  "name": "@factor/user",
   "factor": {
     "target": {
       "app": "index",

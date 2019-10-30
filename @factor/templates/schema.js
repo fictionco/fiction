@@ -2,7 +2,7 @@ import { applyFilters } from "@factor/tools"
 export default () => {
   return {
     name: "page",
-    callback: _s => {},
+    callback: () => {},
     schema: applyFilters("page-template-schema", {
       template: String
     }),
