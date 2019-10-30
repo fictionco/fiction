@@ -1,5 +1,6 @@
 {
   "name": "@factor/plugin-ssr-bar",
+  "description": "Elegant progress bar indicator to show your users that something is loading.",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -8,7 +9,8 @@
   "factor": {
     "target": [
       "app"
-    ]
+    ],
+    "title": "SSR Bar"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [

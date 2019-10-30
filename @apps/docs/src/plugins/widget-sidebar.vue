@@ -199,8 +199,10 @@ export default {
         box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
         transform-origin: right top;
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+        overflow: hidden;
         img {
-          max-width: 60%;
+          width: 100%;
+          //max-width: 100%;
         }
       }
       .entry-content {
