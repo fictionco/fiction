@@ -103,14 +103,15 @@ import {
   emitEvent,
   applyFilters,
   stored,
+  timeUtil,
   storeItem
 } from "@factor/tools"
 import { getPermalink, requestPostSave } from "@factor/post"
 export default {
   components: {
-    "input-editor": () => import("../el/editor"),
-    "input-permalink": () => import("../el/permalink"),
-    "input-tags": () => import("../el/tags")
+    "input-editor": () => import("../el/editor.vue"),
+    "input-permalink": () => import("../el/permalink.vue"),
+    "input-tags": () => import("../el/tags.vue")
   },
 
   data() {

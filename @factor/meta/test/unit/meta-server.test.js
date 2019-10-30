@@ -1,13 +1,13 @@
 import Factor from "vue"
 
 import { createApp } from "@factor/app/app"
-import extendApp from "@factor/extend"
+import { extendApp } from "@factor/extend"
 import { pushToFilter } from "@factor/tools"
 import { handleContext } from "@factor/app/ssr-context"
 const { createRenderer } = require("vue-server-renderer")
 const { dirname } = require("path")
 const { readFileSync } = require("fs-extra")
-import { waitFor } from "@test/utils"
+
 import factorMeta from "../.."
 import appSettings from "@factor/app/factor-settings"
 // import { mount, shallowMount, createLocalVue } from "@vue/test-utils"
@@ -19,7 +19,7 @@ describe("meta info server", () => {
     await extendApp({
       plugins: { factorMeta },
       settings: { appSettings }
-    }).extend()
+    })
 
     pushToFilter("routes", {
       path: "/meta",

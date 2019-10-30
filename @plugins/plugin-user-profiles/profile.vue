@@ -166,7 +166,7 @@ export default {
 
         this.$user.init(async uid => {
           if (uid) {
-            const post = await requestPostSingle({
+            await requestPostSingle({
               _id: uid,
               postType: "user"
             })

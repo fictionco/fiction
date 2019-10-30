@@ -36,7 +36,7 @@ import { setting, stored, renderMarkdown } from "@factor/tools"
 import { link } from "@factor/post"
 export default {
   components: {
-    "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code")
+    "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code.vue")
   },
   // components: {
   //   "el-tags": () => import("./tags")
