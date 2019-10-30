@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { addFilter } from "@factor/tools"
 import { writeConfig } from "@factor/setup"
 export default () => {
@@ -22,7 +21,7 @@ export default () => {
         const setupItem = {
           name: "Email Setup - Transactional Email SMTP Info",
           value: "email",
-          callback: async ({ program, inquirer }) => {
+          callback: async ({ inquirer }) => {
             const questions = [
               {
                 name: "SMTP_USERNAME",
