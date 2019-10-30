@@ -14,6 +14,7 @@ import {
 import log from "@factor/logger"
 import userSchema from "./schema"
 import Factor from "@factor/core"
+
 addFilter("before-app", () => {
   addMixin()
 
@@ -108,7 +109,7 @@ export async function sendEmailVerification({ email }) {
 }
 
 async function retrieveAndSetCurrentUser(user) {
-  const token = user && user.token ? user.token : (this.token() ? this.token() : null)
+  const token = user && user.token ? user.token : (userToken() ? userToken() : null)
 
   try {
     user = token ? await requestPostSingle({ token }) : {}
@@ -142,8 +143,8 @@ function setUser({ user, token, current = false }) {
   const { _id } = user ? user : {}
 
   if (current) {
-    if (token && user) this.token(token)
-    else if (user === null) this.token(null)
+    if (token && user) userToken(token)
+    else if (user === null) userToken(null)
 
     storeItem("currentUser", user)
     localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
@@ -161,7 +162,7 @@ export function _item(key) {
   return user[key]
 }
 
-export function token(token) {
+export function userToken(token) {
   if (typeof localStorage == "undefined" || !localStorage) {
     return ""
   }
@@ -192,7 +193,7 @@ export function can({ role, accessLevel }) {
 
 function handleAuthRouting() {
   addCallback("client-route-before", async ({ to, next }) => {
-    const user = await init() //currentUser()
+    const user = await userInitialized() //currentUser()
     const { path: toPath } = to
 
     // Is authentication needed
@@ -223,4 +224,8 @@ function handleAuthRouting() {
       Factor.$router.push({ path: "/signin", query: { redirect: path } })
     }
   })
+}
+
+export function roles() {
+  return require("./roles.json")
 }

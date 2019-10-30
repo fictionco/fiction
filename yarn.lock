@@ -788,6 +788,16 @@
   resolved "https://registry.yarnpkg.com/@factor/app-config/-/app-config-1.0.0-beta.4.tgz#0c94c20dc2cb4220e33b116857f53652e580683b"
   integrity sha512-1gDOaEjZmiErRMZToZEwhTXHUxQmlPCYjehRHmMadDIJlL/+HrY0z/kkfJ0cusi6kFHt+sv3Xsmm+BIZ2klO+w==
 
+"@factor/core-error@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/core-error/-/core-error-1.0.0-beta.6.tgz#7fc8f192b3bf17594b363aea4d2ac8018999587d"
+  integrity sha512-X8vyZIWyUEMRif9kLfuO86RX2xqvrioWQNbW5RiNVt1wcEbVbX08FS0B7fZ2TzUOWCXfn8hD3IR8wgvIWpa1jg==
+
+"@factor/meta-class@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/meta-class/-/meta-class-1.0.0-beta.6.tgz#424afbdb105b220d67195ab3a0b3b5b6cb76f2b7"
+  integrity sha512-lzH+X/i6wMs4iH9FnYo+aWDjlO0NvILAnB8kYGaRMtOmrQTzakfGMWaZcxGDWAfF8xNRL3DhPTctrqnN0bhe6A==
+
 "@factor/server-dev@1.0.0-beta.6":
   version "1.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@factor/server-dev/-/server-dev-1.0.0-beta.6.tgz#983298d975d1727ce9cef42886b55e0f9784e128"

@@ -3,13 +3,13 @@
  */
 
 import Factor from "@factor/core"
-import extendApp from "@factor/extend"
+import { extendApp } from "@factor/extend"
 
 import { createStore } from "@factor/app/store"
 let store
 describe("store", () => {
   beforeAll(async () => {
-    await extendApp().extend()
+    await extendApp()
   })
   it("loads correctly", () => {
     window.__INITIAL_STATE__ = { test: 123 }

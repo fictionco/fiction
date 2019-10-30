@@ -1,4 +1,3 @@
-import Factor from "vue"
 import { plugins } from "../extensions"
 import { deepMerge } from "@factor/tools"
 import axios from "axios"

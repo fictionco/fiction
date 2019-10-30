@@ -7,7 +7,7 @@ import { stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 export default {
   components: {
-    "edit-user": () => import("./edit.vue")
+    "edit-user": () => import("./v-edit.vue")
   },
 
   computed: {

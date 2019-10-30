@@ -19,7 +19,7 @@
           :loading="loading"
           data-test="send-password-email"
           text="Send Password Reset Email"
-          @click="send({action: `sendPasswordResetEmail`, next: `password-email-sent`})"
+          @click="send({action: sendPasswordResetEmail, next: `password-email-sent`})"
         />
       </template>
 
@@ -37,7 +37,7 @@
           ref="reset-password"
           :loading="loading"
           text="Reset Password"
-          @click="send({action: `verifyAndResetPassword`, next: `successful-password-reset`})"
+          @click="send({action: verifyAndResetPassword, next: `successful-password-reset`})"
         />
       </template>
 
@@ -132,7 +132,11 @@
 
 
 <script>
-import { sendPasswordResetEmail, verifyAndResetPassword } from "@factor/user/email"
+import { authenticate, userInitialized } from "@factor/user"
+import {
+  sendPasswordResetEmail,
+  verifyAndResetPassword
+} from "@factor/user/email-request"
 import { emitEvent } from "@factor/tools"
 export default {
   components: {},
@@ -202,6 +206,8 @@ export default {
     }
   },
   methods: {
+    sendPasswordResetEmail,
+    verifyAndResetPassword,
     trigger(ref) {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
@@ -214,7 +220,7 @@ export default {
       this.loading = true
 
       const args = { ...this.form, ...this.$route.query }
-      const result = await this.$userEmails[action](args)
+      const result = await action(args)
 
       if (result) {
         this.setView(next)
@@ -231,7 +237,7 @@ export default {
 
       this.loading = true
 
-      const user = await this.$user.authenticate({
+      const user = await authenticate({
         ...this.form,
         newAccount: this.newAccount
       })
@@ -240,11 +246,7 @@ export default {
 
       this.loading = false
     },
-    async updateUser() {
-      await this.$user.save(this.form)
 
-      this.checkEmailVerification()
-    },
     setView(view) {
       const query = { view }
       this.$router.replace({ query })
@@ -258,15 +260,13 @@ export default {
 
     done(user) {
       if (user.email) {
-        emitEvent("notify", {
-          message: `Signed in as ${user.email}`
-        })
+        emitEvent("notify", { message: `Signed in as ${user.email}` })
       }
 
       this.$emit("done", user)
 
       if (this.redirectPath) {
-        this.$user.init(uid => {
+        userInitialized(uid => {
           if (uid && this.redirectPath) {
             this.$router.push({ path: this.redirectPath })
           }

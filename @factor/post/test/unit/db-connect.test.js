@@ -61,8 +61,6 @@ describe("db-connect", () => {
       throw __err
     })
 
-    await dbConnect()
-
     expect(__s).toHaveBeenCalledWith(__err)
   })
 })

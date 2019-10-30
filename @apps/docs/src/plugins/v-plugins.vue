@@ -136,13 +136,13 @@
 <script>
 import { stored, storeItem } from "@factor/tools"
 import dataUtility from "./plugin-data"
-import plugins from "../extensions"
+
 export default {
   components: {
-    "widget-header": () => import("./widget-header"),
-    "figure-plugins": () => import("./figure-plugins"),
-    //"plugins-item": () => import("./plugins-item"),
-    "widget-cta": () => import("./widget-cta")
+    "widget-header": () => import("./widget-header.vue"),
+    "figure-plugins": () => import("./figure-plugins.vue"),
+    //"plugins-item": () => import("./plugins-item.vue"),
+    "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {

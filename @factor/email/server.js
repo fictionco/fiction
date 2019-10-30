@@ -1,89 +1,88 @@
-import Factor from "@factor/core"
 import log from "@factor/logger"
 import { addCallback, applyFilters, setting } from "@factor/tools"
-export default () => {
-  return new (class {
-    constructor() {
-      addCallback("endpoints", { id: "email", handler: "@factor/email/server" })
-      this.client = this.init()
+import nodeMailer from "nodemailer"
+import nodeMailerHtmlToText from "nodemailer-html-to-text"
+import "./setup"
+
+addCallback("endpoints", { id: "email", handler: "@factor/email/server" })
+
+initializeEmailServer()
+
+export let hasEmail
+export let transporter
+
+function initializeEmailServer() {
+  const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT } = process.env
+
+  if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
+    hasEmail = false
+    transporter = false
+    return false
+  }
+
+  hasEmail = true
+
+  transporter = nodeMailer.createTransport({
+    host: SMTP_HOST,
+    port: SMTP_PORT || 587,
+    secure: false, // true for 587, false for other ports
+    auth: {
+      user: SMTP_USERNAME,
+      pass: SMTP_PASSWORD
     }
+  })
 
-    init() {
-      const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT } = process.env
+  // https://github.com/andris9/nodemailer-html-to-text
+  transporter.use("compile", nodeMailerHtmlToText.htmlToText())
 
-      if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
-        require("./setup").default(Factor)
-        this.hasEmail = false
-        this.transporter = false
-        return false
-      }
+  return transporter
+}
 
-      this.hasEmail = true
+export async function sendTransactional(_arguments) {
+  let {
+    _id = "none",
+    to,
+    from,
+    subject,
+    title,
+    text,
+    linkText,
+    linkUrl,
+    textFooter
+  } = applyFilters("transactional-email-arguments", _arguments)
 
-      this.transporter = require("nodemailer").createTransport({
-        host: SMTP_HOST,
-        port: SMTP_PORT || 587,
-        secure: false, // true for 587, false for other ports
-        auth: {
-          user: SMTP_USERNAME,
-          pass: SMTP_PASSWORD
-        }
-      })
+  if (!from) from = setting("app.email")
 
-      // https://github.com/andris9/nodemailer-html-to-text
-      var htmlToText = require("nodemailer-html-to-text").htmlToText
-      this.transporter.use("compile", htmlToText())
+  subject = `${subject} - ${setting("app.name")}`
 
-      return this.transporter
-    }
+  const lines = []
 
-    async sendTransactional(_arguments) {
-      let {
-        _id = "none",
-        to,
-        from,
-        subject,
-        title,
-        text,
-        linkText,
-        linkUrl,
-        textFooter
-      } = applyFilters("transactional-email-arguments", _arguments)
+  if (title) lines.push(`<b style="font-size: 1.1em">${title}</b>`)
 
-      if (!from) from = setting("app.email")
+  if (text) lines.push(text)
 
-      subject = `${subject} - ${setting("app.name")}`
+  if (linkText && linkUrl) lines.push(`<a href="${linkUrl}">${linkText}</a>`)
 
-      const lines = []
+  if (textFooter) lines.push(textFooter)
 
-      if (title) lines.push(`<b style="font-size: 1.1em">${title}</b>`)
+  const html = lines.map(_ => `<p>${_}</p>`).join("")
+  const plainText = require("html-to-text").fromString(html)
 
-      if (text) lines.push(text)
+  const theEmail = applyFilters("transactional-email", {
+    _id,
+    from,
+    to,
+    subject,
+    html,
+    text: plainText
+  })
 
-      if (linkText && linkUrl) lines.push(`<a href="${linkUrl}">${linkText}</a>`)
+  let info
+  if (this.client) {
+    info = await this.client.sendMail(theEmail)
+  } else {
+    log.info("Email could not be sent.", theEmail)
+  }
 
-      if (textFooter) lines.push(textFooter)
-
-      const html = lines.map(_ => `<p>${_}</p>`).join("")
-      const plainText = require("html-to-text").fromString(html)
-
-      const theEmail = applyFilters("transactional-email", {
-        _id,
-        from,
-        to,
-        subject,
-        html,
-        text: plainText
-      })
-
-      let info
-      if (this.client) {
-        info = await this.client.sendMail(theEmail)
-      } else {
-        log.info("Email could not be sent.", theEmail)
-      }
-
-      return info
-    }
-  })()
+  return info
 }

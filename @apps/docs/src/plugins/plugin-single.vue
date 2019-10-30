@@ -46,10 +46,10 @@ import { setting, stored, storeItem, renderMarkdown } from "@factor/tools"
 import dataUtility from "./plugin-data"
 export default {
   components: {
-    "widget-header": () => import("./widget-header"),
-    "plugin-entry": () => import("../el/entry"),
-    // "plugins-sidebar": () => import("./plugins-sidebar"),
-    "widget-cta": () => import("./widget-cta")
+    "widget-header": () => import("./widget-header.vue"),
+    "plugin-entry": () => import("../el/entry.vue"),
+    // "plugins-sidebar": () => import("./plugins-sidebar.vue"),
+    "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {

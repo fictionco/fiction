@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import extender from "@factor/extend"
+import { extendApp } from "@factor/extend"
 import plugin from "@factor/app"
 import { waitFor } from "@test/utils"
 import { generateLoaders } from "@factor/build/util"
@@ -14,7 +14,7 @@ describe("app", () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
 
     generateLoaders()
-    await extender().extend()
+    await extendApp()
     spies = {
       routes: jest.spyOn(tools, "addFilter"),
       components: jest.spyOn(tools, "addFilter")

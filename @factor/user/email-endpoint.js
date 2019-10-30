@@ -1,6 +1,6 @@
 import { getModel, savePost } from "@factor/post/server"
 import { randomToken, addFilter, addCallback, setting } from "@factor/tools"
-import { sendTransactional } from "@factor/email"
+import { sendTransactional } from "@factor/email/server"
 
 addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
 

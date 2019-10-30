@@ -1,10 +1,10 @@
 import { objectIdType } from "@factor/post/util"
 import { validator, applyFilters } from "@factor/tools"
+import bcrypt from "bcrypt"
 export default () => {
   return {
     name: "user",
     callback: _s => {
-      const bcrypt = require("bcrypt")
       // PASSWORDS
       _s.methods.comparePassword = async function comparePassword(candidate) {
         return bcrypt.compare(candidate, this.password)

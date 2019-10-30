@@ -61,7 +61,6 @@ export default {
       })
     },
     getCounts() {
-      const roles = this.$userRoles.roles()
       const { categories: { accessLevel = {} } = {} } = this.index || {}
       const counts = {
         admin: 0,

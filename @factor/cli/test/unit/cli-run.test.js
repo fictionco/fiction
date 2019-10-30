@@ -1,5 +1,5 @@
 const execa = require("execa")
-const Factor = require("vue")
+
 import * as tools from "@factor/tools"
 jest.mock("execa")
 

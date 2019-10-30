@@ -1,4 +1,4 @@
-import Factor from "@factor/core"
+import { userToken } from "@factor/user"
 import { emitEvent } from "@factor/tools"
 import axios from "axios"
 
@@ -36,5 +36,5 @@ export async function authorizedRequest(path, data, options = {}) {
 }
 
 export function bearerToken() {
-  return Factor.$user.token() ? `Bearer ${Factor.$user.token()}` : ""
+  return userToken() ? `Bearer ${userToken()}` : ""
 }
