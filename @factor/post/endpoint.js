@@ -143,7 +143,7 @@ export class PostServer {
   }
 
   async indexMeta({ postType, conditions, options }) {
-    const { sort, limit = 20, skip = 0 } = options || {}
+    const { limit = 20, skip = 0 } = options || {}
     const ItemModel = getModel(postType)
 
     const aggregate = [

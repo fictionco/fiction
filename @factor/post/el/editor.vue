@@ -34,33 +34,30 @@ export default {
   computed: {},
 
   mounted() {
-    require("scriptjs")(
-      "https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js",
-      () => {
-        this.editor = ace.edit("editor")
-        this.session = this.editor.session
-        //   editor.setTheme("ace/theme/xcode")
-        this.session.setMode("ace/mode/markdown")
-        this.session.setUseWrapMode(true)
-        this.editor.setOptions({ showPrintMargin: false })
-        this.editor.renderer.setPadding(10)
-        this.editor.renderer.setShowGutter(false)
-        this.$watch(
-          "value",
-          function(v) {
-            if (v != this.content) {
-              this.session.setValue(this.value)
-            }
-          },
-          { immediate: true }
-        )
+    require("scriptjs")("https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js", () => {
+      this.editor = window.ace.edit("editor")
+      this.session = this.editor.session
+      //   editor.setTheme("ace/theme/xcode")
+      this.session.setMode("ace/mode/markdown")
+      this.session.setUseWrapMode(true)
+      this.editor.setOptions({ showPrintMargin: false })
+      this.editor.renderer.setPadding(10)
+      this.editor.renderer.setShowGutter(false)
+      this.$watch(
+        "value",
+        function(v) {
+          if (v != this.content) {
+            this.session.setValue(this.value)
+          }
+        },
+        { immediate: true }
+      )
 
-        this.session.on("change", () => {
-          this.content = this.editor.getValue()
-          this.$emit("input", this.content)
-        })
-      }
-    )
+      this.session.on("change", () => {
+        this.content = this.editor.getValue()
+        this.$emit("input", this.content)
+      })
+    })
   },
   methods: {
     insert(item) {

@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import webpack from "webpack"
 import { getPath } from "@factor/paths"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
@@ -28,14 +27,11 @@ export default () => {
     }
 
     async buildProduction(_arguments = {}) {
-      const config = await this.getConfig({ ..._arguments, target })
       return await Promise.all(
-        ["server", "client"].map(target =>
-          enhancedBuild({
-            config,
-            name: target
-          })
-        )
+        ["server", "client"].map(async target => {
+          const config = await this.getConfig({ ..._arguments, target })
+          enhancedBuild({ config, name: target })
+        })
       )
     }
 
@@ -91,10 +87,7 @@ export default () => {
       return {
         target: "node",
         entry,
-        output: {
-          filename: "server-bundle.js",
-          libraryTarget: "commonjs2"
-        },
+        output: { filename: "server-bundle.js", libraryTarget: "commonjs2" },
 
         // https://webpack.js.org/configuration/externals/#externals
         // https://github.com/liady/webpack-node-externals

@@ -6,7 +6,7 @@ import log from "@factor/logger"
 import figures from "figures"
 import chalk from "chalk"
 
-export function serverErrorWrap() {
+export function serverErrorWrap(txt) {
   return `<h1 style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 2em; opacity:.1; font-weight: 400;">${txt}</h1>`
 }
 

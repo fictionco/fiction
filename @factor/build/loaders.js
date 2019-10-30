@@ -113,7 +113,7 @@ export class FactorLoaderUtility {
     const filtered = extensions.filter(({ target }) => target[loadTarget])
 
     filtered.forEach(extension => {
-      const { _id, target, name, cwd } = extension
+      const { target, name, cwd } = extension
 
       target[loadTarget].forEach(({ _id, file, priority = 100 }) => {
         files.push({ _id, file: `${cwd ? ".." : name}/${file}`, priority })

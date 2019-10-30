@@ -1,6 +1,7 @@
 import Factor from "@factor/core"
 import FactorMeta from "vue-meta"
 import { addFilter, applyFilters, addCallback } from "@factor/tools"
+import "./route-class"
 
 Factor.use(FactorMeta, { keyName: "metaInfoCore" })
 

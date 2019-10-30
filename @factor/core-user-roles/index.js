@@ -1,7 +1,5 @@
-export default Factor => {
+export default () => {
   return new (class {
-    constructor() {}
-
     roles() {
       return require("./roles.json")
     }

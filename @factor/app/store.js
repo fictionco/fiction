@@ -22,7 +22,7 @@ export function createStore() {
     modules: applyFilters("stores", {})
   }
 
-  const store = new VueStore.Store(root)
+  const store = new Vuex.Store(root)
 
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
