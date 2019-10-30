@@ -17,7 +17,7 @@
 <script>
 export default {
   components: {
-    "table-tabber": () => import("./el/tabber")
+    "table-tabber": () => import("./el/tabber.vue")
   },
   props: {
     tabs: { type: Array, default: () => [] },

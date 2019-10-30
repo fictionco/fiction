@@ -18,7 +18,6 @@
   "dependencies": {
     "@factor/core": "^1.0.0-beta.0",
     "@factor/theme-shared": "^1.0.0-beta.0",
-    "@factor/theme-docs": "^1.0.0-beta.0",
     "@factor/plugin-notify": "^1.0.0-beta.0",
     "@factor/plugin-blog": "^1.0.0-beta.0",
     "@factor/plugin-seo": "^1.0.0-beta.0",

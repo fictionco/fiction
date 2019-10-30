@@ -24,9 +24,7 @@ export default {
   },
   computed: {
     filteredActions() {
-      return this.actions.filter(
-        _ => !_.condition || _.condition(this.$route.query)
-      )
+      return this.actions.filter(_ => !_.condition || _.condition(this.$route.query))
     }
   },
   methods: {

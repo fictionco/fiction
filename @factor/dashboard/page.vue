@@ -15,7 +15,7 @@
 <script>
 export default {
   components: {
-    "dashboard-footer": () => import("./footer")
+    "dashboard-footer": () => import("./footer.vue")
   },
   props: {
     title: { type: String, default: "" },

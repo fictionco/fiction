@@ -98,11 +98,10 @@ export default {
         this.toggle = v
       }
 
-      this.clickHandler = e => {
+      this.clickHandler = () => {
         this.toggle = false
 
         document.removeEventListener("click", this.clickHandler)
-        // eslint-disable-next-line semi
       }
       if (this.toggle) {
         document.addEventListener("click", this.clickHandler)

@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   methods: { setting }
 }

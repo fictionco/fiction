@@ -13,8 +13,8 @@
 <script>
 export default {
   components: {
-    sidebar: () => import("./sidebar"),
-    "header-mobile": () => import("./header-mobile")
+    sidebar: () => import("./sidebar.vue"),
+    "header-mobile": () => import("./header-mobile.vue")
   }
 }
 </script>
