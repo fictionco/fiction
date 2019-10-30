@@ -14,7 +14,6 @@
     "_id": "dashboard"
   },
   "dependencies": {
-    "@factor/core-user-dashboard": "1.0.0-beta.6",
     "@factor/dashboard-signin": "1.0.0-beta.6",
     "@factor/ui-components-form": "1.0.0-beta.6",
     "@factor/ui-components-standard": "1.0.0-beta.6"
