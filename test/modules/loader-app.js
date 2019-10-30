@@ -20,6 +20,6 @@ export default {
   uiComponentsStandard: () => import("@factor/ui-components-standard/index.js"),
   directivesStandard: () => import("@factor/ui-directives-standard/index.js"),
   metatags: () => import("@factormeta-class/index.js"),
-  templates: () => import("@factor/post-page-templates/index.js"),
+  templates: () => import("@factor/templates/index.js"),
   cwd: () => import("../index.js")
 }

@@ -1,64 +1,50 @@
-import { importPlugins } from "./util"
-import Factor from "@factor/core"
 import { applyFilters, runCallbacks } from "@factor/tools"
-export default (options = {}) =>
-  new (class {
-    constructor() {}
+import Factor from "@factor/core"
+import loaderPlugins from "~/.factor/loader-app"
+import { importPlugins } from "./util"
 
-    async extend() {
-      Factor.config.productionTip = false
-      Factor.config.devtools = false
-      Factor.config.silent = false
+Factor.config.productionTip = false
+Factor.config.devtools = false
+Factor.config.silent = false
 
-      Factor.$globals = Factor.prototype.$globals = Factor.observable({
-        routeClass: []
-      })
+export async function extendApp(options = {}) {
+  setupGlobalObservable()
 
-      await importPlugins({
-        __router: () => import("@factor/app/router"),
-        __store: () => import("@factor/app/store")
-      })
+  await runCallbacks("before-app-plugins", options)
 
-      await Factor.$setting.create()
-      Factor.$__router.create()
-      Factor.$__store.create()
+  await importPlugins(loaderPlugins)
 
-      await this.initialize(options)
+  addGlobalComponents()
+  addClientDirectives()
+
+  await runCallbacks("initialize-app", options)
+}
+
+// Add before plugins import
+// Observable values that can change at any time
+function setupGlobalObservable() {
+  Factor.$globals = Factor.prototype.$globals = Factor.observable(
+    applyFilters("register-global-observables", {})
+  )
+}
+
+function addGlobalComponents() {
+  Factor.$components = {}
+  const comps = applyFilters("components", {})
+  for (var _ in comps) {
+    if (comps[_]) {
+      Factor.component(_, comps[_])
+      Factor.$components[_] = comps[_]
     }
+  }
+}
 
-    // After plugins added
-    async initialize() {
-      const { default: plugins } = await import("~/.factor/loader-app")
+function addClientDirectives() {
+  if (process.env.FACTOR_SSR == "client") {
+    const directives = applyFilters("client-directives", {})
 
-      const { plugins: __plugins = {}, settings: __settings } = options
-
-      const optionPlugins = __plugins || {}
-      const allPlugins = { ...plugins, ...optionPlugins }
-
-      await importPlugins(allPlugins)
-
-      // Add settings from tests, etc.
-      if (__settings) Factor.$setting.add(__settings)
-
-      Factor.$components = {}
-      const comps = applyFilters("components", {})
-      for (var _ in comps) {
-        if (comps[_]) {
-          Factor.component(_, comps[_])
-          Factor.$components[_] = comps[_]
-        }
-      }
-
-      if (Factor.FACTOR_SSR == "client") {
-        const directives = applyFilters("client-directives", {})
-
-        for (var _ in directives) {
-          if (directives[_]) {
-            Factor.directive(_, directives[_])
-          }
-        }
-      }
-
-      await runCallbacks("initialize-app")
+    for (var _ in directives) {
+      if (directives[_]) Factor.directive(_, directives[_])
     }
-  })()
+  }
+}

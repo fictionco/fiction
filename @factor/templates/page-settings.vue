@@ -2,7 +2,7 @@
   <div class="edit-page-templates">
     <dashboard-input
       v-model="template"
-      :list="$templates.getPageTemplates()"
+      :list="getPageTemplates()"
       input="factor-input-select"
       label="Page Template"
     />
@@ -19,6 +19,7 @@
   </div>
 </template>
 <script>
+import { getPageTemplates, getTemplate } from "@factor/templates"
 export default {
   model: {
     prop: "post",
@@ -77,10 +78,11 @@ export default {
     }
   },
   methods: {
+    getPageTemplates,
     async setPageTemplate(templateId) {
       this.localPost = { ...this.localPost, template: templateId }
 
-      this.pageTemplateInfo = await this.$templates.getTemplate(templateId)
+      this.pageTemplateInfo = await getTemplate(templateId)
 
       this.setTemplateDefaults()
     },

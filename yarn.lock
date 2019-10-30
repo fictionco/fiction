@@ -788,6 +788,79 @@
   resolved "https://registry.yarnpkg.com/@factor/app-config/-/app-config-1.0.0-beta.4.tgz#0c94c20dc2cb4220e33b116857f53652e580683b"
   integrity sha512-1gDOaEjZmiErRMZToZEwhTXHUxQmlPCYjehRHmMadDIJlL/+HrY0z/kkfJ0cusi6kFHt+sv3Xsmm+BIZ2klO+w==
 
+"@factor/server-dev@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/server-dev/-/server-dev-1.0.0-beta.6.tgz#983298d975d1727ce9cef42886b55e0f9784e128"
+  integrity sha512-kO975xx+rURZoTviutUae1R17H7VV2DO4sEvTLlLC517YiBZf4d4WxbDtpDa/wFS1fxW3YZT17GO/TFc4xnnTA==
+  dependencies:
+    chalk "^2.4.2"
+    chokidar "^3.1.2"
+    figures "^3.0.0"
+    fs-extra "^8.1.0"
+    memory-fs "^0.5.0"
+    ora "^4.0.2"
+    vue "^2.6.8"
+    webpack "^4.29.6"
+    webpack-dev-middleware "^3.6.0"
+    webpack-hot-middleware "^2.24.3"
+    yargs "^14.2.0"
+
+"@factor/settings@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/settings/-/settings-1.0.0-beta.6.tgz#be86937d0347472f50ea2298388ed7328d7f7a3e"
+  integrity sha512-iChA0xwe7m0WUcxVHJGeen8HJ9S8rxSFGeOqayoVBO16A9UgabQFg7rP6SbmC2e05bSpQkLz1wUiijGBjuP2rQ==
+
+"@factor/tools-http@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/tools-http/-/tools-http-1.0.0-beta.6.tgz#faae0f664039dd914852038e06cc8257fb5f144c"
+  integrity sha512-tY5zIP26Y/g19hyc+RyMz9mtUteWCtLoQ+eSPmFApDSdUczbdV+z34iFPDr5oP2JXpBc8BSeCyWJ55XF/c++3g==
+  dependencies:
+    axios "^0.19.0"
+    markdown-it "^10.0.0"
+    markdown-it-anchor "^5.0.2"
+    markdown-it-implicit-figures "^0.9.0"
+    markdown-it-link-attributes "^3.0.0"
+    markdown-it-video "^0.6.3"
+    qs "^6.7.0"
+    remark "^11.0.0"
+    strip-markdown "^3.0.3"
+
+"@factor/tools-markdown@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/tools-markdown/-/tools-markdown-1.0.0-beta.6.tgz#90f699c95cac6aaef7f737762f542b0cd6a9c3ad"
+  integrity sha512-ETHhV1WD8G+vxrs9bgoQ9Cs33DXzwk9cSBjCTK5OINAZcDyD4B9CWdVBrr1F3E51vuHZvsnmcaGc5Wxu5lJJog==
+  dependencies:
+    markdown-it "^10.0.0"
+    markdown-it-anchor "^5.0.2"
+    markdown-it-implicit-figures "^0.9.0"
+    markdown-it-link-attributes "^3.0.0"
+    markdown-it-video "^0.6.3"
+    remark "^11.0.0"
+    strip-markdown "^3.0.3"
+
+"@factor/ui-components-form@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/ui-components-form/-/ui-components-form-1.0.0-beta.6.tgz#73ad51c1d05c89731bd9a3d9b739865405d5b773"
+  integrity sha512-RPgr1nRhG4jLE5HL6v+cA1Ko0iu0LH6uB0eYJVBB8GWCs9pg8w2fn0/75RZR73ezrGo3sjLZjy1xrcc/pqlmwg==
+  dependencies:
+    sortablejs "^1.8.4"
+    vue "^2.6.10"
+    vuejs-datepicker "^1.5.4"
+
+"@factor/ui-components-standard@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/ui-components-standard/-/ui-components-standard-1.0.0-beta.6.tgz#00d22df13eb61c9f95025c8d078a09fc3329131c"
+  integrity sha512-I3VD4dXKthgSkIlEBSZ+GEFFrxaQc+M5y1KJebf+Jxkvib3YHK6WQk+8vZkhYnnnRj6TRMSf8ZIHK61YvuqY0Q==
+  dependencies:
+    vue-client-only "^2.0.0"
+
+"@factor/ui-directives-standard@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/ui-directives-standard/-/ui-directives-standard-1.0.0-beta.6.tgz#bea3e612977a86c2a8da8544b28e609d9fedf5a8"
+  integrity sha512-iWKtzuCyJZET6vlRF7CiVaow3nEIHTf+yJ3xrMzjQekKHImATA7W24knK7AnwvaQ1EQbS9Eb+u7ouVkN8mZR1g==
+  dependencies:
+    sanitize-html "^1.20.0"
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -4811,7 +4884,7 @@ dot-prop@^4.1.0, dot-prop@^4.1.1, dot-prop@^4.2.0:
   dependencies:
     is-obj "^1.0.0"
 
-dotenv@^8.1.0:
+dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==

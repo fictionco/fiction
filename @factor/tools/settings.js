@@ -1,56 +1,42 @@
-import Factor from "@factor/core"
-import { dotSetting, deepMerge, applyFilters } from "@factor/tools"
+import { dotSetting, deepMerge, applyFilters, addCallback } from "@factor/tools"
 import { getExports } from "@factor/extend/util"
 import { configSettings } from "@factor/tools/config"
-import settingsFiles from "~/.factor/loader-settings"
+
 import coreSettings from "@factor/app/core-settings"
-export class FactorSettings {
-  constructor() {
-    this.__settings = {}
-    this.added = {}
-  }
 
-  add(settings) {
-    this.added = [...this.added, settings]
-    this.load()
-  }
+addCallback("before-server-plugins", () => createSettings())
+addCallback("before-app-plugins", () => createSettings())
 
-  all() {
-    return this.__settings
-  }
+let settings = {}
+let added = []
+let config = {}
+let settingsExports = []
 
-  get(key) {
-    return dotSetting({ key, settings: this.__settings })
-  }
+async function createSettings() {
+  config = await configSettings()
 
-  async create() {
-    this.config = await configSettings()
+  const { default: settingsFiles } = await import("~/.factor/loader-settings")
 
-    this.settingsExports = await getExports(settingsFiles).map(({ _exports }) => _exports)
+  settingsExports = await getExports(settingsFiles).map(({ _exports }) => _exports)
 
-    this.load()
-  }
-
-  async load() {
-    const settingsArray = applyFilters("factor-settings", [
-      ...this.settingsExports,
-      ...this.added
-    ])
-
-    const merged = deepMerge([this.config, coreSettings, ...settingsArray])
-
-    this.__settings = applyFilters("merged-factor-settings", merged)
-
-    return
-  }
+  await mergeAllSettings()
 }
 
-export const $settings = new FactorSettings()
+async function mergeAllSettings() {
+  const settingsArray = applyFilters("factor-settings", [...settingsExports, ...added])
+
+  const merged = deepMerge([config, coreSettings, ...settingsArray])
+
+  settings = applyFilters("merged-factor-settings", merged)
+
+  return
+}
+
+export async function addSettings(settings) {
+  added = [...added, settings]
+  await mergeAllSettings()
+}
 
 export function setting(key) {
-  return $settings.get(key)
-}
-
-export function addSettings(settings) {
-  return $settings.add(settings)
+  return dotSetting({ key, settings })
 }
