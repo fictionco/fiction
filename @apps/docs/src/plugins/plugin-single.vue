@@ -196,7 +196,6 @@ export default {
     }
   }
 
-  // Widget header custom styles
   .plugins-widget-header {
     .content-pad {
       grid-template-columns: 1fr;
@@ -263,14 +262,14 @@ export default {
       font-weight: 500;
       line-height: 1.1;
       letter-spacing: -0.02em;
-      margin: 0 0 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
     .plugin-images {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 150px));
+      grid-template-columns: repeat(auto-fit, minmax(100px, 160px));
       grid-gap: 1rem;
-      margin: 0 0 1.5rem;
+      margin-bottom: 1.5rem;
       .image-item {
         cursor: pointer;
         .image-item-content {
@@ -282,8 +281,6 @@ export default {
           border-radius: 6px;
           background-color: #fff;
           border: 1px solid var(--color-bg-contrast-more);
-          // box-shadow: 0 2px 5px -1px rgba(50, 50, 93, 0.25),
-          //   0 1px 3px -1px rgba(0, 0, 0, 0.3);
           background-size: cover;
           transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
           &:hover {
