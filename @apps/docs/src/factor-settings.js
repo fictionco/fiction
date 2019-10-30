@@ -1,5 +1,5 @@
 import { isLoggedIn } from "@factor/user"
-
+import Factor from "@factor/core"
 export default {
   metaInfo: {
     default: {
@@ -222,7 +222,7 @@ export default {
   footer: {
     headline: "Released under the GPL-2 License",
     legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
-    logo: () => import("./el/logo-fiction"),
-    logo2: () => import("./el/logo-pagelines")
+    logo: () => import("./el/logo-fiction.vue"),
+    logo2: () => import("./el/logo-pagelines.vue")
   }
 }

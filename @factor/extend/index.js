@@ -1,5 +1,6 @@
 import { applyFilters, runCallbacks } from "@factor/tools"
 import Factor from "@factor/core"
+// eslint-disable-next-line import/no-unresolved
 import loaderPlugins from "~/.factor/loader-app"
 
 import { importPlugins } from "./util"

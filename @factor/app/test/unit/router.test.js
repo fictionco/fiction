@@ -3,16 +3,16 @@
  */
 
 import Factor from "@factor/core"
-import extendApp from "@factor/extend"
+import { extendApp } from "@factor/extend"
 import { waitFor } from "@test/utils"
-import FactorRouter from "@factor/app/router"
+import { createRouter } from "@factor/app/router"
 import * as tools from "@factor/tools"
 describe("router", () => {
   beforeAll(async () => {
-    await extendApp().extend()
+    await extendApp()
   })
   it("loads correctly", () => {
-    const router = FactorRouter(Factor).create()
+    createRouter()
 
     expect(Factor.$router).toBeTruthy()
   })
@@ -23,7 +23,7 @@ describe("router", () => {
       emitEvent: jest.spyOn(tools, "emitEvent")
     }
     process.env.FACTOR_SSR = "client"
-    const router = FactorRouter(Factor).create()
+    const router = createRouter()
 
     router.push("/meta")
 
@@ -47,9 +47,7 @@ describe("router", () => {
 
     spies.action.mockImplementationOnce(async () => [false])
 
-    try {
-      await router.push("/no")
-    } catch (error) {}
+    await router.push("/no")
 
     await waitFor(20)
 

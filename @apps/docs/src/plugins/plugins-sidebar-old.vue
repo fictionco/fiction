@@ -27,7 +27,7 @@
 <script>
 export default {
   components: {
-    "plugins-index": () => import("./plugins-index")
+    "plugins-index": () => import("./plugins-index.vue")
   }
 }
 </script>

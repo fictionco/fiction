@@ -51,9 +51,9 @@
   </div>
 </template>
 <script>
-import { DOM , throttle, setting } from "@factor/tools"
+import { DOM, throttle, setting } from "@factor/tools"
 
-import docs from "./docs-handler"
+import { config } from "./docs-handler"
 export default {
   props: {
     mode: { type: String, default: "" }
@@ -74,7 +74,7 @@ export default {
       return this.navConfig.filter(item => !item.condition || item.condition())
     },
     nav() {
-      return docs(this).config()
+      return config()
     },
 
     activeDoc() {
@@ -185,13 +185,13 @@ export default {
         .call(h.childNodes)
         .map(function(node) {
           return node.textContent
-          if (node.nodeType === Node.TEXT_NODE) {
-            return node.nodeValue
-          } else if (["CODE", "SPAN"].includes(node.tagName)) {
-            return node.textContent
-          } else {
-            return ""
-          }
+          // if (node.nodeType === Node.TEXT_NODE) {
+          //   return node.nodeValue
+          // } else if (["CODE", "SPAN"].includes(node.tagName)) {
+          //   return node.textContent
+          // } else {
+          //   return ""
+          // }
         })
         .join("")
 

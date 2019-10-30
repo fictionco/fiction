@@ -1,36 +1,33 @@
 import { toLabel, setting, renderMarkdown } from "@factor/tools"
-export default Factor => {
-  return new (class {
-    config() {
-      return this.normalize(setting("docs.pages"))
-    }
-    getMarkdownHTML(doc) {
-      const { file } = this.selected(doc) || {}
-      return file ? renderMarkdown(file) : null
+
+export function config() {
+  return normalize(setting("docs.pages"))
+}
+export function getMarkdownHTML(doc) {
+  const { file } = selected(doc) || {}
+  return file ? renderMarkdown(file) : null
+}
+
+export function selected(doc) {
+  return config().find(_ => _.doc == doc)
+}
+
+export function metatags(doc) {
+  const { title, description } = selected(doc) || {}
+
+  return { title, description }
+}
+
+export function normalize(items) {
+  return items.map(_ => {
+    const d = {
+      doc: _.doc,
+      route: `/${setting("docs.base")}/${_.doc}`,
+      name: toLabel(_.doc),
+      title: toLabel(_.doc),
+      description: ""
     }
 
-    selected(doc) {
-      return this.config().find(_ => _.doc == doc)
-    }
-
-    metatags(doc) {
-      const { title, description } = this.selected(doc) || {}
-
-      return { title, description }
-    }
-
-    normalize(items) {
-      return items.map(_ => {
-        const d = {
-          doc: _.doc,
-          route: `/${setting("docs.base")}/${_.doc}`,
-          name: toLabel(_.doc),
-          title: toLabel(_.doc),
-          description: ""
-        }
-
-        return { ...d, ..._ }
-      })
-    }
-  })()
+    return { ...d, ..._ }
+  })
 }

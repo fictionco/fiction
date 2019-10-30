@@ -15,9 +15,9 @@
 <script>
 export default {
   components: {
-    "header-primary": () => import("./header"),
-    "footer-primary": () => import("./footer"),
-    "header-mobile": () => import("./header-mobile")
+    "header-primary": () => import("./header.vue"),
+    "footer-primary": () => import("./footer.vue"),
+    "header-mobile": () => import("./header-mobile.vue")
   },
   metaInfo() {
     return {

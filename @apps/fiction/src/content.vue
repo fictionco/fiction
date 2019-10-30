@@ -28,8 +28,8 @@
 import { excerpt, stored } from "@factor/tools"
 export default {
   components: {
-    "site-head": () => import("./site-head"),
-    "content-footer": () => import("./site-footer")
+    "site-head": () => import("./site-head.vue"),
+    "content-footer": () => import("./site-footer.vue")
   },
 
   metaInfo() {
