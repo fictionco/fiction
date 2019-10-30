@@ -14,24 +14,26 @@
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
-          <div v-for="(entry, index) in pluginsFeatured" :key="index" class="entry-plugin">
-            <div v-if="pluginIcon(entry.github)" class="entry-image">
-              <img :src="pluginIcon(entry.github)" :alt="entry.name" />
-            </div>
+          <div class="plugins-grid">
+            <div v-for="(entry, index) in pluginsFeatured" :key="index" class="entry-plugin">
+              <div v-if="pluginIcon(entry.github)" class="entry-image">
+                <img :src="pluginIcon(entry.github)" :alt="entry.name" />
+              </div>
 
-            <div class="entry-content">
-              <h3 class="title">
-                <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry._id) }}</factor-link>
-              </h3>
-              <!-- <div class="meta">
-                <div v-if="entry.maintainers" class="authors">
-                  by
-                  <span
-                    v-for="(author, au) in entry.maintainers"
-                    :key="au"
-                    class="author"
-                  >{{ author.name }}</span>
-                </div>
+              <div class="entry-content">
+                <h3 class="title">
+                  <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry._id) }}</factor-link>
+                </h3>
+                <div class="meta">
+                  <div v-if="entry.maintainers" class="authors">
+                    by
+                    <span
+                      v-for="(author, au) in entry.maintainers"
+                      :key="au"
+                      class="author"
+                    >{{ author.name }}</span>
+                  </div>
+                  <!-- 
 
                 <div v-if="entry.keywords" class="keywords">
                   in
@@ -42,10 +44,11 @@
                   >{{ keyword }},</span>
                 </div>
 
-                <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>
-              </div>-->
+                  <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>-->
+                </div>
 
-              <p v-if="entry.description" class="text">{{ entry.description }}</p>
+                <p v-if="entry.description" class="text">{{ entry.description }}</p>
+              </div>
             </div>
           </div>
         </section>
@@ -194,7 +197,6 @@ export default {
   /* HEADER */
   .header {
     background-image: url("./img/dot.svg");
-    background-color: #f6f9fc;
     overflow: hidden;
 
     .content-pad {
@@ -264,13 +266,18 @@ export default {
     .section-header {
       margin: 0 0 1rem;
     }
+    .plugins-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 1rem;
+    }
     .entry-plugin {
       display: grid;
-      grid-template-columns: 70px 3fr;
-      grid-gap: 2rem;
-      align-items: flex-start;
+      //grid-template-columns: 70px 3fr;
+      grid-gap: 1rem;
+      justify-content: center;
       margin-bottom: 1rem;
-      padding: 1rem;
+      padding: 2rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
@@ -284,9 +291,11 @@ export default {
         text-decoration: none;
       }
       .entry-image {
-        display: flex;
-        justify-content: center;
+        // display: flex;
+        // justify-content: center;
+        margin: 0 auto;
         height: 70px;
+        width: 70px;
         border-radius: 50%;
         overflow: hidden;
         background: var(--color-bg-contrast);
@@ -294,11 +303,11 @@ export default {
         box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
           width: 100%;
-          max-width: 100%;
         }
       }
       .entry-content {
         overflow: hidden;
+        text-align: center;
         .title {
           font-size: 1.6em;
           line-height: 1.2em;
