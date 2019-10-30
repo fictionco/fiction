@@ -25,7 +25,7 @@
 
         <div class="plugins-wrap content-pad">
           <div class="content">
-            <factor-link class="back" :path="`/pluginsnew`">
+            <factor-link class="back" :path="`/plugins`">
               <factor-icon icon="arrow-left" />
               <span>All Plugins</span>
             </factor-link>
