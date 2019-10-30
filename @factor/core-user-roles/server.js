@@ -1,6 +1,6 @@
-import { addFilter, setting } from "@factor/tools"
+import { addFilter } from "@factor/tools"
 import { writeConfig } from "@factor/setup"
-export default Factor => {
+export default () => {
   return new (class {
     constructor() {
       // Add role property to user schema
@@ -54,7 +54,7 @@ export default Factor => {
         const setupAdmins = {
           name: "User Roles - Add admin privileges to specific users.",
           value: "admins",
-          callback: async ({ program, inquirer }) => {
+          callback: async ({ inquirer }) => {
             const roles = this.roles()
             const choices = Object.keys(roles).map(_ => {
               return {
@@ -69,7 +69,7 @@ export default Factor => {
                 message: "What's the user's email?",
                 type: "input",
                 validate: v => {
-                  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                  var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                   return re.test(v) ? true : "Enter a valid email address"
                 }
               },

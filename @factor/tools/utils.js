@@ -84,7 +84,7 @@ export function slugify(text) {
     .toString()
     .toLowerCase()
     .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w\-]+/g, "") // Remove all non-word chars
+    .replace(/[^\w-]+/g, "") // Remove all non-word chars
     .replace(/^\d+/g, "") // Remove Numbers
     .replace(/--+/g, "-") // Replace multiple - with single -
     .replace(/^-+/, "") // Trim - from start of text

@@ -122,7 +122,7 @@ export default {
       },
       { immediate: true }
     )
-    this.$watch("birthday", function(v) {
+    this.$watch("birthday", function() {
       this.$emit("dob", {
         month: this.monthUser,
         day: this.day,

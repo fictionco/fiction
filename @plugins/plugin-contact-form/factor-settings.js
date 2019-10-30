@@ -1,8 +1,8 @@
-import { getSetting } from "@factor/tools"
+import { setting } from "@factor/tools"
 export default {
   contactForm: {
-    email: () => getSetting("app.email"),
-    form: () => import("./contact-form"),
+    email: () => setting("app.email"),
+    form: () => import("./contact-form.vue"),
     submit: {
       btn: "primary",
       size: "",

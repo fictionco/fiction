@@ -6,7 +6,7 @@
 <script>
 export default {
   components: {
-    "btn-base": () => import("./btn-base")
+    "btn-base": () => import("./btn-base.vue")
   }
 }
 </script>
@@ -43,8 +43,7 @@ export default {
   &:hover {
     opacity: 1;
     transform: translateY(-0.5px);
-    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1),
-      var(--btn-shadow-standard-hover);
+    box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1), var(--btn-shadow-standard-hover);
   }
 
   &.tiny {
@@ -71,8 +70,7 @@ export default {
     box-shadow: 0 0 0 1px var(--color-primary), var(--btn-shadow-standard);
     &:hover {
       color: #fff;
-      box-shadow: 0 0 0 1px var(--color-primary),
-        var(--btn-shadow-standard-hover);
+      box-shadow: 0 0 0 1px var(--color-primary), var(--btn-shadow-standard-hover);
     }
   }
   &.secondary {
@@ -81,8 +79,7 @@ export default {
     box-shadow: 0 0 0 1px var(--color-secondary), var(--btn-shadow-standard);
     &:hover {
       color: #fff;
-      box-shadow: 0 0 0 1px var(--color-secondary),
-        var(--btn-shadow-standard-hover);
+      box-shadow: 0 0 0 1px var(--color-secondary), var(--btn-shadow-standard-hover);
     }
   }
   // &.selected {

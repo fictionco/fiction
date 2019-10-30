@@ -1,3 +1,1 @@
-export default Factor => {
-  return {}
-}
+export default {}
