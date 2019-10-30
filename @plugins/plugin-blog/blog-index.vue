@@ -65,7 +65,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(to) {
+      handler: function() {
         this.getPosts()
       }
     }

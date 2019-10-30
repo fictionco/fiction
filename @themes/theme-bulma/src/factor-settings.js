@@ -164,7 +164,7 @@ export default Factor => {
           text: "View Elements"
         }
       ],
-      graphic: () => import("./el/home-graphic"),
+      graphic: () => import("./el/home-graphic.vue"),
       logos: [
         {
           imageURL: require("./img/github.svg"),

@@ -1,3 +1,4 @@
+
 <template>
   <div class="content-layout">
     <header-primary />
@@ -12,10 +13,11 @@
 </template>
 <style src="#/css/style-vars.scss" lang="sass"></style>
 <script>
+/* eslint-disable import/no-unresolved */
 export default {
   components: {
-    "header-primary": () => import("#/header"),
-    "footer-primary": () => import("#/footer")
+    "header-primary": () => import("#/header.vue"),
+    "footer-primary": () => import("#/footer.vue")
   },
   computed: {
     bg() {
