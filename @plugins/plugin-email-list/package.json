@@ -1,6 +1,7 @@
 {
   "name": "@factor/plugin-email-list",
-  "version": "1.0.0-beta.6",
+  "description": "Plugin to collect email addresses for invite list, launch list or newletter.",
+  "version": "1.0.0-beta.9",
   "license": "GPL-2.0",
   "type": "module",
   "factor": {
@@ -11,7 +12,8 @@
         "server",
         "index"
       ]
-    }
+    },
+    "title": "Email List"
   },
   "dependencies": {
     "export-to-csv": "^0.2.1"
@@ -23,8 +25,12 @@
   "keywords": [
     "factor",
     "factor-plugin",
+    "factor-featured",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "email",
+    "subscribe",
+    "form"
   ]
 }

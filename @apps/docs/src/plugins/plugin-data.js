@@ -6,7 +6,7 @@ export default () => {
     constructor() {}
 
     async getIndex(page = 1) {
-      const slugs = ["axios", "open", "lodash"]
+      const slugs = plugins //["axios", "open", "lodash"]
 
       const index = await Promise.all(slugs.map(async slug => this.getSingle(slug)))
 
@@ -14,86 +14,56 @@ export default () => {
     }
 
     async getSingle(slug) {
-      const results = await Promise.all([
-        axios.get(`https://registry.npmjs.org/${slug}`),
-        axios.get(`https://api.npmjs.org/downloads/point/last-month/${slug}`)
-      ])
+      let githubToken = process.env.GITHUB_TOKEN
 
-      const allData = deepMerge(results.map(r => r.data))
+      let cleanSlug = slug.replace("@factor/", "")
 
-      return { myData: allData }
+      const requests = [
+        {
+          _id: "npmData",
+          url: `https://registry.npmjs.org/${slug}`
+        },
+        {
+          _id: "npmDownloads",
+          url: `https://api.npmjs.org/downloads/point/last-month/${slug}`
+        },
+        {
+          _id: "githubFiles",
+          url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@plugins/${cleanSlug}`,
+          options: {
+            headers: {
+              Authorization: `Bearer ${githubToken}`, //the token is a variable which holds the token
+              "Content-Type": "application/json"
+            }
+          }
+        }
+      ]
+
+      const results = await Promise.all(
+        requests.map(async ({ url, options = {} }) => {
+          return await axios.get(url, options)
+        })
+      )
+
+      const merged = deepMerge(
+        results.map((result, index) => {
+          const _id = requests[index]._id
+          return Array.isArray(result.data) ? { [_id]: result.data } : result.data
+        })
+      )
+
+      return merged
     }
 
-    async getReadme(slug) {
-      // const _promises = plugins.map(async plugin => {
-      //   const _queries = [
-      //     axios.get(`https://cors-anywhere.herokuapp.com/registry.npmjs.org/${plugin}`)
-      //     // axios.get(
-      //     //   `https://cors-anywhere.herokuapp.com/https://api.npmjs.org/downloads/point/last-month/${plugin}`
-      //     // )
-      //     // axios.get(
-      //     //   "https://api.github.com/repos/fiction-com/factor/git/trees/master?recursive=1",
-      //     //   {
-      //     //     headers: {
-      //     //       Authorization: "Bearer + process.env.GITHUB_TOKEN", the token is a variable which holds the token
-      //     //       "Content-Type": "application/json"
-      //     //     }
-      //     //   }
-      //     // )
-      //     // axios.get(
-      //     //   "https://cors-anywhere.herokuapp.com/https://api.npms.io/v2/search?q=keywords%3Afactor-plugin"
-      //     // )
-      //   ]
+    // async getReadme(slug) {
+    //   const results = await Promise.all([
+    //     axios.get(`https://registry.npmjs.org/${slug}`),
+    //     axios.get(`https://api.npmjs.org/downloads/point/last-month/${slug}`)
+    //   ])
 
-      //   // plugin package name
-      //   //console.log(plugin)
+    //   const allData = deepMerge(results.map(r => r.data))
 
-      //   const [{ data }, index] = await Promise.all(_queries)
-
-      //   //console.log(data)
-
-      //   return { ...data, index }
-      // })
-
-      // const pluginsData = await Promise.all([
-      //   axios.get(`https://registry.npmjs.org/axios`)
-      // ])
-
-      let ghToken = process.env.GITHUB_TOKEN
-
-      const results = await Promise.all([
-        axios.get(`https://registry.npmjs.org/${slug}`),
-        axios.get(`https://api.npmjs.org/downloads/point/last-month/${slug}`)
-        // axios.get(
-        //   "https://api.github.com/repos/fiction-com/factor/git/trees/master?recursive=1",
-        //   {
-        //     headers: {
-        //       Authorization: `"Bearer ` + ghToken + `"`, // the token is a variable which holds the token
-        //       "Content-Type": "application/json"
-        //     }
-        //   }
-        // )
-      ])
-
-      //console.log(results)
-
-      const allData = deepMerge(results.map(r => r.data))
-
-      //console.log(allData)
-
-      return { myData: allData }
-    }
+    //   return { myData: allData }
+    // }
   })()
 }
-
-// getNpmDownloadsLastMonth: function (name) {
-//   return $http.get('https://api.npmjs.org/downloads/point/last-month/' + name).success(function (resp) {
-//       return resp;
-//   });
-// },
-
-// getNpmDownloadsRangeLastMonth: function (name) {
-//   return $http.get('https://api.npmjs.org/downloads/range/last-month/' + name).success(function (resp) {
-//       return resp;
-//   });
-// },

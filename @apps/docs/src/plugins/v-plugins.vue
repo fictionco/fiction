@@ -4,25 +4,48 @@
       <h3 slot="subtitle">Extend your project features and do more with Factor.</h3>
       <figure-plugins slot="figure" />
     </widget-header>
-    <div class="plugins-wrap content-pad">
+
+    <div v-if="loading" class="posts-loading">
+      <factor-loading-ring />
+    </div>
+    <div v-else class="plugins-wrap content-pad">
       <div class="content">
-        <section class="plugins-featured">
+        <section v-if="pluginsFeatured.length > 0" class="plugins-featured">
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
-          <!-- <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
+          <div class="plugins-grid">
+            <factor-link
+              v-for="(entry, index) in pluginsFeatured"
+              :key="index"
+              :path="pluginPermalink(entry._id)"
+              class="entry-plugin"
+            >
+              <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
+                <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
+              </div>
+
+              <div class="entry-content">
+                <h3 class="title">{{ formatName(entry._id) }}</h3>
+                <div class="meta">
+                  <div v-if="entry.maintainers" class="authors">
+                    by
+                    <span
+                      v-for="(author, au) in entry.maintainers"
+                      :key="au"
+                      class="author"
+                    >{{ author.name }}</span>
+                  </div>
+                  <div
+                    v-if="entry.downloads"
+                    class="downloads"
+                  >{{ formatDownloads(entry.downloads) }} downloads</div>
+                </div>
+
+                <p v-if="entry.description" class="text">{{ entry.description }}</p>
+              </div>
+            </factor-link>
           </div>
-          <div v-else-if="getData.length > 0">
-            <div v-for="(entry, index) in pluginsFeatured" :key="index">
-              <plugins-item
-                :entry="entry"
-                :show-downloads="false"
-                :show-released="false"
-                :show-updated="false"
-              />
-            </div>
-          </div>-->
         </section>
         <!-- 
           Plugins Categories and Search
@@ -38,95 +61,41 @@
             :placeholder="`All Categories`"
           />
         </div>-->
-        <!-- <section class="plugins-all">
+        <section class="plugins-all">
           <header class="section-header">
             <h1 class="title">All</h1>
           </header>
-          <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
-          </div>
-          <div v-else-if="getData.length > 0">
-            <div v-for="(entry, index) in getData" :key="index">
-              <plugins-item
-                :entry="entry"
-                :show-downloads="false"
-                :show-released="false"
-                :show-updated="false"
-              />
+          <factor-link
+            v-for="(entry, index) in getData"
+            :key="index"
+            :path="pluginPermalink(entry._id)"
+            class="entry-plugin"
+          >
+            <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
+              <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
             </div>
-          </div>
-        </section>-->
+
+            <div class="entry-content">
+              <h3 class="title">{{ formatName(entry._id) }}</h3>
+              <div class="meta">
+                <div v-if="entry.maintainers" class="authors">
+                  by
+                  <span
+                    v-for="(author, au) in entry.maintainers"
+                    :key="au"
+                    class="author"
+                  >{{ author.name }}</span>
+                </div>
+              </div>
+
+              <p v-if="entry.description" class="text">{{ entry.description }}</p>
+            </div>
+          </factor-link>
+        </section>
       </div>
-      <!-- <div class="plugins-sidebar">
-        <div class="sidebar-inner">
-          <section class="plugins-popular">
-            <header class="section-header">
-              <h1 class="title">Popular</h1>
-            </header>
-            <div v-if="loading" class="posts-loading">
-              <factor-loading-ring />
-            </div>
-            <div v-else-if="getData.length > 0">
-              <div v-for="(entry, index) in pluginsPopular" :key="index" class="plugins-item">
-                <plugins-item
-                  :entry="entry"
-                  :show-author="false"
-                  :show-categories="false"
-                  :show-released="false"
-                  :show-updated="false"
-                  :text="false"
-                />
-              </div>
-            </div>
-          </section>
-
-          <section class="plugins-new">
-            <header class="section-header">
-              <h1 class="title">New</h1>
-            </header>
-            <div v-if="loading" class="posts-loading">
-              <factor-loading-ring />
-            </div>
-            <div v-else-if="getData.length > 0">
-              <div v-for="(entry, index) in pluginsNew" :key="index" class="plugins-item">
-                <plugins-item
-                  :entry="entry"
-                  :show-author="false"
-                  :show-categories="false"
-                  :show-downloads="false"
-                  :show-updated="false"
-                  :text="false"
-                />
-              </div>
-            </div>
-          </section>
-
-          <section class="plugins-updated">
-            <header class="section-header">
-              <h1 class="title">Recently Updated</h1>
-            </header>
-            <div v-if="loading" class="posts-loading">
-              <factor-loading-ring />
-            </div>
-            <div v-else-if="getData.length > 0">
-              <div
-                v-for="(entry, index) in pluginsRecentlyUpdated"
-                :key="index"
-                class="plugins-item"
-              >
-                <plugins-item
-                  :entry="entry"
-                  :show-author="false"
-                  :show-categories="false"
-                  :show-downloads="false"
-                  :show-released="false"
-                  :text="false"
-                />
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>-->
+      <div>
+        <widget-sidebar :get-data="getData" />
+      </div>
     </div>
 
     <widget-cta />
@@ -134,21 +103,20 @@
 </template>
 
 <script>
-import { stored, storeItem } from "@factor/tools"
+import { stored, storeItem, orderBy, pickBy } from "@factor/tools"
 import dataUtility from "./plugin-data"
 
 export default {
   components: {
     "widget-header": () => import("./widget-header.vue"),
     "figure-plugins": () => import("./figure-plugins.vue"),
-    //"plugins-item": () => import("./plugins-item.vue"),
+    "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {
-      loading: false,
-      getData: "",
-      today: new Date()
+      loading: true,
+      getData: ""
     }
   },
   async serverPrefetch() {
@@ -156,100 +124,62 @@ export default {
 
     storeItem("plugins-index", data)
   },
-  // computed: {
-  //   headerFigure() {
-  //     return () => import("./figure-plugins.vue")
-  //   },
-  //   pluginsFeatured: function() {
-  //     return _.pickBy(this.getData, function(u) {
-  //       return u.index.data.downloads > 100 || ""
-  //     })
-  //   },
-  //   pluginsPopular: function() {
-  //     let getPlugins = this.getData.slice()
+  computed: {
+    headerFigure() {
+      return () => import("./figure-plugins.vue")
+    },
+    pluginsFeatured: function() {
+      let getFeatured = pickBy(this.getData, function(u) {
+        return (
+          (u.keywords.includes("factor-plugin") &&
+            u.keywords.includes("factor-featured")) ||
+          ""
+        )
+      })
 
-  //     getPlugins.sort((a, b) => {
-  //       return new Date(b.index.data.downloads) - new Date(a.index.data.downloads)
-  //     })
+      let orderFeatured = orderBy(getFeatured, ["downloads"], ["desc"])
 
-  //     // return _.pickBy(getPlugins, function(u) {
-  //     //   return u.index.data.downloads > 8 || ""
-  //     // })
-
-  //     return getPlugins
-  //   },
-  //   pluginsNew: function() {
-  //     let getPlugins = this.getData.slice()
-
-  //     getPlugins.sort((a, b) => {
-  //       return new Date(b.time.created) - new Date(a.time.created)
-  //     })
-
-  //     return getPlugins
-  //   },
-  //   pluginsRecentlyUpdated: function() {
-  //     let getPlugins = this.getData.slice()
-
-  //     getPlugins.sort((a, b) => {
-  //       return new Date(b.time.modified) - new Date(a.time.modified)
-  //     })
-
-  //     return getPlugins //.slice(0, 4) Limit to 4
-  //   }
-  // },
+      return Object.values(orderFeatured).slice(0, 2) //limit to 2 posts
+    }
+  },
   async mounted() {
     this.loading = true
 
     const data = stored("plugins-index")
 
-    // const data = await dataUtility().getReadme()
-
-    console.log(data)
-
     this.getData = data
 
     this.loading = false
   },
-  // methods: {
-  //   pluginIcon(value) {
-  //     const URL = require("url")
-  //     const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
-  //     const branch = "master"
+  methods: {
+    formatName(name) {
+      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
 
-  //     const url = URL.format({
-  //       protocol: "https:",
-  //       hostname: "api.github.com",
-  //       pathname: `repos/fiction-com/${value}/git/trees/${branch}`,
-  //       query: {
-  //         recursive: "1"
-  //       }
-  //     })
+      return spacedName.replace("@factor/", "")
+    },
+    formatDownloads(number) {
+      let num = number
+      return num.toLocaleString("en", { useGrouping: true })
+    },
+    pluginPermalink(permalink) {
+      return `/plugin/` + permalink.replace("@factor/", "")
+    },
+    pluginIcon(entry) {
+      const imageName = `icon.svg`
 
-  //     github(url, opts)
-  //       .then(response => {
-  //         var images = []
-  //         console.log(response.body.tree)
-  //         if (response && response.body && response.body.tree) {
-  //           images = response.body.tree
-  //             .filter(image => !!image.path.match(imagePattern))
-  //             .map(image => {
-  //               image.rawgit = URL.format({
-  //                 protocol: "https:",
-  //                 hostname: "cdn.rawgit.com",
-  //                 pathname: `${value}/${branch}/${image.path}`
-  //               })
-  //               return image
-  //             })
-  //         }
-  //         return callback(null, images)
-  //       })
-  //       .catch(error => {
-  //         return callback(error)
-  //       })
+      let images = []
 
-  //     return url
-  //   }
-  // },
+      if (entry) {
+        images = entry
+          .filter(image => !!image.path.match(imageName))
+          .map(image => {
+            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+          })
+      }
+
+      return images[0]
+    }
+  },
   metaInfo() {
     return {
       title: "Factor Plugin Library",
@@ -263,7 +193,9 @@ export default {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
-  background-color: #f6f9fc;
+  .posts-loading .loading-ring-wrap {
+    min-height: 400px;
+  }
   .content-pad {
     max-width: 1100px;
     margin: 0 auto;
@@ -337,163 +269,178 @@ export default {
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
+      grid-gap: 1rem;
     }
   }
 
-  //  ENTRIES FEATURED
+  //  FEATURED PLUGINS
   .plugins-featured {
     .section-header {
       margin: 0 0 1rem;
     }
-    .plugins-item .entry-plugin {
-      padding: 1rem;
+    .plugins-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 1.5rem;
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+      }
+    }
+    .entry-plugin {
+      padding: 1.5rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
-      //transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-      // &:hover {
-      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-      //   transform: translateY(-0.4rem);
-      // }
+      color: var(--color-text);
+
+      &:hover {
+        background: #f6f9fc;
+        .entry-content .title {
+          color: var(--color-primary);
+        }
+      }
       .entry-image {
+        height: 70px;
+        width: 70px;
+        margin-bottom: 1rem;
+        border-radius: 50%;
+        overflow: hidden;
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
+        img {
+          width: 100%;
+        }
+      }
+      .entry-content {
+        overflow: hidden;
+        .title {
+          font-size: 1.6em;
+          line-height: 1.2em;
+          margin-bottom: 5px;
+          text-transform: capitalize;
+        }
+        .meta {
+          color: rgba(var(--color-text-rgb), 0.6);
+          > div {
+            display: inline-block;
+            margin-right: 1rem;
+            &:last-child {
+              margin-right: 0;
+            }
+            &.categories,
+            &.authors {
+              display: inline-block;
+              .category,
+              .author {
+                display: inherit;
+                &:after {
+                  content: ", ";
+                  padding-right: 5px;
+                }
+                &:last-of-type {
+                  &:after {
+                    content: initial;
+                  }
+                }
+              }
+            }
+          }
+        }
+        .text {
+          line-height: 1.7em;
+          margin: 0.5em 0;
+        }
       }
     }
   }
 
-  // SEARCH AND CATEGORIES
-  .plugins-search-wrap {
-    display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: 1fr auto;
-  }
+  // // SEARCH AND CATEGORIES
+  // .plugins-search-wrap {
+  //   display: grid;
+  //   grid-gap: 1rem;
+  //   grid-template-columns: 1fr auto;
+  // }
 
   //  ENTRIES ALL
   .plugins-all {
     .section-header {
-      margin: 4rem 0 1.5rem;
+      margin: 2rem 0 1.5rem;
     }
-    .plugins-item .entry-plugin {
-      padding: 1rem;
+    .entry-plugin {
+      display: grid;
+      grid-template-columns: 70px 3fr;
+      grid-gap: 2rem;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
-      transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-      // &:hover {
-      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-      //   transform: translateY(-0.4rem);
-      // }
-      .entry-image {
-        background: var(--color-bg-contrast);
-        border: 1px solid var(--color-bg-contrast-more);
+      color: var(--color-text);
+
+      @media (max-width: 900px) {
+        display: block;
       }
-    }
-  }
 
-  // PLUGINS SIDEBAR
-  .plugins-sidebar {
-    padding: 0;
-    margin-bottom: 4rem;
-
-    .section-header {
-      .title {
-        font-size: 1.6em;
-        font-weight: 500;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-
-        @media (max-width: 900px) {
-          font-size: 1.7em;
-          line-height: 1.2;
+      &:hover {
+        background: #f6f9fc;
+        .entry-content .title {
+          color: var(--color-primary);
         }
       }
-    }
 
-    // Popular
-    .plugins-popular {
-      .section-header {
-        margin: 0 0 1rem;
-      }
-    }
-    // New & Recently Updated
-    .plugins-new,
-    .plugins-updated {
-      .section-header {
-        margin: 2rem 0 1rem;
-      }
-    }
-
-    // Popular, New, & Recently Updated
-    .plugins-item .entry-plugin {
-      grid-template-columns: auto 3fr;
-      grid-gap: 1rem;
-      margin-bottom: 0rem;
-      padding: 0.5rem 1rem 0.5rem 0;
-      border-radius: 6px;
-      transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-      position: relative;
       .entry-image {
-        height: 30px;
-        width: 30px;
+        height: 70px;
+        width: 70px;
+        margin-bottom: 1rem;
         border-radius: 50%;
-        background: #fff;
-        // box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-        //   rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-        transform-origin: right top;
-        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+        overflow: hidden;
+        background: var(--color-bg-contrast);
+        border: 1px solid var(--color-bg-contrast-more);
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
-          max-width: 70%;
+          width: 100%;
         }
       }
       .entry-content {
+        overflow: hidden;
         .title {
-          font-size: 1rem;
-          font-weight: 500;
+          font-size: 1.6em;
+          line-height: 1.2em;
           margin-bottom: 5px;
+          text-transform: capitalize;
         }
         .meta {
-          font-size: 0.8rem;
-        }
-      }
-      // &:hover {
-      //   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
-      //   background-color: #fff;
-      //   transform: translateY(-0.4rem);
-      //   .entry-image {
-      //     transform: scale(0.85);
-      //   }
-      // }
-
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr 3fr;
-        padding: 1rem;
-        background: #fff;
-        border-radius: 6px;
-        border: 1px solid var(--color-bg-contrast-more);
-        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-
-        &:hover {
-          box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.07),
-            0px 18px 26px rgba(80, 102, 119, 0.16);
-          //transform: translateY(-0.4rem);
-          // .entry-image {
-          //   transform: none;
-          // }
-        }
-        .entry-image {
-          height: 130px;
-          width: auto;
-          border-radius: 0;
-          box-shadow: none;
-          background: var(--color-bg-contrast);
-          border: 1px solid var(--color-bg-contrast-more);
-        }
-        .entry-content {
-          .title {
-            font-size: 1.6em;
+          color: rgba(var(--color-text-rgb), 0.6);
+          > div {
+            display: inline-block;
+            margin-right: 1rem;
+            &:last-child {
+              margin-right: 0;
+            }
+            &.categories,
+            &.authors {
+              display: inline-block;
+              .category,
+              .author {
+                display: inherit;
+                &:after {
+                  content: ", ";
+                  padding-right: 5px;
+                }
+                &:last-of-type {
+                  &:after {
+                    content: initial;
+                  }
+                }
+              }
+            }
           }
+        }
+        .text {
+          line-height: 1.7em;
+          margin: 0.5em 0;
         }
       }
     }

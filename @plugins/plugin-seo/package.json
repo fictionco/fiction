@@ -1,6 +1,7 @@
 {
   "name": "@factor/plugin-seo",
-  "version": "1.0.0-beta.6",
+  "description": "This plugin makes it easy to implement and edit your SEO.",
+  "version": "1.0.0-beta.9",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -10,7 +11,8 @@
     "target": [
       "app",
       "server"
-    ]
+    ],
+    "title": "SEO"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
@@ -18,6 +20,8 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "seo",
+    ""
   ]
 }

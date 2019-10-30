@@ -1,7 +1,8 @@
 {
   "name": "@factor/plugin-bugsnag",
+  "description": "This plugin implements Bugsnag in your Factor app.",
   "author": "andrew@fiction.com",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.9",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -12,7 +13,8 @@
     "target": {
       "app": "index",
       "server": "server"
-    }
+    },
+    "title": "Bugsnag"
   },
   "dependencies": {
     "@bugsnag/js": "^6.4.1",
@@ -23,7 +25,12 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "bugsnag",
+    "error",
+    "monitoring",
+    "stability",
+    "reportings"
   ],
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }

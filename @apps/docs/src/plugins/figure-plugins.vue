@@ -12,13 +12,13 @@
           <img src="./img/icon-google-analytics.svg" />
         </div>
         <div class="plugin-icon">
+          <img src="./img/icon-user-profiles.svg" />
+        </div>
+        <div class="plugin-icon">
           <img src="./img/icon-contact-form.svg" />
         </div>
         <div class="plugin-icon">
           <img src="./img/icon-notify.svg" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-jobs.svg" />
         </div>
         <div class="plugin-icon">
           <img src="./img/icon-seo.svg" />

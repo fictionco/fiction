@@ -53,7 +53,10 @@ export default Factor => {
         const canonical = pages
           .map(p => {
             return p.doc
-              ? { path: `/${base}/${p.doc}`, component: () => import("./page-docs") }
+              ? {
+                  path: `/${base}/${p.doc}`,
+                  component: () => import("./page-docs")
+                }
               : ""
           })
           .filter(_ => _)
@@ -79,13 +82,9 @@ export default Factor => {
 
         return [
           ..._,
-          {
-            path: "/plugins",
-            component: () => import("./page-plugins")
-          },
           // {
-          //   path: "/pluginsnew",
-          //   component: () => import("./plugins/v-plugins")
+          //   path: "/plugins",
+          //   component: () => import("./page-plugins")
           // },
           {
             path: "/themes",
@@ -108,22 +107,16 @@ export default Factor => {
             component: () => import("./page-docs")
           },
           {
-            path: `/pluginsnew`,
+            path: `/plugins`,
             component: () => import("./plugins/plugins-wrap"),
-            //path: setting("plugins.indexRoute"),
-            //component: setting("plugins.layout.wrap")
             children: [
               {
                 path: `/`,
                 component: () => import("./plugins/v-plugins")
-                //path: setting("plugins.indexRoute"),
-                //component: setting("plugins.layout.index")
               },
               {
                 path: `/plugin/:slug`,
                 component: () => import("./plugins/plugin-single")
-                //path: `${setting("plugins.postRoute")}/:permalink`,
-                //component: setting("plugins.layout.single")
               }
             ]
           }

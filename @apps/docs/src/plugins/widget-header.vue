@@ -3,7 +3,7 @@
     <div class="content-pad">
       <div class="header-content">
         <div v-if="image" class="header-image">
-          <img :src="require(`./img/${image}`)" :alt="title" />
+          <img :src="image" :alt="title" />
         </div>
         <div>
           <h1 class="page-title">{{ title }}</h1>
@@ -29,10 +29,10 @@ export default {
 <style lang="less">
 .plugins-widget-header {
   background-image: url("./img/dot.svg");
+  background-color: #f6f9fc;
   overflow: hidden;
   border-top: 1px solid rgba(0, 0, 0, 0.04);
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  //box-shadow: inset 0 0 1px 3px rgba(0, 0, 0, 0.03);
 
   .content-pad {
     display: grid;
@@ -46,7 +46,6 @@ export default {
       font-size: 2.5em;
       line-height: 1.1;
       font-weight: 500;
-      //margin: 0 0 .5rem;
       letter-spacing: -0.03em;
       text-transform: capitalize;
     }

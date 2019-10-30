@@ -34,10 +34,12 @@ export default { methods: { setting } }
     grid-template-columns: 1fr auto;
     align-items: center;
     border-top: 2px solid #f6f9fc;
-    margin: 2rem 0 0;
+    margin: 4rem 0 0;
     padding: 3rem 0;
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
+      margin: 0;
+      padding: 3rem 0 1rem;
     }
     .text {
       max-width: 500px;

@@ -1,6 +1,7 @@
 {
   "name": "@factor/plugin-google-tag-manager",
-  "version": "1.0.0-beta.6",
+  "description": "This plugin adds Google Tag Manager to your Factor app.",
+  "version": "1.0.0-beta.9",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -11,7 +12,8 @@
     "target": [
       "app",
       "server"
-    ]
+    ],
+    "title": "Google Tag Manager"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
@@ -19,6 +21,9 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "google tag manager",
+    "tag manager",
+    "gtm"
   ]
 }

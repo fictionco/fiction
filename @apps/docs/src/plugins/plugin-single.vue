@@ -4,8 +4,8 @@
       <factor-loading-ring />
     </div>
     <div v-else>
-      <section v-for="(entry, index) in getData" :key="index">
-        <widget-header :image="`icon-jobs.svg`" :title="entry.name">
+      <section v-for="(entry, index) in pluginData" :key="index">
+        <widget-header :image="pluginIcon(entry.githubFiles)" :title="formatName(entry.name)">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -16,24 +16,44 @@
               >{{ author.name }}</span>
             </div>
 
-            <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>
+            <div
+              v-if="entry.downloads"
+              class="downloads"
+            >{{ formatDownloads(entry.downloads) }} downloads</div>
           </div>
         </widget-header>
 
         <div class="plugins-wrap content-pad">
           <div class="content">
-            <factor-link class="back" :path="`/pluginsnew`">
-              <!-- setting('plugins.indexRoute') -->
+            <factor-link class="back" :path="`/plugins`">
               <factor-icon icon="arrow-left" />
               <span>All Plugins</span>
             </factor-link>
-            <ul>
-              <li>– screenshots</li>
-            </ul>
-            <plugin-entry :text="getReadme(entry.readme)" class="plugin-content" />
+
+            <widget-lightbox
+              :visible.sync="lightboxShow"
+              :imgs="screenshotsList(entry.githubFiles)"
+              :index="lightboxIndex"
+            />
+
+            <div v-if="entry.githubFiles" class="plugin-images">
+              <div
+                v-for="(url, i) in screenshotsList(entry.githubFiles)"
+                :key="i"
+                class="image-item"
+              >
+                <div
+                  :style="{ backgroundImage: `url(${url})` }"
+                  class="image-item-content"
+                  @click="showModal(i)"
+                ></div>
+              </div>
+            </div>
+
+            <plugin-entry :text="getContent(entry.readme)" class="plugin-content" />
           </div>
 
-          <div class="sidebar">Sidebar</div>
+          <widget-sidebar :get-data="getData" />
         </div>
       </section>
     </div>
@@ -47,68 +67,103 @@ import dataUtility from "./plugin-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header.vue"),
+    "widget-sidebar": () => import("./widget-sidebar.vue"),
+    "widget-lightbox": () => import("./widget-lightbox.vue"),
     "plugin-entry": () => import("../el/entry.vue"),
-    // "plugins-sidebar": () => import("./plugins-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {
       getData: "",
-      loading: true
+      loading: true,
+      lightboxShow: false,
+      lightboxIndex: 0
     }
   },
   async serverPrefetch() {
-    const data = await dataUtility().getReadme("@factor/" + this.$route.params.slug)
+    const data = await dataUtility().getIndex()
 
     storeItem("plugins-index", data)
   },
-  // computed: {
-  //   returnLinkText() {
-  //     return setting("plugins.returnLinkText") || "All Plugins Here"
-  //   }
-  //   pluginData: function() {
-  //     let pageSlug = this.$route.params.slug
-  //     return _.pickBy(this.getData, function(u) {
-  //       let name = u.name.replace("@factor/", "")
-  //       return name === pageSlug || ""
-  //     })
-  //   }
-  //   pluginName() {
-  //     return _.pickBy(this.getData, function(u) {
-  //       let name = u.name.replace(/(?:^|[\s\-\_\.])/g, " ")
-  //       return name.replace("@factor/", "") || ""
-  //     })
-  //   }
-  // },
+  computed: {
+    pluginData: function() {
+      let pageSlug = this.$route.params.slug
+      return _.pickBy(this.getData, function(u) {
+        let name = u.name.replace("@factor/", "")
+        return name === pageSlug || ""
+      })
+    }
+  },
   async mounted() {
-    const data = stored("plugins-index")
-    this.getData = data
+    const theData = this.$store.val("plugins-index")
 
-    //console.log("VALLL", this.getData)
+    this.getData = theData
 
-    //this.getData = data
-    //   const data = await dataUtility().getReadme()
-    // require("../prism/prism.js")
-    // this.prism = window.Prism
+    require("../prism/prism.js")
+    this.prism = window.Prism
+
     this.loading = false
   },
   methods: {
     setting,
-    getReadme(value) {
+    pluginIcon(entry) {
+      const imageName = `icon.svg`
+
+      let images = []
+
+      if (entry) {
+        images = entry
+          .filter(image => !!image.path.match(imageName))
+          .map(image => {
+            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+          })
+      }
+
+      return images[0]
+    },
+    formatName(name) {
+      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+
+      return spacedName.replace("@factor/", "")
+    },
+    formatDownloads(number) {
+      let num = number
+      return num.toLocaleString("en", { useGrouping: true })
+    },
+    screenshotsList(list) {
+      const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
+      const imageName = `screenshot`
+
+      let screenshots = []
+
+      if (list) {
+        screenshots = list
+          .filter(
+            image => !!image.path.match(imagePattern) && !!image.path.match(imageName)
+          )
+          .map(image => {
+            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+          })
+      }
+
+      return screenshots
+    },
+    showModal(_ind) {
+      this.lightboxIndex = _ind
+      this.lightboxShow = true
+    },
+    getContent(value) {
       let markdownContent = value
 
       return markdownContent ? renderMarkdown(markdownContent, { variables: true }) : ""
     }
-    // pluginName(value) {
-    //   let entryName = value.replace(/(?:^|[\s\-\_\.])/g, " ")
-
-    //   return entryName.replace("@factor/", "")
-
-    //   //return _.pickBy(this.getData, function(u) {
-    //   //     let name = u.name.replace(/(?:^|[\s\-\_\.])/g, " ")
-    //   //     return name.replace("@factor/", "") || ""
-    //   //   })
-    // }
+  },
+  metaInfo() {
+    return {
+      title: "Factor Plugin Library",
+      description: "Extend your project features and do more with Factor."
+      //image: this.$post.shareImage(this.entry._id)
+    }
   }
 }
 </script>
@@ -120,7 +175,6 @@ export default {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
-  background-color: #f6f9fc;
 
   .content-pad {
     max-width: 1100px;
@@ -142,31 +196,33 @@ export default {
     }
   }
 
-  // Widget header custom styles
   .plugins-widget-header {
     .content-pad {
       grid-template-columns: 1fr;
     }
     .header-content {
       display: grid;
-      grid-template-columns: 150px 3fr;
+      grid-template-columns: 75px 3fr;
       grid-gap: 2rem;
       align-items: center;
 
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
+        grid-gap: 1rem;
       }
 
       .header-image {
         display: flex;
         justify-content: center;
-        height: 130px;
-        padding: 4px;
-        border-radius: 6px;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        overflow: hidden;
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
-          width: 50px;
+          width: 100%;
           max-width: 100%;
         }
       }
@@ -206,14 +262,16 @@ export default {
       font-weight: 500;
       line-height: 1.1;
       letter-spacing: -0.02em;
-      margin: 0 0 1.5rem;
+      margin-bottom: 1.5rem;
     }
+
     .plugin-images {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 150px));
+      grid-template-columns: repeat(auto-fit, minmax(100px, 160px));
       grid-gap: 1rem;
-      margin: 0 0 1.5rem;
+      margin-bottom: 1.5rem;
       .image-item {
+        cursor: pointer;
         .image-item-content {
           width: 100%;
           padding: 50% 0;
@@ -221,8 +279,8 @@ export default {
           background-size: cover;
           background-position: 50%;
           border-radius: 6px;
-          box-shadow: 0 2px 5px -1px rgba(50, 50, 93, 0.25),
-            0 1px 3px -1px rgba(0, 0, 0, 0.3);
+          background-color: #fff;
+          border: 1px solid var(--color-bg-contrast-more);
           background-size: cover;
           transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
           &:hover {

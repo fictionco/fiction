@@ -1,6 +1,7 @@
 {
   "name": "@factor/plugin-contact-form",
-  "version": "1.0.0-beta.6",
+  "description": "This plugin makes it easy to add a contact form to your app.",
+  "version": "1.0.0-beta.9",
   "license": "GPL-2.0",
   "type": "module",
   "factor": {
@@ -8,7 +9,8 @@
     "target": {
       "app": "index",
       "server": "server"
-    }
+    },
+    "title": "Contact Form"
   },
   "publishConfig": {
     "access": "public"
@@ -19,6 +21,9 @@
     "factor-plugin",
     "fiction",
     "webpack",
-    "vue"
+    "vue",
+    "contact",
+    "contact form",
+    "email"
   ]
 }
