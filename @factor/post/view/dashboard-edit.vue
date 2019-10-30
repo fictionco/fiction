@@ -32,7 +32,7 @@ export default {
     templateLoader() {
       const { editTemplate } = this.postTypeMeta
 
-      return editTemplate ? editTemplate : () => import("./posts-edit")
+      return editTemplate ? editTemplate : () => import("./posts-edit.vue")
     },
     editComponents() {
       const components = applyFilters("post-edit-components", [])
@@ -43,7 +43,7 @@ export default {
     }
   },
   watch: {
-    $route: function(to, from) {
+    $route: function() {
       if (!this._id) this.requestPost()
     }
   },

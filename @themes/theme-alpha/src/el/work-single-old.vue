@@ -17,7 +17,7 @@
 import { excerpt, stored, renderMarkdown } from "@factor/tools"
 export default {
   components: {
-    "work-entry": () => import("./work-entry")
+    "work-entry": () => import("./work-entry.vue")
     //"part-related": () => import("./related")
   },
   data() {

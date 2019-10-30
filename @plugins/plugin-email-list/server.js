@@ -23,7 +23,7 @@ export default Factor => {
 
       // Ensure that the post exists
       // Can't do all this in one query or it prevents detection of dupes / create unique index problems
-      const r = await this.postModel().updateOne(
+      await this.postModel().updateOne(
         { uniqueId: this.uniqueId(listId) },
         { title: listId },
         { upsert: true }
@@ -88,7 +88,7 @@ export default Factor => {
       })
 
       if (!format) {
-        return await sendCompleteEmail({ email, listId })
+        return await this.$addToSetsendCompleteEmail({ email, listId })
       }
 
       const { subject, text, from, linkText } = format
