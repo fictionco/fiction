@@ -1,4 +1,11 @@
-import { toLabel, addFilter, pushToFilter, applyFilters, setting } from "@factor/tools"
+import {
+  toLabel,
+  addFilter,
+  pushToFilter,
+  applyFilters,
+  registerOnFilter,
+  setting
+} from "@factor/tools"
 
 import pageSchema from "./schema"
 
@@ -30,10 +37,7 @@ addFilter("content-routes-unmatched", _ => {
 })
 
 // Add page templates
-addFilter("register-components", _ => {
-  _["templates"] = registerTemplates()
-  return _
-})
+registerOnFilter("register-components", "templates", registerTemplates())
 
 export async function getTemplate(templateId) {
   const _all = getPageTemplates()
@@ -57,7 +61,7 @@ export async function getTemplateFields(tpl) {
 
 // Register Page Templates added by theme or app
 export function registerTemplates() {
-  pageTemplates = getPageTemplates()
+  const pageTemplates = getPageTemplates()
 
   addFilter("components", _ => {
     pageTemplates.forEach(tpl => {

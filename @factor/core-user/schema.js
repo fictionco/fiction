@@ -1,6 +1,6 @@
 import { objectIdType } from "@factor/post/util"
 import { validator, applyFilters } from "@factor/tools"
-export default Factor => {
+export default () => {
   return {
     name: "user",
     callback: _s => {

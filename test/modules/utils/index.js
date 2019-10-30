@@ -1,5 +1,5 @@
 /* eslint-disable jest/no-export */
-import { resolve, join, dirname } from "path"
+import { dirname } from "path"
 import { runCallbacks } from "@factor/tools"
 export { default as getPort } from "get-port"
 export { default as rp } from "request-promise-native"
@@ -29,7 +29,7 @@ export const buildFixture = fixture => {
     const cli = require("@factor/cli")
 
     try {
-      const Factor = await cli.factorize()
+      await cli.factorize()
 
       await runCallbacks("create-distribution-app", { testing: true })
     } catch (error_) {

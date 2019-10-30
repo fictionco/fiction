@@ -20,7 +20,7 @@ export default Factor => {
       if (typeof obj == "string") {
         message = obj
       } else {
-        ;({ message = "", duration = 2000 } = obj)
+        ({ message = "", duration = 2000 } = obj)
       }
 
       emitEvent("notify-toast", { type: "notify", message, duration })

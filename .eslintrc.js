@@ -24,12 +24,16 @@ module.exports = {
   extends: [
     "plugin:vue/recommended",
     "plugin:unicorn/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
   ],
 
-  plugins: ["vue", "json", "prettier", "unicorn", "import", "jest"],
+  plugins: ["vue", "json", "prettier", "unicorn", "import", "jest", "import"],
 
   rules: {
+    complexity: 1,
     semi: ["error", "never"],
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",

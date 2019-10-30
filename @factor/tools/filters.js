@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { sortPriority, uniqueObjectHash } from "@factor/tools"
 
 export class FactorFilters {

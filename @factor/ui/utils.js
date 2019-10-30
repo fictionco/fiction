@@ -1,4 +1,3 @@
-import Factor from "vue"
 import { DOM } from "@factor/tools"
 export function fluidInput(e, wrapEl) {
   const NewEvent = DOM.Event("keydown")
