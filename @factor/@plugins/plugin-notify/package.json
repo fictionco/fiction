@@ -1,6 +1,6 @@
 {
   "name": "@factor/plugin-notify",
-  "description": "Factor Notify allows you to add toast notifications to your app with ease.",
+  "description": "Notify allows you to add toast notifications to your app with ease.",
   "version": "1.0.0-beta.6",
   "license": "GPL-2.0",
   "publishConfig": {

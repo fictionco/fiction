@@ -23,7 +23,7 @@
               <h3 class="title">
                 <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry._id) }}</factor-link>
               </h3>
-              <div class="meta">
+              <!-- <div class="meta">
                 <div v-if="entry.maintainers" class="authors">
                   by
                   <span
@@ -33,17 +33,17 @@
                   >{{ author.name }}</span>
                 </div>
 
-                <!-- <div v-if="entry.keywords" class="keywords">
+                <div v-if="entry.keywords" class="keywords">
                   in
                   <span
                     v-for="(keyword, key) in entry.keywords"
                     :key="key"
                     class="keyword"
                   >{{ keyword }},</span>
-                </div>-->
+                </div>
 
                 <div v-if="entry.downloads" class="downloads">{{ entry.downloads }} downloads</div>
-              </div>
+              </div>-->
 
               <p v-if="entry.description" class="text">{{ entry.description }}</p>
             </div>
@@ -179,7 +179,6 @@ export default {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
-  background-color: #f6f9fc;
   .posts-loading .loading-ring-wrap {
     min-height: 400px;
   }
@@ -195,6 +194,7 @@ export default {
   /* HEADER */
   .header {
     background-image: url("./img/dot.svg");
+    background-color: #f6f9fc;
     overflow: hidden;
 
     .content-pad {
@@ -287,7 +287,6 @@ export default {
         display: flex;
         justify-content: center;
         height: 70px;
-        padding: 4px;
         border-radius: 50%;
         overflow: hidden;
         background: var(--color-bg-contrast);
@@ -382,14 +381,13 @@ export default {
         display: flex;
         justify-content: center;
         height: 70px;
-        padding: 4px;
         border-radius: 50%;
         overflow: hidden;
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
         box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
-          width: 50px;
+          width: 100%;
           max-width: 100%;
         }
       }

@@ -164,7 +164,6 @@ export default {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
-  background-color: #f6f9fc;
 
   .content-pad {
     max-width: 1100px;
@@ -188,12 +187,13 @@ export default {
 
   // Widget header custom styles
   .plugins-widget-header {
+    background-color: #f6f9fc;
     .content-pad {
       grid-template-columns: 1fr;
     }
     .header-content {
       display: grid;
-      grid-template-columns: 150px 3fr;
+      grid-template-columns: 75px 3fr;
       grid-gap: 2rem;
       align-items: center;
 
@@ -204,13 +204,13 @@ export default {
       .header-image {
         display: flex;
         justify-content: center;
-        height: 130px;
-        padding: 4px;
-        border-radius: 6px;
+        border-radius: 50%;
+        overflow: hidden;
         background: var(--color-bg-contrast);
         border: 1px solid var(--color-bg-contrast-more);
+        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
-          width: 50px;
+          width: 100%;
           max-width: 100%;
         }
       }
@@ -267,8 +267,10 @@ export default {
           background-size: cover;
           background-position: 50%;
           border-radius: 6px;
-          box-shadow: 0 2px 5px -1px rgba(50, 50, 93, 0.25),
-            0 1px 3px -1px rgba(0, 0, 0, 0.3);
+          background-color: #fff;
+          border: 1px solid var(--color-bg-contrast-more);
+          // box-shadow: 0 2px 5px -1px rgba(50, 50, 93, 0.25),
+          //   0 1px 3px -1px rgba(0, 0, 0, 0.3);
           background-size: cover;
           transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
           &:hover {
