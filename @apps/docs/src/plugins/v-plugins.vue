@@ -15,15 +15,18 @@
             <h1 class="title">Featured</h1>
           </header>
           <div class="plugins-grid">
-            <div v-for="(entry, index) in pluginsFeatured" :key="index" class="entry-plugin">
+            <factor-link
+              v-for="(entry, index) in pluginsFeatured"
+              :key="index"
+              :path="pluginPermalink(entry._id)"
+              class="entry-plugin"
+            >
               <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
                 <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
               </div>
 
               <div class="entry-content">
-                <h3 class="title">
-                  <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry._id) }}</factor-link>
-                </h3>
+                <h3 class="title">{{ formatName(entry._id) }}</h3>
                 <div class="meta">
                   <div v-if="entry.maintainers" class="authors">
                     by
@@ -37,7 +40,7 @@
 
                 <p v-if="entry.description" class="text">{{ entry.description }}</p>
               </div>
-            </div>
+            </factor-link>
           </div>
         </section>
         <!-- 
@@ -58,15 +61,18 @@
           <header class="section-header">
             <h1 class="title">All</h1>
           </header>
-          <div v-for="(entry, index) in getData" :key="index" class="entry-plugin">
+          <factor-link
+            v-for="(entry, index) in getData"
+            :key="index"
+            :path="pluginPermalink(entry._id)"
+            class="entry-plugin"
+          >
             <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
               <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
             </div>
 
             <div class="entry-content">
-              <h3 class="title">
-                <factor-link :path="pluginPermalink(entry._id)">{{ formatName(entry._id) }}</factor-link>
-              </h3>
+              <h3 class="title">{{ formatName(entry._id) }}</h3>
               <div class="meta">
                 <div v-if="entry.maintainers" class="authors">
                   by
@@ -80,7 +86,7 @@
 
               <p v-if="entry.description" class="text">{{ entry.description }}</p>
             </div>
-          </div>
+          </factor-link>
         </section>
       </div>
       <div>
@@ -119,7 +125,6 @@ export default {
     },
     pluginsFeatured: function() {
       let getFeatured = _.pickBy(this.getData, function(u) {
-        console.log(u)
         return (
           (u.keywords.includes("factor-plugin") &&
             u.keywords.includes("factor-featured")) ||
@@ -253,6 +258,7 @@ export default {
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
+      grid-gap: 1rem;
     }
   }
 
@@ -265,27 +271,27 @@ export default {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 1.5rem;
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+      }
     }
     .entry-plugin {
-      display: grid;
-      grid-gap: 1rem;
-      justify-content: center;
       padding: 1.5rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
+      color: var(--color-text);
 
       &:hover {
-        .entry-content .title a {
+        background: #f6f9fc;
+        .entry-content .title {
           color: var(--color-primary);
         }
-      }
-      a {
-        text-decoration: none;
       }
       .entry-image {
         height: 70px;
         width: 70px;
+        margin-bottom: 1rem;
         border-radius: 50%;
         overflow: hidden;
         background: var(--color-bg-contrast);
@@ -302,12 +308,6 @@ export default {
           line-height: 1.2em;
           margin-bottom: 5px;
           text-transform: capitalize;
-          a {
-            color: var(--color-text);
-            &:hover {
-              color: var(--color-primary);
-            }
-          }
         }
         .meta {
           color: rgba(var(--color-text-rgb), 0.6);
@@ -361,24 +361,28 @@ export default {
       grid-template-columns: 70px 3fr;
       grid-gap: 2rem;
       align-items: flex-start;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       padding: 1.5rem;
       background: #fff;
       border-radius: 6px;
       border: 1px solid var(--color-bg-contrast-more);
+      color: var(--color-text);
+
+      @media (max-width: 900px) {
+        display: block;
+      }
 
       &:hover {
-        .entry-content .title a {
+        background: #f6f9fc;
+        .entry-content .title {
           color: var(--color-primary);
         }
       }
-      a {
-        text-decoration: none;
-      }
+
       .entry-image {
-        display: flex;
-        justify-content: center;
         height: 70px;
+        width: 70px;
+        margin-bottom: 1rem;
         border-radius: 50%;
         overflow: hidden;
         background: var(--color-bg-contrast);
@@ -386,7 +390,6 @@ export default {
         box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
         img {
           width: 100%;
-          max-width: 100%;
         }
       }
       .entry-content {
@@ -396,12 +399,6 @@ export default {
           line-height: 1.2em;
           margin-bottom: 5px;
           text-transform: capitalize;
-          a {
-            color: var(--color-text);
-            &:hover {
-              color: var(--color-primary);
-            }
-          }
         }
         .meta {
           color: rgba(var(--color-text-rgb), 0.6);

@@ -209,11 +209,14 @@ export default {
 
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
+        grid-gap: 1rem;
       }
 
       .header-image {
         display: flex;
         justify-content: center;
+        width: 75px;
+        height: 75px;
         border-radius: 50%;
         overflow: hidden;
         background: var(--color-bg-contrast);
