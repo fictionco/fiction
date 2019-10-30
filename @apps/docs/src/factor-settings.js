@@ -203,21 +203,12 @@ export default Factor => {
       ]
     },
     plugins: {
-      // indexRoute: "/pluginsnew",
-      // postRoute: "/plugin",
-      // returnLinkText: "All Plugins",
-      // layout: {
-      //   wrap: () => import("./plugins/plugins-wrap"),
-      //   index: () => import("./plugins/v-plugins.vue"),
-      //   single: () => import("./plugins/plugins-single.vue")
-      // },
       cta: {
         title: "Create and Submit Your Plugin",
         subtitle:
           "Learn about extension development and how to submit your extension to the Factor library."
       }
     },
-
     footer: {
       headline: "Released under the GPL-2 License",
       legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
