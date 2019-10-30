@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     setToggle() {
-      this.clickHandler = e => {
+      this.clickHandler = () => {
         if (this.toggle) {
           this.$emit("update:toggle", false)
           document.removeEventListener("click", this.clickHandler, false)

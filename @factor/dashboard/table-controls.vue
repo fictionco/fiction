@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-    send(action) {
+    send() {
       this.$emit("action", this.action)
       this.action = ""
     }

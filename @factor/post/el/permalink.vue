@@ -85,7 +85,7 @@ export default {
       if (!document) {
         return
       }
-      this.clickHandler = e => {
+      this.clickHandler = () => {
         if (this.toggleValue) {
           this.updateToggle(false)
           document.removeEventListener("click", this.clickHandler, false)

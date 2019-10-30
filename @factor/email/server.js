@@ -4,7 +4,7 @@ import { addCallback, applyFilters, setting } from "@factor/tools"
 export default () => {
   return new (class {
     constructor() {
-      addCallback("endpoints", { id: "email", handler: this })
+      addCallback("endpoints", { id: "email", handler: "@factor/email/server" })
       this.client = this.init()
     }
 

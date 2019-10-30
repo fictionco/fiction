@@ -63,7 +63,7 @@ export default {
     }
   },
   async mounted() {
-    const user = await this.$user.init()
+    await this.$user.init()
     this.loading = false
   },
 
@@ -75,7 +75,7 @@ export default {
         this.toggle = v
       }
 
-      this.clickHandler = e => {
+      this.clickHandler = () => {
         this.toggle = false
         document.removeEventListener("click", this.clickHandler, false)
       }

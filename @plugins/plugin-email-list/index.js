@@ -8,89 +8,85 @@ import {
   addCallback,
   setting
 } from "@factor/tools"
+
 import { endpointRequest } from "@factor/endpoint"
-export default Factor => {
-  return new (class {
-    constructor() {
-      this.postType = "emailList"
 
-      addCallback("route-query-action-verify-email-list", _ => this.verifyEmail(_))
+const postType = "emailList"
 
-      addFilter("components", _ => {
-        _["factor-email-list"] = () => import("./wrap.vue")
-        return _
-      })
+addCallback("route-query-action-verify-email-list", _ => verifyEmail(_))
 
-      pushToFilter("post-types", {
-        postType: this.postType,
-        nameIndex: "Email Lists",
-        nameSingle: "List",
-        namePlural: "Email Lists",
-        listTemplate: () => import("./dashboard-list.vue"),
-        editTemplate: () => import("./dashboard-edit.vue"),
-        add: false
-      })
-    }
+addFilter("components", _ => {
+  _["factor-email-list"] = () => import("./wrap.vue")
+  return _
+})
 
-    async deleteEmails({ emails, listId }) {
-      let result
-      if (
-        confirm(
-          `Are you sure? This will permanently delete ${emails.length} items from the "${listId}" list.`
-        )
-      ) {
-        result = await this.request("deleteEmails", { emails, listId })
-      }
+pushToFilter("post-types", {
+  postType: postType,
+  nameIndex: "Email Lists",
+  nameSingle: "List",
+  namePlural: "Email Lists",
+  listTemplate: () => import("./dashboard-list.vue"),
+  editTemplate: () => import("./dashboard-edit.vue"),
+  add: false
+})
 
-      return result
-    }
+export async function deleteEmails({ emails, listId }) {
+  let result
+  if (
+    confirm(
+      `Are you sure? This will permanently delete ${emails.length} items from the "${listId}" list.`
+    )
+  ) {
+    result = await sendEmailListRequest("deleteEmails", { emails, listId })
+  }
 
-    csvExport({ filename, data }) {
-      filename += `-${timestamp()}`
+  return result
+}
 
-      console.log("export", data)
+export function csvExport({ filename, data }) {
+  filename += `-${timestamp()}`
 
-      const ExportToCsv = require("export-to-csv").ExportToCsv
+  console.log("export", data)
 
-      const csvExporter = new ExportToCsv({ filename })
+  const ExportToCsv = require("export-to-csv").ExportToCsv
 
-      csvExporter.generateCsv(data)
-    }
+  const csvExporter = new ExportToCsv({ filename })
 
-    async verifyEmail(query) {
-      const result = await this.request("verifyEmail", query)
+  csvExporter.generateCsv(data)
+}
 
-      if (result) {
-        emitEvent(
-          "notify",
-          this.getSetting({ key: "emails.confirm.successMessage", listId: query.list })
-        )
-      }
-      return result
-    }
+export async function verifyEmail(query) {
+  const result = await sendEmailListRequest("verifyEmail", query)
 
-    settings(listId = "") {
-      const merge = [setting(`emailList.default`)]
+  if (result) {
+    emitEvent(
+      "notify",
+      getSetting({ key: "emails.confirm.successMessage", listId: query.list })
+    )
+  }
+  return result
+}
 
-      if (listId && listId != "default") {
-        const list = setting(`emailList.${listId}`)
+function settings(listId = "") {
+  const merge = [setting(`emailList.default`)]
 
-        if (list) merge.push(list)
-      }
-      return deepMerge(merge)
-    }
+  if (listId && listId != "default") {
+    const list = setting(`emailList.${listId}`)
 
-    getSetting({ listId, key, defaultValue = "" }) {
-      return dotSetting({ key, settings: this.settings(listId) })
-    }
+    if (list) merge.push(list)
+  }
+  return deepMerge(merge)
+}
 
-    async request(method, params) {
-      return await endpointRequest({ id: this.postType, method, params })
-    }
+function getSetting({ listId, key }) {
+  return dotSetting({ key, settings: settings(listId) })
+}
 
-    async addEmail({ email, listId, tags = [] }) {
-      emitEvent("email-list-new-email-requested", { email, listId, tags })
-      return await this.request("addEmail", { email, listId, tags })
-    }
-  })()
+async function sendEmailListRequest(method, params) {
+  return await endpointRequest({ id: postType, method, params })
+}
+
+export async function addEmail({ email, listId, tags = [] }) {
+  emitEvent("email-list-new-email-requested", { email, listId, tags })
+  return await sendEmailListRequest("addEmail", { email, listId, tags })
 }

@@ -229,7 +229,7 @@ export default {
     addRevision({ post, meta }) {
       this.clearAutosave()
 
-      const postData = addRevision({ post, meta })
+      const postData = this.addRevision({ post, meta })
 
       this.$set(this.post, "revisions", postData.revisions)
 

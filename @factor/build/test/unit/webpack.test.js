@@ -1,14 +1,15 @@
 import { dirname } from "path"
-import extender from "@factor/extend/server"
+import { extendServer } from "@factor/extend/server"
 import buildLoaders from "@factor/build/loaders"
 import webpackBuilder from "../../webpack-config"
 import Factor from "@factor/core"
 import { pushToFilter } from "@factor/tools"
+
 describe("webpack", () => {
   beforeAll(async () => {
     process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
 
-    await extender(Factor).extend({ loadPlugins: false })
+    await extendServer()
     buildLoaders(Factor).makeEmptyLoaders()
   })
 

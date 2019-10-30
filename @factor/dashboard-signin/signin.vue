@@ -132,6 +132,7 @@
 
 
 <script>
+import { sendPasswordResetEmail, verifyAndResetPassword } from "@factor/user/email"
 import { emitEvent } from "@factor/tools"
 export default {
   components: {},

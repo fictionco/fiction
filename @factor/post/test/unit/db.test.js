@@ -1,5 +1,3 @@
-import Factor from "@factor/core"
-
 import { $DB, FactorDB } from "../../database"
 import mongoose from "mongoose"
 import { getModel } from "../../server"
@@ -9,7 +7,6 @@ import { getModel } from "../../server"
 //   close: jest.fn(() => Promise.resolve())
 // }
 
-let db
 describe("db-utility", () => {
   beforeAll(async () => {})
 
