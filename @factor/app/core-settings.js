@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { resolveFilePath } from "@factor/paths"
+import { resolveFilePath } from "@factor/tools/paths"
 import icon from "./icon.png"
 export default {
   app: {

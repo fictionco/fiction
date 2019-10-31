@@ -2,7 +2,7 @@ import fs from "fs"
 import dotenv from "dotenv"
 import { resolve } from "path"
 import { deepMerge, addFilter } from "@factor/tools"
-import { getPath, localhostUrl } from "@factor/paths"
+import { getPath, localhostUrl } from "@factor/tools/paths"
 
 dotenv.config({ path: resolve(getPath("app"), ".env") })
 

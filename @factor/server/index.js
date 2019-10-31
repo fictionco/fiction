@@ -1,5 +1,5 @@
 import { addCallback, runCallbacks, applyFilters, setting, log } from "@factor/tools"
-import { getPath } from "@factor/paths"
+import { getPath } from "@factor/tools/paths"
 import destroyer from "destroyer"
 import express from "express"
 import fs from "fs-extra"

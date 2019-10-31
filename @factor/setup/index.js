@@ -5,7 +5,7 @@ import chalk from "chalk"
 import envfile from "envfile"
 import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor/tools"
 import { getExtensions } from "@factor/cli/extension-loader"
-import { getPath } from "@factor/paths"
+import { getPath } from "@factor/tools/paths"
 
 import highlightCLI from "cli-highlight"
 import json2yaml from "json2yaml"

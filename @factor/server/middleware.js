@@ -1,5 +1,5 @@
 import { applyFilters, setting } from "@factor/tools"
-import { getPath } from "@factor/paths"
+import { getPath } from "@factor/tools/paths"
 import serveFavicon from "serve-favicon"
 import bodyParser from "body-parser"
 import compression from "compression"

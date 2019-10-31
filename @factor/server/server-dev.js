@@ -1,5 +1,5 @@
 import { addFilter, applyFilters, runCallbacks, setting, log } from "@factor/tools"
-import { getPath } from "@factor/paths"
+import { getPath } from "@factor/tools/paths"
 import chalk from "chalk"
 import chokidar from "chokidar"
 import fs from "fs-extra"

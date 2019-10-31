@@ -1,7 +1,7 @@
 import "@factor/build/webpack-overrides"
 import { applyFilters, addCallback, addFilter, log } from "@factor/tools"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
-import { getPath } from "@factor/paths"
+import { getPath } from "@factor/tools/paths"
 import BundleAnalyzer from "webpack-bundle-analyzer"
 import CopyPlugin from "copy-webpack-plugin"
 import merge from "webpack-merge"

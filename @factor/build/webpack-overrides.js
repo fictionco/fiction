@@ -1,7 +1,7 @@
 import { addFilter } from "@factor/tools"
 import { dirname, basename } from "path"
 import { getExtensions } from "@factor/cli/extension-loader"
-import { getPath } from "@factor/paths"
+import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"
 import glob from "glob"
 

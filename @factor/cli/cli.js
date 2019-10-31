@@ -1,5 +1,5 @@
 import { generateLoaders } from "@factor/cli/extension-loader"
-import { getPath, localhostUrl } from "@factor/paths"
+import { getPath, localhostUrl } from "@factor/tools/paths"
 import { runCallbacks, addCallback } from "@factor/tools/filters"
 import commander from "commander"
 import execa from "execa"
