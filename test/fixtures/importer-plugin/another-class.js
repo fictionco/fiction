@@ -1,5 +1,1 @@
-export default class {
-  constructor() {
-    this.data = "yes"
-  }
-}
+export const data = "yes"

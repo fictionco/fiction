@@ -1,42 +1,32 @@
 import bugsnag from "@bugsnag/js"
 import bugsnagVue from "@bugsnag/plugin-vue"
 import log from "@factor/logger"
-import { onEvent, addFilter, setting } from "@factor/tools"
-export default Factor => {
-  return new (class {
-    constructor() {
-      this.clientApiKey = setting("bugsnag.client_api_key")
+import { onEvent, addCallback, setting } from "@factor/tools"
+import { userInitialized } from "@factor/user"
+import Factor from "@factor/core"
 
-      if (!this.clientApiKey || process.env.NODE_ENV == "development") {
-        return
-      }
+const clientApiKey = setting("bugsnag.client_api_key")
 
-      this.appVersion = setting("version") || "0.0.0"
+if (!clientApiKey || process.env.NODE_ENV == "development") return
 
-      const bugsnagClient = bugsnag({
-        apiKey: this.clientApiKey,
-        logger: this.customLogger(),
-        appVersion: this.appVersion
-      })
+const appVersion = setting("version") || "0.0.0"
 
-      bugsnagClient.use(bugsnagVue, Factor)
+const bugsnagClient = bugsnag({
+  apiKey: clientApiKey,
+  logger: customLogger(),
+  appVersion
+})
 
-      addFilter("initialize-app", () => {
-        onEvent("error", e => bugsnagClient.notify(e))
+bugsnagClient.use(bugsnagVue, Factor)
 
-        Factor.$user.init(user => {
-          if (user) bugsnagClient.user = user
-        })
-      })
-    }
+addCallback("initialize-app", async () => {
+  onEvent("error", e => bugsnagClient.notify(e))
 
-    customLogger() {
-      return {
-        debug: () => {},
-        info: () => {},
-        warn: () => log.warn,
-        error: () => log.error
-      }
-    }
-  })()
+  const user = await userInitialized()
+
+  if (user) bugsnagClient.user = user
+})
+
+function customLogger() {
+  return { debug: () => {}, info: () => {}, warn: () => log.warn, error: () => log.error }
 }

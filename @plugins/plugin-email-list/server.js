@@ -1,150 +1,142 @@
 import { getModel } from "@factor/post/server"
 import { randomToken, emitEvent, applyFilters, addCallback, setting } from "@factor/tools"
-export default Factor => {
-  return new (class {
-    constructor() {
-      addCallback("endpoints", { id: "emailList", handler: this })
-    }
+import { hasEmail, sendTransactional } from "@factor/email/server"
+import { getSetting } from "@factor/plugin-email-list"
+import * as endpoints from "@factor/plugin-email-list/server"
 
-    uniqueId(listId) {
-      return `_plugin-emailList-${listId}`
-    }
+addCallback("endpoints", { id: "emailList", handler: endpoints })
 
-    postModel() {
-      return getModel("emailList")
-    }
+function uniqueId(listId) {
+  return `_plugin-emailList-${listId}`
+}
 
-    // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
-    async addEmail({ email, listId = "default", tags = [] }) {
-      // Allow for external services to hook in
-      email = applyFilters(`plugin-email-list-add-${listId}`, email)
+function postModel() {
+  return getModel("emailList")
+}
 
-      const code = randomToken()
+// https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
+export async function addEmail({ email, listId = "default", tags = [] }) {
+  // Allow for external services to hook in
+  email = applyFilters(`plugin-email-list-add-${listId}`, email)
 
-      // Ensure that the post exists
-      // Can't do all this in one query or it prevents detection of dupes / create unique index problems
-      await this.postModel().updateOne(
-        { uniqueId: this.uniqueId(listId) },
-        { title: listId },
-        { upsert: true }
-      )
+  const code = randomToken()
 
-      const result = await this.postModel().updateOne(
-        { uniqueId: this.uniqueId(listId), "list.email": { $ne: email } },
-        { $addToSet: { list: { email, verified: false, code, tags } } }
-      )
+  // Ensure that the post exists
+  // Can't do all this in one query or it prevents detection of dupes / create unique index problems
+  await postModel().updateOne(
+    { uniqueId: uniqueId(listId) },
+    { title: listId },
+    { upsert: true }
+  )
 
-      // If email already exists, update it with new code
-      if (result.nModified == 0) {
-        await this.postModel().updateOne(
-          { uniqueId: this.uniqueId(listId), "list.email": email },
-          { $set: { "list.$.code": code } }
-        )
-      }
+  const result = await postModel().updateOne(
+    { uniqueId: uniqueId(listId), "list.email": { $ne: email } },
+    { $addToSet: { list: { email, verified: false, code, tags } } }
+  )
 
-      if (Factor.$emailServer.hasEmail) {
-        await this.sendConfirmEmail({ email, listId, code })
-      }
+  // If email already exists, update it with new code
+  if (result.nModified == 0) {
+    await postModel().updateOne(
+      { uniqueId: uniqueId(listId), "list.email": email },
+      { $set: { "list.$.code": code } }
+    )
+  }
 
-      emitEvent("email-list-new-email-added", { email, listId, tags })
+  if (hasEmail) {
+    await sendConfirmEmail({ email, listId, code })
+  }
 
-      return true
-    }
+  emitEvent("email-list-new-email-added", { email, listId, tags })
 
-    async deleteEmails({ emails, listId = "default" }) {
-      // query resource: https://stackoverflow.com/a/48933447/1858322
-      const result = await this.postModel().updateOne(
-        { uniqueId: this.uniqueId(listId) },
-        { $pull: { list: { email: { $in: emails } } } }
-      )
+  return true
+}
 
-      return result
-    }
+export async function deleteEmails({ emails, listId = "default" }) {
+  // query resource: https://stackoverflow.com/a/48933447/1858322
+  const result = await postModel().updateOne(
+    { uniqueId: uniqueId(listId) },
+    { $pull: { list: { email: { $in: emails } } } }
+  )
 
-    // Positional Operator
-    // https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
-    async verifyEmail({ email, list: listId, code }) {
-      const result = await this.postModel().updateOne(
-        { uniqueId: this.uniqueId(listId), "list.code": code, "list.email": email },
-        { $set: { "list.$.verified": true, "list.$.code": null } }
-      )
+  return result
+}
 
-      if (result && result.nModified > 0) {
-        await Promise.all([
-          this.sendNotifyEmail({ email, listId }),
-          this.sendCompleteEmail({ email, listId })
-        ])
-      }
+// Positional Operator
+// https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
+export async function verifyEmail({ email, list: listId, code }) {
+  const result = await postModel().updateOne(
+    { uniqueId: uniqueId(listId), "list.code": code, "list.email": email },
+    { $set: { "list.$.verified": true, "list.$.code": null } }
+  )
 
-      return result
-    }
+  if (result && result.nModified > 0) {
+    await Promise.all([
+      sendNotifyEmail({ email, listId }),
+      sendCompleteEmail({ email, listId })
+    ])
+  }
 
-    async sendConfirmEmail({ email, listId, code }) {
-      const action = `verify-email-list`
+  return result
+}
 
-      const format = Factor.$emailList.getSetting({
-        key: "emails.confirm",
-        listId
-      })
+async function sendConfirmEmail({ email, listId, code }) {
+  const action = `verify-email-list`
 
-      if (!format) {
-        return await this.$addToSetsendCompleteEmail({ email, listId })
-      }
+  const format = getSetting({
+    key: "emails.confirm",
+    listId
+  })
 
-      const { subject, text, from, linkText } = format
+  if (!format) {
+    return await sendCompleteEmail({ email, listId })
+  }
 
-      const linkUrl = `${setting(
-        "currentUrl"
-      )}?_action=${action}&code=${code}&email=${encodeURIComponent(email)}&list=${listId}`
+  const { subject, text, from, linkText } = format
 
-      return await Factor.$emailServer.sendTransactional({
-        to: email,
-        from,
-        subject,
-        text,
-        linkText,
-        linkUrl
-      })
-    }
+  const linkUrl = `${setting(
+    "currentUrl"
+  )}?_action=${action}&code=${code}&email=${encodeURIComponent(email)}&list=${listId}`
 
-    async sendCompleteEmail({ email, listId }) {
-      const format = Factor.$emailList.getSetting({
-        key: "emails.complete",
-        listId
-      })
+  return await sendTransactional({
+    to: email,
+    from,
+    subject,
+    text,
+    linkText,
+    linkUrl
+  })
+}
 
-      if (!format) return
+async function sendCompleteEmail({ email, listId }) {
+  const format = getSetting({ key: "emails.complete", listId })
 
-      const { subject, text, from } = format
+  if (!format) return
 
-      return await Factor.$emailServer.sendTransactional({
-        to: email,
-        subject,
-        text,
-        from
-      })
-    }
+  const { subject, text, from } = format
 
-    async sendNotifyEmail({ email, listId }) {
-      const format = Factor.$emailList.getSetting({
-        key: "emails.notify",
-        listId
-      })
+  return await sendTransactional({
+    to: email,
+    subject,
+    text,
+    from
+  })
+}
 
-      if (!format) return
+async function sendNotifyEmail({ email, listId }) {
+  const format = getSetting({ key: "emails.notify", listId })
 
-      let { subject, text, to, from } = format
+  if (!format) return
 
-      if (to) {
-        await Factor.$emailServer.sendTransactional({
-          to,
-          subject,
-          text: text + `<p><strong>Email:</strong> ${email}</p>`,
-          from
-        })
-      }
+  let { subject, text, to, from } = format
 
-      return
-    }
-  })()
+  if (to) {
+    await sendTransactional({
+      to,
+      subject,
+      text: text + `<p><strong>Email:</strong> ${email}</p>`,
+      from
+    })
+  }
+
+  return
 }

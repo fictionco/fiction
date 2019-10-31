@@ -23,7 +23,7 @@ export async function sendStorageRequest({ method, params, formData, headers = {
 }
 
 export async function requestDeleteImage(params) {
-  return await sendStorageRequest({ method: "delete", params })
+  return await sendStorageRequest({ method: "deleteImage", params })
 }
 
 export async function uploadImage({ file, onPrep, onFinished, onError, onChange }) {

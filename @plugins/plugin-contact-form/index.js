@@ -1,47 +1,37 @@
 import { requestPostSave } from "@factor/post"
 import { toLabel, pushToFilter, setting } from "@factor/tools"
+import { sendEmailRequest } from "@factor/email"
 
-export default Factor => {
-  return new (class {
-    constructor() {
-      this.postType = "contact-form"
-      this.filters()
-    }
+const postType = "contact-form"
 
-    filters() {
-      pushToFilter("post-types", {
-        postType: this.postType,
-        nameIndex: "Contact Form",
-        nameSingle: "Submitted",
-        namePlural: "Contact Forms",
-        listTemplate: () => import("./dashboard-list.vue"),
-        add: false
-      })
-    }
+pushToFilter("post-types", {
+  postType: postType,
+  nameIndex: "Contact Form",
+  nameSingle: "Submitted",
+  namePlural: "Contact Forms",
+  listTemplate: () => import("./dashboard-list.vue"),
+  add: false
+})
 
-    async save(form) {
-      const post = { settings: form }
-      const saved = await requestPostSave({ post, postType: this.postType })
-      this.send(form)
-      return saved
-    }
+export async function saveContactForm(form) {
+  const post = { settings: form }
+  const saved = await requestPostSave({ post, postType: postType })
+  sendFormEmail(form)
+  return saved
+}
 
-    async send(form) {
-      const toSetting = setting("contactForm.email")
-      const to = typeof toSetting == "function" ? toSetting() : toSetting
+export async function sendFormEmail(form) {
+  const toSetting = setting("contactForm.email")
+  const to = typeof toSetting == "function" ? toSetting() : toSetting
 
-      const text = Object.entries(form)
-        .map(
-          ([key, value]) => `<p><strong>${toLabel(key)}</strong><br><i>${value}</i></p>`
-        )
-        .join("")
+  const text = Object.entries(form)
+    .map(([key, value]) => `<p><strong>${toLabel(key)}</strong><br><i>${value}</i></p>`)
+    .join("")
 
-      return await Factor.$email.request("sendTransactional", {
-        _id: "contact-form",
-        to,
-        subject: "Contact Form Submitted",
-        text
-      })
-    }
-  })()
+  return await sendEmailRequest("sendTransactional", {
+    _id: "contact-form",
+    to,
+    subject: "Contact Form Submitted",
+    text
+  })
 }

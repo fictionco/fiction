@@ -78,7 +78,7 @@ function settings(listId = "") {
   return deepMerge(merge)
 }
 
-function getSetting({ listId, key }) {
+export function getSetting({ listId, key }) {
   return dotSetting({ key, settings: settings(listId) })
 }
 
