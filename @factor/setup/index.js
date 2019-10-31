@@ -4,7 +4,7 @@ import chalk from "chalk"
 
 import envfile from "envfile"
 import log from "@factor/logger"
-import { getExtensions } from "@factor/build/util"
+import { getExtensions } from "@factor/@factor/cli/extension-loader"
 import { getPath } from "@factor/paths"
 import { sortPriority, deepMerge, applyFilters, addCallback } from "@factor/tools"
 

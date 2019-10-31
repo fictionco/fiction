@@ -1,5 +1,5 @@
 import { extendServer } from "@factor/extend/server"
-import buildLoaders from "@factor/build/loaders"
+import buildLoaders from "@factor/cli/extension-loader"
 import { dirname } from "path"
 
 jest.mock("fs-extra")

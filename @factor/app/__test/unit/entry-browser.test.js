@@ -21,7 +21,7 @@ describe("app", () => {
       createApp: () => _app
     }))
 
-    require("../../entry-client.js")
+    require("../../entry-browser.js")
 
     await waitFor(20)
 

@@ -2,7 +2,7 @@ import fs from "fs-extra"
 import { resolve, dirname, relative } from "path"
 
 import { addFilter, applyFilters } from "@factor/tools"
-import { getExtensions } from "@factor/build/util"
+import { getExtensions } from "@factor/@factor/cli/extension-loader"
 
 // Add static folder copy config to webpack copy plugin
 addFilter("webpack-copy-files-config", _ => [..._, ...staticCopyConfig()])
@@ -28,7 +28,7 @@ function relativePath(key) {
     generated,
     coreApp,
     static: [source, "static"],
-    "entry-client": [coreApp, "entry-client.js"],
+    "entry-browser": [coreApp, "entry-browser.js"],
     "entry-server": [coreApp, "entry-server.js"],
     "config-file-public": [app, "factor-config.json"],
     "config-file-private": [app, ".env"],

@@ -1,17 +1,16 @@
-/* eslint-disable unicorn/no-process-exit */
-
-import execa from "execa"
-import listr from "listr"
-import commander from "commander"
-import inquirer from "inquirer"
-import pkg from "./package"
-import log from "@factor/logger"
-
 import { extendServer } from "@factor/extend/server"
-import transpiler from "@factor/build/transpiler"
+import { generateLoaders } from "@factor/cli/extension-loader"
 import { getPath, localhostUrl } from "@factor/paths"
 import { runCallbacks, addCallback } from "@factor/tools/filters"
-import loaderUtility from "@factor/build/loaders"
+import commander from "commander"
+import execa from "execa"
+import inquirer from "inquirer"
+import listr from "listr"
+import log from "@factor/logger"
+
+import aliasRequire from "./alias-require"
+import pkg from "./package"
+import transpiler from "./transpile"
 
 process.noDeprecation = true
 process.maxOldSpaceSize = 8192
@@ -36,6 +35,7 @@ commander
   .option("--PORT <PORT>", "set server port. default: 3000")
   .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
   .option("--restart", "Restart server process flag.")
+  .option("--debug", "Log debugging info.")
 
 commander
   .command("dev")
@@ -78,7 +78,7 @@ commander
 commander
   .command("create-loaders")
   .description("Generate extension loaders")
-  .action(() => loaderUtility.generateLoaders())
+  .action(() => generateLoaders())
 
 commander.parse(process.argv)
 
@@ -110,6 +110,7 @@ async function runCommand(options) {
     } else {
       log.success(`Successfully ran [${command}]`)
 
+      // eslint-disable-next-line unicorn/no-process-exit
       process.exit(0)
     }
   } catch (error) {
@@ -143,6 +144,7 @@ async function factorize(_arguments = {}) {
 
   // Do this for every reset of server
   transpiler()
+  aliasRequire()
 
   await extendServer(_config)
 
@@ -165,11 +167,7 @@ async function runServer(_arguments) {
   }
 
   if (NODE_ENV == "development") {
-    message.lines.unshift({
-      title: "URL",
-      value: localhostUrl(),
-      indent: true
-    })
+    message.lines.unshift({ title: "URL", value: localhostUrl(), indent: true })
   }
 
   log.formatted(message)

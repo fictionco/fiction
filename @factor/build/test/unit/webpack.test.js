@@ -1,38 +1,27 @@
-import { dirname } from "path"
-import { extendServer } from "@factor/extend/server"
-import buildLoaders from "@factor/build/loaders"
-import { buildProduction, getConfig } from "../../webpack-config"
-import Factor from "@factor/core"
-import { pushToFilter } from "@factor/tools"
-
 describe("webpack", () => {
-  beforeAll(async () => {
-    process.env.FACTOR_CWD = dirname(require.resolve("@test/loaders"))
-
-    await extendServer()
-    buildLoaders(Factor).makeEmptyLoaders()
+  describe("webpack-config", () => {
+    it("returns the correct development config", () => {})
+    it("returns the correct production config", () => {})
+    it("returns on appropriate callbacks", () => {})
+    it("loads css, less and sass", () => {})
+    it("handles common static file types (jpg, md, etc..)", () => {})
+    it("supports bundle analysis", () => {})
+    it("defines application ENV variables", () => {})
+    it("has config filters", () => {})
+  })
+  describe("webpack-override", () => {
+    it("recognizes the override alias and uses correct override hierarchy", () => {})
+    it("allows for browser/webpack overrides '-browser' (to prevent MODULE_NOT_FOUND errors)", () => {})
+  })
+  describe("webpack-production-build", () => {
+    it("logs correct information from production build", () => {})
+    it("empties and then recreates dist folder", () => {})
+    it("builds dist SSR bundles", () => {})
+    it("builds client chunks", () => {})
+    it("moves static files", () => {})
   })
 
-  it("generated production app", async () => {
-    const results = await buildProduction()
-
-    expect(results).toEqual([true, true])
-  })
-
-  it("gets appropriate config", async () => {
-    let config = getConfig({ analyze: true, target: "client" })
-
-    let plugins = config.plugins.map(_ => _.constructor.name)
-    expect(plugins).toEqual(expect.arrayContaining(["BundleAnalyzerPlugin"]))
-
-    process.env.NODE_ENV = "production"
-
-    // test for ignore modules
-    pushToFilter("webpack-ignore-modules", "mongoose")
-    config = getConfig({ target: "server" })
-    plugins = config.plugins.map(_ => _.constructor.name)
-    expect(plugins).toEqual(
-      expect.arrayContaining(["CleanWebpackPlugin", "IgnorePlugin"])
-    )
+  describe("webpack-development-build", () => {
+    it("logs errors correctly", () => {})
   })
 })

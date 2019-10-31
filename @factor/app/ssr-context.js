@@ -9,11 +9,7 @@ export async function handleContext(Factor, { context, app, router, store }) {
   // Account for redirects
   router.push(fullPath !== url ? fullPath : url).catch(error => console.error(error))
 
-  context = applyFilters("ssr-context-init", context, {
-    app,
-    router,
-    store
-  })
+  context = applyFilters("ssr-context-init", context, { app, router, store })
 
   // Wait until router has resolved async imports
   // https://router.vuejs.org/api/#router-onready
@@ -21,14 +17,9 @@ export async function handleContext(Factor, { context, app, router, store }) {
     router.onReady(() => resolve(true), reject)
   })
 
-  const ssrConfig = {
-    context,
-    fullPath,
-    matchedComponents: router.getMatchedComponents(fullPath),
-    app,
-    router,
-    store
-  }
+  const matchedComponents = router.getMatchedComponents(fullPath)
+
+  const ssrConfig = { context, fullPath, matchedComponents, app, router, store }
 
   await runCallbacks("ssr-context-callbacks", ssrConfig)
 

@@ -1,4 +1,4 @@
-import { generateLoaders } from "@factor/build/util"
+import { generateLoaders } from "@factor/@factor/cli/extension-loader"
 import { dirname } from "path"
 
 module.exports = async () => {

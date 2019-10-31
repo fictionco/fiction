@@ -1,4 +1,4 @@
-import "@factor/build/override"
+import "@factor/build/webpack-overrides"
 import { applyFilters, addCallback, addFilter } from "@factor/tools"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import { getPath } from "@factor/paths"
@@ -59,9 +59,7 @@ export async function getConfig(_arguments) {
     targetConfig,
     packageConfig,
     testingConfig,
-    {
-      plugins
-    }
+    { plugins }
   )
 
   return config
@@ -85,7 +83,7 @@ function server() {
 }
 
 function client() {
-  const app = getPath("entry-client")
+  const app = getPath("entry-browser")
   const filename = "factor-client.json"
   return {
     entry: { app },

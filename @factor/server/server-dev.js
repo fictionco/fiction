@@ -14,7 +14,7 @@ import yargs from "yargs"
 
 const argv = yargs.argv
 
-import { getFactorDirectories } from "@factor/build/util"
+import { getFactorDirectories } from "@factor/@factor/cli/extension-loader"
 
 let configServer
 let configClient
