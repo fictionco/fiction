@@ -8,9 +8,9 @@ export class FactorFilters {
 
   // Get total number of filters added on an id
   count(name) {
-    const _added = this._filters[name]
+    const added = this._filters[name]
 
-    return _added && Object.keys(_added).length > 0 ? Object.keys(_added).length : 0
+    return added && Object.keys(added).length > 0 ? Object.keys(added).length : 0
   }
 
   // Apply filters a maximum of one time, once they've run add to _applied property
