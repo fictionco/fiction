@@ -1,5 +1,5 @@
 import { addFilter } from "@factor/tools"
-import { dirname, basename, resolve } from "path"
+import { dirname, basename } from "path"
 import { getExtensions } from "@factor/build/util"
 import { getPath } from "@factor/paths"
 import fs from "fs-extra"
