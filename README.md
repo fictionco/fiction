@@ -5,7 +5,42 @@
 </a>
 </p>
 
-> Status: Currently working on quality and stability. Public beta arrives with 80%+ testing coverage. 
+
+## Status: Private Beta (_Public Beta arrives with 80% coverage_)
+
+We have achieved all architectural goals and features planned:
+
+- Dashboard / Auth
+  - [x] Simple post/page management
+  - [x] Markdown editing
+  - [x] User management
+  - [x] JWT Based Auth
+
+- Framework
+  - [x] Minimal extension API (themes and plugins)
+  - [x] Performant
+  - [x] Endpoints System
+  - [x] CLI
+  - [x] Routes + Store + SSR
+
+- Data Model
+  - [x] Single collection post type model
+  - [x] Simple MongoDB (connection string)
+  
+- Key Extensions 
+  - [x] Forms
+  - [x] S3
+  - [x] Code Highlight Component
+  - [x] Analytics (tag manager)
+  - [x] Other tools (Bugsnag, Slack)
+
+- However, now it's time to work on quality + long-term stability:
+
+- [ ] Excellent testing code coverage with Jest + Cypress
+- [ ] Refactor for simple testing 
+- [ ] Validation and community feedback (starts with all tests passing @ 80%+ coverage)
+
+This is an GPL project. If you're interested in contribution, please just add your email at [Factor.dev](https://factor.dev).
 
 <p>
   <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>  
