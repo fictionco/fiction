@@ -18,7 +18,9 @@ async function createSettings() {
   // eslint-disable-next-line import/no-unresolved
   const { default: settingsFiles } = await import("~/.factor/loader-settings")
 
-  settingsExports = await getExports(settingsFiles).map(({ _exports }) => _exports)
+  settingsExports = settingsFiles.map(_export =>
+    typeof _export == "function" ? _export() : _export
+  )
 
   await mergeAllSettings()
 }

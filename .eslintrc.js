@@ -55,5 +55,13 @@ module.exports = {
         multiline: {}
       }
     ]
+  },
+
+  settings: {
+    "import/resolver": {
+      alias: {
+        map: [["~", process.env.FACTOR_CWD || process.cwd()]]
+      }
+    }
   }
 }

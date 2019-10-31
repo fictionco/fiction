@@ -16,17 +16,19 @@ export async function importPlugins(plugins) {
 }
 
 export async function getExports(items) {
-  return await Promise.all(
+  const r = await Promise.all(
     Object.keys(items).map(async key => {
       let _exports
       try {
         _exports = await items[key]()
       } catch (error) {
-        error.message = `Importing "${key}": ${error.message}`
+        error.message = `Error importing "${key}" module: ${error.message}`
         throw new Error(error)
       }
 
       return { key, _exports }
     })
   )
+
+  return r
 }

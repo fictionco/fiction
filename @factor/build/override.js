@@ -1,9 +1,9 @@
-import glob from "glob"
-import fs from "fs-extra"
-import { dirname, resolve } from "path"
 import { addFilter } from "@factor/tools"
-import { getPath } from "@factor/paths"
+import { dirname, basename, resolve } from "path"
 import { getExtensions } from "@factor/build/util"
+import { getPath } from "@factor/paths"
+import fs from "fs-extra"
+import glob from "glob"
 
 const themes = getExtensions().filter(_ => _.extend == "theme")
 
@@ -28,12 +28,11 @@ addFilter("webpack-plugins", (_, { webpack }) => {
 // Replace with polyfill if a
 function browserReplacement(webpack) {
   return new webpack.NormalModuleReplacementPlugin(/^@factor/, resource => {
-    const resolvedDirectory = dirname(
-      require.resolve(resource.request, { paths: [resource.context] })
-    )
-    const clientUtil = _fileExists(
-      resolve(resolvedDirectory, `${resource.request}-browser`)
-    )
+    const resolvedFile = require.resolve(resource.request, { paths: [resource.context] })
+    const resolvedDirectory = dirname(resolvedFile)
+    const filename = basename(resolvedFile, ".js")
+
+    const clientUtil = _fileExists(`${resolvedDirectory}/${filename}-browser`)
 
     if (clientUtil) resource.request = clientUtil
   })
@@ -78,17 +77,11 @@ function handleAsOverride(resource) {
 }
 
 function _fileExists(path) {
-  const basePath = path.split("?")[0]
-  //const query = path.split("?")[1] || ""
-  if (fs.pathExistsSync(basePath)) {
+  if (fs.pathExistsSync(path)) {
     return path
   } else {
-    const files = glob.sync(`${basePath}.*`)
+    const files = glob.sync(`${path}.*`)
 
-    if (files && files.length == 1) {
-      return files[0]
-    } else {
-      return false
-    }
+    return files && files.length == 1 ? files[0] : false
   }
 }

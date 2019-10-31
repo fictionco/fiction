@@ -7,10 +7,14 @@ const setupTitle = "Plugin: Bugsnag"
 
 addSetupCli(setupTitle)
 
-if (!clientApiKey) {
-  pushToFilter("setup-needed", { title: setupTitle })
+addFilters()
 
-  return
+function addFilters() {
+  if (!clientApiKey) {
+    pushToFilter("setup-needed", { title: setupTitle })
+
+    return
+  }
 }
 
 function addSetupCli(name) {

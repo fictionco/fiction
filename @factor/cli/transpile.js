@@ -13,9 +13,11 @@ require("@babel/register")({
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-modules-commonjs",
     "@babel/plugin-proposal-object-rest-spread",
-    "dynamic-import-node"
+    "dynamic-import-node",
+    "@babel/plugin-syntax-import-meta"
   ],
-  presets: [["@babel/preset-env", { modules: "cjs" }]]
+  presets: [["@babel/preset-env", { modules: "cjs" }]],
+  sourceMaps: "inline"
 })
 require.extensions[".md"] = () => {}
 require.extensions[".svg"] = () => {}

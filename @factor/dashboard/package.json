@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "@factor/dashboard-signin": "1.0.0-beta.6",
-    "@factor/ui-components-form": "1.0.0-beta.6",
-    "@factor/ui-components-standard": "1.0.0-beta.6"
+    "@factor/ui": "1.0.0-beta.6"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }

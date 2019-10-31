@@ -80,7 +80,7 @@ export class FactorLoaderUtility {
       callback: files => {
         this.writeFile({
           destination: getPath("loader-settings"),
-          content: this.loaderString(files)
+          content: this.loaderStringOrdered(files)
         })
       }
     })
@@ -206,11 +206,15 @@ export class FactorLoaderUtility {
   }
 
   loaderString(files) {
-    const fileLines = files
-      .map(({ _id, file }) => `  ${_id}: () => import("${file}")`)
-      .join(`,\n`)
+    return files.map(({ file }) => `import "${file}"`).join("\n")
+  }
 
-    let lines = [`/* GENERATED FILE */`, `export default {`, fileLines, `}`]
+  loaderStringOrdered(files) {
+    const lines = files.map(
+      ({ _id, file }) => `import { default as ${_id} } from "${file}"`
+    )
+
+    lines.push(`\n\nexport default [ ${files.map(({ _id }) => _id).join(", ")} ]`)
 
     return lines.join("\n")
   }

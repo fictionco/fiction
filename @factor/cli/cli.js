@@ -10,7 +10,7 @@ import log from "@factor/logger"
 import { extendServer } from "@factor/extend/server"
 import transpiler from "@factor/build/transpiler"
 import { getPath, localhostUrl } from "@factor/paths"
-import { runCallbacks, addCallback } from "@factor/tools"
+import { runCallbacks, addCallback } from "@factor/tools/filters"
 import loaderUtility from "@factor/build/loaders"
 
 process.noDeprecation = true
@@ -222,7 +222,11 @@ async function runTasks(t, opts = {}) {
                 task.output = data.toString()
               })
 
-              await proc
+              try {
+                await proc
+              } catch (error) {
+                log.error(error)
+              }
 
               task.title = options.done ? options.done : `${task.title} [Done!]`
 
@@ -234,7 +238,7 @@ async function runTasks(t, opts = {}) {
     }
   )
 
-  const tasks = new listr(taskMap, opts) //, { concurrent: true }
+  const tasks = new listr(taskMap, opts)
 
   await tasks.run()
 

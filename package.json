@@ -80,6 +80,7 @@
     "webpack": "^4.29.6"
   },
   "devDependencies": {
+    "eslint-import-resolver-alias": "^1.1.2",
     "mongodb-memory-server": "^6.0.1",
     "yorkie": "^2.0.0"
   }

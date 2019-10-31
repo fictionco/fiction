@@ -10,7 +10,6 @@
   "factor": {
     "_id": "tagManager",
     "target": [
-      "app",
       "server"
     ],
     "title": "Google Tag Manager"

@@ -7,26 +7,35 @@ import Factor from "@factor/core"
 
 const clientApiKey = setting("bugsnag.client_api_key")
 
-if (!clientApiKey || process.env.NODE_ENV == "development") return
+addFilters()
 
-const appVersion = setting("version") || "0.0.0"
+function addFilters() {
+  if (!clientApiKey || process.env.NODE_ENV == "development") return
 
-const bugsnagClient = bugsnag({
-  apiKey: clientApiKey,
-  logger: customLogger(),
-  appVersion
-})
+  const appVersion = setting("version") || "0.0.0"
 
-bugsnagClient.use(bugsnagVue, Factor)
+  const bugsnagClient = bugsnag({
+    apiKey: clientApiKey,
+    logger: customLogger(),
+    appVersion
+  })
 
-addCallback("initialize-app", async () => {
-  onEvent("error", e => bugsnagClient.notify(e))
+  bugsnagClient.use(bugsnagVue, Factor)
 
-  const user = await userInitialized()
+  addCallback("initialize-app", async () => {
+    onEvent("error", e => bugsnagClient.notify(e))
 
-  if (user) bugsnagClient.user = user
-})
+    const user = await userInitialized()
+
+    if (user) bugsnagClient.user = user
+  })
+}
 
 function customLogger() {
-  return { debug: () => {}, info: () => {}, warn: () => log.warn, error: () => log.error }
+  return {
+    debug: () => {},
+    info: () => {},
+    warn: () => log.warn,
+    error: () => log.error
+  }
 }

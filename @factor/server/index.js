@@ -5,7 +5,7 @@ import express from "express"
 import fs from "fs-extra"
 import log from "@factor/logger"
 import LRU from "lru-cache"
-import renderUtility from "vue-server-renderer"
+import { createBundleRenderer } from "vue-server-renderer"
 
 import "./server-dev"
 import { handleServerError, getPort, getServerInfo, logServerReady } from "./util"
@@ -76,7 +76,7 @@ function createRenderer(bundle, options) {
   // Allow for changing default options when rendering
   // particulary important for testing
   options = applyFilters("server-renderer-options", options)
-  return renderUtility.createBundleRenderer(bundle, {
+  return createBundleRenderer(bundle, {
     cache: new LRU({ max: 1000, maxAge: 1000 * 60 * 15 }),
     runInNewContext: false,
     directives: applyFilters("server-directives", {}),
