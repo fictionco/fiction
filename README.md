@@ -42,11 +42,11 @@ We have achieved all architectural goals and features planned:
   - [x] 3 Themes
   - [x] Other tools (Analytics, Bugsnag, Slack)
 
-- However, now it's time to work on quality + long-term stability:
+- Quality... Now it's time to work on long-term stability:
 
-- [ ] Excellent testing code coverage with Jest + Cypress
-- [ ] Refactor for simple testing 
-- [ ] Validation and community feedback (starts with all tests passing @ 80%+ coverage)
+  - [ ] Excellent testing code coverage with Jest + Cypress
+  - [ ] Refactor for simple testing 
+  - [ ] Validation and community feedback (starts with all tests passing @ 80%+ coverage)
 
 This is an GPL project. If you're interested in contribution, please just add your email at [Factor.dev](https://factor.dev).
 
