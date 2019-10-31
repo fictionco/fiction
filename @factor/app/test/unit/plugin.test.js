@@ -1,12 +1,11 @@
-import Factor from "@factor/core"
 import { extendApp } from "@factor/extend"
-import plugin from "@factor/app"
+import { appMounted } from "@factor/app"
 import { waitFor } from "@test/utils"
 import { generateLoaders } from "@factor/build/util"
 import { dirname } from "path"
 
 import * as tools from "@factor/tools"
-let _app
+
 let spies
 
 describe("app", () => {
@@ -19,7 +18,6 @@ describe("app", () => {
       routes: jest.spyOn(tools, "addFilter"),
       components: jest.spyOn(tools, "addFilter")
     }
-    _app = plugin(Factor)
   })
 
   it("has initialization system", async () => {
@@ -27,7 +25,7 @@ describe("app", () => {
       tools.emitEvent("app-mounted")
     }, 40)
 
-    const _p = _app.client()
+    const _p = appMounted()
 
     expect(_p instanceof Promise).toBe(true)
     await waitFor(60)

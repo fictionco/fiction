@@ -6,11 +6,11 @@ import {
   registerOnFilter
 } from "@factor/tools"
 
-let clientIsMountedPromise = initializeClient()
+let clientIsMountedPromise = waitForMountApp()
 
 // Allows components to definitively wait for client to init
 // otherwise we might throw hydration errors
-export async function client(callback) {
+export async function appMounted(callback) {
   await clientIsMountedPromise
 
   if (callback) callback()
@@ -18,7 +18,7 @@ export async function client(callback) {
   return true
 }
 
-function initializeClient() {
+function waitForMountApp() {
   return new Promise(resolve => onEvent("app-mounted", () => resolve()))
 }
 

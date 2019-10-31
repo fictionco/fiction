@@ -14,6 +14,7 @@ import {
 import log from "@factor/logger"
 import userSchema from "./schema"
 import Factor from "@factor/core"
+import { appMounted } from "@factor/app"
 
 addFilter("before-app", () => {
   addMixin()
@@ -45,7 +46,7 @@ async function requestInitializeUser(user) {
     if (currentUser()._id && !user) {
       resolvedUser = currentUser()
     } else {
-      await Factor.$app.client()
+      await appMounted()
 
       resolvedUser = await retrieveAndSetCurrentUser(user)
     }

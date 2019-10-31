@@ -1,7 +1,7 @@
 import { dirname } from "path"
 import { extendServer } from "@factor/extend/server"
 import buildLoaders from "@factor/build/loaders"
-import webpackBuilder from "../../webpack-config"
+import { buildProduction, getConfig } from "../../webpack-config"
 import Factor from "@factor/core"
 import { pushToFilter } from "@factor/tools"
 
@@ -14,15 +14,13 @@ describe("webpack", () => {
   })
 
   it("generated production app", async () => {
-    const builder = webpackBuilder()
-    const results = await builder.buildProduction()
+    const results = await buildProduction()
 
     expect(results).toEqual([true, true])
   })
 
   it("gets appropriate config", async () => {
-    const builder = webpackBuilder()
-    let config = builder.getConfig({ analyze: true, target: "client" })
+    let config = getConfig({ analyze: true, target: "client" })
 
     let plugins = config.plugins.map(_ => _.constructor.name)
     expect(plugins).toEqual(expect.arrayContaining(["BundleAnalyzerPlugin"]))
@@ -31,7 +29,7 @@ describe("webpack", () => {
 
     // test for ignore modules
     pushToFilter("webpack-ignore-modules", "mongoose")
-    config = builder.getConfig({ target: "server" })
+    config = getConfig({ target: "server" })
     plugins = config.plugins.map(_ => _.constructor.name)
     expect(plugins).toEqual(
       expect.arrayContaining(["CleanWebpackPlugin", "IgnorePlugin"])

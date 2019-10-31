@@ -1,11 +1,7 @@
-import ClientClass from "./client-class"
-import AnotherClass from "./another-class"
+import "./client-class"
+import "./another-class"
 
-export { AnotherClass }
-
-export function install() {
-  new ClientClass()
-}
+export function install() {}
 
 export default () => {
   return {

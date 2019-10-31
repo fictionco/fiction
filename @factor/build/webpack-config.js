@@ -13,13 +13,13 @@ import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack from "webpack"
-
+import log from "@factor/logger"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
 addCallback("create-distribution-app", _ => buildProduction(_))
 addFilter("webpack-config", _ => getConfig(_))
 
-async function buildProduction(_arguments = {}) {
+export async function buildProduction(_arguments = {}) {
   return await Promise.all(
     ["server", "client"].map(async target => {
       const config = await getConfig({ ..._arguments, target })
@@ -28,7 +28,7 @@ async function buildProduction(_arguments = {}) {
   )
 }
 
-async function getConfig(_arguments) {
+export async function getConfig(_arguments) {
   const { NODE_ENV } = process.env
 
   let { target, analyze = false, testing = false } = _arguments
@@ -175,9 +175,9 @@ async function base(_arguments) {
         })
       ),
       function() {
-        plugin("done", function(stats) {
+        this.plugin("done", function(stats) {
           const { errors } = stats.compilation
-          if (errors && errors.length > 0) console.error(errors)
+          if (errors && errors.length > 0) log.error(errors)
         })
       }
     ],
