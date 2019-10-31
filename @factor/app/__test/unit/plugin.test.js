@@ -1,7 +1,7 @@
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 import { appMounted } from "@factor/app"
 import { waitFor } from "@test/utils"
-import { generateLoaders } from "@factor/@factor/cli/extension-loader"
+import { generateLoaders } from "@factor/cli/extension-loader"
 import { dirname } from "path"
 
 import * as tools from "@factor/tools"

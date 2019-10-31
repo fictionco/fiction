@@ -1,4 +1,4 @@
-import { extendServer } from "@factor/extend/server"
+import { extendServer } from "@factor/cli"
 import buildLoaders from "@factor/cli/extension-loader"
 import { dirname } from "path"
 

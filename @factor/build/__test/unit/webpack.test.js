@@ -1,5 +1,5 @@
 import { dirname } from "path"
-import { extendServer } from "@factor/extend/server"
+
 import buildLoaders from "@factor/cli/extension-loader"
 import { buildProduction, getConfig } from "../../webpack-config"
 import Factor from "@factor/core"

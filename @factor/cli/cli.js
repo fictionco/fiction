@@ -1,4 +1,3 @@
-import { extendServer } from "@factor/extend/server"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { getPath, localhostUrl } from "@factor/paths"
 import { runCallbacks, addCallback } from "@factor/tools/filters"
@@ -6,7 +5,7 @@ import commander from "commander"
 import execa from "execa"
 import inquirer from "inquirer"
 import listr from "listr"
-import log from "@factor/logger"
+import log from "@factor/tools/logger"
 
 import aliasRequire from "./alias-require"
 import pkg from "./package"
@@ -22,6 +21,7 @@ function setEnvironment({ NODE_ENV = "production", command, ENV } = {}) {
   process.env.NODE_ENV = NODE_ENV
   process.env.FACTOR_ENV = ENV || process.env.FACTOR_ENV || NODE_ENV
   process.env.FACTOR_COMMAND = command || commander._name || "none"
+  process.env.FACTOR_TARGET = "server"
 }
 
 setEnvironment()
@@ -151,6 +151,17 @@ async function factorize(_arguments = {}) {
   // Filters must be reloaded with every new restart of server.
   // This adds the filter each time to allow for restart
   addCallback("rebuild-server-app", () => reloadNodeProcess(_config))
+}
+
+export async function extendServer({ restart = false } = {}) {
+  await runCallbacks("before-server-plugins")
+
+  // eslint-disable-next-line import/no-unresolved
+  await import("~/.factor/loader-server")
+
+  await runCallbacks("initialize-server")
+
+  if (!restart) runCallbacks("after-first-server-extend")
 }
 
 async function runServer(_arguments) {

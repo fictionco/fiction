@@ -1,9 +1,9 @@
-import { addCallback, runCallbacks, applyFilters, setting } from "@factor/tools"
+import { addCallback, runCallbacks, applyFilters, setting, log } from "@factor/tools"
 import { getPath } from "@factor/paths"
 import destroyer from "destroyer"
 import express from "express"
 import fs from "fs-extra"
-import log from "@factor/logger"
+
 import LRU from "lru-cache"
 import { createBundleRenderer } from "vue-server-renderer"
 

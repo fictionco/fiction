@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 
 import { createApp } from "../../app"
 import * as tools from "@factor/tools"

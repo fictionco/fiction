@@ -4,7 +4,7 @@
 
 import { mount, createLocalVue } from "@vue/test-utils"
 import { renderToString } from "@vue/server-test-utils"
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 
 import VueRouter from "vue-router"
 

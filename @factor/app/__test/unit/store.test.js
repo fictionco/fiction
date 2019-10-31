@@ -3,7 +3,7 @@
  */
 
 import Factor from "@factor/core"
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 
 import { createStore } from "@factor/app/store"
 let store

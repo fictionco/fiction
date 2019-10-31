@@ -2,7 +2,7 @@ import fs from "fs-extra"
 import { resolve, dirname, relative } from "path"
 
 import { addFilter, applyFilters } from "@factor/tools"
-import { getExtensions } from "@factor/@factor/cli/extension-loader"
+import { getExtensions } from "@factor/cli/extension-loader"
 
 // Add static folder copy config to webpack copy plugin
 addFilter("webpack-copy-files-config", _ => [..._, ...staticCopyConfig()])

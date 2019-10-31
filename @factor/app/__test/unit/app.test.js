@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 import { createApp } from "../../app"
 import { waitFor } from "@test/utils"
 import * as tools from "@factor/tools"

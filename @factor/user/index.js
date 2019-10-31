@@ -9,9 +9,10 @@ import {
   runCallbacks,
   addCallback,
   stored,
-  storeItem
+  storeItem,
+  log
 } from "@factor/tools"
-import log from "@factor/logger"
+
 import userSchema from "./schema"
 import Factor from "@factor/core"
 import { appMounted } from "@factor/app"

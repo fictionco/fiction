@@ -3,7 +3,7 @@
  */
 
 import Factor from "@factor/core"
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 import { waitFor } from "@test/utils"
 import { createRouter } from "@factor/app/router"
 import * as tools from "@factor/tools"

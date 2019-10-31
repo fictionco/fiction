@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 import * as tools from "@factor/tools"
-import { extendApp } from "@factor/extend"
-import log from "@factor/logger"
+import { extendApp } from "@factor/app/extend-app"
+import { log } from "@factor/tools"
 jest.mock("mongoose")
 
 describe("db-connect", () => {

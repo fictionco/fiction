@@ -1,6 +1,6 @@
 import Factor from "@factor/core"
 
-import { extendApp } from "@factor/extend"
+import { extendApp } from "./extend-app"
 import { createStore } from "@factor/app/store"
 import { createRouter } from "@factor/app/router"
 import { emitEvent, runCallbacks, setting } from "@factor/tools"

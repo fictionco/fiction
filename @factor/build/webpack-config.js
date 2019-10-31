@@ -1,5 +1,5 @@
 import "@factor/build/webpack-overrides"
-import { applyFilters, addCallback, addFilter } from "@factor/tools"
+import { applyFilters, addCallback, addFilter, log } from "@factor/tools"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import { getPath } from "@factor/paths"
 import BundleAnalyzer from "webpack-bundle-analyzer"
@@ -13,7 +13,7 @@ import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack from "webpack"
-import log from "@factor/logger"
+
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
 addCallback("create-distribution-app", _ => buildProduction(_))

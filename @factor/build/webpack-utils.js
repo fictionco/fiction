@@ -1,6 +1,6 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import webpack from "webpack"
-import log from "@factor/logger"
+import { log } from "@factor/tools"
 
 const { NODE_ENV, FACTOR_ENV } = process.env
 

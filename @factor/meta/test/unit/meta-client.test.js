@@ -4,7 +4,7 @@
 
 import Factor from "vue"
 Factor.config.devtools = false
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 
 import { pushToFilter, setting } from "@factor/tools"
 import { waitFor, indexHtml } from "@test/utils"

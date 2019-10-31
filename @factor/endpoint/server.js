@@ -1,8 +1,7 @@
-import { addCallback, addFilter, applyFilters } from "@factor/tools"
+import { addCallback, addFilter, applyFilters, log } from "@factor/tools"
 import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
-import log from "@factor/logger"
 
 // Run after other imports have added themselves
 addCallback("initialize-server", () => initializeEndpointServer())

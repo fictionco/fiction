@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@factor/cli": "1.0.0-beta.6",
-    "@factor/extend": "1.0.0-beta.6",
     "@factor/meta": "1.0.0-beta.6",
     "@factor/settings": "1.0.0-beta.6",
     "qs": "^6.6.0",

@@ -8,9 +8,5 @@
   },
   "factor": {},
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
-  "dependencies": {
-    "find-node-modules": "^2.0.0",
-    "find-up": "^4.1.0",
-    "module-alias": "^2.2.0"
-  }
+  "dependencies": {}
 }

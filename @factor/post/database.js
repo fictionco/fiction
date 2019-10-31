@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 import { getAddedSchemas } from "./util"
-import log from "@factor/logger"
+import { log } from "@factor/tools"
 export class FactorDB {
   // Must be non-async so we can use chaining
   model(name) {

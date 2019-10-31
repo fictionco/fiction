@@ -36,7 +36,8 @@
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "gitHooks": {
-    "pre-commit": "yarn test"
+    "pre-commit": "yarn test:lint",
+    "commit-msg": "node scripts/verify-commit.js"
   },
   "dependencies": {
     "@babel/core": "^7.6.0",

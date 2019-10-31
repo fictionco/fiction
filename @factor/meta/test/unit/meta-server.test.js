@@ -1,7 +1,7 @@
 import Factor from "vue"
 
 import { createApp } from "@factor/app/app"
-import { extendApp } from "@factor/extend"
+import { extendApp } from "@factor/app/extend-app"
 import { pushToFilter } from "@factor/tools"
 import { handleContext } from "@factor/app/ssr-context"
 const { createRenderer } = require("vue-server-renderer")

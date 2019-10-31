@@ -3,8 +3,6 @@ import Factor from "@factor/core"
 // eslint-disable-next-line import/no-unresolved
 import "~/.factor/loader-app"
 
-//import { importPlugins } from "./util"
-
 Factor.config.productionTip = false
 Factor.config.devtools = false
 Factor.config.silent = false

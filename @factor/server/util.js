@@ -1,8 +1,7 @@
-import { setting } from "@factor/tools"
+import { setting, log } from "@factor/tools"
 import chalk from "chalk"
 import express from "express"
 import figures from "figures"
-import log from "@factor/logger"
 
 export function serverErrorWrap(txt) {
   return `<h1 style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 2em; opacity:.1; font-weight: 400;">${txt}</h1>`
