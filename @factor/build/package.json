@@ -21,7 +21,6 @@
   "dependencies": {
     "@factor/cli": "1.0.0-beta.6",
     "@factor/server-dev": "1.0.0-beta.6",
-    "@factor/setup": "1.0.0-beta.6",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "cli-progress": "^3.3.1",

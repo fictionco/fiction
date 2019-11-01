@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import { uploadImage, requestDeleteImage } from "@factor/storage"
+import { uploadImage, requestDeleteImage } from "@factor/attachment"
 import { DOM, emitEvent, onEvent, stored } from "@factor/tools"
 import Sortable from "sortablejs"
 export default {

@@ -1,5 +1,5 @@
 import { addFilter } from "@factor/tools"
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 
 const configFile = ".env"
 const configVars = ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST"]

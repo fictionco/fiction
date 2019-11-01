@@ -1,5 +1,5 @@
 import { addFilter, pushToFilter, setting } from "@factor/tools"
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 
 const gtm_id = setting("google_tag_manager.gtm_id")
 const development_mode = setting("google_tag_manager.development_mode")

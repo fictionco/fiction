@@ -1,13 +1,8 @@
 import { getModel } from "@factor/post/server"
 import multer from "multer"
 
-import {
-  addFilter,
-  pushToFilter,
-  applyFilters,
-  runCallbacks,
-  addCallback
-} from "@factor/tools"
+import { pushToFilter, applyFilters, runCallbacks, addCallback } from "@factor/tools"
+
 import { objectId } from "@factor/post/util"
 import { processEndpointRequest } from "@factor/endpoint/server"
 
@@ -15,27 +10,26 @@ import mime from "mime-types"
 
 import storageSchema from "./schema"
 
-import * as endpointHandler from "@factor/storage/server"
+import { uploadEndpointPath } from "./util"
+
+import * as endpointHandler from "@factor/attachment/server"
 
 addCallback("endpoints", { id: "storage", handler: endpointHandler })
 
 pushToFilter("data-schemas", () => storageSchema)
 
-addFilter("middleware", _ => {
-  _.push({
-    path: `/_upload`,
-    middleware: [
-      multer().single("imageUpload"),
-      async (request, response) => {
-        return await processEndpointRequest({
-          request,
-          response,
-          handler: _ => handleUpload(_)
-        })
-      }
-    ]
-  })
-  return _
+pushToFilter("middleware", {
+  path: uploadEndpointPath(),
+  middleware: [
+    multer().single("imageUpload"),
+    async (request, response) => {
+      return await processEndpointRequest({
+        request,
+        response,
+        handler: _ => handleUpload(_)
+      })
+    }
+  ]
 })
 
 async function handleUpload({ meta }) {

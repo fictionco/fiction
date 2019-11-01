@@ -783,11 +783,6 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
-"@factor/app-config@1.0.0-beta.4":
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@factor/app-config/-/app-config-1.0.0-beta.4.tgz#0c94c20dc2cb4220e33b116857f53652e580683b"
-  integrity sha512-1gDOaEjZmiErRMZToZEwhTXHUxQmlPCYjehRHmMadDIJlL/+HrY0z/kkfJ0cusi6kFHt+sv3Xsmm+BIZ2klO+w==
-
 "@factor/core-email@1.0.0-beta.6":
   version "1.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@factor/core-email/-/core-email-1.0.0-beta.6.tgz#02be20c7597f0f04243d3abb7debed9aa86e313d"
@@ -866,6 +861,15 @@
     "@factor/post" "1.0.0-beta.6"
     "@factor/server" "1.0.0-beta.6"
     "@factor/tools" "1.0.0-beta.6"
+
+"@factor/logger@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/logger/-/logger-1.0.0-beta.6.tgz#78ce553d6483f8a132c157ca8ed8a98c8d643486"
+  integrity sha512-jQxPRcr5nqDbUiVRW5r/mJcj4cASazu9TyCy1IIF0xjZ4CELa5Rt8ljiFCKPxx9RFGnY/wQ6xCYp5ak4UudFWg==
+  dependencies:
+    chalk "^2.4.2"
+    consola "^2.6.2"
+    figures "^3.0.0"
 
 "@factor/meta-class@1.0.0-beta.6":
   version "1.0.0-beta.6"

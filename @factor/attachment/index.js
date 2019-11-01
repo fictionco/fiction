@@ -3,7 +3,7 @@ import loadImage from "blueimp-load-image"
 import { pushToFilter, storeItem } from "@factor/tools"
 import { endpointRequest, authorizedRequest } from "@factor/endpoint"
 import storageSchema from "./schema"
-
+import { uploadEndpointPath } from "./util"
 pushToFilter("data-schemas", () => storageSchema())
 
 export async function dataURL(file) {
@@ -35,7 +35,7 @@ export async function uploadImage({ file, onPrep, onFinished, onError, onChange 
 
   const {
     data: { result, error }
-  } = await authorizedRequest("/_upload", formData, {
+  } = await authorizedRequest(uploadEndpointPath(), formData, {
     headers: { "Content-Type": "multipart/form-data" },
     onUploadProgress: function(progressEvent) {
       onChange(progressEvent)

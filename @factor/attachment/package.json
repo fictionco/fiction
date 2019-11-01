@@ -1,5 +1,5 @@
 {
-  "name": "@factor/storage",
+  "name": "@factor/attachment",
   "factor": {
     "target": {
       "app": "index",

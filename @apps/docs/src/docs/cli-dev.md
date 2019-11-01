@@ -70,7 +70,7 @@ Using those tools, gather the information you need from your user.
 To write to the app's private or public config, use `writeConfig` as follows:
 
 ```js
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 // PRIVATE CONFIG: .env
 await writeConfig(".env", {
   SOME_PRIVATE_SETTING: "VALUE"
@@ -86,7 +86,7 @@ await writeConfig("factor-config", {
 
 ```js
 // server.js
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 import { pushToFilter } from "@factor/tools"
 pushToFilter("cli-add-setup", ({ privateConfig }) => {
   return {

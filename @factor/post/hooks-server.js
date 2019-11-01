@@ -1,7 +1,7 @@
 import { addCallback, pushToFilter } from "@factor/tools"
 import { $DB } from "./database"
 import { $PostServer } from "./endpoint"
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 addCallback("endpoints", { id: "posts", handler: $PostServer })
 
 if (process.env.DB_CONNECTION) {

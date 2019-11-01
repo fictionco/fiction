@@ -20,21 +20,13 @@ addCallback("after-first-server-extend", () => {
 
   if (setupNeeded.length > 0) {
     let lines = setupNeeded.map(_ => {
-      return {
-        title: _.title,
-        value: "",
-        indent: true
-      }
+      return { title: _.title, value: "", indent: true }
     })
     if (process.env.FACTOR_COMMAND !== "setup") {
       lines.push({ title: "Run 'yarn factor setup'", value: "" })
     }
 
-    log.formatted({
-      title: "Setup Needed",
-      lines,
-      color: "yellow"
-    })
+    log.formatted({ title: "Setup Needed", lines, color: "yellow" })
   }
 })
 

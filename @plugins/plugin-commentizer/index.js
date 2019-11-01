@@ -1,6 +1,6 @@
 import { requestPostSave, dashboardPostTypes } from "@factor/post"
 import { pushToFilter, addFilter, setting } from "@factor/tools"
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 
 addSetupCli()
 

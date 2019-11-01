@@ -1,5 +1,5 @@
 import { addFilter } from "@factor/tools"
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 
 addFilter("user-schema", _ => {
   _.role = {

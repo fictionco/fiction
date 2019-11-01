@@ -1,5 +1,5 @@
 import { pushToFilter, setting } from "@factor/tools"
-import { writeConfig } from "@factor/setup"
+import { writeConfig } from "@factor/cli/setup"
 
 const clientApiKey = setting("bugsnag.client_api_key")
 
