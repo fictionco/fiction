@@ -37,7 +37,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test:lint",
+      "pre-commit": "yarn test:lint && yarn jest @factor/**/unit",
       "commit-msg": "node scripts/verify-commit.js"
     }
   },

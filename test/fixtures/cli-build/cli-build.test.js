@@ -33,7 +33,8 @@ const start = (cmd, env, cb) => {
         .toString()
         .toLowerCase()
         .includes("error")
-        ? console.error(data.toString())
+        ? // eslint-disable-next-line no-console
+          console.error(data.toString())
         : null
     )
   })

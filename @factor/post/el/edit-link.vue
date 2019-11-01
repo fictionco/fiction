@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import { stored } from "@factor/tools"
-import { getPostTypeUIConfig } from "@factor/dashboard"
+import { stored, getPostTypeConfig } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -23,7 +23,7 @@ export default {
       return this.meta && this.meta.nameSingle ? `Edit ${this.meta.nameSingle}` : "Edit"
     },
     meta() {
-      return this.post.postType ? getPostTypeUIConfig(this.post.postType) : {}
+      return this.post.postType ? getPostTypeConfig(this.post.postType) : {}
     },
     post() {
       return this.postId ? stored(this.postId) : {}

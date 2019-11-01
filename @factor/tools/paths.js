@@ -111,36 +111,30 @@ export function resolveFilePath(file) {
   }
 }
 
-export function localhostUrl() {
-  const { routine, port } = getHttpDetails()
+// export function getHttpDetails() {
+//   const port = process.env.PORT || 3000
 
-  return `${routine}://localhost:${port}`
-}
+//   let routine = "http"
+//   let certDir = false
+//   const filename = "server.key"
 
-export function getHttpDetails() {
-  const port = process.env.PORT || 3000
+//   const filepath = require("find-up").sync(filename)
 
-  let routine = "http"
-  let certDir = false
-  const filename = "server.key"
+//   let certConfig = {}
+//   if (filepath) {
+//     const fs = require("fs")
+//     routine = "https"
+//     certDir = dirname(filepath)
 
-  const filepath = require("find-up").sync(filename)
+//     certConfig = {
+//       key: fs.readFileSync(resolve(certDir, "server.key")),
+//       cert: fs.readFileSync(resolve(certDir, "server.crt"))
+//     }
 
-  let certConfig = {}
-  if (filepath) {
-    const fs = require("fs")
-    routine = "https"
-    certDir = dirname(filepath)
+//     if (process.env.CERTIFICATE_PASSPHRASE) {
+//       certConfig.passphrase = process.env.CERTIFICATE_PASSPHRASE
+//     }
+//   }
 
-    certConfig = {
-      key: fs.readFileSync(resolve(certDir, "server.key")),
-      cert: fs.readFileSync(resolve(certDir, "server.crt"))
-    }
-
-    if (process.env.CERTIFICATE_PASSPHRASE) {
-      certConfig.passphrase = process.env.CERTIFICATE_PASSPHRASE
-    }
-  }
-
-  return { port, routine, certDir, certConfig }
-}
+//   return { port, routine, certDir, certConfig }
+// }

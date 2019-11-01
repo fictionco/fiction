@@ -18,7 +18,7 @@ module.exports = () => {
       "@babel/plugin-proposal-object-rest-spread",
       "dynamic-import-node",
       "@babel/plugin-syntax-import-meta"
-    ],import { moduleAlias } from 'module-alias';
+    ],
 
     presets: [["@babel/preset-env", { modules: "cjs" }]],
     sourceMaps: "inline"

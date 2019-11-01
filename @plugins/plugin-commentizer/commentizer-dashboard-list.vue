@@ -20,8 +20,8 @@
   </div>
 </template>
 <script>
-import { getPermalink, getStatusCount, requestPostById } from "@factor/post"
-import { toLabel, stored } from "@factor/tools"
+import { getStatusCount, requestPostById } from "@factor/post"
+import { toLabel, stored, getPermalink } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, required: true },

@@ -9,9 +9,9 @@ const outDir = path.resolve(process.argv[2] || ".")
 const figures = require("figures")
 
 consola.log(`${figures.pointer} Starting ${name}@${version}`)
-console.log()
+consola.log()
 consola.success(`Great work! Generating Factor project in: ${outDir}`)
-console.log()
+consola.log()
 
 // See https://sao.js.org/#/advanced/standalone-cli
 sao({ generator, outDir, logLevel: 2 })

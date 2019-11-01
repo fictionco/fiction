@@ -1,13 +1,13 @@
 // This configures the context information needed to SSR the page
 // Add lifecycle filters that allow plugins to control the context
-import { applyFilters, runCallbacks } from "@factor/tools"
+import { applyFilters, runCallbacks, log } from "@factor/tools"
 export async function handleContext(Factor, { context, app, router, store }) {
   const { url } = context
 
   const { fullPath } = router.resolve(url).route
 
   // Account for redirects
-  router.push(fullPath !== url ? fullPath : url).catch(error => console.error(error))
+  router.push(fullPath !== url ? fullPath : url).catch(error => log.error(error))
 
   context = applyFilters("ssr-context-init", context, { app, router, store })
 

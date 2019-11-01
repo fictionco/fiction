@@ -8,9 +8,9 @@
   </component>
 </template>
 <script>
-import { applyFilters, stored, storeItem } from "@factor/tools"
+import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
-import { getPostTypeUIConfig } from "@factor/dashboard"
+
 export default {
   computed: {
     post: {
@@ -27,11 +27,11 @@ export default {
     postType() {
       return this.$route.params.postType || ""
     },
-    getPostTypeUIConfig() {
-      return getPostTypeUIConfig(this.postType)
+    getPostTypeConfig() {
+      return getPostTypeConfig(this.postType)
     },
     templateLoader() {
-      const { editTemplate } = this.getPostTypeUIConfig
+      const { editTemplate } = this.getPostTypeConfig
 
       return editTemplate ? editTemplate : () => import("./posts-edit.vue")
     },

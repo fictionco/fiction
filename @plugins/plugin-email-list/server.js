@@ -4,7 +4,6 @@ import {
   emitEvent,
   applyFilters,
   addCallback,
-  setting,
   currentUrl
 } from "@factor/tools"
 import { hasEmail, sendTransactional } from "@factor/email/server"

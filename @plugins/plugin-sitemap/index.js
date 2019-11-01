@@ -1,6 +1,6 @@
 import { getModel } from "@factor/post/server"
-import { getPermalink } from "@factor/post"
-import { uniq, addFilter, applyFilters, setting } from "@factor/tools"
+
+import { uniq, addFilter, applyFilters, setting, getPermalink } from "@factor/tools"
 
 addFilter("middleware", _ => {
   _.push({

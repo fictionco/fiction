@@ -1,7 +1,7 @@
 import { objectIdType } from "@factor/post/util"
 import { addFilter, pushToFilter, setting } from "@factor/tools"
 // Add commentizer post type
-pushToFilter("dashboard-post-types", {
+pushToFilter("post-types-config", {
   postType: "commentizer",
   nameIndex: "Commentizer",
   nameSingle: "Comment",

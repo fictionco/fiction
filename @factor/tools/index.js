@@ -11,6 +11,7 @@ export * from "./markdown"
 export * from "./html"
 export * from "./metatags"
 export * from "./permalink"
+export * from "./post-types"
 export { default as log } from "./logger"
 
 export * from "@factor/tools/paths" // @factor = allow overrides

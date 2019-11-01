@@ -53,13 +53,8 @@
   </dashboard-pane>
 </template>
 <script>
-import {
-  getPermalink,
-  getStatusCount,
-  requestPostSaveMany,
-  requestPostDeleteMany
-} from "@factor/post"
-import { toLabel, standardDate, emitEvent } from "@factor/tools"
+import { getStatusCount, requestPostSaveMany, requestPostDeleteMany } from "@factor/post"
+import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/tools"
 export default {
   props: {
     title: { type: String, default: "" },

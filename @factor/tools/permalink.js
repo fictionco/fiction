@@ -1,5 +1,5 @@
-import { getPostTypeUIConfig } from "@factor/dashboard"
-import { setting, stored, slugify } from "@factor/tools"
+import { getPostTypeConfig , setting, stored, slugify } from "@factor/tools"
+
 
 export function getPermalink(args = {}) {
   const { postType, permalink = "", root = false, path = false } = args
@@ -11,7 +11,7 @@ export function getPermalink(args = {}) {
     parts.push(path)
     return parts.join("").replace(/\/$/, "") // remove trailing backslash
   } else {
-    const typeMeta = postType ? getPostTypeUIConfig(postType) : false
+    const typeMeta = postType ? getPostTypeConfig(postType) : false
 
     if (typeMeta) {
       const { baseRoute } = typeMeta

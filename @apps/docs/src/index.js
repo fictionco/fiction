@@ -31,7 +31,7 @@ export default Factor => {
       // // Setup Plugins Post Type
       // const baseRoute = setting("plugins.postRoute")
 
-      // addFilter("dashboard-post-types", _ => {
+      // addFilter("post-types-config", _ => {
       //   _.push({
       //     postType: "plugins",
       //     baseRoute,

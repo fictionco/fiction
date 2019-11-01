@@ -12,7 +12,7 @@ addFilter(
 
 const baseRoute = setting("work.postRoute")
 
-addFilter("dashboard-post-types", _ => {
+addFilter("post-types-config", _ => {
   _.push({
     postType: "work",
     baseRoute,

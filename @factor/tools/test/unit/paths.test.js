@@ -1,5 +1,5 @@
 describe("application paths", () => {
-  it("returns app source code path", () => {})
-  it("returns dist path", () => {})
-  it("returns paths to key files", () => {})
+  it.todo("returns app source code path")
+  it.todo("returns dist path")
+  it.todo("returns paths to key files")
 })

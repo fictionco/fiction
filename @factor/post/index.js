@@ -1,6 +1,4 @@
 import "./hooks"
-export * from "./meta"
+
 export * from "./request"
 export * from "./util"
-export * from "./post-type"
-export * from "./permalink"

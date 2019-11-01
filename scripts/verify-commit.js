@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const chalk = require("chalk")
 const msgPath = process.env.GIT_PARAMS
 const msg = require("fs")

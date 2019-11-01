@@ -1,8 +1,5 @@
-import { addFilter, applyFilters, setting, toLabel } from "@factor/tools"
-
-import { dashboardPostTypes } from "./post-type"
-
-export * from "./post-type"
+import { addFilter, applyFilters, setting, toLabel, postTypesConfig } from "@factor/tools"
+import { userCan } from "@factor/user"
 
 addFilter("components", _ => {
   _["dashboard-pane"] = () => import("./pane.vue")
@@ -67,9 +64,11 @@ addFilter(
 )
 
 addFilter("admin-menu", _ => {
-  dashboardPostTypes()
+  postTypesConfig()
     .filter(({ showAdmin, accessLevel }) => {
-      return showAdmin === false || (accessLevel && !can({ accessLevel })) ? false : true
+      return showAdmin === false || (accessLevel && !userCan({ accessLevel }))
+        ? false
+        : true
     })
     .forEach(({ postType, namePlural, icon = "", add = "add-new" }) => {
       const subMenu = []

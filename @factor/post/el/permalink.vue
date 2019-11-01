@@ -19,8 +19,8 @@
   </div>
 </template>
 <script>
-import { slugify, onEvent } from "@factor/tools"
-import { getPermalink } from "@factor/post"
+import { slugify, onEvent, getPermalink } from "@factor/tools"
+
 export default {
   props: {
     value: { type: String, default: "" },

@@ -1,4 +1,4 @@
-import { emitEvent, onEvent, addFilter } from "@factor/tools"
+import { emitEvent, onEvent, addFilter, log } from "@factor/tools"
 
 addFilter("site-components", _ => {
   _["plugin-notify"] = () => import("./toaster.vue")
@@ -24,9 +24,7 @@ function toasterError(obj) {
   if (typeof obj == "string") {
     emitEvent("notify-toast", { type: "error", message: obj })
   } else {
-    if (obj instanceof Error) {
-      console.error(obj)
-    }
+    if (obj instanceof Error) log.error(obj)
 
     if (obj.message) {
       emitEvent("notify-toast", { type: "error", message: obj.message })

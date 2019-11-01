@@ -10,7 +10,7 @@ addFilter(
 
 const portfolioBaseRoute = setting("portfolio.postRoute")
 
-addFilter("dashboard-post-types", _ => {
+addFilter("post-types-config", _ => {
   _.push({
     postType: "portfolio",
     portfolioBaseRoute,
@@ -26,7 +26,7 @@ addFilter("dashboard-post-types", _ => {
 
 //const newsBaseRoute = setting("news.postRoute")
 
-addFilter("dashboard-post-types", _ => {
+addFilter("post-types-config", _ => {
   _.push({
     postType: "news",
     portfolioBaseRoute,

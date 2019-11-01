@@ -1,4 +1,4 @@
-import { DOM } from "@factor/tools"
+import { DOM, log } from "@factor/tools"
 export function fluidInput(e, wrapEl) {
   const NewEvent = DOM.Event("keydown")
   NewEvent.which = e.keyCode
@@ -6,7 +6,7 @@ export function fluidInput(e, wrapEl) {
   const inp = DOM(e.target)
   const inputs = DOM(wrapEl).find(":input")
   if (inputs.length == 0) {
-    console.warn("No inputs found for input.")
+    log.warn("No inputs found for input.")
   }
   const currentIndex = inputs.index(e.target)
   const placeholderLength = inp.attr("placeholder").length

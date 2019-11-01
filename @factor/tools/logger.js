@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import consola from "consola"
 import figures from "figures"
 import chalk from "chalk"

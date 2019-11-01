@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable unicorn/no-process-exit */
 
 const superb = require("superb")

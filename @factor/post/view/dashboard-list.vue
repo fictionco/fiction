@@ -18,8 +18,8 @@ import {
   requestPostDeleteMany,
   requestPostSaveMany
 } from "@factor/post"
-import { getPostTypeUIConfig } from "@factor/dashboard"
-import { onEvent, stored } from "@factor/tools"
+import { getPostTypeConfig, onEvent, stored } from "@factor/tools"
+
 export default {
   data() {
     return {
@@ -37,11 +37,11 @@ export default {
     postIndex() {
       return stored(this.postType) || []
     },
-    getPostTypeUIConfig() {
-      return getPostTypeUIConfig(this.postType)
+    getPostTypeConfig() {
+      return getPostTypeConfig(this.postType)
     },
     templateLoader() {
-      const { listTemplate } = this.getPostTypeUIConfig
+      const { listTemplate } = this.getPostTypeConfig
 
       return listTemplate ? listTemplate : () => import("./posts-list.vue")
     },
@@ -49,7 +49,7 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
-      return this.getPostTypeUIConfig.namePlural
+      return this.getPostTypeConfig.namePlural
     },
     postsMeta() {
       return this.postIndex && this.postIndex.meta ? this.postIndex.meta : {}

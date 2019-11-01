@@ -27,7 +27,7 @@ export const postTypeUIConfig = {
   add: false
 }
 
-pushToFilter("dashboard-post-types", postTypeUIConfig)
+pushToFilter("post-types-config", postTypeUIConfig)
 
 export async function deleteEmails({ emails, listId }) {
   let result
@@ -44,8 +44,6 @@ export async function deleteEmails({ emails, listId }) {
 
 export function csvExport({ filename, data }) {
   filename += `-${timestamp()}`
-
-  console.log("export", data)
 
   const ExportToCsv = require("export-to-csv").ExportToCsv
 

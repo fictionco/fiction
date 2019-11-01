@@ -5,7 +5,7 @@ const baseRoute = setting("jobs.postRoute")
 
 pushToFilter("data-schemas", () => jobsSchema)
 
-pushToFilter("dashboard-post-types", {
+pushToFilter("post-types-config", {
   postType: "jobs",
   baseRoute,
   icon: require("./img/jobs.svg"),

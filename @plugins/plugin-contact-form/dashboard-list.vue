@@ -37,8 +37,8 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import { getPermalink, getStatusCount } from "@factor/post"
-import { toLabel, standardDate } from "@factor/tools"
+import { getStatusCount } from "@factor/post"
+import { toLabel, standardDate, getPermalink } from "@factor/tools"
 export default {
   name: "ContactFormList",
   props: {
