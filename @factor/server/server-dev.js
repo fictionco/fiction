@@ -1,9 +1,6 @@
-import { addFilter, applyFilters, runCallbacks, setting, log } from "@factor/tools"
-import { getPath } from "@factor/tools/paths"
+import { addFilter, applyFilters, setting, log } from "@factor/tools"
 import chalk from "chalk"
-import chokidar from "chokidar"
 import fs from "fs-extra"
-
 import MFS from "memory-fs"
 import ora from "ora"
 import path from "path"
@@ -12,14 +9,14 @@ import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 import yargs from "yargs"
 
-const argv = yargs.argv
+import { watcher } from "./watcher"
 
-import { getFactorDirectories } from "@factor/cli/extension-loader"
+const argv = yargs.argv
 
 let configServer
 let configClient
 
-let updateCallback
+let updateBundleCallback
 let updateReason
 let updateLoaders = {}
 let updateSpinner
@@ -30,7 +27,7 @@ let clientManifest
 const templatePath = setting("app.templatePath")
 
 addFilter("development-server", async callback => {
-  updateCallback = callback
+  updateBundleCallback = callback
 
   return await createServerCompilers()
 })
@@ -46,37 +43,11 @@ export async function createServerCompilers() {
   configClient = await getWebpackConfig("webpack-config", { target: "client" })
   template = fs.readFileSync(templatePath, "utf-8")
 
-  watchDevelopmentFiles()
+  watcher(({ event, path }) => updateBundles({ title: event, value: path }))
 
   clientCompiler()
 
   serverCompiler()
-}
-
-function watchDevelopmentFiles() {
-  const watchDirs = getFactorDirectories().map(_ => `${_}/**`)
-
-  chokidar
-    .watch([`${getPath("source")}/**`, ...watchDirs], {
-      ignoreInitial: true,
-      ignored: `**/node_modules/**`
-    })
-    .on("all", async (event, path) => {
-      if (
-        path.includes("server") ||
-        path.includes("endpoint") ||
-        path.includes("schema")
-      ) {
-        await runCallbacks("restart-server")
-      }
-
-      updateServer({ title: event, value: path })
-    })
-}
-
-// Read file using Memory File Service
-function readFileFromMemory(mfs, file) {
-  return mfs.readFileSync(path.join(configClient.output.path, file), "utf-8")
 }
 
 function loaders(target, value) {
@@ -97,16 +68,16 @@ function loaders(target, value) {
       updateSpinner = false
       updateLoaders = {}
       updateReason = ""
-      updateServer()
+      updateBundles()
     }
   }
 }
 
-function updateServer({ title, value } = {}) {
+function updateBundles({ title, value } = {}) {
   if (title) updateReason = chalk.dim(`${title} @${value}`)
 
   if (bundle && clientManifest) {
-    updateCallback({ bundle, template, clientManifest })
+    updateBundleCallback({ bundle, template, clientManifest })
   }
 }
 
@@ -127,11 +98,9 @@ function clientCompiler() {
     // Dev Middleware - which injects changed files into the webpack bundle
     const clientCompiler = webpack(configClient)
 
+    const publicPath = configClient.output.publicPath
     const middleware = {
-      dev: webpackDevMiddleware(clientCompiler, {
-        publicPath: configClient.output.publicPath,
-        logLevel: "silent"
-      }),
+      dev: webpackDevMiddleware(clientCompiler, { publicPath, logLevel: "silent" }),
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 5000, log: false })
     }
 
@@ -171,9 +140,9 @@ function serverCompiler() {
   loaders("server", "start")
   serverCompiler.plugin("compile", () => loaders("server", "start"))
 
-  serverCompiler.watch({}, (err, stats) => {
+  serverCompiler.watch({}, (_error, stats) => {
     // watch and update server renderer
-    if (err) throw err
+    if (_error) throw _error
 
     const { errors, time } = stats.toJson()
 
@@ -183,4 +152,9 @@ function serverCompiler() {
 
     loaders("server", time)
   })
+}
+
+// Read file using  Memory File Service
+function readFileFromMemory(mfs, file) {
+  return mfs.readFileSync(path.join(configClient.output.path, file), "utf-8")
 }
