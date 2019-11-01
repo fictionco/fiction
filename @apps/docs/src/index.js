@@ -35,19 +35,16 @@ export default Factor => {
       Factor.$filters.add("content-routes", _ => {
         const base = Factor.$setting.get("docs.base")
 
-        //const pluginsIndex = Factor.$setting.get("plugins.layout.index")
-        //const pluginsSingle =  Factor.$setting.get("plugins.layout.single")
-
         return [
           ..._,
           // {
           //   path: "/plugins",
           //   component: () => import("./page-plugins")
           // },
-          {
-            path: "/themes",
-            component: () => import("./v-themes")
-          },
+          // {
+          //   path: "/themes",
+          //   component: () => import("./v-themes")
+          // },
           {
             path: "/compare",
             component: () => import("./page-compare")
@@ -63,6 +60,20 @@ export default Factor => {
           {
             path: `/${base}/:doc`,
             component: () => import("./page-docs")
+          },
+          {
+            path: `/themes`,
+            component: () => import("./themes/themes-wrap"),
+            children: [
+              {
+                path: `/`,
+                component: () => import("./themes/v-themes")
+              },
+              {
+                path: `/theme/:slug`,
+                component: () => import("./themes/theme-single")
+              }
+            ]
           },
           {
             path: `/plugins`,
