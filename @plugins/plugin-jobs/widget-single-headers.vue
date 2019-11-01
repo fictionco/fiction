@@ -6,7 +6,7 @@
         <span>All Jobs</span>
       </factor-link>
       <h1 class="entry-title">
-        <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
+        <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
 
       <p class="entry-location">{{ post.jobLocation }}</p>
@@ -16,8 +16,8 @@
   </div>
 </template>
 <script>
-import { setting, stored } from "@factor/tools"
-import { link } from "@factor/post"
+import { setting, stored, postLink } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -27,7 +27,7 @@ export default {
       return stored(this.postId) || {}
     }
   },
-  methods: { link, setting }
+  methods: { postLink, setting }
 }
 </script>
 <style lang="less">

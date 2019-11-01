@@ -1,5 +1,5 @@
 import Factor from "@factor/core"
-import { setPostMetatags } from "./meta"
+
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
 import {
@@ -8,7 +8,8 @@ import {
   emitEvent,
   applyFilters,
   storeItem,
-  stored
+  stored,
+  setPostMetatags
 } from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
 function _setCache(postType) {

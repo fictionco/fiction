@@ -1,7 +1,7 @@
 <template>
   <div v-if="format == 'index'" class="title">
     <h1 class="heading">
-      <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
     <factor-post-edit :post-id="post._id" />
@@ -25,8 +25,8 @@
   </section>
 </template>
 <script>
-import { setting, stored } from "@factor/tools"
-import { link } from "@factor/post"
+import { setting, stored, postLink } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -41,7 +41,7 @@ export default {
     }
   },
   methods: {
-    link,
+    postLink,
     setting
   }
 }

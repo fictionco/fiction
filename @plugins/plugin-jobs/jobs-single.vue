@@ -9,8 +9,8 @@
   </div>
 </template>
 <script>
-import { setting, stored } from "@factor/tools"
-import { titleTag, descriptionTag, shareImage } from "@factor/post"
+import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/tools"
+
 export default {
   data() {
     return {}

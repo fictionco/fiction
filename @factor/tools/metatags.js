@@ -1,5 +1,5 @@
-import { link } from "@factor/post"
-import { excerpt, stored } from "@factor/tools"
+import { postLink, excerpt, stored } from "@factor/tools"
+
 import Factor from "@factor/core"
 export function titleTag(_id) {
   const { titleTag, title } = stored(_id) || {}
@@ -22,7 +22,7 @@ export function setPostMetatags(_id) {
   const post = stored(_id) || {}
 
   const out = {
-    canonical: link(_id, { root: true }),
+    canonical: postLink(_id, { root: true }),
     title: post.titleTag || post.title || "",
     description: post.descriptionTag || excerpt(post.content) || "",
     image: post.avatar && stored(post.avatar) ? stored(post.avatar).url : ""

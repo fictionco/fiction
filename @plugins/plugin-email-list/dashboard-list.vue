@@ -24,8 +24,8 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import { getPermalink, postTypeMeta, getStatusCount } from "@factor/post"
-import { toLabel, stored } from "@factor/tools"
+import { postTypeMeta, getStatusCount } from "@factor/post"
+import { toLabel, stored, getPermalink } from "@factor/tools"
 export default {
   name: "EmailListGrid",
   props: {

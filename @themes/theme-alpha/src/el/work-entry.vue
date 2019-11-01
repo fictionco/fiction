@@ -2,7 +2,7 @@
   <article class="entry" :class="formatClass">
     <div v-if="format == 'index'" class="entry-text">
       <h1 class="title">
-        <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
+        <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
     </div>
     <section v-else-if="format == 'single'" class="hero">
@@ -32,8 +32,8 @@
   </article>
 </template>
 <script>
-import { setting, stored, renderMarkdown } from "@factor/tools"
-import { link } from "@factor/post"
+import { setting, stored, renderMarkdown, postLink } from "@factor/tools"
+
 export default {
   components: {
     "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code.vue")
@@ -68,7 +68,7 @@ export default {
     }
   },
   methods: {
-    link,
+    postLink,
     setting
   }
 }

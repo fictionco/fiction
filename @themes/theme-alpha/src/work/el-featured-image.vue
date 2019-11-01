@@ -1,5 +1,5 @@
 <template>
-  <factor-link v-if="avatarUrl && format == 'index'" :path="link(post._id)">
+  <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
     <div class="featured-image" :style="style" />
   </factor-link>
   <div v-else class="featured-image-wrap">
@@ -7,8 +7,8 @@
   </div>
 </template>
 <script>
-import { stored } from "@factor/tools"
-import { link } from "@factor/post"
+import { stored, postLink } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -33,7 +33,7 @@ export default {
     }
   },
   methods: {
-    link
+    postLink
   }
 }
 </script>

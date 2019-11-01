@@ -1,14 +1,14 @@
 <template>
   <div class="entry-headers">
     <h1 class="entry-title">
-      <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
   </div>
 </template>
 <script>
-import { stored } from "@factor/tools"
-import { link } from "@factor/post"
+import { stored, postLink } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -18,7 +18,7 @@ export default {
       return stored(this.postId) || {}
     }
   },
-  methods: { link }
+  methods: { postLink }
 }
 </script>
 <style lang="less">

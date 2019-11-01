@@ -1,7 +1,7 @@
 <template>
   <div v-if="format == 'index'" class="entry-headers">
     <h1 class="entry-title">
-      <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
   </div>
@@ -9,15 +9,15 @@
     <div class="splash">
       <component :is="setting('blog.components.blogReturnLink')" />
       <h1 class="entry-title">
-        <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
+        <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
       <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
     </div>
   </div>
 </template>
 <script>
-import { link } from "@factor/post"
-import { setting, stored } from "@factor/tools"
+import { postLink, setting, stored } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -29,7 +29,7 @@ export default {
     }
   },
   methods: {
-    link,
+    postLink,
     setting
   }
 }

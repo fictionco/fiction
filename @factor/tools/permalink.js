@@ -25,7 +25,7 @@ export function getPermalink(args = {}) {
   }
 }
 
-export function link(_id, options = {}) {
+export function postLink(_id, options = {}) {
   const post = stored(_id)
 
   if (!post) return

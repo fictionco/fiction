@@ -31,15 +31,15 @@
   </div>
 </template>
 <script>
-import { stored } from "@factor/tools"
-import { link } from "@factor/post"
+import { stored, postLink } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
     link() {
-      return link(this.postId, { root: true })
+      return postLink(this.postId, { root: true })
     },
     post() {
       return stored(this.postId) || {}

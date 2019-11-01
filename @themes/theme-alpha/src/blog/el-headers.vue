@@ -1,14 +1,14 @@
 <template>
   <div :class="formatClass">
     <h1 class="entry-title">
-      <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 v-if="scope != 'index'" class="entry-sub-title">{{ post.subTitle }}</h3>
   </div>
 </template>
 <script>
-import { stored } from "@factor/tools"
-import { link } from "@factor/post"
+import { stored, postLink } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -24,9 +24,7 @@ export default {
       return f
     }
   },
-  methods: {
-    link
-  }
+  methods: { postLink }
 }
 </script>
 <style lang="less">

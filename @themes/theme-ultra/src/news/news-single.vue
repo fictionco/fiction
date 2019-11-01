@@ -12,8 +12,15 @@
   </div>
 </template>
 <script>
-import { isEmpty, setting, stored } from "@factor/tools"
-import { titleTag, descriptionTag, shareImage } from "@factor/post"
+import {
+  isEmpty,
+  setting,
+  stored,
+  titleTag,
+  descriptionTag,
+  shareImage
+} from "@factor/tools"
+
 export default {
   data() {
     return {}

@@ -104,9 +104,10 @@ import {
   applyFilters,
   stored,
   timeUtil,
-  storeItem
+  storeItem,
+  getPermalink
 } from "@factor/tools"
-import { getPermalink, requestPostSave } from "@factor/post"
+import { requestPostSave } from "@factor/post"
 export default {
   components: {
     "input-editor": () => import("../el/editor.vue"),

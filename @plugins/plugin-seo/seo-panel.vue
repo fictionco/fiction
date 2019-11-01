@@ -23,8 +23,8 @@
   </div>
 </template>
 <script>
-import { link } from "@factor/post"
-import { excerpt, stored } from "@factor/tools"
+import { postLink, excerpt, stored } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, required: true }
@@ -34,7 +34,7 @@ export default {
       return stored(this.postId) || {}
     },
     link() {
-      return link(this.postId, { root: true })
+      return postLink(this.postId, { root: true })
     }
   },
   methods: { excerpt }

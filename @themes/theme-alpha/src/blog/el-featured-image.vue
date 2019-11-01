@@ -1,11 +1,11 @@
 <template>
-  <factor-link :path="link(post._id)">
+  <factor-link :path="postLink(post._id)">
     <div v-if="avatarUrl" class="featured-image" :style="style" />
   </factor-link>
 </template>
 <script>
-import { stored } from "@factor/tools"
-import { link } from "@factor/post"
+import { stored, postLink } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -29,7 +29,7 @@ export default {
     }
   },
   methods: {
-    link
+    postLink
   }
 }
 </script>
