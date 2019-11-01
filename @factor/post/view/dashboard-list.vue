@@ -15,10 +15,10 @@
 <script>
 import {
   requestPostIndex,
-  postTypeMeta,
   requestPostDeleteMany,
   requestPostSaveMany
 } from "@factor/post"
+import { getPostTypeUIConfig } from "@factor/dashboard"
 import { onEvent, stored } from "@factor/tools"
 export default {
   data() {
@@ -37,11 +37,11 @@ export default {
     postIndex() {
       return stored(this.postType) || []
     },
-    postTypeMeta() {
-      return postTypeMeta(this.postType)
+    getPostTypeUIConfig() {
+      return getPostTypeUIConfig(this.postType)
     },
     templateLoader() {
-      const { listTemplate } = this.postTypeMeta
+      const { listTemplate } = this.getPostTypeUIConfig
 
       return listTemplate ? listTemplate : () => import("./posts-list.vue")
     },
@@ -49,7 +49,7 @@ export default {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
-      return this.postTypeMeta.namePlural
+      return this.getPostTypeUIConfig.namePlural
     },
     postsMeta() {
       return this.postIndex && this.postIndex.meta ? this.postIndex.meta : {}

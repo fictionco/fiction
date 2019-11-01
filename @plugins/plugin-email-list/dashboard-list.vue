@@ -1,5 +1,5 @@
 <template>
-  <dashboard-pane :title="postTypeMeta.namePlural">
+  <dashboard-pane :title="postTypeUIConfig.namePlural">
     <dashboard-grid-controls>
       <dashboard-grid-actions
         :actions="controlActions"
@@ -24,7 +24,8 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import { postTypeMeta, getStatusCount } from "@factor/post"
+import { getStatusCount } from "@factor/post"
+import { postTypeUIConfig } from "."
 import { toLabel, stored, getPermalink } from "@factor/tools"
 export default {
   name: "EmailListGrid",
@@ -37,22 +38,12 @@ export default {
     sending: { type: Boolean, default: false }
   },
   data() {
-    return {
-      selected: [],
-      loadingAction: false
-    }
+    return { selected: [], loadingAction: false, postTypeUIConfig }
   },
   computed: {
-    postTypeMeta() {
-      return postTypeMeta(this.postType)
-    },
     tableList() {
       return this.list.map(({ _id, createdAt, settings }) => {
-        return {
-          ...settings,
-          createdAt,
-          _id
-        }
+        return { ...settings, createdAt, _id }
       })
     },
     tabs() {
@@ -65,11 +56,7 @@ export default {
                 key
               })
 
-        return {
-          name: toLabel(key),
-          value: key == "all" ? "" : key,
-          count
-        }
+        return { name: toLabel(key), value: key == "all" ? "" : key, count }
       })
     },
     controlActions() {

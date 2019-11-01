@@ -20,7 +20,7 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-import { postTypeMeta } from "@factor/post"
+import { postTypeUIConfig } from "."
 import { toLabel, storeItem, stored } from "@factor/tools"
 export default {
   name: "EmailListGrid",
@@ -52,9 +52,6 @@ export default {
       set(v) {
         storeItem(this._id, v)
       }
-    },
-    postTypeMeta() {
-      return postTypeMeta(this.postType)
     },
 
     tabs() {

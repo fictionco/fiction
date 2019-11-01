@@ -1,7 +1,7 @@
 import { applyFilters, toLabel } from "@factor/tools"
 
-export function getPostTypes() {
-  return applyFilters("post-types", []).map(_ => {
+export function dashboardPostTypes() {
+  return applyFilters("dashboard-post-types", []).map(_ => {
     return {
       baseRoute: typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute,
       nameIndex: toLabel(_.postType),
@@ -12,6 +12,6 @@ export function getPostTypes() {
   })
 }
 
-export function postTypeMeta(postType) {
-  return getPostTypes().find(pt => pt.postType == postType)
+export function getPostTypeUIConfig(postType) {
+  return dashboardPostTypes().find(pt => pt.postType == postType)
 }

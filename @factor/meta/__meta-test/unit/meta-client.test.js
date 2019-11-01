@@ -24,7 +24,7 @@ describe("meta info client", () => {
     Factor.config.devtools = false
   })
 
-  it("loads title correctly", async () => {
+  it.todo("loads title correctly", async () => {
     pushToFilter("routes", {
       path: "/meta",
       component: () => import("./meta.vue")

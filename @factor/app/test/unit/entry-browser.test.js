@@ -1,8 +1,8 @@
 describe("browser-app", () => {
-  it("enters application and mounts correctly", () => {})
-  it("adds global variables to window (for reference)", () => {})
+  it.todo("enters application and mounts correctly")
+  it.todo("adds global variables to window (for reference)")
 
-  it("fires appropriate hooks", () => {})
+  it.todo("fires appropriate hooks")
 
-  it("adds router and store", () => {})
+  it.todo("adds router and store")
 })

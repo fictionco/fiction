@@ -1,7 +1,7 @@
 import { addFilter, setting } from "@factor/tools"
 const baseRoute = setting("blog.postRoute")
 
-addFilter("post-types", _ => {
+addFilter("dashboard-post-types", _ => {
   _.push({
     postType: "blog",
     baseRoute,

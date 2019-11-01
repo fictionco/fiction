@@ -14,7 +14,7 @@ pushToFilter("dashboard-menu", {
   icon: require("./img/users.svg")
 })
 
-pushToFilter("post-types", {
+pushToFilter("dashboard-post-types", {
   postType: "user",
   icon: require("./img/users.svg"),
   nameIndex: "Users",

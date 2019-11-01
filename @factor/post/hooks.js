@@ -1,14 +1,9 @@
 import { prefetchPost } from "@factor/post"
-import { applyFilters, addFilter, addCallback, toLabel } from "@factor/tools"
-import { can } from "@factor/user"
+import { addFilter, addCallback, registerOnFilter } from "@factor/tools"
 
 addCallback("site-prefetch", _ => prefetchPost(_))
 addCallback("client-route-before", _ => prefetchPost({ clientOnly: true, ..._ }))
-
-addFilter("components", _ => {
-  _["factor-post-edit"] = () => import("./el/edit-link.vue")
-  return _
-})
+registerOnFilter("components", "factor-post-edit", () => import("./el/edit-link.vue"))
 
 addFilter("dashboard-routes", _ => {
   return [
@@ -34,38 +29,4 @@ addFilter("dashboard-routes", _ => {
       component: () => import("./view/dashboard-list.vue")
     }
   ]
-})
-
-// Assign Post Info to Route
-// Has to happen after all initialized
-// addFilter("mixins", _ => {
-//   //_.post = this.addPostToComponents()
-
-//   return _
-// })
-
-addFilter("admin-menu", _ => {
-  this.getPostTypes()
-    .filter(({ showAdmin, accessLevel }) => {
-      return showAdmin === false || (accessLevel && !can({ accessLevel })) ? false : true
-    })
-    .forEach(({ postType, namePlural, icon = "", add = "add-new" }) => {
-      const subMenu = []
-
-      if (add) {
-        subMenu.push({ path: add, name: toLabel(add) })
-      }
-
-      subMenu.push({ path: "edit" })
-
-      _.push({
-        group: postType,
-        path: `posts/${postType}`,
-        name: namePlural || toLabel(postType),
-        icon,
-        items: applyFilters(`admin-menu-post-${postType}`, subMenu)
-      })
-    })
-
-  return _
 })

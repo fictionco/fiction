@@ -12,6 +12,7 @@ import {
   setPostMetatags
 } from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
+
 function _setCache(postType) {
   storeItem(`${postType}Cache`, timestamp())
 }

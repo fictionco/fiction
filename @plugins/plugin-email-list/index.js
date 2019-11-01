@@ -3,9 +3,9 @@ import {
   deepMerge,
   dotSetting,
   emitEvent,
-  addFilter,
   pushToFilter,
   addCallback,
+  registerOnFilter,
   setting
 } from "@factor/tools"
 
@@ -15,20 +15,19 @@ const postType = "emailList"
 
 addCallback("route-query-action-verify-email-list", _ => verifyEmail(_))
 
-addFilter("components", _ => {
-  _["factor-email-list"] = () => import("./wrap.vue")
-  return _
-})
+registerOnFilter("components", "factor-email-list", () => import("./wrap.vue"))
 
-pushToFilter("post-types", {
-  postType: postType,
+export const postTypeUIConfig = {
+  postType,
   nameIndex: "Email Lists",
   nameSingle: "List",
   namePlural: "Email Lists",
   listTemplate: () => import("./dashboard-list.vue"),
   editTemplate: () => import("./dashboard-edit.vue"),
   add: false
-})
+}
+
+pushToFilter("dashboard-post-types", postTypeUIConfig)
 
 export async function deleteEmails({ emails, listId }) {
   let result

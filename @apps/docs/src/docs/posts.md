@@ -8,7 +8,7 @@ The post system works by combining all your apps data items, e.g. users, pages, 
 
 There are some clear advantages to this approach:
 
-1. **Shared functionality.** Most DB items need common functionality like category filtering or permalinks. With a post system all post-types inherit these tools automatically.
+1. **Shared functionality.** Most DB items need common functionality like category filtering or permalinks. With a post system all dashboard-post-types inherit these tools automatically.
 1. **Simplicity.** Since all data types are stored in the same place, it makes it much easier to manage your data. For example, to export/import your entire DB, you're just dealing with a single collection.
 
 ## Dashboard and Posts
@@ -23,12 +23,12 @@ Below we'll discuss the basics of adding your own "post types" and configuring y
 
 ### Creating a Post Type
 
-It's easy to add a new post type to Factor, all you need to do is add a new object via the `post-types` filter.
+It's easy to add a new post type to Factor, all you need to do is add a new object via the `dashboard-post-types` filter.
 
 ```js
 // index.js
 import { pushToFilter } from "@factor/tools"
-pushToFilter("post-types", {
+pushToFilter("dashboard-post-types", {
   postType: "jobs",
   nameIndex: "Jobs",
   nameSingle: "Jobs Post",
@@ -49,7 +49,7 @@ To do so, all you need to do is add your own components:
 
 ```js
 // index.js
-pushToFilter("post-types", {
+pushToFilter("dashboard-post-types", {
   postType: "my-post-type",
   listTemplate: () => import("./custom-dashboard-list-view.vue"),
   editTemplate: () => import("./custom-post-edit-view.vue")

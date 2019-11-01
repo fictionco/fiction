@@ -11,7 +11,7 @@ import pageSchema from "./schema"
 
 pushToFilter("data-schemas", () => pageSchema(), { key: "page" })
 
-addFilter("post-types", _ => {
+addFilter("dashboard-post-types", _ => {
   _.unshift({
     postType: "page",
     baseRoute: "",

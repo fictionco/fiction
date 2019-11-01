@@ -1,4 +1,4 @@
-import { requestPostSave, getPostTypes } from "@factor/post"
+import { requestPostSave, dashboardPostTypes } from "@factor/post"
 import { pushToFilter, addFilter, setting } from "@factor/tools"
 import { writeConfig } from "@factor/setup"
 
@@ -51,7 +51,7 @@ function addSetupCli() {
         }
       ]
 
-      const factorPostTypes = await getPostTypes()
+      const factorPostTypes = await dashboardPostTypes()
       factorPostTypes.forEach(postType => {
         questions.choices.push({ name: postType, value: postType })
       })

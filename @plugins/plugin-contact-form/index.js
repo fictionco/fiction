@@ -4,7 +4,7 @@ import { sendEmailRequest } from "@factor/email"
 
 const postType = "contact-form"
 
-pushToFilter("post-types", {
+pushToFilter("dashboard-post-types", {
   postType: postType,
   nameIndex: "Contact Form",
   nameSingle: "Submitted",

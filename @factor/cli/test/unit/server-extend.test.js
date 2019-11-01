@@ -1,5 +1,5 @@
 describe("extend server", () => {
-  it("loads extensions from server loader", () => {})
-  it("supports restart, adds a first start hook", () => {})
-  it("adds load hooks", () => {})
+  it.todo("loads extensions from server loader")
+  it.todo("supports restart, adds a first start hook")
+  it.todo("adds load hooks")
 })

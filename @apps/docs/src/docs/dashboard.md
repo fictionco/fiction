@@ -25,12 +25,12 @@ The dashboard interface is based around the concept of posts and post management
 1. Listing the posts and group actions
 2. Adding or editing an individual post.
 
-When you add a new post type using the `post-types` filter, this will automatically create a new post management tab in the admin. The behavior of this can be fully customized however. To override the default list and edit post templates use the `listTemplate` and `editTemplate` options for the post type.
+When you add a new post type using the `dashboard-post-types` filter, this will automatically create a new post management tab in the admin. The behavior of this can be fully customized however. To override the default list and edit post templates use the `listTemplate` and `editTemplate` options for the post type.
 
 ```js
 // index.js
 import { pushToFilter } from "@factor/tools"
-pushToFilter("post-types", {
+pushToFilter("dashboard-post-types", {
   postType: "examples",
   nameIndex: "Examples",
   nameSingle: "Example Post",
