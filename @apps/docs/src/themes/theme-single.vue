@@ -1,11 +1,11 @@
 <template>
-  <div class="plugins-container-single">
+  <div class="themes-container-single">
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else>
-      <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="pluginIcon(entry.githubFiles)" :title="formatName(entry.name)">
+      <section v-for="(entry, index) in themeData" :key="index">
+        <widget-header :image="themeIcon(entry.githubFiles)" :title="formatName(entry.name)">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -23,20 +23,15 @@
           </div>
         </widget-header>
 
-        <div class="plugins-wrap content-pad">
+        <div class="themes-wrap content-pad">
           <div class="content">
-            <factor-link class="back" :path="`/plugins`">
-              <factor-icon icon="arrow-left" />
-              <span>All Plugins</span>
-            </factor-link>
-
             <widget-lightbox
               :visible.sync="lightboxShow"
               :imgs="screenshotsList(entry.githubFiles)"
               :index="lightboxIndex"
             />
 
-            <div v-if="entry.githubFiles" class="plugin-images">
+            <div v-if="entry.githubFiles" class="theme-images">
               <div
                 v-for="(url, i) in screenshotsList(entry.githubFiles)"
                 :key="i"
@@ -50,10 +45,12 @@
               </div>
             </div>
 
-            <plugin-entry :text="getContent(entry.readme)" class="plugin-content" />
+            <factor-link btn="primary" path="/">Live Demo &rarr;</factor-link>
+
+            <theme-entry :text="getContent(entry.readme)" class="theme-content" />
           </div>
 
-          <widget-sidebar :get-data="getData" />
+          <!-- <widget-sidebar :get-data="themesData" /> -->
         </div>
       </section>
     </div>
@@ -62,18 +59,18 @@
   </div>
 </template>
 <script>
-import dataUtility from "./plugin-data"
+import dataUtility from "./theme-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header"),
-    "widget-sidebar": () => import("./widget-sidebar"),
+    // "widget-sidebar": () => import("./widget-sidebar"),
     "widget-lightbox": () => import("../el/el-lightbox"),
-    "plugin-entry": () => import("../el/entry"),
+    "theme-entry": () => import("../el/entry"),
     "widget-cta": () => import("./widget-cta")
   },
   data() {
     return {
-      getData: "",
+      themesData: "",
       loading: true,
       lightboxShow: false,
       lightboxIndex: 0
@@ -82,21 +79,21 @@ export default {
   async serverPrefetch() {
     const data = await dataUtility().getIndex()
 
-    this.$store.add("plugins-index", data)
+    this.$store.add("themes-index", data)
   },
   computed: {
-    pluginData: function() {
+    themeData: function() {
       let pageSlug = this.$route.params.slug
-      return _.pickBy(this.getData, function(u) {
+      return _.pickBy(this.themesData, function(u) {
         let name = u.name.replace("@factor/", "")
         return name === pageSlug || ""
       })
     }
   },
   async mounted() {
-    const theData = this.$store.val("plugins-index")
+    const theData = this.$store.val("themes-index")
 
-    this.getData = theData
+    this.themesData = theData
 
     require("../prism/prism.js")
     this.prism = window.Prism
@@ -104,7 +101,7 @@ export default {
     this.loading = false
   },
   methods: {
-    pluginIcon(entry) {
+    themeIcon(entry) {
       const imageName = `icon.svg`
 
       let images = []
@@ -160,7 +157,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Factor Plugin Library",
+      title: "Factor Theme Directory",
       description: "Extend your project features and do more with Factor."
       //image: this.$post.shareImage(this.entry._id)
     }
@@ -171,7 +168,7 @@ export default {
 <style lang="less">
 @import "../prism/prism.less";
 
-.plugins-container-single {
+.themes-container-single {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
@@ -185,7 +182,7 @@ export default {
     position: relative;
   }
 
-  .plugins-wrap {
+  .themes-wrap {
     display: grid;
     grid-template-columns: 7fr 3fr;
     grid-gap: 6rem;
@@ -196,36 +193,26 @@ export default {
     }
   }
 
-  .plugins-widget-header {
+  .themes-widget-header {
     .content-pad {
       grid-template-columns: 1fr;
     }
     .header-content {
-      display: grid;
-      grid-template-columns: 75px 3fr;
-      grid-gap: 2rem;
-      align-items: center;
-
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        grid-gap: 1rem;
-      }
-
-      .header-image {
-        display: flex;
-        justify-content: center;
-        width: 75px;
-        height: 75px;
-        border-radius: 50%;
-        overflow: hidden;
-        background: var(--color-bg-contrast);
-        border: 1px solid var(--color-bg-contrast-more);
-        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
-        img {
-          width: 100%;
-          max-width: 100%;
-        }
-      }
+      // .header-image {
+      //   display: flex;
+      //   justify-content: center;
+      //   width: 75px;
+      //   height: 75px;
+      //   border-radius: 50%;
+      //   overflow: hidden;
+      //   background: var(--color-bg-contrast);
+      //   border: 1px solid var(--color-bg-contrast-more);
+      //   box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
+      //   img {
+      //     width: 100%;
+      //     max-width: 100%;
+      //   }
+      // }
 
       .page-title-sub .authors,
       .page-title-sub .categories {
@@ -265,9 +252,9 @@ export default {
       margin-bottom: 1.5rem;
     }
 
-    .plugin-images {
+    .theme-images {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 160px));
+      grid-template-columns: repeat(auto-fit, minmax(100px, 130px));
       grid-gap: 1rem;
       margin-bottom: 1.5rem;
       .image-item {

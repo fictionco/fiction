@@ -209,6 +209,13 @@ export default Factor => {
           "Learn about extension development and how to submit your extension to the Factor library."
       }
     },
+    themes: {
+      cta: {
+        title: "Create and Submit Your Theme",
+        subtitle:
+          "Learn about extension development and how to submit your extension to the Factor library."
+      }
+    },
     footer: {
       headline: "Released under the GPL-2 License",
       legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
