@@ -1,11 +1,11 @@
-import { pushToFilter, applyFilters, addCallback } from "@factor/tools"
 import { getModel } from "@factor/post/server"
+import { pushToFilter, applyFilters, addCallback } from "@factor/tools"
+import * as endpointHandler from "@factor/user/server"
 import jwt from "jsonwebtoken"
-import userSchema from "./schema"
+
+import "./hooks-universal"
 
 const SECRET = process.env.TOKEN_SECRET
-
-pushToFilter("webpack-ignore-modules", "bcrypt")
 
 if (!SECRET) {
   pushToFilter("setup-needed", {
@@ -15,9 +15,7 @@ if (!SECRET) {
   })
 }
 
-addCallback("endpoints", { id: "user", handler: "@factor/user/server" })
-
-pushToFilter("data-schemas", () => userSchema())
+addCallback("endpoints", { id: "user", handler: endpointHandler })
 
 export async function authenticate(params) {
   const { newAccount, email, password, displayName } = params

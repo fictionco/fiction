@@ -110,6 +110,7 @@ import {
 import { requestPostSave } from "@factor/post"
 export default {
   components: {
+    "factor-client-only": () => import("vue-client-only"),
     "input-editor": () => import("../el/editor.vue"),
     "input-permalink": () => import("../el/permalink.vue"),
     "input-tags": () => import("../el/tags.vue")

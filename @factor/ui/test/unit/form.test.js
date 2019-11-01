@@ -1,0 +1,12 @@
+describe("form components", () => {
+  it.todo("renders text")
+  it.todo("renders textarea")
+  it.todo("renders birthday")
+  it.todo("renders password")
+  it.todo("renders select")
+  it.todo("renders email")
+  it.todo("renders checkbox")
+  it.todo("renders submit")
+  it.todo("renders form wrapper")
+  it.todo("renders input wrapper")
+})

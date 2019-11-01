@@ -1,7 +1,10 @@
 import { objectIdType } from "@factor/post/util"
-import { validator, applyFilters } from "@factor/tools"
+import { validator, applyFilters, pushToFilter } from "@factor/tools"
 import bcrypt from "bcrypt"
 export default () => {
+  // Ignore in app  (loaded in server + app)
+  pushToFilter("webpack-ignore-modules", "bcrypt")
+
   return {
     name: "user",
     callback: _s => {

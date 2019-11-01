@@ -1,5 +1,12 @@
 import { getModel } from "@factor/post/server"
-import { randomToken, emitEvent, applyFilters, addCallback, setting } from "@factor/tools"
+import {
+  randomToken,
+  emitEvent,
+  applyFilters,
+  addCallback,
+  setting,
+  currentUrl
+} from "@factor/tools"
 import { hasEmail, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
@@ -93,9 +100,9 @@ async function sendConfirmEmail({ email, listId, code }) {
 
   const { subject, text, from, linkText } = format
 
-  const linkUrl = `${setting(
-    "currentUrl"
-  )}?_action=${action}&code=${code}&email=${encodeURIComponent(email)}&list=${listId}`
+  const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&email=${encodeURIComponent(
+    email
+  )}&list=${listId}`
 
   return await sendTransactional({
     to: email,

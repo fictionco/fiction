@@ -5,7 +5,6 @@ import {
   isNode,
   emitEvent,
   addFilter,
-  pushToFilter,
   runCallbacks,
   addCallback,
   stored,
@@ -13,7 +12,7 @@ import {
   log
 } from "@factor/tools"
 
-import userSchema from "./schema"
+import "./hooks-universal"
 import Factor from "@factor/core"
 import { appMounted } from "@factor/app"
 
@@ -26,8 +25,6 @@ addFilter("before-app", () => {
     handleAuthRouting()
   }
 })
-
-pushToFilter("data-schemas", () => userSchema())
 
 let _initializedUser
 
@@ -58,6 +55,18 @@ async function requestInitializeUser(user) {
   }
 
   return _initializedUser
+}
+
+export function isCurrentUser(_id) {
+  return currentUser()._id == _id ? true : false
+}
+
+export function currentUser() {
+  return stored("currentUser") || {}
+}
+
+export function isLoggedIn() {
+  return !isEmpty(currentUser())
 }
 
 function addMixin() {
@@ -129,18 +138,6 @@ async function retrieveAndSetCurrentUser(user) {
   }
 }
 
-export function isCurrentUser(_id) {
-  return currentUser()._id == _id ? true : false
-}
-
-export function currentUser() {
-  return stored("currentUser") || {}
-}
-
-export function isLoggedIn() {
-  return !isEmpty(currentUser())
-}
-
 function setUser({ user, token, current = false }) {
   const { _id } = user ? user : {}
 
@@ -181,7 +178,7 @@ export function userToken(token) {
 
 // Very basic version of this function for MVP dev
 // Needs improvement for more fine grained control
-export function can({ role, accessLevel }) {
+export function userCan({ role, accessLevel }) {
   const userAccessLevel = currentUser().accessLevel
   const roleAccessLevel = role ? Factor.$userRoles.roles()[role] : 1000
   if (accessLevel && userAccessLevel >= accessLevel) {

@@ -1,12 +1,13 @@
 import { generateLoaders } from "@factor/cli/extension-loader"
-import { getPath, localhostUrl } from "@factor/tools/paths"
+import { resolve } from "path"
 import { runCallbacks, addCallback } from "@factor/tools/filters"
 import commander from "commander"
+import dotenv from "dotenv"
 import execa from "execa"
 import inquirer from "inquirer"
 import listr from "listr"
 import log from "@factor/tools/logger"
-
+import { localhostUrl } from "@factor/tools/permalink"
 import aliasRequire from "./alias-require"
 import pkg from "./package"
 import transpiler from "./transpile"
@@ -22,6 +23,8 @@ function setEnvironment({ NODE_ENV = "production", command, ENV } = {}) {
   process.env.FACTOR_ENV = ENV || process.env.FACTOR_ENV || NODE_ENV
   process.env.FACTOR_COMMAND = command || commander._name || "none"
   process.env.FACTOR_TARGET = "server"
+
+  dotenv.config({ path: resolve(process.env.FACTOR_CWD, ".env") })
 }
 
 setEnvironment()
@@ -165,7 +168,12 @@ export async function extendServer({ restart = false } = {}) {
 }
 
 async function runServer(_arguments) {
-  const { NODE_ENV = process.env.NODE_ENV, FACTOR_ENV, FACTOR_COMMAND } = process.env
+  const {
+    NODE_ENV = process.env.NODE_ENV,
+    FACTOR_ENV,
+    FACTOR_COMMAND,
+    FACTOR_CWD
+  } = process.env
 
   const message = {
     title: "Starting Server...",
@@ -173,7 +181,7 @@ async function runServer(_arguments) {
       { title: "NODE_ENV", value: NODE_ENV, indent: true },
       { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
       { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
-      { title: "CWD", value: getPath("app"), indent: true }
+      { title: "CWD", value: FACTOR_CWD, indent: true }
     ]
   }
 

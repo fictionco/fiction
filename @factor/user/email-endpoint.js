@@ -1,5 +1,5 @@
 import { getModel, savePost } from "@factor/post/server"
-import { randomToken, addFilter, addCallback, setting } from "@factor/tools"
+import { randomToken, addFilter, addCallback, currentUrl } from "@factor/tools"
 import { sendTransactional } from "@factor/email/server"
 
 addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
@@ -101,7 +101,7 @@ export async function sendPasswordResetEmail({ email }) {
 
 export async function sendEmail(args) {
   const { to, subject, action, _id, code, text, linkText } = args
-  const linkUrl = `${setting("currentUrl")}?_action=${action}&code=${code}&_id=${_id}`
+  const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&_id=${_id}`
 
   return await sendTransactional({
     to,

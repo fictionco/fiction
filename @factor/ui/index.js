@@ -2,7 +2,9 @@ import { addFilter, setting } from "@factor/tools"
 import "./directives"
 
 addFilter("components", __ => {
+  // Forms / Inputs
   __["factor-form"] = () => import("./form/form.vue")
+  __["factor-input-wrap"] = () => import("./form/wrap-input.vue")
   __["factor-input-email"] = () => import("./form/email.vue")
   __["factor-input-date"] = () => import("./form/date.vue")
   __["factor-input-password"] = () => import("./form/password.vue")
@@ -14,7 +16,8 @@ addFilter("components", __ => {
   __["factor-input-image-upload"] = () => import("./form/image-upload.vue")
   __["factor-input-select"] = () => import("./form/select.vue")
   __["factor-input-submit"] = () => import("./form/submit.vue")
-  __["factor-input-wrap"] = () => import("./form/wrap-input.vue")
+
+  // UI
   __["factor-btn"] = setting("core.components.btn")
   __["factor-btn-base"] = setting("core.components.btnBase")
   __["factor-btn-dashboard"] = setting("core.components.btnDashboard")
@@ -23,10 +26,9 @@ addFilter("components", __ => {
   __["factor-loading-ring"] = setting("core.components.loadingRing")
   __["factor-lightbox"] = setting("core.components.lightbox")
   __["factor-link"] = setting("core.components.link")
-  __["factor-client-only"] = () => import("vue-client-only")
   __["factor-avatar"] = () => import("./el/avatar.vue")
-  __["factor-pop"] = () => import("./el/pop.vue")
   __["factor-menu"] = () => import("./el/menu.vue")
   __["factor-icon"] = () => import("./el/icon.vue")
+
   return __
 })

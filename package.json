@@ -35,9 +35,11 @@
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
-  "gitHooks": {
-    "pre-commit": "yarn test:lint",
-    "commit-msg": "node scripts/verify-commit.js"
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test:lint",
+      "commit-msg": "node scripts/verify-commit.js"
+    }
   },
   "dependencies": {
     "@babel/core": "^7.6.0",
@@ -83,7 +85,6 @@
   },
   "devDependencies": {
     "eslint-import-resolver-alias": "^1.1.2",
-    "mongodb-memory-server": "^6.0.1",
-    "yorkie": "^2.0.0"
+    "mongodb-memory-server": "^6.0.1"
   }
 }
