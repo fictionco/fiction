@@ -1,14 +1,21 @@
-import fs from "fs-extra"
-import { resolve, dirname, relative } from "path"
-
 import { addFilter, applyFilters } from "@factor/tools"
 import { getExtensions } from "@factor/cli/extension-loader"
+import { resolve, dirname, relative } from "path"
+
+import fs from "fs-extra"
 
 // Add static folder copy config to webpack copy plugin
 addFilter("webpack-copy-files-config", _ => [..._, ...staticCopyConfig()])
 addFilter("webpack-aliases", _ => {
   return { ..._, "@": getPath("source"), "~": getPath("app") }
 })
+
+export function getPath(key) {
+  const rel = relativePath(key)
+  const full = typeof rel != "undefined" ? resolve(CWD(), rel) : false
+
+  return full
+}
 
 function relativePath(key) {
   const { main = "index.js" } = require(resolve(CWD(), "package.json"))
@@ -43,13 +50,6 @@ function relativePath(key) {
   const p = paths[key]
 
   return Array.isArray(p) ? p.join("/") : p
-}
-
-export function getPath(key) {
-  const rel = relativePath(key)
-  const full = typeof rel != "undefined" ? resolve(CWD(), rel) : false
-
-  return full
 }
 
 function CWD() {

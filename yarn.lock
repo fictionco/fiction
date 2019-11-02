@@ -911,55 +911,10 @@
     object-hash "^2.0.0"
     scriptjs "^2.5.9"
 
-"@factor/server-dev@1.0.0-beta.6":
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@factor/server-dev/-/server-dev-1.0.0-beta.6.tgz#983298d975d1727ce9cef42886b55e0f9784e128"
-  integrity sha512-kO975xx+rURZoTviutUae1R17H7VV2DO4sEvTLlLC517YiBZf4d4WxbDtpDa/wFS1fxW3YZT17GO/TFc4xnnTA==
-  dependencies:
-    chalk "^2.4.2"
-    chokidar "^3.1.2"
-    figures "^3.0.0"
-    fs-extra "^8.1.0"
-    memory-fs "^0.5.0"
-    ora "^4.0.2"
-    vue "^2.6.8"
-    webpack "^4.29.6"
-    webpack-dev-middleware "^3.6.0"
-    webpack-hot-middleware "^2.24.3"
-    yargs "^14.2.0"
-
 "@factor/settings@1.0.0-beta.6":
   version "1.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@factor/settings/-/settings-1.0.0-beta.6.tgz#be86937d0347472f50ea2298388ed7328d7f7a3e"
   integrity sha512-iChA0xwe7m0WUcxVHJGeen8HJ9S8rxSFGeOqayoVBO16A9UgabQFg7rP6SbmC2e05bSpQkLz1wUiijGBjuP2rQ==
-
-"@factor/tools-http@1.0.0-beta.6":
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@factor/tools-http/-/tools-http-1.0.0-beta.6.tgz#faae0f664039dd914852038e06cc8257fb5f144c"
-  integrity sha512-tY5zIP26Y/g19hyc+RyMz9mtUteWCtLoQ+eSPmFApDSdUczbdV+z34iFPDr5oP2JXpBc8BSeCyWJ55XF/c++3g==
-  dependencies:
-    axios "^0.19.0"
-    markdown-it "^10.0.0"
-    markdown-it-anchor "^5.0.2"
-    markdown-it-implicit-figures "^0.9.0"
-    markdown-it-link-attributes "^3.0.0"
-    markdown-it-video "^0.6.3"
-    qs "^6.7.0"
-    remark "^11.0.0"
-    strip-markdown "^3.0.3"
-
-"@factor/tools-markdown@1.0.0-beta.6":
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@factor/tools-markdown/-/tools-markdown-1.0.0-beta.6.tgz#90f699c95cac6aaef7f737762f542b0cd6a9c3ad"
-  integrity sha512-ETHhV1WD8G+vxrs9bgoQ9Cs33DXzwk9cSBjCTK5OINAZcDyD4B9CWdVBrr1F3E51vuHZvsnmcaGc5Wxu5lJJog==
-  dependencies:
-    markdown-it "^10.0.0"
-    markdown-it-anchor "^5.0.2"
-    markdown-it-implicit-figures "^0.9.0"
-    markdown-it-link-attributes "^3.0.0"
-    markdown-it-video "^0.6.3"
-    remark "^11.0.0"
-    strip-markdown "^3.0.3"
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
@@ -5720,19 +5675,6 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-execa@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/execa/-/execa-0.8.0.tgz#d8d76bbc1b55217ed190fd6dd49d3c774ecfc8da"
-  integrity sha1-2NdrvBtVIX7RkP1t1J08d07PyNo=
-  dependencies:
-    cross-spawn "^5.0.1"
-    get-stream "^3.0.0"
-    is-stream "^1.1.0"
-    npm-run-path "^2.0.0"
-    p-finally "^1.0.0"
-    signal-exit "^3.0.0"
-    strip-eof "^1.0.0"
-
 execa@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/execa/-/execa-1.0.0.tgz#c6236a5bb4df6d6f15e88e7f017798216749ddd8"
@@ -9895,11 +9837,6 @@ normalize-package-data@^2.0.0, normalize-package-data@^2.3.0, normalize-package-
     resolve "^1.10.0"
     semver "2 || 3 || 4 || 5"
     validate-npm-package-license "^3.0.1"
-
-normalize-path@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-1.0.0.tgz#32d0e472f91ff345701c15a8311018d3b0a90379"
-  integrity sha1-MtDkcvkf80VwHBWoMRAY07CpA3k=
 
 normalize-path@^2.1.1:
   version "2.1.1"
@@ -14489,13 +14426,3 @@ yauzl@^2.4.2:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
-
-yorkie@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/yorkie/-/yorkie-2.0.0.tgz#92411912d435214e12c51c2ae1093e54b6bb83d9"
-  integrity sha512-jcKpkthap6x63MB4TxwCyuIGkV0oYP/YRyuQU5UO0Yz/E/ZAu+653/uov+phdmO54n6BcvFRyyt0RRrWdN2mpw==
-  dependencies:
-    execa "^0.8.0"
-    is-ci "^1.0.10"
-    normalize-path "^1.0.0"
-    strip-indent "^2.0.0"

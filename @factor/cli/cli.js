@@ -1,6 +1,6 @@
+import { runCallbacks, addCallback } from "@factor/tools"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { resolve } from "path"
-import { runCallbacks, addCallback } from "@factor/tools/filters"
 import commander from "commander"
 import dotenv from "dotenv"
 import execa from "execa"
