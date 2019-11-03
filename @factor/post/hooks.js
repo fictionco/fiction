@@ -1,9 +1,13 @@
 import { prefetchPost } from "@factor/post"
-import { addFilter, addCallback, registerOnFilter } from "@factor/tools"
+import { addFilter, addCallback, pushToFilter } from "@factor/tools"
 
 addCallback("site-prefetch", _ => prefetchPost(_))
 addCallback("client-route-before", _ => prefetchPost({ clientOnly: true, ..._ }))
-registerOnFilter("components", "factor-post-edit", () => import("./el/edit-link.vue"))
+
+pushToFilter("global-components", {
+  name: "factor-post-edit",
+  component: () => import("./el/edit-link.vue")
+})
 
 addFilter("dashboard-routes", _ => {
   return [

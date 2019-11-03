@@ -1,9 +1,8 @@
 <template>
   <div
-    :style="{
-      'width': percent+'%',
-      'height': height,
-      'opacity': show ? 1 : 0
+    :style="{ 'width': percent+'%',
+              'height': height,
+              'opacity': show ? 1 : 0
     }"
     class="progress"
     :class="canSuccess ? 'working' : 'failed'"
@@ -13,6 +12,7 @@
 <script>
 import { onEvent } from "@factor/tools"
 export default {
+  name: "SsrBar",
   data() {
     return {
       percent: 0,

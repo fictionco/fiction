@@ -20,8 +20,9 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-import { postTypeUIConfig } from "."
+import { postTypeUIConfig, deleteEmails, csvExport } from "."
 import { toLabel, storeItem, stored } from "@factor/tools"
+
 export default {
   name: "EmailListGrid",
   props: {
@@ -88,7 +89,7 @@ export default {
 
   methods: {
     async deleteEmails({ emails }) {
-      const result = await this.$emailList.deleteEmails({
+      const result = await deleteEmails({
         emails,
         listId: this.listId
       })
@@ -108,7 +109,7 @@ export default {
           const { code, ...rest } = _
           return rest
         })
-        this.$emailList.csvExport({
+        csvExport({
           filename: `email-list-${this.listId}`,
           data
         })
@@ -119,7 +120,7 @@ export default {
             const { code, ...rest } = _
             return rest
           })
-        this.$emailList.csvExport({
+        csvExport({
           filename: `email-list-${this.listId}-selected`,
           data
         })

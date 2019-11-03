@@ -8,6 +8,7 @@
   </factor-modal>
 </template>
 <script>
+import { getSetting } from "."
 export default {
   props: {
     added: { type: Boolean, default: false },
@@ -26,7 +27,7 @@ export default {
   },
   methods: {
     setting(key) {
-      return this.$emailList.getSetting({
+      return getSetting({
         key,
         listId: this.listId
       })

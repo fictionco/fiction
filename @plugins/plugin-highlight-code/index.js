@@ -1,4 +1,5 @@
-import { registerOnFilter } from "@factor/tools"
-registerOnFilter("components", "plugin-highlight-code", () =>
-  import("./highlight-code.vue")
-)
+import { pushToFilter } from "@factor/tools"
+pushToFilter("global-components", {
+  name: "plugin-highlight-code",
+  component: () => import("./highlight-code.vue")
+})

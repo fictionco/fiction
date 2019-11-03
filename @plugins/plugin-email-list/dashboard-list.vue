@@ -25,7 +25,7 @@
 <script>
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post"
-import { postTypeUIConfig } from "."
+import { postTypeUIConfig, csvExport } from "."
 import { toLabel, stored, getPermalink } from "@factor/tools"
 export default {
   name: "EmailListGrid",
@@ -95,7 +95,7 @@ export default {
           }
         })
 
-        this.$emailList.csvExport({
+        csvExport({
           filename: name.join("-"),
           data: [].concat.apply([], data)
         })

@@ -1,4 +1,5 @@
-import { registerOnFilter } from "@factor/tools"
-registerOnFilter("site-components", "plugin-ssr-bar", () =>
-  import("./ssr-progress-bar.vue")
-)
+import { pushToFilter } from "@factor/tools"
+pushToFilter("site-components", {
+  name: "plugin-ssr-bar",
+  component: () => import("./ssr-progress-bar.vue")
+})

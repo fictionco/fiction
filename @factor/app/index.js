@@ -3,7 +3,7 @@ import {
   addFilter,
   applyFilters,
   setting,
-  registerOnFilter,
+  pushToFilter,
   addCallback
 } from "@factor/tools"
 
@@ -27,13 +27,16 @@ addCallback("before-app-plugins", () => {
   const error404 = setting("app.error404")
   const content = setting("app.content")
 
+  console.log("before-app-plugins", content)
+
   if (!error404 || !content) {
     throw new Error("Factor core app components are undefined.")
   }
 
-  registerOnFilter("components", "error-404", error404)
+  pushToFilter("global-components", { name: "error-404", component: error404 })
 
   addFilter("routes", _ => {
+    console.log("routes", content)
     const contentRoutes = applyFilters("content-routes", [
       {
         name: "forbidden",

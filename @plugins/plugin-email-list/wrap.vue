@@ -2,16 +2,20 @@
   <component :is="form" v-bind="$attrs" :list-id="listId" />
 </template>
 <script>
+import { getSetting } from "@factor/plugin-email-list"
+
 export default {
   props: {
     listId: { type: String, default: "default" }
   },
   computed: {
     form() {
-      return this.$emailList.getSetting({
+      const emailComponent = getSetting({
         key: "form.component",
-        listId: this.listId
+        listId: this.listsId
       })
+      console.log("emailComponent", emailComponent)
+      return emailComponent
     }
   }
 }

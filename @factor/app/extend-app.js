@@ -30,20 +30,28 @@ function setupGlobalObservable() {
 function addGlobalComponents() {
   Factor.$components = {}
   const comps = applyFilters("components", {})
+
   for (var _ in comps) {
     if (comps[_]) {
       Factor.component(_, comps[_])
       Factor.$components[_] = comps[_]
     }
   }
+
+  const globalComponents = applyFilters("global-components", [])
+
+  globalComponents.forEach(({ component, name }) => {
+    Factor.component(name, component)
+    Factor.$components[name] = component
+  })
 }
 
 function addClientDirectives() {
   if (process.env.FACTOR_SSR == "client") {
     const directives = applyFilters("client-directives", {})
 
-    for (var _ in directives) {
-      if (directives[_]) Factor.directive(_, directives[_])
+    for (var __ in directives) {
+      if (directives[__]) Factor.directive(__, directives[__])
     }
   }
 }

@@ -27,7 +27,7 @@ export default () => {
         return [...siteClasses, this.scrollClass]
       },
       injectedComponents() {
-        return applyFilters("site-components", {})
+        return applyFilters("site-components", [])
       }
     },
 

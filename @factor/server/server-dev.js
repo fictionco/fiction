@@ -51,7 +51,7 @@ export async function createServerCompilers() {
 
   template = fs.readFileSync(templatePath, "utf-8")
 
-  watcher(({ event, path }) => updateBundles({ title: event, value: path }))
+  //watcher(({ event, path }) => updateBundles({ title: event, value: path }))
 
   clientCompiler()
 

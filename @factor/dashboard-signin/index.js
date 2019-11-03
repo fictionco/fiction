@@ -1,4 +1,4 @@
-import { pushToFilter, registerOnFilter } from "@factor/tools"
+import { pushToFilter } from "@factor/tools"
 
 pushToFilter("content-routes", {
   name: "signin",
@@ -6,8 +6,12 @@ pushToFilter("content-routes", {
   component: () => import("./view-signin.vue")
 })
 
-registerOnFilter("components", "plugin-signin-profile-menu", () =>
-  import("./profile-menu.vue")
-)
+pushToFilter("global-components", {
+  name: "plugin-signin-profile-menu",
+  component: () => import("./profile-menu.vue")
+})
 
-registerOnFilter("site-components", "plugin-signin-modal", () => import("./modal.vue"))
+pushToFilter("site-components", {
+  name: "plugin-signin-modal",
+  component: () => import("./modal.vue")
+})

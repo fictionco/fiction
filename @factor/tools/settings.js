@@ -44,8 +44,8 @@ export async function addSettings(settings) {
 }
 
 export function setting(key) {
-  if (key == "app.templatePath") {
-    console.log("settings", settings)
+  if (key == "emailList.default") {
+    console.log("ALL SETTINGS ARE", settings)
   }
   return dotSetting({ key, settings })
 }

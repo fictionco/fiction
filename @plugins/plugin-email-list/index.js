@@ -5,7 +5,6 @@ import {
   emitEvent,
   pushToFilter,
   addCallback,
-  registerOnFilter,
   setting
 } from "@factor/tools"
 
@@ -15,7 +14,10 @@ const postType = "emailList"
 
 addCallback("route-query-action-verify-email-list", _ => verifyEmail(_))
 
-registerOnFilter("components", "factor-email-list", () => import("./wrap.vue"))
+pushToFilter("global-components", {
+  name: "factor-email-list",
+  component: () => import("./wrap.vue")
+})
 
 export const postTypeUIConfig = {
   postType,
@@ -64,7 +66,7 @@ export async function verifyEmail(query) {
   return result
 }
 
-function settings(listId = "") {
+export function getListSettings(listId = "") {
   const merge = [setting(`emailList.default`)]
 
   if (listId && listId != "default") {
@@ -76,7 +78,7 @@ function settings(listId = "") {
 }
 
 export function getSetting({ listId, key }) {
-  return dotSetting({ key, settings: settings(listId) })
+  return dotSetting({ key, settings: getListSettings(listId) })
 }
 
 async function sendEmailListRequest(method, params) {

@@ -19,6 +19,8 @@
   </div>
 </template>
 <script>
+import { getSetting, getListSettings, addEmail } from "@factor/plugin-email-list"
+
 export default {
   props: {
     listId: { type: String, default: "default" }
@@ -34,7 +36,7 @@ export default {
   },
   computed: {
     settings() {
-      return this.$emailList.settings(this.listId)
+      return getListSettings(this.listId)
     },
     tags() {
       return this.setting("tags") || []
@@ -42,7 +44,7 @@ export default {
   },
   methods: {
     setting(key) {
-      return this.$emailList.getSetting({
+      return getSetting({
         key,
         listId: this.listId
       })
@@ -53,7 +55,7 @@ export default {
       const validated = this.validate()
 
       if (validated) {
-        const result = await this.$emailList.addEmail({
+        const result = await addEmail({
           email: this.email,
           listId: this.listId,
           tags: this.tags

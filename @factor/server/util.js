@@ -14,8 +14,9 @@ export function serverErrorWrap({ title = "", subTitle = "", description = "" })
     lines.push(
       `<h4 style="font-size: 1.1em; line-height: 1.1; margin: 10px;">${subTitle}</h4>`
     )
-  if (description) lines.push(`<p style="margin-top: 2em;">${description}</p>`)
-  return `<div style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 100px auto; width: 500px; opacity:.2; ">${lines.join(
+  if (description)
+    lines.push(`<p style="margin-top: 2em; line-height: 1.4;">${description}</p>`)
+  return `<div style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 30vh auto; width: 500px; opacity:.2; ">${lines.join(
     ""
   )}</div>`
 }
@@ -31,20 +32,15 @@ export function getServerInfo() {
 }
 
 export function handleServerError(request, response, error) {
-  if (error.url) {
-    response.redirect(error.url)
-  } else if (error.code === 404) {
-    response.status(404).send("404 | Page Not Found")
-  } else {
-    log.warn(`Factor Server Error  @[${request.url}]`)
-    log.error(error)
+  error.message = `Factor Server Error  @[${request.url}]: ${error.message}`
 
-    const description = process.env.NODE_ENV == "development" ? error.message : ""
+  log.error(error)
 
-    response
-      .status(500)
-      .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
-  }
+  const description = process.env.NODE_ENV == "development" ? error.message : ""
+
+  response
+    .status(500)
+    .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
 }
 
 export function logServerReady() {
@@ -53,7 +49,8 @@ export function logServerReady() {
 }
 
 export function serveStatic(path, cache) {
+  const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {
-    maxAge: cache && process.env.NODE_ENV == "production" ? 1000 * 60 * 60 * 24 : 0
+    maxAge: cache && process.env.NODE_ENV == "production" ? DAY : 0
   })
 }

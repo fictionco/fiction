@@ -44,7 +44,7 @@ export async function getTemplate(templateId) {
 
   let tpl = _all.find(_ => _._id == templateId)
 
-  if (!tpl) tpl = _all.find(_ => _._id == "default")
+  if (!tpl) tpl = _all.find(_ => _._id == "tpl-default")
 
   tpl.fields = await getTemplateFields(tpl)
 
@@ -65,7 +65,7 @@ export function registerTemplates() {
 
   addFilter("components", _ => {
     pageTemplates.forEach(tpl => {
-      _[tpl.value] = tpl.component
+      _[tpl._id] = tpl.component
     })
 
     return _
@@ -73,7 +73,7 @@ export function registerTemplates() {
 }
 
 export function getPageTemplates() {
-  const tpls = setting("pageTemplates.templates")
+  const tpls = setting("pageTemplates.templates") || []
 
   return applyFilters("page-templates", tpls)
     .filter((page, index, self) => {
