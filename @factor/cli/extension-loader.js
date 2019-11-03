@@ -62,6 +62,7 @@ function generateExtensionList(packagePaths) {
 }
 
 export function generateLoaders() {
+  console.log(">>>DD>")
   const extensions = getExtensions()
   makeModuleLoader({
     extensions,

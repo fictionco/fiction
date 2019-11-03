@@ -12,21 +12,24 @@ let added = []
 let config = {}
 let settingsExports = []
 
-async function createSettings() {
-  config = await configSettings()
+function createSettings() {
+  config = configSettings()
 
+  // Use sync require here
+  // Needed for env matching, as import is problematic when settings might load after things that need them
   // eslint-disable-next-line import/no-unresolved
-  const { default: settingsFiles } = await import("~/.factor/loader-settings")
+  settingsExports = require("~/.factor/loader-settings").default
 
-  settingsExports = settingsFiles.map(_export =>
-    typeof _export == "function" ? _export() : _export
-  )
-
-  await mergeAllSettings()
+  mergeAllSettings()
 }
 
-async function mergeAllSettings() {
-  const settingsArray = applyFilters("factor-settings", [...settingsExports, ...added])
+function mergeAllSettings() {
+  const settingsArray = applyFilters(
+    "factor-settings",
+    [config, coreSettings, ...settingsExports, ...added].map(_export =>
+      typeof _export == "function" ? _export() : _export
+    )
+  )
 
   const merged = deepMerge([config, coreSettings, ...settingsArray])
 
@@ -41,5 +44,8 @@ export async function addSettings(settings) {
 }
 
 export function setting(key) {
+  if (key == "app.templatePath") {
+    console.log("settings", settings)
+  }
   return dotSetting({ key, settings })
 }

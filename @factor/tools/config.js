@@ -14,15 +14,11 @@ addFilter("webpack-define", async __ => {
   return __
 })
 
-export async function configSettings() {
+export function configSettings() {
   const configFile = getPath(`config-file-public`)
 
-  const configImport = fs.existsSync(configFile) ? import(configFile) : {}
-
-  const [config, { factor = {} }] = await Promise.all([
-    configImport,
-    import(`${process.env.FACTOR_CWD}/package.json`)
-  ])
+  const config = fs.existsSync(configFile) ? require(configFile) : {}
+  const { factor = {} } = require(`${process.env.FACTOR_CWD}/package.json`)
 
   return deepMerge([factor, config])
 }

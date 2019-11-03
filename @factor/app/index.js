@@ -3,7 +3,8 @@ import {
   addFilter,
   applyFilters,
   setting,
-  registerOnFilter
+  registerOnFilter,
+  addCallback
 } from "@factor/tools"
 
 let clientIsMountedPromise = waitForMountApp()
@@ -22,48 +23,50 @@ function waitForMountApp() {
   return new Promise(resolve => onEvent("app-mounted", () => resolve()))
 }
 
-const error404 = setting("app.error404")
-const content = setting("app.content")
+addCallback("before-app-plugins", () => {
+  const error404 = setting("app.error404")
+  const content = setting("app.content")
 
-if (!error404 || !content) {
-  throw new Error("Factor core app components are undefined.")
-}
+  if (!error404 || !content) {
+    throw new Error("Factor core app components are undefined.")
+  }
 
-registerOnFilter("components", "error-404", error404)
+  registerOnFilter("components", "error-404", error404)
 
-addFilter("routes", _ => {
-  const contentRoutes = applyFilters("content-routes", [
-    {
-      name: "forbidden",
-      path: "/forbidden",
-      component: error404,
-      meta: { error: 403 }
-    }
-  ]).filter((route, index, self) => {
-    // remove duplicate paths
-    const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
-    return index === lastIndexOf
-  })
-
-  _.push({
-    path: "/",
-    component: content,
-    children: contentRoutes
-  })
-
-  _.push({
-    path: "*",
-    component: content,
-    children: applyFilters("content-routes-unmatched", [
+  addFilter("routes", _ => {
+    const contentRoutes = applyFilters("content-routes", [
       {
-        name: "notFound",
-        path: "*",
+        name: "forbidden",
+        path: "/forbidden",
         component: error404,
-        meta: { error: 404 }
+        meta: { error: 403 }
       }
-    ]),
-    priority: 3000
-  })
+    ]).filter((route, index, self) => {
+      // remove duplicate paths
+      const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
+      return index === lastIndexOf
+    })
 
-  return _
+    _.push({
+      path: "/",
+      component: content,
+      children: contentRoutes
+    })
+
+    _.push({
+      path: "*",
+      component: content,
+      children: applyFilters("content-routes-unmatched", [
+        {
+          name: "notFound",
+          path: "*",
+          component: error404,
+          meta: { error: 404 }
+        }
+      ]),
+      priority: 3000
+    })
+
+    return _
+  })
 })

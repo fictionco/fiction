@@ -1,6 +1,6 @@
 import { objectIdType } from "@factor/post/util"
 import { validator, applyFilters, pushToFilter } from "@factor/tools"
-import bcrypt from "bcrypt"
+
 export default () => {
   // Ignore in app  (loaded in server + app)
   pushToFilter("webpack-ignore-modules", "bcrypt")
@@ -10,7 +10,7 @@ export default () => {
     callback: _s => {
       // PASSWORDS
       _s.methods.comparePassword = async function comparePassword(candidate) {
-        return bcrypt.compare(candidate, this.password)
+        return require("bcrypt").compare(candidate, this.password)
       }
       _s.pre("save", async function(next) {
         const user = this

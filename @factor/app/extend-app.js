@@ -1,7 +1,5 @@
 import { applyFilters, runCallbacks } from "@factor/tools"
 import Factor from "@factor/core"
-// eslint-disable-next-line import/no-unresolved
-import "~/.factor/loader-app"
 
 Factor.config.productionTip = false
 Factor.config.devtools = false
@@ -11,6 +9,9 @@ export async function extendApp(options = {}) {
   setupGlobalObservable()
 
   await runCallbacks("before-app-plugins", options)
+
+  // eslint-disable-next-line import/no-unresolved
+  require("~/.factor/loader-app")
 
   addGlobalComponents()
   addClientDirectives()

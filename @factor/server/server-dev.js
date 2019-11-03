@@ -1,4 +1,4 @@
-import { addFilter, applyFilters, setting, log } from "@factor/tools"
+import { addFilter, applyFilters, setting, log, addCallback } from "@factor/tools"
 import chalk from "chalk"
 import fs from "fs-extra"
 import MFS from "memory-fs"
@@ -17,16 +17,19 @@ let configServer
 let configClient
 
 let updateBundleCallback
-let updateReason
+let updateReason = ""
 let updateLoaders = {}
 let updateSpinner
 let template
 
 let bundle
 let clientManifest
-const templatePath = setting("app.templatePath")
 
-addFilter("development-server", async callback => {
+function getTemplatePath() {
+  return setting("app.templatePath")
+}
+
+addCallback("development-server", async callback => {
   updateBundleCallback = callback
 
   return await createServerCompilers()
@@ -37,10 +40,15 @@ async function getWebpackConfig(_arguments) {
 }
 
 export async function createServerCompilers() {
-  if (!templatePath) throw new Error("The index.html template path is not set.")
+  const templatePath = getTemplatePath()
+
+  if (!templatePath) {
+    throw new Error("The index.html template path is not set.")
+  }
 
   configServer = await getWebpackConfig({ target: "server" })
   configClient = await getWebpackConfig("webpack-config", { target: "client" })
+
   template = fs.readFileSync(templatePath, "utf-8")
 
   watcher(({ event, path }) => updateBundles({ title: event, value: path }))
@@ -106,7 +114,7 @@ function clientCompiler() {
 
     addFilter("middleware", _ => {
       const { dev, hmr } = middleware
-      return [{ middleware: dev }, { middleware: hmr }, ..._]
+      return [{ id: "devServer", middleware: [dev, hmr] }, ..._]
     })
 
     loaders("client", "start")

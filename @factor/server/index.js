@@ -19,13 +19,13 @@ let _application
 addCallback("create-server", _ => createServer(_))
 addCallback("close-server", _ => closeServer(_))
 
-export async function createServer({ port }) {
+export function createServer({ port }) {
   PORT = getPort(port)
 
   if (process.env.NODE_ENV == "production") {
-    await startServerProduction()
+    startServerProduction()
   } else {
-    await startServerDevelopment()
+    startServerDevelopment()
   }
 
   return
@@ -40,7 +40,7 @@ function createExpressApplication() {
 export async function startServerProduction() {
   createExpressApplication()
 
-  const { template, bundle, clientManifest } = await productionFiles()
+  const { template, bundle, clientManifest } = productionFiles()
 
   renderer = createRenderer(bundle, { template, clientManifest })
 
@@ -52,7 +52,7 @@ export async function startServerProduction() {
 
 // In production we have static files to work with
 // In development these are pulled from memory (MFS)
-async function productionFiles() {
+function productionFiles() {
   return {
     template: fs.readFileSync(setting("app.templatePath"), "utf-8"),
     bundle: require(getPath("server-bundle")),
@@ -60,8 +60,8 @@ async function productionFiles() {
   }
 }
 
-export async function startServerDevelopment() {
-  await applyFilters("development-server", ({ bundle, template, clientManifest }) => {
+export function startServerDevelopment() {
+  runCallbacks("development-server", ({ bundle, template, clientManifest }) => {
     renderer = createRenderer(bundle, { template, clientManifest })
 
     if (!_listening) startListener()
@@ -105,6 +105,7 @@ export async function renderRoute(url) {
 
 function startListener() {
   createExpressApplication()
+
   // Set Express routine for all fallthrough paths
   _application.get(
     "*",
@@ -113,10 +114,11 @@ function startListener() {
 
   _listening = _application.listen(PORT, () => logServerReady())
 
-  destroyer(_listening)
+  _listening.destroy = destroyer(_listening)
 
   addCallback("restart-server", async () => {
     log.formatted({ title: `server file changed, restarting server...` })
+
     _listening.destroy()
     await runCallbacks("rebuild-server-app")
     startListener()

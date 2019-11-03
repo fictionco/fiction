@@ -3,8 +3,21 @@ import chalk from "chalk"
 import express from "express"
 import figures from "figures"
 
-export function serverErrorWrap(txt) {
-  return `<h1 style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 2em; opacity:.1; font-weight: 400;">${txt}</h1>`
+export function serverErrorWrap({ title = "", subTitle = "", description = "" }) {
+  const lines = []
+
+  if (title)
+    lines.push(
+      `<h1 style="font-size: 2.5em; line-height: 1.1;margin: 10px;">${title}</h1>`
+    )
+  if (subTitle)
+    lines.push(
+      `<h4 style="font-size: 1.1em; line-height: 1.1; margin: 10px;">${subTitle}</h4>`
+    )
+  if (description) lines.push(`<p style="margin-top: 2em;">${description}</p>`)
+  return `<div style="font-family: -apple-system, helvetica, arial;text-align: center;margin: 100px auto; width: 500px; opacity:.2; ">${lines.join(
+    ""
+  )}</div>`
 }
 
 export function getPort(port) {
@@ -23,16 +36,20 @@ export function handleServerError(request, response, error) {
   } else if (error.code === 404) {
     response.status(404).send("404 | Page Not Found")
   } else {
-    log.info(`Factor Server Error  @[${request.url}]`)
+    log.warn(`Factor Server Error  @[${request.url}]`)
     log.error(error)
 
-    response.status(500).send(serverErrorWrap("500 | Server Error"))
+    const description = process.env.NODE_ENV == "development" ? error.message : ""
+
+    response
+      .status(500)
+      .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
   }
 }
 
 export function logServerReady() {
   const { arrowUp, arrowDown } = figures
-  log.info(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` ready`))
+  log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` ready`))
 }
 
 export function serveStatic(path, cache) {

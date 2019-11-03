@@ -5,9 +5,12 @@ import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"
 import glob from "glob"
 
-const themes = getExtensions().filter(_ => _.extend == "theme")
+function getThemes() {
+  return getExtensions().filter(_ => _.extend == "theme")
+}
 
 addFilter("webpack-aliases", _ => {
+  const themes = getThemes()
   const p =
     themes.length > 0 ? dirname(require.resolve(themes[0].name)) : getPath("source")
 
@@ -50,6 +53,7 @@ function handleAsOverride(resource) {
   if (inApp) {
     filePath = inApp
   } else {
+    const themes = getThemes()
     if (themes.length > 0) {
       themes.some(_ => {
         const themeSrc = dirname(require.resolve(_.name))
