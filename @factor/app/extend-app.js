@@ -1,5 +1,6 @@
 import { applyFilters, runCallbacks } from "@factor/tools"
 import Factor from "@factor/core"
+import "@factor/app"
 
 Factor.config.productionTip = false
 Factor.config.devtools = false

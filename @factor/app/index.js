@@ -23,7 +23,7 @@ function waitForMountApp() {
   return new Promise(resolve => onEvent("app-mounted", () => resolve()))
 }
 
-addCallback("before-app-plugins", () => {
+addCallback("initialize-app", () => {
   const error404 = setting("app.error404")
   const content = setting("app.content")
 

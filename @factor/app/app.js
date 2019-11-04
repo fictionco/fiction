@@ -4,13 +4,12 @@ import { extendApp } from "./extend-app"
 import { createStore } from "@factor/app/store"
 import { createRouter } from "@factor/app/router"
 import { emitEvent, runCallbacks, setting } from "@factor/tools"
-Factor.FACTOR_APP_CONFIG = process.env.FACTOR_APP_CONFIG
-Factor.FACTOR_SSR = process.env.FACTOR_SSR
-process.env.FACTOR_TARGET = "app"
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export async function createApp(options = {}) {
+  process.env.FACTOR_TARGET = "app"
+
   const { extend = true } = options
 
   if (extend) await extendApp()
