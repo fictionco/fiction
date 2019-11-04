@@ -15,36 +15,34 @@
             <h1 class="title">Featured</h1>
           </header>
           <div class="themes-grid">
-            <factor-link
-              v-for="(entry, index) in themesFeatured"
-              :key="index"
-              :path="permalink(entry._id)"
-              class="entry-theme"
-            >
-              <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
-                <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
-              </div>
+            <article v-for="(entry, index) in themesFeatured" :key="index" class="article-tile">
+              <factor-link :path="permalink(entry._id)" class="entry-theme">
+                <div
+                  v-if="themeScreenshot(entry.githubFiles)"
+                  :style="{ backgroundImage: `url(${themeScreenshot(entry.githubFiles)})` }"
+                  class="entry-image"
+                ></div>
 
-              <div class="entry-content">
-                <h3 class="title">{{ formatName(entry._id) }}</h3>
-                <div class="meta">
-                  <div v-if="entry.maintainers" class="authors">
-                    by
-                    <span
-                      v-for="(author, au) in entry.maintainers"
-                      :key="au"
-                      class="author"
-                    >{{ author.name }}</span>
+                <div class="entry-content">
+                  <h1 class="title">{{ formatName(entry._id) }}</h1>
+                  <div class="meta">
+                    <div v-if="entry.maintainers" class="authors">
+                      by
+                      <span
+                        v-for="(author, au) in entry.maintainers"
+                        :key="au"
+                        class="author"
+                      >{{ $utils.toLabel(author.name ) }}</span>
+                    </div>
+                    <div
+                      v-if="entry.downloads"
+                      class="downloads"
+                    >{{ formatDownloads(entry.downloads) }} downloads</div>
                   </div>
-                  <!-- <div
-                    v-if="entry.downloads"
-                    class="downloads"
-                  >{{ formatDownloads(entry.downloads) }} downloads</div>-->
+                  <!-- <p v-if="entry.description" class="text">{{ entry.description }}</p>-->
                 </div>
-
-                <p v-if="entry.description" class="text">{{ entry.description }}</p>
-              </div>
-            </factor-link>
+              </factor-link>
+            </article>
           </div>
         </section>
         <!-- 
@@ -72,9 +70,11 @@
               :path="permalink(entry._id)"
               class="entry-theme"
             >
-              <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
-                <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
-              </div>
+              <div
+                v-if="themeScreenshot(entry.githubFiles)"
+                :style="{ backgroundImage: `url(${themeScreenshot(entry.githubFiles)})` }"
+                class="entry-image"
+              ></div>
 
               <div class="entry-content">
                 <h3 class="title">{{ formatName(entry._id) }}</h3>
@@ -85,7 +85,7 @@
                       v-for="(author, au) in entry.maintainers"
                       :key="au"
                       class="author"
-                    >{{ author.name }}</span>
+                    >{{ $utils.toLabel(author.name ) }}</span>
                   </div>
 
                   <div
@@ -93,15 +93,13 @@
                     class="downloads"
                   >{{ formatDownloads(entry.downloads) }} downloads</div>
                 </div>
-
-                <p v-if="entry.description" class="text">{{ entry.description }}</p>
               </div>
             </factor-link>
           </div>
         </section>
       </div>
       <div>
-        <widget-sidebar :themes-data="getData" />
+        <widget-sidebar :get-data="getData" />
       </div>
     </div>
 
@@ -148,7 +146,11 @@ export default {
     }
   },
   async mounted() {
-    const data = this.$store.val("themes-index")
+    let data = this.$store.val("themes-index")
+
+    if (!data) {
+      data = await this.$endpoint.request({ id: "themedata", method: "getIndex" })
+    }
 
     this.getData = data
 
@@ -176,8 +178,10 @@ export default {
         images = entry
           .filter(image => !!image.path.match(imageName))
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
+      } else {
+        images = `./img/icon-factor.svg`
       }
 
       return images[0]
@@ -290,38 +294,48 @@ export default {
       }
     }
     .entry-theme {
-      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       background: #fff;
-      border-radius: 6px;
-      border: 1px solid var(--color-bg-contrast-more);
+      border-radius: 4px;
       color: var(--color-text);
+      transition: 0.59s cubic-bezier(0.215, 0.61, 0.355, 1);
 
       &:hover {
-        background: #f6f9fc;
+        box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+          0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
         .entry-image {
-          box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25),
-            0 3px 7px -3px rgba(0, 0, 0, 0.3);
+          -webkit-clip-path: inset(0 0 0 0 round 4px 4px 0 0); //Safari
+          clip-path: inset(0 0 0 0 round 4px 4px 0 0);
         }
-        .entry-content .title {
-          color: var(--color-primary);
-        }
+        // .entry-content .title {
+        //   color: var(--color-primary);
+        // }
       }
+
       .entry-image {
         display: block;
-        height: 70px;
-        width: 70px;
-        margin-bottom: 1rem;
-        border-radius: 50%;
+        border-radius: 4px 4px 0 0;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: bottom;
+        width: 100%;
+        padding-top: calc((9% / 16) * 100);
         overflow: hidden;
-        background: var(--color-bg-contrast);
-        border: 1px solid var(--color-bg-contrast-more);
-        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
-        img {
-          width: 100%;
+        -webkit-clip-path: inset(8% 4% 0 4% round 4px 4px 4px 4px);
+        clip-path: inset(8% 4% 0 4% round 4px 4px 4px 4px);
+        transition: -webkit-clip-path 300ms cubic-bezier(0.215, 0.61, 0.355, 1),
+          clip-path 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+        @media (max-width: 900px) {
+          -webkit-clip-path: inset(0 0 0 0 round 4px 4px 0 0); //Safari
+          clip-path: inset(0 0 0 0 round 4px 4px 0 0);
         }
       }
       .entry-content {
         overflow: hidden;
+        padding: 1.5rem;
         .title {
           font-size: 1.6em;
           line-height: 1.2em;
@@ -329,7 +343,8 @@ export default {
           text-transform: capitalize;
         }
         .meta {
-          color: rgba(var(--color-text-rgb), 0.6);
+          color: #aab7c4;
+          //color: rgba(var(--color-text-rgb), 0.6);
           > div {
             display: inline-block;
             margin-right: 1rem;
@@ -385,33 +400,41 @@ export default {
     }
     .entry-theme {
       display: block;
-      //overflow: hidden;
       margin-bottom: 1.5rem;
       background: #fff;
       border-radius: 6px;
-      border: 1px solid var(--color-bg-contrast-more);
       color: var(--color-text);
       transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
 
       &:hover {
-        background: #f6f9fc;
-        transform: translateY(-7px);
-        box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25),
-          0 3px 7px -3px rgba(0, 0, 0, 0.3);
-        .entry-content .title {
-          color: var(--color-primary);
+        box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+          0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+        .entry-image {
+          -webkit-clip-path: inset(0 0 0 0 round 4px 4px 0 0); //Safari
+          clip-path: inset(0 0 0 0 round 4px 4px 0 0);
         }
+        // .entry-content .title {
+        //   color: var(--color-primary);
+        // }
       }
 
       .entry-image {
         display: block;
+        border-radius: 4px 4px 0 0;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: bottom;
         width: 100%;
-        border-radius: 6px 6px 0 0;
+        padding-top: calc((9% / 16) * 100);
         overflow: hidden;
-        background: var(--color-bg-contrast);
-        img {
-          width: 100%;
-          vertical-align: middle;
+        -webkit-clip-path: inset(8% 4% 0 4% round 4px 4px 4px 4px);
+        clip-path: inset(8% 4% 0 4% round 4px 4px 4px 4px);
+        transition: -webkit-clip-path 300ms cubic-bezier(0.215, 0.61, 0.355, 1),
+          clip-path 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+
+        @media (max-width: 900px) {
+          -webkit-clip-path: inset(0 0 0 0 round 4px 4px 0 0); //Safari
+          clip-path: inset(0 0 0 0 round 4px 4px 0 0);
         }
       }
       .entry-content {

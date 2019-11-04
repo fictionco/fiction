@@ -213,7 +213,7 @@ export default Factor => {
       cta: {
         title: "Create and Submit Your Theme",
         subtitle:
-          "Learn about extension development and how to submit your extension to the Factor library."
+          "Learn about theme development and how to submit your theme to the Factor library."
       }
     },
     footer: {

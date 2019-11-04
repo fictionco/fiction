@@ -3,6 +3,7 @@ import dataUtility from "./plugins/plugin-data"
 export default Factor => {
   return new (class {
     constructor() {
+      dataUtility()
       this.addFilters()
     }
 

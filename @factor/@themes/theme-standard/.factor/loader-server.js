@@ -1,27 +1,25 @@
-/******** GENERATED FILE - DO NOT EDIT DIRECTLY ********/
-const files = {}
-files["mongo"] = require("@factor/db/mongo.js").default
-files["userRolesServer"] = require("@factor/core-user-roles/server").default
-files["serverDev"] = require("@factor/server-dev/index.js").default
-files["setup"] = require("@factor/setup/index.js").default
-files["dbServer"] = require("@factor/db/server.js").default
-files["userEmailsServer"] = require("@factor/core-user-emails/server").default
-files["emailServer"] = require("@factor/core-email/server").default
-files["endpointServer"] = require("@factor/core-endpoint/server").default
-files["error"] = require("@factor/core-error/index.js").default
-files["storageServer"] = require("@factor/core-storage/server").default
-files["userServer"] = require("@factor/core-user/server").default
-files["blog"] = require("@factor/plugin-blog/index.js").default
-files["webpack"] = require("@factor/build/webpack-config.js").default
-files["postServer"] = require("@factor/post/server").default
-files["post"] = require("@factor/post/index").default
-files["dashboard"] = require("@factor/dashboard/index.js").default
-files["http"] = require("@factor/tools-http/index.js").default
-files["time"] = require("@factor/tools-time/index.js").default
-files["directivesStandard"] = require("@factor/ui-directives-standard/index.js").default
-files["templates"] = require("@factor/post-page-templates/index.js").default
-files["server"] = require("@factor/server/index.js").default
-files["seo"] = require("@factor/plugin-seo/index.js").default
-files["sitemap"] = require("@factor/plugin-sitemap/index.js").default
-files["cwd"] = require("../src/index.js").default
-module.exports = files
+/* GENERATED FILE */
+export default {
+  blog: () => import("@factor/plugin-blog/index.js"),
+  webpack: () => import("@factor/build/webpack-config.js"),
+  serverDev: () => import("@factor/server-dev/index.js"),
+  setup: () => import("@factor/setup/index.js"),
+  emailServer: () => import("@factor/core-email/server"),
+  endpointServer: () => import("@factor/core-endpoint/server"),
+  error: () => import("@factor/core-error/index.js"),
+  storageServer: () => import("@factor/core-storage/server"),
+  userServer: () => import("@factor/core-user/server"),
+  userEmailsServer: () => import("@factor/core-user-emails/server"),
+  userRolesServer: () => import("@factor/core-user-roles/server"),
+  postServer: () => import("@factor/post/server"),
+  post: () => import("@factor/post/index"),
+  dashboard: () => import("@factor/dashboard/index.js"),
+  http: () => import("@factor/tools-http/index.js"),
+  time: () => import("@factor/tools-time/index.js"),
+  directivesStandard: () => import("@factor/ui-directives-standard/index.js"),
+  templates: () => import("@factor/post-page-templates/index.js"),
+  server: () => import("@factor/server/index.js"),
+  seo: () => import("@factor/plugin-seo/index.js"),
+  sitemap: () => import("@factor/plugin-sitemap/index.js"),
+  cwd: () => import("../src/index.js")
+}

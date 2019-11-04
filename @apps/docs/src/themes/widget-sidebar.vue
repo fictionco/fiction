@@ -11,9 +11,9 @@
           :path="permalink(entry._id)"
           class="entry-theme"
         >
-          <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
+          <!-- <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
             <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
-          </div>
+          </div>-->
 
           <div class="entry-content">
             <h3 class="title">{{ formatName(entry.name) }}</h3>
@@ -37,9 +37,9 @@
           :path="permalink(entry._id)"
           class="entry-theme"
         >
-          <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
+          <!-- <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
             <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
-          </div>
+          </div>-->
 
           <div class="entry-content">
             <h3 class="title">{{ formatName(entry.name) }}</h3>
@@ -63,9 +63,9 @@
           :path="permalink(entry._id)"
           class="entry-theme"
         >
-          <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
+          <!-- <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
             <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
-          </div>
+          </div>-->
           <div class="entry-content">
             <h3 class="title">{{ formatName(entry.name) }}</h3>
             <div class="meta">
@@ -83,25 +83,25 @@
 <script>
 export default {
   props: {
-    themesData: { type: Array, required: true }
+    getData: { type: Array, required: true }
   },
   computed: {
     themesPopular: function() {
-      let getPopular = [].slice.call(this.themesData).sort(function(a, b) {
+      let getPopular = [].slice.call(this.getData).sort(function(a, b) {
         return b.downloads - a.downloads
       })
 
       return getPopular.slice(0, 4)
     },
     themesNew: function() {
-      let getNew = [].slice.call(this.themesData).sort(function(a, b) {
+      let getNew = [].slice.call(this.getData).sort(function(a, b) {
         return new Date(b.time.created) - new Date(a.time.created)
       })
 
       return getNew.slice(0, 4)
     },
     themesRecentlyUpdated: function() {
-      let getRecentlyUpdated = [].slice.call(this.themesData).sort(function(a, b) {
+      let getRecentlyUpdated = [].slice.call(this.getData).sort(function(a, b) {
         return new Date(b.time.modified) - new Date(a.time.modified)
       })
 
@@ -145,7 +145,7 @@ export default {
         images = entry
           .filter(image => !!image.path.match(imageName))
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
       }
 

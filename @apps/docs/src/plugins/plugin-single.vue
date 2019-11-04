@@ -94,12 +94,13 @@ export default {
     }
   },
   async mounted() {
-    const theData = this.$store.val("plugins-index")
+    let data = this.$store.val("plugins-index")
 
-    this.getData = theData
+    if (!data) {
+      data = await this.$endpoint.request({ id: "plugindata", method: "getIndex" })
+    }
 
-    require("../prism/prism.js")
-    this.prism = window.Prism
+    this.getData = data
 
     this.loading = false
   },
@@ -113,7 +114,7 @@ export default {
         images = entry
           .filter(image => !!image.path.match(imageName))
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
       }
 
@@ -140,7 +141,7 @@ export default {
             image => !!image.path.match(imagePattern) && !!image.path.match(imageName)
           )
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
       }
 
