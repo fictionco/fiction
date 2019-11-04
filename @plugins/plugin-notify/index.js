@@ -1,4 +1,4 @@
-import { emitEvent, onEvent, pushToFilter, addFilter, log } from "@factor/tools"
+import { emitEvent, onEvent, pushToFilter, log } from "@factor/tools"
 
 pushToFilter("site-components", {
   name: "plugin-notify",

@@ -1,4 +1,4 @@
-import { addFilter, addCallback, pushToFilter, registerOnFilter } from "@factor/tools"
+import { addFilter, addCallback, pushToFilter } from "@factor/tools"
 import Factor from "@factor/core"
 
 addCallback("ssr-context-callbacks", ({ matchedComponents }) =>
@@ -9,7 +9,10 @@ addFilter("before-app", () => {
   if (process.env.FACTOR_SSR !== "server") manageClient()
 })
 
-registerOnFilter("register-global-observables", "routeClass", [])
+addFilter("register-global-observables", __ => {
+  return { ...__, routeClass: [] }
+})
+
 pushToFilter("observable-class-keys", "routeClass")
 
 function setRouteClass(options) {

@@ -27,8 +27,6 @@ addCallback("before-app-plugins", () => {
   const error404 = setting("app.error404")
   const content = setting("app.content")
 
-  console.log("before-app-plugins", content)
-
   if (!error404 || !content) {
     throw new Error("Factor core app components are undefined.")
   }
@@ -36,7 +34,6 @@ addCallback("before-app-plugins", () => {
   pushToFilter("global-components", { name: "error-404", component: error404 })
 
   addFilter("routes", _ => {
-    console.log("routes", content)
     const contentRoutes = applyFilters("content-routes", [
       {
         name: "forbidden",

@@ -24,7 +24,7 @@ export default () => {
           .filter(_ => _)
           .join(" ")
 
-        return [...siteClasses, this.scrollClass]
+        return [siteClasses, this.scrollClass]
       },
       injectedComponents() {
         return applyFilters("site-components", [])

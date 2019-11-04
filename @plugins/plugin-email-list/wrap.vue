@@ -14,7 +14,7 @@ export default {
         key: "form.component",
         listId: this.listsId
       })
-      console.log("emailComponent", emailComponent)
+
       return emailComponent
     }
   }

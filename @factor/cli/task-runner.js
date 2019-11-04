@@ -1,6 +1,6 @@
 import execa from "execa"
 import listr from "listr"
-
+import { log } from "@factor/tools"
 export async function verifyDependencies() {
   await runTasks(
     [

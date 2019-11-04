@@ -8,9 +8,10 @@ export default () => {
   return {
     name: "user",
     callback: _s => {
+      const bcrypt = require("bcrypt")
       // PASSWORDS
       _s.methods.comparePassword = async function comparePassword(candidate) {
-        return require("bcrypt").compare(candidate, this.password)
+        return bcrypt.compare(candidate, this.password)
       }
       _s.pre("save", async function(next) {
         const user = this
