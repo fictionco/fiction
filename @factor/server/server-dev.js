@@ -47,7 +47,7 @@ export async function createServerCompilers() {
   }
 
   configServer = await getWebpackConfig({ target: "server" })
-  configClient = await getWebpackConfig("webpack-config", { target: "client" })
+  configClient = await getWebpackConfig({ target: "client" })
 
   template = fs.readFileSync(templatePath, "utf-8")
 

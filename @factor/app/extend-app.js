@@ -7,13 +7,12 @@ Factor.config.devtools = false
 Factor.config.silent = false
 
 export async function extendApp(options = {}) {
-  setupGlobalObservable()
-
   await runCallbacks("before-app-plugins", options)
 
   // eslint-disable-next-line import/no-unresolved
   require("~/.factor/loader-app")
 
+  setupGlobalObservable()
   addGlobalComponents()
   addClientDirectives()
 
@@ -48,6 +47,7 @@ function addGlobalComponents() {
 }
 
 function addClientDirectives() {
+  console.log("process.env.FACTOR_SSR", process.env.FACTOR_SSR, process.env.FACTOR_TARGET)
   if (process.env.FACTOR_SSR == "client") {
     const directives = applyFilters("client-directives", {})
 

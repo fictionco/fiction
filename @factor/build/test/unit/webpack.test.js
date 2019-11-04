@@ -8,6 +8,7 @@ describe("webpack", () => {
     it.todo("supports bundle analysis")
     it.todo("defines application ENV variables")
     it.todo("has config filters")
+    it.todo("defines right ENV variables")
   })
   describe("webpack-override", () => {
     it.todo("recognizes the override alias and uses correct override hierarchy")
