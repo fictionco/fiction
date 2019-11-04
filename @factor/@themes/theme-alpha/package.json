@@ -12,7 +12,8 @@
     "target": [
       "server",
       "app"
-    ]
+    ],
+    "title": "Alpha"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {

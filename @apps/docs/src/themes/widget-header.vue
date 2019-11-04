@@ -6,10 +6,10 @@
           <img :src="image" :alt="title" />
         </div>
         <div>
-          <factor-link class="back" :path="`/themes`">
+          <!-- <factor-link class="back" :path="`/themes`">
             <factor-icon icon="arrow-left" />
             <span>All Themes</span>
-          </factor-link>
+          </factor-link>-->
           <h1 class="page-title">{{ title }}</h1>
           <div class="page-title-sub">
             <slot name="subtitle"></slot>

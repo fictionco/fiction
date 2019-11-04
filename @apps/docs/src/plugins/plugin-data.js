@@ -4,7 +4,9 @@ import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
 export default () => {
   return new (class {
-    constructor() {}
+    constructor() {
+      Factor.$filters.callback("endpoints", { id: "plugindata", handler: this })
+    }
 
     async getIndex(page = 1) {
       const slugs = plugins

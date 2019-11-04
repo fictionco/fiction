@@ -143,7 +143,11 @@ export default {
     }
   },
   async mounted() {
-    const data = this.$store.val("plugins-index")
+    let data = this.$store.val("plugins-index")
+
+    if (!data) {
+      data = await this.$endpoint.request({ id: "plugindata", method: "getIndex" })
+    }
 
     this.getData = data
 
@@ -171,8 +175,11 @@ export default {
         images = entry
           .filter(image => !!image.path.match(imageName))
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
+        // .map(image => {
+        //   return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+        // })
       }
 
       return images[0]

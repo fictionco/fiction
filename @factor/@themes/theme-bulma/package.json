@@ -1,5 +1,6 @@
 {
   "name": "@factor/theme-bulma",
+  "description": "Based on the open source CSS framework that uses flexbox and is used by more than 150,000 developers.",
   "version": "1.0.0-beta.9",
   "main": "src/index.js",
   "license": "GPL-2.0",
@@ -11,7 +12,8 @@
     "target": [
       "server",
       "app"
-    ]
+    ],
+    "title": "Bulma"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
@@ -19,5 +21,16 @@
     "@factor/post": "1.0.0-beta.9",
     "bulma": "^0.7.5",
     "prismjs": "^1.16.0"
-  }
+  },
+  "keywords": [
+    "factor",
+    "factor-theme",
+    "fiction",
+    "webpack",
+    "vue",
+    "css",
+    "framework",
+    "sass",
+    "flexbox"
+  ]
 }

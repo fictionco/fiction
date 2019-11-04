@@ -145,7 +145,7 @@ export default {
         images = entry
           .filter(image => !!image.path.match(imageName))
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
       }
 

@@ -37,11 +37,12 @@
                 :key="i"
                 class="image-item"
               >
-                <div
+                <img :src="url" class="image-item-content" @click="showModal(i)" />
+                <!-- <div
                   :style="{ backgroundImage: `url(${url})` }"
                   class="image-item-content"
                   @click="showModal(i)"
-                ></div>
+                ></div>-->
               </div>
             </div>
 
@@ -50,7 +51,20 @@
             <theme-entry :text="getContent(entry.readme)" class="theme-content" />
           </div>
 
-          <!-- <widget-sidebar :get-data="themesData" /> -->
+          <div>
+            <!-- <pre>
+            {{ entry.versions }}
+            </pre>-->
+            Latest Version:
+            <br />
+            updated {{ formatDate(entry.time.modified) }}
+            <br />
+            released {{ formatDate(entry.time.created) }}
+            <br />
+            <br />More theme details will go here
+          </div>
+
+          <!-- <widget-sidebar :get-data="getData" /> -->
         </div>
       </section>
     </div>
@@ -70,7 +84,7 @@ export default {
   },
   data() {
     return {
-      themesData: "",
+      getData: "",
       loading: true,
       lightboxShow: false,
       lightboxIndex: 0
@@ -84,16 +98,20 @@ export default {
   computed: {
     themeData: function() {
       let pageSlug = this.$route.params.slug
-      return _.pickBy(this.themesData, function(u) {
+      return _.pickBy(this.getData, function(u) {
         let name = u.name.replace("@factor/", "")
         return name === pageSlug || ""
       })
     }
   },
   async mounted() {
-    const theData = this.$store.val("themes-index")
+    const data = this.$store.val("themes-index")
 
-    this.themesData = theData
+    if (!data) {
+      data = await this.$endpoint.request({ id: "themedata", method: "getIndex" })
+    }
+
+    this.getData = data
 
     require("../prism/prism.js")
     this.prism = window.Prism
@@ -110,7 +128,7 @@ export default {
         images = entry
           .filter(image => !!image.path.match(imageName))
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
       }
 
@@ -125,6 +143,22 @@ export default {
       let num = number
       return num.toLocaleString("en", { useGrouping: true })
     },
+    formatDate(value) {
+      let date = new Date(value)
+
+      let year = date.getFullYear()
+      let month = date.toLocaleString("default", { month: "short" })
+      let dt = date.getDate()
+
+      if (dt < 10) {
+        dt = "0" + dt
+      }
+      if (month < 10) {
+        month = "0" + month
+      }
+
+      return dt + " " + month + " " + year
+    },
     screenshotsList(list) {
       const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
       const imageName = `screenshot`
@@ -137,7 +171,7 @@ export default {
             image => !!image.path.match(imagePattern) && !!image.path.match(imageName)
           )
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
       }
 
@@ -253,15 +287,15 @@ export default {
     }
 
     .theme-images {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 130px));
-      grid-gap: 1rem;
+      // display: grid;
+      // grid-template-columns: repeat(auto-fit, minmax(100px, 130px));
+      // grid-gap: 1rem;
       margin-bottom: 1.5rem;
       .image-item {
         cursor: pointer;
         .image-item-content {
           width: 100%;
-          padding: 50% 0;
+          //padding: 50% 0;
           position: relative;
           background-size: cover;
           background-position: 50%;

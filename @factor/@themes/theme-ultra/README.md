@@ -1,5 +1,3 @@
-=======
-
 # Factor Ultra Theme
 
 A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.
