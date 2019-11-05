@@ -1,8 +1,8 @@
-import { prefetchPost } from "@factor/post"
+import { preFetchPost } from "@factor/post"
 import { addFilter, addCallback, pushToFilter } from "@factor/tools"
 
-addCallback("site-prefetch", _ => prefetchPost(_))
-addCallback("client-route-before", _ => prefetchPost({ clientOnly: true, ..._ }))
+addCallback("site-pre-fetch", _ => preFetchPost(_))
+addCallback("client-route-before", _ => preFetchPost({ clientOnly: true, ..._ }))
 
 pushToFilter("global-components", {
   name: "factor-post-edit",

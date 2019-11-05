@@ -21,13 +21,13 @@ export async function factorize(_arguments = {}) {
   addCallback("rebuild-server-app", () => reloadNodeProcess(_config))
 }
 
-export function setEnvironment({ NODE_ENV = "production", command, ENV } = {}) {
+export function setEnvironment({ NODE_ENV = "production", command, ENV, PORT } = {}) {
   process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
   process.env.NODE_ENV = NODE_ENV
   process.env.FACTOR_ENV = ENV || process.env.FACTOR_ENV || NODE_ENV
   process.env.FACTOR_COMMAND = command || commander._name || "none"
   process.env.FACTOR_TARGET = "server"
-
+  process.env.PORT = PORT || process.env.PORT || 3000
   dotenv.config({ path: resolve(process.env.FACTOR_CWD, ".env") })
 }
 

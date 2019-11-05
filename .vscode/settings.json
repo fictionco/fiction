@@ -83,6 +83,7 @@
   "cSpell.words": [
     "JUNIT",
     "SMTP",
+    "blueimp",
     "clonedeep",
     "codecov",
     "consola",
@@ -92,6 +93,7 @@
     "execa",
     "isempty",
     "isequal",
+    "linkify",
     "lockfile",
     "npmjs",
     "npmrc",
@@ -101,6 +103,7 @@
     "slugify",
     "sonarsource",
     "stopwords",
+    "tabindex",
     "uniqid"
   ]
 }

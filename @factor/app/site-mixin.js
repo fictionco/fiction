@@ -32,7 +32,7 @@ export default () => {
     },
 
     serverPrefetch() {
-      return runCallbacks("site-prefetch")
+      return runCallbacks("site-pre-fetch")
     },
     methods: {
       setScrollClass() {

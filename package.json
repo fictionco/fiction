@@ -31,7 +31,7 @@
     "test:all": "yarn test:fixtures && yarn test:unit",
     "test:lint": "eslint --ext .js,.vue,.json .",
     "test:coverage": "codecov",
-    "test:unit": "jest @factor/**/unit --forceExit --detectOpenHandles --passWithNoTests",
+    "test:unit": "jest @factor --forceExit --detectOpenHandles --passWithNoTests",
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },

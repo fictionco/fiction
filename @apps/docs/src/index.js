@@ -8,7 +8,7 @@ export default Factor => {
       this.addFilters()
 
       // Get plugins - try #2
-      // addCallback("site-prefetch", async () => {
+      // addCallback("site-pre-fetch", async () => {
       //   const list = await dataUtility().getReadme()
 
       //   storeItem("myPlugins", list)
@@ -19,7 +19,7 @@ export default Factor => {
 
     // Get plugins - try #1b
     // addPlugins() {
-    //   addCallback("site-prefetch", async () => {
+    //   addCallback("site-pre-fetch", async () => {
     //     const list = await dataUtility().getReadme()
 
     //     storeItem("myPlugins", list)

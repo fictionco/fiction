@@ -32,6 +32,13 @@ export async function authorizedRequest(path, data, options = {}) {
 
   options.headers = { Authorization: bearerToken(), ...headers }
 
+  if (process.env.PORT) {
+    options.proxy = {
+      host: "0.0.0.0",
+      port: process.env.PORT
+    }
+  }
+
   return await axios.post(path, data, options)
 }
 

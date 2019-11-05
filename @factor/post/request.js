@@ -43,7 +43,7 @@ export async function requestPostDeleteMany({ _ids, postType }) {
   return await sendPostRequest("deleteManyById", { _ids })
 }
 
-export async function prefetchPost({ to = null, clientOnly = false } = {}) {
+export async function preFetchPost({ to = null, clientOnly = false } = {}) {
   const route = to || Factor.$router.currentRoute
 
   const request = applyFilters("post-params", {
@@ -57,7 +57,7 @@ export async function prefetchPost({ to = null, clientOnly = false } = {}) {
   // Only add to the filter if permalink is set. That way we don't show loader for no reason.
   if ((!permalink && !_id) || permalink == "__webpack_hmr") return {}
 
-  // For prefetching that happens only in the browser
+  // For pre-fetching that happens only in the browser
   // If this applied on server it causes a mismatch (store set with full post then set to loading)
   if (clientOnly) {
     storeItem("post", { loading: true })
@@ -123,12 +123,12 @@ export async function requestPostById({ _id, postType = "post", createOnEmpty = 
 export async function requestPostIndex(args) {
   const { limit = 10, page = 1, postType, sort } = args
   const queryHash = objectHash({ ...args, cache: _cacheKey(postType) })
-  const stored = stored(queryHash)
+  const storedIndex = stored(queryHash)
 
   // Create a mechanism to prevent multiple runs/pops for same data
-  if (stored) {
-    storeItem(postType, stored)
-    return stored
+  if (storedIndex) {
+    storeItem(postType, storedIndex)
+    return storedIndex
   }
 
   const taxonomies = ["tag", "category", "status", "role"]

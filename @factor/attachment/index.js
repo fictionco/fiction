@@ -1,10 +1,11 @@
+import { endpointRequest, authorizedRequest } from "@factor/endpoint"
+import { pushToFilter, storeItem } from "@factor/tools"
 import loadImage from "blueimp-load-image"
 
-import { pushToFilter, storeItem } from "@factor/tools"
-import { endpointRequest, authorizedRequest } from "@factor/endpoint"
-import storageSchema from "./schema"
 import { uploadEndpointPath } from "./util"
-pushToFilter("data-schemas", () => storageSchema())
+import storageSchema from "./schema"
+
+pushToFilter("data-schemas", () => storageSchema)
 
 export async function dataURL(file) {
   const reader = new FileReader()
@@ -27,7 +28,7 @@ export async function requestDeleteImage(params) {
 }
 
 export async function uploadImage({ file, onPrep, onFinished, onError, onChange }) {
-  file = await preuploadImage({ file, onPrep })
+  file = await preUploadImage({ file, onPrep })
 
   let formData = new FormData()
 
@@ -64,7 +65,7 @@ export async function resizeImage(fileOrBlobOrUrl, options = {}) {
   })
 }
 
-export async function preuploadImage({ file, onPrep }, options = {}) {
+export async function preUploadImage({ file, onPrep }, options = {}) {
   onPrep({ mode: "started", percent: 5 })
 
   if (file.type.includes("image")) {

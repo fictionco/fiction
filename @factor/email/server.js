@@ -1,4 +1,4 @@
-import { log, addCallback, applyFilters, setting } from "@factor/tools"
+import { log, applyFilters, setting } from "@factor/tools"
 
 import nodeMailer from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"

@@ -1,6 +1,6 @@
-import Factor from "@factor/core"
 import deepMergeLib from "deepmerge"
 import stopwordsLib from "./resource/stopwords"
+import { stripMarkdown } from "./markdown"
 
 // Sort objects in an array by a priority value that defaults to 100
 export function sortPriority(arr) {
@@ -76,7 +76,7 @@ export function parseList(list = [], options = {}) {
   })
 }
 
-// Converts regular space delimitted text into a hyphenated slug
+// Converts regular space delimited text into a hyphenated slug
 export function slugify(text) {
   if (!text) return text
 
@@ -120,8 +120,7 @@ export function stopWordLowercase(str) {
 export function excerpt(content, { length = 42 } = {}) {
   if (!content) return ""
 
-  let __ = Factor.$markdown
-    .strip(content)
+  let __ = stripMarkdown(content)
     .replace(/\n|\r/g, " ")
     .split(" ")
 
