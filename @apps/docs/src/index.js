@@ -1,72 +1,88 @@
-import Factor from "vue"
-import { plugins } from "../extensions"
-import { deepMerge } from "@factor/tools/utils"
-import axios from "axios"
-export default () => {
-  return new (class {
-    constructor() {
-      Factor.$filters.callback("endpoints", { id: "plugindata", handler: this })
+import "./plugins/plugin-data"
+import { addFilter, setting } from "@factor/tools"
+import Factor from "@factor/core"
+
+// Register doc routes for sitemap
+addFilter("after-first-server-extend", () => {
+  const base = setting("docs.base")
+  const pages = setting("docs.pages")
+  const canonical = pages
+    .map(p => {
+      return p.doc
+        ? { path: `/${base}/${p.doc}`, component: () => import("./page-docs.vue") }
+        : ""
+    })
+    .filter(_ => _)
+
+  // Add canonical routes (sitemaps, etc)
+  Factor.$router.addRoutes(canonical)
+})
+
+addFilter("page-templates", _ => {
+  return _.concat([
+    {
+      _id: "default",
+      component: () => import("./page-template-default.vue")
     }
+  ])
+})
 
-    async getIndex(page = 1) {
-      const slugs = plugins
+addFilter("content-routes", _ => {
+  const base = setting("docs.base")
 
-      const index = await Promise.all(slugs.map(async slug => this.getSingle(slug)))
-
-      return index
-    }
-
-    async getSingle(slug) {
-      let githubToken = process.env.GITHUB_TOKEN
-
-      let cleanSlug = slug.replace("@factor/", "")
-
-      const requests = [
+  return [
+    ..._,
+    // {
+    //   path: "/plugins",
+    //   component: () => import("./page-plugins")
+    // },
+    // {
+    //   path: "/themes",
+    //   component: () => import("./v-themes")
+    // },
+    {
+      path: "/compare",
+      component: () => import("./page-compare.vue")
+    },
+    {
+      path: "/",
+      component: () => import("./home/v-home.vue")
+    },
+    {
+      path: `/${base}`,
+      component: () => import("./page-docs.vue")
+    },
+    {
+      path: `/${base}/:doc`,
+      component: () => import("./page-docs.vue")
+    },
+    {
+      path: `/themes`,
+      component: () => import("./themes/themes-wrap.vue"),
+      children: [
         {
-          _id: "npmData",
-          url: `https://registry.npmjs.org/${slug}`
+          path: `/`,
+          component: () => import("./themes/v-themes.vue")
         },
         {
-          _id: "npmDownloads",
-          url: `https://api.npmjs.org/downloads/point/last-month/${slug}`
-        },
-        {
-          _id: "githubFiles",
-          url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@plugins/${cleanSlug}`,
-          options: {
-            headers: {
-              Authorization: `Bearer ${githubToken}`, //the token is a variable which holds the token
-              "Content-Type": "application/json"
-            }
-          }
+          path: `/theme/:slug`,
+          component: () => import("./themes/theme-single.vue")
         }
       ]
-
-      const results = await Promise.all(
-        requests.map(async ({ url, options = {} }) => {
-          return await axios.get(url, options)
-        })
-      )
-
-      const merged = deepMerge(
-        results.map((result, index) => {
-          const _id = requests[index]._id
-          return Array.isArray(result.data) ? { [_id]: result.data } : result.data
-        })
-      )
-
-      return merged
+    },
+    {
+      path: `/plugins`,
+      component: () => import("./plugins/plugins-wrap.vue"),
+      children: [
+        {
+          path: `/`,
+          component: () => import("./plugins/v-plugins.vue")
+        },
+        {
+          path: `/plugin/:slug`,
+          component: () => import("./plugins/plugin-single.vue")
+        }
+      ]
     }
-
-    // async getReadme(slug) {
-    //   const results = await Promise.all([
-    //     axios.get(`https://registry.npmjs.org/${slug}`),
-    //     axios.get(`https://api.npmjs.org/downloads/point/last-month/${slug}`)
-    //   ])
-
-    //   const allData = deepMerge(results.map(r => r.data))
-
-    //   return { myData: allData }
-    // }
-  })()
-}
+  ]
+})

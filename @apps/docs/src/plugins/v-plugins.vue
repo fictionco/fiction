@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import { endpointRequest } from "@factor/endpoint"
 import { stored, storeItem, orderBy, pickBy } from "@factor/tools"
 import dataUtility from "./plugin-data"
 
@@ -144,10 +145,10 @@ export default {
     }
   },
   async mounted() {
-    let data = this.$store.val("plugins-index")
+    let data = stored("plugins-index")
 
     if (!data) {
-      data = await this.$endpoint.request({ id: "plugindata", method: "getIndex" })
+      data = await endpointRequest({ id: "pluginData", method: "getIndex" })
     }
 
     this.getData = data

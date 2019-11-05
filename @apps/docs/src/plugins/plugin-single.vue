@@ -63,12 +63,12 @@
 </template>
 <script>
 import { setting, storeItem, renderMarkdown, pickBy } from "@factor/tools"
-import dataUtility from "./plugin-data"
+import { getIndex } from "./plugin-data"
 export default {
   components: {
     "widget-header": () => import("./widget-header.vue"),
     "widget-sidebar": () => import("./widget-sidebar.vue"),
-    "widget-lightbox": () => import("./widget-lightbox.vue"),
+    "widget-lightbox": () => import("../el/el-lightbox.vue"),
     "plugin-entry": () => import("../el/entry.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
@@ -81,7 +81,7 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await dataUtility().getIndex()
+    const data = await getIndex()
 
     storeItem("plugins-index", data)
   },
@@ -98,7 +98,7 @@ export default {
     let data = this.$store.val("plugins-index")
 
     if (!data) {
-      data = await this.$endpoint.request({ id: "plugindata", method: "getIndex" })
+      data = await this.$endpoint.request({ id: "pluginData", method: "getIndex" })
     }
 
     this.getData = data

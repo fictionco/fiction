@@ -32,7 +32,7 @@ export default {
         doc: "quickstart",
         title: "Installation and Quickstart",
         description:
-          "Quick start guide on how to install Factor framwork and Vue CMS in less than 5 minutes.",
+          "Quick start guide on how to install Factor framework and Vue CMS in less than 5 minutes.",
         file: require("./docs/quickstart.md")
       },
       {
