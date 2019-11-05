@@ -1,4 +1,4 @@
-import "./plugins/plugin-data"
+import "./plugins/extension-server"
 import { addFilter, setting, addRoutes } from "@factor/tools"
 
 // Register doc routes for sitemap

@@ -1,5 +1,7 @@
 import { toLabel } from "@factor/tools"
 
+export const endpointId = "pluginData"
+
 export function titleFromPackage(name) {
   const base = name.slice(name.lastIndexOf("/") + 1)
 

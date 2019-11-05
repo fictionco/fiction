@@ -1,16 +1,15 @@
 import { plugins } from "../extensions"
 import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
-import { addCallback, storeItem, log } from "@factor/tools"
+import { addCallback, log } from "@factor/tools"
+import { endpointId } from "./util"
 
-addCallback("endpoints", { id: "pluginData", handler: { getIndex, getSingle } })
+addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 
 export async function getIndex() {
   const slugs = plugins
 
   const index = await Promise.all(slugs.map(async slug => getSingle(slug)))
-
-  storeItem("plugins-index", index)
 
   return index
 }
@@ -46,12 +45,19 @@ export async function getSingle(slug) {
     log.warn("No Github API token")
   }
 
+  // Run the requests, but add context for errors
   const results = await Promise.all(
-    requests.map(async ({ url, options = {} }) => {
-      return await axios.get(url, options)
+    requests.map(async ({ _id, url, options = {} }) => {
+      try {
+        return await axios.get(url, options)
+      } catch (error) {
+        error.message = `${_id} Request: ${error.message}`
+        throw new Error(error)
+      }
     })
   )
 
+  // Ensure array of objects and deep merge results
   const merged = deepMerge(
     results.map((result, index) => {
       const _id = requests[index]._id
