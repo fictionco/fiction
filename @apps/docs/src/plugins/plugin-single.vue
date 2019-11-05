@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="pluginIcon(entry.githubFiles)" :title="formatName(entry.name)">
+        <widget-header :image="pluginIcon(entry.githubFiles)" :title="titleFromPackage(entry.name)">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -62,8 +62,10 @@
   </div>
 </template>
 <script>
-import { setting, storeItem, renderMarkdown, pickBy } from "@factor/tools"
-import { getIndex } from "./plugin-data"
+import { titleFromPackage, formatDownloads } from "./util"
+import { setting, stored, renderMarkdown, pickBy } from "@factor/tools"
+import { requestExtensionSingle } from "./extension-request"
+
 export default {
   components: {
     "widget-header": () => import("./widget-header.vue"),
@@ -81,9 +83,7 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await getIndex()
-
-    storeItem("plugins-index", data)
+    return await requestExtensionSingle()
   },
   computed: {
     pluginData: function() {
@@ -95,7 +95,7 @@ export default {
     }
   },
   async mounted() {
-    let data = this.$store.val("plugins-index")
+    let data = stored("plugins-index")
 
     if (!data) {
       data = await this.$endpoint.request({ id: "pluginData", method: "getIndex" })
@@ -107,6 +107,8 @@ export default {
   },
   methods: {
     setting,
+    titleFromPackage,
+    formatDownloads,
     pluginIcon(entry) {
       const imageName = `icon.svg`
 
@@ -121,15 +123,6 @@ export default {
       }
 
       return images[0]
-    },
-    formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
-
-      return spacedName.replace("@factor/", "")
-    },
-    formatDownloads(number) {
-      let num = number
-      return num.toLocaleString("en", { useGrouping: true })
     },
     screenshotsList(list) {
       const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i

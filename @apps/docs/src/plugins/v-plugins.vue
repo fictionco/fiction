@@ -91,10 +91,8 @@
 
 <script>
 import { titleFromPackage, formatDownloads, extensionPermalink } from "./util"
-import { endpointRequest } from "@factor/endpoint"
 import { stored, orderBy, pickBy } from "@factor/tools"
-
-import { getIndex } from "./plugin-data"
+import { requestExtensionIndex } from "./extension-request"
 
 export default {
   components: {
@@ -110,7 +108,7 @@ export default {
     }
   },
   async serverPrefetch() {
-    return await getIndex()
+    return await requestExtensionIndex()
   },
   computed: {
     headerFigure() {
@@ -134,7 +132,7 @@ export default {
     let data = stored("plugins-index")
 
     if (!data) {
-      data = await endpointRequest({ id: "pluginData", method: "getIndex" })
+      data = await requestExtensionIndex()
     }
 
     this.getData = data
