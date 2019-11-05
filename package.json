@@ -27,21 +27,21 @@
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
     "deploy": "git push heroku-factor-dev master",
-    "test": "yarn jest @factor/**/test/unit --watch",
+    "test:watch": "yarn jest @factor/**/test/unit --watch",
     "test:all": "yarn test:fixtures && yarn test:unit",
     "test:lint": "eslint --ext .js,.vue,.json .",
     "test:coverage": "codecov",
-    "test:unit": "jest test/unit @factor --forceExit --detectOpenHandles --passWithNoTests",
+    "test:unit": "jest @factor/**/unit --forceExit --detectOpenHandles --passWithNoTests",
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "gitHooks": {
-    "pre-commit": "yarn test:lint && yarn jest @factor/**/unit",
+    "pre-commit": "yarn test:lint && yarn test:unit",
     "commit-msg": "node scripts/verify-commit.js"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "@babel/core": "^7.6.0",
-    "@babel/plugin-syntax-import-meta": "^7.2.0",
     "@babel/preset-env": "^7.6.0",
     "@vue/server-test-utils": "^1.0.0-beta.29",
     "@vue/test-utils": "^1.0.0-beta.29",
@@ -52,6 +52,7 @@
     "consola": "^2.10.1",
     "eslint": "^6.0.0",
     "eslint-config-prettier": "^6.4.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-loader": "^3.0.2",
     "eslint-plugin-babel": "^5.3.0",
@@ -70,20 +71,18 @@
     "jest-junit": "^9.0.0",
     "jsdom": "^15.1.1",
     "lerna": "^3.13.0",
+    "mongodb-memory-server": "^6.0.1",
     "prettier": "^1.17.1",
     "prettier-eslint": "^9.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
+    "sonarqube-scanner": "^2.5.0",
     "std-env": "^2.2.1",
     "vue": "^2.6.10",
     "vue-jest": "^4.0.0-beta.2",
     "vue-server-renderer": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.29.6"
-  },
-  "devDependencies": {
-    "eslint-import-resolver-alias": "^1.1.2",
-    "mongodb-memory-server": "^6.0.1",
+    "webpack": "^4.29.6",
     "yorkie": "^2.0.0"
   }
 }

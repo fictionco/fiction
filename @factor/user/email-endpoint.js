@@ -89,7 +89,7 @@ export async function sendPasswordResetEmail({ email }) {
     to: email,
     subject: "Password Reset",
     text:
-      "Hello! We've recieved a request to reset the password associated with this account. To do so, just follow this link:",
+      "Hello! We've received a request to reset the password associated with this account. To do so, just follow this link:",
     linkText: "Reset Password",
     action: "reset-password",
     _id: user._id,
