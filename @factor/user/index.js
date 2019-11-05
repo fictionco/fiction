@@ -69,6 +69,10 @@ export function isLoggedIn() {
   return !isEmpty(currentUser())
 }
 
+export function isEmailVerified() {
+  return !isEmpty(currentUser())
+}
+
 function addMixin() {
   Factor.mixin({
     computed: {

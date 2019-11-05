@@ -120,7 +120,6 @@ function development() {
 async function base(_arguments) {
   const { target } = _arguments
 
-  console.log("WEBPACK T", target)
   const out = {
     output: {
       path: getPath("dist"),

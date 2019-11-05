@@ -41,7 +41,7 @@
         />
       </template>
 
-      <template v-else-if="!view && $user.isLoggedIn()">
+      <template v-else-if="!view && isLoggedIn()">
         <div class="action">
           <factor-link btn="primary" text="Account" path="/dashboard/account" />
         </div>
@@ -132,7 +132,7 @@
 
 
 <script>
-import { authenticate, userInitialized } from "@factor/user"
+import { authenticate, userInitialized, isLoggedIn, isEmailVerified } from "@factor/user"
 import {
   sendPasswordResetEmail,
   verifyAndResetPassword
@@ -182,7 +182,7 @@ export default {
           title: "Sign Up",
           subTitle: "Create A New Account"
         }
-      } else if (this.$user.isLoggedIn()) {
+      } else if (isLoggedIn()) {
         return {
           title: "Logged In",
           subTitle: "You are successfully logged in."
@@ -208,6 +208,7 @@ export default {
   methods: {
     sendPasswordResetEmail,
     verifyAndResetPassword,
+    isLoggedIn,
     trigger(ref) {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
@@ -253,7 +254,7 @@ export default {
     },
 
     checkEmailVerification() {
-      if (!this.$user.emailVerified) {
+      if (!isEmailVerified()) {
         this.setView("verify-email")
       }
     },

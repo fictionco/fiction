@@ -47,7 +47,6 @@ function addGlobalComponents() {
 }
 
 function addClientDirectives() {
-  console.log("process.env.FACTOR_SSR", process.env.FACTOR_SSR, process.env.FACTOR_TARGET)
   if (process.env.FACTOR_SSR == "client") {
     const directives = applyFilters("client-directives", {})
 
