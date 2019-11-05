@@ -9,7 +9,7 @@ let __router
 
 addCallback("before-server-plugins", () => createRouter())
 
-export function createRouter() {
+export async function createRouter() {
   __initialPageLoad = true
 
   const routes = applyFilters("routes", []).filter(_ => _) // remove undefined
@@ -26,17 +26,27 @@ export function createRouter() {
 
   Factor.$router = __router
 
+  await runCallbacks("after-create-router", __router)
+
   // Load hooks for client navigation handling
   // Don't run on server as this causes the hooks to run twice
   if (process.env.FACTOR_SSR == "client") {
     __router.beforeEach((to, from, next) => hookClientRouterBefore(to, from, next))
     __router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
+
   return __router
 }
 
+// If called before 'createRouter' then add to callback
 export function addRoutes(routeConfig) {
-  return __router.addRoutes(routeConfig)
+  if (__router) {
+    __router.addRoutes(routeConfig)
+  } else {
+    addCallback("after-create-router", () => {
+      __router.addRoutes(routeConfig)
+    })
+  }
 }
 
 // Only run this before navigation on the client, it should NOT run on initial page load
