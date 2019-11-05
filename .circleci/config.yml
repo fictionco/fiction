@@ -165,7 +165,7 @@ workflows:
       - setup
       - lint: { requires: [setup] }
       - audit: { requires: [setup] }
-      - analyze: { context: SonarCloud }
+      - analyze: { requires: [setup], context: SonarCloud }
       - build: { requires: [setup] }
       - test-unit: { requires: [build] }
       - release-commit:
