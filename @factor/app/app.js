@@ -15,9 +15,9 @@ export async function createApp(options = {}) {
   if (extend) await extendApp()
 
   const store = createStore()
-  const router = createRouter()
+  const router = await createRouter()
 
-  // Extend with mixins, etc... happens after router and store
+  // Extend with mixin, etc... happens after router and store
   runCallbacks("before-app")
 
   // create the app instance.
