@@ -78,7 +78,7 @@ export default {
   watch: {
     $route: {
       handler: function() {
-        // this.getPosts()
+        this.getPosts()
       }
     }
   },
@@ -87,10 +87,9 @@ export default {
     return this.getPosts()
   },
   mounted() {
-    console.log("ABCL????:", this.blogPosts.length)
-    // if (this.blogPosts.length == 0) {
-    //   this.getPosts()
-    // }
+    if (this.blogPosts.length == 0) {
+      this.getPosts()
+    }
   },
   methods: {
     setting,

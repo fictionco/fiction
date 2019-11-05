@@ -1,4 +1,3 @@
-import Factor from "vue"
 import { createApp } from "./app"
 import { handleContext } from "./ssr-context"
 
@@ -8,7 +7,7 @@ import { handleContext } from "./ssr-context"
 export default async context => {
   const { app, router, store } = await createApp()
 
-  await handleContext(Factor, { context, app, router, store })
+  await handleContext({ context, app, router, store })
 
   return app
 }

@@ -24,19 +24,19 @@ export function createStore() {
 
   const store = new Vuex.Store(root)
 
-  // prime the store with server-initialized state.
-  // the state is determined during SSR and inlined in the page markup.
-  // Make sure this is done after store modules are setup and added
-  if (typeof window != "undefined" && window.__INITIAL_STATE__) {
-    store.replaceState(window.__INITIAL_STATE__)
-  }
-
   // Factor helper function for global/flat store pattern
   store.add = (item, value) => store.commit("setItem", { item, value })
 
   store.val = key => store.getters["getItem"](key)
 
   Factor.$store = store
+
+  // prime the store with server-initialized state.
+  // the state is determined during SSR and inlined in the page markup.
+  // Make sure this is done after store modules are setup and added
+  if (typeof window != "undefined" && window.__INITIAL_STATE__) {
+    store.replaceState(window.__INITIAL_STATE__)
+  }
 
   return store
 }
