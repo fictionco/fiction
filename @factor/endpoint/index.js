@@ -32,8 +32,6 @@ export async function authorizedRequest(path, data, options = {}) {
 
   options.headers = { Authorization: bearerToken(), ...headers }
 
-  console.log("sending request with headers", options.headers)
-
   if (process.env.PORT) {
     options.proxy = {
       host: "0.0.0.0",

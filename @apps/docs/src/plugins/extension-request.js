@@ -8,3 +8,7 @@ export async function requestExtensionIndex() {
 
   return data
 }
+
+export async function requestExtensionSingle() {
+  return {}
+}
