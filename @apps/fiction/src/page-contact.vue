@@ -17,7 +17,7 @@
     <div class="contact-wrap">
       <div class="contact-area">
         <div class="grid">
-          <component :is="$setting.get('contactForm.form')" />
+          <component :is="setting('contactForm.form')" />
 
           <div class="aside">
             <div class="title" />
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { setting } from "@factor/tools"
 export default {
   data() {
     return {
@@ -42,7 +43,8 @@ export default {
       description: "Contact sales or support at Fiction.",
       image: require("./img/fiction.jpg")
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 <style lang="less">

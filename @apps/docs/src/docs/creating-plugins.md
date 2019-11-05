@@ -9,7 +9,7 @@ A Factor plugin is a standard node module that has a few tweaks to make it work 
 - Minimal configuration
 - Easily added and deleted
 
-Luckily, Factor makes all this easy to do using [\$filters](/guide/filters) along with the core extensions system.
+Luckily, Factor makes all this easy to do using [filters](/guide/filters) along with the core extensions system.
 
 > Note: The easiest way to start a plugin is copy and edit an [existing plugin](https://github.com/fiction-com/factor/tree/master/%40factor/%40plugins)
 
@@ -145,7 +145,7 @@ export default Factor => {
 
     addRoutes() {
       // Takes an array []
-      Factor.$filters.add("content-routes", routes => {
+      addFilter("content-routes", routes => {
         return [
           ...routes,
           {
@@ -158,7 +158,7 @@ export default Factor => {
 
     addComponents() {
       // Takes an Object {}
-      Factor.$filters.add("components", components => {
+      addFilter("components", components => {
         return { ...components, "my-component-name": () => import("./my-component.vue") }
       })
     }

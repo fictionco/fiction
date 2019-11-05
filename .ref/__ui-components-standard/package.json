@@ -1,0 +1,19 @@
+{
+  "name": "@factor/ui-components-standard",
+  "version": "1.0.0-beta.6",
+  "license": "GPL-2.0",
+  "type": "module",
+  "publishConfig": {
+    "access": "public",
+    "_id": "componentsStandard"
+  },
+  "factor": {
+    "target": [
+      "app"
+    ]
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "dependencies": {
+    "vue-client-only": "^2.0.0"
+  }
+}

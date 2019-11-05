@@ -1,14 +1,8 @@
-export default Factor => {
-  return new (class {
-    constructor() {
-      // Prevent injection in template
-      Factor.$filters.add("server-renderer-options", options => {
-        options.inject = false
-        options.template = (result, context) => {
-          return "hi"
-        }
-        return options
-      })
-    }
-  })()
-}
+import { addFilter } from "@factor/tools"
+addFilter("server-renderer-options", options => {
+  options.inject = false
+  options.template = () => {
+    return "hi"
+  }
+  return options
+})

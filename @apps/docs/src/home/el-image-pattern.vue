@@ -35,7 +35,7 @@ export default {
     image.addEventListener("load", () => this.drawPattern({ ctx, image }))
   },
   methods: {
-    drawPattern({ ctx, image }) {
+    drawPattern({ ctx }) {
       const scale = window.devicePixelRatio
       ctx.lineWidth = 2
       ctx.fillStyle = "transparent"
@@ -46,7 +46,7 @@ export default {
       ctx.fill()
       ctx.clip()
 
-      const points = this.points()
+      this.points()
         .map(p => {
           return {
             x: 1200 * p[0],
@@ -81,8 +81,8 @@ export default {
     },
     noise(e) {
       var perlin,
-        PERLIN_ZWRAPB = 8,
-        PERLIN_ZWRAP = 1 << PERLIN_ZWRAPB,
+        //PERLIN_ZWRAPB = 8,
+        //PERLIN_ZWRAP = 1 << PERLIN_ZWRAPB,
         PERLIN_SIZE = 4095,
         perlin_octaves = 4,
         perlin_amp_falloff = 0.5,

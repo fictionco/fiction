@@ -24,11 +24,12 @@ Example:
 
 ```javascript
 // index.js
+import { addCallback } from "@factor/tools"
 export default Factor => {
   return new class {
     constructor() {
 
-      Factor.$filters.callback("cli-run-database-import", args => this.databaseImport(args))
+      addCallback("cli-run-database-import", args => this.databaseImport(args))
     }
 
 
@@ -66,16 +67,17 @@ To add a custom command, all that is needed a filter. When a user selects your o
 
 Using those tools, gather the information you need from your user.
 
-To write to the app's private or public config, use `Factor.$setup.writeConfig` as follows:
+To write to the app's private or public config, use `writeConfig` as follows:
 
 ```js
+import { writeConfig } from "@factor/cli/setup"
 // PRIVATE CONFIG: .env
-await Factor.$setup.writeConfig(".env", {
+await writeConfig(".env", {
   SOME_PRIVATE_SETTING: "VALUE"
 })
 
 // PUBLIC CONFIG: factor-config.json
-await Factor.$setup.writeConfig("factor-config", {
+await writeConfig("factor-config", {
   some_setting: "value"
 })
 ```
@@ -84,7 +86,9 @@ await Factor.$setup.writeConfig("factor-config", {
 
 ```js
 // server.js
-Factor.$filters.push("cli-add-setup", ({ privateConfig }) => {
+import { writeConfig } from "@factor/cli/setup"
+import { pushToFilter } from "@factor/tools"
+pushToFilter("cli-add-setup", ({ privateConfig }) => {
   return {
     // Name of selection
     name: "DB Connection - Add/edit the connection string for MongoDB",
@@ -104,7 +108,7 @@ Factor.$filters.push("cli-add-setup", ({ privateConfig }) => {
 
       let { connection } = await inquirer.prompt(questions)
 
-      await Factor.$setup.writeConfig(".env", { DB_CONNECTION: connection })
+      await writeConfig(".env", { DB_CONNECTION: connection })
     }
   }
 })

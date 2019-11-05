@@ -23,7 +23,6 @@
 </template>
 
 <script>
-//import pageUtils from "./utils"
 export default {
   components: {},
   //mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
@@ -39,7 +38,7 @@ export default {
       </div>
       <div class="contact-form">
         <div class="grid">
-          <component :is="$setting.get('contactForm.form')" />
+          <component :is="setting('contactForm.form')" />
           <aside>
              We're looking forward to hearing from you...
           </aside>

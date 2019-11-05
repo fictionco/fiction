@@ -33,15 +33,16 @@
           <factor-post-edit :post-id="post._id" />
         </div>
         <div class="admin-items">
-          <div class="date">Updated &mdash; {{ $time.niceFormat(post.date) }}</div>
+          <div class="date">Updated &mdash; {{ standardDate(post.date) }}</div>
         </div>
-        <div v-formatted-text="$markdown.render(post.content)" />
+        <div v-formatted-text="renderMarkdown(post.content)" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { throttle, standardDate, renderMarkdown } from "@factor/tools"
 export default {
   props: {
     post: { type: Object, default: () => {} }
@@ -69,13 +70,15 @@ export default {
     window.removeEventListener("scroll", this.onScroll())
   },
   methods: {
+    standardDate,
+    renderMarkdown,
     setNav() {
       this.headers = this.getHeaders(this.$refs.content)
 
       window.addEventListener("scroll", this.onScroll())
     },
     onScroll() {
-      return this.$lodash.throttle(() => {
+      return throttle(() => {
         this.setActiveHash()
       }, 100)
     },

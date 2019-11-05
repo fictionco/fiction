@@ -2,17 +2,20 @@
   <div class="content-footer">
     <div class="logo">
       <factor-link path="https://www.fiction.com" class="pin">
-        <component :is="$setting.get(`footer.logo`)" />
+        <component :is="setting(`footer.logo`)" />
       </factor-link>
     </div>
     <div class="legal">
-      <div v-formatted-text="$setting.get('footer.headline')" class="license" />
-      <div v-formatted-text="$setting.get('footer.legal')" class="copyright" />
+      <div v-formatted-text="setting('footer.headline')" class="license" />
+      <div v-formatted-text="setting('footer.legal')" class="copyright" />
     </div>
   </div>
 </template>
 <script>
-export default {}
+import { setting } from "@factor/tools"
+export default {
+  methods: { setting }
+}
 </script>
 
 <style lang="less">

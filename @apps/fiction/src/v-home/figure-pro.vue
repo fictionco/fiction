@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import pageUtils from "./utils"
+import { figureMixin } from "./utils"
 export default {
   components: {
     "icon-pro": () => import("./icon-pro.vue")
   },
-  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
+  mixins: [figureMixin({ ref: "wrapper", width: 500 })],
   data() {
     return {
       features: [

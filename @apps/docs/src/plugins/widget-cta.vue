@@ -3,8 +3,8 @@
     <div class="content-pad">
       <div class="plugins-cta">
         <div class="text">
-          <h2 class="title">{{ $setting.get("plugins.cta.title") }}</h2>
-          <h2 class="title-sub">{{ $setting.get("plugins.cta.subtitle") }}</h2>
+          <h2 class="title">{{ setting("plugins.cta.title") }}</h2>
+          <h2 class="title-sub">{{ setting("plugins.cta.subtitle") }}</h2>
         </div>
 
         <div class="buttons">
@@ -16,7 +16,8 @@
   </section>
 </template>
 <script>
-export default {}
+import { setting } from "@factor/tools"
+export default { methods: { setting } }
 </script>
 <style lang="less">
 .plugins-cta-wrap {

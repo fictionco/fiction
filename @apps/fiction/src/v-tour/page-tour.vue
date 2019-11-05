@@ -155,7 +155,7 @@
 <script>
 export default {
   components: {
-    "el-svg": () => import("../el/el-svg")
+    "el-svg": () => import("../el/el-svg.vue")
   },
   data() {
     return {

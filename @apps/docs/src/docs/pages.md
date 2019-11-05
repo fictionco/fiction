@@ -30,9 +30,8 @@ There are two easy ways to add a page template to your app or theme: the `page-t
 - `name` - The name of the page template in dashboard interfaces.
 
 ```js
-// Via $filters
 // (Important: This approach should be used by plugins)
-Factor.$filters.add("page-templates", _ => {
+addFilter("page-templates", _ => {
   return [
     ..._,
     {
@@ -82,7 +81,7 @@ export default {
   // ...other component code
   computed: {
     post() {
-      return this.$store.val("post") || {}
+      return stored("post") || {}
     }
   },
   templateSettings() {

@@ -3,17 +3,18 @@
 </template>
 
 <script>
+import { storeItem, stored } from "@factor/tools"
 export default {
   data() {
     return {}
   },
   computed: {
     text() {
-      return this.$store.val("text")
+      return stored("text")
     }
   },
   created() {
-    this.$store.add("text", "loaded")
+    storeItem("text", "loaded")
   }
 }
 </script>

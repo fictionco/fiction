@@ -3,25 +3,25 @@
     <div class="stage-wrap">
       <div class="stage">
         <div class="plugin-icon">
-          <img src="./img/icon-notify.svg" />
+          <img src="./img/icon-notify.svg" alt="Notify Icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-aws.svg" />
+          <img src="./img/icon-aws.svg" alt="AWS Icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" />
+          <img src="./img/icon-google-analytics.svg" alt="Analytics Icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-user-profiles.svg" />
+          <img src="./img/icon-user-profiles.svg" alt="Profiles Icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-contact-form.svg" />
+          <img src="./img/icon-contact-form.svg" alt="Contact Form Icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-notify.svg" />
+          <img src="./img/icon-notify.svg" alt="Notify Icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-seo.svg" />
+          <img src="./img/icon-seo.svg" alt="SEO Icon" />s
         </div>
       </div>
     </div>

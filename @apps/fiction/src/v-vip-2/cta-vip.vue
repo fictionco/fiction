@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!$userId" class="mast">
+  <div v-if="!userId()" class="mast">
     <div class="cta-vip">
       <div>
         <h1 class="title">
@@ -15,7 +15,8 @@
 </template>
 
 <script>
-export default {}
+import { userId } from "@factor/user"
+export default { methods: { userId } }
 </script>
 
 <style lang="less">

@@ -1,21 +1,23 @@
 <template>
   <div v-if="format == 'index'" class="entry-headers">
     <h1 class="entry-title">
-      <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+      <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
   </div>
   <div v-else class="entry-headers">
     <div class="splash">
-      <component :is="$setting.get('blog.components.blogReturnLink')" />
+      <component :is="setting('blog.components.blogReturnLink')" />
       <h1 class="entry-title">
-        <factor-link :path="$post.link(post._id)">{{ post.title }}</factor-link>
+        <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
       <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
     </div>
   </div>
 </template>
 <script>
+import { postLink, setting, stored } from "@factor/tools"
+
 export default {
   props: {
     postId: { type: String, default: "" },
@@ -23,8 +25,12 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
+  },
+  methods: {
+    postLink,
+    setting
   }
 }
 </script>

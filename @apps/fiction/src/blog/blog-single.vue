@@ -1,24 +1,25 @@
 <template>
   <div class="single-entry">
     <component
-      :is="$setting.get(`blog.components.${comp}`)"
-      v-for="(comp, i) in $setting.get('blog.layout.single')"
+      :is="setting(`blog.components.${comp}`)"
+      v-for="(comp, i) in setting('blog.layout.single')"
       :key="i"
       :post-id="post._id"
     />
   </div>
 </template>
 <script>
-import Factor from "vue"
+import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/tools"
+
 export default {
   data() {
     return {}
   },
   metaInfo() {
     return {
-      title: this.$post.titleTag(this.post._id),
-      description: this.$post.descriptionTag(this.post._id),
-      image: this.$post.shareImage(this.post._id)
+      title: titleTag(this.post._id),
+      description: descriptionTag(this.post._id),
+      image: shareImage(this.post._id)
     }
   },
   routeClass() {
@@ -26,9 +27,10 @@ export default {
   },
   computed: {
     post() {
-      return this.$store.val("post") || {}
+      return stored("post") || {}
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 
