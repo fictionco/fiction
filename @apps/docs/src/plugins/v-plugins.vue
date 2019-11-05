@@ -106,7 +106,7 @@
 <script>
 import { endpointRequest } from "@factor/endpoint"
 import { stored, storeItem, orderBy, pickBy } from "@factor/tools"
-import dataUtility from "./plugin-data"
+import { getIndex } from "./plugin-data"
 
 export default {
   components: {
@@ -122,7 +122,7 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await dataUtility().getIndex()
+    const data = await getIndex()
 
     storeItem("plugins-index", data)
   },
