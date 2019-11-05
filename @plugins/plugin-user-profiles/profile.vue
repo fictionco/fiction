@@ -81,6 +81,7 @@
   </div>
 </template>
 <script>
+import { userInitialized } from "@factor/user"
 import { isEmpty, standardDate, stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 export default {
@@ -164,7 +165,7 @@ export default {
       if (!username && !id && isEmpty(this.post)) {
         this.loading = true
 
-        this.$user.init(async uid => {
+        userInitialized(async uid => {
           if (uid) {
             await requestPostSingle({
               _id: uid,

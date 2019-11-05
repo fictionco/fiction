@@ -253,12 +253,6 @@ export default {
       this.$router.replace({ query })
     },
 
-    checkEmailVerification() {
-      if (!isEmailVerified()) {
-        this.setView("verify-email")
-      }
-    },
-
     done(user) {
       if (user.email) {
         emitEvent("notify", { message: `Signed in as ${user.email}` })

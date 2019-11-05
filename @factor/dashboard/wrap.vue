@@ -32,6 +32,7 @@
   </div>
 </template>
 <script>
+import { userInitialized } from "@factor/user"
 import { toLabel } from "@factor/tools"
 export default {
   components: {
@@ -63,7 +64,7 @@ export default {
     }
   },
   async mounted() {
-    await this.$user.init()
+    await userInitialized()
     this.loading = false
   },
 

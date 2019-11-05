@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { userCan, userInitialized } from "@factor/user"
 import { toLabel, slugify, applyFilters } from "@factor/tools"
 export default {
   data() {
@@ -96,14 +97,14 @@ export default {
 
     // Wait for user, and if logged out don't initialize
     // Initializing a logged out user causes problems with signin redirects
-    const user = await this.$user.init()
+    const user = await userInitialized()
     if (user._id) this.initializeMenu()
   },
   methods: {
     toLabel,
     slugify,
     initializeMenu() {
-      if (this.$user.can({ role: "admin" })) {
+      if (userCan({ role: "admin" })) {
         this.$set(this.menus, "admin", [])
       }
 

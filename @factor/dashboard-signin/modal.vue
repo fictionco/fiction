@@ -54,12 +54,6 @@ export default {
       runCallbacks("signin-modal-loaded")
 
       // If shown erroneously because its triggered before USER is initialized
-
-      // this.$user.init(u => {
-      //   if (u) {
-      //     this.done()
-      //   }
-      // })
     }
   },
   methods: {

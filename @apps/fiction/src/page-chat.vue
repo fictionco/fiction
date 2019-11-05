@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import { userInitialized } from "@factor/user"
 export default {
   data() {
     return {
@@ -58,7 +59,7 @@ export default {
   },
   computed: {},
   mounted() {
-    this.$user.init(() => {
+    userInitialized(() => {
       this.loading = false
     })
 

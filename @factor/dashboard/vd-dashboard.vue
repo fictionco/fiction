@@ -33,6 +33,7 @@
   </dashboard-page>
 </template>
 <script>
+import { userInitialized } from "@factor/user"
 export default {
   data() {
     return {
@@ -63,7 +64,7 @@ export default {
     }
   },
   async mounted() {
-    await this.$user.init()
+    await userInitialized()
     this.loading = false
   },
   metaInfo() {

@@ -70,7 +70,7 @@ export function isLoggedIn() {
 }
 
 export function isEmailVerified() {
-  return !isEmpty(currentUser())
+  return currentUser().emailVerified ? true : false
 }
 
 function addMixin() {

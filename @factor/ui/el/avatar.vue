@@ -55,19 +55,7 @@ export default {
     }
   },
 
-  mounted() {
-    // if (this.userId) {
-    //   this.doRequest(this.userId)
-    // } else {
-    //   this.$user.init(() => {
-    //     if (this.$userId) {
-    //       this.doRequest(this.$userId)
-    //     } else {
-    //       this.loading = false
-    //     }
-    //   })
-    // }
-  },
+  mounted() {},
 
   methods: {
     async doRequest(_id) {

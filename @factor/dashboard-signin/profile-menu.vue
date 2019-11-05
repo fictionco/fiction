@@ -6,16 +6,16 @@
       :class="toggle ? 'active' : 'inactive'"
       @click.stop="setToggle($event)"
     >
-      <div v-if="showName" class="display-name">{{ post.displayName }}</div>
-      <factor-avatar width="1.75em" :post-id="$currentUser.avatar" />
+      <div v-if="showName" class="display-name">{{ currentUser.displayName }}</div>
+      <factor-avatar width="1.75em" :post-id="currentUser.avatar" />
     </span>
     <transition name="leftfade">
       <div v-if="toggle" class="profile-menu-nav" @click.stop>
         <div class="nav-pad">
           <div class="user-basics">
-            <factor-avatar v-if="$userId" :post-id="$currentUser.avatar" width="2.5em" />
-            <div class="content" :data-uid="$user._id()">
-              <div class="name">{{ $user._item("displayName") || $user._item("email") }}</div>
+            <factor-avatar v-if="isLoggedIn()" :post-id="currentUser.avatar" width="2.5em" />
+            <div class="content" :data-uid="currentUser._id">
+              <div class="name">{{ currentUser.displayName || currentUser.email }}</div>
               <div v-if="role.title" class="privs">
                 <span class="status">{{ toLabel(role.title) }}</span>
               </div>
@@ -42,7 +42,8 @@
   </div>
 </template>
 <script>
-import { toLabel, onEvent, emitEvent, applyFilters, stored } from "@factor/tools"
+import { currentUser, isLoggedIn, logout } from "@factor/user"
+import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/tools"
 export default {
   props: {
     showName: { type: Boolean, default: false }
@@ -54,11 +55,11 @@ export default {
     }
   },
   computed: {
-    post() {
-      return stored(this.$userId) || {}
+    currentUser() {
+      return currentUser()
     },
     role() {
-      return this.$user._item("role") || {}
+      return currentUser.role || {}
     }
   },
   created() {
@@ -71,7 +72,7 @@ export default {
           },
           {
             key: "logout",
-            click: () => this.$user.logout(),
+            click: () => logout(),
             name: "Logout"
           }
         ]
@@ -86,6 +87,7 @@ export default {
     })
   },
   methods: {
+    isLoggedIn,
     toLabel,
     itemClick(item) {
       if (typeof item.click == "function") {
