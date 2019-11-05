@@ -13,9 +13,6 @@ executors:
       NODE_ENV: test
       NODE_OPTIONS: --max_old_space_size=8192
 
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.1
-
 commands:
   attach-project:
     steps:
@@ -104,12 +101,6 @@ jobs:
           name: Security Audit
           command: yarn audit || true
 
-  analyze:
-    executor: node
-    steps:
-      - attach-project
-      - sonarcloud/scan
-
   build:
     executor: node
     steps:
@@ -165,7 +156,6 @@ workflows:
       - setup
       - lint: { requires: [setup] }
       - audit: { requires: [setup] }
-      - analyze: { requires: [setup], context: SonarCloud }
       - build: { requires: [setup] }
       - test-unit: { requires: [build] }
       - release-commit:

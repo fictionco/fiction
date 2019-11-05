@@ -86,6 +86,7 @@
     "lockfile",
     "npmjs",
     "npmrc",
+    "signin",
     "sonarsource"
   ]
 }
