@@ -132,7 +132,7 @@
 
 
 <script>
-import { authenticate, userInitialized, isLoggedIn, isEmailVerified } from "@factor/user"
+import { authenticate, userInitialized, isLoggedIn } from "@factor/user"
 import {
   sendPasswordResetEmail,
   verifyAndResetPassword

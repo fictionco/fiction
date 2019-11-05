@@ -18,8 +18,6 @@ import { appMounted } from "@factor/app"
 export * from "./email-request"
 
 addFilter("before-app", () => {
-  addMixin()
-
   // Authentication events only work after SSR
   if (!isNode) {
     requestInitializeUser()

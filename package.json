@@ -85,6 +85,7 @@
   },
   "devDependencies": {
     "eslint-import-resolver-alias": "^1.1.2",
+    "husky": "^3.0.9",
     "mongodb-memory-server": "^6.0.1"
   }
 }

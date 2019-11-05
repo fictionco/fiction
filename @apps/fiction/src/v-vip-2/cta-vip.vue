@@ -16,7 +16,7 @@
 
 <script>
 import { userId } from "@factor/user"
-export default {}
+export default { methods: { userId } }
 </script>
 
 <style lang="less">

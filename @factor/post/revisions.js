@@ -1,5 +1,5 @@
 import { timestamp } from "@factor/tools"
-import { _id } from "@factor/user"
+import { userId } from "@factor/user"
 export default class PostRevisions {
   // Save revisions to post
   // This should be merged into existing post (update)
@@ -25,7 +25,7 @@ export default class PostRevisions {
 
     const draft = {
       timestamp: timestamp(),
-      editor: _id(),
+      editor: userId(),
       post: postData,
       ...meta
     }

@@ -1,4 +1,3 @@
-import Factor from "@factor/core"
 import { canUpdatePost } from "./util"
 import { getModel } from "./server"
 import { addCallback } from "@factor/tools"
