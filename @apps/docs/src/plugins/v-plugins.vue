@@ -10,7 +10,6 @@
     </div>
     <div v-else class="plugins-wrap content-pad">
       <div class="content">
-        <!-- {{ getData }} -->
         <section v-if="pluginsFeatured.length > 0" class="plugins-featured">
           <header class="section-header">
             <h1 class="title">Featured</h1>
@@ -19,7 +18,7 @@
             <factor-link
               v-for="(entry, index) in pluginsFeatured"
               :key="index"
-              :path="pluginPermalink(entry._id)"
+              :path="extensionPermalink({name: entry._id})"
               class="entry-plugin"
             >
               <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
@@ -27,7 +26,7 @@
               </div>
 
               <div class="entry-content">
-                <h3 class="title">{{ formatName(entry._id) }}</h3>
+                <h3 class="title">{{ titleFromPackage(entry._id) }}</h3>
                 <div class="meta">
                   <div v-if="entry.maintainers" class="authors">
                     by
@@ -48,20 +47,7 @@
             </factor-link>
           </div>
         </section>
-        <!--
-          Plugins Categories and Search
-          <div class="plugins-search-wrap">
-          <factor-input-wrap
-            input="factor-input-text"
-            :placeholder="`Search Factor plugins`"
-            required
-          />
-          <factor-input-wrap
-            :list="['seo', 'Utilities', 'Jobs', 'Comments', 'Syntax']"
-            input="factor-input-select"
-            :placeholder="`All Categories`"
-          />
-        </div>-->
+
         <section class="plugins-all">
           <header class="section-header">
             <h1 class="title">All</h1>
@@ -69,7 +55,7 @@
           <factor-link
             v-for="(entry, index) in getData"
             :key="index"
-            :path="pluginPermalink(entry._id)"
+            :path="extensionPermalink({name: entry._id})"
             class="entry-plugin"
           >
             <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
@@ -77,7 +63,7 @@
             </div>
 
             <div class="entry-content">
-              <h3 class="title">{{ formatName(entry._id) }}</h3>
+              <h3 class="title">{{ titleFromPackage(entry._id) }}</h3>
               <div class="meta">
                 <div v-if="entry.maintainers" class="authors">
                   by
@@ -104,11 +90,11 @@
 </template>
 
 <script>
+import { titleFromPackage, formatDownloads, extensionPermalink } from "./util"
 import { endpointRequest } from "@factor/endpoint"
-import { stored, storeItem, orderBy, pickBy } from "@factor/tools"
+import { stored, orderBy, pickBy } from "@factor/tools"
 
 import { getIndex } from "./plugin-data"
-
 
 export default {
   components: {
@@ -124,9 +110,7 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await getIndex()
-
-    storeItem("plugins-index", data)
+    return await getIndex()
   },
   computed: {
     headerFigure() {
@@ -158,18 +142,10 @@ export default {
     this.loading = false
   },
   methods: {
-    formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
+    titleFromPackage,
+    formatDownloads,
+    extensionPermalink,
 
-      return spacedName.replace("@factor/", "")
-    },
-    formatDownloads(number) {
-      let num = number
-      return num.toLocaleString("en", { useGrouping: true })
-    },
-    pluginPermalink(permalink) {
-      return `/plugin/` + permalink.replace("@factor/", "")
-    },
     pluginIcon(entry) {
       const imageName = `icon.svg`
 
