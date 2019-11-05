@@ -4,16 +4,17 @@ import qs from "qs"
 import { emitEvent, applyFilters, runCallbacks, addCallback } from "@factor/tools"
 Factor.use(VueRouter)
 
-let initialPageLoad
+let __initialPageLoad
+let __router
 
 addCallback("before-server-plugins", () => createRouter())
 
 export function createRouter() {
-  initialPageLoad = true
+  __initialPageLoad = true
 
   const routes = applyFilters("routes", []).filter(_ => _) // remove undefined
 
-  const router = new VueRouter({
+  const __router = new VueRouter({
     routes,
     mode: "history",
     scrollBehavior: (to, from, saved) => {
@@ -23,20 +24,24 @@ export function createRouter() {
     stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
   })
 
-  Factor.$router = router
+  Factor.$router = __router
 
   // Load hooks for client navigation handling
   // Don't run on server as this causes the hooks to run twice
   if (process.env.FACTOR_SSR == "client") {
-    router.beforeEach((to, from, next) => clientRouterBefore(to, from, next))
-    router.afterEach((to, from) => clientRouterAfter(to, from))
+    __router.beforeEach((to, from, next) => hookClientRouterBefore(to, from, next))
+    __router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
-  return router
+  return __router
 }
 
-// Only run this before navigations on the client, it should NOT run on initial page load
-async function clientRouterBefore(to, from, next) {
-  if (initialPageLoad) next()
+export function addRoutes(routeConfig) {
+  return __router.addRoutes(routeConfig)
+}
+
+// Only run this before navigation on the client, it should NOT run on initial page load
+async function hookClientRouterBefore(to, from, next) {
+  if (__initialPageLoad) next()
   else {
     const doBefore = runCallbacks("client-route-before", { to, from, next })
     emitEvent("ssr-progress", "start")
@@ -50,8 +55,8 @@ async function clientRouterBefore(to, from, next) {
   }
 }
 
-function clientRouterAfter(to, from) {
-  initialPageLoad = false
+function hookClientRouterAfter(to, from) {
+  __initialPageLoad = false
   emitEvent("ssr-progress", "finish")
   applyFilters("client-route-after", [], { to, from })
 
