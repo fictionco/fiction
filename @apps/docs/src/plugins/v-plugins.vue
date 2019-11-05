@@ -106,7 +106,9 @@
 <script>
 import { endpointRequest } from "@factor/endpoint"
 import { stored, storeItem, orderBy, pickBy } from "@factor/tools"
+
 import { getIndex } from "./plugin-data"
+
 
 export default {
   components: {
