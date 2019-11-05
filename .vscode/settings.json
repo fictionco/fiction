@@ -82,11 +82,25 @@
   ],
   "cSpell.words": [
     "JUNIT",
+    "SMTP",
+    "clonedeep",
     "codecov",
+    "consola",
+    "dayjs",
+    "deepmerge",
+    "envfile",
+    "execa",
+    "isempty",
+    "isequal",
     "lockfile",
     "npmjs",
     "npmrc",
+    "pickby",
+    "postbuild",
     "signin",
-    "sonarsource"
+    "slugify",
+    "sonarsource",
+    "stopwords",
+    "uniqid"
   ]
 }

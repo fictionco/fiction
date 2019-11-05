@@ -4,25 +4,18 @@ import nodeMailer from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import "./setup"
 
-addCallback("endpoints", { id: "email", handler: "@factor/email/server" })
+export function hasEmailService() {
+  const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
-initializeEmailServer()
+  return !SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST ? false : true
+}
 
-export let hasEmail
-export let transporter
+function getEmailSMTPService() {
+  if (!hasEmailService()) return false
 
-function initializeEmailServer() {
   const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT } = process.env
 
-  if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
-    hasEmail = false
-    transporter = false
-    return false
-  }
-
-  hasEmail = true
-
-  transporter = nodeMailer.createTransport({
+  const emailServiceClient = nodeMailer.createTransport({
     host: SMTP_HOST,
     port: SMTP_PORT || 587,
     secure: false, // true for 587, false for other ports
@@ -33,9 +26,9 @@ function initializeEmailServer() {
   })
 
   // https://github.com/andris9/nodemailer-html-to-text
-  transporter.use("compile", nodeMailerHtmlToText.htmlToText())
+  emailServiceClient.use("compile", nodeMailerHtmlToText.htmlToText())
 
-  return transporter
+  return emailServiceClient
 }
 
 export async function sendTransactional(_arguments) {
@@ -77,12 +70,8 @@ export async function sendTransactional(_arguments) {
     text: plainText
   })
 
-  let info
-  if (this.client) {
-    info = await this.client.sendMail(theEmail)
-  } else {
-    log.info("Email could not be sent.", theEmail)
-  }
+  const emailServiceClient = getEmailSMTPService()
 
-  return info
+  if (emailServiceClient) return await emailServiceClient.sendMail(theEmail)
+  else log.warn("Email could not be sent.", theEmail)
 }

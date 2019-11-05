@@ -119,22 +119,22 @@ export function prettyJson(data) {
 }
 
 function existingSettings() {
-  if (!fs.pathExistsSync(this.configFile)) {
-    fs.writeJsonSync(this.configFile, { config: {} })
+  if (!fs.pathExistsSync(configFile)) {
+    fs.writeJsonSync(configFile, { config: {} })
   }
-  const publicConfig = require(this.configFile)
+  const publicConfig = require(configFile)
 
-  fs.ensureFileSync(this.secretsFile)
-  const privateConfig = envfile.parseFileSync(this.secretsFile)
+  fs.ensureFileSync(secretsFile)
+  const privateConfig = envfile.parseFileSync(secretsFile)
 
   return { publicConfig, privateConfig }
 }
 
 function extensionNames(type, format = "join") {
-  const exts = getExtensions().filter(_ => _.extend == type)
+  const extensions = getExtensions().filter(_ => _.extend == type)
 
-  if (exts && exts.length > 0) {
-    const names = exts.map(_ => _.name)
+  if (extensions && extensions.length > 0) {
+    const names = extensions.map(_ => _.name)
 
     return format == "count" ? names.length : names.join(", ")
   } else return "none"
@@ -157,8 +157,8 @@ function writeFiles(file, values) {
 
 // export class FactorSetup {
 //   constructor() {
-//     this.configFile = getPath("config-file-public")
-//     this.secretsFile = getPath("config-file-private")
+//     configFile = getPath("config-file-public")
+//     secretsFile = getPath("config-file-private")
 //   }
 
 //   // Setup entry. Give basic information and create an extensible select option for setup.
@@ -169,10 +169,10 @@ function writeFiles(file, values) {
 //     log.formatted({
 //       title: "Welcome to Factor Setup!",
 //       lines: [
-//         { title: "Theme", value: this.extensionNames("theme"), indent: true },
+//         { title: "Theme", value: extensionNames("theme"), indent: true },
 //         {
 //           title: "Modules",
-//           value: this.extensionNames("plugin", "count"),
+//           value: extensionNames("plugin", "count"),
 //           indent: true
 //         }
 //       ]
@@ -191,7 +191,7 @@ function writeFiles(file, values) {
 //           priority: 1000
 //         }
 //       ],
-//       this.existingSettings()
+//       existingSettings()
 //     )
 
 //     setups = sortPriority(setups)
@@ -222,13 +222,13 @@ function writeFiles(file, values) {
 //   }
 
 //   existingSettings() {
-//     if (!fs.pathExistsSync(this.configFile)) {
-//       fs.writeJsonSync(this.configFile, { config: {} })
+//     if (!fs.pathExistsSync(configFile)) {
+//       fs.writeJsonSync(configFile, { config: {} })
 //     }
-//     const publicConfig = require(this.configFile)
+//     const publicConfig = require(configFile)
 
-//     fs.ensureFileSync(this.secretsFile)
-//     const privateConfig = envfile.parseFileSync(this.secretsFile)
+//     fs.ensureFileSync(secretsFile)
+//     const privateConfig = envfile.parseFileSync(secretsFile)
 
 //     return { publicConfig, privateConfig }
 //   }
@@ -257,13 +257,13 @@ function writeFiles(file, values) {
 //       name: `writeFiles`,
 //       message: `Write the following settings to the "${chalk.cyan(
 //         file
-//       )}" file? \n\n ${this.prettyJson(values)} \n`,
+//       )}" file? \n\n ${prettyJson(values)} \n`,
 //       default: true
 //     })
 
 //     console.log()
 //     if (answers.writeFiles) {
-//       this.writeFiles(file, values)
+//       writeFiles(file, values)
 //       log.success(`Wrote to ${file}...\n\n`)
 //     } else {
 //       log.log(`Writing skipped.`)
@@ -274,17 +274,17 @@ function writeFiles(file, values) {
 //   }
 
 //   writeFiles(file, values) {
-//     const { publicConfig, privateConfig } = this.existingSettings()
+//     const { publicConfig, privateConfig } = existingSettings()
 
 //     if (file.includes("factor-config")) {
 //       const conf = deepMerge([publicConfig, values])
-//       fs.writeFileSync(this.configFile, JSON.stringify(conf, null, "  "))
+//       fs.writeFileSync(configFile, JSON.stringify(conf, null, "  "))
 //     }
 
 //     if (file.includes("env")) {
 //       const sec = deepMerge([privateConfig, values])
 
-//       fs.writeFileSync(this.secretsFile, envfile.stringifySync(sec))
+//       fs.writeFileSync(secretsFile, envfile.stringifySync(sec))
 //     }
 //   }
 // }

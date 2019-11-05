@@ -35,12 +35,11 @@
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
-  "__gitHooks": {
+  "gitHooks": {
     "pre-commit": "yarn test:lint && yarn test:unit",
     "commit-msg": "node scripts/verify-commit.js"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "@vue/server-test-utils": "^1.0.0-beta.29",
@@ -76,7 +75,6 @@
     "prettier-eslint": "^9.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "sonarqube-scanner": "^2.5.0",
     "std-env": "^2.2.1",
     "vue": "^2.6.10",
     "vue-jest": "^4.0.0-beta.2",
@@ -84,5 +82,6 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.29.6",
     "yorkie": "^2.0.0"
-  }
+  },
+  "devDependencies": {}
 }

@@ -31,7 +31,7 @@ export async function authenticate(params) {
     }
 
     applyFilters("create-new-user", user)
-    return this.credential(user)
+    return userCredential(user)
   } else {
     user = await getModel("user").findOne({ email }, "+password")
 
@@ -43,12 +43,12 @@ export async function authenticate(params) {
       user.signedInAt = Date.now()
       await user.save()
 
-      return this.credential(user)
+      return userCredential(user)
     }
   }
 }
 
-export function credential(user) {
+export function userCredential(user) {
   if (!user) {
     return {}
   }

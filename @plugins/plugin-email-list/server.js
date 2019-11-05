@@ -6,7 +6,7 @@ import {
   addCallback,
   currentUrl
 } from "@factor/tools"
-import { hasEmail, sendTransactional } from "@factor/email/server"
+import { hasEmailService, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
 
@@ -48,7 +48,7 @@ export async function addEmail({ email, listId = "default", tags = [] }) {
     )
   }
 
-  if (hasEmail) {
+  if (hasEmailService()) {
     await sendConfirmEmail({ email, listId, code })
   }
 

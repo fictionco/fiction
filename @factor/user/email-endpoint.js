@@ -5,7 +5,6 @@ import { sendTransactional } from "@factor/email/server"
 addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
 
 addFilter("user-schema-hooks", Schema => {
-  const _this = this
   // EMAIL
   Schema.post("save", async function(doc, next) {
     const user = this
@@ -13,7 +12,7 @@ addFilter("user-schema-hooks", Schema => {
 
     const { email, _id } = user
     user.emailVerified = false
-    return await _this.sendVerifyEmail({ _id, email }, { bearer: user })
+    return await sendVerifyEmail({ _id, email }, { bearer: user })
   })
 })
 
@@ -46,7 +45,7 @@ export async function sendVerifyEmail({ email, _id }, { bearer }) {
 
   await savePost({ data: { _id, emailVerificationCode, postType: "user" } }, { bearer })
 
-  await this.sendEmail({
+  await sendEmail({
     to: email,
     subject: "Confirm Your Email",
     text: "Hello! Please confirm your email by clicking on the following link:",
@@ -85,7 +84,7 @@ export async function sendPasswordResetEmail({ email }) {
     throw new Error("Could not find an user with that email.")
   }
 
-  await this.sendEmail({
+  await sendEmail({
     to: email,
     subject: "Password Reset",
     text:
