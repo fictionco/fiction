@@ -33,9 +33,6 @@ export default {
   line-height: 1.6em;
   padding: 0 1.6em 1rem;
   transform: all 0.2s ease-in-out;
-  // .inline-excerpt {
-  //   margin-right: 1rem;
-  // }
 
   @media (max-width: 767px) {
     padding: 0 1em 1rem;

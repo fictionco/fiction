@@ -15,10 +15,10 @@
         <factor-loading-ring />
       </div>
       <div v-else-if="blogPosts.length > 0" class="post-index">
-        <div v-for="(post) in blogPosts" :key="post._id" class="post">
+        <div v-for="post in blogPosts" :key="post._id" class="post">
           <component
-            :is="setting(`blog.components.${comp}`)"
-            v-for="(comp, i) in setting('blog.layout.index')"
+            :is="setting(`blog.components.${_component}`)"
+            v-for="(_component, i) in setting('blog.layout.index')"
             :key="i"
             :post-id="post._id"
             format="index"
@@ -60,9 +60,6 @@ export default {
       description
     }
   },
-  serverPrefetch() {
-    return this.getPosts()
-  },
   computed: {
     tag() {
       return this.$route.params.tag || this.$route.query.tag || ""
@@ -81,12 +78,21 @@ export default {
   watch: {
     $route: {
       handler: function() {
-        this.getPosts()
+        // this.getPosts()
       }
     }
   },
+  created() {
+    console.log("L????:", this.blogPosts.length)
+  },
+  serverPrefetch() {
+    return this.getPosts()
+  },
   mounted() {
-    this.getPosts()
+    console.log("ABCL????:", this.blogPosts.length)
+    // if (this.blogPosts.length == 0) {
+    //   this.getPosts()
+    // }
   },
   methods: {
     setting,

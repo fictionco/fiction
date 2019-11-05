@@ -7,7 +7,7 @@ module.exports = {
 
   roots: ["<rootDir>/@factor", "<rootDir>/test"],
 
-  setupFilesAfterEnv: ["./test/utils/setup"],
+  setupFilesAfterEnv: ["./test/utils/setup", "jest-extended"],
 
   testPathIgnorePatterns: [
     "node_modules/(?!(@factor|factor))",
