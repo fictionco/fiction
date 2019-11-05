@@ -82,9 +82,7 @@ export default {
       }
     }
   },
-  created() {
-    console.log("L????:", this.blogPosts.length)
-  },
+  created() {},
   serverPrefetch() {
     return this.getPosts()
   },
