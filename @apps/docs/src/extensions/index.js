@@ -1,5 +1,3 @@
-const downloadBase = "https://minhaskamal.github.io/DownGit/#/home?url="
-
 export default {
   themes: [
     {

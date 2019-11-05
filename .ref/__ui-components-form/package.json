@@ -1,0 +1,21 @@
+{
+  "name": "@factor/ui-components-form",
+  "version": "1.0.0-beta.6",
+  "license": "GPL-2.0",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "target": [
+      "app"
+    ],
+    "_id": "componentsForm"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "dependencies": {
+    "sortablejs": "^1.8.4",
+    "vue": "^2.6.10",
+    "vuejs-datepicker": "^1.5.4"
+  }
+}

@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import pageUtils from "./utils"
+import { figureMixin } from "./utils"
 export default {
   components: {
     "page-icon": () => import("./icon-vip.vue")
   },
-  mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
+  mixins: [figureMixin({ ref: "wrapper", width: 500 })],
   data() {
     return {
       vipicons: [

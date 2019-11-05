@@ -25,11 +25,12 @@ The dashboard interface is based around the concept of posts and post management
 1. Listing the posts and group actions
 2. Adding or editing an individual post.
 
-When you add a new post type using the `post-types` filter, this will automatically create a new post management tab in the admin. The behavior of this can be fully customized however. To override the default list and edit post templates use the `listTemplate` and `editTemplate` options for the post type.
+When you add a new post type using the `post-types-config` filter, this will automatically create a new post management tab in the admin. The behavior of this can be fully customized however. To override the default list and edit post templates use the `listTemplate` and `editTemplate` options for the post type.
 
 ```js
 // index.js
-Factor.$filters.push("post-types", {
+import { pushToFilter } from "@factor/tools"
+pushToFilter("post-types-config", {
   postType: "examples",
   nameIndex: "Examples",
   nameSingle: "Example Post",
@@ -54,7 +55,7 @@ It's easy to extend the post editing interface of a post type. A common use case
 To add a new panel all that is needed is to use the `post-edit-components` filter and add a component which recieves the `postId` as a prop and makes changes to the post being edited in the store.
 
 ```js
-Factor.$filters.push("post-edit-components", {
+pushToFilter("post-edit-components", {
   name: "My Plugin Settings",
   component: () => import("./plugin-panel.vue"),
   postType: ["page", "blog"] // if missing, defaults to all post types
@@ -79,7 +80,7 @@ Factor.$filters.push("post-edit-components", {
     },
     computed: {
       post() {
-        return this.$store.val(this.postId) || {}
+        return stored(this.postId) || {}
       }
     }
   }
@@ -92,7 +93,7 @@ Factor.$filters.push("post-edit-components", {
 If you're adding settings to a post type, don't forget to extend the schema for that post type (or the base post schema). The exact filter to extend a schema depends on the name of the associated filter. But extending the base schema can be done using the `post-schema` filter:
 
 ```js
-Factor.$filters.add("post-schema", _ => {
+addFilter("post-schema", _ => {
   return {
     ..._,
     myPluginSetting: { type: String, trim: true }

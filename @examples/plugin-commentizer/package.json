@@ -4,6 +4,7 @@
   "main": "src/index.js",
   "version": "1.0.0-beta.0",
   "license": "GPL-2.0",
+  "type": "module",
   "factor": {
     "target": [
       "app",

@@ -36,7 +36,7 @@
 <script>
 export default {
   components: {
-    "site-logo": () => import("./logo")
+    "site-logo": () => import("./logo.vue")
   },
   data: () => {
     return {}

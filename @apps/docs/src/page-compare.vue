@@ -128,9 +128,10 @@
 </template>
 
 <script>
+import { toLabel } from "@factor/tools"
 export default {
   components: {
-    "el-factor": () => import("#/el/logo-factor.vue")
+    "el-factor": () => import("./el/logo-factor.vue")
   },
   data() {
     return {
@@ -147,7 +148,7 @@ export default {
         if (typeof _ == "string") {
           return {
             slug: _,
-            name: this.$utils.toLabel(_)
+            name: toLabel(_)
           }
         } else {
           return _

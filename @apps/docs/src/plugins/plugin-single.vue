@@ -62,14 +62,15 @@
   </div>
 </template>
 <script>
-import dataUtility from "./plugin-data"
+import { setting, storeItem, renderMarkdown, pickBy } from "@factor/tools"
+import { getIndex } from "./plugin-data"
 export default {
   components: {
-    "widget-header": () => import("./widget-header"),
-    "widget-sidebar": () => import("./widget-sidebar"),
-    "widget-lightbox": () => import("../el/el-lightbox"),
-    "plugin-entry": () => import("../el/entry"),
-    "widget-cta": () => import("./widget-cta")
+    "widget-header": () => import("./widget-header.vue"),
+    "widget-sidebar": () => import("./widget-sidebar.vue"),
+    "widget-lightbox": () => import("../el/el-lightbox.vue"),
+    "plugin-entry": () => import("../el/entry.vue"),
+    "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {
@@ -80,14 +81,14 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await dataUtility().getIndex()
+    const data = await getIndex()
 
-    this.$store.add("plugins-index", data)
+    storeItem("plugins-index", data)
   },
   computed: {
     pluginData: function() {
       let pageSlug = this.$route.params.slug
-      return _.pickBy(this.getData, function(u) {
+      return pickBy(this.getData, function(u) {
         let name = u.name.replace("@factor/", "")
         return name === pageSlug || ""
       })
@@ -97,7 +98,7 @@ export default {
     let data = this.$store.val("plugins-index")
 
     if (!data) {
-      data = await this.$endpoint.request({ id: "plugindata", method: "getIndex" })
+      data = await this.$endpoint.request({ id: "pluginData", method: "getIndex" })
     }
 
     this.getData = data
@@ -105,6 +106,7 @@ export default {
     this.loading = false
   },
   methods: {
+    setting,
     pluginIcon(entry) {
       const imageName = `icon.svg`
 
@@ -121,7 +123,7 @@ export default {
       return images[0]
     },
     formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
 
       return spacedName.replace("@factor/", "")
     },
@@ -154,9 +156,7 @@ export default {
     getContent(value) {
       let markdownContent = value
 
-      return markdownContent
-        ? this.$markdown.render(markdownContent, { variables: true })
-        : ""
+      return markdownContent ? renderMarkdown(markdownContent, { variables: true }) : ""
     }
   },
   metaInfo() {

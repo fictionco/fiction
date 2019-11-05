@@ -1,0 +1,15 @@
+{
+  "name": "@test/importer-plugin",
+  "version": "1.0.0-beta.4",
+  "license": "GPL-2.0",
+  "type": "module",
+  "factor": {
+    "target": {
+      "app": "index",
+      "server": "server"
+    },
+    "_id": "pluginTester"
+  },
+  "dependencies": {},
+  "gitHead": "dd482a99aad2457710eb9e51aac993b626b672eb"
+}

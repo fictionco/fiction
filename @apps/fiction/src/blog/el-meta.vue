@@ -1,23 +1,25 @@
 <template>
   <div class="entry-meta">
     <component
-      :is="$setting.get(`blog.components.${comp}`)"
-      v-for="(comp, i) in $setting.get('blog.layout.meta')"
+      :is="setting(`blog.components.${comp}`)"
+      v-for="(comp, i) in setting('blog.layout.meta')"
       :key="i"
       :post-id="postId"
     />
   </div>
 </template>
 <script>
+import { setting, stored } from "@factor/tools"
 export default {
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
     post() {
-      return this.$store.val(this.postId) || {}
+      return stored(this.postId) || {}
     }
-  }
+  },
+  methods: { setting }
 }
 </script>
 <style lang="less">

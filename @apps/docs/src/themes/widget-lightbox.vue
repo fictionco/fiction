@@ -133,7 +133,7 @@ export default {
       }
       e.stopPropagation()
     },
-    zoomIn(e) {
+    zoomIn() {
       this.scale += 0.25
     },
     zoomOut() {

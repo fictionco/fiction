@@ -1,6 +1,6 @@
-import { resolve, join } from "path"
+import { resolve } from "path"
 import { spawn } from "cross-spawn"
-import { writeFileSync, removeSync } from "fs-extra"
+import { removeSync } from "fs-extra"
 
 import { getPort, rp, waitFor } from "@test/utils"
 
@@ -33,7 +33,8 @@ const start = (cmd, env, cb) => {
         .toString()
         .toLowerCase()
         .includes("error")
-        ? console.error(data.toString())
+        ? // eslint-disable-next-line no-console
+          console.error(data.toString())
         : null
     )
   })

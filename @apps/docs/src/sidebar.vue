@@ -51,7 +51,9 @@
   </div>
 </template>
 <script>
-import docs from "./docs-handler"
+import { DOM, throttle, setting } from "@factor/tools"
+
+import { config } from "./docs-handler"
 export default {
   props: {
     mode: { type: String, default: "" }
@@ -63,7 +65,7 @@ export default {
       allHeaders: [],
       activeHash: this.$route.hash,
       hydrated: false,
-      navConfig: this.$setting.get("site.nav")
+      navConfig: setting("site.nav")
     }
   },
 
@@ -72,7 +74,7 @@ export default {
       return this.navConfig.filter(item => !item.condition || item.condition())
     },
     nav() {
-      return docs(this).config()
+      return config()
     },
 
     activeDoc() {
@@ -96,10 +98,11 @@ export default {
     this.setPage()
   },
   methods: {
+    setting,
     setPage() {
       // Make sure new content is loaded before scanning for h2, h3
       setTimeout(() => {
-        this.scroller = this.$jquery.find(".scroller")[0]
+        this.scroller = DOM.find(".scroller")[0]
 
         if (this.scroller) {
           this.headers = this.getHeaders(this.scroller)
@@ -109,7 +112,7 @@ export default {
       }, 40)
     },
     onScroll() {
-      return this.$lodash.throttle(() => {
+      return throttle(() => {
         this.setActiveHash()
       }, 100)
     },
@@ -182,13 +185,13 @@ export default {
         .call(h.childNodes)
         .map(function(node) {
           return node.textContent
-          if (node.nodeType === Node.TEXT_NODE) {
-            return node.nodeValue
-          } else if (["CODE", "SPAN"].includes(node.tagName)) {
-            return node.textContent
-          } else {
-            return ""
-          }
+          // if (node.nodeType === Node.TEXT_NODE) {
+          //   return node.nodeValue
+          // } else if (["CODE", "SPAN"].includes(node.tagName)) {
+          //   return node.textContent
+          // } else {
+          //   return ""
+          // }
         })
         .join("")
 

@@ -9,14 +9,17 @@
   "workspaces": [
     "@apps/*",
     "@examples/*",
+    "@plugins/*",
+    "@themes/*",
+    "@examples/*",
     "@factor/*",
-    "@factor/@*/*",
     "@demo/*",
     "**/fixtures/*",
     "test/modules/*"
   ],
   "private": true,
   "license": "GPL-2.0",
+  "type": "module",
   "scripts": {
     "upgrade-packages": "yarn install && yarn upgrade && yarn outdated",
     "publish:docs": "heroku git:remote -a factor-dev && git push heroku master",
@@ -24,12 +27,17 @@
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
     "heroku-postbuild": "node ./@apps/heroku/build-heroku.js",
     "deploy": "git push heroku-factor-dev master",
-    "test": "yarn test:fixtures && yarn test:unit",
-    "test:lint": "eslint --ext .js,.vue .",
+    "test:watch": "yarn jest @factor/**/test/unit --watch",
+    "test:all": "yarn test:fixtures && yarn test:unit",
+    "test:lint": "eslint --ext .js,.vue,.json .",
     "test:coverage": "codecov",
-    "test:unit": "jest test/unit @factor --forceExit --detectOpenHandles --passWithNoTests",
+    "test:unit": "jest @factor --forceExit --detectOpenHandles --passWithNoTests",
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+  },
+  "gitHooks": {
+    "pre-push": "yarn test:lint && yarn test:unit",
+    "commit-msg": "node scripts/verify-commit.js"
   },
   "dependencies": {
     "@babel/core": "^7.6.0",
@@ -43,13 +51,14 @@
     "consola": "^2.10.1",
     "eslint": "^6.0.0",
     "eslint-config-prettier": "^6.4.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-loader": "^3.0.2",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-html": "^6.0.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jest": "^22.17.0",
-    "eslint-plugin-json": "^1.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.1",
+    "eslint-plugin-json": "^2.0.1",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-unicorn": "^12.0.2",
@@ -58,9 +67,11 @@
     "execa": "^3.1.0",
     "exit": "^0.1.2",
     "jest": "^24.9.0",
-    "jest-junit": "^8.0.0",
+    "jest-extended": "^0.11.2",
+    "jest-junit": "^9.0.0",
     "jsdom": "^15.1.1",
     "lerna": "^3.13.0",
+    "mongodb-memory-server": "^6.0.1",
     "prettier": "^1.17.1",
     "prettier-eslint": "^9.0.0",
     "request": "^2.88.0",
@@ -70,7 +81,8 @@
     "vue-jest": "^4.0.0-beta.2",
     "vue-server-renderer": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.29.6"
+    "webpack": "^4.29.6",
+    "yorkie": "^2.0.0"
   },
   "devDependencies": {}
 }

@@ -1,0 +1,32 @@
+{
+  "name": "create-factor-app",
+  "version": "1.0.0-beta.6",
+  "description": "Create a Factor App in seconds.",
+  "bin": "cli.js",
+  "files": [
+    "cli.js",
+    "saofile.js",
+    "template/"
+  ],
+  "repository": {
+    "url": "git+https://github.com/fiction-com/factor/@create/create-factor-app.git",
+    "type": "git"
+  },
+  "scripts": {
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "consola": "^2.6.0",
+    "figures": "^3.0.0",
+    "lodash": "^4.17.11",
+    "sao": "^1.6.1",
+    "superb": "^4.0.0"
+  },
+  "devDependencies": {
+    "standard-version": "^7.0.0"
+  },
+  "license": "GPL-2.0",
+  "type": "module",
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
+}

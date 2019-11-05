@@ -42,7 +42,7 @@
                 <span class="category">
                   <factor-link
                     :path="`/extensions/category/${item.category}`"
-                  >{{ $utils.toLabel(item.category) }}</factor-link>
+                  >{{ toLabel(item.category) }}</factor-link>
                 </span>
               </div>
               <div>
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { toLabel } from "@factor/tools"
 import extensions from "./extensions"
 export default {
   components: {},
@@ -87,9 +88,9 @@ export default {
       selectedPkg: null
     }
   },
-  computed: {},
-  mounted() {},
+
   methods: {
+    toLabel,
     showModal(item) {
       this.selectedTheme = item.name
       this.selectedPkg = item.pkg

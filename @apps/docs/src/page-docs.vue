@@ -16,22 +16,19 @@
   </div>
 </template>
 <script>
-import docs from "./docs-handler"
+import { getMarkdownHTML, metatags } from "./docs-handler"
 export default {
   components: {
-    "page-sidebar": () => import("./sidebar"),
-    "docs-footer": () => import("./el/el-docs-footer"),
-    "docs-entry": () => import("./el/entry")
+    "page-sidebar": () => import("./sidebar.vue"),
+    "docs-footer": () => import("./el/el-docs-footer.vue"),
+    "docs-entry": () => import("./el/entry.vue")
   },
   data() {
     return {
       loading: true,
-
       activeHash: this.$route.hash,
       toggle: true,
-
-      clicked: false,
-      docs: docs(this)
+      clicked: false
     }
   },
   computed: {
@@ -39,7 +36,7 @@ export default {
       return this.$route.params.doc || ""
     },
     text() {
-      return this.docs.getMarkdownHTML(this.doc)
+      return getMarkdownHTML(this.doc)
     }
   },
   watch: {
@@ -50,7 +47,7 @@ export default {
     }
   },
   metaInfo() {
-    return this.docs.metatags(this.doc)
+    return metatags(this.doc)
   },
 
   methods: {
@@ -61,7 +58,7 @@ export default {
         this.toggle = v
       }
 
-      this.clickHandler = e => {
+      this.clickHandler = () => {
         this.toggle = false
         document.removeEventListener("click", this.clickHandler, false)
       }

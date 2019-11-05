@@ -1,0 +1,46 @@
+<template>
+  <form ref="form" class="wrap-form" autocomplete="on" @submit="checkForm($event)">
+    <slot />
+    <input ref="send" class="submit" type="submit" value="submit" />
+  </form>
+</template>
+<script>
+export default {
+  props: {
+    save: { type: Boolean, default: false },
+    watchValid: { type: Object, default: () => {} }
+  },
+  watch: {
+    save: function(v) {
+      if (v) {
+        this.$refs.send.click()
+        this.$emit("update:save", false)
+      }
+    }
+  },
+  mounted() {
+    this.$watch(
+      "watchValid",
+      function() {
+        this.$nextTick(() => {
+          this.$emit("valid", this.$refs["form"].checkValidity())
+        })
+      },
+      { deep: true, immediate: true }
+    )
+  },
+  methods: {
+    checkForm(e) {
+      e.preventDefault()
+      this.$emit("submit", e)
+    }
+  }
+}
+</script>
+<style lang="less">
+.wrap-form {
+  input[type="submit"] {
+    display: none;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!$userId" class="mast">
+  <div v-if="!isLoggedIn()" class="mast">
     <div class="cta">
       <div>
         <h1 class="title">
@@ -8,10 +8,7 @@
         </h1>
       </div>
       <div class="buttons">
-        <factor-btn
-          action="signinModal"
-          class="common-Button common-Button--default"
-        >Get Started</factor-btn>
+        <factor-btn action="signinModal" class="common-Button common-Button--default">Get Started</factor-btn>
         <factor-btn path="/contact" class="common-Button">Contact Sales</factor-btn>
       </div>
     </div>
@@ -19,7 +16,8 @@
 </template>
 
 <script>
-export default {}
+import { isLoggedIn } from "@factor/user"
+export default { methods: { isLoggedIn } }
 </script>
 
 <style lang="less">

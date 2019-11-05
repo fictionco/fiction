@@ -22,26 +22,27 @@ This doc will explain how SSR relates to Factor. However, if you'd like to under
 
 In Factor SSR, server-rendered information must first be "prefetched" on your server and then sent to the browser for hydration. The easiest way to do this with Factor is using two tools:
 
-- The `site-prefetch` filter based on Vue [serverPrefetch](https://ssr.vuejs.org/api/#serverprefetch)
+- The `site-pre-fetch` filter based on Vue [serverPrefetch](https://ssr.vuejs.org/api/#serverprefetch)
 - Factor's "store", built on top of [Vuex](https://vuex.vuejs.org/)
 
 #### Prefetch and Stores
 
-If you'd like to get information prior to server-render the easiest way to do it is to request it inside Factor's `site-prefetch` callback filter and then add this information to Factor's store.
+If you'd like to get information prior to server-render the easiest way to do it is to request it inside Factor's `site-pre-fetch` callback filter and then add this information to Factor's store.
 
 Example:
 
 ```javascript
 // index.js
+import { addCallback, stored, storeItem } from "@factor/tools"
 export default Factor => {
   return new class{
     constructor(){
 
       // This requests information and adds to Factor store
-      Factor.$filters.callback('site-prefetch', async () => {
+      addCallback('site-pre-fetch', async () => {
         const list = await this.getList()
 
-        Factor.$store.add("myList", list)
+        storeItem("myList", list)
       })
     }
   }()
@@ -53,7 +54,7 @@ export default Factor => {
 export default {
   computed: {
     myList() {
-      return this.$store.val("myList") || {}
+      return stored("myList") || {}
     }
   }
 }
@@ -152,7 +153,7 @@ export default Factor => {
     constructor() {
       // adds "this" representing the current class as the server endpoint handler
       // the endpoint ID is "myEndpoint"
-      Factor.$filters.callback("endpoints", {
+      addCallback("endpoints", {
         id: "myEndpoint",
         handler: this
       })
@@ -216,7 +217,7 @@ As an example, middleware for creating a sitemap might look like the following:
 export default Factor => {
   return new (class {
     constructor() {
-      Factor.$filters.add("middleware", middlewares => {
+      addFilter("middleware", middlewares => {
         middlewares.push({
           path: "/sitemap.xml",
           callback: async (request, response, next) => {

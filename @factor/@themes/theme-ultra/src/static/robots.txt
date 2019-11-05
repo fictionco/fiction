@@ -1,4 +1,0 @@
-Sitemap: https://www.factor.dev/sitemap.xml
-
-User-agent: * 
-Disallow: 

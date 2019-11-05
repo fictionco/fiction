@@ -5,7 +5,7 @@
       <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>
       <factor-link path="/blog">Blog</factor-link>
-      <factor-link v-if="!$userId" event="signin-modal" data-test="login">
+      <factor-link v-if="!isLoggedIn()" event="signin-modal" data-test="login">
         Sign In
         <factor-icon icon="arrow-right" />
       </factor-link>
@@ -25,10 +25,12 @@
 </template>
 
 <script>
+import { isLoggedIn } from "@factor/user"
+import { excerpt, stored } from "@factor/tools"
 export default {
   components: {
-    "site-head": () => import("./site-head"),
-    "content-footer": () => import("./site-footer")
+    "site-head": () => import("./site-head.vue"),
+    "content-footer": () => import("./site-footer.vue")
   },
 
   metaInfo() {
@@ -36,14 +38,14 @@ export default {
     return {
       title: post.titleTag || post.title,
       titleTemplate: "%s - Fiction.com",
-      description: post.description || this.$utils.excerpt(post.content),
+      description: post.description || excerpt(post.content),
       image: this.socialImage(post)
     }
   },
 
   computed: {
     post() {
-      return this.$store.getters["getItem"]("post") || {}
+      return stored("post") || {}
     },
 
     nav() {
@@ -62,6 +64,7 @@ export default {
     }
   },
   methods: {
+    isLoggedIn,
     socialImage(post) {
       return post.images && post.images.length > 0 && post.images[0].url
         ? post.images[0].url

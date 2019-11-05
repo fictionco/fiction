@@ -1,0 +1,28 @@
+{
+  "name": "@factor/plugin-storage-s3",
+  "description": "This plugin configures Factor to use AWS S3 for image storage.",
+  "version": "1.0.0-beta.9",
+  "license": "GPL-2.0",
+  "type": "module",
+  "factor": {
+    "_id": "storageS3",
+    "target": [
+      "server"
+    ],
+    "title": "Storage S3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "dependencies": {
+    "aws-sdk": "^2.504.0"
+  },
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction",
+    "webpack",
+    "vue"
+  ]
+}

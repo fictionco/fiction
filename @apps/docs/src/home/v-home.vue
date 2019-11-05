@@ -151,7 +151,7 @@
 export default {
   components: {
     "home-icon": () => import("./icon.vue"),
-    "section-benefits": () => import("./section-benefits")
+    "section-benefits": () => import("./section-benefits.vue")
   },
   data() {
     return {
