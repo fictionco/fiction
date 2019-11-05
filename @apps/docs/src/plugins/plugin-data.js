@@ -1,12 +1,15 @@
+import Factor from "vue"
 import { plugins } from "../extensions"
-import { deepMerge } from "@factor/tools"
+import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
 export default () => {
   return new (class {
-    constructor() {}
+    constructor() {
+      Factor.$filters.callback("endpoints", { id: "plugindata", handler: this })
+    }
 
-    async getIndex() {
-      const slugs = plugins //["axios", "open", "lodash"]
+    async getIndex(page = 1) {
+      const slugs = plugins
 
       const index = await Promise.all(slugs.map(async slug => this.getSingle(slug)))
 

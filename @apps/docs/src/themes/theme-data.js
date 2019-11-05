@@ -1,15 +1,15 @@
 import Factor from "vue"
-import { plugins } from "../extensions"
+import { themes } from "../themes"
 import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
 export default () => {
   return new (class {
     constructor() {
-      Factor.$filters.callback("endpoints", { id: "plugindata", handler: this })
+      Factor.$filters.callback("endpoints", { id: "themedata", handler: this })
     }
 
     async getIndex(page = 1) {
-      const slugs = plugins
+      const slugs = themes
 
       const index = await Promise.all(slugs.map(async slug => this.getSingle(slug)))
 
@@ -32,10 +32,10 @@ export default () => {
         },
         {
           _id: "githubFiles",
-          url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@plugins/${cleanSlug}`,
+          url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@themes/${cleanSlug}`,
           options: {
             headers: {
-              Authorization: `Bearer ${githubToken}`, //the token is a variable which holds the token
+              Authorization: `Bearer ${githubToken}`, //githubToken is a variable which holds the token
               "Content-Type": "application/json"
             }
           }

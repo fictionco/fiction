@@ -1,19 +1,19 @@
 <template>
-  <div class="plugins-sidebar">
+  <div class="themes-sidebar">
     <div class="sidebar-inner">
-      <section class="plugins-popular">
+      <section class="themes-popular">
         <header class="section-header">
           <h1 class="title">Popular</h1>
         </header>
         <factor-link
-          v-for="(entry, index) in pluginsPopular"
+          v-for="(entry, index) in themesPopular"
           :key="index"
-          :path="pluginPermalink(entry._id)"
-          class="entry-plugin"
+          :path="permalink(entry._id)"
+          class="entry-theme"
         >
-          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
-          </div>
+          <!-- <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
+            <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
+          </div>-->
 
           <div class="entry-content">
             <h3 class="title">{{ formatName(entry.name) }}</h3>
@@ -27,19 +27,19 @@
         </factor-link>
       </section>
 
-      <section class="plugins-new">
+      <section class="themes-new">
         <header class="section-header">
           <h1 class="title">New</h1>
         </header>
         <factor-link
-          v-for="(entry, index) in pluginsNew"
+          v-for="(entry, index) in themesNew"
           :key="index"
-          :path="pluginPermalink(entry._id)"
-          class="entry-plugin"
+          :path="permalink(entry._id)"
+          class="entry-theme"
         >
-          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
-          </div>
+          <!-- <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
+            <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
+          </div>-->
 
           <div class="entry-content">
             <h3 class="title">{{ formatName(entry.name) }}</h3>
@@ -53,19 +53,19 @@
         </factor-link>
       </section>
 
-      <section class="plugins-updated">
+      <section class="themes-updated">
         <header class="section-header">
           <h1 class="title">Recently Updated</h1>
         </header>
         <factor-link
-          v-for="(entry, index) in pluginsRecentlyUpdated"
+          v-for="(entry, index) in themesRecentlyUpdated"
           :key="index"
-          :path="pluginPermalink(entry._id)"
-          class="entry-plugin"
+          :path="permalink(entry._id)"
+          class="entry-theme"
         >
-          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
-          </div>
+          <!-- <div v-if="themeScreenshot(entry.githubFiles)" class="entry-image">
+            <img :src="themeScreenshot(entry.githubFiles)" :alt="entry.name" />
+          </div>-->
           <div class="entry-content">
             <h3 class="title">{{ formatName(entry.name) }}</h3>
             <div class="meta">
@@ -86,21 +86,21 @@ export default {
     getData: { type: Array, required: true }
   },
   computed: {
-    pluginsPopular: function() {
+    themesPopular: function() {
       let getPopular = [].slice.call(this.getData).sort(function(a, b) {
         return b.downloads - a.downloads
       })
 
       return getPopular.slice(0, 4)
     },
-    pluginsNew: function() {
+    themesNew: function() {
       let getNew = [].slice.call(this.getData).sort(function(a, b) {
         return new Date(b.time.created) - new Date(a.time.created)
       })
 
       return getNew.slice(0, 4)
     },
-    pluginsRecentlyUpdated: function() {
+    themesRecentlyUpdated: function() {
       let getRecentlyUpdated = [].slice.call(this.getData).sort(function(a, b) {
         return new Date(b.time.modified) - new Date(a.time.modified)
       })
@@ -110,11 +110,11 @@ export default {
   },
   methods: {
     formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
+      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
       return spacedName.replace("@factor/", "")
     },
-    pluginPermalink(permalink) {
-      return `/plugin/` + permalink.replace("@factor/", "")
+    permalink(permalink) {
+      return `/theme/` + permalink.replace("@factor/", "")
     },
     formatDownloads(number) {
       let num = number
@@ -136,8 +136,8 @@ export default {
 
       return dt + " " + month + " " + year
     },
-    pluginIcon(entry) {
-      const imageName = `icon.svg`
+    themeScreenshot(entry) {
+      const imageName = `screenshot.jpg`
 
       let images = []
 
@@ -156,8 +156,8 @@ export default {
 </script>
 
 <style lang="less">
-// Plugins Sidebar
-.plugins-sidebar {
+// Themes Sidebar
+.themes-sidebar {
   padding: 0;
 
   .section-header {
@@ -174,22 +174,22 @@ export default {
     }
   }
 
-  // POPULAR, NEW, AND RECENTLY UPDATED PLUGINS
-  .plugins-popular .section-header {
+  // POPULAR, NEW, AND RECENTLY UPDATED THEMES
+  .themes-popular .section-header {
     margin: 0 0 1rem;
   }
 
-  .plugins-new,
-  .plugins-updated {
+  .themes-new,
+  .themes-updated {
     .section-header {
       margin: 2rem 0 1rem;
     }
   }
 
-  .plugins-popular,
-  .plugins-new,
-  .plugins-updated {
-    .entry-plugin {
+  .themes-popular,
+  .themes-new,
+  .themes-updated {
+    .entry-theme {
       display: grid;
       grid-template-columns: auto 3fr;
       grid-gap: 1rem;

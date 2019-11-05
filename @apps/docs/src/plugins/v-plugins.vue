@@ -10,6 +10,7 @@
     </div>
     <div v-else class="plugins-wrap content-pad">
       <div class="content">
+        <!-- {{ getData }} -->
         <section v-if="pluginsFeatured.length > 0" class="plugins-featured">
           <header class="section-header">
             <h1 class="title">Featured</h1>
@@ -47,7 +48,7 @@
             </factor-link>
           </div>
         </section>
-        <!-- 
+        <!--
           Plugins Categories and Search
           <div class="plugins-search-wrap">
           <factor-input-wrap
@@ -143,9 +144,11 @@ export default {
     }
   },
   async mounted() {
-    this.loading = true
+    let data = this.$store.val("plugins-index")
 
-    const data = stored("plugins-index")
+    if (!data) {
+      data = await this.$endpoint.request({ id: "plugindata", method: "getIndex" })
+    }
 
     this.getData = data
 
@@ -173,8 +176,11 @@ export default {
         images = entry
           .filter(image => !!image.path.match(imageName))
           .map(image => {
-            return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
           })
+        // .map(image => {
+        //   return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
+        // })
       }
 
       return images[0]

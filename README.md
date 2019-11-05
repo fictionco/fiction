@@ -5,8 +5,6 @@
 </a>
 </p>
 
-> Status: Currently working on quality and stability. Public beta arrives with 80%+ testing coverage. 
-
 <p>
   <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>  
   <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/master" alt="Coverage Status"></a>
@@ -23,6 +21,36 @@
  </p>
 
 _An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
+
+
+## Status: Private Beta (_Public Beta arrives with 80% coverage_)
+
+We have achieved all architectural goals and features planned:
+
+- Dashboard / Auth
+  - [x] Simple post/page management w Markdown editing
+  - [x] User management w  JWT Based Auth
+
+- Framework
+  - [x] Minimal extension API (themes and plugins)
+  - [x] CLI + Routes + Store + SSR + Endpoints
+  - [x] Single collection data model
+  
+- Key Extensions 
+  - [x] Forms
+  - [x] S3 Images
+  - [x] 3 Themes
+  - [x] Other tools (Analytics, Bugsnag, Slack)
+
+- Quality... Now it's time to work on long-term stability:
+
+  - [ ] Excellent testing code coverage with Jest + Cypress
+  - [ ] Refactor for simple testing 
+  - [ ] Validation and community feedback (starts with all tests passing @ 80%+ coverage)
+
+This is an GPL project. If you're interested in contribution, please just add your email at [Factor.dev](https://factor.dev).
+
+--
 
 **Try out the famous 3-minute setup: `npx create-factor-app`**
 

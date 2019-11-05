@@ -1,11 +1,11 @@
 <template>
-  <div class="plugins-container-single">
+  <div class="themes-container-single">
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else>
-      <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="pluginIcon(entry.githubFiles)" :title="formatName(entry.name)">
+      <section v-for="(entry, index) in themeData" :key="index">
+        <widget-header :image="themeIcon(entry.githubFiles)" :title="formatName(entry.name)">
           <div slot="subtitle">
             <div v-if="entry.maintainers" class="authors">
               by
@@ -23,37 +23,48 @@
           </div>
         </widget-header>
 
-        <div class="plugins-wrap content-pad">
+        <div class="themes-wrap content-pad">
           <div class="content">
-            <factor-link class="back" :path="`/plugins`">
-              <factor-icon icon="arrow-left" />
-              <span>All Plugins</span>
-            </factor-link>
-
             <widget-lightbox
               :visible.sync="lightboxShow"
               :imgs="screenshotsList(entry.githubFiles)"
               :index="lightboxIndex"
             />
 
-            <div v-if="entry.githubFiles" class="plugin-images">
+            <div v-if="entry.githubFiles" class="theme-images">
               <div
                 v-for="(url, i) in screenshotsList(entry.githubFiles)"
                 :key="i"
                 class="image-item"
               >
-                <div
+                <img :src="url" class="image-item-content" @click="showModal(i)" />
+                <!-- <div
                   :style="{ backgroundImage: `url(${url})` }"
                   class="image-item-content"
                   @click="showModal(i)"
-                ></div>
+                ></div>-->
               </div>
             </div>
 
-            <plugin-entry :text="getContent(entry.readme)" class="plugin-content" />
+            <factor-link btn="primary" path="/">Live Demo &rarr;</factor-link>
+
+            <theme-entry :text="getContent(entry.readme)" class="theme-content" />
           </div>
 
-          <widget-sidebar :get-data="getData" />
+          <div>
+            <!-- <pre>
+            {{ entry.versions }}
+            </pre>-->
+            Latest Version:
+            <br />
+            updated {{ formatDate(entry.time.modified) }}
+            <br />
+            released {{ formatDate(entry.time.created) }}
+            <br />
+            <br />More theme details will go here
+          </div>
+
+          <!-- <widget-sidebar :get-data="getData" /> -->
         </div>
       </section>
     </div>
@@ -62,15 +73,14 @@
   </div>
 </template>
 <script>
-import { setting, storeItem, renderMarkdown, pickBy } from "@factor/tools"
-import dataUtility from "./plugin-data"
+import dataUtility from "./theme-data"
 export default {
   components: {
-    "widget-header": () => import("./widget-header.vue"),
-    "widget-sidebar": () => import("./widget-sidebar.vue"),
-    "widget-lightbox": () => import("./widget-lightbox.vue"),
-    "plugin-entry": () => import("../el/entry.vue"),
-    "widget-cta": () => import("./widget-cta.vue")
+    "widget-header": () => import("./widget-header"),
+    // "widget-sidebar": () => import("./widget-sidebar"),
+    "widget-lightbox": () => import("../el/el-lightbox"),
+    "theme-entry": () => import("../el/entry"),
+    "widget-cta": () => import("./widget-cta")
   },
   data() {
     return {
@@ -83,31 +93,33 @@ export default {
   async serverPrefetch() {
     const data = await dataUtility().getIndex()
 
-    storeItem("plugins-index", data)
+    this.$store.add("themes-index", data)
   },
   computed: {
-    pluginData: function() {
+    themeData: function() {
       let pageSlug = this.$route.params.slug
-      return pickBy(this.getData, function(u) {
+      return _.pickBy(this.getData, function(u) {
         let name = u.name.replace("@factor/", "")
         return name === pageSlug || ""
       })
     }
   },
   async mounted() {
-    let data = this.$store.val("plugins-index")
+    const data = this.$store.val("themes-index")
 
     if (!data) {
-      data = await this.$endpoint.request({ id: "plugindata", method: "getIndex" })
+      data = await this.$endpoint.request({ id: "themedata", method: "getIndex" })
     }
 
     this.getData = data
 
+    require("../prism/prism.js")
+    this.prism = window.Prism
+
     this.loading = false
   },
   methods: {
-    setting,
-    pluginIcon(entry) {
+    themeIcon(entry) {
       const imageName = `icon.svg`
 
       let images = []
@@ -123,13 +135,29 @@ export default {
       return images[0]
     },
     formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
+      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
 
       return spacedName.replace("@factor/", "")
     },
     formatDownloads(number) {
       let num = number
       return num.toLocaleString("en", { useGrouping: true })
+    },
+    formatDate(value) {
+      let date = new Date(value)
+
+      let year = date.getFullYear()
+      let month = date.toLocaleString("default", { month: "short" })
+      let dt = date.getDate()
+
+      if (dt < 10) {
+        dt = "0" + dt
+      }
+      if (month < 10) {
+        month = "0" + month
+      }
+
+      return dt + " " + month + " " + year
     },
     screenshotsList(list) {
       const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
@@ -156,12 +184,14 @@ export default {
     getContent(value) {
       let markdownContent = value
 
-      return markdownContent ? renderMarkdown(markdownContent, { variables: true }) : ""
+      return markdownContent
+        ? this.$markdown.render(markdownContent, { variables: true })
+        : ""
     }
   },
   metaInfo() {
     return {
-      title: "Factor Plugin Library",
+      title: "Factor Theme Directory",
       description: "Extend your project features and do more with Factor."
       //image: this.$post.shareImage(this.entry._id)
     }
@@ -172,7 +202,7 @@ export default {
 <style lang="less">
 @import "../prism/prism.less";
 
-.plugins-container-single {
+.themes-container-single {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
@@ -186,7 +216,7 @@ export default {
     position: relative;
   }
 
-  .plugins-wrap {
+  .themes-wrap {
     display: grid;
     grid-template-columns: 7fr 3fr;
     grid-gap: 6rem;
@@ -197,36 +227,26 @@ export default {
     }
   }
 
-  .plugins-widget-header {
+  .themes-widget-header {
     .content-pad {
       grid-template-columns: 1fr;
     }
     .header-content {
-      display: grid;
-      grid-template-columns: 75px 3fr;
-      grid-gap: 2rem;
-      align-items: center;
-
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        grid-gap: 1rem;
-      }
-
-      .header-image {
-        display: flex;
-        justify-content: center;
-        width: 75px;
-        height: 75px;
-        border-radius: 50%;
-        overflow: hidden;
-        background: var(--color-bg-contrast);
-        border: 1px solid var(--color-bg-contrast-more);
-        box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
-        img {
-          width: 100%;
-          max-width: 100%;
-        }
-      }
+      // .header-image {
+      //   display: flex;
+      //   justify-content: center;
+      //   width: 75px;
+      //   height: 75px;
+      //   border-radius: 50%;
+      //   overflow: hidden;
+      //   background: var(--color-bg-contrast);
+      //   border: 1px solid var(--color-bg-contrast-more);
+      //   box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.3);
+      //   img {
+      //     width: 100%;
+      //     max-width: 100%;
+      //   }
+      // }
 
       .page-title-sub .authors,
       .page-title-sub .categories {
@@ -266,16 +286,16 @@ export default {
       margin-bottom: 1.5rem;
     }
 
-    .plugin-images {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 160px));
-      grid-gap: 1rem;
+    .theme-images {
+      // display: grid;
+      // grid-template-columns: repeat(auto-fit, minmax(100px, 130px));
+      // grid-gap: 1rem;
       margin-bottom: 1.5rem;
       .image-item {
         cursor: pointer;
         .image-item-content {
           width: 100%;
-          padding: 50% 0;
+          //padding: 50% 0;
           position: relative;
           background-size: cover;
           background-position: 50%;
