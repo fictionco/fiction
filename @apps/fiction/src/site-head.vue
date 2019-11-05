@@ -18,12 +18,13 @@
           <site-logo />
         </factor-link>
         <slot />
-        <plugin-signin-profile-menu v-if="$userId" />
+        <plugin-signin-profile-menu v-if="userId()" />
       </div>
     </div>
   </div>
 </template>
 <script>
+import { userId } from "@factor/user"
 export default {
   components: {
     "site-logo": () => import("./logo.vue")
@@ -34,6 +35,7 @@ export default {
     }
   },
   methods: {
+    userId,
     toggleNav(v) {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle

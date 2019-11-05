@@ -78,19 +78,6 @@ export function isEmailVerified() {
   return currentUser().emailVerified ? true : false
 }
 
-function addMixin() {
-  Factor.mixin({
-    computed: {
-      $currentUser() {
-        return stored("currentUser") || {}
-      },
-      $userId() {
-        return this.$currentUser && this.$currentUser._id ? this.$currentUser._id : ""
-      }
-    }
-  })
-}
-
 async function sendUserRequest(method, params) {
   return await endpointRequest({ id: "user", method, params })
 }
@@ -180,7 +167,7 @@ export function userToken(token) {
 // Needs improvement for more fine grained control
 export function userCan({ role, accessLevel }) {
   const userAccessLevel = currentUser().accessLevel
-  const roleAccessLevel = role ? Factor.$userRoles.roles()[role] : 1000
+  const roleAccessLevel = role ? roles()[role] : 1000
   if (accessLevel && userAccessLevel >= accessLevel) {
     return true
   } else if (role && userAccessLevel >= roleAccessLevel) {

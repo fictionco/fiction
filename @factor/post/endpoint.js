@@ -2,7 +2,7 @@ import Factor from "@factor/core"
 import { canUpdatePost } from "./util"
 import { getModel } from "./server"
 import { addCallback } from "@factor/tools"
-
+import { decodeToken } from "@factor/user/server"
 export class PostServer {
   constructor() {
     addCallback("endpoints", { id: "posts", handler: this })
@@ -46,7 +46,7 @@ export class PostServer {
     let Model = getModel(postType)
 
     if (token) {
-      const decoded = Factor.$userServer.decodeToken(token)
+      const decoded = decodeToken(token)
       _id = decoded._id
     }
 

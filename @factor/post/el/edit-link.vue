@@ -12,7 +12,7 @@
 
 <script>
 import { stored, getPostTypeConfig } from "@factor/tools"
-
+import { userId, currentUser } from "@factor/user"
 export default {
   props: {
     postId: { type: String, default: "" }
@@ -32,11 +32,11 @@ export default {
       return this.post && this.post.author ? this.post.author : []
     },
     accessLevel() {
-      const { accessLevel } = this.$currentUser
+      const { accessLevel } = currentUser()
       return accessLevel || 0
     },
     canEdit() {
-      return this.accessLevel > 100 || this.author.includes(this.$userId)
+      return this.accessLevel > 100 || this.author.includes(userId())
     }
   },
   mounted() {}

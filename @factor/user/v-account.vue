@@ -2,7 +2,7 @@
   <edit-user :post="post" />
 </template>
 <script>
-import { userInitialized } from "@factor/user"
+import { userInitialized, userId } from "@factor/user"
 import { stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 export default {
@@ -12,7 +12,7 @@ export default {
 
   computed: {
     post() {
-      return stored(this.$userId) || {}
+      return stored(userId()) || {}
     }
   },
 
