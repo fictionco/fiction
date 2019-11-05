@@ -58,11 +58,6 @@ export default {
   mounted() {},
 
   methods: {
-    async doRequest(_id) {
-      await this.$user.load(_id)
-
-      this.loading = false
-    },
     getStyle(more = {}) {
       const width = this.width
       return { width, height: width, ...more }

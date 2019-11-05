@@ -15,6 +15,7 @@ import {
 import "./hooks-universal"
 import Factor from "@factor/core"
 import { appMounted } from "@factor/app"
+export * from "./email-request"
 
 addFilter("before-app", () => {
   addMixin()
@@ -59,6 +60,10 @@ async function requestInitializeUser(user) {
 
 export function isCurrentUser(_id) {
   return currentUser()._id == _id ? true : false
+}
+
+export function userId() {
+  return currentUser() && currentUser()._id ? currentUser()._id : ""
 }
 
 export function currentUser() {
@@ -154,15 +159,6 @@ function setUser({ user, token, current = false }) {
   }
 
   storeItem(_id, user)
-}
-
-export function _id() {
-  return currentUser() && currentUser()._id ? currentUser()._id : ""
-}
-
-export function _item(key) {
-  const user = currentUser()
-  return user[key]
 }
 
 export function userToken(token) {

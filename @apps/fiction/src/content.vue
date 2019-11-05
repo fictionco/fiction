@@ -5,7 +5,7 @@
       <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>
       <factor-link path="/blog">Blog</factor-link>
-      <factor-link v-if="!$userId" event="signin-modal" data-test="login">
+      <factor-link v-if="!isLoggedIn()" event="signin-modal" data-test="login">
         Sign In
         <factor-icon icon="arrow-right" />
       </factor-link>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { isLoggedIn } from "@factor/user"
 import { excerpt, stored } from "@factor/tools"
 export default {
   components: {
@@ -63,6 +64,7 @@ export default {
     }
   },
   methods: {
+    isLoggedIn,
     socialImage(post) {
       return post.images && post.images.length > 0 && post.images[0].url
         ? post.images[0].url

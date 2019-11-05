@@ -103,7 +103,7 @@ export default {
       }
     },
     setToggle() {
-      if (!this.$userId) {
+      if (!isLoggedIn()) {
         emitEvent("signin-modal")
         return ""
       }

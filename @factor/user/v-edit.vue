@@ -2,7 +2,7 @@
   <dashboard-page>
     <div class="user-dashboard-post-grid">
       <div class="content-column">
-        <dashboard-pane :title="_id == $userId ? 'Your Account' : 'Edit User'" class="compose">
+        <dashboard-pane :title="_id == userId() ? 'Your Account' : 'Edit User'" class="compose">
           <dashboard-input
             v-model="post.displayName"
             input="factor-input-text"
@@ -110,6 +110,7 @@
   </dashboard-page>
 </template>
 <script>
+import { userId, sendVerifyEmail } from "@factor/user"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 export default {
@@ -134,7 +135,7 @@ export default {
       return this.post.profile || {}
     },
     _id() {
-      return this.$route.query._id || this.$userId
+      return this.$route.query._id || userId()
     },
     url() {
       return this.post.username ? `/@${this.post.username}` : `/@?_id=${this.post._id}`
@@ -146,7 +147,7 @@ export default {
     standardDate,
     async sendVerifyEmail() {
       this.sending = true
-      await this.$userEmails.sendVerifyEmail({
+      await sendVerifyEmail({
         email: this.post.email,
         _id: this.post._id
       })
