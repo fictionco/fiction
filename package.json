@@ -35,7 +35,7 @@
     "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
-  "gitHooks": {
+  "__gitHooks": {
     "pre-commit": "yarn test:lint && yarn test:unit",
     "commit-msg": "node scripts/verify-commit.js"
   },
