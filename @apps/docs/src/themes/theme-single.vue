@@ -73,14 +73,15 @@
   </div>
 </template>
 <script>
-import dataUtility from "./theme-data"
+import { pickBy } from "@factor/tools"
+import { getIndex } from "./theme-data"
 export default {
   components: {
-    "widget-header": () => import("./widget-header"),
-    // "widget-sidebar": () => import("./widget-sidebar"),
-    "widget-lightbox": () => import("../el/el-lightbox"),
-    "theme-entry": () => import("../el/entry"),
-    "widget-cta": () => import("./widget-cta")
+    "widget-header": () => import("./widget-header.vue"),
+    // "widget-sidebar": () => import("./widget-sidebar.vue"),
+    "widget-lightbox": () => import("../el/el-lightbox.vue"),
+    "theme-entry": () => import("../el/entry.vue"),
+    "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {
@@ -91,21 +92,21 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await dataUtility().getIndex()
+    const data = await getIndex()
 
     this.$store.add("themes-index", data)
   },
   computed: {
     themeData: function() {
       let pageSlug = this.$route.params.slug
-      return _.pickBy(this.getData, function(u) {
+      return pickBy(this.getData, function(u) {
         let name = u.name.replace("@factor/", "")
         return name === pageSlug || ""
       })
     }
   },
   async mounted() {
-    const data = this.$store.val("themes-index")
+    let data = this.$store.val("themes-index")
 
     if (!data) {
       data = await this.$endpoint.request({ id: "themedata", method: "getIndex" })
@@ -135,7 +136,7 @@ export default {
       return images[0]
     },
     formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
 
       return spacedName.replace("@factor/", "")
     },

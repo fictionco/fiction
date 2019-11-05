@@ -45,7 +45,7 @@
             </article>
           </div>
         </section>
-        <!-- 
+        <!--
           themes Categories and Search
           <div class="themes-search-wrap">
           <factor-input-wrap
@@ -108,14 +108,14 @@
 </template>
 
 <script>
-import dataUtility from "./theme-data"
-import themes from "../themes"
+import { getIndex } from "./theme-data"
+import { orderBy } from "@factor/tools"
 export default {
   components: {
-    "widget-header": () => import("./widget-header"),
+    "widget-header": () => import("./widget-header.vue"),
     //"figure-themes": () => import("./figure-themes"),
-    "widget-sidebar": () => import("./widget-sidebar"),
-    "widget-cta": () => import("./widget-cta")
+    "widget-sidebar": () => import("./widget-sidebar.vue"),
+    "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {
@@ -124,7 +124,7 @@ export default {
     }
   },
   async serverPrefetch() {
-    const data = await dataUtility().getIndex()
+    const data = await getIndex()
 
     this.$store.add("themes-index", data)
   },
@@ -140,7 +140,7 @@ export default {
       //   )
       // })
 
-      let orderFeatured = _.orderBy(getFeatured, ["downloads"], ["desc"])
+      let orderFeatured = orderBy(getFeatured, ["downloads"], ["desc"])
 
       return Object.values(orderFeatured).slice(0, 2) //limit to 2 posts
     }
@@ -158,7 +158,7 @@ export default {
   },
   methods: {
     formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-\_\.])/g, " ")
+      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
 
       return spacedName.replace("@factor/", "")
     },
