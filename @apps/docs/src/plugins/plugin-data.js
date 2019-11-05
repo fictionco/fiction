@@ -1,7 +1,7 @@
 import { plugins } from "../extensions"
 import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
-import { addCallback } from "@factor/tools"
+import { addCallback, storeItem, log } from "@factor/tools"
 
 addCallback("endpoints", { id: "pluginData", handler: { getIndex, getSingle } })
 
@@ -10,12 +10,12 @@ export async function getIndex() {
 
   const index = await Promise.all(slugs.map(async slug => getSingle(slug)))
 
+  storeItem("plugins-index", index)
+
   return index
 }
 
 export async function getSingle(slug) {
-  let githubToken = process.env.GITHUB_TOKEN
-
   let cleanSlug = slug.replace("@factor/", "")
 
   const requests = [
@@ -26,8 +26,13 @@ export async function getSingle(slug) {
     {
       _id: "npmDownloads",
       url: `https://api.npmjs.org/downloads/point/last-month/${slug}`
-    },
-    {
+    }
+  ]
+
+  let githubToken = process.env.GITHUB_TOKEN
+
+  if (githubToken) {
+    requests.push({
       _id: "githubFiles",
       url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@plugins/${cleanSlug}`,
       options: {
@@ -36,8 +41,10 @@ export async function getSingle(slug) {
           "Content-Type": "application/json"
         }
       }
-    }
-  ]
+    })
+  } else {
+    log.warn("No Github API token")
+  }
 
   const results = await Promise.all(
     requests.map(async ({ url, options = {} }) => {
