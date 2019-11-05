@@ -11,3 +11,8 @@ export function stored(key) {
 export function getStoreState() {
   return Factor.$store.state
 }
+
+export function addRoutes(routeConfig) {
+  console.log("add routes")
+  return Factor.$router.addRoutes(routeConfig)
+}

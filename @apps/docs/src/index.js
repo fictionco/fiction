@@ -1,6 +1,5 @@
 import "./plugins/plugin-data"
-import { addFilter, setting } from "@factor/tools"
-import Factor from "@factor/core"
+import { addFilter, setting, addRoutes } from "@factor/tools"
 
 // Register doc routes for sitemap
 addFilter("after-first-server-extend", () => {
@@ -15,7 +14,7 @@ addFilter("after-first-server-extend", () => {
     .filter(_ => _)
 
   // Add canonical routes (sitemaps, etc)
-  Factor.$router.addRoutes(canonical)
+  addRoutes(canonical)
 })
 
 addFilter("page-templates", _ => {

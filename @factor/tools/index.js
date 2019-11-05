@@ -12,6 +12,10 @@ export * from "./html"
 export * from "./metatags"
 export * from "./permalink"
 export * from "./post-types"
+
+export * from "@factor/app/router"
+export * from "@factor/app/store"
+
 export { default as log } from "./logger"
 
 export * from "@factor/tools/paths" // @factor = allow overrides
