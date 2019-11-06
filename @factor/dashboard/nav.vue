@@ -98,6 +98,7 @@ export default {
     // Wait for user, and if logged out don't initialize
     // Initializing a logged out user causes problems with signin redirects
     const user = await userInitialized()
+
     if (user._id) this.initializeMenu()
   },
   methods: {
@@ -107,10 +108,6 @@ export default {
       if (userCan({ role: "admin" })) {
         this.$set(this.menus, "admin", [])
       }
-
-      // const {
-      //   meta: { format = "dashboard" }
-      // } = this.$route.matched.find(_ => _.meta.format) || {}
 
       Object.keys(this.menus).forEach(format => {
         this.menus[format] = applyFilters(`${format}-menu`, []).map(_ => {
@@ -172,15 +169,6 @@ export default {
         width: 16px;
         display: block;
       }
-      // position: absolute;
-      // left: 6px;
-      // top: 6px;
-      // opacity: 0.8;
-
-      // @media (max-width: 960px) {
-      //   width: 22px;
-      //   top: 10px;
-      // }
     }
     .primary-item {
       grid-area: primary;

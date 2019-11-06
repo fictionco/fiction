@@ -1,5 +1,6 @@
-import { requestPostSingle } from "@factor/post"
 import { endpointRequest } from "@factor/endpoint"
+import { requestPostSingle } from "@factor/post"
+
 import {
   isEmpty,
   isNode,
@@ -13,6 +14,7 @@ import {
 } from "@factor/tools"
 
 import "./hooks-universal"
+import "./edit-account"
 import Factor from "@factor/core"
 import { appMounted } from "@factor/app"
 export * from "./email-request"
