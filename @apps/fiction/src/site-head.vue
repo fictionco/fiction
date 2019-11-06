@@ -18,7 +18,7 @@
           <site-logo />
         </factor-link>
         <slot />
-        <plugin-signin-profile-menu v-if="userId()" />
+        <account-menu v-if="userId()" />
       </div>
     </div>
   </div>
@@ -242,7 +242,7 @@ export default {
         color: #ff0076;
       }
     }
-    .profile-menu {
+    .account-menu {
       margin-left: 1em;
       // .avatar {
       //   background-color: rgba(38, 67, 89, 0.06);

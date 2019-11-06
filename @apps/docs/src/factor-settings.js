@@ -193,25 +193,17 @@ export default {
         target: "_blank"
       },
       {
-        event: "signin-modal",
+        event: "sign-in-modal",
         name: "Sign In &rarr;",
         condition: () => !isLoggedIn()
       },
       {
-        component: () => Factor.$components["plugin-signin-profile-menu"],
+        component: () => Factor.$components["account-menu"],
         condition: () => isLoggedIn()
       }
     ]
   },
   plugins: {
-    // indexRoute: "/pluginsnew",
-    // postRoute: "/plugin",
-    // returnLinkText: "All Plugins",
-    // layout: {
-    //   wrap: () => import("./plugins/plugins-wrap"),
-    //   index: () => import("./plugins/v-plugins.vue"),
-    //   single: () => import("./plugins/plugins-single.vue")
-    // },
     cta: {
       title: "Create and Submit Your Plugin",
       subtitle:

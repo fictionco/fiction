@@ -1,7 +1,7 @@
 import Factor from "@factor/core"
 
 import { extendApp } from "./extend-app"
-import { createStore } from "@factor/app/store"
+import { getStore } from "@factor/app/store"
 import { createRouter } from "@factor/app/router"
 import { emitEvent, runCallbacks, setting } from "@factor/tools"
 
@@ -14,7 +14,7 @@ export async function createApp(options = {}) {
 
   if (extend) await extendApp()
 
-  const store = createStore()
+  const store = getStore()
   const router = await createRouter()
 
   // Extend with mixin, etc... happens after router and store

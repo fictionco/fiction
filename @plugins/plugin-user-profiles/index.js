@@ -20,7 +20,7 @@ addFilter("content-routes-unmatched", _ => {
 // })
 
 addFilter(
-  "profile-menu",
+  "account-menu",
   _ => {
     _.unshift({
       items: [

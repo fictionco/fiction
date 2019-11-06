@@ -4,7 +4,7 @@
       <div class="four04">
         <div class="pad">
           <div class="title">Not Found (404)</div>
-          <factor-link path="/dashboard" btn="primary">Go to Dashboard</factor-link>
+          <factor-link path="/dashboard">Go to Dashboard &rarr;</factor-link>
         </div>
       </div>
     </dashboard-pane>
@@ -27,7 +27,7 @@ export default {
 
   .title {
     font-size: 2em;
-    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.03em;
     margin-bottom: 1em;
   }
 }

@@ -2,7 +2,7 @@ import { emitEvent, addCallback } from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
 
 addCallback("route-query-action-verify-email", _ => verifyEmail(_))
-addCallback("route-query-action-reset-password", _ => showResetPassword(_))
+addCallback("route-query-action-reset-password", () => showResetPassword())
 
 export async function sendUserEmailRequest(method, params) {
   return await endpointRequest({ id: "user-emails", method, params })
@@ -28,8 +28,8 @@ export async function verifyEmail({ _id, code }) {
 }
 
 export async function showResetPassword() {
-  addCallback("signin-modal-loaded", () => {
-    emitEvent("signin-modal")
+  addCallback("sign-in-modal-loaded", () => {
+    emitEvent("sign-in-modal")
   })
 }
 

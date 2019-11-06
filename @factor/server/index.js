@@ -8,13 +8,7 @@ import LRU from "lru-cache"
 import { createBundleRenderer } from "vue-server-renderer"
 
 import "./server-dev"
-import {
-  handleServerError,
-  getPort,
-  getServerInfo,
-  logServerReady,
-  logServerRestart
-} from "./util"
+import { handleServerError, getPort, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 
 let PORT

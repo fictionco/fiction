@@ -17,15 +17,15 @@ import Factor from "@factor/core"
 import { appMounted } from "@factor/app"
 export * from "./email-request"
 
+let _initializedUser
+
 addFilter("before-app", () => {
   // Authentication events only work after SSR
   if (!isNode) {
-    requestInitializeUser()
+    _initializedUser = requestInitializeUser()
     handleAuthRouting()
   }
 })
-
-let _initializedUser
 
 // Utility function that calls a callback when the user is set initially
 // If due to route change then initialized var is set and its called immediately
@@ -38,22 +38,42 @@ export async function userInitialized(callback) {
 }
 
 async function requestInitializeUser(user) {
-  _initializedUser = async resolve => {
-    let resolvedUser
-    if (currentUser()._id && !user) {
-      resolvedUser = currentUser()
-    } else {
-      await appMounted()
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    try {
+      let resolvedUser
 
-      resolvedUser = await retrieveAndSetCurrentUser(user)
+      if (currentUser()._id && !user) {
+        resolvedUser = currentUser()
+      } else {
+        await appMounted()
+
+        resolvedUser = await retrieveAndSetCurrentUser(user)
+      }
+
+      await runCallbacks("before-user-init", resolvedUser)
+
+      resolve(resolvedUser)
+    } catch (error) {
+      reject(error)
     }
+  })
+}
 
-    await runCallbacks("before-user-init", resolvedUser)
+async function retrieveAndSetCurrentUser(user) {
+  const token = user && user.token ? user.token : (userToken() ? userToken() : null)
 
-    resolve(resolvedUser)
+  try {
+    user = token ? await requestPostSingle({ token }) : {}
+
+    setUser({ user, token, current: true })
+
+    return user
+  } catch (error) {
+    if (!handleTokenError(error)) {
+      log.error(error)
+    }
   }
-
-  return _initializedUser
 }
 
 export function isCurrentUser(_id) {
@@ -85,8 +105,8 @@ export async function authenticate(params) {
 
   await runCallbacks("authenticated", user)
 
-  if (user) {
-    user = await requestInitializeUser(user)
+  if (user && user.token) {
+    setUser({ user, token: user.token, current: true })
   }
 
   return user
@@ -111,22 +131,6 @@ export async function sendPasswordReset({ email }) {
 
 export async function sendEmailVerification({ email }) {
   return await sendUserRequest("verifyEmail", { email })
-}
-
-async function retrieveAndSetCurrentUser(user) {
-  const token = user && user.token ? user.token : (userToken() ? userToken() : null)
-
-  try {
-    user = token ? await requestPostSingle({ token }) : {}
-
-    setUser({ user, token, current: true })
-
-    return user
-  } catch (error) {
-    if (!handleTokenError(error)) {
-      log.error(error)
-    }
-  }
 }
 
 function setUser({ user, token, current = false }) {
@@ -201,7 +205,7 @@ function handleAuthRouting() {
     })
 
     if (auth === true && !user._id) {
-      emitEvent("signin-modal", { redirect: toPath })
+      emitEvent("sign-in-modal", { redirect: toPath })
       next(false)
     }
   })

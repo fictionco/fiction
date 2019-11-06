@@ -1,8 +1,8 @@
 <template>
-  <div class="profile-menu">
+  <div class="account-menu">
     <span
-      class="profile-menu-toggle"
-      data-test="profile-menu-toggle"
+      class="account-menu-toggle"
+      data-test="account-menu-toggle"
       :class="toggle ? 'active' : 'inactive'"
       @click.stop="setToggle($event)"
     >
@@ -10,7 +10,7 @@
       <factor-avatar width="1.75em" :post-id="currentUser.avatar" />
     </span>
     <transition name="leftfade">
-      <div v-if="toggle" class="profile-menu-nav" @click.stop>
+      <div v-if="toggle" class="account-menu-nav" @click.stop>
         <div class="nav-pad">
           <div class="user-basics">
             <factor-avatar v-if="isLoggedIn()" :post-id="currentUser.avatar" width="2.5em" />
@@ -22,8 +22,8 @@
             </div>
           </div>
 
-          <div class="profile-nav-items">
-            <div v-for="(group, groupIndex) in profileMenu" :key="groupIndex" class="list-group">
+          <div class="account-nav-items">
+            <div v-for="(group, groupIndex) in accountMenu" :key="groupIndex" class="list-group">
               <div v-if="group.title" class="list-group-title">{{ group.title }}</div>
 
               <factor-link
@@ -31,7 +31,7 @@
                 :key="i"
                 :path="item.path"
                 :query="item.query"
-                :data-test="`profile-nav-${item.key}`"
+                :data-test="`account-nav-${item.key}`"
                 @click="itemClick(item)"
               >{{ item.name }}</factor-link>
             </div>
@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       toggle: false,
-      profileMenu: []
+      accountMenu: []
     }
   },
   computed: {
@@ -63,7 +63,7 @@ export default {
     }
   },
   created() {
-    const menuStructure = applyFilters("profile-menu", [
+    const menuStructure = applyFilters("account-menu", [
       {
         items: [
           {
@@ -79,7 +79,7 @@ export default {
       }
     ])
 
-    this.$set(this, "profileMenu", menuStructure)
+    this.$set(this, "accountMenu", menuStructure)
   },
   mounted() {
     onEvent("reset-ui", () => {
@@ -104,7 +104,7 @@ export default {
     },
     setToggle() {
       if (!isLoggedIn()) {
-        emitEvent("signin-modal")
+        emitEvent("sign-in-modal")
         return ""
       }
 
@@ -120,7 +120,7 @@ export default {
 }
 </script>
 <style lang="less">
-.profile-menu-toggle {
+.account-menu-toggle {
   display: flex;
   align-items: center;
   color: inherit;
@@ -159,10 +159,10 @@ export default {
   }
 }
 
-.profile-menu {
+.account-menu {
   position: relative;
 }
-.profile-menu-nav {
+.account-menu-nav {
   position: absolute;
   right: -5px;
   top: 120%;
@@ -223,7 +223,7 @@ export default {
   }
 }
 @media screen and (max-width: 767px) {
-  .profile-menu-nav {
+  .account-menu-nav {
     border-radius: 0;
     width: 100%;
     right: 0;
