@@ -49,8 +49,8 @@ export function logServerReady() {
 }
 
 export function logServerRestart() {
-  const { arrowRight, arrowDown } = figures
-  log.log(chalk.cyan(`${arrowDown}${arrowRight}`) + chalk.dim(` server restarted`))
+  const { arrowUp } = figures
+  log.log(chalk.cyan(`${arrowUp}${arrowUp}`) + chalk.dim(` server`))
 }
 
 export function serveStatic(path, cache) {

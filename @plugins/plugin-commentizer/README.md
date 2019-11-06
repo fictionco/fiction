@@ -1,4 +1,4 @@
-# Factor Commentizer Plugin
+# Overview
 
 This plugin that adds comments to your posts.
 
@@ -7,7 +7,7 @@ This plugin that adds comments to your posts.
 Just add to your application dependencies:
 
 ```bash
-$ yarn add @factor-plugin/commentizer
+yarn add @factor-plugin/commentizer
 ```
 
 ## Config

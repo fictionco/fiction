@@ -126,7 +126,6 @@ function startListener() {
     _listening.destroy()
     await runCallbacks("rebuild-server-app")
     startListener()
-    logServerRestart()
   })
 }
 

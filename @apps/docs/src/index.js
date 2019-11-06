@@ -78,7 +78,7 @@ addFilter("content-routes", _ => {
           component: () => import("./plugins/v-plugins.vue")
         },
         {
-          path: `/plugin/:slug`,
+          path: `/plugin/view`,
           component: () => import("./plugins/plugin-single.vue")
         }
       ]

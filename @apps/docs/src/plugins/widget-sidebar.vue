@@ -1,6 +1,6 @@
 <template>
   <div class="plugins-sidebar">
-    <div class="sidebar-inner">
+    <div v-if="extensionIndex.length > 0" class="sidebar-inner">
       <section class="plugins-popular">
         <header class="section-header">
           <h1 class="title">Popular</h1>
@@ -87,36 +87,36 @@ import {
   extensionPermalink,
   extensionIcon
 } from "./util"
-
+import { getIndexCache } from "./extension-request"
 import { standardDate } from "@factor/tools"
 export default {
-  props: {
-    indexData: { type: Array, required: true }
-  },
   data() {
     return {
-      num: 8
+      num: 5
     }
   },
   computed: {
-    pluginsPopular: function() {
-      let getPopular = [].slice.call(this.indexData).sort(function(a, b) {
-        return b.downloads - a.downloads
-      })
+    extensionIndex() {
+      return getIndexCache() || []
+    },
+    pluginsPopular() {
+      let getPopular = [].slice
+        .call(this.extensionIndex)
+        .sort((a, b) => b.downloads - a.downloads)
 
       return getPopular.slice(0, this.num)
     },
-    pluginsNew: function() {
-      let getNew = [].slice.call(this.indexData).sort(function(a, b) {
-        return new Date(b.time.created) - new Date(a.time.created)
-      })
+    pluginsNew() {
+      let getNew = [].slice
+        .call(this.extensionIndex)
+        .sort((a, b) => new Date(b.time.created) - new Date(a.time.created))
 
       return getNew.slice(0, this.num)
     },
-    pluginsRecentlyUpdated: function() {
-      let getRecentlyUpdated = [].slice.call(this.indexData).sort(function(a, b) {
-        return new Date(b.time.modified) - new Date(a.time.modified)
-      })
+    pluginsRecentlyUpdated() {
+      let getRecentlyUpdated = [].slice
+        .call(this.extensionIndex)
+        .sort((a, b) => new Date(b.time.modified) - new Date(a.time.modified))
 
       return getRecentlyUpdated.slice(0, this.num)
     }

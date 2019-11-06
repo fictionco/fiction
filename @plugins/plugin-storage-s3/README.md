@@ -1,13 +1,11 @@
-# Factor Storage S3
-
-## Overview
+# Overview
 
 This plugin configures Factor to use AWS S3 for Factor image storage.
 
 ## Installation
 
 ```bash
-$ yarn add @factor/plugin-storage-s3
+yarn add @factor/plugin-storage-s3
 ```
 
 ## Options and Settings
@@ -16,8 +14,8 @@ $ yarn add @factor/plugin-storage-s3
 
 ```git
 # .env / AWS config info
-AWS_ACCESS_KEY=YOURKEY
-AWS_ACCESS_KEY_SECRET=YOURSECRET
+AWS_ACCESS_KEY=YOUR-KEY
+AWS_ACCESS_KEY_SECRET=YOUR-SECRET
 AWS_S3_BUCKET=your-bucket-name
 ```
 

@@ -11,7 +11,7 @@ This plugin implements Bugsnag in your Factor app which helps you stay informed 
 ## Installation
 
 ```bash
-$ yarn add @factor/plugin-bugsnag
+yarn add @factor/plugin-bugsnag
 ```
 
 ## Usage

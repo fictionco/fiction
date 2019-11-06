@@ -1,4 +1,4 @@
-# Factor Google Tag Manager Plugin
+# Overview
 
 This is a simple plugin that adds [Google Tag Manager](https://tagmanager.google.com) to your `index.html` using the `factor_head` and `factor_body_start` filters.
 
@@ -7,7 +7,7 @@ This is a simple plugin that adds [Google Tag Manager](https://tagmanager.google
 Just add to your application dependencies:
 
 ```bash
-$ yarn add @factor/plugin-google-tag-manager
+yarn add @factor/plugin-google-tag-manager
 ```
 
 ## Options and Settings

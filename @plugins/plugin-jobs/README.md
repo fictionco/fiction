@@ -1,6 +1,4 @@
-# Factor Jobs
-
-## Overview
+# Overview
 
 This plugin makes it east to create a job board.
 
@@ -9,7 +7,7 @@ This plugin makes it east to create a job board.
 Just add to your application dependencies:
 
 ```bash
-$ yarn add @factor/plugin-jobs
+yarn add @factor/plugin-jobs
 ```
 
 ## Options and Settings

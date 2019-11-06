@@ -9,10 +9,21 @@ export async function requestExtensionIndex() {
   return data
 }
 
-export async function requestExtensionSingle() {
-  return {}
+export async function requestExtensionSingle(name) {
+  const data = await endpointRequest({
+    id: endpointId,
+    method: "getSingle",
+    params: { name }
+  })
+  storeItem(`extension-${name}`, data)
+
+  return data
 }
 
 export function getIndexCache() {
   return stored("plugins-index")
+}
+
+export function getSingleCache(name) {
+  return stored(`extension-${name}`)
 }

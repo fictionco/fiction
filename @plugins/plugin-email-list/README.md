@@ -1,18 +1,16 @@
-# Factor Email List
+# Overview
 
-## Overview
+This plugin makes it easy to collect email addresses for something like an invite list, launch list or newsletter.
+It includes a sign-up form component, email confirmation, email follow-up, etc..
 
-This plugin makes it easy to collect email addresses for something like an invite list, launch list or newletter.
-It includes a signup form component, email confirmation, email follow-up, etc..
-
-It can be easily customized via factor-settings.js and/or you can use its filters to connect new signups with external services.
+It can be easily customized via factor-settings.js and/or you can use its filters to connect new sign-ups with external services.
 
 ## Installation
 
 To install, just add `@factor/plugin-email-list` as a dependency to your [Factor](https://factor.dev) project.
 
 ```bash
-$ yarn add @factor/plugin-email-list
+yarn add @factor/plugin-email-list
 ```
 
 ## Basic Usage
@@ -41,13 +39,11 @@ To customize defaults, you can
 
 ```js
 // app factor-settings.js
-export default Factor => {
-  return {
-    emailList: {
-      default: {
-        form: {
-          buttonText: "My text"
-        }
+export default {
+  emailList: {
+    default: {
+      form: {
+        buttonText: "My text"
       }
     }
   }
@@ -60,18 +56,16 @@ To use a custom list, add a new root key under `emailList`, below the ID is `cus
 
 ```js
 // app factor-settings.js
-export default Factor => {
-  return {
-    emailList: {
-      customListId: {
-        form: {
-          buttonText: "My custom list text"
-        }
+export default {
+  emailList: {
+    customListId: {
+      form: {
+        buttonText: "My custom list text"
       }
-      default: {
-        form: {
-          buttonText: "My text"
-        }
+    }
+    default: {
+      form: {
+        buttonText: "My text"
       }
     }
   }
@@ -98,13 +92,11 @@ To disable a specific email, e.g. the 'complete' email, then just set it to `fal
 
 ```js
 // app factor-settings.js
-export default Factor => {
-  return {
-    emailList: {
-      customListId: {
-        emails: {
-          complete: false
-        }
+export default {
+  emailList: {
+    customListId: {
+      emails: {
+        complete: false
       }
     }
   }
@@ -115,12 +107,10 @@ To disable all emails, set the emails key to false:
 
 ```js
 // app factor-settings.js
-export default Factor => {
-  return {
-    emailList: {
-      customListId: {
-        emails: false
-      }
+export default {
+  emailList: {
+    customListId: {
+      emails: false
     }
   }
 }
