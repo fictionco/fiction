@@ -45,12 +45,7 @@ export function handleServerError(request, response, error) {
 
 export function logServerReady() {
   const { arrowUp, arrowDown } = figures
-  log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` ready`))
-}
-
-export function logServerRestart() {
-  const { arrowUp } = figures
-  log.log(chalk.cyan(`${arrowUp}${arrowUp}`) + chalk.dim(` server`))
+  log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` server ready`))
 }
 
 export function serveStatic(path, cache) {

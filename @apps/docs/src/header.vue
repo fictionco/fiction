@@ -114,7 +114,7 @@ export default {
         }
       }
     }
-    .profile-menu {
+    .account-menu {
       margin-left: 1em;
     }
 

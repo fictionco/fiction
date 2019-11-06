@@ -3,13 +3,13 @@
     <div class="dashboard-head-pad">
       <factor-link path="/" class="brand">
         <div class="icon">
-          <img :src="iconUrl" />
+          <img :src="iconUrl" alt="Dashboard Icon" />
         </div>
-        <div class="name">{{ setting('app.name') }}</div>
+        <div class="name">{{ appName }}</div>
       </factor-link>
       <div class="nav">
         <slot />
-        <plugin-signin-profile-menu :show-name="true" />
+        <account-menu :show-name="true" />
       </div>
     </div>
   </div>
@@ -19,10 +19,13 @@ import { setting } from "@factor/tools"
 export default {
   computed: {
     iconUrl() {
-      return setting("dashboard.icon", setting("app.icon"))
+      return setting("app.icon")
+    },
+    appName() {
+      return setting("app.name")
     }
   },
-  methods: { setting }
+  mounted() {}
 }
 </script>
 <style lang="less">
@@ -89,7 +92,7 @@ export default {
         color: #ff0076;
       }
     }
-    .profile-menu {
+    .account-menu {
       margin-left: 1em;
       // .avatar {
       //   background-color: rgba(38, 67, 89, 0.06);

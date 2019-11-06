@@ -11,7 +11,7 @@
 import { onEvent, runCallbacks } from "@factor/tools"
 export default {
   components: {
-    "el-signin": () => import("./signin.vue")
+    "el-signin": () => import("./sign-in.vue")
   },
   data: function() {
     return {
@@ -33,7 +33,7 @@ export default {
     if (this.$route.query.signInView) {
       this.vis = true
     } else {
-      onEvent("signin-modal", (args = {}) => {
+      onEvent("sign-in-modal", (args = {}) => {
         const {
           redirect = "",
           title = "",
@@ -51,7 +51,7 @@ export default {
         this.vis = true
       })
 
-      runCallbacks("signin-modal-loaded")
+      runCallbacks("sign-in-modal-loaded")
 
       // If shown erroneously because its triggered before USER is initialized
     }

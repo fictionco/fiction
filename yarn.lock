@@ -875,6 +875,13 @@
     "@factor/server" "1.0.0-beta.6"
     "@factor/tools" "1.0.0-beta.6"
 
+"@factor/dashboard-signin@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@factor/dashboard-signin/-/dashboard-signin-1.0.0-beta.6.tgz#f483e5b7eefdab75aa37f3d8da850c44e6a184a5"
+  integrity sha512-Yx+KKe7Z6VwwSdJl7ce2pHhvPCJ+3/3UDOoi6gsVOhCHuKdnWZusDAw2qSG54AC04p4Aq0CyCxUrhYiTOhgkUw==
+  dependencies:
+    "@factor/ui" "1.0.0-beta.6"
+
 "@factor/logger@1.0.0-beta.6":
   version "1.0.0-beta.6"
   resolved "https://registry.yarnpkg.com/@factor/logger/-/logger-1.0.0-beta.6.tgz#78ce553d6483f8a132c157ca8ed8a98c8d643486"

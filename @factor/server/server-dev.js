@@ -22,7 +22,7 @@ const argv = yargs.argv
 
 let configServer
 let configClient
-
+let waitingForRestart = false
 let updateBundleCallback
 let updateReason = ""
 let updateLoaders = {}
@@ -61,8 +61,13 @@ export async function createServerCompilers() {
   watcher(({ event, path }) => {
     updateBundles({ title: event, value: path })
 
-    if (path.includes(".js")) {
-      runCallbacks("restart-server")
+    // On js file updates, wait for 3 seconds for build
+    if (path.includes(".js") && !waitingForRestart) {
+      waitingForRestart = true
+      setTimeout(() => {
+        waitingForRestart = false
+        runCallbacks("restart-server")
+      }, 3000)
     }
   })
 
@@ -124,8 +129,8 @@ function clientCompiler() {
     const publicPath = configClient.output.publicPath
     const middleware = {
       dev: webpackDevMiddleware(clientCompiler, {
-        publicPath
-        // logLevel: "silent"
+        publicPath,
+        logLevel: "silent"
       }),
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
     }

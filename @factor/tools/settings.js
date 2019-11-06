@@ -44,5 +44,7 @@ export async function addSettings(settings) {
 }
 
 export function setting(key) {
+  if (key == "all") return settings
+
   return dotSetting({ key, settings })
 }

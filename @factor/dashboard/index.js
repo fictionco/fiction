@@ -1,5 +1,28 @@
-import { addFilter, applyFilters, setting, toLabel, postTypesConfig } from "@factor/tools"
+import {
+  addFilter,
+  applyFilters,
+  setting,
+  toLabel,
+  postTypesConfig,
+  pushToFilter
+} from "@factor/tools"
 import { userCan } from "@factor/user"
+
+pushToFilter("content-routes", {
+  name: "signin",
+  path: "/signin",
+  component: () => import("./sign-in-view.vue")
+})
+
+pushToFilter("global-components", {
+  name: "account-menu",
+  component: () => import("./account-menu.vue")
+})
+
+pushToFilter("site-components", {
+  name: "plugin-sign-in-modal",
+  component: () => import("./sign-in-modal.vue")
+})
 
 addFilter("components", _ => {
   _["dashboard-pane"] = () => import("./pane.vue")

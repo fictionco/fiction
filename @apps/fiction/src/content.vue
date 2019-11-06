@@ -5,7 +5,7 @@
       <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>
       <factor-link path="/blog">Blog</factor-link>
-      <factor-link v-if="!isLoggedIn()" event="signin-modal" data-test="login">
+      <factor-link v-if="!isLoggedIn()" event="sign-in-modal" data-test="login">
         Sign In
         <factor-icon icon="arrow-right" />
       </factor-link>
