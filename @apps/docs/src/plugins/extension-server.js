@@ -1,15 +1,16 @@
-import { plugins } from "../extensions"
+import { addCallback } from "@factor/tools"
 import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
-import { addCallback } from "@factor/tools"
+
 import { endpointId } from "./util"
+import { plugins } from "../extensions"
 
 addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 
 export async function getIndex() {
   const slugs = plugins
 
-  const index = await Promise.all(slugs.map(async slug => getSingle(slug)))
+  const index = await Promise.all(slugs.map(async slug => getSingle({ slug })))
 
   return index
 }
@@ -26,7 +27,7 @@ export async function latestPackageVersion(slug) {
   } else return ""
 }
 
-export async function getSingle(slug) {
+export async function getSingle({ slug }) {
   const latest = await latestPackageVersion(slug)
 
   const requests = [

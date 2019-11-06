@@ -36,6 +36,7 @@
 // Code from:
 // https://github.com/XiongAmao/vue-easy-lightbox
 
+import { DOM } from "@factor/tools"
 export default {
   components: {},
   props: {
@@ -98,13 +99,13 @@ export default {
     require("./img/iconfont")
 
     this.$nextTick(() => {
-      this.$jquery(this.$el).remove()
+      DOM(this.$el).remove()
 
       document.querySelector("#app").append(this.$el)
     })
   },
   destroyed() {
-    this.$jquery(this.$el).remove()
+    DOM(this.$el).remove()
   },
   methods: {
     checkBtn(btn) {
