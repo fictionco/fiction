@@ -1,4 +1,12 @@
-import { addFilter, applyFilters, setting, log, addCallback } from "@factor/tools"
+import {
+  addFilter,
+  applyFilters,
+  setting,
+  log,
+  addCallback,
+  runCallbacks,
+  throttle
+} from "@factor/tools"
 import chalk from "chalk"
 import fs from "fs-extra"
 import MFS from "memory-fs"
@@ -51,42 +59,57 @@ export async function createServerCompilers() {
 
   template = fs.readFileSync(templatePath, "utf-8")
 
-  watcher(({ event, path }) => updateBundles({ title: event, value: path }))
+  watcher(({ event, path }) =>
+    updateBundles({
+      title: event,
+      value: path
+    })
+  )
 
   clientCompiler()
 
   serverCompiler()
 }
 
-function loaders(target, value) {
-  updateLoaders[target] = value
+function loaders(target = "", value = "") {
+  if (target) {
+    updateLoaders[target] = value
+  }
 
-  const vals = Object.values(updateLoaders)
+  const values = Object.values(updateLoaders)
 
-  if (vals.length == 2) {
-    if (vals.every(_ => _ == "start") && !updateSpinner) {
+  let status = "done"
+
+  if (values.length == 2) {
+    if (values.every(_ => _ == "start") && !updateSpinner) {
       updateSpinner = ora("Building").start()
       updateLoaders = { client: "loading", server: "loading" }
+      status = "loading"
     } else if (
-      vals.every(_ => _) &&
-      !vals.some(_ => _ == "start" || _ == "loading") &&
+      values.every(_ => _) &&
+      !values.some(_ => _ == "start" || _ == "loading") &&
       updateSpinner
     ) {
-      updateSpinner.succeed(`Built ${Math.max(...vals) / 1000}s ${updateReason}`)
+      updateSpinner.succeed(`Built ${Math.max(...values) / 1000}s ${updateReason}`)
       updateSpinner = false
       updateLoaders = {}
       updateReason = ""
       updateBundles()
+      status = "done"
+      runCallbacks("restart-server")
     }
   }
+  return status
 }
 
-function updateBundles({ title, value } = {}) {
+function updateBundles({ title, value, done } = {}) {
   if (title) updateReason = chalk.dim(`${title} @${value}`)
 
   if (bundle && clientManifest) {
     updateBundleCallback({ bundle, template, clientManifest })
   }
+
+  if (done) done()
 }
 
 function clientCompiler() {

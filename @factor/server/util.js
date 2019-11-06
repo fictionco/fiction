@@ -48,6 +48,11 @@ export function logServerReady() {
   log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(` ready`))
 }
 
+export function logServerRestart() {
+  const { arrowRight, arrowDown } = figures
+  log.log(chalk.cyan(`${arrowDown}${arrowRight}`) + chalk.dim(` server restarted`))
+}
+
 export function serveStatic(path, cache) {
   const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {

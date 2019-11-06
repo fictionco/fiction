@@ -97,6 +97,7 @@
     "isequal",
     "linkify",
     "lockfile",
+    "maxage",
     "npmjs",
     "npmrc",
     "pagelines",

@@ -21,7 +21,7 @@
           <img src="./img/icon-notify.svg" alt="Notify Icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-seo.svg" alt="SEO Icon" />s
+          <img src="./img/icon-seo.svg" alt="SEO Icon" />
         </div>
       </div>
     </div>
@@ -40,6 +40,7 @@ figure.plugins-figure {
   .stage-wrap,
   .stage {
     width: 100%;
+    perspective: 1000px;
     height: 100%;
   }
   .stage {
@@ -47,7 +48,8 @@ figure.plugins-figure {
     min-width: 500px;
     left: 0;
     top: 0;
-
+    transform: rotateX(60deg) rotateY(0deg) rotate(45deg);
+    transform-style: preserve-3d;
     .plugin-icon {
       position: absolute;
       width: 100px;

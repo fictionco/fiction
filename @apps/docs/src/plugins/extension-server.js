@@ -8,40 +8,26 @@ import { plugins } from "../extensions"
 addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 
 export async function getIndex() {
-  const slugs = plugins
-
-  const index = await Promise.all(slugs.map(async slug => getSingle({ slug })))
-
-  return index
+  return await Promise.all(plugins.map(async plugin => getSingle(plugin)))
 }
 
-export async function latestPackageVersion(slug) {
-  const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${slug}`)
+export async function getSingle(plugin) {
+  const { name } = plugin
 
-  if (data) {
-    const {
-      tags: { latest }
-    } = data
-
-    return latest
-  } else return ""
-}
-
-export async function getSingle({ slug }) {
-  const latest = await latestPackageVersion(slug)
+  const latest = await latestPackageVersion(name)
 
   const requests = [
     {
       _id: "npmData",
-      url: `https://registry.npmjs.org/${slug}`
+      url: `https://registry.npmjs.org/${name}`
     },
     {
       _id: "npmDownloads",
-      url: `https://api.npmjs.org/downloads/point/last-month/${slug}`
+      url: `https://api.npmjs.org/downloads/point/last-month/${name}`
     },
     {
       _id: "npmFiles",
-      url: `https://data.jsdelivr.com/v1/package/npm/${slug}@${latest}`
+      url: `https://data.jsdelivr.com/v1/package/npm/${name}@${latest}`
     }
   ]
 
@@ -57,14 +43,28 @@ export async function getSingle({ slug }) {
     })
   )
 
-  // Ensure array of objects and deep merge results
-  const merged = deepMerge(
-    results.map((result, index) => {
-      const _id = requests[index]._id
-      const data = Array.isArray(result.data) ? { [_id]: result.data } : result.data
-      return data
-    })
-  )
+  const parsed = results.map(result => result.data)
 
-  return merged
+  const otherData = { cdnBaseUrl: `https://cdn.jsdelivr.net/npm/${name}@${latest}` }
+
+  // Ensure array of objects and deep merge results
+  const merged = deepMerge([plugin, otherData, ...parsed])
+
+  const item = { ...merged, pkg: merged.versions[latest] }
+
+  delete item.versions
+
+  return item
+}
+
+export async function latestPackageVersion(name) {
+  const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${name}`)
+
+  if (data) {
+    const {
+      tags: { latest }
+    } = data
+
+    return latest
+  } else return ""
 }

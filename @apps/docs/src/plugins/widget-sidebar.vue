@@ -6,22 +6,22 @@
           <h1 class="title">Popular</h1>
         </header>
         <factor-link
-          v-for="(entry, index) in pluginsPopular"
+          v-for="(item, index) in pluginsPopular"
           :key="index"
-          :path="pluginPermalink(entry._id)"
-          class="entry-plugin"
+          :path="extensionPermalink({name: item._id})"
+          class="sidebar-plugin"
         >
-          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
+          <div class="sidebar-plugin-image">
+            <img :src="extensionIcon(item)" :alt="item.name" />
           </div>
 
           <div class="entry-content">
-            <h3 class="title">{{ formatName(entry.name) }}</h3>
+            <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
               <div
-                v-if="entry.downloads"
+                v-if="item.downloads"
                 class="downloads"
-              >{{ formatDownloads(entry.downloads) }} downloads</div>
+              >{{ formatDownloads(item.downloads) }} downloads</div>
             </div>
           </div>
         </factor-link>
@@ -32,21 +32,21 @@
           <h1 class="title">New</h1>
         </header>
         <factor-link
-          v-for="(entry, index) in pluginsNew"
+          v-for="(item, index) in pluginsNew"
           :key="index"
-          :path="pluginPermalink(entry._id)"
-          class="entry-plugin"
+          :path="extensionPermalink({name: item._id})"
+          class="sidebar-plugin"
         >
-          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
+          <div class="sidebar-plugin-image">
+            <img :src="extensionIcon(item)" :alt="item.name" />
           </div>
 
           <div class="entry-content">
-            <h3 class="title">{{ formatName(entry.name) }}</h3>
+            <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="entry.time.created" class="released">
+              <div v-if="item.time.created" class="released">
                 Released
-                {{ formatDate(entry.time.created) }}
+                {{ standardDate(item.time.created) }}
               </div>
             </div>
           </div>
@@ -58,20 +58,20 @@
           <h1 class="title">Recently Updated</h1>
         </header>
         <factor-link
-          v-for="(entry, index) in pluginsRecentlyUpdated"
-          :key="index"
-          :path="pluginPermalink(entry._id)"
-          class="entry-plugin"
+          v-for="(item, i) in pluginsRecentlyUpdated"
+          :key="i"
+          :path="extensionPermalink({name: item._id})"
+          class="sidebar-plugin"
         >
-          <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-            <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
+          <div class="sidebar-plugin-image">
+            <img :src="extensionIcon(item)" :alt="item.name" />
           </div>
           <div class="entry-content">
-            <h3 class="title">{{ formatName(entry.name) }}</h3>
+            <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="entry.time.created" class="released">
+              <div v-if="item.time.created" class="released">
                 Updated
-                {{ formatDate(entry.time.modified) }}
+                {{ standardDate(item.time.modified) }}
               </div>
             </div>
           </div>
@@ -81,76 +81,52 @@
   </div>
 </template>
 <script>
+import {
+  titleFromPackage,
+  formatDownloads,
+  extensionPermalink,
+  extensionIcon
+} from "./util"
+
+import { standardDate } from "@factor/tools"
 export default {
   props: {
-    getData: { type: Array, required: true }
+    indexData: { type: Array, required: true }
+  },
+  data() {
+    return {
+      num: 8
+    }
   },
   computed: {
     pluginsPopular: function() {
-      let getPopular = [].slice.call(this.getData).sort(function(a, b) {
+      let getPopular = [].slice.call(this.indexData).sort(function(a, b) {
         return b.downloads - a.downloads
       })
 
-      return getPopular.slice(0, 4)
+      return getPopular.slice(0, this.num)
     },
     pluginsNew: function() {
-      let getNew = [].slice.call(this.getData).sort(function(a, b) {
+      let getNew = [].slice.call(this.indexData).sort(function(a, b) {
         return new Date(b.time.created) - new Date(a.time.created)
       })
 
-      return getNew.slice(0, 4)
+      return getNew.slice(0, this.num)
     },
     pluginsRecentlyUpdated: function() {
-      let getRecentlyUpdated = [].slice.call(this.getData).sort(function(a, b) {
+      let getRecentlyUpdated = [].slice.call(this.indexData).sort(function(a, b) {
         return new Date(b.time.modified) - new Date(a.time.modified)
       })
 
-      return getRecentlyUpdated.slice(0, 4)
+      return getRecentlyUpdated.slice(0, this.num)
     }
   },
   methods: {
-    formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
-      return spacedName.replace("@factor/", "")
-    },
-    pluginPermalink(permalink) {
-      return `/plugin/` + permalink.replace("@factor/", "")
-    },
-    formatDownloads(number) {
-      let num = number
-      return num.toLocaleString("en", { useGrouping: true })
-    },
-    formatDate(value) {
-      let date = new Date(value)
-
-      let year = date.getFullYear()
-      let month = date.toLocaleString("default", { month: "short" })
-      let dt = date.getDate()
-
-      if (dt < 10) {
-        dt = "0" + dt
-      }
-      if (month < 10) {
-        month = "0" + month
-      }
-
-      return dt + " " + month + " " + year
-    },
-    pluginIcon(entry) {
-      const imageName = `icon.svg`
-
-      let images = []
-
-      if (entry) {
-        images = entry
-          .filter(image => !!image.path.match(imageName))
-          .map(image => {
-            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
-          })
-      }
-
-      return images[0]
-    }
+    titleFromPackage,
+    formatDownloads,
+    extensionPermalink,
+    extensionIcon,
+    standardDate
   }
 }
 </script>
@@ -189,7 +165,7 @@ export default {
   .plugins-popular,
   .plugins-new,
   .plugins-updated {
-    .entry-plugin {
+    .sidebar-plugin {
       display: grid;
       grid-template-columns: auto 3fr;
       grid-gap: 1rem;
@@ -205,7 +181,7 @@ export default {
         }
       }
 
-      .entry-image {
+      .sidebar-plugin-image {
         display: flex;
         justify-content: center;
         height: 30px;
@@ -233,7 +209,7 @@ export default {
       }
 
       @media (max-width: 900px) {
-        .entry-image {
+        .sidebar-plugin-image {
           height: 50px;
           width: 50px;
         }

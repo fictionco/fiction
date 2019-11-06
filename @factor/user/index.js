@@ -123,12 +123,9 @@ async function retrieveAndSetCurrentUser(user) {
 
     return user
   } catch (error) {
-    // If JWT auth fails then delete token, etc.
-    if (error.message.includes("invalid signature")) {
-      setUser({ user: null, current: true })
+    if (!handleTokenError(error)) {
+      log.error(error)
     }
-
-    log.error(error)
   }
 }
 
@@ -161,6 +158,15 @@ export function userToken(token) {
   }
 }
 
+export function handleTokenError(error) {
+  // If JWT auth fails then delete token, etc.
+  if (error && error.includes("JsonWebTokenError: invalid signature")) {
+    setUser({ user: null, current: true })
+    return true
+  } else {
+    return false
+  }
+}
 // Very basic version of this function for MVP dev
 // Needs improvement for more fine grained control
 export function userCan({ role, accessLevel }) {
