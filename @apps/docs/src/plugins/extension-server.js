@@ -53,7 +53,7 @@ export async function getSingle(plugin) {
   const item = { ...merged, pkg: merged.versions[latest] }
 
   delete item.versions
-
+  //test
   return item
 }
 
