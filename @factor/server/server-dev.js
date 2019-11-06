@@ -58,12 +58,13 @@ export async function createServerCompilers() {
 
   template = fs.readFileSync(templatePath, "utf-8")
 
-  watcher(({ event, path }) =>
-    updateBundles({
-      title: event,
-      value: path
-    })
-  )
+  watcher(({ event, path }) => {
+    updateBundles({ title: event, value: path })
+
+    if (path.includes(".js")) {
+      runCallbacks("restart-server")
+    }
+  })
 
   clientCompiler()
 
@@ -77,13 +78,10 @@ function loaders(target = "", value = "") {
 
   const values = Object.values(updateLoaders)
 
-  let status = "done"
-
   if (values.length == 2) {
     if (values.every(_ => _ == "start") && !updateSpinner) {
       updateSpinner = ora("Building").start()
       updateLoaders = { client: "loading", server: "loading" }
-      status = "loading"
     } else if (
       values.every(_ => _) &&
       !values.some(_ => _ == "start" || _ == "loading") &&
@@ -94,21 +92,16 @@ function loaders(target = "", value = "") {
       updateLoaders = {}
       updateReason = ""
       updateBundles()
-      status = "done"
-      setTimeout(() => runCallbacks("restart-server"), 3000)
     }
   }
-  return status
 }
 
-function updateBundles({ title, value, done } = {}) {
+function updateBundles({ title, value } = {}) {
   if (title) updateReason = chalk.dim(`${title} @${value}`)
 
   if (bundle && clientManifest) {
     updateBundleCallback({ bundle, template, clientManifest })
   }
-
-  if (done) done()
 }
 
 function clientCompiler() {
@@ -131,11 +124,10 @@ function clientCompiler() {
     const publicPath = configClient.output.publicPath
     const middleware = {
       dev: webpackDevMiddleware(clientCompiler, {
-        publicPath,
-        logLevel: "silent",
-        reload: true
+        publicPath
+        // logLevel: "silent"
       }),
-      hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 5000, log: false })
+      hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
     }
 
     addFilter("middleware", _ => {

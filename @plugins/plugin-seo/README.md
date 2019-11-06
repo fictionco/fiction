@@ -1,6 +1,4 @@
-# Factor SEO
-
-## Overview
+# Overview
 
 This plugin makes it easy to implement and edit your SEO. It includes title and meta description templating for better branding and consistent snippets in the search results.
 
@@ -11,7 +9,7 @@ The snippet preview shows you how your post or page will look in the search resu
 Just add to your application dependencies:
 
 ```bash
-$ yarn add @factor/plugin-seo
+yarn add @factor/plugin-seo
 ```
 
 ## Options and Settings

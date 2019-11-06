@@ -1,6 +1,4 @@
-# Factor Sitemap
-
-## Overview
+# Overview
 
 This is a simple plugin that generates a sitemap by crawling your app. It can be easily customized via factor-settings.js
 
@@ -9,7 +7,7 @@ This is a simple plugin that generates a sitemap by crawling your app. It can be
 Just add to your application dependencies:
 
 ```bash
-$ yarn add @factor/plugin-sitemap
+yarn add @factor/plugin-sitemap
 ```
 
 ## Factor Setup CLI

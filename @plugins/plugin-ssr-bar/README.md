@@ -1,6 +1,4 @@
-# Factor SSR Bar
-
-## Overview
+# Overview
 
 Elegant progress bar indicator to show your users that something is loading.
 

@@ -1,6 +1,4 @@
-# Factor Notify
-
-## Overview
+# Overview
 
 Factor Notify allows you to add toast notifications to your app with ease. It can be easily customized via factor-settings.js
 
@@ -9,7 +7,7 @@ Factor Notify allows you to add toast notifications to your app with ease. It ca
 Just add to your application dependencies:
 
 ```bash
-$ yarn add @factor/plugin-notify
+yarn add @factor/plugin-notify
 ```
 
 ## Options and Settings

@@ -29,10 +29,7 @@
                 </div>
                 <h3 class="title">{{ titleFromPackage(item) }}</h3>
                 <div class="meta">
-                  <div v-if="item.maintainers" class="authors">
-                    by
-                    <span class="author">{{ item.maintainers[0].name }}</span>
-                  </div>
+                  <div class="authors">by {{ getAuthors(item) }}</div>
                 </div>
 
                 <p v-if="item.description" class="text">{{ item.description }}</p>
@@ -64,14 +61,7 @@
             <div class="entry-content">
               <h3 class="title">{{ titleFromPackage(item ) }}</h3>
               <div class="meta">
-                <div v-if="item.maintainers" class="authors">
-                  by
-                  <span
-                    v-for="(author, au) in item.maintainers"
-                    :key="au"
-                    class="author"
-                  >{{ author.name }}</span>
-                </div>
+                <div class="authors">by {{ getAuthors(item) }}</div>
               </div>
 
               <p v-if="item.description" class="text">{{ item.description }}</p>
@@ -93,7 +83,8 @@ import {
   titleFromPackage,
   formatDownloads,
   extensionPermalink,
-  extensionIcon
+  extensionIcon,
+  getAuthors
 } from "./util"
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
 
@@ -112,9 +103,6 @@ export default {
     return await requestExtensionIndex()
   },
   computed: {
-    headerFigure() {
-      return () => import("./figure-plugins.vue")
-    },
     extensionFeatured() {
       return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
     },
@@ -133,7 +121,8 @@ export default {
     titleFromPackage,
     formatDownloads,
     extensionPermalink,
-    extensionIcon
+    extensionIcon,
+    getAuthors
   },
   metaInfo() {
     return {

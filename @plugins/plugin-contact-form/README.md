@@ -1,6 +1,4 @@
-# Factor Contact Form
-
-## Overview
+# Overview
 
 This plugin makes it easy to add a contact form. It can be easily customized via factor-settings.js and/or you can use its filters to connect new signups with external services.
 
@@ -9,7 +7,7 @@ This plugin makes it easy to add a contact form. It can be easily customized via
 Just add to your application dependencies:
 
 ```bash
-$ yarn add @factor/plugin-contact-form
+yarn add @factor/plugin-contact-form
 ```
 
 ## Options and Settings
@@ -24,12 +22,10 @@ To customize defaults, you can
 
 ```js
 // app factor-settings.js
-export default Factor => {
-  return {
-    contactForm: {
-      submit: {
-        text: "my text"
-      }
+export default {
+  contactForm: {
+    submit: {
+      text: "my text"
     }
   }
 }

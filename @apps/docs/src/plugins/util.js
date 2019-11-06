@@ -19,7 +19,7 @@ export function formatDownloads(number) {
 }
 
 export function extensionPermalink({ base = "plugin", name }) {
-  return `/${base}/${name}`
+  return `/${base}/view?package=${name}`
 }
 
 export function extensionIcon(item) {
@@ -36,4 +36,24 @@ export function cdnUrl(item) {
   const found = files.find(f => f.name == fileName)
 
   return found ? `${cdnBaseUrl}/${fileName}` : defaultFile
+}
+
+export function screenshotsList(item) {
+  const imagePattern = /screenshot\.(png|gif|jpg|svg)$/i
+
+  const { files, cdnBaseUrl } = item
+
+  let screenshots = []
+
+  screenshots = files
+    .filter(f => !!f.name.match(imagePattern))
+    .map(f => `${cdnBaseUrl}/${f.name}`)
+
+  return screenshots
+}
+
+export function getAuthors(item, { number = 2 } = {}) {
+  const authors = item.maintainers.map(a => a.name)
+
+  return authors.slice(0, number).join(", ")
 }

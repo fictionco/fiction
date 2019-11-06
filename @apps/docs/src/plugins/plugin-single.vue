@@ -1,47 +1,39 @@
 <template>
-  <div class="plugins-container-single">
+  <div class="plugin-single">
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else>
-      <section v-for="(entry, index) in pluginData" :key="index">
-        <widget-header :image="pluginIcon(entry.githubFiles)" :title="titleFromPackage(entry.name)">
-          <div slot="subtitle">
-            <div v-if="entry.maintainers" class="authors">
-              by
-              <span
-                v-for="(author, au) in entry.maintainers"
-                :key="au"
-                class="author"
-              >{{ author.name }}</span>
+      <section>
+        <div class="plugin-single-header">
+          <div class="content-pad">
+            <factor-link class="back" :path="`/plugins`">
+              <span>&larr; All Plugins</span>
+            </factor-link>
+            <div class="header-content">
+              <div class="icon">
+                <img :src="extensionIcon(item)" alt="Extension Icon" />
+              </div>
+              <div class="head">
+                <div class="title">{{ titleFromPackage(item) }}</div>
+                <div class="sub-title">
+                  <div class="authors">By {{ getAuthors(item) }}</div>
+                </div>
+              </div>
             </div>
-
-            <div
-              v-if="entry.downloads"
-              class="downloads"
-            >{{ formatDownloads(entry.downloads) }} downloads</div>
           </div>
-        </widget-header>
+        </div>
 
         <div class="plugins-wrap content-pad">
           <div class="content">
-            <factor-link class="back" :path="`/plugins`">
-              <factor-icon icon="arrow-left" />
-              <span>All Plugins</span>
-            </factor-link>
-
             <widget-lightbox
               :visible.sync="lightboxShow"
-              :imgs="screenshotsList(entry.githubFiles)"
+              :imgs="screenshotsList(item)"
               :index="lightboxIndex"
             />
 
-            <div v-if="entry.githubFiles" class="plugin-images">
-              <div
-                v-for="(url, i) in screenshotsList(entry.githubFiles)"
-                :key="i"
-                class="image-item"
-              >
+            <div class="plugin-images">
+              <div v-for="(url, _i) in screenshotsList(item)" :key="_i" class="image-item">
                 <div
                   :style="{ backgroundImage: `url(${url})` }"
                   class="image-item-content"
@@ -50,10 +42,10 @@
               </div>
             </div>
 
-            <plugin-entry :text="getContent(entry.readme)" class="plugin-content" />
+            <plugin-entry :text="getContent(item.readme)" class="plugin-content" />
           </div>
 
-          <widget-sidebar :get-data="getData" />
+          <widget-sidebar />
         </div>
       </section>
     </div>
@@ -62,13 +54,25 @@
   </div>
 </template>
 <script>
-import { titleFromPackage, formatDownloads } from "./util"
-import { setting, stored, renderMarkdown, pickBy } from "@factor/tools"
-import { requestExtensionSingle } from "./extension-request"
+import {
+  titleFromPackage,
+  formatDownloads,
+  extensionPermalink,
+  extensionIcon,
+  screenshotsList,
+  getAuthors
+} from "./util"
+
+import {
+  getSingleCache,
+  requestExtensionSingle,
+  requestExtensionIndex
+} from "./extension-request"
+
+import { setting, renderMarkdown } from "@factor/tools"
 
 export default {
   components: {
-    "widget-header": () => import("./widget-header.vue"),
     "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-lightbox": () => import("../el/el-lightbox.vue"),
     "plugin-entry": () => import("../el/entry.vue"),
@@ -82,66 +86,38 @@ export default {
       lightboxIndex: 0
     }
   },
-  async serverPrefetch() {
-    return await requestExtensionSingle()
+  serverPrefetch() {
+    return Promise.all([
+      requestExtensionIndex(),
+      requestExtensionSingle(this.packageName)
+    ])
   },
   computed: {
-    pluginData: function() {
-      let pageSlug = this.$route.params.slug
-      return pickBy(this.getData, function(u) {
-        let name = u.name.replace("@factor/", "")
-        return name === pageSlug || ""
-      })
+    packageName() {
+      return decodeURI(this.$route.query.package)
+    },
+    item() {
+      return getSingleCache(this.packageName) || {}
     }
   },
   async mounted() {
-    let data = stored("plugins-index")
+    let data = getSingleCache(this.packageName)
 
     if (!data) {
-      data = await this.$endpoint.request({ id: "pluginData", method: "getIndex" })
+      await requestExtensionSingle(this.packageName)
     }
-
-    this.getData = data
 
     this.loading = false
   },
   methods: {
-    setting,
     titleFromPackage,
     formatDownloads,
-    pluginIcon(entry) {
-      const imageName = `icon.svg`
+    extensionPermalink,
+    extensionIcon,
+    getAuthors,
+    screenshotsList,
+    setting,
 
-      let images = []
-
-      if (entry) {
-        images = entry
-          .filter(image => !!image.path.match(imageName))
-          .map(image => {
-            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
-          })
-      }
-
-      return images[0]
-    },
-    screenshotsList(list) {
-      const imagePattern = /\.(png|gif|jpg|svg|bmp|icns|ico|sketch)$/i
-      const imageName = `screenshot`
-
-      let screenshots = []
-
-      if (list) {
-        screenshots = list
-          .filter(
-            image => !!image.path.match(imagePattern) && !!image.path.match(imageName)
-          )
-          .map(image => {
-            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
-          })
-      }
-
-      return screenshots
-    },
     showModal(_ind) {
       this.lightboxIndex = _ind
       this.lightboxShow = true
@@ -165,10 +141,17 @@ export default {
 <style lang="less">
 @import "../prism/prism.less";
 
-.plugins-container-single {
+.plugin-single {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
+
+  .posts-loading {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
   .content-pad {
     max-width: 1100px;
@@ -177,6 +160,43 @@ export default {
     width: 100%;
     z-index: 10;
     position: relative;
+  }
+
+  .plugin-single-header {
+    padding: 2rem 0;
+    .back {
+      margin: 1rem 0;
+      font-weight: 600;
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      padding: 4rem 0;
+      .icon {
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        img {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+      .head {
+        padding-left: 3rem;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        .title {
+          font-size: 2.5em;
+          margin-bottom: 0.4em;
+        }
+        .sub-title {
+          opacity: 0.6;
+          font-size: 1.5em;
+        }
+      }
+    }
   }
 
   .plugins-wrap {
