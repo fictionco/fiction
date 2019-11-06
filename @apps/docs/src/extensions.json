@@ -1,16 +1,16 @@
 {
   "plugins": [
-    "@factor/plugin-sitemap",
-    "@factor/plugin-email-list",
-    "@factor/plugin-jobs",
-    "@factor/plugin-blog",
-    "@factor/plugin-seo",
-    "@factor/plugin-storage-s3",
-    "@factor/plugin-google-tag-manager",
-    "@factor/plugin-ssr-bar",
-    "@factor/plugin-bugsnag",
-    "@factor/plugin-highlight-code",
-    "@factor/plugin-notify",
-    "@factor/plugin-contact-form"
+    { "name": "@factor/plugin-sitemap" },
+    { "name": "@factor/plugin-email-list", "featured": true },
+    { "name": "@factor/plugin-jobs", "featured": true },
+    { "name": "@factor/plugin-blog", "featured": true },
+    { "name": "@factor/plugin-seo" },
+    { "name": "@factor/plugin-storage-s3" },
+    { "name": "@factor/plugin-google-tag-manager" },
+    { "name": "@factor/plugin-ssr-bar" },
+    { "name": "@factor/plugin-bugsnag" },
+    { "name": "@factor/plugin-highlight-code" },
+    { "name": "@factor/plugin-notify" },
+    { "name": "@factor/plugin-contact-form" }
   ]
 }

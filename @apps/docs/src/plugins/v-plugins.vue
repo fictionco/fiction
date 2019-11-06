@@ -1,48 +1,47 @@
 <template>
   <div class="plugins-container">
-    <widget-header :title="`Factor Plugin Library`">
-      <h3 slot="subtitle">Extend your project features and do more with Factor.</h3>
-      <figure-plugins slot="figure" />
-    </widget-header>
+    <div class="plugin-index-head">
+      <div class="content-pad">
+        <h1 class="title">Factor Plugins</h1>
+        <h3 class="sub-title">Add new features to your app in seconds</h3>
+      </div>
+    </div>
 
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else class="plugins-wrap content-pad">
       <div class="content">
-        <section v-if="pluginsFeatured.length > 0" class="plugins-featured">
+        <section v-if="extensionFeatured.length > 0" class="plugins-featured">
           <header class="section-header">
             <h1 class="title">Featured</h1>
           </header>
           <div class="plugins-grid">
             <factor-link
-              v-for="(entry, index) in pluginsFeatured"
+              v-for="(item, index) in extensionFeatured"
               :key="index"
-              :path="extensionPermalink({name: entry._id})"
+              :path="extensionPermalink({name: item._id})"
               class="entry-plugin"
             >
-              <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-                <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
-              </div>
-
               <div class="entry-content">
-                <h3 class="title">{{ titleFromPackage(entry._id) }}</h3>
+                <div class="entry-image">
+                  <img :src="extensionIcon(item)" :alt="`${item.name} Icon`" />
+                </div>
+                <h3 class="title">{{ titleFromPackage(item) }}</h3>
                 <div class="meta">
-                  <div v-if="entry.maintainers" class="authors">
+                  <div v-if="item.maintainers" class="authors">
                     by
-                    <span
-                      v-for="(author, au) in entry.maintainers"
-                      :key="au"
-                      class="author"
-                    >{{ author.name }}</span>
+                    <span class="author">{{ item.maintainers[0].name }}</span>
                   </div>
-                  <div
-                    v-if="entry.downloads"
-                    class="downloads"
-                  >{{ formatDownloads(entry.downloads) }} downloads</div>
                 </div>
 
-                <p v-if="entry.description" class="text">{{ entry.description }}</p>
+                <p v-if="item.description" class="text">{{ item.description }}</p>
+              </div>
+              <div class="entry-footer">
+                <div
+                  v-if="item.downloads"
+                  class="downloads"
+                >&darr; {{ formatDownloads(item.downloads) }} downloads</div>
               </div>
             </factor-link>
           </div>
@@ -53,35 +52,35 @@
             <h1 class="title">All</h1>
           </header>
           <factor-link
-            v-for="(entry, index) in getData"
-            :key="index"
-            :path="extensionPermalink({name: entry._id})"
+            v-for="(item, i) in extensionIndex"
+            :key="i"
+            :path="extensionPermalink({name: item._id})"
             class="entry-plugin"
           >
-            <div v-if="pluginIcon(entry.githubFiles)" class="entry-image">
-              <img :src="pluginIcon(entry.githubFiles)" :alt="entry.name" />
+            <div class="entry-image">
+              <img :src="extensionIcon(item)" :alt="item.name" />
             </div>
 
             <div class="entry-content">
-              <h3 class="title">{{ titleFromPackage(entry._id) }}</h3>
+              <h3 class="title">{{ titleFromPackage(item ) }}</h3>
               <div class="meta">
-                <div v-if="entry.maintainers" class="authors">
+                <div v-if="item.maintainers" class="authors">
                   by
                   <span
-                    v-for="(author, au) in entry.maintainers"
+                    v-for="(author, au) in item.maintainers"
                     :key="au"
                     class="author"
                   >{{ author.name }}</span>
                 </div>
               </div>
 
-              <p v-if="entry.description" class="text">{{ entry.description }}</p>
+              <p v-if="item.description" class="text">{{ item.description }}</p>
             </div>
           </factor-link>
         </section>
       </div>
       <div>
-        <widget-sidebar :get-data="getData" />
+        <widget-sidebar :index-data="extensionIndex" />
       </div>
     </div>
 
@@ -90,14 +89,16 @@
 </template>
 
 <script>
-import { titleFromPackage, formatDownloads, extensionPermalink } from "./util"
-import { stored, orderBy, pickBy } from "@factor/tools"
-import { requestExtensionIndex } from "./extension-request"
+import {
+  titleFromPackage,
+  formatDownloads,
+  extensionPermalink,
+  extensionIcon
+} from "./util"
+import { requestExtensionIndex, getIndexCache } from "./extension-request"
 
 export default {
   components: {
-    "widget-header": () => import("./widget-header.vue"),
-    "figure-plugins": () => import("./figure-plugins.vue"),
     "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
@@ -114,28 +115,17 @@ export default {
     headerFigure() {
       return () => import("./figure-plugins.vue")
     },
-    pluginsFeatured: function() {
-      let getFeatured = pickBy(this.getData, function(u) {
-        return (
-          (u.keywords.includes("factor-plugin") &&
-            u.keywords.includes("factor-featured")) ||
-          ""
-        )
-      })
-
-      let orderFeatured = orderBy(getFeatured, ["downloads"], ["desc"])
-
-      return Object.values(orderFeatured).slice(0, 2) //limit to 2 posts
+    extensionFeatured() {
+      return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
+    },
+    extensionIndex() {
+      return getIndexCache() || []
     }
   },
   async mounted() {
-    let data = stored("plugins-index")
-
-    if (!data) {
-      data = await requestExtensionIndex()
+    if (this.extensionIndex.length == 0) {
+      await requestExtensionIndex()
     }
-
-    this.getData = data
 
     this.loading = false
   },
@@ -143,30 +133,12 @@ export default {
     titleFromPackage,
     formatDownloads,
     extensionPermalink,
-
-    pluginIcon(entry) {
-      const imageName = `icon.svg`
-
-      let images = []
-
-      if (entry) {
-        images = entry
-          .filter(image => !!image.path.match(imageName))
-          .map(image => {
-            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
-          })
-        // .map(image => {
-        //   return "https://rawcdn.githack.com/fiction-com/factor/master/" + image.path
-        // })
-      }
-
-      return images[0]
-    }
+    extensionIcon
   },
   metaInfo() {
     return {
-      title: "Factor Plugin Library",
-      description: "Extend your project features and do more with Factor."
+      title: "Factor Plugins",
+      description: "Add advanced features to your app in seconds."
     }
   }
 }
@@ -176,6 +148,20 @@ export default {
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
+  .plugin-index-head {
+    padding: 6em 0;
+    .title {
+      font-size: 2.5em;
+      line-height: 1.1;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      text-transform: capitalize;
+    }
+    .sub-title {
+      font-size: 1.6em;
+      opacity: 0.7;
+    }
+  }
   .posts-loading .loading-ring-wrap {
     min-height: 400px;
   }
@@ -255,6 +241,18 @@ export default {
       grid-gap: 1rem;
     }
   }
+  .entry-plugin {
+    box-shadow: 0 1px 3px #afb6ca;
+    color: var(--color-text);
+    border-radius: 6px;
+    background: #fff;
+    transition: 0.3s all;
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 1px 3px 0px #afb6ca;
+      background: #fafafa;
+    }
+  }
 
   //  FEATURED PLUGINS
   .plugins-featured {
@@ -271,17 +269,11 @@ export default {
     }
     .entry-plugin {
       padding: 1.5rem;
-      background: #fff;
-      border-radius: 6px;
-      border: 1px solid var(--color-bg-contrast-more);
-      color: var(--color-text);
 
-      &:hover {
-        background: #f6f9fc;
-        .entry-content .title {
-          color: var(--color-primary);
-        }
-      }
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
       .entry-image {
         height: 70px;
         width: 70px;
@@ -297,6 +289,7 @@ export default {
       }
       .entry-content {
         overflow: hidden;
+        margin: 1em 0;
         .title {
           font-size: 1.6em;
           line-height: 1.2em;
@@ -356,21 +349,11 @@ export default {
       grid-gap: 2rem;
       align-items: flex-start;
       margin-bottom: 1.5rem;
-      padding: 1.5rem;
+      padding: 2rem;
       background: #fff;
-      border-radius: 6px;
-      border: 1px solid var(--color-bg-contrast-more);
-      color: var(--color-text);
 
       @media (max-width: 900px) {
         display: block;
-      }
-
-      &:hover {
-        background: #f6f9fc;
-        .entry-content .title {
-          color: var(--color-primary);
-        }
       }
 
       .entry-image {

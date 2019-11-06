@@ -8,7 +8,13 @@ import LRU from "lru-cache"
 import { createBundleRenderer } from "vue-server-renderer"
 
 import "./server-dev"
-import { handleServerError, getPort, getServerInfo, logServerReady } from "./util"
+import {
+  handleServerError,
+  getPort,
+  getServerInfo,
+  logServerReady,
+  logServerRestart
+} from "./util"
 import { loadMiddleware } from "./middleware"
 
 let PORT
@@ -17,7 +23,7 @@ let _listening
 let renderer
 let _application
 addCallback("create-server", _ => createServer(_))
-addCallback("close-server", _ => closeServer(_))
+addCallback("close-server", () => closeServer())
 
 export function createServer({ port }) {
   PORT = getPort(port)
@@ -74,7 +80,7 @@ export async function closeServer() {
 
 function createRenderer(bundle, options) {
   // Allow for changing default options when rendering
-  // particulary important for testing
+  // particularly important for testing
   options = applyFilters("server-renderer-options", options)
   return createBundleRenderer(bundle, {
     cache: new LRU({ max: 1000, maxAge: 1000 * 60 * 15 }),
@@ -117,11 +123,10 @@ function startListener() {
   _listening.destroy = destroyer(_listening)
 
   addCallback("restart-server", async () => {
-    log.formatted({ title: `server file changed, restarting server...` })
-
     _listening.destroy()
     await runCallbacks("rebuild-server-app")
     startListener()
+    logServerRestart()
   })
 }
 

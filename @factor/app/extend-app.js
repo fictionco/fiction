@@ -3,7 +3,6 @@ import Factor from "@factor/core"
 import "@factor/app"
 
 Factor.config.productionTip = false
-Factor.config.devtools = false
 Factor.config.silent = false
 
 export async function extendApp(options = {}) {

@@ -1,5 +1,5 @@
 import { endpointRequest } from "@factor/endpoint"
-import { storeItem } from "@factor/tools"
+import { storeItem, stored } from "@factor/tools"
 import { endpointId } from "./util"
 
 export async function requestExtensionIndex() {
@@ -11,4 +11,8 @@ export async function requestExtensionIndex() {
 
 export async function requestExtensionSingle() {
   return {}
+}
+
+export function getIndexCache() {
+  return stored("plugins-index")
 }

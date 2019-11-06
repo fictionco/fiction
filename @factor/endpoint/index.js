@@ -1,4 +1,4 @@
-import { userToken } from "@factor/user"
+import { userToken, handleTokenError } from "@factor/user"
 import { emitEvent } from "@factor/tools"
 import axios from "axios"
 
@@ -13,8 +13,10 @@ export async function endpointRequest({ id, method, params = {}, headers = {} })
     } = await authorizedRequest(endpointPath(id), { method, params }, { headers })
 
     if (error) {
-      emitEvent("error", error)
-      throw new Error(error)
+      if (!handleTokenError(error)) {
+        emitEvent("error", error)
+        throw new Error(error)
+      }
     }
 
     return result
