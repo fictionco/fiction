@@ -1,7 +1,7 @@
 import { plugins } from "../extensions"
 import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
-import { addCallback, log } from "@factor/tools"
+import { addCallback } from "@factor/tools"
 import { endpointId } from "./util"
 
 addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
@@ -14,8 +14,20 @@ export async function getIndex() {
   return index
 }
 
+export async function latestPackageVersion(slug) {
+  const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${slug}`)
+
+  if (data) {
+    const {
+      tags: { latest }
+    } = data
+
+    return latest
+  } else return ""
+}
+
 export async function getSingle(slug) {
-  let cleanSlug = slug.replace("@factor/", "")
+  const latest = await latestPackageVersion(slug)
 
   const requests = [
     {
@@ -25,25 +37,12 @@ export async function getSingle(slug) {
     {
       _id: "npmDownloads",
       url: `https://api.npmjs.org/downloads/point/last-month/${slug}`
+    },
+    {
+      _id: "npmFiles",
+      url: `https://data.jsdelivr.com/v1/package/npm/${slug}@${latest}`
     }
   ]
-
-  let githubToken = process.env.GITHUB_TOKEN
-
-  if (githubToken) {
-    requests.push({
-      _id: "githubFiles",
-      url: `https://api.github.com/repos/fiction-com/factor/contents/@factor/@plugins/${cleanSlug}`,
-      options: {
-        headers: {
-          Authorization: `Bearer ${githubToken}`, //the token is a variable which holds the token
-          "Content-Type": "application/json"
-        }
-      }
-    })
-  } else {
-    log.warn("No Github API token")
-  }
 
   // Run the requests, but add context for errors
   const results = await Promise.all(
@@ -51,7 +50,7 @@ export async function getSingle(slug) {
       try {
         return await axios.get(url, options)
       } catch (error) {
-        error.message = `${_id} Request: ${error.message}`
+        error.message = `${_id} Request to ${url}: ${error.message}`
         throw new Error(error)
       }
     })
@@ -61,7 +60,8 @@ export async function getSingle(slug) {
   const merged = deepMerge(
     results.map((result, index) => {
       const _id = requests[index]._id
-      return Array.isArray(result.data) ? { [_id]: result.data } : result.data
+      const data = Array.isArray(result.data) ? { [_id]: result.data } : result.data
+      return data
     })
   )
 

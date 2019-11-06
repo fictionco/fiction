@@ -85,6 +85,7 @@
     "SMTP",
     "Vuex",
     "blueimp",
+    "bugsnag",
     "clonedeep",
     "codecov",
     "consola",

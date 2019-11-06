@@ -9,7 +9,7 @@ import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 import yargs from "yargs"
 
-// import { watcher } from "./watcher"
+import { watcher } from "./watcher"
 
 const argv = yargs.argv
 
@@ -51,7 +51,7 @@ export async function createServerCompilers() {
 
   template = fs.readFileSync(templatePath, "utf-8")
 
-  //watcher(({ event, path }) => updateBundles({ title: event, value: path }))
+  watcher(({ event, path }) => updateBundles({ title: event, value: path }))
 
   clientCompiler()
 

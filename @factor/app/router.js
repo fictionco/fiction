@@ -14,7 +14,7 @@ export async function createRouter() {
 
   const routes = applyFilters("routes", []).filter(_ => _) // remove undefined
 
-  const __router = new VueRouter({
+  __router = new VueRouter({
     routes,
     mode: "history",
     scrollBehavior: (to, from, saved) => {
