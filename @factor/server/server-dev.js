@@ -4,8 +4,7 @@ import {
   setting,
   log,
   addCallback,
-  runCallbacks,
-  throttle
+  runCallbacks
 } from "@factor/tools"
 import chalk from "chalk"
 import fs from "fs-extra"
@@ -96,7 +95,7 @@ function loaders(target = "", value = "") {
       updateReason = ""
       updateBundles()
       status = "done"
-      runCallbacks("restart-server")
+      setTimeout(() => runCallbacks("restart-server"), 3000)
     }
   }
   return status
@@ -131,7 +130,11 @@ function clientCompiler() {
 
     const publicPath = configClient.output.publicPath
     const middleware = {
-      dev: webpackDevMiddleware(clientCompiler, { publicPath, logLevel: "silent" }),
+      dev: webpackDevMiddleware(clientCompiler, {
+        publicPath,
+        logLevel: "silent",
+        reload: true
+      }),
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 5000, log: false })
     }
 
