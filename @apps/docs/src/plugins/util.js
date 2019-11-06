@@ -14,6 +14,5 @@ export function formatDownloads(number) {
 }
 
 export function extensionPermalink({ base = "plugin", name }) {
-  const slug = name.slice(name.lastIndexOf("/") + 1)
-  return `/${base}/${slug}`
+  return `/${base}/${name}`
 }
