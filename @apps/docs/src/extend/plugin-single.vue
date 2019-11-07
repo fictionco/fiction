@@ -92,12 +92,20 @@ export default {
       requestExtensionSingle(this.packageName)
     ])
   },
+
   computed: {
     packageName() {
       return decodeURI(this.$route.query.package)
     },
     item() {
       return getSingleCache(this.packageName) || {}
+    }
+  },
+  watch: {
+    $route: function(to, from) {
+      if (to.query.package != from.query.package) {
+        this.getSingle()
+      }
     }
   },
   async mounted() {
@@ -117,7 +125,11 @@ export default {
     getAuthors,
     screenshotsList,
     setting,
-
+    async getSingle() {
+      this.loading = true
+      await requestExtensionSingle(this.packageName)
+      this.loading = false
+    },
     showModal(_ind) {
       this.lightboxIndex = _ind
       this.lightboxShow = true

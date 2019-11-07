@@ -144,6 +144,7 @@ export default {
 
   async mounted() {},
   methods: {
+    userId,
     standardDate,
     async sendVerifyEmail() {
       this.sending = true

@@ -2,7 +2,7 @@ import { toLabel } from "@factor/tools"
 
 export const endpointId = "pluginData"
 
-export function titleFromPackage({ pkg = {}, _id }) {
+export function titleFromPackage({ pkg = {}, _id = "" }) {
   if (pkg.factor && pkg.factor.title) {
     return pkg.factor.title
   } else {
@@ -41,7 +41,7 @@ export function extensionScreenshot(item) {
 export function cdnUrl(item) {
   const { files, cdnBaseUrl, fileName = "icon.svg", defaultFile = "" } = item
 
-  const found = files.find(f => f.name == fileName)
+  const found = files ? files.find(f => f.name == fileName) : false
 
   return found ? `${cdnBaseUrl}/${fileName}` : defaultFile
 }
@@ -49,7 +49,7 @@ export function cdnUrl(item) {
 export function screenshotsList(item) {
   const imagePattern = /screenshot\.(png|gif|jpg|svg)$/i
 
-  const { files, cdnBaseUrl } = item
+  const { files = [], cdnBaseUrl } = item
 
   let screenshots = []
 
@@ -60,8 +60,8 @@ export function screenshotsList(item) {
   return screenshots
 }
 
-export function getAuthors(item, { number = 2 } = {}) {
-  const authors = item.maintainers.map(a => a.name)
+export function getAuthors({ maintainers = [] }, { number = 2 } = {}) {
+  const authors = maintainers.map(a => a.name)
 
   return authors.slice(0, number).join(", ")
 }
