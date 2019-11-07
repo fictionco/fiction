@@ -99,6 +99,7 @@
     "linkify",
     "lockfile",
     "maxage",
+    "mimetype",
     "npmjs",
     "npmrc",
     "pagelines",

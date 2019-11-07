@@ -22,7 +22,7 @@ const argv = yargs.argv
 
 let configServer
 let configClient
-let waitingForRestart = false
+
 let updateBundleCallback
 let updateReason = ""
 let updateLoaders = {}
@@ -62,12 +62,8 @@ export async function createServerCompilers() {
     updateBundles({ title: event, value: path })
 
     // On js file updates, wait for 3 seconds for build
-    if (path.includes(".js") && !waitingForRestart) {
-      waitingForRestart = true
-      setTimeout(() => {
-        waitingForRestart = false
-        runCallbacks("restart-server")
-      }, 3000)
+    if (path.includes(".js")) {
+      runCallbacks("restart-server")
     }
   })
 
