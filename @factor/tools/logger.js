@@ -22,7 +22,7 @@ export class FactorLogger {
   }
 
   success() {
-    Reflect.apply(this.utility.success, null, arguments)
+    Reflect.apply(this.utility.log, null, arguments)
   }
 
   log() {

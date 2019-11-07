@@ -12,5 +12,12 @@
     { "name": "@factor/plugin-highlight-code" },
     { "name": "@factor/plugin-notify" },
     { "name": "@factor/plugin-contact-form" }
+  ],
+  "themes": [
+    { "name": "@factor/theme-alpha" },
+    { "name": "@factor/theme-ultra" },
+    { "name": "@factor/theme-docs" },
+    { "name": "@factor/theme-bulma" },
+    { "name": "@factor/theme-standard" }
   ]
 }

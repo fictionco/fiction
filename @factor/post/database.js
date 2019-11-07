@@ -16,7 +16,8 @@ export class FactorDB {
 
   async initialize() {
     await this.dbConnect()
-    if (process.env.FACTOR_DEBUG) mongoose.set("debug", true)
+
+    if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
     mongoose.plugin(require("mongoose-beautiful-unique-validation"))
     this.initializeModels()
   }

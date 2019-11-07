@@ -1,4 +1,4 @@
-import "./plugins/extension-server"
+import "./extend/extension-server"
 import { addFilter, setting, addRoutes } from "@factor/tools"
 
 // Register doc routes for sitemap
@@ -31,14 +31,6 @@ addFilter("content-routes", _ => {
 
   return [
     ..._,
-    // {
-    //   path: "/plugins",
-    //   component: () => import("./page-plugins")
-    // },
-    // {
-    //   path: "/themes",
-    //   component: () => import("./v-themes")
-    // },
     {
       path: "/compare",
       component: () => import("./page-compare.vue")
@@ -57,29 +49,29 @@ addFilter("content-routes", _ => {
     },
     {
       path: `/themes`,
-      component: () => import("./themes/themes-wrap.vue"),
+      component: () => import("./extend/theme-wrap.vue"),
       children: [
         {
           path: `/`,
-          component: () => import("./themes/v-themes.vue")
+          component: () => import("./extend/theme-index.vue")
         },
         {
-          path: `/theme/:slug`,
-          component: () => import("./themes/theme-single.vue")
+          path: `/theme/view`,
+          component: () => import("./extend/theme-single.vue")
         }
       ]
     },
     {
       path: `/plugins`,
-      component: () => import("./plugins/plugins-wrap.vue"),
+      component: () => import("./extend/plugin-wrap.vue"),
       children: [
         {
           path: `/`,
-          component: () => import("./plugins/v-plugins.vue")
+          component: () => import("./extend/plugin-index.vue")
         },
         {
           path: `/plugin/view`,
-          component: () => import("./plugins/plugin-single.vue")
+          component: () => import("./extend/plugin-single.vue")
         }
       ]
     }

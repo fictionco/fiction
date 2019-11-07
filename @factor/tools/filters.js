@@ -1,4 +1,4 @@
-import { sortPriority, uniqueObjectHash } from "@factor/tools"
+import { sortPriority, uniqueObjectHash } from "@factor/tools/utils"
 
 export class FactorFilters {
   constructor() {

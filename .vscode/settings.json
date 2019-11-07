@@ -91,6 +91,7 @@
     "consola",
     "dayjs",
     "deepmerge",
+    "devtool",
     "envfile",
     "execa",
     "isempty",

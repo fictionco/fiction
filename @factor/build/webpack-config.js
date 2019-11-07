@@ -20,16 +20,26 @@ addCallback("create-distribution-app", _ => buildProduction(_))
 addFilter("webpack-config", _ => getConfig(_))
 
 export async function buildProduction(_arguments = {}) {
-  return await Promise.all(
-    ["server", "client"].map(async target => {
-      const config = await getConfig({ ..._arguments, target })
-      enhancedBuild({ config, name: target })
-    })
-  )
+  let config
+
+  config = await getConfig({ ..._arguments, target: "server" })
+
+  await enhancedBuild({ config, name: "server" })
+
+  config = await getConfig({ ..._arguments, target: "client" })
+
+  await enhancedBuild({ config, name: "client" })
+  // return await Promise.all(
+  //   ["server", "client"].map(async target => {
+  //     const config = await getConfig({ ..._arguments, target })
+
+  //     return await enhancedBuild({ config, name: target })
+  //   })
+  // )
 }
 
 export async function getConfig(_arguments) {
-  const { NODE_ENV } = process.env
+  const { NODE_ENV, FACTOR_DEBUG } = process.env
 
   let { target, analyze = false, testing = false } = _arguments
 
@@ -40,6 +50,8 @@ export async function getConfig(_arguments) {
   const targetConfig = target == "server" ? server() : client()
 
   const testingConfig = testing ? { devtool: "", optimization: { minimize: false } } : {}
+
+  const debugConfig = FACTOR_DEBUG ? { devtool: "source-map" } : {}
 
   const plugins = applyFilters("webpack-plugins", [], { ..._arguments, webpack })
 
@@ -59,6 +71,7 @@ export async function getConfig(_arguments) {
     targetConfig,
     packageConfig,
     testingConfig,
+    debugConfig,
     { plugins }
   )
 
@@ -94,6 +107,7 @@ function client() {
 function production() {
   return {
     mode: "production",
+    devtool: "source-map",
     output: { publicPath: "/" },
     plugins: [
       new MiniCssExtractPlugin({
