@@ -34,16 +34,16 @@ export function getSchemaPopulatedFields({ postType = "post", depth = 10 }) {
   return pop
 }
 
-export function canUpdatePost({ user, post, action, isNew }) {
+export function canUpdatePost({ bearer, post, action, isNew }) {
   const schema = getSchema(post.__t)
 
   if (isNew && action == "save" && schema.anonymousUserCanCreate) {
     return true
   } else if (
-    user &&
-    (user.accessLevel >= 300 ||
-      post.author.includes(user._id) ||
-      user._id.toString() == post._id.toString())
+    bearer &&
+    (bearer.accessLevel >= 300 ||
+      post.author.includes(bearer._id) ||
+      bearer._id.toString() == post._id.toString())
   ) {
     return true
   } else {
