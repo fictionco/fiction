@@ -96,7 +96,7 @@ import { requestExtensionIndex, getIndexCache } from "./extension-request"
 export default {
   components: {
     "widget-header": () => import("./widget-header.vue"),
-    "widget-sidebar": () => import("., /widget-sidebar.vue"),
+    "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
