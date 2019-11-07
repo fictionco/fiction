@@ -123,9 +123,7 @@ export default {
       this.lightboxShow = true
     },
     getContent(value) {
-      let markdownContent = value
-
-      return markdownContent ? renderMarkdown(markdownContent, { variables: true }) : ""
+      return value ? renderMarkdown(value, { variables: true }) : ""
     }
   },
   metaInfo() {
