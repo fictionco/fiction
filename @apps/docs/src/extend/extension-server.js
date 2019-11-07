@@ -5,15 +5,19 @@ import axios from "axios"
 import { endpointId } from "./util"
 import * as extensions from "../extensions"
 
+import cache from "memory-cache"
+
 addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 
 export async function getIndex({ type = "plugins" }) {
   const list = extensions[type]
-  return await Promise.all(list.map(async plugin => getSingle(plugin)))
+  return await Promise.all(list.map(async extension => getSingle(extension)))
 }
 
-export async function getSingle(plugin) {
-  const { name } = plugin
+export async function getSingle(params) {
+  const { name } = params
+  const cached = cache.get(name)
+  if (cached) return cached
 
   const latest = await latestPackageVersion(name)
 
@@ -49,11 +53,15 @@ export async function getSingle(plugin) {
   const otherData = { cdnBaseUrl: `https://cdn.jsdelivr.net/npm/${name}@${latest}` }
 
   // Ensure array of objects and deep merge results
-  const merged = deepMerge([plugin, otherData, ...parsed])
+  const merged = deepMerge([params, otherData, ...parsed])
 
   const item = { ...merged, pkg: merged.versions[latest] }
 
   delete item.versions
+
+  const HOUR = 1000 * 60 * 60
+  cache.put(name, item, HOUR)
+
   //test
   return item
 }

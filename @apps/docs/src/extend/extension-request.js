@@ -19,6 +19,7 @@ export async function requestExtensionSingle(name) {
     method: "getSingle",
     params: { name }
   })
+
   storeItem(`extension-${name}`, data)
 
   return data

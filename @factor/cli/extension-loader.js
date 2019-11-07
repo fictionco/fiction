@@ -41,7 +41,7 @@ function generateExtensionList(packagePaths) {
       name,
       factor: { _id, priority, target = false, extend = "plugin" } = {},
       version,
-      main = "index.js"
+      main = "index"
     } = _
 
     _id = getId({ _id, name })
@@ -127,7 +127,15 @@ function makeModuleLoader({ extensions, loadTarget, callback }) {
     const { target, name, cwd } = extension
 
     target[loadTarget].forEach(({ _id, file, priority = 100 }) => {
-      files.push({ _id, file: `${cwd ? ".." : name}/${file}`, priority })
+      const _module = `${cwd ? ".." : name}/${file}`
+
+      const moduleName = _module.replace(/\.[^/.]+$/, "").replace(/\/index$/, "")
+
+      files.push({
+        _id,
+        file: moduleName,
+        priority
+      })
     })
   })
 
@@ -146,9 +154,11 @@ function makeFileLoader({ extensions, filename, callback }) {
     glob
       .sync(`${dir}/**/${filename}`)
       .map((fullPath, index) => {
+        const _module = fullPath.replace(dir, requireBase)
+        const moduleName = _module.replace(/\.js$/, "").replace(/\/index$/, "")
         return {
           _id: index == 0 ? _id : `${_id}_${index}`,
-          file: fullPath.replace(dir, requireBase),
+          file: moduleName,
           path: fullPath
         }
       })
@@ -164,9 +174,7 @@ function recursiveDependencies(deps, pkg) {
   const d = { ...dependencies, ...devDependencies }
 
   Object.keys(d)
-    .map(_ => {
-      return require(`${_}/package.json`)
-    })
+    .map(_ => require(`${_}/package.json`))
     .filter(_ => typeof _.factor != "undefined" || _.name.includes("factor"))
     .forEach(_ => {
       if (!deps.find(pkg => pkg.name == _.name)) {
@@ -233,9 +241,9 @@ function loaderStringOrdered(files) {
 // Use root application dependencies as the start of the
 // factor dependency tree
 function loadExtensions(pkg) {
-  const dependants = recursiveDependencies([pkg], pkg)
+  const dependents = recursiveDependencies([pkg], pkg)
 
-  return generateExtensionList(dependants)
+  return generateExtensionList(dependents)
 }
 
 function getDirectory({ name, main }) {
