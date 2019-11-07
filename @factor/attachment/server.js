@@ -1,18 +1,13 @@
 import { getModel } from "@factor/post/server"
-import multer from "multer"
-
-import { pushToFilter, applyFilters, runCallbacks, addCallback } from "@factor/tools"
-
 import { objectId } from "@factor/post/util"
 import { processEndpointRequest } from "@factor/endpoint/server"
-
+import { pushToFilter, applyFilters, runCallbacks, addCallback } from "@factor/tools"
+import * as endpointHandler from "@factor/attachment/server"
 import mime from "mime-types"
-
-import storageSchema from "./schema"
+import multer from "multer"
 
 import { uploadEndpointPath } from "./util"
-
-import * as endpointHandler from "@factor/attachment/server"
+import storageSchema from "./schema"
 
 addCallback("endpoints", { id: "storage", handler: endpointHandler })
 

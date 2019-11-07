@@ -1,17 +1,14 @@
 import { addFilter, addCallback } from "@factor/tools"
 const AWS = require("aws-sdk")
 
-const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY
-const AWS_ACCESS_KEY_SECRET = process.env.AWS_ACCESS_KEY_SECRET
-const AWS_S3_BUCKET = process.env.AWS_S3_BUCKET
-
-const bucket = AWS_S3_BUCKET
-const S3 = new AWS.S3()
-
 addFilters()
 
 function addFilters() {
-  if (!AWS_ACCESS_KEY || !AWS_ACCESS_KEY_SECRET || !AWS_S3_BUCKET) {
+  if (
+    !process.env.AWS_ACCESS_KEY ||
+    !process.env.AWS_ACCESS_KEY_SECRET ||
+    !process.env.AWS_S3_BUCKET
+  ) {
     addFilter("setup-needed", _ => {
       const item = {
         title: "Plugin: S3 Storage Credentials",
@@ -25,12 +22,8 @@ function addFilters() {
     return
   }
 
-  AWS.config.update({
-    accessKeyId: AWS_ACCESS_KEY,
-    secretAccessKey: AWS_ACCESS_KEY_SECRET
-  })
-
   addFilter("storage-attachment-url", ({ buffer, key }) => {
+    const { bucket, S3 } = setConfig()
     return new Promise((resolve, reject) => {
       var params = { Bucket: bucket, Key: key, Body: buffer, ACL: "public-read" }
       S3.upload(params, (err, data) => {
@@ -44,6 +37,7 @@ function addFilters() {
   })
 
   addCallback("delete-attachment", async doc => {
+    const { bucket, S3 } = setConfig()
     const key = doc.url.split("amazonaws.com/")[1]
 
     if (key) {
@@ -51,4 +45,15 @@ function addFilters() {
       return await S3.deleteObject(params).promise()
     }
   })
+}
+
+function setConfig() {
+  AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET
+  })
+
+  const bucket = process.env.AWS_S3_BUCKET
+  const S3 = new AWS.S3()
+  return { S3, bucket }
 }
