@@ -1,7 +1,9 @@
+import { applyFilters, runCallbacks, addCallback } from "@factor/tools/filters"
+import { emitEvent } from "@factor/tools"
 import Factor from "@factor/core"
 import VueRouter from "vue-router"
 import qs from "qs"
-import { emitEvent, applyFilters, runCallbacks, addCallback } from "@factor/tools"
+
 Factor.use(VueRouter)
 
 let __initialPageLoad

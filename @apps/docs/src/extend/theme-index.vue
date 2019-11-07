@@ -2,7 +2,6 @@
   <div class="themes-container">
     <widget-header :title="`Factor Themes Library`">
       <h3 slot="subtitle">Create beautiful apps in minutes.</h3>
-      <!-- <figure-themes slot="figure" /> -->
     </widget-header>
 
     <div v-if="loading" class="posts-loading">
@@ -15,83 +14,61 @@
             <h1 class="title">Featured</h1>
           </header>
           <div class="themes-grid">
-            <article v-for="(entry, index) in themesFeatured" :key="index" class="article-tile">
-              <factor-link :path="permalink(entry._id)" class="entry-theme">
+            <article v-for="(item, i) in themesFeatured" :key="i" class="article-tile">
+              <factor-link :path="extensionPermalink(item)" class="entry-theme">
                 <div
-                  v-if="themeScreenshot(entry.githubFiles)"
-                  :style="{ backgroundImage: `url(${themeScreenshot(entry.githubFiles)})` }"
+                  v-if="themeScreenshot(item)"
+                  :style="{ backgroundImage: `url(${themeScreenshot(item)})` }"
                   class="entry-image"
                 ></div>
 
                 <div class="entry-content">
-                  <h1 class="title">{{ formatName(entry._id) }}</h1>
+                  <h1 class="title">{{ titleFromPackage(item) }}</h1>
                   <div class="meta">
-                    <div v-if="entry.maintainers" class="authors">
+                    <div v-if="item.maintainers" class="authors">
                       by
-                      <span
-                        v-for="(author, au) in entry.maintainers"
-                        :key="au"
-                        class="author"
-                      >{{ $utils.toLabel(author.name ) }}</span>
+                      {{ getAuthors(item) }}
                     </div>
                     <div
-                      v-if="entry.downloads"
+                      v-if="ite .downloads"
                       class="downloads"
-                    >{{ formatDownloads(entry.downloads) }} downloads</div>
+                    >{{ formatDownloads(ite .downloads) }} downloads</div>
                   </div>
-                  <!-- <p v-if="entry.description" class="text">{{ entry.description }}</p>-->
                 </div>
               </factor-link>
             </article>
           </div>
         </section>
-        <!--
-          themes Categories and Search
-          <div class="themes-search-wrap">
-          <factor-input-wrap
-            input="factor-input-text"
-            :placeholder="`Search Factor themes`"
-            required
-          />
-          <factor-input-wrap
-            :list="['seo', 'Utilities', 'Jobs', 'Comments', 'Syntax']"
-            input="factor-input-select"
-            :placeholder="`All Categories`"
-          />
-        </div>-->
+
         <section class="themes-all">
           <header class="section-header">
             <h1 class="title">All</h1>
           </header>
           <div class="themes-grid">
             <factor-link
-              v-for="(entry, index) in getData"
-              :key="index"
-              :path="permalink(entry._id)"
+              v-for="(item, i) in getData"
+              :key="i"
+              :path="extensionPermalink(item)"
               class="entry-theme"
             >
               <div
-                v-if="themeScreenshot(entry.githubFiles)"
-                :style="{ backgroundImage: `url(${themeScreenshot(entry.githubFiles)})` }"
+                v-if="extensionScreenshot(item)"
+                :style="{ backgroundImage: `url(${extensionScreenshot(item)})` }"
                 class="entry-image"
               ></div>
 
               <div class="entry-content">
-                <h3 class="title">{{ formatName(entry._id) }}</h3>
+                <h3 class="title">{{ titleFromPackage(item) }}</h3>
                 <div class="meta">
-                  <div v-if="entry.maintainers" class="authors">
+                  <div v-if="item.maintainers" class="authors">
                     by
-                    <span
-                      v-for="(author, au) in entry.maintainers"
-                      :key="au"
-                      class="author"
-                    >{{ $utils.toLabel(author.name ) }}</span>
+                    {{ getAuthors(item ) }}
                   </div>
 
                   <div
-                    v-if="entry.downloads"
+                    v-if="item.downloads"
                     class="downloads"
-                  >{{ formatDownloads(entry.downloads) }} downloads</div>
+                  >{{ formatDownloads(item.downloads) }} downloads</div>
                 </div>
               </div>
             </factor-link>
@@ -99,7 +76,7 @@
         </section>
       </div>
       <div>
-        <widget-sidebar :get-data="getData" />
+        <widget-sidebar />
       </div>
     </div>
 
@@ -108,89 +85,56 @@
 </template>
 
 <script>
-import { getIndex } from "./theme-data"
-import { orderBy } from "@factor/tools"
+import {
+  titleFromPackage,
+  formatDownloads,
+  extensionPermalink,
+  extensionScreenshot,
+  getAuthors
+} from "./util"
+import { requestExtensionIndex, getIndexCache } from "./extension-request"
 export default {
   components: {
     "widget-header": () => import("./widget-header.vue"),
-    //"figure-themes": () => import("./figure-themes"),
-    "widget-sidebar": () => import("./widget-sidebar.vue"),
+    "widget-sidebar": () => import("., /widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
   data() {
     return {
-      loading: true,
-      getData: ""
+      loading: true
     }
   },
   async serverPrefetch() {
-    const data = await getIndex()
-
-    this.$store.add("themes-index", data)
+    return await requestExtensionIndex("themes")
   },
   computed: {
-    themesFeatured: function() {
-      let getFeatured = this.getData
-
-      // _.pickBy(this.getData, function(u) {
-      //   return (
-      //     (u.keywords.includes("factor-theme") &&
-      //       u.keywords.includes("factor-featured")) ||
-      //     ""
-      //   )
-      // })
-
-      let orderFeatured = orderBy(getFeatured, ["downloads"], ["desc"])
-
-      return Object.values(orderFeatured).slice(0, 2) //limit to 2 posts
+    extensionFeatured() {
+      return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
+    },
+    extensionIndex() {
+      return getIndexCache("themes") || []
     }
   },
   async mounted() {
-    let data = this.$store.val("themes-index")
-
-    if (!data) {
-      data = await this.$endpoint.request({ id: "themedata", method: "getIndex" })
+    if (this.extensionIndex.length == 0) {
+      await requestExtensionIndex("themes")
     }
-
-    this.getData = data
 
     this.loading = false
   },
   methods: {
-    formatName(name) {
-      let spacedName = name.replace(/(?:^|[\s\-_.])/g, " ")
-
-      return spacedName.replace("@factor/", "")
-    },
-    formatDownloads(number) {
-      let num = number
-      return num.toLocaleString("en", { useGrouping: true })
-    },
-    permalink(permalink) {
-      return `/theme/` + permalink.replace("@factor/", "")
-    },
-    themeScreenshot(entry) {
-      const imageName = `screenshot.jpg`
-
-      let images = []
-
-      if (entry) {
-        images = entry
-          .filter(image => !!image.path.match(imageName))
-          .map(image => {
-            return "https://gitcdn.link/repo/fiction-com/factor/master/" + image.path
-          })
-      } else {
-        images = `./img/icon-factor.svg`
-      }
-
-      return images[0]
+    methods: {
+      titleFromPackage,
+      formatDownloads,
+      extensionPermalink,
+      extensionScreenshot,
+      getAuthors
     }
   },
   metaInfo() {
     return {
-      title: "Factor Theme Library",
-      description: "Extend your project features and do more with Factor."
+      title: "Factor Themes",
+      description: "Themes and Starter Apps for Factor"
     }
   }
 }

@@ -3,12 +3,13 @@ import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
 
 import { endpointId } from "./util"
-import { plugins } from "../extensions"
+import * as extensions from "../extensions"
 
 addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 
-export async function getIndex() {
-  return await Promise.all(plugins.map(async plugin => getSingle(plugin)))
+export async function getIndex({ type = "plugins" }) {
+  const list = extensions[type]
+  return await Promise.all(list.map(async plugin => getSingle(plugin)))
 }
 
 export async function getSingle(plugin) {

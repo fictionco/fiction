@@ -1,5 +1,4 @@
-import { getPostTypeConfig , setting, stored, slugify } from "@factor/tools"
-
+import { getPostTypeConfig, setting, stored, slugify } from "@factor/tools"
 
 export function getPermalink(args = {}) {
   const { postType, permalink = "", root = false, path = false } = args

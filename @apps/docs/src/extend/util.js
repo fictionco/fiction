@@ -30,6 +30,14 @@ export function extensionIcon(item) {
   })
 }
 
+export function extensionScreenshot(item) {
+  return cdnUrl({
+    ...item,
+    fileName: "screenshot.jpg",
+    defaultFile: require("./img/icon-factor.svg")
+  })
+}
+
 export function cdnUrl(item) {
   const { files, cdnBaseUrl, fileName = "icon.svg", defaultFile = "" } = item
 

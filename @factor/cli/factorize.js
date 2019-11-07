@@ -21,9 +21,12 @@ export async function factorize(_arguments = {}) {
   addCallback("rebuild-server-app", () => reloadNodeProcess(_config))
 }
 
-export function setEnvironment({ NODE_ENV = "production", command, ENV, PORT } = {}) {
+export function setEnvironment(_arguments) {
+  const { NODE_ENV = "production", command, ENV, PORT, debug } = _arguments || {}
+
   process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
   process.env.NODE_ENV = NODE_ENV
+  process.env.FACTOR_DEBUG = debug ? "yes" : ""
   process.env.FACTOR_ENV = ENV || process.env.FACTOR_ENV || NODE_ENV
   process.env.FACTOR_COMMAND = command || commander._name || "none"
   process.env.FACTOR_TARGET = "server"
