@@ -6,10 +6,7 @@ import chalk from "chalk"
 export class FactorLogger {
   constructor() {
     this.utility = consola.create({
-      level: 5,
-      defaults: {
-        additionalColor: "white"
-      }
+      level: 5
     })
   }
 
@@ -33,7 +30,7 @@ export class FactorLogger {
     Reflect.apply(this.utility.info, null, arguments)
   }
 
-  formatted({ title, lines = [], format = false, color = "cyan" }) {
+  formatted({ title, lines = [], format = "", color = "cyan" }) {
     // Don't log during tests
     if (process.env.FACTOR_ENV == "test") return
 

@@ -17,6 +17,7 @@ addFilter("webpack-define", async __ => {
 
 export function configSettings() {
   const configFile = getPath(`config-file-public`)
+  // @ts-ignore
   const config = fs.existsSync(configFile) ? require(configFile) : {}
   const { factor = {} } = require(`${process.env.FACTOR_CWD}/package.json`)
 

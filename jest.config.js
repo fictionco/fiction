@@ -7,8 +7,9 @@ module.exports = {
 
   roots: ["<rootDir>/@factor", "<rootDir>/test"],
 
-  setupFilesAfterEnv: ["./test/utils/setup", "jest-extended"],
+  setupFilesAfterEnv: ["./test/config/setup", "jest-extended"],
 
+  testMatch: ["**/?(*.|*-)+(spec|test).[jt]s?(x)"],
   testPathIgnorePatterns: [
     "node_modules/(?!(@factor|factor))",
     "test/fixtures/.*/.*?/",
@@ -22,8 +23,8 @@ module.exports = {
     "~/(.*)$": "<rootDir>/test/modules/alias/$1",
     "@/(.*)$": "<rootDir>/test/modules/alias/$1",
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/test/utils/mock-file.js",
-    "\\.(css|less)$": "<rootDir>/test/utils/mock-style.js"
+      "<rootDir>/test/config/mock-file.js",
+    "\\.(css|less)$": "<rootDir>/test/config/mock-style.js"
   },
 
   transformIgnorePatterns: ["node_modules/(?!(@factor|factor))"],

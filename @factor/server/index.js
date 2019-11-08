@@ -47,7 +47,7 @@ export async function startServerProduction() {
   // Set Express routine for all fallthrough paths
   _application.get("*", (request, response) => renderRequest(request, response))
 
-  _application.listen(PORT, () => log.success(`Listening on PORT: ${PORT}`))
+  _application.listen(PORT, () => log.success(`listening on port: ${PORT}`))
 }
 
 // In production we have static files to work with

@@ -1,5 +1,5 @@
 {
-  "name": "@test/importer",
+  "name": "@test/importing-build",
   "version": "1.0.0",
   "license": "UNLICENSED",
   "factor": {
@@ -11,6 +11,6 @@
   },
   "dependencies": {
     "@factor/core": "^1.0.0-beta.0",
-    "@test/importer-plugin": "^1.0.0-beta.0"
+    "@test/importing-build-plugin": "^1.0.0-beta.0"
   }
 }
