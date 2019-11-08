@@ -1,6 +1,7 @@
 /* eslint-disable jest/no-export */
 import { dirname } from "path"
 import { runCallbacks } from "@factor/tools"
+import { factorize } from "@factor/cli/factorize"
 export { default as getPort } from "get-port"
 export { default as rp } from "request-promise-native"
 
@@ -15,7 +16,7 @@ export const indexHtml = () => {
       <title>NOT SET</title>
     </head>
     <body>
-      <div id="app"></div> 
+      <div id="app"></div>
     </body>
   </html>`
 }
@@ -26,10 +27,9 @@ export const buildFixture = fixture => {
 
   test(`Build ${fixture}`, async () => {
     let error
-    const cli = require("@factor/cli")
 
     try {
-      await cli.factorize()
+      await factorize()
 
       await runCallbacks("create-distribution-app", { testing: true })
     } catch (error_) {
@@ -43,7 +43,6 @@ export const buildFixture = fixture => {
 export const loadFixture = async fixture => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
   process.env.FACTOR_ENV = "test"
-  const cli = require("@factor/cli")
 
-  return await cli.factorize()
+  return await factorize()
 }

@@ -15,6 +15,7 @@
     "@factor/*",
     "@demo/*",
     "**/fixtures/*",
+    "test/integration-builds/*",
     "test/modules/*"
   ],
   "private": true,
@@ -31,8 +32,9 @@
     "test:all": "yarn test:fixtures && yarn test:unit",
     "test:lint": "eslint --ext .js,.vue,.json .",
     "test:coverage": "codecov",
-    "test:unit": "jest @factor --forceExit --detectOpenHandles --passWithNoTests",
-    "test:fixtures": "jest test/fixtures --forceExit --detectOpenHandles --passWithNoTests",
+    "test:unit": "jest @factor/**/test/unit --forceExit --detectOpenHandles --passWithNoTests",
+    "test:builds": "jest test/integration-builds --forceExit --detectOpenHandles --passWithNoTests",
+    "test:integration": "jest test/integration --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "gitHooks": {
@@ -77,6 +79,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "std-env": "^2.2.1",
+    "typescript": "^3.7.2",
     "vue": "^2.6.10",
     "vue-jest": "^4.0.0-beta.2",
     "vue-server-renderer": "^2.6.10",

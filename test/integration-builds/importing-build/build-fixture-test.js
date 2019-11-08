@@ -1,2 +1,2 @@
 import { buildFixture } from "@test/utils"
-buildFixture("@test/importer")
+buildFixture("@test/importing-build")

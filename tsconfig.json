@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "esnext",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "strict": false,
+    "esModuleInterop": true
+  },
+  "exclude": ["tests/fixtures/", "tests/integration/"]
+}

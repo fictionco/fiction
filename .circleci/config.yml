@@ -107,14 +107,15 @@ jobs:
       - attach-project
       - run:
           name: Build Fixtures
-          command: yarn test:fixtures -i --coverage && yarn test:coverage -F fixtures
+          command: yarn test:builds -i --coverage && yarn test:coverage -F builds
           environment:
-            JEST_JUNIT_OUTPUT_NAME: fixtures.xml
+            JEST_JUNIT_OUTPUT_NAME: builds.xml
       - store-test-results
       - persist_to_workspace:
           root: ~/project
           paths:
             - test/fixtures
+            - "@factor/*/test/builds"
 
   # --------------------------------------------------------------------------
   # Phase 3: Unit and E2E tests
