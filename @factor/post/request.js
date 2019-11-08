@@ -9,7 +9,8 @@ import {
   applyFilters,
   storeItem,
   stored,
-  setPostMetatags
+  setPostMetatags,
+  currentRoute
 } from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
 
@@ -44,7 +45,7 @@ export async function requestPostDeleteMany({ _ids, postType }) {
 }
 
 export async function preFetchPost({ to = null, clientOnly = false } = {}) {
-  const route = to || Factor.$router.currentRoute
+  const route = to || currentRoute()
 
   const request = applyFilters("post-params", {
     ...route.params,

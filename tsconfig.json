@@ -9,5 +9,5 @@
     "strict": false,
     "esModuleInterop": true
   },
-  "exclude": ["tests/fixtures/", "tests/integration/"]
+  "exclude": ["**/test", "**/dist", "reports", "coverage"]
 }

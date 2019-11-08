@@ -19,8 +19,8 @@ export async function dataURL(file) {
   })
 }
 
-export async function sendStorageRequest({ method, params, formData, headers = {} }) {
-  return await endpointRequest({ id: "storage", formData, method, params, headers })
+export async function sendStorageRequest({ method, params, headers = {} }) {
+  return await endpointRequest({ id: "storage", method, params, headers })
 }
 
 export async function requestDeleteImage(params) {
