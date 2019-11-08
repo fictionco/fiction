@@ -9,9 +9,6 @@ import { factorize, setEnvironment } from "./factorize"
 import { verifyDependencies } from "./task-runner"
 import pkg from "./package"
 
-process.noDeprecation = true
-process.maxOldSpaceSize = 8192
-
 setEnvironment()
 
 // options added by filters, plugins or if not wanted in '--help'

@@ -7,7 +7,20 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "strict": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["test/modules/alias/*"],
+      "@/*": ["test/modules/a lias/*"],
+      "#/*": ["test/modules/alias/*"]
+    }
   },
-  "exclude": ["**/test", "**/dist", "reports", "coverage"]
+  "exclude": [
+    "**/test",
+    "**/dist",
+    "reports",
+    "coverage",
+    "**/prism.js",
+    "**/iconfont.js"
+  ]
 }
