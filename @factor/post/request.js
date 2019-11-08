@@ -1,5 +1,3 @@
-import Factor from "@factor/core"
-
 import { getSchemaPopulatedFields } from "./util"
 import objectHash from "object-hash"
 import {

@@ -17,7 +17,6 @@ import {
 
 import "./hooks-universal"
 import "./edit-account"
-import Factor from "@factor/core"
 import { appMounted } from "@factor/app"
 
 export * from "./email-request"
