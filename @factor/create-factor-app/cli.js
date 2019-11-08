@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+
+// @ts-nocheck
 const path = require("path")
 const sao = require("sao")
 const consola = require("consola")
 const generator = path.resolve(__dirname, "./")
-const { name, version } = require("./package")
+const { name, version } = require("./package.json")
 // In a custom directory or current directory
 const outDir = path.resolve(process.argv[2] || ".")
 const figures = require("figures")

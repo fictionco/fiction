@@ -1,6 +1,8 @@
-import Factor from "@factor/core"
 import Vuex from "vuex"
-Factor.use(Vuex)
+import Vue from "vue"
+
+Vue.use(Vuex)
+
 import { addCallback } from "@factor/tools/filters"
 
 addCallback("before-server-plugins", () => getStore())
@@ -13,17 +15,17 @@ let __store = new Vuex.Store({
   },
   mutations: {
     setItem: (state, { item, value }) => {
-      Factor.set(state, item, value)
+      Vue.set(state, item, value)
     }
   }
 })
 
-// Factor helper function for global/flat store pattern
-__store.add = (item, value) => __store.commit("setItem", { item, value })
+// // Factor helper function for global/flat store pattern
+// __store.add = (item, value) => __store.commit("setItem", { item, value })
 
-__store.val = key => __store.getters["getItem"](key)
+// __store.val = key => __store.getters["getItem"](key)
 
-Factor.$store = __store
+//Vue.$store = __store
 
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.
