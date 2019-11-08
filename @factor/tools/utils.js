@@ -59,7 +59,7 @@ export function parseList(list = [], options = {}) {
   suffix = suffix ? " " + suffix : ""
 
   return list.map(_ => {
-    if (typeof _ == "string" || typeof i == "number") {
+    if (typeof _ == "string" || typeof _ == "number") {
       return {
         value: _,
         name: wrap(_),

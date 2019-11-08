@@ -10,13 +10,16 @@ import {
   addCallback,
   stored,
   storeItem,
-  log
+  log,
+  currentRoute,
+  navigateToRoute
 } from "@factor/tools"
 
 import "./hooks-universal"
 import "./edit-account"
 import Factor from "@factor/core"
 import { appMounted } from "@factor/app"
+
 export * from "./email-request"
 
 let _initializedUser
@@ -119,9 +122,9 @@ export async function logout(args = {}) {
   emitEvent("logout")
   emitEvent("notify", "Successfully logged out.")
 
-  if (args.redirect || Factor.$router.currentRoute.matched.some(r => r.meta.auth)) {
+  if (args.redirect || currentRoute().matched.some(r => r.meta.auth)) {
     const { redirect: path = "/" } = args
-    Factor.$router.push({ path })
+    navigateToRoute({ path })
   } else {
     emitEvent("reset-ui")
   }
@@ -135,7 +138,7 @@ export async function sendEmailVerification({ email }) {
   return await sendUserRequest("verifyEmail", { email })
 }
 
-function setUser({ user, token, current = false }) {
+function setUser({ user, token = "", current = false }) {
   const { _id } = user ? user : {}
 
   if (current) {
@@ -213,11 +216,11 @@ function handleAuthRouting() {
   })
 
   addCallback("before-user-init", user => {
-    const { path, matched } = Factor.$router.currentRoute
+    const { path, matched } = currentRoute()
     const auth = matched.some(_r => _r.meta.auth)
 
     if (auth === true && (!user || !user._id)) {
-      Factor.$router.push({ path: "/signin", query: { redirect: path } })
+      navigateToRoute({ path: "/signin", query: { redirect: path } })
     }
   })
 }

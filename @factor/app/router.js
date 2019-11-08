@@ -26,8 +26,6 @@ export async function createRouter() {
     stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
   })
 
-  Factor.$router = __router
-
   await runCallbacks("after-create-router", __router)
 
   // Load hooks for client navigation handling
@@ -49,6 +47,14 @@ export function addRoutes(routeConfig) {
       __router.addRoutes(routeConfig)
     })
   }
+}
+
+export function currentRoute() {
+  return __router.currentRoute
+}
+
+export function navigateToRoute(r) {
+  return __router.push(r)
 }
 
 // Only run this before navigation on the client, it should NOT run on initial page load

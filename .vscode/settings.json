@@ -1,4 +1,3 @@
-// Place your settings in this file to overwrite default and user settings.
 {
   "jest.pathToConfig": "jest.config.js",
   "editor.tabSize": 2,
@@ -41,10 +40,6 @@
     "extensions": [".js", ".vue", ""]
   },
   "eslint.run": "onSave",
-  // "prettier.printWidth": 90,
-  // "prettier.semi": false,
-  "editor.fontWeight": "600",
-  // "vetur.format.defaultFormatter.html": "prettyhtml",
   "editor.formatOnSave": true,
   "cSpell.enabledLanguageIds": [
     "asciidoc",
@@ -81,6 +76,7 @@
     "yml"
   ],
   "cSpell.words": [
+    "Interop",
     "JUNIT",
     "SMTP",
     "Vuex",
@@ -102,6 +98,7 @@
     "lockfile",
     "maxage",
     "mimetype",
+    "nocheck",
     "npmjs",
     "npmrc",
     "pagelines",
