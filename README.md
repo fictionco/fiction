@@ -45,14 +45,12 @@ We have achieved all architectural goals and features planned:
 - Quality... Now it's time to work on long-term stability:
 
   - [ ] Excellent testing code coverage with Jest + Cypress
-  - [ ] Refactor for simple testing 
+  - [x] Refactor modules for testing and types 
   - [ ] Validation and community feedback (starts with all tests passing @ 80%+ coverage)
 
 This is an GPL project. If you're interested in contribution, please just add your email at [Factor.dev](https://factor.dev).
 
 --
-
-**Try out the famous 3-minute setup: `npx create-factor-app`**
 
 ## Documentation
 
