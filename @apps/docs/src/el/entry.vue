@@ -20,7 +20,7 @@ export default {
     }
   },
   mounted() {
-    require("../prism/prism.js")
+    require("../prism/prism")
 
     this.prism = window.Prism
 
