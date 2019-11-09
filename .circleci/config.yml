@@ -114,8 +114,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - test/fixtures
-            - "@factor/*/test/builds"
+            - test/integration-builds
 
   # --------------------------------------------------------------------------
   # Phase 3: Unit and E2E tests
