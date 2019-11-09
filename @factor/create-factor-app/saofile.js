@@ -4,7 +4,6 @@
 const superb = require("superb")
 const figures = require("figures")
 const consola = require("consola")
-// const rootDir = __dirname
 
 const config = {
   prompts: [
@@ -16,7 +15,7 @@ const config = {
     {
       name: "description",
       message: "Project description",
-      default: `My ${superb()} Factor project`
+      default: `My ${superb.random()} Factor project`
     },
     {
       name: "author",
@@ -75,23 +74,21 @@ const config = {
         files: "**",
         templateDir: "template/factor",
         filters: {}
+      },
+      {
+        type: "add",
+        files: "*",
+        filters: {}
+      },
+      {
+        type: "move",
+        patterns: {
+          _gitignore: ".gitignore",
+          "_package.json": "package.json",
+          _env: ".env"
+        }
       }
     ]
-
-    actions.push({
-      type: "add",
-      files: "*",
-      filters: {}
-    })
-
-    actions.push({
-      type: "move",
-      patterns: {
-        _gitignore: ".gitignore",
-        "_package.json": "package.json",
-        _env: ".env"
-      }
-    })
 
     return actions
   },
@@ -101,6 +98,7 @@ const config = {
     try {
       await this.npmInstall()
     } catch (error) {
+      // @ts-ignore
       consola.error(error)
     }
 

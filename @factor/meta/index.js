@@ -1,9 +1,9 @@
-import Factor from "@factor/core"
-import FactorMeta from "vue-meta"
+import Vue from "vue"
+import VueMeta from "vue-meta"
 import { addFilter, applyFilters, addCallback } from "@factor/tools"
 import "./route-class"
 
-Factor.use(FactorMeta, { keyName: "metaInfoCore" })
+Vue.use(VueMeta, { keyName: "metaInfoCore" })
 
 addFilter("ssr-context-ready", (context, { app, router }) => {
   // Add Vue-Meta
@@ -59,7 +59,8 @@ addFilter("site-mixins", _ => [
 ])
 
 addCallback("initialize-app", () => {
-  Factor.mixin({
+  Vue.mixin({
+    // @ts-ignore
     metaInfoCore() {
       const opt = this.$options.metaInfo
 

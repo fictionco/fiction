@@ -3,7 +3,7 @@ import bugsnagVue from "@bugsnag/plugin-vue"
 import { log, onEvent, addCallback, setting } from "@factor/tools"
 
 import { userInitialized } from "@factor/user"
-import Factor from "@factor/core"
+import Vue from "vue"
 
 const clientApiKey = setting("bugsnag.client_api_key")
 
@@ -20,7 +20,7 @@ function addFilters() {
     appVersion
   })
 
-  bugsnagClient.use(bugsnagVue, Factor)
+  bugsnagClient.use(bugsnagVue, Vue)
 
   addCallback("initialize-app", async () => {
     onEvent("error", e => bugsnagClient.notify(e))

@@ -15,6 +15,7 @@ let __store = new Vuex.Store({
   },
   mutations: {
     setItem: (state, { item, value }) => {
+      // @ts-ignore
       Vue.set(state, item, value)
     }
   }

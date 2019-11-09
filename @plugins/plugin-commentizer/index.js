@@ -44,18 +44,17 @@ function addSetupCli() {
     name: "Plugin: Commentizer",
     value: "commentizer",
     callback: async ({ inquirer }) => {
+      const factorPostTypes = await postTypesConfig()
       let questions = [
         {
           name: "postTypes",
           message: "Select post types to enable comments on.",
-          type: "checkbox"
+          type: "checkbox",
+          choices: factorPostTypes.map(postType => {
+            return { name: postType, value: postType }
+          })
         }
       ]
-
-      const factorPostTypes = await postTypesConfig()
-      factorPostTypes.forEach(postType => {
-        questions.choices.push({ name: postType, value: postType })
-      })
 
       const { postTypes } = await inquirer.prompt(questions)
       await writeConfig("factor-config", {

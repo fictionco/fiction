@@ -8,7 +8,7 @@ import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor
 import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/tools/paths"
 
-import highlightCLI from "cli-highlight"
+import { highlight } from "cli-highlight"
 import json2yaml from "json2yaml"
 
 const configFile = getPath("config-file-public")
@@ -115,7 +115,7 @@ export async function writeConfig(file, values) {
 }
 
 export function prettyJson(data) {
-  return highlightCLI.highlight(json2yaml.stringify(data, null, "  "))
+  return highlight(json2yaml.stringify(data, null, "  "))
 }
 
 function existingSettings() {

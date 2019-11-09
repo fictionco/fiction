@@ -21,6 +21,7 @@
     "reports",
     "coverage",
     "**/prism.js",
-    "**/iconfont.js"
+    "**/iconfont.js",
+    "**/.ref"
   ]
 }

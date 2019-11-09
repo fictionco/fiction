@@ -1,6 +1,7 @@
 import { postLink, excerpt, stored } from "@factor/tools"
 
-import Factor from "@factor/core"
+import { getObservables } from "@factor/app"
+
 export function titleTag(_id) {
   const { titleTag, title } = stored(_id) || {}
   return titleTag || title || ""
@@ -28,5 +29,5 @@ export function setPostMetatags(_id) {
     image: post.avatar && stored(post.avatar) ? stored(post.avatar).url : ""
   }
 
-  Factor.$globals.metatags.push(out)
+  getObservables().metatags.push(out)
 }

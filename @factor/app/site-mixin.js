@@ -1,4 +1,5 @@
 import { runCallbacks, applyFilters } from "@factor/tools"
+import { getObservables } from "@factor/app"
 export default () => {
   return {
     data() {
@@ -18,9 +19,10 @@ export default () => {
         return `factor-${ui}`
       },
       classes() {
+        const observables = getObservables()
         // Use observables for classes as these can change at any time
         const siteClasses = applyFilters("observable-class-keys", [])
-          .map(_ => this.$globals[_])
+          .map(_ => observables[_])
           .filter(_ => _)
           .join(" ")
 

@@ -6,6 +6,7 @@ import {
   pushToFilter,
   addCallback
 } from "@factor/tools"
+export * from "./extend-app"
 
 let clientIsMountedPromise = waitForMountApp()
 

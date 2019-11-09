@@ -40,7 +40,7 @@ function slack() {
 
 function facebook() {
   onEvent("email-list-new-email-requested", () => {
-    if (typeof fbq != "undefined") {
+    if (typeof window.fbq != "undefined") {
       window.fbq("track", "Subscribe")
     }
   })

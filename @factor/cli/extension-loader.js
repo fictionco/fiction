@@ -21,7 +21,7 @@ export function getExtensions() {
 }
 
 export function getFactorDirectories() {
-  return getExtensions().map(({ name, cwd, main }) => getDirectory({ cwd, name, main }))
+  return getExtensions().map(({ name, cwd, main }) => getDirectory({ name, main }))
 }
 
 function getCWD() {
@@ -39,12 +39,12 @@ function generateExtensionList(packagePaths) {
   packagePaths.forEach(_ => {
     let {
       name,
-      factor: { _id, priority, target = false, extend = "plugin" } = {},
+      factor: { _id = null, priority = 100, target = false, extend = "plugin" } = {},
       version,
       main = "index"
     } = _
 
-    _id = getId({ _id, name })
+    if (!_id) _id = getId({ _id, name })
 
     loader.push({
       version,
@@ -148,7 +148,7 @@ function makeFileLoader({ extensions, filename, callback }) {
   extensions.forEach(_ => {
     const { name, cwd, _id, main } = _
 
-    const dir = getDirectory({ cwd, name, main })
+    const dir = getDirectory({ name, main })
     const requireBase = getRequireBase({ cwd, name, main })
 
     glob

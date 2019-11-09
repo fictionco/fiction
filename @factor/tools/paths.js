@@ -12,7 +12,7 @@ addFilter("webpack-aliases", _ => {
 
 export function getPath(key) {
   const rel = relativePath(key)
-  const full = typeof rel != "undefined" ? resolve(CWD(), rel) : false
+  const full = typeof rel != "undefined" ? resolve(CWD(), rel) : ""
 
   return full
 }

@@ -55,6 +55,7 @@ export async function getSingle(params) {
   // Ensure array of objects and deep merge results
   const merged = deepMerge([params, otherData, ...parsed])
 
+  // @ts-ignore
   const item = { ...merged, pkg: merged.versions[latest] }
 
   delete item.versions

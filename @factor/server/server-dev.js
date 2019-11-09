@@ -97,7 +97,7 @@ function loaders(target = "", value = "") {
   }
 }
 
-function updateBundles({ title, value } = {}) {
+function updateBundles({ title = "", value = "" } = {}) {
   if (title) updateReason = chalk.dim(`${title} @${value}`)
 
   if (bundle && clientManifest) {
@@ -177,7 +177,7 @@ function serverCompiler() {
 
     bundle = JSON.parse(readFileFromMemory(mfs, "factor-server.json"))
 
-    loaders("server", time)
+    loaders("server", String(time))
   })
 }
 

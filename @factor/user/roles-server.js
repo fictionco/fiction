@@ -1,10 +1,10 @@
-import { addFilter } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 import { writeConfig } from "@factor/cli/setup"
 
 addFilter("user-schema", _ => {
   _.role = {
     type: String,
-    enum: Object.keys(roles()),
+    enum: Object.keys(userRoles()),
     required: true,
     default: "member"
   }
@@ -26,16 +26,16 @@ addFilter("user-schema", _ => {
 addFilter("user-schema-hooks", Schema => {
   Schema.pre("validate", async function(next) {
     const user = this
-    const setting = setting(`roles.${user.email}`)
-    const configRole = user.emailVerified && setting ? setting : "member"
+    const existing = setting(`roles.${user.email}`)
+    const configRole = user.emailVerified && existing ? existing : "member"
 
-    if (configRole && configRole != user.role) {
+    if (configRole != user.role) {
       user.role = configRole
     } else if (user.isModified("role") && configRole != user.role) {
       return next(new Error(`Can not edit role ${user.role}`))
     }
 
-    user.accessLevel = roles()[user.role] || 0
+    user.accessLevel = userRoles()[user.role] || 0
 
     return next()
   })
@@ -47,7 +47,7 @@ addFilter("cli-add-setup", _ => {
     name: "User Roles - Add admin privileges to specific users.",
     value: "admins",
     callback: async ({ inquirer }) => {
-      const roles = roles()
+      const roles = userRoles()
       const choices = Object.keys(roles).map(_ => {
         return {
           name: `${_} (${roles[_]})`,
@@ -95,6 +95,6 @@ addFilter("cli-add-setup", _ => {
   return [..._, setupAdmins]
 })
 
-function roles() {
+function userRoles() {
   return require("./roles.json")
 }
