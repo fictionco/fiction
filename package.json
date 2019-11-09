@@ -20,7 +20,6 @@
   ],
   "private": true,
   "license": "GPL-2.0",
-  "type": "module",
   "scripts": {
     "upgrade-packages": "yarn install && yarn upgrade && yarn outdated",
     "publish:docs": "heroku git:remote -a factor-dev && git push heroku master",
@@ -33,9 +32,11 @@
     "test:lint": "eslint --ext .js,.vue,.json .",
     "test:coverage": "codecov",
     "test:unit": "jest @factor/**/test/unit --forceExit --detectOpenHandles --passWithNoTests",
+    "test:fixtures": "yarn test:builds && yarn test:integration",
     "test:builds": "jest test/integration-builds --forceExit --detectOpenHandles --passWithNoTests",
     "test:integration": "jest test/integration --forceExit --detectOpenHandles --passWithNoTests",
-    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
+    "test:types": "tsc"
   },
   "gitHooks": {
     "pre-push": "yarn test:lint && yarn test:unit",

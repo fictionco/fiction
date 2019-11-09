@@ -1,6 +1,6 @@
 const cwd = process.env.FACTOR_CWD || process.cwd()
 
-let m = {}
+let m = []
 try {
   const mod = require(`${cwd}/.factor/loader-settings.js`).default
 
