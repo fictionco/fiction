@@ -29,7 +29,7 @@
     "deploy": "git push heroku-factor-dev master",
     "test:watch": "yarn jest @factor/**/test/unit --watch",
     "test:all": "yarn test:fixtures && yarn test:unit",
-    "test:lint": "eslint --ext .js,.vue,.json .",
+    "test:lint": "eslint --ext .js,.vue,.json . && test:types",
     "test:coverage": "codecov",
     "test:unit": "jest @factor/**/test/unit --forceExit --detectOpenHandles --passWithNoTests",
     "test:fixtures": "yarn test:builds && yarn test:integration",

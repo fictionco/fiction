@@ -1,5 +1,7 @@
 import { addFilter, addCallback, pushToFilter } from "@factor/tools"
-import Factor from "@factor/core"
+import Vue from "vue"
+
+import { getObservables } from "@factor/app"
 
 addCallback("ssr-context-callbacks", ({ matchedComponents }) =>
   matchedComponents.forEach(_ => setRouteClass(_))
@@ -26,26 +28,28 @@ function setRouteClass(options) {
     if (typeof routeClassArray == "string") routeClassArray = [routeClassArray]
     else if (!routeClassArray) return
 
-    Factor.$globals.routeClass.push(...routeClassArray)
+    getObservables().routeClass.push(...routeClassArray)
   }
 }
 
 function manageClient() {
   addCallback("client-route-after", () => {
-    Factor.$globals.routeClass = []
+    getObservables().routeClass = []
   })
 
-  Factor.mixin({
-    created() {
-      setRouteClass(this.$options)
-    },
+  Vue.mixin({
     watch: {
       $route: {
         handler: function() {
+          // @ts-ignore
           setRouteClass(this.$options)
-        }
-      },
-      immediate: true
+        },
+        immediate: true
+      }
+    },
+    created() {
+      // @ts-ignore
+      setRouteClass(this.$options)
     }
   })
 }

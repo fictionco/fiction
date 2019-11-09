@@ -1,5 +1,6 @@
 import { isLoggedIn } from "@factor/user"
-import Factor from "@factor/core"
+
+import { getComponents } from "@factor/app"
 export default {
   metaInfo: {
     default: {
@@ -198,7 +199,7 @@ export default {
         condition: () => !isLoggedIn()
       },
       {
-        component: () => Factor.$components["account-menu"],
+        component: () => getComponents()["account-menu"],
         condition: () => isLoggedIn()
       }
     ]

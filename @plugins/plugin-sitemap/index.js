@@ -1,20 +1,42 @@
 import { getModel } from "@factor/post/server"
-
-import { uniq, addFilter, applyFilters, setting, getPermalink } from "@factor/tools"
+import { SitemapStream, streamToPromise } from "sitemap"
+import { uniq, addFilter, applyFilters, getPermalink, log } from "@factor/tools"
+import { createGzip } from "zlib"
+import { currentUrl } from "@factor/tools/permalink"
+let sitemap
 
 addFilter("middleware", _ => {
   _.push({
     path: "/sitemap.xml",
     middleware: [
       async (request, response) => {
-        const sitemap = await createSitemap()
-        sitemap.toXML(function(err, xml) {
-          if (err) {
-            return response.status(500).end()
-          }
-          response.header("Content-Type", "application/xml")
-          response.send(xml)
-        })
+        // if we have a cached entry send it
+        if (sitemap) {
+          response.send(sitemap)
+          return
+        }
+        try {
+          const smStream = new SitemapStream({ hostname: currentUrl() })
+          const pipeline = smStream.pipe(createGzip())
+
+          const urls = await getPermalinks()
+
+          urls.forEach(url => {
+            smStream.write({ url })
+          })
+
+          smStream.end()
+
+          // cache the response
+          streamToPromise(pipeline).then(sm => (sitemap = sm))
+          // stream the response
+          pipeline.pipe(response).on("error", e => {
+            throw e
+          })
+        } catch (error) {
+          log.error(error)
+          response.status(500).end()
+        }
       }
     ]
   })
@@ -26,9 +48,7 @@ async function getPermalinks() {
   const posts = await getModel("post").find(
     { permalink: { $ne: null }, status: "published" },
     "permalink postType",
-    {
-      limit: 2000
-    }
+    { limit: 2000 }
   )
 
   const urls = posts.map(({ postType, permalink }) => {
@@ -36,16 +56,6 @@ async function getPermalinks() {
   })
 
   return urls.concat(getRouteUrls())
-}
-
-async function createSitemap() {
-  const urls = await getPermalinks()
-
-  return require("sitemap").createSitemap({
-    hostname: setting("url"),
-    cacheTime: 1000 * 60 * 60 * 24, // 600 sec - cache purge period
-    urls
-  })
 }
 
 function getRouteUrls() {
@@ -56,7 +66,7 @@ function getRouteUrls() {
     perm => !perm.includes(":")
   )
 
-  return theRoutes.map(perm => `${setting("url")}${perm}`)
+  return theRoutes
 }
 
 function getRoutesRecursively(routes, parent = false) {

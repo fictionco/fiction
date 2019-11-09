@@ -138,8 +138,6 @@ export async function sendEmailVerification({ email }) {
 }
 
 function setUser({ user, token = "", current = false }) {
-  const { _id } = user ? user : {}
-
   if (current) {
     if (token && user) userToken(token)
     else if (user === null) userToken(null)
@@ -148,7 +146,7 @@ function setUser({ user, token = "", current = false }) {
     localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
   }
 
-  storeItem(_id, user)
+  if (user && user._id) storeItem(user._id, user)
 }
 
 export function userToken(token) {
@@ -177,7 +175,7 @@ export function handleTokenError(error) {
 }
 // Very basic version of this function for MVP dev
 // Needs improvement for more fine grained control
-export function userCan({ role, accessLevel }) {
+export function userCan({ role = "", accessLevel }) {
   const userAccessLevel = currentUser().accessLevel
   const roleAccessLevel = role ? roles()[role] : 1000
   if (accessLevel && userAccessLevel >= accessLevel) {
@@ -201,12 +199,12 @@ function handleAuthRouting() {
 
     // Get accessLevel needed
     // eslint-disable-next-line no-unused-vars
-    let accessLevel
-    to.matched.forEach(_r => {
-      if (_r.meta.accessLevel) {
-        accessLevel = _r.meta.accessLevel
-      }
-    })
+    // let accessLevel
+    // to.matched.forEach(_r => {
+    //   if (_r.meta.accessLevel) {
+    //     accessLevel = _r.meta.accessLevel
+    //   }
+    // })
 
     if (auth === true && !user._id) {
       emitEvent("sign-in-modal", { redirect: toPath })

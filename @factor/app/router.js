@@ -68,6 +68,7 @@ async function hookClientRouterBefore(to, from, next) {
     // If a user needs to sign in (with modal) or be redirected after an action
     // Those hooks may not want the navigation to continue
     // As they will be handling with navigation with a redirect instead
+    // @ts-ignore
     if (results.length == 0 || !results.some(_ => _ === false)) next()
     else next(false)
   }
