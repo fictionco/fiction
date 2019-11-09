@@ -4,7 +4,6 @@
 // Will error with "Object(...) is not a function"
 // Make sure to call modules directly here
 
-import Factor from "@factor/core"
 import randToken from "rand-token"
 
 export * from "./utils"
@@ -17,6 +16,7 @@ export * from "./html"
 export * from "./metatags"
 export * from "./permalink"
 export * from "./post-types"
+export * from "./events"
 
 export * from "@factor/app/router"
 export * from "@factor/app/store"
@@ -29,16 +29,6 @@ export { default as isNode } from "detect-node"
 export { default as guid } from "uniqid"
 export { default as validator } from "validator"
 export { default as DOM } from "jquery"
-
-export const events = new Factor()
-
-export function emitEvent(event, data) {
-  events.$emit(event, data)
-}
-
-export function onEvent(event, callback) {
-  events.$on(event, callback)
-}
 
 export function randomToken() {
   return randToken.generate(16)

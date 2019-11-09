@@ -21,7 +21,7 @@ export function getExtensions() {
 }
 
 export function getFactorDirectories() {
-  return getExtensions().map(({ name, cwd, main }) => getDirectory({ name, main }))
+  return getExtensions().map(({ name, main }) => getDirectory({ name, main }))
 }
 
 function getCWD() {

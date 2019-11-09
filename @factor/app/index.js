@@ -1,11 +1,12 @@
 import {
-  onEvent,
   addFilter,
   applyFilters,
   setting,
   pushToFilter,
   addCallback
 } from "@factor/tools"
+
+import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
 
 let clientIsMountedPromise = waitForMountApp()
