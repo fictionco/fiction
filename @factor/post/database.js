@@ -7,6 +7,11 @@ import { getAddedSchemas } from "./util"
 
 let __schemas = {}
 let __models = {}
+let __offline = false
+
+export function dbIsOffline() {
+  return __offline
+}
 
 // Must be non-async so we can use chaining
 export function getModel(name) {
@@ -82,15 +87,35 @@ export async function dbConnect() {
     try {
       const connectionString = process.env.DB_CONNECTION_TEST || process.env.DB_CONNECTION
 
-      return await mongoose.connect(connectionString, { useNewUrlParser: true })
+      const result = await mongoose.connect(connectionString, { useNewUrlParser: true })
+
+      __offline = false
+
+      return result
     } catch (error) {
-      log.error(error)
+      dbHandleError(error)
     }
   }
 }
 
+function dbHandleError(error) {
+  if (error.code === "ECONNREFUSED") {
+    __offline = true
+    log.warn("Couldn't connect to the database. Serving in offline mode.")
+  } else if (
+    dbReadyState() == "connecting" &&
+    error.code == "EDESTRUCTION" &&
+    !process.env.FACTOR_DEBUG
+  ) {
+    // TODO not sure the exact context/meaning of this error
+    // do nothing, this occurs in offline mode on server restart
+  } else {
+    log.error(error)
+  }
+}
+
 export function isConnected() {
-  return ["connected", "connecting"].includes(dbReadyState())
+  return ["connected"].includes(dbReadyState())
 }
 
 export function dbReadyState() {

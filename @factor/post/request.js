@@ -26,7 +26,7 @@ export async function sendPostRequest(method, params) {
 
 export async function requestPostSave({ post, postType }) {
   _setCache(postType)
-  return await sendPostRequest("save", { data: post, postType })
+  return await sendPostRequest("savePost", { data: post, postType })
 }
 
 export async function requestPostSaveMany({ _ids, data, postType }) {
@@ -100,7 +100,7 @@ export async function requestPostSingle(args) {
     params.token = token
   }
 
-  const post = await sendPostRequest("single", params)
+  const post = await sendPostRequest("getSinglePost", params)
 
   if (post) {
     await requestPostsPopulate({ posts: [post], depth })
@@ -110,7 +110,7 @@ export async function requestPostSingle(args) {
 }
 
 export async function requestPostById({ _id, postType = "post", createOnEmpty = false }) {
-  const _post = await sendPostRequest("single", { _id, postType, createOnEmpty })
+  const _post = await sendPostRequest("getSinglePost", { _id, postType, createOnEmpty })
 
   if (_post) {
     storeItem(_post._id, _post)
@@ -119,9 +119,9 @@ export async function requestPostById({ _id, postType = "post", createOnEmpty = 
   return _post
 }
 
-export async function requestPostIndex(args) {
-  const { limit = 10, page = 1, postType, sort } = args
-  const queryHash = objectHash({ ...args, cache: _cacheKey(postType) })
+export async function requestPostIndex(_arguments) {
+  const { limit = 10, page = 1, postType, sort } = _arguments
+  const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
 
   // Create a mechanism to prevent multiple runs/pops for same data
@@ -134,10 +134,10 @@ export async function requestPostIndex(args) {
 
   const conditions = {}
   taxonomies.forEach(_ => {
-    if (args[_]) conditions[_] = args[_]
+    if (_arguments[_]) conditions[_] = _arguments[_]
   })
 
-  if (!args.status) conditions.status = { $ne: "trash" }
+  if (!_arguments.status) conditions.status = { $ne: "trash" }
 
   const skip = (page - 1) * limit
 
@@ -157,8 +157,8 @@ export async function requestPostIndex(args) {
 
 // Gets List of Posts
 // The difference with 'index' is that there is no meta information returned
-export async function requestPostList(args) {
-  const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = args
+export async function requestPostList(_arguments) {
+  const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = _arguments
 
   const skip = (page - 1) * limit
 
@@ -201,7 +201,7 @@ export async function requestPostsPopulate({ posts, depth = 10 }) {
   })
 
   if (_idsFiltered.length > 0) {
-    const posts = await sendPostRequest("populate", { _ids: _idsFiltered })
+    const posts = await sendPostRequest("populatePosts", { _ids: _idsFiltered })
     await requestPostsPopulate({ posts, depth })
   }
 }

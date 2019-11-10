@@ -1,6 +1,5 @@
 import deepMergeLib from "deepmerge"
 import stopwordsLib from "./resource/stopwords"
-import { stripMarkdown } from "./markdown"
 
 // Sort objects in an array by a priority value that defaults to 100
 export function sortPriority(arr) {
@@ -35,7 +34,7 @@ export function sortMerge(arr) {
 }
 
 // Deep merge an array of objects into a single object
-// Replaces arrays instead of concats
+// Replaces arrays instead of concat
 export function deepMerge(items) {
   return deepMergeLib.all(items.filter(_ => _), {
     arrayMerge: (destinationArray, sourceArray) => sourceArray
@@ -115,16 +114,6 @@ export function stopWordLowercase(str) {
 
   const regex = new RegExp("\\b(" + stopwordsLib.join("|") + ")\\b", "gi")
   return str.replace(regex, match => match.toLowerCase())
-}
-
-export function excerpt(content, { length = 42 } = {}) {
-  if (!content) return ""
-
-  let __ = stripMarkdown(content)
-    .replace(/\n|\r/g, " ")
-    .split(" ")
-
-  return __.length > length ? __.slice(0, length).join(" ") + "..." : __.join(" ")
 }
 
 export function toPascalCase(string) {

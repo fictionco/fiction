@@ -20,10 +20,12 @@ export default () => {
       },
       classes() {
         const observables = getObservables()
+
         // Use observables for classes as these can change at any time
         const siteClasses = applyFilters("observable-class-keys", [])
           .map(_ => observables[_])
-          .filter(_ => _)
+          .filter(_ => _ && Array.isArray(_))
+          .map(arr => arr.join(" "))
           .join(" ")
 
         return [siteClasses, this.scrollClass]

@@ -1,6 +1,6 @@
 import fs from "fs"
-
-import { deepMerge, addFilter } from "@factor/tools"
+import { addFilter } from "@factor/tools/filters"
+import { deepMerge } from "@factor/tools/utils"
 import { getPath } from "@factor/tools/paths"
 
 // setup needed process variables to act like they do on the server

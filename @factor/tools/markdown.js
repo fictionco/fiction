@@ -1,4 +1,5 @@
-import { slugify, dotSetting, getStoreState } from "@factor/tools"
+import { slugify, dotSetting } from "@factor/tools/utils"
+import { getStoreState } from "@factor/app/store"
 import md from "markdown-it"
 import mdAnchor from "markdown-it-anchor"
 import mdVideo from "markdown-it-video"
@@ -65,4 +66,14 @@ export function stripMarkdown(markdown) {
     })
 
   return out
+}
+
+export function excerpt(content, { length = 42 } = {}) {
+  if (!content) return ""
+
+  let __ = stripMarkdown(content)
+    .replace(/\n|\r/g, " ")
+    .split(" ")
+
+  return __.length > length ? __.slice(0, length).join(" ") + "..." : __.join(" ")
 }

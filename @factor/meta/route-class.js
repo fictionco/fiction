@@ -46,10 +46,6 @@ function manageClient() {
         },
         immediate: true
       }
-    },
-    created() {
-      // @ts-ignore
-      setRouteClass(this.$options)
     }
   })
 }

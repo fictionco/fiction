@@ -1,4 +1,4 @@
-import { addFilter, applyFilters } from "@factor/tools"
+import { addFilter, applyFilters } from "@factor/tools/filters"
 import { getExtensions } from "@factor/cli/extension-loader"
 import { resolve, dirname, relative } from "path"
 

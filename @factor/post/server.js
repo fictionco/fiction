@@ -2,9 +2,14 @@ import { addCallback } from "@factor/tools/filters"
 import { decodeToken } from "@factor/user/server"
 import * as endpointHandler from "@factor/post/server"
 
-import "./hooks-server"
 import { canUpdatePost } from "./util"
-import { getModel, dbInitialize, dbDisconnect, dbSetupUtility } from "./database"
+import {
+  getModel,
+  dbInitialize,
+  dbDisconnect,
+  dbSetupUtility,
+  dbIsOffline
+} from "./database"
 
 export * from "./database"
 
@@ -18,6 +23,8 @@ if (process.env.DB_CONNECTION) {
 addCallback("initialize-server", () => dbSetupUtility())
 
 export async function savePost({ data, postType = "post" }, { bearer = {} }) {
+  if (dbIsOffline()) return null
+
   const { _id } = data
 
   let post
@@ -37,6 +44,8 @@ export async function savePost({ data, postType = "post" }, { bearer = {} }) {
 }
 
 export async function getSinglePost(params, meta = {}) {
+  if (dbIsOffline()) return {}
+
   const { bearer } = meta
 
   let {
@@ -103,7 +112,9 @@ export async function deleteManyById({ _ids, postType = "post" }, { bearer }) {
   })
 }
 
-export async function populate({ _ids }) {
+export async function populatePosts({ _ids }) {
+  if (dbIsOffline()) return []
+
   const _in = Array.isArray(_ids) ? _ids : [_ids]
   const result = await getModel("post").find({ _id: { $in: _in } })
 
