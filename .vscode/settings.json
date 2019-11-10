@@ -41,6 +41,12 @@
   },
   "eslint.run": "onSave",
   "editor.formatOnSave": true,
+  "markdownlint.config": {
+    "default": true,
+    "MD033": { "allowed_elements": ["a", "img", "p"] },
+    "MD041": false,
+    "MD036": false
+  },
   "cSpell.enabledLanguageIds": [
     "asciidoc",
     "c",
