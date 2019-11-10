@@ -1,5 +1,5 @@
 import { addCallback } from "@factor/tools/filters"
-import { decodeToken } from "@factor/user/server"
+import { decodeToken } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 
 import { canUpdatePost } from "./util"

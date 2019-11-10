@@ -1,4 +1,5 @@
-import { applyFilters, toLabel } from "@factor/tools"
+import { applyFilters } from "@factor/tools/filters"
+import { toLabel } from "@factor/tools/utils"
 
 export function postTypesConfig() {
   return applyFilters("post-types-config", []).map(_ => {

@@ -1,11 +1,5 @@
-import {
-  addFilter,
-  applyFilters,
-  setting,
-  pushToFilter,
-  addCallback
-} from "@factor/tools"
-
+import { setting } from "@factor/tools/settings"
+import { addFilter, applyFilters, pushToFilter, addCallback } from "@factor/tools/filters"
 import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
 

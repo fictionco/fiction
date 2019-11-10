@@ -1,13 +1,10 @@
 import { getModel } from "@factor/post/server"
 import { pushToFilter, applyFilters, addCallback } from "@factor/tools"
 import * as endpointHandler from "@factor/user/server"
-import jwt from "jsonwebtoken"
-
+import { userCredential } from "./jwt"
 import "./hooks-universal"
 
-const SECRET = process.env.TOKEN_SECRET
-
-if (!SECRET) {
+if (!process.env.TOKEN_SECRET) {
   pushToFilter("setup-needed", {
     title: "JWT Secret",
     value: "A JWT string secret, used for verifying authentication status.",
@@ -45,25 +42,5 @@ export async function authenticate(params) {
 
       return userCredential(user)
     }
-  }
-}
-
-export function userCredential(user) {
-  if (!user) {
-    return {}
-  }
-  user = user.toObject()
-  delete user.password
-  return {
-    ...user,
-    token: jwt.sign({ _id: user._id }, SECRET)
-  }
-}
-
-export function decodeToken(token) {
-  try {
-    return jwt.verify(token, SECRET)
-  } catch (error) {
-    throw new Error(error)
   }
 }

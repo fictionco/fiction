@@ -1,5 +1,6 @@
-import { postLink, excerpt, stored } from "@factor/tools"
-
+import { stored } from "@factor/app/store"
+import { postLink } from "@factor/tools/permalink"
+import { excerpt } from "@factor/tools/markdown"
 import { getObservables } from "@factor/app"
 
 export function titleTag(_id) {

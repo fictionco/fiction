@@ -1,5 +1,5 @@
-import { dotSetting, deepMerge, applyFilters, addCallback } from "@factor/tools"
-
+import { dotSetting, deepMerge } from "@factor/tools/utils"
+import { applyFilters, addCallback } from "@factor/tools/filters"
 import { configSettings } from "@factor/tools/config"
 
 import coreSettings from "@factor/app/core-settings"

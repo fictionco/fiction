@@ -38,7 +38,7 @@ function generateExtensionList(packagePaths) {
   packagePaths.forEach(_ => {
     let {
       name,
-      factor: { _id = null, priority = 100, target = false, extend = "plugin" } = {},
+      factor: { _id = null, priority = null, target = false, extend = "plugin" } = {},
       version,
       main = "index"
     } = _
@@ -145,7 +145,7 @@ function makeFileLoader({ extensions, filename, callback }) {
   const files = []
 
   extensions.forEach(_ => {
-    const { name, cwd, _id, main } = _
+    const { name, cwd, _id, main, priority } = _
 
     const dir = getDirectory({ name, main })
     const requireBase = getRequireBase({ cwd, name, main })
@@ -158,7 +158,8 @@ function makeFileLoader({ extensions, filename, callback }) {
         return {
           _id: index == 0 ? _id : `${_id}_${index}`,
           file: moduleName,
-          path: fullPath
+          path: fullPath,
+          priority
         }
       })
       .forEach(lPath => files.push(lPath))
@@ -229,7 +230,8 @@ function loaderString(files) {
 
 function loaderStringOrdered(files) {
   const lines = files.map(
-    ({ _id, file }) => `import { default as ${_id} } from "${file}"`
+    ({ _id, file, priority }) =>
+      `import { default as ${_id} } from "${file}" // ${priority}`
   )
 
   lines.push(`\n\nexport default [ ${files.map(({ _id }) => _id).join(", ")} ]`)

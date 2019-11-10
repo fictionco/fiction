@@ -1,8 +1,7 @@
 import { log } from "@factor/tools"
-import { writeConfig } from "@factor/cli/setup"
 import { pushToFilter } from "@factor/tools/filters"
+import { writeConfig } from "@factor/cli/setup"
 import mongoose from "mongoose"
-
 import { getAddedSchemas } from "./util"
 
 let __schemas = {}
@@ -21,9 +20,9 @@ export function getModel(name) {
   return __models[name]
 }
 
-export function getSchema(name) {
-  return __schemas[name] || null
-}
+// export function getSchema(name) {
+//   return __schemas[name] || null
+// }
 
 export async function dbInitialize() {
   await dbConnect()

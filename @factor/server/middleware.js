@@ -1,8 +1,10 @@
-import { applyFilters, setting, getPath } from "@factor/tools"
-import serveFavicon from "serve-favicon"
+import { applyFilters } from "@factor/tools/filters"
+import { getPath } from "@factor/tools/paths"
+import { setting } from "@factor/tools/settings"
 import bodyParser from "body-parser"
 import compression from "compression"
 import helmet from "helmet"
+import serveFavicon from "serve-favicon"
 
 import { serveStatic } from "./util"
 import logger from "./logger"
