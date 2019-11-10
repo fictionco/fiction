@@ -31,9 +31,6 @@ describe.posix("cli factor start", () => {
       cwd: __dirname
     })
 
-    // eslint-disable-next-line no-console
-    console.log("Start Process Finished")
-
     const SECOND = 1000
     await waitFor(SECOND)
 

@@ -20,6 +20,7 @@ function createSettings() {
   // eslint-disable-next-line import/no-unresolved
   settingsExports = require("~/.factor/loader-settings").default
 
+
   mergeAllSettings()
 }
 
