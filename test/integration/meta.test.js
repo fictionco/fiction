@@ -1,15 +1,16 @@
 import { getPort, loadFixture } from "@test/utils"
+import { createServer, renderRoute, closeServer } from "@factor/server"
 
-let Factor, port
+let port
 describe("Meta", () => {
   beforeAll(async () => {
-    Factor = await loadFixture("@test/meta")
+    await loadFixture("@test/meta")
     port = await getPort()
-    await Factor.$server.createServer({ port })
+    await createServer({ port })
   })
 
   test("/basic", async () => {
-    const html = await Factor.$server.renderRoute({ url: "/basic" })
+    const html = await renderRoute({ url: "/basic" })
 
     expect(html).toContain("<title>title template</title>")
     expect(html).toContain("this is the description")
@@ -18,27 +19,20 @@ describe("Meta", () => {
   })
 
   test("/mutation", async () => {
-    const html = await Factor.$server.renderRoute({ url: "/mutation" })
+    const html = await renderRoute({ url: "/mutation" })
     expect(html).toContain("<title>change-title</title>")
     expect(html).toContain("change-description")
   })
 
   test("/async", async () => {
-    const html = await Factor.$server.renderRoute({ url: "/async" })
+    const html = await renderRoute({ url: "/async" })
 
     expect(html).toContain("<title>async-title</title>")
     expect(html).toContain("async-description")
   })
 
-  /*
-   * Test("/store-data", async () => {
-   *   const html = await Factor.$server.renderRoute({ url: "/store-data" })
-   *   expect(html).toContain("<h1>loaded</h1>")
-   * })
-   */
-
-  // Close server and ask nuxt to stop listening to file changes
+  // Close server and ask to stop listening to file changes
   afterAll(async () => {
-    await Factor.$server.closeServer()
+    await closeServer()
   })
 })
