@@ -161,14 +161,14 @@ workflows:
   version: 2
 
   # Build and test after each commit
-  # Manually release on release branches
+  # Manually release on release branches -
   commit:
     jobs:
       - setup
       - lint: { requires: [setup] }
       - audit: { requires: [setup] }
       - test-unit: { requires: [setup] }
-      - build: { requires: [setup] }=
+      - build: { requires: [setup] }
       - test-integration: { requires: [build] }
       - release-commit:
           requires: [build, lint, audit, test-unit, test-integration]
