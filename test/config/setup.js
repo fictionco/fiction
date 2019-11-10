@@ -7,7 +7,6 @@ import Factor from "vue"
 // Import this to resolve any dependency cycle issues
 import "@factor/tools"
 process.env.FACTOR_ENV = "test"
-process.env.FACTOR_CWD = process.cwd()
 
 Factor.config.devtools = false
 
