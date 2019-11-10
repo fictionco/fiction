@@ -1,6 +1,7 @@
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { localhostUrl } from "@factor/tools/permalink"
-import { runCallbacks } from "@factor/tools"
+import * as tools from "@factor/tools"
+
 import commander from "commander"
 import inquirer from "inquirer"
 import log from "@factor/tools/logger"
@@ -8,6 +9,11 @@ import log from "@factor/tools/logger"
 import { factorize, setEnvironment } from "./factorize"
 import { verifyDependencies } from "./task-runner"
 import pkg from "./package"
+
+// @ts-ignore
+process.noDeprecation = true
+// @ts-ignore
+process.maxOldSpaceSize = 8192
 
 setEnvironment()
 
@@ -82,11 +88,11 @@ async function runCommand(options) {
 
   try {
     if (["build", "start"].includes(command)) {
-      await runCallbacks("create-distribution-app", _arguments)
+      await tools.runCallbacks("create-distribution-app", _arguments)
     } else if (command == "setup") {
-      await runCallbacks(`cli-setup`, { inquirer, ..._arguments })
+      await tools.runCallbacks(`cli-setup`, { inquirer, ..._arguments })
     } else if (command == "run") {
-      await runCallbacks(`cli-run-${filter}`, { inquirer, ..._arguments })
+      await tools.runCallbacks(`cli-run-${filter}`, { inquirer, ..._arguments })
 
       log.success(`Successfully ran "${filter}"\n\n`)
     }
@@ -130,5 +136,5 @@ async function runServer(_arguments) {
 
   log.formatted(message)
 
-  await runCallbacks("create-server", _arguments)
+  await tools.runCallbacks("create-server", _arguments)
 }
