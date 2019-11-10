@@ -4,9 +4,11 @@ import env from "std-env"
 import exit from "exit"
 import Factor from "vue"
 
+// Import this to resolve any dependency cycle issues
+import "@factor/tools"
 process.env.FACTOR_ENV = "test"
-// process.env.FACTOR_CWD = dirname(require.resolve("@test/loader-basic"))
-// generateLoaders()
+process.env.FACTOR_CWD = process.cwd()
+
 Factor.config.devtools = false
 
 const isWin = env.windows
