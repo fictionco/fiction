@@ -1,24 +1,34 @@
 import { sortPriority, uniqueObjectHash } from "@factor/tools/utils"
 
-let __filters = {}
-let __applied = {}
+let __filters
+let __applied
+
+export function getFilters() {
+  if (!__filters) __filters = {}
+
+  return __filters
+}
+
+export function getApplied() {
+  if (!__applied) __applied = {}
+
+  return __applied
+}
 
 export function getFilterCount(_id) {
-  const added = __filters[_id]
+  const added = getFilters()[_id]
 
   return added && Object.keys(added).length > 0 ? Object.keys(added).length : 0
 }
 
 // Apply filters a maximum of one time, once they've run add to _applied property
 // If that is set just return it
-export function applyFilters(name, data) {
-  //if (!__applied[name]) {
-
-  // Remove "name" argument
+export function applyFilters(_id, data) {
+  // Remove "_id" argument
   const params = Array.prototype.slice.call(arguments, 1)
 
   // Get Filters Added
-  const _added = __filters[name]
+  const _added = getFilters()[_id]
 
   // Thread through filters if they exist
   if (_added && Object.keys(_added).length > 0) {
@@ -43,13 +53,19 @@ export function applyFilters(name, data) {
     data = sortPriority(data)
   }
 
-  __applied[name] = data
+  getApplied()[_id] = data
 
-  return __applied[name]
+  return data
 }
 
-export function addFilter(id, filter, { context = null, priority = 100, key = "" } = {}) {
-  if (!__filters[id]) __filters[id] = {}
+export function addFilter(
+  _id,
+  filter,
+  { context = null, priority = 100, key = "" } = {}
+) {
+  const $filters = getFilters()
+
+  if (!$filters[_id]) $filters[_id] = {}
 
   // create unique ID
   // In certain situations (HMR, dev), the same filter can be added twice
@@ -59,7 +75,7 @@ export function addFilter(id, filter, { context = null, priority = 100, key = ""
   // For simpler assignments where no callback is needed
   const callback = typeof filter != "function" ? () => filter : filter
 
-  __filters[id][filterKey] = { callback, context, priority }
+  $filters[_id][filterKey] = { callback, context, priority }
 
   return filter
 }
@@ -96,6 +112,7 @@ export function addCallback(_id, callback, options = {}) {
   // get unique signature which includes the caller path of function and stringified callback
   // added the caller because sometimes callbacks look the exact same in different files!
   const { key = "" } = options
+
   options.key = uniqueObjectHash(callback, callerKey(key))
 
   const callable = typeof callback != "function" ? () => callback : callback

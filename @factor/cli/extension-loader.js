@@ -1,10 +1,9 @@
 import { dirname, parse } from "path"
-import { getPath, toPascalCase, sortPriority, addCallback } from "@factor/tools"
+import { getPath } from "@factor/tools/paths"
+import { toPascalCase, sortPriority } from "@factor/tools/utils"
 
 import fs from "fs-extra"
 import glob from "glob"
-
-addCallback("cli-run-create-loaders", () => generateLoaders())
 
 export function getCWDPackage() {
   return require(`${getCWD()}/package.json`)
