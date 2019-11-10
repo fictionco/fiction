@@ -5,7 +5,7 @@ import { removeSync } from "fs-extra"
 import { getPort, rp, waitFor } from "@test/utils"
 import { startProcess, closeProcess, getUrl } from "./build-util"
 
-jest.setTimeout(50000)
+jest.setTimeout(80000)
 
 // Don't run these in windows
 describe.posix("cli factor start", () => {
@@ -30,6 +30,9 @@ describe.posix("cli factor start", () => {
       },
       cwd: __dirname
     })
+
+    // eslint-disable-next-line no-console
+    console.log("Start Process Finished")
 
     const SECOND = 1000
     await waitFor(SECOND)
