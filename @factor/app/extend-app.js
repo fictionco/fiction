@@ -1,4 +1,3 @@
-import "@factor/app"
 import { applyFilters, runCallbacks } from "@factor/tools/filters"
 import Vue from "vue"
 

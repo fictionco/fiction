@@ -8,7 +8,7 @@
           class="subtitle"
         >Fiction is on a mission to help frontend developers create better Javascript apps.</p>
         <a href="#current-openings">
-          <factor-btn path="#current-openings" btn="quaternary" size="large">
+          <factor-btn path="#current-openings" btn="primary" size="large" class="see-openings">
             Check Our Current Openings
             <factor-icon icon="arrow-down" />
           </factor-btn>
@@ -19,42 +19,42 @@
     <section class="boxes-wrap">
       <div class="mast">
         <div class="boxes-inner">
-          <h2 class="title">Values</h2>
+          <h2 class="title">What Fiction stands for...</h2>
           <div class="boxes">
             <div class="box">
               <factor-icon icon="arrow-circle-right" />
               <div>
-                <h3 class="box-title">Enterprise Factor Platform</h3>
+                <h3 class="box-title">Sustainable Karma</h3>
                 <p
                   class="box-description"
-                >VIP is a fully managed Factor cloud platform for unparalleled scale, security, flexibility, and performance.</p>
+                >We are here to help people be successful. We believe that the good you do comes back to you 110%.</p>
               </div>
             </div>
             <div class="box">
               <factor-icon icon="arrow-circle-right" />
               <div>
-                <h3 class="box-title">Implementation &amp; Support</h3>
+                <h3 class="box-title">80/20</h3>
                 <p
                   class="box-description"
-                >End-to-end guidance and hands-on support, from project consideration through launch and every day thereafter.</p>
+                >Fiction believes in minimalism to an extreme. The more we can do with less resources the better.</p>
               </div>
             </div>
             <div class="box">
               <factor-icon icon="arrow-circle-right" />
               <div>
-                <h3 class="box-title">Build Your Digital Experiences</h3>
+                <h3 class="box-title">Fortune Favors the Bold</h3>
                 <p
                   class="box-description"
-                >Solutions at the ready. Factor powers mission critical enterprise media and marketing systems.</p>
+                >They say your first failure teaches you 80% of what you need to create success.</p>
               </div>
             </div>
             <div class="box">
               <factor-icon icon="arrow-circle-right" />
               <div>
-                <h3 class="box-title">A Complete Solution</h3>
+                <h3 class="box-title">Empathy</h3>
                 <p
                   class="box-description"
-                >Ready models, processes, and plugins to deliver your business goals. Deep, extensible capabilities.</p>
+                >Creating great products comes down to having empathy for the customer.</p>
               </div>
             </div>
           </div>

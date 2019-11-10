@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { resolveFilePath } from "@factor/tools/paths"
+import { resolveFilePath } from "@factor/tools/resolver"
 
 export default () => {
   return {

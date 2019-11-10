@@ -1,6 +1,6 @@
 import { endpointRequest } from "@factor/endpoint"
 import { requestPostSingle } from "@factor/post"
-
+import { userToken, handleTokenError } from "./token"
 import {
   isEmpty,
   isNode,
@@ -74,9 +74,10 @@ async function retrieveAndSetCurrentUser(user) {
 
     return user
   } catch (error) {
-    if (!handleTokenError(error)) {
-      log.error(error)
-    }
+    handleTokenError(error, {
+      onTokenError: () => setUser({ user: null, current: true }),
+      onError: () => log.error(error)
+    })
   }
 }
 
@@ -149,30 +150,6 @@ function setUser({ user, token = "", current = false }) {
   if (user && user._id) storeItem(user._id, user)
 }
 
-export function userToken(token) {
-  if (typeof localStorage == "undefined" || !localStorage) {
-    return ""
-  }
-  const keyName = "token"
-  if (token === false || token === null) {
-    localStorage.removeItem(keyName)
-  } else if (token) {
-    localStorage.setItem(keyName, JSON.stringify({ token }))
-  } else {
-    const v = localStorage.getItem(keyName)
-    return v ? JSON.parse(v).token : ""
-  }
-}
-
-export function handleTokenError(error) {
-  // If JWT auth fails then delete token, etc.
-  if (error && error.includes("JsonWebTokenError: invalid signature")) {
-    setUser({ user: null, current: true })
-    return true
-  } else {
-    return false
-  }
-}
 // Very basic version of this function for MVP dev
 // Needs improvement for more fine grained control
 export function userCan({ role = "", accessLevel }) {

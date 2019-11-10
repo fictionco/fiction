@@ -1,5 +1,5 @@
 import { getFactorDirectories } from "@factor/cli/extension-loader"
-import { getPath } from "@factor/tools"
+import { getPath } from "@factor/tools/paths"
 import chokidar from "chokidar"
 
 export function watcher(callback) {

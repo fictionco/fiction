@@ -1,5 +1,5 @@
 import { applyFilters, runCallbacks, addCallback } from "@factor/tools/filters"
-import { emitEvent } from "@factor/tools"
+import { emitEvent } from "@factor/tools/events"
 import Factor from "@factor/core"
 import VueRouter from "vue-router"
 import qs from "qs"
