@@ -1,4 +1,3 @@
-
 <p>
 <a href="https://factor.dev">
   <img src="./banner.jpg" width="100%" style="display:block;">
@@ -22,21 +21,23 @@
 
 _An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
 
-
 ## Status: Private Beta (_Public Beta arrives with 80% coverage_)
 
 We have achieved all architectural goals and features planned:
 
 - Dashboard / Auth
+
   - [x] Simple post/page management w Markdown editing
-  - [x] User management w  JWT Based Auth
+  - [x] User management w JWT Based Auth
 
 - Framework
+
   - [x] Minimal extension API (themes and plugins)
   - [x] CLI + Routes + Store + SSR + Endpoints
   - [x] Single collection data model
-  
-- Key Extensions 
+
+- Key Extensions
+
   - [x] Forms
   - [x] S3 Images
   - [x] 3 Themes
@@ -45,7 +46,7 @@ We have achieved all architectural goals and features planned:
 - Quality... Now it's time to work on long-term stability:
 
   - [ ] Excellent testing code coverage with Jest + Cypress
-  - [x] Refactor modules for testing and types 
+  - [x] Refactor modules for testing and types
   - [ ] Validation and community feedback (starts with all tests passing @ 80%+ coverage)
 
 This is an GPL project. If you're interested in contribution, please just add your email at [Factor.dev](https://factor.dev).
@@ -78,7 +79,7 @@ Learn more at [factor.dev](https://factor.dev).
 To easily setup a new project:
 
 ```shell
-$ yarn create factor-app <project-name>
+yarn create factor-app <project-name>
 ```
 
 It's as simple as that!
@@ -90,23 +91,6 @@ It's as simple as that!
 ## Examples
 
 The apps that power [Fiction.com](https://www.fiction.com) and [Factor.dev](https://factor.dev) can be found in [this monorepo](https://github.com/fiction-com/factor/tree/master/%40apps).
-
-## Contributors
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/arpowers"><img src="https://avatars2.githubusercontent.com/u/308134?s=460&v=4" width="50px;" alt="Andrew Powers"/><br /><sub><b>Andrew Powers</b></sub></a><br /><a href="https://github.com/fiction-com/factor/issues?q=author%3Aarpowers" title="Bug reports">🐛</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Code">💻</a> <a href="https://github.com/fiction-com/factor/commits?author=arpowers" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/finestpixels"><img src="https://avatars3.githubusercontent.com/u/2752967?s=460&v=4" width="50px;" alt="Raymond Aleman"/><br /><sub><b>Raymond Aleman</b></sub></a><br /><a href="#design-finestpixels" title="Design">🎨</a> <a href="https://github.com/fiction-com/factor/commits?author=finestpixels" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/edgarcheverier"><img src="https://avatars0.githubusercontent.com/u/25775115?v=4" width="50px;" alt="Edgar Cheverier"/><br /><sub><b>Edgar Cheverier</b></sub></a><br /><a href="https://github.com/fiction-com/factor/commits?author=edgarcheverier" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Contributing
 
