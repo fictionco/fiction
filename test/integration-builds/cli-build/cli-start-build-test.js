@@ -5,11 +5,12 @@ import { removeSync } from "fs-extra"
 import { getPort, rp, waitFor } from "@test/utils"
 import { startProcess, closeProcess, getUrl } from "./build-util"
 
-jest.setTimeout(120000)
+jest.setTimeout(50000)
 
 // Don't run these in windows
 describe.posix("cli factor start", () => {
   beforeAll(() => {
+    process.env.FACTOR_CWD = __dirname
     removeSync(resolve(__dirname, ".factor"))
     removeSync(resolve(__dirname, "dist"))
   })

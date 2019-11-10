@@ -116,6 +116,17 @@ jobs:
           paths:
             - test/integration-builds
 
+  test-integration:
+    executor: node
+    steps:
+      - attach-project
+      - run:
+          name: Integration Tests
+          command: yarn test:integration -i --coverage && yarn test:coverage -F integration
+          environment:
+            JEST_JUNIT_OUTPUT_NAME: integration.xml
+      - store-test-results
+
   # --------------------------------------------------------------------------
   # Phase 3: Unit and E2E tests
   # --------------------------------------------------------------------------
@@ -156,9 +167,10 @@ workflows:
       - setup
       - lint: { requires: [setup] }
       - audit: { requires: [setup] }
-      - build: { requires: [setup] }
-      - test-unit: { requires: [build] }
+      - test-unit: { requires: [setup] }
+      - build: { requires: [setup] }=
+      - test-integration: { requires: [build] }
       - release-commit:
-          requires: [build, lint, audit, test-unit]
+          requires: [build, lint, audit, test-unit, test-integration]
           filters:
             <<: *release_branches

@@ -16,6 +16,8 @@ export function startProcess({ command, env, cwd, callback }) {
       options: { env, detached: true }
     })
 
+    process.env.FACTOR_ENV = cwd
+
     const listener = data => {
       if (data.includes(`ready`) || data.includes(`listening on port`)) {
         __process.stdout.removeListener("data", listener)
