@@ -31,7 +31,7 @@ export async function createApp() {
       // Fire a mounted event so plugins that need to wait for SSR to be fully loaded can then fire
       // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
       setTimeout(() => {
-        emitEvent("app-mounted", { router, store })
+        emitEvent("app-mounted")
       }, 0)
     },
     render: h => h(site)
