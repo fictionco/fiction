@@ -3,7 +3,7 @@
  */
 
 import * as app from "@factor/app/app"
-
+import * as events from "@factor/tools/events"
 import { waitFor, indexHtml } from "@test/utils"
 
 let spies = {}
@@ -13,6 +13,7 @@ describe("browser-app", () => {
     document.write(indexHtml())
     document.close()
     spies.createApp = jest.spyOn(app, "createApp")
+    spies.emitEvent = jest.spyOn(events, "emitEvent")
   })
   it("enters application and mounts correctly", async () => {
     require("@factor/app/entry-browser")
@@ -27,12 +28,11 @@ describe("browser-app", () => {
 
     expect(window.factorApp).toBeTruthy()
 
-    await waitFor(20)
-
     expect(window.factorReady).toBeTruthy()
   })
 
-  it.todo("fires appropriate hooks")
-
-  it.todo("adds router and store")
+  it("fires appropriate hooks", async () => {
+    await waitFor(200)
+    expect(spies.emitEvent).toHaveBeenCalledWith("app-mounted")
+  })
 })
