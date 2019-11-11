@@ -1,7 +1,7 @@
 {
   "name": "@factor/ui",
   "description": "Dependency bundle",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.10",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -15,9 +15,9 @@
     ]
   },
   "dependencies": {
-    "@factor/attachment": "1.0.0-beta.6",
-    "@factor/tools": "1.0.0-beta.6",
-    "@factor/ui": "1.0.0-beta.6",
+    "@factor/attachment": "1.0.0-beta.10",
+    "@factor/tools": "1.0.0-beta.10",
+    "@factor/ui": "1.0.0-beta.10",
     "sortablejs": "^1.10.1",
     "vuejs-datepicker": "^1.6.2"
   },
