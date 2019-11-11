@@ -15,7 +15,11 @@ export function userToken(token) {
 
 // If JWT auth fails then delete token, etc.
 export function handleTokenError(error, { onTokenError, onError = null }) {
-  if (error && error.includes("JsonWebTokenError: invalid signature")) {
+  const badToken = "JsonWebTokenError: invalid signature"
+  if (
+    (error && (typeof error == "string" && error.includes(badToken))) ||
+    (error.message && error.message.includes(badToken))
+  ) {
     if (onTokenError) onTokenError()
   } else if (onError) onError()
 }

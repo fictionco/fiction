@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 
 let __initialPageLoad = true
 
-addCallback("initialize-server", () => addAppRoutes())
+//addCallback("initialize-server", () => addAppRoutes())
 addCallback("initialize-app", () => addAppRoutes(), { priority: 300 })
 
 const __router = new VueRouter({
@@ -31,8 +31,10 @@ export function getRouter() {
   return __router
 }
 
+// TODO check for duplicates
 export function addAppRoutes() {
   const routes = applyFilters("routes", []).filter(_ => _)
+
   addRoutes(routes)
 }
 
