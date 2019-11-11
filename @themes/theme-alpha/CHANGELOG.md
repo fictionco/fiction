@@ -5,12 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.0.0-beta.11](https://github.com/fiction-com/factor/compare/v1.0.0-beta.9...v1.0.0-beta.11) (2019-11-11)
 
-**Note:** Version bump only for package @factor/ui
 
+### Bug Fixes
 
-
-
-
-# [1.0.0-beta.10](https://github.com/fiction-com/factor/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2019-11-11)
-
-**Note:** Version bump only for package @factor/ui
+* override ([6a71f12](https://github.com/fiction-com/factor/commit/6a71f126787692eadbf28a550e3b2a1f493197fa))

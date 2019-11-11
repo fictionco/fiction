@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-ssr-bar",
   "description": "Elegant progress bar to show users how far they are in a process.",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.11",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {

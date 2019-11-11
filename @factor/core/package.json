@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.11",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -11,17 +11,17 @@
     "_id": "core"
   },
   "dependencies": {
-    "@factor/app": "1.0.0-beta.10",
-    "@factor/attachment": "1.0.0-beta.10",
-    "@factor/build": "1.0.0-beta.10",
-    "@factor/cli": "1.0.0-beta.10",
-    "@factor/email": "1.0.0-beta.10",
-    "@factor/endpoint": "1.0.0-beta.10",
-    "@factor/plugin-ssr-bar": "1.0.0-beta.9",
-    "@factor/post": "1.0.0-beta.10",
-    "@factor/server": "1.0.0-beta.10",
-    "@factor/tools": "1.0.0-beta.10",
-    "@factor/user": "1.0.0-beta.10"
+    "@factor/app": "1.0.0-beta.11",
+    "@factor/attachment": "1.0.0-beta.11",
+    "@factor/build": "1.0.0-beta.11",
+    "@factor/cli": "1.0.0-beta.11",
+    "@factor/email": "1.0.0-beta.11",
+    "@factor/endpoint": "1.0.0-beta.11",
+    "@factor/plugin-ssr-bar": "1.0.0-beta.11",
+    "@factor/post": "1.0.0-beta.11",
+    "@factor/server": "1.0.0-beta.11",
+    "@factor/tools": "1.0.0-beta.11",
+    "@factor/user": "1.0.0-beta.11"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
