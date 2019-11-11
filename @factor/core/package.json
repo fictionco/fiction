@@ -14,14 +14,18 @@
     "@factor/app": "1.0.0-beta.13",
     "@factor/attachment": "1.0.0-beta.12",
     "@factor/build": "1.0.0-beta.12",
-    "@factor/cli": "1.0.0-beta.12",
     "@factor/email": "1.0.0-beta.12",
     "@factor/endpoint": "1.0.0-beta.12",
     "@factor/plugin-ssr-bar": "1.0.0-beta.12",
     "@factor/post": "1.0.0-beta.13",
     "@factor/server": "1.0.0-beta.12",
     "@factor/tools": "1.0.0-beta.12",
-    "@factor/user": "1.0.0-beta.12"
+    "@factor/user": "1.0.0-beta.12",
+    "@factor/ui": "1.0.0-beta.12",
+    "@factor/dashboard": "1.0.0-beta.12",
+    "@factor/templates": "1.0.0-beta.12",
+    "@factor/cli": "^1.0.0-beta.12",
+    "@factor/meta": "^1.0.0-beta.12"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
