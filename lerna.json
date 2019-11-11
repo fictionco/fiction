@@ -1,8 +1,7 @@
 {
-  "version": "1.0.0-beta.14",
+  "version": "1.0.0-beta.15",
   "npmClient": "yarn",
   "useWorkspaces": false,
-  "exact": true,
   "conventionalCommits": true,
   "packages": [
     "@factor/*",

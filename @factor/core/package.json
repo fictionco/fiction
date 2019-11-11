@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-beta.14",
+  "version": "1.0.0-beta.15",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -11,21 +11,21 @@
     "_id": "core"
   },
   "dependencies": {
-    "@factor/app": "1.0.0-beta.14",
-    "@factor/attachment": "1.0.0-beta.14",
-    "@factor/build": "1.0.0-beta.14",
-    "@factor/cli": "1.0.0-beta.14",
-    "@factor/dashboard": "1.0.0-beta.14",
-    "@factor/email": "1.0.0-beta.14",
-    "@factor/endpoint": "1.0.0-beta.14",
-    "@factor/meta": "1.0.0-beta.14",
-    "@factor/plugin-ssr-bar": "1.0.0-beta.14",
-    "@factor/post": "1.0.0-beta.14",
-    "@factor/server": "1.0.0-beta.14",
-    "@factor/templates": "1.0.0-beta.14",
-    "@factor/tools": "1.0.0-beta.14",
-    "@factor/ui": "1.0.0-beta.14",
-    "@factor/user": "1.0.0-beta.14"
+    "@factor/app": "^1.0.0-beta.15",
+    "@factor/attachment": "^1.0.0-beta.15",
+    "@factor/build": "^1.0.0-beta.15",
+    "@factor/cli": "^1.0.0-beta.15",
+    "@factor/dashboard": "^1.0.0-beta.15",
+    "@factor/email": "^1.0.0-beta.15",
+    "@factor/endpoint": "^1.0.0-beta.15",
+    "@factor/meta": "^1.0.0-beta.15",
+    "@factor/plugin-ssr-bar": "^1.0.0-beta.15",
+    "@factor/post": "^1.0.0-beta.15",
+    "@factor/server": "^1.0.0-beta.15",
+    "@factor/templates": "^1.0.0-beta.15",
+    "@factor/tools": "^1.0.0-beta.15",
+    "@factor/ui": "^1.0.0-beta.15",
+    "@factor/user": "^1.0.0-beta.15"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
