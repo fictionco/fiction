@@ -12,14 +12,13 @@ let added = []
 let config = {}
 let settingsExports = []
 
-function createSettings() {
+export function createSettings() {
   config = configSettings()
 
   // Use sync require here
   // Needed for env matching, as import is problematic when settings might load after things that need them
   // eslint-disable-next-line import/no-unresolved
   settingsExports = require("~/.factor/loader-settings").default
-
 
   mergeAllSettings()
 }
