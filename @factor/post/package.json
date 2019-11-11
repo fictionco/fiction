@@ -1,6 +1,6 @@
 {
   "name": "@factor/post",
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.11",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -23,12 +23,12 @@
     "_id": "post"
   },
   "dependencies": {
-    "@factor/app": "1.0.0-beta.10",
-    "@factor/build": "1.0.0-beta.10",
-    "@factor/core": "1.0.0-beta.10",
-    "@factor/dashboard": "1.0.0-beta.10",
-    "@factor/templates": "1.0.0-beta.10",
-    "@factor/ui": "1.0.0-beta.10",
+    "@factor/app": "1.0.0-beta.11",
+    "@factor/build": "1.0.0-beta.11",
+    "@factor/core": "1.0.0-beta.11",
+    "@factor/dashboard": "1.0.0-beta.11",
+    "@factor/templates": "1.0.0-beta.11",
+    "@factor/ui": "1.0.0-beta.11",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.7",
     "mongoose": "^5.6.0",

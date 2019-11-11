@@ -1,12 +1,13 @@
 {
-  "version": "1.0.0-beta.10",
+  "version": "1.0.0-beta.11",
   "npmClient": "yarn",
   "useWorkspaces": false,
   "exact": true,
   "conventionalCommits": true,
   "packages": [
     "@factor/*",
-    "@factor/@*/*"
+    "@plugins/*",
+    "@themes/*"
   ],
   "command": {
     "publish": {
