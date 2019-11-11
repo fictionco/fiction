@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-jobs",
   "description": "Create and manage a job board in your Factor app with ease.",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "license": "GPL-2.0",
   "type": "module",
   "factor": {
@@ -12,7 +12,7 @@
     "title": "Job Board"
   },
   "dependencies": {
-    "@factor/plugin-highlight-code": "1.0.0-beta.11"
+    "@factor/plugin-highlight-code": "1.0.0-beta.12"
   },
   "publishConfig": {
     "access": "public"

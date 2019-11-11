@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "main": "index.js",
   "license": "GPL-2.0",
   "type": "module",
@@ -14,8 +14,8 @@
     ]
   },
   "dependencies": {
-    "@factor/cli": "1.0.0-beta.11",
-    "@factor/meta": "1.0.0-beta.11",
+    "@factor/cli": "1.0.0-beta.12",
+    "@factor/meta": "1.0.0-beta.12",
     "@factor/settings": "1.0.0-beta.6",
     "qs": "^6.6.0",
     "vue": "^2.6.7",
