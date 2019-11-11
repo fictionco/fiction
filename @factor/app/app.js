@@ -1,4 +1,4 @@
-import { createRouter } from "@factor/app/router"
+import { getRouter } from "@factor/app/router"
 import { emitEvent, runCallbacks, setting } from "@factor/tools"
 import { getStore } from "@factor/app/store"
 import Vue from "vue"
@@ -13,7 +13,7 @@ export async function createApp() {
   await extendApp()
 
   const store = getStore()
-  const router = await createRouter()
+  const router = getRouter()
 
   // Extend with mixin, etc... happens after router and store
   runCallbacks("before-app")

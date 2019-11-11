@@ -54,5 +54,3 @@ async function reloadNodeProcess(_arguments) {
 
   await factorize({ ..._arguments, restart: true, NODE_ENV: "development" })
 }
-
-// const passedArguments = process.argv.filter(_ => _.includes("--"))

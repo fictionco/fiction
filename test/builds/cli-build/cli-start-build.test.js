@@ -5,7 +5,7 @@ import { removeSync } from "fs-extra"
 import { getPort, rp, waitFor } from "@test/utils"
 import { startProcess, closeProcess, getUrl } from "./build-util"
 
-jest.setTimeout(80000)
+jest.setTimeout(90000)
 
 // Don't run these in windows
 describe["posix"]("cli factor start", () => {
