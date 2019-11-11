@@ -1,4 +1,5 @@
-import { addFilter, setting } from "@factor/tools"
+import { setting } from "@factor/tools/settings"
+import { addFilter } from "@factor/tools/filters"
 
 addFilter(
   "factor_head",

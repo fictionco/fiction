@@ -21,13 +21,6 @@ let __store = new Vuex.Store({
   }
 })
 
-// // Factor helper function for global/flat store pattern
-// __store.add = (item, value) => __store.commit("setItem", { item, value })
-
-// __store.val = key => __store.getters["getItem"](key)
-
-//Vue.$store = __store
-
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.
 // Make sure this is done after store modules are setup and added
@@ -50,3 +43,10 @@ export function stored(key) {
 export function getStoreState() {
   return __store.state
 }
+
+// // Factor helper function for global/flat store pattern
+// __store.add = (item, value) => __store.commit("setItem", { item, value })
+
+// __store.val = key => __store.getters["getItem"](key)
+
+//Vue.$store = __store

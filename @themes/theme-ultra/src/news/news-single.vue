@@ -12,15 +12,10 @@
   </div>
 </template>
 <script>
-import {
-  isEmpty,
-  setting,
-  stored,
-  titleTag,
-  descriptionTag,
-  shareImage
-} from "@factor/tools"
-
+import { stored } from "@factor/app/store"
+import { setting } from "@factor/tools/settings"
+import { titleTag, descriptionTag, shareImage } from "@factor/tools/metatags"
+import { isEmpty } from "@factor/tools/utils-lodash"
 export default {
   data() {
     return {}

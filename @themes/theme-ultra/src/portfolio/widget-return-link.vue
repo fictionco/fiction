@@ -7,7 +7,8 @@
   </div>
 </template>
 <script>
-import { setting, stored } from "@factor/tools"
+import { stored } from "@factor/app/store"
+import { setting } from "@factor/tools/settings"
 export default {
   props: {
     postId: { type: String, default: "" }

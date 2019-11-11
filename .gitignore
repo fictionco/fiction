@@ -12,6 +12,7 @@ server.key
 
 # Ignore node_modules folder
 node_modules
+**/node_modules
 
 # Ignore all text files
 *.txt

@@ -31,7 +31,8 @@
   </div>
 </template>
 <script>
-import { stored, postLink } from "@factor/tools"
+import { postLink } from "@factor/tools/permalink"
+import { stored } from "@factor/app/store"
 
 export default {
   props: {
