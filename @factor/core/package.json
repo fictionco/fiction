@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -14,7 +14,7 @@
     "@factor/app": "^1.0.0-beta.15",
     "@factor/attachment": "^1.0.0-beta.15",
     "@factor/build": "^1.0.0-beta.15",
-    "@factor/cli": "^1.0.0-beta.15",
+    "@factor/cli": "^1.0.0-beta.16",
     "@factor/dashboard": "^1.0.0-beta.15",
     "@factor/email": "^1.0.0-beta.15",
     "@factor/endpoint": "^1.0.0-beta.15",
@@ -25,7 +25,7 @@
     "@factor/templates": "^1.0.0-beta.15",
     "@factor/tools": "^1.0.0-beta.15",
     "@factor/ui": "^1.0.0-beta.15",
-    "@factor/user": "^1.0.0-beta.15"
+    "@factor/user": "^1.0.0-beta.16"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
