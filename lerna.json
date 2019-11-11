@@ -4,17 +4,17 @@
   "useWorkspaces": false,
   "exact": true,
   "conventionalCommits": true,
-  "packages": [
-    "@factor/*",
-    "@plugins/*",
-    "@themes/*"
-  ],
+  "packages": ["@factor/*", "@plugins/*", "@themes/*"],
   "command": {
     "publish": {
-      "npmClient": "npm"
+      "npmClient": "npm",
+      "message": "chore(release): publish"
     },
     "init": {
       "exact": true
+    },
+    "version": {
+      "message": "chore(release): version"
     }
   },
   "changelog": {
