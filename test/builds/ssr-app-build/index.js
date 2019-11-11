@@ -1,7 +1,7 @@
 import { pushToFilter } from "@factor/tools"
 
 
-console.log("ADD TO FILTER")
+
 pushToFilter("content-routes", {
   path: "/basic",
   component: () => import("./v-basic.vue")

@@ -8,7 +8,7 @@ import { startProcess, closeProcess, getUrl } from "./build-util"
 jest.setTimeout(80000)
 
 // Don't run these in windows
-describe.posix("cli factor start", () => {
+describe["posix"]("cli factor start", () => {
   beforeAll(() => {
     process.env.FACTOR_CWD = __dirname
     removeSync(resolve(__dirname, ".factor"))
@@ -18,7 +18,7 @@ describe.posix("cli factor start", () => {
   it("builds and serves", async () => {
     let error
 
-    process.env.PORT = await getPort()
+    process.env.PORT = String(await getPort())
 
     const __process = await startProcess({
       command: "start",
