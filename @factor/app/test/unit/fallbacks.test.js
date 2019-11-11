@@ -1,11 +1,31 @@
+import { setting, createSettings } from "@factor/tools/settings"
+
 describe("fallbacks", () => {
-  it.todo("provides a 404 component fallback")
+  beforeAll(() => {
+    createSettings()
+  })
 
-  it.todo("provides an HTML template fallback")
+  it("provides a 404 component fallback", () => {
+    const s = setting("app.error404")
 
-  it.todo("provides site wrapper")
+    expect(s).toEqual(expect.any(Function))
+  })
 
-  it.todo("provides content wrapper")
+  it("provides an HTML template fallback", () => {
+    const s = setting("app.templatePath")
 
-  it.todo("adds fallbacks to settings")
+    expect(s).toEqual(expect.any(String))
+  })
+
+  it("provides site wrapper", () => {
+    const s = setting("app.site")
+
+    expect(s).toEqual(expect.any(Function))
+  })
+
+  it("provides content wrapper", () => {
+    const s = setting("app.content")
+
+    expect(s).toEqual(expect.any(Function))
+  })
 })
