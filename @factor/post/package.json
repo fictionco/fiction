@@ -1,6 +1,6 @@
 {
   "name": "@factor/post",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-beta.13",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -23,9 +23,9 @@
     "_id": "post"
   },
   "dependencies": {
-    "@factor/app": "1.0.0-beta.12",
+    "@factor/app": "1.0.0-beta.13",
     "@factor/build": "1.0.0-beta.12",
-    "@factor/core": "1.0.0-beta.12",
+    "@factor/core": "1.0.0-beta.13",
     "@factor/dashboard": "1.0.0-beta.12",
     "@factor/templates": "1.0.0-beta.12",
     "@factor/ui": "1.0.0-beta.12",
