@@ -10,7 +10,7 @@ describe("Meta", () => {
   })
 
   test("/basic", async () => {
-    const html = await renderRoute({ url: "/basic" })
+    const html = await renderRoute("/basic")
 
     expect(html).toContain("<title>title template</title>")
     expect(html).toContain("this is the description")
@@ -19,13 +19,13 @@ describe("Meta", () => {
   })
 
   test("/mutation", async () => {
-    const html = await renderRoute({ url: "/mutation" })
+    const html = await renderRoute("/mutation")
     expect(html).toContain("<title>change-title</title>")
     expect(html).toContain("change-description")
   })
 
   test("/async", async () => {
-    const html = await renderRoute({ url: "/async" })
+    const html = await renderRoute("/async")
 
     expect(html).toContain("<title>async-title</title>")
     expect(html).toContain("async-description")

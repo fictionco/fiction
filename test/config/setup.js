@@ -12,11 +12,11 @@ Factor.config.devtools = false
 
 const isWin = env.windows
 
-describe.win = isWin ? describe : describe.skip
-test.win = isWin ? test : test.skip
+describe["win"] = isWin ? describe : describe.skip
+test["win"] = isWin ? test : test.skip
 
-describe.posix = !isWin ? describe : describe.skip
-test.posix = !isWin ? test : test.skip
+describe["posix"] = !isWin ? describe : describe.skip
+test["posix"] = !isWin ? test : test.skip
 
 chalk.enabled = false
 

@@ -10,21 +10,21 @@ describe("SSR", () => {
   })
 
   test("/basic", async () => {
-    const html = await renderRoute({ url: "/basic" })
+    const html = await renderRoute("/basic")
     expect(html).toContain("<h1>Basic</h1>")
   })
 
   test("/mutation", async () => {
-    const html = await renderRoute({ url: "/mutation" })
+    const html = await renderRoute("/mutation")
     expect(html).toContain("<h1>mutated</h1>")
   })
 
   test("/store-data", async () => {
-    const html = await renderRoute({ url: "/store-data" })
+    const html = await renderRoute("/store-data")
     expect(html).toContain("<h1>loaded</h1>")
   })
 
-  // Close server and ask nuxt to stop listening to file changes
+  // Close server + stop listening to file changes
   afterAll(async () => {
     await closeServer()
   })
