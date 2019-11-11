@@ -155,6 +155,9 @@ function makeFileLoader({ extensions, filename, callback }) {
       .map((fullPath, index) => {
         const _module = fullPath.replace(dir, requireBase)
         const moduleName = _module.replace(/\.js$/, "").replace(/\/index$/, "")
+
+        if (moduleName.includes("node_modules")) return false
+
         return {
           _id: index == 0 ? _id : `${_id}_${index}`,
           file: moduleName,
@@ -162,6 +165,7 @@ function makeFileLoader({ extensions, filename, callback }) {
           priority
         }
       })
+      .filter(_ => _)
       .forEach(lPath => files.push(lPath))
   })
 

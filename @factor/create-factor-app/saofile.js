@@ -32,7 +32,8 @@ const config = {
     {
       name: "addDb",
       type: "list",
-      message: "Do you have a MongoDB connection string?",
+      message:
+        "Do you have a MongoDB connection string ready? (needed for dashboard and auth)",
       choices: ["yes", "no"]
     },
     {

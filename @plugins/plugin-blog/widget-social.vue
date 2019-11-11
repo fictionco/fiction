@@ -1,37 +1,28 @@
 <template>
   <div class="social-share">
-    <factor-link
-      class="facebook"
-      btn="default"
-      :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`"
-    >
+    <factor-link class="facebook" :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`">
       <factor-icon icon="facebook" />
     </factor-link>
     <factor-link
       class="twitter"
-      btn="default"
       :path="`https://twitter.com/intent/tweet?text=${post.title}+${link}`"
     >
       <factor-icon icon="twitter" />
     </factor-link>
     <factor-link
       class="linkedin"
-      btn="default"
       :path="`https://www.linkedin.com/shareArticle?mini=true&url=${link}`"
     >
       <factor-icon icon="linkedin" />
     </factor-link>
-    <factor-link
-      class="pinterest"
-      btn="default"
-      :path="`https://pinterest.com/pin/create/button/?url=${link}`"
-    >
+    <factor-link class="pinterest" :path="`https://pinterest.com/pin/create/button/?url=${link}`">
       <factor-icon icon="pinterest" />
     </factor-link>
   </div>
 </template>
 <script>
-import { stored, postLink } from "@factor/tools"
+import { stored } from "@factor/app/store"
+import { postLink } from "@factor/tools/permalink"
 
 export default {
   props: {
