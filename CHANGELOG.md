@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.17](https://github.com/fiction-com/factor/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2019-11-11)
+
+
+### Bug Fixes
+
+* azure ([e269029](https://github.com/fiction-com/factor/commit/e2690293448cd2969fa0e243694efba9d1bd8aa7))
+* JWT and router ([4c23ba7](https://github.com/fiction-com/factor/commit/4c23ba75543fe1cd646291ac5885128ac31b1c78))
+
+
+
+
+
 # [1.0.0-beta.16](https://github.com/fiction-com/factor/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2019-11-11)
 
 
