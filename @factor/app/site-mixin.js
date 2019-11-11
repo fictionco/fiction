@@ -1,5 +1,6 @@
 import { runCallbacks, applyFilters } from "@factor/tools"
 import { getObservables } from "@factor/app"
+
 export default () => {
   return {
     data() {
@@ -13,8 +14,9 @@ export default () => {
     },
     computed: {
       ui() {
-        const { meta: { ui = "app" } = {} } =
-          this.$route.matched.find(_ => _.meta.ui) || {}
+        const { meta = {} } = this.$route.matched.find(_ => _.meta.ui) || {}
+
+        let ui = meta.ui || "app"
 
         return `factor-${ui}`
       },

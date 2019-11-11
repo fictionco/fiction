@@ -110,6 +110,7 @@
     "lockfile",
     "maxage",
     "mimetype",
+    "mixins",
     "nocheck",
     "npmjs",
     "npmrc",
