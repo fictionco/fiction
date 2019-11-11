@@ -15,7 +15,7 @@
     "@factor/*",
     "@demo/*",
     "**/fixtures/*",
-    "test/integration-builds/*",
+    "test/builds/*",
     "test/modules/*"
   ],
   "private": true,
@@ -33,7 +33,7 @@
     "test:coverage": "codecov",
     "test:unit": "jest @factor/**/test/unit --forceExit --detectOpenHandles --passWithNoTests",
     "test:fixtures": "yarn test:builds && yarn test:integration",
-    "test:builds": "jest test/integration-builds --forceExit --detectOpenHandles --passWithNoTests",
+    "test:builds": "jest test/builds --forceExit --detectOpenHandles --passWithNoTests",
     "test:integration": "jest test/integration --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
     "test:types": "tsc"

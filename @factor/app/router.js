@@ -38,6 +38,10 @@ export async function createRouter() {
   return __router
 }
 
+export function getRouter() {
+  return __router
+}
+
 // If called before 'createRouter' then add to callback
 export function addRoutes(routeConfig) {
   if (__router) {

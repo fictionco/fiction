@@ -3,6 +3,7 @@ import { getPath } from "@factor/tools/paths"
 import destroyer from "destroyer"
 import express from "express"
 import fs from "fs-extra"
+import { currentRoute } from "@factor/app/router"
 
 import LRU from "lru-cache"
 import { createBundleRenderer } from "vue-server-renderer"
@@ -22,10 +23,10 @@ addCallback("close-server", () => closeServer())
 export function createServer({ port }) {
   PORT = getPort(port)
 
-  if (process.env.NODE_ENV == "production") {
-    startServerProduction()
-  } else {
+  if (process.env.NODE_ENV == "development") {
     startServerDevelopment()
+  } else {
+    startServerProduction()
   }
 
   return
@@ -100,7 +101,10 @@ export async function renderRequest(request, response) {
 
 // SSR - Renders a route (url) to HTML.
 export async function renderRoute(url) {
-  return await renderer.renderToString({ url })
+  const result = await renderer.renderToString({ url })
+
+  console.log("RENDER ROUTE", currentRoute())
+  return result
 }
 
 function startListener() {
