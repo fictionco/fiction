@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { renderMarkdown } from "@factor/tools"
+import { renderMarkdown } from "@factor/tools/markdown"
 export default {
   props: {
     post: { type: Object, default: () => {} }

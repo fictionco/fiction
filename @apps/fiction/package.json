@@ -1,6 +1,6 @@
 {
   "name": "@apps/fiction",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.12",
   "url": "https://www.fiction.com",
   "main": "src/index.js",
   "author": "Fiction.com",
@@ -15,16 +15,16 @@
   },
   "dependencies": {
     "execa": "^3.1.0",
-    "@factor/core": "^1.0.0-beta.0",
-    "@factor/theme-shared": "^1.0.0-beta.0",
-    "@factor/plugin-blog": "^1.0.0-beta.0",
-    "@factor/plugin-contact-form": "^1.0.0-beta.0",
-    "@factor/plugin-google-tag-manager": "^1.0.0-beta.0",
-    "@factor/plugin-highlight-code": "^1.0.0-beta.0",
-    "@factor/plugin-jobs": "^1.0.0-beta.0",
-    "@factor/plugin-notify": "^1.0.0-beta.0",
-    "@factor/plugin-seo": "^1.0.0-beta.0",
-    "@factor/plugin-sitemap": "^1.0.0-beta.0",
-    "@factor/plugin-storage-s3": "^1.0.0-beta.0"
+    "@factor/core": "^1.0.0-beta.12",
+    "@factor/theme-shared": "^1.0.0-beta.12",
+    "@factor/plugin-blog": "^1.0.0-beta.12",
+    "@factor/plugin-contact-form": "^1.0.0-beta.12",
+    "@factor/plugin-google-tag-manager": "^1.0.0-beta.12",
+    "@factor/plugin-highlight-code": "^1.0.0-beta.12",
+    "@factor/plugin-jobs": "^1.0.0-beta.12",
+    "@factor/plugin-notify": "^1.0.0-beta.12",
+    "@factor/plugin-seo": "^1.0.0-beta.12",
+    "@factor/plugin-sitemap": "^1.0.0-beta.12",
+    "@factor/plugin-storage-s3": "^1.0.0-beta.12"
   }
 }

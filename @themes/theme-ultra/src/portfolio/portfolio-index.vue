@@ -23,8 +23,10 @@
   </div>
 </template>
 <script>
-import { setting, stored } from "@factor/tools"
-import { requestPostIndex } from "@factor/post"
+import { setting } from "@factor/tools/settings"
+import { stored } from "@factor/app/store"
+import { requestPostIndex } from "@factor/post/request"
+
 export default {
   data() {
     return {

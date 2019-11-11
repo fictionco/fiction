@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { setting } from "@factor/tools"
+import { setting } from "@factor/tools/settings"
 export default {
   data() {
     return {

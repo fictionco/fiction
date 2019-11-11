@@ -1,4 +1,4 @@
-import { preFetchPost } from "@factor/post"
+import { preFetchPost } from "@factor/post/request"
 import { addFilter, addCallback, pushToFilter } from "@factor/tools/filters"
 
 export * from "./request"

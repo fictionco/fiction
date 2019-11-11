@@ -7,8 +7,9 @@
 </template>
 
 <script>
-import { setting, stored } from "@factor/tools"
-import { requestPostIndex } from "@factor/post"
+import { stored } from "@factor/app/store"
+import { setting } from "@factor/tools/settings"
+import { requestPostIndex } from "@factor/post/request"
 export default {
   components: {
     "news-index": () => import("./news/news-index.vue")
