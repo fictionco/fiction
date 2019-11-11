@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<style src="#/css/style.less" lang="less"></style>
+
 <script>
 export default {
   components: {
