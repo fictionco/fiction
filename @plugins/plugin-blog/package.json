@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-blog",
   "description": "Easily implement, customize and manage blog in your Factor app.",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "license": "GPL-2.0",
   "type": "module",
   "factor": {
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@factor/core": "1.0.0-beta.9",
-    "@factor/plugin-highlight-code": "1.0.0-beta.11"
+    "@factor/plugin-highlight-code": "1.0.0-beta.12"
   },
   "publishConfig": {
     "access": "public"

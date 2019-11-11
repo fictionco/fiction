@@ -1,7 +1,7 @@
 {
   "name": "@factor/build",
   "description": "Bundle",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "license": "GPL-2.0",
   "type": "module",
   "publishConfig": {
@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "@factor/cli": "1.0.0-beta.11",
+    "@factor/cli": "1.0.0-beta.12",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "cli-progress": "^3.3.1",
