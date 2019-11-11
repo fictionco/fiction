@@ -21,15 +21,15 @@ steps:
 
   - script: |
       set JEST_JUNIT_OUTPUT_NAME=build.xml && set NODE_OPTIONS=--max_old_space_size=4096 && yarn test:build -i
-    displayName: "Test: Build Fixtures"
+    displayName: "Test: Build"
 
   - script: |
       set JEST_JUNIT_OUTPUT_NAME=integration.xml && set NODE_OPTIONS=--max_old_space_size=4096 && yarn test:integration -i
-    displayName: "Test: Build Fixtures"
+    displayName: "Test: Integration"
 
   - script: |
       set JEST_JUNIT_OUTPUT_NAME=unit.xml && set NODE_OPTIONS=--max_old_space_size=4096 && yarn test:unit -w=2
-    displayName: "Test: Run unit tests"
+    displayName: "Test: Unit"
 
   - task: PublishTestResults@2
     inputs

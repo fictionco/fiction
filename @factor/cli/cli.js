@@ -113,12 +113,7 @@ async function runCommand(options) {
 }
 
 async function runServer(_arguments) {
-  const {
-    NODE_ENV = process.env.NODE_ENV,
-    FACTOR_ENV,
-    FACTOR_COMMAND,
-    FACTOR_CWD
-  } = process.env
+  const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {
     title: "Starting Server...",
