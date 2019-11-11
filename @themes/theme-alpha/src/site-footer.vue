@@ -19,12 +19,13 @@
   </div>
 </template>
 <script>
+import { setting } from "@factor/tools/settings"
 export default {
   components: {},
   data: () => {
     return {}
   },
-  computed: {}
+  methods: { setting }
 }
 </script>
 

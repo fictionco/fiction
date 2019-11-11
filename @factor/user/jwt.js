@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken"
 
 export function userCredential(user) {
-  if (!user) {
-    return {}
-  }
+  if (!user || !process.env.TOKEN_SECRET) return {}
+
   user = user.toObject()
   delete user.password
   return {
@@ -13,6 +12,8 @@ export function userCredential(user) {
 }
 
 export function decodeToken(token) {
+  if (!process.env.TOKEN_SECRET) return
+
   try {
     return jwt.verify(token, process.env.TOKEN_SECRET)
   } catch (error) {
