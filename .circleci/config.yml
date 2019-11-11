@@ -114,7 +114,7 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - test/integration-builds
+            - test/builds
 
   test-integration:
     executor: node

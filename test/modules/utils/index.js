@@ -6,6 +6,9 @@ export { default as getPort } from "get-port"
 export { default as rp } from "request-promise-native"
 import { removeSync } from "fs-extra"
 import { generateLoaders } from "@factor/cli/extension-loader"
+
+import { createApp } from "@factor/app/app"
+
 export const waitFor = ms => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
 }
@@ -47,7 +50,9 @@ export const buildFixture = fixture => {
 
 export const loadFixture = async fixture => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
+
   process.env.FACTOR_ENV = "test"
 
-  return await factorize()
+  await factorize()
+  await createApp()
 }
