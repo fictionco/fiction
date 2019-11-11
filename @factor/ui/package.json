@@ -15,9 +15,6 @@
     ]
   },
   "dependencies": {
-    "@factor/attachment": "1.0.0-beta.12",
-    "@factor/tools": "1.0.0-beta.12",
-    "@factor/ui": "1.0.0-beta.12",
     "sortablejs": "^1.10.1",
     "vuejs-datepicker": "^1.6.2"
   },
