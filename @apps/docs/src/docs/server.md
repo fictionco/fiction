@@ -34,19 +34,13 @@ Example:
 ```javascript
 // index.js
 import { addCallback, stored, storeItem } from "@factor/tools"
-export default Factor => {
-  return new class{
-    constructor(){
 
-      // This requests information and adds to Factor store
-      addCallback('site-pre-fetch', async () => {
-        const list = await this.getList()
+// This requests information and adds to Factor store
+addCallback("site-pre-fetch", async () => {
+  const list = await getList()
 
-        storeItem("myList", list)
-      })
-    }
-  }()
-}
+  storeItem("myList", list)
+})
 
 // inside-my-component.vue
 // using a store "getter" the information needed will be available
@@ -133,7 +127,7 @@ As endpoints are a common pattern, Factor includes a standard endpoint handling 
 - On the server
 
   - Endpoints are added via the `endpoints` filter
-  - Endpoints represent a typical Factor module or class. This allows for simple resource sharing amonst similar endpoint requests.
+  - Endpoints represent a typical JS object with methods that each take a single `params` variable.
   - The endpoint handler takes care of parsing requests and determining authentication status.
 
 - In the client
@@ -148,23 +142,14 @@ Adding an endpoint in a server accessible module/plugin:
 
 ```javascript
 // Adding an endpoint in a server loaded module
-export default Factor => {
-  return new (class {
-    constructor() {
-      // adds "this" representing the current class as the server endpoint handler
-      // the endpoint ID is "myEndpoint"
-      addCallback("endpoints", {
-        id: "myEndpoint",
-        handler: this
-      })
 
-      // Note: On the server Factor.$config.settings() is available with all secrets and environmental vars (TOP SECRET!)
-    }
+addCallback("endpoints", {
+  id: "myEndpoint",
+  handler: { endpointMethod }
+})
 
-    endpointMethod(params) {
-      return `my response with option: ${params.myOption}`
-    }
-  })()
+function endpointMethod(params) {
+  return `my response with option: ${params.myOption}`
 }
 ```
 
@@ -172,23 +157,17 @@ And in another plugin in the client or app:
 
 ```javascript
 // Requesting an endpoint transaction from your app
-export default Factor => {
-  return new (class {
-    constructor() {}
+export async function requestEndpointMethod() {
+  // Request and await transaction of endpointMethod
+  const response = await Factor.$endpoint.request({
+    id: "myEndpoint",
+    method: "endpointMethod",
+    params: { myOption: 123 }
+  })
 
-    async requestEndpointMethod() {
-      // Request and await transaction of endpointMethod
-      const response = await Factor.$endpoint.request({
-        id: "myEndpoint",
-        method: "endpointMethod",
-        params: { myOption: 123 }
-      })
+  console.log(response) // "my response with option: 123"
 
-      console.log(response) // "my response with option: 123"
-
-      // Note: Authorization header automatically included with user token which is used to determine auth status
-    }
-  })()
+  // Note: Authorization header automatically included with user token which is used to determine auth status
 }
 ```
 
@@ -214,24 +193,17 @@ As an example, middleware for creating a sitemap might look like the following:
 
 ```javascript
 // index.js
-export default Factor => {
-  return new (class {
-    constructor() {
-      addFilter("middleware", middlewares => {
-        middlewares.push({
-          path: "/sitemap.xml",
-          callback: async (request, response, next) => {
-            // generate sitemap
-            const sitemapXML = await this.getSitemap()
+import { pushToFilter } from "@factor/tools"
+pushToFilter("middleware", {
+  path: "/sitemap.xml",
+  callback: async (request, response, next) => {
+    // generate sitemap
+    const sitemapXML = await this.getSitemap()
 
-            response.header("Content-Type", "application/xml")
-            response.send(sitemapXML)
+    response.header("Content-Type", "application/xml")
+    response.send(sitemapXML)
 
-            // Notes: No 'next' call is needed since we don't need to continue processing other middleware
-          }
-        })
-      })
-    }
-  })()
-}
+    // Notes: No 'next' call is needed since we don't need to continue processing other middleware
+  }
+})
 ```

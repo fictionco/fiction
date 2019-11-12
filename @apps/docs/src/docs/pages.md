@@ -4,7 +4,7 @@
 
 Factor supports a dynamic page and page template system that is useful for both apps and themes.
 
-The use case for pages is to make various types of pages available to create and edit from the dashboard, which has the following advantages:
+This allows you to create and edit your app's pages from the dashboard. Advantages:
 
 - No rebuilding your app for every change (common issue with static site generators)
 - Themes can pre-design pages that can be shown in the dashboard interface
@@ -30,7 +30,7 @@ There are two easy ways to add a page template to your app or theme: the `page-t
 - `name` - The name of the page template in dashboard interfaces.
 
 ```js
-// (Important: This approach should be used by plugins)
+// (Important: This approach should be used by plugins since Factor settings overrides all templates)
 addFilter("page-templates", _ => {
   return [
     ..._,
@@ -44,17 +44,15 @@ addFilter("page-templates", _ => {
 
 // Via factor-settings
 // Replaces default templates
-export default Factor => {
-  return {
-    pageTemplates: {
-      templates: [
-        {
-          name: "My Landing Page",
-          _id: "landing-page",
-          component: () => import("./tpl-landing-page")
-        }
-      ]
-    }
+export default {
+  pageTemplates: {
+    templates: [
+      {
+        name: "My Landing Page",
+        _id: "landing-page",
+        component: () => import("./tpl-landing-page")
+      }
+    ]
   }
 }
 ```

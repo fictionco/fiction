@@ -2,7 +2,7 @@
 
 ## Overview
 
-![](./img/factor-logo-2.svg)
+![Factor Logo](./img/factor-logo-2.svg)
 
 **Factor** is a platform that makes it easy to build impressive Javascript apps.
 

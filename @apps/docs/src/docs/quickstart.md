@@ -20,13 +20,13 @@ To get started quickly, we've built a "starter kit" tool: [create-factor-app](ht
 > Make sure you have [npx](https://www.npmjs.com/package/npx) installed (`npx` is shipped by default since NPM `5.2.0`)
 
 ```bash
-$ npx create-factor-app <project-name>
+npx create-factor-app <project-name>
 ```
 
 or with Yarn:
 
 ```bash
-$ yarn create factor-app <project-name>
+yarn create factor-app <project-name>
 ```
 
 Running this command will install Factor and start a guide that helps you create a starter app.
@@ -36,8 +36,8 @@ It will ask you a couple questions and then it will install and create a basic F
 Once you've set up, the next step is to navigate to the project folder and launch it with:
 
 ```bash
-$ cd <project-name>
-$ yarn factor dev
+cd <project-name>
+yarn factor dev
 ```
 
 Now your basic starter application should be running at [`localhost:3000`](localhost:3000)

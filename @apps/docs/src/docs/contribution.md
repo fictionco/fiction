@@ -19,13 +19,13 @@ If you'd like to try running apps or themes directly from the [Factor monorepo](
 First clone it:
 
 ```bash
-$ git clone https://github.com/fiction-com/factor
+git clone https://github.com/fiction-com/factor
 ```
 
 And then running a [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) within the repo. As an example, you can run this site's code with the following command:
 
 ```bash
-$ yarn workspace @apps/docs factor dev
+yarn workspace @apps/docs factor dev
 ```
 
 ### Basic Flow

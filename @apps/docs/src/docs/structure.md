@@ -56,22 +56,6 @@ Here is how you should think of the two key folders of your app:
 - **Source** - (`/src`) - This is your application source code. It should include all components, images, static files, templates, etc..
 - **Root** - (`/`) - The root of your app should be used for configuration (factor-config, .env, package.json), build and test code, etc..
 
-### Class Export Convention
-
-Factor entry files follow a special "closure" design pattern that looks like this:
-
-```js
-export default Factor => {
-  return new (class {
-    constructor() {
-      // do something
-    }
-  })()
-}
-```
-
-And once loaded your exported class is accessible via `Factor.$appId` throughout your components and elsewhere (Id is added in package.json).
-
 ## Template: index.html
 
 Your index.html template is the skeleton for every page on your app. It can be overridden, but it has a rich "hook" system that allows you to accomplish almost anything with either [Vue Meta](https://github.com/nuxt/vue-meta) or any of several direct Factor hook functions.
