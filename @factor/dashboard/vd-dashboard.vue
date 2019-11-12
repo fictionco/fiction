@@ -39,7 +39,7 @@ export default {
     return {
       loading: true,
       title: "Admin",
-      subTitle: "Manage your app content and users.",
+      subTitle: "Tools to manage your app",
       features: [
         {
           title: "Get Plugins",

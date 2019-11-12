@@ -20,7 +20,11 @@
         </g>
       </svg>
     </div>
-    <div v-else :style="getStyle({backgroundImage: `url(${src})`})" class="thumb thumb-src" />
+    <div
+      v-else
+      :style="getStyle({ backgroundImage: `url(${src})` })"
+      class="thumb thumb-src"
+    />
     <slot />
   </div>
 </template>
@@ -65,7 +69,7 @@ export default {
   }
 }
 </script>
-<style lang="less" >
+<style lang="less">
 .avatar {
   position: relative;
   line-height: 1;
@@ -73,7 +77,7 @@ export default {
 .thumb {
   background-position: 50%;
   background-size: cover;
-  border-radius: 50%;
+  border-radius: 5px;
   position: relative;
   .user-blank {
     opacity: 0.6;
