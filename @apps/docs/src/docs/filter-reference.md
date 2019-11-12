@@ -20,7 +20,8 @@ Routes in Factor use [Vue Router](https://router.vuejs.org). These filters add r
 #### Example
 
 ```js
-// Takes an array []
+import { addFilter } from "@factor/tools"
+
 addFilter("content-routes", routes => {
   return [
     ...routes,
@@ -40,13 +41,17 @@ addFilter("content-routes", routes => {
 
 You can add global Vue components easily using the `components` filter.
 
-#### Example
+#### Global Component Example
 
 ```js
-addFilter("components", _ => {
-  _["my-global-component-one"] = () => import("./one.vue")
-  _["my-global-component-two"] = () => import("./two.vue")
-  return _
+addFilter("global-components", _ => {
+  return [
+    ..._,
+    {
+      name: "my-global-component-one",
+      component: () => import("./one.vue")
+    }
+  ]
 })
 ```
 

@@ -11,7 +11,7 @@ To install a Factor theme just it as a dependency in your `package.json`. This w
 For example, to install the theme that this site is running, just run:
 
 ```bash
-$ yarn add @factor/theme-docs
+yarn add @factor/theme-docs
 ```
 
 Once installed as a dependency, Factor will load the theme. The theme itself determines how it should run, so reference the theme's documentation for additional information on its usage.

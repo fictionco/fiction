@@ -25,35 +25,28 @@ Example:
 ```javascript
 // index.js
 import { addCallback } from "@factor/tools"
-export default Factor => {
-  return new class {
-    constructor() {
 
-      addCallback("cli-run-database-import", args => this.databaseImport(args))
-    }
+addCallback("cli-run-database-import", args => databaseImport(args))
 
+export async function databaseImport({program, inquirer}){
+  const questions = [
+    {
+      name: "file",
+      message: "What is the path to the file for import?",
+      type: "input"
+    },
+    {
+      name: "collection",
+      message: "Which collection should we import to?",
+      type: "input"
+    }]
 
-    async databaseImport({program, inquirer}){
-      const questions = [
-        {
-          name: "file",
-          message: "What is the path to the file for import?",
-          type: "input"
-        },
-        {
-          name: "collection",
-          message: "Which collection should we import to?",
-          type: "input"
-        }]
+    const answers = await inquirer.prompt(questions)
 
-        const answers = await inquirer.prompt(questions)
+    const data = await require("fs-extra").readJson(resolve(process.cwd(), answers.file))
 
-        const data = await require("fs-extra").readJson(resolve(process.cwd(), answers.file))
-
-        // Import data...
-      ]
-    }
-  }
+    // Import data...
+  ]
 }
 ```
 

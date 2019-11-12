@@ -64,21 +64,6 @@ Once you've successfully setup your development environment, you should start yo
 
 A main file is a convention in JS modules that tells the system what file should be loaded when a module is imported into a script. In Factor, the default is `index.js` but the **target** attribute gives you fine control over what is loaded and where (discussed below).
 
-#### Class Pattern
-
-Inside Factor main files, Factor recommends you use a standard class "closure" pattern that makes it easy to access the `Factor` global and also work with your plugin throughout the Factor system. The pattern looks like this:
-
-```js
-// index.js or server.js (main file)
-export default Factor => {
-  return new (class {
-    constructor() {
-      // Initialize
-    }
-  })()
-}
-```
-
 ### Loading in Server vs App Environment
 
 Factor has two key environments: _"app"_ and _"server"_.
@@ -127,55 +112,34 @@ Once you have your plugin loading, you're ready to start working on your plugin.
 Also, Factor has a special `Factor.$events` utility that makes it easy to emit or listen for events using the following:
 
 ```js
-Factor.$events.$on("some-event", eventParams => console.log(eventParams)) // listen
-Factor.$events.$emit("some-event", eventParams) // emit
+import { onEvent, emitEvent } from "@factor/tools"
+onEvent("some-event", eventParams => console.log(eventParams)) // listen
+emitEvent("some-event", eventParams) // emit
 ```
 
 #### Example: Routes, Components, Events
 
 ```js
-// index.js
-export default Factor => {
-  return new (class {
-    constructor() {
-      this.addRoutes()
-      this.addComponents()
-      this.events()
-    }
+import { onEvent, emitEvent, pushToFilter } from "@factor/tools"
+// Add a route
+pushToFilter("content-routes", {
+  path: "/my-route",
+  component: () => import("./component-for-my-route")
+})
 
-    addRoutes() {
-      // Takes an array []
-      addFilter("content-routes", routes => {
-        return [
-          ...routes,
-          {
-            path: "/my-route",
-            component: () => import("./component-for-my-route")
-          }
-        ]
-      })
-    }
+// Add global component
+pushToFilter("global-components", {
+  name: "my-component-name",
+  component: () => import("./my-component.vue")
+})
 
-    addComponents() {
-      // Takes an Object {}
-      addFilter("components", components => {
-        return { ...components, "my-component-name": () => import("./my-component.vue") }
-      })
-    }
+// listen for events
+onEvent("some-event", params => {
+  console.log("params")
+})
 
-    // listen for events
-    events() {
-      Factor.$events.$on("some-event", params => {
-        console.log("params")
-      })
-    }
-
-    // emit events
-    notify(message) {
-      Factor.$events.$emit("notify", message)
-    }
-  })()
-}
+// emit events
+emitEvent("notify", message)
 ```
 
 ### Plugin Global Reference

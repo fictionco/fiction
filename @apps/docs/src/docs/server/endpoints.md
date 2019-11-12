@@ -36,49 +36,36 @@ Adding an endpoint in a server accessible module/plugin:
 
 ```javascript
 import { addCallback } from "@factor/tools"
-// Adding an endpoint in a server loaded module
-export default Factor => {
-  return new (class {
-    constructor() {
-      // adds "this" representing the current class as the server endpoint handler
-      // the endpoint ID is "myEndpoint"
-      addCallback("endpoints", {
-        id: "myEndpoint",
-        handler: this
-      })
 
-      // Note: On the server Factor.$config.settings() is available with all secrets and environmental vars (TOP SECRET!)
-    }
+addCallback("endpoints", {
+  id: "myEndpoint",
+  handler: { myEndpointMethod }
+})
 
-    endpointMethod(params) {
-      return `my response with option: ${params.myOption}`
-    }
-  })()
+function myEndpointMethod(params) {
+  return `my response with option: ${params.myOption}`
 }
 ```
 
 And in another plugin in the client or app:
 
 ```javascript
-import { endpointRequest } from "@factor/endpoint"
+
 // Requesting an endpoint transaction from your app
-export default Factor => {
-  return new (class {
-    constructor() {}
 
-    async requestEndpointMethod() {
-      // Request and await transaction of endpointMethod
-      const response = await endpointRequest({
-        id: "myEndpoint",
-        method: "endpointMethod",
-        params: { myOption: 123 }
-      })
+import { endpointRequest } from "@factor/endpoint"
 
-      console.log(response) // "my response with option: 123"
+async requestEndpointMethod() {
+  // Request and await transaction of endpointMethod
+  const response = await endpointRequest({
+    id: "myEndpoint",
+    method: "endpointMethod",
+    params: { myOption: 123 }
+  })
 
-      // Note: Authorization header automatically included with user token which is used to determine auth status
-    }
-  })()
+  console.log(response) // "my response with option: 123"
+
+  // Note: Authorization header automatically included with user token which is used to determine auth status
 }
 ```
 
@@ -103,25 +90,18 @@ To add middleware to your Factor server, all you have to do is use the `middlewa
 As an example, middleware for creating a sitemap might look like the following:
 
 ```javascript
-// index.js
-export default Factor => {
-  return new (class {
-    constructor() {
-      addFilter("middleware", middlewares => {
-        middlewares.push({
-          path: "/sitemap.xml",
-          callback: async (request, response, next) => {
-            // generate sitemap
-            const sitemapXML = await this.getSitemap()
+import { pushToFilter } from "@factor/tools"
 
-            response.header("Content-Type", "application/xml")
-            response.send(sitemapXML)
+pushToFilter("middleware", {
+  path: "/sitemap.xml",
+  callback: async (request, response, next) => {
+    // generate sitemap
+    const sitemapXML = await this.getSitemap()
 
-            // Notes: No 'next' call is needed since we don't need to continue processing other middleware
-          }
-        })
-      })
-    }
-  })()
-}
+    response.header("Content-Type", "application/xml")
+    response.send(sitemapXML)
+
+    // Notes: No 'next' call is needed since we don't need to continue processing other middleware
+  }
+})
 ```
