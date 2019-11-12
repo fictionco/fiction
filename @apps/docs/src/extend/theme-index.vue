@@ -108,9 +108,9 @@ export default {
       loading: true
     }
   },
-  async serverPrefetch() {
-    return await requestExtensionIndex("themes")
-  },
+  // async serverPrefetch() {
+  //   return await requestExtensionIndex("themes")
+  // },
   computed: {
     extensionFeatured() {
       return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
