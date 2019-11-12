@@ -157,7 +157,7 @@ export default {
         },
         {
           _id: "title",
-          width: "minmax(400px, 550px)"
+          width: "minmax(30vw, 550px)"
         },
 
         {
@@ -186,7 +186,7 @@ export default {
   .post-title {
     > a {
       display: block;
-      font-size: 1.4em;
+      font-size: 1.2em;
       line-height: 1.4;
     }
     .permalink {

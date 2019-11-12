@@ -30,9 +30,7 @@ export default {
       delete current[this.filterId]
       delete current.page
 
-      const query = value
-        ? { ...this.$route.query, [this.filterId]: value }
-        : current
+      const query = value ? { ...this.$route.query, [this.filterId]: value } : current
 
       this.$router.push({ query })
     }
@@ -44,7 +42,7 @@ export default {
 .grid-filter {
   display: flex;
   justify-content: flex-end;
-  font-size: 0.85rem;
+
   > div {
     margin-right: 0.5rem;
   }

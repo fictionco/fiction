@@ -1,5 +1,5 @@
 import { stored } from "@factor/app/store"
-import { postLink } from "@factor/tools/permalink"
+
 import { excerpt } from "@factor/tools/markdown"
 import { addFilter } from "@factor/tools/filters"
 

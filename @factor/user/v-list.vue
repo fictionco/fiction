@@ -3,6 +3,7 @@
     <slot slot="title" name="title" />
     <slot slot="nav" name="nav" />
     <dashboard-grid-controls>
+      <div></div>
       <dashboard-grid-filter filter-id="role" :filter-tabs="tabs" />
     </dashboard-grid-controls>
 

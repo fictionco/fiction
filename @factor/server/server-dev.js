@@ -1,11 +1,4 @@
-import {
-  addFilter,
-  applyFilters,
-  setting,
-  log,
-  addCallback,
-  runCallbacks
-} from "@factor/tools"
+import { addFilter, applyFilters, setting, log, addCallback } from "@factor/tools"
 
 import chalk from "chalk"
 import fs from "fs-extra"
