@@ -272,7 +272,7 @@ export default {
         letter-spacing: -0.03em;
         .highlight {
           display: block;
-          opacity: 0.9;
+          color: var(--color-primary);
         }
       }
       .page-title-sub {
