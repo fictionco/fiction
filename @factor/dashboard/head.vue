@@ -9,7 +9,7 @@
       </factor-link>
       <div class="nav">
         <slot />
-        <account-menu :show-name="true" />
+        <account-menu />
       </div>
     </div>
   </div>
