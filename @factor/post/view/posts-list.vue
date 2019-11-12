@@ -28,11 +28,19 @@
       @select-all="selectAll($event)"
     >
       <template #select="{row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
+        <input
+          v-model="selected"
+          type="checkbox"
+          class="checkbox"
+          label
+          :value="row._id"
+        />
       </template>
       <template #title="{row}">
         <div class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</factor-link>
+          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{
+            row.title
+          }}</factor-link>
           <factor-link
             v-if="row.permalink"
             class="permalink"
@@ -42,7 +50,11 @@
       </template>
 
       <template #author="{row}">
-        <dashboard-user-card v-for="(_id, index) in row.author" :key="index" :post-id="_id" />
+        <dashboard-user-card
+          v-for="(_id, index) in row.author"
+          :key="index"
+          :post-id="_id"
+        />
       </template>
 
       <template #status="{row}">{{ toLabel(row.status) }}</template>
