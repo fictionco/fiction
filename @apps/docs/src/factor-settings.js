@@ -2,6 +2,9 @@ import { isLoggedIn } from "@factor/user"
 
 import { getComponents } from "@factor/app"
 export default {
+  app: {
+    url: "https://factor.dev"
+  },
   metaInfo: {
     default: {
       image: require("./static/factor-logo.jpg")
