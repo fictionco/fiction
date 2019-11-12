@@ -85,7 +85,7 @@ import {
   extensionIcon,
   getAuthors
 } from "./util"
-import { getIndex } from "./extension-server"
+
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
 
 export default {
