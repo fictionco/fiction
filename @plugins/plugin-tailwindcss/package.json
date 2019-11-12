@@ -1,0 +1,32 @@
+{
+  "name": "@factor/plugin-tailwindcss",
+  "description": "This plugin adds tailwindcss to your Factor app.",
+  "version": "1.0.0-beta.15",
+  "license": "GPL-2.0",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "target": [
+      "server"
+    ],
+    "title": "Tailwindcss"
+  },
+  "dependencies": {
+    "tailwindcss": "^1.1.3"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction",
+    "webpack",
+    "vue",
+    "tailwind",
+    "tailwindcss",
+    "framework",
+    "cssframework",
+    "css"
+  ]
+}
