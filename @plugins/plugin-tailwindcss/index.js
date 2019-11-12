@@ -1,4 +1,4 @@
-import { addFilter, setting } from "@factor/tools"
+import { addFilter } from "@factor/tools"
 
 // const tailwindConfig = setting("tailwindcss.configURL")
 
