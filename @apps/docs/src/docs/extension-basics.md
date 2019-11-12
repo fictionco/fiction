@@ -2,7 +2,7 @@
 
 ## Adding Extensions
 
-Factor is an "extension-first" framework. Meaning it is itself a simple core system with first class support for extensibility by plugins and themes. Almost anything in Factor can be customized given the right plugin.
+Factor is an "extension-first" framework. Which means it has first class support for extensibility by plugins and themes. Almost anything in Factor can be customized given the right plugin.
 
 Factor is designed for "drop-in" extension. That means that to be "up and running" with new plugins and themes, all you do is run `yarn add my-extension`...
 

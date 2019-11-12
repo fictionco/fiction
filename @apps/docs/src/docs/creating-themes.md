@@ -1,6 +1,6 @@
 # Themes
 
-_Themes help give you a big headstart when creating new apps. And luckily, Factor was developed from the start to make the most the concept. In this document, we'll discuss how Factor themes work and how to work with them._
+_Themes help give you a big head start when creating new apps. And luckily, Factor was developed from the start to make the most the concept. In this document, we'll discuss how Factor themes work and how to work with them._
 
 ## Using Factor Themes
 
@@ -30,18 +30,18 @@ Factor gives you many tools to fully customize themes.
 
 Factor theme creators typically use standard CSS variables to provide users a way to customize commonly customized UI elements. For example: the primary colors, shadow styles, fonts and so on...
 
-While customization approach is left up to theme creators, the usual approach to customize style is to override the theme's `style-vars.css` file.
+While customization approach is left up to theme creators, the usual approach to customize style is to override the theme's `factor-styles.less` file.
 
-To do this, simply place a new `style-vars.css` variable in the root of your app. Note that this will completely replace the one used by your theme, so make sure to include all the same vars.
+To do this, simply place a new `factor-styles.less` variable in the root of your app. Note that this will completely replace the one used by your theme, so make sure to include all the same vars.
 
 Also it's important to understand [how CSS variable scope works](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties). Factor uses different UI namespaces to your app to help keep the front-end of your app from interfering with plugins such as the dashboard.
 
 As a result, all front-end customization variables should be added under the `factor-app` namespace.
 
 ```css
-/* 
-  Add to factor-app namespace
-  /my-app/style-vars.css 
+/*
+  Apply to factor-app:
+  /my-app/factor-styles.less
 */
 .factor-app {
   --color-primary: red;
@@ -80,15 +80,15 @@ If you're familiar with the process of creating a Factor app, then you know how 
 
 As discussed above, a theme just needs a couple considerations:
 
-- Style variables consolidated to `style-vars.css`
-- Using `$setting()` and `settings.js`
+- Style variables consolidated to `factor-styles.less`
+- Using `setting()` and `factor-settings.js`
 - Package.json changes
 - Theme documentation
 - Screenshots
 
 ### Style Vars
 
-To make theme customization easy for users, we recommend using CSS variables for all branding or customizeable elements of your templates and components. Simply add all your variables into an overrideable file called `style-vars.css` and make sure they are all scoped to the `factor-app` namespace.
+To make theme customization easy for users, we recommend using CSS variables for all branding or customizeable elements of your templates and components. Simply add all your variables into an overrideable file called `factor-styles.less` and make sure they are all scoped to the `factor-app` namespace.
 
 ### Settings.js
 
@@ -186,6 +186,6 @@ Finally, all listed Factor themes must meet subjective guidelines for quality an
 
 Other guidelines:
 
-- May not include provider backlink SEO or intrusive marketing
+- May not include backlink SEO or intrusive marketing
 - Must be fully working
 - Must be adequately documented

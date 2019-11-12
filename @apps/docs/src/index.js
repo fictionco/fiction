@@ -1,21 +1,21 @@
 import "./extend/extension-server"
-import { addFilter, setting, addRoutes } from "@factor/tools"
+import { addFilter, setting } from "@factor/tools"
 
 // Register doc routes for sitemap
-addFilter("after-first-server-extend", () => {
-  const base = setting("docs.base")
-  const pages = setting("docs.pages")
-  const canonical = pages
-    .map(p => {
-      return p.doc
-        ? { path: `/${base}/${p.doc}`, component: () => import("./page-docs.vue") }
-        : ""
-    })
-    .filter(_ => _)
+// addFilter("after-first-server-extend", () => {
+//   const base = setting("docs.base")
+//   const pages = setting("docs.pages")
+//   const canonical = pages
+//     .map(p => {
+//       return p.doc
+//         ? { path: `/${base}/${p.doc}`, component: () => import("./page-docs.vue") }
+//         : ""
+//     })
+//     .filter(_ => _)
 
-  // Add canonical routes (sitemaps, etc)
-  addRoutes(canonical)
-})
+//   // Add canonical routes (sitemaps, etc)
+//   addRoutes(canonical)
+// })
 
 addFilter("page-templates", _ => {
   return _.concat([
