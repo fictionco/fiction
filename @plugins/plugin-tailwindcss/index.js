@@ -1,8 +1,8 @@
 import { addFilter, setting } from "@factor/tools"
 
-const tailwindConfig = setting("tailwindcss.configURL")
+// const tailwindConfig = setting("tailwindcss.configURL")
 
-const tailwindCSS = require("tailwindcss")
+// const tailwindCSS = require("tailwindcss")
 
 const tailwindExport = `./css/build/tailwind.css`
 
