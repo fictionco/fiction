@@ -1,0 +1,10 @@
+{
+  "app": {
+    "name": "Factor Zeno Theme",
+    "description": "",
+    "email": "Fiction Support <support@fiction.com>"
+  },
+  "roles": {
+    "ray@fiction.com": "admin"
+  }
+}

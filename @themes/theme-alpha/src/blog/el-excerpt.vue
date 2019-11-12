@@ -1,8 +1,8 @@
 <template>
   <div class="post-excerpt">
     <span class="inline-excerpt">{{ excerpt(post.content) }}</span>
-    <factor-link btn="default" size="standard" class="read-link" :path="postLink(post._id)">
-      Continue Reading
+    <factor-link class="read-link" :path="postLink(post._id)">
+      Read
       <factor-icon icon="arrow-right" />
     </factor-link>
   </div>
@@ -26,25 +26,17 @@ export default {
 }
 </script>
 <style lang="less">
-.blog-posts {
-  .post-excerpt {
-    position: relative;
-    overflow: hidden;
-    padding: 0 2em 2rem;
+.post-excerpt {
+  position: relative;
+  overflow: hidden;
+  font-size: 1.4em;
+  line-height: 1.6em;
+  padding: 0 1.6em 1rem;
+  transform: all 0.2s ease-in-out;
 
-    .inline-excerpt {
-      //font-size: 1.2em;
-      line-height: 1.7;
-    }
-
-    @media (max-width: 767px) {
-      padding: 0 1em 1rem;
-    }
-
-    .factor-link.btn-link.read-link {
-      display: block;
-      margin-top: 1em;
-    }
+  @media (max-width: 767px) {
+    padding: 0 1em 1rem;
+    font-size: 1.2em;
   }
 }
 </style>
