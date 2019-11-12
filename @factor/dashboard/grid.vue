@@ -107,7 +107,6 @@ export default {
   width: 100%;
   overflow-x: scroll;
   .dashboard-grid {
-    font-size: 0.85rem;
     .dashboard-grid-row {
       padding: 1em 0;
       color: inherit;

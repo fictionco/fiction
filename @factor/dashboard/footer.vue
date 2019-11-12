@@ -13,11 +13,11 @@
 <style lang="less">
 .app-footer {
   padding: 1.5em;
-  font-size: 0.85em;
+
   font-weight: 600;
-  opacity: 0.6;
+  opacity: 0.2;
   padding-bottom: 2em;
-  text-align: center;
+  text-align: right;
   a {
     color: inherit;
     text-decoration: underline;
