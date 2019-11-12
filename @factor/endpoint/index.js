@@ -38,7 +38,6 @@ export async function authorizedRequest(path, data, options = {}) {
 
   if (process.env.PORT) {
     options.proxy = {
-      host: "0.0.0.0",
       port: process.env.PORT
     }
   }
