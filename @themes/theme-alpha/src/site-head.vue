@@ -2,9 +2,6 @@
   <div class="site-head blue">
     <div class="site-head-pad">
       <site-brand />
-      <div class="mob-nav-btn">
-        <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
-      </div>
       <div
         class="nav-wrap"
         :class="{ active: showMobileMenu }"
@@ -25,6 +22,9 @@
             </factor-link>
           </template>
         </div>
+      </div>
+      <div class="mob-nav-btn">
+        <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
     </div>
   </div>

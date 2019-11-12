@@ -18,7 +18,7 @@ export default {
         name: "Work"
       },
       {
-        path: "/articles",
+        path: "/blog",
         name: "Blog"
       },
       {
@@ -180,10 +180,10 @@ export default {
     }
   },
   blog: {
-    indexRoute: "/articles",
-    postRoute: "/articles",
-    limit: 4,
-    returnLinkText: "All Articles",
+    indexRoute: "/blog",
+    postRoute: "/entry",
+    limit: 6,
+    returnLinkText: "Back",
     headline: "Blog",
     subheadline: "The Latest From Alpha",
     content:
@@ -196,29 +196,31 @@ export default {
           "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
       }
     },
+    notFound: {
+      title: "No Posts",
+      subTitle: "Couldn't find any blog posts."
+    },
+    layout: {
+      index: [ "blogFeaturedImage", "blogHeaders", "blogExcerpt", "blogMeta"],
+      single: [
+        "blogHeaders",
+        "blogFeaturedImage",
+        "blogMeta",
+        "entry",
+        "social",
+        "authorBio"
+      ],
+      meta: ["authorDate", "tags"]
+    },
     components: {
       blogWrap: () => import("./blog/blog-wrap.vue"),
       blogIndex: () => import("./blog/blog-index.vue"),
       blogSingle: () => import("./blog/blog-single.vue"),
       blogFeaturedImage: () => import("./blog/el-featured-image.vue"),
       blogHeaders: () => import("./blog/el-headers.vue"),
-      blogTags: () => import("./blog/el-tags.vue"),
       blogReturnLink: () => import("./blog/el-return-link.vue"),
-      blogExcerpt: () => import("./blog/el-excerpt.vue")
-    },
-    layout: {
-      index: ["blogFeaturedImage", "blogTags", "blogHeaders", "blogExcerpt"],
-      single: [
-        "blogReturnLink",
-        "blogHeaders",
-        "blogTags",
-        "blogFeaturedImage",
-        "meta",
-        "entry",
-        "social",
-        "authorBio"
-      ],
-      meta: ["authorDate"]
+      blogExcerpt: () => import("./blog/el-excerpt.vue"),
+      blogMeta: () => import("./blog/el-meta.vue")
     }
   },
   contact: {
