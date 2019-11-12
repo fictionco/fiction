@@ -7,7 +7,11 @@
       </div>
     </div>
 
-    <div v-if="loading" class="posts-loading">
+    <div v-if="true" class="coming-soon">
+      <div class="title">Coming Soon</div>
+      <div class="sub-title">Factor is currently in private beta.</div>
+    </div>
+    <div v-else-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else class="plugins-wrap content-pad">
@@ -20,7 +24,7 @@
             <factor-link
               v-for="(item, index) in extensionFeatured"
               :key="index"
-              :path="extensionPermalink({name: item._id})"
+              :path="extensionPermalink({ name: item._id })"
               class="entry-plugin"
             >
               <div class="entry-content">
@@ -35,10 +39,9 @@
                 <p v-if="item.description" class="text">{{ item.description }}</p>
               </div>
               <div class="entry-footer">
-                <div
-                  v-if="item.downloads"
-                  class="downloads"
-                >&darr; {{ formatDownloads(item.downloads) }} downloads</div>
+                <div v-if="item.downloads" class="downloads">
+                  &darr; {{ formatDownloads(item.downloads) }} downloads
+                </div>
               </div>
             </factor-link>
           </div>
@@ -51,7 +54,7 @@
           <factor-link
             v-for="(item, i) in extensionIndex"
             :key="i"
-            :path="extensionPermalink({name: item._id})"
+            :path="extensionPermalink({ name: item._id })"
             class="entry-plugin"
           >
             <div class="entry-image">
@@ -59,7 +62,7 @@
             </div>
 
             <div class="entry-content">
-              <h3 class="title">{{ titleFromPackage(item ) }}</h3>
+              <h3 class="title">{{ titleFromPackage(item) }}</h3>
               <div class="meta">
                 <div class="authors">by {{ getAuthors(item) }}</div>
               </div>
@@ -149,6 +152,19 @@ export default {
     .sub-title {
       font-size: 1.6em;
       opacity: 0.7;
+    }
+  }
+
+  .coming-soon {
+    line-height: 1.4;
+    text-align: center;
+    padding: 8em 2em 12em;
+    .title {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    .sub-title {
+      font-size: 1.5em;
     }
   }
   .posts-loading .loading-ring-wrap {

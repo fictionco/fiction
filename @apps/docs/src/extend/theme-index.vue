@@ -1,10 +1,17 @@
 <template>
   <div class="themes-container">
-    <widget-header :title="`Factor Themes Library`">
-      <h3 slot="subtitle">Create beautiful apps in minutes.</h3>
-    </widget-header>
+    <div class="themes-index-head">
+      <div class="content-pad">
+        <h1 class="title">Factor Themes</h1>
+        <h3 class="sub-title">Create beautiful apps in minutes.</h3>
+      </div>
+    </div>
 
-    <div v-if="loading" class="posts-loading">
+    <div v-if="true" class="coming-soon">
+      <div class="title">Coming Soon</div>
+      <div class="sub-title">Factor is currently in private beta.</div>
+    </div>
+    <div v-else-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else class="themes-wrap content-pad">
@@ -29,10 +36,9 @@
                       by
                       {{ getAuthors(item) }}
                     </div>
-                    <div
-                      v-if="ite .downloads"
-                      class="downloads"
-                    >{{ formatDownloads(ite .downloads) }} downloads</div>
+                    <div v-if="ite.downloads" class="downloads">
+                      {{ formatDownloads(ite.downloads) }} downloads
+                    </div>
                   </div>
                 </div>
               </factor-link>
@@ -62,13 +68,12 @@
                 <div class="meta">
                   <div v-if="item.maintainers" class="authors">
                     by
-                    {{ getAuthors(item ) }}
+                    {{ getAuthors(item) }}
                   </div>
 
-                  <div
-                    v-if="item.downloads"
-                    class="downloads"
-                  >{{ formatDownloads(item.downloads) }} downloads</div>
+                  <div v-if="item.downloads" class="downloads">
+                    {{ formatDownloads(item.downloads) }} downloads
+                  </div>
                 </div>
               </div>
             </factor-link>
@@ -95,7 +100,6 @@ import {
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
 export default {
   components: {
-    "widget-header": () => import("./widget-header.vue"),
     "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
@@ -147,6 +151,18 @@ export default {
   .posts-loading .loading-ring-wrap {
     min-height: 400px;
   }
+  .coming-soon {
+    line-height: 1.4;
+    text-align: center;
+    padding: 8em 2em 12em;
+    .title {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    .sub-title {
+      font-size: 1.5em;
+    }
+  }
   .content-pad {
     max-width: 1100px;
     margin: 0 auto;
@@ -156,44 +172,18 @@ export default {
     position: relative;
   }
 
-  /* HEADER */
-  .header {
-    background-image: url("./img/dot.svg");
-    overflow: hidden;
-
-    .content-pad {
-      display: grid;
-      grid-template-columns: 4fr 3fr;
+  .themes-index-head {
+    padding: 6em 0;
+    .title {
+      font-size: 2.5em;
+      line-height: 1.1;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      text-transform: capitalize;
     }
-
-    .header-content {
-      padding: 4em 0;
-
-      .page-title-sub {
-        font-size: 1.6em;
-        opacity: 0.7;
-      }
-      @media (max-width: 900px) {
-        padding: 3rem 0;
-        .page-title {
-          font-size: 1.7em;
-          line-height: 1.3;
-        }
-        .page-title-sub {
-          font-size: 1.4em;
-          line-height: 1.1;
-        }
-      }
-    }
-
-    .header-figure {
-      position: relative;
-    }
-
-    @media (max-width: 900px) {
-      .content-pad {
-        grid-template-columns: 1fr;
-      }
+    .sub-title {
+      font-size: 1.6em;
+      opacity: 0.7;
     }
   }
 
