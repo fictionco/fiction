@@ -7,11 +7,7 @@
       </div>
     </div>
 
-    <div v-if="true" class="coming-soon">
-      <div class="title">Coming Soon</div>
-      <div class="sub-title">Factor is currently in private beta.</div>
-    </div>
-    <div v-else-if="loading" class="posts-loading">
+    <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else class="plugins-wrap content-pad">
