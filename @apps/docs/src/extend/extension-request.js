@@ -25,8 +25,8 @@ export async function requestExtensionSingle(name) {
   return data
 }
 
-export function getIndexCache() {
-  return stored("plugins-index")
+export function getIndexCache(type = "plugins") {
+  return stored(`${type}-index`)
 }
 
 export function getSingleCache(name) {
