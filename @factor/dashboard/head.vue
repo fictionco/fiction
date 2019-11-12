@@ -53,7 +53,7 @@ export default {
     .icon {
       margin-right: 0.5em;
       display: block;
-      width: 2em;
+      width: 2rem;
       img {
         width: 100%;
         display: block;
