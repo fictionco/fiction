@@ -6,6 +6,7 @@ import {
   addCallback,
   runCallbacks
 } from "@factor/tools"
+
 import chalk from "chalk"
 import fs from "fs-extra"
 import MFS from "memory-fs"
@@ -63,7 +64,7 @@ export async function createServerCompilers() {
 
     // On js file updates, wait for 3 seconds for build
     if (path.includes(".js")) {
-      runCallbacks("restart-server")
+      // runCallbacks("restart-server")
     }
   })
 
@@ -124,10 +125,7 @@ function clientCompiler() {
 
     const publicPath = configClient.output.publicPath
     const middleware = {
-      dev: webpackDevMiddleware(clientCompiler, {
-        publicPath,
-        logLevel: "silent"
-      }),
+      dev: webpackDevMiddleware(clientCompiler, { publicPath, logLevel: "silent" }),
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
     }
 

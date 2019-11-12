@@ -1,5 +1,5 @@
 import { endpointRequest } from "@factor/endpoint"
-import { requestPostSingle } from "@factor/post"
+import { requestPostSingle, requestPostsPopulate } from "@factor/post"
 import { userToken, handleTokenError } from "./token"
 import {
   isEmpty,
@@ -111,6 +111,7 @@ export async function authenticate(params) {
   await runCallbacks("authenticated", user)
 
   if (user && user.token) {
+    requestPostsPopulate({ posts: [user] })
     setUser({ user, token: user.token, current: true })
   }
 
@@ -138,8 +139,11 @@ export async function sendEmailVerification({ email }) {
   return await sendUserRequest("verifyEmail", { email })
 }
 
+// Set persistent user info
 function setUser({ user, token = "", current = false }) {
   if (current) {
+    _initializedUser = user ? user : {}
+
     if (token && user) userToken(token)
     else if (user === null) userToken(null)
 
@@ -150,12 +154,12 @@ function setUser({ user, token = "", current = false }) {
   if (user && user._id) storeItem(user._id, user)
 }
 
-// Very basic version of this function for MVP dev
+// Very basic version for UI control by  role
 // Needs improvement for more fine grained control
-export function userCan({ role = "", accessLevel }) {
+export function userCan({ role = "", accessLevel = -1 }) {
   const userAccessLevel = currentUser().accessLevel
   const roleAccessLevel = role ? roles()[role] : 1000
-  if (accessLevel && userAccessLevel >= accessLevel) {
+  if (accessLevel >= 0 && userAccessLevel >= accessLevel) {
     return true
   } else if (role && userAccessLevel >= roleAccessLevel) {
     return true

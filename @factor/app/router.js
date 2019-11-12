@@ -9,33 +9,35 @@ Vue.use(VueRouter)
 let __initialPageLoad = true
 
 //addCallback("initialize-server", () => addAppRoutes())
-addCallback("initialize-app", () => addAppRoutes(), { priority: 300 })
+// addCallback("initialize-app", () => createRouter(), { priority: 300 })
 
-const __router = new VueRouter({
-  mode: "history",
-  scrollBehavior: (to, from, saved) => {
-    return to.hash ? { selector: to.hash } : (saved ? saved : { x: 0, y: 0 })
-  },
-  parseQuery: query => qs.parse(query),
-  stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
-})
+let __router
 
-// Load hooks for client navigation handling
-// Don't run on server as this causes the hooks to run twice
-if (process.env.FACTOR_SSR == "client") {
-  __router.beforeEach((to, from, next) => hookClientRouterBefore(to, from, next))
-  __router.afterEach((to, from) => hookClientRouterAfter(to, from))
+export function createRouter() {
+  const router = new VueRouter({
+    mode: "history",
+    routes: applyFilters("routes", []).filter(_ => _),
+    scrollBehavior: (to, from, saved) => {
+      return to.hash ? { selector: to.hash } : (saved ? saved : { x: 0, y: 0 })
+    },
+    parseQuery: query => qs.parse(query),
+    stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
+  })
+
+  // Load hooks for client navigation handling
+  // Don't run on server as this causes the hooks to run twice
+  if (process.env.FACTOR_SSR == "client") {
+    router.beforeEach((to, from, next) => hookClientRouterBefore(to, from, next))
+    router.afterEach((to, from) => hookClientRouterAfter(to, from))
+  }
+
+  __router = router
+
+  return router
 }
 
 export function getRouter() {
   return __router
-}
-
-// TODO check for duplicates
-export function addAppRoutes() {
-  const routes = applyFilters("routes", []).filter(_ => _)
-
-  addRoutes(routes)
 }
 
 // If called before 'createRouter' then add to callback

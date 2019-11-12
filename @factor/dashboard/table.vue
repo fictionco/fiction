@@ -115,7 +115,6 @@ export default {
 </script>
 <style lang="less">
 .dbt {
-  letter-spacing: -0.02em;
   padding-right: 0.5em;
   .dbt-grid {
     display: grid;

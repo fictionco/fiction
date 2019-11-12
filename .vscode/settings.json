@@ -124,6 +124,7 @@
     "sonarsource",
     "stopwords",
     "tabindex",
-    "uniqid"
+    "uniqid",
+    "vmid"
   ]
 }

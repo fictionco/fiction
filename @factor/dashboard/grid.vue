@@ -103,7 +103,6 @@ export default {
 </script>
 <style lang="less">
 .dashboard-grid-wrap {
-  letter-spacing: -0.02em;
   padding-right: 0.5em;
   width: 100%;
   overflow-x: scroll;

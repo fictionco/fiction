@@ -93,6 +93,7 @@ export default {
   },
 
   methods: {
+    toLabel,
     standardDate,
     selectAll(val) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
