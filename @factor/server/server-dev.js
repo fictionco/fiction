@@ -1,4 +1,11 @@
-import { addFilter, applyFilters, setting, log, addCallback } from "@factor/tools"
+import {
+  addFilter,
+  applyFilters,
+  setting,
+  log,
+  addCallback,
+  runCallbacks
+} from "@factor/tools"
 
 import chalk from "chalk"
 import fs from "fs-extra"
@@ -57,7 +64,7 @@ export async function createServerCompilers() {
 
     // On js file updates, wait for 3 seconds for build
     if (path.includes(".js")) {
-      // runCallbacks("restart-server")
+      runCallbacks("restart-server")
     }
   })
 

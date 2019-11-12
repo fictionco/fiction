@@ -85,6 +85,7 @@ import {
   extensionIcon,
   getAuthors
 } from "./util"
+import { getIndex } from "./extension-server"
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
 
 export default {
@@ -98,9 +99,9 @@ export default {
       getData: ""
     }
   },
-  async serverPrefetch() {
-    return await requestExtensionIndex()
-  },
+  // async serverPrefetch() {
+  //   return await getIndex({type: "plugins"})
+  // },
   computed: {
     extensionFeatured() {
       return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
