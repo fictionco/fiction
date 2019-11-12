@@ -1,25 +1,15 @@
 <template>
-  <div class="blog-single-entry">
-    <div v-if="!isEmpty(post)">
-      <component
-        :is="setting(`blog.components.${comp}`)"
-        v-for="(comp, i) in setting('blog.layout.single')"
-        :key="i"
-        :post-id="post._id"
-      />
-    </div>
-    <error-404 v-else />
+  <div class="single-entry">
+    <component
+      :is="setting(`blog.components.${comp}`)"
+      v-for="(comp, i) in setting('blog.layout.single')"
+      :key="i"
+      :post-id="post._id"
+    />
   </div>
 </template>
 <script>
-import {
-  isEmpty,
-  setting,
-  stored,
-  titleTag,
-  descriptionTag,
-  shareImage
-} from "@factor/tools"
+import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/tools"
 
 export default {
   data() {
@@ -32,17 +22,20 @@ export default {
       image: shareImage(this.post._id)
     }
   },
+  routeClass() {
+    return "nav-white"
+  },
   computed: {
     post() {
       return stored("post") || {}
     }
   },
-  methods: { isEmpty, setting }
+  methods: { setting }
 }
 </script>
 
 <style lang="less">
-.blog-single-entry {
+.single-entry {
   .return-link,
   .entry-tags,
   .single-entry-headers,
