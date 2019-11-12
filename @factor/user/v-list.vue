@@ -10,7 +10,9 @@
     <dashboard-grid :structure="tableStructure()" :rows="list" :zero-state="7">
       <template #name="{row}">
         <div class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.displayName }}</factor-link>
+          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{
+            row.displayName
+          }}</factor-link>
           <factor-link
             v-if="row.email"
             class="permalink"
@@ -27,6 +29,7 @@
       <template #signed-up="{row}">{{ standardDate(row.createdAt) }}</template>
       <template #last-seen="{row}">{{ standardDate(row.signedInAt) }}</template>
     </dashboard-grid>
+    <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
 </template>
 
