@@ -1,4 +1,7 @@
 export default {
+  app: {
+    url: "https://www.fiction.com"
+  },
   emailList: {
     alphaProgram: {
       tags: ["fiction-com"],
