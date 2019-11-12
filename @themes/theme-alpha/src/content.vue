@@ -18,6 +18,12 @@ export default {
     "site-head": () => import("./site-head.vue"),
     "site-footer": () => import("./site-footer.vue")
   },
+  metaInfo() {
+    return {
+      title: "No Title",
+      titleTemplate: "%s - Factor JS"
+    }
+  },
   computed: {
     bg() {
       return {

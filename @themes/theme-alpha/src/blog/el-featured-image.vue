@@ -1,14 +1,16 @@
 <template>
-  <factor-link :path="postLink(post._id)">
-    <div v-if="avatarUrl" class="featured-image" :style="style" />
+  <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
+    <div class="featured-image" :style="style" />
   </factor-link>
+  <div v-else-if="avatarUrl" class="featured-image" :style="style" />
 </template>
 <script>
-import { stored, postLink } from "@factor/tools"
+import { postLink, stored } from "@factor/tools"
 
 export default {
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
+    format: { type: String, default: "" }
   },
   computed: {
     post() {
@@ -38,10 +40,13 @@ export default {
   .featured-image {
     background-size: cover;
     background-position: 50%;
-    min-height: 300px;
-    height: 40vh;
+    height: 300px;
     margin: 0;
     border-radius: 5px 5px 0 0;
+  }
+  .single-entry .featured-image {
+    border-radius: 0;
+    height: 400px;
   }
 }
 </style>
