@@ -74,7 +74,6 @@ export default {
       justify-content: flex-end;
     }
     > a {
-      letter-spacing: -0.03em;
       font-size: 0.9em;
       color: #506677;
       margin: 0 1em;

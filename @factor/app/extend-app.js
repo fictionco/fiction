@@ -4,8 +4,8 @@ import Vue from "vue"
 Vue.config.productionTip = false
 Vue.config.silent = false
 
-let __observables
-let __components
+let __observables = {}
+let __components = {}
 
 export async function extendApp(options = {}) {
   await runCallbacks("before-app-plugins", options)

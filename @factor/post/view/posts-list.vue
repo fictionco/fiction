@@ -186,14 +186,14 @@ export default {
   .post-title {
     > a {
       display: block;
-      font-size: 1.2em;
-      line-height: 1.2;
+      font-size: 1.4em;
+      line-height: 1.4;
     }
     .permalink {
       margin-top: 5px;
       opacity: 0.5;
       color: inherit;
-      font-size: 11px;
+
       font-weight: 500;
     }
   }

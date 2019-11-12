@@ -45,7 +45,7 @@ export default {
     justify-content: space-between;
     background: #fff;
 
-    padding: 0.75em 0.75em 0.75em 1em;
+    padding: 1rem;
   }
   .head {
     border-radius: 4px 4px 0 0;
@@ -59,13 +59,17 @@ export default {
   .foot {
     border-radius: 0 0 4px 4px;
     border-top: 1px solid var(--border-color-subtle);
+    padding: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5em;
     .note {
       font-weight: 500;
     }
   }
 
   .cont {
-    padding: 1em;
+    padding: 2rem;
+
     > :last-child {
       margin-bottom: 0;
     }

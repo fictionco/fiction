@@ -147,7 +147,7 @@ export default {
       margin-bottom: 10px;
       opacity: 0.2;
       font-size: 0.9em;
-      letter-spacing: -0.01em;
+
       font-weight: var(--font-weight-bold);
       @media (max-width: 767px) {
         font-size: 1.2em;

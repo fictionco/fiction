@@ -52,7 +52,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  letter-spacing: -0.03em;
+
   .fallback-page-pad {
     max-width: 450px;
     margin: 0 auto;

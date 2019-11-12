@@ -114,7 +114,7 @@ export default {
   .linky {
     font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro",
       monospace;
-    font-size: 12px;
+
     .linky-link {
       display: flex;
     }

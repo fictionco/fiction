@@ -94,7 +94,7 @@ addFilter("meta-refine", data => {
     })
   }
   return data
-})
+}, {priority: 200})
 
 addFilter("factor_head", (_, { context }) => {
   const { title, link, style, script, noscript, meta } = context.metaInfo.inject()

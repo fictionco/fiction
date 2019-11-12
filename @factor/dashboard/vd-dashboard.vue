@@ -119,7 +119,6 @@ export default {
       line-height: 1;
       font-size: 1.65em;
       font-weight: var(--font-weight-bold);
-      letter-spacing: -0.02em;
     }
     .sub-title {
       font-size: 1.2em;

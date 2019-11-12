@@ -17,10 +17,15 @@
           <dashboard-input label="Post Content">
             <input-editor v-model="post.content" @keyup="doDraftSave()" />
           </dashboard-input>
+          <template #nav>
+            <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
+              Save
+              &nbsp;
+              <factor-icon icon="arrow-up" />
+            </factor-btn-dashboard>
+          </template>
         </dashboard-pane>
-        <!-- <dashboard-pane v-for="(item, i) in injectedMetaComponents" :key="i" :title="item.name">
-          <component :is="item.component" v-model="post" />
-        </dashboard-pane>-->
+
         <dashboard-pane title="Meta Info" class="post-media">
           <dashboard-input
             v-model="post.subTitle"
@@ -43,11 +48,18 @@
             @autosave="saveDraft()"
           />
           <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
+          <template #actions>
+            <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
+              Save
+              &nbsp;
+              <factor-icon icon="arrow-up" />
+            </factor-btn-dashboard>
+          </template>
         </dashboard-pane>
 
         <slot name="edit" />
       </div>
-      <div class="meta-column">
+      <!-- <div class="meta-column">
         <dashboard-pane title="Publication" class="post-actions">
           <dashboard-input
             v-model="post.status"
@@ -55,7 +67,7 @@
             input="factor-input-select"
           />
 
-          <div v-if="!isEmpty(lastRevision)" class="save-info">
+          <div v-if="!isEmpty(lastRevision) " class="save-info">
             <factor-loading-ring v-if="sendingDraft" width="1.4em" />
             <template v-else>
               <div
@@ -89,7 +101,7 @@
           </template>
         </dashboard-pane>
         <slot name="meta" />
-      </div>
+      </div>-->
       <div class="content-column plugin-column" />
     </div>
   </dashboard-page>
@@ -276,20 +288,13 @@ export default {
 <style lang="less">
 .post-grid {
   display: grid;
-  grid-gap: 1em;
-  grid-template-columns: 1fr 250px;
+  // grid-gap: 1em;
+  // grid-template-columns: 1fr 250px;
   //grid-template-rows: 1fr 1fr 1fr 1fr;
   @media (max-width: 960px) {
     grid-gap: 1em 0;
   }
 
-  .dashboard-pane {
-    margin-bottom: 1em;
-  }
-
-  // .content-column {
-  //   grid-column: span 3;
-  // }
   .content-column,
   .meta-column {
     min-width: 0;

@@ -2,7 +2,10 @@
   <dashboard-page>
     <div class="user-dashboard-post-grid">
       <div class="content-column">
-        <dashboard-pane :title="_id == userId() ? 'Your Account' : 'Edit User'" class="compose">
+        <dashboard-pane
+          :title="_id == userId() ? 'Your Account' : 'Edit User'"
+          class="compose inputs"
+        >
           <dashboard-input
             v-model="post.displayName"
             input="factor-input-text"
@@ -39,9 +42,16 @@
             label="Update Password"
             autocomplete="new-password"
           />
+          <template #actions>
+            <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
+              Save
+              &nbsp;
+              <factor-icon icon="arrow-up" />
+            </factor-btn-dashboard>
+          </template>
         </dashboard-pane>
 
-        <dashboard-pane title="Profile">
+        <dashboard-pane title="Profile" class="inputs">
           <dashboard-input
             v-model="post.images"
             input-max="5"
@@ -90,13 +100,7 @@
               <div class="value">{{ standardDate(post.createdAt) }}</div>
             </div>
           </div>
-        </dashboard-pane>
-        <slot name="edit" />
-      </div>
-
-      <div class="meta-column">
-        <dashboard-pane class="post-actions">
-          <template slot="actions">
+          <template #actions>
             <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
               Save
               &nbsp;
@@ -104,7 +108,7 @@
             </factor-btn-dashboard>
           </template>
         </dashboard-pane>
-        <slot name="meta" />
+        <slot name="edit" />
       </div>
     </div>
   </dashboard-page>
@@ -177,15 +181,12 @@ export default {
 <style lang="less">
 .user-dashboard-post-grid {
   display: grid;
-  grid-gap: 1em;
-  grid-template-columns: 3fr minmax(230px, 1fr);
+  // grid-gap: 1em;
+  // grid-template-columns: 3fr minmax(230px, 1fr);
 
-  @media (max-width: 960px) {
-    grid-gap: 1em 0;
-  }
-  .dashboard-pane {
-    margin-bottom: 1em;
-  }
+  // @media (max-width: 960px) {
+  //   grid-gap: 1em 0;
+  // }
 
   .content-column,
   .meta-column {
@@ -215,8 +216,8 @@ export default {
       }
     }
   }
-  .compose {
-    min-height: 500px;
+  .compose .cont {
+    min-height: 20vh;
   }
 
   .email-inputs {

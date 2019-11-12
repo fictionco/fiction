@@ -1,7 +1,7 @@
 import { stored } from "@factor/app/store"
 import { postLink } from "@factor/tools/permalink"
 import { excerpt } from "@factor/tools/markdown"
-import { getObservables } from "@factor/app"
+import { addFilter } from "@factor/tools/filters"
 
 export function titleTag(_id) {
   const { titleTag, title } = stored(_id) || {}
@@ -23,12 +23,12 @@ export function shareImage(_id) {
 export function setPostMetatags(_id) {
   const post = stored(_id) || {}
 
-  const out = {
-    canonical: postLink(_id, { root: true }),
-    title: post.titleTag || post.title || "",
-    description: post.descriptionTag || excerpt(post.content) || "",
-    image: post.avatar && stored(post.avatar) ? stored(post.avatar).url : ""
-  }
-
-  getObservables().metatags.push(out)
+  addFilter("meta-refine", meta => {
+    return {
+      ...meta,
+      title: post.titleTag || post.title || "",
+      description: post.descriptionTag || excerpt(post.content) || "",
+      image: post.avatar && stored(post.avatar) ? stored(post.avatar).url : ""
+    }
+  })
 }

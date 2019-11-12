@@ -32,7 +32,7 @@ export default {
   border: none;
   border-radius: 4px;
   background-color: #fff;
-  letter-spacing: -0.02em;
+
   box-shadow: 0 0 0 1px rgba(43, 45, 80, 0.1), var(--btn-shadow-standard);
 
   &:active {

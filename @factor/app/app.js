@@ -1,6 +1,6 @@
 import "@factor/tools" // prevent load order issues
 import { emitEvent } from "@factor/tools/events"
-import { getRouter } from "@factor/app/router"
+import { createRouter } from "@factor/app/router"
 import { getStore } from "@factor/app/store"
 import { runCallbacks } from "@factor/tools/filters"
 import { setting } from "@factor/tools/settings"
@@ -16,7 +16,7 @@ export async function createApp() {
   await extendApp()
 
   const store = getStore()
-  const router = getRouter()
+  const router = createRouter()
 
   // Extend with mixin, etc... happens after router and store
   runCallbacks("before-app")
@@ -33,9 +33,7 @@ export async function createApp() {
     mounted() {
       // Fire a mounted event so plugins that need to wait for SSR to be fully loaded can then fire
       // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
-      setTimeout(() => {
-        emitEvent("app-mounted")
-      }, 0)
+      setTimeout(() => emitEvent("app-mounted"), 0)
     },
     render: h => h(site)
   })

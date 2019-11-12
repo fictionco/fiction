@@ -234,14 +234,12 @@ export default {
       this.errors = []
 
       const r = this.$refs["signin-form"].$el.reportValidity()
+
       if (!r) return
 
       this.loading = true
 
-      const user = await authenticate({
-        ...this.form,
-        newAccount: this.newAccount
-      })
+      const user = await authenticate({ ...this.form, newAccount: this.newAccount })
 
       if (user) this.done(user)
 

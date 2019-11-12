@@ -96,7 +96,6 @@ export default {
 
   height: 600px;
 
-  font-weight: 400;
   line-height: 1.5rem;
   font-weight: 300;
 

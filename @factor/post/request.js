@@ -66,9 +66,7 @@ export async function preFetchPost({ to = null, clientOnly = false } = {}) {
 
   storeItem("post", post)
 
-  if (post) {
-    setPostMetatags(post._id)
-  }
+  if (post) setPostMetatags(post._id)
 
   return post
 }

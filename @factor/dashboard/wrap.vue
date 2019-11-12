@@ -70,6 +70,8 @@ export default {
 
   methods: {
     toggleNav(v) {
+      if (!document) return
+
       if (typeof v == "undefined") {
         this.toggle = !this.toggle
       } else {
@@ -94,10 +96,7 @@ export default {
 
 <style lang="less">
 .user-loading {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding-top: 30vh;
 }
 .app-wrap {
   padding: 0 2em;
