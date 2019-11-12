@@ -20,6 +20,6 @@
     "@factor/plugin-seo": "^1.0.0-beta.15",
     "@factor/plugin-sitemap": "^1.0.0-beta.15",
     "@factor/plugin-storage-s3": "^1.0.0-beta.15",
-    "tailwindcss": "^1.1.3"
+    "@factor/plugin-tailwindcss": "^1.0.0-beta.15"
   }
 }
