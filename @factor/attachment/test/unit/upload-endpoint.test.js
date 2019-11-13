@@ -3,6 +3,7 @@
  */
 
 import { getPort } from "@test/utils"
+
 import { startEndpointTestingServer, stopEndpointTestingServer } from "@test/utils/mongod"
 import FormData from "form-data"
 import fs from "fs"
@@ -20,7 +21,8 @@ describe("upload endpoint", () => {
   beforeAll(async () => {
     port = await getPort()
     process.env.PORT = String(port)
-    await startEndpointTestingServer()
+
+    await startEndpointTestingServer({ port })
 
     spies.applyFilters = jest.spyOn(filters, "applyFilters")
   })

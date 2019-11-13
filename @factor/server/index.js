@@ -31,7 +31,7 @@ export function createServer({ port }) {
   return
 }
 
-export function createEndpointServer({ port }) {
+export function createMiddlewareServer({ port }) {
   PORT = getPort(port)
 
   createExpressApplication()
@@ -39,7 +39,9 @@ export function createEndpointServer({ port }) {
   // Set Express routine for all fallthrough paths
   _application.get("*", (request, response) => renderRequest(request, response))
 
-  _application.listen(PORT)
+  _listening = _application.listen(PORT)
+
+  prepareListener()
 }
 
 function createExpressApplication() {
@@ -58,7 +60,7 @@ export async function startServerProduction() {
   // Set Express routine for all fallthrough paths
   _application.get("*", (request, response) => renderRequest(request, response))
 
-  _application.listen(PORT, () => log.success(`listening on port: ${PORT}`))
+  _listening = _application.listen(PORT, () => log.success(`listening on port: ${PORT}`))
 }
 
 // In production we have static files to work with
@@ -124,14 +126,16 @@ function startListener() {
   )
 
   _listening = _application.listen(PORT, () => logServerReady())
-
-  _listening.destroy = destroyer(_listening)
-
+  prepareListener()
   addCallback("restart-server", async () => {
     _listening.destroy()
     await runCallbacks("rebuild-server-app")
     startListener()
   })
+}
+
+function prepareListener() {
+  _listening.destroy = destroyer(_listening)
 }
 
 // function localListenRoutine(server) {
