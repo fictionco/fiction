@@ -66,7 +66,7 @@ export function setModel(_config, baseModel) {
 
     _model_ = !baseModel ? model(name, _schema_) : baseModel.discriminator(name, _schema_)
 
-    _model_.ensureIndexes()
+    _model_.createIndexes()
   }
 
   __schemas[name] = _schema_
@@ -84,9 +84,12 @@ export async function dbDisconnect() {
 export async function dbConnect() {
   if (!isConnected()) {
     try {
-      const connectionString = process.env.DB_CONNECTION_TEST || process.env.DB_CONNECTION
+      const connectionString = process.env.DB_CONNECTION
 
-      const result = await mongoose.connect(connectionString, { useNewUrlParser: true })
+      const result = await mongoose.connect(connectionString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
 
       __offline = false
 

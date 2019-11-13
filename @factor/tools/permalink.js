@@ -2,7 +2,7 @@ import { slugify } from "@factor/tools/utils"
 import { stored } from "@factor/app/store"
 import { setting } from "@factor/tools/settings"
 import { getPostTypeConfig } from "@factor/tools/post-types"
-
+import { default as log } from "@factor/tools/logger"
 export function getPermalink(args = {}) {
   const { postType, permalink = "", root = false, path = false } = args
   const parts = []
@@ -37,8 +37,16 @@ export function postLink(_id, options = {}) {
 }
 
 export function currentUrl() {
-  if (process.env.NODE_ENV == "development") return localhostUrl()
-  else return setting("url") || setting("app.url") || "https://url-needed-in-config"
+  if (process.env.NODE_ENV == "development" || process.env.FACTOR_ENV == "test")
+    return localhostUrl()
+  else {
+    if (setting("app.url")) return setting("app.url")
+    else if (setting("url")) return setting("url")
+    else {
+      log.warn("URL Missing. Set application URL in Factor settings.")
+      return "https://url-needed-in-config"
+    }
+  }
 }
 
 export function localhostUrl() {

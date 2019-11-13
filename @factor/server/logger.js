@@ -29,7 +29,7 @@ export default () =>
       }
 
       return `${chalk.cyan(figures.arrowUp) +
-        chalk.cyan(figures.arrowDown)} Request: ${chalk.cyan(url)} ${chalk.dim(
+        chalk.cyan(figures.arrowDown)} request @ ${chalk.cyan(url)} ${chalk.dim(
         details.join(" ")
       )}`
     },

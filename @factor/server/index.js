@@ -31,6 +31,17 @@ export function createServer({ port }) {
   return
 }
 
+export function createEndpointServer({ port }) {
+  PORT = getPort(port)
+
+  createExpressApplication()
+
+  // Set Express routine for all fallthrough paths
+  _application.get("*", (request, response) => renderRequest(request, response))
+
+  _application.listen(PORT)
+}
+
 function createExpressApplication() {
   _application = express()
 

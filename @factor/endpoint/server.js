@@ -2,7 +2,7 @@ import { addCallback, addFilter, applyFilters, log } from "@factor/tools"
 import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
-
+import { createObjectId } from "@factor/post/object-id"
 // Run after other imports have added themselves
 addCallback("initialize-server", () => initializeEndpointServer())
 
@@ -65,7 +65,7 @@ export async function processEndpointRequest({ request, response, handler }) {
     if (authorization && authorization.startsWith("Bearer ")) {
       const token = authorization.split("Bearer ")[1]
 
-      meta.bearer = await getSinglePost({ token })
+      meta.bearer = token ? await getSinglePost({ token }) : defaultBearer()
     }
 
     responseJson.result = await handler({ data, meta })
@@ -80,4 +80,8 @@ export async function processEndpointRequest({ request, response, handler }) {
     .end()
 
   return
+}
+
+function defaultBearer() {
+  return process.env.FACTOR_ENV == "test" ? { _id: createObjectId() } : {}
 }

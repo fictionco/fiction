@@ -1,15 +1,15 @@
 import { getModel } from "@factor/post/server"
-import { objectId } from "@factor/post/util"
+import { objectId, canUpdatePost } from "@factor/post/util"
 import { processEndpointRequest } from "@factor/endpoint/server"
 import { pushToFilter, applyFilters, runCallbacks, addCallback } from "@factor/tools"
-import * as endpointHandler from "@factor/attachment/server"
+
 import mime from "mime-types"
 import multer from "multer"
 
 import { uploadEndpointPath } from "./util"
 import storageSchema from "./schema"
 
-addCallback("endpoints", { id: "storage", handler: endpointHandler })
+addCallback("endpoints", { id: "storage", handler: { deleteImage } })
 
 pushToFilter("data-schemas", () => storageSchema)
 
@@ -29,9 +29,11 @@ pushToFilter("middleware", {
 
 async function handleUpload({ meta }) {
   const { bearer, request } = meta
-  const {
-    file: { buffer, mimetype, size }
-  } = request
+  const { file } = request
+
+  if (!file || !bearer) return
+
+  const { buffer, mimetype, size } = file
 
   const attachmentModel = getModel("attachment")
   const attachment = new attachmentModel()
@@ -58,8 +60,12 @@ async function handleUpload({ meta }) {
   return attachment.toObject()
 }
 
-export async function deleteImage({ _id }) {
-  const doc = await getModel("attachment").findOneAndDelete({ _id })
+export async function deleteImage({ _id }, { bearer }) {
+  const post = await getModel("attachment").findOne({ _id })
+
+  canUpdatePost({ bearer, post, action: "delete" })
+
+  const doc = await post.deleteOne({ _id })
 
   if (doc && !doc.url.includes("base64")) {
     await runCallbacks("delete-attachment", doc)
