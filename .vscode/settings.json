@@ -114,6 +114,7 @@
     "maxage",
     "mimetype",
     "mixins",
+    "mongod",
     "nocheck",
     "npmjs",
     "npmrc",

@@ -10,14 +10,14 @@ export default {
       emails: {
         confirm: {
           successMessage:
-            "Your email is confirmed. Please your email for next steps (no email? check spam).",
+            "Your email is confirmed.",
           subject: "Factor Beta: Email confirmation",
           text: `Just one more step, please confirm your email.`
         },
         complete: {
-          subject: "Success! Next steps...",
+          subject: "Success!",
           text: `<p>Great work.</p>
-            <p>Stay tuned, we'll be in touch soon.</p>`,
+            <p>You've successfully signed up. we'll be in touch soon.</p>`,
           from: "Andrew Powers <andrew@fiction.com>"
         },
         notify: {

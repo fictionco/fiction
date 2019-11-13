@@ -1,7 +1,7 @@
 import { userToken, handleTokenError } from "@factor/user/token"
 import { emitEvent } from "@factor/tools"
 import axios from "axios"
-
+import { currentUrl } from "@factor/tools/permalink"
 export async function endpointRequest({ id, method, params = {}, headers = {} }) {
   try {
     if (!method) {
@@ -36,15 +36,11 @@ export async function authorizedRequest(path, data, options = {}) {
 
   options.headers = { Authorization: bearerToken(), ...headers }
 
-  if (process.env.PORT) {
-    options.proxy = {
-      port: process.env.PORT
-    }
-  }
+  options.baseURL = currentUrl()
 
   return await axios.post(path, data, options)
 }
 
 export function bearerToken() {
-  return userToken() ? `Bearer ${userToken()}` : ""
+  return `Bearer ${userToken()}`
 }

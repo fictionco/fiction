@@ -9,6 +9,11 @@ describe("Meta", () => {
     await createServer({ port })
   })
 
+  // Close server and ask to stop listening to file changes
+  afterAll(async () => {
+    await closeServer()
+  })
+
   test("/basic", async () => {
     const html = await renderRoute("/basic")
 
@@ -31,8 +36,5 @@ describe("Meta", () => {
     expect(html).toContain("async-description")
   })
 
-  // Close server and ask to stop listening to file changes
-  afterAll(async () => {
-    await closeServer()
-  })
+
 })
