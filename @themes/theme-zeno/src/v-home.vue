@@ -102,6 +102,8 @@
         </template>
       </div>
     </section>
+
+    <site-cta />
   </div>
 </template>
 
@@ -109,6 +111,9 @@
 import { setting } from "@factor/tools"
 
 export default {
+  components: {
+    "site-cta": () => import("./el/cta.vue")
+  },
   data() {
     return {
       loading: true,
