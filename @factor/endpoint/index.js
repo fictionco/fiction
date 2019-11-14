@@ -1,7 +1,7 @@
 import { userToken, handleTokenError } from "@factor/user/token"
-import { emitEvent } from "@factor/tools"
+import { emitEvent, isNode } from "@factor/tools"
 import axios from "axios"
-import { currentUrl } from "@factor/tools/permalink"
+import { localhostUrl } from "@factor/tools/permalink"
 export async function endpointRequest({ id, method, params = {}, headers = {} }) {
   try {
     if (!method) {
@@ -36,7 +36,9 @@ export async function authorizedRequest(path, data, options = {}) {
 
   options.headers = { Authorization: bearerToken(), ...headers }
 
-  options.baseURL = currentUrl()
+  if (isNode) {
+    options.baseURL = localhostUrl() //currentUrl()
+  }
 
   return await axios.post(path, data, options)
 }

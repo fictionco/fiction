@@ -84,6 +84,7 @@
   "cSpell.words": [
     "Commentizer",
     "EDESTRUCTION",
+    "Entrypoint",
     "Interop",
     "JUNIT",
     "Permalinks",
@@ -95,6 +96,7 @@
     "blueimp",
     "bugsnag",
     "bulma",
+    "chunkhash",
     "clonedeep",
     "codecov",
     "consola",

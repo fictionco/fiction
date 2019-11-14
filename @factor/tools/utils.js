@@ -1,6 +1,10 @@
 import deepMergeLib from "deepmerge"
 import stopwordsLib from "./resource/stopwords"
 
+export function ensureTrailingSlash(path) {
+  path += path.endsWith("/") ? "" : "/"
+  return path
+}
 // Sort objects in an array by a priority value that defaults to 100
 export function sortPriority(arr) {
   if (!arr || arr.length == 0) return arr

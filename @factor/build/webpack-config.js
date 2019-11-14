@@ -1,5 +1,5 @@
 import "@factor/build/webpack-overrides"
-import { applyFilters, addCallback, addFilter, log } from "@factor/tools"
+import { applyFilters, log, ensureTrailingSlash } from "@factor/tools"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import { getPath } from "@factor/tools/paths"
 import BundleAnalyzer from "webpack-bundle-analyzer"
@@ -16,39 +16,37 @@ import webpack from "webpack"
 
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
-addCallback("create-distribution-app", _ => buildProduction(_))
-addFilter("webpack-config", _ => getConfig(_))
-
-export async function buildProduction(_arguments = {}) {
+export async function buildProductionApp(_arguments = {}) {
   return await Promise.all(
-    ["server", "client"].map(async target => {
-      const config = await getConfig({ ..._arguments, target })
+    ["server", "client"].map(async (target, index) => {
+      const clean = index === 0
+      const config = await getWebpackConfig({ ..._arguments, target, clean })
 
       return await enhancedBuild({ config, name: target })
     })
   )
 }
 
-export async function getConfig(_arguments) {
-  const { NODE_ENV, FACTOR_DEBUG } = process.env
-
-  let { target, analyze = false, testing = false } = _arguments
+export async function getWebpackConfig(_arguments) {
+  let { target, analyze = false, testing = false, clean = false } = _arguments
 
   const baseConfig = await base({ target })
 
-  const buildConfig = NODE_ENV == "production" ? production() : development()
+  const buildConfig = process.env.NODE_ENV == "production" ? production() : development()
 
   const targetConfig = target == "server" ? server() : client()
 
-  const testingConfig = testing ? { devtool: "", optimization: { minimize: false } } : {}
+  const testingConfig = testing
+    ? { devtool: "source-map", optimization: { minimize: false } }
+    : {}
 
-  const debugConfig = FACTOR_DEBUG ? { devtool: "source-map" } : {}
+  const debugConfig = process.env.FACTOR_DEBUG ? { devtool: "source-map" } : {}
 
-  const plugins = applyFilters("webpack-plugins", [], { ..._arguments, webpack })
+  const plugins = applyFilters("webpack-plugins", [], { ..._arguments })
 
   // Only run this once (server build)
   // If it runs twice it cleans it after the first
-  if (NODE_ENV == "production" && target == "server") {
+  if (clean) {
     plugins.push(new CleanWebpackPlugin())
   } else if (target == "client" && analyze) {
     plugins.push(new BundleAnalyzer.BundleAnalyzerPlugin({ generateStatsFile: true }))
@@ -87,10 +85,10 @@ function server() {
 }
 
 function client() {
-  const app = getPath("entry-browser")
+  const entry = getPath("entry-browser")
   const filename = "factor-client.json"
   return {
-    entry: { app },
+    entry,
     plugins: [new VueSSRClientPlugin({ filename })]
   }
 }
@@ -101,8 +99,8 @@ function production() {
     output: { publicPath: "/" },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "css/[name].[hash].css",
-        chunkFilename: "css/[name].[hash].css"
+        filename: "css/[name]-[hash:5].css",
+        chunkFilename: "css/[name]-[hash:5].css"
       })
     ],
     performance: { hints: "warning" },
@@ -113,7 +111,8 @@ function production() {
 }
 
 function development() {
-  const publicPath = getPath("dist")
+  // Apparently webpack expects a trailing slash on these
+  const publicPath = ensureTrailingSlash(getPath("dist"))
   return {
     mode: "development",
     output: { publicPath },
@@ -127,7 +126,7 @@ async function base(_arguments) {
   const out = {
     output: {
       path: getPath("dist"),
-      filename: "js/[name].[chunkhash].js"
+      filename: "js/[name].[hash:5].js"
     },
     resolve: {
       extensions: [".js", ".vue", ".json"],
@@ -135,34 +134,15 @@ async function base(_arguments) {
     },
     module: {
       rules: applyFilters("webpack-loaders", [
-        {
-          test: /\.vue$/,
-          loader: "vue-loader"
-        },
-
+        { test: /\.vue$/, loader: "vue-loader" },
         {
           test: /\.(png|jpg|gif|svg|mov|mp4)$/,
           loader: "file-loader",
-          options: { name: "[name].[hash].[ext]" }
+          options: { name: "[name]-[hash:5].[ext]" }
         },
-
-        {
-          test: /\.css/,
-          use: cssLoaders({ target, lang: "css" })
-        },
-        {
-          test: /\.less/,
-          use: cssLoaders({ target, lang: "less" })
-        },
-        {
-          test: /\.(scss|sass)/,
-          use: cssLoaders({ target, lang: "sass" })
-        },
-
-        {
-          test: /\.md$/,
-          use: [{ loader: "markdown-image-loader" }]
-        }
+        { test: /\.css/, use: cssLoaders({ target, lang: "css" }) },
+        { test: /\.less/, use: cssLoaders({ target, lang: "less" }) },
+        { test: /\.md$/, use: [{ loader: "markdown-image-loader" }] }
       ])
     },
 
@@ -172,8 +152,6 @@ async function base(_arguments) {
       new webpack.DefinePlugin(
         await applyFilters("webpack-define", {
           "process.env.FACTOR_SSR": JSON.stringify(target),
-          "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
-          "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
           "process.env.VUE_ENV": JSON.stringify(target)
         })
       ),

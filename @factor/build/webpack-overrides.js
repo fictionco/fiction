@@ -4,7 +4,7 @@ import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"
 import glob from "glob"
-
+import webpack from "webpack"
 function getThemes() {
   return getExtensions().filter(_ => _.extend == "theme")
 }
@@ -21,15 +21,15 @@ addFilter("webpack-aliases", _ => {
 // Notes:
 // - Uses "#" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
 // - TODO if a file is added to app, then server needs a restart, fix should be possible
-addFilter("webpack-plugins", (_, { webpack }) => {
-  _.push(modulePathWebpackPlugin(webpack))
-  _.push(browserReplacement(webpack))
+addFilter("webpack-plugins", _ => {
+  _.push(modulePathWebpackPlugin())
+  _.push(browserReplacement())
   return _
 })
 
 // Server utils sometimes aren't compatible with webpack
 // Replace with polyfill if a
-function browserReplacement(webpack) {
+function browserReplacement() {
   return new webpack.NormalModuleReplacementPlugin(/^@factor/, resource => {
     const resolvedFile = require.resolve(resource.request, { paths: [resource.context] })
     const resolvedDirectory = dirname(resolvedFile)
@@ -41,7 +41,7 @@ function browserReplacement(webpack) {
   })
 }
 
-function modulePathWebpackPlugin(webpack) {
+function modulePathWebpackPlugin() {
   return new webpack.NormalModuleReplacementPlugin(/^#/, resource => {
     resource.request = handleAsOverride(resource)
   })

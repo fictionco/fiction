@@ -1,11 +1,4 @@
-import {
-  addFilter,
-  applyFilters,
-  setting,
-  log,
-  addCallback,
-  runCallbacks
-} from "@factor/tools"
+import { addFilter, setting, log, addCallback, runCallbacks } from "@factor/tools"
 
 import chalk from "chalk"
 import fs from "fs-extra"
@@ -16,7 +9,7 @@ import webpack from "webpack"
 import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 import yargs from "yargs"
-
+import { getWebpackConfig } from "@factor/build/webpack-config"
 import { watcher } from "./watcher"
 
 const argv = yargs.argv
@@ -43,10 +36,6 @@ addCallback("development-server", async callback => {
   return await createServerCompilers()
 })
 
-async function getWebpackConfig(_arguments) {
-  return await applyFilters("webpack-config", { ..._arguments, ...argv })
-}
-
 export async function createServerCompilers() {
   const templatePath = getTemplatePath()
 
@@ -54,8 +43,8 @@ export async function createServerCompilers() {
     throw new Error("The index.html template path is not set.")
   }
 
-  configServer = await getWebpackConfig({ target: "server" })
-  configClient = await getWebpackConfig({ target: "client" })
+  configServer = await getWebpackConfig({ target: "server", ...argv })
+  configClient = await getWebpackConfig({ target: "client", ...argv })
 
   template = fs.readFileSync(templatePath, "utf-8")
 
@@ -108,10 +97,7 @@ function updateBundles({ title = "", value = "" } = {}) {
 
 function clientCompiler() {
   // modify client config to work with hot middleware
-  configClient.entry.app = [
-    "webpack-hot-middleware/client?quiet=true",
-    configClient.entry.app
-  ]
+  configClient.entry = ["webpack-hot-middleware/client?quiet=true", configClient.entry]
   configClient.output.filename = "[name].js"
   configClient.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
