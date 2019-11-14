@@ -1,5 +1,5 @@
 <template>
-  <figure ref="wrapper">
+  <figure>
     <img src="../img/devops.svg" alt="devops" />
     <img src="../img/stars.svg" alt="stars" />
   </figure>

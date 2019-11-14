@@ -26,6 +26,21 @@ export default {
         name: "Pricing"
       }
     ],
+    cta: {
+      title: "Get better results with Elastic Byte",
+      buttons: [
+        {
+          link: "/contact",
+          text: "Contact Us",
+          classes: "bg-green-300 text-indigo-600"
+        },
+        {
+          link: "/pricing",
+          text: "Pricing",
+          classes: "bg-gray-100 text-indigo-600"
+        },
+      ]
+    },
   },
   home: {
     meta: {
@@ -171,9 +186,83 @@ export default {
       ]
     },
   },
+  about: {
+    meta: {
+      title: "About - Factor Zeno Theme",
+      description:
+        "Elastic Byte is a DevOps as a service company which builds, optimizes, secures and supports your cloud."
+    },
+    intro: {
+      pretitle: "About Us",
+      title: "Elastic Byte is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
+      image: require("./img/stars.svg"),
+    },
+    team: {
+      title: "Leadership",
+      members: [
+        {
+          photo: require("./img/justin.jpg"),
+          social: [
+            {
+              link: "https://www.linkedin.com/in/jkell",
+              icon: "linkedin"
+            },
+            {
+              link: "https://github.com/nodesocket",
+              icon: "github"
+            },
+            {
+              link: "https://angel.co/justink",
+              icon: "angellist"
+            }
+          ],
+          title: "Founder",
+          name: "Justin Keller",
+          content: "Justin has been programming and managing infrastructure for over a decade and has founded three startups ranging from a hosting company to a Node.js platform as a service to a distributed SSH platform (Commando.io). He received his Bachelor of Science in Computer Science from San Diego State University. He's managed cloud infrastructure for Fortune 500 companies powered by Amazon Web Services and Google Cloud."
+        }
+      ]
+    },
+    location: {
+      title: "Based in music city; Nashville, Tennessee.",
+      figure: () => import("./el/figure-location.vue")
+    }
+  },
   footer: {
-    headline: "Released under the GPL-2 License",
-    legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
-    logo: () => import("./el/logo-fiction.vue")
+    nav: [
+      {
+        path: "/",
+        name: "Home"
+      },
+      {
+        path: "/#solutions",
+        name: "Solutions"
+      },
+      {
+        path: "/#devops-as-a-service",
+        name: "Devops-as-a-Service  "
+      },
+      {
+        path: "/#infrastructure-as-code",
+        name: "Infrastructure as Code"
+      },
+      {
+        path: "/#pricing",
+        name: "Pricing"
+      },
+      {
+        path: "/about",
+        name: "About"
+      },
+      {
+        path: "/blog",
+        name: "Blog"
+      },
+      {
+        path: "https://twitter.com/",
+        icon: "twitter"
+      }
+    ],
+    left: `Built with <i class="fa fa-heart"></i> in Nashville`,
+    right: "<p>&copy; 2020 <a href='https://nodesocket.com/' target='_blank'>NoseSocket, LLC.</a></p><p>All rights reserved.</p>",
   }
 }

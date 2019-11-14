@@ -12,7 +12,7 @@
           :target="item.target"
         >
           <factor-icon v-if="item.icon" :icon="item.icon" />
-          <span v-formatted-text="item.name" />
+          <span v-if="item.name" v-formatted-text="item.name" />
         </factor-link>
       </template>
     </div>
