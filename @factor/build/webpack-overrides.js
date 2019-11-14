@@ -5,6 +5,7 @@ import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"
 import glob from "glob"
 import webpack from "webpack"
+
 function getThemes() {
   return getExtensions().filter(_ => _.extend == "theme")
 }
@@ -22,32 +23,34 @@ addFilter("webpack-aliases", _ => {
 // - Uses "#" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
 // - TODO if a file is added to app, then server needs a restart, fix should be possible
 addFilter("webpack-plugins", _ => {
-  _.push(modulePathWebpackPlugin())
-  _.push(browserReplacement())
+  _.push(
+    new webpack.NormalModuleReplacementPlugin(/^#/, resource =>
+      overrideOperator(resource)
+    )
+  )
+  _.push(
+    new webpack.NormalModuleReplacementPlugin(/^@factor/, resource =>
+      browserReplaceModule(resource)
+    )
+  )
   return _
 })
 
 // Server utils sometimes aren't compatible with webpack
 // Replace with polyfill if a
-function browserReplacement() {
-  return new webpack.NormalModuleReplacementPlugin(/^@factor/, resource => {
-    const resolvedFile = require.resolve(resource.request, { paths: [resource.context] })
-    const resolvedDirectory = dirname(resolvedFile)
-    const filename = basename(resolvedFile, ".js")
+export function browserReplaceModule(resource) {
+  const resolvedFile = require.resolve(resource.request, { paths: [resource.context] })
+  const resolvedDirectory = dirname(resolvedFile)
+  const filename = basename(resolvedFile, ".js")
 
-    const clientUtil = _fileExists(`${resolvedDirectory}/${filename}-browser`)
+  const clientUtil = _fileExists(`${resolvedDirectory}/${filename}-browser`)
 
-    if (clientUtil) resource.request = clientUtil
-  })
+  if (clientUtil) resource.request = clientUtil
+
+  return resource
 }
 
-function modulePathWebpackPlugin() {
-  return new webpack.NormalModuleReplacementPlugin(/^#/, resource => {
-    resource.request = handleAsOverride(resource)
-  })
-}
-
-function handleAsOverride(resource) {
+export function overrideOperator(resource) {
   const inApp = _fileExists(resource.request.replace("#", getPath("source")))
   let filePath = ""
   if (inApp) {
@@ -77,7 +80,9 @@ function handleAsOverride(resource) {
     }
   }
 
-  return filePath ? filePath : resource.request
+  if (filePath) resource.request = filePath
+
+  return resource
 }
 
 function _fileExists(path) {

@@ -15,7 +15,7 @@ import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack from "webpack"
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
-
+import { configSettings } from "@factor/tools/config"
 export async function buildProductionApp(_arguments = {}) {
   return await Promise.all(
     ["server", "client"].map(async (target, index) => {
@@ -150,12 +150,7 @@ async function base(_arguments) {
       new WebpackDeepScopeAnalysisPlugin.default(),
       new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
       new VueLoaderPlugin(),
-      new webpack.DefinePlugin(
-        await applyFilters("webpack-define", {
-          "process.env.FACTOR_SSR": JSON.stringify(target),
-          "process.env.VUE_ENV": JSON.stringify(target)
-        })
-      ),
+      new webpack.DefinePlugin(getDefinedValues(target)),
       function() {
         this.plugin("done", function(stats) {
           const { errors } = stats.compilation
@@ -177,4 +172,17 @@ async function base(_arguments) {
   }
 
   return out
+}
+
+export function getDefinedValues(target) {
+  return applyFilters("webpack-define", {
+    "process.env.FACTOR_SSR": JSON.stringify(target),
+    "process.env.VUE_ENV": JSON.stringify(target),
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
+    "process.env.PORT": JSON.stringify(process.env.PORT || 3000),
+    "process.env.HTTP_PROTOCOL": JSON.stringify(process.env.HTTP_PROTOCOL || "http"),
+    "process.env.FACTOR_COMMAND": JSON.stringify(process.env.FACTOR_COMMAND || "none"),
+    "process.env.FACTOR_APP_CONFIG": JSON.stringify(configSettings())
+  })
 }

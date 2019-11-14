@@ -1,11 +1,11 @@
-import { getWebpackConfig } from "@factor/build/webpack-config"
+import { getWebpackConfig, getDefinedValues } from "@factor/build/webpack-config"
 import { dirname, resolve } from "path"
 import webpack from "webpack"
 import jsdom from "jsdom"
 import { waitFor } from "@test/utils"
-
+import { overrideOperator, browserReplaceModule } from "@factor/build/webpack-overrides"
 import { deepMerge } from "@factor/tools"
-
+import { existsSync } from "fs-extra"
 describe("webpack", () => {
   describe("webpack-config", () => {
     it("returns the correct development config", async () => {
@@ -87,14 +87,43 @@ describe("webpack", () => {
       expect(plugins.includes("BundleAnalyzerPlugin")).toBe(true)
     })
 
-    it.todo("defines application ENV variables")
-    it.todo("has config filters")
-    it.todo("defines right ENV variables")
+    it("defines application ENV variables", () => {
+      process.env.NODE_ENV = "development"
+      const defined = getDefinedValues("client")
+
+      // all should be string
+      expect(Object.values(defined).some(_ => typeof _ != "string")).toBe(false)
+
+      expect(Object.keys(defined).map(_ => _.replace("process.env.", ""))).toEqual(
+        expect.arrayContaining([
+          "FACTOR_APP_CONFIG",
+          "NODE_ENV",
+          "FACTOR_ENV",
+          "VUE_ENV",
+          "FACTOR_SSR",
+          "PORT"
+        ])
+      )
+    })
   })
   describe("webpack-override", () => {
-    it.todo("recognizes the override alias and uses correct override hierarchy")
-    it.todo("allows for browser/webpack overrides '-browser'")
+    it("recognizes the override alias and uses correct override hierarchy", () => {
+      const resource = overrideOperator({
+        request: "#/test-files/test-image.jpg",
+        context: __dirname
+      })
+      expect(existsSync(resource.request)).toBe(true)
+    })
+    it("allows for browser/webpack overrides '-browser'", () => {
+      const resource = browserReplaceModule({
+        request: "./test-files/entry.js",
+        context: __dirname
+      })
+
+      expect(resource.request.includes("entry-browser")).toBe(true)
+    })
   })
+
   describe("webpack-production-build", () => {
     it.todo("logs correct information from production build")
     it.todo("empties and then recreates dist folder")
