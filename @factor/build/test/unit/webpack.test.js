@@ -80,7 +80,13 @@ describe("webpack", () => {
       expect(html).toContain(`dist/test-image`)
     })
 
-    it.todo("supports bundle analysis")
+    it("supports bundle analysis", async () => {
+      const config = await getWebpackConfig({ analyze: true })
+      const plugins = config.plugins.map(_ => _.constructor.name)
+
+      expect(plugins.includes("BundleAnalyzerPlugin")).toBe(true)
+    })
+
     it.todo("defines application ENV variables")
     it.todo("has config filters")
     it.todo("defines right ENV variables")

@@ -16,7 +16,11 @@
       <div class="navbar-menu">
         <div class="navbar-end">
           <template v-for="(item, index) in setting('site.nav')">
-            <div v-if="item.subnav" :key="index" class="navbar-item has-dropdown is-hoverable">
+            <div
+              v-if="item.subnav"
+              :key="index"
+              class="navbar-item has-dropdown is-hoverable"
+            >
               <factor-link :path="item.path" class="navbar-link">
                 <span>{{ item.name }}</span>
               </factor-link>
@@ -41,7 +45,7 @@
                 class="button is-outlined is-rounded"
                 target="_blank"
               >
-                {{ setting('site.nav_cta.name') }}
+                {{ setting("site.nav_cta.name") }}
                 <factor-icon icon="arrow-right" class="ml-2" />
               </factor-link>
             </div>
@@ -64,8 +68,9 @@
 </template>
 <style src="#/css/style-vars.scss" lang="sass"></style>
 <script>
+import Vue from "vue"
 import { DOM, setting } from "@factor/tools"
-export default {
+export default Vue.extend({
   components: {
     "site-brand": () => import("./el/logo-bulma.vue"),
     "page-sidebar": () => import("./sidebar.vue")
@@ -110,7 +115,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 <style lang="scss">
 .site-head {

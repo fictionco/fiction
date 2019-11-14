@@ -22,6 +22,7 @@ describe("site-wrapper", () => {
 
     // Server prefetch bug
     // https://github.com/vuejs/vue-test-utils/issues/1317
+    // @ts-ignore
     Site.mixins = Site.mixins.map(_ => {
       if (_.serverPrefetch) delete _.serverPrefetch
 

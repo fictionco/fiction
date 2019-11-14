@@ -49,6 +49,7 @@
     "vue-template-compiler": "^2.6.8",
     "webpack": "^4.29.6",
     "webpack-bundle-analyzer": "^3.1.0",
+    "webpack-deep-scope-plugin": "^1.6.2",
     "webpack-merge": "^4.2.1",
     "webpack-node-externals": "^1.7.2",
     "yargs": "^14.2.0"

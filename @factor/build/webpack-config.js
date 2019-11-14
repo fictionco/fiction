@@ -13,7 +13,7 @@ import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack from "webpack"
-
+import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
 export async function buildProductionApp(_arguments = {}) {
@@ -48,7 +48,7 @@ export async function getWebpackConfig(_arguments) {
   // If it runs twice it cleans it after the first
   if (clean) {
     plugins.push(new CleanWebpackPlugin())
-  } else if (target == "client" && analyze) {
+  } else if (analyze) {
     plugins.push(new BundleAnalyzer.BundleAnalyzerPlugin({ generateStatsFile: true }))
   }
 
@@ -147,6 +147,7 @@ async function base(_arguments) {
     },
 
     plugins: [
+      new WebpackDeepScopeAnalysisPlugin.default(),
       new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin(
@@ -163,6 +164,7 @@ async function base(_arguments) {
       }
     ],
     stats: { children: false },
+
     performance: { maxEntrypointSize: 500000 },
     node: { fs: "empty" }
   }
