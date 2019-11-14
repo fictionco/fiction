@@ -1,5 +1,3 @@
-import "jest-extended"
-
 declare module "*.png"
 declare module "*.jpg"
 declare module "*.json"
