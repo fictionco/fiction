@@ -17,6 +17,7 @@
     "@factor/core": "^1.0.0-beta.15",
     "@factor/plugin-contact-form": "^1.0.0-beta.15",
     "@factor/plugin-notify": "^1.0.0-beta.15",
+    "@factor/plugin-highlight-code": "^1.0.0-beta.15",
     "@factor/plugin-seo": "^1.0.0-beta.15",
     "@factor/plugin-sitemap": "^1.0.0-beta.15",
     "@factor/plugin-storage-s3": "^1.0.0-beta.15",
