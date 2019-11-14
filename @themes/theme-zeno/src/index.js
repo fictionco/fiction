@@ -16,6 +16,11 @@ addFilter("content-routes", _ => {
       path: "/",
       component: () => import("./v-home.vue"),
       meta: { nav: true }
+    },
+    {
+      path: "/about",
+      component: () => import("./v-about.vue"),
+      meta: { nav: true }
     }
   ]
 

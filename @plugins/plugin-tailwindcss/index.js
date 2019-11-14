@@ -4,13 +4,17 @@ import { addFilter } from "@factor/tools"
 
 // const tailwindCSS = require("tailwindcss")
 
+//var resolveUrl = require("resolve-url")
+
+const tailwindCSS = "./css/build/tailwind.css"
+
 addFilters()
 
 function addFilters() {
   addFilter(
     "factor_head",
     _ => {
-      const add =  `<link rel="stylesheet" href="./css/build/tailwind.css">`      
+      const add = `<link rel="stylesheet" href="${tailwindCSS}">`
 
       return [..._, add]
     },
