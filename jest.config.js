@@ -7,7 +7,7 @@ module.exports = {
 
   roots: ["<rootDir>/@factor", "<rootDir>/test"],
 
-  setupFilesAfterEnv: ["./test/config/setup", "jest-extended"],
+  setupFilesAfterEnv: ["./test/config/setup"],
 
   testMatch: ["**/?(*.|*-)+(spec|test).[jt]s?(x)"],
   testPathIgnorePatterns: [
