@@ -13,14 +13,16 @@ describe("webpack", () => {
       process.env.FACTOR_CWD = dirname(require.resolve("./test-files/package.json"))
       const serverConfig = await getWebpackConfig({ target: "server" })
 
-      expect(serverConfig).toContainKeys([
-        "output",
-        "resolve",
-        "plugins",
-        "module",
-        "externals",
-        "target"
-      ])
+      expect(Object.keys(serverConfig)).toEqual(
+        expect.arrayContaining([
+          "output",
+          "resolve",
+          "plugins",
+          "module",
+          "externals",
+          "target"
+        ])
+      )
 
       expect(serverConfig.target).toBe("node")
       expect(serverConfig.mode).toBe("development")
@@ -28,7 +30,10 @@ describe("webpack", () => {
 
       const clientConfig = await getWebpackConfig({ target: "client" })
 
-      expect(clientConfig).toContainKeys(["output", "resolve", "plugins", "module"])
+      expect(Object.keys(clientConfig)).toEqual(
+        expect.arrayContaining(["output", "resolve", "plugins", "module"])
+      )
+
       expect(clientConfig.entry).toContain("entry-browser")
 
       expect(clientConfig.resolve.alias["@"]).toContain("test-files")
@@ -45,7 +50,7 @@ describe("webpack", () => {
       expect(clientConfig.mode).toBe("production")
     })
 
-    it("loads css, less and sass", async () => {
+    it("Compiles vue and image files", async () => {
       process.env.NODE_ENV = "development"
       const clientConfig = await getWebpackConfig({ target: "client", clean: true })
 
@@ -75,7 +80,6 @@ describe("webpack", () => {
       expect(html).toContain(`dist/test-image`)
     })
 
-    it.todo("handles common static file types (jpg, md, etc..)")
     it.todo("supports bundle analysis")
     it.todo("defines application ENV variables")
     it.todo("has config filters")

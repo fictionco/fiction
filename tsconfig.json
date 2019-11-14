@@ -6,13 +6,12 @@
     "target": "esnext",
     "module": "commonjs",
     "resolveJsonModule": true,
-    "moduleResolution": "node",
     "strict": false,
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["test/modules/alias/*"],
-      "@/*": ["test/modules/a lias/*"],
+      "@/*": ["test/modules/alias/*"],
       "#/*": ["test/modules/alias/*"]
     }
   },
