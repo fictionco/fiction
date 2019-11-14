@@ -16,12 +16,12 @@
             gradientTransform="matrix(1, 0, 0, -1, 0, 48)"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0.36" stop-color="#00c1a5"/>
-            <stop offset="1" stop-color="#00bfa3"/>
+            <stop offset="0.36" stop-color="#00c1a5" />
+            <stop offset="1" stop-color="#00bfa3" />
           </linearGradient>
         </defs>
         <title>logo</title>
-        <rect width="40" height="40" rx="3" ry="3" style="fill:url(#a)"/>
+        <rect width="40" height="40" rx="3" ry="3" style="fill:url(#a)" />
         <path
           d="M26.39,31H17.16a2.16,2.16,0,0,1-1.58-.68l-7-7.26A1.94,1.94,0,0,1,8.14,21,1.85,1.85,0,0,1,9.85,19.8h8.62V10.91a1.92,1.92,0,0,1,1.14-1.77,1.84,1.84,0,0,1,2,.42l7,7.26a2.35,2.35,0,0,1,.65,1.63V28A3,3,0,0,1,26.39,31Zm-8.84-3.27h8.6V18.85l-4.51-4.66v8.88H13Z"
           style="fill:#f7f7f7"
@@ -30,6 +30,13 @@
     </factor-link>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {}
+  }
+}
+</script>
 <style lang="less">
 .logo-bulma {
   a {
@@ -42,4 +49,3 @@
   }
 }
 </style>
-

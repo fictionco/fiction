@@ -16,7 +16,7 @@
     "release": "standard-version"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "consola": "^2.6.0",
     "figures": "^3.0.0",
     "lodash": "^4.17.11",

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
-    "chalk": "^2.4.2",
+    "chalk": "^3.0.0",
     "chokidar": "^3.1.2",
     "compression": "^1.7.4",
     "destroyer": "^0.0.0",
@@ -37,7 +37,6 @@
     "webpack": "^4.29.6",
     "webpack-dev-middleware": "^3.6.0",
     "webpack-hot-middleware": "^2.24.3",
-    "xmlhttprequest": "^1.8.0",
     "yargs": "^14.2.0"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
