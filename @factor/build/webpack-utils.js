@@ -1,8 +1,7 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import webpack from "webpack"
-import { log } from "@factor/tools"
-
-const { NODE_ENV, FACTOR_ENV } = process.env
+import log from "@factor/tools/logger"
+import { applyFilters } from "@factor/tools/filters"
 
 export function cssLoaders({ target, lang }) {
   const _base = [
@@ -10,7 +9,9 @@ export function cssLoaders({ target, lang }) {
     {
       loader: "postcss-loader",
       options: {
-        plugins: [require("cssnano")({ preset: "default" })],
+        plugins: applyFilters("postcss-plugins", [
+          require("cssnano")({ preset: "default" })
+        ]),
         minimize: true
       }
     }
@@ -18,17 +19,15 @@ export function cssLoaders({ target, lang }) {
 
   if (lang == "less") {
     _base.push({ loader: "less-loader" })
-  } else if (lang == "sass") {
-    _base.push({ loader: "sass-loader" })
   }
 
   const __ = []
 
-  if (NODE_ENV != "production") {
+  if (process.env.NODE_ENV != "production") {
     __.push({ loader: "vue-style-loader" })
-  } else if (target == "client" && NODE_ENV == "production") {
+  } else if (target == "client" && process.env.NODE_ENV == "production") {
     __.push({ loader: MiniCssExtractPlugin.loader })
-  } else if (target == "server" && NODE_ENV == "production") {
+  } else if (target == "server" && process.env.NODE_ENV == "production") {
     __.push({ loader: "null-loader" })
   }
 
@@ -50,7 +49,7 @@ export async function enhancedBuild({ name, config }) {
     compiler.run((err, stats) => {
       _bar.stop()
 
-      if (FACTOR_ENV != "test") {
+      if (process.env.FACTOR_ENV != "test") {
         const s =
           stats.toString({
             colors: true,

@@ -74,7 +74,7 @@
 
 <script>
 import { toLabel } from "@factor/tools"
-import extensions from "./extensions"
+import extensions from "./extensions.json"
 export default {
   components: {},
   data() {

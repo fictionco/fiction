@@ -6,6 +6,7 @@
     "target": "esnext",
     "module": "commonjs",
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "strict": false,
     "esModuleInterop": true,
     "baseUrl": ".",

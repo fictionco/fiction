@@ -8,7 +8,8 @@ import log from "@factor/tools/logger"
 
 import { factorize, setEnvironment } from "./factorize"
 import { verifyDependencies } from "./task-runner"
-import pkg from "./package"
+import pkg from "./package.json"
+import { buildProductionApp } from "@factor/build/webpack-config"
 
 // @ts-ignore
 process.noDeprecation = true
@@ -88,7 +89,7 @@ async function runCommand(options) {
 
   try {
     if (["build", "start"].includes(command)) {
-      await tools.runCallbacks("create-distribution-app", _arguments)
+      await buildProductionApp(_arguments)
     } else if (command == "setup") {
       await tools.runCallbacks(`cli-setup`, { inquirer, ..._arguments })
     } else if (command == "run") {

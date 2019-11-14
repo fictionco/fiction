@@ -1,9 +1,80 @@
+import { getWebpackConfig } from "@factor/build/webpack-config"
+import { dirname, resolve } from "path"
+import webpack from "webpack"
+import jsdom from "jsdom"
+import { waitFor } from "@test/utils"
+
+import { deepMerge } from "@factor/tools"
+
 describe("webpack", () => {
   describe("webpack-config", () => {
-    it.todo("returns the correct development config")
-    it.todo("returns the correct production config")
-    it.todo("returns on appropriate callbacks")
-    it.todo("loads css, less and sass")
+    it("returns the correct development config", async () => {
+      process.env.NODE_ENV = "development"
+      process.env.FACTOR_CWD = dirname(require.resolve("./test-files/package.json"))
+      const serverConfig = await getWebpackConfig({ target: "server" })
+
+      expect(serverConfig).toContainKeys([
+        "output",
+        "resolve",
+        "plugins",
+        "module",
+        "externals",
+        "target"
+      ])
+
+      expect(serverConfig.target).toBe("node")
+      expect(serverConfig.mode).toBe("development")
+      expect(serverConfig.entry).toContain("entry-server")
+
+      const clientConfig = await getWebpackConfig({ target: "client" })
+
+      expect(clientConfig).toContainKeys(["output", "resolve", "plugins", "module"])
+      expect(clientConfig.entry).toContain("entry-browser")
+
+      expect(clientConfig.resolve.alias["@"]).toContain("test-files")
+      expect(clientConfig.resolve.alias["~"]).toContain("test-files")
+    })
+
+    it("returns the correct production config", async () => {
+      process.env.NODE_ENV = "production"
+
+      const serverConfig = await getWebpackConfig({ target: "server" })
+      expect(serverConfig.mode).toBe("production")
+
+      const clientConfig = await getWebpackConfig({ target: "client" })
+      expect(clientConfig.mode).toBe("production")
+    })
+
+    it("loads css, less and sass", async () => {
+      process.env.NODE_ENV = "development"
+      const clientConfig = await getWebpackConfig({ target: "client", clean: true })
+
+      const compiler = webpack(
+        deepMerge([
+          clientConfig,
+          {
+            entry: `${process.env.FACTOR_CWD}/entry`,
+            output: { filename: "js/[name].js" }
+          }
+        ])
+      )
+
+      await new Promise(resolve => {
+        compiler.run(() => resolve())
+      })
+
+      const { window } = await jsdom.JSDOM.fromFile(
+        resolve(__dirname, "./test-files/index.html"),
+        { resources: "usable", runScripts: "dangerously" }
+      )
+
+      await waitFor(50)
+
+      const html = window.document.body.innerHTML
+      expect(html).toContain(`<span class="message">hello</span>`)
+      expect(html).toContain(`dist/test-image`)
+    })
+
     it.todo("handles common static file types (jpg, md, etc..)")
     it.todo("supports bundle analysis")
     it.todo("defines application ENV variables")
