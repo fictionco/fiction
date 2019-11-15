@@ -450,6 +450,50 @@ export default {
       }
     ]
   },
+  blog: {
+    metatags: {
+      index: {
+        title: "Blog - The Latest from Zeno Theme",
+        description:
+          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+        image: require("./img/logo-zeno.jpg")
+      }
+    },
+    intro: {
+      pretitle: "Because the future comes fast",
+      title: "Elastic Byte Blog",
+      content: "Future-forward perspectives on DevOps, Cloud Computing, and Infrastructure."
+    },
+    indexRoute: "/blog",
+    postRoute: "/entry",
+    limit: 6,
+    returnLinkText: "Back",
+    notFound: {
+      title: "No Posts",
+      subTitle: "Couldn't find any blog posts."
+    },
+    layout: {
+      index: ["featuredImage", "tags", "headers", "meta"],
+      single: [
+        "tags",
+        "headers",
+        "authorDate",
+        "featuredImage",
+        "entry",
+      ],
+      meta: ["authorDate", "tags"]
+    },
+    components: {
+      blogWrap: () => import("./blog/blog-wrap.vue"),
+      blogIndex: () => import("./blog/blog-index.vue"),
+      blogSingle: () => import("./blog/blog-single.vue"),
+      featuredImage: () => import("./blog/el-featured-image.vue"),
+      headers: () => import("./blog/el-headers.vue"),
+      returnLink: () => import("./blog/el-return-link.vue"),
+      excerpt: () => import("./blog/el-excerpt.vue"),
+      meta: () => import("./blog/el-meta.vue")
+    }
+  },
   footer: {
     nav: [
       {
