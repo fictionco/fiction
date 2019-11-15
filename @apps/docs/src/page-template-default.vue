@@ -7,8 +7,10 @@
 </template>
 
 <script>
+import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/tools"
 export default {
+  components: { factorPostEdit },
   props: {
     post: { type: Object, default: () => {} }
   },

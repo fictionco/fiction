@@ -89,7 +89,9 @@
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
+              <factor-link
+                :path="feature.link.path"
+              >{{ feature.link.text }} &rarr;</factor-link>
             </div>
           </div>
         </div>
@@ -148,8 +150,13 @@
 </template>
 
 <script>
+import { factorEmailList } from "@factor/plugin-email-list"
+import { factorLink, factorIcon } from "@factor/ui"
 export default {
   components: {
+    factorEmailList,
+    factorLink,
+    factorIcon,
     "home-icon": () => import("./icon.vue"),
     "section-benefits": () => import("./section-benefits.vue")
   },
@@ -179,8 +186,8 @@ export default {
         {
           icon: "powered",
           title: "Powered by VueJS and MongoDB",
-          text: `When you use Factor you'll be using best-of-class open source software under the hood. 
-            Stop worrying about lock-in and immature tech. No more endlessly comparing new tools and techniques. 
+          text: `When you use Factor you'll be using best-of-class open source software under the hood.
+            Stop worrying about lock-in and immature tech. No more endlessly comparing new tools and techniques.
             Just trust Factor and get started building your app.`,
           figure: () => import("./figure-powered-by.vue"),
           link: { path: "/guide/quickstart", text: "View Quickstart" }
@@ -189,8 +196,8 @@ export default {
           icon: "ssr",
           title: "Dynamic Beats Static",
           text: `Factor is a universal Javascript framework which means you can dynamically make changes
-              to your content and see them reflected immediately (without a build step). 
-              This also enables custom endpoints and server-side rendering (SSR) important for SEO, 
+              to your content and see them reflected immediately (without a build step).
+              This also enables custom endpoints and server-side rendering (SSR) important for SEO,
               social, and performance reasons.`,
           figure: () => import("./figure-live-changes.vue"),
           link: { path: "/guide", text: "Try Factor" }
@@ -199,7 +206,7 @@ export default {
           icon: "dashboard2",
           title: "Dashboard Included",
           text: `Factor comes with a professional dashboard and post management system.
-            This tool was carefully crafted to give you maximum powerful but with minimum bloat. 
+            This tool was carefully crafted to give you maximum powerful but with minimum bloat.
             It is simple by default but can be extended to handle even the most complex tasks.`,
           figure: () => import("./figure-dashboard.vue"),
           link: { path: "/guide", text: "Learn More" }
@@ -208,8 +215,8 @@ export default {
           id: "plugins-feature",
           //icon: "plugins",
           title: `Plugins that just work`,
-          text: `Most Javascript frameworks make you do way too much coding and customization 
-              to make plugins work. That's why Factor makes plugins dead simple with intelligent 
+          text: `Most Javascript frameworks make you do way too much coding and customization
+              to make plugins work. That's why Factor makes plugins dead simple with intelligent
               defaults and no mandatory customization.`,
           figure: () => import("./figure-plugins.vue"),
           link: { path: "/plugins", text: "View Plugins" }
@@ -217,7 +224,7 @@ export default {
         {
           //icon: "brush",
           title: "Theming for the 21st Century",
-          text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either. 
+          text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either.
               Factor was developed from the start with customizable theming and rapid app development in mind.`,
           figure: () => import("./figure-themes.vue"),
           link: { path: "/themes", text: "View Themes" }

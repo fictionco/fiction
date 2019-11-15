@@ -3,13 +3,13 @@
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="screenshot dashboard-tabs-mockup">
-          <img src="./img/dashboard-tabs.svg" >
+          <img src="./img/dashboard-tabs.svg" />
         </div>
         <div class="screenshot dashboard-mockup">
-          <img src="./img/dashboard-mockup.svg" >
+          <img src="./img/dashboard-mockup.svg" />
         </div>
         <div class="screenshot code-mockup">
-          <img src="./img/code.svg" >
+          <img src="./img/code.svg" />
         </div>
       </div>
     </div>
@@ -17,7 +17,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   data() {
     return {
       width: 500
@@ -40,7 +41,7 @@ export default {
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
     }
   }
-}
+})
 </script>
 
 <style lang="less">
@@ -92,8 +93,8 @@ figure.dashboard-figure {
         right: 0;
         top: 50px;
         padding: 5px;
-        transform: scale(1) perspective(2040px) rotateY(-11deg) rotateX(2deg)
-          rotate(2deg) translateZ(0);
+        transform: scale(1) perspective(2040px) rotateY(-11deg) rotateX(2deg) rotate(2deg)
+          translateZ(0);
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
           19px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
           13.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);

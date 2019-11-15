@@ -11,7 +11,13 @@
 
     <dashboard-grid :structure="grid()" :rows="comments" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
+        <input
+          v-model="selected"
+          type="checkbox"
+          class="checkbox"
+          label
+          :value="row._id"
+        />
       </template>
       <template #comment="{row}">{{ row.content }}</template>
       <template #name="{row}">{{ row.name }}</template>
@@ -20,9 +26,15 @@
   </div>
 </template>
 <script>
+import {
+  dashboardGridControls,
+  dashboardGridFilter,
+  dashboardGridActions
+} from "@factor/dashboard"
 import { getStatusCount, requestPostById } from "@factor/post"
 import { toLabel, stored, getPermalink } from "@factor/tools"
 export default {
+  components: { dashboardGridControls, dashboardGridFilter, dashboardGridActions },
   props: {
     postId: { type: String, required: true },
     postType: { type: String, default: "page" },

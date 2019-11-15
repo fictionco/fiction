@@ -14,10 +14,12 @@ const postType = "emailList"
 
 addCallback("route-query-action-verify-email-list", _ => verifyEmail(_))
 
-pushToFilter("global-components", {
-  name: "factor-email-list",
-  component: () => import("./wrap.vue")
-})
+// pushToFilter("global-components", {
+//   name: "factor-email-list",
+//   component: () => import("./wrap.vue")
+// })
+
+export const factorEmailList = () => import("./wrap.vue")
 
 export const postTypeUIConfig = {
   postType,

@@ -85,13 +85,15 @@ import {
   extensionIcon,
   getAuthors
 } from "./util"
-
+import { factorLoadingRing, factorLink } from "@factor/ui"
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
 
 export default {
   components: {
     "widget-sidebar": () => import("./widget-sidebar.vue"),
-    "widget-cta": () => import("./widget-cta.vue")
+    "widget-cta": () => import("./widget-cta.vue"),
+    factorLoadingRing,
+    factorLink
   },
   data() {
     return {

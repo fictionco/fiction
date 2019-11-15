@@ -1,6 +1,9 @@
 <template>
   <div class="social-share">
-    <factor-link class="facebook" :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`">
+    <factor-link
+      class="facebook"
+      :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`"
+    >
       <factor-icon icon="facebook" />
     </factor-link>
     <factor-link
@@ -15,16 +18,21 @@
     >
       <factor-icon icon="linkedin" />
     </factor-link>
-    <factor-link class="pinterest" :path="`https://pinterest.com/pin/create/button/?url=${link}`">
+    <factor-link
+      class="pinterest"
+      :path="`https://pinterest.com/pin/create/button/?url=${link}`"
+    >
       <factor-icon icon="pinterest" />
     </factor-link>
   </div>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { stored } from "@factor/app/store"
 import { postLink } from "@factor/tools/permalink"
 
 export default {
+  components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
   },

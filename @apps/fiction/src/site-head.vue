@@ -8,7 +8,6 @@
         <factor-link path="/">
           <site-logo />
         </factor-link>
-        <!-- <div class="search">Search</div> -->
       </div>
       <transition name="fade">
         <div v-if="toggle" class="overlay" :class="{ open: toggle }" />
@@ -24,9 +23,11 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { userId } from "@factor/user"
 export default {
   components: {
+    factorLink,
     "site-logo": () => import("./logo.vue")
   },
   data() {

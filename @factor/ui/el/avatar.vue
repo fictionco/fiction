@@ -30,7 +30,9 @@
 </template>
 <script>
 import { stored } from "@factor/tools"
+import { factorLoadingRing } from "@factor/ui"
 export default {
+  components: { factorLoadingRing },
   props: {
     width: { type: String, default: "32px" },
     postId: { type: String, default: "" },

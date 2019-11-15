@@ -33,8 +33,15 @@
   </dashboard-page>
 </template>
 <script>
+import { dashboardPage, dashboardPane } from "@factor/dashboard"
+import { factorLink } from "@factor/ui"
 import { userInitialized } from "@factor/user"
 export default {
+  components: {
+    dashboardPage,
+    dashboardPane,
+    factorLink
+  },
   data() {
     return {
       loading: true,

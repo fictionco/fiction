@@ -8,7 +8,7 @@
         <factor-link
           v-for="(item, index) in pluginsPopular"
           :key="index"
-          :path="extensionPermalink({name: item._id})"
+          :path="extensionPermalink({ name: item._id })"
           class="sidebar-plugin"
         >
           <div class="sidebar-plugin-image">
@@ -18,10 +18,9 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div
-                v-if="item.downloads"
-                class="downloads"
-              >{{ formatDownloads(item.downloads) }} downloads</div>
+              <div v-if="item.downloads" class="downloads">
+                {{ formatDownloads(item.downloads) }} downloads
+              </div>
             </div>
           </div>
         </factor-link>
@@ -34,7 +33,7 @@
         <factor-link
           v-for="(item, index) in pluginsNew"
           :key="index"
-          :path="extensionPermalink({name: item._id})"
+          :path="extensionPermalink({ name: item._id })"
           class="sidebar-plugin"
         >
           <div class="sidebar-plugin-image">
@@ -60,7 +59,7 @@
         <factor-link
           v-for="(item, i) in pluginsRecentlyUpdated"
           :key="i"
-          :path="extensionPermalink({name: item._id})"
+          :path="extensionPermalink({ name: item._id })"
           class="sidebar-plugin"
         >
           <div class="sidebar-plugin-image">
@@ -89,7 +88,10 @@ import {
 } from "./util"
 import { getIndexCache } from "./extension-request"
 import { standardDate } from "@factor/tools"
-export default {
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink },
   data() {
     return {
       num: 5
@@ -128,7 +130,7 @@ export default {
     extensionIcon,
     standardDate
   }
-}
+})
 </script>
 
 <style lang="less">

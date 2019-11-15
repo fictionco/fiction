@@ -8,7 +8,10 @@
         </h1>
       </div>
       <div class="buttons">
-        <factor-btn action="signinModal" class="common-Button common-Button--default">Get Started</factor-btn>
+        <factor-btn
+          action="signinModal"
+          class="common-Button common-Button--default"
+        >Get Started</factor-btn>
         <factor-btn path="/contact" class="common-Button">Contact Sales</factor-btn>
       </div>
     </div>
@@ -16,8 +19,12 @@
 </template>
 
 <script>
+import { factorBtn } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
-export default { methods: { isLoggedIn } }
+export default {
+  components: { factorBtn },
+  methods: { isLoggedIn }
+}
 </script>
 
 <style lang="less">

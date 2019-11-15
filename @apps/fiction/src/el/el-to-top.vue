@@ -9,8 +9,9 @@
   </section>
 </template>
 <script>
+import { factorBtn } from "@factor/ui"
 export default {
-  mounted() {},
+  components: { factorBtn },
   methods: {
     scrollToTop() {
       window.scrollTo(0, 0)

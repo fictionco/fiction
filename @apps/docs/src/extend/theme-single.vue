@@ -12,10 +12,9 @@
               {{ getAuthors(item) }}
             </div>
 
-            <div
-              v-if="item.downloads"
-              class="downloads"
-            >{{ formatDownloads(item.downloads) }} downloads</div>
+            <div v-if="item.downloads" class="downloads">
+              {{ formatDownloads(item.downloads) }} downloads
+            </div>
           </div>
         </widget-header>
 
@@ -28,8 +27,17 @@
             />
 
             <div v-if="item" class="theme-images">
-              <div v-for="(url, _i) in screenshotsList(item)" :key="_i" class="image-item">
-                <img :src="url" class="image-item-content" alt="theme image" @click="showModal(i)" />
+              <div
+                v-for="(url, _i) in screenshotsList(item)"
+                :key="_i"
+                class="image-item"
+              >
+                <img
+                  :src="url"
+                  class="image-item-content"
+                  alt="theme image"
+                  @click="showModal(i)"
+                />
               </div>
             </div>
 
@@ -69,10 +77,12 @@ import {
   requestExtensionSingle,
   requestExtensionIndex
 } from "./extension-request"
-
+import { factorLoadingRing, factorLink } from "@factor/ui"
 import { setting, renderMarkdown, standardDate } from "@factor/tools"
 export default {
   components: {
+    factorLoadingRing,
+    factorLink,
     "widget-header": () => import("./widget-header.vue"),
     "widget-lightbox": () => import("../el/el-lightbox.vue"),
     "widget-cta": () => import("./widget-cta.vue")

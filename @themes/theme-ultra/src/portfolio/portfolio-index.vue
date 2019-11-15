@@ -23,11 +23,13 @@
   </div>
 </template>
 <script>
+import { factorLoadingRing } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
 import { stored } from "@factor/app/store"
 import { requestPostIndex } from "@factor/post/request"
 
 export default {
+  components: { factorLoadingRing },
   data() {
     return {
       postType: "portfolio",

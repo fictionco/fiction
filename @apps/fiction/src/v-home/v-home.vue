@@ -21,8 +21,8 @@
             Powered by VueJS, MongoDB and Node,
             <factor-link path="/factor-js">Factor</factor-link>
             <span>
-              is a platform that helps you professionally develop, manage,
-              and scale your app on the web.
+              is a platform that helps you professionally develop, manage, and scale your
+              app on the web.
             </span>
           </p>
 
@@ -57,7 +57,10 @@
       :key="index"
       class="features content"
     >
-      <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even']">
+      <div
+        class="split-feature content-pad wide"
+        :class="[index % 2 == 0 ? 'odd' : 'even']"
+      >
         <div class="feature-content-container">
           <div class="feature-content">
             <div class="super">{{ feature.super }}</div>
@@ -136,8 +139,13 @@
 </template>
 
 <script>
+import { factorEmailList } from "@factor/plugin-email-list"
+import { factorLink, factorIcon } from "@factor/ui"
 export default {
   components: {
+    factorEmailList,
+    factorLink,
+    factorIcon,
     "home-icon": () => import("./icon.vue"),
     "figure-header": () => import("./figure-header.vue")
   },
@@ -149,19 +157,19 @@ export default {
         {
           icon: "front-end",
           title: "Front-End Focused",
-          text: `Fiction focuses solely on the needs of front-end professionals. 
+          text: `Fiction focuses solely on the needs of front-end professionals.
             We don't bloat your apps with unnecessary features, and we help you build apps the way you actually want to.`
         },
         {
           icon: "code",
           title: "Coding, Just the Fun Parts",
-          text: `The best apps are handcrafted with custom CSS and components. 
+          text: `The best apps are handcrafted with custom CSS and components.
               Fiction helps you code where its fun and creative; but takes away the pitfalls, bugs and quirks common in JS apps.`
         },
         {
           icon: "pro-support",
           title: "Professional Support",
-          text: `Build your app with people that know design and can answer advanced coding questions. 
+          text: `Build your app with people that know design and can answer advanced coding questions.
               Fiction provides only top-tier support run by expert designers and application devs. `
         }
       ],
@@ -170,7 +178,7 @@ export default {
           id: "feature-factor",
           super: "Factor JS",
           title: "Create Dynamic Javascript Apps Powered by VueJS, MongoDB",
-          text: `Factor is a state of the art Javascript development platform for front-end developers. 
+          text: `Factor is a state of the art Javascript development platform for front-end developers.
             It includes a CMS engine powered by an advanced dashboard and post system. It also has first class support for drop-in plugins and themes.
             Factor is free and open-source, powered by VueJS, MongoDB and Node. `,
           figure: () => import("./figure-code.vue"),
@@ -183,8 +191,8 @@ export default {
           id: "feature-pro",
           super: "Factor Pro",
           title: "Dedicated Support and Extensions for Professional Front-End Devs",
-          text: `Professional features designed for professional front-end developers. 
-            Get access to the best web app platform money can buy including pro eCommerce and web publishing extensions, 
+          text: `Professional features designed for professional front-end developers.
+            Get access to the best web app platform money can buy including pro eCommerce and web publishing extensions,
             enhanced SEO and brand capabilities and more. `,
           figure: () => import("./figure-pro.vue"),
           link: {
@@ -196,7 +204,7 @@ export default {
           id: "feature-vip",
           super: "Factor VIP",
           title: "Your Development Team, Delivered",
-          text: `Being a Fiction customer means you'll have a 24/7 team of expert developers ready to help you. 
+          text: `Being a Fiction customer means you'll have a 24/7 team of expert developers ready to help you.
             No more countless hours of debugging, or unexpected surprises, Fiction will be here to help you build, deploy and scale your apps.`,
           figure: () => import("./figure-vip.vue"),
           link: {
@@ -261,7 +269,7 @@ export default {
   metaInfo() {
     return {
       title: "A Platform and Tools for Front-End Developers",
-      description: `Fiction designs and devolops tools and services for front-end developers and remote workers. 
+      description: `Fiction designs and devolops tools and services for front-end developers and remote workers.
         Including Factor Platform built with Vue, Mongo, and Node.`,
       image: require("../img/fiction.jpg")
     }

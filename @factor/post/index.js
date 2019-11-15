@@ -7,6 +7,8 @@ export * from "./util"
 addCallback("site-pre-fetch", _ => preFetchPost(_))
 addCallback("client-route-before", _ => preFetchPost({ clientOnly: true, ..._ }))
 
+export const factorPostEdit = () => import("./el/edit-link.vue")
+
 pushToFilter("global-components", {
   name: "factor-post-edit",
   component: () => import("./el/edit-link.vue")

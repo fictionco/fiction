@@ -6,11 +6,15 @@
       </div>
     </template>
     <template v-else>
-      <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
+      <div
+        v-if="toggle"
+        class="mobile-nav"
+        :class="toggle ? 'toggle-nav' : 'toggle-main'"
+      >
         <dashboard-nav />
       </div>
 
-      <div class="app-layout" :class="toggle ? 'nav-overlay': ''">
+      <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
         <dashboard-head class="app-head" />
 
         <div class="app-nav" @click.stop>
@@ -32,10 +36,14 @@
   </div>
 </template>
 <script>
+import { factorBtnDashboard, factorLoadingRing, factorIcon } from "@factor/ui"
 import { userInitialized } from "@factor/user"
 import { toLabel } from "@factor/tools"
 export default {
   components: {
+    factorBtnDashboard,
+    factorLoadingRing,
+    factorIcon,
     "dashboard-nav": () => import("./nav.vue"),
     "dashboard-head": () => import("./head.vue")
   },

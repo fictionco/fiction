@@ -4,12 +4,19 @@
       <div class="legal">
         <div class="copyright">
           Powered by
-          <a href="https://factor.dev" target="_blank" rel="noopener noreferrer">Factor JS</a>
+          <a
+            href="https://factor.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Factor JS</a>
         </div>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {}
+</script>
 <style lang="less">
 .app-footer {
   padding: 1.5em;

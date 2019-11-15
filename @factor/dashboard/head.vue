@@ -15,8 +15,11 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
+import { accountMenu } from "@factor/dashboard"
 import { setting } from "@factor/tools"
 export default {
+  components: { factorLink, accountMenu },
   computed: {
     iconUrl() {
       return setting("app.icon")

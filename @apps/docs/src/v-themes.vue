@@ -5,12 +5,6 @@
         <div>
           <h1 class="title">Factor Themes</h1>
           <p class="subtitle">Create beautiful apps in minutes</p>
-          <!-- <div class="actions">
-            <factor-link path="/docs" btn="primary" size="large">
-              How to Install
-              <factor-icon icon="arrow-right" />
-            </factor-link>
-          </div>-->
         </div>
       </div>
     </section>
@@ -58,12 +52,8 @@
                 </div>
               </div>
               <p>A single page portfolio theme.</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
             <a href="#" class="item">
               <div class="item-top">
@@ -74,12 +64,8 @@
                 </div>
               </div>
               <p>A comprehensive application theme.</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
           </div>
         </div>
@@ -89,9 +75,10 @@
 </template>
 
 <script>
+import { factorIcon, factorLink } from "@factor/ui"
 import { toLabel } from "@factor/tools"
 export default {
-  components: {},
+  components: { factorIcon, factorLink },
   data() {
     return {
       loading: true,

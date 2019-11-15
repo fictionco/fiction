@@ -1,7 +1,10 @@
 <template>
   <div class="permalink" @click.stop>
     <div class="linky">
-      <factor-link class="linky-link" :path="value ? getPermalink({ postType, permalink }) : ''">
+      <factor-link
+        class="linky-link"
+        :path="value ? getPermalink({ postType, permalink }) : ''"
+      >
         <span class="root">{{ getPermalink({ postType }) }}</span>
         <span v-if="!toggleValue" class="permalink-value">
           <span class="val">{{ permalink }}</span>
@@ -13,15 +16,26 @@
       </span>
     </div>
     <div v-if="!toggleValue" class="edit-actions">
-      <factor-btn-dashboard size="tiny" class="edit" @click="setToggle()">Edit Permalink</factor-btn-dashboard>
-      <factor-btn-dashboard size="tiny" class="edit" @click="updateFromInitial()">Update from Title</factor-btn-dashboard>
+      <factor-btn-dashboard
+        size="tiny"
+        class="edit"
+        @click="setToggle()"
+      >Edit Permalink</factor-btn-dashboard>
+      <factor-btn-dashboard
+        size="tiny"
+        class="edit"
+        @click="updateFromInitial()"
+      >Update from Title</factor-btn-dashboard>
     </div>
   </div>
 </template>
 <script>
-import { slugify, onEvent, getPermalink } from "@factor/tools"
+import { factorInputText, factorBtnDashboard, factorLink } from "@factor/ui"
 
-export default {
+import { slugify, onEvent, getPermalink } from "@factor/tools"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorBtnDashboard, factorLink, factorInputText },
   props: {
     value: { type: String, default: "" },
     toggle: { type: Boolean, default: false },
@@ -103,9 +117,8 @@ export default {
       }
     }
   }
-}
+})
 </script>
-
 
 <style lang="less">
 .permalink {

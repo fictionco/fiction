@@ -1,15 +1,19 @@
 <template>
   <div class="dashboard-grid-wrap">
     <component :is="'style'" class="dynamic-var">
-      .dashboard-grid-wrap{
-      --column-structure: {{ columns }}
+      .dashboard-grid-wrap{ --column-structure: {{ columns }}
       }
     </component>
     <div class="dashboard-grid">
       <div class="dashboard-grid-head dashboard-grid-row">
         <div v-for="col in structure" :key="col._id" class="cell">
           <template v-if="col._id == 'select'">
-            <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" />
+            <input
+              :value="selected"
+              type="checkbox"
+              class="checkbox"
+              @click="selectAll()"
+            />
           </template>
           <span v-else class="head-text">{{ col.name || toLabel(col._id) }}</span>
         </div>
@@ -22,13 +26,19 @@
         @click="navigate(row)"
       >
         <div v-for="col in structure" :key="col._id" class="cell">
-          <div v-if="zeroState > 0 && rowNumber == 0 && rows.length == 0" class="zero-content">
+          <div
+            v-if="zeroState > 0 && rowNumber == 0 && rows.length == 0"
+            class="zero-content"
+          >
             <div v-if="col.type == 'media'" class="zero-media">
               <div class="box" />
             </div>
             <div class="zero-lines" :class="col.type">
               <div class="line" />
-              <div v-if="col.type == 'double' || col.type == 'media'" class="line short" />
+              <div
+                v-if="col.type == 'double' || col.type == 'media'"
+                class="line short"
+              />
             </div>
           </div>
           <template v-else>
@@ -40,8 +50,9 @@
   </div>
 </template>
 <script>
+import Vue from "vue"
 import { toLabel } from "@factor/tools"
-export default {
+export default Vue.extend({
   props: {
     rows: { type: Array, default: () => [] },
     structure: { type: Array, default: () => [] },
@@ -99,7 +110,7 @@ export default {
       return str
     }
   }
-}
+})
 </script>
 <style lang="less">
 .dashboard-grid-wrap {

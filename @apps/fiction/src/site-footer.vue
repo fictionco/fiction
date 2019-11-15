@@ -34,8 +34,10 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 export default {
   components: {
+    factorLink,
     "site-logo": () => import("./logo.vue")
   },
   data: () => {

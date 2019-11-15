@@ -5,7 +5,9 @@
         <div>
           <div class="label label-yellow">Discover The Latest</div>
           <h1 class="title">Fiction Blog</h1>
-          <p class="subtitle">Product updates, articles, and announcements from the Fiction team.</p>
+          <p class="subtitle">
+            Product updates, articles, and announcements from the Fiction team.
+          </p>
         </div>
       </div>
     </section>
@@ -36,9 +38,13 @@
   </div>
 </template>
 <script>
+import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
+  components: { factorLoadingRing },
   data() {
     return {
       postType: "blog",
@@ -108,7 +114,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 
 <style lang="less">

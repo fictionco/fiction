@@ -5,7 +5,7 @@
       <div class="profile-container">
         <figure class="cover loaded" :class="getCover ? 'has-cover' : 'no-cover'">
           <div
-            :style="{'background-image': primaryCover }"
+            :style="{ 'background-image': primaryCover }"
             class="cover-image"
             @click="lightbox(covers)"
           />
@@ -15,7 +15,7 @@
           <div class="profile-avatar">
             <div class="profile-pics">
               <div
-                :style="{'background-image': primaryAvatar}"
+                :style="{ 'background-image': primaryAvatar }"
                 class="pic"
                 @click="lightbox(avatars)"
               />
@@ -23,11 +23,9 @@
           </div>
 
           <div class="profile-header">
-            <h1
-              v-if="post.displayName"
-              class="title"
-              data-test="display-name"
-            >{{ post.displayName }}</h1>
+            <h1 v-if="post.displayName" class="title" data-test="display-name">
+              {{ post.displayName }}
+            </h1>
             <div v-if="memberSince" class="sub-title">{{ `Joined ${memberSince}` }}</div>
             <div class="actions">
               <factor-link
@@ -81,10 +79,13 @@
   </div>
 </template>
 <script>
+import { factorLoadingRing, factorLightbox, factorIcon, factorLink } from "@factor/ui"
 import { userInitialized, isLoggedIn, userId } from "@factor/user"
 import { isEmpty, standardDate, stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLoadingRing, factorLightbox, factorIcon, factorLink },
   metaInfo() {
     if (this.post && this.post.displayName) {
       return {
@@ -193,7 +194,7 @@ export default {
       img.src = v
     }
   }
-}
+})
 </script>
 <style lang="less">
 .client-loading {

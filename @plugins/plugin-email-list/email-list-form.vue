@@ -4,7 +4,7 @@
       <div v-if="validation" class="validation">{{ validation }}</div>
     </div>
 
-    <div class="add-email" :class="added? 'disabled' : ''">
+    <div class="add-email" :class="added ? 'disabled' : ''">
       <input
         v-model="email"
         type="email"
@@ -20,8 +20,9 @@
 </template>
 <script>
 import { getSetting, getListSettings, addEmail } from "@factor/plugin-email-list"
-
+import { factorBtn } from "@factor/ui"
 export default {
+  components: { factorBtn },
   props: {
     listId: { type: String, default: "default" }
   },

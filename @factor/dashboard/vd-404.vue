@@ -12,8 +12,10 @@
 </template>
 
 <script>
+import { factorLink } from "@factor/ui"
+import { dashboardPage, dashboardPane } from "@factor/dashboard"
 export default {
-  components: {}
+  components: { dashboardPage, dashboardPane, factorLink }
 }
 </script>
 

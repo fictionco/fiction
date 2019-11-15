@@ -8,7 +8,11 @@
             <div class="header-icon-text">{{ intro.preheading }}</div>
           </div>
 
-          <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" />
+          <img
+            class="title"
+            :src="require(`./img/factor-vip-logo.svg`)"
+            alt="Factor VIP"
+          />
 
           <p class="text">{{ intro.text }}</p>
 
@@ -120,8 +124,11 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 export default {
   components: {
+    factorLink,
+    factorIcon,
     "icon-vip": () => import("./icon-vip.vue"),
     "figure-vip": () => import("./figure-vip.vue"),
     "figure-manage": () => import("./figure-manage.vue"),

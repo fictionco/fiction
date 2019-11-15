@@ -2,8 +2,8 @@
   <factor-form ref="form" :class="formStatus" @submit="send()">
     <h2 v-text="setting('commentizer.submitText')" />
     <div v-if="sent">
-      <h3>{{ setting('commentizer.confirm.title') }}</h3>
-      <div>{{ setting('commentizer.confirm.subTitle') }}</div>
+      <h3>{{ setting("commentizer.confirm.title") }}</h3>
+      <div>{{ setting("commentizer.confirm.subTitle") }}</div>
     </div>
     <div v-else>
       <factor-input-wrap
@@ -16,19 +16,19 @@
         :label="getLabel(c)"
         :required="!!c.required"
       />
-      <factor-input-submit
-        btn="primary"
-        el="button"
-        :loading="sending"
-      >{{ setting('commentizer.submitText') }}</factor-input-submit>
+      <factor-input-submit btn="primary" el="button" :loading="sending">{{
+        setting("commentizer.submitText")
+      }}</factor-input-submit>
     </div>
   </factor-form>
 </template>
 
 <script>
+import { factorForm, factorInputWrap, factorInputSubmit } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 export default {
+  components: { factorForm, factorInputWrap, factorInputSubmit },
   props: {
     postId: { type: String, required: true }
   },

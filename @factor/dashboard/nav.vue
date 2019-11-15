@@ -10,9 +10,13 @@
           :class="primary.title ? 'has-title' : ''"
         >
           <div v-if="primary.title" class="group-title">{{ primary.title }}</div>
-          <div class="nav-group" :class="activeGroup == primary.group ? 'active': ''">
+          <div class="nav-group" :class="activeGroup == primary.group ? 'active' : ''">
             <div class="primary-item-icon">
-              <img class :src="primary.icon || defaultIcon" :alt="`${primary.name} Icon`" />
+              <img
+                class
+                :src="primary.icon || defaultIcon"
+                :alt="`${primary.name} Icon`"
+              />
             </div>
             <factor-link
               class="primary-item"
@@ -48,9 +52,11 @@
 </template>
 
 <script>
+import { factorLink } from "@factor/ui"
 import { userCan, userInitialized } from "@factor/user"
 import { toLabel, slugify, applyFilters } from "@factor/tools"
 export default {
+  components: { factorLink },
   data() {
     return {
       toggle: false,

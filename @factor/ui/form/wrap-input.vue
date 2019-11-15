@@ -1,4 +1,3 @@
-
 <template>
   <div :key="renderKey" class="input-wrap" :class="[requiredClass, inputFormat]">
     <div v-if="label || description" class="input-meta">
@@ -13,7 +12,13 @@
 
     <div class="input-area">
       <div class="the-input">
-        <component :is="input" v-if="input" :value="value" v-bind="$attrs" v-on="$listeners" />
+        <component
+          :is="input"
+          v-if="input"
+          :value="value"
+          v-bind="$attrs"
+          v-on="$listeners"
+        />
         <slot />
       </div>
     </div>
@@ -21,7 +26,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   inheritAttrs: false,
   props: {
     value: {
@@ -45,8 +51,7 @@ export default {
       return this.$attrs["data-test"] ? this.$attrs["data-test"] : this.label
     },
     isRequired() {
-      return typeof this.$attrs.required != "undefined" ||
-        this.$attrs["input-min"]
+      return typeof this.$attrs.required != "undefined" || this.$attrs["input-min"]
         ? true
         : false
     },
@@ -59,7 +64,7 @@ export default {
   },
 
   methods: {}
-}
+})
 </script>
 
 <style lang="less">

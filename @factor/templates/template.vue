@@ -12,7 +12,10 @@
 <script>
 import { getPageTemplates } from "@factor/templates"
 import { stored } from "@factor/tools"
-export default {
+import { factorLoadingRing } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLoadingRing },
   data() {
     return {
       comp: null,
@@ -35,8 +38,9 @@ export default {
       return stored("post") || {}
     }
   }
-}
-</script>,
+})
+</script>
+,
 <style lang="less">
 .page {
   .post-loading {

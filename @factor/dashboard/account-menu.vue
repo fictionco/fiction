@@ -50,9 +50,11 @@
   </div>
 </template>
 <script>
+import { factorAvatar, factorLink } from "@factor/ui"
 import { currentUser, isLoggedIn, logout } from "@factor/user"
 import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/tools"
 export default {
+  components: { factorAvatar, factorLink },
   props: {
     showName: { type: Boolean, default: false }
   },

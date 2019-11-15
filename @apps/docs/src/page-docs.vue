@@ -16,8 +16,10 @@
   </div>
 </template>
 <script>
+import Vue from "vue"
 import { getMarkdownHTML, metatags } from "./docs-handler"
-export default {
+
+export default Vue.extend({
   components: {
     "page-sidebar": () => import("./sidebar.vue"),
     "docs-footer": () => import("./el/el-docs-footer.vue"),
@@ -26,12 +28,14 @@ export default {
   data() {
     return {
       loading: true,
-      activeHash: this.$route.hash,
       toggle: true,
       clicked: false
     }
   },
   computed: {
+    activeHash() {
+      return this.$route.hash
+    },
     doc() {
       return this.$route.params.doc || ""
     },
@@ -70,7 +74,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

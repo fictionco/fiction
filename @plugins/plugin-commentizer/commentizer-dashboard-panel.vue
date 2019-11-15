@@ -19,8 +19,14 @@
   </dashboard-pane>
 </template>
 <script>
+import { dashboardPane } from "@factor/dashboard"
 import { stored } from "@factor/tools"
+
 export default {
+  components: {
+    dashboardPane,
+    commentizerDashboardList: () => import("./commentizer-dashboard-list.vue")
+  },
   props: {
     postId: { type: String, required: true }
   },

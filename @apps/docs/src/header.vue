@@ -22,9 +22,13 @@
   </div>
 </template>
 <script>
+import Vue from "vue"
+import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
-export default {
+export default Vue.extend({
   components: {
+    factorIcon,
+    factorLink,
     "site-brand": () => import("./el/brand.vue")
   },
   data() {
@@ -37,7 +41,7 @@ export default {
       return this.navConfig.filter(item => !item.condition || item.condition())
     }
   }
-}
+})
 </script>
 <style lang="less">
 .nav-light:not(.scrolled) .site-head {

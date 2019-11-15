@@ -5,7 +5,7 @@
       <factor-loading-ring />
     </div>
     <div v-else-if="blogPosts.length > 0" class="post-index">
-      <div v-for="(post) in blogPosts" :key="post._id" class="post">
+      <div v-for="post in blogPosts" :key="post._id" class="post">
         <component
           :is="setting(`blog.components.${comp}`)"
           v-for="(comp, i) in setting('blog.layout.index')"
@@ -24,9 +24,11 @@
   </div>
 </template>
 <script>
+import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
+  components: { factorLoadingRing },
   data() {
     return {
       postType: "blog",

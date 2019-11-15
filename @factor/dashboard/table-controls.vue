@@ -8,15 +8,23 @@
         format="simple"
         :list="actions"
       />
-      <factor-btn-dashboard :disabled="!action" :loading="loading" @click="send($event)">Apply</factor-btn-dashboard>
+      <factor-btn-dashboard
+        :disabled="!action"
+        :loading="loading"
+        @click="send($event)"
+      >Apply</factor-btn-dashboard>
     </div>
     <table-tabber :tabs="tabs" v-bind="$attrs" />
   </div>
 </template>
 
 <script>
+import { dashboardInput } from "@factor/dashboard"
+import { factorBtnDashboard } from "@factor/ui"
 export default {
   components: {
+    dashboardInput,
+    factorBtnDashboard,
     "table-tabber": () => import("./el/tabber.vue")
   },
   props: {

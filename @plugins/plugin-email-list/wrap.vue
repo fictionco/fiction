@@ -3,8 +3,8 @@
 </template>
 <script>
 import { getSetting } from "@factor/plugin-email-list"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     listId: { type: String, default: "default" }
   },
@@ -18,8 +18,5 @@ export default {
       return emailComponent
     }
   }
-}
+})
 </script>
-
-
-

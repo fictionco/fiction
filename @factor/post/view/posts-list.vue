@@ -65,9 +65,29 @@
   </dashboard-pane>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
+import {
+  dashboardGrid,
+  dashboardGridControls,
+  dashboardGridFilter,
+  dashboardPane,
+  dashboardTableFooter,
+  dashboardUserCard
+} from "@factor/dashboard"
 import { getStatusCount, requestPostSaveMany, requestPostDeleteMany } from "@factor/post"
 import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: {
+    factorIcon,
+    factorLink,
+    dashboardGrid,
+    dashboardGridControls,
+    dashboardGridFilter,
+    dashboardPane,
+    dashboardTableFooter,
+    dashboardUserCard
+  },
   props: {
     title: { type: String, default: "" },
     list: { type: Array, default: () => [] },
@@ -191,7 +211,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 <style lang="less">
 .posts-dashboard {

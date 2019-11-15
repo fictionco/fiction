@@ -11,10 +11,18 @@
 
     <dashboard-grid :structure="grid()" :rows="list" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
+        <input
+          v-model="selected"
+          type="checkbox"
+          class="checkbox"
+          label
+          :value="row._id"
+        />
       </template>
       <template #listId="{row}">
-        <factor-link :path="`${$route.path}/edit`" :query="{_id: row._id}">{{ row.title }}</factor-link>
+        <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{
+          row.title
+        }}</factor-link>
       </template>
       <template
         #emailCount="{row}"
@@ -27,8 +35,25 @@
 import { getStatusCount } from "@factor/post"
 import { postTypeUIConfig, csvExport } from "."
 import { toLabel, stored, getPermalink } from "@factor/tools"
-export default {
+import { factorLink } from "@factor/ui"
+import {
+  dashboardPane,
+  dashboardGrid,
+  dashboardGridControls,
+  dashboardGridActions,
+  dashboardGridFilter
+} from "@factor/dashboard"
+import Vue from "vue"
+export default Vue.extend({
   name: "EmailListGrid",
+  components: {
+    dashboardPane,
+    dashboardGrid,
+    dashboardGridControls,
+    dashboardGridActions,
+    dashboardGridFilter,
+    factorLink
+  },
   props: {
     postType: { type: String, default: "post" },
     title: { type: String, default: "" },
@@ -134,7 +159,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 <style lang="less">
 .contact-form-table {

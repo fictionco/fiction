@@ -6,8 +6,10 @@
 </template>
 <script>
 import { postLink, stored } from "@factor/tools"
-
-export default {
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
@@ -33,7 +35,7 @@ export default {
   methods: {
     postLink
   }
-}
+})
 </script>
 <style lang="less">
 .blog-wrap {

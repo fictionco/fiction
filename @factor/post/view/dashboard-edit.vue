@@ -8,10 +8,12 @@
   </component>
 </template>
 <script>
+import { dashboardPane } from "@factor/dashboard"
 import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { dashboardPane },
   computed: {
     post: {
       get() {
@@ -69,5 +71,5 @@ export default {
       }
     }
   }
-}
+})
 </script>
