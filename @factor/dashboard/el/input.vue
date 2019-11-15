@@ -3,6 +3,12 @@
     <slot />
   </factor-input-wrap>
 </template>
+<script>
+import { factorInputWrap } from "@factor/ui"
+export default {
+  components: { factorInputWrap }
+}
+</script>
 
 <style lang="less">
 .dashboard-input {

@@ -26,8 +26,37 @@
 </template>
 
 <script>
+import {
+  factorInputWrap,
+  factorInputEmail,
+  factorInputDate,
+  factorInputText,
+  factorInputPhone,
+  factorInputCheckbox,
+  factorInputBirthday,
+  factorInputImageUpload,
+  factorInputSelect,
+  factorInputSubmit,
+  factorInputPassword,
+  factorInputTextarea
+} from "@factor/ui"
+
 import Vue from "vue"
 export default Vue.extend({
+  components: {
+    factorInputWrap,
+    factorInputEmail,
+    factorInputDate,
+    factorInputText,
+    factorInputPhone,
+    factorInputCheckbox,
+    factorInputBirthday,
+    factorInputImageUpload,
+    factorInputSelect,
+    factorInputSubmit,
+    factorInputPassword,
+    factorInputTextarea
+  },
   inheritAttrs: false,
   props: {
     value: {

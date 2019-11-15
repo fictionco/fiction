@@ -27,7 +27,10 @@
             label="Email Address"
           >
             <div v-if="post.email && !post.emailVerified">
-              <factor-btn-dashboard size="tiny" btn="subtle">Unverified</factor-btn-dashboard>
+              <factor-btn-dashboard
+                size="tiny"
+                btn="subtle"
+              >Unverified</factor-btn-dashboard>
               <factor-btn-dashboard
                 size="tiny"
                 :loading="sending"
@@ -44,8 +47,7 @@
           />
           <template #actions>
             <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
-              Save
-              &nbsp;
+              Save &nbsp;
               <factor-icon icon="arrow-up" />
             </factor-btn-dashboard>
           </template>
@@ -102,8 +104,7 @@
           </div>
           <template #actions>
             <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
-              Save
-              &nbsp;
+              Save &nbsp;
               <factor-icon icon="arrow-up" />
             </factor-btn-dashboard>
           </template>
@@ -114,10 +115,14 @@
   </dashboard-page>
 </template>
 <script>
+import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
+import { factorBtnDashboard } from "@factor/ui"
 import { userId, sendVerifyEmail } from "@factor/user"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { dashboardPage, dashboardPane, dashboardInput, factorBtnDashboard },
   data() {
     return {
       sending: false,
@@ -174,9 +179,8 @@ export default {
       this.sending = false
     }
   }
-}
+})
 </script>
-
 
 <style lang="less">
 .user-dashboard-post-grid {

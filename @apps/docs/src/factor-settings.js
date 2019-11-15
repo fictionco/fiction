@@ -1,6 +1,6 @@
 import { isLoggedIn } from "@factor/user"
+import { accountMenu } from "@factor/dashboard"
 
-import { getComponents } from "@factor/app"
 export default {
   app: {
     url: "https://factor.dev"
@@ -202,7 +202,7 @@ export default {
         condition: () => !isLoggedIn()
       },
       {
-        component: () => getComponents()["account-menu"],
+        component: accountMenu,
         condition: () => isLoggedIn()
       }
     ]
