@@ -34,9 +34,11 @@ describe["posix"]("cli factor dev", () => {
     await waitFor(SECOND)
 
     expect(error).toBe(undefined)
+
     const theUrl = getUrl({ route: "/", port: process.env.PORT })
 
     const html = await rp(theUrl)
+
     expect(html).toMatch("hi")
 
     await closeProcess(__process)

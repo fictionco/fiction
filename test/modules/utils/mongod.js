@@ -20,7 +20,8 @@ export async function startEndpointTestingServer({ port, debug = false }) {
 }
 
 export async function stopEndpointTestingServer() {
-  await mongod.stop()
+  if (mongod) await mongod.stop()
+
   await dbDisconnect()
   closeServer()
 }
