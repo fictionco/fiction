@@ -1,11 +1,4 @@
-import {
-  toLabel,
-  addFilter,
-  pushToFilter,
-  applyFilters,
-  registerOnFilter,
-  setting
-} from "@factor/tools"
+import { toLabel, addFilter, pushToFilter, applyFilters, setting } from "@factor/tools"
 
 import pageSchema from "./schema"
 
