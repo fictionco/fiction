@@ -6,7 +6,7 @@ import { getPort, rp, waitFor } from "@test/utils"
 import { startProcess, closeProcess, getUrl } from "./build-util"
 
 jest.setTimeout(90000)
-let port
+
 // Don't run these in windows
 describe["posix"]("cli factor start", () => {
   beforeAll(() => {
@@ -18,9 +18,8 @@ describe["posix"]("cli factor start", () => {
   it("builds and serves", async () => {
     let error
 
-    process.env.PORT = await getPort()
-    port = process.env.PORT
-    console.log(process.env.PORT)
+    process.env.PORT = String(await getPort())
+
     const __process = await startProcess({
       command: "start",
       env: process.env,
@@ -36,8 +35,8 @@ describe["posix"]("cli factor start", () => {
     await waitFor(SECOND)
 
     expect(error).toBe(undefined)
-    console.log("1process.env.PORT", process.env.PORT)
-    const theUrl = getUrl({ route: "/", port })
+
+    const theUrl = getUrl({ route: "/", port: process.env.PORT })
 
     const html = await rp(theUrl)
     expect(html).toMatch("hi")

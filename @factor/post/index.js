@@ -9,11 +9,6 @@ addCallback("client-route-before", _ => preFetchPost({ clientOnly: true, ..._ })
 
 export const factorPostEdit = () => import("./el/edit-link.vue")
 
-pushToFilter("global-components", {
-  name: "factor-post-edit",
-  component: () => import("./el/edit-link.vue")
-})
-
 addFilter("dashboard-routes", _ => {
   return [
     ..._,

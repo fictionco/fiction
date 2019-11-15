@@ -28,8 +28,8 @@
 import { factorPostEdit } from "@factor/post"
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting, stored, postLink } from "@factor/tools"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink, factorIcon, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
@@ -47,7 +47,7 @@ export default {
     postLink,
     setting
   }
-}
+})
 </script>
 <style lang="less">
 // Index

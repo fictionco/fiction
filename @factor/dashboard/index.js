@@ -34,24 +34,6 @@ export const dashboardUserCard = () => import("./el/user-card.vue")
 export const dashboardUserList = () => import("./el/user-list.vue")
 export const factorInputSortable = () => import("./el/sortable.vue")
 
-// addFilter("components", _ => {
-//   _["dashboard-pane"] = () => import("./pane.vue")
-//   _["dashboard-page"] = () => import("./page.vue")
-//   _["dashboard-table"] = () => import("./table.vue")
-//   _["dashboard-grid"] = () => import("./grid.vue")
-//   _["dashboard-grid-controls"] = () => import("./grid-controls.vue")
-//   _["dashboard-grid-actions"] = () => import("./grid-actions.vue")
-//   _["dashboard-grid-filter"] = () => import("./grid-filter.vue")
-//   _["dashboard-table-controls"] = () => import("./table-controls.vue")
-//   _["dashboard-table-footer"] = () => import("./table-footer.vue")
-//   _["dashboard-input"] = () => import("./el/input.vue")
-//   _["dashboard-loader"] = () => import("./el/loader.vue")
-//   _["dashboard-user-card"] = () => import("./el/user-card.vue")
-//   _["dashboard-user-list"] = () => import("./el/user-list.vue")
-//   _["factor-input-sortable"] = () => import("./el/sortable.vue")
-//   return _
-// })
-
 const dashboardRoute = setting("dashboard.route")
 
 addFilter("routes", _ => {

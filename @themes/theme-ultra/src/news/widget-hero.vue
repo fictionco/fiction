@@ -26,8 +26,8 @@ import { factorPostEdit } from "@factor/post"
 import { postLink } from "@factor/tools/permalink"
 import { setting } from "@factor/tools/settings"
 import { stored } from "@factor/app/store"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorPostEdit, factorLink },
   props: {
     postId: { type: String, default: "" },
@@ -45,7 +45,7 @@ export default {
     postLink,
     setting
   }
-}
+})
 </script>
 <style lang="less">
 // Single

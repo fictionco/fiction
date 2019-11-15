@@ -13,7 +13,8 @@
 import { factorPostEdit } from "@factor/post"
 import { factorAvatar } from "@factor/ui"
 import { isEmpty, standardDate, stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorAvatar, factorPostEdit },
   props: {
     postId: { type: String, default: "" }
@@ -32,7 +33,7 @@ export default {
     },
     standardDate
   }
-}
+})
 </script>
 <style lang="less">
 .widget-author-date {
