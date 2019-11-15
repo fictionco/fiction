@@ -1,11 +1,11 @@
 <template>
   <section id="intro" class="page-container intro-container">
     <div class="splash-content">
-      <h2 class="pretitle">{{ setting('intro.pretitle') }}</h2>
-      <h1 class="title">{{ setting('intro.title') }}</h1>
+      <h2 class="pretitle">{{ setting("intro.pretitle") }}</h2>
+      <h1 class="title">{{ setting("intro.title") }}</h1>
       <div class="actions">
         <factor-link
-          v-for="(action ,i) in setting('intro.actions')"
+          v-for="(action, i) in setting('intro.actions')"
           :key="i"
           :path="action.path"
           :btn="action.btn"
@@ -20,8 +20,10 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
 export default {
+  components: { factorLink, factorIcon },
   data() {
     return {
       loading: true

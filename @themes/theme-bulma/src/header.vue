@@ -70,8 +70,11 @@
 <script>
 import Vue from "vue"
 import { DOM, setting } from "@factor/tools"
+import { factorLink, factorIcon } from "@factor/ui"
 export default Vue.extend({
   components: {
+    factorLink,
+    factorIcon,
     "site-brand": () => import("./el/logo-bulma.vue"),
     "page-sidebar": () => import("./sidebar.vue")
   },

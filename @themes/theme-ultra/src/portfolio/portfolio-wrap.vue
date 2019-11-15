@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import { factorLink } from "@factor/ui"
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
 export default {
-  components: { factorLink },
+  components: { factorLink, factorIcon },
   methods: { setting }
 }
 </script>

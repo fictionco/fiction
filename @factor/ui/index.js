@@ -1,6 +1,10 @@
 import { addFilter, setting } from "@factor/tools"
 import "./directives"
 
+export const factorError404 = setting("app.components.error404")
+export const factorContent = setting("app.components.content")
+export const factorSite = setting("app.components.site")
+
 export const factorLink = setting("core.components.link")
 export const factorBtn = setting("core.components.btn")
 export const factorBtnBase = setting("core.components.btnBase")

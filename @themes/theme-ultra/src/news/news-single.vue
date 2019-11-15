@@ -16,7 +16,8 @@ import { stored } from "@factor/app/store"
 import { setting } from "@factor/tools/settings"
 import { titleTag, descriptionTag, shareImage } from "@factor/tools/metatags"
 import { isEmpty } from "@factor/tools/utils-lodash"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   data() {
     return {}
   },
@@ -33,7 +34,7 @@ export default {
     }
   },
   methods: { isEmpty, setting }
-}
+})
 </script>
 
 <style lang="less">

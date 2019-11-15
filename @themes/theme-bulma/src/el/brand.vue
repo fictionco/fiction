@@ -7,9 +7,10 @@
 </template>
 
 <script>
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
 export default {
+  components: { factorLink },
   methods: { setting }
 }
 </script>
-

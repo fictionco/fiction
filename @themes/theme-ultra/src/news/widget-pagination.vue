@@ -13,10 +13,10 @@
 
 <script>
 import Vue from "vue"
-import { factorBtn } from "@factor/ui"
+import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/tools"
 export default Vue.extend({
-  components: { factorBtn },
+  components: { factorBtn, factorIcon },
   props: {
     postType: { type: String, default: "" }
     // pageCount: { type: Number, default: 0 },

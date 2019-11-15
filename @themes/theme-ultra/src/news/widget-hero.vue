@@ -21,11 +21,14 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
+import { factorPostEdit } from "@factor/post"
 import { postLink } from "@factor/tools/permalink"
 import { setting } from "@factor/tools/settings"
 import { stored } from "@factor/app/store"
 
 export default {
+  components: { factorPostEdit, factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }

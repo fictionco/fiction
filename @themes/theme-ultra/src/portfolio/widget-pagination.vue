@@ -12,10 +12,11 @@
 </template>
 
 <script>
-import { factorBtn } from "@factor/ui"
+import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/tools"
-export default {
-  components: { factorBtn },
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorBtn, factorIcon },
   props: {
     postType: { type: String, default: "" },
     // pageCount: { type: Number, default: 0 },
@@ -54,7 +55,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>

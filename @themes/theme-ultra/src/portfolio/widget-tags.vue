@@ -10,9 +10,12 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { stored } from "@factor/app/store"
 import { setting } from "@factor/tools/settings"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" }
   },
@@ -27,7 +30,7 @@ export default {
   methods: {
     setting
   }
-}
+})
 </script>
 <style lang="less">
 .entry-tags {

@@ -1,5 +1,9 @@
 <template>
-  <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)" class="image-wrap">
+  <factor-link
+    v-if="avatarUrl && format == 'index'"
+    :path="postLink(post._id)"
+    class="image-wrap"
+  >
     <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="image" />
     <div class="header-content">
       <svg
@@ -30,9 +34,11 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/tools"
 
 export default {
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
