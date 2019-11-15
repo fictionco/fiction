@@ -4,7 +4,7 @@ import { initializeEndpointServer } from "@factor/endpoint/server"
 import { createMiddlewareServer, closeServer } from "@factor/server"
 let mongod
 export async function startEndpointTestingServer({ port }) {
-  mongod = new MongoMemoryServer()
+  mongod = new MongoMemoryServer({ debug: true })
 
   const dbUrl = await mongod.getConnectionString()
   const dbPort = await mongod.getPort()
