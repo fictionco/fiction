@@ -10,8 +10,8 @@
 </template>
 <script>
 import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/tools"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
   data() {
     return {}
   },
@@ -28,5 +28,5 @@ export default {
     }
   },
   methods: { setting }
-}
+})
 </script>

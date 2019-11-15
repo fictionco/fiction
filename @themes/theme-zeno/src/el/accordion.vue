@@ -24,7 +24,12 @@
 
 <script>
 import { setting } from "@factor/tools"
-export default {
+import { factorIcon } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: {
+    factorIcon
+  },
   props: {
     title: { type: String, default: "" }
   },
@@ -35,5 +40,5 @@ export default {
     }
   },
   methods: { setting }
-}
+})
 </script>

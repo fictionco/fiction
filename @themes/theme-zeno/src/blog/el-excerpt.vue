@@ -9,8 +9,8 @@
 </template>
 <script>
 import { postLink, excerpt, stored } from "@factor/tools"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     postId: { type: String, default: "" }
   },
@@ -23,5 +23,5 @@ export default {
     postLink,
     excerpt
   }
-}
+})
 </script>
