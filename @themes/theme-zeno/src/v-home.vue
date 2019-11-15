@@ -109,9 +109,11 @@
 
 <script>
 import { setting } from "@factor/tools"
-
-export default {
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorLink,
     "site-cta": () => import("./el/cta.vue")
   },
   data() {
@@ -151,5 +153,5 @@ export default {
       image: setting("home.meta.image")
     }
   }
-}
+})
 </script>

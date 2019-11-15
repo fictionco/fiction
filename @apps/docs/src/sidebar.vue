@@ -1,7 +1,7 @@
 <template>
   <div class="docs-sidebar" @click.stop>
-    <div ref="nav" :style="{opacity: hydrated ? 1 : 0}" class="sidebar-inner">
-      <div v-if="mode =='mobile'" class="site-links">
+    <div ref="nav" :style="{ opacity: hydrated ? 1 : 0 }" class="sidebar-inner">
+      <div v-if="mode == 'mobile'" class="site-links">
         <template v-for="(item, index) in siteNav">
           <component :is="item.component()" v-if="item.component" :key="index" />
           <factor-link
@@ -30,15 +30,17 @@
                   class="nav-link parent"
                   :href="h2.anchor"
                   :class="activeHash == h2.anchor ? 'scroll-active' : ''"
-                  @click="clicked=true"
+                  @click="clicked = true"
                 >{{ h2.text }}</a>
                 <ul v-if="h2.sub.length">
                   <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
                     <a
                       class="nav-link sub"
-                      :class="activeHash == h3.anchor ? 'scroll-active' : `not-${h3.anchor}`"
+                      :class="
+                        activeHash == h3.anchor ? 'scroll-active' : `not-${h3.anchor}`
+                      "
                       :href="h3.anchor"
-                      @click="clicked=true"
+                      @click="clicked = true"
                     >{{ h3.text }}</a>
                   </li>
                 </ul>
@@ -51,10 +53,12 @@
   </div>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { DOM, throttle, setting } from "@factor/tools"
 
 import { config } from "./docs-handler"
 export default {
+  components: { factorLink, factorIcon },
   props: {
     mode: { type: String, default: "" }
   },

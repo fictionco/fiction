@@ -6,10 +6,11 @@
     :required="$attrs.required"
     v-bind="$attrs"
     v-on="listeners"
-  >
+  />
 </template>
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     value: { type: String, default: "" }
   },
@@ -21,5 +22,5 @@ export default {
       }
     }
   }
-}
+})
 </script>

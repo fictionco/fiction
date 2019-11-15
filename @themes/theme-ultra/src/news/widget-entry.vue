@@ -1,16 +1,16 @@
 <template>
   <div class="post-entry">
-    <highlight-code>
+    <factor-highlight-code>
       <div v-formatted-text="rendered" />
-    </highlight-code>
+    </factor-highlight-code>
   </div>
 </template>
 <script>
+import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import { stored, renderMarkdown } from "@factor/tools"
-export default {
-  components: {
-    "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code.vue")
-  },
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorHighlightCode },
   props: {
     postId: { type: String, default: "" }
   },
@@ -32,7 +32,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 <style lang="less">
 .post-entry {

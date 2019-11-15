@@ -6,7 +6,9 @@
       </div>
       <div class="text">
         <h1 class="title">Chat Support</h1>
-        <div class="sub-title">Any suggestions, issues or concerns? We're here to help.</div>
+        <div class="sub-title">
+          Any suggestions, issues or concerns? We're here to help.
+        </div>
       </div>
     </div>
     <div class="contact-wrap">
@@ -17,8 +19,7 @@
               src="https://discordapp.com/widget?id=543868838438240278&theme=light"
               width="100%"
               height="500"
-              allowtransparency="true"
-              frameborder="0"
+              title="discord"
             />
           </div>
           <div class="aside">
@@ -36,7 +37,9 @@
             </div>
             <div class="sub-title">
               Add
-              <factor-link path="https://fiction.page.link/discord">Fiction's chat server</factor-link>&nbsp; on Discord
+              <factor-link
+                path="https://fiction.page.link/discord"
+              >Fiction's chat server</factor-link>&nbsp; on Discord
             </div>
           </div>
         </div>
@@ -46,8 +49,10 @@
 </template>
 
 <script>
+import { factorLink } from "@factor/ui"
 import { userInitialized } from "@factor/user"
 export default {
+  components: { factorLink },
   data() {
     return {
       loading: true,

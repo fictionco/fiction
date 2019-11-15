@@ -4,7 +4,10 @@
   </factor-btn-base>
 </template>
 <script>
-export default {}
+import { factorBtnBase } from "@factor/ui"
+export default {
+  components: { factorBtnBase }
+}
 </script>
 
 <style lang="less">
@@ -77,5 +80,5 @@ button.app-btn {
       stroke: var(--color-secondary-text, #fff);
     }
   }
-}
-</style>x
+}</style
+>x

@@ -60,7 +60,7 @@ export async function startServerProduction() {
   // Set Express routine for all fallthrough paths
   _application.get("*", (request, response) => renderRequest(request, response))
 
-  _listening = _application.listen(PORT, () => log.success(`listening on port: ${PORT}`))
+  _listening = _application.listen(PORT, () => log.success(`-listening on port- ${PORT}`))
 }
 
 // In production we have static files to work with
@@ -82,7 +82,7 @@ export function startServerDevelopment() {
 }
 
 export async function closeServer() {
-  _listening.destroy()
+  if (_listening) _listening.destroy()
 }
 
 function createRenderer(bundle, options) {

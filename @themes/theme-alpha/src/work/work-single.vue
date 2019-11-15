@@ -8,7 +8,7 @@
         :post-id="post._id"
       />
     </div>
-    <error-404 v-else />
+    <factor-error-404 v-else />
   </div>
 </template>
 <script>
@@ -20,8 +20,10 @@ import {
   descriptionTag,
   shareImage
 } from "@factor/tools"
-
-export default {
+import { factorError404 } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorError404 },
   data() {
     return {}
   },
@@ -38,7 +40,7 @@ export default {
     }
   },
   methods: { isEmpty, setting }
-}
+})
 </script>
 
 <style lang="less">

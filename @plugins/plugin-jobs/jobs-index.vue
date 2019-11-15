@@ -5,7 +5,7 @@
       <factor-loading-ring />
     </div>
     <div v-else-if="jobsPosts.length > 0" class="jobs-post-index">
-      <div v-for="(post) in jobsPosts" :key="post._id" class="jobs-post">
+      <div v-for="post in jobsPosts" :key="post._id" class="jobs-post">
         <div>
           <img
             :src="getPost(post.jobIcon).url || require(`./img/icon-default.svg`)"
@@ -32,9 +32,13 @@
   </div>
 </template>
 <script>
+import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
+  components: {
+    factorLoadingRing
+  },
   data() {
     return {
       postType: "jobs",

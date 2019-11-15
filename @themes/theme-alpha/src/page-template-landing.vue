@@ -50,9 +50,12 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 export default {
   components: {
-    "el-cta": () => import("./el/cta.vue")
+    "el-cta": () => import("./el/cta.vue"),
+    factorLink,
+    factorIcon
   },
   props: {
     post: { type: Object, default: () => {} }

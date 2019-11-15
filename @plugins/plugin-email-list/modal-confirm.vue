@@ -8,8 +8,10 @@
   </factor-modal>
 </template>
 <script>
+import { factorModal, factorBtn } from "@factor/ui"
 import { getSetting } from "."
 export default {
+  components: { factorModal, factorBtn },
   props: {
     added: { type: Boolean, default: false },
     listId: { type: String, default: "default" }

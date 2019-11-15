@@ -44,8 +44,6 @@ export async function savePost({ data, postType = "post" }, { bearer = {} }) {
 }
 
 export async function getSinglePost(params, meta = {}) {
-  if (dbIsOffline()) return {}
-
   const { bearer } = meta
 
   let {
@@ -60,6 +58,8 @@ export async function getSinglePost(params, meta = {}) {
   let _post
 
   let Model = getModel(postType)
+
+  if (!Model || dbIsOffline()) return {}
 
   if (token) {
     const decoded = decodeToken(token)

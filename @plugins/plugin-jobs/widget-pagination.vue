@@ -12,8 +12,11 @@
 </template>
 
 <script>
+import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorBtn, factorIcon },
   props: {
     postType: { type: String, default: "" }
   },
@@ -49,7 +52,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

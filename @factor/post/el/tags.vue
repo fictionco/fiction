@@ -24,8 +24,12 @@
   </div>
 </template>
 <script>
+import { factorBtnDashboard, factorIcon } from "@factor/ui"
+import { dashboardInput } from "@factor/dashboard"
 import { isEqual, slugify } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorBtnDashboard, factorIcon, dashboardInput },
   props: {
     value: { type: Array, default: () => [] }
   },
@@ -65,7 +69,7 @@ export default {
       this.$emit("input", this.tags)
     }
   }
-}
+})
 </script>
 
 <style lang="less">

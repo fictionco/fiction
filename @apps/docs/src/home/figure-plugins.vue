@@ -32,16 +32,16 @@
           <img src="./img/icon-contact-form.svg" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-aws.svg" />
+          <img src="./img/icon-aws.svg" alt="AWS icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-jobs.svg" />
+          <img src="./img/icon-jobs.svg" alt="Jobs icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-seo.svg" />
+          <img src="./img/icon-seo.svg" alt="SEO icon" />
         </div>
         <div class="plugin-icon">
-          <img src="./img/icon-sitemap.svg" />
+          <img src="./img/icon-sitemap.svg" alt="sitemap icon" />
         </div>
       </div>
     </div>
@@ -49,29 +49,7 @@
 </template>
 
 <script>
-export default {
-  // data() {
-  //   return {
-  //     width: 500
-  //   }
-  // },
-  // computed: {
-  //   scale() {
-  //     return Math.max(Math.min(this.width / 500, 1), 0.5)
-  //   }
-  // },
-  // mounted() {
-  //   this.width = this.getWidth()
-  //   window.addEventListener("resize", () => {
-  //     this.width = this.getWidth()
-  //   })
-  // },
-  // methods: {
-  //   getWidth() {
-  //     return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
-  //   }
-  // }
-}
+export default {}
 </script>
 
 <style lang="less">

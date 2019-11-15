@@ -25,7 +25,7 @@ export async function createApp() {
   // here we inject the router, store and ssr context to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   // App Entry Component
-  const site = setting("app.site")
+  const factorSite = setting("app.components.site")
 
   const app = new Vue({
     router,
@@ -35,7 +35,7 @@ export async function createApp() {
       // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
       setTimeout(() => emitEvent("app-mounted"), 0)
     },
-    render: h => h(site)
+    render: h => h(factorSite)
   })
 
   // note we are not mounting the app here, since bootstrapping will be

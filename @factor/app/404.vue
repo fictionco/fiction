@@ -8,7 +8,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   metaInfo() {
     return {
       title: `${this.errorText} Error`,
@@ -43,7 +44,7 @@ export default {
       return out
     }
   }
-}
+})
 </script>
 
 <style lang="less">

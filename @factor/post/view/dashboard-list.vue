@@ -19,8 +19,10 @@ import {
   requestPostSaveMany
 } from "@factor/post"
 import { getPostTypeConfig, onEvent, stored } from "@factor/tools"
-
-export default {
+import { dashboardPage } from "@factor/dashboard"
+import Vue from "vue"
+export default Vue.extend({
+  components: { dashboardPage },
   data() {
     return {
       loading: true,
@@ -113,7 +115,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 <style lang="less">
 .posts-dashboard {

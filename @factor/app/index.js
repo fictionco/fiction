@@ -1,5 +1,5 @@
 import { setting } from "@factor/tools/settings"
-import { addFilter, applyFilters, pushToFilter, addCallback } from "@factor/tools/filters"
+import { addFilter, applyFilters, addCallback } from "@factor/tools/filters"
 import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
 
@@ -20,21 +20,19 @@ function waitForMountApp() {
 }
 
 addCallback("initialize-app", () => {
-  const error404 = setting("app.error404")
-  const content = setting("app.content")
+  const factorError404 = setting("app.components.error404")
+  const factorContent = setting("app.components.content")
 
-  if (!error404 || !content) {
-    throw new Error("Factor core app components are undefined.")
+  if (!factorError404 || !factorContent) {
+    throw new Error("core components missing")
   }
-
-  pushToFilter("global-components", { name: "error-404", component: error404 })
 
   addFilter("routes", _ => {
     const contentRoutes = applyFilters("content-routes", [
       {
         name: "forbidden",
         path: "/forbidden",
-        component: error404,
+        component: factorError404,
         meta: { error: 403 }
       }
     ]).filter((route, index, self) => {
@@ -45,18 +43,18 @@ addCallback("initialize-app", () => {
 
     _.push({
       path: "/",
-      component: content,
+      component: factorContent,
       children: contentRoutes
     })
 
     _.push({
       path: "*",
-      component: content,
+      component: factorContent,
       children: applyFilters("content-routes-unmatched", [
         {
           name: "notFound",
           path: "*",
-          component: error404,
+          component: factorError404,
           meta: { error: 404 }
         }
       ]),

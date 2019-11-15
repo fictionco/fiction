@@ -8,8 +8,9 @@
 <script>
 import siteMixin from "./site-mixin"
 import { applyFilters } from "@factor/tools"
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: "Site",
   mixins: applyFilters("site-mixins", [siteMixin()])
-}
+})
 </script>

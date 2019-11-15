@@ -3,9 +3,9 @@
     <div class="`stage-wrap`">
       <div class="screenshots">
         <div class="code-container">
-          <plugin-highlight-code>
+          <factor-highlight-code>
             <pre><code class="prism language-vue">{{ code() }}</code></pre>
-          </plugin-highlight-code>
+          </factor-highlight-code>
         </div>
         <div
           v-for="(screenshot, index) in screenshots"
@@ -23,8 +23,9 @@
 </template>
 
 <script>
+import { factorHighlightCode } from "@factor/plugin-highlight-code"
 export default {
-  components: {},
+  components: { factorHighlightCode },
   data() {
     return {
       screenshots: [

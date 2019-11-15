@@ -1,9 +1,13 @@
 <template>
   <div class="nav-sidebar" @click.stop>
     <div ref="nav" class="sidebar-inner">
-      <div v-if="mode =='mobile'" class="site-links">
+      <div v-if="mode == 'mobile'" class="site-links">
         <template v-for="(item, index) in setting('site.nav')">
-          <div v-if="item.subnav" :key="index" class="navbar-item has-dropdown is-hoverable">
+          <div
+            v-if="item.subnav"
+            :key="index"
+            class="navbar-item has-dropdown is-hoverable"
+          >
             <factor-link :path="item.path" class="navbar-link">
               <span>{{ item.name }}</span>
             </factor-link>
@@ -28,7 +32,7 @@
           class="button is-outlined is-rounded"
           target="_blank"
         >
-          {{ setting('site.nav_cta.name') }}
+          {{ setting("site.nav_cta.name") }}
           <factor-icon icon="arrow-right" class="ml-2" />
         </factor-link>
       </div>
@@ -36,8 +40,10 @@
   </div>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools"
 export default {
+  components: { factorLink, factorIcon },
   props: {
     mode: { type: String, default: "" }
   },

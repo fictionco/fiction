@@ -33,7 +33,11 @@
             />
 
             <div class="plugin-images">
-              <div v-for="(url, _i) in screenshotsList(item)" :key="_i" class="image-item">
+              <div
+                v-for="(url, _i) in screenshotsList(item)"
+                :key="_i"
+                class="image-item"
+              >
                 <div
                   :style="{ backgroundImage: `url(${url})` }"
                   class="image-item-content"
@@ -68,11 +72,13 @@ import {
   requestExtensionSingle,
   requestExtensionIndex
 } from "./extension-request"
-
+import { factorLoadingRing, factorLink } from "@factor/ui"
 import { setting, renderMarkdown } from "@factor/tools"
 
 export default {
   components: {
+    factorLoadingRing,
+    factorLink,
     "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-lightbox": () => import("../el/el-lightbox.vue"),
     "plugin-entry": () => import("../el/entry.vue"),

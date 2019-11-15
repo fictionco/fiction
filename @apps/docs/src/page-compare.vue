@@ -9,7 +9,7 @@
             <div class="actions">
               <factor-link path="/guide/quickstart" btn="primary" size="large">
                 Start Your Web App
-                <i class="fa fa-arrow-right" />
+                <em class="fa fa-arrow-right" />
               </factor-link>
             </div>
           </div>
@@ -29,9 +29,21 @@
     <section class="graphic-splash">
       <div class="mast">
         <div class="splash-wrap">
-          <img class="theme-ultra" :src="require(`./img/theme-ultra.jpg`)" alt="Theme Ultra" />
-          <img class="dashboard" :src="require(`./img/dashboard.svg`)" alt="Factor Dashboard" />
-          <img class="theme-alpha" :src="require(`./img/theme-alpha.jpg`)" alt="Theme Alpha" />
+          <img
+            class="theme-ultra"
+            :src="require(`./img/theme-ultra.jpg`)"
+            alt="Theme Ultra"
+          />
+          <img
+            class="dashboard"
+            :src="require(`./img/dashboard.svg`)"
+            alt="Factor Dashboard"
+          />
+          <img
+            class="theme-alpha"
+            :src="require(`./img/theme-alpha.jpg`)"
+            alt="Theme Alpha"
+          />
         </div>
       </div>
     </section>
@@ -99,7 +111,10 @@
           </div>
           <div id="column4" class="column">
             <span class="img-wrap">
-              <img :src="require(`./img/js-frameworks.svg`)" alt="JavaScript frameworks" />
+              <img
+                :src="require(`./img/js-frameworks.svg`)"
+                alt="JavaScript frameworks"
+              />
             </span>
             <span>
               <factor-icon icon="close" />
@@ -128,9 +143,13 @@
 </template>
 
 <script>
+import Vue from "vue"
+import { factorIcon, factorLink } from "@factor/ui"
 import { toLabel } from "@factor/tools"
-export default {
+export default Vue.extend({
   components: {
+    factorIcon,
+    factorLink,
     "el-factor": () => import("./el/logo-factor.vue")
   },
   data() {
@@ -185,7 +204,7 @@ export default {
       description: "Compare Factor to WordPress and modern JS frameworks."
     }
   }
-}
+})
 </script>
 <style lang="less">
 .view-compare {

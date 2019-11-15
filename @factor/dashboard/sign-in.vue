@@ -19,7 +19,7 @@
           :loading="loading"
           data-test="send-password-email"
           text="Send Password Reset Email"
-          @click="send({action: sendPasswordResetEmail, next: `password-email-sent`})"
+          @click="send({ action: sendPasswordResetEmail, next: `password-email-sent` })"
         />
       </template>
 
@@ -37,7 +37,9 @@
           ref="reset-password"
           :loading="loading"
           text="Reset Password"
-          @click="send({action: verifyAndResetPassword, next: `successful-password-reset`})"
+          @click="
+            send({ action: verifyAndResetPassword, next: `successful-password-reset` })
+          "
         />
       </template>
 
@@ -92,11 +94,7 @@
       <template v-if="newAccount">
         <div class="forgot-password alternative-action-link">
           Have an account?
-          <a
-            href="#"
-            data-test="link-login"
-            @click.prevent="newAccount = false"
-          >Login</a>
+          <a href="#" data-test="link-login" @click.prevent="newAccount = false">Login</a>
         </div>
       </template>
       <template v-else-if="view">
@@ -130,16 +128,18 @@
   </div>
 </template>
 
-
 <script>
+import { dashboardInput } from "@factor/dashboard"
+import { factorForm, factorBtn, factorLink } from "@factor/ui"
 import { authenticate, userInitialized, isLoggedIn } from "@factor/user"
 import {
   sendPasswordResetEmail,
   verifyAndResetPassword
 } from "@factor/user/email-request"
 import { emitEvent } from "@factor/tools"
-export default {
-  components: {},
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorForm, factorBtn, dashboardInput, factorLink },
   props: {
     redirect: { type: String, default: "" }
   },
@@ -269,7 +269,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -19,8 +19,9 @@
 </template>
 
 <script>
+import { factorBtnDashboard, factorIcon } from "@factor/ui"
 export default {
-  components: {},
+  components: { factorBtnDashboard, factorIcon },
   props: {
     value: { type: String, default: "" }
   },

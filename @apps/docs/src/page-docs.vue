@@ -12,13 +12,16 @@
         </div>
       </div>
     </section>
-    <error-404 v-else />
+    <factor-error-404 v-else />
   </div>
 </template>
 <script>
+import Vue from "vue"
 import { getMarkdownHTML, metatags } from "./docs-handler"
-export default {
+import { factorError404 } from "@factor/ui"
+export default Vue.extend({
   components: {
+    factorError404,
     "page-sidebar": () => import("./sidebar.vue"),
     "docs-footer": () => import("./el/el-docs-footer.vue"),
     "docs-entry": () => import("./el/entry.vue")
@@ -26,12 +29,14 @@ export default {
   data() {
     return {
       loading: true,
-      activeHash: this.$route.hash,
       toggle: true,
       clicked: false
     }
   },
   computed: {
+    activeHash() {
+      return this.$route.hash
+    },
     doc() {
       return this.$route.params.doc || ""
     },
@@ -70,7 +75,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

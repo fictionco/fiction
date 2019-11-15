@@ -8,7 +8,9 @@
 </template>
 <script>
 import { setting, stored } from "@factor/tools"
+import { factorLink, factorIcon } from "@factor/ui"
 export default {
+  components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
   },

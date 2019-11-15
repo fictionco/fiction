@@ -4,11 +4,17 @@
       <div class="splash mast">
         <div class="label label-pink">Careers</div>
         <h1 class="title">Let's Create Something Beautiful Together</h1>
-        <p
-          class="subtitle"
-        >Fiction is on a mission to help frontend developers create better Javascript apps.</p>
+        <p class="subtitle">
+          Fiction is on a mission to help frontend developers create better Javascript
+          apps.
+        </p>
         <a href="#current-openings">
-          <factor-btn path="#current-openings" btn="primary" size="large" class="see-openings">
+          <factor-btn
+            path="#current-openings"
+            btn="primary"
+            size="large"
+            class="see-openings"
+          >
             Check Our Current Openings
             <factor-icon icon="arrow-down" />
           </factor-btn>
@@ -25,36 +31,39 @@
               <factor-icon icon="arrow-circle-right" />
               <div>
                 <h3 class="box-title">Sustainable Karma</h3>
-                <p
-                  class="box-description"
-                >We are here to help people be successful. We believe that the good you do comes back to you 110%.</p>
+                <p class="box-description">
+                  We are here to help people be successful. We believe that the good you
+                  do comes back to you 110%.
+                </p>
               </div>
             </div>
             <div class="box">
               <factor-icon icon="arrow-circle-right" />
               <div>
                 <h3 class="box-title">80/20</h3>
-                <p
-                  class="box-description"
-                >Fiction believes in minimalism to an extreme. The more we can do with less resources the better.</p>
+                <p class="box-description">
+                  Fiction believes in minimalism to an extreme. The more we can do with
+                  less resources the better.
+                </p>
               </div>
             </div>
             <div class="box">
               <factor-icon icon="arrow-circle-right" />
               <div>
                 <h3 class="box-title">Fortune Favors the Bold</h3>
-                <p
-                  class="box-description"
-                >They say your first failure teaches you 80% of what you need to create success.</p>
+                <p class="box-description">
+                  They say your first failure teaches you 80% of what you need to create
+                  success.
+                </p>
               </div>
             </div>
             <div class="box">
               <factor-icon icon="arrow-circle-right" />
               <div>
                 <h3 class="box-title">Empathy</h3>
-                <p
-                  class="box-description"
-                >Creating great products comes down to having empathy for the customer.</p>
+                <p class="box-description">
+                  Creating great products comes down to having empathy for the customer.
+                </p>
               </div>
             </div>
           </div>
@@ -71,11 +80,12 @@
             <factor-loading-ring />
           </div>
           <div v-else-if="jobsPosts.length > 0" class="jobs-post-index">
-            <div v-for="(post) in jobsPosts" :key="post._id" class="jobs-post">
+            <div v-for="post in jobsPosts" :key="post._id" class="jobs-post">
               <div>
                 <img
                   :src="getPost(post.jobIcon).url || require(`./img/icon-default.svg`)"
                   class="jobs-post-icon"
+                  alt="default icon"
                 />
               </div>
               <div>
@@ -101,9 +111,11 @@
   </div>
 </template>
 <script>
+import { factorBtn, factorLink, factorLoadingRing, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
+  components: { factorBtn, factorLink, factorLoadingRing, factorIcon },
   data() {
     return {
       postType: "jobs",

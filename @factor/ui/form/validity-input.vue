@@ -2,18 +2,17 @@
   <input
     v-if="isRequired"
     ref="customValidity"
-    :name="
-      $attrs['data-test'] ? `custom-validity-${$attrs['data-test']}` : ''
-    "
+    :name="$attrs['data-test'] ? `custom-validity-${$attrs['data-test']}` : ''"
     :title="customValidity"
     type="text"
     class="validity-input"
     tabindex="-1"
-  >
+  />
 </template>
 
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     customValidity: {
       type: [String, Boolean],
@@ -31,7 +30,7 @@ export default {
       { immediate: true }
     )
   }
-}
+})
 </script>
 <style lang="less">
 .validity-input {

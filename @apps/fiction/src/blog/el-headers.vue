@@ -16,9 +16,11 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { postLink, setting, stored } from "@factor/tools"
 
 export default {
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
@@ -48,7 +50,7 @@ export default {
       .entry-title {
         font-weight: var(--font-weight-bold);
         font-size: 2.6em;
-        line-height: 1;
+        line-height: 1.2;
 
         @media (max-width: 767px) {
           font-size: 2em;
@@ -64,6 +66,7 @@ export default {
         }
       }
       .entry-subtitle {
+        margin-top: 2em;
         font-size: 1.4em;
         line-height: 1.6em;
         opacity: 0.7;

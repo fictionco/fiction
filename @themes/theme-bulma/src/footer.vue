@@ -3,7 +3,9 @@
     <div class="container footer-top">
       <div class="columns is-tablet">
         <div class="column">
-          <h4 class="menu-label menu-label-indent">{{ setting('footer.nav1Headline') }}</h4>
+          <h4 class="menu-label menu-label-indent">
+            {{ setting("footer.nav1Headline") }}
+          </h4>
 
           <ul class="menu-list">
             <template v-for="(item, index) in setting('footer.nav1')">
@@ -16,7 +18,9 @@
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label menu-label-indent">{{ setting('footer.nav2Headline') }}</h4>
+          <h4 class="menu-label menu-label-indent">
+            {{ setting("footer.nav2Headline") }}
+          </h4>
           <ul class="menu-list">
             <template v-for="(item, index) in setting('footer.nav2')">
               <li :key="index">
@@ -28,7 +32,9 @@
           </ul>
         </div>
         <div class="column">
-          <h4 class="menu-label menu-label-indent">{{ setting('footer.nav3Headline') }}</h4>
+          <h4 class="menu-label menu-label-indent">
+            {{ setting("footer.nav3Headline") }}
+          </h4>
           <ul class="menu-list">
             <template v-for="(item, index) in setting('footer.nav3')">
               <li :key="index">
@@ -40,7 +46,7 @@
           </ul>
         </div>
         <div class="column is-5">
-          <h4 class="menu-label">{{ setting('footer.socialHeadline') }}</h4>
+          <h4 class="menu-label">{{ setting("footer.socialHeadline") }}</h4>
 
           <template v-for="(item, index) in setting('footer.social')">
             <factor-link
@@ -53,7 +59,7 @@
             </factor-link>
           </template>
 
-          <h4 class="menu-label">{{ setting('footer.subscribeHeadline') }}</h4>
+          <h4 class="menu-label">{{ setting("footer.subscribeHeadline") }}</h4>
           <component :is="setting(`footer.subscribe`)" />
         </div>
       </div>
@@ -85,8 +91,10 @@
   </footer>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
 export default {
+  components: { factorLink },
   methods: { setting }
 }
 </script>

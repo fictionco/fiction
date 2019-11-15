@@ -5,7 +5,8 @@
   </form>
 </template>
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     save: { type: Boolean, default: false },
     watchValid: { type: Object, default: () => {} }
@@ -35,7 +36,7 @@ export default {
       this.$emit("submit", e)
     }
   }
-}
+})
 </script>
 <style lang="less">
 .wrap-form {

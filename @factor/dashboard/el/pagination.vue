@@ -12,7 +12,10 @@
 </template>
 
 <script>
-export default {
+import { factorBtnDashboard, factorIcon } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorBtnDashboard, factorIcon },
   props: {
     pageCount: { type: Number, default: 0 },
     pageCurrent: { type: Number, default: 0 },
@@ -32,7 +35,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -3,14 +3,14 @@
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="factor-stack">
-          <img src="./img/factor-stack.svg" />
+          <img src="./img/factor-stack.svg" alt="stack" />
         </div>
         <div class="scene">
           <div class="box-1 icon-box">
             <div class="line depart" />
             <div class="line arrive" />
             <div class="box a">
-              <img src="./img/vue.svg" />
+              <img src="./img/vue.svg" alt="Vue" />
               <div class="caption">Vue.js</div>
             </div>
           </div>
@@ -18,7 +18,7 @@
             <div class="line depart" />
             <div class="line arrive" />
             <div class="box b">
-              <img src="./img/nodejs.svg" />
+              <img src="./img/nodejs.svg" alt="Node" />
               <div class="caption">Node.js</div>
             </div>
           </div>
@@ -26,7 +26,7 @@
             <div class="line depart" />
 
             <div class="box">
-              <img src="./img/mongodb.svg" />
+              <img src="./img/mongodb.svg" alt="MongoDB" />
               <div class="caption">MongoDB</div>
             </div>
           </div>
@@ -37,7 +37,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   data() {
     return {
       width: 500
@@ -60,7 +61,7 @@ export default {
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
     }
   }
-}
+})
 </script>
 
 <style lang="less">

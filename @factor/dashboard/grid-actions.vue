@@ -12,7 +12,11 @@
 </template>
 
 <script>
-export default {
+import { dashboardInput } from "@factor/dashboard"
+import { factorBtnDashboard } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorBtnDashboard, dashboardInput },
   props: {
     actions: { type: Array, default: () => [] },
     loading: { type: Boolean, default: false }
@@ -33,7 +37,7 @@ export default {
       this.action = ""
     }
   }
-}
+})
 </script>
 
 <style lang="less">

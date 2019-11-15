@@ -10,8 +10,10 @@
 </template>
 
 <script>
+import { factorPostEdit } from "@factor/post"
 import { stored, renderMarkdown } from "@factor/tools"
 export default {
+  components: { factorPostEdit },
   props: {
     postId: { type: String, default: "" }
   },

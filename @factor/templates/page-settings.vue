@@ -19,8 +19,11 @@
   </div>
 </template>
 <script>
+import { dashboardInput } from "@factor/dashboard"
 import { getPageTemplates, getTemplate } from "@factor/templates"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { dashboardInput },
   model: {
     prop: "post",
     event: "change"
@@ -109,7 +112,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 <style lang="less">
 </style>

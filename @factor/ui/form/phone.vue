@@ -10,11 +10,12 @@
       title="Enter a valid phone number with country code."
       :required="$attrs.required"
       v-on="listeners"
-    >
+    />
   </div>
 </template>
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   inheritAttrs: false,
   props: {
     value: { type: [String, Number], default: "" }
@@ -49,5 +50,5 @@ export default {
       this.$emit("input", this.addPlus(e))
     }
   }
-}
+})
 </script>

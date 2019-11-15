@@ -1,7 +1,7 @@
 <template>
   <div class="field has-addons">
     <div class="control has-icons-left is-expanded">
-      <input class="input" type="email" placeholder="Email input" >
+      <input class="input" type="email" placeholder="Email input" />
       <span class="icon is-small is-left">
         <factor-icon icon="envelope" />
       </span>
@@ -13,3 +13,10 @@
     </div>
   </div>
 </template>
+<script>
+import { factorIcon } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorIcon }
+})
+</script>

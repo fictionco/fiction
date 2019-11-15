@@ -44,16 +44,22 @@
           @input="setValue(field._id, $event)"
         />
         <div>
-          <factor-btn-dashboard size="tiny" @click="removeItem(selected)">Remove Item</factor-btn-dashboard>
+          <factor-btn-dashboard
+            size="tiny"
+            @click="removeItem(selected)"
+          >Remove Item</factor-btn-dashboard>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { factorBtnDashboard, factorIcon, factorInputWrap } from "@factor/ui"
 import { DOM, guid } from "@factor/tools"
 import Sortable from "sortablejs"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorBtnDashboard, factorIcon, factorInputWrap },
   props: {
     value: { type: [Array, Object], default: () => [] },
     inputs: { type: Array, default: () => [] }
@@ -137,7 +143,7 @@ export default {
       this.localValue = newLocalValue
     }
   }
-}
+})
 </script>
 <style lang="less">
 .sortable-items {

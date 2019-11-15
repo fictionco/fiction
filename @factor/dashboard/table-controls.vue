@@ -15,8 +15,13 @@
 </template>
 
 <script>
-export default {
+import { dashboardInput } from "@factor/dashboard"
+import { factorBtnDashboard } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    dashboardInput,
+    factorBtnDashboard,
     "table-tabber": () => import("./el/tabber.vue")
   },
   props: {
@@ -36,7 +41,7 @@ export default {
       this.action = ""
     }
   }
-}
+})
 </script>
 
 <style lang="less">

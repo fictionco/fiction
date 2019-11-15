@@ -21,12 +21,13 @@
 
 <script>
 import { setting } from "@factor/tools/settings"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     "portfolio-index": () => import("./portfolio/portfolio-index.vue")
   },
   methods: { setting }
-}
+})
 </script>
 
 <style lang="less">

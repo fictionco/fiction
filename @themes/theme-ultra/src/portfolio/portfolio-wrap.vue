@@ -3,9 +3,9 @@
     <router-view />
     <div class="cta">
       <div class="cta-inner">
-        <h2>{{ setting('portfolio.cta.headline') }}</h2>
+        <h2>{{ setting("portfolio.cta.headline") }}</h2>
         <factor-link btn="secondary" size="large" :path="setting('portfolio.cta.path')">
-          {{ setting('portfolio.cta.text') }}
+          {{ setting("portfolio.cta.text") }}
           <factor-icon icon="arrow-right" />
         </factor-link>
       </div>
@@ -14,8 +14,10 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
 export default {
+  components: { factorLink, factorIcon },
   methods: { setting }
 }
 </script>

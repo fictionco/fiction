@@ -15,8 +15,11 @@
   </div>
 </template>
 <script>
+import { factorIcon } from "@factor/ui"
 import { DOM, parseList } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorIcon },
   props: {
     toggleClass: { type: String, default: "" },
     list: { type: Array, default: () => [] },
@@ -56,7 +59,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 <style lang="less">
 .quick-menu {

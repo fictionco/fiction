@@ -1,4 +1,3 @@
-
 <template>
   <select
     :value="setting"
@@ -9,7 +8,7 @@
   >
     <option value>{{ $attrs.placeholder || "Select" }}</option>
     <option
-      v-for="(s,i) in parsedList"
+      v-for="(s, i) in parsedList"
       :key="i"
       :value="s.value"
       :disabled="s.disabled"
@@ -18,7 +17,8 @@
 </template>
 <script>
 import { parseList } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     value: { type: [Number, String, Boolean], default: "" },
     list: { type: Array, default: () => [] },
@@ -54,7 +54,7 @@ export default {
     }
   },
   mounted() {}
-}
+})
 </script>
 
 <style lang="less">

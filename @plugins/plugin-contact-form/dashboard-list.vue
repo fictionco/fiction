@@ -4,7 +4,7 @@
       <dashboard-grid-actions
         :actions="controlActions"
         :loading="sending"
-        @action="$emit('action',{action: $event, selected})"
+        @action="$emit('action', { action: $event, selected })"
       />
       <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
     </dashboard-grid-controls>
@@ -16,7 +16,13 @@
       @select-all="selectAll($event)"
     >
       <template #select="{row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
+        <input
+          v-model="selected"
+          type="checkbox"
+          class="checkbox"
+          label
+          :value="row._id"
+        />
       </template>
       <template #info="{row}">
         <div class="form-fields-wrap">
@@ -39,8 +45,22 @@
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post"
 import { toLabel, standardDate, getPermalink } from "@factor/tools"
+import {
+  dashboardGrid,
+  dashboardPane,
+  dashboardGridControls,
+  dashboardGridFilter,
+  dashboardGridActions
+} from "@factor/dashboard"
 export default {
   name: "ContactFormList",
+  components: {
+    dashboardGrid,
+    dashboardPane,
+    dashboardGridControls,
+    dashboardGridFilter,
+    dashboardGridActions
+  },
   props: {
     title: { type: String, default: "" },
     list: { type: Array, default: () => [] },

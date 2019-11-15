@@ -4,7 +4,7 @@
       v-for="(tab, i) in filterTabs"
       :key="i"
       class="tabb"
-      :class="activeItem == tab.value ? 'active': 'not-active'"
+      :class="activeItem == tab.value ? 'active' : 'not-active'"
     >
       <a class="facet" @click.prevent="setActive(tab.value)">{{ tab.name }}</a>
       <span class="count">({{ tab.count || 0 }})</span>
@@ -12,7 +12,8 @@
   </div>
 </template>
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     filterId: { type: String, default: "status" },
     filterTabs: { type: Array, default: () => [] }
@@ -35,7 +36,7 @@ export default {
       this.$router.push({ query })
     }
   }
-}
+})
 </script>
 
 <style lang="less">

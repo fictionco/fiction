@@ -5,7 +5,7 @@
       <div class="profile-container">
         <figure class="cover loaded" :class="getCover ? 'has-cover' : 'no-cover'">
           <div
-            :style="{'background-image': primaryCover }"
+            :style="{ 'background-image': primaryCover }"
             class="cover-image"
             @click="lightbox(covers)"
           />
@@ -15,7 +15,7 @@
           <div class="profile-avatar">
             <div class="profile-pics">
               <div
-                :style="{'background-image': primaryAvatar}"
+                :style="{ 'background-image': primaryAvatar }"
                 class="pic"
                 @click="lightbox(avatars)"
               />
@@ -77,14 +77,29 @@
         <factor-lightbox :visible.sync="lightboxShow" :imgs="lightboxImages" />
       </div>
     </div>
-    <error-404 v-else />
+    <factor-error-404 v-else />
   </div>
 </template>
 <script>
+import {
+  factorLoadingRing,
+  factorLightbox,
+  factorIcon,
+  factorLink,
+  factorError404
+} from "@factor/ui"
 import { userInitialized, isLoggedIn, userId } from "@factor/user"
 import { isEmpty, standardDate, stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: {
+    factorLoadingRing,
+    factorLightbox,
+    factorIcon,
+    factorLink,
+    factorError404
+  },
   metaInfo() {
     if (this.post && this.post.displayName) {
       return {
@@ -193,7 +208,7 @@ export default {
       img.src = v
     }
   }
-}
+})
 </script>
 <style lang="less">
 .client-loading {

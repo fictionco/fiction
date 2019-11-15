@@ -17,17 +17,6 @@ setting("commentizer.postTypes").forEach(postType => {
   })
 })
 
-// Add global components
-addFilter("components", __ => {
-  __["commentizer"] = setting("commentizer.components.commentizer")
-  __["commentizerAdd"] = setting("commentizer.components.commentizerAdd")
-  __["commentizerDisplay"] = setting("commentizer.components.commentizerDisplay")
-  __["commentizerDashboardList"] = setting(
-    "commentizer.components.commentizerDashboardList"
-  )
-  return __
-})
-
 export async function createComment(commentData) {
   return await requestPostSave({
     postType: "commentizer",

@@ -2,7 +2,7 @@
   <button v-if="scope" :class="buttonClass" :type="type" v-on="$listeners">
     <span class="wrap-items">
       <span class="btn-content">
-        <img v-if="image" :src="image" >
+        <img v-if="image" :src="image" alt="btn image" />
         <slot />
         <span v-if="text" v-formatted-text="text" class="txt" />
       </span>
@@ -16,7 +16,9 @@
 </template>
 
 <script>
+import { factorLoadingRing } from "@factor/ui"
 export default {
+  components: { factorLoadingRing },
   props: {
     image: { type: String, default: "" },
     text: { type: String, default: "" },
@@ -123,7 +125,7 @@ export default {
   }
 }
 .factor-btn {
-   -webkit-appearance: none;
+  -webkit-appearance: none;
   background: transparent;
   color: inherit;
   display: inline-block;

@@ -1,9 +1,15 @@
 <template>
-  <factor-link class="app-input" v-bind="$attrs" btn-element="app-btn" v-on="$listeners">
+  <factor-link class="app-input" v-bind="$attrs" v-on="$listeners">
     <slot />
   </factor-link>
 </template>
-
+<script>
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink }
+})
+</script>
 
 <style lang="less">
 .btn-link {

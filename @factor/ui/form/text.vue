@@ -1,8 +1,15 @@
 <template>
-  <input :value="value" type="text" :required="$attrs.required" v-bind="$attrs" v-on="listeners">
+  <input
+    :value="value"
+    type="text"
+    :required="$attrs.required"
+    v-bind="$attrs"
+    v-on="listeners"
+  />
 </template>
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     value: { type: [String, Number], default: "" }
   },
@@ -14,6 +21,5 @@ export default {
       }
     }
   }
-}
+})
 </script>
- 

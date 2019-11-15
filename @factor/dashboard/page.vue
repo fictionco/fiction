@@ -13,15 +13,20 @@
   </div>
 </template>
 <script>
-export default {
+import { factorLoadingRing } from "@factor/ui"
+import { dashboardPane } from "@factor/dashboard"
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorLoadingRing,
+    dashboardPane,
     "dashboard-footer": () => import("./footer.vue")
   },
   props: {
     title: { type: String, default: "" },
     loading: { type: Boolean, default: false }
   }
-}
+})
 </script>
 
 <style lang="less">
