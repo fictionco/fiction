@@ -19,9 +19,13 @@
   </div>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorLink,
+    factorIcon,
     "site-brand": () => import("./el/brand.vue")
   },
   data() {
@@ -34,5 +38,5 @@ export default {
       return this.navConfig.filter(item => !item.condition || item.condition())
     }
   }
-}
+})
 </script>

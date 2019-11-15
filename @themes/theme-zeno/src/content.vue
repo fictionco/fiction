@@ -9,7 +9,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     "header-primary": () => import("./header.vue"),
     "footer-primary": () => import("./footer.vue")
@@ -20,5 +21,5 @@ export default {
       titleTemplate: "%s - Factor JS"
     }
   }
-}
+})
 </script>

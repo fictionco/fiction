@@ -37,10 +37,14 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools"
-
-export default {
+// Wrap with Vue extend for Typescript
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorLink,
+    factorIcon,
     "el-accordion": () => import("./el/accordion.vue")
   },
   data() {
@@ -65,5 +69,5 @@ export default {
       image: setting("pricing.meta.image")
     }
   }
-}
+})
 </script>

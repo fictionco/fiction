@@ -13,8 +13,10 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools"
 export default {
+  components: { factorLink, factorIcon },
   data() {
     return {
       loading: true,

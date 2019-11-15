@@ -1,14 +1,17 @@
 <template>
   <figure>
     <figcaption>terraform.tf</figcaption>
-    <plugin-highlight-code>
+    <factor-highlight-code>
       <pre><code class="prism">{{ code() }}</code></pre>
-    </plugin-highlight-code>
+    </factor-highlight-code>
   </figure>
 </template>
 
 <script>
-export default {
+import { factorHighlightCode } from "@factor/plugin-highlight-code"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorHighlightCode },
   methods: {
     code() {
       return `data "aws_ami" "backend" {
@@ -48,5 +51,5 @@ resource "aws_instance" "backend1" {
 }`
     }
   }
-}
+})
 </script>

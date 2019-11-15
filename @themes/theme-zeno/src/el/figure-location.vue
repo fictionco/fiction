@@ -7,5 +7,6 @@
 </template>
 
 <script>
-export default {}
+import Vue from "vue"
+export default Vue.extend({})
 </script>

@@ -109,11 +109,12 @@
 
 <script>
 import { setting } from "@factor/tools"
-import { factorLink } from "@factor/ui"
+import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
+    factorIcon,
     "site-cta": () => import("./el/cta.vue")
   },
   data() {
