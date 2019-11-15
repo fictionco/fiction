@@ -1,25 +1,25 @@
 <template>
   <div class="social-share">
     <factor-link
-      class="facebook"
+      class="btn-link facebook"
       :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`"
     >
       <factor-icon icon="facebook" />
     </factor-link>
     <factor-link
-      class="twitter"
+      class="btn-link twitter"
       :path="`https://twitter.com/intent/tweet?text=${post.title}+${link}`"
     >
       <factor-icon icon="twitter" />
     </factor-link>
     <factor-link
-      class="linkedin"
+      class="btn-link linkedin"
       :path="`https://www.linkedin.com/shareArticle?mini=true&url=${link}`"
     >
       <factor-icon icon="linkedin" />
     </factor-link>
     <factor-link
-      class="pinterest"
+      class="btn-link pinterest"
       :path="`https://pinterest.com/pin/create/button/?url=${link}`"
     >
       <factor-icon icon="pinterest" />

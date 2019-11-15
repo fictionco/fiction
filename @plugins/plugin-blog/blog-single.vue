@@ -8,10 +8,11 @@
         :post-id="post._id"
       />
     </div>
-    <error-404 v-else />
+    <factor-error-404 v-else />
   </div>
 </template>
 <script>
+import { factorError404 } from "@factor/ui"
 import {
   isEmpty,
   setting,
@@ -22,6 +23,7 @@ import {
 } from "@factor/tools"
 
 export default {
+  components: { factorError404 },
   data() {
     return {}
   },

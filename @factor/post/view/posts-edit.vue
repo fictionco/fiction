@@ -12,11 +12,7 @@
           />
 
           <dashboard-input label="Permalink">
-            <input-permalink
-              v-model="post.permalink"
-              :initial="post.title"
-              :post-type="postType"
-            />
+            <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
           </dashboard-input>
           <dashboard-input label="Post Content">
             <input-editor v-model="post.content" @keyup="doDraftSave()" />
@@ -38,11 +34,7 @@
             @keyup="doDraftSave()"
           />
           <factor-client-only>
-            <dashboard-input
-              v-model="post.date"
-              input="factor-input-date"
-              label="Publish Date"
-            />
+            <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
           </factor-client-only>
           <dashboard-input label="Tags">
             <input-tags v-model="post.tag" />
@@ -54,11 +46,7 @@
             label="Post Images"
             @autosave="saveDraft()"
           />
-          <dashboard-input
-            v-model="post.author"
-            input="dashboard-user-list"
-            label="Author"
-          />
+          <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
           <template #actions>
             <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
               Save &nbsp;
@@ -90,7 +78,8 @@ import {
 } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorIcon,
     dashboardInput,
@@ -258,7 +247,7 @@ export default {
       this.sendingDraft = false
     }
   }
-}
+})
 </script>
 <style lang="less">
 .post-grid {

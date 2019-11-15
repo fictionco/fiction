@@ -7,18 +7,15 @@
       format="simple"
       :list="filteredActions"
     />
-    <factor-btn-dashboard
-      :disabled="!action"
-      :loading="loading"
-      @click="send($event)"
-    >Apply</factor-btn-dashboard>
+    <factor-btn-dashboard :disabled="!action" :loading="loading" @click="send($event)">Apply</factor-btn-dashboard>
   </div>
 </template>
 
 <script>
 import { dashboardInput } from "@factor/dashboard"
 import { factorBtnDashboard } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorBtnDashboard, dashboardInput },
   props: {
     actions: { type: Array, default: () => [] },
@@ -40,7 +37,7 @@ export default {
       this.action = ""
     }
   }
-}
+})
 </script>
 
 <style lang="less">

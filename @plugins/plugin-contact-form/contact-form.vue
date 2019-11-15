@@ -33,11 +33,11 @@
 </template>
 
 <script>
-import { factorInputWrap, factorForm } from "@factor/ui"
+import { factorInputWrap, factorForm, factorInputSubmit } from "@factor/ui"
 import { setting } from "@factor/tools"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorInputWrap, factorForm },
+  components: { factorInputWrap, factorForm, factorInputSubmit },
   data() {
     return {
       sending: false,

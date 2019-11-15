@@ -8,11 +8,7 @@
         format="simple"
         :list="actions"
       />
-      <factor-btn-dashboard
-        :disabled="!action"
-        :loading="loading"
-        @click="send($event)"
-      >Apply</factor-btn-dashboard>
+      <factor-btn-dashboard :disabled="!action" :loading="loading" @click="send($event)">Apply</factor-btn-dashboard>
     </div>
     <table-tabber :tabs="tabs" v-bind="$attrs" />
   </div>
@@ -21,7 +17,8 @@
 <script>
 import { dashboardInput } from "@factor/dashboard"
 import { factorBtnDashboard } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     dashboardInput,
     factorBtnDashboard,
@@ -44,7 +41,7 @@ export default {
       this.action = ""
     }
   }
-}
+})
 </script>
 
 <style lang="less">

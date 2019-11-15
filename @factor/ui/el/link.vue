@@ -6,7 +6,6 @@ import { pickBy, isEmpty, emitEvent, identity } from "@factor/tools"
 export default Vue.extend({
   props: {
     btn: { type: String, default: "" },
-    btnElement: { type: String, default: "" },
     size: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     path: { type: String, default: "" },

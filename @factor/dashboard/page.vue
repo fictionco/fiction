@@ -15,7 +15,8 @@
 <script>
 import { factorLoadingRing } from "@factor/ui"
 import { dashboardPane } from "@factor/dashboard"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorLoadingRing,
     dashboardPane,
@@ -25,7 +26,7 @@ export default {
     title: { type: String, default: "" },
     loading: { type: Boolean, default: false }
   }
-}
+})
 </script>
 
 <style lang="less">

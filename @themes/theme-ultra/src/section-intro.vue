@@ -22,7 +22,9 @@
 <script>
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorLink, factorIcon },
   data() {
     return {
@@ -30,7 +32,7 @@ export default {
     }
   },
   methods: { setting }
-}
+})
 </script>
 <style lang="less" scoped>
 .intro-container {

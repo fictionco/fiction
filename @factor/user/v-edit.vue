@@ -27,10 +27,7 @@
             label="Email Address"
           >
             <div v-if="post.email && !post.emailVerified">
-              <factor-btn-dashboard
-                size="tiny"
-                btn="subtle"
-              >Unverified</factor-btn-dashboard>
+              <factor-btn-dashboard size="tiny" btn="subtle">Unverified</factor-btn-dashboard>
               <factor-btn-dashboard
                 size="tiny"
                 :loading="sending"
@@ -116,13 +113,19 @@
 </template>
 <script>
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
-import { factorBtnDashboard } from "@factor/ui"
+import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import { userId, sendVerifyEmail } from "@factor/user"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
 import Vue from "vue"
 export default Vue.extend({
-  components: { dashboardPage, dashboardPane, dashboardInput, factorBtnDashboard },
+  components: {
+    factorIcon,
+    dashboardPage,
+    dashboardPane,
+    dashboardInput,
+    factorBtnDashboard
+  },
   data() {
     return {
       sending: false,

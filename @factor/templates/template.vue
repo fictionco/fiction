@@ -6,16 +6,17 @@
     <div v-else-if="post._id">
       <component :is="templateLoader" :post-id="post._id" />
     </div>
-    <error-404 v-else />
+    <factor-error-404 v-else />
   </div>
 </template>
 <script>
+import { factorError404, factorLoadingRing } from "@factor/ui"
 import { getPageTemplates } from "@factor/templates"
 import { stored } from "@factor/tools"
-import { factorLoadingRing } from "@factor/ui"
+
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorLoadingRing, factorError404 },
   data() {
     return {
       comp: null,

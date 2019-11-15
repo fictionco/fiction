@@ -50,7 +50,7 @@ export default {
       .entry-title {
         font-weight: var(--font-weight-bold);
         font-size: 2.6em;
-        line-height: 1;
+        line-height: 1.2;
 
         @media (max-width: 767px) {
           font-size: 2em;
@@ -66,6 +66,7 @@ export default {
         }
       }
       .entry-subtitle {
+        margin-top: 2em;
         font-size: 1.4em;
         line-height: 1.6em;
         opacity: 0.7;

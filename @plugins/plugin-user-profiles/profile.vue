@@ -23,9 +23,11 @@
           </div>
 
           <div class="profile-header">
-            <h1 v-if="post.displayName" class="title" data-test="display-name">
-              {{ post.displayName }}
-            </h1>
+            <h1
+              v-if="post.displayName"
+              class="title"
+              data-test="display-name"
+            >{{ post.displayName }}</h1>
             <div v-if="memberSince" class="sub-title">{{ `Joined ${memberSince}` }}</div>
             <div class="actions">
               <factor-link
@@ -75,17 +77,29 @@
         <factor-lightbox :visible.sync="lightboxShow" :imgs="lightboxImages" />
       </div>
     </div>
-    <error-404 v-else />
+    <factor-error-404 v-else />
   </div>
 </template>
 <script>
-import { factorLoadingRing, factorLightbox, factorIcon, factorLink } from "@factor/ui"
+import {
+  factorLoadingRing,
+  factorLightbox,
+  factorIcon,
+  factorLink,
+  factorError404
+} from "@factor/ui"
 import { userInitialized, isLoggedIn, userId } from "@factor/user"
 import { isEmpty, standardDate, stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing, factorLightbox, factorIcon, factorLink },
+  components: {
+    factorLoadingRing,
+    factorLightbox,
+    factorIcon,
+    factorLink,
+    factorError404
+  },
   metaInfo() {
     if (this.post && this.post.displayName) {
       return {

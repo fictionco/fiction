@@ -4,7 +4,8 @@
   </div>
 </template>
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     "el-signin": () => import("./sign-in.vue")
   },
@@ -14,7 +15,7 @@ export default {
       description: "Login or register an account."
     }
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -2,9 +2,7 @@
   <div>
     <section>
       <div>
-        <h3 class="font-sans text-lg text-uppercase text-gray-400">
-          {{ introPretitle }}
-        </h3>
+        <h3 class="font-sans text-lg text-uppercase text-gray-400">{{ introPretitle }}</h3>
         <h1 class="font-sans text-xl text-gray-800">{{ introTitle }}</h1>
       </div>
       <p class="mt-2 text-gray-600">{{ introContent }}</p>
@@ -89,8 +87,7 @@
           <figure :key="index">
             <blockquote>
               &ldquo;
-              <div v-formatted-text="item.content" />
-              &rdquo;
+              <div v-formatted-text="item.content" />&rdquo;
             </blockquote>
             <footer>
               <img :src="item.image" :alt="item.author + ' - ' + item.info" />
@@ -113,7 +110,8 @@
 <script>
 import { setting } from "@factor/tools"
 import { factorLink } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorLink,
     "site-cta": () => import("./el/cta.vue")
@@ -153,5 +151,5 @@ export default {
       description: setting("home.meta.description")
     }
   }
-}
+})
 </script>

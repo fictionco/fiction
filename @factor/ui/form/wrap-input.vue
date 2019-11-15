@@ -12,13 +12,7 @@
 
     <div class="input-area">
       <div class="the-input">
-        <component
-          :is="input"
-          v-if="input"
-          :value="value"
-          v-bind="$attrs"
-          v-on="$listeners"
-        />
+        <component :is="input" v-if="input" :value="value" v-bind="$attrs" v-on="$listeners" />
         <slot />
       </div>
     </div>
@@ -41,6 +35,7 @@ import {
   factorInputTextarea
 } from "@factor/ui"
 
+import { dashboardUserList } from "@factor/dashboard"
 import Vue from "vue"
 export default Vue.extend({
   components: {
@@ -55,7 +50,8 @@ export default Vue.extend({
     factorInputSelect,
     factorInputSubmit,
     factorInputPassword,
-    factorInputTextarea
+    factorInputTextarea,
+    dashboardUserList
   },
   inheritAttrs: false,
   props: {
