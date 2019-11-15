@@ -1,7 +1,8 @@
 <template>
   <div>
     <factor-link path="/">
-      <component :is="setting(`site.logo`)" />
+      <img :src="setting(`site.logo`)" :alt="`Zeno`" />
+      <!-- <component :is="setting(`site.logo`)" /> -->
     </factor-link>
   </div>
 </template>

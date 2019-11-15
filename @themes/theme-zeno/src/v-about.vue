@@ -59,7 +59,8 @@ export default {
   metaInfo() {
     return {
       title: setting("about.meta.title"),
-      description: setting("about.meta.description")
+      description: setting("about.meta.description"),
+      image: setting("about.meta.image")
     }
   }
 }

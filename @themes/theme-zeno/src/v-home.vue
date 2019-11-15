@@ -5,7 +5,7 @@
         <h3 class="font-sans text-lg text-uppercase text-gray-400">{{ introPretitle }}</h3>
         <h1 class="font-sans text-xl text-gray-800">{{ introTitle }}</h1>
       </div>
-      <p class="mt-2 text-gray-600">{{ introContent }}</p>
+      <div v-formatted-text="introContent" class="mt-2 text-gray-600" />
       <div class="mt-4">
         <template v-for="(button, index) in introButtons">
           <factor-link :key="index" :path="button.link" :class="button.classes">
@@ -40,7 +40,7 @@
       </template>
     </section>
 
-    <section>
+    <section :ref="devopsID">
       <div>
         <component :is="devopsFigure" />
       </div>
@@ -125,6 +125,7 @@ export default {
       clientsList: setting("home.clients.list"),
       solutionsTitle: setting("home.solutions.title"),
       solutionsItems: setting("home.solutions.items"),
+      devopsID: setting("home.devops.id"),
       devopsFigure: setting("home.devops.figure"),
       devopsPretitle: setting("home.devops.pretitle"),
       devopsTitle: setting("home.devops.title"),
@@ -146,7 +147,8 @@ export default {
   metaInfo() {
     return {
       title: setting("home.meta.title"),
-      description: setting("home.meta.description")
+      description: setting("home.meta.description"),
+      image: setting("home.meta.image")
     }
   }
 }
