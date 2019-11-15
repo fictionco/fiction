@@ -6,9 +6,9 @@
 </template>
 <style src="~/.factor/loader-styles.less" lang="less"></style>
 <script>
-import Vue from "vue"
 import siteMixin from "./site-mixin"
 import { applyFilters } from "@factor/tools"
+import Vue from 'vue'
 export default Vue.extend({
   name: "Site",
   mixins: applyFilters("site-mixins", [siteMixin()])

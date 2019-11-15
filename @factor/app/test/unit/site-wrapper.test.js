@@ -2,13 +2,19 @@
  * @jest-environment jsdom
  */
 import { mount, createLocalVue } from "@vue/test-utils"
-import { renderToString } from "@vue/server-test-utils"
-import Site from "../../site.vue"
+//import { renderToString } from "@vue/server-test-utils"
+import factorSite from "../../site.vue"
 import VueRouter from "vue-router"
-
+import Vue from "vue"
+import { createRenderer } from "vue-server-renderer"
 let localVue
 let router
+let renderer
 describe("site-wrapper", () => {
+  beforeAll(() => {
+    renderer = createRenderer()
+  })
+
   it("renders", async () => {
     localVue = createLocalVue()
     localVue.use(VueRouter)
@@ -20,22 +26,16 @@ describe("site-wrapper", () => {
     })
     router.push("/")
 
-    // Server prefetch bug
-    // https://github.com/vuejs/vue-test-utils/issues/1317
-    // @ts-ignore
-    Site.mixins = Site.mixins.map(_ => {
-      if (_.serverPrefetch) delete _.serverPrefetch
+    // Needs router as it assumes $route is there
+    const vm = new Vue({ router, render: h => h(factorSite) })
 
-      return _
-    })
-
-    const html = await renderToString(Site, { localVue, router })
+    const html = await renderer.renderToString(vm)
 
     expect(html).toContain(`id="app"`)
   })
 
   it("adds ui class", () => {
-    const wrapper = mount(Site, { localVue, router })
+    const wrapper = mount(factorSite, { localVue, router })
 
     expect(wrapper.vm["ui"]).toBe("factor-app")
 
