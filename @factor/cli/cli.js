@@ -74,7 +74,7 @@ commander
 
 commander.parse(process.argv)
 
-async function runCommand(options) {
+export async function runCommand(options = {}) {
   const {
     command,
     _arguments = {},
@@ -101,10 +101,9 @@ async function runCommand(options) {
     if (["start", "dev", "serve"].includes(command)) {
       await runServer({ NODE_ENV, ..._arguments }) // Long running process
     } else {
-      log.success(`Successfully ran [${command}]`)
+      if (command) log.success(`Successfully ran [${command}]`)
 
-      // eslint-disable-next-line unicorn/no-process-exit
-      process.exit(0)
+      //exitProcess()
     }
   } catch (error) {
     log.error(error)
@@ -113,7 +112,12 @@ async function runCommand(options) {
   return
 }
 
-async function runServer(_arguments) {
+export function exitProcess() {
+  // eslint-disable-next-line unicorn/no-process-exit
+  process.exit(0)
+}
+
+export async function runServer(_arguments) {
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {

@@ -112,6 +112,7 @@
     "isempty",
     "isequal",
     "linkify",
+    "listr",
     "lockfile",
     "maxage",
     "mimetype",

@@ -1,12 +1,27 @@
 import { dirname, parse } from "path"
 import { getPath } from "@factor/tools/paths"
 import { toPascalCase, sortPriority } from "@factor/tools/utils"
-
+import log from "@factor/tools/logger"
 import fs from "fs-extra"
 import glob from "glob"
 
 export function getCWDPackage() {
-  return require(`${getCWD()}/package.json`)
+  let pkg
+  try {
+    const p = require(`${getCWD()}/package.json`)
+
+    if (p.name == "@factor/wrapper") {
+      log.warn("Couldn't generate loaders - CWD is workspace root")
+    } else {
+      pkg = p
+    }
+  } catch (error) {
+    if (error.code !== "MODULE_NOT_FOUND") {
+      log.warn("Couldn't generate loaders - CWD has no package.json")
+    }
+  }
+
+  return pkg
 }
 
 let __extensions // ensure we don't recursively scan more than once
@@ -14,8 +29,13 @@ export function getExtensions() {
   if (__extensions) {
     return __extensions
   } else {
-    __extensions = loadExtensions(getCWDPackage())
-    return __extensions
+    const cwdPackage = getCWDPackage()
+    if (cwdPackage) {
+      __extensions = loadExtensions(cwdPackage)
+      return __extensions
+    } else {
+      return []
+    }
   }
 }
 
@@ -62,6 +82,9 @@ function generateExtensionList(packagePaths) {
 
 export function generateLoaders() {
   const extensions = getExtensions()
+
+  if (extensions.length == 0) return
+
   makeModuleLoader({
     extensions,
     loadTarget: "server",
