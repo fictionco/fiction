@@ -1,4 +1,3 @@
-
 <template>
   <div class="content-layout">
     <header-primary />
@@ -13,8 +12,9 @@
 </template>
 <style src="#/css/style-vars.scss" lang="sass"></style>
 <script>
+import Vue from "vue"
 /* eslint-disable import/no-unresolved */
-export default {
+export default Vue.extend({
   components: {
     "header-primary": () => import("#/header.vue"),
     "footer-primary": () => import("#/footer.vue")
@@ -26,7 +26,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

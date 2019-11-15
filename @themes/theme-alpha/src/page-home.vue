@@ -44,11 +44,14 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools"
 export default {
   components: {
     "el-clients": () => import("./el/clients.vue"),
-    "el-cta": () => import("./el/cta.vue")
+    "el-cta": () => import("./el/cta.vue"),
+    factorLink,
+    factorIcon
   },
   // props: {
   //   post: { type: Object, default: () => {} }

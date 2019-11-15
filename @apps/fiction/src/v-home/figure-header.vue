@@ -3,22 +3,16 @@
     <div class="stage-wrap">
       <div class="stage">
         <div class="panel">
-          <img src="./img/dashboard.svg" class="dashboard">
+          <img src="./img/dashboard.svg" class="dashboard" alt="dashboard" />
           <div class="icons">
             <div v-for="icon in icons" :key="icon.name" class="icon-wrap">
               <div class="icon">
-                <img :src="icon.img" :alt="`${icon.name} icon`" >
+                <img :src="icon.img" :alt="`${icon.name} icon`" />
               </div>
               <div class="name">{{ icon.name }}</div>
             </div>
           </div>
         </div>
-        <!-- <div class="el dot-circle">
-          <img src="./img/dot-circle.svg" >
-        </div>-->
-        <!-- <div class="el code-bg">
-          <img src="./img/code-bg.svg" >
-        </div>-->
       </div>
     </div>
   </figure>
@@ -50,12 +44,12 @@ export default {
       padding-right: 2em;
       position: relative;
       z-index: 10;
-      transform: scale(1.1) perspective(800px) rotateY(-4deg) rotateX(2deg)
-        rotate(1deg) translateZ(-40px);
+      transform: scale(1.1) perspective(800px) rotateY(-4deg) rotateX(2deg) rotate(1deg)
+        translateZ(-40px);
       box-shadow: -1px 1px 4px 0 rgba(26, 26, 67, 0.1),
         -9px 25.5px 15px -25px rgba(50, 50, 93, 0.3),
         -10.4px 25.5px 75px -37.5px rgba(0, 0, 0, 0.3);
-      img.dashboard{
+      img.dashboard {
         margin-bottom: 2em;
       }
     }
@@ -126,7 +120,7 @@ export default {
       .panel {
         transform: none;
         padding: 2em 0 0;
-        img.dashboard{
+        img.dashboard {
           margin-bottom: 2em;
         }
       }

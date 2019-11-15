@@ -1,4 +1,3 @@
-
 <template>
   <div :key="renderKey" class="input-wrap" :class="[requiredClass, inputFormat]">
     <div v-if="label || description" class="input-meta">
@@ -21,7 +20,39 @@
 </template>
 
 <script>
-export default {
+import {
+  factorInputWrap,
+  factorInputEmail,
+  factorInputDate,
+  factorInputText,
+  factorInputPhone,
+  factorInputCheckbox,
+  factorInputBirthday,
+  factorInputImageUpload,
+  factorInputSelect,
+  factorInputSubmit,
+  factorInputPassword,
+  factorInputTextarea
+} from "@factor/ui"
+
+import { dashboardUserList } from "@factor/dashboard"
+import Vue from "vue"
+export default Vue.extend({
+  components: {
+    factorInputWrap,
+    factorInputEmail,
+    factorInputDate,
+    factorInputText,
+    factorInputPhone,
+    factorInputCheckbox,
+    factorInputBirthday,
+    factorInputImageUpload,
+    factorInputSelect,
+    factorInputSubmit,
+    factorInputPassword,
+    factorInputTextarea,
+    dashboardUserList
+  },
   inheritAttrs: false,
   props: {
     value: {
@@ -45,8 +76,7 @@ export default {
       return this.$attrs["data-test"] ? this.$attrs["data-test"] : this.label
     },
     isRequired() {
-      return typeof this.$attrs.required != "undefined" ||
-        this.$attrs["input-min"]
+      return typeof this.$attrs.required != "undefined" || this.$attrs["input-min"]
         ? true
         : false
     },
@@ -59,7 +89,7 @@ export default {
   },
 
   methods: {}
-}
+})
 </script>
 
 <style lang="less">

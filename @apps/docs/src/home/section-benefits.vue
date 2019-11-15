@@ -45,15 +45,21 @@
       </div>
 
       <div class="buttons">
-        <factor-link btn="primary" size="large" path="/guide/quickstart">View Quickstart &rarr;</factor-link>
+        <factor-link
+          btn="primary"
+          size="large"
+          path="/guide/quickstart"
+        >View Quickstart &rarr;</factor-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { factorLink } from "@factor/ui"
 export default {
   components: {
+    factorLink,
     "home-icon": () => import("./icon.vue")
   },
   methods: {}

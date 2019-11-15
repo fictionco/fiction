@@ -11,9 +11,9 @@
   </div>
 </template>
 
-
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     "site-head": () => import("./site-head.vue"),
     "site-footer": () => import("./site-footer.vue")
@@ -31,7 +31,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

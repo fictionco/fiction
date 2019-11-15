@@ -7,8 +7,10 @@
   </div>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 export default {
+  components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
   },

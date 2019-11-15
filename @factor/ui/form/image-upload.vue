@@ -3,7 +3,7 @@
     <div class="image-upload-input">
       <div ref="organizer" class="image-organizer">
         <div
-          v-for="(img) in allImages"
+          v-for="img in allImages"
           :key="img._id"
           :class="single ? 'no-sort-img' : 'sort-img'"
           class="image-item image-uploaded"
@@ -20,14 +20,14 @@
                   class="image-status overlay"
                   :class="img.status"
                 >
-                  <div :style="{width: `${img.progress}%`}" class="bar" />
+                  <div :style="{ width: `${img.progress}%` }" class="bar" />
                 </div>
 
                 <factor-menu
                   v-else
                   class="menu"
                   :list="['view', 'copy-URL', 'delete']"
-                  @action="action(img._id,$event)"
+                  @action="action(img._id, $event)"
                 />
               </div>
             </div>
@@ -61,14 +61,21 @@
       </div>
     </div>
     <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
-    <factor-lightbox :visible.sync="lightboxShow" :imgs="populated" :index="lightboxIndex" />
+    <factor-lightbox
+      :visible.sync="lightboxShow"
+      :imgs="populated"
+      :index="lightboxIndex"
+    />
   </div>
 </template>
 <script>
+import { factorMenu, factorLoadingRing, factorIcon, factorLightbox } from "@factor/ui"
 import { uploadImage, requestDeleteImage } from "@factor/attachment"
 import { DOM, emitEvent, onEvent, stored } from "@factor/tools"
 import Sortable from "sortablejs"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorMenu, factorLoadingRing, factorIcon, factorLightbox },
   props: {
     loading: { type: Boolean, default: false },
     value: { type: [Array, String], default: () => [] },
@@ -288,7 +295,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 
 <style lang="less">

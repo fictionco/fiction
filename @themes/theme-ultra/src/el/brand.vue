@@ -6,8 +6,9 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
-export default { methods: { setting } }
+export default { components: { factorLink }, methods: { setting } }
 </script>
 <style lang="less">
 .brand {

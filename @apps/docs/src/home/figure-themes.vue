@@ -3,7 +3,7 @@
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div v-for="(screenshot, i) in screenshots" :key="i" class="screenshot-wrap">
-          <img :src="screenshot.img" >
+          <img :src="screenshot.img" alt="theme" />
         </div>
       </div>
     </div>

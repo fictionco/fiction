@@ -1,4 +1,3 @@
-
 <template>
   <dashboard-pane :title="title" class="email-list-edit">
     <dashboard-grid-controls>
@@ -7,12 +6,21 @@
     </dashboard-grid-controls>
     <dashboard-grid :structure="grid()" :rows="post.list" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row.email" />
+        <input
+          v-model="selected"
+          type="checkbox"
+          class="checkbox"
+          label
+          :value="row.email"
+        />
       </template>
       <template #email="{row}">{{ row.email }}</template>
-      <template #verified="{row}">{{ row.verified ? 'Yes' : 'No' }}</template>
+      <template #verified="{row}">{{ row.verified ? "Yes" : "No" }}</template>
       <template #delete="{row}">
-        <factor-btn-dashboard text="Delete" @click="deleteEmails({emails: [row.email]})" />
+        <factor-btn-dashboard
+          text="Delete"
+          @click="deleteEmails({ emails: [row.email] })"
+        />
       </template>
     </dashboard-grid>
   </dashboard-pane>
@@ -20,11 +28,27 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-import { postTypeUIConfig, deleteEmails, csvExport } from "."
+import { deleteEmails, csvExport } from "."
 import { toLabel, storeItem, stored } from "@factor/tools"
-
-export default {
+import {
+  dashboardPane,
+  dashboardGridControls,
+  dashboardGridActions,
+  dashboardGridFilter,
+  dashboardGrid
+} from "@factor/dashboard"
+import { factorBtnDashboard } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
   name: "EmailListGrid",
+  components: {
+    factorBtnDashboard,
+    dashboardPane,
+    dashboardGridControls,
+    dashboardGridActions,
+    dashboardGridFilter,
+    dashboardGrid
+  },
   props: {
     loading: { type: Boolean, default: false },
     sending: { type: Boolean, default: false }
@@ -155,7 +179,6 @@ export default {
       ]
     }
   }
-}
+})
 </script>
-<style lang="less">
-</style>
+<style lang="less"></style>

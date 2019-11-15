@@ -14,7 +14,11 @@
       :max="1"
     />-->
     <!-- <dashboard-input v-model="post.jobIcon" input="factor-input-text" label="Icon" /> -->
-    <dashboard-input v-model="post.jobLocation" input="factor-input-text" label="Location" />
+    <dashboard-input
+      v-model="post.jobLocation"
+      input="factor-input-text"
+      label="Location"
+    />
     <dashboard-input
       v-model="post.jobApplyEmail"
       input="factor-input-text"
@@ -23,8 +27,10 @@
   </div>
 </template>
 <script>
+import { dashboardInput } from "@factor/dashboard"
 import { stored, storeItem } from "@factor/tools"
 export default {
+  components: { dashboardInput },
   props: {
     postId: { type: String, required: true }
   },
@@ -50,5 +56,4 @@ export default {
   methods: {}
 }
 </script>
-<style lang="less">
-</style>
+<style lang="less"></style>

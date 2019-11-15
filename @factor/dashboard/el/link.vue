@@ -8,3 +8,9 @@
     <slot />
   </factor-link>
 </template>
+<script>
+import { factorLink } from "@factor/ui"
+export default {
+  components: { factorLink }
+}
+</script>

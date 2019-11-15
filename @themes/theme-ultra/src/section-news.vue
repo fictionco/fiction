@@ -10,7 +10,9 @@
 import { stored } from "@factor/app/store"
 import { setting } from "@factor/tools/settings"
 import { requestPostIndex } from "@factor/post/request"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: {
     "news-index": () => import("./news/news-index.vue")
   },
@@ -65,7 +67,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 
 <style lang="less">

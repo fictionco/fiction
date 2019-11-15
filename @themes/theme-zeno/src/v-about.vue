@@ -35,10 +35,14 @@
 </template>
 
 <script>
+import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
 
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorIcon,
+    factorLink,
     "site-cta": () => import("./el/cta.vue")
   },
   data() {
@@ -63,5 +67,5 @@ export default {
       image: setting("about.meta.image")
     }
   }
-}
+})
 </script>

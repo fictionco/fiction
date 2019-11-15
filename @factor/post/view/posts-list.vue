@@ -28,19 +28,15 @@
       @select-all="selectAll($event)"
     >
       <template #select="{row}">
-        <input
-          v-model="selected"
-          type="checkbox"
-          class="checkbox"
-          label
-          :value="row._id"
-        />
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
       </template>
       <template #title="{row}">
         <div class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{
-            row.title
-          }}</factor-link>
+          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">
+            {{
+              row.title
+            }}
+          </factor-link>
           <factor-link
             v-if="row.permalink"
             class="permalink"
@@ -50,11 +46,7 @@
       </template>
 
       <template #author="{row}">
-        <dashboard-user-card
-          v-for="(_id, index) in row.author"
-          :key="index"
-          :post-id="_id"
-        />
+        <dashboard-user-card v-for="(_id, index) in row.author" :key="index" :post-id="_id" />
       </template>
 
       <template #status="{row}">{{ toLabel(row.status) }}</template>
@@ -65,9 +57,31 @@
   </dashboard-pane>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
+import {
+  dashboardGrid,
+  dashboardGridControls,
+  dashboardGridFilter,
+  dashboardPane,
+  dashboardTableFooter,
+  dashboardUserCard,
+  dashboardGridActions
+} from "@factor/dashboard"
 import { getStatusCount, requestPostSaveMany, requestPostDeleteMany } from "@factor/post"
 import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: {
+    factorIcon,
+    factorLink,
+    dashboardGrid,
+    dashboardGridControls,
+    dashboardGridActions,
+    dashboardGridFilter,
+    dashboardPane,
+    dashboardTableFooter,
+    dashboardUserCard
+  },
   props: {
     title: { type: String, default: "" },
     list: { type: Array, default: () => [] },
@@ -191,7 +205,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 <style lang="less">
 .posts-dashboard {

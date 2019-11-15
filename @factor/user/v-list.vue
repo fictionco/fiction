@@ -34,10 +34,28 @@
 </template>
 
 <script>
+import {
+  dashboardPane,
+  dashboardTableFooter,
+  dashboardGrid,
+  dashboardGridControls,
+  dashboardGridFilter
+} from "@factor/dashboard"
+import { factorLink, factorAvatar } from "@factor/ui"
 import { getStatusCount } from "@factor/post"
 import { toLabel, standardDate, getPermalink } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   name: "UserList",
+  components: {
+    dashboardPane,
+    dashboardTableFooter,
+    dashboardGrid,
+    dashboardGridControls,
+    dashboardGridFilter,
+    factorLink,
+    factorAvatar
+  },
   props: {
     title: { type: String, default: "" },
     list: { type: Array, default: () => [] },
@@ -123,7 +141,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 <style lang="less">
 .posts-dashboard {

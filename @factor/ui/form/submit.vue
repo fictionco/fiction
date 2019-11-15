@@ -6,14 +6,16 @@
   </div>
 </template>
 <script>
+import { factorBtn } from "@factor/ui"
 export default {
+  components: { factorBtn },
   inheritAttrs: false,
   props: {
     el: { type: String, default: "" }
   },
   computed: {
     btnComponent() {
-      return this.el ? this.el : "factor-btn"
+      return this.el ? this.el : factorBtn
     }
   }
 }

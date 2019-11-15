@@ -6,8 +6,9 @@
 </template>
 <script>
 import { postLink, stored } from "@factor/tools"
-
+import { factorLink } from "@factor/ui"
 export default {
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }

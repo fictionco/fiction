@@ -14,33 +14,25 @@ pushToFilter("content-routes", {
   component: () => import("./sign-in-view.vue")
 })
 
-pushToFilter("global-components", {
-  name: "account-menu",
-  component: () => import("./account-menu.vue")
-})
-
 pushToFilter("site-components", {
   name: "plugin-sign-in-modal",
   component: () => import("./sign-in-modal.vue")
 })
 
-addFilter("components", _ => {
-  _["dashboard-pane"] = () => import("./pane.vue")
-  _["dashboard-page"] = () => import("./page.vue")
-  _["dashboard-table"] = () => import("./table.vue")
-  _["dashboard-grid"] = () => import("./grid.vue")
-  _["dashboard-grid-controls"] = () => import("./grid-controls.vue")
-  _["dashboard-grid-actions"] = () => import("./grid-actions.vue")
-  _["dashboard-grid-filter"] = () => import("./grid-filter.vue")
-  _["dashboard-table-controls"] = () => import("./table-controls.vue")
-  _["dashboard-table-footer"] = () => import("./table-footer.vue")
-  _["dashboard-input"] = () => import("./el/input.vue")
-  _["dashboard-loader"] = () => import("./el/loader.vue")
-  _["dashboard-user-card"] = () => import("./el/user-card.vue")
-  _["dashboard-user-list"] = () => import("./el/user-list.vue")
-  _["factor-input-sortable"] = () => import("./el/sortable.vue")
-  return _
-})
+export const accountMenu = () => import("./account-menu.vue")
+export const dashboardPane = () => import("./pane.vue")
+export const dashboardPage = () => import("./page.vue")
+export const dashboardTable = () => import("./table.vue")
+export const dashboardGrid = () => import("./grid.vue")
+export const dashboardGridControls = () => import("./grid-controls.vue")
+export const dashboardGridActions = () => import("./grid-actions.vue")
+export const dashboardGridFilter = () => import("./grid-filter.vue")
+export const dashboardTableControls = () => import("./table-controls.vue")
+export const dashboardTableFooter = () => import("./table-footer.vue")
+export const dashboardInput = () => import("./el/input.vue")
+export const dashboardUserCard = () => import("./el/user-card.vue")
+export const dashboardUserList = () => import("./el/user-list.vue")
+export const factorInputSortable = () => import("./el/sortable.vue")
 
 const dashboardRoute = setting("dashboard.route")
 

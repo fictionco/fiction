@@ -10,7 +10,7 @@
     <div class="feature-boxes">
       <div v-for="(box, i) in post.settings.boxes" :key="i" class="box">
         <div v-if="box.icon" class="box-icon">
-          <img :src="box.icon[0].url" >
+          <img :src="box.icon[0].url" />
         </div>
         <div class="box-heading">{{ box.heading }}</div>
         <div class="box-description">{{ box.description }}</div>
@@ -20,7 +20,9 @@
 </template>
 
 <script>
+import { factorBtn } from "@factor/ui"
 export default {
+  components: { factorBtn },
   props: {
     post: { type: Object, default: () => {} }
   },
@@ -50,11 +52,7 @@ export default {
         input: "sortable",
         label: "Feature Boxes",
         description: "Some feature boxes",
-        default: [
-          { __title: "Box 1" },
-          { __title: "Box 2" },
-          { __title: "Box 3" }
-        ],
+        default: [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }],
         settings: [
           {
             input: "text",

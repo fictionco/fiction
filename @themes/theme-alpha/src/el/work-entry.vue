@@ -23,24 +23,25 @@
     <div v-if="format == 'single'" class="entry-text">
       <div class="mast">
         <div class="content">
-          <highlight-code>
+          <factor-highlight-code>
             <div v-formatted-text="rendered" />
-          </highlight-code>
+          </factor-highlight-code>
         </div>
       </div>
     </div>
   </article>
 </template>
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
+import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import { setting, stored, renderMarkdown, postLink } from "@factor/tools"
 
 export default {
   components: {
-    "highlight-code": () => import("@factor/plugin-highlight-code/highlight-code.vue")
+    factorLink,
+    factorIcon,
+    factorHighlightCode
   },
-  // components: {
-  //   "el-tags": () => import("./tags")
-  // },
   props: {
     format: { type: String, default: "" },
     authors: { type: Array, default: () => [] },
@@ -48,7 +49,6 @@ export default {
     content: { type: String, default: "" },
     date: { type: [String, Number], default: "" },
     path: { type: String, default: "" },
-    //tags: { type: Array, default: () => [] },
     postId: { type: String, default: "" },
     loading: { type: Boolean, default: false }
   },

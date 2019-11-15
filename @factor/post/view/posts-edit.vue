@@ -19,8 +19,7 @@
           </dashboard-input>
           <template #nav>
             <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
-              Save
-              &nbsp;
+              Save &nbsp;
               <factor-icon icon="arrow-up" />
             </factor-btn-dashboard>
           </template>
@@ -50,8 +49,7 @@
           <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
           <template #actions>
             <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
-              Save
-              &nbsp;
+              Save &nbsp;
               <factor-icon icon="arrow-up" />
             </factor-btn-dashboard>
           </template>
@@ -59,54 +57,13 @@
 
         <slot name="edit" />
       </div>
-      <!-- <div class="meta-column">
-        <dashboard-pane title="Publication" class="post-actions">
-          <dashboard-input
-            v-model="post.status"
-            :list="['published', 'draft', 'trash']"
-            input="factor-input-select"
-          />
 
-          <div v-if="!isEmpty(lastRevision) " class="save-info">
-            <factor-loading-ring v-if="sendingDraft" width="1.4em" />
-            <template v-else>
-              <div
-                v-if="!lastRevision.published"
-                class="changes unpublished"
-              >There are unpublished changes.</div>
-              <div
-                class="saved-at"
-              >Draft Saved at {{ timeUtil(lastRevision.timestamp).format("h:mma (M/D)") }}</div>
-            </template>
-            <div class="draft-actions">
-              <factor-btn size="tiny" class="save-draft" @click="saveDraft()">Save Draft</factor-btn>
-              <factor-btn
-                v-if="canRevert"
-                size="tiny"
-                class="revert"
-                @click="revertChanges()"
-              >Revert to published?</factor-btn>
-            </div>
-          </div>
-          <template slot="actions">
-            <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
-              Update
-              &nbsp;
-              <factor-icon icon="arrow-up" />
-            </factor-btn-dashboard>
-            <factor-link v-if="post.permalink" :path="url" btn="default" data-test="add-post">
-              View
-              <factor-icon icon="arrow-right" />
-            </factor-link>
-          </template>
-        </dashboard-pane>
-        <slot name="meta" />
-      </div>-->
       <div class="content-column plugin-column" />
     </div>
   </dashboard-page>
 </template>
 <script>
+import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import {
   isEmpty,
   cloneDeep,
@@ -120,8 +77,15 @@ import {
   getPermalink
 } from "@factor/tools"
 import { requestPostSave } from "@factor/post"
-export default {
+import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorIcon,
+    dashboardInput,
+    dashboardPage,
+    dashboardPane,
+    factorBtnDashboard,
     "factor-client-only": () => import("vue-client-only"),
     "input-editor": () => import("../el/editor.vue"),
     "input-permalink": () => import("../el/permalink.vue"),
@@ -283,7 +247,7 @@ export default {
       this.sendingDraft = false
     }
   }
-}
+})
 </script>
 <style lang="less">
 .post-grid {

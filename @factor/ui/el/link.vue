@@ -1,9 +1,11 @@
 <script>
+import Vue from "vue"
+import { factorBtn, factorBtnDashboard } from "@factor/ui"
+
 import { pickBy, isEmpty, emitEvent, identity } from "@factor/tools"
-export default {
+export default Vue.extend({
   props: {
     btn: { type: String, default: "" },
-    btnElement: { type: String, default: "" },
     size: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
     path: { type: String, default: "" },
@@ -61,8 +63,8 @@ export default {
       const btnElement = this.btnElement
         ? this.btnElement
         : (this.$route.path.includes("dashboard")
-        ? "factor-btn-dashboard"
-        : "factor-btn")
+        ? factorBtnDashboard
+        : factorBtn)
 
       text = createElement(
         btnElement,
@@ -107,7 +109,7 @@ export default {
       [text]
     )
   }
-}
+})
 </script>
 
 <style lang="less">

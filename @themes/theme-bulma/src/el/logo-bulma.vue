@@ -31,11 +31,14 @@
   </div>
 </template>
 <script>
-export default {
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink },
   data() {
     return {}
   }
-}
+})
 </script>
 <style lang="less">
 .logo-bulma {

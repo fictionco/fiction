@@ -7,8 +7,8 @@
     @submit="send()"
   >
     <div v-if="sent" class="confirm" data-test="confirm">
-      <div class="title">{{ setting('contactForm.confirm.title') }}</div>
-      <div class="description">{{ setting('contactForm.confirm.subTitle') }}</div>
+      <div class="title">{{ setting("contactForm.confirm.title") }}</div>
+      <div class="description">{{ setting("contactForm.confirm.subTitle") }}</div>
     </div>
     <div v-else class="inputs">
       <factor-input-wrap
@@ -27,14 +27,17 @@
         :size="setting('contactForm.submit.size')"
         :loading="sending"
         data-test="contact-form-submit"
-      >{{ setting('contactForm.submit.text') }}</factor-input-submit>
+      >{{ setting("contactForm.submit.text") }}</factor-input-submit>
     </div>
   </factor-form>
 </template>
 
 <script>
+import { factorInputWrap, factorForm, factorInputSubmit } from "@factor/ui"
 import { setting } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorInputWrap, factorForm, factorInputSubmit },
   data() {
     return {
       sending: false,
@@ -78,5 +81,5 @@ export default {
       return placeholder.join(" ")
     }
   }
-}
+})
 </script>

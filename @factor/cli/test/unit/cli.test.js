@@ -23,8 +23,19 @@ describe("cli", () => {
       expect(allOutput).toContain("Verify Extensions")
     })
 
-    it.todo("setup: sets environmental variables")
-    it.todo("setup: support aliases '~' & '@' ")
+    it("cli setup: sets environmental variables", () => {
+      expect(Object.keys(process.env)).toEqual(
+        expect.arrayContaining([
+          "FACTOR_ENV",
+          "NODE_ENV",
+          "FACTOR_CWD",
+          "FACTOR_COMMAND",
+          "FACTOR_DEBUG",
+          "PORT"
+        ])
+      )
+    })
+    it.todo("setup: support aliases '~' & '@'")
   })
 
   describe("commands", () => {

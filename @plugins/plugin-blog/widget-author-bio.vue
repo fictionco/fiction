@@ -11,8 +11,10 @@
   </div>
 </template>
 <script>
+import { factorAvatar } from "@factor/ui"
 import { stored } from "@factor/tools"
 export default {
+  components: { factorAvatar },
   props: {
     postId: { type: String, default: "" }
   },

@@ -12,7 +12,10 @@
 </template>
 
 <script>
-export default {
+import { factorLink, factorIcon } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink, factorIcon },
   metaInfo() {
     return {
       title: `${this.errorText} Error`,
@@ -47,7 +50,7 @@ export default {
       return out
     }
   }
-}
+})
 </script>
 
 <style lang="less">

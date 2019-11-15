@@ -7,8 +7,11 @@
 </template>
 
 <script>
+import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorPostEdit },
   props: {
     post: { type: Object, default: () => {} }
   },
@@ -18,7 +21,7 @@ export default {
     }
   },
   methods: { renderMarkdown }
-}
+})
 </script>
 
 <style lang="less">

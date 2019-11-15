@@ -23,9 +23,11 @@
   </div>
 </template>
 <script>
+import { factorIcon } from "@factor/ui"
 import { DOM } from "@factor/tools"
 export default {
   components: {
+    factorIcon,
     "page-sidebar": () => import("./sidebar.vue"),
     "site-brand": () => import("./el/brand.vue")
   },
@@ -71,7 +73,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="less">
 .mobile-head {

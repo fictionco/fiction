@@ -1,5 +1,5 @@
 import { preFetchPost } from "@factor/post/request"
-import { addFilter, addCallback, pushToFilter } from "@factor/tools/filters"
+import { addFilter, addCallback } from "@factor/tools/filters"
 
 export * from "./request"
 export * from "./util"
@@ -7,10 +7,7 @@ export * from "./util"
 addCallback("site-pre-fetch", _ => preFetchPost(_))
 addCallback("client-route-before", _ => preFetchPost({ clientOnly: true, ..._ }))
 
-pushToFilter("global-components", {
-  name: "factor-post-edit",
-  component: () => import("./el/edit-link.vue")
-})
+export const factorPostEdit = () => import("./el/edit-link.vue")
 
 addFilter("dashboard-routes", _ => {
   return [

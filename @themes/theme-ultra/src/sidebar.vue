@@ -9,7 +9,7 @@
           :key="index"
           :path="item.path"
           class="nav-link"
-          :class="[item.target, {'nav-link-active' : selected === item.path}]"
+          :class="[item.target, { 'nav-link-active': selected === item.path }]"
           @click="sidebarPath(item.path)"
         >
           <span>{{ item.name }}</span>
@@ -22,9 +22,11 @@
 </template>
 
 <script>
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
 export default {
   components: {
+    factorLink,
     "site-brand": () => import("./el/brand.vue")
   },
   data() {

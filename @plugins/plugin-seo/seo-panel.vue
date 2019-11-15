@@ -4,11 +4,20 @@
       <div class="sup">Search Preview</div>
       <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
       <div class="plink">{{ link }}</div>
-      <div
-        class="desc"
-      >{{ post.descriptionTag || post.subTitle || excerpt(post.content) || "No Description" }}</div>
+      <div class="desc">
+        {{
+          post.descriptionTag ||
+            post.subTitle ||
+            excerpt(post.content) ||
+            "No Description"
+        }}
+      </div>
     </div>
-    <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
+    <dashboard-input
+      v-model="post.titleTag"
+      input="factor-input-text"
+      label="Title Meta Tag"
+    />
     <dashboard-input
       v-model="post.descriptionTag"
       input="factor-input-textarea"
@@ -23,9 +32,11 @@
   </div>
 </template>
 <script>
+import { dashboardInput } from "@factor/dashboard"
 import { postLink, excerpt, stored } from "@factor/tools"
 
 export default {
+  components: { dashboardInput },
   props: {
     postId: { type: String, required: true }
   },

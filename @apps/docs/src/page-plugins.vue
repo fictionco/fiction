@@ -5,12 +5,6 @@
         <div>
           <h1 class="title">Factor Plugins</h1>
           <p class="subtitle">Extend your project features and do more with Factor.</p>
-          <!-- <div class="actions">
-            <factor-link path="/docs" btn="primary" size="large">
-              How to Install
-              <factor-icon icon="arrow-right" />
-            </factor-link>
-          </div>-->
         </div>
       </div>
     </section>
@@ -67,12 +61,8 @@
                 </div>
               </div>
               <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
             <a href="#" class="item">
               <div class="item-top">
@@ -83,12 +73,8 @@
                 </div>
               </div>
               <p>Enable blazing fast search for your project.</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
             <a href="#" class="item">
               <div class="item-top">
@@ -99,12 +85,8 @@
                 </div>
               </div>
               <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
             <a href="#" class="item">
               <div class="item-top">
@@ -115,12 +97,8 @@
                 </div>
               </div>
               <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
             <a href="#" class="item">
               <div class="item-top">
@@ -131,12 +109,8 @@
                 </div>
               </div>
               <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
             <a href="#" class="item">
               <div class="item-top">
@@ -147,12 +121,8 @@
                 </div>
               </div>
               <p>Integrate the PayPal Checkout &amp; Subscriptions API</p>
-              <p class="downloads">
-                <i class="fa fa-download" /> 254 Downloads
-              </p>
-              <p class="author">
-                <i class="fa fa-user" /> by Fiction
-              </p>
+              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
+              <p class="author"><i class="fa fa-user" /> by Fiction</p>
             </a>
           </div>
         </div>
@@ -162,9 +132,11 @@
 </template>
 
 <script>
+import { factorIcon, factorLink } from "@factor/ui"
 import { toLabel } from "@factor/tools"
-export default {
-  components: {},
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorIcon, factorLink },
   data() {
     return {
       loading: true,
@@ -225,7 +197,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 <style lang="less">
 .plugins-container {

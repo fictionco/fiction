@@ -25,10 +25,13 @@
 </template>
 
 <script>
+import { factorLink, factorIcon } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
 import { excerpt, stored } from "@factor/tools"
 export default {
   components: {
+    factorLink,
+    factorIcon,
     "site-head": () => import("./site-head.vue"),
     "content-footer": () => import("./site-footer.vue")
   },

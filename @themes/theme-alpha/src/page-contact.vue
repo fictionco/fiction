@@ -6,7 +6,10 @@
       :image="setting('contact.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('contact.content')" class="content entry-content" />
+        <div
+          v-formatted-text="setting('contact.content')"
+          class="content entry-content"
+        />
 
         <factor-form
           ref="form"
@@ -17,9 +20,9 @@
         >
           <div v-if="sent" class="confirm" data-test="confirm">
             <div class="title">Got it!</div>
-            <div
-              class="description"
-            >We’ll get back to you as soon as possible at the email you provided.</div>
+            <div class="description">
+              We’ll get back to you as soon as possible at the email you provided.
+            </div>
           </div>
           <div v-else class="inputs">
             <factor-input-wrap
@@ -64,9 +67,14 @@
 </template>
 
 <script>
+import { factorForm, factorInputSubmit, factorInputWrap } from "@factor/ui"
 import { setting } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorForm,
+    factorInputSubmit,
+    factorInputWrap,
     "el-hero": () => import("./el/hero.vue")
   },
   data() {
@@ -161,7 +169,7 @@ export default {
       this.sending = false
     }
   }
-}
+})
 </script>
 
 <style lang="less">

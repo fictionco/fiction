@@ -8,9 +8,12 @@
   </factor-modal>
 </template>
 <script>
+import { factorModal } from "@factor/ui"
 import { onEvent, runCallbacks } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
+    factorModal,
     "el-signin": () => import("./sign-in.vue")
   },
   data: function() {
@@ -69,7 +72,7 @@ export default {
       this.vis = false
     }
   }
-}
+})
 </script>
 <style lang="less">
 .signin-head {

@@ -3,19 +3,26 @@
     v-if="postId && canEdit"
     btn="default"
     size="tiny"
-    btn-element="factor-btn"
     class="edit"
     :path="`/dashboard/posts/${post.postType}/edit`"
-    :query="{_id: post._id}"
+    :query="{ _id: post._id }"
   >{{ editText }}</factor-link>
 </template>
 
 <script>
+import { factorLink, factorBtn } from "@factor/ui"
 import { stored, getPostTypeConfig } from "@factor/tools"
 import { userId, currentUser } from "@factor/user"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" }
+  },
+  data() {
+    return {
+      factorBtn
+    }
   },
 
   computed: {
@@ -40,5 +47,5 @@ export default {
     }
   },
   mounted() {}
-}
+})
 </script>

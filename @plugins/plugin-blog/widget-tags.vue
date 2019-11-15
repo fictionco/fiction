@@ -5,13 +5,15 @@
       :key="ti"
       class="entry-tag"
       :path="setting('blog.indexRoute')"
-      :query="{tag}"
+      :query="{ tag }"
     >{{ tag }}</factor-link>
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 export default {
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" }
   },

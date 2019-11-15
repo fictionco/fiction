@@ -12,8 +12,10 @@
 </template>
 
 <script>
+import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/tools"
 export default {
+  components: { factorBtn, factorIcon },
   props: {
     postType: { type: String, default: "" }
     // pageCount: { type: Number, default: 0 },

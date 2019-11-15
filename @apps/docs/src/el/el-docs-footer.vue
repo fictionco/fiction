@@ -4,10 +4,12 @@
       <strong>Caught a mistake or want to become a contributor?</strong>
     </p>
     <p>
-      We're always happy to help with code or other questions you might have! Browse our documentation, or
+      We're always happy to help with code or other questions you might have! Browse our
+      documentation, or
       <a
         href="https://www.fiction.com/contact"
         target="_blank"
+        rel="noopener noreferrer"
       >contact</a>&nbsp;our team.
     </p>
   </div>
@@ -28,4 +30,3 @@ export default {
   background-color: var(--color-bg-contrast);
 }
 </style>
-

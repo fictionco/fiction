@@ -4,9 +4,9 @@
     <div class="stage-wrap">
       <div class="card">
         <div class="code-container">
-          <plugin-highlight-code>
+          <factor-highlight-code>
             <pre><code class="prism language-html">{{ code() }}</code></pre>
-          </plugin-highlight-code>
+          </factor-highlight-code>
         </div>
         <div class="shine" />
       </div>
@@ -23,8 +23,9 @@
 </template>
 
 <script>
+import { factorHighlightCode } from "@factor/plugin-highlight-code"
 export default {
-  components: {},
+  components: { factorHighlightCode },
   //mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
   methods: {
     code() {

@@ -24,7 +24,10 @@
 </template>
 <script>
 import { setting } from "@factor/tools/settings"
-export default { methods: { setting } }
+import Vue from "vue"
+export default Vue.extend({
+  methods: { setting }
+})
 </script>
 
 <style lang="less">

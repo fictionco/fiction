@@ -6,7 +6,8 @@
 
 <script>
 import { setting } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   mounted() {
     require("./prism/prism.js")
     this.prism = window.Prism
@@ -25,7 +26,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 <style lang="less">
 .code-toolbar {

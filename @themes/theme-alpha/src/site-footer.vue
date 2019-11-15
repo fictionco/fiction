@@ -19,9 +19,10 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
 export default {
-  components: {},
+  components: { factorLink },
   data: () => {
     return {}
   },

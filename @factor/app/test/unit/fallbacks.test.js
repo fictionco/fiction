@@ -6,7 +6,7 @@ describe("fallbacks", () => {
   })
 
   it("provides a 404 component fallback", () => {
-    const s = setting("app.error404")
+    const s = setting("app.components.error404")
 
     expect(s).toEqual(expect.any(Function))
   })
@@ -18,13 +18,13 @@ describe("fallbacks", () => {
   })
 
   it("provides site wrapper", () => {
-    const s = setting("app.site")
+    const s = setting("app.components.site")
 
     expect(s).toEqual(expect.any(Function))
   })
 
   it("provides content wrapper", () => {
-    const s = setting("app.content")
+    const s = setting("app.components.content")
 
     expect(s).toEqual(expect.any(Function))
   })

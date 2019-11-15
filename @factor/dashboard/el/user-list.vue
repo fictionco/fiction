@@ -2,7 +2,11 @@
   <div class="user-list-input">
     <div class="user-list-items">
       <div v-for="(_id, index) in authors" :key="index" class="added-user">
-        <dashboard-user-card class="custom-list-item" :post-id="_id" @remove="deleteItem(index)" />
+        <dashboard-user-card
+          class="custom-list-item"
+          :post-id="_id"
+          @remove="deleteItem(index)"
+        />
       </div>
       <div class="input-text">
         <dashboard-input
@@ -17,8 +21,10 @@
   </div>
 </template>
 <script>
+import { dashboardInput, dashboardUserCard } from "@factor/dashboard"
 import { requestPostList } from "@factor/post"
 export default {
+  components: { dashboardInput, dashboardUserCard },
   props: {
     customValidity: { type: String, default: "" },
     value: { type: Array, default: () => [] },
@@ -135,4 +141,3 @@ export default {
   }
 }
 </style>
-

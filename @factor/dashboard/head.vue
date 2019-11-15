@@ -15,8 +15,12 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
+import { accountMenu } from "@factor/dashboard"
 import { setting } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink, accountMenu },
   computed: {
     iconUrl() {
       return setting("app.icon")
@@ -26,7 +30,7 @@ export default {
     }
   },
   mounted() {}
-}
+})
 </script>
 <style lang="less">
 .dashboard-head {

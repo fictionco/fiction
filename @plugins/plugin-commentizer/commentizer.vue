@@ -7,8 +7,12 @@
 
 <script>
 export default {
+  components: {
+    commentizerDisplay: () => import("./commentizer-display.vue"),
+    commentizerAdd: () => import("./commentizer-add.vue")
+  },
   props: {
     postId: { type: String, required: true }
-  },
+  }
 }
 </script>

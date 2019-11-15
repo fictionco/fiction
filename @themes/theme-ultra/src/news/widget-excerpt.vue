@@ -5,9 +5,11 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { postLink, excerpt, stored } from "@factor/tools"
 
 export default {
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" }
   },

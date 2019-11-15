@@ -2,15 +2,22 @@
   <div class="card-user card-wrap">
     <div v-if="postSet" class="card">
       <div class="name">{{ user.displayName || user.email }}</div>
-      <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
+      <div
+        v-if="$listeners.remove"
+        class="remove"
+        @click.prevent.stop="$emit('remove', $event)"
+      >
         <factor-icon icon="remove" />
       </div>
     </div>
   </div>
 </template>
 <script>
+import { factorIcon } from "@factor/ui"
 import { isEmpty, stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorIcon },
   props: {
     postId: { type: String, default: "" },
     subText: { type: String, default: "" },
@@ -24,7 +31,7 @@ export default {
       return stored(this.postId) || {}
     }
   }
-}
+})
 </script>
 
 <style lang="less">

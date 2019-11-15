@@ -28,7 +28,7 @@ export default {
       blogMeta: () => import("./blog/el-meta.vue")
     },
     layout: {
-      index: ["blogFeaturedImage", "blogHeaders", "blogExcerpt", "blogMeta"],
+      index: ["blogFeaturedImage", "blogHeaders", "blogMeta"],
       single: [
         "blogHeaders",
         "blogFeaturedImage",
