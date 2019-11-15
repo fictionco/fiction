@@ -4,7 +4,9 @@
   </factor-btn>
 </template>
 <script>
+import { factorBtn } from "@factor/ui"
 export default {
+  components: { factorBtn },
   mounted() {}
 }
 </script>

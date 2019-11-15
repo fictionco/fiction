@@ -45,12 +45,14 @@
   </div>
 </template>
 <script>
-import { factorLoadingRing } from "@factor/ui"
+import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
 export default {
   components: {
     factorLoadingRing,
+    factorLink,
+    factorIcon,
     "el-hero": () => import("../el/hero.vue")
   },
   data() {

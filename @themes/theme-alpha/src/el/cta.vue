@@ -1,9 +1,9 @@
 <template>
   <div class="cta">
     <div class="cta-inner">
-      <h2>{{ setting('site.cta.headline') }}</h2>
+      <h2>{{ setting("site.cta.headline") }}</h2>
       <factor-link btn="default" size="large" :path="setting('site.cta.path')">
-        {{ setting('site.cta.text') }}
+        {{ setting("site.cta.text") }}
         <factor-icon icon="arrow-right" />
       </factor-link>
     </div>
@@ -11,8 +11,10 @@
 </template>
 
 <script>
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
 export default {
+  components: { factorLink },
   methods: { setting }
 }
 </script>

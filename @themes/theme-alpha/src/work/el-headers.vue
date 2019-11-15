@@ -25,9 +25,12 @@
   </section>
 </template>
 <script>
+import { factorPostEdit } from "@factor/post"
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting, stored, postLink } from "@factor/tools"
 
 export default {
+  components: { factorLink, factorIcon, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }

@@ -16,9 +16,11 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { postLink, setting, stored } from "@factor/tools"
 
 export default {
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }

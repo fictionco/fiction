@@ -7,9 +7,12 @@
   </div>
 </template>
 <script>
+import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/tools"
 
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
@@ -35,7 +38,7 @@ export default {
   methods: {
     postLink
   }
-}
+})
 </script>
 <style lang="less">
 .work-posts {

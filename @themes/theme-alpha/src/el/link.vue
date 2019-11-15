@@ -3,7 +3,13 @@
     <slot />
   </factor-link>
 </template>
-
+<script>
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: { factorLink }
+})
+</script>
 
 <style lang="less">
 .btn-link {
