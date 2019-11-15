@@ -10,7 +10,7 @@ export function getCWDPackage() {
   try {
     const p = require(`${getCWD()}/package.json`)
 
-    if (p.name == "@factor/wrapper") {
+    if (p.name == "@factor/wrapper" && process.env.FACTOR_ENV != "test") {
       log.warn("Couldn't generate loaders - CWD is workspace root")
     } else {
       pkg = p
