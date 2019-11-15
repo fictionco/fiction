@@ -1,5 +1,6 @@
 import execa from "execa"
 import listr from "listr"
+
 import { log } from "@factor/tools"
 export async function verifyDependencies() {
   await runTasks(
@@ -17,9 +18,6 @@ export async function verifyDependencies() {
 
 async function runTasks(t, opts = {}) {
   if (t.length == 0) return
-
-  // Don't log during tests
-  if (process.env.FACTOR_ENV == "test") opts.renderer = "silent"
 
   const taskMap = t.map(
     ({
@@ -63,7 +61,11 @@ async function runTasks(t, opts = {}) {
 
   const tasks = new listr(taskMap, opts)
 
-  await tasks.run()
+  try {
+    await tasks.run()
+  } catch (error) {
+    log.error(error)
+  }
 
   return
 }

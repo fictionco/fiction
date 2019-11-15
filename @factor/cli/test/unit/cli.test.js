@@ -1,6 +1,28 @@
+import * as cli from "@factor/cli"
+
 describe("cli", () => {
-  describe("setup", () => {
-    it.todo("setup: run yarn install to verify node_modules installed")
+  describe("setup cli", () => {
+    it("setup: run yarn install to verify node_modules installed", async () => {
+      let consoleOutput = []
+
+      const originalStd = process.stdout.write
+
+      const mockedLog = output => consoleOutput.push(output)
+
+      // @ts-ignore
+      process.stdout.write = mockedLog
+      jest.spyOn(cli, "exitProcess").mockImplementation(() => {})
+
+      await cli.runCommand()
+
+      // eslint-disable-next-line require-atomic-updates
+      process.stdout.write = originalStd
+
+      const allOutput = consoleOutput.join("")
+      expect(allOutput).toContain("Verify Dependencies")
+      expect(allOutput).toContain("Verify Extensions")
+    })
+
     it.todo("setup: build loaders before extension")
     it.todo("setup: sets environmental variables")
     it.todo("setup: support aliases '~' & '@' ")
