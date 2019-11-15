@@ -23,7 +23,6 @@ describe("cli", () => {
       expect(allOutput).toContain("Verify Extensions")
     })
 
-    it.todo("setup: build loaders before extension")
     it.todo("setup: sets environmental variables")
     it.todo("setup: support aliases '~' & '@' ")
   })
