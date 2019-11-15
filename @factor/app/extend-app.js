@@ -5,7 +5,6 @@ Vue.config.productionTip = false
 Vue.config.silent = false
 
 let __observables = {}
-let __components = {}
 
 export async function extendApp(options = {}) {
   await runCallbacks("before-app-plugins", options)
@@ -14,7 +13,7 @@ export async function extendApp(options = {}) {
   require("~/.factor/loader-app")
 
   setupGlobalObservable()
-  addGlobalComponents()
+
   addClientDirectives()
 
   await runCallbacks("initialize-app", options)
@@ -29,31 +28,6 @@ function setupGlobalObservable() {
 
 export function getObservables() {
   return __observables
-}
-
-export function getComponents() {
-  return __components
-}
-
-function addGlobalComponents() {
-  __components = {}
-  const comps = applyFilters("components", {})
-
-  for (var _ in comps) {
-    if (comps[_]) {
-      // @ts-ignore
-      Vue.component(_, comps[_])
-      __components[_] = comps[_]
-    }
-  }
-
-  const globalComponents = applyFilters("global-components", [])
-
-  globalComponents.forEach(({ component, name }) => {
-    // @ts-ignore
-    Vue.component(name, component)
-    __components[name] = component
-  })
 }
 
 function addClientDirectives() {
