@@ -14,7 +14,7 @@ import { authorizedRequest, endpointRequest } from "@factor/endpoint"
 
 import * as filters from "@factor/tools/filters"
 
-jest.setTimeout(90000) // needs to download mongodb 60mb
+jest.setTimeout(120000) // needs to download mongodb 60mb
 let port
 let __id
 let spies = {}
