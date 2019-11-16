@@ -2,9 +2,7 @@
   <div>
     <section>
       <div>
-        <h3 class="font-sans text-lg text-uppercase text-gray-400">
-          {{ introPretitle }}
-        </h3>
+        <h3 class="font-sans text-lg text-uppercase text-gray-400">{{ introPretitle }}</h3>
         <h1 class="font-sans text-xl text-gray-800">{{ introTitle }}</h1>
       </div>
       <div v-formatted-text="introContent" class="mt-2 text-gray-600" />
@@ -18,13 +16,17 @@
       </div>
     </section>
 
-    <section>
-      <h1>{{ clientsTitle }}</h1>
-      <template v-for="(item, index) in clientsList">
-        <factor-link :key="index" :path="item.link">
-          <img :src="item.image" :alt="item.alt" />
-        </factor-link>
-      </template>
+    <section class="max-w-full mx-auto py-24 px-12 sm:p-8 bg-gray-100">
+      <h1
+        class="font-sans font-semibold leading-tight tracking-widest uppercase text-normal text-base text-center text-purple-700"
+      >{{ clientsTitle }}</h1>
+      <div class="flex justify-center items-center h-32">
+        <template v-for="(item, index) in clientsList">
+          <factor-link :key="index" :path="item.link" class="flex-1 px-4 py-2 m-2 text-center">
+            <img :src="item.image" :alt="item.alt" class="mx-auto" />
+          </factor-link>
+        </template>
+      </div>
     </section>
 
     <section>
@@ -89,8 +91,7 @@
           <figure :key="index">
             <blockquote>
               &ldquo;
-              <div v-formatted-text="item.content" />
-              &rdquo;
+              <div v-formatted-text="item.content" />&rdquo;
             </blockquote>
             <footer>
               <img :src="item.image" :alt="item.author + ' - ' + item.info" />
