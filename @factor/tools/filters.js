@@ -50,9 +50,6 @@ export function applyFilters(_id, data) {
 
   // Sort priority if array is returned
   if (Array.isArray(data)) {
-    if (_id == "postcss-plugins") {
-      console.log("DADTD", data)
-    }
     data = sortPriority(data)
   }
 
