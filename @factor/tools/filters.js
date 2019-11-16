@@ -50,6 +50,9 @@ export function applyFilters(_id, data) {
 
   // Sort priority if array is returned
   if (Array.isArray(data)) {
+    if (_id == "postcss-plugins") {
+      console.log("DADTD", data)
+    }
     data = sortPriority(data)
   }
 
@@ -81,14 +84,20 @@ export function addFilter(
 }
 
 export function pushToFilter(_id, item, options = {}) {
-  const { key = "" } = options
+  const { key = "", pushTo = -1 } = options
   options.key = uniqueObjectHash(item, callerKey(key))
 
   addFilter(
     _id,
     (_, args) => {
       item = typeof item == "function" ? item(args) : item
-      return [..._, item]
+
+      if (pushTo >= 0) {
+        _.splice(pushTo, 0, item)
+        return _
+      } else {
+        return [..._, item]
+      }
     },
     options
   )

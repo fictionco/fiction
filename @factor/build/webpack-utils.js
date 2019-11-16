@@ -4,14 +4,16 @@ import log from "@factor/tools/logger"
 import { applyFilters } from "@factor/tools/filters"
 
 export function cssLoaders({ target, lang }) {
+  const postCssPlugins = applyFilters("postcss-plugins", [
+    require("cssnano")({ preset: "default" })
+  ])
+
   const _base = [
     { loader: "css-loader" },
     {
       loader: "postcss-loader",
       options: {
-        plugins: applyFilters("postcss-plugins", [
-          require("cssnano")({ preset: "default" })
-        ]),
+        plugins: postCssPlugins,
         minimize: true
       }
     }

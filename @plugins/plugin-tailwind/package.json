@@ -14,6 +14,7 @@
     "title": "Tailwind CSS"
   },
   "dependencies": {
+    "@fullhuman/postcss-purgecss": "^1.3.0",
     "tailwindcss": "^1.1.3"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
