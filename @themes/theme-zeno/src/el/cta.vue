@@ -22,7 +22,7 @@ export default Vue.extend({
     return {
       loading: true,
       ctaTitle: setting("site.cta.title"),
-      ctaButtons: setting("home.intro.buttons")
+      ctaButtons: setting("site.cta.buttons")
     }
   },
   methods: { setting }

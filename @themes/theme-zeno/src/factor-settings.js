@@ -2,6 +2,11 @@ export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&display=swap" rel="stylesheet" />`
   },
+  tailwind: {
+    config: require("./tailwind.config.js"),
+    // @ts-ignore
+    directives: require("./tailwind.css")
+  },
   site: {
     logo: require("./img/logo-zeno.svg"),
     nav: [
@@ -32,12 +37,12 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "bg-green-300 text-indigo-600"
+          classes: "btn bg-teal-400 text-purple-700 hover:bg-teal-500"
         },
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "bg-gray-100 text-indigo-600"
+          classes: "btn shadow-lg ml-4 bg-gray-100 hover:bg-white text-purple-700"
         },
       ]
     },
@@ -57,12 +62,12 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "bg-green-300 text-indigo-600"
+          classes: "btn bg-teal-400 text-purple-700 hover:bg-teal-500"
         },
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "bg-gray-100 text-indigo-600"
+          classes: "btn shadow-lg ml-4 bg-gray-100 hover:bg-white text-purple-700"
         },
       ]
     },
@@ -145,7 +150,7 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "bg-green-300 text-indigo-600"
+          classes: "btn bg-teal-400 text-purple-700 hover:bg-teal-500"
         }
       ],
       figure: () => import("./el/figure-devops.vue")
@@ -408,23 +413,22 @@ export default {
         _id: "plan",
         inputType: "select",
         required: true,
-        options: [
+        list: [
           {
-            name: "Unsure",
-            label: "Unsure",
-            value: "unsure"
+            value: "unsure",
+            name: "unsure"
           },
           {
-            name: "Nano",
-            value: "nano"
+            value: "nano",
+            name: "Nano"
           },
           {
-            name: "Micro",
-            value: "micro"
+            value: "micro",
+            name: "Micro"
           },
           {
-            name: "Mega",
-            value: "mega"
+            value: "mega",
+            name: "Mega"
           }
         ]
       },
