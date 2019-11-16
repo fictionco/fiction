@@ -8,7 +8,12 @@
 </template>
 <script>
 import { postLink, setting, stored } from "@factor/tools"
-export default {
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: {
+    factorLink
+  },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
@@ -35,7 +40,7 @@ export default {
     postLink,
     setting
   }
-}
+})
 </script>
 <style lang="less">
 .featured-image {

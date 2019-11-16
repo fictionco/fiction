@@ -10,7 +10,8 @@
 </template>
 <script>
 import { setting, stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     postId: { type: String, default: "" }
   },
@@ -20,5 +21,5 @@ export default {
     }
   },
   methods: { setting }
-}
+})
 </script>

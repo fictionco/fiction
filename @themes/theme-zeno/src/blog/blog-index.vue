@@ -38,7 +38,12 @@
 <script>
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
-export default {
+import { factorLoadingRing } from "@factor/ui"
+import Vue from "vue"
+export default Vue.extend({
+  components: {
+    factorLoadingRing
+  },
   data() {
     return {
       postType: "blog",
@@ -108,5 +113,5 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
