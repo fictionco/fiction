@@ -7,5 +7,7 @@ body{
 .btn{
   @apply inline-block text-sm px-5 py-3 uppercase tracking-wider font-semibold;
 }
-
+.uppercase-custom{
+  @apply font-sans font-semibold leading-tight tracking-widest uppercase;
+}
 @tailwind utilities;

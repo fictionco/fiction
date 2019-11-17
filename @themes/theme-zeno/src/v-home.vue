@@ -1,25 +1,36 @@
 <template>
   <div>
     <section>
-      <div>
-        <h3 class="font-sans text-lg text-uppercase text-gray-400">{{ introPretitle }}</h3>
-        <h1 class="font-sans text-xl text-gray-800">{{ introTitle }}</h1>
-      </div>
-      <div v-formatted-text="introContent" class="mt-2 text-gray-600" />
-      <div class="mt-4">
-        <template v-for="(button, index) in introButtons">
-          <factor-link :key="index" :path="button.link" :class="button.classes">
-            {{ button.text }}
-            <factor-icon icon="arrow-right" />
-          </factor-link>
-        </template>
+      <div class="flex bg-gray-100 min-h-full">
+        <div
+          class="flex items-center px-8 py-12 max-w-md mx-auto sm:max-w-xl lg:w-1/2 lg:max-w-full lg:py-24 lg:px-12"
+        >
+          <div class="xl:max-w-full xl:ml-auto pr-2 lg:pr-8 xl:pr-12">
+            <h3 class="uppercase-custom text-purple-700">{{ introPretitle }}</h3>
+            <h1 class="font-bold text-4xl lg:text-3xl xl:text-4xl text-purple-900">{{ introTitle }}</h1>
+            <div v-formatted-text="introContent" class="mt-2 text-xl text-gray-600" />
+
+            <div class="mt-4">
+              <template v-for="(button, index) in introButtons">
+                <factor-link :key="index" :path="button.link" :class="button.classes">
+                  {{ button.text }}
+                  <factor-icon icon="arrow-right" />
+                </factor-link>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="hidden lg:block lg:w-1/2 bg-purple-900">
+          <component
+            :is="introFigure"
+            class="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        </div>
       </div>
     </section>
 
-    <section class="max-w-full mx-auto py-24 px-12 sm:p-8 bg-gray-100">
-      <h1
-        class="font-sans font-semibold leading-tight tracking-widest uppercase text-normal text-base text-center text-purple-700"
-      >{{ clientsTitle }}</h1>
+    <section class="max-w-full mx-auto md:py-24 md:px-12 sm:p-8">
+      <h1 class="uppercase-custom text-center text-purple-700">{{ clientsTitle }}</h1>
       <div class="flex justify-center items-center h-32">
         <template v-for="(item, index) in clientsList">
           <factor-link :key="index" :path="item.link" class="flex-1 px-4 py-2 m-2 text-center">
@@ -30,7 +41,11 @@
     </section>
 
     <section>
-      <h1>{{ solutionsTitle }}</h1>
+      <div class="bg-purple-900 py-12 px-8">
+        <h1
+          class="font-bold text-center text-4xl lg:text-3xl xl:text-4xl text-gray-200"
+        >{{ solutionsTitle }}</h1>
+      </div>
       <template v-for="(item, index) in solutionsItems">
         <div :key="index">
           <img :src="item.icon" :alt="item.title" />
@@ -49,8 +64,8 @@
         <component :is="devopsFigure" />
       </div>
       <div>
-        <h3>{{ devopsPretitle }}</h3>
-        <h1>{{ devopsTitle }}</h1>
+        <h3 class="uppercase-custom text-purple-700">{{ devopsPretitle }}</h3>
+        <h1 class="font-bold text-4xl lg:text-3xl xl:text-4xl text-purple-900">{{ devopsTitle }}</h1>
         <div v-formatted-text="devopsContent" />
         <div>
           <template v-for="(button, index) in devopsButtons">
@@ -83,7 +98,7 @@
     </section>
 
     <section>
-      <h3>{{ testimonialsPretitle }}</h3>
+      <h3 class="uppercase-custom text-purple-700">{{ testimonialsPretitle }}</h3>
       <h1>{{ testimonialsTitle }}</h1>
 
       <div>
@@ -128,6 +143,7 @@ export default Vue.extend({
       introTitle: setting("home.intro.title"),
       introContent: setting("home.intro.content"),
       introButtons: setting("home.intro.buttons"),
+      introFigure: setting("home.intro.figure"),
       clientsTitle: setting("home.clients.title"),
       clientsList: setting("home.clients.list"),
       solutionsTitle: setting("home.solutions.title"),

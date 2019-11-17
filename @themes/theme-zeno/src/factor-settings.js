@@ -69,7 +69,8 @@ export default {
           text: "Pricing",
           classes: "btn shadow-lg ml-4 bg-gray-100 hover:bg-white text-purple-700"
         },
-      ]
+      ],
+      figure: () => import("./el/figure-intro.vue")
     },
     clients: {
       title: "Working with the following clouds:",
