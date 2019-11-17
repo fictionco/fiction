@@ -172,7 +172,7 @@ function makeFileLoader({ extensions, filename, callback }) {
   extensions.forEach(_ => {
     const { name, cwd, _id, main, priority } = _
 
-    const dir = getDirectory({ name, main })
+    const dir = getDirectory({ name })
     const requireBase = getRequireBase({ cwd, name, main })
 
     glob
@@ -276,9 +276,10 @@ function loadExtensions(pkg) {
   return generateExtensionList(dependents)
 }
 
-function getDirectory({ name, main }) {
+function getDirectory({ name, main = "" }) {
   const resolver = isCWD(name) ? getCWD() : name
-  const root = require.resolve(resolver, main)
+
+  const root = require.resolve(resolver, { paths: [main] })
 
   return dirname(root)
 }

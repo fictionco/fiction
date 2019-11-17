@@ -30,6 +30,12 @@ export class FactorLogger {
     Reflect.apply(this.utility.info, null, arguments)
   }
 
+  server(text, { color = "cyan" } = {}) {
+    this.log(
+      chalk[color](`${figures.arrowUp}${figures.arrowDown}`) + chalk.dim(` ${text}`)
+    )
+  }
+
   formatted({ title, lines = [], format = "", color = "cyan" }) {
     // Don't log during tests
     if (process.env.FACTOR_ENV == "test") return

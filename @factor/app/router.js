@@ -14,9 +14,11 @@ let __initialPageLoad = true
 let __router
 
 export function createRouter() {
+  const routes = applyFilters("routes", []).filter(_ => _)
+
   const router = new VueRouter({
     mode: "history",
-    routes: applyFilters("routes", []).filter(_ => _),
+    routes,
     scrollBehavior: (to, from, saved) => {
       return to.hash ? { selector: to.hash } : (saved ? saved : { x: 0, y: 0 })
     },

@@ -3,9 +3,12 @@ import { toLabel, setting, renderMarkdown } from "@factor/tools"
 export function config() {
   return normalize(setting("docs.pages"))
 }
-export function getMarkdownHTML(doc) {
+export async function getMarkdownHTML(doc) {
   const { file } = selected(doc) || {}
-  return file ? renderMarkdown(file) : null
+
+  const { default: contents } = await file()
+
+  return renderMarkdown(contents)
 }
 
 export function selected(doc) {

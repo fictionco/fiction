@@ -1,9 +1,9 @@
-import { addCallback, runCallbacks, applyFilters, setting, log } from "@factor/tools"
+import { addCallback, runCallbacks, applyFilters, setting } from "@factor/tools"
 import { getPath } from "@factor/tools/paths"
 import destroyer from "destroyer"
 import express from "express"
 import fs from "fs-extra"
-
+import log from "@factor/tools/logger"
 import LRU from "lru-cache"
 import { createBundleRenderer } from "vue-server-renderer"
 
@@ -126,8 +126,10 @@ function startListener() {
   )
 
   _listening = _application.listen(PORT, () => logServerReady())
+
   prepareListener()
   addCallback("restart-server", async () => {
+    log.server("restarting server", { color: "yellow" })
     _listening.destroy()
     await runCallbacks("rebuild-server-app")
     startListener()

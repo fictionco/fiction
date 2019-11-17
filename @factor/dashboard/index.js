@@ -1,11 +1,12 @@
 import {
   addFilter,
   applyFilters,
-  setting,
   toLabel,
   postTypesConfig,
   pushToFilter
 } from "@factor/tools"
+
+import { setting } from "@factor/tools/settings"
 import { userCan } from "@factor/user"
 
 pushToFilter("content-routes", {
@@ -34,9 +35,13 @@ export const dashboardUserCard = () => import("./el/user-card.vue")
 export const dashboardUserList = () => import("./el/user-list.vue")
 export const factorInputSortable = () => import("./el/sortable.vue")
 
-const dashboardRoute = setting("dashboard.route")
-
 addFilter("routes", _ => {
+  const dashboardRoute = setting("dashboard.route")
+
+  if (!dashboardRoute) {
+    throw new Error("Dashboard base route setting is undefined.")
+  }
+
   _.push({
     path: "/admin",
     redirect: dashboardRoute

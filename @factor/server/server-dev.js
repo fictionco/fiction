@@ -78,7 +78,9 @@ function loaders(target = "", value = "") {
       !values.some(_ => _ == "start" || _ == "loading") &&
       updateSpinner
     ) {
-      updateSpinner.succeed(`Built ${Math.max(...values) / 1000}s ${updateReason}`)
+      updateSpinner.succeed(
+        ` built` + chalk.dim(` in ${Math.max(...values) / 1000}s ${updateReason}`)
+      )
       updateSpinner = false
       updateLoaders = {}
       updateReason = ""
