@@ -1,65 +1,67 @@
 <template>
-  <div>
-    <section>
-      <div class="flex bg-gray-100 min-h-full">
-        <div
-          class="flex items-center px-8 py-12 max-w-md mx-auto sm:max-w-xl lg:w-1/2 lg:max-w-full lg:py-24 lg:px-12"
-        >
-          <div class="xl:max-w-full xl:ml-auto pr-2 lg:pr-8 xl:pr-12">
-            <h3 class="uppercase-custom text-purple-700">{{ introPretitle }}</h3>
-            <h1 class="font-bold text-4xl lg:text-3xl xl:text-4xl text-purple-900">{{ introTitle }}</h1>
-            <div v-formatted-text="introContent" class="mt-2 text-xl text-gray-600" />
+  <div class="-mt-16">
+    <section class="flex bg-gray-100 min-h-full">
+      <div class="flex items-center px-8 max-w-md mx-auto sm:max-w-xl lg:w-1/2">
+        <div class="xl:max-w-full xl:ml-auto pr-2 lg:pr-8 xl:pr-12">
+          <h3 class="uppercase-custom text-purple-700">{{ introPretitle }}</h3>
+          <h1 class="font-bold text-4xl lg:text-3xl xl:text-4xl text-purple-900">{{ introTitle }}</h1>
+          <div v-formatted-text="introContent" class="mt-2 text-xl text-gray-600" />
 
-            <div class="mt-4">
-              <template v-for="(button, index) in introButtons">
-                <factor-link :key="index" :path="button.link" :class="button.classes">
-                  {{ button.text }}
-                  <factor-icon icon="arrow-right" />
-                </factor-link>
-              </template>
-            </div>
+          <div class="mt-4">
+            <template v-for="(button, index) in introButtons">
+              <factor-link :key="index" :path="button.link" :class="button.classes">
+                {{ button.text }}
+                <factor-icon icon="arrow-right ml-4" />
+              </factor-link>
+            </template>
           </div>
         </div>
-        <div class="hidden lg:block lg:w-1/2 bg-purple-900">
-          <component
-            :is="introFigure"
-            class="absolute inset-0 h-full w-full object-cover object-center"
-          />
-        </div>
+      </div>
+      <div class="hidden lg:block lg:w-1/2 bg-purple-900">
+        <component :is="introFigure" />
       </div>
     </section>
 
-    <section class="max-w-full mx-auto md:py-24 md:px-12 sm:p-8">
+    <section class="max-w-full px-4 py-8 xl:p-12">
       <h1 class="uppercase-custom text-center text-purple-700">{{ clientsTitle }}</h1>
-      <div class="flex justify-center items-center h-32">
+      <div class="flex flex-wrap items-center">
         <template v-for="(item, index) in clientsList">
-          <factor-link :key="index" :path="item.link" class="flex-1 px-4 py-2 m-2 text-center">
+          <factor-link :key="index" :path="item.link" class="w-1/3 px-4 mt-8">
             <img :src="item.image" :alt="item.alt" class="mx-auto" />
           </factor-link>
         </template>
       </div>
     </section>
 
-    <section>
-      <div class="bg-purple-900 py-12 px-8">
-        <h1
-          class="font-bold text-center text-4xl lg:text-3xl xl:text-4xl text-gray-200"
-        >{{ solutionsTitle }}</h1>
+    <section class="bg-gray-100 pb-16">
+      <div class="bg-purple-900 pt-16 pb-32 px-8">
+        <h1 class="font-bold text-center text-4xl text-gray-200">{{ solutionsTitle }}</h1>
       </div>
-      <template v-for="(item, index) in solutionsItems">
-        <div :key="index">
-          <img :src="item.icon" :alt="item.title" />
-          <h2>{{ item.title }}</h2>
-          <ul>
-            <template v-for="(listItem, i) in item.list">
-              <li :key="i">{{ listItem.content }}</li>
-            </template>
-          </ul>
-        </div>
-      </template>
+      <div class="flex flex-col items-center -mt-24">
+        <template v-for="(item, index) in solutionsItems">
+          <div
+            :key="index"
+            class="w-11/12 px-6 py-10 mt-8 bg-white shadow-lg md:w-8/12 lg:w-6/12 lg:px-16"
+          >
+            <div class="flex items-center">
+              <img :src="item.icon" :alt="item.title" />
+              <h2 class="font-bold text-3xl text-purple-900 ml-5">{{ item.title }}</h2>
+            </div>
+            <ul
+              class="font-normal list-outside list-square mt-8 text-xl text-gray-600 tracking-tight"
+            >
+              <template v-for="(listItem, i) in item.list">
+                <li :key="i" class="text-purple-700 mt-4 ml-5">
+                  <span class="text-gray-600">{{ listItem.content }}</span>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </template>
+      </div>
     </section>
 
-    <section :ref="devopsID">
+    <section class="bg-white py-16">
       <div>
         <component :is="devopsFigure" />
       </div>
@@ -71,7 +73,7 @@
           <template v-for="(button, index) in devopsButtons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
               {{ button.text }}
-              <factor-icon icon="arrow-right" />
+              <factor-icon icon="arrow-right ml-4" />
             </factor-link>
           </template>
         </div>
@@ -148,7 +150,7 @@ export default Vue.extend({
       clientsList: setting("home.clients.list"),
       solutionsTitle: setting("home.solutions.title"),
       solutionsItems: setting("home.solutions.items"),
-      devopsID: setting("home.devops.id"),
+      //devopsID: setting("home.devops.id"),
       devopsFigure: setting("home.devops.figure"),
       devopsPretitle: setting("home.devops.pretitle"),
       devopsTitle: setting("home.devops.title"),
