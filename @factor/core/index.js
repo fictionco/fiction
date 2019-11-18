@@ -1,3 +1,1 @@
-import Factor from "vue"
-
-export default Factor
+export default {}

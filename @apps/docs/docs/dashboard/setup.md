@@ -51,23 +51,41 @@ To add your first admin users, just add the email of the user you'd like to assi
     }
   }
 }
+
+// Available roles
+{
+  "admin": 500,
+  "moderator": 400,
+  "author": 100,
+  "member": 1,
+  "visitor": 0
+}
+
 ```
 
-> **Note:** User account's email addresses must be successfully verified in order for admin privileges to be applied.
+**Notes:**
 
-## Logging In To Your Dashboard
+- User account's email addresses must be successfully verified in order for admin privileges to be applied.
+- Available roles are
 
-Now, all you need to do is visit your local [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "sign-up." Just hit "sign-up" and create an account and you should be able to see your dashboard.
+## Verifying Email and Logging In
 
-Inside the dashboard, on your 'account' page, you'll find a button to send yourself a verification email. If you haven't set up transactional email yet, then the output of this email will be logged to your console. Visit the link that was sent to verify your email.
+Once configured, visit [localhost:3000/dashboard](http://localhost:3000/dashboard) and you should be asked to "login" or "sign-up." Just hit "sign-up", create an account and then you should be able to see your dashboard.
 
-Once you've added yourself as admin and verified your email address, you should be able to see the admin options as well as basic user level options in your dashboard.
+Inside the dashboard, on your 'account' page, you'll find a button to send yourself a verification email. Visit the link that was sent to verify your email.
+
+Notes:
+
+- If you haven't set up transactional email yet, then the output of the verification email will be logged to your console.
+- It is also possible to verify your email manually by accessing your database and finding the user associated with your account (set `emailVerified: true`)
 
 ![Factor Dashboard](./dashboard.png)
 
-## Next Steps
+## Success and Next Steps
 
-There are some services needed to power even the most basic apps:
+At this point you should be setup with everything you need to work with your app's dashboard.
+
+The next step is to configure other common services that your app will need. For example, your image storage and email SMTP services. Read on for a quick overview on how those are configured.
 
 ### Transactional Email
 
@@ -77,8 +95,8 @@ To set this up, you'll need the following standard SMTP config. (Add to `.env` f
 
 ```git
 # .env - SMTP connection info
-SMTP_USERNAME="YOURUSERNAME"
-SMTP_PASSWORD="---YOURPASSWORD---"
+SMTP_USERNAME="USERNAME"
+SMTP_PASSWORD="---PASSWORD---"
 SMTP_HOST="your.host.com"
 
 ```
@@ -103,8 +121,8 @@ yarn add @factor/plugin-storage-s3
 
 ```git
 # .env / AWS config info
-AWS_ACCESS_KEY="YOURKEY"
-AWS_ACCESS_KEY_SECRET="YOURSECRET"
+AWS_ACCESS_KEY="KEY"
+AWS_ACCESS_KEY_SECRET="SECRET"
 AWS_S3_BUCKET="your-bucket-name"
 ```
 

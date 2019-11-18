@@ -11,7 +11,8 @@ describe("cli", () => {
 
       // @ts-ignore
       process.stdout.write = mockedLog
-      jest.spyOn(cli, "exitProcess").mockImplementation(() => {})
+      // @ts-ignore
+      jest.spyOn(process, "exit").mockImplementation(() => {})
 
       await cli.runCommand()
 

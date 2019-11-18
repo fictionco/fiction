@@ -2,13 +2,13 @@ import consola from "consola"
 import chalk from "chalk"
 import env from "std-env"
 import exit from "exit"
-import Factor from "vue"
+import Vue from "vue"
 
 // Import this to resolve any dependency cycle issues
 import "@factor/tools"
 process.env.FACTOR_ENV = "test"
 
-Factor.config.devtools = false
+Vue.config.devtools = false
 
 const isWin = env.windows
 
