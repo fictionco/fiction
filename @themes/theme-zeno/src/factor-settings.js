@@ -37,7 +37,7 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-400 text-purple-700 hover:bg-teal-500"
+          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
         },
         {
           link: "/pricing",
@@ -62,12 +62,12 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-400 text-purple-700 hover:bg-teal-500"
+          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
         },
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "btn shadow-lg ml-4 bg-gray-100 hover:bg-white text-purple-700"
+          classes: "btn shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
         },
       ],
       figure: () => import("./el/figure-intro.vue")
@@ -151,7 +151,7 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-400 text-purple-700 hover:bg-teal-500"
+          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
         }
       ],
       figure: () => import("./el/figure-devops.vue")
