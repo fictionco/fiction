@@ -103,8 +103,6 @@ export async function runCommand(options = {}) {
       await runServer({ NODE_ENV, ..._arguments }) // Long running process
     } else {
       if (command) log.success(`Successfully ran [${command}]`)
-
-      exitProcess()
     }
   } catch (error) {
     log.error(error)
