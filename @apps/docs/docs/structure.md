@@ -1,6 +1,6 @@
-# App File Structure
+# App Structure
 
-## Setting Up An App
+## The Basics
 
 The easiest way to set up a Factor app is to start with an example app or use the helpful `create-factor-app` utility. This way you'll be sure to have the proper config and filenames, etc..
 
@@ -19,12 +19,7 @@ Inside package.json, factor apps need a `factor` key that supports the following
 ```js
 // package.json
 {
-  // This sets your source folder to 'src', default is simply index.js
-  "main": "src/index.js",
   "factor": {
-    // unique reference ID for the module: Factor.$docsApp
-    "id": "docsApp",
-
     // files to load based on app vs server environment
     "target": [
       "app",  // loads index.js in app
@@ -36,9 +31,6 @@ Inside package.json, factor apps need a `factor` key that supports the following
       "server": "server" // loads server.js on server
     }
 
-    "extend": "theme" // "theme" "app" or defaults to "plugin"
-
-    "priority": 100 // The load order priority
   }
 }
 ```

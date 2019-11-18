@@ -103,17 +103,14 @@ export async function runCommand(options = {}) {
       await runServer({ NODE_ENV, ..._arguments }) // Long running process
     } else {
       if (command) log.success(`Successfully ran [${command}]`)
+      // eslint-disable-next-line unicorn/no-process-exit
+      process.exit(0)
     }
   } catch (error) {
     log.error(error)
   }
 
   return
-}
-
-export function exitProcess() {
-  // eslint-disable-next-line unicorn/no-process-exit
-  process.exit(0)
 }
 
 export async function runServer(_arguments) {
