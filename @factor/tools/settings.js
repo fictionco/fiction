@@ -1,16 +1,23 @@
 import { dotSetting, deepMerge } from "@factor/tools/utils"
 import { applyFilters, addCallback } from "@factor/tools/filters"
 import { configSettings } from "@factor/tools/config"
-
+import Vue from "vue"
 import coreSettings from "@factor/app/core-settings"
 
 addCallback("before-server-plugins", () => createSettings())
 addCallback("before-app-plugins", () => createSettings())
 
-let settings = {}
 let added = []
 let config = {}
 let settingsExports = []
+
+function getSettings() {
+  return Vue["$factorSettings"] ? Vue["$factorSettings"] : {}
+}
+
+function setSettings(settings) {
+  Vue["$factorSettings"] = settings
+}
 
 export function createSettings() {
   config = configSettings()
@@ -33,7 +40,9 @@ function mergeAllSettings() {
 
   const merged = deepMerge([config, coreSettings, ...settingsArray])
 
-  settings = applyFilters("merged-factor-settings", merged)
+  const settings = applyFilters("merged-factor-settings", merged)
+
+  setSettings(settings)
 
   return
 }
@@ -44,7 +53,10 @@ export async function addSettings(settings) {
 }
 
 export function setting(key) {
-  if (key == "all") return settings
+  const settings = getSettings()
+  if (key == "all") {
+    return settings
+  }
 
   return dotSetting({ key, settings })
 }

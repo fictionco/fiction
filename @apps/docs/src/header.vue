@@ -5,7 +5,7 @@
 
       <div class="primary-nav">
         <template v-for="(item, index) in siteNav">
-          <component :is="item.component()" v-if="item.component" :key="index" />
+          <component :is="item.component" v-if="item.component" :key="index" />
           <factor-link
             v-else
             :key="index"

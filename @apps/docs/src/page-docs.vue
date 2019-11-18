@@ -30,8 +30,13 @@ export default Vue.extend({
     return {
       loading: true,
       toggle: true,
-      clicked: false
+      clicked: false,
+      text: ""
     }
+  },
+  serverPrefetch() {
+    // @ts-ignore
+    return getMarkdownHTML(this.doc)
   },
   computed: {
     activeHash() {
@@ -39,16 +44,19 @@ export default Vue.extend({
     },
     doc() {
       return this.$route.params.doc || ""
-    },
-    text() {
-      return getMarkdownHTML(this.doc)
     }
   },
   watch: {
     $route: function(to, from) {
       if (to.path != from.path) {
         this.toggleNav(false)
+        this.setContent()
       }
+    }
+  },
+  async created() {
+    if (!this.text) {
+      await this.setContent()
     }
   },
   metaInfo() {
@@ -56,6 +64,9 @@ export default Vue.extend({
   },
 
   methods: {
+    async setContent() {
+      this.text = await getMarkdownHTML(this.doc)
+    },
     toggleNav(v) {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle

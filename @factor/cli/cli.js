@@ -26,8 +26,9 @@ commander
   .description("CLI for managing Factor data, builds and deployments")
   .option("--PORT <PORT>", "set server port. default: 3000")
   .option("--ENV <ENV>", "set FACTOR_ENV. default: NODE_ENV")
-  .option("--restart", "Restart server process flag.")
-  .option("--debug", "Log debugging info.")
+  .option("--restart", "restart server process flag")
+  .option("--debug", "log debugging info")
+  .option("--offline", "run in offline mode")
 
 commander
   .command("dev")
@@ -103,7 +104,7 @@ export async function runCommand(options = {}) {
     } else {
       if (command) log.success(`Successfully ran [${command}]`)
 
-      //exitProcess()
+      exitProcess()
     }
   } catch (error) {
     log.error(error)

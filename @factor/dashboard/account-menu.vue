@@ -13,7 +13,11 @@
       <div v-if="toggle" class="account-menu-nav" @click.stop>
         <div class="nav-pad">
           <div class="user-basics">
-            <factor-avatar v-if="isLoggedIn()" :post-id="currentUser.avatar" width="2.5em" />
+            <factor-avatar
+              v-if="isLoggedIn()"
+              :post-id="currentUser.avatar"
+              width="2.5em"
+            />
             <div class="content" :data-uid="currentUser._id">
               <div class="name">{{ currentUser.displayName || currentUser.email }}</div>
               <div v-if="role.title" class="privs">
@@ -23,7 +27,11 @@
           </div>
 
           <div class="account-nav-items">
-            <div v-for="(group, groupIndex) in accountMenu" :key="groupIndex" class="list-group">
+            <div
+              v-for="(group, groupIndex) in accountMenu"
+              :key="groupIndex"
+              class="list-group"
+            >
               <div v-if="group.title" class="list-group-title">{{ group.title }}</div>
 
               <factor-link
@@ -46,7 +54,9 @@ import { factorAvatar, factorLink } from "@factor/ui"
 import { currentUser, isLoggedIn, logout } from "@factor/user"
 import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/tools"
 import Vue from "vue"
+
 export default Vue.extend({
+  name: "AccountMenu",
   components: { factorAvatar, factorLink },
   props: {
     showName: { type: Boolean, default: false }

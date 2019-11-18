@@ -17,7 +17,8 @@
 
 <script>
 import { factorLoadingRing } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLoadingRing },
   props: {
     image: { type: String, default: "" },
@@ -85,7 +86,7 @@ export default {
       return out
     }
   }
-}
+})
 </script>
 
 <style lang="less">

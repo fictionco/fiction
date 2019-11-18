@@ -14,6 +14,7 @@
 <style src="./css/style.less" lang="less"></style>
 <script>
 export default {
+  name: "ContentWrap",
   components: {
     "header-primary": () => import("./header.vue"),
     "footer-primary": () => import("./footer.vue"),

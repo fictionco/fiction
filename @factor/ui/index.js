@@ -1,4 +1,4 @@
-import { setting } from "@factor/tools"
+import { setting } from "@factor/tools/settings"
 import "./directives"
 
 export const factorError404 = setting("app.components.error404")
