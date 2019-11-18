@@ -50,10 +50,10 @@ export default {
         group: "App Development"
       },
       {
-        name: "File Structure",
-        doc: "file-structure",
+        name: "App Structure",
+        doc: "app-structure",
         file: () => import("../docs/structure.md"),
-        title: "Factor File Structure"
+        title: "Factor App Structure"
       },
       {
         name: "Add Extensions",

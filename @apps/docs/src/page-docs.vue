@@ -1,12 +1,12 @@
 <template>
   <div class="page-docs">
-    <section v-if="text" class="docs-wrap">
+    <section v-if="activeDoc" class="docs-wrap">
       <page-sidebar />
 
       <div class="mast">
         <div class="content">
           <div ref="scroller" class="scroller">
-            <docs-entry ref="content" :text="text" />
+            <docs-entry ref="content" :text="activeDoc" />
             <docs-footer />
           </div>
         </div>
@@ -19,6 +19,8 @@
 import Vue from "vue"
 import { getMarkdownHTML, metatags } from "./docs-handler"
 import { factorError404 } from "@factor/ui"
+import { stored } from "@factor/app/store"
+
 export default Vue.extend({
   components: {
     factorError404,
@@ -35,7 +37,6 @@ export default Vue.extend({
     }
   },
   serverPrefetch() {
-    // @ts-ignore
     return getMarkdownHTML(this.doc)
   },
   computed: {
@@ -44,6 +45,9 @@ export default Vue.extend({
     },
     doc() {
       return this.$route.params.doc || ""
+    },
+    activeDoc() {
+      return stored(`doc-${this.doc}`)
     }
   },
   watch: {
@@ -55,7 +59,7 @@ export default Vue.extend({
     }
   },
   async created() {
-    if (!this.text) {
+    if (!this.activeDoc) {
       await this.setContent()
     }
   },
@@ -65,7 +69,7 @@ export default Vue.extend({
 
   methods: {
     async setContent() {
-      this.text = await getMarkdownHTML(this.doc)
+      await getMarkdownHTML(this.doc)
     },
     toggleNav(v) {
       if (typeof v == "undefined") {

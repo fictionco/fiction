@@ -111,9 +111,9 @@ code {
   h2,
   h3,
   h4 {
-    font-weight: 800;
+    font-weight: 600;
     a {
-      font-weight: 800;
+      font-weight: 600;
     }
   }
   h1,

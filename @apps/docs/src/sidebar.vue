@@ -32,7 +32,7 @@
                   :class="activeHash == h2.anchor ? 'scroll-active' : ''"
                   @click="clicked = true"
                 >{{ h2.text }}</a>
-                <ul v-if="h2.sub.length">
+                <ul v-if="false">
                   <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
                     <a
                       class="nav-link sub"
@@ -57,7 +57,8 @@ import { factorLink, factorIcon } from "@factor/ui"
 import { DOM, throttle, setting } from "@factor/tools"
 
 import { config } from "./docs-handler"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
     mode: { type: String, default: "" }
@@ -202,7 +203,7 @@ export default {
       return text
     }
   }
-}
+})
 </script>
 
 <style lang="less">
@@ -267,12 +268,13 @@ export default {
       font-weight: 700;
     }
     a {
+      font-weight: 500;
       color: inherit;
       &.router-link-exact-active,
       &:hover,
       &.scroll-active {
         color: var(--color-primary);
-        font-weight: 700;
+        font-weight: 600;
         letter-spacing: -0.01em;
       }
       &:hover {
@@ -283,7 +285,7 @@ export default {
     .nav-link {
       font-size: 0.85em;
       margin-left: 1em;
-      font-weight: 600;
+      font-weight: 500;
       display: block;
       line-height: 1.3;
       &.sub {

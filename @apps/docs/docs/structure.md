@@ -1,127 +1,97 @@
 # App Structure
 
-## The Basics
+## Organizing Your App
 
-The easiest way to set up a Factor app is to start with an example app or use the helpful `create-factor-app` utility. This way you'll be sure to have the proper config and filenames, etc..
+The basic structure of Factor apps should be familiar to most Javascript developers. A simple app typically has the following basic structure:
 
-However, it is also easy and helpful to understand the function of each file and the ways that an app can be customized. This doc will discuss the basic Factor module structure along with the purpose and proper use of the different files you'll encounter.
+![Factor App Structure](./img/structure.jpg)
 
-## Standard Files
+Let's go through each of these files and what the do:
 
-The following files are used to control the handling of your Factor app.
+## Package Info
 
 ### package.json
 
-The entry point for any Factor app, plugin or theme is its `package.json` file. This is because Factor handles everything like a standard module, which is handled based on information in this file.
+This file is used to describe your application as an NPM package. Inside this file you should add:
 
-Inside package.json, factor apps need a `factor` key that supports the following options depending on what you're trying to build:
-
-```js
-// package.json
+```json
 {
+  "name": "myApp",
   "factor": {
-    // files to load based on app vs server environment
-    "target": [
-      "app",  // loads index.js in app
-      "server" // loads index.js on server
-    ]
-    // or
-    "target": {
-      "app": "index",  // loads index.js in app
-      "server": "server" // loads server.js on server
-    }
-
+    "target": "app"
+  },
+  "dependencies": {
+    "@factor/core: ...
   }
 }
 ```
 
-### The Main File: index.js
-
-Index.js is the main entry file for Factor apps and modules. The main file is generally the best place to add customizations via filters, custom routes and any other custom code your app will need.
-
-### Source vs Root Folder
-
-In a Factor app, the source or `src` folder is determined by the folder containing your primary `main` file of your app. If, for example, your app package.json sets main to `src/index.js` then the folder `src` will be treated as your app source.
-
-Here is how you should think of the two key folders of your app:
-
-- **Source** - (`/src`) - This is your application source code. It should include all components, images, static files, templates, etc..
-- **Root** - (`/`) - The root of your app should be used for configuration (factor-config, .env, package.json), build and test code, etc..
-
-## Template: index.html
-
-Your index.html template is the skeleton for every page on your app. It can be overridden, but it has a rich "hook" system that allows you to accomplish almost anything with either [Vue Meta](https://github.com/nuxt/vue-meta) or any of several direct Factor hook functions.
-
-Learn more about setting meta on the [meta guide](./meta).
-
-The default index.html file looks like this:
-
-```html
-<!-- The default index.html file -->
-<!DOCTYPE html>
-<html {{{ factor_html_attr() }}}>
-  <head {{{ factor_head_attr() }}}>
-    {{{ factor_head() }}}
-  </head>
-
-  <body {{{ factor_body_attr() }}}>
-    {{{ factor_body_start() }}}
-    <!--vue-ssr-outlet-->
-    {{{ factor_body_end() }}}
-  </body>
-</html>
-```
-
-## Config Files
+## Public Config
 
 ### factor-config.json
 
-The `factor-config` file is used to add public config to your project. It is a writeable file used by plugins and the `factor setup` CLI command.
+Here you will store publicly accessible keys and information to configure your app. The `factor setup` command also writes configuration settings to this file. It also supports some overriding based on the environment that is running.
 
-More information about this file can be found under [config](./config).
+```json
+{
+  "myKey": "foo", // default myKey value
+  "development": {
+    "myKey": "bar" // value of myKey if NODE_ENV == development
+  },
+  "test": {
+    "myKey": "baz" // value of myKey if FACTOR_ENV == test
+  }
+}
+```
 
-### .env
+## Private Keys
 
-The `.env` file is a standard file based on the [Dotenv](https://github.com/motdotla/dotenv) module.
+### .env (dotenv)
 
-More information about this file can be found under [config](./config).
+For private configuration keys and information, Factor uses the standard [dotenv](https://github.com/motdotla/dotenv) library. This utility takes the values in this files and adds them to `process.env` at runtime. You should never commit this file to source control, treat it like a password.
 
-## Customization Files
+```git
+TOKEN_SECRET="SOME-LONG-TEXT-12345"
+DB_CONNECTION="https://my-connection-string-etc"
+```
 
-### factor-settings.js
+## Source
 
-The `factor-settings` file is where apps, plugins, and themes add settings that can be accessed via `setting('some.setting')`. It is powerful and supports all everything from nav item arrays, to components, etc.
+### Root vs `src` folder
 
-More info about this file under [customize](./customize).
+You can place code for you application in either the root of the directory or in a `src` folder. What determines this is the `main` value in your `package.json`. If the main value is in a subfolder, it is assumed this is where your source is.
 
-### factor-styles.css
+## App Code Starts Here
 
-The `factor-styles.css` file _(`.less` and `.scss` also supported)_ is the recommended way of adding your CSS and CSS variables. They are parsed and loaded in the ideal order for overriding values (_app > theme > plugin_).
+The "main" file, typically `index.js`, is the entry point for applications business code. In this file you will add routes and other customization to get exactly what you want.
 
-More info about this file under [customize](./customize).
+```js
+import { addFilter, setting } from "@factor/tools"
 
-## The "static" folder
+addFilter("content-routes", routes => {
 
-Anything you add to the static folder will be moved to the `dist` folder directly during build and then served from there directly. For example, if you add the file `screenshot.png` to this folder, it will be available at `https://yoursite.com/screenshot.png` when you are serving your app.
+  // add or customize routes
 
-Recommended files for your static folder include:
+  return routes
+}
+```
 
-- **Favicon.png** - Square 100pxx100px - A standard and portable icon for your app. Used in browser tabs and elsewhere.
-- **Icon.png** - Square 300pxx300px - Your apps standard icon, used by plugins and themes to add your branding.
+You can control how exactly this file gets loaded via the `package.json > factor > target` attribute. For example you can break out the entry for the app vs the server as follows:
 
-## Essential Components: Site, Content, 404
+```json
+// package.json
+{
+  "factor": {
+    "target": {
+      "app": "index", // Loads index.js in webpack app
+      "server": "server" // Loads server.js in cli and express server
+    }
+  }
+}
+```
 
-Factor apps require some special components that are used to control behavior of your app. These include:
+## The Content Wrapper Component
 
-- **Site.vue** - This is the master wrapper component for your app in both your dashboard and front-end. It is possible to override this file but should be considered advanced to do so.
-- **Content.vue** - This is the wrapper for the pages on the front-end of your site. Overriding this file can make it easy to customize footer and page layout.
-- **404.vue** - The fallback component if no route is setup for a URL someone visits.
+## App Settings
 
-To override any of these, all you need to do is add a component with the same name to your `src` folder.
-
-## Built Folders: dist and .factor
-
-When you build your app, Factor generates two folders.
-
-- **Dist**- The production build of your application. In other words, it is what is served when you host your app.
-- **.factor** - This folder contains your module loaders and is generated whenever you run a Factor build.
+## App Styles

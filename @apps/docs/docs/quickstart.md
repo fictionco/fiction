@@ -6,7 +6,7 @@ If you're familiar with the basics of Javascript apps then starting a Factor app
 
 To add Factor to an existing project, all that is needed is to add `@factor/core` as a dependency in your `package.json` file. Doing this will install the CLI and all other libraries Factor needs.
 
-To help set up an example application quickly, we've created **create-factor-app** scaffolding tool. With a simple command in your terminal, this tool will download and install Factor, then help you set up a basic application. Let's try it!
+To help set up an app quickly, use the **create-factor-app** scaffolding tool. This tool will download and install Factor, then help you set up a basic application. Let's try it!
 
 ![Getting Started](./img/getting-started.svg)
 
@@ -18,7 +18,7 @@ To help set up an example application quickly, we've created **create-factor-app
 
 ## [Using `create-factor-app`](#create-factor-app)
 
-To run `create-factor-app` all you need to do is type the following command in your terminal and press enter.
+To run `create-factor-app` just type the following command in your terminal.
 
 ```bash
 npx create-factor-app <project-name>

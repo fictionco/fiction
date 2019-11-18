@@ -130,6 +130,7 @@
     "pickby",
     "postbuild",
     "purgecss",
+    "scaleable",
     "signin",
     "slugify",
     "sonarsource",
