@@ -1,9 +1,11 @@
-import { emitEvent, onEvent, pushToFilter, log } from "@factor/tools"
+import { emitEvent, onEvent, pushToFilter, log} from "@factor/tools"
+
 
 pushToFilter("site-components", {
   name: "plugin-notify",
   component: () => import("./toaster.vue")
 })
+
 
 onEvent("notify", toasterNotification)
 onEvent("error", toasterError)

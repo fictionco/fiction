@@ -72,6 +72,9 @@ export function addFilter(
   // Using objects and a hash identifier solves that
   const filterKey = `key_${uniqueObjectHash(filter, callerKey(key))}`
 
+
+
+
   // For simpler assignments where no callback is needed
   const callback = typeof filter != "function" ? () => filter : filter
 

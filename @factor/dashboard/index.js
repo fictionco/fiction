@@ -15,8 +15,9 @@ pushToFilter("content-routes", {
   component: () => import("./sign-in-view.vue")
 })
 
+
 pushToFilter("site-components", {
-  name: "plugin-sign-in-modal",
+  name: "sign-in-modal",
   component: () => import("./sign-in-modal.vue")
 })
 

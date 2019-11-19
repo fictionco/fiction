@@ -10,10 +10,9 @@
     </div>
   </div>
 </template>
-
-<style src="./css/style.less" lang="less"></style>
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   name: "ContentWrap",
   components: {
     "header-primary": () => import("./header.vue"),
@@ -26,7 +25,7 @@ export default {
       titleTemplate: "%s - Factor JS"
     }
   }
-}
+})
 </script>
 
 <style lang="less">

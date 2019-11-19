@@ -1,17 +1,10 @@
 <template>
-  <div
-    :style="{ 'width': percent+'%',
-              'height': height,
-              'opacity': show ? 1 : 0
-    }"
-    class="progress"
-    :class="canSuccess ? 'working' : 'failed'"
-  />
+  <div :style="barStyle" class="progress" :class="canSuccess ? 'working' : 'failed'" />
 </template>
-
 <script>
-import { onEvent } from "@factor/tools"
-export default {
+import { onEvent } from "@factor/tools/events"
+import Vue from "vue"
+export default Vue.extend({
   name: "SsrBar",
   data() {
     return {
@@ -20,6 +13,15 @@ export default {
       canSuccess: true,
       duration: 3000,
       height: "2px"
+    }
+  },
+  computed: {
+    barStyle() {
+      return {
+        width: `${this.percent}%`,
+        height: this.height,
+        opacity: this.show ? 1 : 0
+      }
     }
   },
   mounted() {
@@ -88,7 +90,7 @@ export default {
       return this
     }
   }
-}
+})
 </script>
 
 <style lang="less">

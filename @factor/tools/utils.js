@@ -151,10 +151,12 @@ export function uniqueObjectHash(obj, salt = "") {
 
   str = str.slice(0, 500)
 
-  return str
+  const keyed = str
     .split("")
     .reduce(
       (prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
       0
     )
+
+  return String(keyed).replace(/-/g, "")
 }

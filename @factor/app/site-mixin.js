@@ -33,7 +33,9 @@ export default () => {
         return [siteClasses, this.scrollClass]
       },
       injectedComponents() {
-        return applyFilters("site-components", [])
+        const siteComponents = applyFilters("site-components", [])
+
+        return siteComponents.map(_ => _.component)
       }
     },
 

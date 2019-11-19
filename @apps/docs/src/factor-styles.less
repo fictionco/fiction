@@ -1,3 +1,7 @@
+@import "./css/reset.less";
+@import "./css/entry-content.less";
+@import "./css/inputs.less";
+
 .factor-app {
   --color-primary: #0496ff;
   --color-tertiary: #1b223c;
@@ -24,4 +28,23 @@
   --box-shadow-input: 0 0 0 1px rgba(0, 43, 93, 0.2);
   --font-weight-bold: 800;
   --font-weight-light: 400;
+
+  color: var(--color-text);
+
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      color: var(--color-secondary);
+    }
+  }
 }
