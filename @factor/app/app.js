@@ -1,9 +1,12 @@
 import "@factor/tools" // prevent load order issues
+import "@factor/meta"
+import "@factor/app"
 import { emitEvent } from "@factor/tools/events"
 import { createRouter } from "@factor/app/router"
 import { getStore } from "@factor/app/store"
 import { runCallbacks } from "@factor/tools/filters"
 import { setting } from "@factor/tools/settings"
+
 import Vue from "vue"
 
 import { extendApp } from "./extend-app"

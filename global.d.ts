@@ -3,7 +3,7 @@ declare module "*.jpg"
 declare module "*.json"
 declare module "*.svg"
 declare module "*.vue"
-
+declare module "*.css"
 declare module "*.md"
 declare module "*package"
 

@@ -7,9 +7,6 @@
     "access": "public"
   },
   "factor": {
-    "target": [
-      "app"
-    ],
     "_id": "factorMeta"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",

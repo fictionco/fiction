@@ -1,0 +1,9 @@
+{
+  "name": "test-app",
+  "version": "1.0.0",
+  "factor": {
+    "target": [
+      "app"
+    ]
+  }
+}

@@ -50,8 +50,6 @@ export function currentUrl() {
 }
 
 export function localhostUrl() {
-  // eslint-disable-next-line no-console
-  console.log("process.env.PORT", process.env.PORT)
   const port = process.env.PORT || 7777
   const routine = process.env.HTTP_PROTOCOL || "http"
   return `${routine}://localhost:${port}`

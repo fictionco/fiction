@@ -20,6 +20,10 @@ export const indexHtml = ({
   return `<!DOCTYPE html><html><head>${head}</head><body>${body}</body></html>`
 }
 
+export function getUrl({ route, port }) {
+  return `http://localhost:${port}${route}`
+}
+
 export const buildFixture = fixture => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
   process.env.FACTOR_ENV = "test"

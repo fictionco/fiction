@@ -7,7 +7,7 @@ import fs from "fs-extra"
 // Add static folder copy config to webpack copy plugin
 addFilter("webpack-copy-files-config", _ => [..._, ...staticCopyConfig()])
 addFilter("webpack-aliases", _ => {
-  return { ..._, "@": getPath("source"), "~": getPath("app") }
+  return { ..._, "@": getPath("source"), "~": getPath("app"), "@cwd": getPath("app") }
 })
 
 export function getPath(key) {

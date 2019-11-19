@@ -8,10 +8,7 @@
     "access": "public"
   },
   "factor": {
-    "_id": "app",
-    "target": [
-      "app"
-    ]
+    "_id": "app"
   },
   "dependencies": {
     "qs": "^6.6.0",

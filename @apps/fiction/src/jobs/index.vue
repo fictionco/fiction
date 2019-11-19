@@ -114,7 +114,7 @@
 import { factorBtn, factorLink, factorLoadingRing, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
-import Vue from 'vue'
+import Vue from "vue"
 export default Vue.extend({
   components: { factorBtn, factorLink, factorLoadingRing, factorIcon },
   data() {
@@ -277,7 +277,7 @@ export default Vue.extend({
       }
 
       .title {
-        font-size: 2.5em;
+        font-size: 2em;
         font-weight: var(--font-weight-bold);
         padding-bottom: 1em;
       }
@@ -326,7 +326,7 @@ export default Vue.extend({
     position: relative;
     padding: 3em 0;
     .title {
-      font-size: 2.5em;
+      font-size: 2em;
       font-weight: var(--font-weight-bold);
     }
     .careers-inner {

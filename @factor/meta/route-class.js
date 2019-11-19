@@ -1,7 +1,7 @@
 import { addFilter, addCallback, pushToFilter } from "@factor/tools"
 import Vue from "vue"
 
-import { getObservables } from "@factor/app"
+import { getObservables } from "@factor/app/extend-app"
 
 addCallback("ssr-context-callbacks", ({ matchedComponents }) =>
   matchedComponents.forEach(_ => setRouteClass(_))

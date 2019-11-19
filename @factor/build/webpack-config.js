@@ -1,5 +1,5 @@
 import "@factor/build/webpack-overrides"
-import { applyFilters, log, ensureTrailingSlash } from "@factor/tools"
+import { applyFilters, log, ensureTrailingSlash, deepMerge } from "@factor/tools"
 import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import { getPath } from "@factor/tools/paths"
 import BundleAnalyzer from "webpack-bundle-analyzer"
@@ -16,6 +16,36 @@ import webpack from "webpack"
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { configSettings } from "@factor/tools/config"
+
+export async function generateBundles(options = {}) {
+  await Promise.all(
+    ["server", "client"].map(async (target, index) => {
+      const clean = index === 0
+      const config = await getWebpackConfig({ ...options, target, clean })
+
+      const compiler = webpack(deepMerge([config, options.config || {}]))
+
+      if (options.beforeCompile)
+        options.beforeCompile({ compiler, config, target, index })
+
+      await new Promise((resolve, reject) => {
+        compiler.run((error, stats) => {
+          if (error || stats.hasErrors()) reject(error)
+          else {
+            if (options.afterCompile) {
+              options.afterCompile({ compiler, error, stats, config, target, index })
+            }
+
+            resolve(true)
+          }
+        })
+      })
+
+      return
+    })
+  )
+}
+
 export async function buildProductionApp(_arguments = {}) {
   return await Promise.all(
     ["server", "client"].map(async (target, index) => {
@@ -160,8 +190,7 @@ async function base(_arguments) {
     ],
     stats: { children: false },
 
-    performance: { maxEntrypointSize: 500000 },
-    node: { fs: "empty" }
+    performance: { maxEntrypointSize: 500000 }
   }
 
   // Allow for ignoring of files that should not be packaged for client

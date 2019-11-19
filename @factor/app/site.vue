@@ -1,10 +1,14 @@
 <template>
   <div id="app" class="factor-site" :class="classes">
-    <component :is="component" v-for="(component, index) in injectedComponents" :key="index" />
     <router-view></router-view>
+    <component
+      :is="component"
+      v-for="(component, index) in injectedComponents"
+      :key="index"
+    />
   </div>
 </template>
-<style src="~/.factor/loader-styles.less" lang="less"></style>
+
 <script>
 import siteMixin from "./site-mixin"
 import { applyFilters } from "@factor/tools"
@@ -14,3 +18,6 @@ export default Vue.extend({
   mixins: applyFilters("site-mixins", [siteMixin()])
 })
 </script>
+<style lang="less">
+@import (optional) "~@cwd/.factor/loader-styles.less";
+</style>

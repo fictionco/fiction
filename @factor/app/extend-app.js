@@ -9,8 +9,12 @@ let __observables = {}
 export async function extendApp(options = {}) {
   await runCallbacks("before-app-plugins", options)
 
-  // eslint-disable-next-line import/no-unresolved
-  require("~/.factor/loader-app")
+  try {
+    // eslint-disable-next-line import/no-unresolved
+    require("~/.factor/loader-app")
+  } catch (error) {
+    if (error.code !== "MODULE_NOT_FOUND") throw new Error(error)
+  }
 
   setupGlobalObservable()
 

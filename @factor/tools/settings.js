@@ -12,7 +12,7 @@ let config = {}
 let settingsExports = []
 
 function getSettings() {
-  return Vue["$factorSettings"] ? Vue["$factorSettings"] : {}
+  return Vue["$factorSettings"] ? Vue["$factorSettings"] : coreSettings()
 }
 
 function setSettings(settings) {
@@ -22,10 +22,14 @@ function setSettings(settings) {
 export function createSettings() {
   config = configSettings()
 
-  // Use sync require here
-  // Needed for env matching, as import is problematic when settings might load after things that need them
-  // eslint-disable-next-line import/no-unresolved
-  settingsExports = require("~/.factor/loader-settings").default
+  try {
+    // Use sync require here
+    // Needed for env matching, as import is problematic when settings might load after things that need them
+    // eslint-disable-next-line import/no-unresolved
+    settingsExports = require("~/.factor/loader-settings").default
+  } catch (error) {
+    if (error.code !== "MODULE_NOT_FOUND") throw new Error(error)
+  }
 
   mergeAllSettings()
 }
@@ -54,6 +58,7 @@ export async function addSettings(settings) {
 
 export function setting(key) {
   const settings = getSettings()
+
   if (key == "all") {
     return settings
   }

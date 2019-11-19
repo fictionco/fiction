@@ -75,26 +75,30 @@ addCallback("initialize-app", () => {
   })
 })
 
-addFilter("meta-refine", data => {
-  if (!data.meta) data.meta = []
+addFilter(
+  "meta-refine",
+  data => {
+    if (!data.meta) data.meta = []
 
-  if (data.description) {
-    data.meta.push({
-      vmid: "description",
-      name: "description",
-      content: data.description
-    })
-  }
+    if (data.description) {
+      data.meta.push({
+        vmid: "description",
+        name: "description",
+        content: data.description
+      })
+    }
 
-  if (data.image && !data.image.includes("base64")) {
-    data.meta.push({
-      vmid: "og:image",
-      name: "og:image",
-      content: data.image
-    })
-  }
-  return data
-}, {priority: 200})
+    if (data.image && !data.image.includes("base64")) {
+      data.meta.push({
+        vmid: "og:image",
+        name: "og:image",
+        content: data.image
+      })
+    }
+    return data
+  },
+  { priority: 200 }
+)
 
 addFilter("factor_head", (_, { context }) => {
   const { title, link, style, script, noscript, meta } = context.metaInfo.inject()
