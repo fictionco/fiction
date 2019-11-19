@@ -10,14 +10,14 @@
     </div>
   </div>
 </template>
-<style src="#/css/style-vars.scss" lang="sass"></style>
+<style src="__FALLBACK__/css/style-vars.scss" lang="sass"></style>
 <script>
 import Vue from "vue"
 /* eslint-disable import/no-unresolved */
 export default Vue.extend({
   components: {
-    "header-primary": () => import("#/header.vue"),
-    "footer-primary": () => import("#/footer.vue")
+    "header-primary": () => import("__FALLBACK__/header.vue"),
+    "footer-primary": () => import("__FALLBACK__/footer.vue")
   },
   computed: {
     bg() {

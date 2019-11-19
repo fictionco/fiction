@@ -9,7 +9,7 @@
     </div>
   </div>
 </template>
-<style src="#/css/style.less" lang="less"></style>
+<style src="__FALLBACK__/css/style.less" lang="less"></style>
 <script>
 export default {
   components: {

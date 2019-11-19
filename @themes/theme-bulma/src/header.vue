@@ -66,7 +66,7 @@
     </nav>
   </div>
 </template>
-<style src="#/css/style-vars.scss" lang="sass"></style>
+<style src="__FALLBACK__/css/style-vars.scss" lang="sass"></style>
 <script>
 import Vue from "vue"
 import { DOM, setting } from "@factor/tools"

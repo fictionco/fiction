@@ -17,22 +17,28 @@ let __application
 addCallback("create-server", () => createRenderServer())
 addCallback("close-server", () => closeServer())
 
-export function createRenderServer(options = {}) {
-  if (process.env.NODE_ENV == "development") {
-    developmentServer(renderConfig => {
-      htmlRenderer(renderConfig)
+export async function createRenderServer(options = {}) {
+  await new Promise(resolve => {
+    if (process.env.NODE_ENV == "development") {
+      developmentServer(renderConfig => {
+        htmlRenderer(renderConfig)
 
-      if (!__listening) createServer(options)
-    })
-  } else {
-    htmlRenderer({
-      template: fs.readFileSync(setting("app.templatePath"), "utf-8"),
-      bundle: require(getPath("server-bundle")),
-      clientManifest: require(getPath("client-manifest"))
-    })
+        if (!__listening) createServer(options)
 
-    createServer(options)
-  }
+        resolve()
+      })
+    } else {
+      htmlRenderer({
+        template: fs.readFileSync(setting("app.templatePath"), "utf-8"),
+        bundle: require(getPath("server-bundle")),
+        clientManifest: require(getPath("client-manifest"))
+      })
+
+      createServer(options)
+
+      resolve()
+    }
+  })
 
   return
 }

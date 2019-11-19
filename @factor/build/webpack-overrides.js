@@ -20,11 +20,11 @@ addFilter("webpack-aliases", _ => {
 
 // This allows for overriding of files from themes
 // Notes:
-// - Uses "#" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
+// - Uses "__FALLBACK__" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
 // - TODO if a file is added to app, then server needs a restart, fix should be possible
 addFilter("webpack-plugins", _ => {
   _.push(
-    new webpack.NormalModuleReplacementPlugin(/^#/, resource =>
+    new webpack.NormalModuleReplacementPlugin(/^__FALLBACK__/, resource =>
       overrideOperator(resource)
     )
   )
@@ -51,7 +51,7 @@ export function browserReplaceModule(resource) {
 }
 
 export function overrideOperator(resource) {
-  const inApp = _fileExists(resource.request.replace("#", getPath("source")))
+  const inApp = _fileExists(resource.request.replace("__FALLBACK__", getPath("source")))
   let filePath = ""
   if (inApp) {
     filePath = inApp
@@ -61,7 +61,7 @@ export function overrideOperator(resource) {
       themes.some(_ => {
         const themeSrc = dirname(require.resolve(_.name))
 
-        const inTheme = _fileExists(resource.request.replace("#", themeSrc))
+        const inTheme = _fileExists(resource.request.replace("__FALLBACK__", themeSrc))
 
         if (inTheme) {
           filePath = inTheme
@@ -71,9 +71,11 @@ export function overrideOperator(resource) {
     }
 
     if (!filePath) {
-      const relPath = _fileExists(resource.request.replace("#", resource.context))
+      const relPath = _fileExists(resource.request.replace("__FALLBACK__", resource.context))
 
-      const fallbackPath = _fileExists(resource.request.replace("#", getPath("coreApp")))
+      const fallbackPath = _fileExists(
+        resource.request.replace("__FALLBACK__", getPath("coreApp"))
+      )
 
       if (relPath) filePath = relPath
       else if (fallbackPath) filePath = fallbackPath

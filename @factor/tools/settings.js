@@ -26,7 +26,8 @@ export function createSettings() {
     // Use sync require here
     // Needed for env matching, as import is problematic when settings might load after things that need them
     // eslint-disable-next-line import/no-unresolved
-    settingsExports = require("~/.factor/loader-settings").default
+    // @ts-ignore
+    settingsExports = require("__CWD__/.factor/loader-settings").default
   } catch (error) {
     if (error.code !== "MODULE_NOT_FOUND") throw new Error(error)
   }

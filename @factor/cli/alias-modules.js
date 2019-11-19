@@ -6,9 +6,9 @@ export const resolve = (specifier, parentModuleURL, defaultResolve) => {
   const { main = "index.js" } = require(path.resolve(base, "package.json"))
 
   const aliases = {
-    "~": base,
-    "@": path.dirname(path.resolve(base, main)),
-    "#": path.dirname(require.resolve("@factor/app"))
+    __CWD__: base,
+    __SRC__: path.dirname(path.resolve(base, main)),
+    __FALLBACK__: path.dirname(require.resolve("@factor/app"))
   }
 
   const alias = Object.keys(aliases).find(key => {

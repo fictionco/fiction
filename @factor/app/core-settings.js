@@ -5,13 +5,13 @@ export default () => {
   return {
     app: {
       components: {
-        error404: () => import("#/404.vue"),
-        content: () => import("#/content.vue"),
-        site: () => import("#/site.vue")
+        error404: () => import("__FALLBACK__/404.vue"),
+        content: () => import("__FALLBACK__/content.vue"),
+        site: () => import("__FALLBACK__/site.vue")
       },
       icon: require("./icon.png"),
-      templatePath: resolveFilePath("#/index.html"),
-      faviconPath: resolveFilePath("#/static/favicon.png")
+      templatePath: resolveFilePath("__FALLBACK__/index.html"),
+      faviconPath: resolveFilePath("__FALLBACK__/static/favicon.png")
     }
   }
 }

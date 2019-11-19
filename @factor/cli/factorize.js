@@ -38,7 +38,7 @@ export async function extendServer({ restart = false } = {}) {
   await runCallbacks("before-server-plugins")
 
   // eslint-disable-next-line import/no-unresolved
-  require("~/.factor/loader-server")
+  require("__CWD__/.factor/loader-server")
 
   await runCallbacks("initialize-server")
 

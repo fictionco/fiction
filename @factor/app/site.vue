@@ -19,5 +19,5 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-@import (optional) "~@cwd/.factor/loader-styles.less";
+@import (optional) "~__CWD__/.factor/loader-styles.less";
 </style>

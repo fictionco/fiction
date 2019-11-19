@@ -15,7 +15,8 @@
     "node_modules": true,
     "coverage": true,
     "**/CHANGELOG.md": true,
-    "**/*.lcov": true
+    "**/*.lcov": true,
+    "**/junit": true
   },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
   "eslint.validate": [

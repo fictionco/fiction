@@ -2,13 +2,18 @@
 import { dirname, resolve } from "path"
 
 import { factorize } from "@factor/cli/factorize"
-export { default as getPort } from "get-port"
+import getPortUtility from "get-port"
+
 export { default as rp } from "request-promise-native"
 import { removeSync } from "fs-extra"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { buildProductionApp } from "@factor/build/webpack-config"
 import { createApp } from "@factor/app/app"
 
+export async function getPort() {
+  const port = await getPortUtility()
+  return String(port)
+}
 export const waitFor = ms => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
 }

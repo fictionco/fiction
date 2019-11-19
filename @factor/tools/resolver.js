@@ -9,7 +9,7 @@ function fileExistsInTheme(file) {
   if (themes.length > 0) {
     themes.some(_ => {
       const themeRoot = dirname(require.resolve(_.name))
-      const themePath = file.replace("#", themeRoot)
+      const themePath = file.replace("__FALLBACK__", themeRoot)
 
       if (fs.pathExistsSync(themePath)) {
         filePath = themePath
@@ -22,7 +22,7 @@ function fileExistsInTheme(file) {
 }
 
 export function resolveFilePath(file) {
-  const appPath = file.replace("#", getPath("source"))
+  const appPath = file.replace("__FALLBACK__", getPath("source"))
 
   if (fs.pathExistsSync(appPath)) {
     return appPath
@@ -30,10 +30,12 @@ export function resolveFilePath(file) {
     let filePath = fileExistsInTheme(file)
 
     if (!filePath) {
-      const fallbackPath = file.replace("#", getPath("coreApp"))
+      const fallbackPath = file.replace("__FALLBACK__", getPath("coreApp"))
 
       if (fs.pathExistsSync(fallbackPath)) {
         filePath = fallbackPath
+      } else {
+        filePath = ""
       }
     }
 

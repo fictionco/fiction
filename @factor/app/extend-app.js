@@ -11,7 +11,7 @@ export async function extendApp(options = {}) {
 
   try {
     // eslint-disable-next-line import/no-unresolved
-    require("~/.factor/loader-app")
+    require("__CWD__/.factor/loader-app")
   } catch (error) {
     if (error.code !== "MODULE_NOT_FOUND") throw new Error(error)
   }

@@ -36,8 +36,8 @@ describe("webpack", () => {
 
       expect(clientConfig.entry).toContain("entry-browser")
 
-      expect(clientConfig.resolve.alias["@"]).toContain("test-files")
-      expect(clientConfig.resolve.alias["~"]).toContain("test-files")
+      expect(clientConfig.resolve.alias["__SRC__"]).toContain("test-files")
+      expect(clientConfig.resolve.alias["__CWD__"]).toContain("test-files")
     })
 
     it("returns the correct production config", async () => {
@@ -108,7 +108,7 @@ describe("webpack", () => {
   describe("webpack-override", () => {
     it("recognizes the override alias and uses correct override hierarchy", () => {
       const resource = overrideOperator({
-        request: "#/test-files/test-image.jpg",
+        request: "__FALLBACK__/test-files/test-image.jpg",
         context: __dirname
       })
       expect(existsSync(resource.request)).toBe(true)

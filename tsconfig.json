@@ -10,9 +10,9 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["test/modules/alias/*"],
-      "@/*": ["test/modules/alias/*"],
-      "#/*": ["test/modules/alias/*"]
+      "__CWD__/*": ["test/modules/alias/*"],
+      "__SRC__/*": ["test/modules/alias/*"],
+      "__FALLBACK__/*": ["test/modules/alias/*"]
     }
   },
   "exclude": [
