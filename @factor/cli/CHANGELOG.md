@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fiction-com/factor/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* add back process.exit ([4d299bb](https://github.com/fiction-com/factor/commit/4d299bb115a3065f0572f575aed29cf78f40e766))
+* remove exit in cli ([174c43a](https://github.com/fiction-com/factor/commit/174c43add4b54b9ff63613dae53eba58f6a22070))
+* timeout ([4fc8e39](https://github.com/fiction-com/factor/commit/4fc8e39116e1d7ffdeacd739b35a18fad944499e))
+
+
+
+
+
 # [1.0.0-beta.16](https://github.com/fiction-com/factor/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2019-11-11)
 
 

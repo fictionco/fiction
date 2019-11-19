@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fiction-com/factor/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* add pagination to users ([db193b4](https://github.com/fiction-com/factor/commit/db193b4e39647d72107060bb9ae0e4286bdda626))
+
+
+
+
+
 # [1.0.0-beta.18](https://github.com/fiction-com/factor/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2019-11-12)
 
 

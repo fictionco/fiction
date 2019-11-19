@@ -3,6 +3,51 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fiction-com/factor/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* add back process.exit ([4d299bb](https://github.com/fiction-com/factor/commit/4d299bb115a3065f0572f575aed29cf78f40e766))
+* add pagination to users ([db193b4](https://github.com/fiction-com/factor/commit/db193b4e39647d72107060bb9ae0e4286bdda626))
+* alpha and zeno ([297afb4](https://github.com/fiction-com/factor/commit/297afb4bd9a1987ad7c4399767be4a7ae70b7340))
+* bail plugins ssr ([44fef13](https://github.com/fiction-com/factor/commit/44fef13f0db5f9b0872356fd5a9fae7b2f97f3c5))
+* bail themes ssr ([8b30805](https://github.com/fiction-com/factor/commit/8b3080560390ac6b24cef14bf86b15eb0f07e7a0))
+* docs ([d1521d7](https://github.com/fiction-com/factor/commit/d1521d768afadfb2fdbe476cb8564465968a3dc8))
+* docs ([c3efad0](https://github.com/fiction-com/factor/commit/c3efad045ec11edb03b63cf1748dbf89ec2b240f))
+* file ([0ae47e3](https://github.com/fiction-com/factor/commit/0ae47e3084ad5e79eff6976d36f80229c63c63f2))
+* firebase ([8769d11](https://github.com/fiction-com/factor/commit/8769d1117dec543107cc8ab824f07367028f558a))
+* jest-extended no more ([81c0a28](https://github.com/fiction-com/factor/commit/81c0a28da65c74b71496f2672df17256130443b1))
+* latest merge ([856fa56](https://github.com/fiction-com/factor/commit/856fa56bf501676c5074fcdc17c3042920ee58a5))
+* lint ([9cf13ab](https://github.com/fiction-com/factor/commit/9cf13abeada5a9208d712fc4306e332524eb89c4))
+* mongodb memory tests ([7f4d728](https://github.com/fiction-com/factor/commit/7f4d728aa457642816c25dca40008b28f9495fe5))
+* packages ([b8764d8](https://github.com/fiction-com/factor/commit/b8764d8d5c1d1953c0d4f7a6305409ca93135549))
+* proxy ([f9c9bc4](https://github.com/fiction-com/factor/commit/f9c9bc436299f75105d01c21d92e12147cbc85f6))
+* remove exit in cli ([174c43a](https://github.com/fiction-com/factor/commit/174c43add4b54b9ff63613dae53eba58f6a22070))
+* remove extensions for now ([df7c97f](https://github.com/fiction-com/factor/commit/df7c97f7246489f06552c9bc28c083df63f49c25))
+* remove jest-extende ([f938acf](https://github.com/fiction-com/factor/commit/f938acf09d504f5256905dad580b4ebb63110300))
+* tailwind custom directives ([83cbdf0](https://github.com/fiction-com/factor/commit/83cbdf01cb1739ca4e86a4a370fe1812db298451))
+* timeout ([4fc8e39](https://github.com/fiction-com/factor/commit/4fc8e39116e1d7ffdeacd739b35a18fad944499e))
+* ui elements and vue extend ([e37acbf](https://github.com/fiction-com/factor/commit/e37acbf776baeff39d6092123a94e89d04813f62))
+* urls for emails ([5cd5977](https://github.com/fiction-com/factor/commit/5cd5977f5f625866b130b7c76bf09b49d53521d3))
+* zeno html no custom classes ([bcee1f2](https://github.com/fiction-com/factor/commit/bcee1f21f209b8b34d6af4acdd50237dae90c1b2))
+
+
+### Features
+
+* docs ([f0cabde](https://github.com/fiction-com/factor/commit/f0cabdebabf9a997504fbbe2bb75bff47124fb67))
+* plugins why not ([802c6d4](https://github.com/fiction-com/factor/commit/802c6d4b331b5986ee9b22b67fd96e45f5165424))
+* pushTo index on filter tool ([af3f761](https://github.com/fiction-com/factor/commit/af3f761e696d5a44d577fa70768f5847847bbfc8))
+* **tailwind:** add purge css ([53e034a](https://github.com/fiction-com/factor/commit/53e034a18d7f5f0c4ff79224c1e2d0d4aeb1f4a0))
+* tailwind plugin ([f16087b](https://github.com/fiction-com/factor/commit/f16087b8b9b329ebb1fe0ca2544fe903080d374e))
+* tailwindcss ([39700f1](https://github.com/fiction-com/factor/commit/39700f174a357ce6d238735397e1604b657203a1))
+* tailwindcss plugin setup ([04d4d36](https://github.com/fiction-com/factor/commit/04d4d3659f5e8a4efba8722272d74a886e8ff91f))
+* tailwindcss setup ([b15be6e](https://github.com/fiction-com/factor/commit/b15be6e62f909003440ce7bcf631f747c41b4fd7))
+
+
+
+
+
 # [1.0.0-beta.18](https://github.com/fiction-com/factor/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2019-11-12)
 
 

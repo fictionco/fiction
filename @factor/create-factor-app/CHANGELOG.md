@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](http://github.com/fiction-com/factor/@create/create-factor-app/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+**Note:** Version bump only for package create-factor-app
+
+
+
+
+
 # [1.0.0-beta.17](http://github.com/fiction-com/factor/@create/create-factor-app/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2019-11-11)
 
 

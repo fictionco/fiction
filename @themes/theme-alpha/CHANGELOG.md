@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fiction-com/factor/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* alpha and zeno ([297afb4](https://github.com/fiction-com/factor/commit/297afb4bd9a1987ad7c4399767be4a7ae70b7340))
+
+
+
+
+
 # [1.0.0-beta.18](https://github.com/fiction-com/factor/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2019-11-12)
 
 **Note:** Version bump only for package @factor/theme-alpha

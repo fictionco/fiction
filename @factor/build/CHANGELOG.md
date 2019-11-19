@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fiction-com/factor/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* remove jest-extende ([f938acf](https://github.com/fiction-com/factor/commit/f938acf09d504f5256905dad580b4ebb63110300))
+
+
+### Features
+
+* **tailwind:** add purge css ([53e034a](https://github.com/fiction-com/factor/commit/53e034a18d7f5f0c4ff79224c1e2d0d4aeb1f4a0))
+
+
+
+
+
 # [1.0.0-beta.15](https://github.com/fiction-com/factor/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2019-11-11)
 
 **Note:** Version bump only for package @factor/build

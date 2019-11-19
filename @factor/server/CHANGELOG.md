@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fiction-com/factor/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* bail plugins ssr ([44fef13](https://github.com/fiction-com/factor/commit/44fef13f0db5f9b0872356fd5a9fae7b2f97f3c5))
+
+
+
+
+
 # [1.0.0-beta.18](https://github.com/fiction-com/factor/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2019-11-12)
 
 

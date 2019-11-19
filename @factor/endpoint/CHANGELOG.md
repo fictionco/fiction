@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/fiction-com/factor/compare/v1.0.0-beta.18...v1.1.0) (2019-11-19)
+
+
+### Bug Fixes
+
+* proxy ([f9c9bc4](https://github.com/fiction-com/factor/commit/f9c9bc436299f75105d01c21d92e12147cbc85f6))
+
+
+
+
+
 # [1.0.0-beta.15](https://github.com/fiction-com/factor/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2019-11-11)
 
 **Note:** Version bump only for package @factor/endpoint
