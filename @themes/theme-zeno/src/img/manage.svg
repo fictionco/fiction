@@ -1,9 +1,1 @@
-<svg width="52" height="51" viewBox="0 0 52 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M26 6.5C26.5523 6.5 27 6.94772 27 7.5V25.8333C27 26.3856 26.5523 26.8333 26 26.8333C25.4477 26.8333 25 26.3856 25 25.8333V7.5C25 6.94772 25.4477 6.5 26 6.5Z" fill="#391077"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M8 30C8 27.5882 9.98874 25.6667 12.4 25.6667H39.6C42.0113 25.6667 44 27.5882 44 30V45C44 45.5523 43.5523 46 43 46C42.4477 46 42 45.5523 42 45V30C42 28.7299 40.9442 27.6667 39.6 27.6667H12.4C11.0558 27.6667 10 28.7299 10 30V45C10 45.5523 9.55228 46 9 46C8.44772 46 8 45.5523 8 45V30Z" fill="#391077"/>
-<rect x="17" width="18" height="18" rx="4" fill="#391077"/>
-<rect y="33" width="18" height="18" rx="4" fill="#6515DD"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5 42C5 41.4477 5.44772 41 6 41H12C12.5523 41 13 41.4477 13 42C13 42.5523 12.5523 43 12 43H6C5.44772 43 5 42.5523 5 42Z" fill="#1BFEC0"/>
-<rect x="34" y="33" width="18" height="18" rx="4" fill="#6515DD"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M39 42C39 41.4477 39.4477 41 40 41H46C46.5523 41 47 41.4477 47 42C47 42.5523 46.5523 43 46 43H40C39.4477 43 39 42.5523 39 42Z" fill="#1BFEC0"/>
-</svg>
+<svg width="52" height="51" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M26 6.5a1 1 0 011 1v18.333a1 1 0 11-2 0V7.5a1 1 0 011-1z" fill="#391077"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8 30c0-2.412 1.989-4.333 4.4-4.333h27.2c2.411 0 4.4 1.921 4.4 4.333v15a1 1 0 11-2 0V30c0-1.27-1.056-2.333-2.4-2.333H12.4c-1.344 0-2.4 1.063-2.4 2.333v15a1 1 0 11-2 0V30z" fill="#391077"/><rect x="17" width="18" height="18" rx="4" fill="#391077"/><rect y="33" width="18" height="18" rx="4" fill="#6515DD"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5 42a1 1 0 011-1h6a1 1 0 110 2H6a1 1 0 01-1-1z" fill="#1BFEC0"/><rect x="34" y="33" width="18" height="18" rx="4" fill="#6515DD"/><path fill-rule="evenodd" clip-rule="evenodd" d="M39 42a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z" fill="#1BFEC0"/></svg>

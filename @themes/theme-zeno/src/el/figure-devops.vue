@@ -1,11 +1,18 @@
 <template>
-  <figure>
-    <img src="../img/devops.svg" alt="devops" />
-    <img src="../img/stars.svg" alt="stars" />
+  <figure class="bg-center bg-no-repeat" :style="cssProps">
+    <img src="../img/devops.svg" alt="devops" class="relative z-50 h-full w-full object-contain" />
   </figure>
 </template>
 
 <script>
 import Vue from "vue"
-export default Vue.extend({})
+export default Vue.extend({
+  data() {
+    return {
+      cssProps: {
+        backgroundImage: `url(${require("../img/stars.svg")})`
+      }
+    }
+  }
+})
 </script>

@@ -1,9 +1,1 @@
-<svg width="42" height="53" viewBox="0 0 42 53" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.7907 8.81396H4.65114V48.3488H37.2092V8.81396H29.0697" stroke="#391077" stroke-width="3"/>
-<path d="M41.8604 49.0001V8.16296C41.8604 5.95382 40.0695 4.16296 37.8604 4.16296H29.2407H12.6197H4C1.79086 4.16296 0 5.95382 0 8.16296V49.0001C0 51.2092 1.79087 53.0001 4.00001 53.0001H37.8604C40.0695 53.0001 41.8604 51.2092 41.8604 49.0001Z" fill="#6515DD"/>
-<rect x="12.4535" y="1.5" width="16.9535" height="9.97673" rx="2" fill="#391077" stroke="#391077" stroke-width="3"/>
-<line x1="11.4651" y1="22.3489" x2="30.3953" y2="22.3489" stroke="#1BFEC0" stroke-width="2" stroke-linecap="round"/>
-<line x1="11.4651" y1="29.3256" x2="30.3953" y2="29.3256" stroke="#391077" stroke-width="2" stroke-linecap="round"/>
-<line x1="11.4651" y1="29.3256" x2="24.5814" y2="29.3256" stroke="#1BFEC0" stroke-width="2" stroke-linecap="round"/>
-<line x1="11.4651" y1="36.3024" x2="30.3953" y2="36.3024" stroke="#391077" stroke-width="2" stroke-linecap="round"/>
-</svg>
+<svg width="42" height="53" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.79 8.814H4.652v39.535H37.21V8.814h-8.14" stroke="#391077" stroke-width="3"/><path d="M41.86 49V8.163a4 4 0 00-4-4H4a4 4 0 00-4 4V49a4 4 0 004 4h33.86a4 4 0 004-4z" fill="#6515DD"/><rect x="12.454" y="1.5" width="16.953" height="9.977" rx="2" fill="#391077" stroke="#391077" stroke-width="3"/><path stroke="#1BFEC0" stroke-width="2" stroke-linecap="round" d="M11.465 22.349h18.93"/><path stroke="#391077" stroke-width="2" stroke-linecap="round" d="M11.465 29.326h18.93"/><path stroke="#1BFEC0" stroke-width="2" stroke-linecap="round" d="M11.465 29.326h13.116"/><path stroke="#391077" stroke-width="2" stroke-linecap="round" d="M11.465 36.302h18.93"/></svg>
