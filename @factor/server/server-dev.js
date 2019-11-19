@@ -1,4 +1,4 @@
-import { addFilter, setting, log, addCallback, runCallbacks } from "@factor/tools"
+import { addFilter, setting, log, runCallbacks } from "@factor/tools"
 
 import chalk from "chalk"
 import fs from "fs-extra"
@@ -30,13 +30,9 @@ function getTemplatePath() {
   return setting("app.templatePath")
 }
 
-addCallback("development-server", async callback => {
-  updateBundleCallback = callback
+export async function developmentServer(cb) {
+  updateBundleCallback = cb
 
-  return await createServerCompilers()
-})
-
-export async function createServerCompilers() {
   const templatePath = getTemplatePath()
 
   if (!templatePath) {

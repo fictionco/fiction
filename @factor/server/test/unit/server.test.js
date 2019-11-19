@@ -4,7 +4,7 @@ describe("server", () => {
   beforeAll(() => {})
 
   it("creates a production server", () => {
-    process.env.PORT = 7777
+    process.env.PORT = String(7777)
     process.env.NODE_ENV = "production"
 
     createServer()

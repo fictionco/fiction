@@ -1,12 +1,12 @@
 import { loadFixture, getPort } from "@test/utils"
-import { createServer, renderRoute, closeServer } from "@factor/server"
+import { createRenderServer, renderRoute, closeServer } from "@factor/server"
 
 let port
 describe("SSR", () => {
   beforeAll(async () => {
     await loadFixture("@test/ssr")
     port = await getPort()
-    await createServer({ port })
+    await createRenderServer({ port })
   })
 
   test("/basic", async () => {

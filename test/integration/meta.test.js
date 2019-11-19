@@ -1,12 +1,12 @@
 import { getPort, loadFixture } from "@test/utils"
-import { createServer, renderRoute, closeServer } from "@factor/server"
+import { createRenderServer, renderRoute, closeServer } from "@factor/server"
 
 let port
 describe("Meta", () => {
   beforeAll(async () => {
     await loadFixture("@test/meta")
     port = await getPort()
-    await createServer({ port })
+    await createRenderServer({ port })
   })
 
   // Close server and ask to stop listening to file changes
@@ -35,6 +35,4 @@ describe("Meta", () => {
     expect(html).toContain("<title>async-title</title>")
     expect(html).toContain("async-description")
   })
-
-
 })
