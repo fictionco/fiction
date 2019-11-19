@@ -1,6 +1,6 @@
 export default {
   headTags: {
-    font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&display=swap" rel="stylesheet" />`
+    font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet" />`
   },
   tailwind: {
     config: require("./tailwind.config.js"),
@@ -9,6 +9,7 @@ export default {
   },
   site: {
     logo: require("./img/logo-zeno.svg"),
+    logoInverse: require("./img/logo-zeno-inverse.svg"), // Optional
     nav: [
       {
         path: "/",
@@ -32,7 +33,7 @@ export default {
       }
     ],
     cta: {
-      title: "Get better results with Elastic Byte",
+      title: "Get better results with Zeno",
       buttons: [
         {
           link: "/contact",
@@ -42,7 +43,7 @@ export default {
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "btn shadow-lg ml-4 bg-gray-100 hover:bg-white text-purple-700"
+          classes: "btn shadow-xl ml-4 bg-white hover:bg-gray-100 text-purple-700"
         },
       ]
     },
@@ -146,7 +147,7 @@ export default {
       id: "devops-as-a-service",
       pretitle: "Devops-as-a-Service",
       title: "Your first and last DevOps hire!",
-      content: "<p>By leveraging our decades of DevOps and sysadmin experience, we'll help you focus on what's important… Growing your business.</p><p>Elastic Byte will handle uptime, security, cost optimization, disaster recovery, and performance. We’re always on-call, ready to assist. Focused on being responsive, transparent, and thorough.</p>",
+      content: `<p>By leveraging our decades of DevOps and sysadmin experience, we'll help you focus on what's important… Growing your business.</p><p class="mt-4">Zeno will handle uptime, security, cost optimization, disaster recovery, and performance. We’re always on-call, ready to assist. Focused on being responsive, transparent, and thorough.</p>`,
       buttons: [
         {
           link: "/contact",
@@ -164,12 +165,12 @@ export default {
         {
           image: require("./img/logo-packer.svg"),
           alt: "HashiCorp Packer",
-          content: "<p>Packer automates the creation of machine images across cloud providers.</p><p>It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p><p>Produces exact point-in-time images with multi-region replication support.</p>",
+          content: `<p>Packer automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p><p class="mt-4">Produces exact point-in-time images with multi-region replication support.</p>`,
         },
         {
           image: require("./img/logo-terraform.svg"),
           alt: "HashiCorp Terraform",
-          content: "<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p>Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p><p>Terraform configurations can be stored in version control, shared, and collaborated on by teams.</p>",
+          content: `<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p><p class="mt-4">Terraform configurations can be stored in version control, shared, and collaborated on by teams.</p>`,
         }
       ],
       syntaxTitle: "terraform.tf",
@@ -180,13 +181,13 @@ export default {
       title: "Our customers love what we do!",
       items: [
         {
-          content: "@elasticbyte architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
+          content: `@Zeno architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
           image: require("./img/client.svg"),
           author: "Will Norton",
           info: "CEO, SimplyAgree"
         },
         {
-          content: "@elasticbyte architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
+          content: "@Zeno architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
           image: require("./img/client.svg"),
           author: "Will Norton",
           info: "CEO, SimplyAgree"
@@ -535,6 +536,6 @@ export default {
       }
     ],
     left: `Built with <i class="fa fa-heart"></i> in Nashville`,
-    right: "<p>&copy; 2020 <a href='https://nodesocket.com/' target='_blank'>NoseSocket, LLC.</a></p><p>All rights reserved.</p>",
+    right: "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>",
   }
 }
