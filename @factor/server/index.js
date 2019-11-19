@@ -11,8 +11,6 @@ import "./server-dev"
 import { handleServerError, getPort, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 
-let PORT
-
 let _listening
 let renderer
 let _application
@@ -20,7 +18,7 @@ addCallback("create-server", _ => createServer(_))
 addCallback("close-server", () => closeServer())
 
 export function createServer({ port }) {
-  PORT = getPort(port)
+  process.env.PORT = getPort(port)
 
   if (process.env.NODE_ENV == "development") {
     startServerDevelopment()
@@ -32,14 +30,14 @@ export function createServer({ port }) {
 }
 
 export function createMiddlewareServer({ port }) {
-  PORT = getPort(port)
+  process.env.PORT = getPort(port)
 
   createExpressApplication()
 
   // Set Express routine for all fallthrough paths
   _application.get("*", (request, response) => renderRequest(request, response))
 
-  _listening = _application.listen(PORT)
+  _listening = _application.listen(process.env.PORT)
 
   prepareListener()
 }
@@ -51,6 +49,8 @@ function createExpressApplication() {
 }
 
 export async function startServerProduction() {
+  process.env.PORT = getPort()
+
   createExpressApplication()
 
   const { template, bundle, clientManifest } = productionFiles()
@@ -60,7 +60,9 @@ export async function startServerProduction() {
   // Set Express routine for all fallthrough paths
   _application.get("*", (request, response) => renderRequest(request, response))
 
-  _listening = _application.listen(PORT, () => log.success(`-listening on port- ${PORT}`))
+  _listening = _application.listen(process.env.PORT, () =>
+    log.success(`-listening on port- ${process.env.PORT}`)
+  )
 }
 
 // In production we have static files to work with
@@ -117,6 +119,8 @@ export async function renderRoute(url = "") {
 }
 
 function startListener() {
+  process.env.PORT = getPort()
+
   createExpressApplication()
 
   // Set Express routine for all fallthrough paths
@@ -125,7 +129,7 @@ function startListener() {
     async (request, response) => await renderRequest(request, response)
   )
 
-  _listening = _application.listen(PORT, () => logServerReady())
+  _listening = _application.listen(process.env.PORT, () => logServerReady())
 
   prepareListener()
   addCallback("restart-server", async () => {
