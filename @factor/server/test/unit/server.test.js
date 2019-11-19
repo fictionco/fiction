@@ -4,7 +4,7 @@ import { generateBundles } from "@factor/build/webpack-config"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { getUrl, getPort } from "@test/utils"
 import axios from "axios"
-import log from "@factor/tools/logger"
+
 describe("server", () => {
   afterAll(async () => {
     await closeServer()
@@ -32,21 +32,4 @@ describe("server", () => {
     expect(doc.data).toContain("::hello::")
     expect(doc.headers["content-type"]).toContain("text/html")
   })
-
-  // it("adds extended middleware", async () => {
-  //   const theUrl = getUrl({ route: "/favicon.ico", port: process.env.PORT })
-
-  //   let doc
-  //   try {
-  //     doc = await axios.get(theUrl)
-  //   } catch (error) {
-  //     throw new Error(error)
-  //   }
-
-  //   console.log("DOC", doc)
-  // })
-  it.todo("adds compression middleware")
-  it.todo("adds logging middleware")
-  it.todo("serves static assets")
-  it.todo("handles errors")
 })
