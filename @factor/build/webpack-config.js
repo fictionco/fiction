@@ -180,9 +180,6 @@ export function getDefinedValues(target) {
     "process.env.VUE_ENV": JSON.stringify(target),
     "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
     "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
-    "process.env.PORT": JSON.stringify(process.env.PORT || 3000),
-    "process.env.HTTP_PROTOCOL": JSON.stringify(process.env.HTTP_PROTOCOL || "http"),
-    "process.env.FACTOR_COMMAND": JSON.stringify(process.env.FACTOR_COMMAND || "none"),
     "process.env.FACTOR_APP_CONFIG": JSON.stringify(configSettings())
   })
 }

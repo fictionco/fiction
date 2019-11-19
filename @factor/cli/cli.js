@@ -1,5 +1,5 @@
 import { generateLoaders } from "@factor/cli/extension-loader"
-import { localhostUrl } from "@factor/tools/permalink"
+import { currentUrl } from "@factor/tools/permalink"
 import * as tools from "@factor/tools"
 
 import commander from "commander"
@@ -119,15 +119,12 @@ export async function runServer(_arguments) {
   const message = {
     title: "Starting Server...",
     lines: [
+      { title: "URL", value: currentUrl(), indent: true },
       { title: "NODE_ENV", value: NODE_ENV, indent: true },
       { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
       { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
       { title: "CWD", value: FACTOR_CWD, indent: true }
     ]
-  }
-
-  if (NODE_ENV == "development") {
-    message.lines.unshift({ title: "URL", value: localhostUrl(), indent: true })
   }
 
   log.formatted(message)

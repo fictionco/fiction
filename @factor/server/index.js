@@ -1,39 +1,37 @@
 import { addCallback, runCallbacks, applyFilters, setting } from "@factor/tools"
+import { createBundleRenderer } from "vue-server-renderer"
 import { getPath } from "@factor/tools/paths"
 import destroyer from "destroyer"
 import express from "express"
 import fs from "fs-extra"
 import log from "@factor/tools/logger"
 import LRU from "lru-cache"
-import { createBundleRenderer } from "vue-server-renderer"
 
 import { developmentServer } from "./server-dev"
-import { handleServerError, getPort, getServerInfo, logServerReady } from "./util"
+import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 
 let __listening
 let __renderer
 let __application
-addCallback("create-server", _ => createRenderServer(_))
+addCallback("create-server", () => createRenderServer())
 addCallback("close-server", () => closeServer())
 
-export function createRenderServer({ port }) {
-  process.env.PORT = getPort(port)
-
+export function createRenderServer(options = {}) {
   if (process.env.NODE_ENV == "development") {
     developmentServer(renderConfig => {
-      createRenderer(renderConfig)
+      htmlRenderer(renderConfig)
 
-      if (!__listening) createServer()
+      if (!__listening) createServer(options)
     })
   } else {
-    createRenderer({
+    htmlRenderer({
       template: fs.readFileSync(setting("app.templatePath"), "utf-8"),
       bundle: require(getPath("server-bundle")),
       clientManifest: require(getPath("client-manifest"))
     })
 
-    createServer()
+    createServer(options)
   }
 
   return
@@ -42,7 +40,7 @@ export function createRenderServer({ port }) {
 export function createServer(options) {
   const { port = null } = options || {}
 
-  process.env.PORT = getPort(port)
+  process.env.PORT = port || process.env.PORT || 3000
 
   __application = express()
 
@@ -58,11 +56,12 @@ export function createServer(options) {
     log.server("restarting server", { color: "yellow" })
     __listening.destroy()
     await runCallbacks("rebuild-server-app")
+
     createServer(options)
   })
 }
 
-function createRenderer({ bundle, template, clientManifest }) {
+function htmlRenderer({ bundle, template, clientManifest }) {
   // Allow for changing default options when rendering
   // particularly important for testing
   const options = applyFilters("server-renderer-options", {
