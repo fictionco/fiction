@@ -1,4 +1,14 @@
+import { createServer } from "@factor/server"
+
 describe("server", () => {
+  beforeAll(() => {})
+
+  it("creates a production server", () => {
+    process.env.PORT = 7777
+    process.env.NODE_ENV = "production"
+
+    createServer()
+  })
   it.todo("sets correct headers")
   it.todo("listens on the correct port")
   it.todo("starts development server")

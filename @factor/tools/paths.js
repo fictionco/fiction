@@ -72,31 +72,3 @@ function staticCopyConfig() {
 
   return copyItems
 }
-
-// export function getHttpDetails() {
-//   const port = process.env.PORT || 3000
-
-//   let routine = "http"
-//   let certDir = false
-//   const filename = "server.key"
-
-//   const filepath = require("find-up").sync(filename)
-
-//   let certConfig = {}
-//   if (filepath) {
-//     const fs = require("fs")
-//     routine = "https"
-//     certDir = dirname(filepath)
-
-//     certConfig = {
-//       key: fs.readFileSync(resolve(certDir, "server.key")),
-//       cert: fs.readFileSync(resolve(certDir, "server.crt"))
-//     }
-
-//     if (process.env.CERTIFICATE_PASSPHRASE) {
-//       certConfig.passphrase = process.env.CERTIFICATE_PASSPHRASE
-//     }
-//   }
-
-//   return { port, routine, certDir, certConfig }
-// }

@@ -30,9 +30,7 @@ export function createServer({ port }) {
 }
 
 export function createMiddlewareServer({ port }) {
-  process.env.PORT = getPort(port)
-
-  createExpressApplication()
+  createExpressApplication({ port })
 
   // Set Express routine for all fallthrough paths
   _application.get("*", (request, response) => renderRequest(request, response))
@@ -42,15 +40,15 @@ export function createMiddlewareServer({ port }) {
   prepareListener()
 }
 
-function createExpressApplication() {
+function createExpressApplication({ port = null } = {}) {
+  process.env.PORT = getPort(port)
+
   _application = express()
 
   loadMiddleware(_application)
 }
 
 export async function startServerProduction() {
-  process.env.PORT = getPort()
-
   createExpressApplication()
 
   const { template, bundle, clientManifest } = productionFiles()
@@ -61,7 +59,7 @@ export async function startServerProduction() {
   _application.get("*", (request, response) => renderRequest(request, response))
 
   _listening = _application.listen(process.env.PORT, () =>
-    log.success(`-listening on port- ${process.env.PORT}`)
+    log.success(`:: listening on port :: ${process.env.PORT}`)
   )
 }
 
@@ -79,12 +77,8 @@ export function startServerDevelopment() {
   runCallbacks("development-server", ({ bundle, template, clientManifest }) => {
     renderer = createRenderer(bundle, { template, clientManifest })
 
-    if (!_listening) startListener()
+    if (!_listening) startDevelopmentListener()
   })
-}
-
-export async function closeServer() {
-  if (_listening) _listening.destroy()
 }
 
 function createRenderer(bundle, options) {
@@ -106,7 +100,6 @@ export async function renderRequest(request, response) {
   try {
     const html = await renderRoute(request.url)
 
-    response.set("cache-control", `public, max-age=${15 * 30}, s-maxage=${15 * 60}`)
     response.send(html)
   } catch (error) {
     handleServerError(request, response, error)
@@ -118,16 +111,11 @@ export async function renderRoute(url = "") {
   return await renderer.renderToString({ url })
 }
 
-function startListener() {
-  process.env.PORT = getPort()
-
+function startDevelopmentListener() {
   createExpressApplication()
 
   // Set Express routine for all fallthrough paths
-  _application.get(
-    "*",
-    async (request, response) => await renderRequest(request, response)
-  )
+  _application.get("*", (request, response) => renderRequest(request, response))
 
   _listening = _application.listen(process.env.PORT, () => logServerReady())
 
@@ -136,7 +124,7 @@ function startListener() {
     log.server("restarting server", { color: "yellow" })
     _listening.destroy()
     await runCallbacks("rebuild-server-app")
-    startListener()
+    startDevelopmentListener()
   })
 }
 
@@ -144,7 +132,6 @@ function prepareListener() {
   _listening.destroy = destroyer(_listening)
 }
 
-// function localListenRoutine(server) {
-//   const { routine, certConfig } = getPathHttpDetails()
-//   return routine == "https" ? require("https").createServer(certConfig, server) : server
-// }
+export async function closeServer() {
+  if (_listening) _listening.destroy()
+}

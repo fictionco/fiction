@@ -50,6 +50,7 @@ export function currentUrl() {
 }
 
 export function localhostUrl() {
+  console.log("process.env.PORT", process.env.PORT)
   const port = process.env.PORT || 3000
   const routine = process.env.HTTP_PROTOCOL || "http"
   return `${routine}://localhost:${port}`
