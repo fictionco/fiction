@@ -118,7 +118,7 @@ const config = {
     const isNewFolder = this.outDir !== process.cwd()
     const cd = () => {
       if (isNewFolder) {
-        console.log(`\t${this.chalk.cyan("cd")} ${this.outFolder}`)
+        console.log(`\t${this.chalk.cyan("cd")} ./${this.outFolder}`)
       }
     }
 
@@ -127,11 +127,8 @@ const config = {
     cd()
     console.log(`\tyarn factor dev\n`)
     console.log()
-
     console.log(`  ${figures.arrowRight} Factor Docs: https://factor.dev/`)
-
     console.log(`  ${figures.arrowRight} Setup CLI: yarn factor setup`)
-
     console.log()
   }
 }

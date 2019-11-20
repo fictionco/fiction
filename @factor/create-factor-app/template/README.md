@@ -2,21 +2,21 @@
 
 > <%= description %>
 
-## Built with [Factor](https://factor.dev).
+## Built with [Factor](https://factor.dev)
 
-``` bash
+```bash
 # configure and run development environment
-$ yarn factor dev
+yarn factor dev
 
 # build for production and launch server
-$ yarn start
+yarn start
 
 # build for production
-$ yarn factor build
+yarn factor build
 
-# deploy to development (staging) or production 
+# deploy to development (staging) or production
 # (based on configuration)
-$ yarn factor deploy [production or development]
+yarn factor deploy [production or development]
 
 ```
 

@@ -1,7 +1,7 @@
-import { stdin } from "mock-stdin"
 import { spawn } from "cross-spawn"
 import { waitFor } from "@test/utils"
-import { dirname } from "path"
+import { dirname, resolve } from "path"
+import { removeSync } from "fs-extra"
 const keys = {
   up: "\u001B\u005B\u0041",
   down: "\u001B\u005B\u0042",
@@ -9,16 +9,22 @@ const keys = {
   space: "\u0020"
 }
 describe("create-factor-app", () => {
-  let io = null
-  beforeAll(() => (io = stdin()))
-  afterAll(() => io.restore())
+  beforeAll(() => {
+    removeSync(resolve(__dirname, "test-files/generated"))
+  })
+
   describe("cli", () => {
     it("asks for app name, email, url", async () => {
       const cwd = dirname(require.resolve("./test-files/init.json"))
-      const __spawned = spawn("npx", ["create-factor-app"], { detached: true, cwd })
 
+      const __spawned = spawn("npx", ["create-factor-app", "generated"], {
+        detached: true,
+        cwd
+      })
+
+      let output = []
       __spawned.stdout.on("data", data => {
-        console.log(`${data.toString()}`)
+        output.push(data.toString())
       })
 
       await waitFor(200)
@@ -50,10 +56,10 @@ describe("create-factor-app", () => {
       __spawned.stdin.write(`${keys.enter}`)
 
       await new Promise(resolve => {
-        __spawned.on("close", code => {
-          resolve()
-        })
+        __spawned.on("close", () => resolve())
       })
+
+      expect(output.join(" ")).toContain("cd ./generated")
     })
     it.todo("provides guidance on how to get started")
     it.todo("logs package version (needed in case of cache)")
