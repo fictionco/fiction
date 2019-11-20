@@ -16,8 +16,10 @@ describe("dashboard", () => {
 
   describe("general", () => {
     it("shows dashboard on dashboard route", async () => {
-      renderAndGetWindow()
+      const win = await renderAndGetWindow({ route: "/dashboard" })
       await waitFor(30)
+
+      console.log(win)
       expect(2).toBe(2)
     })
     it.todo("requires authentication to view dashboard")

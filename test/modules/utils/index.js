@@ -62,11 +62,14 @@ export const loadFixture = async fixture => {
   await createApp()
 }
 
-export async function renderAndGetWindow({ url, options = {} }) {
+export async function renderAndGetWindow(_arguments) {
+  let { url, port = process.env.PORT, route = "/", options = {} } = _arguments || {}
+
+  url = url ? url : getUrl({ port, route })
+
   options = {
     resources: "usable",
     runScripts: "dangerously",
-    virtualConsole: true,
     beforeParse(window) {
       // Mock window.scrollTo
       window.scrollTo = () => {}
