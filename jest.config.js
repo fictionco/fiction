@@ -19,12 +19,12 @@ module.exports = {
   watchPathIgnorePatterns: ["dist/.*", ".factor/.*"],
 
   moduleNameMapper: {
-    "__FALLBACK__(.*)$": "<rootDir>/@factor/app/$1",
-    "__CWD__/(.*)$": "<rootDir>/test/modules/alias/$1",
-    "__SRC__/(.*)$": "<rootDir>/test/modules/alias/$1",
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
       "<rootDir>/test/config/mock-file.js",
-    "\\.(css|less)$": "<rootDir>/test/config/mock-style.js"
+    "\\.(css|less)$": "<rootDir>/test/config/mock-style.js",
+    "__FALLBACK__(.*).(js|vue|ts)$": "<rootDir>/@factor/app/$1",
+    "__CWD__/(.*)$": "<rootDir>/test/modules/alias/$1",
+    "__SRC__/(.*)$": "<rootDir>/test/modules/alias/$1"
   },
 
   transformIgnorePatterns: ["node_modules/(?!(@factor|factor))"],

@@ -1,9 +1,9 @@
 import { dirname, parse } from "path"
 import { getPath } from "@factor/tools/paths"
 import { toPascalCase, sortPriority } from "@factor/tools/utils"
-import log from "@factor/tools/logger"
 import fs from "fs-extra"
 import glob from "glob"
+import log from "@factor/tools/logger"
 
 export function getCWDPackage() {
   let pkg
