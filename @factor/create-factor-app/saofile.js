@@ -36,6 +36,7 @@ const config = {
         "Do you have a MongoDB connection string ready? (needed for dashboard, posts, auth. you can can add this later...)",
       choices: ["yes", "no"]
     },
+
     {
       name: "db",
       type: "string",
@@ -47,6 +48,15 @@ const config = {
           : "Doesn't seem to be a valid connection string..."
       },
       when: answers => answers.addDb != "no"
+    },
+    {
+      name: "theme",
+      type: "list",
+      message: "Which template would you like to start with?",
+      choices: [
+        { name: "Portfolio Theme", value: "alpha" },
+        { name: "Basic App", value: "basic" }
+      ]
     }
   ],
   templateData() {
