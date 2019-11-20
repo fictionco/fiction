@@ -60,3 +60,7 @@ export const loadFixture = async fixture => {
   await factorize()
   await createApp()
 }
+
+export async function renderAndGetWindow() {
+  // TODO
+}

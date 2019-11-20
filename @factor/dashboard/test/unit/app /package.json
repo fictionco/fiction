@@ -1,0 +1,7 @@
+{
+  "name": "dashboard-test-package",
+  "version": "1.0.0",
+  "dependencies": {
+    "@factor/core": "^1.0.0"
+  }
+}
