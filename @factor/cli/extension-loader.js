@@ -1,4 +1,4 @@
-import { dirname, resolve, parse } from "path"
+import { dirname, parse } from "path"
 import { getPath } from "@factor/tools/paths"
 import { toPascalCase, sortPriority } from "@factor/tools/utils"
 import log from "@factor/tools/logger"
