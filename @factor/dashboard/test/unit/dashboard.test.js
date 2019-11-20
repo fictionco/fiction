@@ -1,6 +1,10 @@
+//import { waitFor, renderAndGetWindow } from "@test/utils"
+
 describe("dashboard", () => {
   describe("general", () => {
-    it.todo("shows dashboard on dashboard route")
+    it("shows dashboard on dashboard route", () => {
+      //   const window = renderAndGetWindow("/dashboard")
+    })
     it.todo("requires authentication to view dashboard")
     it.todo("renders")
 
@@ -20,6 +24,6 @@ describe("dashboard", () => {
     it.todo("allows for page overriding")
     it.todo("shows nav grouping correctly")
     it.todo("has app logo and account shortcuts")
-    it.todo("prefetches correct post information for routes")
+    it.todo("pre-fetches correct post information for routes")
   })
 })
