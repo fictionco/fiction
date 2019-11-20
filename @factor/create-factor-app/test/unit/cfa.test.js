@@ -27,31 +27,31 @@ describe("create-factor-app", () => {
         output.push(data.toString())
       })
 
-      await waitFor(200)
+      await waitFor(300)
 
       __spawned.stdin.write(`PROJECT-NAME${keys.enter}`)
 
-      await waitFor(200)
+      await waitFor(300)
 
       __spawned.stdin.write(`PROJECT-DESCRIPTION${keys.enter}`)
 
-      await waitFor(200)
+      await waitFor(300)
 
       __spawned.stdin.write(`ELVIS${keys.enter}`)
 
-      await waitFor(200)
+      await waitFor(300)
 
       __spawned.stdin.write(`elvis@fiction.com${keys.enter}`)
 
-      await waitFor(200)
+      await waitFor(300)
 
       __spawned.stdin.write(`${keys.down}${keys.enter}`)
 
-      await waitFor(200)
+      await waitFor(300)
 
       __spawned.stdin.write(`${keys.enter}`)
 
-      await waitFor(200)
+      await waitFor(300)
 
       __spawned.stdin.write(`${keys.enter}`)
 

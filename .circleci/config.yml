@@ -35,8 +35,7 @@ commands:
             if echo "$COMMIT_MSG" | grep -o "\[release\]"; then
               echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
               echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-              yarn lerna version patch --yes --force-publish --no-changelog
-              yarn lerna publish --yes --from-package
+              yarn lerna publish patch --yes --no-changelog
             else
               echo "Release phase is skipped."
             fi
