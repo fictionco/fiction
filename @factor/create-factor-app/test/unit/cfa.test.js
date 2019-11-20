@@ -27,6 +27,10 @@ describe("create-factor-app", () => {
         output.push(data.toString())
       })
 
+      __spawned.stderr.on("data", data => {
+        output.push(`[err] ${data.toString()}`)
+      })
+
       await waitFor(300)
 
       __spawned.stdin.write(`PROJECT-NAME${keys.enter}`)

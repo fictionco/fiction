@@ -37,7 +37,7 @@
     "webpack": "^4.29.6",
     "webpack-dev-middleware": "^3.6.0",
     "webpack-hot-middleware": "^2.24.3",
-    "yargs": "^14.2.0"
+    "yargs": "^15.0.2"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }

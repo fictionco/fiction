@@ -52,7 +52,7 @@
     "webpack-deep-scope-plugin": "^1.6.2",
     "webpack-merge": "^4.2.1",
     "webpack-node-externals": "^1.7.2",
-    "yargs": "^14.2.0"
+    "yargs": "^15.0.2"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
