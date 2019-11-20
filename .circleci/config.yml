@@ -35,18 +35,16 @@ commands:
             if echo "$COMMIT_MSG" | grep -o "\[release\]"; then
               echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
               echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-              yarn lerna version --yes --no-git-tag-version --no-push
-              PACKAGE_SUFFIX=edge yarn build
-              if [ "$CIRCLE_BRANCH" = "next" ]; then tag="--tag next"; fi
-              ./scripts/workspace-run npm publish $tag -q
+              yarn lerna version --yes --force-publish
+              yarn lerna public --yes --from-package
             else
               echo "Release phase is skipped."
             fi
 release_branches: &release_branches
   branches:
     only:
-      - dev
-      - next
+      - master
+      - release
 
 jobs:
   # --------------------------------------------------------------------------
@@ -81,7 +79,6 @@ jobs:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
-  
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
