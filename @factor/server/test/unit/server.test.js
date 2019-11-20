@@ -1,7 +1,7 @@
 import { createRenderServer, closeServer } from "@factor/server"
 import { dirname } from "path"
 import { generateBundles } from "@factor/build/webpack-config"
-import { generateLoaders } from "@factor/cli/extension-loader"
+
 import { getUrl, getPort } from "@test/utils"
 import axios from "axios"
 
@@ -17,7 +17,6 @@ describe("server", () => {
     process.env.NODE_ENV = "production"
 
     try {
-      generateLoaders()
       await generateBundles()
     } catch (error) {
       throw new Error(error)

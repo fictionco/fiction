@@ -2,20 +2,14 @@ import { waitFor, getPort, renderAndGetWindow } from "@test/utils"
 import { dirname } from "path"
 import { createRenderServer } from "@factor/server"
 import { generateBundles } from "@factor/build/webpack-config"
-import { generateLoaders } from "@factor/cli/extension-loader"
 
 describe("dashboard", () => {
   beforeAll(async () => {
-    process.env.FACTOR_CWD = dirname(require.resolve("./test-files/package.json"))
+    process.env.FACTOR_CWD = dirname(require.resolve("./test-app/package.json"))
     process.env.PORT = await getPort()
     process.env.NODE_ENV = "production"
 
-    try {
-      generateLoaders()
-      await generateBundles()
-    } catch (error) {
-      throw new Error(error)
-    }
+    await generateBundles()
 
     await createRenderServer()
   })
@@ -24,6 +18,7 @@ describe("dashboard", () => {
     it("shows dashboard on dashboard route", async () => {
       renderAndGetWindow()
       await waitFor(30)
+      expect(2).toBe(2)
     })
     it.todo("requires authentication to view dashboard")
     it.todo("renders")

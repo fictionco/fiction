@@ -16,8 +16,11 @@ import webpack from "webpack"
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { configSettings } from "@factor/tools/config"
+import { generateLoaders } from "@factor/cli/extension-loader"
 
 export async function generateBundles(options = {}) {
+  generateLoaders()
+
   await Promise.all(
     ["server", "client"].map(async (target, index) => {
       const clean = index === 0
