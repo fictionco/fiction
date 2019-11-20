@@ -1,6 +1,8 @@
 # Dashboard Setup
 
-_Factor includes a CMS-oriented post management system and dashboard. These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage._
+Ready to setup your dashboard? These features allow extension developers to create CMS oriented tools that are dynamic, consistent, and easy to manage.
+
+![Factor Dashboard](./img/dashboard.jpg)
 
 ## Before You Start
 
@@ -79,7 +81,7 @@ Notes:
 - If you haven't set up transactional email yet, then the output of the verification email will be logged to your console.
 - It is also possible to verify your email manually by accessing your database and finding the user associated with your account (set `emailVerified: true`)
 
-![Factor Dashboard](./dashboard.png)
+![Account Dashboard](./img/dashboard-account.jpg)
 
 ## Success and Next Steps
 
@@ -138,4 +140,4 @@ yarn factor setup
 
 From here you'll be provided with a listing of needed configuration, as well as tools for adding or changing existing configuration options.
 
-![Factor Setup](./factor-setup.png)
+![Factor Setup](./img/factor-setup.png)

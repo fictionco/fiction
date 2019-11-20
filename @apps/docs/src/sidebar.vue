@@ -274,8 +274,6 @@ export default Vue.extend({
       &:hover,
       &.scroll-active {
         color: var(--color-primary);
-        font-weight: 600;
-        letter-spacing: -0.01em;
       }
       &:hover {
         //border-bottom: 2px solid var(--color-primary);

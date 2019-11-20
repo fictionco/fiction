@@ -131,6 +131,7 @@
     "pickby",
     "postbuild",
     "purgecss",
+    "rgba",
     "scaleable",
     "signin",
     "slugify",

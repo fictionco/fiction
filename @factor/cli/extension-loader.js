@@ -1,4 +1,4 @@
-import { dirname, parse } from "path"
+import { dirname, resolve, parse } from "path"
 import { getPath } from "@factor/tools/paths"
 import { toPascalCase, sortPriority } from "@factor/tools/utils"
 import log from "@factor/tools/logger"
@@ -170,10 +170,10 @@ function makeFileLoader({ extensions, filename, callback }) {
   const files = []
 
   extensions.forEach(_ => {
-    const { name, cwd, _id, main, priority } = _
+    const { name, cwd, _id, priority } = _
 
     const dir = getDirectory({ name })
-    const requireBase = getRequireBase({ cwd, name, main })
+    const requireBase = getRequireBase({ cwd, name })
 
     glob
       .sync(`${dir}/**/${filename}`)
@@ -279,12 +279,17 @@ function loadExtensions(pkg) {
 function getDirectory({ name, main = "" }) {
   const resolver = isCWD(name) ? getCWD() : name
 
-  const root = require.resolve(resolver, { paths: [main] })
+  let root
+  if (main) {
+    root = require.resolve(resolver, { paths: [main] })
+  } else {
+    root = require.resolve(`${resolver}/package.json`)
+  }
 
   return dirname(root)
 }
 
-function getRequireBase({ cwd, name, main }) {
+function getRequireBase({ cwd, name, main = "package.json" }) {
   return dirname([cwd ? ".." : name, main].join("/"))
 }
 

@@ -1,12 +1,12 @@
 <template>
   <div class="page-docs">
-    <section v-if="activeDoc" class="docs-wrap">
+    <section v-if="html" class="docs-wrap">
       <page-sidebar />
 
       <div class="mast">
         <div class="content">
           <div ref="scroller" class="scroller">
-            <docs-entry ref="content" :text="activeDoc" />
+            <docs-entry ref="content" :text="html" />
             <docs-footer />
           </div>
         </div>
@@ -19,7 +19,6 @@
 import Vue from "vue"
 import { getMarkdownHTML, metatags } from "./docs-handler"
 import { factorError404 } from "@factor/ui"
-import { stored } from "@factor/app/store"
 
 export default Vue.extend({
   components: {
@@ -33,11 +32,13 @@ export default Vue.extend({
       loading: true,
       toggle: true,
       clicked: false,
-      text: ""
+      html: ""
     }
   },
-  serverPrefetch() {
-    return getMarkdownHTML(this.doc)
+  async serverPrefetch() {
+    // @ts-ignore
+    this.html = await getMarkdownHTML(this.doc)
+    return
   },
   computed: {
     activeHash() {
@@ -45,9 +46,6 @@ export default Vue.extend({
     },
     doc() {
       return this.$route.params.doc || ""
-    },
-    activeDoc() {
-      return stored(`doc-${this.doc}`)
     }
   },
   watch: {
@@ -59,7 +57,7 @@ export default Vue.extend({
     }
   },
   async created() {
-    if (!this.activeDoc) {
+    if (!this.html) {
       await this.setContent()
     }
   },
@@ -69,7 +67,7 @@ export default Vue.extend({
 
   methods: {
     async setContent() {
-      await getMarkdownHTML(this.doc)
+      this.html = await getMarkdownHTML(this.doc)
     },
     toggleNav(v) {
       if (typeof v == "undefined") {

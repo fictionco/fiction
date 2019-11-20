@@ -9,7 +9,7 @@ export default () => {
         content: () => import("__FALLBACK__/content.vue"),
         site: () => import("__FALLBACK__/site.vue")
       },
-      icon: require("./icon.png"),
+      icon: require("__FALLBACK__/static/icon.svg"),
       templatePath: resolveFilePath("__FALLBACK__/index.html"),
       faviconPath: resolveFilePath("__FALLBACK__/static/favicon.png")
     }

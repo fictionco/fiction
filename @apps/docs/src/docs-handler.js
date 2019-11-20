@@ -1,22 +1,19 @@
 import { toLabel, setting, renderMarkdown } from "@factor/tools"
-import { storeItem, stored } from "@factor/app/store"
 
 export function config() {
   return normalize(setting("docs.pages"))
 }
 export async function getMarkdownHTML(doc) {
   const { file } = selected(doc) || {}
-  const cacheKey = `doc-${doc}`
 
+  let html = ""
   if (file) {
     const { default: contents } = await file()
 
-    const html = renderMarkdown(contents)
-
-    storeItem(cacheKey, html)
+    html = renderMarkdown(contents)
   }
 
-  return stored(cacheKey)
+  return html
 }
 
 export function selected(doc) {

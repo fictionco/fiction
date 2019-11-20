@@ -300,11 +300,8 @@ export default Vue.extend({
 
 <style lang="less">
 @keyframes barberpole {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 60px 30px;
+  100% {
+    background-position: 100% 100%;
   }
 }
 .image-upload-input {
@@ -389,18 +386,15 @@ export default Vue.extend({
       transition: all 0.2s;
     }
     &.processing .bar {
-      background-size: 20px 20px;
-      background-image: linear-gradient(
+      background-size: 200% 200%;
+      background-image: repeating-linear-gradient(
         45deg,
-        rgba(black, 0.1) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(black, 0.1) 50%,
-        rgba(black, 0.1) 75%,
-        transparent 75%,
-        transparent
+        rgba(black, 0.1),
+        rgba(black, 0.1) 1rem,
+        transparent 1rem,
+        transparent 2rem
       );
-      animation: barberpole 0.5s linear infinite;
+      animation: barberpole 1.5s linear infinite;
     }
   }
   .menu {

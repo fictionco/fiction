@@ -1,18 +1,8 @@
 # Customizing Extensions
 
-## Overview
-
-Factor gives you several methods to easily customize plugins or themes that you've added to your app. In this document we'll discuss the approaches and tradeoffs.
-
-### Maintainability
-
-When customizing a plugin or theme, ths goal is to make your modification but still retain the your ability to upgrade. To help you with this, use the styles, settings and overrides techniques discussed below.
-
-If you do decide to modify an extensions source, that is possible (and sometimes necessary;) but this approach prevents you from updating the "forked" extension (without using more advanced merging techniques, etc.).
-
 ## Styling with `factor-styles`
 
-Factor includes an optional style system that can be used for your global application styles. It works by gathering all `factor-styles` files in your app, themes and plugins and combining them in a specific order so that the app has the highest priority followed by themes then plugins.
+Factor includes an optional style system that can be used for your global application styles. It works by gathering all `factor-styles` files in your app, themes and plugins and combining them in order of priority.
 
 > Note: **factor-styles** supports `.css`, `.less` or `.scss` files.
 
@@ -68,7 +58,7 @@ _Note that the values given above are just there as an example._
 
 To change these values in your app add the above to your `factor-settings` file. Remember that individual extensions may add their own variables which are just as easy to customize, you'll just need to consult their documentation.
 
-## Config with `factor-settings.js`
+## Settings with `factor-settings.js`
 
 "Factor settings" is a customization system built for customizing Factor extensions and Factor itself. It works by gathering all `factor-settings.js` files in your app and extensions, then merging them together in order of priority. With your app having the highest priority by default.
 
@@ -84,7 +74,7 @@ export default Factor => {
   return {
     myCar: {
       type: "mercedes",
-      color: "black",
+      color: "black"
     },
     myHouse: () => import("./house-component.vue")
   }
@@ -94,7 +84,7 @@ export default Factor => {
 export default Factor => {
   return {
     myCar: {
-      color: "black",
+      color: "black"
     },
     myHouse: () => import("./custom-house-component.vue")
   }
@@ -122,12 +112,12 @@ The recommend and most common way to override templates is using `factor-setting
 ```js
 // plugin factor-settings
 export default Factor => {
-  myComponent: () => import('./some-plugin-component.vue')
+  myComponent: () => import("./some-plugin-component.vue")
 }
 
 // your app factor-settings
 export default Factor => {
-  myComponent: () => import('./my-override-component.vue')
+  myComponent: () => import("./my-override-component.vue")
 }
 ```
 
