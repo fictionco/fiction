@@ -1,6 +1,5 @@
 /* eslint-disable jest/no-export */
 import { dirname, resolve } from "path"
-
 import { factorize } from "@factor/cli/factorize"
 import getPortUtility from "get-port"
 
@@ -9,6 +8,8 @@ import { removeSync } from "fs-extra"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { buildProductionApp } from "@factor/build/webpack-config"
 import { createApp } from "@factor/app/app"
+
+import jsdom from "jsdom"
 
 export async function getPort() {
   const port = await getPortUtility()
@@ -61,6 +62,19 @@ export const loadFixture = async fixture => {
   await createApp()
 }
 
-export async function renderAndGetWindow() {
-  // TODO
+export async function renderAndGetWindow({ url, options = {} }) {
+  options = {
+    resources: "usable",
+    runScripts: "dangerously",
+    virtualConsole: true,
+    beforeParse(window) {
+      // Mock window.scrollTo
+      window.scrollTo = () => {}
+    },
+    ...options
+  }
+
+  const { window } = await jsdom.JSDOM.fromURL(url, options)
+
+  return window
 }
