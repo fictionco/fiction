@@ -1,7 +1,7 @@
 {
   "name": "@apps/docs",
   "description": "Factor documentation portal",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0",
   "url": "https://factor.dev",
   "main": "src/index",
   "author": "Fiction.com",
@@ -16,17 +16,17 @@
     ]
   },
   "dependencies": {
-    "@factor/core": "^1.0.0-beta.12",
-    "@factor/plugin-blog": "^1.0.0-beta.12",
-    "@factor/plugin-bugsnag": "^1.0.0-beta.12",
-    "@factor/plugin-contact-form": "^1.0.0-beta.12",
-    "@factor/plugin-email-list": "^1.0.0-beta.12",
-    "@factor/plugin-google-tag-manager": "^1.0.0-beta.12",
-    "@factor/plugin-notify": "^1.0.0-beta.12",
-    "@factor/plugin-seo": "^1.0.0-beta.12",
-    "@factor/plugin-sitemap": "^1.0.0-beta.12",
-    "@factor/plugin-storage-s3": "^1.0.0-beta.12",
-    "@factor/theme-shared": "^1.0.0-beta.12",
+    "@factor/core": "^1.0.0",
+    "@factor/plugin-blog": "^1.0.0",
+    "@factor/plugin-bugsnag": "^1.0.0",
+    "@factor/plugin-contact-form": "^1.0.0",
+    "@factor/plugin-email-list": "^1.0.0",
+    "@factor/plugin-google-tag-manager": "^1.0.0",
+    "@factor/plugin-notify": "^1.0.0",
+    "@factor/plugin-seo": "^1.0.0",
+    "@factor/plugin-sitemap": "^1.0.0",
+    "@factor/plugin-storage-s3": "^1.0.0",
+    "@factor/theme-shared": "^1.0.0",
     "memory-cache": "^0.2.0"
   }
 }

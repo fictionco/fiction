@@ -1,6 +1,6 @@
 {
   "name": "@test/importing-build",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0",
   "license": "UNLICENSED",
   "factor": {
     "_id": "fictionApp",
@@ -10,7 +10,7 @@
     ]
   },
   "dependencies": {
-    "@factor/core": "^1.0.0-beta.12",
-    "@test/importing-build-plugin": "^1.0.0-beta.12"
+    "@factor/core": "^1.0.0",
+    "@test/importing-build-plugin": "^1.0.0"
   }
 }
