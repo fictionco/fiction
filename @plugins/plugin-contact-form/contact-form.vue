@@ -17,8 +17,10 @@
         v-model="form[c._id]"
         :data-test="`contact-form-${c._id}`"
         :input="`factor-input-${c.inputType}`"
+        :input-classes="`${c.inputClasses}`"
         :required="!!c.required"
         :label="getLabel(c)"
+        :label-classes="`${c.labelClasses}`"
         :placeholder="getPlaceholder(c)"
         :format="setting('contactForm.inputFormat', 'horizontal')"
       />

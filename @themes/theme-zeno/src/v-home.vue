@@ -5,7 +5,7 @@
         class="flex flex-col justify-start px-8 py-16 mx-auto sm:max-w-xl lg:w-1/2 lg:justify-center"
       >
         <h3 class="uppercase-custom text-purple-500">{{ introPretitle }}</h3>
-        <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">{{ introTitle }}</h1>
+        <h1 class="font-bold leading-tight text-3xl lg:text-4xl text-purple-900">{{ introTitle }}</h1>
         <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
 
         <div class="mt-4">

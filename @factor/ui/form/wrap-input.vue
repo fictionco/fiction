@@ -2,7 +2,7 @@
   <div :key="renderKey" class="input-wrap" :class="[requiredClass, inputFormat]">
     <div v-if="label || description" class="input-meta">
       <label class="label-wrap">
-        <span v-if="label" class="label">{{ label }}</span>
+        <span v-if="label" class="label" :class="labelClasses">{{ label }}</span>
       </label>
       <div v-if="description || $slots.description" class="description-wrap">
         <slot v-if="$slots.description" name="description" />
@@ -12,7 +12,14 @@
 
     <div class="input-area">
       <div class="the-input">
-        <component :is="input" v-if="input" :value="value" v-bind="$attrs" v-on="$listeners" />
+        <component
+          :is="input"
+          v-if="input"
+          :value="value"
+          v-bind="$attrs"
+          :class="inputClasses"
+          v-on="$listeners"
+        />
         <slot />
       </div>
     </div>
@@ -62,12 +69,9 @@ export default Vue.extend({
     label: { type: String, default: "" },
     description: { type: String, default: "" },
     format: { type: String, default: "" },
-    input: { type: String, default: "" }
-  },
-  data() {
-    return {
-      inputClasses: []
-    }
+    input: { type: String, default: "" },
+    inputClasses: { type: String, default: "" },
+    labelClasses: { type: String, default: "" }
   },
   computed: {
     // Vue sometimes can cache this component and handle it incorrectly across views

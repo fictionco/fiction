@@ -1,5 +1,7 @@
 <template>
-  <header class="lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center lg:px-4 lg:py-3">
+  <header
+    class="max-w-6xl mx-auto lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center lg:px-4 lg:py-3"
+  >
     <div class="flex items-center justify-between px-6 py-3 lg:p-0 lg:flex-1">
       <site-brand />
       <div class="lg:hidden">
@@ -20,24 +22,31 @@
       </div>
     </div>
     <nav
-      class="px-6 overflow-hidden transition-height lg:block lg:p-0 lg:h-full lg:flex-1 lg:text-center"
-      :class="isOpen ? 'pb-6 h-64' : 'h-0'"
+      class="flex items-center justify-between px-6 overflow-hidden transition-height lg:bg-transparent lg:inline lg:p-0 lg:h-full lg:flex-1 lg:text-center"
+      :class="isOpen ? 'bg-white w-full h-188 z-50 lg:w-auto' : 'min-h-0 h-0'"
     >
-      <template v-for="(item, index) in siteNav">
-        <component :is="item.component()" v-if="item.component" :key="index" />
-        <factor-link
-          v-else
-          :key="index"
-          :path="item.path"
-          :event="item.event"
-          :target="item.target"
-          class="block mt-3 transition-all text-xl lg:inline mt-0 lg:px-1 lg:text-base"
-          :class="{ 'lg:text-white lg:hover:text-teal-500': $route.path==='/' }"
-        >
-          <factor-icon v-if="item.icon" :icon="item.icon" />
-          <span v-if="item.name" v-formatted-text="item.name" />
-        </factor-link>
-      </template>
+      <ul
+        class="w-full list-none list-inside pb-6 lg:p-0 lg:w-auto lg:flex lg:flex-1 lg:justify-center"
+      >
+        <template v-for="(item, index) in siteNav">
+          <li :key="index" class="mt-1 lg:m-0">
+            <component :is="item.component()" v-if="item.component" />
+            <factor-link
+              v-else
+              :key="index"
+              :path="item.path"
+              :event="item.event"
+              :target="item.target"
+              class="transition-all text-xl py-1 px-2 hover:bg-gray-100 lg:hover:bg-transparent lg:inline mt-0 lg:px-1 lg:text-base"
+              :class="{ 'block lg:inline lg:text-white lg:hover:text-teal-500': $route.path==='/' }"
+              @click="isOpen = !isOpen"
+            >
+              <factor-icon v-if="item.icon" :icon="item.icon" />
+              <span v-if="item.name" v-formatted-text="item.name" />
+            </factor-link>
+          </li>
+        </template>
+      </ul>
     </nav>
   </header>
 </template>

@@ -43,7 +43,7 @@ export default {
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "btn shadow-xl ml-4 bg-white hover:bg-gray-100 text-purple-700"
+          classes: "factor-link btn shadow-lg ml-4 bg-white hover:bg-gray-300 text-purple-700"
         },
       ]
     },
@@ -205,7 +205,7 @@ export default {
     intro: {
       pretitle: "About Us",
       title: "Elastic Byte is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
-      image: require("./img/stars.svg"),
+      backgroundImage: require("./img/stars.svg"),
     },
     team: {
       title: "Leadership",
@@ -214,21 +214,29 @@ export default {
           photo: require("./img/justin.jpg"),
           social: [
             {
-              link: "https://www.linkedin.com/in/jkell",
-              icon: "linkedin"
+              link: "https://www.twitter.com/",
+              icon: "twitter",
+              target: "_blank"
             },
             {
-              link: "https://github.com/nodesocket",
-              icon: "github"
+              link: "https://www.linkedin.com/",
+              icon: "linkedin",
+              target: "_blank"
             },
             {
-              link: "https://angel.co/justink",
-              icon: "angellist"
+              link: "https://github.com/",
+              icon: "github",
+              target: "_blank"
+            },
+            {
+              link: "https://angel.co/",
+              icon: "angellist",
+              target: "_blank"
             }
           ],
           title: "Founder",
           name: "Justin Keller",
-          content: "Justin has been programming and managing infrastructure for over a decade and has founded three startups ranging from a hosting company to a Node.js platform as a service to a distributed SSH platform (Commando.io). He received his Bachelor of Science in Computer Science from San Diego State University. He's managed cloud infrastructure for Fortune 500 companies powered by Amazon Web Services and Google Cloud."
+          content: `<p>Justin has been programming and managing infrastructure for over a decade and has founded three startups ranging from a hosting company to a Node.js platform as a service to a distributed SSH platform (<a href="https://commando.io/">Commando.io</a>).</p><p class="mt-4">He received his Bachelor of Science in Computer Science from San Diego State University. He's managed cloud infrastructure for Fortune 500 companies powered by Amazon Web Services and Google Cloud.</p>`
         }
       ]
     },
@@ -392,17 +400,16 @@ export default {
     intro: {
       pretitle: "Contact Us",
       title: "Give us a shout. Let us know how we can help.",
+      backgroundImage: require("./img/stars.svg"),
       content: "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
-      figure: require("./img/cloud.svg"),
-      figure2: require("./img/stars.svg")
+      figure: require("./img/cloud-with-shadow.svg"),
     }
   },
   contactForm: {
     submit: {
-      btn: "primary",
+      btn: "btn bg-teal-500 text-purple-700 hover:bg-teal-600",
       size: "",
-      text: "Submit",
-      icon: "arrow-right"
+      text: "Contact"
     },
     inputFormat: "vertical",
     confirm: {
@@ -412,8 +419,10 @@ export default {
     layout: [
       {
         label: "Plan Interest",
+        labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "plan",
         inputType: "select",
+        inputClasses: `bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical`,
         required: true,
         list: [
           {
@@ -436,22 +445,29 @@ export default {
       },
       {
         label: "Name",
+        labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "name",
         inputType: "text",
+        classesInput: `thenewstuff`,
+        inputClasses: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "Full Name",
         required: true
       },
       {
         label: "Work Email",
+        labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "email",
         inputType: "email",
+        inputClasses: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "name@example.com",
         required: true
       },
       {
         label: "Message",
+        labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "message",
         inputType: "textarea",
+        inputClasses: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "how can we help?"
       }
     ]
@@ -507,24 +523,16 @@ export default {
         name: "Home"
       },
       {
-        path: "/#solutions",
-        name: "Solutions"
-      },
-      {
-        path: "/#devops-as-a-service",
-        name: "Devops-as-a-Service  "
-      },
-      {
-        path: "/#infrastructure-as-code",
-        name: "Infrastructure as Code"
-      },
-      {
         path: "/#pricing",
         name: "Pricing"
       },
       {
         path: "/about",
         name: "About"
+      },
+      {
+        path: "/contact",
+        name: "Contact"
       },
       {
         path: "/blog",

@@ -1,32 +1,52 @@
 <template>
   <div>
-    <section>
-      <h3>{{ introPretitle }}</h3>
-      <h1>{{ introTitle }}</h1>
-      <figure>
-        <img :src="introImage" :alt="introPretitle" />
-      </figure>
+    <section class="bg-gray-100 flex items-center" :style="introBackground">
+      <div class="max-w-2xl mx-auto text-center px-8 py-32">
+        <h3 class="uppercase-custom text-purple-500">{{ introPretitle }}</h3>
+        <h1 class="font-bold leading-tight text-3xl lg:text-4xl text-purple-900">{{ introTitle }}</h1>
+      </div>
     </section>
 
-    <section>
-      <h1>{{ teamTitle }}</h1>
-      <template v-for="(member, index) in teamMembers">
-        <div :key="index">
-          <img :src="member.photo" :alt="member.name" />
-          <template v-for="(social, i) in member.social">
-            <factor-link :key="i" :path="social.link">
-              <factor-icon :icon="social.icon" />
-            </factor-link>
-          </template>
-          <h2>{{ member.title }}</h2>
-          <h1>{{ member.name }}</h1>
-          <p>{{ member.content }}</p>
-        </div>
-      </template>
+    <section class="bg-gray-100 pb-16">
+      <div class="bg-purple-900 pt-8 pb-24 md:pt-16 md:pb-32 px-8">
+        <h1 class="font-bold text-center text-3xl lg:text-4xl text-gray-200">{{ teamTitle }}</h1>
+      </div>
+      <div class="flex flex-col items-center -mt-24">
+        <template v-for="(member, index) in teamMembers">
+          <div
+            :key="index"
+            class="sm:flex w-11/12 p-6 mt-8 bg-white shadow-lg md:w-10/12 lg:w-8/12 lg:p-10 xl:w-7/12"
+          >
+            <div class="w-full sm:w-4/12">
+              <img :src="member.photo" :alt="member.name" class="rounded mx-auto" />
+              <div class="flex justify-center mt-4 text-2xl">
+                <template v-for="(social, i) in member.social">
+                  <factor-link
+                    :key="i"
+                    :target="social.target"
+                    :path="social.link"
+                    class="px-2 hover:text-gray-500"
+                  >
+                    <factor-icon :icon="social.icon" />
+                  </factor-link>
+                </template>
+              </div>
+            </div>
+            <div class="w-full mt-6 sm:mt-0 sm:pl-10 sm:w-8/12">
+              <h2 class="uppercase-custom text-purple-500">{{ member.title }}</h2>
+              <h1 class="font-bold text-3xl text-purple-900">{{ member.name }}</h1>
+              <div
+                v-formatted-text="member.content"
+                class="mt-2 text-base leading-relaxed lg:text-xl"
+              />
+            </div>
+          </div>
+        </template>
+      </div>
     </section>
 
-    <section>
-      <h1>{{ locationTitle }}</h1>
+    <section class="max-w-6xl mx-auto py-8 lg:py-12 bg-white">
+      <h1 class="font-bold text-3xl text-center text-purple-900 lg:text-4xl">{{ locationTitle }}</h1>
       <component :is="locationFigure" />
     </section>
 
@@ -50,7 +70,9 @@ export default Vue.extend({
       loading: true,
       introPretitle: setting("about.intro.pretitle"),
       introTitle: setting("about.intro.title"),
-      introImage: setting("about.intro.image"),
+      introBackground: {
+        backgroundImage: `url(${setting("about.intro.backgroundImage")})`
+      },
       teamTitle: setting("about.team.title"),
       teamMembers: setting("about.team.members"),
       locationTitle: setting("about.location.title"),

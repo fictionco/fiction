@@ -1,6 +1,6 @@
 <template>
   <figure class="bg-center bg-no-repeat" :style="cssProps">
-    <img src="../img/devops.svg" alt="devops" class="relative z-50 h-full w-full object-contain" />
+    <img src="../img/devops.svg" alt="devops" class="relative z-30 h-full w-full object-contain" />
   </figure>
 </template>
 
