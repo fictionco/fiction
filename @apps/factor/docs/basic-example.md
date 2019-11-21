@@ -179,43 +179,14 @@ The next step is to setup dynamic functionality which includes your dashboard, u
 
 You'll need to add a `.env` file to your project and follow the guide here: [dashboard setup](./dashboard-setup).
 
-## 10. Add Email List Plugin
+## 10. Add Blog Plugin
 
-Now we'll add a plugin that allows us to gather user emails to our app. Open terminal and add it:
+Now as an example we'll add a blog plugin to our app. This should allow us to create a blog page and to write blog posts for our app.
 
 ```bash
-yarn add @factor/plugin-email-list
+yarn add @factor/plugin-blog
 ```
 
 ## 11. Customize
 
-Now we need to customize the plugin. For this we use Factor's standard customization system `factor-settings.js` add this file to your application.
-
-```js
-// factor-settings.js
-export default {
-  emailList: {
-    exampleApp: {
-      emails: {
-        confirm: {
-          successMessage: "Your email is confirmed.",
-          subject: "Factor Beta: Email confirmation",
-          text: `Just one more step, please confirm your email.`
-        },
-        complete: {
-          subject: "Success!",
-          text: `<p>Great work.</p>
-            <p>You've successfully signed up. we'll be in touch soon.</p>`
-        },
-        notify: {
-          subject: "New Confirmed Email",
-          text: "A new email was added to a list."
-        }
-      },
-      form: {
-        buttonText: "Sign Up &rarr;"
-      }
-    }
-  }
-}
-```
+Factor plugins all use the standard `factor-settings.js` API to make it easy to customize almost anything in any plugin.

@@ -10,7 +10,7 @@ export default {
       emails: {
         confirm: {
           successMessage: "Your email is confirmed.",
-          subject: "Factor Beta: Email confirmation",
+          subject: "Factor JS: Email Confirmation",
           text: `Just one more step, please confirm your email.`
         },
         complete: {
@@ -20,7 +20,8 @@ export default {
         },
         notify: {
           subject: "New Confirmed Email",
-          text: "A new email was added to a list."
+          text: "A new email was added to a list.",
+          to: "Andrew Powers <andrew@fiction.com>"
         }
       },
       form: {
