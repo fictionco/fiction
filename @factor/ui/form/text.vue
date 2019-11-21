@@ -4,6 +4,7 @@
     type="text"
     :required="$attrs.required"
     v-bind="$attrs"
+    :class="$attrs.inputClasses"
     v-on="listeners"
   />
 </template>

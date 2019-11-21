@@ -16,4 +16,7 @@ body{
 .transition-height{
   transition: height 0.15s cubic-bezier(0.52, 0.01, 0.16, 1);
 }
+.h-188{
+  height: calc(100vh - 56px);
+}
 @tailwind utilities;
