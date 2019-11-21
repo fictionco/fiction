@@ -57,7 +57,11 @@ describe("create-factor-app", () => {
 
       await waitFor(200)
 
-      __spawned.stdin.write(`${keys.enter}${keys.enter}${keys.enter}${keys.enter}`)
+      __spawned.stdin.write(`${keys.enter}${keys.enter}`)
+
+      await waitFor(200)
+
+      __spawned.stdin.write(`${keys.enter}${keys.enter}`)
 
       await new Promise(resolve => {
         __spawned.on("close", () => resolve())
