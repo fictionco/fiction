@@ -34,8 +34,6 @@ describe("dashboard", () => {
 
       await waitFor(1000)
 
-      console.log("WINWINW", win2.document.body.innerHTML)
-
       expect(win2.document.body.innerHTML).toContain(`data-test="signin"`)
     })
     it.todo("requires authentication to view dashboard")

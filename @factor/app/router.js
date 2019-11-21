@@ -1,9 +1,9 @@
-import { applyFilters, runCallbacks } from "@factor/tools/filters"
+import { applyFilters, runCallbacks , pushToFilter } from "@factor/tools/filters"
 import { emitEvent } from "@factor/tools/events"
 import Vue from "vue"
 import VueRouter from "vue-router"
 import qs from "qs"
-import { pushToFilter } from "@factor/tools"
+
 
 Vue.use(VueRouter)
 

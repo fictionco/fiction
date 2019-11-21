@@ -69,7 +69,6 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    console.log("CALLED")
     await user.userInitialized()
     this.loading = false
   },
