@@ -4,7 +4,9 @@ Let's dig in to the basics of developing an application with Factor.
 
 Full stacks apps have many functional aspects, but the good news is Factor standardizes them for you.
 
-In this document, we'll create a basic, yet fully featured full-stack Factor app from scratch.
+In this document, we'll create a basic, yet fully featured app from scratch. You will be able to use these steps as the starting point for creating world-class applications in no time.
+
+Check out the files for this example here.
 
 ## 1. Create A Repo
 
@@ -234,3 +236,9 @@ export default {
 ```
 
 Now instead of seeing your blog at `/blog` it should be available at `/essays`.
+
+## 13. Next Steps
+
+Now we've created a basic application with routes and a blog. The next step is to work on customization and add some content.
+
+Note that we are also creating a theme here, to learn more about how to convert an app into a theme, check out the [creating themes doc](./creating-themes).
