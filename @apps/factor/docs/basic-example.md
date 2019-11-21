@@ -178,3 +178,44 @@ At this point you should be able to visit the site at [localhost:3000](https://l
 The next step is to setup dynamic functionality which includes your dashboard, users, endpoints and more.
 
 You'll need to add a `.env` file to your project and follow the guide here: [dashboard setup](./dashboard-setup).
+
+## 10. Add Email List Plugin
+
+Now we'll add a plugin that allows us to gather user emails to our app. Open terminal and add it:
+
+```bash
+yarn add @factor/plugin-email-list
+```
+
+## 11. Customize
+
+Now we need to customize the plugin. For this we use Factor's standard customization system `factor-settings.js` add this file to your application.
+
+```js
+// factor-settings.js
+export default {
+  emailList: {
+    exampleApp: {
+      emails: {
+        confirm: {
+          successMessage: "Your email is confirmed.",
+          subject: "Factor Beta: Email confirmation",
+          text: `Just one more step, please confirm your email.`
+        },
+        complete: {
+          subject: "Success!",
+          text: `<p>Great work.</p>
+            <p>You've successfully signed up. we'll be in touch soon.</p>`
+        },
+        notify: {
+          subject: "New Confirmed Email",
+          text: "A new email was added to a list."
+        }
+      },
+      form: {
+        buttonText: "Sign Up &rarr;"
+      }
+    }
+  }
+}
+```

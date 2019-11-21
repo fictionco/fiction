@@ -9,21 +9,18 @@ export default {
     alphaProgram: {
       emails: {
         confirm: {
-          successMessage:
-            "Your email is confirmed.",
+          successMessage: "Your email is confirmed.",
           subject: "Factor Beta: Email confirmation",
           text: `Just one more step, please confirm your email.`
         },
         complete: {
           subject: "Success!",
           text: `<p>Great work.</p>
-            <p>You've successfully signed up. we'll be in touch soon.</p>`,
-          from: "Andrew Powers <andrew@fiction.com>"
+            <p>You've successfully signed up. we'll be in touch soon.</p>`
         },
         notify: {
           subject: "New Confirmed Email",
-          text: "A new email was added to a list.",
-          to: "Andrew Powers <andrew@fiction.com>"
+          text: "A new email was added to a list."
         }
       },
       form: {
