@@ -179,7 +179,34 @@ The next step is to setup dynamic functionality which includes your dashboard, u
 
 You'll need to add a `.env` file to your project and follow the guide here: [dashboard setup](./dashboard-setup).
 
-## 10. Add Blog Plugin
+## 10. Global Style
+
+Add a global CSS/LESS file to your app `factor-styles.less`. Factor supports the LESS CSS preprocessor natively to allow for nesting, however we recommend using standard CSS styles for everything else.
+
+In this file, enter the following:
+
+```less
+.factor-app {
+  --color-primary: #0496ff;
+  --color-secondary: #ff0076;
+  --color-text: #495e6f;
+  --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica Neue", Arial, sans-serif;
+
+  color: var(--color-text);
+  font-family: var(--font-family-primary);
+  a {
+    color: var(--color-primary);
+    &:hover {
+      color: var(--color-secondary);
+    }
+  }
+}
+```
+
+Plugins and themes allow you to customize things via CSS variables. So reference the documentation for each extension to see what is available to change.
+
+## 11. Add Blog Plugin
 
 Now as an example we'll add a blog plugin to our app. This should allow us to create a blog page and to write blog posts for our app.
 
@@ -187,6 +214,23 @@ Now as an example we'll add a blog plugin to our app. This should allow us to cr
 yarn add @factor/plugin-blog
 ```
 
-## 11. Customize
+Once installed, restart your local server and you should be able to see the blog index component already at [localhost:3000/blog](http://localhost:3000/blog).
 
-Factor plugins all use the standard `factor-settings.js` API to make it easy to customize almost anything in any plugin. With the blog plugin its possible to reorder or override its components.
+## 12. Customize
+
+You can completely customize how the blog looks and behaves with `factor-settings.js`.
+
+Factor plugins all use the standard `factor-settings.js` API to make it easy to customize almost anything in any plugin. With the blog plugin its possible to reorder or override its components. You can see available options by referencing any plugin's documentation or viewing their [settings files directly](https://github.com/fiction-com/factor/blob/master/%40plugins/plugin-blog/factor-settings.js).
+
+Anything you see in a settings files is override-able in your app. Let's try it. Add a `factor-settings.js` file to your app.
+
+```js
+//factor-settings.js
+export default {
+  blog: {
+    indexRoute: "/essays"
+  }
+}
+```
+
+Now instead of seeing your blog at `/blog` it should be available at `/essays`.
