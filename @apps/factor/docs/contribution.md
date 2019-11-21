@@ -25,12 +25,12 @@ git clone https://github.com/fiction-com/factor
 And then running a [Yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/) within the repo. As an example, you can run this site's code with the following command:
 
 ```bash
-yarn workspace @apps/docs factor dev
+yarn workspace @apps/factor factor dev
 ```
 
 ### Basic Flow
 
-The typical and reconmended way of getting changes made is by making a pull request from a feature branch which includes your changes or fixes.
+The typical and recommended way of getting changes made is by making a pull request from a feature branch which includes your changes or fixes.
 
 The workflow looks like this:
 

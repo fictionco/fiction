@@ -6,11 +6,7 @@
       </div>
     </template>
     <template v-else>
-      <div
-        v-if="toggle"
-        class="mobile-nav"
-        :class="toggle ? 'toggle-nav' : 'toggle-main'"
-      >
+      <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
         <dashboard-nav />
       </div>
 
@@ -37,9 +33,10 @@
 </template>
 <script>
 import { factorBtnDashboard, factorLoadingRing, factorIcon } from "@factor/ui"
-import { userInitialized } from "@factor/user"
+import * as user from "@factor/user"
 import { toLabel } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorBtnDashboard,
     factorLoadingRing,
@@ -72,7 +69,8 @@ export default {
     }
   },
   async mounted() {
-    await userInitialized()
+    console.log("CALLED")
+    await user.userInitialized()
     this.loading = false
   },
 
@@ -98,7 +96,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 <style src="./css/style.less" lang="less"></style>
 

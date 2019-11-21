@@ -1,13 +1,11 @@
 {
-  "name": "@apps/docs",
+  "name": "@apps/factor",
   "description": "Factor documentation portal",
   "version": "1.0.0",
   "url": "https://factor.dev",
   "main": "src/index",
   "author": "Fiction.com",
-  "license": "GPL-2.0",
-  "type": "module",
-  "scripts": {},
+  "license": "UNLICENSED",
   "factor": {
     "_id": "docsApp",
     "target": [

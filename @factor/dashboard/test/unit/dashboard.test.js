@@ -1,45 +1,46 @@
-import { waitFor, getPort, renderAndGetWindow } from "@test/utils"
-import { dirname } from "path"
-import { createRenderServer } from "@factor/server"
-import { generateBundles } from "@factor/build/webpack-config"
-
+/**
+ * @jest-environment jsdom
+ */
+import { mount, createLocalVue } from "@vue/test-utils"
+//import { renderToString } from "@vue/server-test-utils"
+import factorSite from "../../site.vue"
+import VueRouter from "vue-router"
+import Vue from "vue"
+import { createRenderer } from "vue-server-renderer"
+let localVue
+let router
+let renderer
 describe("dashboard", () => {
-  beforeAll(async () => {
-    process.env.FACTOR_CWD = dirname(require.resolve("./test-app/package.json"))
-    process.env.PORT = await getPort()
-    process.env.NODE_ENV = "production"
-
-    await generateBundles()
-
-    await createRenderServer()
+  beforeAll(() => {
+    renderer = createRenderer()
   })
 
-  describe("general", () => {
-    it("shows dashboard on dashboard route", async () => {
-      await renderAndGetWindow({ route: "/dashboard" })
-      await waitFor(30)
-
-      expect(2).toBe(2)
+  it("renders", async () => {
+    localVue = createLocalVue()
+    localVue.use(VueRouter)
+    router = new VueRouter({
+      routes: [
+        { path: "/", meta: { ui: "app" } },
+        { path: "/alt", meta: { ui: "dashboard" } }
+      ]
     })
-    it.todo("requires authentication to view dashboard")
-    it.todo("renders")
+    router.push("/")
 
-    it.todo("only shows admin panels to admins")
+    // Needs router as it assumes $route is there
+    const vm = new Vue({ router, render: h => h(factorSite) })
 
-    it.todo("has account editing page")
+    const html = await renderer.renderToString(vm)
+
+    expect(html).toContain(`id="app"`)
   })
 
-  describe("navigation", () => {
-    it.todo("navigates correctly")
-    it.todo("shows nav grouping correctly")
-    it.todo("has app logo and account shortcuts")
-  })
+  it("adds ui class", () => {
+    const wrapper = mount(factorSite, { localVue, router })
 
-  describe("extension", () => {
-    it.todo("allows for post type extension")
-    it.todo("allows for page overriding")
-    it.todo("shows nav grouping correctly")
-    it.todo("has app logo and account shortcuts")
-    it.todo("pre-fetches correct post information for routes")
+    expect(wrapper.vm["ui"]).toBe("factor-app")
+
+    router.push({ path: "/alt" })
+
+    expect(wrapper.vm["ui"]).toBe("factor-dashboard")
   })
 })

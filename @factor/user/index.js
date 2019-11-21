@@ -140,7 +140,7 @@ export async function sendEmailVerification({ email }) {
 }
 
 // Set persistent user info
-function setUser({ user, token = "", current = false }) {
+export function setUser({ user, token = "", current = false }) {
   if (current) {
     _initializedUser = user ? user : {}
 
@@ -148,7 +148,11 @@ function setUser({ user, token = "", current = false }) {
     else if (user === null) userToken(null)
 
     storeItem("currentUser", user)
-    localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
+
+    // In certain environments (testing) and with high privacy settings, localStorage is unset
+    if (localStorage) {
+      localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
+    }
   }
 
   if (user && user._id) storeItem(user._id, user)

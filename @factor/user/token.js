@@ -17,7 +17,7 @@ export function userToken(token) {
 export function handleTokenError(error, { onTokenError, onError = null }) {
   const badToken = "JsonWebTokenError: invalid signature"
   if (
-    (error && (typeof error == "string" && error.includes(badToken))) ||
+    (error && typeof error == "string" && error.includes(badToken)) ||
     (error.message && error.message.includes(badToken))
   ) {
     if (onTokenError) onTokenError()
