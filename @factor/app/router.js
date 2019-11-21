@@ -3,6 +3,7 @@ import { emitEvent } from "@factor/tools/events"
 import Vue from "vue"
 import VueRouter from "vue-router"
 import qs from "qs"
+import { pushToFilter } from "@factor/tools"
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,10 @@ export function createRouter() {
 
 export function getRouter() {
   return __router
+}
+
+export function addContentRoute(routeItem) {
+  pushToFilter("content-routes", routeItem)
 }
 
 // If called before 'createRouter' then add to callback

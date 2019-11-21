@@ -18,7 +18,7 @@ Each filter has a:
 
 Below is a conceptual diagram of how a list in one extension might be added-to or modified by other extensions.
 
-![How Filters Work](./filters-diagram.jpg)
+![How Filters Work](./img/filters-diagram.jpg)
 
 The above diagram is a typical use case. For example, application routes work in this same way. Another scenario might be adding navigation items to a site's global nav component.
 
@@ -27,7 +27,7 @@ The above diagram is a typical use case. For example, application routes work in
 ```javascript
 import { applyFilters } from "@factor/tools"
 // From an extension
-// The callback recieves the list so just add another item to it
+// The callback receives the list so just add another item to it
 addFilter("my-item-list", list => {
   list.push(4)
   return list

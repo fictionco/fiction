@@ -33,9 +33,3 @@ addFilter("content-routes", routes => {
   ]
 })
 ```
-
-## Stores for Data
-
-In web frameworks, a "store" is a globally available object that holds application data and keeps it no matter where you go in your app. While the the store pattern is popular, it is often overused and can be problematic due to its global nature. However, the store is quite necessary in the case of SSR.
-
-> Factor stores are built using [Vuex](https://vuex.vuejs.org/), Vue's standard store library

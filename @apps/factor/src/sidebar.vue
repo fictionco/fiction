@@ -19,12 +19,12 @@
 
       <ul class="menu-root">
         <div v-for="(item, itemIndex) in nav" :key="itemIndex" class="menu-item">
-          <div v-if="item.group" class="group">{{ item.group }}</div>
+          <div v-if="item.group" class="group">{{ toLabel(item.group) }}</div>
           <li v-else class="doc-menu">
             <factor-link class="primary-doc-link" :path="item.route">
               <span v-formatted-text="item.name" />
             </factor-link>
-            <div v-if="item.doc == activeDoc" class="scroll-menu">
+            <div v-if="item.slug == activeDoc" class="scroll-menu">
               <li v-for="(h2, indexParent) in headers" :key="indexParent">
                 <a
                   class="nav-link parent"
@@ -54,7 +54,7 @@
 </template>
 <script>
 import { factorLink, factorIcon } from "@factor/ui"
-import { DOM, throttle, setting } from "@factor/tools"
+import { DOM, throttle, setting, toLabel } from "@factor/tools"
 
 import { config } from "./docs-handler"
 import Vue from "vue"
@@ -103,6 +103,7 @@ export default Vue.extend({
     this.setPage()
   },
   methods: {
+    toLabel,
     setting,
     setPage() {
       // Make sure new content is loaded before scanning for h2, h3
@@ -134,7 +135,7 @@ export default Vue.extend({
         document.body.scrollTop
       )
 
-      const anchors = this.scroller.querySelectorAll("h2, h3")
+      const anchors = this.scroller.querySelectorAll("h2")
 
       for (const [i, anchor] of anchors.entries()) {
         const nextAnchor = anchors[i + 1]

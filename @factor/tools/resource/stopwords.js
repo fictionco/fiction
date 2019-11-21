@@ -165,7 +165,6 @@ export default [
   "everywhere",
   "ex",
   "exactly",
-  "example",
   "except",
   "f",
   "fairly",

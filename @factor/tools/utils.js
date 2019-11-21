@@ -40,9 +40,12 @@ export function sortMerge(arr) {
 // Deep merge an array of objects into a single object
 // Replaces arrays instead of concat
 export function deepMerge(items) {
-  return deepMergeLib.all(items.filter(_ => _), {
-    arrayMerge: (destinationArray, sourceArray) => sourceArray
-  })
+  return deepMergeLib.all(
+    items.filter(_ => _),
+    {
+      arrayMerge: (destinationArray, sourceArray) => sourceArray
+    }
+  )
 }
 
 // Parse to standard utility lists
@@ -102,7 +105,7 @@ export function toLabel(str) {
     .replace(new RegExp("-|_", "g"), " ")
     .replace(/\b\w/g, l => l.toUpperCase())
 
-  return stopWordLowercase(label)
+  return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
 }
 
 // Convert camel-case to kebab-case
@@ -111,7 +114,10 @@ export function camelToKebab(string) {
 }
 
 // Make stop words lower case in a title
-export function stopWordLowercase(str) {
+export function stopWordLowercase(str, lib = []) {
+  if (lib.length == 0) {
+    lib = stopwordsLib
+  }
   const words = str.split(" ")
 
   if (words.length <= 1) return str

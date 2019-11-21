@@ -1,4 +1,4 @@
-# Dynamic Pages and Page Templates
+# Pages and Page Templates
 
 ## Overview
 
