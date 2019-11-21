@@ -4,13 +4,9 @@
 
 ![Factor Logo](./img/factor-logo-2.svg)
 
-**Factor** is a full-stack web app platform built on the VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)).
+**Factor** is a web application platform built on the VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)).
 
-It's ideal for those who want dynamic functionality&mdash;like email, forms, auth, etc...&mdash; and don't want to use countless APIs to do so.
-
-It's also ideal for people who want to ship apps quickly. Factor's has its primary focus on extension via plugins and themes. Which means you'll spend less time reinventing the wheel and can simply worry about the aspects of your app that relate to your business.
-
-With Factor, the ultimate goal is to help you build professional dynamically driven web apps in the best way possible.
+Its purpose is to help you ship apps as quickly by reducing the amount of time you'll need to spend reinventing the wheel as well as reducing the amount of time and risk associated with creating your own application stack.
 
 ## Who Should Consider Factor
 
@@ -20,7 +16,7 @@ If you work with Javascript and spend lots of time doing rewrites, dealing with 
 
 ## Goals
 
-- Focus on the needs of front-end developers
+- Minimize painful coding and debugging
 - "One-click" plugin installation and configuration (`yarn add ...`)
 - Robust theme system
 - Reduce the need to "reinvent the wheel"

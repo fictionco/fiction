@@ -15,7 +15,7 @@ export default {
     base: "guide",
     pages: [
       { group: "getting-started" },
-      { route: "", slug: "introduction" },
+      { root: true, slug: "introduction" },
       { slug: "quickstart" },
       { slug: "dashboard-setup" },
       { slug: "basic-example" },

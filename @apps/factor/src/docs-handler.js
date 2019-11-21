@@ -18,7 +18,7 @@ export async function getMarkdownHTML(slug) {
 }
 
 export function selected(slug) {
-  return config().find(_ => _.slug == slug)
+  return config().find(_ => (slug ? _.slug == slug : _.root))
 }
 
 export function metatags(slug) {
@@ -29,11 +29,15 @@ export function metatags(slug) {
 
 export function normalize(items) {
   return items.map(options => {
-    const { slug, name, route } = options
+    const { slug, name, root } = options
+
+    if (!root && !slug) return options
+
+    const route = `/${setting("docs.base")}/${root ? "" : slug}`
 
     const d = {
       slug,
-      route: `/${setting("docs.base")}/${route || slug}`,
+      route,
       name: name || toLabel(slug),
       title: name || toLabel(slug),
       description: "",

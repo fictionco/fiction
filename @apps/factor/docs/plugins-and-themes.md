@@ -1,8 +1,10 @@
-# Using Plugins
+# Plugins and Themes
 
-## Adding Plugins
+## Overview
 
-Factor has a drop-in plugin system. This allows you to activate a plugin with one command `yarn install the-plugin`.
+Factor has a drop-in extension system controlled by your app's dependencies.
+
+This allows you to activate a new extension just by adding it with the command `yarn install the-plugin`.
 
 Once activated plugins are then designed to be customized via `factor-settings`, `filters` and CSS variables.
 
@@ -16,7 +18,7 @@ Once activated plugins are then designed to be customized via `factor-settings`,
 yarn install @factor/plugin-example
 
 # Third-party plugins
-yarn install factor-plugin-example
+yarn install factor-theme-example
 
 ```
 

@@ -187,7 +187,7 @@ Add a global CSS/LESS file to your app `factor-styles.less`. Factor supports the
 
 In this file, enter the following:
 
-```less
+```css
 .factor-app {
   --color-primary: #0496ff;
   --color-secondary: #ff0076;
