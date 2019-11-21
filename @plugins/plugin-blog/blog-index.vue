@@ -27,7 +27,8 @@
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLoadingRing },
   data() {
     return {
@@ -92,7 +93,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 
 <style lang="less">

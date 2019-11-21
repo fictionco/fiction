@@ -122,6 +122,8 @@ export async function populatePosts({ _ids }) {
 }
 
 export async function postList(params) {
+  if (dbIsOffline()) return []
+
   let { postType, conditions = {}, select = null, options } = params
 
   options = Object.assign(
@@ -138,6 +140,8 @@ export async function postList(params) {
 }
 
 export async function postIndex(params) {
+  if (dbIsOffline()) return { meta: {}, posts: [] }
+
   let { postType, conditions = {}, options } = params
 
   options = Object.assign(

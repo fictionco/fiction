@@ -9,7 +9,7 @@ let __models = {}
 let __offline = false
 
 export function dbIsOffline() {
-  return __offline
+  return __offline || !process.env.DB_CONNECTION ? true : false
 }
 
 // Must be non-async so we can use chaining

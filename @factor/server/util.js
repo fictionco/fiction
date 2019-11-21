@@ -45,9 +45,9 @@ export function handleServerError(request, response, error) {
 
 export function logServerReady() {
   const { arrowUp, arrowDown } = figures
-  let readyText = ` :: ready :: `
+  let readyText = ` ready... `
 
-  if (process.env.NODE_ENV == "production") readyText += `port ${process.env.PORT}`
+  if (process.env.NODE_ENV == "production") readyText += `at port ${process.env.PORT}`
 
   log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(readyText))
 }

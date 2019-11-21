@@ -15,7 +15,7 @@ export default {
       subTitle: "Couldn't find any blog posts."
     },
     layout: {
-      index: ["featuredImage", "headers", "excerpt", "meta"],
+      index: ["featuredImage", "headers", "meta"],
       single: [
         "returnLink",
         "featuredImage",

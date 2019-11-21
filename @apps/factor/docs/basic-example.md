@@ -189,4 +189,4 @@ yarn add @factor/plugin-blog
 
 ## 11. Customize
 
-Factor plugins all use the standard `factor-settings.js` API to make it easy to customize almost anything in any plugin.
+Factor plugins all use the standard `factor-settings.js` API to make it easy to customize almost anything in any plugin. With the blog plugin its possible to reorder or override its components.

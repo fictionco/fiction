@@ -28,9 +28,9 @@ export default {
   margin: 1rem 0;
   .entry-title {
     font-weight: var(--font-weight-bold);
-    font-size: 2.5em;
-    line-height: 1.1;
-
+    font-size: 2.3em;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
     @media (max-width: 767px) {
       font-size: 2em;
     }
