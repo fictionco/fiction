@@ -8,7 +8,7 @@ const keys = {
   enter: "\u000D",
   space: "\u0020"
 }
-describe("create-factor-app", () => {
+describe.skip("create-factor-app", () => {
   beforeAll(() => {
     removeSync(resolve(__dirname, "test-files/generated"))
   })
