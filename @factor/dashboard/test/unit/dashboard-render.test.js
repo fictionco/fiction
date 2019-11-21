@@ -2,7 +2,6 @@ import { waitFor, getPort, renderAndGetWindow } from "@test/utils"
 import { dirname } from "path"
 import { createRenderServer } from "@factor/server"
 import { generateBundles } from "@factor/build/webpack-config"
-import { setUser } from "@factor/user"
 
 let win
 

@@ -173,4 +173,8 @@ Working on these components is just typical [Vue development](https://vuejs.org/
 
 At this point you should be able to visit the site at [localhost:3000](https://localhost:3000) and click between the two routes that we've setup. Great work.
 
-## 9. Dashboard and CMS
+## 9. Setup Dashboard and DB
+
+The next step is to setup dynamic functionality which includes your dashboard, users, endpoints and more.
+
+You'll need to add a `.env` file to your project and follow the guide here: [dashboard setup](./dashboard-setup).
