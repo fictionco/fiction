@@ -1,6 +1,6 @@
 {
   "name": "@factor/app",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "index.js",
   "license": "GPL-2.0",
   "type": "module",
