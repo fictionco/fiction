@@ -172,3 +172,5 @@ Add `header.vue` and `splash.vue`
 Working on these components is just typical [Vue development](https://vuejs.org/). Now that you've created these components, import and add the `header` component to the `content.vue` wrapper. Import the splash component in each of your components. Look at the [example application](https://github.com/fiction-com/factor-example) on Github to see how I did it.
 
 At this point you should be able to visit the site at [localhost:3000](https://localhost:3000) and click between the two routes that we've setup. Great work.
+
+## 9. Dashboard and CMS

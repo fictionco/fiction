@@ -24,17 +24,6 @@ describe("dashboard", () => {
       await waitFor(1000)
 
       expect(win.document.body.innerHTML).toContain(`data-test="signin"`)
-
-      setUser({
-        user: { _id: "test123", displayName: "Test User" },
-        current: true
-      })
-
-      const win2 = await renderAndGetWindow({ route: "/dashboard" })
-
-      await waitFor(1000)
-
-      expect(win2.document.body.innerHTML).toContain(`data-test="signin"`)
     })
     it.todo("requires authentication to view dashboard")
     it.todo("renders")
