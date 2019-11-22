@@ -32,6 +32,10 @@ export async function authenticate(params) {
   } else {
     user = await getModel("user").findOne({ email }, "+password")
 
+    if (!user) {
+      throw new Error(`Couldn't find user.`)
+    }
+
     const compareResult = user ? await user.comparePassword(password) : false
 
     if (!compareResult) {

@@ -54,7 +54,9 @@ export async function extendServer({ restart = false } = {}) {
 // Needed for server reloading
 async function reloadNodeProcess(_arguments) {
   Object.keys(require.cache).forEach(id => {
-    if (/(@|\.)factor/.test(id)) delete require.cache[id]
+    if (/(@|\.)factor/.test(id)) {
+      delete require.cache[id]
+    }
   })
 
   await factorize({ ..._arguments, restart: true, NODE_ENV: "development" })

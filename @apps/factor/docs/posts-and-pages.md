@@ -8,6 +8,8 @@ Everything in Factor is essentially a "post" this means users, pages, job postin
 
 Every time a plugin or extension adds a new "post type," Factor automatically detects this and adds the needed management functionality to your dashboard.
 
+![Everything is a Post](./img/post.jpg)
+
 ## Adding A Page
 
 To add a new page to your app:
@@ -27,7 +29,7 @@ Use the `addPageTemplate` function to add new page templates:
 
 ```js
 import { addPageTemplate } from "@factor/templates"
-addPageTemplate("page-templates", {
+addPageTemplate({
   name: "My Landing Page",
   _id: "landing-page",
   component: () => import("./tpl-landing-page")

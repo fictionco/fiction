@@ -8,9 +8,7 @@ A key part of using Factor is working with its command-line-interface (CLI). The
 2. Run the initial `yarn install` on the directory to install dependencies
 3. You should now have the CLI available in that directory using `yarn factor [command]`
 
-## Primary Factor Commands
-
-### Run Development Server
+## Run Development Server
 
 The aptly named `dev` command starts your local development server and runs Factor in development mode.
 
@@ -19,24 +17,27 @@ The aptly named `dev` command starts your local development server and runs Fact
 yarn factor dev
 ```
 
-### Run Production Server
+![Dev Server is Running](./img/cli.jpg)
 
-Running your application on your Node server takes two steps:
+## Build Distribution Files
 
-1. `factor build` Build the production app (creates `dist` folder)
-2. `factor serve` Serve the app
-
-#### Examples
+The `factor build` command will generate all production files and place them in the `dist` folder within your app. These are the files you'll be serving in production.
 
 ```bash
-
-# Build your production app
 yarn factor build
+```
 
-# Serve your built app
-yarn factor serve [NODE_ENV]
+## Serve in Production
 
-# Build and serve your app
+Once you've built your production files, you'll typically want to serve them.
+
+```bash
+yarn factor build
+```
+
+To build files and then serve them run `factor start`
+
+```bash
 yarn factor start
 ```
 
@@ -49,24 +50,14 @@ Factor provides a special `setup` helper command that helps you configure any ke
 yarn factor setup
 ```
 
+The setup utility can be used to add admin users, or to configure various services. It is often extended by plugins as well.
+
 ### Common CLI Options
 
 `--PORT` - Set the desired port to serve your application. _Defaults to `3000`._
+`--ENV` - Set the `FACTOR_ENV` environmental variable. _Defaults to `NODE_ENV`_
+`--DEBUG` - Outputs additional debugging information into your console
 
-`--ENV` - Set the FACTOR\*ENV environmental variable. _Defaults to `NODE_ENV`._
+## Extensions
 
-#### Extensions
-
-```bash
-# If a callback is added as "cli-run-my-custom-cli"
-
-yarn factor run my-custom-cli
-```
-
-This command runs various operations that have been added by extensions and components. Reference their documentation for specifics, read about creating a custom command below.
-
-```bash
-yarn factor setup
-```
-
-Starts the Factor setup utility. The setup utility is used to configure setting and is commonly extended by plugins to help reduce guesswork in setting things up.
+Extensions often add or extend the functionality in the CLI. To learn how to do this yourself, check out [extending the CLI &rarr;](./extend-the-cli)

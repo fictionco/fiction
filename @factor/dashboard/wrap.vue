@@ -6,7 +6,11 @@
       </div>
     </template>
     <template v-else>
-      <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
+      <div
+        v-if="toggle"
+        class="mobile-nav"
+        :class="toggle ? 'toggle-nav' : 'toggle-main'"
+      >
         <dashboard-nav />
       </div>
 
@@ -47,11 +51,11 @@ export default Vue.extend({
   metaInfo() {
     const pageName = this.$route.path.split("/").pop()
     const niceName = toLabel(pageName)
+
     return {
       title: niceName,
-      description: `Dashboard`,
-      titleTemplate: "%s - Fiction Dashboard",
-      priority: 50
+      description: `Factor Dashboard`,
+      titleTemplate: "%s - Fiction Dashboard"
     }
   },
   data() {

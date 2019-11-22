@@ -49,7 +49,8 @@ export function logServerReady() {
 
   if (process.env.NODE_ENV == "production") readyText += `at port ${process.env.PORT}`
 
-  log.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(readyText))
+  // eslint-disable-next-line no-console
+  console.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(readyText))
 }
 
 export function serveStatic(path, cache) {
