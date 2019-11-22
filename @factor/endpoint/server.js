@@ -6,6 +6,10 @@ import { createObjectId } from "@factor/post/object-id"
 // Run after other imports have added themselves
 addCallback("initialize-server", () => initializeEndpointServer())
 
+export function addEndpoint({ id, handler }) {
+  addCallback("endpoints", { id, handler })
+}
+
 export function initializeEndpointServer() {
   addFilter("middleware", _ => {
     applyFilters("endpoints", []).forEach(({ id, handler }) => {

@@ -17,6 +17,7 @@ export * from "./permalink"
 export * from "./post-types"
 export * from "./settings"
 export * from "./events"
+export * from "./prefetch"
 
 export * from "@factor/app/router"
 export * from "@factor/app/store"

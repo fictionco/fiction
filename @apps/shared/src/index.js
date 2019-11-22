@@ -1,14 +1,12 @@
 import axios from "axios"
-import { onEvent, addFilter, setting } from "@factor/tools"
+import { onEvent, addFilter } from "@factor/tools"
 
 slack()
 
 facebook()
 
 function slack() {
-  const SLACK_NOTIFY_URL = setting("SLACK_NOTIFY_URL")
-
-  if (SLACK_NOTIFY_URL) {
+  if (process.env.SLACK_NOTIFY_URL) {
     // Track email sign up events
     onEvent("email-list-new-email-added", ({ email, listId, tags = [] }) => {
       let text = `New email [${email}] added to [${listId}].`
@@ -19,7 +17,7 @@ function slack() {
 
       axios.request({
         method: "post",
-        url: SLACK_NOTIFY_URL,
+        url: process.env.SLACK_NOTIFY_URL,
         data: { text }
       })
     })
@@ -27,7 +25,7 @@ function slack() {
     addFilter("transactional-email", email => {
       axios.request({
         method: "post",
-        url: SLACK_NOTIFY_URL,
+        url: process.env.SLACK_NOTIFY_URL,
         data: {
           pretext: `Email Sent to "${email.to}" from "${email.from}"`,
           title: email.subject,

@@ -1,25 +1,29 @@
-# Hosting Your Factor App
+# Deploying Your App
 
-## Overview
+Now that you've built your app, you'll be happy to learn that deploying it to production is easy.
 
-Hosting and serving your Factor application is designed to be easy. In fact, what you are doing with your local server is exactly the same as what you will run in your "live" server environment.
+In fact, what you are doing with your local server is exactly the same as what you will run in your "live" server environment.
 
-### Basic Steps to "Go Live"
+## 1. Choose A Host
 
-Typical steps:
+You'll first need to get a server that is running Node 10 or greater. We recommend [Heroku](https://heroku.com) or similar.
 
-1. Get A NodeJs Server
-1. Configure server with environmental variables (e.g. `DB_CONNECTION`)
-1. Deploy code to server
-1. Build your production app with `yarn factor build` (creates `dist` folder)
-1. Start your server in production mode with `factor serve`
+## 2. Setup Environment
 
-## Where to Host
+Next set up your environmental variables at your host. These should be the production versions of the variables you have in your local `.env` file.
 
-You should be able to run Factor with any host or cloud provider that offers NodeJS hosting or ability to create NodeJS apps. Recommended providers:
+![Setup Environment](./img/host-environment.jpg)
 
-- [Heroku](https://heroku.com)
+## 3. Build `/dist` and Deploy to Server
 
-## Examples
+Now you need to build your application and deploy this code to your host. With Heroku, this is done using the [heroku-postbuild](https://devcenter.heroku.com/articles/nodejs-support#customizing-the-build-process) script, but there are many ways to build an application.
 
-### Heroku
+All that is needed to build your production application is to run `yarn factor build` inside your app.
+
+## 4. Start Your Server
+
+Now that you've got your built application on your server, all that is left is to run `yarn factor serve`.
+
+This will start your express server and run the bundles it finds in the `dist` folder.
+
+With Heroku, this is accomplished using their `Procfile` standard, which is a simple script that runs whenever a deployment finishes.

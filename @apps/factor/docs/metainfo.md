@@ -4,7 +4,7 @@ Factor supports a rich metatag and meta information system via the popular [Vue 
 
 The features of this plugin are fully implemented on both the client and in server rendering.
 
-## Example
+## Setting In Components
 
 The meta system for Factor reads the `metaInfo` property from your view components, giving priority to those that are more nested. Then it merges the results together to form a final meta output.
 
@@ -16,15 +16,13 @@ export default {
       title: "My title",
       description: "My description",
       image: require("./my-og-image.jpg"),
-      meta: [
-        // additional metatags
-      ]
+      meta: []
     }
   }
 }
 ```
 
-## Tips
+## Metainfo Tips
 
 Here are few Factor specific additions and tips for working with your app's meta information:
 

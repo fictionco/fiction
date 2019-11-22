@@ -4,7 +4,7 @@ import { addFilter, addCallback } from "@factor/tools/filters"
 export * from "./request"
 export * from "./util"
 
-addCallback("site-pre-fetch", _ => preFetchPost(_))
+addCallback("global-prefetch", _ => preFetchPost(_))
 addCallback("client-route-before", _ => preFetchPost({ clientOnly: true, ..._ }))
 
 export const factorPostEdit = () => import("./el/edit-link.vue")

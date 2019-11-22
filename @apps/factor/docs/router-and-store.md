@@ -50,3 +50,36 @@ Factor has a core UI component called `factor-link` that can be used to easily n
 ## Dashboard Routes
 
 If you'd like to learn about working with the dashboard, then check out [extending the dashboard &rarr;](./extend-the-dashboard)
+
+## Store and Global State
+
+Factor has a simple interface to maintaining global "state" in your application. While Factor implements the standard [Vuex](https://vuex.vuejs.org/) we don't recommend you use it in a complicated fashion.
+
+Instead, Factor includes two simple functions and recommends a flat data store format that mirrors your DB.
+
+Essentially, the store does two things:
+
+1. `storeItem` - Store an object by ID
+2. `stored` - Retrieve an object by ID
+
+An example:
+
+```js
+import { storeItem } from "@factor/tools"
+
+const myData = { foo: "bar" }
+
+storeItem("myData", myData)
+
+// In your component
+import { stored } from "@factor/tools"
+export default {
+  computed: {
+    myData() {
+      return stored("myData") // {foo: "bar"}
+    }
+  }
+}
+```
+
+This simple interface is all you need to manage state in your app. For example, you can store posts as they are retrieved from the database by their `_id` and then reference them anywhere you like. Simple is better!

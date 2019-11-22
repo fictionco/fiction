@@ -1,4 +1,4 @@
-import { applyFilters } from "@factor/tools/filters"
+import { applyFilters, pushToFilter } from "@factor/tools/filters"
 import { getPath } from "@factor/tools/paths"
 import { setting } from "@factor/tools/settings"
 import bodyParser from "body-parser"
@@ -8,6 +8,10 @@ import serveFavicon from "serve-favicon"
 
 import { serveStatic } from "./util"
 import logger from "./logger"
+
+export function addMiddleware({ path = "/", middleware = [] }) {
+  pushToFilter("middleware", { path, middleware })
+}
 
 export function loadMiddleware(app, middleware = []) {
   const fav = setting("app.faviconPath")

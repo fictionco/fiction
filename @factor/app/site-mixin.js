@@ -40,7 +40,7 @@ export default () => {
     },
 
     serverPrefetch() {
-      return runCallbacks("site-pre-fetch")
+      return runCallbacks("global-prefetch", this.$route)
     },
     methods: {
       setScrollClass() {
