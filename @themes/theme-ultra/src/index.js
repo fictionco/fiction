@@ -1,5 +1,6 @@
 import { setting } from "@factor/tools/settings"
 import { addFilter } from "@factor/tools/filters"
+import { addPageTemplate } from "@factor/templates"
 
 addFilter(
   "factor_head",
@@ -41,14 +42,9 @@ addFilter("post-types-config", _ => {
   return _
 })
 
-addFilter("page-templates", _ => {
-  return _.concat([
-    {
-      name: "Default",
-      value: "default",
-      component: () => import("./page-template-default.vue")
-    }
-  ])
+addPageTemplate({
+  _id: "default",
+  component: () => import("./page-template-default.vue")
 })
 
 addFilter("content-routes", _ => {

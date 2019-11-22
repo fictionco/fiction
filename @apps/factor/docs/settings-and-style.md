@@ -107,10 +107,6 @@ While theme and plugin author's may support many variables, a few standard setti
 .factor-app {
   --color-primary: [value];
   --color-secondary: [value];
-  --color-success: [value];
-  --color-info: [value];
-  --color-warning: [value];
-  --color-danger: [value];
   --color-text: [value];
   --color-placeholder: [value];
   --color-bg: [value];

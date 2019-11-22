@@ -1,16 +1,14 @@
 import { addFilter } from "@factor/tools"
+import { addPageTemplate } from "@factor/templates"
 
-addFilter("page-templates", _ => {
-  return _.concat([
-    {
-      _id: "sticky-sidebar",
-      component: () => import("./tpl-sticky-sidebar.vue")
-    },
-    {
-      _id: "landing-page",
-      component: () => import("./tpl-landing-page.vue")
-    }
-  ])
+addPageTemplate({
+  _id: "sticky-sidebar",
+  component: () => import("./tpl-sticky-sidebar.vue")
+})
+
+addPageTemplate({
+  _id: "landing-page",
+  component: () => import("./tpl-landing-page.vue")
 })
 
 addFilter("content-routes", _ => {

@@ -1,78 +1,49 @@
-# Pages and Page Templates
+# Posts and Page Templates
 
-## Overview
+Factor includes post and page management system that is useful is a wide variety of scenarios.
 
-Factor supports a dynamic page and page template system that is useful for both apps and themes.
+## Using Posts
 
-This allows you to create and edit your app's pages from the dashboard. Advantages:
+Everything in Factor is essentially a "post" this means users, pages, job postings, blog posts, are all just varieties of the same thing.
 
-- No rebuilding your app for every change (common issue with static site generators)
-- Themes can pre-design pages that can be shown in the dashboard interface
-- Non-technical users can easily edit content
+Every time a plugin or extension adds a new "post type," Factor automatically detects this and adds the needed management functionality to your dashboard.
 
-> **Note:** Dynamic pages should not be confused with "routes" or "views" which are the typical way of setting a component to a route in Vue apps. This is discussed in the [routes doc](./routes-and-stores).
+## Adding A Page
 
-## Using Dynamic Pages
+To add a new page to your app:
 
-By default, Factor supports a native `page` post type that can be used to create pages on your site. To add a page:
+1. Visit your dashboard [localhost:3000/dashboard](http://localhost:3000/dashboard) and login
+1. Click Pages &rarr; Add New
+1. Add settings for your page including URL (permalink) and content
+1. At bottom, select a page template
 
-1. Visit your dashboard
-2. Click Pages &rarr; Add New
-3. Add settings for your page including URL (permalink) and content
-4. At bottom you have the option of setting your page template, adding templates to an app is documented below
+## Creating New Page Templates
 
-## Adding A Page Template
+Use the `addPageTemplate` function to add new page templates:
 
-There are two easy ways to add a page template to your app or theme: the `page-templates` filter and `factor-settings`. Each template has the values:
-
-- `_id` - which is the unique identifier for your template,
-- `component` - which is the page component that should be loaded. Options for the templates are set via the page component discussed below.
-- `name` - The name of the page template in dashboard interfaces.
+- `_id` - Unique identifier for your template,
+- `component` - Page template component that should be loaded.
+- `name` - Name of the template
 
 ```js
-// (Important: This approach should be used by plugins since Factor settings overrides all templates)
-addFilter("page-templates", _ => {
-  return [
-    ..._,
-    {
-      name: "My Landing Page",
-      _id: "landing-page",
-      component: () => import("./tpl-landing-page")
-    }
-  ]
+import { addPageTemplate } from "@factor/templates"
+addPageTemplate("page-templates", {
+  name: "My Landing Page",
+  _id: "landing-page",
+  component: () => import("./tpl-landing-page")
 })
-
-// Via factor-settings
-// Replaces default templates
-export default {
-  pageTemplates: {
-    templates: [
-      {
-        name: "My Landing Page",
-        _id: "landing-page",
-        component: () => import("./tpl-landing-page")
-      }
-    ]
-  }
-}
 ```
 
-Note that if two pages have the same `_id` then the first will be removed and the second used. This allows applications and themes to override templates easily. This is also useful is changing the "default" template.
+## Adding Template Settings
 
-## Template Settings
-
-The key part of the page template system is the simple page-by-page template setting feature.
-
-### Configure Settings
-
-This feature supports the following input types:
+Page templates support creating options of the following types:
 
 - text
 - textarea
 - sortable (creates an array)
 - select
 
-To configure these settings, add a config array to the page template component:
+Inside your page template Vue components, add a few options. The example below adds headings, as well as an array of boxes with icons and text of their own.
 
 ```js
 export default {
@@ -92,29 +63,17 @@ export default {
         default: "Landing Page Template"
       },
       {
-        input: "text",
-        label: "Sub Heading",
-        _id: "pageHeadingSub",
-        default: "This is a landing page template."
-      },
-      {
         _id: "boxes",
         input: "sortable",
         label: "Feature Boxes",
         description: "Some feature boxes",
-        default: [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }],
+        default: [{ __title: "Box 1" }, { __title: "Box 2" }],
         settings: [
           {
             input: "text",
             label: "Heading",
             _id: "heading",
             default: "Box"
-          },
-          {
-            input: "textarea",
-            label: "Description",
-            _id: "description",
-            default: "Box Description"
           },
           {
             input: "image-upload",
@@ -129,9 +88,12 @@ export default {
 }
 ```
 
-### Using Settings
+### Using The Settings
 
-To use the values in your component, just reference the `_id` from the settings as it relates to the `post` object which is automatically set when a dynamic page template is loaded. (The `post` variable is set in the computed property above).
+To reference the values provided be the options:
+
+1. Make sure you've added a `post` computed property to your component.
+2. Reference settings with the format `post.settings[_id]`
 
 ```html
 <template>
@@ -139,7 +101,6 @@ To use the values in your component, just reference the `_id` from the settings 
     <div class="feature">
       <div class="feature-content">
         <h1>{{ post.settings.pageHeading }}</h1>
-        <div class="sub">{{ post.settings.pageHeadingSub }}</div>
         <factor-btn size="large" btn="primary">Button</factor-btn>
       </div>
     </div>
@@ -149,7 +110,6 @@ To use the values in your component, just reference the `_id` from the settings 
           <img :src="box.icon[0].url" />
         </div>
         <div class="box-heading">{{ box.heading }}</div>
-        <div class="box-description">{{ box.description }}</div>
       </div>
     </div>
   </div>

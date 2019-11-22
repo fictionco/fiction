@@ -29,6 +29,10 @@ addFilter("content-routes-unmatched", _ => {
   return _
 })
 
+export function addPageTemplate(templateConfig) {
+  pushToFilter("page-templates", templateConfig)
+}
+
 export async function getTemplate(templateId) {
   const _all = getPageTemplates()
 
@@ -49,23 +53,10 @@ export async function getTemplateFields(tpl) {
   return templateSettings ? templateSettings() : []
 }
 
-// // Register Page Templates added by theme or app
-// export function registerTemplates() {
-//   const pageTemplates = getPageTemplates()
-
-//   addFilter("components", _ => {
-//     pageTemplates.forEach(tpl => {
-//       _[tpl._id] = tpl.component
-//     })
-
-//     return _
-//   })
-// }
-
 export function getPageTemplates() {
-  const tpls = setting("pageTemplates.templates") || []
+  const _templates = setting("pageTemplates.templates") || []
 
-  return applyFilters("page-templates", tpls)
+  return applyFilters("page-templates", _templates)
     .filter((page, index, self) => {
       // remove duplicates, favor the last
       const lastIndexOf = self.map(_ => _._id).lastIndexOf(page._id)
