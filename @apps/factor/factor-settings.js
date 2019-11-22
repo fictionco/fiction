@@ -25,7 +25,7 @@ export default {
       { slug: "settings-and-style" },
       { slug: "posts-and-pages" },
       { slug: "cli", name: "CLI" },
-      { slug: "routing" },
+      { slug: "routing-and-nav" },
       { slug: "metainfo", name: "Meta Info" },
       { slug: "endpoints" },
       { slug: "deployment" },
