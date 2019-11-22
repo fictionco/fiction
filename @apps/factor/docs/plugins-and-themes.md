@@ -1,40 +1,38 @@
 # Plugins and Themes
 
-## Overview
+## Installation
 
-Factor has a drop-in extension system controlled by your app's dependencies.
+Factor is designed to be used with plugins and themes.
 
-This allows you to activate a new extension just by adding it with the command `yarn install the-plugin`.
-
-Once activated plugins are then designed to be customized via `factor-settings`, `filters` and CSS variables.
+- **Plugins** - Add any sort of functionality.
+- **Themes** - Are essentially pre-made apps that can include UI libraries, templates, etc..
 
 ![Adding Extensions](./img/adding-extensions.svg)
 
-### Installing A Plugin
+### yarn install [extension]
+
+Installing and activating a plugin or theme happens in a single step: `yarn install [the-extension]`. Once added to your project dependencies, Factor detects them and loads them accordingly.
 
 ```bash
-
-# Core Factor plugins use `@factor`
-yarn install @factor/plugin-example
-
-# Third-party plugins
-yarn install factor-theme-example
-
+yarn install [extension]
 ```
 
 ## Customize Plugins
 
-In most cases, you'll want to modify or customize Factor plugins to suit your needs.
+In most cases, you'll want to customize plugins and themes to suit your use case.
 
-While each plugin has it's own approach to customization, Factor provides many tools to make the process intuitive.
+While each extension has it's own approach to customization, extensions are typically designed to be customized via 3 methods:
 
-- The first thing to do is to read the `README` associated with the plugin you've just installed for an overview of customization options.
-- You'll want to be familiar with common Factor customization techniques. Learn more here: [customizing things in Factor &rarr;](./customization)
+- `factor-settings`,
+- `filters` and
+- CSS variables.
 
-## Creating Plugins
+To learn more about how to use these in Factor, check out the guide on [settings and style &rarr;](./settings-and-style)
 
-Factor is designed to be extended and with Factor's plugin interface it's easy to create awesome new plugins for internal use or distribution.
+> Always read the `README` associated with the plugin or theme, typically they will have some guidelines around how they should be customized. However, if this is insufficient, you can always look inside the extension at the `factor-settings.js` file. Anything in this file can be edited by the settings file in your app.
 
-Since this is a bit more technical, we've moved this to its own doc.
+## Creating and Themes
 
 [Creating Factor Plugins &rarr;](./create-plugins)
+
+[Creating Factor Themes &rarr;](./create-themes)
