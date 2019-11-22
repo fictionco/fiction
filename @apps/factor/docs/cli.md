@@ -54,9 +54,9 @@ The setup utility can be used to add admin users, or to configure various servic
 
 ### Common CLI Options
 
-`--PORT` - Set the desired port to serve your application. _Defaults to `3000`._
-`--ENV` - Set the `FACTOR_ENV` environmental variable. _Defaults to `NODE_ENV`_
-`--DEBUG` - Outputs additional debugging information into your console
+- `--PORT` - Set the desired port to serve your application. (Default: 3000)
+- `--ENV` - Set the `FACTOR_ENV` environmental variable. (Default: NODE_ENV)
+- `--DEBUG` - Outputs additional debugging information into your console
 
 ## Extensions
 

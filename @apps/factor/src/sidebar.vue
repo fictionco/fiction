@@ -115,7 +115,7 @@ export default Vue.extend({
 
           window.addEventListener("scroll", this.onScroll())
         }
-      }, 40)
+      }, 200)
     },
     onScroll() {
       return throttle(() => {
