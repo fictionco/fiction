@@ -29,4 +29,6 @@ module.exports = () => {
   require.extensions[".png"] = () => {}
   require.extensions[".mp4"] = () => {}
   require.extensions[".vue"] = () => {}
+  require.extensions[".css"] = () => {}
+  require.extensions[".less"] = () => {}
 }

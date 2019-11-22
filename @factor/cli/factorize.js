@@ -4,7 +4,7 @@ import aliasRequire from "./alias-require"
 import transpiler from "./transpile"
 import { resolve } from "path"
 import commander from "commander"
-
+import log from "@factor/tools/logger"
 export async function factorize(_arguments = {}) {
   const { parent = {}, ...rest } = _arguments
   const _config = { ...parent, ...rest }
@@ -36,7 +36,11 @@ export function setEnvironment(_arguments) {
 }
 
 export async function extendServer({ restart = false } = {}) {
-  await runCallbacks("before-server-plugins")
+  try {
+    await runCallbacks("before-server-plugins")
+  } catch (error) {
+    log.error(error)
+  }
 
   // eslint-disable-next-line import/no-unresolved
   require("__CWD__/.factor/loader-server")

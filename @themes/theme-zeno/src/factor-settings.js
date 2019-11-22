@@ -43,10 +43,11 @@ export default {
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "factor-link btn shadow-lg ml-4 bg-white hover:bg-gray-300 text-purple-700"
-        },
+          classes:
+            "factor-link btn shadow-lg ml-4 bg-white hover:bg-gray-300 text-purple-700"
+        }
       ]
-    },
+    }
   },
   home: {
     meta: {
@@ -57,8 +58,10 @@ export default {
     },
     intro: {
       pretitle: "Grow Your Business, Not Infrastructure.",
-      title: "We build, optimize, secure, and support your cloud with no long-term contract.",
-      content: "Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
+      title:
+        "We build, optimize, secure, and support your cloud with no long-term contract.",
+      content:
+        "Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
       buttons: [
         {
           link: "/contact",
@@ -69,7 +72,7 @@ export default {
           link: "/pricing",
           text: "Pricing",
           classes: "btn shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
-        },
+        }
       ],
       figure: () => import("./el/figure-intro.vue")
     },
@@ -101,13 +104,16 @@ export default {
           title: "Plan",
           list: [
             {
-              content: "Cloud infrastructure design that is secure, performant, elastic, affordable, and agnostic."
+              content:
+                "Cloud infrastructure design that is secure, performant, elastic, affordable, and agnostic."
             },
             {
-              content: "Migrate existing infrastructure from Heroku, on-premise, or other providers."
+              content:
+                "Migrate existing infrastructure from Heroku, on-premise, or other providers."
             },
             {
-              content: "Re-architect your infrastructure or migrate to microservices, containers, and serverless."
+              content:
+                "Re-architect your infrastructure or migrate to micro-services, containers, and serverless."
             }
           ]
         },
@@ -116,13 +122,16 @@ export default {
           title: "Build",
           list: [
             {
-              content: "From simple LAMP/MEAN stacks to complex multi-region architectures using Packer, Terraform, containerization and beyond, we can build it."
+              content:
+                "From simple LAMP/MEAN stacks to complex multi-region architectures using Packer, Terraform, containerization and beyond, we can build it."
             },
             {
-              content: "CDN configuration and optimization including expert knowledge of CloudFlare."
+              content:
+                "CDN configuration and optimization including expert knowledge of CloudFlare."
             },
             {
-              content: "Local development environments, continuous integration pipelines, deployments, and testing infrastructure."
+              content:
+                "Local development environments, continuous integration pipelines, deployments, and testing infrastructure."
             }
           ]
         },
@@ -134,10 +143,12 @@ export default {
               content: "Manage your infrastructure spend and reduce costs."
             },
             {
-              content: "Infrastructure monitoring and alerting using native cloud provider offerings or third parties such as Datadog, Pingdom, and PagerDuty."
+              content:
+                "Infrastructure monitoring and alerting using native cloud provider offerings or third parties such as Datadog, Pingdom, and PagerDuty."
             },
             {
-              content: "Compliance and governance. Security patching and updating of infrastructure components."
+              content:
+                "Compliance and governance. Security patching and updating of infrastructure components."
             }
           ]
         }
@@ -165,12 +176,12 @@ export default {
         {
           image: require("./img/logo-packer.svg"),
           alt: "HashiCorp Packer",
-          content: `<p>Packer automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p><p class="mt-4">Produces exact point-in-time images with multi-region replication support.</p>`,
+          content: `<p>Packer automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p><p class="mt-4">Produces exact point-in-time images with multi-region replication support.</p>`
         },
         {
           image: require("./img/logo-terraform.svg"),
           alt: "HashiCorp Terraform",
-          content: `<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p><p class="mt-4">Terraform configurations can be stored in version control, shared, and collaborated on by teams.</p>`,
+          content: `<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p><p class="mt-4">Terraform configurations can be stored in version control, shared, and collaborated on by teams.</p>`
         }
       ],
       syntaxTitle: "terraform.tf",
@@ -187,13 +198,14 @@ export default {
           info: "CEO, SimplyAgree"
         },
         {
-          content: "@Zeno architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
+          content:
+            "@Zeno architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
           image: require("./img/client.svg"),
           author: "Will Norton",
           info: "CEO, SimplyAgree"
         }
       ]
-    },
+    }
   },
   about: {
     meta: {
@@ -204,8 +216,9 @@ export default {
     },
     intro: {
       pretitle: "About Us",
-      title: "Elastic Byte is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
-      backgroundImage: require("./img/stars.svg"),
+      title:
+        "Elastic Byte is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
+      backgroundImage: require("./img/stars.svg")
     },
     team: {
       title: "Leadership",
@@ -255,8 +268,9 @@ export default {
     intro: {
       pretitle: "Pricing that scales with your business.",
       title: "Choose the right plan for your business.",
-      content: "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
-      image: require("./img/stars.svg"),
+      content:
+        "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
+      image: require("./img/stars.svg")
     },
     packages: [
       {
@@ -335,7 +349,8 @@ export default {
         buttonClasses: "bg-green-300 text-indigo-600"
       }
     ],
-    packagesFooter: "* Tasks are billed in half-hour increments with a half-hour minimum.",
+    packagesFooter:
+      "* Tasks are billed in half-hour increments with a half-hour minimum.",
     faq: {
       title: "Billing FAQs",
       questions: [
@@ -401,8 +416,9 @@ export default {
       pretitle: "Contact Us",
       title: "Give us a shout. Let us know how we can help.",
       backgroundImage: require("./img/stars.svg"),
-      content: "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
-      figure: require("./img/cloud-with-shadow.svg"),
+      content:
+        "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
+      figure: require("./img/cloud-with-shadow.svg")
     }
   },
   contactForm: {
@@ -449,7 +465,8 @@ export default {
         _id: "name",
         inputType: "text",
         classesInput: `thenewstuff`,
-        inputClasses: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
+        inputClasses:
+          "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "Full Name",
         required: true
       },
@@ -458,7 +475,8 @@ export default {
         labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "email",
         inputType: "email",
-        inputClasses: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
+        inputClasses:
+          "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "name@example.com",
         required: true
       },
@@ -467,7 +485,8 @@ export default {
         labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "message",
         inputType: "textarea",
-        inputClasses: "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
+        inputClasses:
+          "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "how can we help?"
       }
     ]
@@ -484,7 +503,8 @@ export default {
     intro: {
       pretitle: "Because the future comes fast",
       title: "Elastic Byte Blog",
-      content: "Future-forward perspectives on DevOps, Cloud Computing, and Infrastructure."
+      content:
+        "Future-forward perspectives on DevOps, Cloud Computing, and Infrastructure."
     },
     indexRoute: "/blog",
     postRoute: "/entry",
@@ -496,13 +516,7 @@ export default {
     },
     layout: {
       index: ["featuredImage", "tags", "headers", "meta"],
-      single: [
-        "tags",
-        "headers",
-        "authorDate",
-        "featuredImage",
-        "entry",
-      ],
+      single: ["tags", "headers", "authorDate", "featuredImage", "entry"],
       meta: ["authorDate", "tags"]
     },
     components: {
@@ -544,6 +558,7 @@ export default {
       }
     ],
     left: `Built with <i class="fa fa-heart"></i> in Nashville`,
-    right: "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>",
+    right:
+      "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>"
   }
 }

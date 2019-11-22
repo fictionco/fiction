@@ -3,7 +3,7 @@ import { applyFilters, addCallback } from "@factor/tools/filters"
 import { configSettings } from "@factor/tools/config"
 import Vue from "vue"
 import coreSettings from "@factor/app/core-settings"
-
+import log from "@factor/tools/logger"
 addCallback("before-server-plugins", () => createSettings())
 addCallback("before-app-plugins", () => createSettings())
 
@@ -29,7 +29,7 @@ export function createSettings() {
     // @ts-ignore
     settingsExports = require("__CWD__/.factor/loader-settings").default
   } catch (error) {
-    if (error.code !== "MODULE_NOT_FOUND") throw new Error(error)
+    if (error.code !== "MODULE_NOT_FOUND") throw error
   }
 
   mergeAllSettings()
