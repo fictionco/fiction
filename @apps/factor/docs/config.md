@@ -2,7 +2,7 @@
 
 ## 3 Types of Config Files
 
-Factor provides a robust and standards configuration system that works in harmony with most approaches. There three types of configuration files supported:
+Factor provides a configuration system that works in harmony with standards:
 
 - **Public Config** &rarr; `factor-config.json`<br> Publicly accessible configuration for your application. Including admin users, public API keys, etc.
 
