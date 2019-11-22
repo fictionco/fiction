@@ -46,3 +46,7 @@ Factor has a core UI component called `factor-link` that can be used to easily n
   </div>
 </template>
 ```
+
+## Dashboard Routes
+
+If you'd like to learn about working with the dashboard, then check out [extending the dashboard &rarr;](./extend-the-dashboard)

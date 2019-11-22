@@ -37,9 +37,7 @@ export default {
       { slug: "extend-the-CLI" },
       { group: "contributing" },
       { slug: "contribution" },
-      { slug: "philosophy" },
-      { group: "reference" },
-      { slug: "filter-reference" }
+      { slug: "philosophy" }
     ]
   },
   site: {
