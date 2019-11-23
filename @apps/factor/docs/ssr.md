@@ -21,24 +21,16 @@ As an example, we'll fetch a post:
 import { addGlobalPrefetch, storeItem } from "@factor/tools"
 
 addGlobalPrefetch(async route => {
-  if (route.query.needsData) {
-    const data = await getData()
-
-    storeItem("myItem", data)
-  }
-
-  return
+  const data = await getData()
+  storeItem("myItem", data)
 })
 
 // or in a component
-
+// https://ssr.vuejs.org/api/#serverprefetch
 export default {
   async serverPrefetch() {
-    if (this.$route.query.needsData) {
-      const data = await getData()
-      storeItem("myItem", data)
-    }
-    return
+    const data = await getData()
+    storeItem("myItem", data)
   }
 }
 ```
@@ -82,8 +74,7 @@ import { userInitialized } from "@factor/user"
 export default {
   async mounted() {
     const user = await userInitialized()
-
-    this.loading = false
+    // user auth state is loaded
   }
 }
 ```

@@ -59,7 +59,7 @@ To make your plugin customizable, use filters, callbacks and events as well as a
 
 ### Settings and Styles
 
-#### `factor-settings.js`
+#### factor-settings.js
 
 Anything that should be editable belongs in a `factor-settings.js` file in your plugin. As an example, adding settings to this file like this:
 
@@ -74,13 +74,13 @@ export default {
 
 Means that users can easily override these settings with their own `factor-settings.js` file.
 
-#### `factor-styles.less`
+#### factor-styles.less
 
 If your plugin has components that include their own style, use CSS variables and a `factor-styles.less` file to set defaults.
 
 ```html
 <template>
-  <div class="banner">{{setting("myWelcomePlugin.bannerText")}}</div>
+  <div class="banner">{{ setting("myWelcomePlugin.bannerText") }}</div>
 </template>
 <script>
   import { setting } from "@factor/tools"
@@ -97,7 +97,7 @@ If your plugin has components that include their own style, use CSS variables an
 
 and in your CSS/LESS file:
 
-```less
+```css
 .factor-app {
   --welcome-banner-bg: #0496ff;
 }
@@ -108,10 +108,6 @@ This approach makes your plugin completely customizable and allows you to set id
 ### Filters, Callbacks and Events
 
 Use filters, callbacks and events to maximize the amount of code in your plugin that can be customized.
-
-For example, if your plugin returns an array or an object that users may want to change, just wrap it with an `applyFilters` call at read time.
-
-At critical parts of your plugin's flow, emit events and allow for callbacks using a `runCallbacks` call.
 
 Learn more about [filters, callbacks, and events &rarr;](./filters-callbacks-events)
 

@@ -1,95 +1,74 @@
-# Factor Filters
+# Filters, Callbacks and Events
 
-Filters are callbacks that Factor passes data through at the moment before it does something with that data.
+There are three tools that can be used by extensions to modify the behavior of Factor without modifying its code: filters, callbacks and events.
 
-They are a simple mechanism for manipulating or "filtering" code in another location throughout a plugin based system. And have some important benefits:
+## Filters
 
-- Modularity: Filters allow all relevant code for one purpose to stay in one module.
-- Timing Control: Filters allow for better control of when and where functions get called in the overall Factor lifecycle.
-- Single Interface: Using filters makes it possible to create the feeling of a single consistent interface for working with Factor
+Filters are functions that are called with data the moment before Factor does something with that data. By hooking into a filter you can modify or add to the data before its used.
 
-## How Filters Work
-
-Each filter has a:
-
-1. **Filter ID**: A unique system wide ID
-2. **Apply Call**: Where and when all the functions added to a filter ID get called
-3. **Add Call**: Where functions get added to the filter ID
-
-Below is a conceptual diagram of how a list in one extension might be added-to or modified by other extensions.
-
-![How Filters Work](./img/filters-diagram.jpg)
-
-The above diagram is a typical use case. For example, application routes work in this same way. Another scenario might be adding navigation items to a site's global nav component.
-
-## Creating and Using a Filter
+In the example below, an item "bar" is added to the data with filter id: `item-list`. The result of the initial input `["foo"]` and the added item is `["foo", "bar"]`.
 
 ```javascript
-import { applyFilters } from "@factor/tools"
-// From an extension
-// The callback receives the list so just add another item to it
-addFilter("my-item-list", list => {
-  list.push(4)
+import { applyFilters, addFilter } from "@factor/tools"
+
+addFilter("item-list", list => {
+  list.push("bar")
   return list
 })
 
-// Later we apply the filters with an initial or default starting value
-const defaultList = [1, 2, 3]
-
-const myItemList = applyFilters("my-item-list", defaultList)
-
-console.log(myItemList) // [1, 2, 3, 4]
+const finalList = applyFilters("item-list", ["foo"])
+// finalList = ["foo", "bar"]
 ```
 
-## Priority
-
-Filters that have attached to the same ID "pass" the result of their callback to the next attached item in the chain. Therefore, at certain points it is useful to apply a priority to the order that filters are called in.
-
-To change the order in which filters fire, use the `priority` option. Filters added with a priority of a lower number will be sorted before those with lower values. Note that the default priority value is 100.
+- `pushToFilter` is a shorthand for filters that take an array as data. It allows you to pass only the item you want to add to the array and it takes care of the rest.
 
 ```javascript
-// From an extension
-addFilter("my-item-list", list => {
-  list.push(4)
-  return list
-}) // default priority 100
+import { applyFilters, pushToFilter } from "@factor/tools"
 
-// Later... From another extension
-addFilter(
-  "my-item-list",
-  list => {
-    list.push(5)
-    return list
-  },
-  { priority: 20 }
-)
+pushToFilter("item-list", "bar")
 
-// Later we apply the filters with an initial or default starting value
-const defaultList = [1, 2, 3]
-
-const myItemList = applyFilters("my-item-list", defaultList)
-
-console.log(myItemList) // [1, 2, 3, 5, 4]
+const finalList = applyFilters("item-list", ["foo"])
+// finalList = ["foo", "bar"]
 ```
 
-## Callbacks and Filters
+## Callback Filters
 
-A common scenario for using Filters is to fire and "await" a list of async callbacks at some point in Factor's lifecycle.
+There are two special callback filter functions for dealing with async callbacks in Factor: `addCallback` and `runCallbacks`.
 
-Since this is encountered so often, Factor has two special helper functions specifically for creating and calling async callbacks `addCallback` and `runCallbacks`.
-
-Here is an example using these helpers:
+An awaited `runCallbacks` will "await" for all async callbacks attached to run before it continues. This is similar to `Promise.all`.
 
 ```javascript
 import { runCallbacks, addCallback } from "@factor/tools"
-// Extension A
-addCallback("after-signup", args => sendWelcomeEmail(args))
 
-// Extension B
-addCallback("after-signup", args => addToSpreadsheet(args))
+addCallback("after-action", args => exampleFunction1(args))
+addCallback("after-action", args => exampleFunction2(args))
 
-// From authentication extension
-// uses Promise.all to run all callbacks in parallel
-// Returns an array containing the results of all callbacks
-const results = await runCallbacks("after-signup", args)
+async function exampleFunction1(args) {
+  return args + "-first"
+}
+
+async function exampleFunction1(args) {
+  return args + "-second"
+}
+
+const results = await runCallbacks("after-action", "example")
+
+// As with Promise.all, results will be an array of the results from all attached callbacks\
+// results = ["example-first", "example-second"]
+```
+
+## Global Events
+
+Factor has a global events system that allows you to easily emit and listen for events based on an id.
+
+Here is an example:
+
+```js
+import { emitEvent, onEvent } from "@factor/tools"
+
+onEvent("custom-event", data => {
+  // data = "foo"
+})
+
+emitEvent("custom-event", "foo")
 ```
