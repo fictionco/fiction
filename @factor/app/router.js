@@ -1,9 +1,8 @@
-import { applyFilters, runCallbacks , pushToFilter } from "@factor/tools/filters"
+import { applyFilters, runCallbacks, pushToFilter } from "@factor/tools/filters"
 import { emitEvent } from "@factor/tools/events"
 import Vue from "vue"
 import VueRouter from "vue-router"
 import qs from "qs"
-
 
 Vue.use(VueRouter)
 
@@ -11,8 +10,6 @@ let __initialPageLoad = true
 
 //addCallback("initialize-server", () => addAppRoutes())
 // addCallback("initialize-app", () => createRouter(), { priority: 300 })
-
-let __router
 
 export function createRouter() {
   const routes = applyFilters("routes", []).filter(_ => _)
@@ -34,13 +31,15 @@ export function createRouter() {
     router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
 
-  __router = router
+  // @ts-ignore
+  Vue.$router = router
 
   return router
 }
 
 export function getRouter() {
-  return __router
+  // @ts-ignore
+  return Vue.$router
 }
 
 export function addContentRoute(routeItem) {
@@ -49,15 +48,15 @@ export function addContentRoute(routeItem) {
 
 // If called before 'createRouter' then add to callback
 export function addRoutes(routeConfig) {
-  __router.addRoutes(routeConfig)
+  getRouter().addRoutes(routeConfig)
 }
 
 export function currentRoute() {
-  return __router.currentRoute
+  return getRouter().currentRoute
 }
 
 export function navigateToRoute(r) {
-  return __router.push(r)
+  return getRouter().push(r)
 }
 
 // Only run this before navigation on the client, it should NOT run on initial page load

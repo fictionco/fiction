@@ -26,6 +26,9 @@ describe("site-wrapper", () => {
     })
     router.push("/")
 
+    // @ts-ignore
+    Vue.$router = router
+
     // Needs router as it assumes $route is there
     const vm = new Vue({ router, render: h => h(factorSite) })
 
