@@ -33,9 +33,10 @@ export default {
       { group: "extension-development" },
       { slug: "creating-plugins" },
       { slug: "creating-themes" },
+      { slug: "filters-callbacks-events", name: "Filters, Callbacks and Events" },
       { slug: "working-with-posts" },
       { slug: "extend-the-dashboard" },
-      { slug: "extend-the-CLI" },
+      { slug: "extend-the-cli", name: "Extend the CLI" },
       { group: "contributing" },
       { slug: "contribution" },
       { slug: "philosophy" }

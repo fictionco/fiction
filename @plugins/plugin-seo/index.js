@@ -1,5 +1,6 @@
 import { objectIdType } from "@factor/post/util"
 import { addFilter, pushToFilter } from "@factor/tools"
+
 pushToFilter("post-edit-components", {
   name: "SEO and Sharing",
   component: () => import("./seo-panel.vue")

@@ -1,210 +1,147 @@
-# Creating Plugins
+# Creating Factor Plugins
 
-## Overview
+## Project Setup
 
-A Factor plugin is a standard node module that has a few tweaks to make it work elegantly with Factor core. The goal with Factor plugins is to make them "drop-in" which means the following:
+Factor plugins are standard Node modules that "hook" into Factor functionality.
 
-- No code needed for basic use
-- Intelligent, sensible defaults
-- Minimal configuration
-- Easily added and deleted
+The first step in creating a plugin is to create a folder that includes a `package.json` file.
 
-Luckily, Factor makes all this easy to do using [filters](/guide/filters) along with the core extensions system.
+To make your project a Factor plugin all that is needed is to add the `factor` property.
 
-> Note: The easiest way to start a plugin is copy and edit an [existing plugin](https://github.com/fiction-com/factor/tree/master/%40factor/%40plugins)
-
-## Defining a Plugin
-
-To start a plugin, create a folder in your local development directory that includes a standard `package.json` file. This single step defines a NPM module, which is the basis for your plugin.
-
-In your `package.json`, add a `factor` property. This is where we'll add Factor specific configuration info and tells Factor it's a plugin.
-
-An example `factor` property looks like this:
+If you'd like your plugin to be "auto-loaded" in your user's applications, you'll also need to set the `target` property and assign the entry files.
 
 ```json
 // package.json
 {
-  "name": "my-factor-plugin",
+  "name": "excellent-factor-plugin",
   "factor": {
-    "id": "someId", // Adds main file to Factor as Factor.$someId
-
-    "target": ["app"], // Loads in app env.
-    // or
-    "target": ["app", "server"], // loads index.js in app & server env.
-    // or
     "target": {
-      "app": "index", // Loads index.js in app env and server.js in server env
-      "server": "server"
-    },
-    // or advanced
-    "target": {
-      "app": ["index", "secondFile"], // Advanced case, full control of several files and where they load
-      "server": ["server", "index", "somethingElse"]
-    },
-
-    "extend": "theme", // or "plugin" ... defaults to "plugin"
-
-    "priority": 100 // Load priority ... defaults to 100. (Lower number is earlier load)
+      "app": "index", // Loads index.js in webpack app
+      "server": "server" // Loads server.js in server environment
+    }
   }
 }
 ```
 
-### Setting Up Development
+## Development Setup
 
-To setup development of a plugin, you'll need to create a basic "example" app that can be used as the place you'll run the `factor dev` cli command. Here you'll reference your plugin by adding it as a dependency. There are two ways to do this elegantly:
+To work on your plugin and see what it does, you'll need to add it to a Factor application or theme. If you have an app setup locally for development, then you'll need to reference the local plugin in its dependencies.
 
-- Monorepo: Use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) and a monorepo to make locally referencing packages a breeze. (We use this approach for Factor and [Factor Extend](https://github.com/fiction-com/factor-extend).)
-- `file:` prefix: it's possible to locally reference modules using the NPM `file:` prefix [discussed here](https://docs.npmjs.com/files/package.json#local-paths).
+To do this, we recommend looking into:
 
-Once you've successfully setup your development environment, you should start your "example" app using `yarn factor dev`. Then you should be able to work on your plugin and see how changes affect your app in real-time.
+- [Yarn Workspaces](https://yarnpkg.com/en/docs/cli/workspace),
+- [Yarn Link](https://yarnpkg.com/en/docs/cli/link), or
+- [NPM Local Paths](https://docs.npmjs.com/files/package.json#local-paths).
 
-## Loading Extensions
+## Starting Your Plugin
 
-### Main Files
+The first step is to add some code to your plugin "entry" or "main" files (set with `target` property).
 
-A main file is a convention in JS modules that tells the system what file should be loaded when a module is imported into a script. In Factor, the default is `index.js` but the **target** attribute gives you fine control over what is loaded and where (discussed below).
+These files typically "hook" into Factor via functions, filters and callbacks. A few examples of what you can do:
 
-### Loading in Server vs App Environment
+- Add [endpoints and middleware](./endpoints-and-middleware)
+- Add [routes](./router-and-store)
+- Add a [new post types](./working-with-posts) and [modify the dashboard](./extend-the-dashboard)
+- Change Factor's behavior with [filters](./filters-callbacks-events)
+- Add [callbacks and events](./filters-callbacks-events)
 
-Factor has two key environments: _"app"_ and _"server"_.
+### Index.js and Server.js
 
-- **APP** - The app environment consists of a standard Webpack driven VueJS application. This is compiled during build into an optimized "bundle" and is where all your components, routes, CSS, etc live.
+There are two environments in Factor. The "app" runs through Webpack and should be able to run in the browser, while the "server" environment represents your CLI and Express app.
 
-- **SERVER** - The server environment consists of the CLI and endpoint environments. Endpoints are where trusted actions like API calls (that require private keys) take place, while the CLI is where your application is built and served.
+With the entry files, you'll typically want to split code that is meant to run in the client into `index.js` and code that is meant for the server into `server.js`.
 
-#### The Problem
+However the naming and loading of these files can be completely controlled using the `package.json > target` property.
 
-##### Webpack analysis vs Node process
+## Allowing Customization
 
-Both these environments run Javascript and Factor goes to lots of effort to make both of these environments work together nicely. However, there are some realities of the underlying software you'll need to be aware of to work effectively (_and avoid painful bugs!_). These are:
-
-- **Webpack Static Analysis** - Webpack does static analysis of all files it sees in its compile path. This means that code that isn't ever technically run in the app environment still gets included in the build. Some NodeJS code is simply not compatible with the browser environment and will throw mysterious errors in your terminal.
-
-- **Node "Long-Running" Process** - Your Node process should be considered "long running" meaning info that is stored in memory will last a long time, as opposed to in the browser where everything starts from scratch with every page load. For that reason, server code sometimes needs to be written to accomodate this and avoid "[stateful singletons](https://ssr.vuejs.org/guide/structure.html#avoid-stateful-singletons)."
-
-While it's often ok to load the same code into both environments, these differences can sometime make it important to separate code into app vs server files. That's why Factor introduces the "target" attribute discussed below.
-
-#### The Solution
-
-##### The "Target" Attribute
-
-Configuring the `target` attribute in package.json tells Factor how it should load main files for an extension. There are two environments: "app" and "server" and they can be set to load the default `index.js`, a different file for each environment, or many files based on environment.
-
-```js
-// package.json
-"main": "index.js",
-"factor": {
-  "target": ["app"] // load index.js only in app environment
-  "target": ["app", "server"] // load index.js in both server and app
-  "target": {"app": "index", "server": "server"} // load index.js in app, server.js on server
-}
-
-```
-
-## Working with Your Plugin
-
-Once you have your plugin loading, you're ready to start working on your plugin. Plugins add or alter functionality to a Factor app in these primary ways:
-
-### Filters and Events
-
-[Filters](./filters) provide a standard and versatile way to modify data and functionality of functions elsewhere in Factor. Typically all you need to do is place your filters in the plugins main file and use these to add the functionality you need.
-
-Also, Factor has a special `Factor.$events` utility that makes it easy to emit or listen for events using the following:
-
-```js
-import { onEvent, emitEvent } from "@factor/tools"
-onEvent("some-event", eventParams => console.log(eventParams)) // listen
-emitEvent("some-event", eventParams) // emit
-```
-
-#### Example: Routes, Components, Events
-
-```js
-import { onEvent, emitEvent, pushToFilter } from "@factor/tools"
-// Add a route
-pushToFilter("content-routes", {
-  path: "/my-route",
-  component: () => import("./component-for-my-route")
-})
-
-// Add global component
-pushToFilter("global-components", {
-  name: "my-component-name",
-  component: () => import("./my-component.vue")
-})
-
-// listen for events
-onEvent("some-event", params => {
-  console.log("params")
-})
-
-// emit events
-emitEvent("notify", message)
-```
-
-### Plugin Global Reference
-
-All Factor extensions add a reference to the global `Factor` variable so that they can be referenced elsewhere directly if needed.
-
-The "id" property you set in your `package.json` determines the name of the reference. For example, if your id is `myEmailExtension` then once it's loaded it will be available by reference as `Factor.$myEmailExtension` everywhere else in your app.
-
-```js
-// package.json
-"factor": {
-    "id": "myEmailPlugin",
-    "target": "app"
-}
-
-// Inside a component
-async myComponentMethod(){
-  await Factor.$myEmailPlugin.sendEmail() // send an email or something
-}
-```
-
-#### Handling Multiple References
-
-Handling multiple references per plugin is easy. If the main file is named something other than `index.js` then the name of the file will be appended to the ID with the first letter capitalized. If loading `server.js` then that class is reference as `Factor.$myIdServer`.
+To make your plugin customizable, use filters, callbacks and events as well as adding editable settings to `factor-settings` and employing CSS variables that can be set from apps.
 
 ### Settings and Styles
 
-Plugins are also fully compatible with Factor's native `factor-settings` and `factor-styles` systems. Read more about them in the [customization doc](./customize).
+#### `factor-settings.js`
 
-## Asset and Convention Guidelines
+Anything that should be editable belongs in a `factor-settings.js` file in your plugin. As an example, adding settings to this file like this:
 
-Once you've created your plugin, you likely want to set it up for distribution and general use. For this purpose, Factor outlines some standards for assets like screenshots, icons and naming that will help your plugin appear professional as well as provide formatting consistency in places your plugin may be listed.
+```js
+export default {
+  myWelcomePlugin: {
+    bannerText: "Welcome",
+    route: "/welcome"
+  }
+}
+```
+
+Means that users can easily override these settings with their own `factor-settings.js` file.
+
+#### `factor-styles.less`
+
+If your plugin has components that include their own style, use CSS variables and a `factor-styles.less` file to set defaults.
+
+```html
+<template>
+  <div class="banner">{{setting("myWelcomePlugin.bannerText")}}</div>
+</template>
+<script>
+  import { setting } from "@factor/tools"
+  export default {
+    methods: { setting }
+  }
+</script>
+<style lang="less">
+  .banner {
+    background: var(--welcome-banner-bg);
+  }
+</style>
+```
+
+and in your CSS/LESS file:
+
+```less
+.factor-app {
+  --welcome-banner-bg: #0496ff;
+}
+```
+
+This approach makes your plugin completely customizable and allows you to set ideal defaults for a great initial experience.
+
+### Filters, Callbacks and Events
+
+Use filters, callbacks and events to maximize the amount of code in your plugin that can be customized.
+
+For example, if your plugin returns an array or an object that users may want to change, just wrap it with an `applyFilters` call at read time.
+
+At critical parts of your plugin's flow, emit events and allow for callbacks using a `runCallbacks` call.
+
+Learn more about [filters, callbacks, and events &rarr;](./filters-callbacks-events)
+
+## Standards and Conventions
+
+Once you've created your plugin, you likely want to set it up for distribution. Here are standards for assets and plugin quality that will help your plugin get discovered and used.
 
 ### Screenshots
 
-In listings of your plugin, users typically like to scan through some screenshots.
+Add screenshots to the root of your plugin. These will be used in plugin listings.
 
 - **Naming:** screenshot.jpg, screenshot-2.jpg, screenshot-3.jpg. These will be ordered according to the number (with the default screenshot not needing a number).
 - **Sizing** The standard screenshot size is [720p](https://en.wikipedia.org/wiki/720p): 1280px-by-720px.
-- **Quality Conventions**
-  - You may want to annotate your screenshots to provide context about what exactly does.
 
-### Icon
+### icon.svg
 
-Icons are used in grids, graphics and other places plugins might be 'scanned' for. You'll want to make sure your icon is simple and professional designed.
+Add a square `icon.svg` file to your plugin that defaults to **100px by 100px**.
 
-- **Naming** - icon.svg
-- **Sizing** - Since SVG icons are scaleable all that is required is that the icon is square. We recommend a 64px-by-64px default sizing.
-- **Quality Conventions**
-  - Don't add text to your icon. Text is always provided alongside icons.
+### Plugin Name Spacing
 
-### Plugin Name
+The name of your extension should generally include the word `factor-`. This way it will be clear it's a Factor plugin and it will also help with SEO.
 
-The name of your extension should generally include the word `factor-`. This way its possible to scan and search for Factor plugins and have your plugin come up.
-
-### Naming Ids, Fields and Filters
-
-When naming your plugin, assigning the ID, naming fields and filters and so on make sure you namespace somehow in order to avoid naming collisions with other authors and developers.
+Apply your plugin name as a "name space" when naming fields and filters in order to avoid naming collisions with other authors and developers.
 
 - **Don't** name your filter/field/id: `comments` or `job`
 - **Do** prefix your filters/fields/id with a namespace or similar: `my-plugin-comments`, `myPluginId`
 
 ### Documenting Your Plugin
 
-Documentation is a critical piece in getting people to use and appreciate software. While Factor provides conventions and context to help people understand your plugin, you should never assume people know even the basics. Thats why we recommend adding the following instructions to your `README.md` at a minimum:
+Never assume people know how to use your plugin, we recommend adding the following instructions to your `README.md`:
 
 - Overview including Purpose and/or motivation behind the plugin
 - Installation
@@ -214,10 +151,8 @@ Documentation is a critical piece in getting people to use and appreciate softwa
 
 ### License
 
-All plugins built and distributed for Factor must be compatible with the [GPLv2 license](https://en.wikipedia.org/wiki/GNU_General_Public_License).
+Factor plugins should be compatible with the [GPLv2 license](https://en.wikipedia.org/wiki/GNU_General_Public_License).
 
-### Distributing
+### Distribution and Discovery
 
-All that is needed to distribute your plugin for use by the public is to [publish it as an NPM package](https://docs.npmjs.com/cli/publish).
-
-If you're using a monorepo (the recommended dev setup), then using [Lerna](https://github.com/lerna/lerna) may help coordinate the publishing and management of several plugins and themes.
+After you've [published your plugin as an NPM package](https://docs.npmjs.com/cli/publish), write us an email at [support@fiction.com](mailto:support@fiction.com) about getting your plugin listed on the [Factor plugins listing &rarr;](https://factor.dev/plugins)
