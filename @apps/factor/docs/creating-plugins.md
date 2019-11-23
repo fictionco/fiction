@@ -47,7 +47,7 @@ These files typically "hook" into Factor via functions, filters and callbacks. A
 
 ### Index.js and Server.js
 
-There are two environments in Factor. The "app" runs through Webpack and should be able to run in the browser, while the "server" environment represents your CLI and Express app.
+There are two environments in Factor, the Webpack "app" and the Express "server".
 
 With the entry files, you'll typically want to split code that is meant to run in the client into `index.js` and code that is meant for the server into `server.js`.
 
