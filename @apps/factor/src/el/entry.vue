@@ -177,13 +177,9 @@ code {
   }
   blockquote {
     margin-bottom: 2em;
-    //padding: 1em 0 1em 1.5em;
-    // border-left: 3px solid var(--color-text);
-    // background-color: var(--color-bg-contrast);
     padding: 1em 1.4em;
-    //border: 1px solid var(--color-placeholder);
-    box-shadow: var(--box-shadow-input);
-    border-radius: 6px;
+    border-left: 5px solid var(--color-primary);
+    background: var(--color-bg-contrast);
     p,
     ul,
     ol {

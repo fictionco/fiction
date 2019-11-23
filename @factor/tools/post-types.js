@@ -1,15 +1,17 @@
-import { applyFilters } from "@factor/tools/filters"
+import { applyFilters, pushToFilter } from "@factor/tools/filters"
 import { toLabel } from "@factor/tools/utils"
+
+export function addPostType(config) {
+  pushToFilter("post-types-config", config)
+}
 
 export function postTypesConfig() {
   return applyFilters("post-types-config", []).map(_ => {
-    return {
-      baseRoute: typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute,
-      nameIndex: toLabel(_.postType),
-      nameSingle: toLabel(_.postType),
-      namePlural: toLabel(_.postType),
-      ..._
-    }
+    const baseRoute = typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute
+
+    const label = toLabel(_.postType)
+
+    return { baseRoute, nameIndex: label, nameSingle: label, namePlural: label, ..._ }
   })
 }
 

@@ -1,5 +1,5 @@
 import { objectIdType } from "./object-id"
-import { applyFilters } from "@factor/tools"
+import { applyFilters } from "@factor/tools/filters"
 
 export default () => {
   return {

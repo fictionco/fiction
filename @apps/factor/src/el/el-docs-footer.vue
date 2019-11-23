@@ -1,16 +1,15 @@
 <template>
   <div class="docs-footer">
     <p>
-      <strong>Caught a mistake or want to become a contributor?</strong>
+      <strong>Caught a mistake?</strong>
     </p>
     <p>
-      We're always happy to help with code or other questions you might have! Browse our
-      documentation, or
+      Please let us know by filing an issue on the
       <a
-        href="https://www.fiction.com/contact"
+        href="https://github.com/fiction-com/factor"
         target="_blank"
         rel="noopener noreferrer"
-      >contact</a>&nbsp;our team.
+      >Github repo</a>
     </p>
   </div>
 </template>
@@ -24,9 +23,10 @@ export default {
 </script>
 <style lang="less">
 .docs-footer {
-  padding: 1em 1em 1em 1.5em;
-  margin-top: 2em;
+  margin-top: 5rem;
+  padding-top: 2rem;
   font-size: 0.9em;
-  background-color: var(--color-bg-contrast);
+  line-height: 1.7;
+  border-top: 1px solid var(--color-bg-contrast-more);
 }
 </style>

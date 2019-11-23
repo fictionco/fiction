@@ -2,7 +2,7 @@
 
 ## Organizing Your App
 
-The basic structure of Factor apps should be familiar to most Javascript developers. A simple app typically has the following basic structure:
+The basic structure of Factor apps should be familiar to most Javascript developers.
 
 ![Factor App Structure](./img/structure.jpg)
 

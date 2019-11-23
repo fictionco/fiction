@@ -1,12 +1,10 @@
 # Endpoints and Middleware
 
-The power of a dynamic platform comes down to being able to server-side functionality without relying on third-party APIs. To manage this, Factor has a simple endpoints and middleware API that allows you to easily add and manage server functionality and then use it within your app.
+The power of a dynamic platform comes down to being able to server-side functionality without relying on third-party APIs. To manage this, Factor has a simple endpoints and middleware API that allows you to easily add and manage server functionality.
 
 ## Endpoints
 
-Endpoints are server-side functions that are designed to run when a specific application URL is requested. For example, if you added an endpoint at `/_api_/my-endpoint`, then sending a request there would process it and return a result.
-
-Let's discuss how we would first add a custom endpoint and then make a request to it from our app.
+Endpoints are server-side functions that run when a specific application URL is requested. For example, if you added an endpoint at `/_api_/my-endpoint`, then sending a request there would return a response.
 
 ### Adding a Custom Endpoint
 

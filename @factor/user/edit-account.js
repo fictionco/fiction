@@ -1,4 +1,4 @@
-import { pushToFilter } from "@factor/tools"
+import { pushToFilter, addPostType } from "@factor/tools"
 
 pushToFilter("dashboard-routes", {
   path: "account",
@@ -7,6 +7,7 @@ pushToFilter("dashboard-routes", {
     postType: "user"
   }
 })
+
 pushToFilter("dashboard-menu", {
   group: "account",
   path: "account",
@@ -14,7 +15,7 @@ pushToFilter("dashboard-menu", {
   icon: require("./img/users.svg")
 })
 
-pushToFilter("post-types-config", {
+addPostType({
   postType: "user",
   icon: require("./img/users.svg"),
   nameIndex: "Users",
