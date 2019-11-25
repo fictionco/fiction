@@ -20,6 +20,7 @@ node_modules
 # Ignore files related to API keys
 .env
 **/**.env
+report*
 
 # Ignore SASS config files
 .sass-cache

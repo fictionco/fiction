@@ -26,7 +26,7 @@ The dashboard interface is based around the concept of post-types. Each post-typ
 Adding these interfaces simple and just requires using the `addPostType` function that is covered in [working with posts](./working-with-posts) doc.
 
 ```js
-// index.js
+// index
 import { addPostType } from "@factor/tools"
 addPostType({
   postType: "jobs",

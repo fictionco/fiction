@@ -43,7 +43,7 @@ Next we'll create a standard [package.json](https://docs.npmjs.com/files/package
 }
 ```
 
-## 3. Add Main Files: index.js and server.js
+## 3. Add Main Files
 
 Next we'll add two "main" files. Main files serve as the entry point to the application and can be used to add custom behavior.
 
@@ -111,7 +111,7 @@ First, add two Vue components: `v-home.vue` and `v-page.vue`. And set up the bas
 </template>
 ```
 
-In your `index.js` add the following code:
+In your `index` file add the following code:
 
 ```js
 import { addContentRoute } from "@factor/tools"

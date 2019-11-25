@@ -15,7 +15,7 @@ In this filter you'll get an argument that includes all the user's arguments and
 Example:
 
 ```javascript
-// index.js
+// index
 import { addCallback } from "@factor/tools"
 import inquirer from "inquirer" // https://github.com/SBoudrias/Inquirer.js
 
