@@ -6,8 +6,7 @@
 <script>
 import { factorBtn } from "@factor/ui"
 export default {
-  components: { factorBtn },
-  mounted() {}
+  components: { factorBtn }
 }
 </script>
 

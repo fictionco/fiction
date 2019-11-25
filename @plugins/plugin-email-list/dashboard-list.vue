@@ -34,7 +34,7 @@
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post"
 import { postTypeUIConfig, csvExport } from "."
-import { toLabel, stored, getPermalink } from "@factor/tools"
+import { toLabel, stored, getPermalink, omit } from "@factor/tools"
 import { factorLink } from "@factor/ui"
 import {
   dashboardPane,
@@ -112,8 +112,8 @@ export default Vue.extend({
           if (p.list) {
             data.push(
               p.list.map(_ => {
-                const { code, ...rest } = _
-                return rest
+                delete _.code
+                return _
               })
             )
             name.push(p.title)
@@ -122,7 +122,7 @@ export default Vue.extend({
 
         csvExport({
           filename: name.join("-"),
-          data: [].concat.apply([], data)
+          data: [...data]
         })
       } else {
         this.$emit("action", { action, selected: this.selected })
@@ -131,9 +131,10 @@ export default Vue.extend({
     selectAll(val) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },
-    fields(item, type) {
-      const { message, createdAt, _id, ...rest } = item
-      return Object.entries(rest).filter(([key, value]) => value)
+    fields(item) {
+      const rest = omit(item, ["message", "createdAt", "_id"])
+
+      return Object.values(rest)
     },
     postlink(postType, permalink, root = true) {
       return getPermalink({ postType, permalink, root })

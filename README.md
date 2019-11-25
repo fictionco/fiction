@@ -21,38 +21,6 @@
 
 _An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
 
-## Status: Private Beta (_Public Beta arrives with 80% coverage_)
-
-We have achieved all architectural goals and features planned:
-
-- Dashboard / Auth
-
-  - [x] Simple post/page management w Markdown editing
-  - [x] User management w JWT Based Auth
-
-- Framework
-
-  - [x] Minimal extension API (themes and plugins)
-  - [x] CLI + Routes + Store + SSR + Endpoints
-  - [x] Single collection data model
-
-- Key Extensions
-
-  - [x] Forms
-  - [x] S3 Images
-  - [x] 3 Themes
-  - [x] Other tools (Analytics, Bugsnag, Slack)
-
-- Quality... Now it's time to work on long-term stability:
-
-  - [ ] Excellent testing code coverage with Jest + Cypress
-  - [x] Refactor modules for testing and types
-  - [ ] Validation and community feedback (starts with all tests passing @ 80%+ coverage)
-
-This is an GPL project. If you're interested in contribution, please just add your email at [Factor.dev](https://factor.dev).
-
---
-
 ## Documentation
 
 [https://factor.dev](https://factor.dev)
@@ -81,8 +49,6 @@ To easily setup a new project:
 ```shell
 yarn create factor-app <project-name>
 ```
-
-It's as simple as that!
 
 ## Themes
 

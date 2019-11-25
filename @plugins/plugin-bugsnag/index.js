@@ -5,7 +5,7 @@ import { log, onEvent, addCallback, setting } from "@factor/tools"
 import { userInitialized } from "@factor/user"
 import Vue from "vue"
 
-const clientApiKey = setting("bugsnag.client_api_key")
+const clientApiKey = setting("bugsnag.clientApiKey")
 
 addFilters()
 

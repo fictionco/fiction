@@ -1,5 +1,5 @@
 import { addFilter, addCallback } from "@factor/tools"
-const AWS = require("aws-sdk")
+import AWS from "aws-sdk"
 
 addFilters()
 
@@ -25,7 +25,7 @@ function addFilters() {
   addFilter("storage-attachment-url", ({ buffer, key }) => {
     const { bucket, S3 } = setConfig()
     return new Promise((resolve, reject) => {
-      var params = { Bucket: bucket, Key: key, Body: buffer, ACL: "public-read" }
+      const params = { Bucket: bucket, Key: key, Body: buffer, ACL: "public-read" }
       S3.upload(params, (err, data) => {
         if (err) reject(err)
 
@@ -41,7 +41,7 @@ function addFilters() {
     const key = doc.url.split("amazonaws.com/")[1]
 
     if (key) {
-      var params = { Bucket: bucket, Key: key }
+      const params = { Bucket: bucket, Key: key }
       return await S3.deleteObject(params).promise()
     }
   })

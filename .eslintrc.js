@@ -6,6 +6,7 @@ module.exports = {
     module: false,
     process: false
   },
+  parser: "vue-eslint-parser",
   parserOptions: {
     sourceType: "module",
     parser: "@typescript-eslint/parser"
@@ -24,8 +25,8 @@ module.exports = {
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript"
-    // "plugin:@typescript-eslint/recommended"
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended"
   ],
 
   plugins: [
@@ -35,8 +36,8 @@ module.exports = {
     "unicorn",
     "import",
     "jest",
-    "import"
-    //  "@typescript-eslint"
+    "import",
+    "@typescript-eslint"
   ],
 
   rules: {
@@ -46,15 +47,30 @@ module.exports = {
     semi: ["error", "never"],
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
-    "import/no-cycle": 1,
+    "import/no-cycle": 2,
     "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
     "vue/html-self-closing": 0,
     "vue/html-closing-bracket-spacing": "off",
     "vue/multiline-html-element-content-newline": "off",
     "vue/singleline-html-element-content-newline": "off",
     "vue/max-attributes-per-line": [2, { singleline: 20, multiline: {} }],
-    "jest/expect-expect": "off" // annoying,
+    "jest/expect-expect": "off", // annoying
+    "@typescript-eslint/explicit-function-return-type": "off", // overridden for .ts files
+    "@typescript-eslint/no-use-before-define": "off", // can cause organization issues
+    "@typescript-eslint/no-var-requires": "off", // overridden for transpiled .ts files
+    "@typescript-eslint/ban-ts-ignore": "off"
   },
+  overrides: [
+    {
+      // enable the rule specifically for TypeScript files
+      files: ["*.ts", "*.tsx"],
+      rules: {
+        "@typescript-eslint/explicit-function-return-type": ["error"],
+        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/ban-ts-ignore": "warn"
+      }
+    }
+  ],
 
   settings: {
     "import/resolver": {

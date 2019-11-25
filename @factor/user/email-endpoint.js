@@ -7,12 +7,11 @@ addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpo
 addFilter("user-schema-hooks", Schema => {
   // EMAIL
   Schema.post("save", async function(doc, next) {
-    const user = this
-    if (!user.isModified("email")) return next()
+    if (!this.isModified("email")) return next()
 
-    const { email, _id } = user
-    user.emailVerified = false
-    return await sendVerifyEmail({ _id, email }, { bearer: user })
+    const { email, _id } = this
+    this.emailVerified = false
+    return await sendVerifyEmail({ _id, email }, { bearer: this })
   })
 })
 

@@ -13,7 +13,6 @@ To add a post type, all that is needed is to register it using the `addPostType`
 > Note that this needs to occur in the **app** environment since it is used for UI.
 
 ```js
-// index.js
 import { addPostType } from "@factor/tools"
 addPostType({
   postType: "jobs",

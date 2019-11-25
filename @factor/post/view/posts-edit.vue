@@ -216,7 +216,7 @@ export default Vue.extend({
 
     revertChanges() {
       // eslint-disable-next-line no-unused-vars
-      const { revisions, ...post } = this.post
+      const { revisions } = this.post
 
       let revertTo = {}
       const newRevisions = cloneDeep(revisions)

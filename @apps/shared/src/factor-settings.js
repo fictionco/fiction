@@ -1,9 +1,9 @@
 export default {
-  google_tag_manager: {
-    gtm_id: "GTM-THQBLTN"
+  googleTagManager: {
+    googleTagManagerId: "GTM-THQBLTN"
   },
   bugsnag: {
-    client_api_key: "be2b4a0c651443122cb08f2b5e6afb55"
+    clientApiKey: "be2b4a0c651443122cb08f2b5e6afb55"
   },
   emailList: {
     alphaProgram: {

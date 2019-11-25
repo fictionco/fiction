@@ -32,8 +32,9 @@ import {
   dashboardGridActions
 } from "@factor/dashboard"
 import { getStatusCount, requestPostSingle } from "@factor/post"
-import { toLabel, stored, getPermalink } from "@factor/tools"
-export default {
+import { toLabel, stored, getPermalink, omit } from "@factor/tools"
+import Vue from "vue"
+export default Vue.extend({
   components: { dashboardGridControls, dashboardGridFilter, dashboardGridActions },
   props: {
     postId: { type: String, required: true },
@@ -104,10 +105,9 @@ export default {
       this.selected = !val ? [] : this.comments.map(_ => _._id)
     },
     fields(item) {
-      // eslint-disable-next-line no-unused-vars
-      const { _id, createdAt, content, email, name, ...rest } = item
-      // eslint-disable-next-line no-unused-vars
-      return Object.entries(rest).filter(([key, value]) => value)
+      const rest = omit(item, ["_id", "createdAt", "content", "email", "name"])
+
+      return Object.values(rest)
     },
     postlink(postType, permalink, root = true) {
       return getPermalink({ postType, permalink, root })
@@ -136,7 +136,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 <style lang="less">
 .commentizer-dashboard-list-table {

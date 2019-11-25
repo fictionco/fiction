@@ -16,6 +16,7 @@
       "__FALLBACK__/*": ["test/modules/alias/*"]
     }
   },
+
   "exclude": [
     "**/dist",
     "reports",

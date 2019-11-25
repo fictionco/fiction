@@ -30,7 +30,7 @@ export async function requestDeleteImage(params) {
 export async function uploadImage({ file, onPrep, onFinished, onError, onChange }) {
   file = await preUploadImage({ file, onPrep })
 
-  let formData = new FormData()
+  const formData = new FormData()
 
   formData.append("imageUpload", file)
 
@@ -52,7 +52,7 @@ export async function uploadImage({ file, onPrep, onFinished, onError, onChange 
 }
 
 export async function resizeImage(fileOrBlobOrUrl, options = {}) {
-  let { maxWidth = 1500, maxHeight = 1500 } = options
+  const { maxWidth = 1500, maxHeight = 1500 } = options
 
   return await new Promise(resolve => {
     loadImage(

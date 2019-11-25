@@ -5,7 +5,7 @@
 // Make sure to call modules directly here
 
 export * from "./utils"
-export * from "./utils-lodash"
+
 export * from "./time"
 export * from "./filters"
 export * from "./markdown"

@@ -766,13 +766,11 @@
           :src="require(`./img/reader.png`)"
           :srcset="require(`./img/reader.png`) + ` 1x, ` + require(`./img/reader@2x.png`) + ` 2x`"
           alt="Reader"
-        >
+        />
       </div>
     </figure>
   </div>
 </template>
 <script>
-export default {
-  mounted() {}
-}
+export default {}
 </script>

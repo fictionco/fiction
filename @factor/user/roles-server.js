@@ -1,6 +1,10 @@
 import { addFilter, setting } from "@factor/tools"
 import { writeConfig } from "@factor/cli/setup"
 
+function userRoles() {
+  return require("./roles.json")
+}
+
 addFilter("user-schema", _ => {
   _.role = {
     type: String,
@@ -25,17 +29,16 @@ addFilter("user-schema", _ => {
 // Create a virtual accessLevel property based on role
 addFilter("user-schema-hooks", Schema => {
   Schema.pre("validate", async function(next) {
-    const user = this
-    const existing = setting(`roles.${user.email}`)
-    const configRole = user.emailVerified && existing ? existing : "member"
+    const existing = setting(`roles.${this.email}`)
+    const configRole = this.emailVerified && existing ? existing : "member"
 
-    if (configRole != user.role) {
-      user.role = configRole
-    } else if (user.isModified("role") && configRole != user.role) {
-      return next(new Error(`Can not edit role ${user.role}`))
+    if (configRole != this.role) {
+      this.role = configRole
+    } else if (this.isModified("role") && configRole != this.role) {
+      return next(new Error(`Can not edit role ${this.role}`))
     }
 
-    user.accessLevel = userRoles()[user.role] || 0
+    this.accessLevel = userRoles()[this.role] || 0
 
     return next()
   })
@@ -61,7 +64,7 @@ addFilter("cli-add-setup", _ => {
           message: "What's the user's email?",
           type: "input",
           validate: v => {
-            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return re.test(v) ? true : "Enter a valid email address"
           }
         },
@@ -79,9 +82,9 @@ addFilter("cli-add-setup", _ => {
         }
       ]
 
-      let admins = {}
+      const admins = {}
       const ask = async () => {
-        let { askAgain, email, role } = await inquirer.prompt(questions)
+        const { askAgain, email, role } = await inquirer.prompt(questions)
         admins[email] = role
         if (askAgain) await ask()
       }
@@ -94,7 +97,3 @@ addFilter("cli-add-setup", _ => {
 
   return [..._, setupAdmins]
 })
-
-function userRoles() {
-  return require("./roles.json")
-}

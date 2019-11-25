@@ -140,8 +140,8 @@ export default {
       return out
     },
     collectH3s(h) {
-      var h3s = []
-      var next = h.nextSibling
+      const h3s = []
+      let next = h.nextSibling
       while (next && next.tagName !== "H2") {
         if (next.tagName === "H3") {
           h3s.push(next)
@@ -151,7 +151,7 @@ export default {
       return h3s
     },
     getHeaderText(h) {
-      var text = [].slice
+      const text = [].slice
         .call(h.childNodes)
         .map(function(node) {
           if (node.nodeType === Node.TEXT_NODE) {

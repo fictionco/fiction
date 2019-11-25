@@ -37,8 +37,6 @@ export default Vue.extend({
     }
   },
 
-  mounted() {},
-
   methods: {
     addPlus(v) {
       if (v != "" && !v.startsWith("+")) {

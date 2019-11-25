@@ -26,7 +26,7 @@ export default Vue.extend({
     // https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
     // Removing empty values ensures a reduction in any potential "duplicate content" issues with the default state
 
-    let query = pickBy(this.query, identity) || {}
+    const query = pickBy(this.query, identity) || {}
 
     path = !path && !isEmpty(query) ? this.$route.path : path
 
@@ -46,7 +46,7 @@ export default Vue.extend({
       }
     }
 
-    let classes = {}
+    const classes = {}
 
     classes["factor-link"] = true
 
@@ -88,7 +88,7 @@ export default Vue.extend({
       classes["active-path"] = true
     }
 
-    let on = this.event
+    const on = this.event
       ? {
           click: e => {
             e.preventDefault()

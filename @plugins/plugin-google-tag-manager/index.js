@@ -1,23 +1,20 @@
 import { addFilter, pushToFilter, setting } from "@factor/tools"
 import { writeConfig } from "@factor/cli/setup"
 
-const gtm_id = setting("google_tag_manager.gtm_id")
-const development_mode = setting("google_tag_manager.development_mode")
+const googleTagManagerId = setting("googleTagManager.googleTagManagerId")
+const developmentMode = setting("googleTagManager.developmentMode")
 
 const setupTitle = "Plugin: Google Tag Manager"
 
-addSetupCli(setupTitle)
-addFilters()
-
 function addFilters() {
-  if (!gtm_id) {
+  if (!googleTagManagerId) {
     pushToFilter("setup-needed", { title: setupTitle })
 
     return
   }
 
   // Don't load in development by default
-  if (process.env.NODE_ENV != "production" && !development_mode) {
+  if (process.env.NODE_ENV != "production" && !developmentMode) {
     return
   }
 
@@ -34,7 +31,7 @@ function addFilters() {
         j.async = true
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl
         f.parentNode.insertBefore(j, f)
-      })(window, document, "script", "dataLayer", "${gtm_id}")
+      })(window, document, "script", "dataLayer", "${googleTagManagerId}")
     </script>`
 
       return [..._, add]
@@ -43,7 +40,7 @@ function addFilters() {
   )
 
   addFilter("factor_body_start", _ => {
-    const add = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtm_id}" height="0" width="0"
+    const add = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   `
     return [..._, add]
@@ -59,22 +56,25 @@ function addSetupCli(name) {
       callback: async ({ inquirer }) => {
         const questions = [
           {
-            name: "gtm_id",
+            name: "googleTagManagerId",
             message: "What's your Google Tag Manager container ID?",
             type: "input"
           },
           {
-            name: "development_mode",
+            name: "developmentMode",
             type: "list",
             message:
               "Load the tag manager in your 'development' environment? (Defaults to production only. This can be changed later)",
-            choices: [{ name: "yes", value: true }, { name: "no", value: false }]
+            choices: [
+              { name: "yes", value: true },
+              { name: "no", value: false }
+            ]
           }
         ]
-        let { gtm_id, development_mode } = await inquirer.prompt(questions)
+        const { googleTagManagerId, developmentMode } = await inquirer.prompt(questions)
 
         await writeConfig("factor-config", {
-          google_tag_manager: { gtm_id, development_mode }
+          googleTagManager: { googleTagManagerId, developmentMode }
         })
       }
     }
@@ -82,3 +82,6 @@ function addSetupCli(name) {
     return [..._, setupAdmins]
   })
 }
+
+addSetupCli(setupTitle)
+addFilters()

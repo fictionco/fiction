@@ -133,7 +133,7 @@ async function sendNotifyEmail({ email, listId }) {
 
   if (!format) return
 
-  let { subject, text, to, from } = format
+  const { subject, text, to, from } = format
 
   if (to) {
     await sendTransactional({

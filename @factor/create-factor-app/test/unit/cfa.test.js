@@ -22,7 +22,7 @@ describe.skip("create-factor-app", () => {
         cwd
       })
 
-      let output = []
+      const output = []
       __spawned.stdout.on("data", data => {
         output.push(data.toString())
       })

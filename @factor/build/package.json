@@ -19,6 +19,7 @@
     }
   },
   "dependencies": {
+    "@types/webpack-env": "^1.14.1",
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "cli-progress": "^3.3.1",

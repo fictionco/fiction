@@ -87,7 +87,7 @@ export default Vue.extend({
       }
     }
   },
-  created() {},
+
   serverPrefetch() {
     return this.getPosts()
   },

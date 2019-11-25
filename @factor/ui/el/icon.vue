@@ -15,9 +15,8 @@ export default {
     addExternalScripts() {
       const els = document.querySelector("#ficons")
       if (!els) {
-        var link = document.createElement("link")
-        link.href =
-          "https://cdn.jsdelivr.net/npm/ficons@1.1.52/dist/ficons/font.css"
+        const link = document.createElement("link")
+        link.href = "https://cdn.jsdelivr.net/npm/ficons@1.1.52/dist/ficons/font.css"
         link.type = "text/css"
         link.rel = "stylesheet"
         link.id = "ficons"

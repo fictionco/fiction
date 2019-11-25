@@ -248,13 +248,13 @@ export default Vue.extend({
         this.removeImage(this.imageIds[0])
       }
 
-      for (let file of files) {
+      for (const file of files) {
         if (this.imageIds.length < this.maxImages) {
           const meta = {
             status: "preprocess"
           }
 
-          let index = this.uploading.push(meta) - 1
+          const index = this.uploading.push(meta) - 1
           this.numFiles++
           this.uploadFile({ meta, file, index })
         }

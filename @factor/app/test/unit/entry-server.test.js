@@ -4,7 +4,7 @@ import * as filters from "@factor/tools/filters"
 import serverEntry from "@factor/app/entry-server"
 
 import Vue from "vue"
-let spies = {}
+const spies = {}
 describe("server-entry", () => {
   beforeAll(() => {
     spies.createApp = jest.spyOn(app, "createApp")

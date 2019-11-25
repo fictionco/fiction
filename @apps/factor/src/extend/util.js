@@ -14,7 +14,7 @@ export function titleFromPackage({ pkg = {}, _id = "" }) {
 }
 
 export function formatDownloads(number) {
-  let num = number
+  const num = number
   return num.toLocaleString("en", { useGrouping: true })
 }
 

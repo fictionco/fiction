@@ -70,7 +70,7 @@ export default Vue.extend({
       if (this.rows.length > 0) {
         return this.rows
       } else {
-        let f = this.rowNumber > 0 ? this.rowNumber : this.zeroState
+        const f = this.rowNumber > 0 ? this.rowNumber : this.zeroState
 
         return new Array(f).fill({})
       }
@@ -102,7 +102,7 @@ export default Vue.extend({
       str.match(/{.+?}/g).forEach(match => {
         const varName = match.replace(/{(.*?)}/, "$1")
 
-        var reg = new RegExp(match, "g")
+        const reg = new RegExp(match, "g")
 
         str = str.replace(reg, row[varName])
       })

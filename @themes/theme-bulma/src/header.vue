@@ -16,11 +16,7 @@
       <div class="navbar-menu">
         <div class="navbar-end">
           <template v-for="(item, index) in setting('site.nav')">
-            <div
-              v-if="item.subnav"
-              :key="index"
-              class="navbar-item has-dropdown is-hoverable"
-            >
+            <div v-if="item.subnav" :key="index" class="navbar-item has-dropdown is-hoverable">
               <factor-link :path="item.path" class="navbar-link">
                 <span>{{ item.name }}</span>
               </factor-link>
@@ -41,11 +37,11 @@
           <div class="navbar-item">
             <div class="buttons">
               <factor-link
-                :path="setting('site.nav_cta.path')"
+                :path="setting('site.navCta.path')"
                 class="button is-outlined is-rounded"
                 target="_blank"
               >
-                {{ setting("site.nav_cta.name") }}
+                {{ setting("site.navCta.name") }}
                 <factor-icon icon="arrow-right" class="ml-2" />
               </factor-link>
             </div>

@@ -17,9 +17,9 @@ Config for this plugin is public only and stored in your `factor-config.json` fi
 ```jsonc
 // factor-config.json
 {
-  "google_tag_manager": {
-    "gtm_id": "SOMEID", // Your GTM Container ID
-    "development_mode": true // Load GTM in "development" mode
+  "googleTagManager": {
+    "googleTagManagerId": "SOMEID", // Your GTM Container ID
+    "developmentMode": true // Load GTM in "development" mode
   }
 }
 ```

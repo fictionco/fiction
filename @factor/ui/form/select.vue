@@ -52,8 +52,7 @@ export default Vue.extend({
         backgroundImage: `url(${require("./img/select.svg")})`
       }
     }
-  },
-  mounted() {}
+  }
 })
 </script>
 

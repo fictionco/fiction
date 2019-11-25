@@ -58,12 +58,14 @@ function generateExtensionList(packagePaths) {
   const loader = []
 
   packagePaths.forEach(_ => {
-    let {
+    const {
       name,
-      factor: { _id = null, priority = null, target = false, extend = "plugin" } = {},
+      factor: { priority = null, target = false, extend = "plugin" } = {},
       version,
       main = "index"
     } = _
+
+    let { factor: { _id = "" } = {} } = _
 
     if (!_id) _id = getId({ _id, name })
 
@@ -298,7 +300,7 @@ function getRequireBase({ cwd, name, main = "package.json" }) {
 function getPriority({ extend, priority, name }) {
   if (priority) return priority
 
-  let out = 100
+  const out = 100
 
   if (isCWD(name)) {
     return 1000

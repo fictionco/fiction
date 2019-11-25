@@ -33,7 +33,7 @@ export default {
         ]
       }
     ],
-    nav_cta: {
+    navCta: {
       path: "https://factor.dev/guide/themes",
       name: "Get Started"
     },

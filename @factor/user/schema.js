@@ -11,13 +11,12 @@ export default () => {
         return bcrypt.compare(candidate, this.password)
       }
       _s.pre("save", async function(next) {
-        const user = this
-        if (!user.isModified("password")) {
+        if (!this.isModified("password")) {
           return next()
         }
 
         try {
-          user.password = await bcrypt.hash(user.password, 10)
+          this.password = await bcrypt.hash(this.password, 10)
           return next()
         } catch (error) {
           return next(error)

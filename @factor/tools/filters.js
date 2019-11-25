@@ -25,6 +25,7 @@ export function getFilterCount(_id) {
 // If that is set just return it
 export function applyFilters(_id, data) {
   // Remove "_id" argument
+  // eslint-disable-next-line prefer-rest-params
   const params = Array.prototype.slice.call(arguments, 1)
 
   // Get Filters Added
@@ -71,9 +72,6 @@ export function addFilter(
   // In certain situations (HMR, dev), the same filter can be added twice
   // Using objects and a hash identifier solves that
   const filterKey = `key_${uniqueObjectHash(filter, callerKey(key))}`
-
-
-
 
   // For simpler assignments where no callback is needed
   const callback = typeof filter != "function" ? () => filter : filter

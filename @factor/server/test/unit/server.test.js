@@ -26,7 +26,7 @@ describe("server", () => {
 
     const theUrl = getUrl({ route: "/", port: process.env.PORT })
 
-    let doc = await axios.get(theUrl)
+    const doc = await axios.get(theUrl)
 
     expect(doc.data).toContain("::hello::")
     expect(doc.headers["content-type"]).toContain("text/html")

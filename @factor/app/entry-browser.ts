@@ -19,5 +19,4 @@ startClient()
 
 // Webpack hot reload
 /* istanbul ignore next */
-// @ts-ignore
 if (module && module.hot) module.hot.accept()

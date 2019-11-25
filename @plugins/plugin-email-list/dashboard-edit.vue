@@ -6,21 +6,12 @@
     </dashboard-grid-controls>
     <dashboard-grid :structure="grid()" :rows="post.list" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input
-          v-model="selected"
-          type="checkbox"
-          class="checkbox"
-          label
-          :value="row.email"
-        />
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row.email" />
       </template>
       <template #email="{row}">{{ row.email }}</template>
       <template #verified="{row}">{{ row.verified ? "Yes" : "No" }}</template>
       <template #delete="{row}">
-        <factor-btn-dashboard
-          text="Delete"
-          @click="deleteEmails({ emails: [row.email] })"
-        />
+        <factor-btn-dashboard text="Delete" @click="deleteEmails({ emails: [row.email] })" />
       </template>
     </dashboard-grid>
   </dashboard-pane>
@@ -130,8 +121,9 @@ export default Vue.extend({
         this.deleteEmails({ emails: this.selected })
       } else if (action == "export-all") {
         const data = this.post.list.map(_ => {
-          const { code, ...rest } = _
-          return rest
+          delete _.code
+
+          return _
         })
         csvExport({
           filename: `email-list-${this.listId}`,
@@ -141,8 +133,9 @@ export default Vue.extend({
         const data = this.post.list
           .filter(_ => this.selected.includes(_.email))
           .map(_ => {
-            const { code, ...rest } = _
-            return rest
+            delete _.code
+
+            return _
           })
         csvExport({
           filename: `email-list-${this.listId}-selected`,

@@ -34,7 +34,7 @@ function addSetupCli() {
     value: "commentizer",
     callback: async ({ inquirer }) => {
       const factorPostTypes = await postTypesConfig()
-      let questions = [
+      const questions = [
         {
           name: "postTypes",
           message: "Select post types to enable comments on.",

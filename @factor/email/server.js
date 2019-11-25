@@ -32,17 +32,11 @@ function getEmailSMTPService() {
 }
 
 export async function sendTransactional(_arguments) {
-  let {
-    _id = "none",
-    to,
-    from,
-    subject,
-    title,
-    text,
-    linkText,
-    linkUrl,
-    textFooter
-  } = applyFilters("transactional-email-arguments", _arguments)
+  _arguments = applyFilters("transactional-email-arguments", _arguments)
+
+  const { _id = "none", to, title, text, linkText, linkUrl, textFooter } = _arguments
+
+  let { from, subject } = _arguments
 
   if (!from) from = setting("app.email")
 

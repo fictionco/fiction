@@ -22,8 +22,7 @@ export default {
       required: false,
       default: 2
     }
-  },
-  mounted() {}
+  }
 }
 </script>
 <style lang="less">

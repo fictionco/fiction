@@ -56,17 +56,6 @@
               <img :src="s.img" />
             </div>
           </div>
-          <!-- <figure class="screencast">
-            <video preload="true" :poster="poster" playsinline="true" autoplay muted />
-            <div class="play-button">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
-                <path
-                  d="M22.5 19.8v32.5c0 1.5 1.7 2.5 3 1.7l28.3-16.2c1.3-.8 1.3-2.7 0-3.5L25.5 18c-1.4-.7-3 .2-3 1.8z"
-                  fill="#fff"
-                />
-              </svg>
-            </div>
-          </figure>-->
         </div>
       </div>
     </section>
@@ -89,9 +78,7 @@
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <factor-link
-                :path="feature.link.path"
-              >{{ feature.link.text }} &rarr;</factor-link>
+              <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
             </div>
           </div>
         </div>
@@ -117,7 +104,7 @@
             <blockquote>
               <div class="quote-media">
                 <a class="quote-image" href="#">
-                  <img :src="quote.img" />
+                  <img :src="quote.img" alt="quote" />
                 </a>
               </div>
               <p class="quote-body">"{{ quote.text }}"</p>
@@ -149,10 +136,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLink, factorIcon } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorEmailList,
     factorLink,
@@ -242,7 +230,7 @@ export default {
   routeClass() {
     //return ["nav-light"]
   }
-}
+})
 </script>
 <style lang="less">
 .view-home {

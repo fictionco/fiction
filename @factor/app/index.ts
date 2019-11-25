@@ -3,11 +3,11 @@ import { addFilter, applyFilters, addCallback } from "@factor/tools/filters"
 import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
 
-let clientIsMountedPromise = waitForMountApp()
+const clientIsMountedPromise = waitForMountApp()
 
 // Allows components to definitively wait for client to init
 // otherwise we might throw hydration errors
-export async function appMounted(callback) {
+export async function appMounted(callback = null) {
   await clientIsMountedPromise
 
   if (callback) callback()

@@ -1,11 +1,14 @@
+
 <template>
   <div class="pattern">
     <canvas ref="area" class="pattern-bubbles" :width="width" :height="height" />
   </div>
 </template>
 <script>
-let POINTS_CACHE = []
-export default {
+/* eslint-disable */
+const POINTS_CACHE = []
+import Vue from "vue"
+export default Vue.extend({
   data() {
     return {
       height: 2400,
@@ -26,8 +29,8 @@ export default {
     }
   },
   mounted() {
-    var c = this.$refs.area
-    var ctx = c.getContext("2d")
+    const c = this.$refs.area
+    const ctx = c.getContext("2d")
 
     const image = new Image()
 
@@ -58,10 +61,10 @@ export default {
         })
         .filter(p => p)
 
-      for (var t = 10; t < this.height; t += 25) {
+      for (let t = 10; t < this.height; t += 25) {
         ctx.beginPath()
         const a = 50 * this.noise(92 * t + 2e-4)
-        for (var n = 0; n < this.width; n += 4) {
+        for (let n = 0; n < this.width; n += 4) {
           ctx.lineTo(n + a, t + 3 * Math.cos(0.15 * n + -5e-4))
         }
         ctx.stroke()
@@ -80,30 +83,30 @@ export default {
       // ctx.fillRect(0, 0, this.width, this.height)
     },
     noise(e) {
-      var perlin,
-        //PERLIN_ZWRAPB = 8,
-        //PERLIN_ZWRAP = 1 << PERLIN_ZWRAPB,
-        PERLIN_SIZE = 4095,
-        perlin_octaves = 4,
-        perlin_amp_falloff = 0.5,
-        scaled_cosine = function(e) {
-          return 0.5 * (1 - Math.cos(e * Math.PI))
-        }
+      let perlin
+      //PERLIN_ZWRAPB = 8,
+      //PERLIN_ZWRAP = 1 << PERLIN_ZWRAPB,
+      const PERLIN_SIZE = 4095
+      const perlinOctaves = 4
+      const perlinAmpFalloff = 0.5
+      const scaledCosine = function(e) {
+        return 0.5 * (1 - Math.cos(e * Math.PI))
+      }
 
       if (null == perlin) {
         perlin = new Array(PERLIN_SIZE + 1)
-        for (var t = 0; t < PERLIN_SIZE + 1; t++) perlin[t] = Math.random()
+        for (let t = 0; t < PERLIN_SIZE + 1; t++) perlin[t] = Math.random()
       }
       e < 0 && (e = -e)
       for (
         var n, a, o = Math.floor(e), r = e - o, i = 0, s = 0.5, c = 0;
-        c < perlin_octaves;
+        c < perlinOctaves;
         c++
       )
-        (n = scaled_cosine(r)),
+        (n = scaledCosine(r)),
           (a = perlin[o & PERLIN_SIZE]),
           (i += (a += n * (perlin[(o + 1) & PERLIN_SIZE] - a)) * s),
-          (s *= perlin_amp_falloff),
+          (s *= perlinAmpFalloff),
           (o <<= 1),
           (r *= 2) >= 1 && (o++, r--)
       return i
@@ -163,7 +166,7 @@ export default {
       return POINTS_CACHE
     }
   }
-}
+})
 </script>
 <style lang="less">
 .pattern {

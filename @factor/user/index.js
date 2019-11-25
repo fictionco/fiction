@@ -23,6 +23,10 @@ export * from "./email-request"
 
 let _initializedUser
 
+export function currentUser() {
+  return stored("currentUser") || {}
+}
+
 addFilter("before-app", () => {
   // Authentication events only work after SSR
   if (!isNode) {
@@ -94,10 +98,6 @@ export function userId() {
   return currentUser() && currentUser()._id ? currentUser()._id : ""
 }
 
-export function currentUser() {
-  return stored("currentUser") || {}
-}
-
 export function isLoggedIn() {
   return !isEmpty(currentUser())
 }
@@ -111,7 +111,7 @@ async function sendUserRequest(method, params) {
 }
 
 export async function authenticate(params) {
-  let user = await sendUserRequest("authenticate", params)
+  const user = await sendUserRequest("authenticate", params)
 
   await runCallbacks("authenticated", user)
 
@@ -162,6 +162,9 @@ export function setUser({ user, token = "", current = false }) {
 
   if (user && user._id) storeItem(user._id, user)
 }
+export function roles() {
+  return require("./roles.json")
+}
 
 // Very basic version for UI control by  role
 // Needs improvement for more fine grained control
@@ -210,8 +213,4 @@ function handleAuthRouting() {
       navigateToRoute({ path: "/signin", query: { redirect: path } })
     }
   })
-}
-
-export function roles() {
-  return require("./roles.json")
 }

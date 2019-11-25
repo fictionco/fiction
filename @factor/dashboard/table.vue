@@ -64,13 +64,13 @@ export default {
       if (this.rowItems.length > 0) {
         return this.rowItems
       } else {
-        let f = this.rowNumber > 0 ? this.rowNumber : this.zeroState
+        const f = this.rowNumber > 0 ? this.rowNumber : this.zeroState
 
         return new Array(f).fill({})
       }
     },
     columns() {
-      let _ = []
+      const _ = []
 
       this.structure.forEach(col => {
         const colClass = col.class ? col.class : "col-4"
@@ -103,7 +103,7 @@ export default {
       str.match(/{.+?}/g).forEach(match => {
         const varName = match.replace(/{(.*?)}/, "$1")
 
-        var reg = new RegExp(match, "g")
+        const reg = new RegExp(match, "g")
 
         str = str.replace(reg, row[varName])
       })

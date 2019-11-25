@@ -28,8 +28,7 @@ export default Vue.extend({
     appName() {
       return setting("app.name")
     }
-  },
-  mounted() {}
+  }
 })
 </script>
 <style lang="less">

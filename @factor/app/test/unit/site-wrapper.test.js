@@ -26,7 +26,6 @@ describe("site-wrapper", () => {
     })
     router.push("/")
 
-    // @ts-ignore
     Vue.$router = router
 
     // Needs router as it assumes $route is there

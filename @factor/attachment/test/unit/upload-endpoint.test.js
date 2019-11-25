@@ -17,7 +17,7 @@ import * as filters from "@factor/tools/filters"
 jest.setTimeout(120000) // needs to download mongodb 60mb
 let port
 let __id
-let spies = {}
+const spies = {}
 describe("upload endpoint", () => {
   beforeAll(async () => {
     port = await getPort()
@@ -34,7 +34,7 @@ describe("upload endpoint", () => {
   })
 
   it("processes uploaded images", async () => {
-    var form = new FormData()
+    const form = new FormData()
 
     form.append(
       "imageUpload",

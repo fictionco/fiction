@@ -102,21 +102,21 @@ export default Vue.extend({
       return getIndexCache() || []
     },
     pluginsPopular() {
-      let getPopular = [].slice
+      const getPopular = [].slice
         .call(this.extensionIndex)
         .sort((a, b) => b.downloads - a.downloads)
 
       return getPopular.slice(0, this.num)
     },
     pluginsNew() {
-      let getNew = [].slice
+      const getNew = [].slice
         .call(this.extensionIndex)
         .sort((a, b) => new Date(b.time.created) - new Date(a.time.created))
 
       return getNew.slice(0, this.num)
     },
     pluginsRecentlyUpdated() {
-      let getRecentlyUpdated = [].slice
+      const getRecentlyUpdated = [].slice
         .call(this.extensionIndex)
         .sort((a, b) => new Date(b.time.modified) - new Date(a.time.modified))
 

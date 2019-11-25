@@ -3,16 +3,17 @@ import * as cli from "@factor/cli"
 describe("cli", () => {
   describe("setup cli", () => {
     it("setup: run yarn install to verify node_modules installed", async () => {
-      let consoleOutput = []
+      const consoleOutput = []
 
       const originalStd = process.stdout.write
 
       const mockedLog = output => consoleOutput.push(output)
 
-      // @ts-ignore
-      process.stdout.write = mockedLog
-      // @ts-ignore
-      jest.spyOn(process, "exit").mockImplementation(() => {})
+      process.stdout.write = mockedLog as jest.Mock
+
+      jest.spyOn(process, "exit").mockImplementation(() => {
+        throw "Mock"
+      })
 
       await cli.runCommand({ _arguments: {}, command: "none" })
 

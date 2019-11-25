@@ -138,7 +138,7 @@ export default Vue.extend({
       // }
 
       try {
-        let _p = []
+        const _p = []
 
         _p.push(
           this.$email.send({

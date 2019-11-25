@@ -38,10 +38,10 @@ export function cssLoaders({ target, lang }) {
 
 export async function enhancedBuild({ name, config }) {
   const compiler = webpack(config)
-  var ProgressPlugin = require("webpack/lib/ProgressPlugin")
+  const ProgressPlugin = require("webpack/lib/ProgressPlugin")
   const { Bar, Presets } = require("cli-progress")
 
-  let _bar = new Bar({ format: `${name} [{bar}] {percentage}% {msg}` }, Presets.rect)
+  const _bar = new Bar({ format: `${name} [{bar}] {percentage}% {msg}` }, Presets.rect)
 
   return await new Promise((resolve, reject) => {
     _bar.start(100, 1, { msg: "" })

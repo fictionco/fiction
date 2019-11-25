@@ -10,24 +10,24 @@ export class FactorLogger {
     })
   }
 
-  error() {
-    Reflect.apply(this.utility.error, null, arguments)
+  error(..._arguments) {
+    Reflect.apply(this.utility.error, null, _arguments)
   }
 
-  warn() {
-    Reflect.apply(this.utility.warn, null, arguments)
+  warn(..._arguments) {
+    Reflect.apply(this.utility.warn, null, _arguments)
   }
 
-  success() {
-    Reflect.apply(this.utility.log, null, arguments)
+  success(..._arguments) {
+    Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  log() {
-    Reflect.apply(this.utility.log, null, arguments)
+  log(..._arguments) {
+    Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  info() {
-    Reflect.apply(this.utility.info, null, arguments)
+  info(..._arguments) {
+    Reflect.apply(this.utility.info, null, _arguments)
   }
 
   server(text, { color = "cyan" } = {}) {

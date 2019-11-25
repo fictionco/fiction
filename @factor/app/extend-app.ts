@@ -26,11 +26,10 @@ export async function extendApp(options = {}) {
 // Add before plugins import
 // Observable values that can change at any time
 function setupGlobalObservable() {
-  // @ts-ignore
   __observables = Vue.observable(applyFilters("register-global-observables", {}))
 }
 
-export function getObservables() {
+export function getObservables(): any {
   return __observables
 }
 
@@ -38,8 +37,7 @@ function addClientDirectives() {
   if (process.env.FACTOR_SSR == "client") {
     const directives = applyFilters("client-directives", {})
 
-    for (var __ in directives) {
-      // @ts-ignore
+    for (const __ in directives) {
       if (directives[__]) Vue.directive(__, directives[__])
     }
   }

@@ -59,8 +59,8 @@ addFilter("site-mixins", _ => [
 ])
 
 addCallback("initialize-app", () => {
-  Vue.mixin({
-    // @ts-ignore
+
+  Vue.mixin(Vue.extend({
     metaInfoCore() {
       const opt = this.$options.metaInfo
 
@@ -72,7 +72,7 @@ addCallback("initialize-app", () => {
 
       return refined
     }
-  })
+  }))
 })
 
 addFilter(

@@ -16,7 +16,7 @@ export default () => {
       ui() {
         const { meta = {} } = this.$route.matched.find(_ => _.meta.ui) || {}
 
-        let ui = meta.ui || "app"
+        const ui = meta.ui || "app"
 
         return `factor-${ui}`
       },

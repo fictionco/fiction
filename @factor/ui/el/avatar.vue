@@ -20,18 +20,15 @@
         </g>
       </svg>
     </div>
-    <div
-      v-else
-      :style="getStyle({ backgroundImage: `url(${src})` })"
-      class="thumb thumb-src"
-    />
+    <div v-else :style="getStyle({ backgroundImage: `url(${src})` })" class="thumb thumb-src" />
     <slot />
   </div>
 </template>
 <script>
 import { stored } from "@factor/tools"
 import { factorLoadingRing } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLoadingRing },
   props: {
     width: { type: String, default: "32px" },
@@ -61,15 +58,13 @@ export default {
     }
   },
 
-  mounted() {},
-
   methods: {
     getStyle(more = {}) {
       const width = this.width
       return { width, height: width, ...more }
     }
   }
-}
+})
 </script>
 <style lang="less">
 .avatar {

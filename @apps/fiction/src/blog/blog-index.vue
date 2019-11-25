@@ -5,9 +5,7 @@
         <div>
           <div class="label label-yellow">Discover The Latest</div>
           <h1 class="title">Fiction Blog</h1>
-          <p class="subtitle">
-            Product updates, articles, and announcements from the Fiction team.
-          </p>
+          <p class="subtitle">Product updates, articles, and announcements from the Fiction team.</p>
         </div>
       </div>
     </section>
@@ -88,7 +86,7 @@ export default Vue.extend({
       }
     }
   },
-  created() {},
+
   serverPrefetch() {
     return this.getPosts()
   },

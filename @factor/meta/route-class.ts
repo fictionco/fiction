@@ -37,15 +37,16 @@ function manageClient() {
     getObservables().routeClass = []
   })
 
-  Vue.mixin({
-    watch: {
-      $route: {
-        handler: function() {
-          // @ts-ignore
-          setRouteClass(this.$options)
-        },
-        immediate: true
+  Vue.mixin(
+    Vue.extend({
+      watch: {
+        $route: {
+          handler: function() {
+            setRouteClass(this.$options)
+          },
+          immediate: true
+        }
       }
-    }
-  })
+    })
+  )
 }

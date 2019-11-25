@@ -14,7 +14,7 @@ export async function requestPermalinkVerify({ permalink, id, field = "permalink
     emitEvent("notify", `${toLabel(field)} "${permalink}" already exists.`)
     let num = 1
 
-    var matches = permalink.match(/\d+$/)
+    const matches = permalink.match(/\d+$/)
 
     if (matches) num = parseInt(matches[0]) + 1
 

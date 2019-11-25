@@ -2796,7 +2796,8 @@
 </template>
 
 <script>
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     "site-brand": () => import("./el/brand.vue")
   },
@@ -2806,7 +2807,7 @@ export default {
       showModalExample: false
     }
   },
-  mounted() {},
+
   metaInfo() {
     return {
       title: "Bulma Elements",
@@ -2815,5 +2816,5 @@ export default {
       image: ""
     }
   }
-}
+})
 </script>

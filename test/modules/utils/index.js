@@ -62,8 +62,10 @@ export const loadFixture = async fixture => {
   await createApp()
 }
 
-export async function renderAndGetWindow(_arguments) {
-  let { url, port = process.env.PORT, route = "/", options = {} } = _arguments || {}
+export async function renderAndGetWindow(_arguments = {}) {
+  const { port = process.env.PORT, route = "/" } = _arguments
+
+  let { url, options = {} } = _arguments || {}
 
   url = url ? url : getUrl({ port, route })
 

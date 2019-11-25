@@ -92,6 +92,7 @@ import { userInitialized, isLoggedIn, userId } from "@factor/user"
 import { isEmpty, standardDate, stored } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
 import Vue from "vue"
+
 export default Vue.extend({
   components: {
     factorLoadingRing,
@@ -201,7 +202,7 @@ export default Vue.extend({
       this.lightboxShow = true
     },
     setPhoto(v, key) {
-      var img = new Image()
+      const img = new Image()
       img.addEventListener("load", () => {
         this.$set(this, key, v)
       })

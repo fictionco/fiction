@@ -109,7 +109,7 @@ export default {
     }
   },
   async mounted() {
-    let data = getSingleCache(this.packageName)
+    const data = getSingleCache(this.packageName)
 
     if (!data) {
       await requestExtensionSingle(this.packageName)

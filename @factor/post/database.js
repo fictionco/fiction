@@ -152,7 +152,7 @@ export function dbSetupUtility() {
           }
         ]
 
-        let { connection } = await inquirer.prompt(questions)
+        const { connection } = await inquirer.prompt(questions)
 
         await writeConfig(".env", { DB_CONNECTION: connection })
       }

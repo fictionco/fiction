@@ -46,7 +46,7 @@ addFilter("cli-add-setup", (_, { privateConfig }) => {
         }
       ]
 
-      let { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = await inquirer.prompt(questions)
+      const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = await inquirer.prompt(questions)
 
       await writeConfig(".env", { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST })
     }

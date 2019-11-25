@@ -71,7 +71,7 @@ export function stripMarkdown(markdown) {
 export function excerpt(content, { length = 42 } = {}) {
   if (!content) return ""
 
-  let __ = stripMarkdown(content)
+  const __ = stripMarkdown(content)
     .replace(/\n|\r/g, " ")
     .split(" ")
 

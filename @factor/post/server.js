@@ -29,7 +29,7 @@ export async function savePost({ data, postType = "post" }, { bearer = {} }) {
 
   let post
   let isNew
-  let Model = getModel(postType)
+  const Model = getModel(postType)
 
   if (_id) post = await Model.findById(data._id)
 
@@ -46,8 +46,9 @@ export async function savePost({ data, postType = "post" }, { bearer = {} }) {
 export async function getSinglePost(params, meta = {}) {
   const { bearer } = meta
 
-  let {
-    _id,
+  let { _id } = params
+
+  const {
     token,
     postType = "post",
     conditions,
@@ -57,7 +58,7 @@ export async function getSinglePost(params, meta = {}) {
 
   let _post
 
-  let Model = getModel(postType)
+  const Model = getModel(postType)
 
   if (!Model || dbIsOffline()) return {}
 
@@ -124,7 +125,8 @@ export async function populatePosts({ _ids }) {
 export async function postList(params) {
   if (dbIsOffline()) return []
 
-  let { postType, conditions = {}, select = null, options } = params
+  const { postType, conditions = {}, select = null } = params
+  let { options } = params
 
   options = Object.assign(
     {},
@@ -142,7 +144,8 @@ export async function postList(params) {
 export async function postIndex(params) {
   if (dbIsOffline()) return { meta: {}, posts: [] }
 
-  let { postType, conditions = {}, options } = params
+  const { postType, conditions = {} } = params
+  let { options } = params
 
   options = Object.assign(
     {},

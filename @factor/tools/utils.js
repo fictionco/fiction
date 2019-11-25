@@ -1,6 +1,8 @@
 import deepMergeLib from "deepmerge"
 import stopwordsLib from "./resource/stopwords"
 
+export * from "./utils-lodash"
+
 export function ensureTrailingSlash(path) {
   path += path.endsWith("/") ? "" : "/"
   return path
@@ -59,7 +61,8 @@ export function deepMerge(items) {
 // Parse to standard utility lists
 // Ideal for passing around config data and lists (inputs, etc.. )
 export function parseList(list = [], options = {}) {
-  let { suffix = "", prefix = "" } = options
+  const { prefix = "" } = options
+  let { suffix = "" } = options
 
   if (!Array.isArray(list)) return []
 
@@ -109,7 +112,7 @@ export function slugify(text) {
 export function toLabel(str) {
   if (!str || typeof str !== "string") return str
 
-  let label = camelToKebab(str)
+  const label = camelToKebab(str)
     .replace(new RegExp("-|_", "g"), " ")
     .replace(/\b\w/g, l => l.toUpperCase())
 

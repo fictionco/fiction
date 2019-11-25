@@ -7,5 +7,16 @@ import uniq from "lodash.uniq"
 import cloneDeep from "lodash.clonedeep"
 import merge from "lodash.merge"
 import identity from "lodash.identity"
-
-export { isEqual, throttle, isEmpty, uniq, pickBy, orderBy, cloneDeep, merge, identity }
+import omit from "lodash.omit"
+export {
+  isEqual,
+  throttle,
+  isEmpty,
+  uniq,
+  pickBy,
+  orderBy,
+  cloneDeep,
+  merge,
+  identity,
+  omit
+}

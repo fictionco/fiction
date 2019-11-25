@@ -2,7 +2,7 @@
   "name": "@factor/theme-shared",
   "version": "1.0.0",
   "url": "https://www.fiction.com",
-  "main": "src/index.js",
+  "main": "src/index",
   "type": "module",
   "author": "Fiction.com",
   "license": "UNLICENSED",

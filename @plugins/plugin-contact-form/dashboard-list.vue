@@ -44,7 +44,7 @@
 <script>
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post"
-import { toLabel, standardDate, getPermalink } from "@factor/tools"
+import { toLabel, standardDate, getPermalink, omit } from "@factor/tools"
 import {
   dashboardGrid,
   dashboardPane,
@@ -119,8 +119,9 @@ export default {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },
     fields(row) {
-      const { message, createdAt, _id, ...rest } = row
-      return Object.entries(rest).filter(([key, value]) => value)
+      const rest = omit(row, ["message", "createdAt", "_id"])
+
+      return Object.values(rest)
     },
     postlink(postType, permalink, root = true) {
       return getPermalink({ postType, permalink, root })

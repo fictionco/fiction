@@ -9,7 +9,7 @@
     "andrew@fiction.com": "admin",
     "ray@fiction.com": "admin"
   },
-  "google_tag_manager": {
-    "gtm_id": "GTM-THQBLTN"
+  "googleTagManager": {
+    "googleTagManagerId": "GTM-THQBLTN"
   }
 }

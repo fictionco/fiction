@@ -1,7 +1,7 @@
 import { pushToFilter, setting } from "@factor/tools"
 import { writeConfig } from "@factor/cli/setup"
 
-const clientApiKey = setting("bugsnag.client_api_key")
+const clientApiKey = setting("bugsnag.clientApiKey")
 
 const setupTitle = "Plugin: Bugsnag"
 
@@ -24,15 +24,15 @@ function addSetupCli(name) {
     callback: async ({ inquirer }) => {
       const questions = [
         {
-          name: "client_api_key",
+          name: "clientApiKey",
           message: "What's your public client API key?",
           type: "input"
         }
       ]
-      let { client_api_key } = await inquirer.prompt(questions)
+      const { clientApiKey } = await inquirer.prompt(questions)
 
       await writeConfig("factor-config", {
-        bugsnag: { client_api_key }
+        bugsnag: { clientApiKey }
       })
     }
   })

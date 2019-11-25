@@ -45,7 +45,6 @@ export default Vue.extend({
     canEdit() {
       return this.accessLevel > 100 || this.author.includes(userId())
     }
-  },
-  mounted() {}
+  }
 })
 </script>

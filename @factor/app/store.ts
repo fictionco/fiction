@@ -1,4 +1,4 @@
-import Vuex from "vuex"
+import Vuex, { Store } from "vuex"
 import Vue from "vue"
 
 Vue.use(Vuex)
@@ -7,15 +7,16 @@ import { addCallback } from "@factor/tools/filters"
 
 addCallback("before-server-plugins", () => getStore())
 
-let __store = new Vuex.Store({
+const __store = new Vuex.Store({
   strict: false,
-  state: () => {},
+  state: () => {
+    return {}
+  },
   getters: {
     getItem: state => item => state[item]
   },
   mutations: {
     setItem: (state, { item, value }) => {
-      // @ts-ignore
       Vue.set(state, item, value)
     }
   }
@@ -36,7 +37,7 @@ export function storeItem(item, value) {
   return __store.commit("setItem", { item, value })
 }
 
-export function stored(key) {
+export function stored(key: string) {
   return __store.getters["getItem"](key)
 }
 

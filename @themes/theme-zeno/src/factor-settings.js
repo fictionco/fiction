@@ -4,7 +4,6 @@ export default {
   },
   tailwind: {
     config: require("./tailwind.config.js"),
-    // @ts-ignore
     directives: require("./tailwind.css")
   },
   site: {
@@ -192,14 +191,14 @@ export default {
       title: "Our customers love what we do!",
       items: [
         {
-          content: `@Zeno architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
+          content: `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
           image: require("./img/client.svg"),
           author: "Will Norton",
           info: "CEO, SimplyAgree"
         },
         {
           content:
-            "@Zeno architected and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
+            "@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
           image: require("./img/client.svg"),
           author: "Will Norton",
           info: "CEO, SimplyAgree"

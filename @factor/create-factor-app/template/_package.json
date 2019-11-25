@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "<%= description %>",
   "author": "<%= author %>",
-  "main": "src/index.js",
+  "main": "src/index",
   "private": true,
   "factor": {
     "target": ["app"]

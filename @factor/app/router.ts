@@ -18,7 +18,7 @@ export function createRouter() {
     mode: "history",
     routes,
     scrollBehavior: (to, from, saved) => {
-      let position = { x: 0, y: 0, selector: null }
+      const position = { x: 0, y: 0, selector: null }
 
       if (to.hash) {
         return { ...position, selector: to.hash }
@@ -37,14 +37,12 @@ export function createRouter() {
     router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
 
-  // @ts-ignore
   Vue.$router = router
 
   return router
 }
 
 export function getRouter() {
-  // @ts-ignore
   return Vue.$router
 }
 

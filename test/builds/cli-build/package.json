@@ -2,7 +2,7 @@
   "name": "@test/cli-build",
   "version": "1.0.0",
   "url": "https://www.fiction.com",
-  "main": "src/index.js",
+  "main": "src/index",
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {

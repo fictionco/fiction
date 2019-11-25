@@ -38,9 +38,9 @@ export async function getSingle(params) {
 
   // Run the requests, but add context for errors
   const results = await Promise.all(
-    requests.map(async ({ _id, url, options = {} }) => {
+    requests.map(async ({ _id, url }) => {
       try {
-        return await axios.get(url, options)
+        return await axios.get(url)
       } catch (error) {
         error.message = `${_id} Request to ${url}: ${error.message}`
         throw new Error(error)
@@ -53,9 +53,8 @@ export async function getSingle(params) {
   const otherData = { cdnBaseUrl: `https://cdn.jsdelivr.net/npm/${name}@${latest}` }
 
   // Ensure array of objects and deep merge results
-  const merged = deepMerge([params, otherData, ...parsed])
+  const merged: any = deepMerge([params, otherData, ...parsed])
 
-  // @ts-ignore
   const item = { ...merged, pkg: merged.versions[latest] }
 
   delete item.versions

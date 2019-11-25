@@ -18,7 +18,7 @@ addCallback("after-first-server-extend", () => {
   const setupNeeded = applyFilters("setup-needed", [])
 
   if (setupNeeded.length > 0) {
-    let lines = setupNeeded.map(_ => {
+    const lines = setupNeeded.map(_ => {
       return { title: _.title, value: "", indent: true }
     })
     if (process.env.FACTOR_COMMAND !== "setup") {
@@ -63,7 +63,7 @@ export async function runSetup(_arguments) {
   setups = sortPriority(setups)
 
   // Escapes the endless loop
-  let askAgain = true
+  const askAgain = true
 
   const ask = async () => {
     answers = await inquirer.prompt({
@@ -71,7 +71,10 @@ export async function runSetup(_arguments) {
       name: `setupItem`,
       message: `What would you like to do?`,
       // eslint-disable-next-line no-unused-vars
-      choices: setups.map(({ callback, ...keep }) => keep)
+      choices: setups.map(_ => {
+        delete _.callback
+        return _
+      })
     })
 
     console.log() // break
@@ -90,7 +93,7 @@ export async function writeConfig(file, values) {
   if (!file || !values) {
     return
   }
-  let answers = await inquirer.prompt({
+  const answers = await inquirer.prompt({
     type: "confirm",
     name: `writeFiles`,
     message: `Write the following settings to the "${chalk.cyan(

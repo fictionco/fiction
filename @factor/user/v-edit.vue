@@ -154,7 +154,6 @@ export default Vue.extend({
     }
   },
 
-  async mounted() {},
   methods: {
     userId,
     standardDate,

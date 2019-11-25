@@ -36,7 +36,6 @@ export default Vue.extend({
     }
   },
   async serverPrefetch() {
-    // @ts-ignore
     this.html = await getMarkdownHTML(this.doc)
     return
   },

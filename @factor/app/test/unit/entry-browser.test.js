@@ -6,7 +6,7 @@ import * as app from "@factor/app/app"
 import * as events from "@factor/tools/events"
 import { waitFor, indexHtml } from "@test/utils"
 
-let spies = {}
+const spies = {}
 describe("browser-app", () => {
   beforeAll(() => {
     document.open()
