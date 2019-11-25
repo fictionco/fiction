@@ -22,10 +22,11 @@
     </transition>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorIcon } from "@factor/ui"
 import { DOM } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorIcon,
     "page-sidebar": () => import("./sidebar.vue"),
@@ -42,7 +43,7 @@ export default {
         this.toggleNav(false)
       }
     },
-    toggle: function(v) {
+    toggle: function(v: boolean): void {
       if (v) {
         DOM("body").addClass("mobile-nav")
       } else {
@@ -51,7 +52,7 @@ export default {
     }
   },
   methods: {
-    toggleNav(v) {
+    toggleNav(v): void {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle
       } else {
@@ -71,7 +72,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">
