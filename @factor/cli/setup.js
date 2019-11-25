@@ -1,14 +1,12 @@
 /* eslint-disable no-console */
-import fs from "fs-extra"
-import inquirer from "inquirer"
-import chalk from "chalk"
-
-import envfile from "envfile"
-import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor/tools"
 import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/tools/paths"
-
 import { highlight } from "cli-highlight"
+import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor/tools"
+import chalk from "chalk"
+import envfile from "envfile"
+import fs from "fs-extra"
+import inquirer from "inquirer"
 import json2yaml from "json2yaml"
 
 const configFile = getPath("config-file-public")
@@ -32,7 +30,6 @@ addCallback("after-first-server-extend", () => {
 })
 
 export async function runSetup(_arguments) {
-  const { inquirer } = _arguments
   let answers
 
   log.formatted({

@@ -14,7 +14,7 @@ describe("cli", () => {
       // @ts-ignore
       jest.spyOn(process, "exit").mockImplementation(() => {})
 
-      await cli.runCommand()
+      await cli.runCommand({ _arguments: {}, command: "none" })
 
       // eslint-disable-next-line require-atomic-updates
       process.stdout.write = originalStd

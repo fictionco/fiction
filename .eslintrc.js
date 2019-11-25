@@ -8,7 +8,7 @@ module.exports = {
   },
   parserOptions: {
     sourceType: "module",
-    parser: "babel-eslint"
+    parser: "@typescript-eslint/parser"
   },
   env: {
     browser: true,
@@ -23,10 +23,21 @@ module.exports = {
     "plugin:jest/recommended",
     "eslint:recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+    // "plugin:@typescript-eslint/recommended"
   ],
 
-  plugins: ["vue", "json", "prettier", "unicorn", "import", "jest", "import"],
+  plugins: [
+    "vue",
+    "json",
+    "prettier",
+    "unicorn",
+    "import",
+    "jest",
+    "import"
+    //  "@typescript-eslint"
+  ],
 
   rules: {
     "no-console": "error",
@@ -36,7 +47,7 @@ module.exports = {
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
     "import/no-cycle": 1,
-    "import/extensions": ["error", "always", { js: "never" }],
+    "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
     "vue/html-self-closing": 0,
     "vue/html-closing-bracket-spacing": "off",
     "vue/multiline-html-element-content-newline": "off",

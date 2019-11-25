@@ -1,11 +1,6 @@
-import { applyFilters } from "@factor/tools/filters"
-import { currentRoute } from "@factor/app/router"
-import { emitEvent } from "@factor/tools/events"
 import { endpointRequest } from "@factor/endpoint"
-import { setPostMetatags } from "@factor/tools/metatags"
 import { stored, storeItem } from "@factor/app/store"
 import { timestamp } from "@factor/tools/time"
-import { toLabel } from "@factor/tools/utils"
 import objectHash from "object-hash"
 
 import { getSchemaPopulatedFields } from "./util"
@@ -40,38 +35,14 @@ export async function requestPostDeleteMany({ _ids, postType }) {
   return await sendPostRequest("deleteManyById", { _ids })
 }
 
-export async function preFetchPost({ to = null, clientOnly = false } = {}) {
-  const route = to || currentRoute()
-
-  const request = applyFilters("post-params", {
-    ...route.params,
-    ...route.query,
-    status: "published"
-  })
-
-  const { permalink, _id } = request
-
-  // Only add to the filter if permalink is set. That way we don't show loader for no reason.
-  if (
-    (!permalink && !_id) ||
-    permalink == "__webpack_hmr" ||
-    /\.(png|jpg|gif|svg|ico)$/.test(permalink)
-  ) {
-    return {}
-  }
-  // For pre-fetching that happens only in the browser
-  // If this applied on server it causes a mismatch (store set with full post then set to loading)
-  if (clientOnly) {
-    storeItem("post", { loading: true })
-  }
-
-  const post = await requestPostSingle(request)
-
-  storeItem("post", post)
-
-  if (post) setPostMetatags(post._id)
-
-  return post
+interface postRequestParameters {
+  _id?: string
+  status?: string
+  createOnEmpty?: boolean
+  postType?: string
+  conditions?: any
+  token?: string
+  options?: { limit?: number; skip?: number; page?: number; sort?: string }
 }
 
 export async function requestPostSingle(args) {
@@ -86,7 +57,7 @@ export async function requestPostSingle(args) {
     depth = 50
   } = args
 
-  const params = { postType, createOnEmpty, status }
+  const params: postRequestParameters = { postType, createOnEmpty, status }
 
   if (_id) {
     params._id = _id
@@ -104,26 +75,18 @@ export async function requestPostSingle(args) {
   const post = await sendPostRequest("getSinglePost", params)
 
   if (post) {
-    await requestPostsPopulate({ posts: [post], depth })
+    await requestPostPopulate({ posts: [post], depth })
   }
 
   return post
-}
-
-export async function requestPostById({ _id, postType = "post", createOnEmpty = false }) {
-  const _post = await sendPostRequest("getSinglePost", { _id, postType, createOnEmpty })
-
-  if (_post) {
-    storeItem(_post._id, _post)
-  }
-
-  return _post
 }
 
 export async function requestPostIndex(_arguments) {
   const { limit = 10, page = 1, postType, sort } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
+
+  const skip = (page - 1) * limit
 
   // Create a mechanism to prevent multiple runs/pops for same data
   if (storedIndex) {
@@ -133,25 +96,24 @@ export async function requestPostIndex(_arguments) {
 
   const taxonomies = ["tag", "category", "status", "role"]
 
-  const conditions = {}
-  taxonomies.forEach(_ => {
-    if (_arguments[_]) conditions[_] = _arguments[_]
-  })
-
-  if (!_arguments.status) conditions.status = { $ne: "trash" }
-
-  const skip = (page - 1) * limit
-
-  const { posts, meta } = await sendPostRequest("postIndex", {
+  const params: postRequestParameters = {
+    conditions: {},
     postType,
-    conditions,
     options: { limit, skip, page, sort }
+  }
+
+  taxonomies.forEach(_ => {
+    if (_arguments[_]) params.conditions[_] = _arguments[_]
   })
+
+  if (!_arguments.status) params.conditions.status = { $ne: "trash" }
+
+  const { posts, meta } = await sendPostRequest("postIndex", params)
 
   storeItem(queryHash, { posts, meta })
   storeItem(postType, { posts, meta })
 
-  await requestPostsPopulate({ posts, depth: 20 })
+  await requestPostPopulate({ posts, depth: 20 })
 
   return { posts, meta }
 }
@@ -169,12 +131,12 @@ export async function requestPostList(_arguments) {
     options: { limit, skip, page, sort }
   })
 
-  await requestPostsPopulate({ posts, depth })
+  await requestPostPopulate({ posts, depth })
 
   return posts
 }
 
-export async function requestPostsPopulate({ posts, depth = 10 }) {
+export async function requestPostPopulate({ posts, depth = 10 }) {
   let _ids = []
 
   posts.forEach(post => {
@@ -203,27 +165,6 @@ export async function requestPostsPopulate({ posts, depth = 10 }) {
 
   if (_idsFiltered.length > 0) {
     const posts = await sendPostRequest("populatePosts", { _ids: _idsFiltered })
-    await requestPostsPopulate({ posts, depth })
+    await requestPostPopulate({ posts, depth })
   }
-}
-
-// Verify a permalink is unique,
-// If not unique, then add number and recursively verify the new one
-export async function requestPermalinkVerify({ permalink, id, field = "permalink" }) {
-  const post = await requestPostSingle({ permalink, field })
-
-  if (post && post.id != id) {
-    emitEvent("notify", `${toLabel(field)} "${permalink}" already exists.`)
-    let num = 1
-
-    var matches = permalink.match(/\d+$/)
-
-    if (matches) num = parseInt(matches[0]) + 1
-
-    permalink = await requestPermalinkVerify({
-      permalink: `${permalink.replace(/\d+$/, "")}${num}`,
-      id
-    })
-  }
-  return permalink
 }

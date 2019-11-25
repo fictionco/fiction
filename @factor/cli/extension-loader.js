@@ -111,7 +111,7 @@ export function generateLoaders() {
 
   makeFileLoader({
     extensions,
-    filename: "factor-settings.js",
+    filename: "factor-settings.*",
     callback: files => {
       writeFile({
         destination: getPath("loader-settings"),
@@ -298,20 +298,31 @@ function getRequireBase({ cwd, name, main = "package.json" }) {
 function getPriority({ extend, priority, name }) {
   if (priority) return priority
 
-  return isCWD(name) ? 1000 : (extend == "theme" ? 150 : 100)
+  let out = 100
+
+  if (isCWD(name)) {
+    return 1000
+  } else if (extend == "theme") {
+    return 150
+  }
+
+  return out
 }
 
 // Get standard reference ID
 function getId({ _id, name = "", main = "index", file = "" }) {
-  let __ = isCWD(name)
-    ? "cwd"
-    : (_id
-    ? _id
-    : name
-        .split(/plugin-|theme-|@factor/gi)
-        .pop()
-        .replace(/\//gi, "")
-        .replace(/-([a-z])/g, g => g[1].toUpperCase()))
+  let __
+  if (isCWD(name)) {
+    __ = "cwd"
+  } else if (_id) {
+    __ = _id
+  } else {
+    __ = name
+      .split(/plugin-|theme-|@factor/gi)
+      .pop()
+      .replace(/\//gi, "")
+      .replace(/-([a-z])/g, g => g[1].toUpperCase())
+  }
 
   // Add file specific ID to end
   if (file && parse(file).name != parse(main).name) {

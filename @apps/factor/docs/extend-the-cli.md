@@ -1,34 +1,27 @@
 # Extending the CLI
 
-If you're familiar with Factor's [filters system](./factor-framework#pluginjs-and-filters-system), then it's simple to add custom CLI commands for users of your app or extension.
+If you're familiar with Factor's [filters system](./filters-callbacks-events), then it's simple to add custom CLI commands for users of your app or extension.
 
-Some use cases for this might be generating backup files, data downloads, creating deployment helpers, etc. Let's walk through how it's done.
+Use cases for this might be generating backup files, data downloads, creating deployment helpers, etc.
 
 ## Add A Custom Command
 
 To add a custom CLI command, you just need to add a special filter using the `cli-run-` prefix on the filter ID.
 
-The special custom CLI command filter is provided two special arguments:
+In this filter you'll get an argument that includes all the user's arguments and other information from the CLI.
 
-`program` - is the arguments and values from [Commander JS](https://github.com/tj/commander.js)
-
-`inquirer` - is an instance of the [Inquirer CLI utility](https://github.com/SBoudrias/Inquirer.js)
-
-The program argument is designed to pass along all the user's arguments and other information from the CLI.
-
-The inquirer instance is useful to help create a dynamic interface for getting additional information from your user in an intuitive way. E.g. a file name or an option value.
-
-> Tip: Using inquirer instead of simple CLI options means that users won't have to do guesswork.
+> Tip: We recommend using the [Inquirer CLI utility](https://github.com/SBoudrias/Inquirer.js) for CLI inputs from users
 
 Example:
 
 ```javascript
 // index.js
 import { addCallback } from "@factor/tools"
+import inquirer from "inquirer" // https://github.com/SBoudrias/Inquirer.js
 
 addCallback("cli-run-database-import", args => databaseImport(args))
 
-export async function databaseImport({program, inquirer}){
+export async function databaseImport(){
   const questions = [
     {
       name: "file",
@@ -54,26 +47,9 @@ export async function databaseImport({program, inquirer}){
 
 Many extensions require unique information from users. For example, API keys or user information for interfacing with an external service.
 
-Setting this up can be a painful experience for end-users. Factor's setup utility is designed to solve this problem. It helps guide users and prevents the guesswork around what is needed and how exactly to set it up.
+Setting config can be painful for end-users and the setup utility is designed to make it easy by reducing guesswork.
 
-To add a custom command, all that is needed a filter. When a user selects your option, you will be provided the [Commander](https://www.npmjs.com/package/commander) program and [Inquirer utility](https://www.npmjs.com/package/inquirer) to work with.
-
-Using those tools, gather the information you need from your user.
-
-To write to the app's private or public config, use `writeConfig` as follows:
-
-```js
-import { writeConfig } from "@factor/cli/setup"
-// PRIVATE CONFIG: .env
-await writeConfig(".env", {
-  SOME_PRIVATE_SETTING: "VALUE"
-})
-
-// PUBLIC CONFIG: factor-config.json
-await writeConfig("factor-config", {
-  some_setting: "value"
-})
-```
+To add a custom command, all that is needed a filter.
 
 ### Example
 
@@ -81,15 +57,13 @@ await writeConfig("factor-config", {
 // server.js
 import { writeConfig } from "@factor/cli/setup"
 import { pushToFilter } from "@factor/tools"
+import inquirer from "inquirer" // https://github.com/SBoudrias/Inquirer.js
+
 pushToFilter("cli-add-setup", ({ privateConfig }) => {
   return {
-    // Name of selection
     name: "DB Connection - Add/edit the connection string for MongoDB",
-    // Value if selected
     value: "db",
-    // What happens if user selects your setup option
-    // provided both the CLI program (commander) and Inquirer utilities
-    callback: async ({ program, inquirer }) => {
+    callback: async program => {
       const questions = [
         {
           name: "connection",
@@ -104,5 +78,22 @@ pushToFilter("cli-add-setup", ({ privateConfig }) => {
       await writeConfig(".env", { DB_CONNECTION: connection })
     }
   }
+})
+```
+
+### Writing Config
+
+As in the example above, to write to the app's private or public config, use `writeConfig` as follows:
+
+```js
+import { writeConfig } from "@factor/cli/setup"
+// PRIVATE CONFIG: .env
+await writeConfig(".env", {
+  SOME_PRIVATE_SETTING: "VALUE"
+})
+
+// PUBLIC CONFIG: factor-config.json
+await writeConfig("factor-config", {
+  some_setting: "value"
 })
 ```

@@ -13,7 +13,15 @@ export function sortPriority(arr) {
     const ap = a.priority || 100
     const bp = b.priority || 100
 
-    return ap < bp ? -1 : (ap > bp ? 1 : 0)
+    let result = 0
+
+    if (ap < bp) {
+      result = -1
+    } else if (ap > bp) {
+      result = 1
+    }
+
+    return result
   })
 }
 

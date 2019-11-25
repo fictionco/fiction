@@ -31,7 +31,7 @@ import {
   dashboardGridFilter,
   dashboardGridActions
 } from "@factor/dashboard"
-import { getStatusCount, requestPostById } from "@factor/post"
+import { getStatusCount, requestPostSingle } from "@factor/post"
 import { toLabel, stored, getPermalink } from "@factor/tools"
 export default {
   components: { dashboardGridControls, dashboardGridFilter, dashboardGridActions },
@@ -89,7 +89,7 @@ export default {
     // TODO: Fix - Manually populate comments
     this.comments = await Promise.all(
       this.post.commentizerComments.map(async id => {
-        return await requestPostById({ postType: "commentizer", _id: id })
+        return await requestPostSingle({ postType: "commentizer", _id: id })
       })
     )
   },

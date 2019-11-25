@@ -1,17 +1,15 @@
 import dotenv from "dotenv"
 import { runCallbacks, addCallback } from "@factor/tools"
 import aliasRequire from "./alias-require"
-import transpiler from "./transpile"
+import transpile from "./transpile"
 import { resolve } from "path"
 import commander from "commander"
 import log from "@factor/tools/logger"
-export async function factorize(_arguments = {}) {
-  const { parent = {}, ...rest } = _arguments
-  const _config = { ...parent, ...rest }
 
+export async function factorize(_config = {}) {
   // Do this for every reset of server
   setEnvironment(_config)
-  transpiler()
+  transpile()
   aliasRequire()
 
   await extendServer(_config)
@@ -21,8 +19,16 @@ export async function factorize(_arguments = {}) {
   addCallback("rebuild-server-app", () => reloadNodeProcess(_config))
 }
 
-export function setEnvironment(_arguments) {
-  const { NODE_ENV, command, ENV, PORT, debug } = _arguments || {}
+interface setEnvironment {
+  NODE_ENV?: string
+  command?: string
+  ENV?: string
+  PORT?: string
+  debug?: boolean
+}
+
+export function setEnvironment(_arguments: setEnvironment = {}) {
+  const { NODE_ENV, command, ENV, PORT, debug } = _arguments
 
   process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
   process.env.NODE_ENV = NODE_ENV || ""
@@ -31,7 +37,7 @@ export function setEnvironment(_arguments) {
 
   process.env.FACTOR_COMMAND = command || commander._name || "none"
   process.env.FACTOR_TARGET = "server"
-  process.env.PORT = PORT || process.env.PORT || 3000
+  process.env.PORT = PORT || process.env.PORT || "3000"
   dotenv.config({ path: resolve(process.env.FACTOR_CWD, ".env") })
 }
 

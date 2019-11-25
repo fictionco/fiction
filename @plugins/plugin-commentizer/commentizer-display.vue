@@ -16,7 +16,7 @@
 
 <script>
 import { isEmpty, setting, stored } from "@factor/tools"
-import { requestPostById } from "@factor/post"
+import { requestPostSingle } from "@factor/post"
 export default {
   props: {
     postId: { type: String, required: true }
@@ -39,7 +39,7 @@ export default {
     // TODO: Fix - Manually populate comments
     this.comments = await Promise.all(
       this.post.commentizerComments.map(async id => {
-        return await requestPostById({ postType: "commentizer", _id: id })
+        return await requestPostSingle({ postType: "commentizer", _id: id })
       })
     )
   },

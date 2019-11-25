@@ -30,11 +30,12 @@ module.exports = {
   transformIgnorePatterns: ["node_modules/(?!(@factor|factor))"],
 
   transform: {
+    "^.+\\.ts$": "ts-jest",
     "^.+\\.js$": "babel-jest",
     "^.+\\.vue$": "vue-jest"
   },
 
-  moduleFileExtensions: ["js", "json", "vue"],
+  moduleFileExtensions: ["js", "ts", "json", "vue"],
 
   coverageDirectory: "./coverage",
 

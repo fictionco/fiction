@@ -2,7 +2,7 @@ import { getModel } from "@factor/post/server"
 import { SitemapStream, streamToPromise } from "sitemap"
 import { uniq, addFilter, applyFilters, getPermalink, log } from "@factor/tools"
 import { createGzip } from "zlib"
-import { currentUrl } from "@factor/tools/permalink"
+import { currentUrl } from "@factor/tools/url"
 let sitemap
 
 addFilter("middleware", _ => {
@@ -76,12 +76,13 @@ function getRoutesRecursively(routes, parent = false) {
     .filter(_ => _.path !== "*")
     .forEach(_ => {
       if (_.path) {
-        const _p =
-          parent && !_.path.startsWith("/")
-            ? `${parent}/${_.path}`
-            : (parent && _.path == "/"
-            ? parent
-            : _.path)
+        let _p = _.path
+
+        if (parent && !_.path.startsWith("/")) {
+          _p = `${parent}/${_.path}`
+        } else if (parent && _.path == "/") {
+          _p = parent
+        }
 
         out.push(_p)
       }

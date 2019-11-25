@@ -9,6 +9,7 @@
     "strict": false,
     "esModuleInterop": true,
     "baseUrl": ".",
+    "sourceMap": true,
     "paths": {
       "__CWD__/*": ["test/modules/alias/*"],
       "__SRC__/*": ["test/modules/alias/*"],

@@ -30,11 +30,40 @@ addPostType({
 })
 ```
 
-This globally registers your post type and allows you to set UI information that the dashboard and your components will use to display these posts.
+This registers your post type and provides everything needed to add it to the dashboard.
 
-Note that you haven't designated any type of schema for the post type, by default post types use the base `post` schema shared by all posts through the system.
+## Using Posts in Components
 
-Next we'll talk about adding new fields to your custom post type by extending the base schema.
+Once you've defined your post type, you should be able to add and manage posts in your dashboard.
+
+There are a couple ways to get and work with posts in your components:
+
+### Permalink Parameter
+
+If your route contains a `:permalink` parameter, then Factor will automatically retrieve and provide the post information in the store with the `post` key.
+
+```js
+import { stored } from "@factor/tools"
+export default {
+  computed: {
+    post() {
+      return stored("post")
+    }
+  }
+}
+```
+
+### Post Functions
+
+There are several post request functions available. With these you should be able to accomplish most common CRUD operations:
+
+- `requestPostSingle` - Get or create a new single post by `_id` or permalink
+- `requestPostIndex` - Get post index along with meta info
+- `requestPostList` - Get list of posts by condition
+- `requestPostSave` - Save a single post
+- `requestPostSaveMany` - Save many posts at once
+- `requestPostDeleteMany` - Delete one or many posts
+- `requestPostPopulate` - Populate referenced `_ids` in a post
 
 ## Extending the Base Schema
 

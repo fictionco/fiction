@@ -60,11 +60,15 @@ export default Vue.extend({
         loading: this.loading
       }
 
-      const btnElement = this.btnElement
-        ? this.btnElement
-        : (this.$route.path.includes("dashboard")
-        ? factorBtnDashboard
-        : factorBtn)
+      let btnElement
+
+      if (this.btnElement) {
+        btnElement = this.btnElement
+      } else if (this.$route.path.includes("dashboard")) {
+        btnElement = factorBtnDashboard
+      } else {
+        btnElement = factorBtn
+      }
 
       text = createElement(
         btnElement,

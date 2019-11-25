@@ -1,15 +1,14 @@
+import { buildProductionApp } from "@factor/build/webpack-config"
+import { currentUrl } from "@factor/tools/url"
 import { generateLoaders } from "@factor/cli/extension-loader"
-import { currentUrl } from "@factor/tools/permalink"
 import * as tools from "@factor/tools"
-
 import commander from "commander"
-import inquirer from "inquirer"
 import log from "@factor/tools/logger"
 
 import { factorize, setEnvironment } from "./factorize"
 import { verifyDependencies } from "./task-runner"
+
 import pkg from "./package.json"
-import { buildProductionApp } from "@factor/build/webpack-config"
 
 // @ts-ignore
 process.noDeprecation = true
@@ -75,10 +74,18 @@ commander
 
 commander.parse(process.argv)
 
-export async function runCommand(options = {}) {
+interface commandOptions {
+  command: string
+  _arguments: any
+  filter?: string
+  install?: boolean
+  NODE_ENV?: string
+}
+
+export async function runCommand(options: commandOptions) {
   const {
     command,
-    _arguments = {},
+    _arguments,
     filter,
     install = true,
     NODE_ENV = command == "dev" ? "development" : "production"
@@ -86,15 +93,17 @@ export async function runCommand(options = {}) {
 
   if (install) await verifyDependencies()
 
-  await factorize({ NODE_ENV, command, filter, ..._arguments })
+  const { parent = {}, ...rest } = _arguments
+
+  await factorize({ NODE_ENV, command, filter, ...parent, ...rest })
 
   try {
     if (["build", "start"].includes(command)) {
       await buildProductionApp(_arguments)
     } else if (command == "setup") {
-      await tools.runCallbacks(`cli-setup`, { inquirer, ..._arguments })
+      await tools.runCallbacks(`cli-setup`, _arguments)
     } else if (command == "run") {
-      await tools.runCallbacks(`cli-run-${filter}`, { inquirer, ..._arguments })
+      await tools.runCallbacks(`cli-run-${filter}`, _arguments)
 
       log.success(`Successfully ran "${filter}"\n\n`)
     }

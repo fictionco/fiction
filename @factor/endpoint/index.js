@@ -1,6 +1,6 @@
 import { emitEvent } from "@factor/tools/events"
 import { isNode } from "@factor/tools/external"
-import { localhostUrl } from "@factor/tools/permalink"
+import { localhostUrl } from "@factor/tools/url"
 import { userToken, handleTokenError } from "@factor/user/token"
 import axios from "axios"
 

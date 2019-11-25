@@ -2,23 +2,35 @@
 
 ![Factor Logo](./img/factor-logo-2.svg)
 
-**Factor** is a web application platform built on the VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)).
+**Factor** is an open-source web application platform built on the 100% Javasciprt VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)).
 
-Its purpose is to help you ship apps as quickly by reducing the amount of time spent reinventing the wheel and reducing the amount of time associated with creating your own application stack.
+Factor is focused on front-end Javascript developers who want to build dynamic, full-stack applications.
 
-## Who Should Consider Factor
+Factor is designed to help developers:
 
-The goal of Factor is to help front-end Javascript developers ship web apps they can be proud of.
+- ship apps as quickly
+- implement projects more concisely
+- spend less time debugging
+- avoid pitfalls
 
-If you work with Javascript and spend lots of time doing rewrites, dealing with bugs and worrying about vendor lock-in then Factor is likely built for you.
+## Core Idea
 
-The primary goals of Factor are:
+Factor is extension-focused, and the architecture it's built on was created with this in mind.
 
-- Minimize frustration when building apps
-- Save people time with extensions that work
-- Build with open-source (no API lock-in)
+Factor includes the following components:
 
-## Next Steps
+- CLI and Build System
+- Express Server and Framework
+- VueJS Orchestration (router, store, ssr)
+- Standardized dashboard and data-model
+
+While this means Factor has an opinion on these things, it comes with one important benefit:
+
+Plugins and themes know what to expect.
+
+And this allows authors to do more for you. Essentially they can create an experience that "just works" while in other frameworks you could spend days in debugging and config.
+
+## Getting Started
 
 We'll dive into the details of the dashboard, data model, plugins, themes and framework in a bit.
 

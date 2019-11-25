@@ -1,8 +1,31 @@
-import { slugify } from "@factor/tools/utils"
+import { slugify, toLabel } from "@factor/tools/utils"
 import { stored } from "@factor/app/store"
-import { setting } from "@factor/tools/settings"
 import { getPostTypeConfig } from "@factor/tools/post-types"
-import { default as log } from "@factor/tools/logger"
+import { emitEvent } from "@factor/tools/events"
+import { requestPostSingle } from "@factor/post/request"
+import { currentUrl } from "@factor/tools/url"
+
+// Verify a permalink is unique,
+// If not unique, then add number and recursively verify the new one
+export async function requestPermalinkVerify({ permalink, id, field = "permalink" }) {
+  const post = await requestPostSingle({ permalink, field })
+
+  if (post && post.id != id) {
+    emitEvent("notify", `${toLabel(field)} "${permalink}" already exists.`)
+    let num = 1
+
+    var matches = permalink.match(/\d+$/)
+
+    if (matches) num = parseInt(matches[0]) + 1
+
+    permalink = await requestPermalinkVerify({
+      permalink: `${permalink.replace(/\d+$/, "")}${num}`,
+      id
+    })
+  }
+  return permalink
+}
+
 export function getPermalink(args = {}) {
   const { postType, permalink = "", root = false, path = false } = args
   const parts = []
@@ -34,23 +57,4 @@ export function postLink(_id, options = {}) {
   if (!post) return
 
   return getPermalink({ ...post, ...options })
-}
-
-export function currentUrl() {
-  if (process.env.NODE_ENV == "development" || process.env.FACTOR_ENV == "test")
-    return localhostUrl()
-  else {
-    if (setting("app.url")) return setting("app.url")
-    else if (setting("url")) return setting("url")
-    else {
-      log.warn("URL Missing. Set application URL in Factor settings.")
-      return "https://url-needed-in-config"
-    }
-  }
-}
-
-export function localhostUrl() {
-  const port = process.env.PORT || 7777
-  const routine = process.env.HTTP_PROTOCOL || "http"
-  return `${routine}://localhost:${port}`
 }

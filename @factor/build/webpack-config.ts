@@ -18,7 +18,13 @@ import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { configSettings } from "@factor/tools/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
 
-export async function generateBundles(options = {}) {
+interface webpackConfigOptions {
+  config?: Object
+  beforeCompile?: (_arguments: any) => {}
+  afterCompile?: (_arguments: any) => {}
+}
+
+export async function generateBundles(options: webpackConfigOptions = {}) {
   generateLoaders()
 
   await Promise.all(
@@ -162,12 +168,13 @@ async function base(_arguments) {
       filename: "js/[name].[hash:5].js"
     },
     resolve: {
-      extensions: [".js", ".vue", ".json"],
+      extensions: [".js", ".vue", ".json", ".ts"],
       alias: applyFilters("webpack-aliases", {})
     },
     module: {
       rules: applyFilters("webpack-loaders", [
         { test: /\.vue$/, loader: "vue-loader" },
+        { test: /\.ts$/, loader: "ts-loader", options: { transpileOnly: true } },
         {
           test: /\.(png|jpg|gif|svg|mov|mp4)$/,
           loader: "file-loader",

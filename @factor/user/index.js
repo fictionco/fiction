@@ -1,5 +1,5 @@
 import { endpointRequest } from "@factor/endpoint"
-import { requestPostSingle, requestPostsPopulate } from "@factor/post"
+import { requestPostSingle, requestPostPopulate } from "@factor/post"
 import { userToken, handleTokenError } from "./token"
 import {
   isEmpty,
@@ -65,7 +65,12 @@ async function requestInitializeUser(user) {
 }
 
 async function retrieveAndSetCurrentUser(user) {
-  const token = user && user.token ? user.token : (userToken() ? userToken() : null)
+  let token = null
+  if (user && user.token) {
+    token = user.Token
+  } else if (userToken()) {
+    token = userToken()
+  }
 
   try {
     user = token ? await requestPostSingle({ token }) : {}
@@ -111,7 +116,7 @@ export async function authenticate(params) {
   await runCallbacks("authenticated", user)
 
   if (user && user.token) {
-    requestPostsPopulate({ posts: [user] })
+    requestPostPopulate({ posts: [user] })
     setUser({ user, token: user.token, current: true })
   }
 
