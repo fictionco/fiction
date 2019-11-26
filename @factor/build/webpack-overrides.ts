@@ -38,12 +38,17 @@ addFilter("webpack-plugins", _ => {
 
 // Server utils sometimes aren't compatible with webpack
 // Replace with polyfill if a
-export function browserReplaceModule(resource) {
+export function browserReplaceModule(resource): webpack.Externals {
   const resolvedFile = require.resolve(resource.request, { paths: [resource.context] })
   const resolvedDirectory = dirname(resolvedFile)
-  const filename = basename(resolvedFile, ".js")
+  const filename = basename(resolvedFile)
 
-  const clientUtil = _fileExists(`${resolvedDirectory}/${filename}-browser`)
+  const filenameRoot = filename
+    .split(".")
+    .slice(0, -1)
+    .join(".")
+
+  const clientUtil = _fileExists(`${resolvedDirectory}/${filenameRoot}-browser`)
 
   if (clientUtil) resource.request = clientUtil
 
@@ -71,7 +76,9 @@ export function overrideOperator(resource) {
     }
 
     if (!filePath) {
-      const relPath = _fileExists(resource.request.replace("__FALLBACK__", resource.context))
+      const relPath = _fileExists(
+        resource.request.replace("__FALLBACK__", resource.context)
+      )
 
       const fallbackPath = _fileExists(
         resource.request.replace("__FALLBACK__", getPath("coreApp"))

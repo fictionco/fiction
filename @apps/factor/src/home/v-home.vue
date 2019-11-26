@@ -4,10 +4,12 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Javascript Platform
-            <span class="highlight">for Professional Web Developers</span>
+            The Full-Stack Application Platform
+            <span
+              class="highlight"
+            >for Professional Javascript Developers</span>
           </h1>
-          <h3 class="page-title-sub">Coding, just the fun parts.</h3>
+          <h3 class="page-title-sub">Create blogs, websites, and dynamic applications in minutes</h3>
 
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
