@@ -2,9 +2,10 @@ import { toLabel } from "@factor/tools"
 
 export const endpointId = "pluginData"
 
-export function titleFromPackage({ pkg = {}, _id = "" }) {
-  if (pkg.factor && pkg.factor.title) {
-    return pkg.factor.title
+export function titleFromPackage({ pkg, _id = "" }): string {
+  const { factor: { title = "" } = {} } = pkg
+  if (title) {
+    return title
   } else {
     const name = _id
     const base = name.slice(name.lastIndexOf("/") + 1)
@@ -13,7 +14,7 @@ export function titleFromPackage({ pkg = {}, _id = "" }) {
   }
 }
 
-export function formatDownloads(number) {
+export function formatDownloads(number: number): string {
   const num = number
   return num.toLocaleString("en", { useGrouping: true })
 }

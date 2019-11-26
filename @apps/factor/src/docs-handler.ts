@@ -4,7 +4,7 @@ export function config() {
   return normalize(setting("docs.pages"))
 }
 
-export async function getMarkdownHTML(slug) {
+export async function getMarkdownHTML(slug: string): Promise<string> {
   const { file } = selected(slug) || {}
 
   let html = ""
@@ -21,7 +21,7 @@ export function selected(slug) {
   return config().find(_ => (slug ? _.slug == slug : _.root))
 }
 
-export function metatags(slug) {
+export function metatags(slug: string) {
   const { title, description } = selected(slug) || {}
 
   return { title, description }

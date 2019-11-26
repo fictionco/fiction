@@ -36,9 +36,10 @@
                       by
                       {{ getAuthors(item) }}
                     </div>
-                    <div v-if="ite.downloads" class="downloads">
-                      {{ formatDownloads(ite.downloads) }} downloads
-                    </div>
+                    <div
+                      v-if="ite.downloads"
+                      class="downloads"
+                    >{{ formatDownloads(ite.downloads) }} downloads</div>
                   </div>
                 </div>
               </factor-link>
@@ -71,9 +72,10 @@
                     {{ getAuthors(item) }}
                   </div>
 
-                  <div v-if="item.downloads" class="downloads">
-                    {{ formatDownloads(item.downloads) }} downloads
-                  </div>
+                  <div
+                    v-if="item.downloads"
+                    class="downloads"
+                  >{{ formatDownloads(item.downloads) }} downloads</div>
                 </div>
               </div>
             </factor-link>
@@ -89,7 +91,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
   titleFromPackage,
   formatDownloads,
@@ -99,7 +101,8 @@ import {
 } from "./util"
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
 import { factorLoadingRing, factorLink } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorLoadingRing,
     factorLink,
@@ -111,9 +114,9 @@ export default {
       loading: true
     }
   },
-  // async serverPrefetch() {
-  //   return await requestExtensionIndex("themes")
-  // },
+  async serverPrefetch() {
+    return await requestExtensionIndex({ type: "themes" })
+  },
   computed: {
     extensionFeatured() {
       return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
@@ -124,7 +127,7 @@ export default {
   },
   async mounted() {
     if (this.extensionIndex.length == 0) {
-      await requestExtensionIndex("themes")
+      await requestExtensionIndex({ type: "themes" })
     }
 
     this.loading = false
@@ -144,7 +147,7 @@ export default {
       description: "Themes and Starter Apps for Factor"
     }
   }
-}
+})
 </script>
 <style lang="less">
 .themes-container {

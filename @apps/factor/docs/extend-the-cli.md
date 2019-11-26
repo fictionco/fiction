@@ -59,7 +59,7 @@ import { writeConfig } from "@factor/cli/setup"
 import { pushToFilter } from "@factor/tools"
 import inquirer from "inquirer" // https://github.com/SBoudrias/Inquirer.js
 
-pushToFilter("cli-add-setup", ({ privateConfig }) => {
+pushToFilter("cli-add-setup", () => {
   return {
     name: "DB Connection - Add/edit the connection string for MongoDB",
     value: "db",
@@ -69,7 +69,7 @@ pushToFilter("cli-add-setup", ({ privateConfig }) => {
           name: "connection",
           message: "What's your MongoDB connection string? (mongodb://...)",
           type: "input",
-          default: privateConfig.DB_CONNECTION
+          default: process.env.DB_CONNECTION
         }
       ]
 

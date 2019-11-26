@@ -10,6 +10,7 @@ module.exports = {
   parserOptions: {
     sourceType: "module",
     parser: "@typescript-eslint/parser"
+    // parser: "babel-eslint"
   },
   env: {
     browser: true,

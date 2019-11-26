@@ -11,6 +11,7 @@ addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 
 export async function getIndex({ type = "plugins" }) {
   const list = extensions[type]
+
   return await Promise.all(list.map(async extension => getSingle(extension)))
 }
 
@@ -59,10 +60,9 @@ export async function getSingle(params) {
 
   delete item.versions
 
-  const HOUR = 1000 * 60 * 60
-  cache.put(name, item, HOUR)
+  const FOUR_HOUR = 1000 * 60 * 60 * 4
+  cache.put(name, item, FOUR_HOUR)
 
-  //test
   return item
 }
 

@@ -12,4 +12,5 @@ interface Window {
   __INITIAL_STATE__: any;
   factorReady: boolean;
   factorApp: Record<string, any>;
+  Prism: any;
 }

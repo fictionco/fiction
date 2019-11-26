@@ -12,9 +12,10 @@
               {{ getAuthors(item) }}
             </div>
 
-            <div v-if="item.downloads" class="downloads">
-              {{ formatDownloads(item.downloads) }} downloads
-            </div>
+            <div
+              v-if="item.downloads"
+              class="downloads"
+            >{{ formatDownloads(item.downloads) }} downloads</div>
           </div>
         </widget-header>
 
@@ -27,17 +28,8 @@
             />
 
             <div v-if="item" class="theme-images">
-              <div
-                v-for="(url, _i) in screenshotsList(item)"
-                :key="_i"
-                class="image-item"
-              >
-                <img
-                  :src="url"
-                  class="image-item-content"
-                  alt="theme image"
-                  @click="showModal(i)"
-                />
+              <div v-for="(url, _i) in screenshotsList(item)" :key="_i" class="image-item">
+                <img :src="url" class="image-item-content" alt="theme image" @click="showModal(i)" />
               </div>
             </div>
 
@@ -62,7 +54,7 @@
     <widget-cta />
   </div>
 </template>
-<script>
+<script lang="ts">
 import {
   titleFromPackage,
   formatDownloads,
@@ -79,7 +71,9 @@ import {
 } from "./extension-request"
 import { factorLoadingRing, factorLink } from "@factor/ui"
 import { setting, renderMarkdown, standardDate } from "@factor/tools"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: {
     factorLoadingRing,
     factorLink,
@@ -95,10 +89,12 @@ export default {
     }
   },
   async serverPrefetch() {
-    return Promise.all([
-      requestExtensionIndex("themes"),
+    await Promise.all([
+      requestExtensionIndex({ type: "themes" }),
       requestExtensionSingle(this.packageName)
     ])
+
+    return
   },
   computed: {
     packageName() {
@@ -144,7 +140,7 @@ export default {
       description: "Extend your project features and do more with Factor."
     }
   }
-}
+})
 </script>
 
 <style lang="less">

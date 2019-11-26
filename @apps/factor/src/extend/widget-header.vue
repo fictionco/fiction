@@ -18,13 +18,14 @@
     </div>
   </section>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
   props: {
     image: { type: String, default: "" },
     title: { type: String, default: "", required: true }
   }
-}
+})
 </script>
 <style lang="less">
 .plugins-widget-header {

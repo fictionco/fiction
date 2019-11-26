@@ -18,12 +18,14 @@ export function createRouter() {
     mode: "history",
     routes,
     scrollBehavior: (to, from, saved) => {
-      const position = { x: 0, y: 0, selector: null }
+      const position = { x: 0, y: 0 }
 
       if (to.hash) {
         return { ...position, selector: to.hash }
       } else if (saved) {
         return { ...position, ...saved }
+      } else {
+        return position
       }
     },
     parseQuery: query => qs.parse(query),

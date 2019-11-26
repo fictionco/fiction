@@ -35,9 +35,10 @@
                 <p v-if="item.description" class="text">{{ item.description }}</p>
               </div>
               <div class="entry-footer">
-                <div v-if="item.downloads" class="downloads">
-                  &darr; {{ formatDownloads(item.downloads) }} downloads
-                </div>
+                <div
+                  v-if="item.downloads"
+                  class="downloads"
+                >&darr; {{ formatDownloads(item.downloads) }} downloads</div>
               </div>
             </factor-link>
           </div>
@@ -77,7 +78,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
   titleFromPackage,
   formatDownloads,
@@ -87,8 +88,9 @@ import {
 } from "./util"
 import { factorLoadingRing, factorLink } from "@factor/ui"
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
+import Vue from "vue"
 
-export default {
+export default Vue.extend({
   components: {
     "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue"),
@@ -101,9 +103,9 @@ export default {
       getData: ""
     }
   },
-  // async serverPrefetch() {
-  //   return await getIndex({type: "plugins"})
-  // },
+  async serverPrefetch() {
+    return await requestExtensionIndex({ type: "plugins" })
+  },
   computed: {
     extensionFeatured() {
       return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
@@ -114,7 +116,8 @@ export default {
   },
   async mounted() {
     if (this.extensionIndex.length == 0) {
-      await requestExtensionIndex()
+  
+      await requestExtensionIndex({ type: "plugins" })
     }
 
     this.loading = false
@@ -132,7 +135,7 @@ export default {
       description: "Add advanced features to your app in seconds."
     }
   }
-}
+})
 </script>
 <style lang="less">
 .plugins-container {

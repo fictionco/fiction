@@ -33,11 +33,7 @@
             />
 
             <div class="plugin-images">
-              <div
-                v-for="(url, _i) in screenshotsList(item)"
-                :key="_i"
-                class="image-item"
-              >
+              <div v-for="(url, _i) in screenshotsList(item)" :key="_i" class="image-item">
                 <div
                   :style="{ backgroundImage: `url(${url})` }"
                   class="image-item-content"
@@ -57,7 +53,8 @@
     <widget-cta />
   </div>
 </template>
-<script>
+<script lang="ts">
+
 import {
   titleFromPackage,
   formatDownloads,
@@ -74,8 +71,9 @@ import {
 } from "./extension-request"
 import { factorLoadingRing, factorLink } from "@factor/ui"
 import { setting, renderMarkdown } from "@factor/tools"
+import Vue from "vue"
 
-export default {
+export default Vue.extend({
   components: {
     factorLoadingRing,
     factorLink,
@@ -92,9 +90,9 @@ export default {
       lightboxIndex: 0
     }
   },
-  serverPrefetch() {
-    return Promise.all([
-      requestExtensionIndex(),
+  async serverPrefetch() {
+    await Promise.all([
+      requestExtensionIndex({ type: "plugin" }),
       requestExtensionSingle(this.packageName)
     ])
   },
@@ -151,7 +149,7 @@ export default {
       //image: this.$post.shareImage(this.entry._id)
     }
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -24,7 +24,6 @@
     "**/prism.js",
     "**/iconfont.js",
     "**/.ref",
-    "**/*.vue",
     "node_modules"
   ]
 }

@@ -18,9 +18,10 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="item.downloads" class="downloads">
-                {{ formatDownloads(item.downloads) }} downloads
-              </div>
+              <div
+                v-if="item.downloads"
+                class="downloads"
+              >{{ formatDownloads(item.downloads) }} downloads</div>
             </div>
           </div>
         </factor-link>
@@ -79,7 +80,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import {
   titleFromPackage,
   formatDownloads,
@@ -111,14 +112,14 @@ export default Vue.extend({
     pluginsNew() {
       const getNew = [].slice
         .call(this.extensionIndex)
-        .sort((a, b) => new Date(b.time.created) - new Date(a.time.created))
+        .sort((a, b) => b.time.created - a.time.created)
 
       return getNew.slice(0, this.num)
     },
     pluginsRecentlyUpdated() {
       const getRecentlyUpdated = [].slice
         .call(this.extensionIndex)
-        .sort((a, b) => new Date(b.time.modified) - new Date(a.time.modified))
+        .sort((a, b) => b.time.modified - a.time.modified)
 
       return getRecentlyUpdated.slice(0, this.num)
     }
