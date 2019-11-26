@@ -1,4 +1,4 @@
-import Vuex, { Store } from "vuex"
+import Vuex from "vuex"
 import Vue from "vue"
 
 Vue.use(Vuex)

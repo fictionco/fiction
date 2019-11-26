@@ -2,9 +2,14 @@ import { emitEvent } from "@factor/tools/events"
 import { isNode } from "@factor/tools/external"
 import { localhostUrl } from "@factor/tools/url"
 import { userToken, handleTokenError } from "@factor/user/token"
-import axios from "axios"
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 
-export async function endpointRequest({ id, method, params = {}, headers = {} }) {
+export async function endpointRequest({
+  id,
+  method,
+  params = {},
+  headers = {}
+}): Promise<any> {
   try {
     if (!method) {
       throw new Error(`Endpoint request to "${id}" requires a method.`)
@@ -30,11 +35,15 @@ export async function endpointRequest({ id, method, params = {}, headers = {} })
   }
 }
 
-export function endpointPath(_id) {
+export function endpointPath(_id): string {
   return `/_api_/${_id}`
 }
 
-export async function authorizedRequest(path, data, options = {}) {
+export async function authorizedRequest(
+  path,
+  data,
+  options: AxiosRequestConfig = {}
+): Promise<AxiosResponse> {
   const { headers = {} } = options
 
   options.headers = { Authorization: bearerToken(), ...headers }
@@ -46,6 +55,6 @@ export async function authorizedRequest(path, data, options = {}) {
   return await axios.post(path, data, options)
 }
 
-export function bearerToken() {
+export function bearerToken(): string {
   return `Bearer ${userToken()}`
 }

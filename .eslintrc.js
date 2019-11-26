@@ -10,7 +10,7 @@ module.exports = {
   parserOptions: {
     sourceType: "module",
     parser: "@typescript-eslint/parser"
-    // parser: "babel-eslint"
+    //  parser: "babel-eslint"
   },
   env: {
     browser: true,
@@ -66,8 +66,8 @@ module.exports = {
       // enable the rule specifically for TypeScript files
       files: ["*.ts", "*.tsx"],
       rules: {
-        "@typescript-eslint/explicit-function-return-type": ["error"],
-        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/explicit-function-return-type": ["warn"],
+        "@typescript-eslint/no-var-requires": "warn",
         "@typescript-eslint/ban-ts-ignore": "warn"
       }
     }

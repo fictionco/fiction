@@ -6,10 +6,18 @@ import { resolve } from "path"
 import commander from "commander"
 import log from "@factor/tools/logger"
 
-export async function factorize(_config = {}) {
+interface EnvironmentConfig {
+  NODE_ENV?: string;
+  command?: string;
+  ENV?: string;
+  PORT?: string;
+  debug?: boolean;
+  restart?: boolean;
+}
+export async function factorize(_config: EnvironmentConfig = {}): Promise<void> {
   // Do this for every reset of server
   setEnvironment(_config)
-  transpile()
+  if (!_config.restart) transpile()
   aliasRequire()
 
   await extendServer(_config)
@@ -19,15 +27,7 @@ export async function factorize(_config = {}) {
   addCallback("rebuild-server-app", () => reloadNodeProcess(_config))
 }
 
-interface setEnvironment {
-  NODE_ENV?: string
-  command?: string
-  ENV?: string
-  PORT?: string
-  debug?: boolean
-}
-
-export function setEnvironment(_arguments: setEnvironment = {}) {
+export function setEnvironment(_arguments: EnvironmentConfig = {}): void {
   const { NODE_ENV, command, ENV, PORT, debug } = _arguments
 
   process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
@@ -41,7 +41,7 @@ export function setEnvironment(_arguments: setEnvironment = {}) {
   dotenv.config({ path: resolve(process.env.FACTOR_CWD, ".env") })
 }
 
-export async function extendServer({ restart = false } = {}) {
+export async function extendServer({ restart = false } = {}): Promise<void> {
   try {
     await runCallbacks("before-server-plugins")
   } catch (error) {
@@ -58,7 +58,7 @@ export async function extendServer({ restart = false } = {}) {
 
 // Reloads all cached node files
 // Needed for server reloading
-async function reloadNodeProcess(_arguments) {
+async function reloadNodeProcess(_arguments): Promise<void> {
   Object.keys(require.cache).forEach(id => {
     if (/(@|\.)factor/.test(id)) {
       delete require.cache[id]

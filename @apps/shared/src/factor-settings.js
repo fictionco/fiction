@@ -25,13 +25,13 @@ export default {
         }
       },
       form: {
-        buttonText: "Request Invite &rarr;"
+        buttonText: "Join Developer Program &rarr;"
       }
     }
   },
 
   contactForm: {
-    email: "andrew@fiction.com",
+    email: "support@fiction.com",
     confirm: {
       title: "Got your message.",
       subTitle: "We'll take a look and be in touch as soon as possible."

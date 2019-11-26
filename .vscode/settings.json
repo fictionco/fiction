@@ -25,6 +25,10 @@
       "autoFix": true
     },
     {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
       "language": "html",
       "autoFix": true
     },
@@ -148,6 +152,7 @@
     "purgecss",
     "quickstart",
     "rgba",
+    "saofile",
     "scaleable",
     "signin",
     "slugify",

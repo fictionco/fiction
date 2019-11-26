@@ -47,9 +47,9 @@ function initializeModels() {
 
 // Set schemas and models
 // For server restarting we need to inherit from already constructed mdb models if they exist
-export function setModel(_config, baseModel) {
+export function setModel(schemaConfig, baseModel?: any) {
   const { Schema, modelSchemas, models, model } = mongoose
-  const { schema = {}, options = {}, callback, name } = _config
+  const { schema = {}, options = {}, callback, name } = schemaConfig
 
   let _model_
   let _schema_

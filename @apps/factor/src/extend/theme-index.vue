@@ -133,13 +133,11 @@ export default Vue.extend({
     this.loading = false
   },
   methods: {
-    methods: {
-      titleFromPackage,
-      formatDownloads,
-      extensionPermalink,
-      extensionScreenshot,
-      getAuthors
-    }
+    titleFromPackage,
+    formatDownloads,
+    extensionPermalink,
+    extensionScreenshot,
+    getAuthors
   },
   metaInfo() {
     return {

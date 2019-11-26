@@ -4,3 +4,4 @@ dist
 .factor
 coverage
 
+/**/*.d.ts

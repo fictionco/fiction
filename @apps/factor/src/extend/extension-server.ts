@@ -66,7 +66,7 @@ export async function getSingle(params) {
   return item
 }
 
-export async function latestPackageVersion(name) {
+export async function latestPackageVersion(name): Promise<string> {
   const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${name}`)
 
   if (data) {

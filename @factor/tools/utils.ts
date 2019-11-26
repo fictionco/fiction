@@ -3,12 +3,18 @@ import stopwordsLib from "./resource/stopwords"
 
 export * from "./utils-lodash"
 
-export function ensureTrailingSlash(path) {
+export function ensureTrailingSlash(path: string): string {
   path += path.endsWith("/") ? "" : "/"
   return path
 }
+
+interface PriorityItem {
+  priority?: number;
+  [key: string]: any;
+}
+
 // Sort objects in an array by a priority value that defaults to 100
-export function sortPriority(arr) {
+export function sortPriority(arr: PriorityItem[]): PriorityItem[] {
   if (!arr || arr.length == 0) return arr
 
   return arr.sort((a, b) => {
@@ -30,7 +36,7 @@ export function sortPriority(arr) {
 // Parse settings using dot notation
 // TODO unit test this
 // Cases: [port] [app.name] [roles.arpowers@gmail.com]
-export function dotSetting({ key, settings }) {
+export function dotSetting({ key, settings }: { key: string; settings: object }): any {
   const currentKey = key.slice(0, key.indexOf("."))
   const subKeys = key.slice(key.indexOf(".") + 1)
 
@@ -43,13 +49,13 @@ export function dotSetting({ key, settings }) {
   }
 }
 
-export function sortMerge(arr) {
+export function sortMerge(arr: PriorityItem[]): object {
   return deepMerge(sortPriority(arr))
 }
 
 // Deep merge an array of objects into a single object
 // Replaces arrays instead of concat
-export function deepMerge(items) {
+export function deepMerge(items: object[]): object {
   return deepMergeLib.all(
     items.filter(_ => _),
     {
@@ -58,43 +64,52 @@ export function deepMerge(items) {
   )
 }
 
+interface ListItem {
+  value?: string;
+  name?: string;
+  desc?: string;
+}
+
 // Parse to standard utility lists
 // Ideal for passing around config data and lists (inputs, etc.. )
-export function parseList(list = [], options = {}) {
+export function parseList(
+  list: ListItem[] = [],
+  options: { prefix?: string; suffix?: string } = {}
+): ListItem[] {
   const { prefix = "" } = options
   let { suffix = "" } = options
 
   if (!Array.isArray(list)) return []
 
-  const wrap = text => {
+  const wrap = (text): string => {
     const _ = []
     if (suffix) _.push(suffix)
     _.push(toLabel(text))
     if (prefix) _.push(prefix)
     return _.join(" ")
   }
+
   suffix = suffix ? " " + suffix : ""
 
-  return list.map(_ => {
+  const normalized = list.map(_ => {
     if (typeof _ == "string" || typeof _ == "number") {
       return {
         value: _,
         name: wrap(_),
         desc: ""
       }
-    } else if (typeof _ == "object") {
+    } else {
       const { name, value } = _
       if (!name && value) _.name = wrap(_)
       else if (typeof value == "undefined" && name) _.value = slugify(name)
       return _
-    } else {
-      return false
     }
   })
+  return normalized
 }
 
 // Converts regular space delimited text into a hyphenated slug
-export function slugify(text) {
+export function slugify(text): string {
   if (!text) return text
 
   return text
@@ -109,7 +124,7 @@ export function slugify(text) {
 }
 
 // Coverts a slug or variable into a title-like string
-export function toLabel(str) {
+export function toLabel(str): string {
   if (!str || typeof str !== "string") return str
 
   const label = camelToKebab(str)
@@ -120,12 +135,12 @@ export function toLabel(str) {
 }
 
 // Convert camel-case to kebab-case
-export function camelToKebab(string) {
+export function camelToKebab(string: string): string {
   return !string ? string : string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 }
 
 // Make stop words lower case in a title
-export function stopWordLowercase(str, lib = []) {
+export function stopWordLowercase(str, lib = []): string {
   if (lib.length == 0) {
     lib = stopwordsLib
   }
@@ -137,7 +152,7 @@ export function stopWordLowercase(str, lib = []) {
   return str.replace(regex, match => match.toLowerCase())
 }
 
-export function toPascalCase(string) {
+export function toPascalCase(string: string): string {
   return `${string}`
     .replace(new RegExp(/[-_]+/, "g"), " ")
     .replace(new RegExp(/[^\w\s]/, "g"), "")
@@ -149,7 +164,7 @@ export function toPascalCase(string) {
     .replace(new RegExp(/\w/), s => s.toUpperCase())
 }
 
-export function uniqueObjectHash(obj, salt = "") {
+export function uniqueObjectHash(obj, salt = ""): string {
   if (!obj) return obj
 
   let str

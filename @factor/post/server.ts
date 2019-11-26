@@ -1,8 +1,9 @@
 import { addCallback } from "@factor/tools/filters"
 import { decodeToken } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
-
+import { PostEndpointMeta } from "./typings"
 import { canUpdatePost } from "./util"
+import { Model } from "mongoose"
 import {
   getModel,
   dbInitialize,
@@ -22,7 +23,10 @@ if (process.env.DB_CONNECTION) {
 
 addCallback("initialize-server", () => dbSetupUtility())
 
-export async function savePost({ data, postType = "post" }, { bearer = {} }) {
+export async function savePost(
+  { data, postType = "post" },
+  { bearer = {} }: PostEndpointMeta
+): Promise<Model | null> {
   if (dbIsOffline()) return null
 
   const { _id } = data
@@ -43,7 +47,10 @@ export async function savePost({ data, postType = "post" }, { bearer = {} }) {
   return canUpdatePost({ post, bearer, isNew, action: "save" }) ? await post.save() : null
 }
 
-export async function getSinglePost(params, meta = {}) {
+export async function getSinglePost(
+  params,
+  meta: PostEndpointMeta = {}
+): Promise<Model | null> {
   const { bearer } = meta
 
   let { _id } = params
@@ -87,8 +94,8 @@ export async function getSinglePost(params, meta = {}) {
   // If ID is unset or if it isn't found, create a new post model/doc
   // This is not saved at this point, leading to a post sometimes not existing although an ID exists
   else if (createOnEmpty) {
-    const initial = {}
-    if (bearer) initial.author = [bearer._id]
+    const initial = { author: bearer && bearer._id ? [bearer._id] : null }
+
     _post = new Model(initial)
   }
 

@@ -3,20 +3,21 @@ import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
 import { createObjectId } from "@factor/post/object-id"
+import express from "express"
 // Run after other imports have added themselves
 addCallback("initialize-server", () => initializeEndpointServer())
 
-export function addEndpoint({ id, handler }) {
+export function addEndpoint({ id, handler }): void {
   addCallback("endpoints", { id, handler })
 }
 
-export function initializeEndpointServer() {
+export function initializeEndpointServer(): void {
   addFilter("middleware", _ => {
     applyFilters("endpoints", []).forEach(({ id, handler }) => {
       _.push({
         path: endpointPath(id),
         middleware: [
-          async (request, response) => {
+          async (request: express.Request, response: express.Response): Promise<void> => {
             return await processEndpointRequest({
               request,
               response,
@@ -31,7 +32,7 @@ export function initializeEndpointServer() {
   })
 }
 
-export async function runEndpointMethod({ id, handler, data, meta }) {
+export async function runEndpointMethod({ id, handler, data, meta }): Promise<any> {
   const { method, params = {} } = data
 
   if (!method) {
@@ -55,23 +56,36 @@ export async function runEndpointMethod({ id, handler, data, meta }) {
   }
 }
 
-export async function processEndpointRequest({ request, response, handler }) {
+export async function processEndpointRequest({
+  request,
+  response,
+  handler
+}): Promise<void> {
   const { query, body, headers } = request
 
-  const meta = { request, response }
+  const meta = { request, response, bearer: defaultBearer() }
+
   const data = { ...body, ...parse(query) }
 
   const { authorization } = headers
 
   const responseJson = { result: "", error: "" }
 
+  // Authorization / Bearer
+  // If there is an error leave as null bearer but still run method
   try {
     if (authorization && authorization.startsWith("Bearer ")) {
       const token = authorization.split("Bearer ")[1]
 
       meta.bearer = token ? await getSinglePost({ token }) : defaultBearer()
     }
+  } catch (error) {
+    responseJson.error = error.message || 500
+    log.error(error)
+  }
 
+  // Run Endpoint Method
+  try {
     responseJson.result = await handler({ data, meta })
   } catch (error) {
     responseJson.error = error.message || 500
@@ -86,6 +100,6 @@ export async function processEndpointRequest({ request, response, handler }) {
   return
 }
 
-function defaultBearer() {
+function defaultBearer(): { _id?: string } {
   return process.env.FACTOR_ENV == "test" ? { _id: createObjectId() } : {}
 }

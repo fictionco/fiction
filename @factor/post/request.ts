@@ -35,14 +35,14 @@ export async function requestPostDeleteMany({ _ids, postType }) {
   return await sendPostRequest("deleteManyById", { _ids })
 }
 
-interface postRequestParameters {
-  _id?: string
-  status?: string
-  createOnEmpty?: boolean
-  postType?: string
-  conditions?: any
-  token?: string
-  options?: { limit?: number; skip?: number; page?: number; sort?: string }
+interface PostRequestParameters {
+  _id?: string;
+  status?: string;
+  createOnEmpty?: boolean;
+  postType?: string;
+  conditions?: any;
+  token?: string;
+  options?: { limit?: number; skip?: number; page?: number; sort?: string };
 }
 
 export async function requestPostSingle(args) {
@@ -57,7 +57,7 @@ export async function requestPostSingle(args) {
     depth = 50
   } = args
 
-  const params: postRequestParameters = { postType, createOnEmpty, status }
+  const params: PostRequestParameters = { postType, createOnEmpty, status }
 
   if (_id) {
     params._id = _id
@@ -96,7 +96,7 @@ export async function requestPostIndex(_arguments) {
 
   const taxonomies = ["tag", "category", "status", "role"]
 
-  const params: postRequestParameters = {
+  const params: PostRequestParameters = {
     conditions: {},
     postType,
     options: { limit, skip, page, sort }

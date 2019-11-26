@@ -39,7 +39,7 @@ module.exports = {
 
   coverageDirectory: "./coverage",
 
-  collectCoverageFrom: ["**/@factor/**/*.js"],
+  collectCoverageFrom: ["**/@factor/**/*.[jt]s"],
 
   coveragePathIgnorePatterns: ["node_modules/(?!(@factor|factor))", "fixtures"],
 

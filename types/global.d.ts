@@ -14,3 +14,15 @@ interface Window {
   factorApp: Record<string, any>;
   Prism: any;
 }
+
+interface Process {
+  noDeprecation: boolean;
+  maxOldSpaceSize: number;
+}
+
+declare namespace NodeJS {
+  interface Process {
+    noDeprecation: boolean;
+    maxOldSpaceSize: number;
+  }
+}

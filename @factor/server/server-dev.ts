@@ -19,18 +19,23 @@ let configClient
 
 let updateBundleCallback
 let updateReason = ""
-let updateLoaders = {}
+
+let updateLoaders: {
+  client?: { status: string; time?: number };
+  server?: { status: string; time?: number };
+} = {}
+
 let updateSpinner
 let template
 
 let bundle
 let clientManifest
 
-function getTemplatePath() {
+function getTemplatePath(): string {
   return setting("app.templatePath")
 }
 
-export async function developmentServer(cb) {
+export async function developmentServer(cb): Promise<void> {
   updateBundleCallback = cb
 
   const templatePath = getTemplatePath()
@@ -48,7 +53,7 @@ export async function developmentServer(cb) {
     updateBundles({ title: event, value: path })
 
     // On js file updates, wait for 3 seconds for build
-    if (path.includes(".js")) {
+    if (path.includes(".js") || path.includes(".ts")) {
       runCallbacks("restart-server")
     }
   })
@@ -58,25 +63,26 @@ export async function developmentServer(cb) {
   serverCompiler()
 }
 
-function loaders(target = "", value = "") {
+function loaders(target = "", status = "", time?: number): void {
   if (target) {
-    updateLoaders[target] = value
+    updateLoaders[target] = { status, time }
   }
 
-  const values = Object.values(updateLoaders)
+  const states: string[] = Object.values(updateLoaders).map(_ => _.status)
 
-  if (values.length == 2) {
-    if (values.every(_ => _ == "start") && !updateSpinner) {
+  if (states.length == 2) {
+    if (states.every(_ => _ == "start") && !updateSpinner) {
       updateSpinner = ora("Building").start()
-      updateLoaders = { client: "loading", server: "loading" }
+      updateLoaders = { client: { status: "loading" }, server: { status: "loading" } }
     } else if (
-      values.every(_ => _) &&
-      !values.some(_ => _ == "start" || _ == "loading") &&
+      states.every(_ => _) &&
+      !states.some(_ => _ == "start" || _ == "loading") &&
       updateSpinner
     ) {
-      updateSpinner.succeed(
-        ` built` + chalk.dim(` in ${Math.max(...values) / 1000}s ${updateReason}`)
-      )
+      const times: number[] = Object.values(updateLoaders).map(_ => _.time || 0)
+
+      const seconds = Math.max(...times) / 1000
+      updateSpinner.succeed(` built` + chalk.dim(` in ${seconds}s ${updateReason}`))
       updateSpinner = false
       updateLoaders = {}
       updateReason = ""
@@ -85,7 +91,7 @@ function loaders(target = "", value = "") {
   }
 }
 
-function updateBundles({ title = "", value = "" } = {}) {
+function updateBundles({ title = "", value = "" } = {}): void {
   if (title) updateReason = chalk.dim(`${title} @${value}`)
 
   if (bundle && clientManifest) {
@@ -93,7 +99,7 @@ function updateBundles({ title = "", value = "" } = {}) {
   }
 }
 
-function clientCompiler() {
+function clientCompiler(): void {
   // modify client config to work with hot middleware
   configClient.entry = ["webpack-hot-middleware/client?quiet=true", configClient.entry]
   configClient.output.filename = "[name].js"
@@ -131,16 +137,16 @@ function clientCompiler() {
       clientManifest = JSON.parse(
         readFileFromMemory(middleware.dev.fileSystem, "factor-client.json")
       )
-      loaders("client", time)
+      loaders("client", "done", time)
     })
 
-    return { compiler: clientCompiler }
+    return
   } catch (error) {
     log.error("[WEBPACK CLIENT COMPILER]", error)
   }
 }
 
-function serverCompiler() {
+function serverCompiler(): void {
   const serverCompiler = webpack(configServer)
 
   const mfs = new MFS()
@@ -159,11 +165,11 @@ function serverCompiler() {
 
     bundle = JSON.parse(readFileFromMemory(mfs, "factor-server.json"))
 
-    loaders("server", String(time))
+    loaders("server", "done", time)
   })
 }
 
 // Read file using  Memory File Service
-function readFileFromMemory(mfs, file) {
+function readFileFromMemory(mfs, file): string {
   return mfs.readFileSync(path.join(configClient.output.path, file), "utf-8")
 }

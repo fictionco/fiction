@@ -18,13 +18,13 @@ import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { configSettings } from "@factor/tools/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
 
-interface webpackConfigOptions {
-  config?: Object
-  beforeCompile?: (_arguments: any) => {}
-  afterCompile?: (_arguments: any) => {}
+interface WebpackConfigOptions {
+  config?: Record<string, any>;
+  beforeCompile?: (_arguments: any) => {};
+  afterCompile?: (_arguments: any) => {};
 }
 
-export async function generateBundles(options: webpackConfigOptions = {}) {
+export async function generateBundles(options: WebpackConfigOptions = {}) {
   generateLoaders()
 
   await Promise.all(
@@ -67,7 +67,7 @@ export async function buildProductionApp(_arguments = {}) {
 }
 
 export async function getWebpackConfig(_arguments) {
-  let { target, analyze = false, testing = false, clean = false } = _arguments
+  const { target, analyze = false, testing = false, clean = false } = _arguments
 
   const baseConfig = await base({ target })
 
@@ -178,7 +178,8 @@ async function base(_arguments) {
         {
           test: /\.(png|jpg|gif|svg|mov|mp4)$/,
           loader: "file-loader",
-          options: { name: "[name]-[hash:5].[ext]" }
+          // esModule option introduced in v5, but breaks markdown-image-loader
+          options: { name: "[name]-[hash:5].[ext]", esModule: false }
         },
         { test: /\.css/, use: cssLoaders({ target, lang: "css" }) },
         { test: /\.less/, use: cssLoaders({ target, lang: "less" }) },

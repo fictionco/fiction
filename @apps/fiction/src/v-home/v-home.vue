@@ -57,10 +57,7 @@
       :key="index"
       class="features content"
     >
-      <div
-        class="split-feature content-pad wide"
-        :class="[index % 2 == 0 ? 'odd' : 'even']"
-      >
+      <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even']">
         <div class="feature-content-container">
           <div class="feature-content">
             <div class="super">{{ feature.super }}</div>
@@ -122,11 +119,11 @@
         <div class="content-pad">
           <div class="head">
             <div class="glyph">&alpha;</div>
-            <h2 class="title">Join The Alpha Program</h2>
+            <h2 class="title">Join The Developer Program</h2>
             <h3 class="sub-title">Request an Invite or Contact Us</h3>
           </div>
           <div class="text">
-            Fiction has a robust community of developers building the next big things for
+            Join other developers building the next big things for
             the web. Join to get chat access, latest updates and support.
           </div>
           <div class="action">

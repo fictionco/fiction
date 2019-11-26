@@ -4,10 +4,10 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Full-Stack JS Platform
-            <span class="highlight">for Professional Front-End Developers</span>
+            The Javascript Platform
+            <span class="highlight">for Professional Web Developers</span>
           </h1>
-          <h3 class="page-title-sub">Do much more, with much less.</h3>
+          <h3 class="page-title-sub">Coding, just the fun parts.</h3>
 
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
@@ -16,7 +16,7 @@
               <span>
                 Github
                 <i>v</i>
-                <span>1.0ALPHA</span>
+                <span>1.0 PUBLIC BETA</span>
               </span>
             </factor-link>
           </div>
@@ -25,7 +25,7 @@
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">GPL 2.0</span>
+              <span class="text">Open-Source</span>
             </div>
             <div class="point">
               <span class="arrow">
@@ -121,11 +121,11 @@
       <div class="content-pad">
         <div class="head">
           <div class="glyph">&alpha;</div>
-          <h2 class="title">Join The Alpha Program</h2>
+          <h2 class="title">Join The Developer Program</h2>
           <h3 class="sub-title">Request an Invite or Contact Us</h3>
         </div>
         <div class="text">
-          Fiction has a robust community of developers building the next big things for
+          Join other developers building the next big things for
           the web. Join to get chat access, latest updates and support.
         </div>
         <div class="action">
@@ -226,9 +226,6 @@ export default Vue.extend({
       description:
         "A Javascript CMS and application platform built with Vue, Express, Node.js and MongoDB. Build impressive Javascipt apps with plugins and themes."
     }
-  },
-  routeClass() {
-    //return ["nav-light"]
   }
 })
 </script>

@@ -116,7 +116,6 @@ export default Vue.extend({
   },
   async mounted() {
     if (this.extensionIndex.length == 0) {
-  
       await requestExtensionIndex({ type: "plugins" })
     }
 

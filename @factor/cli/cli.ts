@@ -10,9 +10,7 @@ import { verifyDependencies } from "./task-runner"
 
 import pkg from "./package.json"
 
-// @ts-ignore
 process.noDeprecation = true
-// @ts-ignore
 process.maxOldSpaceSize = 8192
 
 setEnvironment()
@@ -74,15 +72,15 @@ commander
 
 commander.parse(process.argv)
 
-interface commandOptions {
-  command: string
-  _arguments: any
-  filter?: string
-  install?: boolean
-  NODE_ENV?: string
+interface CommandOptions {
+  command: string;
+  _arguments: any;
+  filter?: string;
+  install?: boolean;
+  NODE_ENV?: string;
 }
 
-export async function runCommand(options: commandOptions) {
+export async function runCommand(options: CommandOptions): Promise<never> {
   const {
     command,
     _arguments,
@@ -122,7 +120,7 @@ export async function runCommand(options: commandOptions) {
   return
 }
 
-export async function runServer(_arguments) {
+export async function runServer(_arguments): Promise<void> {
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {
