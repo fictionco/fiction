@@ -1,11 +1,6 @@
 <template>
   <transition name="scaleInModal">
-    <div
-      v-if="vis && appended"
-      class="el-modal"
-      :class="modalClass"
-      data-test="modal-window"
-    >
+    <div v-if="vis && appended" class="el-modal" :class="modalClass" data-test="modal-window">
       <div class="el-modal-wrap">
         <div v-show="vis" class="el-modal-content" @click.stop>
           <div class="el-modal-pad modal-content" data-test="modal-content">
@@ -28,10 +23,11 @@
     </div>
   </transition>
 </template>
-<script>
+<script lang="ts">
 import { factorIcon } from "@factor/ui"
-import { DOM, emitEvent } from "@factor/tools"
-export default {
+import { emitEvent } from "@factor/tools/events"
+import Vue from "vue"
+export default Vue.extend({
   components: { factorIcon },
   inheritAttrs: false,
   props: {
@@ -59,7 +55,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       // Append to Body
-      DOM(this.$el).remove()
+      this.$el.parentNode.removeChild(this.$el)
       document.querySelector("#app").append(this.$el)
       this.appended = true
     })
@@ -91,7 +87,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 <style lang="less">
 .scaleInModal-enter-active,

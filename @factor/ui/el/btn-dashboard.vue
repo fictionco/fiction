@@ -3,12 +3,13 @@
     <slot />
   </btn-base>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
   components: {
     "btn-base": () => import("./btn-base.vue")
   }
-}
+})
 </script>
 <style lang="less">
 .btn-dashboard {

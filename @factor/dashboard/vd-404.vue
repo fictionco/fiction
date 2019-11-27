@@ -11,12 +11,18 @@
   </dashboard-page>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { dashboardPage, dashboardPane } from "@factor/dashboard"
-export default {
-  components: { dashboardPage, dashboardPane, factorLink }
-}
+import Vue from "vue"
+
+export default Vue.extend({
+  components: {
+    dashboardPage,
+    dashboardPane,
+    factorLink
+  }
+})
 </script>
 
 <style lang="less">

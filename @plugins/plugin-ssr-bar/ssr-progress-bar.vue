@@ -1,7 +1,7 @@
 <template>
   <div :style="barStyle" class="progress" :class="canSuccess ? 'working' : 'failed'" />
 </template>
-<script>
+<script lang="ts">
 import { onEvent } from "@factor/tools/events"
 import Vue from "vue"
 export default Vue.extend({

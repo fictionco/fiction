@@ -7,10 +7,11 @@
     </div>
   </factor-modal>
 </template>
-<script>
+<script lang="ts">
 import { factorModal, factorBtn } from "@factor/ui"
 import { getSetting } from "."
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorModal, factorBtn },
   props: {
     added: { type: Boolean, default: false },
@@ -35,7 +36,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 
 <style lang="less">

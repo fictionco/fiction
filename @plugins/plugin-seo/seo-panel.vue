@@ -31,11 +31,11 @@
     />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
 import { postLink, excerpt, stored } from "@factor/tools"
-
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   components: { dashboardInput },
   props: {
     postId: { type: String, required: true }
@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: { excerpt }
-}
+})
 </script>
 <style lang="less">
 .edit-post-seo {

@@ -32,11 +32,12 @@
   </transition>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue"
 // Code from:
 // https://github.com/XiongAmao/vue-easy-lightbox
-import { DOM, emitEvent } from "@factor/tools"
-export default {
+import { emitEvent } from "@factor/tools/events"
+export default Vue.extend({
   components: {},
   props: {
     imgs: { type: [Array, String], default: "" },
@@ -98,13 +99,13 @@ export default {
     require("./img/iconfont")
 
     this.$nextTick(() => {
-      DOM(this.$el).remove()
+      this.$el.remove()
 
       document.querySelector("#app").append(this.$el)
     })
   },
   destroyed() {
-    DOM(this.$el).remove()
+    this.$el.remove()
   },
   methods: {
     checkBtn(btn) {
@@ -183,7 +184,7 @@ export default {
       this.left = 0
     }
   }
-}
+})
 </script>
 
     <style scoped>

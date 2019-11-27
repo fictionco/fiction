@@ -11,7 +11,7 @@
     <factor-error-404 v-else />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorError404 } from "@factor/ui"
 import {
   isEmpty,

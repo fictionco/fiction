@@ -35,7 +35,7 @@
     </template>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorBtnDashboard, factorLoadingRing, factorIcon } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel } from "@factor/tools"

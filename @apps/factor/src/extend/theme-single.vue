@@ -21,7 +21,7 @@
 
         <div class="themes-wrap content-pad">
           <div class="content">
-            <widget-lightbox
+            <factor-lightbox
               :visible.sync="lightboxShow"
               :imgs="screenshotsList(item)"
               :index="lightboxIndex"
@@ -69,7 +69,7 @@ import {
   requestExtensionSingle,
   requestExtensionIndex
 } from "./extension-request"
-import { factorLoadingRing, factorLink } from "@factor/ui"
+import { factorLoadingRing, factorLink, factorLightbox } from "@factor/ui"
 import { setting, renderMarkdown, standardDate } from "@factor/tools"
 import Vue from "vue"
 
@@ -77,8 +77,8 @@ export default Vue.extend({
   components: {
     factorLoadingRing,
     factorLink,
+    factorLightbox,
     "widget-header": () => import("./widget-header.vue"),
-    "widget-lightbox": () => import("../el/el-lightbox.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },
   data() {

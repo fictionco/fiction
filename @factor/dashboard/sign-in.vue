@@ -94,7 +94,11 @@
       <template v-if="newAccount">
         <div class="forgot-password alternative-action-link">
           Have an account?
-          <a href="#" data-test="link-login" @click.prevent="newAccount = false">Login</a>
+          <a
+            href="#"
+            data-test="link-login"
+            @click.prevent="newAccount = false"
+          >Login</a>
         </div>
       </template>
       <template v-else-if="view">
@@ -128,7 +132,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
 import { factorForm, factorBtn, factorLink } from "@factor/ui"
 import { authenticate, userInitialized, isLoggedIn } from "@factor/user"

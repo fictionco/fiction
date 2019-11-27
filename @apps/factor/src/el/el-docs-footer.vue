@@ -13,13 +13,9 @@
     </p>
   </div>
 </template>
-<script>
-export default {
-  components: {},
-  data() {
-    return {}
-  }
-}
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({})
 </script>
 <style lang="less">
 .docs-footer {

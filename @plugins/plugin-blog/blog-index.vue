@@ -23,7 +23,7 @@
     <component :is="setting('blog.components.pagination')" :post-type="postType" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"

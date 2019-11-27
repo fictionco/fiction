@@ -5,9 +5,10 @@
 </template>
 <script>
 import { factorBtnBase } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorBtnBase }
-}
+})
 </script>
 
 <style lang="less">
@@ -80,5 +81,6 @@ button.app-btn {
       stroke: var(--color-secondary-text, #fff);
     }
   }
-}</style
+}
+</style
 >x

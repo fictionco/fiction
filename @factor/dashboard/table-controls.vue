@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
 import { factorBtnDashboard } from "@factor/ui"
 import Vue from "vue"

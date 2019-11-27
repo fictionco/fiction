@@ -108,7 +108,7 @@ export default Vue.extend({
     setPage() {
       // Make sure new content is loaded before scanning for h2, h3
       setTimeout(() => {
-        this.scroller = DOM.find(".scroller")[0]
+        this.scroller = document.querySelectorAll(".scroller")[0]
 
         if (this.scroller) {
           this.headers = this.getHeaders(this.scroller)

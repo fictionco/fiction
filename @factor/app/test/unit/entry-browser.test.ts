@@ -6,14 +6,15 @@ import * as app from "@factor/app/app"
 import * as events from "@factor/tools/events"
 import { waitFor, indexHtml } from "@test/utils"
 
-const spies = {}
+const spies = {
+  createApp: jest.spyOn(app, "createApp"),
+  emitEvent: jest.spyOn(events, "emitEvent")
+}
 describe("browser-app", () => {
   beforeAll(() => {
     document.open()
     document.write(indexHtml())
     document.close()
-    spies.createApp = jest.spyOn(app, "createApp")
-    spies.emitEvent = jest.spyOn(events, "emitEvent")
   })
   it("enters application and mounts correctly", async () => {
     require("@factor/app/entry-browser")

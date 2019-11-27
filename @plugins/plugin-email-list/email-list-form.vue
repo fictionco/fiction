@@ -21,7 +21,8 @@
 <script>
 import { getSetting, getListSettings, addEmail } from "@factor/plugin-email-list"
 import { factorBtn } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorBtn },
   props: {
     listId: { type: String, default: "default" }
@@ -91,7 +92,7 @@ export default {
       return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     }
   }
-}
+})
 </script>
 
 <style lang="less">

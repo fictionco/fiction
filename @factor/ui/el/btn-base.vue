@@ -15,7 +15,7 @@
   </button>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({

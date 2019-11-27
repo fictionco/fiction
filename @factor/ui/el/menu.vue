@@ -14,7 +14,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorIcon } from "@factor/ui"
 import { DOM, parseList } from "@factor/tools"
 import Vue from "vue"

@@ -14,7 +14,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { accountMenu } from "@factor/dashboard"
 import { setting } from "@factor/tools"

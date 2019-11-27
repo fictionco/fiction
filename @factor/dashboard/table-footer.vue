@@ -8,8 +8,9 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
   components: {
     "table-pagination": () => import("./el/pagination.vue")
   },
@@ -33,7 +34,7 @@ export default {
       } else return Math.ceil(total / limit)
     }
   }
-}
+})
 </script>
 
 <style lang="less">

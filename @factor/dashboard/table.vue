@@ -44,7 +44,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { toLabel } from "@factor/tools"
 export default {
   props: {

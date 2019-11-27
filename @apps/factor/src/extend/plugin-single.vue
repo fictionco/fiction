@@ -26,7 +26,7 @@
 
         <div class="plugins-wrap content-pad">
           <div class="content">
-            <widget-lightbox
+            <factor-lightbox
               :visible.sync="lightboxShow"
               :imgs="screenshotsList(item)"
               :index="lightboxIndex"
@@ -54,7 +54,6 @@
   </div>
 </template>
 <script lang="ts">
-
 import {
   titleFromPackage,
   formatDownloads,
@@ -69,7 +68,7 @@ import {
   requestExtensionSingle,
   requestExtensionIndex
 } from "./extension-request"
-import { factorLoadingRing, factorLink } from "@factor/ui"
+import { factorLoadingRing, factorLink, factorLightbox } from "@factor/ui"
 import { setting, renderMarkdown } from "@factor/tools"
 import Vue from "vue"
 
@@ -77,8 +76,8 @@ export default Vue.extend({
   components: {
     factorLoadingRing,
     factorLink,
+    factorLightbox,
     "widget-sidebar": () => import("./widget-sidebar.vue"),
-    "widget-lightbox": () => import("../el/el-lightbox.vue"),
     "plugin-entry": () => import("../el/entry.vue"),
     "widget-cta": () => import("./widget-cta.vue")
   },

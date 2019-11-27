@@ -37,7 +37,7 @@ function getMarkdownUtility(): MarkdownIt {
 export function renderMarkdown(content = "", options?): string {
   const util = getMarkdownUtility()
   if (typeof content == "string") {
-    const { variables } = options
+    const { variables } = options || {}
     if (variables) {
       content = content.replace(/{{([\s\S]+?)}}/g, matched => {
         const setting = matched.replace(/[{}]/g, "")

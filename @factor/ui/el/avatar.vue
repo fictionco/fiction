@@ -24,7 +24,7 @@
     <slot />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { stored } from "@factor/tools"
 import { factorLoadingRing } from "@factor/ui"
 import Vue from "vue"

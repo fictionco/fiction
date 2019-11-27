@@ -17,7 +17,7 @@
   </dashboard-pane>
 </template>
 
-<script>
+<script lang="ts">
 /* eslint-disable no-unused-vars */
 import { deleteEmails, csvExport } from "."
 import { toLabel, storeItem, stored } from "@factor/tools"

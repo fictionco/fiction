@@ -1,9 +1,10 @@
 <template>
   <div v-if="avatarUrl" class="featured-image" :style="style" />
 </template>
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { stored } from "@factor/tools"
-export default {
+export default Vue.extend({
   props: {
     postId: { type: String, default: "" }
   },
@@ -25,7 +26,7 @@ export default {
       return style
     }
   }
-}
+})
 </script>
 <style lang="less">
 .featured-image {

@@ -47,7 +47,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { userCan, userInitialized } from "@factor/user"
 import { toLabel, slugify, applyFilters } from "@factor/tools"

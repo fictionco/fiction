@@ -7,7 +7,7 @@
     <el-signin v-if="mode != 'confirmation'" :redirect="redirect" @done="done($event)" />
   </factor-modal>
 </template>
-<script>
+<script lang="ts">
 import { factorModal } from "@factor/ui"
 import { onEvent, runCallbacks } from "@factor/tools"
 import Vue from "vue"

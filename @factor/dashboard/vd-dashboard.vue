@@ -32,11 +32,12 @@
     </dashboard-pane>
   </dashboard-page>
 </template>
-<script>
+<script  lang="ts">
 import { dashboardPage, dashboardPane } from "@factor/dashboard"
 import { factorLink } from "@factor/ui"
 import { userInitialized } from "@factor/user"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     dashboardPage,
     dashboardPane,
@@ -81,7 +82,7 @@ export default {
       priority: 30
     }
   }
-}
+})
 </script>
 
 <style lang="less">

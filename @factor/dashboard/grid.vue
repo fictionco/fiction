@@ -49,7 +49,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import Vue from "vue"
 import { toLabel } from "@factor/tools"
 export default Vue.extend({

@@ -1,18 +1,43 @@
 import { sortPriority, uniqueObjectHash } from "@factor/tools/utils"
+import Vue from "vue"
 
-let __filters
-let __applied
+type FilterRecord = Record<string, Record<string, FilterItem>>
 
-export function getFilters() {
-  if (!__filters) __filters = {}
-
-  return __filters
+interface FilterItem {
+  _id: string;
+  uniqueKey?: string;
+  callback: Function;
+  context?: object;
+  priority?: number;
 }
 
-export function getApplied() {
-  if (!__applied) __applied = {}
+declare module "vue/types/vue" {
+  export interface VueConstructor {
+    $filters: { filters: FilterRecord; applied: FilterRecord };
+  }
+}
 
-  return __applied
+Vue.$filters = {
+  filters: {},
+  applied: {}
+}
+
+export function getFilters(): FilterRecord {
+  return Vue.$filters.filters
+}
+
+export function getApplied(): FilterRecord {
+  return Vue.$filters.applied
+}
+
+function setFilter({
+  _id = "",
+  uniqueKey = "",
+  callback,
+  context,
+  priority
+}: FilterItem): void {
+  Vue.$filters.filters[_id][uniqueKey] = { _id, uniqueKey, callback, context, priority }
 }
 
 export function getFilterCount(_id: string): number {
@@ -34,7 +59,7 @@ export function applyFilters(_id: string, data: any, ...rest): any {
 
     for (const element of _sorted) {
       const { callback, context } = element
-      const result = callback.call(context, data, ...rest)
+      const result = callback.apply(context, [data, ...rest])
 
       // Add into what is passed into next item
       // If nothing is returned, don't unset the original data
@@ -56,7 +81,7 @@ export function applyFilters(_id: string, data: any, ...rest): any {
 
 export function addFilter<T>(
   _id: string,
-  filter: T,
+  cb: T,
   { context = null, priority = 100, key = "" } = {}
 ): T {
   const $filters = getFilters()
@@ -66,14 +91,14 @@ export function addFilter<T>(
   // create unique ID
   // In certain situations (HMR, dev), the same filter can be added twice
   // Using objects and a hash identifier solves that
-  const filterKey = `key_${uniqueObjectHash(filter, callerKey(key))}`
+  const uniqueKey = `key_${uniqueObjectHash(cb, callerKey(key))}`
 
   // For simpler assignments where no callback is needed
-  const callback = typeof filter != "function" ? (): T => filter : filter
+  const callback = typeof cb != "function" ? (): T => cb : cb
 
-  $filters[_id][filterKey] = { callback, context, priority }
+  setFilter({ _id, uniqueKey, callback, context, priority })
 
-  return filter
+  return cb
 }
 
 export function pushToFilter<T>(_id: string, item: T, { key = "", pushTo = -1 } = {}): T {

@@ -30,7 +30,7 @@
     </dashboard-grid>
   </dashboard-pane>
 </template>
-<script>
+<script lang="ts">
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post"
 import { postTypeUIConfig, csvExport } from "."
