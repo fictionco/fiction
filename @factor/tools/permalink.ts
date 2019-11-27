@@ -7,7 +7,11 @@ import { currentUrl } from "@factor/tools/url"
 
 // Verify a permalink is unique,
 // If not unique, then add number and recursively verify the new one
-export async function requestPermalinkVerify({ permalink, id, field = "permalink" }) {
+export async function requestPermalinkVerify({
+  permalink,
+  id,
+  field = "permalink"
+}): Promise<string> {
   const post = await requestPostSingle({ permalink, field })
 
   if (post && post.id != id) {
@@ -26,8 +30,16 @@ export async function requestPermalinkVerify({ permalink, id, field = "permalink
   return permalink
 }
 
-export function getPermalink(args = {}) {
-  const { postType, permalink = "", root = false, path = false } = args
+interface PermalinkComponents {
+  postType?: string;
+  permalink?: string;
+  root?: boolean;
+  path?: string;
+  title?: string;
+}
+
+export function getPermalink(_arguments: PermalinkComponents): string {
+  const { postType = "post", permalink = "", root = false, path = "" } = _arguments
   const parts = []
 
   parts.push(root ? currentUrl() : "")
@@ -45,13 +57,13 @@ export function getPermalink(args = {}) {
       if (baseRoute) parts.push(baseRoute.replace(/^\/|\/$/g, ""))
     }
 
-    parts.push(!permalink && args.title ? slugify(args.title) : permalink)
+    parts.push(!permalink && _arguments.title ? slugify(_arguments.title) : permalink)
 
     return parts.join("/")
   }
 }
 
-export function postLink(_id, options = {}) {
+export function postLink(_id, options = {}): string {
   const post = stored(_id)
 
   if (!post) return

@@ -51,9 +51,10 @@ export async function uploadImage({ file, onPrep, onFinished, onError, onChange 
   }
 }
 
-export async function resizeImage(fileOrBlobOrUrl, options = {}) {
-  const { maxWidth = 1500, maxHeight = 1500 } = options
-
+export async function resizeImage(
+  fileOrBlobOrUrl,
+  { maxWidth = 1500, maxHeight = 1500 }
+): Promise<any> {
   return await new Promise(resolve => {
     loadImage(
       fileOrBlobOrUrl,

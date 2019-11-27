@@ -1,6 +1,6 @@
 import { slugify, dotSetting } from "@factor/tools/utils"
 import { getStoreState } from "@factor/app/store"
-import md from "markdown-it"
+import MarkdownIt from "markdown-it"
 import mdAnchor from "markdown-it-anchor"
 import mdVideo from "markdown-it-video"
 import mdLinkAttributes from "markdown-it-link-attributes"
@@ -10,9 +10,9 @@ import stripMarkdownUtility from "strip-markdown"
 
 let markdownUtility
 
-function getMarkdownUtility() {
+function getMarkdownUtility(): MarkdownIt {
   if (!markdownUtility) {
-    markdownUtility = md({
+    markdownUtility = MarkdownIt({
       html: true,
 
       linkify: true,
@@ -34,7 +34,7 @@ function getMarkdownUtility() {
   return markdownUtility
 }
 
-export function renderMarkdown(content = "", options = {}) {
+export function renderMarkdown(content = "", options?): string {
   const util = getMarkdownUtility()
   if (typeof content == "string") {
     const { variables } = options
@@ -56,7 +56,7 @@ export function renderMarkdown(content = "", options = {}) {
   }
 }
 
-export function stripMarkdown(markdown) {
+export function stripMarkdown(markdown: string): string {
   let out = ""
   remark()
     .use(stripMarkdownUtility)
@@ -68,7 +68,7 @@ export function stripMarkdown(markdown) {
   return out
 }
 
-export function excerpt(content, { length = 42 } = {}) {
+export function excerpt(content: string, { length = 42 } = {}): string {
   if (!content) return ""
 
   const __ = stripMarkdown(content)

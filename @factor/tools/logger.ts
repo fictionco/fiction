@@ -1,42 +1,44 @@
 /* eslint-disable no-console */
-import consola from "consola"
+import consola, { Consola } from "consola"
 import figures from "figures"
 import chalk from "chalk"
 
 export class FactorLogger {
+  utility: Consola
+
   constructor() {
     this.utility = consola.create({
       level: 5
     })
   }
 
-  error(..._arguments) {
+  error(..._arguments): void {
     Reflect.apply(this.utility.error, null, _arguments)
   }
 
-  warn(..._arguments) {
+  warn(..._arguments): void {
     Reflect.apply(this.utility.warn, null, _arguments)
   }
 
-  success(..._arguments) {
+  success(..._arguments): void {
     Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  log(..._arguments) {
+  log(..._arguments): void {
     Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  info(..._arguments) {
+  info(..._arguments): void {
     Reflect.apply(this.utility.info, null, _arguments)
   }
 
-  server(text, { color = "cyan" } = {}) {
+  server(text, { color = "cyan" } = {}): void {
     this.log(
       chalk[color](`${figures.arrowUp}${figures.arrowDown}`) + chalk.dim(` ${text}`)
     )
   }
 
-  formatted({ title, lines = [], format = "", color = "cyan" }) {
+  formatted({ title, lines = [], format = "", color = "cyan" }): void {
     // Don't log during tests
     if (process.env.FACTOR_ENV == "test") return
 

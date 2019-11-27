@@ -38,7 +38,7 @@ addFilter("webpack-plugins", _ => {
 
 // Server utils sometimes aren't compatible with webpack
 // Replace with polyfill if a
-export function browserReplaceModule(resource): webpack.Externals {
+export function browserReplaceModule(resource): any {
   const resolvedFile = require.resolve(resource.request, { paths: [resource.context] })
   const resolvedDirectory = dirname(resolvedFile)
   const filename = basename(resolvedFile)
