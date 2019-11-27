@@ -13,6 +13,7 @@ import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack from "webpack"
+import { WebpackOptions } from "webpack/declarations/WebpackOptions"
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { configSettings } from "@factor/tools/config"
@@ -24,7 +25,7 @@ interface WebpackConfigOptions {
   afterCompile?: (_arguments: any) => {};
 }
 
-export async function generateBundles(options: WebpackConfigOptions = {}) {
+export async function generateBundles(options: WebpackConfigOptions = {}): Promise<void> {
   generateLoaders()
 
   await Promise.all(
@@ -55,7 +56,7 @@ export async function generateBundles(options: WebpackConfigOptions = {}) {
   )
 }
 
-export async function buildProductionApp(_arguments = {}) {
+export async function buildProductionApp(_arguments = {}): Promise<void[]> {
   return await Promise.all(
     ["server", "client"].map(async (target, index) => {
       const clean = index === 0
@@ -66,7 +67,7 @@ export async function buildProductionApp(_arguments = {}) {
   )
 }
 
-export async function getWebpackConfig(_arguments) {
+export async function getWebpackConfig(_arguments): Promise<WebpackOptions> {
   const { target, analyze = false, testing = false, clean = false } = _arguments
 
   const baseConfig = await base({ target })
@@ -106,7 +107,7 @@ export async function getWebpackConfig(_arguments) {
   return config
 }
 
-function server() {
+function server(): WebpackOptions {
   const entry = getPath("entry-server")
 
   const filename = "factor-server.json"
@@ -123,7 +124,7 @@ function server() {
   }
 }
 
-function client() {
+function client(): WebpackOptions {
   const entry = getPath("entry-browser")
   const filename = "factor-client.json"
   return {
@@ -132,7 +133,7 @@ function client() {
   }
 }
 
-function production() {
+function production(): WebpackOptions {
   return {
     mode: "production",
     output: { publicPath: "/" },
@@ -149,17 +150,22 @@ function production() {
   }
 }
 
-function development() {
+function development(): WebpackOptions {
   // Apparently webpack expects a trailing slash on these
   const publicPath = ensureTrailingSlash(getPath("dist"))
   return {
     mode: "development",
     output: { publicPath },
-    performance: { hints: false } // Warns about large dev file sizes,
+    performance: { hints: false }, // Warns about large dev file sizes,
+    optimization: {
+      removeAvailableModules: false,
+      removeEmptyChunks: false,
+      splitChunks: false
+    }
   }
 }
 
-async function base(_arguments) {
+async function base(_arguments): Promise<WebpackOptions> {
   const { target } = _arguments
 
   const out = {
@@ -174,7 +180,11 @@ async function base(_arguments) {
     module: {
       rules: applyFilters("webpack-loaders", [
         { test: /\.vue$/, loader: "vue-loader" },
-        { test: /\.ts$/, loader: "ts-loader", options: { transpileOnly: true } },
+        {
+          test: /\.ts$/,
+          loader: "ts-loader",
+          options: { transpileOnly: true, experimentalWatchApi: true }
+        },
         {
           test: /\.(png|jpg|gif|svg|mov|mp4)$/,
           loader: "file-loader",
@@ -192,7 +202,7 @@ async function base(_arguments) {
       new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin(getDefinedValues(target)),
-      function() {
+      function(): void {
         this.plugin("done", function(stats) {
           const { errors } = stats.compilation
           if (errors && errors.length > 0) log.error(errors)
@@ -214,7 +224,7 @@ async function base(_arguments) {
   return out
 }
 
-export function getDefinedValues(target) {
+export function getDefinedValues(target): object {
   return applyFilters("webpack-define", {
     "process.env.FACTOR_SSR": JSON.stringify(target),
     "process.env.VUE_ENV": JSON.stringify(target),

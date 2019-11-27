@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
 

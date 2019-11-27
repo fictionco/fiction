@@ -3,7 +3,7 @@ import webpack from "webpack"
 import log from "@factor/tools/logger"
 import { applyFilters } from "@factor/tools/filters"
 
-export function cssLoaders({ target, lang }) {
+export function cssLoaders({ target, lang }): object[] {
   const postCssPlugins = applyFilters("postcss-plugins", [
     require("cssnano")({ preset: "default" })
   ])
@@ -13,6 +13,7 @@ export function cssLoaders({ target, lang }) {
     {
       loader: "postcss-loader",
       options: {
+        ident: "postcss", // https://github.com/postcss/postcss-loader#plugins
         plugins: postCssPlugins,
         minimize: true
       }
@@ -36,7 +37,7 @@ export function cssLoaders({ target, lang }) {
   return [...__, ..._base]
 }
 
-export async function enhancedBuild({ name, config }) {
+export async function enhancedBuild({ name, config }): Promise<void> {
   const compiler = webpack(config)
   const ProgressPlugin = require("webpack/lib/ProgressPlugin")
   const { Bar, Presets } = require("cli-progress")
@@ -67,7 +68,7 @@ export async function enhancedBuild({ name, config }) {
       if (err || stats.hasErrors()) reject(err)
       else {
         log.success(`[${name}] built`)
-        resolve(true)
+        resolve()
       }
     })
   })
