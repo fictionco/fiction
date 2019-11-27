@@ -7,9 +7,11 @@
 
     <template v-if="callback">
       <factor-btn btn="default" @click="vis = false">Cancel</factor-btn>
-      <factor-btn btn="primary" :loading="sending" @click="run()">{{
+      <factor-btn btn="primary" :loading="sending" @click="run()">
+        {{
         actionText
-      }}</factor-btn>
+        }}
+      </factor-btn>
     </template>
     <template v-else>
       <factor-btn btn="primary" @click="vis = false">Close</factor-btn>
@@ -17,10 +19,11 @@
   </factor-modal>
 </template>
 
-<script>
+<script lang="ts">
 import { factorBtn, factorModal } from "@factor/ui"
 import { onEvent } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorBtn, factorModal },
   data() {
     return {
@@ -43,11 +46,13 @@ export default {
   },
   methods: {
     async run() {
+
+
       this.sending = true
       await this.callback.call()
       this.sending = false
       this.vis = false
     }
   }
-}
+})
 </script>

@@ -19,9 +19,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue"
 import { factorBtn } from "@factor/ui"
-export default {
+export default Vue.extend({
   components: { factorBtn },
   props: {
     post: { type: Object, default: () => {} }
@@ -80,7 +81,7 @@ export default {
       return ["test"]
     }
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -29,9 +29,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { setting } from "@factor/tools"
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   data() {
     return {
       loading: true
@@ -45,7 +46,7 @@ export default {
     }
   },
   methods: { setting }
-}
+})
 </script>
 <style lang="less">
 .view-contact {

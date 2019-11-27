@@ -10,13 +10,22 @@ declare module "vue/types/vue" {
   interface Vue {
     metaInfoCore(): object;
     observable: <T>(obj: T) => T;
-    $filters: any;
   }
+}
+
+export interface templateOption {
+  input?: string;
+  label?: string;
+  _id?: string;
+  default?: string;
+  description?: string;
+  settings?: templateOption[];
 }
 
 declare module "vue/types/options" {
   interface ComponentOptions<V extends Vue> {
     metaInfoCore?: () => {};
     serverPrefetch?(): Promise<void>;
+    templateSettings?: () => templateOption[];
   }
 }
