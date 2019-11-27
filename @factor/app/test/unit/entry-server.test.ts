@@ -4,15 +4,14 @@ import * as filters from "@factor/tools/filters"
 import serverEntry from "@factor/app/entry-server"
 
 import Vue from "vue"
-const spies = {}
+const spies = {
+  createApp: jest.spyOn(app, "createApp"),
+  emitEvent: jest.spyOn(events, "emitEvent"),
+  runCallbacks: jest.spyOn(filters, "runCallbacks"),
+  applyFilters: jest.spyOn(filters, "applyFilters")
+}
 describe("server-entry", () => {
-  beforeAll(() => {
-    spies.createApp = jest.spyOn(app, "createApp")
-    spies.emitEvent = jest.spyOn(events, "emitEvent")
-
-    spies.runCallbacks = jest.spyOn(filters, "runCallbacks")
-    spies.applyFilters = jest.spyOn(filters, "applyFilters")
-  })
+  beforeAll(() => {})
 
   it("enters application and returns correctly", async () => {
     const app = await serverEntry({ url: "/" })

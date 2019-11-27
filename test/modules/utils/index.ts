@@ -11,26 +11,26 @@ import { createApp } from "@factor/app/app"
 
 import jsdom from "jsdom"
 
-export async function getPort() {
+export async function getPort(): Promise<string> {
   const port = await getPortUtility()
   return String(port)
 }
-export const waitFor = ms => {
+export const waitFor = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
 }
 
 export const indexHtml = ({
   head = `<title>NOT SET</title>`,
   body = `<div id="app"></div>`
-} = {}) => {
+} = {}): string => {
   return `<!DOCTYPE html><html><head>${head}</head><body>${body}</body></html>`
 }
 
-export function getUrl({ route, port }) {
+export function getUrl({ route = "", port }): string {
   return `http://localhost:${port}${route}`
 }
 
-export const buildFixture = fixture => {
+export const buildFixture = (fixture): void => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
   process.env.FACTOR_ENV = "test"
 
@@ -53,7 +53,7 @@ export const buildFixture = fixture => {
   }, 100000)
 }
 
-export const loadFixture = async fixture => {
+export const loadFixture = async (fixture): Promise<void> => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
 
   process.env.FACTOR_ENV = "test"
@@ -62,19 +62,28 @@ export const loadFixture = async fixture => {
   await createApp()
 }
 
-export async function renderAndGetWindow(_arguments = {}) {
+interface JSDomConfig {
+  port?: string;
+  route?: string;
+  url?: string;
+  options?: object;
+}
+
+export async function renderAndGetWindow(
+  _arguments: JSDomConfig = {}
+): jsdom.JSDOM.window {
   const { port = process.env.PORT, route = "/" } = _arguments
 
-  let { url, options = {} } = _arguments || {}
+  let { url, options = {} } = _arguments
 
   url = url ? url : getUrl({ port, route })
 
   options = {
     resources: "usable",
     runScripts: "dangerously",
-    beforeParse(window) {
+    beforeParse(window): void {
       // Mock window.scrollTo
-      window.scrollTo = () => {}
+      window.scrollTo = (): void => {}
     },
     ...options
   }

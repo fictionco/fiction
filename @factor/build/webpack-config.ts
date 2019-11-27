@@ -156,12 +156,7 @@ function development(): WebpackOptions {
   return {
     mode: "development",
     output: { publicPath },
-    performance: { hints: false }, // Warns about large dev file sizes,
-    optimization: {
-      removeAvailableModules: false,
-      removeEmptyChunks: false,
-      splitChunks: false
-    }
+    performance: { hints: false } // Warns about large dev file sizes,
   }
 }
 
@@ -183,7 +178,7 @@ async function base(_arguments): Promise<WebpackOptions> {
         {
           test: /\.ts$/,
           loader: "ts-loader",
-          options: { transpileOnly: true, experimentalWatchApi: true }
+          options: { transpileOnly: true }
         },
         {
           test: /\.(png|jpg|gif|svg|mov|mp4)$/,
