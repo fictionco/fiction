@@ -41,17 +41,17 @@ export function getExtensions() {
   }
 }
 
-export function getFactorDirectories() {
+export function getFactorDirectories(): string[] {
   return getExtensions().map(({ name, main }) => getDirectory({ name, main }))
 }
 
-function getCWD() {
+function getCWD(): string {
   return process.env.FACTOR_CWD || process.cwd()
 }
 
 // Determine if a package name is the CWD
-function isCWD(name) {
-  return name == getCWDPackage().name ? true : false
+function isCWD(name): boolean {
+  return !!name == getCWDPackage().name
 }
 
 function generateExtensionList(packagePaths) {
@@ -84,7 +84,7 @@ function generateExtensionList(packagePaths) {
   return sortPriority(loader)
 }
 
-export function generateLoaders() {
+export function generateLoaders(): void {
   const extensions = getExtensions()
 
   if (extensions.length == 0) return
@@ -168,7 +168,7 @@ function makeModuleLoader({ extensions, loadTarget, callback }) {
   callback(sortPriority(files))
 }
 
-function makeFileLoader({ extensions, filename, callback }) {
+function makeFileLoader({ extensions, filename, callback }): void {
   const files = []
 
   extensions.forEach(_ => {
@@ -250,16 +250,16 @@ function normalizeTarget({ target, main, _id }) {
   return __
 }
 
-function writeFile({ destination, content }) {
+function writeFile({ destination, content }): void {
   fs.ensureDirSync(dirname(destination))
   fs.writeFileSync(destination, content)
 }
 
-function loaderString(files) {
+function loaderString(files): string {
   return files.map(({ file }) => `import "${file}"`).join("\n")
 }
 
-function loaderStringOrdered(files) {
+function loaderStringOrdered(files): string {
   const lines = files.map(
     ({ _id, file, priority }) =>
       `import { default as ${_id} } from "${file}" // ${priority}`
@@ -278,7 +278,7 @@ function loadExtensions(pkg) {
   return generateExtensionList(dependents)
 }
 
-function getDirectory({ name, main = "" }) {
+function getDirectory({ name, main = "" }): string {
   const resolver = isCWD(name) ? getCWD() : name
 
   let root
@@ -291,13 +291,13 @@ function getDirectory({ name, main = "" }) {
   return dirname(root)
 }
 
-function getRequireBase({ cwd, name, main = "package.json" }) {
+function getRequireBase({ cwd, name, main = "package.json" }): string {
   return dirname([cwd ? ".." : name, main].join("/"))
 }
 
 // Set priority by extension type
 // App > Theme > Plugin
-function getPriority({ extend, priority, name }) {
+function getPriority({ extend, priority, name }): number {
   if (priority) return priority
 
   const out = 100
@@ -312,7 +312,7 @@ function getPriority({ extend, priority, name }) {
 }
 
 // Get standard reference ID
-function getId({ _id, name = "", main = "index", file = "" }) {
+function getId({ _id, name = "", main = "index", file = "" }): string {
   let __
   if (isCWD(name)) {
     __ = "cwd"
@@ -334,7 +334,7 @@ function getId({ _id, name = "", main = "index", file = "" }) {
   return __
 }
 
-export function makeEmptyLoaders() {
+export function makeEmptyLoaders(): void {
   const l = ["loader-server", "loader-app", "loader-styles", "loader-settings"]
   l.forEach(pathId => {
     const content = pathId == "loader-styles" ? "" : ``

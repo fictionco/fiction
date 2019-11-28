@@ -29,7 +29,7 @@ addCallback("after-first-server-extend", () => {
   }
 })
 
-export async function runSetup(_arguments) {
+export async function runSetup(_arguments): Promise<void> {
   let answers
 
   log.formatted({
@@ -50,7 +50,7 @@ export async function runSetup(_arguments) {
       {
         name: "Exit Setup",
         value: "exit",
-        callback: async () => {
+        callback: (): void => {
           // eslint-disable-next-line unicorn/no-process-exit
           process.exit()
         },
@@ -65,7 +65,7 @@ export async function runSetup(_arguments) {
   // Escapes the endless loop
   const askAgain = true
 
-  const ask = async () => {
+  const ask = async (): Promise<void> => {
     answers = await inquirer.prompt({
       type: "list",
       name: `setupItem`,
@@ -89,7 +89,7 @@ export async function runSetup(_arguments) {
   await ask()
 }
 
-export async function writeConfig(file, values) {
+export async function writeConfig(file, values): Promise<void> {
   if (!file || !values) {
     return
   }
@@ -114,7 +114,7 @@ export async function writeConfig(file, values) {
   return
 }
 
-export function prettyJson(data) {
+export function prettyJson(data): string {
   return highlight(json2yaml.stringify(data, null, "  "))
 }
 

@@ -2,11 +2,12 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin"
 import webpack from "webpack"
 import log from "@factor/tools/logger"
 import { applyFilters } from "@factor/tools/filters"
+import cssNano from "cssnano"
+import webpackProgressPlugin from "webpack/lib/ProgressPlugin"
+import cliProgress from "cli-progress"
 
 export function cssLoaders({ target, lang }): object[] {
-  const postCssPlugins = applyFilters("postcss-plugins", [
-    require("cssnano")({ preset: "default" })
-  ])
+  const postCssPlugins = applyFilters("postcss-plugins", [cssNano({ preset: "default" })])
 
   const _base = [
     { loader: "css-loader" },
@@ -39,15 +40,17 @@ export function cssLoaders({ target, lang }): object[] {
 
 export async function enhancedBuild({ name, config }): Promise<void> {
   const compiler = webpack(config)
-  const ProgressPlugin = require("webpack/lib/ProgressPlugin")
-  const { Bar, Presets } = require("cli-progress")
+
+  const { Bar, Presets } = cliProgress
 
   const _bar = new Bar({ format: `${name} [{bar}] {percentage}% {msg}` }, Presets.rect)
 
   return await new Promise((resolve, reject) => {
     _bar.start(100, 1, { msg: "" })
 
-    compiler.apply(new ProgressPlugin((ratio, msg) => _bar.update(ratio * 100, { msg })))
+    compiler.apply(
+      new webpackProgressPlugin((ratio, msg) => _bar.update(ratio * 100, { msg }))
+    )
 
     compiler.run((err, stats) => {
       _bar.stop()
