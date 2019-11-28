@@ -7,7 +7,7 @@ module.exports = {
 
   roots: ["<rootDir>/@factor", "<rootDir>/test"],
 
-  setupFilesAfterEnv: ["./test/config/setup"],
+  setupFilesAfterEnv: ["./test/config/setup.ts"],
 
   testMatch: ["**/?(*.|*-)+(spec|test).[jt]s?(x)"],
   testPathIgnorePatterns: [
