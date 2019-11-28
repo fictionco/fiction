@@ -21,9 +21,9 @@
               <template v-for="(listItem, i) in item.list">
                 <li :key="i" class="py-4" :class="listItem.classes">
                   <template v-if="listItem.contentLarge">
-                    <span
+                    <div
                       class="text-3xl font-bold leading-tight text-purple-900"
-                    >{{ listItem.contentLarge }}</span>
+                    >{{ listItem.contentLarge }}</div>
                   </template>
                   <span v-formatted-text="listItem.content"></span>
                 </li>

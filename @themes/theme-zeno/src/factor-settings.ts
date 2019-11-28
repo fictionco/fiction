@@ -66,15 +66,15 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+          classes: "btn rounded bg-teal-500 text-purple-700 hover:bg-teal-600"
         },
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "btn shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
+          classes: "btn rounded shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
         }
       ],
-      figure: () => import("./el/figure-intro.vue")
+      figure: (): Promise<Vue> => import("./el/figure-intro.vue")
     },
     clients: {
       title: "Working with the following clouds:",
@@ -280,13 +280,14 @@ export default {
         description: "The full power of Elastic Byte",
         list: [
           {
-            content: `<div>$2,000</div>per month`
+            contentLarge: `$2,000`,
+            content: `per month`
           },
           {
-            content: `<div>10</div>billable hours included monthly`
+            content: `<span class="font-bold">10</span> billable hours included monthly`
           },
           {
-            content: `<span>$300</span> per additional hour`
+            content: `<span class="font-bold">$300</span> per additional hour`
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
@@ -306,13 +307,13 @@ export default {
         list: [
           {
             contentLarge: `$3,500`,
-            content: `<div>$3,500</div>per month`
+            content: `per month`
           },
           {
-            content: `<div>20</div>billable hours included monthly`
+            content: `<span class="font-bold">20</span> billable hours included monthly`
           },
           {
-            content: `<span>$250</span> per additional hour`
+            content: `<span class="font-bold">$250</span> per additional hour`
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
@@ -331,13 +332,14 @@ export default {
         description: "Infrastructure and DevOps at scale",
         list: [
           {
-            content: `<div>$6,000</div>per month`
+            contentLarge: `$6,000`,
+            content: `per month`
           },
           {
-            content: `<div>40</div>billable hours included monthly`
+            content: `<span class="font-bold">40</span> billable hours included monthly`
           },
           {
-            content: `<span>$200</span> per additional hour`
+            content: `<span class="font-bold">$200</span> per additional hour`
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
@@ -489,7 +491,8 @@ export default {
         inputType: "textarea",
         inputClasses:
           "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
-        placeholder: "how can we help?"
+        placeholder: "how can we help?",
+        required: true
       }
     ]
   },
