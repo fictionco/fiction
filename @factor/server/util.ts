@@ -3,7 +3,10 @@ import chalk from "chalk"
 import express from "express"
 import figures from "figures"
 
-export function serverErrorWrap({ title = "", subTitle = "", description = "" }) {
+import expressPackage from "express/package.json"
+import serverRendererPackage from "vue-server-renderer/package.json"
+
+export function serverErrorWrap({ title = "", subTitle = "", description = "" }): string {
   const lines = []
 
   if (title)
@@ -21,17 +24,17 @@ export function serverErrorWrap({ title = "", subTitle = "", description = "" })
   )}</div>`
 }
 
-export function getPort(port) {
+export function getPort(port): string | number {
   return port || process.env.PORT || setting("PORT") || 3000
 }
 
-export function getServerInfo() {
-  const { version: expressVersion } = require("express/package.json")
-  const { version: ssrVersion } = require("vue-server-renderer/package.json")
+export function getServerInfo(): string {
+  const { version: expressVersion } = expressPackage
+  const { version: ssrVersion } = serverRendererPackage
   return `express/${expressVersion} vue-server-renderer/${ssrVersion}`
 }
 
-export function handleServerError(request, response, error) {
+export function handleServerError(request, response, error): void {
   error.message = `Factor Server Error  @[${request.url}]: ${error.message}`
 
   log.error(error)
@@ -43,7 +46,7 @@ export function handleServerError(request, response, error) {
     .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
 }
 
-export function logServerReady() {
+export function logServerReady(): void {
   const { arrowUp, arrowDown } = figures
   let readyText = ` ready... `
 
@@ -53,7 +56,7 @@ export function logServerReady() {
   console.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(readyText))
 }
 
-export function serveStatic(path, cache) {
+export function serveStatic(path, cache): Function {
   const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {
     maxAge: cache && process.env.NODE_ENV == "production" ? DAY : 0

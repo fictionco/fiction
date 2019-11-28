@@ -3,36 +3,35 @@ import { pushToFilter } from "@factor/tools/filters"
 import { writeConfig } from "@factor/cli/setup"
 import mongoose from "mongoose"
 import { getAddedSchemas } from "./util"
+import inquirer from "inquirer"
+
+import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
 
 let __schemas = {}
 let __models = {}
 let __offline = false
 
-export function dbIsOffline() {
-  return __offline || !process.env.DB_CONNECTION ? true : false
+export function dbIsOffline(): boolean {
+  return __offline || !process.env.DB_CONNECTION
 }
 
 // Must be non-async so we can use chaining
-export function getModel(name) {
+export function getModel(name): mongoose.Model {
   // If model doesn't exist, create a vanilla one
   if (!__models[name] && name != "post") setModel({ name }, getModel("post"))
 
   return __models[name]
 }
 
-// export function getSchema(name) {
-//   return __schemas[name] || null
-// }
-
-export async function dbInitialize() {
+export async function dbInitialize(): Promise<void> {
   await dbConnect()
 
   if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
-  mongoose.plugin(require("mongoose-beautiful-unique-validation"))
+  mongoose.plugin(mongooseBeautifulUniqueValidation)
   initializeModels()
 }
 
-function initializeModels() {
+function initializeModels(): void {
   __schemas = {}
   __models = {}
 
@@ -47,7 +46,10 @@ function initializeModels() {
 
 // Set schemas and models
 // For server restarting we need to inherit from already constructed mdb models if they exist
-export function setModel(schemaConfig, baseModel?: any) {
+export function setModel(
+  schemaConfig,
+  baseModel?: mongoose.Model | void
+): { schema: mongoose.Schema; model: mongoose.Model } {
   const { Schema, modelSchemas, models, model } = mongoose
   const { schema = {}, options = {}, callback, name } = schemaConfig
 
@@ -75,13 +77,13 @@ export function setModel(schemaConfig, baseModel?: any) {
   return { schema: _schema_, model: _model_ }
 }
 
-export async function dbDisconnect() {
+export async function dbDisconnect(): Promise<void> {
   if (isConnected()) {
     await mongoose.connection.close()
   }
 }
 
-export async function dbConnect() {
+export async function dbConnect(): Promise<mongoose.Connection> {
   if (!isConnected()) {
     try {
       const connectionString = process.env.DB_CONNECTION
@@ -97,10 +99,12 @@ export async function dbConnect() {
     } catch (error) {
       dbHandleError(error)
     }
+  } else {
+    return mongoose.connection
   }
 }
 
-function dbHandleError(error) {
+function dbHandleError(error): void {
   if (error.code === "ECONNREFUSED") {
     __offline = true
     log.warn("Couldn't connect to the database. Serving in offline mode.")
@@ -116,17 +120,17 @@ function dbHandleError(error) {
   }
 }
 
-export function isConnected() {
+export function isConnected(): boolean {
   return ["connected"].includes(dbReadyState())
 }
 
-export function dbReadyState() {
+export function dbReadyState(): string {
   const states = ["disconnected", "connected", "connecting", "disconnecting"]
 
   return states[mongoose.connection.readyState]
 }
 
-export function dbSetupUtility() {
+export function dbSetupUtility(): void {
   // ADD CLI
   if (!process.env.DB_CONNECTION) {
     pushToFilter("setup-needed", {
@@ -142,7 +146,7 @@ export function dbSetupUtility() {
     return {
       name: "DB Connection - Add/edit the connection string for MongoDB",
       value: "db",
-      callback: async ({ inquirer }) => {
+      callback: async (): Promise<void> => {
         const questions = [
           {
             name: "connection",

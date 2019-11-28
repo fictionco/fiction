@@ -3,7 +3,7 @@ import AWS from "aws-sdk"
 
 addFilters()
 
-function addFilters() {
+function addFilters(): void {
   if (
     !process.env.AWS_ACCESS_KEY ||
     !process.env.AWS_ACCESS_KEY_SECRET ||
@@ -47,7 +47,7 @@ function addFilters() {
   })
 }
 
-function setConfig() {
+function setConfig(): { S3: AWS.S3; bucket: string } {
   AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY,
     secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET

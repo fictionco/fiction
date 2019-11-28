@@ -23,6 +23,7 @@ export function getPath(key): string {
 }
 
 function relativePath(key: string): string {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { main = "index.js" } = require(resolve(CWD(), "package.json"))
   const sourceDirectory = dirname(resolve(CWD(), main))
 

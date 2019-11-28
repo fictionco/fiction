@@ -9,11 +9,11 @@ import serveFavicon from "serve-favicon"
 import { serveStatic } from "./util"
 import logger from "./logger"
 
-export function addMiddleware({ path = "/", middleware = [] }) {
+export function addMiddleware({ path = "/", middleware = [] }): void {
   pushToFilter("middleware", { path, middleware })
 }
 
-export function loadMiddleware(app, middleware = []) {
+export function loadMiddleware(app, middleware = []): void {
   const fav = setting("app.faviconPath")
 
   if (fav) app.use(serveFavicon(fav))
