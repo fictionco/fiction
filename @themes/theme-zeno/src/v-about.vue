@@ -2,8 +2,10 @@
   <div>
     <section class="bg-gray-100 flex items-center" :style="introBackground">
       <div class="max-w-2xl mx-auto text-center px-8 py-32">
-        <h3 class="uppercase-custom text-purple-500">{{ introPretitle }}</h3>
-        <h1 class="font-bold leading-tight text-3xl lg:text-4xl text-purple-900">{{ introTitle }}</h1>
+        <h3 class="custom-uppercase text-purple-500">{{ introPretitle }}</h3>
+        <h1
+          class="mt-1 font-bold leading-tight text-3xl lg:text-4xl text-purple-900"
+        >{{ introTitle }}</h1>
       </div>
     </section>
 
@@ -33,7 +35,7 @@
               </div>
             </div>
             <div class="w-full mt-6 sm:mt-0 sm:pl-10 sm:w-8/12">
-              <h2 class="uppercase-custom text-purple-500">{{ member.title }}</h2>
+              <h2 class="custom-uppercase text-purple-500">{{ member.title }}</h2>
               <h1 class="font-bold text-3xl text-purple-900">{{ member.name }}</h1>
               <div
                 v-formatted-text="member.content"

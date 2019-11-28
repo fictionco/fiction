@@ -1,28 +1,25 @@
 <template>
-  <div>
-    <div>
-      <a
-        href="#"
-        class="p-4 block no-underline flex justify-between"
-        @click.prevent="active = !active"
-      >
-        <strong>{{ title }}</strong>
-        <span v-show="!active" class="down-Arrow">
-          <factor-icon icon="plus" />
-        </span>
-        <span v-show="active" class="up-Arrow">
-          <factor-icon icon="minus" />
-        </span>
-      </a>
-    </div>
-    <div v-show="active" class="p-2">
+  <div class="mt-2 border border-transparent" :class="{ 'border-gray-200 bg-white': active }">
+    <a
+      href="#"
+      class="flex justify-between no-underline text-xl text-purple-900 px-6 py-4 hover:text-purple-500 hover:bg-white active:text-purple-500"
+      @click.prevent="active = !active"
+    >
+      <span class="font-bold">{{ title }}</span>
+      <span v-show="!active" class="ml-4">
+        <factor-icon icon="plus" />
+      </span>
+      <span v-show="active" class="ml-4">
+        <factor-icon icon="minus" />
+      </span>
+    </a>
+    <div v-show="active" class="px-6 pb-6">
       <slot />
     </div>
   </div>
 </template>
 
-
-<script>
+<script lang="ts">
 import { setting } from "@factor/tools"
 import { factorIcon } from "@factor/ui"
 import Vue from "vue"

@@ -269,7 +269,8 @@ export default {
       title: "Choose the right plan for your business.",
       content:
         "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
-      image: require("./img/stars.svg")
+      image: require("./img/stars.svg"),
+      backgroundImage: require("./img/stars.svg")
     },
     packages: [
       {
@@ -295,14 +296,15 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "bg-green-300 text-indigo-600"
+        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
       },
       {
-        classes: "border border-indigo-400",
+        classes: "border border-purple-400 bg-purple-100",
         name: "Micro",
         description: "Great value for growing businesses",
         list: [
           {
+            contentLarge: `$3,500`,
             content: `<div>$3,500</div>per month`
           },
           {
@@ -320,7 +322,7 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "bg-green-300 text-indigo-600"
+        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
       },
       {
         classes: "border border-gray-300",
@@ -345,7 +347,7 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "bg-green-300 text-indigo-600"
+        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
       }
     ],
     packagesFooter:
@@ -355,7 +357,7 @@ export default {
       questions: [
         {
           title: "How are payments handled?",
-          content: `<p>We process all payments via Stripe and offer two payment options.</p><ul><li>ACH debit bank transfer. (US only)</li><li> All major credit cards. Note, there is a 3% processing fee for credit card transactions.</li></ul>`
+          content: `<p>We process all payments via Stripe and offer two payment options.</p><ul class="font-normal list-outside list-square mt-8 ml-8 text-base leading-relaxed lg:text-xl"><li>ACH debit bank transfer. (US only)</li><li> All major credit cards. Note, there is a 3% processing fee for credit card transactions.</li></ul>`
         },
         {
           title: "Who pays for infrastructure and 3rd party services?",
@@ -414,10 +416,10 @@ export default {
     intro: {
       pretitle: "Contact Us",
       title: "Give us a shout. Let us know how we can help.",
-      backgroundImage: require("./img/stars.svg"),
       content:
         "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
-      figure: require("./img/cloud-with-shadow.svg")
+      figure: require("./img/cloud-with-shadow.svg"),
+      backgroundImage: require("./img/stars.svg")
     }
   },
   contactForm: {

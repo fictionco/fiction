@@ -4,7 +4,7 @@
       <div class="max-w-6xl mx-auto">
         <div class="flex flex-col py-8 md:flex-row lg:py-12">
           <div class="flex flex-col justify-center p-8 md:w-1/2">
-            <h3 class="uppercase-custom text-purple-500">{{ introPretitle }}</h3>
+            <h3 class="custom-uppercase text-purple-500">{{ introPretitle }}</h3>
             <h1
               class="font-bold leading-tight text-3xl lg:text-4xl text-purple-900"
             >{{ introTitle }}</h1>
@@ -14,12 +14,13 @@
             <figure class="absolute top-0 right-0 z-20 mr-16">
               <img :src="introFigure" :alt="introPretitle" />
             </figure>
-            <component :is="setting('contactForm.form')" class="mt-8 bg-white shadow-lg p-4" />
+            <component
+              :is="setting('contactForm.form')"
+              class="mt-8 bg-white shadow-lg rounded-lg p-8"
+            />
           </div>
         </div>
       </div>
-
-      <site-cta />
     </section>
   </div>
 </template>
@@ -28,9 +29,6 @@
 import { setting } from "@factor/tools"
 import Vue from "vue"
 export default Vue.extend({
-  components: {
-    "site-cta": () => import("./el/cta.vue")
-  },
   data() {
     return {
       loading: true,

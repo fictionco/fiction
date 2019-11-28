@@ -1,14 +1,14 @@
 <template>
   <div class="lg:-mt-16">
     <section class="flex bg-gray-100 min-h-full">
-      <div
-        class="flex flex-col justify-start px-8 py-16 mx-auto sm:max-w-xl lg:w-1/2 lg:justify-center"
-      >
-        <h3 class="uppercase-custom text-purple-500">{{ introPretitle }}</h3>
-        <h1 class="font-bold leading-tight text-3xl lg:text-4xl text-purple-900">{{ introTitle }}</h1>
+      <div class="px-8 py-16 mx-auto sm:max-w-xl lg:w-1/2 lg:flex lg:flex-col lg:justify-center">
+        <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3>
+        <h1
+          class="font-bold leading-tight text-3xl mt-2 text-purple-900 lg:text-4xl"
+        >{{ introTitle }}</h1>
         <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
 
-        <div class="mt-4">
+        <div class="mt-8">
           <template v-for="(button, index) in introButtons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
               {{ button.text }}
@@ -23,7 +23,7 @@
     </section>
 
     <section class="max-w-6xl mx-auto px-8 py-12 lg:py-16">
-      <h1 class="uppercase-custom text-center text-purple-500">{{ clientsTitle }}</h1>
+      <h1 class="custom-uppercase text-center text-purple-500">{{ clientsTitle }}</h1>
       <div class="flex flex-wrap items-center">
         <template v-for="(item, index) in clientsList">
           <factor-link :key="index" :path="item.link" class="w-full px-4 mt-12 sm:w-1/3 sm:mt-8">
@@ -65,10 +65,10 @@
       <div class="flex flex-col py-8 md:flex-row lg:py-12">
         <component :is="devopsFigure" class="flex p-8 md:w-1/2" />
         <div class="flex flex-col p-8 justify-center md:w-1/2">
-          <h3 class="uppercase-custom text-purple-500">{{ devopsPretitle }}</h3>
+          <h3 class="custom-uppercase text-purple-500">{{ devopsPretitle }}</h3>
           <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">{{ devopsTitle }}</h1>
           <div v-formatted-text="devopsContent" class="mt-2 text-base leading-relaxed lg:text-xl" />
-          <div class="mt-4">
+          <div class="mt-8">
             <template v-for="(button, index) in devopsButtons">
               <factor-link :key="index" :path="button.link" :class="button.classes">
                 {{ button.text }}
@@ -81,13 +81,19 @@
     </section>
 
     <section class="bg-gray-100">
-      <div class="max-w-6xl mx-auto py-8 lg:py-12">
+      <div class="max-w-6xl mx-auto px-8 py-16 lg:py-12">
         <div class="flex flex-col md:flex-row">
-          <div class="flex flex-col justify-center p-8 md:w-1/2">
-            <h3 class="uppercase-custom text-purple-500">{{ infrPretitle }}</h3>
+          <div class="pb-8 md:pb-0 md:pr-8 md:w-1/2">
+            <h3 class="custom-uppercase text-purple-500">{{ infrPretitle }}</h3>
             <div class="flex items-center">
-              <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">{{ infrTitle }}</h1>
-              <img :src="infrTitleIcon" :alt="infrTitle" class="ml-3" />
+              <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">
+                {{ infrTitle }}
+                <img
+                  :src="infrTitleIcon"
+                  :alt="infrTitle"
+                  class="inline-block lg:ml-2"
+                />
+              </h1>
             </div>
             <template v-for="(item, index) in infrItems">
               <div :key="index" class="pt-12">
@@ -99,41 +105,38 @@
               </div>
             </template>
           </div>
-          <component :is="infrSyntax" class="flex flex-col justify-center p-8 md:w-1/2" />
+          <component :is="infrSyntax" class="pt-8 md:pt-0 md:pl-8 md:w-1/2" />
         </div>
       </div>
     </section>
 
-    <section class="max-w-6xl mx-auto py-8">
-      <div class="p-8">
-        <div class="max-w-xs mx-auto">
-          <h3 class="uppercase-custom text-center text-purple-500">{{ testimonialsPretitle }}</h3>
-          <h1
-            class="font-bold text-3xl text-center leading-tight text-purple-900 lg:text-4xl"
-          >{{ testimonialsTitle }}</h1>
-        </div>
-
-        <div class="flex flex-col text-base mt-6 md:flex-row lg:text-xl">
-          <template v-for="(item, index) in testimonialsItems">
-            <figure :key="index" class="flex-1 p-8">
-              <blockquote class="relative inline-block quote">
-                <span class="absolute text-5xl text-gray-400 -ml-6 -mt-6">&ldquo;</span>
-                <span v-formatted-text="item.content" class="leading-relaxed" />
-              </blockquote>
-              <footer class="flex items-center mt-6">
-                <img
-                  :src="item.image"
-                  :alt="item.author + ' - ' + item.info"
-                  class="rounded-full h-16 w-16"
-                />
-                <div class="ml-4 text-base">
-                  <cite class="block">{{ item.author }}</cite>
-                  <cite class="block">{{ item.info }}</cite>
-                </div>
-              </footer>
-            </figure>
-          </template>
-        </div>
+    <section class="max-w-6xl mx-auto px-8 py-16">
+      <div class="max-w-xs mx-auto">
+        <h3 class="custom-uppercase text-center text-purple-500">{{ testimonialsPretitle }}</h3>
+        <h1
+          class="mt-2 font-bold text-3xl text-center leading-tight text-purple-900 lg:text-4xl"
+        >{{ testimonialsTitle }}</h1>
+      </div>
+      <div class="flex flex-col text-base mt-6 md:flex-row lg:text-xl">
+        <template v-for="(item, index) in testimonialsItems">
+          <figure :key="index" class="flex-1 px-8 pt-8">
+            <blockquote class="relative inline-block quote">
+              <span class="absolute text-5xl text-gray-400 -ml-6 -mt-6">&ldquo;</span>
+              <span v-formatted-text="item.content" class="leading-relaxed" />
+            </blockquote>
+            <footer class="flex items-center mt-4">
+              <img
+                :src="item.image"
+                :alt="item.author + ' - ' + item.info"
+                class="rounded-full h-16 w-16"
+              />
+              <div class="ml-4 text-base">
+                <cite class="block">{{ item.author }}</cite>
+                <cite class="block">{{ item.info }}</cite>
+              </div>
+            </footer>
+          </figure>
+        </template>
       </div>
     </section>
 

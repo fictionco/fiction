@@ -7,8 +7,8 @@ body{
 .btn{
   @apply inline-block text-sm px-5 py-3 uppercase tracking-wider font-semibold;
 }
-.uppercase-custom{
-  @apply font-sans font-semibold leading-tight tracking-widest uppercase;
+.custom-uppercase{
+  @apply font-sans font-semibold text-sm mb-2 leading-tight tracking-widest uppercase;
 }
 .transition-all{
   transition: 0.15s cubic-bezier(0.52, 0.01, 0.16, 1);
