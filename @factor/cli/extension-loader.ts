@@ -4,13 +4,14 @@ import { toPascalCase, sortPriority } from "@factor/tools/utils"
 import fs from "fs-extra"
 import glob from "glob"
 import log from "@factor/tools/logger"
+import { FactorPackageJson, LoadTarget, FactorExtension } from "./types"
 
-export function getCWDPackage() {
+export function getCWDPackage(): FactorPackageJson {
   let pkg
   try {
     const p = require(`${getCWD()}/package.json`)
 
-    if (p.name == "@factor/wrapper") {
+    if (p.name === "@factor/wrapper") {
       if (process.env.FACTOR_ENV != "test") {
         log.warn("Couldn't generate loaders - CWD is workspace root")
       }
@@ -18,16 +19,16 @@ export function getCWDPackage() {
       pkg = p
     }
   } catch (error) {
-    if (error.code !== "MODULE_NOT_FOUND") {
+    if (error.code === "MODULE_NOT_FOUND") {
       log.warn("Couldn't generate loaders - CWD has no package.json")
-    }
+    } else throw error
   }
 
   return pkg
 }
 
 let __extensions // ensure we don't recursively scan more than once
-export function getExtensions() {
+export function getExtensions(): FactorExtension[] {
   if (__extensions) {
     return __extensions
   } else {
@@ -50,17 +51,17 @@ function getCWD(): string {
 }
 
 // Determine if a package name is the CWD
-function isCWD(name): boolean {
-  return !!name == getCWDPackage().name
+function isCWD(name: string): boolean {
+  return name === getCWDPackage().name
 }
 
-function generateExtensionList(packagePaths) {
+function generateExtensionList(packagePaths): FactorExtension[] {
   const loader = []
 
   packagePaths.forEach(_ => {
     const {
       name,
-      factor: { priority = null, target = false, extend = "plugin" } = {},
+      factor: { priority = null, load = false, extend = "plugin" } = {},
       version,
       main = "index"
     } = _
@@ -75,7 +76,7 @@ function generateExtensionList(packagePaths) {
       main,
       extend,
       priority: getPriority({ priority, name, extend }),
-      target: normalizeTarget({ target, main, _id }),
+      load: normalizeLoadTarget({ load, main, _id }),
       cwd: isCWD(name),
       _id
     })
@@ -104,10 +105,7 @@ export function generateLoaders(): void {
     extensions,
     loadTarget: "app",
     callback: files => {
-      writeFile({
-        destination: getPath("loader-app"),
-        content: loaderString(files)
-      })
+      writeFile({ destination: getPath("loader-app"), content: loaderString(files) })
     }
   })
 
@@ -129,14 +127,9 @@ export function generateLoaders(): void {
       const imports = files.map(_ => `@import (less) "~${_.file}";`).join(`\n`)
       const content = `${imports}`
 
-      writeFile({
-        destination: getPath("loader-styles"),
-        content
-      })
+      writeFile({ destination: getPath("loader-styles"), content })
     }
   })
-
-  //console.log("Files Made @", process.env.FACTOR_CWD || process.getCWD())
 
   return
 }
@@ -144,15 +137,15 @@ export function generateLoaders(): void {
 // Webpack doesn't allow dynamic paths in require statements
 // In order to make dynamic require statements, we build loader files
 // Also an easier way to see what is included than by using other techniques
-function makeModuleLoader({ extensions, loadTarget, callback }) {
+function makeModuleLoader({ extensions, loadTarget, callback }): void {
   const files = []
 
-  const filtered = extensions.filter(({ target }) => target[loadTarget])
+  const filtered = extensions.filter(({ load }) => load[loadTarget])
 
   filtered.forEach(extension => {
-    const { target, name, cwd } = extension
+    const { load, name, cwd } = extension
 
-    target[loadTarget].forEach(({ _id, file, priority = 100 }) => {
+    load[loadTarget].forEach(({ _id, file, priority = 100 }) => {
       const _module = `${cwd ? ".." : name}/${file}`
 
       const moduleName = _module.replace(/\.[^/.]+$/, "").replace(/\/index$/, "")
@@ -199,7 +192,7 @@ function makeFileLoader({ extensions, filename, callback }): void {
   callback(files)
 }
 
-function recursiveDependencies(deps, pkg) {
+function recursiveDependencies(deps, pkg): FactorPackageJson[] {
   const { dependencies = {}, devDependencies = {} } = pkg
 
   const d = { ...dependencies, ...devDependencies }
@@ -217,24 +210,24 @@ function recursiveDependencies(deps, pkg) {
   return deps
 }
 
-// Normalize target key from package.json
+// Normalize load key from package.json
 // Allow for both simple syntax or full control
-// target: ["app", "server"] - load main on app/server
-// target: {
+// load: ["app", "server"] - load main on app/server
+// load: {
 //  "server": ["_id": "myId", "file": "some-file.js"]
 // }
-function normalizeTarget({ target, main, _id }) {
+function normalizeLoadTarget({ load, main, _id }): LoadTarget {
   const __ = {}
 
-  if (!target) return __
+  if (!load) return __
 
-  if (Array.isArray(target)) {
-    target.forEach(t => {
+  if (Array.isArray(load)) {
+    load.forEach(t => {
       __[t] = [{ file: main, _id }]
     })
-  } else if (typeof target == "object") {
-    Object.keys(target).forEach(t => {
-      const val = target[t]
+  } else if (typeof load == "object") {
+    Object.keys(load).forEach(t => {
+      const val = load[t]
 
       if (!Array.isArray(val)) {
         __[t] = [{ file: val, _id: getId({ _id, main, file: val }) }]
@@ -272,7 +265,7 @@ function loaderStringOrdered(files): string {
 
 // Use root application dependencies as the start of the
 // factor dependency tree
-function loadExtensions(pkg) {
+function loadExtensions(pkg): FactorExtension[] {
   const dependents = recursiveDependencies([pkg], pkg)
 
   return generateExtensionList(dependents)
@@ -341,15 +334,3 @@ export function makeEmptyLoaders(): void {
     writeFile({ destination: getPath(pathId), content })
   })
 }
-
-// const loaderUtility = new FactorLoaderUtility()
-
-// export default loaderUtility
-
-// export function generateLoaders() {
-//   return loaderUtility.generateLoaders()
-// }
-
-// export function getFactorDirectories() {
-//   return loaderUtility.getFactorDirectories()
-// }

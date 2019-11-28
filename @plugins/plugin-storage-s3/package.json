@@ -6,7 +6,7 @@
   "type": "module",
   "factor": {
     "_id": "storageS3",
-    "target": [
+    "load": [
       "server"
     ],
     "title": "Storage S3"

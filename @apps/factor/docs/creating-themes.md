@@ -11,7 +11,7 @@ To make a Factor app into a theme just add `factor > extend: theme` to the packa
 {
   "name": "superb-factor-theme",
   "factor": {
-    "target": ["app", "theme"],
+    "load": ["app", "theme"],
     "extend": "theme"
   }
 }

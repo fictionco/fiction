@@ -17,13 +17,15 @@ import * as filters from "@factor/tools/filters"
 jest.setTimeout(120000) // needs to download mongodb 60mb
 let port
 let __id
-const spies = {
-  applyFilters: jest.spyOn(filters, "applyFilters")
-}
+let spies
 describe("upload endpoint", () => {
   beforeAll(async () => {
     port = await getPort()
     process.env.PORT = String(port)
+
+    spies = {
+      applyFilters: jest.spyOn(filters, "applyFilters")
+    }
 
     await startEndpointTestingServer({ port })
   })

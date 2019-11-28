@@ -6,7 +6,7 @@
   "main": "src/index",
   "private": true,
   "factor": {
-    "target": [
+    "load": [
       "app"
     ]
   },

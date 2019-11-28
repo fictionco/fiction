@@ -8,14 +8,14 @@ The first step in creating a plugin is to create a folder that includes a `packa
 
 To make your project a Factor plugin all that is needed is to add the `factor` property.
 
-If you'd like your plugin to be "auto-loaded" in your user's applications, you'll also need to set the `target` property and assign the entry files.
+If you'd like your plugin to be "auto-loaded" in your user's applications, you'll also need to set the `load` property and assign the entry files.
 
 ```json
 // package.json
 {
   "name": "excellent-factor-plugin",
   "factor": {
-    "target": {
+    "load": {
       "app": "index", // Loads index.js in webpack app
       "server": "server" // Loads server.js in server environment
     }
@@ -35,7 +35,7 @@ To do this, we recommend looking into:
 
 ## Starting Your Plugin
 
-The first step is to add some code to your plugin "entry" or "main" files (set with `target` property).
+The first step is to add some code to your plugin "entry" or "main" files (set with `load` property).
 
 These files typically "hook" into Factor via functions, filters and callbacks. A few examples of what you can do:
 
@@ -51,7 +51,7 @@ There are two environments in Factor, the Webpack "app" and the Express "server"
 
 With the entry files, you'll typically want to split code that is meant to run in the client into `index.js` and code that is meant for the server into `server.js`.
 
-However the naming and loading of these files can be completely controlled using the `package.json > target` property.
+However the naming and loading of these files can be completely controlled using the `package.json > load` property.
 
 ## Allowing Customization
 

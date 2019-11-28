@@ -6,7 +6,7 @@
   "type": "module",
   "factor": {
     "_id": "contactForm",
-    "target": {
+    "load": {
       "app": "index",
       "server": "server"
     },

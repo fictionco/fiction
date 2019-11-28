@@ -18,9 +18,9 @@ export interface PostIndexCounts {
 
 export interface FactorSchema {
   name: string;
-  options: mongoose.SchemaOptions;
+  options?: mongoose.SchemaOptions;
   schema: object;
-  populatedFields: object[];
+  populatedFields?: object[];
   callback?: (s: mongoose.Schema) => void;
 }
 

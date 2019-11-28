@@ -31,7 +31,7 @@ Next we'll create a standard [package.json](https://docs.npmjs.com/files/package
   "license": "UNLICENSED",
   "version": "1.0.0",
   "factor": {
-    "target": {
+    "load": {
       "app": "index",
       "server": "server"
     },
@@ -47,7 +47,7 @@ Next we'll create a standard [package.json](https://docs.npmjs.com/files/package
 
 Next we'll add two "main" files. Main files serve as the entry point to the application and can be used to add custom behavior.
 
-The "target" attribute in package.json specifies that `server.js` will load in the "server" environment and `index.js` will load in the app environment. So simply add those files and we'll add some code to them later.
+The "load" attribute in package.json specifies that `server.js` will load in the "server" environment and `index.js` will load in the app environment. So simply add those files and we'll add some code to them later.
 
 ## 3. Install Dependencies
 

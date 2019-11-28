@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-user-profiles",
   "factor": {
-    "target": [
+    "load": [
       "app"
     ]
   },

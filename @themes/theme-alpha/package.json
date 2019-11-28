@@ -10,7 +10,7 @@
   },
   "factor": {
     "extend": "theme",
-    "target": [
+    "load": [
       "server",
       "app"
     ],

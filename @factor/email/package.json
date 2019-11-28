@@ -8,7 +8,7 @@
   },
   "factor": {
     "_id": "email",
-    "target": {
+    "load": {
       "app": "index",
       "server": "server"
     }

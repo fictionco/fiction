@@ -18,7 +18,7 @@ This file is used to describe your application as an NPM package. Inside this fi
 {
   "name": "myApp",
   "factor": {
-    "target": "app"
+    "load": "app"
   },
   "dependencies": {
     "@factor/core: ...
@@ -76,13 +76,13 @@ addFilter("content-routes", routes => {
 }
 ```
 
-You can control how exactly this file gets loaded via the `package.json > factor > target` attribute. For example you can break out the entry for the app vs the server as follows:
+You can control how exactly this file gets loaded via the `package.json > factor > load` attribute. For example you can break out the entry for the app vs the server as follows:
 
 ```json
 // package.json
 {
   "factor": {
-    "target": {
+    "load": {
       "app": "index", // Loads index.js in webpack app
       "server": "server" // Loads server.js in cli and express server
     }

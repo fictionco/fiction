@@ -6,7 +6,7 @@
   "license": "GPL-2.0",
   "type": "module",
   "factor": {
-    "target": [
+    "load": [
       "app",
       "server"
     ]

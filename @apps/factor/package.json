@@ -8,7 +8,7 @@
   "license": "UNLICENSED",
   "factor": {
     "_id": "docsApp",
-    "target": [
+    "load": [
       "app",
       "server"
     ]

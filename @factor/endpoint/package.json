@@ -8,7 +8,7 @@
   },
   "factor": {
     "_id": "endpoint",
-    "target": {
+    "load": {
       "app": "index",
       "server": "server"
     }

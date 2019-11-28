@@ -9,7 +9,7 @@
   },
   "factor": {
     "_id": "tagManager",
-    "target": [
+    "load": [
       "server"
     ],
     "title": "Google Tag Manager"

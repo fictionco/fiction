@@ -17,7 +17,7 @@ let __application
 addCallback("create-server", () => createRenderServer())
 addCallback("close-server", () => closeServer())
 
-export async function createRenderServer(options = {}) {
+export async function createRenderServer(options = {}): Promise<void> {
   await new Promise(resolve => {
     if (process.env.NODE_ENV == "development") {
       developmentServer(renderConfig => {
@@ -43,7 +43,7 @@ export async function createRenderServer(options = {}) {
   return
 }
 
-export function createServer(options) {
+export function createServer(options): void {
   const { port = null } = options || {}
 
   process.env.PORT = port || process.env.PORT || 3000
@@ -81,7 +81,7 @@ function htmlRenderer({ bundle, template, clientManifest }) {
   __renderer = createBundleRenderer(bundle, options)
 }
 
-export async function renderRequest(request, response) {
+export async function renderRequest(request, response): Promise<void> {
   response.setHeader("Content-Type", "text/html")
   response.setHeader("Server", getServerInfo())
 
@@ -94,16 +94,16 @@ export async function renderRequest(request, response) {
 }
 
 // SSR - Renders a route (url) to HTML.
-export async function renderRoute(url = "") {
+export async function renderRoute(url = ""): Promise<string> {
   if (!__renderer) return "no renderer"
 
   return await __renderer.renderToString({ url })
 }
 
-function prepareListener() {
+function prepareListener(): void {
   __listening.destroy = destroyer(__listening)
 }
 
-export async function closeServer() {
+export async function closeServer(): Promise<void> {
   if (__listening) __listening.destroy()
 }

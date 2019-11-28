@@ -7,7 +7,7 @@
     "access": "public"
   },
   "factor": {
-    "target": [
+    "load": [
       "server"
     ],
     "_id": "server"

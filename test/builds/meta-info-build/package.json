@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "factor": {
     "_id": "fictionApp",
-    "target": [
+    "load": [
       "app",
       "server"
     ]

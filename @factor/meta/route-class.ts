@@ -17,7 +17,7 @@ addFilter("register-global-observables", __ => {
 
 pushToFilter("observable-class-keys", "routeClass")
 
-function setRouteClass(options) {
+function setRouteClass(options): void {
   if (!options) return
 
   const { routeClass } = options
@@ -32,7 +32,7 @@ function setRouteClass(options) {
   }
 }
 
-function manageClient() {
+function manageClient(): void {
   addCallback("client-route-after", () => {
     getObservables().routeClass = []
   })
@@ -41,7 +41,7 @@ function manageClient() {
     Vue.extend({
       watch: {
         $route: {
-          handler: function() {
+          handler: function(): void {
             setRouteClass(this.$options)
           },
           immediate: true

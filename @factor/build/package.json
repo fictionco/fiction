@@ -9,7 +9,7 @@
   },
   "factor": {
     "_id": "build",
-    "target": {
+    "load": {
       "server": [
         {
           "_id": "webpack",

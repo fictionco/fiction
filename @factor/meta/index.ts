@@ -5,9 +5,9 @@ import "./route-class"
 
 Vue.use(VueMeta, { keyName: "metaInfoCore" })
 
-addFilter("ssr-context-ready", (context, { app, router }) => {
+addFilter("ssr-context-ready", (context, { vm, router }) => {
   // Add Vue-Meta
-  context.metaInfo = app.$meta()
+  context.metaInfo = vm.$meta()
 
   // the html template extension mechanism
   // This uses a callback because the component's 'created' hooks are called after this point
@@ -15,7 +15,7 @@ addFilter("ssr-context-ready", (context, { app, router }) => {
   const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
 
   metaHooks.forEach(h => {
-    context[h] = () => applyFilters(h, [], { context }).join("")
+    context[h] = (): string => applyFilters(h, [], { context }).join("")
   })
 
   // Distinguish between content and dashboard UI
@@ -29,7 +29,7 @@ addFilter("ssr-context-ready", (context, { app, router }) => {
   ]
 
   attrHooks.forEach(({ name, attr, classes }) => {
-    context[name] = additional => {
+    context[name] = (additional): string => {
       classes.push(additional)
       attr.push(`class="${classes.join(" ")}"`)
       return applyFilters(name, attr, { context }).join(" ")
@@ -58,21 +58,22 @@ addFilter("site-mixins", _ => [
   }
 ])
 
-addCallback("initialize-app", () => {
+addCallback("initialize-app", (): void => {
+  Vue.mixin(
+    Vue.extend({
+      metaInfoCore() {
+        const opt = this.$options.metaInfo
 
-  Vue.mixin(Vue.extend({
-    metaInfoCore() {
-      const opt = this.$options.metaInfo
+        if (!opt) return {}
 
-      if (!opt) return {}
+        const meta = typeof opt == "function" ? opt.call(this) : opt
 
-      const meta = typeof opt == "function" ? opt.call(this) : opt
+        const refined = applyFilters("meta-refine", meta)
 
-      const refined = applyFilters("meta-refine", meta)
-
-      return refined
-    }
-  }))
+        return refined
+      }
+    })
+  )
 })
 
 addFilter(

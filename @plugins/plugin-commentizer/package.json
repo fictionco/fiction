@@ -9,7 +9,7 @@
   },
   "factor": {
     "_id": "commentizer",
-    "target": {
+    "load": {
       "app": "index",
       "server": "server"
     }

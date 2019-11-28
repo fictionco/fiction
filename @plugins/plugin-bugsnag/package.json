@@ -10,7 +10,7 @@
   },
   "factor": {
     "_id": "bugsnag",
-    "target": {
+    "load": {
       "app": "index",
       "server": "server"
     },
