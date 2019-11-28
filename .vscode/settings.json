@@ -134,6 +134,7 @@
     "isempty",
     "isequal",
     "kubernetes",
+    "lightbox",
     "linkedin",
     "linkify",
     "listr",
@@ -164,6 +165,7 @@
     "transpiled",
     "uniqid",
     "vmid",
+    "vnode",
     "webm",
     "woff"
   ]

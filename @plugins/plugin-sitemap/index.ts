@@ -3,13 +3,14 @@ import { SitemapStream, streamToPromise } from "sitemap"
 import { uniq, addFilter, applyFilters, getPermalink, log } from "@factor/tools"
 import { createGzip } from "zlib"
 import { currentUrl } from "@factor/tools/url"
+import express from "express"
 let sitemap
 
 addFilter("middleware", _ => {
   _.push({
     path: "/sitemap.xml",
     middleware: [
-      async (request, response) => {
+      async (request: express.Request, response: express.Response): Promise<void> => {
         // if we have a cached entry send it
         if (sitemap) {
           response.send(sitemap)
@@ -44,7 +45,7 @@ addFilter("middleware", _ => {
   return _
 })
 
-async function getPermalinks() {
+async function getPermalinks(): Promise<string[]> {
   const posts = await getModel("post").find(
     { permalink: { $ne: null }, status: "published" },
     "permalink postType",
@@ -58,7 +59,7 @@ async function getPermalinks() {
   return urls.concat(getRouteUrls())
 }
 
-function getRouteUrls() {
+function getRouteUrls(): Promise<string[]> {
   // get routes
   // then remove duplicated and dynamic routes (which include a colon (:))
   const contentRoutes = applyFilters("content-routes", [])
@@ -69,7 +70,7 @@ function getRouteUrls() {
   return theRoutes
 }
 
-function getRoutesRecursively(routes, parent = false) {
+function getRoutesRecursively(routes, parent = false): string[] {
   let out = []
 
   routes

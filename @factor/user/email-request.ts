@@ -27,7 +27,7 @@ export async function verifyEmail({ _id, code }) {
   return result
 }
 
-export async function showResetPassword() {
+export async function showResetPassword(): Promise<void> {
   addCallback("sign-in-modal-loaded", () => {
     emitEvent("sign-in-modal")
   })

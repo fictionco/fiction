@@ -1,3 +1,4 @@
+import Vue from "vue"
 export default {
   jobs: {
     indexRoute: "/jobs",
@@ -8,16 +9,16 @@ export default {
       subTitle: "Couldn't find any job posts."
     },
     components: {
-      jobsContent: () => import("./jobs-content.vue"),
-      jobsIndex: () => import("./jobs-index.vue"),
-      jobsSingle: () => import("./jobs-single.vue"),
-      pagination: () => import("./widget-pagination.vue"),
-      entry: () => import("./widget-entry.vue"),
-      excerpt: () => import("./widget-excerpt.vue"),
-      featuredImage: () => import("./widget-featured-image.vue"),
-      headers: () => import("./widget-headers.vue"),
-      singleHeaders: () => import("./widget-single-headers.vue"),
-      cta: () => import("./widget-cta.vue")
+      jobsContent: (): Promise<Vue> => import("./jobs-content.vue"),
+      jobsIndex: (): Promise<Vue> => import("./jobs-index.vue"),
+      jobsSingle: (): Promise<Vue> => import("./jobs-single.vue"),
+      pagination: (): Promise<Vue> => import("./widget-pagination.vue"),
+      entry: (): Promise<Vue> => import("./widget-entry.vue"),
+      excerpt: (): Promise<Vue> => import("./widget-excerpt.vue"),
+      featuredImage: (): Promise<Vue> => import("./widget-featured-image.vue"),
+      headers: (): Promise<Vue> => import("./widget-headers.vue"),
+      singleHeaders: (): Promise<Vue> => import("./widget-single-headers.vue"),
+      cta: (): Promise<Vue> => import("./widget-cta.vue")
     },
     layout: {
       index: ["headers", "excerpt"],

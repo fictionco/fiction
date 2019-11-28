@@ -12,7 +12,7 @@ import * as endpoints from "@factor/plugin-email-list/server"
 
 addCallback("endpoints", { id: "emailList", handler: endpoints })
 
-function uniqueId(listId) {
+function uniqueId(listId): string {
   return `_plugin-emailList-${listId}`
 }
 
@@ -21,7 +21,7 @@ function postModel() {
 }
 
 // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
-export async function addEmail({ email, listId = "default", tags = [] }) {
+export async function addEmail({ email, listId = "default", tags = [] }): Promise<void> {
   // Allow for external services to hook in
   email = applyFilters(`plugin-email-list-add-${listId}`, email)
 
@@ -54,7 +54,7 @@ export async function addEmail({ email, listId = "default", tags = [] }) {
 
   emitEvent("email-list-new-email-added", { email, listId, tags })
 
-  return true
+  return
 }
 
 export async function deleteEmails({ emails, listId = "default" }) {
@@ -128,7 +128,7 @@ async function sendCompleteEmail({ email, listId }) {
   })
 }
 
-async function sendNotifyEmail({ email, listId }) {
+async function sendNotifyEmail({ email, listId }): Promise<void> {
   const format = getSetting({ key: "emails.notify", listId })
 
   if (!format) return

@@ -125,7 +125,7 @@ export async function authenticate(params) {
   return user
 }
 
-export async function logout(args: { redirect?: string } = {}) {
+export async function logout(args: { redirect?: string } = {}): Promise<void> {
   setUser({ user: null, current: true })
   emitEvent("logout")
   emitEvent("notify", "Successfully logged out.")

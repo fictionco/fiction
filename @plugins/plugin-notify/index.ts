@@ -1,16 +1,14 @@
-import { emitEvent, onEvent, pushToFilter, log} from "@factor/tools"
-
+import { emitEvent, onEvent, pushToFilter, log } from "@factor/tools"
 
 pushToFilter("site-components", {
   name: "plugin-notify",
   component: () => import("./toaster.vue")
 })
 
-
 onEvent("notify", toasterNotification)
 onEvent("error", toasterError)
 
-function toasterNotification(obj) {
+function toasterNotification(obj): void {
   let message
   let duration
   if (typeof obj == "string") {
@@ -22,7 +20,7 @@ function toasterNotification(obj) {
   emitEvent("notify-toast", { type: "notify", message, duration })
 }
 
-function toasterError(obj) {
+function toasterError(obj): void {
   if (typeof obj == "string") {
     emitEvent("notify-toast", { type: "error", message: obj })
   } else {
