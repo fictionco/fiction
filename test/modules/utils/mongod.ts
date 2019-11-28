@@ -3,7 +3,18 @@ import { dbInitialize, dbDisconnect } from "@factor/post/database"
 import { initializeEndpointServer } from "@factor/endpoint/server"
 import { createServer, closeServer } from "@factor/server"
 let mongod
-export async function startEndpointTestingServer({ port, debug = false }) {
+
+export interface MockDatabaseConfig {
+  dbUrl: string;
+  dbPort: string;
+  dbPath: string;
+  dbName?: string;
+}
+
+export async function startEndpointTestingServer({
+  port,
+  debug = false
+}): Promise<MockDatabaseConfig> {
   mongod = new MongoMemoryServer({ debug })
 
   const dbUrl = await mongod.getConnectionString()
@@ -19,7 +30,7 @@ export async function startEndpointTestingServer({ port, debug = false }) {
   return { dbUrl, dbPort, dbPath, dbName }
 }
 
-export async function stopEndpointTestingServer() {
+export async function stopEndpointTestingServer(): Promise<void> {
   if (mongod) await mongod.stop()
 
   await dbDisconnect()

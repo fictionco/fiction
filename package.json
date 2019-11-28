@@ -37,7 +37,7 @@
     "test:builds": "jest test/builds --forceExit --detectOpenHandles --passWithNoTests",
     "test:integration": "jest test/integration --forceExit --detectOpenHandles --passWithNoTests",
     "test:debug": "node --inspect node_modules/.bin/jest test/integration --runInBand",
-    "test:types": "tsc"
+    "test:types": "tsc --skipLibCheck"
   },
   "gitHooks": {
     "pre-push": "yarn test:lint && yarn test:unit",
