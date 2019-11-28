@@ -1,7 +1,7 @@
 import "./client-class"
 import "./another-class"
 
-export default () => {
+export default (): object => {
   return {
     foo: "bar"
   }

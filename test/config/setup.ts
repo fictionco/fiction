@@ -24,7 +24,7 @@ jest.setTimeout(60000)
 
 consola.mockTypes(() => jest.fn())
 
-function errorTrap(error, data) {
+function errorTrap(error, data): void {
   if (error && error.stack) {
     process.stderr.write(`\n${error.stack}\n`)
   } else {
@@ -42,7 +42,7 @@ process.on("uncaughtException", error =>
 )
 
 if (typeof window !== "undefined") {
-  const noop = () => {}
+  const noop = (): void => {}
   Object.defineProperty(window, "scrollTo", { value: noop, writable: true })
 }
 
@@ -56,7 +56,7 @@ expect.extend({
 
     if (pass) {
       return {
-        message: () =>
+        message: (): string =>
           `expected ${this.utils.printReceived(
             received
           )} not to contain object ${this.utils.printExpected(argument)}`,
@@ -64,7 +64,7 @@ expect.extend({
       }
     } else {
       return {
-        message: () =>
+        message: (): string =>
           `expected ${this.utils.printReceived(
             received
           )} to contain object ${this.utils.printExpected(argument)}`,

@@ -1,14 +1,14 @@
 import { spawn } from "cross-spawn"
-
-export function getUrl({ route, port }) {
+import { ChildProcess } from "child_process"
+export function getUrl({ route, port }): string {
   return `http://localhost:${port}${route}`
 }
 
-export function spawnFactorProcess({ command, options, cwd }) {
+export function spawnFactorProcess({ command, options, cwd }): ChildProcess {
   return spawn("yarn", ["factor", command], { cwd, ...options })
 }
 
-export function startProcess({ command, env, cwd, callback }) {
+export function startProcess({ command, env, cwd, callback }): Promise<ChildProcess> {
   return new Promise(resolve => {
     const __process = spawnFactorProcess({
       command,
@@ -18,7 +18,7 @@ export function startProcess({ command, env, cwd, callback }) {
 
     process.env.FACTOR_ENV = cwd
 
-    const listener = data => {
+    const listener = (data): void => {
       if (data.includes(`ready...`) || data.includes(`:: listening on port ::`)) {
         __process.stdout.removeListener("data", listener)
         resolve(__process)
@@ -40,7 +40,7 @@ export function startProcess({ command, env, cwd, callback }) {
   })
 }
 
-export function closeProcess(__process) {
+export function closeProcess(__process): Promise<void> {
   return new Promise(resolve => {
     __process.on("exit", resolve)
     process.kill(-__process.pid)

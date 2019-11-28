@@ -1,3 +1,4 @@
+import Vue from "vue"
 export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet" />`
@@ -104,7 +105,7 @@ export default {
           list: [
             {
               content:
-                "Cloud infrastructure design that is secure, performant, elastic, affordable, and agnostic."
+                "Cloud infrastructure design that is secure, fast, elastic, affordable, and agnostic."
             },
             {
               content:
@@ -165,7 +166,7 @@ export default {
           classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
         }
       ],
-      figure: () => import("./el/figure-devops.vue")
+      figure: (): Promise<Vue> => import("./el/figure-devops.vue")
     },
     infrastructure: {
       pretitle: "Infrastructure as Code",
@@ -184,7 +185,7 @@ export default {
         }
       ],
       syntaxTitle: "terraform.tf",
-      syntax: () => import("./el/figure-infrastructure.vue")
+      syntax: (): Promise<Vue> => import("./el/figure-infrastructure.vue")
     },
     testimonials: {
       pretitle: "Success Stories",
@@ -254,7 +255,7 @@ export default {
     },
     location: {
       title: "Based in music city; Nashville, Tennessee.",
-      figure: () => import("./el/figure-location.vue")
+      figure: (): Promise<Vue> => import("./el/figure-location.vue")
     }
   },
   pricing: {
@@ -521,14 +522,14 @@ export default {
       meta: ["authorDate", "tags"]
     },
     components: {
-      blogWrap: () => import("./blog/blog-wrap.vue"),
-      blogIndex: () => import("./blog/blog-index.vue"),
-      blogSingle: () => import("./blog/blog-single.vue"),
-      featuredImage: () => import("./blog/el-featured-image.vue"),
-      headers: () => import("./blog/el-headers.vue"),
-      returnLink: () => import("./blog/el-return-link.vue"),
-      excerpt: () => import("./blog/el-excerpt.vue"),
-      meta: () => import("./blog/el-meta.vue")
+      blogWrap: (): Promise<Vue> => import("./blog/blog-wrap.vue"),
+      blogIndex: (): Promise<Vue> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<Vue> => import("./blog/blog-single.vue"),
+      featuredImage: (): Promise<Vue> => import("./blog/el-featured-image.vue"),
+      headers: (): Promise<Vue> => import("./blog/el-headers.vue"),
+      returnLink: (): Promise<Vue> => import("./blog/el-return-link.vue"),
+      excerpt: (): Promise<Vue> => import("./blog/el-excerpt.vue"),
+      meta: (): Promise<Vue> => import("./blog/el-meta.vue")
     }
   },
   footer: {

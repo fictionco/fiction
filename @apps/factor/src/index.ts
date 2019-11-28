@@ -1,10 +1,10 @@
 import "./extend/extension-server"
 import { addFilter, setting } from "@factor/tools"
 import { addPageTemplate } from "@factor/templates"
-
+import Vue from "vue"
 addPageTemplate({
   _id: "default",
-  component: () => import("./page-template-default.vue")
+  component: (): Promise<Vue> => import("./page-template-default.vue")
 })
 
 addFilter("content-routes", _ => {
@@ -14,45 +14,45 @@ addFilter("content-routes", _ => {
     ..._,
     {
       path: "/compare",
-      component: () => import("./page-compare.vue")
+      component: (): Promise<Vue> => import("./page-compare.vue")
     },
     {
       path: "/",
-      component: () => import("./home/v-home.vue")
+      component: (): Promise<Vue> => import("./home/v-home.vue")
     },
     {
       path: `/${base}`,
-      component: () => import("./page-docs.vue")
+      component: (): Promise<Vue> => import("./page-docs.vue")
     },
     {
       path: `/${base}/:doc`,
-      component: () => import("./page-docs.vue")
+      component: (): Promise<Vue> => import("./page-docs.vue")
     },
     {
       path: `/themes`,
-      component: () => import("./extend/theme-wrap.vue"),
+      component: (): Promise<Vue> => import("./extend/theme-wrap.vue"),
       children: [
         {
           path: `/`,
-          component: () => import("./extend/theme-index.vue")
+          component: (): Promise<Vue> => import("./extend/theme-index.vue")
         },
         {
           path: `/theme/view`,
-          component: () => import("./extend/theme-single.vue")
+          component: (): Promise<Vue> => import("./extend/theme-single.vue")
         }
       ]
     },
     {
       path: `/plugins`,
-      component: () => import("./extend/plugin-wrap.vue"),
+      component: (): Promise<Vue> => import("./extend/plugin-wrap.vue"),
       children: [
         {
           path: `/`,
-          component: () => import("./extend/plugin-index.vue")
+          component: (): Promise<Vue> => import("./extend/plugin-index.vue")
         },
         {
           path: `/plugin/view`,
-          component: () => import("./extend/plugin-single.vue")
+          component: (): Promise<Vue> => import("./extend/plugin-single.vue")
         }
       ]
     }
