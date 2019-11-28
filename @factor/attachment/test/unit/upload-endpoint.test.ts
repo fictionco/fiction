@@ -62,9 +62,7 @@ describe("upload endpoint", () => {
     expect(mimetype).toBe("image/jpeg")
 
     expect(postType).toBe("attachment")
-  })
 
-  it("allows for plugins to process uploaded images", () => {
     expect(spies.applyFilters).toHaveBeenCalledWith(
       "storage-attachment-url",
       expect.any(Object)

@@ -5,20 +5,21 @@ import serverEntry from "@factor/app/entry-server"
 
 import Vue from "vue"
 let spies
+let vm
 describe("server-entry", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     spies = {
       createApp: jest.spyOn(app, "createApp"),
       emitEvent: jest.spyOn(events, "emitEvent"),
       runCallbacks: jest.spyOn(filters, "runCallbacks"),
       applyFilters: jest.spyOn(filters, "applyFilters")
     }
+
+    vm = await serverEntry({ url: "/" })
   })
 
   it("enters application and returns correctly", async () => {
-    const app = await serverEntry({ url: "/" })
-
-    expect(app instanceof Vue).toBe(true)
+    expect(vm instanceof Vue).toBe(true)
   })
 
   it("adds context filters and appropriate hooks", () => {

@@ -1,7 +1,12 @@
 import { getModel } from "@factor/post/server"
 import { objectId, canUpdatePost } from "@factor/post/util"
 import { processEndpointRequest } from "@factor/endpoint/server"
-import { pushToFilter, applyFilters, runCallbacks, addCallback } from "@factor/tools"
+import {
+  pushToFilter,
+  applyFilters,
+  runCallbacks,
+  addCallback
+} from "@factor/tools/filters"
 
 import mime from "mime-types"
 import multer from "multer"
@@ -17,7 +22,7 @@ pushToFilter("middleware", {
   path: uploadEndpointPath(),
   middleware: [
     multer().single("imageUpload"),
-    async (request, response) => {
+    async (request, response): Promise<void> => {
       return await processEndpointRequest({
         request,
         response,

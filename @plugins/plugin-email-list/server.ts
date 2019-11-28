@@ -9,6 +9,7 @@ import {
 import { hasEmailService, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
+import mongoose from "mongoose"
 
 addCallback("endpoints", { id: "emailList", handler: endpoints })
 
@@ -16,7 +17,7 @@ function uniqueId(listId): string {
   return `_plugin-emailList-${listId}`
 }
 
-function postModel() {
+function postModel(): mongoose.Model {
   return getModel("emailList")
 }
 
@@ -69,7 +70,7 @@ export async function deleteEmails({ emails, listId = "default" }) {
 
 // Positional Operator
 // https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
-export async function verifyEmail({ email, list: listId, code }) {
+export async function verifyEmail({ email, list: listId, code }): mongoose.Query {
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId), "list.code": code, "list.email": email },
     { $set: { "list.$.verified": true, "list.$.code": null } }

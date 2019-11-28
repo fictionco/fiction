@@ -1,6 +1,7 @@
 // This configures the context information needed to SSR the page
 // Add lifecycle filters that allow plugins to control the context
-import { applyFilters, runCallbacks, log } from "@factor/tools"
+import log from "@factor/tools/logger"
+import { applyFilters, runCallbacks } from "@factor/tools/filters"
 import { ServerRenderContext } from "./types"
 export async function handleContext({
   context,

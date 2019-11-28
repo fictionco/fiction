@@ -3,7 +3,7 @@
 // any circular references to @factor/tools from modules from also included here
 // Will error with "Object(...) is not a function"
 // Make sure to call modules directly here
-
+import log from "./logger"
 export * from "./utils"
 
 export * from "./time"
@@ -23,4 +23,4 @@ export * from "@factor/post"
 export * from "@factor/app/router"
 export * from "@factor/app/store"
 
-export { default as log } from "./logger"
+export { log }

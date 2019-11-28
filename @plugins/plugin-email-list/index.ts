@@ -7,7 +7,7 @@ import {
   addCallback,
   setting
 } from "@factor/tools"
-
+import Vue from "vue"
 import { endpointRequest } from "@factor/endpoint"
 
 const postType = "emailList"
@@ -19,15 +19,15 @@ addCallback("route-query-action-verify-email-list", _ => verifyEmail(_))
 //   component: () => import("./wrap.vue")
 // })
 
-export const factorEmailList = () => import("./wrap.vue")
+export const factorEmailList = (): Promise<Vue> => import("./wrap.vue")
 
 export const postTypeUIConfig = {
   postType,
   nameIndex: "Email Lists",
   nameSingle: "List",
   namePlural: "Email Lists",
-  listTemplate: () => import("./dashboard-list.vue"),
-  editTemplate: () => import("./dashboard-edit.vue"),
+  listTemplate: (): Promise<Vue> => import("./dashboard-list.vue"),
+  editTemplate: (): Promise<Vue> => import("./dashboard-edit.vue"),
   add: false
 }
 
@@ -46,7 +46,7 @@ export async function deleteEmails({ emails, listId }) {
   return result
 }
 
-export function csvExport({ filename, data }) {
+export function csvExport({ filename, data }): void {
   filename += `-${timestamp()}`
 
   const ExportToCsv = require("export-to-csv").ExportToCsv

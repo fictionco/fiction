@@ -1,7 +1,7 @@
 import { setting } from "@factor/tools/settings"
-import { default as log } from "@factor/tools/logger"
+import log from "@factor/tools/logger"
 
-export function currentUrl() {
+export function currentUrl(): string {
   if (process.env.NODE_ENV == "development" || process.env.FACTOR_ENV == "test")
     return localhostUrl()
   else {
@@ -14,7 +14,7 @@ export function currentUrl() {
   }
 }
 
-export function localhostUrl() {
+export function localhostUrl(): string {
   const port = process.env.PORT || 7777
   const routine = process.env.HTTP_PROTOCOL || "http"
   return `${routine}://localhost:${port}`

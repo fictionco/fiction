@@ -2,15 +2,15 @@ import Vue from "vue"
 import { createApp } from "./app"
 
 const startClient = async () => {
-  const { app, router, store } = await createApp()
+  const { vm, router, store } = await createApp()
 
   // Add to <window> for external use
   // For example, inside of integration tests
-  window.factorApp = { app, router, store, Vue }
+  window.factorApp = { vm, router, store, Vue }
 
   // Mount after router has resolved
   router.onReady(() => {
-    app.$mount("#app")
+    vm.$mount("#app")
     window.factorReady = true
   })
 }

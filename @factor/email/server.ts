@@ -4,7 +4,7 @@ import nodeMailer from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import "./setup"
 
-export function hasEmailService() {
+export function hasEmailService(): boolean {
   const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
   return !SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST ? false : true

@@ -10,10 +10,11 @@ import { setting } from "@factor/tools/settings"
 import Vue from "vue"
 
 import { extendApp } from "./extend-app"
+import { ApplicationComponents } from "./types"
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export async function createApp() {
+export async function createApp(): Promise<ApplicationComponents> {
   process.env.FACTOR_TARGET = "app"
 
   await extendApp()
@@ -30,8 +31,8 @@ export async function createApp() {
   // App Entry Component
   const factorSite = setting("app.components.site")
 
-  const app = new Vue({
-    mounted() {
+  const vm = new Vue({
+    mounted(): void {
       // Fire a mounted event so plugins that need to wait for SSR to be fully loaded can then fire
       // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
       setTimeout(() => emitEvent("app-mounted"), 0)
@@ -43,5 +44,5 @@ export async function createApp() {
 
   // note we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
-  return { app, vm: app, router, store }
+  return { vm, router, store }
 }
