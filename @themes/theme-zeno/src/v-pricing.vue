@@ -16,14 +16,14 @@
             <p>{{ item.description }}</p>
             <ul
               :class="item.classes"
-              class="m-6 p-4 text-base border rounded-lg lg:text-lg hover:bg-gray-100 transition-all"
+              class="m-6 p-4 text-base border rounded-lg transition-all lg:text-lg"
             >
               <template v-for="(listItem, i) in item.list">
                 <li :key="i" class="py-4" :class="listItem.classes">
                   <template v-if="listItem.contentLarge">
-                    <span
+                    <div
                       class="text-3xl font-bold leading-tight text-purple-900"
-                    >{{ listItem.contentLarge }}</span>
+                    >{{ listItem.contentLarge }}</div>
                   </template>
                   <span v-formatted-text="listItem.content"></span>
                 </li>
@@ -41,7 +41,7 @@
           </div>
         </template>
       </div>
-      <p class="text-center mt-8">{{ packagesFooter }}</p>
+      <p class="text-xs text-center mt-8">{{ packagesFooter }}</p>
     </section>
 
     <section class="py-8 lg:py-12 bg-gray-100">

@@ -46,7 +46,9 @@ export default {
           classes:
             "factor-link btn shadow-lg ml-4 bg-white hover:bg-gray-300 text-purple-700"
         }
-      ]
+      ],
+      figure: require("./img/cloud-with-shadow.svg"),
+      figureAlt: "Cloud"
     }
   },
   home: {
@@ -59,22 +61,22 @@ export default {
     intro: {
       pretitle: "Grow Your Business, Not Infrastructure.",
       title:
-        "We build, optimize, secure, and support your cloud with no long-term contract.",
+        `We build, optimize, secure, and support <span class="underline">your cloud</span> with no long-term contract.`,
       content:
         "Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
       buttons: [
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+          classes: "btn rounded bg-teal-500 text-purple-700 hover:bg-teal-600"
         },
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "btn shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
+          classes: "btn rounded shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
         }
       ],
-      figure: () => import("./el/figure-intro.vue")
+      figure: (): Promise<Vue> => import("./el/figure-intro.vue")
     },
     clients: {
       title: "Working with the following clouds:",
@@ -275,18 +277,19 @@ export default {
     },
     packages: [
       {
-        classes: "border border-gray-300",
+        classes: "border border-gray-400",
         name: "Nano",
         description: "The full power of Elastic Byte",
         list: [
           {
-            content: `<div>$2,000</div>per month`
+            contentLarge: `$2,000`,
+            content: `per month`
           },
           {
-            content: `<div>10</div>billable hours included monthly`
+            content: `<span class="font-bold">10</span> billable hours included monthly`
           },
           {
-            content: `<span>$300</span> per additional hour`
+            content: `<span class="font-bold">$300</span> per additional hour`
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
@@ -306,13 +309,13 @@ export default {
         list: [
           {
             contentLarge: `$3,500`,
-            content: `<div>$3,500</div>per month`
+            content: `per month`
           },
           {
-            content: `<div>20</div>billable hours included monthly`
+            content: `<span class="font-bold">20</span> billable hours included monthly`
           },
           {
-            content: `<span>$250</span> per additional hour`
+            content: `<span class="font-bold">$250</span> per additional hour`
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
@@ -326,18 +329,19 @@ export default {
         buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
       },
       {
-        classes: "border border-gray-300",
+        classes: "border border-gray-400",
         name: "Mega",
         description: "Infrastructure and DevOps at scale",
         list: [
           {
-            content: `<div>$6,000</div>per month`
+            contentLarge: `$6,000`,
+            content: `per month`
           },
           {
-            content: `<div>40</div>billable hours included monthly`
+            content: `<span class="font-bold">40</span> billable hours included monthly`
           },
           {
-            content: `<span>$200</span> per additional hour`
+            content: `<span class="font-bold">$200</span> per additional hour`
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
@@ -489,7 +493,8 @@ export default {
         inputType: "textarea",
         inputClasses:
           "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
-        placeholder: "how can we help?"
+        placeholder: "how can we help?",
+        required: true
       }
     ]
   },
@@ -561,6 +566,8 @@ export default {
     ],
     left: `Built with <i class="fa fa-heart"></i> in Nashville`,
     right:
-      "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>"
+      "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>",
+    figure: require("./img/cloud-with-shadow.svg"),
+    figureAlt: "Cloud"
   }
 }

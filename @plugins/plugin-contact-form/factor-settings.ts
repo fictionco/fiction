@@ -1,8 +1,9 @@
+import Vue from "vue"
 import { setting } from "@factor/tools"
 export default {
   contactForm: {
-    email: () => setting("app.email"),
-    form: () => import("./contact-form.vue"),
+    email: (): Promise<Vue> => setting("app.email"),
+    form: (): Promise<Vue> => import("./contact-form.vue"),
     submit: {
       btn: "app-btn factor-btn primary",
       size: "",

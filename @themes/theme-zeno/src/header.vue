@@ -37,8 +37,8 @@
               :path="item.path"
               :event="item.event"
               :target="item.target"
-              class="transition-all text-xl py-1 px-2 hover:bg-gray-100 lg:hover:bg-transparent lg:inline mt-0 lg:px-1 lg:text-base"
-              :class="{ 'block lg:inline lg:text-white lg:hover:text-teal-500': $route.path==='/' }"
+              class="transition-all text-xl py-1 px-2 mt-0 hover:bg-gray-100 lg:hover:bg-transparent lg:inline lg:px-1 lg:text-base"
+              :class="getClass()"
               @click="isOpen = !isOpen"
             >
               <factor-icon v-if="item.icon" :icon="item.icon" />
@@ -69,6 +69,14 @@ export default Vue.extend({
   computed: {
     siteNav() {
       return this.navConfig.filter(item => !item.condition || item.condition())
+    }
+  },
+  methods: {
+    getClass(){
+      return {
+        'block lg:inline lg:text-white lg:hover:text-teal-500': this.$route.path==='/',
+        'lg:hover:text-purple-900': this.$route.path!='/'
+      }
     }
   }
 })
