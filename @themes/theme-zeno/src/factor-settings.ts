@@ -46,7 +46,9 @@ export default {
           classes:
             "factor-link btn shadow-lg ml-4 bg-white hover:bg-gray-300 text-purple-700"
         }
-      ]
+      ],
+      figure: require("./img/cloud-with-shadow.svg"),
+      figureAlt: "Cloud"
     }
   },
   home: {
@@ -59,7 +61,7 @@ export default {
     intro: {
       pretitle: "Grow Your Business, Not Infrastructure.",
       title:
-        "We build, optimize, secure, and support your cloud with no long-term contract.",
+        `We build, optimize, secure, and support <span class="underline">your cloud</span> with no long-term contract.`,
       content:
         "Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
       buttons: [
@@ -275,7 +277,7 @@ export default {
     },
     packages: [
       {
-        classes: "border border-gray-300",
+        classes: "border border-gray-400",
         name: "Nano",
         description: "The full power of Elastic Byte",
         list: [
@@ -327,7 +329,7 @@ export default {
         buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
       },
       {
-        classes: "border border-gray-300",
+        classes: "border border-gray-400",
         name: "Mega",
         description: "Infrastructure and DevOps at scale",
         list: [
@@ -564,6 +566,8 @@ export default {
     ],
     left: `Built with <i class="fa fa-heart"></i> in Nashville`,
     right:
-      "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>"
+      "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>",
+    figure: require("./img/cloud-with-shadow.svg"),
+    figureAlt: "Cloud"
   }
 }

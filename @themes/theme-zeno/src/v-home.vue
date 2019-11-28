@@ -4,8 +4,10 @@
       <div class="px-8 py-16 mx-auto sm:max-w-xl lg:w-1/2 lg:flex lg:flex-col lg:justify-center">
         <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3>
         <h1
+          v-formatted-text="introTitle"
           class="font-bold leading-tight text-3xl mt-2 text-purple-900 lg:text-4xl"
-        >{{ introTitle }}</h1>
+        />
+        
         <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
 
         <div class="mt-8">
