@@ -1,7 +1,7 @@
 import { objectIdType } from "./object-id"
 import { applyFilters } from "@factor/tools/filters"
-
-export default () => {
+import { FactorSchema } from "./typings"
+export default (): FactorSchema => {
   return {
     name: "post",
     options: { timestamps: true },
@@ -43,13 +43,13 @@ export default () => {
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
-        validator: function(v) {
+        validator: function(v): boolean {
           return /^[a-z0-9-]+$/.test(v)
         },
-        message: props => `${props.value} is not URL compatible.`
+        message: (props): string => `${props.value} is not URL compatible.`
       }
     }),
-    callback: _s => {
+    callback: (_s): void => {
       _s.pre("save", function(next) {
         this.markModified("settings")
         if (!this.date && this.status == "published") {

@@ -3,7 +3,8 @@ import { decodeToken } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { PostEndpointMeta } from "./typings"
 import { canUpdatePost } from "./util"
-import { Model } from "mongoose"
+import mongoose from "mongoose"
+
 import {
   getModel,
   dbInitialize,
@@ -26,7 +27,7 @@ addCallback("initialize-server", () => dbSetupUtility())
 export async function savePost(
   { data, postType = "post" },
   { bearer = {} }: PostEndpointMeta
-): Promise<Model | null> {
+): Promise<mongoose.Model | null> {
   if (dbIsOffline()) return null
 
   const { _id } = data
@@ -50,7 +51,7 @@ export async function savePost(
 export async function getSinglePost(
   params,
   meta: PostEndpointMeta = {}
-): Promise<Model | null> {
+): Promise<mongoose.Model | null> {
   const { bearer } = meta
 
   let { _id } = params
@@ -102,7 +103,7 @@ export async function getSinglePost(
   return _post
 }
 
-function authorCondition(bearer) {
+function authorCondition(bearer): { author?: string } {
   return bearer.accessLevel >= 300 ? {} : { author: bearer._id }
 }
 
