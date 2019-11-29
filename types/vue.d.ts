@@ -1,14 +1,17 @@
 import Vue from "vue"
-import VueRouter from "vue-router"
+import VueRouter, { Route } from "vue-router"
 declare module "vue/types/vue" {
   export interface VueConstructor {
     $router: VueRouter;
     metaInfoCore: () => {};
     observable: <T>(obj: T) => T;
+    scrollClass: string[] | string;
+    $route: Route;
   }
 
   interface Vue {
     metaInfoCore(): object;
+    serverPrefetch?(): Promise<void>;
     observable: <T>(obj: T) => T;
   }
 }
@@ -23,7 +26,7 @@ export interface templateOption {
 }
 
 declare module "vue/types/options" {
-  interface ComponentOptions<V extends Vue> {
+  interface ComponentOptions<Vue> {
     metaInfoCore?: () => {};
     serverPrefetch?(): Promise<void>;
     templateSettings?: () => templateOption[];

@@ -2,19 +2,19 @@ import { applyFilters, pushToFilter } from "@factor/tools/filters"
 export * from "./object-id"
 import schemaPost from "@factor/post/schema"
 
-export function extendPostSchema(config) {
+export function extendPostSchema(config): void {
   pushToFilter("data-schemas", config)
 }
 
 export function getAddedSchemas() {
-  return applyFilters("data-schemas", [schemaPost()]).map(s => {
+  return applyFilters("data-schemas", [schemaPost()]).map((s) => {
     return applyFilters(`data-schema-${s.name}`, typeof s == "function" ? s() : s)
   })
 }
 export function getSchema(postType) {
   const schemas = getAddedSchemas()
 
-  return schemas.find(s => s.name == postType)
+  return schemas.find((s) => s.name == postType)
 }
 
 export function getSchemaPopulatedFields({ postType = "post", depth = 10 }) {
@@ -27,7 +27,7 @@ export function getSchemaPopulatedFields({ postType = "post", depth = 10 }) {
     fields = [...fields, ...postTypePopulated]
   }
 
-  const pop = fields.filter(_ => _.depth <= depth).map(_ => _.field)
+  const pop = fields.filter((_) => _.depth <= depth).map((_) => _.field)
 
   return pop
 }
@@ -60,11 +60,11 @@ export function getStatusCount({ meta, field = "status", key, nullKey = false })
   }
 
   let count
-  const result = meta[field].find(_ => _._id == key)
+  const result = meta[field].find((_) => _._id == key)
 
   count = result ? result.count : 0
   if (nullKey && key == nullKey) {
-    const nullsCount = meta[field].find(_ => _._id == null)
+    const nullsCount = meta[field].find((_) => _._id == null)
     count += nullsCount ? nullsCount.count : 0
   }
   return count

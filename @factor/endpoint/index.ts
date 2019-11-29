@@ -8,7 +8,7 @@ export interface EndpointRequestConfig {
   id: string;
   method: string;
   params: object;
-  headers: object;
+  headers?: object;
 }
 
 export async function endpointRequest({

@@ -1,20 +1,20 @@
 import { getModel } from "@factor/post/server"
 import { objectId, canUpdatePost } from "@factor/post/util"
-import { processEndpointRequest } from "@factor/endpoint/server"
+import { processEndpointRequest, addEndpoint } from "@factor/endpoint/server"
 import {
   pushToFilter,
   applyFilters,
   runCallbacks,
   addCallback
 } from "@factor/tools/filters"
-
+import { Request, Response } from "express"
 import mime from "mime-types"
 import multer from "multer"
 
 import { uploadEndpointPath } from "./util"
 import storageSchema from "./schema"
 
-addCallback("endpoints", { id: "storage", handler: { deleteImage } })
+addEndpoint({ id: "storage", handler: { deleteImage } })
 
 pushToFilter("data-schemas", () => storageSchema)
 
@@ -22,17 +22,17 @@ pushToFilter("middleware", {
   path: uploadEndpointPath(),
   middleware: [
     multer().single("imageUpload"),
-    async (request, response): Promise<void> => {
+    async (request: Request, response: Response): Promise<void> => {
       return await processEndpointRequest({
         request,
         response,
-        handler: _ => handleUpload(_)
+        handler: (_) => handleUpload(_)
       })
     }
   ]
 })
 
-async function handleUpload({ meta }) {
+async function handleUpload({ meta }): Promise<object> {
   const { bearer, request } = meta
   const { file } = request
 

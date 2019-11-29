@@ -10,14 +10,13 @@ function addFilters(): void {
     !process.env.AWS_ACCESS_KEY_SECRET ||
     !process.env.AWS_S3_BUCKET
   ) {
-    addFilter("setup-needed", _ => {
-      const item = {
-        title: "Plugin: S3 Storage Credentials",
-        value: "The S3 storage plugin requires AWS S3 information to run correctly.",
-        location: ".env/AWS_ACCESS_KEY, AWS_ACCESS_KEY_SECRET, AWS_S3_BUCKET"
-      }
-
-      return [..._, item]
+    addFilter("setup-needed", (__: { title: string }[]) => {
+      return [
+        ...__,
+        {
+          title: "Plugin: S3 Storage Credentials"
+        }
+      ]
     })
 
     return

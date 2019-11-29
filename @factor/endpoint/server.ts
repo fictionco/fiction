@@ -3,25 +3,53 @@ import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
 import { createObjectId } from "@factor/post/object-id"
-import express from "express"
+import { Request, Response } from "express"
 // Run after other imports have added themselves
 addCallback("initialize-server", () => initializeEndpointServer())
 
-export function addEndpoint({ id, handler }): void {
+type responseType = object | (string | object | number)[] | string
+
+interface EndpointRequestHandler {
+  ({ data, meta }: EndpointRequestParams): Promise<responseType>;
+}
+
+interface EndpointRequestParams {
+  data: { method: string; params: object };
+  meta: EndpointMeta;
+}
+
+interface EndpointItem {
+  id: string;
+  handler: () => Record<string, Function> | Record<string, Function>;
+}
+
+interface EndpointMeta {
+  request: Request;
+  response: Response;
+  bearer: object;
+}
+
+interface EndpointRequestConfig {
+  request: Request;
+  response: Response;
+  handler: EndpointRequestHandler;
+}
+
+export function addEndpoint({ id, handler }: EndpointItem): void {
   addCallback("endpoints", { id, handler })
 }
 
 export function initializeEndpointServer(): void {
-  addFilter("middleware", _ => {
-    applyFilters("endpoints", []).forEach(({ id, handler }) => {
+  addFilter("middleware", (_) => {
+    applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
       _.push({
         path: endpointPath(id),
         middleware: [
-          async (request: express.Request, response: express.Response): Promise<void> => {
+          async (request: Request, response: Response): Promise<void> => {
             return await processEndpointRequest({
               request,
               response,
-              handler: _ => runEndpointMethod({ ..._, id, handler })
+              handler: (_) => runEndpointMethod({ ..._, id, handler })
             })
           }
         ],
@@ -32,7 +60,12 @@ export function initializeEndpointServer(): void {
   })
 }
 
-export async function runEndpointMethod({ id, handler, data, meta }): Promise<any> {
+export async function runEndpointMethod({
+  id,
+  handler,
+  data,
+  meta
+}: EndpointRequestParams & EndpointItem): Promise<any> {
   const { method, params = {} } = data
 
   if (!method) {
@@ -46,7 +79,7 @@ export async function runEndpointMethod({ id, handler, data, meta }): Promise<an
   }
 
   try {
-    if (typeof handler.permissions == "function") {
+    if (typeof _ep.permissions == "function") {
       await _ep.permissions({ method, meta, params })
     }
     return await _ep[method](params, meta)
@@ -60,7 +93,7 @@ export async function processEndpointRequest({
   request,
   response,
   handler
-}): Promise<void> {
+}: EndpointRequestConfig): Promise<void> {
   const { query, body, headers } = request
 
   const meta = { request, response, bearer: defaultBearer() }
@@ -69,7 +102,7 @@ export async function processEndpointRequest({
 
   const { authorization } = headers
 
-  const responseJson = { result: "", error: "" }
+  const responseJson: { result: responseType; error: object } = { result: "", error: {} }
 
   // Authorization / Bearer
   // If there is an error leave as null bearer but still run method

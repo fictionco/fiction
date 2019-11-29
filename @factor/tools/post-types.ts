@@ -2,13 +2,13 @@ import { applyFilters, pushToFilter } from "@factor/tools/filters"
 import { toLabel } from "@factor/tools/utils"
 
 export interface PostTypeConfig {
+  baseRoute?: string;
   postType: string;
-  portfolioBaseRoute: string;
-  icon: string;
+  icon?: string;
   model: string;
-  nameIndex: string;
-  nameSingle: string;
-  namePlural: string;
+  nameIndex?: string;
+  nameSingle?: string;
+  namePlural?: string;
 }
 
 export function addPostType(config: PostTypeConfig): void {

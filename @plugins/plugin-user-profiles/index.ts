@@ -1,6 +1,7 @@
 import { addFilter } from "@factor/tools"
 
-addFilter("content-routes-unmatched", _ => {
+import { RouteConfig } from "vue-router"
+addFilter("content-routes-unmatched", (_: RouteConfig[]) => {
   _.unshift({ path: "/@", component: () => import("./profile.vue") })
   _.unshift({ path: "/@:username", component: () => import("./profile.vue") })
 
@@ -21,7 +22,7 @@ addFilter("content-routes-unmatched", _ => {
 
 addFilter(
   "account-menu",
-  _ => {
+  (_: object[]): object[] => {
     _.unshift({
       items: [
         { path: "/dashboard", name: "Dashboard" },

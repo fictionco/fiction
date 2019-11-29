@@ -6,19 +6,19 @@ import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor
 import chalk from "chalk"
 import envfile from "envfile"
 import fs from "fs-extra"
-import inquirer from "inquirer"
+import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
 
 const configFile = getPath("config-file-public")
 const secretsFile = getPath("config-file-private")
 
-addCallback("cli-setup", _ => runSetup(_))
+addCallback("cli-setup", (_: object) => runSetup(_))
 
 addCallback("after-first-server-extend", () => {
   const setupNeeded = applyFilters("setup-needed", [])
 
   if (setupNeeded.length > 0) {
-    const lines = setupNeeded.map(_ => {
+    const lines = setupNeeded.map((_: { title: string }) => {
       return { title: _.title, value: "", indent: true }
     })
     if (process.env.FACTOR_COMMAND !== "setup") {
@@ -29,8 +29,8 @@ addCallback("after-first-server-extend", () => {
   }
 })
 
-export async function runSetup(_arguments): Promise<void> {
-  let answers
+export async function runSetup(cliArguments: object): Promise<void> {
+  let answers: Answers
 
   log.formatted({
     title: "Welcome to Factor Setup!",
@@ -71,17 +71,17 @@ export async function runSetup(_arguments): Promise<void> {
       name: `setupItem`,
       message: `What would you like to do?`,
       // eslint-disable-next-line no-unused-vars
-      choices: setups.map(_ => {
+      choices: setups.map((_) => {
         delete _.callback
         return _
       })
     })
 
-    console.log() // break
+    console.log()
 
-    const setupRunner = setups.find(_ => _.value == answers.setupItem)
+    const setupRunner = setups.find((_) => _.value == answers.setupItem)
 
-    await setupRunner.callback(_arguments)
+    await setupRunner.callback(cliArguments)
 
     if (askAgain) await ask()
   }
@@ -89,7 +89,7 @@ export async function runSetup(_arguments): Promise<void> {
   await ask()
 }
 
-export async function writeConfig(file, values): Promise<void> {
+export async function writeConfig(file: string, values: object): Promise<void> {
   if (!file || !values) {
     return
   }
@@ -114,11 +114,11 @@ export async function writeConfig(file, values): Promise<void> {
   return
 }
 
-export function prettyJson(data): string {
+export function prettyJson(data: object): string {
   return highlight(json2yaml.stringify(data, null, "  "))
 }
 
-function existingSettings() {
+function existingSettings(): { publicConfig: object; privateConfig: object } {
   if (!fs.pathExistsSync(configFile)) {
     fs.writeJsonSync(configFile, { config: {} })
   }
@@ -130,17 +130,17 @@ function existingSettings() {
   return { publicConfig, privateConfig }
 }
 
-function extensionNames(type, format = "join") {
-  const extensions = getExtensions().filter(_ => _.extend == type)
+function extensionNames(type: string, format = "join"): string {
+  const extensions = getExtensions().filter((_) => _.extend == type)
 
   if (extensions && extensions.length > 0) {
-    const names = extensions.map(_ => _.name)
+    const names = extensions.map((_) => _.name)
 
-    return format == "count" ? names.length : names.join(", ")
+    return format == "count" ? names.length.toString() : names.join(", ")
   } else return "none"
 }
 
-function writeFiles(file, values) {
+function writeFiles(file: string, values: object): void {
   const { publicConfig, privateConfig } = existingSettings()
 
   if (file.includes("factor-config")) {

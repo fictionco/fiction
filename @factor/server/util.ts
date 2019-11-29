@@ -1,6 +1,6 @@
 import { setting, log } from "@factor/tools"
 import chalk from "chalk"
-import express from "express"
+import express, { Handler, Request, Response } from "express"
 import figures from "figures"
 
 import expressPackage from "express/package.json"
@@ -24,7 +24,7 @@ export function serverErrorWrap({ title = "", subTitle = "", description = "" })
   )}</div>`
 }
 
-export function getPort(port): string | number {
+export function getPort(port: string | number): string | number {
   return port || process.env.PORT || setting("PORT") || 3000
 }
 
@@ -34,7 +34,11 @@ export function getServerInfo(): string {
   return `express/${expressVersion} vue-server-renderer/${ssrVersion}`
 }
 
-export function handleServerError(request, response, error): void {
+export function handleServerError(
+  request: Request,
+  response: Response,
+  error: Error
+): void {
   error.message = `Factor Server Error  @[${request.url}]: ${error.message}`
 
   log.error(error)
@@ -56,7 +60,7 @@ export function logServerReady(): void {
   console.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(readyText))
 }
 
-export function serveStatic(path, cache): Function {
+export function serveStatic(path: string, cache: boolean): Handler {
   const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {
     maxAge: cache && process.env.NODE_ENV == "production" ? DAY : 0

@@ -34,7 +34,7 @@ const purgecss = purgeCssUtility({
   defaultExtractor: (content: string) => content.match(/[\w-/:]+(?<!:)/g) || []
 })
 
-addFilter("postcss-plugins", (_) => {
+addFilter("postcss-plugins", (_: any[]): any[] => {
   return [
     tailwindCSS(config, directives),
     ..._,

@@ -29,7 +29,7 @@ function setupGlobalObservable(): void {
   __observables = Vue.observable(applyFilters("register-global-observables", {}))
 }
 
-export function getObservables(): object {
+export function getObservables(): Record<string, any> {
   return __observables
 }
 

@@ -1,55 +1,45 @@
 import { runCallbacks, applyFilters } from "@factor/tools"
 import { getObservables } from "@factor/app"
+import Vue, { VueConstructor } from "vue"
 
-export default () => {
-  return {
+export default (): VueConstructor => {
+  return Vue.extend({
     data() {
       return {
         scrollClass: ""
       }
     },
-    mounted() {
-      this.setScrollClass()
-      window.addEventListener("scroll", () => this.setScrollClass())
-    },
     computed: {
-      ui() {
-        const { meta = {} } = this.$route.matched.find(_ => _.meta.ui) || {}
+      ui(this: VueConstructor): string {
+        const { meta = {} } = this.$route.matched.find((_) => _.meta.ui) || {}
 
         const ui = meta.ui || "app"
 
         return `factor-${ui}`
       },
-      classes() {
-        const observables = getObservables()
+      classes(this: VueConstructor): string[] {
+        const observables: Record<string, any> = getObservables()
 
         // Use observables for classes as these can change at any time
         const siteClasses = applyFilters("observable-class-keys", [])
-          .map(_ => observables[_])
-          .filter(_ => _ && Array.isArray(_))
-          .map(arr => arr.join(" "))
+          .map((_: string) => observables[_])
+          .filter((_: any) => _ && Array.isArray(_))
+          .map((arr: string[]) => arr.join(" "))
           .join(" ")
 
         return [siteClasses, this.scrollClass]
       },
-      injectedComponents() {
+      injectedComponents(): Function[] {
         const siteComponents = applyFilters("site-components", [])
 
-        return siteComponents.map(_ => _.component)
-      }
-    },
-
-    serverPrefetch() {
-      return runCallbacks("global-prefetch", this.$route)
-    },
-    methods: {
-      setScrollClass() {
-        this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
+        return siteComponents.map(
+          (_: { name: string; component: Function }) => _.component
+        )
       }
     },
     watch: {
       ui: {
-        handler: function(to, from) {
+        handler: function(to: string, from: string): void {
           if (typeof document != "undefined") {
             const _el = document.documentElement
             _el.classList.remove(from)
@@ -57,6 +47,19 @@ export default () => {
           }
         }
       }
+    },
+    mounted() {
+      this.setScrollClass()
+      window.addEventListener("scroll", () => this.setScrollClass())
+    },
+
+    async serverPrefetch() {
+      return await runCallbacks("global-prefetch", this.$route)
+    },
+    methods: {
+      setScrollClass(this: VueConstructor): void {
+        this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
+      }
     }
-  }
+  })
 }

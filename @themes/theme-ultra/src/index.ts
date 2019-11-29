@@ -15,16 +15,17 @@ const portfolioBaseRoute = setting("portfolio.postRoute")
 
 addPostType({
   postType: "portfolio",
-  portfolioBaseRoute,
+  baseRoute: portfolioBaseRoute,
   icon: require("./img/portfolio.svg"),
   model: "portfolioPost",
   nameIndex: "Portfolio",
   nameSingle: "Portfolio Post",
   namePlural: "Portfolio"
 })
+
 addPostType({
   postType: "news",
-  portfolioBaseRoute,
+  baseRoute: portfolioBaseRoute,
   icon: require("./img/news.svg"),
   model: "newsPost",
   nameIndex: "News",

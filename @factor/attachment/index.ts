@@ -1,5 +1,5 @@
 import { endpointRequest, authorizedRequest } from "@factor/endpoint"
-import { pushToFilter, storeItem, extendPostSchema } from "@factor/tools"
+import { storeItem, extendPostSchema } from "@factor/tools"
 import loadImage from "blueimp-load-image"
 
 import { uploadEndpointPath } from "./util"
@@ -67,11 +67,11 @@ export async function resizeImage(
   fileOrBlobOrUrl: File | Blob,
   { maxWidth = 1500, maxHeight = 1500 }
 ): Promise<Blob> {
-  return await new Promise(resolve => {
+  return await new Promise((resolve) => {
     loadImage(
       fileOrBlobOrUrl,
       (canvas: HTMLCanvasElement) => {
-        canvas.toBlob(blob => {
+        canvas.toBlob((blob) => {
           if (blob) resolve(blob)
         }, fileOrBlobOrUrl.type)
       },
