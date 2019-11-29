@@ -1,9 +1,9 @@
 <template>
-  <div class="relative bg-purple-900 text-gray-200 p-8 lg:px-4">
-    <figure class="absolute top-0 left-0 z-20 hidden ml-56 -mt-16 lg:block">
-      <img :src="footerFigure" :alt="footerFigureAlt" />
-    </figure>
-    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between">
+  <div class="bg-purple-900 text-gray-200 p-8 lg:px-4">
+    <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row justify-between">
+      <figure class="absolute top-0 left-0 z-20 hidden ml-56 -mt-20 lg:block">
+        <img :src="footerFigure" :alt="footerFigureAlt" />
+      </figure>
       <site-brand :inverse="true" />
       <nav class="mt-8 w-full flex flex-wrap md:block md:w-auto md:mt-0">
         <template v-for="(item, index) in footerNav">

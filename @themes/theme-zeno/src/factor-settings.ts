@@ -38,7 +38,7 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
         },
         {
           link: "/pricing",
@@ -55,7 +55,7 @@ export default {
     meta: {
       title: "Factor Zeno Theme",
       description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Styles are powered by Tailwind, a low-level CSS framework.",
       image: require("./img/logo-zeno.jpg")
     },
     intro: {
@@ -82,24 +82,29 @@ export default {
       title: "Working with the following clouds:",
       list: [
         {
-          link: "/",
+          link: "https://aws.amazon.com/",
+          target: "_blank",
           image: require("./img/aws.svg"),
-          alt: "Amazon Web Services"
+          alt: "Amazon Web Services",
         },
         {
-          link: "/",
+          link: "https://cloud.google.com/",
+          target: "_blank",
           image: require("./img/google-cloud-platform.svg"),
           alt: "Google Cloud Platform"
         },
         {
-          link: "/",
+          link: "https://www.digitalocean.com/",
+          target: "_blank",
           image: require("./img/digital-ocean.svg"),
           alt: "Digital Ocean"
         }
       ]
     },
     solutions: {
+      id: "solutions",
       title: "Solutions",
+      titleFigure: require("./img/squares.svg"),
       items: [
         {
           icon: require("./img/plan.svg"),
@@ -171,6 +176,7 @@ export default {
       figure: (): Promise<Vue> => import("./el/figure-devops.vue")
     },
     infrastructure: {
+      id: "infrastructure-as-code",
       pretitle: "Infrastructure as Code",
       title: "Packer + Terraform = ",
       titleIcon: require("./img/custom-heart.svg"),
@@ -220,7 +226,7 @@ export default {
       pretitle: "About Us",
       title:
         "Elastic Byte is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
-      backgroundImage: require("./img/stars.svg")
+      backgroundImage: require("./img/stars-50.svg")
     },
     team: {
       title: "Leadership",
@@ -229,22 +235,22 @@ export default {
           photo: require("./img/justin.jpg"),
           social: [
             {
-              link: "https://www.twitter.com/",
+              link: "https://twitter.com/johnny5feels",
               icon: "twitter",
               target: "_blank"
             },
             {
-              link: "https://www.linkedin.com/",
+              link: "https://www.linkedin.com/in/jkell",
               icon: "linkedin",
               target: "_blank"
             },
             {
-              link: "https://github.com/",
+              link: "https://github.com/nodesocket",
               icon: "github",
               target: "_blank"
             },
             {
-              link: "https://angel.co/",
+              link: "https://angel.co/justink",
               icon: "angellist",
               target: "_blank"
             }
@@ -269,11 +275,11 @@ export default {
     },
     intro: {
       pretitle: "Pricing that scales with your business.",
-      title: "Choose the right plan for your business.",
+      title: `Choose the <span class="underline">right plan</span> for your business.`,
       content:
         "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
       image: require("./img/stars.svg"),
-      backgroundImage: require("./img/stars.svg")
+      backgroundImage: require("./img/stars-50.svg")
     },
     packages: [
       {
@@ -300,7 +306,7 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
+        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
       },
       {
         classes: "border border-purple-400 bg-purple-100",
@@ -326,7 +332,7 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
+        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
       },
       {
         classes: "border border-gray-400",
@@ -352,7 +358,7 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
+        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
       }
     ],
     packagesFooter:
@@ -424,7 +430,7 @@ export default {
       content:
         "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
       figure: require("./img/cloud-with-shadow.svg"),
-      backgroundImage: require("./img/stars.svg")
+      backgroundImage: require("./img/stars-50.svg")
     }
   },
   contactForm: {
@@ -544,7 +550,7 @@ export default {
         name: "Home"
       },
       {
-        path: "/#pricing",
+        path: "/pricing",
         name: "Pricing"
       },
       {
@@ -560,8 +566,9 @@ export default {
         name: "Blog"
       },
       {
-        path: "https://twitter.com/",
-        icon: "twitter"
+        path: "https://twitter.com/johnny5feels",
+        icon: "twitter",
+        target: "_blank"
       }
     ],
     left: `Built with <i class="fa fa-heart"></i> in Nashville`,

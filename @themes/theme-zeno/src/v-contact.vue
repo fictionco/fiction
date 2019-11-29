@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="bg-gray-100" :style="introBackground">
+    <section class="bg-gray-100 bg-repeat-x" :style="introBackground">
       <div class="max-w-6xl mx-auto">
         <div class="flex flex-col py-8 md:flex-row lg:py-12">
           <div class="flex flex-col justify-center p-8 md:w-1/2">
@@ -11,7 +11,7 @@
             <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
           </div>
           <div class="relative p-8 md:w-1/2">
-            <figure class="absolute top-0 right-0 z-20 mr-16">
+            <figure class="absolute top-0 right-0 z-20 mr-10 -mt-2">
               <img :src="introFigure" :alt="introPretitle" />
             </figure>
             <component

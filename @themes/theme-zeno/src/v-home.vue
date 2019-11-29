@@ -7,9 +7,7 @@
           v-formatted-text="introTitle"
           class="font-bold leading-tight text-3xl mt-2 text-purple-900 lg:text-4xl"
         />
-        
         <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
-
         <div class="mt-8">
           <template v-for="(button, index) in introButtons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
@@ -28,16 +26,21 @@
       <h1 class="custom-uppercase text-center text-purple-500">{{ clientsTitle }}</h1>
       <div class="flex flex-wrap items-center">
         <template v-for="(item, index) in clientsList">
-          <factor-link :key="index" :path="item.link" class="w-full px-4 mt-12 sm:w-1/3 sm:mt-8">
+          <factor-link
+            :key="index"
+            :path="item.link"
+            :target="item.target"
+            class="w-full px-4 mt-12 sm:w-1/3 sm:mt-8"
+          >
             <img :src="item.image" :alt="item.alt" class="mx-auto" />
           </factor-link>
         </template>
       </div>
     </section>
 
-    <section class="bg-gray-100 pb-16">
-      <div class="bg-purple-900 pt-8 pb-24 md:pt-16 md:pb-32 px-8">
-        <h1 class="font-bold text-center text-3xl lg:text-4xl text-gray-200">{{ solutionsTitle }}</h1>
+    <section :id="solutionsID" class="bg-gray-100 pb-16">
+      <div class="bg-purple-900 pt-8 px-8 pb-24 text-center md:pt-16 md:pb-32">
+        <squares-title :title="solutionsTitle" />
       </div>
       <div class="flex flex-col items-center -mt-24">
         <template v-for="(item, index) in solutionsItems">
@@ -63,7 +66,7 @@
       </div>
     </section>
 
-    <section class="max-w-6xl mx-auto bg-white">
+    <section :id="devopsID" class="max-w-6xl mx-auto bg-white">
       <div class="flex flex-col py-8 md:flex-row lg:py-12">
         <component :is="devopsFigure" class="flex p-8 md:w-1/2" />
         <div class="flex flex-col p-8 justify-center md:w-1/2">
@@ -82,7 +85,7 @@
       </div>
     </section>
 
-    <section class="bg-gray-100">
+    <section :id="infrID" class="bg-gray-100">
       <div class="max-w-6xl mx-auto px-8 py-16 lg:py-12">
         <div class="flex flex-col md:flex-row">
           <div class="pb-8 md:pb-0 md:pr-8 md:w-1/2">
@@ -130,7 +133,7 @@
               <img
                 :src="item.image"
                 :alt="item.author + ' - ' + item.info"
-                class="rounded-full h-16 w-16"
+                class="rounded-full h-10 w-10 md:h-16 md:w-16"
               />
               <div class="ml-4 text-base">
                 <cite class="block">{{ item.author }}</cite>
@@ -154,6 +157,7 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
+    "squares-title": () => import("./el/squares-title.vue"),
     "site-cta": () => import("./el/cta.vue")
   },
   data() {
@@ -166,14 +170,17 @@ export default Vue.extend({
       introFigure: setting("home.intro.figure"),
       clientsTitle: setting("home.clients.title"),
       clientsList: setting("home.clients.list"),
+      solutionsID: setting("home.solutions.id"),
       solutionsTitle: setting("home.solutions.title"),
+      solutionsTitleFigure: setting("home.solutions.titleFigure"),
       solutionsItems: setting("home.solutions.items"),
-      //devopsID: setting("home.devops.id"),
+      devopsID: setting("home.devops.id"),
       devopsFigure: setting("home.devops.figure"),
       devopsPretitle: setting("home.devops.pretitle"),
       devopsTitle: setting("home.devops.title"),
       devopsContent: setting("home.devops.content"),
       devopsButtons: setting("home.devops.buttons"),
+      infrID: setting("home.infrastructure.id"),
       infrPretitle: setting("home.infrastructure.pretitle"),
       infrTitle: setting("home.infrastructure.title"),
       infrTitleIcon: setting("home.infrastructure.titleIcon"),
