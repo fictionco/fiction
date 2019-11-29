@@ -2,13 +2,14 @@
 // Add lifecycle filters that allow plugins to control the context
 import log from "@factor/tools/logger"
 import { applyFilters, runCallbacks } from "@factor/tools/filters"
-import { ServerRenderContext } from "./types"
+import { ServerRenderContext, ApplicationComponents } from "./types"
+
 export async function handleContext({
   context,
   vm,
   router,
   store
-}): Promise<ServerRenderContext> {
+}: ApplicationComponents): Promise<ServerRenderContext> {
   const { url } = context
 
   const { fullPath } = router.resolve(url).route

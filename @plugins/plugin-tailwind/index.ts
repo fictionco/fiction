@@ -8,8 +8,8 @@ const cwd = process.env.FACTOR_CWD || process.cwd()
 
 // If tailwind.config is in CWD prefer that, otherwise use the one in the plugin
 // optionally overridden by a setting (allows for change of name)
-let directives
-let config
+let directives: string
+let config: string
 //let directives
 try {
   config = require.resolve(resolve(cwd, "tailwind.config"))
@@ -31,10 +31,10 @@ const purgecss = purgeCssUtility({
   ],
 
   // Include any special characters you're using in this regular expression
-  defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
+  defaultExtractor: (content: string) => content.match(/[\w-/:]+(?<!:)/g) || []
 })
 
-addFilter("postcss-plugins", _ => {
+addFilter("postcss-plugins", (_) => {
   return [
     tailwindCSS(config, directives),
     ..._,

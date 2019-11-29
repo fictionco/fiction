@@ -9,20 +9,34 @@ import {
 import { hasEmailService, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
-import mongoose from "mongoose"
+import { Model, Document, Query } from "mongoose"
 
 addCallback("endpoints", { id: "emailList", handler: endpoints })
 
-function uniqueId(listId): string {
+type StandardQuery = Promise<Query<Document>>
+
+function uniqueId(listId: string): string {
   return `_plugin-emailList-${listId}`
 }
 
-function postModel(): mongoose.Model {
+function postModel(): Model<Document> {
   return getModel("emailList")
 }
 
+interface EmailConfig {
+  email: string;
+  listId?: string;
+  list?: string;
+  tags?: string[];
+  code?: string;
+}
+
 // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
-export async function addEmail({ email, listId = "default", tags = [] }): Promise<void> {
+export async function addEmail({
+  email,
+  listId = "default",
+  tags = []
+}: EmailConfig): Promise<void> {
   // Allow for external services to hook in
   email = applyFilters(`plugin-email-list-add-${listId}`, email)
 
@@ -58,7 +72,13 @@ export async function addEmail({ email, listId = "default", tags = [] }): Promis
   return
 }
 
-export async function deleteEmails({ emails, listId = "default" }) {
+export async function deleteEmails({
+  emails,
+  listId = "default"
+}: {
+  emails: string[];
+  listId: string;
+}): StandardQuery {
   // query resource: https://stackoverflow.com/a/48933447/1858322
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId) },
@@ -70,7 +90,11 @@ export async function deleteEmails({ emails, listId = "default" }) {
 
 // Positional Operator
 // https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
-export async function verifyEmail({ email, list: listId, code }): mongoose.Query {
+export async function verifyEmail({
+  email,
+  list: listId = "default",
+  code
+}: EmailConfig): StandardQuery {
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId), "list.code": code, "list.email": email },
     { $set: { "list.$.verified": true, "list.$.code": null } }
@@ -82,11 +106,10 @@ export async function verifyEmail({ email, list: listId, code }): mongoose.Query
       sendCompleteEmail({ email, listId })
     ])
   }
-
   return result
 }
 
-async function sendConfirmEmail({ email, listId, code }) {
+async function sendConfirmEmail({ email, listId, code }: EmailConfig) {
   const action = `verify-email-list`
 
   const format = getSetting({
@@ -114,7 +137,7 @@ async function sendConfirmEmail({ email, listId, code }) {
   })
 }
 
-async function sendCompleteEmail({ email, listId }) {
+async function sendCompleteEmail({ email, listId }: EmailConfig) {
   const format = getSetting({ key: "emails.complete", listId })
 
   if (!format) return
@@ -129,7 +152,7 @@ async function sendCompleteEmail({ email, listId }) {
   })
 }
 
-async function sendNotifyEmail({ email, listId }): Promise<void> {
+async function sendNotifyEmail({ email, listId }: EmailConfig): Promise<void> {
   const format = getSetting({ key: "emails.notify", listId })
 
   if (!format) return

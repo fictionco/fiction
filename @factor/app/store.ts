@@ -1,5 +1,6 @@
 import Vuex from "vuex"
 import Vue from "vue"
+import { Store } from "vuex/types"
 
 Vue.use(Vuex)
 
@@ -9,14 +10,14 @@ addCallback("before-server-plugins", () => getStore())
 
 const __store = new Vuex.Store({
   strict: false,
-  state: () => {
+  state: (): Record<string, any> => {
     return {}
   },
   getters: {
-    getItem: state => item => state[item]
+    getItem: (state: Record<string, any>) => (item: string): any => state[item]
   },
   mutations: {
-    setItem: (state, { item, value }) => {
+    setItem: (state, { item, value }): void => {
       Vue.set(state, item, value)
     }
   }
@@ -29,25 +30,18 @@ if (typeof window != "undefined" && window.__INITIAL_STATE__) {
   __store.replaceState(window.__INITIAL_STATE__)
 }
 
-export function getStore() {
+export function getStore(): Store<object> {
   return __store
 }
 
-export function storeItem(item, value) {
+export function storeItem(item: string, value: any): void {
   return __store.commit("setItem", { item, value })
 }
 
-export function stored(key: string) {
+export function stored(key: string): any {
   return __store.getters["getItem"](key)
 }
 
-export function getStoreState() {
+export function getStoreState(): Store<object>["state"] {
   return __store.state
 }
-
-// // Factor helper function for global/flat store pattern
-// __store.add = (item, value) => __store.commit("setItem", { item, value })
-
-// __store.val = key => __store.getters["getItem"](key)
-
-//Vue.$store = __store

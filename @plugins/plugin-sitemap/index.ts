@@ -3,14 +3,15 @@ import { SitemapStream, streamToPromise } from "sitemap"
 import { uniq, addFilter, applyFilters, getPermalink, log } from "@factor/tools"
 import { createGzip } from "zlib"
 import { currentUrl } from "@factor/tools/url"
-import express from "express"
-let sitemap
+import { Request, Response } from "express"
+import { RouteConfig } from "vue-router"
+let sitemap: Buffer
 
-addFilter("middleware", _ => {
+addFilter("middleware", (_: object[]) => {
   _.push({
     path: "/sitemap.xml",
     middleware: [
-      async (request: express.Request, response: express.Response): Promise<void> => {
+      async (request: Request, response: Response): Promise<void> => {
         // if we have a cached entry send it
         if (sitemap) {
           response.send(sitemap)
@@ -22,16 +23,16 @@ addFilter("middleware", _ => {
 
           const urls = await getPermalinks()
 
-          urls.forEach(url => {
+          urls.forEach((url) => {
             smStream.write({ url })
           })
 
           smStream.end()
 
           // cache the response
-          streamToPromise(pipeline).then(sm => (sitemap = sm))
+          streamToPromise(pipeline).then((sm) => (sitemap = sm))
           // stream the response
-          pipeline.pipe(response).on("error", e => {
+          pipeline.pipe(response).on("error", (e) => {
             throw e
           })
         } catch (error) {
@@ -52,9 +53,11 @@ async function getPermalinks(): Promise<string[]> {
     { limit: 2000 }
   )
 
-  const urls = posts.map(({ postType, permalink }) => {
-    return getPermalink({ postType, permalink })
-  })
+  const urls = posts.map(
+    ({ postType, permalink }: { postType: string; permalink: string }) => {
+      return getPermalink({ postType, permalink })
+    }
+  )
 
   return urls.concat(getRouteUrls())
 }
@@ -64,18 +67,20 @@ function getRouteUrls(): Promise<string[]> {
   // then remove duplicated and dynamic routes (which include a colon (:))
   const contentRoutes = applyFilters("content-routes", [])
   const theRoutes = uniq(getRoutesRecursively(contentRoutes)).filter(
-    perm => !perm.includes(":")
+    (fullPath: string) => {
+      return !fullPath.includes(":")
+    }
   )
 
   return theRoutes
 }
 
-function getRoutesRecursively(routes, parent = false): string[] {
-  let out = []
+function getRoutesRecursively(routes: RouteConfig[], parent = ""): string[] {
+  let out: string[] = []
 
   routes
-    .filter(_ => _.path !== "*")
-    .forEach(_ => {
+    .filter((_) => _.path !== "*")
+    .forEach((_) => {
       if (_.path) {
         let _p = _.path
 

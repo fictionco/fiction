@@ -1,5 +1,6 @@
 import { addFilter } from "@factor/tools"
 import { writeConfig } from "@factor/cli/setup"
+import inquirer from "inquirer"
 
 const configFile = ".env"
 const configVars = ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST"]
@@ -7,7 +8,7 @@ const configVars = ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST"]
 const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
 if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
-  addFilter("setup-needed", _ => {
+  addFilter("setup-needed", (_) => {
     const item = {
       title: "SMTP Email Credentials",
       value: "Needed for transactional emails (e.g. forgot password)",
@@ -20,29 +21,29 @@ if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
 }
 
 // CLI admin setup utility
-addFilter("cli-add-setup", (_, { privateConfig }) => {
+addFilter("cli-add-setup", (_) => {
   const setupItem = {
     name: "Email Setup - Transactional Email SMTP Info",
     value: "email",
-    callback: async ({ inquirer }) => {
+    callback: async (): Promise<void> => {
       const questions = [
         {
           name: "SMTP_USERNAME",
           message: "What's Your SMTP Service Username?",
           type: "input",
-          default: privateConfig.SMTP_USERNAME
+          default: process.env.SMTP_USERNAME
         },
         {
           name: "SMTP_PASSWORD",
           message: "What's Your SMTP Service Password?",
           type: "input",
-          default: privateConfig.SMTP_USERNAME
+          default: process.env.SMTP_USERNAME
         },
         {
           name: "SMTP_HOST",
           message: "What's Your SMTP Service Host?",
           type: "input",
-          default: privateConfig.SMTP_HOST
+          default: process.env.SMTP_HOST
         }
       ]
 

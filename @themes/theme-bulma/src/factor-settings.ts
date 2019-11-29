@@ -1,6 +1,7 @@
+import Vue from "vue"
 export default {
   site: {
-    logo: () => import("./el/logo-bulma.vue"),
+    logo: (): Promise<Vue> => import("./el/logo-bulma.vue"),
     nav: [
       {
         path: "/",
@@ -127,8 +128,8 @@ export default {
       }
     ],
     subscribeHeadline: "Subscribe",
-    subscribe: () => import("./el/subscribe.vue"),
-    logo: () => import("./el/logo-fiction.vue"),
+    subscribe: (): Promise<Vue> => import("./el/subscribe.vue"),
+    logo: (): Promise<Vue> => import("./el/logo-fiction.vue"),
     legal: "&copy; Factor by Fiction.com Inc.",
     terms: [
       {
@@ -163,7 +164,7 @@ export default {
         text: "View Elements"
       }
     ],
-    graphic: () => import("./el/home-graphic.vue"),
+    graphic: (): Promise<Vue> => import("./el/home-graphic.vue"),
     logos: [
       {
         imageURL: require("./img/github.svg"),

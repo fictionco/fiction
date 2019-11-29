@@ -1,18 +1,20 @@
-import { applyFilters, runCallbacks, pushToFilter } from "@factor/tools/filters"
+import {
+  applyFilters,
+  runCallbacks,
+  pushToFilter,
+  addFilter
+} from "@factor/tools/filters"
 import { emitEvent } from "@factor/tools/events"
 import Vue from "vue"
-import VueRouter from "vue-router"
+import VueRouter, { RouteConfig, Route, RouterOptions } from "vue-router"
 import qs from "qs"
 
 Vue.use(VueRouter)
 
 let __initialPageLoad = true
 
-//addCallback("initialize-server", () => addAppRoutes())
-// addCallback("initialize-app", () => createRouter(), { priority: 300 })
-
-export function createRouter() {
-  const routes = applyFilters("routes", []).filter(_ => _)
+export function createRouter(): VueRouter {
+  const routes = applyFilters("routes", []).filter((_) => _)
 
   const router = new VueRouter({
     mode: "history",
@@ -28,9 +30,9 @@ export function createRouter() {
         return position
       }
     },
-    parseQuery: query => qs.parse(query),
-    stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
-  })
+    parseQuery: (query) => qs.parse(query),
+    stringifyQuery: (query) => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
+  } as RouterOptions)
 
   // Load hooks for client navigation handling
   // Don't run on server as this causes the hooks to run twice
@@ -44,29 +46,32 @@ export function createRouter() {
   return router
 }
 
-export function getRouter() {
+export function getRouter(): VueRouter {
   return Vue.$router
 }
 
-export function addContentRoute(routeItem) {
+export function addContentRoute(routeItem: RouteConfig): void {
   pushToFilter("content-routes", routeItem)
 }
 
-// If called before 'createRouter' then add to callback
-export function addRoutes(routeConfig) {
-  getRouter().addRoutes(routeConfig)
+export function addContentRoutes(routeItems: RouteConfig[]): void {
+  addFilter("content-routes", (routes: RouteConfig[]) => routes.concat(routeItems))
 }
 
-export function currentRoute() {
+export function currentRoute(): Route {
   return getRouter().currentRoute
 }
 
-export function navigateToRoute(r) {
+export function navigateToRoute(r: Route): Promise<Route> {
   return getRouter().push(r)
 }
 
 // Only run this before navigation on the client, it should NOT run on initial page load
-async function hookClientRouterBefore(to, from, next) {
+async function hookClientRouterBefore(
+  to: Route,
+  from: Route,
+  next: Function
+): Promise<void> {
   if (__initialPageLoad) next()
   else {
     const doBefore = runCallbacks("client-route-before", { to, from, next })
@@ -76,13 +81,13 @@ async function hookClientRouterBefore(to, from, next) {
     // If a user needs to sign in (with modal) or be redirected after an action
     // Those hooks may not want the navigation to continue
     // As they will be handling with navigation with a redirect instead
-    // @ts-ignore
-    if (results.length == 0 || !results.some(_ => _ === false)) next()
+
+    if (results.length == 0 || !results.some((_) => _ === false)) next()
     else next(false)
   }
 }
 
-function hookClientRouterAfter(to, from) {
+function hookClientRouterAfter(to: Route, from: Route): void {
   __initialPageLoad = false
   emitEvent("ssr-progress", "finish")
   applyFilters("client-route-after", [], { to, from })

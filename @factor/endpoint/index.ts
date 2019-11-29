@@ -4,7 +4,7 @@ import { localhostUrl } from "@factor/tools/url"
 import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 
-export interface EndpointRequest {
+export interface EndpointRequestConfig {
   id: string;
   method: string;
   params: object;
@@ -16,7 +16,7 @@ export async function endpointRequest({
   method,
   params = {},
   headers = {}
-}: EndpointRequest): Promise<object> {
+}: EndpointRequestConfig): Promise<object> {
   try {
     if (!method) {
       throw new Error(`Endpoint request to "${id}" requires a method.`)

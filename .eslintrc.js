@@ -44,6 +44,7 @@ module.exports = {
   rules: {
     "no-console": "error",
     "no-debugger": "error",
+    "arrow-parens": ["error", "always"],
     complexity: 2,
     semi: ["error", "never"],
     "unicorn/no-abusive-eslint-disable": 0,

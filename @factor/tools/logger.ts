@@ -12,43 +12,55 @@ export class FactorLogger {
     })
   }
 
-  error(..._arguments): void {
+  error(..._arguments: any[]): void {
     Reflect.apply(this.utility.error, null, _arguments)
   }
 
-  warn(..._arguments): void {
+  warn(..._arguments: any[]): void {
     Reflect.apply(this.utility.warn, null, _arguments)
   }
 
-  success(..._arguments): void {
+  success(..._arguments: any[]): void {
     Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  log(..._arguments): void {
+  log(..._arguments: any[]): void {
     Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  info(..._arguments): void {
+  info(..._arguments: any[]): void {
     Reflect.apply(this.utility.info, null, _arguments)
   }
 
-  server(text, { color = "cyan" } = {}): void {
-    this.log(
-      chalk[color](`${figures.arrowUp}${figures.arrowDown}`) + chalk.dim(` ${text}`)
-    )
+  server(text: string, { color = "cyan" } = {}): void {
+    const colorize = chalk.keyword(color)
+
+    this.log(colorize(`${figures.arrowUp}${figures.arrowDown}`) + chalk.dim(` ${text}`))
   }
 
-  formatted({ title, lines = [], format = "", color = "cyan" }): void {
+  formatted({
+    title,
+    lines = [],
+    format = "",
+    color = "cyan"
+  }: {
+    title: string;
+    lines?: { title: string; value: string; indent?: boolean }[];
+    format?: string;
+    color?: string;
+  }): void {
     // Don't log during tests
     if (process.env.FACTOR_ENV == "test") return
 
-    const msg = []
+    const msg: string[] = []
 
     lines.forEach(({ title, value, indent }) => {
       if (!title && !value) {
         msg.push("")
       } else if (typeof value != "undefined") {
-        const formattedTitle = indent ? "  " + chalk[color](title) : chalk.bold(title)
+        const formattedTitle = indent
+          ? "  " + chalk.keyword(color)(title)
+          : chalk.bold(title)
         msg.push(`${formattedTitle}${value ? ":" : ""} ${value}`)
       }
     })

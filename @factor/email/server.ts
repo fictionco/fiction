@@ -1,8 +1,10 @@
 import { log, applyFilters, setting } from "@factor/tools"
 
-import nodeMailer from "nodemailer"
+import nodeMailer, { Transporter } from "nodemailer"
+
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import "./setup"
+import { EmailTransactionalConfig } from "./util"
 
 export function hasEmailService(): boolean {
   const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
@@ -10,20 +12,27 @@ export function hasEmailService(): boolean {
   return !SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST ? false : true
 }
 
-function getEmailSMTPService() {
-  if (!hasEmailService()) return false
+function getEmailSMTPService(): Transporter | void {
+  if (!hasEmailService()) return
 
-  const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST, SMTP_PORT } = process.env
+  const {
+    SMTP_USERNAME = "",
+    SMTP_PASSWORD = "",
+    SMTP_HOST = "",
+    SMTP_PORT = 587
+  } = process.env
 
-  const emailServiceClient = nodeMailer.createTransport({
+  const options = {
     host: SMTP_HOST,
-    port: SMTP_PORT || 587,
+    port: SMTP_PORT as number,
     secure: false, // true for 587, false for other ports
     auth: {
       user: SMTP_USERNAME,
       pass: SMTP_PASSWORD
     }
-  })
+  }
+
+  const emailServiceClient = nodeMailer.createTransport(options)
 
   // https://github.com/andris9/nodemailer-html-to-text
   emailServiceClient.use("compile", nodeMailerHtmlToText.htmlToText())
@@ -31,7 +40,9 @@ function getEmailSMTPService() {
   return emailServiceClient
 }
 
-export async function sendTransactional(_arguments) {
+export async function sendTransactional(
+  _arguments: EmailTransactionalConfig
+): Promise<void> {
   _arguments = applyFilters("transactional-email-arguments", _arguments)
 
   const { _id = "none", to, title, text, linkText, linkUrl, textFooter } = _arguments
@@ -52,7 +63,7 @@ export async function sendTransactional(_arguments) {
 
   if (textFooter) lines.push(textFooter)
 
-  const html = lines.map(_ => `<p>${_}</p>`).join("")
+  const html = lines.map((_) => `<p>${_}</p>`).join("")
   const plainText = require("html-to-text").fromString(html)
 
   const theEmail = applyFilters("transactional-email", {

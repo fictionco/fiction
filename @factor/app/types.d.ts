@@ -1,6 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import { Store } from "vuex/types"
+
 export interface ServerRenderContext {
   url: string;
   state?: object;
@@ -11,5 +12,5 @@ export interface ApplicationComponents {
   vm: Vue;
   router: VueRouter;
   store: Store<any>;
-  context?: ServerRenderContext;
+  context: ServerRenderContext;
 }
