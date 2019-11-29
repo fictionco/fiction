@@ -6,15 +6,20 @@
     "target": "esnext",
     "module": "commonjs",
     "resolveJsonModule": true,
-    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "noUnusedLocals": true,
     "esModuleInterop": true,
     "baseUrl": ".",
     "sourceMap": true,
+    "skipLibCheck": true,
     "paths": {
       "__CWD__/*": ["test/modules/alias/*"],
       "__SRC__/*": ["test/modules/alias/*"],
       "__FALLBACK__/*": ["test/modules/alias/*"]
     }
+    //"typeRoots": ["**/types", "**/@types"]
   },
 
   "exclude": [

@@ -4,6 +4,7 @@ import { removeSync } from "fs-extra"
 
 import { getPort, rp, waitFor } from "@test/utils"
 import { startProcess, closeProcess, getUrl } from "./build-util"
+import { ChildProcess } from "child_process"
 
 jest.setTimeout(90000)
 
@@ -23,7 +24,7 @@ describe["posix"]("cli factor start", () => {
     const __process = await startProcess({
       command: "start",
       env: process.env,
-      callback: __process => {
+      callback: (__process: ChildProcess): void => {
         __process.on("error", err => {
           error = err
         })

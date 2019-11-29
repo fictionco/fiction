@@ -2,7 +2,8 @@ import { MongoMemoryServer } from "mongodb-memory-server"
 import { dbInitialize, dbDisconnect } from "@factor/post/database"
 import { initializeEndpointServer } from "@factor/endpoint/server"
 import { createServer, closeServer } from "@factor/server"
-let mongod
+
+let mongod: MongoMemoryServer
 
 export interface MockDatabaseConfig {
   dbUrl: string;
@@ -12,18 +13,18 @@ export interface MockDatabaseConfig {
 }
 
 export async function startEndpointTestingServer({
-  port,
+  port = "",
   debug = false
 }): Promise<MockDatabaseConfig> {
   mongod = new MongoMemoryServer({ debug })
 
   const dbUrl = await mongod.getConnectionString()
-  const dbPort = await mongod.getPort()
+  const dbPort = String(await mongod.getPort())
   const dbPath = await mongod.getDbPath()
   const dbName = await mongod.getDbName()
 
   process.env.DB_CONNECTION = dbUrl
-  process.env.PORT = dbPort
+  process.env.PORT = String(dbPort)
   initializeEndpointServer()
   await createServer({ port })
   await dbInitialize()

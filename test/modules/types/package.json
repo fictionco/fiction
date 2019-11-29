@@ -1,0 +1,15 @@
+{
+  "name": "@type/library",
+  "version": "1.0.0",
+  "author": "Fiction.com",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@types/cross-spawn": "^6.0.1",
+    "@types/exit": "^0.1.30",
+    "@types/fs-extra": "^8.0.1",
+    "@types/jest": "^24.0.23",
+    "@types/jsdom": "^12.2.4",
+    "@types/mongoose": "^5.5.32",
+    "@types/request-promise-native": "^1.0.17"
+  }
+}

@@ -4,12 +4,19 @@ import { localhostUrl } from "@factor/tools/url"
 import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 
+export interface EndpointRequest {
+  id: string;
+  method: string;
+  params: object;
+  headers: object;
+}
+
 export async function endpointRequest({
   id,
   method,
   params = {},
   headers = {}
-}): Promise<any> {
+}: EndpointRequest): Promise<object> {
   try {
     if (!method) {
       throw new Error(`Endpoint request to "${id}" requires a method.`)
@@ -21,7 +28,7 @@ export async function endpointRequest({
 
     if (error) {
       handleTokenError(error, {
-        onError: () => {
+        onError: (): void => {
           emitEvent("error", error)
           // eslint-disable-next-line no-console
           console.error(error)
@@ -35,13 +42,13 @@ export async function endpointRequest({
   }
 }
 
-export function endpointPath(_id): string {
+export function endpointPath(_id: string): string {
   return `/_api_/${_id}`
 }
 
 export async function authorizedRequest(
-  path,
-  data,
+  path: string,
+  data: object,
   options: AxiosRequestConfig = {}
 ): Promise<AxiosResponse> {
   const { headers = {} } = options

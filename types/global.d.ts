@@ -15,10 +15,10 @@ interface Window {
   Prism: any;
 }
 
-interface Process {
-  noDeprecation: boolean;
-  maxOldSpaceSize: number;
-}
+// interface Process {
+//   noDeprecation: boolean;
+//   maxOldSpaceSize: number;
+// }
 
 declare namespace NodeJS {
   interface Process {

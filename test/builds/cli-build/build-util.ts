@@ -1,14 +1,32 @@
 import { spawn } from "cross-spawn"
 import { ChildProcess } from "child_process"
-export function getUrl({ route, port }): string {
+
+export function getUrl({ route, port }: { route: string; port: string }): string {
   return `http://localhost:${port}${route}`
 }
 
-export function spawnFactorProcess({ command, options, cwd }): ChildProcess {
+interface ProcessConfig {
+  command: string;
+  cwd: string;
+  env?: typeof process.env;
+  callback?: Function;
+  options?: { env?: typeof process.env; detached?: boolean };
+}
+
+export function spawnFactorProcess({
+  command,
+  options,
+  cwd
+}: ProcessConfig): ChildProcess {
   return spawn("yarn", ["factor", command], { cwd, ...options })
 }
 
-export function startProcess({ command, env, cwd, callback }): Promise<ChildProcess> {
+export function startProcess({
+  command,
+  env,
+  cwd,
+  callback
+}: ProcessConfig): Promise<ChildProcess> {
   return new Promise(resolve => {
     const __process = spawnFactorProcess({
       command,
@@ -16,31 +34,38 @@ export function startProcess({ command, env, cwd, callback }): Promise<ChildProc
       options: { env, detached: true }
     })
 
+    if (!__process.stdout === null) resolve()
+
     process.env.FACTOR_ENV = cwd
 
-    const listener = (data): void => {
+    const listener = (data: string): void => {
       if (data.includes(`ready...`) || data.includes(`:: listening on port ::`)) {
-        __process.stdout.removeListener("data", listener)
+        if (__process.stdout) __process.stdout.removeListener("data", listener)
         resolve(__process)
       }
     }
 
     if (typeof callback === "function") callback(__process)
 
-    __process.stdout.on("data", listener)
-    __process.stderr.on("data", data =>
-      data
-        .toString()
-        .toLowerCase()
-        .includes("error")
-        ? // eslint-disable-next-line no-console
-          console.error(data.toString())
-        : null
-    )
+    if (__process.stdout) {
+      __process.stdout.on("data", listener)
+    }
+
+    if (__process.stderr) {
+      __process.stderr.on("data", data =>
+        data
+          .toString()
+          .toLowerCase()
+          .includes("error")
+          ? // eslint-disable-next-line no-console
+            console.error(data.toString())
+          : null
+      )
+    }
   })
 }
 
-export function closeProcess(__process): Promise<void> {
+export function closeProcess(__process: ChildProcess): Promise<void> {
   return new Promise(resolve => {
     __process.on("exit", resolve)
     process.kill(-__process.pid)

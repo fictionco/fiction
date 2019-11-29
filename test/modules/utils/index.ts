@@ -11,6 +11,13 @@ import { createApp } from "@factor/app/app"
 
 import jsdom from "jsdom"
 
+interface JSDomConfig {
+  port?: string;
+  route?: string;
+  url?: string;
+  options?: object;
+}
+
 export async function getPort(): Promise<string> {
   const port = await getPortUtility()
   return String(port)
@@ -26,11 +33,11 @@ export const indexHtml = ({
   return `<!DOCTYPE html><html><head>${head}</head><body>${body}</body></html>`
 }
 
-export function getUrl({ route = "", port }): string {
+export function getUrl({ route = "", port }: JSDomConfig): string {
   return `http://localhost:${port}${route}`
 }
 
-export const buildFixture = (fixture): void => {
+export const buildFixture = (fixture: string): void => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
   process.env.FACTOR_ENV = "test"
 
@@ -53,7 +60,7 @@ export const buildFixture = (fixture): void => {
   }, 100000)
 }
 
-export const loadFixture = async (fixture): Promise<void> => {
+export const loadFixture = async (fixture: string): Promise<void> => {
   process.env.FACTOR_CWD = dirname(require.resolve(fixture))
 
   process.env.FACTOR_ENV = "test"
@@ -62,16 +69,9 @@ export const loadFixture = async (fixture): Promise<void> => {
   await createApp()
 }
 
-interface JSDomConfig {
-  port?: string;
-  route?: string;
-  url?: string;
-  options?: object;
-}
-
 export async function renderAndGetWindow(
   _arguments: JSDomConfig = {}
-): jsdom.JSDOM.window {
+): Promise<jsdom.DOMWindow> {
   const { port = process.env.PORT, route = "/" } = _arguments
 
   let { url, options = {} } = _arguments
@@ -81,7 +81,7 @@ export async function renderAndGetWindow(
   options = {
     resources: "usable",
     runScripts: "dangerously",
-    beforeParse(window): void {
+    beforeParse(window: jsdom.DOMWindow): void {
       // Mock window.scrollTo
       window.scrollTo = (): void => {}
     },

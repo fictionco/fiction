@@ -12,11 +12,11 @@ Vue.config.devtools = false
 
 const isWin = env.windows
 
-describe["win"] = isWin ? describe : describe.skip
-test["win"] = isWin ? test : test.skip
+describe.win = isWin ? describe : describe.skip
+test.win = isWin ? test : test.skip
 
-describe["posix"] = !isWin ? describe : describe.skip
-test["posix"] = !isWin ? test : test.skip
+describe.posix = !isWin ? describe : describe.skip
+test.posix = !isWin ? test : test.skip
 
 chalk.enabled = false
 
@@ -24,7 +24,10 @@ jest.setTimeout(60000)
 
 consola.mockTypes(() => jest.fn())
 
-function errorTrap(error, data): void {
+function errorTrap(
+  error: Error | null | undefined | { stack?: "" },
+  data: { context: string }
+): void {
   if (error && error.stack) {
     process.stderr.write(`\n${error.stack}\n`)
   } else {
@@ -34,10 +37,10 @@ function errorTrap(error, data): void {
   exit(1)
 }
 
-process.on("unhandledRejection", error =>
+process.on("unhandledRejection", (error): void =>
   errorTrap(error, { context: "unhandledRejection" })
 )
-process.on("uncaughtException", error =>
+process.on("uncaughtException", (error): void =>
   errorTrap(error, { context: "uncaughtException" })
 )
 

@@ -4,6 +4,9 @@
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "dependencies": {
+    "@types/fs-extra": "^8.0.1",
+    "@types/jsdom": "^12.2.4",
+    "@types/request-promise-native": "^1.0.17",
     "get-port": "^5.0.0"
   }
 }

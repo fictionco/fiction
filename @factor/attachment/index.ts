@@ -1,33 +1,45 @@
 import { endpointRequest, authorizedRequest } from "@factor/endpoint"
-import { pushToFilter, storeItem } from "@factor/tools"
+import { pushToFilter, storeItem, extendPostSchema } from "@factor/tools"
 import loadImage from "blueimp-load-image"
 
 import { uploadEndpointPath } from "./util"
 import storageSchema from "./schema"
 
-pushToFilter("data-schemas", () => storageSchema)
+extendPostSchema(storageSchema)
 
-export async function dataURL(file) {
-  const reader = new FileReader()
-
-  return new Promise(resolve => {
-    reader.addEventListener("load", function(e) {
-      resolve(e.target.result)
-    })
-
-    reader.readAsDataURL(file)
-  })
+export interface PostAttachment {
+  url: string;
 }
 
-export async function sendStorageRequest({ method, params }) {
+export interface ImageUploadItems {
+  file: File | Blob;
+  onPrep: Function;
+  onFinished: Function;
+  onError: Function;
+  onChange: Function;
+}
+
+export async function sendStorageRequest({
+  method,
+  params
+}: {
+  method: string;
+  params: object;
+}): Promise<object> {
   return await endpointRequest({ id: "storage", method, params })
 }
 
-export async function requestDeleteImage(params) {
+export async function requestDeleteImage(params: object): Promise<object> {
   return await sendStorageRequest({ method: "deleteImage", params })
 }
 
-export async function uploadImage({ file, onPrep, onFinished, onError, onChange }) {
+export async function uploadImage({
+  file,
+  onPrep,
+  onFinished,
+  onError,
+  onChange
+}: ImageUploadItems): Promise<void> {
   file = await preUploadImage({ file, onPrep })
 
   const formData = new FormData()
@@ -52,21 +64,26 @@ export async function uploadImage({ file, onPrep, onFinished, onError, onChange 
 }
 
 export async function resizeImage(
-  fileOrBlobOrUrl,
+  fileOrBlobOrUrl: File | Blob,
   { maxWidth = 1500, maxHeight = 1500 }
-): Promise<any> {
+): Promise<Blob> {
   return await new Promise(resolve => {
     loadImage(
       fileOrBlobOrUrl,
-      canvas => {
-        canvas.toBlob(blob => resolve(blob), fileOrBlobOrUrl.type)
+      (canvas: HTMLCanvasElement) => {
+        canvas.toBlob(blob => {
+          if (blob) resolve(blob)
+        }, fileOrBlobOrUrl.type)
       },
       { maxWidth, maxHeight, canvas: true, orientation: true }
     )
   })
 }
 
-export async function preUploadImage({ file, onPrep }, options = {}) {
+export async function preUploadImage(
+  { file, onPrep }: { file: File | Blob; onPrep: Function },
+  options = {}
+): Promise<File | Blob> {
   onPrep({ mode: "started", percent: 5 })
 
   if (file.type.includes("image")) {
@@ -81,7 +98,10 @@ export async function preUploadImage({ file, onPrep }, options = {}) {
 }
 
 // https://stackoverflow.com/a/36183085/1858322
-export async function base64ToBlob(b64Data, contentType = "image/jpeg") {
+export async function base64ToBlob(
+  b64Data: string,
+  contentType = "image/jpeg"
+): Promise<Blob> {
   const url = `data:${contentType};base64,${b64Data}`
   const response = await fetch(url)
   return await response.blob()
