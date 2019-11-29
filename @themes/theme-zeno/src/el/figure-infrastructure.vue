@@ -3,7 +3,7 @@
     <figcaption
       class="text-sm text-center font-mono py-1 bg-purple-700 text-purple-300 rounded-t"
     >terraform.tf</figcaption>
-    <factor-highlight-code class="bg-purple-900 text-gray-500 p-8 text-sm rounded-b">
+    <factor-highlight-code class="bg-purple-900 text-gray-500 p-4 text-sm rounded-b md:p-8">
       <pre><code class="prism">{{ code() }}</code></pre>
     </factor-highlight-code>
   </figure>

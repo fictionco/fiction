@@ -1,9 +1,12 @@
 <template>
   <div>
-    <section class="bg-purple-900 flex items-center bg-center" :style="introBackground">
+    <section class="bg-purple-900 flex items-center bg-center bg-repeat-x" :style="introBackground">
       <div class="max-w-2xl mx-auto text-center px-8 py-32">
         <h3 class="custom-uppercase text-purple-400">{{ introPretitle }}</h3>
-        <h1 class="mt-2 font-bold leading-tight text-3xl lg:text-4xl text-gray-100">{{ introTitle }}</h1>
+        <h1
+          v-formatted-text="introTitle"
+          class="mt-2 font-bold leading-tight text-3xl lg:text-4xl text-gray-100"
+        />
         <div v-formatted-text="introContent" class="mt-2 text-base leading-relaxed lg:text-xl" />
       </div>
     </section>
@@ -16,7 +19,7 @@
             <p>{{ item.description }}</p>
             <ul
               :class="item.classes"
-              class="m-6 p-4 text-base border rounded-lg transition-all lg:text-lg"
+              class="my-6 p-4 text-base border rounded-lg transition-all md:m-6 lg:text-lg"
             >
               <template v-for="(listItem, i) in item.list">
                 <li :key="i" class="py-4" :class="listItem.classes">
@@ -50,7 +53,10 @@
         <div class="mt-6 mx-6">
           <template v-for="(question, ind) in questions">
             <el-accordion :key="ind" :title="question.title">
-              <div v-formatted-text="question.content" class="text-base leading-relaxed lg:text-xl" />
+              <div
+                v-formatted-text="question.content"
+                class="text-base leading-relaxed lg:text-xl"
+              />
             </el-accordion>
           </template>
         </div>

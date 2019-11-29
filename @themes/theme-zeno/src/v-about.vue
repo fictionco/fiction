@@ -11,7 +11,7 @@
 
     <section class="bg-gray-100 pb-16">
       <div class="bg-purple-900 pt-8 pb-24 md:pt-16 md:pb-32 px-8">
-        <h1 class="font-bold text-center text-3xl lg:text-4xl text-gray-200">{{ teamTitle }}</h1>
+        <squares-title :title="teamTitle" class="text-center" />
       </div>
       <div class="flex flex-col items-center -mt-24">
         <template v-for="(member, index) in teamMembers">
@@ -65,6 +65,7 @@ export default Vue.extend({
   components: {
     factorIcon,
     factorLink,
+    "squares-title": () => import("./el/squares-title.vue"),
     "site-cta": () => import("./el/cta.vue")
   },
   data() {
