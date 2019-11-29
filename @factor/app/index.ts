@@ -2,12 +2,12 @@ import { setting } from "@factor/tools/settings"
 import { addFilter, applyFilters, addCallback } from "@factor/tools/filters"
 import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
-
+import { RouteConfig } from "vue-router"
 const clientIsMountedPromise = waitForMountApp()
 
 // Allows components to definitively wait for client to init
 // otherwise we might throw hydration errors
-export async function appMounted(callback = null): Promise<void> {
+export async function appMounted(callback?: Function): Promise<void> {
   await clientIsMountedPromise
 
   if (callback) callback()
@@ -16,7 +16,7 @@ export async function appMounted(callback = null): Promise<void> {
 }
 
 function waitForMountApp(): Promise<void> {
-  return new Promise(resolve => onEvent("app-mounted", () => resolve()))
+  return new Promise((resolve) => onEvent("app-mounted", () => resolve()))
 }
 
 addCallback("initialize-app", () => {
@@ -27,7 +27,7 @@ addCallback("initialize-app", () => {
     throw new Error("core components missing")
   }
 
-  addFilter("routes", _ => {
+  addFilter("routes", (_: RouteConfig[]) => {
     const contentRoutes = applyFilters("content-routes", [
       {
         name: "forbidden",
@@ -35,9 +35,9 @@ addCallback("initialize-app", () => {
         component: factorError404,
         meta: { error: 403 }
       }
-    ]).filter((route, index, self) => {
+    ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
       // remove duplicate paths
-      const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
+      const lastIndexOf = self.map((_) => _.path).lastIndexOf(route.path)
       return index === lastIndexOf
     })
 

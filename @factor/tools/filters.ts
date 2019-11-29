@@ -48,13 +48,13 @@ export function getFilterCount(_id: string): number {
 
 // Apply filters a maximum of one time, once they've run add to _applied property
 // If that is set just return it
-export function applyFilters(_id: string, data: any, ...rest): any {
+export function applyFilters(_id: string, data: any, ...rest: any[]): any {
   // Get Filters Added
   const _added = getFilters()[_id]
 
   // Thread through filters if they exist
   if (_added && Object.keys(_added).length > 0) {
-    const _addedArray = Object.keys(_added).map(i => _added[i])
+    const _addedArray = Object.keys(_added).map((i) => _added[i])
     const _sorted = sortPriority(_addedArray)
 
     for (const element of _sorted) {
@@ -82,7 +82,7 @@ export function applyFilters(_id: string, data: any, ...rest): any {
 export function addFilter<T>(
   _id: string,
   cb: T,
-  { context = null, priority = 100, key = "" } = {}
+  { context = {}, priority = 100, key = "" } = {}
 ): T {
   const $filters = getFilters()
 
@@ -106,7 +106,7 @@ export function pushToFilter<T>(_id: string, item: T, { key = "", pushTo = -1 } 
 
   addFilter(
     _id,
-    (_: T[], args) => {
+    (_: T[], args: object) => {
       item = typeof item == "function" ? item(args) : item
 
       if (pushTo >= 0) {
@@ -135,7 +135,7 @@ export function addCallback<T>(
 
   const callable = typeof callback != "function" ? (): T => callback : callback
 
-  addFilter(_id, (_ = [], args) => [..._, callable(args)], options)
+  addFilter(_id, (_: Function[] = [], args: object) => [..._, callable(args)], options)
 
   return callback
 }
@@ -152,12 +152,15 @@ export async function runCallbacks(
 // Use the function that called the filter in the key
 // this prevents issues where two filters in different may match each other
 // which causes difficult to solve bugs (data-schemas is an example)
-function callerKey(key): string {
-  return (
-    key +
-    new Error().stack
-      .toString()
-      .split("at")
-      .find(line => !line.match(/(filter|Error)/))
-  )
+function callerKey(key: string): string {
+  const error = new Error()
+  const stacker =
+    error && error.stack
+      ? error.stack
+          .toString()
+          .split("at")
+          .find((line) => !line.match(/(filter|Error)/))
+      : "no-stack"
+
+  return key + stacker
 }

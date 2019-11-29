@@ -1,7 +1,7 @@
 import Vue from "vue"
 import { createApp } from "./app"
 
-const startClient = async () => {
+const startClient = async (): Promise<void> => {
   const { vm, router, store } = await createApp()
 
   // Add to <window> for external use

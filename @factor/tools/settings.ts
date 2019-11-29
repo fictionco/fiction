@@ -7,19 +7,18 @@ import coreSettings from "@factor/app/core-settings"
 addCallback("before-server-plugins", () => createSettings())
 addCallback("before-app-plugins", () => createSettings())
 
-let added = []
 let config = {}
-let settingsExports = []
+let settingsExports: (Function | object)[] = []
 
-function getSettings() {
-  return Vue["$factorSettings"] ? Vue["$factorSettings"] : coreSettings()
+function getSettings(): object {
+  return Vue.$factorSettings ? Vue.$factorSettings : coreSettings()
 }
 
-function setSettings(settings) {
-  Vue["$factorSettings"] = settings
+function setSettings(settings: object): void {
+  Vue.$factorSettings = settings
 }
 
-export function createSettings() {
+export function createSettings(): void {
   config = configSettings()
 
   try {
@@ -34,10 +33,10 @@ export function createSettings() {
   mergeAllSettings()
 }
 
-function mergeAllSettings() {
+function mergeAllSettings(): void {
   const settingsArray = applyFilters(
     "factor-settings",
-    [config, coreSettings, ...settingsExports, ...added].map(_export =>
+    [config, coreSettings, ...settingsExports].map((_export) =>
       typeof _export == "function" ? _export() : _export
     )
   )
@@ -51,12 +50,7 @@ function mergeAllSettings() {
   return
 }
 
-export async function addSettings(settings) {
-  added = [...added, settings]
-  await mergeAllSettings()
-}
-
-export function setting(key) {
+export function setting(key: string): any {
   const settings = getSettings()
 
   if (key == "all") {

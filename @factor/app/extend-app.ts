@@ -6,7 +6,7 @@ Vue.config.silent = false
 
 let __observables = {}
 
-export async function extendApp(options = {}) {
+export async function extendApp(options = {}): Promise<void> {
   await runCallbacks("before-app-plugins", options)
 
   try {
@@ -25,15 +25,15 @@ export async function extendApp(options = {}) {
 
 // Add before plugins import
 // Observable values that can change at any time
-function setupGlobalObservable() {
+function setupGlobalObservable(): void {
   __observables = Vue.observable(applyFilters("register-global-observables", {}))
 }
 
-export function getObservables(): any {
+export function getObservables(): object {
   return __observables
 }
 
-function addClientDirectives() {
+function addClientDirectives(): void {
   if (process.env.FACTOR_SSR == "client") {
     const directives = applyFilters("client-directives", {})
 

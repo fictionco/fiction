@@ -3,7 +3,7 @@ import VueRouter from "vue-router"
 import { Store } from "vuex/types"
 
 export interface ServerRenderContext {
-  url: string;
+  url?: string;
   state?: object;
   [key: string]: any;
 }
@@ -13,4 +13,10 @@ export interface ApplicationComponents {
   router: VueRouter;
   store: Store<any>;
   context: ServerRenderContext;
+}
+
+declare module "vue-router" {
+  interface RouteConfig {
+    priority?: number;
+  }
 }

@@ -1,13 +1,13 @@
 /* eslint-disable import/no-unresolved */
 import { resolveFilePath } from "@factor/tools/resolver"
-
-export default () => {
+import Vue from "vue"
+export default (): object => {
   return {
     app: {
       components: {
-        error404: () => import("__FALLBACK__/404.vue"),
-        content: () => import("__FALLBACK__/content.vue"),
-        site: () => import("__FALLBACK__/site.vue")
+        error404: (): Promise<Vue> => import("__FALLBACK__/404.vue"),
+        content: (): Promise<Vue> => import("__FALLBACK__/content.vue"),
+        site: (): Promise<Vue> => import("__FALLBACK__/site.vue")
       },
       icon: require("__FALLBACK__/static/icon.svg"),
       templatePath: resolveFilePath("__FALLBACK__/index.html"),

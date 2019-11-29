@@ -7,7 +7,7 @@ import { emitEvent } from "@factor/tools/events"
 import { getStore } from "@factor/app/store"
 import { runCallbacks } from "@factor/tools/filters"
 import { setting } from "@factor/tools/settings"
-import Vue from "vue"
+import Vue, { VNode } from "vue"
 
 import { extendApp } from "./extend-app"
 import { ApplicationComponents } from "./types"
@@ -37,12 +37,12 @@ export async function createApp(): Promise<ApplicationComponents> {
       // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
       setTimeout(() => emitEvent("app-mounted"), 0)
     },
-    render: h => h(factorSite),
+    render: (h): VNode => h(factorSite),
     router,
     store
   })
 
   // note we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
-  return { vm, router, store }
+  return { vm, router, store, context: {} }
 }
