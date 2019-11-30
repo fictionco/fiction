@@ -1,9 +1,9 @@
-import { pushToFilter } from "@factor/tools/filters"
+import { addPostType, addContentRoute } from "@factor/tools"
 import { setting } from "@factor/tools/settings"
 
 const baseRoute = setting("blog.postRoute")
 
-pushToFilter("post-types-config", {
+addPostType({
   postType: "blog",
   baseRoute,
   icon: require("./img/posts.svg"),
@@ -13,7 +13,7 @@ pushToFilter("post-types-config", {
   namePlural: "Blog Posts"
 })
 
-pushToFilter("content-routes", {
+addContentRoute({
   path: setting("blog.indexRoute"),
   component: setting("blog.components.blogWrap"),
   children: [

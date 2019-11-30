@@ -2,6 +2,7 @@ import { getModel } from "@factor/post/server"
 import { pushToFilter, applyFilters, addCallback } from "@factor/tools"
 import * as endpointHandler from "@factor/user/server"
 import { userCredential } from "./jwt"
+import { FactorUserCredential, AuthenticationParameters } from "./types"
 import "./hooks-universal"
 
 if (!process.env.TOKEN_SECRET) {
@@ -14,7 +15,9 @@ if (!process.env.TOKEN_SECRET) {
 
 addCallback("endpoints", { id: "user", handler: endpointHandler })
 
-export async function authenticate(params) {
+export async function authenticate(
+  params: AuthenticationParameters
+): Promise<FactorUserCredential | {}> {
   const { newAccount, email, password, displayName } = params
 
   let user

@@ -1,6 +1,8 @@
 import { objectIdType } from "./object-id"
 import { applyFilters } from "@factor/tools/filters"
-import { FactorSchema } from "./typings"
+import { FactorSchema } from "./types"
+import { Schema, Document } from "mongoose"
+
 export default (): FactorSchema => {
   return {
     name: "post",
@@ -43,15 +45,17 @@ export default (): FactorSchema => {
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
-        validator: function(v): boolean {
+        validator: function(v: string): boolean {
           return /^[a-z0-9-]+$/.test(v)
         },
-        message: (props): string => `${props.value} is not URL compatible.`
+        message: (props: { value: string }): string =>
+          `${props.value} is not URL compatible.`
       }
     }),
-    callback: (_s): void => {
-      _s.pre("save", function(next) {
+    callback: (_s: Schema): void => {
+      _s.pre("save", function(this: FactorSchema["schema"] & Document, next) {
         this.markModified("settings")
+
         if (!this.date && this.status == "published") {
           const now = new Date()
           this.date = now.toISOString()

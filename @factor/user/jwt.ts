@@ -1,18 +1,23 @@
 import jwt from "jsonwebtoken"
+import { FactorUser, FactorUserAuthentication, FactorUserCredential } from "./types"
 
-export function userCredential(user) {
+export function userCredential(
+  user: FactorUserAuthentication
+): FactorUserCredential | {} {
   if (!user || !process.env.TOKEN_SECRET) return {}
 
-  user = user.toObject()
-  delete user.password
+  const credentialUser = user.toObject()
+
+  delete credentialUser.password
+
   return {
-    ...user,
+    ...credentialUser,
     token: jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
   }
 }
 
-export function decodeToken(token) {
-  if (!process.env.TOKEN_SECRET) return
+export function decodeToken(token: string): FactorUser | {} {
+  if (!process.env.TOKEN_SECRET) return {}
 
   try {
     return jwt.verify(token, process.env.TOKEN_SECRET)

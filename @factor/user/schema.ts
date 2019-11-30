@@ -1,17 +1,22 @@
 import { objectIdType } from "@factor/post/util"
 import { validator, applyFilters } from "@factor/tools"
 import bcrypt from "bcryptjs"
+import { HookNextFunction, Schema, Document } from "mongoose"
+import { FactorUser } from "./types"
+import { FactorSchema } from "@factor/post/types"
 
-export default () => {
+export default (): FactorSchema => {
   return {
     name: "user",
-    callback: (_s) => {
+    callback: (_s: Schema): void => {
       // PASSWORDS
-      _s.methods.comparePassword = async function comparePassword(candidate) {
+      _s.methods.comparePassword = async function comparePassword(
+        candidate: string
+      ): Promise<boolean> {
         return bcrypt.compare(candidate, this.password)
       }
-      _s.pre("save", async function(next) {
-        if (!this.isModified("password")) {
+      _s.pre("save", async function(this: FactorUser & Document, next: HookNextFunction) {
+        if (!this.isModified("password") || !this.password) {
           return next()
         }
 
@@ -23,7 +28,7 @@ export default () => {
         }
       })
 
-      _s.pre("save", function(next) {
+      _s.pre("save", function(this: FactorUser & Document, next: HookNextFunction) {
         if (this.username) this.permalink = `@${this.username}`
 
         next()
@@ -46,8 +51,9 @@ export default () => {
         lowercase: true,
         index: { unique: true },
         validate: {
-          validator: (v) => validator.isEmail(v),
-          message: (props) => `${props.value} is not a valid email.`
+          validator: (v: string): boolean => validator.isEmail(v),
+          message: (props: { value: string }): string =>
+            `${props.value} is not a valid email.`
         }
       },
       emailVerified: { type: Boolean, default: false },
@@ -66,8 +72,8 @@ export default () => {
         lowercase: true,
         trim: true,
         validate: {
-          validator: (v) => validator.isMobilePhone(v),
-          message: (props) =>
+          validator: (v: string): boolean => validator.isMobilePhone(v),
+          message: (props: { value: string }): string =>
             `${props.value} is not a valid phone number (with country code).`
         }
       },

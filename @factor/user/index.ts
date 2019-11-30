@@ -1,6 +1,8 @@
 import { endpointRequest } from "@factor/endpoint"
 import { requestPostSingle, requestPostPopulate } from "@factor/post"
 import { userToken, handleTokenError } from "./token"
+
+import { RouteGuard } from "@factor/app/types"
 import {
   isEmpty,
   isNode,
@@ -15,17 +17,23 @@ import {
   navigateToRoute,
   onEvent
 } from "@factor/tools"
-import { FactorUser } from "./typings"
+
+import {
+  FactorUser,
+  FactorUserCredential,
+  AuthenticationParameters,
+  userRolesMap
+} from "./types"
 import "./hooks-universal"
 import "./edit-account"
 import { appMounted } from "@factor/app"
 
 export * from "./email-request"
 
-let _initializedUser
+let _initializedUser: Promise<FactorUser | undefined>
 
-export function currentUser(): FactorUser {
-  return stored("currentUser") || {}
+export function currentUser(): FactorUser | undefined {
+  return stored("currentUser")
 }
 
 addFilter("before-app", () => {
@@ -42,7 +50,9 @@ onEvent("invalid-user-token", () => {
 
 // Utility function that calls a callback when the user is set initially
 // If due to route change then initialized var is set and its called immediately
-export async function userInitialized(callback?: Function): Promise<FactorUser | null> {
+export async function userInitialized(
+  callback?: Function
+): Promise<FactorUser | undefined> {
   const user = await _initializedUser
 
   if (callback) callback(user)
@@ -50,54 +60,48 @@ export async function userInitialized(callback?: Function): Promise<FactorUser |
   return user
 }
 
-async function requestInitializeUser(user?: FactorUser): Promise<FactorUser> {
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve, reject) => {
-    try {
-      let resolvedUser
+async function requestInitializeUser(): Promise<FactorUser | undefined> {
+  await appMounted()
+  const resolvedUser = await retrieveAndSetCurrentUser()
 
-      if (currentUser()._id && !user) {
-        resolvedUser = currentUser()
-      } else {
-        await appMounted()
+  await runCallbacks("before-user-init", resolvedUser)
 
-        resolvedUser = await retrieveAndSetCurrentUser(user)
-      }
-
-      await runCallbacks("before-user-init", resolvedUser)
-
-      resolve(resolvedUser)
-    } catch (error) {
-      reject(error)
-    }
-  })
+  return resolvedUser
 }
 
-async function retrieveAndSetCurrentUser(user): Promise<FactorUser> {
-  let token = null
-  if (user && user.token) {
-    token = user.Token
+async function retrieveAndSetCurrentUser(
+  userCredential?: FactorUserCredential
+): Promise<FactorUser | undefined> {
+  let token
+  let user
+
+  if (userCredential && userCredential.token) {
+    token = userCredential.token
   } else if (userToken()) {
     token = userToken()
   }
 
   try {
-    user = token ? await requestPostSingle({ token }) : {}
+    if (token) {
+      user = await requestPostSingle({ token })
 
-    setUser({ user, token, current: true })
-
-    return user
+      setUser({ user, token, current: true })
+    }
   } catch (error) {
     handleTokenError(error, { onError: () => log.error(error) })
   }
+
+  return user
 }
 
-export function isCurrentUser(_id): boolean {
-  return !!currentUser()._id == _id
+export function isCurrentUser(_id: string): boolean {
+  const current = currentUser()
+  return current && current._id === _id ? true : false
 }
 
 export function userId(): string {
-  return currentUser() && currentUser()._id ? currentUser()._id : ""
+  const current = currentUser()
+  return current && current._id ? current._id : ""
 }
 
 export function isLoggedIn(): boolean {
@@ -105,15 +109,18 @@ export function isLoggedIn(): boolean {
 }
 
 export function isEmailVerified(): boolean {
-  return !!currentUser().emailVerified
+  const current = currentUser()
+  return current && current.emailVerified ? true : false
 }
 
-async function sendUserRequest(method, params) {
+async function sendUserRequest(method: string, params: object): Promise<unknown> {
   return await endpointRequest({ id: "user", method, params })
 }
 
-export async function authenticate(params) {
-  const user = await sendUserRequest("authenticate", params)
+export async function authenticate(
+  params: AuthenticationParameters
+): Promise<FactorUserCredential> {
+  const user = (await sendUserRequest("authenticate", params)) as FactorUserCredential
 
   await runCallbacks("authenticated", user)
 
@@ -138,14 +145,6 @@ export async function logout(args: { redirect?: string } = {}): Promise<void> {
   }
 }
 
-export async function sendPasswordReset({ email }) {
-  return await sendUserRequest("passwordReset", { email })
-}
-
-export async function sendEmailVerification({ email }) {
-  return await sendUserRequest("verifyEmail", { email })
-}
-
 // Set persistent user info
 export function setUser({ user, token = "", current = false }): void {
   if (current) {
@@ -164,9 +163,6 @@ export function setUser({ user, token = "", current = false }): void {
 
   if (user && user._id) storeItem(user._id, user)
 }
-export function roles() {
-  return require("./roles.json")
-}
 
 // Very basic version for UI control by  role
 // Needs improvement for more fine grained control
@@ -177,8 +173,9 @@ export function userCan({
   role?: string;
   accessLevel?: number;
 }): boolean {
-  const userAccessLevel = currentUser().accessLevel
-  const roleAccessLevel = role ? roles()[role] : 1000
+  const current = currentUser()
+  const userAccessLevel = current && current.accessLevel ? current.accessLevel : 0
+  const roleAccessLevel = role ? userRolesMap[role] : 1000
   if (accessLevel >= 0 && userAccessLevel >= accessLevel) {
     return true
   } else if (role && userAccessLevel >= roleAccessLevel) {
@@ -189,8 +186,8 @@ export function userCan({
 }
 
 function handleAuthRouting(): void {
-  addCallback("client-route-before", async ({ to, next }) => {
-    const user = await userInitialized() //currentUser()
+  addCallback("client-route-before", async ({ to, next }: RouteGuard) => {
+    const user = await userInitialized()
     const { path: toPath } = to
 
     // Is authentication needed
@@ -198,22 +195,13 @@ function handleAuthRouting(): void {
       return _r.meta.auth
     })
 
-    // Get accessLevel needed
-    // eslint-disable-next-line no-unused-vars
-    // let accessLevel
-    // to.matched.forEach(_r => {
-    //   if (_r.meta.accessLevel) {
-    //     accessLevel = _r.meta.accessLevel
-    //   }
-    // })
-
-    if (auth === true && !user._id) {
+    if (auth === true && !user) {
       emitEvent("sign-in-modal", { redirect: toPath })
       next(false)
     }
   })
 
-  addCallback("before-user-init", (user) => {
+  addCallback("before-user-init", (user: FactorUser | undefined) => {
     const { path, matched } = currentRoute()
     const auth = matched.some((_r) => _r.meta.auth)
 

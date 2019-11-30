@@ -30,6 +30,8 @@ import {
 } from "@factor/dashboard"
 import { factorBtnDashboard } from "@factor/ui"
 import Vue from "vue"
+import { EmailConfig } from "./types"
+
 export default Vue.extend({
   name: "EmailListGrid",
   components: {
@@ -58,7 +60,7 @@ export default Vue.extend({
     title() {
       return `Email List - ${this.listId}`
     },
-    _id() {
+    _id(): string {
       return this.$route.query._id || ""
     },
     post: {
@@ -68,7 +70,7 @@ export default Vue.extend({
       set(v) {
         storeItem(this._id, v)
       }
-    },
+    } as any,
 
     tabs() {
       return [`all`, `verified`, `unverified`].map((key) => {
@@ -103,7 +105,7 @@ export default Vue.extend({
   },
 
   methods: {
-    async deleteEmails({ emails }) {
+    async deleteEmails(this: any, { emails }: { emails: string[] }) {
       const result = await deleteEmails({
         emails,
         listId: this.listId
@@ -111,12 +113,14 @@ export default Vue.extend({
 
       // Remove from UI
       if (result) {
-        const newList = this.post.list.filter((_) => !emails.includes(_.email))
+        const newList = this.post.list.filter(
+          (_: EmailConfig) => !emails.includes(_.email)
+        )
         this.post = { ...this.post, list: newList }
       }
     },
 
-    handleAction(action) {
+    handleAction(this: any, action: string) {
       if (action == "delete") {
         this.deleteEmails({ emails: this.selected })
       } else if (action == "export-all") {
@@ -131,8 +135,8 @@ export default Vue.extend({
         })
       } else if (action == "export-selected") {
         const data = this.post.list
-          .filter((_) => this.selected.includes(_.email))
-          .map((_) => {
+          .filter((_: EmailConfig) => this.selected.includes(_.email))
+          .map((_: EmailConfig) => {
             delete _.code
 
             return _
@@ -143,8 +147,8 @@ export default Vue.extend({
         })
       }
     },
-    selectAll(val) {
-      this.selected = !val ? [] : this.post.list.map((_) => _.email)
+    selectAll(this: any, val: boolean) {
+      this.selected = !val ? [] : this.post.list.map((_: EmailConfig) => _.email)
     },
 
     grid() {

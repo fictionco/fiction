@@ -10,7 +10,7 @@ import { hasEmailService, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
 import { Model, Document, Query } from "mongoose"
-
+import { EmailConfig } from "./types"
 addCallback("endpoints", { id: "emailList", handler: endpoints })
 
 type StandardQuery = Promise<Query<Document>>
@@ -21,14 +21,6 @@ function uniqueId(listId: string): string {
 
 function postModel(): Model<Document> {
   return getModel("emailList")
-}
-
-interface EmailConfig {
-  email: string;
-  listId?: string;
-  list?: string;
-  tags?: string[];
-  code?: string;
 }
 
 // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
@@ -109,7 +101,7 @@ export async function verifyEmail({
   return result
 }
 
-async function sendConfirmEmail({ email, listId, code }: EmailConfig) {
+async function sendConfirmEmail({ email, listId, code }: EmailConfig): Promise<void> {
   const action = `verify-email-list`
 
   const format = getSetting({
@@ -137,7 +129,7 @@ async function sendConfirmEmail({ email, listId, code }: EmailConfig) {
   })
 }
 
-async function sendCompleteEmail({ email, listId }: EmailConfig) {
+async function sendCompleteEmail({ email, listId }: EmailConfig): Promise<void> {
   const format = getSetting({ key: "emails.complete", listId })
 
   if (!format) return

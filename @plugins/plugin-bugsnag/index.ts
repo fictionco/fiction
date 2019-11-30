@@ -1,4 +1,5 @@
-import bugsnag from "@bugsnag/js"
+import bugsnag, { Bugsnag } from "@bugsnag/js"
+
 import bugsnagVue from "@bugsnag/plugin-vue"
 import { log, onEvent, addCallback, setting } from "@factor/tools"
 
@@ -9,7 +10,7 @@ const clientApiKey = setting("bugsnag.clientApiKey")
 
 addFilters()
 
-function addFilters() {
+function addFilters(): void {
   if (!clientApiKey || process.env.NODE_ENV == "development") return
 
   const appVersion = setting("version") || "0.0.0"
@@ -23,7 +24,7 @@ function addFilters() {
   bugsnagClient.use(bugsnagVue, Vue)
 
   addCallback("initialize-app", async () => {
-    onEvent("error", (error) => bugsnagClient.notify(error))
+    onEvent("error", (error: Error) => bugsnagClient.notify(error))
 
     const user = await userInitialized()
 
@@ -31,11 +32,11 @@ function addFilters() {
   })
 }
 
-function customLogger() {
+function customLogger(): Bugsnag.ILogger {
   return {
-    debug: () => {},
-    info: () => {},
-    warn: () => log.warn,
-    error: () => log.error
+    debug: (): void => {},
+    info: (): void => {},
+    warn: (): Function => log.warn,
+    error: (): Function => log.error
   }
 }

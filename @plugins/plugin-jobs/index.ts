@@ -1,11 +1,18 @@
-import { pushToFilter, setting } from "@factor/tools"
+import {
+  addPostType,
+  addContentRoute,
+  setting,
+  pushToFilter,
+  extendPostSchema
+} from "@factor/tools"
+
 import jobsSchema from "./schema"
 
 const baseRoute = setting("jobs.postRoute")
 
-pushToFilter("data-schemas", () => jobsSchema)
+extendPostSchema(jobsSchema)
 
-pushToFilter("post-types-config", {
+addPostType({
   postType: "jobs",
   baseRoute,
   icon: require("./img/jobs.svg"),
@@ -15,7 +22,7 @@ pushToFilter("post-types-config", {
   namePlural: "Jobs Posts"
 })
 
-pushToFilter("content-routes", {
+addContentRoute({
   path: setting("jobs.indexRoute"),
   component: setting("jobs.components.jobsContent"),
   children: [

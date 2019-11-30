@@ -1,34 +1,44 @@
 import { addFilter, setting } from "@factor/tools"
-import { writeConfig } from "@factor/cli/setup"
+import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
+import { FactorUser, userRolesMap } from "./types"
+import inquirer from "inquirer"
+import { Schema, SchemaDefinition, HookNextFunction, Document } from "mongoose"
 
-function userRoles() {
-  return require("./roles.json")
+interface FactorUserRoles extends FactorUser {
+  role: string;
+  accessLevel: number;
 }
 
-addFilter("user-schema", (_) => {
-  _.role = {
-    type: String,
-    enum: Object.keys(userRoles()),
-    required: true,
-    default: "member"
-  }
+addFilter(
+  "user-schema",
+  (_: SchemaDefinition): SchemaDefinition => {
+    _.role = {
+      type: String,
+      enum: Object.keys(userRolesMap),
+      required: true,
+      default: "member"
+    }
 
-  _.accessLevel = {
-    type: Number,
-    min: 0,
-    max: 1000,
-    required: true,
-    default: 0,
-    index: true
-  }
+    _.accessLevel = {
+      type: Number,
+      min: 0,
+      max: 1000,
+      required: true,
+      default: 0,
+      index: true
+    }
 
-  return _
-})
+    return _
+  }
+)
 
 // Add role property to user schema
 // Create a virtual accessLevel property based on role
-addFilter("user-schema-hooks", (Schema) => {
-  Schema.pre("validate", async function(next) {
+addFilter("user-schema-hooks", (_s: Schema) => {
+  _s.pre("validate", async function(
+    this: FactorUserRoles & Document,
+    next: HookNextFunction
+  ) {
     const existing = setting(`roles.${this.email}`)
     const configRole = this.emailVerified && existing ? existing : "member"
 
@@ -38,19 +48,19 @@ addFilter("user-schema-hooks", (Schema) => {
       return next(new Error(`Can not edit role ${this.role}`))
     }
 
-    this.accessLevel = userRoles()[this.role] || 0
+    this.accessLevel = userRolesMap[this.role] || 0
 
     return next()
   })
 })
 
 // CLI admin setup utility
-addFilter("cli-add-setup", (_) => {
-  const setupAdmins = {
+addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
+  const setupAdmins: SetupCliConfig = {
     name: "User Roles - Add admin privileges to specific users.",
     value: "admins",
-    callback: async ({ inquirer }) => {
-      const roles = userRoles()
+    callback: async (): Promise<void> => {
+      const roles = userRolesMap
       const choices = Object.keys(roles).map((_) => {
         return {
           name: `${_} (${roles[_]})`,
@@ -63,7 +73,7 @@ addFilter("cli-add-setup", (_) => {
           name: "email",
           message: "What's the user's email?",
           type: "input",
-          validate: (v) => {
+          validate: (v: string): string | boolean => {
             const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return re.test(v) ? true : "Enter a valid email address"
           }
@@ -82,8 +92,8 @@ addFilter("cli-add-setup", (_) => {
         }
       ]
 
-      const admins = {}
-      const ask = async () => {
+      const admins: Record<string, string> = {}
+      const ask = async (): Promise<void> => {
         const { askAgain, email, role } = await inquirer.prompt(questions)
         admins[email] = role
         if (askAgain) await ask()

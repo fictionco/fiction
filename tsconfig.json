@@ -28,7 +28,7 @@
     "coverage",
     "**/prism.js",
     "**/iconfont.js",
-    "**/.ref",
+    "**/.ref*",
     "node_modules"
   ]
 }

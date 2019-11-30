@@ -6,7 +6,7 @@ import {
 } from "@factor/tools/filters"
 import { emitEvent } from "@factor/tools/events"
 import Vue from "vue"
-import VueRouter, { RouteConfig, Route, RouterOptions } from "vue-router"
+import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
 import qs from "qs"
 
 Vue.use(VueRouter)
@@ -62,7 +62,7 @@ export function currentRoute(): Route {
   return getRouter().currentRoute
 }
 
-export function navigateToRoute(r: Route): Promise<Route> {
+export function navigateToRoute(r: Location): Promise<Route> {
   return getRouter().push(r)
 }
 

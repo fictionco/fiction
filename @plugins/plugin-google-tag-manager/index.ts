@@ -1,12 +1,13 @@
 import { addFilter, pushToFilter, setting } from "@factor/tools"
-import { writeConfig } from "@factor/cli/setup"
+import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
+import inquirer from "inquirer"
 
 const googleTagManagerId = setting("googleTagManager.googleTagManagerId")
 const developmentMode = setting("googleTagManager.developmentMode")
 
 const setupTitle = "Plugin: Google Tag Manager"
 
-function addFilters() {
+function addFilters(): void {
   if (!googleTagManagerId) {
     pushToFilter("setup-needed", { title: setupTitle })
 
@@ -20,7 +21,7 @@ function addFilters() {
 
   addFilter(
     "factor_head",
-    (_) => {
+    (_: string[]): string[] => {
       const add = `<script>
       ; (function (w, d, s, l, i) {
         w[l] = w[l] || []
@@ -39,7 +40,7 @@ function addFilters() {
     { priority: 200 }
   )
 
-  addFilter("factor_body_start", (_) => {
+  addFilter("factor_body_start", (_: string[]): string[] => {
     const add = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   `
@@ -47,13 +48,13 @@ function addFilters() {
   })
 }
 
-function addSetupCli(name) {
+function addSetupCli(name: string): void {
   // CLI admin setup utility
-  addFilter("cli-add-setup", (_) => {
-    const setupAdmins = {
+  addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
+    const setupAdmins: SetupCliConfig = {
       name,
       value: "gtm",
-      callback: async ({ inquirer }) => {
+      callback: async (): Promise<void> => {
         const questions = [
           {
             name: "googleTagManagerId",

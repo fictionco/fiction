@@ -1,10 +1,10 @@
 import { requestPostSave } from "@factor/post"
-import { toLabel, pushToFilter, setting } from "@factor/tools"
+import { toLabel, addPostType, setting } from "@factor/tools"
 import { sendEmailRequest } from "@factor/email"
 
 const postType = "contact-form"
 
-pushToFilter("post-types-config", {
+addPostType({
   postType: postType,
   nameIndex: "Contact Form",
   nameSingle: "Submitted",
@@ -13,14 +13,14 @@ pushToFilter("post-types-config", {
   add: false
 })
 
-export async function saveContactForm(form) {
+export async function saveContactForm(form: object): Promise<object> {
   const post = { settings: form }
   const saved = await requestPostSave({ post, postType: postType })
   sendFormEmail(form)
   return saved
 }
 
-export async function sendFormEmail(form) {
+export async function sendFormEmail(form: object): Promise<object> {
   const toSetting = setting("contactForm.email")
   const to = typeof toSetting == "function" ? toSetting() : toSetting
 

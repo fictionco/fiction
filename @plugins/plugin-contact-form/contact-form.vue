@@ -34,10 +34,12 @@
   </factor-form>
 </template>
 
-<script>
+<script lang="ts">
+import { saveContactForm } from "."
 import { factorInputWrap, factorForm, factorInputSubmit } from "@factor/ui"
 import { setting } from "@factor/tools"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorInputWrap, factorForm, factorInputSubmit },
   data() {
@@ -51,7 +53,7 @@ export default Vue.extend({
   mounted() {
     this.$watch(
       "form",
-      function() {
+      function(this: any) {
         const v = this.$refs.form.$el.checkValidity()
 
         this.formStatus = v ? "valid" : "invalid"
@@ -61,9 +63,10 @@ export default Vue.extend({
   },
   methods: {
     setting,
-    async send() {
+    async send(this: any) {
       this.sending = true
-      await this.$contactForm.save(this.form)
+
+      await saveContactForm(this.form)
 
       this.sent = true
       this.sending = false

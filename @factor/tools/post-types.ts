@@ -1,14 +1,18 @@
 import { applyFilters, pushToFilter } from "@factor/tools/filters"
 import { toLabel } from "@factor/tools/utils"
+import Vue from "vue"
 
 export interface PostTypeConfig {
   baseRoute?: string;
   postType: string;
   icon?: string;
-  model: string;
+  model?: string;
   nameIndex?: string;
   nameSingle?: string;
   namePlural?: string;
+  listTemplate?: () => Promise<Vue>;
+  editTemplate?: () => Promise<Vue>;
+  add?: boolean;
 }
 
 export function addPostType(config: PostTypeConfig): void {

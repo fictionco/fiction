@@ -1,13 +1,13 @@
 import { applyFilters, pushToFilter } from "@factor/tools/filters"
 export * from "./object-id"
-import schemaPost from "@factor/post/schema"
+import postSchema from "@factor/post/schema"
 
 export function extendPostSchema(config): void {
   pushToFilter("data-schemas", config)
 }
 
 export function getAddedSchemas() {
-  return applyFilters("data-schemas", [schemaPost()]).map((s) => {
+  return applyFilters("data-schemas", [postSchema()]).map((s) => {
     return applyFilters(`data-schema-${s.name}`, typeof s == "function" ? s() : s)
   })
 }

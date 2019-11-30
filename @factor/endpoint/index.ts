@@ -16,7 +16,7 @@ export async function endpointRequest({
   method,
   params = {},
   headers = {}
-}: EndpointRequestConfig): Promise<object> {
+}: EndpointRequestConfig): Promise<any> {
   try {
     if (!method) {
       throw new Error(`Endpoint request to "${id}" requires a method.`)

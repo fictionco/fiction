@@ -1,6 +1,6 @@
 import { pushToFilter, setting } from "@factor/tools"
 import { writeConfig } from "@factor/cli/setup"
-
+import inquirer from "inquirer"
 const clientApiKey = setting("bugsnag.clientApiKey")
 
 const setupTitle = "Plugin: Bugsnag"
@@ -9,7 +9,7 @@ addSetupCli(setupTitle)
 
 addFilters()
 
-function addFilters() {
+function addFilters(): void {
   if (!clientApiKey) {
     pushToFilter("setup-needed", { title: setupTitle })
 
@@ -17,11 +17,11 @@ function addFilters() {
   }
 }
 
-function addSetupCli(name) {
+function addSetupCli(name: string): void {
   pushToFilter("cli-add-setup", {
     name,
     value: "bugsnag",
-    callback: async ({ inquirer }) => {
+    callback: async () => {
       const questions = [
         {
           name: "clientApiKey",

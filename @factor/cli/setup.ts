@@ -29,6 +29,13 @@ addCallback("after-first-server-extend", () => {
   }
 })
 
+export interface SetupCliConfig {
+  name: string;
+  value: string;
+  callback: () => {};
+  priority?: number;
+}
+
 export async function runSetup(cliArguments: object): Promise<void> {
   let answers: Answers
 
@@ -71,7 +78,7 @@ export async function runSetup(cliArguments: object): Promise<void> {
       name: `setupItem`,
       message: `What would you like to do?`,
       // eslint-disable-next-line no-unused-vars
-      choices: setups.map((_) => {
+      choices: setups.map((_: SetupCliConfig) => {
         delete _.callback
         return _
       })
@@ -79,7 +86,7 @@ export async function runSetup(cliArguments: object): Promise<void> {
 
     console.log()
 
-    const setupRunner = setups.find((_) => _.value == answers.setupItem)
+    const setupRunner = setups.find((_: SetupCliConfig) => _.value == answers.setupItem)
 
     await setupRunner.callback(cliArguments)
 

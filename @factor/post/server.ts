@@ -1,7 +1,7 @@
 import { addCallback } from "@factor/tools/filters"
 import { decodeToken } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
-import { PostEndpointMeta } from "./typings"
+import { PostEndpointMeta } from "./types"
 import { canUpdatePost } from "./util"
 import mongoose from "mongoose"
 

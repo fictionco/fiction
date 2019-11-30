@@ -8,7 +8,7 @@ pushToFilter("site-components", {
 onEvent("notify", toasterNotification)
 onEvent("error", toasterError)
 
-function toasterNotification(obj): void {
+function toasterNotification(obj: string | { message: string; duration: number }): void {
   let message
   let duration
   if (typeof obj == "string") {
@@ -20,7 +20,7 @@ function toasterNotification(obj): void {
   emitEvent("notify-toast", { type: "notify", message, duration })
 }
 
-function toasterError(obj): void {
+function toasterError(obj: Error | string): void {
   if (typeof obj == "string") {
     emitEvent("notify-toast", { type: "error", message: obj })
   } else {
