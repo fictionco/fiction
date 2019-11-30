@@ -109,6 +109,12 @@
     </svg>
 
     <img src="../img/intro.svg" alt="Zeno Intro" class="relative w-full z-10 bottom-0 mb-4 pb-6" />
+
+    <img
+      src="../img/squares.svg"
+      alt="Zeno Squares"
+      class="absolute z-10 bottom-0 left-0 -mb-4 ml-40"
+    />
   </figure>
 </template>
 

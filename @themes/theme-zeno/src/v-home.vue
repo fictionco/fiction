@@ -22,15 +22,15 @@
       </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-8 py-12 lg:py-16">
+    <section class="max-w-6xl mx-auto px-8 py-12">
       <h1 class="custom-uppercase text-center text-purple-500">{{ clientsTitle }}</h1>
-      <div class="flex flex-wrap items-center">
+      <div class="flex flex-wrap items-center mt-8">
         <template v-for="(item, index) in clientsList">
           <factor-link
             :key="index"
             :path="item.link"
             :target="item.target"
-            class="w-full px-4 mt-12 sm:w-1/3 sm:mt-8"
+            class="block w-full px-4 py-6 sm:w-1/3"
           >
             <img :src="item.image" :alt="item.alt" class="mx-auto" />
           </factor-link>

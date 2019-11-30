@@ -38,7 +38,7 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-400"
+          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
         },
         {
           link: "/pricing",
@@ -278,7 +278,6 @@ export default {
       title: `Choose the <span class="underline">right plan</span> for your business.`,
       content:
         "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
-      image: require("./img/stars.svg"),
       backgroundImage: require("./img/stars-50.svg")
     },
     packages: [
@@ -519,9 +518,9 @@ export default {
       content:
         "Future-forward perspectives on DevOps, Cloud Computing, and Infrastructure."
     },
-    indexRoute: "/blog",
+    indexRoute: "/news",
     postRoute: "/entry",
-    limit: 6,
+    limit: 1,
     returnLinkText: "Back",
     notFound: {
       title: "No Posts",
@@ -536,11 +535,12 @@ export default {
       blogWrap: (): Promise<Vue> => import("./blog/blog-wrap.vue"),
       blogIndex: (): Promise<Vue> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Vue> => import("./blog/blog-single.vue"),
-      featuredImage: (): Promise<Vue> => import("./blog/el-featured-image.vue"),
-      headers: (): Promise<Vue> => import("./blog/el-headers.vue"),
       returnLink: (): Promise<Vue> => import("./blog/el-return-link.vue"),
       excerpt: (): Promise<Vue> => import("./blog/el-excerpt.vue"),
-      meta: (): Promise<Vue> => import("./blog/el-meta.vue")
+      featuredImage: (): Promise<Vue> => import("./blog/el-featured-image.vue"),
+      headers: (): Promise<Vue> => import("./blog/el-headers.vue"),
+      meta: (): Promise<Vue> => import("./blog/el-meta.vue"),
+      social: (): Promise<Vue> => import("./blog/widget-social.vue")
     }
   },
   footer: {

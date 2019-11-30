@@ -2,48 +2,45 @@
   <div class="blog">
     <section>
       <div>
-        <div>
-          <div>{{ introPretitle }}</div>
-          <h1>{{ introTitle }}</h1>
-          <div v-formatted-text="introContent" />
-        </div>
+        <div>{{ introPretitle }}</div>
+        <h1>{{ introTitle }}</h1>
+        <div v-formatted-text="introContent" />
       </div>
     </section>
     <div class="entries">
-      <component :is="setting('blog.components.blogReturnLink')" v-if="tag || page > 1" />
+      <component :is="setting('blog.components.returnLink')" v-if="tag || page > 1" />
       <div v-if="loading" class="posts-loading">
         <factor-loading-ring />
       </div>
-      <div v-else-if="blogPosts.length > 0">
-        <div v-for="post in blogPosts" :key="post._id">
+      <div v-else-if="blogPosts.length > 0" class="post-index">
+        <div v-for="post in blogPosts" :key="post._id" class="post">
           <component
-            :is="setting(`blog.components.${_component}`)"
-            v-for="(_component, i) in setting('blog.layout.index')"
+            :is="setting(`blog.components.${comp}`)"
+            v-for="(comp, i) in setting('blog.layout.index')"
             :key="i"
             :post-id="post._id"
-            format="index"
           />
         </div>
       </div>
       <div v-else class="posts-not-found">
-        <div>
-          <div>{{ setting("blog.notFound.title") }}</div>
-          <div>{{ setting("blog.notFound.subTitle") }}</div>
+        <div class="text">
+          <div class="title">{{ setting("blog.notFound.title") }}</div>
+          <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
         </div>
       </div>
       <component :is="setting('blog.components.pagination')" :post-type="postType" />
     </div>
+
+
   </div>
 </template>
-<script>
+<script lang="ts">
+import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post"
-import { factorLoadingRing } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
-  components: {
-    factorLoadingRing
-  },
+  components: { factorLoadingRing },
   data() {
     return {
       postType: "blog",
@@ -64,6 +61,9 @@ export default Vue.extend({
       title,
       description
     }
+  },
+  serverPrefetch() {
+    return this.getPosts()
   },
   computed: {
     tag() {
@@ -87,14 +87,8 @@ export default Vue.extend({
       }
     }
   },
-
-  serverPrefetch() {
-    return this.getPosts()
-  },
   mounted() {
-    if (this.blogPosts.length == 0) {
-      this.getPosts()
-    }
+    this.getPosts()
   },
   methods: {
     setting,
@@ -115,3 +109,26 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="less">
+.posts-not-found,
+.posts-loading {
+  min-height: 50vh;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  .title {
+    font-size: 1.4em;
+    font-weight: var(--font-weight-bold);
+  }
+}
+.post-index {
+  .post {
+    margin: 4rem 0;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+</style>

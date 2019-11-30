@@ -1,17 +1,31 @@
 <template>
-  <div>
-    <component
-      :is="setting(`blog.components.${comp}`)"
-      v-for="(comp, i) in setting('blog.layout.single')"
-      :key="i"
-      :post-id="post._id"
-    />
+  <div class="single-entry">
+    SINGLE TEST
+    <div v-if="!isEmpty(post)">
+      <component
+        :is="setting(`blog.components.${comp}`)"
+        v-for="(comp, i) in setting('blog.layout.single')"
+        :key="i"
+        :post-id="post._id"
+      />
+    </div>
+    <factor-error-404 v-else />
   </div>
 </template>
-<script>
-import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/tools"
+<script lang="ts">
+import { factorError404 } from "@factor/ui"
+import {
+  isEmpty,
+  setting,
+  stored,
+  titleTag,
+  descriptionTag,
+  shareImage
+} from "@factor/tools"
+
 import Vue from "vue"
 export default Vue.extend({
+  components: { factorError404 },
   data() {
     return {}
   },
@@ -27,6 +41,9 @@ export default Vue.extend({
       return stored("post") || {}
     }
   },
-  methods: { setting }
+
+  methods: { isEmpty, setting }
 })
 </script>
+
+<style lang="less"></style>
