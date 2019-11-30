@@ -18,9 +18,9 @@ addCallback("create-server", () => createRenderServer())
 addCallback("close-server", () => closeServer())
 
 export async function createRenderServer(options = {}): Promise<void> {
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     if (process.env.NODE_ENV == "development") {
-      developmentServer(renderConfig => {
+      developmentServer((renderConfig) => {
         htmlRenderer(renderConfig)
 
         if (!__listening) createServer(options)

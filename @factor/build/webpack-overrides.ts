@@ -7,10 +7,10 @@ import glob from "glob"
 import webpack from "webpack"
 
 function getThemes() {
-  return getExtensions().filter(_ => _.extend == "theme")
+  return getExtensions().filter((_) => _.extend == "theme")
 }
 
-addFilter("webpack-aliases", _ => {
+addFilter("webpack-aliases", (_) => {
   const themes = getThemes()
   const p =
     themes.length > 0 ? dirname(require.resolve(themes[0].name)) : getPath("source")
@@ -22,14 +22,14 @@ addFilter("webpack-aliases", _ => {
 // Notes:
 // - Uses "__FALLBACK__" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
 // - TODO if a file is added to app, then server needs a restart, fix should be possible
-addFilter("webpack-plugins", _ => {
+addFilter("webpack-plugins", (_) => {
   _.push(
-    new webpack.NormalModuleReplacementPlugin(/^__FALLBACK__/, resource =>
+    new webpack.NormalModuleReplacementPlugin(/^__FALLBACK__/, (resource) =>
       overrideOperator(resource)
     )
   )
   _.push(
-    new webpack.NormalModuleReplacementPlugin(/^@factor/, resource =>
+    new webpack.NormalModuleReplacementPlugin(/^@factor/, (resource) =>
       browserReplaceModule(resource)
     )
   )
@@ -63,7 +63,7 @@ export function overrideOperator(resource) {
   } else {
     const themes = getThemes()
     if (themes.length > 0) {
-      themes.some(_ => {
+      themes.some((_) => {
         const themeSrc = dirname(require.resolve(_.name))
 
         const inTheme = _fileExists(resource.request.replace("__FALLBACK__", themeSrc))

@@ -68,18 +68,18 @@ function loaders(target = "", status = "", time?: number): void {
     updateLoaders[target] = { status, time }
   }
 
-  const states: string[] = Object.values(updateLoaders).map(_ => _.status)
+  const states: string[] = Object.values(updateLoaders).map((_) => _.status)
 
   if (states.length == 2) {
-    if (states.every(_ => _ == "start") && !updateSpinner) {
+    if (states.every((_) => _ == "start") && !updateSpinner) {
       updateSpinner = ora("Building").start()
       updateLoaders = { client: { status: "loading" }, server: { status: "loading" } }
     } else if (
-      states.every(_ => _) &&
-      !states.some(_ => _ == "start" || _ == "loading") &&
+      states.every((_) => _) &&
+      !states.some((_) => _ == "start" || _ == "loading") &&
       updateSpinner
     ) {
-      const times: number[] = Object.values(updateLoaders).map(_ => _.time || 0)
+      const times: number[] = Object.values(updateLoaders).map((_) => _.time || 0)
 
       const seconds = Math.max(...times) / 1000
       updateSpinner.succeed(` built` + chalk.dim(` in ${seconds}s ${updateReason}`))
@@ -119,18 +119,18 @@ function clientCompiler(): void {
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
     }
 
-    addFilter("middleware", _ => {
+    addFilter("middleware", (_) => {
       const { dev, hmr } = middleware
       return [{ id: "devServer", middleware: [dev, hmr] }, ..._]
     })
 
     loaders("client", "start")
     clientCompiler.plugin("compile", () => loaders("client", "start"))
-    clientCompiler.plugin("done", stats => {
+    clientCompiler.plugin("done", (stats) => {
       const { errors, warnings, time } = stats.toJson()
 
-      errors.forEach(error => log.error(error))
-      warnings.forEach(error => log.warn(error))
+      errors.forEach((error) => log.error(error))
+      warnings.forEach((error) => log.warn(error))
 
       if (errors.length !== 0) return
 

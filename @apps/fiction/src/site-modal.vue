@@ -9,7 +9,7 @@
       <factor-btn btn="default" @click="vis = false">Cancel</factor-btn>
       <factor-btn btn="primary" :loading="sending" @click="run()">
         {{
-        actionText
+          actionText
         }}
       </factor-btn>
     </template>

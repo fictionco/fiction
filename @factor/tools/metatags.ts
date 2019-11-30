@@ -23,7 +23,7 @@ export function shareImage(_id) {
 export function setPostMetatags(_id) {
   const post = stored(_id) || {}
 
-  addFilter("meta-refine", meta => {
+  addFilter("meta-refine", (meta) => {
     return {
       ...meta,
       title: post.titleTag || post.title || "",

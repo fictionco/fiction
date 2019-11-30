@@ -71,14 +71,14 @@ export default Vue.extend({
     activeGroup() {
       const { path } = this.$route
       let out = ""
-      Object.keys(this.menus).forEach(m => {
-        this.menus[m].forEach(primary => {
+      Object.keys(this.menus).forEach((m) => {
+        this.menus[m].forEach((primary) => {
           const { items = [] } = primary
           if (this.getPath(primary.path, false, "44") == path) {
             out = primary.group
           }
           if (items.length > 0) {
-            items.forEach(sub => {
+            items.forEach((sub) => {
               if (this.getPath(sub.path, primary) == path) {
                 out = primary.group
               }
@@ -112,8 +112,8 @@ export default Vue.extend({
         this.$set(this.menus, "admin", [])
       }
 
-      Object.keys(this.menus).forEach(format => {
-        this.menus[format] = applyFilters(`${format}-menu`, []).map(_ => {
+      Object.keys(this.menus).forEach((format) => {
+        this.menus[format] = applyFilters(`${format}-menu`, []).map((_) => {
           return {
             ..._,
             items: applyFilters(`${format}-menu-${_.group}`, _.items)

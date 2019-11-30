@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs"
 export default () => {
   return {
     name: "user",
-    callback: _s => {
+    callback: (_s) => {
       // PASSWORDS
       _s.methods.comparePassword = async function comparePassword(candidate) {
         return bcrypt.compare(candidate, this.password)
@@ -46,8 +46,8 @@ export default () => {
         lowercase: true,
         index: { unique: true },
         validate: {
-          validator: v => validator.isEmail(v),
-          message: props => `${props.value} is not a valid email.`
+          validator: (v) => validator.isEmail(v),
+          message: (props) => `${props.value} is not a valid email.`
         }
       },
       emailVerified: { type: Boolean, default: false },
@@ -66,8 +66,8 @@ export default () => {
         lowercase: true,
         trim: true,
         validate: {
-          validator: v => validator.isMobilePhone(v),
-          message: props =>
+          validator: (v) => validator.isMobilePhone(v),
+          message: (props) =>
             `${props.value} is not a valid phone number (with country code).`
         }
       },

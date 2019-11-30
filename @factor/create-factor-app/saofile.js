@@ -42,12 +42,12 @@ const config = {
       type: "string",
       message: "Your MongoDB Connection String (mongodb://...)",
       default: "",
-      validate: val => {
+      validate: (val) => {
         return !val || val.includes("mongodb")
           ? true
           : "Doesn't seem to be a valid connection string..."
       },
-      when: answers => answers.addDb != "no"
+      when: (answers) => answers.addDb != "no"
     },
     {
       name: "theme",

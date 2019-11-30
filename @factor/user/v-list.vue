@@ -64,7 +64,7 @@ export default Vue.extend({
   },
   computed: {
     tabs() {
-      return [`all`, `admin`, `moderator`, `member`].map(key => {
+      return [`all`, `admin`, `moderator`, `member`].map((key) => {
         const count =
           key == "all"
             ? this.meta.total
@@ -89,7 +89,7 @@ export default Vue.extend({
         moderator: 0,
         member: 0
       }
-      Object.keys(accessLevel).forEach(level => {
+      Object.keys(accessLevel).forEach((level) => {
         const cnt = accessLevel[level]
         const authNumber = parseInt(level)
         if (authNumber > 300) {

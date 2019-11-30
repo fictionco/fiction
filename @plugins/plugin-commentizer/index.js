@@ -6,8 +6,8 @@ import { writeConfig } from "@factor/cli/setup"
 addSetupCli()
 
 // Add dashboard component
-setting("commentizer.postTypes").forEach(postType => {
-  addFilter("post-edit-components", components => {
+setting("commentizer.postTypes").forEach((postType) => {
+  addFilter("post-edit-components", (components) => {
     components.push({
       name: "commentizerDashboardPanel",
       component: setting("commentizer.components.commentizerDashboardPanel"),
@@ -39,7 +39,7 @@ function addSetupCli() {
           name: "postTypes",
           message: "Select post types to enable comments on.",
           type: "checkbox",
-          choices: factorPostTypes.map(postType => {
+          choices: factorPostTypes.map((postType) => {
             return { name: postType, value: postType }
           })
         }

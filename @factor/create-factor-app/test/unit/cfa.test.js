@@ -23,11 +23,11 @@ describe.skip("create-factor-app", () => {
       })
 
       const output = []
-      __spawned.stdout.on("data", data => {
+      __spawned.stdout.on("data", (data) => {
         output.push(data.toString())
       })
 
-      __spawned.stderr.on("data", data => {
+      __spawned.stderr.on("data", (data) => {
         output.push(`[err] ${data.toString()}`)
       })
 
@@ -63,7 +63,7 @@ describe.skip("create-factor-app", () => {
 
       __spawned.stdin.write(`${keys.enter}${keys.enter}`)
 
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         __spawned.on("close", () => resolve())
       })
 

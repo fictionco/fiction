@@ -6,7 +6,7 @@ pushToFilter("post-edit-components", {
   component: () => import("./seo-panel.vue")
 })
 
-addFilter("post-schema", _ => {
+addFilter("post-schema", (_) => {
   return {
     ..._,
     titleTag: { type: String, trim: true },

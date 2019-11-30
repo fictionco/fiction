@@ -34,7 +34,7 @@ export default Vue.extend({
 
     const schemes = ["http:", "https:", "ftp:", "mailto:", "file:", "data:", "irc:"]
 
-    if (schemes.some(scheme => path.includes(scheme)) || this.event) {
+    if (schemes.some((scheme) => path.includes(scheme)) || this.event) {
       el = "a"
       attrs = { href: path }
       props = []
@@ -90,7 +90,7 @@ export default Vue.extend({
 
     const on = this.event
       ? {
-          click: e => {
+          click: (e) => {
             e.preventDefault()
 
             emitEvent(this.event, query)

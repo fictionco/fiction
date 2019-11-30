@@ -18,7 +18,7 @@ export async function getMarkdownHTML(slug: string): Promise<string> {
 }
 
 export function selected(slug) {
-  return config().find(_ => (slug ? _.slug == slug : _.root))
+  return config().find((_) => (slug ? _.slug == slug : _.root))
 }
 
 export function metatags(slug: string) {
@@ -28,7 +28,7 @@ export function metatags(slug: string) {
 }
 
 export function normalize(items) {
-  return items.map(options => {
+  return items.map((options) => {
     const { slug, name, root } = options
 
     if (!root && !slug) return options

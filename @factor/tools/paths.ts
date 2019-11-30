@@ -5,8 +5,8 @@ import { resolve, dirname, relative } from "path"
 import fs from "fs-extra"
 
 // Add static folder copy config to webpack copy plugin
-addFilter("webpack-copy-files-config", _ => [..._, ...staticCopyConfig()])
-addFilter("webpack-aliases", _ => {
+addFilter("webpack-copy-files-config", (_) => [..._, ...staticCopyConfig()])
+addFilter("webpack-aliases", (_) => {
   return {
     ..._,
     __SRC__: getPath("source"),
@@ -72,7 +72,7 @@ function staticCopyConfig(): { from: string; to: string; ignore: string[] }[] {
   const paths = [themePath, appPath]
   const copyItems = []
 
-  paths.forEach(p => {
+  paths.forEach((p) => {
     if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
   })
 

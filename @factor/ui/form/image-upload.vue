@@ -103,7 +103,7 @@ export default Vue.extend({
       return typeof this.$attrs["required"] != "undefined" ? true : false
     },
     populated() {
-      return this.imageIds.map(_ => stored(_)).filter(_ => _)
+      return this.imageIds.map((_) => stored(_)).filter((_) => _)
     },
     allImages() {
       return [...this.populated, ...this.uploading]
@@ -134,7 +134,7 @@ export default Vue.extend({
     action(_id, action) {
       if (action == "view") {
         this.lightboxShow = true
-        this.lightboxIndex = this.populated.findIndex(_ => _._id == _id)
+        this.lightboxIndex = this.populated.findIndex((_) => _._id == _id)
       } else if (action == "copy-URL") {
         this.copyUrl(_id)
       } else if (action == "delete") {
@@ -148,7 +148,7 @@ export default Vue.extend({
       }
     },
     copyUrl(_id) {
-      const image = this.populated.findIndex(_ => _._id == _id)
+      const image = this.populated.findIndex((_) => _._id == _id)
       this.copyText = image.url.includes("base64") ? `{{${_id}.url}}` : image.url
       this.$nextTick(() => {
         this.$refs.copyInput.select()
@@ -189,11 +189,11 @@ export default Vue.extend({
         dropEl.removeClass("dragover")
       })
 
-      jq.on("dragover", e => {
+      jq.on("dragover", (e) => {
         e.stopPropagation()
         e.preventDefault()
       })
-      jq.on("drop", e => {
+      jq.on("drop", (e) => {
         e.stopPropagation()
         e.preventDefault()
         dropEl.removeClass("dragover")
@@ -205,7 +205,7 @@ export default Vue.extend({
         Sortable.create(this.$refs.organizer, {
           filter: ".ignore-sortable",
           ghostClass: "sortable-ghost",
-          onUpdate: e => {
+          onUpdate: (e) => {
             if (this.imageIds[e.oldIndex]) {
               const moved = this.imageIds.splice(e.oldIndex, 1)
               this.imageIds.splice(e.newIndex, 0, moved[0])
@@ -213,7 +213,7 @@ export default Vue.extend({
               this.updateValue()
             }
           },
-          onMove: e => {
+          onMove: (e) => {
             if (DOM(e.related).hasClass("ignore-sortable")) {
               return false
             }
@@ -223,7 +223,7 @@ export default Vue.extend({
     },
 
     updateValue() {
-      const v = this.imageIds.filter(_id => this.populated.find(_ => _._id == _id))
+      const v = this.imageIds.filter((_id) => this.populated.find((_) => _._id == _id))
       this.$emit("input", this.single ? v[0] : v)
 
       this.$emit("update:customValidity", this.validity)
@@ -232,7 +232,7 @@ export default Vue.extend({
     async removeImage(_id) {
       if (_id) await requestDeleteImage({ _id })
 
-      const index = this.imageIds.findIndex(__id => __id == _id)
+      const index = this.imageIds.findIndex((__id) => __id == _id)
 
       this.$delete(this.imageIds, index)
       this.updateValue()
@@ -272,7 +272,7 @@ export default Vue.extend({
           if (preview) this.$set(item, "url", preview)
           this.$set(item, "status", "preprocess")
         },
-        onChange: progressEvent => {
+        onChange: (progressEvent) => {
           const { loaded, total } = progressEvent
 
           this.$set(item, "status", "progress")
@@ -282,11 +282,11 @@ export default Vue.extend({
             this.$set(item, "status", "processing")
           }
         },
-        onError: error => {
+        onError: (error) => {
           this.$set(item, "status", "error")
           this.$set(item, "message", error.message)
         },
-        onFinished: result => {
+        onFinished: (result) => {
           const { _id } = result
           this.imageIds.push(_id)
           this.$delete(this.uploading, index)

@@ -1,7 +1,7 @@
 import { emitEvent, addCallback } from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
 
-addCallback("route-query-action-verify-email", _ => verifyEmail(_))
+addCallback("route-query-action-verify-email", (_) => verifyEmail(_))
 addCallback("route-query-action-reset-password", () => showResetPassword())
 
 export async function sendUserEmailRequest(method, params) {

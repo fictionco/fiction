@@ -60,7 +60,7 @@ export default Vue.extend({
   computed: {
     imgList() {
       if (Object.prototype.toString.call(this.imgs) === "[object Array]") {
-        return this.imgs.map(img => {
+        return this.imgs.map((img) => {
           if (img.url) {
             return img.url
           } else {

@@ -4,8 +4,8 @@ import Vue from "vue"
 export * from "./request"
 export * from "./util"
 
-addCallback("global-prefetch", _ => preFetchPost(_))
-addCallback("client-route-before", _ => preFetchPost({ clientOnly: true, ..._ }))
+addCallback("global-prefetch", (_) => preFetchPost(_))
+addCallback("client-route-before", (_) => preFetchPost({ clientOnly: true, ..._ }))
 
 export const factorPostEdit = () => import("./el/edit-link.vue")
 
@@ -13,7 +13,7 @@ export function addPostEditComponent(item): void {
   pushToFilter("post-edit-components", item)
 }
 
-addFilter("dashboard-routes", _ => {
+addFilter("dashboard-routes", (_) => {
   return [
     ..._,
     {

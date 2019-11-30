@@ -20,7 +20,7 @@ function addFilters() {
 
   addFilter(
     "factor_head",
-    _ => {
+    (_) => {
       const add = `<script>
       ; (function (w, d, s, l, i) {
         w[l] = w[l] || []
@@ -39,7 +39,7 @@ function addFilters() {
     { priority: 200 }
   )
 
-  addFilter("factor_body_start", _ => {
+  addFilter("factor_body_start", (_) => {
     const add = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   `
@@ -49,7 +49,7 @@ function addFilters() {
 
 function addSetupCli(name) {
   // CLI admin setup utility
-  addFilter("cli-add-setup", _ => {
+  addFilter("cli-add-setup", (_) => {
     const setupAdmins = {
       name,
       value: "gtm",

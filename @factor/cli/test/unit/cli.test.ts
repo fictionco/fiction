@@ -7,7 +7,7 @@ describe("cli", () => {
 
       const originalStd = process.stdout.write
 
-      const mockedLog = output => consoleOutput.push(output)
+      const mockedLog = (output) => consoleOutput.push(output)
 
       process.stdout.write = mockedLog as jest.Mock
 

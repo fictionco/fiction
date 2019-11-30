@@ -71,11 +71,11 @@ export default Vue.extend({
     },
 
     tabs() {
-      return [`all`, `verified`, `unverified`].map(key => {
+      return [`all`, `verified`, `unverified`].map((key) => {
         let count = 0
         if (this.post && this.post.list) {
           const total = this.post.list.length
-          const verified = this.post.list.filter(_ => _.verified).length
+          const verified = this.post.list.filter((_) => _.verified).length
 
           if (key == "all") {
             count = total
@@ -111,7 +111,7 @@ export default Vue.extend({
 
       // Remove from UI
       if (result) {
-        const newList = this.post.list.filter(_ => !emails.includes(_.email))
+        const newList = this.post.list.filter((_) => !emails.includes(_.email))
         this.post = { ...this.post, list: newList }
       }
     },
@@ -120,7 +120,7 @@ export default Vue.extend({
       if (action == "delete") {
         this.deleteEmails({ emails: this.selected })
       } else if (action == "export-all") {
-        const data = this.post.list.map(_ => {
+        const data = this.post.list.map((_) => {
           delete _.code
 
           return _
@@ -131,8 +131,8 @@ export default Vue.extend({
         })
       } else if (action == "export-selected") {
         const data = this.post.list
-          .filter(_ => this.selected.includes(_.email))
-          .map(_ => {
+          .filter((_) => this.selected.includes(_.email))
+          .map((_) => {
             delete _.code
 
             return _
@@ -144,7 +144,7 @@ export default Vue.extend({
       }
     },
     selectAll(val) {
-      this.selected = !val ? [] : this.post.list.map(_ => _.email)
+      this.selected = !val ? [] : this.post.list.map((_) => _.email)
     },
 
     grid() {

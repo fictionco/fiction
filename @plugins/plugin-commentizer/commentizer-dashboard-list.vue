@@ -62,7 +62,7 @@ export default Vue.extend({
       return this.comments ? { total: this.comments.length } : { total: 0 }
     },
     tabs() {
-      return [`all`, `trash`].map(key => {
+      return [`all`, `trash`].map((key) => {
         const count =
           key == "all" ? this.meta.total : getStatusCount({ meta: this.meta, key })
 
@@ -78,10 +78,10 @@ export default Vue.extend({
         {
           value: "trash",
           name: "Move to Trash",
-          condition: query => query.status != "trash"
+          condition: (query) => query.status != "trash"
         },
         { value: "delete", name: "Permanently Delete" }
-      ].filter(_ => {
+      ].filter((_) => {
         return _.value != this.$route.query.status
       })
     }
@@ -89,7 +89,7 @@ export default Vue.extend({
   async created() {
     // TODO: Fix - Manually populate comments
     this.comments = await Promise.all(
-      this.post.commentizerComments.map(async id => {
+      this.post.commentizerComments.map(async (id) => {
         return await requestPostSingle({ postType: "commentizer", _id: id })
       })
     )
@@ -102,7 +102,7 @@ export default Vue.extend({
       })
     },
     selectAll(val) {
-      this.selected = !val ? [] : this.comments.map(_ => _._id)
+      this.selected = !val ? [] : this.comments.map((_) => _._id)
     },
     fields(item) {
       const rest = omit(item, ["_id", "createdAt", "content", "email", "name"])

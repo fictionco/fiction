@@ -23,7 +23,7 @@ function addFilters() {
   bugsnagClient.use(bugsnagVue, Vue)
 
   addCallback("initialize-app", async () => {
-    onEvent("error", error => bugsnagClient.notify(error))
+    onEvent("error", (error) => bugsnagClient.notify(error))
 
     const user = await userInitialized()
 

@@ -163,7 +163,7 @@ export default Vue.extend({
   },
   computed: {
     normalizedNav() {
-      return this.navItems().map(_ => {
+      return this.navItems().map((_) => {
         if (typeof _ == "string") {
           return {
             slug: _,

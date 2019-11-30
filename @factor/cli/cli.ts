@@ -30,14 +30,14 @@ commander
 commander
   .command("dev")
   .description("Start development server")
-  .action(_arguments =>
+  .action((_arguments) =>
     runCommand({ command: "dev", _arguments, NODE_ENV: "development" })
   )
 
 commander
   .command("start")
   .description("Build and then serve production app.")
-  .action(_arguments => runCommand({ command: "start", _arguments }))
+  .action((_arguments) => runCommand({ command: "start", _arguments }))
 
 commander
   .command("serve [NODE_ENV]")
@@ -51,7 +51,7 @@ commander
   .option("--analyze", "Analyze package size")
   .option("--speed", "Output build speed data")
   .description("Build production app")
-  .action(_arguments => runCommand({ command: "build", _arguments }))
+  .action((_arguments) => runCommand({ command: "build", _arguments }))
 
 commander
   .command("setup [filter]")

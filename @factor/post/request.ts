@@ -102,7 +102,7 @@ export async function requestPostIndex(_arguments) {
     options: { limit, skip, page, sort }
   }
 
-  taxonomies.forEach(_ => {
+  taxonomies.forEach((_) => {
     if (_arguments[_]) params.conditions[_] = _arguments[_]
   })
 
@@ -139,7 +139,7 @@ export async function requestPostList(_arguments) {
 export async function requestPostPopulate({ posts, depth = 10 }) {
   let _ids = []
 
-  posts.forEach(post => {
+  posts.forEach((post) => {
     storeItem(post._id, post)
 
     const populatedFields = getSchemaPopulatedFields({
@@ -147,7 +147,7 @@ export async function requestPostPopulate({ posts, depth = 10 }) {
       depth
     })
 
-    populatedFields.forEach(field => {
+    populatedFields.forEach((field) => {
       const v = post[field]
       if (v) {
         if (Array.isArray(v)) {

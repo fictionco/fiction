@@ -72,7 +72,7 @@ export default {
     columns() {
       const _ = []
 
-      this.structure.forEach(col => {
+      this.structure.forEach((col) => {
         const colClass = col.class ? col.class : "col-4"
         _.push(colClass)
       })
@@ -100,7 +100,7 @@ export default {
       }
     },
     interpolate(str, row) {
-      str.match(/{.+?}/g).forEach(match => {
+      str.match(/{.+?}/g).forEach((match) => {
         const varName = match.replace(/{(.*?)}/, "$1")
 
         const reg = new RegExp(match, "g")

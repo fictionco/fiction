@@ -85,7 +85,7 @@ export default Vue.extend({
   methods: {
     // keys are required for drag and drop
     ensure(v) {
-      return v.map(_ => {
+      return v.map((_) => {
         if (!_.__key) {
           _.__key = guid()
         }
@@ -96,7 +96,7 @@ export default Vue.extend({
       Sortable.create(this.$refs.organizer, {
         filter: ".ignore-sortable",
         ghostClass: "sortable-ghost",
-        onUpdate: e => {
+        onUpdate: (e) => {
           const newLocalValue = this.localValue.slice()
           if (newLocalValue[e.oldIndex]) {
             const moved = newLocalValue.splice(e.oldIndex, 1)
@@ -106,7 +106,7 @@ export default Vue.extend({
             this.selected = e.newIndex
           }
         },
-        onMove: e => {
+        onMove: (e) => {
           if (DOM(e.related).hasClass("ignore-sortable")) {
             return false
           }

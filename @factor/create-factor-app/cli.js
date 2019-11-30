@@ -18,7 +18,7 @@ consola.log()
 // See https://sao.js.org/#/advanced/standalone-cli
 sao({ generator, outDir, logLevel: 2 })
   .run()
-  .catch(error => {
+  .catch((error) => {
     consola.error(error)
     process.exit(1)
   })

@@ -24,7 +24,7 @@ describe.posix("cli factor dev", () => {
       command: "dev",
       env: process.env,
       callback: (__process: ChildProcess) => {
-        __process.on("error", err => {
+        __process.on("error", (err) => {
           error = err
         })
       },

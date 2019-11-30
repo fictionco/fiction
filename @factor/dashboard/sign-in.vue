@@ -263,7 +263,7 @@ export default Vue.extend({
       this.$emit("done", user)
 
       if (this.redirectPath) {
-        userInitialized(uid => {
+        userInitialized((uid) => {
           if (uid && this.redirectPath) {
             this.$router.push({ path: this.redirectPath })
           }

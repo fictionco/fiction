@@ -25,7 +25,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    onEvent("ssr-progress", action => {
+    onEvent("ssr-progress", (action) => {
       this[action]()
     })
   },

@@ -12,7 +12,7 @@ addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 export async function getIndex({ type = "plugins" }) {
   const list = extensions[type]
 
-  return await Promise.all(list.map(async extension => getSingle(extension)))
+  return await Promise.all(list.map(async (extension) => getSingle(extension)))
 }
 
 export async function getSingle(params) {
@@ -49,7 +49,7 @@ export async function getSingle(params) {
     })
   )
 
-  const parsed = results.map(result => result.data)
+  const parsed = results.map((result) => result.data)
 
   const otherData = { cdnBaseUrl: `https://cdn.jsdelivr.net/npm/${name}@${latest}` }
 

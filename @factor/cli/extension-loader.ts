@@ -58,7 +58,7 @@ function isCWD(name: string): boolean {
 function generateExtensionList(packagePaths): FactorExtension[] {
   const loader = []
 
-  packagePaths.forEach(_ => {
+  packagePaths.forEach((_) => {
     const {
       name,
       factor: { priority = null, load = false, extend = "plugin" } = {},
@@ -93,7 +93,7 @@ export function generateLoaders(): void {
   makeModuleLoader({
     extensions,
     loadTarget: "server",
-    callback: files => {
+    callback: (files) => {
       writeFile({
         destination: getPath("loader-server"),
         content: loaderString(files)
@@ -104,7 +104,7 @@ export function generateLoaders(): void {
   makeModuleLoader({
     extensions,
     loadTarget: "app",
-    callback: files => {
+    callback: (files) => {
       writeFile({ destination: getPath("loader-app"), content: loaderString(files) })
     }
   })
@@ -112,7 +112,7 @@ export function generateLoaders(): void {
   makeFileLoader({
     extensions,
     filename: "factor-settings.*",
-    callback: files => {
+    callback: (files) => {
       writeFile({
         destination: getPath("loader-settings"),
         content: loaderStringOrdered(files)
@@ -123,8 +123,8 @@ export function generateLoaders(): void {
   makeFileLoader({
     extensions,
     filename: "factor-styles.*",
-    callback: files => {
-      const imports = files.map(_ => `@import (less) "~${_.file}";`).join(`\n`)
+    callback: (files) => {
+      const imports = files.map((_) => `@import (less) "~${_.file}";`).join(`\n`)
       const content = `${imports}`
 
       writeFile({ destination: getPath("loader-styles"), content })
@@ -142,7 +142,7 @@ function makeModuleLoader({ extensions, loadTarget, callback }): void {
 
   const filtered = extensions.filter(({ load }) => load[loadTarget])
 
-  filtered.forEach(extension => {
+  filtered.forEach((extension) => {
     const { load, name, cwd } = extension
 
     load[loadTarget].forEach(({ _id, file, priority = 100 }) => {
@@ -164,7 +164,7 @@ function makeModuleLoader({ extensions, loadTarget, callback }): void {
 function makeFileLoader({ extensions, filename, callback }): void {
   const files = []
 
-  extensions.forEach(_ => {
+  extensions.forEach((_) => {
     const { name, cwd, _id, priority } = _
 
     const dir = getDirectory({ name })
@@ -185,8 +185,8 @@ function makeFileLoader({ extensions, filename, callback }): void {
           priority
         }
       })
-      .filter(_ => _)
-      .forEach(lPath => files.push(lPath))
+      .filter((_) => _)
+      .forEach((lPath) => files.push(lPath))
   })
 
   callback(files)
@@ -198,10 +198,10 @@ function recursiveDependencies(deps, pkg): FactorPackageJson[] {
   const d = { ...dependencies, ...devDependencies }
 
   Object.keys(d)
-    .map(_ => require(`${_}/package.json`))
-    .filter(_ => typeof _.factor != "undefined" || _.name.includes("factor"))
-    .forEach(_ => {
-      if (!deps.find(pkg => pkg.name == _.name)) {
+    .map((_) => require(`${_}/package.json`))
+    .filter((_) => typeof _.factor != "undefined" || _.name.includes("factor"))
+    .forEach((_) => {
+      if (!deps.find((pkg) => pkg.name == _.name)) {
         deps.push(_)
         deps = recursiveDependencies(deps, _)
       }
@@ -222,17 +222,17 @@ function normalizeLoadTarget({ load, main, _id }): LoadTarget {
   if (!load) return __
 
   if (Array.isArray(load)) {
-    load.forEach(t => {
+    load.forEach((t) => {
       __[t] = [{ file: main, _id }]
     })
   } else if (typeof load == "object") {
-    Object.keys(load).forEach(t => {
+    Object.keys(load).forEach((t) => {
       const val = load[t]
 
       if (!Array.isArray(val)) {
         __[t] = [{ file: val, _id: getId({ _id, main, file: val }) }]
       } else {
-        __[t] = val.map(v => {
+        __[t] = val.map((v) => {
           return typeof v == "string"
             ? { file: v, _id: getId({ _id, main, file: v }) }
             : v
@@ -316,7 +316,7 @@ function getId({ _id, name = "", main = "index", file = "" }): string {
       .split(/plugin-|theme-|@factor/gi)
       .pop()
       .replace(/\//gi, "")
-      .replace(/-([a-z])/g, g => g[1].toUpperCase())
+      .replace(/-([a-z])/g, (g) => g[1].toUpperCase())
   }
 
   // Add file specific ID to end
@@ -329,7 +329,7 @@ function getId({ _id, name = "", main = "index", file = "" }): string {
 
 export function makeEmptyLoaders(): void {
   const l = ["loader-server", "loader-app", "loader-styles", "loader-settings"]
-  l.forEach(pathId => {
+  l.forEach((pathId) => {
     const content = pathId == "loader-styles" ? "" : ``
     writeFile({ destination: getPath(pathId), content })
   })

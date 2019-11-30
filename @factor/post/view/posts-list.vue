@@ -96,7 +96,7 @@ export default Vue.extend({
   },
   computed: {
     tabs() {
-      return [`all`, `published`, `draft`, `trash`].map(key => {
+      return [`all`, `published`, `draft`, `trash`].map((key) => {
         const count =
           key == "all"
             ? this.meta.total
@@ -128,11 +128,11 @@ export default Vue.extend({
         { value: "trash", name: "Move to Trash" },
         { value: "delete", name: "Permanently Delete" }
       ]
-        .filter(_ => {
+        .filter((_) => {
           return _.value != this.$route.query.status
         })
         .filter(
-          _ =>
+          (_) =>
             _.value !== "delete" ||
             (_.value == "delete" && this.$route.query.status == "trash")
         )
@@ -143,7 +143,7 @@ export default Vue.extend({
     toLabel,
     standardDate,
     selectAll(val) {
-      this.selected = !val ? [] : this.list.map(_ => _._id)
+      this.selected = !val ? [] : this.list.map((_) => _._id)
     },
     async runAction(action) {
       this.loadingAction = true

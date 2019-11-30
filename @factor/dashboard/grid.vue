@@ -76,7 +76,7 @@ export default Vue.extend({
       }
     },
     columns() {
-      return this.structure.map(col => col.width).join(" ")
+      return this.structure.map((col) => col.width).join(" ")
     }
   },
   methods: {
@@ -99,7 +99,7 @@ export default Vue.extend({
       }
     },
     interpolate(str, row) {
-      str.match(/{.+?}/g).forEach(match => {
+      str.match(/{.+?}/g).forEach((match) => {
         const varName = match.replace(/{(.*?)}/, "$1")
 
         const reg = new RegExp(match, "g")

@@ -11,7 +11,7 @@ export const resolve = (specifier, parentModuleURL, defaultResolve) => {
     __FALLBACK__: path.dirname(require.resolve("@factor/app"))
   }
 
-  const alias = Object.keys(aliases).find(key => {
+  const alias = Object.keys(aliases).find((key) => {
     return (
       specifier.indexOf(key) === 0 &&
       (specifier.length === key.length || specifier[key.length] === "/")

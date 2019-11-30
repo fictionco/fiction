@@ -30,7 +30,7 @@ export default Vue.extend({
     listeners() {
       return {
         ...this.$listeners,
-        input: e => {
+        input: (e) => {
           this.send(e.target.value)
         }
       }

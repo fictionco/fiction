@@ -57,7 +57,7 @@ export function sortMerge(arr: PriorityItem[]): object {
 // Replaces arrays instead of concat
 export function deepMerge(items: object[]): object {
   return deepMergeLib.all(
-    items.filter(_ => _),
+    items.filter((_) => _),
     {
       arrayMerge: (destinationArray, sourceArray) => sourceArray
     }
@@ -91,7 +91,7 @@ export function parseList(
 
   suffix = suffix ? " " + suffix : ""
 
-  const normalized = list.map(_ => {
+  const normalized = list.map((_) => {
     if (typeof _ == "string" || typeof _ == "number") {
       return {
         value: _,
@@ -129,7 +129,7 @@ export function toLabel(str): string {
 
   const label = camelToKebab(str)
     .replace(new RegExp("-|_", "g"), " ")
-    .replace(/\b\w/g, l => l.toUpperCase())
+    .replace(/\b\w/g, (l) => l.toUpperCase())
 
   return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
 }
@@ -149,7 +149,7 @@ export function stopWordLowercase(str, lib = []): string {
   if (words.length <= 1) return str
 
   const regex = new RegExp("\\b(" + stopwordsLib.join("|") + ")\\b", "gi")
-  return str.replace(regex, match => match.toLowerCase())
+  return str.replace(regex, (match) => match.toLowerCase())
 }
 
 export function toPascalCase(string: string): string {
@@ -161,7 +161,7 @@ export function toPascalCase(string: string): string {
       ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`
     )
     .replace(new RegExp(/\s/, "g"), "")
-    .replace(new RegExp(/\w/), s => s.toUpperCase())
+    .replace(new RegExp(/\w/), (s) => s.toUpperCase())
 }
 
 export function uniqueObjectHash(obj, salt = ""): string {

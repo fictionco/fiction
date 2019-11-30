@@ -29,7 +29,7 @@ describe("site-wrapper", () => {
     Vue.$router = router
 
     // Needs router as it assumes $route is there
-    const vm = new Vue({ router, render: h => h(factorSite) })
+    const vm = new Vue({ router, render: (h) => h(factorSite) })
 
     const html = await renderer.renderToString(vm)
 

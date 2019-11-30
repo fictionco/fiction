@@ -21,8 +21,8 @@ pushToFilter("data-schemas", {
 })
 
 // Extend all postTypes listed in factor-settings with extra fields
-setting("commentizer.postTypes").forEach(postType => {
-  addFilter(`data-schema-${postType}`, schemaConfig => {
+setting("commentizer.postTypes").forEach((postType) => {
+  addFilter(`data-schema-${postType}`, (schemaConfig) => {
     schemaConfig.schema = {
       ...schemaConfig.schema,
       commentizerEnabled: { type: Boolean, default: false },

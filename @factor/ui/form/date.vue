@@ -31,7 +31,7 @@ export default Vue.extend({
     listeners() {
       return {
         ...this.$listeners,
-        input: event => {
+        input: (event) => {
           this.$emit("input", event.toISOString())
         }
       }

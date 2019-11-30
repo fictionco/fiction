@@ -27,7 +27,7 @@ export function startProcess({
   cwd,
   callback
 }: ProcessConfig): Promise<ChildProcess> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const __process = spawnFactorProcess({
       command,
       cwd,
@@ -52,7 +52,7 @@ export function startProcess({
     }
 
     if (__process.stderr) {
-      __process.stderr.on("data", data =>
+      __process.stderr.on("data", (data) =>
         data
           .toString()
           .toLowerCase()
@@ -66,7 +66,7 @@ export function startProcess({
 }
 
 export function closeProcess(__process: ChildProcess): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     __process.on("exit", resolve)
     process.kill(-__process.pid)
   })

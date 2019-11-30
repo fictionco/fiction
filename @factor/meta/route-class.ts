@@ -4,14 +4,14 @@ import Vue from "vue"
 import { getObservables } from "@factor/app/extend-app"
 
 addCallback("ssr-context-callbacks", ({ matchedComponents }) =>
-  matchedComponents.forEach(_ => setRouteClass(_))
+  matchedComponents.forEach((_) => setRouteClass(_))
 )
 
 addFilter("before-app", () => {
   if (process.env.FACTOR_SSR !== "server") manageClient()
 })
 
-addFilter("register-global-observables", __ => {
+addFilter("register-global-observables", (__) => {
   return { ...__, routeClass: [] }
 })
 

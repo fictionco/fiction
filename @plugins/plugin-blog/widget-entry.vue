@@ -21,7 +21,7 @@ export default {
     },
     variables() {
       const vars = {}
-      this.post.images.forEach(imageId => {
+      this.post.images.forEach((imageId) => {
         const img = stored(imageId) || {}
         vars[imageId] = img.url || ""
       })

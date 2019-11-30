@@ -14,13 +14,13 @@ addFilter("ssr-context-ready", (context, { vm, router }) => {
 
   const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
 
-  metaHooks.forEach(h => {
+  metaHooks.forEach((h) => {
     context[h] = (): string => applyFilters(h, [], { context }).join("")
   })
 
   // Distinguish between content and dashboard UI
   const { meta: { ui = "app" } = {} } =
-    router.currentRoute.matched.find(_ => _.meta.ui) || {}
+    router.currentRoute.matched.find((_) => _.meta.ui) || {}
 
   const attrHooks = [
     { name: "factor_html_attr", attr: [], classes: [`factor-${ui}`] },
@@ -39,7 +39,7 @@ addFilter("ssr-context-ready", (context, { vm, router }) => {
   return context
 })
 
-addFilter("site-mixins", _ => [
+addFilter("site-mixins", (_) => [
   ..._,
   {
     metaInfo() {
@@ -78,7 +78,7 @@ addCallback("initialize-app", (): void => {
 
 addFilter(
   "meta-refine",
-  data => {
+  (data) => {
     if (!data.meta) data.meta = []
 
     if (data.description) {

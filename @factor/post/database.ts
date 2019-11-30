@@ -37,11 +37,11 @@ function initializeModels(): void {
 
   const sch = getAddedSchemas()
 
-  const baseSchema = sch.find(_ => _.name == "post")
+  const baseSchema = sch.find((_) => _.name == "post")
 
   const { model: baseModel } = setModel(baseSchema)
 
-  sch.filter(s => s.name != "post").forEach(s => setModel(s, baseModel))
+  sch.filter((s) => s.name != "post").forEach((s) => setModel(s, baseModel))
 }
 
 // Set schemas and models

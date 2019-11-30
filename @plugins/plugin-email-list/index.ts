@@ -12,7 +12,7 @@ import { endpointRequest } from "@factor/endpoint"
 
 const postType = "emailList"
 
-addCallback("route-query-action-verify-email-list", _ => verifyEmail(_))
+addCallback("route-query-action-verify-email-list", (_) => verifyEmail(_))
 
 // pushToFilter("global-components", {
 //   name: "factor-email-list",

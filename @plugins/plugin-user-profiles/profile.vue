@@ -184,7 +184,7 @@ export default Vue.extend({
       if (!username && !id && isEmpty(this.post)) {
         this.loading = true
 
-        userInitialized(async uid => {
+        userInitialized(async (uid) => {
           if (uid) {
             await requestPostSingle({
               _id: uid,

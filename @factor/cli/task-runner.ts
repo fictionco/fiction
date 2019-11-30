@@ -35,11 +35,11 @@ async function runTasks(t, opts = {}) {
             const proc = execa(command, args, options)
 
             if (proc) {
-              proc.stdout.on("data", data => {
+              proc.stdout.on("data", (data) => {
                 task.output = data.toString()
               })
 
-              proc.stderr.on("data", data => {
+              proc.stderr.on("data", (data) => {
                 task.output = data.toString()
               })
 

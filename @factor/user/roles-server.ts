@@ -5,7 +5,7 @@ function userRoles() {
   return require("./roles.json")
 }
 
-addFilter("user-schema", _ => {
+addFilter("user-schema", (_) => {
   _.role = {
     type: String,
     enum: Object.keys(userRoles()),
@@ -27,7 +27,7 @@ addFilter("user-schema", _ => {
 
 // Add role property to user schema
 // Create a virtual accessLevel property based on role
-addFilter("user-schema-hooks", Schema => {
+addFilter("user-schema-hooks", (Schema) => {
   Schema.pre("validate", async function(next) {
     const existing = setting(`roles.${this.email}`)
     const configRole = this.emailVerified && existing ? existing : "member"
@@ -45,13 +45,13 @@ addFilter("user-schema-hooks", Schema => {
 })
 
 // CLI admin setup utility
-addFilter("cli-add-setup", _ => {
+addFilter("cli-add-setup", (_) => {
   const setupAdmins = {
     name: "User Roles - Add admin privileges to specific users.",
     value: "admins",
     callback: async ({ inquirer }) => {
       const roles = userRoles()
-      const choices = Object.keys(roles).map(_ => {
+      const choices = Object.keys(roles).map((_) => {
         return {
           name: `${_} (${roles[_]})`,
           value: _
@@ -63,7 +63,7 @@ addFilter("cli-add-setup", _ => {
           name: "email",
           message: "What's the user's email?",
           type: "input",
-          validate: v => {
+          validate: (v) => {
             const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return re.test(v) ? true : "Enter a valid email address"
           }

@@ -34,7 +34,7 @@ export default () =>
       )}`
     },
     {
-      skip: request => {
+      skip: (request) => {
         let { url } = request
         if (url.indexOf("?") > 0) url = url.slice(0, url.indexOf("?"))
 

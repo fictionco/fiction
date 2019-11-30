@@ -38,7 +38,7 @@ export default {
   async created() {
     // TODO: Fix - Manually populate comments
     this.comments = await Promise.all(
-      this.post.commentizerComments.map(async id => {
+      this.post.commentizerComments.map(async (id) => {
         return await requestPostSingle({ postType: "commentizer", _id: id })
       })
     )

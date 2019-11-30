@@ -4,7 +4,7 @@ import { sendTransactional } from "@factor/email/server"
 
 addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
 
-addFilter("user-schema-hooks", Schema => {
+addFilter("user-schema-hooks", (Schema) => {
   // EMAIL
   Schema.post("save", async function(doc, next) {
     if (!this.isModified("email")) return next()
@@ -15,7 +15,7 @@ addFilter("user-schema-hooks", Schema => {
   })
 })
 
-addFilter("user-schema", _ => {
+addFilter("user-schema", (_) => {
   _.emailVerificationCode = { type: String, select: false }
   _.passwordResetCode = { type: String, select: false }
 
