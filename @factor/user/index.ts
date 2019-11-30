@@ -19,10 +19,10 @@ import {
 } from "@factor/tools"
 
 import {
-  FactorUser,
   FactorUserCredential,
   AuthenticationParameters,
-  userRolesMap
+  userRolesMap,
+  CurrentUserState
 } from "./types"
 import "./hooks-universal"
 import "./edit-account"
@@ -30,9 +30,9 @@ import { appMounted } from "@factor/app"
 
 export * from "./email-request"
 
-let _initializedUser: Promise<FactorUser | undefined>
+let _initializedUser: Promise<CurrentUserState> | CurrentUserState
 
-export function currentUser(): FactorUser | undefined {
+export function currentUser(): CurrentUserState {
   return stored("currentUser")
 }
 
@@ -45,14 +45,12 @@ addFilter("before-app", () => {
 })
 
 onEvent("invalid-user-token", () => {
-  setUser({ user: null, current: true })
+  setUser({ user: undefined, current: true })
 })
 
 // Utility function that calls a callback when the user is set initially
 // If due to route change then initialized var is set and its called immediately
-export async function userInitialized(
-  callback?: Function
-): Promise<FactorUser | undefined> {
+export async function userInitialized(callback?: Function): Promise<CurrentUserState> {
   const user = await _initializedUser
 
   if (callback) callback(user)
@@ -60,7 +58,7 @@ export async function userInitialized(
   return user
 }
 
-async function requestInitializeUser(): Promise<FactorUser | undefined> {
+async function requestInitializeUser(): Promise<CurrentUserState> {
   await appMounted()
   const resolvedUser = await retrieveAndSetCurrentUser()
 
@@ -71,7 +69,7 @@ async function requestInitializeUser(): Promise<FactorUser | undefined> {
 
 async function retrieveAndSetCurrentUser(
   userCredential?: FactorUserCredential
-): Promise<FactorUser | undefined> {
+): Promise<CurrentUserState> {
   let token
   let user
 
@@ -133,7 +131,7 @@ export async function authenticate(
 }
 
 export async function logout(args: { redirect?: string } = {}): Promise<void> {
-  setUser({ user: null, current: true })
+  setUser({ user: undefined, current: true })
   emitEvent("logout")
   emitEvent("notify", "Successfully logged out.")
 
@@ -145,10 +143,16 @@ export async function logout(args: { redirect?: string } = {}): Promise<void> {
   }
 }
 
+export interface SetUser {
+  user: CurrentUserState;
+  token?: string;
+  current?: boolean;
+}
+
 // Set persistent user info
-export function setUser({ user, token = "", current = false }): void {
+export function setUser({ user, token = "", current = false }: SetUser): void {
   if (current) {
-    _initializedUser = user ? user : {}
+    _initializedUser = user ? user : undefined
 
     if (token && user) userToken(token)
     else if (user === null) userToken(null)
@@ -201,7 +205,7 @@ function handleAuthRouting(): void {
     }
   })
 
-  addCallback("before-user-init", (user: FactorUser | undefined) => {
+  addCallback("before-user-init", (user: CurrentUserState) => {
     const { path, matched } = currentRoute()
     const auth = matched.some((_r) => _r.meta.auth)
 

@@ -119,7 +119,7 @@ function clientCompiler(): void {
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
     }
 
-    addFilter("middleware", (_) => {
+    addFilter("middleware", (_: object[]) => {
       const { dev, hmr } = middleware
       return [{ id: "devServer", middleware: [dev, hmr] }, ..._]
     })
@@ -129,8 +129,8 @@ function clientCompiler(): void {
     clientCompiler.plugin("done", (stats) => {
       const { errors, warnings, time } = stats.toJson()
 
-      errors.forEach((error) => log.error(error))
-      warnings.forEach((error) => log.warn(error))
+      errors.forEach((error: Error) => log.error(error))
+      warnings.forEach((error: Error) => log.warn(error))
 
       if (errors.length !== 0) return
 

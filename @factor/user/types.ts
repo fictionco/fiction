@@ -1,5 +1,7 @@
 import { PopulatedPosts, FactorPost } from "@factor/post/types"
 
+export type CurrentUserState = FactorUser | undefined
+
 enum Gender {
   Male = "male",
   Female = "female"
@@ -38,11 +40,11 @@ export interface FactorUserAuthentication extends FactorUser {
 }
 
 export interface FactorUser extends FactorPost {
+  _id: string;
   signedInAt?: string;
   username?: string;
   displayName?: string;
-  email?: string;
-  _id?: string;
+  email: string;
   emailVerified?: boolean;
   accessLevel?: number;
   role?: string;

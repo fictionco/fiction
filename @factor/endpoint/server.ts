@@ -2,45 +2,25 @@ import { addCallback, addFilter, applyFilters, log } from "@factor/tools"
 import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
-import { createObjectId } from "@factor/post/object-id"
 import { Request, Response } from "express"
+
+import {
+  responseType,
+  EndpointRequestParams,
+  EndpointItem,
+  EndpointMeta,
+  EndpointRequestConfig
+} from "./types"
+
 // Run after other imports have added themselves
 addCallback("initialize-server", () => initializeEndpointServer())
-
-type responseType = object | (string | object | number)[] | string
-
-interface EndpointRequestHandler {
-  ({ data, meta }: EndpointRequestParams): Promise<responseType>;
-}
-
-interface EndpointRequestParams {
-  data: { method: string; params: object };
-  meta: EndpointMeta;
-}
-
-interface EndpointItem {
-  id: string;
-  handler: () => Record<string, Function> | Record<string, Function>;
-}
-
-interface EndpointMeta {
-  request: Request;
-  response: Response;
-  bearer: object;
-}
-
-interface EndpointRequestConfig {
-  request: Request;
-  response: Response;
-  handler: EndpointRequestHandler;
-}
 
 export function addEndpoint({ id, handler }: EndpointItem): void {
   addCallback("endpoints", { id, handler })
 }
 
 export function initializeEndpointServer(): void {
-  addFilter("middleware", (_) => {
+  addFilter("middleware", (_: object[]) => {
     applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
       _.push({
         path: endpointPath(id),
@@ -96,7 +76,7 @@ export async function processEndpointRequest({
 }: EndpointRequestConfig): Promise<void> {
   const { query, body, headers } = request
 
-  const meta = { request, response, bearer: defaultBearer() }
+  const meta: EndpointMeta = { request, response }
 
   const data = { ...body, ...parse(query) }
 
@@ -110,7 +90,7 @@ export async function processEndpointRequest({
     if (authorization && authorization.startsWith("Bearer ")) {
       const token = authorization.split("Bearer ")[1]
 
-      meta.bearer = token ? await getSinglePost({ token }) : defaultBearer()
+      meta.bearer = token ? await getSinglePost({ token }) : undefined
     }
   } catch (error) {
     responseJson.error = error.message || 500
@@ -131,8 +111,4 @@ export async function processEndpointRequest({
     .end()
 
   return
-}
-
-function defaultBearer(): { _id?: string } {
-  return process.env.FACTOR_ENV == "test" ? { _id: createObjectId() } : {}
 }
