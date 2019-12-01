@@ -7,7 +7,7 @@ import {
   addCallback,
   setting
 } from "@factor/tools"
-import Vue from "vue"
+import { Component } from "vue"
 import { endpointRequest } from "@factor/endpoint"
 import { EmailConfig } from "./types"
 const postType = "emailList"
@@ -20,15 +20,15 @@ interface VerifyEmail {
 
 addCallback("route-query-action-verify-email-list", (_: VerifyEmail) => verifyEmail(_))
 
-export const factorEmailList = (): Promise<Vue> => import("./wrap.vue")
+export const factorEmailList = (): Promise<Component> => import("./wrap.vue")
 
 export const postTypeUIConfig = {
   postType,
   nameIndex: "Email Lists",
   nameSingle: "List",
   namePlural: "Email Lists",
-  listTemplate: (): Promise<Vue> => import("./dashboard-list.vue"),
-  editTemplate: (): Promise<Vue> => import("./dashboard-edit.vue"),
+  listTemplate: (): Promise<Component> => import("./dashboard-list.vue"),
+  editTemplate: (): Promise<Component> => import("./dashboard-edit.vue"),
   add: false
 }
 

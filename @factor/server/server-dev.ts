@@ -17,7 +17,7 @@ const argv = yargs.argv
 let configServer
 let configClient
 
-let updateBundleCallback
+let updateBundleCallback: UpdateBundle
 let updateReason = ""
 
 let updateLoaders: {
@@ -35,7 +35,19 @@ function getTemplatePath(): string {
   return setting("app.templatePath")
 }
 
-export async function developmentServer(cb): Promise<void> {
+interface UpdateBundle {
+  ({
+    bundle,
+    template,
+    clientManifest
+  }: {
+    bundle: string;
+    template: string;
+    clientManifest: string;
+  }): void;
+}
+
+export async function developmentServer(cb: UpdateBundle): Promise<void> {
   updateBundleCallback = cb
 
   const templatePath = getTemplatePath()
@@ -49,7 +61,7 @@ export async function developmentServer(cb): Promise<void> {
 
   template = fs.readFileSync(templatePath, "utf-8")
 
-  watcher(({ event, path }) => {
+  watcher(({ event, path }: { event: string; path: string }) => {
     updateBundles({ title: event, value: path })
 
     // On js file updates, wait for 3 seconds for build
@@ -170,6 +182,6 @@ function serverCompiler(): void {
 }
 
 // Read file using  Memory File Service
-function readFileFromMemory(mfs, file): string {
+function readFileFromMemory(mfs: MFS, file: string): string {
   return mfs.readFileSync(path.join(configClient.output.path, file), "utf-8")
 }

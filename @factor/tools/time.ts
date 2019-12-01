@@ -44,7 +44,7 @@ export function toDate(time: dayjs.ConfigType): Date {
   return timeUtil(time).toDate()
 }
 
-export function timestamp(time: dayjs.ConfigType): number {
+export function timestamp(time?: dayjs.ConfigType): number {
   if (!time) {
     return timeUtil().unix()
   } else {

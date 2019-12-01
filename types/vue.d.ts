@@ -1,5 +1,6 @@
 import Vue from "vue"
 import VueRouter, { Route } from "vue-router"
+import { TemplateOption } from "@factor/templates/types"
 declare module "vue/types/vue" {
   export interface VueConstructor {
     $router: VueRouter;
@@ -16,19 +17,10 @@ declare module "vue/types/vue" {
   }
 }
 
-export interface templateOption {
-  input?: string;
-  label?: string;
-  _id?: string;
-  default?: string;
-  description?: string;
-  settings?: templateOption[];
-}
-
 declare module "vue/types/options" {
   interface ComponentOptions<Vue> {
     metaInfoCore?: () => {};
     serverPrefetch?(): Promise<void>;
-    templateSettings?: () => templateOption[];
+    templateSettings?: () => TemplateOption[];
   }
 }

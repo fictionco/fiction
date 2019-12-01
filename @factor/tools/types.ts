@@ -1,4 +1,4 @@
-import Vue from "vue"
+import "vue"
 
 declare module "vue/types/vue" {
   export interface VueConstructor {

@@ -3,6 +3,7 @@ import { addFilter } from "@factor/tools/filters"
 import { addPageTemplate } from "@factor/templates"
 import { addPostType } from "@factor/tools/post-types"
 import { addContentRoutes } from "@factor/tools"
+import { Component } from "vue"
 addFilter(
   "factor_head",
   (_: string[]) => {
@@ -41,7 +42,7 @@ addPageTemplate({
 addContentRoutes([
   {
     path: "/",
-    component: () => import("./page-home.vue")
+    component: (): Promise<Component> => import("./page-home.vue")
   },
   {
     path: setting("portfolio.indexRoute"),

@@ -7,7 +7,7 @@
     </template>
   </component>
 </template>
-<script>
+<script lang="ts">
 import { dashboardPane } from "@factor/dashboard"
 import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/tools"
 import { requestPostSingle } from "@factor/post"
@@ -23,10 +23,10 @@ export default Vue.extend({
         storeItem(this._id, v)
       }
     },
-    _id() {
+    _id(): string {
       return this.$route.query._id || ""
     },
-    postType() {
+    postType(): string {
       return this.$route.params.postType || ""
     },
     getPostTypeConfig() {

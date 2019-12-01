@@ -8,7 +8,7 @@ import mdImplicitFigures from "markdown-it-implicit-figures"
 import remark from "remark"
 import stripMarkdownUtility from "strip-markdown"
 
-let markdownUtility
+let markdownUtility: MarkdownIt
 
 function getMarkdownUtility(): MarkdownIt {
   if (!markdownUtility) {
@@ -34,7 +34,11 @@ function getMarkdownUtility(): MarkdownIt {
   return markdownUtility
 }
 
-export function renderMarkdown(content = "", options?): string {
+interface MarkdownRenderOptions {
+  variables?: boolean;
+}
+
+export function renderMarkdown(content = "", options?: MarkdownRenderOptions): string {
   const util = getMarkdownUtility()
   if (typeof content == "string") {
     const { variables } = options || {}

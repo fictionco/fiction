@@ -14,9 +14,14 @@ export function fluidInput(e: KeyboardEvent, wrapEl: HTMLElement): void {
   }
 
   const currentIndex = allInputs.index(target)
-  const placeholderLength = currentInput.attr("placeholder").length
-  const value = currentInput.val()
-  const valueLength = value.length
+  const placeholder = currentInput.attr("placeholder")
+  const placeholderLength = placeholder ? placeholder.length : 0
+  let value = currentInput.val()
+
+  if (!value) return
+  value = typeof value === "number" ? value.toString() : value
+
+  const valueLength = value && typeof value !== "number" ? value.length : 0
 
   if (e.type == "keydown") {
     const isCharKey = e.key.length == 1 ? true : false
