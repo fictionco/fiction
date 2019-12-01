@@ -5,7 +5,7 @@
   "main": "src/index",
   "author": "Fiction.com",
   "license": "UNLICENSED",
-  "type": "module",
+   
   "factor": {
     "_id": "fictionApp",
     "load": [

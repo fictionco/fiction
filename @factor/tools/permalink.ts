@@ -9,12 +9,16 @@ import { currentUrl } from "@factor/tools/url"
 // If not unique, then add number and recursively verify the new one
 export async function requestPermalinkVerify({
   permalink,
-  id,
+  _id,
   field = "permalink"
+}: {
+  permalink: string;
+  field: string;
+  _id: string;
 }): Promise<string> {
   const post = await requestPostSingle({ permalink, field })
 
-  if (post && post.id != id) {
+  if (post && post._id != _id) {
     emitEvent("notify", `${toLabel(field)} "${permalink}" already exists.`)
     let num = 1
 
@@ -24,7 +28,8 @@ export async function requestPermalinkVerify({
 
     permalink = await requestPermalinkVerify({
       permalink: `${permalink.replace(/\d+$/, "")}${num}`,
-      id
+      _id,
+      field
     })
   }
   return permalink
@@ -63,10 +68,10 @@ export function getPermalink(_arguments: PermalinkComponents): string {
   }
 }
 
-export function postLink(_id, options = {}): string {
+export function postLink(_id: string, options = {}): string {
   const post = stored(_id)
 
-  if (!post) return
+  if (!post) return ""
 
   return getPermalink({ ...post, ...options })
 }

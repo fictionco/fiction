@@ -40,10 +40,11 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { fluidInput } from "../utils"
 import { timeUtil } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     customValidity: { type: String, default: "" },
     value: { type: [String, Date, Number], default: "" }
@@ -56,7 +57,7 @@ export default {
     }
   },
   computed: {
-    listeners() {
+    listeners(this: any): any {
       return {
         ...this.$listeners,
         input: (e) => {
@@ -77,7 +78,7 @@ export default {
     theText() {
       return this.monthUser + this.day + this.year
     },
-    month() {
+    month(this: any): number | boolean {
       return parseInt(this.monthUser) >= 1 ? parseInt(this.monthUser) : false
     },
     validity() {
@@ -146,7 +147,7 @@ export default {
       this.$emit("update:customValidity", customValidity)
     }
   }
-}
+})
 </script>
 
 <style lang="less">

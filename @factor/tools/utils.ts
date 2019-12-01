@@ -36,7 +36,13 @@ export function sortPriority<T extends PriorityItem>(arr: T[]): T[] {
 // Parse settings using dot notation
 // TODO unit test this
 // Cases: [port] [app.name] [roles.arpowers@gmail.com]
-export function dotSetting({ key, settings }: { key: string; settings: object }): any {
+export function dotSetting({
+  key,
+  settings
+}: {
+  key: string;
+  settings: Record<string, any>;
+}): any {
   const currentKey = key.slice(0, key.indexOf("."))
   const subKeys = key.slice(key.indexOf(".") + 1)
 
@@ -81,26 +87,18 @@ export function parseList(
 
   if (!Array.isArray(list)) return []
 
-  const wrap = (text): string => {
-    const _ = []
-    if (suffix) _.push(suffix)
-    _.push(toLabel(text))
-    if (prefix) _.push(prefix)
-    return _.join(" ")
-  }
-
   suffix = suffix ? " " + suffix : ""
 
   const normalized = list.map((_) => {
     if (typeof _ == "string" || typeof _ == "number") {
       return {
         value: _,
-        name: wrap(_),
+        name: `${prefix}${name}${suffix}`,
         desc: ""
       }
     } else {
       const { name, value } = _
-      if (!name && value) _.name = wrap(_)
+      if (!name && value) _.name = `${prefix}${toLabel(value)}${suffix}`
       else if (typeof value == "undefined" && name) _.value = slugify(name)
       return _
     }
@@ -109,7 +107,7 @@ export function parseList(
 }
 
 // Converts regular space delimited text into a hyphenated slug
-export function slugify(text): string {
+export function slugify(text: string): string {
   if (!text) return text
 
   return text
@@ -124,7 +122,7 @@ export function slugify(text): string {
 }
 
 // Coverts a slug or variable into a title-like string
-export function toLabel(str): string {
+export function toLabel(str: string): string {
   if (!str || typeof str !== "string") return str
 
   const label = camelToKebab(str)
@@ -140,7 +138,7 @@ export function camelToKebab(string: string): string {
 }
 
 // Make stop words lower case in a title
-export function stopWordLowercase(str, lib = []): string {
+export function stopWordLowercase(str: string, lib: string[] = []): string {
   if (lib.length == 0) {
     lib = stopwordsLib
   }
@@ -164,7 +162,7 @@ export function toPascalCase(string: string): string {
     .replace(new RegExp(/\w/), (s) => s.toUpperCase())
 }
 
-export function uniqueObjectHash(obj, salt = ""): string {
+export function uniqueObjectHash(obj: any, salt = ""): string {
   if (!obj) return obj
 
   let str

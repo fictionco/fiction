@@ -3,7 +3,7 @@ import { dirname } from "path"
 import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"
 
-function fileExistsInTheme(file) {
+function fileExistsInTheme(file: string): string {
   let filePath = ""
   const themes = getExtensions().filter((_) => _.extend == "theme")
   if (themes.length > 0) {
@@ -14,14 +14,14 @@ function fileExistsInTheme(file) {
       if (fs.pathExistsSync(themePath)) {
         filePath = themePath
         return true
-      }
+      } else return false
     })
   }
 
   return filePath
 }
 
-export function resolveFilePath(file) {
+export function resolveFilePath(file: string): string {
   const appPath = file.replace("__FALLBACK__", getPath("source"))
 
   if (fs.pathExistsSync(appPath)) {

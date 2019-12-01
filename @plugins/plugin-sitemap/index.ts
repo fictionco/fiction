@@ -62,7 +62,7 @@ async function getPermalinks(): Promise<string[]> {
   return urls.concat(getRouteUrls())
 }
 
-function getRouteUrls(): Promise<string[]> {
+function getRouteUrls(): string[] {
   // get routes
   // then remove duplicated and dynamic routes (which include a colon (:))
   const contentRoutes = applyFilters("content-routes", [])

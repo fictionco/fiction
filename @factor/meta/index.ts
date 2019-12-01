@@ -1,48 +1,59 @@
 import Vue from "vue"
-import VueMeta from "vue-meta"
+import VueMeta, { MetaInfo } from "vue-meta"
 import { addFilter, applyFilters, addCallback } from "@factor/tools"
+import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
+import { FactorMetaInfo } from "./types"
 import "./route-class"
 
 Vue.use(VueMeta, { keyName: "metaInfoCore" })
 
-addFilter("ssr-context-ready", (context, { vm, router }) => {
-  // Add Vue-Meta
-  context.metaInfo = vm.$meta()
+interface MetaHookOptions {
+  context: ServerRenderContext;
+}
 
-  // the html template extension mechanism
-  // This uses a callback because the component's 'created' hooks are called after this point
+addFilter(
+  "ssr-context-ready",
+  (context: ServerRenderContext, { vm, router }: ApplicationComponents) => {
+    // Add Vue-Meta
+    context.metaInfo = vm.$meta()
 
-  const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
+    // the html template extension mechanism
+    // This uses a callback because the component's 'created' hooks are called after this point
 
-  metaHooks.forEach((h) => {
-    context[h] = (): string => applyFilters(h, [], { context }).join("")
-  })
+    const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
 
-  // Distinguish between content and dashboard UI
-  const { meta: { ui = "app" } = {} } =
-    router.currentRoute.matched.find((_) => _.meta.ui) || {}
+    metaHooks.forEach((h) => {
+      context[h] = (): string => applyFilters(h, [], { context }).join("")
+    })
 
-  const attrHooks = [
-    { name: "factor_html_attr", attr: [], classes: [`factor-${ui}`] },
-    { name: "factor_body_attr", attr: [], classes: [] },
-    { name: "factor_head_attr", attr: [], classes: [] }
-  ]
+    // Distinguish between content and dashboard UI
+    const { meta: { ui = "app" } = {} } =
+      router.currentRoute.matched.find((_) => _.meta.ui) || {}
 
-  attrHooks.forEach(({ name, attr, classes }) => {
-    context[name] = (additional): string => {
-      classes.push(additional)
-      attr.push(`class="${classes.join(" ")}"`)
-      return applyFilters(name, attr, { context }).join(" ")
-    }
-  })
+    const attrHooks = [
+      { name: "factor_html_attr", attr: [], classes: [`factor-${ui}`] },
+      { name: "factor_body_attr", attr: [], classes: [] },
+      { name: "factor_head_attr", attr: [], classes: [] }
+    ]
 
-  return context
-})
+    attrHooks.forEach(
+      ({ name, attr, classes }: { name: string; attr: string[]; classes: string[] }) => {
+        context[name] = (additional?: string): string => {
+          if (additional) classes.push(additional)
+          attr.push(`class="${classes.join(" ")}"`)
+          return applyFilters(name, attr, { context }).join(" ")
+        }
+      }
+    )
 
-addFilter("site-mixins", (_) => [
+    return context
+  }
+)
+
+addFilter("site-mixins", (_: object[]) => [
   ..._,
   {
-    metaInfo() {
+    metaInfo(): MetaInfo {
       return applyFilters("meta-default", {
         htmlAttrs: { lang: "en" },
         meta: [
@@ -78,7 +89,7 @@ addCallback("initialize-app", (): void => {
 
 addFilter(
   "meta-refine",
-  (data) => {
+  (data: FactorMetaInfo) => {
     if (!data.meta) data.meta = []
 
     if (data.description) {
@@ -101,7 +112,7 @@ addFilter(
   { priority: 200 }
 )
 
-addFilter("factor_head", (_, { context }) => {
+addFilter("factor_head", (_: string[], { context }: MetaHookOptions) => {
   const { title, link, style, script, noscript, meta } = context.metaInfo.inject()
 
   return [
@@ -115,20 +126,20 @@ addFilter("factor_head", (_, { context }) => {
   ]
 })
 
-addFilter("factor_html_attr", (_, { context }) => {
+addFilter("factor_html_attr", (_: string[], { context }: MetaHookOptions) => {
   const { htmlAttrs } = context.metaInfo.inject()
   return [..._, htmlAttrs.text(true)]
 })
-addFilter("factor_body_attr", (_, { context }) => {
+addFilter("factor_body_attr", (_: string[], { context }: MetaHookOptions) => {
   const { bodyAttrs } = context.metaInfo.inject()
   return [..._, bodyAttrs.text()]
 })
-addFilter("factor_head_attr", (_, { context }) => {
+addFilter("factor_head_attr", (_: string[], { context }: MetaHookOptions) => {
   const { headAttrs } = context.metaInfo.inject()
   return [..._, headAttrs.text()]
 })
 
-addFilter("factor_body_start", (_, { context }) => {
+addFilter("factor_body_start", (_: string[], { context }: MetaHookOptions) => {
   const { style, script, noscript } = context.metaInfo.inject()
 
   return [
@@ -139,7 +150,7 @@ addFilter("factor_body_start", (_, { context }) => {
   ]
 })
 
-addFilter("factor_body_end", (_, { context }) => {
+addFilter("factor_body_end", (_: string[], { context }: MetaHookOptions) => {
   const { style, script, noscript } = context.metaInfo.inject()
 
   return [

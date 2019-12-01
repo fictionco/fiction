@@ -5,8 +5,11 @@ import { resolve, dirname, relative } from "path"
 import fs from "fs-extra"
 
 // Add static folder copy config to webpack copy plugin
-addFilter("webpack-copy-files-config", (_) => [..._, ...staticCopyConfig()])
-addFilter("webpack-aliases", (_) => {
+addFilter("webpack-copy-files-config", (_: CopyItemConfig[]) => [
+  ..._,
+  ...staticCopyConfig()
+])
+addFilter("webpack-aliases", (_: Record<string, string>) => {
   return {
     ..._,
     __SRC__: getPath("source"),
@@ -15,7 +18,7 @@ addFilter("webpack-aliases", (_) => {
   }
 })
 
-export function getPath(key): string {
+export function getPath(key: string): string {
   const rel = relativePath(key)
   const full = typeof rel != "undefined" ? resolve(CWD(), rel) : ""
 
@@ -62,15 +65,21 @@ function CWD(): string {
   return process.env.FACTOR_CWD || process.cwd()
 }
 
+interface CopyItemConfig {
+  from: string;
+  to: string;
+  ignore: string[];
+}
+
 // Returns configuration array for webpack copy plugin
 // if static folder is in app or theme, contents should copied to dist
-function staticCopyConfig(): { from: string; to: string; ignore: string[] }[] {
+function staticCopyConfig(): CopyItemConfig[] {
   const themeRoot = getPath("theme")
-  const themePath = themeRoot ? resolve(themeRoot, "static") : false
+  const themePath = themeRoot ? resolve(themeRoot, "static") : ""
   const appPath = getPath("static")
 
   const paths = [themePath, appPath]
-  const copyItems = []
+  const copyItems: CopyItemConfig[] = []
 
   paths.forEach((p) => {
     if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })

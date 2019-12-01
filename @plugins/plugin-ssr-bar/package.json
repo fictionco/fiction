@@ -3,7 +3,7 @@
   "description": "Elegant progress bar to show users how far they are in a process.",
   "version": "1.1.1",
   "license": "GPL-2.0",
-  "type": "module",
+   
   "publishConfig": {
     "access": "public"
   },

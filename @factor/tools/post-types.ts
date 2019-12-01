@@ -13,6 +13,7 @@ export interface PostTypeConfig {
   listTemplate?: () => Promise<Vue>;
   editTemplate?: () => Promise<Vue>;
   add?: boolean;
+  accessLevel?: number;
 }
 
 export function addPostType(config: PostTypeConfig): void {

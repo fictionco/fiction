@@ -2,7 +2,7 @@
   "name": "@test/importing-build-plugin",
   "version": "1.0.0",
   "license": "GPL-2.0",
-  "type": "module",
+   
   "factor": {
     "load": {
       "app": "index",
