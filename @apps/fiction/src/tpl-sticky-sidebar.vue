@@ -121,9 +121,9 @@ export default {
     },
     getHeaders(el) {
       const out = []
-      el.querySelectorAll("h2").forEach((h2) => {
+      el.querySelectorAll("h2").forEach(h2 => {
         this.allHeaders.push(h2)
-        const sub = this.collectH3s(h2).map((h3) => {
+        const sub = this.collectH3s(h2).map(h3 => {
           this.allHeaders.push(h3)
           return {
             text: this.getHeaderText(h3),

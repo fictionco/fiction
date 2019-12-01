@@ -42,7 +42,7 @@ export function extensionScreenshot(item) {
 export function cdnUrl(item) {
   const { files, cdnBaseUrl, fileName = "icon.svg", defaultFile = "" } = item
 
-  const found = files ? files.find((f) => f.name == fileName) : false
+  const found = files ? files.find(f => f.name == fileName) : false
 
   return found ? `${cdnBaseUrl}/${fileName}` : defaultFile
 }
@@ -55,14 +55,14 @@ export function screenshotsList(item) {
   let screenshots = []
 
   screenshots = files
-    .filter((f) => !!f.name.match(imagePattern))
-    .map((f) => `${cdnBaseUrl}/${f.name}`)
+    .filter(f => !!f.name.match(imagePattern))
+    .map(f => `${cdnBaseUrl}/${f.name}`)
 
   return screenshots
 }
 
 export function getAuthors({ maintainers = [] }, { number = 2 } = {}) {
-  const authors = maintainers.map((a) => a.name)
+  const authors = maintainers.map(a => a.name)
 
   return authors.slice(0, number).join(", ")
 }

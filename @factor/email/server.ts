@@ -63,7 +63,7 @@ export async function sendTransactional(
 
   if (textFooter) lines.push(textFooter)
 
-  const html = lines.map((_) => `<p>${_}</p>`).join("")
+  const html = lines.map(_ => `<p>${_}</p>`).join("")
   const plainText = require("html-to-text").fromString(html)
 
   const theEmail = applyFilters("transactional-email", {

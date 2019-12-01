@@ -64,7 +64,7 @@ describe("webpack", () => {
         ])
       )
 
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         compiler.run(() => resolve())
       })
 
@@ -82,7 +82,7 @@ describe("webpack", () => {
 
     it("supports bundle analysis", async () => {
       const config = await getWebpackConfig({ analyze: true })
-      const plugins = config.plugins.map((_) => _.constructor.name)
+      const plugins = config.plugins.map(_ => _.constructor.name)
 
       expect(plugins.includes("BundleAnalyzerPlugin")).toBe(true)
     })
@@ -92,9 +92,9 @@ describe("webpack", () => {
       const defined = getDefinedValues("client")
 
       // all should be string
-      expect(Object.values(defined).some((_) => typeof _ != "string")).toBe(false)
+      expect(Object.values(defined).some(_ => typeof _ != "string")).toBe(false)
 
-      expect(Object.keys(defined).map((_) => _.replace("process.env.", ""))).toEqual(
+      expect(Object.keys(defined).map(_ => _.replace("process.env.", ""))).toEqual(
         expect.arrayContaining([
           "FACTOR_APP_CONFIG",
           "NODE_ENV",

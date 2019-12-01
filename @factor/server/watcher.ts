@@ -3,7 +3,7 @@ import { getPath } from "@factor/tools/paths"
 import chokidar from "chokidar"
 
 export function watcher(callback: Function): void {
-  const watchDirs = getFactorDirectories().map((_) => `${_}/**`)
+  const watchDirs = getFactorDirectories().map(_ => `${_}/**`)
 
   chokidar
     .watch([`${getPath("source")}/**`, ...watchDirs], {

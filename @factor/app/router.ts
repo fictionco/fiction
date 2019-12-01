@@ -14,7 +14,7 @@ Vue.use(VueRouter)
 let __initialPageLoad = true
 
 export function createRouter(): VueRouter {
-  const routes = applyFilters("routes", []).filter((_) => _)
+  const routes = applyFilters("routes", []).filter(_ => _)
 
   const router = new VueRouter({
     mode: "history",
@@ -30,8 +30,8 @@ export function createRouter(): VueRouter {
         return position
       }
     },
-    parseQuery: (query) => qs.parse(query),
-    stringifyQuery: (query) => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
+    parseQuery: query => qs.parse(query),
+    stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
   } as RouterOptions)
 
   // Load hooks for client navigation handling
@@ -82,7 +82,7 @@ async function hookClientRouterBefore(
     // Those hooks may not want the navigation to continue
     // As they will be handling with navigation with a redirect instead
 
-    if (results.length == 0 || !results.some((_) => _ === false)) next()
+    if (results.length == 0 || !results.some(_ => _ === false)) next()
     else next(false)
   }
 }

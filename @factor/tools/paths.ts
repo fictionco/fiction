@@ -81,7 +81,7 @@ function staticCopyConfig(): CopyItemConfig[] {
   const paths = [themePath, appPath]
   const copyItems: CopyItemConfig[] = []
 
-  paths.forEach((p) => {
+  paths.forEach(p => {
     if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
   })
 

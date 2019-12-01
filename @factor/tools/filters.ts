@@ -54,7 +54,7 @@ export function applyFilters(_id: string, data: any, ...rest: any[]): any {
 
   // Thread through filters if they exist
   if (_added && Object.keys(_added).length > 0) {
-    const _addedArray = Object.keys(_added).map((i) => _added[i])
+    const _addedArray = Object.keys(_added).map(i => _added[i])
     const _sorted = sortPriority(_addedArray)
 
     for (const element of _sorted) {
@@ -159,7 +159,7 @@ function callerKey(key: string): string {
       ? error.stack
           .toString()
           .split("at")
-          .find((line) => !line.match(/(filter|Error)/))
+          .find(line => !line.match(/(filter|Error)/))
       : "no-stack"
 
   return key + stacker

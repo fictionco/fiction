@@ -72,7 +72,7 @@ export default Vue.extend({
       })
     },
     tabs() {
-      return [`all`, `trash`].map((key) => {
+      return [`all`, `trash`].map(key => {
         const count =
           key == "all"
             ? this.meta.total
@@ -90,12 +90,12 @@ export default Vue.extend({
         {
           value: "trash",
           name: "Move to Trash",
-          condition: (query) => query.status != "trash"
+          condition: query => query.status != "trash"
         },
         {
           value: "publish",
           name: "Move to Published",
-          condition: (query) => query.status == "trash"
+          condition: query => query.status == "trash"
         },
         { value: "delete", name: "Permanently Delete" }
       ]
@@ -107,11 +107,11 @@ export default Vue.extend({
       if (action == "export-csv") {
         const data = []
         const name = ["email-list"]
-        this.selected.forEach((_id) => {
+        this.selected.forEach(_id => {
           const p = stored(_id)
           if (p.list) {
             data.push(
-              p.list.map((_) => {
+              p.list.map(_ => {
                 delete _.code
                 return _
               })
@@ -129,7 +129,7 @@ export default Vue.extend({
       }
     },
     selectAll(val) {
-      this.selected = !val ? [] : this.list.map((_) => _._id)
+      this.selected = !val ? [] : this.list.map(_ => _._id)
     },
     fields(item) {
       const rest = omit(item, ["message", "createdAt", "_id"])

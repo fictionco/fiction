@@ -31,5 +31,5 @@ export function postTypesConfig(): PostTypeConfig[] {
 }
 
 export function getPostTypeConfig(postType: string): PostTypeConfig | undefined {
-  return postTypesConfig().find((pt) => pt.postType == postType)
+  return postTypesConfig().find(pt => pt.postType == postType)
 }

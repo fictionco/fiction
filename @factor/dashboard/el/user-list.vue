@@ -63,7 +63,7 @@ export default {
       options: { limit: 100 }
     })
 
-    this.potentialAuthors = posts.map((_) => {
+    this.potentialAuthors = posts.map(_ => {
       return { name: `${_.displayName} (${_.email})`, value: _._id }
     })
   },

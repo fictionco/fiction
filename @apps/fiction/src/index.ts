@@ -11,7 +11,7 @@ addPageTemplate({
   component: () => import("./tpl-landing-page.vue")
 })
 
-addFilter("content-routes", (_) => {
+addFilter("content-routes", _ => {
   const routes = [
     {
       path: "/",

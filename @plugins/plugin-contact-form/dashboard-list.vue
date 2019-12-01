@@ -86,7 +86,7 @@ export default {
       })
     },
     tabs() {
-      return [`all`, `trash`].map((key) => {
+      return [`all`, `trash`].map(key => {
         const count =
           key == "all"
             ? this.meta.total
@@ -106,7 +106,7 @@ export default {
       return [
         { value: "trash", name: "Move to Trash" },
         { value: "delete", name: "Permanently Delete" }
-      ].filter((_) => {
+      ].filter(_ => {
         return _.value != this.$route.query.status
       })
     }
@@ -116,7 +116,7 @@ export default {
     toLabel,
     standardDate,
     selectAll(val) {
-      this.selected = !val ? [] : this.list.map((_) => _._id)
+      this.selected = !val ? [] : this.list.map(_ => _._id)
     },
     fields(row) {
       const rest = omit(row, ["message", "createdAt", "_id"])

@@ -90,13 +90,13 @@ export default Vue.extend({
       this.setTemplateDefaults()
     },
     setTemplateDefaults() {
-      this.fields.forEach((field) => {
+      this.fields.forEach(field => {
         const _id = field._id
         let val
         if (typeof this.settings[_id] == "undefined" && field.default) {
           if (field.settings && Array.isArray(field.settings)) {
-            val = field.default.map((item) => {
-              field.settings.forEach((sub) => {
+            val = field.default.map(item => {
+              field.settings.forEach(sub => {
                 if (typeof item[sub._id] == "undefined" && sub.default) {
                   item[sub._id] = sub.default
                 }

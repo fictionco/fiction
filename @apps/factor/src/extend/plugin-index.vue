@@ -108,7 +108,7 @@ export default Vue.extend({
   },
   computed: {
     extensionFeatured() {
-      return this.extensionIndex.filter((_) => _.featured).slice(0, 2)
+      return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
     },
     extensionIndex() {
       return getIndexCache() || []

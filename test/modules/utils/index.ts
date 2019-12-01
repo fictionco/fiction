@@ -23,7 +23,7 @@ export async function getPort(): Promise<string> {
   return String(port)
 }
 export const waitFor = (ms: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms || 0))
+  return new Promise(resolve => setTimeout(resolve, ms || 0))
 }
 
 export const indexHtml = ({

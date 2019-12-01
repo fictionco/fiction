@@ -74,7 +74,7 @@ export default Vue.extend({
       let out = "lightcolor"
       const dark = ["google", "default", "subtle"]
 
-      dark.forEach((_) => {
+      dark.forEach(_ => {
         if (
           (this.$el && this.$el.classList.contains(_)) ||
           this.buttonClass.includes(_)

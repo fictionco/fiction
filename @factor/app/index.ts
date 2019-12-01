@@ -16,7 +16,7 @@ export async function appMounted(callback?: Function): Promise<void> {
 }
 
 function waitForMountApp(): Promise<void> {
-  return new Promise((resolve) => onEvent("app-mounted", () => resolve()))
+  return new Promise(resolve => onEvent("app-mounted", () => resolve()))
 }
 
 addCallback("initialize-app", () => {
@@ -37,7 +37,7 @@ addCallback("initialize-app", () => {
       }
     ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
       // remove duplicate paths
-      const lastIndexOf = self.map((_) => _.path).lastIndexOf(route.path)
+      const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
       return index === lastIndexOf
     })
 

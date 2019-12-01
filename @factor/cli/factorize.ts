@@ -59,7 +59,7 @@ export async function extendServer({ restart = false } = {}): Promise<void> {
 // Reloads all cached node files
 // Needed for server reloading
 async function reloadNodeProcess(_arguments): Promise<void> {
-  Object.keys(require.cache).forEach((id) => {
+  Object.keys(require.cache).forEach(id => {
     if (/(@|\.)factor/.test(id)) {
       delete require.cache[id]
     }

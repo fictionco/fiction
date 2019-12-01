@@ -22,7 +22,7 @@ function slack() {
       })
     })
 
-    addFilter("transactional-email", (email) => {
+    addFilter("transactional-email", email => {
       axios.request({
         method: "post",
         url: process.env.SLACK_NOTIFY_URL,

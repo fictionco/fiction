@@ -60,10 +60,10 @@ export default Vue.extend({
     listeners(this: any): any {
       return {
         ...this.$listeners,
-        input: (e) => {
+        input: e => {
           fluidInput(e, this.$refs.wrap)
         },
-        keydown: (e) => {
+        keydown: e => {
           fluidInput(e, this.$refs.wrap)
         }
       }

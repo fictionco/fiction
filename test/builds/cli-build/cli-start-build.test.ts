@@ -25,7 +25,7 @@ describe["posix"]("cli factor start", () => {
       command: "start",
       env: process.env,
       callback: (__process: ChildProcess): void => {
-        __process.on("error", (err) => {
+        __process.on("error", err => {
           error = err
         })
       },

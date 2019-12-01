@@ -29,7 +29,7 @@ export function initializeEndpointServer(): void {
             return await processEndpointRequest({
               request,
               response,
-              handler: (_) => runEndpointMethod({ ..._, id, handler })
+              handler: _ => runEndpointMethod({ ..._, id, handler })
             })
           }
         ],

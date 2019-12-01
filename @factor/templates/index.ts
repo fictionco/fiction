@@ -42,10 +42,10 @@ export function addPageTemplate(templateConfig: TemplateConfig): void {
 export async function getTemplate(templateId: string): Promise<TemplateConfig | {}> {
   const _all = getPageTemplates()
 
-  let tpl = _all.find((_) => _._id == templateId)
+  let tpl = _all.find(_ => _._id == templateId)
 
   if (!tpl) {
-    tpl = _all.find((_) => _._id == "tpl-default")
+    tpl = _all.find(_ => _._id == "tpl-default")
   }
 
   if (!tpl) return {}
@@ -69,7 +69,7 @@ export function getPageTemplates(): TemplateConfig[] {
   return applyFilters("page-templates", _templates)
     .filter((page: TemplateConfig, index: number, self: TemplateConfig[]) => {
       // remove duplicates, favor the last
-      const lastIndexOf = self.map((_) => _._id).lastIndexOf(page._id)
+      const lastIndexOf = self.map(_ => _._id).lastIndexOf(page._id)
       return index === lastIndexOf
     })
     .map((_: TemplateConfig) => {

@@ -43,7 +43,7 @@ export function renderMarkdown(content = "", options?: MarkdownRenderOptions): s
   if (typeof content == "string") {
     const { variables } = options || {}
     if (variables) {
-      content = content.replace(/{{([\s\S]+?)}}/g, (matched) => {
+      content = content.replace(/{{([\s\S]+?)}}/g, matched => {
         const setting = matched.replace(/[{}]/g, "")
         const val = dotSetting({
           key: setting,

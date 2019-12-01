@@ -138,10 +138,10 @@ function existingSettings(): { publicConfig: object; privateConfig: object } {
 }
 
 function extensionNames(type: string, format = "join"): string {
-  const extensions = getExtensions().filter((_) => _.extend == type)
+  const extensions = getExtensions().filter(_ => _.extend == type)
 
   if (extensions && extensions.length > 0) {
-    const names = extensions.map((_) => _.name)
+    const names = extensions.map(_ => _.name)
 
     return format == "count" ? names.length.toString() : names.join(", ")
   } else return "none"

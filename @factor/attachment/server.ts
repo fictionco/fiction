@@ -26,7 +26,7 @@ pushToFilter("middleware", {
       return await processEndpointRequest({
         request,
         response,
-        handler: (_) => handleUpload(_)
+        handler: _ => handleUpload(_)
       })
     }
   ]

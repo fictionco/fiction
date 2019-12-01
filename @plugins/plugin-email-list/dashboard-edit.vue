@@ -73,11 +73,11 @@ export default Vue.extend({
     } as any,
 
     tabs() {
-      return [`all`, `verified`, `unverified`].map((key) => {
+      return [`all`, `verified`, `unverified`].map(key => {
         let count = 0
         if (this.post && this.post.list) {
           const total = this.post.list.length
-          const verified = this.post.list.filter((_) => _.verified).length
+          const verified = this.post.list.filter(_ => _.verified).length
 
           if (key == "all") {
             count = total
@@ -124,7 +124,7 @@ export default Vue.extend({
       if (action == "delete") {
         this.deleteEmails({ emails: this.selected })
       } else if (action == "export-all") {
-        const data = this.post.list.map((_) => {
+        const data = this.post.list.map(_ => {
           delete _.code
 
           return _

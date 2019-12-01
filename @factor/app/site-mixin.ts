@@ -11,7 +11,7 @@ export default (): VueConstructor => {
     },
     computed: {
       ui(this: VueConstructor): string {
-        const { meta = {} } = this.$route.matched.find((_) => _.meta.ui) || {}
+        const { meta = {} } = this.$route.matched.find(_ => _.meta.ui) || {}
 
         const ui = meta.ui || "app"
 

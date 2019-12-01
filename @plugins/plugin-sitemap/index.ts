@@ -23,16 +23,16 @@ addFilter("middleware", (_: object[]) => {
 
           const urls = await getPermalinks()
 
-          urls.forEach((url) => {
+          urls.forEach(url => {
             smStream.write({ url })
           })
 
           smStream.end()
 
           // cache the response
-          streamToPromise(pipeline).then((sm) => (sitemap = sm))
+          streamToPromise(pipeline).then(sm => (sitemap = sm))
           // stream the response
-          pipeline.pipe(response).on("error", (e) => {
+          pipeline.pipe(response).on("error", e => {
             throw e
           })
         } catch (error) {
@@ -79,8 +79,8 @@ function getRoutesRecursively(routes: RouteConfig[], parent = ""): string[] {
   let out: string[] = []
 
   routes
-    .filter((_) => _.path !== "*")
-    .forEach((_) => {
+    .filter(_ => _.path !== "*")
+    .forEach(_ => {
       if (_.path) {
         let _p = _.path
 

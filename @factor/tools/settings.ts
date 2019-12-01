@@ -36,7 +36,7 @@ export function createSettings(): void {
 function mergeAllSettings(): void {
   const settingsArray = applyFilters(
     "factor-settings",
-    [config, coreSettings, ...settingsExports].map((_export) =>
+    [config, coreSettings, ...settingsExports].map(_export =>
       typeof _export == "function" ? _export() : _export
     )
   )

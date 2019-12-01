@@ -40,7 +40,7 @@ export function loadMiddleware(app: Application, middleware = []): void {
   // parse application/json
   app.use(bodyParser.json())
 
-  middleware.forEach((_) => app.use(_))
+  middleware.forEach(_ => app.use(_))
 
   const ware = applyFilters("middleware", [])
 

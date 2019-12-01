@@ -5,8 +5,8 @@ import { RouteConfig } from "vue-config"
 export * from "./request"
 export * from "./util"
 
-addCallback("global-prefetch", (_) => preFetchPost(_))
-addCallback("client-route-before", (_) => preFetchPost({ clientOnly: true, ..._ }))
+addCallback("global-prefetch", _ => preFetchPost(_))
+addCallback("client-route-before", _ => preFetchPost({ clientOnly: true, ..._ }))
 
 export const factorPostEdit = (): Promise<Component> => import("./el/edit-link.vue")
 

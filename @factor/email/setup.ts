@@ -8,7 +8,7 @@ const configVars = ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST"]
 const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
 if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
-  addFilter("setup-needed", (_) => {
+  addFilter("setup-needed", _ => {
     const item = {
       title: "SMTP Email Credentials",
       value: "Needed for transactional emails (e.g. forgot password)",
@@ -21,7 +21,7 @@ if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
 }
 
 // CLI admin setup utility
-addFilter("cli-add-setup", (_) => {
+addFilter("cli-add-setup", _ => {
   const setupItem = {
     name: "Email Setup - Transactional Email SMTP Info",
     value: "email",

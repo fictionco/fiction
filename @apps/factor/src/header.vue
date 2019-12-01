@@ -38,7 +38,7 @@ export default Vue.extend({
   },
   computed: {
     siteNav() {
-      return this.navConfig.filter((item) => !item.condition || item.condition())
+      return this.navConfig.filter(item => !item.condition || item.condition())
     }
   }
 })

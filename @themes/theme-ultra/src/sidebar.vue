@@ -39,7 +39,7 @@ export default {
   mounted: function() {
     for (const ele of this.options) {
       const observer = new IntersectionObserver(
-        (entries) => {
+        entries => {
           if (entries[0].isIntersecting) {
             this.selected = `#${entries[0].target.id}`
           }

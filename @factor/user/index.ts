@@ -135,7 +135,7 @@ export async function logout(args: { redirect?: string } = {}): Promise<void> {
   emitEvent("logout")
   emitEvent("notify", "Successfully logged out.")
 
-  if (args.redirect || currentRoute().matched.some((r) => r.meta.auth)) {
+  if (args.redirect || currentRoute().matched.some(r => r.meta.auth)) {
     const { redirect: path = "/" } = args
     navigateToRoute({ path })
   } else {
@@ -195,7 +195,7 @@ function handleAuthRouting(): void {
     const { path: toPath } = to
 
     // Is authentication needed
-    const auth = to.matched.some((_r) => {
+    const auth = to.matched.some(_r => {
       return _r.meta.auth
     })
 
@@ -207,7 +207,7 @@ function handleAuthRouting(): void {
 
   addCallback("before-user-init", (user: CurrentUserState) => {
     const { path, matched } = currentRoute()
-    const auth = matched.some((_r) => _r.meta.auth)
+    const auth = matched.some(_r => _r.meta.auth)
 
     if (auth === true && (!user || !user._id)) {
       navigateToRoute({ path: "/signin", query: { redirect: path } })

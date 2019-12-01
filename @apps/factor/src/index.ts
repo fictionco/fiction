@@ -7,7 +7,7 @@ addPageTemplate({
   component: (): Promise<Vue> => import("./page-template-default.vue")
 })
 
-addFilter("content-routes", (_) => {
+addFilter("content-routes", _ => {
   const base = setting("docs.base")
 
   return [

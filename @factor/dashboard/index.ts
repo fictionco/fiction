@@ -35,7 +35,7 @@ export const dashboardUserCard = () => import("./el/user-card.vue")
 export const dashboardUserList = () => import("./el/user-list.vue")
 export const factorInputSortable = () => import("./el/sortable.vue")
 
-addFilter("routes", (_) => {
+addFilter("routes", _ => {
   const dashboardRoute = setting("dashboard.route")
 
   if (!dashboardRoute) {
@@ -71,7 +71,7 @@ addFilter("routes", (_) => {
 
 addFilter(
   "admin-menu",
-  (_) => {
+  _ => {
     _.push({
       group: "admin",
       path: "admin",
@@ -83,7 +83,7 @@ addFilter(
   { priority: 50 }
 )
 
-addFilter("admin-menu", (_) => {
+addFilter("admin-menu", _ => {
   postTypesConfig()
     .filter(({ showAdmin, accessLevel }) => {
       return showAdmin === false || (accessLevel && !userCan({ accessLevel }))

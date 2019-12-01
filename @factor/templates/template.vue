@@ -28,7 +28,7 @@ export default Vue.extend({
       return this.post.template ? this.post.template : "default"
     },
     templateLoader() {
-      const selected = getPageTemplates().find((_) => _._id == this.templateLocation)
+      const selected = getPageTemplates().find(_ => _._id == this.templateLocation)
 
       return selected && selected.component
         ? selected.component

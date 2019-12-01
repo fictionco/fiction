@@ -61,7 +61,7 @@ addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
     value: "admins",
     callback: async (): Promise<void> => {
       const roles = userRolesMap
-      const choices = Object.keys(roles).map((_) => {
+      const choices = Object.keys(roles).map(_ => {
         return {
           name: `${_} (${roles[_]})`,
           value: _

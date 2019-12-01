@@ -159,7 +159,7 @@ export default Vue.extend({
         !this.lastRevision.published &&
         this.post.revisions &&
         this.post.revisions.length > 0 &&
-        this.post.revisions.some((_) => _.published)
+        this.post.revisions.some(_ => _.published)
       ) {
         return true
       } else {

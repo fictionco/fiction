@@ -5,9 +5,9 @@ import fs from "fs-extra"
 
 function fileExistsInTheme(file: string): string {
   let filePath = ""
-  const themes = getExtensions().filter((_) => _.extend == "theme")
+  const themes = getExtensions().filter(_ => _.extend == "theme")
   if (themes.length > 0) {
-    themes.some((_) => {
+    themes.some(_ => {
       const themeRoot = dirname(require.resolve(_.name))
       const themePath = file.replace("__FALLBACK__", themeRoot)
 
