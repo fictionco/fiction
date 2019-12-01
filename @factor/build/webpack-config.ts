@@ -12,20 +12,27 @@ import TerserPlugin from "terser-webpack-plugin"
 import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
-import webpack from "webpack"
-import { WebpackOptions } from "webpack/declarations/WebpackOptions"
+import webpack, { Configuration, Stats, Compiler } from "webpack"
+
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { configSettings } from "@factor/tools/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
 
-interface WebpackConfigOptions {
+interface FactorBundleOptions {
   config?: Record<string, any>;
   beforeCompile?: (_arguments: any) => {};
   afterCompile?: (_arguments: any) => {};
 }
 
-export async function generateBundles(options: WebpackConfigOptions = {}): Promise<void> {
+interface FactorWebpackConfig {
+  target: string;
+  analyze?: boolean;
+  testing?: boolean;
+  clean?: boolean;
+}
+
+export async function generateBundles(options: FactorBundleOptions = {}): Promise<void> {
   generateLoaders()
 
   await Promise.all(
@@ -67,7 +74,9 @@ export async function buildProductionApp(_arguments = {}): Promise<void[]> {
   )
 }
 
-export async function getWebpackConfig(_arguments): Promise<WebpackOptions> {
+export async function getWebpackConfig(
+  _arguments: FactorWebpackConfig
+): Promise<Configuration> {
   const { target, analyze = false, testing = false, clean = false } = _arguments
 
   const baseConfig = await base({ target })
@@ -76,11 +85,8 @@ export async function getWebpackConfig(_arguments): Promise<WebpackOptions> {
 
   const targetConfig = target == "server" ? server() : client()
 
-  const testingConfig = testing
-    ? { devtool: "source-map", optimization: { minimize: false } }
-    : {}
-
-  const debugConfig = process.env.FACTOR_DEBUG ? { devtool: "source-map" } : {}
+  const testingConfig: Configuration =
+    testing || process.env.FACTOR_DEBUG ? { devtool: "source-map" } : {}
 
   const plugins = applyFilters("webpack-plugins", [], { ..._arguments })
 
@@ -100,14 +106,13 @@ export async function getWebpackConfig(_arguments): Promise<WebpackOptions> {
     targetConfig,
     packageConfig,
     testingConfig,
-    debugConfig,
     { plugins }
   )
 
   return config
 }
 
-function server(): WebpackOptions {
+function server(): Configuration {
   const entry = getPath("entry-server")
 
   const filename = "factor-server.json"
@@ -124,7 +129,7 @@ function server(): WebpackOptions {
   }
 }
 
-function client(): WebpackOptions {
+function client(): Configuration {
   const entry = getPath("entry-browser")
   const filename = "factor-client.json"
   return {
@@ -133,7 +138,7 @@ function client(): WebpackOptions {
   }
 }
 
-function production(): WebpackOptions {
+function production(): Configuration {
   return {
     mode: "production",
     output: { publicPath: "/" },
@@ -150,7 +155,7 @@ function production(): WebpackOptions {
   }
 }
 
-function development(): WebpackOptions {
+function development(): Configuration {
   // Apparently webpack expects a trailing slash on these
   const publicPath = ensureTrailingSlash(getPath("dist"))
   return {
@@ -160,9 +165,7 @@ function development(): WebpackOptions {
   }
 }
 
-async function base(_arguments): Promise<WebpackOptions> {
-  const { target } = _arguments
-
+async function base({ target }: { target: string }): Promise<Configuration> {
   const out = {
     output: {
       path: getPath("dist"),
@@ -197,8 +200,8 @@ async function base(_arguments): Promise<WebpackOptions> {
       new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin(getDefinedValues(target)),
-      function(): void {
-        this.plugin("done", function(stats) {
+      function(this: Compiler): void {
+        this.plugin("done", function(stats: Stats) {
           const { errors } = stats.compilation
           if (errors && errors.length > 0) log.error(errors)
         })
@@ -219,7 +222,7 @@ async function base(_arguments): Promise<WebpackOptions> {
   return out
 }
 
-export function getDefinedValues(target): object {
+export function getDefinedValues(target: string): object {
   return applyFilters("webpack-define", {
     "process.env.FACTOR_SSR": JSON.stringify(target),
     "process.env.VUE_ENV": JSON.stringify(target),

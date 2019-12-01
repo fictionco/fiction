@@ -1,5 +1,9 @@
 import { addCallback, runCallbacks, applyFilters, setting } from "@factor/tools"
-import { createBundleRenderer } from "vue-server-renderer"
+import {
+  createBundleRenderer,
+  BundleRenderer,
+  BundleRendererOptions
+} from "vue-server-renderer"
 import { getPath } from "@factor/tools/paths"
 import destroyer from "destroyer"
 import express from "express"
@@ -10,17 +14,18 @@ import LRU from "lru-cache"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
-
-let __listening
-let __renderer
+import { Server } from "http"
+import { RendererComponents } from "./types"
+let __listening: Server | undefined
+let __renderer: BundleRenderer
 let __application
 addCallback("create-server", () => createRenderServer())
 addCallback("close-server", () => closeServer())
 
 export async function createRenderServer(options = {}): Promise<void> {
-  await new Promise((resolve) => {
+  await new Promise(resolve => {
     if (process.env.NODE_ENV == "development") {
-      developmentServer((renderConfig) => {
+      developmentServer(renderConfig => {
         htmlRenderer(renderConfig)
 
         if (!__listening) createServer(options)
@@ -43,10 +48,10 @@ export async function createRenderServer(options = {}): Promise<void> {
   return
 }
 
-export function createServer(options): void {
-  const { port = null } = options || {}
+export function createServer(options: { port?: string }): void {
+  const { port } = options || {}
 
-  process.env.PORT = port || process.env.PORT || 3000
+  process.env.PORT = port || process.env.PORT || "3000"
 
   __application = express()
 
@@ -60,17 +65,19 @@ export function createServer(options): void {
 
   addCallback("restart-server", async () => {
     log.server("restarting server", { color: "yellow" })
-    __listening.destroy()
+    if (__listening) {
+      __listening.destroy()
+    }
     await runCallbacks("rebuild-server-app")
 
     createServer(options)
   })
 }
 
-function htmlRenderer({ bundle, template, clientManifest }) {
+function htmlRenderer({ bundle, template, clientManifest }: RendererComponents): void {
   // Allow for changing default options when rendering
   // particularly important for testing
-  const options = applyFilters("server-renderer-options", {
+  const options: BundleRendererOptions = applyFilters("server-renderer-options", {
     cache: new LRU({ max: 1000, maxAge: 1000 * 60 * 15 }),
     runInNewContext: false,
     directives: applyFilters("server-directives", {}),
@@ -81,7 +88,10 @@ function htmlRenderer({ bundle, template, clientManifest }) {
   __renderer = createBundleRenderer(bundle, options)
 }
 
-export async function renderRequest(request, response): Promise<void> {
+export async function renderRequest(
+  request: express.Request,
+  response: express.Response
+): Promise<void> {
   response.setHeader("Content-Type", "text/html")
   response.setHeader("Server", getServerInfo())
 
@@ -101,9 +111,13 @@ export async function renderRoute(url = ""): Promise<string> {
 }
 
 function prepareListener(): void {
-  __listening.destroy = destroyer(__listening)
+  if (__listening) {
+    __listening.destroy = destroyer(__listening)
+  }
 }
 
 export async function closeServer(): Promise<void> {
-  if (__listening) __listening.destroy()
+  if (__listening) {
+    __listening.destroy()
+  }
 }

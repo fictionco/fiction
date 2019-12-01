@@ -1,11 +1,13 @@
 import morgan from "morgan"
 import figures from "figures"
 import chalk from "chalk"
+import { RequestHandler } from "express"
 
-export default () =>
+export default (): RequestHandler =>
   morgan(
     (tokens, req, res) => {
-      const seconds = tokens["response-time"](req, res) / 1000
+      const millisecondResponseTime = parseFloat(tokens["response-time"](req, res))
+      const seconds = millisecondResponseTime / 1000
       const time = seconds.toFixed(3)
       const details = []
 
@@ -15,7 +17,7 @@ export default () =>
 
       details.push(`${time}s`)
 
-      const contentLength = tokens.res(req, res, "content-length")
+      const contentLength = parseFloat(tokens.res(req, res, "content-length"))
       if (contentLength) details.push(`Size: ${Math.round(contentLength / 1000)}kb`)
 
       details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
@@ -34,7 +36,7 @@ export default () =>
       )}`
     },
     {
-      skip: (request) => {
+      skip: request => {
         let { url } = request
         if (url.indexOf("?") > 0) url = url.slice(0, url.indexOf("?"))
 
