@@ -1,9 +1,10 @@
+import { Component } from "vue"
 export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />`
   },
   site: {
-    logo: () => import("./el/logo.vue"),
+    logo: (): Promise<Component> => import("./el/logo.vue"),
     nav: [
       {
         path: "/",
@@ -170,13 +171,13 @@ export default {
       single: ["workHeaders", "workFeaturedImage", "workTags", "workEntry"]
     },
     components: {
-      workWrap: () => import("./work/work-wrap.vue"),
-      workIndex: () => import("./work/work-index.vue"),
-      workSingle: () => import("./work/work-single.vue"),
-      workFeaturedImage: () => import("./work/el-featured-image.vue"),
-      workHeaders: () => import("./work/el-headers.vue"),
-      workTags: () => import("./work/el-tags.vue"),
-      workEntry: () => import("./work/el-entry.vue")
+      workWrap: (): Promise<Component> => import("./work/work-wrap.vue"),
+      workIndex: (): Promise<Component> => import("./work/work-index.vue"),
+      workSingle: (): Promise<Component> => import("./work/work-single.vue"),
+      workFeaturedImage: (): Promise<Component> => import("./work/el-featured-image.vue"),
+      workHeaders: (): Promise<Component> => import("./work/el-headers.vue"),
+      workTags: (): Promise<Component> => import("./work/el-tags.vue"),
+      workEntry: (): Promise<Component> => import("./work/el-entry.vue")
     }
   },
   blog: {
@@ -201,7 +202,7 @@ export default {
       subTitle: "Couldn't find any blog posts."
     },
     layout: {
-      index: [ "blogFeaturedImage", "blogHeaders", "blogExcerpt", "blogMeta"],
+      index: ["blogFeaturedImage", "blogHeaders", "blogExcerpt", "blogMeta"],
       single: [
         "blogHeaders",
         "blogFeaturedImage",
@@ -213,14 +214,14 @@ export default {
       meta: ["authorDate", "tags"]
     },
     components: {
-      blogWrap: () => import("./blog/blog-wrap.vue"),
-      blogIndex: () => import("./blog/blog-index.vue"),
-      blogSingle: () => import("./blog/blog-single.vue"),
-      blogFeaturedImage: () => import("./blog/el-featured-image.vue"),
-      blogHeaders: () => import("./blog/el-headers.vue"),
-      blogReturnLink: () => import("./blog/el-return-link.vue"),
-      blogExcerpt: () => import("./blog/el-excerpt.vue"),
-      blogMeta: () => import("./blog/el-meta.vue")
+      blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
+      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+      blogFeaturedImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      blogHeaders: (): Promise<Component> => import("./blog/el-headers.vue"),
+      blogReturnLink: (): Promise<Component> => import("./blog/el-return-link.vue"),
+      blogExcerpt: (): Promise<Component> => import("./blog/el-excerpt.vue"),
+      blogMeta: (): Promise<Component> => import("./blog/el-meta.vue")
     }
   },
   contact: {

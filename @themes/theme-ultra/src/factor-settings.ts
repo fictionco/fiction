@@ -1,3 +1,5 @@
+import { Component } from "vue"
+
 export default {
   metatags: {
     default: {
@@ -6,14 +8,14 @@ export default {
   },
   core: {
     components: {
-      btn: () => import("./el/btn.vue")
+      btn: (): Promise<Component> => import("./el/btn.vue")
     }
   },
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700" rel="stylesheet" />`
   },
   site: {
-    logo: () => import("./el/logo-ultra.vue"),
+    logo: (): Promise<Component> => import("./el/logo-ultra.vue"),
     logoTitle: "Ultra Theme",
     nav: [
       {
@@ -140,15 +142,17 @@ export default {
       subTitle: "Couldn't find any projects."
     },
     components: {
-      portfolioWrap: () => import("./portfolio/portfolio-wrap.vue"),
-      portfolioIndex: () => import("./portfolio/portfolio-index.vue"),
-      portfolioSingle: () => import("./portfolio/portfolio-single.vue"),
-      portfolioEntry: () => import("./portfolio/widget-entry.vue"),
-      hero: () => import("./portfolio/widget-hero.vue"),
-      featuredImage: () => import("./portfolio/widget-featured-image.vue"),
-      tags: () => import("./portfolio/widget-tags.vue"),
-      //returnLink: () => import("./portfolio/widget-return-link.vue"),
-      pagination: () => import("./portfolio/widget-pagination.vue")
+      portfolioWrap: (): Promise<Component> => import("./portfolio/portfolio-wrap.vue"),
+      portfolioIndex: (): Promise<Component> => import("./portfolio/portfolio-index.vue"),
+      portfolioSingle: (): Promise<Component> =>
+        import("./portfolio/portfolio-single.vue"),
+      portfolioEntry: (): Promise<Component> => import("./portfolio/widget-entry.vue"),
+      hero: (): Promise<Component> => import("./portfolio/widget-hero.vue"),
+      featuredImage: (): Promise<Component> =>
+        import("./portfolio/widget-featured-image.vue"),
+      tags: (): Promise<Component> => import("./portfolio/widget-tags.vue"),
+      //returnLink: (): Promise<Component> => import("./portfolio/widget-return-link.vue"),
+      pagination: (): Promise<Component> => import("./portfolio/widget-pagination.vue")
     },
     layout: {
       index: ["featuredImage"],
@@ -191,17 +195,17 @@ export default {
       subTitle: "Couldn't find any news."
     },
     components: {
-      newsWrap: () => import("./news/news-wrap.vue"),
-      newsIndex: () => import("./news/news-index.vue"),
-      newsSingle: () => import("./news/news-single.vue"),
-      newsEntry: () => import("./news/widget-entry.vue"),
-      newsExcerpt: () => import("./news/widget-excerpt.vue"),
-      newsHero: () => import("./news/widget-hero.vue"),
-      date: () => import("./news/widget-date.vue"),
-      featuredImage: () => import("./news/widget-featured-image.vue"),
-      authorBio: () => import("./news/widget-author-bio.vue"),
-      tags: () => import("./news/widget-tags.vue"),
-      pagination: () => import("./news/widget-pagination.vue")
+      newsWrap: (): Promise<Component> => import("./news/news-wrap.vue"),
+      newsIndex: (): Promise<Component> => import("./news/news-index.vue"),
+      newsSingle: (): Promise<Component> => import("./news/news-single.vue"),
+      newsEntry: (): Promise<Component> => import("./news/widget-entry.vue"),
+      newsExcerpt: (): Promise<Component> => import("./news/widget-excerpt.vue"),
+      newsHero: (): Promise<Component> => import("./news/widget-hero.vue"),
+      date: (): Promise<Component> => import("./news/widget-date.vue"),
+      featuredImage: (): Promise<Component> => import("./news/widget-featured-image.vue"),
+      authorBio: (): Promise<Component> => import("./news/widget-author-bio.vue"),
+      tags: (): Promise<Component> => import("./news/widget-tags.vue"),
+      pagination: (): Promise<Component> => import("./news/widget-pagination.vue")
     },
     layout: {
       index: ["date", "newsHero", "newsExcerpt"],
