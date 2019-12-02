@@ -1,5 +1,5 @@
-import { addFilter } from "@factor/tools"
 import { dirname, basename } from "path"
+import { addFilter } from "@factor/tools"
 import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"

@@ -81,16 +81,16 @@
   </div>
 </template>
 <script lang="ts">
+import { standardDate } from "@factor/tools"
+import { factorLink } from "@factor/ui"
+import Vue from "vue"
+import { getIndexCache } from "./extension-request"
 import {
   titleFromPackage,
   formatDownloads,
   extensionPermalink,
   extensionIcon
 } from "./util"
-import { getIndexCache } from "./extension-request"
-import { standardDate } from "@factor/tools"
-import { factorLink } from "@factor/ui"
-import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
   data() {

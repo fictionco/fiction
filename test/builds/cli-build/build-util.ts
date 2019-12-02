@@ -1,5 +1,5 @@
-import { spawn } from "cross-spawn"
 import { ChildProcess } from "child_process"
+import { spawn } from "cross-spawn"
 
 export function getUrl({ route, port }: { route: string; port: string }): string {
   return `http://localhost:${port}${route}`

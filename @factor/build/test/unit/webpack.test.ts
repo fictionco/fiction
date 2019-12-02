@@ -1,5 +1,5 @@
-import { getWebpackConfig, getDefinedValues } from "@factor/build/webpack-config"
 import { dirname, resolve } from "path"
+import { getWebpackConfig, getDefinedValues } from "@factor/build/webpack-config"
 import webpack from "webpack"
 import jsdom from "jsdom"
 import { waitFor } from "@test/utils"

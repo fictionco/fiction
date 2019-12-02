@@ -15,9 +15,9 @@ import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack, { Configuration, Stats, Compiler } from "webpack"
 
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
-import { cssLoaders, enhancedBuild } from "./webpack-utils"
 import { configSettings } from "@factor/tools/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
+import { cssLoaders, enhancedBuild } from "./webpack-utils"
 
 interface FactorBundleOptions {
   config?: Record<string, any>;

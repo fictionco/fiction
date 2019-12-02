@@ -1,5 +1,5 @@
-import { createRenderServer, closeServer } from "@factor/server"
 import { dirname } from "path"
+import { createRenderServer, closeServer } from "@factor/server"
 import { generateBundles } from "@factor/build/webpack-config"
 
 import { getUrl, getPort } from "@test/utils"

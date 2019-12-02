@@ -2,10 +2,10 @@ import { addCallback } from "@factor/tools"
 import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
 
-import { endpointId } from "./util"
-import * as extensions from "../extensions.json"
-
 import cache from "memory-cache"
+import * as extensions from "../extensions.json"
+import { endpointId } from "./util"
+
 
 addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 

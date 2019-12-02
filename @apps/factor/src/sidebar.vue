@@ -56,8 +56,8 @@
 import { factorLink, factorIcon } from "@factor/ui"
 import { DOM, throttle, setting, toLabel } from "@factor/tools"
 
-import { config } from "./docs-handler"
 import Vue from "vue"
+import { config } from "./docs-handler"
 export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {

@@ -148,7 +148,7 @@ function makeModuleLoader({ extensions, loadTarget, callback }): void {
     load[loadTarget].forEach(({ _id, file, priority = 100 }) => {
       const _module = `${cwd ? ".." : name}/${file}`
 
-      const moduleName = _module.replace(/\.[^/.]+$/, "").replace(/\/index$/, "")
+      const moduleName = _module.replace(/\.[^./]+$/, "").replace(/\/index$/, "")
 
       files.push({
         _id,

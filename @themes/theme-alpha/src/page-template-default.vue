@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/tools"
 import Vue from "vue"

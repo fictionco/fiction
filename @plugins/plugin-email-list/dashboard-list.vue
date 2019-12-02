@@ -33,7 +33,6 @@
 <script lang="ts">
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post"
-import { postTypeUIConfig, csvExport } from "."
 import { toLabel, stored, getPermalink, omit } from "@factor/tools"
 import { factorLink } from "@factor/ui"
 import {
@@ -44,6 +43,7 @@ import {
   dashboardGridFilter
 } from "@factor/dashboard"
 import Vue from "vue"
+import { postTypeUIConfig, csvExport } from "."
 export default Vue.extend({
   name: "EmailListGrid",
   components: {

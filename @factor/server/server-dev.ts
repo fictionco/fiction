@@ -1,17 +1,17 @@
+import path from "path"
 import { addFilter, setting, log, runCallbacks } from "@factor/tools"
 
 import chalk from "chalk"
 import fs from "fs-extra"
 import MFS from "memory-fs"
 import ora, { Ora } from "ora"
-import path from "path"
 import webpack, { Configuration } from "webpack"
 import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 import yargs from "yargs"
 import { getWebpackConfig } from "@factor/build/webpack-config"
-import { watcher } from "./watcher"
 import { getPath } from "@factor/tools/paths"
+import { watcher } from "./watcher"
 import { RendererComponents } from "./types"
 const argv = yargs.argv
 

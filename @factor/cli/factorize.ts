@@ -1,10 +1,10 @@
+import { resolve } from "path"
 import dotenv from "dotenv"
 import { runCallbacks, addCallback } from "@factor/tools"
-import aliasRequire from "./alias-require"
-import transpile from "./transpile"
-import { resolve } from "path"
 import commander from "commander"
 import log from "@factor/tools/logger"
+import aliasRequire from "./alias-require"
+import transpile from "./transpile"
 
 interface EnvironmentConfig {
   NODE_ENV?: string;

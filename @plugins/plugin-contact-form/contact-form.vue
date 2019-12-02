@@ -35,10 +35,10 @@
 </template>
 
 <script lang="ts">
-import { saveContactForm } from "."
 import { factorInputWrap, factorForm, factorInputSubmit } from "@factor/ui"
 import { setting } from "@factor/tools"
 import Vue from "vue"
+import { saveContactForm } from "."
 
 export default Vue.extend({
   components: { factorInputWrap, factorForm, factorInputSubmit },

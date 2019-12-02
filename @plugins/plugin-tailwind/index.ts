@@ -1,7 +1,7 @@
+import { resolve } from "path"
 import { addFilter } from "@factor/tools"
 import tailwindCSS from "tailwindcss"
 import { setting } from "@factor/tools/settings"
-import { resolve } from "path"
 import purgeCssUtility from "@fullhuman/postcss-purgecss"
 
 const cwd = process.env.FACTOR_CWD || process.cwd()

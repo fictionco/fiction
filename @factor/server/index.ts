@@ -1,3 +1,4 @@
+import { Server } from "http"
 import { addCallback, runCallbacks, applyFilters, setting } from "@factor/tools"
 import {
   createBundleRenderer,
@@ -14,7 +15,6 @@ import LRU from "lru-cache"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
-import { Server } from "http"
 import { RendererComponents } from "./types"
 let __listening: Server | undefined
 let __renderer: BundleRenderer

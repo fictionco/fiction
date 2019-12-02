@@ -2,8 +2,8 @@ import { objectIdType } from "@factor/post/util"
 import { validator, applyFilters } from "@factor/tools"
 import bcrypt from "bcryptjs"
 import { HookNextFunction, Schema, Document } from "mongoose"
-import { FactorUser } from "./types"
 import { FactorSchema } from "@factor/post/types"
+import { FactorUser } from "./types"
 
 export default (): FactorSchema => {
   return {

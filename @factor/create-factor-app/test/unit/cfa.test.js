@@ -1,6 +1,6 @@
+import { dirname, resolve } from "path"
 import { spawn } from "cross-spawn"
 import { waitFor } from "@test/utils"
-import { dirname, resolve } from "path"
 import { removeSync } from "fs-extra"
 const keys = {
   up: "\u001B\u005B\u0041",

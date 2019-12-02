@@ -1,5 +1,5 @@
-import { getExtensions } from "@factor/cli/extension-loader"
 import { dirname } from "path"
+import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"
 

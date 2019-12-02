@@ -3,10 +3,10 @@
  */
 import { mount, createLocalVue } from "@vue/test-utils"
 //import { renderToString } from "@vue/server-test-utils"
-import factorSite from "../../site.vue"
 import VueRouter from "vue-router"
 import Vue from "vue"
 import { createRenderer } from "vue-server-renderer"
+import factorSite from "../../site.vue"
 let localVue
 let router
 let renderer

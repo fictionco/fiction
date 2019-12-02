@@ -1,10 +1,10 @@
 import { resolve } from "path"
 
+import { ChildProcess } from "child_process"
 import { removeSync } from "fs-extra"
 
 import { getPort, rp, waitFor } from "@test/utils"
 import { startProcess, closeProcess, getUrl } from "./build-util"
-import { ChildProcess } from "child_process"
 
 jest.setTimeout(70000)
 

@@ -1,7 +1,7 @@
 // @ts-nocheck
 
-import component from "./test-vue.vue"
 import Vue from "vue"
+import component from "./test-vue.vue"
 Vue.config.productionTip = false
 Vue.config.silent = false
 Vue.config.devtools = false

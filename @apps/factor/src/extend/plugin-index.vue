@@ -79,6 +79,8 @@
 </template>
 
 <script lang="ts">
+import { factorLoadingRing, factorLink } from "@factor/ui"
+import Vue from "vue"
 import {
   titleFromPackage,
   formatDownloads,
@@ -86,9 +88,7 @@ import {
   extensionIcon,
   getAuthors
 } from "./util"
-import { factorLoadingRing, factorLink } from "@factor/ui"
 import { requestExtensionIndex, getIndexCache } from "./extension-request"
-import Vue from "vue"
 
 export default Vue.extend({
   components: {

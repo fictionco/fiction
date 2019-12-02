@@ -2,11 +2,11 @@
  * @jest-environment node
  */
 
+import fs from "fs"
 import { getPort } from "@test/utils"
 
 import { startEndpointTestingServer, stopEndpointTestingServer } from "@test/utils/mongod"
 import FormData from "form-data"
-import fs from "fs"
 import { uploadEndpointPath } from "../../util"
 import "../../server"
 import { resolve } from "path"

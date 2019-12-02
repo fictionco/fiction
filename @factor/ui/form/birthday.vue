@@ -41,9 +41,9 @@
   </div>
 </template>
 <script lang="ts">
-import { fluidInput } from "../utils"
 import { timeUtil } from "@factor/tools"
 import Vue from "vue"
+import { fluidInput } from "../utils"
 export default Vue.extend({
   props: {
     customValidity: { type: String, default: "" },

@@ -1,6 +1,6 @@
+import { resolve, dirname, relative } from "path"
 import { addFilter, applyFilters } from "@factor/tools/filters"
 
-import { resolve, dirname, relative } from "path"
 
 import fs from "fs-extra"
 

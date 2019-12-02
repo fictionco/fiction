@@ -54,6 +54,15 @@
   </div>
 </template>
 <script lang="ts">
+
+import { factorLoadingRing, factorLink, factorLightbox } from "@factor/ui"
+import { setting, renderMarkdown } from "@factor/tools"
+import Vue from "vue"
+import {
+  getSingleCache,
+  requestExtensionSingle,
+  requestExtensionIndex
+} from "./extension-request"
 import {
   titleFromPackage,
   formatDownloads,
@@ -62,15 +71,6 @@ import {
   screenshotsList,
   getAuthors
 } from "./util"
-
-import {
-  getSingleCache,
-  requestExtensionSingle,
-  requestExtensionIndex
-} from "./extension-request"
-import { factorLoadingRing, factorLink, factorLightbox } from "@factor/ui"
-import { setting, renderMarkdown } from "@factor/tools"
-import Vue from "vue"
 
 export default Vue.extend({
   components: {

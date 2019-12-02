@@ -9,8 +9,8 @@
 </template>
 <script lang="ts">
 import { factorModal, factorBtn } from "@factor/ui"
-import { getSetting } from "."
 import Vue from "vue"
+import { getSetting } from "."
 export default Vue.extend({
   components: { factorModal, factorBtn },
   props: {

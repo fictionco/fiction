@@ -19,7 +19,6 @@
 
 <script lang="ts">
 /* eslint-disable no-unused-vars */
-import { deleteEmails, csvExport } from "."
 import { toLabel, storeItem, stored } from "@factor/tools"
 import {
   dashboardPane,
@@ -31,6 +30,7 @@ import {
 import { factorBtnDashboard } from "@factor/ui"
 import Vue from "vue"
 import { EmailConfig } from "./types"
+import { deleteEmails, csvExport } from "."
 
 export default Vue.extend({
   name: "EmailListGrid",

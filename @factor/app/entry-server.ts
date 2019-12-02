@@ -1,6 +1,6 @@
+import Vue from "vue"
 import { createApp } from "./app"
 import { handleContext } from "./ssr-context"
-import Vue from "vue"
 import { ServerRenderContext } from "./types"
 
 // This exported function will be called by `bundleRenderer`
