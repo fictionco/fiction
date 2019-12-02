@@ -1,9 +1,9 @@
 import { addCallback } from "@factor/tools/filters"
 import { decodeToken } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
-import { PostEndpointMeta } from "./types"
+import { PostActions, FactorPost } from "./types"
+import { EndpointMeta } from "@factor/endpoint/types"
 import { canUpdatePost } from "./util"
-import mongoose from "mongoose"
 
 import {
   getModel,
@@ -25,33 +25,34 @@ if (process.env.DB_CONNECTION) {
 addCallback("initialize-server", () => dbSetupUtility())
 
 export async function savePost(
-  { data, postType = "post" },
-  { bearer = {} }: PostEndpointMeta
-): Promise<mongoose.Model | null> {
-  if (dbIsOffline()) return null
+  { data, postType = "post" }: { data: FactorPost; postType: string },
+  { bearer }: EndpointMeta
+): Promise<FactorPost | {}> {
+  if (dbIsOffline()) return {}
 
   const { _id } = data
 
   let post
-  let isNew
+  let action = PostActions.Update
+
   const Model = getModel(postType)
 
   if (_id) post = await Model.findById(data._id)
 
   if (!_id || !post) {
-    isNew = true
+    action = PostActions.Create
     post = new Model()
   }
 
   Object.assign(post, data)
 
-  return canUpdatePost({ post, bearer, isNew, action: "save" }) ? await post.save() : null
+  return canUpdatePost({ post, bearer, action }) ? await post.save() : {}
 }
 
 export async function getSinglePost(
   params,
-  meta: PostEndpointMeta = {}
-): Promise<mongoose.Model | null> {
+  meta: EndpointMeta = {}
+): Promise<FactorPost | {}> {
   const { bearer } = meta
 
   let { _id } = params
@@ -107,7 +108,10 @@ function authorCondition(bearer): { author?: string } {
   return bearer.accessLevel >= 300 ? {} : { author: bearer._id }
 }
 
-export async function updateManyById({ _ids, postType = "post", data }, { bearer }) {
+export async function updateManyById(
+  { _ids, postType = "post", data },
+  { bearer }: EndpointMeta
+) {
   return await getModel(postType).update(
     { $and: [authorCondition(bearer), { _id: { $in: _ids } }] },
     { $set: data },
@@ -115,7 +119,10 @@ export async function updateManyById({ _ids, postType = "post", data }, { bearer
   )
 }
 
-export async function deleteManyById({ _ids, postType = "post" }, { bearer }) {
+export async function deleteManyById(
+  { _ids, postType = "post" },
+  { bearer }: EndpointMeta
+) {
   return await getModel(postType).remove({
     $and: [authorCondition(bearer), { _id: { $in: _ids } }]
   })

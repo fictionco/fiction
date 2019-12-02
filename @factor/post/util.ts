@@ -1,23 +1,31 @@
 import { applyFilters, pushToFilter } from "@factor/tools/filters"
 export * from "./object-id"
 import postSchema from "@factor/post/schema"
+import { FactorSchema, FactorSchemaModule, DetermineUpdatePermissions } from "./types"
 
-export function extendPostSchema(config): void {
+export function extendPostSchema(config: FactorSchemaModule): void {
   pushToFilter("data-schemas", config)
 }
 
-export function getAddedSchemas() {
-  return applyFilters("data-schemas", [postSchema()]).map(s => {
+export function getAddedSchemas(): FactorSchema[] {
+  return applyFilters("data-schemas", [postSchema()]).map((s: FactorSchemaModule) => {
     return applyFilters(`data-schema-${s.name}`, typeof s == "function" ? s() : s)
   })
 }
-export function getSchema(postType) {
+
+export function getSchema(postType: string): FactorSchema {
   const schemas = getAddedSchemas()
 
-  return schemas.find(s => s.name == postType)
+  return schemas.find(s => s.name == postType) ?? postSchema()
 }
 
-export function getSchemaPopulatedFields({ postType = "post", depth = 10 }) {
+export function getSchemaPopulatedFields({
+  postType = "post",
+  depth = 10
+}: {
+  postType: string;
+  depth: number;
+}): string[] {
   let fields = getSchema("post").populatedFields || []
 
   const schema = getSchema(postType)
@@ -32,18 +40,25 @@ export function getSchemaPopulatedFields({ postType = "post", depth = 10 }) {
   return pop
 }
 
-export function canUpdatePost({ bearer, post, action, isNew = false }) {
+export function canUpdatePost({
+  bearer,
+  post,
+  action
+}: DetermineUpdatePermissions): boolean {
   if (process.env.FACTOR_ENV == "test") return true
 
   const schema = getSchema(post.__t)
 
-  if (isNew && action == "save" && schema.anonymousUserCanCreate) {
+  const accessLevel = bearer?.accessLevel ?? 0
+  const _id = bearer?._id ? bearer._id.toString() : ""
+  const authors = post.author ? post.author.map(_ => _.toString()) : []
+  const postId = post._id.toString()
+
+  if (action == "create" && schema.anonymousUserCanCreate) {
     return true
   } else if (
     bearer &&
-    (bearer.accessLevel >= 300 ||
-      (post.author && post.author.includes(bearer._id)) ||
-      bearer._id.toString() == post._id.toString())
+    (accessLevel >= 300 || (_id && authors.includes(_id)) || _id == postId)
   ) {
     return true
   } else {

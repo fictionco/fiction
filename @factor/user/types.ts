@@ -10,6 +10,7 @@ enum Gender {
 export enum UserRoles {
   Admin = "admin",
   Moderator = "moderator",
+  Editor = "editor",
   Author = "author",
   Member = "member",
   Anonymous = "anonymous"
@@ -17,9 +18,10 @@ export enum UserRoles {
 
 export const userRolesMap: Record<string, number> = {
   admin: 500,
-  moderator: 400,
-  author: 100,
-  member: 1,
+  moderator: 300,
+  editor: 200,
+  creator: 100,
+  member: 20,
   anonymous: 0
 }
 

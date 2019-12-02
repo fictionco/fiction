@@ -1,12 +1,18 @@
 import { objectIdType } from "./object-id"
 import { applyFilters } from "@factor/tools/filters"
-import { FactorSchema } from "./types"
+import { FactorSchema, FactorPost } from "./types"
 import { Schema, Document } from "mongoose"
 
 export default (): FactorSchema => {
   return {
     name: "post",
     options: { timestamps: true },
+    permissions: {
+      create: { accessLevel: 100 },
+      retrieve: { accessLevel: 0 },
+      update: { accessLevel: 300, author: true },
+      delete: { accessLevel: 300, author: true }
+    },
     populatedFields: applyFilters("post-populated-fields", [
       { field: "author", depth: 10 },
       { field: "images", depth: 30 },
@@ -53,7 +59,7 @@ export default (): FactorSchema => {
       }
     }),
     callback: (_s: Schema): void => {
-      _s.pre("save", function(this: FactorSchema["schema"] & Document, next) {
+      _s.pre("save", function(this: FactorPost & Document, next) {
         this.markModified("settings")
 
         if (!this.date && this.status == "published") {

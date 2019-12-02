@@ -2,50 +2,66 @@ import { endpointRequest } from "@factor/endpoint"
 import { stored, storeItem } from "@factor/app/store"
 import { timestamp } from "@factor/tools/time"
 import objectHash from "object-hash"
-
+import {
+  FactorPost,
+  UpdatePost,
+  UpdateManyPosts,
+  PostRequestParameters,
+  PostIndexRequestParameters,
+  PostIndex,
+  PostStatus
+} from "./types"
 import { getSchemaPopulatedFields } from "./util"
 
-function _setCache(postType) {
+function _setCache(postType: string): void {
   storeItem(`${postType}Cache`, timestamp())
 }
 
-function _cacheKey(postType) {
+function _cacheKey(postType: string): any {
   return stored(`${postType}Cache`) || ""
 }
 
-export async function sendPostRequest(method, params) {
+export async function sendPostRequest(method: string, params: object): Promise<unknown> {
   return await endpointRequest({ id: "posts", method, params })
 }
 
-export async function requestPostSave({ post, postType }) {
+export async function requestPostSave({
+  post,
+  postType
+}: UpdatePost): Promise<FactorPost> {
   _setCache(postType)
-  return await sendPostRequest("savePost", { data: post, postType })
+  const result = await sendPostRequest("savePost", { data: post, postType })
+  return result as FactorPost
 }
 
-export async function requestPostSaveMany({ _ids, data, postType }) {
+export async function requestPostSaveMany({
+  _ids,
+  data,
+  postType
+}: UpdateManyPosts): Promise<FactorPost[]> {
   _setCache(postType)
-  return await sendPostRequest("updateManyById", {
+  const result = await sendPostRequest("updateManyById", {
     data,
     _ids
   })
+
+  return result as FactorPost[]
 }
 
-export async function requestPostDeleteMany({ _ids, postType }) {
+export async function requestPostDeleteMany({
+  _ids,
+  postType
+}: UpdateManyPosts): Promise<FactorPost[]> {
   _setCache(postType)
-  return await sendPostRequest("deleteManyById", { _ids })
+
+  const result = await sendPostRequest("deleteManyById", { _ids })
+
+  return result as FactorPost[]
 }
 
-interface PostRequestParameters {
-  _id?: string;
-  status?: string;
-  createOnEmpty?: boolean;
-  postType?: string;
-  conditions?: any;
-  token?: string;
-  options?: { limit?: number; skip?: number; page?: number; sort?: string };
-}
-
-export async function requestPostSingle(args) {
+export async function requestPostSingle(
+  _arguments: PostRequestParameters
+): Promise<FactorPost> {
   const {
     permalink,
     field = "permalink",
@@ -55,7 +71,7 @@ export async function requestPostSingle(args) {
     createOnEmpty = false,
     status = "all",
     depth = 50
-  } = args
+  } = _arguments
 
   const params: PostRequestParameters = { postType, createOnEmpty, status }
 
@@ -78,10 +94,10 @@ export async function requestPostSingle(args) {
     await requestPostPopulate({ posts: [post], depth })
   }
 
-  return post
+  return post as FactorPost
 }
 
-export async function requestPostIndex(_arguments) {
+export async function requestPostIndex(_arguments): Promise<PostIndex> {
   const { limit = 10, page = 1, postType, sort } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
@@ -94,21 +110,20 @@ export async function requestPostIndex(_arguments) {
     return storedIndex
   }
 
-  const taxonomies = ["tag", "category", "status", "role"]
-
-  const params: PostRequestParameters = {
+  const params: PostIndexRequestParameters = {
     conditions: {},
     postType,
     options: { limit, skip, page, sort }
   }
 
+  const taxonomies = ["tag", "category", "status", "role"]
   taxonomies.forEach(_ => {
     if (_arguments[_]) params.conditions[_] = _arguments[_]
   })
 
-  if (!_arguments.status) params.conditions.status = { $ne: "trash" }
+  if (!_arguments.status) params.conditions.status = { $ne: PostStatus.Trash }
 
-  const { posts, meta } = await sendPostRequest("postIndex", params)
+  const { posts, meta } = (await sendPostRequest("postIndex", params)) as PostIndex
 
   storeItem(queryHash, { posts, meta })
   storeItem(postType, { posts, meta })
@@ -120,30 +135,36 @@ export async function requestPostIndex(_arguments) {
 
 // Gets List of Posts
 // The difference with 'index' is that there is no meta information returned
-export async function requestPostList(_arguments) {
+export async function requestPostList(_arguments): Promise<FactorPost[]> {
   const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = _arguments
 
   const skip = (page - 1) * limit
 
-  const posts = await sendPostRequest("postList", {
+  const posts = (await sendPostRequest("postList", {
     postType,
     conditions,
     options: { limit, skip, page, sort }
-  })
+  })) as FactorPost[]
 
   await requestPostPopulate({ posts, depth })
 
   return posts
 }
 
-export async function requestPostPopulate({ posts, depth = 10 }) {
-  let _ids = []
+export async function requestPostPopulate({
+  posts,
+  depth = 10
+}: {
+  posts: FactorPost[];
+  depth?: number;
+}): Promise<string[]> {
+  let _ids: string[] = []
 
-  posts.forEach(post => {
+  posts.forEach((post: FactorPost) => {
     storeItem(post._id, post)
 
     const populatedFields = getSchemaPopulatedFields({
-      postType: post.postType,
+      postType: post.postType ?? "post",
       depth
     })
 
@@ -164,7 +185,12 @@ export async function requestPostPopulate({ posts, depth = 10 }) {
   })
 
   if (_idsFiltered.length > 0) {
-    const posts = await sendPostRequest("populatePosts", { _ids: _idsFiltered })
+    const posts = (await sendPostRequest("populatePosts", {
+      _ids: _idsFiltered
+    })) as FactorPost[]
+
     await requestPostPopulate({ posts, depth })
   }
+
+  return _ids
 }
