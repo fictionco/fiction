@@ -1,8 +1,8 @@
 import { addFilter, setting } from "@factor/tools"
 import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
-import { FactorUser, userRolesMap } from "./types"
 import inquirer from "inquirer"
 import { Schema, SchemaDefinition, HookNextFunction, Document } from "mongoose"
+import { FactorUser, userRolesMap, UserRoles } from "./types"
 
 interface FactorUserRoles extends FactorUser {
   role: string;
@@ -40,7 +40,7 @@ addFilter("user-schema-hooks", (_s: Schema) => {
     next: HookNextFunction
   ) {
     const existing = setting(`roles.${this.email}`)
-    const configRole = this.emailVerified && existing ? existing : "member"
+    const configRole = this.emailVerified && existing ? existing : UserRoles.Member
 
     if (configRole != this.role) {
       this.role = configRole
@@ -48,7 +48,7 @@ addFilter("user-schema-hooks", (_s: Schema) => {
       return next(new Error(`Can not edit role ${this.role}`))
     }
 
-    this.accessLevel = userRolesMap[this.role] || 0
+    this.accessLevel = userRolesMap[this.role as UserRoles] || 0
 
     return next()
   })
@@ -63,7 +63,7 @@ addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
       const roles = userRolesMap
       const choices = Object.keys(roles).map(_ => {
         return {
-          name: `${_} (${roles[_]})`,
+          name: `${_} (${roles[_ as UserRoles]})`,
           value: _
         }
       })
@@ -74,7 +74,7 @@ addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
           message: "What's the user's email?",
           type: "input",
           validate: (v: string): string | boolean => {
-            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\d-A-Za-z]+\.)+[A-Za-z]{2,}))$/
             return re.test(v) ? true : "Enter a valid email address"
           }
         },

@@ -1,7 +1,7 @@
-import { objectIdType } from "./object-id"
 import { applyFilters } from "@factor/tools/filters"
-import { FactorSchema, FactorPost } from "./types"
 import { Schema, Document } from "mongoose"
+import { objectIdType } from "./object-id"
+import { FactorSchema, FactorPost } from "./types"
 
 export default (): FactorSchema => {
   return {
@@ -9,7 +9,7 @@ export default (): FactorSchema => {
     options: { timestamps: true },
     permissions: {
       create: { accessLevel: 100 },
-      retrieve: { accessLevel: 0 },
+      retrieve: { accessLevel: 100, status: { published: { accessLevel: 0 } } },
       update: { accessLevel: 300, author: true },
       delete: { accessLevel: 300, author: true }
     },
@@ -52,7 +52,7 @@ export default (): FactorSchema => {
         index: { unique: true, sparse: true },
         minlength: 3,
         validator: function(v: string): boolean {
-          return /^[a-z0-9-]+$/.test(v)
+          return /^[\d-a-z]+$/.test(v)
         },
         message: (props: { value: string }): string =>
           `${props.value} is not URL compatible.`

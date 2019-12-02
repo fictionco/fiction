@@ -2,10 +2,10 @@ import { log } from "@factor/tools"
 import { pushToFilter } from "@factor/tools/filters"
 import { writeConfig } from "@factor/cli/setup"
 import mongoose from "mongoose"
-import { getAddedSchemas } from "./util"
 import inquirer from "inquirer"
 
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
+import { getAddedSchemas } from "./util"
 
 let __schemas = {}
 let __models = {}

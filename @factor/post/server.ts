@@ -1,9 +1,18 @@
 import { addCallback } from "@factor/tools/filters"
-import { decodeToken } from "@factor/user/jwt"
+import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
-import { PostActions, FactorPost } from "./types"
 import { EndpointMeta } from "@factor/endpoint/types"
-import { canUpdatePost } from "./util"
+import {
+  PostActions,
+  FactorPost,
+  PostIndexAggregations,
+  PostIndexCounts,
+  PostIndexRequestParameters,
+  PostIndex,
+  UpdateManyPosts,
+  PostRequestParameters
+} from "./types"
+import { canUpdatePostsCondition, postPermission } from "./util"
 
 import {
   getModel,
@@ -46,24 +55,18 @@ export async function savePost(
 
   Object.assign(post, data)
 
-  return canUpdatePost({ post, bearer, action }) ? await post.save() : {}
+  return postPermission({ post, bearer, action }) ? await post.save() : {}
 }
 
 export async function getSinglePost(
-  params,
+  params: PostRequestParameters,
   meta: EndpointMeta = {}
 ): Promise<FactorPost | {}> {
   const { bearer } = meta
 
   let { _id } = params
 
-  const {
-    token,
-    postType = "post",
-    conditions,
-    createOnEmpty = false,
-    status = "all"
-  } = params
+  const { token, postType = "post", conditions, createOnEmpty = false } = params
 
   let _post
 
@@ -71,9 +74,10 @@ export async function getSinglePost(
 
   if (!Model || dbIsOffline()) return {}
 
+  // If token is sent, then return Post associated with it
   if (token) {
-    const decoded = decodeToken(token)
-    _id = decoded._id
+    const user = decodeTokenIntoUser(token)
+    _id = user._id
   }
 
   // If ID is available, first look for it.
@@ -83,15 +87,8 @@ export async function getSinglePost(
     _post = await Model.findOne(conditions)
   }
 
-  if (_post) {
-    // Check publication status. If author or mod, still return the post
-    if (
-      status == "published" &&
-      _post.status != "published" &&
-      (!bearer || (!_post.author.includes(bearer._id) && bearer.accessLevel < 100))
-    ) {
-      return null
-    }
+  if (_post && !postPermission({ post: _post, bearer, action: PostActions.Retrieve })) {
+    return {}
   }
   // If ID is unset or if it isn't found, create a new post model/doc
   // This is not saved at this point, leading to a post sometimes not existing although an ID exists
@@ -104,40 +101,49 @@ export async function getSinglePost(
   return _post
 }
 
-function authorCondition(bearer): { author?: string } {
-  return bearer.accessLevel >= 300 ? {} : { author: bearer._id }
-}
-
 export async function updateManyById(
-  { _ids, postType = "post", data },
+  { _ids, postType = "post", data }: UpdateManyPosts,
   { bearer }: EndpointMeta
-) {
+): Promise<FactorPost[]> {
+  const permissionCondition = canUpdatePostsCondition({
+    bearer,
+    action: PostActions.Update,
+    postType
+  })
+
   return await getModel(postType).update(
-    { $and: [authorCondition(bearer), { _id: { $in: _ids } }] },
+    { $and: [permissionCondition, { _id: { $in: _ids } }] },
     { $set: data },
     { multi: true }
   )
 }
 
 export async function deleteManyById(
-  { _ids, postType = "post" },
+  { _ids, postType = "post" }: UpdateManyPosts,
   { bearer }: EndpointMeta
-) {
+): Promise<FactorPost[]> {
+  const permissionCondition = canUpdatePostsCondition({
+    bearer,
+    action: PostActions.Delete,
+    postType
+  })
   return await getModel(postType).remove({
-    $and: [authorCondition(bearer), { _id: { $in: _ids } }]
+    $and: [permissionCondition, { _id: { $in: _ids } }]
   })
 }
 
-export async function populatePosts({ _ids }) {
+export async function populatePosts({ _ids }: UpdateManyPosts): Promise<FactorPost[]> {
   if (dbIsOffline()) return []
 
   const _in = Array.isArray(_ids) ? _ids : [_ids]
   const result = await getModel("post").find({ _id: { $in: _in } })
 
-  return Array.isArray(_ids) ? result : result[0]
+  return result
 }
 
-export async function postList(params) {
+export async function postList(
+  params: PostIndexRequestParameters
+): Promise<FactorPost[]> {
   if (dbIsOffline()) return []
 
   const { postType, conditions = {}, select = null } = params
@@ -156,7 +162,7 @@ export async function postList(params) {
   return await getModel(postType).find(conditions, select, options)
 }
 
-export async function postIndex(params) {
+export async function postIndex(params: PostIndexRequestParameters): Promise<PostIndex> {
   if (dbIsOffline()) return { meta: {}, posts: [] }
 
   const { postType, conditions = {} } = params
@@ -182,7 +188,11 @@ export async function postIndex(params) {
   return { meta: { ...counts, ...options, conditions }, posts }
 }
 
-export async function indexMeta({ postType, conditions, options }) {
+export async function indexMeta({
+  postType,
+  conditions,
+  options
+}: PostIndexRequestParameters): Promise<PostIndexAggregations & PostIndexCounts> {
   const { limit = 20, skip = 0 } = options || {}
   const ItemModel = getModel(postType)
 

@@ -7,9 +7,9 @@ import {
   addPostType,
   extendPostSchema
 } from "@factor/tools"
+import { RouteConfig } from "vue-router"
 import { TemplateConfig, TemplateOption } from "./types"
 import pageSchema from "./schema"
-import { RouteConfig } from "vue-router"
 
 extendPostSchema(() => pageSchema())
 

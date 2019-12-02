@@ -1,7 +1,20 @@
 import { applyFilters, pushToFilter } from "@factor/tools/filters"
-export * from "./object-id"
+
 import postSchema from "@factor/post/schema"
-import { FactorSchema, FactorSchemaModule, DetermineUpdatePermissions } from "./types"
+import { deepMerge } from "@factor/tools/utils"
+import { UserRoles, CurrentUserState } from "@factor/user/types"
+import { roleAccessLevel } from "@factor/user/util"
+import {
+  DetermineUpdatePermissions,
+  FactorSchema,
+  FactorSchemaModule,
+  SchemaPermissions,
+  FactorPost,
+  PostIndexMeta,
+  PostActions
+} from "./types"
+
+export * from "./object-id"
 
 export function extendPostSchema(config: FactorSchemaModule): void {
   pushToFilter("data-schemas", config)
@@ -40,47 +53,128 @@ export function getSchemaPopulatedFields({
   return pop
 }
 
-export function canUpdatePost({
+export function getSchemaPermissions({
+  postType
+}: {
+  postType: string;
+}): SchemaPermissions {
+  const { permissions = {} } = getSchema("post")
+
+  let subPermissions = {}
+  if (postType !== "post") {
+    const subSchema = getSchema(postType)
+
+    if (subSchema.permissions) {
+      subPermissions = subSchema.permissions
+    }
+  }
+
+  return deepMerge([permissions, subPermissions])
+}
+
+export function isPostAuthor({
+  user,
+  post
+}: {
+  user: CurrentUserState;
+  post: FactorPost;
+}): boolean {
+  if (!user) {
+    return false
+  }
+
+  const userId = user._id.toString()
+  const authors = post.author ? post.author.map(authorId => authorId.toString()) : []
+  const postId = post._id.toString()
+
+  return (userId && authors.includes(userId)) || userId == postId ? true : false
+}
+
+// Get the count of posts with a given status (or similar)
+// Null values (e.g. status is unset) should be given the value assigned by nullKey
+// Use in table control filtering
+export function getStatusCount({
+  meta,
+  field = "status",
+  key,
+  nullKey = ""
+}: {
+  meta: PostIndexMeta;
+  field?: string;
+  key: string;
+  nullKey?: string;
+}): number {
+  if (!meta[field]) return 0
+
+  let count
+
+  const result = meta[field].find((_: { _id: string }) => _._id == key)
+
+  count = result ? result.count : 0
+
+  if (nullKey && key == nullKey) {
+    const nullsCount = meta[field].find((_: { _id: string }) => _._id == null)
+    count += nullsCount ? nullsCount.count : 0
+  }
+  return count
+}
+
+export function postPermission({
   bearer,
   post,
   action
-}: DetermineUpdatePermissions): boolean {
+}: {
+  bearer: CurrentUserState;
+  post: FactorPost;
+  action: PostActions;
+}): boolean {
   if (process.env.FACTOR_ENV == "test") return true
 
-  const schema = getSchema(post.__t)
+  const permissionsConfig = getSchemaPermissions({ postType: post.__t })
 
-  const accessLevel = bearer?.accessLevel ?? 0
-  const _id = bearer?._id ? bearer._id.toString() : ""
-  const authors = post.author ? post.author.map(_ => _.toString()) : []
-  const postId = post._id.toString()
+  const { accessLevel, role, author } = permissionsConfig[action] ?? { accessLevel: 300 }
 
-  if (action == "create" && schema.anonymousUserCanCreate) {
+  const postAccessLevel = accessLevel ? accessLevel : roleAccessLevel(role as UserRoles)
+
+  const userRole = (bearer?.role as UserRoles) ?? UserRoles.Anonymous
+
+  const userAccessLevel = bearer?.accessLevel ?? roleAccessLevel(userRole)
+
+  const isAuthor = isPostAuthor({ user: bearer, post })
+
+  if (userAccessLevel >= postAccessLevel) {
     return true
-  } else if (
-    bearer &&
-    (accessLevel >= 300 || (_id && authors.includes(_id)) || _id == postId)
-  ) {
+  } else if (author && isAuthor) {
     return true
   } else {
     throw new Error("Insufficient permissions.")
   }
 }
 
-// Get the count of posts with a given status (or similar)
-// Null values (e.g. status is unset) should be given the value assigned by nullKey
-// Use in table control filtering
-export function getStatusCount({ meta, field = "status", key, nullKey = false }) {
-  if (!meta[field]) {
-    return 0
-  }
+export function canUpdatePostsCondition({
+  bearer,
+  action,
+  postType = "post"
+}: DetermineUpdatePermissions): { author?: string } {
+  if (process.env.FACTOR_ENV == "test") return {}
 
-  let count
-  const result = meta[field].find(_ => _._id == key)
+  const permissionsConfig = getSchemaPermissions({ postType })
 
-  count = result ? result.count : 0
-  if (nullKey && key == nullKey) {
-    const nullsCount = meta[field].find(_ => _._id == null)
-    count += nullsCount ? nullsCount.count : 0
+  const { accessLevel, role, author } = permissionsConfig[action] ?? { accessLevel: 300 }
+
+  const postAccessLevel = accessLevel ? accessLevel : roleAccessLevel(role as UserRoles)
+
+  const userRole = (bearer?.role as UserRoles) ?? UserRoles.Anonymous
+
+  const authorId = bearer?._id ?? false
+
+  const userAccessLevel = bearer?.accessLevel ?? roleAccessLevel(userRole)
+
+  if (userAccessLevel >= postAccessLevel) {
+    return {}
+  } else if (author && authorId) {
+    return { author: authorId }
+  } else {
+    throw new Error("Insufficient permissions.")
   }
-  return count
 }

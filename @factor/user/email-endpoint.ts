@@ -1,10 +1,10 @@
 import { getModel, savePost } from "@factor/post/server"
-import { randomToken, addFilter, addCallback, currentUrl } from "@factor/tools"
+import { addCallback, addFilter, currentUrl, randomToken } from "@factor/tools"
 import { sendTransactional } from "@factor/email/server"
-import { HookNextFunction, Schema, Document, SchemaDefinition } from "mongoose"
-import { FactorUser } from "./types"
+import { Document, HookNextFunction, Schema, SchemaDefinition } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
-import { SendVerifyEmail, VerifyEmail, VerifyAndResetPassword } from "./email-request"
+import { FactorUser } from "./types"
+import { SendVerifyEmail, VerifyAndResetPassword, VerifyEmail } from "./email-request"
 
 addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
 
@@ -71,7 +71,7 @@ export async function sendVerifyEmail(
 ): Promise<void> {
   const emailVerificationCode = randomToken()
 
-  await savePost({ data: { _id, emailVerificationCode, postType: "user" } }, { bearer })
+  await savePost({ postType: "user", data: { _id, emailVerificationCode } }, { bearer })
 
   await sendEmail({
     to: email,

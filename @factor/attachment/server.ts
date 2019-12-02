@@ -1,12 +1,9 @@
 import { getModel } from "@factor/post/server"
-import { objectId, canUpdatePost } from "@factor/post/util"
+import { objectId, postPermission } from "@factor/post/util"
+import { PostActions, FactorPost } from "@factor/post/types"
+import { EndpointMeta } from "@factor/endpoint/types"
 import { processEndpointRequest, addEndpoint } from "@factor/endpoint/server"
-import {
-  pushToFilter,
-  applyFilters,
-  runCallbacks,
-  addCallback
-} from "@factor/tools/filters"
+import { pushToFilter, applyFilters, runCallbacks } from "@factor/tools/filters"
 import { Request, Response } from "express"
 import mime from "mime-types"
 import multer from "multer"
@@ -32,9 +29,13 @@ pushToFilter("middleware", {
   ]
 })
 
-async function handleUpload({ meta }): Promise<object> {
+async function handleUpload({
+  meta
+}: {
+  meta: EndpointMeta;
+}): Promise<object | undefined> {
   const { bearer, request } = meta
-  const { file } = request
+  const { file } = request ?? {}
 
   if (!file || !bearer) return
 
@@ -65,10 +66,13 @@ async function handleUpload({ meta }): Promise<object> {
   return attachment.toObject()
 }
 
-export async function deleteImage({ _id }, { bearer }) {
+export async function deleteImage(
+  { _id },
+  { bearer }: EndpointMeta
+): Promise<FactorPost> {
   const post = await getModel("attachment").findOne({ _id })
 
-  canUpdatePost({ bearer, post, action: "delete" })
+  postPermission({ bearer, post, action: PostActions.Delete })
 
   const doc = await post.deleteOne({ _id })
 

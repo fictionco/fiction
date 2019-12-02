@@ -11,12 +11,12 @@ export enum UserRoles {
   Admin = "admin",
   Moderator = "moderator",
   Editor = "editor",
-  Author = "author",
+  Creator = "creator",
   Member = "member",
   Anonymous = "anonymous"
 }
 
-export const userRolesMap: Record<string, number> = {
+export const userRolesMap: { [index in UserRoles]: number } = {
   admin: 500,
   moderator: 300,
   editor: 200,

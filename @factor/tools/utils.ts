@@ -61,13 +61,14 @@ export function sortMerge(arr: PriorityItem[]): object {
 
 // Deep merge an array of objects into a single object
 // Replaces arrays instead of concat
-export function deepMerge(items: object[]): object {
-  return deepMergeLib.all(
-    items.filter(_ => _),
-    {
-      arrayMerge: (destinationArray, sourceArray) => sourceArray
-    }
-  )
+export function deepMerge<T>(items: Partial<T>[]): object {
+  const mergeItems = items.filter(_ => _)
+
+  const merged = deepMergeLib.all(mergeItems, {
+    arrayMerge: (destinationArray, sourceArray) => sourceArray
+  })
+
+  return merged
 }
 
 interface ListItem {
@@ -153,7 +154,7 @@ export function stopWordLowercase(str: string, lib: string[] = []): string {
 export function toPascalCase(string: string): string {
   return `${string}`
     .replace(new RegExp(/[-_]+/, "g"), " ")
-    .replace(new RegExp(/[^\w\s]/, "g"), "")
+    .replace(new RegExp(/[^\s\w]/, "g"), "")
     .replace(
       new RegExp(/\s+(.)(\w+)/, "g"),
       ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`

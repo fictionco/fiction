@@ -1,8 +1,17 @@
 import { CurrentUserState } from "@factor/user/types"
 import mongoose from "mongoose"
+import { Component } from "vue"
+export type PopulatedPost = mongoose.Types.ObjectId
+export type PopulatedPosts = mongoose.Types.ObjectId[]
 
 export interface PostEndpointMeta {
   bearer?: CurrentUserState;
+}
+
+export interface PostEditComponent {
+  postType: string[];
+  name: string;
+  component: () => Promise<Component>;
 }
 
 export enum PostStatus {
@@ -35,21 +44,48 @@ export interface PostRequestParameters {
   depth?: number;
 }
 
+export type PostIndexParametersFlat = PostIndexOptions &
+  PostIndexConditions & {
+    postType: string;
+    select?: string | null;
+  }
+
 export interface PostIndexRequestParameters {
   postType: string;
-  options: { limit?: number; page?: number; skip?: number; sort?: string };
-  conditions: {
-    [index: string]: any;
-    status?: PostStatus | { $ne: PostStatus };
-    tag?: string;
-    category?: string;
-    role?: string;
-  };
+  select?: string | null;
+  options: PostIndexOptions;
+  conditions: PostIndexConditions;
+}
+
+export interface PostIndexOptions {
+  limit?: number;
+  page?: number;
+  skip?: number;
+  sort?: string;
+}
+
+export interface PostIndexConditions {
+  [index: string]: any;
+  status?: PostStatus | { $ne: PostStatus };
+  tag?: string;
+  category?: string;
+  role?: string;
 }
 
 export interface PostIndex {
-  meta: {};
+  meta: PostIndexMeta | {};
   posts: FactorPost[];
+}
+
+export type PostIndexMeta = PostIndexAggregations &
+  PostIndexCounts &
+  PostIndexOptions & { conditions: PostIndexConditions } & { [key: string]: any }
+
+export interface PostIndexAggregations {
+  tags: any;
+  category: any;
+  status: any;
+  role: any;
 }
 
 export interface PostIndexCounts {
@@ -68,8 +104,9 @@ export enum PostActions {
 
 export interface DetermineUpdatePermissions {
   bearer: CurrentUserState;
-  post: FactorPost;
+  post?: FactorPost;
   action: PostActions;
+  postType?: string;
 }
 
 export type FactorSchemaModule = FactorSchema | { (): FactorSchema }
@@ -83,6 +120,14 @@ export interface PermissionLevel {
   accessLevel?: number;
   role?: string;
   author?: boolean;
+  status?: { [key in PostStatus]?: PermissionLevel };
+}
+
+export interface SchemaPermissions {
+  create?: PermissionLevel;
+  retrieve?: PermissionLevel;
+  update?: PermissionLevel;
+  delete?: PermissionLevel;
 }
 
 export interface FactorSchema {
@@ -91,16 +136,8 @@ export interface FactorSchema {
   schema: mongoose.SchemaDefinition;
   populatedFields?: PopulatedField[];
   callback?: (s: mongoose.Schema) => void;
-  permissions?: {
-    create?: PermissionLevel;
-    retrieve?: PermissionLevel;
-    update?: PermissionLevel;
-    delete?: PermissionLevel;
-  };
+  permissions?: SchemaPermissions;
 }
-
-export type PopulatedPost = mongoose.Types.ObjectId
-export type PopulatedPosts = mongoose.Types.ObjectId[]
 
 export interface FactorPost {
   date?: string;

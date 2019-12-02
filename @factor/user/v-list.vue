@@ -10,9 +10,7 @@
     <dashboard-grid :structure="tableStructure()" :rows="list" :zero-state="7">
       <template #name="{row}">
         <div class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{
-            row.displayName
-          }}</factor-link>
+          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{ row.displayName }}</factor-link>
           <factor-link
             v-if="row.email"
             class="permalink"
@@ -33,7 +31,7 @@
   </dashboard-pane>
 </template>
 
-<script>
+<script lang="ts">
 import {
   dashboardPane,
   dashboardTableFooter,
@@ -63,7 +61,7 @@ export default Vue.extend({
     loading: { type: Boolean, default: false }
   },
   computed: {
-    tabs() {
+    tabs(): { name: string; value: string; count: number }[] {
       return [`all`, `admin`, `moderator`, `member`].map(key => {
         const count =
           key == "all"
@@ -107,7 +105,7 @@ export default Vue.extend({
   methods: {
     toLabel,
     standardDate,
-    postlink(postType, permalink, root = true) {
+    postlink(postType: string, permalink: string, root = true) {
       return getPermalink({ postType, permalink, root })
     },
 

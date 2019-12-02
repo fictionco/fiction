@@ -44,6 +44,12 @@ module.exports = {
     "no-console": "error",
     "no-debugger": "error",
     "arrow-parens": ["error", "as-needed"],
+    "import/order": [
+      "error",
+      {
+        groups: ["builtin", "external", "parent", "sibling", "index"]
+      }
+    ],
     complexity: 2,
     semi: ["error", "never"],
     "unicorn/no-abusive-eslint-disable": 0,

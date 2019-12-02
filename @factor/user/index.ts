@@ -1,7 +1,6 @@
 import { endpointRequest } from "@factor/endpoint"
 import { requestPostSingle, requestPostPopulate } from "@factor/post"
-import { userToken, handleTokenError } from "./token"
-
+import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
 import {
   isEmpty,
@@ -22,11 +21,13 @@ import {
   FactorUserCredential,
   AuthenticationParameters,
   userRolesMap,
-  CurrentUserState
+  CurrentUserState,
+  UserRoles
 } from "./types"
 import "./hooks-universal"
 import "./edit-account"
-import { appMounted } from "@factor/app"
+
+import { userToken, handleTokenError } from "./token"
 
 export * from "./email-request"
 
@@ -81,7 +82,7 @@ async function retrieveAndSetCurrentUser(
 
   try {
     if (token) {
-      user = await requestPostSingle({ token })
+      user = (await requestPostSingle({ token })) as FactorUserCredential
 
       setUser({ user, token, current: true })
     }
@@ -179,7 +180,7 @@ export function userCan({
 }): boolean {
   const current = currentUser()
   const userAccessLevel = current && current.accessLevel ? current.accessLevel : 0
-  const roleAccessLevel = role ? userRolesMap[role] : 1000
+  const roleAccessLevel = role ? userRolesMap[role as UserRoles] : 1000
   if (accessLevel >= 0 && userAccessLevel >= accessLevel) {
     return true
   } else if (role && userAccessLevel >= roleAccessLevel) {

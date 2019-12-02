@@ -111,7 +111,7 @@
     </div>
   </dashboard-page>
 </template>
-<script>
+<script lang="ts">
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
 import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import { userId, sendVerifyEmail } from "@factor/user"
@@ -157,7 +157,7 @@ export default Vue.extend({
   methods: {
     userId,
     standardDate,
-    async sendVerifyEmail() {
+    async sendVerifyEmail(this: any) {
       this.sending = true
       await sendVerifyEmail({
         email: this.post.email,

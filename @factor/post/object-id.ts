@@ -1,11 +1,11 @@
-import mongoose from "mongoose/browser"
+import { Types, Schema } from "mongoose"
 
-export const objectIdType = () => mongoose.Schema.Types.ObjectId
+export const objectIdType = (): typeof Schema.Types.ObjectId => Schema.Types.ObjectId
 
-export function objectId(str) {
-  return mongoose.Types.ObjectId(str)
+export function objectId(str: string): Types.ObjectId {
+  return Types.ObjectId(str)
 }
 
-export function createObjectId() {
-  return new mongoose.Types.ObjectId()
+export function createObjectId(): Types.ObjectId {
+  return new Types.ObjectId()
 }

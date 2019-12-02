@@ -1,5 +1,6 @@
 import { CurrentUserState } from "@factor/user/types"
-import { Request, Response } from "express"
+import { Response, Request } from "express"
+
 export type responseType = object | (string | object | number)[] | string
 
 export interface EndpointRequestHandler {

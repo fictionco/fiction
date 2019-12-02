@@ -7,6 +7,7 @@ import {
   UpdatePost,
   UpdateManyPosts,
   PostRequestParameters,
+  PostIndexParametersFlat,
   PostIndexRequestParameters,
   PostIndex,
   PostStatus
@@ -88,7 +89,7 @@ export async function requestPostSingle(
     params.token = token
   }
 
-  const post = await sendPostRequest("getSinglePost", params)
+  const post = (await sendPostRequest("getSinglePost", params)) as FactorPost
 
   if (post) {
     await requestPostPopulate({ posts: [post], depth })
@@ -97,7 +98,9 @@ export async function requestPostSingle(
   return post as FactorPost
 }
 
-export async function requestPostIndex(_arguments): Promise<PostIndex> {
+export async function requestPostIndex(
+  _arguments: PostIndexParametersFlat
+): Promise<PostIndex> {
   const { limit = 10, page = 1, postType, sort } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
@@ -135,7 +138,9 @@ export async function requestPostIndex(_arguments): Promise<PostIndex> {
 
 // Gets List of Posts
 // The difference with 'index' is that there is no meta information returned
-export async function requestPostList(_arguments): Promise<FactorPost[]> {
+export async function requestPostList(
+  _arguments: PostIndexParametersFlat
+): Promise<FactorPost[]> {
   const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = _arguments
 
   const skip = (page - 1) * limit
