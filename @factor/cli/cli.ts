@@ -80,7 +80,7 @@ interface CommandOptions {
   NODE_ENV?: string;
 }
 
-export async function runCommand(options: CommandOptions): Promise<never> {
+export async function runCommand(options: CommandOptions): Promise<void> {
   const {
     command,
     _arguments,
@@ -107,7 +107,7 @@ export async function runCommand(options: CommandOptions): Promise<never> {
     }
 
     if (["start", "dev", "serve"].includes(command)) {
-      await runServer({ NODE_ENV, ..._arguments }) // Long running process
+      await runServer() // Long running process
     } else {
       if (command) log.success(`Successfully ran [${command}]`)
       // eslint-disable-next-line unicorn/no-process-exit
@@ -120,7 +120,7 @@ export async function runCommand(options: CommandOptions): Promise<never> {
   return
 }
 
-export async function runServer(_arguments): Promise<void> {
+export async function runServer(): Promise<void> {
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {
@@ -136,5 +136,5 @@ export async function runServer(_arguments): Promise<void> {
 
   log.formatted(message)
 
-  await tools.runCallbacks("create-server", _arguments)
+  await tools.runCallbacks("create-server")
 }

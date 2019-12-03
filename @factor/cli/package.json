@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/listr": "^0.14.2",
+    "@types/module-alias": "^2.0.0",
     "chalk": "^3.0.0",
     "cli-highlight": "^2.1.1",
     "commander": "^4.0.0",

@@ -1,11 +1,12 @@
 import { dirname, resolve } from "path"
-import { getWebpackConfig, getDefinedValues } from "@factor/build/webpack-config"
-import webpack from "webpack"
-import jsdom from "jsdom"
-import { waitFor } from "@test/utils"
-import { overrideOperator, browserReplaceModule } from "@factor/build/webpack-overrides"
+import { browserReplaceModule, overrideOperator } from "@factor/build/webpack-overrides"
+import { getDefinedValues, getWebpackConfig } from "@factor/build/webpack-config"
+
 import { deepMerge } from "@factor/tools"
 import { existsSync } from "fs-extra"
+import jsdom from "jsdom"
+import { waitFor } from "@test/utils"
+import webpack from "webpack"
 describe("webpack", () => {
   describe("webpack-config", () => {
     it("returns the correct development config", async () => {
@@ -36,8 +37,8 @@ describe("webpack", () => {
 
       expect(clientConfig.entry).toContain("entry-browser")
 
-      expect(clientConfig.resolve.alias["__SRC__"]).toContain("test-files")
-      expect(clientConfig.resolve.alias["__CWD__"]).toContain("test-files")
+      expect(clientConfig.resolve?.alias?.__SRC__).toContain("test-files")
+      expect(clientConfig.resolve?.alias?.__CWD__).toContain("test-files")
     })
 
     it("returns the correct production config", async () => {
@@ -82,9 +83,9 @@ describe("webpack", () => {
 
     it("supports bundle analysis", async () => {
       const config = await getWebpackConfig({ analyze: true })
-      const plugins = config.plugins.map(_ => _.constructor.name)
+      const plugins = config.plugins?.map(_ => _.constructor.name)
 
-      expect(plugins.includes("BundleAnalyzerPlugin")).toBe(true)
+      if (plugins) expect(plugins.includes("BundleAnalyzerPlugin")).toBe(true)
     })
 
     it("defines application ENV variables", () => {

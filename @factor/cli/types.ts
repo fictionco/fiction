@@ -16,8 +16,9 @@ export interface FactorPackageJson {
   scripts?: Record<string, string>;
   workspaces?: string[];
   factor?: {
-    load?: string[] | string | { app: string | string[]; server: string | string[] };
-    extend?: string;
+    _id?: string;
+    load?: LoadTarget;
+    extend?: ExtendTypes;
     priority?: number;
   };
   repository?: { type?: string; url: string };
@@ -29,8 +30,12 @@ export enum LoadTargets {
   App = "app"
 }
 
-export type LoadTarget = {
-  [key in LoadTargets]?: { file: string; _id: string; priority: number }[]
+export type LoadTarget = string[] | string | NormalizedLoadTarget
+
+export type NormalizedLoadTarget = {
+  [key: string]: { file: string; _id?: string; priority?: number }[];
+  app: { file: string; _id?: string; priority?: number }[];
+  server: { file: string; _id?: string; priority?: number }[];
 }
 
 export interface FactorExtension {
@@ -41,5 +46,5 @@ export interface FactorExtension {
   main: string;
   name: string;
   version: string;
-  load: LoadTarget;
+  load: NormalizedLoadTarget;
 }

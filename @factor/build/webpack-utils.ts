@@ -1,12 +1,12 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
-import webpack from "webpack"
+import webpack, { Configuration } from "webpack"
 import log from "@factor/tools/logger"
 import { applyFilters } from "@factor/tools/filters"
 import cssNano from "cssnano"
 import webpackProgressPlugin from "webpack/lib/ProgressPlugin"
 import cliProgress from "cli-progress"
 
-export function cssLoaders({ target, lang }): object[] {
+export function cssLoaders({ target, lang }: { target: string; lang: string }): object[] {
   const postCssPlugins = applyFilters("postcss-plugins", [cssNano({ preset: "default" })])
 
   const _base = [
@@ -38,7 +38,13 @@ export function cssLoaders({ target, lang }): object[] {
   return [...__, ..._base]
 }
 
-export async function enhancedBuild({ name, config }): Promise<void> {
+export async function enhancedBuild({
+  name,
+  config
+}: {
+  name: string;
+  config: Configuration;
+}): Promise<void> {
   const compiler = webpack(config)
 
   const { Bar, Presets } = cliProgress
@@ -49,7 +55,9 @@ export async function enhancedBuild({ name, config }): Promise<void> {
     _bar.start(100, 1, { msg: "" })
 
     compiler.apply(
-      new webpackProgressPlugin((ratio, msg) => _bar.update(ratio * 100, { msg }))
+      new webpackProgressPlugin((ratio: number, msg: string) =>
+        _bar.update(ratio * 100, { msg })
+      )
     )
 
     compiler.run((err, stats) => {

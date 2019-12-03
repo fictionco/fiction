@@ -26,7 +26,7 @@ interface FactorBundleOptions {
 }
 
 interface FactorWebpackConfig {
-  target: string;
+  target?: string;
   analyze?: boolean;
   testing?: boolean;
   clean?: boolean;
@@ -77,7 +77,12 @@ export async function buildProductionApp(_arguments = {}): Promise<void[]> {
 export async function getWebpackConfig(
   _arguments: FactorWebpackConfig
 ): Promise<Configuration> {
-  const { target, analyze = false, testing = false, clean = false } = _arguments
+  const {
+    target = "server",
+    analyze = false,
+    testing = false,
+    clean = false
+  } = _arguments
 
   const baseConfig = await base({ target })
 

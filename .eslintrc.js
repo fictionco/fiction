@@ -55,6 +55,7 @@ module.exports = {
     semi: ["error", "never"],
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "import/no-cycle": 2,
     "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
     "vue/html-self-closing": 0,

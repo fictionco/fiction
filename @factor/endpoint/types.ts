@@ -1,10 +1,11 @@
-import { CurrentUserState } from "@factor/user/types"
-import { Response, Request } from "express"
+import { Request, Response } from "express"
 
-export type responseType = object | (string | object | number)[] | string
+import { CurrentUserState } from "@factor/user/types"
+
+export type ResponseType = object | (string | object | number)[] | string
 
 export interface EndpointRequestHandler {
-  ({ data, meta }: EndpointRequestParams): Promise<responseType>;
+  ({ data, meta }: EndpointRequestParams): Promise<ResponseType>;
 }
 
 export interface EndpointRequestParams {
@@ -14,7 +15,7 @@ export interface EndpointRequestParams {
 
 export interface EndpointItem {
   id: string;
-  handler: () => Record<string, Function> | Record<string, Function>;
+  handler: (() => Record<string, Function>) | Record<string, Function>;
 }
 
 export interface EndpointMeta {

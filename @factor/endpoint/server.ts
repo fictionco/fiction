@@ -1,15 +1,16 @@
+import { Request, Response } from "express"
 import { addCallback, addFilter, applyFilters, log } from "@factor/tools"
+
+import { FactorUser } from "@factor/user/types"
 import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
-import { Request, Response } from "express"
-import { FactorUser } from "@factor/user/types"
 import {
-  responseType,
-  EndpointRequestParams,
   EndpointItem,
   EndpointMeta,
-  EndpointRequestConfig
+  EndpointRequestConfig,
+  EndpointRequestParams,
+  ResponseType
 } from "./types"
 
 // Run after other imports have added themselves
@@ -82,7 +83,7 @@ export async function processEndpointRequest({
 
   const { authorization } = headers
 
-  const responseJson: { result: responseType; error: object } = { result: "", error: {} }
+  const responseJson: { result: ResponseType; error: object } = { result: "", error: {} }
 
   // Authorization / Bearer
   // If there is an error leave as null bearer but still run method

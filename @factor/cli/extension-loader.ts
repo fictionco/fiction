@@ -1,4 +1,5 @@
 import { dirname, parse } from "path"
+
 import { getPath } from "@factor/tools/paths"
 import { toPascalCase, sortPriority } from "@factor/tools/utils"
 import fs from "fs-extra"
@@ -6,10 +7,11 @@ import glob from "glob"
 import log from "@factor/tools/logger"
 import {
   FactorPackageJson,
-  LoadTarget,
   FactorExtension,
   ExtendTypes,
-  LoadTargets
+  LoadTargets,
+  NormalizedLoadTarget,
+  LoadTarget
 } from "./types"
 
 interface LoaderFile {
@@ -73,7 +75,7 @@ function generateExtensionList(packagePaths: FactorPackageJson[]): FactorExtensi
   packagePaths.forEach(_ => {
     const {
       name,
-      factor: { priority = null, load = false, extend = "plugin" } = {},
+      factor: { priority = 100, load = [], extend = ExtendTypes.Plugin } = {},
       version,
       main = "index"
     } = _
@@ -165,7 +167,7 @@ function makeModuleLoader({
   filtered.forEach(extension => {
     const { load, name, cwd } = extension
 
-    load[loadTarget].forEach(({ _id, file, priority = 100 }) => {
+    load[loadTarget].forEach(({ _id = "", file, priority = 100 }) => {
       const _module = `${cwd ? ".." : name}/${file}`
 
       const moduleName = _module.replace(/\.[^./]+$/, "").replace(/\/index$/, "")
@@ -181,7 +183,15 @@ function makeModuleLoader({
   callback(sortPriority(files))
 }
 
-function makeFileLoader({ extensions, filename, callback }): void {
+function makeFileLoader({
+  extensions,
+  filename,
+  callback
+}: {
+  extensions: FactorExtension[];
+  filename: string;
+  callback: (files: LoaderFile[]) => void;
+}): void {
   const files: LoaderFile[] = []
 
   extensions.forEach(_ => {
@@ -196,7 +206,7 @@ function makeFileLoader({ extensions, filename, callback }): void {
         const _module = fullPath.replace(dir, requireBase)
         const moduleName = _module.replace(/\.js$/, "").replace(/\/index$/, "")
 
-        if (moduleName.includes("node_modules")) return false
+        if (moduleName.includes("node_modules")) return
 
         return {
           _id: index == 0 ? _id : `${_id}_${index}`,
@@ -205,8 +215,11 @@ function makeFileLoader({ extensions, filename, callback }): void {
           priority
         }
       })
-      .filter(_ => _)
-      .forEach(lPath => files.push(lPath))
+      .forEach(lPath => {
+        if (lPath) {
+          files.push(lPath)
+        }
+      })
   })
 
   callback(files)
@@ -239,8 +252,16 @@ function recursiveDependencies(
 // load: {
 //  "server": ["_id": "myId", "file": "some-file.js"]
 // }
-function normalizeLoadTarget({ load, main, _id }): LoadTarget {
-  const __ = {}
+function normalizeLoadTarget({
+  load,
+  main,
+  _id
+}: {
+  load: LoadTarget;
+  main: string;
+  _id: string;
+}): NormalizedLoadTarget {
+  const __: NormalizedLoadTarget = { app: [], server: [] }
 
   if (!load) return __
 
@@ -266,16 +287,22 @@ function normalizeLoadTarget({ load, main, _id }): LoadTarget {
   return __
 }
 
-function writeFile({ destination, content }): void {
+function writeFile({
+  destination,
+  content
+}: {
+  destination: string;
+  content: string;
+}): void {
   fs.ensureDirSync(dirname(destination))
   fs.writeFileSync(destination, content)
 }
 
-function loaderString(files): string {
+function loaderString(files: LoaderFile[]): string {
   return files.map(({ file }) => `import "${file}"`).join("\n")
 }
 
-function loaderStringOrdered(files): string {
+function loaderStringOrdered(files: LoaderFile[]): string {
   const lines = files.map(
     ({ _id, file, priority }) =>
       `import { default as ${_id} } from "${file}" // ${priority}`
@@ -294,7 +321,7 @@ function loadExtensions(pkg: FactorPackageJson): FactorExtension[] {
   return generateExtensionList(dependents)
 }
 
-function getDirectory({ name, main = "" }: { name: string; main: string }): string {
+function getDirectory({ name, main = "" }: { name: string; main?: string }): string {
   const resolver = isCWD(name) ? getCWD() : name
 
   let root
@@ -307,7 +334,15 @@ function getDirectory({ name, main = "" }: { name: string; main: string }): stri
   return dirname(root)
 }
 
-function getRequireBase({ cwd, name, main = "package.json" }): string {
+function getRequireBase({
+  cwd,
+  name,
+  main = "package.json"
+}: {
+  cwd: boolean;
+  name: string;
+  main?: string;
+}): string {
   return dirname([cwd ? ".." : name, main].join("/"))
 }
 
@@ -336,7 +371,7 @@ function getPriority({
 }
 
 // Get standard reference ID
-function getId({ _id, name = "", main = "index", file = "" }): string {
+function getId({ _id = "", name = "", main = "index", file = "" }): string {
   let __
   if (isCWD(name)) {
     __ = "cwd"

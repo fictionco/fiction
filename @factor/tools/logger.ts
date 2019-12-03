@@ -45,7 +45,7 @@ export class FactorLogger {
     color = "cyan"
   }: {
     title: string;
-    lines?: { title: string; value: string; indent?: boolean }[];
+    lines?: { title: string; value?: string; indent?: boolean }[];
     format?: string;
     color?: string;
   }): void {

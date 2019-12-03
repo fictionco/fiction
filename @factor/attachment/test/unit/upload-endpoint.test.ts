@@ -1,31 +1,31 @@
 /**
  * @jest-environment node
  */
-
-import fs from "fs"
-import { getPort } from "@test/utils"
-
-import { startEndpointTestingServer, stopEndpointTestingServer } from "@test/utils/mongod"
-import FormData from "form-data"
-import { uploadEndpointPath } from "../../util"
+/* eslint-disable import/order */
 import "../../server"
-import { resolve } from "path"
-import { authorizedRequest, endpointRequest } from "@factor/endpoint"
 
 import * as filters from "@factor/tools/filters"
 
+import { authorizedRequest, endpointRequest } from "@factor/endpoint"
+import { startEndpointTestingServer, stopEndpointTestingServer } from "@test/utils/mongod"
+
+import FormData from "form-data"
+import fs from "fs"
+import { getPort } from "@test/utils"
+import { resolve } from "path"
+import { uploadEndpointPath } from "../../util"
+
 jest.setTimeout(120000) // needs to download mongodb 60mb
 let port
-let __id
-let spies
+
+let __id: string
+const spies = {
+  applyFilters: jest.spyOn(filters, "applyFilters")
+}
 describe("upload endpoint", () => {
   beforeAll(async () => {
     port = await getPort()
     process.env.PORT = String(port)
-
-    spies = {
-      applyFilters: jest.spyOn(filters, "applyFilters")
-    }
 
     await startEndpointTestingServer({ port })
   })
