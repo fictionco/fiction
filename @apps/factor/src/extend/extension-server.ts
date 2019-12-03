@@ -1,21 +1,23 @@
 import { addCallback } from "@factor/tools"
 import { deepMerge } from "@factor/tools/utils"
 import axios from "axios"
-
 import cache from "memory-cache"
-import * as extensions from "../extensions.json"
+import { FactorExtensionListing } from "../types"
+import { extensions, ExtensionRecord } from "../extension-record"
 import { endpointId } from "./util"
-
 
 addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
 
-export async function getIndex({ type = "plugins" }) {
-  const list = extensions[type]
+export async function getIndex({ type = "plugins" }): Promise<FactorExtensionListing[]> {
+  const extensionRecord: ExtensionRecord = extensions()
+  const list = extensionRecord[type]
 
   return await Promise.all(list.map(async extension => getSingle(extension)))
 }
 
-export async function getSingle(params) {
+export async function getSingle(params: {
+  name: string;
+}): Promise<FactorExtensionListing> {
   const { name } = params
   const cached = cache.get(name)
   if (cached) return cached
@@ -66,7 +68,7 @@ export async function getSingle(params) {
   return item
 }
 
-export async function latestPackageVersion(name): Promise<string> {
+export async function latestPackageVersion(name: string): Promise<string> {
   const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${name}`)
 
   if (data) {

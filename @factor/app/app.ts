@@ -2,13 +2,13 @@ import "@factor/app"
 import "@factor/meta"
 import "@factor/tools" // prevent load order issues
 
+import Vue, { CreateElement, VNode } from "vue"
+
 import { createRouter } from "@factor/app/router"
 import { emitEvent } from "@factor/tools/events"
 import { getStore } from "@factor/app/store"
 import { runCallbacks } from "@factor/tools/filters"
 import { setting } from "@factor/tools/settings"
-import Vue, { VNode } from "vue"
-
 import { extendApp } from "./extend-app"
 import { ApplicationComponents } from "./types"
 
@@ -37,7 +37,7 @@ export async function createApp(): Promise<ApplicationComponents> {
       // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
       setTimeout(() => emitEvent("app-mounted"), 0)
     },
-    render: (h): VNode => h(factorSite),
+    render: (h: CreateElement): VNode => h(factorSite),
     router,
     store
   })

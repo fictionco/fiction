@@ -44,7 +44,7 @@ module.exports = {
     "jest/no-disabled-tests": "off",
     "no-console": "error",
     "no-debugger": "error",
-    "arrow-parens": ["error", "as-needed"],
+
     "import/order": [
       "error",
       {
@@ -67,7 +67,8 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off", // overridden for .ts files
     "@typescript-eslint/no-use-before-define": "off", // can cause organization issues
     "@typescript-eslint/no-var-requires": "off", // overridden for transpiled .ts files
-    "@typescript-eslint/ban-ts-ignore": "off"
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   },
   overrides: [
     {
@@ -75,7 +76,6 @@ module.exports = {
       files: ["*.ts", "*.tsx"],
       rules: {
         "@typescript-eslint/explicit-function-return-type": ["warn"],
-        "@typescript-eslint/no-var-requires": "warn",
         "@typescript-eslint/ban-ts-ignore": "warn"
       }
     }

@@ -1,8 +1,11 @@
 import { endpointRequest } from "@factor/endpoint"
 import { storeItem, stored } from "@factor/tools"
+import { FactorExtensionListing } from "../types"
 import { endpointId } from "./util"
 
-export async function requestExtensionIndex({ type = "plugins" }) {
+export async function requestExtensionIndex({
+  type = "plugins"
+}): Promise<FactorExtensionListing[]> {
   const data = await endpointRequest({
     id: endpointId,
     method: "getIndex",
@@ -14,7 +17,9 @@ export async function requestExtensionIndex({ type = "plugins" }) {
   return data
 }
 
-export async function requestExtensionSingle(name: string) {
+export async function requestExtensionSingle(
+  name: string
+): Promise<FactorExtensionListing> {
   const data = await endpointRequest({
     id: endpointId,
     method: "getSingle",
@@ -26,10 +31,10 @@ export async function requestExtensionSingle(name: string) {
   return data
 }
 
-export function getIndexCache(type = "plugins") {
+export function getIndexCache(type = "plugins"): unknown {
   return stored(`${type}-index`)
 }
 
-export function getSingleCache(name: string) {
+export function getSingleCache(name: string): unknown {
   return stored(`extension-${name}`)
 }

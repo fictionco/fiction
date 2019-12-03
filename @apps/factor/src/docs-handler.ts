@@ -1,6 +1,7 @@
 import { toLabel, setting, renderMarkdown } from "@factor/tools"
+import { DocsItem } from "./types"
 
-export function config() {
+export function config(): DocsItem[] {
   return normalize(setting("docs.pages"))
 }
 
@@ -17,17 +18,17 @@ export async function getMarkdownHTML(slug: string): Promise<string> {
   return html
 }
 
-export function selected(slug) {
+export function selected(slug: string): DocsItem | void {
   return config().find(_ => (slug ? _.slug == slug : _.root))
 }
 
-export function metatags(slug: string) {
+export function metatags(slug: string): { title?: string; description?: string } {
   const { title, description } = selected(slug) || {}
 
   return { title, description }
 }
 
-export function normalize(items) {
+export function normalize(items: DocsItem[]): DocsItem[] {
   return items.map(options => {
     const { slug, name, root } = options
 
@@ -41,7 +42,7 @@ export function normalize(items) {
       name: name || toLabel(slug),
       title: name || toLabel(slug),
       description: "",
-      file: () => import(`../docs/${slug}.md`)
+      file: (): Promise<{ default: string }> => import(`../docs/${slug}.md`)
     }
 
     return { ...d, ...options }

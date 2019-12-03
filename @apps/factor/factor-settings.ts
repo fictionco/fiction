@@ -1,6 +1,6 @@
 import { isLoggedIn } from "@factor/user"
 import { accountMenu } from "@factor/dashboard"
-
+import { Component } from "vue"
 export default {
   app: { url: "https://factor.dev" },
   metaInfo: {
@@ -43,7 +43,7 @@ export default {
     ]
   },
   site: {
-    logo: () => import("./src/el/logo-factor.vue"),
+    logo: (): Promise<Component> => import("./src/el/logo-factor.vue"),
     nav: [
       { path: "/guide", name: "Development Guide" },
       { path: "/themes", name: "Themes" },
@@ -55,8 +55,12 @@ export default {
         icon: "github",
         target: "_blank"
       },
-      { event: "sign-in-modal", name: "Sign In &rarr;", condition: () => !isLoggedIn() },
-      { component: accountMenu, condition: () => isLoggedIn() }
+      {
+        event: "sign-in-modal",
+        name: "Sign In &rarr;",
+        condition: (): boolean => !isLoggedIn()
+      },
+      { component: accountMenu, condition: (): boolean => isLoggedIn() }
     ]
   },
   plugins: {
@@ -70,7 +74,7 @@ export default {
   footer: {
     headline: "Released under the GPL-2 License",
     legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
-    logo: () => import("./src/el/logo-fiction.vue"),
-    logo2: () => import("./src/el/logo-pagelines.vue")
+    logo: (): Promise<Component> => import("./src/el/logo-fiction.vue"),
+    logo2: (): Promise<Component> => import("./src/el/logo-pagelines.vue")
   }
 }

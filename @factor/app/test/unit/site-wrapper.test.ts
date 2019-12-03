@@ -1,15 +1,19 @@
 /**
  * @jest-environment jsdom
  */
-import { mount, createLocalVue } from "@vue/test-utils"
+
+declare module "@vue/test-utils" {}
+import { createLocalVue, mount } from "@vue/test-utils"
+import { Renderer, createRenderer } from "vue-server-renderer"
+import Vue, { VueConstructor, VNode, CreateElement } from "vue"
+
 //import { renderToString } from "@vue/server-test-utils"
 import VueRouter from "vue-router"
-import Vue from "vue"
-import { createRenderer } from "vue-server-renderer"
 import factorSite from "../../site.vue"
-let localVue
-let router
-let renderer
+
+let localVue: VueConstructor
+let router: VueRouter
+let renderer: Renderer
 describe("site-wrapper", () => {
   beforeAll(() => {
     renderer = createRenderer()
@@ -29,7 +33,7 @@ describe("site-wrapper", () => {
     Vue.$router = router
 
     // Needs router as it assumes $route is there
-    const vm = new Vue({ router, render: h => h(factorSite) })
+    const vm = new Vue({ router, render: (h: CreateElement): VNode => h(factorSite) })
 
     const html = await renderer.renderToString(vm)
 
@@ -37,12 +41,12 @@ describe("site-wrapper", () => {
   })
 
   it("adds ui class", () => {
-    const wrapper = mount(factorSite, { localVue, router })
+    const wrapper = mount(factorSite, { localVue })
 
-    expect(wrapper.vm["ui"]).toBe("factor-app")
+    expect(wrapper.vm.ui).toBe("factor-app")
 
     router.push({ path: "/alt" })
 
-    expect(wrapper.vm["ui"]).toBe("factor-dashboard")
+    expect(wrapper.vm.ui).toBe("factor-dashboard")
   })
 })

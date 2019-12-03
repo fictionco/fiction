@@ -54,8 +54,15 @@ export function addContentRoute(routeItem: RouteConfig): void {
   pushToFilter("content-routes", routeItem)
 }
 
-export function addContentRoutes(routeItems: RouteConfig[]): void {
-  addFilter("content-routes", (routes: RouteConfig[]) => routes.concat(routeItems))
+// Allow for callback signature to allow for dynamic settings that may not exist yet
+export function addContentRoutes(
+  routeItems: RouteConfig[] | (() => RouteConfig[])
+): void {
+  addFilter("content-routes", (routes: RouteConfig[]): RouteConfig[] => {
+    const r = typeof routeItems === "function" ? routeItems() : routeItems
+    routes.concat(r)
+    return routes
+  })
 }
 
 export function currentRoute(): Route {

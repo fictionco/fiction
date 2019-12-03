@@ -16,6 +16,7 @@ export interface FactorPackageJson {
   scripts?: Record<string, string>;
   workspaces?: string[];
   factor?: {
+    title?: string;
     _id?: string;
     load?: LoadTarget;
     extend?: ExtendTypes;

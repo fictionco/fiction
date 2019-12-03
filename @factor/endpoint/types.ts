@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 
 import { CurrentUserState } from "@factor/user/types"
 
-export type ResponseType = object | (string | object | number)[] | string
+export type ResponseType = object | (string | object | number)[] | string | void
 
 export interface EndpointRequestHandler {
   ({ data, meta }: EndpointRequestParams): Promise<ResponseType>;

@@ -1,12 +1,20 @@
-export function figureMixin({ ref, width }) {
-  return {
+import Vue, { VueConstructor } from "vue"
+
+export function figureMixin({
+  ref,
+  width
+}: {
+  ref: string;
+  width: number;
+}): VueConstructor {
+  return Vue.extend({
     data() {
       return {
         width
       }
     },
     computed: {
-      scale() {
+      scale(this: any): number {
         return Math.max(Math.min(this.width / width, 1), 0.5)
       }
     },
@@ -18,9 +26,9 @@ export function figureMixin({ ref, width }) {
       })
     },
     methods: {
-      getWidth() {
+      getWidth(this: any): number {
         return this.$refs[ref] ? this.$refs[ref].clientWidth : 100
       }
     }
-  }
+  })
 }

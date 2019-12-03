@@ -11,7 +11,7 @@ declare module "vue/types/vue" {
     $route: Route;
   }
 
-  interface Vue {
+  export interface Vue {
     metaInfoCore(): object;
     serverPrefetch?(): Promise<void>;
     observable: <T>(obj: T) => T;
@@ -20,7 +20,7 @@ declare module "vue/types/vue" {
 }
 
 declare module "vue/types/options" {
-  interface ComponentOptions<Vue> {
+  export interface ComponentOptions<Vue> {
     metaInfoCore?: () => {};
     serverPrefetch?(): Promise<void>;
     templateSettings?: () => TemplateOption[];

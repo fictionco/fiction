@@ -16,9 +16,9 @@
     </section>
     <factor-modal class="install-modal" :vis.sync="vis">
       <h2>{{ selectedTheme }} Theme</h2>
-      <div class="description">
-        Use this theme by adding it to your app dependencies using the command:
-      </div>
+      <div
+        class="description"
+      >Use this theme by adding it to your app dependencies using the command:</div>
       <div class="command">
         yarn add
         <span class="package-name">{{ selectedPkg }}</span>
@@ -40,9 +40,11 @@
                   <factor-link :path="item.url">{{ item.name }}</factor-link>
                 </h3>
                 <span class="category">
-                  <factor-link :path="`/extensions/category/${item.category}`">{{
-                    toLabel(item.category)
-                  }}</factor-link>
+                  <factor-link :path="`/extensions/category/${item.category}`">
+                    {{
+                      toLabel(item.category)
+                    }}
+                  </factor-link>
                 </span>
               </div>
               <div>
@@ -72,18 +74,19 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink, factorModal, factorIcon } from "@factor/ui"
 import { toLabel } from "@factor/tools"
-import extensions from "./extensions.json"
-export default {
+import Vue from "vue"
+import { extensions } from "./extension-record"
+export default Vue.extend({
   components: { factorLink, factorModal, factorIcon },
   data() {
     return {
       loading: true,
       nav: [],
       clicked: false,
-      extensions,
+      extensions: extensions(),
       vis: false,
       selectedTheme: null,
       selectedPkg: null
@@ -105,7 +108,7 @@ export default {
         "Factor Themes is a collection of the best templates and themes curated by Factor's creators. Our collection of templates include themes to build a landing page, a static site, an application, and more."
     }
   }
-}
+})
 </script>
 <style lang="less">
 .install-modal {

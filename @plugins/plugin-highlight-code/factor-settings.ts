@@ -1,5 +1,6 @@
+import { Component } from "vue"
 export default {
   highlightCode: {
-    style: () => import("./style.vue")
+    style: (): Promise<Component> => import("./style.vue")
   }
 }
