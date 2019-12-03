@@ -1,27 +1,17 @@
-import { addFilter } from "@factor/tools"
-import { writeConfig } from "@factor/cli/setup"
+import { addFilter, pushToFilter } from "@factor/tools"
+import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
 import inquirer from "inquirer"
-
-const configFile = ".env"
-const configVars = ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST"]
 
 const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
 if (!SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST) {
-  addFilter("setup-needed", _ => {
-    const item = {
-      title: "SMTP Email Credentials",
-      value: "Needed for transactional emails (e.g. forgot password)",
-      file: configFile,
-      vars: configVars
-    }
-
-    return [..._, item]
+  pushToFilter("setup-needed", {
+    title: "SMTP Email Credentials"
   })
 }
 
 // CLI admin setup utility
-addFilter("cli-add-setup", _ => {
+addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
   const setupItem = {
     name: "Email Setup - Transactional Email SMTP Info",
     value: "email",

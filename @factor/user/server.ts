@@ -1,8 +1,10 @@
 import { getModel } from "@factor/post/server"
 import { pushToFilter, applyFilters, addCallback } from "@factor/tools"
 import * as endpointHandler from "@factor/user/server"
+import { Model, Document } from "mongoose"
+
 import { userCredential } from "./jwt"
-import { FactorUserCredential, AuthenticationParameters } from "./types"
+import { FactorUserCredential, AuthenticationParameters, FactorUser } from "./types"
 import "./hooks-universal"
 
 if (!process.env.TOKEN_SECRET) {
@@ -15,6 +17,10 @@ if (!process.env.TOKEN_SECRET) {
 
 addCallback("endpoints", { id: "user", handler: endpointHandler })
 
+export function getUserModel(): Model<FactorUser & Document> {
+  return getModel<FactorUser>("user")
+}
+
 export async function authenticate(
   params: AuthenticationParameters
 ): Promise<FactorUserCredential | {}> {
@@ -23,7 +29,11 @@ export async function authenticate(
   let user
   if (newAccount) {
     try {
-      user = await getModel("user").create({ email, password, displayName })
+      user = await getUserModel().create({
+        email,
+        password,
+        displayName
+      })
     } catch (error) {
       const e =
         error.code == 11000 ? `Account with email: "${email}" already exists.` : error
@@ -33,7 +43,7 @@ export async function authenticate(
     applyFilters("create-new-user", user)
     return userCredential(user)
   } else {
-    user = await getModel("user").findOne({ email }, "+password")
+    user = await getUserModel().findOne({ email }, "+password")
 
     if (!user) {
       throw new Error(`Couldn't find user.`)

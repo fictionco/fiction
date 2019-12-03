@@ -65,6 +65,7 @@ export function createServer(options: { port?: string }): void {
 
   addCallback("restart-server", async () => {
     log.server("restarting server", { color: "yellow" })
+
     if (__listening) {
       __listening.destroy()
     }

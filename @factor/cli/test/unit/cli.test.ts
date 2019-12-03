@@ -3,11 +3,11 @@ import * as cli from "@factor/cli"
 describe("cli", () => {
   describe("setup cli", () => {
     it("setup: run yarn install to verify node_modules installed", async () => {
-      const consoleOutput = []
+      const consoleOutput: string[] = []
 
       const originalStd = process.stdout.write
 
-      const mockedLog = output => consoleOutput.push(output)
+      const mockedLog = (output: string): number => consoleOutput.push(output)
 
       process.stdout.write = mockedLog as jest.Mock
 

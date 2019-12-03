@@ -61,7 +61,7 @@ export async function savePost(
 export async function getSinglePost(
   params: PostRequestParameters,
   meta: EndpointMeta = {}
-): Promise<FactorPost | {}> {
+): Promise<FactorPost | void> {
   const { bearer } = meta
 
   let { _id } = params
@@ -88,7 +88,7 @@ export async function getSinglePost(
   }
 
   if (_post && !postPermission({ post: _post, bearer, action: PostActions.Retrieve })) {
-    return {}
+    return
   }
   // If ID is unset or if it isn't found, create a new post model/doc
   // This is not saved at this point, leading to a post sometimes not existing although an ID exists
@@ -96,6 +96,8 @@ export async function getSinglePost(
     const initial = { author: bearer && bearer._id ? [bearer._id] : null }
 
     _post = new Model(initial)
+  } else if (!_post) {
+    return
   }
 
   return _post
@@ -121,15 +123,18 @@ export async function updateManyById(
 export async function deleteManyById(
   { _ids, postType = "post" }: UpdateManyPosts,
   { bearer }: EndpointMeta
-): Promise<FactorPost[]> {
+): Promise<void> {
   const permissionCondition = canUpdatePostsCondition({
     bearer,
     action: PostActions.Delete,
     postType
   })
-  return await getModel(postType).remove({
+
+  await getModel(postType).remove({
     $and: [permissionCondition, { _id: { $in: _ids } }]
   })
+
+  return
 }
 
 export async function populatePosts({ _ids }: UpdateManyPosts): Promise<FactorPost[]> {
@@ -178,12 +183,12 @@ export async function postIndex(params: PostIndexRequestParameters): Promise<Pos
     options
   )
 
-  const _p = [
+  const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),
-    getModel(postType).find(conditions, null, options)
-  ]
-
-  const [counts, posts] = await Promise.all(_p)
+    getModel(postType)
+      .find(conditions, null, options)
+      .exec()
+  ])
 
   return { meta: { ...counts, ...options, conditions }, posts }
 }
@@ -221,13 +226,11 @@ export async function indexMeta({
     }
   ]
 
-  const _p = [
-    ItemModel.aggregate(aggregate),
+  const [aggregations, totalForQuery, total] = await Promise.all([
+    ItemModel.aggregate(aggregate).exec(),
     ItemModel.find(conditions).count(),
-    ItemModel.count()
-  ]
-
-  const [aggregations, totalForQuery, total] = await Promise.all(_p)
+    ItemModel.count({})
+  ])
 
   const pageCount = !totalForQuery ? 1 : Math.ceil(totalForQuery / limit)
   const pageCurrent = 1 + Math.floor(skip / limit)

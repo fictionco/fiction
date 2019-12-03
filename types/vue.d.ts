@@ -7,6 +7,7 @@ declare module "vue/types/vue" {
     metaInfoCore: () => {};
     observable: <T>(obj: T) => T;
     scrollClass: string[] | string;
+    routeClass: string[] | string;
     $route: Route;
   }
 
@@ -14,6 +15,7 @@ declare module "vue/types/vue" {
     metaInfoCore(): object;
     serverPrefetch?(): Promise<void>;
     observable: <T>(obj: T) => T;
+    routeClass: Function | string[] | string;
   }
 }
 

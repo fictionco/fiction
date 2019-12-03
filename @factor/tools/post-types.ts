@@ -14,6 +14,7 @@ export interface PostTypeConfig {
   editTemplate?: () => Promise<Vue>;
   add?: boolean;
   accessLevel?: number;
+  hideAdmin?: boolean;
 }
 
 export function addPostType(config: PostTypeConfig): void {

@@ -23,7 +23,7 @@ addPostType({
   baseRoute: "career", // base permalink route
   accessLevel: 100, // user access level needed to edit/add
   add: true, // can new posts be added via dashboard
-  showAdmin: true // Set to false to hide list/edit menu in admin
+  hideAdmin: false // Set to true to hide list/edit menu in admin
   listTemplate: () => import("./custom-dashboard-list-view.vue"), // optional
   editTemplate: () => import("./custom-post-edit-view.vue") // optional
 })

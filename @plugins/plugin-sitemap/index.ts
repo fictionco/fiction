@@ -54,7 +54,7 @@ async function getPermalinks(): Promise<string[]> {
   )
 
   const urls = posts.map(
-    ({ postType, permalink }: { postType: string; permalink: string }) => {
+    ({ postType, permalink }: { postType?: string; permalink?: string }) => {
       return getPermalink({ postType, permalink })
     }
   )

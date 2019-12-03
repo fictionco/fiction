@@ -43,7 +43,7 @@ export interface FactorUserAuthentication extends FactorUser {
 
 export interface FactorUser extends FactorPost {
   _id: string;
-  signedInAt?: string;
+  signedInAt?: string | number | Date;
   username?: string;
   displayName?: string;
   email: string;

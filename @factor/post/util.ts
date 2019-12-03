@@ -26,6 +26,10 @@ export function getAddedSchemas(): FactorSchema[] {
   })
 }
 
+export function getBaseSchema(): FactorSchema {
+  return postSchema()
+}
+
 export function getSchema(postType: string): FactorSchema {
   const schemas = getAddedSchemas()
 

@@ -133,7 +133,7 @@ export interface SchemaPermissions {
 export interface FactorSchema {
   name: string;
   options?: mongoose.SchemaOptions;
-  schema: mongoose.SchemaDefinition;
+  schema?: mongoose.SchemaDefinition;
   populatedFields?: PopulatedField[];
   callback?: (s: mongoose.Schema) => void;
   permissions?: SchemaPermissions;

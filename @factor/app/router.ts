@@ -14,7 +14,7 @@ Vue.use(VueRouter)
 let __initialPageLoad = true
 
 export function createRouter(): VueRouter {
-  const routes = applyFilters("routes", []).filter(_ => _)
+  const routes = applyFilters("routes", []).filter((_: RouteConfig) => _)
 
   const router = new VueRouter({
     mode: "history",

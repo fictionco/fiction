@@ -1,3 +1,9 @@
+export enum ExtendTypes {
+  Theme = "theme",
+  Plugin = "plugin",
+  App = "app"
+}
+
 export interface FactorPackageJson {
   name: string;
   version: string;
@@ -18,9 +24,13 @@ export interface FactorPackageJson {
   [key: string]: any;
 }
 
+export enum LoadTargets {
+  Server = "server",
+  App = "app"
+}
+
 export type LoadTarget = {
-  app?: { file: string; _id: string }[];
-  server?: { file: string; _id: string }[];
+  [key in LoadTargets]?: { file: string; _id: string; priority: number }[]
 }
 
 export interface FactorExtension {

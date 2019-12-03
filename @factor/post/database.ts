@@ -1,22 +1,29 @@
 import { log } from "@factor/tools"
-import { pushToFilter } from "@factor/tools/filters"
+import { pushToFilter, addCallback } from "@factor/tools/filters"
 import { writeConfig } from "@factor/cli/setup"
-import mongoose from "mongoose"
+import mongoose, { Model, Schema, Document } from "mongoose"
 import inquirer from "inquirer"
-
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
-import { getAddedSchemas } from "./util"
+import { FactorSchema, FactorPost } from "./types"
 
-let __schemas = {}
-let __models = {}
+import { getAddedSchemas, getBaseSchema } from "./util"
+
+type FactorPostDocument = FactorPost & Document
+
+let __schemas: { [index: string]: Schema } = {}
+let __models: { [index: string]: Model<any> } = {}
 let __offline = false
+
+addCallback("rebuild-server-app", () => {
+  tearDown()
+})
 
 export function dbIsOffline(): boolean {
   return __offline || !process.env.DB_CONNECTION
 }
 
 // Must be non-async so we can use chaining
-export function getModel(name): mongoose.Model {
+export function getModel<T>(name: string): Model<(T & Document) & FactorPostDocument> {
   // If model doesn't exist, create a vanilla one
   if (!__models[name] && name != "post") setModel({ name }, getModel("post"))
 
@@ -37,7 +44,7 @@ function initializeModels(): void {
 
   const sch = getAddedSchemas()
 
-  const baseSchema = sch.find(_ => _.name == "post")
+  const baseSchema = getBaseSchema()
 
   const { model: baseModel } = setModel(baseSchema)
 
@@ -47,34 +54,33 @@ function initializeModels(): void {
 // Set schemas and models
 // For server restarting we need to inherit from already constructed mdb models if they exist
 export function setModel(
-  schemaConfig,
-  baseModel?: mongoose.Model | void
-): { schema: mongoose.Schema; model: mongoose.Model } {
-  const { Schema, modelSchemas, models, model } = mongoose
+  schemaConfig: FactorSchema,
+  baseModel?: Model<FactorPostDocument> | void
+): { schema: Schema; model: Model<any> } {
+  const { Schema, model } = mongoose
   const { schema = {}, options = {}, callback, name } = schemaConfig
 
-  let _model_
-  let _schema_
+  const loadSchema = new Schema(schema, options)
 
-  // If already set in mongoose
-  if (models[name]) {
-    _schema_ = modelSchemas[name]
-    _model_ = models[name]
-  } else {
-    _schema_ = new Schema(schema, options)
+  // Callback for hooks, etc.
+  if (callback) callback(loadSchema)
 
-    // Callback for hooks, etc.
-    if (callback) callback(_schema_)
+  const loadModel = !baseModel
+    ? model(name, loadSchema)
+    : baseModel.discriminator(name, loadSchema)
 
-    _model_ = !baseModel ? model(name, _schema_) : baseModel.discriminator(name, _schema_)
+  loadModel.createIndexes()
 
-    _model_.createIndexes()
-  }
+  __schemas[name] = loadSchema
+  __models[name] = loadModel
 
-  __schemas[name] = _schema_
-  __models[name] = _model_
+  return { schema: loadSchema, model: loadModel }
+}
 
-  return { schema: _schema_, model: _model_ }
+export function tearDown(): void {
+  Object.keys(mongoose.models).forEach(m => {
+    delete mongoose.models[m]
+  })
 }
 
 export async function dbDisconnect(): Promise<void> {
@@ -83,8 +89,8 @@ export async function dbDisconnect(): Promise<void> {
   }
 }
 
-export async function dbConnect(): Promise<mongoose.Connection> {
-  if (!isConnected()) {
+export async function dbConnect(): Promise<mongoose.Connection | void> {
+  if (!isConnected() && process.env.DB_CONNECTION) {
     try {
       const connectionString = process.env.DB_CONNECTION
 
@@ -95,7 +101,7 @@ export async function dbConnect(): Promise<mongoose.Connection> {
 
       __offline = false
 
-      return result
+      return result.connection
     } catch (error) {
       dbHandleError(error)
     }
@@ -104,7 +110,7 @@ export async function dbConnect(): Promise<mongoose.Connection> {
   }
 }
 
-function dbHandleError(error): void {
+function dbHandleError(error: Error & { code?: string }): void {
   if (error.code === "ECONNREFUSED") {
     __offline = true
     log.warn("Couldn't connect to the database. Serving in offline mode.")

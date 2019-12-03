@@ -1,12 +1,13 @@
-import { objectIdType } from "@factor/post/util"
 import { addFilter, pushToFilter, setting } from "@factor/tools"
+
+import { objectIdType } from "@factor/post/util"
 // Add commentizer post type
 pushToFilter("post-types-config", {
   postType: "commentizer",
   nameIndex: "Commentizer",
   nameSingle: "Comment",
   namePlural: "Comments",
-  showAdmin: false,
+  hideAdmin: true,
   add: false
 })
 
@@ -21,8 +22,8 @@ pushToFilter("data-schemas", {
 })
 
 // Extend all postTypes listed in factor-settings with extra fields
-setting("commentizer.postTypes").forEach((postType) => {
-  addFilter(`data-schema-${postType}`, (schemaConfig) => {
+setting("commentizer.postTypes").forEach(postType => {
+  addFilter(`data-schema-${postType}`, schemaConfig => {
     schemaConfig.schema = {
       ...schemaConfig.schema,
       commentizerEnabled: { type: Boolean, default: false },

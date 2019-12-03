@@ -5,10 +5,10 @@ const path = require("path")
 const sao = require("sao")
 const consola = require("consola")
 const generator = path.resolve(__dirname, "./")
+const figures = require("figures")
 const { name, version } = require("./package.json")
 // In a custom directory or current directory
 const outDir = path.resolve(process.argv[2] || ".")
-const figures = require("figures")
 
 consola.log(`${figures.pointer} Starting ${name}@${version}`)
 consola.log()

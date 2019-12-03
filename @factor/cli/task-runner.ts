@@ -1,8 +1,16 @@
 import execa from "execa"
-import listr from "listr"
+import listr, { ListrContext, ListrTaskWrapper } from "listr"
 
 import { log } from "@factor/tools"
-export async function verifyDependencies() {
+
+interface TaskConfig {
+  command: string;
+  args: string[];
+  title: string;
+  options?: { cwd: string };
+}
+
+export async function verifyDependencies(): Promise<void> {
   await runTasks(
     [
       { command: "yarn", args: ["install"], title: "Verify Dependencies" },
@@ -16,43 +24,37 @@ export async function verifyDependencies() {
   )
 }
 
-async function runTasks(t, opts = {}) {
+async function runTasks(t: TaskConfig[], opts = {}): Promise<void> {
   if (t.length == 0) return
 
   const taskMap = t.map(
-    ({
-      title,
-      command,
-      args,
-      options = { cwd: process.env.FACTOR_CWD, done: false, output: false }
-    }) => {
+    ({ title, command, args, options = { cwd: process.env.FACTOR_CWD } }) => {
       return {
         title,
-        task: async (ctx, task) => {
-          if (typeof command == "function") {
-            return await command(ctx, task)
-          } else {
-            const proc = execa(command, args, options)
+        task: async (ctx: ListrContext, task: ListrTaskWrapper): Promise<void> => {
+          const proc = execa(command, args, options)
 
-            if (proc) {
+          if (proc) {
+            if (proc.stdout) {
               proc.stdout.on("data", data => {
                 task.output = data.toString()
               })
-
+            }
+            if (proc.stderr) {
               proc.stderr.on("data", data => {
                 task.output = data.toString()
               })
-
-              try {
-                await proc
-              } catch (error) {
-                log.error(error)
-              }
-
-              task.title = options.done ? options.done : `${task.title} [Done!]`
-
-              return
             }
+
+            try {
+              await proc
+            } catch (error) {
+              log.error(error)
+            }
+
+            task.title = `${task.title} [Done!]`
+
+            return
           }
         }
       }

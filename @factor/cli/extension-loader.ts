@@ -4,8 +4,20 @@ import { toPascalCase, sortPriority } from "@factor/tools/utils"
 import fs from "fs-extra"
 import glob from "glob"
 import log from "@factor/tools/logger"
-import { FactorPackageJson, LoadTarget, FactorExtension } from "./types"
+import {
+  FactorPackageJson,
+  LoadTarget,
+  FactorExtension,
+  ExtendTypes,
+  LoadTargets
+} from "./types"
 
+interface LoaderFile {
+  _id: string;
+  file: string;
+  priority: number;
+  path?: string;
+}
 export function getCWDPackage(): FactorPackageJson {
   let pkg
   try {
@@ -27,7 +39,7 @@ export function getCWDPackage(): FactorPackageJson {
   return pkg
 }
 
-let __extensions // ensure we don't recursively scan more than once
+let __extensions: FactorExtension[] // ensure we don't recursively scan more than once
 export function getExtensions(): FactorExtension[] {
   if (__extensions) {
     return __extensions
@@ -55,8 +67,8 @@ function isCWD(name: string): boolean {
   return name === getCWDPackage().name
 }
 
-function generateExtensionList(packagePaths): FactorExtension[] {
-  const loader = []
+function generateExtensionList(packagePaths: FactorPackageJson[]): FactorExtension[] {
+  const loader: FactorExtension[] = []
 
   packagePaths.forEach(_ => {
     const {
@@ -92,8 +104,8 @@ export function generateLoaders(): void {
 
   makeModuleLoader({
     extensions,
-    loadTarget: "server",
-    callback: files => {
+    loadTarget: LoadTargets.Server,
+    callback: (files: LoaderFile[]) => {
       writeFile({
         destination: getPath("loader-server"),
         content: loaderString(files)
@@ -103,8 +115,8 @@ export function generateLoaders(): void {
 
   makeModuleLoader({
     extensions,
-    loadTarget: "app",
-    callback: files => {
+    loadTarget: LoadTargets.App,
+    callback: (files: LoaderFile[]) => {
       writeFile({ destination: getPath("loader-app"), content: loaderString(files) })
     }
   })
@@ -112,7 +124,7 @@ export function generateLoaders(): void {
   makeFileLoader({
     extensions,
     filename: "factor-settings.*",
-    callback: files => {
+    callback: (files: LoaderFile[]) => {
       writeFile({
         destination: getPath("loader-settings"),
         content: loaderStringOrdered(files)
@@ -123,7 +135,7 @@ export function generateLoaders(): void {
   makeFileLoader({
     extensions,
     filename: "factor-styles.*",
-    callback: files => {
+    callback: (files: LoaderFile[]) => {
       const imports = files.map(_ => `@import (less) "~${_.file}";`).join(`\n`)
       const content = `${imports}`
 
@@ -137,8 +149,16 @@ export function generateLoaders(): void {
 // Webpack doesn't allow dynamic paths in require statements
 // In order to make dynamic require statements, we build loader files
 // Also an easier way to see what is included than by using other techniques
-function makeModuleLoader({ extensions, loadTarget, callback }): void {
-  const files = []
+function makeModuleLoader({
+  extensions,
+  loadTarget,
+  callback
+}: {
+  extensions: FactorExtension[];
+  loadTarget: LoadTargets;
+  callback: (files: LoaderFile[]) => void;
+}): void {
+  const files: LoaderFile[] = []
 
   const filtered = extensions.filter(({ load }) => load[loadTarget])
 
@@ -162,7 +182,7 @@ function makeModuleLoader({ extensions, loadTarget, callback }): void {
 }
 
 function makeFileLoader({ extensions, filename, callback }): void {
-  const files = []
+  const files: LoaderFile[] = []
 
   extensions.forEach(_ => {
     const { name, cwd, _id, priority } = _
@@ -192,7 +212,10 @@ function makeFileLoader({ extensions, filename, callback }): void {
   callback(files)
 }
 
-function recursiveDependencies(deps, pkg): FactorPackageJson[] {
+function recursiveDependencies(
+  deps: FactorPackageJson[],
+  pkg: FactorPackageJson
+): FactorPackageJson[] {
   const { dependencies = {}, devDependencies = {} } = pkg
 
   const d = { ...dependencies, ...devDependencies }
@@ -265,13 +288,13 @@ function loaderStringOrdered(files): string {
 
 // Use root application dependencies as the start of the
 // factor dependency tree
-function loadExtensions(pkg): FactorExtension[] {
+function loadExtensions(pkg: FactorPackageJson): FactorExtension[] {
   const dependents = recursiveDependencies([pkg], pkg)
 
   return generateExtensionList(dependents)
 }
 
-function getDirectory({ name, main = "" }): string {
+function getDirectory({ name, main = "" }: { name: string; main: string }): string {
   const resolver = isCWD(name) ? getCWD() : name
 
   let root
@@ -290,7 +313,15 @@ function getRequireBase({ cwd, name, main = "package.json" }): string {
 
 // Set priority by extension type
 // App > Theme > Plugin
-function getPriority({ extend, priority, name }): number {
+function getPriority({
+  extend,
+  priority,
+  name
+}: {
+  extend: ExtendTypes;
+  priority?: number;
+  name: string;
+}): number {
   if (priority) return priority
 
   const out = 100
@@ -312,11 +343,8 @@ function getId({ _id, name = "", main = "index", file = "" }): string {
   } else if (_id) {
     __ = _id
   } else {
-    __ = name
-      .split(/plugin-|theme-|@factor/gi)
-      .pop()
-      .replace(/\//gi, "")
-      .replace(/-([a-z])/g, g => g[1].toUpperCase())
+    const afterSlash = name.split(/plugin-|theme-|@factor/gi).pop() ?? "id"
+    __ = afterSlash.replace(/\//gi, "").replace(/-([a-z])/g, g => g[1].toUpperCase())
   }
 
   // Add file specific ID to end

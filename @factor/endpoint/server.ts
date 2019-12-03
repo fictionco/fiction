@@ -3,7 +3,7 @@ import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
 import { Request, Response } from "express"
-
+import { FactorUser } from "@factor/user/types"
 import {
   responseType,
   EndpointRequestParams,
@@ -90,7 +90,7 @@ export async function processEndpointRequest({
     if (authorization && authorization.startsWith("Bearer ")) {
       const token = authorization.split("Bearer ")[1]
 
-      meta.bearer = token ? await getSinglePost({ token }) : undefined
+      meta.bearer = token ? ((await getSinglePost({ token })) as FactorUser) : undefined
     }
   } catch (error) {
     responseJson.error = error.message || 500

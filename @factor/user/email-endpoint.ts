@@ -3,6 +3,7 @@ import { addCallback, addFilter, currentUrl, randomToken } from "@factor/tools"
 import { sendTransactional } from "@factor/email/server"
 import { Document, HookNextFunction, Schema, SchemaDefinition } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
+import { getUserModel } from "@factor/user/server"
 import { FactorUser } from "./types"
 import { SendVerifyEmail, VerifyAndResetPassword, VerifyEmail } from "./email-request"
 
@@ -53,9 +54,11 @@ export async function verifyEmail(
     throw new Error(`Email verification user doesn't match the logged in account.`)
   }
 
-  const user = await getModel("user").findOne({ _id }, "+emailVerificationCode")
+  const user = await getUserModel().findOne({ _id }, "+emailVerificationCode")
 
-  if (user.emailVerificationCode == code) {
+  if (!user) {
+    throw new Error("Can't find user ID.")
+  } else if (user.emailVerificationCode == code) {
     user.emailVerified = true
     user.emailVerificationCode = undefined
     await user.save()
@@ -114,7 +117,7 @@ export async function sendPasswordResetEmail({
 }): Promise<void> {
   const passwordResetCode = randomToken()
 
-  const user = await getModel("user").findOneAndUpdate({ email }, { passwordResetCode })
+  const user = await getUserModel().findOneAndUpdate({ email }, { passwordResetCode })
 
   if (!user || !user._id) {
     throw new Error("Could not find an user with that email.")
