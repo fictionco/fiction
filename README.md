@@ -19,19 +19,18 @@
   <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
  </p>
 
-_An extension-driven platform for VueJS developers. Impress your friends by building incredible web apps that do exponentially more than they've seen elsewhere. Built on the MEVN stack and open-source (GPL)_
+_A free and open-source platform for building blogs, apps, and websites for front-end developers. Written in Typescript and built on the VENM stack_
 
 ## Documentation
 
-[https://factor.dev](https://factor.dev)
+<a style="font-size: '1.5em'" href="https://factor.dev">https://factor.dev</a>
 
 ## Features
 
-- **Dashboard / Admin** - Manage users, pages, posts, or whatever else you can imagine.
-- **Themes** - Beautiful design in minutes not months.
-- **Plugins** - Zero-config functionality just `yarn add [plugin]`.
-- **Data Model** - Stop worrying about your backend.
-- **Open-Source** Built on the VENM Stack - Vue, Express, Node, MongoDB
+- **CMS Dashboard** - Manage users, pages, posts, or whatever else you can imagine.
+- **Themes and Plugins** - Design your app in minutes not months.
+- **Full Stack Framework** - Avoid pitfalls and stop worrying about your architecture.
+- **Typescript + VENM** - Write in Typescript or Javascript. Built with Vue, MongoDB and Node/Express.
 
 - **and tons more...**
   - SEO / Social Optimized
