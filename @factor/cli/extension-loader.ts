@@ -75,7 +75,7 @@ function generateExtensionList(packagePaths: FactorPackageJson[]): FactorExtensi
   packagePaths.forEach(_ => {
     const {
       name,
-      factor: { priority = 100, load = [], extend = ExtendTypes.Plugin } = {},
+      factor: { priority = -1, load = [], extend = ExtendTypes.Plugin } = {},
       version,
       main = "index"
     } = _
@@ -357,13 +357,13 @@ function getPriority({
   priority?: number;
   name: string;
 }): number {
-  if (priority) return priority
+  if (priority && priority >= 0) return priority
 
   const out = 100
 
   if (isCWD(name)) {
     return 1000
-  } else if (extend == "theme") {
+  } else if (extend == ExtendTypes.Theme) {
     return 150
   }
 

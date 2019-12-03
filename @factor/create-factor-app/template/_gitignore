@@ -3,15 +3,16 @@
 dist
 
 # Env / Secrets
-*secrets*
+*secret*
 .env
 
 # Logs
+report*
 logs
 *.log
 
 # Dependency directories
-node_modules/ 
+node_modules/
 
 # Service worker
 sw.*
