@@ -186,7 +186,13 @@ async function base({ target }: { target: string }): Promise<Configuration> {
         {
           test: /\.ts$/,
           loader: "ts-loader",
-          options: { transpileOnly: true }
+          options: {
+            transpileOnly: true,
+            appendTsSuffixTo: [/\.vue$/],
+            compilerOptions: {
+              noEmit: false
+            }
+          }
         },
         {
           test: /\.(png|jpg|gif|svg|mov|mp4)$/,
