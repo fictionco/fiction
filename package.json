@@ -22,6 +22,7 @@
   "license": "GPL-2.0",
   "scripts": {
     "upgrade-packages": "yarn install && yarn upgrade && yarn audit && yarn outdated",
+    "clean-logs": "find . -name '*.log' -delete",
     "publish:docs": "heroku git:remote -a factor-dev && git push heroku master",
     "publish:fiction": "heroku git:remote -a fiction-com && git push heroku master",
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",
@@ -75,7 +76,7 @@
     "execa": "^3.1.0",
     "exit": "^0.1.2",
     "jest": "^24.9.0",
-    "jest-junit": "^9.0.0",
+    "jest-junit": "^10.0.0",
     "jsdom": "^15.1.1",
     "lerna": "^3.13.0",
     "mongodb-memory-server": "^6.0.1",
