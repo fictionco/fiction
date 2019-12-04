@@ -7,6 +7,7 @@ import log from "@factor/tools/logger"
 
 import { factorize, setEnvironment } from "./factorize"
 import { verifyDependencies } from "./task-runner"
+import { CommandOptions } from "./types"
 
 import pkg from "./package.json"
 
@@ -63,7 +64,7 @@ commander
   .command("setup [filter]")
   .description("Setup and verify your Factor app")
   .action((filter, _arguments) =>
-    runCommand({ command: "setup", filter, ...cleanArguments(_arguments) })
+    runCommand({ command: "setup", filter, clean: false, ...cleanArguments(_arguments) })
   )
 
 commander
@@ -75,47 +76,40 @@ commander
 
 commander
   .command("create-loaders")
+  .option("--clean", "clean generated directories before creation")
   .description("Generate extension loaders")
-  .action(() => generateLoaders())
+  .action(_arguments => generateLoaders(cleanArguments(_arguments)))
 
 commander.parse(process.argv)
-
-interface CommandOptions {
-  command: string;
-  filter?: string;
-  install?: boolean;
-  NODE_ENV?: string;
-  analyze?: boolean;
-  static?: boolean;
-}
 
 export async function runCommand(options: CommandOptions): Promise<void> {
   const setup = {
     install: true,
+    clean: true,
     NODE_ENV: options.command == "dev" ? "development" : "production",
     ...options
   }
 
   const { install, filter, command } = setup
 
-  if (install) await verifyDependencies()
+  if (install) await verifyDependencies(setup)
 
   await factorize(setup)
 
   try {
-    if (["build", "start"].includes(command)) {
-      await buildProductionApp(options)
+    if (command && ["build", "start"].includes(command)) {
+      await buildProductionApp(setup)
     } else if (command == "setup") {
-      await tools.runCallbacks(`cli-setup`, options)
+      await tools.runCallbacks(`cli-setup`, setup)
     } else if (command == "run") {
       if (!filter) throw new Error("Filter argument is required.")
 
-      await tools.runCallbacks(`cli-run-${filter}`, options)
+      await tools.runCallbacks(`cli-run-${filter}`, setup)
 
       log.success(`Successfully ran "${filter}"\n\n`)
     }
 
-    if (["start", "dev", "serve"].includes(command)) {
+    if (command && ["start", "dev", "serve"].includes(command)) {
       await runServer(setup) // Long running process
     } else {
       if (command) log.success(`Successfully ran [${command}]`)

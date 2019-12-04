@@ -4,6 +4,16 @@ export enum ExtendTypes {
   App = "app"
 }
 
+export interface CommandOptions {
+  command?: string;
+  filter?: string;
+  install?: boolean;
+  NODE_ENV?: string;
+  analyze?: boolean;
+  static?: boolean;
+  clean?: boolean;
+}
+
 export interface FactorPackageJson {
   name: string;
   version: string;

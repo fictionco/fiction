@@ -36,21 +36,19 @@ export async function generateBundles(options: FactorBundleOptions = {}): Promis
   generateLoaders()
 
   await Promise.all(
-    ["server", "client"].map(async (target, index) => {
-      const clean = index === 0
-      const config = await getWebpackConfig({ ...options, target, clean })
+    ["server", "client"].map(async target => {
+      const config = await getWebpackConfig({ ...options, target })
 
       const compiler = webpack(deepMerge([config, options.config || {}]))
 
-      if (options.beforeCompile)
-        options.beforeCompile({ compiler, config, target, index })
+      if (options.beforeCompile) options.beforeCompile({ compiler, config, target })
 
       await new Promise((resolve, reject) => {
         compiler.run((error, stats) => {
           if (error || stats.hasErrors()) reject(error)
           else {
             if (options.afterCompile) {
-              options.afterCompile({ compiler, error, stats, config, target, index })
+              options.afterCompile({ compiler, error, stats, config, target })
             }
 
             resolve(true)
@@ -65,9 +63,8 @@ export async function generateBundles(options: FactorBundleOptions = {}): Promis
 
 export async function buildProductionApp(_arguments = {}): Promise<void[]> {
   return await Promise.all(
-    ["server", "client"].map(async (target, index) => {
-      const clean = index === 0
-      const config = await getWebpackConfig({ ..._arguments, target, clean })
+    ["server", "client"].map(async target => {
+      const config = await getWebpackConfig({ ..._arguments, target })
 
       return await enhancedBuild({ config, name: target })
     })
@@ -77,12 +74,7 @@ export async function buildProductionApp(_arguments = {}): Promise<void[]> {
 export async function getWebpackConfig(
   _arguments: FactorWebpackConfig
 ): Promise<Configuration> {
-  const {
-    target = "server",
-    analyze = false,
-    testing = false,
-    clean = false
-  } = _arguments
+  const { target = "server", analyze = false, testing = false } = _arguments
 
   const baseConfig = await base({ target })
 
@@ -97,9 +89,7 @@ export async function getWebpackConfig(
 
   // Only run this once (server build)
   // If it runs twice it cleans it after the first
-  if (clean) {
-    plugins.push(new CleanWebpackPlugin())
-  } else if (analyze) {
+  if (analyze && target == "client") {
     plugins.push(new BundleAnalyzer.BundleAnalyzerPlugin({ generateStatsFile: true }))
   }
 

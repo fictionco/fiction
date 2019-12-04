@@ -2,6 +2,7 @@ import execa from "execa"
 import listr, { ListrContext, ListrTaskWrapper } from "listr"
 
 import { log } from "@factor/tools"
+import { CommandOptions } from "./types"
 
 interface TaskConfig {
   command: string;
@@ -10,14 +11,16 @@ interface TaskConfig {
   options?: { cwd: string };
 }
 
-export async function verifyDependencies(): Promise<void> {
+export async function verifyDependencies(options: CommandOptions): Promise<void> {
+  const loaderOptions = options.clean ? ["--clean"] : []
+
   await runTasks(
     [
       { command: "yarn", args: ["install"], title: "Verify Dependencies" },
       {
         command: "factor",
-        args: ["create-loaders"],
-        title: "Verify Extensions"
+        args: ["create-loaders", ...loaderOptions],
+        title: "Setup Environment"
       }
     ],
     { exitOnError: true }

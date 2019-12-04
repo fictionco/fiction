@@ -1,4 +1,4 @@
-import { dirname, parse } from "path"
+import { dirname, parse, resolve } from "path"
 
 import { getPath } from "@factor/tools/paths"
 import { toPascalCase, sortPriority } from "@factor/tools/utils"
@@ -11,7 +11,8 @@ import {
   ExtendTypes,
   LoadTargets,
   NormalizedLoadTarget,
-  LoadTarget
+  LoadTarget,
+  CommandOptions
 } from "./types"
 
 interface LoaderFile {
@@ -99,7 +100,12 @@ function generateExtensionList(packagePaths: FactorPackageJson[]): FactorExtensi
   return sortPriority(loader)
 }
 
-export function generateLoaders(): void {
+export function generateLoaders(options?: CommandOptions): void {
+  if (options && options.clean) {
+    fs.removeSync(resolve(getCWD(), ".factor"))
+    fs.removeSync(resolve(getCWD(), "dist"))
+  }
+
   const extensions = getExtensions()
 
   if (extensions.length == 0) return
