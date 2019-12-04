@@ -189,6 +189,7 @@ async function base({ target }: { target: string }): Promise<Configuration> {
             transpileOnly: true,
             appendTsSuffixTo: [/\.vue$/],
             compilerOptions: {
+              module: "es6",
               noEmit: false,
               strict: false,
               sourceMap: false
@@ -211,8 +212,13 @@ async function base({ target }: { target: string }): Promise<Configuration> {
       }
     ],
     stats: { children: false },
-
-    performance: { maxEntrypointSize: 500000 }
+    optimization: {
+      sideEffects: true,
+      usedExports: true,
+      minimize: true
+    },
+    performance: { maxEntrypointSize: 500000 },
+    node: { crypto: "empty" } // removes 150kb from bundle size
   }
 
   // Allow for ignoring of files that should not be packaged for client

@@ -5,8 +5,6 @@ import mdAnchor from "markdown-it-anchor"
 import mdVideo from "markdown-it-video"
 import mdLinkAttributes from "markdown-it-link-attributes"
 import mdImplicitFigures from "markdown-it-implicit-figures"
-import remark from "remark"
-import stripMarkdownUtility from "strip-markdown"
 
 let markdownUtility: MarkdownIt
 
@@ -58,26 +56,4 @@ export function renderMarkdown(content = "", options?: MarkdownRenderOptions): s
   } else {
     return ""
   }
-}
-
-export function stripMarkdown(markdown: string): string {
-  let out = ""
-  remark()
-    .use(stripMarkdownUtility)
-    .process(markdown, (error, file) => {
-      if (error) throw error
-      out = String(file)
-    })
-
-  return out
-}
-
-export function excerpt(content: string, { length = 42 } = {}): string {
-  if (!content) return ""
-
-  const __ = stripMarkdown(content)
-    .replace(/\n|\r/g, " ")
-    .split(" ")
-
-  return __.length > length ? __.slice(0, length).join(" ") + "..." : __.join(" ")
 }

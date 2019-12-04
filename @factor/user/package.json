@@ -9,7 +9,6 @@
   },
   "version": "1.1.2",
   "license": "GPL-2.0",
-   
   "publishConfig": {
     "access": "public"
   },
@@ -19,6 +18,7 @@
     "@types/jsonwebtoken": "^8.3.5",
     "bcryptjs": "^2.4.3",
     "email-validator": "^2.0.4",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "validator": "^12.1.0"
   }
 }

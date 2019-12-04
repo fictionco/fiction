@@ -5,10 +5,12 @@
     </factor-highlight-code>
   </div>
 </template>
-<script>
-import { stored, renderMarkdown } from "@factor/tools"
+<script lang="ts">
+import { renderMarkdown } from "@factor/tools/markdown"
+import { stored } from "@factor/tools"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorHighlightCode
   },
@@ -33,7 +35,7 @@ export default {
       })
     }
   }
-}
+})
 </script>
 <style lang="less">
 .post-entry {

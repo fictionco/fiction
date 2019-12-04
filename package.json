@@ -60,8 +60,6 @@
     "consola": "^2.10.1",
     "eslint": "^6.0.0",
     "eslint-config-prettier": "^6.4.0",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-webpack": "^0.11.1",
     "eslint-loader": "^3.0.2",
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-html": "^6.0.0",

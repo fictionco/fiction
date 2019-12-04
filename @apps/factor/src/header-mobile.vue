@@ -24,7 +24,7 @@
 </template>
 <script lang="ts">
 import { factorIcon } from "@factor/ui"
-import { DOM } from "@factor/tools"
+import DOM from "jquery"
 import Vue from "vue"
 export default Vue.extend({
   components: {

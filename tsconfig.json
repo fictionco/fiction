@@ -11,6 +11,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "baseUrl": ".",
     "sourceMap": true,
     "skipLibCheck": true,

@@ -24,11 +24,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
-import { excerpt, stored } from "@factor/tools"
-export default {
+import { excerpt } from "@factor/tools/excerpt"
+import { stored } from "@factor/tools"
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
@@ -74,7 +76,7 @@ export default {
         : ""
     }
   }
-}
+})
 </script>
 
 <style lang="less">

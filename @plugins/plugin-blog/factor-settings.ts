@@ -1,4 +1,4 @@
-import Vue from "vue"
+import { Component } from "vue"
 
 export default {
   blog: {
@@ -30,20 +30,20 @@ export default {
       meta: ["authorDate", "tags"]
     },
     components: {
-      blogWrap: (): Promise<Vue> => import("./blog-wrap.vue"),
-      blogIndex: (): Promise<Vue> => import("./blog-index.vue"),
-      blogSingle: (): Promise<Vue> => import("./blog-single.vue"),
-      pagination: (): Promise<Vue> => import("./widget-pagination.vue"),
-      returnLink: (): Promise<Vue> => import("./widget-return-link.vue"),
-      authorDate: (): Promise<Vue> => import("./widget-author-date.vue"),
-      authorBio: (): Promise<Vue> => import("./widget-author-bio.vue"),
-      entry: (): Promise<Vue> => import("./widget-entry.vue"),
-      excerpt: (): Promise<Vue> => import("./widget-excerpt.vue"),
-      featuredImage: (): Promise<Vue> => import("./widget-featured-image.vue"),
-      headers: (): Promise<Vue> => import("./widget-headers.vue"),
-      meta: (): Promise<Vue> => import("./widget-meta.vue"),
-      social: (): Promise<Vue> => import("./widget-social.vue"),
-      tags: (): Promise<Vue> => import("./widget-tags.vue")
+      blogWrap: (): Promise<Component> => import("./blog-wrap.vue"),
+      blogIndex: (): Promise<Component> => import("./blog-index.vue"),
+      blogSingle: (): Promise<Component> => import("./blog-single.vue"),
+      pagination: (): Promise<Component> => import("./widget-pagination.vue"),
+      returnLink: (): Promise<Component> => import("./widget-return-link.vue"),
+      authorDate: (): Promise<Component> => import("./widget-author-date.vue"),
+      authorBio: (): Promise<Component> => import("./widget-author-bio.vue"),
+      entry: (): Promise<Component> => import("./widget-entry.vue"),
+      excerpt: (): Promise<Component> => import("./widget-excerpt.vue"),
+      featuredImage: (): Promise<Component> => import("./widget-featured-image.vue"),
+      headers: (): Promise<Component> => import("./widget-headers.vue"),
+      meta: (): Promise<Component> => import("./widget-meta.vue"),
+      social: (): Promise<Component> => import("./widget-social.vue"),
+      tags: (): Promise<Component> => import("./widget-tags.vue")
     }
   }
 }

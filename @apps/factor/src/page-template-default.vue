@@ -8,7 +8,7 @@
 
 <script>
 import { factorPostEdit } from "@factor/post"
-import { renderMarkdown } from "@factor/tools"
+import { renderMarkdown } from "@factor/tools/markdown"
 export default {
   components: { factorPostEdit },
   props: {

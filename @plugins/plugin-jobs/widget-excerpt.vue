@@ -9,8 +9,8 @@
 </template>
 <script>
 import { factorLink, factorIcon } from "@factor/ui"
-import { postLink, excerpt, stored } from "@factor/tools"
-
+import { postLink, stored } from "@factor/tools"
+import { excerpt } from "@factor/tools/excerpt"
 export default {
   components: { factorLink, factorIcon },
   props: {

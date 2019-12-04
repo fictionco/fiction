@@ -2,7 +2,6 @@ import { applyFilters } from "@factor/tools/filters"
 import { Schema, Document } from "mongoose"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost } from "./types"
-
 export default (): FactorSchema => {
   return {
     name: "post",
@@ -24,9 +23,9 @@ export default (): FactorSchema => {
       title: { type: String, trim: true },
       subTitle: { type: String, trim: true },
       content: { type: String, trim: true },
-      author: [{ type: objectIdType(), ref: "user" }],
-      images: [{ type: objectIdType(), ref: "attachment" }],
-      avatar: { type: objectIdType(), ref: "attachment" },
+      author: [{ type: objectIdType, ref: "user" }],
+      images: [{ type: objectIdType, ref: "attachment" }],
+      avatar: { type: objectIdType, ref: "attachment" },
       tag: { type: [String], index: true },
       category: { type: [String], index: true },
       revisions: [Object],

@@ -1,4 +1,5 @@
-import { toLabel, setting, renderMarkdown } from "@factor/tools"
+import { toLabel, setting } from "@factor/tools"
+import { renderMarkdown } from "@factor/tools/markdown"
 import { DocsItem } from "./types"
 
 export function config(): DocsItem[] {

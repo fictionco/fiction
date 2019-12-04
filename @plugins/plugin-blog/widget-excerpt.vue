@@ -7,17 +7,18 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
-import { postLink, excerpt, stored } from "@factor/tools"
-
-export default {
+import { postLink, stored } from "@factor/tools"
+import { excerpt } from "@factor/tools/excerpt"
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },
@@ -25,7 +26,7 @@ export default {
     excerpt,
     postLink
   }
-}
+})
 </script>
 <style lang="less">
 .post-excerpt {

@@ -13,11 +13,7 @@
         }}
       </div>
     </div>
-    <dashboard-input
-      v-model="post.titleTag"
-      input="factor-input-text"
-      label="Title Meta Tag"
-    />
+    <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
     <dashboard-input
       v-model="post.descriptionTag"
       input="factor-input-textarea"
@@ -32,9 +28,10 @@
   </div>
 </template>
 <script lang="ts">
+import { excerpt } from "@factor/tools/excerpt"
 import { dashboardInput } from "@factor/dashboard"
-import { postLink, excerpt, stored } from "@factor/tools"
-import Vue from 'vue'
+import { postLink, stored } from "@factor/tools"
+import Vue from "vue"
 export default Vue.extend({
   components: { dashboardInput },
   props: {

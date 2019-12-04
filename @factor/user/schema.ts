@@ -1,5 +1,8 @@
 import { objectIdType } from "@factor/post/util"
-import { validator, applyFilters } from "@factor/tools"
+import isEmail from "validator/lib/isEmail"
+import isMobilePhone from "validator/lib/isMobilePhone"
+
+import { applyFilters } from "@factor/tools"
 import bcrypt from "bcryptjs"
 import { HookNextFunction, Schema, Document } from "mongoose"
 import { FactorSchema } from "@factor/post/types"
@@ -51,7 +54,7 @@ export default (): FactorSchema => {
         lowercase: true,
         index: { unique: true },
         validate: {
-          validator: (v: string): boolean => validator.isEmail(v),
+          validator: (v: string): boolean => isEmail(v),
           message: (props: { value: string }): string =>
             `${props.value} is not a valid email.`
         }
@@ -72,7 +75,7 @@ export default (): FactorSchema => {
         lowercase: true,
         trim: true,
         validate: {
-          validator: (v: string): boolean => validator.isMobilePhone(v),
+          validator: (v: string): boolean => isMobilePhone(v),
           message: (props: { value: string }): string =>
             `${props.value} is not a valid phone number (with country code).`
         }

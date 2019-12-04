@@ -1,5 +1,5 @@
-import { DOM, log } from "@factor/tools"
-
+import DOM from "jquery"
+import log from "@factor/tools/logger"
 export function fluidInput(e: KeyboardEvent, wrapEl: HTMLElement): void {
   const NewEvent = DOM.Event("keydown")
   NewEvent.which = e.keyCode

@@ -5,10 +5,12 @@
     </factor-highlight-code>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-import { stored, renderMarkdown } from "@factor/tools"
-export default {
+import { renderMarkdown } from "@factor/tools/markdown"
+import { stored } from "@factor/tools"
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorHighlightCode
   },
@@ -16,24 +18,24 @@ export default {
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    variables() {
-      const vars = {}
-      this.post.images.forEach(imageId => {
+    variables(this: any) {
+      const vars: Record<string, string> = {}
+      this.post.images.forEach((imageId: string) => {
         const img = stored(imageId) || {}
         vars[imageId] = img.url || ""
       })
       return vars
     },
-    rendered() {
+    rendered(this: any) {
       return renderMarkdown(this.post.content, {
         variables: true
       })
     }
   }
-}
+})
 </script>
 <style lang="less">
 .post-entry {

@@ -9,4 +9,4 @@ export {
   merge,
   identity,
   omit
-} from "lodash"
+} from "lodash-es"

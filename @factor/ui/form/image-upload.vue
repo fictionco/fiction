@@ -61,17 +61,14 @@
       </div>
     </div>
     <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
-    <factor-lightbox
-      :visible.sync="lightboxShow"
-      :imgs="populated"
-      :index="lightboxIndex"
-    />
+    <factor-lightbox :visible.sync="lightboxShow" :imgs="populated" :index="lightboxIndex" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorMenu, factorLoadingRing, factorIcon, factorLightbox } from "@factor/ui"
 import { uploadImage, requestDeleteImage } from "@factor/attachment"
-import { DOM, emitEvent, onEvent, stored } from "@factor/tools"
+import DOM from "jquery"
+import { emitEvent, onEvent, stored } from "@factor/tools"
 import Sortable from "sortablejs"
 import Vue from "vue"
 export default Vue.extend({

@@ -54,9 +54,9 @@
   </div>
 </template>
 <script lang="ts">
-
 import { factorLoadingRing, factorLink, factorLightbox } from "@factor/ui"
-import { setting, renderMarkdown } from "@factor/tools"
+import { renderMarkdown } from "@factor/tools/markdown"
+import { setting } from "@factor/tools"
 import Vue from "vue"
 import {
   getSingleCache,

@@ -1,6 +1,6 @@
 import { stored } from "@factor/app/store"
 
-import { excerpt } from "@factor/tools/markdown"
+import { excerpt } from "@factor/tools/excerpt"
 import { addFilter } from "@factor/tools/filters"
 import { FactorMetaInfo } from "@factor/meta/types"
 export function titleTag(_id: string): string {

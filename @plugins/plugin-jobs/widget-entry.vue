@@ -6,7 +6,8 @@
   </div>
 </template>
 <script>
-import { stored, renderMarkdown } from "@factor/tools"
+import { renderMarkdown } from "@factor/tools/markdown"
+import { stored } from "@factor/tools"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import Vue from "vue"
 export default Vue.extend({

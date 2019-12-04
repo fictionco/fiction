@@ -44,7 +44,8 @@
 <script>
 import { factorLoadingRing } from "@factor/ui"
 import { factorPostEdit } from "@factor/post"
-import { throttle, standardDate, renderMarkdown } from "@factor/tools"
+import { renderMarkdown } from "@factor/tools/markdown"
+import { throttle, standardDate } from "@factor/tools"
 export default {
   components: { factorLoadingRing, factorPostEdit },
   props: {

@@ -12,8 +12,8 @@
   />
 </template>
 
-<script>
-import { DOM } from "@factor/tools"
+<script lang="ts">
+import DOM from "jquery"
 import Vue from "vue"
 export default Vue.extend({
   props: {

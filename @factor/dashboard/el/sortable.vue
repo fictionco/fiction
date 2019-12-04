@@ -44,18 +44,16 @@
           @input="setValue(field._id, $event)"
         />
         <div>
-          <factor-btn-dashboard
-            size="tiny"
-            @click="removeItem(selected)"
-          >Remove Item</factor-btn-dashboard>
+          <factor-btn-dashboard size="tiny" @click="removeItem(selected)">Remove Item</factor-btn-dashboard>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorBtnDashboard, factorIcon, factorInputWrap } from "@factor/ui"
-import { DOM, guid } from "@factor/tools"
+import { guid } from "@factor/tools/utils"
+import DOM from "jquery"
 import Sortable from "sortablejs"
 import Vue from "vue"
 export default Vue.extend({

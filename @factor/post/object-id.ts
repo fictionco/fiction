@@ -1,11 +1,7 @@
-import { Types, Schema } from "mongoose"
+import { ObjectId } from "bson"
 
-export const objectIdType = (): typeof Schema.Types.ObjectId => Schema.Types.ObjectId
+export const objectIdType = (): ObjectId => new ObjectId()
 
-export function objectId(str: string): Types.ObjectId {
-  return Types.ObjectId(str)
-}
-
-export function createObjectId(): Types.ObjectId {
-  return new Types.ObjectId()
+export function objectId(str: string): ObjectId {
+  return new ObjectId(str)
 }

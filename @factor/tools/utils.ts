@@ -1,7 +1,16 @@
 import deepMergeLib from "deepmerge"
+import randToken from "rand-token"
+import isNode from "detect-node"
+import guid from "uniqid"
 import stopwordsLib from "./resource/stopwords"
 
 export * from "./utils-lodash"
+
+export { isNode, guid }
+
+export function randomToken(): string {
+  return randToken.generate(16)
+}
 
 export function ensureTrailingSlash(path: string): string {
   path += path.endsWith("/") ? "" : "/"

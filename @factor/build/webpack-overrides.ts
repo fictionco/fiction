@@ -28,8 +28,18 @@ addFilter("webpack-aliases", (_: Record<string, any>) => {
 // This allows for overriding of files from themes
 // Notes:
 // - Uses "__FALLBACK__" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
-// - TODO if a file is added to app, then server needs a restart, fix should be possible
+
 addFilter("webpack-plugins", (_: Plugin[]): Plugin[] => {
+  _.push(
+    new webpack.NormalModuleReplacementPlugin(
+      /^mongoose/,
+      (resource: WebpackResource): WebpackResource => {
+        resource.request = "mongoose/browser"
+        return resource
+      }
+    )
+  )
+
   _.push(
     new webpack.NormalModuleReplacementPlugin(
       /^__FALLBACK__/,
@@ -37,8 +47,9 @@ addFilter("webpack-plugins", (_: Plugin[]): Plugin[] => {
     )
   )
   _.push(
-    new webpack.NormalModuleReplacementPlugin(/^@factor/, (resource: WebpackResource) =>
-      browserReplaceModule(resource)
+    new webpack.NormalModuleReplacementPlugin(
+      /^@factor/,
+      (resource: WebpackResource): WebpackResource => browserReplaceModule(resource)
     )
   )
   return _

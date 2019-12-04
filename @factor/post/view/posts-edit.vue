@@ -62,13 +62,12 @@
     </div>
   </dashboard-page>
 </template>
-<script>
+<script lang="ts">
 import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import {
   isEmpty,
   cloneDeep,
   toLabel,
-  excerpt,
   emitEvent,
   applyFilters,
   stored,
@@ -76,6 +75,7 @@ import {
   storeItem,
   getPermalink
 } from "@factor/tools"
+import { excerpt } from "@factor/tools/excerpt"
 import { requestPostSave } from "@factor/post"
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
 import Vue from "vue"

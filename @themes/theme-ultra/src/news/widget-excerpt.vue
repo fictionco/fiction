@@ -4,11 +4,12 @@
     <factor-link class="read-more" :path="postLink(post._id)">Read More...</factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
-import { postLink, excerpt, stored } from "@factor/tools"
-
-export default {
+import { excerpt } from "@factor/tools/excerpt"
+import { postLink, stored } from "@factor/tools"
+import Vue from 'vue'
+export default Vue.extend({
   components: { factorLink },
   props: {
     postId: { type: String, default: "" }
@@ -22,5 +23,5 @@ export default {
     postLink,
     excerpt
   }
-}
+})
 </script>

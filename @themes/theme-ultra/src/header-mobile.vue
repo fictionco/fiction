@@ -23,10 +23,12 @@
     </transition>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorIcon } from "@factor/ui"
-import { DOM } from "@factor/tools"
-export default {
+import DOM from "jquery"
+import Vue from "vue"
+import { Route } from "vue-router"
+export default Vue.extend({
   components: {
     factorIcon,
     "page-sidebar": () => import("./sidebar.vue"),
@@ -38,7 +40,7 @@ export default {
     }
   },
   watch: {
-    $route: function(to, from) {
+    $route: function(to: Route, from: Route) {
       if (to.path != from.path) {
         this.toggleNav(false)
       }
@@ -72,7 +74,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">
