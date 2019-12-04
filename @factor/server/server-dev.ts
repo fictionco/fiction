@@ -1,16 +1,17 @@
 import path from "path"
+import fs from "fs-extra"
 import { addFilter, setting, log, runCallbacks } from "@factor/tools"
 
 import chalk from "chalk"
-import fs from "fs-extra"
 import MFS from "memory-fs"
+
 import ora, { Ora } from "ora"
 import webpack, { Configuration } from "webpack"
 import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 import yargs from "yargs"
 import { getWebpackConfig } from "@factor/build/webpack-config"
-import { getPath } from "@factor/tools/paths"
+
 import { watcher } from "./watcher"
 import { RendererComponents } from "./types"
 const argv = yargs.argv
@@ -41,8 +42,16 @@ interface UpdateBundle {
   ({ bundle, template, clientManifest }: RendererComponents): void;
 }
 
-export async function developmentServer(cb: UpdateBundle): Promise<void> {
-  updateBundleCallback = cb
+type MemorySystemType = typeof fs | MFS
+
+export async function developmentServer({
+  fileSystem,
+  onReady
+}: {
+  fileSystem?: string;
+  onReady: UpdateBundle;
+}): Promise<void> {
+  updateBundleCallback = onReady
 
   const templatePath = getTemplatePath()
 
@@ -64,9 +73,9 @@ export async function developmentServer(cb: UpdateBundle): Promise<void> {
     }
   })
 
-  clientCompiler()
+  createClientCompiler({ fileSystem })
 
-  serverCompiler()
+  createServerCompiler({ fileSystem })
 }
 
 function loaders(target = "", status = "", time?: number): void {
@@ -105,7 +114,11 @@ function updateBundles({ title = "", value = "" } = {}): void {
   }
 }
 
-function clientCompiler(): void {
+export interface DevCompilerOptions {
+  fileSystem?: string | void;
+}
+
+function createClientCompiler({ fileSystem }: DevCompilerOptions): void {
   // Webpack config allows entry to be array, string, function
   // WHM requires that we insert it into an entry array
   // Note function mode isn't
@@ -114,9 +127,10 @@ function clientCompiler(): void {
       ? [configClient.entry]
       : (configClient.entry as string[])
 
+  if (configClient.output) configClient.output.filename = "[name].js"
+
   configClient.entry = ["webpack-hot-middleware/client?quiet=true", ...existingEntry]
 
-  configClient.output = { filename: "[name].js" }
   configClient.plugins?.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
@@ -127,9 +141,19 @@ function clientCompiler(): void {
     // Dev Middleware - which injects changed files into the webpack bundle
     const clientCompiler = webpack(configClient)
 
+    let devFilesystem = {} // default
+    if (fileSystem == "fs") {
+      fs.join = path.join // Needed by dev server / webpack convention (exists in memory fs)
+      devFilesystem = { fs }
+    }
+
     const publicPath = configClient.output?.publicPath ?? "/"
     const middleware = {
-      dev: webpackDevMiddleware(clientCompiler, { publicPath, logLevel: "silent" }),
+      dev: webpackDevMiddleware(clientCompiler, {
+        publicPath,
+        logLevel: "silent",
+        ...devFilesystem
+      }),
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
     }
 
@@ -160,11 +184,20 @@ function clientCompiler(): void {
   }
 }
 
-function serverCompiler(): void {
+function createServerCompiler({ fileSystem }: DevCompilerOptions): void {
   const serverCompiler = webpack(configServer)
 
-  const mfs = new MFS()
-  serverCompiler.outputFileSystem = mfs
+  let fileSystemUtility: MemorySystemType
+  if (fileSystem == "fs") {
+    fileSystemUtility = fs
+    serverCompiler.outputFileSystem = fs
+  } else {
+    const mfs = new MFS()
+
+    serverCompiler.outputFileSystem = mfs
+
+    fileSystemUtility = mfs
+  }
 
   loaders("server", "start")
   serverCompiler.plugin("compile", () => loaders("server", "start"))
@@ -177,14 +210,19 @@ function serverCompiler(): void {
 
     if (errors.length !== 0) return log.error(errors)
 
-    bundle = JSON.parse(readFileFromMemory(mfs, "factor-server.json"))
+    bundle = JSON.parse(readFileFromMemory(fileSystemUtility, "factor-server.json"))
 
     loaders("server", "done", time)
   })
 }
 
 // Read file using  Memory File Service
-function readFileFromMemory(mfs: MFS, file: string): string {
-  const basePath = configClient.output?.path ?? getPath("dist")
-  return mfs.readFileSync(path.join(basePath, file), "utf-8")
+function readFileFromMemory(fileSystemUtility: MemorySystemType, file: string): string {
+  const basePath = configClient.output?.path
+
+  if (!basePath) {
+    throw new Error("Base output path is undefined.")
+  }
+
+  return fileSystemUtility.readFileSync(path.join(basePath, file), "utf-8")
 }

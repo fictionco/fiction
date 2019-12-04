@@ -19,18 +19,26 @@ import { RendererComponents } from "./types"
 let __listening: Server | undefined
 let __renderer: BundleRenderer
 let __application
-addCallback("create-server", () => createRenderServer())
+
+interface ServerOptions {
+  static?: boolean;
+  port?: string;
+}
+addCallback("create-server", (_: ServerOptions) => createRenderServer(_))
 addCallback("close-server", () => closeServer())
 
-export async function createRenderServer(options = {}): Promise<void> {
+export async function createRenderServer(options: ServerOptions = {}): Promise<void> {
   await new Promise(resolve => {
     if (process.env.NODE_ENV == "development") {
-      developmentServer(renderConfig => {
-        htmlRenderer(renderConfig)
+      developmentServer({
+        fileSystem: options.static ? "fs" : "memory-fs",
+        onReady: renderConfig => {
+          htmlRenderer(renderConfig)
 
-        if (!__listening) createServer(options)
+          if (!__listening) createServer(options)
 
-        resolve()
+          resolve()
+        }
       })
     } else {
       htmlRenderer({

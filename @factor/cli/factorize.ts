@@ -18,6 +18,7 @@ export async function factorize(_config: EnvironmentConfig = {}): Promise<void> 
   // Do this for every reset of server
   setEnvironment(_config)
   if (!_config.restart) transpile()
+
   aliasRequire()
 
   await extendServer(_config)
@@ -60,7 +61,7 @@ export async function extendServer({ restart = false } = {}): Promise<void> {
 // Needed for server reloading
 async function reloadNodeProcess(_arguments: EnvironmentConfig): Promise<void> {
   Object.keys(require.cache).forEach(id => {
-    if (/(@|\.)factor/.test(id)) {
+    if (/factor(?!.*node_modules)/.test(id)) {
       delete require.cache[id]
     }
   })

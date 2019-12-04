@@ -5,6 +5,7 @@ import { FactorUser } from "@factor/user/types"
 import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
+import createError, { HttpError } from "http-errors"
 import {
   EndpointItem,
   EndpointMeta,
@@ -83,9 +84,9 @@ export async function processEndpointRequest({
 
   const { authorization } = headers
 
-  const responseJson: { result: ResponseType; error: object } = { result: "", error: {} }
+  const responseJson: { result?: ResponseType; error?: HttpError } = {}
 
-  // Authorization / Bearer
+  // Authorization / Bearer.
   // If there is an error leave as null bearer but still run method
   try {
     if (authorization && authorization.startsWith("Bearer ")) {
@@ -94,7 +95,8 @@ export async function processEndpointRequest({
       meta.bearer = token ? ((await getSinglePost({ token })) as FactorUser) : undefined
     }
   } catch (error) {
-    responseJson.error = error.message || 500
+    // Generate Error
+    responseJson.error = createError(error.code ?? 500, error.message)
     log.error(error)
   }
 

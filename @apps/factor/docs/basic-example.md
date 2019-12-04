@@ -2,8 +2,6 @@
 
 Let's dig in to the basics of developing an application with Factor.
 
-Full stacks apps have many functional aspects, but the good news is Factor standardizes them for you.
-
 In this document, we'll create a basic, yet fully featured app from scratch. You will be able to use these steps as the starting point for creating world-class applications in no time.
 
 Check out the files for this example here.

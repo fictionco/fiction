@@ -17,9 +17,13 @@ declare module "vue/types/vue" {
   }
 }
 
-Vue.$filters = {
-  filters: {},
-  applied: {}
+// This needs to be retained after server restart in development
+// Can't be sure that original filters are added again.
+if (!Vue.$filters) {
+  Vue.$filters = {
+    filters: {},
+    applied: {}
+  }
 }
 
 export function getFilters(): FilterRecord {

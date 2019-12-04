@@ -30,20 +30,26 @@ commander
 commander
   .command("dev")
   .description("Start development server")
-  .action(_arguments =>
-    runCommand({ command: "dev", _arguments, NODE_ENV: "development" })
-  )
+  .option("--static", "use static file system for builds instead of memory")
+  .action(_arguments => {
+    runCommand({ command: "dev", ...cleanArguments(_arguments), NODE_ENV: "development" })
+  })
 
 commander
   .command("start")
   .description("Build and then serve production app.")
-  .action(_arguments => runCommand({ command: "start", _arguments }))
+  .action(_arguments => runCommand({ command: "start", ...cleanArguments(_arguments) }))
 
 commander
   .command("serve [NODE_ENV]")
   .description("Serve app in selected environment.")
   .action((NODE_ENV, _arguments) =>
-    runCommand({ command: "serve", _arguments, install: false, NODE_ENV })
+    runCommand({
+      command: "serve",
+      ...cleanArguments(_arguments),
+      install: false,
+      NODE_ENV
+    })
   )
 
 commander
@@ -51,18 +57,20 @@ commander
   .option("--analyze", "Analyze package size")
   .option("--speed", "Output build speed data")
   .description("Build production app")
-  .action(_arguments => runCommand({ command: "build", _arguments }))
+  .action(_arguments => runCommand({ command: "build", ...cleanArguments(_arguments) }))
 
 commander
   .command("setup [filter]")
   .description("Setup and verify your Factor app")
-  .action((filter, _arguments) => runCommand({ command: "setup", filter, _arguments }))
+  .action((filter, _arguments) =>
+    runCommand({ command: "setup", filter, ...cleanArguments(_arguments) })
+  )
 
 commander
   .command("run <filter>")
   .description("Run CLI utilities based on filter name (see documentation)")
   .action((filter, _arguments) =>
-    runCommand({ command: "run", filter, install: false, _arguments })
+    runCommand({ command: "run", filter, install: false, ...cleanArguments(_arguments) })
   )
 
 commander
@@ -74,40 +82,41 @@ commander.parse(process.argv)
 
 interface CommandOptions {
   command: string;
-  _arguments: any;
   filter?: string;
   install?: boolean;
   NODE_ENV?: string;
+  analyze?: boolean;
+  static?: boolean;
 }
 
 export async function runCommand(options: CommandOptions): Promise<void> {
-  const {
-    command,
-    _arguments,
-    filter,
-    install = true,
-    NODE_ENV = command == "dev" ? "development" : "production"
-  } = options
+  const setup = {
+    install: true,
+    NODE_ENV: options.command == "dev" ? "development" : "production",
+    ...options
+  }
+
+  const { install, filter, command } = setup
 
   if (install) await verifyDependencies()
 
-  const { parent = {}, ...rest } = _arguments
-
-  await factorize({ NODE_ENV, command, filter, ...parent, ...rest })
+  await factorize(setup)
 
   try {
     if (["build", "start"].includes(command)) {
-      await buildProductionApp(_arguments)
+      await buildProductionApp(options)
     } else if (command == "setup") {
-      await tools.runCallbacks(`cli-setup`, _arguments)
+      await tools.runCallbacks(`cli-setup`, options)
     } else if (command == "run") {
-      await tools.runCallbacks(`cli-run-${filter}`, _arguments)
+      if (!filter) throw new Error("Filter argument is required.")
+
+      await tools.runCallbacks(`cli-run-${filter}`, options)
 
       log.success(`Successfully ran "${filter}"\n\n`)
     }
 
     if (["start", "dev", "serve"].includes(command)) {
-      await runServer() // Long running process
+      await runServer(setup) // Long running process
     } else {
       if (command) log.success(`Successfully ran [${command}]`)
       // eslint-disable-next-line unicorn/no-process-exit
@@ -120,7 +129,7 @@ export async function runCommand(options: CommandOptions): Promise<void> {
   return
 }
 
-export async function runServer(): Promise<void> {
+export async function runServer(setup: CommandOptions): Promise<void> {
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {
@@ -136,5 +145,29 @@ export async function runServer(): Promise<void> {
 
   log.formatted(message)
 
-  await tools.runCallbacks("create-server")
+  await tools.runCallbacks("create-server", setup)
+}
+
+interface CommanderArguments {
+  options: object[];
+  parent: Record<string, any>;
+  [key: string]: any;
+}
+
+// Clean up commanders provided arguments to just return needed CLI arguments
+function cleanArguments(commanderArguments: CommanderArguments): Record<string, any> {
+  const out: { [index: string]: any } = {}
+
+  const { parent = {}, ...rest } = commanderArguments
+
+  const flat = { ...parent, ...rest }
+
+  // Remove all keys starting with Capital letters or underscore
+  Object.keys(flat).forEach(k => {
+    if (!k.startsWith("_") && !/[A-Z]/.test(k[0])) {
+      out[k] = flat[k]
+    }
+  })
+
+  return out
 }

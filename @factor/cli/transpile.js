@@ -3,6 +3,9 @@
 module.exports = () => {
   require("ts-node").register({
     transpileOnly: true,
+    compilerOptions: {
+      strict: false
+    },
     ignore: [`/node_modules/(?!(@factor|factor))`]
   })
   require.extensions[".md"] = () => {}

@@ -184,17 +184,6 @@ async function base({ target }: { target: string }): Promise<Configuration> {
       rules: applyFilters("webpack-loaders", [
         { test: /\.vue$/, loader: "vue-loader" },
         {
-          test: /\.ts$/,
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true,
-            appendTsSuffixTo: [/\.vue$/],
-            compilerOptions: {
-              noEmit: false
-            }
-          }
-        },
-        {
           test: /\.(png|jpg|gif|svg|mov|mp4)$/,
           loader: "file-loader",
           // esModule option introduced in v5, but breaks markdown-image-loader
@@ -202,7 +191,20 @@ async function base({ target }: { target: string }): Promise<Configuration> {
         },
         { test: /\.css/, use: cssLoaders({ target, lang: "css" }) },
         { test: /\.less/, use: cssLoaders({ target, lang: "less" }) },
-        { test: /\.md$/, use: [{ loader: "markdown-image-loader" }] }
+        { test: /\.md$/, use: [{ loader: "markdown-image-loader" }] },
+        {
+          test: /\.ts$/,
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+            appendTsSuffixTo: [/\.vue$/],
+            compilerOptions: {
+              noEmit: false,
+              strict: false,
+              sourceMap: false
+            }
+          }
+        }
       ])
     },
 
