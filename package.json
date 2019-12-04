@@ -70,6 +70,8 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-unicorn": "^14.0.0",
     "eslint-plugin-vue": "^6.0.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-webpack": "^0.11.1",
     "esm": "^3.2.25",
     "execa": "^3.1.0",
     "exit": "^0.1.2",
