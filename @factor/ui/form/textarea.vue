@@ -20,17 +20,17 @@ export default Vue.extend({
     value: { type: [String, Number], default: "" }
   },
   computed: {
-    listeners() {
+    listeners(this: any) {
       return {
         ...this.$listeners,
-        input: event => this.$emit("input", event.target.value)
+        input: (event: any) => this.$emit("input", event.target.value)
       }
     }
   },
   mounted() {
     this.$watch(
       `value`,
-      function() {
+      function(this: any) {
         this.setHeight()
       },
       { immediate: true }
@@ -38,7 +38,7 @@ export default Vue.extend({
   },
 
   methods: {
-    setHeight() {
+    setHeight(this: any) {
       const ta = DOM(this.$refs.textarea)
       if (ta.length != 0) {
         const sh = ta.height(0).get(0).scrollHeight

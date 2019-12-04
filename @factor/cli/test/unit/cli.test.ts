@@ -15,7 +15,7 @@ describe("cli", () => {
         throw "Mock"
       })
 
-      await cli.runCommand({ _arguments: {}, command: "none" })
+      await cli.runCommand({ command: "none" })
 
       // eslint-disable-next-line require-atomic-updates
       process.stdout.write = originalStd

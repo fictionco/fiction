@@ -1,6 +1,5 @@
 import "@factor/build/webpack-overrides"
 import { applyFilters, log, ensureTrailingSlash, deepMerge } from "@factor/tools"
-import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import { getPath } from "@factor/tools/paths"
 import BundleAnalyzer from "webpack-bundle-analyzer"
 import CopyPlugin from "copy-webpack-plugin"
@@ -218,7 +217,7 @@ async function base({ target }: { target: string }): Promise<Configuration> {
       minimize: true
     },
     performance: { maxEntrypointSize: 500000 },
-    node: { crypto: "empty" } // removes 150kb from bundle size
+    node: { crypto: false } // removes 150kb from bundle size
   }
 
   // Allow for ignoring of files that should not be packaged for client
