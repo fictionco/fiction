@@ -8,12 +8,12 @@
     <img
       src="../img/nashville-photo1.jpg"
       alt="Nashville Music"
-      class="absolute z-30 bottom-0 right-auto w-40 -ml-64 mb-12 rounded shadow-lg"
+      class="hidden absolute z-30 bottom-0 right-auto w-40 -ml-64 mb-12 rounded shadow-lg md:block"
     />
     <img
       src="../img/nashville-photo2.jpg"
       alt="Nashville BBQ"
-      class="absolute z-20 right-auto bottom-0 -ml-32 w-56 rounded shadow-lg"
+      class="hidden absolute z-20 right-auto bottom-0 -ml-32 w-56 rounded shadow-lg md:block"
     />
   </figure>
 </template>

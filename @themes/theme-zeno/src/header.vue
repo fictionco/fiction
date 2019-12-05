@@ -1,6 +1,7 @@
 <template>
   <header
-    class="max-w-6xl mx-auto lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center lg:px-4 lg:py-3"
+    class="lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center lg:px-4 lg:py-3"
+    :class="headerClasses()"
   >
     <div class="flex items-center justify-between px-6 py-3 lg:p-0 lg:flex-1">
       <site-brand />
@@ -38,7 +39,7 @@
               :event="item.event"
               :target="item.target"
               class="transition-all text-xl py-1 px-2 mt-0 hover:bg-gray-100 hover:text-purple-500 lg:hover:bg-transparent lg:inline lg:px-1 lg:text-base"
-              :class="getClass()"
+              :class="navLinkClass()"
               @click="isOpen = !isOpen"
             >
               <factor-icon v-if="item.icon" :icon="item.icon" />
@@ -72,10 +73,18 @@ export default Vue.extend({
     }
   },
   methods: {
-    getClass() {
-      return {
-        "block lg:inline lg:text-white lg:hover:text-teal-500": this.$route.path === "/",
-        "lg:hover:text-purple-900": this.$route.path != "/"
+    headerClasses() {
+      if (this.$route.path != "/") {
+        return "mx-auto max-w-6xl"
+      } else {
+        return
+      }
+    },
+    navLinkClass() {
+      if (this.$route.path != "/") {
+        return "lg:hover:text-purple-900"
+      } else {
+        return "block lg:inline lg:text-white lg:hover:text-teal-500"
       }
     }
   }
