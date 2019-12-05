@@ -16,8 +16,12 @@ import {
 
 export * from "./object-id"
 
-export function extendPostSchema(config: FactorSchemaModule): void {
-  pushToFilter("data-schemas", config, { key: config.name })
+export function extendPostSchema(
+  config: FactorSchemaModule,
+  options: { key?: string } = {}
+): void {
+  options.key = options.key ?? config.name
+  pushToFilter("data-schemas", config, options)
 }
 
 export function getAddedSchemas(): FactorSchema[] {

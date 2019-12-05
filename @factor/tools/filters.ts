@@ -1,4 +1,4 @@
-import { sortPriority, uniqueObjectHash } from "@factor/tools/utils"
+import { sortPriority } from "@factor/tools/utils"
 import Vue from "vue"
 
 type FilterRecord = Record<string, Record<string, FilterItem>>
@@ -92,7 +92,7 @@ export function addFilter<T>(
 
   if (!$filters[_id]) $filters[_id] = {}
 
-  key = key ? key : uniqueObjectHash(cb, callerKey())
+  key = key ? key : uniqueObjectHash(cb)
 
   // create unique ID
   // In certain situations (HMR, dev), the same filter can be added twice
@@ -108,7 +108,7 @@ export function addFilter<T>(
 }
 
 export function pushToFilter<T>(_id: string, item: T, { key = "", pushTo = -1 } = {}): T {
-  key = key ? key : uniqueObjectHash(item, callerKey())
+  key = key ? key : uniqueObjectHash(item)
 
   addFilter(
     _id,
@@ -135,7 +135,7 @@ export function addCallback<T>(
 ): Function | T {
   // get unique signature which includes the caller path of function and stringified callback
   // added the caller because sometimes callbacks look the exact same in different files!
-  key = key ? key : uniqueObjectHash(callback, callerKey())
+  key = key ? key : uniqueObjectHash(callback)
 
   const callable = typeof callback != "function" ? (): T => callback : callback
 
@@ -174,4 +174,36 @@ function callerKey(): string {
   }
 
   return stacker
+}
+
+export function uniqueObjectHash(obj: any): string {
+  if (!obj) return obj
+
+  let str
+  if (typeof obj == "string") {
+    str = obj
+  } else if (typeof obj == "function") {
+    str = obj.toString()
+  } else {
+    // Make sure to remove circular refs
+    // https://github.com/WebReflection/flatted#flatted
+    const { stringify } = require("flatted/cjs")
+    str = stringify(obj)
+  }
+
+  if (!str.includes("\n")) {
+    str = str + callerKey()
+  }
+
+  str = str.slice(0, 500)
+
+  const keyed = str
+    .split("")
+    .reduce(
+      (prevHash: number, currVal: string) =>
+        ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
+      0
+    )
+
+  return String(keyed).replace(/-/g, "")
 }

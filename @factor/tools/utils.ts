@@ -171,32 +171,3 @@ export function toPascalCase(string: string): string {
     .replace(new RegExp(/\s/, "g"), "")
     .replace(new RegExp(/\w/), s => s.toUpperCase())
 }
-
-export function uniqueObjectHash(obj: any, salt = ""): string {
-  if (!obj) return obj
-
-  let str
-  if (typeof obj == "string") {
-    str = obj
-  } else if (typeof obj == "function") {
-    str = obj.toString()
-  } else {
-    // Make sure to remove circular refs
-    // https://github.com/WebReflection/flatted#flatted
-    const { stringify } = require("flatted/cjs")
-    str = stringify(obj)
-  }
-
-  str = str + salt
-
-  str = str.slice(0, 500)
-
-  const keyed = str
-    .split("")
-    .reduce(
-      (prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,
-      0
-    )
-
-  return String(keyed).replace(/-/g, "")
-}
