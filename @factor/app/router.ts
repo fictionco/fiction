@@ -50,19 +50,24 @@ export function getRouter(): VueRouter {
   return Vue.$router
 }
 
-export function addContentRoute(routeItem: RouteConfig): void {
-  pushToFilter("content-routes", routeItem)
+export function addContentRoute(routeItem: RouteConfig, options?: object): void {
+  pushToFilter("content-routes", routeItem, options)
 }
 
 // Allow for callback signature to allow for dynamic settings that may not exist yet
 export function addContentRoutes(
-  routeItems: RouteConfig[] | (() => RouteConfig[])
+  routeItems: RouteConfig[] | (() => RouteConfig[]),
+  options?: object
 ): void {
-  addFilter("content-routes", (routes: RouteConfig[]): RouteConfig[] => {
-    const r = typeof routeItems === "function" ? routeItems() : routeItems
+  addFilter(
+    "content-routes",
+    (routes: RouteConfig[]): RouteConfig[] => {
+      const r = typeof routeItems === "function" ? routeItems() : routeItems
 
-    return routes.concat(r)
-  })
+      return routes.concat(r)
+    },
+    options
+  )
 }
 
 export function currentRoute(): Route {

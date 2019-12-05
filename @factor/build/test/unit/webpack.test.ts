@@ -82,7 +82,7 @@ describe("webpack", () => {
     })
 
     it("supports bundle analysis", async () => {
-      const config = await getWebpackConfig({ analyze: true })
+      const config = await getWebpackConfig({ analyze: true, target: "client" })
       const plugins = config.plugins?.map(_ => _.constructor.name)
 
       if (plugins) expect(plugins.includes("BundleAnalyzerPlugin")).toBe(true)

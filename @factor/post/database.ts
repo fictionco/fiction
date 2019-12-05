@@ -25,7 +25,9 @@ export function dbIsOffline(): boolean {
 // Must be non-async so we can use chaining
 export function getModel<T>(name: string): Model<(T & Document) & FactorPostDocument> {
   // If model doesn't exist, create a vanilla one
-  if (!__models[name] && name != "post") setModel({ name }, getModel("post"))
+  if (!__models[name] && name != "post") {
+    setModel({ name }, getModel("post"))
+  }
 
   return __models[name]
 }
@@ -79,7 +81,11 @@ export function setModel(
 
 export function tearDown(): void {
   Object.keys(mongoose.models).forEach(m => {
+    // 1234567891112131516171819
+    mongoose.connection.deleteModel(m)
+    delete mongoose.connection.models[m]
     delete mongoose.models[m]
+    delete mongoose.modelSchemas[m]
   })
 }
 

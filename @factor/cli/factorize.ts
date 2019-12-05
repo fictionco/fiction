@@ -25,7 +25,7 @@ export async function factorize(_config: EnvironmentConfig = {}): Promise<void> 
 
   // Filters must be reloaded with every new restart of server.
   // This adds the filter each time to allow for restart
-  addCallback("rebuild-server-app", () => reloadNodeProcess(_config))
+  addCallback("rebuild-server-app", () => reloadNodeProcess(_config), { key: "reload" })
 }
 
 export function setEnvironment(_arguments: EnvironmentConfig = {}): void {

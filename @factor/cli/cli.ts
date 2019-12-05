@@ -32,6 +32,7 @@ commander
   .command("dev")
   .description("Start development server")
   .option("--static", "use static file system for builds instead of memory")
+  .option("--inspect", "run node debug-mode inspector")
   .action(_arguments => {
     runCommand({ command: "dev", ...cleanArguments(_arguments), NODE_ENV: "development" })
   })
@@ -124,6 +125,12 @@ export async function runCommand(options: CommandOptions): Promise<void> {
 }
 
 export async function runServer(setup: CommandOptions): Promise<void> {
+  const { command, inspect } = setup
+
+  if (command && ["dev"].includes(command) && inspect) {
+    await initializeNodeInspector()
+  }
+
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {
@@ -164,4 +171,10 @@ function cleanArguments(commanderArguments: CommanderArguments): Record<string, 
   })
 
   return out
+}
+
+async function initializeNodeInspector(): Promise<void> {
+  const inspector = require("inspector")
+  inspector.close()
+  await inspector.open()
 }

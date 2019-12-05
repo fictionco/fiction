@@ -17,7 +17,7 @@ import {
 export * from "./object-id"
 
 export function extendPostSchema(config: FactorSchemaModule): void {
-  pushToFilter("data-schemas", config)
+  pushToFilter("data-schemas", config, { key: config.name })
 }
 
 export function getAddedSchemas(): FactorSchema[] {

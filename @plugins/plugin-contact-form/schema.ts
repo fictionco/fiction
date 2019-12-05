@@ -1,4 +1,6 @@
 export default {
   name: "contact-form",
-  anonymousUserCanCreate: true
+  permissions: {
+    create: { accessLevel: 0 }
+  }
 }

@@ -71,16 +71,20 @@ export function createServer(options: { port?: string }): void {
 
   prepareListener()
 
-  addCallback("restart-server", async () => {
-    log.server("restarting server", { color: "yellow" })
+  addCallback(
+    "restart-server",
+    async () => {
+      log.server("restarting server", { color: "yellow" })
 
-    if (__listening) {
-      __listening.destroy()
-    }
-    await runCallbacks("rebuild-server-app")
+      if (__listening) {
+        __listening.destroy()
+      }
+      await runCallbacks("rebuild-server-app")
 
-    createServer(options)
-  })
+      createServer(options)
+    },
+    { key: "create-server" }
+  )
 }
 
 function htmlRenderer({ bundle, template, clientManifest }: RendererComponents): void {

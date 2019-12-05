@@ -7,6 +7,7 @@ import {
   pushToFilter,
   addContentRoute
 } from "@factor/tools"
+
 import { Component } from "vue"
 import { setting } from "@factor/tools/settings"
 import { userCan } from "@factor/user"

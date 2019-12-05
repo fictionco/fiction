@@ -18,7 +18,7 @@ export interface PostTypeConfig {
 }
 
 export function addPostType(config: PostTypeConfig): void {
-  pushToFilter("post-types-config", config)
+  pushToFilter("post-types-config", config, { key: config.postType })
 }
 
 export function postTypesConfig(): PostTypeConfig[] {

@@ -12,6 +12,7 @@ export interface CommandOptions {
   analyze?: boolean;
   static?: boolean;
   clean?: boolean;
+  inspect?: boolean;
 }
 
 export interface FactorPackageJson {

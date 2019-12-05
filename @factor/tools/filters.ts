@@ -92,10 +92,12 @@ export function addFilter<T>(
 
   if (!$filters[_id]) $filters[_id] = {}
 
+  key = key ? key : uniqueObjectHash(cb, callerKey())
+
   // create unique ID
   // In certain situations (HMR, dev), the same filter can be added twice
   // Using objects and a hash identifier solves that
-  const uniqueKey = `key_${uniqueObjectHash(cb, callerKey(key))}`
+  const uniqueKey = `key_${key}`
 
   // For simpler assignments where no callback is needed
   const callback = typeof cb != "function" ? (): T => cb : cb
@@ -106,7 +108,7 @@ export function addFilter<T>(
 }
 
 export function pushToFilter<T>(_id: string, item: T, { key = "", pushTo = -1 } = {}): T {
-  key = uniqueObjectHash(item, callerKey(key))
+  key = key ? key : uniqueObjectHash(item, callerKey())
 
   addFilter(
     _id,
@@ -129,17 +131,17 @@ export function pushToFilter<T>(_id: string, item: T, { key = "", pushTo = -1 } 
 export function addCallback<T>(
   _id: string,
   callback: Function | T,
-  options: { key?: string } = {}
+  { key = "" } = {}
 ): Function | T {
   // get unique signature which includes the caller path of function and stringified callback
   // added the caller because sometimes callbacks look the exact same in different files!
-  const { key = "" } = options
-
-  options.key = uniqueObjectHash(callback, callerKey(key))
+  key = key ? key : uniqueObjectHash(callback, callerKey())
 
   const callable = typeof callback != "function" ? (): T => callback : callback
 
-  addFilter(_id, (_: Function[] = [], args: object) => [..._, callable(args)], options)
+  addFilter(_id, (_: Function[] = [], args: object) => [..._, callable(args)], {
+    key
+  })
 
   return callback
 }
@@ -156,15 +158,20 @@ export async function runCallbacks(
 // Use the function that called the filter in the key
 // this prevents issues where two filters in different may match each other
 // which causes difficult to solve bugs (data-schemas is an example)
-function callerKey(key: string): string {
+function callerKey(): string {
   const error = new Error()
-  const stacker =
-    error && error.stack
-      ? error.stack
-          .toString()
-          .split("at")
-          .find(line => !line.match(/(filter|Error)/))
-      : "no-stack"
 
-  return key + stacker
+  let stacker = "no-stack"
+  if (error && error.stack) {
+    const line = error.stack
+      .toString()
+      .split("(")
+      .find(line => !line.match(/(filter|Error)/))
+
+    if (line) {
+      stacker = line.slice(0, Math.max(0, line.indexOf(":")))
+    }
+  }
+
+  return stacker
 }
