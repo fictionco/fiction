@@ -1,5 +1,6 @@
 import { ObjectId } from "bson"
 
+// taken from mongoose
 Object.defineProperty(ObjectId.prototype, "_id", {
   enumerable: false,
   configurable: true,
@@ -7,11 +8,6 @@ Object.defineProperty(ObjectId.prototype, "_id", {
     return this
   }
 })
-
-const objectIdSymbol = Symbol("mongoose#ObjectId")
-
-// @ts-ignore
-//ObjectId.prototype[objectIdSymbol] = true
 
 export const objectIdType = (): any => ObjectId
 
