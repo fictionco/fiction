@@ -1,13 +1,16 @@
 <template>
   <div class="blog">
-    <section>
+    <section class="max-w-6xl mx-auto px-4 py-8 lg:py-16 bg-white flex justify-between">
       <div>
-        <div>{{ introPretitle }}</div>
-        <h1>{{ introTitle }}</h1>
-        <div v-formatted-text="introContent" />
+        <div class="custom-uppercase text-purple-500">{{ introPretitle }}</div>
+        <h1 class="font-bold leading-tight text-3xl lg:text-4xl text-purple-900">{{ introTitle }}</h1>
+        <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
+      </div>
+      <div>
+        dropdown
       </div>
     </section>
-    <div class="entries">
+    <div class="entries max-w-6xl mx-auto py-8 lg:py-12 bg-white">
       <component :is="setting('blog.components.returnLink')" v-if="tag || page > 1" />
       <div v-if="loading" class="posts-loading">
         <factor-loading-ring />

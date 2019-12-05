@@ -518,9 +518,9 @@ export default {
       content:
         "Future-forward perspectives on DevOps, Cloud Computing, and Infrastructure."
     },
-    indexRoute: "/news",
+    indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 1,
+    limit: 2,
     returnLinkText: "Back",
     notFound: {
       title: "No Posts",
