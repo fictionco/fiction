@@ -68,7 +68,7 @@ export async function developmentServer({
     updateBundles({ title: event, value: path })
 
     // On js file updates, wait for 3 seconds for build
-    if (path.includes(".js") || path.includes(".ts")) {
+    if (!path.includes("test") && (path.includes(".js") || path.includes(".ts"))) {
       runCallbacks("restart-server")
     }
   })

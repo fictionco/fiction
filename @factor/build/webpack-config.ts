@@ -217,7 +217,7 @@ async function base({ target }: { target: string }): Promise<Configuration> {
       minimize: true
     },
     performance: { maxEntrypointSize: 500000 },
-    node: { crypto: false } // removes 150kb from bundle size
+    node: {} // removes 150kb from bundle size
   }
 
   // Allow for ignoring of files that should not be packaged for client

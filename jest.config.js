@@ -27,12 +27,22 @@ module.exports = {
     "__SRC__/(.*)$": "<rootDir>/test/modules/alias/$1"
   },
 
-  transformIgnorePatterns: ["node_modules/(?!(@factor|factor))"],
+  transformIgnorePatterns: ["node_modules/(?!(@factor|factor|lodash-es))"],
 
   transform: {
     "^.+\\.ts$": "ts-jest",
     "^.+\\.js$": "babel-jest",
     "^.+\\.vue$": "vue-jest"
+  },
+
+  globals: {
+    "ts-jest": {
+      tsConfig: {
+        strict: false,
+        checkJs: false
+      },
+      isolatedModules: true
+    }
   },
 
   moduleFileExtensions: ["js", "ts", "json", "vue"],

@@ -38,10 +38,8 @@ describe("site-wrapper", () => {
     const html = await renderer.renderToString(vm)
 
     expect(html).toContain(`id="app"`)
-  })
 
-  it("adds ui class", () => {
-    const wrapper = mount(factorSite, { localVue })
+    const wrapper = mount(factorSite, { localVue, router })
 
     expect(wrapper.vm.ui).toBe("factor-app")
 
@@ -49,4 +47,6 @@ describe("site-wrapper", () => {
 
     expect(wrapper.vm.ui).toBe("factor-dashboard")
   })
+
+  it("adds ui class", () => {})
 })
