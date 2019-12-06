@@ -1,7 +1,7 @@
 import { requestPostSave } from "@factor/post/request"
 import { toLabel, addPostType, setting } from "@factor/tools"
 import { sendEmailRequest } from "@factor/email"
-
+import { Component } from "vue"
 const postType = "contact-form"
 
 export const sendFormEmail = async (form: object): Promise<object> => {
@@ -33,7 +33,7 @@ export const setup = (): void => {
     nameIndex: "Contact Form",
     nameSingle: "Submitted",
     namePlural: "Contact Forms",
-    listTemplate: () => import("./dashboard-list.vue"),
+    listTemplate: (): Promise<Component> => import("./dashboard-list.vue"),
     add: false
   })
 }

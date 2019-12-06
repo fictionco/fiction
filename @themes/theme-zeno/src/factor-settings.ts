@@ -1,4 +1,4 @@
-import Vue from "vue"
+import { Component } from "vue"
 export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet" />`
@@ -60,8 +60,7 @@ export default {
     },
     intro: {
       pretitle: "Grow Your Business, Not Infrastructure.",
-      title:
-        `We build, optimize, secure, and support <span class="underline">your cloud</span> with no long-term contract.`,
+      title: `We build, optimize, secure, and support <span class="underline">your cloud</span> with no long-term contract.`,
       content:
         "Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
       buttons: [
@@ -76,7 +75,7 @@ export default {
           classes: "btn rounded shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
         }
       ],
-      figure: (): Promise<Vue> => import("./el/figure-intro.vue")
+      figure: (): Promise<Component> => import("./el/figure-intro.vue")
     },
     clients: {
       title: "Working with the following clouds:",
@@ -85,7 +84,7 @@ export default {
           link: "https://aws.amazon.com/",
           target: "_blank",
           image: require("./img/aws.svg"),
-          alt: "Amazon Web Services",
+          alt: "Amazon Web Services"
         },
         {
           link: "https://cloud.google.com/",
@@ -173,7 +172,7 @@ export default {
           classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
         }
       ],
-      figure: (): Promise<Vue> => import("./el/figure-devops.vue")
+      figure: (): Promise<Component> => import("./el/figure-devops.vue")
     },
     infrastructure: {
       id: "infrastructure-as-code",
@@ -193,7 +192,7 @@ export default {
         }
       ],
       syntaxTitle: "terraform.tf",
-      syntax: (): Promise<Vue> => import("./el/figure-infrastructure.vue")
+      syntax: (): Promise<Component> => import("./el/figure-infrastructure.vue")
     },
     testimonials: {
       pretitle: "Success Stories",
@@ -263,7 +262,7 @@ export default {
     },
     location: {
       title: "Based in music city; Nashville, Tennessee.",
-      figure: (): Promise<Vue> => import("./el/figure-location.vue")
+      figure: (): Promise<Component> => import("./el/figure-location.vue")
     }
   },
   pricing: {
@@ -532,15 +531,15 @@ export default {
       meta: ["authorDate", "tags"]
     },
     components: {
-      blogWrap: (): Promise<Vue> => import("./blog/blog-wrap.vue"),
-      blogIndex: (): Promise<Vue> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<Vue> => import("./blog/blog-single.vue"),
-      returnLink: (): Promise<Vue> => import("./blog/el-return-link.vue"),
-      excerpt: (): Promise<Vue> => import("./blog/el-excerpt.vue"),
-      featuredImage: (): Promise<Vue> => import("./blog/el-featured-image.vue"),
-      headers: (): Promise<Vue> => import("./blog/el-headers.vue"),
-      meta: (): Promise<Vue> => import("./blog/el-meta.vue"),
-      social: (): Promise<Vue> => import("./blog/widget-social.vue")
+      blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
+      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+      returnLink: (): Promise<Component> => import("./blog/el-return-link.vue"),
+      excerpt: (): Promise<Component> => import("./blog/el-excerpt.vue"),
+      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      headers: (): Promise<Component> => import("./blog/el-headers.vue"),
+      meta: (): Promise<Component> => import("./blog/el-meta.vue"),
+      social: (): Promise<Component> => import("./blog/widget-social.vue")
     }
   },
   footer: {
