@@ -14,21 +14,9 @@ interface EnvironmentConfig {
   debug?: boolean;
   restart?: boolean;
 }
-export async function factorize(_config: EnvironmentConfig = {}): Promise<void> {
-  // Do this for every reset of server
-  setEnvironment(_config)
-  if (!_config.restart) transpile()
 
-  aliasRequire()
 
-  await extendServer(_config)
-
-  // Filters must be reloaded with every new restart of server.
-  // This adds the filter each time to allow for restart
-  addCallback("rebuild-server-app", () => reloadNodeProcess(_config), { key: "reload" })
-}
-
-export function setEnvironment(_arguments: EnvironmentConfig = {}): void {
+export const setEnvironment = (_arguments: EnvironmentConfig = {}): void => {
   const { NODE_ENV, command, ENV, PORT, debug } = _arguments
 
   process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
@@ -42,24 +30,49 @@ export function setEnvironment(_arguments: EnvironmentConfig = {}): void {
   dotenv.config({ path: resolve(process.env.FACTOR_CWD, ".env") })
 }
 
-export async function extendServer({ restart = false } = {}): Promise<void> {
+export const extendServer = async ({ restart = false } = {}): Promise<void> => {
   try {
     await runCallbacks("before-server-plugins")
   } catch (error) {
     log.error(error)
   }
 
+
   // eslint-disable-next-line import/no-unresolved
   require("__CWD__/.factor/loader-server")
+
+
 
   await runCallbacks("initialize-server")
 
   if (!restart) runCallbacks("after-first-server-extend")
+
 }
+
+
+
+export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> => {
+
+
+  // Do this for every reset of server
+  setEnvironment(_config)
+  if (!_config.restart) transpile()
+
+  aliasRequire()
+
+
+  await extendServer(_config)
+
+  // Filters must be reloaded with every new restart of server.
+  // This adds the filter each time to allow for restart
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  addCallback("rebuild-server-app", () => reloadNodeProcess(_config), { key: "reload" })
+}
+
 
 // Reloads all cached node files
 // Needed for server reloading
-async function reloadNodeProcess(_arguments: EnvironmentConfig): Promise<void> {
+const reloadNodeProcess = async (_arguments: EnvironmentConfig): Promise<void> => {
   Object.keys(require.cache).forEach(id => {
     if (/factor(?!.*node_modules)/.test(id)) {
       delete require.cache[id]
@@ -68,3 +81,6 @@ async function reloadNodeProcess(_arguments: EnvironmentConfig): Promise<void> {
 
   await factorize({ ..._arguments, restart: true, NODE_ENV: "development" })
 }
+
+
+

@@ -35,14 +35,15 @@ export const dbDisconnect = async (): Promise<void> => {
 }
 
 const dbHandleError = (error: Error & { code?: string }): void => {
-  if (error.code === "ECONNREFUSED") {
+  if (error.code === "ECONNREFUSED" || error.code === "ENODATA") {
     __offline = true
-    log.warn("Couldn't connect to the database. Serving in offline mode.")
+    log.warn(`Couldn't connect to the database. Serving in offline mode. [${error.code}]`)
   } else if (
     dbReadyState() == "connecting" &&
     error.code == "EDESTRUCTION" &&
     !process.env.FACTOR_DEBUG
   ) {
+    log.warn(`DB Error [${error.code}]`)
     // TODO not sure the exact context/meaning of this error
     // do nothing, this occurs in offline mode on server restart
   } else {
@@ -65,6 +66,7 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
       return result.connection
     } catch (error) {
       dbHandleError(error)
+      return
     }
   } else {
     return mongoose.connection
@@ -106,8 +108,12 @@ export const getModel = <T>(name: string): Model<(T & Document) & FactorPostDocu
 }
 
 const handleIndexes = async (): Promise<void> => {
-  const _promises = Object.values(__models).map(m => m.createIndexes())
-  await Promise.all(_promises)
+
+  if (!__offline) {
+    const _promises = Object.values(__models).map(m => m.createIndexes())
+    await Promise.all(_promises)
+  }
+
   return
 }
 
@@ -129,14 +135,16 @@ export const dbInitialize = async (): Promise<void> => {
 
   if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
   mongoose.plugin(mongooseBeautifulUniqueValidation)
+
   initializeModels()
 
   await handleIndexes()
+
 }
 
 export const tearDown = (): void => {
   Object.keys(mongoose.models).forEach(m => {
-    // 1234567891112131516171819
+
     mongoose.connection.deleteModel(m)
     delete mongoose.connection.models[m]
     delete mongoose.models[m]
