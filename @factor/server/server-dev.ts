@@ -34,52 +34,43 @@ let template: string
 let bundle: string
 let clientManifest: string
 
-function getTemplatePath(): string {
-  return setting("app.templatePath")
-}
-
 interface UpdateBundle {
   ({ bundle, template, clientManifest }: RendererComponents): void;
 }
 
 type MemorySystemType = typeof fs | MFS
 
-export async function developmentServer({
-  fileSystem,
-  onReady
-}: {
-  fileSystem?: string;
-  onReady: UpdateBundle;
-}): Promise<void> {
-  updateBundleCallback = onReady
-
-  const templatePath = getTemplatePath()
-
-  if (!templatePath) {
-    throw new Error("The index.html template path is not set.")
-  }
-
-  configServer = await getWebpackConfig({ target: "server", ...argv })
-  configClient = await getWebpackConfig({ target: "client", ...argv })
-
-  template = fs.readFileSync(templatePath, "utf-8")
-
-  watcher(({ event, path }: { event: string; path: string }) => {
-    updateBundles({ title: event, value: path })
-
-    // On js file updates, wait for 3 seconds for build
-    if (!path.includes("test") && (path.includes(".js") || path.includes(".ts"))) {
-      runCallbacks("restart-server")
-    }
-  })
-
-  createClientCompiler({ fileSystem })
-
-  createServerCompiler({ fileSystem })
+export interface DevCompilerOptions {
+  fileSystem?: string | void;
 }
 
+const getTemplatePath = (): string => {
+  return setting("app.templatePath")
+}
 
-function loaders(target = "", status = "", time?: number): void {
+// Read file using  Memory File Service
+const readFileFromMemory = (
+  fileSystemUtility: MemorySystemType,
+  file: string
+): string => {
+  const basePath = configClient.output?.path
+
+  if (!basePath) {
+    throw new Error("Base output path is undefined.")
+  }
+
+  return fileSystemUtility.readFileSync(path.join(basePath, file), "utf-8")
+}
+
+const updateBundles = ({ title = "", value = "" } = {}): void => {
+  if (title) updateReason = chalk.dim(`${title} @${value}`)
+
+  if (bundle && clientManifest) {
+    updateBundleCallback({ bundle, template, clientManifest })
+  }
+}
+
+const loaders = (target = "", status = "", time?: number): void => {
   if (target) {
     updateLoaders[target] = { status, time }
   }
@@ -88,7 +79,7 @@ function loaders(target = "", status = "", time?: number): void {
 
   if (states.length == 2) {
     if (states.every(_ => _ == "start") && !updateSpinner) {
-      updateSpinner = ora("Building").start()
+      updateSpinner = ora("building").start()
       updateLoaders = { client: { status: "loading" }, server: { status: "loading" } }
     } else if (
       states.every(_ => _) &&
@@ -107,19 +98,7 @@ function loaders(target = "", status = "", time?: number): void {
   }
 }
 
-function updateBundles({ title = "", value = "" } = {}): void {
-  if (title) updateReason = chalk.dim(`${title} @${value}`)
-
-  if (bundle && clientManifest) {
-    updateBundleCallback({ bundle, template, clientManifest })
-  }
-}
-
-export interface DevCompilerOptions {
-  fileSystem?: string | void;
-}
-
-function createClientCompiler({ fileSystem }: DevCompilerOptions): void {
+const createClientCompiler = ({ fileSystem }: DevCompilerOptions): void => {
   // Webpack config allows entry to be array, string, function
   // WHM requires that we insert it into an entry array
   // Note function mode isn't
@@ -185,7 +164,7 @@ function createClientCompiler({ fileSystem }: DevCompilerOptions): void {
   }
 }
 
-function createServerCompiler({ fileSystem }: DevCompilerOptions): void {
+const createServerCompiler = ({ fileSystem }: DevCompilerOptions): void => {
   const serverCompiler = webpack(configServer)
 
   let fileSystemUtility: MemorySystemType
@@ -217,13 +196,36 @@ function createServerCompiler({ fileSystem }: DevCompilerOptions): void {
   })
 }
 
-// Read file using  Memory File Service
-function readFileFromMemory(fileSystemUtility: MemorySystemType, file: string): string {
-  const basePath = configClient.output?.path
+export const developmentServer = async ({
+  fileSystem,
+  onReady
+}: {
+  fileSystem?: string;
+  onReady: UpdateBundle;
+}): Promise<void> => {
+  updateBundleCallback = onReady
 
-  if (!basePath) {
-    throw new Error("Base output path is undefined.")
+  const templatePath = getTemplatePath()
+
+  if (!templatePath) {
+    throw new Error("The index.html template path is not set.")
   }
 
-  return fileSystemUtility.readFileSync(path.join(basePath, file), "utf-8")
+  configServer = await getWebpackConfig({ target: "server", ...argv })
+  configClient = await getWebpackConfig({ target: "client", ...argv })
+
+  template = fs.readFileSync(templatePath, "utf-8")
+
+  watcher(({ event, path }: { event: string; path: string }) => {
+    updateBundles({ title: event, value: path })
+
+    // On js file updates, wait for 3 seconds for build
+    if (!path.includes("test") && (path.includes(".js") || path.includes(".ts"))) {
+      runCallbacks("restart-server")
+    }
+  })
+
+  createClientCompiler({ fileSystem })
+
+  createServerCompiler({ fileSystem })
 }

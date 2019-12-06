@@ -16,6 +16,6 @@ Object.defineProperty(ObjectId.prototype, "_id", {
 
 export const objectIdType = (): any => ObjectId
 
-export function objectId(str?: string): ObjectId {
+export const objectId = (str?: string): ObjectId => {
   return new ObjectId(str)
 }

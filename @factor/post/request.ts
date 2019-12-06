@@ -14,32 +14,79 @@ import {
 } from "./types"
 import { getSchemaPopulatedFields } from "./util"
 
-function _setCache(postType: string): void {
+const _setCache = (postType: string): void => {
   storeItem(`${postType}Cache`, timestamp())
 }
 
-function _cacheKey(postType: string): any {
+const _cacheKey = (postType: string): any => {
   return stored(`${postType}Cache`) || ""
 }
 
-export async function sendPostRequest(method: string, params: object): Promise<unknown> {
+export const sendPostRequest = async (
+  method: string,
+  params: object
+): Promise<unknown> => {
   return await endpointRequest({ id: "posts", method, params })
 }
 
-export async function requestPostSave({
+export const requestPostPopulate = async ({
+  posts,
+  depth = 10
+}: {
+  posts: FactorPost[];
+  depth?: number;
+}): Promise<string[]> => {
+  let _ids: string[] = []
+
+  posts.forEach((post: FactorPost) => {
+    storeItem(post._id, post)
+
+    const populatedFields = getSchemaPopulatedFields({
+      postType: post.postType ?? "post",
+      depth
+    })
+
+    populatedFields.forEach(field => {
+      const v = post[field]
+      if (v) {
+        if (Array.isArray(v)) {
+          _ids = [..._ids, ...v]
+        } else {
+          _ids.push(v)
+        }
+      }
+    })
+  })
+
+  const _idsFiltered = _ids.filter((_id, index, self) => {
+    return !stored(_id) && self.indexOf(_id) === index ? true : false
+  })
+
+  if (_idsFiltered.length > 0) {
+    const posts = (await sendPostRequest("populatePosts", {
+      _ids: _idsFiltered
+    })) as FactorPost[]
+
+    await requestPostPopulate({ posts, depth })
+  }
+
+  return _ids
+}
+
+export const requestPostSave = async ({
   post,
   postType
-}: UpdatePost): Promise<FactorPost> {
+}: UpdatePost): Promise<FactorPost> => {
   _setCache(postType)
   const result = await sendPostRequest("savePost", { data: post, postType })
   return result as FactorPost
 }
 
-export async function requestPostSaveMany({
+export const requestPostSaveMany = async ({
   _ids,
   data,
   postType
-}: UpdateManyPosts): Promise<FactorPost[]> {
+}: UpdateManyPosts): Promise<FactorPost[]> => {
   _setCache(postType)
   const result = await sendPostRequest("updateManyById", {
     data,
@@ -49,10 +96,10 @@ export async function requestPostSaveMany({
   return result as FactorPost[]
 }
 
-export async function requestPostDeleteMany({
+export const requestPostDeleteMany = async ({
   _ids,
   postType
-}: UpdateManyPosts): Promise<FactorPost[]> {
+}: UpdateManyPosts): Promise<FactorPost[]> => {
   _setCache(postType)
 
   const result = await sendPostRequest("deleteManyById", { _ids })
@@ -60,9 +107,9 @@ export async function requestPostDeleteMany({
   return result as FactorPost[]
 }
 
-export async function requestPostSingle(
+export const requestPostSingle = async (
   _arguments: PostRequestParameters
-): Promise<FactorPost> {
+): Promise<FactorPost> => {
   const {
     permalink,
     field = "permalink",
@@ -98,9 +145,9 @@ export async function requestPostSingle(
   return post as FactorPost
 }
 
-export async function requestPostIndex(
+export const requestPostIndex = async (
   _arguments: PostIndexParametersFlat
-): Promise<PostIndex> {
+): Promise<PostIndex> => {
   const { limit = 10, page = 1, postType, sort } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
@@ -138,9 +185,9 @@ export async function requestPostIndex(
 
 // Gets List of Posts
 // The difference with 'index' is that there is no meta information returned
-export async function requestPostList(
+export const requestPostList = async (
   _arguments: PostIndexParametersFlat
-): Promise<FactorPost[]> {
+): Promise<FactorPost[]> => {
   const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = _arguments
 
   const skip = (page - 1) * limit
@@ -154,48 +201,4 @@ export async function requestPostList(
   await requestPostPopulate({ posts, depth })
 
   return posts
-}
-
-export async function requestPostPopulate({
-  posts,
-  depth = 10
-}: {
-  posts: FactorPost[];
-  depth?: number;
-}): Promise<string[]> {
-  let _ids: string[] = []
-
-  posts.forEach((post: FactorPost) => {
-    storeItem(post._id, post)
-
-    const populatedFields = getSchemaPopulatedFields({
-      postType: post.postType ?? "post",
-      depth
-    })
-
-    populatedFields.forEach(field => {
-      const v = post[field]
-      if (v) {
-        if (Array.isArray(v)) {
-          _ids = [..._ids, ...v]
-        } else {
-          _ids.push(v)
-        }
-      }
-    })
-  })
-
-  const _idsFiltered = _ids.filter((_id, index, self) => {
-    return !stored(_id) && self.indexOf(_id) === index ? true : false
-  })
-
-  if (_idsFiltered.length > 0) {
-    const posts = (await sendPostRequest("populatePosts", {
-      _ids: _idsFiltered
-    })) as FactorPost[]
-
-    await requestPostPopulate({ posts, depth })
-  }
-
-  return _ids
 }

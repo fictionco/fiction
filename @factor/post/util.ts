@@ -16,37 +16,37 @@ import {
 
 export * from "./object-id"
 
-export function extendPostSchema(
+export const extendPostSchema = (
   config: FactorSchemaModule,
   options: { key?: string } = {}
-): void {
+): void => {
   options.key = options.key ?? config.name
   pushToFilter("data-schemas", config, options)
 }
 
-export function getAddedSchemas(): FactorSchema[] {
+export const getAddedSchemas = (): FactorSchema[] => {
   return applyFilters("data-schemas", [postSchema()]).map((s: FactorSchemaModule) => {
     return applyFilters(`data-schema-${s.name}`, typeof s == "function" ? s() : s)
   })
 }
 
-export function getBaseSchema(): FactorSchema {
+export const getBaseSchema = (): FactorSchema => {
   return postSchema()
 }
 
-export function getSchema(postType: string): FactorSchema {
+export const getSchema = (postType: string): FactorSchema => {
   const schemas = getAddedSchemas()
 
   return schemas.find(s => s.name == postType) ?? postSchema()
 }
 
-export function getSchemaPopulatedFields({
+export const getSchemaPopulatedFields = ({
   postType = "post",
   depth = 10
 }: {
   postType: string;
   depth: number;
-}): string[] {
+}): string[] => {
   let fields = getSchema("post").populatedFields || []
 
   const schema = getSchema(postType)
@@ -61,11 +61,11 @@ export function getSchemaPopulatedFields({
   return pop
 }
 
-export function getSchemaPermissions({
+export const getSchemaPermissions = ({
   postType
 }: {
   postType: string;
-}): SchemaPermissions {
+}): SchemaPermissions => {
   const { permissions = {} } = getSchema("post")
 
   let subPermissions = {}
@@ -80,13 +80,13 @@ export function getSchemaPermissions({
   return deepMerge([permissions, subPermissions])
 }
 
-export function isPostAuthor({
+export const isPostAuthor = ({
   user,
   post
 }: {
   user: CurrentUserState;
   post: FactorPost;
-}): boolean {
+}): boolean => {
   if (!user) {
     return false
   }
@@ -101,7 +101,7 @@ export function isPostAuthor({
 // Get the count of posts with a given status (or similar)
 // Null values (e.g. status is unset) should be given the value assigned by nullKey
 // Use in table control filtering
-export function getStatusCount({
+export const getStatusCount = ({
   meta,
   field = "status",
   key,
@@ -111,7 +111,7 @@ export function getStatusCount({
   field?: string;
   key: string;
   nullKey?: string;
-}): number {
+}): number => {
   if (!meta[field]) return 0
 
   let count
@@ -127,7 +127,7 @@ export function getStatusCount({
   return count
 }
 
-export function postPermission({
+export const postPermission = ({
   bearer,
   post,
   action
@@ -135,7 +135,7 @@ export function postPermission({
   bearer: CurrentUserState;
   post: FactorPost;
   action: PostActions;
-}): boolean {
+}): boolean => {
   if (process.env.FACTOR_ENV == "test") return true
 
   const permissionsConfig = getSchemaPermissions({ postType: post.__t })
@@ -159,11 +159,11 @@ export function postPermission({
   }
 }
 
-export function canUpdatePostsCondition({
+export const canUpdatePostsCondition = ({
   bearer,
   action,
   postType = "post"
-}: DetermineUpdatePermissions): { author?: string } {
+}: DetermineUpdatePermissions): { author?: string } => {
   if (process.env.FACTOR_ENV == "test") return {}
 
   const permissionsConfig = getSchemaPermissions({ postType })

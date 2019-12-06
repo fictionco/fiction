@@ -1,4 +1,4 @@
-import { getModel } from "@factor/post/server"
+import { getModel } from "@factor/post/database"
 import { pushToFilter, applyFilters, addCallback } from "@factor/tools"
 import * as endpointHandler from "@factor/user/server"
 import { Model, Document } from "mongoose"

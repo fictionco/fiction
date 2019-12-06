@@ -7,7 +7,7 @@ const developmentMode = setting("googleTagManager.developmentMode")
 
 const setupTitle = "Plugin: Google Tag Manager"
 
-function addFilters(): void {
+export const setup = (): void => {
   if (!googleTagManagerId) {
     pushToFilter("setup-needed", { title: setupTitle })
 
@@ -46,13 +46,11 @@ function addFilters(): void {
   `
     return [..._, add]
   })
-}
 
-function addSetupCli(name: string): void {
   // CLI admin setup utility
   addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
     const setupAdmins: SetupCliConfig = {
-      name,
+      name: setupTitle,
       value: "gtm",
       callback: async (): Promise<void> => {
         const questions = [
@@ -83,6 +81,4 @@ function addSetupCli(name: string): void {
     return [..._, setupAdmins]
   })
 }
-
-addSetupCli(setupTitle)
-addFilters()
+setup()

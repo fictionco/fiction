@@ -12,10 +12,10 @@ export interface MockDatabaseConfig {
   dbName?: string;
 }
 
-export async function startEndpointTestingServer({
+export const startEndpointTestingServer = async ({
   port = "",
   debug = false
-}): Promise<MockDatabaseConfig> {
+}): Promise<MockDatabaseConfig> => {
   mongod = new MongoMemoryServer({ debug })
 
   const dbUrl = await mongod.getConnectionString()
@@ -32,7 +32,7 @@ export async function startEndpointTestingServer({
   return { dbUrl, dbPort, dbPath, dbName }
 }
 
-export async function stopEndpointTestingServer(): Promise<void> {
+export const stopEndpointTestingServer = async (): Promise<void> => {
   if (mongod) await mongod.stop()
 
   await dbDisconnect()

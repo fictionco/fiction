@@ -2,9 +2,18 @@ import { addFilter, addCallback } from "@factor/tools"
 import AWS from "aws-sdk"
 import { PostAttachment } from "@factor/attachment"
 
-addFilters()
+const setConfig = (): { S3: AWS.S3; bucket: string } => {
+  AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET
+  })
 
-function addFilters(): void {
+  const bucket = process.env.AWS_S3_BUCKET || ""
+  const S3 = new AWS.S3()
+  return { S3, bucket }
+}
+
+export const setup = (): void => {
   if (
     !process.env.AWS_ACCESS_KEY ||
     !process.env.AWS_ACCESS_KEY_SECRET ||
@@ -48,13 +57,4 @@ function addFilters(): void {
   })
 }
 
-function setConfig(): { S3: AWS.S3; bucket: string } {
-  AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET
-  })
-
-  const bucket = process.env.AWS_S3_BUCKET || ""
-  const S3 = new AWS.S3()
-  return { S3, bucket }
-}
+setup()

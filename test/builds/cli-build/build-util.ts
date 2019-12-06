@@ -1,10 +1,6 @@
 import { ChildProcess } from "child_process"
 import { spawn } from "cross-spawn"
 
-export function getUrl({ route, port }: { route: string; port: string }): string {
-  return `http://localhost:${port}${route}`
-}
-
 interface ProcessConfig {
   command: string;
   cwd: string;
@@ -13,20 +9,24 @@ interface ProcessConfig {
   options?: { env?: typeof process.env; detached?: boolean };
 }
 
-export function spawnFactorProcess({
+export const getUrl = ({ route, port }: { route: string; port: string }): string => {
+  return `http://localhost:${port}${route}`
+}
+
+export const spawnFactorProcess = ({
   command,
   options,
   cwd
-}: ProcessConfig): ChildProcess {
+}: ProcessConfig): ChildProcess => {
   return spawn("yarn", ["factor", command], { cwd, ...options })
 }
 
-export function startProcess({
+export const startProcess = ({
   command,
   env,
   cwd,
   callback
-}: ProcessConfig): Promise<ChildProcess> {
+}: ProcessConfig): Promise<ChildProcess> => {
   return new Promise(resolve => {
     const __process = spawnFactorProcess({
       command,
@@ -65,7 +65,7 @@ export function startProcess({
   })
 }
 
-export function closeProcess(__process: ChildProcess): Promise<void> {
+export const closeProcess = (__process: ChildProcess): Promise<void> => {
   return new Promise(resolve => {
     __process.on("exit", resolve)
     process.kill(-__process.pid)

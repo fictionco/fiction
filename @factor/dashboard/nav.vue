@@ -62,13 +62,13 @@ export default Vue.extend({
     }
   },
   computed: {
-    firstItem() {
+    firstItem(this: any) {
       return this.menus.dashboard[0] || this.menus.admin[0]
     },
     defaultIcon() {
       return require("./resource/generic.svg")
     },
-    activeGroup() {
+    activeGroup(this: any) {
       const { path } = this.$route
       let out = ""
       Object.keys(this.menus).forEach(m => {
@@ -91,7 +91,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route: function() {
+    $route: function(this: any) {
       this.redirectOnDefault()
     }
   },
@@ -102,12 +102,12 @@ export default Vue.extend({
     // Initializing a logged out user causes problems with signin redirects
     const user = await userInitialized()
 
-    if (user._id) this.initializeMenu()
+    if (user && user._id) this.initializeMenu()
   },
   methods: {
     toLabel,
     slugify,
-    initializeMenu() {
+    initializeMenu(this: any) {
       if (userCan({ role: "admin" })) {
         this.$set(this.menus, "admin", [])
       }
@@ -123,12 +123,12 @@ export default Vue.extend({
 
       this.redirectOnDefault()
     },
-    redirectOnDefault() {
+    redirectOnDefault(this: any) {
       if (this.$route.path == "/dashboard") {
         this.$router.replace({ path: this.getPath(this.firstItem.path) })
       }
     },
-    getPath(path, parent = false) {
+    getPath(this: any, path, parent = false) {
       if (path.startsWith("/")) {
         return path
       } else {

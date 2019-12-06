@@ -14,94 +14,43 @@ let __schemas: { [index: string]: Schema } = {}
 let __models: { [index: string]: Model<any> } = {}
 let __offline = false
 
-addCallback("rebuild-server-app", () => {
-  tearDown()
-})
-
-export function dbIsOffline(): boolean {
+export const dbIsOffline = (): boolean => {
   return __offline || !process.env.DB_CONNECTION
 }
 
-// Must be non-async so we can use chaining
-export function getModel<T>(name: string): Model<(T & Document) & FactorPostDocument> {
-  // If model doesn't exist, create a vanilla one
-  if (!__models[name] && name != "post") {
-    setModel({ name }, getModel("post"))
-  }
+export const dbReadyState = (): string => {
+  const states = ["disconnected", "connected", "connecting", "disconnecting"]
 
-  return __models[name]
+  return states[mongoose.connection.readyState]
 }
 
-export async function dbInitialize(): Promise<void> {
-  await dbConnect()
-
-  if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
-  mongoose.plugin(mongooseBeautifulUniqueValidation)
-  initializeModels()
-
-  await handleIndexes()
+export const isConnected = (): boolean => {
+  return ["connected"].includes(dbReadyState())
 }
 
-async function handleIndexes(): Promise<void> {
-  const _promises = Object.values(__models).map(m => m.createIndexes())
-  await Promise.all(_promises)
-  return
-}
-
-function initializeModels(): void {
-  __schemas = {}
-  __models = {}
-
-  const sch = getAddedSchemas()
-
-  const baseSchema = getBaseSchema()
-
-  const { model: baseModel } = setModel(baseSchema)
-
-  sch.filter(s => s.name != "post").forEach(s => setModel(s, baseModel))
-}
-
-// Set schemas and models
-// For server restarting we need to inherit from already constructed mdb models if they exist
-export function setModel(
-  schemaConfig: FactorSchema,
-  baseModel?: Model<FactorPostDocument> | void
-): { schema: Schema; model: Model<any> } {
-  const { Schema, model } = mongoose
-  const { schema = {}, options = {}, callback, name } = schemaConfig
-
-  const loadSchema = new Schema(schema, options)
-
-  // Callback for hooks, etc.
-  if (callback) callback(loadSchema)
-
-  const loadModel = !baseModel
-    ? model(name, loadSchema)
-    : baseModel.discriminator(name, loadSchema)
-
-  __schemas[name] = loadSchema
-  __models[name] = loadModel
-
-  return { schema: loadSchema, model: loadModel }
-}
-
-export function tearDown(): void {
-  Object.keys(mongoose.models).forEach(m => {
-    // 1234567891112131516171819
-    mongoose.connection.deleteModel(m)
-    delete mongoose.connection.models[m]
-    delete mongoose.models[m]
-    delete mongoose.modelSchemas[m]
-  })
-}
-
-export async function dbDisconnect(): Promise<void> {
+export const dbDisconnect = async (): Promise<void> => {
   if (isConnected()) {
     await mongoose.connection.close()
   }
 }
 
-export async function dbConnect(): Promise<mongoose.Connection | void> {
+const dbHandleError = (error: Error & { code?: string }): void => {
+  if (error.code === "ECONNREFUSED") {
+    __offline = true
+    log.warn("Couldn't connect to the database. Serving in offline mode.")
+  } else if (
+    dbReadyState() == "connecting" &&
+    error.code == "EDESTRUCTION" &&
+    !process.env.FACTOR_DEBUG
+  ) {
+    // TODO not sure the exact context/meaning of this error
+    // do nothing, this occurs in offline mode on server restart
+  } else {
+    log.error(error)
+  }
+}
+
+export const dbConnect = async (): Promise<mongoose.Connection | void> => {
   if (!isConnected() && process.env.DB_CONNECTION) {
     try {
       const connectionString = process.env.DB_CONNECTION
@@ -122,33 +71,80 @@ export async function dbConnect(): Promise<mongoose.Connection | void> {
   }
 }
 
-function dbHandleError(error: Error & { code?: string }): void {
-  if (error.code === "ECONNREFUSED") {
-    __offline = true
-    log.warn("Couldn't connect to the database. Serving in offline mode.")
-  } else if (
-    dbReadyState() == "connecting" &&
-    error.code == "EDESTRUCTION" &&
-    !process.env.FACTOR_DEBUG
-  ) {
-    // TODO not sure the exact context/meaning of this error
-    // do nothing, this occurs in offline mode on server restart
-  } else {
-    log.error(error)
+// Set schemas and models
+// For server restarting we need to inherit from already constructed mdb models if they exist
+export const setModel = (
+  schemaConfig: FactorSchema,
+  baseModel?: Model<FactorPostDocument> | void
+): { schema: Schema; model: Model<any> } => {
+  const { Schema, model } = mongoose
+  const { schema = {}, options = {}, callback, name } = schemaConfig
+
+  const loadSchema = new Schema(schema, options)
+
+  // Callback for hooks, etc.
+  if (callback) callback(loadSchema)
+
+  const loadModel = !baseModel
+    ? model(name, loadSchema)
+    : baseModel.discriminator(name, loadSchema)
+
+  __schemas[name] = loadSchema
+  __models[name] = loadModel
+
+  return { schema: loadSchema, model: loadModel }
+}
+
+// Must be non-async so we can use chaining
+export const getModel = <T>(name: string): Model<(T & Document) & FactorPostDocument> => {
+  // If model doesn't exist, create a vanilla one
+  if (!__models[name] && name != "post") {
+    setModel({ name }, getModel("post"))
   }
+
+  return __models[name]
 }
 
-export function isConnected(): boolean {
-  return ["connected"].includes(dbReadyState())
+const handleIndexes = async (): Promise<void> => {
+  const _promises = Object.values(__models).map(m => m.createIndexes())
+  await Promise.all(_promises)
+  return
 }
 
-export function dbReadyState(): string {
-  const states = ["disconnected", "connected", "connecting", "disconnecting"]
+const initializeModels = (): void => {
+  __schemas = {}
+  __models = {}
 
-  return states[mongoose.connection.readyState]
+  const sch = getAddedSchemas()
+
+  const baseSchema = getBaseSchema()
+
+  const { model: baseModel } = setModel(baseSchema)
+
+  sch.filter(s => s.name != "post").forEach(s => setModel(s, baseModel))
 }
 
-export function dbSetupUtility(): void {
+export const dbInitialize = async (): Promise<void> => {
+  await dbConnect()
+
+  if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
+  mongoose.plugin(mongooseBeautifulUniqueValidation)
+  initializeModels()
+
+  await handleIndexes()
+}
+
+export const tearDown = (): void => {
+  Object.keys(mongoose.models).forEach(m => {
+    // 1234567891112131516171819
+    mongoose.connection.deleteModel(m)
+    delete mongoose.connection.models[m]
+    delete mongoose.models[m]
+    delete mongoose.modelSchemas[m]
+  })
+}
+
+export const dbSetupUtility = (): void => {
   // ADD CLI
   if (!process.env.DB_CONNECTION) {
     pushToFilter("setup-needed", {
@@ -181,3 +177,10 @@ export function dbSetupUtility(): void {
     }
   })
 }
+
+export const setup = (): void => {
+  addCallback("rebuild-server-app", () => {
+    tearDown()
+  })
+}
+setup()

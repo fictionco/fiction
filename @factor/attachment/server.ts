@@ -9,7 +9,7 @@ import {
 import { applyFilters, pushToFilter, runCallbacks } from "@factor/tools/filters"
 import { objectId, postPermission } from "@factor/post/util"
 
-import { getModel } from "@factor/post/server"
+import { getModel } from "@factor/post/database"
 import mime from "mime-types"
 import multer from "multer"
 import storageSchema from "./schema"

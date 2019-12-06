@@ -1,12 +1,15 @@
 import { getPort, loadFixture } from "@test/utils"
 import { createRenderServer, renderRoute, closeServer } from "@factor/server"
 
-let port
+import { BundleRenderer } from "vue-server-renderer"
+let port: string
+let renderer: BundleRenderer
+
 describe("Meta", () => {
   beforeAll(async () => {
     await loadFixture("@test/meta")
     port = await getPort()
-    await createRenderServer({ port })
+    renderer = await createRenderServer({ port })
   })
 
   // Close server and ask to stop listening to file changes
@@ -15,7 +18,7 @@ describe("Meta", () => {
   })
 
   test("/basic", async () => {
-    const html = await renderRoute("/basic")
+    const html = await renderRoute("/basic", renderer)
 
     expect(html).toContain("<title>title template</title>")
     expect(html).toContain("this is the description")
@@ -24,13 +27,13 @@ describe("Meta", () => {
   })
 
   test("/mutation", async () => {
-    const html = await renderRoute("/mutation")
+    const html = await renderRoute("/mutation", renderer)
     expect(html).toContain("<title>change-title</title>")
     expect(html).toContain("change-description")
   })
 
   test("/async", async () => {
-    const html = await renderRoute("/async")
+    const html = await renderRoute("/async", renderer)
 
     expect(html).toContain("<title>async-title</title>")
     expect(html).toContain("async-description")

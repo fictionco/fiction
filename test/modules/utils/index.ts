@@ -18,7 +18,7 @@ interface JSDomConfig {
   options?: object;
 }
 
-export async function getPort(): Promise<string> {
+export const getPort = async (): Promise<string> => {
   const port = await getPortUtility()
   return String(port)
 }
@@ -26,7 +26,7 @@ export const waitFor = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
 }
 
-export function mockUser(): FactorUser {
+export const mockUser = (): FactorUser => {
   return { displayName: "Mock User", _id: objectId().toString(), email: "mock@mock.com" }
 }
 
@@ -37,7 +37,7 @@ export const indexHtml = ({
   return `<!DOCTYPE html><html><head>${head}</head><body>${body}</body></html>`
 }
 
-export function getUrl({ route = "", port }: JSDomConfig): string {
+export const getUrl = ({ route = "", port }: JSDomConfig): string => {
   return `http://localhost:${port}${route}`
 }
 
@@ -73,9 +73,9 @@ export const loadFixture = async (fixture: string): Promise<void> => {
   await createApp()
 }
 
-export async function renderAndGetWindow(
+export const renderAndGetWindow = async (
   _arguments: JSDomConfig = {}
-): Promise<jsdom.DOMWindow> {
+): Promise<jsdom.DOMWindow> => {
   const { port = process.env.PORT, route = "/" } = _arguments
 
   let { url, options = {} } = _arguments

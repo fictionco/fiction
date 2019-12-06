@@ -37,7 +37,8 @@
     "test:fixtures": "yarn test:builds && yarn test:integration",
     "test:builds": "jest test/builds --forceExit --detectOpenHandles --passWithNoTests",
     "test:integration": "jest test/integration --forceExit --detectOpenHandles --passWithNoTests",
-    "test:debug": "node --inspect node_modules/.bin/jest . --runInBand",
+    "test:dev-unit": "node --inspect node_modules/.bin/jest @factor/**/test/unit --runInBand",
+    "test:dev-integration": "yarn test:builds && node --inspect node_modules/.bin/jest test/integration --runInBand",
     "test:types": "tsc --skipLibCheck"
   },
   "gitHooks": {

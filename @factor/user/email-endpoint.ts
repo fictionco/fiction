@@ -1,4 +1,5 @@
-import { getModel, savePost } from "@factor/post/server"
+import { savePost } from "@factor/post/server"
+import { getModel } from "@factor/post/database"
 import { addCallback, addFilter, currentUrl, randomToken } from "@factor/tools"
 import { sendTransactional } from "@factor/email/server"
 import { Document, HookNextFunction, Schema, SchemaDefinition } from "mongoose"
@@ -6,35 +7,6 @@ import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
 import { FactorUser } from "./types"
 import { SendVerifyEmail, VerifyAndResetPassword, VerifyEmail } from "./email-request"
-
-addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
-
-addFilter("user-schema-hooks", (s: Schema) => {
-  // EMAIL
-  s.post("save", async function(
-    this: FactorUser & Document,
-    doc,
-    next: HookNextFunction
-  ): Promise<void> {
-    if (!this.isModified("email")) return next()
-
-    const { email, _id } = this
-    this.emailVerified = false
-    await sendVerifyEmail({ _id, email }, { bearer: this })
-
-    return
-  })
-})
-
-addFilter(
-  "user-schema",
-  (_: SchemaDefinition): SchemaDefinition => {
-    _.emailVerificationCode = { type: String, select: false }
-    _.passwordResetCode = { type: String, select: false }
-
-    return _
-  }
-)
 
 interface UserEmailConfig {
   to: string;
@@ -46,10 +18,25 @@ interface UserEmailConfig {
   code: string;
 }
 
-export async function verifyEmail(
+export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
+  const { to, subject, action, _id, code, text, linkText } = args
+  const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&_id=${_id}`
+
+  await sendTransactional({
+    to,
+    subject,
+    text,
+    linkText,
+    linkUrl
+  })
+
+  return
+}
+
+export const verifyEmail = async (
   { _id, code }: VerifyEmail,
   { bearer }: EndpointMeta
-): Promise<void> {
+): Promise<void> => {
   if (!bearer || bearer._id != _id) {
     throw new Error(`Email verification user doesn't match the logged in account.`)
   }
@@ -68,10 +55,10 @@ export async function verifyEmail(
   }
 }
 
-export async function sendVerifyEmail(
+export const sendVerifyEmail = async (
   { email, _id }: SendVerifyEmail,
   { bearer }: EndpointMeta
-): Promise<void> {
+): Promise<void> => {
   const emailVerificationCode = randomToken()
 
   await savePost({ postType: "user", data: { _id, emailVerificationCode } }, { bearer })
@@ -89,11 +76,11 @@ export async function sendVerifyEmail(
   return
 }
 
-export async function verifyAndResetPassword({
+export const verifyAndResetPassword = async ({
   _id,
   code,
   password
-}: VerifyAndResetPassword): Promise<void> {
+}: VerifyAndResetPassword): Promise<void> => {
   const user = await getModel("post").findOne({ _id }, "+passwordResetCode")
 
   if (!user) {
@@ -110,11 +97,11 @@ export async function verifyAndResetPassword({
   }
 }
 
-export async function sendPasswordResetEmail({
+export const sendPasswordResetEmail = async ({
   email
 }: {
   email: string;
-}): Promise<void> {
+}): Promise<void> => {
   const passwordResetCode = randomToken()
 
   const user = await getUserModel().findOneAndUpdate({ email }, { passwordResetCode })
@@ -137,17 +124,35 @@ export async function sendPasswordResetEmail({
   return
 }
 
-export async function sendEmail(args: UserEmailConfig): Promise<void> {
-  const { to, subject, action, _id, code, text, linkText } = args
-  const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&_id=${_id}`
+export const setup = (): void => {
+  addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
 
-  await sendTransactional({
-    to,
-    subject,
-    text,
-    linkText,
-    linkUrl
+  addFilter("user-schema-hooks", (s: Schema) => {
+    // EMAIL
+    s.post("save", async function(
+      this: FactorUser & Document,
+      doc,
+      next: HookNextFunction
+    ): Promise<void> {
+      if (!this.isModified("email")) return next()
+
+      const { email, _id } = this
+      this.emailVerified = false
+      await sendVerifyEmail({ _id, email }, { bearer: this })
+
+      return
+    })
   })
 
-  return
+  addFilter(
+    "user-schema",
+    (_: SchemaDefinition): SchemaDefinition => {
+      _.emailVerificationCode = { type: String, select: false }
+      _.passwordResetCode = { type: String, select: false }
+
+      return _
+    }
+  )
 }
+
+setup()

@@ -22,21 +22,10 @@ import {
   dbIsOffline
 } from "./database"
 
-export * from "./database"
-
-addCallback("endpoints", { id: "posts", handler: endpointHandler })
-
-if (process.env.DB_CONNECTION) {
-  addCallback("initialize-server", () => dbInitialize())
-  addCallback("close-server", () => dbDisconnect())
-}
-
-addCallback("initialize-server", () => dbSetupUtility())
-
-export async function savePost(
+export const savePost = async (
   { data, postType = "post" }: { data: FactorPost; postType: string },
   { bearer }: EndpointMeta
-): Promise<FactorPost | {}> {
+): Promise<FactorPost | {}> => {
   if (dbIsOffline()) return {}
 
   const { _id } = data
@@ -58,10 +47,10 @@ export async function savePost(
   return postPermission({ post, bearer, action }) ? await post.save() : {}
 }
 
-export async function getSinglePost(
+export const getSinglePost = async (
   params: PostRequestParameters,
   meta: EndpointMeta = {}
-): Promise<FactorPost | void> {
+): Promise<FactorPost | void> => {
   const { bearer } = meta
 
   let { _id } = params
@@ -103,10 +92,10 @@ export async function getSinglePost(
   return _post
 }
 
-export async function updateManyById(
+export const updateManyById = async (
   { _ids, postType = "post", data }: UpdateManyPosts,
   { bearer }: EndpointMeta
-): Promise<FactorPost[]> {
+): Promise<FactorPost[]> => {
   const permissionCondition = canUpdatePostsCondition({
     bearer,
     action: PostActions.Update,
@@ -120,10 +109,10 @@ export async function updateManyById(
   )
 }
 
-export async function deleteManyById(
+export const deleteManyById = async (
   { _ids, postType = "post" }: UpdateManyPosts,
   { bearer }: EndpointMeta
-): Promise<void> {
+): Promise<void> => {
   const permissionCondition = canUpdatePostsCondition({
     bearer,
     action: PostActions.Delete,
@@ -137,7 +126,7 @@ export async function deleteManyById(
   return
 }
 
-export async function populatePosts({ _ids }: UpdateManyPosts): Promise<FactorPost[]> {
+export const populatePosts = async ({ _ids }: UpdateManyPosts): Promise<FactorPost[]> => {
   if (dbIsOffline()) return []
 
   const _in = Array.isArray(_ids) ? _ids : [_ids]
@@ -146,9 +135,9 @@ export async function populatePosts({ _ids }: UpdateManyPosts): Promise<FactorPo
   return result
 }
 
-export async function postList(
+export const postList = async (
   params: PostIndexRequestParameters
-): Promise<FactorPost[]> {
+): Promise<FactorPost[]> => {
   if (dbIsOffline()) return []
 
   const { postType, conditions = {}, select = null } = params
@@ -167,37 +156,11 @@ export async function postList(
   return await getModel(postType).find(conditions, select, options)
 }
 
-export async function postIndex(params: PostIndexRequestParameters): Promise<PostIndex> {
-  if (dbIsOffline()) return { meta: {}, posts: [] }
-
-  const { postType, conditions = {} } = params
-  let { options } = params
-
-  options = Object.assign(
-    {},
-    {
-      sort: "-createdAt",
-      limit: 20,
-      skip: 0
-    },
-    options
-  )
-
-  const [counts, posts] = await Promise.all([
-    indexMeta({ postType, conditions, options }),
-    getModel(postType)
-      .find(conditions, null, options)
-      .exec()
-  ])
-
-  return { meta: { ...counts, ...options, conditions }, posts }
-}
-
-export async function indexMeta({
+export const indexMeta = async ({
   postType,
   conditions,
   options
-}: PostIndexRequestParameters): Promise<PostIndexAggregations & PostIndexCounts> {
+}: PostIndexRequestParameters): Promise<PostIndexAggregations & PostIndexCounts> => {
   const { limit = 20, skip = 0 } = options || {}
   const ItemModel = getModel(postType)
 
@@ -239,3 +202,44 @@ export async function indexMeta({
 
   return _out
 }
+
+export const postIndex = async (
+  params: PostIndexRequestParameters
+): Promise<PostIndex> => {
+  if (dbIsOffline()) return { meta: {}, posts: [] }
+
+  const { postType, conditions = {} } = params
+  let { options } = params
+
+  options = Object.assign(
+    {},
+    {
+      sort: "-createdAt",
+      limit: 20,
+      skip: 0
+    },
+    options
+  )
+
+  const [counts, posts] = await Promise.all([
+    indexMeta({ postType, conditions, options }),
+    getModel(postType)
+      .find(conditions, null, options)
+      .exec()
+  ])
+
+  return { meta: { ...counts, ...options, conditions }, posts }
+}
+
+export const setup = (): void => {
+  addCallback("endpoints", { id: "posts", handler: endpointHandler })
+
+  if (process.env.DB_CONNECTION) {
+    addCallback("initialize-server", () => dbInitialize())
+    addCallback("close-server", () => dbDisconnect())
+  }
+
+  addCallback("initialize-server", () => dbSetupUtility())
+}
+
+setup()

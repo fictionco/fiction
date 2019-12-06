@@ -11,6 +11,30 @@ export interface EndpointRequestConfig {
   headers?: object;
 }
 
+export const endpointPath = (_id: string): string => {
+  return `/_api_/${_id}`
+}
+
+export const bearerToken = (): string => {
+  return `Bearer ${userToken()}`
+}
+
+export const authorizedRequest = async (
+  path: string,
+  data: object,
+  options: AxiosRequestConfig = {}
+): Promise<AxiosResponse> => {
+  const { headers = {} } = options
+
+  options.headers = { Authorization: bearerToken(), ...headers }
+
+  if (isNode) {
+    options.baseURL = localhostUrl() //currentUrl()
+  }
+
+  return await axios.post(path, data, options)
+}
+
 export const endpointRequest = async ({
   id,
   method,
@@ -40,28 +64,4 @@ export const endpointRequest = async ({
   } catch (error) {
     throw new Error(error)
   }
-}
-
-export function endpointPath(_id: string): string {
-  return `/_api_/${_id}`
-}
-
-export async function authorizedRequest(
-  path: string,
-  data: object,
-  options: AxiosRequestConfig = {}
-): Promise<AxiosResponse> {
-  const { headers = {} } = options
-
-  options.headers = { Authorization: bearerToken(), ...headers }
-
-  if (isNode) {
-    options.baseURL = localhostUrl() //currentUrl()
-  }
-
-  return await axios.post(path, data, options)
-}
-
-export const bearerToken = (): string => {
-  return `Bearer ${userToken()}`
 }

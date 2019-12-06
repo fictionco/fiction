@@ -16,48 +16,60 @@ import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 import { RendererComponents } from "./types"
+
 let __listening: Server | undefined
-let __renderer: BundleRenderer
 let __application
+let __renderer: BundleRenderer // used for dev server updates
 
 interface ServerOptions {
   static?: boolean;
   port?: string;
-}
-addCallback("create-server", (_: ServerOptions) => createRenderServer(_))
-addCallback("close-server", () => closeServer())
-
-export async function createRenderServer(options: ServerOptions = {}): Promise<void> {
-  await new Promise(resolve => {
-    if (process.env.NODE_ENV == "development") {
-      developmentServer({
-        fileSystem: options.static ? "fs" : "memory-fs",
-        onReady: renderConfig => {
-          htmlRenderer(renderConfig)
-
-          if (!__listening) createServer(options)
-
-          resolve()
-        }
-      })
-    } else {
-      htmlRenderer({
-        template: fs.readFileSync(setting("app.templatePath"), "utf-8"),
-        bundle: require(getPath("server-bundle")),
-        clientManifest: require(getPath("client-manifest"))
-      })
-
-      createServer(options)
-
-      resolve()
-    }
-  })
-
-  return
+  renderer?: BundleRenderer;
 }
 
-export function createServer(options: { port?: string }): void {
-  const { port } = options || {}
+/**
+ * Server render an application route
+ * @param url The relative route to render
+ */
+export const renderRoute = async (
+  url = "",
+  renderer: BundleRenderer
+): Promise<string> => {
+  const currentRenderer = __renderer ? __renderer : renderer
+
+  return await currentRenderer.renderToString({ url })
+}
+
+export const renderRequest = async (
+  renderer: BundleRenderer,
+  request: express.Request,
+  response: express.Response
+): Promise<void> => {
+  response.setHeader("Content-Type", "text/html")
+  response.setHeader("Server", getServerInfo())
+
+  try {
+    const html = await renderRoute(request.url, renderer)
+    response.send(html)
+  } catch (error) {
+    handleServerError(request, response, error)
+  }
+}
+
+const prepareListener = (): void => {
+  if (__listening) {
+    __listening.destroy = destroyer(__listening)
+  }
+}
+
+export const closeServer = async (): Promise<void> => {
+  if (__listening) {
+    __listening.destroy()
+  }
+}
+
+export const createServer = (options: ServerOptions): void => {
+  const { port, renderer } = options || {}
 
   process.env.PORT = port || process.env.PORT || "3000"
 
@@ -65,7 +77,11 @@ export function createServer(options: { port?: string }): void {
 
   loadMiddleware(__application)
 
-  __application.get("*", (request, response) => renderRequest(request, response))
+  if (renderer) {
+    __application.get("*", (request, response) => {
+      return renderRequest(renderer, request, response)
+    })
+  }
 
   __listening = __application.listen(process.env.PORT, () => logServerReady())
 
@@ -87,7 +103,11 @@ export function createServer(options: { port?: string }): void {
   )
 }
 
-function htmlRenderer({ bundle, template, clientManifest }: RendererComponents): void {
+export const htmlRenderer = ({
+  bundle,
+  template,
+  clientManifest
+}: RendererComponents): BundleRenderer => {
   // Allow for changing default options when rendering
   // particularly important for testing
   const options: BundleRendererOptions = applyFilters("server-renderer-options", {
@@ -98,39 +118,57 @@ function htmlRenderer({ bundle, template, clientManifest }: RendererComponents):
     clientManifest
   })
 
-  __renderer = createBundleRenderer(bundle, options)
+  return createBundleRenderer(bundle, options)
 }
 
-export async function renderRequest(
-  request: express.Request,
-  response: express.Response
-): Promise<void> {
-  response.setHeader("Content-Type", "text/html")
-  response.setHeader("Server", getServerInfo())
+export const createRenderServer = async (
+  options: ServerOptions = {}
+): Promise<BundleRenderer> => {
+  const renderer: BundleRenderer = await new Promise(resolve => {
+    if (process.env.NODE_ENV == "development") {
+      developmentServer({
+        fileSystem: options.static ? "fs" : "memory-fs",
+        onReady: renderConfig => {
+          const renderer = htmlRenderer(renderConfig)
 
-  try {
-    const html = await renderRoute(request.url)
-    response.send(html)
-  } catch (error) {
-    handleServerError(request, response, error)
-  }
+          if (!__listening) {
+            options.renderer = renderer
+            createServer(options)
+          } else {
+            __renderer = renderer
+          }
+
+          resolve(renderer)
+        }
+      })
+    } else {
+      const paths = {
+        template: setting("app.templatePath"),
+        bundle: getPath("server-bundle"),
+        clientManifest: getPath("client-manifest")
+      }
+
+      const renderComponents = {
+        template: fs.readFileSync(paths.template, "utf-8"),
+        bundle: require(paths.bundle),
+        clientManifest: require(paths.clientManifest)
+      }
+
+      const renderer = htmlRenderer(renderComponents)
+
+      options.renderer = renderer
+      createServer(options)
+
+      resolve(renderer)
+    }
+  })
+
+  return renderer
 }
 
-// SSR - Renders a route (url) to HTML.
-export async function renderRoute(url = ""): Promise<string> {
-  if (!__renderer) return "no renderer"
-
-  return await __renderer.renderToString({ url })
+export const setup = (): void => {
+  addCallback("create-server", (_: ServerOptions) => createRenderServer(_))
+  addCallback("close-server", () => closeServer())
 }
 
-function prepareListener(): void {
-  if (__listening) {
-    __listening.destroy = destroyer(__listening)
-  }
-}
-
-export async function closeServer(): Promise<void> {
-  if (__listening) {
-    __listening.destroy()
-  }
-}
+setup()

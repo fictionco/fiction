@@ -24,10 +24,10 @@ jest.setTimeout(60000)
 
 consola.mockTypes(() => jest.fn())
 
-function errorTrap(
+const errorTrap = (
   error: Error | null | undefined | { stack?: "" },
   data: { context: string }
-): void {
+): void => {
   if (error && error.stack) {
     process.stderr.write(`\n${error.stack}\n`)
   } else {

@@ -6,14 +6,9 @@ import { PostEditComponent } from "./types"
 export * from "./request"
 export * from "./util"
 
-addCallback("global-prefetch", (_: Route & { clientOnly: boolean }) => preFetchPost(_))
-addCallback("client-route-before", (_: Route & { clientOnly: boolean }) =>
-  preFetchPost({ clientOnly: true, ..._ })
-)
-
 export const factorPostEdit = (): Promise<Component> => import("./el/edit-link.vue")
 
-export function addPostEditComponent(item: PostEditComponent): void {
+export const addPostEditComponent = (item: PostEditComponent): void => {
   pushToFilter("post-edit-components", item)
 }
 
@@ -43,3 +38,12 @@ addFilter("dashboard-routes", (_: RouteConfig[]): RouteConfig[] => {
 
   return [..._, ...routes]
 })
+
+export const setup = (): void => {
+  addCallback("global-prefetch", (_: Route & { clientOnly: boolean }) => preFetchPost(_))
+  addCallback("client-route-before", (_: Route & { clientOnly: boolean }) =>
+    preFetchPost({ clientOnly: true, ..._ })
+  )
+}
+
+setup()
