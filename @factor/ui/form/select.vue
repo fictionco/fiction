@@ -15,7 +15,7 @@
     >{{ s.name }}</option>
   </select>
 </template>
-<script>
+<script lang="ts">
 import { parseList } from "@factor/tools"
 import Vue from "vue"
 export default Vue.extend({

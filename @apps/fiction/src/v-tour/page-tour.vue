@@ -171,10 +171,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLink } from "@factor/ui"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: {
     factorLink,
     factorEmailList,
@@ -260,7 +262,7 @@ export default {
         "Build server-rendered web applications that stun your friends and followers with Factor JS Universal VueJS platform."
     }
   }
-}
+})
 </script>
 <style lang="less">
 .view-tour {

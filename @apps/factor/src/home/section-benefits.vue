@@ -55,15 +55,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: {
     factorLink,
     "home-icon": () => import("./icon.vue")
   },
   methods: {}
-}
+})
 </script>
 <style lang="less">
 .factor-benefits {

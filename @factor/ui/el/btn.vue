@@ -3,9 +3,10 @@
     <slot />
   </factor-btn-base>
 </template>
-<script>
+<script lang="ts">
 import { factorBtnBase } from "@factor/ui"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorBtnBase }
 })

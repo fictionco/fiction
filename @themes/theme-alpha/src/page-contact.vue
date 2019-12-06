@@ -66,7 +66,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorForm, factorInputSubmit, factorInputWrap } from "@factor/ui"
 import { setting } from "@factor/tools"
 import Vue from "vue"

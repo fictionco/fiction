@@ -11,9 +11,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorBtnDashboard, factorIcon },
   props: {

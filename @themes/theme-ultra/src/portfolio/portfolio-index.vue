@@ -22,7 +22,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
 import { stored } from "@factor/app/store"

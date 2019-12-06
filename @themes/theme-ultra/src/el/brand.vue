@@ -5,7 +5,7 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
 export default { components: { factorLink }, methods: { setting } }

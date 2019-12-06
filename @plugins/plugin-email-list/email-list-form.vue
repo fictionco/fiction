@@ -18,7 +18,7 @@
     <component :is="confirmModal" v-if="confirmModal" :added="added" :list-id="listId" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { getSetting, getListSettings, addEmail } from "@factor/plugin-email-list"
 import { factorBtn } from "@factor/ui"
 import Vue from "vue"

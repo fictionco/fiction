@@ -11,7 +11,8 @@
 import { excerpt } from "@factor/tools/excerpt"
 import { postLink, stored } from "@factor/tools"
 import { factorLink, factorIcon } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
@@ -25,7 +26,7 @@ export default {
     postLink,
     excerpt
   }
-}
+})
 </script>
 <style lang="less">
 .post-excerpt {

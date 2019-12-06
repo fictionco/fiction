@@ -142,10 +142,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from "vue"
 import { factorIcon, factorLink } from "@factor/ui"
 import { toLabel } from "@factor/tools"
+
 export default Vue.extend({
   components: {
     factorIcon,

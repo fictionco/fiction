@@ -18,10 +18,11 @@
     />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
 import { getPageTemplates, getTemplate } from "@factor/templates"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { dashboardInput },
   model: {

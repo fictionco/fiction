@@ -3,7 +3,7 @@
     <slot />
   </factor-btn-base>
 </template>
-<script>
+<script lang="ts">
 import { factorBtnBase } from "@factor/ui"
 export default {
   components: { factorBtnBase }

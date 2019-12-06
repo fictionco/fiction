@@ -18,16 +18,18 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorLink },
   data: () => {
     return {}
   },
   methods: { setting }
-}
+})
 </script>
 
 <style lang="less">

@@ -41,7 +41,7 @@
     </dashboard-grid>
   </dashboard-pane>
 </template>
-<script>
+<script lang="ts">
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post/util"
 import { toLabel, standardDate, getPermalink, omit } from "@factor/tools"
@@ -52,7 +52,9 @@ import {
   dashboardGridFilter,
   dashboardGridActions
 } from "@factor/dashboard"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   name: "ContactFormList",
   components: {
     dashboardGrid,
@@ -149,7 +151,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 <style lang="less">
 .contact-form-table {

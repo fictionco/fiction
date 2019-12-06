@@ -4,7 +4,7 @@
     <input ref="send" class="submit" type="submit" value="submit" />
   </form>
 </template>
-<script>
+<script lang="ts">
 import Vue from "vue"
 export default Vue.extend({
   props: {

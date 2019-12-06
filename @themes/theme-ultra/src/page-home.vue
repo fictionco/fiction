@@ -9,8 +9,9 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({
   components: {
     sectionIntro: () => import("./section-intro.vue"),
     sectionAbout: () => import("./section-about.vue"),
@@ -24,7 +25,7 @@ export default {
       loading: true
     }
   }
-}
+})
 </script>
 
 <style lang="less">

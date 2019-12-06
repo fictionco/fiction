@@ -135,10 +135,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLink, factorIcon } from "@factor/ui"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: {
     factorEmailList,
     factorLink,
@@ -271,7 +273,7 @@ export default {
       image: require("../img/fiction.jpg")
     }
   }
-}
+})
 </script>
 <style lang="less">
 .view-home-version-2 {

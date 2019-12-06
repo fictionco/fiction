@@ -13,9 +13,11 @@
   </figure>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue"
 import { figureMixin } from "./utils"
-export default {
+
+export default Vue.extend({
   components: {
     "icon-pro": () => import("./icon-pro.vue")
   },
@@ -75,7 +77,7 @@ export default {
       ]
     }
   }
-}
+})
 </script>
 
 <style lang="less">

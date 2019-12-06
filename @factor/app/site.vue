@@ -9,10 +9,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { applyFilters } from "@factor/tools"
 import Vue from "vue"
 import siteMixin from "./site-mixin"
+
 export default Vue.extend({
   name: "Site",
   mixins: applyFilters("site-mixins", [siteMixin()])

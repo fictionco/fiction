@@ -6,11 +6,12 @@
     <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/tools"
+import Vue from "vue"
 
-export default {
+export default Vue.extend({
   components: { factorLink },
   props: {
     postId: { type: String, default: "" }
@@ -21,7 +22,7 @@ export default {
     }
   },
   methods: { postLink }
-}
+})
 </script>
 <style lang="less">
 .entry-headers {

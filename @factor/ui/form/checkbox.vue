@@ -4,8 +4,9 @@
     <span v-if="label" class="checkbox-label">{{ label }}</span>
   </label>
 </template>
-<script>
+<script lang="ts">
 import Vue from "vue"
+
 export default Vue.extend({
   props: {
     value: { type: [String, Boolean, Array], default: false },

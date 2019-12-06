@@ -17,10 +17,11 @@
   </factor-modal>
 </template>
 
-<script>
+<script lang="ts">
 import { factorModal, factorBtn } from "@factor/ui"
 import { onEvent } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorModal, factorBtn },
   data() {
     return {
@@ -49,5 +50,5 @@ export default {
       this.vis = false
     }
   }
-}
+})
 </script>

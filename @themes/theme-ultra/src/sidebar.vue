@@ -21,10 +21,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools/settings"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorLink,
     "site-brand": () => import("./el/brand.vue")
@@ -58,7 +59,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less" scoped>

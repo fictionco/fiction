@@ -74,10 +74,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorIcon, factorLink } from "@factor/ui"
 import { toLabel } from "@factor/tools"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorIcon, factorLink },
   data() {
     return {
@@ -134,7 +136,7 @@ export default {
       description: "Extend your project features and do more with Factor."
     }
   }
-}
+})
 </script>
 <style lang="less">
 .themes-container {

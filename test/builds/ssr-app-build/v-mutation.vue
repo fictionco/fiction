@@ -2,8 +2,9 @@
   <h1>{{ text }}</h1>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({
   data() {
     return {
       text: "nope"
@@ -12,5 +13,5 @@ export default {
   created() {
     this.text = "mutated"
   }
-}
+})
 </script>

@@ -26,10 +26,11 @@
     />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
 import { stored, storeItem } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { dashboardInput },
   props: {
     postId: { type: String, required: true }
@@ -54,6 +55,6 @@ export default {
   },
   watch: {},
   methods: {}
-}
+})
 </script>
 <style lang="less"></style>

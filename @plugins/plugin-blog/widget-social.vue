@@ -26,12 +26,13 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { stored } from "@factor/app/store"
 import { postLink } from "@factor/tools/permalink"
+import Vue from "vue"
 
-export default {
+export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
@@ -44,7 +45,7 @@ export default {
       return stored(this.postId) || {}
     }
   }
-}
+})
 </script>
 <style lang="less">
 .social-share {

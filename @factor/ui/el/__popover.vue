@@ -5,8 +5,9 @@
     </div>
   </div>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({
   props: {
     btnText: { type: String, default: "Toggle" },
     btnSize: { type: String, default: "tiny" },
@@ -36,7 +37,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

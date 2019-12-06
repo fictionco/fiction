@@ -15,14 +15,15 @@
   </section>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({
   props: {
     headline: { type: String, default: "" },
     subheadline: { type: String, default: "" },
     image: { type: String, default: "" }
   }
-}
+})
 </script>
 
 <style lang="less">

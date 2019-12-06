@@ -8,16 +8,18 @@
     </div>
   </section>
 </template>
-<script>
+<script lang="ts">
 import { factorBtn } from "@factor/ui"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorBtn },
   methods: {
     scrollToTop() {
       window.scrollTo(0, 0)
     }
   }
-}
+})
 </script>
 <style lang="less">
 .back-to-top {

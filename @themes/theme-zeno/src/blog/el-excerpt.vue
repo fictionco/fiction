@@ -7,7 +7,7 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { excerpt } from "@factor/tools/excerpt"
 import { postLink, stored } from "@factor/tools"
 import Vue from "vue"

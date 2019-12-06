@@ -3,11 +3,12 @@
     <slot />
   </factor-btn>
 </template>
-<script>
+<script lang="ts">
 import { factorBtn } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorBtn }
-}
+})
 </script>
 
 <style lang="less">

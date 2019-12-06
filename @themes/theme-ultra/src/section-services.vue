@@ -12,14 +12,16 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import { setting } from "@factor/tools/settings"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: {
     "services-icon": () => import("./el/icon-services.vue")
   },
   methods: { setting }
-}
+})
 </script>
 
 <style lang="less" scope>

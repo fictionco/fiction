@@ -9,12 +9,12 @@
     <factor-error-404 v-else />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorError404, factorLoadingRing } from "@factor/ui"
 import { getPageTemplates } from "@factor/templates"
 import { stored } from "@factor/tools"
-
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorLoadingRing, factorError404 },
   data() {

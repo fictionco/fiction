@@ -10,10 +10,11 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorAvatar } from "@factor/ui"
 import { stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorAvatar },
   props: {
     postId: { type: String, default: "" }
@@ -28,7 +29,7 @@ export default {
       return stored(_id) || {}
     }
   }
-}
+})
 </script>
 <style lang="less">
 .author-card {

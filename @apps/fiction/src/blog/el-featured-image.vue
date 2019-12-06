@@ -4,10 +4,11 @@
   </factor-link>
   <div v-else-if="avatarUrl" class="featured-image" :style="style" />
 </template>
-<script>
+<script lang="ts">
 import { postLink, stored } from "@factor/tools"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorLink },
   props: {

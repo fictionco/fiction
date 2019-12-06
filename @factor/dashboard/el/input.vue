@@ -3,11 +3,13 @@
     <slot />
   </factor-input-wrap>
 </template>
-<script>
+<script lang="ts">
 import { factorInputWrap } from "@factor/ui"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorInputWrap }
-}
+})
 </script>
 
 <style lang="less">

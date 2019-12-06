@@ -26,7 +26,7 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { stored } from "@factor/app/store"
 import { postLink } from "@factor/tools/permalink"

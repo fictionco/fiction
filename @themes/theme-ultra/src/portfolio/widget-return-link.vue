@@ -6,11 +6,12 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { stored } from "@factor/app/store"
 import { setting } from "@factor/tools/settings"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
@@ -24,5 +25,5 @@ export default {
     }
   },
   methods: { setting }
-}
+})
 </script>

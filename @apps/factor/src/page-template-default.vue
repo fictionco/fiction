@@ -6,10 +6,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/tools/markdown"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorPostEdit },
   props: {
     post: { type: Object, default: () => {} }
@@ -27,7 +29,7 @@ export default {
     // }).use(require("markdown-it-anchor"))
   },
   methods: { renderMarkdown }
-}
+})
 </script>
 
 <style lang="less">

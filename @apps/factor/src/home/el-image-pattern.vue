@@ -4,7 +4,7 @@
     <canvas ref="area" class="pattern-bubbles" :width="width" :height="height" />
   </div>
 </template>
-<script>
+<script lang="ts">
 /* eslint-disable */
 const POINTS_CACHE = []
 import Vue from "vue"

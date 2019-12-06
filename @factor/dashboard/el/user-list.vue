@@ -20,10 +20,11 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { dashboardInput, dashboardUserCard } from "@factor/dashboard"
 import { requestPostList } from "@factor/post/request"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { dashboardInput, dashboardUserCard },
   props: {
     customValidity: { type: String, default: "" },
@@ -91,7 +92,7 @@ export default {
       this.$emit("update:customValidity", customValidity)
     }
   }
-}
+})
 </script>
 
 <style lang="less">

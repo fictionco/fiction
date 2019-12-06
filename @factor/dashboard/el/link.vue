@@ -8,9 +8,11 @@
     <slot />
   </factor-link>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorLink }
-}
+})
 </script>

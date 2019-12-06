@@ -9,7 +9,7 @@
     >{{ tag }}</factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { stored } from "@factor/app/store"
 import { setting } from "@factor/tools/settings"

@@ -1,7 +1,7 @@
 <template>
   <component :is="form" v-bind="$attrs" :list-id="listId" />
 </template>
-<script>
+<script lang="ts">
 import { getSetting } from "@factor/plugin-email-list"
 import Vue from "vue"
 export default Vue.extend({

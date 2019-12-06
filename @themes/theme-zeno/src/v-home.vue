@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:-mt-16">
+  <div class="lg:-mt-24">
     <section class="flex bg-gray-100 min-h-full">
       <div class="px-8 py-16 mx-auto sm:max-w-xl lg:w-1/2 lg:flex lg:flex-col lg:justify-center">
         <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3>
@@ -86,7 +86,7 @@
     </section>
 
     <section :id="infrID" class="bg-gray-100">
-      <div class="max-w-6xl mx-auto px-8 py-16 lg:py-12">
+      <div class="max-w-6xl mx-auto px-8 py-16 lg:py-24">
         <div class="flex flex-col md:flex-row">
           <div class="pb-8 md:pb-0 md:pr-8 md:w-1/2">
             <h3 class="custom-uppercase text-purple-500">{{ infrPretitle }}</h3>
@@ -101,7 +101,7 @@
               </h1>
             </div>
             <template v-for="(item, index) in infrItems">
-              <div :key="index" class="pt-12">
+              <div :key="index" class="my-10 p-5 rounded bg-white custom-card-left">
                 <img :src="item.image" :alt="item.alt" />
                 <div
                   v-formatted-text="item.content"
@@ -115,7 +115,7 @@
       </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-8 py-16">
+    <section class="max-w-6xl mx-auto px-8 py-16 lg:py-24">
       <div class="max-w-xs mx-auto">
         <h3 class="custom-uppercase text-center text-purple-500">{{ testimonialsPretitle }}</h3>
         <h1

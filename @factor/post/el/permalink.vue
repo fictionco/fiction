@@ -29,11 +29,11 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorInputText, factorBtnDashboard, factorLink } from "@factor/ui"
-
 import { slugify, onEvent, getPermalink } from "@factor/tools"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorBtnDashboard, factorLink, factorInputText },
   props: {

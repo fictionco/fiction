@@ -9,7 +9,7 @@
   >{{ editText }}</factor-link>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink, factorBtn } from "@factor/ui"
 import { stored, getPostTypeConfig } from "@factor/tools"
 import { userId, currentUser } from "@factor/user"

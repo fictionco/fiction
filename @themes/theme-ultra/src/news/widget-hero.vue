@@ -20,7 +20,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { factorPostEdit } from "@factor/post"
 import { postLink } from "@factor/tools/permalink"

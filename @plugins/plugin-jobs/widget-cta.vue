@@ -8,10 +8,12 @@
     </a>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorBtn, factorIcon },
   props: {
     postId: { type: String, default: "" }
@@ -21,7 +23,7 @@ export default {
       return stored(this.postId) || {}
     }
   }
-}
+})
 </script>
 <style lang="less">
 .job-entry-cta {

@@ -13,7 +13,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { postLink, setting, stored } from "@factor/tools"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"

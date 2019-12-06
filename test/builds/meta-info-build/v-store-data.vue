@@ -2,9 +2,11 @@
   <h1>{{ text }}</h1>
 </template>
 
-<script>
+<script lang="ts">
 import { storeItem, stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   data() {
     return {}
   },
@@ -16,5 +18,5 @@ export default {
   created() {
     storeItem("text", "loaded")
   }
-}
+})
 </script>

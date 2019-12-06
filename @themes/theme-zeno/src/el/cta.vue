@@ -1,5 +1,5 @@
 <template>
-  <section class="relative flex items-center text-center py-16 px-8 bg-purple-700">
+  <section class="relative flex items-center text-center py-24 px-8 bg-purple-700">
     <figure class="absolute top-0 right-0 z-20 hidden mr-32 -mt-10 lg:block">
       <img :src="ctaFigure" :alt="ctaFigureAlt"/>
     </figure>
@@ -17,10 +17,11 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/tools"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorLink, factorIcon },
   data() {

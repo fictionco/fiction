@@ -48,10 +48,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { userInitialized } from "@factor/user"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorLink },
   data() {
     return {
@@ -86,7 +88,7 @@ export default {
     }
   },
   methods: {}
-}
+})
 </script>
 <style lang="less">
 .view-contact {

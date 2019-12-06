@@ -5,7 +5,7 @@
     </factor-highlight-code>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import { renderMarkdown } from "@factor/tools/markdown"
 import { stored } from "@factor/tools"

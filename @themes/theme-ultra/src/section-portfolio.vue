@@ -19,9 +19,10 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import { setting } from "@factor/tools/settings"
 import Vue from "vue"
+
 export default Vue.extend({
   components: {
     "portfolio-index": () => import("./portfolio/portfolio-index.vue")

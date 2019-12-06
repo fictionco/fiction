@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 import Vue from "vue"
 import { factorBtn, factorBtnDashboard } from "@factor/ui"
-
 import { pickBy, isEmpty, emitEvent, identity } from "@factor/tools"
+
 export default Vue.extend({
   props: {
     btn: { type: String, default: "" },

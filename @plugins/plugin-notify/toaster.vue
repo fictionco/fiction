@@ -16,9 +16,10 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { onEvent } from "@factor/tools"
 import Vue from "vue"
+
 export default Vue.extend({
   data() {
     return {

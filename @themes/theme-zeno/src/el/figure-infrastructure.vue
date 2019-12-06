@@ -9,9 +9,10 @@
   </figure>
 </template>
 
-<script>
+<script lang="ts">
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorHighlightCode },
   methods: {

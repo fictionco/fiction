@@ -7,11 +7,13 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { postLink, stored } from "@factor/tools"
 import { excerpt } from "@factor/tools/excerpt"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
@@ -22,7 +24,7 @@ export default {
     }
   },
   methods: { postLink, excerpt }
-}
+})
 </script>
 <style lang="less">
 .jobs-post-excerpt {

@@ -12,7 +12,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorIcon } from "@factor/ui"
 import { isEmpty, stored } from "@factor/tools"
 import Vue from "vue"

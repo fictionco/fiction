@@ -8,9 +8,10 @@
     />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/tools"
 import Vue from "vue"
+
 export default Vue.extend({
   data() {
     return {}

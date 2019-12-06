@@ -10,13 +10,14 @@
   </div>
 </template>
 
-<script>
+<script lang="txs">
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink },
   methods: { setting }
-}
+})
 </script>
 
 <style lang="less">

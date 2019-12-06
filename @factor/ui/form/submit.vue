@@ -5,9 +5,10 @@
     </component>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorBtn } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorBtn },
   inheritAttrs: false,
   props: {
@@ -18,7 +19,7 @@ export default {
       return this.el ? this.el : factorBtn
     }
   }
-}
+})
 </script>
 
 <style lang="less">

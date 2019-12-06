@@ -18,13 +18,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts"> 
 import { factorBtn } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorBtn },
   methods: { isLoggedIn }
-}
+})
 </script>
 
 <style lang="less">

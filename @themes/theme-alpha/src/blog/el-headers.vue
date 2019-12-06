@@ -15,11 +15,11 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { postLink, setting, stored } from "@factor/tools"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink },
   props: {
     postId: { type: String, default: "" },
@@ -34,7 +34,7 @@ export default {
     postLink,
     setting
   }
-}
+})
 </script>
 <style lang="less">
 // Index

@@ -8,9 +8,11 @@
     />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { setting, stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   props: {
     postId: { type: String, default: "" }
   },
@@ -20,7 +22,7 @@ export default {
     }
   },
   methods: { setting }
-}
+})
 </script>
 <style lang="less">
 .entry-meta {

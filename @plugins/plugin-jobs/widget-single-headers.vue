@@ -15,11 +15,12 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting, stored, postLink } from "@factor/tools"
+import Vue from "vue"
 
-export default {
+export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" }
@@ -30,7 +31,7 @@ export default {
     }
   },
   methods: { postLink, setting }
-}
+})
 </script>
 <style lang="less">
 .single-entry .entry-headers {

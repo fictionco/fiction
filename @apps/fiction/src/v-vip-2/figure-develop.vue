@@ -22,9 +22,11 @@
   </figure>
 </template>
 
-<script>
+<script lang="ts">
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorHighlightCode },
   data() {
     return {
@@ -63,7 +65,7 @@ export default {
 }`
     }
   }
-}
+})
 </script>
 
 <style lang="less">

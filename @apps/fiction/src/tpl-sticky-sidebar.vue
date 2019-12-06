@@ -41,12 +41,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/tools/markdown"
 import { throttle, standardDate } from "@factor/tools"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorLoadingRing, factorPostEdit },
   props: {
     post: { type: Object, default: () => {} }
@@ -169,7 +171,7 @@ export default {
       return text
     }
   }
-}
+})
 </script>
 
 <style lang="less">

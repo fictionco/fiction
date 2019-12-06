@@ -26,11 +26,12 @@
     </svg>
   </div>
 </template>
-<script>
+<script lang="ts">
+import Vue from "vue"
 import { setting } from "@factor/tools"
-export default {
+export default Vue.extend({
   methods: { setting }
-}
+})
 </script>
 
 <style lang="less" scope>

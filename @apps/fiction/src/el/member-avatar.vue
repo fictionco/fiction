@@ -3,8 +3,9 @@
     <img :src="getImage(item)" alt="Fiction.com Member">
   </li>
 </template>
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({
   props: {
     item: { type: Number, default: 0 }
   },
@@ -13,7 +14,7 @@ export default {
       return require(`./img/user-${num}.jpg`)
     }
   }
-}
+})
 </script>
 <style lang="less">
 </style>

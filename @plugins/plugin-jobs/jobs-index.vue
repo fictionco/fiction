@@ -31,11 +31,13 @@
     <component :is="setting('jobs.components.pagination')" :post-type="postType" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import { requestPostIndex } from "@factor/post/request"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: {
     factorLoadingRing
   },
@@ -105,7 +107,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 
 <style lang="less">

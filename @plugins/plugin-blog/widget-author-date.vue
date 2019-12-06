@@ -9,7 +9,7 @@
     <factor-post-edit :post-id="post._id" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { factorAvatar } from "@factor/ui"
 import { isEmpty, standardDate, stored } from "@factor/tools"

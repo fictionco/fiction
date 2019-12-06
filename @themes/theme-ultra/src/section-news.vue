@@ -6,7 +6,7 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import { stored } from "@factor/app/store"
 import { setting } from "@factor/tools/settings"
 import { requestPostIndex } from "@factor/post/request"

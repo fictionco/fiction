@@ -2,9 +2,10 @@
   <h1>Async</h1>
 </template>
 
-<script>
+<script lang="ts">
 import { storeItem, stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   metaInfo() {
     return stored("test") || {}
   },
@@ -26,5 +27,5 @@ export default {
       return
     }
   }
-}
+})
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes">
+  <div>
     <h1 class="inline-block relative font-bold text-3xl lg:text-4xl text-gray-200">
       <img
         :src="image"
@@ -11,17 +11,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   props: {
-    classes: { type: String, default: "" },
     title: { type: String, default: "" },
     image: { type: String, default: require("../img/squares.svg") }
   },
-  data() {
-    return {
-      backgroundImage: `url(${require("../img/squares.svg")})`
-    }
+  data: function() {
+    return {}
   }
 }
 </script>

@@ -9,11 +9,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/tools/markdown"
 import { stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorPostEdit },
   props: {
     postId: { type: String, default: "" }
@@ -24,7 +25,7 @@ export default {
     }
   },
   methods: { renderMarkdown }
-}
+})
 </script>
 
 <style lang="less">

@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   components: {
     "el-cta": () => import("../el/cta.vue")

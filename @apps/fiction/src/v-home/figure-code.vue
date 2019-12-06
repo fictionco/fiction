@@ -22,9 +22,11 @@
   </figure>
 </template>
 
-<script>
+<script lang="ts">
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-export default {
+import Vue from "vue"
+
+export default Vue.extend({
   components: { factorHighlightCode },
   //mixins: [pageUtils().figureMixin({ ref: "wrapper", width: 500 })],
   methods: {
@@ -49,7 +51,7 @@ export default {
 </template>`
     }
   }
-}
+})
 </script>
 
 <style lang="less">

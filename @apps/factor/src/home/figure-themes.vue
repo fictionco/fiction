@@ -10,8 +10,10 @@
   </figure>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+
+export default Vue.extend({
   data() {
     return {
       width: 500,
@@ -45,7 +47,7 @@ export default {
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
     }
   }
-}
+})
 </script>
 
 <style lang="less">

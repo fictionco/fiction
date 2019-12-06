@@ -23,7 +23,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import { dashboardInput } from "@factor/dashboard"
 import { isEqual, slugify } from "@factor/tools"

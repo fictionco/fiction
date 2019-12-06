@@ -33,11 +33,11 @@
     <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/tools"
-
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLink },
   props: {
     postId: { type: String, default: "" },
@@ -64,7 +64,7 @@ export default {
   methods: {
     postLink
   }
-}
+})
 </script>
 <style lang="less">
 .portfolio-posts {

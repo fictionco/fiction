@@ -10,7 +10,7 @@
   </div>
 </template>
 <style src="__FALLBACK__/css/style.less" lang="less"></style>
-<script>
+<script lang="ts">
 export default {
   components: {
     sidebar: () => import("./sidebar.vue"),

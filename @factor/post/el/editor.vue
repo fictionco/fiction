@@ -18,9 +18,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorBtnDashboard, factorIcon } from "@factor/ui"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: { factorBtnDashboard, factorIcon },
   props: {
     value: { type: String, default: "" }
@@ -73,7 +74,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="less">

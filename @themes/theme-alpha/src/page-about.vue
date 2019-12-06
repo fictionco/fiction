@@ -15,9 +15,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { setting } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     "el-hero": () => import("./el/hero.vue"),
     "el-clients": () => import("./el/clients.vue"),
@@ -52,7 +53,7 @@ export default {
   //     ]
   //   }
   // }
-}
+})
 </script>
 
 <style lang="less">

@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { toDate } from "@factor/tools"
 import Vue from "vue"
 export default Vue.extend({

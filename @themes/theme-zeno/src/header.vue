@@ -1,6 +1,6 @@
 <template>
   <header
-    class="lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center lg:px-4 lg:py-3"
+    class="lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center"
     :class="headerClasses()"
   >
     <div class="flex items-center justify-between px-6 py-3 lg:p-0 lg:flex-1">
@@ -27,7 +27,7 @@
       :class="isOpen ? 'bg-white w-full h-188 z-50 lg:w-auto' : 'min-h-0 h-0'"
     >
       <ul
-        class="w-full list-none list-inside pb-6 lg:p-0 lg:w-auto lg:flex lg:flex-1 lg:justify-center"
+        class="flex flex-col list-none list-inside pb-6 lg:p-0 lg:w-auto lg:flex-row lg:flex-1 lg:justify-end"
       >
         <template v-for="(item, index) in siteNav">
           <li :key="index" class="mt-1 lg:m-0">
@@ -38,7 +38,7 @@
               :path="item.path"
               :event="item.event"
               :target="item.target"
-              class="transition-all text-xl py-1 px-2 mt-0 hover:bg-gray-100 hover:text-purple-500 lg:hover:bg-transparent lg:inline lg:px-1 lg:text-base"
+              class="transition-all text-xl py-1 px-2 mt-0 hover:bg-gray-100 hover:text-purple-500 lg:hover:bg-transparent lg:inline lg:px-3 lg:text-base"
               :class="navLinkClass()"
               @click="isOpen = !isOpen"
             >
@@ -75,9 +75,9 @@ export default Vue.extend({
   methods: {
     headerClasses() {
       if (this.$route.path != "/") {
-        return "mx-auto max-w-6xl"
+        return "lg:px-4 lg:py-3"
       } else {
-        return
+        return "lg:px-10 lg:pt-12"
       }
     },
     navLinkClass() {

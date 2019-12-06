@@ -16,12 +16,13 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({
   props: {
     width: { type: String, default: "3em" }
   }
-}
+})
 </script>
 
 <style lang="less">

@@ -8,7 +8,7 @@
     />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { setting, stored } from "@factor/tools"
 import Vue from "vue"
 export default Vue.extend({

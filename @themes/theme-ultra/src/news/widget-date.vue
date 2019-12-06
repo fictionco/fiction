@@ -3,9 +3,10 @@
     <p class="date">{{ standardDate(post.date) }}</p>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { standardDate, stored } from "@factor/tools"
-export default {
+import Vue from "vue"
+export default Vue.extend({
   props: {
     postId: { type: String, default: "" }
   },
@@ -17,5 +18,5 @@ export default {
   methods: {
     standardDate
   }
-}
+})
 </script>

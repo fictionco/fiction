@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/tools"
 import Vue from "vue"

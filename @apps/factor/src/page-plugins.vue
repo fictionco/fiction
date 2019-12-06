@@ -131,10 +131,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { factorIcon, factorLink } from "@factor/ui"
 import { toLabel } from "@factor/tools"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorIcon, factorLink },
   data() {

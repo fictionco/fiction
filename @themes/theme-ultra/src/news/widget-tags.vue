@@ -9,7 +9,7 @@
     >{{ tag }}</factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
 import Vue from "vue"

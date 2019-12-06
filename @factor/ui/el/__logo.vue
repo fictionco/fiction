@@ -1,11 +1,12 @@
 <template>
   <logo />
 </template>
-<script>
+<script lang="ts">
+import Vue from "vue"
 /* eslint-disable import/no-unresolved */
-export default {
+export default Vue.extend({
   components: {
     logo: () => import("__FALLBACK__/logo.vue")
   }
-}
+})
 </script>

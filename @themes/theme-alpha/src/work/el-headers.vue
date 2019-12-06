@@ -24,7 +24,7 @@
     </div>
   </section>
 </template>
-<script>
+<script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting, stored, postLink } from "@factor/tools"

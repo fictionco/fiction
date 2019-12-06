@@ -6,7 +6,7 @@
     </factor-link>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { setting, stored } from "@factor/tools"
 import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"

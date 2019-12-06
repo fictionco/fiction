@@ -15,11 +15,12 @@
     <factor-error-404 v-else />
   </div>
 </template>
-<script>
+<script lang="ts">
 import Vue from "vue"
 import { factorError404 } from "@factor/ui"
 import { storeItem, stored } from "@factor/tools"
 import { getMarkdownHTML, metatags } from "./docs-handler"
+
 export default Vue.extend({
   components: {
     factorError404,

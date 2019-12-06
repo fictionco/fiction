@@ -6,7 +6,7 @@
     <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/tools"
 
