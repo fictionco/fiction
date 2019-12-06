@@ -43,7 +43,7 @@
 </template>
 <script>
 /* eslint-disable no-unused-vars */
-import { getStatusCount } from "@factor/post"
+import { getStatusCount } from "@factor/post/util"
 import { toLabel, standardDate, getPermalink, omit } from "@factor/tools"
 import {
   dashboardGrid,

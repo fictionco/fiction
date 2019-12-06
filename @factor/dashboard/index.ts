@@ -14,17 +14,6 @@ import { userCan } from "@factor/user"
 import { RouteConfig } from "vue-router"
 import { DashboardMenuItem } from "./types"
 
-addContentRoute({
-  name: "signin",
-  path: "/signin",
-  component: (): Promise<Component> => import("./sign-in-view.vue")
-})
-
-pushToFilter("site-components", {
-  name: "sign-in-modal",
-  component: (): Promise<Component> => import("./sign-in-modal.vue")
-})
-
 export const accountMenu = (): Promise<Component> => import("./account-menu.vue")
 export const dashboardPane = (): Promise<Component> => import("./pane.vue")
 export const dashboardPage = (): Promise<Component> => import("./page.vue")
@@ -42,79 +31,93 @@ export const dashboardUserCard = (): Promise<Component> => import("./el/user-car
 export const dashboardUserList = (): Promise<Component> => import("./el/user-list.vue")
 export const factorInputSortable = (): Promise<Component> => import("./el/sortable.vue")
 
-addFilter("routes", (_: RouteConfig[]) => {
-  const dashboardRoute = setting("dashboard.route")
-
-  if (!dashboardRoute) {
-    throw new Error("Dashboard base route setting is undefined.")
-  }
-
-  _.push({
-    path: "/admin",
-    redirect: dashboardRoute
+export const setup = (): void => {
+  addContentRoute({
+    name: "signin",
+    path: "/signin",
+    component: (): Promise<Component> => import("./sign-in-view.vue")
   })
 
-  _.push({
-    path: dashboardRoute,
-    component: (): Promise<Component> => import("./wrap.vue"),
-    children: applyFilters("dashboard-routes", [
-      {
-        path: "admin",
-        component: (): Promise<Component> => import("./vd-dashboard.vue"),
-        meta: { auth: true }
-      },
-      {
-        path: "*",
-        component: (): Promise<Component> => import("./vd-404.vue"),
-        meta: { auth: true },
-        priority: 3000
-      }
-    ]),
-    meta: { auth: true, format: "dashboard", ui: "dashboard" }
+  pushToFilter("site-components", {
+    name: "sign-in-modal",
+    component: (): Promise<Component> => import("./sign-in-modal.vue")
   })
+  addFilter("routes", (_: RouteConfig[]) => {
+    const dashboardRoute = setting("dashboard.route")
 
-  return _
-})
+    if (!dashboardRoute) {
+      throw new Error("Dashboard base route setting is undefined.")
+    }
 
-addFilter("admin-menu", (_: DashboardMenuItem[]) => {
-  _.push({
-    group: "admin",
-    path: "admin",
-    name: "Admin",
-    icon: require("./resource/dashboard.svg"),
-    priority: 50
-  })
-
-  postTypesConfig()
-    .filter(({ hideAdmin, accessLevel }) => {
-      return hideAdmin === false || (accessLevel && !userCan({ accessLevel }))
-        ? false
-        : true
+    _.push({
+      path: "/admin",
+      redirect: dashboardRoute
     })
-    .forEach(({ postType, namePlural, icon = "", add = "add-new" }) => {
-      const subMenu: DashboardMenuItem[] = []
 
-      let addText = ""
-      if (add === true) {
-        addText = "Add New"
-      } else if (add) {
-        addText = toLabel(add)
-      }
+    _.push({
+      path: dashboardRoute,
+      component: (): Promise<Component> => import("./wrap.vue"),
+      children: applyFilters("dashboard-routes", [
+        {
+          path: "admin",
+          component: (): Promise<Component> => import("./vd-dashboard.vue"),
+          meta: { auth: true }
+        },
+        {
+          path: "*",
+          component: (): Promise<Component> => import("./vd-404.vue"),
+          meta: { auth: true },
+          priority: 3000
+        }
+      ]),
+      meta: { auth: true, format: "dashboard", ui: "dashboard" }
+    })
 
-      if (addText) {
-        subMenu.push({ path: slugify(addText), name: addText })
-      }
+    return _
+  })
 
-      subMenu.push({ path: "edit" })
+  addFilter("admin-menu", (_: DashboardMenuItem[]) => {
+    _.push({
+      group: "admin",
+      path: "admin",
+      name: "Admin",
+      icon: require("./resource/dashboard.svg"),
+      priority: 50
+    })
 
-      _.push({
-        group: postType,
-        path: `posts/${postType}`,
-        name: namePlural || toLabel(postType),
-        icon,
-        items: applyFilters(`admin-menu-post-${postType}`, subMenu)
+    postTypesConfig()
+      .filter(({ hideAdmin, accessLevel }) => {
+        return hideAdmin === false || (accessLevel && !userCan({ accessLevel }))
+          ? false
+          : true
       })
-    })
+      .forEach(({ postType, namePlural, icon = "", add = "add-new" }) => {
+        const subMenu: DashboardMenuItem[] = []
 
-  return _
-})
+        let addText = ""
+        if (add === true) {
+          addText = "Add New"
+        } else if (add) {
+          addText = toLabel(add)
+        }
+
+        if (addText) {
+          subMenu.push({ path: slugify(addText), name: addText })
+        }
+
+        subMenu.push({ path: "edit" })
+
+        _.push({
+          group: postType,
+          path: `posts/${postType}`,
+          name: namePlural || toLabel(postType),
+          icon,
+          items: applyFilters(`admin-menu-post-${postType}`, subMenu)
+        })
+      })
+
+    return _
+  })
+}
+
+setup()

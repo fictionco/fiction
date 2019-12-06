@@ -1,5 +1,5 @@
 import { endpointRequest } from "@factor/endpoint"
-import { requestPostSingle, requestPostPopulate } from "@factor/post"
+import { requestPostSingle, requestPostPopulate } from "@factor/post/request"
 import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
 import {
@@ -33,25 +33,32 @@ export * from "./email-request"
 
 let _initializedUser: Promise<CurrentUserState> | CurrentUserState
 
-export function currentUser(): CurrentUserState {
+export const currentUser = (): CurrentUserState => {
   return stored("currentUser")
 }
 
-addFilter("before-app", () => {
-  // Authentication events only work after SSR
-  if (!isNode) {
-    _initializedUser = requestInitializeUser()
-    handleAuthRouting()
-  }
-})
+// Set persistent user info
+export const setUser = ({ user, token = "", current = false }: SetUser): void => {
+  if (current) {
+    _initializedUser = user ? user : undefined
 
-onEvent("invalid-user-token", () => {
-  setUser({ user: undefined, current: true })
-})
+    if (token && user) userToken(token)
+    else if (user === null) userToken(null)
+
+    storeItem("currentUser", user)
+
+    // In certain environments (testing) and with high privacy settings, localStorage is unset
+    if (localStorage) {
+      localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
+    }
+  }
+
+  if (user && user._id) storeItem(user._id, user)
+}
 
 // Utility function that calls a callback when the user is set initially
 // If due to route change then initialized var is set and its called immediately
-export async function userInitialized(callback?: Function): Promise<CurrentUserState> {
+export const userInitialized = async (callback?: Function): Promise<CurrentUserState> => {
   const user = await _initializedUser
 
   if (callback) callback(user)
@@ -59,18 +66,9 @@ export async function userInitialized(callback?: Function): Promise<CurrentUserS
   return user
 }
 
-async function requestInitializeUser(): Promise<CurrentUserState> {
-  await appMounted()
-  const resolvedUser = await retrieveAndSetCurrentUser()
-
-  await runCallbacks("before-user-init", resolvedUser)
-
-  return resolvedUser
-}
-
-async function retrieveAndSetCurrentUser(
+const retrieveAndSetCurrentUser = async (
   userCredential?: FactorUserCredential
-): Promise<CurrentUserState> {
+): Promise<CurrentUserState> => {
   let token
   let user
 
@@ -93,32 +91,41 @@ async function retrieveAndSetCurrentUser(
   return user
 }
 
-export function isCurrentUser(_id: string): boolean {
+const requestInitializeUser = async (): Promise<CurrentUserState> => {
+  await appMounted()
+  const resolvedUser = await retrieveAndSetCurrentUser()
+
+  await runCallbacks("before-user-init", resolvedUser)
+
+  return resolvedUser
+}
+
+export const isCurrentUser = (_id: string): boolean => {
   const current = currentUser()
   return current && current._id === _id ? true : false
 }
 
-export function userId(): string {
+export const userId = (): string => {
   const current = currentUser()
   return current && current._id ? current._id : ""
 }
 
-export function isLoggedIn(): boolean {
+export const isLoggedIn = (): boolean => {
   return !isEmpty(currentUser())
 }
 
-export function isEmailVerified(): boolean {
+export const isEmailVerified = (): boolean => {
   const current = currentUser()
   return current && current.emailVerified ? true : false
 }
 
-async function sendUserRequest(method: string, params: object): Promise<unknown> {
+const sendUserRequest = async (method: string, params: object): Promise<unknown> => {
   return await endpointRequest({ id: "user", method, params })
 }
 
-export async function authenticate(
+export const authenticate = async (
   params: AuthenticationParameters
-): Promise<FactorUserCredential> {
+): Promise<FactorUserCredential> => {
   const user = (await sendUserRequest("authenticate", params)) as FactorUserCredential
 
   await runCallbacks("authenticated", user)
@@ -131,7 +138,7 @@ export async function authenticate(
   return user
 }
 
-export async function logout(args: { redirect?: string } = {}): Promise<void> {
+export const logout = async (args: { redirect?: string } = {}): Promise<void> => {
   setUser({ user: undefined, current: true })
   emitEvent("logout")
   emitEvent("notify", "Successfully logged out.")
@@ -150,34 +157,15 @@ export interface SetUser {
   current?: boolean;
 }
 
-// Set persistent user info
-export function setUser({ user, token = "", current = false }: SetUser): void {
-  if (current) {
-    _initializedUser = user ? user : undefined
-
-    if (token && user) userToken(token)
-    else if (user === null) userToken(null)
-
-    storeItem("currentUser", user)
-
-    // In certain environments (testing) and with high privacy settings, localStorage is unset
-    if (localStorage) {
-      localStorage[user ? "setItem" : "removeItem"]("user", JSON.stringify(user))
-    }
-  }
-
-  if (user && user._id) storeItem(user._id, user)
-}
-
 // Very basic version for UI control by  role
 // Needs improvement for more fine grained control
-export function userCan({
+export const userCan = ({
   role = "",
   accessLevel = -1
 }: {
   role?: string;
   accessLevel?: number;
-}): boolean {
+}): boolean => {
   const current = currentUser()
   const userAccessLevel = current && current.accessLevel ? current.accessLevel : 0
   const roleAccessLevel = role ? userRolesMap[role as UserRoles] : 1000
@@ -190,7 +178,7 @@ export function userCan({
   }
 }
 
-function handleAuthRouting(): void {
+const handleAuthRouting = (): void => {
   addCallback("client-route-before", async ({ to, next }: RouteGuard) => {
     const user = await userInitialized()
     const { path: toPath } = to
@@ -215,3 +203,18 @@ function handleAuthRouting(): void {
     }
   })
 }
+
+export const setup = (): void => {
+  addFilter("before-app", () => {
+    // Authentication events only work after SSR
+    if (!isNode) {
+      _initializedUser = requestInitializeUser()
+      handleAuthRouting()
+    }
+  })
+
+  onEvent("invalid-user-token", () => {
+    setUser({ user: undefined, current: true })
+  })
+}
+setup()

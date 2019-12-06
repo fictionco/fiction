@@ -22,7 +22,7 @@
 </template>
 <script>
 import { dashboardInput, dashboardUserCard } from "@factor/dashboard"
-import { requestPostList } from "@factor/post"
+import { requestPostList } from "@factor/post/request"
 export default {
   components: { dashboardInput, dashboardUserCard },
   props: {

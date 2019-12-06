@@ -26,7 +26,7 @@
 <script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
-import { requestPostIndex } from "@factor/post"
+import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLoadingRing },

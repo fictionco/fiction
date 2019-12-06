@@ -40,7 +40,7 @@ import {
   dashboardGridFilter
 } from "@factor/dashboard"
 import { factorLink, factorAvatar } from "@factor/ui"
-import { getStatusCount } from "@factor/post"
+import { getStatusCount } from "@factor/post/util"
 import { toLabel, standardDate, getPermalink } from "@factor/tools"
 import Vue from "vue"
 export default Vue.extend({

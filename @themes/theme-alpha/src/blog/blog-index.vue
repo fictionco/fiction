@@ -38,11 +38,12 @@
     <el-cta />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
-import { requestPostIndex } from "@factor/post"
-export default {
+import { requestPostIndex } from "@factor/post/request"
+import Vue from "vue"
+export default Vue.extend({
   components: {
     factorLoadingRing,
     "el-hero": () => import("../el/hero.vue"),
@@ -117,7 +118,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 
 <style lang="less">

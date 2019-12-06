@@ -4,8 +4,8 @@
 <script lang="ts">
 import { userInitialized, userId } from "@factor/user"
 import { stored } from "@factor/tools"
-import { requestPostSingle } from "@factor/post"
-import Vue from 'vue'
+import { requestPostSingle } from "@factor/post/request"
+import Vue from "vue"
 export default Vue.extend({
   components: {
     "edit-user": () => import("./v-edit.vue")
@@ -19,7 +19,7 @@ export default Vue.extend({
 
   async mounted() {
     const user = await userInitialized()
-    if (user._id) await requestPostSingle({ _id: user._id, postType: "user" })
+    if (user && user._id) await requestPostSingle({ _id: user._id, postType: "user" })
   }
 })
 </script>

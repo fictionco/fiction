@@ -34,7 +34,7 @@
 <script>
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
-import { requestPostIndex } from "@factor/post"
+import { requestPostIndex } from "@factor/post/request"
 export default {
   components: {
     factorLoadingRing

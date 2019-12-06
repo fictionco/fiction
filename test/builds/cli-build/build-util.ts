@@ -18,6 +18,7 @@ export const spawnFactorProcess = ({
   options,
   cwd
 }: ProcessConfig): ChildProcess => {
+
   return spawn("yarn", ["factor", command], { cwd, ...options })
 }
 

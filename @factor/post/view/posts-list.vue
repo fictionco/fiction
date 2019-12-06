@@ -67,7 +67,9 @@ import {
   dashboardUserCard,
   dashboardGridActions
 } from "@factor/dashboard"
-import { getStatusCount, requestPostSaveMany, requestPostDeleteMany } from "@factor/post"
+import {getStatusCount} from "@factor/post/util"
+
+import {  requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/tools"
 import Vue from "vue"
 export default Vue.extend({

@@ -10,7 +10,7 @@
 <script lang="ts">
 import { dashboardPane } from "@factor/dashboard"
 import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/tools"
-import { requestPostSingle } from "@factor/post"
+import { requestPostSingle } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({
   components: { dashboardPane },

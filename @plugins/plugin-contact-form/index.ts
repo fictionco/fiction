@@ -1,26 +1,10 @@
-import { requestPostSave } from "@factor/post"
+import { requestPostSave } from "@factor/post/request"
 import { toLabel, addPostType, setting } from "@factor/tools"
 import { sendEmailRequest } from "@factor/email"
 
 const postType = "contact-form"
 
-addPostType({
-  postType: postType,
-  nameIndex: "Contact Form",
-  nameSingle: "Submitted",
-  namePlural: "Contact Forms",
-  listTemplate: () => import("./dashboard-list.vue"),
-  add: false
-})
-
-export async function saveContactForm(form: object): Promise<object> {
-  const post = { settings: form }
-  const saved = await requestPostSave({ post, postType: postType })
-  sendFormEmail(form)
-  return saved
-}
-
-export async function sendFormEmail(form: object): Promise<object> {
+export const sendFormEmail = async (form: object): Promise<object> => {
   const toSetting = setting("contactForm.email")
   const to = typeof toSetting == "function" ? toSetting() : toSetting
 
@@ -35,3 +19,22 @@ export async function sendFormEmail(form: object): Promise<object> {
     text
   })
 }
+
+export const saveContactForm = async (form: object): Promise<object> => {
+  const post = { settings: form }
+  const saved = await requestPostSave({ post, postType: postType })
+  sendFormEmail(form)
+  return saved
+}
+
+export const setup = (): void => {
+  addPostType({
+    postType: postType,
+    nameIndex: "Contact Form",
+    nameSingle: "Submitted",
+    namePlural: "Contact Forms",
+    listTemplate: () => import("./dashboard-list.vue"),
+    add: false
+  })
+}
+setup()

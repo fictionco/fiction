@@ -113,7 +113,7 @@
 <script>
 import { factorBtn, factorLink, factorLoadingRing, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
-import { requestPostIndex } from "@factor/post"
+import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorBtn, factorLink, factorLoadingRing, factorIcon },

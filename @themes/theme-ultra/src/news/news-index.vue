@@ -23,11 +23,12 @@
     <component :is="setting('news.components.pagination')" :post-type="postType" />
   </div>
 </template>
-<script>
+<script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/tools"
-import { requestPostIndex } from "@factor/post"
-export default {
+import { requestPostIndex } from "@factor/post/request"
+import Vue from "vue"
+export default Vue.extend({
   components: { factorLoadingRing },
   data() {
     return {
@@ -49,17 +50,17 @@ export default {
     return this.getPosts()
   },
   computed: {
-    tag() {
+    tag(this: any) {
       return this.$route.params.tag || this.$route.query.tag || ""
     },
-    index() {
+    index(this: any) {
       return stored(this.postType) || {}
     },
-    newsPosts() {
+    newsPosts(this: any) {
       const { posts = [] } = this.index
       return posts
     },
-    page() {
+    page(this: any) {
       return this.$route.query.page || 1
     },
     returnLinkText() {
@@ -68,7 +69,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function() {
+      handler: function(this: any) {
         this.getPosts()
       }
     }
@@ -78,7 +79,7 @@ export default {
   },
   methods: {
     setting,
-    async getPosts() {
+    async getPosts(this: any) {
       this.loading = true
 
       await requestPostIndex({
@@ -93,7 +94,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 
 <style lang="less">

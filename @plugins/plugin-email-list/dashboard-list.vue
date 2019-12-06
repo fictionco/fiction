@@ -11,18 +11,14 @@
 
     <dashboard-grid :structure="grid()" :rows="list" @select-all="selectAll($event)">
       <template #select="{value, row}">
-        <input
-          v-model="selected"
-          type="checkbox"
-          class="checkbox"
-          label
-          :value="row._id"
-        />
+        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
       </template>
       <template #listId="{row}">
-        <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{
-          row.title
-        }}</factor-link>
+        <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">
+          {{
+            row.title
+          }}
+        </factor-link>
       </template>
       <template
         #emailCount="{row}"
@@ -32,7 +28,7 @@
 </template>
 <script lang="ts">
 /* eslint-disable no-unused-vars */
-import { getStatusCount } from "@factor/post"
+import { getStatusCount } from "@factor/post/util"
 import { toLabel, stored, getPermalink, omit } from "@factor/tools"
 import { factorLink } from "@factor/ui"
 import {
@@ -66,14 +62,14 @@ export default Vue.extend({
     return { selected: [], loadingAction: false, postTypeUIConfig }
   },
   computed: {
-    tableList() {
+    tableList(this: any) {
       return this.list.map(({ _id, createdAt, settings }) => {
         return { ...settings, createdAt, _id }
       })
     },
-    tabs() {
+    tabs(this: any) {
       return [`all`, `trash`].map(key => {
-        const count =
+        const count: number =
           key == "all"
             ? this.meta.total
             : getStatusCount({

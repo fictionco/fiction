@@ -3,8 +3,6 @@ import { addFilter, addCallback, pushToFilter } from "@factor/tools/filters"
 import { Component } from "vue"
 import { RouteConfig, Route } from "vue-router"
 import { PostEditComponent } from "./types"
-export * from "./request"
-export * from "./util"
 
 export const factorPostEdit = (): Promise<Component> => import("./el/edit-link.vue")
 

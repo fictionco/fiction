@@ -17,7 +17,7 @@ import {
   requestPostIndex,
   requestPostDeleteMany,
   requestPostSaveMany
-} from "@factor/post"
+} from "@factor/post/request"
 import { getPostTypeConfig, onEvent, stored } from "@factor/tools"
 import { dashboardPage } from "@factor/dashboard"
 import Vue from "vue"

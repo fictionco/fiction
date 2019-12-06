@@ -4,36 +4,19 @@ import { configSettings } from "@factor/tools/config"
 import Vue from "vue"
 import coreSettings from "@factor/app/core-settings"
 
-addCallback("before-server-plugins", () => createSettings())
-addCallback("before-app-plugins", () => createSettings())
-
 let config = {}
 let settingsExports: (Function | object)[] = []
+type SettingsObject = Record<string, any>
 
-function getSettings(): object {
+const getSettings = (): SettingsObject => {
   return Vue.$factorSettings ? Vue.$factorSettings : coreSettings()
 }
 
-function setSettings(settings: object): void {
+const setSettings = (settings: object): void => {
   Vue.$factorSettings = settings
 }
 
-export function createSettings(): void {
-  config = configSettings()
-
-  try {
-    // Use sync require here
-    // Needed for env matching, as import is problematic when settings might load after things that need them
-    // eslint-disable-next-line import/no-unresolved
-    settingsExports = require("__CWD__/.factor/loader-settings").default
-  } catch (error) {
-    if (error.code !== "MODULE_NOT_FOUND") throw error
-  }
-
-  mergeAllSettings()
-}
-
-function mergeAllSettings(): void {
+const mergeAllSettings = (): SettingsObject => {
   const settingsArray = applyFilters(
     "factor-settings",
     [config, coreSettings, ...settingsExports].map(_export =>
@@ -45,12 +28,27 @@ function mergeAllSettings(): void {
 
   const settings = applyFilters("merged-factor-settings", merged)
 
-  setSettings(settings)
-
-  return
+  return settings
 }
 
-export function setting(key: string): any {
+export const createSettings = (): void => {
+  config = configSettings()
+
+  try {
+    // Use sync require here
+    // Needed for env matching, as import is problematic when settings might load after things that need them
+    // eslint-disable-next-line import/no-unresolved
+    settingsExports = require("__CWD__/.factor/loader-settings").default
+  } catch (error) {
+    if (error.code !== "MODULE_NOT_FOUND") throw error
+  }
+
+  const settings = mergeAllSettings()
+
+  setSettings(settings)
+}
+
+export const setting = (key: string): any => {
   const settings = getSettings()
 
   if (key == "all") {
@@ -59,3 +57,10 @@ export function setting(key: string): any {
 
   return dotSetting({ key, settings })
 }
+
+export const setup = (): void => {
+  addCallback("before-server-plugins", () => createSettings())
+  addCallback("before-app-plugins", () => createSettings())
+}
+
+setup()

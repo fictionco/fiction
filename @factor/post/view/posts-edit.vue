@@ -76,7 +76,7 @@ import {
   getPermalink
 } from "@factor/tools"
 import { excerpt } from "@factor/tools/excerpt"
-import { requestPostSave } from "@factor/post"
+import { requestPostSave } from "@factor/post/request"
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
 import Vue from "vue"
 export default Vue.extend({
