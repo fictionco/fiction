@@ -8,11 +8,17 @@ export * from "./utils-lodash"
 
 export { isNode, guid }
 
-export function randomToken(): string {
+interface ListItem {
+  value?: string;
+  name?: string;
+  desc?: string;
+}
+
+export const randomToken = (): string => {
   return randToken.generate(16)
 }
 
-export function ensureTrailingSlash(path: string): string {
+export const ensureTrailingSlash = (path: string): string => {
   path += path.endsWith("/") ? "" : "/"
   return path
 }
@@ -23,7 +29,7 @@ interface PriorityItem {
 }
 
 // Sort objects in an array by a priority value that defaults to 100
-export function sortPriority<T extends PriorityItem>(arr: T[]): T[] {
+export const sortPriority = <T extends PriorityItem>(arr: T[]): T[] => {
   if (!arr || arr.length == 0) return arr
 
   return arr.sort((a, b) => {
@@ -45,13 +51,13 @@ export function sortPriority<T extends PriorityItem>(arr: T[]): T[] {
 // Parse settings using dot notation
 // TODO unit test this
 // Cases: [port] [app.name] [roles.arpowers@gmail.com]
-export function dotSetting({
+export const dotSetting = ({
   key,
   settings
 }: {
   key: string;
   settings: Record<string, any>;
-}): any {
+}): any => {
   const currentKey = key.slice(0, key.indexOf("."))
   const subKeys = key.slice(key.indexOf(".") + 1)
 
@@ -64,13 +70,9 @@ export function dotSetting({
   }
 }
 
-export function sortMerge(arr: PriorityItem[]): object {
-  return deepMerge(sortPriority(arr))
-}
-
 // Deep merge an array of objects into a single object
 // Replaces arrays instead of concat
-export function deepMerge<T>(items: Partial<T>[]): object {
+export const deepMerge = <T>(items: Partial<T>[]): object => {
   const mergeItems = items.filter(_ => _)
 
   const merged = deepMergeLib.all(mergeItems, {
@@ -80,18 +82,60 @@ export function deepMerge<T>(items: Partial<T>[]): object {
   return merged
 }
 
-interface ListItem {
-  value?: string;
-  name?: string;
-  desc?: string;
+export const sortMerge = (arr: PriorityItem[]): object => {
+  return deepMerge(sortPriority(arr))
+}
+
+// Make stop words lower case in a title
+export const stopWordLowercase = (str: string, lib: string[] = []): string => {
+  if (lib.length == 0) {
+    lib = stopwordsLib
+  }
+  const words = str.split(" ")
+
+  if (words.length <= 1) return str
+
+  const regex = new RegExp("\\b(" + stopwordsLib.join("|") + ")\\b", "gi")
+  return str.replace(regex, match => match.toLowerCase())
+}
+
+// Convert camel-case to kebab-case
+export const camelToKebab = (string: string): string => {
+  return !string ? string : string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
+}
+
+// Coverts a slug or variable into a title-like string
+export const toLabel = (str: string): string => {
+  if (!str || typeof str !== "string") return str
+
+  const label = camelToKebab(str)
+    .replace(new RegExp("-|_", "g"), " ")
+    .replace(/\b\w/g, l => l.toUpperCase())
+
+  return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
+}
+
+// Converts regular space delimited text into a hyphenated slug
+export const slugify = (text: string): string => {
+  if (!text) return text
+
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w-]+/g, "") // Remove all non-word chars
+    .replace(/^\d+/g, "") // Remove Numbers
+    .replace(/--+/g, "-") // Replace multiple - with single -
+    .replace(/^-+/, "") // Trim - from start of text
+    .replace(/-+$/, "") // Trim - from end of text
 }
 
 // Parse to standard utility lists
 // Ideal for passing around config data and lists (inputs, etc.. )
-export function parseList(
+export const parseList = (
   list: ListItem[] = [],
   options: { prefix?: string; suffix?: string } = {}
-): ListItem[] {
+): ListItem[] => {
   const { prefix = "" } = options
   let { suffix = "" } = options
 
@@ -116,51 +160,7 @@ export function parseList(
   return normalized
 }
 
-// Converts regular space delimited text into a hyphenated slug
-export function slugify(text: string): string {
-  if (!text) return text
-
-  return text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w-]+/g, "") // Remove all non-word chars
-    .replace(/^\d+/g, "") // Remove Numbers
-    .replace(/--+/g, "-") // Replace multiple - with single -
-    .replace(/^-+/, "") // Trim - from start of text
-    .replace(/-+$/, "") // Trim - from end of text
-}
-
-// Coverts a slug or variable into a title-like string
-export function toLabel(str: string): string {
-  if (!str || typeof str !== "string") return str
-
-  const label = camelToKebab(str)
-    .replace(new RegExp("-|_", "g"), " ")
-    .replace(/\b\w/g, l => l.toUpperCase())
-
-  return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
-}
-
-// Convert camel-case to kebab-case
-export function camelToKebab(string: string): string {
-  return !string ? string : string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
-}
-
-// Make stop words lower case in a title
-export function stopWordLowercase(str: string, lib: string[] = []): string {
-  if (lib.length == 0) {
-    lib = stopwordsLib
-  }
-  const words = str.split(" ")
-
-  if (words.length <= 1) return str
-
-  const regex = new RegExp("\\b(" + stopwordsLib.join("|") + ")\\b", "gi")
-  return str.replace(regex, match => match.toLowerCase())
-}
-
-export function toPascalCase(string: string): string {
+export const toPascalCase = (string: string): string => {
   return `${string}`
     .replace(new RegExp(/[-_]+/, "g"), " ")
     .replace(new RegExp(/[^\s\w]/, "g"), "")

@@ -1,7 +1,13 @@
 import { setting } from "@factor/tools/settings"
 import log from "@factor/tools/logger"
 
-export function currentUrl(): string {
+export const localhostUrl = (): string => {
+  const port = process.env.PORT || 7777
+  const routine = process.env.HTTP_PROTOCOL || "http"
+  return `${routine}://localhost:${port}`
+}
+
+export const currentUrl = (): string => {
   if (process.env.NODE_ENV == "development" || process.env.FACTOR_ENV == "test")
     return localhostUrl()
   else {
@@ -12,10 +18,4 @@ export function currentUrl(): string {
       return "https://url-needed-in-config"
     }
   }
-}
-
-export function localhostUrl(): string {
-  const port = process.env.PORT || 7777
-  const routine = process.env.HTTP_PROTOCOL || "http"
-  return `${routine}://localhost:${port}`
 }

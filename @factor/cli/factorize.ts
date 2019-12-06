@@ -15,7 +15,6 @@ interface EnvironmentConfig {
   restart?: boolean;
 }
 
-
 export const setEnvironment = (_arguments: EnvironmentConfig = {}): void => {
   const { NODE_ENV, command, ENV, PORT, debug } = _arguments
 
@@ -37,29 +36,20 @@ export const extendServer = async ({ restart = false } = {}): Promise<void> => {
     log.error(error)
   }
 
-
   // eslint-disable-next-line import/no-unresolved
   require("__CWD__/.factor/loader-server")
-
-
 
   await runCallbacks("initialize-server")
 
   if (!restart) runCallbacks("after-first-server-extend")
-
 }
 
-
-
 export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> => {
-
-
   // Do this for every reset of server
   setEnvironment(_config)
   if (!_config.restart) transpile()
 
   aliasRequire()
-
 
   await extendServer(_config)
 
@@ -68,7 +58,6 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   addCallback("rebuild-server-app", () => reloadNodeProcess(_config), { key: "reload" })
 }
-
 
 // Reloads all cached node files
 // Needed for server reloading
@@ -81,6 +70,3 @@ const reloadNodeProcess = async (_arguments: EnvironmentConfig): Promise<void> =
 
   await factorize({ ..._arguments, restart: true, NODE_ENV: "development" })
 }
-
-
-

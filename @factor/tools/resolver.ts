@@ -3,7 +3,7 @@ import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/tools/paths"
 import fs from "fs-extra"
 
-function fileExistsInTheme(file: string): string {
+const fileExistsInTheme = (file: string): string => {
   let filePath = ""
   const themes = getExtensions().filter(_ => _.extend == "theme")
   if (themes.length > 0) {
@@ -21,7 +21,7 @@ function fileExistsInTheme(file: string): string {
   return filePath
 }
 
-export function resolveFilePath(file: string): string {
+export const resolveFilePath = (file: string): string => {
   const appPath = file.replace("__FALLBACK__", getPath("source"))
 
   if (fs.pathExistsSync(appPath)) {

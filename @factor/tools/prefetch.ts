@@ -5,13 +5,13 @@ import { setPostMetatags } from "@factor/tools/metatags"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 
-export function addGlobalPrefetch(cb: Promise<void>): void {
+export const addGlobalPrefetch = (cb: Promise<void>): void => {
   addCallback("global-prefetch", cb)
 }
 
-export async function preFetchPost({ to = null, clientOnly = false } = {}): Promise<
+export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Promise<
   FactorPost | {}
-> {
+> => {
   const route = to || currentRoute()
 
   const request = applyFilters("post-params", {

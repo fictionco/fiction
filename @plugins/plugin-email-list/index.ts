@@ -18,10 +18,29 @@ interface VerifyEmail {
   code: string;
 }
 
-addCallback("route-query-action-verify-email-list", (_: VerifyEmail) => verifyEmail(_))
-
 export const factorEmailList = (): Promise<Component> => import("./wrap.vue")
 
+export const getListSettings = (listId = ""): object => {
+  const merge = [setting(`emailList.default`)]
+
+  if (listId && listId != "default") {
+    const list = setting(`emailList.${listId}`)
+
+    if (list) merge.push(list)
+  }
+  return deepMerge(merge)
+}
+
+export const getSetting = ({ listId, key }: { listId?: string; key: string }): any => {
+  return dotSetting({ key, settings: getListSettings(listId) })
+}
+
+export const sendEmailListRequest = async (
+  method: string,
+  params: object
+): Promise<object> => {
+  return await endpointRequest({ id: postType, method, params })
+}
 export const postTypeUIConfig = {
   postType,
   nameIndex: "Email Lists",
@@ -34,13 +53,13 @@ export const postTypeUIConfig = {
 
 addPostType(postTypeUIConfig)
 
-export async function deleteEmails({
+export const deleteEmails = async ({
   emails,
   listId
 }: {
   emails: string[];
   listId: string;
-}): Promise<object | void> {
+}): Promise<object | void> => {
   let result
   if (
     confirm(
@@ -53,13 +72,13 @@ export async function deleteEmails({
   return result
 }
 
-export function csvExport({
+export const csvExport = ({
   filename,
   data
 }: {
   filename: string;
   data: object[];
-}): void {
+}): void => {
   filename += `-${timestamp()}`
 
   const ExportToCsv = require("export-to-csv").ExportToCsv
@@ -69,7 +88,7 @@ export function csvExport({
   csvExporter.generateCsv(data)
 }
 
-export async function verifyEmail(query: VerifyEmail): Promise<object> {
+export const verifyEmail = async (query: VerifyEmail): Promise<object> => {
   const result = await sendEmailListRequest("verifyEmail", query)
 
   if (result) {
@@ -81,30 +100,16 @@ export async function verifyEmail(query: VerifyEmail): Promise<object> {
   return result
 }
 
-export function getListSettings(listId = ""): object {
-  const merge = [setting(`emailList.default`)]
-
-  if (listId && listId != "default") {
-    const list = setting(`emailList.${listId}`)
-
-    if (list) merge.push(list)
-  }
-  return deepMerge(merge)
-}
-
-export function getSetting({ listId, key }: { listId?: string; key: string }): any {
-  return dotSetting({ key, settings: getListSettings(listId) })
-}
-
-async function sendEmailListRequest(method: string, params: object): Promise<object> {
-  return await endpointRequest({ id: postType, method, params })
-}
-
-export async function addEmail({
+export const addEmail = async ({
   email,
   listId,
   tags = []
-}: EmailConfig): Promise<object> {
+}: EmailConfig): Promise<object> => {
   emitEvent("email-list-new-email-requested", { email, listId, tags })
   return await sendEmailListRequest("addEmail", { email, listId, tags })
 }
+
+export const setup = (): void => {
+  addCallback("route-query-action-verify-email-list", (_: VerifyEmail) => verifyEmail(_))
+}
+setup()

@@ -5,7 +5,7 @@ import { BundleRenderer } from "vue-server-renderer"
 let port: string
 let renderer: BundleRenderer
 
-describe("Meta", () => {
+describe("build-metainfo", () => {
   beforeAll(async () => {
     await loadFixture("@test/meta")
     port = await getPort()
