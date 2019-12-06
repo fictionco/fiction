@@ -11,12 +11,12 @@ export interface EndpointRequestConfig {
   headers?: object;
 }
 
-export async function endpointRequest({
+export const endpointRequest = async ({
   id,
   method,
   params = {},
   headers = {}
-}: EndpointRequestConfig): Promise<any> {
+}: EndpointRequestConfig): Promise<any> => {
   try {
     if (!method) {
       throw new Error(`Endpoint request to "${id}" requires a method.`)
@@ -62,6 +62,6 @@ export async function authorizedRequest(
   return await axios.post(path, data, options)
 }
 
-export function bearerToken(): string {
+export const bearerToken = (): string => {
   return `Bearer ${userToken()}`
 }

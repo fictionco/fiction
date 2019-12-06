@@ -8,9 +8,9 @@ import { removeSync } from "fs-extra"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { buildProductionApp } from "@factor/build/webpack-config"
 import { createApp } from "@factor/app/app"
-
+import { objectId } from "@factor/post/object-id"
 import jsdom from "jsdom"
-
+import { FactorUser } from "@factor/user/types"
 interface JSDomConfig {
   port?: string;
   route?: string;
@@ -24,6 +24,10 @@ export async function getPort(): Promise<string> {
 }
 export const waitFor = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
+}
+
+export function mockUser(): FactorUser {
+  return { displayName: "Mock User", _id: objectId().toString(), email: "mock@mock.com" }
 }
 
 export const indexHtml = ({

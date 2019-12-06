@@ -1,7 +1,11 @@
 import { EndpointMeta, ResponseType } from "@factor/endpoint/types"
 import { FactorPost, PostActions } from "@factor/post/types"
 import { Request, Response } from "express"
-import { addEndpoint, processEndpointRequest } from "@factor/endpoint/server"
+import {
+  addEndpoint,
+  processEndpointRequest,
+  endpointError
+} from "@factor/endpoint/server"
 import { applyFilters, pushToFilter, runCallbacks } from "@factor/tools/filters"
 import { objectId, postPermission } from "@factor/post/util"
 
@@ -11,25 +15,7 @@ import multer from "multer"
 import storageSchema from "./schema"
 import { uploadEndpointPath } from "./util"
 
-addEndpoint({ id: "storage", handler: { deleteImage } })
-
-pushToFilter("data-schemas", () => storageSchema)
-
-pushToFilter("middleware", {
-  path: uploadEndpointPath(),
-  middleware: [
-    multer().single("imageUpload"),
-    async (request: Request, response: Response): Promise<void> => {
-      return await processEndpointRequest({
-        request,
-        response,
-        handler: _ => handleUpload(_)
-      })
-    }
-  ]
-})
-
-async function handleUpload({
+const handleUpload = async function({
   meta
 }: {
   meta: EndpointMeta;
@@ -37,7 +23,13 @@ async function handleUpload({
   const { bearer, request } = meta
   const { file } = request ?? {}
 
-  if (!file || !bearer) return
+  if (!bearer || !bearer._id) {
+    throw endpointError("401", "Not authorized to create attachment.")
+  }
+
+  if (!file) {
+    throw new Error("No file uploaded.")
+  }
 
   const { buffer, mimetype, size } = file
 
@@ -66,7 +58,7 @@ async function handleUpload({
   return attachment.toObject()
 }
 
-export async function deleteImage(
+export const deleteImage = async function(
   { _id }: { _id: string },
   { bearer }: EndpointMeta
 ): Promise<FactorPost | void> {
@@ -84,3 +76,25 @@ export async function deleteImage(
 
   return doc
 }
+
+export const setup = (): void => {
+  addEndpoint({ id: "storage", handler: { deleteImage } })
+
+  pushToFilter("data-schemas", () => storageSchema)
+
+  pushToFilter("middleware", {
+    path: uploadEndpointPath(),
+    middleware: [
+      multer().single("imageUpload"),
+      async (request: Request, response: Response): Promise<void> => {
+        return await processEndpointRequest({
+          request,
+          response,
+          handler: _ => handleUpload(_)
+        })
+      }
+    ]
+  })
+}
+
+setup()

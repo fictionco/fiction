@@ -22,7 +22,7 @@ describe("cli", () => {
 
       const allOutput = consoleOutput.join("")
       expect(allOutput).toContain("Verify Dependencies")
-      expect(allOutput).toContain("Verify Extensions")
+      expect(allOutput).toContain("Setup Environment")
     })
 
     it("cli setup: sets environmental variables", () => {

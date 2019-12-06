@@ -1,5 +1,5 @@
 import { PopulatedPosts, FactorPost } from "@factor/post/types"
-
+import { ObjectID } from "bson"
 export type CurrentUserState = FactorUser | undefined
 
 enum Gender {

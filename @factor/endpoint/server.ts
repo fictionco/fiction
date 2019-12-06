@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { addCallback, addFilter, applyFilters, log } from "@factor/tools"
 
-import { FactorUser } from "@factor/user/types"
+import { FactorUser, CurrentUserState } from "@factor/user/types"
 import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
 import { parse } from "qs"
@@ -14,40 +14,43 @@ import {
   ResponseType
 } from "./types"
 
-// Run after other imports have added themselves
-addCallback("initialize-server", () => initializeEndpointServer())
 
-export function addEndpoint({ id, handler }: EndpointItem): void {
+export const addEndpoint = ({ id, handler }: EndpointItem): void => {
   addCallback("endpoints", { id, handler })
 }
 
-export function initializeEndpointServer(): void {
-  addFilter("middleware", (_: object[]) => {
-    applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
-      _.push({
-        path: endpointPath(id),
-        middleware: [
-          async (request: Request, response: Response): Promise<void> => {
-            return await processEndpointRequest({
-              request,
-              response,
-              handler: _ => runEndpointMethod({ ..._, id, handler })
-            })
-          }
-        ],
-        id
-      })
-    })
-    return _
-  })
+export const endpointError = (
+  code: string | number,
+  message: string
+): NodeJS.ErrnoException => {
+  const error: NodeJS.ErrnoException = new Error(message)
+  error.code = String(code)
+  return error
 }
 
-export async function runEndpointMethod({
+export const setAuthorizedUser = async (
+  bearerToken: string
+): Promise<CurrentUserState> => {
+  let user
+  try {
+    if (bearerToken && bearerToken.startsWith("Bearer ")) {
+      const token = bearerToken.split("Bearer ")[1]
+
+      user = token ? ((await getSinglePost({ token })) as FactorUser) : undefined
+    }
+  } catch (error) {
+    throw endpointError(401, error.message)
+  }
+
+  return user
+}
+
+export const runEndpointMethod = async ({
   id,
   handler,
   data,
   meta
-}: EndpointRequestParams & EndpointItem): Promise<any> {
+}: EndpointRequestParams & EndpointItem): Promise<any> => {
   const { method, params = {} } = data
 
   if (!method) {
@@ -71,40 +74,29 @@ export async function runEndpointMethod({
   }
 }
 
-export async function processEndpointRequest({
+export const processEndpointRequest = async ({
   request,
   response,
   handler
-}: EndpointRequestConfig): Promise<void> {
+}: EndpointRequestConfig): Promise<void> => {
   const { query, body, headers } = request
 
   const meta: EndpointMeta = { request, response }
 
   const data = { ...body, ...parse(query) }
 
-  const { authorization } = headers
+  const { authorization = "" } = headers
 
   const responseJson: { result?: ResponseType; error?: HttpError } = {}
 
   // Authorization / Bearer.
-  // If there is an error leave as null bearer but still run method
-  try {
-    if (authorization && authorization.startsWith("Bearer ")) {
-      const token = authorization.split("Bearer ")[1]
-
-      meta.bearer = token ? ((await getSinglePost({ token })) as FactorUser) : undefined
-    }
-  } catch (error) {
-    // Generate Error
-    responseJson.error = createError(error.code ?? 500, error.message)
-    log.error(error)
-  }
+  meta.bearer = await setAuthorizedUser(authorization)
 
   // Run Endpoint Method
   try {
     responseJson.result = await handler({ data, meta })
   } catch (error) {
-    responseJson.error = error.message || 500
+    responseJson.error = createError(error.code ?? 500, error.message)
     log.error(error)
   }
 
@@ -115,3 +107,31 @@ export async function processEndpointRequest({
 
   return
 }
+
+export const initializeEndpointServer = (): void => {
+  addFilter("middleware", (_: object[]) => {
+    applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
+      _.push({
+        path: endpointPath(id),
+        middleware: [
+          async (request: Request, response: Response): Promise<void> => {
+            return await processEndpointRequest({
+              request,
+              response,
+              handler: _ => runEndpointMethod({ ..._, id, handler })
+            })
+          }
+        ],
+        id
+      })
+    })
+    return _
+  })
+}
+
+export const setup = (): void => {
+  // Run after other imports have added themselves
+  addCallback("initialize-server", () => initializeEndpointServer())
+}
+
+setup()

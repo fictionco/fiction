@@ -65,7 +65,8 @@ module.exports = {
     "vue/max-attributes-per-line": [2, { singleline: 20, multiline: {} }],
     "jest/expect-expect": "off", // annoying
     "@typescript-eslint/explicit-function-return-type": "off", // overridden for .ts files
-    "@typescript-eslint/no-use-before-define": "off", // can cause organization issues
+    "@typescript-eslint/no-use-before-define": "warn", // can cause organization issues
+    "func-style": ["warn", "expression"],
     "@typescript-eslint/no-var-requires": "off", // overridden for transpiled .ts files
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/no-explicit-any": "off"

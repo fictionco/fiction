@@ -38,6 +38,14 @@ export async function dbInitialize(): Promise<void> {
   if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
   mongoose.plugin(mongooseBeautifulUniqueValidation)
   initializeModels()
+
+  await handleIndexes()
+}
+
+async function handleIndexes(): Promise<void> {
+  const _promises = Object.values(__models).map(m => m.createIndexes())
+  await Promise.all(_promises)
+  return
 }
 
 function initializeModels(): void {
@@ -70,8 +78,6 @@ export function setModel(
   const loadModel = !baseModel
     ? model(name, loadSchema)
     : baseModel.discriminator(name, loadSchema)
-
-  loadModel.createIndexes()
 
   __schemas[name] = loadSchema
   __models[name] = loadModel

@@ -6,17 +6,25 @@ import "../../server"
 
 import * as filters from "@factor/tools/filters"
 
-import { authorizedRequest, endpointRequest } from "@factor/endpoint"
+import * as endpoint from "@factor/endpoint"
+import * as endpointServer from "@factor/endpoint/server"
+import { mockUser, getPort } from "@test/utils"
 import { startEndpointTestingServer, stopEndpointTestingServer } from "@test/utils/mongod"
-
+import { CurrentUserState } from "@factor/user/types"
 import FormData from "form-data"
 import fs from "fs"
-import { getPort } from "@test/utils"
+
 import { resolve } from "path"
 import { uploadEndpointPath } from "../../util"
 
 jest.setTimeout(120000) // needs to download mongodb 60mb
 let port
+
+jest.spyOn(endpointServer, "setAuthorizedUser").mockImplementation(
+  async (): Promise<CurrentUserState> => {
+    return mockUser()
+  }
+)
 
 let __id: string
 const spies = {
@@ -43,13 +51,13 @@ describe("upload endpoint", () => {
       fs.createReadStream(resolve(__dirname, `./test-image.jpg`))
     )
 
-    const { data } = await authorizedRequest(uploadEndpointPath(), form, {
+    const response = await endpoint.authorizedRequest(uploadEndpointPath(), form, {
       headers: form.getHeaders()
     })
 
     const {
       result: { _id, size, url, mimetype, postType }
-    } = data
+    } = response.data
 
     __id = _id
 
@@ -70,7 +78,7 @@ describe("upload endpoint", () => {
   })
 
   it("allows for attachment delete", async () => {
-    const r = await endpointRequest({
+    const r = await endpoint.endpointRequest({
       id: "storage",
       method: "deleteImage",
       params: { _id: __id }

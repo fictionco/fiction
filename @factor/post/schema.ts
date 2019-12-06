@@ -7,7 +7,7 @@ export default (): FactorSchema => {
     name: "post",
     options: { timestamps: true },
     permissions: {
-      create: { accessLevel: 100 },
+      create: { accessLevel: 1 },
       retrieve: { accessLevel: 100, status: { published: { accessLevel: 0 } } },
       update: { accessLevel: 300, author: true },
       delete: { accessLevel: 300, author: true }
