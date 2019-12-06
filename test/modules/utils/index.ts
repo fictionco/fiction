@@ -3,7 +3,6 @@ import { dirname, resolve } from "path"
 import { factorize } from "@factor/cli/factorize"
 import getPortUtility from "get-port"
 
-export { default as rp } from "request-promise-native"
 import { removeSync } from "fs-extra"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { buildProductionApp } from "@factor/build/webpack-config"
@@ -11,6 +10,7 @@ import { createApp } from "@factor/app/app"
 import { objectId } from "@factor/post/object-id"
 import jsdom from "jsdom"
 import { FactorUser } from "@factor/user/types"
+
 interface JSDomConfig {
   port?: string;
   route?: string;

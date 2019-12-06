@@ -3,9 +3,9 @@ import { resolve } from "path"
 import { ChildProcess } from "child_process"
 import { removeSync } from "fs-extra"
 
-import { getPort, rp, waitFor } from "@test/utils"
+import { getPort, waitFor } from "@test/utils"
+import rp from "request-promise-native"
 import { startProcess, closeProcess, getUrl } from "./build-util"
-
 jest.setTimeout(70000)
 
 // Don't run these in windows
