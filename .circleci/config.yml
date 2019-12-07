@@ -101,8 +101,6 @@ jobs:
           command: yarn audit || true
 
   build:
-    parallelism: 2
-    resource_class: medium
     executor: node
     steps:
       - attach-project
@@ -118,8 +116,6 @@ jobs:
             - test/builds
 
   test-integration:
-    parallelism: 2
-    resource_class: medium
     executor: node
     steps:
       - attach-project
@@ -134,8 +130,6 @@ jobs:
   # Phase 3: Unit and E2E tests
   # --------------------------------------------------------------------------
   test-unit:
-    parallelism: 2
-    resource_class: medium
     executor: node
     steps:
       - attach-project
