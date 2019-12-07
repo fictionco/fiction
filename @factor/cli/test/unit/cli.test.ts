@@ -6,8 +6,6 @@ describe("cli", () => {
       const consoleOutput: string[] = []
 
       jest.spyOn(console, "log").mockImplementation(output => {
-        // eslint-disable-next-line no-console
-        console.log(output)
         consoleOutput.push(output)
       })
 

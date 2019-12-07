@@ -101,12 +101,13 @@ jobs:
           command: yarn audit || true
 
   build:
+    parallelism: 4
     executor: node
     steps:
       - attach-project
       - run:
           name: Build Fixtures
-          command: yarn test:builds --coverage && yarn test:coverage -F builds
+          command: yarn test:builds --collectCoverage && yarn test:coverage --forceExit builds
           environment:
             JEST_JUNIT_OUTPUT_NAME: builds.xml
       - store-test-results
@@ -116,12 +117,13 @@ jobs:
             - test/builds
 
   test-integration:
+    parallelism: 4
     executor: node
     steps:
       - attach-project
       - run:
           name: Integration Tests
-          command: yarn test:integration --coverage && yarn test:coverage -F integration
+          command: yarn test:integration --collectCoverage && yarn test:coverage --forceExit integration
           environment:
             JEST_JUNIT_OUTPUT_NAME: integration.xml
       - store-test-results
@@ -130,12 +132,13 @@ jobs:
   # Phase 3: Unit and E2E tests
   # --------------------------------------------------------------------------
   test-unit:
+    parallelism: 4
     executor: node
     steps:
       - attach-project
       - run:
           name: Unit Tests
-          command: yarn test:unit -w=2 --coverage && yarn test:coverage -F unit
+          command: yarn test:unit -maxWorkers=4 --collectCoverage && yarn test:coverage --forceExit unit
           environment:
             JEST_JUNIT_OUTPUT_NAME: unit.xml
       - store-test-results
