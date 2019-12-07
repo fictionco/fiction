@@ -4,12 +4,12 @@ import log from "@factor/tools/logger"
 import { applyFilters, runCallbacks } from "@factor/tools/filters"
 import { ServerRenderContext, ApplicationComponents } from "./types"
 
-export async function handleContext({
+export const handleContext = async ({
   context,
   vm,
   router,
   store
-}: ApplicationComponents): Promise<ServerRenderContext> {
+}: ApplicationComponents): Promise<ServerRenderContext> => {
   const { url = "" } = context
 
   const { fullPath } = router.resolve(url).route

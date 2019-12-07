@@ -18,11 +18,11 @@ export interface MiddlewarePathConfig {
   middleware: MiddlewareHandler[];
 }
 
-export function addMiddleware({ path = "/", middleware = [] }): void {
+export const addMiddleware = ({ path = "/", middleware = [] }): void => {
   pushToFilter("middleware", { path, middleware })
 }
 
-export function loadMiddleware(app: Application, middleware = []): void {
+export const loadMiddleware = (app: Application, middleware = []): void => {
   const fav = setting("app.faviconPath")
 
   if (fav) app.use(serveFavicon(fav))

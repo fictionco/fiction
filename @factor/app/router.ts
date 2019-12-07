@@ -13,7 +13,41 @@ Vue.use(VueRouter)
 
 let __initialPageLoad = true
 
-export function createRouter(): VueRouter {
+
+// Only run this before navigation on the client, it should NOT run on initial page load
+const hookClientRouterBefore = async (
+  to: Route,
+  from: Route,
+  next: Function
+): Promise<void> => {
+  if (__initialPageLoad) next()
+  else {
+    const doBefore = runCallbacks("client-route-before", { to, from, next })
+    emitEvent("ssr-progress", "start")
+    const results = await doBefore
+
+    // If a user needs to sign in (with modal) or be redirected after an action
+    // Those hooks may not want the navigation to continue
+    // As they will be handling with navigation with a redirect instead
+
+    if (results.length == 0 || !results.some(_ => _ === false)) next()
+    else next(false)
+  }
+}
+
+const hookClientRouterAfter = (to: Route, from: Route): void => {
+  __initialPageLoad = false
+  emitEvent("ssr-progress", "finish")
+  applyFilters("client-route-after", [], { to, from })
+
+  const { query } = to
+
+  if (query._action) {
+    runCallbacks(`route-query-action-${query._action}`, query)
+  }
+}
+
+export const createRouter = (): VueRouter => {
   const routes = applyFilters("routes", []).filter((_: RouteConfig) => _)
 
   const router = new VueRouter({
@@ -46,19 +80,19 @@ export function createRouter(): VueRouter {
   return router
 }
 
-export function getRouter(): VueRouter {
+export const getRouter = (): VueRouter => {
   return Vue.$router
 }
 
-export function addContentRoute(routeItem: RouteConfig, options?: object): void {
+export const addContentRoute = (routeItem: RouteConfig, options?: object): void => {
   pushToFilter("content-routes", routeItem, options)
 }
 
 // Allow for callback signature to allow for dynamic settings that may not exist yet
-export function addContentRoutes(
+export const addContentRoutes = (
   routeItems: RouteConfig[] | (() => RouteConfig[]),
   options?: object
-): void {
+): void => {
   addFilter(
     "content-routes",
     (routes: RouteConfig[]): RouteConfig[] => {
@@ -70,43 +104,10 @@ export function addContentRoutes(
   )
 }
 
-export function currentRoute(): Route {
+export const currentRoute = (): Route => {
   return getRouter().currentRoute
 }
 
-export function navigateToRoute(r: Location): Promise<Route> {
+export const navigateToRoute = (r: Location): Promise<Route> => {
   return getRouter().push(r)
-}
-
-// Only run this before navigation on the client, it should NOT run on initial page load
-async function hookClientRouterBefore(
-  to: Route,
-  from: Route,
-  next: Function
-): Promise<void> {
-  if (__initialPageLoad) next()
-  else {
-    const doBefore = runCallbacks("client-route-before", { to, from, next })
-    emitEvent("ssr-progress", "start")
-    const results = await doBefore
-
-    // If a user needs to sign in (with modal) or be redirected after an action
-    // Those hooks may not want the navigation to continue
-    // As they will be handling with navigation with a redirect instead
-
-    if (results.length == 0 || !results.some(_ => _ === false)) next()
-    else next(false)
-  }
-}
-
-function hookClientRouterAfter(to: Route, from: Route): void {
-  __initialPageLoad = false
-  emitEvent("ssr-progress", "finish")
-  applyFilters("client-route-after", [], { to, from })
-
-  const { query } = to
-
-  if (query._action) {
-    runCallbacks(`route-query-action-${query._action}`, query)
-  }
 }

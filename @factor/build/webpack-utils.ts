@@ -6,7 +6,7 @@ import cssNano from "cssnano"
 import webpackProgressPlugin from "webpack/lib/ProgressPlugin"
 import cliProgress from "cli-progress"
 
-export function cssLoaders({ target, lang }: { target: string; lang: string }): object[] {
+export const cssLoaders = ({ target, lang }: { target: string; lang: string }): object[] => {
   const postCssPlugins = applyFilters("postcss-plugins", [cssNano({ preset: "default" })])
 
   const _base = [
@@ -38,13 +38,13 @@ export function cssLoaders({ target, lang }: { target: string; lang: string }): 
   return [...__, ..._base]
 }
 
-export async function enhancedBuild({
+export const enhancedBuild = async ({
   name,
   config
 }: {
   name: string;
   config: Configuration;
-}): Promise<void> {
+}): Promise<void> => {
   const compiler = webpack(config)
 
   const { Bar, Presets } = cliProgress

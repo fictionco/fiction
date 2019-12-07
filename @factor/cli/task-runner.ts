@@ -11,23 +11,7 @@ interface TaskConfig {
   options?: { cwd: string };
 }
 
-export async function verifyDependencies(options: CommandOptions): Promise<void> {
-  const loaderOptions = options.clean ? ["--clean"] : []
-
-  await runTasks(
-    [
-      { command: "yarn", args: ["install"], title: "Verify Dependencies" },
-      {
-        command: "factor",
-        args: ["create-loaders", ...loaderOptions],
-        title: "Setup Environment"
-      }
-    ],
-    { exitOnError: true }
-  )
-}
-
-async function runTasks(t: TaskConfig[], opts = {}): Promise<void> {
+const runTasks = async (t: TaskConfig[], opts = {}): Promise<void> => {
   if (t.length == 0) return
 
   const taskMap = t.map(
@@ -73,4 +57,20 @@ async function runTasks(t: TaskConfig[], opts = {}): Promise<void> {
   }
 
   return
+}
+
+export const verifyDependencies = async (options: CommandOptions): Promise<void> => {
+  const loaderOptions = options.clean ? ["--clean"] : []
+
+  await runTasks(
+    [
+      { command: "yarn", args: ["install"], title: "Verify Dependencies" },
+      {
+        command: "factor",
+        args: ["create-loaders", ...loaderOptions],
+        title: "Setup Environment"
+      }
+    ],
+    { exitOnError: true }
+  )
 }

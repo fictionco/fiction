@@ -1,11 +1,8 @@
 import axios from "axios"
 import { onEvent, addFilter } from "@factor/tools"
 import { EmailTransactionalConfig } from "@factor/email/util"
-slack()
 
-facebook()
-
-function slack(): void {
+const slack = (): void => {
   if (process.env.SLACK_NOTIFY_URL) {
     // Track email sign up events
     onEvent(
@@ -47,10 +44,14 @@ function slack(): void {
   }
 }
 
-function facebook(): void {
+const facebook = (): void => {
   onEvent("email-list-new-email-requested", () => {
     if (typeof window.fbq != "undefined") {
       window.fbq("track", "Subscribe")
     }
   })
 }
+
+slack()
+
+facebook()

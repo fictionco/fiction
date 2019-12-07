@@ -26,25 +26,25 @@ if (!Vue.$filters) {
   }
 }
 
-export function getFilters(): FilterRecord {
+export const getFilters = (): FilterRecord => {
   return Vue.$filters.filters
 }
 
-export function getApplied(): FilterRecord {
+export const getApplied = (): FilterRecord => {
   return Vue.$filters.applied
 }
 
-function setFilter({
+const setFilter = ({
   _id = "",
   uniqueKey = "",
   callback,
   context,
   priority
-}: FilterItem): void {
+}: FilterItem): void => {
   Vue.$filters.filters[_id][uniqueKey] = { _id, uniqueKey, callback, context, priority }
 }
 
-export function getFilterCount(_id: string): number {
+export const getFilterCount = (_id: string): number => {
   const added = getFilters()[_id]
 
   return added && Object.keys(added).length > 0 ? Object.keys(added).length : 0
@@ -52,7 +52,7 @@ export function getFilterCount(_id: string): number {
 
 // Apply filters a maximum of one time, once they've run add to _applied property
 // If that is set just return it
-export function applyFilters(_id: string, data: any, ...rest: any[]): any {
+export const applyFilters = (_id: string, data: any, ...rest: any[]): any => {
   // Get Filters Added
   const _added = getFilters()[_id]
 
@@ -83,82 +83,10 @@ export function applyFilters(_id: string, data: any, ...rest: any[]): any {
   return data
 }
 
-export function addFilter<T>(
-  _id: string,
-  cb: T,
-  { context = {}, priority = 100, key = "" } = {}
-): T {
-  const $filters = getFilters()
-
-  if (!$filters[_id]) $filters[_id] = {}
-
-  key = key ? key : uniqueObjectHash(cb)
-
-  // create unique ID
-  // In certain situations (HMR, dev), the same filter can be added twice
-  // Using objects and a hash identifier solves that
-  const uniqueKey = `key_${key}`
-
-  // For simpler assignments where no callback is needed
-  const callback = typeof cb != "function" ? (): T => cb : cb
-
-  setFilter({ _id, uniqueKey, callback, context, priority })
-
-  return cb
-}
-
-export function pushToFilter<T>(_id: string, item: T, { key = "", pushTo = -1 } = {}): T {
-  key = key ? key : uniqueObjectHash(item)
-
-  addFilter(
-    _id,
-    (_: T[], args: object) => {
-      item = typeof item == "function" ? item(args) : item
-
-      if (pushTo >= 0) {
-        _.splice(pushTo, 0, item)
-        return _
-      } else {
-        return [..._, item]
-      }
-    },
-    { key }
-  )
-
-  return item
-}
-
-export function addCallback<T>(
-  _id: string,
-  callback: Function | T,
-  { key = "" } = {}
-): Function | T {
-  // get unique signature which includes the caller path of function and stringified callback
-  // added the caller because sometimes callbacks look the exact same in different files!
-  key = key ? key : uniqueObjectHash(callback)
-
-  const callable = typeof callback != "function" ? (): T => callback : callback
-
-  addFilter(_id, (_: Function[] = [], args: object) => [..._, callable(args)], {
-    key
-  })
-
-  return callback
-}
-
-// Run array of promises and await the result
-export async function runCallbacks(
-  _id: string,
-  _arguments: object = {}
-): Promise<unknown[]> {
-  const _promises: [PromiseLike<unknown>] = applyFilters(_id, [], _arguments)
-  return await Promise.all(_promises)
-}
-
 // Use the function that called the filter in the key
 // this prevents issues where two filters in different may match each other
 // which causes difficult to solve bugs (data-schemas is an example)
-function callerKey(): string {
+const callerKey = (): string => {
   const error = new Error()
 
   let stacker = "no-stack"
@@ -176,7 +104,7 @@ function callerKey(): string {
   return stacker
 }
 
-export function uniqueObjectHash(obj: any): string {
+export const uniqueObjectHash = (obj: any): string => {
   if (!obj) return obj
 
   let str
@@ -206,4 +134,76 @@ export function uniqueObjectHash(obj: any): string {
     )
 
   return String(keyed).replace(/-/g, "")
+}
+
+export const addFilter = <T>(
+  _id: string,
+  cb: T,
+  { context = {}, priority = 100, key = "" } = {}
+): T => {
+  const $filters = getFilters()
+
+  if (!$filters[_id]) $filters[_id] = {}
+
+  key = key ? key : uniqueObjectHash(cb)
+
+  // create unique ID
+  // In certain situations (HMR, dev), the same filter can be added twice
+  // Using objects and a hash identifier solves that
+  const uniqueKey = `key_${key}`
+
+  // For simpler assignments where no callback is needed
+  const callback = typeof cb != "function" ? (): T => cb : cb
+
+  setFilter({ _id, uniqueKey, callback, context, priority })
+
+  return cb
+}
+
+export const pushToFilter = <T>(_id: string, item: T, { key = "", pushTo = -1 } = {}): T => {
+  key = key ? key : uniqueObjectHash(item)
+
+  addFilter(
+    _id,
+    (_: T[], args: object) => {
+      item = typeof item == "function" ? item(args) : item
+
+      if (pushTo >= 0) {
+        _.splice(pushTo, 0, item)
+        return _
+      } else {
+        return [..._, item]
+      }
+    },
+    { key }
+  )
+
+  return item
+}
+
+export const addCallback = <T>(
+  _id: string,
+  callback: Function | T,
+  { key = "" } = {}
+): Function | T => {
+  // get unique signature which includes the caller path of function and stringified callback
+  // added the caller because sometimes callbacks look the exact same in different files!
+  key = key ? key : uniqueObjectHash(callback)
+
+  const callable = typeof callback != "function" ? (): T => callback : callback
+
+  addFilter(_id, (_: Function[] = [], args: object) => [..._, callable(args)], {
+    key
+  })
+
+  return callback
+}
+
+// Run array of promises and await the result
+export const runCallbacks = async (
+  _id: string,
+  _arguments: object = {}
+): Promise<unknown[]> => {
+  const _promises: [PromiseLike<unknown>] = applyFilters(_id, [], _arguments)
+  return await Promise.all(_promises)
 }

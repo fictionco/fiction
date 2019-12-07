@@ -3,28 +3,11 @@ import { addFilter, applyFilters } from "@factor/tools/filters"
 
 import fs from "fs-extra"
 
-// Add static folder copy config to webpack copy plugin
-addFilter("webpack-copy-files-config", (_: CopyItemConfig[]) => [
-  ..._,
-  ...staticCopyConfig()
-])
-addFilter("webpack-aliases", (_: Record<string, string>) => {
-  return {
-    ..._,
-    __SRC__: getPath("source"),
-    __CWD__: getPath("app"),
-    __FALLBACK__: getPath("app")
-  }
-})
-
-export function getPath(key: string): string {
-  const rel = relativePath(key)
-  const full = typeof rel != "undefined" ? resolve(CWD(), rel) : ""
-
-  return full
+const CWD = (): string => {
+  return process.env.FACTOR_CWD || process.cwd()
 }
 
-function relativePath(key: string): string {
+const relativePath = (key: string): string => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { main = "index.js" } = require(resolve(CWD(), "package.json"))
   const sourceDirectory = dirname(resolve(CWD(), main))
@@ -60,19 +43,16 @@ function relativePath(key: string): string {
   return Array.isArray(p) ? p.join("/") : p
 }
 
-function CWD(): string {
-  return process.env.FACTOR_CWD || process.cwd()
-}
+export const getPath = (key: string): string => {
+  const rel = relativePath(key)
+  const full = typeof rel != "undefined" ? resolve(CWD(), rel) : ""
 
-interface CopyItemConfig {
-  from: string;
-  to: string;
-  ignore: string[];
+  return full
 }
 
 // Returns configuration array for webpack copy plugin
 // if static folder is in app or theme, contents should copied to dist
-function staticCopyConfig(): CopyItemConfig[] {
+const staticCopyConfig = (): CopyItemConfig[] => {
   const themeRoot = getPath("theme")
   const themePath = themeRoot ? resolve(themeRoot, "static") : ""
   const appPath = getPath("static")
@@ -85,4 +65,25 @@ function staticCopyConfig(): CopyItemConfig[] {
   })
 
   return copyItems
+}
+
+// Add static folder copy config to webpack copy plugin
+addFilter("webpack-copy-files-config", (_: CopyItemConfig[]) => [
+  ..._,
+  ...staticCopyConfig()
+])
+
+addFilter("webpack-aliases", (_: Record<string, string>) => {
+  return {
+    ..._,
+    __SRC__: getPath("source"),
+    __CWD__: getPath("app"),
+    __FALLBACK__: getPath("app")
+  }
+})
+
+interface CopyItemConfig {
+  from: string;
+  to: string;
+  ignore: string[];
 }

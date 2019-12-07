@@ -24,142 +24,17 @@ interface FactorBundleOptions {
   afterCompile?: (_arguments: any) => {};
 }
 
-interface FactorWebpackConfig {
-  target?: string;
-  analyze?: boolean;
-  testing?: boolean;
-  clean?: boolean;
+export const getDefinedValues = (target: string): object => {
+  return applyFilters("webpack-define", {
+    "process.env.FACTOR_SSR": JSON.stringify(target),
+    "process.env.VUE_ENV": JSON.stringify(target),
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
+    "process.env.FACTOR_APP_CONFIG": JSON.stringify(configSettings())
+  })
 }
 
-export async function generateBundles(options: FactorBundleOptions = {}): Promise<void> {
-  generateLoaders()
-
-  await Promise.all(
-    ["server", "client"].map(async target => {
-      const config = await getWebpackConfig({ ...options, target })
-
-      const compiler = webpack(deepMerge([config, options.config || {}]))
-
-      if (options.beforeCompile) options.beforeCompile({ compiler, config, target })
-
-      await new Promise((resolve, reject) => {
-        compiler.run((error, stats) => {
-          if (error || stats.hasErrors()) reject(error)
-          else {
-            if (options.afterCompile) {
-              options.afterCompile({ compiler, error, stats, config, target })
-            }
-
-            resolve(true)
-          }
-        })
-      })
-
-      return
-    })
-  )
-}
-
-export async function buildProductionApp(_arguments = {}): Promise<void[]> {
-  return await Promise.all(
-    ["server", "client"].map(async target => {
-      const config = await getWebpackConfig({ ..._arguments, target })
-
-      return await enhancedBuild({ config, name: target })
-    })
-  )
-}
-
-export async function getWebpackConfig(
-  _arguments: FactorWebpackConfig
-): Promise<Configuration> {
-  const { target = "server", analyze = false, testing = false } = _arguments
-
-  const baseConfig = await base({ target })
-
-  const buildConfig = process.env.NODE_ENV == "production" ? production() : development()
-
-  const targetConfig = target == "server" ? server() : client()
-
-  const testingConfig: Configuration =
-    testing || process.env.FACTOR_DEBUG ? { devtool: "source-map" } : {}
-
-  const plugins = applyFilters("webpack-plugins", [], { ..._arguments })
-
-  // Only run this once (server build)
-  // If it runs twice it cleans it after the first
-  if (analyze && target == "client") {
-    plugins.push(new BundleAnalyzer.BundleAnalyzerPlugin({ generateStatsFile: true }))
-  }
-
-  const packageConfig = applyFilters("package-webpack-config", {})
-
-  const config = merge(
-    baseConfig,
-    buildConfig,
-    targetConfig,
-    packageConfig,
-    testingConfig,
-    { plugins }
-  )
-
-  return config
-}
-
-function server(): Configuration {
-  const entry = getPath("entry-server")
-
-  const filename = "factor-server.json"
-  return {
-    target: "node",
-    entry,
-    output: { filename: "server-bundle.js", libraryTarget: "commonjs2" },
-
-    // https://webpack.js.org/configuration/externals/#externals
-    // https://github.com/liady/webpack-node-externals
-    // do not externalize CSS files in case we need to import it from a dep
-    externals: [nodeExternals({ whitelist: [/\.css$/, /factor/] })],
-    plugins: [new VueSSRServerPlugin({ filename })]
-  }
-}
-
-function client(): Configuration {
-  const entry = getPath("entry-browser")
-  const filename = "factor-client.json"
-  return {
-    entry,
-    plugins: [new VueSSRClientPlugin({ filename })]
-  }
-}
-
-function production(): Configuration {
-  return {
-    mode: "production",
-    output: { publicPath: "/" },
-    plugins: [
-      new MiniCssExtractPlugin({
-        filename: "css/[name]-[hash:5].css",
-        chunkFilename: "css/[name]-[hash:5].css"
-      })
-    ],
-    performance: { hints: "warning" },
-    optimization: {
-      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})]
-    }
-  }
-}
-
-function development(): Configuration {
-  // Apparently webpack expects a trailing slash on these
-  const publicPath = ensureTrailingSlash(getPath("dist"))
-  return {
-    mode: "development",
-    output: { publicPath },
-    performance: { hints: false } // Warns about large dev file sizes,
-  }
-}
-
-async function base({ target }: { target: string }): Promise<Configuration> {
+const base = async ({ target }: { target: string }): Promise<Configuration> => {
   const out = {
     output: {
       path: getPath("dist"),
@@ -203,8 +78,8 @@ async function base({ target }: { target: string }): Promise<Configuration> {
       new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
       new VueLoaderPlugin(),
       new webpack.DefinePlugin(getDefinedValues(target)),
-      function(this: Compiler): void {
-        this.plugin("done", function(stats: Stats) {
+      function (this: Compiler): void {
+        this.plugin("done", function (stats: Stats) {
           const { errors } = stats.compilation
           if (errors && errors.length > 0) log.error(errors)
         })
@@ -230,12 +105,137 @@ async function base({ target }: { target: string }): Promise<Configuration> {
   return out
 }
 
-export function getDefinedValues(target: string): object {
-  return applyFilters("webpack-define", {
-    "process.env.FACTOR_SSR": JSON.stringify(target),
-    "process.env.VUE_ENV": JSON.stringify(target),
-    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-    "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
-    "process.env.FACTOR_APP_CONFIG": JSON.stringify(configSettings())
-  })
+const client = (): Configuration => {
+  const entry = getPath("entry-browser")
+  const filename = "factor-client.json"
+  return {
+    entry,
+    plugins: [new VueSSRClientPlugin({ filename })]
+  }
+}
+
+const development = (): Configuration => {
+  // Apparently webpack expects a trailing slash on these
+  const publicPath = ensureTrailingSlash(getPath("dist"))
+  return {
+    mode: "development",
+    output: { publicPath },
+    performance: { hints: false } // Warns about large dev file sizes,
+  }
+}
+
+const production = (): Configuration => {
+  return {
+    mode: "production",
+    output: { publicPath: "/" },
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: "css/[name]-[hash:5].css",
+        chunkFilename: "css/[name]-[hash:5].css"
+      })
+    ],
+    performance: { hints: "warning" },
+    optimization: {
+      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})]
+    }
+  }
+}
+
+const server = (): Configuration => {
+  const entry = getPath("entry-server")
+
+  const filename = "factor-server.json"
+  return {
+    target: "node",
+    entry,
+    output: { filename: "server-bundle.js", libraryTarget: "commonjs2" },
+
+    // https://webpack.js.org/configuration/externals/#externals
+    // https://github.com/liady/webpack-node-externals
+    // do not externalize CSS files in case we need to import it from a dep
+    externals: [nodeExternals({ whitelist: [/\.css$/, /factor/] })],
+    plugins: [new VueSSRServerPlugin({ filename })]
+  }
+}
+
+export const getWebpackConfig = async (
+  _arguments: FactorWebpackConfig
+): Promise<Configuration> => {
+  const { target = "server", analyze = false, testing = false } = _arguments
+
+  const baseConfig = await base({ target })
+
+  const buildConfig = process.env.NODE_ENV == "production" ? production() : development()
+
+  const targetConfig = target == "server" ? server() : client()
+
+  const testingConfig: Configuration =
+    testing || process.env.FACTOR_DEBUG ? { devtool: "source-map" } : {}
+
+  const plugins = applyFilters("webpack-plugins", [], { ..._arguments })
+
+  // Only run this once (server build)
+  // If it runs twice it cleans it after the first
+  if (analyze && target == "client") {
+    plugins.push(new BundleAnalyzer.BundleAnalyzerPlugin({ generateStatsFile: true }))
+  }
+
+  const packageConfig = applyFilters("package-webpack-config", {})
+
+  const config = merge(
+    baseConfig,
+    buildConfig,
+    targetConfig,
+    packageConfig,
+    testingConfig,
+    { plugins }
+  )
+
+  return config
+}
+
+interface FactorWebpackConfig {
+  target?: string;
+  analyze?: boolean;
+  testing?: boolean;
+  clean?: boolean;
+}
+
+export const generateBundles = async (options: FactorBundleOptions = {}): Promise<void> => {
+  generateLoaders()
+
+  await Promise.all(
+    ["server", "client"].map(async target => {
+      const config = await getWebpackConfig({ ...options, target })
+
+      const compiler = webpack(deepMerge([config, options.config || {}]))
+
+      if (options.beforeCompile) options.beforeCompile({ compiler, config, target })
+
+      await new Promise((resolve, reject) => {
+        compiler.run((error, stats) => {
+          if (error || stats.hasErrors()) reject(error)
+          else {
+            if (options.afterCompile) {
+              options.afterCompile({ compiler, error, stats, config, target })
+            }
+
+            resolve(true)
+          }
+        })
+      })
+
+      return
+    })
+  )
+}
+
+export const buildProductionApp = async (_arguments = {}): Promise<void[]> => {
+  return await Promise.all(
+    ["server", "client"].map(async target => {
+      const config = await getWebpackConfig({ ..._arguments, target })
+
+      return await enhancedBuild({ config, name: target })
+    })
+  )
 }

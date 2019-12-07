@@ -3,23 +3,7 @@ import Vue, { Component } from "vue"
 
 import { getObservables } from "@factor/app/extend-app"
 
-addCallback(
-  "ssr-context-callbacks",
-  ({ matchedComponents }: { matchedComponents: Component[] }) =>
-    matchedComponents.forEach((_: Component) => setRouteClass(_))
-)
-
-addFilter("before-app", () => {
-  if (process.env.FACTOR_SSR !== "server") manageClient()
-})
-
-addFilter("register-global-observables", (__: Record<string, any>) => {
-  return { ...__, routeClass: [] }
-})
-
-pushToFilter("observable-class-keys", "routeClass")
-
-function setRouteClass(options: Vue): void {
+const setRouteClass = (options: Vue): void => {
   if (!options) return
 
   const { routeClass } = options
@@ -33,7 +17,14 @@ function setRouteClass(options: Vue): void {
   }
 }
 
-function manageClient(): void {
+addCallback(
+  "ssr-context-callbacks",
+  ({ matchedComponents }: { matchedComponents: Component[] }) =>
+    matchedComponents.forEach((_: Component) => setRouteClass(_))
+)
+
+
+const manageClient = (): void => {
   addCallback("client-route-after", () => {
     getObservables().routeClass = []
   })
@@ -42,7 +33,7 @@ function manageClient(): void {
     Vue.extend({
       watch: {
         $route: {
-          handler: function(this: Component): void {
+          handler: function (this: Component): void {
             setRouteClass(this.$options)
           },
           immediate: true
@@ -51,3 +42,13 @@ function manageClient(): void {
     })
   )
 }
+
+addFilter("before-app", () => {
+  if (process.env.FACTOR_SSR !== "server") manageClient()
+})
+
+addFilter("register-global-observables", (__: Record<string, any>) => {
+  return { ...__, routeClass: [] }
+})
+
+pushToFilter("observable-class-keys", "routeClass")

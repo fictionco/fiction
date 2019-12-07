@@ -3,13 +3,13 @@ import { FactorPackageJson } from "@factor/cli/types"
 export const endpointId = "pluginData"
 import { FactorExtensionListing } from "../types"
 
-export function titleFromPackage({
+export const titleFromPackage = ({
   pkg,
   _id = ""
 }: {
   pkg: FactorPackageJson;
   _id: string;
-}): string {
+}): string => {
   const { factor: { title = "" } = {} } = pkg
   if (title) {
     return title
@@ -23,32 +23,16 @@ export function titleFromPackage({
 
 type ExtensionFile = FactorExtensionListing & { fileName: string; defaultFile: string }
 
-export function formatDownloads(number: number): string {
+export const formatDownloads = (number: number): string => {
   const num = number
   return num.toLocaleString("en", { useGrouping: true })
 }
 
-export function extensionPermalink({ base = "plugin", name = "" }): string {
+export const extensionPermalink = ({ base = "plugin", name = "" }): string => {
   return `/${base}/view?package=${name}`
 }
 
-export function extensionIcon(item: FactorExtensionListing): string {
-  return cdnUrl({
-    ...item,
-    fileName: "icon.svg",
-    defaultFile: require("./img/icon-factor.svg")
-  })
-}
-
-export function extensionScreenshot(item: FactorExtensionListing): string {
-  return cdnUrl({
-    ...item,
-    fileName: "screenshot.jpg",
-    defaultFile: require("./img/icon-factor.svg")
-  })
-}
-
-export function cdnUrl(item: ExtensionFile): string {
+export const cdnUrl = (item: ExtensionFile): string => {
   const {
     files,
     cdnBaseUrl,
@@ -61,7 +45,23 @@ export function cdnUrl(item: ExtensionFile): string {
   return found ? `${cdnBaseUrl}/${fileName}` : defaultFile
 }
 
-export function screenshotsList(item: FactorExtensionListing): string[] {
+export const extensionIcon = (item: FactorExtensionListing): string => {
+  return cdnUrl({
+    ...item,
+    fileName: "icon.svg",
+    defaultFile: require("./img/icon-factor.svg")
+  })
+}
+
+export const extensionScreenshot = (item: FactorExtensionListing): string => {
+  return cdnUrl({
+    ...item,
+    fileName: "screenshot.jpg",
+    defaultFile: require("./img/icon-factor.svg")
+  })
+}
+
+export const screenshotsList = (item: FactorExtensionListing): string[] => {
   const imagePattern = /screenshot\.(png|gif|jpg|svg)$/i
 
   const { files = [], cdnBaseUrl } = item
@@ -75,10 +75,10 @@ export function screenshotsList(item: FactorExtensionListing): string[] {
   return screenshots
 }
 
-export function getAuthors(
+export const getAuthors = (
   { maintainers = [] }: { maintainers: { name: string }[] },
   { number = 2 } = {}
-): string {
+): string => {
   const authors = maintainers.map(a => a.name)
 
   return authors.slice(0, number).join(", ")

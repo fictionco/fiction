@@ -6,7 +6,28 @@ Vue.config.silent = false
 
 let __observables = {}
 
-export async function extendApp(options = {}): Promise<void> {
+
+// Add before plugins import
+// Observable values that can change at any time
+const setupGlobalObservable = (): void => {
+  __observables = Vue.observable(applyFilters("register-global-observables", {}))
+}
+
+export const getObservables = (): Record<string, any> => {
+  return __observables
+}
+
+const addClientDirectives = (): void => {
+  if (process.env.FACTOR_SSR == "client") {
+    const directives = applyFilters("client-directives", {})
+
+    for (const __ in directives) {
+      if (directives[__]) Vue.directive(__, directives[__])
+    }
+  }
+}
+
+export const extendApp = async (options = {}): Promise<void> => {
   await runCallbacks("before-app-plugins", options)
 
   try {
@@ -21,24 +42,4 @@ export async function extendApp(options = {}): Promise<void> {
   addClientDirectives()
 
   await runCallbacks("initialize-app", options)
-}
-
-// Add before plugins import
-// Observable values that can change at any time
-function setupGlobalObservable(): void {
-  __observables = Vue.observable(applyFilters("register-global-observables", {}))
-}
-
-export function getObservables(): Record<string, any> {
-  return __observables
-}
-
-function addClientDirectives(): void {
-  if (process.env.FACTOR_SSR == "client") {
-    const directives = applyFilters("client-directives", {})
-
-    for (const __ in directives) {
-      if (directives[__]) Vue.directive(__, directives[__])
-    }
-  }
 }

@@ -1,6 +1,6 @@
 import { emitEvent } from "@factor/tools/events"
 
-export function userToken(token?: boolean | null | string): string | void {
+export const userToken = (token?: boolean | null | string): string | void => {
   if (typeof localStorage == "undefined" || !localStorage) {
     return ""
   }
@@ -16,10 +16,10 @@ export function userToken(token?: boolean | null | string): string | void {
 }
 
 // If JWT auth fails then delete token, etc.
-export function handleTokenError(
+export const handleTokenError = (
   error: Error | string,
   { onError }: { onError?: Function }
-): void {
+): void => {
   const badToken = "JsonWebTokenError: invalid signature"
   if (
     (error && typeof error == "string" && error.includes(badToken)) ||

@@ -1,7 +1,7 @@
 import remark from "remark"
 import stripMarkdownUtility from "strip-markdown"
 
-export function stripMarkdown(markdown: string): string {
+export const stripMarkdown = (markdown: string): string => {
   let out = ""
   remark()
     .use(stripMarkdownUtility)
@@ -13,7 +13,7 @@ export function stripMarkdown(markdown: string): string {
   return out
 }
 
-export function excerpt(content: string, { length = 42 } = {}): string {
+export const excerpt = (content: string, { length = 42 } = {}): string => {
   if (!content) return ""
 
   const __ = stripMarkdown(content)

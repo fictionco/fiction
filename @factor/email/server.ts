@@ -6,13 +6,13 @@ import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import "./setup"
 import { EmailTransactionalConfig } from "./util"
 
-export function hasEmailService(): boolean {
+export const hasEmailService = (): boolean => {
   const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
   return !SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST ? false : true
 }
 
-function getEmailSMTPService(): Transporter | void {
+const getEmailSMTPService = (): Transporter | void => {
   if (!hasEmailService()) return
 
   const {
@@ -40,9 +40,9 @@ function getEmailSMTPService(): Transporter | void {
   return emailServiceClient
 }
 
-export async function sendTransactional(
+export const sendTransactional = async (
   _arguments: EmailTransactionalConfig
-): Promise<void> {
+): Promise<void> => {
   _arguments = applyFilters("transactional-email-arguments", _arguments)
 
   const { _id = "none", to, title, text, linkText, linkUrl, textFooter } = _arguments

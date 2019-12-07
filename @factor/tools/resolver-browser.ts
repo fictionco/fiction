@@ -1,3 +1,3 @@
-export function resolveFilePath(path: string): string {
+export const resolveFilePath = (path: string): string => {
   return path
 }

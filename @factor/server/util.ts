@@ -6,7 +6,7 @@ import figures from "figures"
 import expressPackage from "express/package.json"
 import serverRendererPackage from "vue-server-renderer/package.json"
 
-export function serverErrorWrap({ title = "", subTitle = "", description = "" }): string {
+export const serverErrorWrap = ({ title = "", subTitle = "", description = "" }): string => {
   const lines = []
 
   if (title)
@@ -24,21 +24,21 @@ export function serverErrorWrap({ title = "", subTitle = "", description = "" })
   )}</div>`
 }
 
-export function getPort(port: string | number): string | number {
+export const getPort = (port: string | number): string | number => {
   return port || process.env.PORT || setting("PORT") || 3000
 }
 
-export function getServerInfo(): string {
+export const getServerInfo = (): string => {
   const { version: expressVersion } = expressPackage
   const { version: ssrVersion } = serverRendererPackage
   return `express/${expressVersion} vue-server-renderer/${ssrVersion}`
 }
 
-export function handleServerError(
+export const handleServerError = (
   request: Request,
   response: Response,
   error: Error
-): void {
+): void => {
   error.message = `Factor Server Error  @[${request.url}]: ${error.message}`
 
   log.error(error)
@@ -50,7 +50,7 @@ export function handleServerError(
     .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
 }
 
-export function logServerReady(): void {
+export const logServerReady = (): void => {
   const { arrowUp, arrowDown } = figures
   let readyText = ` ready... `
 
@@ -60,7 +60,7 @@ export function logServerReady(): void {
   console.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(readyText))
 }
 
-export function serveStatic(path: string, cache: boolean): Handler {
+export const serveStatic = (path: string, cache: boolean): Handler => {
   const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {
     maxAge: cache && process.env.NODE_ENV == "production" ? DAY : 0

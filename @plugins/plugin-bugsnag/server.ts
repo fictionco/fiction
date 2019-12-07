@@ -5,11 +5,8 @@ const clientApiKey = setting("bugsnag.clientApiKey")
 
 const setupTitle = "Plugin: Bugsnag"
 
-addSetupCli(setupTitle)
 
-addFilters()
-
-function addFilters(): void {
+const addFilters = (): void => {
   if (!clientApiKey) {
     pushToFilter("setup-needed", { title: setupTitle })
 
@@ -17,7 +14,8 @@ function addFilters(): void {
   }
 }
 
-function addSetupCli(name: string): void {
+
+const addSetupCli = (name: string): void => {
   pushToFilter("cli-add-setup", {
     name,
     value: "bugsnag",
@@ -37,3 +35,13 @@ function addSetupCli(name: string): void {
     }
   })
 }
+
+
+export const setup = (): void => {
+  addSetupCli(setupTitle)
+
+  addFilters()
+
+}
+
+setup()

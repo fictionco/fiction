@@ -14,7 +14,7 @@ import { ApplicationComponents } from "./types"
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export async function createApp(): Promise<ApplicationComponents> {
+export const createApp = async (): Promise<ApplicationComponents> => {
   process.env.FACTOR_TARGET = "app"
 
   await extendApp()

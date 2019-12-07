@@ -17,11 +17,11 @@ export interface PostTypeConfig {
   hideAdmin?: boolean;
 }
 
-export function addPostType(config: PostTypeConfig): void {
+export const addPostType = (config: PostTypeConfig): void => {
   pushToFilter("post-types-config", config, { key: config.postType })
 }
 
-export function postTypesConfig(): PostTypeConfig[] {
+export const postTypesConfig = (): PostTypeConfig[] => {
   return applyFilters("post-types-config", []).map((_: PostTypeConfig) => {
     const baseRoute = typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute
 
@@ -31,6 +31,6 @@ export function postTypesConfig(): PostTypeConfig[] {
   })
 }
 
-export function getPostTypeConfig(postType: string): PostTypeConfig | undefined {
+export const getPostTypeConfig = (postType: string): PostTypeConfig | undefined => {
   return postTypesConfig().find(pt => pt.postType == postType)
 }

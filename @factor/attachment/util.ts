@@ -1,3 +1,3 @@
-export function uploadEndpointPath(): string {
+export const uploadEndpointPath = (): string => {
   return "/_upload"
 }

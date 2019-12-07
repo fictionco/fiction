@@ -35,11 +35,34 @@ addFilter("content-routes-unmatched", (_: RouteConfig[]) => {
   return _
 })
 
-export function addPageTemplate(templateConfig: TemplateConfig): void {
+export const addPageTemplate = (templateConfig: TemplateConfig): void => {
   pushToFilter("page-templates", templateConfig)
 }
 
-export async function getTemplate(templateId: string): Promise<TemplateConfig | {}> {
+export const getTemplateFields = async (tpl: TemplateConfig): Promise<TemplateOption[]> => {
+  const {
+    default: { templateSettings }
+  } = await tpl.component()
+
+  return templateSettings ? templateSettings() : []
+}
+
+export const getPageTemplates = (): TemplateConfig[] => {
+  const _templates: TemplateConfig[] = setting("pageTemplates.templates") || []
+
+  return applyFilters("page-templates", _templates)
+    .filter((page: TemplateConfig, index: number, self: TemplateConfig[]) => {
+      // remove duplicates, favor the last
+      const lastIndexOf = self.map(_ => _._id).lastIndexOf(page._id)
+      return index === lastIndexOf
+    })
+    .map((_: TemplateConfig) => {
+      const name = _.name || toLabel(_._id.replace("tpl-", ""))
+      return { name, ..._ }
+    })
+}
+
+export const getTemplate = async (templateId: string): Promise<TemplateConfig | {}> => {
   const _all = getPageTemplates()
 
   let tpl = _all.find(_ => _._id == templateId)
@@ -53,27 +76,4 @@ export async function getTemplate(templateId: string): Promise<TemplateConfig | 
   tpl.fields = await getTemplateFields(tpl)
 
   return tpl
-}
-
-export async function getTemplateFields(tpl: TemplateConfig): Promise<TemplateOption[]> {
-  const {
-    default: { templateSettings }
-  } = await tpl.component()
-
-  return templateSettings ? templateSettings() : []
-}
-
-export function getPageTemplates(): TemplateConfig[] {
-  const _templates: TemplateConfig[] = setting("pageTemplates.templates") || []
-
-  return applyFilters("page-templates", _templates)
-    .filter((page: TemplateConfig, index: number, self: TemplateConfig[]) => {
-      // remove duplicates, favor the last
-      const lastIndexOf = self.map(_ => _._id).lastIndexOf(page._id)
-      return index === lastIndexOf
-    })
-    .map((_: TemplateConfig) => {
-      const name = _.name || toLabel(_._id.replace("tpl-", ""))
-      return { name, ..._ }
-    })
 }

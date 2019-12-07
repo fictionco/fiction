@@ -3,20 +3,22 @@ import { addFilter, applyFilters, addCallback } from "@factor/tools/filters"
 import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
 import { RouteConfig } from "vue-router"
+
+
+const waitForMountApp = (): Promise<void> => {
+  return new Promise(resolve => onEvent("app-mounted", () => resolve()))
+}
+
 const clientIsMountedPromise = waitForMountApp()
 
 // Allows components to definitively wait for client to init
 // otherwise we might throw hydration errors
-export async function appMounted(callback?: Function): Promise<void> {
+export const appMounted = async (callback?: Function): Promise<void> => {
   await clientIsMountedPromise
 
   if (callback) callback()
 
   return
-}
-
-function waitForMountApp(): Promise<void> {
-  return new Promise(resolve => onEvent("app-mounted", () => resolve()))
 }
 
 addCallback("initialize-app", () => {

@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken"
 import { FactorUser, FactorUserAuthentication, FactorUserCredential } from "./types"
 
-export function userCredential(
-  user: FactorUserAuthentication
-): FactorUserCredential | {} {
+export const userCredential = (user: FactorUserAuthentication): FactorUserCredential | {} => {
   if (!user || !process.env.TOKEN_SECRET) return {}
 
   const credentialUser = user.toObject()
@@ -16,7 +14,7 @@ export function userCredential(
   }
 }
 
-export function decodeTokenIntoUser(token: string): FactorUser {
+export const decodeTokenIntoUser = (token: string): FactorUser => {
   if (!process.env.TOKEN_SECRET) {
     throw new Error("Can't decode token. No TOKEN_SECRET is set.")
   }

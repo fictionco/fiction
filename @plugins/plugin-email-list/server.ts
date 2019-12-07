@@ -22,6 +22,49 @@ const postModel = (): Model<Document> => {
   return getModel("emailList")
 }
 
+const sendCompleteEmail = async ({ email, listId }: EmailConfig): Promise<void> => {
+  const format = getSetting({ key: "emails.complete", listId })
+
+  if (!format) return
+
+  const { subject, text, from } = format
+
+  return await sendTransactional({
+    to: email,
+    subject,
+    text,
+    from
+  })
+}
+
+const sendConfirmEmail = async ({ email, listId, code }: EmailConfig): Promise<void> => {
+  const action = `verify-email-list`
+
+  const format = getSetting({
+    key: "emails.confirm",
+    listId
+  })
+
+  if (!format) {
+    return await sendCompleteEmail({ email, listId })
+  }
+
+  const { subject, text, from, linkText } = format
+
+  const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&email=${encodeURIComponent(
+    email
+  )}&list=${listId}`
+
+  return await sendTransactional({
+    to: email,
+    from,
+    subject,
+    text,
+    linkText,
+    linkUrl
+  })
+}
+
 // https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
 export const addEmail = async ({
   email,
@@ -79,21 +122,6 @@ export const deleteEmails = async ({
   return result
 }
 
-const sendCompleteEmail = async ({ email, listId }: EmailConfig): Promise<void> => {
-  const format = getSetting({ key: "emails.complete", listId })
-
-  if (!format) return
-
-  const { subject, text, from } = format
-
-  return await sendTransactional({
-    to: email,
-    subject,
-    text,
-    from
-  })
-}
-
 const sendNotifyEmail = async ({ email, listId }: EmailConfig): Promise<void> => {
   const format = getSetting({ key: "emails.notify", listId })
 
@@ -132,34 +160,6 @@ export const verifyEmail = async ({
     ])
   }
   return result
-}
-
-const sendConfirmEmail = async ({ email, listId, code }: EmailConfig): Promise<void> => {
-  const action = `verify-email-list`
-
-  const format = getSetting({
-    key: "emails.confirm",
-    listId
-  })
-
-  if (!format) {
-    return await sendCompleteEmail({ email, listId })
-  }
-
-  const { subject, text, from, linkText } = format
-
-  const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&email=${encodeURIComponent(
-    email
-  )}&list=${listId}`
-
-  return await sendTransactional({
-    to: email,
-    from,
-    subject,
-    text,
-    linkText,
-    linkUrl
-  })
 }
 
 export const setup = (): void => {

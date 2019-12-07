@@ -8,9 +8,16 @@ import Vue from "vue"
 
 const clientApiKey = setting("bugsnag.clientApiKey")
 
-addFilters()
+export const customLogger = (): Bugsnag.ILogger => {
+  return {
+    debug: (): void => { },
+    info: (): void => { },
+    warn: (): Function => log.warn,
+    error: (): Function => log.error
+  }
+}
 
-function addFilters(): void {
+export const addFilters = (): void => {
   if (!clientApiKey || process.env.NODE_ENV == "development") return
 
   const appVersion = setting("version") || "0.0.0"
@@ -32,11 +39,4 @@ function addFilters(): void {
   })
 }
 
-function customLogger(): Bugsnag.ILogger {
-  return {
-    debug: (): void => {},
-    info: (): void => {},
-    warn: (): Function => log.warn,
-    error: (): Function => log.error
-  }
-}
+addFilters()

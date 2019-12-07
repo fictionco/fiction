@@ -17,13 +17,12 @@ if (!process.env.TOKEN_SECRET) {
 
 addCallback("endpoints", { id: "user", handler: endpointHandler })
 
-export function getUserModel(): Model<FactorUser & Document> {
+export const getUserModel = (): Model<FactorUser & Document> => {
+  //export function getUserModel(): Model<FactorUser & Document> {
   return getModel<FactorUser>("user")
 }
 
-export async function authenticate(
-  params: AuthenticationParameters
-): Promise<FactorUserCredential | {}> {
+export const authenticate = async (params: AuthenticationParameters): Promise<FactorUserCredential | {}> => {
   const { newAccount, email, password, displayName } = params
 
   let user

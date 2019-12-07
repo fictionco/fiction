@@ -1,19 +1,11 @@
 import { emitEvent, addCallback } from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
 
-addCallback("route-query-action-verify-email", (_: VerifyEmail) => verifyEmail(_))
-addCallback("route-query-action-reset-password", () => showResetPassword())
-
-export async function sendUserEmailRequest(method: string, params: object): Promise<any> {
+export const sendUserEmailRequest = async (method: string, params: object): Promise<any> => {
   return await endpointRequest({ id: "user-emails", method, params })
 }
 
-export interface SendVerifyEmail {
-  _id: string;
-  email: string;
-}
-
-export async function sendVerifyEmail({ _id, email }: SendVerifyEmail): Promise<void> {
+export const sendVerifyEmail = async ({ _id, email }: SendVerifyEmail): Promise<void> => {
   const result = await sendUserEmailRequest("sendVerifyEmail", { _id, email })
 
   if (result) {
@@ -28,7 +20,12 @@ export interface VerifyEmail {
   code: string;
 }
 
-export async function verifyEmail({ _id, code }: VerifyEmail): Promise<void> {
+export interface SendVerifyEmail {
+  _id: string;
+  email: string;
+}
+
+export const verifyEmail = async ({ _id, code }: VerifyEmail): Promise<void> => {
   const result = await sendUserEmailRequest("verifyEmail", { _id, code })
 
   if (result) {
@@ -37,11 +34,14 @@ export async function verifyEmail({ _id, code }: VerifyEmail): Promise<void> {
   return
 }
 
-export async function showResetPassword(): Promise<void> {
+export const showResetPassword = async (): Promise<void> => {
   addCallback("sign-in-modal-loaded", () => {
     emitEvent("sign-in-modal")
   })
 }
+
+addCallback("route-query-action-verify-email", (_: VerifyEmail) => verifyEmail(_))
+addCallback("route-query-action-reset-password", () => showResetPassword())
 
 export interface VerifyAndResetPassword {
   _id: string;
@@ -49,9 +49,7 @@ export interface VerifyAndResetPassword {
   password: string;
 }
 
-export async function verifyAndResetPassword(
-  args: VerifyAndResetPassword
-): Promise<void> {
+export const verifyAndResetPassword = async (args: VerifyAndResetPassword): Promise<void> => {
   const result = await sendUserEmailRequest("verifyAndResetPassword", args)
 
   if (result) {
@@ -61,11 +59,11 @@ export async function verifyAndResetPassword(
   return
 }
 
-export async function sendPasswordResetEmail({
+export const sendPasswordResetEmail = async ({
   email
 }: {
   email: string;
-}): Promise<void> {
+}): Promise<void> => {
   const result = await sendUserEmailRequest("sendPasswordResetEmail", { email })
 
   if (result) {

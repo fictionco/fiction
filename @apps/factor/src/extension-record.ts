@@ -4,7 +4,7 @@ export interface ExtensionRecord {
   themes: { name: string; featured?: boolean }[];
 }
 
-export function extensions(): ExtensionRecord {
+export const extensions = (): ExtensionRecord => {
   return {
     plugins: [
       { name: "@factor/plugin-sitemap" },

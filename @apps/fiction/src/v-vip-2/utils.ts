@@ -1,12 +1,12 @@
 import Vue, { VueConstructor } from "vue"
 
-export function figureMixin({
+export const figureMixin = ({
   ref,
   width
 }: {
   ref: string;
   width: number;
-}): VueConstructor {
+}): VueConstructor => {
   return Vue.extend({
     data(): any {
       return { width }

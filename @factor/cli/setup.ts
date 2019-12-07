@@ -12,31 +12,29 @@ import json2yaml from "json2yaml"
 const configFile = getPath("config-file-public")
 const secretsFile = getPath("config-file-private")
 
-addCallback("cli-setup", (_: object) => runSetup(_))
+const extensionNames = (type: string, format = "join"): string => {
+  const extensions = getExtensions().filter(_ => _.extend == type)
 
-addCallback("after-first-server-extend", () => {
-  const setupNeeded = applyFilters("setup-needed", [])
+  if (extensions && extensions.length > 0) {
+    const names = extensions.map(_ => _.name)
 
-  if (setupNeeded.length > 0) {
-    const lines = setupNeeded.map((_: { title: string }) => {
-      return { title: _.title, value: "", indent: true }
-    })
-    if (process.env.FACTOR_COMMAND !== "setup") {
-      lines.push({ title: "Run 'yarn factor setup'", value: "" })
-    }
-
-    log.formatted({ title: "Setup Needed", lines, color: "yellow" })
-  }
-})
-
-export interface SetupCliConfig {
-  name: string;
-  value: string;
-  callback: () => {};
-  priority?: number;
+    return format == "count" ? names.length.toString() : names.join(", ")
+  } else return "none"
 }
 
-export async function runSetup(cliArguments: object): Promise<void> {
+const existingSettings = (): { publicConfig: object; privateConfig: object } => {
+  if (!fs.pathExistsSync(configFile)) {
+    fs.writeJsonSync(configFile, { config: {} })
+  }
+  const publicConfig = require(configFile)
+
+  fs.ensureFileSync(secretsFile)
+  const privateConfig = envfile.parseFileSync(secretsFile)
+
+  return { publicConfig, privateConfig }
+}
+
+export const runSetup = async (cliArguments: object): Promise<void> => {
   let answers: Answers
 
   log.formatted({
@@ -96,7 +94,50 @@ export async function runSetup(cliArguments: object): Promise<void> {
   await ask()
 }
 
-export async function writeConfig(file: string, values: object): Promise<void> {
+addCallback("cli-setup", (_: object) => runSetup(_))
+
+addCallback("after-first-server-extend", () => {
+  const setupNeeded = applyFilters("setup-needed", [])
+
+  if (setupNeeded.length > 0) {
+    const lines = setupNeeded.map((_: { title: string }) => {
+      return { title: _.title, value: "", indent: true }
+    })
+    if (process.env.FACTOR_COMMAND !== "setup") {
+      lines.push({ title: "Run 'yarn factor setup'", value: "" })
+    }
+
+    log.formatted({ title: "Setup Needed", lines, color: "yellow" })
+  }
+})
+
+export interface SetupCliConfig {
+  name: string;
+  value: string;
+  callback: () => {};
+  priority?: number;
+}
+
+export const prettyJson = (data: object): string => {
+  return highlight(json2yaml.stringify(data, null, "  "))
+}
+
+const writeFiles = (file: string, values: object): void => {
+  const { publicConfig, privateConfig } = existingSettings()
+
+  if (file.includes("factor-config")) {
+    const conf = deepMerge([publicConfig, values])
+    fs.writeFileSync(configFile, JSON.stringify(conf, null, "  "))
+  }
+
+  if (file.includes("env")) {
+    const sec = deepMerge([privateConfig, values])
+
+    fs.writeFileSync(secretsFile, envfile.stringifySync(sec))
+  }
+}
+
+export const writeConfig = async (file: string, values: object): Promise<void> => {
   if (!file || !values) {
     return
   }
@@ -119,45 +160,4 @@ export async function writeConfig(file: string, values: object): Promise<void> {
   console.log()
 
   return
-}
-
-export function prettyJson(data: object): string {
-  return highlight(json2yaml.stringify(data, null, "  "))
-}
-
-function existingSettings(): { publicConfig: object; privateConfig: object } {
-  if (!fs.pathExistsSync(configFile)) {
-    fs.writeJsonSync(configFile, { config: {} })
-  }
-  const publicConfig = require(configFile)
-
-  fs.ensureFileSync(secretsFile)
-  const privateConfig = envfile.parseFileSync(secretsFile)
-
-  return { publicConfig, privateConfig }
-}
-
-function extensionNames(type: string, format = "join"): string {
-  const extensions = getExtensions().filter(_ => _.extend == type)
-
-  if (extensions && extensions.length > 0) {
-    const names = extensions.map(_ => _.name)
-
-    return format == "count" ? names.length.toString() : names.join(", ")
-  } else return "none"
-}
-
-function writeFiles(file: string, values: object): void {
-  const { publicConfig, privateConfig } = existingSettings()
-
-  if (file.includes("factor-config")) {
-    const conf = deepMerge([publicConfig, values])
-    fs.writeFileSync(configFile, JSON.stringify(conf, null, "  "))
-  }
-
-  if (file.includes("env")) {
-    const sec = deepMerge([privateConfig, values])
-
-    fs.writeFileSync(secretsFile, envfile.stringifySync(sec))
-  }
 }

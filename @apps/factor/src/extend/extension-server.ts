@@ -6,18 +6,21 @@ import { FactorExtensionListing } from "../types"
 import { extensions, ExtensionRecord } from "../extension-record"
 import { endpointId } from "./util"
 
-addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
+export const latestPackageVersion = async (name: string): Promise<string> => {
+  const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${name}`)
 
-export async function getIndex({ type = "plugins" }): Promise<FactorExtensionListing[]> {
-  const extensionRecord: ExtensionRecord = extensions()
-  const list = extensionRecord[type]
+  if (data) {
+    const {
+      tags: { latest }
+    } = data
 
-  return await Promise.all(list.map(async extension => getSingle(extension)))
+    return latest
+  } else return ""
 }
 
-export async function getSingle(params: {
+export const getSingle = async (params: {
   name: string;
-}): Promise<FactorExtensionListing> {
+}): Promise<FactorExtensionListing> => {
   const { name } = params
   const cached = cache.get(name)
   if (cached) return cached
@@ -68,14 +71,13 @@ export async function getSingle(params: {
   return item
 }
 
-export async function latestPackageVersion(name: string): Promise<string> {
-  const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${name}`)
+export const getIndex = async ({ type = "plugins" }): Promise<FactorExtensionListing[]> => {
+  const extensionRecord: ExtensionRecord = extensions()
+  const list = extensionRecord[type]
 
-  if (data) {
-    const {
-      tags: { latest }
-    } = data
-
-    return latest
-  } else return ""
+  return await Promise.all(list.map(async extension => getSingle(extension)))
 }
+
+
+
+addCallback("endpoints", { id: endpointId, handler: { getIndex, getSingle } })
