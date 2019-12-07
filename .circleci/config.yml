@@ -136,7 +136,7 @@ jobs:
       - attach-project
       - run:
           name: Unit Tests
-          command: yarn test:unit --runInBand --collectCoverage && yarn test:coverage --F unit
+          command: yarn test:unit --runInBand --collectCoverage && yarn test:coverage -F unit
           environment:
             JEST_JUNIT_OUTPUT_NAME: unit.xml
       - store-test-results
