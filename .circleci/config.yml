@@ -37,6 +37,7 @@ commands:
               git config --global user.name "$GIT_AUTHOR_NAME"
               echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
               echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+              if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--tag staging"; fi
               yarn lerna publish patch --yes
             else
               echo "Release phase is skipped."
@@ -44,6 +45,7 @@ commands:
 release_branches: &release_branches
   branches:
     only:
+      - staging
       - release
 
 jobs:
