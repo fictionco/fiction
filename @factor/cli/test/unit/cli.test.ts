@@ -25,6 +25,7 @@ describe("cli", () => {
       expect(allOutput).toContain("Setup Environment")
 
       jest.resetAllMocks()
+      return
     })
 
     it("cli setup: sets environmental variables", () => {
