@@ -44,8 +44,6 @@ commands:
 release_branches: &release_branches
   branches:
     only:
-      - development
-      - staging
       - release
 
 jobs:
