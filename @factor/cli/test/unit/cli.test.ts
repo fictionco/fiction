@@ -1,25 +1,26 @@
+import execa from "execa"
 import * as cli from "@factor/cli"
+jest.mock("execa")
 
 describe("cli", () => {
   describe("setup cli", () => {
     it("setup: run yarn install to verify node_modules installed", async () => {
-      const consoleOutput: string[] = []
-
-      jest.spyOn(console, "log").mockImplementation(output => {
-        consoleOutput.push(output)
-      })
-
       jest.spyOn(process, "exit").mockImplementation(() => {
         throw "Mock"
       })
 
       await cli.runCommand({ command: "none" })
+      expect(execa).toHaveBeenCalledWith(
+        "yarn",
+        expect.arrayContaining(["install"]),
+        expect.anything()
+      )
+      expect(execa).toHaveBeenCalledWith(
+        "factor",
+        expect.arrayContaining(["create-loaders"]),
+        expect.anything()
+      )
 
-      const allOutput = consoleOutput.join("")
-      expect(allOutput).toContain("Verify Dependencies")
-      expect(allOutput).toContain("Setup Environment")
-
-      jest.resetAllMocks()
       return
     })
 
