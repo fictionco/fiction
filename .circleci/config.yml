@@ -102,6 +102,7 @@ jobs:
 
   build:
     parallelism: 4
+    resource_class: large
     executor: node
     steps:
       - attach-project
@@ -118,6 +119,7 @@ jobs:
 
   test-integration:
     parallelism: 4
+    resource_class: large
     executor: node
     steps:
       - attach-project
@@ -133,6 +135,7 @@ jobs:
   # --------------------------------------------------------------------------
   test-unit:
     parallelism: 4
+    resource_class: large
     executor: node
     steps:
       - attach-project
