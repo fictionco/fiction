@@ -117,6 +117,7 @@
     "bulma",
     "camelcase",
     "chunkhash",
+    "circleci",
     "clonedeep",
     "codecov",
     "consola",
