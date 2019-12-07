@@ -108,7 +108,7 @@ jobs:
       - attach-project
       - run:
           name: Build Fixtures
-          command: yarn test:builds --collectCoverage && yarn test:coverage --forceExit builds
+          command: yarn test:builds --maxWorkers=2 --collectCoverage && yarn test:coverage --forceExit builds
           environment:
             JEST_JUNIT_OUTPUT_NAME: builds.xml
       - store-test-results
@@ -125,7 +125,7 @@ jobs:
       - attach-project
       - run:
           name: Integration Tests
-          command: yarn test:integration --collectCoverage && yarn test:coverage --forceExit integration
+          command: yarn test:integration --maxWorkers=2 --collectCoverage && yarn test:coverage --forceExit integration
           environment:
             JEST_JUNIT_OUTPUT_NAME: integration.xml
       - store-test-results
@@ -134,14 +134,14 @@ jobs:
   # Phase 3: Unit and E2E tests
   # --------------------------------------------------------------------------
   test-unit:
-    parallelism: 4
+    parallelism: 2
     resource_class: medium
     executor: node
     steps:
       - attach-project
       - run:
           name: Unit Tests
-          command: yarn test:unit -maxWorkers=4 --collectCoverage && yarn test:coverage --forceExit unit
+          command: yarn test:unit --maxWorkers=2 --collectCoverage && yarn test:coverage --forceExit unit
           environment:
             JEST_JUNIT_OUTPUT_NAME: unit.xml
       - store-test-results
