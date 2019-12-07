@@ -33,10 +33,10 @@
     "test:lint": "yarn test:eslint --quiet && yarn test:types",
     "test:eslint": "eslint --ext .ts,.js,.vue,.json .",
     "test:coverage": "codecov",
-    "test:unit": "jest @factor/**/test/unit --forceExit --detectOpenHandles --passWithNoTests",
+    "test:unit": "jest @factor/**/test/unit --forceExit",
     "test:fixtures": "yarn test:builds && yarn test:integration",
-    "test:builds": "jest test/builds --forceExit --detectOpenHandles --passWithNoTests",
-    "test:integration": "jest test/integration --forceExit --detectOpenHandles --passWithNoTests",
+    "test:builds": "jest test/builds --maxWorkers=4 --forceExit",
+    "test:integration": "jest test/integration --forceExit",
     "test:dev-unit": "node --inspect node_modules/.bin/jest @factor/**/test/unit --runInBand",
     "test:dev-integration": "node --inspect node_modules/.bin/jest test/integration --runInBand",
     "test:types": "tsc --skipLibCheck"

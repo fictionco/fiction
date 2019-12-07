@@ -40,8 +40,10 @@ const setFilter = ({
   callback,
   context,
   priority
-}: FilterItem): void => {
+}: FilterItem): Record<string, any> => {
   Vue.$filters.filters[_id][uniqueKey] = { _id, uniqueKey, callback, context, priority }
+
+  return Vue.$filters.filters[_id]
 }
 
 export const getFilterCount = (_id: string): number => {
@@ -160,7 +162,11 @@ export const addFilter = <T>(
   return cb
 }
 
-export const pushToFilter = <T>(_id: string, item: T, { key = "", pushTo = -1 } = {}): T => {
+export const pushToFilter = <T>(
+  _id: string,
+  item: T,
+  { key = "", pushTo = -1 } = {}
+): T => {
   key = key ? key : uniqueObjectHash(item)
 
   addFilter(
@@ -205,5 +211,6 @@ export const runCallbacks = async (
   _arguments: object = {}
 ): Promise<unknown[]> => {
   const _promises: [PromiseLike<unknown>] = applyFilters(_id, [], _arguments)
+
   return await Promise.all(_promises)
 }

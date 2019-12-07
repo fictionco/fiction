@@ -13,7 +13,6 @@ Vue.use(VueRouter)
 
 let __initialPageLoad = true
 
-
 // Only run this before navigation on the client, it should NOT run on initial page load
 const hookClientRouterBefore = async (
   to: Route,
@@ -49,7 +48,7 @@ const hookClientRouterAfter = (to: Route, from: Route): void => {
 
 export const createRouter = (): VueRouter => {
   const routes = applyFilters("routes", []).filter((_: RouteConfig) => _)
-
+  debugger
   const router = new VueRouter({
     mode: "history",
     routes,

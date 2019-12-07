@@ -4,7 +4,6 @@ import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
 import { RouteConfig } from "vue-router"
 
-
 const waitForMountApp = (): Promise<void> => {
   return new Promise(resolve => onEvent("app-mounted", () => resolve()))
 }
@@ -21,48 +20,56 @@ export const appMounted = async (callback?: Function): Promise<void> => {
   return
 }
 
-addCallback("initialize-app", () => {
-  const factorError404 = setting("app.components.error404")
-  const factorContent = setting("app.components.content")
+export const setup = (): void => {
+  addCallback("initialize-app", () => {
+    const factorError404 = setting("app.components.error404")
+    const factorContent = setting("app.components.content")
 
-  if (!factorError404 || !factorContent) {
-    throw new Error("core components missing")
-  }
+    if (!factorError404 || !factorContent) {
+      throw new Error("core components missing")
+    }
 
-  addFilter("routes", (_: RouteConfig[]) => {
-    const contentRoutes = applyFilters("content-routes", [
-      {
-        name: "forbidden",
-        path: "/forbidden",
-        component: factorError404,
-        meta: { error: 403 }
-      }
-    ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
-      // remove duplicate paths
-      const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
-      return index === lastIndexOf
-    })
+    addFilter(
+      "routes",
+      (_: RouteConfig[]) => {
+        const contentRoutes = applyFilters("content-routes", [
+          {
+            name: "forbidden",
+            path: "/forbidden",
+            component: factorError404,
+            meta: { error: 403 }
+          }
+        ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
+          // remove duplicate paths
+          const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
+          return index === lastIndexOf
+        })
 
-    _.push({
-      path: "/",
-      component: factorContent,
-      children: contentRoutes
-    })
+        _.push({
+          path: "/",
+          component: factorContent,
+          children: contentRoutes
+        })
 
-    _.push({
-      path: "*",
-      component: factorContent,
-      children: applyFilters("content-routes-unmatched", [
-        {
-          name: "notFound",
+        _.push({
           path: "*",
-          component: factorError404,
-          meta: { error: 404 }
-        }
-      ]),
-      priority: 3000
-    })
+          component: factorContent,
+          children: applyFilters("content-routes-unmatched", [
+            {
+              name: "notFound",
+              path: "*",
+              component: factorError404,
+              meta: { error: 404 }
+            }
+          ]),
+          priority: 3000
+        })
 
-    return _
+        return _
+      },
+      { key: "app-routes" }
+    )
   })
-})
+}
+
+setup()
