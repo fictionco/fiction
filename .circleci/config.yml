@@ -101,8 +101,8 @@ jobs:
           command: yarn audit || true
 
   build:
-    parallelism: 4
-    resource_class: large
+    parallelism: 2
+    resource_class: medium
     executor: node
     steps:
       - attach-project
@@ -118,8 +118,8 @@ jobs:
             - test/builds
 
   test-integration:
-    parallelism: 4
-    resource_class: large
+    parallelism: 2
+    resource_class: medium
     executor: node
     steps:
       - attach-project
@@ -135,7 +135,7 @@ jobs:
   # --------------------------------------------------------------------------
   test-unit:
     parallelism: 4
-    resource_class: large
+    resource_class: medium
     executor: node
     steps:
       - attach-project
