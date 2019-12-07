@@ -107,7 +107,7 @@ jobs:
       - attach-project
       - run:
           name: Build Fixtures
-          command: yarn test:builds --runInBand --collectCoverage && yarn test:coverage --forceExit builds
+          command: yarn test:builds --runInBand --collectCoverage && yarn test:coverage -F builds
           environment:
             JEST_JUNIT_OUTPUT_NAME: builds.xml
       - store-test-results
@@ -122,7 +122,7 @@ jobs:
       - attach-project
       - run:
           name: Integration Tests
-          command: yarn test:integration --runInBand --collectCoverage && yarn test:coverage --forceExit integration
+          command: yarn test:integration --runInBand --collectCoverage && yarn test:coverage -F integration
           environment:
             JEST_JUNIT_OUTPUT_NAME: integration.xml
       - store-test-results
