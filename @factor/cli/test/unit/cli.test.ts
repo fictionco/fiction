@@ -7,9 +7,9 @@ describe("cli", () => {
 
       const originalStd = process.stdout.write
 
-      const mockedLog = (output: string): number => consoleOutput.push(output)
-
-      process.stdout.write = mockedLog as jest.Mock
+      jest.spyOn(console, "log").mockImplementation(output => {
+        consoleOutput.push(output)
+      })
 
       jest.spyOn(process, "exit").mockImplementation(() => {
         throw "Mock"
@@ -23,6 +23,8 @@ describe("cli", () => {
       const allOutput = consoleOutput.join("")
       expect(allOutput).toContain("Verify Dependencies")
       expect(allOutput).toContain("Setup Environment")
+
+      jest.resetAllMocks()
     })
 
     it("cli setup: sets environmental variables", () => {
