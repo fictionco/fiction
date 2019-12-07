@@ -5,9 +5,9 @@ describe("cli", () => {
     it("setup: run yarn install to verify node_modules installed", async () => {
       const consoleOutput: string[] = []
 
-      const originalStd = process.stdout.write
-
       jest.spyOn(console, "log").mockImplementation(output => {
+        // eslint-disable-next-line no-console
+        console.log(output)
         consoleOutput.push(output)
       })
 
@@ -16,9 +16,6 @@ describe("cli", () => {
       })
 
       await cli.runCommand({ command: "none" })
-
-      // eslint-disable-next-line require-atomic-updates
-      process.stdout.write = originalStd
 
       const allOutput = consoleOutput.join("")
       expect(allOutput).toContain("Verify Dependencies")
