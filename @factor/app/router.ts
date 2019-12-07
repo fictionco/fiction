@@ -48,7 +48,7 @@ const hookClientRouterAfter = (to: Route, from: Route): void => {
 
 export const createRouter = (): VueRouter => {
   const routes = applyFilters("routes", []).filter((_: RouteConfig) => _)
-  debugger
+
   const router = new VueRouter({
     mode: "history",
     routes,
