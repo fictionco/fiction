@@ -5,7 +5,7 @@ import {
   applyFilters,
   setting,
   addPostType,
-  extendPostSchema
+  addPostSchema
 } from "@factor/api"
 import { RouteConfig } from "vue-router"
 import { Component } from "vue"
@@ -58,7 +58,7 @@ export const getTemplate = async (templateId: string): Promise<TemplateConfig | 
 }
 
 export const setup = (): void => {
-  extendPostSchema(() => pageSchema())
+  addPostSchema(() => pageSchema())
 
   addPostType({
     postType: "page",

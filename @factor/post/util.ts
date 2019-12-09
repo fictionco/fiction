@@ -16,7 +16,7 @@ import {
 
 export * from "./object-id"
 
-export const extendPostSchema = (config: FactorSchemaModule): void => {
+export const addPostSchema = (config: FactorSchemaModule): void => {
   const key = typeof config == "function" ? config().name : config.name
   pushToFilter({ hook: "data-schemas", key, item: config })
 }

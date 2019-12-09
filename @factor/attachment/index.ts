@@ -1,11 +1,11 @@
 import { endpointRequest, authorizedRequest } from "@factor/endpoint"
-import { storeItem, extendPostSchema } from "@factor/api"
+import { storeItem, addPostSchema } from "@factor/api"
 import loadImage from "blueimp-load-image"
 
 import { uploadEndpointPath } from "./util"
 import storageSchema from "./schema"
 
-extendPostSchema(storageSchema)
+addPostSchema(storageSchema)
 
 export interface PostAttachment {
   url: string;

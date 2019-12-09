@@ -4,7 +4,7 @@ import { Request, Response } from "express"
 import { processEndpointRequest, endpointError } from "@factor/endpoint/server"
 import { addEndpoint } from "@factor/api/endpoints"
 import { applyFilters, runCallbacks } from "@factor/api/hooks"
-import { objectId, postPermission, extendPostSchema } from "@factor/post/util"
+import { objectId, postPermission, addPostSchema } from "@factor/post/util"
 
 import { getModel } from "@factor/post/database"
 import mime from "mime-types"
@@ -56,6 +56,12 @@ const handleUpload = async function({
   return attachment.toObject()
 }
 
+/**
+ * Deletes and image/attachment from the DB and calls hooks for plugins to the same
+ *
+ * @param params._id - Post ID of the image to delete
+ * @param meta.bearer - Authenticated user making the request
+ */
 export const deleteImage = async function(
   { _id }: { _id: string },
   { bearer }: EndpointMeta
@@ -78,7 +84,7 @@ export const deleteImage = async function(
 export const setup = (): void => {
   addEndpoint({ id: "storage", handler: { deleteImage } })
 
-  extendPostSchema(() => storageSchema)
+  addPostSchema(() => storageSchema)
 
   addMiddleware({
     key: "attachment",

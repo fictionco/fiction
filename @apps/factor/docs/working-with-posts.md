@@ -68,14 +68,14 @@ There are several post request functions available. With these you should be abl
 
 Initially, all post types inherit the basic post schema that you can [reference here](https://github.com/fiction-com/factor/blob/master/%40factor/%40core/post/schema.js).
 
-In some cases, the base schema is not enough. The format for extending the base post schema uses the `extendPostSchema` function
+In some cases, the base schema is not enough. The format for extending the base post schema uses the `addPostSchema` function
 
 > Note that this needs to occur in the **server** environment since database transactions happen in Express endpoints.
 
 ```js
-import { extendPostSchema } from "@factor/api"
+import { addPostSchema } from "@factor/api"
 
-extendPostSchema({
+addPostSchema({
   name: "post-type-name",
   callback: schema => {
     schema.pre("save", async function(next) {

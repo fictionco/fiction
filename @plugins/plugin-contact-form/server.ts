@@ -1,4 +1,4 @@
-import { extendPostSchema } from "@factor/post/util"
+import { addPostSchema } from "@factor/post/util"
 import contactFormSchema from "./schema"
 
-extendPostSchema(contactFormSchema)
+addPostSchema(contactFormSchema)

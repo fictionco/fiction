@@ -3,7 +3,7 @@ import {
   addContentRoute,
   setting,
   pushToFilter,
-  extendPostSchema
+  addPostSchema
 } from "@factor/api"
 import { Component } from "vue"
 import jobsSchema from "./schema"
@@ -11,7 +11,7 @@ import jobsSchema from "./schema"
 const baseRoute = setting("jobs.postRoute")
 
 export const setup = (): void => {
-  extendPostSchema(jobsSchema)
+  addPostSchema(jobsSchema)
 
   addPostType({
     postType: "jobs",
