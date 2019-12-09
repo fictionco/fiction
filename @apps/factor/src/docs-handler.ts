@@ -31,6 +31,11 @@ export const selected = (slug: string): DocsItem | void => {
   return config().find(_ => (slug ? _.slug == slug : _.root))
 }
 
+/**
+ * Gets HTML from a markdown file designated by ID
+ * @param slug document slug id
+ *
+ */
 export const getMarkdownHTML = async (slug: string): Promise<string> => {
   const { file } = selected(slug) || {}
 

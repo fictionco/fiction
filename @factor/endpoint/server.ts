@@ -15,6 +15,13 @@ import {
   ResponseType
 } from "./types"
 
+/**
+ * An error that allows for a code property ideally suited for endpoint HTTP errors
+ * @param code - the http error code
+ * @param message - the error message
+ *
+ * @category server
+ */
 export const endpointError = (
   code: string | number,
   message: string
@@ -24,6 +31,12 @@ export const endpointError = (
   return error
 }
 
+/**
+ * Takes authorization header with bearer token and converts it into a user for subsequent endpoint operations
+ * @param bearerToken - JWT token sent from client in authorization header
+ *
+ * @category server
+ */
 export const setAuthorizedUser = async (
   bearerToken: string
 ): Promise<CurrentUserState> => {
@@ -70,6 +83,14 @@ export const runEndpointMethod = async ({
   }
 }
 
+/**
+ * Processes requests made to a specific endpoint with a provided handler
+ *
+ * @param config
+ * @param config.request - Express request object
+ * @param config.response - Express response object
+ * @param config.handler - An object consisting of methods that can be accessed at the endpoint
+ */
 export const processEndpointRequest = async ({
   request,
   response,
@@ -104,6 +125,10 @@ export const processEndpointRequest = async ({
   return
 }
 
+/**
+ * Adds endpoints into the middleware filter
+ *
+ */
 export const initializeEndpointServer = (): void => {
   addFilter({
     key: "endpoints",
