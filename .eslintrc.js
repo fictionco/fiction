@@ -37,12 +37,10 @@ module.exports = {
     "import",
     "jest",
     "import",
-    "@typescript-eslint",
-    "eslint-plugin-tsdoc"
+    "@typescript-eslint"
   ],
 
   rules: {
-    "tsdoc/syntax": "warn",
     "jest/no-disabled-tests": "off",
     "no-console": "error",
     "no-debugger": "error",
