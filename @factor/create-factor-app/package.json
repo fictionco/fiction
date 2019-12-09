@@ -21,7 +21,9 @@
     "figures": "^3.0.0",
     "lodash": "^4.17.11",
     "sao": "^1.6.1",
-    "superb": "^4.0.0"
+    "superb": "^4.0.0",
+    "typescript": "^3.7.2",
+    "ts-node": "^8.5.0"
   },
   "devDependencies": {
     "standard-version": "^7.0.0"
