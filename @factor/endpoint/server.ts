@@ -15,8 +15,6 @@ import {
   ResponseType
 } from "./types"
 
-debugger
-
 export const endpointError = (
   code: string | number,
   message: string
