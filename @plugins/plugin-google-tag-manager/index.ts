@@ -1,4 +1,4 @@
-import { addFilter, pushToFilter, setting } from "@factor/tools"
+import { addFilter, pushToFilter, setting } from "@factor/api"
 import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
 import inquirer from "inquirer"
 

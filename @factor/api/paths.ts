@@ -1,5 +1,5 @@
 import { resolve, dirname, relative } from "path"
-import { addFilter, applyFilters } from "@factor/tools/hooks"
+import { addFilter, applyFilters } from "@factor/api/hooks"
 
 import fs from "fs-extra"
 

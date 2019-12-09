@@ -1,4 +1,4 @@
-import { pushToFilter, addPostType } from "@factor/tools"
+import { pushToFilter, addPostType } from "@factor/api"
 import { Component } from "vue"
 
 export const setup = (): void => {

@@ -22,7 +22,7 @@
     "@factor/post": "^1.1.4",
     "@factor/server": "^1.1.4",
     "@factor/templates": "^1.1.4",
-    "@factor/tools": "^1.1.4",
+    "@factor/api": "^1.1.4",
     "@factor/ui": "^1.1.4",
     "@factor/user": "^1.1.4"
   },

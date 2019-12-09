@@ -72,7 +72,7 @@ Add keys and config to `factor-config.json`:
 Public config values are added and available using the `setting` utility (also used for `factor-settings`):
 
 ```javascript
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 // In your code
 const myVariable = setting("exampleService.apiKey") // 123
 ```

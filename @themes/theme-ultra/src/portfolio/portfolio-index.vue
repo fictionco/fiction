@@ -24,7 +24,7 @@
 </template>
 <script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 import { stored } from "@factor/app/store"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"

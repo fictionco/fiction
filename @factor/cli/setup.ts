@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { getExtensions } from "@factor/cli/extension-loader"
-import { getPath } from "@factor/tools/paths"
+import { getPath } from "@factor/api/paths"
 import { highlight } from "cli-highlight"
-import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor/tools"
+import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor/api"
 import chalk from "chalk"
 import envfile from "envfile"
 import fs from "fs-extra"

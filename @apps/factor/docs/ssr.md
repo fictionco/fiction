@@ -18,7 +18,7 @@ To do this you'll need to do two things:
 As an example, we'll fetch a post:
 
 ```js
-import { addGlobalPrefetch, storeItem } from "@factor/tools"
+import { addGlobalPrefetch, storeItem } from "@factor/api"
 
 addGlobalPrefetch(async route => {
   const data = await getData()

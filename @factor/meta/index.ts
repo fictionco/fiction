@@ -1,6 +1,6 @@
 import Vue from "vue"
 import VueMeta, { MetaInfo } from "vue-meta"
-import { addFilter, applyFilters, addCallback } from "@factor/tools"
+import { addFilter, applyFilters, addCallback } from "@factor/api"
 import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
 import { FactorMetaInfo } from "./types"
 import "./route-class"

@@ -44,8 +44,8 @@
 <script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { factorPostEdit } from "@factor/post"
-import { renderMarkdown } from "@factor/tools/markdown"
-import { throttle, standardDate } from "@factor/tools"
+import { renderMarkdown } from "@factor/api/markdown"
+import { throttle, standardDate } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

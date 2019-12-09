@@ -145,7 +145,7 @@
 <script lang="ts">
 import Vue from "vue"
 import { factorIcon, factorLink } from "@factor/ui"
-import { toLabel } from "@factor/tools"
+import { toLabel } from "@factor/api"
 
 export default Vue.extend({
   components: {

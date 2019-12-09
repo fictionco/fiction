@@ -1,6 +1,6 @@
 import "@factor/build/webpack-overrides"
-import { applyFilters, log, ensureTrailingSlash, deepMerge } from "@factor/tools"
-import { getPath } from "@factor/tools/paths"
+import { applyFilters, log, ensureTrailingSlash, deepMerge } from "@factor/api"
+import { getPath } from "@factor/api/paths"
 import BundleAnalyzer from "webpack-bundle-analyzer"
 import CopyPlugin from "copy-webpack-plugin"
 import merge from "webpack-merge"
@@ -14,7 +14,7 @@ import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack, { Configuration, Stats, Compiler } from "webpack"
 
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
-import { configSettings } from "@factor/tools/config"
+import { configSettings } from "@factor/api/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
 

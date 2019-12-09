@@ -41,7 +41,7 @@
   </div>
 </template>
 <script lang="ts">
-import { timeUtil } from "@factor/tools"
+import { timeUtil } from "@factor/api"
 import Vue from "vue"
 import { fluidInput } from "../utils"
 export default Vue.extend({

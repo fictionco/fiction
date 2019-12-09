@@ -20,7 +20,7 @@ Routes in Factor use [Vue Router](https://router.vuejs.org). These filters add r
 #### Example
 
 ```js
-import { addFilter } from "@factor/tools"
+import { addFilter } from "@factor/api"
 
 addFilter("content-routes", routes => {
   return [
@@ -80,7 +80,7 @@ addFilter("post-schema", _ => {
 Filter: `post-populated-fields` - To extend the base schema fields that should be [populated](https://mongoosejs.com/docs/populate.html) on retrieval
 
 ```js
-import { pushToFilter } from "@factor/tools"
+import { pushToFilter } from "@factor/api"
 pushToFilter("post-populated-fields", { field: "shareImage", depth: 20 })
 ```
 

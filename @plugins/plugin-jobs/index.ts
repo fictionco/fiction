@@ -4,7 +4,7 @@ import {
   setting,
   pushToFilter,
   extendPostSchema
-} from "@factor/tools"
+} from "@factor/api"
 import { Component } from "vue"
 import jobsSchema from "./schema"
 

@@ -70,7 +70,7 @@ import {
 import {getStatusCount} from "@factor/post/util"
 
 import {  requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
-import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/tools"
+import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {

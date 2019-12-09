@@ -1,4 +1,4 @@
-import { runCallbacks, applyFilters } from "@factor/tools"
+import { runCallbacks, applyFilters } from "@factor/api"
 import { getObservables } from "@factor/app"
 import Vue, { VueConstructor } from "vue"
 

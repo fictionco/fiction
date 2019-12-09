@@ -1,4 +1,4 @@
-import { addFilter } from "@factor/tools/hooks"
+import { addFilter } from "@factor/api/hooks"
 
 addFilter({
   hook: "server-renderer-options",

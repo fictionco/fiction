@@ -140,7 +140,7 @@ import {
   sendPasswordResetEmail,
   verifyAndResetPassword
 } from "@factor/user/email-request"
-import { emitEvent } from "@factor/tools"
+import { emitEvent } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorForm, factorBtn, dashboardInput, factorLink },

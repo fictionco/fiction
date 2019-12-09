@@ -14,9 +14,9 @@
 <script lang="ts">
 import { factorError404 } from "@factor/ui"
 import { stored } from "@factor/app/store"
-import { setting } from "@factor/tools/settings"
-import { titleTag, descriptionTag, shareImage } from "@factor/tools/metatags"
-import { isEmpty } from "@factor/tools/utils-lodash"
+import { setting } from "@factor/api/settings"
+import { titleTag, descriptionTag, shareImage } from "@factor/api/metatags"
+import { isEmpty } from "@factor/api/utils-lodash"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorError404 },

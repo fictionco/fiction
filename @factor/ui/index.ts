@@ -1,4 +1,4 @@
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 import "./directives"
 import { Component } from "vue"
 

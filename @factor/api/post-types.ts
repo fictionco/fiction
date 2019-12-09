@@ -1,5 +1,5 @@
-import { applyFilters, pushToFilter } from "@factor/tools/hooks"
-import { toLabel } from "@factor/tools/utils"
+import { applyFilters, pushToFilter } from "@factor/api/hooks"
+import { toLabel } from "@factor/api/utils"
 import Vue from "vue"
 
 export interface PostTypeConfig {

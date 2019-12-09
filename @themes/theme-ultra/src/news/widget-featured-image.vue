@@ -35,7 +35,7 @@
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import { postLink } from "@factor/tools/permalink"
+import { postLink } from "@factor/api/permalink"
 import { stored } from "@factor/app/store"
 import Vue from "vue"
 export default Vue.extend({

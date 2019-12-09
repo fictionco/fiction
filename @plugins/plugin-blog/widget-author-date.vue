@@ -12,7 +12,7 @@
 <script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { factorAvatar } from "@factor/ui"
-import { isEmpty, standardDate, stored } from "@factor/tools"
+import { isEmpty, standardDate, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorAvatar, factorPostEdit },

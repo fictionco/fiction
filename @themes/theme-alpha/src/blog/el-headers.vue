@@ -17,7 +17,7 @@
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import { postLink, setting, stored } from "@factor/tools"
+import { postLink, setting, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },

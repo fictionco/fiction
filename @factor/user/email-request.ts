@@ -1,4 +1,4 @@
-import { emitEvent, addCallback } from "@factor/tools"
+import { emitEvent, addCallback } from "@factor/api"
 import { endpointRequest } from "@factor/endpoint"
 
 export const sendUserEmailRequest = async (

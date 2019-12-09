@@ -5,7 +5,7 @@ import exit from "exit"
 import Vue from "vue"
 
 // Import this to resolve any dependency cycle issues
-import "@factor/tools"
+import "@factor/api"
 process.env.FACTOR_ENV = "test"
 
 Vue.config.devtools = false

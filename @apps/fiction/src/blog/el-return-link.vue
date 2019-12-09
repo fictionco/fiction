@@ -7,7 +7,7 @@
   </div>
 </template>
 <script lang="ts">
-import { setting, stored } from "@factor/tools"
+import { setting, stored } from "@factor/api"
 import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 

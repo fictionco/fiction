@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { applyFilters } from "@factor/tools"
+import { applyFilters } from "@factor/api"
 import Vue from "vue"
 import siteMixin from "./site-mixin"
 

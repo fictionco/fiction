@@ -1,14 +1,14 @@
 import "@factor/app"
 import "@factor/meta"
-import "@factor/tools" // prevent load order issues
+import "@factor/api" // prevent load order issues
 
 import Vue, { CreateElement, VNode } from "vue"
 
 import { createRouter } from "@factor/app/router"
-import { emitEvent } from "@factor/tools/events"
+import { emitEvent } from "@factor/api/events"
 import { getStore } from "@factor/app/store"
-import { runCallbacks } from "@factor/tools/hooks"
-import { setting } from "@factor/tools/settings"
+import { runCallbacks } from "@factor/api/hooks"
+import { setting } from "@factor/api/settings"
 import { extendApp } from "./extend-app"
 import { ApplicationComponents } from "./types"
 

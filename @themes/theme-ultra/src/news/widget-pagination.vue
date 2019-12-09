@@ -14,7 +14,7 @@
 <script lang="ts">
 import Vue from "vue"
 import { factorBtn, factorIcon } from "@factor/ui"
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 export default Vue.extend({
   components: { factorBtn, factorIcon },
   props: {

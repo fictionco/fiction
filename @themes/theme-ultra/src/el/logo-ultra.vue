@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { setting } from "@factor/tools"
+import { setting } from "@factor/api"
 export default Vue.extend({
   methods: { setting }
 })

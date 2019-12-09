@@ -9,7 +9,7 @@
 </template>
 <script lang="ts">
 import { dashboardPane } from "@factor/dashboard"
-import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/tools"
+import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({

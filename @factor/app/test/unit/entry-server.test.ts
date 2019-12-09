@@ -1,6 +1,6 @@
 import * as app from "@factor/app/app"
-import * as events from "@factor/tools/events"
-import * as filters from "@factor/tools/hooks"
+import * as events from "@factor/api/events"
+import * as filters from "@factor/api/hooks"
 import serverEntry from "@factor/app/entry-server"
 
 import Vue from "vue"

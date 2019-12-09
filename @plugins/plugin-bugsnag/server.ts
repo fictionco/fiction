@@ -1,4 +1,4 @@
-import { pushToFilter, setting } from "@factor/tools"
+import { pushToFilter, setting } from "@factor/api"
 import { writeConfig } from "@factor/cli/setup"
 import inquirer from "inquirer"
 const clientApiKey = setting("bugsnag.clientApiKey")

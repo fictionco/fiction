@@ -1,6 +1,6 @@
 import path from "path"
 import fs from "fs-extra"
-import { addFilter, setting, log, runCallbacks } from "@factor/tools"
+import { addFilter, setting, log, runCallbacks } from "@factor/api"
 
 import chalk from "chalk"
 import MFS from "memory-fs"

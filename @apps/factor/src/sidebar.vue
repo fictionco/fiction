@@ -54,7 +54,7 @@
 </template>
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
-import { throttle, setting, toLabel } from "@factor/tools"
+import { throttle, setting, toLabel } from "@factor/api"
 
 import Vue from "vue"
 import { config } from "./docs-handler"

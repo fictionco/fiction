@@ -1,5 +1,5 @@
-import { applyFilters, runCallbacks, pushToFilter, addFilter } from "@factor/tools/hooks"
-import { emitEvent } from "@factor/tools/events"
+import { applyFilters, runCallbacks, pushToFilter, addFilter } from "@factor/api/hooks"
+import { emitEvent } from "@factor/api/events"
 import Vue from "vue"
 import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
 import qs from "qs"

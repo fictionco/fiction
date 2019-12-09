@@ -1,4 +1,4 @@
-import { applyFilters, runCallbacks } from "@factor/tools/hooks"
+import { applyFilters, runCallbacks } from "@factor/api/hooks"
 import Vue from "vue"
 
 Vue.config.productionTip = false

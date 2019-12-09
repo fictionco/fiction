@@ -6,10 +6,10 @@ import {
   postTypesConfig,
   pushToFilter,
   addContentRoute
-} from "@factor/tools"
+} from "@factor/api"
 
 import { Component } from "vue"
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 import { userCan } from "@factor/user"
 import { RouteConfig } from "vue-router"
 import { DashboardMenuItem } from "./types"

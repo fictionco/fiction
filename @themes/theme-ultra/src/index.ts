@@ -1,8 +1,8 @@
-import { setting } from "@factor/tools/settings"
-import { addFilter } from "@factor/tools/hooks"
+import { setting } from "@factor/api/settings"
+import { addFilter } from "@factor/api/hooks"
 import { addPageTemplate } from "@factor/templates"
-import { addPostType } from "@factor/tools/post-types"
-import { addContentRoutes } from "@factor/tools"
+import { addPostType } from "@factor/api/post-types"
+import { addContentRoutes } from "@factor/api"
 import { Component } from "vue"
 
 const portfolioBaseRoute = setting("portfolio.postRoute")

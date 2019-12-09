@@ -81,7 +81,7 @@
   </div>
 </template>
 <script lang="ts">
-import { standardDate } from "@factor/tools"
+import { standardDate } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
 import { getIndexCache } from "./extension-request"

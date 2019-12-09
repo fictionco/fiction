@@ -1,6 +1,6 @@
 import { endpointRequest } from "@factor/endpoint"
 import { stored, storeItem } from "@factor/app/store"
-import { timestamp } from "@factor/tools/time"
+import { timestamp } from "@factor/api/time"
 import objectHash from "object-hash"
 import {
   FactorPost,

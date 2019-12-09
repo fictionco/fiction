@@ -8,8 +8,8 @@
   </div>
 </template>
 <script lang="ts">
-import { postLink, stored } from "@factor/tools"
-import { excerpt } from "@factor/tools/excerpt"
+import { postLink, stored } from "@factor/api"
+import { excerpt } from "@factor/api/excerpt"
 import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 

@@ -1,9 +1,9 @@
 import { resolve } from "path"
 import dotenv from "dotenv"
-import { runCallbacks, addCallback } from "@factor/tools"
+import { runCallbacks, addCallback } from "@factor/api"
 
 import commander from "commander"
-import log from "@factor/tools/logger"
+import log from "@factor/api/logger"
 import aliasRequire from "./alias-require"
 import transpile from "./transpile"
 

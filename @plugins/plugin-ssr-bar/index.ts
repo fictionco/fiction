@@ -1,4 +1,4 @@
-import { pushToFilter } from "@factor/tools/hooks"
+import { pushToFilter } from "@factor/api/hooks"
 import { Component } from "vue"
 
 export const setup = (): void => {

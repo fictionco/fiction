@@ -15,7 +15,7 @@ import {
   currentRoute,
   navigateToRoute,
   onEvent
-} from "@factor/tools"
+} from "@factor/api"
 
 import {
   FactorUserCredential,

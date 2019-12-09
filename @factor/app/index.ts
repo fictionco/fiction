@@ -1,6 +1,6 @@
-import { setting } from "@factor/tools/settings"
-import { addFilter, applyFilters, addCallback } from "@factor/tools/hooks"
-import { onEvent } from "@factor/tools/events"
+import { setting } from "@factor/api/settings"
+import { addFilter, applyFilters, addCallback } from "@factor/api/hooks"
+import { onEvent } from "@factor/api/events"
 export * from "./extend-app"
 import { RouteConfig } from "vue-router"
 

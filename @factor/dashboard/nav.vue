@@ -50,7 +50,7 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { userCan, userInitialized } from "@factor/user"
-import { toLabel, slugify, applyFilters } from "@factor/tools"
+import { toLabel, slugify, applyFilters } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },

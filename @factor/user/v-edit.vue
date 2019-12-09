@@ -115,7 +115,7 @@
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
 import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import { userId, sendVerifyEmail } from "@factor/user"
-import { standardDate, emitEvent, stored, storeItem } from "@factor/tools"
+import { standardDate, emitEvent, stored, storeItem } from "@factor/api"
 import { requestPostSave } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({

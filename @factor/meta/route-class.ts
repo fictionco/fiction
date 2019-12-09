@@ -1,4 +1,4 @@
-import { addFilter, addCallback, pushToFilter } from "@factor/tools"
+import { addFilter, addCallback, pushToFilter } from "@factor/api"
 import Vue, { Component } from "vue"
 
 import { getObservables } from "@factor/app/extend-app"

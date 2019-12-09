@@ -17,7 +17,7 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { accountMenu } from "@factor/dashboard"
-import { setting } from "@factor/tools"
+import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLink, accountMenu },

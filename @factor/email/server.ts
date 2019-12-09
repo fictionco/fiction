@@ -1,4 +1,4 @@
-import { log, applyFilters, setting } from "@factor/tools"
+import { log, applyFilters, setting } from "@factor/api"
 
 import nodeMailer, { Transporter } from "nodemailer"
 

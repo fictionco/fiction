@@ -6,8 +6,8 @@
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import { excerpt } from "@factor/tools/excerpt"
-import { postLink, stored } from "@factor/tools"
+import { excerpt } from "@factor/api/excerpt"
+import { postLink, stored } from "@factor/api"
 import Vue from 'vue'
 export default Vue.extend({
   components: { factorLink },

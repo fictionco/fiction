@@ -10,7 +10,7 @@
 </template>
 <script lang="ts">
 import { factorBtn, factorIcon } from "@factor/ui"
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

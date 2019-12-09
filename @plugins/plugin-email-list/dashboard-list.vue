@@ -29,7 +29,7 @@
 <script lang="ts">
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post/util"
-import { toLabel, stored, getPermalink, omit } from "@factor/tools"
+import { toLabel, stored, getPermalink, omit } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import {
   dashboardPane,

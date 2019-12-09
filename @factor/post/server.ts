@@ -1,8 +1,8 @@
-import { addCallback } from "@factor/tools/hooks"
+import { addCallback } from "@factor/api/hooks"
 import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
-import { addEndpoint } from "@factor/tools/endpoints"
+import { addEndpoint } from "@factor/api/endpoints"
 
 import {
   PostActions,

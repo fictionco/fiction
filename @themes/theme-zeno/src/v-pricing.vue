@@ -66,7 +66,7 @@
 </template>
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
-import { setting } from "@factor/tools"
+import { setting } from "@factor/api"
 // Wrap with Vue extend for Typescript
 import Vue from "vue"
 export default Vue.extend({

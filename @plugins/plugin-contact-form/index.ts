@@ -1,5 +1,5 @@
 import { requestPostSave } from "@factor/post/request"
-import { toLabel, addPostType, setting } from "@factor/tools"
+import { toLabel, addPostType, setting } from "@factor/api"
 import { sendEmailRequest } from "@factor/email"
 import { Component } from "vue"
 const postType = "contact-form"

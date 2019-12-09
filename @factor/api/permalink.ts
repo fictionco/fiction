@@ -1,9 +1,9 @@
-import { slugify, toLabel } from "@factor/tools/utils"
+import { slugify, toLabel } from "@factor/api/utils"
 import { stored } from "@factor/app/store"
-import { getPostTypeConfig } from "@factor/tools/post-types"
-import { emitEvent } from "@factor/tools/events"
+import { getPostTypeConfig } from "@factor/api/post-types"
+import { emitEvent } from "@factor/api/events"
 import { requestPostSingle } from "@factor/post/request"
-import { currentUrl } from "@factor/tools/url"
+import { currentUrl } from "@factor/api/url"
 
 // Verify a permalink is unique,
 // If not unique, then add number and recursively verify the new one

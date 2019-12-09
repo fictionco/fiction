@@ -12,7 +12,7 @@
 <script lang="ts">
 import { factorError404, factorLoadingRing } from "@factor/ui"
 import { getPageTemplates } from "@factor/templates"
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

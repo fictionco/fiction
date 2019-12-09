@@ -1,4 +1,4 @@
-import { toLabel } from "@factor/tools"
+import { toLabel } from "@factor/api"
 import { FactorPackageJson } from "@factor/cli/types"
 export const endpointId = "pluginData"
 import { FactorExtensionListing } from "../types"

@@ -1,7 +1,7 @@
-import { addCallback, applyFilters } from "@factor/tools/hooks"
+import { addCallback, applyFilters } from "@factor/api/hooks"
 import { currentRoute } from "@factor/app/router"
 import { storeItem } from "@factor/app/store"
-import { setPostMetatags } from "@factor/tools/metatags"
+import { setPostMetatags } from "@factor/api/metatags"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 

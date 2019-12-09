@@ -51,7 +51,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { toLabel } from "@factor/tools"
+import { toLabel } from "@factor/api"
 export default Vue.extend({
   props: {
     rows: { type: Array, default: () => [] },

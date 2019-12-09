@@ -76,7 +76,7 @@ Add keys and config to `factor-config.json`:
 Public config values are added and available using the `setting` utility (also used for `factor-settings`):
 
 ```javascript
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 // In your code
 const myVariable = setting("exampleService.apiKey") // 123
 ```
@@ -151,7 +151,7 @@ export default {
 In the above example, a `factor-settings` file in your application would override the `myHouse` component and the `myCar.color`. The final values could be referenced in your Vue templates as follows:
 
 ```js
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 // In your code
 const myVariable = setting("myCar.color") // black
 ```

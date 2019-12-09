@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts">
-import { setting, stored } from "@factor/tools"
+import { setting, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   props: {

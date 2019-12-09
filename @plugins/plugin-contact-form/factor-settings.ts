@@ -1,5 +1,5 @@
 import { Component } from "vue"
-import { setting } from "@factor/tools"
+import { setting } from "@factor/api"
 export default {
   contactForm: {
     email: (): Promise<Component> => setting("app.email"),

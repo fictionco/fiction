@@ -1,6 +1,6 @@
-import { emitEvent } from "@factor/tools/events"
-import { isNode } from "@factor/tools/utils"
-import { localhostUrl } from "@factor/tools/url"
+import { emitEvent } from "@factor/api/events"
+import { isNode } from "@factor/api/utils"
+import { localhostUrl } from "@factor/api/url"
 import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 

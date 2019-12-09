@@ -46,7 +46,7 @@
 </template>
 <script lang="ts">
 import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
-import { setting, stored } from "@factor/tools"
+import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({

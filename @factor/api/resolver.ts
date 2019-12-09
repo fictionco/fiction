@@ -1,6 +1,6 @@
 import { dirname } from "path"
 import { getExtensions } from "@factor/cli/extension-loader"
-import { getPath } from "@factor/tools/paths"
+import { getPath } from "@factor/api/paths"
 import fs from "fs-extra"
 
 const fileExistsInTheme = (file: string): string => {

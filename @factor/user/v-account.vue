@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { userInitialized, userId } from "@factor/user"
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({

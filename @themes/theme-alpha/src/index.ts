@@ -1,4 +1,4 @@
-import { addFilter, setting, addContentRoutes, addPostType } from "@factor/tools"
+import { addFilter, setting, addContentRoutes, addPostType } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 import { Component } from "vue"
 

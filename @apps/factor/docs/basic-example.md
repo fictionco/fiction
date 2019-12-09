@@ -112,7 +112,7 @@ First, add two Vue components: `v-home.vue` and `v-page.vue`. And set up the bas
 In your `index` file add the following code:
 
 ```js
-import { addContentRoute } from "@factor/tools"
+import { addContentRoute } from "@factor/api"
 
 addContentRoute({
   path: "/",

@@ -12,7 +12,7 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { stored } from "@factor/app/store"
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },

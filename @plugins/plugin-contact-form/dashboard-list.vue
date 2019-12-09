@@ -44,7 +44,7 @@
 <script lang="ts">
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post/util"
-import { toLabel, standardDate, getPermalink, omit } from "@factor/tools"
+import { toLabel, standardDate, getPermalink, omit } from "@factor/api"
 import {
   dashboardGrid,
   dashboardPane,

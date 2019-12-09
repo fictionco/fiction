@@ -1,4 +1,4 @@
-import { emitEvent } from "@factor/tools/events"
+import { emitEvent } from "@factor/api/events"
 
 export const userToken = (token?: boolean | null | string): string | void => {
   if (typeof localStorage == "undefined" || !localStorage) {

@@ -25,7 +25,7 @@ The above diagram is a typical use case. For example, application routes work in
 ## Creating and Using a Filter
 
 ```javascript
-import { applyFilters } from "@factor/tools"
+import { applyFilters } from "@factor/api"
 // From an extension
 // The callback receives the list so just add another item to it
 addFilter("my-item-list", list => {
@@ -81,7 +81,7 @@ Since this is encountered so often, Factor has two special helper functions spec
 Here is an example using these helpers:
 
 ```javascript
-import { runCallbacks, addCallback } from "@factor/tools"
+import { runCallbacks, addCallback } from "@factor/api"
 // Extension A
 addCallback("after-signup", args => sendWelcomeEmail(args))
 

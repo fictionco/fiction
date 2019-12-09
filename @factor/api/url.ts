@@ -1,5 +1,5 @@
-import { setting } from "@factor/tools/settings"
-import log from "@factor/tools/logger"
+import { setting } from "@factor/api/settings"
+import log from "@factor/api/logger"
 
 export const localhostUrl = (): string => {
   const port = process.env.PORT || 7777

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import { resolveFilePath } from "@factor/tools/resolver"
+import { resolveFilePath } from "@factor/api/resolver"
 import { Component } from "vue"
 export default (): object => {
   return {

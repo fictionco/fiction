@@ -1,5 +1,5 @@
-import { log } from "@factor/tools"
-import { pushToFilter, addCallback } from "@factor/tools/hooks"
+import { log } from "@factor/api"
+import { pushToFilter, addCallback } from "@factor/api/hooks"
 import { writeConfig } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
 import inquirer from "inquirer"

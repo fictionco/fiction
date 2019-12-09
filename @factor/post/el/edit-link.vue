@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { factorLink, factorBtn } from "@factor/ui"
-import { stored, getPostTypeConfig } from "@factor/tools"
+import { stored, getPostTypeConfig } from "@factor/api"
 import { userId, currentUser } from "@factor/user"
 import Vue from "vue"
 export default Vue.extend({

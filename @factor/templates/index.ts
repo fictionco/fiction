@@ -6,7 +6,7 @@ import {
   setting,
   addPostType,
   extendPostSchema
-} from "@factor/tools"
+} from "@factor/api"
 import { RouteConfig } from "vue-router"
 import { Component } from "vue"
 import { TemplateConfig, TemplateOption } from "./types"

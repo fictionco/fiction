@@ -1,4 +1,4 @@
-import { sortPriority } from "@factor/tools/utils"
+import { sortPriority } from "@factor/api/utils"
 import Vue from "vue"
 import { omit } from "./utils-lodash"
 type FilterRecord = Record<string, Record<string, CallbackItem>>

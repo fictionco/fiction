@@ -16,7 +16,7 @@ For our purposes, we'll be focusing primarily on content routing and nav.
 The simplest way to add content routes is using the straight-forward `addContentRoute` function.
 
 ```js
-import { addContentRoute } from "@factor/tools"
+import { addContentRoute } from "@factor/api"
 
 addContentRoute({
   path: "/example-route",
@@ -65,14 +65,14 @@ Essentially, the store does two things:
 An example:
 
 ```js
-import { storeItem } from "@factor/tools"
+import { storeItem } from "@factor/api"
 
 const myData = { foo: "bar" }
 
 storeItem("myData", myData)
 
 // In your component
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 export default {
   computed: {
     myData() {

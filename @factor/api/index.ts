@@ -1,6 +1,6 @@
 // Important Developer Note
 // In webpack production builds,
-// any circular references to @factor/tools from modules from also included here
+// any circular references to @factor/api from modules from also included here
 // Will error with "Object(...) is not a function"
 // Make sure to call modules directly here
 import log from "./logger"

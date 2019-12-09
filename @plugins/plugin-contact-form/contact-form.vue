@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { factorInputWrap, factorForm, factorInputSubmit } from "@factor/ui"
-import { setting } from "@factor/tools"
+import { setting } from "@factor/api"
 import Vue from "vue"
 import { saveContactForm } from "."
 

@@ -19,7 +19,7 @@
 
 <script lang="ts">
 /* eslint-disable no-unused-vars */
-import { toLabel, storeItem, stored } from "@factor/tools"
+import { toLabel, storeItem, stored } from "@factor/api"
 import {
   dashboardPane,
   dashboardGridControls,

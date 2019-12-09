@@ -1,10 +1,10 @@
 import { dirname, parse, resolve } from "path"
 
-import { getPath } from "@factor/tools/paths"
-import { toPascalCase, sortPriority } from "@factor/tools/utils"
+import { getPath } from "@factor/api/paths"
+import { toPascalCase, sortPriority } from "@factor/api/utils"
 import fs from "fs-extra"
 import glob from "glob"
-import log from "@factor/tools/logger"
+import log from "@factor/api/logger"
 import {
   FactorPackageJson,
   FactorExtension,

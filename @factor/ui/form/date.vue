@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { toDate } from "@factor/tools"
+import { toDate } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {

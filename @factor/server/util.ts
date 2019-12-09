@@ -1,4 +1,4 @@
-import { setting, log } from "@factor/tools"
+import { setting, log } from "@factor/api"
 import chalk from "chalk"
 import express, { Handler, Request, Response } from "express"
 import figures from "figures"

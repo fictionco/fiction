@@ -1,6 +1,6 @@
 import fs from "fs"
-import { deepMerge } from "@factor/tools/utils"
-import { getPath } from "@factor/tools/paths"
+import { deepMerge } from "@factor/api/utils"
+import { getPath } from "@factor/api/paths"
 
 export const configSettings = (): object => {
   const cwd = process.env.FACTOR_CWD || process.cwd()

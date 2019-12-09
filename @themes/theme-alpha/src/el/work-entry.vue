@@ -34,8 +34,8 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-import { setting, stored, postLink } from "@factor/tools"
-import { renderMarkdown } from "@factor/tools/markdown"
+import { setting, stored, postLink } from "@factor/api"
+import { renderMarkdown } from "@factor/api/markdown"
 import Vue from "vue"
 export default Vue.extend({
   components: {

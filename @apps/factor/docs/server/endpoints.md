@@ -35,7 +35,7 @@ As endpoints are a common pattern, Factor includes a standard endpoint handling 
 Adding an endpoint in a server accessible module/plugin:
 
 ```javascript
-import { addCallback } from "@factor/tools"
+import { addCallback } from "@factor/api"
 
 addCallback("endpoints", {
   id: "myEndpoint",
@@ -90,7 +90,7 @@ To add middleware to your Factor server, all you have to do is use the `middlewa
 As an example, middleware for creating a sitemap might look like the following:
 
 ```javascript
-import { pushToFilter } from "@factor/tools"
+import { pushToFilter } from "@factor/api"
 
 pushToFilter("middleware", {
   path: "/sitemap.xml",

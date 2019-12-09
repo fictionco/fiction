@@ -4,7 +4,7 @@
   </div>
 </template>
 <script lang="ts">
-import { standardDate, stored } from "@factor/tools"
+import { standardDate, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   props: {

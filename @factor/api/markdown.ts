@@ -1,4 +1,4 @@
-import { slugify, dotSetting } from "@factor/tools/utils"
+import { slugify, dotSetting } from "@factor/api/utils"
 import { getStoreState } from "@factor/app/store"
 import MarkdownIt from "markdown-it"
 import mdAnchor from "markdown-it-anchor"

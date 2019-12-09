@@ -56,8 +56,8 @@
 </template>
 <script lang="ts">
 import { factorLoadingRing, factorLink, factorLightbox } from "@factor/ui"
-import { setting, standardDate } from "@factor/tools"
-import { renderMarkdown } from "@factor/tools/markdown"
+import { setting, standardDate } from "@factor/api"
+import { renderMarkdown } from "@factor/api/markdown"
 import Vue from "vue"
 import {
   getSingleCache,

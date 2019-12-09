@@ -13,7 +13,7 @@ Let's create a custom endpoint for sending a Slack notification. Inside of a `se
 ```js
 // server.js
 
-import { addEndpoint } from "@factor/tools/endpoints"
+import { addEndpoint } from "@factor/api/endpoints"
 import axios from "axios"
 
 addEndpoint({ id: "slack", handler: { addSlackNotification } })

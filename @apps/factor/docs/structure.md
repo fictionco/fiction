@@ -66,7 +66,7 @@ You can place code for you application in either the root of the directory or in
 The "main" file, typically `index.js`, is the entry point for applications business code. In this file you will add routes and other customization to get exactly what you want.
 
 ```js
-import { addFilter, setting } from "@factor/tools"
+import { addFilter, setting } from "@factor/api"
 
 addFilter("content-routes", routes => {
 

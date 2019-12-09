@@ -1,8 +1,8 @@
 import { createGzip } from "zlib"
 import { getModel } from "@factor/post/database"
 import { SitemapStream, streamToPromise } from "sitemap"
-import { uniq, addFilter, applyFilters, getPermalink, log } from "@factor/tools"
-import { currentUrl } from "@factor/tools/url"
+import { uniq, addFilter, applyFilters, getPermalink, log } from "@factor/api"
+import { currentUrl } from "@factor/api/url"
 import { Request, Response } from "express"
 import { RouteConfig } from "vue-router"
 

@@ -13,7 +13,7 @@ To add a post type, all that is needed is to register it using the `addPostType`
 > Note that this needs to occur in the **app** environment since it is used for UI.
 
 ```js
-import { addPostType } from "@factor/tools"
+import { addPostType } from "@factor/api"
 addPostType({
   postType: "jobs",
   nameIndex: "Jobs",
@@ -42,7 +42,7 @@ There are a couple ways to get and work with posts in your components:
 If your route contains a `:permalink` parameter, then Factor will automatically retrieve and provide the post information in the store with the `post` key.
 
 ```js
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 export default {
   computed: {
     post() {
@@ -73,7 +73,7 @@ In some cases, the base schema is not enough. The format for extending the base 
 > Note that this needs to occur in the **server** environment since database transactions happen in Express endpoints.
 
 ```js
-import { extendPostSchema } from "@factor/tools"
+import { extendPostSchema } from "@factor/api"
 
 extendPostSchema({
   name: "post-type-name",
@@ -95,7 +95,7 @@ If you'd like to extend an existing schema, it's easy through the `data-schema-[
 For example, to extend the `page` schema:
 
 ```js
-import { addFilter } from "@factor/tools"
+import { addFilter } from "@factor/api"
 
 addFilter("data-schema-page", _original => {
   // Add to schema

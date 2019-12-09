@@ -1,5 +1,5 @@
 import axios from "axios"
-import { onEvent, addFilter } from "@factor/tools"
+import { onEvent, addFilter } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
 const slack = (): void => {

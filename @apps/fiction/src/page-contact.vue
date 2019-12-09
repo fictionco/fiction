@@ -30,8 +30,8 @@
 </template>
 
 <script lang="ts">
-import { setting } from "@factor/tools"
-import Vue from 'vue'
+import { setting } from "@factor/api"
+import Vue from "vue"
 export default Vue.extend({
   data() {
     return {

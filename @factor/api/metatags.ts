@@ -1,7 +1,7 @@
 import { stored } from "@factor/app/store"
 
-import { excerpt } from "@factor/tools/excerpt"
-import { addFilter } from "@factor/tools/hooks"
+import { excerpt } from "@factor/api/excerpt"
+import { addFilter } from "@factor/api/hooks"
 import { FactorMetaInfo } from "@factor/meta/types"
 
 export const titleTag = (_id: string): string => {

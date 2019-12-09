@@ -4,7 +4,7 @@
 /* eslint-disable import/order */
 import "../../server"
 
-import * as filters from "@factor/tools/hooks"
+import * as filters from "@factor/api/hooks"
 
 import * as endpoint from "@factor/endpoint"
 import * as endpointServer from "@factor/endpoint/server"

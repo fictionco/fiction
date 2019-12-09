@@ -1,4 +1,4 @@
-import { addCallback } from "@factor/tools/hooks"
+import { addCallback } from "@factor/api/hooks"
 import { EndpointItem } from "@factor/endpoint/types"
 
 export const addEndpoint = ({ id, handler }: EndpointItem): void => {

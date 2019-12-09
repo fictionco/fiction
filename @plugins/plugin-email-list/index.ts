@@ -6,7 +6,7 @@ import {
   addPostType,
   addCallback,
   setting
-} from "@factor/tools"
+} from "@factor/api"
 import { Component } from "vue"
 import { endpointRequest } from "@factor/endpoint"
 import { EmailConfig } from "./types"

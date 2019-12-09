@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { storeItem, stored } from "@factor/tools"
+import { storeItem, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   data() {

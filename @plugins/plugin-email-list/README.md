@@ -121,7 +121,7 @@ export default {
 If you'd like to use this plugin to add emails to external services like email systems or CRM systems, you can easily do that with the `email-list-add-[listId]` filter.
 
 ```js
-import { addFilter } from "@factor/tools"
+import { addFilter } from "@factor/api"
 addFilter(`plugin-email-list-add-myListId`, email => {
   someExternalApi.addEmail(email)
 

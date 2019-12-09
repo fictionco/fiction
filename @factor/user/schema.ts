@@ -2,7 +2,7 @@ import { objectIdType } from "@factor/post/util"
 import isEmail from "validator/lib/isEmail"
 import isMobilePhone from "validator/lib/isMobilePhone"
 
-import { applyFilters } from "@factor/tools"
+import { applyFilters } from "@factor/api"
 import bcrypt from "bcryptjs"
 import { HookNextFunction, Schema, Document } from "mongoose"
 import { FactorSchema } from "@factor/post/types"

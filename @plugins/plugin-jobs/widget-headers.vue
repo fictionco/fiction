@@ -9,7 +9,7 @@
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import { stored, postLink } from "@factor/tools"
+import { stored, postLink } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

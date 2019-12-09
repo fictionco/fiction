@@ -1,4 +1,4 @@
-import { addFilter, addCallback } from "@factor/tools"
+import { addFilter, addCallback } from "@factor/api"
 import AWS from "aws-sdk"
 import { PostAttachment } from "@factor/attachment"
 

@@ -27,7 +27,7 @@ Adding these interfaces simple and just requires using the `addPostType` functio
 
 ```js
 // index
-import { addPostType } from "@factor/tools"
+import { addPostType } from "@factor/api"
 addPostType({
   postType: "jobs",
   nameIndex: "Jobs",
@@ -52,7 +52,7 @@ It's easy to extend the post editing interface of a post type. A common use case
 To add a new panels, all that is needed is to use `addPostEditComponent`:
 
 ```js
-import { addPostEditComponent } from "@factor/tools"
+import { addPostEditComponent } from "@factor/api"
 addPostEditComponent({
   name: "My Plugin Settings",
   component: () => import("./plugin-panel.vue"),

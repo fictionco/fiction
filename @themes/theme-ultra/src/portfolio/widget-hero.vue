@@ -16,7 +16,7 @@
   </div>
 </template>
 <script lang="ts">
-import { setting, stored, postLink } from "@factor/tools"
+import { setting, stored, postLink } from "@factor/api"
 import { factorLink, factorIcon } from "@factor/ui"
 import { factorPostEdit } from "@factor/post"
 import Vue from "vue"

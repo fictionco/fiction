@@ -19,7 +19,7 @@ import {
   titleTag,
   descriptionTag,
   shareImage
-} from "@factor/tools"
+} from "@factor/api"
 import { factorError404 } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({

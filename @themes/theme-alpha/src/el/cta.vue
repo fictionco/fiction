@@ -12,7 +12,7 @@
 
 <script lang="txs">
 import { factorLink } from "@factor/ui"
-import { setting } from "@factor/tools"
+import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },

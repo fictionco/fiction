@@ -9,7 +9,7 @@ Filters are functions that are called with data the moment before Factor does so
 In the example below, an item "bar" is added to the data with filter id: `item-list`. The result of the initial input `["foo"]` and the added item is `["foo", "bar"]`.
 
 ```javascript
-import { applyFilters, addFilter } from "@factor/tools"
+import { applyFilters, addFilter } from "@factor/api"
 
 addFilter("item-list", list => {
   list.push("bar")
@@ -23,7 +23,7 @@ const finalList = applyFilters("item-list", ["foo"])
 - `pushToFilter` is a shorthand for filters that take an array as data. It allows you to pass only the item you want to add to the array and it takes care of the rest.
 
 ```javascript
-import { applyFilters, pushToFilter } from "@factor/tools"
+import { applyFilters, pushToFilter } from "@factor/api"
 
 pushToFilter("item-list", "bar")
 
@@ -38,7 +38,7 @@ There are two special callback filter functions for dealing with async callbacks
 An awaited `runCallbacks` will "await" for all async callbacks attached to run before it continues. This is similar to `Promise.all`.
 
 ```javascript
-import { runCallbacks, addCallback } from "@factor/tools"
+import { runCallbacks, addCallback } from "@factor/api"
 
 addCallback("after-action", args => exampleFunction1(args))
 addCallback("after-action", args => exampleFunction2(args))
@@ -64,7 +64,7 @@ Factor has a global events system that allows you to easily emit and listen for 
 Here is an example:
 
 ```js
-import { emitEvent, onEvent } from "@factor/tools"
+import { emitEvent, onEvent } from "@factor/api"
 
 onEvent("custom-event", data => {
   // data = "foo"

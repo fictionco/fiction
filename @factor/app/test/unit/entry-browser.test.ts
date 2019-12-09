@@ -3,7 +3,7 @@
  */
 
 import * as app from "@factor/app/app"
-import * as events from "@factor/tools/events"
+import * as events from "@factor/api/events"
 import { waitFor, indexHtml } from "@test/utils"
 
 const spies = {

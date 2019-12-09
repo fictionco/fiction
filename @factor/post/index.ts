@@ -1,5 +1,5 @@
-import { preFetchPost } from "@factor/tools/prefetch"
-import { addFilter, addCallback, pushToFilter } from "@factor/tools/hooks"
+import { preFetchPost } from "@factor/api/prefetch"
+import { addFilter, addCallback, pushToFilter } from "@factor/api/hooks"
 import { Component } from "vue"
 import { RouteConfig, Route } from "vue-router"
 import { PostEditComponent } from "./types"

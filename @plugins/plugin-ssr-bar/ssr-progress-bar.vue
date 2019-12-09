@@ -2,7 +2,7 @@
   <div :style="barStyle" class="progress" :class="canSuccess ? 'working' : 'failed'" />
 </template>
 <script lang="ts">
-import { onEvent } from "@factor/tools/events"
+import { onEvent } from "@factor/api/events"
 import Vue from "vue"
 export default Vue.extend({
   name: "SsrBar",

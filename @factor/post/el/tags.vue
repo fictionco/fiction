@@ -26,7 +26,7 @@
 <script lang="ts">
 import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import { dashboardInput } from "@factor/dashboard"
-import { isEqual, slugify } from "@factor/tools"
+import { isEqual, slugify } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorBtnDashboard, factorIcon, dashboardInput },

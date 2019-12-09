@@ -1,5 +1,5 @@
-import { toLabel, setting } from "@factor/tools"
-import { renderMarkdown } from "@factor/tools/markdown"
+import { toLabel, setting } from "@factor/api"
+import { renderMarkdown } from "@factor/api/markdown"
 import { DocsItem } from "./types"
 
 export const normalize = (items: DocsItem[]): DocsItem[] => {

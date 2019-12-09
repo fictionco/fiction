@@ -1,5 +1,5 @@
 import { FactorSchema } from "@factor/post/types"
-import { applyFilters } from "@factor/tools"
+import { applyFilters } from "@factor/api"
 export default (): FactorSchema => {
   return {
     name: "page",

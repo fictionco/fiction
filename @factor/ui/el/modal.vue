@@ -25,7 +25,7 @@
 </template>
 <script lang="ts">
 import { factorIcon } from "@factor/ui"
-import { emitEvent } from "@factor/tools/events"
+import { emitEvent } from "@factor/api/events"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorIcon },

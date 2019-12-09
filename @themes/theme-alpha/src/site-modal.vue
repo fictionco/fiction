@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { factorModal, factorBtn } from "@factor/ui"
-import { onEvent } from "@factor/tools"
+import { onEvent } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorModal, factorBtn },

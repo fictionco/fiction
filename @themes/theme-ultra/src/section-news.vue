@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { stored } from "@factor/app/store"
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 

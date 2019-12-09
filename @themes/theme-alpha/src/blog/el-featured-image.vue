@@ -5,7 +5,7 @@
   <div v-else-if="avatarUrl" class="featured-image" :style="style" />
 </template>
 <script lang="ts">
-import { postLink, stored } from "@factor/tools"
+import { postLink, stored } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({

@@ -74,8 +74,8 @@ import {
   timeUtil,
   storeItem,
   getPermalink
-} from "@factor/tools"
-import { excerpt } from "@factor/tools/excerpt"
+} from "@factor/api"
+import { excerpt } from "@factor/api/excerpt"
 import { requestPostSave } from "@factor/post/request"
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
 import Vue from "vue"

@@ -1,5 +1,5 @@
 import { objectIdType } from "@factor/post/util"
-import { addFilter, pushToFilter } from "@factor/tools"
+import { addFilter, pushToFilter } from "@factor/api"
 import { FactorPost } from "@factor/post/types"
 import { Component } from "vue"
 

@@ -1,4 +1,4 @@
-import { sanitizeHtml, addFilter } from "@factor/tools"
+import { sanitizeHtml, addFilter } from "@factor/api"
 import { VNode } from "vue"
 
 interface DirectiveMeta {

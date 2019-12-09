@@ -1,7 +1,7 @@
 import { resolve } from "path"
-import { addFilter } from "@factor/tools"
+import { addFilter } from "@factor/api"
 import tailwindCSS from "tailwindcss"
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 import purgeCssUtility from "@fullhuman/postcss-purgecss"
 
 export const setup = (): void => {

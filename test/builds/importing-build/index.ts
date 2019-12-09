@@ -1,4 +1,4 @@
-import { applyFilters } from "@factor/tools"
+import { applyFilters } from "@factor/api"
 
 export default (): { data: any[] } => {
   return {

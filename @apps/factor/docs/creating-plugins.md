@@ -83,7 +83,7 @@ If your plugin has components that include their own style, use CSS variables an
   <div class="banner">{{ setting("myWelcomePlugin.bannerText") }}</div>
 </template>
 <script>
-  import { setting } from "@factor/tools"
+  import { setting } from "@factor/api"
   export default {
     methods: { setting }
   }

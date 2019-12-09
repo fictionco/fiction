@@ -8,8 +8,8 @@
   </div>
 </template>
 <script lang="ts">
-import { excerpt } from "@factor/tools/excerpt"
-import { postLink, stored } from "@factor/tools"
+import { excerpt } from "@factor/api/excerpt"
+import { postLink, stored } from "@factor/api"
 import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({

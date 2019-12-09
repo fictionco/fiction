@@ -1,11 +1,11 @@
 import { savePost } from "@factor/post/server"
 import { getModel } from "@factor/post/database"
-import { addFilter, currentUrl, randomToken } from "@factor/tools"
+import { addFilter, currentUrl, randomToken } from "@factor/api"
 import { sendTransactional } from "@factor/email/server"
 import { Document, HookNextFunction, Schema, SchemaDefinition } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
-import { addEndpoint } from "@factor/tools/endpoints"
+import { addEndpoint } from "@factor/api/endpoints"
 import { FactorUser } from "./types"
 import { SendVerifyEmail, VerifyAndResetPassword, VerifyEmail } from "./email-request"
 interface UserEmailConfig {

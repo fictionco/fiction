@@ -1,5 +1,5 @@
-import { addPostType, addContentRoute } from "@factor/tools"
-import { setting } from "@factor/tools/settings"
+import { addPostType, addContentRoute } from "@factor/api"
+import { setting } from "@factor/api/settings"
 
 const baseRoute = setting("blog.postRoute")
 

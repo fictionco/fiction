@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { factorPostEdit } from "@factor/post"
-import { renderMarkdown } from "@factor/tools/markdown"
+import { renderMarkdown } from "@factor/api/markdown"
 import Vue from "vue"
 
 export default Vue.extend({

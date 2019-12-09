@@ -31,7 +31,7 @@
 </template>
 <script lang="ts">
 import { factorInputText, factorBtnDashboard, factorLink } from "@factor/ui"
-import { slugify, onEvent, getPermalink } from "@factor/tools"
+import { slugify, onEvent, getPermalink } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

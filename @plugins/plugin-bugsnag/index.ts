@@ -1,7 +1,7 @@
 import bugsnag, { Bugsnag } from "@bugsnag/js"
 
 import bugsnagVue from "@bugsnag/plugin-vue"
-import { log, onEvent, addCallback, setting } from "@factor/tools"
+import { log, onEvent, addCallback, setting } from "@factor/api"
 
 import { userInitialized } from "@factor/user"
 import Vue from "vue"

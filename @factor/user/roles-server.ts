@@ -1,4 +1,4 @@
-import { addFilter, setting } from "@factor/tools"
+import { addFilter, setting } from "@factor/api"
 import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
 import inquirer from "inquirer"
 import { Schema, SchemaDefinition, HookNextFunction, Document } from "mongoose"

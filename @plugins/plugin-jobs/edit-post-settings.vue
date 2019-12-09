@@ -28,7 +28,7 @@
 </template>
 <script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
-import { stored, storeItem } from "@factor/tools"
+import { stored, storeItem } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { dashboardInput },

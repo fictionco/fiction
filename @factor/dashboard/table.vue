@@ -45,7 +45,7 @@
   </div>
 </template>
 <script lang="ts">
-import { toLabel } from "@factor/tools"
+import { toLabel } from "@factor/api"
 export default {
   props: {
     rowItems: { type: Array, default: () => [] },

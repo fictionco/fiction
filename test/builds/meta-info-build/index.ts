@@ -1,4 +1,4 @@
-import { addContentRoute } from "@factor/tools"
+import { addContentRoute } from "@factor/api"
 
 addContentRoute({
   path: "/basic",

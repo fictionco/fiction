@@ -25,7 +25,7 @@
   </div>
 </template>
 <script lang="ts">
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 import { factorLoadingRing } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({

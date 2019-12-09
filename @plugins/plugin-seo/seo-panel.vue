@@ -28,9 +28,9 @@
   </div>
 </template>
 <script lang="ts">
-import { excerpt } from "@factor/tools/excerpt"
+import { excerpt } from "@factor/api/excerpt"
 import { dashboardInput } from "@factor/dashboard"
-import { postLink, stored } from "@factor/tools"
+import { postLink, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { dashboardInput },

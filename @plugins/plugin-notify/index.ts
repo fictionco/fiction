@@ -1,4 +1,4 @@
-import { emitEvent, onEvent, pushToFilter, log } from "@factor/tools"
+import { emitEvent, onEvent, pushToFilter, log } from "@factor/api"
 import { Component } from "vue"
 
 const toasterNotification = (

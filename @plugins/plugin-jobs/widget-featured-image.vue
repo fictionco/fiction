@@ -2,7 +2,7 @@
   <div v-if="avatarUrl" class="featured-image" :style="style" />
 </template>
 <script lang="ts">
-import { stored } from "@factor/tools"
+import { stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

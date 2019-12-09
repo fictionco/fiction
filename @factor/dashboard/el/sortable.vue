@@ -52,7 +52,7 @@
 </template>
 <script lang="ts">
 import { factorBtnDashboard, factorIcon, factorInputWrap } from "@factor/ui"
-import { guid } from "@factor/tools/utils"
+import { guid } from "@factor/api/utils"
 import DOM from "jquery"
 import Sortable from "sortablejs"
 import Vue from "vue"

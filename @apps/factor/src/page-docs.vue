@@ -18,7 +18,7 @@
 <script lang="ts">
 import Vue from "vue"
 import { factorError404 } from "@factor/ui"
-import { storeItem, stored } from "@factor/tools"
+import { storeItem, stored } from "@factor/api"
 import { getMarkdownHTML, metatags } from "./docs-handler"
 
 export default Vue.extend({

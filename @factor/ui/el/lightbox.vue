@@ -36,7 +36,7 @@
 import Vue from "vue"
 // Code from:
 // https://github.com/XiongAmao/vue-easy-lightbox
-import { emitEvent } from "@factor/tools/events"
+import { emitEvent } from "@factor/api/events"
 export default Vue.extend({
   components: {},
   props: {

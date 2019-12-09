@@ -24,7 +24,7 @@
 <script lang="ts">
 import Vue from "vue"
 import { factorIcon, factorLink } from "@factor/ui"
-import { setting } from "@factor/tools"
+import { setting } from "@factor/api"
 export default Vue.extend({
   components: {
     factorIcon,

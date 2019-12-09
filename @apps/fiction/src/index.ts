@@ -1,4 +1,4 @@
-import { addContentRoutes } from "@factor/tools"
+import { addContentRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 
 import { Component } from "vue"

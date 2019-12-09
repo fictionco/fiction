@@ -44,7 +44,7 @@
 <script lang="ts">
 import { factorAvatar, factorLink } from "@factor/ui"
 import { currentUser, isLoggedIn, logout } from "@factor/user"
-import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/tools"
+import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

@@ -2,7 +2,7 @@ import { dirname, resolve } from "path"
 import { browserReplaceModule, overrideOperator } from "@factor/build/webpack-overrides"
 import { getDefinedValues, getWebpackConfig } from "@factor/build/webpack-config"
 
-import { deepMerge } from "@factor/tools"
+import { deepMerge } from "@factor/api"
 import { existsSync } from "fs-extra"
 import jsdom from "jsdom"
 import { waitFor } from "@test/utils"

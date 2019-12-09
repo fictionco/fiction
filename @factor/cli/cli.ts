@@ -1,9 +1,9 @@
 import { buildProductionApp } from "@factor/build/webpack-config"
-import { currentUrl } from "@factor/tools/url"
+import { currentUrl } from "@factor/api/url"
 import { generateLoaders } from "@factor/cli/extension-loader"
-import * as tools from "@factor/tools"
+import * as tools from "@factor/api"
 import commander from "commander"
-import log from "@factor/tools/logger"
+import log from "@factor/api/logger"
 
 import { factorize, setEnvironment } from "./factorize"
 import { verifyDependencies } from "./task-runner"

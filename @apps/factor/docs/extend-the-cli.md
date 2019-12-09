@@ -16,7 +16,7 @@ Example:
 
 ```javascript
 // index
-import { addCallback } from "@factor/tools"
+import { addCallback } from "@factor/api"
 import inquirer from "inquirer" // https://github.com/SBoudrias/Inquirer.js
 
 addCallback("cli-run-database-import", args => databaseImport(args))
@@ -56,7 +56,7 @@ To add a custom command, all that is needed a filter.
 ```js
 // server.js
 import { writeConfig } from "@factor/cli/setup"
-import { pushToFilter } from "@factor/tools"
+import { pushToFilter } from "@factor/api"
 import inquirer from "inquirer" // https://github.com/SBoudrias/Inquirer.js
 
 pushToFilter("cli-add-setup", () => {

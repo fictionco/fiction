@@ -27,8 +27,8 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
-import { excerpt } from "@factor/tools/excerpt"
-import { stored } from "@factor/tools"
+import { excerpt } from "@factor/api/excerpt"
+import { stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {

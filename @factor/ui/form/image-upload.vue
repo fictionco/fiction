@@ -68,7 +68,7 @@
 import { factorMenu, factorLoadingRing, factorIcon, factorLightbox } from "@factor/ui"
 import { uploadImage, requestDeleteImage } from "@factor/attachment"
 import DOM from "jquery"
-import { emitEvent, onEvent, stored } from "@factor/tools"
+import { emitEvent, onEvent, stored } from "@factor/api"
 import Sortable from "sortablejs"
 import Vue from "vue"
 export default Vue.extend({

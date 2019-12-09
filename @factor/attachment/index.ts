@@ -1,5 +1,5 @@
 import { endpointRequest, authorizedRequest } from "@factor/endpoint"
-import { storeItem, extendPostSchema } from "@factor/tools"
+import { storeItem, extendPostSchema } from "@factor/api"
 import loadImage from "blueimp-load-image"
 
 import { uploadEndpointPath } from "./util"

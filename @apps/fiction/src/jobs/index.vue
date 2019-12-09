@@ -112,7 +112,7 @@
 </template>
 <script lang="ts">
 import { factorBtn, factorLink, factorLoadingRing, factorIcon } from "@factor/ui"
-import { setting, stored } from "@factor/tools"
+import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 

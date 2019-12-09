@@ -1,4 +1,4 @@
-import { setting, createSettings } from "@factor/tools/settings"
+import { setting, createSettings } from "@factor/api/settings"
 
 describe("fallbacks", () => {
   beforeAll(() => {

@@ -1,5 +1,5 @@
 import { endpointRequest } from "@factor/endpoint"
-import { storeItem, stored } from "@factor/tools"
+import { storeItem, stored } from "@factor/api"
 import { FactorExtensionListing } from "../types"
 import { endpointId } from "./util"
 

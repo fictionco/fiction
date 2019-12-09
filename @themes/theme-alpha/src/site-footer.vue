@@ -20,7 +20,7 @@
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import { setting } from "@factor/tools/settings"
+import { setting } from "@factor/api/settings"
 import Vue from "vue"
 
 export default Vue.extend({
