@@ -35,6 +35,23 @@ export const getDefinedValues = (target: string): object => {
 }
 
 const base = async ({ target }: { target: string }): Promise<Configuration> => {
+  const plugins = [
+    new WebpackDeepScopeAnalysisPlugin.default(),
+    new VueLoaderPlugin(),
+    new webpack.DefinePlugin(getDefinedValues(target)),
+    function(this: Compiler): void {
+      this.plugin("done", function(stats: Stats) {
+        const { errors } = stats.compilation
+        if (errors && errors.length > 0) log.error(errors)
+      })
+    }
+  ]
+
+  const copyPluginConfig = applyFilters("webpack-copy-files-config", [])
+  if (copyPluginConfig.length > 0) {
+    plugins.push(new CopyPlugin(copyPluginConfig))
+  }
+
   const out = {
     output: {
       path: getPath("dist"),
@@ -72,19 +89,7 @@ const base = async ({ target }: { target: string }): Promise<Configuration> => {
         }
       ])
     },
-
-    plugins: [
-      new WebpackDeepScopeAnalysisPlugin.default(),
-      new CopyPlugin(applyFilters("webpack-copy-files-config", [])),
-      new VueLoaderPlugin(),
-      new webpack.DefinePlugin(getDefinedValues(target)),
-      function (this: Compiler): void {
-        this.plugin("done", function (stats: Stats) {
-          const { errors } = stats.compilation
-          if (errors && errors.length > 0) log.error(errors)
-        })
-      }
-    ],
+    plugins,
     stats: { children: false },
     optimization: {
       sideEffects: true,
@@ -201,7 +206,9 @@ interface FactorWebpackConfig {
   clean?: boolean;
 }
 
-export const generateBundles = async (options: FactorBundleOptions = {}): Promise<void> => {
+export const generateBundles = async (
+  options: FactorBundleOptions = {}
+): Promise<void> => {
   generateLoaders()
 
   await Promise.all(

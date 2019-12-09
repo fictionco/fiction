@@ -3,6 +3,12 @@ import { addFilter, applyFilters } from "@factor/api/hooks"
 
 import fs from "fs-extra"
 
+interface CopyItemConfig {
+  from: string;
+  to: string;
+  ignore: string[];
+}
+
 const CWD = (): string => {
   return process.env.FACTOR_CWD || process.cwd()
 }
@@ -53,11 +59,12 @@ export const getPath = (key: string): string => {
 // Returns configuration array for webpack copy plugin
 // if static folder is in app or theme, contents should copied to dist
 const staticCopyConfig = (): CopyItemConfig[] => {
-  const themeRoot = getPath("theme")
-  const themePath = themeRoot ? resolve(themeRoot, "static") : ""
-  const appPath = getPath("static")
+  const paths = [getPath("static")]
 
-  const paths = [themePath, appPath]
+  if (getPath("theme")) {
+    paths.push(resolve(getPath("theme"), "static"))
+  }
+
   const copyItems: CopyItemConfig[] = []
 
   paths.forEach(p => {
@@ -67,28 +74,28 @@ const staticCopyConfig = (): CopyItemConfig[] => {
   return copyItems
 }
 
-// Add static folder copy config to webpack copy plugin
-addFilter({
-  key: "paths",
-  hook: "webpack-copy-files-config",
-  callback: (_: CopyItemConfig[]) => [..._, ...staticCopyConfig()]
-})
-
-addFilter({
-  key: "paths",
-  hook: "webpack-aliases",
-  callback: (_: Record<string, string>) => {
-    return {
-      ..._,
-      __SRC__: getPath("source"),
-      __CWD__: getPath("app"),
-      __FALLBACK__: getPath("app")
+export const setup = (): void => {
+  // Add static folder copy config to webpack copy plugin
+  addFilter({
+    key: "paths",
+    hook: "webpack-copy-files-config",
+    callback: (_: CopyItemConfig[]) => {
+      return [..._, ...staticCopyConfig()]
     }
-  }
-})
+  })
 
-interface CopyItemConfig {
-  from: string;
-  to: string;
-  ignore: string[];
+  addFilter({
+    key: "paths",
+    hook: "webpack-aliases",
+    callback: (_: Record<string, string>) => {
+      return {
+        ..._,
+        __SRC__: getPath("source"),
+        __CWD__: getPath("app"),
+        __FALLBACK__: getPath("app")
+      }
+    }
+  })
 }
+
+setup()

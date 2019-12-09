@@ -1,6 +1,7 @@
 import { sortPriority } from "@factor/api/utils"
 import Vue from "vue"
 import { omit } from "./utils-lodash"
+
 type FilterRecord = Record<string, Record<string, CallbackItem>>
 
 interface HookItem {
@@ -32,8 +33,16 @@ if (!Vue.$filters) {
   }
 }
 
-export const getFilters = (): FilterRecord => {
-  return Vue.$filters.filters
+/**
+ * Gets all items attached to a specific hook ID
+ * @param hook - hook ID
+ */
+export const getFilters = (hook: string): Record<string, CallbackItem> => {
+  if (!Vue.$filters.filters[hook]) {
+    Vue.$filters.filters[hook] = {}
+  }
+
+  return Vue.$filters.filters[hook]
 }
 
 export const getApplied = (): FilterRecord => {
@@ -54,20 +63,29 @@ const setFilter = ({
 }
 
 export const getFilterCount = (hook: string): number => {
-  const added = getFilters()[hook]
+  const added = getFilters(hook)
 
   return added && Object.keys(added).length > 0 ? Object.keys(added).length : 0
 }
 
-// Apply filters a maximum of one time, once they've run add to _applied property
-// If that is set just return it
+/**
+ * Apply function callbacks that are hooked to an identifier when and fired with this function.
+ * Data is passed sequentially from one callback to the next
+ *
+ * @param hook - unique identifier for the hook item, can be callback, filter, action
+ * @param data - data to pass through the filters or callbacks
+ * @param rest - additional arguments
+ */
 export const applyFilters = (hook: string, data: any, ...rest: any[]): any => {
   // Get Filters Added
-  const _added = getFilters()[hook]
+  const _added = getFilters(hook)
+
+  const filterKeys = Object.keys(_added)
+  const numFilters = filterKeys.length
 
   // Thread through filters if they exist
-  if (_added && Object.keys(_added).length > 0) {
-    const _addedArray = Object.keys(_added).map(i => _added[i])
+  if (_added && numFilters > 0) {
+    const _addedArray = filterKeys.map(key => _added[key])
     const _sorted = sortPriority(_addedArray)
 
     for (const element of _sorted) {
@@ -113,6 +131,12 @@ const callerKey = (): string => {
   return stacker
 }
 
+/**
+ * Create a unique identifier based on a provided string, object or function
+ *
+ * @param object - a string, object, array or function to be converted to hash
+ * @returns {string} - a hash ID for provided item
+ */
 export const uniqueObjectHash = (obj: any): string => {
   if (!obj) return obj
 
