@@ -110,6 +110,10 @@ export const addEmail = async ({
 }
 
 export const setup = (): void => {
-  addCallback("route-query-action-verify-email-list", (_: VerifyEmail) => verifyEmail(_))
+  addCallback({
+    key: "emailList",
+    hook: "route-query-action-verify-email-list",
+    callback: (_: VerifyEmail) => verifyEmail(_)
+  })
 }
 setup()

@@ -1,3 +1,3 @@
 import { pushToFilter } from "@factor/tools"
 
-pushToFilter("importer-test", "server-class-added")
+pushToFilter({ hook: "importer-test", item: "server-class-added", key: "serverClass" })

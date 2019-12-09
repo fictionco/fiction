@@ -1,28 +1,19 @@
 import { getModel } from "@factor/post/database"
-import { pushToFilter, applyFilters, addCallback } from "@factor/tools"
+import { pushToFilter, applyFilters } from "@factor/tools"
 import * as endpointHandler from "@factor/user/server"
 import { Model, Document } from "mongoose"
-
+import { addEndpoint } from "@factor/tools/endpoints"
 import { userCredential } from "./jwt"
 import { FactorUserCredential, AuthenticationParameters, FactorUser } from "./types"
 import "./hooks-universal"
 
-if (!process.env.TOKEN_SECRET) {
-  pushToFilter("setup-needed", {
-    title: "JWT Secret",
-    value: "A JWT string secret, used for verifying authentication status.",
-    location: ".env/TOKEN_SECRET"
-  })
-}
-
-addCallback("endpoints", { id: "user", handler: endpointHandler })
-
 export const getUserModel = (): Model<FactorUser & Document> => {
-  //export function getUserModel(): Model<FactorUser & Document> {
   return getModel<FactorUser>("user")
 }
 
-export const authenticate = async (params: AuthenticationParameters): Promise<FactorUserCredential | {}> => {
+export const authenticate = async (
+  params: AuthenticationParameters
+): Promise<FactorUserCredential | {}> => {
   const { newAccount, email, password, displayName } = params
 
   let user
@@ -60,3 +51,20 @@ export const authenticate = async (params: AuthenticationParameters): Promise<Fa
     }
   }
 }
+
+export const setup = (): void => {
+  if (!process.env.TOKEN_SECRET) {
+    pushToFilter({
+      key: "jwt",
+      hook: "setup-needed",
+      item: {
+        title: "JWT Secret",
+        value: "A JWT string secret, used for verifying authentication status.",
+        location: ".env/TOKEN_SECRET"
+      }
+    })
+  }
+
+  addEndpoint({ id: "user", handler: endpointHandler })
+}
+setup()

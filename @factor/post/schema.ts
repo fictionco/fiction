@@ -1,4 +1,4 @@
-import { applyFilters } from "@factor/tools/filters"
+import { applyFilters } from "@factor/tools/hooks"
 import { Schema, Document } from "mongoose"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost } from "./types"

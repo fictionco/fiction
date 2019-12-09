@@ -94,20 +94,24 @@ export const runSetup = async (cliArguments: object): Promise<void> => {
   await ask()
 }
 
-addCallback("cli-setup", (_: object) => runSetup(_))
+addCallback({ key: "setup", hook: "cli-setup", callback: (_: object) => runSetup(_) })
 
-addCallback("after-first-server-extend", () => {
-  const setupNeeded = applyFilters("setup-needed", [])
+addCallback({
+  key: "setup",
+  hook: "after-first-server-extend",
+  callback: () => {
+    const setupNeeded = applyFilters("setup-needed", [])
 
-  if (setupNeeded.length > 0) {
-    const lines = setupNeeded.map((_: { title: string }) => {
-      return { title: _.title, value: "", indent: true }
-    })
-    if (process.env.FACTOR_COMMAND !== "setup") {
-      lines.push({ title: "Run 'yarn factor setup'", value: "" })
+    if (setupNeeded.length > 0) {
+      const lines = setupNeeded.map((_: { title: string }) => {
+        return { title: _.title, value: "", indent: true }
+      })
+      if (process.env.FACTOR_COMMAND !== "setup") {
+        lines.push({ title: "Run 'yarn factor setup'", value: "" })
+      }
+
+      log.formatted({ title: "Setup Needed", lines, color: "yellow" })
     }
-
-    log.formatted({ title: "Setup Needed", lines, color: "yellow" })
   }
 })
 

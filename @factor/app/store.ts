@@ -4,8 +4,6 @@ import { Store } from "vuex/types"
 
 Vue.use(Vuex)
 
-import { addCallback } from "@factor/tools/filters"
-
 const __store = new Vuex.Store({
   strict: false,
   state: (): Record<string, any> => {
@@ -24,8 +22,6 @@ const __store = new Vuex.Store({
 export const getStore = (): Store<object> => {
   return __store
 }
-
-addCallback("before-server-plugins", () => getStore())
 
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.

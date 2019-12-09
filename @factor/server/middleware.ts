@@ -1,4 +1,4 @@
-import { applyFilters, pushToFilter } from "@factor/tools/filters"
+import { applyFilters, pushToFilter } from "@factor/tools/hooks"
 import { getPath } from "@factor/tools/paths"
 import { setting } from "@factor/tools/settings"
 import bodyParser from "body-parser"
@@ -18,8 +18,16 @@ export interface MiddlewarePathConfig {
   middleware: MiddlewareHandler[];
 }
 
-export const addMiddleware = ({ path = "/", middleware = [] }): void => {
-  pushToFilter("middleware", { path, middleware })
+export const addMiddleware = ({
+  path,
+  middleware,
+  key
+}: {
+  path: string;
+  middleware: MiddlewareHandler[];
+  key: string;
+}): void => {
+  pushToFilter({ key, hook: "middleware", item: { path, middleware } })
 }
 
 export const loadMiddleware = (app: Application, middleware = []): void => {

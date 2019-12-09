@@ -3,6 +3,8 @@ import Vue, { Component } from "vue"
 
 import { getObservables } from "@factor/app/extend-app"
 
+const key = "routeClass"
+
 const setRouteClass = (options: Vue): void => {
   if (!options) return
 
@@ -17,23 +19,27 @@ const setRouteClass = (options: Vue): void => {
   }
 }
 
-addCallback(
-  "ssr-context-callbacks",
-  ({ matchedComponents }: { matchedComponents: Component[] }) =>
+addCallback({
+  key,
+  hook: "ssr-context-callbacks",
+  callback: ({ matchedComponents }: { matchedComponents: Component[] }) =>
     matchedComponents.forEach((_: Component) => setRouteClass(_))
-)
-
+})
 
 const manageClient = (): void => {
-  addCallback("client-route-after", () => {
-    getObservables().routeClass = []
+  addCallback({
+    key,
+    hook: "client-route-after",
+    callback: () => {
+      getObservables().routeClass = []
+    }
   })
 
   Vue.mixin(
     Vue.extend({
       watch: {
         $route: {
-          handler: function (this: Component): void {
+          handler: function(this: Component): void {
             setRouteClass(this.$options)
           },
           immediate: true
@@ -43,12 +49,20 @@ const manageClient = (): void => {
   )
 }
 
-addFilter("before-app", () => {
-  if (process.env.FACTOR_SSR !== "server") manageClient()
+addFilter({
+  key,
+  hook: "before-app",
+  callback: () => {
+    if (process.env.FACTOR_SSR !== "server") manageClient()
+  }
 })
 
-addFilter("register-global-observables", (__: Record<string, any>) => {
-  return { ...__, routeClass: [] }
+addFilter({
+  key,
+  hook: "register-global-observables",
+  callback: (__: Record<string, any>) => {
+    return { ...__, routeClass: [] }
+  }
 })
 
-pushToFilter("observable-class-keys", "routeClass")
+pushToFilter({ key, hook: "observable-class-keys", item: "routeClass" })

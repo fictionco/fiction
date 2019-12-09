@@ -7,7 +7,7 @@ import log from "./logger"
 export * from "./utils"
 
 export * from "./time"
-export * from "./filters"
+export * from "./hooks"
 export * from "./html"
 export * from "./metatags"
 export * from "./permalink"

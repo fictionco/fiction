@@ -1,17 +1,15 @@
 import { EndpointMeta, ResponseType } from "@factor/endpoint/types"
 import { FactorPost, PostActions } from "@factor/post/types"
 import { Request, Response } from "express"
-import {
-  addEndpoint,
-  processEndpointRequest,
-  endpointError
-} from "@factor/endpoint/server"
-import { applyFilters, pushToFilter, runCallbacks } from "@factor/tools/filters"
-import { objectId, postPermission } from "@factor/post/util"
+import { processEndpointRequest, endpointError } from "@factor/endpoint/server"
+import { addEndpoint } from "@factor/tools/endpoints"
+import { applyFilters, runCallbacks } from "@factor/tools/hooks"
+import { objectId, postPermission, extendPostSchema } from "@factor/post/util"
 
 import { getModel } from "@factor/post/database"
 import mime from "mime-types"
 import multer from "multer"
+import { addMiddleware } from "@factor/server/middleware"
 import storageSchema from "./schema"
 import { uploadEndpointPath } from "./util"
 
@@ -80,9 +78,10 @@ export const deleteImage = async function(
 export const setup = (): void => {
   addEndpoint({ id: "storage", handler: { deleteImage } })
 
-  pushToFilter("data-schemas", () => storageSchema)
+  extendPostSchema(() => storageSchema)
 
-  pushToFilter("middleware", {
+  addMiddleware({
+    key: "attachment",
     path: uploadEndpointPath(),
     middleware: [
       multer().single("imageUpload"),

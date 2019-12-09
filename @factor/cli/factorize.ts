@@ -1,6 +1,7 @@
 import { resolve } from "path"
 import dotenv from "dotenv"
 import { runCallbacks, addCallback } from "@factor/tools"
+
 import commander from "commander"
 import log from "@factor/tools/logger"
 import aliasRequire from "./alias-require"
@@ -55,8 +56,13 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
 
   // Filters must be reloaded with every new restart of server.
   // This adds the filter each time to allow for restart
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  addCallback("rebuild-server-app", () => reloadNodeProcess(_config), { key: "reload" })
+
+  addCallback({
+    key: "nodeReload",
+    hook: "rebuild-server-app",
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    callback: () => reloadNodeProcess(_config)
+  })
 }
 
 // Reloads all cached node files

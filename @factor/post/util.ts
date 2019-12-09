@@ -1,4 +1,4 @@
-import { applyFilters, pushToFilter } from "@factor/tools/filters"
+import { applyFilters, pushToFilter } from "@factor/tools/hooks"
 
 import postSchema from "@factor/post/schema"
 import { deepMerge } from "@factor/tools/utils"
@@ -16,12 +16,9 @@ import {
 
 export * from "./object-id"
 
-export const extendPostSchema = (
-  config: FactorSchemaModule,
-  options: { key?: string } = {}
-): void => {
-  options.key = options.key ?? config.name
-  pushToFilter("data-schemas", config, options)
+export const extendPostSchema = (config: FactorSchemaModule): void => {
+  const key = typeof config == "function" ? config().name : config.name
+  pushToFilter({ hook: "data-schemas", key, item: config })
 }
 
 export const getAddedSchemas = (): FactorSchema[] => {

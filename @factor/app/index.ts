@@ -1,5 +1,5 @@
 import { setting } from "@factor/tools/settings"
-import { addFilter, applyFilters, addCallback } from "@factor/tools/filters"
+import { addFilter, applyFilters, addCallback } from "@factor/tools/hooks"
 import { onEvent } from "@factor/tools/events"
 export * from "./extend-app"
 import { RouteConfig } from "vue-router"
@@ -21,54 +21,58 @@ export const appMounted = async (callback?: Function): Promise<void> => {
 }
 
 export const setup = (): void => {
-  addCallback("initialize-app", () => {
-    const factorError404 = setting("app.components.error404")
-    const factorContent = setting("app.components.content")
+  addCallback({
+    hook: "initialize-app",
+    key: "setupApp",
+    callback: () => {
+      const factorError404 = setting("app.components.error404")
+      const factorContent = setting("app.components.content")
 
-    if (!factorError404 || !factorContent) {
-      throw new Error("core components missing")
-    }
+      if (!factorError404 || !factorContent) {
+        throw new Error("core components missing")
+      }
 
-    addFilter(
-      "routes",
-      (_: RouteConfig[]) => {
-        const contentRoutes = applyFilters("content-routes", [
-          {
-            name: "forbidden",
-            path: "/forbidden",
-            component: factorError404,
-            meta: { error: 403 }
-          }
-        ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
-          // remove duplicate paths
-          const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
-          return index === lastIndexOf
-        })
-
-        _.push({
-          path: "/",
-          component: factorContent,
-          children: contentRoutes
-        })
-
-        _.push({
-          path: "*",
-          component: factorContent,
-          children: applyFilters("content-routes-unmatched", [
+      addFilter({
+        hook: "routes",
+        key: "appRoutes",
+        callback: (_: RouteConfig[]) => {
+          const contentRoutes = applyFilters("content-routes", [
             {
-              name: "notFound",
-              path: "*",
+              name: "forbidden",
+              path: "/forbidden",
               component: factorError404,
-              meta: { error: 404 }
+              meta: { error: 403 }
             }
-          ]),
-          priority: 3000
-        })
+          ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
+            // remove duplicate paths
+            const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
+            return index === lastIndexOf
+          })
 
-        return _
-      },
-      { key: "app-routes" }
-    )
+          _.push({
+            path: "/",
+            component: factorContent,
+            children: contentRoutes
+          })
+
+          _.push({
+            path: "*",
+            component: factorContent,
+            children: applyFilters("content-routes-unmatched", [
+              {
+                name: "notFound",
+                path: "*",
+                component: factorError404,
+                meta: { error: 404 }
+              }
+            ]),
+            priority: 3000
+          })
+
+          return _
+        }
+      })
+    }
   })
 }
 

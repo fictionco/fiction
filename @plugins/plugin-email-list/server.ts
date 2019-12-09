@@ -1,17 +1,11 @@
 import { getModel } from "@factor/post/database"
-import {
-  randomToken,
-  emitEvent,
-  applyFilters,
-  addCallback,
-  currentUrl
-} from "@factor/tools"
+import { randomToken, emitEvent, applyFilters, currentUrl } from "@factor/tools"
 import { hasEmailService, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
 import { Model, Document, Query } from "mongoose"
+import { addEndpoint } from "@factor/tools/endpoints"
 import { EmailConfig } from "./types"
-
 type StandardQuery = Promise<Query<Document>>
 
 const uniqueId = (listId: string): string => {
@@ -163,7 +157,7 @@ export const verifyEmail = async ({
 }
 
 export const setup = (): void => {
-  addCallback("endpoints", { id: "emailList", handler: endpoints })
+  addEndpoint({ id: "emailList", handler: endpoints })
 }
 
 setup()

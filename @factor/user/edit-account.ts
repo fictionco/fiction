@@ -2,19 +2,27 @@ import { pushToFilter, addPostType } from "@factor/tools"
 import { Component } from "vue"
 
 export const setup = (): void => {
-  pushToFilter("dashboard-routes", {
-    path: "account",
-    component: () => import("./v-account.vue"),
-    meta: {
-      postType: "user"
+  pushToFilter({
+    key: "account",
+    hook: "dashboard-routes",
+    item: {
+      path: "account",
+      component: (): Promise<Component> => import("./v-account.vue"),
+      meta: {
+        postType: "user"
+      }
     }
   })
 
-  pushToFilter("dashboard-menu", {
-    group: "account",
-    path: "account",
-    name: "Your Account",
-    icon: require("./img/users.svg")
+  pushToFilter({
+    key: "account",
+    hook: "dashboard-menu",
+    item: {
+      group: "account",
+      path: "account",
+      name: "Your Account",
+      icon: require("./img/users.svg")
+    }
   })
 
   addPostType({

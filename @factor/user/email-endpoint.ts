@@ -1,13 +1,13 @@
 import { savePost } from "@factor/post/server"
 import { getModel } from "@factor/post/database"
-import { addCallback, addFilter, currentUrl, randomToken } from "@factor/tools"
+import { addFilter, currentUrl, randomToken } from "@factor/tools"
 import { sendTransactional } from "@factor/email/server"
 import { Document, HookNextFunction, Schema, SchemaDefinition } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
+import { addEndpoint } from "@factor/tools/endpoints"
 import { FactorUser } from "./types"
 import { SendVerifyEmail, VerifyAndResetPassword, VerifyEmail } from "./email-request"
-
 interface UserEmailConfig {
   to: string;
   subject: string;
@@ -125,34 +125,48 @@ export const sendPasswordResetEmail = async ({
 }
 
 export const setup = (): void => {
-  addCallback("endpoints", { id: "user-emails", handler: "@factor/user/email-endpoint" })
-
-  addFilter("user-schema-hooks", (s: Schema) => {
-    // EMAIL
-    s.post("save", async function(
-      this: FactorUser & Document,
-      doc,
-      next: HookNextFunction
-    ): Promise<void> {
-      if (!this.isModified("email")) return next()
-
-      const { email, _id } = this
-      this.emailVerified = false
-      await sendVerifyEmail({ _id, email }, { bearer: this })
-
-      return
-    })
+  addEndpoint({
+    id: "user-emails",
+    handler: {
+      sendPasswordResetEmail,
+      verifyAndResetPassword,
+      sendVerifyEmail,
+      verifyEmail,
+      sendEmail
+    }
   })
 
-  addFilter(
-    "user-schema",
-    (_: SchemaDefinition): SchemaDefinition => {
+  addFilter({
+    key: "userEmails",
+    hook: "user-schema-hooks",
+    callback: (s: Schema) => {
+      // EMAIL
+      s.post("save", async function(
+        this: FactorUser & Document,
+        doc,
+        next: HookNextFunction
+      ): Promise<void> {
+        if (!this.isModified("email")) return next()
+
+        const { email, _id } = this
+        this.emailVerified = false
+        await sendVerifyEmail({ _id, email }, { bearer: this })
+
+        return
+      })
+    }
+  })
+
+  addFilter({
+    key: "emailVerify",
+    hook: "user-schema",
+    callback: (_: SchemaDefinition): SchemaDefinition => {
       _.emailVerificationCode = { type: String, select: false }
       _.passwordResetCode = { type: String, select: false }
 
       return _
     }
-  )
+  })
 }
 
 setup()

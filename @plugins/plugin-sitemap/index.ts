@@ -64,43 +64,47 @@ export const getPermalinks = async (): Promise<string[]> => {
 }
 
 export const setup = (): void => {
-  addFilter("middleware", (_: object[]) => {
-    _.push({
-      path: "/sitemap.xml",
-      middleware: [
-        async (request: Request, response: Response): Promise<void> => {
-          // if we have a cached entry send it
-          if (sitemap) {
-            response.send(sitemap)
-            return
+  addFilter({
+    key: "sitemapMiddleware",
+    hook: "middleware",
+    callback: (_: object[]) => {
+      _.push({
+        path: "/sitemap.xml",
+        middleware: [
+          async (request: Request, response: Response): Promise<void> => {
+            // if we have a cached entry send it
+            if (sitemap) {
+              response.send(sitemap)
+              return
+            }
+            try {
+              const smStream = new SitemapStream({ hostname: currentUrl() })
+              const pipeline = smStream.pipe(createGzip())
+
+              const urls = await getPermalinks()
+
+              urls.forEach(url => {
+                smStream.write({ url })
+              })
+
+              smStream.end()
+
+              // cache the response
+              streamToPromise(pipeline).then(sm => (sitemap = sm))
+              // stream the response
+              pipeline.pipe(response).on("error", e => {
+                throw e
+              })
+            } catch (error) {
+              log.error(error)
+              response.status(500).end()
+            }
           }
-          try {
-            const smStream = new SitemapStream({ hostname: currentUrl() })
-            const pipeline = smStream.pipe(createGzip())
+        ]
+      })
 
-            const urls = await getPermalinks()
-
-            urls.forEach(url => {
-              smStream.write({ url })
-            })
-
-            smStream.end()
-
-            // cache the response
-            streamToPromise(pipeline).then(sm => (sitemap = sm))
-            // stream the response
-            pipeline.pipe(response).on("error", e => {
-              throw e
-            })
-          } catch (error) {
-            log.error(error)
-            response.status(500).end()
-          }
-        }
-      ]
-    })
-
-    return _
+      return _
+    }
   })
 }
 

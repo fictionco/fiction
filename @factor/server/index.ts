@@ -87,9 +87,10 @@ export const createServer = (options: ServerOptions): void => {
 
   prepareListener()
 
-  addCallback(
-    "restart-server",
-    async () => {
+  addCallback({
+    key: "createServer",
+    hook: "restart-server",
+    callback: async () => {
       log.server("restarting server", { color: "yellow" })
 
       if (__listening) {
@@ -98,9 +99,8 @@ export const createServer = (options: ServerOptions): void => {
       await runCallbacks("rebuild-server-app")
 
       createServer(options)
-    },
-    { key: "create-server" }
-  )
+    }
+  })
 }
 
 export const htmlRenderer = ({
@@ -167,8 +167,12 @@ export const createRenderServer = async (
 }
 
 export const setup = (): void => {
-  addCallback("create-server", (_: ServerOptions) => createRenderServer(_))
-  addCallback("close-server", () => closeServer())
+  addCallback({
+    key: "server",
+    hook: "create-server",
+    callback: (_: ServerOptions) => createRenderServer(_)
+  })
+  addCallback({ key: "server", hook: "close-server", callback: () => closeServer() })
 }
 
 setup()

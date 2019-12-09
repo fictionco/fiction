@@ -30,16 +30,20 @@ const slack = (): void => {
       }
     )
 
-    addFilter("transactional-email", (email: EmailTransactionalConfig) => {
-      axios.request({
-        method: "post",
-        url: process.env.SLACK_NOTIFY_URL,
-        data: {
-          pretext: `Email Sent to "${email.to}" from "${email.from}"`,
-          title: email.subject,
-          text: email.text
-        }
-      })
+    addFilter({
+      key: "notifySlack",
+      hook: "transactional-email",
+      callback: (email: EmailTransactionalConfig) => {
+        axios.request({
+          method: "post",
+          url: process.env.SLACK_NOTIFY_URL,
+          data: {
+            pretext: `Email Sent to "${email.to}" from "${email.from}"`,
+            title: email.subject,
+            text: email.text
+          }
+        })
+      }
     })
   }
 }

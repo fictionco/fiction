@@ -1,14 +1,20 @@
 import { sortPriority } from "@factor/tools/utils"
 import Vue from "vue"
+import { omit } from "./utils-lodash"
+type FilterRecord = Record<string, Record<string, CallbackItem>>
 
-type FilterRecord = Record<string, Record<string, FilterItem>>
-
-interface FilterItem {
-  _id: string;
-  uniqueKey?: string;
-  callback: Function;
-  context?: object;
+interface HookItem {
+  hook: string;
+  key: string;
   priority?: number;
+}
+
+interface FilterItem extends HookItem {
+  callback: <F>(input: any, _arguments: any) => any;
+}
+
+interface CallbackItem extends HookItem {
+  callback: Function;
 }
 
 declare module "vue/types/vue" {
@@ -35,28 +41,29 @@ export const getApplied = (): FilterRecord => {
 }
 
 const setFilter = ({
-  _id = "",
-  uniqueKey = "",
+  hook,
+  key,
   callback,
-  context,
   priority
-}: FilterItem): Record<string, any> => {
-  Vue.$filters.filters[_id][uniqueKey] = { _id, uniqueKey, callback, context, priority }
+}: CallbackItem): Record<string, any> => {
+  if (!Vue.$filters.filters[hook]) Vue.$filters.filters[hook] = {}
 
-  return Vue.$filters.filters[_id]
+  Vue.$filters.filters[hook][key] = { hook, key, callback, priority }
+
+  return Vue.$filters.filters[hook]
 }
 
-export const getFilterCount = (_id: string): number => {
-  const added = getFilters()[_id]
+export const getFilterCount = (hook: string): number => {
+  const added = getFilters()[hook]
 
   return added && Object.keys(added).length > 0 ? Object.keys(added).length : 0
 }
 
 // Apply filters a maximum of one time, once they've run add to _applied property
 // If that is set just return it
-export const applyFilters = (_id: string, data: any, ...rest: any[]): any => {
+export const applyFilters = (hook: string, data: any, ...rest: any[]): any => {
   // Get Filters Added
-  const _added = getFilters()[_id]
+  const _added = getFilters()[hook]
 
   // Thread through filters if they exist
   if (_added && Object.keys(_added).length > 0) {
@@ -64,8 +71,8 @@ export const applyFilters = (_id: string, data: any, ...rest: any[]): any => {
     const _sorted = sortPriority(_addedArray)
 
     for (const element of _sorted) {
-      const { callback, context } = element
-      const result = callback.apply(context, [data, ...rest])
+      const { callback } = element
+      const result = callback(data, ...rest)
 
       // Add into what is passed into next item
       // If nothing is returned, don't unset the original data
@@ -80,7 +87,7 @@ export const applyFilters = (_id: string, data: any, ...rest: any[]): any => {
     data = sortPriority(data)
   }
 
-  getApplied()[_id] = data
+  getApplied()[hook] = data
 
   return data
 }
@@ -138,79 +145,50 @@ export const uniqueObjectHash = (obj: any): string => {
   return String(keyed).replace(/-/g, "")
 }
 
-export const addFilter = <T>(
-  _id: string,
-  cb: T,
-  { context = {}, priority = 100, key = "" } = {}
-): T => {
-  const $filters = getFilters()
-
-  if (!$filters[_id]) $filters[_id] = {}
-
-  key = key ? key : uniqueObjectHash(cb)
-
-  // create unique ID
-  // In certain situations (HMR, dev), the same filter can be added twice
-  // Using objects and a hash identifier solves that
-  const uniqueKey = `key_${key}`
+export const addFilter = (options: FilterItem): void => {
+  let { callback } = options
+  const rest = omit(options, ["callback"])
 
   // For simpler assignments where no callback is needed
-  const callback = typeof cb != "function" ? (): T => cb : cb
+  callback = typeof callback != "function" ? (): typeof callback => callback : callback
 
-  setFilter({ _id, uniqueKey, callback, context, priority })
+  setFilter({ ...rest, callback })
 
-  return cb
+  return
 }
 
-export const pushToFilter = <T>(
-  _id: string,
-  item: T,
-  { key = "", pushTo = -1 } = {}
-): T => {
-  key = key ? key : uniqueObjectHash(item)
+export const pushToFilter = <T>(options: HookItem & { item: T }): void => {
+  let { item } = options
+  const rest = omit(options, ["item"])
+  addFilter({
+    ...rest,
+    callback: (input: T[], ...args: any[]): T[] => {
+      item = typeof item == "function" ? item(...args) : item
 
-  addFilter(
-    _id,
-    (_: T[], args: object) => {
-      item = typeof item == "function" ? item(args) : item
-
-      if (pushTo >= 0) {
-        _.splice(pushTo, 0, item)
-        return _
-      } else {
-        return [..._, item]
-      }
-    },
-    { key }
-  )
-
-  return item
-}
-
-export const addCallback = <T>(
-  _id: string,
-  callback: Function | T,
-  { key = "" } = {}
-): Function | T => {
-  // get unique signature which includes the caller path of function and stringified callback
-  // added the caller because sometimes callbacks look the exact same in different files!
-  key = key ? key : uniqueObjectHash(callback)
-
-  const callable = typeof callback != "function" ? (): T => callback : callback
-
-  addFilter(_id, (_: Function[] = [], args: object) => [..._, callable(args)], {
-    key
+      return [...input, item]
+    }
   })
 
-  return callback
+  return
+}
+
+export const addCallback = (options: CallbackItem): void => {
+  const { callback, ...rest } = options
+
+  addFilter({
+    ...rest,
+    callback: (_: Function[] = [], ...args: any[]) => [..._, callback(...args)]
+  })
+
+  return
 }
 
 // Run array of promises and await the result
 export const runCallbacks = async (
-  _id: string,
-  _arguments: object = {}
+  hook: string,
+  ..._arguments: any[]
 ): Promise<unknown[]> => {
-  const _promises: [PromiseLike<unknown>] = applyFilters(_id, [], _arguments)
+  const _promises: [PromiseLike<unknown>] = applyFilters(hook, [], ..._arguments)
 
   return await Promise.all(_promises)
 }

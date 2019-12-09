@@ -1,4 +1,5 @@
 import { emitEvent, onEvent, pushToFilter, log } from "@factor/tools"
+import { Component } from "vue"
 
 const toasterNotification = (
   obj: string | { message: string; duration: number }
@@ -27,9 +28,13 @@ const toasterError = (obj: Error | string): void => {
 }
 
 export const setup = (): void => {
-  pushToFilter("site-components", {
-    name: "plugin-notify",
-    component: () => import("./toaster.vue")
+  pushToFilter({
+    hook: "site-components",
+    key: "notification",
+    item: {
+      name: "plugin-notify",
+      component: (): Promise<Component> => import("./toaster.vue")
+    }
   })
 
   onEvent("notify", toasterNotification)

@@ -1,11 +1,10 @@
-import { applyFilters, runCallbacks } from "@factor/tools/filters"
+import { applyFilters, runCallbacks } from "@factor/tools/hooks"
 import Vue from "vue"
 
 Vue.config.productionTip = false
 Vue.config.silent = false
 
 let __observables = {}
-
 
 // Add before plugins import
 // Observable values that can change at any time

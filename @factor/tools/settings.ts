@@ -1,5 +1,5 @@
 import { dotSetting, deepMerge } from "@factor/tools/utils"
-import { applyFilters, addCallback } from "@factor/tools/filters"
+import { applyFilters, addCallback } from "@factor/tools/hooks"
 import { configSettings } from "@factor/tools/config"
 import Vue from "vue"
 import coreSettings from "@factor/app/core-settings"
@@ -51,8 +51,16 @@ export const setting = (key: string): any => {
 }
 
 export const setup = (): void => {
-  addCallback("before-server-plugins", () => createSettings())
-  addCallback("before-app-plugins", () => createSettings())
+  addCallback({
+    hook: "before-server-plugins",
+    callback: () => createSettings(),
+    key: "createSettings"
+  })
+  addCallback({
+    hook: "before-app-plugins",
+    callback: () => createSettings(),
+    key: "createSettings"
+  })
 }
 
 setup()

@@ -1,7 +1,10 @@
 import { emitEvent, addCallback } from "@factor/tools"
 import { endpointRequest } from "@factor/endpoint"
 
-export const sendUserEmailRequest = async (method: string, params: object): Promise<any> => {
+export const sendUserEmailRequest = async (
+  method: string,
+  params: object
+): Promise<any> => {
   return await endpointRequest({ id: "user-emails", method, params })
 }
 
@@ -35,13 +38,25 @@ export const verifyEmail = async ({ _id, code }: VerifyEmail): Promise<void> => 
 }
 
 export const showResetPassword = async (): Promise<void> => {
-  addCallback("sign-in-modal-loaded", () => {
-    emitEvent("sign-in-modal")
+  addCallback({
+    key: "resetPass",
+    hook: "sign-in-modal-loaded",
+    callback: () => {
+      emitEvent("sign-in-modal")
+    }
   })
 }
 
-addCallback("route-query-action-verify-email", (_: VerifyEmail) => verifyEmail(_))
-addCallback("route-query-action-reset-password", () => showResetPassword())
+addCallback({
+  key: "verifyEmail",
+  hook: "route-query-action-verify-email",
+  callback: (_: VerifyEmail) => verifyEmail(_)
+})
+addCallback({
+  key: "resetPassword",
+  hook: "route-query-action-reset-password",
+  callback: () => showResetPassword()
+})
 
 export interface VerifyAndResetPassword {
   _id: string;
@@ -49,7 +64,9 @@ export interface VerifyAndResetPassword {
   password: string;
 }
 
-export const verifyAndResetPassword = async (args: VerifyAndResetPassword): Promise<void> => {
+export const verifyAndResetPassword = async (
+  args: VerifyAndResetPassword
+): Promise<void> => {
   const result = await sendUserEmailRequest("verifyAndResetPassword", args)
 
   if (result) {

@@ -1,5 +1,5 @@
 import { resolve, dirname, relative } from "path"
-import { addFilter, applyFilters } from "@factor/tools/filters"
+import { addFilter, applyFilters } from "@factor/tools/hooks"
 
 import fs from "fs-extra"
 
@@ -68,17 +68,22 @@ const staticCopyConfig = (): CopyItemConfig[] => {
 }
 
 // Add static folder copy config to webpack copy plugin
-addFilter("webpack-copy-files-config", (_: CopyItemConfig[]) => [
-  ..._,
-  ...staticCopyConfig()
-])
+addFilter({
+  key: "paths",
+  hook: "webpack-copy-files-config",
+  callback: (_: CopyItemConfig[]) => [..._, ...staticCopyConfig()]
+})
 
-addFilter("webpack-aliases", (_: Record<string, string>) => {
-  return {
-    ..._,
-    __SRC__: getPath("source"),
-    __CWD__: getPath("app"),
-    __FALLBACK__: getPath("app")
+addFilter({
+  key: "paths",
+  hook: "webpack-aliases",
+  callback: (_: Record<string, string>) => {
+    return {
+      ..._,
+      __SRC__: getPath("source"),
+      __CWD__: getPath("app"),
+      __FALLBACK__: getPath("app")
+    }
   }
 })
 

@@ -1,75 +1,84 @@
 import { setting } from "@factor/tools/settings"
-import { addFilter } from "@factor/tools/filters"
+import { addFilter } from "@factor/tools/hooks"
 import { addPageTemplate } from "@factor/templates"
 import { addPostType } from "@factor/tools/post-types"
 import { addContentRoutes } from "@factor/tools"
 import { Component } from "vue"
-addFilter(
-  "factor_head",
-  (_: string[]) => {
-    return [..._, setting("headTags.font")]
-  },
-  { priority: 200 }
-)
 
 const portfolioBaseRoute = setting("portfolio.postRoute")
 
-addPostType({
-  postType: "portfolio",
-  baseRoute: portfolioBaseRoute,
-  icon: require("./img/portfolio.svg"),
-  model: "portfolioPost",
-  nameIndex: "Portfolio",
-  nameSingle: "Portfolio Post",
-  namePlural: "Portfolio"
-})
+export const setup = (): void => {
+  addFilter({
+    key: "ultraFont",
+    hook: "factor_head",
+    callback: (_: string[]) => {
+      return [..._, setting("headTags.font")]
+    },
+    priority: 200
+  })
 
-addPostType({
-  postType: "news",
-  baseRoute: portfolioBaseRoute,
-  icon: require("./img/news.svg"),
-  model: "newsPost",
-  nameIndex: "News",
-  nameSingle: "News Post",
-  namePlural: "News"
-})
+  addPostType({
+    postType: "portfolio",
+    baseRoute: portfolioBaseRoute,
+    icon: require("./img/portfolio.svg"),
+    model: "portfolioPost",
+    nameIndex: "Portfolio",
+    nameSingle: "Portfolio Post",
+    namePlural: "Portfolio"
+  })
 
-addPageTemplate({
-  _id: "default",
-  component: () => import("./page-template-default.vue")
-})
+  addPostType({
+    postType: "news",
+    baseRoute: portfolioBaseRoute,
+    icon: require("./img/news.svg"),
+    model: "newsPost",
+    nameIndex: "News",
+    nameSingle: "News Post",
+    namePlural: "News"
+  })
 
-addContentRoutes([
-  {
-    path: "/",
-    component: (): Promise<Component> => import("./page-home.vue")
-  },
-  {
-    path: setting("portfolio.indexRoute"),
-    component: setting("portfolio.components.portfolioWrap"),
-    children: [
+  addPageTemplate({
+    _id: "default",
+    component: () => import("./page-template-default.vue")
+  })
+
+  addContentRoutes({
+    key: "ultraRoutes",
+    routes: [
       {
-        path: "/#portfolio",
-        component: setting("portfolio.components.portfolioIndex")
+        path: "/",
+        component: (): Promise<Component> => import("./page-home.vue")
       },
       {
-        path: `${setting("portfolio.postRoute")}/:permalink`,
-        component: setting("portfolio.components.portfolioSingle")
-      }
-    ]
-  },
-  {
-    path: setting("news.indexRoute"),
-    component: setting("news.components.newsWrap"),
-    children: [
-      {
-        path: "/#news",
-        component: setting("news.components.newsIndex")
+        path: setting("portfolio.indexRoute"),
+        component: setting("portfolio.components.portfolioWrap"),
+        children: [
+          {
+            path: "/#portfolio",
+            component: setting("portfolio.components.portfolioIndex")
+          },
+          {
+            path: `${setting("portfolio.postRoute")}/:permalink`,
+            component: setting("portfolio.components.portfolioSingle")
+          }
+        ]
       },
       {
-        path: `${setting("news.postRoute")}/:permalink`,
-        component: setting("news.components.newsSingle")
+        path: setting("news.indexRoute"),
+        component: setting("news.components.newsWrap"),
+        children: [
+          {
+            path: "/#news",
+            component: setting("news.components.newsIndex")
+          },
+          {
+            path: `${setting("news.postRoute")}/:permalink`,
+            component: setting("news.components.newsSingle")
+          }
+        ]
       }
     ]
-  }
-])
+  })
+}
+
+setup()

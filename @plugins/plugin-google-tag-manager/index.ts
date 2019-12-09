@@ -9,7 +9,7 @@ const setupTitle = "Plugin: Google Tag Manager"
 
 export const setup = (): void => {
   if (!googleTagManagerId) {
-    pushToFilter("setup-needed", { title: setupTitle })
+    pushToFilter({ hook: "setup-needed", key: "tagManager", item: { title: setupTitle } })
 
     return
   }
@@ -19,9 +19,10 @@ export const setup = (): void => {
     return
   }
 
-  addFilter(
-    "factor_head",
-    (_: string[]): string[] => {
+  addFilter({
+    key: "tagManagerScript",
+    hook: "factor_head",
+    callback: (_: string[]): string[] => {
       const add = `<script>
       ; (function (w, d, s, l, i) {
         w[l] = w[l] || []
@@ -37,48 +38,56 @@ export const setup = (): void => {
 
       return [..._, add]
     },
-    { priority: 200 }
-  )
+    priority: 200
+  })
 
-  addFilter("factor_body_start", (_: string[]): string[] => {
-    const add = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}" height="0" width="0"
+  addFilter({
+    key: "tagManagerBodyScript",
+    hook: "factor_body_start",
+    callback: (_: string[]): string[] => {
+      const add = `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   `
-    return [..._, add]
+      return [..._, add]
+    }
   })
 
   // CLI admin setup utility
-  addFilter("cli-add-setup", (_: SetupCliConfig[]) => {
-    const setupAdmins: SetupCliConfig = {
-      name: setupTitle,
-      value: "gtm",
-      callback: async (): Promise<void> => {
-        const questions = [
-          {
-            name: "googleTagManagerId",
-            message: "What's your Google Tag Manager container ID?",
-            type: "input"
-          },
-          {
-            name: "developmentMode",
-            type: "list",
-            message:
-              "Load the tag manager in your 'development' environment? (Defaults to production only. This can be changed later)",
-            choices: [
-              { name: "yes", value: true },
-              { name: "no", value: false }
-            ]
-          }
-        ]
-        const { googleTagManagerId, developmentMode } = await inquirer.prompt(questions)
+  addFilter({
+    key: "tagManagerSetup",
+    hook: "cli-add-setup",
+    callback: (_: SetupCliConfig[]) => {
+      const setupAdmins: SetupCliConfig = {
+        name: setupTitle,
+        value: "gtm",
+        callback: async (): Promise<void> => {
+          const questions = [
+            {
+              name: "googleTagManagerId",
+              message: "What's your Google Tag Manager container ID?",
+              type: "input"
+            },
+            {
+              name: "developmentMode",
+              type: "list",
+              message:
+                "Load the tag manager in your 'development' environment? (Defaults to production only. This can be changed later)",
+              choices: [
+                { name: "yes", value: true },
+                { name: "no", value: false }
+              ]
+            }
+          ]
+          const { googleTagManagerId, developmentMode } = await inquirer.prompt(questions)
 
-        await writeConfig("factor-config", {
-          googleTagManager: { googleTagManagerId, developmentMode }
-        })
+          await writeConfig("factor-config", {
+            googleTagManager: { googleTagManagerId, developmentMode }
+          })
+        }
       }
-    }
 
-    return [..._, setupAdmins]
+      return [..._, setupAdmins]
+    }
   })
 }
 setup()

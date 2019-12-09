@@ -1,9 +1,4 @@
-import {
-  applyFilters,
-  runCallbacks,
-  pushToFilter,
-  addFilter
-} from "@factor/tools/filters"
+import { applyFilters, runCallbacks, pushToFilter, addFilter } from "@factor/tools/hooks"
 import { emitEvent } from "@factor/tools/events"
 import Vue from "vue"
 import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
@@ -83,24 +78,46 @@ export const getRouter = (): VueRouter => {
   return Vue.$router
 }
 
+/**
+ * Adds a route to the app.
+ *
+ * @param routeItem Standard Route Config
+ * @param options Optional route options
+ * @category app
+ */
 export const addContentRoute = (routeItem: RouteConfig, options?: object): void => {
-  pushToFilter("content-routes", routeItem, options)
+  pushToFilter({
+    hook: "content-routes",
+    key: routeItem.path,
+    item: routeItem,
+    ...options
+  })
 }
 
-// Allow for callback signature to allow for dynamic settings that may not exist yet
-export const addContentRoutes = (
-  routeItems: RouteConfig[] | (() => RouteConfig[]),
-  options?: object
-): void => {
-  addFilter(
-    "content-routes",
-    (routes: RouteConfig[]): RouteConfig[] => {
-      const r = typeof routeItems === "function" ? routeItems() : routeItems
+/**
+ * Adds an array of routes to the router.
+ *
+ * @param _id A unique group identifier for the routes
+ * @param routeItems Array of standard routes
+ * @param options Optional route options
+ * @category app
+ */
+export const addContentRoutes = ({
+  key,
+  routes
+}: {
+  key: string;
+  routes: RouteConfig[] | (() => RouteConfig[]);
+}): void => {
+  addFilter({
+    hook: "content-routes",
+    key,
+    callback: (allRoutes: RouteConfig[]): RouteConfig[] => {
+      const r = typeof routes === "function" ? routes() : routes
 
-      return routes.concat(r)
-    },
-    options
-  )
+      return allRoutes.concat(r)
+    }
+  })
 }
 
 export const currentRoute = (): Route => {

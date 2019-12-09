@@ -157,6 +157,7 @@
     "npmrc",
     "objectid",
     "pagelines",
+    "pbody",
     "pickby",
     "postbuild",
     "purgecss",

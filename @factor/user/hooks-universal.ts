@@ -1,4 +1,4 @@
-import { pushToFilter } from "@factor/tools"
+import { extendPostSchema } from "@factor/post/util"
 import userSchema from "./schema"
 
-pushToFilter("data-schemas", () => userSchema())
+extendPostSchema(() => userSchema())

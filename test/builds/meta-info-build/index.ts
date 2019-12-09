@@ -1,16 +1,16 @@
-import { pushToFilter } from "@factor/tools"
+import { addContentRoute } from "@factor/tools"
 
-pushToFilter("content-routes", {
+addContentRoute({
   path: "/basic",
   component: () => import("./v-basic.vue")
 })
 
-pushToFilter("content-routes", {
+addContentRoute({
   path: "/mutation",
   component: () => import("./v-mutation.vue")
 })
 
-pushToFilter("content-routes", {
+addContentRoute({
   path: "/async",
   component: () => import("./v-async.vue")
 })

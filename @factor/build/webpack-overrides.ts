@@ -17,12 +17,16 @@ interface WebpackResource {
   context: string;
 }
 
-addFilter("webpack-aliases", (_: Record<string, any>) => {
-  const themes = getThemes()
-  const p =
-    themes.length > 0 ? dirname(require.resolve(themes[0].name)) : getPath("source")
+addFilter({
+  key: "themeAlias",
+  hook: "webpack-aliases",
+  callback: (_: Record<string, any>) => {
+    const themes = getThemes()
+    const p =
+      themes.length > 0 ? dirname(require.resolve(themes[0].name)) : getPath("source")
 
-  return { ..._, "@theme": p }
+    return { ..._, "@theme": p }
+  }
 })
 
 const _fileExists = (path: string): string => {
@@ -74,7 +78,6 @@ export const overrideOperator = (resource: WebpackResource): WebpackResource => 
   return resource
 }
 
-
 // Server utils sometimes aren't compatible with webpack
 // Replace with polyfill if a
 export const browserReplaceModule = (resource: WebpackResource): WebpackResource => {
@@ -98,28 +101,32 @@ export const browserReplaceModule = (resource: WebpackResource): WebpackResource
 // Notes:
 // - Uses "__FALLBACK__" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
 
-addFilter("webpack-plugins", (_: Plugin[]): Plugin[] => {
-  _.push(
-    new webpack.NormalModuleReplacementPlugin(
-      /^mongoose/,
-      (resource: WebpackResource): WebpackResource => {
-        resource.request = "mongoose/browser"
-        return resource
-      }
+addFilter({
+  key: "moduleReplacePlugins",
+  hook: "webpack-plugins",
+  callback: (_: Plugin[]): Plugin[] => {
+    _.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /^mongoose/,
+        (resource: WebpackResource): WebpackResource => {
+          resource.request = "mongoose/browser"
+          return resource
+        }
+      )
     )
-  )
 
-  _.push(
-    new webpack.NormalModuleReplacementPlugin(
-      /^__FALLBACK__/,
-      (resource: WebpackResource) => overrideOperator(resource)
+    _.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /^__FALLBACK__/,
+        (resource: WebpackResource) => overrideOperator(resource)
+      )
     )
-  )
-  _.push(
-    new webpack.NormalModuleReplacementPlugin(
-      /^@factor/,
-      (resource: WebpackResource): WebpackResource => browserReplaceModule(resource)
+    _.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /^@factor/,
+        (resource: WebpackResource): WebpackResource => browserReplaceModule(resource)
+      )
     )
-  )
-  return _
+    return _
+  }
 })

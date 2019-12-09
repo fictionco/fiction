@@ -1,5 +1,5 @@
 import { log } from "@factor/tools"
-import { pushToFilter, addCallback } from "@factor/tools/filters"
+import { pushToFilter, addCallback } from "@factor/tools/hooks"
 import { writeConfig } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
 import inquirer from "inquirer"
@@ -108,7 +108,6 @@ export const getModel = <T>(name: string): Model<(T & Document) & FactorPostDocu
 }
 
 const handleIndexes = async (): Promise<void> => {
-
   if (!__offline) {
     const _promises = Object.values(__models).map(m => m.createIndexes())
     await Promise.all(_promises)
@@ -139,12 +138,10 @@ export const dbInitialize = async (): Promise<void> => {
   initializeModels()
 
   await handleIndexes()
-
 }
 
 export const tearDown = (): void => {
   Object.keys(mongoose.models).forEach(m => {
-
     mongoose.connection.deleteModel(m)
     delete mongoose.connection.models[m]
     delete mongoose.models[m]
@@ -155,40 +152,52 @@ export const tearDown = (): void => {
 export const dbSetupUtility = (): void => {
   // ADD CLI
   if (!process.env.DB_CONNECTION) {
-    pushToFilter("setup-needed", {
-      title: "DB Connection",
-      value: "Needed for auth, users, posts, dashboard, etc...",
-      location: ".env / DB_CONNECTION"
+    pushToFilter({
+      key: "dbConnection",
+      hook: "setup-needed",
+      item: {
+        title: "DB Connection",
+        value: "Needed for auth, users, posts, dashboard, etc...",
+        location: ".env / DB_CONNECTION"
+      }
     })
 
     return
   }
 
-  pushToFilter("cli-add-setup", () => {
-    return {
-      name: "DB Connection - Add/edit the connection string for MongoDB",
-      value: "db",
-      callback: async (): Promise<void> => {
-        const questions = [
-          {
-            name: "connection",
-            message: "What's your MongoDB connection string? (mongodb://...)",
-            type: "input",
-            default: process.env.DB_CONNECTION
-          }
-        ]
+  pushToFilter({
+    key: "dbConnection",
+    hook: "cli-add-setup",
+    item: () => {
+      return {
+        name: "DB Connection - Add/edit the connection string for MongoDB",
+        value: "db",
+        callback: async (): Promise<void> => {
+          const questions = [
+            {
+              name: "connection",
+              message: "What's your MongoDB connection string? (mongodb://...)",
+              type: "input",
+              default: process.env.DB_CONNECTION
+            }
+          ]
 
-        const { connection } = await inquirer.prompt(questions)
+          const { connection } = await inquirer.prompt(questions)
 
-        await writeConfig(".env", { DB_CONNECTION: connection })
+          await writeConfig(".env", { DB_CONNECTION: connection })
+        }
       }
     }
   })
 }
 
 export const setup = (): void => {
-  addCallback("rebuild-server-app", () => {
-    tearDown()
+  addCallback({
+    key: "teardownDb",
+    hook: "rebuild-server-app",
+    callback: () => {
+      tearDown()
+    }
   })
 }
 setup()

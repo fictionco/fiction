@@ -35,12 +35,16 @@ export const setup = (): void => {
     defaultExtractor: (content: string) => content.match(/[\w-/:]+(?<!:)/g) || []
   })
 
-  addFilter("postcss-plugins", (_: any[]): any[] => {
-    return [
-      tailwindCSS(config, directives),
-      ..._,
-      ...(process.env.NODE_ENV === "production" ? [purgecss] : [])
-    ]
+  addFilter({
+    key: "tailwindPlugin",
+    hook: "postcss-plugins",
+    callback: (_: any[]): any[] => {
+      return [
+        tailwindCSS(config, directives),
+        ..._,
+        ...(process.env.NODE_ENV === "production" ? [purgecss] : [])
+      ]
+    }
   })
 }
 

@@ -1,12 +1,18 @@
-import { addCallback, applyFilters } from "@factor/tools/filters"
+import { addCallback, applyFilters } from "@factor/tools/hooks"
 import { currentRoute } from "@factor/app/router"
 import { storeItem } from "@factor/app/store"
 import { setPostMetatags } from "@factor/tools/metatags"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 
-export const addGlobalPrefetch = (cb: Promise<void>): void => {
-  addCallback("global-prefetch", cb)
+export const addGlobalPrefetch = ({
+  key,
+  callback
+}: {
+  key: string;
+  callback: () => Promise<void>;
+}): void => {
+  addCallback({ hook: "global-prefetch", key, callback })
 }
 
 export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Promise<

@@ -137,9 +137,13 @@ const createClientCompiler = ({ fileSystem }: DevCompilerOptions): void => {
       hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
     }
 
-    addFilter("middleware", (_: object[]) => {
-      const { dev, hmr } = middleware
-      return [{ id: "devServer", middleware: [dev, hmr] }, ..._]
+    addFilter({
+      key: "devMiddleware",
+      hook: "middleware",
+      callback: (_: object[]) => {
+        const { dev, hmr } = middleware
+        return [{ id: "devServer", middleware: [dev, hmr] }, ..._]
+      }
     })
 
     loaders("client", "start")

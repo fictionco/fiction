@@ -1,7 +1,7 @@
 import { stored } from "@factor/app/store"
 
 import { excerpt } from "@factor/tools/excerpt"
-import { addFilter } from "@factor/tools/filters"
+import { addFilter } from "@factor/tools/hooks"
 import { FactorMetaInfo } from "@factor/meta/types"
 
 export const titleTag = (_id: string): string => {
@@ -24,9 +24,10 @@ export const shareImage = (_id: string): string => {
 export const setPostMetatags = (_id: string): void => {
   const post = stored(_id) || {}
 
-  addFilter(
-    "meta-refine",
-    (meta: FactorMetaInfo): FactorMetaInfo => {
+  addFilter({
+    hook: "meta-refine",
+    key: "set-post-tags",
+    callback: (meta: FactorMetaInfo): FactorMetaInfo => {
       return {
         ...meta,
         title: post.titleTag || post.title || "",
@@ -34,5 +35,5 @@ export const setPostMetatags = (_id: string): void => {
         image: post.avatar && stored(post.avatar) ? stored(post.avatar).url : ""
       }
     }
-  )
+  })
 }

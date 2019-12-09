@@ -1,17 +1,17 @@
-import { pushToFilter } from "@factor/tools"
+import { addContentRoute } from "@factor/tools"
 
 export const setup = (): void => {
-  pushToFilter("content-routes", {
+  addContentRoute({
     path: "/basic",
     component: () => import("./v-basic.vue")
   })
 
-  pushToFilter("content-routes", {
+  addContentRoute({
     path: "/mutation",
     component: () => import("./v-mutation.vue")
   })
 
-  pushToFilter("content-routes", {
+  addContentRoute({
     path: "/store-data",
     component: () => import("./v-store-data.vue")
   })

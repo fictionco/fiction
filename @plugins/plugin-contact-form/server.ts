@@ -1,3 +1,4 @@
-import { pushToFilter } from "@factor/tools"
+import { extendPostSchema } from "@factor/post/util"
 import contactFormSchema from "./schema"
-pushToFilter("data-schemas", () => contactFormSchema)
+
+extendPostSchema(contactFormSchema)

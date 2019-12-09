@@ -1,12 +1,13 @@
-import { addFilter } from "@factor/tools"
+import { addFilter } from "@factor/tools/hooks"
 
-addFilter(
-  "server-renderer-options",
-  (options: { inject: boolean; template: Function }) => {
+addFilter({
+  hook: "server-renderer-options",
+  callback: (options: { inject: boolean; template: Function }) => {
     options.inject = false
     options.template = (): string => {
       return "hi"
     }
     return options
-  }
-)
+  },
+  key: "test-server-renderer"
+})

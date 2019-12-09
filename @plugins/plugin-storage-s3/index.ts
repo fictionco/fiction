@@ -19,21 +19,26 @@ export const setup = (): void => {
     !process.env.AWS_ACCESS_KEY_SECRET ||
     !process.env.AWS_S3_BUCKET
   ) {
-    addFilter("setup-needed", (__: { title: string }[]) => {
-      return [
-        ...__,
-        {
-          title: "Plugin: S3 Storage Credentials"
-        }
-      ]
+    addFilter({
+      key: "s3Setup",
+      hook: "setup-needed",
+      callback: (__: { title: string }[]) => {
+        return [
+          ...__,
+          {
+            title: "Plugin: S3 Storage Credentials"
+          }
+        ]
+      }
     })
 
     return
   }
 
-  addFilter(
-    "storage-attachment-url",
-    ({ buffer, key }: { buffer: Buffer; key: string }) => {
+  addFilter({
+    key: "handleUrlS3",
+    hook: "storage-attachment-url",
+    callback: ({ buffer, key }: { buffer: Buffer; key: string }) => {
       const { bucket, S3 } = setConfig()
       return new Promise((resolve, reject) => {
         const params = { Bucket: bucket, Key: key, Body: buffer, ACL: "public-read" }
@@ -46,14 +51,18 @@ export const setup = (): void => {
         })
       })
     }
-  )
+  })
 
-  addCallback("delete-attachment", async (doc: PostAttachment) => {
-    const { bucket, S3 } = setConfig()
-    const key = doc.url.split("amazonaws.com/")[1]
+  addCallback({
+    key: "deleteImageS3",
+    hook: "delete-attachment",
+    callback: async (doc: PostAttachment) => {
+      const { bucket, S3 } = setConfig()
+      const key = doc.url.split("amazonaws.com/")[1]
 
-    const params = { Bucket: bucket, Key: key }
-    return await S3.deleteObject(params).promise()
+      const params = { Bucket: bucket, Key: key }
+      return await S3.deleteObject(params).promise()
+    }
   })
 }
 

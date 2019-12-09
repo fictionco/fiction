@@ -1,9 +1,14 @@
-import { pushToFilter } from "@factor/tools/filters"
+import { pushToFilter } from "@factor/tools/hooks"
+import { Component } from "vue"
 
 export const setup = (): void => {
-  pushToFilter("site-components", {
-    name: "plugin-ssr-bar",
-    component: () => import("./ssr-progress-bar.vue")
+  pushToFilter({
+    hook: "site-components",
+    key: "ssrProgressBar",
+    item: {
+      name: "plugin-ssr-bar",
+      component: (): Promise<Component> => import("./ssr-progress-bar.vue")
+    }
   })
 }
 

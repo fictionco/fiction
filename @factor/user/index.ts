@@ -179,37 +179,49 @@ export const userCan = ({
 }
 
 const handleAuthRouting = (): void => {
-  addCallback("client-route-before", async ({ to, next }: RouteGuard) => {
-    const user = await userInitialized()
-    const { path: toPath } = to
+  addCallback({
+    key: "authRouting",
+    hook: "client-route-before",
+    callback: async ({ to, next }: RouteGuard) => {
+      const user = await userInitialized()
+      const { path: toPath } = to
 
-    // Is authentication needed
-    const auth = to.matched.some(_r => {
-      return _r.meta.auth
-    })
+      // Is authentication needed
+      const auth = to.matched.some(_r => {
+        return _r.meta.auth
+      })
 
-    if (auth === true && !user) {
-      emitEvent("sign-in-modal", { redirect: toPath })
-      next(false)
+      if (auth === true && !user) {
+        emitEvent("sign-in-modal", { redirect: toPath })
+        next(false)
+      }
     }
   })
 
-  addCallback("before-user-init", (user: CurrentUserState) => {
-    const { path, matched } = currentRoute()
-    const auth = matched.some(_r => _r.meta.auth)
+  addCallback({
+    key: "authRouting",
+    hook: "before-user-init",
+    callback: (user: CurrentUserState) => {
+      const { path, matched } = currentRoute()
+      const auth = matched.some(_r => _r.meta.auth)
 
-    if (auth === true && (!user || !user._id)) {
-      navigateToRoute({ path: "/signin", query: { redirect: path } })
+      if (auth === true && (!user || !user._id)) {
+        navigateToRoute({ path: "/signin", query: { redirect: path } })
+      }
     }
   })
 }
 
 export const setup = (): void => {
-  addFilter("before-app", () => {
-    // Authentication events only work after SSR
-    if (!isNode) {
-      _initializedUser = requestInitializeUser()
-      handleAuthRouting()
+  addFilter({
+    key: "userInit",
+    hook: "before-app",
+    callback: () => {
+      // Authentication events only work after SSR
+      if (!isNode) {
+        _initializedUser = requestInitializeUser()
+        handleAuthRouting()
+      }
     }
   })
 

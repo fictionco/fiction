@@ -1,7 +1,9 @@
-import { addCallback } from "@factor/tools/filters"
+import { addCallback } from "@factor/tools/hooks"
 import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
+import { addEndpoint } from "@factor/tools/endpoints"
+
 import {
   PostActions,
   FactorPost,
@@ -13,7 +15,6 @@ import {
   PostRequestParameters
 } from "./types"
 import { canUpdatePostsCondition, postPermission } from "./util"
-
 import {
   getModel,
   dbInitialize,
@@ -232,14 +233,18 @@ export const postIndex = async (
 }
 
 export const setup = (): void => {
-  addCallback("endpoints", { id: "posts", handler: endpointHandler })
+  addEndpoint({ id: "posts", handler: endpointHandler })
 
   if (process.env.DB_CONNECTION) {
-    addCallback("initialize-server", () => dbInitialize())
-    addCallback("close-server", () => dbDisconnect())
+    addCallback({ key: "db", hook: "initialize-server", callback: () => dbInitialize() })
+    addCallback({ key: "db", hook: "close-server", callback: () => dbDisconnect() })
   }
 
-  addCallback("initialize-server", () => dbSetupUtility())
+  addCallback({
+    key: "dbSetup",
+    hook: "initialize-server",
+    callback: () => dbSetupUtility()
+  })
 }
 
 setup()

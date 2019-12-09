@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
-import { addCallback, addFilter, applyFilters, log } from "@factor/tools"
+import { addCallback, addFilter, applyFilters } from "@factor/tools/hooks"
+import log from "@factor/tools/logger"
 
 import { FactorUser, CurrentUserState } from "@factor/user/types"
 import { endpointPath } from "@factor/endpoint"
@@ -14,10 +15,7 @@ import {
   ResponseType
 } from "./types"
 
-
-export const addEndpoint = ({ id, handler }: EndpointItem): void => {
-  addCallback("endpoints", { id, handler })
-}
+debugger
 
 export const endpointError = (
   code: string | number,
@@ -109,29 +107,37 @@ export const processEndpointRequest = async ({
 }
 
 export const initializeEndpointServer = (): void => {
-  addFilter("middleware", (_: object[]) => {
-    applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
-      _.push({
-        path: endpointPath(id),
-        middleware: [
-          async (request: Request, response: Response): Promise<void> => {
-            return await processEndpointRequest({
-              request,
-              response,
-              handler: _ => runEndpointMethod({ ..._, id, handler })
-            })
-          }
-        ],
-        id
+  addFilter({
+    key: "endpoints",
+    hook: "middleware",
+    callback: (_: object[]) => {
+      applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
+        _.push({
+          path: endpointPath(id),
+          middleware: [
+            async (request: Request, response: Response): Promise<void> => {
+              return await processEndpointRequest({
+                request,
+                response,
+                handler: __ => runEndpointMethod({ ...__, id, handler })
+              })
+            }
+          ],
+          id
+        })
       })
-    })
-    return _
+      return _
+    }
   })
 }
 
 export const setup = (): void => {
   // Run after other imports have added themselves
-  addCallback("initialize-server", () => initializeEndpointServer())
+  addCallback({
+    hook: "initialize-server",
+    key: "addEndpoints",
+    callback: () => initializeEndpointServer()
+  })
 }
 
 setup()

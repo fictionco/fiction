@@ -1,6 +1,6 @@
-import { pushToFilter } from "@factor/tools/filters"
+import { addContentRoute } from "@factor/tools"
 
-pushToFilter("content-routes", {
+addContentRoute({
   path: "/",
   component: () => import("./test-route.vue")
 })

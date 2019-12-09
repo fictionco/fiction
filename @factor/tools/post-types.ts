@@ -1,4 +1,4 @@
-import { applyFilters, pushToFilter } from "@factor/tools/filters"
+import { applyFilters, pushToFilter } from "@factor/tools/hooks"
 import { toLabel } from "@factor/tools/utils"
 import Vue from "vue"
 
@@ -18,7 +18,7 @@ export interface PostTypeConfig {
 }
 
 export const addPostType = (config: PostTypeConfig): void => {
-  pushToFilter("post-types-config", config, { key: config.postType })
+  pushToFilter({ hook: "post-types-config", key: config.postType, item: config })
 }
 
 export const postTypesConfig = (): PostTypeConfig[] => {

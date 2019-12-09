@@ -8,38 +8,17 @@ import {
   extendPostSchema
 } from "@factor/tools"
 import { RouteConfig } from "vue-router"
+import { Component } from "vue"
 import { TemplateConfig, TemplateOption } from "./types"
 import pageSchema from "./schema"
 
-extendPostSchema(() => pageSchema())
-
-addPostType({
-  postType: "page",
-  baseRoute: "",
-  icon: require("./img/pages.svg"),
-  nameIndex: "Pages",
-  nameSingle: "Page",
-  namePlural: "Pages",
-  model: "Page"
-})
-
-pushToFilter("post-edit-components", {
-  postType: ["page"],
-  name: "Page Template Settings",
-  component: () => import("./page-settings.vue")
-})
-
-addFilter("content-routes-unmatched", (_: RouteConfig[]) => {
-  _.unshift({ path: "/:permalink", component: () => import("./template.vue") })
-
-  return _
-})
-
 export const addPageTemplate = (templateConfig: TemplateConfig): void => {
-  pushToFilter("page-templates", templateConfig)
+  pushToFilter({ hook: "page-templates", key: templateConfig._id, item: templateConfig })
 }
 
-export const getTemplateFields = async (tpl: TemplateConfig): Promise<TemplateOption[]> => {
+export const getTemplateFields = async (
+  tpl: TemplateConfig
+): Promise<TemplateOption[]> => {
   const {
     default: { templateSettings }
   } = await tpl.component()
@@ -77,3 +56,38 @@ export const getTemplate = async (templateId: string): Promise<TemplateConfig | 
 
   return tpl
 }
+
+export const setup = (): void => {
+  extendPostSchema(() => pageSchema())
+
+  addPostType({
+    postType: "page",
+    baseRoute: "",
+    icon: require("./img/pages.svg"),
+    nameIndex: "Pages",
+    nameSingle: "Page",
+    namePlural: "Pages",
+    model: "Page"
+  })
+
+  pushToFilter({
+    key: "pageTemplateSettings",
+    hook: "post-edit-components",
+    item: {
+      postType: ["page"],
+      name: "Page Template Settings",
+      component: (): Promise<Component> => import("./page-settings.vue")
+    }
+  })
+
+  addFilter({
+    key: "runTemplatePermalink",
+    hook: "content-routes-unmatched",
+    callback: (_: RouteConfig[]) => {
+      _.unshift({ path: "/:permalink", component: () => import("./template.vue") })
+
+      return _
+    }
+  })
+}
+setup()

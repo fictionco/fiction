@@ -10,10 +10,12 @@ Vue.use(VueMeta, { keyName: "metaInfoCore" })
 interface MetaHookOptions {
   context: ServerRenderContext;
 }
+const key = "metaInfo"
 
-addFilter(
-  "ssr-context-ready",
-  (context: ServerRenderContext, { vm, router }: ApplicationComponents) => {
+addFilter({
+  key,
+  hook: "ssr-context-ready",
+  callback: (context: ServerRenderContext, { vm, router }: ApplicationComponents) => {
     // Add Vue-Meta
     context.metaInfo = vm.$meta()
 
@@ -48,48 +50,57 @@ addFilter(
 
     return context
   }
-)
-
-addFilter("site-mixins", (_: object[]) => [
-  ..._,
-  {
-    metaInfo(): MetaInfo {
-      return applyFilters("meta-default", {
-        htmlAttrs: { lang: "en" },
-        meta: [
-          { charset: "utf-8" },
-          {
-            name: "viewport",
-            content:
-              "width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
-          }
-        ]
-      })
-    }
-  }
-])
-
-addCallback("initialize-app", (): void => {
-  Vue.mixin(
-    Vue.extend({
-      metaInfoCore() {
-        const opt = this.$options.metaInfo
-
-        if (!opt) return {}
-
-        const meta = typeof opt == "function" ? opt.call(this) : opt
-
-        const refined = applyFilters("meta-refine", meta)
-
-        return refined
-      }
-    })
-  )
 })
 
-addFilter(
-  "meta-refine",
-  (data: FactorMetaInfo) => {
+addFilter({
+  key,
+  hook: "site-mixins",
+  callback: (_: object[]) => [
+    ..._,
+    {
+      metaInfo(): MetaInfo {
+        return applyFilters("meta-default", {
+          htmlAttrs: { lang: "en" },
+          meta: [
+            { charset: "utf-8" },
+            {
+              name: "viewport",
+              content:
+                "width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
+            }
+          ]
+        })
+      }
+    }
+  ]
+})
+
+addCallback({
+  key,
+  hook: "initialize-app",
+  callback: (): void => {
+    Vue.mixin(
+      Vue.extend({
+        metaInfoCore() {
+          const opt = this.$options.metaInfo
+
+          if (!opt) return {}
+
+          const meta = typeof opt == "function" ? opt.call(this) : opt
+
+          const refined = applyFilters("meta-refine", meta)
+
+          return refined
+        }
+      })
+    )
+  }
+})
+
+addFilter({
+  key,
+  hook: "meta-refine",
+  callback: (data: FactorMetaInfo) => {
     if (!data.meta) data.meta = []
 
     if (data.description) {
@@ -109,54 +120,79 @@ addFilter(
     }
     return data
   },
-  { priority: 200 }
-)
-
-addFilter("factor_head", (_: string[], { context }: MetaHookOptions) => {
-  const { title, link, style, script, noscript, meta } = context.metaInfo.inject()
-
-  return [
-    ..._,
-    meta.text(),
-    title.text(),
-    link.text(),
-    style.text(),
-    script.text(),
-    noscript.text()
-  ]
+  priority: 200
 })
 
-addFilter("factor_html_attr", (_: string[], { context }: MetaHookOptions) => {
-  const { htmlAttrs } = context.metaInfo.inject()
-  return [..._, htmlAttrs.text(true)]
-})
-addFilter("factor_body_attr", (_: string[], { context }: MetaHookOptions) => {
-  const { bodyAttrs } = context.metaInfo.inject()
-  return [..._, bodyAttrs.text()]
-})
-addFilter("factor_head_attr", (_: string[], { context }: MetaHookOptions) => {
-  const { headAttrs } = context.metaInfo.inject()
-  return [..._, headAttrs.text()]
-})
+addFilter({
+  key,
+  hook: "factor_head",
+  callback: (_: string[], { context }: MetaHookOptions) => {
+    const { title, link, style, script, noscript, meta } = context.metaInfo.inject()
 
-addFilter("factor_body_start", (_: string[], { context }: MetaHookOptions) => {
-  const { style, script, noscript } = context.metaInfo.inject()
-
-  return [
-    ..._,
-    style.text({ pbody: true }),
-    script.text({ pbody: true }),
-    noscript.text({ pbody: true })
-  ]
+    return [
+      ..._,
+      meta.text(),
+      title.text(),
+      link.text(),
+      style.text(),
+      script.text(),
+      noscript.text()
+    ]
+  }
 })
 
-addFilter("factor_body_end", (_: string[], { context }: MetaHookOptions) => {
-  const { style, script, noscript } = context.metaInfo.inject()
+addFilter({
+  key,
+  hook: "factor_html_attr",
+  callback: (_: string[], { context }: MetaHookOptions) => {
+    const { htmlAttrs } = context.metaInfo.inject()
+    return [..._, htmlAttrs.text(true)]
+  }
+})
 
-  return [
-    ..._,
-    style.text({ body: true }),
-    script.text({ body: true }),
-    noscript.text({ body: true })
-  ]
+addFilter({
+  key,
+  hook: "factor_body_attr",
+  callback: (_: string[], { context }: MetaHookOptions) => {
+    const { bodyAttrs } = context.metaInfo.inject()
+    return [..._, bodyAttrs.text()]
+  }
+})
+addFilter({
+  key,
+  hook: "factor_head_attr",
+  callback: (_: string[], { context }: MetaHookOptions) => {
+    const { headAttrs } = context.metaInfo.inject()
+    return [..._, headAttrs.text()]
+  }
+})
+
+addFilter({
+  key,
+  hook: "factor_body_start",
+  callback: (_: string[], { context }: MetaHookOptions) => {
+    const { style, script, noscript } = context.metaInfo.inject()
+
+    return [
+      ..._,
+      style.text({ pbody: true }),
+      script.text({ pbody: true }),
+      noscript.text({ pbody: true })
+    ]
+  }
+})
+
+addFilter({
+  key,
+  hook: "factor_body_end",
+  callback: (_: string[], { context }: MetaHookOptions) => {
+    const { style, script, noscript } = context.metaInfo.inject()
+
+    return [
+      ..._,
+      style.text({ body: true }),
+      script.text({ body: true }),
+      noscript.text({ body: true })
+    ]
+  }
 })
