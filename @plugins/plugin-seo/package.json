@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-seo",
   "description": "This plugin makes it easy to implement and edit your SEO.",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
