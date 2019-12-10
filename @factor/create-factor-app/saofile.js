@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/no-process-exit */
-// @ts-check
+
 const superb = require("superb")
 const figures = require("figures")
 const consola = require("consola")

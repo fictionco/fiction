@@ -32,6 +32,7 @@
     "**/prism.js",
     "**/iconfont.js",
     "**/.ref*",
-    "node_modules"
+    "node_modules",
+    "**/create-factor-app/*"
   ]
 }
