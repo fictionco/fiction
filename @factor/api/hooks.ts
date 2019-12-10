@@ -24,13 +24,18 @@ declare module "vue/types/vue" {
   }
 }
 
-// This needs to be retained after server restart in development
-// Can't be sure that original filters are added again.
-if (!Vue.$filters) {
-  Vue.$filters = {
-    filters: {},
-    applied: {}
+export const getGlobals = (): {
+  filters: FilterRecord;
+  applied: FilterRecord;
+} => {
+  if (!Vue.$filters) {
+    Vue.$filters = {
+      filters: {},
+      applied: {}
+    }
   }
+
+  return Vue.$filters
 }
 
 /**
@@ -38,15 +43,17 @@ if (!Vue.$filters) {
  * @param hook - hook ID
  */
 export const getFilters = (hook: string): Record<string, CallbackItem> => {
-  if (!Vue.$filters.filters[hook]) {
-    Vue.$filters.filters[hook] = {}
+  const { filters } = getGlobals()
+  if (!filters[hook]) {
+    filters[hook] = {}
   }
 
-  return Vue.$filters.filters[hook]
+  return filters[hook]
 }
 
 export const getApplied = (): FilterRecord => {
-  return Vue.$filters.applied
+  const { applied } = getGlobals()
+  return applied
 }
 
 const setFilter = ({
@@ -55,11 +62,12 @@ const setFilter = ({
   callback,
   priority
 }: CallbackItem): Record<string, any> => {
-  if (!Vue.$filters.filters[hook]) Vue.$filters.filters[hook] = {}
+  const { filters } = getGlobals()
+  if (!filters[hook]) filters[hook] = {}
 
-  Vue.$filters.filters[hook][key] = { hook, key, callback, priority }
+  filters[hook][key] = { hook, key, callback, priority }
 
-  return Vue.$filters.filters[hook]
+  return filters[hook]
 }
 
 export const getFilterCount = (hook: string): number => {

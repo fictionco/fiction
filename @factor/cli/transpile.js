@@ -5,9 +5,16 @@ module.exports = () => {
   require("ts-node").register({
     transpileOnly: true,
     compilerOptions: {
-      strict: false
+      strict: false,
+      allowJs: true,
+      resolveJsonModule: true,
+      moduleResolution: "node",
+      module: "commonjs",
+      target: "es2018",
+      esModuleInterop: true,
+      skipLibCheck: true
     },
-    ignore: [`/node_modules/(?!(${transpileModules.join("|")}))`]
+    ignore: [`node_modules/(?!(${transpileModules.join("|")}))`]
   })
   require.extensions[".md"] = () => {}
   require.extensions[".svg"] = () => {}
