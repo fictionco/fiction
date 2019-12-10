@@ -36,6 +36,7 @@
     "test:unit": "jest @factor/**/test/unit --forceExit",
     "test:fixtures": "yarn test:builds && yarn test:integration",
     "test:builds": "jest test/builds --forceExit",
+    "test:staging": "jest test/staging --forceExit",
     "test:integration": "jest test/integration --forceExit",
     "test:dev-unit": "node --inspect node_modules/.bin/jest @factor/**/test/unit --runInBand",
     "test:dev-integration": "node --inspect node_modules/.bin/jest test/integration --runInBand",
