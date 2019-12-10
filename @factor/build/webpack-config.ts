@@ -1,4 +1,5 @@
 import "@factor/build/webpack-overrides"
+import { resolve } from "path"
 import { applyFilters, log, ensureTrailingSlash, deepMerge } from "@factor/api"
 import { getPath } from "@factor/api/paths"
 import BundleAnalyzer from "webpack-bundle-analyzer"
@@ -12,7 +13,6 @@ import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack, { Configuration, Stats, Compiler } from "webpack"
-
 import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
 import { configSettings } from "@factor/api/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
@@ -42,7 +42,11 @@ const base = async ({ target }: { target: string }): Promise<Configuration> => {
     function(this: Compiler): void {
       this.plugin("done", function(stats: Stats) {
         const { errors } = stats.compilation
-        if (errors && errors.length > 0) log.error(errors)
+        if (errors && errors.length > 0) {
+          errors.forEach(e => {
+            log.error(e)
+          })
+        }
       })
     }
   ]
@@ -84,7 +88,8 @@ const base = async ({ target }: { target: string }): Promise<Configuration> => {
               noEmit: false,
               strict: false,
               sourceMap: false
-            }
+            },
+            configFile: resolve(__dirname, "tsconfig.webpack.json")
           }
         }
       ])
