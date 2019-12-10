@@ -2,9 +2,9 @@
   "name": "create-factor-app",
   "version": "1.1.5",
   "description": "Create a Factor App in seconds.",
-  "bin": "cli.ts",
+  "bin": "cli.js",
   "files": [
-    "cli.ts",
+    "cli.js",
     "saofile.js",
     "template/"
   ],

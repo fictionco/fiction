@@ -1,4 +1,4 @@
-#!/usr/bin/env npx ts-node --transpile-only
+#!/usr/bin/env node
 
 const path = require("path")
 const sao = require("sao")
