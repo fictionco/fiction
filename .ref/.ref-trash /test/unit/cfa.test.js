@@ -34,35 +34,7 @@ describe.skip("create-factor-app", () => {
 
       await waitFor(200)
 
-      __spawned.stdin.write(`PROJECT-NAME${keys.enter}`)
-
-      await waitFor(200)
-
-      __spawned.stdin.write(`PROJECT-DESCRIPTION${keys.enter}`)
-
-      await waitFor(200)
-
-      __spawned.stdin.write(`ELVIS${keys.enter}`)
-
-      await waitFor(200)
-
-      __spawned.stdin.write(`elvis@fiction.com${keys.enter}`)
-
-      await waitFor(200)
-
-      __spawned.stdin.write(`${keys.down}${keys.enter}`)
-
-      await waitFor(200)
-
-      __spawned.stdin.write(`${keys.enter}`)
-
-      await waitFor(200)
-
-      __spawned.stdin.write(`${keys.enter}${keys.enter}`)
-
-      await waitFor(200)
-
-      __spawned.stdin.write(`${keys.enter}${keys.enter}`)
+      __spawned.stdin.write(`UNIT-TEST${keys.enter}`)
 
       await new Promise(resolve => {
         __spawned.on("close", () => resolve())

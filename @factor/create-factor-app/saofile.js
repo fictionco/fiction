@@ -1,11 +1,15 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/no-process-exit */
-
+// @ts-check
 const superb = require("superb")
 const figures = require("figures")
 const consola = require("consola")
 
 const config = {
+  /**
+   * Answers to these questions get added to the template as variables
+   * If first answer is "UNIT-TEST" then mocked answers are used.
+   */
   prompts: [
     {
       name: "name",
@@ -15,26 +19,30 @@ const config = {
     {
       name: "description",
       message: "Project description",
-      default: `My ${superb.random()} Factor project`
+      default: `My ${superb.random()} Factor project`,
+      when: answers => !config.isUnitTest(answers)
     },
     {
       name: "author",
       type: "string",
       message: "Your Name",
-      default: "{gitUser.name}"
+      default: "{gitUser.name}",
+      when: answers => !config.isUnitTest(answers)
     },
     {
       name: "email",
       type: "string",
       message: "Your Email",
-      default: "{gitUser.email}"
+      default: "{gitUser.email}",
+      when: answers => !config.isUnitTest(answers)
     },
     {
       name: "addDb",
       type: "list",
       message:
         "Do you have a MongoDB connection string ready? (needed for dashboard, posts, auth. you can can add this later...)",
-      choices: ["yes", "no"]
+      choices: ["yes", "no"],
+      when: answers => !config.isUnitTest(answers)
     },
 
     {
@@ -47,20 +55,22 @@ const config = {
           ? true
           : "Doesn't seem to be a valid connection string..."
       },
-      when: answers => answers.addDb != "no"
-    },
-    {
-      name: "theme",
-      type: "list",
-      message: "Which template would you like to start with?",
-      choices: [
-        { name: "Portfolio Theme", value: "alpha" },
-        { name: "Basic App", value: "basic" }
-      ]
+      when: answers => answers.addDb != "no" && !config.isUnitTest(answers)
     }
   ],
+  isUnitTest(answers) {
+    return answers.name == "UNIT-TEST" ? true : false
+  },
+
+  /**
+   * Info returned here gets added as variables in the template generation
+   */
   templateData() {
-    const urlName = config.slugify(this.answers.name)
+    const answers = this.answers
+    if (answers.name.includes("UNIT-TEST")) {
+      // set test answers for template
+    }
+    const urlName = config.slugify(answers.name || "no-name")
     const randomString = Math.random()
       .toString(36)
       .replace(/[^a-z]+/g, "")
@@ -78,6 +88,9 @@ const config = {
       .replace(/^-+/, "") // Trim - from start of text
       .replace(/-+$/, "") // Trim - from end of text
   },
+  /**
+   * Actions are files that get moved and translated through EJS system
+   */
   actions() {
     const actions = [
       {
