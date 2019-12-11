@@ -102,5 +102,7 @@
     "webpack": "^4.29.6",
     "yorkie": "^2.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-plugin-cypress": "^2.7.0"
+  }
 }
