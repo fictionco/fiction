@@ -4,12 +4,10 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Full-Stack Application Platform
-            <span
-              class="highlight"
-            >for Professional Javascript Developers</span>
+            A Typescript platform for
+            websites, blogs and full-stack applications.
           </h1>
-          <h3 class="page-title-sub">Create blogs, websites, and dynamic applications in minutes</h3>
+          <h3 class="page-title-sub">Designed for Professional Front-End Developers</h3>
 
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
@@ -27,25 +25,32 @@
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">Open-Source</span>
+              <span class="text">Typescript</span>
+            </div>
+
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">Vue + MongoDB</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">VENM Stack</span>
-            </div>
-            <div class="point">
-              <span class="arrow">
-                <factor-icon icon="check" />
-              </span>
-              <span class="text">Universal JS SSR</span>
+              <span class="text">Universal</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
               <span class="text">Themes + Plugins</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">Open-Source</span>
             </div>
           </div>
         </div>
@@ -177,7 +182,7 @@ export default Vue.extend({
           icon: "powered",
           title: "Powered by VueJS and MongoDB",
           text: `When you use Factor you'll be using best-of-class open source software under the hood.
-            Stop worrying about lock-in and immature tech. No more endlessly comparing new tools and techniques.
+            Stop worrying about lock-in. No more endlessly comparing new tools and techniques.
             Just trust Factor and get started building your app.`,
           figure: () => import("./figure-powered-by.vue"),
           link: { path: "/guide/quickstart", text: "View Quickstart" }
@@ -185,7 +190,7 @@ export default Vue.extend({
         {
           icon: "ssr",
           title: "Dynamic Beats Static",
-          text: `Factor is a universal Javascript framework which means you can dynamically make changes
+          text: `Factor is a universal Typescript platform which means you can dynamically make changes
               to your content and see them reflected immediately (without a build step).
               This also enables custom endpoints and server-side rendering (SSR) important for SEO,
               social, and performance reasons.`,
@@ -205,9 +210,9 @@ export default Vue.extend({
           id: "plugins-feature",
           //icon: "plugins",
           title: `Plugins that just work`,
-          text: `Most Javascript frameworks make you do way too much coding and customization
-              to make plugins work. That's why Factor makes plugins dead simple with intelligent
-              defaults and no mandatory customization.`,
+          text: `Most coding frameworks make you do way too much coding and customization
+              to make plugins work. Factor focuses on making plugins dead simple with intelligent
+              defaults. This means they "just work," no mandatory customization.`,
           figure: () => import("./figure-plugins.vue"),
           link: { path: "/plugins", text: "View Plugins" }
         },
@@ -259,7 +264,7 @@ export default Vue.extend({
       }
 
       .page-title {
-        font-size: 3.5em;
+        font-size: 3.7em;
         line-height: 1.1;
         font-weight: 500;
         margin: 0 0 1rem;
@@ -317,7 +322,7 @@ export default Vue.extend({
         }
         .page-title-sub {
           font-size: 1.4em;
-          line-height: 1.1;
+          line-height: 1.4;
         }
         .points {
           display: block;

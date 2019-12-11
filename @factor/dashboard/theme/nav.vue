@@ -66,7 +66,7 @@ export default Vue.extend({
       return this.menus.dashboard[0] || this.menus.admin[0]
     },
     defaultIcon() {
-      return require("./resource/generic.svg")
+      return require("./img/generic.svg")
     },
     activeGroup(this: any) {
       const { path } = this.$route
