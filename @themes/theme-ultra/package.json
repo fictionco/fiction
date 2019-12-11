@@ -1,7 +1,7 @@
 {
   "name": "@factor/theme-ultra",
   "description": "A modern one-page Factor theme for personal or portfolio exposure with unique effects and features.",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "main": "src/index",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -17,7 +17,7 @@
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
-    "@factor/core": "^1.1.7",
+    "@factor/core": "^1.1.8",
     "@factor/plugin-contact-form": "^1.1.5",
     "@factor/plugin-notify": "^1.1.5"
   },

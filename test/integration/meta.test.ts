@@ -26,16 +26,15 @@ describe("build-metainfo", () => {
     expect(html).toContain("amp")
   })
 
-  // test("/mutation", async () => {
-  //   const html = await renderRoute("/mutation", renderer)
-  //   expect(html).toContain("<title>change-title</title>")
-  //   expect(html).toContain("change-description")
-  // })
+  test("/mutation", async () => {
+    const html = await renderRoute("/mutation", renderer)
+    expect(html).toContain("<title>change-title</title>")
+    expect(html).toContain("change-description")
+  })
 
-  // test("/async", async () => {
-  //   const html = await renderRoute("/async", renderer)
-
-  //   expect(html).toContain("<title>async-title</title>")
-  //   expect(html).toContain("async-description")
-  // })
+  test("/async", async () => {
+    const html = await renderRoute("/async", renderer)
+    expect(html).toContain("<title>async-title</title>")
+    expect(html).toContain("async-description")
+  })
 })

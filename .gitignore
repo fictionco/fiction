@@ -3,6 +3,7 @@
 **/.factor
 
 # Monorepo
+demo
 @demo
 server.crt
 server.key

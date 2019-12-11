@@ -44,7 +44,7 @@ const base = async ({ target }: { target: string }): Promise<Configuration> => {
         const { errors } = stats.compilation
         if (errors && errors.length > 0) {
           errors.forEach(e => {
-            log.error(e)
+            log.warn(e.message)
           })
         }
       })

@@ -33,6 +33,7 @@
 import { factorBtnDashboard, factorLoadingRing } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel } from "@factor/api"
+import { Route } from "vue-router"
 import Vue from "vue"
 export default Vue.extend({
   components: {
@@ -60,8 +61,8 @@ export default Vue.extend({
   },
 
   watch: {
-    $route: function(v) {
-      this.activeRoute = v.path
+    $route: function(this: any, to: Route) {
+      this.activeRoute = to.path
       this.toggleNav(false)
     }
   },
@@ -71,13 +72,13 @@ export default Vue.extend({
   },
 
   methods: {
-    toggleNav(v) {
+    toggleNav(this: any, toggle?: boolean) {
       if (!document) return
 
-      if (typeof v == "undefined") {
+      if (typeof toggle == "undefined") {
         this.toggle = !this.toggle
       } else {
-        this.toggle = v
+        this.toggle = toggle
       }
 
       this.clickHandler = () => {
@@ -94,17 +95,13 @@ export default Vue.extend({
   }
 })
 </script>
-<style src="./css/style.less" lang="less"></style>
+<style src="./style.less" lang="less"></style>
 
 <style lang="less">
 .user-loading {
   padding-top: 30vh;
 }
 .app-wrap {
-  padding: 0 2em;
-  @media (max-width: 767px) {
-    padding: 0 0.75em;
-  }
   .mobile-nav {
     display: none;
 
@@ -126,8 +123,6 @@ export default Vue.extend({
       overflow-y: scroll;
       background: #fff;
       box-shadow: var(--pane-shadow);
-      // transform: translate3d(-100%, 0, 0);
-      // transition: transform 0.1s ease-out;
       &.active {
         transform: translate3d(0, 0, 0);
       }
@@ -135,26 +130,38 @@ export default Vue.extend({
   }
 }
 .app-layout {
+  --panel-border-color: rgba(200, 204, 228, 0.7);
   min-height: 100vh;
-  max-width: 1100px;
+
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 200px 1fr;
-  grid-template-rows: 70px 1fr;
+  grid-template-columns: 225px 1fr;
+  grid-template-rows: 50px 1fr;
   grid-template-areas:
     "header header"
     "nav main";
 
   .app-head {
     grid-area: header;
-    align-self: center;
+    background: #fff;
+    box-shadow: 0 1px 0 var(--panel-border-color);
   }
   .app-main {
     grid-area: main;
     min-width: 0;
+    background: #f6fafd;
+    box-shadow: inset 0 0 5rem rgba(200, 204, 228, 0.1);
+    .app-main-content {
+      padding: 2rem;
+    }
   }
   .app-nav {
     grid-area: nav;
+    box-shadow: 1px 1px 0 var(--panel-border-color);
+    position: relative;
+    .app-nav-pad {
+      padding: 1rem;
+    }
   }
 
   @media (max-width: 960px) {
@@ -169,11 +176,6 @@ export default Vue.extend({
     }
   }
 
-  .app-nav {
-    .app-nav-pad {
-      padding: 0.5em 0;
-    }
-  }
   .app-main-content .toggle {
     margin: 0.5em 0;
     display: inline-block;

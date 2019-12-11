@@ -1,114 +1,107 @@
 <template>
-  <dashboard-page>
-    <div class="user-dashboard-post-grid">
-      <div class="content-column">
-        <dashboard-pane
-          :title="_id == userId() ? 'Your Account' : 'Edit User'"
-          class="compose inputs"
+  <dashboard-page :title="_id == userId() ? 'Your Account' : 'Edit User'">
+    <template #actions>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
+        Save &nbsp;
+        <factor-icon icon="arrow-up" />
+      </factor-btn-dashboard>
+    </template>
+    <template #meta>
+      <dashboard-pane title="Images" class="compose inputs">
+        <dashboard-input
+          v-model="post.images"
+          input-max="5"
+          input-min="1"
+          input="factor-input-image-upload"
+          label="Profile Photo(s)"
+          :loading="loading"
+          @autosave="$emit('autosave')"
+        />
+        <dashboard-input
+          v-model="post.covers"
+          input-max="5"
+          input-min="1"
+          input="factor-input-image-upload"
+          label="Cover Photo(s)"
+          :loading="loading"
+          @autosave="$emit('autosave')"
+        />
+      </dashboard-pane>
+    </template>
+    <template #primary>
+      <dashboard-pane title="Account Info" class="compose inputs">
+        <dashboard-input
+          v-model="post.displayName"
+          input="factor-input-text"
+          label="Display Name"
+          class="post-title"
+        />
+
+        <dashboard-input
+          v-model="post.username"
+          input="factor-input-text"
+          label="Username"
+          description="Must be unique."
+        />
+
+        <dashboard-input
+          v-model="post.email"
+          class="email-inputs"
+          input="factor-input-email"
+          label="Email Address"
         >
-          <dashboard-input
-            v-model="post.displayName"
-            input="factor-input-text"
-            label="Display Name"
-            class="post-title"
-          />
-
-          <dashboard-input
-            v-model="post.username"
-            input="factor-input-text"
-            label="Username"
-            description="Must be unique."
-          />
-
-          <dashboard-input
-            v-model="post.email"
-            class="email-inputs"
-            input="factor-input-email"
-            label="Email Address"
-          >
-            <div v-if="post.email && !post.emailVerified">
-              <factor-btn-dashboard size="tiny" btn="subtle">Unverified</factor-btn-dashboard>
-              <factor-btn-dashboard
-                size="tiny"
-                :loading="sending"
-                @click="sendVerifyEmail()"
-              >Resend Email</factor-btn-dashboard>
-            </div>
-          </dashboard-input>
-
-          <dashboard-input
-            v-model="post.password"
-            input="factor-input-password"
-            label="Update Password"
-            autocomplete="new-password"
-          />
-          <template #actions>
-            <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
-              Save &nbsp;
-              <factor-icon icon="arrow-up" />
-            </factor-btn-dashboard>
-          </template>
-        </dashboard-pane>
-
-        <dashboard-pane title="Profile" class="inputs">
-          <dashboard-input
-            v-model="post.images"
-            input-max="5"
-            input-min="1"
-            input="factor-input-image-upload"
-            label="Profile Photo(s)"
-            :loading="loading"
-            @autosave="$emit('autosave')"
-          />
-          <dashboard-input
-            v-model="post.covers"
-            input-max="5"
-            input-min="1"
-            input="factor-input-image-upload"
-            label="Cover Photo(s)"
-            :loading="loading"
-            @autosave="$emit('autosave')"
-          />
-          <dashboard-input
-            v-model="post.about"
-            input="factor-input-textarea"
-            label="About You"
-            placeholder="Work, hobbies, travels, etc..."
-          />
-          <dashboard-input
-            v-model="post.birthday"
-            input="factor-input-birthday"
-            label="Birthday"
-            description="This information is not shared."
-          />
-          <dashboard-input
-            v-model="post.gender"
-            :list="['female', 'male']"
-            input="factor-input-select"
-            label="Gender"
-            description="This information is not shared."
-          />
-          <div class="user-info">
-            <div class="item">
-              <div class="label">Logged In</div>
-              <div class="value">{{ standardDate(post.signedInAt) }}</div>
-            </div>
-
-            <div class="item">
-              <div class="label">Signed up</div>
-              <div class="value">{{ standardDate(post.createdAt) }}</div>
-            </div>
+          <div v-if="post.email && !post.emailVerified">
+            <factor-btn-dashboard size="tiny" btn="subtle">Unverified</factor-btn-dashboard>
+            <factor-btn-dashboard
+              size="tiny"
+              :loading="sending"
+              @click="sendVerifyEmail()"
+            >Resend Email</factor-btn-dashboard>
           </div>
-          <template #actions>
-            <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
-              Save &nbsp;
-              <factor-icon icon="arrow-up" />
-            </factor-btn-dashboard>
-          </template>
-        </dashboard-pane>
-        <slot name="edit" />
-      </div>
-    </div>
+        </dashboard-input>
+
+        <dashboard-input
+          v-model="post.password"
+          input="factor-input-password"
+          label="Update Password"
+          autocomplete="new-password"
+        />
+      </dashboard-pane>
+    </template>
+    <template #secondary>
+      <dashboard-pane title="Profile" class="inputs">
+        <dashboard-input
+          v-model="post.about"
+          input="factor-input-textarea"
+          label="About You"
+          placeholder="Work, hobbies, travels, etc..."
+        />
+        <dashboard-input
+          v-model="post.birthday"
+          input="factor-input-birthday"
+          label="Birthday"
+          description="This information is not shared."
+        />
+        <dashboard-input
+          v-model="post.gender"
+          :list="['female', 'male']"
+          input="factor-input-select"
+          label="Gender"
+          description="This information is not shared."
+        />
+        <div class="user-info">
+          <div class="item">
+            <div class="label">Logged In</div>
+            <div class="value">{{ standardDate(post.signedInAt) }}</div>
+          </div>
+
+          <div class="item">
+            <div class="label">Signed up</div>
+            <div class="value">{{ standardDate(post.createdAt) }}</div>
+          </div>
+        </div>
+      </dashboard-pane>
+    </template>
   </dashboard-page>
 </template>
 <script lang="ts">

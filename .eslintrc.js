@@ -4,7 +4,12 @@ module.exports = {
     __dirname: false,
     require: false,
     module: false,
-    process: false
+    process: false,
+    cy: false,
+    Cypress: false,
+    to: false,
+    describe: false,
+    context: false
   },
   parser: "vue-eslint-parser",
   parserOptions: {
@@ -15,7 +20,8 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
-    "jest/globals": true
+    "jest/globals": true,
+    "cypress/globals": true
   },
 
   extends: [
@@ -26,7 +32,8 @@ module.exports = {
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:cypress/recommended"
   ],
 
   plugins: [
@@ -37,7 +44,8 @@ module.exports = {
     "import",
     "jest",
     "import",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "cypress"
   ],
 
   rules: {
