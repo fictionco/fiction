@@ -33,6 +33,7 @@
 import { factorBtnDashboard, factorLoadingRing } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel } from "@factor/api"
+import { Route } from "vue-router"
 import Vue from "vue"
 export default Vue.extend({
   components: {
@@ -60,8 +61,8 @@ export default Vue.extend({
   },
 
   watch: {
-    $route: function(v) {
-      this.activeRoute = v.path
+    $route: function(this: any, to: Route) {
+      this.activeRoute = to.path
       this.toggleNav(false)
     }
   },
@@ -71,7 +72,7 @@ export default Vue.extend({
   },
 
   methods: {
-    toggleNav(v) {
+    toggleNav(this: any, v?: boolean) {
       if (!document) return
 
       if (typeof v == "undefined") {
@@ -94,14 +95,13 @@ export default Vue.extend({
   }
 })
 </script>
-<style src="./css/style.less" lang="less"></style>
+<style src="./style.less" lang="less"></style>
 
 <style lang="less">
 .user-loading {
   padding-top: 30vh;
 }
 .app-wrap {
-  padding: 0 2em;
   @media (max-width: 767px) {
     padding: 0 0.75em;
   }
@@ -126,8 +126,6 @@ export default Vue.extend({
       overflow-y: scroll;
       background: #fff;
       box-shadow: var(--pane-shadow);
-      // transform: translate3d(-100%, 0, 0);
-      // transition: transform 0.1s ease-out;
       &.active {
         transform: translate3d(0, 0, 0);
       }
@@ -136,11 +134,11 @@ export default Vue.extend({
 }
 .app-layout {
   min-height: 100vh;
-  max-width: 1100px;
+
   margin: 0 auto;
   display: grid;
   grid-template-columns: 200px 1fr;
-  grid-template-rows: 70px 1fr;
+  grid-template-rows: 50px 1fr;
   grid-template-areas:
     "header header"
     "nav main";

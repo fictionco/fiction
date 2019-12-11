@@ -38,7 +38,7 @@ export default Vue.extend({
 }
 
 .dashboard-head-pad {
-  //height: 45px;
+  padding: 1rem;
   align-items: center;
   display: flex;
   justify-content: space-between;

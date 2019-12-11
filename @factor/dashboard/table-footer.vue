@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 export default Vue.extend({
   components: {
     "table-pagination": () => import("./el/pagination.vue")
@@ -28,7 +28,7 @@ export default Vue.extend({
   },
   computed: {},
   methods: {
-    pageCount(total, limit) {
+    pageCount(total: number, limit: number) {
       if (total == 0) {
         return 1
       } else return Math.ceil(total / limit)

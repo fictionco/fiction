@@ -15,8 +15,8 @@ import { RouteConfig } from "vue-router"
 import { DashboardMenuItem } from "./types"
 
 export const accountMenu = (): Promise<Component> => import("./account-menu.vue")
-export const dashboardPane = (): Promise<Component> => import("./pane.vue")
-export const dashboardPage = (): Promise<Component> => import("./page.vue")
+export const dashboardPane = (): Promise<Component> => import("./theme/pane.vue")
+export const dashboardPage = (): Promise<Component> => import("./theme/page.vue")
 export const dashboardTable = (): Promise<Component> => import("./table.vue")
 export const dashboardGrid = (): Promise<Component> => import("./grid.vue")
 export const dashboardGridControls = (): Promise<Component> =>
@@ -64,7 +64,7 @@ export const setup = (): void => {
 
       _.push({
         path: dashboardRoute,
-        component: (): Promise<Component> => import("./wrap.vue"),
+        component: (): Promise<Component> => import("./theme/wrap.vue"),
         children: applyFilters("dashboard-routes", [
           {
             path: "admin",
