@@ -102,9 +102,6 @@ export default Vue.extend({
   padding-top: 30vh;
 }
 .app-wrap {
-  @media (max-width: 767px) {
-    padding: 0 0.75em;
-  }
   .mobile-nav {
     display: none;
 
@@ -133,6 +130,7 @@ export default Vue.extend({
   }
 }
 .app-layout {
+  --panel-border-color: rgba(200, 204, 228, 0.7);
   min-height: 100vh;
 
   margin: 0 auto;
@@ -146,7 +144,7 @@ export default Vue.extend({
   .app-head {
     grid-area: header;
     background: #fff;
-    box-shadow: 0 1px 0 rgba(200, 204, 228, 0.7);
+    box-shadow: 0 1px 0 var(--panel-border-color);
   }
   .app-main {
     grid-area: main;
@@ -154,12 +152,12 @@ export default Vue.extend({
     background: #f6fafd;
     box-shadow: inset 0 0 5rem rgba(200, 204, 228, 0.1);
     .app-main-content {
-      padding: 1rem;
+      padding: 2rem;
     }
   }
   .app-nav {
     grid-area: nav;
-    box-shadow: 1px 1px 0 rgba(200, 204, 228, 0.7);
+    box-shadow: 1px 1px 0 var(--panel-border-color);
     position: relative;
     .app-nav-pad {
       padding: 1rem;

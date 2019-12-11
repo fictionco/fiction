@@ -4,7 +4,7 @@
       <div class="legal">
         <div class="copyright">
           Powered by
-          <a href="https://factor.dev" target="_blank" rel="noopener noreferrer">Factor JS</a>
+          <a href="https://factor.dev" target="_blank" rel="noopener noreferrer">Factor TS</a>
         </div>
       </div>
     </div>
@@ -16,12 +16,13 @@ export default Vue.extend({})
 </script>
 <style lang="less">
 .app-footer {
-  padding: 1.5em;
+  padding: 1.5em 0;
 
   font-weight: 600;
-  opacity: 0.2;
+  opacity: 0.4;
   padding-bottom: 2em;
-  text-align: right;
+  text-align: left;
+
   a {
     color: inherit;
     text-decoration: underline;

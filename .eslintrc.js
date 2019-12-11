@@ -4,7 +4,10 @@ module.exports = {
     __dirname: false,
     require: false,
     module: false,
-    process: false
+    process: false,
+    cy: false,
+    describe: false,
+    context: false
   },
   parser: "vue-eslint-parser",
   parserOptions: {

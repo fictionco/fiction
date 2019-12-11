@@ -4,14 +4,14 @@
       <div class="stark-bg-image unskew-bg">
         <div class="splash content-pad">
           <div class="content-width">
-            <div class="label label-blue">Currently In Alpha</div>
+            <div class="label label-blue">Currently In Beta</div>
             <h1 class="title" role="textbox">
-              A Universal Javascript Platform
-              <span class="alt">for Professional Front-End Developers</span>
+              A Universal Typescript CMS Platform
+              <span
+                class="alt"
+              >for Professional Front-End Developers</span>
             </h1>
-            <p class="subtitle">
-              Build rock-solid server-rendered Vue.js apps in hours not months
-            </p>
+            <p class="subtitle">Build rock-solid server-rendered Vue.js apps in hours not months</p>
             <div class="action">
               <factor-email-list list-id="alphaProgram" />
             </div>
@@ -31,9 +31,7 @@
               in a matter of minutes, with only basic coding knowledge.
             </p>
             <div class="actions">
-              <factor-link path="https://factor.dev/guide/quickstart">
-                Learn How &rarr;
-              </factor-link>
+              <factor-link path="https://factor.dev/guide/quickstart">Learn How &rarr;</factor-link>
             </div>
           </div>
           <div class="banner-figure">
@@ -82,10 +80,7 @@
                   />
                 </template>
                 <template v-if="feature.figure == 'ssr'">
-                  <img
-                    :src="require(`./img/ssr.svg`)"
-                    alt="Factor - Serverless and SSR"
-                  />
+                  <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" />
                 </template>
                 <template v-else-if="feature.figure == 'hello'">
                   <pre><code class="javascript"><span>var</span> app = new <span class="a">Factor</span>({
@@ -103,16 +98,10 @@
                   />
                 </template>
                 <template v-else-if="feature.figure == 'markdown'">
-                  <img
-                    :src="require(`./img/markdown-editor.svg`)"
-                    alt="Factor - Markdown Editor"
-                  />
+                  <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" />
                 </template>
                 <template v-else-if="feature.figure == 'power'">
-                  <img
-                    :src="require(`./img/themes-plugins.svg`)"
-                    alt="Factor - Themes and Plugins"
-                  />
+                  <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
                 </template>
                 <template v-if="feature.figure == 'roles'">
                   <img
@@ -142,11 +131,7 @@
               </p>
               <div class="attribution">
                 <div class="cite">Matt Walsh</div>
-                <factor-link
-                  path="#"
-                  target="_blank"
-                  @click.prevent
-                >Relic Apps Ltd.</factor-link>
+                <factor-link path="#" target="_blank" @click.prevent>Relic Apps Ltd.</factor-link>
               </div>
             </blockquote>
           </div>
@@ -154,10 +139,10 @@
             <div>
               <h3 class="title">
                 Ready to launch an impressive web app?
-                <span
-                  class="alt"
-                >We're currently inviting developers to participate in alpha/beta
-                  testing.</span>
+                <span class="alt">
+                  We're currently inviting developers to participate in alpha/beta
+                  testing.
+                </span>
               </h3>
             </div>
             <div class="actions">

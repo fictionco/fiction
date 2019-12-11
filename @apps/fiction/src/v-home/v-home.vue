@@ -14,16 +14,13 @@
           </div>
 
           <h1 class="title">
-            A Javascript App Platform
+            A Typescript CMS Platform
             <span class="alt">for Front-End Professionals</span>
           </h1>
           <p class="text">
-            Powered by VueJS, MongoDB and Node,
+            Powered by Typescript, VueJS and MongoDB.
             <factor-link path="/factor-js">Factor</factor-link>
-            <span>
-              is a platform that helps you professionally develop, manage, and scale your
-              app on the web.
-            </span>
+            <span>is a platform that helps you professionally develop, manage, and scale apps and websites.</span>
           </p>
 
           <div class="header-actions">

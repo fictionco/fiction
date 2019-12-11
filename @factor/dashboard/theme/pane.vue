@@ -32,12 +32,10 @@ export default Vue.extend({
 
 <style lang="less">
 .dashboard-pane {
-  // display: flex;
-  // flex-direction: column;
-  background: #fff; // #fcfdff;
-  border-radius: 4px;
-  box-shadow: var(--pane-shadow);
-  // overflow: hidden;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px var(--panel-border-color);
+
   margin-bottom: 2em;
   .head,
   .foot {
