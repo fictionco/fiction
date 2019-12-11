@@ -21,11 +21,12 @@
       "__CWD__/*": ["test/modules/alias/*"],
       "__SRC__/*": ["test/modules/alias/*"],
       "__FALLBACK__/*": ["test/modules/alias/*"]
-    }
-    //"typeRoots": ["**/types", "**/@types"]
+    },
+    "typeRoots": ["node_modules/@types", "**/types", "**/@types"]
   },
 
   "exclude": [
+    "cypress",
     "**/dist",
     "reports",
     "coverage",
