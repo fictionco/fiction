@@ -5,7 +5,7 @@
       height="341"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      class="absolute z-0 top-0 -ml-40"
+      class="absolute z-0 top-0 right-0 -mr-56"
     >
       <g filter="url(#cloud-shadow)">
         <path

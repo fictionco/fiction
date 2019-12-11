@@ -41,7 +41,8 @@
     "test:integration": "jest test/integration --forceExit",
     "test:dev-unit": "node --inspect node_modules/.bin/jest @factor/**/test/unit --runInBand",
     "test:dev-integration": "node --inspect node_modules/.bin/jest test/integration --runInBand",
-    "test:types": "tsc --skipLibCheck"
+    "test:types": "tsc --skipLibCheck",
+    "test:cfa": "yarn sao ./@factor/create-factor-app"
   },
   "gitHooks": {
     "pre-push": "yarn test:lint && yarn test:unit",
