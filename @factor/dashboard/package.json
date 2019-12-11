@@ -6,11 +6,10 @@
     "access": "public"
   },
   "factor": {
-    "load": [
-      "app",
-      "server"
-    ],
-    "_id": "dashboard"
+    "load": {
+      "app": "index",
+      "server": "server"
+    }
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {

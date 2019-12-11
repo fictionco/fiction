@@ -1,4 +1,4 @@
-import { dirname, resolve } from "path"
+import { resolve } from "path"
 import { ChildProcess } from "child_process"
 import { removeSync, readFileSync } from "fs-extra"
 import { spawn } from "cross-spawn"
@@ -23,7 +23,7 @@ describe("create-factor-app", () => {
 
   describe("cli", () => {
     it("asks for app name, email, url", async () => {
-      spawnedProcess = spawn("npx", ["create-factor-app", APP_FOLDER], {
+      spawnedProcess = spawn("npx", ["create-factor-app@latest", APP_FOLDER], {
         detached: true,
         cwd
       })

@@ -6,11 +6,7 @@
       </div>
     </template>
     <template v-else>
-      <div
-        v-if="toggle"
-        class="mobile-nav"
-        :class="toggle ? 'toggle-nav' : 'toggle-main'"
-      >
+      <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
         <dashboard-nav />
       </div>
 
@@ -23,9 +19,7 @@
         <div class="app-main">
           <div class="app-main-content">
             <div class="mobile-nav-toggle-wrap" @click.stop>
-              <factor-btn-dashboard @click="toggleNav()">
-                <factor-icon icon="arrow-left" />&nbsp;Menu
-              </factor-btn-dashboard>
+              <factor-btn-dashboard @click="toggleNav()">&larr; Menu</factor-btn-dashboard>
             </div>
             <slot v-if="$slots.default" />
             <router-view v-else />
@@ -36,7 +30,7 @@
   </div>
 </template>
 <script lang="ts">
-import { factorBtnDashboard, factorLoadingRing, factorIcon } from "@factor/ui"
+import { factorBtnDashboard, factorLoadingRing } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel } from "@factor/api"
 import Vue from "vue"
@@ -44,7 +38,6 @@ export default Vue.extend({
   components: {
     factorBtnDashboard,
     factorLoadingRing,
-    factorIcon,
     "dashboard-nav": () => import("./nav.vue"),
     "dashboard-head": () => import("./head.vue")
   },
