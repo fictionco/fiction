@@ -3,8 +3,9 @@
     class="lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center"
     :class="headerClasses()"
   >
-    <div class="flex items-center justify-between px-6 py-3 lg:p-0 lg:flex-1">
-      <site-brand />
+    <div class="relative z-50 flex items-center justify-between px-6 py-3 lg:p-0 lg:flex-1">
+      <site-brand class="hidden lg:block" :inverse="true" />
+      <site-brand :class="brandClasses()" />
       <div class="lg:hidden">
         <button type="button" class="block transition focus:outline-none" @click="isOpen = !isOpen">
           <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
@@ -23,11 +24,11 @@
       </div>
     </div>
     <nav
-      class="flex items-center justify-between px-6 overflow-hidden transition-height lg:bg-transparent lg:inline lg:p-0 lg:h-full lg:flex-1 lg:text-center"
+      class="absolute z-auto top-0 left-0 right-0 bottom-0 lg:relative flex items-center justify-between px-6 overflow-hidden transition-height lg:bg-transparent lg:inline lg:p-0 lg:h-full lg:flex-1 lg:text-center"
       :class="isOpen ? 'bg-white w-full h-188 z-50 lg:w-auto' : 'min-h-0 h-0'"
     >
       <ul
-        class="flex flex-col list-none list-inside pb-6 lg:p-0 lg:w-auto lg:flex-row lg:flex-1 lg:justify-end"
+        class="flex flex-col list-none list-inside pb-6 lg:p-0 lg:w-auto lg:flex-row lg:flex-1 lg:justify-center"
       >
         <template v-for="(item, index) in siteNav">
           <li :key="index" class="mt-1 lg:m-0">
@@ -73,6 +74,13 @@ export default Vue.extend({
     }
   },
   methods: {
+    brandClasses() {
+      if (this.$route.path != "/") {
+        return `block lg:block`
+      } else {
+        return `block lg:hidden`
+      }
+    },
     headerClasses() {
       if (this.$route.path != "/") {
         return "lg:px-4 lg:py-3"
@@ -84,7 +92,7 @@ export default Vue.extend({
       if (this.$route.path != "/") {
         return "lg:hover:text-purple-900"
       } else {
-        return "block lg:inline lg:text-white lg:hover:text-teal-500"
+        return "block lg:inline lg:hover:text-purple-900"
       }
     }
   }

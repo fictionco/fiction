@@ -42,7 +42,9 @@
     "test:dev-unit": "node --inspect node_modules/.bin/jest @factor/**/test/unit --runInBand",
     "test:dev-integration": "node --inspect node_modules/.bin/jest test/integration --runInBand",
     "test:types": "tsc --skipLibCheck",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "test:cfa": "yarn sao ./@factor/create-factor-app"
+
   },
   "gitHooks": {
     "pre-push": "yarn test:lint && yarn test:unit",
@@ -102,7 +104,9 @@
     "webpack": "^4.29.6",
     "yorkie": "^2.0.0"
   },
+ 
   "devDependencies": {
     "eslint-plugin-cypress": "^2.7.0"
   }
 }
+
