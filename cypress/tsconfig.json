@@ -3,7 +3,10 @@
   "compilerOptions": {
     "noEmit": false,
     "declaration": false,
+    "declarationMap": false,
+    "types": ["cypress", "node"],
     "declarationMap": false
+
   },
   "include": ["../node_modules/cypress", "*/*.ts"]
 }
