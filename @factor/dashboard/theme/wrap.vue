@@ -72,13 +72,13 @@ export default Vue.extend({
   },
 
   methods: {
-    toggleNav(this: any, v?: boolean) {
+    toggleNav(this: any, toggle?: boolean) {
       if (!document) return
 
-      if (typeof v == "undefined") {
+      if (typeof toggle == "undefined") {
         this.toggle = !this.toggle
       } else {
-        this.toggle = v
+        this.toggle = toggle
       }
 
       this.clickHandler = () => {
@@ -137,7 +137,7 @@ export default Vue.extend({
 
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 225px 1fr;
   grid-template-rows: 50px 1fr;
   grid-template-areas:
     "header header"
@@ -145,14 +145,25 @@ export default Vue.extend({
 
   .app-head {
     grid-area: header;
-    align-self: center;
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(200, 204, 228, 0.7);
   }
   .app-main {
     grid-area: main;
     min-width: 0;
+    background: #f6fafd;
+    box-shadow: inset 0 0 5rem rgba(200, 204, 228, 0.1);
+    .app-main-content {
+      padding: 1rem;
+    }
   }
   .app-nav {
     grid-area: nav;
+    box-shadow: 1px 1px 0 rgba(200, 204, 228, 0.7);
+    position: relative;
+    .app-nav-pad {
+      padding: 1rem;
+    }
   }
 
   @media (max-width: 960px) {
@@ -167,11 +178,6 @@ export default Vue.extend({
     }
   }
 
-  .app-nav {
-    .app-nav-pad {
-      padding: 0.5em 0;
-    }
-  }
   .app-main-content .toggle {
     margin: 0.5em 0;
     display: inline-block;

@@ -38,11 +38,11 @@ export default Vue.extend({
 }
 
 .dashboard-head-pad {
-  padding: 1rem;
+  padding: 0 1rem;
   align-items: center;
   display: flex;
   justify-content: space-between;
-
+  height: 100%;
   .brand {
     display: flex;
     flex-grow: 1;
