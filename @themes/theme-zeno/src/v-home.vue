@@ -1,6 +1,9 @@
 <template>
   <div class="lg:-mt-24">
     <section class="flex bg-gray-100 min-h-full">
+      <div class="hidden lg:block lg:w-1/2 bg-purple-900">
+        <component :is="introFigure" />
+      </div>
       <div class="px-8 py-16 mx-auto sm:max-w-xl lg:w-1/2 lg:flex lg:flex-col lg:justify-center">
         <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3>
         <h1
@@ -16,9 +19,6 @@
             </factor-link>
           </template>
         </div>
-      </div>
-      <div class="hidden lg:block lg:w-1/2 bg-purple-900">
-        <component :is="introFigure" />
       </div>
     </section>
 
@@ -42,12 +42,14 @@
       <div class="bg-purple-900 pt-8 px-8 pb-24 text-center md:pt-16 md:pb-32">
         <squares-title :title="solutionsTitle" />
       </div>
-      <div class="flex flex-col items-center -mt-24">
+      <!-- <div class="flex flex-col items-center -mt-24"> -->
+      <div class="flex flex-col md:flex-row">
         <template v-for="(item, index) in solutionsItems">
-          <div
+          <div :key="index" class="bg-white shadow-lg px-6 py-10 mt-8 w-full md:w-4/12">
+            <!-- <div
             :key="index"
             class="w-11/12 px-6 py-10 mt-8 bg-white shadow-lg md:w-8/12 lg:w-6/12 lg:px-16"
-          >
+            >-->
             <div class="flex items-center">
               <img :src="item.icon" :alt="item.title" />
               <h2 class="font-bold text-3xl text-purple-900 ml-5">{{ item.title }}</h2>
