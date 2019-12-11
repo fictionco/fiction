@@ -2,7 +2,6 @@
   <div class="page-home">
     <section class="welcome">
       <div class="welcome-inner">
-        <img :src="setting('home.image')" :alt="setting('home.title')" class="icon" />
         <h1 v-formatted-text="setting('home.title')" class="title" />
         <div class="subtitle">{{ setting("home.subtitle") }}</div>
         <div class="actions">

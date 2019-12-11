@@ -5,7 +5,6 @@ export default {
       description: "<%= description %>",
       image: require("./static/factor-logo.jpg")
     },
-    image: require("./img/factor-logo.svg"),
     title: "<%= name %>",
     subtitle: "<%= description %>",
     actions: [
