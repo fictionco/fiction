@@ -1,14 +1,5 @@
 <template>
   <div class="tag-input">
-    <div v-if="tags.length > 0" class="the-tags">
-      <div v-for="(tag, index) in tags" :key="index" class="tag">
-        <span class="tx">{{ tag }}</span>
-
-        <span class="rm" @click="removeTag(index)">
-          <factor-icon icon="remove" />
-        </span>
-      </div>
-    </div>
     <div class="the-input">
       <dashboard-input
         v-model="addedText"
@@ -20,6 +11,15 @@
       <factor-btn-dashboard @click="addTag()">
         <factor-icon icon="plus" />
       </factor-btn-dashboard>
+    </div>
+    <div v-if="tags.length > 0" class="the-tags">
+      <div v-for="(tag, index) in tags" :key="index" class="tag">
+        <span class="tx">{{ tag }}</span>
+
+        <span class="rm" @click="removeTag(index)">
+          <factor-icon icon="remove" />
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +75,7 @@ export default Vue.extend({
 <style lang="less">
 .tag-input {
   .the-tags {
-    margin-bottom: 1em;
+    margin-top: 0.5rem;
   }
   .tag {
     display: inline-block;

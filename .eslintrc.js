@@ -66,6 +66,10 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "import/no-cycle": 2,
     "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
+    // "import/no-unused-modules": [
+    //   1,
+    //   { unusedExports: true, ignoreExports: [".ref", "test"] }
+    // ],
     "vue/html-self-closing": 0,
     "vue/html-closing-bracket-spacing": "off",
     "vue/multiline-html-element-content-newline": "off",

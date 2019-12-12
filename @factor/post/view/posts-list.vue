@@ -2,16 +2,6 @@
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
 
-    <template slot="nav">
-      <factor-link
-        :path="`/dashboard/posts/${postType}/add-new`"
-        btn="primary"
-        data-test="add-post"
-      >
-        Add New
-        <factor-icon icon="arrow-right" />
-      </factor-link>
-    </template>
     <dashboard-grid-controls>
       <dashboard-grid-actions
         :actions="controlActions"
@@ -32,11 +22,7 @@
       </template>
       <template #title="{row}">
         <div class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">
-            {{
-              row.title
-            }}
-          </factor-link>
+          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{ row.title }}</factor-link>
           <factor-link
             v-if="row.permalink"
             class="permalink"
@@ -57,7 +43,7 @@
   </dashboard-pane>
 </template>
 <script lang="ts">
-import { factorLink, factorIcon } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import {
   dashboardGrid,
   dashboardGridControls,
@@ -67,14 +53,13 @@ import {
   dashboardUserCard,
   dashboardGridActions
 } from "@factor/dashboard"
-import {getStatusCount} from "@factor/post/util"
+import { getStatusCount } from "@factor/post/util"
 
-import {  requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
+import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorIcon,
     factorLink,
     dashboardGrid,
     dashboardGridControls,
@@ -97,7 +82,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    tabs() {
+    tabs(this: any): { name: string; value: string; count: number }[] {
       return [`all`, `published`, `draft`, `trash`].map(key => {
         const count =
           key == "all"
@@ -116,14 +101,14 @@ export default Vue.extend({
       })
     },
 
-    statusDetails() {
+    statusDetails(this: any): string {
       const { categories: { status = {} } = {} } = this.index || {}
       return status
     },
-    postType() {
+    postType(this: any): string {
       return this.$route.params.postType || ""
     },
-    controlActions() {
+    controlActions(this: any): { value: string; name: string }[] {
       return [
         { value: "published", name: "Publish" },
         { value: "draft", name: "Change to Draft" },
@@ -144,19 +129,16 @@ export default Vue.extend({
   methods: {
     toLabel,
     standardDate,
-    selectAll(val) {
+    selectAll(this: any, val: boolean) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },
-    async runAction(action) {
+    async runAction(this: any, action: string) {
       this.loadingAction = true
 
       if (this.selected.length > 0) {
         if (action == "delete") {
           if (confirm("Are you sure? This will permanently delete the selected posts.")) {
-            await requestPostDeleteMany({
-              _ids: this.selected,
-              postType: this.postType
-            })
+            await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
           }
         } else {
           await requestPostSaveMany({
@@ -170,7 +152,7 @@ export default Vue.extend({
 
       this.loadingAction = false
     },
-    postlink(postType, permalink) {
+    postlink(postType: string, permalink: string) {
       return getPermalink({ postType, permalink })
     },
 

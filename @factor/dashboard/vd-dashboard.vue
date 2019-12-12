@@ -58,7 +58,7 @@ export default Vue.extend({
         },
         {
           title: "Latest Updates",
-          description: "Katest news, tips and tutorials on creating next level apps.",
+          description: "Get news, tips and tutorials on creating next level apps.",
           btn: "Blog &rarr;",
           path: "https://www.fiction.com/blog"
         },

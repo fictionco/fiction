@@ -1,18 +1,27 @@
 <template>
-  <dashboard-page :key="postType" class="posts-dashboard">
+  <dashboard-page :key="postType" class="posts-dashboard" :title="postTypeLabel">
+    <template #actions>
+      <factor-link
+        v-if="!getPostTypeConfig.noAddNew"
+        :path="`/dashboard/posts/${postType}/add-new`"
+        btn="primary"
+        data-test="add-post"
+      >Add New &rarr;</factor-link>
+    </template>
+
     <component
       :is="templateLoader"
       :list="posts"
       :meta="postsMeta"
       :loading="loading"
       :sending="sending"
-      :title="postTypeLabel"
       :post-type="postType"
       @action="runPostAction($event)"
     />
   </dashboard-page>
 </template>
 <script lang="ts">
+import { factorLink } from "@factor/ui"
 import {
   requestPostIndex,
   requestPostDeleteMany,
@@ -20,9 +29,10 @@ import {
 } from "@factor/post/request"
 import { getPostTypeConfig, onEvent, stored } from "@factor/api"
 import { dashboardPage } from "@factor/dashboard"
+import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
-  components: { dashboardPage },
+  components: { dashboardPage, factorLink },
   data() {
     return {
       loading: true,
@@ -36,10 +46,10 @@ export default Vue.extend({
   },
 
   computed: {
-    postIndex() {
+    postIndex(this: any): FactorPost {
       return stored(this.postType) || []
     },
-    getPostTypeConfig() {
+    getPostTypeConfig(this: any) {
       return getPostTypeConfig(this.postType)
     },
     templateLoader() {
@@ -47,7 +57,7 @@ export default Vue.extend({
 
       return listTemplate ? listTemplate : () => import("./posts-list.vue")
     },
-    postType() {
+    postType(this: any): string {
       return this.$route.params.postType || ""
     },
     postTypeLabel() {
@@ -74,7 +84,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route: function() {
+    $route: function(this: any) {
       this.setPosts()
     }
   },
@@ -109,7 +119,7 @@ export default Vue.extend({
       this.sending = false
     },
 
-    async setPosts() {
+    async setPosts(this: any) {
       this.loading = true
       await requestPostIndex(this.filters)
       this.loading = false

@@ -1,65 +1,57 @@
 <template>
-  <dashboard-page :loading="loading">
-    <div class="post-grid">
-      <div class="content-column">
-        <dashboard-pane :title="title" class="compose">
-          <dashboard-input
-            v-model="post.title"
-            input="factor-input-text"
-            label="Title"
-            class="post-title"
-            @keyup="doDraftSave()"
-          />
+  <dashboard-page :loading="loading" :title="title">
+    <template #actions>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
+        Save &nbsp;
+        <factor-icon icon="arrow-up" />
+      </factor-btn-dashboard>
+    </template>
+    <template #primary>
+      <dashboard-pane class="compose" title="Content">
+        <dashboard-input
+          v-model="post.title"
+          input="factor-input-text"
+          label="Title"
+          class="post-title"
+          @keyup="doDraftSave()"
+        />
 
-          <dashboard-input label="Permalink">
-            <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
-          </dashboard-input>
-          <dashboard-input label="Post Content">
-            <input-editor v-model="post.content" @keyup="doDraftSave()" />
-          </dashboard-input>
-          <template #nav>
-            <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
-              Save &nbsp;
-              <factor-icon icon="arrow-up" />
-            </factor-btn-dashboard>
-          </template>
-        </dashboard-pane>
+        <dashboard-input label="Permalink">
+          <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
+        </dashboard-input>
+        <dashboard-input label="Post Content">
+          <input-editor v-model="post.content" @keyup="doDraftSave()" />
+        </dashboard-input>
+      </dashboard-pane>
+    </template>
+    <template #meta>
+      <dashboard-pane title="Meta Info" class="post-media">
+        <dashboard-input
+          v-model="post.subTitle"
+          input="factor-input-text"
+          label="Sub Title / Teaser"
+          class="post-title"
+          @keyup="doDraftSave()"
+        />
+        <factor-client-only>
+          <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
+        </factor-client-only>
+        <dashboard-input label="Tags">
+          <input-tags v-model="post.tag" />
+        </dashboard-input>
 
-        <dashboard-pane title="Meta Info" class="post-media">
-          <dashboard-input
-            v-model="post.subTitle"
-            input="factor-input-text"
-            label="Sub Title / Teaser"
-            class="post-title"
-            @keyup="doDraftSave()"
-          />
-          <factor-client-only>
-            <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
-          </factor-client-only>
-          <dashboard-input label="Tags">
-            <input-tags v-model="post.tag" />
-          </dashboard-input>
-
-          <dashboard-input
-            v-model="post.images"
-            input="factor-input-image-upload"
-            label="Post Images"
-            @autosave="saveDraft()"
-          />
-          <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
-          <template #actions>
-            <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
-              Save &nbsp;
-              <factor-icon icon="arrow-up" />
-            </factor-btn-dashboard>
-          </template>
-        </dashboard-pane>
-
-        <slot name="edit" />
-      </div>
-
-      <div class="content-column plugin-column" />
-    </div>
+        <dashboard-input
+          v-model="post.images"
+          input="factor-input-image-upload"
+          label="Post Images"
+          @autosave="saveDraft()"
+        />
+        <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
+      </dashboard-pane>
+    </template>
+    <template #secondary>
+      <slot name="edit" />
+    </template>
   </dashboard-page>
 </template>
 <script lang="ts">
@@ -73,7 +65,9 @@ import {
   stored,
   timeUtil,
   storeItem,
-  getPermalink
+  getPermalink,
+  getPostTypeConfig,
+  PostTypeConfig
 } from "@factor/api"
 import { excerpt } from "@factor/api/excerpt"
 import { requestPostSave } from "@factor/post/request"
@@ -118,7 +112,7 @@ export default Vue.extend({
       }
     },
 
-    _id() {
+    _id(this: any): string {
       return this.$route.query._id || ""
     },
     injectedComponents() {
@@ -129,19 +123,22 @@ export default Vue.extend({
       )
     },
 
-    excerpt() {
+    excerpt(this: any) {
       return excerpt(this.post.content)
     },
-    title() {
+    postTypeConfig(this: any): PostTypeConfig | {} {
+      return getPostTypeConfig(this.postType) || {}
+    },
+    title(this: any) {
       const mode = this.isNew ? "Add New" : "Edit"
-
-      return `${mode} ${toLabel(this.postType)}`
+      const name = this.postTypeConfig.nameSingle || toLabel(this.postType)
+      return `${mode} ${name}`
     },
 
-    postType() {
+    postType(this: any) {
       return this.$route.params.postType || this.post.postType || "page"
     },
-    url() {
+    url(this: any) {
       return getPermalink({
         postType: this.postType,
         permalink: this.post.permalink,
@@ -149,12 +146,12 @@ export default Vue.extend({
       })
     },
 
-    lastRevision() {
+    lastRevision(this: any) {
       return this.post.revisions && this.post.revisions.length > 0
         ? this.post.revisions[0]
         : {}
     },
-    canRevert() {
+    canRevert(this: any) {
       if (
         !this.lastRevision.published &&
         this.post.revisions &&
@@ -171,7 +168,7 @@ export default Vue.extend({
   methods: {
     isEmpty,
     timeUtil,
-    async savePost() {
+    async savePost(this: any) {
       this.sending = true
 
       this.clearAutosave()
@@ -191,7 +188,7 @@ export default Vue.extend({
       this.sending = false
     },
 
-    doDraftSave() {
+    doDraftSave(this: any) {
       if (!this.willsave) {
         this.willsave = setTimeout(() => {
           this.saveDraft()
@@ -199,12 +196,12 @@ export default Vue.extend({
       }
     },
 
-    clearAutosave() {
+    clearAutosave(this: any) {
       clearTimeout(this.willsave)
       this.willsave = null
     },
 
-    addRevision({ post, meta }) {
+    addRevision(this: any, { post, meta }) {
       this.clearAutosave()
 
       const postData = this.addRevision({ post, meta })
@@ -214,7 +211,7 @@ export default Vue.extend({
       return true
     },
 
-    revertChanges() {
+    revertChanges(this: any) {
       // eslint-disable-next-line no-unused-vars
       const { revisions } = this.post
 
@@ -239,7 +236,7 @@ export default Vue.extend({
       this.$set(this.post, "revisions", newRevisions)
     },
 
-    async saveDraft() {
+    async saveDraft(this: any) {
       this.sendingDraft = true
 
       await this.addRevision({ post: this.post, save: true })

@@ -11,28 +11,29 @@
 import { dashboardPane } from "@factor/dashboard"
 import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
+import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
   components: { dashboardPane },
   computed: {
     post: {
-      get() {
+      get(this: any): FactorPost {
         return stored(this._id) || {}
       },
-      set(v) {
+      set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
       }
     },
-    _id(): string {
+    _id(this: any): string {
       return this.$route.query._id || ""
     },
-    postType(): string {
+    postType(this: any): string {
       return this.$route.params.postType || ""
     },
-    getPostTypeConfig() {
+    getPostTypeConfig(this: any) {
       return getPostTypeConfig(this.postType)
     },
-    templateLoader() {
+    templateLoader(this: any) {
       const { editTemplate } = this.getPostTypeConfig
 
       return editTemplate ? editTemplate : () => import("./posts-edit.vue")
@@ -46,7 +47,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route: function() {
+    $route: function(this: any) {
       if (!this._id) this.requestPost()
     }
   },

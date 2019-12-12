@@ -10,7 +10,7 @@
       <dashboard-pane v-if="loading" class="dpg-loading">
         <factor-loading-ring width="4em" />
       </dashboard-pane>
-      <div v-show="!loading" class="page-grid">
+      <div v-else-if="!loading && $slots.primary" class="page-grid">
         <div class="col col-primary">
           <slot name="primary" />
         </div>
@@ -21,7 +21,9 @@
           <slot name="meta" />
         </div>
       </div>
-
+      <div v-else-if="!loading" class="page-full">
+        <slot></slot>
+      </div>
       <dashboard-footer />
     </div>
   </div>

@@ -12,7 +12,8 @@ export interface PostTypeConfig {
   namePlural?: string;
   listTemplate?: () => Promise<Vue>;
   editTemplate?: () => Promise<Vue>;
-  add?: boolean;
+  noAddNew?: boolean;
+  addNewText?: string;
   accessLevel?: number;
   hideAdmin?: boolean;
 }

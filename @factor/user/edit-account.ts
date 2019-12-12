@@ -35,7 +35,7 @@ export const setup = (): void => {
     editTemplate: (): Promise<Component> => import("./v-edit.vue"),
     baseRoute: "@",
     accessLevel: 500,
-    add: false
+    noAddNew: true
   })
 }
 setup()

@@ -4,7 +4,11 @@
       <div class="legal">
         <div class="copyright">
           Powered by
-          <a href="https://factor.dev" target="_blank" rel="noopener noreferrer">Factor TS</a>
+          <a
+            href="https://factor.dev"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Factor Unified Platform</a>
         </div>
       </div>
     </div>
@@ -17,8 +21,6 @@ export default Vue.extend({})
 <style lang="less">
 .app-footer {
   padding: 1.5em 0;
-
-  font-weight: 600;
   opacity: 0.4;
   padding-bottom: 2em;
   text-align: left;
@@ -26,10 +28,6 @@ export default Vue.extend({})
   a {
     color: inherit;
     text-decoration: underline;
-  }
-  @media (max-width: 767px) {
-    padding-bottom: 6em;
-    text-align: center;
   }
 }
 </style>

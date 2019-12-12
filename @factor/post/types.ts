@@ -27,7 +27,7 @@ export interface UpdatePost {
 
 export interface UpdateManyPosts {
   _ids: string[];
-  data: object;
+  data?: object;
   postType: string;
 }
 

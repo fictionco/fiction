@@ -103,18 +103,11 @@ export const setup = (): void => {
             ? false
             : true
         })
-        .forEach(({ postType, namePlural, icon = "", add = "add-new" }) => {
+        .forEach(({ postType, namePlural, icon = "", addNewText = "add-new" }) => {
           const subMenu: DashboardMenuItem[] = []
 
-          let addText = ""
-          if (add === true) {
-            addText = "Add New"
-          } else if (add) {
-            addText = toLabel(add)
-          }
-
-          if (addText) {
-            subMenu.push({ path: slugify(addText), name: addText })
+          if (addNewText) {
+            subMenu.push({ path: slugify(addNewText), name: addNewText })
           }
 
           subMenu.push({ path: "edit" })
