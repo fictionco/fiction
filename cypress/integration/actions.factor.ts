@@ -37,7 +37,7 @@ context("Actions", () => {
     // logout of account
     cy.get('[data-test="account-nav-logout"]').click()
 
-    cy.wait(1000)
+    //cy.wait(1000)
 
     // Should be on a new URL which includes '/'
     cy.url().should('include', '/')
