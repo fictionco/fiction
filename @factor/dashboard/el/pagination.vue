@@ -23,12 +23,13 @@ export default Vue.extend({
     count: { type: Number, default: 0 }
   },
   methods: {
-    page(direction) {
+    page(this: any, direction: string) {
+      const current: number = parseInt(this.pageCurrent)
       let page
-      if (direction == "next" && this.pageCurrent !== this.pageCount) {
-        page = this.pageCurrent + 1
-      } else if (this.pageCurrent > 1) {
-        page = this.pageCurrent - 1
+      if (direction == "next" && current !== this.pageCount) {
+        page = current + 1
+      } else if (current > 1) {
+        page = current - 1
       }
 
       if (page) {

@@ -34,4 +34,4 @@ And this allows authors to do more for you. Essentially they can create an exper
 
 We'll dive into the details of the dashboard, data model, plugins, themes and framework in a bit.
 
-If you haven't installed Factor yet, let's move on to the [Factor Quickstart &rarr;](./quickstart)
+If you haven't installed Factor yet, let's move on to the [Factor Quickstart &rarr;](./guide/quickstart)

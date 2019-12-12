@@ -43,7 +43,7 @@ export const setUser = ({ user, token = "", current = false }: SetUser): void =>
     _initializedUser = user ? user : undefined
 
     if (token && user) userToken(token)
-    else if (user === null) userToken(null)
+    else if (user === undefined) userToken(undefined)
 
     storeItem("currentUser", user)
 
