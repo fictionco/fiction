@@ -14,7 +14,7 @@ const unicodeKeys = {
 }
 
 let spawnedProcess: ChildProcess
-const APP_FOLDER = "generated-app"
+const APP_FOLDER = "generated-staging-app"
 const cwd = __dirname
 describe("create-factor-app", () => {
   beforeAll(() => {
