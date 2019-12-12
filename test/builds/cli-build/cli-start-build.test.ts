@@ -7,7 +7,7 @@ import { getPort, waitFor } from "@test/utils"
 import rp from "request-promise-native"
 import { startProcess, closeProcess, getUrl } from "./build-util"
 
-jest.setTimeout(90000)
+jest.setTimeout(180000)
 
 // Don't run these in windows
 describe["posix"]("cli factor start", () => {

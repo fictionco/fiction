@@ -31,8 +31,8 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLoadingRing,
-    "dashboard-nav": () => import("./nav.vue"),
-    "dashboard-head": () => import("./head.vue")
+    dashboardNav: () => import("./nav.vue"),
+    dashboardHead: () => import("./head.vue")
   },
   metaInfo() {
     const pageName = this.$route.path.split("/").pop()

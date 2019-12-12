@@ -7,7 +7,13 @@ import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
 import { addEndpoint } from "@factor/api/endpoints"
 import { FactorUser } from "./types"
-import { SendVerifyEmail, VerifyAndResetPassword, VerifyEmail } from "./email-request"
+import {
+  SendVerifyEmail,
+  VerifyAndResetPassword,
+  VerifyEmail,
+  EmailResult
+} from "./email-types"
+
 interface UserEmailConfig {
   to: string;
   subject: string;
@@ -36,7 +42,7 @@ export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
 export const verifyEmail = async (
   { _id, code }: VerifyEmail,
   { bearer }: EndpointMeta
-): Promise<void> => {
+): Promise<EmailResult> => {
   if (!bearer || bearer._id != _id) {
     throw new Error(`Email verification user doesn't match the logged in account.`)
   }
@@ -49,16 +55,18 @@ export const verifyEmail = async (
     user.emailVerified = true
     user.emailVerificationCode = undefined
     await user.save()
-    return
+    return EmailResult.success
   } else if (!user.emailVerified) {
     throw new Error("Verification code does not match.")
+  } else {
+    return EmailResult.failure
   }
 }
 
 export const sendVerifyEmail = async (
   { email, _id }: SendVerifyEmail,
   { bearer }: EndpointMeta
-): Promise<void> => {
+): Promise<EmailResult> => {
   const emailVerificationCode = randomToken()
 
   await savePost({ postType: "user", data: { _id, emailVerificationCode } }, { bearer })
@@ -73,14 +81,14 @@ export const sendVerifyEmail = async (
     code: emailVerificationCode
   })
 
-  return
+  return EmailResult.success
 }
 
 export const verifyAndResetPassword = async ({
   _id,
   code,
   password
-}: VerifyAndResetPassword): Promise<void> => {
+}: VerifyAndResetPassword): Promise<EmailResult> => {
   const user = await getModel("post").findOne({ _id }, "+passwordResetCode")
 
   if (!user) {
@@ -91,7 +99,7 @@ export const verifyAndResetPassword = async ({
     user.password = password
     user.passwordResetCode = undefined
     await user.save()
-    return
+    return EmailResult.success
   } else {
     throw new Error("Could not reset your password.")
   }
@@ -101,7 +109,7 @@ export const sendPasswordResetEmail = async ({
   email
 }: {
   email: string;
-}): Promise<void> => {
+}): Promise<EmailResult> => {
   const passwordResetCode = randomToken()
 
   const user = await getUserModel().findOneAndUpdate({ email }, { passwordResetCode })
@@ -121,7 +129,7 @@ export const sendPasswordResetEmail = async ({
     code: passwordResetCode
   })
 
-  return
+  return EmailResult.success
 }
 
 export const setup = (): void => {

@@ -50,13 +50,13 @@
           input="factor-input-email"
           label="Email Address"
         >
-          <div v-if="post.email && !post.emailVerified">
-            <factor-btn-dashboard size="tiny" btn="subtle">Unverified</factor-btn-dashboard>
+          <div v-if="post.email && !post.emailVerified" class="verify-email">
             <factor-btn-dashboard
-              size="tiny"
+              size="small"
+              btn="secondary"
               :loading="sending"
               @click="sendVerifyEmail()"
-            >Resend Email</factor-btn-dashboard>
+            >Unverified - Resend Email &rarr;</factor-btn-dashboard>
           </div>
         </dashboard-input>
 
@@ -110,6 +110,7 @@ import { factorBtnDashboard, factorIcon } from "@factor/ui"
 import { userId, sendVerifyEmail } from "@factor/user"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/api"
 import { requestPostSave } from "@factor/post/request"
+import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
   components: {
@@ -128,21 +129,21 @@ export default Vue.extend({
   },
   computed: {
     post: {
-      get() {
+      get(this: any): FactorPost {
         return stored(this._id) || {}
       },
-      set(v) {
+      set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
       }
     },
 
-    profile() {
+    profile(this: any) {
       return this.post.profile || {}
     },
-    _id() {
+    _id(this: any) {
       return this.$route.query._id || userId()
     },
-    url() {
+    url(this: any) {
       return this.post.username ? `/@${this.post.username}` : `/@?_id=${this.post._id}`
     }
   },
@@ -158,7 +159,7 @@ export default Vue.extend({
       })
       this.sending = false
     },
-    async save() {
+    async save(this: any) {
       this.sending = true
 
       const saved = await requestPostSave({
@@ -180,12 +181,6 @@ export default Vue.extend({
 <style lang="less">
 .user-dashboard-post-grid {
   display: grid;
-  // grid-gap: 1em;
-  // grid-template-columns: 3fr minmax(230px, 1fr);
-
-  // @media (max-width: 960px) {
-  //   grid-gap: 1em 0;
-  // }
 
   .content-column,
   .meta-column {
@@ -218,14 +213,11 @@ export default Vue.extend({
   .compose .cont {
     min-height: 20vh;
   }
+}
 
-  .email-inputs {
-    .the-input {
-      display: flex;
-      > * {
-        margin-right: 1em;
-      }
-    }
+.email-inputs {
+  .verify-email {
+    margin-top: 0.5rem;
   }
 }
 .user-info {

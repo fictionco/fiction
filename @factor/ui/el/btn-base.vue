@@ -36,7 +36,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    scope() {
+    scope(this: any): boolean {
       return this.btn == "test" && !this.$testing.isTest ? false : true
     },
     buttonClass() {
@@ -66,7 +66,7 @@ export default Vue.extend({
 
       return btnClass
     },
-    circleClass() {
+    circleClass(this: any): string {
       if (this.circle) {
         return this.circle
       }

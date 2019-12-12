@@ -95,10 +95,11 @@ export const createServer = (options: ServerOptions): void => {
 
       if (__listening) {
         __listening.destroy()
-      }
-      await runCallbacks("rebuild-server-app")
 
-      createServer(options)
+        await runCallbacks("rebuild-server-app")
+
+        createServer(options)
+      }
     }
   })
 }

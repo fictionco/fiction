@@ -3,9 +3,12 @@
   "factor": {
     "load": {
       "app": "index",
-      "server": "server"
-    },
-    "_id": "user"
+      "server": [
+        "server",
+        "email-endpoint",
+        "roles-server"
+      ]
+    }
   },
   "version": "1.1.5",
   "license": "GPL-2.0",

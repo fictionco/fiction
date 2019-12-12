@@ -5,8 +5,9 @@
     "noEmit": true,
     "target": "es2018",
     "module": "commonjs",
-    "declaration": true,
-    "declarationMap": true,
+    // "declaration": true,
+    // "declarationMap": true,
+    //"sourceMap": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -15,7 +16,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": ".",
-    "sourceMap": true,
+
     "skipLibCheck": true,
     "paths": {
       "__CWD__/*": ["test/modules/alias/*"],
