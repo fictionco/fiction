@@ -23,14 +23,13 @@
   </div>
 </template>
 <script lang="ts">
-import { factorBtnDashboard, factorLoadingRing } from "@factor/ui"
+import { factorLoadingRing } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel } from "@factor/api"
 import { Route } from "vue-router"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorBtnDashboard,
     factorLoadingRing,
     "dashboard-nav": () => import("./nav.vue"),
     "dashboard-head": () => import("./head.vue")
