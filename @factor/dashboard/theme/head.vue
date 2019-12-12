@@ -10,6 +10,22 @@
       <div class="nav">
         <slot />
         <account-menu />
+        <div class="mobile-nav-toggle-wrap" @click.stop>
+          <div
+            class="mobile-nav-toggle"
+            :class="toggle ? 'active' : 'inactive'"
+            @click="toggleNav()"
+          >
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+      </div>
+      <div v-if="toggle" class="mobile-nav">
+        <div class="mobile-nav-content">
+          <dashboard-nav />
+        </div>
       </div>
     </div>
   </div>
@@ -18,15 +34,43 @@
 import { factorLink } from "@factor/ui"
 import { accountMenu } from "@factor/dashboard"
 import { setting } from "@factor/api"
+
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLink, accountMenu },
+  components: { factorLink, accountMenu, dashboardNav: () => import("./nav.vue") },
+  data() {
+    return {
+      toggle: false
+    }
+  },
   computed: {
     iconUrl() {
       return setting("app.icon")
     },
     appName() {
       return setting("app.name")
+    }
+  },
+  methods: {
+    toggleNav(this: any, toggle?: boolean) {
+      if (!document) return
+
+      if (typeof toggle == "undefined") {
+        this.toggle = !this.toggle
+      } else {
+        this.toggle = toggle
+      }
+
+      this.clickHandler = () => {
+        this.toggle = false
+        document.removeEventListener("click", this.clickHandler, false)
+      }
+
+      if (this.toggle) {
+        document.addEventListener("click", this.clickHandler, false)
+      } else {
+        document.removeEventListener("click", this.clickHandler, false)
+      }
     }
   }
 })
@@ -36,6 +80,104 @@ export default Vue.extend({
   position: relative;
   z-index: 10;
 }
+
+.mobile-nav-toggle {
+  display: flex;
+  flex-direction: column;
+  width: 1.75rem;
+  height: 2rem;
+  justify-content: center;
+  .bar {
+    background: var(--panel-border-color);
+    height: 3px;
+
+    width: 1.75rem;
+    border-radius: 4px;
+
+    position: absolute;
+    transition: all 0.2s;
+    &:first-child {
+      transform: translateY(-8px);
+    }
+    &:last-child {
+      transform: translateY(8px);
+    }
+  }
+  &.active {
+    .bar {
+      transform: translateY(0);
+      margin: 0;
+      position: absolute;
+    }
+    .bar:first-child {
+      transform: rotate(45deg);
+    }
+    .bar:nth-child(2) {
+      transform: rotate(-45deg);
+    }
+    .bar:last-child {
+      display: none;
+    }
+  }
+}
+
+.mobile-nav-toggle-wrap {
+  margin-left: 1rem;
+  cursor: pointer;
+  display: none;
+  position: relative;
+  z-index: 1000;
+  @media (max-width: 960px) {
+    display: block;
+  }
+}
+
+.mobile-nav {
+  width: 100%;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  .mobile-nav-content {
+    margin: 0.25rem 0.5rem;
+    min-height: 100px;
+
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px rgba(136, 152, 170, 0.1), 0 15px 35px 0 rgba(49, 49, 93, 0.1),
+      0 5px 15px 0 rgba(0, 0, 0, 0.08);
+    padding: 1rem;
+  }
+}
+
+// .app-wrap {
+//   .mobile-nav {
+//     display: none;
+
+//     @media (max-width: 960px) {
+//       &.toggle-nav {
+//         display: block;
+//       }
+//       display: block;
+//       position: fixed;
+//       width: 270px;
+
+//       padding: 1.5em;
+//       top: 0;
+//       bottom: 0;
+//       left: 0;
+//       min-height: 100vh;
+//       z-index: 100;
+
+//       overflow-y: scroll;
+//       background: #fff;
+//       box-shadow: var(--pane-shadow);
+//       &.active {
+//         transform: translate3d(0, 0, 0);
+//       }
+//     }
+//   }
+// }
 
 .dashboard-head-pad {
   padding: 0 1rem;

@@ -169,7 +169,7 @@ export default Vue.extend({
       grid-area: icon;
       align-self: center;
       img {
-        width: 16px;
+        width: 1em;
         display: block;
       }
     }
@@ -193,6 +193,19 @@ export default Vue.extend({
   }
   .nav-set.has-title {
     margin: 1em 0;
+  }
+
+  @media (max-width: 960px) {
+    .nav-set {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      .nav-group {
+        font-size: 1.3em;
+        .primary-item {
+          padding: 0.5em 0.25em;
+        }
+      }
+    }
   }
 
   a {

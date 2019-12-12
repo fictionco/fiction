@@ -6,10 +6,6 @@
       </div>
     </template>
     <template v-else>
-      <div v-if="toggle" class="mobile-nav" :class="toggle ? 'toggle-nav' : 'toggle-main'">
-        <dashboard-nav />
-      </div>
-
       <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
         <dashboard-head class="app-head" />
 
@@ -18,9 +14,6 @@
         </div>
         <div class="app-main">
           <div class="app-main-content">
-            <div class="mobile-nav-toggle-wrap" @click.stop>
-              <factor-btn-dashboard @click="toggleNav()">&larr; Menu</factor-btn-dashboard>
-            </div>
             <slot v-if="$slots.default" />
             <router-view v-else />
           </div>
@@ -101,34 +94,7 @@ export default Vue.extend({
 .user-loading {
   padding-top: 30vh;
 }
-.app-wrap {
-  .mobile-nav {
-    display: none;
 
-    @media (max-width: 960px) {
-      &.toggle-nav {
-        display: block;
-      }
-      display: block;
-      position: fixed;
-      width: 270px;
-
-      padding: 1.5em;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      min-height: 100vh;
-      z-index: 100;
-
-      overflow-y: scroll;
-      background: #fff;
-      box-shadow: var(--pane-shadow);
-      &.active {
-        transform: translate3d(0, 0, 0);
-      }
-    }
-  }
-}
 .app-layout {
   --panel-border-color: rgba(200, 204, 228, 0.7);
   min-height: 100vh;
@@ -174,22 +140,10 @@ export default Vue.extend({
     .app-nav {
       display: none;
     }
-  }
-
-  .app-main-content .toggle {
-    margin: 0.5em 0;
-    display: inline-block;
-  }
-
-  .mobile-nav-toggle-wrap {
-    cursor: pointer;
-    display: none;
-    margin-bottom: 1em;
-
-    @media (max-width: 960px) {
-      display: block;
-    }
-    @media (max-width: 767px) {
+    .app-main {
+      .app-main-content {
+        padding: 1rem;
+      }
     }
   }
 }

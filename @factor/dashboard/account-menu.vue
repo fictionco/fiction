@@ -228,6 +228,9 @@ export default Vue.extend({
   }
 }
 @media screen and (max-width: 767px) {
+  .account-menu {
+    position: static;
+  }
   .account-menu-nav {
     border-radius: 0;
     width: 100%;

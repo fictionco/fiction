@@ -11,13 +11,13 @@
         <factor-loading-ring width="4em" />
       </dashboard-pane>
       <div v-show="!loading" class="page-grid">
-        <div class="col-primary">
+        <div class="col col-primary">
           <slot name="primary" />
         </div>
-        <div class="col-secondary">
+        <div class="col col-secondary">
           <slot name="secondary" />
         </div>
-        <div class="col-meta">
+        <div class="col col-meta">
           <slot name="meta" />
         </div>
       </div>
@@ -62,17 +62,22 @@ export default Vue.extend({
 
   .page-grid {
     display: grid;
-    grid-template-columns: 1fr minmax(250px, 400px);
+    grid-template-columns: minmax(400px, 1fr) minmax(200px, 400px);
     grid-column-gap: 2rem;
     grid-template-areas:
       "primary   meta"
       "secondary meta";
+
     @media (max-width: 960px) {
       grid-template-columns: 1fr;
       grid-template-areas:
         "primary"
         "meta"
         "secondary";
+    }
+
+    .col {
+      min-width: 0;
     }
 
     .col-primary {

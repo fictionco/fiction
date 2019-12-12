@@ -4,10 +4,12 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            A Typescript platform for
-            websites, blogs and full-stack applications.
+            The Typescript Application Platform
+            <span
+              class="highlight"
+            >for Professional Front-End Developers</span>
           </h1>
-          <h3 class="page-title-sub">Designed for Professional Front-End Developers</h3>
+          <h3 class="page-title-sub">Create Universal Websites, Blogs and Full-Stack Applications</h3>
 
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
