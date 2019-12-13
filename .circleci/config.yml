@@ -7,7 +7,7 @@ executors:
         type: boolean
         default: false
     docker:
-      - image: circleci/node:latest<<# parameters.browsers >>-browsers<</ parameters.browsers >>
+      - image: cypress/base:10
         environment:
           ## this enables colors in the output
           TERM: xterm
@@ -163,7 +163,7 @@ jobs:
       - store-test-results
 
   test-e2e:
-    executor: cypress-env
+    executor: node
     steps:
       - attach-project
       - run:
