@@ -15,6 +15,15 @@ executors:
     environment:
       NODE_ENV: test
       NODE_OPTIONS: --max_old_space_size=8192
+  cypress-env:
+    docker:
+      - image: cypress/base:10
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/project
+    environment:
+      NODE_ENV: test
 
 orbs:
   cypress: cypress-io/cypress@1
@@ -80,7 +89,7 @@ jobs:
           paths:
             - node_modules
             - "@factor/*/node_modules"
-            - ~/.cache  
+            - ~/.cache
             - ~/.cache/Cypress
 
       # Persist workspace
@@ -149,16 +158,14 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT_NAME: unit.xml
       - store-test-results
-  
-  test-e2e: 
-    executor: node
-    steps: 
+
+  test-e2e:
+    executor: cypress-env
+    steps:
       - attach-project
       - run:
           name: e2e
           command: "yarn test:e2e"
-     
-  
 
   # --------------------------------------------------------------------------
   # Phase 4: Release (dev branch only)
@@ -189,17 +196,17 @@ workflows:
       - test-unit: { requires: [setup] }
       - build: { requires: [setup] }
       - test-integration: { requires: [build] }
-      - test-e2e:   { requires: [setup] }
+      - test-e2e: { requires: [setup] }
       - release-commit:
           requires: [build, lint, audit, test-unit, test-integration]
           filters:
             <<: *release_branches
 
-  # Test production 
+  # Test production
   live:
     jobs:
       - setup
-      - test-e2e:   { requires: [setup] }
+      - test-e2e: { requires: [setup] }
     triggers:
       - schedule:
           cron: "0 * * * *"
