@@ -8,6 +8,9 @@ executors:
         default: false
     docker:
       - image: circleci/node:latest<<# parameters.browsers >>-browsers<</ parameters.browsers >>
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
     working_directory: ~/project
     environment:
       NODE_ENV: test
@@ -77,6 +80,7 @@ jobs:
           paths:
             - node_modules
             - "@factor/*/node_modules"
+            - ~/.cache  ## cache both yarn and Cypress!
 
       # Persist workspace
       - persist_to_workspace:
@@ -85,6 +89,7 @@ jobs:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
+            - ~/.cache  ## cache both yarn and Cypress!
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
@@ -148,7 +153,6 @@ jobs:
   test-e2e: 
     steps: 
       - cypress/run
-        name: E2E
      
   
 
