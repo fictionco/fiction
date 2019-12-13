@@ -151,9 +151,12 @@ jobs:
       - store-test-results
   
   test-e2e: 
-    executor: cypress
+    executor: node
     steps: 
-      - cypress/run
+      - attach-project
+      - run:
+          name: e2e
+          command: "yarn test:e2e"
      
   
 
