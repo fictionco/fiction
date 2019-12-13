@@ -148,7 +148,7 @@ jobs:
   test-e2e: 
     steps: 
       - cypress/run
-        name: 'end-to-end tests'
+        name: E2E
      
   
 
