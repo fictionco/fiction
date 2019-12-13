@@ -10117,9 +10117,9 @@ mongoose-legacy-pluralize@1.0.2:
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
 mongoose@^5.6.0:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.8.0.tgz#ddbfd6849632ed5840ec3e5faeaab1945bb3b650"
-  integrity sha512-+VqrLGmHoDW/72yaXgiXSF7E/JcZ8Iyt7etrd4x3+Bj0z7k6GHHUBgGHP5ySPoG4J412RFuvHqx6xEOIuUrcfQ==
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.8.1.tgz#9a14a17a1e764d3d3397db95326b7ba03146b8eb"
+  integrity sha512-8Cffl52cMK2iBlpLipoRKW/RdrhkxvVzXsy+xVsfbKHQBCWkFiS0T0jU4smYzomTMP4gW0sReJoRA7Gu/7VVgQ==
   dependencies:
     bson "~1.1.1"
     kareem "2.3.1"
