@@ -8,6 +8,10 @@ demo
 server.crt
 server.key
 
+# Ignore Cypress Video Files
+cypress/videos
+cypress/screenshots
+
 # Ignore Mac system files
 .DS_store
 

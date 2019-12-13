@@ -14,8 +14,8 @@ context("Actions", () => {
 
     cy.get(".add-email:last")
       .find("input")
-      .type("secondfake@email.com")
-      .should("have.value", "secondfake@email.com")
+      .type("fake2@email.com")
+      .should("have.value", "fake2@email.com")
   })
 
   it("Test Home Links", () => {

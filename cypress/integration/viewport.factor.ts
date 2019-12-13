@@ -5,7 +5,7 @@ context('Viewport', () => {
     cy.visit('https://factor.dev')
   })
 
-  it('Viewport tests', () => {
+  it('Desktop and Mobile viewport tests', () => {
 
     // Switch to mobile
     cy.viewport('iphone-x')
@@ -23,21 +23,11 @@ context('Viewport', () => {
     // mobile links should be visible when .mobile-sidebar is open
     cy.get('.menu-root').find('a').should('be.visible')
 
-    cy.viewport(320, 480)
-
     // View app in super large screen
-    cy.viewport(2999, 2999).pause()
+    cy.viewport(2999, 2999)
 
-    cy.viewport('macbook-15')
-    cy.viewport('macbook-13')
-    cy.viewport('macbook-11')
-    cy.viewport('ipad-2')
-    cy.viewport('ipad-mini')
-    cy.viewport('iphone-6+')
-    cy.viewport('iphone-6')
-    cy.viewport('iphone-5')
-    cy.viewport('iphone-4')
-    cy.viewport('iphone-3')
+    // back to mobile
+    cy.viewport(320, 480)
 
     // close nav
     cy.get(".mobile-sidebar-canvas").find(".closer").click()
