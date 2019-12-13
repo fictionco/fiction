@@ -89,7 +89,8 @@ jobs:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
-            - .cache  ## cache both yarn and Cypress!
+            - /*/.cache
+            - /home/circleci/.cache/Cypress 
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
