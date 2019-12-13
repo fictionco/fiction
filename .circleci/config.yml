@@ -45,6 +45,7 @@ commands:
 release_branches: &release_branches
   branches:
     only:
+      - development
       - staging
       - release
 
@@ -196,3 +197,5 @@ workflows:
     triggers:
       - schedule:
           cron: "0 * * * *"
+          filters:
+            <<: *release_branches
