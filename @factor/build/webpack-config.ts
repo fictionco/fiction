@@ -13,7 +13,7 @@ import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
 import webpack, { Configuration, Stats, Compiler } from "webpack"
-import WebpackDeepScopeAnalysisPlugin from "webpack-deep-scope-plugin"
+
 import { configSettings } from "@factor/api/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import { cssLoaders, enhancedBuild } from "./webpack-utils"
@@ -36,7 +36,6 @@ export const getDefinedValues = (target: string): object => {
 
 const base = async ({ target }: { target: string }): Promise<Configuration> => {
   const plugins = [
-    new WebpackDeepScopeAnalysisPlugin.default(),
     new VueLoaderPlugin(),
     new webpack.DefinePlugin(getDefinedValues(target)),
     function(this: Compiler): void {
@@ -98,11 +97,8 @@ const base = async ({ target }: { target: string }): Promise<Configuration> => {
     stats: { children: false },
     optimization: {
       sideEffects: true,
-      usedExports: true,
-      minimize: true
-    },
-    performance: { maxEntrypointSize: 500000 },
-    node: {} // removes 150kb from bundle size
+      usedExports: true
+    }
   }
 
   // Allow for ignoring of files that should not be packaged for client

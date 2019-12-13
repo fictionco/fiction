@@ -6,7 +6,13 @@ import cssNano from "cssnano"
 import webpackProgressPlugin from "webpack/lib/ProgressPlugin"
 import cliProgress from "cli-progress"
 
-export const cssLoaders = ({ target, lang }: { target: string; lang: string }): object[] => {
+export const cssLoaders = ({
+  target,
+  lang
+}: {
+  target: string;
+  lang: string;
+}): object[] => {
   const postCssPlugins = applyFilters("postcss-plugins", [cssNano({ preset: "default" })])
 
   const _base = [
