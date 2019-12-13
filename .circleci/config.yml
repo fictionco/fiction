@@ -8,10 +8,16 @@ executors:
         default: false
     docker:
       - image: circleci/node:latest<<# parameters.browsers >>-browsers<</ parameters.browsers >>
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
     working_directory: ~/project
     environment:
       NODE_ENV: test
       NODE_OPTIONS: --max_old_space_size=8192
+
+orbs:
+  cypress: cypress-io/cypress@1
 
 commands:
   attach-project:
@@ -45,6 +51,7 @@ commands:
 release_branches: &release_branches
   branches:
     only:
+      - development
       - staging
       - release
 
@@ -73,6 +80,8 @@ jobs:
           paths:
             - node_modules
             - "@factor/*/node_modules"
+            - ~/.cache  
+            - ~/.cache/Cypress
 
       # Persist workspace
       - persist_to_workspace:
@@ -140,6 +149,16 @@ jobs:
           environment:
             JEST_JUNIT_OUTPUT_NAME: unit.xml
       - store-test-results
+  
+  test-e2e: 
+    executor: node
+    steps: 
+      - attach-project
+      - run:
+          name: e2e
+          command: "yarn test:e2e"
+     
+  
 
   # --------------------------------------------------------------------------
   # Phase 4: Release (dev branch only)
@@ -170,7 +189,19 @@ workflows:
       - test-unit: { requires: [setup] }
       - build: { requires: [setup] }
       - test-integration: { requires: [build] }
+      - test-e2e:   { requires: [setup] }
       - release-commit:
           requires: [build, lint, audit, test-unit, test-integration]
+          filters:
+            <<: *release_branches
+
+  # Test production 
+  live:
+    jobs:
+      - setup
+      - test-e2e:   { requires: [setup] }
+    triggers:
+      - schedule:
+          cron: "0 * * * *"
           filters:
             <<: *release_branches
