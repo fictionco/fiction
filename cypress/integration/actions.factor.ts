@@ -4,7 +4,20 @@ context("Actions", () => {
     cy.visit("https://factor.dev")
   })
 
-  it("Sign Up, logout and login", () => {
+  it('Register, logout and login', () => {
+
+    const chars = 'abcdefghijklmnopqrstuvwxyz1234567890'
+    let string = ''
+    for (let ii = 0; ii < 15; ii++) {
+      string += chars[Math.floor(Math.random() * chars.length)]
+    }
+
+    const user = {
+      name: 'Ben Testing',
+      email: 'test' + string + '@email.com',
+      password: 'Password123!'
+    }
+
     // click sign in link
     cy.get(".primary-nav")
       .find("a:last")
@@ -14,22 +27,16 @@ context("Actions", () => {
     cy.get('a[data-test="link-register"]').click()
 
     // enter name
-    cy.get('input[data-test="signin-name"]').type("Ben Testing")
+    cy.get('input[data-test="signin-name"]').type(user.name)
 
     // enter email
-    cy.get('input[data-test="signin-email"]').type("newuser6@email.com")
+    cy.get('input[data-test="signin-email"]').type(user.email)
 
     // enter password
-    cy.get('input[data-test="signin-password"]').type("Password123!")
+    cy.get('input[data-test="signin-password"]').type(user.password)
 
     // sign up and login
     cy.get('[data-test="submit-login"]').click()
-
-    // go to account nav items
-    cy.get('[data-test="account-menu-toggle"]').click()
-
-    // go to account settings
-    cy.get('[data-test="account-nav-undefined"]').click().pause()
 
     // go to account nav items
     cy.get('[data-test="account-menu-toggle"]').click()
@@ -37,25 +44,21 @@ context("Actions", () => {
     // logout of account
     cy.get('[data-test="account-nav-logout"]').click()
 
-    //cy.wait(1000)
-
-    // Should be on a new URL which includes '/'
-    cy.url().should('include', '/')
-
     // open sign in modal again
-    cy.get(".primary-nav")
-      .find("a:last")
-      .click()
+    cy.get(".primary-nav").find("a:last").click()
 
     // sign in with same info - enter email
-    cy.get('input[data-test="signin-email"]').type("newuser6@email.com")
+    cy.get('input[data-test="signin-email"]').type(user.email)
 
     // sign in with same info - enter password
-    cy.get('input[data-test="signin-password"]').type("Password123!")
+    cy.get('input[data-test="signin-password"]').type(user.password)
 
     // sign up and login
     cy.get('[data-test="submit-login"]').click()
 
+    // expect user from server to match user from test
+    // cy.getUser(user.name)
+    // .then((dbUser) => expect(dbUser).to.deep.eql(user))
   })
 
 })
