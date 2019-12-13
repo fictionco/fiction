@@ -151,6 +151,7 @@ jobs:
       - store-test-results
   
   test-e2e: 
+    executor: cypress
     steps: 
       - cypress/run
      
