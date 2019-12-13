@@ -80,7 +80,7 @@ jobs:
           paths:
             - node_modules
             - "@factor/*/node_modules"
-            - ~/.cache  ## cache both yarn and Cypress!
+            - ~/.cache  
 
       # Persist workspace
       - persist_to_workspace:
@@ -89,8 +89,6 @@ jobs:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
-            - /*/.cache
-            - /home/circleci/.cache/Cypress 
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
