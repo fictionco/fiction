@@ -13,6 +13,9 @@ executors:
       NODE_ENV: test
       NODE_OPTIONS: --max_old_space_size=8192
 
+orbs:
+  cypress: cypress-io/cypress@1
+
 commands:
   attach-project:
     steps:
@@ -143,15 +146,10 @@ jobs:
       - store-test-results
   
   test-e2e: 
-    executor: node
-    steps:
-      - attach-project
-      - run:
-          name: E2E Tests
-          command: yarn test:e2e
-          environment:
-            JEST_JUNIT_OUTPUT_NAME: unit.xml
-      - store-test-results
+    steps: 
+      - cypress/run
+        name: 'end-to-end tests'
+     
   
 
   # --------------------------------------------------------------------------
