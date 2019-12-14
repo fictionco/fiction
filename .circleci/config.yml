@@ -94,10 +94,14 @@ jobs:
             - ~/.cache
 
       - persist_to_workspace:
+          root: ~/project
+          paths:
+            - node_modules
+
+      - persist_to_workspace:
           root: ~/
           paths:
-            - .cache/Cypress
-            - project/node_modules
+            - .cache
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
