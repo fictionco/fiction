@@ -96,8 +96,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - .cache/
-            - project/
+            - .cache
 
       - persist_to_workspace:
           root: ~/project
