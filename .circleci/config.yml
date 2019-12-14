@@ -127,10 +127,10 @@ workflows:
       - build: { requires: [setup] }
       - test-e2e: { requires: [setup] }
       - test-integration: { requires: [build] }
-      - release-commit:
-          requires: [build, lint, audit, test-unit, test-integration]
-          filters:
-            <<: *release_branches
+      # - release-commit:
+      #     requires: [build, lint, audit, test-unit, test-integration]
+      #     filters:
+      #       <<: *release_branches
 
   live:
     jobs:
