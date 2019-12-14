@@ -95,6 +95,7 @@ jobs:
             - .cache
             - ~/.cache
             - ~/.cache/Cypress
+            - /root/.cache/Cypress
 
       # Persist workspace
       - persist_to_workspace:
@@ -103,7 +104,8 @@ jobs:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
-            - .cache
+            - .cache,
+            - /root/.cache/Cypress
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
