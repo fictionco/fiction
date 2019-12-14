@@ -86,33 +86,22 @@ jobs:
       - run:
           command: yarn cypress install
 
-      # Save cache
       - save_cache:
           key: lock-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
             - "@factor/*/node_modules"
-            - .cache
+            - ~/.yarn
             - ~/.cache
-            - ~/.cache/Cypress
-            - /root/.cache/Cypress
-            - .cache/Cypress
-            - /root/.cache/Cypress/3.8.0/Cypress/Cypress
 
-      # Persist workspace
       - persist_to_workspace:
-          root: ~/project
+          root: ~/
           paths:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
-            - .cache
-            - ~/.cache
-            - ~/.cache/Cypress
-            - /root/.cache/Cypress
+            - project/
             - .cache/Cypress
-            - /root/.cache/Cypress/3.8.0/Cypress/Cypress
-
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
   # --------------------------------------------------------------------------
