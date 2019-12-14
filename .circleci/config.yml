@@ -38,14 +38,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-3-{{ checksum "yarn.lock" }}
+          key: dependency-cache-4-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --non-interactive
       - run:
           command: yarn cypress install
       - save_cache:
-          key: dependency-cache-3-{{ checksum "yarn.lock" }}
+          key: dependency-cache-4-{{ checksum "yarn.lock" }}
           paths:
             - ~/project/node_modules
             - ~/.yarn
