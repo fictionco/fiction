@@ -76,7 +76,7 @@ jobs:
 
       # Restore cache
       - restore_cache:
-          key: lock---{{ checksum "yarn.lock" }}
+          key: lock-v2-{{ checksum "yarn.lock" }}
 
       # Install dependencies
       - run:
@@ -87,7 +87,7 @@ jobs:
           command: yarn cypress install
 
       - save_cache:
-          key: lock---{{ checksum "yarn.lock" }}
+          key: lock-v2-{{ checksum "yarn.lock" }}
           paths:
             - ~/project/node_modules
             - ~/.yarn
@@ -96,8 +96,8 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - .cache/*
-            - project/*
+            - .cache/Cypress
+            - project/node_modules
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
