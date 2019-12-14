@@ -15,6 +15,22 @@ commands:
       - checkout
       - attach_workspace:
           at: ~/
+  store-test-results:
+    steps:
+      - store_test_results:
+          path: reports/junit
+  release:
+    steps:
+      - attach-project
+      - run:
+          name: release
+          command: echo "release goes here"
+release_branches: &release_branches
+  branches:
+    only:
+      - development
+      - staging
+      - release
 
 jobs:
   setup:
@@ -22,14 +38,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-2-{{ checksum "yarn.lock" }}
+          key: dependency-cache-3-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --non-interactive
       - run:
           command: yarn cypress install
       - save_cache:
-          key: dependency-cache-2-{{ checksum "yarn.lock" }}
+          key: dependency-cache-3-{{ checksum "yarn.lock" }}
           paths:
             - ~/project/node_modules
             - ~/.yarn
@@ -41,6 +57,48 @@ jobs:
             - .cache
             - project/node_modules
             - project/@factor/*/node_modules
+
+  lint:
+    executor: node
+    steps:
+      - attach-project
+      - run:
+          name: Lint
+          command: yarn test:lint
+
+  audit:
+    executor: node
+    steps:
+      - attach-project
+      - run:
+          name: Security Audit
+          command: yarn audit || true
+
+  build:
+    executor: node
+    steps:
+      - attach-project
+      - run:
+          name: Build Fixtures
+          command: yarn test:builds --runInBand --collectCoverage && yarn test:coverage -F builds
+          environment:
+            JEST_JUNIT_OUTPUT_NAME: builds.xml
+      - store-test-results
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - test/builds
+
+  test-integration:
+    executor: node
+    steps:
+      - attach-project
+      - run:
+          name: Integration Tests
+          command: yarn test:integration --runInBand --collectCoverage && yarn test:coverage -F integration
+          environment:
+            JEST_JUNIT_OUTPUT_NAME: integration.xml
+      - store-test-results
 
   test-unit:
     executor: node
@@ -63,5 +121,23 @@ workflows:
   commit:
     jobs:
       - setup
+      - lint: { requires: [setup] }
+      - audit: { requires: [setup] }
       - test-unit: { requires: [setup] }
+      - build: { requires: [setup] }
       - test-e2e: { requires: [setup] }
+      - test-integration: { requires: [build] }
+      - release-commit:
+          requires: [build, lint, audit, test-unit, test-integration]
+          filters:
+            <<: *release_branches
+
+  live:
+    jobs:
+      - setup
+      - test-e2e: { requires: [setup] }
+    triggers:
+      - schedule:
+          cron: "0 * * * *"
+          filters:
+            <<: *release_branches
