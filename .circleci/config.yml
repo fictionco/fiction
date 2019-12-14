@@ -22,14 +22,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: lock-v7-{{ checksum "yarn.lock" }}
+          key: dependency-cache-2-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --non-interactive
       - run:
           command: yarn cypress install
       - save_cache:
-          key: lock-v7-{{ checksum "yarn.lock" }}
+          key: dependency-cache-2-{{ checksum "yarn.lock" }}
           paths:
             - ~/project/node_modules
             - ~/.yarn
@@ -40,6 +40,7 @@ jobs:
           paths:
             - .cache
             - project/node_modules
+            - project/@factor/*/node_modules
 
   test-unit:
     executor: node
