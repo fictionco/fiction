@@ -92,6 +92,7 @@ jobs:
           paths:
             - node_modules
             - "@factor/*/node_modules"
+            - .cache
             - ~/.cache
             - ~/.cache/Cypress
 
@@ -102,6 +103,7 @@ jobs:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
+            - .cache
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build

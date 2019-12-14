@@ -208,12 +208,13 @@ export default Vue.extend({
 
       let revertTo = {}
       const newRevisions = cloneDeep(revisions)
-      revisions.some((r, index) => {
+      revisions.some((r, index: number) => {
         if (r.published) {
           revertTo = r.post
           return true
         } else {
           newRevisions.splice(index, 1)
+          return false
         }
       })
 
