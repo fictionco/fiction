@@ -106,7 +106,6 @@ jobs:
             - "@factor/*/node_modules"
             - "@factor/*/dist"
             - .cache
-            - /root/.cache/Cypress
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
