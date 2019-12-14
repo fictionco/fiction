@@ -96,6 +96,7 @@ jobs:
             - ~/.cache
             - ~/.cache/Cypress
             - /root/.cache/Cypress
+            - .cache/Cypress
 
       # Persist workspace
       - persist_to_workspace:
@@ -104,7 +105,7 @@ jobs:
             - node_modules
             - "@factor/*/node_modules"
             - "@factor/*/dist"
-            - .cache,
+            - .cache
             - /root/.cache/Cypress
 
   # --------------------------------------------------------------------------
