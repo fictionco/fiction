@@ -89,6 +89,7 @@ jobs:
       - save_cache:
           key: lock-v4-{{ checksum "yarn.lock" }}
           paths:
+            - ~/project/node_modules
             - ~/.yarn
             - ~/.cache
 
@@ -97,6 +98,11 @@ jobs:
           paths:
             - .cache/
             - project/
+
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - node_modules
 
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
