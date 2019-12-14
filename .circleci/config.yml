@@ -2,28 +2,14 @@ version: 2.1
 
 executors:
   node:
-    parameters:
-      browsers:
-        type: boolean
-        default: false
     docker:
       - image: cypress/base:10
         environment:
           ## this enables colors in the output
           TERM: xterm
-    working_directory: ~/project
     environment:
       NODE_ENV: test
-      NODE_OPTIONS: --max_old_space_size=8192
-  cypress-env:
-    docker:
-      - image: cypress/base:10
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-    working_directory: ~/project
-    environment:
-      NODE_ENV: test
+      NODE_OPTIONS: --max_old_space_size=4096
 
 orbs:
   cypress: cypress-io/cypress@1
