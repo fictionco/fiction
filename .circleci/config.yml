@@ -2,38 +2,19 @@ version: 2.1
 
 executors:
   node:
-    parameters:
-      browsers:
-        type: boolean
-        default: false
     docker:
-      - image: cypress/base:10
+      - image: cypress/base:12.6.0
         environment:
           ## this enables colors in the output
           TERM: xterm
     working_directory: ~/project
-    environment:
-      NODE_ENV: test
-      NODE_OPTIONS: --max_old_space_size=8192
-  cypress-env:
-    docker:
-      - image: cypress/base:10
-        environment:
-          ## this enables colors in the output
-          TERM: xterm
-    working_directory: ~/project
-    environment:
-      NODE_ENV: test
-
-orbs:
-  cypress: cypress-io/cypress@1
 
 commands:
   attach-project:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/project
+          at: ~/
   store-test-results:
     steps:
       - store_test_results:
@@ -43,20 +24,7 @@ commands:
       - attach-project
       - run:
           name: release
-          command: |
-            if [ -z "$COMMIT_MSG" ]; then
-              COMMIT_MSG=$(git --no-pager log --pretty=full -n1 $CIRCLE_SHA1)
-            fi
-            if echo "$COMMIT_MSG" | grep -o "\[release\]"; then
-              git config --global user.email "$GIT_AUTHOR_EMAIL"
-              git config --global user.name "$GIT_AUTHOR_NAME"
-              echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-              echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-              if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--tag staging"; fi
-              yarn lerna publish patch --yes
-            else
-              echo "Release phase is skipped."
-            fi
+          command: echo "release goes here"
 release_branches: &release_branches
   branches:
     only:
@@ -65,57 +33,31 @@ release_branches: &release_branches
       - release
 
 jobs:
-  # --------------------------------------------------------------------------
-  # Phase 1: Setup
-  # --------------------------------------------------------------------------
   setup:
     executor: node
     steps:
-      # Checkout repository
       - checkout
-
-      # Restore cache
       - restore_cache:
-          key: lock-{{ checksum "yarn.lock" }}
-
-      # Install dependencies
+          key: dependency-cache-6-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --non-interactive
-
       - run:
           command: yarn cypress install
-
-      # Save cache
       - save_cache:
-          key: lock-{{ checksum "yarn.lock" }}
+          key: dependency-cache-6-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
-            - "@factor/*/node_modules"
-            - .cache
+            - ~/project/node_modules
+            - ~/.yarn
             - ~/.cache
-            - ~/.cache/Cypress
-            - /root/.cache/Cypress
-            - .cache/Cypress
-            - /root/.cache/Cypress/3.8.0/Cypress/Cypress
 
-      # Persist workspace
       - persist_to_workspace:
-          root: ~/project
+          root: /root
           paths:
-            - node_modules
-            - "@factor/*/node_modules"
-            - "@factor/*/dist"
             - .cache
-            - ~/.cache
-            - ~/.cache/Cypress
-            - /root/.cache/Cypress
-            - .cache/Cypress
-            - /root/.cache/Cypress/3.8.0/Cypress/Cypress
+            - project/node_modules
+            - project/@factor/*/node_modules
 
-  # --------------------------------------------------------------------------
-  # Phase 2: Lint + Audit + Build
-  # --------------------------------------------------------------------------
   lint:
     executor: node
     steps:
@@ -143,9 +85,9 @@ jobs:
             JEST_JUNIT_OUTPUT_NAME: builds.xml
       - store-test-results
       - persist_to_workspace:
-          root: ~/project
+          root: /root
           paths:
-            - test/builds
+            - project/test/builds
 
   test-integration:
     executor: node
@@ -158,19 +100,13 @@ jobs:
             JEST_JUNIT_OUTPUT_NAME: integration.xml
       - store-test-results
 
-  # --------------------------------------------------------------------------
-  # Phase 3: Unit and E2E tests
-  # --------------------------------------------------------------------------
   test-unit:
     executor: node
     steps:
       - attach-project
       - run:
           name: Unit Tests
-          command: yarn test:unit --runInBand --collectCoverage && yarn test:coverage -F unit
-          environment:
-            JEST_JUNIT_OUTPUT_NAME: unit.xml
-      - store-test-results
+          command: yarn test:unit --runInBand
 
   test-e2e:
     executor: node
@@ -180,27 +116,8 @@ jobs:
           name: e2e
           command: "yarn test:e2e"
 
-  # --------------------------------------------------------------------------
-  # Phase 4: Release (dev branch only)
-  # --------------------------------------------------------------------------
-  release-commit:
-    executor: node
-    steps:
-      - release
-
-  release-nightly:
-    executor: node
-    steps:
-      - release
-    environment:
-      COMMIT_MSG: "[release]"
-
-# Workflow definition
 workflows:
   version: 2
-
-  # Build and test after each commit
-  # Manually release on release branches -
   commit:
     jobs:
       - setup
@@ -208,14 +125,13 @@ workflows:
       - audit: { requires: [setup] }
       - test-unit: { requires: [setup] }
       - build: { requires: [setup] }
-      - test-integration: { requires: [build] }
       - test-e2e: { requires: [setup] }
-      - release-commit:
-          requires: [build, lint, audit, test-unit, test-integration]
-          filters:
-            <<: *release_branches
+      - test-integration: { requires: [build] }
+      # - release-commit:
+      #     requires: [build, lint, audit, test-unit, test-integration]
+      #     filters:
+      #       <<: *release_branches
 
-  # Test production
   live:
     jobs:
       - setup
