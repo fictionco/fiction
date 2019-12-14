@@ -7,12 +7,10 @@ executors:
         environment:
           ## this enables colors in the output
           TERM: xterm
+    working_directory: ~/project
     environment:
       NODE_ENV: test
       NODE_OPTIONS: --max_old_space_size=4096
-
-orbs:
-  cypress: cypress-io/cypress@1
 
 commands:
   attach-project:
@@ -62,7 +60,7 @@ jobs:
 
       # Restore cache
       - restore_cache:
-          key: lock-v5-{{ checksum "yarn.lock" }}
+          key: lock-v6-{{ checksum "yarn.lock" }}
 
       # Install dependencies
       - run:
@@ -73,14 +71,14 @@ jobs:
           command: yarn cypress install
 
       - save_cache:
-          key: lock-v5-{{ checksum "yarn.lock" }}
+          key: lock-v6-{{ checksum "yarn.lock" }}
           paths:
             - ~/project/node_modules
             - ~/.yarn
             - ~/.cache
 
       - persist_to_workspace:
-          root: ~/
+          root: /root/
           paths:
             - .cache
             - project/node_modules
@@ -88,47 +86,47 @@ jobs:
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
   # --------------------------------------------------------------------------
-  lint:
-    executor: node
-    steps:
-      - attach-project
-      - run:
-          name: Lint
-          command: yarn test:lint
+  # lint:
+  #   executor: node
+  #   steps:
+  #     - attach-project
+  #     - run:
+  #         name: Lint
+  #         command: yarn test:lint
 
-  audit:
-    executor: node
-    steps:
-      - attach-project
-      - run:
-          name: Security Audit
-          command: yarn audit || true
+  # audit:
+  #   executor: node
+  #   steps:
+  #     - attach-project
+  #     - run:
+  #         name: Security Audit
+  #         command: yarn audit || true
 
-  build:
-    executor: node
-    steps:
-      - attach-project
-      - run:
-          name: Build Fixtures
-          command: yarn test:builds --runInBand --collectCoverage && yarn test:coverage -F builds
-          environment:
-            JEST_JUNIT_OUTPUT_NAME: builds.xml
-      - store-test-results
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - test/builds
+  # build:
+  #   executor: node
+  #   steps:
+  #     - attach-project
+  #     - run:
+  #         name: Build Fixtures
+  #         command: yarn test:builds --runInBand --collectCoverage && yarn test:coverage -F builds
+  #         environment:
+  #           JEST_JUNIT_OUTPUT_NAME: builds.xml
+  #     - store-test-results
+  #     - persist_to_workspace:
+  #         root: ~/project
+  #         paths:
+  #           - test/builds
 
-  test-integration:
-    executor: node
-    steps:
-      - attach-project
-      - run:
-          name: Integration Tests
-          command: yarn test:integration --runInBand --collectCoverage && yarn test:coverage -F integration
-          environment:
-            JEST_JUNIT_OUTPUT_NAME: integration.xml
-      - store-test-results
+  # test-integration:
+  #   executor: node
+  #   steps:
+  #     - attach-project
+  #     - run:
+  #         name: Integration Tests
+  #         command: yarn test:integration --runInBand --collectCoverage && yarn test:coverage -F integration
+  #         environment:
+  #           JEST_JUNIT_OUTPUT_NAME: integration.xml
+  #     - store-test-results
 
   # --------------------------------------------------------------------------
   # Phase 3: Unit and E2E tests
