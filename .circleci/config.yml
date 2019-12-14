@@ -89,19 +89,16 @@ jobs:
       - save_cache:
           key: lock--{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
-            - "@factor/*/node_modules"
+            - ~/project/node_modules
             - ~/.yarn
             - ~/.cache
 
       - persist_to_workspace:
           root: ~/
           paths:
-            - node_modules
-            - "@factor/*/node_modules"
-            - "@factor/*/dist"
-            - project/
-            - .cache/Cypress
+            - .cache/*
+            - project/*
+
   # --------------------------------------------------------------------------
   # Phase 2: Lint + Audit + Build
   # --------------------------------------------------------------------------
