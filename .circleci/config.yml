@@ -76,7 +76,7 @@ jobs:
 
       # Restore cache
       - restore_cache:
-          key: lock--{{ checksum "yarn.lock" }}
+          key: lock---{{ checksum "yarn.lock" }}
 
       # Install dependencies
       - run:
@@ -87,7 +87,7 @@ jobs:
           command: yarn cypress install
 
       - save_cache:
-          key: lock--{{ checksum "yarn.lock" }}
+          key: lock---{{ checksum "yarn.lock" }}
           paths:
             - ~/project/node_modules
             - ~/.yarn
