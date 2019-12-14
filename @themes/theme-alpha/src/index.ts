@@ -29,7 +29,7 @@ export const setup = (): void => {
   // PAGE TEMPLATES
 
   addPageTemplate({
-    _id: "default",
+    slug: "alpha-basic",
     component: (): Promise<Component> => import("./page-template-default.vue")
   })
 

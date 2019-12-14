@@ -4,7 +4,7 @@
   </btn-base>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 export default Vue.extend({
   components: {
     "btn-base": () => import("./btn-base.vue")
@@ -12,7 +12,7 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.btn-dashboard {
+.btn-dashboard.factor-btn {
   + .btn-dashboard,
   + .btn-link {
     margin-left: 0.5rem;

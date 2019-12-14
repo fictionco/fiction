@@ -38,7 +38,7 @@ export const setup = (): void => {
   })
 
   addPageTemplate({
-    _id: "default",
+    slug: "ultra-basic",
     component: () => import("./page-template-default.vue")
   })
 

@@ -23,7 +23,7 @@ To add a new page to your app:
 
 Use the `addPageTemplate` function to add new page templates:
 
-- `_id` - Unique identifier for your template,
+- `slug` - Unique identifier for your template,
 - `component` - Page template component that should be loaded.
 - `name` - Name of the template
 
@@ -31,7 +31,7 @@ Use the `addPageTemplate` function to add new page templates:
 import { addPageTemplate } from "@factor/templates"
 addPageTemplate({
   name: "My Landing Page",
-  _id: "landing-page",
+  slug: "landing-page",
   component: () => import("./tpl-landing-page")
 })
 ```

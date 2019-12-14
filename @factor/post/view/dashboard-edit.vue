@@ -2,7 +2,12 @@
   <component :is="templateLoader" :post-id="_id" :post="post" :post-type="postType">
     <template #edit>
       <dashboard-pane v-for="(item, i) in editComponents" :key="i" :title="item.name">
-        <component :is="item.component" v-model="post" :post-id="_id" />
+        <component :is="item.component" :post-id="_id" />
+      </dashboard-pane>
+    </template>
+    <template #meta>
+      <dashboard-pane v-for="(item, i) in metaComponents" :key="i" :title="item.name">
+        <component :is="item.component" :post-id="_id" />
       </dashboard-pane>
     </template>
   </component>
@@ -12,6 +17,7 @@ import { dashboardPane } from "@factor/dashboard"
 import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
+import { EditPanel } from "@factor/dashboard/types"
 import Vue from "vue"
 export default Vue.extend({
   components: { dashboardPane },
@@ -38,11 +44,20 @@ export default Vue.extend({
 
       return editTemplate ? editTemplate : () => import("./posts-edit.vue")
     },
-    editComponents() {
+    editComponents(this: any): EditPanel[] {
       const components = applyFilters("post-edit-components", [])
 
       return components.filter(
-        ({ postType }) => !postType || (postType && postType.includes(this.postType))
+        ({ postType }: EditPanel) =>
+          !postType || (postType && postType.includes(this.postType))
+      )
+    },
+    metaComponents(this: any): EditPanel[] {
+      const components = applyFilters("post-meta-components", [])
+
+      return components.filter(
+        ({ postType }: EditPanel) =>
+          !postType || (postType && postType.includes(this.postType))
       )
     }
   },

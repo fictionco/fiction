@@ -12,6 +12,7 @@ import fs from "fs-extra"
 import log from "@factor/api/logger"
 import LRU from "lru-cache"
 
+import Vue from "vue"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
@@ -25,6 +26,13 @@ interface ServerOptions {
   static?: boolean;
   port?: string;
   renderer?: BundleRenderer;
+}
+
+const isRestarting = (): boolean => {
+  return Vue.$restartingServer ? true : false
+}
+const setRestarting = (state: boolean): void => {
+  Vue.$restartingServer = state
 }
 
 /**
@@ -83,22 +91,31 @@ export const createServer = (options: ServerOptions): void => {
     })
   }
 
-  __listening = __application.listen(process.env.PORT, () => logServerReady())
+  __listening = __application.listen(process.env.PORT, () => {
+    logServerReady()
+    setRestarting(false)
+  })
 
   prepareListener()
 
   addCallback({
     key: "createServer",
     hook: "restart-server",
-    callback: async () => {
-      log.server("restarting server", { color: "yellow" })
+    callback: async (changedPath: string): Promise<void> => {
+      if (!isRestarting()) {
+        setRestarting(true)
 
-      if (__listening) {
-        __listening.destroy()
+        log.server("restarting server", { color: "yellow" })
 
-        await runCallbacks("rebuild-server-app")
+        if (__listening) {
+          __listening.destroy()
 
-        createServer(options)
+          await runCallbacks("rebuild-server-app", changedPath)
+
+          createServer(options)
+        }
+      } else {
+        log.server("waiting for restart", { color: "red" })
       }
     }
   })

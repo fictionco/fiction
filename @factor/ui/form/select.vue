@@ -16,7 +16,7 @@
   </select>
 </template>
 <script lang="ts">
-import { parseList } from "@factor/api"
+import { parseList, ListItem } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   props: {
@@ -30,17 +30,20 @@ export default Vue.extend({
     }
   },
   computed: {
-    listeners() {
+    listeners(this: any) {
       return {
         ...this.$listeners,
-        input: event => this.$emit("input", event.target.value)
+        input: (event: Event) => {
+          const target = event.target as HTMLInputElement
+          this.$emit("input", target.value)
+        }
       }
     },
-    setting() {
+    setting(this: any) {
       return typeof this.value != "undefined" ? this.value : ""
     },
 
-    parsedList() {
+    parsedList(this: any): ListItem[] {
       return this.list
         ? parseList(this.list, {
             suffix: this.listSuffix

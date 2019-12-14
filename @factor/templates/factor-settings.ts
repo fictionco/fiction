@@ -1,11 +1,13 @@
 import { Component } from "vue"
+import { TemplateConfig } from "./types"
 export default {
   pageTemplates: {
     templates: [
       {
-        _id: "tpl-default",
-        component: (): Promise<Component> => import("./tpl-default.vue")
-      }
+        name: "Basic Page",
+        slug: "tpl-basic",
+        component: (): Promise<Component> => import("./tpl-basic.vue")
+      } as TemplateConfig
     ]
   }
 }

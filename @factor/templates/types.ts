@@ -1,8 +1,8 @@
 import { Component } from "vue"
-
+import { ListItem } from "@factor/api"
 export interface TemplateConfig {
   name?: string;
-  _id: string;
+  slug: string;
   component: () => Promise<Component>;
   fields?: TemplateOption[];
 }
@@ -10,8 +10,9 @@ export interface TemplateConfig {
 export interface TemplateOption {
   input?: string;
   label?: string;
-  _id?: string;
-  default?: string;
+  _id: string;
+  default?: string | object[];
   description?: string;
   settings?: TemplateOption[];
+  list?: string[] | ListItem[];
 }

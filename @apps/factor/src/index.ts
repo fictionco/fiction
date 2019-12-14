@@ -2,8 +2,10 @@ import "./extend/extension-server"
 import { setting, addContentRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 import { Component } from "vue"
+
 addPageTemplate({
-  _id: "default",
+  name: "Factor Basic",
+  slug: "factor-basic",
   component: (): Promise<Component> => import("./page-template-default.vue")
 })
 

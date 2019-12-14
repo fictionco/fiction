@@ -13,15 +13,18 @@ import { TemplateConfig, TemplateOption } from "./types"
 import pageSchema from "./schema"
 
 export const addPageTemplate = (templateConfig: TemplateConfig): void => {
-  pushToFilter({ hook: "page-templates", key: templateConfig._id, item: templateConfig })
+  pushToFilter({ hook: "page-templates", key: templateConfig.slug, item: templateConfig })
 }
 
 export const getTemplateFields = async (
   tpl: TemplateConfig
 ): Promise<TemplateOption[]> => {
+  const theComponent = await tpl.component()
   const {
-    default: { templateSettings }
-  } = await tpl.component()
+    default: {
+      options: { templateSettings }
+    }
+  } = theComponent
 
   return templateSettings ? templateSettings() : []
 }
@@ -32,11 +35,11 @@ export const getPageTemplates = (): TemplateConfig[] => {
   return applyFilters("page-templates", _templates)
     .filter((page: TemplateConfig, index: number, self: TemplateConfig[]) => {
       // remove duplicates, favor the last
-      const lastIndexOf = self.map(_ => _._id).lastIndexOf(page._id)
+      const lastIndexOf = self.map(_ => _.slug).lastIndexOf(page.slug)
       return index === lastIndexOf
     })
     .map((_: TemplateConfig) => {
-      const name = _.name || toLabel(_._id.replace("tpl-", ""))
+      const name = _.name || toLabel(_.slug.replace("tpl-", ""))
       return { name, ..._ }
     })
 }
@@ -44,10 +47,10 @@ export const getPageTemplates = (): TemplateConfig[] => {
 export const getTemplate = async (templateId: string): Promise<TemplateConfig | {}> => {
   const _all = getPageTemplates()
 
-  let tpl = _all.find(_ => _._id == templateId)
+  let tpl = _all.find(_ => _.slug == templateId)
 
   if (!tpl) {
-    tpl = _all.find(_ => _._id == "tpl-default")
+    tpl = _all.find(_ => _.slug == "tpl-basic")
   }
 
   if (!tpl) return {}
@@ -70,6 +73,15 @@ export const setup = (): void => {
     model: "Page"
   })
 
+  pushToFilter({
+    key: "pageTemplateSettings",
+    hook: "post-meta-components",
+    item: {
+      postType: ["page"],
+      name: "Page Template",
+      component: (): Promise<Component> => import("./page-select.vue")
+    }
+  })
   pushToFilter({
     key: "pageTemplateSettings",
     hook: "post-edit-components",

@@ -1,18 +1,17 @@
 <template>
   <factor-link
     v-if="postId && canEdit"
-    btn="default"
-    size="tiny"
     class="edit"
     :path="`/dashboard/posts/${post.postType}/edit`"
     :query="{ _id: post._id }"
-  >{{ editText }}</factor-link>
+  >{{ editText }} &rarr;</factor-link>
 </template>
 
 <script lang="ts">
 import { factorLink, factorBtn } from "@factor/ui"
 import { stored, getPostTypeConfig } from "@factor/api"
 import { userId, currentUser } from "@factor/user"
+import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
@@ -26,23 +25,25 @@ export default Vue.extend({
   },
 
   computed: {
-    editText() {
-      return this.meta && this.meta.nameSingle ? `Edit ${this.meta.nameSingle}` : "Edit"
-    },
-    meta() {
-      return this.post.postType ? getPostTypeConfig(this.post.postType) : {}
-    },
-    post() {
+    post(this: any): FactorPost {
       return this.postId ? stored(this.postId) : {}
     },
-    author() {
+    editText(this: any): string {
+      return this.meta && this.meta.nameSingle ? `Edit ${this.meta.nameSingle}` : "Edit"
+    },
+    meta(this: any) {
+      return this.post.postType ? getPostTypeConfig(this.post.postType) : {}
+    },
+
+    author(this: any) {
       return this.post && this.post.author ? this.post.author : []
     },
-    accessLevel() {
-      const { accessLevel } = currentUser()
-      return accessLevel || 0
+    accessLevel(this: any) {
+      const user = currentUser()
+
+      return user ? user.accessLevel : 0
     },
-    canEdit() {
+    canEdit(this: any) {
       return this.accessLevel > 100 || this.author.includes(userId())
     }
   }

@@ -103,7 +103,7 @@ export const setup = (): void => {
             ? false
             : true
         })
-        .forEach(({ postType, namePlural, icon = "", addNewText = "add-new" }) => {
+        .forEach(({ postType, namePlural, icon = "", addNewText = "Add New" }) => {
           const subMenu: DashboardMenuItem[] = []
 
           if (addNewText) {

@@ -1,11 +1,12 @@
 <template>
   <div class="long-form">
-    <div v-if="post.title" class="title">
+    <div v-if="post.title" class="title" :style="{textAlign: settings.headerAlignment || 'left'}">
       <h1 v-formatted-text="post.title" />
-      <factor-post-edit :post-id="post._id" />
     </div>
 
     <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
+
+    <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 
@@ -22,9 +23,24 @@ export default Vue.extend({
   computed: {
     post() {
       return stored("post") || {}
+    },
+    settings(this: any) {
+      return this.post.settings || {}
     }
   },
-  methods: { renderMarkdown }
+  methods: { renderMarkdown },
+  templateSettings() {
+    return [
+      {
+        input: "select",
+        label: "Header Alignment",
+        description: "Alignment of the page header",
+        _id: "headerAlignment",
+        list: ["left", "center", "right"],
+        default: "left"
+      }
+    ]
+  }
 })
 </script>
 
@@ -35,24 +51,19 @@ export default Vue.extend({
   min-height: 50vh;
 
   .title {
-    border-bottom: 1px dotted rgba(0, 0, 0, 0.07);
-    margin-bottom: 1em;
-    padding: 0.75em 0;
-    font-size: 1.5em;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+
     font-weight: var(--font-weight-bold);
-    display: flex;
-    justify-content: space-between;
+    h1 {
+      font-size: 2em;
+    }
   }
   .content {
     font-size: 1.2em;
     font-weight: 500;
     line-height: 1.5;
 
-    h1,
-    h2,
-    h3 {
-      font-weight: var(--font-weight-bold);
-    }
     h1 {
       font-size: 1.8em;
     }
@@ -63,7 +74,7 @@ export default Vue.extend({
       font-size: 1.1em;
     }
     p {
-      margin: 1.5em 0;
+      margin: 0 0 1em;
     }
 
     blockquote {

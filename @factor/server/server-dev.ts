@@ -225,7 +225,7 @@ export const developmentServer = async ({
 
     // On js file updates, wait for 3 seconds for build
     if (!path.includes("test") && (path.includes(".js") || path.includes(".ts"))) {
-      runCallbacks("restart-server")
+      runCallbacks("restart-server", path)
     }
   })
 

@@ -24,19 +24,18 @@ export default Vue.extend({
     }
   },
   computed: {
-    templateLocation() {
+    post() {
+      return stored("post") || {}
+    },
+    templateLocation(this: any) {
       return this.post.template ? this.post.template : "default"
     },
-    templateLoader() {
-      const selected = getPageTemplates().find(_ => _._id == this.templateLocation)
+    templateLoader(this: any) {
+      const selected = getPageTemplates().find(_ => _.slug == this.templateLocation)
 
       return selected && selected.component
         ? selected.component
-        : () => import("./tpl-default.vue")
-    },
-
-    post() {
-      return stored("post") || {}
+        : () => import("./tpl-basic.vue")
     }
   }
 })

@@ -8,7 +8,7 @@ export * from "./utils-lodash"
 
 export { isNode, guid }
 
-interface ListItem {
+export interface ListItem {
   value?: string;
   name?: string;
   desc?: string;
@@ -147,7 +147,7 @@ export const parseList = (
     if (typeof _ == "string" || typeof _ == "number") {
       return {
         value: _,
-        name: `${prefix}${name}${suffix}`,
+        name: `${prefix}${toLabel(_)}${suffix}`,
         desc: ""
       }
     } else {

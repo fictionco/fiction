@@ -1,10 +1,8 @@
 <template>
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">
-        Save &nbsp;
-        <factor-icon icon="arrow-up" />
-      </factor-btn-dashboard>
+      <factor-btn-dashboard btn="default" :loading="sending">View</factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Save</factor-btn-dashboard>
     </template>
     <template #primary>
       <dashboard-pane class="compose" title="Content">
@@ -16,9 +14,6 @@
           @keyup="doDraftSave()"
         />
 
-        <dashboard-input label="Permalink">
-          <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
-        </dashboard-input>
         <dashboard-input label="Post Content">
           <input-editor v-model="post.content" @keyup="doDraftSave()" />
         </dashboard-input>
@@ -26,10 +21,13 @@
     </template>
     <template #meta>
       <dashboard-pane title="Meta Info" class="post-media">
+        <dashboard-input label="Permalink">
+          <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
+        </dashboard-input>
         <dashboard-input
           v-model="post.subTitle"
           input="factor-input-text"
-          label="Sub Title / Teaser"
+          label="Sub Title"
           class="post-title"
           @keyup="doDraftSave()"
         />
@@ -48,6 +46,7 @@
         />
         <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
       </dashboard-pane>
+      <slot name="meta" />
     </template>
     <template #secondary>
       <slot name="edit" />
@@ -55,13 +54,12 @@
   </dashboard-page>
 </template>
 <script lang="ts">
-import { factorBtnDashboard, factorIcon } from "@factor/ui"
+import { factorBtnDashboard } from "@factor/ui"
 import {
   isEmpty,
   cloneDeep,
   toLabel,
   emitEvent,
-  applyFilters,
   stored,
   timeUtil,
   storeItem,
@@ -73,17 +71,17 @@ import { excerpt } from "@factor/api/excerpt"
 import { requestPostSave } from "@factor/post/request"
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
 import Vue from "vue"
+import { FactorPost } from "@factor/post/types"
 export default Vue.extend({
   components: {
-    factorIcon,
     dashboardInput,
     dashboardPage,
     dashboardPane,
     factorBtnDashboard,
-    "factor-client-only": () => import("vue-client-only"),
-    "input-editor": () => import("../el/editor.vue"),
-    "input-permalink": () => import("../el/permalink.vue"),
-    "input-tags": () => import("../el/tags.vue")
+    factorClientOnly: () => import("vue-client-only"),
+    inputEditor: () => import("../el/editor.vue"),
+    inputPermalink: () => import("../el/permalink.vue"),
+    inputTags: () => import("../el/tags.vue")
   },
 
   data() {
@@ -104,23 +102,16 @@ export default Vue.extend({
   },
   computed: {
     post: {
-      get() {
+      get(this: any): FactorPost {
         return stored(this._id) || {}
       },
-      set(v) {
+      set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
       }
     },
 
     _id(this: any): string {
       return this.$route.query._id || ""
-    },
-    injectedComponents() {
-      const components = applyFilters("post-edit-components", [])
-
-      return components.filter(
-        ({ postType }) => !postType || (postType && postType.includes(this.postType))
-      )
     },
 
     excerpt(this: any) {

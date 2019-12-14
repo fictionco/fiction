@@ -4,12 +4,12 @@ import { addPageTemplate } from "@factor/templates"
 import { Component } from "vue"
 
 addPageTemplate({
-  _id: "sticky-sidebar",
+  slug: "sticky-sidebar",
   component: (): Promise<Component> => import("./tpl-sticky-sidebar.vue")
 })
 
 addPageTemplate({
-  _id: "landing-page",
+  slug: "landing-page",
   component: (): Promise<Component> => import("./tpl-landing-page.vue")
 })
 

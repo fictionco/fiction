@@ -1,36 +1,33 @@
 <template>
   <div class="edit-page-templates">
-    <dashboard-input
-      v-model="template"
-      :list="getPageTemplates()"
-      input="factor-input-select"
-      label="Page Template"
-    />
-    <dashboard-input
-      v-for="(field, i) in fields"
-      :key="i"
-      v-model="settings[field._id]"
-      :input="`factor-input-${field.input}`"
-      :label="field.label"
-      :description="field.description"
-      :class="['engine-input', field.input]"
-      :inputs="field.settings || []"
-    />
+    <div v-if="fields.length == 0" class="no-options">No settings available for selected template.</div>
+    <template v-else>
+      <dashboard-input
+        v-for="(field, i) in fields"
+        :key="i"
+        v-model="settings[field._id]"
+        :list="field.list"
+        :input="`factor-input-${field.input}`"
+        :label="field.label"
+        :description="field.description"
+        :class="['engine-input', field.input]"
+        :inputs="field.settings || []"
+      />
+    </template>
   </div>
 </template>
 <script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
 import { getPageTemplates, getTemplate } from "@factor/templates"
+import { stored, storeItem } from "@factor/api"
 import Vue from "vue"
-
+import { FactorPost } from "@factor/post/types"
+import { TemplateOption } from "./types"
 export default Vue.extend({
   components: { dashboardInput },
-  model: {
-    prop: "post",
-    event: "change"
-  },
+
   props: {
-    post: { type: Object, required: true }
+    postId: { type: String, required: true }
   },
   data() {
     return {
@@ -40,32 +37,32 @@ export default Vue.extend({
     }
   },
   computed: {
-    localPost: {
-      get() {
-        return { template: "default", ...this.post }
+    post: {
+      get(this: any): FactorPost {
+        return stored(this.postId) || {}
       },
-      set(localPost) {
-        this.$emit("change", localPost)
+      set(this: any, v: FactorPost): void {
+        storeItem(this.postId, v)
       }
     },
-    fields() {
+    fields(this: any) {
       return this.pageTemplateInfo.fields || []
     }
   },
   watch: {
     settings: {
-      handler: function(v) {
-        this.localPost = { ...this.localPost, settings: v }
+      handler: function(this: any, v: Record<string, any>) {
+        this.post = { ...this.post, settings: v }
       },
       deep: true
     },
     template: {
-      handler: function(v) {
+      handler: function(this: any, v: string): void {
         this.setPageTemplate(v)
       }
     },
     "post.template": {
-      handler: function(v) {
+      handler: function(this: any, v: string) {
         if (v && v != this.template) {
           this.template = v
         }
@@ -73,7 +70,7 @@ export default Vue.extend({
       immediate: true
     },
     "post.settings": {
-      handler: function(v) {
+      handler: function(this: any, v: Record<string, any>) {
         if (v && v != this.settings) {
           this.settings = v
         }
@@ -83,25 +80,31 @@ export default Vue.extend({
   },
   methods: {
     getPageTemplates,
-    async setPageTemplate(templateId) {
-      this.localPost = { ...this.localPost, template: templateId }
-
+    async setPageTemplate(this: any, templateId: string) {
       this.pageTemplateInfo = await getTemplate(templateId)
 
       this.setTemplateDefaults()
     },
-    setTemplateDefaults() {
-      this.fields.forEach(field => {
+    setTemplateDefaults(this: any) {
+      this.fields.forEach((field: TemplateOption) => {
         const _id = field._id
         let val
         if (typeof this.settings[_id] == "undefined" && field.default) {
-          if (field.settings && Array.isArray(field.settings)) {
-            val = field.default.map(item => {
-              field.settings.forEach(sub => {
-                if (typeof item[sub._id] == "undefined" && sub.default) {
-                  item[sub._id] = sub.default
-                }
-              })
+          if (
+            field.settings &&
+            field.default &&
+            Array.isArray(field.settings) &&
+            Array.isArray(field.default)
+          ) {
+            val = field.default.map((item: Record<string, any>) => {
+              if (field.settings) {
+                field.settings.forEach(sub => {
+                  if (typeof item[sub._id] == "undefined" && sub.default) {
+                    item[sub._id] = sub.default
+                  }
+                })
+              }
+
               return item
             })
           } else {

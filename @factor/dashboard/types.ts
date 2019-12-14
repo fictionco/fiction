@@ -1,3 +1,5 @@
+import { Component } from "vue"
+
 export interface DashboardMenuItem {
   group?: string;
   path: string;
@@ -5,4 +7,10 @@ export interface DashboardMenuItem {
   icon?: string;
   items?: DashboardMenuItem[];
   priority?: number;
+}
+
+export interface EditPanel {
+  postType?: string[];
+  name: string;
+  component: Promise<Component>;
 }
