@@ -68,7 +68,8 @@ context("Actions", () => {
     cy.get(".site-brand").find("a").click()
 
     // view themes link
-    cy.get(".features.content.last")
+    cy.get(".features")
+      .eq(4)
       .find(".action a")
       .click()
 
@@ -299,6 +300,31 @@ context("Actions", () => {
     cy.get(".menu-root .menu-item")
       .eq(25)
       .find(".factor-link")
+      .click()
+
+  })
+
+  it("Theme and plugin links", () => {
+
+    // Switch to mobile
+    cy.viewport('iphone-x')
+
+    // open nav
+    cy.get(".mobile-toggle").click()
+
+    // themes link
+    cy.get(".site-links")
+      .find(".factor-link")
+      .eq(1)
+      .click()
+
+    // open nav
+    cy.get(".mobile-toggle").click()
+
+    // plugins link
+    cy.get(".site-links")
+      .find(".factor-link")
+      .eq(2)
       .click()
 
     // end with visuals with desktop view
