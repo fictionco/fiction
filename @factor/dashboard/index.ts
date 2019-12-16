@@ -49,8 +49,6 @@ export const getDashboardRoute = (path?: string, parentPath?: string): string =>
   }
 }
 
-// clea up
-
 export const setup = (): void => {
   addContentRoute({
     name: "signin",

@@ -31,7 +31,7 @@
     "deploy": "git push heroku-factor-dev master",
     "test:watch": "yarn jest @factor/**/test/unit --watch",
     "test:all": "yarn test:fixtures && yarn test:unit",
-    "test:lint": "yarn test:eslint --quiet && yarn test:types",
+    "test:lint": "yarn test:eslint && yarn test:types",
     "test:eslint": "eslint --ext .ts,.js,.vue,.json .",
     "test:coverage": "codecov",
     "test:unit": "jest @factor/**/test/unit --forceExit",

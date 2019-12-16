@@ -9,48 +9,39 @@
       </factor-link>
       <div class="nav">
         <slot />
-        <account-menu />
         <div class="mobile-nav-toggle-wrap" @click.stop>
           <div
             class="mobile-nav-toggle"
             :class="toggle ? 'active' : 'inactive'"
             @click="toggleNav()"
           >
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+            <factor-avatar :post-id="getUser('avatar')" width="2rem" />
+
+            <div class="bars">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
           </div>
         </div>
       </div>
       <div v-if="toggle" class="mobile-nav">
-        <div class="mobile-nav-content">
-          <div class="user-menu">
-            <factor-avatar v-if="isLoggedIn()" :post-id="getUser('avatar')" width="2rem" />
-            <div class="content" :data-uid="getUser('_id')">
-              <div class="name">{{ getUser('displayName') || getUser('email') }}</div>
-              <div v-if="getUser('role')" class="privs">
-                <span class="status">{{ toLabel(getUser('role')) }}</span>
-              </div>
-            </div>
-          </div>
-          <dashboard-nav />
-        </div>
+        <mobile-menu />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { factorLink, factorAvatar } from "@factor/ui"
-import { accountMenu } from "@factor/dashboard"
+import { factorLink, factorAvatar } from "@factor/ui" 
+import { getDashboardMenu } from "@factor/dashboard/menu"
 import { setting, toLabel } from "@factor/api"
-import { currentUser, isLoggedIn, logout } from "@factor/user"
+import { currentUser, isLoggedIn } from "@factor/user"
 import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    accountMenu,
     factorAvatar,
-    dashboardNav: () => import("./nav.vue")
+    mobileMenu: () => import("./nav-mobile.vue")
   },
   data() {
     return {
@@ -62,13 +53,15 @@ export default Vue.extend({
     iconUrl() {
       return setting("app.icon")
     },
-    appName() {
+    appName(): string {
       return setting("app.name")
+    },
+    menu(this: any) {
+      return getDashboardMenu(this.$route.path)
     }
   },
   methods: {
     isLoggedIn,
-    logout,
     toLabel,
     getUser(this: any, field: string) {
       return this.currentUser[field]
@@ -101,83 +94,77 @@ export default Vue.extend({
   position: relative;
   z-index: 10;
 }
-
-.mobile-nav-toggle {
-  display: flex;
-  flex-direction: column;
-  width: 1.75rem;
-  height: 2rem;
-  justify-content: center;
-  .bar {
-    background: var(--panel-border-color);
-    height: 3px;
-
-    width: 1.75rem;
-    border-radius: 4px;
-
-    position: absolute;
-    transition: all 0.2s;
-    &:first-child {
-      transform: translateY(-8px);
-    }
-    &:last-child {
-      transform: translateY(8px);
-    }
-  }
-  &.active {
-    .bar {
-      transform: translateY(0);
-      margin: 0;
-      position: absolute;
-    }
-    .bar:first-child {
-      transform: rotate(45deg);
-    }
-    .bar:nth-child(2) {
-      transform: rotate(-45deg);
-    }
-    .bar:last-child {
-      display: none;
-    }
+.mobile-nav {
+  width: 325px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  @media (max-width: 767px) {
+    width: 100%;
   }
 }
 
 .mobile-nav-toggle-wrap {
   margin-left: 1rem;
   cursor: pointer;
-  display: none;
+
   position: relative;
   z-index: 1000;
-  @media (max-width: 960px) {
-    display: block;
-  }
 }
+.mobile-nav-toggle {
+  display: grid;
+  grid-template-columns: auto 1rem;
+  transition: all 0.2s;
+  grid-gap: 0.5rem;
+  .avatar {
+    transition: all 0.2s;
+  }
+  .bars {
+    display: flex;
+    flex-direction: column;
+    width: 1.5rem;
+    height: 2rem;
+    justify-content: center;
+    position: relative;
+    .bar {
+      background: var(--panel-border-color);
+      height: 0.25rem;
 
-.mobile-nav {
-  width: 100%;
+      width: 1rem;
+      border-radius: 4px;
+      left: 0%;
+      position: absolute;
+      transition: all 0.2s;
 
-  position: absolute;
-  left: 0;
-  top: 0;
-  .mobile-nav-content {
-    margin: 0.25rem 0.5rem;
-    min-height: 100px;
+      &:first-child {
+        transform: translateY(-8px);
+      }
+      &:last-child {
+        transform: translateY(8px);
+      }
+    }
+  }
 
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 0 1px rgba(136, 152, 170, 0.1), 0 15px 35px 0 rgba(49, 49, 93, 0.1),
-      0 5px 15px 0 rgba(0, 0, 0, 0.08);
-    padding: 1rem;
-    .user-menu {
-      margin-bottom: 2rem;
-      padding-right: 2rem;
-      display: grid;
-      grid-template-columns: 2rem 1fr;
-      grid-gap: 1rem;
-      .content {
-        .name {
-          font-weight: bold;
-        }
+  &.active {
+    .avatar {
+      opacity: 0;
+    }
+    .bars {
+      width: 2rem;
+      .bar {
+        transform: translateY(0);
+        margin: 0;
+        position: absolute;
+        width: 1.75rem;
+      }
+      .bar:first-child {
+        transform: translateX(-50%) rotate(45deg);
+      }
+      .bar:nth-child(2) {
+        transform: translateX(-50%) rotate(-45deg);
+      }
+      .bar:last-child {
+        display: none;
       }
     }
   }

@@ -1,11 +1,11 @@
 import { emitEvent } from "@factor/api/events"
 
-export const userToken = (token?: boolean | null | string): string | void => {
+export const userToken = (token?: string): string | void => {
   if (typeof localStorage == "undefined" || !localStorage) {
     return ""
   }
   const keyName = "token"
-  if (token === false || token === null) {
+  if (token === "destroy") {
     localStorage.removeItem(keyName)
   } else if (token) {
     localStorage.setItem(keyName, JSON.stringify({ token }))

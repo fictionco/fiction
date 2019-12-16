@@ -18,7 +18,7 @@ export interface MenuItem {
  * @param currentPath - The currently active route path. Used to determine active menu items.
  */
 export const getDashboardMenu = (currentPath: string): Record<string, MenuItem[]> => {
-  const menuAreas = ["dashboard", "admin", "account"]
+  const menuAreas = ["dashboard", "admin", "account", "action"]
 
   const menu: Record<string, MenuItem[]> = {}
   menuAreas.forEach(area => {

@@ -1,6 +1,6 @@
 import { pushToFilter, addPostType } from "@factor/api"
 import { Component } from "vue"
-
+import { logout } from "./util"
 export const setup = (): void => {
   pushToFilter({
     key: "account",
@@ -16,12 +16,22 @@ export const setup = (): void => {
 
   pushToFilter({
     key: "account",
-    hook: "dashboard-menu",
+    hook: "account-menu",
     item: {
       group: "account",
       path: "account",
       name: "Your Account",
       icon: require("./img/users.svg")
+    }
+  })
+
+  pushToFilter({
+    key: "account",
+    hook: "action-menu",
+    item: {
+      key: "logout",
+      click: (): Promise<void> => logout(),
+      name: "Logout"
     }
   })
 

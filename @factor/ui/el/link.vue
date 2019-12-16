@@ -100,6 +100,9 @@ export default Vue.extend({
         }
       : this.$listeners
 
+    // Native only valid on components.
+    const nativeEvents = el == "a" || el == "span" ? {} : { nativeOn: on }
+
     //const on = this.$listeners
     return createElement(
       el,
@@ -107,7 +110,8 @@ export default Vue.extend({
         class: classes,
         attrs,
         props,
-        on
+        on,
+        ...nativeEvents
       },
       [text]
     )

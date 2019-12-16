@@ -1,10 +1,7 @@
 <template>
   <dashboard-page :title="_id == userId() ? 'Your Account' : 'Edit User'">
     <template #actions>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">
-        Save &nbsp;
-        <factor-icon icon="arrow-up" />
-      </factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">Save</factor-btn-dashboard>
     </template>
     <template #meta>
       <dashboard-pane title="Images" class="compose inputs">
@@ -106,7 +103,7 @@
 </template>
 <script lang="ts">
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
-import { factorBtnDashboard, factorIcon } from "@factor/ui"
+import { factorBtnDashboard } from "@factor/ui"
 import { userId, sendVerifyEmail } from "@factor/user"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/api"
 import { requestPostSave } from "@factor/post/request"
@@ -114,7 +111,6 @@ import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorIcon,
     dashboardPage,
     dashboardPane,
     dashboardInput,
