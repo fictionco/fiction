@@ -2193,9 +2193,9 @@
   integrity sha512-7EJYyKTL7tFR8+gDbB6Wwz/arpGa0Mywk1TJbNzKzHtzbwVmY4HR9WqS5VV7dsBUKQmPNr192jHr/VpBluj/hg==
 
 "@types/sortablejs@^1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.10.0.tgz#3d58a350c91a04a658dc8c813425f351e70caae9"
-  integrity sha512-g2JQkdHCDIJKmXS8A2dzgn+D4X54B2SDKxtUcwX4S6LfMKBv6Dujemq7BaGU1SUp6q/U+glDU+RSA0uHC8BRVQ==
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.10.1.tgz#a625a9b688ebd588f7722441f4b0ddc2f38a3ee3"
+  integrity sha512-b4vrysEzOPmQMWSYXI2Az6Vpo+3LYsqszrgk3orHpUdzJgvnOtGGquWsUbSPNv5oANMwK/6tQWf9dnENe0vaBQ==
 
 "@types/source-list-map@*":
   version "0.1.2"
