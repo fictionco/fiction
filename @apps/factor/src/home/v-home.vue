@@ -4,10 +4,12 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Unified Typescript Platform
-            <span class="highlight">for Front-End Developers</span>
+            The Full-Stack Application Platform
+            <span
+              class="highlight"
+            >for Professional Javascript Developers</span>
           </h1>
-          <h3 class="page-title-sub">Build Full-Stack Websites, Blogs and Apps in Minutes</h3>
+          <h3 class="page-title-sub">Create blogs, websites, and dynamic applications in minutes</h3>
 
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
@@ -16,7 +18,7 @@
               <span>
                 Github
                 <i>v</i>
-                <span>1.0 PUBLIC BETA</span>
+                <span>1.0</span>
               </span>
             </factor-link>
           </div>

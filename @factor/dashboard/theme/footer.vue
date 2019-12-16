@@ -4,11 +4,7 @@
       <div class="legal">
         <div class="copyright">
           Powered by
-          <a
-            href="https://factor.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Factor Unified Platform</a>
+          <a href="https://factor.dev" target="_blank" rel="noopener noreferrer">Factor</a>
         </div>
       </div>
     </div>

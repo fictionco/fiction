@@ -53,7 +53,7 @@ export const endpointRequest = async ({
     if (error) {
       handleTokenError(error, {
         onError: (): void => {
-          emitEvent("error", error)
+          emitEvent("error", new Error(error.message))
           // eslint-disable-next-line no-console
           console.error(error)
         }
