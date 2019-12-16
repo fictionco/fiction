@@ -1,1 +1,8 @@
-{}
+{
+  "video": false,
+  "env": {
+    "url": "https://factor.dev/",
+    "username": "Ben Testing",
+    "password": "Password123!"
+  }
+}
