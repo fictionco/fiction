@@ -7,7 +7,6 @@ import {
   pushToFilter,
   addContentRoute
 } from "@factor/api"
-
 import { Component } from "vue"
 import { setting } from "@factor/api/settings"
 import { userCan } from "@factor/user"
@@ -31,6 +30,27 @@ export const dashboardUserCard = (): Promise<Component> => import("./el/user-car
 export const dashboardUserList = (): Promise<Component> => import("./el/user-list.vue")
 export const factorInputSortable = (): Promise<Component> => import("./el/sortable.vue")
 
+export const dashboardBaseRoute = (): string => {
+  const dashboardRoute = setting("dashboard.route")
+
+  if (!dashboardRoute) {
+    throw new Error("Dashboard base route setting is undefined.")
+  }
+  return dashboardRoute
+}
+
+export const getDashboardRoute = (path?: string, parentPath?: string): string => {
+  if (path && path.startsWith("/")) {
+    return path
+  } else {
+    const base = parentPath ? parentPath : dashboardBaseRoute()
+    const p = path || ""
+    return `${base}/${p}`
+  }
+}
+
+// clea up
+
 export const setup = (): void => {
   addContentRoute({
     name: "signin",
@@ -51,15 +71,17 @@ export const setup = (): void => {
     key: "dashboard",
     hook: "routes",
     callback: (_: RouteConfig[]) => {
-      const dashboardRoute = setting("dashboard.route")
+      const dashboardRoute = dashboardBaseRoute()
 
-      if (!dashboardRoute) {
-        throw new Error("Dashboard base route setting is undefined.")
-      }
-
+      const defaultRoute = getDashboardRoute("account")
       _.push({
         path: "/admin",
-        redirect: dashboardRoute
+        redirect: defaultRoute
+      })
+
+      _.push({
+        path: dashboardRoute,
+        redirect: defaultRoute
       })
 
       _.push({

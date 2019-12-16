@@ -2,6 +2,7 @@ import { endpointRequest } from "@factor/endpoint"
 import { requestPostSingle, requestPostPopulate } from "@factor/post/request"
 import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
+import Vue from "vue"
 import {
   isEmpty,
   isNode,
@@ -31,8 +32,6 @@ import { userToken, handleTokenError } from "./token"
 
 export * from "./email-request"
 
-let _initializedUser: Promise<CurrentUserState> | CurrentUserState
-
 export const currentUser = (): CurrentUserState => {
   return stored("currentUser")
 }
@@ -40,7 +39,7 @@ export const currentUser = (): CurrentUserState => {
 // Set persistent user info
 export const setUser = ({ user, token = "", current = false }: SetUser): void => {
   if (current) {
-    _initializedUser = user ? user : undefined
+    Vue.$initializedUser = user ? user : undefined
 
     if (token && user) userToken(token)
     else if (user === undefined) userToken(undefined)
@@ -59,7 +58,7 @@ export const setUser = ({ user, token = "", current = false }: SetUser): void =>
 // Utility function that calls a callback when the user is set initially
 // If due to route change then initialized var is set and its called immediately
 export const userInitialized = async (callback?: Function): Promise<CurrentUserState> => {
-  const user = await _initializedUser
+  const user = await Vue.$initializedUser
 
   if (callback) callback(user)
 
@@ -219,7 +218,7 @@ export const setup = (): void => {
     callback: () => {
       // Authentication events only work after SSR
       if (!isNode) {
-        _initializedUser = requestInitializeUser()
+        Vue.$initializedUser = requestInitializeUser()
         handleAuthRouting()
       }
     }

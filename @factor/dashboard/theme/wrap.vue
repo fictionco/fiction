@@ -28,6 +28,7 @@ import * as user from "@factor/user"
 import { toLabel } from "@factor/api"
 import { Route } from "vue-router"
 import Vue from "vue"
+ 
 export default Vue.extend({
   components: {
     factorLoadingRing,
@@ -60,6 +61,7 @@ export default Vue.extend({
   },
   async mounted() {
     await user.userInitialized()
+     
     this.loading = false
   },
 

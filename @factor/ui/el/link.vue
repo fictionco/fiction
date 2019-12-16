@@ -1,5 +1,5 @@
 <script lang="ts">
-import Vue from "vue"
+import Vue, { CreateElement, VNode } from "vue"
 import { factorBtn, factorBtnDashboard } from "@factor/ui"
 import { pickBy, isEmpty, emitEvent, identity } from "@factor/api"
 
@@ -15,7 +15,7 @@ export default Vue.extend({
     text: { type: String, default: "" }
   },
 
-  render: function(createElement) {
+  render: function(createElement: CreateElement): VNode {
     let path = this.path
     let text = this.text || this.$slots.default
     let el = "span"
@@ -46,7 +46,7 @@ export default Vue.extend({
       }
     }
 
-    const classes = {}
+    const classes: Record<string, boolean> = {}
 
     classes["factor-link"] = true
 
@@ -90,7 +90,7 @@ export default Vue.extend({
 
     const on = this.event
       ? {
-          click: e => {
+          click: (e: Event) => {
             e.preventDefault()
 
             emitEvent(this.event, query)
@@ -107,8 +107,7 @@ export default Vue.extend({
         class: classes,
         attrs,
         props,
-        on,
-        nativeOn: on
+        on
       },
       [text]
     )

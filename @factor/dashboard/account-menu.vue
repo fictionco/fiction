@@ -94,23 +94,22 @@ export default Vue.extend({
   methods: {
     isLoggedIn,
     toLabel,
-    itemClick(item) {
+    itemClick(this: any, item) {
       if (typeof item.click == "function") {
         item.click()
       }
 
       this.clickHandler()
     },
-    clickHandler() {
+    clickHandler(this: any) {
       if (this.toggle) {
         this.toggle = false
         document.removeEventListener("click", this.clickHandler, false)
       }
     },
-    setToggle() {
+    setToggle(this: any): void {
       if (!isLoggedIn()) {
         emitEvent("sign-in-modal")
-        return ""
       }
 
       if (!this.toggle) {

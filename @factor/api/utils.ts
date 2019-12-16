@@ -23,7 +23,7 @@ export const ensureTrailingSlash = (path: string): string => {
   return path
 }
 
-interface PriorityItem {
+export interface PriorityItem {
   priority?: number;
   [key: string]: any;
 }

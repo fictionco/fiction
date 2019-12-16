@@ -24,6 +24,15 @@
       </div>
       <div v-if="toggle" class="mobile-nav">
         <div class="mobile-nav-content">
+          <div class="user-menu">
+            <factor-avatar v-if="isLoggedIn()" :post-id="getUser('avatar')" width="2rem" />
+            <div class="content" :data-uid="getUser('_id')">
+              <div class="name">{{ getUser('displayName') || getUser('email') }}</div>
+              <div v-if="getUser('role')" class="privs">
+                <span class="status">{{ toLabel(getUser('role')) }}</span>
+              </div>
+            </div>
+          </div>
           <dashboard-nav />
         </div>
       </div>
@@ -31,19 +40,25 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLink } from "@factor/ui"
+import { factorLink, factorAvatar } from "@factor/ui"
 import { accountMenu } from "@factor/dashboard"
-import { setting } from "@factor/api"
-
+import { setting, toLabel } from "@factor/api"
+import { currentUser, isLoggedIn, logout } from "@factor/user"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLink, accountMenu, dashboardNav: () => import("./nav.vue") },
+  components: {
+    factorLink,
+    accountMenu,
+    factorAvatar,
+    dashboardNav: () => import("./nav.vue")
+  },
   data() {
     return {
       toggle: false
     }
   },
   computed: {
+    currentUser,
     iconUrl() {
       return setting("app.icon")
     },
@@ -52,6 +67,12 @@ export default Vue.extend({
     }
   },
   methods: {
+    isLoggedIn,
+    logout,
+    toLabel,
+    getUser(this: any, field: string) {
+      return this.currentUser[field]
+    },
     toggleNav(this: any, toggle?: boolean) {
       if (!document) return
 
@@ -147,6 +168,18 @@ export default Vue.extend({
     box-shadow: 0 0 0 1px rgba(136, 152, 170, 0.1), 0 15px 35px 0 rgba(49, 49, 93, 0.1),
       0 5px 15px 0 rgba(0, 0, 0, 0.08);
     padding: 1rem;
+    .user-menu {
+      margin-bottom: 2rem;
+      padding-right: 2rem;
+      display: grid;
+      grid-template-columns: 2rem 1fr;
+      grid-gap: 1rem;
+      .content {
+        .name {
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
 

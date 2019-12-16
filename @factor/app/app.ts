@@ -34,7 +34,7 @@ export const createApp = async (): Promise<ApplicationComponents> => {
   const vm = new Vue({
     mounted(): void {
       // Fire a mounted event so plugins that need to wait for SSR to be fully loaded can then fire
-      // The is the primary mechanism for initializing users since authenticated content isn't SSR'd
+      // The is the primary mechanism for initializing users since authenticated content isn't server rendered
       setTimeout(() => emitEvent("app-mounted"), 0)
     },
     render: (h: CreateElement): VNode => h(factorSite),

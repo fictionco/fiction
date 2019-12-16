@@ -8,7 +8,7 @@ export const watcher = (callback: Function): void => {
   chokidar
     .watch([`${getPath("source")}/**`, ...watchDirs], {
       ignoreInitial: true,
-      ignored: `**/node_modules/**`
+      ignored: `**/+(node_modules|test)/**`
     })
     .on("all", async (event, path) => {
       callback({ event, path })
