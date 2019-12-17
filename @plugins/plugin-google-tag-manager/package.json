@@ -7,10 +7,10 @@
     "access": "public"
   },
   "factor": {
-    "_id": "tagManager",
-    "load": [
-      "server"
-    ],
+    "load": {
+      "app": "index",
+      "server": "server"
+    },
     "title": "Google Tag Manager"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",

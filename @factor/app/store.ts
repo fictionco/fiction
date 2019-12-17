@@ -4,40 +4,48 @@ import { Store } from "vuex/types"
 
 Vue.use(Vuex)
 
-const __store = new Vuex.Store({
-  strict: false,
-  state: (): Record<string, any> => {
-    return {}
-  },
-  getters: {
-    getItem: (state: Record<string, any>) => (item: string): any => state[item]
-  },
-  mutations: {
-    setItem: (state, { item, value }): void => {
-      Vue.set(state, item, value)
-    }
-  }
-})
+let __store: Store<object> | undefined
 
 export const getStore = (): Store<object> => {
+  __store = new Vuex.Store({
+    strict: false,
+    state: (): Record<string, any> => {
+      return {}
+    },
+    getters: {
+      getItem: (state: Record<string, any>) => (item: string): any => state[item]
+    },
+    mutations: {
+      setItem: (state, { item, value }): void => {
+        Vue.set(state, item, value)
+      }
+    }
+  })
+
+  // prime the store with server-initialized state.
+  // the state is determined during SSR and inlined in the page markup.
+  // Make sure this is done after store modules are setup and added
+  if (typeof window != "undefined" && window.__INITIAL_STATE__) {
+    __store.replaceState(window.__INITIAL_STATE__)
+  }
+
   return __store
 }
 
-// prime the store with server-initialized state.
-// the state is determined during SSR and inlined in the page markup.
-// Make sure this is done after store modules are setup and added
-if (typeof window != "undefined" && window.__INITIAL_STATE__) {
-  __store.replaceState(window.__INITIAL_STATE__)
-}
-
 export const storeItem = (item: string, value: any): void => {
+  if (!__store) {
+    throw new Error(`Store not available for ${item}:${value}`)
+  }
   return __store.commit("setItem", { item, value })
 }
 
 export const stored = (key: string): any => {
-  return __store.getters["getItem"](key)
+  return __store ? __store.getters["getItem"](key) : undefined
 }
 
 export const getStoreState = (): Store<object>["state"] => {
+  if (!__store) {
+    throw new Error("Store not available for state.")
+  }
   return __store.state
 }

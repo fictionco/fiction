@@ -126,11 +126,11 @@ addFilter({
 addFilter({
   key,
   hook: "factor_head",
-  callback: (_: string[], { context }: MetaHookOptions) => {
+  callback: (__: string[], { context }: MetaHookOptions) => {
     const { title, link, style, script, noscript, meta } = context.metaInfo.inject()
 
     return [
-      ..._,
+      ...__,
       meta.text(),
       title.text(),
       link.text(),

@@ -5,7 +5,6 @@
   "main": "src/index",
   "author": "Fiction.com",
   "license": "UNLICENSED",
-   
   "factor": {
     "_id": "fictionApp",
     "load": [
@@ -19,12 +18,7 @@
     "@factor/theme-shared": "^1.0.0",
     "@factor/plugin-blog": "^1.0.0",
     "@factor/plugin-contact-form": "^1.0.0",
-    "@factor/plugin-google-tag-manager": "^1.0.0",
     "@factor/plugin-highlight-code": "^1.0.0",
-    "@factor/plugin-jobs": "^1.0.0",
-    "@factor/plugin-notify": "^1.0.0",
-    "@factor/plugin-seo": "^1.0.0",
-    "@factor/plugin-sitemap": "^1.0.0",
-    "@factor/plugin-storage-s3": "^1.0.0"
+    "@factor/plugin-jobs": "^1.0.0"
   }
 }

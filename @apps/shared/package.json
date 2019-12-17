@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "url": "https://www.fiction.com",
   "main": "src/index",
-   
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {
@@ -16,6 +15,11 @@
   },
   "dependencies": {
     "@factor/plugin-bugsnag": "^1.0.0",
-    "@factor/plugin-email-list": "^1.0.0"
+    "@factor/plugin-email-list": "^1.0.0",
+    "@factor/plugin-google-tag-manager": "^1.0.0",
+    "@factor/plugin-sitemap": "^1.0.0",
+    "@factor/plugin-storage-s3": "^1.0.0",
+    "@factor/plugin-notify": "^1.0.0",
+    "@factor/plugin-seo": "^1.0.0"
   }
 }
