@@ -4,14 +4,12 @@
       <div class="stark-bg-image unskew-bg">
         <div class="splash content-pad">
           <div class="content-width">
-            <div class="label label-blue">Currently In Beta</div>
+            <div class="label label-blue">COMING Q1 2020</div>
             <h1 class="title" role="textbox">
-              A Universal Typescript CMS Platform
-              <span
-                class="alt"
-              >for Professional Front-End Developers</span>
+              Introducting Factor TS.
+              <span class="alt">Reactive CMS Platform of the Future.</span>
             </h1>
-            <p class="subtitle">Build rock-solid server-rendered Vue.js apps in hours not months</p>
+            <p class="subtitle">Build sites, blogs or full-stack apps in hours not months</p>
             <div class="action">
               <factor-email-list list-id="alphaProgram" />
             </div>
@@ -125,7 +123,7 @@
             </figure>
             <blockquote>
               <p>
-                We chose the Factor JS platform (built with VueJS, MongoDB) for the new
+                We chose the Factor TS platform (built with VueJS, MongoDB) for the new
                 company app and it's been an awesome experience guys. Incredible work
                 @fictiondotcom! 🚀
               </p>
@@ -242,7 +240,7 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: "Factor JS - A Platform for Universal VueJS Apps",
+      title: "Factor Typescript CMS - Application Framework of the Future",
       description:
         "Build server-rendered web applications that stun your friends and followers with Factor JS Universal VueJS platform."
     }
@@ -403,11 +401,15 @@ export default Vue.extend({
         text-align: left;
       }
       .title {
-        font-size: 4em;
+        font-size: 2.5em;
         letter-spacing: -0.03em;
         line-height: 1.1;
         margin: 0.3em 0;
         color: var(--color-light);
+        .alt {
+          display: block;
+          opacity: 0.75;
+        }
         @media (max-width: 900px) {
           font-size: 1.8em;
         }

@@ -173,7 +173,7 @@ export default Vue.extend({
         {
           id: "feature-factor",
           super: "Factor JS",
-          title: "Create Dynamic Javascript Apps Powered by VueJS, MongoDB",
+          title: "Create Dynamic Typescript Apps Powered by VueJS, MongoDB",
           text: `Factor is a state of the art Javascript development platform for front-end developers.
             It includes a CMS engine powered by an advanced dashboard and post system. It also has first class support for drop-in plugins and themes.
             Factor is free and open-source, powered by VueJS, MongoDB and Node. `,

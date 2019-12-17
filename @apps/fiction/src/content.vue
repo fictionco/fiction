@@ -27,7 +27,7 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
-import { excerpt } from "@factor/api/excerpt"
+
 import { stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
@@ -39,12 +39,9 @@ export default Vue.extend({
   },
 
   metaInfo() {
-    const post = this.post || {}
     return {
-      title: post.titleTag || post.title,
-      titleTemplate: "%s - Fiction.com",
-      description: post.description || excerpt(post.content),
-      image: this.socialImage(post)
+      title: "No Title",
+      titleTemplate: "%s - Fiction"
     }
   },
 
@@ -53,28 +50,21 @@ export default Vue.extend({
       return stored("post") || {}
     },
 
-    nav() {
+    nav(this: any) {
       return typeof this.$route.meta.nav != "undefined" ? this.$route.meta.nav : true
     },
-    bg() {
+    bg(this: any) {
       const background = this.$route.meta.background || false
 
       if (!background) {
         return ""
       } else {
-        return {
-          background
-        }
+        return { background }
       }
     }
   },
   methods: {
-    isLoggedIn,
-    socialImage(post) {
-      return post.images && post.images.length > 0 && post.images[0].url
-        ? post.images[0].url
-        : ""
-    }
+    isLoggedIn
   }
 })
 </script>

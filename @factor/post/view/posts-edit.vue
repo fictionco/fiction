@@ -1,7 +1,7 @@
 <template>
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
-      <factor-btn-dashboard btn="default" :loading="sending">View</factor-btn-dashboard>
+      <factor-link btn="default" :path="url()">View</factor-link>
       <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Save</factor-btn-dashboard>
     </template>
     <template #primary>

@@ -8,11 +8,7 @@
             <div class="header-icon-text">{{ intro.preheading }}</div>
           </div>
 
-          <img
-            class="title"
-            :src="require(`./img/factor-vip-logo.svg`)"
-            alt="Factor VIP"
-          />
+          <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" />
 
           <p class="text">{{ intro.text }}</p>
 
@@ -222,7 +218,7 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: "Factor VIP - Premium Digital Experiences",
+      title: "Factor VIP - Professional App Development Service",
       description: `Web application development services powered by Factor designed to fit your custom workflow.`,
       image: require("../img/fiction.jpg")
     }
