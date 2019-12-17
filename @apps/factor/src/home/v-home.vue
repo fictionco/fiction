@@ -78,6 +78,7 @@
       :id="feature.id"
       :key="index"
       class="features content"
+      :data-test="`feature-` + index"
       :class="[index == features.length - 1 ? 'last' : '']"
     >
       <div class="split-feature" :class="[index % 2 == 0 ? 'even' : 'odd']">
@@ -529,8 +530,6 @@ export default Vue.extend({
     .feature-content {
       letter-spacing: -0.01em;
     }
-    .feature-figure {
-    }
     .feature-icon {
       height: 72px;
       width: 72px;
@@ -615,8 +614,6 @@ export default Vue.extend({
             box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
               19px 22.5px 75px -5px rgba(50, 50, 93, 0.2);
           }
-        }
-        &.diagonal {
         }
         &.odd {
           justify-content: flex-end;

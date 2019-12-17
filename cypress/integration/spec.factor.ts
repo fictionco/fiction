@@ -33,45 +33,31 @@ context("Actions", () => {
     cy.url().should('include', '/')
 
     // view quickstart link
-    cy.get(".features")
-      .eq(0)
-      .find(".action a")
-      .click()
+    cy.get('section[data-test="feature-0"]').find(".action a").click()
 
     // back home
     cy.get(".site-brand").find("a").click()
 
     // try factor link
-    cy.get(".features")
-      .eq(1)
-      .find(".action a")
-      .click()
+    cy.get('section[data-test="feature-1"]').find(".action a").click()
 
     //back home
     cy.get(".site-brand").find("a").click()
 
     // learn more link
-    cy.get(".features")
-      .eq(2)
-      .find(".action a")
-      .click()
+    cy.get('section[data-test="feature-2"]').find(".action a").click()
 
     //back home
     cy.get(".site-brand").find("a").click()
 
     // view plugins link
-    cy.get("#plugins-feature")
-      .find(".action a")
-      .click()
+    cy.get('section[data-test="feature-3"]').find(".action a").click()
 
     // back home
     cy.get(".site-brand").find("a").click()
 
     // view themes link
-    cy.get(".features")
-      .eq(4)
-      .find(".action a")
-      .click()
+    cy.get('section[data-test="feature-4"]').find(".action a").click()
 
   })
 
@@ -84,7 +70,7 @@ context("Actions", () => {
     cy.get('.site-head').should('not.be.visible')
 
     // open nav
-    cy.get(".mobile-toggle").click()
+    cy.get('.mobile-toggle').click()
 
     // introduction link
     cy.get(".menu-root .menu-item")
@@ -327,8 +313,11 @@ context("Actions", () => {
       .eq(2)
       .click()
 
-    // end with visuals with desktop view
+    // switch to desktop view
     cy.viewport('macbook-15')
+
+    // end back home
+    cy.get(".site-brand").find("a").click()
 
   })
 

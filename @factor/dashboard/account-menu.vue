@@ -73,6 +73,7 @@ export default Vue.extend({
       {
         items: [
           {
+            key: "account",
             path: "/dashboard/account",
             name: "Account Settings"
           },

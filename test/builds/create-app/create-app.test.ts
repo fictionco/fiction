@@ -23,6 +23,9 @@ describe("create-factor-app", () => {
 
   describe("cli", () => {
     it("asks for app name, email, url", async () => {
+
+      await waitFor(10000)
+
       spawnedProcess = spawn("npx", ["create-factor-app", APP_FOLDER], {
         detached: true,
         cwd
