@@ -126,7 +126,7 @@ workflows:
       - test-unit: { requires: [setup] }
       - build: { requires: [setup] }
       - test-e2e: { requires: [setup] }
-      - test-integration: { requires: [build] }
+     # - test-integration: { requires: [build] }
       # - release-commit:
       #     requires: [build, lint, audit, test-unit, test-integration]
       #     filters:
