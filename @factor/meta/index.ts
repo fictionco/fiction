@@ -16,7 +16,7 @@ addFilter({
   key,
   hook: "ssr-context-ready",
   callback: (context: ServerRenderContext, { vm, router }: ApplicationComponents) => {
-    // Add Vue-Meta
+    // Add Vue-Meta information to context
     context.metaInfo = vm.$meta()
 
     // the html template extension mechanism
@@ -88,7 +88,7 @@ addCallback({
 
           const meta = typeof opt == "function" ? opt.call(this) : opt
 
-          const refined = applyFilters("meta-refine", meta)
+          const refined = applyFilters("meta-component", meta)
 
           return refined
         }
@@ -99,7 +99,7 @@ addCallback({
 
 addFilter({
   key,
-  hook: "meta-refine",
+  hook: "meta-component",
   callback: (data: FactorMetaInfo) => {
     if (!data.meta) data.meta = []
 

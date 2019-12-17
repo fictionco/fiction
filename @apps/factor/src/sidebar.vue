@@ -57,7 +57,9 @@ import { factorLink, factorIcon } from "@factor/ui"
 import { throttle, setting, toLabel } from "@factor/api"
 
 import Vue from "vue"
+import { Route } from "vue-router"
 import { config } from "./docs-handler"
+
 export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
@@ -75,19 +77,19 @@ export default Vue.extend({
   },
 
   computed: {
-    siteNav() {
+    siteNav(this: any) {
       return this.navConfig.filter(item => !item.condition || item.condition())
     },
     nav() {
       return config()
     },
 
-    activeDoc() {
+    activeDoc(this: any): string {
       return this.$route.params.doc || ""
     }
   },
   watch: {
-    $route: function(to, from) {
+    $route: function(to: Route, from: Route): void {
       if (to.path != from.path) {
         this.setPage()
       } else if (to.hash != from.hash) {
@@ -105,7 +107,7 @@ export default Vue.extend({
   methods: {
     toLabel,
     setting,
-    setPage() {
+    setPage(this: any) {
       // Make sure new content is loaded before scanning for h2, h3
       setTimeout(() => {
         this.scroller = document.querySelectorAll(".scroller")[0]
@@ -122,7 +124,7 @@ export default Vue.extend({
         this.setActiveHash()
       }, 100)
     },
-    setActiveHash() {
+    setActiveHash(this: any) {
       // Disable this behavior after click actions (not actual scrolls)
       if (this.clicked || !this.scroller) {
         this.clicked = false
@@ -155,8 +157,9 @@ export default Vue.extend({
         }
       }
     },
-    getHeaders(el) {
-      const out = []
+    getHeaders(this: any, el: HTMLElement) {
+      const out: any[] = []
+
       el.querySelectorAll("h2").forEach(h2 => {
         this.allHeaders.push(h2)
         const sub = this.collectH3s(h2).map(h3 => {

@@ -1,7 +1,7 @@
 import { addCallback, applyFilters } from "@factor/api/hooks"
 import { currentRoute } from "@factor/app/router"
 import { storeItem } from "@factor/app/store"
-import { setPostMetatags } from "@factor/api/metatags"
+
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 
@@ -45,8 +45,6 @@ export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Prom
   const post = await requestPostSingle(request)
 
   storeItem("post", post)
-
-  if (post) setPostMetatags(post._id)
 
   return post
 }

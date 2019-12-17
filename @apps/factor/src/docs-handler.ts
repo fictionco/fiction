@@ -8,7 +8,7 @@ export const normalize = (items: DocsItem[]): DocsItem[] => {
 
     if (!root && !slug) return options
 
-    const route = `/${setting("docs.base")}/${root ? "" : slug}`
+    const route = `/${setting("docs.base")}${root ? "" : `/${slug}`}`
 
     const d = {
       slug,
