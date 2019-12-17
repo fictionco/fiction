@@ -32,7 +32,7 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLink, factorAvatar } from "@factor/ui" 
+import { factorLink, factorAvatar } from "@factor/ui"
 import { getDashboardMenu } from "@factor/dashboard/menu"
 import { setting, toLabel } from "@factor/api"
 import { currentUser, isLoggedIn } from "@factor/user"
@@ -64,7 +64,7 @@ export default Vue.extend({
     isLoggedIn,
     toLabel,
     getUser(this: any, field: string) {
-      return this.currentUser[field]
+      return this.currentUser ? this.currentUser[field] : undefined
     },
     toggleNav(this: any, toggle?: boolean) {
       if (!document) return
