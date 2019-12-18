@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-zeno",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.",
   "author": "Factor",
   "main": "src/index",
@@ -14,9 +14,9 @@
     "build": "postcss css/tailwind.css -o tailwind.css"
   },
   "dependencies": {
-    "@factor/core": "^1.1.8",
+    "@factor/core": "^1.1.9",
     "@factor/plugin-blog": "^1.1.5",
-    "@factor/plugin-contact-form": "^1.1.5",
+    "@factor/plugin-contact-form": "^1.1.9",
     "@factor/plugin-highlight-code": "^1.1.5",
     "@factor/plugin-notify": "^1.1.5",
     "@factor/plugin-seo": "^1.1.5",
