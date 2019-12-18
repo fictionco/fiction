@@ -24,11 +24,15 @@ commands:
       - attach-project
       - run:
           name: release
-          command: echo "release goes here"
+          command: git config --global user.email "$GIT_AUTHOR_EMAIL"
+            git config --global user.name "$GIT_AUTHOR_NAME"
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+            echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+            if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--tag staging"; fi
+            yarn lerna publish patch $tag --yes
 release_branches: &release_branches
   branches:
     only:
-      - development
       - staging
       - release
 
@@ -116,6 +120,11 @@ jobs:
           name: e2e
           command: "yarn test:e2e"
 
+  release-version:
+    executor: node
+    steps:
+      - release
+
 workflows:
   version: 2
   commit:
@@ -125,12 +134,11 @@ workflows:
       - audit: { requires: [setup] }
       - test-unit: { requires: [setup] }
       - build: { requires: [setup] }
-      - test-e2e: { requires: [setup] }
-     # - test-integration: { requires: [build] }
-      # - release-commit:
-      #     requires: [build, lint, audit, test-unit, test-integration]
-      #     filters:
-      #       <<: *release_branches
+      - test-integration: { requires: [build] }
+      - release-version:
+          requires: [build, lint, audit, test-unit, test-integration]
+          filters:
+            <<: *release_branches
 
   live:
     jobs:
@@ -138,6 +146,6 @@ workflows:
       - test-e2e: { requires: [setup] }
     triggers:
       - schedule:
-          cron: "0 * * * *"
+          cron: "0 1/6 * * *"
           filters:
             <<: *release_branches
