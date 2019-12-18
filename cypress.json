@@ -4,5 +4,6 @@
     "url": "https://factor.dev/",
     "username": "Ben Testing",
     "password": "Password123!"
-  }
+  },
+  "blacklistHosts": ["www.google-analytics.com"]
 }
