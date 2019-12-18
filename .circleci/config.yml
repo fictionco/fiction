@@ -27,6 +27,8 @@ commands:
       - run:
           name: release
           command: |
+            echo "git config --global user.email '$GIT_AUTHOR_EMAIL'"
+            echo "git config --global user.name '$GIT_AUTHOR_NAME'"
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--dist-tag staging"; fi
