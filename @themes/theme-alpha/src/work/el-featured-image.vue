@@ -58,9 +58,8 @@ export default Vue.extend({
   .featured-image-wrap {
     position: relative;
     z-index: 1;
-    margin: -40px auto 2em;
+    margin: 2em auto;
     padding: 0 2em;
-    max-width: 50rem;
 
     .featured-image {
       display: block;

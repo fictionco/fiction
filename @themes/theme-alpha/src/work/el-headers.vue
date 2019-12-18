@@ -1,36 +1,27 @@
 <template>
-  <div v-if="format == 'index'" class="title">
-    <h1 class="heading">
+  <div v-if="format == 'index'" class="entry-headers">
+    <h1 class="entry-title">
       <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
     <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
-    <factor-post-edit :post-id="post._id" />
   </div>
-  <section v-else class="hero">
-    <div class="mast">
-      <div class="hero-inner">
-        <div>
-          <factor-link class="back" :path="setting('work.indexRoute')">
-            <factor-icon icon="arrow-left" />
-            {{ returnLinkText }}
-          </factor-link>
-          <h1 class="heading">
-            <factor-link :path="link(post._id)">{{ post.title }}</factor-link>
-          </h1>
-          <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
-          <factor-post-edit :post-id="post._id" />
-        </div>
-      </div>
+  <div v-else class="entry-headers">
+    <div class="splash">
+      <component :is="setting('work.components.workReturnLink')" />
+      <h1 class="entry-title">
+        <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
+      </h1>
+      <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
     </div>
-  </section>
+  </div>
 </template>
 <script lang="ts">
-import { factorPostEdit } from "@factor/post"
-import { factorLink, factorIcon } from "@factor/ui"
-import { setting, stored, postLink } from "@factor/api"
+import { factorLink } from "@factor/ui"
+import { postLink, setting, stored } from "@factor/api"
 import Vue from "vue"
+
 export default Vue.extend({
-  components: { factorLink, factorIcon, factorPostEdit },
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
@@ -38,9 +29,6 @@ export default Vue.extend({
   computed: {
     post() {
       return stored(this.postId) || {}
-    },
-    returnLinkText() {
-      return setting("work.returnLinkText") || "All Projects"
     }
   },
   methods: {
@@ -77,6 +65,21 @@ export default Vue.extend({
 
 // Single
 .work-single-entry {
+  .splash {
+    .entry-title {
+      font-weight: var(--font-weight-bold, 800);
+      font-size: 3em;
+      letter-spacing: -0.03em;
+      margin: 0.3em 0;
+      @media (max-width: 767px) {
+        font-size: 2em;
+      }
+    }
+    .entry-subtitle {
+      font-size: 1.25em;
+    }
+  }
+
   .hero {
     position: relative;
     overflow: hidden;
@@ -125,6 +128,20 @@ export default Vue.extend({
           background: var(--color-tertiary, #9afecb);
         }
       }
+      .entry-title {
+        font-size: 1.1em;
+        text-transform: uppercase;
+      }
+      .entry-subtitle {
+        font-weight: var(--font-weight-bold, 800);
+        font-size: 3em;
+        letter-spacing: -0.03em;
+        margin: 0.3em 0;
+        @media (max-width: 767px) {
+          font-size: 2em;
+        }
+      }
+
       .heading {
         font-weight: var(--font-weight-bold, 800);
         font-size: 3em;
@@ -138,9 +155,7 @@ export default Vue.extend({
           text-decoration-color: var(--color-tertiary);
         }
       }
-      .entry-subtitle {
-        line-height: 1.7;
-      }
+
       .content {
         font-size: 1.2em;
         line-height: 1.6em;

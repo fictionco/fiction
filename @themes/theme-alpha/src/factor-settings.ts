@@ -165,7 +165,7 @@ export default {
     indexRoute: "/work",
     postRoute: "/work",
     limit: 8,
-    returnLinkText: "All Projects",
+    returnLinkText: "All",
     layout: {
       index: ["workFeaturedImage", "workHeaders"],
       single: ["workHeaders", "workFeaturedImage", "workTags", "workEntry"]
@@ -176,6 +176,7 @@ export default {
       workSingle: (): Promise<Component> => import("./work/work-single.vue"),
       workFeaturedImage: (): Promise<Component> => import("./work/el-featured-image.vue"),
       workHeaders: (): Promise<Component> => import("./work/el-headers.vue"),
+      workReturnLink: (): Promise<Component> => import("./work/el-return-link.vue"),
       workTags: (): Promise<Component> => import("./work/el-tags.vue"),
       workEntry: (): Promise<Component> => import("./work/el-entry.vue")
     }

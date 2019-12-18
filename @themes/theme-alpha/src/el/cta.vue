@@ -11,11 +11,11 @@
 </template>
 
 <script lang="txs">
-import { factorLink } from "@factor/ui"
+import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLink },
+  components: { factorIcon, factorLink },
   methods: { setting }
 })
 </script>
