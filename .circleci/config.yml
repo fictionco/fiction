@@ -19,14 +19,14 @@ commands:
     steps:
       - store_test_results:
           path: reports/junit
+
+  # The initial pipe, |, indicates that there will be more than one line of shell commands.
   release:
     steps:
       - attach-project
       - run:
           name: release
           command: |
-            git config --global user.email "$GIT_AUTHOR_EMAIL"
-            git config --global user.name "$GIT_AUTHOR_NAME"
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--dist-tag staging"; fi
@@ -137,7 +137,7 @@ workflows:
       - build: { requires: [setup] }
       - test-integration: { requires: [build] }
       - release-version:
-          requires: [build, lint, audit, test-unit, test-integration]
+          requires: [setup] #[build, lint, audit, test-unit, test-integration]
           filters:
             <<: *release_branches
 
