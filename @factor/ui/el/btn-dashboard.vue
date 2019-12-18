@@ -12,12 +12,14 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.btn-dashboard.factor-btn {
-  + .btn-dashboard,
-  + .btn-link {
+.factor-dashboard {
+  .factor-btn + .factor-btn,
+  .btn-link + .factor-btn {
     margin-left: 0.5rem;
   }
+}
 
+.btn-dashboard.factor-btn {
   color: var(--color-text);
   transition: 0.15s all;
   opacity: 0.95;
@@ -52,6 +54,10 @@ export default Vue.extend({
   &.subtle {
     box-shadow: none;
     opacity: 0.6;
+  }
+
+  &.default {
+    box-shadow: inset 0 0 0 1px var(--panel-border-color);
   }
 
   &.primary {

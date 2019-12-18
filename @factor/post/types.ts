@@ -21,7 +21,7 @@ export enum PostStatus {
 }
 
 export interface UpdatePost {
-  post: FactorPost;
+  post: FactorPost | UnsavedFactorPost;
   postType: string;
 }
 
@@ -139,7 +139,13 @@ export interface FactorSchema {
   permissions?: SchemaPermissions;
 }
 
-export interface FactorPost {
+export type CurrentFactorPost = FactorPost | undefined
+
+export interface FactorPost extends UnsavedFactorPost {
+  _id: string;
+}
+
+export interface UnsavedFactorPost {
   date?: string;
   postType?: string;
   title?: string;

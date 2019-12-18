@@ -21,7 +21,6 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: "No Title",
       titleTemplate: "%s - Factor JS"
     }
   }

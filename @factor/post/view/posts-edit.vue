@@ -1,7 +1,7 @@
 <template>
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
-      <factor-link btn="default" :path="url()">View</factor-link>
+      <factor-link btn="default" :path="url">View</factor-link>
       <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Save</factor-btn-dashboard>
     </template>
     <template #primary>
@@ -54,7 +54,7 @@
   </dashboard-page>
 </template>
 <script lang="ts">
-import { factorBtnDashboard } from "@factor/ui"
+import { factorBtnDashboard, factorLink } from "@factor/ui"
 import {
   isEmpty,
   cloneDeep,
@@ -78,6 +78,7 @@ export default Vue.extend({
     dashboardPage,
     dashboardPane,
     factorBtnDashboard,
+    factorLink,
     factorClientOnly: () => import("vue-client-only"),
     inputEditor: () => import("../el/editor.vue"),
     inputPermalink: () => import("../el/permalink.vue"),

@@ -1,6 +1,14 @@
 import Vue from "vue"
 import VueMeta, { MetaInfo } from "vue-meta"
-import { addFilter, applyFilters, addCallback } from "@factor/api"
+import {
+  addFilter,
+  applyFilters,
+  addCallback,
+  titleTag,
+  descriptionTag,
+  shareImage
+} from "@factor/api"
+import { CurrentFactorPost } from "@factor/post/types"
 import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
 import { FactorMetaInfo } from "./types"
 import "./route-class"
@@ -59,8 +67,19 @@ addFilter({
     ..._,
     {
       metaInfo(): MetaInfo {
-        return applyFilters("meta-default", {
+        const post: CurrentFactorPost = this.post
+
+        const postInfo = post
+          ? {
+              title: titleTag(post._id),
+              description: descriptionTag(post._id),
+              image: shareImage(post._id)
+            }
+          : {}
+
+        const defaultMeta = {
           htmlAttrs: { lang: "en" },
+
           meta: [
             { charset: "utf-8" },
             {
@@ -69,7 +88,11 @@ addFilter({
                 "width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
             }
           ]
-        })
+        }
+
+        const meta = applyFilters("meta-default", { ...defaultMeta, ...postInfo })
+
+        return meta
       }
     }
   ]

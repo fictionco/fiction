@@ -62,7 +62,7 @@ export const getSinglePost = async (
 
   const Model = getModel(postType)
 
-  if (!Model || dbIsOffline()) return {}
+  if (!Model || dbIsOffline()) return
 
   // If token is sent, then return Post associated with it
   if (token) {

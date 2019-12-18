@@ -6,8 +6,8 @@
           <div class="content-width">
             <div class="label label-blue">COMING Q1 2020</div>
             <h1 class="title" role="textbox">
-              Introducting Factor TS.
-              <span class="alt">Reactive CMS Platform of the Future.</span>
+              Factor CMS Platform
+              <span class="alt">A Reactive CMS Platform for Typescript.</span>
             </h1>
             <p class="subtitle">Build sites, blogs or full-stack apps in hours not months</p>
             <div class="action">
@@ -403,12 +403,13 @@ export default Vue.extend({
       .title {
         font-size: 2.5em;
         letter-spacing: -0.03em;
-        line-height: 1.1;
+        line-height: 1.3;
         margin: 0.3em 0;
         color: var(--color-light);
         .alt {
           display: block;
           opacity: 0.75;
+          font-size: 0.9em;
         }
         @media (max-width: 900px) {
           font-size: 1.8em;
