@@ -33,31 +33,31 @@ context("Actions", () => {
     cy.url().should('include', '/')
 
     // view quickstart link
-    cy.get('section[data-test="feature-0"]').find(".action a").click()
+    cy.get('[data-test="feature-0"] .factor-link').click()
 
     // back home
     cy.get(".site-brand").find("a").click()
 
     // try factor link
-    cy.get('section[data-test="feature-1"]').find(".action a").click()
+    cy.get('[data-test="feature-1"] .factor-link').click()
 
     //back home
     cy.get(".site-brand").find("a").click()
 
     // learn more link
-    cy.get('section[data-test="feature-2"]').find(".action a").click()
+    cy.get('[data-test="feature-2"] .factor-link').click()
 
     //back home
     cy.get(".site-brand").find("a").click()
 
     // view plugins link
-    cy.get('section[data-test="feature-3"]').find(".action a").click()
+    cy.get('[data-test="feature-3"] .factor-link').click()
 
     // back home
     cy.get(".site-brand").find("a").click()
 
     // view themes link
-    cy.get('section[data-test="feature-4"]').find(".action a").click()
+    cy.get('[data-test="feature-4"] .factor-link').click()
 
   })
 
