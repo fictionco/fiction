@@ -5,8 +5,8 @@
 </p>
 
 <p>
-  <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/master" alt="Build Status"></a>  
-  <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/master" alt="Coverage Status"></a>
+  <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/development" alt="Build Status"></a>  
+  <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/development" alt="Coverage Status"></a>
   <a href="https://codeclimate.com/github/fiction-com/factor/maintainability"><img src="https://badgen.net/codeclimate/maintainability/fiction-com/factor" alt="Maintainability"></a>
   <a href="https://codeclimate.com/github/fiction-com/factor/tech-debt"><img src="https://badgen.net/codeclimate/tech-debt/fiction-com/factor" alt="Technical Debt"></a>
 
@@ -15,7 +15,7 @@
   <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/v/@factor/core" alt="Version"></a>
   <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
   <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/dm/@factor/core" alt="Downloads a Month"></a>
-  <a href="https://github.com/fiction-com/factor/blob/master/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
+  <a href="https://github.com/fiction-com/factor/blob/development/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
  </p>
 
 _A free and open-source platform for building blogs, apps, and websites for front-end developers. Written in Typescript and built on the VENM stack_
@@ -54,7 +54,7 @@ yarn create factor-app <project-name>
 
 ## Examples
 
-The apps that power [Fiction.com](https://www.fiction.com) and [Factor.dev](https://factor.dev) can be found in [this monorepo](https://github.com/fiction-com/factor/tree/master/%40apps).
+The apps that power [Fiction.com](https://www.fiction.com) and [Factor.dev](https://factor.dev) can be found in [this monorepo](https://github.com/fiction-com/factor/tree/development/%40apps).
 
 ## Contributing
 
@@ -66,4 +66,4 @@ If you discover a security vulnerability regarding Factor, please send an e-mail
 
 ## License
 
-[GPL](https://github.com/fiction-com/factor/blob/master/LICENSE)
+[GPL](https://github.com/fiction-com/factor/blob/development/LICENSE)
