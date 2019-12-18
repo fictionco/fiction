@@ -12,7 +12,13 @@ export const sendUserEmailRequest = async (
   method: string,
   params: object
 ): Promise<EmailResult> => {
-  return await endpointRequest({ id: "user-emails", method, params })
+  const result = (await endpointRequest({
+    id: "user-emails",
+    method,
+    params
+  })) as EmailResult
+
+  return result
 }
 
 export const sendVerifyEmail = async ({ _id, email }: SendVerifyEmail): Promise<void> => {

@@ -38,8 +38,10 @@ export const getSetting = ({ listId, key }: { listId?: string; key: string }): a
 export const sendEmailListRequest = async (
   method: string,
   params: object
-): Promise<object> => {
-  return await endpointRequest({ id: postType, method, params })
+): Promise<void> => {
+  await endpointRequest({ id: postType, method, params })
+
+  return
 }
 export const postTypeUIConfig = {
   postType,
@@ -59,17 +61,16 @@ export const deleteEmails = async ({
 }: {
   emails: string[];
   listId: string;
-}): Promise<object | void> => {
-  let result
+}): Promise<void> => {
   if (
     confirm(
       `Are you sure? This will permanently delete ${emails.length} items from the "${listId}" list.`
     )
   ) {
-    result = await sendEmailListRequest("deleteEmails", { emails, listId })
+    await sendEmailListRequest("deleteEmails", { emails, listId })
   }
 
-  return result
+  return
 }
 
 export const csvExport = ({
@@ -88,25 +89,26 @@ export const csvExport = ({
   csvExporter.generateCsv(data)
 }
 
-export const verifyEmail = async (query: VerifyEmail): Promise<object> => {
-  const result = await sendEmailListRequest("verifyEmail", query)
+export const verifyEmail = async (query: VerifyEmail): Promise<void> => {
+  await sendEmailListRequest("verifyEmail", query)
 
-  if (result) {
-    emitEvent(
-      "notify",
-      getSetting({ key: "emails.confirm.successMessage", listId: query.list })
-    )
-  }
-  return result
+  emitEvent(
+    "notify",
+    getSetting({ key: "emails.confirm.successMessage", listId: query.list })
+  )
+
+  return
 }
 
 export const addEmail = async ({
   email,
   listId,
   tags = []
-}: EmailConfig): Promise<object> => {
+}: EmailConfig): Promise<void> => {
   emitEvent("email-list-new-email-requested", { email, listId, tags })
-  return await sendEmailListRequest("addEmail", { email, listId, tags })
+  await sendEmailListRequest("addEmail", { email, listId, tags })
+
+  return
 }
 
 export const setup = (): void => {

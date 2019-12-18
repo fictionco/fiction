@@ -26,7 +26,7 @@ export const sendStorageRequest = async ({
   method: string;
   params: object;
 }): Promise<object> => {
-  return await endpointRequest({ id: "storage", method, params })
+  return (await endpointRequest({ id: "storage", method, params })) as object
 }
 
 export const requestDeleteImage = async (params: object): Promise<object> => {

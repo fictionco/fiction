@@ -14,7 +14,7 @@ export const requestExtensionIndex = async ({
 
   storeItem(`${type}-index`, data)
 
-  return data
+  return data as FactorExtensionListing[]
 }
 
 export const requestExtensionSingle = async (
@@ -28,7 +28,7 @@ export const requestExtensionSingle = async (
 
   storeItem(`extension-${name}`, data)
 
-  return data
+  return data as FactorExtensionListing
 }
 
 export const getIndexCache = (type = "plugins"): unknown => {

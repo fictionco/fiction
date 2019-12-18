@@ -37,43 +37,44 @@ export default Vue.extend({
     }
   },
   computed: {
-    settings() {
+    settings(this: any) {
       return getListSettings(this.listId)
     },
-    tags() {
+    tags(this: any) {
       return this.setting("tags") || []
     }
   },
   methods: {
-    setting(key) {
+    setting(this: any, key: string) {
       return getSetting({
         key,
         listId: this.listId
       })
     },
-    async add() {
+    async add(this: any) {
       this.sending = true
 
       const validated = this.validate()
 
       if (validated) {
-        const result = await addEmail({
-          email: this.email,
-          listId: this.listId,
-          tags: this.tags
-        })
+        try {
+          await addEmail({
+            email: this.email,
+            listId: this.listId,
+            tags: this.tags
+          })
 
-        if (result) {
           this.added = true
           this.email = ""
-        } else {
+        } catch (error) {
           this.validate(this.setting("validation.error"))
+          throw error
         }
       }
 
       this.sending = false
     },
-    validate(validationMessage = "") {
+    validate(this: any, validationMessage = "") {
       this.validation = validationMessage
 
       if (!this.email) {
@@ -82,9 +83,11 @@ export default Vue.extend({
         this.validation = this.setting("validation.notEmail")
       }
 
+      const SECOND = 1000
+
       setTimeout(() => {
         this.validation = ""
-      }, 5000)
+      }, SECOND * 8)
 
       return !this.validation ? true : false
     },

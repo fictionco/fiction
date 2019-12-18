@@ -78,11 +78,11 @@ describe("upload endpoint", () => {
   })
 
   it("allows for attachment delete", async () => {
-    const r = await endpoint.endpointRequest({
+    const r = (await endpoint.endpointRequest({
       id: "storage",
       method: "deleteImage",
       params: { _id: __id }
-    })
+    })) as { _id: string }
 
     expect(r._id).toBe(__id)
   })

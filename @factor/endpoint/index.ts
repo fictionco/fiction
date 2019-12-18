@@ -40,7 +40,7 @@ export const endpointRequest = async ({
   method,
   params = {},
   headers = {}
-}: EndpointRequestConfig): Promise<any> => {
+}: EndpointRequestConfig): Promise<unknown | Error> => {
   try {
     if (!method) {
       throw new Error(`Endpoint request to "${id}" requires a method.`)
@@ -53,9 +53,9 @@ export const endpointRequest = async ({
     if (error) {
       handleTokenError(error, {
         onError: (): void => {
-          emitEvent("error", new Error(error.message))
-          // eslint-disable-next-line no-console
-          console.error(error)
+          const err = new Error(error.message)
+          emitEvent("error", err)
+          throw err
         }
       })
     }

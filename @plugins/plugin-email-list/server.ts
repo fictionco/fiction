@@ -3,10 +3,11 @@ import { randomToken, emitEvent, applyFilters, currentUrl } from "@factor/api"
 import { hasEmailService, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
-import { Model, Document, Query } from "mongoose"
+import { Model, Document } from "mongoose"
 import { addEndpoint } from "@factor/api/endpoints"
 import { EmailConfig } from "./types"
-type StandardQuery = Promise<Query<Document>>
+
+//type StandardQuery = Promise<Query<Document>>
 
 const uniqueId = (listId: string): string => {
   return `_plugin-emailList-${listId}`
@@ -106,14 +107,14 @@ export const deleteEmails = async ({
 }: {
   emails: string[];
   listId: string;
-}): StandardQuery => {
+}): Promise<void> => {
   // query resource: https://stackoverflow.com/a/48933447/1858322
-  const result = await postModel().updateOne(
+  await postModel().updateOne(
     { uniqueId: uniqueId(listId) },
     { $pull: { list: { email: { $in: emails } } } }
   )
 
-  return result
+  return
 }
 
 const sendNotifyEmail = async ({ email, listId }: EmailConfig): Promise<void> => {
@@ -141,7 +142,7 @@ export const verifyEmail = async ({
   email,
   list: listId = "default",
   code
-}: EmailConfig): StandardQuery => {
+}: EmailConfig): Promise<void> => {
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId), "list.code": code, "list.email": email },
     { $set: { "list.$.verified": true, "list.$.code": null } }
@@ -153,7 +154,7 @@ export const verifyEmail = async ({
       sendCompleteEmail({ email, listId })
     ])
   }
-  return result
+  return
 }
 
 export const setup = (): void => {
