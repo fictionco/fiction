@@ -33,6 +33,6 @@ To learn more about how to use these in Factor, check out the guide on [settings
 
 ## Creating and Themes
 
-[Creating Factor Plugins &rarr;](./create-plugins)
+[Creating Factor Plugins &rarr;](./creating-plugins)
 
-[Creating Factor Themes &rarr;](./create-themes)
+[Creating Factor Themes &rarr;](./creating-themes)
