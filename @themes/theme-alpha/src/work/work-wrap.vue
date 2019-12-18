@@ -6,9 +6,10 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from "vue"
+export default Vue.extend({
   components: {
     "el-cta": () => import("../el/cta.vue")
   }
-}
+})
 </script>

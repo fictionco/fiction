@@ -6,6 +6,7 @@
         v-for="(comp, i) in setting('work.layout.single')"
         :key="i"
         :post-id="post._id"
+        class="mast"
       />
     </div>
     <factor-error-404 v-else />
@@ -45,6 +46,14 @@ export default Vue.extend({
 
 <style lang="less">
 .work-single-entry {
+  padding: 3rem;
+  .mast {
+    padding: 0 2em;
+    line-height: 1.2;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
   .return-link,
   .entry-tags,
   .single-entry-headers,
