@@ -146,6 +146,6 @@ workflows:
       - test-e2e: { requires: [setup] }
     triggers:
       - schedule:
-          cron: "0 1/6 * * *"
+          cron: "0 5 * * *"
           filters:
             <<: *release_branches
