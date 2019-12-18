@@ -5,5 +5,11 @@
     "username": "Ben Testing",
     "password": "Password123!"
   },
-  "blacklistHosts": ["www.google-analytics.com"]
+  "blacklistHosts": [
+    "*google-analytics.com",
+    "*googletagmanager.com",
+    "*ads-twitter.com",
+    "*facebook.net",
+    "*facebook.com"
+  ]
 }

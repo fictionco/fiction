@@ -5,7 +5,11 @@ export const setup = (): void => {
   const developmentMode = setting("googleTagManager.developmentMode")
 
   // Don't load in development by default
-  if ((process.env.NODE_ENV != "production" && !developmentMode) || !googleTagManagerId) {
+  if (
+    ((process.env.NODE_ENV != "production" || process.env.FACTOR_ENV == "test") &&
+      !developmentMode) ||
+    !googleTagManagerId
+  ) {
     return
   }
 

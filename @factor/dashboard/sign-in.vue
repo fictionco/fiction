@@ -142,6 +142,7 @@ import {
 } from "@factor/user/email-request"
 import { emitEvent } from "@factor/api"
 import Vue from "vue"
+import { CurrentUserState } from "@factor/user/types"
 export default Vue.extend({
   components: { factorForm, factorBtn, dashboardInput, factorLink },
   props: {
@@ -155,7 +156,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    header() {
+    header(this: any) {
       if (this.view == "verify-email") {
         return {
           title: "Verify Email",
@@ -198,13 +199,13 @@ export default Vue.extend({
         }
       }
     },
-    view() {
+    view(this: any) {
       return this.$route.query._action || this.$route.query.view || ""
     },
-    mode() {
+    mode(this: any) {
       return this.$route.query.mode || "continue"
     },
-    redirectPath() {
+    redirectPath(this: any) {
       const defaultRedirect = this.$route.name == "signin" ? "/" : false
       return this.redirect ? this.redirect : this.$route.query.redirect || defaultRedirect
     }
@@ -213,11 +214,11 @@ export default Vue.extend({
     sendPasswordResetEmail,
     verifyAndResetPassword,
     isLoggedIn,
-    trigger(ref) {
+    trigger(this: any, ref) {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
     },
-    async send({ action, next }) {
+    async send(this: any, { action, next }) {
       const r = this.$refs["signin-form"].$el.reportValidity()
 
       if (!r) return
@@ -234,7 +235,7 @@ export default Vue.extend({
       this.loading = false
     },
 
-    async signIn() {
+    async signIn(this: any) {
       this.errors = []
 
       const r = this.$refs["signin-form"].$el.reportValidity()
@@ -250,21 +251,21 @@ export default Vue.extend({
       this.loading = false
     },
 
-    setView(view) {
-      const query = { view }
+    setView(this: any, view?: string) {
+      const query = view ? { view } : {}
       this.$router.replace({ query })
     },
 
-    done(user) {
-      if (user.email) {
+    done(this: any, user: CurrentUserState) {
+      if (user && user.email) {
         emitEvent("notify", { message: `Signed in as ${user.email}` })
       }
 
       this.$emit("done", user)
 
       if (this.redirectPath) {
-        userInitialized(uid => {
-          if (uid && this.redirectPath) {
+        userInitialized((user: CurrentUserState) => {
+          if (user && user._id && this.redirectPath) {
             this.$router.push({ path: this.redirectPath })
           }
         })

@@ -1,7 +1,6 @@
 export default {
   googleTagManager: {
-    googleTagManagerId: "GTM-THQBLTN", 
-    developmentMode: true
+    googleTagManagerId: "GTM-THQBLTN"
   },
   bugsnag: {
     clientApiKey: "be2b4a0c651443122cb08f2b5e6afb55"
