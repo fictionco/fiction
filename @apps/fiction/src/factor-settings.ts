@@ -52,10 +52,15 @@ export default {
         description: "Fiction Careers."
       }
     },
+    layout: {
+      index: ["headers"],
+      single: ["singleHeaders", "featuredImage", "entry", "cta"]
+    },
     components: {
       jobsContent: (): Promise<Component> => import("./jobs/content.vue"),
       jobsIndex: (): Promise<Component> => import("./jobs/index.vue"),
-      jobsSingle: (): Promise<Component> => import("./jobs/single.vue")
+      jobsSingle: (): Promise<Component> => import("./jobs/single.vue"),
+      singleHeaders: (): Promise<Component> => import("./jobs/widget-single-headers.vue")
     }
   }
 }

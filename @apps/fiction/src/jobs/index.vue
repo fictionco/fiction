@@ -2,72 +2,18 @@
   <div class="view-careers">
     <section class="splash-wrap">
       <div class="splash mast">
-        <div class="label label-pink">Careers</div>
+        <div class="label label-white">Careers</div>
         <h1 class="title">Let's Create Something Beautiful Together</h1>
         <p class="subtitle">
           Fiction is on a mission to help frontend developers create better Javascript
           apps.
         </p>
         <a href="#current-openings">
-          <factor-btn
-            path="#current-openings"
-            btn="primary"
-            size="large"
-            class="see-openings"
-          >
+          <factor-btn path="#current-openings" btn="primary" size="large" class="see-openings">
             Check Our Current Openings
             <factor-icon icon="arrow-down" />
           </factor-btn>
         </a>
-      </div>
-    </section>
-
-    <section class="boxes-wrap">
-      <div class="mast">
-        <div class="boxes-inner">
-          <h2 class="title">What Fiction stands for...</h2>
-          <div class="boxes">
-            <div class="box">
-              <factor-icon icon="arrow-circle-right" />
-              <div>
-                <h3 class="box-title">Sustainable Karma</h3>
-                <p class="box-description">
-                  We are here to help people be successful. We believe that the good you
-                  do comes back to you 110%.
-                </p>
-              </div>
-            </div>
-            <div class="box">
-              <factor-icon icon="arrow-circle-right" />
-              <div>
-                <h3 class="box-title">80/20</h3>
-                <p class="box-description">
-                  Fiction believes in minimalism to an extreme. The more we can do with
-                  less resources the better.
-                </p>
-              </div>
-            </div>
-            <div class="box">
-              <factor-icon icon="arrow-circle-right" />
-              <div>
-                <h3 class="box-title">Fortune Favors the Bold</h3>
-                <p class="box-description">
-                  They say your first failure teaches you 80% of what you need to create
-                  success.
-                </p>
-              </div>
-            </div>
-            <div class="box">
-              <factor-icon icon="arrow-circle-right" />
-              <div>
-                <h3 class="box-title">Empathy</h3>
-                <p class="box-description">
-                  Creating great products comes down to having empathy for the customer.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -81,13 +27,6 @@
           </div>
           <div v-else-if="jobsPosts.length > 0" class="jobs-post-index">
             <div v-for="post in jobsPosts" :key="post._id" class="jobs-post">
-              <div>
-                <img
-                  :src="getPost(post.jobIcon).url || require(`./img/icon-default.svg`)"
-                  class="jobs-post-icon"
-                  alt="default icon"
-                />
-              </div>
               <div>
                 <component
                   :is="setting(`jobs.components.${comp}`)"
@@ -211,6 +150,10 @@ export default Vue.extend({
     &.label-pink {
       color: var(--color-secondary);
     }
+    &.label-white {
+      color: #fff;
+      opacity: 0.4;
+    }
   }
 
   .splash-wrap {
@@ -231,7 +174,7 @@ export default Vue.extend({
       align-items: center;
       text-align: center;
       max-width: 670px;
-      padding: 6em 0 12em;
+      padding: 7em 0 10em;
       @media (max-width: 767px) {
         padding: 6em 2em 8em;
         text-align: left;
@@ -262,81 +205,29 @@ export default Vue.extend({
     }
   }
 
-  // Values
-  .boxes-wrap {
-    background-color: #f5f8fc;
-    .boxes-inner {
-      box-shadow: var(--box-shadow-panel);
-      background: var(--color-light);
+  // Careers
+  .careers {
+    position: relative;
+    padding: 0 0 3em;
+    border-bottom: 1px solid rgba(80, 102, 119, 0.1);
+    @media (max-width: 767px) {
+      padding: 0 1em 3em;
+    }
+    .careers-inner {
+      max-width: 800px;
+      margin-top: -80px;
+      background: #fff;
       border-radius: 0.5em;
       padding: 3em;
-      position: relative;
-      transform: translateY(-80px);
 
       @media (max-width: 767px) {
         padding: 1em;
       }
-
-      .title {
-        font-size: 2em;
-        font-weight: var(--font-weight-bold);
-        padding-bottom: 1em;
-      }
-
-      .boxes {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 60px 30px;
-
-        .box {
-          display: grid;
-          grid-template-columns: 40px 1fr;
-          .fa {
-            font-size: 22px;
-            color: var(--color-secondary);
-          }
-          .box-title {
-            font-size: 1.4em;
-            font-weight: var(--font-weight-bold);
-            letter-spacing: -0.03em;
-            margin-bottom: 0.5em;
-          }
-          .box-description,
-          a {
-            font-size: 1.2em;
-            line-height: 1.6em;
-          }
-          .box-description {
-            font-weight: var(--font-weight-normal, 400);
-            opacity: 0.7;
-          }
-        }
-        @media (max-width: 767px) {
-          grid-template-columns: 1fr;
-          transform: translateY(0);
-          .box {
-            padding: 0;
-          }
-        }
-      }
     }
-  }
-
-  // Careers
-  .careers {
-    position: relative;
-    padding: 3em 0;
     .title {
       font-size: 2em;
       font-weight: var(--font-weight-bold);
-    }
-    .careers-inner {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-column-gap: 60px;
-      align-items: center;
-      text-align: left;
-      max-width: 700px;
+      letter-spacing: -0.03em;
     }
   }
   .jobs-posts-not-found,
@@ -353,41 +244,52 @@ export default Vue.extend({
   }
   .jobs-entries {
     .jobs-post-index {
-      margin-top: 3em;
-
-      .jobs-post {
-        display: grid;
-        grid-template-columns: 80px 1fr;
-        border-bottom: 1px solid rgba(80, 102, 119, 0.1);
-        padding-bottom: 2em;
-        margin-bottom: 2em;
-        @media (max-width: 767px) {
-          grid-template-columns: 1fr;
-        }
-        &:last-child {
-          margin-bottom: 0;
-          border-bottom: none;
-        }
-        .jobs-post-icon {
-          width: 30px;
-          height: auto;
-        }
-        p {
-          font-size: 1.2em;
-          font-weight: var(--font-weight-normal, 400);
-          line-height: 1.6em;
-          margin-bottom: 1em;
-          opacity: 0.7;
-          @media (max-width: 767px) {
-            clear: both;
-          }
-        }
+      margin-top: 2em;
+      @media (max-width: 767px) {
+        margin: 0;
       }
 
       .jobs-post {
-        margin: 4rem 0;
+        padding-bottom: 1.5em;
+        margin-bottom: 1.5em;
+        border-bottom: 1px solid rgba(80, 102, 119, 0.1);
         &:first-child {
-          margin-top: 0;
+          border-top: 1px solid rgba(80, 102, 119, 0.1);
+          padding-top: 1.5em;
+        }
+        @media (max-width: 767px) {
+          grid-template-columns: 1fr;
+          padding-bottom: 0;
+          margin-bottom: 0;
+        }
+        .job-entry-headers {
+          .entry-title {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            margin-bottom: 0;
+            a {
+              color: var(--color-primary);
+              max-width: 100%;
+              &:hover {
+                color: var(--color-secondary);
+              }
+            }
+            span {
+              white-space: nowrap;
+              font-size: 0.7em;
+              line-height: 2.5em;
+              @media (max-width: 767px) {
+                text-align: left;
+              }
+            }
+            @media (max-width: 767px) {
+              display: flex;
+              flex-direction: column-reverse;
+            }
+          }
+          .entry-sub-title {
+            opacity: 1;
+          }
         }
       }
     }
