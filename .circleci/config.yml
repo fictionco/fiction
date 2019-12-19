@@ -1,14 +1,11 @@
 version: 2.1
 
 executors:
-  node:
+  node12:
     docker:
       - image: circleci/node:lts
     working_directory: ~/project
-    environment:
-      NODE_ENV: test
-      NODE_OPTIONS: --max_old_space_size=4096
-  cypress:
+  node:
     docker:
       - image: cypress/base:12.6.0
         environment:
@@ -38,7 +35,8 @@ commands:
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--dist-tag staging"; fi
-            yarn lerna publish patch $tag --yes --no-git-tag-version --no-push
+            yarn lerna version patch $tag --yes --no-git-tag-version --no-push
+            yarn lerna publish from-package $tag --yes --no-git-tag-version --no-push
 
 release_branches: &release_branches
   branches:
@@ -123,7 +121,7 @@ jobs:
           command: yarn test:unit --runInBand
 
   test-e2e:
-    executor: cypress
+    executor: node
     steps:
       - attach-project
       - run:
