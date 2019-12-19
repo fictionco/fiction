@@ -87,6 +87,7 @@ export default Vue.extend({
     .area-title {
       margin-bottom: 0.5rem;
       padding: 0 1rem;
+      opacity: 0.4;
       font-weight: var(--font-weight-bold);
       @media (max-width: 767px) {
         font-size: 1.2em;
@@ -94,7 +95,7 @@ export default Vue.extend({
     }
   }
   .nav-group {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem 0.5rem;
     border-radius: 5px;
     &.active {
       margin-bottom: 1rem;
