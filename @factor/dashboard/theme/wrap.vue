@@ -102,7 +102,7 @@ export default Vue.extend({
 
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 225px 1fr;
+  grid-template-columns: 18rem 1fr;
   grid-template-rows: 50px 1fr;
   grid-template-areas:
     "header header"
