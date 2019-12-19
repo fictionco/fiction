@@ -23,7 +23,6 @@ describe("create-factor-app", () => {
 
   describe("cli", () => {
     it("asks for app name, email, url", async () => {
-
       await waitFor(10000)
 
       spawnedProcess = spawn("npx", ["create-factor-app", APP_FOLDER], {
@@ -84,6 +83,8 @@ describe("create-factor-app", () => {
         await import(resolve(cwd, APP_FOLDER, ".factor/loader-server"))
       } catch (error) {
         err = error
+
+        throw error
       }
 
       expect(err).toBe(undefined)

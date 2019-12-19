@@ -4,9 +4,9 @@ import {
   pushToFilter,
   applyFilters,
   setting,
-  addPostType,
-  addPostSchema
+  addPostType
 } from "@factor/api"
+import { addPostSchema } from "@factor/post/util"
 import { RouteConfig } from "vue-router"
 import { Component } from "vue"
 import { TemplateConfig, TemplateOption } from "./types"
