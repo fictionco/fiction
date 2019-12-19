@@ -36,25 +36,37 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.single-entry {
-  .widget-date,
-  .entry-meta,
-  .post-entry,
-  .social-share,
-  .author-bio {
-    max-width: 50rem;
-    margin: 1rem auto;
-    padding: 0;
-  }
+.plugin-blog {
+  .single-entry {
+    .entry-meta {
+      max-width: 800px;
+      margin: -80px auto 0;
+      background: #fff;
+      border-radius: 0.5em;
+      padding: 3em 3em 1em;
+      @media (max-width: 767px) {
+        padding: 1.5em 1em 0;
+        margin: -80px 1em 3em;
+      }
+    }
 
-  @media (max-width: 767px) {
-    .return-link,
-    .entry-headers,
+    .featured-image-wrap,
     .post-entry,
-    .entry-meta,
     .social-share,
     .author-bio {
-      padding: 0 1em;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 3em 1em;
+      @media (max-width: 767px) {
+        padding: 0 1em 1em;
+      }
+    }
+    .post-entry {
+      font-size: initial;
+      .highlight-code-wrap {
+        font-size: 1.2em;
+        line-height: 1.7em;
+      }
     }
   }
 }

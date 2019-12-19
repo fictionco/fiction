@@ -24,11 +24,16 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.entry-meta {
-  display: flex;
-  align-items: center;
-  margin-right: 1em;
-  padding: 0.3em 0;
-  justify-content: space-between;
+.plugin-blog {
+  .entry-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1em auto;
+
+    @media (max-width: 767px) {
+      display: grid;
+    }
+  }
 }
 </style>

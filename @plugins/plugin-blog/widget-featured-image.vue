@@ -2,7 +2,7 @@
   <div v-if="avatarUrl" class="featured-image" :style="style" />
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 import { stored } from "@factor/api"
 export default Vue.extend({
   props: {
@@ -29,10 +29,12 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.featured-image {
-  background-size: cover;
-  background-position: 50%;
-  height: 40vh;
-  margin: 1.5rem 0;
+.plugin-blog {
+  .featured-image {
+    background-size: cover;
+    background-position: 50%;
+    height: 16em;
+    margin-bottom: 1em;
+  }
 }
 </style>

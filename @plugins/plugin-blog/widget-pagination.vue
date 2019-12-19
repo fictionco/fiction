@@ -19,9 +19,6 @@ export default Vue.extend({
   components: { factorBtn, factorIcon },
   props: {
     postType: { type: String, default: "" }
-    // pageCount: { type: Number, default: 0 },
-    // pageCurrent: { type: Number, default: 0 },
-    // count: { type: Number, default: 0 }
   },
   computed: {
     index() {
@@ -59,24 +56,28 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.pagination {
-  display: flex;
-  align-items: center;
-  @media (max-width: 767px) {
-    justify-content: flex-end;
-    .items,
-    .sep {
-      display: none;
+.plugin-blog {
+  .pagination {
+    max-width: 48rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    @media (max-width: 767px) {
+      justify-content: flex-end;
+      .items,
+      .sep {
+        display: none;
+      }
     }
-  }
-  > * {
-    margin: 0 5px;
-  }
-  .sep {
-    opacity: 0.4;
-  }
-  .factor-btn {
-    padding: 0.5em;
+    > * {
+      margin: 0 5px;
+    }
+    .sep {
+      opacity: 0.4;
+    }
+    .factor-btn {
+      padding: 0.5em;
+    }
   }
 }
 </style>

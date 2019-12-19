@@ -1,5 +1,5 @@
 <template>
-  <div class="entry-headers">
+  <div class="entry-header">
     <div class="splash">
       <factor-link class="back label label-primary" :path="setting('jobs.indexRoute')">
         <factor-icon icon="arrow-left" />
@@ -33,7 +33,7 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.single-entry .entry-headers {
+.single-entry .entry-header {
   margin: 0;
   padding: 0 2em;
   background: #1b223c url(./img/rectangles-pink.svg) no-repeat center center;
@@ -62,10 +62,10 @@ export default Vue.extend({
     align-items: center;
     text-align: left;
     max-width: 50rem;
-    padding: 5em 0;
     margin: 0 auto;
+    padding: 6em 0 8em;
     @media (max-width: 767px) {
-      padding: 6em 1em 4em;
+      padding: 6em 0 7em;
     }
 
     .entry-title {

@@ -38,15 +38,9 @@ export default Vue.extend({
 <style lang="less">
 .jobs-content {
   .single-entry {
-    .entry-headers .splash {
-      padding: 6em 0 8em;
-      @media (max-width: 767px) {
-        padding: 6em 0 7em;
-      }
-    }
     .post-entry {
       padding: 0;
-      margin: 0;
+      margin: 0 auto;
       @media (max-width: 767px) {
         padding: 0 1em 3em;
       }
@@ -76,25 +70,4 @@ export default Vue.extend({
     }
   }
 }
-
-// .single-entry {
-//   .widget-date,
-//   .entry-meta,
-//   .post-entry,
-//   .social-share {
-//     max-width: 50rem;
-//     margin: 1rem auto;
-//     padding: 0;
-//   }
-
-//   @media (max-width: 767px) {
-//     .return-link,
-//     .entry-headers,
-//     .post-entry,
-//     .entry-meta,
-//     .social-share {
-//       padding: 0 1em;
-//     }
-//   }
-// }
 </style>
