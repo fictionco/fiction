@@ -35,8 +35,9 @@ commands:
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--dist-tag staging"; fi
-            yarn lerna version patch $tag --yes --no-git-tag-version --no-push
-            yarn lerna publish from-package $tag --yes --no-git-tag-version --no-push
+            yarn lerna version patch --yes --no-git-tag-version --no-push
+
+  # yarn lerna publish from-package $tag --yes --no-git-tag-version --no-push
 
 release_branches: &release_branches
   branches:
