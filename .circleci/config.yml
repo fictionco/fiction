@@ -143,7 +143,7 @@ workflows:
       - build: { requires: [setup] }
       - test-integration: { requires: [build] }
       - release-version:
-          requires: [setup] #[build, lint, audit, test-unit, test-integration]
+          requires: [setup, build, lint, audit, test-unit, test-integration]
           filters:
             <<: *release_branches
 
