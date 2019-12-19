@@ -8,6 +8,9 @@ export default {
       title: "No Posts",
       subTitle: "Couldn't find any job posts."
     },
+    settings: {
+      settingsPanel: (): Promise<Component> => import("./edit-post-settings.vue"),
+    },
     components: {
       jobsContent: (): Promise<Component> => import("./jobs-content.vue"),
       jobsIndex: (): Promise<Component> => import("./jobs-index.vue"),

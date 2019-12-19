@@ -1,5 +1,5 @@
 <template>
-  <div class="entries">
+  <div class="blog-entries">
     <component :is="setting('blog.components.returnLink')" v-if="tag || page > 1" />
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
@@ -97,23 +97,26 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.posts-not-found,
-.posts-loading {
-  min-height: 50vh;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  .title {
-    font-size: 1.4em;
-    font-weight: var(--font-weight-bold);
-  }
-}
-.post-index {
-  .post {
-    margin: 4rem 0;
-    &:first-child {
-      margin-top: 0;
+.plugin-blog {
+  .blog-entries {
+    .post-index {
+      max-width: 48rem;
+      margin: 0 auto;
+      .post {
+        margin-bottom: 4em;
+      }
+    }
+    .posts-not-found,
+    .posts-loading {
+      min-height: 50vh;
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      .title {
+        font-size: 1.4em;
+        font-weight: var(--font-weight-bold);
+      }
     }
   }
 }

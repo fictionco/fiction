@@ -1,25 +1,25 @@
 <template>
   <div class="social-share">
     <factor-link
-      class="btn-link facebook"
+      class="social facebook"
       :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`"
     >
-      <factor-icon icon="facebook" />
+      <factor-icon icon="facebook-f" />
     </factor-link>
     <factor-link
-      class="btn-link twitter"
+      class="social twitter"
       :path="`https://twitter.com/intent/tweet?text=${post.title}+${link}`"
     >
       <factor-icon icon="twitter" />
     </factor-link>
     <factor-link
-      class="btn-link linkedin"
+      class="social linkedin"
       :path="`https://www.linkedin.com/shareArticle?mini=true&url=${link}`"
     >
-      <factor-icon icon="linkedin" />
+      <factor-icon icon="linkedin-in" />
     </factor-link>
     <factor-link
-      class="btn-link pinterest"
+      class="social pinterest"
       :path="`https://pinterest.com/pin/create/button/?url=${link}`"
     >
       <factor-icon icon="pinterest" />
@@ -48,32 +48,37 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.social-share {
-  margin: 1.5rem 0;
-  .btn-link {
-    margin-right: 0.5em;
-    font-size: 1.1em;
-    line-height: 1;
-    color: #fff;
-    padding: 0.5em 0.75em;
-    border-radius: 5px;
-    width: 3em;
-    text-align: center;
-    &.facebook {
-      background: #1877f2;
-    }
-    &.twitter {
-      background: #1da1f2;
-    }
-    &.linkedin {
-      background: #007bb5;
-    }
-    &.pinterest {
-      background: #bd081c;
-    }
-    &:hover {
-      color: #fff;
-      opacity: 0.7;
+.plugin-blog {
+  .social-share {
+    display: grid;
+    grid-template-columns: repeat(4, 32px);
+    grid-gap: 1em;
+    margin-bottom: 1em;
+    a.social {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2em;
+      text-align: center;
+      line-height: 32px;
+      color: var(--color-placeholder);
+      border-radius: 5px;
+      box-shadow: var(--box-shadow-input);
+      &:not(:nth-child(1)) {
+        margin-right: 0.5em;
+      }
+      &.facebook:hover {
+        color: #1877f2;
+      }
+      &.twitter:hover {
+        color: #1da1f2;
+      }
+      &.linkedin:hover {
+        color: #007bb5;
+      }
+      &.pinterest:hover {
+        color: #bd081c;
+      }
     }
   }
 }

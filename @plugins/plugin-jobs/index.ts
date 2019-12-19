@@ -5,7 +5,7 @@ import {
   pushToFilter,
   addPostSchema
 } from "@factor/api"
-import { Component } from "vue"
+
 import jobsSchema from "./schema"
 
 const baseRoute = setting("jobs.postRoute")
@@ -44,7 +44,7 @@ export const setup = (): void => {
     item: {
       postType: ["jobs"],
       name: "Job Settings",
-      component: (): Promise<Component> => import("./edit-post-settings.vue")
+      component: setting("jobs.settings.settingsPanel")
     }
   })
 

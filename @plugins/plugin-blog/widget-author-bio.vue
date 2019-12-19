@@ -32,33 +32,33 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.author-card {
-  margin: 1.5rem 0;
-  display: flex;
-  align-items: center;
-  padding: 1em 0;
-
-  margin-right: 0;
-  .avatar {
-    margin-right: 20px;
-    flex-shrink: 0;
-  }
-  .text {
-    line-height: 1.4;
-    .sup {
-      font-size: 1rem;
-      text-transform: uppercase;
-      opacity: 0.3;
-      line-height: 1.2;
+.plugin-blog {
+  .author-card {
+    margin-top: 2rem;
+    display: flex;
+    align-items: flex-start;
+    padding: 1em 0;
+    .avatar {
+      margin-right: 1.5em;
+      flex-shrink: 0;
     }
-    .name {
-      font-size: 1.5em;
-      font-weight: var(--font-weight-bold);
-    }
-    .bio {
-      font-size: 1.3em;
-      margin-top: 0.5em;
-      opacity: 0.5;
+    .text {
+      .sup {
+        font-size: 1rem;
+        line-height: 1.2;
+        text-transform: uppercase;
+        opacity: 0.3;
+      }
+      .name {
+        font-size: 1.5em;
+        line-height: 1.7;
+        font-weight: var(--font-weight-bold);
+      }
+      .bio {
+        font-size: 1.2em;
+        line-height: 1.7em;
+        margin-top: 0.5em;
+      }
     }
   }
 }

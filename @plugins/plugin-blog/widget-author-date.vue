@@ -36,33 +36,35 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.widget-author-date {
-  display: flex;
-  align-items: center;
-  font-size: 0.9em;
-  font-weight: var(--font-weight-bold);
-  .sep {
-    font-weight: 500;
-    font-style: italic;
-    margin: 0 1em 0 0;
-    opacity: 0.8;
-  }
-  .edit {
-    margin-left: 1em;
-  }
-  .blog-author-card {
+.plugin-blog {
+  .widget-author-date {
     display: flex;
     align-items: center;
-    margin-right: 1em;
-    padding: 0.3em 0;
-
-    .avatar {
-      display: block;
-      margin-right: 10px;
-      float: left;
+    font-size: 0.9em;
+    font-weight: var(--font-weight-bold);
+    .sep {
+      font-weight: 500;
+      font-style: italic;
+      margin: 0 1em 0 0;
+      opacity: 0.8;
     }
-    .name {
-      font-weight: var(--font-weight-bold);
+    .edit {
+      margin-left: 1em;
+    }
+    .blog-author-card {
+      display: flex;
+      align-items: center;
+      margin-right: 1em;
+      padding: 0.3em 0;
+
+      .avatar {
+        display: block;
+        margin-right: 10px;
+        float: left;
+      }
+      .name {
+        font-weight: var(--font-weight-bold);
+      }
     }
   }
 }

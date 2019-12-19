@@ -1,12 +1,5 @@
 <template>
   <div class="edit-job-templates">
-    <dashboard-input
-      v-model="post.jobIcon"
-      :max="1"
-      input="factor-input-image-upload"
-      label="Custom Icon"
-      @autosave="$emit('autosave')"
-    />
     <dashboard-input v-model="post.jobLocation" input="factor-input-text" label="Location" />
     <dashboard-input
       v-model="post.jobApplyEmail"

@@ -2,7 +2,9 @@
   <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
     <div class="featured-image" :style="style" />
   </factor-link>
-  <div v-else-if="avatarUrl" class="featured-image" :style="style" />
+  <div v-else-if="avatarUrl" class="featured-image-wrap">
+    <div class="featured-image" :style="style" />
+  </div>
 </template>
 <script lang="ts">
 import { postLink, stored } from "@factor/api"
@@ -16,19 +18,19 @@ export default Vue.extend({
     format: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    avatar() {
+    avatar(this: any) {
       return stored(this.post.avatar) || {}
     },
-    avatarUrl() {
+    avatarUrl(this: any) {
       return this.avatar.url || ""
     },
-    style() {
-      const style = {}
-
-      style.backgroundImage = `url(${this.avatarUrl})`
+    style(this: any) {
+      const style = {
+        backgroundImage: `url(${this.avatarUrl})`
+      }
 
       return style
     }
@@ -39,17 +41,16 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.blog-wrap {
+.plugin-blog {
   .featured-image {
     background-size: cover;
     background-position: 50%;
-    height: 300px;
-    margin: 0;
-    border-radius: 5px 5px 0 0;
+    height: 16em;
+    margin-bottom: 1em;
+    border-radius: 5px;
   }
   .single-entry .featured-image {
-    border-radius: 0;
-    height: 400px;
+    height: 16em;
   }
 }
 </style>

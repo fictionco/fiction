@@ -27,13 +27,12 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.return-link {
-  margin-bottom: 2rem;
-  .back {
-    color: inherit;
-    font-weight: var(--font-weight-bold);
-    &:hover {
-      color: var(--color-primary);
+.plugin-blog {
+  .return-link {
+    margin-bottom: 1rem;
+    .back {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
   }
 }
