@@ -1,11 +1,16 @@
 <template>
   <div class="dashboard-head">
     <div class="dashboard-head-pad">
-      <factor-link path="/" class="brand">
+      <factor-link path="https://factor.dev" class="factor-docs">
         <div class="icon">
-          <img :src="iconUrl" alt="Dashboard Icon" />
+          <dashboard-icon></dashboard-icon>
         </div>
-        <div class="name">{{ appName }}</div>
+      </factor-link>
+      <factor-link path="/" class="brand">
+        <div class="name">
+          {{ appName }}
+          <span class="arrow">&rarr;</span>
+        </div>
       </factor-link>
       <div class="nav">
         <slot />
@@ -40,6 +45,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
+    dashboardIcon: () => import("../el/logo.vue"),
     factorAvatar,
     mobileMenu: () => import("./nav-mobile.vue")
   },
@@ -170,70 +176,71 @@ export default Vue.extend({
   }
 }
 
-// .app-wrap {
-//   .mobile-nav {
-//     display: none;
-
-//     @media (max-width: 960px) {
-//       &.toggle-nav {
-//         display: block;
-//       }
-//       display: block;
-//       position: fixed;
-//       width: 270px;
-
-//       padding: 1.5em;
-//       top: 0;
-//       bottom: 0;
-//       left: 0;
-//       min-height: 100vh;
-//       z-index: 100;
-
-//       overflow-y: scroll;
-//       background: #fff;
-//       box-shadow: var(--pane-shadow);
-//       &.active {
-//         transform: translate3d(0, 0, 0);
-//       }
-//     }
-//   }
-// }
-
 .dashboard-head-pad {
   padding: 0 1rem;
   align-items: center;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 3rem minmax(150px, 1fr) 3rem;
   height: 100%;
+  .factor-docs {
+    .icon {
+      margin-right: 1rem;
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      box-shadow: 0 0 0 1px var(--panel-border-color);
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f6fafd;
+      transition: all 0.1s;
+      svg.pin {
+        width: 70%;
+        height: 70%;
+        display: block;
+        transform: translate(-4%, -4%);
+        .pin-path {
+          transition: fill 0.1s;
+          fill: rgba(200, 204, 228, 1);
+        }
+      }
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
   .brand {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
     color: inherit;
     transition: opacity 0.2s;
+
+    text-align: center;
+    @media (max-width: 767px) {
+      text-align: left;
+    }
     &:hover {
       opacity: 0.9;
       color: inherit;
     }
-    .icon {
-      margin-right: 0.5em;
-      display: block;
-      width: 2rem;
-      img {
-        width: 100%;
-        display: block;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px 0 rgba(60, 66, 87, 0.1), 0 1px 1px 0 rgba(0, 0, 0, 0.07);
-      }
-    }
+
     .name {
       font-weight: var(--font-weight-bold);
+      .arrow {
+        opacity: 0.4;
+        transition: all 0.2s;
+      }
+      &:hover {
+        .arrow {
+          margin-left: 3px;
+        }
+      }
     }
   }
   .nav {
     font-weight: var(--font-weight-bold);
     display: flex;
     align-items: center;
+    justify-self: flex-end;
     @media (max-width: 767px) {
       flex-grow: 2;
       justify-content: flex-end;
