@@ -213,7 +213,6 @@ export default Vue.extend({
   .brand {
     color: inherit;
     transition: opacity 0.2s;
-
     text-align: center;
     @media (max-width: 767px) {
       text-align: left;
