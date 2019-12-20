@@ -21,13 +21,20 @@
     </template>
     <template #meta>
       <dashboard-pane class="post-media">
+        <dashboard-input
+          v-model="post.status"
+          label="Status"
+          :list="['published', 'draft', 'trash']"
+          input="factor-input-select"
+        />
+
         <dashboard-input label="Permalink">
           <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>
         <dashboard-input
           v-model="post.subTitle"
           input="factor-input-text"
-          label="Sub Title"
+          label="Synopsis"
           class="post-title"
           @keyup="doDraftSave()"
         />

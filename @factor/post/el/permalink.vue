@@ -1,10 +1,7 @@
 <template>
   <div class="permalink" @click.stop>
     <div class="linky">
-      <factor-link
-        class="linky-link"
-        :path="value ? getPermalink({ postType, permalink }) : ''"
-      >
+      <factor-link class="linky-link" :path="value ? getPermalink({ postType, permalink }) : ''">
         <span class="root">{{ getPermalink({ postType }) }}</span>
         <span v-if="!toggleValue" class="permalink-value">
           <span class="val">{{ permalink }}</span>
@@ -16,16 +13,8 @@
       </span>
     </div>
     <div v-if="!toggleValue" class="edit-actions">
-      <factor-btn-dashboard
-        size="tiny"
-        class="edit"
-        @click="setToggle()"
-      >Edit Permalink</factor-btn-dashboard>
-      <factor-btn-dashboard
-        size="tiny"
-        class="edit"
-        @click="updateFromInitial()"
-      >Update from Title</factor-btn-dashboard>
+      <factor-btn-dashboard size="tiny" class="edit" @click="setToggle()">Edit Permalink</factor-btn-dashboard>
+      <factor-btn-dashboard size="tiny" class="edit" @click="updateFromInitial()">Update from Title</factor-btn-dashboard>
     </div>
   </div>
 </template>
@@ -49,27 +38,27 @@ export default Vue.extend({
     }
   },
   computed: {
-    locked() {
+    locked(this: any): boolean {
       return this.value ? true : false
     },
-    permalink() {
+    permalink(this: any) {
       return this.value ? this.value : this.initialPermalink
     },
-    toggleValue() {
+    toggleValue(this: any) {
       return this.tog || this.toggle ? true : false
     },
-    initialPermalink() {
+    initialPermalink(this: any) {
       return slugify(this.initial)
     },
-    listeners() {
+    listeners(this: any) {
       return {
         ...this.$listeners,
-        input: event => this.emit(event)
+        input: (event: Event) => this.emit(event)
       }
     }
   },
   watch: {
-    lock: function(v) {
+    lock: function(this: any, v: string) {
       if (v) {
         this.emit(v)
       }
@@ -84,18 +73,18 @@ export default Vue.extend({
   },
   methods: {
     getPermalink,
-    emit(v) {
+    emit(this: any, v: string) {
       this.$emit("input", slugify(v))
     },
-    updateFromInitial() {
+    updateFromInitial(this: any) {
       this.emit(this.initialPermalink)
     },
-    updateToggle(v) {
+    updateToggle(this: any, v) {
       this.$emit("update:toggle", v)
 
       this.tog = v
     },
-    setToggle() {
+    setToggle(this: any) {
       if (!document) {
         return
       }
@@ -130,6 +119,7 @@ export default Vue.extend({
 
     .linky-link {
       display: flex;
+      line-height: 1.6;
     }
     a {
       color: inherit;
@@ -168,16 +158,6 @@ export default Vue.extend({
     margin-top: 1em;
     font-size: 12px;
     .edit {
-      // &:hover {
-      //   color: #0496ff;
-      //   cursor: pointer;
-      //   opacity: 1;
-      // }
-      // background-color: #f7f9ff;
-      // box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.1);
-      // border-radius: 4px;
-      // padding: 1px 3px;
-      //  margin-right: 1em;
     }
   }
 }
