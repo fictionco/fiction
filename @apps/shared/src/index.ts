@@ -16,6 +16,10 @@ const slack = (): void => {
         listId: string;
         tags: string[];
       }) => {
+        if (window.dataLayer) {
+          window.dataLayer.push({ event: "emailListSignupSuccess" })
+        }
+
         let text = `New email [${email}] added to [${listId}].`
 
         if (tags.length > 0) {
@@ -50,6 +54,9 @@ const slack = (): void => {
 
 const facebook = (): void => {
   onEvent("email-list-new-email-requested", () => {
+    if (window.dataLayer) {
+      window.dataLayer.push({ event: "emailListSignupRequest" })
+    }
     if (typeof window.fbq != "undefined") {
       window.fbq("track", "Subscribe")
     }

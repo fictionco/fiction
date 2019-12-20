@@ -8,7 +8,7 @@ export default {
     alphaProgram: {
       tags: ["fiction-com"],
       form: {
-        buttonText: "Request Invite &rarr;"
+        buttonText: "Apply for Dev Program &rarr;"
       }
     }
   },
@@ -26,13 +26,7 @@ export default {
     },
     layout: {
       index: ["title", "subtitle", "meta"],
-      single: [
-        "customSingleHeader",
-        "meta",
-        "entry",
-        "social",
-        "authorBio"
-      ],
+      single: ["customSingleHeader", "meta", "entry", "social", "authorBio"],
       meta: ["authorDate", "tags"]
     }
   },
@@ -41,7 +35,7 @@ export default {
     postRoute: "/careers",
     limit: 5,
     settings: {
-      settingsPanel: (): Promise<Component> => import("./jobs/edit-post-settings.vue"),
+      settingsPanel: (): Promise<Component> => import("./jobs/edit-post-settings.vue")
     },
     components: {
       jobsContent: (): Promise<Component> => import("./jobs/content.vue"),

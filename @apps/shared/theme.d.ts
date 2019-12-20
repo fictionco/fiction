@@ -1,3 +1,4 @@
 interface Window {
-  fbq: any
+  fbq: any;
+  dataLayer?: object[];
 }

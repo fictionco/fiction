@@ -14,13 +14,12 @@
           </div>
 
           <h1 class="title">
-            A Typescript CMS Platform
-            <span class="alt">for Front-End Professionals</span>
+            A Modern CMS Platform
+            <span class="alt">for Web Development Perfectionists</span>
           </h1>
           <p class="text">
-            Powered by Typescript, VueJS and MongoDB.
-            <factor-link path="/factor-js">Factor</factor-link>
-            <span>is a platform that helps you professionally develop, manage, and scale apps and websites.</span>
+            Looking for an alternative to WordPress? Try the
+            <factor-link path="https://factor.dev">Factor Platform</factor-link>, a full-stack Javascript platform built for revolutionary applications, content and ideas.
           </p>
 
           <div class="header-actions">
@@ -33,17 +32,45 @@
 
     <div class="benefits content">
       <div class="content-pad wide">
-        <div v-for="(benefit, index) in benefits" :key="index" class="benefit">
-          <home-icon v-if="benefit.icon" class="feature-icon" :icon="benefit.icon" />
+        <div class="benefit-grid">
+          <div v-for="(benefit, index) in benefits" :key="index" class="benefit">
+            <home-icon v-if="benefit.icon" class="feature-icon" :icon="benefit.icon" />
 
-          <h3 class="title">{{ benefit.title }}</h3>
+            <h3 class="title">{{ benefit.title }}</h3>
 
-          <p class="text">{{ benefit.text }}</p>
-          <div v-if="benefit.link" class="action">
-            <factor-link :path="benefit.link.path">
-              <span v-formatted-text="benefit.link.text" />
-            </factor-link>
+            <p class="text">{{ benefit.text }}</p>
+            <div v-if="benefit.link" class="action">
+              <factor-link :path="benefit.link.path">
+                <span v-formatted-text="benefit.link.text" />
+              </factor-link>
+            </div>
           </div>
+        </div>
+        <div v-show="buttonsLoaded" class="factor-actions">
+          <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+          <a
+            class="github-button"
+            href="https://github.com/fiction-com/factor"
+            data-color-scheme="no-preference: light; light: light; dark: light;"
+            data-icon="octicon-star"
+            data-size="large"
+            data-show-count="true"
+            aria-label="Star fiction-com/factor on GitHub"
+          >Star</a>
+
+          <!-- Place this tag where you want the button to render. -->
+          <a
+            class="github-button"
+            href="https://github.com/fiction-com/factor/subscription"
+            data-color-scheme="no-preference: light; light: light; dark: light;"
+            data-icon="octicon-eye"
+            data-size="large"
+            data-show-count="true"
+            aria-label="Watch fiction-com/factor on GitHub"
+          >Watch</a>
+
+          <factor-link path="/factor-js" btn="secondary">Factor Dev Site &rarr;</factor-link>
         </div>
       </div>
     </div>
@@ -149,6 +176,7 @@ export default Vue.extend({
     return {
       poster: require("./img/screencast-poster.jpg"),
       loading: true,
+      buttonsLoaded: false,
       benefits: [
         {
           icon: "front-end",
@@ -180,7 +208,7 @@ export default Vue.extend({
           figure: () => import("./figure-code.vue"),
           link: {
             path: "https://www.factor.dev",
-            text: "Factor Development Site &rarr;"
+            text: "Learn More &rarr;"
           }
         },
         {
@@ -258,6 +286,9 @@ export default Vue.extend({
         }
       ]
     }
+  },
+  mounted() {
+    this.buttonsLoaded = true
   },
   routeClass() {
     return "nav-white"
@@ -448,7 +479,7 @@ export default Vue.extend({
     .header-text {
       flex: 1;
       min-width: 520px;
-      text-shadow: 0 1px 1px rgba(20, 20, 25, 0.7);
+
       @media (max-width: 900px) {
         min-width: 320px;
         margin: 0 0 40px;
@@ -485,7 +516,7 @@ export default Vue.extend({
 
         color: rgba(255, 255, 255, 0.6);
         a {
-          color: inherit;
+          color: #fff;
         }
       }
       .header-actions {
@@ -494,6 +525,7 @@ export default Vue.extend({
         // display: grid;
         // grid-template-columns: 1fr 200px;
         // grid-gap: 1.5em;
+
         .email-list-form {
           font-size: 1.2em;
           input {
@@ -584,6 +616,24 @@ export default Vue.extend({
 
   // BENEFITS
 
+  .factor-actions {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    border-radius: 5px;
+    padding: 1rem;
+
+    line-height: 1;
+    margin-top: 2rem;
+    width: 500px;
+    margin: 1rem auto 0;
+    .factor-btn {
+      padding-top: 6px;
+      padding-bottom: 7px;
+    }
+  }
+
   .benefits {
     margin: -7rem 1rem 0;
     background: url("./img/dot.svg");
@@ -594,11 +644,13 @@ export default Vue.extend({
       box-shadow: var(--box-shadow-panel);
       background: #fff;
       padding: 2rem 2.5rem;
-      display: grid;
-      grid-gap: 0 2em;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(1, 1fr);
 
+      .benefit-grid {
+        display: grid;
+        grid-gap: 0 2em;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(1, 1fr);
+      }
       .benefit {
         max-width: 500px;
         font-size: 1.1em;
@@ -617,7 +669,7 @@ export default Vue.extend({
       }
     }
     @media (max-width: 900px) {
-      .content-pad {
+      .benefit-grid {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(3, auto);
         grid-gap: 2em 0;
