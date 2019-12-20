@@ -4,55 +4,62 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">
-            The Full-Stack Application Platform
+            Create websites, blogs, and full-stack apps
             <span
               class="highlight"
-            >for Professional Javascript Developers</span>
+            >with a modern Javascript stack</span>
           </h1>
-          <h3 class="page-title-sub">Create blogs, websites, and dynamic applications in minutes</h3>
+          <h3 class="page-title-sub">The marketing and CMS platform for web developers.</h3>
 
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
+            <div v-if="!loadingButtons" class="github-actions">
+              <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-            <factor-link path="https://github.com/fiction-com/factor">
-              <span>
-                Github
-                <i>v</i>
-                <span>1.0</span>
-              </span>
-            </factor-link>
+              <a
+                class="github-button"
+                href="https://github.com/fiction-com/factor"
+                data-color-scheme="no-preference: light; light: light; dark: light;"
+                data-icon="octicon-star"
+                data-size="large"
+                data-show-count="true"
+                aria-label="Star fiction-com/factor on GitHub"
+              >Star</a>
+
+              <!-- Place this tag where you want the button to render. -->
+              <a
+                class="github-button"
+                href="https://github.com/fiction-com/factor/subscription"
+                data-color-scheme="no-preference: light; light: light; dark: light;"
+                data-icon="octicon-eye"
+                data-size="large"
+                data-show-count="true"
+                aria-label="Watch fiction-com/factor on GitHub"
+              >Watch</a>
+              <!-- <factor-link path="https://github.com/fiction-com/factor">
+                Version 1.1 (Beta)
+                <span class="arrow">&rarr;</span>
+              </factor-link>-->
+            </div>
           </div>
           <div class="points">
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">Typescript</span>
-            </div>
-
-            <div class="point">
-              <span class="arrow">
-                <factor-icon icon="check" />
-              </span>
-              <span class="text">Vue + MongoDB</span>
+              <span class="text">Full-Stack VueJS</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">Universal</span>
+              <span class="text">Drop-In Themes + Plugins</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">Themes + Plugins</span>
-            </div>
-            <div class="point">
-              <span class="arrow">
-                <factor-icon icon="check" />
-              </span>
-              <span class="text">Open-Source</span>
+              <span class="text">Free and Open-Source</span>
             </div>
           </div>
         </div>
@@ -155,12 +162,14 @@ export default Vue.extend({
     factorEmailList,
     factorLink,
     factorIcon,
+
     "home-icon": () => import("./icon.vue"),
     "section-benefits": () => import("./section-benefits.vue")
   },
-  data() {
+  data(this: any) {
     return {
       loading: true,
+      loadingButtons: true,
       poster: require(`./img/screencast-poster.jpg`), // 1280x720,
       screenshots: [
         { img: require("./img/theme-ultra.jpg"), name: "Alpha Theme" },
@@ -230,11 +239,14 @@ export default Vue.extend({
       ]
     }
   },
+  mounted(this: any) {
+    this.loadingButtons = false
+  },
   metaInfo() {
     return {
-      title: "The Javascript CMS and Apps Platform",
+      title: "Factor - Typescript CMS",
       description:
-        "A Javascript CMS and application platform built with Vue, Express, Node.js and MongoDB. Build impressive Javascipt apps with plugins and themes."
+        "A Typescript CMS and application platform built with Vue, Express, Node.js and MongoDB. "
     }
   }
 })
@@ -280,17 +292,20 @@ export default Vue.extend({
       .page-title-sub {
         font-size: 2em;
         opacity: 0.7;
+        margin: 1em 0;
       }
       .points {
         display: flex;
-        margin: 2rem auto 1rem;
+        margin: 4rem auto 2rem;
         justify-content: center;
-        opacity: 0.3;
+
         .point {
           margin: 0 1rem;
           text-transform: uppercase;
           font-weight: 600;
-
+          .arrow {
+            background: var(--color-primary);
+          }
           &:hover {
             .arrow {
               background: var(--color-primary);
@@ -331,21 +346,25 @@ export default Vue.extend({
           display: block;
           text-align: left;
           .point {
-            margin: 0.3em 0;
+            margin: 0.6em 0;
           }
         }
       }
       .actions {
         margin-top: 1.5em;
-        .factor-link {
-          margin-top: 1rem;
-          display: inline-block;
-          color: inherit;
-          font-weight: 500;
-          opacity: 0.4;
+        .github-actions {
+          margin: 2rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          line-height: 1;
+          > span {
+            margin: 0 0.5rem;
+          }
         }
+
         .email-list-form {
-          max-width: 550px;
+          max-width: 650px;
           font-size: 1.3em;
           margin: 0 auto;
           @media (max-width: 900px) {

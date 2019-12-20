@@ -25,7 +25,7 @@ export default {
         }
       },
       form: {
-        buttonText: "Join Developer Program &rarr;"
+        buttonText: "Apply for Developer Program &rarr;"
       }
     }
   },
