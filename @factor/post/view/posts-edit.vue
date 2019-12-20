@@ -5,7 +5,7 @@
       <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Save</factor-btn-dashboard>
     </template>
     <template #primary>
-      <dashboard-pane class="compose" title="Content">
+      <dashboard-pane class="compose">
         <dashboard-input
           v-model="post.title"
           input="factor-input-text"
@@ -20,7 +20,7 @@
       </dashboard-pane>
     </template>
     <template #meta>
-      <dashboard-pane title="Meta Info" class="post-media">
+      <dashboard-pane class="post-media">
         <dashboard-input label="Permalink">
           <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>

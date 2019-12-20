@@ -34,7 +34,7 @@ commands:
             git config --global user.name "$GIT_AUTHOR_NAME"
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--dist-tag staging"; fi
+            if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--dist-tag staging --preid staging"; fi
             git fetch --tags
             yarn lerna publish from-git $tag --yes && true
 

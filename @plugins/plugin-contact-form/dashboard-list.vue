@@ -125,7 +125,7 @@ export default Vue.extend({
 
       return Object.values(rest)
     },
-    postlink(postType, permalink, root = true) {
+    postlink(postType: string, permalink: string, root = true) {
       return getPermalink({ postType, permalink, root })
     },
 
