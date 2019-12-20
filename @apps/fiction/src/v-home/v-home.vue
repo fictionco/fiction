@@ -70,7 +70,7 @@
             aria-label="Watch fiction-com/factor on GitHub"
           >Watch</a>
 
-          <factor-link path="/factor-js" btn="secondary">Factor Dev Site &rarr;</factor-link>
+          <factor-link path="/factor-js" btn="primary">Factor Developer Site &rarr;</factor-link>
         </div>
       </div>
     </div>
