@@ -27,7 +27,7 @@ export default Vue.extend({
     format: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
     returnLinkText() {

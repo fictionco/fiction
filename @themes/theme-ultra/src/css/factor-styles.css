@@ -1,3 +1,6 @@
+@import "reset.less";
+@import "style.less";
+
 .factor-app {
   --color-primary: #fa5855;
   --color-primary-dark: #da524f;

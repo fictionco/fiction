@@ -20,12 +20,12 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },
   methods: {
-    getPost(_id) {
+    getPost(_id: string) {
       return stored(_id) || {}
     }
   }
@@ -52,7 +52,7 @@ export default Vue.extend({
       .name {
         font-size: 1.5em;
         line-height: 1.7;
-        font-weight: var(--font-weight-bold);
+        font-weight: 600;
       }
       .bio {
         font-size: 1.2em;

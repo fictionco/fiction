@@ -69,28 +69,27 @@ export default Vue.extend({
     }
   },
   computed: {
-    tag() {
+    tag(this: any) {
       return this.$route.params.tag || this.$route.query.tag || ""
     },
-    index() {
+    index(this: any) {
       return stored(this.postType) || {}
     },
-    blogPosts() {
+    blogPosts(this: any) {
       const { posts = [] } = this.index
       return posts
     },
-    page() {
+    page(this: any) {
       return this.$route.query.page || 1
     }
   },
   watch: {
     $route: {
-      handler: function() {
+      handler: function(this: any) {
         this.getPosts()
       }
     }
   },
-
   serverPrefetch() {
     return this.getPosts()
   },
@@ -101,7 +100,7 @@ export default Vue.extend({
   },
   methods: {
     setting,
-    async getPosts() {
+    async getPosts(this: any) {
       this.loading = true
 
       await requestPostIndex({
@@ -134,10 +133,10 @@ export default Vue.extend({
       align-items: center;
       text-align: left;
       max-width: 50rem;
-      padding: 8em 0;
+      padding: 7em 0;
       margin: 0 auto;
       @media (max-width: 767px) {
-        padding: 6em 2em 4em;
+        padding: 6em 2em 6em;
       }
       .label {
         text-transform: uppercase;
@@ -149,9 +148,9 @@ export default Vue.extend({
       }
       .title {
         font-weight: var(--font-weight-bold);
-        font-size: 4em;
+        font-size: 3em;
         letter-spacing: -0.03em;
-        line-height: 1;
+        line-height: 1.2;
         margin: 0.3em 0;
         color: #f9f9f9;
         @media (max-width: 767px) {

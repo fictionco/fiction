@@ -20,10 +20,10 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    tags() {
+    tags(this: any) {
       return this.post.tag || []
     }
   },
@@ -34,23 +34,24 @@ export default Vue.extend({
 .plugin-blog {
   .entry-tags {
     line-height: 1;
-  }
-  .entry-tags a {
-    color: inherit;
-    background: rgba(50, 50, 93, 0.08);
-    display: inline-block;
-    font-size: 0.85em;
-    margin: 5px 5px 5px 0;
-    padding: 5px 10px;
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 3px;
-    &:hover {
-      color: inherit;
-      background: rgba(50, 50, 93, 0.15);
+    text-align: right;
+    @media (max-width: 767px) {
+      text-align: left;
     }
-    &:not(:nth-child(1)) {
-      margin-left: 3px;
+    a {
+      color: inherit;
+      background: rgba(50, 50, 93, 0.08);
+      display: inline-block;
+      font-size: 0.85em;
+      margin: 5px 2px 5px;
+      padding: 5px 10px;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 3px;
+      &:hover {
+        color: inherit;
+        background: rgba(50, 50, 93, 0.15);
+      }
     }
   }
 }

@@ -1,18 +1,18 @@
-@import "reset.less";
-
-html {
-  scroll-behavior: smooth;
-}
-body {
+.factor-app {
   color: var(--color-text);
   background: var(--color-bg);
   font-family: var(--font-family-primary);
   font-size: 16px;
   line-height: 1.5;
   font-weight: 500;
+  scroll-behavior: smooth;
+
+  body{
+    margin: 0;
+  }
 
   strong {
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold, 800);
   }
 
   a {

@@ -76,17 +76,17 @@ export default Vue.extend({
     return this.getPosts()
   },
   computed: {
-    tag() {
+    tag(this: any) {
       return this.$route.params.tag || this.$route.query.tag || ""
     },
-    index() {
+    index(this: any) {
       return stored(this.postType) || {}
     },
-    workPosts() {
+    workPosts(this: any) {
       const { posts = [] } = this.index
       return posts
     },
-    page() {
+    page(this: any) {
       return this.$route.query.page || 1
     },
     returnLinkText() {
@@ -95,7 +95,7 @@ export default Vue.extend({
   },
   watch: {
     $route: {
-      handler: function() {
+      handler: function(this: any) {
         this.getPosts()
       }
     }
@@ -105,7 +105,7 @@ export default Vue.extend({
   },
   methods: {
     setting,
-    async getPosts() {
+    async getPosts(this: any) {
       this.loading = true
 
       await requestPostIndex({

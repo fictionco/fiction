@@ -93,7 +93,7 @@ export default Vue.extend({
   mounted() {
     this.$watch(
       "form",
-      function() {
+      function(this: any) {
         const v = this.$refs.form.$el.checkValidity()
 
         this.formStatus = v ? "valid" : "invalid"
@@ -120,7 +120,7 @@ export default Vue.extend({
   // },
   methods: {
     setting,
-    async send() {
+    async send(this: any) {
       this.sending = true
       const { email } = this.form
       // this.$email.send({

@@ -16,7 +16,7 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },
@@ -26,13 +26,16 @@ export default Vue.extend({
 <style lang="less">
 .plugin-blog {
   .entry-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 2em;
+    align-items: flex-start;
     margin: 1em auto;
 
     @media (max-width: 767px) {
       display: grid;
+      grid-gap: 1em;
+      grid-template-columns: 1fr;
     }
   }
 }

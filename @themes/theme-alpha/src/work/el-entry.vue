@@ -18,10 +18,10 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    variables() {
+    variables(this: any) {
       const vars = {}
       this.post.images.forEach(imageId => {
         const img = stored(imageId) || {}
@@ -29,7 +29,7 @@ export default Vue.extend({
       })
       return vars
     },
-    rendered() {
+    rendered(this: any) {
       return renderMarkdown(this.post.content, {
         variables: true
       })

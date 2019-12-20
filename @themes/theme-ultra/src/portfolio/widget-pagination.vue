@@ -18,31 +18,28 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorBtn, factorIcon },
   props: {
-    postType: { type: String, default: "" },
-    // pageCount: { type: Number, default: 0 },
-    // pageCurrent: { type: Number, default: 0 },
-    count: { type: Number, default: 0 }
+    postType: { type: String, default: "" }
   },
   computed: {
-    index() {
+    index(this: any) {
       return stored(this.postType) || {}
     },
-    portfolioMeta() {
+    blogMeta(this: any) {
       const { meta = [] } = this.index
       return meta
     },
-    pageCount() {
-      return this.portfolioMeta.pageCount || 1
+    pageCount(this: any) {
+      return this.blogMeta.pageCount || 1
     },
-    // count() {
-    //   return this.portfolioMeta.totalForQuery || 1
-    // },
-    pageCurrent() {
-      return this.portfolioMeta.pageCurrent || 1
+    count(this: any) {
+      return this.blogMeta.totalForQuery || 1
+    },
+    pageCurrent(this: any) {
+      return this.blogMeta.pageCurrent || 1
     }
   },
   methods: {
-    page(direction) {
+    page(direction: any) {
       let page
       if (direction == "next" && this.pageCurrent !== this.pageCount) {
         page = this.pageCurrent + 1
@@ -58,25 +55,29 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="less" scoped>
-.pagination {
-  display: flex;
-  align-items: center;
-  @media (max-width: 900px) {
-    justify-content: flex-end;
-    .items,
-    .sep {
-      display: none;
+<style lang="less">
+.plugin-blog {
+  .pagination {
+    max-width: 48rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    @media (max-width: 767px) {
+      justify-content: flex-end;
+      .items,
+      .sep {
+        display: none;
+      }
     }
-  }
-  > * {
-    margin: 0 5px;
-  }
-  .sep {
-    opacity: 0.4;
-  }
-  .factor-btn {
-    padding: 0.5em;
+    > * {
+      margin: 0 5px;
+    }
+    .sep {
+      opacity: 0.4;
+    }
+    .factor-btn {
+      padding: 0.5em;
+    }
   }
 }
 </style>

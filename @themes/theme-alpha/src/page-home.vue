@@ -54,9 +54,6 @@ export default Vue.extend({
     factorLink,
     factorIcon
   },
-  // props: {
-  //   post: { type: Object, default: () => {} }
-  // },
   data() {
     return {
       loading: true
