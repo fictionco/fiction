@@ -55,47 +55,43 @@ export default Vue.extend({
       loading: false
     }
   },
-  // routeClass() {
-  //   return "nav-white"
-  // },
-  // metaInfo() {
-  //   const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
+  metaInfo() {
+    const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
 
-  //   const description = this.tag
-  //     ? `Articles related to tag: ${this.tag}`
-  //     : setting("blog.metatags.index.description")
+    const description = this.tag
+      ? `Articles related to tag: ${this.tag}`
+      : setting("blog.metatags.index.description")
 
-  //   return {
-  //     title,
-  //     description
-  //   }
-  // },
+    return {
+      title,
+      description
+    }
+  },
   computed: {
-    // tag() {
-    //   return this.$route.params.tag || this.$route.query.tag || ""
-    // },
-    index() {
+    tag(this: any) {
+      return this.$route.params.tag || this.$route.query.tag || ""
+    },
+    index(this: any) {
       return stored(this.postType) || {}
     },
-    blogPosts() {
+    blogPosts(this: any) {
       const { posts = [] } = this.index
       return posts
     },
-    page() {
+    page(this: any) {
       return this.$route.query.page || 1
     }
   },
   watch: {
     $route: {
-      handler: function() {
+      handler: function(this: any) {
         this.getPosts()
       }
     }
   },
-  // created() {},
-  // serverPrefetch() {
-  //   return this.getPosts()
-  // },
+  serverPrefetch() {
+    return this.getPosts()
+  },
   mounted() {
     if (this.blogPosts.length == 0) {
       this.getPosts()
@@ -103,12 +99,12 @@ export default Vue.extend({
   },
   methods: {
     setting,
-    async getPosts() {
+    async getPosts(this: any) {
       this.loading = true
 
       await requestPostIndex({
         postType: this.postType,
-        //tag: this.tag,
+        tag: this.tag,
         status: "published",
         sort: "-date",
         page: this.page,
@@ -122,46 +118,47 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.posts-not-found,
-.posts-loading {
-  min-height: 50vh;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  .title {
-    font-size: 1.4em;
-    font-weight: var(--font-weight-bold);
-  }
-}
+.plugin-blog {
+  .entries {
+    padding: 4em 2em;
+    line-height: 1.2;
+    max-width: 50rem;
+    margin: 0 auto;
 
-.entries {
-  padding: 4em 2em;
-  line-height: 1.2;
-  max-width: 50rem;
-  margin: 0 auto;
-
-  .post-index {
-    display: grid;
-    grid-gap: 3em;
-    grid-template-columns: 1fr;
-    margin-bottom: 2em;
-    @media (max-width: 767px) {
+    .post-index {
+      display: grid;
+      grid-gap: 3em;
       grid-template-columns: 1fr;
-      grid-row-gap: 100px;
-    }
-    .post {
-      border-radius: 8px;
-      border: 1px solid rgba(90, 122, 190, 0.08);
-      transition: all 0.2s ease-in-out;
-      box-shadow: 0 3px 0 0 rgba(90, 122, 190, 0.12);
-
-      &:hover {
-        transform: translateY(-6px);
-        border: 1px solid rgba(90, 122, 190, 0.08);
-        box-shadow: 0 1px 1px 0 rgba(90, 122, 190, 0.1),
-          0 10px 20px 0 rgba(90, 122, 190, 0.2);
+      margin-bottom: 2em;
+      @media (max-width: 767px) {
+        grid-template-columns: 1fr;
+        grid-row-gap: 100px;
       }
+      .post {
+        border-radius: 8px;
+        border: 1px solid rgba(90, 122, 190, 0.08);
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 3px 0 0 rgba(90, 122, 190, 0.12);
+
+        &:hover {
+          transform: translateY(-6px);
+          border: 1px solid rgba(90, 122, 190, 0.08);
+          box-shadow: 0 1px 1px 0 rgba(90, 122, 190, 0.1),
+            0 10px 20px 0 rgba(90, 122, 190, 0.2);
+        }
+      }
+    }
+  }
+  .posts-not-found,
+  .posts-loading {
+    min-height: 50vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    .title {
+      font-size: 1.4em;
+      font-weight: var(--font-weight-bold);
     }
   }
 }

@@ -21,25 +21,25 @@ export default Vue.extend({
     postType: { type: String, default: "" }
   },
   computed: {
-    index() {
+    index(this: any) {
       return stored(this.postType) || {}
     },
-    blogMeta() {
+    blogMeta(this: any) {
       const { meta = [] } = this.index
       return meta
     },
-    pageCount() {
+    pageCount(this: any) {
       return this.blogMeta.pageCount || 1
     },
-    count() {
+    count(this: any) {
       return this.blogMeta.totalForQuery || 1
     },
-    pageCurrent() {
+    pageCurrent(this: any) {
       return this.blogMeta.pageCurrent || 1
     }
   },
   methods: {
-    page(direction) {
+    page(direction: any) {
       let page
       if (direction == "next" && this.pageCurrent !== this.pageCount) {
         page = this.pageCurrent + 1

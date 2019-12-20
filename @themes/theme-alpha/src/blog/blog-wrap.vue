@@ -1,16 +1,13 @@
 <template>
-  <div class="blog-wrap">
+  <div class="plugin-blog">
     <router-view />
   </div>
 </template>
 
-<script lang="ts">
-export default {}
-</script>
 
 
 <style lang="less">
-.blog-wrap {
+.plugin-blog {
   .entries {
     max-width: 50rem;
     margin: 0 auto 0;

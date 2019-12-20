@@ -1,26 +1,53 @@
 <template>
   <div class="long-form">
-    <factor-post-edit :post-id="post._id" />
-    <h1 v-formatted-text="post.title" class="title" />
+    <div :style="{textAlign: settings.headerAlignment || 'left'}">
+      <h1 class="title">{{ post.title }}</h1>
+      <h3 class="subtitle">{{ post.subTitle }}</h3>
+    </div>
     <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
+    <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 
 <script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/api/markdown"
+import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/api"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorPostEdit },
-  props: {
-    post: { type: Object, default: () => {} }
-  },
   data() {
+    return {}
+  },
+  metaInfo() {
     return {
-      content: ""
+      title: titleTag(this.post._id),
+      description: descriptionTag(this.post._id),
+      image: shareImage(this.post._id)
     }
   },
-  methods: { renderMarkdown }
+  computed: {
+    post(this: any) {
+      return stored("post") || {}
+    },
+    settings(this: any) {
+      return this.post.settings || {}
+    }
+  },
+  methods: { setting, renderMarkdown },
+  templateSettings() {
+    return [
+      {
+        input: "select",
+        label: "Header Alignment",
+        description: "Alignment of the page header",
+        _id: "headerAlignment",
+        list: ["left", "center", "right"],
+        default: "left"
+      }
+    ]
+  }
 })
 </script>
 
@@ -30,6 +57,9 @@ export default Vue.extend({
   max-width: 600px;
   .title {
     font-size: 2.5em;
+  }
+  .subtitle {
+    font-size: 1.4em;
   }
   .content {
     font-size: 1.2em;

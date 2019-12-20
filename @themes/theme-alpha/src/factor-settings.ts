@@ -191,38 +191,36 @@ export default {
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
     heroImage: require("./img/blog.jpg"),
-    metatags: {
-      index: {
-        title: "Blog - The Latest from Factor Alpha Theme",
-        description:
-          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
-      }
-    },
     notFound: {
       title: "No Posts",
       subTitle: "Couldn't find any blog posts."
     },
+    components: {
+      blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
+      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      headers: (): Promise<Component> => import("./blog/el-headers.vue")
+    },
     layout: {
-      index: ["blogFeaturedImage", "blogHeaders", "blogExcerpt", "blogMeta"],
+      index: ["featuredImage", "title", "subtitle", "meta"],
       single: [
-        "blogHeaders",
-        "blogFeaturedImage",
-        "blogMeta",
+        "returnLink",
+        "headers",
+        "featuredImage",
+        "meta",
         "entry",
         "social",
         "authorBio"
       ],
       meta: ["authorDate", "tags"]
     },
-    components: {
-      blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
-      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-      blogFeaturedImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      blogHeaders: (): Promise<Component> => import("./blog/el-headers.vue"),
-      blogReturnLink: (): Promise<Component> => import("./blog/el-return-link.vue"),
-      blogExcerpt: (): Promise<Component> => import("./blog/el-excerpt.vue"),
-      blogMeta: (): Promise<Component> => import("./blog/el-meta.vue")
+    metatags: {
+      index: {
+        title: "Blog - The Latest from Factor Alpha Theme",
+        description:
+          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+      }
     }
   },
   contact: {

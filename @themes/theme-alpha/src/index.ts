@@ -12,7 +12,7 @@ export const setup = (): void => {
     priority: 200
   })
 
-  // POST TYPES
+  // post types
 
   const baseRoute = setting("work.postRoute")
 
@@ -26,14 +26,14 @@ export const setup = (): void => {
     namePlural: "Work Posts"
   })
 
-  // PAGE TEMPLATES
+  // page templates
 
   addPageTemplate({
-    slug: "alpha-basic",
+    slug: "default",
     component: (): Promise<Component> => import("./page-template-default.vue")
   })
 
-  // CONTENT ROUTES
+  // content routes
 
   addContentRoutes({
     key: "alphaRoutes",

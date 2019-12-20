@@ -54,15 +54,15 @@ export default Vue.extend({
     loading: { type: Boolean, default: false }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    formatClass() {
+    formatClass(this: any) {
       const f = this.format ? this.format : "single"
 
       return `format-${f}`
     },
-    rendered() {
+    rendered(this: any) {
       return renderMarkdown(this.post.content, {
         variables: true
       })

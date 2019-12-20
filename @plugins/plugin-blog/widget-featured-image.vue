@@ -9,19 +9,19 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    avatar() {
+    avatar(this: any) {
       return stored(this.post.avatar) || {}
     },
-    avatarUrl() {
+    avatarUrl(this: any) {
       return this.avatar.url || ""
     },
-    style() {
-      const style = {}
-
-      style.backgroundImage = `url(${this.avatarUrl})`
+    style(this: any) {
+      const style = {
+        backgroundImage: `url(${this.avatarUrl})`
+      }
 
       return style
     }

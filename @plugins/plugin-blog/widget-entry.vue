@@ -18,18 +18,18 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    variables() {
+    variables(this: any) {
       const vars = {}
-      this.post.images.forEach(imageId => {
+      this.post.images.forEach((imageId: string) => {
         const img = stored(imageId) || {}
         vars[imageId] = img.url || ""
       })
       return vars
     },
-    rendered() {
+    rendered(this: any) {
       return renderMarkdown(this.post.content, {
         variables: true
       })
@@ -57,7 +57,7 @@ export default Vue.extend({
     h1,
     h2,
     h3 {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: 800;
       line-height: 1.2;
       margin-bottom: 0.4em;
     }
@@ -65,7 +65,7 @@ export default Vue.extend({
     h4,
     h5,
     h6 {
-      font-weight: var(--font-weight-semibold, 600);
+      font-weight: 600;
       line-height: 1.4em;
       margin-bottom: 0.5em;
     }
@@ -97,14 +97,6 @@ export default Vue.extend({
     h6 {
       font-weight: 300;
       font-size: 1em;
-    }
-
-    a {
-      color: var(--color-primary);
-
-      &:hover {
-        color: var(--color-secondary);
-      }
     }
 
     div > ul {
@@ -201,7 +193,7 @@ export default Vue.extend({
     blockquote {
       margin: 1em 0;
       padding: 0.5em 0 0.5em 1.5em;
-      border-left: 5px solid var(--color-primary);
+      border-left: 5px solid var(--color-primary, #ff0076);
       font-style: italic;
 
       @media (max-width: 767px) {

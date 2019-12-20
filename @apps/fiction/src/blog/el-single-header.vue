@@ -4,24 +4,26 @@
       <component :is="setting('blog.components.returnLink')" />
       <h1 class="entry-title">
         <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
+        <factor-post-edit :post-id="post._id" />
       </h1>
       <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
     </div>
   </div>
 </template>
 <script lang="ts">
+import { factorPostEdit } from "@factor/post"
 import { factorLink } from "@factor/ui"
 import { postLink, setting, stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLink },
+  components: { factorLink, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },
@@ -51,17 +53,17 @@ export default Vue.extend({
       align-items: center;
       text-align: left;
       max-width: 50rem;
-      padding: 5em 0;
+      padding: 8em 0;
       margin: 0 auto;
       @media (max-width: 767px) {
-        padding: 6em 0 7em;
+        padding: 6em 2em;
       }
 
       .entry-title {
         font-weight: var(--font-weight-bold);
         font-size: 3em;
         letter-spacing: -0.03em;
-        line-height: 1.4em;
+        line-height: 1.2;
         margin: 0.3em 0;
         color: #f9f9f9;
         a:hover {
@@ -72,12 +74,19 @@ export default Vue.extend({
           font-size: 2em;
         }
       }
+      .edit {
+        display: block;
+        font-size: 1rem;
+        line-height: 1em;
+        letter-spacing: initial;
+        margin: 0.5em 0;
+      }
       .entry-subtitle {
-        opacity: 0.5;
+        opacity: 0.7;
         font-size: 1.4em;
         font-weight: 400;
         margin-bottom: 1.5em;
-        color: #d9d9d9;
+        color: #fff;
 
         @media (max-width: 767px) {
           font-size: 1.2em;

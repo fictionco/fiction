@@ -1,6 +1,8 @@
 import { Component } from "vue"
-
 export default {
+  headTags: {
+    font: `<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700" rel="stylesheet" />`
+  },
   metatags: {
     default: {
       image: require("./static/factor-logo.jpg")
@@ -10,9 +12,6 @@ export default {
     components: {
       btn: (): Promise<Component> => import("./el/btn.vue")
     }
-  },
-  headTags: {
-    font: `<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700" rel="stylesheet" />`
   },
   site: {
     logo: (): Promise<Component> => import("./el/logo-ultra.vue"),
@@ -152,7 +151,6 @@ export default {
         import("./portfolio/widget-featured-image.vue"),
       tags: (): Promise<Component> => import("./portfolio/widget-tags.vue"),
       //returnLink: (): Promise<Component> => import("./portfolio/widget-return-link.vue"),
-      pagination: (): Promise<Component> => import("./portfolio/widget-pagination.vue")
     },
     layout: {
       index: ["featuredImage"],
@@ -204,8 +202,7 @@ export default {
       date: (): Promise<Component> => import("./news/widget-date.vue"),
       featuredImage: (): Promise<Component> => import("./news/widget-featured-image.vue"),
       authorBio: (): Promise<Component> => import("./news/widget-author-bio.vue"),
-      tags: (): Promise<Component> => import("./news/widget-tags.vue"),
-      pagination: (): Promise<Component> => import("./news/widget-pagination.vue")
+      tags: (): Promise<Component> => import("./news/widget-tags.vue")
     },
     layout: {
       index: ["date", "newsHero", "newsExcerpt"],

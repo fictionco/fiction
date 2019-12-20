@@ -1,21 +1,21 @@
 <template>
   <div class="widget-author-date">
-    <div v-for="authorId in post.author" :key="authorId" class="blog-author-card">
-      <factor-avatar :post-id="getPost(authorId).avatar" />
-      <span class="name">{{ getPost(authorId).displayName }}</span>
+    <div class="author-date">
+      <div v-for="authorId in post.author" :key="authorId" class="author">
+        <factor-avatar :post-id="getPost(authorId).avatar" />
+        <span class="name">{{ getPost(authorId).displayName }}</span>
+      </div>
+      <span class="sep">on</span>
+      <span class="date">{{ standardDate(post.date) }}</span>
     </div>
-    <span class="sep">on</span>
-    <span class="date">{{ standardDate(post.date) }}</span>
-    <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 <script lang="ts">
-import { factorPostEdit } from "@factor/post"
 import { factorAvatar } from "@factor/ui"
 import { isEmpty, standardDate, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorAvatar, factorPostEdit },
+  components: { factorAvatar },
   props: {
     postId: { type: String, default: "" }
   },
@@ -23,12 +23,12 @@ export default Vue.extend({
     postSet() {
       return !isEmpty(this.post) ? true : false
     },
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },
   methods: {
-    getPost(_id) {
+    getPost(_id: any) {
       return stored(_id) || {}
     },
     standardDate
@@ -38,32 +38,31 @@ export default Vue.extend({
 <style lang="less">
 .plugin-blog {
   .widget-author-date {
-    display: flex;
-    align-items: center;
-    font-size: 0.9em;
-    font-weight: var(--font-weight-bold);
-    .sep {
-      font-weight: 500;
-      font-style: italic;
-      margin: 0 1em 0 0;
-      opacity: 0.8;
-    }
-    .edit {
-      margin-left: 1em;
-    }
-    .blog-author-card {
+    .author-date {
       display: flex;
       align-items: center;
-      margin-right: 1em;
-      padding: 0.3em 0;
+      font-size: 0.9em;
+      font-weight: 600;
 
-      .avatar {
-        display: block;
-        margin-right: 10px;
-        float: left;
+      .author {
+        display: flex;
+        margin-right: 1em;
+        .avatar {
+          display: block;
+          margin-right: 10px;
+          float: left;
+        }
+        .name {
+          display: inline-flex;
+          align-items: center;
+          font-weight: 600;
+        }
       }
-      .name {
-        font-weight: var(--font-weight-bold);
+      .sep {
+        font-weight: 500;
+        font-style: italic;
+        margin: 0 1em 0 0;
+        opacity: 0.8;
       }
     }
   }

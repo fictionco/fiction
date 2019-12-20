@@ -19,10 +19,10 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    tags() {
+    tags(this: any) {
       return this.post.tag || []
     }
   },

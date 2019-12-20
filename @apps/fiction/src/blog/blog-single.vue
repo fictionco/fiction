@@ -66,7 +66,13 @@ export default Vue.extend({
       .highlight-code-wrap {
         font-size: 1.2em;
         line-height: 1.7em;
+        @media (max-width: 767px) {
+          padding: 0 1em;
+        }
       }
+    }
+    .social-share {
+      justify-content: center;
     }
   }
 }

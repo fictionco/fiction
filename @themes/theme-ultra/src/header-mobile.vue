@@ -45,7 +45,7 @@ export default Vue.extend({
         this.toggleNav(false)
       }
     },
-    toggle: function(v) {
+    toggle: function(v: any) {
       if (v) {
         DOM("body").addClass("mobile-nav")
       } else {
@@ -54,7 +54,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    toggleNav(v) {
+    toggleNav(v: any) {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle
       } else {

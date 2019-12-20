@@ -52,7 +52,7 @@ export default Vue.extend({
   },
   methods: {
     setting,
-    sidebarPath(path) {
+    sidebarPath(path: any) {
       const ele = document.querySelector(path)
       if (ele) {
         ele.scrollIntoView()

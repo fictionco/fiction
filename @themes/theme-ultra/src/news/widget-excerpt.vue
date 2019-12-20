@@ -8,14 +8,14 @@
 import { factorLink } from "@factor/ui"
 import { excerpt } from "@factor/api/excerpt"
 import { postLink, stored } from "@factor/api"
-import Vue from 'vue'
+import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },

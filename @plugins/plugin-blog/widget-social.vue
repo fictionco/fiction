@@ -38,10 +38,10 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    link() {
+    link(this: any) {
       return postLink(this.postId, { root: true })
     },
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   }

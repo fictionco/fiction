@@ -22,14 +22,12 @@ export default {
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      title: (): Promise<Component> => import("./blog/widget-title.vue"),
-      subtitle: (): Promise<Component> => import("./blog/widget-subtitle.vue"),
-      singleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
+      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
     },
     layout: {
       index: ["title", "subtitle", "meta"],
       single: [
-        "singleHeader",
+        "customSingleHeader",
         "meta",
         "entry",
         "social",

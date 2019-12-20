@@ -25,7 +25,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    bg() {
+    bg(this: any) {
       return {
         background: this.$route.meta.background || ""
       }
