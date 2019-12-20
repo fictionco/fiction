@@ -54,6 +54,7 @@ const slack = (): void => {
 
 const facebook = (): void => {
   onEvent("email-list-new-email-requested", () => {
+    // Track event in Tag Manager
     if (window.dataLayer) {
       window.dataLayer.push({ event: "emailListSignupRequest" })
     }
