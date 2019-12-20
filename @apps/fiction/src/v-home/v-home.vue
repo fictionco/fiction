@@ -632,6 +632,9 @@ export default Vue.extend({
       padding-top: 6px;
       padding-bottom: 7px;
     }
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   .benefits {
@@ -667,13 +670,14 @@ export default Vue.extend({
           margin: 1rem 0;
         }
       }
-    }
-    @media (max-width: 900px) {
-      .benefit-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, auto);
-        grid-gap: 2em 0;
+      @media (max-width: 900px) {
         padding: 1rem;
+        .benefit-grid {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(3, auto);
+          grid-gap: 1rem 0;
+          padding: 1rem;
+        }
       }
     }
   }
