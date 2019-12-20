@@ -35,6 +35,7 @@
           v-model="post.subTitle"
           input="factor-input-text"
           label="Synopsis"
+          description="A short description or teaser"
           class="post-title"
           @keyup="doDraftSave()"
         />

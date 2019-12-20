@@ -22,7 +22,7 @@
   "license": "GPL-2.0",
   "scripts": {
     "packages:upgrade": "yarn install && yarn upgrade && yarn audit && yarn outdated",
-    "version:publish": "yarn lerna publish patch --yes && yarn test:staging",
+    "version:publish": "yarn lerna publish patch --yes",
     "clean-logs": "find . -name '*.log' -delete",
     "publish:docs": "heroku git:remote -a factor-dev && git push heroku master",
     "publish:fiction": "heroku git:remote -a fiction-com && git push heroku master",
