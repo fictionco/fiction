@@ -1,7 +1,8 @@
 <template>
   <div class="editor-input">
-    <textarea ref="editor" :value="value" v-on="listeners"></textarea>
-    <!-- <pre id="editor" ref="editor" class="editor" @keyup="$emit('keyup')" /> -->
+    <div v-show="!loading" class="editor-wrap">
+      <textarea ref="editor" :value="value" v-on="listeners"></textarea>
+    </div>
   </div>
 </template>
 
@@ -43,6 +44,8 @@ export default Vue.extend({
     this.easyMDE.codemirror.on("change", () => {
       this.$emit("input", this.easyMDE.value())
     })
+
+    this.loading = false
   },
   methods: {}
 })
