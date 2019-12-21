@@ -97,6 +97,8 @@ export const verifyEmail = async (query: VerifyEmail): Promise<void> => {
     getSetting({ key: "emails.confirm.successMessage", listId: query.list })
   )
 
+  emitEvent("email-list-new-email-confirmed", query)
+
   return
 }
 

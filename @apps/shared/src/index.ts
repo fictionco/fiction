@@ -16,10 +16,6 @@ const slack = (): void => {
         listId: string;
         tags: string[];
       }) => {
-        if (window && window.dataLayer) {
-          window.dataLayer.push({ event: "emailListSignupSuccess" })
-        }
-
         let text = `New email [${email}] added to [${listId}].`
 
         if (tags.length > 0) {
@@ -54,12 +50,22 @@ const slack = (): void => {
 
 const facebook = (): void => {
   onEvent("email-list-new-email-requested", () => {
+    if (typeof window.fbq != "undefined") {
+      window.fbq("track", "Subscribe")
+    }
+  })
+}
+
+const googleAds = (): void => {
+  onEvent("email-list-new-email-confirmed", () => {
+    if (window && window.dataLayer) {
+      window.dataLayer.push({ event: "emailListSignupSuccess" })
+    }
+  })
+  onEvent("email-list-new-email-requested", () => {
     // Track event in Tag Manager
     if (window && window.dataLayer) {
       window.dataLayer.push({ event: "emailListSignupRequest" })
-    }
-    if (typeof window.fbq != "undefined") {
-      window.fbq("track", "Subscribe")
     }
   })
 }
@@ -67,3 +73,5 @@ const facebook = (): void => {
 slack()
 
 facebook()
+
+googleAds()

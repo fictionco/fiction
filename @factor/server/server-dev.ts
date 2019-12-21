@@ -63,7 +63,7 @@ const readFileFromMemory = (
 }
 
 const updateBundles = ({ title = "", value = "" } = {}): void => {
-  if (title) updateReason = chalk.dim(`${title} @${value}`)
+  if (title) updateReason = chalk.dim(`${title}@${value}`)
 
   if (bundle && clientManifest) {
     updateBundleCallback({ bundle, template, clientManifest })
