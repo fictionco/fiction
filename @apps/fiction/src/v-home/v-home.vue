@@ -295,9 +295,8 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: "A Platform and Tools for Front-End Developers",
-      description: `Fiction designs and devolops tools and services for front-end developers and remote workers.
-        Including Factor Platform built with Vue, Mongo, and Node.`,
+      title: "Build Websites, blogs and apps with Javascript",
+      description: `A VueJS framework that allows you to build amazing websites and blogs.`,
       image: require("../img/fiction.jpg")
     }
   }
@@ -633,6 +632,7 @@ export default Vue.extend({
       padding-bottom: 7px;
     }
     @media (max-width: 900px) {
+      width: auto;
       grid-template-columns: 1fr;
     }
   }
