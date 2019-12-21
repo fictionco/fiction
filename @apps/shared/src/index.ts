@@ -16,7 +16,7 @@ const slack = (): void => {
         listId: string;
         tags: string[];
       }) => {
-        if (window.dataLayer) {
+        if (window && window.dataLayer) {
           window.dataLayer.push({ event: "emailListSignupSuccess" })
         }
 
@@ -55,7 +55,7 @@ const slack = (): void => {
 const facebook = (): void => {
   onEvent("email-list-new-email-requested", () => {
     // Track event in Tag Manager
-    if (window.dataLayer) {
+    if (window && window.dataLayer) {
       window.dataLayer.push({ event: "emailListSignupRequest" })
     }
     if (typeof window.fbq != "undefined") {
