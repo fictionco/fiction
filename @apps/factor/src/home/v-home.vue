@@ -244,9 +244,9 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: "Factor - Typescript CMS",
+      title: "VueJS Framework for Website, blogs, apps and eCommerce",
       description:
-        "A Typescript CMS and application platform built with Vue, Express, Node.js and MongoDB. "
+        "Factor VueJS framework to help you build websites, blogs, apps and eCommerce. Powerful tools built with Vue, Express, Node and MongoDb."
     }
   }
 })
