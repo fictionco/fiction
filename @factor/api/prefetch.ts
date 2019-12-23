@@ -15,6 +15,12 @@ export const addGlobalPrefetch = ({
   addCallback({ hook: "global-prefetch", key, callback })
 }
 
+interface PrefetchArguments {
+  status: string;
+  permalink?: string;
+  _id?: string;
+}
+
 export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Promise<
   FactorPost | {}
 > => {
@@ -24,14 +30,14 @@ export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Prom
     ...route.params,
     ...route.query,
     status: "published"
-  })
+  } as PrefetchArguments)
 
-  const { permalink, _id } = request
+  const { permalink = "", _id } = request
 
   // Only add to the filter if permalink is set. That way we don't show loader for no reason.
   if (
     (!permalink && !_id) ||
-    permalink == "__webpack_hmr" ||
+    (permalink && permalink == "__webpack_hmr") ||
     /\.(png|jpg|gif|svg|ico)$/.test(permalink)
   ) {
     return {}

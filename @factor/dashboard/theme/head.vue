@@ -1,15 +1,29 @@
 <template>
   <div class="dashboard-head">
     <div class="dashboard-head-pad">
-      <factor-link path="https://factor.dev" class="factor-docs">
+      <factor-link path="/" class="dashboard-brand">
         <div class="icon">
           <dashboard-icon></dashboard-icon>
         </div>
-      </factor-link>
-      <factor-link path="/" class="brand">
         <div class="name">
-          {{ appName }}
-          <span class="arrow">&rarr;</span>
+          <span class="name-text">{{ appName }}</span>
+          <svg
+            class="caret"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px"
+            y="0px"
+            viewBox="0 0 28 28"
+            style="enable-background:new 0 0 28 28;"
+            xml:space="preserve"
+          >
+            <path
+              fill="#9ab5ca"
+              d="M26.8,6c-0.4-0.4-0.9-0.5-1.4-0.5c-0.5,0-1,0.3-1.4,0.7L14,17.5L4,6.2C3.6,5.8,3.2,5.5,2.6,5.5C2.1,5.5,1.6,5.7,1.2,6
+	C0.3,6.7,0.3,8,1,8.8l11.5,13c0.4,0.4,0.9,0.7,1.5,0.7c0.6,0,1.1-0.2,1.5-0.7L27,8.8c0.4-0.4,0.5-0.9,0.5-1.4S27.2,6.4,26.8,6z"
+            />
+          </svg>
         </div>
       </factor-link>
       <div class="nav">
@@ -180,9 +194,17 @@ export default Vue.extend({
   padding: 0 1rem;
   align-items: center;
   display: grid;
-  grid-template-columns: 3rem minmax(150px, 1fr) 3rem;
+  grid-template-columns: 1fr 1fr;
   height: 100%;
-  .factor-docs {
+
+  .dashboard-brand {
+    color: inherit;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    @media (max-width: 767px) {
+      text-align: left;
+    }
     .icon {
       margin-right: 1rem;
       display: block;
@@ -209,14 +231,6 @@ export default Vue.extend({
         opacity: 0.8;
       }
     }
-  }
-  .brand {
-    color: inherit;
-    transition: opacity 0.2s;
-    text-align: center;
-    @media (max-width: 767px) {
-      text-align: left;
-    }
     &:hover {
       opacity: 0.9;
       color: inherit;
@@ -224,14 +238,11 @@ export default Vue.extend({
 
     .name {
       font-weight: var(--font-weight-bold);
-      .arrow {
+      .caret {
+        margin-left: 2px;
         opacity: 0.4;
         transition: all 0.2s;
-      }
-      &:hover {
-        .arrow {
-          margin-left: 3px;
-        }
+        width: 0.8rem;
       }
     }
   }

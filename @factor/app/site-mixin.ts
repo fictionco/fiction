@@ -20,7 +20,7 @@ export default (): VueConstructor => {
 
         return `factor-${ui}`
       },
-      classes(this: VueConstructor): string[] {
+      classes(this: any): string[] {
         const observables: Record<string, any> = getObservables()
 
         // Use observables for classes as these can change at any time

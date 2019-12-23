@@ -34,7 +34,7 @@ const existingSettings = (): { publicConfig: object; privateConfig: object } => 
   return { publicConfig, privateConfig }
 }
 
-export const runSetup = async (cliArguments: object): Promise<void> => {
+export const runSetup = async (): Promise<void> => {
   let answers: Answers
 
   log.formatted({
@@ -86,7 +86,9 @@ export const runSetup = async (cliArguments: object): Promise<void> => {
 
     const setupRunner = setups.find((_: SetupCliConfig) => _.value == answers.setupItem)
 
-    await setupRunner.callback(cliArguments)
+    if (setupRunner) {
+      await setupRunner.callback()
+    }
 
     if (askAgain) await ask()
   }
@@ -94,7 +96,7 @@ export const runSetup = async (cliArguments: object): Promise<void> => {
   await ask()
 }
 
-addCallback({ key: "setup", hook: "cli-setup", callback: (_: object) => runSetup(_) })
+addCallback({ key: "setup", hook: "cli-setup", callback: () => runSetup() })
 
 addCallback({
   key: "setup",
@@ -107,7 +109,7 @@ addCallback({
         return { title: _.title, value: "", indent: true }
       })
       if (process.env.FACTOR_COMMAND !== "setup") {
-        lines.push({ title: "Run 'yarn factor setup'", value: "" })
+        lines.push({ title: "Run 'yarn factor setup'", value: "", indent: false })
       }
 
       log.formatted({ title: "Setup Needed", lines, color: "yellow" })
@@ -118,7 +120,7 @@ addCallback({
 export interface SetupCliConfig {
   name: string;
   value: string;
-  callback: () => {};
+  callback: () => {} | void;
   priority?: number;
 }
 

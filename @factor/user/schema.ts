@@ -54,9 +54,8 @@ export default (): FactorSchema => {
         lowercase: true,
         index: { unique: true },
         validate: {
-          validator: (v: string): boolean => isEmail(v),
-          message: (props: { value: string }): string =>
-            `${props.value} is not a valid email.`
+          validator: (v: string): boolean => isEmail(v) || false,
+          message: `Email is invalid.`
         }
       },
       emailVerified: { type: Boolean, default: false },
@@ -76,8 +75,7 @@ export default (): FactorSchema => {
         trim: true,
         validate: {
           validator: (v: string): boolean => isMobilePhone(v),
-          message: (props: { value: string }): string =>
-            `${props.value} is not a valid phone number (with country code).`
+          message: `Phone number is invalid.`
         }
       },
 

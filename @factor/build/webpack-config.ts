@@ -12,7 +12,7 @@ import TerserPlugin from "terser-webpack-plugin"
 import VueLoaderPlugin from "vue-loader/lib/plugin"
 import VueSSRClientPlugin from "vue-server-renderer/client-plugin"
 import VueSSRServerPlugin from "vue-server-renderer/server-plugin"
-import webpack, { Configuration, Stats, Compiler } from "webpack"
+import webpack, { Configuration, Stats, Compiler, Plugin } from "webpack"
 
 import { configSettings } from "@factor/api/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
@@ -178,7 +178,7 @@ export const getWebpackConfig = async (
   const testingConfig: Configuration =
     testing || process.env.FACTOR_DEBUG ? { devtool: "source-map" } : {}
 
-  const plugins = applyFilters("webpack-plugins", [], { ..._arguments })
+  const plugins: Plugin[] = applyFilters("webpack-plugins", [], { ..._arguments })
 
   // Only run this once (server build)
   // If it runs twice it cleans it after the first

@@ -42,7 +42,7 @@ const relativePath = (key: string): string => {
     "loader-styles": [...generated, "loader-styles.less"],
     "client-manifest": [...dist, "factor-client.json"],
     "server-bundle": [...dist, "factor-server.json"]
-  })
+  } as { [key: string]: string | string[] })
 
   const p = paths[key]
 

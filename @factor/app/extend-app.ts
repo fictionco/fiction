@@ -1,5 +1,5 @@
 import { applyFilters, runCallbacks } from "@factor/api/hooks"
-import Vue from "vue"
+import Vue, { DirectiveFunction } from "vue"
 
 Vue.config.productionTip = false
 Vue.config.silent = false
@@ -18,7 +18,10 @@ export const getObservables = (): Record<string, any> => {
 
 const addClientDirectives = (): void => {
   if (process.env.FACTOR_SSR == "client") {
-    const directives = applyFilters("client-directives", {})
+    const directives: { [key: string]: DirectiveFunction } = applyFilters(
+      "client-directives",
+      {}
+    )
 
     for (const __ in directives) {
       if (directives[__]) Vue.directive(__, directives[__])

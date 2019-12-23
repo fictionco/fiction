@@ -29,7 +29,7 @@ export interface PriorityItem {
 }
 
 // Sort objects in an array by a priority value that defaults to 100
-export const sortPriority = <T extends PriorityItem>(arr: T[]): T[] => {
+export const sortPriority = <TPri extends PriorityItem[]>(arr: TPri): TPri => {
   if (!arr || arr.length == 0) return arr
 
   return arr.sort((a, b) => {

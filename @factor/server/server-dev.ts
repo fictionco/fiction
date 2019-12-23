@@ -32,7 +32,7 @@ let updateSpinner: Ora | undefined
 let template: string
 
 let bundle: string
-let clientManifest: string
+let clientManifest: object
 
 interface UpdateBundle {
   ({ bundle, template, clientManifest }: RendererComponents): void;

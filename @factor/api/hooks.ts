@@ -76,6 +76,16 @@ export const getFilterCount = (hook: string): number => {
   return added && Object.keys(added).length > 0 ? Object.keys(added).length : 0
 }
 
+// type InferPropType<T> = T extends any[]
+//   ? any // null & true would fail to infer
+//   : T extends { type: null | true }
+//   ? any // somehow `ObjectConstructor` when inferred from { (): T } becomes `any`
+//   : T extends ObjectConstructor | { type: ObjectConstructor }
+//   ? { [key: string]: any }
+//   : T extends Prop<infer V>
+//   ? V
+//   : T
+
 /**
  * Apply function callbacks that are hooked to an identifier when and fired with this function.
  * Data is passed sequentially from one callback to the next
@@ -84,9 +94,8 @@ export const getFilterCount = (hook: string): number => {
  * @param data - data to pass through the filters or callbacks
  * @param rest - additional arguments
  */
-export const applyFilters = (hook: string, data: any, ...rest: any[]): any => {
-  // Get Filters Added
-  const _added = getFilters(hook)
+export const applyFilters = <U>(hook: string, data: U, ...rest: any[]): typeof data => {
+  const _added = getFilters(hook) // Get Filters Added
 
   const filterKeys = Object.keys(_added)
   const numFilters = filterKeys.length
@@ -112,9 +121,6 @@ export const applyFilters = (hook: string, data: any, ...rest: any[]): any => {
   if (Array.isArray(data)) {
     data = sortPriority(data)
   }
-
-  getApplied()[hook] = data
-
   return data
 }
 
@@ -220,7 +226,7 @@ export const runCallbacks = async (
   hook: string,
   ..._arguments: any[]
 ): Promise<unknown[]> => {
-  const _promises: [PromiseLike<unknown>] = applyFilters(hook, [], ..._arguments)
+  const _promises: PromiseLike<unknown>[] = applyFilters(hook, [], ..._arguments)
 
   return await Promise.all(_promises)
 }
