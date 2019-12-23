@@ -73,14 +73,6 @@ export default Vue.extend({
 
 <style lang="less">
 .mobile-nav-content {
-  margin: 0.25rem 0.5rem;
-  min-height: 100px;
-
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 0 0 1px rgba(136, 152, 170, 0.1), 0 15px 35px 0 rgba(49, 49, 93, 0.1),
-    0 5px 15px 0 rgba(0, 0, 0, 0.08);
-
   .user-menu {
     padding-right: 2rem;
     display: grid;

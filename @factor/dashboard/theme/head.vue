@@ -1,38 +1,52 @@
 <template>
   <div class="dashboard-head">
     <div class="dashboard-head-pad">
-      <factor-link path="/" class="dashboard-brand">
-        <div class="icon">
-          <dashboard-icon></dashboard-icon>
+      <div class="icon-nav" @click.stop>
+        <div
+          class="menu-factor menu-toggle"
+          :class="toggle == 'on' && menuType == 'factor' ? 'open': 'closed'"
+          @click="toggleNav(`toggle`, `factor`)"
+        >
+          <div v-if="toggle == 'on' && menuType == 'factor'" class="menu-items">
+            <div v-for="(item, index) in dashboardMenu" :key="index" class="menu-item">
+              <factor-link v-formatted-text="item.name" :path="item.path" class="menu-item-name" />
+            </div>
+          </div>
+          <div class="menu-icon">
+            <dashboard-icon icon="pin" />
+          </div>
+          <div v-if="toggle == 'on' && menuType == 'factor'" class="app-name">
+            Factor JS
+            <toggle-caret></toggle-caret>
+          </div>
         </div>
-        <div class="name">
-          <span class="name-text">{{ appName }}</span>
-          <svg
-            class="caret"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            x="0px"
-            y="0px"
-            viewBox="0 0 28 28"
-            style="enable-background:new 0 0 28 28;"
-            xml:space="preserve"
-          >
-            <path
-              fill="#9ab5ca"
-              d="M26.8,6c-0.4-0.4-0.9-0.5-1.4-0.5c-0.5,0-1,0.3-1.4,0.7L14,17.5L4,6.2C3.6,5.8,3.2,5.5,2.6,5.5C2.1,5.5,1.6,5.7,1.2,6
-	C0.3,6.7,0.3,8,1,8.8l11.5,13c0.4,0.4,0.9,0.7,1.5,0.7c0.6,0,1.1-0.2,1.5-0.7L27,8.8c0.4-0.4,0.5-0.9,0.5-1.4S27.2,6.4,26.8,6z"
-            />
-          </svg>
+        <div
+          class="menu-app menu-toggle"
+          :class="toggle == 'on' && menuType == 'app' ? 'open': 'closed'"
+          @click="toggleNav(`toggle`, `app`)"
+        >
+          <div v-if="toggle == 'on' && menuType == 'app'" class="menu-items">
+            <div v-for="(item, index) in dashboardMenu" :key="index" class="menu-item">
+              <factor-link v-formatted-text="item.name" :path="item.path" class="menu-item-name" />
+            </div>
+          </div>
+          <div class="menu-icon">
+            <dashboard-icon icon="globe" />
+          </div>
+          <div class="app-name">
+            <span v-formatted-text="appName" class="name-text"></span>
+            <toggle-caret></toggle-caret>
+          </div>
         </div>
-      </factor-link>
+      </div>
+      <div class="filler"></div>
       <div class="nav">
         <slot />
         <div class="mobile-nav-toggle-wrap" @click.stop>
           <div
             class="mobile-nav-toggle"
-            :class="toggle ? 'active' : 'inactive'"
-            @click="toggleNav()"
+            :class="toggle == 'on' && menuType == 'dashboard' ? 'active' : 'inactive'"
+            @click="toggleNav(`toggle`, `dashboard`)"
           >
             <factor-avatar :post-id="getUser('avatar')" width="2rem" />
 
@@ -44,28 +58,34 @@
           </div>
         </div>
       </div>
-      <div v-if="toggle" class="mobile-nav">
-        <mobile-menu />
+      <div
+        v-if="toggle == 'on' && menuType == 'dashboard'"
+        class="mobile-nav"
+        :class="[`menu-panel-${menuType}`]"
+      >
+        <mobile-menu class="menu-panel" />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { factorLink, factorAvatar } from "@factor/ui"
-import { getDashboardMenu } from "@factor/dashboard/menu"
+import { factorAvatar, factorLink } from "@factor/ui"
+import { getDashboardMenu, dashboardSiteMenu } from "@factor/dashboard/menu"
 import { setting, toLabel } from "@factor/api"
 import { currentUser, isLoggedIn } from "@factor/user"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorLink,
     dashboardIcon: () => import("../el/logo.vue"),
     factorAvatar,
-    mobileMenu: () => import("./nav-mobile.vue")
+    factorLink,
+    mobileMenu: () => import("./nav-mobile.vue"),
+    toggleCaret: () => import("../el/caret.vue")
   },
   data() {
     return {
-      toggle: false
+      toggle: false,
+      menuType: "menu"
     }
   },
   computed: {
@@ -78,19 +98,28 @@ export default Vue.extend({
     },
     menu(this: any) {
       return getDashboardMenu(this.$route.path)
+    },
+    dashboardMenu(this: any) {
+      return dashboardSiteMenu(this.$route.path, this.menuType)
     }
   },
   methods: {
     isLoggedIn,
     toLabel,
+
     getUser(this: any, field: string) {
       return this.currentUser ? this.currentUser[field] : undefined
     },
-    toggleNav(this: any, toggle?: boolean) {
+    toggleNav(this: any, toggle: "on" | "off" | "toggle", menuType: "dashboard" | "app") {
       if (!document) return
 
-      if (typeof toggle == "undefined") {
-        this.toggle = !this.toggle
+      const oldMenuType = this.menuType
+
+      this.menuType = menuType
+
+      if (toggle === "toggle") {
+        this.toggle =
+          !this.toggle || this.toggle == "off" || menuType !== oldMenuType ? "on" : "off"
       } else {
         this.toggle = toggle
       }
@@ -116,11 +145,32 @@ export default Vue.extend({
 }
 .mobile-nav {
   width: 325px;
+  min-height: 4rem;
   position: absolute;
-  right: 0;
+  right: 1rem;
   top: 0;
+  z-index: 1;
+  &.menu-panel-app,
+  &.menu-panel-factor {
+    left: 0;
+    right: auto;
+  }
   @media (max-width: 767px) {
+    width: calc(~"100% - 1rem");
+  }
+
+  .menu-panel {
+    margin: 0.25rem 0.5rem;
+    min-height: 100px;
     width: 100%;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px rgba(136, 152, 170, 0.1), 0 15px 35px 0 rgba(49, 49, 93, 0.1),
+      0 5px 15px 0 rgba(0, 0, 0, 0.08);
+
+    .menu-panel-pad {
+      padding: 1rem 1.5rem;
+    }
   }
 }
 
@@ -129,7 +179,6 @@ export default Vue.extend({
   cursor: pointer;
 
   position: relative;
-  z-index: 1000;
 }
 .mobile-nav-toggle {
   display: grid;
@@ -166,10 +215,12 @@ export default Vue.extend({
   }
 
   &.active {
+    z-index: 10;
     .avatar {
       opacity: 0;
     }
     .bars {
+      z-index: 10;
       width: 2rem;
       .bar {
         transform: translateY(0);
@@ -194,55 +245,115 @@ export default Vue.extend({
   padding: 0 1rem;
   align-items: center;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   height: 100%;
 
-  .dashboard-brand {
+  .icon-nav {
+    display: grid;
+    grid-template-columns: min-content min-content;
+
+    grid-gap: 1rem;
+  }
+
+  .menu-icon {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    svg {
+      width: 70%;
+      height: 70%;
+      display: block;
+      &.pin {
+        transform: translate(-4%, -4%);
+      }
+      .icon-path {
+        transition: fill 0.1s;
+        fill: rgba(200, 204, 228, 1);
+      }
+    }
+  }
+  .menu-app,
+  .menu-factor {
+    padding: 0 0.25rem;
     color: inherit;
     transition: opacity 0.2s;
     display: flex;
     align-items: center;
-    @media (max-width: 767px) {
-      text-align: left;
-    }
-    .icon {
-      margin-right: 1rem;
-      display: block;
-      width: 2rem;
-      height: 2rem;
-      box-shadow: 0 0 0 1px var(--panel-border-color);
+    background: #f6fafd;
+    box-shadow: 0 0 0 1px var(--panel-border-color);
+    border-radius: 5px;
+    position: relative;
+    .menu-items {
+      position: absolute;
+      width: 275px;
+      min-height: 1rem;
+      background: #fff;
+      overflow: hidden;
       border-radius: 5px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f6fafd;
-      transition: all 0.1s;
-      svg.pin {
-        width: 70%;
-        height: 70%;
-        display: block;
-        transform: translate(-4%, -4%);
-        .pin-path {
-          transition: fill 0.1s;
-          fill: rgba(200, 204, 228, 1);
+      box-shadow: 0 0 0 1px rgba(136, 152, 170, 0.1), 0 15px 35px 0 rgba(49, 49, 93, 0.1),
+        0 5px 15px 0 rgba(0, 0, 0, 0.08);
+      z-index: 5;
+      top: -4px;
+      left: -4px;
+      padding-top: 2.5rem;
+      .menu-item {
+        margin: 0 1rem;
+
+        user-select: none;
+        &:last-child {
+          margin-bottom: 1rem;
+        }
+        .menu-item-name {
+          padding: 0.5rem 1.75rem;
+          display: block;
+          color: inherit;
+          &:hover {
+            background: #f6fafd;
+            cursor: pointer;
+          }
         }
       }
-      &:hover {
-        opacity: 0.8;
+      @media (max-width: 900px) {
+        padding-top: 3rem;
+        .menu-item {
+          font-size: 1.2em;
+        }
       }
     }
-    &:hover {
-      opacity: 0.9;
-      color: inherit;
+
+    &.open {
+      .menu-icon,
+      .app-name {
+        position: relative;
+        z-index: 10;
+      }
+      .caret {
+        transform: rotate(180deg);
+      }
     }
 
-    .name {
-      font-weight: var(--font-weight-bold);
+    .app-name {
+      user-select: none;
+      padding-left: 0.25rem;
+      padding-right: 0.5rem;
+      font-weight: 700;
+      transition: all 0.1s;
+      white-space: nowrap;
+      cursor: pointer;
       .caret {
-        margin-left: 2px;
-        opacity: 0.4;
+        margin-top: 3px;
+        margin-left: 0.5rem;
+        opacity: 0.45;
         transition: all 0.2s;
         width: 0.8rem;
+      }
+      &:hover {
+        opacity: 0.7;
+        color: inherit;
       }
     }
   }
@@ -275,14 +386,8 @@ export default Vue.extend({
     }
     .account-menu {
       margin-left: 1em;
-      // .avatar {
-      //   background-color: rgba(38, 67, 89, 0.06);
-      // }
     }
-    // > a,
-    // .nav-dropdown {
-    //   margin-left: 0.5em;
-    // }
+
     .nav-dropdown-toggle {
       padding: 4px 6px;
       font-weight: 500;

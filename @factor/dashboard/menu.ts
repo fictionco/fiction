@@ -8,7 +8,7 @@ export interface MenuItem {
   key?: string;
   click?: Function;
   items?: MenuItem[];
-  active: boolean;
+  active?: boolean;
   priority?: number;
   query?: Record<string, any>;
 }
@@ -40,4 +40,36 @@ export const getDashboardMenu = (currentPath: string): Record<string, MenuItem[]
   })
 
   return menu
+}
+
+export const dashboardSiteMenu = (currentPath: string, menuType: string): MenuItem[] => {
+  let items: MenuItem[] = []
+
+  if (menuType == "app") {
+    items = [
+      {
+        name: "Visit Site &rarr;",
+        path: "/"
+      }
+    ]
+  } else {
+    items = [
+      {
+        name: "Documentation",
+        path: "https://factor.dev"
+      },
+      {
+        name: "Community",
+        path: "https://factor.dev/community"
+      },
+      {
+        name: "Support",
+        path: "https://factor.dev/support"
+      }
+    ]
+  }
+
+  return items.map(el => {
+    return { ...el, active: el.path == currentPath }
+  })
 }
