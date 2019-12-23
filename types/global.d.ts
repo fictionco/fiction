@@ -24,4 +24,9 @@ declare namespace NodeJS {
     noDeprecation: boolean;
     maxOldSpaceSize: number;
   }
+  interface Module {
+    hot: {
+      accept: () => any;
+    };
+  }
 }

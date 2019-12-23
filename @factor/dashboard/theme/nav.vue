@@ -98,7 +98,6 @@ export default Vue.extend({
     padding: 0.6rem 1rem 0.5rem;
     border-radius: 5px;
     &.active {
-      margin-bottom: 1rem;
       background: #f6fafd;
     }
     position: relative;
@@ -107,7 +106,6 @@ export default Vue.extend({
       grid-template-columns: 2rem 1fr;
     }
     .menu-item-link {
-      font-weight: 600;
       display: grid;
       grid-template-areas: "icon primary";
 

@@ -33,7 +33,7 @@
           <div class="menu-icon">
             <dashboard-icon icon="globe" />
           </div>
-          <div class="app-name">
+          <div v-if="toggle == 'off' || (toggle == 'on' && menuType == 'app')" class="app-name">
             <span v-formatted-text="appName" class="name-text"></span>
             <toggle-caret></toggle-caret>
           </div>
@@ -84,7 +84,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      toggle: false,
+      toggle: "off",
       menuType: "menu"
     }
   },
@@ -125,11 +125,11 @@ export default Vue.extend({
       }
 
       this.clickHandler = () => {
-        this.toggle = false
+        this.toggle = "off"
         document.removeEventListener("click", this.clickHandler, false)
       }
 
-      if (this.toggle) {
+      if (this.toggle == "on") {
         document.addEventListener("click", this.clickHandler, false)
       } else {
         document.removeEventListener("click", this.clickHandler, false)
