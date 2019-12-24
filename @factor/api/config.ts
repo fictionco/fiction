@@ -9,7 +9,7 @@ export const configSettings = (): object => {
 
   const config = fs.existsSync(configFile) ? require(configFile) : {}
 
-  const { factor = {} } = require(`${cwd}/package.json`)
+  const { factor = {}, ...rest } = require(`${cwd}/package.json`)
 
-  return deepMerge([factor, config])
+  return deepMerge([{ package: rest }, factor, config])
 }

@@ -16,7 +16,9 @@ const setSettings = (settings: object): void => {
 
 export const createSettings = (): void => {
   const config = configSettings()
+
   let settingsExports: (Function | object)[] = []
+
   try {
     // Use sync require here
     // Needed for env matching, as import is problematic when settings might load after things that need them

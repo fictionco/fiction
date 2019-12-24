@@ -20,7 +20,7 @@ export const customLogger = (): Bugsnag.ILogger => {
 export const setup = (): void => {
   if (!clientApiKey || process.env.NODE_ENV == "development") return
 
-  const appVersion = setting("version") || "0.0.0"
+  const appVersion = setting("package.version") || "0.0.0"
 
   const bugsnagClient = bugsnag({
     apiKey: clientApiKey,
