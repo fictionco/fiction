@@ -57,8 +57,8 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
       const connectionString = process.env.DB_CONNECTION
 
       const result = await mongoose.connect(connectionString, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+        useNewUrlParser: true
+        // useUnifiedTopology: true
       })
 
       __offline = false

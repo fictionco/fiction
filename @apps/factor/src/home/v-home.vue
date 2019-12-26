@@ -25,21 +25,6 @@
                 data-show-count="true"
                 aria-label="Star fiction-com/factor on GitHub"
               >Star</a>
-
-              <!-- Place this tag where you want the button to render. -->
-              <a
-                class="github-button"
-                href="https://github.com/fiction-com/factor/subscription"
-                data-color-scheme="no-preference: light; light: light; dark: light;"
-                data-icon="octicon-eye"
-                data-size="large"
-                data-show-count="true"
-                aria-label="Watch fiction-com/factor on GitHub"
-              >Watch</a>
-              <!-- <factor-link path="https://github.com/fiction-com/factor">
-                Version 1.1 (Beta)
-                <span class="arrow">&rarr;</span>
-              </factor-link>-->
             </div>
           </div>
           <div class="points">
