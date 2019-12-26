@@ -18,52 +18,15 @@
   <a href="https://github.com/fiction-com/factor/blob/development/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
  </p>
 
-_A free and open-source platform for building blogs, apps, and websites for front-end developers. Written in Typescript and built on the VENM stack_
+_The marketing and CMS platform for web developers. Written in Typescript and built on the VENM stack_
 
-## Documentation
+## Learn More
 
 <a style="font-size: '1.5em'" href="https://factor.dev">https://factor.dev</a>
 
-## Features
+## Get Started
 
-- **CMS Dashboard** - Manage users, pages, posts, or whatever else you can imagine.
-- **Themes and Plugins** - Design your app in minutes not months.
-- **Full Stack Framework** - Avoid pitfalls and stop worrying about your architecture.
-- **Typescript + VENM** - Write in Typescript or Javascript. Built with Vue, MongoDB and Node/Express.
+<a style="font-size: '1.5em'" href="https://factor.dev/guide">https://factor.dev/guide</a>
 
-- **and tons more...**
-  - SEO / Social Optimized
-  - Markdown Editor
-  - User Auth, Image Management
-  - Complete Server Framework (Endpoints and Middleware)
-  - Post Management (like WordPress)
 
-Learn more at [factor.dev](https://factor.dev).
 
-## Getting started
-
-To easily setup a new project:
-
-```shell
-yarn create factor-app <project-name>
-```
-
-## Themes
-
-[https://factor.dev/themes](https://factor.dev/themes)
-
-## Examples
-
-The apps that power [Fiction.com](https://www.fiction.com) and [Factor.dev](https://factor.dev) can be found in [this monorepo](https://github.com/fiction-com/factor/tree/development/%40apps).
-
-## Contributing
-
-Please refer to our [Contribution Guide](https://factor.dev/guide/contribution)
-
-## Security
-
-If you discover a security vulnerability regarding Factor, please send an e-mail to the team via hi@fiction.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-[GPL](https://github.com/fiction-com/factor/blob/development/LICENSE)
