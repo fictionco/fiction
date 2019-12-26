@@ -14,3 +14,9 @@ export interface EditPanel {
   name: string;
   component: Promise<Component>;
 }
+
+export interface PostListDataItem {
+  label: string;
+  value: string | number;
+  path?: string;
+}
