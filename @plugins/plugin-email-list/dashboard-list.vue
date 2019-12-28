@@ -1,14 +1,12 @@
 <template>
   <dashboard-pane>
-    <!-- <dashboard-grid-controls>
-      <dashboard-grid-actions
-        :actions="controlActions"
-        :loading="sending"
-        @action="handleAction($event)"
-      />
-      <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
-    </dashboard-grid-controls>-->
-    <dashboard-list-controls :control-actions="controlActions()" :control-status="controlStatus()"></dashboard-list-controls>
+    <dashboard-list-controls
+      :control-actions="controlActions()"
+      :control-status="controlStatus()"
+      :selected="selected"
+      @action="handleAction($event)"
+      @select-all="selectAll($event)"
+    ></dashboard-list-controls>
     <dashboard-list-post
       v-for="post in list"
       :key="post._id"
@@ -21,20 +19,17 @@
   </dashboard-pane>
 </template>
 <script lang="ts">
-/* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post/util"
-import { toLabel, stored, getPermalink, omit, timeUtil, timestamp } from "@factor/api"
+import { stored, timeUtil, timestamp } from "@factor/api"
 import { FactorPost } from "@factor/post/types"
 import { ControlAction } from "@factor/dashboard/types"
 import {
   dashboardPane,
-  dashboardGridControls,
-  dashboardGridActions,
-  dashboardGridFilter,
   dashboardListPost,
   dashboardListControls
 } from "@factor/dashboard"
 import Vue from "vue"
+import { EmailConfig } from "./types"
 
 import { postTypeUIConfig, csvExport } from "."
 export default Vue.extend({
@@ -42,10 +37,7 @@ export default Vue.extend({
   components: {
     dashboardListPost,
     dashboardPane,
-    dashboardListControls,
-    dashboardGridControls,
-    dashboardGridActions,
-    dashboardGridFilter
+    dashboardListControls
   },
   props: {
     postType: { type: String, default: "post" },
@@ -59,24 +51,23 @@ export default Vue.extend({
     return { selected: [], loadingAction: false, postTypeUIConfig }
   },
   computed: {
-    tableList(this: any) {
-      return this.list.map(({ _id, createdAt, settings }) => {
-        return { ...settings, createdAt, _id }
-      })
-    },
-    tabs(this: any) {
-      return [`all`, `trash`].map(key => {
-        const count: number =
-          key == "all"
-            ? this.meta.total
-            : getStatusCount({
-                meta: this.meta,
-                key
-              })
-
-        return { name: toLabel(key), value: key == "all" ? "" : key, count }
-      })
-    }
+    // tableList(this: any) {
+    //   return this.list.map(({ _id, createdAt, settings }) => {
+    //     return { ...settings, createdAt, _id }
+    //   })
+    // },
+    // tabs(this: any) {
+    //   return [`all`, `trash`].map(key => {
+    //     const count: number =
+    //       key == "all"
+    //         ? this.meta.total
+    //         : getStatusCount({
+    //             meta: this.meta,
+    //             key
+    //           })
+    //     return { name: toLabel(key), value: key == "all" ? "" : key, count }
+    //   })
+    // }
   },
 
   methods: {
@@ -93,18 +84,21 @@ export default Vue.extend({
         { value: "export-csv", label: "Export List to CSV" },
         {
           value: "trash",
-          label: "Move to Trash",
-          condition: (query: { [key: string]: string }) => query.status != "trash"
+          label: "Move to Inactive/Trash",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) => `Move ${selected.length} list(s) to trash?`
         },
         {
           value: "publish",
-          label: "Move to Lists",
+          label: "Move to Active Lists",
           condition: (query: { [key: string]: string }) => query.status == "trash"
         },
         {
           value: "delete",
           label: "Permanently Delete",
-          condition: (query: { [key: string]: string }) => query.status == "trash"
+          condition: (query: { [key: string]: string }) => query.status == "trash",
+          confirm: (selected: string[]) =>
+            `Permanently delete ${selected.length} list(s)?`
         }
       ]
 
@@ -163,7 +157,7 @@ export default Vue.extend({
     },
     handleAction(this: any, action: string) {
       if (action == "export-csv") {
-        const data = []
+        const data: EmailConfig[] = []
         const name = ["email-list"]
         this.selected.forEach((_id: string) => {
           const p = stored(_id)
@@ -186,37 +180,17 @@ export default Vue.extend({
         this.$emit("action", { action, selected: this.selected })
       }
     },
-    selectAll(val) {
-      this.selected = !val ? [] : this.list.map(_ => _._id)
-    },
-    fields(item) {
-      const rest = omit(item, ["message", "createdAt", "_id"])
-
-      return Object.values(rest)
-    },
-    postlink(postType, permalink, root = true) {
-      return getPermalink({ postType, permalink, root })
-    },
-
-    grid() {
-      return [
-        {
-          _id: "select",
-          width: "40px"
-        },
-
-        {
-          name: "List ID",
-          _id: "listId",
-          width: "minmax(100px, 1fr)"
-        },
-        {
-          _id: "emailCount",
-          name: "Emails Total / Verified",
-          width: "170px"
-        }
-      ]
+    selectAll(this: any, val: boolean): void {
+      this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)
     }
+    // fields(this: any, item) {
+    //   const rest = omit(item, ["message", "createdAt", "_id"])
+
+    //   return Object.values(rest)
+    // },
+    // postlink(postType: string, permalink: string, root = true) {
+    //   return getPermalink({ postType, permalink, root })
+    // }
   }
 })
 </script>

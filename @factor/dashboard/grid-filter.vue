@@ -19,12 +19,12 @@ export default Vue.extend({
     filterTabs: { type: Array, default: () => [] }
   },
   computed: {
-    activeItem() {
+    activeItem(this: any) {
       return this.$route.query[this.filterId] || ""
     }
   },
   methods: {
-    setActive(value) {
+    setActive(this: any, value) {
       value = value ? value : null
       const current = Object.assign({}, this.$route.query)
 

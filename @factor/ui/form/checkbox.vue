@@ -16,7 +16,8 @@ export default Vue.extend({
     listeners(this: any) {
       return {
         ...this.$listeners,
-        input: event => this.$emit("input", event.target.value)
+        input: (event: Event & { target: HTMLInputElement }) =>
+          this.$emit("input", event.target.value)
       }
     }
   }
