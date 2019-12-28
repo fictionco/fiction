@@ -21,7 +21,8 @@ export default (): FactorSchema => {
       date: Date,
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
-      subTitle: { type: String, trim: true },
+      subTitle: { type: String, trim: true }, // @deprecated
+      synopsis: { type: String, trim: true },
       content: { type: String, trim: true },
       author: [{ type: objectIdType(), ref: "user" }],
       images: [{ type: objectIdType(), ref: "attachment" }],

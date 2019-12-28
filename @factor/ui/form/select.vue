@@ -12,7 +12,7 @@
       :key="i"
       :value="s.value"
       :disabled="s.disabled"
-    >{{ s.name }}</option>
+    >{{ s.label || s.name }}</option>
   </select>
 </template>
 <script lang="ts">

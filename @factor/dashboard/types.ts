@@ -20,3 +20,9 @@ export interface PostListDataItem {
   value: string | number;
   path?: string;
 }
+
+export interface ControlAction {
+  value: string;
+  label?: string;
+  condition?: (q: { [key: string]: string }) => boolean;
+}

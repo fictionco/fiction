@@ -69,10 +69,10 @@ export default Vue.extend({
   },
   computed: {
     localValue: {
-      get() {
+      get(this: any) {
         return this.ensure(this.value)
       },
-      set(localValue) {
+      set(this: any, localValue) {
         this.$emit("input", localValue)
       }
     }
@@ -90,13 +90,13 @@ export default Vue.extend({
         return _
       })
     },
-    sortItems() {
+    sortItems(this: any) {
       Sortable.create(this.$refs.organizer, {
         filter: ".ignore-sortable",
         ghostClass: "sortable-ghost",
         onUpdate: e => {
           const newLocalValue = this.localValue.slice()
-          if (newLocalValue[e.oldIndex]) {
+          if (e.oldIndex && newLocalValue[e.oldIndex]) {
             const moved = newLocalValue.splice(e.oldIndex, 1)
             newLocalValue.splice(e.newIndex, 0, moved[0])
 
@@ -107,18 +107,20 @@ export default Vue.extend({
         onMove: e => {
           if (DOM(e.related).hasClass("ignore-sortable")) {
             return false
+          } else {
+            return true
           }
         }
       })
     },
-    addItem() {
+    addItem(this: any) {
       const newLocalValue = this.localValue.slice()
 
       newLocalValue.push({ __title: "", __key: guid() })
 
       this.localValue = newLocalValue
     },
-    removeItem(index) {
+    removeItem(this: any, index: number) {
       const newLocalValue = this.localValue.slice()
 
       newLocalValue.splice(index)

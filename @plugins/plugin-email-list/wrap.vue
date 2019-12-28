@@ -9,7 +9,7 @@ export default Vue.extend({
     listId: { type: String, default: "default" }
   },
   computed: {
-    form() {
+    form(this: any) {
       const emailComponent = getSetting({
         key: "form.component",
         listId: this.listsId

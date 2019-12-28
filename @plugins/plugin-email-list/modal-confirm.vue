@@ -29,7 +29,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    setting(key) {
+    setting(this: any, key: string) {
       return getSetting({
         key,
         listId: this.listId
