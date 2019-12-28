@@ -40,6 +40,7 @@ export default Vue.extend({
       }
     },
     setting(this: any) {
+      console.log("SETTING,", this.value)
       return typeof this.value != "undefined" ? this.value : ""
     },
 
