@@ -73,8 +73,11 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
   }
 }
 
-// Set schemas and models
-// For server restarting we need to inherit from already constructed mdb models if they exist
+/**
+ * Set schemas and model configuration in Mongoose/MongoDB and Factor
+ * @param schemaConfig - Factor schema configuration object
+ * @param baseModel - Base post model
+ */
 export const setModel = (
   schemaConfig: FactorSchema,
   baseModel?: Model<FactorPostDocument> | void
@@ -97,7 +100,11 @@ export const setModel = (
   return { schema: loadSchema, model: loadModel }
 }
 
-// Must be non-async so we can use chaining
+/**
+ * Gets a Mongoose model based on postType name
+ * Must be async so it can be chained as recommended by Mongoose docs
+ * @param name - name of postType/model
+ */
 export const getModel = <T>(name: string): Model<(T & Document) & FactorPostDocument> => {
   // If model doesn't exist, create a vanilla one
   if (!__models[name] && name != "post") {
@@ -107,9 +114,20 @@ export const getModel = <T>(name: string): Model<(T & Document) & FactorPostDocu
   return __models[name]
 }
 
-const handleIndexes = async (): Promise<void> => {
+const runDbUpgrades = async (): Promise<void> => {
+  // Create missing indexes
   if (!__offline) {
     const _promises = Object.values(__models).map(m => m.createIndexes())
+
+    // version 1.1
+    // upgrade fields
+    // Rename subTitle to synopsis
+    await getModel("post").update(
+      {},
+      { $rename: { subTitle: "synopsis" } },
+      { multi: true }
+    )
+
     await Promise.all(_promises)
   }
 
@@ -137,7 +155,7 @@ export const dbInitialize = async (): Promise<void> => {
 
   initializeModels()
 
-  await handleIndexes()
+  await runDbUpgrades()
 }
 
 export const tearDown = (): void => {

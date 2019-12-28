@@ -11,6 +11,7 @@ export { isNode, guid }
 export interface ListItem {
   value?: string;
   name?: string;
+  label?: string;
   desc?: string;
 }
 
@@ -145,15 +146,27 @@ export const parseList = (
 
   const normalized = list.map(_ => {
     if (typeof _ == "string" || typeof _ == "number") {
+      const label = `${prefix}${toLabel(_)}${suffix}`
       return {
         value: _,
-        name: `${prefix}${toLabel(_)}${suffix}`,
+        name: label,
+        label,
         desc: ""
       }
     } else {
-      const { name, value } = _
-      if (!name && value) _.name = `${prefix}${toLabel(value)}${suffix}`
-      else if (typeof value == "undefined" && name) _.value = slugify(name)
+      const { name, label, value } = _
+      if (!name && label) {
+        _.name = label
+      } else if (!label && name) {
+        _.label = name
+      }
+      if (!_.label && value) {
+        const label = `${prefix}${toLabel(value)}${suffix}`
+        _.name = label
+        _.label = label
+      } else if (typeof value == "undefined" && _.label) {
+        _.value = slugify(_.label)
+      }
       return _
     }
   })

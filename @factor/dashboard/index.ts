@@ -18,6 +18,7 @@ export const dashboardPane = (): Promise<Component> => import("./theme/pane.vue"
 export const dashboardPage = (): Promise<Component> => import("./theme/page.vue")
 export const dashboardTable = (): Promise<Component> => import("./table.vue")
 export const dashboardListPost = (): Promise<Component> => import("./el/list-post.vue")
+export const dashboardListControls = (): Promise<Component> => import("./el/list-controls.vue")
 export const dashboardGrid = (): Promise<Component> => import("./grid.vue")
 export const dashboardGridControls = (): Promise<Component> =>
   import("./grid-controls.vue")

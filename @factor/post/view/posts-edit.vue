@@ -32,7 +32,7 @@
           <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>
         <dashboard-input
-          v-model="post.subTitle"
+          v-model="post.synopsis"
           input="factor-input-text"
           label="Synopsis"
           description="A short description or teaser"

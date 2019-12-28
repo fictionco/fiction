@@ -1,54 +1,51 @@
 <template>
-  <dashboard-pane :title="postTypeUIConfig.namePlural">
-    <dashboard-grid-controls>
+  <dashboard-pane>
+    <!-- <dashboard-grid-controls>
       <dashboard-grid-actions
         :actions="controlActions"
         :loading="sending"
         @action="handleAction($event)"
       />
       <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
-    </dashboard-grid-controls>
-
-    <dashboard-grid :structure="grid()" :rows="list" @select-all="selectAll($event)">
-      <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
-      </template>
-      <template #listId="{row}">
-        <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">
-          {{
-            row.title
-          }}
-        </factor-link>
-      </template>
-      <template
-        #emailCount="{row}"
-      >{{ row.list.length }} / {{ row.list.filter(_ => _.verified).length }}</template>
-    </dashboard-grid>
+    </dashboard-grid-controls>-->
+    <dashboard-list-controls :control-actions="controlActions()" :control-status="controlStatus()"></dashboard-list-controls>
+    <dashboard-list-post
+      v-for="post in list"
+      :key="post._id"
+      v-model="selected"
+      :post="post"
+      sub-title="Email List"
+      :meta="postItemMeta(post)"
+      :additional="postItemAdditional(post)"
+    ></dashboard-list-post>
   </dashboard-pane>
 </template>
 <script lang="ts">
 /* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post/util"
-import { toLabel, stored, getPermalink, omit } from "@factor/api"
-import { factorLink } from "@factor/ui"
+import { toLabel, stored, getPermalink, omit, timeUtil, timestamp } from "@factor/api"
+import { FactorPost } from "@factor/post/types"
+import { ControlAction } from "@factor/dashboard/types"
 import {
   dashboardPane,
-  dashboardGrid,
   dashboardGridControls,
   dashboardGridActions,
-  dashboardGridFilter
+  dashboardGridFilter,
+  dashboardListPost,
+  dashboardListControls
 } from "@factor/dashboard"
 import Vue from "vue"
+
 import { postTypeUIConfig, csvExport } from "."
 export default Vue.extend({
   name: "EmailListGrid",
   components: {
+    dashboardListPost,
     dashboardPane,
-    dashboardGrid,
+    dashboardListControls,
     dashboardGridControls,
     dashboardGridActions,
-    dashboardGridFilter,
-    factorLink
+    dashboardGridFilter
   },
   props: {
     postType: { type: String, default: "post" },
@@ -79,31 +76,96 @@ export default Vue.extend({
 
         return { name: toLabel(key), value: key == "all" ? "" : key, count }
       })
-    },
-    controlActions() {
-      return [
-        { value: "export-csv", name: "Export List to CSV" },
-        {
-          value: "trash",
-          name: "Move to Trash",
-          condition: query => query.status != "trash"
-        },
-        {
-          value: "publish",
-          name: "Move to Published",
-          condition: query => query.status == "trash"
-        },
-        { value: "delete", name: "Permanently Delete" }
-      ]
     }
   },
 
   methods: {
-    handleAction(action) {
+    controlStatus(this: any): ControlAction[] {
+      const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
+      return [
+        { value: "", label: `All (${this.meta.total})` },
+        { value: "trash", label: `Trash (${countTrash})` }
+      ]
+    },
+
+    controlActions(): ControlAction[] {
+      const actions = [
+        { value: "export-csv", label: "Export List to CSV" },
+        {
+          value: "trash",
+          label: "Move to Trash",
+          condition: (query: { [key: string]: string }) => query.status != "trash"
+        },
+        {
+          value: "publish",
+          label: "Move to Lists",
+          condition: (query: { [key: string]: string }) => query.status == "trash"
+        },
+        {
+          value: "delete",
+          label: "Permanently Delete",
+          condition: (query: { [key: string]: string }) => query.status == "trash"
+        }
+      ]
+
+      return actions
+    },
+    postItemMeta(post: FactorPost) {
+      const list = post.list ? post.list : []
+
+      return [
+        {
+          label: "Emails",
+          value: list.length
+        },
+        {
+          label: "Verified",
+          value: list.filter(_ => _.verified).length
+        }
+      ]
+    },
+    postItemAdditional(this: any, post: FactorPost) {
+      const list = post.list ? post.list : []
+      list
+        .filter(_ => _.addedAt)
+        .sort((a, b) => {
+          return a.addedAt > b.addedAt ? 1 : -1
+        })
+
+      const emailsInWeek = this.emailsInTime(list, "week")
+      const emailsInDay = this.emailsInTime(list, "day")
+      const emailsInMonth = this.emailsInTime(list, "month")
+
+      return [
+        {
+          label: "In 24 Hours",
+          value: `${emailsInDay.length} Emails (${
+            emailsInDay.filter(_ => _.verified).length
+          } Verified)`
+        },
+        {
+          label: "In Week",
+          value: `${emailsInWeek.length} Emails (${
+            emailsInWeek.filter(_ => _.verified).length
+          } Verified)`
+        },
+        {
+          label: "In Month",
+          value: `${emailsInMonth.length} Emails (${
+            emailsInMonth.filter(_ => _.verified).length
+          } Verified)`
+        }
+      ]
+    },
+    emailsInTime(list: any[], time: "day" | "week" | "month") {
+      const boundary = timestamp(timeUtil().subtract(1, time))
+      return list.filter(_ => _.addedAt >= boundary)
+    },
+    handleAction(this: any, action: string) {
       if (action == "export-csv") {
         const data = []
         const name = ["email-list"]
-        this.selected.forEach(_id => {
+        this.selected.forEach((_id: string) => {
           const p = stored(_id)
           if (p.list) {
             data.push(

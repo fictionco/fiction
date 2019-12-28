@@ -1,5 +1,5 @@
 import { getModel } from "@factor/post/database"
-import { randomToken, emitEvent, applyFilters, currentUrl } from "@factor/api"
+import { randomToken, emitEvent, applyFilters, currentUrl, timestamp } from "@factor/api"
 import { hasEmailService, sendTransactional } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
@@ -81,7 +81,9 @@ export const addEmail = async ({
 
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId), "list.email": { $ne: email } },
-    { $addToSet: { list: { email, verified: false, code, tags } } }
+    {
+      $addToSet: { list: { email, verified: false, code, tags, addedAt: timestamp() } }
+    }
   )
 
   // If email already exists, update it with new code
@@ -145,7 +147,13 @@ export const verifyEmail = async ({
 }: EmailConfig): Promise<void> => {
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId), "list.code": code, "list.email": email },
-    { $set: { "list.$.verified": true, "list.$.code": null } }
+    {
+      $set: {
+        "list.$.verified": true,
+        "list.$.code": null,
+        "list.$.verifiedAt": timestamp()
+      }
+    }
   )
 
   if (result && result.nModified > 0) {

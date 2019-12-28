@@ -13,7 +13,7 @@ export default Vue.extend({
     label: { type: String, default: "" }
   },
   computed: {
-    listeners() {
+    listeners(this: any) {
       return {
         ...this.$listeners,
         input: event => this.$emit("input", event.target.value)
