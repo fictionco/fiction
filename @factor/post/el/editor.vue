@@ -1,7 +1,7 @@
 <template>
   <div class="editor-input">
     <div v-show="!loading" class="editor-wrap">
-      <textarea ref="editor" :value="value" v-on="listeners"></textarea>
+      <textarea ref="editor" :value="value" v-on="listeners"/>
     </div>
   </div>
 </template>

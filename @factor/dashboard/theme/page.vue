@@ -22,7 +22,7 @@
         </div>
       </div>
       <div v-else-if="!loading" class="page-full">
-        <slot></slot>
+        <slot/>
       </div>
       <dashboard-footer />
     </div>

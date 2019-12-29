@@ -11,40 +11,45 @@
             :list="selectItems(controlActions)"
             :value="actionValue"
             @input="setAction($event)"
-          ></factor-input-select>
+          />
         </div>
       </div>
       <div class="selectors control-col">
         <div class="select-status">
           <factor-input-select
-            placeholder="Status"
+            :placeholder="toLabel(statusField)"
             :list="selectItems(controlStatus)"
-            @input="setQuery('status', $event)"
-          ></factor-input-select>
+            @input="setQuery(statusField, $event)"
+          />
         </div>
         <div class="sort-by">
           <factor-input-select
             placeholder="Sort"
             :list="selectItems(controlSort())"
             @input="setQuery('sort', $event)"
-          ></factor-input-select>
+          />
         </div>
       </div>
     </div>
+    <list-empty :loading="loading" :list="list" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
+
 import { factorInputSelect } from "@factor/ui"
 import { ControlAction } from "@factor/dashboard/types"
-import { ListItem } from "@factor/api"
+import { ListItem, toLabel } from "@factor/api"
 export default Vue.extend({
-  components: { factorInputSelect },
+  components: { factorInputSelect, listEmpty: () => import("./list-empty.vue") },
   props: {
     controlActions: { type: Array, default: () => [] },
     controlStatus: { type: Array, default: () => [] },
-    selected: { type: Array, default: () => [] }
+    statusField: { type: String, default: "status" },
+    selected: { type: Array, default: () => [] },
+    list: { type: Array, default: () => [] },
+    loading: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -60,6 +65,7 @@ export default Vue.extend({
     }
   },
   methods: {
+    toLabel,
     selectItems(this: any, actions?: ControlAction[]): ListItem[] {
       if (!actions) return []
       return actions.filter(
@@ -118,18 +124,34 @@ export default Vue.extend({
 .list-controls-pad {
   display: grid;
   grid-template-columns: 2rem 1fr 1fr;
-
+  grid-template-areas: "select actions selectors";
+  .select-all {
+    grid-area: select;
+  }
+  .actions {
+    grid-area: actions;
+  }
+  .selectors {
+    grid-area: selectors;
+    justify-content: flex-end;
+  }
   .control-col {
     display: flex;
     align-items: center;
-    &.selectors {
-      justify-content: flex-end;
-    }
-    .sort-by {
-      margin-left: 1rem;
-    }
   }
-  .select-all {
+
+  .sort-by {
+    margin-left: 1rem;
+  }
+  @media (max-width: 700px) {
+    grid-gap: 1rem;
+    grid-template-columns: 2rem 1fr;
+    grid-template-areas:
+      ". selectors"
+      "select actions";
+    .selectors {
+      justify-content: flex-start;
+    }
   }
 }
 </style>

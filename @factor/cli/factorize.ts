@@ -61,7 +61,7 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
     key: "nodeReload",
     hook: "rebuild-server-app",
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    callback: (path: string) => reloadNodeProcess(path, _config)
+    callback: ({ path }: { path: string }) => reloadNodeProcess(path, _config)
   })
 }
 
@@ -71,7 +71,9 @@ const reloadNodeProcess = async (
   path = "",
   _arguments: EnvironmentConfig
 ): Promise<void> => {
-  if (path) {
+  if (path && require.cache[path]) {
+    log.info(`reloading ${path} module`)
+
     delete require.cache[path]
   } else {
     Object.keys(require.cache).forEach(id => {

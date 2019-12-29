@@ -11,7 +11,7 @@ import express from "express"
 import fs from "fs-extra"
 import log from "@factor/api/logger"
 import LRU from "lru-cache"
-import killPort from "kill-port"
+
 import Vue from "vue"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
@@ -91,8 +91,6 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
     })
   }
 
-  //await killPort(process.env.PORT)
-
   __listening = __application.listen(process.env.PORT, () => {
     logServerReady()
     setRestarting(false)
@@ -110,11 +108,17 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
         log.server(`restarting server ${event}@${path}`, { color: "yellow" })
 
         if (__listening) {
-          __listening.destroy()
+          try {
+            __listening.destroy()
 
-          await runCallbacks("rebuild-server-app", { path })
+            await runCallbacks("rebuild-server-app", { path })
 
-          await createServer(options)
+            await createServer(options)
+          } catch (error) {
+            // If an error is thrown that is subsequently fixed, don't prevent server restart
+            setRestarting(false)
+            throw error
+          }
         }
       } else {
         log.server("waiting for restart", { color: "red" })

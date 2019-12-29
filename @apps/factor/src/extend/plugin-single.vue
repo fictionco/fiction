@@ -38,7 +38,7 @@
                   :style="{ backgroundImage: `url(${url})` }"
                   class="image-item-content"
                   @click="showModal(i)"
-                ></div>
+                />
               </div>
             </div>
 

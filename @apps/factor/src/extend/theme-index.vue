@@ -27,7 +27,7 @@
                   v-if="themeScreenshot(item)"
                   :style="{ backgroundImage: `url(${themeScreenshot(item)})` }"
                   class="entry-image"
-                ></div>
+                />
 
                 <div class="entry-content">
                   <h1 class="title">{{ titleFromPackage(item) }}</h1>
@@ -62,7 +62,7 @@
                 v-if="extensionScreenshot(item)"
                 :style="{ backgroundImage: `url(${extensionScreenshot(item)})` }"
                 class="entry-image"
-              ></div>
+              />
 
               <div class="entry-content">
                 <h3 class="title">{{ titleFromPackage(item) }}</h3>
