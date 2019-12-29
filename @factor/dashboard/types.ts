@@ -26,4 +26,5 @@ export interface ControlAction {
   label?: string;
   condition?: (q: { [key: string]: string }) => boolean;
   confirm?: (q: string[]) => string;
+  default?: true;
 }

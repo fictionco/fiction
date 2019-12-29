@@ -152,7 +152,7 @@ export const postList = async (
   options = Object.assign(
     {},
     {
-      sort: "-createdAt",
+      sort: { createdAt: "descending" },
       limit: 20,
       skip: 0
     },
@@ -220,7 +220,7 @@ export const postIndex = async (
   options = Object.assign(
     {},
     {
-      sort: "-createdAt",
+      sort: { date: "descending", createdAt: "descending" },
       limit: 20,
       skip: 0
     },

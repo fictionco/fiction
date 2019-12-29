@@ -40,7 +40,7 @@ export default Vue.extend({
       }
     },
     setting(this: any) {
-      return typeof this.value != "undefined" ? this.value : ""
+      return typeof this.value != "undefined" ? this.value : undefined
     },
 
     parsedList(this: any): ListItem[] {

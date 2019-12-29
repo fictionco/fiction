@@ -19,6 +19,7 @@
           <factor-input-select
             :placeholder="toLabel(statusField)"
             :list="selectItems(controlStatus)"
+            :value="$route.query[statusField]"
             @input="setQuery(statusField, $event)"
           />
         </div>
@@ -26,6 +27,7 @@
           <factor-input-select
             placeholder="Sort"
             :list="selectItems(controlSort())"
+            :value="$route.query.sort"
             @input="setQuery('sort', $event)"
           />
         </div>
@@ -72,11 +74,23 @@ export default Vue.extend({
         (item: ControlAction) => !item.condition || item.condition(this.$route.query)
       )
     },
-    controlSort(this: any) {
+    getDefaultValue(
+      this: any,
+      controlId: string,
+      controls: ControlAction[]
+    ): string | undefined {
+      if (this.$route.query[controlId]) {
+        return this.$route.query[controlId]
+      } else {
+        const defaultControl = controls.find(_ => _.default)
+        return defaultControl ? defaultControl.value : undefined
+      }
+    },
+    controlSort(this: any): ControlAction[] {
       return [
-        { value: "-date", label: `Publication` },
-        { value: "-updatedAt", label: `Updated At` },
-        { value: "-createdAt", label: `Created At` }
+        { value: "date", label: `Date`, default: true },
+        { value: "updatedAt", label: `Date Updated` },
+        { value: "createdAt", label: `Date Created` }
       ]
     },
     setAction(this: any, value: string): void {
@@ -102,7 +116,13 @@ export default Vue.extend({
       }, 300)
     },
     setQuery(this: any, key: string, value: string): void {
-      this.$router.push({ query: { ...this.$route.query, [key]: value } })
+      let query = Object.assign({}, this.$route.query)
+      if (!value) {
+        delete query[key]
+      } else {
+        query = { ...query, [key]: value }
+      }
+      this.$router.push({ query })
     },
     selectAll(this: any) {
       if (this.selectAllSelected) {

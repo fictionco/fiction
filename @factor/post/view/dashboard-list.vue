@@ -16,21 +16,16 @@
       :loading="loading"
       :sending="sending"
       :post-type="postType"
-      @action="runPostAction($event)"
     />
   </dashboard-page>
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import {
-  requestPostIndex,
-  requestPostDeleteMany,
-  requestPostSaveMany
-} from "@factor/post/request"
+import { requestPostIndex } from "@factor/post/request"
 import { getPostTypeConfig, onEvent, stored } from "@factor/api"
 import { dashboardPage } from "@factor/dashboard"
 import { FactorPost } from "@factor/post/types"
-import Vue from "vue"
+import Vue, { Component } from "vue"
 export default Vue.extend({
   components: { dashboardPage, factorLink },
   data() {
@@ -52,35 +47,40 @@ export default Vue.extend({
     getPostTypeConfig(this: any) {
       return getPostTypeConfig(this.postType)
     },
-    templateLoader() {
+    templateLoader(this: any) {
       const { listTemplate } = this.getPostTypeConfig
 
-      return listTemplate ? listTemplate : () => import("./posts-list.vue")
+      return listTemplate
+        ? listTemplate
+        : (): Promise<Component> => import("./posts-list.vue")
     },
     postType(this: any): string {
       return this.$route.params.postType || ""
     },
-    postTypeLabel() {
+    postTypeLabel(this: any) {
       return this.getPostTypeConfig.namePlural
     },
-    postsMeta() {
+    postsMeta(this: any) {
       return this.postIndex && this.postIndex.meta ? this.postIndex.meta : {}
     },
-    posts() {
+    posts(this: any) {
       return this.postIndex && this.postIndex.posts ? this.postIndex.posts : []
     },
 
-    filters() {
+    filters(this: any) {
       const postType = this.postType
-      const { page = 1, status, category, tag, role } = this.$route.query
-      return {
-        postType,
-        page,
+      let { sort = "createdAt" } = this.$route.query
+      const {
+        page = 1,
         status,
         category,
         tag,
-        role
-      }
+        role,
+        direction = "descending"
+      } = this.$route.query
+
+      sort = { [sort]: direction }
+      return { postType, page, status, category, tag, role, sort }
     }
   },
   watch: {
@@ -95,30 +95,6 @@ export default Vue.extend({
     })
   },
   methods: {
-    async runPostAction({ action, selected }) {
-      this.sending = true
-
-      if (selected.length > 0) {
-        if (action == "delete") {
-          if (confirm("Are you sure? This will permanently delete the selected posts.")) {
-            await requestPostDeleteMany({
-              _ids: selected,
-              postType: this.postType
-            })
-          }
-        } else {
-          await requestPostSaveMany({
-            _ids: selected,
-            data: { status: action },
-            postType: this.postType
-          })
-        }
-        this.setPosts()
-      }
-
-      this.sending = false
-    },
-
     async setPosts(this: any) {
       this.loading = true
       await requestPostIndex(this.filters)
