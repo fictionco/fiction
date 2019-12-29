@@ -1,6 +1,6 @@
 # Overview
 
-This plugin makes it east to create a job board.
+This plugin makes it easy to create and manage a job board in your Factor app.
 
 ## Installation
 

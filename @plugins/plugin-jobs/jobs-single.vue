@@ -33,23 +33,19 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.single-entry {
-  .widget-date,
-  .entry-meta,
-  .post-entry,
-  .social-share {
-    max-width: 50rem;
-    margin: 1rem auto;
-    padding: 0;
-  }
+.plugin-jobs {
+  .single-entry {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 3rem 0;
 
-  @media (max-width: 767px) {
-    .return-link,
-    .entry-headers,
-    .post-entry,
-    .entry-meta,
-    .social-share {
-      padding: 0 1em;
+    @media (max-width: 767px) {
+      padding: 3rem 1rem;
+    }
+
+    .post-entry {
+      padding: 0;
+      margin: 0 auto;
     }
   }
 }

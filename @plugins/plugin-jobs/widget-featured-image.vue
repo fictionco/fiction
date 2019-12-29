@@ -10,19 +10,19 @@ export default Vue.extend({
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    avatar() {
+    avatar(this: any) {
       return stored(this.post.avatar) || {}
     },
-    avatarUrl() {
+    avatarUrl(this: any) {
       return this.avatar.url || ""
     },
-    style() {
-      const style = {}
-
-      style.backgroundImage = `url(${this.avatarUrl})`
+    style(this: any) {
+      const style = {
+        backgroundImage: `url(${this.avatarUrl})`
+      }
 
       return style
     }
@@ -30,10 +30,12 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.featured-image {
-  background-size: cover;
-  background-position: 50%;
-  height: 40vh;
-  margin: 0 0 1.5rem;
+.plugin-jobs {
+  .featured-image {
+    background-size: cover;
+    background-position: 50%;
+    height: 16em;
+    margin-bottom: 1em;
+  }
 }
 </style>

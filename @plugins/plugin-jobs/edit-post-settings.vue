@@ -1,17 +1,18 @@
 <template>
   <div class="edit-job-templates">
+    <dashboard-input v-model="post.jobLocation" input="factor-input-text" label="Job Location" />
     <dashboard-input
-      v-model="post.jobIcon"
-      :max="1"
-      input="factor-input-image-upload"
-      label="Custom Icon"
-      @autosave="$emit('autosave')"
-    />
-    <dashboard-input v-model="post.jobLocation" input="factor-input-text" label="Location" />
-    <dashboard-input
-      v-model="post.jobApplyEmail"
+      v-model="post.jobType"
       input="factor-input-text"
-      label="Application Email"
+      label="Job Type"
+      description="e.g. Freelance, Full Time, Internship, Part Time, Temporary"
+    />
+    <dashboard-input v-model="post.jobApplyEmail" input="factor-input-text" label="Apply Email" />
+    <dashboard-input v-model="post.jobCompanyName" input="factor-input-text" label="Company Name" />
+    <dashboard-input
+      v-model="post.jobCompanyWebsite"
+      input="factor-input-text"
+      label="Company Website"
     />
   </div>
 </template>
@@ -19,6 +20,8 @@
 import { dashboardInput } from "@factor/dashboard"
 import { stored, storeItem } from "@factor/api"
 import Vue from "vue"
+import { FactorPost } from "@factor/post/types"
+
 export default Vue.extend({
   components: { dashboardInput },
   props: {
@@ -34,10 +37,10 @@ export default Vue.extend({
   },
   computed: {
     post: {
-      get() {
+      get(this: any): FactorPost {
         return stored(this.postId) || {}
       },
-      set(v) {
+      set(this: any, v: FactorPost): void {
         storeItem(this.postId, v)
       }
     }

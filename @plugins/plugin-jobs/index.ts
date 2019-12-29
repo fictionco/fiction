@@ -25,7 +25,7 @@ export const setup = (): void => {
 
   addContentRoute({
     path: setting("jobs.indexRoute"),
-    component: setting("jobs.components.jobsContent"),
+    component: setting("jobs.components.jobsWrap"),
     children: [
       {
         path: "/",
@@ -46,12 +46,6 @@ export const setup = (): void => {
       name: "Job Settings",
       component: setting("jobs.settings.settingsPanel")
     }
-  })
-
-  pushToFilter({
-    key: "jobIcon",
-    hook: "post-populated-fields",
-    item: { field: "jobIcon", depth: 20 }
   })
 }
 setup()

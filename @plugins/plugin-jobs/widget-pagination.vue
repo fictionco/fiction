@@ -1,5 +1,5 @@
 <template>
-  <div class="jobs-pagination">
+  <div class="pagination">
     <div class="items">{{ count }} Items</div>
     <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">
       <factor-icon icon="arrow-left" />
@@ -22,25 +22,25 @@ export default Vue.extend({
     postType: { type: String, default: "" }
   },
   computed: {
-    index() {
+    index(this: any) {
       return stored(this.postType) || {}
     },
-    jobsMeta() {
+    jobsMeta(this: any) {
       const { meta = [] } = this.index
       return meta
     },
-    pageCount() {
+    pageCount(this: any) {
       return this.jobsMeta.pageCount || 1
     },
-    count() {
+    count(this: any) {
       return this.jobsMeta.totalForQuery || 1
     },
-    pageCurrent() {
+    pageCurrent(this: any) {
       return this.jobsMeta.pageCurrent || 1
     }
   },
   methods: {
-    page(direction) {
+    page(direction: any) {
       let page
       if (direction == "next" && this.pageCurrent !== this.pageCount) {
         page = this.pageCurrent + 1
@@ -57,25 +57,28 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.jobs-pagination {
-  display: flex;
-  align-items: center;
-  margin-top: 2em;
-  @media (max-width: 767px) {
-    justify-content: flex-end;
-    .items,
-    .sep {
-      display: none;
+.plugin-jobs {
+  .pagination {
+    max-width: 48rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    @media (max-width: 767px) {
+      justify-content: flex-end;
+      .items,
+      .sep {
+        display: none;
+      }
     }
-  }
-  > * {
-    margin: 0 5px;
-  }
-  .sep {
-    opacity: 0.4;
-  }
-  .factor-btn {
-    padding: 0.5em;
+    > * {
+      margin: 0 5px;
+    }
+    .sep {
+      opacity: 0.4;
+    }
+    .factor-btn {
+      padding: 0.5em;
+    }
   }
 }
 </style>

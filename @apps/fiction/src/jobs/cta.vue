@@ -26,4 +26,17 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="less"></style>
+<style lang="less">
+.careers {
+  .single-entry {
+    .job-entry-cta {
+      max-width: 800px;
+      margin: 1em auto;
+      padding: 0 3em;
+      @media (max-width: 767px) {
+        padding: 0 2em;
+      }
+    }
+  }
+}
+</style>

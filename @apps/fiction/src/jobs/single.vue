@@ -36,13 +36,13 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.jobs-content {
+.careers {
   .single-entry {
     .post-entry {
       padding: 0;
       margin: 0 auto;
       @media (max-width: 767px) {
-        padding: 0 1em 3em;
+        padding: 0 1em;
       }
 
       .highlight-code-wrap {
@@ -51,21 +51,12 @@ export default Vue.extend({
         max-width: 800px;
         margin-top: -80px;
         background: #fff;
-        border-radius: 0.5em;
-        padding: 3em 3em 0;
+        border-radius: 0.5em 0.5em 0 0;
+        padding: 3rem 3rem 0;
 
         @media (max-width: 767px) {
-          padding: 1.5em 1em 0;
+          padding: 1.5rem 1rem 0;
         }
-      }
-    }
-
-    .job-entry-cta {
-      max-width: 800px;
-      margin: 1em auto;
-      padding: 0 3em;
-      @media (max-width: 767px) {
-        padding: 0 1em;
       }
     }
   }

@@ -1,10 +1,10 @@
-import { objectIdType } from "@factor/post/util"
-
 export default {
   name: "jobs",
   schema: {
     jobLocation: String,
+    jobType: String,
     jobApplyEmail: String,
-    jobIcon: [{ type: objectIdType(), ref: "attachment" }]
+    jobCompanyName: String,
+    jobCompanyWebsite: String,
   }
 }

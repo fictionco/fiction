@@ -1,5 +1,5 @@
 <template>
-  <div class="jobs-content">
+  <div class="plugin-jobs careers">
     <router-view />
   </div>
 </template>

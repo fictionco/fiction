@@ -20,6 +20,7 @@
     "@factor/core": "^1.1.14",
     "@factor/plugin-blog": "^1.1.12",
     "@factor/plugin-highlight-code": "^1.1.5",
-    "@factor/plugin-notify": "^1.1.5"
+    "@factor/plugin-notify": "^1.1.5",
+    "@factor/plugin-jobs": "^1.0.0"
   }
 }

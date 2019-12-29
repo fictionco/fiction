@@ -1,35 +1,65 @@
 <template>
   <div class="entry-meta">
-    <component
-      :is="setting(`jobs.components.${comp}`)"
-      v-for="(comp, i) in setting('jobs.layout.meta')"
-      :key="i"
-      :post-id="postId"
-    />
+    <span class="date">Posted {{ standardDate(post.date) }}</span>
+
+    <span v-if="post.jobType" class="type">{{ post.jobType }}</span>
+
+    <factor-link
+      v-if="post.jobCompanyName && post.jobCompanyWebsite"
+      :path="post.jobCompanyWebsite"
+      target="_blank"
+      class="company"
+    >{{ post.jobCompanyName }}</factor-link>
+    <span v-else-if="post.jobCompanyName" class="company">{{ post.jobCompanyName }}</span>
   </div>
 </template>
 <script lang="ts">
-import { setting, stored } from "@factor/api"
+import { setting, standardDate, stored } from "@factor/api"
+import { factorLink } from "@factor/ui"
 import Vue from "vue"
 
 export default Vue.extend({
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },
-  methods: { setting }
+  methods: { setting, standardDate }
 })
 </script>
 <style lang="less">
-.entry-meta {
-  display: flex;
-  align-items: center;
-  margin-right: 1em;
-  padding: 0.3em 0;
-  justify-content: space-between;
+.plugin-jobs {
+  .entry-meta {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0.5rem 0 0;
+    font-size: 0.9em;
+
+    .company,
+    .location,
+    .date,
+    .type {
+      margin-right: 0.5em;
+
+      &:first-child:before {
+        margin-right: 0;
+        border-left: none;
+      }
+      &:before {
+        margin-right: 0.5em;
+        border-left: 1px solid rgba(0, 0, 0, 0.3);
+        content: "";
+      }
+
+      @media (max-width: 767px) {
+        display: block;
+      }
+    }
+  }
 }
 </style>

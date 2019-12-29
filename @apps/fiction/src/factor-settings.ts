@@ -33,25 +33,32 @@ export default {
   jobs: {
     indexRoute: "/careers",
     postRoute: "/careers",
-    limit: 5,
-    settings: {
-      settingsPanel: (): Promise<Component> => import("./jobs/edit-post-settings.vue")
-    },
-    components: {
-      jobsContent: (): Promise<Component> => import("./jobs/content.vue"),
-      jobsIndex: (): Promise<Component> => import("./jobs/index.vue"),
-      jobsSingle: (): Promise<Component> => import("./jobs/single.vue"),
-      singleHeader: (): Promise<Component> => import("./jobs/widget-single-header.vue")
-    },
-    layout: {
-      index: ["headers"],
-      single: ["singleHeader", "featuredImage", "entry", "cta"]
-    },
+    limit: 6,
+    returnLinkText: "All Jobs",
     metatags: {
       index: {
-        title: "Fiction Careers - Building Apps, Code, Remote Work",
-        description: "Fiction Careers."
+        title: "Fiction Jobs - Building Apps, Code, Remote Work",
+        description: "Fiction jobs."
       }
+    },
+    notFound: {
+      title: "No Posts",
+      subTitle: "Couldn't find any job posts."
+    },
+    layout: {
+      index: ["featuredImage", "title", "subtitle"],
+      single: [
+        "singleHeader",
+        "entry",
+        "cta"
+      ]
+    },
+    components: {
+      jobsWrap: (): Promise<Component> => import("./jobs/wrap.vue"),
+      jobsIndex: (): Promise<Component> => import("./jobs/index.vue"),
+      jobsSingle: (): Promise<Component> => import("./jobs/single.vue"),
+      singleHeader: (): Promise<Component> => import("./jobs/single-header.vue"),
+      cta: (): Promise<Component> => import("./jobs/cta.vue")
     }
   }
 }

@@ -1,24 +1,27 @@
 <template>
-  <div class="job-entry-headers">
-    <h1 class="entry-title">
+  <div class="entry-title">
+    <h1>
       <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
-      <span>{{ post.jobLocation }}</span>
     </h1>
-    <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
+
+    <span v-if="post.jobLocation" class="location">{{ post.jobLocation }}</span>
+
+    <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 <script lang="ts">
+import { factorPostEdit } from "@factor/post"
 import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLink },
+  components: { factorLink, factorPostEdit },
   props: {
     postId: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     }
   },
@@ -26,34 +29,23 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.job-entry-headers {
-  @media (max-width: 767px) {
-    padding: 1em 0;
-  }
-
+.plugin-jobs {
   .entry-title {
-    font-weight: var(--font-weight-bold, 800);
-    font-size: 1.4em;
-    line-height: 1.6em;
-    margin-bottom: 1em;
-
-    a {
+    h1 {
       display: inline-block;
       max-width: 65%;
-      color: inherit;
-      &:hover {
-        color: var(--color-primary, #0496ff);
-      }
-      &:active {
-        opacity: 0.7;
-      }
+      font-size: 1.4em;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
       @media (max-width: 767px) {
+        display: block;
         max-width: 100%;
       }
     }
-    span {
+    .location {
       float: right;
-      font-size: 0.9em;
+      font-size: 1rem;
       line-height: 1.8em;
       font-weight: 300;
       letter-spacing: 0.1em;
@@ -61,15 +53,22 @@ export default Vue.extend({
       text-align: right;
       @media (max-width: 767px) {
         float: none;
+        text-align: left;
       }
     }
-  }
-  .entry-sub-title {
-    font-size: 1.2em;
-    font-weight: var(--font-weight-normal, 400);
-    line-height: 1.6em;
-    opacity: 0.7;
-    margin-bottom: 1em;
+    .edit {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: initial;
+      margin: 0.5em 0;
+      @media (max-width: 767px) {
+        display: none;
+      }
+    }
+    @media (max-width: 767px) {
+      display: flex;
+      flex-direction: column-reverse;
+    }
   }
 }
 </style>
