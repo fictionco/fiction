@@ -22,7 +22,7 @@
         </div>
       </div>
       <div v-else-if="!loading" class="page-full">
-        <slot/>
+        <slot />
       </div>
       <dashboard-footer />
     </div>
@@ -64,13 +64,13 @@ export default Vue.extend({
 
   .page-grid {
     display: grid;
-    grid-template-columns: minmax(400px, 1fr) minmax(200px, 400px);
+    grid-template-columns: minmax(400px, 2fr) minmax(250px, 1fr);
     grid-column-gap: 2rem;
     grid-template-areas:
       "primary   meta"
       "secondary meta";
 
-    @media (max-width: 960px) {
+    @media (max-width: 1200px) {
       grid-template-columns: 1fr;
       grid-template-areas:
         "primary"
