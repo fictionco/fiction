@@ -25,7 +25,7 @@
 
       <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
 
-      <!-- <factor-post-edit :post-id="post._id" /> -->
+      <factor-post-edit :post-id="post._id" />
     </div>
   </div>
 </template>
