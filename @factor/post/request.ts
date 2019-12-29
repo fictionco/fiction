@@ -88,10 +88,7 @@ export const requestPostSaveMany = async ({
   postType
 }: UpdateManyPosts): Promise<FactorPost[]> => {
   _setCache(postType)
-  const result = await sendPostRequest("updateManyById", {
-    data,
-    _ids
-  })
+  const result = await sendPostRequest("updateManyById", { data, _ids, postType })
 
   return result as FactorPost[]
 }

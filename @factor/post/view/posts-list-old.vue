@@ -11,7 +11,7 @@
       <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
     </dashboard-grid-controls>
 
-    <dashboard-list></dashboard-list>
+    <dashboard-list/>
     <dashboard-grid
       :structure="tableStructure()"
       :rows="list"

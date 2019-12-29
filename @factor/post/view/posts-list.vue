@@ -2,40 +2,37 @@
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
 
-    <dashboard-grid-controls>
-      <dashboard-grid-actions
-        :actions="controlActions"
-        :loading="loadingAction"
-        @action="runAction($event)"
-      />
-      <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
-    </dashboard-grid-controls>
+    <dashboard-list-controls
+      :control-actions="controlActions()"
+      :control-status="controlStatus()"
+      :selected="selected"
+      :loading="loading"
+      :list="list"
+      @action="handleAction($event)"
+      @select-all="selectAll($event)"
+    />
 
-    <dashboard-list-post v-for="post in list" :key="post._id" v-model="selected" :post="post"></dashboard-list-post>
+    <dashboard-list-post v-for="post in list" :key="post._id" v-model="selected" :post="post" />
 
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
 </template>
 <script lang="ts">
 import {
-  dashboardGridControls,
-  dashboardGridFilter,
   dashboardPane,
   dashboardTableFooter,
-  dashboardGridActions,
-  dashboardListPost
+  dashboardListPost,
+  dashboardListControls
 } from "@factor/dashboard"
 import { getStatusCount } from "@factor/post/util"
-
+import { ControlAction } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
     dashboardListPost,
-    dashboardGridControls,
-    dashboardGridActions,
-    dashboardGridFilter,
+    dashboardListControls,
     dashboardPane,
     dashboardTableFooter
   },
@@ -77,23 +74,23 @@ export default Vue.extend({
     },
     postType(this: any): string {
       return this.$route.params.postType || ""
-    },
-    controlActions(this: any): { value: string; name: string }[] {
-      return [
-        { value: "published", name: "Publish" },
-        { value: "draft", name: "Change to Draft" },
-        { value: "trash", name: "Move to Trash" },
-        { value: "delete", name: "Permanently Delete" }
-      ]
-        .filter(_ => {
-          return _.value != this.$route.query.status
-        })
-        .filter(
-          _ =>
-            _.value !== "delete" ||
-            (_.value == "delete" && this.$route.query.status == "trash")
-        )
     }
+    // controlActions(this: any): { value: string; name: string }[] {
+    //   return [
+    //     { value: "published", name: "Publish" },
+    //     { value: "draft", name: "Change to Draft" },
+    //     { value: "trash", name: "Move to Trash" },
+    //     { value: "delete", name: "Permanently Delete" }
+    //   ]
+    //     .filter(_ => {
+    //       return _.value != this.$route.query.status
+    //     })
+    //     .filter(
+    //       _ =>
+    //         _.value !== "delete" ||
+    //         (_.value == "delete" && this.$route.query.status == "trash")
+    //     )
+    // }
   },
 
   methods: {
@@ -102,7 +99,50 @@ export default Vue.extend({
     selectAll(this: any, val: boolean) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },
-    async runAction(this: any, action: string) {
+    controlStatus(this: any): ControlAction[] {
+      const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
+      const countPublished = getStatusCount({ meta: this.meta, key: "published" })
+      const countDraft = getStatusCount({ meta: this.meta, key: "draft" })
+      return [
+        { value: "", label: `All (${this.meta.total})` },
+        { value: "published", label: `Published (${countPublished})` },
+        { value: "draft", label: `Draft (${countDraft})` },
+        { value: "trash", label: `Trash (${countTrash})` }
+      ]
+    },
+    controlActions(): ControlAction[] {
+      const actions = [
+        {
+          value: "published",
+          label: "Publish Post(s)",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) =>
+            `Change ${selected.length} post(s) to published?`
+        },
+        {
+          value: "draft",
+          label: "Draft Post(s)",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) => `Change ${selected.length} post(s) to draft?`
+        },
+        {
+          value: "trash",
+          label: "Move to Trash",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) => `Move ${selected.length} post(s) to trash?`
+        },
+        {
+          value: "delete",
+          label: "Permanently Delete",
+          condition: (query: { [key: string]: string }) => query.status == "trash",
+          confirm: (selected: string[]) =>
+            `Permanently delete ${selected.length} post(s)?`
+        }
+      ]
+
+      return actions
+    },
+    async handleAction(this: any, action: string) {
       this.loadingAction = true
 
       if (this.selected.length > 0) {

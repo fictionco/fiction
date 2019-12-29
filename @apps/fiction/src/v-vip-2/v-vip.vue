@@ -1,7 +1,7 @@
 <template>
   <div class="view-vip-version-2">
     <section class="intro content">
-      <div class="header-bg"></div>
+      <div class="header-bg"/>
       <div class="content-pad wide">
         <div class="header-text">
           <div class="header-tag">
@@ -93,7 +93,7 @@
     </div>
 
     <section class="manage content">
-      <div class="manage-bg"></div>
+      <div class="manage-bg"/>
       <div class="content-pad wide">
         <div class="manage-figure">
           <figure-manage />

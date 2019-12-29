@@ -47,7 +47,7 @@
           </div>
         </div>
         <div v-show="buttonsLoaded" class="factor-actions">
-          <script async defer src="https://buttons.github.io/buttons.js"></script>
+          <script async defer src="https://buttons.github.io/buttons.js"/>
 
           <a
             class="github-button"

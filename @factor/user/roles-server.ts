@@ -9,6 +9,44 @@ interface FactorUserRoles extends FactorUser {
   accessLevel: number;
 }
 
+const validateUpdateManyQuery = async function(
+  this: FactorUserRoles & Document,
+  next: HookNextFunction
+): Promise<void> {
+  const { bearer } = this.options
+
+  const setRole = this._update?.$set?.role
+
+  const manageUsersAccessLevel = 500
+  if (setRole) {
+    if (!bearer || bearer.accessLevel < manageUsersAccessLevel) {
+      return next(new Error(`Can not edit roles as ${bearer.role}`))
+    } else {
+      this._update.$set.accessLevel = userRolesMap[setRole as UserRoles] || 0
+    }
+  }
+
+  next()
+}
+
+const validateUserDocument = async function(
+  this: FactorUserRoles & Document,
+  next: HookNextFunction
+): Promise<void> {
+  const existing = setting(`roles.${this.email}`)
+  const configRole = this.emailVerified && existing ? existing : UserRoles.Member
+
+  if (configRole != this.role) {
+    this.role = configRole
+  } else if (this.isModified("role") && configRole != this.role) {
+    return next(new Error(`Can not edit role ${this.role}`))
+  }
+
+  this.accessLevel = userRolesMap[this.role as UserRoles] || 0
+
+  next()
+}
+
 export const setup = (): void => {
   const key = "userRoles"
   addFilter({
@@ -40,24 +78,9 @@ export const setup = (): void => {
   addFilter({
     key,
     hook: "user-schema-hooks",
-    callback: (_s: Schema) => {
-      _s.pre("validate", async function(
-        this: FactorUserRoles & Document,
-        next: HookNextFunction
-      ) {
-        const existing = setting(`roles.${this.email}`)
-        const configRole = this.emailVerified && existing ? existing : UserRoles.Member
-
-        if (configRole != this.role) {
-          this.role = configRole
-        } else if (this.isModified("role") && configRole != this.role) {
-          return next(new Error(`Can not edit role ${this.role}`))
-        }
-
-        this.accessLevel = userRolesMap[this.role as UserRoles] || 0
-
-        return next()
-      })
+    callback: (userSchema: Schema) => {
+      userSchema.pre("validate", validateUserDocument)
+      userSchema.pre("update", validateUpdateManyQuery)
     }
   })
 

@@ -28,7 +28,7 @@
                       class="text-3xl font-bold leading-tight text-purple-900"
                     >{{ listItem.contentLarge }}</div>
                   </template>
-                  <span v-formatted-text="listItem.content"></span>
+                  <span v-formatted-text="listItem.content" />
                 </li>
               </template>
             </ul>

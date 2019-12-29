@@ -4,9 +4,12 @@
       :control-actions="controlActions()"
       :control-status="controlStatus()"
       :selected="selected"
+      :loading="loading"
+      :list="list"
       @action="handleAction($event)"
       @select-all="selectAll($event)"
-    ></dashboard-list-controls>
+    />
+
     <dashboard-list-post
       v-for="post in list"
       :key="post._id"
@@ -15,7 +18,7 @@
       sub-title="Email List"
       :meta="postItemMeta(post)"
       :additional="postItemAdditional(post)"
-    ></dashboard-list-post>
+    />
   </dashboard-pane>
 </template>
 <script lang="ts">
@@ -30,7 +33,6 @@ import {
 } from "@factor/dashboard"
 import Vue from "vue"
 import { EmailConfig } from "./types"
-
 import { postTypeUIConfig, csvExport } from "."
 export default Vue.extend({
   name: "EmailListGrid",
@@ -50,25 +52,7 @@ export default Vue.extend({
   data() {
     return { selected: [], loadingAction: false, postTypeUIConfig }
   },
-  computed: {
-    // tableList(this: any) {
-    //   return this.list.map(({ _id, createdAt, settings }) => {
-    //     return { ...settings, createdAt, _id }
-    //   })
-    // },
-    // tabs(this: any) {
-    //   return [`all`, `trash`].map(key => {
-    //     const count: number =
-    //       key == "all"
-    //         ? this.meta.total
-    //         : getStatusCount({
-    //             meta: this.meta,
-    //             key
-    //           })
-    //     return { name: toLabel(key), value: key == "all" ? "" : key, count }
-    //   })
-    // }
-  },
+  computed: {},
 
   methods: {
     controlStatus(this: any): ControlAction[] {
@@ -183,34 +167,8 @@ export default Vue.extend({
     selectAll(this: any, val: boolean): void {
       this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)
     }
-    // fields(this: any, item) {
-    //   const rest = omit(item, ["message", "createdAt", "_id"])
-
-    //   return Object.values(rest)
-    // },
-    // postlink(postType: string, permalink: string, root = true) {
-    //   return getPermalink({ postType, permalink, root })
-    // }
   }
 })
 </script>
 <style lang="less">
-.contact-form-table {
-  .dbt-body-row {
-    font-size: 0.85em;
-    .message {
-      line-height: 1.4;
-    }
-    .contact-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 10px;
-      .dat {
-        strong {
-          display: block;
-        }
-      }
-    }
-  }
-}
 </style>
