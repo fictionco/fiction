@@ -1,32 +1,26 @@
 <template>
   <dashboard-pane :title="title">
-    <slot slot="title" name="title" />
-    <slot slot="nav" name="nav" />
-    <dashboard-grid-controls>
-      <div></div>
-      <dashboard-grid-filter filter-id="role" :filter-tabs="tabs" />
-    </dashboard-grid-controls>
+    <dashboard-list-controls
+      :control-actions="controlActions()"
+      :control-status="controlStatus()"
+      status-field="role"
+      :selected="selected"
+      :loading="loading"
+      :list="list"
+      @action="handleAction($event)"
+      @select-all="selectAll($event)"
+    />
 
-    <dashboard-grid :structure="tableStructure()" :rows="list" :zero-state="7">
-      <template #name="{row}">
-        <div class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{ row.displayName }}</factor-link>
-          <factor-link
-            v-if="row.email"
-            class="permalink"
-            :path="postlink(row.postType, row.permalink)"
-          >{{ row.email }}</factor-link>
-        </div>
-      </template>
+    <dashboard-list-post
+      v-for="post in list"
+      :key="post._id"
+      v-model="selected"
+      :post="post"
+      :title="post.displayName || 'No Name'"
+      :sub-title="post.email"
+      :meta="postItemMeta(post)"
+    />
 
-      <template #photo="{row}">
-        <factor-avatar :post-id="row.avatar" />
-      </template>
-
-      <template #role="{row}">{{ toLabel(row.role) }}</template>
-      <template #signed-up="{row}">{{ standardDate(row.createdAt) }}</template>
-      <template #last-seen="{row}">{{ standardDate(row.signedInAt) }}</template>
-    </dashboard-grid>
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
 </template>
@@ -34,25 +28,24 @@
 <script lang="ts">
 import {
   dashboardPane,
-  dashboardTableFooter,
-  dashboardGrid,
-  dashboardGridControls,
-  dashboardGridFilter
+  dashboardListPost,
+  dashboardListControls,
+  dashboardTableFooter
 } from "@factor/dashboard"
-import { factorLink, factorAvatar } from "@factor/ui"
+import { currentUser, userCan } from "@factor/user"
+import { FactorUser } from "@factor/user/types"
 import { getStatusCount } from "@factor/post/util"
-import { toLabel, standardDate, getPermalink } from "@factor/api"
+import { toLabel, standardDate, emitEvent } from "@factor/api"
+import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import Vue from "vue"
+import { ControlAction } from "@factor/dashboard/types"
 export default Vue.extend({
   name: "UserList",
   components: {
     dashboardPane,
     dashboardTableFooter,
-    dashboardGrid,
-    dashboardGridControls,
-    dashboardGridFilter,
-    factorLink,
-    factorAvatar
+    dashboardListPost,
+    dashboardListControls
   },
   props: {
     title: { type: String, default: "" },
@@ -60,83 +53,94 @@ export default Vue.extend({
     meta: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false }
   },
+  data() {
+    return {
+      selected: [],
+      loadingAction: false
+    }
+  },
   computed: {
-    tabs(): { name: string; value: string; count: number }[] {
-      return [`all`, `admin`, `moderator`, `member`].map(key => {
-        const count =
-          key == "all"
-            ? this.meta.total
-            : getStatusCount({
-                meta: this.meta,
-                field: "role",
-                key,
-                nullKey: "member"
-              })
-
-        return {
-          name: toLabel(key),
-          value: key == "all" ? "" : key,
-          count
-        }
-      })
-    },
-    getCounts() {
-      const { categories: { accessLevel = {} } = {} } = this.index || {}
-      const counts = {
-        admin: 0,
-        moderator: 0,
-        member: 0
-      }
-      Object.keys(accessLevel).forEach(level => {
-        const cnt = accessLevel[level]
-        const authNumber = parseInt(level)
-        if (authNumber > 300) {
-          counts.admin += cnt
-        } else if (authNumber > 100) {
-          counts.moderator += cnt
-        } else {
-          counts.member += cnt
-        }
-      })
-      return counts
+    currentUser,
+    roles() {
+      return ["admin", "moderator", "editor", "member"]
     }
   },
 
   methods: {
     toLabel,
     standardDate,
-    postlink(postType: string, permalink: string, root = true) {
-      return getPermalink({ postType, permalink, root })
+    controlStatus(this: any): ControlAction[] {
+      const roles = ["admin", "moderator", "editor", "member"]
+      const counts: { [key: string]: number } = {}
+      roles.forEach(role => {
+        counts[role] = getStatusCount({
+          meta: this.meta,
+          field: "role",
+          key: role
+        })
+      })
+
+      return [
+        { value: "", label: `All (${this.meta.total})` },
+        { value: "admin", label: `Admin (${counts.admin})` },
+        { value: "moderator", label: `Moderator (${counts.moderator})` },
+        { value: "editor", label: `Editor (${counts.editor})` },
+        { value: "member", label: `Member (${counts.member})` }
+      ]
     },
 
-    tableStructure() {
-      return [
-        // {
-        //   column: "select",
-        //   class: "col-fixed-40"
-        // },
-        {
-          _id: "name",
-          width: "minmax(150px, 1fr)"
-        },
+    controlActions(this: any): ControlAction[] {
+      const actions: ControlAction[] = []
+      if (userCan({ accessLevel: 400 })) {
+        actions.push({
+          value: "delete",
+          label: "Permanently Delete",
+          confirm: (selected: string[]) =>
+            `Permanently delete ${selected.length} user(s)?`
+        })
 
+        this.roles.forEach((role: string) => {
+          actions.push({
+            value: role,
+            label: `Change to ${toLabel(role)}`,
+            confirm: (selected: string[]) =>
+              `Change ${selected.length} user(s) to "${role}" role?`
+          })
+        })
+      }
+      return actions
+    },
+    postItemMeta(post: FactorUser) {
+      return [
         {
-          _id: "photo",
-          width: "70px"
+          value: toLabel(post.role || "no role")
         },
         {
-          _id: "role",
-          width: "minmax(100px, 200px)"
+          label: "Username",
+          value: post.username || post.email
         },
         {
-          _id: "signed-up",
-          width: "minmax(100px, 125px)"
-        },
-        {
-          _id: "last-seen",
-          width: "minmax(100px, 125px)"
+          label: "Since",
+          value: standardDate(post.createdAt)
         }
       ]
+    },
+
+    async handleAction(this: any, action: string) {
+      this.loadingAction = true
+
+      if (action == "delete") {
+        await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
+      } else if (["admin", "moderator", "editor", "member"].includes(action)) {
+        await requestPostSaveMany({
+          _ids: this.selected,
+          data: { role: action },
+          postType: "user"
+        })
+      }
+      emitEvent("refresh-table")
+
+      this.loadingAction = false
     }
   }
 })

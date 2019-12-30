@@ -35,7 +35,7 @@ let bundle: string
 let clientManifest: object
 
 interface UpdateBundle {
-  ({ bundle, template, clientManifest }: RendererComponents): void;
+  ({ bundle, template, clientManifest }: RendererComponents): Promise<void>;
 }
 
 type MemorySystemType = typeof fs | MFS

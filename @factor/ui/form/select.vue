@@ -6,13 +6,13 @@
     :style="inputStyle"
     v-on="listeners"
   >
-    <option value>{{ $attrs.placeholder || "Select" }}</option>
+    <option disabled value>{{ $attrs.placeholder || "Select" }}</option>
     <option
       v-for="(s, i) in parsedList"
       :key="i"
       :value="s.value"
       :disabled="s.disabled"
-    >{{ s.name }}</option>
+    >{{ s.label || s.name }}</option>
   </select>
 </template>
 <script lang="ts">
@@ -40,7 +40,7 @@ export default Vue.extend({
       }
     },
     setting(this: any) {
-      return typeof this.value != "undefined" ? this.value : ""
+      return typeof this.value != "undefined" ? this.value : undefined
     },
 
     parsedList(this: any): ListItem[] {

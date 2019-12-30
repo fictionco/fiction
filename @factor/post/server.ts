@@ -45,6 +45,9 @@ export const savePost = async (
 
   Object.assign(post, data)
 
+  // Add bearer for middleware validation
+  post.$locals.bearer = bearer
+
   return postPermission({ post, bearer, action }) ? await post.save() : {}
 }
 
@@ -103,11 +106,13 @@ export const updateManyById = async (
     postType
   })
 
-  return await getModel(postType).update(
+  const r = await getModel(postType).update(
     { $and: [permissionCondition, { _id: { $in: _ids } }] },
     { $set: data },
-    { multi: true }
+    { multi: true, bearer }
   )
+
+  return r
 }
 
 export const deleteManyById = async (
@@ -147,7 +152,7 @@ export const postList = async (
   options = Object.assign(
     {},
     {
-      sort: "-createdAt",
+      sort: { createdAt: "descending" },
       limit: 20,
       skip: 0
     },
@@ -215,7 +220,7 @@ export const postIndex = async (
   options = Object.assign(
     {},
     {
-      sort: "-createdAt",
+      sort: { date: "descending", createdAt: "descending" },
       limit: 20,
       skip: 0
     },

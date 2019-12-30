@@ -150,6 +150,7 @@ export interface UnsavedFactorPost {
   postType?: string;
   title?: string;
   subTitle?: string;
+  synopsis?: string;
   content?: string;
   author?: PopulatedPosts;
   images?: PopulatedPosts;
@@ -158,7 +159,7 @@ export interface UnsavedFactorPost {
   category?: string[];
   revision?: object[];
   settings?: object;
-  list?: object[];
+  list?: any[];
   status?: PostStatus;
   uniqueId?: string;
   permalink?: string;

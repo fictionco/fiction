@@ -111,7 +111,7 @@ export const getStatusCount = ({
 }): number => {
   if (!meta[field]) return 0
 
-  let count
+  let count = 0
 
   const result = meta[field].find((_: { _id: string }) => _._id == key)
 

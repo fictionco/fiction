@@ -32,6 +32,7 @@
     "helmet": "^3.20.0",
     "http-proxy-middleware": "^0.20.0",
     "https": ">0.0.1",
+    "kill-port": "^1.6.0",
     "lru-cache": "^5.1.1",
     "memfs": "^3.0.1",
     "memory-fs": "^0.5.0",

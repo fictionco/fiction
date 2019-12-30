@@ -76,7 +76,7 @@ export const closeServer = async (): Promise<void> => {
   }
 }
 
-export const createServer = (options: ServerOptions): void => {
+export const createServer = async (options: ServerOptions): Promise<void> => {
   const { port, renderer } = options || {}
 
   process.env.PORT = port || process.env.PORT || "3000"
@@ -108,11 +108,17 @@ export const createServer = (options: ServerOptions): void => {
         log.server(`restarting server ${event}@${path}`, { color: "yellow" })
 
         if (__listening) {
-          __listening.destroy()
+          try {
+            __listening.destroy()
 
-          await runCallbacks("rebuild-server-app", { path })
+            await runCallbacks("rebuild-server-app", { path })
 
-          createServer(options)
+            await createServer(options)
+          } catch (error) {
+            // If an error is thrown that is subsequently fixed, don't prevent server restart
+            setRestarting(false)
+            throw error
+          }
         }
       } else {
         log.server("waiting for restart", { color: "red" })
@@ -142,16 +148,18 @@ export const htmlRenderer = ({
 export const createRenderServer = async (
   options: ServerOptions = {}
 ): Promise<BundleRenderer> => {
-  const renderer: BundleRenderer = await new Promise(resolve => {
-    if (process.env.NODE_ENV == "development") {
+  let renderer: BundleRenderer
+
+  if (process.env.NODE_ENV == "development") {
+    renderer = await new Promise(resolve => {
       developmentServer({
         fileSystem: options.static ? "fs" : "memory-fs",
-        onReady: renderConfig => {
+        onReady: async renderConfig => {
           const renderer = htmlRenderer(renderConfig)
 
           if (!__listening) {
             options.renderer = renderer
-            createServer(options)
+            await createServer(options)
           } else {
             __renderer = renderer
           }
@@ -159,27 +167,25 @@ export const createRenderServer = async (
           resolve(renderer)
         }
       })
-    } else {
-      const paths = {
-        template: setting("app.templatePath"),
-        bundle: getPath("server-bundle"),
-        clientManifest: getPath("client-manifest")
-      }
-
-      const renderComponents = {
-        template: fs.readFileSync(paths.template, "utf-8"),
-        bundle: require(paths.bundle),
-        clientManifest: require(paths.clientManifest)
-      }
-
-      const renderer = htmlRenderer(renderComponents)
-
-      options.renderer = renderer
-      createServer(options)
-
-      resolve(renderer)
+    })
+  } else {
+    const paths = {
+      template: setting("app.templatePath"),
+      bundle: getPath("server-bundle"),
+      clientManifest: getPath("client-manifest")
     }
-  })
+
+    const renderComponents = {
+      template: fs.readFileSync(paths.template, "utf-8"),
+      bundle: require(paths.bundle),
+      clientManifest: require(paths.clientManifest)
+    }
+
+    renderer = htmlRenderer(renderComponents)
+
+    options.renderer = renderer
+    await createServer(options)
+  }
 
   return renderer
 }

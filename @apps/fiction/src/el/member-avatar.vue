@@ -1,6 +1,6 @@
 <template>
   <li class="member">
-    <img :src="getImage(item)" alt="Fiction.com Member">
+    <img :src="getImage(item)" alt="Fiction.com Member"/>
   </li>
 </template>
 <script lang="ts">

@@ -32,7 +32,7 @@
           <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>
         <dashboard-input
-          v-model="post.subTitle"
+          v-model="post.synopsis"
           input="factor-input-text"
           label="Synopsis"
           description="A short description or teaser"
@@ -40,7 +40,7 @@
           @keyup="doDraftSave()"
         />
         <factor-client-only>
-          <dashboard-input v-model="post.date" input="factor-input-date" label="Publish Date" />
+          <dashboard-input v-model="post.date" input="factor-input-date" label="Date" />
         </factor-client-only>
         <dashboard-input label="Tags">
           <input-tags v-model="post.tag" />
@@ -250,9 +250,7 @@ export default Vue.extend({
 <style lang="less">
 .post-grid {
   display: grid;
-  // grid-gap: 1em;
-  // grid-template-columns: 1fr 250px;
-  //grid-template-rows: 1fr 1fr 1fr 1fr;
+
   @media (max-width: 960px) {
     grid-gap: 1em 0;
   }
@@ -265,10 +263,6 @@ export default Vue.extend({
     }
   }
   .meta-column {
-    // .post-actions-wrap {
-    //   height: 100vh;
-    //   position: relative;
-    // }
     .post-actions {
       top: 20px;
       position: sticky;
@@ -282,19 +276,6 @@ export default Vue.extend({
         }
       }
     }
-
-    // @media (max-width: 960px) {
-    //   display: grid; // Added to order items
-    //   .post-media {
-    //     order: 1;
-    //   }
-    //   .post-actions {
-    //     order: 2;
-    //   }
-    //   .post-tags {
-    //     order: 3;
-    //   }
-    // }
   }
 
   .save-info {
@@ -309,8 +290,7 @@ export default Vue.extend({
         margin-right: 8px;
       }
     }
-    // .changes {
-    // }
+
     .unpublished {
       font-weight: var(--font-weight-bold);
     }

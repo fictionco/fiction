@@ -8,12 +8,12 @@
         <div>
           <h1 class="page-title">{{ title }}</h1>
           <div class="page-title-sub">
-            <slot name="subtitle"></slot>
+            <slot name="subtitle"/>
           </div>
         </div>
       </div>
       <div class="header-figure">
-        <slot name="figure"></slot>
+        <slot name="figure"/>
       </div>
     </div>
   </section>

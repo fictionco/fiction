@@ -2,72 +2,39 @@
   <dashboard-pane :title="title">
     <slot slot="title" name="title" />
 
-    <dashboard-grid-controls>
-      <dashboard-grid-actions
-        :actions="controlActions"
-        :loading="loadingAction"
-        @action="runAction($event)"
-      />
-      <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
-    </dashboard-grid-controls>
-
-    <dashboard-grid
-      :structure="tableStructure()"
-      :rows="list"
-      :zero-state="7"
+    <dashboard-list-controls
+      :control-actions="controlActions()"
+      :control-status="controlStatus()"
+      :selected="selected"
+      :loading="loading"
+      :list="list"
+      @action="handleAction($event)"
       @select-all="selectAll($event)"
-    >
-      <template #select="{row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row._id" />
-      </template>
-      <template #title="{row}">
-        <div class="post-title">
-          <factor-link :path="`${$route.path}/edit`" :query="{ _id: row._id }">{{ row.title }}</factor-link>
-          <factor-link
-            v-if="row.permalink"
-            class="permalink"
-            :path="postlink(row.postType, row.permalink, false)"
-          >{{ postlink(row.postType, row.permalink, false) }}</factor-link>
-        </div>
-      </template>
+    />
 
-      <template #author="{row}">
-        <dashboard-user-card v-for="(_id, index) in row.author" :key="index" :post-id="_id" />
-      </template>
+    <dashboard-list-post v-for="post in list" :key="post._id" v-model="selected" :post="post" />
 
-      <template #status="{row}">{{ toLabel(row.status) }}</template>
-      <template #updated="{row}">{{ standardDate(row.updatedAt) }}</template>
-      <template #publish-date="{row}">{{ standardDate(row.date) }}</template>
-    </dashboard-grid>
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
 </template>
 <script lang="ts">
-import { factorLink } from "@factor/ui"
 import {
-  dashboardGrid,
-  dashboardGridControls,
-  dashboardGridFilter,
   dashboardPane,
   dashboardTableFooter,
-  dashboardUserCard,
-  dashboardGridActions
+  dashboardListPost,
+  dashboardListControls
 } from "@factor/dashboard"
 import { getStatusCount } from "@factor/post/util"
-
+import { ControlAction } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorLink,
-    dashboardGrid,
-    dashboardGridControls,
-    dashboardGridActions,
-    dashboardGridFilter,
+    dashboardListPost,
+    dashboardListControls,
     dashboardPane,
-    dashboardTableFooter,
-    dashboardUserCard
+    dashboardTableFooter
   },
   props: {
     title: { type: String, default: "" },
@@ -82,47 +49,12 @@ export default Vue.extend({
     }
   },
   computed: {
-    tabs(this: any): { name: string; value: string; count: number }[] {
-      return [`all`, `published`, `draft`, `trash`].map(key => {
-        const count =
-          key == "all"
-            ? this.meta.total
-            : getStatusCount({
-                meta: this.meta,
-                key,
-                nullKey: "draft"
-              })
-
-        return {
-          name: toLabel(key),
-          value: key == "all" ? "" : key,
-          count
-        }
-      })
-    },
-
     statusDetails(this: any): string {
       const { categories: { status = {} } = {} } = this.index || {}
       return status
     },
     postType(this: any): string {
       return this.$route.params.postType || ""
-    },
-    controlActions(this: any): { value: string; name: string }[] {
-      return [
-        { value: "published", name: "Publish" },
-        { value: "draft", name: "Change to Draft" },
-        { value: "trash", name: "Move to Trash" },
-        { value: "delete", name: "Permanently Delete" }
-      ]
-        .filter(_ => {
-          return _.value != this.$route.query.status
-        })
-        .filter(
-          _ =>
-            _.value !== "delete" ||
-            (_.value == "delete" && this.$route.query.status == "trash")
-        )
     }
   },
 
@@ -132,14 +64,53 @@ export default Vue.extend({
     selectAll(this: any, val: boolean) {
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },
-    async runAction(this: any, action: string) {
+    controlStatus(this: any): ControlAction[] {
+      const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
+      const countPublished = getStatusCount({ meta: this.meta, key: "published" })
+      const countDraft = getStatusCount({ meta: this.meta, key: "draft" })
+      return [
+        { value: "", label: `All (${this.meta.total})` },
+        { value: "published", label: `Published (${countPublished})` },
+        { value: "draft", label: `Draft (${countDraft})` },
+        { value: "trash", label: `Trash (${countTrash})` }
+      ]
+    },
+    controlActions(): ControlAction[] {
+      const actions = [
+        {
+          value: "published",
+          label: "Publish Selected",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) => `Change ${selected.length} items to published?`
+        },
+        {
+          value: "draft",
+          label: "Draft Selected",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) => `Change ${selected.length} items to draft?`
+        },
+        {
+          value: "trash",
+          label: "Move to Trash",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) => `Move ${selected.length} items to trash?`
+        },
+        {
+          value: "delete",
+          label: "Permanently Delete",
+          condition: (query: { [key: string]: string }) => query.status == "trash",
+          confirm: (selected: string[]) => `Permanently delete ${selected.length} items?`
+        }
+      ]
+
+      return actions
+    },
+    async handleAction(this: any, action: string) {
       this.loadingAction = true
 
       if (this.selected.length > 0) {
         if (action == "delete") {
-          if (confirm("Are you sure? This will permanently delete the selected posts.")) {
-            await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
-          }
+          await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
         } else {
           await requestPostSaveMany({
             _ids: this.selected,

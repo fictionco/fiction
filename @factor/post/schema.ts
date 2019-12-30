@@ -21,7 +21,8 @@ export default (): FactorSchema => {
       date: Date,
       postType: { type: String, index: true, sparse: true },
       title: { type: String, trim: true },
-      subTitle: { type: String, trim: true },
+      subTitle: { type: String, trim: true }, // @deprecated
+      synopsis: { type: String, trim: true },
       content: { type: String, trim: true },
       author: [{ type: objectIdType(), ref: "user" }],
       images: [{ type: objectIdType(), ref: "attachment" }],
@@ -61,7 +62,7 @@ export default (): FactorSchema => {
       _s.pre("save", function(this: FactorPost & Document, next) {
         this.markModified("settings")
 
-        if (!this.date && this.status == "published") {
+        if (!this.date) {
           const now = new Date()
           this.date = now.toISOString()
         }

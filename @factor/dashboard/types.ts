@@ -14,3 +14,17 @@ export interface EditPanel {
   name: string;
   component: Promise<Component>;
 }
+
+export interface PostListDataItem {
+  label: string;
+  value: string | number;
+  path?: string;
+}
+
+export interface ControlAction {
+  value: string;
+  label?: string;
+  condition?: (q: { [key: string]: string }) => boolean;
+  confirm?: (q: string[]) => string;
+  default?: true;
+}
