@@ -164,13 +164,17 @@ export default Vue.extend({
     margin-left: 1rem;
   }
   @media (max-width: 700px) {
+    font-size: 0.85em;
     grid-gap: 1rem;
-    grid-template-columns: 2rem 1fr;
+    grid-template-columns: 1rem 1fr;
     grid-template-areas:
-      ". selectors"
+      "selectors selectors"
       "select actions";
     .selectors {
       justify-content: flex-start;
+    }
+    .actions {
+      align-self: flex-end;
     }
   }
 }

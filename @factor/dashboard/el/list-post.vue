@@ -178,6 +178,11 @@ export default Vue.extend({
     .sub-title {
       opacity: 0.6;
     }
+    @media (max-width: 900px) {
+      .title {
+        font-size: 1.1em;
+      }
+    }
   }
   .data-item {
     .label {

@@ -143,7 +143,7 @@ export default Vue.extend({
     }
     .app-main {
       .app-main-content {
-        padding: 1rem;
+        padding: 0.5rem;
       }
     }
   }
