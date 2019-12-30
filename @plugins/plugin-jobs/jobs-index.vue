@@ -99,7 +99,6 @@ export default Vue.extend({
 })
 </script>
 
-
 <style lang="less">
 .plugin-jobs {
   .jobs-entries {

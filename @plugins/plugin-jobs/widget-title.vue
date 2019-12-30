@@ -31,6 +31,7 @@ export default Vue.extend({
 <style lang="less">
 .plugin-jobs {
   .entry-title {
+    margin-bottom: 0.5rem;
     h1 {
       display: inline-block;
       max-width: 65%;

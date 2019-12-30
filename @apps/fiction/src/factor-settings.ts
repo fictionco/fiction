@@ -46,7 +46,7 @@ export default {
       subTitle: "Couldn't find any job posts."
     },
     layout: {
-      index: ["featuredImage", "title", "subtitle"],
+      index: ["featuredImage", "title", "synopsis"],
       single: [
         "singleHeader",
         "entry",

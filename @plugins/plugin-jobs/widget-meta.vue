@@ -37,7 +37,7 @@ export default Vue.extend({
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
-    padding: 0.5rem 0 0;
+    padding-top: 0.5rem;
     font-size: 0.9em;
 
     .company,

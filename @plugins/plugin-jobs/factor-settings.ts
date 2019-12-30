@@ -19,13 +19,13 @@ export default {
       subTitle: "Couldn't find any job posts."
     },
     layout: {
-      index: ["featuredImage", "title", "meta", "subtitle"],
+      index: ["featuredImage", "title", "meta", "synopsis"],
       single: [
         "returnLink",
         "featuredImage",
         "title",
         "meta",
-        "subtitle",
+        "synopsis",
         "entry",
         "cta"
       ],
@@ -39,7 +39,7 @@ export default {
       title: (): Promise<Component> => import("./widget-title.vue"),
       meta: (): Promise<Component> => import("./widget-meta.vue"),
       tags: (): Promise<Component> => import("./widget-tags.vue"),
-      subtitle: (): Promise<Component> => import("./widget-subtitle.vue"),
+      synopsis: (): Promise<Component> => import("./widget-synopsis.vue"),
       pagination: (): Promise<Component> => import("./widget-pagination.vue"),
       entry: (): Promise<Component> => import("./widget-entry.vue"),
       excerpt: (): Promise<Component> => import("./widget-excerpt.vue"),
