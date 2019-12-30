@@ -23,7 +23,7 @@
         <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
 
-      <h3 class="entry-sub-title">{{ post.subTitle }}</h3>
+      <h3 class="entry-synopsis">{{ post.synopsis }}</h3>
 
       <factor-post-edit :post-id="post._id" />
     </div>
@@ -90,22 +90,35 @@ export default Vue.extend({
         }
 
         .entry-title {
-          font-weight: var(--font-weight-bold, 800);
           font-size: 3em;
           letter-spacing: -0.03em;
           line-height: 1.4em;
+          font-weight: var(--font-weight-bold, 800);
           color: #f9f9f9;
-          a:hover {
+
+          a {
             color: inherit;
-            opacity: 0.5;
+            &:hover {
+              opacity: 0.7;
+            }
           }
+
           @media (max-width: 767px) {
             font-size: 2em;
           }
         }
-        // .entry-meta {
-        //   margin-bottom: 0.5rem;
-        // }
+
+        .entry-synopsis {
+          opacity: 0.7;
+          font-size: 1.4em;
+          font-weight: 400;
+          color: #d9d9d9;
+
+          @media (max-width: 767px) {
+            font-size: 1.2em;
+          }
+        }
+
         .entry-meta {
           display: flex;
           align-items: flex-start;
@@ -144,16 +157,6 @@ export default Vue.extend({
           }
         }
 
-        .entry-sub-title {
-          opacity: 0.7;
-          font-size: 1.4em;
-          font-weight: 400;
-          color: #d9d9d9;
-
-          @media (max-width: 767px) {
-            font-size: 1.2em;
-          }
-        }
         .edit {
           display: block;
           font-size: 1rem;
@@ -163,29 +166,6 @@ export default Vue.extend({
             display: none;
           }
         }
-      }
-
-      .entry-title {
-        font-weight: var(--font-weight-bold, 800);
-        font-size: 2.5em;
-        line-height: 1.1;
-
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
-        a {
-          color: inherit;
-          &:hover {
-            color: var(--color-primary, #0496ff);
-          }
-          &:active {
-            opacity: 0.7;
-          }
-        }
-      }
-      .entry-sub-title {
-        font-size: 1.4em;
-        opacity: 0.7;
       }
     }
   }

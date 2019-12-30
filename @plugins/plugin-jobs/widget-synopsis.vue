@@ -1,5 +1,5 @@
 <template>
-  <h3 v-if="post.subTitle" class="entry-subtitle">{{ post.subTitle }}</h3>
+  <h3 v-if="post.synopsis" class="entry-synopsis">{{ post.synopsis }}</h3>
 </template>
 <script lang="ts">
 import { stored } from "@factor/api"
@@ -18,10 +18,10 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .plugin-jobs {
-  .entry-subtitle {
-    font-size: 1.2em;
+  .entry-synopsis {
+    font-size: 1.2rem;
     line-height: 1.6em;
-    margin-bottom: 1em;
+    padding-top: 0.5rem;
   }
 }
 </style>
