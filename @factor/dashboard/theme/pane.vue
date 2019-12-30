@@ -72,6 +72,9 @@ export default Vue.extend({
     @media (max-width: 1400px) {
       padding: 1rem;
     }
+    @media (max-width: 900px) {
+      padding: 1rem;
+    }
 
     > :last-child {
       margin-bottom: 0;

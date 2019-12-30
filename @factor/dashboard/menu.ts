@@ -1,4 +1,5 @@
 import { applyFilters } from "@factor/api"
+import { userInitialized, userCan } from "@factor/user"
 import { getDashboardRoute } from "."
 export interface MenuItem {
   name: string;
@@ -11,18 +12,28 @@ export interface MenuItem {
   active?: boolean;
   priority?: number;
   query?: Record<string, any>;
+  accessLevel?: number;
 }
 
 /**
  * Returns an object containing the dashboard menu areas with menu arrays
  * @param currentPath - The currently active route path. Used to determine active menu items.
  */
-export const getDashboardMenu = (currentPath: string): Record<string, MenuItem[]> => {
-  const menuAreas = ["dashboard", "admin", "account", "action"]
+export const getDashboardMenu = async (
+  currentPath: string
+): Promise<Record<string, MenuItem[]>> => {
+  await userInitialized()
+
+  const menuAreas = ["dashboard", "account", "action"]
+
+  if (userCan({ accessLevel: 100 })) {
+    menuAreas.push("admin")
+  }
 
   const menu: Record<string, MenuItem[]> = {}
   menuAreas.forEach(area => {
-    const parentMenu = applyFilters(`${area}-menu`, [])
+    const parentMenu: MenuItem[] = applyFilters(`${area}-menu`, [])
+
     menu[area] = parentMenu.map((menuItem: MenuItem) => {
       const parentPath = getDashboardRoute(menuItem.path)
       const icon = menuItem.icon ? menuItem.icon : require("./theme/img/generic.svg")

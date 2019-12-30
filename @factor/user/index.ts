@@ -36,8 +36,12 @@ export const currentUser = (): CurrentUserState => {
   return stored("currentUser")
 }
 
-// Utility function that calls a callback when the user is set initially
-// If due to route change then initialized var is set and its called immediately
+/**
+ * Utility function that calls a callback when the user is set initially
+ * If due to route change then initialized var is set and its called immediately
+ *
+ * @param callback - Called after user is initialized with value of user
+ */
 export const userInitialized = async (callback?: Function): Promise<CurrentUserState> => {
   const user = await Vue.$initializedUser
 
@@ -117,19 +121,6 @@ export const authenticate = async (
 
   return user
 }
-
-// export const logout = async (args: { redirect?: string } = {}): Promise<void> => {
-//   setUser({ user: undefined, current: true })
-//   emitEvent("logout")
-//   emitEvent("notify", "Successfully logged out.")
-
-//   if (args.redirect || currentRoute().matched.some(r => r.meta.auth)) {
-//     const { redirect: path = "/" } = args
-//     navigateToRoute({ path })
-//   } else {
-//     emitEvent("reset-ui")
-//   }
-// }
 
 // Very basic version for UI control by  role
 // Needs improvement for more fine grained control

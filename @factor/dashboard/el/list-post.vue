@@ -159,6 +159,9 @@ export default Vue.extend({
     .selector {
       padding-top: 2px;
     }
+    .post-info {
+      min-width: 0;
+    }
   }
   .text-header {
     margin-bottom: 0.5rem;
@@ -196,6 +199,7 @@ export default Vue.extend({
     display: flex;
     flex-wrap: wrap;
     line-height: 1.7;
+    overflow-x: scroll;
     .data-item {
       margin-right: 1rem;
       display: inline-block;

@@ -71,7 +71,7 @@
           v-model="form.password"
           input="factor-input-password"
           data-test="signin-password"
-          autocomplete="new-password"
+          :autocomplete="newAccount ? `new-password` : `current-password`"
           required
           placeholder="Password"
           @keyup.enter="trigger('submit')"

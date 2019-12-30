@@ -18,7 +18,7 @@
     }
   },
   "dependencies": {
-    "@types/cli-progress": "^1.8.1",
+    "@types/cli-progress": "^3.4.0",
     "@types/copy-webpack-plugin": "^5.0.0",
     "@types/cssnano": "^4.0.0",
     "@types/mini-css-extract-plugin": "^0.9.0",

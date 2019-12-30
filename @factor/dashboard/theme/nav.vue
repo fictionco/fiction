@@ -2,7 +2,12 @@
   <div class="app-nav-pad">
     <div class="nav-list">
       <template v-for="area in ['account', 'dashboard', 'admin']">
-        <div v-if="menu[area] && menu[area].length > 0" :key="area" class="nav-area" :class="area">
+        <div
+          v-if="menu && menu[area] && menu[area].length > 0"
+          :key="area"
+          class="nav-area"
+          :class="area"
+        >
           <div v-if="area != 'action' && area != 'account'" class="area-title">{{ toLabel(area) }}</div>
 
           <template v-for="(item, key) in menu[area]">
@@ -49,7 +54,6 @@
 
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-
 import { toLabel, slugify } from "@factor/api"
 import { getDashboardMenu } from "@factor/dashboard/menu"
 
@@ -60,16 +64,17 @@ export default Vue.extend({
     return {
       toggle: false,
       clickHandler: false,
-      menus: {}
+      menu: {},
+      loading: false
     }
   },
-  computed: {
-    menu(this: any) {
-      return getDashboardMenu(this.$route.path)
-    }
-  },
+  computed: {},
   watch: {},
-  async mounted() {},
+  async mounted() {
+    this.loading = true
+    this.menu = await getDashboardMenu(this.$route.path)
+    this.loading = false
+  },
   methods: {
     toLabel,
     slugify

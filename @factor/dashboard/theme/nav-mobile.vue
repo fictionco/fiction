@@ -55,11 +55,19 @@ export default Vue.extend({
     factorLink,
     factorAvatar
   },
-  computed: {
-    currentUser,
-    menu(this: any) {
-      return getDashboardMenu(this.$route.path)
+  data() {
+    return {
+      menu: {},
+      loading: false
     }
+  },
+  computed: {
+    currentUser
+  },
+  async mounted() {
+    this.loading = true
+    this.menu = await getDashboardMenu(this.$route.path)
+    this.loading = false
   },
   methods: {
     toLabel,
