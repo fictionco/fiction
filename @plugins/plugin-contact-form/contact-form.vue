@@ -71,7 +71,7 @@ export default Vue.extend({
       this.sent = true
       this.sending = false
     },
-    getLabel(c) {
+    getLabel(c): string {
       const label = [c.label]
       if (c.required && c.label) {
         label.push("*")

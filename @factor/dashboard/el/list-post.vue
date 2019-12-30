@@ -7,7 +7,7 @@
       <div class="post-info">
         <div class="text-header">
           <factor-link :path="itemPath" class="title">{{ itemTitle }}</factor-link>
-          <factor-link v-if="itemSubTitle" class="sub-title">{{ itemSubTitle }}</factor-link>
+          <div v-if="itemSubTitle" class="sub-title">{{ itemSubTitle }}</div>
         </div>
 
         <div class="meta-information">
@@ -20,8 +20,8 @@
               class="toggle-additional-information value"
               @click="moreInfoToggle = !moreInfoToggle"
             >
-              <span v-if="moreInfoToggle">Less &uarr;</span>
-              <span v-else>More &darr;</span>
+              <span v-if="moreInfoToggle">{{ toggle.hide }} &uarr;</span>
+              <span v-else>{{ toggle.show }} &darr;</span>
             </div>
           </div>
         </div>
@@ -51,7 +51,9 @@ export default Vue.extend({
     subTitle: { type: String, default: "" },
     meta: { type: Array, default: () => [] },
     additional: { type: Array, default: () => [] },
-    value: { type: Array, default: () => [] }
+    value: { type: Array, default: () => [] },
+    toggle: { type: Object, default: () => ({ show: "More", hide: "Less" }) },
+    editPath: { type: [String, Boolean], default: true }
   },
   data() {
     return {
@@ -80,7 +82,13 @@ export default Vue.extend({
       return this.title || this.post.title
     },
     itemPath(this: any): string {
-      return `${this.$route.path}/edit?_id=${this.post._id}`
+      let p = ""
+      if (this.editPath === true) {
+        p = `${this.$route.path}/edit?_id=${this.post._id}`
+      } else if (this.editPath) {
+        p = this.editPath
+      }
+      return p
     },
     itemSubTitle(this: any): string {
       return this.subTitle || this.post.permalink
@@ -158,14 +166,14 @@ export default Vue.extend({
     .sub-title {
       display: block;
       color: inherit;
-      &:hover {
-        color: var(--color-primary);
-      }
     }
     .title {
       font-weight: 600;
       font-size: 1.2em;
       margin-bottom: 0.25rem;
+      &:hover {
+        color: var(--color-primary);
+      }
     }
     .sub-title {
       opacity: 0.6;

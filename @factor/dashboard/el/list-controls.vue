@@ -88,9 +88,9 @@ export default Vue.extend({
     },
     controlSort(this: any): ControlAction[] {
       return [
-        { value: "date", label: `Date`, default: true },
-        { value: "updatedAt", label: `Date Updated` },
-        { value: "createdAt", label: `Date Created` }
+        { value: "createdAt", label: `Date Created`, default: true },
+        { value: "date", label: `Date` },
+        { value: "updatedAt", label: `Date Updated` }
       ]
     },
     setAction(this: any, value: string): void {

@@ -34,7 +34,7 @@ export const setup = (): void => {
     nameSingle: "Submitted",
     namePlural: "Contact Forms",
     listTemplate: (): Promise<Component> => import("./dashboard-list.vue"),
-    noAddNew: false
+    noAddNew: true
   })
 }
 setup()
