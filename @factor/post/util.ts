@@ -1,7 +1,7 @@
 import { applyFilters, pushToFilter } from "@factor/api/hooks"
 
 import postSchema from "@factor/post/schema"
-import { deepMerge } from "@factor/api/utils"
+
 import { UserRoles, CurrentUserState } from "@factor/user/types"
 import { roleAccessLevel } from "@factor/user/util"
 import {
