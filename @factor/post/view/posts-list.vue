@@ -49,25 +49,6 @@ export default Vue.extend({
     }
   },
   computed: {
-    tabs(this: any): { name: string; value: string; count: number }[] {
-      return [`all`, `published`, `draft`, `trash`].map(key => {
-        const count =
-          key == "all"
-            ? this.meta.total
-            : getStatusCount({
-                meta: this.meta,
-                key,
-                nullKey: "draft"
-              })
-
-        return {
-          name: toLabel(key),
-          value: key == "all" ? "" : key,
-          count
-        }
-      })
-    },
-
     statusDetails(this: any): string {
       const { categories: { status = {} } = {} } = this.index || {}
       return status
@@ -75,22 +56,6 @@ export default Vue.extend({
     postType(this: any): string {
       return this.$route.params.postType || ""
     }
-    // controlActions(this: any): { value: string; name: string }[] {
-    //   return [
-    //     { value: "published", name: "Publish" },
-    //     { value: "draft", name: "Change to Draft" },
-    //     { value: "trash", name: "Move to Trash" },
-    //     { value: "delete", name: "Permanently Delete" }
-    //   ]
-    //     .filter(_ => {
-    //       return _.value != this.$route.query.status
-    //     })
-    //     .filter(
-    //       _ =>
-    //         _.value !== "delete" ||
-    //         (_.value == "delete" && this.$route.query.status == "trash")
-    //     )
-    // }
   },
 
   methods: {
@@ -114,29 +79,27 @@ export default Vue.extend({
       const actions = [
         {
           value: "published",
-          label: "Publish Post(s)",
+          label: "Publish Selected",
           condition: (query: { [key: string]: string }) => query.status != "trash",
-          confirm: (selected: string[]) =>
-            `Change ${selected.length} post(s) to published?`
+          confirm: (selected: string[]) => `Change ${selected.length} items to published?`
         },
         {
           value: "draft",
-          label: "Draft Post(s)",
+          label: "Draft Selected",
           condition: (query: { [key: string]: string }) => query.status != "trash",
-          confirm: (selected: string[]) => `Change ${selected.length} post(s) to draft?`
+          confirm: (selected: string[]) => `Change ${selected.length} items to draft?`
         },
         {
           value: "trash",
           label: "Move to Trash",
           condition: (query: { [key: string]: string }) => query.status != "trash",
-          confirm: (selected: string[]) => `Move ${selected.length} post(s) to trash?`
+          confirm: (selected: string[]) => `Move ${selected.length} items to trash?`
         },
         {
           value: "delete",
           label: "Permanently Delete",
           condition: (query: { [key: string]: string }) => query.status == "trash",
-          confirm: (selected: string[]) =>
-            `Permanently delete ${selected.length} post(s)?`
+          confirm: (selected: string[]) => `Permanently delete ${selected.length} items?`
         }
       ]
 
@@ -147,9 +110,7 @@ export default Vue.extend({
 
       if (this.selected.length > 0) {
         if (action == "delete") {
-          if (confirm("Are you sure? This will permanently delete the selected posts.")) {
-            await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
-          }
+          await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
         } else {
           await requestPostSaveMany({
             _ids: this.selected,

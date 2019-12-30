@@ -6,7 +6,7 @@
     :style="inputStyle"
     v-on="listeners"
   >
-    <option value>{{ $attrs.placeholder || "Select" }}</option>
+    <option disabled value>{{ $attrs.placeholder || "Select" }}</option>
     <option
       v-for="(s, i) in parsedList"
       :key="i"

@@ -23,9 +23,10 @@
 </template>
 <script lang="ts">
 import { getStatusCount } from "@factor/post/util"
-import { stored, timeUtil, timestamp } from "@factor/api"
+import { stored, timeUtil, timestamp, emitEvent } from "@factor/api"
 import { FactorPost } from "@factor/post/types"
 import { ControlAction } from "@factor/dashboard/types"
+import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import {
   dashboardPane,
   dashboardListPost,
@@ -118,19 +119,19 @@ export default Vue.extend({
         {
           label: "In 24 Hours",
           value: `${emailsInDay.length} Emails (${
-            emailsInDay.filter(_ => _.verified).length
+            emailsInDay.filter((_: EmailConfig) => _.verified).length
           } Verified)`
         },
         {
           label: "In Week",
           value: `${emailsInWeek.length} Emails (${
-            emailsInWeek.filter(_ => _.verified).length
+            emailsInWeek.filter((_: EmailConfig) => _.verified).length
           } Verified)`
         },
         {
           label: "In Month",
           value: `${emailsInMonth.length} Emails (${
-            emailsInMonth.filter(_ => _.verified).length
+            emailsInMonth.filter((_: EmailConfig) => _.verified).length
           } Verified)`
         }
       ]
@@ -139,30 +140,43 @@ export default Vue.extend({
       const boundary = timestamp(timeUtil().subtract(1, time))
       return list.filter(_ => _.addedAt >= boundary)
     },
-    handleAction(this: any, action: string) {
-      if (action == "export-csv") {
-        const data: EmailConfig[] = []
-        const name = ["email-list"]
-        this.selected.forEach((_id: string) => {
-          const p = stored(_id)
-          if (p.list) {
-            data.push(
-              p.list.map(_ => {
-                delete _.code
-                return _
-              })
-            )
-            name.push(p.title)
-          }
-        })
+    async handleAction(this: any, action: string) {
+      this.loadingAction = true
 
-        csvExport({
-          filename: name.join("-"),
-          data: [...data]
-        })
-      } else {
-        this.$emit("action", { action, selected: this.selected })
+      if (this.selected.length > 0) {
+        if (action == "export-csv") {
+          const data: EmailConfig[] = []
+          const name = ["email-list"]
+          this.selected.forEach((_id: string) => {
+            const p = stored(_id)
+            if (p.list) {
+              data.push(
+                p.list.map((_: EmailConfig) => {
+                  delete _.code
+                  return _
+                })
+              )
+              name.push(p.title)
+            }
+          })
+
+          csvExport({
+            filename: name.join("-"),
+            data: [...data]
+          })
+        } else if (action == "delete") {
+          await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
+        } else {
+          await requestPostSaveMany({
+            _ids: this.selected,
+            data: { status: action },
+            postType: this.postType
+          })
+        }
+        emitEvent("refresh-table")
       }
+
+      this.loadingAction = false
     },
     selectAll(this: any, val: boolean): void {
       this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)

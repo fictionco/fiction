@@ -1,69 +1,53 @@
 <template>
   <dashboard-pane :title="title">
-    <dashboard-grid-controls>
-      <dashboard-grid-actions
-        :actions="controlActions"
-        :loading="sending"
-        @action="$emit('action', { action: $event, selected })"
-      />
-      <dashboard-grid-filter filter-id="status" :filter-tabs="tabs" />
-    </dashboard-grid-controls>
-
-    <dashboard-grid
-      class="contact-form-table"
-      :structure="tableStructure()"
-      :rows="tableList"
+    <dashboard-list-controls
+      :control-actions="controlActions()"
+      :control-status="controlStatus()"
+      :selected="selected"
+      :loading="loading"
+      :list="list"
+      @action="handleAction($event)"
       @select-all="selectAll($event)"
-    >
-      <template #select="{row}">
-        <input
-          v-model="selected"
-          type="checkbox"
-          class="checkbox"
-          label
-          :value="row._id"
-        />
-      </template>
-      <template #info="{row}">
-        <div class="form-fields-wrap">
-          <div class="form-fields">
-            <div v-for="([key, value], i) in fields(row)" :key="i" class="dat">
-              <strong>{{ toLabel(key) }}:</strong>
-              <i>{{ value }}</i>
-            </div>
-          </div>
-        </div>
-      </template>
-      <template #message="{row}">
-        <div class="message">{{ row.message }}</div>
-      </template>
-      <template #created="{row}">{{ standardDate(row.createdAt) }}</template>
-    </dashboard-grid>
+    />
+
+    <dashboard-list-post
+      v-for="post in list"
+      :key="post._id"
+      v-model="selected"
+      :post="post"
+      :title="formFields(post).message"
+      sub-title="Form Submission"
+      :meta="postItemMeta(post)"
+      :additional="postItemAdditional(post)"
+      :toggle="{ show: `Show Form Data`, hide: `Hide Form Data` }"
+      :edit-path="false"
+    />
   </dashboard-pane>
 </template>
 <script lang="ts">
-/* eslint-disable no-unused-vars */
 import { getStatusCount } from "@factor/post/util"
-import { toLabel, standardDate, getPermalink, omit } from "@factor/api"
+import { emitEvent, toLabel, standardDate } from "@factor/api"
+import { FactorPost } from "@factor/post/types"
+import { ControlAction, PostListDataItem } from "@factor/dashboard/types"
+import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import {
-  dashboardGrid,
   dashboardPane,
-  dashboardGridControls,
-  dashboardGridFilter,
-  dashboardGridActions
+  dashboardListPost,
+  dashboardListControls
 } from "@factor/dashboard"
+
 import Vue from "vue"
+import { ContactFormStandard } from "./types"
 
 export default Vue.extend({
   name: "ContactFormList",
   components: {
-    dashboardGrid,
+    dashboardListPost,
     dashboardPane,
-    dashboardGridControls,
-    dashboardGridFilter,
-    dashboardGridActions
+    dashboardListControls
   },
   props: {
+    postType: { type: String, default: "post" },
     title: { type: String, default: "" },
     list: { type: Array, default: () => [] },
     meta: { type: Object, default: () => {} },
@@ -77,79 +61,93 @@ export default Vue.extend({
       loadingAction: false
     }
   },
-  computed: {
-    tableList() {
-      return this.list.map(({ _id, createdAt, settings }) => {
-        return {
-          ...settings,
-          createdAt,
-          _id
-        }
-      })
-    },
-    tabs() {
-      return [`all`, `trash`].map(key => {
-        const count =
-          key == "all"
-            ? this.meta.total
-            : getStatusCount({
-                meta: this.meta,
-                key
-              })
-
-        return {
-          name: toLabel(key),
-          value: key == "all" ? "" : key,
-          count
-        }
-      })
-    },
-    controlActions() {
-      return [
-        { value: "trash", name: "Move to Trash" },
-        { value: "delete", name: "Permanently Delete" }
-      ].filter(_ => {
-        return _.value != this.$route.query.status
-      })
-    }
-  },
+  computed: {},
 
   methods: {
     toLabel,
     standardDate,
-    selectAll(val) {
-      this.selected = !val ? [] : this.list.map(_ => _._id)
+    formFields(this: any, post: FactorPost) {
+      return post && post.settings ? post.settings : {}
     },
-    fields(row) {
-      const rest = omit(row, ["message", "createdAt", "_id"])
+    controlStatus(this: any): ControlAction[] {
+      const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
+      return [
+        { value: "", label: `All (${this.meta.total})` },
+        { value: "trash", label: `Trash (${countTrash})` }
+      ]
+    },
+    postItemMeta(post: FactorPost) {
+      const formFields: ContactFormStandard = this.formFields(post)
 
-      return Object.values(rest)
-    },
-    postlink(postType: string, permalink: string, root = true) {
-      return getPermalink({ postType, permalink, root })
-    },
-
-    tableStructure() {
       return [
         {
-          _id: "select",
-          width: "50px"
-        },
-
-        {
-          _id: "message",
-          width: "minmax(200px, 300px)"
+          label: "From",
+          value: formFields.name
         },
         {
-          _id: "info",
-          width: "minmax(300px, 600px)"
-        },
-        {
-          _id: "created",
-          width: "minmax(100px, 150px)"
+          label: "Email",
+          value: formFields.email
         }
       ]
+    },
+    controlActions(): ControlAction[] {
+      const actions = [
+        {
+          value: "trash",
+          label: "Move to Inactive/Trash",
+          condition: (query: { [key: string]: string }) => query.status != "trash",
+          confirm: (selected: string[]) =>
+            `Move ${selected.length} submission(s) to trash?`
+        },
+        {
+          value: "publish",
+          label: "Move to Active",
+          condition: (query: { [key: string]: string }) => query.status == "trash"
+        },
+        {
+          value: "delete",
+          label: "Permanently Delete",
+          condition: (query: { [key: string]: string }) => query.status == "trash",
+          confirm: (selected: string[]) =>
+            `Permanently delete ${selected.length} submission(s)?`
+        }
+      ]
+
+      return actions
+    },
+    postItemAdditional(this: any, post: FactorPost): PostListDataItem[] {
+      const formFields: { [key: string]: string } = this.formFields(post)
+      const entries = Object.entries(formFields)
+      return entries.map(([key, value]) => {
+        return { label: toLabel(key), value }
+      })
+    },
+    selectAll(this: any, val: boolean): void {
+      this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)
+    },
+    async handleAction(this: any, action: string) {
+      this.loadingAction = true
+
+      if (this.selected.length > 0) {
+        if (action == "delete") {
+          await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
+        } else {
+          await requestPostSaveMany({
+            _ids: this.selected,
+            data: { status: action },
+            postType: this.postType
+          })
+        }
+        emitEvent("refresh-table")
+      }
+
+      this.loadingAction = false
     }
+    // fields(row) {
+    //   const rest = omit(row, ["message", "createdAt", "_id"])
+
+    //   return Object.values(rest)
+    // }
   }
 })
 </script>
