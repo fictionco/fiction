@@ -8,7 +8,11 @@ export default (): FactorSchema => {
     options: { timestamps: true },
     permissions: {
       create: { accessLevel: 1 },
-      retrieve: { accessLevel: 100, status: { published: { accessLevel: 0 } } },
+      retrieve: {
+        accessLevel: 100,
+        status: { published: { accessLevel: 0 } },
+        author: true
+      },
       update: { accessLevel: 300, author: true },
       delete: { accessLevel: 300, author: true }
     },

@@ -11,6 +11,12 @@ import { FactorUser } from "./types"
 export default (): FactorSchema => {
   return {
     name: "user",
+    permissions: {
+      create: { accessLevel: 0 },
+      retrieve: { accessLevel: 0 },
+      update: { accessLevel: 300, author: true },
+      delete: { accessLevel: 300, author: true }
+    },
     callback: (_s: Schema): void => {
       // PASSWORDS
       _s.methods.comparePassword = async function comparePassword(

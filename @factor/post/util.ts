@@ -74,7 +74,7 @@ export const getSchemaPermissions = ({
     }
   }
 
-  return deepMerge([permissions, subPermissions])
+  return { ...permissions, ...subPermissions }
 }
 
 export const isPostAuthor = ({

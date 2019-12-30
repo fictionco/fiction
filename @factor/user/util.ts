@@ -4,7 +4,7 @@ import { userRolesMap, CurrentUserState, UserRoles } from "./types"
 import { userToken } from "./token"
 
 export const roleAccessLevel = (role: UserRoles | undefined): number => {
-  return role && userRolesMap[role] ? userRolesMap[role] : 300
+  return role && userRolesMap[role] ? userRolesMap[role] : 0
 }
 
 export interface SetUser {
