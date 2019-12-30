@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-jobs",
   "description": "This plugin makes it easy to create and manage a job board in your Factor app.",
-  "version": "1.1.12",
+  "version": "1.1.15",
   "license": "GPL-2.0",
   "factor": {
     "load": [
