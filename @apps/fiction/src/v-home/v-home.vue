@@ -14,12 +14,13 @@
           </div>
 
           <h1 class="title">
-            A Modern CMS Platform
+            A Modern CMS
+            <br />
             <span class="alt">for Web Development Perfectionists</span>
           </h1>
           <p class="text">
-            Looking for an alternative to WordPress? Try the
-            <factor-link path="https://factor.dev">Factor Platform</factor-link>, a full-stack Javascript platform built for revolutionary applications, content and ideas.
+            Try the
+            <factor-link path="https://factor.dev">Factor Platform</factor-link>, a development platform built for websites, blogs and applications.
           </p>
 
           <div class="header-actions">
@@ -47,7 +48,7 @@
           </div>
         </div>
         <div v-show="buttonsLoaded" class="factor-actions">
-          <script async defer src="https://buttons.github.io/buttons.js"/>
+          <script async defer src="https://buttons.github.io/buttons.js" />
 
           <a
             class="github-button"

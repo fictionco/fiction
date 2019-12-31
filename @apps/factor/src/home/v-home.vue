@@ -14,7 +14,7 @@
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
             <div v-if="!loadingButtons" class="github-actions">
-              <script async defer src="https://buttons.github.io/buttons.js"/>
+              <script async defer src="https://buttons.github.io/buttons.js" />
 
               <a
                 class="github-button"
