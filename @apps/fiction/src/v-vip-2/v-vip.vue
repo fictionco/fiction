@@ -1,7 +1,7 @@
 <template>
   <div class="view-vip-version-2">
     <section class="intro content">
-      <div class="header-bg"/>
+      <div class="header-bg" />
       <div class="content-pad wide">
         <div class="header-text">
           <div class="header-tag">
@@ -93,7 +93,7 @@
     </div>
 
     <section class="manage content">
-      <div class="manage-bg"/>
+      <div class="manage-bg" />
       <div class="content-pad wide">
         <div class="manage-figure">
           <figure-manage />
@@ -197,7 +197,7 @@ export default Vue.extend({
             id: "process-develop",
             figure: () => import("./figure-develop.vue"),
             title: "Develop",
-            text: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.`
+            text: `Everything built with the Factor CMS platform, powered by modern tools like VueJS, MongoDB and TypeScript. Your app will include a dashboard and post management system.`
           }
         ],
         link: {
@@ -208,7 +208,7 @@ export default Vue.extend({
       manage: {
         title: "Manage & Maintain",
         text:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          "Get chat access to the Factor community, experience immediate content updates when managing your app and the latest updates of the Factor platform.",
         bullets: ["Build", "Test", "Deploy", "SEO", "Support", "Updates"]
       }
     }
@@ -242,6 +242,7 @@ export default Vue.extend({
     margin: 0 auto;
     padding: 0 1.5rem;
     width: 100%;
+    align-items: center;
     &.wide {
       max-width: 1200px;
     }
