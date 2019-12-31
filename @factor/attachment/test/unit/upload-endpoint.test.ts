@@ -10,7 +10,7 @@ import * as endpoint from "@factor/endpoint"
 import * as endpointServer from "@factor/endpoint/server"
 import { mockUser, getPort } from "@test/utils"
 import { startEndpointTestingServer, stopEndpointTestingServer } from "@test/utils/mongod"
-import { CurrentUserState } from "@factor/user/types"
+import { CurrentUserState, UserRoles } from "@factor/user/types"
 import FormData from "form-data"
 import fs from "fs"
 
@@ -22,7 +22,7 @@ let port
 
 jest.spyOn(endpointServer, "setAuthorizedUser").mockImplementation(
   async (): Promise<CurrentUserState> => {
-    return mockUser()
+    return mockUser(UserRoles.Admin)
   }
 )
 

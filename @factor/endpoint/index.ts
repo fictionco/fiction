@@ -53,7 +53,7 @@ export const endpointRequest = async ({
     if (error) {
       handleTokenError(error, {
         onError: (): void => {
-          const err = new Error(error.message)
+          const err = new Error(error.message.replace("Error: ", ""))
           emitEvent("error", err)
           throw err
         }

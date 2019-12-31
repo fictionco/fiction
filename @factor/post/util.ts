@@ -133,8 +133,6 @@ export const postPermission = ({
   post: FactorPost;
   action: PostActions;
 }): boolean => {
-  if (process.env.FACTOR_ENV == "test") return true
-
   const permissionsConfig = getSchemaPermissions({ postType: post.__t })
 
   const { accessLevel, role, author, status } = permissionsConfig[action] ?? {
@@ -172,8 +170,6 @@ export const canUpdatePostsCondition = ({
   action,
   postType = "post"
 }: DetermineUpdatePermissions): { author?: string } => {
-  if (process.env.FACTOR_ENV == "test") return {}
-
   const permissionsConfig = getSchemaPermissions({ postType })
 
   const { accessLevel, role, author } = permissionsConfig[action] ?? { accessLevel: 300 }

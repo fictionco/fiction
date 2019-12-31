@@ -9,7 +9,7 @@ import { buildProductionApp } from "@factor/build/webpack-config"
 import { createApp } from "@factor/app/app"
 import { objectId } from "@factor/post/object-id"
 import jsdom from "jsdom"
-import { FactorUser } from "@factor/user/types"
+import { FactorUser, UserRoles, userRolesMap } from "@factor/user/types"
 
 interface JSDomConfig {
   port?: string;
@@ -26,8 +26,18 @@ export const waitFor = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms || 0))
 }
 
-export const mockUser = (): FactorUser => {
-  return { displayName: "Mock User", _id: objectId().toString(), email: "mock@mock.com" }
+export const mockUser = (
+  role: UserRoles = UserRoles.Member,
+  additional: object = {}
+): FactorUser => {
+  return {
+    displayName: "Mock User",
+    _id: objectId().toString(),
+    email: "mock@mock.com",
+    accessLevel: userRolesMap[role] || 0,
+    role,
+    ...additional
+  }
 }
 
 export const indexHtml = ({
