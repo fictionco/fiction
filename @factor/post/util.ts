@@ -137,11 +137,22 @@ export const postPermission = ({
 
   const permissionsConfig = getSchemaPermissions({ postType: post.__t })
 
-  const { accessLevel, role, author } = permissionsConfig[action] ?? { accessLevel: 300 }
+  const { accessLevel, role, author, status } = permissionsConfig[action] ?? {
+    accessLevel: 300
+  }
 
-  const postAccessLevel = accessLevel ? accessLevel : roleAccessLevel(role as UserRoles)
+  let postAccessLevel = 0
+
+  if (status && post.status && status[post.status]) {
+    const { accessLevel: statusAccessLevel } = status[post.status] || {}
+    postAccessLevel = statusAccessLevel || 0
+  } else {
+    postAccessLevel = accessLevel ? accessLevel : roleAccessLevel(role as UserRoles)
+  }
 
   const userRole = (bearer?.role as UserRoles) ?? UserRoles.Anonymous
+
+  const authorId = bearer?._id
 
   const userAccessLevel = bearer?.accessLevel ?? roleAccessLevel(userRole)
 
@@ -149,7 +160,7 @@ export const postPermission = ({
 
   if (userAccessLevel >= postAccessLevel) {
     return true
-  } else if (author && isAuthor) {
+  } else if (author && authorId && isAuthor) {
     return true
   } else {
     throw new Error("Insufficient permissions.")

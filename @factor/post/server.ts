@@ -80,7 +80,14 @@ export const getSinglePost = async (
     _post = await Model.findOne(conditions)
   }
 
-  if (_post && !postPermission({ post: _post, bearer, action: PostActions.Retrieve })) {
+  if (
+    _post &&
+    !postPermission({
+      post: _post,
+      bearer,
+      action: PostActions.Retrieve
+    })
+  ) {
     return
   }
   // If ID is unset or if it isn't found, create a new post model/doc

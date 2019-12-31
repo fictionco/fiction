@@ -130,7 +130,10 @@ export default Vue.extend({
       this.loadingAction = true
 
       if (action == "delete") {
-        await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
+        await requestPostDeleteMany({
+          _ids: this.selected,
+          postType: this.postType
+        })
       } else if (["admin", "moderator", "editor", "member"].includes(action)) {
         await requestPostSaveMany({
           _ids: this.selected,
@@ -138,6 +141,7 @@ export default Vue.extend({
           postType: "user"
         })
       }
+
       emitEvent("refresh-table")
 
       this.loadingAction = false
