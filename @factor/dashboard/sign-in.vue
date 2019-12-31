@@ -214,11 +214,11 @@ export default Vue.extend({
     sendPasswordResetEmail,
     verifyAndResetPassword,
     isLoggedIn,
-    trigger(this: any, ref) {
+    trigger(this: any, ref: string) {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
     },
-    async send(this: any, { action, next }) {
+    async send(this: any, { action, next }: { action: Function; next: string }) {
       const r = this.$refs["signin-form"].$el.reportValidity()
 
       if (!r) return

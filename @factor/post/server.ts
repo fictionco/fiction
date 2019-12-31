@@ -7,6 +7,7 @@ import { addEndpoint } from "@factor/api/endpoints"
 import {
   PostActions,
   FactorPost,
+  UnsavedFactorPost,
   PostIndexAggregations,
   PostIndexCounts,
   PostIndexRequestParameters,
@@ -24,10 +25,10 @@ import {
 } from "./database"
 
 export const savePost = async (
-  { data, postType = "post" }: { data: FactorPost; postType: string },
+  { data, postType = "post" }: { data: FactorPost | UnsavedFactorPost; postType: string },
   { bearer }: EndpointMeta
-): Promise<FactorPost | {}> => {
-  if (dbIsOffline()) return {}
+): Promise<FactorPost | undefined> => {
+  if (dbIsOffline()) return
 
   const { _id } = data
 
@@ -48,13 +49,17 @@ export const savePost = async (
   // Add bearer for middleware validation
   post.$locals.bearer = bearer
 
-  return postPermission({ post, bearer, action }) ? await post.save() : {}
+  if (postPermission({ post, bearer, action })) {
+    return await post.save()
+  } else {
+    return
+  }
 }
 
 export const getSinglePost = async (
   params: PostRequestParameters,
   meta: EndpointMeta = {}
-): Promise<FactorPost | void> => {
+): Promise<FactorPost | undefined> => {
   const { bearer } = meta
 
   let { _id } = params

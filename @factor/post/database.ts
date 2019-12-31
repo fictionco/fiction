@@ -15,7 +15,7 @@ let __models: { [index: string]: Model<any> } = {}
 let __offline = false
 
 export const dbIsOffline = (): boolean => {
-  return __offline || !process.env.DB_CONNECTION
+  return (__offline || !process.env.DB_CONNECTION) && process.env.FACTOR_ENV !== "test"
 }
 
 export const dbReadyState = (): string => {

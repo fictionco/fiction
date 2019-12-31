@@ -7,13 +7,18 @@ export default (): FactorSchema => {
     name: "post",
     options: { timestamps: true },
     permissions: {
-      create: { accessLevel: 1 },
+      create: { accessLevel: 300 },
       retrieve: {
-        accessLevel: 100,
+        accessLevel: 300,
         status: { published: { accessLevel: 0 } },
         author: true
       },
-      update: { accessLevel: 300, author: true },
+      list: {
+        accessLevel: 300,
+        author: true,
+        status: { published: { accessLevel: 0 } }
+      },
+      update: { accessLevel: 100, author: true },
       delete: { accessLevel: 300, author: true }
     },
     populatedFields: applyFilters("post-populated-fields", [
@@ -62,8 +67,10 @@ export default (): FactorSchema => {
           `${props.value} is not URL compatible.`
       }
     }),
-    callback: (_s: Schema): void => {
-      _s.pre("save", function(this: FactorPost & Document, next) {
+    callback: (postSchema: Schema): void => {
+      // Add text search index
+      postSchema.index({ title: "text", content: "text" })
+      postSchema.pre("save", function(this: FactorPost & Document, next) {
         this.markModified("settings")
 
         if (!this.date) {

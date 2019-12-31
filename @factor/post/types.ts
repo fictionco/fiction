@@ -128,6 +128,7 @@ export interface SchemaPermissions {
   retrieve?: PermissionLevel;
   update?: PermissionLevel;
   delete?: PermissionLevel;
+  list?: PermissionLevel;
 }
 
 export interface FactorSchema {

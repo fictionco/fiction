@@ -3,13 +3,8 @@
     <section class="header">
       <div class="headline content">
         <div class="content-pad">
-          <h1 class="page-title">
-            Create websites, blogs, and full-stack apps
-            <span
-              class="highlight"
-            >with a modern Javascript stack</span>
-          </h1>
-          <h3 class="page-title-sub">The marketing and CMS platform for web developers.</h3>
+          <h1 class="page-title">Build websites, blogs, and apps.</h1>
+          <h3 class="page-title-sub">The CMS framework built for web-developers.</h3>
 
           <div class="actions">
             <factor-email-list list-id="alphaProgram" />
@@ -24,7 +19,7 @@
                 data-size="large"
                 data-show-count="true"
                 aria-label="Star fiction-com/factor on GitHub"
-              >Star</a>
+              >Star on Github</a>
             </div>
           </div>
           <div class="points">
@@ -32,19 +27,25 @@
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">Full-Stack VueJS</span>
+              <span class="text">100% Javascript</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">Drop-In Themes + Plugins</span>
+              <span class="text">CMS Dashboard</span>
             </div>
             <div class="point">
               <span class="arrow">
                 <factor-icon icon="check" />
               </span>
-              <span class="text">Free and Open-Source</span>
+              <span class="text">Themes + Plugins</span>
+            </div>
+            <div class="point">
+              <span class="arrow">
+                <factor-icon icon="check" />
+              </span>
+              <span class="text">Open-Source</span>
             </div>
           </div>
         </div>
@@ -239,7 +240,7 @@ export default Vue.extend({
 <style lang="less">
 .view-home {
   padding-top: 45px;
-  font-weight: 400;
+
   overflow: hidden;
   .content-pad {
     max-width: 1100px;
@@ -263,22 +264,34 @@ export default Vue.extend({
         position: relative;
       }
 
+      .page-title,
+      .page-title-sub {
+        letter-spacing: -0.025em;
+      }
+
       .page-title {
         font-size: 3.7em;
         line-height: 1.1;
-        font-weight: 500;
-        margin: 0 0 1rem;
-        letter-spacing: -0.03em;
+        font-weight: 600;
+        margin-bottom: 1rem;
+
         .highlight {
           display: block;
+          // color: var(--color-primary);
+        }
+        @media (max-width: 900px) {
           color: var(--color-primary);
+          font-weight: 500;
+          font-size: 2em;
+          line-height: 1.1;
         }
       }
+
       .page-title-sub {
         font-size: 2em;
         opacity: 0.7;
-        margin: 1em 0;
       }
+
       .points {
         display: flex;
         margin: 4rem auto 2rem;
@@ -288,9 +301,7 @@ export default Vue.extend({
           margin: 0 1rem;
           text-transform: uppercase;
           font-weight: 600;
-          .arrow {
-            background: var(--color-primary);
-          }
+
           &:hover {
             .arrow {
               background: var(--color-primary);
@@ -313,20 +324,20 @@ export default Vue.extend({
         text-align: left;
         padding: 3rem 0;
         .page-title {
-          font-weight: 500;
-          font-size: 1.7em;
-          line-height: 1.3;
-          .highlight {
-            color: #0496ff;
-          }
+          color: var(--color-primary);
+
+          font-size: 2em;
+          line-height: 1.1;
+        }
+        .page-title-sub {
+          opacity: 1;
+          font-size: 1.6em;
+          line-height: 1.1;
         }
         .page-title .highlight {
           color: var(--color-primary);
         }
-        .page-title-sub {
-          font-size: 1.4em;
-          line-height: 1.4;
-        }
+
         .points {
           display: block;
           text-align: left;
@@ -336,7 +347,7 @@ export default Vue.extend({
         }
       }
       .actions {
-        margin-top: 1.5em;
+        margin-top: 3.5em;
         .github-actions {
           margin: 2rem;
           display: flex;
@@ -345,6 +356,12 @@ export default Vue.extend({
           line-height: 1;
           > span {
             margin: 0 0.5rem;
+          }
+          .github-link {
+            color: inherit;
+
+            opacity: 0.5;
+            margin-left: 1rem;
           }
         }
 

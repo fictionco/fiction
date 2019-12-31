@@ -34,9 +34,14 @@ commands:
             git config --global user.name "$GIT_AUTHOR_NAME"
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            if [ "$CIRCLE_BRANCH" = "staging" ]; then tag="--canary --preid staging"; fi
             git fetch --tags
-            yarn lerna publish from-git $tag --yes && true
+            if [ "$CIRCLE_BRANCH" = "staging" ]; then
+              yarn lerna publish patch --yes --no-git-tag-version --no-push --canary --preid staging
+            elif [ "$CIRCLE_BRANCH" = "release" ]; then
+              yarn lerna publish from-git --yes
+            else
+              echo "Release phase is skipped."
+            fi
 
 release_branches: &release_branches
   branches:

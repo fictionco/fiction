@@ -12,10 +12,7 @@ export default (): FactorSchema => {
   return {
     name: "user",
     permissions: {
-      create: { accessLevel: 0 },
-      retrieve: { accessLevel: 0 },
-      update: { accessLevel: 300, author: true },
-      delete: { accessLevel: 300, author: true }
+      retrieve: { accessLevel: 0 }
     },
     callback: (_s: Schema): void => {
       // PASSWORDS
@@ -39,6 +36,8 @@ export default (): FactorSchema => {
 
       _s.pre("save", function(this: FactorUser & Document, next: HookNextFunction) {
         if (this.username) this.permalink = `@${this.username}`
+
+        if (this.displayName) this.title = this.displayName
 
         next()
       })
