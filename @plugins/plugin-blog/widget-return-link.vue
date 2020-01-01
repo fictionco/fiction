@@ -30,10 +30,6 @@ export default Vue.extend({
 .plugin-blog {
   .return-link {
     margin-bottom: 1rem;
-    .back {
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
+  <h3 class="entry-subtitle">{{ post.synopsis }}</h3>
 </template>
 <script lang="ts">
 import { stored } from "@factor/api"

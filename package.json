@@ -23,8 +23,8 @@
   "scripts": {
     "packages:upgrade": "yarn install && yarn upgrade && yarn audit && yarn outdated",
     "publish:patch": "yarn lerna version patch --yes",
-    "apps:version": "yarn workspace @apps/factor version --patch --no-commit-hooks && yarn workspace @apps/fiction version --patch --no-commit-hooks",
-    "push:staging": "git checkout staging && git rebase development && git push --no-verify && git checkout development",
+    "apps:version": "yarn workspace @apps/factor version --patch --no-git-tag-version && yarn workspace @apps/fiction version --patch --no-git-tag-version",
+    "push:staging": "yarn apps:version && git checkout staging && git rebase development && git push --no-verify && git checkout development",
     "push:release": "yarn push:staging && git checkout release && git rebase staging && git push --no-verify && git checkout development",
     "clean-logs": "find . -name '*.log' -delete",
     "publish:docs": "heroku git:remote -a factor-dev && git push heroku master",

@@ -1,6 +1,6 @@
 <template>
   <h1 class="entry-title">
-    <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
+    <factor-link class="entry-title-text" :path="postLink(post._id)">{{ post.title }}</factor-link>
     <factor-post-edit :post-id="post._id" />
   </h1>
 </template>
@@ -30,6 +30,9 @@ export default Vue.extend({
     font-size: 2em;
     letter-spacing: -0.03em;
     line-height: 1.2;
+    .entry-title-text {
+      color: inherit;
+    }
   }
   .edit {
     display: block;
