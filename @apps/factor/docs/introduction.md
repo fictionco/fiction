@@ -2,11 +2,11 @@
 
 ![Factor Logo](./img/factor-logo-2.svg)
 
-**Factor** is an open-source web application platform built on the 100% Javasciprt VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)).
+**Factor** is a CMS framework designed for the unique problems faced by front-end developers when creating websites and web apps.
 
-Factor is focused on front-end Javascript developers who want to build dynamic, full-stack applications.
+Factor is built with the 100% Javascript VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)); and also is coded in Typescript (which means you can use Javascript or Typescript natively).
 
-Factor is designed to help developers:
+Factor will help you:
 
 - ship apps as quickly
 - implement projects more concisely

@@ -85,7 +85,6 @@ export const setup = (): void => {
 
               const urls = await getPermalinks()
 
-              console.log("URLS??", urls)
               urls.forEach(url => {
                 smStream.write({ url })
               })
