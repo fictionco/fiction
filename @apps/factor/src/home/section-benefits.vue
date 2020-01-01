@@ -14,7 +14,7 @@
         <h3 class="title">Dashboard and Posts</h3>
         <p
           class="text"
-        >Weild a powerful post system and dashboard to simplify your backend design and add complete content-management.</p>
+        >Wield a powerful post system and dashboard to simplify your backend design and add complete content-management.</p>
       </li>
 
       <li class="feature-block">
