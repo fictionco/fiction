@@ -1,7 +1,7 @@
 {
   "name": "@factor/build",
   "description": "Bundle",
-  "version": "1.1.16",
+  "version": "1.1.18",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
