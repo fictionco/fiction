@@ -1,6 +1,6 @@
 {
   "name": "@apps/fiction",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "url": "https://www.fiction.com",
   "main": "src/index",
   "author": "Fiction.com",
@@ -13,12 +13,12 @@
     ]
   },
   "dependencies": {
-    "execa": "^4.0.0",
     "@factor/core": "^1.0.0",
-    "@factor/theme-shared": "^1.0.0",
     "@factor/plugin-blog": "^1.0.0",
     "@factor/plugin-contact-form": "^1.0.0",
     "@factor/plugin-highlight-code": "^1.0.0",
-    "@factor/plugin-jobs": "^1.0.0"
+    "@factor/plugin-jobs": "^1.0.0",
+    "@factor/theme-shared": "^1.0.0",
+    "execa": "^4.0.0"
   }
 }
