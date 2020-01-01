@@ -1,7 +1,7 @@
 {
   "name": "@apps/factor",
   "description": "Factor documentation portal",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "url": "https://factor.dev",
   "main": "src/index",
   "author": "Fiction.com",
