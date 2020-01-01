@@ -27,6 +27,7 @@
     "push:staging": "git checkout staging && git rebase development && git push --no-verify && git checkout development",
     "push:release": "yarn push:staging && git checkout release && git rebase staging && git push --no-verify && git checkout development",
     "clean-logs": "find . -name '*.log' -delete",
+    "publish:apps": "yarn publish:docs && yarn publish:fiction",
     "publish:docs": "heroku git:remote -a factor-dev && git push heroku master",
     "publish:fiction": "heroku git:remote -a fiction-com && git push heroku master",
     "prep": "git pull && cd @fiction && git pull && cd ../ && yarn install --ignore-engines",

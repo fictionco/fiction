@@ -10,13 +10,15 @@ export default {
       emails: {
         confirm: {
           successMessage: "Your email is confirmed.",
-          subject: "Factor JS: Email Confirmation",
+          subject: "One More Step: Email Confirmation",
           text: `Just one more step, please confirm your email.`
         },
         complete: {
           subject: "Success!",
           text: `<p>Great work.</p>
-            <p>You've successfully signed up. we'll be in touch soon.</p>`
+            <p>You've successfully applied for Factor developer group and you will be hearing more from us soon.</p>
+            <p>You will be receiving additional invites in a separate emails; if you have any questions or suggestions please email: team@fiction.com.</p>
+            <p><b>Looking forward to building something with you!</b></p>`
         },
         notify: {
           subject: "New Confirmed Email",

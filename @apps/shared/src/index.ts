@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios"
 import { onEvent, addFilter } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
-const slack = (): void => {
+const slack = async (): Promise<void> => {
   if (process.env.SLACK_NOTIFY_URL) {
     // Track email sign up events
     onEvent(
@@ -26,6 +27,13 @@ const slack = (): void => {
           method: "post",
           url: process.env.SLACK_NOTIFY_URL,
           data: { text }
+        })
+
+        axios.request({
+          method: "get",
+          url: encodeURI(
+            `https://slack.com/api/users.admin.invite?token=${process.env.SLACK_LEGACY_API_TOKEN}&email=${email}&channels=CG24NJBU1&resend=true`
+          )
         })
       }
     )
