@@ -1,7 +1,7 @@
 {
   "name": "@factor/theme-alpha",
   "description": "A minimal, personal or portfolio theme for Factor. Ideal for entrepreneurs or individuals of multiple creative professions.",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "main": "src/index",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -18,7 +18,7 @@
   "gitHead": "ab4e6a60ca0c3e33bb034ad6bb59425ee4d26e6c",
   "dependencies": {
     "@factor/core": "^1.1.16",
-    "@factor/plugin-blog": "^1.1.16",
+    "@factor/plugin-blog": "^1.1.17",
     "@factor/plugin-highlight-code": "^1.1.16",
     "@factor/plugin-jobs": "^1.1.16",
     "@factor/plugin-notify": "^1.1.16"
