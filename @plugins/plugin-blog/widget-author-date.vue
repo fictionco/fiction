@@ -3,7 +3,12 @@
     <div class="author-date">
       <div v-for="authorId in post.author" :key="authorId" class="author">
         <factor-avatar :post-id="getPost(authorId).avatar" />
-        <span class="name">{{ getPost(authorId).displayName }}</span>
+        <span
+          class="name"
+          itemprop="author"
+          itemscope
+          itemtype="http://schema.org/Person"
+        >{{ getPost(authorId).displayName }}</span>
       </div>
       <span class="sep">on</span>
       <span class="date">{{ standardDate(post.date) }}</span>

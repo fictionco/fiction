@@ -1,5 +1,5 @@
 <template>
-  <h3 v-if="post.synopsis" class="entry-synopsis">{{ post.synopsis }}</h3>
+  <h3 v-if="post.synopsis" itemprop="description" class="entry-synopsis">{{ post.synopsis }}</h3>
 </template>
 <script lang="ts">
 import { stored } from "@factor/api"

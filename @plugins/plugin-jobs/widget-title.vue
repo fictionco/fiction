@@ -1,10 +1,16 @@
 <template>
   <div class="entry-title">
-    <h1>
+    <h1 itemprop="title">
       <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
 
-    <span v-if="post.jobLocation" class="location">{{ post.jobLocation }}</span>
+    <span
+      v-if="post.jobLocation"
+      itemprop="jobLocation"
+      itemscope
+      itemtype="http://schema.org/Place"
+      class="location"
+    >{{ post.jobLocation }}</span>
 
     <factor-post-edit :post-id="post._id" />
   </div>

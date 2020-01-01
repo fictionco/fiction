@@ -1,5 +1,5 @@
 <template>
-  <div class="logo-fiction">
+  <div class="logo-fiction" itemprop="logo">
     <svg
       id="Layer_1"
       data-name="Layer 1"

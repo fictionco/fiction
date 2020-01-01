@@ -4,7 +4,12 @@
       <factor-avatar :post-id="getPost(_id).avatar" width="4em" />
       <div class="text">
         <div class="sup">Written By</div>
-        <div class="name">{{ getPost(_id).displayName }}</div>
+        <div
+          class="name"
+          itemprop="author"
+          itemscope
+          itemtype="http://schema.org/Person"
+        >{{ getPost(_id).displayName }}</div>
         <div v-if="getPost(_id).about" class="bio">{{ getPost(_id).about }}</div>
       </div>
     </div>

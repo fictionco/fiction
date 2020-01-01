@@ -1,6 +1,6 @@
 
 <template>
-  <div class="logo-img" :class="theme">
+  <div class="logo-img" :class="theme" itemprop="logo">
     <svg
       id="fi-logo"
       data-name="Fiction Logo"

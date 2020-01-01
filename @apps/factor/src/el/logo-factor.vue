@@ -1,5 +1,5 @@
 <template>
-  <div class="logo-factor">
+  <div class="logo-factor" itemprop="logo">
     <svg
       width="100"
       height="25.5"
@@ -130,7 +130,7 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue"
 export default Vue.extend({})
 </script>
 

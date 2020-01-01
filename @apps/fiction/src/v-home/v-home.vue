@@ -10,7 +10,13 @@
         <div class="header-text">
           <div class="header-tag">
             <home-icon class="feature-icon" icon="powered" />
-            <div class="header-icon-text">Factor JS &rarr; Platform</div>
+            <div
+              id="factor-js-brand"
+              class="header-icon-text"
+              itemprop="brand"
+              itemscope
+              itemtype="http://schema.org/Brand"
+            >Factor JS &rarr; Platform</div>
           </div>
 
           <h1 class="title">

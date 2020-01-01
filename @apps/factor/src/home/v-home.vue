@@ -103,14 +103,24 @@
               index % 2 == 0 ? 'odd' : 'even',
               index % 4 == 0 || index % 4 == 3 ? 'diagonal' : ''
             ]"
+            itemprop="review"
+            itemscope
+            itemtype="http://schema.org/Review"
           >
-            <blockquote>
+            <blockquote itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
               <div class="quote-media">
                 <a class="quote-image" href="#">
                   <img :src="quote.img" alt="quote" />
                 </a>
               </div>
-              <p class="quote-body">"{{ quote.text }}"</p>
+              <p class="quote-body" itemprop="reviewBody">"{{ quote.text }}"</p>
+              <div class="rating" itemprop="bestRating">
+                <factor-icon icon="star" />
+                <factor-icon icon="star" />
+                <factor-icon icon="star" />
+                <factor-icon icon="star" />
+                <factor-icon icon="star" />
+              </div>
               <footer>
                 <a :href="quote.link" target="_blank">{{ quote.attribution }}</a>
               </footer>
