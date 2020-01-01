@@ -36,7 +36,7 @@ commands:
             echo "//registry.yarnpkg.com/:_authToken=$NPM_TOKEN" >> ~/.npmrc
             git fetch --tags
             if [ "$CIRCLE_BRANCH" = "staging" ]; then
-              yarn lerna publish patch --yes --no-git-tag-version --no-push --canary --preid staging
+              echo "TODO Staging Release Phase / Canary"
             elif [ "$CIRCLE_BRANCH" = "release" ]; then
               yarn lerna publish from-git --yes
             else
