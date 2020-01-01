@@ -1,6 +1,6 @@
 {
   "name": "@apps/fiction",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "url": "https://www.fiction.com",
   "main": "src/index",
   "author": "Fiction.com",
