@@ -5,6 +5,11 @@
         <input v-model="checked" type="checkbox" class="checkbox" />
       </div>
       <div class="post-info">
+        <div v-if="itemAvatar" class="post-media">
+          <factor-link :path="itemPath" class="post-avatar">
+            <img :src="itemAvatar" alt="Avatar" />
+          </factor-link>
+        </div>
         <div class="text-header">
           <factor-link :path="itemPath" class="title">{{ itemTitle }}</factor-link>
           <div v-if="itemSubTitle" class="sub-title">{{ itemSubTitle }}</div>
@@ -32,11 +37,6 @@
               <div v-if="dataItem.value" class="value">{{ dataItem.value }}</div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="post-media">
-        <div v-if="itemAvatar" class="post-avatar">
-          <img :src="itemAvatar" alt="Avatar" />
         </div>
       </div>
     </div>
@@ -167,7 +167,7 @@ export default Vue.extend({
   padding: 1.5rem 0;
   .post-item-grid {
     display: grid;
-    grid-template-columns: 2rem 1fr minmax(50px, 120px);
+    grid-template-columns: 2rem 1fr;
     .selector {
       padding-top: 2px;
     }
@@ -175,12 +175,23 @@ export default Vue.extend({
       min-width: 0;
     }
     .post-media {
+      float: right;
       text-align: right;
+      .post-avatar {
+        display: inline-block;
+      }
       img {
         display: inline-block;
         max-width: 100%;
         border-radius: 7px;
         max-height: 64px;
+      }
+    }
+    @media (max-width: 700px) {
+      .post-media {
+        float: none;
+        text-align: left;
+        margin-bottom: 0.5rem;
       }
     }
   }

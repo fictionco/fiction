@@ -107,7 +107,7 @@ export default Vue.extend({
     return await requestExtensionIndex({ type: "plugins" })
   },
   computed: {
-    extensionFeatured() {
+    extensionFeatured(this: any) {
       return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
     },
     extensionIndex() {
