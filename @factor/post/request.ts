@@ -145,7 +145,7 @@ export const requestPostSingle = async (
 export const requestPostIndex = async (
   _arguments: PostIndexParametersFlat
 ): Promise<PostIndex> => {
-  const { limit = 10, page = 1, postType, sort, cache = true } = _arguments
+  const { limit = 50, page = 1, postType, sort, cache = true } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
 

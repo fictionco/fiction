@@ -134,7 +134,9 @@ export const initializeEndpointServer = (): void => {
     key: "endpoints",
     hook: "middleware",
     callback: (_: object[]) => {
+      const endpointList: string[] = []
       applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
+        endpointList.push(id)
         _.push({
           path: endpointPath(id),
           middleware: [
@@ -149,6 +151,7 @@ export const initializeEndpointServer = (): void => {
           id
         })
       })
+      log.info(`Endpoints loaded: ${endpointList.join(", ")}`)
       return _
     }
   })

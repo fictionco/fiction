@@ -106,6 +106,7 @@ export default Vue.extend({
           const confirmText = actionItem.confirm ? actionItem.confirm(this.selected) : ""
           if ((confirmText && confirm(confirmText)) || !confirmText) {
             this.$emit("action", value)
+            this.selected = []
           }
         } else {
           alert("No items selected.")
