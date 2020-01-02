@@ -1,8 +1,7 @@
 import { log, applyFilters, setting } from "@factor/api"
-
 import nodeMailer, { Transporter } from "nodemailer"
-
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
+import { addEndpoint } from "@factor/api/endpoints"
 import "./setup"
 import { EmailTransactionalConfig } from "./util"
 
@@ -80,3 +79,14 @@ export const sendTransactional = async (
   if (emailServiceClient) return await emailServiceClient.sendMail(theEmail)
   else log.warn("Email could not be sent.", theEmail)
 }
+
+export const setup = async (): Promise<void> => {
+  addEndpoint({
+    id: "email",
+    handler: {
+      sendTransactional
+    }
+  })
+}
+
+setup()

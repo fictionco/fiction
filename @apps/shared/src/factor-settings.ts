@@ -36,7 +36,7 @@ export default {
     email: "support@fiction.com",
     confirm: {
       title: "Got your message.",
-      subTitle: "We'll take a look and be in touch as soon as possible."
+      subTitle: "We'll be in touch as soon as possible."
     }
   }
 }

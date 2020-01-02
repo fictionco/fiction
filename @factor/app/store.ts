@@ -1,7 +1,7 @@
 import Vuex from "vuex"
 import Vue from "vue"
 import { Store } from "vuex/types"
-
+import { ObjectId } from "@factor/post/types"
 Vue.use(Vuex)
 
 let __store: Store<object> | undefined
@@ -39,8 +39,8 @@ export const storeItem = (item: string, value: any): void => {
   return __store.commit("setItem", { item, value })
 }
 
-export const stored = (key: string): any => {
-  return __store ? __store.getters["getItem"](key) : undefined
+export const stored = (key?: string | ObjectId): any => {
+  return __store && key ? __store.getters["getItem"](key) : undefined
 }
 
 export const getStoreState = (): Store<object>["state"] => {

@@ -4,7 +4,7 @@ import { sendEmailRequest } from "@factor/email"
 import { Component } from "vue"
 const postType = "contact-form"
 
-export const sendFormEmail = async (form: object): Promise<object> => {
+export const sendFormEmail = async (form: object): Promise<void> => {
   const toSetting = setting("contactForm.email")
   const to = typeof toSetting == "function" ? toSetting() : toSetting
 
@@ -12,12 +12,14 @@ export const sendFormEmail = async (form: object): Promise<object> => {
     .map(([key, value]) => `<p><strong>${toLabel(key)}</strong><br><i>${value}</i></p>`)
     .join("")
 
-  return await sendEmailRequest("sendTransactional", {
+  await sendEmailRequest("sendTransactional", {
     _id: "contact-form",
     to,
     subject: "Contact Form Submitted",
     text
   })
+
+  return
 }
 
 export const saveContactForm = async (form: object): Promise<object> => {

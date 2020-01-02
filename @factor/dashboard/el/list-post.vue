@@ -34,6 +34,11 @@
           </div>
         </div>
       </div>
+      <div class="post-media">
+        <div v-if="itemAvatar" class="post-avatar">
+          <img :src="itemAvatar" alt="Avatar" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +46,7 @@
 import Vue from "vue"
 import { factorLink } from "@factor/ui"
 import { toLabel, postLink, stored, standardDate } from "@factor/api"
+
 import { PostListDataItem } from "../types"
 export default Vue.extend({
   components: { factorLink },
@@ -78,6 +84,7 @@ export default Vue.extend({
         this.$emit("input", newValue)
       }
     },
+
     itemTitle(this: any): string {
       return this.title || this.post.title
     },
@@ -129,6 +136,11 @@ export default Vue.extend({
             ]
 
       return additional.filter((_: PostListDataItem) => _.value)
+    },
+    itemAvatar(this: any) {
+      const avatar = stored(this.post.avatar)
+
+      return avatar && avatar.url ? avatar.url : ""
     }
   },
   methods: {
@@ -155,12 +167,21 @@ export default Vue.extend({
   padding: 1.5rem 0;
   .post-item-grid {
     display: grid;
-    grid-template-columns: 2rem 1fr;
+    grid-template-columns: 2rem 1fr minmax(50px, 120px);
     .selector {
       padding-top: 2px;
     }
     .post-info {
       min-width: 0;
+    }
+    .post-media {
+      text-align: right;
+      img {
+        display: inline-block;
+        max-width: 100%;
+        border-radius: 7px;
+        max-height: 64px;
+      }
     }
   }
   .text-header {

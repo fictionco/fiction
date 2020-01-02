@@ -1,8 +1,9 @@
 import { endpointRequest } from "@factor/endpoint"
 import { EmailTransactionalConfig } from "./util"
 export const sendEmailRequest = async (
-  method: string,
+  method = "sendTransactional",
   params: EmailTransactionalConfig
-): Promise<object> => {
-  return (await endpointRequest({ id: "email", method, params })) as object
+): Promise<void> => {
+  await endpointRequest({ id: "email", method, params })
+  return
 }

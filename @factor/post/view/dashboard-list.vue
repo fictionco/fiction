@@ -90,6 +90,7 @@ export default Vue.extend({
   },
   mounted() {
     this.setPosts()
+
     onEvent("refresh-table", () => {
       this.setPosts()
     })
@@ -97,7 +98,8 @@ export default Vue.extend({
   methods: {
     async setPosts(this: any) {
       this.loading = true
-      await requestPostIndex(this.filters)
+
+      await requestPostIndex({ ...this.filters, cache: false })
       this.loading = false
     }
   }

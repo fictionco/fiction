@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 import { Component } from "vue"
 export type PopulatedPost = mongoose.Types.ObjectId
 export type PopulatedPosts = mongoose.Types.ObjectId[]
-
+export type ObjectId = mongoose.Types.ObjectId
 export interface PostEndpointMeta {
   bearer?: CurrentUserState;
 }

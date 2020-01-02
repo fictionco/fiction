@@ -145,14 +145,14 @@ export const requestPostSingle = async (
 export const requestPostIndex = async (
   _arguments: PostIndexParametersFlat
 ): Promise<PostIndex> => {
-  const { limit = 10, page = 1, postType, sort } = _arguments
+  const { limit = 10, page = 1, postType, sort, cache = true } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
 
   const skip = (page - 1) * limit
 
   // Create a mechanism to prevent multiple runs/pops for same data
-  if (storedIndex) {
+  if (storedIndex && cache) {
     storeItem(postType, storedIndex)
     return storedIndex
   }
