@@ -42,7 +42,7 @@ import Vue from "vue"
 
 import { factorInputSelect } from "@factor/ui"
 import { ControlAction } from "@factor/dashboard/types"
-import { ListItem, toLabel } from "@factor/api"
+import { ListItem, toLabel, onEvent } from "@factor/api"
 export default Vue.extend({
   components: { factorInputSelect, listEmpty: () => import("./list-empty.vue") },
   props: {
@@ -133,6 +133,11 @@ export default Vue.extend({
       }
 
       this.$emit("select-all", this.selectAllSelected)
+
+      onEvent("refresh-table", () => {
+        this.selectAllSelected = false
+        this.$emit("select-all", false)
+      })
     }
   }
 })

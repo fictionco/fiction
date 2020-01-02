@@ -145,6 +145,7 @@ export default Vue.extend({
 
       emitEvent("refresh-table")
 
+      this.selected = []
       this.loadingAction = false
     },
     selectAll(this: any, val: boolean) {
