@@ -8,7 +8,7 @@
     ],
     "priority": 30
   },
-  "version": "1.1.19",
+  "version": "1.1.20",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
