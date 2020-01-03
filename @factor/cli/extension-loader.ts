@@ -33,7 +33,9 @@ export const getCWDPackage = (): FactorPackageJson => {
 
     if (p.name === "@factor/wrapper") {
       if (process.env.FACTOR_ENV != "test") {
-        log.warn("Couldn't generate loaders - CWD is workspace root")
+        log.warn(
+          "Couldn't generate loaders - Working directory is monorepo/workspace root"
+        )
       }
     } else {
       pkg = p

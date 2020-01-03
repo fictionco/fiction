@@ -13,7 +13,7 @@ export const sendUserEmailRequest = async (
   params: object
 ): Promise<EmailResult> => {
   const result = (await endpointRequest({
-    id: "user-emails",
+    id: "userEmails",
     method,
     params
   })) as EmailResult

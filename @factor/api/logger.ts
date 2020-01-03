@@ -28,10 +28,10 @@ export class FactorLogger {
     Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  info(text: string, { color = "cyan" } = {}): void {
+  info(text: string, { color = "white" } = {}): void {
     const colorize = chalk.keyword(color)
 
-    this.log(colorize(`${figures.info}`) + chalk.dim(`  ${text}`))
+    this.log(colorize(`${figures.dot}${figures.dot}`) + chalk.dim(` ${text}`))
   }
 
   server(text: string, { color = "cyan" } = {}): void {

@@ -151,7 +151,7 @@ export const initializeEndpointServer = (): void => {
           id
         })
       })
-      log.info(`Endpoints loaded: ${endpointList.join(", ")}`)
+      log.info(`endpoints: ${endpointList.join(", ")}`)
       return _
     }
   })

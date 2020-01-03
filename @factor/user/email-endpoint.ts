@@ -134,7 +134,7 @@ export const sendPasswordResetEmail = async ({
 
 export const setup = (): void => {
   addEndpoint({
-    id: "user-emails",
+    id: "userEmails",
     handler: {
       sendPasswordResetEmail,
       verifyAndResetPassword,
