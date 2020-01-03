@@ -22,7 +22,7 @@
   "license": "GPL-2.0",
   "scripts": {
     "packages:upgrade": "yarn install && yarn upgrade && yarn audit && yarn outdated",
-    "publish:patch": "yarn lerna version patch --yes",
+    "version:patch": "yarn lerna version patch --yes",
     "apps:version": "yarn workspace @apps/fiction version --patch --no-git-tag-version && yarn workspace @apps/factor version --patch --no-git-tag-version",
     "push:staging": "git checkout staging && git rebase development && git push --no-verify && git checkout development",
     "push:release": "yarn push:staging && git checkout release && git rebase staging && git push --no-verify && git checkout development",
