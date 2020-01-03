@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios"
-import { onEvent, addFilter } from "@factor/api"
+import { onEvent, addFilter, log } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
 const notifySlack = async ({
@@ -53,10 +53,13 @@ const slack = async (): Promise<void> => {
           )
         })
 
+        // Make sure to remove circular refs
+        // https://github.com/WebReflection/flatted#flatted
+        const { stringify } = require("flatted/cjs")
         notifySlack({
           pretext: `Slack Invite Sent to ${email}`,
           title: "Slack Invite Sent",
-          text: JSON.stringify(r)
+          text: stringify(r)
         })
       }
     )
