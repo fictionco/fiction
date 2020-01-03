@@ -8,8 +8,8 @@
     </div>
 
     <div v-if="true" class="coming-soon">
-      <div class="title">Coming Soon</div>
-      <div class="sub-title">Factor is currently in private beta.</div>
+      <div class="title">Coming Soon 👋</div>
+      <div class="sub-title">Themes will launch March 17, 2020</div>
     </div>
     <div v-else-if="loading" class="posts-loading">
       <factor-loading-ring />

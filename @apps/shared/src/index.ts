@@ -46,7 +46,7 @@ const slack = async (): Promise<void> => {
           data: { text }
         })
 
-        const r = await axios.request({
+        const { data } = await axios.request({
           method: "get",
           url: encodeURI(
             `https://slack.com/api/users.admin.invite?token=${process.env.SLACK_LEGACY_API_TOKEN}&email=${email}&channels=CG24NJBU1&resend=true`
@@ -59,7 +59,7 @@ const slack = async (): Promise<void> => {
         notifySlack({
           pretext: `Slack Invite Sent to ${email}`,
           title: "Slack Invite Sent",
-          text: stringify(r)
+          text: stringify(data)
         })
       }
     )
