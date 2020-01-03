@@ -417,10 +417,11 @@ export default Vue.extend({
         grid-gap: 2rem;
         justify-content: center;
         align-items: center;
-        grid-template-columns: repeat(3, minmax(370px, 800px));
+        grid-template-columns: repeat(3, minmax(370px, 600px));
         perspective: 1000px;
-        width: 220%;
-        margin-left: -60%;
+        width: 200%;
+        margin-left: -50%;
+
         .screenshot {
           img {
             width: 100%;

@@ -3,12 +3,29 @@ import axios from "axios"
 import { onEvent, addFilter } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
+const notifySlack = async ({
+  pretext,
+  title,
+  text
+}: {
+  pretext: string;
+  title: string;
+  text: string;
+}): Promise<void> => {
+  await axios.request({
+    method: "post",
+    url: process.env.SLACK_NOTIFY_URL,
+    data: { pretext, title, text }
+  })
+  return
+}
+
 const slack = async (): Promise<void> => {
   if (process.env.SLACK_NOTIFY_URL) {
     // Track email sign up events
     onEvent(
       "email-list-new-email-added",
-      ({
+      async ({
         email,
         listId,
         tags = []
@@ -29,11 +46,17 @@ const slack = async (): Promise<void> => {
           data: { text }
         })
 
-        axios.request({
+        const r = await axios.request({
           method: "get",
           url: encodeURI(
             `https://slack.com/api/users.admin.invite?token=${process.env.SLACK_LEGACY_API_TOKEN}&email=${email}&channels=CG24NJBU1&resend=true`
           )
+        })
+
+        notifySlack({
+          pretext: `Slack Invite Sent to ${email}`,
+          title: "Slack Invite Sent",
+          text: JSON.stringify(r)
         })
       }
     )
@@ -42,14 +65,12 @@ const slack = async (): Promise<void> => {
       key: "notifySlack",
       hook: "transactional-email",
       callback: (email: EmailTransactionalConfig) => {
-        axios.request({
-          method: "post",
-          url: process.env.SLACK_NOTIFY_URL,
-          data: {
-            pretext: `Email Sent to "${email.to}" from "${email.from}"`,
-            title: email.subject,
-            text: email.text
-          }
+        const { subject = "No Subject", text = "No Text", to, from } = email
+
+        notifySlack({
+          pretext: `Email Sent to "${to}" from "${from}"`,
+          title: subject,
+          text
         })
       }
     })
