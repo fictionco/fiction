@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios"
-import { onEvent, addFilter, log } from "@factor/api"
+import { onEvent, addFilter } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
 const notifySlack = async ({
