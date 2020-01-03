@@ -49,7 +49,7 @@ export const runSetup = async (): Promise<void> => {
     ]
   })
 
-  let setups = applyFilters(
+  let setups: SetupCliConfig[] = applyFilters(
     "cli-add-setup",
     [
       {
@@ -75,11 +75,7 @@ export const runSetup = async (): Promise<void> => {
       type: "list",
       name: `setupItem`,
       message: `What would you like to do?`,
-      // eslint-disable-next-line no-unused-vars
-      choices: setups.map((_: SetupCliConfig) => {
-        delete _.callback
-        return _
-      })
+      choices: setups
     })
 
     console.log()
