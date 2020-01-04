@@ -1,6 +1,6 @@
 import { dirname, parse, resolve } from "path"
 
-import { getPath } from "@factor/api/paths"
+import { getPath, getWorkingDirectory } from "@factor/api/paths"
 import { toPascalCase, sortPriority } from "@factor/api/utils"
 import fs from "fs-extra"
 import glob from "glob"
@@ -22,14 +22,10 @@ interface LoaderFile {
   path?: string;
 }
 
-export const getCWD = (): string => {
-  return process.env.FACTOR_CWD || process.cwd()
-}
-
-export const getCWDPackage = (): FactorPackageJson => {
+export const getWorkingDirectoryPackage = (cwd?: string): FactorPackageJson => {
   let pkg
   try {
-    const p = require(`${getCWD()}/package.json`)
+    const p = require(`${getWorkingDirectory(cwd)}/package.json`)
 
     if (p.name === "@factor/wrapper") {
       if (process.env.FACTOR_ENV != "test") {
@@ -42,20 +38,25 @@ export const getCWDPackage = (): FactorPackageJson => {
     }
   } catch (error) {
     if (error.code === "MODULE_NOT_FOUND") {
-      log.warn("Couldn't generate loaders - CWD has no package.json")
+      log.warn("Couldn't generate loaders - working directory has no package.json")
     } else throw error
   }
 
   return pkg
 }
 
-// Determine if a package name is the CWD
-export const isCWD = (name: string): boolean => {
-  return name === getCWDPackage().name
-}
-
-const getDirectory = ({ name, main = "" }: { name: string; main?: string }): string => {
-  const resolver = isCWD(name) ? getCWD() : name
+const getDirectory = ({
+  name,
+  isCwd,
+  cwd,
+  main = ""
+}: {
+  name: string;
+  main?: string;
+  isCwd: boolean;
+  cwd?: string;
+}): string => {
+  const resolver = isCwd ? getWorkingDirectory(cwd) : name
 
   let root
   if (main) {
@@ -68,15 +69,15 @@ const getDirectory = ({ name, main = "" }: { name: string; main?: string }): str
 }
 
 const getRequireBase = ({
-  cwd,
+  isCwd,
   name,
   main = "package.json"
 }: {
-  cwd: boolean;
+  isCwd: boolean;
   name: string;
   main?: string;
 }): string => {
-  return dirname([cwd ? ".." : name, main].join("/"))
+  return dirname([isCwd ? ".." : name, main].join("/"))
 }
 
 // Set priority by extension type
@@ -84,17 +85,18 @@ const getRequireBase = ({
 const getPriority = ({
   extend,
   priority,
-  name
+  isCwd
 }: {
   extend: ExtendTypes;
   priority?: number;
   name: string;
+  isCwd: boolean;
 }): number => {
   if (priority && priority >= 0) return priority
 
   const out = 100
 
-  if (isCWD(name)) {
+  if (isCwd) {
     return 1000
   } else if (extend == ExtendTypes.Theme) {
     return 150
@@ -120,18 +122,14 @@ const makeModuleLoader = ({
   const filtered = extensions.filter(({ load }) => load[loadTarget])
 
   filtered.forEach(extension => {
-    const { load, name, cwd } = extension
+    const { load, name, isCwd } = extension
 
     load[loadTarget].forEach(({ _id = "", file, priority = 100 }) => {
-      const _module = `${cwd ? ".." : name}/${file}`
+      const _module = `${isCwd ? ".." : name}/${file}`
 
       const moduleName = _module.replace(/\.[^./]+$/, "").replace(/\/index$/, "")
 
-      files.push({
-        _id,
-        file: moduleName,
-        priority
-      })
+      files.push({ _id, file: moduleName, priority })
     })
   })
 
@@ -141,19 +139,21 @@ const makeModuleLoader = ({
 const makeFileLoader = ({
   extensions,
   filename,
-  callback
+  callback,
+  cwd
 }: {
   extensions: FactorExtension[];
   filename: string;
   callback: (files: LoaderFile[]) => void;
+  cwd?: string;
 }): void => {
   const files: LoaderFile[] = []
 
   extensions.forEach(_ => {
-    const { name, cwd, _id, priority } = _
+    const { name, isCwd, _id, priority } = _
 
-    const dir = getDirectory({ name })
-    const requireBase = getRequireBase({ cwd, name })
+    const dir = getDirectory({ name, isCwd, cwd })
+    const requireBase = getRequireBase({ isCwd, name })
 
     glob
       .sync(`${dir}/**/${filename}`)
@@ -201,10 +201,18 @@ const recursiveDependencies = (
   return deps
 }
 
-// Get standard reference ID
-const getId = ({ _id = "", name = "", main = "index", file = "" }): string => {
+/**
+ * Gets a standard reference ID based on package.json params
+ */
+const getId = ({
+  _id = "",
+  name = "",
+  main = "index",
+  file = "",
+  isCwd = false
+}): string => {
   let __
-  if (isCWD(name)) {
+  if (isCwd) {
     __ = "cwd"
   } else if (_id) {
     __ = _id
@@ -240,20 +248,31 @@ export const makeEmptyLoaders = (): void => {
   })
 }
 
-// Normalize load key from package.json
-// Allow for both simple syntax or full control
-// load: ["app", "server"] - load main on app/server
-// load: {
-//  "server": ["_id": "myId", "file": "some-file.js"]
-// }
+/**
+ * Normalize load key from package.json > factor
+ * Allow for both simple syntax or full control
+ * @example
+ * - load: ["app", "server"] - load main on app/server
+ * - load: {
+ *    "server": ["_id": "myId", "file": "some-file.js"]
+ *   }
+ *
+ * @param object.load - load target "server" or "client"
+ * @param main - main file
+ * @param _id - extension id, helps with naming convention
+ *
+ * @returns normalized object representing desired auto-load
+ */
 const normalizeLoadTarget = ({
   load,
   main,
-  _id
+  _id,
+  isCwd
 }: {
   load: LoadTarget;
   main: string;
   _id: string;
+  isCwd: boolean;
 }): NormalizedLoadTarget => {
   const __: NormalizedLoadTarget = { app: [], server: [] }
 
@@ -268,11 +287,11 @@ const normalizeLoadTarget = ({
       const val = load[t]
 
       if (!Array.isArray(val)) {
-        __[t] = [{ file: val, _id: getId({ _id, main, file: val }) }]
+        __[t] = [{ file: val, _id: getId({ _id, main, file: val, isCwd }) }]
       } else {
         __[t] = val.map(v => {
           return typeof v == "string"
-            ? { file: v, _id: getId({ _id, main, file: v }) }
+            ? { file: v, _id: getId({ _id, main, file: v, isCwd }) }
             : v
         })
       }
@@ -297,7 +316,8 @@ const loaderStringOrdered = (files: LoaderFile[]): string => {
 }
 
 export const generateExtensionList = (
-  packagePaths: FactorPackageJson[]
+  packagePaths: FactorPackageJson[],
+  packageBase: FactorPackageJson
 ): FactorExtension[] => {
   const loader: FactorExtension[] = []
 
@@ -311,16 +331,18 @@ export const generateExtensionList = (
 
     let { factor: { _id = "" } = {} } = _
 
-    if (!_id) _id = getId({ _id, name })
+    const isCwd = packageBase.name == name
+
+    if (!_id) _id = getId({ _id, name, isCwd })
 
     loader.push({
       version,
       name,
       main,
       extend,
-      priority: getPriority({ priority, name, extend }),
-      load: normalizeLoadTarget({ load, main, _id }),
-      cwd: isCWD(name),
+      priority: getPriority({ priority, name, extend, isCwd }),
+      load: normalizeLoadTarget({ load, main, _id, isCwd }),
+      isCwd,
       _id
     })
   })
@@ -333,35 +355,52 @@ export const generateExtensionList = (
 const loadExtensions = (pkg: FactorPackageJson): FactorExtension[] => {
   const dependents = recursiveDependencies([pkg], pkg)
 
-  return generateExtensionList(dependents)
+  return generateExtensionList(dependents, pkg)
 }
 
-let __extensions: FactorExtension[] // ensure we don't recursively scan more than once
-export const getExtensions = (): FactorExtension[] => {
-  if (__extensions) {
-    return __extensions
+/**
+ * Gets Factor extensions based on working directory package.json
+ *
+ * @param cwd - working directory path
+ *
+ * @returns array - list of factor extension
+ */
+const __extensions: Record<string, FactorExtension[]> = {}
+export const getExtensions = (cwd?: string): FactorExtension[] => {
+  const workingDirectory = getWorkingDirectory(cwd)
+  if (__extensions[workingDirectory]) {
+    return __extensions[workingDirectory]
   } else {
-    const cwdPackage = getCWDPackage()
+    const cwdPackage = getWorkingDirectoryPackage(cwd)
     if (cwdPackage) {
-      __extensions = loadExtensions(cwdPackage)
-      return __extensions
+      const extensions = loadExtensions(cwdPackage)
+
+      __extensions[workingDirectory] = extensions
+
+      return extensions
     } else {
       return []
     }
   }
 }
 
+/**
+ * Gets the directories for current app and all Factor extensions
+ */
 export const getFactorDirectories = (): string[] => {
-  return getExtensions().map(({ name, main }) => getDirectory({ name, main }))
+  return getExtensions().map(({ name, main, isCwd }) => {
+    return getDirectory({ name, main, isCwd })
+  })
 }
 
 export const generateLoaders = (options?: CommandOptions): void => {
+  const { cwd } = options || {}
   if (options && options.clean) {
-    fs.removeSync(resolve(getCWD(), ".factor"))
-    fs.removeSync(resolve(getCWD(), "dist"))
+    fs.removeSync(resolve(getWorkingDirectory(cwd), ".factor"))
+    fs.removeSync(resolve(getWorkingDirectory(cwd), "dist"))
   }
 
-  const extensions = getExtensions()
+  const extensions = getExtensions(cwd)
 
   if (extensions.length == 0) return
 
@@ -370,7 +409,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
     loadTarget: LoadTargets.Server,
     callback: (files: LoaderFile[]) => {
       writeFile({
-        destination: getPath("loader-server"),
+        destination: getPath("loader-server", cwd),
         content: loaderString(files)
       })
     }
@@ -380,7 +419,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
     extensions,
     loadTarget: LoadTargets.App,
     callback: (files: LoaderFile[]) => {
-      writeFile({ destination: getPath("loader-app"), content: loaderString(files) })
+      writeFile({ destination: getPath("loader-app", cwd), content: loaderString(files) })
     }
   })
 
@@ -389,7 +428,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
     filename: "factor-settings.*",
     callback: (files: LoaderFile[]) => {
       writeFile({
-        destination: getPath("loader-settings"),
+        destination: getPath("loader-settings", cwd),
         content: loaderStringOrdered(files)
       })
     }
@@ -402,7 +441,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
       const imports = files.map(_ => `@import (less) "~${_.file}";`).join(`\n`)
       const content = `${imports}`
 
-      writeFile({ destination: getPath("loader-styles"), content })
+      writeFile({ destination: getPath("loader-styles", cwd), content })
     }
   })
 

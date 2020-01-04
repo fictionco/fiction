@@ -9,18 +9,18 @@ interface CopyItemConfig {
   ignore: string[];
 }
 
-const CWD = (): string => {
-  return process.env.FACTOR_CWD || process.cwd()
+export const getWorkingDirectory = (cwd?: string): string => {
+  return cwd ? cwd : process.env.FACTOR_CWD || process.cwd()
 }
 
-const relativePath = (key: string): string => {
+const relativePath = (key: string, cwd?: string): string => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { main = "index.js" } = require(resolve(CWD(), "package.json"))
-  const sourceDirectory = dirname(resolve(CWD(), main))
+  const { main = "index.js" } = require(resolve(getWorkingDirectory(cwd), "package.json"))
+  const sourceDirectory = dirname(resolve(getWorkingDirectory(cwd), main))
 
   const app = "."
 
-  const source = relative(CWD(), sourceDirectory)
+  const source = relative(getWorkingDirectory(cwd), sourceDirectory)
   const dist = [app, "dist"]
   const generated = [app, ".factor"]
   const coreApp = dirname(require.resolve("@factor/app"))
@@ -49,20 +49,20 @@ const relativePath = (key: string): string => {
   return Array.isArray(p) ? p.join("/") : p
 }
 
-export const getPath = (key: string): string => {
-  const rel = relativePath(key)
-  const full = typeof rel != "undefined" ? resolve(CWD(), rel) : ""
+export const getPath = (key: string, cwd?: string): string => {
+  const rel = relativePath(key, cwd)
+  const full = typeof rel != "undefined" ? resolve(getWorkingDirectory(cwd), rel) : ""
 
   return full
 }
 
 // Returns configuration array for webpack copy plugin
 // if static folder is in app or theme, contents should copied to dist
-const staticCopyConfig = (): CopyItemConfig[] => {
-  const paths = [getPath("static")]
+const staticCopyConfig = (cwd?: string): CopyItemConfig[] => {
+  const paths = [getPath("static", cwd)]
 
   if (getPath("theme")) {
-    paths.push(resolve(getPath("theme"), "static"))
+    paths.push(resolve(getPath("theme", cwd), "static"))
   }
 
   const copyItems: CopyItemConfig[] = []
@@ -79,20 +79,20 @@ export const setup = (): void => {
   addFilter({
     key: "paths",
     hook: "webpack-copy-files-config",
-    callback: (_: CopyItemConfig[]) => {
-      return [..._, ...staticCopyConfig()]
+    callback: (_: CopyItemConfig[], { cwd }) => {
+      return [..._, ...staticCopyConfig(cwd)]
     }
   })
 
   addFilter({
     key: "paths",
     hook: "webpack-aliases",
-    callback: (_: Record<string, string>) => {
+    callback: (_: Record<string, string>, { cwd }) => {
       return {
         ..._,
-        __SRC__: getPath("source"),
-        __CWD__: getPath("app"),
-        __FALLBACK__: getPath("app")
+        __SRC__: getPath("source", cwd),
+        __CWD__: getPath("app", cwd),
+        __FALLBACK__: getPath("app", cwd)
       }
     }
   })

@@ -1,4 +1,4 @@
-import { buildProductionApp } from "@factor/build/webpack-config"
+import { buildProduction } from "@factor/build/webpack-config"
 import { currentUrl } from "@factor/api/url"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import * as tools from "@factor/api"
@@ -67,7 +67,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 
   try {
     if (command && ["build", "start"].includes(command)) {
-      await buildProductionApp(setup)
+      await buildProduction(setup)
     } else if (command == "setup") {
       await tools.runCallbacks(`cli-setup`, setup)
     } else if (command == "run") {

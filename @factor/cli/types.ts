@@ -13,6 +13,7 @@ export interface CommandOptions {
   static?: boolean;
   clean?: boolean;
   inspect?: boolean;
+  cwd?: string;
 }
 
 export interface FactorPackageJson {
@@ -51,7 +52,7 @@ export type NormalizedLoadTarget = {
 }
 
 export interface FactorExtension {
-  cwd: boolean;
+  isCwd: boolean;
   _id: string;
   priority: number;
   extend: string;

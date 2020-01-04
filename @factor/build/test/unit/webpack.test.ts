@@ -90,7 +90,7 @@ describe("webpack", () => {
 
     it("defines application ENV variables", () => {
       process.env.NODE_ENV = "development"
-      const defined = getDefinedValues("client")
+      const defined = getDefinedValues({ target: "client" })
 
       // all should be string
       expect(Object.values(defined).some(_ => typeof _ != "string")).toBe(false)

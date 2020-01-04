@@ -5,7 +5,7 @@ import getPortUtility from "get-port"
 
 import { removeSync } from "fs-extra"
 import { generateLoaders } from "@factor/cli/extension-loader"
-import { buildProductionApp } from "@factor/build/webpack-config"
+import { buildProduction } from "@factor/build/webpack-config"
 import { createApp } from "@factor/app/app"
 import { objectId } from "@factor/post/object-id"
 import jsdom from "jsdom"
@@ -65,7 +65,7 @@ export const buildFixture = (fixture: string): void => {
       generateLoaders()
       await factorize()
 
-      await buildProductionApp({ testing: true })
+      await buildProduction({ testing: true })
     } catch (error_) {
       error = error_
     }

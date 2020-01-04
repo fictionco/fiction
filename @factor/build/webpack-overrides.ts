@@ -20,10 +20,12 @@ interface WebpackResource {
 addFilter({
   key: "themeAlias",
   hook: "webpack-aliases",
-  callback: (_: Record<string, any>) => {
+  callback: (_: Record<string, any>, { cwd }) => {
     const themes = getThemes()
     const p =
-      themes.length > 0 ? dirname(require.resolve(themes[0].name)) : getPath("source")
+      themes.length > 0
+        ? dirname(require.resolve(themes[0].name))
+        : getPath("source", cwd)
 
     return { ..._, "@theme": p }
   }
@@ -39,8 +41,13 @@ const _fileExists = (path: string): string => {
   }
 }
 
-export const overrideOperator = (resource: WebpackResource): WebpackResource => {
-  const inApp = _fileExists(resource.request.replace("__FALLBACK__", getPath("source")))
+export const overrideOperator = (
+  resource: WebpackResource,
+  cwd?: string
+): WebpackResource => {
+  const inApp = _fileExists(
+    resource.request.replace("__FALLBACK__", getPath("source", cwd))
+  )
   let filePath = ""
   if (inApp) {
     filePath = inApp
@@ -104,7 +111,7 @@ export const browserReplaceModule = (resource: WebpackResource): WebpackResource
 addFilter({
   key: "moduleReplacePlugins",
   hook: "webpack-plugins",
-  callback: (_: Plugin[]): Plugin[] => {
+  callback: (_: Plugin[], { cwd }): Plugin[] => {
     _.push(
       new webpack.NormalModuleReplacementPlugin(
         /^mongoose/,
@@ -118,7 +125,7 @@ addFilter({
     _.push(
       new webpack.NormalModuleReplacementPlugin(
         /^__FALLBACK__/,
-        (resource: WebpackResource) => overrideOperator(resource)
+        (resource: WebpackResource) => overrideOperator(resource, cwd)
       )
     )
     _.push(
