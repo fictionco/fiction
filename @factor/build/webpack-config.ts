@@ -288,17 +288,27 @@ export const buildProduction = async (
         cwd,
         webpackControls: _arguments,
         beforeCompile({ compiler, target }) {
-          bars[name + target] = multi.create(100, 0, { msg: "", target, name })
+          const newBar: SingleBar | undefined = multi.create(100, 0, {
+            msg: "",
+            target,
+            name
+          })
+
+          bars[name + target] = newBar
 
           compiler.apply(
             new webpackProgressPlugin((ratio: number, msg: string) => {
-              return bars[name + target].update(ratio * 100, { msg })
+              if (bars[name + target]) {
+                return bars[name + target].update(ratio * 100, { msg })
+              } else return
             })
           )
         },
         afterCompile({ stats, target }) {
-          bars[name + target].stop()
-          multi.remove(bars[name + target])
+          if (bars[name + target]) {
+            bars[name + target].stop()
+            multi.remove(bars[name + target])
+          }
 
           results.push({
             cwd,
