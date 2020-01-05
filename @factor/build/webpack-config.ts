@@ -1,7 +1,8 @@
 import "@factor/build/webpack-overrides"
 import { resolve } from "path"
 import { applyFilters, log, ensureTrailingSlash, deepMerge } from "@factor/api"
-import { getPath, getWorkingDirectory } from "@factor/api/paths"
+import { getPath } from "@factor/api/paths"
+import { getWorkingDirectory } from "@factor/api/utils"
 import BundleAnalyzer from "webpack-bundle-analyzer"
 import CopyPlugin from "copy-webpack-plugin"
 import merge from "webpack-merge"
@@ -43,7 +44,7 @@ export const getDefinedValues = (_arguments: FactorWebpackOptions): object => {
   return applyFilters(
     "webpack-define",
     {
-      "process.env.FACTOR_SSR": JSON.stringify(target),
+      "process.env.FACTOR_BUILD_ENV": JSON.stringify(target),
       "process.env.VUE_ENV": JSON.stringify(target),
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
@@ -63,7 +64,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
         const { errors } = stats.compilation
         if (errors && errors.length > 0) {
           errors.forEach(e => {
-            log.warn(e.message)
+            log.error(e)
           })
         }
       })
@@ -85,6 +86,8 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
       alias: applyFilters("webpack-aliases", {}, _arguments)
     },
     module: {
+      // Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
+      //unknownContextCritical: false,
       rules: applyFilters(
         "webpack-loaders",
         [

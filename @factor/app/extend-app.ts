@@ -17,7 +17,7 @@ export const getObservables = (): Record<string, any> => {
 }
 
 const addClientDirectives = (): void => {
-  if (process.env.FACTOR_SSR == "client") {
+  if (process.env.FACTOR_BUILD_ENV == "client") {
     const directives: { [key: string]: DirectiveFunction } = applyFilters(
       "client-directives",
       {}

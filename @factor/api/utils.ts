@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import deepMergeLib from "deepmerge"
 import randToken from "rand-token"
 import isNode from "detect-node"
@@ -15,6 +16,26 @@ export interface ListItem {
   desc?: string;
 }
 
+/**
+ * Returns a global process based working directory if argument cwd is undefined
+ * @param cwd - working directory
+ */
+export const getWorkingDirectory = (cwd?: string): string => {
+  return cwd ? cwd : process.env.FACTOR_CWD || process.cwd()
+}
+
+/**
+ * @returns - boolean if we are inside of the bundler environment, e.g. webpack is running.
+ */
+export const isBundler = (): boolean => {
+  return process.env.FACTOR_BUILD_ENV && process.env.FACTOR_BUILD_ENV !== "node"
+    ? true
+    : false
+}
+
+/**
+ * Generates a random token string, 16 characters long
+ */
 export const randomToken = (): string => {
   return randToken.generate(16)
 }

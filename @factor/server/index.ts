@@ -98,6 +98,9 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
 
   prepareListener()
 
+  /**
+   * Hook into restart-server callback that occurs on changes, etc.
+   */
   addCallback({
     key: "createServer",
     hook: "restart-server",
@@ -145,6 +148,22 @@ export const htmlRenderer = ({
   return createBundleRenderer(bundle, options)
 }
 
+export const appRenderer = (cwd?: string): BundleRenderer => {
+  const paths = {
+    template: setting("app.templatePath", { cwd }),
+    bundle: getPath("server-bundle", cwd),
+    clientManifest: getPath("client-manifest", cwd)
+  }
+
+  const renderComponents = {
+    template: fs.readFileSync(paths.template, "utf-8"),
+    bundle: require(paths.bundle),
+    clientManifest: require(paths.clientManifest)
+  }
+
+  return htmlRenderer(renderComponents)
+}
+
 export const createRenderServer = async (
   options: ServerOptions = {}
 ): Promise<BundleRenderer> => {
@@ -169,20 +188,7 @@ export const createRenderServer = async (
       })
     })
   } else {
-    const paths = {
-      template: setting("app.templatePath"),
-      bundle: getPath("server-bundle"),
-      clientManifest: getPath("client-manifest")
-    }
-
-    const renderComponents = {
-      template: fs.readFileSync(paths.template, "utf-8"),
-      bundle: require(paths.bundle),
-      clientManifest: require(paths.clientManifest)
-    }
-
-    renderer = htmlRenderer(renderComponents)
-
+    renderer = appRenderer()
     options.renderer = renderer
     await createServer(options)
   }

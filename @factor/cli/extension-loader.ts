@@ -1,7 +1,7 @@
 import { dirname, parse, resolve } from "path"
+import { getWorkingDirectory, toPascalCase, sortPriority } from "@factor/api/utils"
+import { getPath } from "@factor/api/paths"
 
-import { getPath, getWorkingDirectory } from "@factor/api/paths"
-import { toPascalCase, sortPriority } from "@factor/api/utils"
 import fs from "fs-extra"
 import glob from "glob"
 import log from "@factor/api/logger"
@@ -116,6 +116,7 @@ const makeModuleLoader = ({
   extensions: FactorExtension[];
   loadTarget: LoadTargets;
   callback: (files: LoaderFile[]) => void;
+  cwd?: string;
 }): void => {
   const files: LoaderFile[] = []
 
@@ -395,6 +396,7 @@ export const getFactorDirectories = (): string[] => {
 
 export const generateLoaders = (options?: CommandOptions): void => {
   const { cwd } = options || {}
+
   if (options && options.clean) {
     fs.removeSync(resolve(getWorkingDirectory(cwd), ".factor"))
     fs.removeSync(resolve(getWorkingDirectory(cwd), "dist"))
@@ -407,6 +409,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
   makeModuleLoader({
     extensions,
     loadTarget: LoadTargets.Server,
+    cwd,
     callback: (files: LoaderFile[]) => {
       writeFile({
         destination: getPath("loader-server", cwd),
@@ -418,6 +421,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
   makeModuleLoader({
     extensions,
     loadTarget: LoadTargets.App,
+    cwd,
     callback: (files: LoaderFile[]) => {
       writeFile({ destination: getPath("loader-app", cwd), content: loaderString(files) })
     }
@@ -426,6 +430,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
   makeFileLoader({
     extensions,
     filename: "factor-settings.*",
+    cwd,
     callback: (files: LoaderFile[]) => {
       writeFile({
         destination: getPath("loader-settings", cwd),

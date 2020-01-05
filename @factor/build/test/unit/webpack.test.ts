@@ -101,7 +101,7 @@ describe("webpack", () => {
           "NODE_ENV",
           "FACTOR_ENV",
           "VUE_ENV",
-          "FACTOR_SSR"
+          "FACTOR_BUILD_ENV"
         ])
       )
     })

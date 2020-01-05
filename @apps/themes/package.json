@@ -1,15 +1,15 @@
 {
   "name": "@apps/themes",
   "version": "1.0.11",
-  "url": "https://themes.fiction.com",
   "main": "src/index",
   "author": "Fiction.com, Inc.",
   "license": "UNLICENSED",
   "factor": {
-    "load": [
-      "app",
-      "server"
-    ]
+    "load": {
+      "app": "index",
+      "server": "server"
+    },
+    "url": "https://themes.fiction.com"
   },
   "dependencies": {
     "@factor/core": "^1.0.0",

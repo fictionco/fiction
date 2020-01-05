@@ -30,3 +30,11 @@ declare namespace NodeJS {
     };
   }
 }
+
+declare module "module-alias" {
+  function addAlias(
+    alias: string,
+    cb: (fromPath: string, request: string, alias: string) => string
+  ): void
+  function addAlias(alias: string, path: string): void
+}

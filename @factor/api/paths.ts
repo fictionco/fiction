@@ -1,16 +1,12 @@
 import { resolve, dirname, relative } from "path"
 import { addFilter, applyFilters } from "@factor/api/hooks"
-
+import { getWorkingDirectory } from "@factor/api/utils"
 import fs from "fs-extra"
 
 interface CopyItemConfig {
   from: string;
   to: string;
   ignore: string[];
-}
-
-export const getWorkingDirectory = (cwd?: string): string => {
-  return cwd ? cwd : process.env.FACTOR_CWD || process.cwd()
 }
 
 const relativePath = (key: string, cwd?: string): string => {

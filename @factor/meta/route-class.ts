@@ -53,7 +53,7 @@ addFilter({
   key,
   hook: "before-app",
   callback: () => {
-    if (process.env.FACTOR_SSR !== "server") manageClient()
+    if (process.env.FACTOR_BUILD_ENV !== "server") manageClient()
   }
 })
 

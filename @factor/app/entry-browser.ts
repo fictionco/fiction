@@ -18,5 +18,6 @@ const startClient = async (): Promise<void> => {
 startClient()
 
 // Webpack hot reload
+// https://webpack.js.org/api/module-variables/#modulehot-webpack-specific
 /* istanbul ignore next */
 if (module && module.hot) module.hot.accept()

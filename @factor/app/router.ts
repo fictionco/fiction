@@ -64,7 +64,7 @@ export const createRouter = (): VueRouter => {
 
   // Load hooks for client navigation handling
   // Don't run on server as this causes the hooks to run twice
-  if (process.env.FACTOR_SSR == "client") {
+  if (process.env.FACTOR_BUILD_ENV == "client") {
     router.beforeEach((to, from, next) => hookClientRouterBefore(to, from, next))
     router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
