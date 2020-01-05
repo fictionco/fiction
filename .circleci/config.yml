@@ -38,7 +38,7 @@ commands:
             if [ "$CIRCLE_BRANCH" = "staging" ]; then
               echo "TODO Staging Release Phase / Canary"
             elif [ "$CIRCLE_BRANCH" = "release" ]; then
-              yarn lerna publish from-git --yes
+              yarn lerna publish patch --yes
             else
               echo "Release phase is skipped."
             fi
