@@ -1,4 +1,4 @@
-import { dirname, parse, resolve } from "path"
+import { dirname, parse, resolve, join } from "path"
 import { getWorkingDirectory, toPascalCase, sortPriority } from "@factor/api/utils"
 import { getPath } from "@factor/api/paths"
 
@@ -249,6 +249,10 @@ export const makeEmptyLoaders = (): void => {
   })
 }
 
+const relFile = (main: string, rel: string): string => {
+  return join(dirname(main), rel)
+}
+
 /**
  * Normalize load key from package.json > factor
  * Allow for both simple syntax or full control
@@ -288,12 +292,14 @@ const normalizeLoadTarget = ({
       const val = load[t]
 
       if (!Array.isArray(val)) {
-        __[t] = [{ file: val, _id: getId({ _id, main, file: val, isCwd }) }]
+        __[t] = [
+          { file: join(dirname(main), val), _id: getId({ _id, main, file: val, isCwd }) }
+        ]
       } else {
         __[t] = val.map(v => {
           return typeof v == "string"
-            ? { file: v, _id: getId({ _id, main, file: v, isCwd }) }
-            : v
+            ? { file: join(dirname(main), v), _id: getId({ _id, main, file: v, isCwd }) }
+            : { ...v, file: join(dirname(main), v.file) }
         })
       }
     })
