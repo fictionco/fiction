@@ -25,15 +25,6 @@ export const getWorkingDirectory = (cwd?: string): string => {
 }
 
 /**
- * @returns - boolean if we are inside of the bundler environment, e.g. webpack is running.
- */
-export const isBundler = (): boolean => {
-  return process.env.FACTOR_BUILD_ENV && process.env.FACTOR_BUILD_ENV !== "node"
-    ? true
-    : false
-}
-
-/**
  * Generates a random token string, 16 characters long
  */
 export const randomToken = (): string => {

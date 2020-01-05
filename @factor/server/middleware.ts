@@ -23,11 +23,13 @@ export const addMiddleware = ({
   middleware,
   key
 }: {
-  path: string;
+  path: string | string[];
   middleware: MiddlewareHandler[];
   key?: string;
 }): void => {
-  pushToFilter({ key: key ? key : path, hook: "middleware", item: { path, middleware } })
+  const pathKey = typeof path == "string" ? path : path.join("")
+  key = key ? key : pathKey
+  pushToFilter({ key, hook: "middleware", item: { path, middleware } })
 }
 
 export const loadMiddleware = (app: Application, middleware = []): void => {

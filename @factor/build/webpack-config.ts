@@ -19,9 +19,12 @@ import { configSettings } from "@factor/api/config"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import webpackProgressPlugin from "webpack/lib/ProgressPlugin"
 import cliProgress, { SingleBar, MultiBar } from "cli-progress"
+import { ControlFile } from "@factor/cli/types"
 import { cssLoaders } from "./webpack-utils"
+
 interface FactorBundleOptions {
   config?: Record<string, any>;
+  controlFiles?: ControlFile[];
   webpackControls?: FactorWebpackControls;
   beforeCompile?: (_arguments: any) => void;
   afterCompile?: (_arguments: any) => void;
@@ -231,9 +234,9 @@ export const getWebpackConfig = async (
 export const generateBundles = async (
   options: FactorBundleOptions = {}
 ): Promise<void> => {
-  const { cwd, webpackControls = {} } = options
+  const { cwd, webpackControls = {}, controlFiles } = options
 
-  generateLoaders({ cwd })
+  generateLoaders({ cwd, controlFiles })
 
   await Promise.all(
     ["server", "client"].map(async target => {
@@ -263,11 +266,20 @@ export const generateBundles = async (
   )
 }
 
+interface BuildConfig {
+  cwd: string;
+  controlFiles?: ControlFile[];
+}
+
+/**
+ * Builds production application bundles and files based on an array of working directories.
+ * @param _arguments - Options for controlling the production build
+ */
 export const buildProduction = async (
   _arguments: FactorWebpackControls = {}
 ): Promise<void> => {
-  const buildDirectories: string[] = applyFilters("build-directories", [
-    getWorkingDirectory()
+  const buildDirectories: BuildConfig[] = applyFilters("build-directories", [
+    { cwd: getWorkingDirectory() }
   ])
 
   const { Presets } = cliProgress
@@ -285,11 +297,12 @@ export const buildProduction = async (
   const bars: Record<string, SingleBar> = {}
   const results: { info: string; target: string; cwd: string }[] = []
   const promises = buildDirectories.map(
-    async (cwd: string): Promise<void> => {
+    async ({ cwd, controlFiles }: BuildConfig): Promise<void> => {
       const { name } = require(resolve(cwd, "package.json"))
       await generateBundles({
         cwd,
         webpackControls: _arguments,
+        controlFiles,
         beforeCompile({ compiler, target }) {
           const newBar: SingleBar | undefined = multi.create(100, 0, {
             msg: "",

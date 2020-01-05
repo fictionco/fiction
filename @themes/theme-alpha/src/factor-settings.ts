@@ -79,7 +79,7 @@ export default {
     }
   },
   footer: {
-    legal: "&copy; 2019 Factor Alpha Theme by Fiction Inc. All rights reserved.",
+    legal: "Factor Alpha Theme by Fiction.com",
     nav: [
       {
         path: "/admin",

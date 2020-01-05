@@ -16,8 +16,6 @@
     "@factor/plugin-blog": "^1.0.0",
     "@factor/plugin-contact-form": "^1.0.0",
     "@factor/plugin-highlight-code": "^1.0.0",
-    "@factor/plugin-jobs": "^1.0.0",
-    "@factor/theme-shared": "^1.0.0",
     "execa": "^4.0.0"
   }
 }

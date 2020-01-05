@@ -47,6 +47,7 @@ export const createRouter = (): VueRouter => {
   const router = new VueRouter({
     mode: "history",
     routes,
+    base: applyFilters("app-base-route", "/"),
     scrollBehavior: (to, from, saved) => {
       const position = { x: 0, y: 0 }
 

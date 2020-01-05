@@ -1,4 +1,4 @@
-import { dirname, parse, resolve, join } from "path"
+import { dirname, parse, resolve, join, basename } from "path"
 import { getWorkingDirectory, toPascalCase, sortPriority } from "@factor/api/utils"
 import { getPath } from "@factor/api/paths"
 
@@ -111,12 +111,14 @@ const getPriority = ({
 const makeModuleLoader = ({
   extensions,
   loadTarget,
-  callback
+  callback,
+  additional = []
 }: {
   extensions: FactorExtension[];
   loadTarget: LoadTargets;
   callback: (files: LoaderFile[]) => void;
   cwd?: string;
+  additional?: LoaderFile[];
 }): void => {
   const files: LoaderFile[] = []
 
@@ -134,19 +136,22 @@ const makeModuleLoader = ({
     })
   })
 
-  callback(sortPriority(files))
+  callback(sortPriority([...files, ...additional]))
 }
 
 const makeFileLoader = ({
   extensions,
   filename,
   callback,
-  cwd
+  cwd,
+  additional = []
 }: {
   extensions: FactorExtension[];
   filename: string;
   callback: (files: LoaderFile[]) => void;
   cwd?: string;
+  loadTarget: LoadTargets;
+  additional?: LoaderFile[];
 }): void => {
   const files: LoaderFile[] = []
 
@@ -178,7 +183,7 @@ const makeFileLoader = ({
       })
   })
 
-  callback(files)
+  callback([...files, ...additional])
 }
 
 const recursiveDependencies = (
@@ -249,10 +254,6 @@ export const makeEmptyLoaders = (): void => {
   })
 }
 
-const relFile = (main: string, rel: string): string => {
-  return join(dirname(main), rel)
-}
-
 /**
  * Normalize load key from package.json > factor
  * Allow for both simple syntax or full control
@@ -307,10 +308,17 @@ const normalizeLoadTarget = ({
   return __
 }
 
+/**
+ * Creates a string import statement to load a file
+ * @param files - module names used to create the string
+ */
 const loaderString = (files: LoaderFile[]): string => {
   return files.map(({ file }) => `import "${file}"`).join("\n")
 }
-
+/**
+ * Creates an import string, that loads things in a priority based order
+ * @param files - module names to write to string
+ */
 const loaderStringOrdered = (files: LoaderFile[]): string => {
   const lines = files.map(
     ({ _id, file, priority }) =>
@@ -321,7 +329,11 @@ const loaderStringOrdered = (files: LoaderFile[]): string => {
 
   return lines.join("\n")
 }
-
+/**
+ * Generates a normalized list of extensions to work with
+ * @param packagePaths - All package.json files from Factor extensions
+ * @param packageBase - The base package.json
+ */
 export const generateExtensionList = (
   packagePaths: FactorPackageJson[],
   packageBase: FactorPackageJson
@@ -401,20 +413,53 @@ export const getFactorDirectories = (): string[] => {
 }
 
 export const generateLoaders = (options?: CommandOptions): void => {
-  const { cwd } = options || {}
+  const { cwd, clean, controlFiles } = options || {}
+  const workingDirectory = getWorkingDirectory(cwd)
 
-  if (options && options.clean) {
-    fs.removeSync(resolve(getWorkingDirectory(cwd), ".factor"))
-    fs.removeSync(resolve(getWorkingDirectory(cwd), "dist"))
+  const folders = {
+    generated: resolve(workingDirectory, ".factor"),
+    distribution: resolve(workingDirectory, "dist")
   }
 
+  if (clean) {
+    Object.values(folders).forEach(folder => {
+      fs.removeSync(folder)
+      fs.ensureDirSync(folder)
+    })
+  }
+
+  // Control files allow apps to be customized from other builds
+  // Useful in advanced setups, e.g. added for theme demo
+  const controls: {
+    [key in LoadTargets]?: LoaderFile[]
+  } = {}
+  if (controlFiles) {
+    controlFiles.forEach(({ file, target }) => {
+      const filename = basename(file)
+
+      fs.copySync(file, join(folders.generated, filename))
+
+      const filenameBase = filename
+        .split(".")
+        .slice(0, -1)
+        .join(".")
+
+      controls[target] = [{ _id: filenameBase, file: `./${filenameBase}`, priority: 800 }]
+    })
+  }
+
+  // Get extensions based on working directory dependencies
   const extensions = getExtensions(cwd)
 
   if (extensions.length == 0) return
 
+  /**
+   * SERVER MODULES LOADER
+   */
   makeModuleLoader({
     extensions,
     loadTarget: LoadTargets.Server,
+    additional: controls[LoadTargets.Server],
     cwd,
     callback: (files: LoaderFile[]) => {
       writeFile({
@@ -424,18 +469,27 @@ export const generateLoaders = (options?: CommandOptions): void => {
     }
   })
 
+  /**
+   * APP MODULES LOADER
+   */
   makeModuleLoader({
     extensions,
     loadTarget: LoadTargets.App,
+    additional: controls[LoadTargets.App],
     cwd,
     callback: (files: LoaderFile[]) => {
       writeFile({ destination: getPath("loader-app", cwd), content: loaderString(files) })
     }
   })
 
+  /**
+   * SETTINGS FILES LOADER
+   */
   makeFileLoader({
     extensions,
     filename: "factor-settings.*",
+    loadTarget: LoadTargets.Settings,
+    additional: controls[LoadTargets.Settings],
     cwd,
     callback: (files: LoaderFile[]) => {
       writeFile({
@@ -445,9 +499,15 @@ export const generateLoaders = (options?: CommandOptions): void => {
     }
   })
 
+  /**
+   * STYLE FILES LOADER
+   */
   makeFileLoader({
     extensions,
     filename: "factor-styles.*",
+    loadTarget: LoadTargets.Style,
+    additional: controls[LoadTargets.Style],
+    cwd,
     callback: (files: LoaderFile[]) => {
       const imports = files.map(_ => `@import (less) "~${_.file}";`).join(`\n`)
       const content = `${imports}`

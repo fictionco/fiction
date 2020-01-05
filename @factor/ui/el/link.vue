@@ -2,7 +2,7 @@
 import Vue, { CreateElement, VNode } from "vue"
 import { factorBtn, factorBtnDashboard } from "@factor/ui"
 import { pickBy, isEmpty, emitEvent, identity } from "@factor/api"
-
+import { applyFilters } from "@factor/api/hooks"
 export default Vue.extend({
   props: {
     btn: { type: String, default: "" },
@@ -30,7 +30,8 @@ export default Vue.extend({
 
     path = !path && !isEmpty(query) ? this.$route.path : path
 
-    path = path.trim()
+    // Allow for global customization
+    path = applyFilters("link-path", path.trim(), { query })
 
     const schemes = ["http:", "https:", "ftp:", "mailto:", "file:", "data:", "irc:"]
 

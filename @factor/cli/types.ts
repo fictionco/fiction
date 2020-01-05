@@ -1,9 +1,35 @@
+/**
+ * Control files are additional files that can be added to loaders from filters
+ * @param target - the loader to target
+ * @param file - the full path to the original file
+ */
+export type ControlFile = {
+  file: string;
+  target: LoadTargets;
+}
+
+/**
+ * Types of modules in Factor
+ */
 export enum ExtendTypes {
   Theme = "theme",
   Plugin = "plugin",
   App = "app"
 }
 
+/**
+ * Different context targets for module auto-loaders
+ */
+export enum LoadTargets {
+  Server = "server",
+  App = "app",
+  Style = "style",
+  Settings = "settings"
+}
+
+/**
+ * Options available for Factor CLI
+ */
 export interface CommandOptions {
   command?: string;
   filter?: string;
@@ -14,6 +40,7 @@ export interface CommandOptions {
   clean?: boolean;
   inspect?: boolean;
   cwd?: string;
+  controlFiles?: ControlFile[];
 }
 
 export interface FactorPackageJson {
@@ -36,11 +63,6 @@ export interface FactorPackageJson {
   };
   repository?: { type?: string; url: string };
   [key: string]: any;
-}
-
-export enum LoadTargets {
-  Server = "server",
-  App = "app"
 }
 
 export type LoadTarget = string[] | string | NormalizedLoadTarget

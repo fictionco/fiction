@@ -17,16 +17,16 @@ export default Vue.extend({
     }
   },
   computed: {
-    errorText() {
+    errorText(this: any) {
       return this.$route.meta.error || 404
     },
-    title() {
+    title(this: any) {
       return this.details.title
     },
-    subTitle() {
+    subTitle(this: any) {
       return this.details.subTitle
     },
-    details() {
+    details(this: any) {
       let out
 
       if (this.$route.meta.error == 403) {

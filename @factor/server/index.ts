@@ -164,6 +164,14 @@ export const appRenderer = (cwd?: string): BundleRenderer => {
   return htmlRenderer(renderComponents)
 }
 
+/**
+ * Creates application renderer and runs a server
+ * @param options - options for running the server
+ * @returns the application renderer being served
+ *
+ * @remarks
+ *  uses NODE_ENV to either create production renderer or use dev server
+ */
 export const createRenderServer = async (
   options: ServerOptions = {}
 ): Promise<BundleRenderer> => {
