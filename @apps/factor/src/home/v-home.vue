@@ -3,10 +3,15 @@
     <section class="header">
       <div class="headline content">
         <div class="content-pad">
-          <h1 class="page-title">Build websites, blogs, and apps.</h1>
-          <h3 class="page-title-sub">The CMS framework built for web-developers.</h3>
+          <h1
+            class="page-title"
+          >A complete, modern CMS to quickly develop websites, blogs, and apps.</h1>
+          <h3 class="page-title-sub">A javascript framework designed for front-end developers.</h3>
 
           <div class="actions">
+            <h3
+              class="page-title-highlight"
+            >🚀Launches March 17 - Join the developer group for early access.</h3>
             <factor-email-list list-id="alphaProgram" />
             <div v-if="!loadingButtons" class="github-actions">
               <script async defer src="https://buttons.github.io/buttons.js" />
@@ -22,31 +27,57 @@
               >Star on Github</a>
             </div>
           </div>
-          <div class="points">
-            <div class="point">
-              <span class="arrow">
-                <factor-icon icon="check" />
-              </span>
-              <span class="text">100% Javascript</span>
-            </div>
-            <div class="point">
-              <span class="arrow">
-                <factor-icon icon="check" />
-              </span>
-              <span class="text">CMS Dashboard</span>
-            </div>
-            <div class="point">
-              <span class="arrow">
-                <factor-icon icon="check" />
-              </span>
-              <span class="text">Themes + Plugins</span>
-            </div>
-            <div class="point">
-              <span class="arrow">
-                <factor-icon icon="check" />
-              </span>
-              <span class="text">Open-Source</span>
-            </div>
+        </div>
+      </div>
+      <div class="points-wrap">
+        <div class="points">
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">Typescript Native</span>
+          </div>
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">VueJS + NodeJS</span>
+          </div>
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">CMS Dashboard</span>
+          </div>
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">Posts and Pages</span>
+          </div>
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">Themes + Plugins</span>
+          </div>
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">Search and Social Optimized</span>
+          </div>
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">GPL 2.0</span>
+          </div>
+          <div class="point">
+            <span class="arrow">
+              <factor-icon icon="check" />
+            </span>
+            <span class="text">Server Rendered</span>
           </div>
         </div>
       </div>
@@ -302,37 +333,9 @@ export default Vue.extend({
         opacity: 0.7;
       }
 
-      .points {
-        display: flex;
-        margin: 4rem auto 2rem;
-        justify-content: center;
-
-        .point {
-          margin: 0 1rem;
-          text-transform: uppercase;
-          font-weight: 600;
-
-          &:hover {
-            .arrow {
-              background: var(--color-primary);
-            }
-          }
-        }
-        .arrow {
-          text-align: center;
-          transition: all 0.3s;
-          color: #fff;
-          background: var(--color-text);
-          border-radius: 50%;
-          width: 1.5em;
-          height: 1.5em;
-          display: inline-block;
-          margin-right: 0.5em;
-        }
-      }
       @media (max-width: 900px) {
         text-align: left;
-        padding: 3rem 0;
+        padding: 3rem 0 0;
         .page-title {
           color: var(--color-primary);
 
@@ -347,17 +350,15 @@ export default Vue.extend({
         .page-title .highlight {
           color: var(--color-primary);
         }
-
-        .points {
-          display: block;
-          text-align: left;
-          .point {
-            margin: 0.6em 0;
-          }
-        }
       }
       .actions {
-        margin-top: 3.5em;
+        margin-top: 3em;
+        .page-title-highlight {
+          font-size: 1.1em;
+          font-weight: 600;
+          margin-bottom: 1em;
+          opacity: 0.5;
+        }
         .github-actions {
           margin: 2rem;
           display: flex;
@@ -374,14 +375,46 @@ export default Vue.extend({
             margin-left: 1rem;
           }
         }
+      }
+    }
 
-        .email-list-form {
-          max-width: 650px;
-          font-size: 1.3em;
-          margin: 0 auto;
-          @media (max-width: 900px) {
-            font-size: 1em;
+    .points-wrap {
+      padding: 2rem;
+    }
+    .points {
+      display: flex;
+      min-width: 1800px;
+      margin: 0 auto;
+
+      opacity: 0.2;
+      .point {
+        margin: 0 1rem;
+        text-transform: uppercase;
+        font-weight: 700;
+
+        &:hover {
+          .arrow {
+            background: var(--color-primary);
           }
+        }
+      }
+      .arrow {
+        text-align: center;
+        transition: all 0.3s;
+        color: #fff;
+        background: var(--color-text);
+        border-radius: 50%;
+        width: 1.5em;
+        height: 1.5em;
+        display: inline-block;
+        margin-right: 0.5em;
+      }
+      @media (max-width: 900px) {
+        display: block;
+        text-align: left;
+        min-width: 0;
+        .point {
+          margin: 0.6em 0;
         }
       }
     }
@@ -729,6 +762,9 @@ export default Vue.extend({
     }
     .action {
       font-weight: 500;
+    }
+    .email-list-form .add-email {
+      grid-template-columns: 1fr;
     }
     @media (max-width: 900px) {
       text-align: left;
