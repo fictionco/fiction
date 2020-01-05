@@ -3,10 +3,8 @@
     <section class="header">
       <div class="headline content">
         <div class="content-pad">
-          <h1
-            class="page-title"
-          >A complete, modern CMS to quickly develop websites, blogs, and apps.</h1>
-          <h3 class="page-title-sub">A javascript framework designed for front-end developers.</h3>
+          <h1 class="page-title">Build something incredible.</h1>
+          <h3 class="page-title-sub">The CMS designed for professional front-end developers.</h3>
 
           <div class="actions">
             <h3
