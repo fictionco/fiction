@@ -8,12 +8,7 @@
       <div class="dashboard-grid-head dashboard-grid-row">
         <div v-for="col in structure" :key="col._id" class="cell">
           <template v-if="col._id == 'select'">
-            <input
-              :value="selected"
-              type="checkbox"
-              class="checkbox"
-              @click="selectAll()"
-            />
+            <input :value="selected" type="checkbox" class="checkbox" @click="selectAll()" />
           </template>
           <span v-else class="head-text">{{ col.name || toLabel(col._id) }}</span>
         </div>
@@ -26,19 +21,13 @@
         @click="navigate(row)"
       >
         <div v-for="col in structure" :key="col._id" class="cell">
-          <div
-            v-if="zeroState > 0 && rowNumber == 0 && rows.length == 0"
-            class="zero-content"
-          >
+          <div v-if="zeroState > 0 && rowNumber == 0 && rows.length == 0" class="zero-content">
             <div v-if="col.type == 'media'" class="zero-media">
               <div class="box" />
             </div>
             <div class="zero-lines" :class="col.type">
               <div class="line" />
-              <div
-                v-if="col.type == 'double' || col.type == 'media'"
-                class="line short"
-              />
+              <div v-if="col.type == 'double' || col.type == 'media'" class="line short" />
             </div>
           </div>
           <template v-else>
@@ -66,7 +55,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    rowSet() {
+    rowSet(this: any) {
       if (this.rows.length > 0) {
         return this.rows
       } else {
@@ -75,13 +64,13 @@ export default Vue.extend({
         return new Array(f).fill({})
       }
     },
-    columns() {
+    columns(this: any) {
       return this.structure.map(col => col.width).join(" ")
     }
   },
   methods: {
     toLabel,
-    selectAll() {
+    selectAll(this: any) {
       if (this.selected) {
         this.selected = false
       } else {
@@ -90,7 +79,7 @@ export default Vue.extend({
 
       this.$emit("select-all", this.selected)
     },
-    navigate(row) {
+    navigate(this: any, row) {
       if (this.path) {
         const path = this.interpolate(this.path, row)
         this.$router.push({ path })
@@ -98,7 +87,7 @@ export default Vue.extend({
         return
       }
     },
-    interpolate(str, row) {
+    interpolate(this: any, str, row) {
       str.match(/{.+?}/g).forEach(match => {
         const varName = match.replace(/{(.*?)}/, "$1")
 

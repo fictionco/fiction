@@ -88,10 +88,17 @@ const facebook = (): void => {
   })
 }
 
-const googleAds = (): void => {
+/**
+ * @remarks
+ * - Event: ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue], [fieldsObject]);
+ */
+const google = (): void => {
   onEvent("email-list-new-email-confirmed", () => {
     if (window && window.dataLayer) {
       window.dataLayer.push({ event: "emailListSignupSuccess" })
+      if (window.ga) {
+        window.ga("send", "event", "newLead", "verifiedEmail", "verifiedEmail", 3)
+      }
     }
   })
   onEvent("email-list-new-email-requested", () => {
@@ -100,10 +107,26 @@ const googleAds = (): void => {
       window.dataLayer.push({ event: "emailListSignupRequest" })
     }
   })
+  /**
+   * Track auth events in Analytics
+   */
+  addFilter({
+    hook: "authenticated",
+    key: "trackEvent",
+    callback: (user, params) => {
+      if (window.ga && user) {
+        if (params.newAccount) {
+          window.ga("send", "event", "newLead", "newAccount", "newAccount", 5)
+        } else {
+          window.ga("send", "event", "returnUser", "loggedIn", "loggedIn", 1)
+        }
+      }
+    }
+  })
 }
 
 slack()
 
 facebook()
 
-googleAds()
+google()

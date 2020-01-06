@@ -107,12 +107,15 @@ const sendUserRequest = async (method: string, params: object): Promise<unknown>
   return await endpointRequest({ id: "user", method, params })
 }
 
+/**
+ * Authenticates a user based on email and password. Optionally creates a new account.
+ */
 export const authenticate = async (
   params: AuthenticationParameters
 ): Promise<FactorUserCredential> => {
   const user = (await sendUserRequest("authenticate", params)) as FactorUserCredential
 
-  await runCallbacks("authenticated", user)
+  await runCallbacks("authenticated", user, params)
 
   if (user && user.token) {
     requestPostPopulate({ posts: [user] })
