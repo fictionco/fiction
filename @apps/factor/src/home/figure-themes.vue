@@ -31,11 +31,11 @@ export default Vue.extend({
     }
   },
   computed: {
-    scale() {
+    scale(this: any) {
       return Math.max(Math.min(this.width / 500, 1), 0.5)
     }
   },
-  mounted() {
+  mounted(this: any) {
     this.width = this.getWidth()
 
     window.addEventListener("resize", () => {
@@ -43,7 +43,7 @@ export default Vue.extend({
     })
   },
   methods: {
-    getWidth() {
+    getWidth(this: any) {
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
     }
   }
@@ -86,15 +86,20 @@ figure.themes-graph {
       }
       &:nth-child(1) {
         z-index: 10;
+        transform: rotate(-5deg) rotateY(12deg) translateZ(82px);
       }
       &:nth-child(2) {
-        left: 2em;
+        left: 4em;
 
         z-index: 9;
+        transform: rotate(5deg) rotateY(-12deg) translateZ(22px);
+        top: -3em;
       }
       &:nth-child(3) {
-        left: 4em;
+        left: 7em;
         z-index: 8;
+        top: -7em;
+        transform: rotate(8deg) rotateY(-18deg) translateZ(-102px);
       }
     }
   }

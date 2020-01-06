@@ -180,8 +180,7 @@
 
 <script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
-import { factorLink, factorIcon } from "@factor/ui"
-import { analyticsEvent } from "@factor/theme-shared"
+import { factorLink, factorIcon } from "@factor/ui" 
 import Vue from "vue"
 export default Vue.extend({
   components: {
