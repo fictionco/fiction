@@ -1,17 +1,17 @@
 <template>
   <div class="factor-benefits">
     <header class="section-header">
-      <h1 class="title">Perfect for Perfectionists</h1>
+      <h1 class="title">Why you'll love using Factor</h1>
       <p class="text">
-        Factor will help you launch production apps. Minimize time spent re-inventing the wheel or coding (and debugging) where
-        it's unneeded.
+        Factor will help you launch websites and applications faster.
+        <br />You'll spend less time re-inventing the wheel and debugging.
       </p>
     </header>
 
     <ul class="features-list">
       <li class="feature-block">
         <home-icon icon="dashboard" />
-        <h3 class="title">Dashboard and Posts</h3>
+        <h3 class="title">Your dashboard</h3>
         <p
           class="text"
         >Wield a powerful post system and dashboard to simplify your backend design and add complete content-management.</p>
@@ -19,17 +19,41 @@
 
       <li class="feature-block">
         <home-icon icon="build" />
-        <h3 class="title">Themes and Plugins</h3>
+        <h3 class="title">Themes that work</h3>
         <p
           class="text"
-        >Factor is designed from the start for theming. Start with a professional foundation; then customize as much as you need.</p>
+        >Factor is designed for theming. Save time and start with a solid foundation, then customize.</p>
+      </li>
+
+      <li class="feature-block">
+        <home-icon icon="brush" />
+        <h3 class="title">Simple yet powerful</h3>
+        <p
+          class="text"
+        >Factor simplifies your life by helping you use standards and best-practices without having to think about them.</p>
+      </li>
+
+      <li class="feature-block">
+        <home-icon icon="build2" />
+        <h3 class="title">Easy to use</h3>
+        <p
+          class="text"
+        >Nobody likes reading technical docs. Factor is built for people that like to save time, not debug.</p>
+      </li>
+
+      <li class="feature-block">
+        <home-icon icon="brush" />
+        <h3 class="title">Search optimized</h3>
+        <p
+          class="text"
+        >Build universal apps with VueJS. Get better SEO results with server-rendered apps.</p>
       </li>
 
       <li class="feature-block">
         <home-icon icon="open-source" />
-        <h3 class="title">Free and Open Source</h3>
+        <h3 class="title">Free and open-source</h3>
         <p class="text">
-          Factor uses the same open source license as projects like WordPress
+          Factor is built on open-source tech and uses the samelicense as projects like WordPress
           and Linux.
         </p>
       </li>
@@ -37,12 +61,12 @@
 
     <div class="interstitial-cta">
       <div class="text">
-        <h2 class="title">Ready to Try Factor?</h2>
-        <h2 class="title-sub">Up and Running in 5 Minutes</h2>
+        <h2 class="title">Getting Started is Easy</h2>
+        <h2 class="title-sub">Add Factor to a project in seconds</h2>
       </div>
 
       <div class="buttons">
-        <factor-link btn="primary" size="large" path="/guide/quickstart">View Quickstart &rarr;</factor-link>
+        <factor-link btn="primary" size="large" path="/guide/quickstart">View Guide &rarr;</factor-link>
       </div>
     </div>
   </div>

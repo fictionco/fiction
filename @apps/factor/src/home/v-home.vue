@@ -4,7 +4,7 @@
       <div class="headline content">
         <div class="content-pad">
           <h1 class="page-title">Build something incredible.</h1>
-          <h3 class="page-title-sub">The CMS designed for professional front-end developers.</h3>
+          <h3 class="page-title-sub">The Vue Framework and CMS that front-end developers love.</h3>
 
           <div class="actions">
             <h3
@@ -246,7 +246,7 @@ export default Vue.extend({
         },
         {
           id: "plugins-feature",
-          //icon: "plugins",
+         
           title: `Plugins that just work`,
           text: `Most coding frameworks make you do way too much coding and customization
               to make plugins work. Factor focuses on making plugins dead simple with intelligent
@@ -255,7 +255,7 @@ export default Vue.extend({
           link: { path: "/plugins", text: "View Plugins" }
         },
         {
-          //icon: "brush",
+         
           title: "Theming for the 21st Century",
           text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either.
               Factor was developed from the start with customizable theming and rapid app development in mind.`,
