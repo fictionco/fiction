@@ -88,6 +88,27 @@ const facebook = (): void => {
   })
 }
 
+export const analyticsEvent = ({
+  category,
+  action,
+  label,
+  value
+}: {
+  category: string;
+  action: string;
+  label?: string;
+  value?: number;
+}): void => {
+  label = label ? label : action
+
+  if (window.ga) {
+    const tracker = window.ga.getAll()[0]
+    if (tracker) {
+      tracker.send("event", category, action, label, value)
+    }
+  }
+}
+
 /**
  * @remarks
  * - Event: ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue], [fieldsObject]);
@@ -96,15 +117,14 @@ const google = (): void => {
   onEvent("email-list-new-email-confirmed", () => {
     if (window && window.dataLayer) {
       window.dataLayer.push({ event: "emailListSignupSuccess" })
-      if (window.ga) {
-        window.ga("send", "event", "newLead", "verifiedEmail", "verifiedEmail", 3)
-      }
+      analyticsEvent({ category: "newLead", action: "verifiedEmail", value: 3 })
     }
   })
   onEvent("email-list-new-email-requested", () => {
     // Track event in Tag Manager
     if (window && window.dataLayer) {
       window.dataLayer.push({ event: "emailListSignupRequest" })
+      analyticsEvent({ category: "newLead", action: "submittedEmail", value: 1 })
     }
   })
   /**
@@ -116,9 +136,9 @@ const google = (): void => {
     callback: (user, params) => {
       if (window.ga && user) {
         if (params.newAccount) {
-          window.ga("send", "event", "newLead", "newAccount", "newAccount", 5)
+          analyticsEvent({ category: "newLead", action: "newAccount", value: 5 })
         } else {
-          window.ga("send", "event", "returnUser", "loggedIn", "loggedIn", 1)
+          analyticsEvent({ category: "returnUser", action: "loggedIn", value: 1 })
         }
       }
     }

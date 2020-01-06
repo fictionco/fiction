@@ -181,6 +181,7 @@
 <script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLink, factorIcon } from "@factor/ui"
+import { analyticsEvent } from "@factor/theme-shared"
 import Vue from "vue"
 export default Vue.extend({
   components: {
@@ -267,11 +268,12 @@ export default Vue.extend({
   mounted(this: any) {
     this.loadingButtons = false
   },
+  methods: {},
   metaInfo() {
     return {
-      title: "VueJS Framework for Website, blogs, apps and eCommerce",
+      title: "Vue Framework and CMS",
       description:
-        "Factor VueJS framework to help you build websites, blogs, apps and eCommerce. Powerful tools built with Vue, Express, Node and MongoDb."
+        "Factor VueJS framework to help you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
     }
   }
 })
