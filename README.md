@@ -11,19 +11,19 @@
   <a href="https://github.com/fiction-com/factor/blob/development/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
  </p>
 
-<h1 align="center" style="color:#495d6e;">
+<h1 align="center">
   <a href="https://factor.dev"><img src="./banner.jpg" width="100%" alt="Learn More" /></a>
   <br>
   Build something incredible.
 </h1>
 
-<h3 align="center" style="color:#808f9a;">
+<h3 align="center">
 The CMS designed for professional front-end developers.
 <br><br>
 </h3>
 
 <p align="center">
-  <a href="https://factor.dev" align="center">
-    <img src="./learn-more.jpg" style="display:inline-block;max-width: 180px;" alt="Learn More" />
+  <a href="https://factor.dev">
+    <img src="./learn-more.jpg" width="180px;" alt="Learn More" />
   </a>
 </p>
