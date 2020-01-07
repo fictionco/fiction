@@ -14,10 +14,10 @@
 <h1 align="center">
   <a href="https://factor.dev"><img src="./banner.jpg" width="100%" alt="Learn More" /></a>
   <br>
-  Build something incredible.
+  Vue Framework and CMS
 </h1>
 
-<h3 align="center">
+<h3 align="center" style="opacity: .4">
 The CMS designed for professional front-end developers.
 <br><br>
 </h3>
