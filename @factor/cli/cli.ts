@@ -11,7 +11,6 @@ import { CommandOptions } from "./types"
 
 import pkg from "./package.json"
 
-
 interface CommanderArguments {
   options: object[];
   parent: Record<string, any>;
@@ -25,8 +24,6 @@ const initializeNodeInspector = async (): Promise<void> => {
 }
 
 export const runServer = async (setup: CommandOptions): Promise<void> => {
-
-
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {
@@ -45,7 +42,6 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
   await tools.runCallbacks("create-server", setup)
 }
 
-
 export const runCommand = async (options: CommandOptions): Promise<void> => {
   const setup = {
     install: true,
@@ -56,14 +52,16 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 
   const { install, filter, command, inspect } = setup
 
+  // Make sure all package dependencies are installed and updated
   if (install) await verifyDependencies(setup)
 
+  // Open node inspector port if 'inspect' flag is set
   if (command && ["dev"].includes(command) && inspect) {
     await initializeNodeInspector()
   }
 
+  // Extend and setup Node server environment
   await factorize(setup)
-
 
   try {
     if (command && ["build", "start"].includes(command)) {
@@ -79,10 +77,8 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     }
 
     if (command && ["start", "dev", "serve"].includes(command)) {
-
       await runServer(setup) // Long running process
     } else {
-
       if (command) log.success(`Successfully ran [${command}]`)
       // eslint-disable-next-line unicorn/no-process-exit
       process.exit(0)
@@ -93,7 +89,6 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 
   return
 }
-
 
 // Clean up commanders provided arguments to just return needed CLI arguments
 const cleanArguments = (commanderArguments: CommanderArguments): Record<string, any> => {
@@ -113,9 +108,7 @@ const cleanArguments = (commanderArguments: CommanderArguments): Record<string, 
   return out
 }
 
-
 export const setup = (): void => {
-
   process.noDeprecation = true
   process.maxOldSpaceSize = 8192
 
@@ -139,7 +132,11 @@ export const setup = (): void => {
     .option("--static", "use static file system for builds instead of memory")
     .option("--inspect", "run node debug-mode inspector")
     .action(_arguments => {
-      runCommand({ command: "dev", ...cleanArguments(_arguments), NODE_ENV: "development" })
+      runCommand({
+        command: "dev",
+        ...cleanArguments(_arguments),
+        NODE_ENV: "development"
+      })
     })
 
   commander
@@ -170,14 +167,24 @@ export const setup = (): void => {
     .command("setup [filter]")
     .description("Setup and verify your Factor app")
     .action((filter, _arguments) =>
-      runCommand({ command: "setup", filter, clean: false, ...cleanArguments(_arguments) })
+      runCommand({
+        command: "setup",
+        filter,
+        clean: false,
+        ...cleanArguments(_arguments)
+      })
     )
 
   commander
     .command("run <filter>")
     .description("Run CLI utilities based on filter name (see documentation)")
     .action((filter, _arguments) =>
-      runCommand({ command: "run", filter, install: false, ...cleanArguments(_arguments) })
+      runCommand({
+        command: "run",
+        filter,
+        install: false,
+        ...cleanArguments(_arguments)
+      })
     )
 
   commander
@@ -187,9 +194,6 @@ export const setup = (): void => {
     .action(_arguments => generateLoaders(cleanArguments(_arguments)))
 
   commander.parse(process.argv)
-
-
 }
-
 
 setup()
