@@ -7,9 +7,7 @@
 </template>
 
 <script lang="ts">
-import { stored } from "@factor/app/store"
 import { setting } from "@factor/api/settings"
-import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 
 export default Vue.extend({
@@ -22,50 +20,8 @@ export default Vue.extend({
       loading: false
     }
   },
-  serverPrefetch() {
-    return this.getPosts()
-  },
-  computed: {
-    tag(this: any) {
-      return this.$route.params.tag || this.$route.query.tag || ""
-    },
-    index(this: any) {
-      return stored(this.postType) || {}
-    },
-    newsPosts(this: any) {
-      const { posts = [] } = this.index
-      return posts
-    },
-    page(this: any) {
-      return this.$route.query.page || 1
-    }
-  },
-  watch: {
-    $route: {
-      handler: function(this: any) {
-        this.getPosts()
-      }
-    }
-  },
-  mounted() {
-    this.getPosts()
-  },
   methods: {
-    setting,
-    async getPosts(this: any) {
-      this.loading = true
-
-      await requestPostIndex({
-        postType: this.postType,
-        tag: this.tag,
-        status: "published",
-        sort: "-date",
-        page: this.page,
-        limit: setting("news.limit")
-      })
-
-      this.loading = false
-    }
+    setting
   }
 })
 </script>

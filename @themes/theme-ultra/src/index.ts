@@ -7,6 +7,8 @@ import { Component } from "vue"
 
 const portfolioBaseRoute = setting("portfolio.postRoute")
 
+const newsBaseRoute = setting("news.postRoute")
+
 export const setup = (): void => {
   addFilter({
     key: "ultraFont",
@@ -29,7 +31,7 @@ export const setup = (): void => {
 
   addPostType({
     postType: "news",
-    baseRoute: portfolioBaseRoute,
+    baseRoute: newsBaseRoute,
     icon: require("./img/news.svg"),
     model: "newsPost",
     nameIndex: "News",
@@ -38,7 +40,7 @@ export const setup = (): void => {
   })
 
   addPageTemplate({
-    slug: "ultra-basic",
+    slug: "ultra-default",
     component: () => import("./page-template-default.vue")
   })
 
@@ -54,11 +56,11 @@ export const setup = (): void => {
         component: setting("portfolio.components.portfolioWrap"),
         children: [
           {
-            path: "/#portfolio",
+            path: "#portfolio",
             component: setting("portfolio.components.portfolioIndex")
           },
           {
-            path: `${setting("portfolio.postRoute")}/:permalink`,
+            path: `${portfolioBaseRoute}/:permalink`,
             component: setting("portfolio.components.portfolioSingle")
           }
         ]
@@ -68,7 +70,7 @@ export const setup = (): void => {
         component: setting("news.components.newsWrap"),
         children: [
           {
-            path: "/#news",
+            path: "#news",
             component: setting("news.components.newsIndex")
           },
           {

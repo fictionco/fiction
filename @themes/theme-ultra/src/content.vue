@@ -31,10 +31,10 @@ export default {
   }
 }
 .page-container {
-  min-height: 100vh;
-  height: auto;
   display: grid;
   grid-template-columns: 1fr;
+  min-height: 100vh;
+  height: auto;
   padding: 4em;
   @media (max-width: 900px) {
     padding: 3em 2em;

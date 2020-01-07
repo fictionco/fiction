@@ -23,6 +23,7 @@ import {
 
 import { factorError404 } from "@factor/ui"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorError404 },
   data() {

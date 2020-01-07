@@ -48,7 +48,7 @@ export default {
         target: "contact"
       }
     ],
-    copyright: "&copy; Copyright 2019."
+    copyright: "&copy; Copyright "
   },
   intro: {
     pretitle: "Welcome To Ultra",
@@ -143,14 +143,11 @@ export default {
     components: {
       portfolioWrap: (): Promise<Component> => import("./portfolio/portfolio-wrap.vue"),
       portfolioIndex: (): Promise<Component> => import("./portfolio/portfolio-index.vue"),
-      portfolioSingle: (): Promise<Component> =>
-        import("./portfolio/portfolio-single.vue"),
+      portfolioSingle: (): Promise<Component> => import("./portfolio/portfolio-single.vue"),
       portfolioEntry: (): Promise<Component> => import("./portfolio/widget-entry.vue"),
       hero: (): Promise<Component> => import("./portfolio/widget-hero.vue"),
-      featuredImage: (): Promise<Component> =>
-        import("./portfolio/widget-featured-image.vue"),
-      tags: (): Promise<Component> => import("./portfolio/widget-tags.vue"),
-      //returnLink: (): Promise<Component> => import("./portfolio/widget-return-link.vue"),
+      featuredImage: (): Promise<Component> => import("./portfolio/widget-featured-image.vue"),
+      tags: (): Promise<Component> => import("./portfolio/widget-tags.vue")
     },
     layout: {
       index: ["featuredImage"],

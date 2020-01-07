@@ -34,24 +34,27 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .entry-tags {
-  line-height: 1;
-  //padding: 1em 2em 0;
+  line-height: 1.4;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1em 2em;
 
   a {
-    color: var(--color-primary);
-    background: var(--color-placeholder-2);
     display: inline-block;
-    opacity: 0.7;
-    font-size: 0.85em;
+    font-size: 0.85rem;
     font-weight: var(--font-weight-bold);
     margin: 5px 5px 5px 0;
-    padding: 5px 10px;
+    padding: 2px 7px;
     text-decoration: none;
     border-radius: 3px;
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+
     &:hover {
       color: var(--color-white);
       opacity: 1;
-      background: var(--color-primary-dark);
+      background: var(--color-primary);
     }
     &:not(:nth-child(1)) {
       margin-left: 3px;

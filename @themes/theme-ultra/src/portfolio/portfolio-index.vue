@@ -1,9 +1,6 @@
 <template>
   <div class="posts-wrap">
-    <div v-if="loading" class="loading-entries">
-      <factor-loading-ring />
-    </div>
-    <div v-else-if="portfolioPosts.length > 0" class="portfolio-posts">
+    <div v-if="portfolioPosts" class="portfolio-posts">
       <section v-for="post in portfolioPosts" :key="post._id" class="post card">
         <component
           :is="setting(`portfolio.components.${comp}`)"
@@ -33,7 +30,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "portfolio",
-      loading: false
+      loading: true
     }
   },
   metaInfo() {
@@ -100,7 +97,8 @@ export default Vue.extend({
 <style lang="less">
 .posts-wrap {
   .loading-entries {
-    height: 50vh;
+    display: flex;
+    justify-content: center;
     padding: 5em;
   }
 }

@@ -17,7 +17,7 @@
       </template>
     </nav>
 
-    <div v-formatted-text="setting('site.copyright')" class="copyright" />
+    <div v-formatted-text="setting('site.copyright') + currentyear()" class="copyright" />
   </div>
 </template>
 
@@ -33,8 +33,8 @@ export default Vue.extend({
   data() {
     return {
       loading: true,
-      options: ["#intro", "#about", "#services", "#portfolio", "#news", "#contact"],
-      selected: undefined
+      options: setting("site.nav"),
+      selected: ""
     }
   },
   mounted: function() {
@@ -47,16 +47,21 @@ export default Vue.extend({
         },
         { threshold: [0.2] }
       )
-      observer.observe(document.querySelector(ele))
+      if (document.querySelector(ele.path)) {
+        observer.observe(document.querySelector(ele.path))
+      }
     }
   },
   methods: {
     setting,
-    sidebarPath(path: any) {
+    sidebarPath(this: any, path: any) {
       const ele = document.querySelector(path)
       if (ele) {
         ele.scrollIntoView()
       }
+    },
+    currentyear(this: any) {
+      return new Date().getFullYear()
     }
   }
 })
@@ -108,7 +113,6 @@ export default Vue.extend({
       &:hover {
         color: var(--color-text-light);
       }
-
       &.nav-link-active {
         color: var(--color-text-light);
         font-weight: var(--font-weight-semibold);

@@ -43,6 +43,7 @@ export default Vue.extend({
 .news-single-entry {
   background: var(--color-bg-alt);
   overflow: hidden;
+  padding-bottom: 3em;
 
   .featured-image-wrap,
   .entry-meta,

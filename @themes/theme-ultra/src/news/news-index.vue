@@ -1,9 +1,6 @@
 <template>
   <div class="news-wrap">
-    <div v-if="loading" class="loading-entries">
-      <factor-loading-ring />
-    </div>
-    <div v-else-if="newsPosts.length > 0" class="news-posts">
+    <div v-if="newsPosts" class="news-posts">
       <section v-for="post in newsPosts" :key="post._id" class="news-item">
         <component
           :is="setting(`news.components.${comp}`)"
@@ -110,7 +107,6 @@ export default Vue.extend({
 }
 .posts-not-found,
 .posts-loading {
-  min-height: 50vh;
   display: flex;
   text-align: center;
   align-items: center;
