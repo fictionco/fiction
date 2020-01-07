@@ -20,6 +20,7 @@ interface LoaderFile {
   file: string;
   priority: number;
   path?: string;
+  writeFile?: { filename: string; content: string };
 }
 
 export const getWorkingDirectoryPackage = (cwd?: string): FactorPackageJson => {
@@ -421,12 +422,12 @@ export const generateLoaders = (options?: CommandOptions): void => {
     distribution: resolve(workingDirectory, "dist")
   }
 
-  if (clean) {
-    Object.values(folders).forEach(folder => {
+  Object.values(folders).forEach(folder => {
+    if (clean) {
       fs.removeSync(folder)
-      fs.ensureDirSync(folder)
-    })
-  }
+    }
+    fs.ensureDirSync(folder)
+  })
 
   // Control files allow apps to be customized from other builds
   // Useful in advanced setups, e.g. added for theme demo
@@ -434,17 +435,28 @@ export const generateLoaders = (options?: CommandOptions): void => {
     [key in LoadTargets]?: LoaderFile[]
   } = {}
   if (controlFiles) {
-    controlFiles.forEach(({ file, target }) => {
-      const filename = basename(file)
+    controlFiles.forEach(({ file, target, writeFile }) => {
+      let _filename
 
-      fs.copySync(file, join(folders.generated, filename))
+      if (writeFile) {
+        const { filename, content } = writeFile
+        _filename = filename
+        fs.writeFileSync(join(folders.generated, filename), content)
+      } else if (file) {
+        _filename = basename(file)
+        fs.copySync(file, join(folders.generated, _filename))
+      }
 
-      const filenameBase = filename
-        .split(".")
-        .slice(0, -1)
-        .join(".")
+      if (_filename) {
+        const filenameBase = _filename
+          .split(".")
+          .slice(0, -1)
+          .join(".")
 
-      controls[target] = [{ _id: filenameBase, file: `./${filenameBase}`, priority: 800 }]
+        controls[target] = [
+          { _id: filenameBase, file: `./${filenameBase}`, priority: 800 }
+        ]
+      }
     })
   }
 

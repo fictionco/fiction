@@ -4,8 +4,9 @@
  * @param file - the full path to the original file
  */
 export type ControlFile = {
-  file: string;
   target: LoadTargets;
+  file?: string;
+  writeFile?: { filename: string; content: string };
 }
 
 /**
