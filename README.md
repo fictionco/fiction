@@ -3,8 +3,6 @@
   <br>
   <a href="https://factor.dev"><img src="./banner.jpg" alt="Factor" width="100%"></a>
   <br>
-  Factor
-  <br>
 </h1>
 
 <h4 align="center">A framework and CMS for websites, blogs and apps.</h4>
