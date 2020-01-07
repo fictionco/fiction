@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-<h4 align="center">The Vue framework and CMS front-end developers love.</h4>
+<h4 align="center">A framework and CMS for websites, blogs and apps.</h4>
 
 
 <p align="center">
