@@ -13,8 +13,6 @@
 
 <h1 align="center">
   <a href="https://factor.dev"><img src="./banner.jpg" width="100%" alt="Learn More" /></a>
-  <br>
-  Vue Framework and CMS
 </h1>
 
 <h3 align="center" style="opacity: .4">
