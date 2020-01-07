@@ -109,7 +109,7 @@ const loaders = ({
 
       const seconds = Math.max(...times) / 1000
       devServer.updateSpinner.succeed(
-        ` built` + chalk.dim(` in ${seconds}s ${devServer.updateReason}`)
+        ` built` + chalk.dim(` in ${seconds}s ${devServer.updateReason ?? ""}`)
       )
       devServer.updateSpinner = undefined
       devServer.updateLoaders = {}
@@ -227,7 +227,7 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     const outputPath = config.output?.path ?? ""
 
     const bundleString = fileSystemUtility.readFileSync(
-      path.join(outputPath, "factor-client.json"),
+      path.join(outputPath, "factor-server.json"),
       "utf-8"
     )
 
