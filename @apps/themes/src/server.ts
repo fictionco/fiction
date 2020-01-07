@@ -33,11 +33,3 @@ addMiddleware({
   path: "/",
   middleware: [serveStatic(getPath("dist", alphaDirectory), true)]
 })
-
-// addFilter({
-//   key: "addThemes",
-//   hook: "node-alias-cwd",
-//   callback: (cwd, { request }) => {
-//     return request.includes("/alpha") ? alphaDirectory : cwd
-//   }
-// })

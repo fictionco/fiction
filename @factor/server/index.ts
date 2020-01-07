@@ -1,5 +1,11 @@
 import { Server } from "http"
-import { addCallback, runCallbacks, applyFilters, setting } from "@factor/api"
+import {
+  addCallback,
+  runCallbacks,
+  applyFilters,
+  setting,
+  getWorkingDirectory
+} from "@factor/api"
 import {
   createBundleRenderer,
   BundleRenderer,
@@ -13,7 +19,7 @@ import log from "@factor/api/logger"
 import LRU from "lru-cache"
 
 import Vue from "vue"
-import { developmentServer } from "./server-dev"
+import { developmentServer, initializeDevServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 import { RendererComponents } from "./types"
@@ -26,6 +32,7 @@ interface ServerOptions {
   static?: boolean;
   port?: string;
   renderer?: BundleRenderer;
+  cwd?: string;
 }
 
 const isRestarting = (): boolean => {
@@ -148,6 +155,10 @@ export const htmlRenderer = ({
   return createBundleRenderer(bundle, options)
 }
 
+/**
+ * Creates an application renderer
+ * @param cwd = working directory
+ */
 export const appRenderer = (cwd?: string): BundleRenderer => {
   const paths = {
     template: setting("app.templatePath", { cwd }),
@@ -163,7 +174,6 @@ export const appRenderer = (cwd?: string): BundleRenderer => {
 
   return htmlRenderer(renderComponents)
 }
-
 /**
  * Creates application renderer and runs a server
  * @param options - options for running the server
@@ -177,9 +187,11 @@ export const createRenderServer = async (
 ): Promise<BundleRenderer> => {
   let renderer: BundleRenderer
 
+  const cwd = getWorkingDirectory(options.cwd)
   if (process.env.NODE_ENV == "development") {
     renderer = await new Promise(resolve => {
       developmentServer({
+        cwd,
         fileSystem: options.static ? "fs" : "memory-fs",
         onReady: async renderConfig => {
           const renderer = htmlRenderer(renderConfig)
@@ -196,7 +208,7 @@ export const createRenderServer = async (
       })
     })
   } else {
-    renderer = appRenderer()
+    renderer = appRenderer(cwd)
     options.renderer = renderer
     await createServer(options)
   }
