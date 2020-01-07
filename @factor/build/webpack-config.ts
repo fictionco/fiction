@@ -180,7 +180,7 @@ const client = (cwd?: string): Configuration => {
 const server = (cwd?: string): Configuration => {
   const entry = getPath("entry-server", cwd)
 
-  const filename = "factor-server.json"
+  const filename = "factor-server-[name].json"
   return {
     target: "node",
     entry,

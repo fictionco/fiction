@@ -1,1 +1,1 @@
-web: yarn workspace @apps/fiction factor serve
+web: yarn workspace @apps/themes factor serve
