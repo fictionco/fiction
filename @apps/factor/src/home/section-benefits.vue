@@ -26,7 +26,7 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="brush" />
+        <home-icon icon="simple" />
         <h3 class="title">Simple yet powerful</h3>
         <p
           class="text"
@@ -34,7 +34,7 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="build2" />
+        <home-icon icon="easy" />
         <h3 class="title">Easy to use</h3>
         <p
           class="text"
@@ -42,7 +42,7 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="brush" />
+        <home-icon icon="optimized" />
         <h3 class="title">Search optimized</h3>
         <p
           class="text"
