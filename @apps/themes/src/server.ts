@@ -19,8 +19,8 @@ addFilter({
 }
 
 const dirs = [
-  { name: "alpha", dir: dirname(require.resolve("@factor/theme-alpha/package.json")) },
-  { name: "ultra", dir: dirname(require.resolve("@factor/theme-ultra/package.json")) }
+  { name: "ultra", dir: dirname(require.resolve("@factor/theme-ultra/package.json")) },
+  { name: "alpha", dir: dirname(require.resolve("@factor/theme-alpha/package.json")) }
 ]
 
 dirs.forEach(({ name, dir }) => {
@@ -30,6 +30,7 @@ dirs.forEach(({ name, dir }) => {
     callback: dirs => {
       dirs.push({
         cwd: dir,
+        config: { output: { publicPath: `/${name}/` } },
         controlFiles: [
           {
             writeFile: {
@@ -44,6 +45,14 @@ dirs.forEach(({ name, dir }) => {
     }
   })
 
+  const dist = getPath("dist", dir)
+  addMiddleware({
+    path: `/${name}`,
+    middleware: [serveStatic(dist, true)]
+  })
+})
+
+dirs.forEach(({ name, dir }) => {
   addMiddleware({
     path: [`/${name}`, `/${name}/*`],
     middleware: [
@@ -53,10 +62,5 @@ dirs.forEach(({ name, dir }) => {
         return renderRequest(renderer, request, response)
       }
     ]
-  })
-
-  addMiddleware({
-    path: "/",
-    middleware: [serveStatic(getPath("dist", dir), true)]
   })
 })

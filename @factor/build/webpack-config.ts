@@ -236,7 +236,7 @@ export const generateBundles = async (
 ): Promise<void> => {
   const { cwd, webpackControls = {}, controlFiles } = options
 
-  generateLoaders({ cwd, controlFiles })
+  generateLoaders({ cwd, controlFiles, clean: true })
 
   await Promise.all(
     ["server", "client"].map(async target => {
@@ -269,6 +269,7 @@ export const generateBundles = async (
 interface BuildConfig {
   cwd: string;
   controlFiles?: ControlFile[];
+  config?: Configuration;
 }
 
 /**
@@ -297,12 +298,14 @@ export const buildProduction = async (
   const bars: Record<string, SingleBar> = {}
   const results: { info: string; target: string; cwd: string }[] = []
   const promises = buildDirectories.map(
-    async ({ cwd, controlFiles }: BuildConfig): Promise<void> => {
+    async ({ cwd, controlFiles, config }: BuildConfig): Promise<void> => {
       const { name } = require(resolve(cwd, "package.json"))
       await generateBundles({
         cwd,
         webpackControls: _arguments,
+        config,
         controlFiles,
+
         beforeCompile({ compiler, target }) {
           const newBar: SingleBar | undefined = multi.create(100, 0, {
             msg: "",
