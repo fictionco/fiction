@@ -13,26 +13,26 @@ const config = {
   prompts: [
     {
       name: "name",
-      message: "Project Title",
+      message: "What's the name of your app?",
       default: "{outFolder}"
     },
     {
       name: "description",
-      message: "Project description",
+      message: "Basic description?",
       default: `My ${superb.random()} Factor project`,
       when: answers => !config.isUnitTest(answers)
     },
     {
       name: "author",
       type: "string",
-      message: "Your Name",
+      message: "Your full name?",
       default: "{gitUser.name}",
       when: answers => !config.isUnitTest(answers)
     },
     {
       name: "email",
       type: "string",
-      message: "Your Email",
+      message: "...and email?",
       default: "{gitUser.email}",
       when: answers => !config.isUnitTest(answers)
     },
@@ -40,22 +40,26 @@ const config = {
       name: "addDb",
       type: "list",
       message:
-        "Do you have a MongoDB connection string ready? (needed for dashboard, posts, auth. you can can add this later...)",
-      choices: ["yes", "no"],
+        "Ok let's setup your database: do you have a MongoDB connection URL ready?",
+      choices: [
+        { name: "Yes, I'm ready to go", value: "yes" },
+        { name: "Use the demo database (resets every 30 minutes)", value: "demo" },
+        { name: "I'll do this later", value: "no" }
+      ],
       when: answers => !config.isUnitTest(answers)
     },
 
     {
       name: "db",
       type: "string",
-      message: "Your MongoDB Connection String (mongodb://...)",
+      message: "DB Setup: Your MongoDB Connection URL (mongodb://...)",
       default: "",
       validate: val => {
         return !val || val.includes("mongodb")
           ? true
-          : "Doesn't seem to be a valid connection string..."
+          : "Doesn't seem to be a valid database URL..."
       },
-      when: answers => answers.addDb != "no" && !config.isUnitTest(answers)
+      when: answers => answers.addDb == "yes" && !config.isUnitTest(answers)
     }
   ],
   isUnitTest(answers) {
@@ -66,17 +70,23 @@ const config = {
    * Info returned here gets added as variables in the template generation
    */
   templateData() {
+    const data = {}
     const answers = this.answers
     if (answers.name.includes("UNIT-TEST")) {
       // set test answers for template
     }
-    const urlName = config.slugify(answers.name || "no-name")
-    const randomString = Math.random()
+    data.urlName = config.slugify(answers.name || "no-name")
+    data.randomString = Math.random()
       .toString(36)
       .replace(/[^a-z]+/g, "")
       .slice(0, 30)
 
-    return { urlName, randomString }
+    if (answers.addDb == "demo") {
+      data.db =
+        "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
+    }
+
+    return data
   },
   slugify(text) {
     return text
@@ -136,12 +146,14 @@ const config = {
     }
 
     console.log()
-    console.log(this.chalk.bold(`  ${figures.tick} Start your local server:\n`))
+    console.log(
+      this.chalk.bold(`  ${figures.tick} Great work. Now start your local server:\n`)
+    )
     cd()
     console.log(`\tyarn factor dev\n`)
     console.log()
-    console.log(`  ${figures.arrowRight} Factor Docs: https://factor.dev/`)
-    console.log(`  ${figures.arrowRight} Setup CLI: yarn factor setup`)
+    console.log(`  ${figures.arrowRight} Factor docs: https://factor.dev/`)
+    console.log(`  ${figures.arrowRight} Setup command: yarn factor setup`)
     console.log()
   }
 }

@@ -20,7 +20,8 @@ addFilter({
 
 const dirs = [
   { name: "ultra", dir: dirname(require.resolve("@factor/theme-ultra/package.json")) },
-  { name: "alpha", dir: dirname(require.resolve("@factor/theme-alpha/package.json")) }
+  { name: "alpha", dir: dirname(require.resolve("@factor/theme-alpha/package.json")) },
+  { name: "zeno", dir: dirname(require.resolve("@factor/theme-zeno/package.json")) }
 ]
 
 dirs.forEach(({ name, dir }) => {
