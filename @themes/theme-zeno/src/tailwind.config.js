@@ -2,7 +2,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Source Sans Pro', 'sans-serif']
+        sans: ['Source Sans Pro', 'sans - serif']
+        //sans: ['Cabin', 'sans-serif']
       },
       listStyleType: {
         square: 'square',
@@ -53,7 +54,7 @@ module.exports = {
     }
   },
   variants: {
-    backgroundColor: ['responsive', 'hover', 'focus'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'even'],
     textColor: ['responsive', 'hover', 'focus']
   },
   plugins: []

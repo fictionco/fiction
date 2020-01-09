@@ -2,6 +2,7 @@ import { Component } from "vue"
 export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet" />`
+    //font: `<link href="https://fonts.googleapis.com/css?family=Cabin:400,600,700&display=swap" rel="stylesheet" />`
   },
   tailwind: {
     config: require("./tailwind.config.js"),
@@ -38,13 +39,13 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+          classes: "btn bg-purple-500 rounded text-white hover:bg-purple-600"
         },
         {
           link: "/pricing",
           text: "Pricing",
           classes:
-            "factor-link btn shadow-lg ml-4 bg-white hover:bg-gray-300 text-purple-700"
+            "factor-link btn rounded border border-purple-300 text-purple-300 ml-4 hover:text-purple-100 hover:border-purple-300"
         }
       ],
       figure: require("./img/cloud-with-shadow.svg"),
@@ -62,17 +63,17 @@ export default {
       pretitle: "Grow Your Business, Not Infrastructure.",
       title: `<span class="underline">Grow Your Business</span>, Not Infrastructure.`,
       content:
-        "We build, optimize, secure, and support your cloud with no long-term contract. Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
+        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Styles are powered by Tailwind, a low-level CSS framework.",
       buttons: [
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn rounded bg-teal-500 text-purple-700 hover:bg-teal-600"
+          classes: "factor-link btn bg-purple-500 rounded text-white hover:bg-purple-600"
         },
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "btn rounded shadow-lg ml-4 bg-white hover:bg-gray-100 text-purple-700"
+          classes: "btn rounded text-purple-700 border border-purple-700 ml-4 hover:text-purple-500 hover:border-purple-500 hover:bg-gray-100"
         }
       ],
       figure: (): Promise<Component> => import("./el/figure-intro.vue")
@@ -102,74 +103,51 @@ export default {
     },
     solutions: {
       id: "solutions",
-      title: "Solutions",
-      titleFigure: require("./img/squares.svg"),
+      // title: "Solutions",
+      // titleFigure: require("./img/squares.svg"),
       items: [
         {
           icon: require("./img/plan.svg"),
           title: "Plan",
-          list: [
-            {
-              content:
-                "Cloud infrastructure design that is secure, fast, elastic, affordable, and agnostic."
-            },
-            {
-              content:
-                "Migrate existing infrastructure from Heroku, on-premise, or other providers."
-            },
-            {
-              content:
-                "Re-architect your infrastructure or migrate to micro-services, containers, and serverless."
-            }
-          ]
+          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/build.svg"),
           title: "Build",
-          list: [
-            {
-              content:
-                "From simple LAMP/MEAN stacks to complex multi-region architectures using Packer, Terraform, containerization and beyond, we can build it."
-            },
-            {
-              content:
-                "CDN configuration and optimization including expert knowledge of CloudFlare."
-            },
-            {
-              content:
-                "Local development environments, continuous integration pipelines, deployments, and testing infrastructure."
-            }
-          ]
+          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/manage.svg"),
           title: "Manage",
-          list: [
-            {
-              content: "Manage your infrastructure spend and reduce costs."
-            },
-            {
-              content:
-                "Infrastructure monitoring and alerting using native cloud provider offerings or third parties such as Datadog, Pingdom, and PagerDuty."
-            },
-            {
-              content:
-                "Compliance and governance. Security patching and updating of infrastructure components."
-            }
-          ]
+          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+        },
+        {
+          icon: require("./img/build.svg"),
+          title: "Something",
+          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+        },
+        {
+          icon: require("./img/manage.svg"),
+          title: "Else",
+          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+        },
+        {
+          icon: require("./img/plan.svg"),
+          title: "Placeholder",
+          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
       ]
     },
     devops: {
       id: "devops-as-a-service",
       pretitle: "Devops-as-a-Service",
-      title: "Your first and last DevOps hire!",
+      title: "Your first and last DevOps!",
       content: `<p>By leveraging our decades of DevOps and sysadmin experience, we'll help you focus on what's important… Growing your business.</p><p class="mt-4">Zeno will handle uptime, security, cost optimization, disaster recovery, and performance. We’re always on-call, ready to assist. Focused on being responsive, transparent, and thorough.</p>`,
       buttons: [
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+          classes: "factor-link factor-link btn bg-purple-500 rounded text-white hover:bg-purple-600"
         }
       ],
       figure: (): Promise<Component> => import("./el/figure-devops.vue")
@@ -277,7 +255,7 @@ export default {
       title: `Choose the <span class="underline">right plan</span> for your business.`,
       content:
         "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
-      backgroundImage: require("./img/stars-50.svg")
+      backgroundImage: require("./img/transparent-pattern.svg")
     },
     packages: [
       {
@@ -572,7 +550,7 @@ export default {
     ],
     left: `Built with <i class="fa fa-heart"></i> in Nashville`,
     right:
-      "<p>&copy; 2020 <a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>",
+      "<p>&copy; 2020 <a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a></p>",
     figure: require("./img/cloud-with-shadow.svg"),
     figureAlt: "Cloud"
   }

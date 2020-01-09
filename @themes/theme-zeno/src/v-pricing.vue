@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="bg-purple-900 flex items-center bg-center bg-repeat-x" :style="introBackground">
+    <section class="flex items-center bg-cover bg-center bg-purple-900" :style="introBackground">
       <div class="max-w-2xl mx-auto text-center px-8 py-32">
         <h3 class="custom-uppercase text-purple-400">{{ introPretitle }}</h3>
         <h1

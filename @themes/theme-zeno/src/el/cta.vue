@@ -1,7 +1,7 @@
 <template>
-  <section class="relative flex items-center text-center py-24 px-8 bg-purple-700">
+  <section class="cta relative flex items-center text-center py-24 px-8 bg-purple-700">
     <figure class="absolute top-0 right-0 z-20 hidden mr-32 -mt-10 lg:block">
-      <img :src="ctaFigure" :alt="ctaFigureAlt"/>
+      <img :src="ctaFigure" :alt="ctaFigureAlt" />
     </figure>
     <div class="max-w-xl mx-auto">
       <h1 class="font-bold text-3xl lg:text-4xl text-gray-100">{{ ctaTitle }}</h1>
@@ -36,3 +36,11 @@ export default Vue.extend({
   methods: { setting }
 })
 </script>
+
+<style lang="less">
+.cta {
+  background-image: url(../img/transparent-pattern.svg);
+  background-position: 50% 50%;
+  background-size: cover;
+}
+</style>

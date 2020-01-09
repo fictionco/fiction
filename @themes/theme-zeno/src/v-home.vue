@@ -1,16 +1,14 @@
 <template>
   <div>
-    <section class="home-hero">
-      <div class="home-hero-img hidden lg:block bg-purple-900">
-        <!-- <component :is="introFigure" /> -->
-      </div>
+    <section class="home-hero pt-12 lg:pt-0">
+      <div class="home-hero-img hidden lg:block bg-purple-900" />
       <div class="px-16 mx-auto">
         <!-- <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3> -->
         <h1
           v-formatted-text="introTitle"
-          class="font-bold leading-tight text-3xl mt-2 text-purple-900 lg:text-4xl"
+          class="font-bold leading-tight text-3xl mt-2 text-purple-900 lg:text-5xl"
         />
-        <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
+        <div v-formatted-text="introContent" class="mt-2 text-lg lg:text-xl" />
         <div class="mt-8">
           <template v-for="(button, index) in introButtons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
@@ -22,54 +20,47 @@
       </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-8 py-12">
-      <h1 class="custom-uppercase text-center text-purple-500">{{ clientsTitle }}</h1>
-      <div class="flex flex-wrap items-center mt-8">
-        <template v-for="(item, index) in clientsList">
-          <factor-link
-            :key="index"
-            :path="item.link"
-            :target="item.target"
-            class="block w-full px-4 py-6 sm:w-1/3"
-          >
-            <img :src="item.image" :alt="item.alt" class="mx-auto" />
-          </factor-link>
-        </template>
+    <section class="section-2 bg-gray-100 px-8 pt-12 pb-16">
+      <div class="max-w-6xl mx-auto">
+        <h1 class="custom-uppercase text-center text-purple-500">{{ clientsTitle }}</h1>
+        <div class="flex flex-wrap items-center mt-8">
+          <template v-for="(item, index) in clientsList">
+            <factor-link
+              :key="index"
+              :path="item.link"
+              :target="item.target"
+              class="block w-full px-4 py-6 sm:w-1/3"
+            >
+              <img :src="item.image" :alt="item.alt" class="mx-auto" />
+            </factor-link>
+          </template>
+        </div>
       </div>
     </section>
 
-    <section :id="solutionsID" class="bg-gray-100 pb-16">
-      <div class="bg-purple-900 pt-8 px-8 pb-24 text-center md:pt-16 md:pb-32">
-        <squares-title :title="solutionsTitle" />
-      </div>
-
-      <div class="max-w-6xl mx-auto flex flex-col md:flex-row">
-        <template v-for="(item, index) in solutionsItems">
-          <div :key="index" class="mt-8 w-full md:w-4/12 lg:-mt-12">
-            <div class="bg-white shadow-lg px-6 py-10 mx-4">
-              <div class="flex items-center">
-                <img :src="item.icon" :alt="item.title" />
-                <h2 class="font-bold text-3xl text-purple-900 ml-5">{{ item.title }}</h2>
-              </div>
-              <ul
-                class="font-normal list-outside list-square mt-8 text-base leading-relaxed lg:text-xl"
-              >
-                <template v-for="(listItem, i) in item.list">
-                  <li :key="i" class="text-purple-500 mt-4 ml-5">
-                    <span class="text-gray-600">{{ listItem.content }}</span>
-                  </li>
-                </template>
-              </ul>
+    <section :id="solutionsID" class="section-3 relative bg-cover bg-center bg-purple-900 py-16">
+      <div
+        class="relative z-20 max-w-6xl mx-auto flex flex-col bg-white rounded shadow-lg md:flex-row md:flex-wrap"
+      >
+        <div
+          v-for="(item, index) in solutionsItems"
+          :key="index"
+          class="w-full even:bg-gray-100 md:w-1/3"
+        >
+          <div class="p-10">
+            <div class="flex items-center">
+              <img :src="item.icon" :alt="item.title" />
+              <h2 class="font-bold text-3xl text-purple-900 ml-5">{{ item.title }}</h2>
             </div>
+            <div v-if="item.content" class="text-lg mt-4 text-gray-600">{{ item.content }}</div>
           </div>
-        </template>
+        </div>
       </div>
     </section>
 
-    <section :id="devopsID" class="max-w-6xl mx-auto bg-white">
-      <div class="flex flex-col py-8 md:flex-row lg:py-12">
-        <component :is="devopsFigure" class="flex p-8 md:w-1/2" />
-        <div class="flex flex-col p-8 justify-center md:w-1/2">
+    <section :id="devopsID" class="section-4 bg-white">
+      <div class="max-w-6xl mx-auto flex flex-col py-8 md:flex-row lg:py-12">
+        <div class="flex flex-col p-8 justify-center md:w-3/5">
           <h3 class="custom-uppercase text-purple-500">{{ devopsPretitle }}</h3>
           <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">{{ devopsTitle }}</h1>
           <div v-formatted-text="devopsContent" class="mt-2 text-base leading-relaxed lg:text-xl" />
@@ -82,6 +73,7 @@
             </template>
           </div>
         </div>
+        <component :is="devopsFigure" class="flex p-8 md:w-2/5" />
       </div>
     </section>
 
@@ -110,38 +102,42 @@
               </div>
             </template>
           </div>
-          <component :is="infrSyntax" class="pt-8 md:pt-0 md:pl-8 md:w-1/2" />
+          <div class="pt-8 md:pt-0 md:pl-8 md:w-1/2">
+            <component :is="infrSyntax" />
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="max-w-6xl mx-auto px-8 py-16 lg:py-24">
-      <div class="max-w-xs mx-auto">
-        <h3 class="custom-uppercase text-center text-purple-500">{{ testimonialsPretitle }}</h3>
-        <h1
-          class="mt-2 font-bold text-3xl text-center leading-tight text-purple-900 lg:text-4xl"
-        >{{ testimonialsTitle }}</h1>
-      </div>
-      <div class="flex flex-col text-base mt-6 md:flex-row lg:text-xl">
-        <template v-for="(item, index) in testimonialsItems">
-          <figure :key="index" class="flex-1 px-8 pt-8">
-            <blockquote class="relative inline-block quote">
-              <span class="absolute text-5xl text-gray-400 -ml-6 -mt-6">&ldquo;</span>
-              <span v-formatted-text="item.content" class="leading-relaxed" />
-            </blockquote>
-            <footer class="flex items-center mt-4">
-              <img
-                :src="item.image"
-                :alt="item.author + ' - ' + item.info"
-                class="rounded-full h-10 w-10 md:h-16 md:w-16"
-              />
-              <div class="ml-4 text-base">
-                <cite class="block">{{ item.author }}</cite>
-                <cite class="block">{{ item.info }}</cite>
-              </div>
-            </footer>
-          </figure>
-        </template>
+    <section class="section-6">
+      <div class="max-w-6xl mx-auto px-8 py-16 lg:py-24">
+        <div class="max-w-xs mx-auto">
+          <h3 class="custom-uppercase text-center text-purple-500">{{ testimonialsPretitle }}</h3>
+          <h1
+            class="mt-2 font-bold text-3xl text-center leading-tight text-purple-900 lg:text-4xl"
+          >{{ testimonialsTitle }}</h1>
+        </div>
+        <div class="flex flex-col text-base mt-6 md:flex-row lg:text-xl">
+          <template v-for="(item, index) in testimonialsItems">
+            <div :key="index" class="flex-1 px-8 pt-8">
+              <blockquote class="relative inline-block quote">
+                <span class="absolute text-5xl text-gray-400 -ml-6 -mt-6">&ldquo;</span>
+                <span v-formatted-text="item.content" class="leading-relaxed" />
+              </blockquote>
+              <footer class="flex items-center mt-4">
+                <img
+                  :src="item.image"
+                  :alt="item.author + ' - ' + item.info"
+                  class="rounded-full h-10 w-10 md:h-16 md:w-16"
+                />
+                <div class="ml-4 text-base">
+                  <cite class="block">{{ item.author }}</cite>
+                  <cite class="block">{{ item.info }}</cite>
+                </div>
+              </footer>
+            </div>
+          </template>
+        </div>
       </div>
     </section>
 
@@ -167,7 +163,6 @@ export default Vue.extend({
       introTitle: setting("home.intro.title"),
       introContent: setting("home.intro.content"),
       introButtons: setting("home.intro.buttons"),
-      introFigure: setting("home.intro.figure"),
       clientsTitle: setting("home.clients.title"),
       clientsList: setting("home.clients.list"),
       solutionsID: setting("home.solutions.id"),
@@ -214,6 +209,7 @@ export default Vue.extend({
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
+    min-height: 50vh;
   }
 
   .home-hero-img {
@@ -223,5 +219,72 @@ export default Vue.extend({
     background-position: 0 0;
     background-size: cover;
   }
+}
+.section-3 {
+  background-image: url(./img/light-pattern.svg);
+
+  &::after {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: -1px;
+    left: auto;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 20%;
+    background: #f3f4fa;
+  }
+  // &:before {
+  //   top: auto;
+  //   right: 0;
+  //   bottom: -1px;
+  //   left: auto;
+  //   position: absolute;
+  //   content: "";
+  //   width: 100%;
+  //   height: 50px;
+  //   background: #fff;
+  //   z-index: 0;
+  //   -webkit-clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
+  //   clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
+  // }
+  // .section-title {
+  //   &:before {
+  //     top: auto;
+  //     right: 0;
+  //     bottom: -1px;
+  //     left: auto;
+  //     position: absolute;
+  //     content: "";
+  //     width: 100%;
+  //     height: 50px;
+  //     background: #f3f4fa;
+  //     z-index: 0;
+  //     -webkit-clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
+  //     clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
+  //   }
+  // }
+  // .section-boxes {
+  //   div.w-full {
+  //     &:nth-child(1) {
+  //       margin-top: -5rem;
+  //     }
+  //     &:nth-child(2) {
+  //       margin-top: -4rem;
+  //     }
+  //     &:nth-child(3) {
+  //       margin-top: -3rem;
+  //     }
+  //     &:nth-child(4) {
+  //       margin-top: -2rem;
+  //     }
+  //   }
+  // }
+}
+.section-4 {
+  background-image: url(./img/light-pattern.svg);
+  background-position: 50% 50%;
+  background-size: cover;
 }
 </style>

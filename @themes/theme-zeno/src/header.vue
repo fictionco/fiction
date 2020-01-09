@@ -1,7 +1,7 @@
 <template>
   <header class="test" :class="headerClasses()">
     <div class="z-50 px-6 py-3">
-      <site-brand class="hidden lg:block" :inverse="true" />
+      <site-brand class="hidden lg:block" :inverse="brandInverse()" />
       <div class="lg:hidden">
         <button type="button" class="block transition focus:outline-none" @click="isOpen = !isOpen">
           <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
@@ -20,11 +20,11 @@
       </div>
     </div>
     <nav
-      class="px-6 overflow-hidden transition-height lg:bg-transparent lg:inline lg:p-0 lg:h-full lg:flex-1 lg:text-center"
+      class="px-6 py-3 overflow-hidden transition-height lg:bg-transparent lg:inline lg:h-full lg:flex-1 lg:text-center"
       :class="isOpen ? 'bg-white w-full h-188 z-50 lg:w-auto' : 'min-h-0 h-0'"
     >
       <ul
-        class="flex flex-col list-none list-inside pb-6 lg:p-0 lg:w-auto lg:flex-row lg:flex-1 lg:justify-center"
+        class="flex flex-col list-none list-inside pb-6 lg:pb-0 lg:w-auto lg:flex-row lg:flex-1 lg:justify-center"
       >
         <template v-for="(item, index) in siteNav">
           <li :key="index" class="mt-1 lg:m-0">
@@ -67,29 +67,30 @@ export default Vue.extend({
   },
   computed: {
     siteNav(this: any) {
-      return this.navConfig.filter(item => !item.condition || item.condition())
+      return this.navConfig.filter((item: any) => !item.condition || item.condition())
     }
   },
   methods: {
-    brandClasses(this: any) {
+    brandInverse(this: any) {
       if (this.$route.path != "/") {
-        return `block lg:block`
+        return false
       } else {
-        return `block lg:hidden`
+        return true
       }
     },
     headerClasses(this: any) {
       if (this.$route.path != "/") {
-        return "lg:px-4 lg:py-3"
+        //return "lg:px-4 lg:py-3"
+        return "w-full lg:z-50 lg:justify-between lg:items-center lg:px-4 zeno-header"
       } else {
-        return "w-full absolute lg:z-50 lg:justify-between lg:items-center lg:px-4 md:pt-4 header-home"
+        return "w-full absolute lg:z-50 lg:justify-between lg:items-center lg:px-4 lg:pt-4 zeno-header"
       }
     },
     navLinkClass(this: any) {
       if (this.$route.path != "/") {
         return "lg:hover:text-purple-900"
       } else {
-        return "block lg:inline lg:hover:text-purple-900"
+        return "lg:hover:text-purple-900"
       }
     }
   }
@@ -97,7 +98,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.header-home {
+.zeno-header {
   display: grid;
   grid-template-columns: 1fr minmax(750px, 1fr);
   grid-gap: 0;
