@@ -38,7 +38,10 @@
       </div>
     </section>
 
-    <section :id="solutionsID" class="section-3 relative bg-cover bg-center bg-purple-900 py-16">
+    <section
+      :id="solutionsID"
+      class="section-3 relative bg-cover bg-center bg-purple-900 px-8 py-16"
+    >
       <div
         class="relative z-20 max-w-6xl mx-auto flex flex-col bg-white rounded shadow-lg md:flex-row md:flex-wrap"
       >
@@ -58,8 +61,8 @@
       </div>
     </section>
 
-    <section :id="devopsID" class="section-4 bg-white">
-      <div class="max-w-6xl mx-auto flex flex-col py-8 md:flex-row lg:py-12">
+    <section :id="devopsID" class="section-4 bg-cover bg-center bg-white">
+      <div class="max-w-6xl mx-auto flex flex-col py-8 md:flex-row lg:pt-12 lg:pb-24">
         <div class="flex flex-col p-8 justify-center md:w-3/5">
           <h3 class="custom-uppercase text-purple-500">{{ devopsPretitle }}</h3>
           <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">{{ devopsTitle }}</h1>
@@ -77,13 +80,13 @@
       </div>
     </section>
 
-    <section :id="infrID" class="bg-gray-100">
-      <div class="max-w-6xl mx-auto px-8 py-16 lg:py-24">
-        <div class="flex flex-col md:flex-row">
-          <div class="pb-8 md:pb-0 md:pr-8 md:w-1/2">
-            <h3 class="custom-uppercase text-purple-500">{{ infrPretitle }}</h3>
-            <div class="flex items-center">
-              <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">
+    <section :id="infrID" class="relative bg-gray-100">
+      <div class="max-w-6xl mx-auto px-8 py-16 lg:pt-24 lg:pb-12">
+        <div class="flex flex-col md:flex-row md:flex-wrap">
+          <div class="pb-8 md:w-full">
+            <h3 class="custom-uppercase text-center text-purple-500">{{ infrPretitle }}</h3>
+            <div class="flex items-center justify-center">
+              <h1 class="font-bold text-center text-3xl lg:text-4xl text-purple-900">
                 {{ infrTitle }}
                 <img
                   :src="infrTitleIcon"
@@ -92,8 +95,10 @@
                 />
               </h1>
             </div>
+          </div>
+          <div class="relative z-10 pb-8 md:pb-0 md:pr-8 md:w-3/5">
             <template v-for="(item, index) in infrItems">
-              <div :key="index" class="my-10 p-5 rounded bg-white custom-card-left">
+              <div :key="index" class="my-20 p-10 rounded bg-white custom-card-left">
                 <img :src="item.image" :alt="item.alt" />
                 <div
                   v-formatted-text="item.content"
@@ -102,7 +107,7 @@
               </div>
             </template>
           </div>
-          <div class="pt-8 md:pt-0 md:pl-8 md:w-1/2">
+          <div class="relative z-0 w-full top-auto right-0 bottom-0 left-auto md:absolute md:w-1/2">
             <component :is="infrSyntax" />
           </div>
         </div>
@@ -221,70 +226,21 @@ export default Vue.extend({
   }
 }
 .section-3 {
-  background-image: url(./img/light-pattern.svg);
-
-  &::after {
+  &:after {
     position: absolute;
     top: auto;
     right: 0;
-    bottom: -1px;
-    left: auto;
+    bottom: 0;
+    left: 0;
     content: "";
     display: block;
     width: 100%;
-    height: 20%;
-    background: #f3f4fa;
+    height: 30%;
+    background: #fff;
   }
-  // &:before {
-  //   top: auto;
-  //   right: 0;
-  //   bottom: -1px;
-  //   left: auto;
-  //   position: absolute;
-  //   content: "";
-  //   width: 100%;
-  //   height: 50px;
-  //   background: #fff;
-  //   z-index: 0;
-  //   -webkit-clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
-  //   clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
-  // }
-  // .section-title {
-  //   &:before {
-  //     top: auto;
-  //     right: 0;
-  //     bottom: -1px;
-  //     left: auto;
-  //     position: absolute;
-  //     content: "";
-  //     width: 100%;
-  //     height: 50px;
-  //     background: #f3f4fa;
-  //     z-index: 0;
-  //     -webkit-clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
-  //     clip-path: polygon(0 0, 100% 44%, 100% 100%, 0% 100%);
-  //   }
-  // }
-  // .section-boxes {
-  //   div.w-full {
-  //     &:nth-child(1) {
-  //       margin-top: -5rem;
-  //     }
-  //     &:nth-child(2) {
-  //       margin-top: -4rem;
-  //     }
-  //     &:nth-child(3) {
-  //       margin-top: -3rem;
-  //     }
-  //     &:nth-child(4) {
-  //       margin-top: -2rem;
-  //     }
-  //   }
-  // }
 }
+.section-3,
 .section-4 {
   background-image: url(./img/light-pattern.svg);
-  background-position: 50% 50%;
-  background-size: cover;
 }
 </style>

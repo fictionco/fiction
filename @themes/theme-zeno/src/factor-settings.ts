@@ -161,12 +161,12 @@ export default {
         {
           image: require("./img/logo-packer.svg"),
           alt: "HashiCorp Packer",
-          content: `<p>Packer automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p><p class="mt-4">Produces exact point-in-time images with multi-region replication support.</p>`
+          content: `<p>Packer automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p>`
         },
         {
           image: require("./img/logo-terraform.svg"),
           alt: "HashiCorp Terraform",
-          content: `<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p><p class="mt-4">Terraform configurations can be stored in version control, shared, and collaborated on by teams.</p>`
+          content: `<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p>`
         }
       ],
       syntaxTitle: "terraform.tf",
