@@ -16,6 +16,7 @@
     "release": "standard-version"
   },
   "dependencies": {
+    "axios": "^0.19.1",
     "chalk": "^3.0.0",
     "consola": "^2.6.0",
     "figures": "^3.0.0",

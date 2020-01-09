@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios"
-import { onEvent, addFilter } from "@factor/api"
+import { onEvent, addFilter, addCallback } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
 const notifySlack = async ({
@@ -120,6 +120,7 @@ const google = (): void => {
       analyticsEvent({ category: "newLead", action: "verifiedEmail", value: 3 })
     }
   })
+
   onEvent("email-list-new-email-requested", () => {
     // Track event in Tag Manager
     if (window && window.dataLayer) {
@@ -141,6 +142,14 @@ const google = (): void => {
           analyticsEvent({ category: "returnUser", action: "loggedIn", value: 1 })
         }
       }
+    }
+  })
+
+  addCallback({
+    key: "trackInstall",
+    hook: "route-query-action-track-install",
+    callback: ({ method }: { method: string }) => {
+      analyticsEvent({ category: "newInstall", action: method, value: 10 })
     }
   })
 }
