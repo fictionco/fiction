@@ -1,11 +1,7 @@
 <template>
-  <header
-    class="lg:relative lg:z-50 lg:flex lg:justify-between lg:items-center"
-    :class="headerClasses()"
-  >
-    <div class="relative z-50 flex items-center justify-between px-6 py-3 lg:p-0 lg:flex-1">
+  <header class="test" :class="headerClasses()">
+    <div class="z-50 px-6 py-3">
       <site-brand class="hidden lg:block" :inverse="true" />
-      <site-brand :class="brandClasses()" />
       <div class="lg:hidden">
         <button type="button" class="block transition focus:outline-none" @click="isOpen = !isOpen">
           <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
@@ -24,7 +20,7 @@
       </div>
     </div>
     <nav
-      class="absolute z-auto top-0 left-0 right-0 bottom-0 lg:relative flex items-center justify-between px-6 overflow-hidden transition-height lg:bg-transparent lg:inline lg:p-0 lg:h-full lg:flex-1 lg:text-center"
+      class="px-6 overflow-hidden transition-height lg:bg-transparent lg:inline lg:p-0 lg:h-full lg:flex-1 lg:text-center"
       :class="isOpen ? 'bg-white w-full h-188 z-50 lg:w-auto' : 'min-h-0 h-0'"
     >
       <ul
@@ -65,30 +61,31 @@ export default Vue.extend({
   data() {
     return {
       navConfig: setting("site.nav"),
-      isOpen: false
+      isOpen: false,
+      headerHome: false
     }
   },
   computed: {
-    siteNav() {
+    siteNav(this: any) {
       return this.navConfig.filter(item => !item.condition || item.condition())
     }
   },
   methods: {
-    brandClasses() {
+    brandClasses(this: any) {
       if (this.$route.path != "/") {
         return `block lg:block`
       } else {
         return `block lg:hidden`
       }
     },
-    headerClasses() {
+    headerClasses(this: any) {
       if (this.$route.path != "/") {
         return "lg:px-4 lg:py-3"
       } else {
-        return "lg:px-10 lg:pt-12"
+        return "w-full absolute lg:z-50 lg:justify-between lg:items-center lg:px-4 md:pt-4 header-home"
       }
     },
-    navLinkClass() {
+    navLinkClass(this: any) {
       if (this.$route.path != "/") {
         return "lg:hover:text-purple-900"
       } else {
@@ -98,3 +95,11 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="less">
+.header-home {
+  display: grid;
+  grid-template-columns: 1fr minmax(750px, 1fr);
+  grid-gap: 0;
+}
+</style>

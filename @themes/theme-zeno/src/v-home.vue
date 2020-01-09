@@ -1,11 +1,11 @@
 <template>
-  <div class="lg:-mt-24">
-    <section class="flex bg-gray-100 min-h-full">
-      <div class="hidden lg:block lg:w-1/2 bg-purple-900">
-        <component :is="introFigure" />
+  <div>
+    <section class="home-hero">
+      <div class="home-hero-img hidden lg:block bg-purple-900">
+        <!-- <component :is="introFigure" /> -->
       </div>
-      <div class="px-8 py-16 mx-auto sm:max-w-xl lg:w-1/2 lg:flex lg:flex-col lg:justify-center">
-        <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3>
+      <div class="px-16 mx-auto">
+        <!-- <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3> -->
         <h1
           v-formatted-text="introTitle"
           class="font-bold leading-tight text-3xl mt-2 text-purple-900 lg:text-4xl"
@@ -42,27 +42,25 @@
       <div class="bg-purple-900 pt-8 px-8 pb-24 text-center md:pt-16 md:pb-32">
         <squares-title :title="solutionsTitle" />
       </div>
-      <!-- <div class="flex flex-col items-center -mt-24"> -->
-      <div class="flex flex-col md:flex-row">
+
+      <div class="max-w-6xl mx-auto flex flex-col md:flex-row">
         <template v-for="(item, index) in solutionsItems">
-          <div :key="index" class="bg-white shadow-lg px-6 py-10 mt-8 w-full md:w-4/12">
-            <!-- <div
-            :key="index"
-            class="w-11/12 px-6 py-10 mt-8 bg-white shadow-lg md:w-8/12 lg:w-6/12 lg:px-16"
-            >-->
-            <div class="flex items-center">
-              <img :src="item.icon" :alt="item.title" />
-              <h2 class="font-bold text-3xl text-purple-900 ml-5">{{ item.title }}</h2>
+          <div :key="index" class="mt-8 w-full md:w-4/12 lg:-mt-12">
+            <div class="bg-white shadow-lg px-6 py-10 mx-4">
+              <div class="flex items-center">
+                <img :src="item.icon" :alt="item.title" />
+                <h2 class="font-bold text-3xl text-purple-900 ml-5">{{ item.title }}</h2>
+              </div>
+              <ul
+                class="font-normal list-outside list-square mt-8 text-base leading-relaxed lg:text-xl"
+              >
+                <template v-for="(listItem, i) in item.list">
+                  <li :key="i" class="text-purple-500 mt-4 ml-5">
+                    <span class="text-gray-600">{{ listItem.content }}</span>
+                  </li>
+                </template>
+              </ul>
             </div>
-            <ul
-              class="font-normal list-outside list-square mt-8 text-base leading-relaxed lg:text-xl"
-            >
-              <template v-for="(listItem, i) in item.list">
-                <li :key="i" class="text-purple-500 mt-4 ml-5">
-                  <span class="text-gray-600">{{ listItem.content }}</span>
-                </li>
-              </template>
-            </ul>
           </div>
         </template>
       </div>
@@ -205,3 +203,25 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="less">
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr minmax(750px, 1fr);
+  grid-gap: 0;
+  align-items: center;
+  min-height: 85vh;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero-img {
+    height: 100%;
+    width: 100%;
+    background-image: url(./img/intro.svg);
+    background-position: 0 0;
+    background-size: cover;
+  }
+}
+</style>

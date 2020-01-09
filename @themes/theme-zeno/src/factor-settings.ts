@@ -60,9 +60,9 @@ export default {
     },
     intro: {
       pretitle: "Grow Your Business, Not Infrastructure.",
-      title: `We build, optimize, secure, and support <span class="underline">your cloud</span> with no long-term contract.`,
+      title: `<span class="underline">Grow Your Business</span>, Not Infrastructure.`,
       content:
-        "Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
+        "We build, optimize, secure, and support your cloud with no long-term contract. Experts that architect and manage clouds with dedicated and obsessive 24/7/365 support.",
       buttons: [
         {
           link: "/contact",
@@ -234,22 +234,22 @@ export default {
           photo: require("./img/justin.jpg"),
           social: [
             {
-              link: "https://twitter.com/johnny5feels",
+              link: "https://twitter.com/",
               icon: "twitter",
               target: "_blank"
             },
             {
-              link: "https://www.linkedin.com/in/jkell",
+              link: "https://www.linkedin.com/",
               icon: "linkedin",
               target: "_blank"
             },
             {
-              link: "https://github.com/nodesocket",
+              link: "https://github.com/",
               icon: "github",
               target: "_blank"
             },
             {
-              link: "https://angel.co/justink",
+              link: "https://angel.co/",
               icon: "angellist",
               target: "_blank"
             }
@@ -565,14 +565,14 @@ export default {
         name: "Blog"
       },
       {
-        path: "https://twitter.com/johnny5feels",
+        path: "https://twitter.com/",
         icon: "twitter",
         target: "_blank"
       }
     ],
     left: `Built with <i class="fa fa-heart"></i> in Nashville`,
     right:
-      "<p>&copy; 2020 <a href='https://factor.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>",
+      "<p>&copy; 2020 <a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a></p><p>All rights reserved.</p>",
     figure: require("./img/cloud-with-shadow.svg"),
     figureAlt: "Cloud"
   }

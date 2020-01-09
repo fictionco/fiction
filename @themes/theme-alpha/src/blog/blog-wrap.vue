@@ -4,17 +4,7 @@
   </div>
 </template>
 
-
-
-<style lang="less">
-.plugin-blog {
-  .entries {
-    max-width: 50rem;
-    margin: 0 auto 0;
-    padding: 1rem 0;
-    @media (max-width: 767px) {
-      margin: 0 auto;
-    }
-  }
-}
-</style>
+<script lang="ts">
+import Vue from "vue"
+export default Vue.extend({})
+</script>

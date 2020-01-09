@@ -2,12 +2,15 @@
   <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
     <div class="featured-image" :style="style" />
   </factor-link>
-  <div v-else-if="avatarUrl" class="featured-image" :style="style" />
+  <div v-else class="featured-image-wrap">
+    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image" />
+  </div>
 </template>
 <script lang="ts">
 import { postLink, stored } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
+
 export default Vue.extend({
   components: { factorLink },
   props: {
@@ -28,6 +31,7 @@ export default Vue.extend({
       const style = {
         backgroundImage: `url(${this.avatarUrl})`
       }
+
       return style
     }
   },
@@ -38,16 +42,35 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .plugin-blog {
-  .featured-image {
-    background-size: cover;
-    background-position: 50%;
-    height: 300px;
-    margin: 0;
-    border-radius: 5px 5px 0 0;
+  .blog-posts {
+    .featured-image {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 14rem;
+      border-radius: 8px 8px 0 0;
+    }
   }
-  .single-entry .featured-image {
-    border-radius: 0;
-    height: 400px;
+  .single-entry {
+    .featured-image-wrap {
+      max-width: 1000px;
+      position: relative;
+      z-index: 1;
+      margin: 2em auto;
+      padding: 0 2em;
+
+      .featured-image {
+        display: block;
+        width: 100%;
+        box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+          0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+        border-radius: 4px;
+      }
+
+      @media (max-width: 767px) {
+        margin: 0 auto;
+      }
+    }
   }
 }
 </style>

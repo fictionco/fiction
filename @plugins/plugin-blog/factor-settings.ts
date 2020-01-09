@@ -24,7 +24,6 @@ export default {
         "meta",
         "featuredImage",
         "subtitle",
-
         "entry",
         "social",
         "authorBio"

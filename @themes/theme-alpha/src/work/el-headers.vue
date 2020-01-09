@@ -11,7 +11,7 @@
       <h1 class="entry-title">
         <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
-      <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
+      <h3 class="entry-subtitle">{{ post.subTitle }}</h3>here
     </div>
   </div>
 </template>

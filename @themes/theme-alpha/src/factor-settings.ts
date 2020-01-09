@@ -62,9 +62,9 @@ export default {
         text: "Dribbble"
       },
       {
-        path: "https://www.tomposer.com/",
+        path: "https://www.amazon.com/",
         icon: require("./img/client3.svg"),
-        text: "Tom Poser"
+        text: "Amazon"
       },
       {
         path: "https://twitter.com",
@@ -184,13 +184,13 @@ export default {
   blog: {
     indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 6,
+    limit: 2,
     returnLinkText: "Back",
-    headline: "Blog",
-    subheadline: "The Latest From Alpha",
+    headline: "Alpha Blog",
+    subheadline: "Discover The Latest",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
-    heroImage: require("./img/blog.jpg"),
+      "Product updates, articles, and announcements.",
+    //heroImage: require("./img/blog.jpg"), //Optional
     notFound: {
       title: "No Posts",
       subTitle: "Couldn't find any blog posts."
@@ -200,20 +200,11 @@ export default {
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      headers: (): Promise<Component> => import("./blog/el-headers.vue")
+      singleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
     },
     layout: {
-      index: ["featuredImage", "title", "subtitle", "meta"],
-      single: [
-        "returnLink",
-        "headers",
-        "featuredImage",
-        "meta",
-        "entry",
-        "social",
-        "authorBio"
-      ],
-      meta: ["authorDate", "tags"]
+      index: ["featuredImage", "title", "subtitle", "authorDate"],
+      single: ["singleHeader", "featuredImage", "meta", "entry", "social", "authorBio"]
     },
     metatags: {
       index: {

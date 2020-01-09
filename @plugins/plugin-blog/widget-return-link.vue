@@ -2,7 +2,7 @@
   <div class="return-link">
     <factor-link class="back" :path="setting('blog.indexRoute')">
       <factor-icon icon="arrow-left" />
-      <span>{{ returnLinkText }}</span>
+      <span>{{ returnLinkText() }}</span>
     </factor-link>
   </div>
 </template>
@@ -18,12 +18,14 @@ export default Vue.extend({
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    },
+    }
+  },
+  methods: {
+    setting,
     returnLinkText(this: any) {
       return setting("blog.returnLinkText") || "All Posts"
     }
-  },
-  methods: { setting }
+  }
 })
 </script>
 <style lang="less">

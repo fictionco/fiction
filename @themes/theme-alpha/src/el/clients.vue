@@ -2,7 +2,7 @@
   <section class="clients">
     <div v-formatted-text="setting('site.clientsTitle')" class="title" />
     <div class="mast clients-inner">
-      <div v-for="(client, i) in setting('site.clients')" :key="i" class="clients">
+      <div v-for="(client, i) in setting('site.clients')" :key="i" class="client-wrap">
         <div v-if="client.path" class="client-image">
           <factor-link :path="client.path" target="_blank">
             <img :src="client.icon" :alt="client.text" />
@@ -35,6 +35,7 @@ export default Vue.extend({
 .clients {
   background: var(--color-bg-alt, #f3f5fb);
   padding: 3em 0;
+
   .title {
     font-weight: 600;
     font-size: 2.4em;
@@ -50,17 +51,17 @@ export default Vue.extend({
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     grid-gap: 20px 70px;
     align-items: center;
+    @media (max-width: 767px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 2em;
+    }
     .client-image {
-      max-width: 100%;
+      padding: 1em 0;
       img {
         max-width: 100%;
+        height: 40px;
         display: block;
         margin: 0 auto;
-      }
-    }
-    @media (max-width: 767px) {
-      .client-image {
-        padding: 2em;
       }
     }
   }
