@@ -1,4 +1,5 @@
 import { addCallback, applyFilters } from "@factor/api/hooks"
+import { setting } from "@factor/api/settings"
 import { currentRoute } from "@factor/app/router"
 import { storeItem } from "@factor/app/store"
 
@@ -21,9 +22,10 @@ interface PrefetchArguments {
   _id?: string;
 }
 
-export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Promise<
-  FactorPost | {}
-> => {
+export const preFetchPost = async ({
+  to = null,
+  clientOnly = false
+} = {}): Promise<void> => {
   const route = to || currentRoute()
 
   const request = applyFilters("post-params", {
@@ -38,9 +40,10 @@ export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Prom
   if (
     (!permalink && !_id) ||
     (permalink && permalink == "__webpack_hmr") ||
-    /\.(png|jpg|gif|svg|ico)$/.test(permalink)
+    /\.(png|jpg|gif|svg|ico)$/.test(permalink) ||
+    route.path.includes(setting("dashboard.route"))
   ) {
-    return {}
+    return
   }
   // For pre-fetching that happens only in the browser
   // If this applied on server it causes a mismatch (store set with full post then set to loading)
@@ -48,9 +51,9 @@ export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Prom
     storeItem("post", { loading: true })
   }
 
-  const post = await requestPostSingle(request)
+  const post: FactorPost = await requestPostSingle(request)
 
   storeItem("post", post)
 
-  return post
+  return
 }

@@ -71,17 +71,11 @@ const reloadNodeProcess = async (
   path = "",
   _arguments: EnvironmentConfig
 ): Promise<void> => {
-  if (path && require.cache[path]) {
-    log.info(`reloading ${path} module`)
-
-    delete require.cache[path]
-  } else {
-    Object.keys(require.cache).forEach(id => {
-      if (/factor(?!.*node_modules)/.test(id)) {
-        delete require.cache[id]
-      }
-    })
-  }
+  Object.keys(require.cache).forEach(id => {
+    if (/factor(?!.*node_modules)/.test(id)) {
+      delete require.cache[id]
+    }
+  })
 
   await factorize({ ..._arguments, restart: true, NODE_ENV: "development" })
 }

@@ -27,6 +27,7 @@
 import { factorIcon } from "@factor/ui"
 import { emitEvent } from "@factor/api/events"
 import Vue from "vue"
+import { Route } from "vue-router"
 export default Vue.extend({
   components: { factorIcon },
   inheritAttrs: false,
@@ -42,12 +43,12 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route(to, from) {
+    $route(this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.close()
       }
     },
-    vis: function(v) {
+    vis: function(this: any, v: boolean) {
       this.handleCloseEvents(v)
       emitEvent("modal", v)
     }
@@ -56,12 +57,16 @@ export default Vue.extend({
     this.$nextTick(() => {
       // Append to Body
       this.$el.parentNode.removeChild(this.$el)
-      document.querySelector("#app").append(this.$el)
+      const appEl = document.querySelector("#app")
+      if (appEl) {
+        appEl.append(this.$el)
+      }
+
       this.appended = true
     })
   },
   methods: {
-    escapeHandler(e) {
+    escapeHandler(e: KeyboardEvent) {
       if (e.keyCode === 27) {
         this.close()
         window.removeEventListener("keydown", this.escapeHandler)
@@ -71,11 +76,11 @@ export default Vue.extend({
       this.close()
       window.removeEventListener("click", this.clickHandler)
     },
-    close: function() {
+    close: function(this: any) {
       this.$emit("update:vis", false)
       this.$emit("close")
     },
-    handleCloseEvents(visible) {
+    handleCloseEvents(visible: boolean) {
       if (visible) {
         setTimeout(() => {
           window.addEventListener("keydown", this.escapeHandler)

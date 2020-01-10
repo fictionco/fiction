@@ -63,7 +63,9 @@ export default Vue.extend({
   },
   watch: {
     $route: function(this: any) {
-      if (!this._id) this.requestPost()
+      if (!this._id) {
+        this.requestPost()
+      }
     }
   },
 
@@ -71,7 +73,7 @@ export default Vue.extend({
     this.requestPost()
   },
   methods: {
-    async requestPost() {
+    async requestPost(this: any) {
       const post = await requestPostSingle({
         _id: this._id,
         postType: this.postType,
@@ -80,7 +82,7 @@ export default Vue.extend({
       })
 
       // If a new post was started, an id comes with it.
-      if (post._id != this._id) {
+      if (post._id && !this._id) {
         this.$router.replace({
           query: { ...this.$route.query, _id: post._id }
         })

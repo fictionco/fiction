@@ -2095,9 +2095,9 @@
     "@types/node" "*"
 
 "@types/mongoose@^5.5.32":
-  version "5.5.40"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.40.tgz#a8bc6613053237d1e424be34d90aa85c41723e8d"
-  integrity sha512-U01mOJaL5t9Ef+vBKnBhQ0OMJBdeARJJU0/fyGYCTw48mgy4Vb92jSgBHANpzU4Ry6ibd7wi0KZA+0pvltMCrQ==
+  version "5.5.41"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.41.tgz#bb75ae8e93fa613f8f04a12952b5a52a714b96d9"
+  integrity sha512-Hg8amaVUUUk7iB0TXJ2Ki1Agb4IuJag5R6U5i1H+b+1wclf93NLOEPemmbd4Bc9ZqOtVUmjPIc00SwCqEHTbVQ==
   dependencies:
     "@types/mongodb" "*"
     "@types/node" "*"
@@ -2117,9 +2117,9 @@
     "@types/express" "*"
 
 "@types/node@*", "@types/node@>= 8", "@types/node@^13.0.0":
-  version "13.1.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.5.tgz#4d5efc52a1d3e45d13e5ec9f911cbc5b089ccaec"
-  integrity sha512-wupvfmtbqRJzjCm1H2diy7wo31Gn1OzvqoxCfQuKM9eSecogzP0WTlrjdq7cf7jgSO2ZX6hxwgRPR8Wt7FA22g==
+  version "13.1.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
+  integrity sha512-Jg1F+bmxcpENHP23sVKkNuU3uaxPnsBMW0cLjleiikFKomJQbsn0Cqk2yDvQArqzZN6ABfBkZ0To7pQ8sLdWDg==
 
 "@types/node@^12.12.3":
   version "12.12.24"
@@ -3500,9 +3500,9 @@ bson@^1.1.1, bson@~1.1.1:
   integrity sha512-TdiJxMVnodVS7r0BdL42y/pqC9cL2iKynVwA0Ho3qbsQYr428veL3l7BQyuqiw+Q5SqqoT0m4srSY/BlZ9AxXg==
 
 bson@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-4.0.2.tgz#2929fdfed1a145b1c361908a2b950a6cf4bed2c2"
-  integrity sha512-rBdCxMBCg2aR420e1oKUejjcuPZLTibA7zEhWAlliFWEwzuBCC9Dkp5r7VFFIQB2t1WVsvTbohry575mc7Xw5A==
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-4.0.3.tgz#87cca55a963cf2b738087cce6057080d4e7c930e"
+  integrity sha512-7uBjjxwOSuGLmoqGI1UXWpDGc0K2WjR7dC6iaOg4iriNZo6M2EEBb8co4dEPJ5ArYCebPMie0ecgX0TWF+ZUrQ==
   dependencies:
     buffer "^5.1.0"
     long "^4.0.0"
@@ -3776,9 +3776,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001012, caniuse-lite@^1.0.30001017:
-  version "1.0.30001019"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001019.tgz#857e3fccaad2b2feb3f1f6d8a8f62d747ea648e1"
-  integrity sha512-6ljkLtF1KM5fQ+5ZN0wuyVvvebJxgJPTmScOMaFuQN2QuOzvRJnWSKfzQskQU5IOU4Gap3zasYPIinzwUjoj/g==
+  version "1.0.30001020"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001020.tgz#3f04c1737500ffda78be9beb0b5c1e2070e15926"
+  integrity sha512-yWIvwA68wRHKanAVS1GjN8vajAv7MBFshullKCeq/eKpK7pJBVDgFFEqvgWTkcP2+wIDeQGYFRXECjKZnLkUjA==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -7251,6 +7251,17 @@ handlebars@^4.1.2, handlebars@^4.4.0, handlebars@^4.5.3:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.6.0.tgz#33af6c3eda930d7a924f5d8f1c6d8edc3180512e"
   integrity sha512-i1ZUP7Qp2JdkMaFon2a+b0m5geE8Z4ZTLaGkgrObkEd+OkUKyRbRWw4KxuFCoHfdETSY1yf9/574eVoNSiK7pw==
+  dependencies:
+    neo-async "^2.6.0"
+    optimist "^0.6.1"
+    source-map "^0.6.1"
+  optionalDependencies:
+    uglify-js "^3.1.4"
+
+handlebars@~4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.5.3.tgz#5cf75bd8714f7605713511a56be7c349becb0482"
+  integrity sha512-3yPecJoJHK/4c6aZhSvxOyG4vJKDshV36VHp0iVCDVh7o9w2vwi3NSnL2MMPj3YdduqaBcu7cGbggJQM0br9xA==
   dependencies:
     neo-async "^2.6.0"
     optimist "^0.6.1"
@@ -13763,9 +13774,9 @@ terser-webpack-plugin@^1.4.3:
     worker-farm "^1.7.0"
 
 terser-webpack-plugin@^2.1.3:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.1.tgz#6a63c27debc15b25ffd2588562ee2eeabdcab923"
-  integrity sha512-dNxivOXmDgZqrGxOttBH6B4xaxT4zNC+Xd+2K8jwGDMK5q2CZI+KZMA1AAnSRT+BTRvuzKsDx+fpxzPAmAMVcA==
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-2.3.2.tgz#6d3d1b0590c8f729bfbaeb7fb2528b8b62db4c74"
+  integrity sha512-SmvB/6gtEPv+CJ88MH5zDOsZdKXPS/Uzv2//e90+wM1IHFUhsguPKEILgzqrM1nQ4acRXN/SV4Obr55SXC+0oA==
   dependencies:
     cacache "^13.0.1"
     find-cache-dir "^3.2.0"
@@ -14144,13 +14155,13 @@ typedoc-default-themes@^0.6.3:
     underscore "^1.9.1"
 
 typedoc@^0.15.4:
-  version "0.15.6"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.15.6.tgz#d99a1c3db8c87a00437a8a89a0df03f9dc1995ad"
-  integrity sha512-TC3j7HXFfyq0/NyUL9oLgEXhgO4U8Kd7iyRgagkG3XxehgTjn6w20uJ/Hif1KPB/65VQZ8uMYYyxFXNj9um5Ow==
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.15.7.tgz#a37c88292d63e87693a4e6a510e68248e5dbc8c7"
+  integrity sha512-dVQ9yd/4pF3kf2OeHVkjxieoH/Exqggtw1DZ9XbVZpvZCItRA4VfOxuVoW+bMauyEk0RDvAx6y/ixDY4loNBWA==
   dependencies:
     "@types/minimatch" "3.0.3"
     fs-extra "^8.1.0"
-    handlebars "^4.5.3"
+    handlebars "~4.5.3"
     highlight.js "^9.17.1"
     lodash "^4.17.15"
     marked "^0.8.0"

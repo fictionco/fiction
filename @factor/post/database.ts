@@ -151,7 +151,10 @@ export const dbInitialize = async (): Promise<void> => {
   await dbConnect()
 
   if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
-  mongoose.plugin(mongooseBeautifulUniqueValidation)
+
+  mongoose.plugin(mongooseBeautifulUniqueValidation, {
+    defaultMessage: "{PATH}: '{VALUE}' is already being used."
+  })
 
   initializeModels()
 

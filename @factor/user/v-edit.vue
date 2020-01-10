@@ -158,14 +158,18 @@ export default Vue.extend({
     async save(this: any) {
       this.sending = true
 
-      const saved = await requestPostSave({
-        post: this.post,
-        postType: this.postType
-      })
-
-      if (saved) {
-        this.post = saved
-        emitEvent("notify", `Saved!`)
+      try {
+        const saved = await requestPostSave({
+          post: this.post,
+          postType: this.postType
+        })
+        if (saved) {
+          this.post = saved
+          emitEvent("notify", `Saved!`)
+        }
+      } catch (error) {
+        this.sending = false
+        throw error
       }
 
       this.sending = false

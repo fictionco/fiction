@@ -16,18 +16,12 @@ import { DashboardMenuItem } from "./types"
 export const accountMenu = (): Promise<Component> => import("./account-menu.vue")
 export const dashboardPane = (): Promise<Component> => import("./theme/pane.vue")
 export const dashboardPage = (): Promise<Component> => import("./theme/page.vue")
-export const dashboardTable = (): Promise<Component> => import("./table.vue")
+
 export const dashboardListPost = (): Promise<Component> => import("./el/list-post.vue")
 export const dashboardListControls = (): Promise<Component> =>
   import("./el/list-controls.vue")
 export const dashboardListEmpty = (): Promise<Component> => import("./el/list-empty.vue")
-export const dashboardGrid = (): Promise<Component> => import("./grid.vue")
-export const dashboardGridControls = (): Promise<Component> =>
-  import("./grid-controls.vue")
-export const dashboardGridActions = (): Promise<Component> => import("./grid-actions.vue")
-export const dashboardGridFilter = (): Promise<Component> => import("./grid-filter.vue")
-export const dashboardTableControls = (): Promise<Component> =>
-  import("./table-controls.vue")
+
 export const dashboardTableFooter = (): Promise<Component> => import("./table-footer.vue")
 export const dashboardInput = (): Promise<Component> => import("./el/input.vue")
 export const dashboardUserCard = (): Promise<Component> => import("./el/user-card.vue")

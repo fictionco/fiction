@@ -56,7 +56,7 @@
 import { factorLink } from "@factor/ui"
 import { toLabel, slugify } from "@factor/api"
 import { getDashboardMenu } from "@factor/dashboard/menu"
-
+import { Route } from "vue-router"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
@@ -69,15 +69,24 @@ export default Vue.extend({
     }
   },
   computed: {},
-  watch: {},
-  async mounted() {
+  watch: {
+    $route: function(this: any, to: Route, from: Route) {
+      if (to.path != from.path) {
+        this.setMenu()
+      }
+    }
+  },
+  async mounted(this: any) {
     this.loading = true
-    this.menu = await getDashboardMenu(this.$route.path)
+    await this.setMenu()
     this.loading = false
   },
   methods: {
     toLabel,
-    slugify
+    slugify,
+    async setMenu(this: any) {
+      this.menu = await getDashboardMenu(this.$route.path)
+    }
   }
 })
 </script>

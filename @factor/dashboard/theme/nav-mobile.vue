@@ -50,6 +50,7 @@ import { factorLink, factorAvatar } from "@factor/ui"
 import { getDashboardMenu } from "@factor/dashboard/menu"
 import { currentUser } from "@factor/user"
 import Vue from "vue"
+import { Route } from "vue-router"
 export default Vue.extend({
   components: {
     factorLink,
@@ -64,9 +65,16 @@ export default Vue.extend({
   computed: {
     currentUser
   },
+  watch: {
+    $route: function(this: any, to: Route, from: Route) {
+      if (to.path != from.path) {
+        this.setMenu()
+      }
+    }
+  },
   async mounted() {
     this.loading = true
-    this.menu = await getDashboardMenu(this.$route.path)
+    await this.setMenu()
     this.loading = false
   },
   methods: {
@@ -74,6 +82,9 @@ export default Vue.extend({
 
     getUser(this: any, field: string) {
       return this.currentUser[field]
+    },
+    async setMenu(this: any) {
+      this.menu = await getDashboardMenu(this.$route.path)
     }
   }
 })

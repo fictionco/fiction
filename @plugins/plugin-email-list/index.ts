@@ -62,13 +62,7 @@ export const deleteEmails = async ({
   emails: string[];
   listId: string;
 }): Promise<void> => {
-  if (
-    confirm(
-      `Are you sure? This will permanently delete ${emails.length} items from the "${listId}" list.`
-    )
-  ) {
-    await sendEmailListRequest("deleteEmails", { emails, listId })
-  }
+  await sendEmailListRequest("deleteEmails", { emails, listId })
 
   return
 }
