@@ -76,14 +76,16 @@ export default Vue.extend({
     list(this: any) {
       if (!this.post.list) return []
 
-      const fullList = this.post.list.map((_: EmailConfig) => {
-        const { email } = _
-        return {
-          ..._,
-          _id: email,
-          title: email
-        }
-      })
+      const fullList = this.post.list
+        .map((_: EmailConfig) => {
+          const { email } = _
+          return {
+            ..._,
+            _id: email,
+            title: email
+          }
+        })
+        .reverse()
 
       const status = this.$route.query.status || ""
 

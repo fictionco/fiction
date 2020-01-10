@@ -167,6 +167,7 @@ export default Vue.extend({
       color: inherit;
     }
     .title {
+      white-space: pre-wrap;
       font-weight: 600;
       font-size: 1.2em;
       margin-bottom: 0.25rem;
