@@ -118,8 +118,8 @@ export const camelToKebab = (string: string): string => {
 }
 
 // Coverts a slug or variable into a title-like string
-export const toLabel = (str: string): string => {
-  if (!str || typeof str !== "string") return str
+export const toLabel = (str?: string): string => {
+  if (!str || typeof str !== "string") return ""
 
   const label = camelToKebab(str)
     .replace(new RegExp("-|_", "g"), " ")

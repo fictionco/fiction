@@ -2,19 +2,22 @@
   <factor-modal class="added-modal" :vis.sync="vis">
     <h2 v-formatted-text="setting('success.title')" class="added-title" />
     <div v-formatted-text="setting('success.text')" class="added-text" />
-    <div class="actions">
-      <factor-btn btn="primary" @click="vis = false">Close</factor-btn>
+    <div v-if="link" class="actions">
+      <factor-link btn="primary" :path="link.path" @click="vis = false">
+        <span v-formatted-text="link.text" />
+      </factor-link>
     </div>
   </factor-modal>
 </template>
 <script lang="ts">
-import { factorModal, factorBtn } from "@factor/ui"
+import { factorModal, factorLink } from "@factor/ui"
 import Vue from "vue"
+ 
 import { getSetting } from "."
 export default Vue.extend({
-  components: { factorModal, factorBtn },
+  components: { factorModal, factorLink },
   props: {
-    added: { type: Boolean, default: false },
+    added: { type: String, default: "" },
     listId: { type: String, default: "default" }
   },
   data() {
@@ -22,10 +25,17 @@ export default Vue.extend({
       vis: false
     }
   },
-  computed: {},
+  computed: {
+    link(this: any): { path?: string; close?: boolean; text?: string } | false {
+      const linkSetting = this.setting("success.link")
+      return linkSetting && this.added ? linkSetting(this.added) : false
+    }
+  },
   watch: {
-    added: function(v) {
-      if (v) this.vis = v
+    added: function(this: any, v: string) {
+      if (v) {
+        this.vis = true
+      }
     }
   },
   methods: {

@@ -24,7 +24,8 @@ export const timeUtil = (time?: DateTypes): Dayjs => {
   }
 }
 
-export const standardDate = (time: dayjs.ConfigType): string => {
+export const standardDate = (time?: dayjs.ConfigType): string => {
+  if (!time) return ""
   return timeUtil(time).format("MMM DD, YYYY")
 }
 

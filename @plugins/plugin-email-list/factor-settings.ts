@@ -26,8 +26,16 @@ export default {
       },
       success: {
         modal: (): Promise<Component> => import("./modal-confirm.vue"),
-        title: "Success",
-        text: "Please check your email to confirm your email address."
+        title: "Excellent work!",
+        text:
+          "Please check your email to confirm your email address. Now, would you like to create an account?",
+        link: (email: string): { path?: string; close?: boolean; text?: string } => {
+          return {
+            path: `/signin?email=${email}&newAccount=1`,
+            text: "Create Account &rarr;",
+            close: false
+          }
+        }
       },
       validation: {
         error: "Whoops.. There was an issue adding your email.",

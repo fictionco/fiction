@@ -41,27 +41,23 @@ export const endpointRequest = async ({
   params = {},
   headers = {}
 }: EndpointRequestConfig): Promise<unknown | Error> => {
-  try {
-    if (!method) {
-      throw new Error(`Endpoint request to "${id}" requires a method.`)
-    }
-
-    const {
-      data: { result, error }
-    } = await authorizedRequest(endpointPath(id), { method, params }, { headers })
-
-    if (error) {
-      handleTokenError(error, {
-        onError: (): void => {
-          const err = new Error(error.message.replace("Error: ", ""))
-          emitEvent("error", err)
-          throw err
-        }
-      })
-    }
-
-    return result
-  } catch (error) {
-    throw new Error(error)
+  if (!method) {
+    throw new Error(`Endpoint request to "${id}" requires a method.`)
   }
+
+  const {
+    data: { result, error }
+  } = await authorizedRequest(endpointPath(id), { method, params }, { headers })
+
+  if (error) {
+    handleTokenError(error, {
+      onError: (): void => {
+        const err = new Error(error.message.replace("Error: ", ""))
+        emitEvent("error", err)
+        throw err
+      }
+    })
+  }
+
+  return result
 }

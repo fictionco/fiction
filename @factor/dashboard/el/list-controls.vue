@@ -2,7 +2,7 @@
   <div class="list-controls">
     <div class="list-controls-pad">
       <div class="select-all control-col">
-        <input :value="selectAllSelected" type="checkbox" class="checkbox" @click="selectAll()" />
+        <input v-model="selectAllSelected" type="checkbox" class="checkbox" @click="selectAll()" />
       </div>
       <div class="actions control-col">
         <div class="select-action">
@@ -66,6 +66,15 @@ export default Vue.extend({
       )
     }
   },
+  watch: {
+    selected: function(this: any, v: any[]) {
+      if (v.length > 0) {
+        this.selectAllSelected = true
+      } else {
+        this.selectAllSelected = false
+      }
+    }
+  },
   methods: {
     toLabel,
     selectItems(this: any, actions?: ControlAction[]): ListItem[] {
@@ -102,18 +111,15 @@ export default Vue.extend({
       )
 
       if (actionItem) {
-        if (this.selected.length > 0) {
-          const confirmText = actionItem.confirm ? actionItem.confirm(this.selected) : ""
-          if ((confirmText && confirm(confirmText)) || !confirmText) {
-            this.$emit("action", value)
-            this.selected = []
-          }
-        } else {
-          alert("No items selected.")
+        const confirmText = actionItem.confirm ? actionItem.confirm(this.selected) : ""
+        if ((confirmText && confirm(confirmText)) || !confirmText) {
+          this.$emit("action", value)
+          this.$emit("select-all", false)
         }
       }
       setTimeout(() => {
         this.actionValue = ""
+        this.selectAllSelected = false
       }, 300)
     },
     setQuery(this: any, key: string, value: string): void {

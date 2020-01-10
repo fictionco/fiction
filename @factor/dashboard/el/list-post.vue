@@ -20,7 +20,7 @@
             <div v-if="dataItem.label" class="label">{{ dataItem.label }}</div>
             <div v-if="dataItem.value" class="value">{{ dataItem.value }}</div>
           </div>
-          <div class="data-item">
+          <div v-if="itemAdditional.length > 0" class="data-item">
             <div
               class="toggle-additional-information value"
               @click="moreInfoToggle = !moreInfoToggle"
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <div v-if="moreInfoToggle" class="additional-information">
+        <div v-if="moreInfoToggle && itemAdditional" class="additional-information">
           <div class="additional-items">
             <div v-for="(dataItem, i) in itemAdditional" :key="i" class="data-item">
               <div v-if="dataItem.label" class="label">{{ toLabel(dataItem.label) }}</div>
@@ -45,7 +45,7 @@
 <script lang="ts">
 import Vue from "vue"
 import { factorLink } from "@factor/ui"
-import { toLabel, postLink, stored, standardDate } from "@factor/api"
+import { toLabel, postLink, stored } from "@factor/api"
 
 import { PostListDataItem } from "../types"
 export default Vue.extend({
@@ -101,39 +101,11 @@ export default Vue.extend({
       return this.subTitle || this.post.permalink
     },
     itemMeta(this: any): PostListDataItem[] {
-      return this.meta && this.meta.length > 0
-        ? this.meta
-        : [
-            { value: toLabel(this.post.status) },
-            {
-              label: "by",
-              value: this.getAuthorNames(this.post.author)
-            },
-            {
-              label: "on",
-              value: standardDate(this.post.date)
-            }
-          ]
+      return this.meta && this.meta.length > 0 ? this.meta : []
     },
     itemAdditional(this: any): PostListDataItem[] {
       const additional =
-        this.additional && this.additional.length > 0
-          ? this.additional
-          : [
-              { label: "synopsis", value: this.post.synopsis },
-              {
-                label: "tags",
-                value: ""
-              },
-              {
-                label: "updated",
-                value: standardDate(this.post.updatedAt)
-              },
-              {
-                label: "created",
-                value: standardDate(this.post.createdAt)
-              }
-            ]
+        this.additional && this.additional.length > 0 ? this.additional : []
 
       return additional.filter((_: PostListDataItem) => _.value)
     },
@@ -145,15 +117,7 @@ export default Vue.extend({
   },
   methods: {
     toLabel,
-    postLink,
-    getAuthorNames(authorIds: string[]) {
-      return authorIds
-        .map(_id => {
-          return stored(_id) || {}
-        })
-        .map(_ => _.displayName)
-        .join(", ")
-    }
+    postLink
   }
 })
 </script>
@@ -206,9 +170,9 @@ export default Vue.extend({
       font-weight: 600;
       font-size: 1.2em;
       margin-bottom: 0.25rem;
-      &:hover {
-        color: var(--color-primary);
-      }
+    }
+    a:hover {
+      color: var(--color-primary);
     }
     .sub-title {
       opacity: 0.6;

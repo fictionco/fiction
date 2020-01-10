@@ -4,5 +4,7 @@ export interface EmailConfig {
   list?: string;
   tags?: string[];
   code?: string;
+  addedAt?: number;
   verified?: boolean;
+  verifiedAt?: number;
 }

@@ -1,46 +1,48 @@
 <template>
   <dashboard-pane :title="title" class="email-list-edit">
-    <dashboard-grid-controls>
-      <dashboard-grid-actions :actions="controlActions" @action="handleAction($event)" />
-      <dashboard-grid-filter filter-id="email" :filter-tabs="tabs" />
-    </dashboard-grid-controls>
-    <dashboard-grid :structure="grid()" :rows="post.list" @select-all="selectAll($event)">
-      <template #select="{value, row}">
-        <input v-model="selected" type="checkbox" class="checkbox" label :value="row.email" />
-      </template>
-      <template #email="{row}">{{ row.email }}</template>
-      <template #verified="{row}">{{ row.verified ? "Yes" : "No" }}</template>
-      <template #delete="{row}">
-        <factor-btn-dashboard text="Delete" @click="deleteEmails({ emails: [row.email] })" />
-      </template>
-    </dashboard-grid>
+    <dashboard-list-controls
+      :control-actions="controlActions()"
+      :control-status="controlStatus()"
+      :selected="selected"
+      :loading="loading"
+      :list="list"
+      @action="handleAction($event)"
+      @select-all="selectAll($event)"
+    />
+
+    <dashboard-list-post
+      v-for="item in list"
+      :key="item.email"
+      v-model="selected"
+      :post="item"
+      sub-title="Email"
+      :meta="postItemMeta(item)"
+      :additional="[]"
+      :actions="postItemActions(item)"
+      :edit-path="false"
+    />
   </dashboard-pane>
 </template>
 
 <script lang="ts">
 /* eslint-disable no-unused-vars */
-import { toLabel, storeItem, stored } from "@factor/api"
+import { storeItem, stored, internationalDate } from "@factor/api"
 import {
   dashboardPane,
-  dashboardGridControls,
-  dashboardGridActions,
-  dashboardGridFilter,
-  dashboardGrid
+  dashboardListPost,
+  dashboardListControls
 } from "@factor/dashboard"
-import { factorBtnDashboard } from "@factor/ui"
+import { ControlAction } from "@factor/dashboard/types"
+
 import Vue from "vue"
 import { EmailConfig } from "./types"
 import { deleteEmails, csvExport } from "."
-
 export default Vue.extend({
   name: "EmailListGrid",
   components: {
-    factorBtnDashboard,
     dashboardPane,
-    dashboardGridControls,
-    dashboardGridActions,
-    dashboardGridFilter,
-    dashboardGrid
+    dashboardListPost,
+    dashboardListControls
   },
   props: {
     loading: { type: Boolean, default: false },
@@ -54,13 +56,13 @@ export default Vue.extend({
     }
   },
   computed: {
-    listId() {
+    listId(this: any) {
       return this.post.title
     },
-    title() {
+    title(this: any) {
       return `Email List - ${this.listId}`
     },
-    _id(): string {
+    _id(this: any): string {
       return this.$route.query._id || ""
     },
     post: {
@@ -71,60 +73,78 @@ export default Vue.extend({
         storeItem(this._id, v)
       }
     } as any,
+    list(this: any) {
+      if (!this.post.list) return []
 
-    tabs() {
-      return [`all`, `verified`, `unverified`].map(key => {
-        let count = 0
-        if (this.post && this.post.list) {
-          const total = this.post.list.length
-          const verified = this.post.list.filter(_ => _.verified).length
-
-          if (key == "all") {
-            count = total
-          } else if (key == "verified") {
-            count = verified
-          } else if (key == "unverified") {
-            count = total - verified
-          }
-        }
-
+      return this.post.list.map((_: EmailConfig) => {
+        const { email } = _
         return {
-          name: toLabel(key),
-          value: key == "all" ? "" : key,
-          count
+          ..._,
+          _id: email,
+          title: email
         }
       })
-    },
-    controlActions() {
-      return [
-        { value: "export-all", name: "Export List to CSV" },
-        { value: "export-selected", name: "Export Selected to CSV" },
-        { value: "delete", name: "Permanently Delete" }
-      ]
     }
   },
 
   methods: {
+    controlStatus(this: any): ControlAction[] {
+      const list = this.post.list || []
+
+      const countAll = list.length
+      const countVerified = list.filter((_: EmailConfig) => _.verified).length
+      return [
+        { value: "", label: `All (${countAll})` },
+        { value: "verified", label: `Verified (${countVerified})` },
+        { value: "unverified", label: `Unverified (${countAll - countVerified})` }
+      ]
+    },
+    controlActions(): ControlAction[] {
+      const actions = [
+        { value: "export-all", label: "Export List to CSV" },
+        { value: "export-selected", name: "Export Selected to CSV" },
+        {
+          value: "delete",
+          label: "Permanently Delete",
+          confirm: (selected: string[]) =>
+            `Permanently delete ${selected.length} email(s)?`
+        }
+      ]
+
+      return actions
+    },
+    postItemMeta(item: EmailConfig) {
+      const items = [{ label: "Verified", value: item.verified ? "yes" : "no" }]
+
+      if (item.addedAt) {
+        items.push({ label: "Added", value: internationalDate(item.addedAt) })
+      }
+      return items
+    },
+    postItemActions(item: EmailConfig) {
+      return [
+        {
+          label: "Delete",
+          onClick: () => this.deleteEmails({ emails: [item.email] })
+        }
+      ]
+    },
     async deleteEmails(this: any, { emails }: { emails: string[] }) {
-      const result = await deleteEmails({
+      await deleteEmails({
         emails,
         listId: this.listId
       })
 
       // Remove from UI
-      if (result) {
-        const newList = this.post.list.filter(
-          (_: EmailConfig) => !emails.includes(_.email)
-        )
-        this.post = { ...this.post, list: newList }
-      }
+      const newList = this.post.list.filter((_: EmailConfig) => !emails.includes(_.email))
+      this.post = { ...this.post, list: newList }
     },
 
     handleAction(this: any, action: string) {
       if (action == "delete") {
         this.deleteEmails({ emails: this.selected })
       } else if (action == "export-all") {
-        const data = this.post.list.map(_ => {
+        const data = this.post.list.map((_: EmailConfig) => {
           delete _.code
 
           return _
@@ -149,31 +169,6 @@ export default Vue.extend({
     },
     selectAll(this: any, val: boolean) {
       this.selected = !val ? [] : this.post.list.map((_: EmailConfig) => _.email)
-    },
-
-    grid() {
-      return [
-        {
-          _id: "select",
-          width: "40px"
-        },
-
-        {
-          name: "Email",
-          _id: "email",
-          width: "minmax(240px, 1fr)"
-        },
-        {
-          _id: "verified",
-          name: "Verified?",
-          width: "80px"
-        },
-        {
-          _id: "delete",
-          name: "Delete?",
-          width: "100px"
-        }
-      ]
     }
   }
 })

@@ -210,6 +210,20 @@ export default Vue.extend({
       return this.redirect ? this.redirect : this.$route.query.redirect || defaultRedirect
     }
   },
+  created(this: any) {
+    const { email, displayName, newAccount } = this.$route.query
+
+    if (email) {
+      this.$set(this.form, "email", email)
+    }
+    if (displayName) {
+      this.$set(this.form, "displayName", displayName)
+    }
+
+    if (newAccount) {
+      this.newAccount = true
+    }
+  },
   methods: {
     sendPasswordResetEmail,
     verifyAndResetPassword,

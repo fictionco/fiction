@@ -101,7 +101,7 @@ export const analyticsEvent = ({
 }): void => {
   label = label ? label : action
 
-  if (window.ga) {
+  if (window.ga && window.ga.getAll) {
     const tracker = window.ga.getAll()[0]
     if (tracker) {
       tracker.send("event", category, action, label, value)

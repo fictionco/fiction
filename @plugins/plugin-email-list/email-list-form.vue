@@ -31,7 +31,7 @@ export default Vue.extend({
     return {
       email: "",
       sending: false,
-      added: false,
+      added: "",
       validation: "",
       confirmModal: this.setting(`success.modal`)
     }
@@ -64,11 +64,10 @@ export default Vue.extend({
             tags: this.tags
           })
 
-          this.added = true
+          this.added = this.email
           this.email = ""
         } catch (error) {
           this.validate(this.setting("validation.error"))
-          throw error
         }
       }
 

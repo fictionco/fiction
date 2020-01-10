@@ -77,8 +77,16 @@ export const requestPostSave = async ({
   post,
   postType
 }: UpdatePost): Promise<FactorPost> => {
-  _setCache(postType)
-  const result = await sendPostRequest("savePost", { data: post, postType })
+  let result
+
+  try {
+    result = await sendPostRequest("savePost", { data: post, postType })
+    _setCache(postType)
+  } catch (error) {
+    result = post
+    throw error
+  }
+
   return result as FactorPost
 }
 
@@ -137,6 +145,9 @@ export const requestPostSingle = async (
 
   if (post) {
     await requestPostPopulate({ posts: [post], depth })
+
+    storeItem("post", post)
+    storeItem(post._id, post)
   }
 
   return post as FactorPost

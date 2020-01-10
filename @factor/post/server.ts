@@ -97,7 +97,7 @@ export const getSinglePost = async (
   }
   // If ID is unset or if it isn't found, create a new post model/doc
   // This is not saved at this point, leading to a post sometimes not existing although an ID exists
-  else if (createOnEmpty) {
+  else if (!_post && createOnEmpty) {
     const initial = { author: bearer && bearer._id ? [bearer._id] : null }
 
     _post = new Model(initial)

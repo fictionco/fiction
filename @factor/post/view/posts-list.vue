@@ -12,7 +12,14 @@
       @select-all="selectAll($event)"
     />
 
-    <dashboard-list-post v-for="post in list" :key="post._id" v-model="selected" :post="post" />
+    <dashboard-list-post
+      v-for="post in list"
+      :key="post._id"
+      v-model="selected"
+      :post="post"
+      :additional="additional(post)"
+      :meta="metaInfo(post)"
+    />
 
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
@@ -27,7 +34,8 @@ import {
 import { getStatusCount } from "@factor/post/util"
 import { ControlAction } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
-import { toLabel, standardDate, emitEvent, getPermalink } from "@factor/api"
+import { stored, toLabel, standardDate, emitEvent, getPermalink } from "@factor/api"
+import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
   components: {
@@ -73,6 +81,36 @@ export default Vue.extend({
         { value: "published", label: `Published (${countPublished})` },
         { value: "draft", label: `Draft (${countDraft})` },
         { value: "trash", label: `Trash (${countTrash})` }
+      ]
+    },
+    additional(this: any, post: FactorPost) {
+      return [
+        { label: "synopsis", value: post.synopsis },
+        {
+          label: "tags",
+          value: ""
+        },
+        {
+          label: "updated",
+          value: standardDate(post.updatedAt)
+        },
+        {
+          label: "created",
+          value: standardDate(post.createdAt)
+        }
+      ]
+    },
+    metaInfo(this: any, post: FactorPost) {
+      return [
+        { value: toLabel(post.status) },
+        {
+          label: "by",
+          value: this.getAuthorNames(post.author)
+        },
+        {
+          label: "on",
+          value: standardDate(post.date)
+        }
       ]
     },
     controlActions(): ControlAction[] {
@@ -130,34 +168,13 @@ export default Vue.extend({
     setDefault() {
       return true
     },
-    tableStructure() {
-      return [
-        {
-          _id: "select",
-          width: "25px"
-        },
-        {
-          _id: "title",
-          width: "minmax(30vw, 550px)"
-        },
-
-        {
-          _id: "author",
-          width: "minmax(150px, 250px)"
-        },
-        {
-          _id: "status",
-          width: "minmax(100px, 200px)"
-        },
-        {
-          _id: "publish-date",
-          width: "minmax(100px, 200px)"
-        },
-        {
-          _id: "updated",
-          width: "minmax(100px, 200px)"
-        }
-      ]
+    getAuthorNames(authorIds: string[]) {
+      return authorIds
+        .map(_id => {
+          return stored(_id) || {}
+        })
+        .map(_ => _.displayName)
+        .join(", ")
     }
   }
 })

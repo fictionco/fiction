@@ -1,7 +1,7 @@
 import { applyFilters, pushToFilter } from "@factor/api/hooks"
 
 import postSchema from "@factor/post/schema"
-
+import log from "@factor/api/logger"
 import { UserRoles, CurrentUserState } from "@factor/user/types"
 import { roleAccessLevel } from "@factor/user/util"
 import {
@@ -161,7 +161,8 @@ export const postPermission = ({
   } else if (author && authorId && isAuthor) {
     return true
   } else {
-    throw new Error("Insufficient permissions.")
+    log.error("permissions error", bearer, action, post)
+    throw new Error(`Insufficient permissions as "${userRole}"`)
   }
 }
 
@@ -187,6 +188,6 @@ export const canUpdatePostsCondition = ({
   } else if (author && authorId) {
     return { author: authorId }
   } else {
-    throw new Error("Insufficient permissions.")
+    throw new Error(`Insufficient permissions (${userRole})`)
   }
 }

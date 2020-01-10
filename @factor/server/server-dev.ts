@@ -282,6 +282,8 @@ export const developmentServer = async ({
 
   devServer[cwd] = dev
 
+  initializeDevServer(cwd)
+
   createClientCompiler({ fileSystem, devServer: dev })
 
   createServerCompiler({ fileSystem, devServer: dev })
