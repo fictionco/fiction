@@ -1,52 +1,67 @@
 <template>
-  <div>
-    <factor-link v-if="format == 'index'" :path="postLink(post._id)">
-      <div v-if="avatarUrl" class="featured-image" :style="style" />
-    </factor-link>
-    <div v-else class="featured-image" :style="style" />
+  <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
+    <div class="h-56 bg-cover bg-center bg-no-repeat" :style="style" />
+  </factor-link>
+  <div v-else class="featured-image-wrap">
+    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image" />
   </div>
 </template>
 <script lang="ts">
-import { postLink, setting, stored } from "@factor/api"
+import { postLink, stored } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
+
 export default Vue.extend({
-  components: {
-    factorLink
-  },
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
   },
   computed: {
-    post() {
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    avatar() {
+    avatar(this: any) {
       return stored(this.post.avatar) || {}
     },
-    avatarUrl() {
+    avatarUrl(this: any) {
       return this.avatar.url || ""
     },
-    style() {
-      const style = {}
-
-      style.backgroundImage = `url(${this.avatarUrl})`
+    style(this: any) {
+      const style = {
+        backgroundImage: `url(${this.avatarUrl})`
+      }
 
       return style
     }
   },
   methods: {
-    postLink,
-    setting
+    postLink
   }
 })
 </script>
 <style lang="less">
-.featured-image {
-  background-size: cover;
-  background-position: 50%;
-  height: 40vh;
-  margin: 1.5rem 0;
+.plugin-blog {
+  .single-entry {
+    .featured-image-wrap {
+      max-width: 1000px;
+      position: relative;
+      z-index: 1;
+      margin: 2em auto;
+      padding: 0 2em;
+
+      .featured-image {
+        display: block;
+        width: 100%;
+        box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+          0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+        border-radius: 4px;
+      }
+
+      @media (max-width: 767px) {
+        margin: 0 auto;
+      }
+    }
+  }
 }
 </style>

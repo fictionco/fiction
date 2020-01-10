@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-wrap">
+  <div class="plugin-blog">
     <router-view />
   </div>
 </template>

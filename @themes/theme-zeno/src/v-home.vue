@@ -43,7 +43,7 @@
       class="section-3 relative bg-cover bg-center bg-purple-900 px-8 py-16"
     >
       <div
-        class="relative z-20 max-w-6xl mx-auto flex flex-col bg-white rounded shadow-lg md:flex-row md:flex-wrap"
+        class="relative z-20 max-w-6xl mx-auto flex flex-col bg-white rounded shadow-xl md:flex-row md:flex-wrap"
       >
         <div
           v-for="(item, index) in solutionsItems"
@@ -51,10 +51,8 @@
           class="w-full even:bg-gray-100 md:w-1/3"
         >
           <div class="p-10">
-            <div class="flex items-center">
-              <img :src="item.icon" :alt="item.title" />
-              <h2 class="font-bold text-3xl text-purple-900 ml-5">{{ item.title }}</h2>
-            </div>
+            <img :src="item.icon" :alt="item.title" />
+            <h2 class="font-bold text-3xl text-purple-900 mt-5">{{ item.title }}</h2>
             <div v-if="item.content" class="text-lg mt-4 text-gray-600">{{ item.content }}</div>
           </div>
         </div>
@@ -76,6 +74,19 @@
             </template>
           </div>
         </div>
+        <!-- <div class="flex flex-col items-center p-8 mt-8 rounded bg-gray-100 md:w-2/5">
+          <ul
+            class="flex items-center flex-wrap font-normal list-inside list-square text-base lg:text-xl"
+          >
+            <li
+              v-for="(listItem, i) in setting('home.devops.list')"
+              :key="i"
+              class="w-1/2 px-1 py-2 text-purple-500"
+            >
+              <span class="text-gray-600">{{ listItem.text }}</span>
+            </li>
+          </ul>
+        </div>-->
         <component :is="devopsFigure" class="flex p-8 md:w-2/5" />
       </div>
     </section>
@@ -83,7 +94,7 @@
     <section :id="infrID" class="relative bg-gray-100">
       <div class="max-w-6xl mx-auto px-8 py-16 lg:pt-24 lg:pb-12">
         <div class="flex flex-col md:flex-row md:flex-wrap">
-          <div class="pb-8 md:w-full">
+          <div class="pb-12 md:w-full">
             <h3 class="custom-uppercase text-center text-purple-500">{{ infrPretitle }}</h3>
             <div class="flex items-center justify-center">
               <h1 class="font-bold text-center text-3xl lg:text-4xl text-purple-900">
@@ -98,7 +109,7 @@
           </div>
           <div class="relative z-10 pb-8 md:pb-0 md:pr-8 md:w-3/5">
             <template v-for="(item, index) in infrItems">
-              <div :key="index" class="my-20 p-10 rounded bg-white custom-card-left">
+              <div :key="index" class="mb-20 p-10 rounded bg-white custom-card-left">
                 <img :src="item.image" :alt="item.alt" />
                 <div
                   v-formatted-text="item.content"
@@ -210,7 +221,8 @@ export default Vue.extend({
   grid-template-columns: 1fr minmax(750px, 1fr);
   grid-gap: 0;
   align-items: center;
-  min-height: 85vh;
+  min-height: 450px;
+  height: 85vh;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
@@ -226,6 +238,12 @@ export default Vue.extend({
   }
 }
 .section-3 {
+  .new {
+    transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+    &:hover {
+      box-shadow: inset 0px 0px 15px rgba(0, 0, 0, 0.2);
+    }
+  }
   &:after {
     position: absolute;
     top: auto;
@@ -239,8 +257,10 @@ export default Vue.extend({
     background: #fff;
   }
 }
-.section-3,
-.section-4 {
+.section-3 {
   background-image: url(./img/light-pattern.svg);
+}
+.section-4 {
+  background-image: url(./img/lighter-pattern.svg);
 }
 </style>

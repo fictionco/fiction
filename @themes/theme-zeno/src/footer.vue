@@ -1,7 +1,7 @@
 <template>
   <div class="bg-purple-900 text-gray-200 p-8 lg:px-4">
     <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row justify-between">
-      <figure class="absolute top-0 left-0 z-20 hidden ml-56 -mt-20 lg:block">
+      <figure class="absolute top-0 left-0 z-20 hidden ml-56 -mt-16 lg:block">
         <img :src="footerFigure" :alt="footerFigureAlt" />
       </figure>
       <site-brand :inverse="true" />

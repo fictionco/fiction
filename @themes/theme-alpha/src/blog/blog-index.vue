@@ -10,7 +10,7 @@
         <div v-formatted-text="setting('blog.content')" class="content entry-content" />
       </template>
     </el-hero>
-    <el-hero v-else-if="tag" :subheadline="`Tag: ` + tag" />
+    <!-- <el-hero v-else-if="tag" :subheadline="`Tag: ` + tag" />
 
     <div v-if="tagsList.length > 0" class="widget-tags">
       <div class="widget-tags-inner">
@@ -21,7 +21,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div>-->
 
     <section class="blog-posts">
       <div class="blog-posts-inner">
@@ -99,10 +99,10 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    },
-    tagsList(this: any) {
-      return this.index.meta.tags || []
     }
+    // tagsList(this: any) {
+    //   return this.index.meta.tags || []
+    // }
   },
   watch: {
     $route: {

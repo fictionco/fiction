@@ -1,5 +1,5 @@
 <template>
-  <header class="test" :class="headerClasses()">
+  <header class="overflow-hidden" :class="headerClasses()">
     <div class="z-50 px-6 py-3">
       <site-brand class="hidden lg:block" :inverse="brandInverse()" />
       <div class="lg:hidden">

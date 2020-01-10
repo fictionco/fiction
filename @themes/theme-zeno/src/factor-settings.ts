@@ -150,6 +150,40 @@ export default {
           classes: "factor-link factor-link btn bg-purple-500 rounded text-white hover:bg-purple-600"
         }
       ],
+      // list: [
+      //   {
+      //     text:
+      //       "Plan"
+      //   },
+      //   {
+      //     text:
+      //       "Code"
+      //   },
+      //   {
+      //     text:
+      //       "Build"
+      //   },
+      //   {
+      //     text:
+      //       "Test"
+      //   },
+      //   {
+      //     text:
+      //       "Release"
+      //   },
+      //   {
+      //     text:
+      //       "Deploy"
+      //   },
+      //   {
+      //     text:
+      //       "Operate"
+      //   },
+      //   {
+      //     text:
+      //       "Monitor"
+      //   }
+      // ],
       figure: (): Promise<Component> => import("./el/figure-devops.vue")
     },
     infrastructure: {
@@ -202,7 +236,7 @@ export default {
     intro: {
       pretitle: "About Us",
       title:
-        "Elastic Byte is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
+        "Zeno is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
       backgroundImage: require("./img/stars-50.svg")
     },
     team: {
@@ -252,16 +286,16 @@ export default {
     },
     intro: {
       pretitle: "Pricing that scales with your business.",
-      title: `Choose the <span class="underline">right plan</span> for your business.`,
+      title: `Choose the right plan for your business.`,
       content:
         "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
-      backgroundImage: require("./img/transparent-pattern.svg")
+      backgroundImage: require("./img/light-pattern.svg")
     },
     packages: [
       {
         classes: "border border-gray-400",
         name: "Nano",
-        description: "The full power of Elastic Byte",
+        description: "The full power of Zeno Theme",
         list: [
           {
             contentLarge: `$2,000`,
@@ -489,22 +523,21 @@ export default {
         image: require("./img/logo-zeno.jpg")
       }
     },
-    intro: {
-      pretitle: "Because the future comes fast",
-      title: "Elastic Byte Blog",
-      content:
-        "Future-forward perspectives on DevOps, Cloud Computing, and Infrastructure."
-    },
+    pretitle: "Because the future comes fast",
+    title: "Zeno Blog",
+    content:
+      "Discover the latest product updates, announcements, and articles from the Zeno team"
+    ,
     indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 2,
+    limit: 3,
     returnLinkText: "Back",
     notFound: {
       title: "No Posts",
       subTitle: "Couldn't find any blog posts."
     },
     layout: {
-      index: ["featuredImage", "tags", "headers", "meta"],
+      index: ["featuredImage", "date", "title", "author"],
       single: ["tags", "headers", "authorDate", "featuredImage", "entry"],
       meta: ["authorDate", "tags"]
     },
@@ -512,12 +545,22 @@ export default {
       blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-      returnLink: (): Promise<Component> => import("./blog/el-return-link.vue"),
-      excerpt: (): Promise<Component> => import("./blog/el-excerpt.vue"),
+      date: (): Promise<Component> => import("./blog/widget-date.vue"),
+      author: (): Promise<Component> => import("./blog/widget-author.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      headers: (): Promise<Component> => import("./blog/el-headers.vue"),
-      meta: (): Promise<Component> => import("./blog/el-meta.vue"),
-      social: (): Promise<Component> => import("./blog/widget-social.vue")
+      title: (): Promise<Component> => import("./blog/widget-title.vue"),
+      pagination: (): Promise<Component> => import("./blog/widget-pagination.vue"),
+      singleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
+
+      // blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
+      // blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
+      // blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+      // // returnLink: (): Promise<Component> => import("./blog/el-return-link.vue"),
+      // // excerpt: (): Promise<Component> => import("./blog/el-excerpt.vue"),
+      // featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      // // headers: (): Promise<Component> => import("./blog/el-headers.vue"),
+      // // meta: (): Promise<Component> => import("./blog/el-meta.vue"),
+      // // social: (): Promise<Component> => import("./blog/widget-social.vue")
     }
   },
   footer: {

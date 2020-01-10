@@ -47,6 +47,7 @@ export default Vue.extend({
     top: 0;
     right: auto;
     bottom: 0;
+    border-bottom-right-radius: 40px;
     background-color: var(--color-bg-alt, #f3f5fb);
     @media (max-width: 1024px) {
       width: 100%;

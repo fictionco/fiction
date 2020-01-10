@@ -39,7 +39,7 @@ export default Vue.extend({
 
 <style lang="less">
 .cta {
-  background-image: url(../img/transparent-pattern.svg);
+  background-image: url(../img/light-pattern.svg);
   background-position: 50% 50%;
   background-size: cover;
 }

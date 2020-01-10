@@ -1,15 +1,14 @@
 <template>
   <div>
-    <section class="flex items-center bg-cover bg-center bg-purple-900" :style="introBackground">
-      <div class="max-w-2xl mx-auto text-center px-8 py-32">
-        <h3 class="custom-uppercase text-purple-400">{{ introPretitle }}</h3>
-        <h1
-          v-formatted-text="introTitle"
-          class="mt-2 font-bold leading-tight text-3xl lg:text-4xl text-gray-100"
-        />
-        <div v-formatted-text="introContent" class="mt-2 text-base leading-relaxed lg:text-xl" />
-      </div>
-    </section>
+    <el-hero
+      :subheadline="setting('pricing.intro.pretitle')"
+      :headline="setting('pricing.intro.title')"
+      class="text-left"
+    >
+      <template v-slot:hero-content>
+        <div v-formatted-text="setting('pricing.intro.content')" class="content entry-content" />
+      </template>
+    </el-hero>
 
     <section class="max-w-6xl mx-auto p-8 lg:py-12 bg-white">
       <div class="flex flex-col md:flex-row">
@@ -73,17 +72,12 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
+    "el-hero": () => import("./el/hero.vue"),
     "el-accordion": () => import("./el/accordion.vue")
   },
   data() {
     return {
       loading: true,
-      introPretitle: setting("pricing.intro.pretitle"),
-      introTitle: setting("pricing.intro.title"),
-      introBackground: {
-        backgroundImage: `url(${setting("pricing.intro.backgroundImage")})`
-      },
-      introContent: setting("pricing.intro.content"),
       pricingPackages: setting("pricing.packages"),
       packagesFooter: setting("pricing.packagesFooter"),
       faqTitle: setting("pricing.faq.title"),
