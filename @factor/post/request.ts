@@ -14,14 +14,28 @@ import {
 } from "./types"
 import { getSchemaPopulatedFields } from "./util"
 
+/**
+ * For lists of posts, we don't want to call/populate on every page nav if not needed
+ * So we set a cache that can be invalidated if any posts in that post type change
+ * @param postType - post type
+ */
 const _setCache = (postType: string): void => {
   storeItem(`${postType}Cache`, timestamp())
 }
 
+/**
+ * Used to identify if an identical query has already been made with no changes to the post type in between
+ * @param postType - post type
+ */
 const _cacheKey = (postType: string): any => {
   return stored(`${postType}Cache`) || ""
 }
 
+/**
+ * Sends an endpoint request
+ * @param method - endpoint method
+ * @param params - parameters to call endpoint method with
+ */
 export const sendPostRequest = async (
   method: string,
   params: object
@@ -29,6 +43,14 @@ export const sendPostRequest = async (
   return await endpointRequest({ id: "posts", method, params })
 }
 
+/**
+ * Populates fields in a post as determined by its Factor schema
+ * @param posts - posts to populate
+ * @param depth - depth of population, as given by scheme setup for population
+ *
+ * @remarks
+ * Depth is useful as in some situations, like a long list, etc, it doesn't make sense to populate all joins
+ */
 export const requestPostPopulate = async ({
   posts,
   depth = 10

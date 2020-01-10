@@ -33,6 +33,12 @@ export const requestDeleteImage = async (params: object): Promise<object> => {
   return await sendStorageRequest({ method: "deleteImage", params })
 }
 
+/**
+ * Resize a raw file upload and return as blog
+ * Makes for better storage and uploading
+ * @param fileOrBlobOrUrl - Image file or blob
+ * @param {maxHeight, maxWidth} - Max dimensions of returned image
+ */
 export const resizeImage = async (
   fileOrBlobOrUrl: File | Blob,
   { maxWidth = 1500, maxHeight = 1500 }
