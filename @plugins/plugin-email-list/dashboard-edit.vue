@@ -33,7 +33,7 @@ import {
   dashboardListControls
 } from "@factor/dashboard"
 import { ControlAction } from "@factor/dashboard/types"
-
+import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 import { EmailConfig } from "./types"
 import { deleteEmails, csvExport } from "."
@@ -69,19 +69,32 @@ export default Vue.extend({
       get() {
         return stored(this._id) || {}
       },
-      set(v) {
+      set(v: FactorPost) {
         storeItem(this._id, v)
       }
     } as any,
     list(this: any) {
       if (!this.post.list) return []
 
-      return this.post.list.map((_: EmailConfig) => {
+      const fullList = this.post.list.map((_: EmailConfig) => {
         const { email } = _
         return {
           ..._,
           _id: email,
           title: email
+        }
+      })
+
+      const status = this.$route.query.status || ""
+
+      return fullList.filter((_: FactorPost) => {
+        if (
+          (status == "verified" && !_.verified) ||
+          (status == "unverified" && _.verified)
+        ) {
+          return false
+        } else {
+          return true
         }
       })
     }
