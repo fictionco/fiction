@@ -3,6 +3,7 @@ import { getModel } from "@factor/post/database"
 import { SitemapStream, streamToPromise } from "sitemap"
 import { uniq, addFilter, applyFilters, getPermalink, log } from "@factor/api"
 import { currentUrl } from "@factor/api/url"
+import { setting } from "@factor/api/settings"
 import { Request, Response } from "express"
 import { RouteConfig } from "vue-router"
 
@@ -49,7 +50,7 @@ const getRouteUrls = (): string[] => {
 
 export const getPermalinks = async (): Promise<string[]> => {
   const posts = await getModel("post").find(
-    { permalink: { $ne: null }, status: "published" },
+    { permalink: { $ne: null }, status: "published", source: setting("package.name") },
     "permalink postType",
     { limit: 2000 }
   )

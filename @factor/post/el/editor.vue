@@ -33,21 +33,33 @@ export default Vue.extend({
     }
   },
 
-  mounted(this: any) {
-    this.easyMDE = new EasyMDE({
-      element: this.$refs.editor,
-      spellChecker: false,
-      forceSync: true,
-      shortcuts: {}
-    })
+  watch: {
+    value: function(this: any, v: string) {
+      if (this.easyMDE && this.easyMDE.value() != v) {
+        this.easyMDE.value(v)
+      }
+    }
+  },
 
-    this.easyMDE.codemirror.on("change", () => {
-      this.$emit("input", this.easyMDE.value())
-    })
+  async mounted(this: any) {
+    await this.initializeEditor()
 
     this.loading = false
   },
-  methods: {}
+  methods: {
+    async initializeEditor(this: any) {
+      this.easyMDE = new EasyMDE({
+        element: this.$refs.editor,
+        spellChecker: false,
+        forceSync: true,
+        shortcuts: {}
+      })
+
+      this.easyMDE.codemirror.on("change", () => {
+        this.$emit("input", this.easyMDE.value())
+      })
+    }
+  }
 })
 </script>
 

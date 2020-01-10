@@ -1,5 +1,6 @@
 import { applyFilters } from "@factor/api/hooks"
 import { Schema, Document } from "mongoose"
+import { setting } from "@factor/api/settings"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost } from "./types"
 export default (): FactorSchema => {
@@ -30,7 +31,7 @@ export default (): FactorSchema => {
       date: Date,
       postType: { type: String, index: true, sparse: true },
       // Used to distinguish which app created a post in multi-app databases
-      source: { type: String, trim: true },
+      source: { type: String, trim: true, default: setting("package.name") },
       title: { type: String, trim: true },
       subTitle: { type: String, trim: true }, // @deprecated
       synopsis: { type: String, trim: true },

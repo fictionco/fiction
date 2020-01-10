@@ -166,15 +166,18 @@ export const requestPostSingle = async (
   const post = (await sendPostRequest("getSinglePost", params)) as FactorPost
 
   if (post) {
+    // Populate fields, will add this post and all others to store
     await requestPostPopulate({ posts: [post], depth })
-
-    storeItem("post", post)
-    storeItem(post._id, post)
   }
 
   return post as FactorPost
 }
 
+/**
+ * Gets an index of posts based on typical filters and postType
+ * Also returns meta numbers like counts per category/tag
+ * @param _arguments - Post index options
+ */
 export const requestPostIndex = async (
   _arguments: PostIndexParametersFlat
 ): Promise<PostIndex> => {

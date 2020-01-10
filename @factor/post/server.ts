@@ -24,6 +24,12 @@ import {
   dbIsOffline
 } from "./database"
 
+/**
+ * Save a post to database
+ * @param data - Data to save
+ * @param postType - Post type
+ * @param bearer - User that is saving the data
+ */
 export const savePost = async (
   { data, postType = "post" }: { data: FactorPost | UnsavedFactorPost; postType: string },
   { bearer }: EndpointMeta
@@ -56,6 +62,11 @@ export const savePost = async (
   }
 }
 
+/**
+ * Get a single post from the DB
+ * @param params - selection parameters
+ * @param meta - endpoint meta, including bearer
+ */
 export const getSinglePost = async (
   params: PostRequestParameters,
   meta: EndpointMeta = {}

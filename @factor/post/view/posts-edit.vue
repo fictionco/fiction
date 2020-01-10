@@ -53,6 +53,12 @@
           @autosave="saveDraft()"
         />
         <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
+        <dashboard-input
+          v-model="post.source"
+          input="factor-input-text"
+          label="Source"
+          description="Used when sharing DB in multiple apps"
+        />
       </dashboard-pane>
       <slot name="meta" />
     </template>
