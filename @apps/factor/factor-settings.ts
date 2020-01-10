@@ -16,7 +16,10 @@ export default {
     pages: [
       { group: "getting-started" },
       { root: true, slug: "introduction" },
-      { slug: "quickstart" },
+      {
+        slug: "quickstart",
+        description: "Get started using Factor CMS in less than 5 minutes."
+      },
       { slug: "dashboard-setup" },
       { slug: "basic-example" },
       { group: "app-development" },

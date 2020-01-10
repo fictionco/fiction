@@ -29,6 +29,8 @@ export default (): FactorSchema => {
     schema: applyFilters("post-schema", {
       date: Date,
       postType: { type: String, index: true, sparse: true },
+      // Used to distinguish which app created a post in multi-app databases
+      source: { type: String, trim: true },
       title: { type: String, trim: true },
       subTitle: { type: String, trim: true }, // @deprecated
       synopsis: { type: String, trim: true },
