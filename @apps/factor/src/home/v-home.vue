@@ -27,58 +27,6 @@
           </div>
         </div>
       </div>
-      <div class="points-wrap">
-        <div class="points">
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">Typescript Native</span>
-          </div>
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">VueJS + NodeJS</span>
-          </div>
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">CMS Dashboard</span>
-          </div>
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">Posts and Pages</span>
-          </div>
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">Themes + Plugins</span>
-          </div>
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">Search and Social Optimized</span>
-          </div>
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">GPL 2.0</span>
-          </div>
-          <div class="point">
-            <span class="arrow">
-              <factor-icon icon="check" />
-            </span>
-            <span class="text">Server Rendered</span>
-          </div>
-        </div>
-      </div>
 
       <div class="content screencast-container">
         <div class="content-pad">
@@ -121,6 +69,26 @@
         </div>
       </div>
     </section>
+
+    <div class="research-wrap">
+      <div class="research-grid">
+        <div class="point dev-time-traditional">
+          <div class="timeline">
+            <div class="big">5.5</div>
+            <div class="descriptor">months</div>
+          </div>
+          <div class="about">*Estimated development time for a typical web app MVP</div>
+        </div>
+
+        <div class="point dev-time-factor">
+          <div class="timeline">
+            <div class="big">5</div>
+            <div class="descriptor">days</div>
+          </div>
+          <div class="about">*Average time to develop and launch a custom Factor app</div>
+        </div>
+      </div>
+    </div>
 
     <div class="quotes-wrap">
       <div class="quotes">
@@ -217,7 +185,7 @@ export default Vue.extend({
       features: [
         {
           icon: "powered",
-          title: "Stop worrying about your stack.",
+          title: "Stop worrying about your tools.",
           text: `When you use Factor you'll be using best-of-class open source software under the hood.
             Stop worrying about lock-in and making the right choice. No more endlessly comparing new tools and techniques.
             Just trust Factor and get started building your app.`,
@@ -226,11 +194,10 @@ export default Vue.extend({
         },
         {
           icon: "ssr",
-          title: "Simplify your sites and apps.",
-          text: `Factor has both a server and browser component which means you can dynamically make changes
-              to your content and see them reflected immediately (without a build step).
-              This also enables custom endpoints and server-side rendering (SSR) important for SEO,
-              social, and performance reasons.`,
+          title: "Make apps that do more.",
+          text: `Factor helps you bring together all the different tools you'll need to build great apps.
+              It helps you build custom endpoints and easily optimize things for SEO,
+             marketing, and performance.`,
           figure: () => import("./figure-live-changes.vue"),
           link: { path: "/guide", text: "Try Factor" }
         },
@@ -288,6 +255,63 @@ export default Vue.extend({
     width: 100%;
     z-index: 10;
     position: relative;
+  }
+
+  .research-wrap {
+    .research-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      margin: 0 auto;
+      .point {
+        padding: 8rem;
+        .timeline {
+          color: #0471ff;
+        }
+      }
+      .point:last-child {
+        .timeline {
+          color: #0471ff;
+        }
+      }
+    }
+    .timeline {
+      display: flex;
+
+      line-height: 1;
+      font-size: 2.5em;
+      .big {
+        font-size: 5em;
+        font-weight: 700;
+      }
+      .descriptor {
+        margin-top: 0.5em;
+        opacity: 0.5;
+      }
+    }
+    .about {
+      opacity: 0.5;
+      font-size: 1.2em;
+    }
+    @media (max-width: 1200px) {
+      .research-grid {
+        grid-template-columns: 1fr;
+
+        .point {
+          padding: 4rem;
+        }
+        .timeline {
+          font-size: 2.5em;
+          .big {
+            font-size: 2em;
+            font-weight: 700;
+          }
+          .descriptor {
+            margin-top: 0;
+          }
+        }
+      }
+    }
   }
 
   /* HEADER */
@@ -372,47 +396,6 @@ export default Vue.extend({
             opacity: 0.5;
             margin-left: 1rem;
           }
-        }
-      }
-    }
-
-    .points-wrap {
-      padding: 2rem;
-    }
-    .points {
-      display: flex;
-      min-width: 1800px;
-      margin: 0 auto;
-
-      opacity: 0.2;
-      .point {
-        margin: 0 1rem;
-        text-transform: uppercase;
-        font-weight: 700;
-
-        &:hover {
-          .arrow {
-            background: var(--color-primary);
-          }
-        }
-      }
-      .arrow {
-        text-align: center;
-        transition: all 0.3s;
-        color: #fff;
-        background: var(--color-text);
-        border-radius: 50%;
-        width: 1.5em;
-        height: 1.5em;
-        display: inline-block;
-        margin-right: 0.5em;
-      }
-      @media (max-width: 900px) {
-        display: block;
-        text-align: left;
-        min-width: 0;
-        .point {
-          margin: 0.6em 0;
         }
       }
     }
@@ -725,7 +708,7 @@ export default Vue.extend({
 
   .alpha-program {
     text-align: center;
-    padding: 12rem 0;
+    padding: 6rem 0;
     .content-pad {
       max-width: 700px;
     }

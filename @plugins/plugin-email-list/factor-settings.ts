@@ -22,7 +22,7 @@ export default {
       form: {
         component: (): Promise<Component> => import("./email-list-form.vue"),
         buttonText: "Request Invite &rarr;",
-        placeholder: "Email Address"
+        placeholder: "Your Work Email"
       },
       success: {
         modal: (): Promise<Component> => import("./modal-confirm.vue"),
