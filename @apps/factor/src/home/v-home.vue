@@ -180,7 +180,7 @@
 
 <script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
-import { factorLink, factorIcon } from "@factor/ui" 
+import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
@@ -217,17 +217,17 @@ export default Vue.extend({
       features: [
         {
           icon: "powered",
-          title: "Powered by VueJS and MongoDB",
+          title: "Stop worrying about your stack.",
           text: `When you use Factor you'll be using best-of-class open source software under the hood.
-            Stop worrying about lock-in. No more endlessly comparing new tools and techniques.
+            Stop worrying about lock-in and making the right choice. No more endlessly comparing new tools and techniques.
             Just trust Factor and get started building your app.`,
           figure: () => import("./figure-powered-by.vue"),
           link: { path: "/guide/quickstart", text: "View Quickstart" }
         },
         {
           icon: "ssr",
-          title: "Dynamic Beats Static",
-          text: `Factor is a universal Typescript platform which means you can dynamically make changes
+          title: "Simplify your sites and apps.",
+          text: `Factor has both a server and browser component which means you can dynamically make changes
               to your content and see them reflected immediately (without a build step).
               This also enables custom endpoints and server-side rendering (SSR) important for SEO,
               social, and performance reasons.`,
@@ -236,7 +236,7 @@ export default Vue.extend({
         },
         {
           icon: "dashboard2",
-          title: "Dashboard Included",
+          title: "Manage your users and content.",
           text: `Factor comes with a professional dashboard and post management system.
             This tool was carefully crafted to give you maximum powerful but with minimum bloat.
             It is simple by default but can be extended to handle even the most complex tasks.`,
@@ -245,8 +245,8 @@ export default Vue.extend({
         },
         {
           id: "plugins-feature",
-         
-          title: `Plugins that just work`,
+
+          title: `Add new features in seconds.`,
           text: `Most coding frameworks make you do way too much coding and customization
               to make plugins work. Factor focuses on making plugins dead simple with intelligent
               defaults. This means they "just work," no mandatory customization.`,
@@ -254,8 +254,7 @@ export default Vue.extend({
           link: { path: "/plugins", text: "View Plugins" }
         },
         {
-         
-          title: "Theming for the 21st Century",
+          title: "Save time with themes.",
           text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either.
               Factor was developed from the start with customizable theming and rapid app development in mind.`,
           figure: () => import("./figure-themes.vue"),
