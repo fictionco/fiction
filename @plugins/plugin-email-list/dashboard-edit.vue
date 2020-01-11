@@ -164,7 +164,7 @@ export default Vue.extend({
 
           return _
         })
-        csvExport({
+        csvExport<EmailConfig>({
           filename: `email-list-${this.listId}`,
           data
         })
@@ -176,7 +176,7 @@ export default Vue.extend({
 
             return _
           })
-        csvExport({
+        csvExport<EmailConfig>({
           filename: `email-list-${this.listId}-selected`,
           data
         })

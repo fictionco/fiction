@@ -145,24 +145,24 @@ export default Vue.extend({
 
       if (this.selected.length > 0) {
         if (action == "export-csv") {
-          const data: EmailConfig[] = []
+          let data: EmailConfig[] = []
           const name = ["email-list"]
           this.selected.forEach((_id: string) => {
             const p = stored(_id)
             if (p.list) {
-              data.push(
-                p.list.map((_: EmailConfig) => {
-                  delete _.code
-                  return _
-                })
-              )
+              const list = p.list.map((_: EmailConfig) => {
+                delete _.code
+                return _
+              })
+              data = [...data, ...list]
+
               name.push(p.title)
             }
           })
 
-          csvExport({
+          csvExport<EmailConfig>({
             filename: name.join("-"),
-            data: [...data]
+            data
           })
         } else if (action == "delete") {
           await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })

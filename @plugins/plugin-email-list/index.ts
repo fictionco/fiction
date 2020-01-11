@@ -9,6 +9,7 @@ import {
 } from "@factor/api"
 import { Component } from "vue"
 import { endpointRequest } from "@factor/endpoint"
+import { ExportToCsv } from "export-to-csv"
 import { EmailConfig } from "./types"
 const postType = "emailList"
 
@@ -67,16 +68,14 @@ export const deleteEmails = async ({
   return
 }
 
-export const csvExport = ({
+export const csvExport = <T = object>({
   filename,
   data
 }: {
   filename: string;
-  data: object[];
+  data: T[];
 }): void => {
   filename += `-${timestamp()}`
-
-  const ExportToCsv = require("export-to-csv").ExportToCsv
 
   const csvExporter = new ExportToCsv({ filename })
 
