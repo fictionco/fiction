@@ -35,8 +35,7 @@
               :path="item.path"
               :event="item.event"
               :target="item.target"
-              class="mt-0 py-1 px-2 text-xl tracking-relaxed font-semibold transition-all text-purple-900 hover:bg-gray-100 hover:text-purple-500 lg:hover:bg-transparent lg:inline lg:px-3 lg:text-base"
-              :class="navLinkClass()"
+              class="mt-0 py-1 px-2 text-xl font-normal transition-all text-purple-900 hover:bg-gray-100 hover:text-purple-900 lg:hover:bg-transparent lg:inline lg:px-3 lg:text-base lg:hover:text-purple-500"
               @click="isOpen = !isOpen"
             >
               <factor-icon v-if="item.icon" :icon="item.icon" />
@@ -80,19 +79,18 @@ export default Vue.extend({
     },
     headerClasses(this: any) {
       if (this.$route.path != "/") {
-        //return "lg:px-4 lg:py-3"
         return "w-full lg:z-50 lg:justify-between lg:items-center lg:px-4 zeno-header border-b border-gray-200"
       } else {
         return "w-full absolute lg:z-50 lg:justify-between lg:items-center lg:px-4 lg:pt-4 zeno-header"
       }
-    },
-    navLinkClass(this: any) {
-      if (this.$route.path != "/") {
-        return "lg:hover:text-purple-900"
-      } else {
-        return "lg:hover:text-purple-900"
-      }
     }
+    // navLinkClass(this: any) {
+    //   if (this.$route.path != "/") {
+    //     return "lg:hover:text-purple-900"
+    //   } else {
+    //     return "lg:hover:text-purple-900"
+    //   }
+    // }
   }
 })
 </script>

@@ -1,25 +1,25 @@
 <template>
-  <div class="flex justify-center mb-12">
+  <div class="transition-all flex justify-center mb-12">
     <factor-link
-      class="mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg facebook hover:text-white"
+      class="transition-all mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg facebook hover:text-white"
       :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`"
     >
       <factor-icon icon="facebook-f" />
     </factor-link>
     <factor-link
-      class="mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg twitter hover:text-white"
+      class="transition-all mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg twitter hover:text-white"
       :path="`https://twitter.com/intent/tweet?text=${post.title}+${link}`"
     >
       <factor-icon icon="twitter" />
     </factor-link>
     <factor-link
-      class="mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg linkedin hover:text-white"
+      class="transition-all mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg linkedin hover:text-white"
       :path="`https://www.linkedin.com/shareArticle?mini=true&url=${link}`"
     >
       <factor-icon icon="linkedin-in" />
     </factor-link>
     <factor-link
-      class="mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg pinterest hover:text-white"
+      class="transition-all mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg pinterest hover:text-white"
       :path="`https://pinterest.com/pin/create/button/?url=${link}`"
     >
       <factor-icon icon="pinterest" />

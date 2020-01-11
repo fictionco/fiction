@@ -1,6 +1,7 @@
 <template>
   <div class="blog">
     <el-hero
+      :align="`center`"
       :subheadline="setting('blog.pretitle')"
       :headline="setting('blog.title')"
       class="text-center"
@@ -20,24 +21,25 @@
               <div
                 class="blog-promo h-full overflow-hidden flex flex-col justify-center px-8 py-20 rounded-lg shadow-xl bg-cover bg-center bg-purple-900"
               >
-                <div class="custom-uppercase text-purple-400">About Theme Zeno</div>
-                <h1 class="font-bold text-2xl text-gray-300">Built with Factor CMS</h1>
-                <p
-                  class="text-gray-500 mt-2"
-                >Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework.</p>
+                <div class="custom-uppercase text-purple-400">{{ setting('blog.promo.pretitle') }}</div>
+                <h1
+                  class="font-normal tracking-tight text-2xl text-gray-300"
+                >{{ setting('blog.promo.title') }}</h1>
+                <p class="text-gray-500 mt-2">{{ setting('blog.promo.content') }}</p>
                 <factor-link
-                  path="/about"
-                  class="mt-8 self-start btn bg-gray-100 rounded text-purple-500 hover:text-purple-600"
+                  v-if="setting('blog.promo.button.link')"
+                  :path="setting('blog.promo.button.link')"
+                  class="mt-8 self-start"
+                  :class="setting('blog.promo.button.classes')"
                 >
-                  Learn More
+                  {{ setting('blog.promo.button.text') }}
                   <factor-icon icon="angle-right" />
                 </factor-link>
-                <!-- <h1 class="widget-author mt-auto pt-12">Bottom</h1> -->
               </div>
             </div>
 
             <div v-for="post in blogPosts" :key="post._id" class="blog-post w-full p-2 lg:w-1/3">
-              <div class="h-full overflow-hidden flex flex-col rounded shadow-xl bg-white">
+              <div class="h-full overflow-hidden flex flex-col rounded-lg shadow-xl bg-white">
                 <component
                   :is="setting(`blog.components.${_component}`)"
                   v-for="(_component, i) in setting('blog.layout.index')"
@@ -50,7 +52,7 @@
           </div>
           <div v-else class="posts-not-found">
             <div class="text">
-              <div class="font-bold text-2xl">{{ setting("blog.notFound.title") }}</div>
+              <div class="font-normal tracking-tight text-2xl">{{ setting("blog.notFound.title") }}</div>
               <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
             </div>
           </div>

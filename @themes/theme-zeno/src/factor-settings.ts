@@ -1,8 +1,8 @@
 import { Component } from "vue"
 export default {
   headTags: {
-    font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet" />`
-    //font: `<link href="https://fonts.googleapis.com/css?family=Cabin:400,600,700&display=swap" rel="stylesheet" />`
+    //font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet" />`
+    font: `<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />`
   },
   tailwind: {
     config: require("./tailwind.config.js"),
@@ -33,16 +33,16 @@ export default {
         name: "Pricing"
       },
       {
-        path: "/contact",
-        name: "Contact"
-      },
-      {
         path: "/about",
         name: "About"
       },
       {
         path: "/blog",
         name: "Blog"
+      },
+      {
+        path: "/contact",
+        name: "Contact"
       }
     ],
     cta: {
@@ -50,14 +50,8 @@ export default {
       buttons: [
         {
           link: "/contact",
-          text: "Contact Us",
-          classes: "btn bg-purple-500 rounded text-white hover:bg-purple-600"
-        },
-        {
-          link: "/pricing",
-          text: "Pricing",
-          classes:
-            "ml-4 btn btn-ol text-purple-200 border-purple-200 hover:text-purple-100 hover:border-purple-100" //"factor-link btn rounded border border-purple-300 text-purple-300 ml-4 hover:text-purple-100 hover:border-purple-300"
+          text: "Free Consultation",
+          classes: "btn bg-gray-100 rounded text-purple-500 hover:bg-gray-300"
         }
       ],
       figure: require("./img/cloud-with-shadow.svg"),
@@ -72,10 +66,9 @@ export default {
       image: require("./img/logo-zeno.jpg")
     },
     intro: {
-      pretitle: "Grow Your Business, Not Infrastructure.",
-      title: `<span class="underline">Grow Your Business</span>, Not Infrastructure.`,
+      title: "Welcome to Zeno, <br>Innovation via Automation",//`<span class="underline">Grow Your Business</span>, Not Infrastructure.`,
       content:
-        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Styles are powered by Tailwind, a low-level CSS framework.",
+        "Zeno is a minimalist theme suited for the needs of cloud service and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
       buttons: [
         {
           link: "/contact",
@@ -115,8 +108,6 @@ export default {
     },
     solutions: {
       id: "solutions",
-      // title: "Solutions",
-      // titleFigure: require("./img/squares.svg"),
       items: [
         {
           icon: require("./img/plan.svg"),
@@ -135,17 +126,17 @@ export default {
         },
         {
           icon: require("./img/build.svg"),
-          title: "Something",
+          title: "Automation",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/manage.svg"),
-          title: "Else",
+          title: "Cloud",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/plan.svg"),
-          title: "Placeholder",
+          title: "Security",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
       ]
@@ -239,18 +230,34 @@ export default {
     }
   },
   about: {
-    meta: {
-      title: "About - Factor Zeno Theme",
-      description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
-      image: require("./img/logo-zeno.jpg")
-    },
-    intro: {
-      pretitle: "About Us",
+    hero: {
+      pretitle: "About Theme Zeno",
       title:
-        "Zeno is a DevOps as a service company which builds, optimizes, secures and supports your cloud.",
-      backgroundImage: require("./img/stars-50.svg")
+        "Built with Factor CMS",
+      content:
+        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework."
     },
+    valuesTitle: "A technology company with core values:",
+    values: [
+      {
+        title: "Simplicity",
+        content: "Do more with less. Given the choice, choose minimization over maximization."
+      },
+      {
+
+        title: "Karma",
+        content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+      },
+      {
+
+        title: "Humility",
+        content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+      },
+      {
+        title: "Trust",
+        content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+      }
+    ],
     team: {
       title: "Leadership",
       members: [
@@ -287,15 +294,15 @@ export default {
     location: {
       title: "Based in music city; Nashville, Tennessee.",
       figure: (): Promise<Component> => import("./el/figure-location.vue")
-    }
-  },
-  pricing: {
+    },
     meta: {
-      title: "Pricing - Factor Zeno Theme",
+      title: "About - Factor Zeno Theme",
       description:
         "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
       image: require("./img/logo-zeno.jpg")
-    },
+    }
+  },
+  pricing: {
     intro: {
       pretitle: "Pricing that scales with your business.",
       title: `Choose the right plan for your business.`,
@@ -331,7 +338,7 @@ export default {
         buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
       },
       {
-        classes: "border border-purple-400 bg-purple-100",
+        classes: "border border-purple-400 bg-purple-100 -mt-24",
         name: "Micro",
         description: "Great value for growing businesses",
         list: [
@@ -437,15 +444,15 @@ export default {
           content: `Unfortunately not. ACH debit is only supported by US bank accounts.`
         }
       ]
-    }
-  },
-  contact: {
+    },
     meta: {
-      title: "Contact - Factor Zeno Theme",
+      title: "Pricing - Factor Zeno Theme",
       description:
         "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
       image: require("./img/logo-zeno.jpg")
-    },
+    }
+  },
+  contact: {
     hero: {
       pretitle: "Contact Us",
       title: "Give us a shout. Let us know how we can help.",
@@ -459,12 +466,16 @@ export default {
         "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
       figure: require("./img/cloud-with-shadow.svg"),
       backgroundImage: require("./img/stars-50.svg")
+    },
+    meta: {
+      title: "Contact - Factor Zeno Theme",
+      description:
+        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+      image: require("./img/logo-zeno.jpg")
     }
   },
   contactForm: {
     submit: {
-      btn: "btn bg-teal-500 text-purple-700 hover:bg-teal-600",
-      size: "",
       text: "Contact"
     },
     inputFormat: "vertical",
@@ -474,59 +485,23 @@ export default {
     },
     layout: [
       {
-        label: "Plan Interest",
-        labelClasses: "font-bold leading-tight text-xl text-purple-900",
-        _id: "plan",
-        inputType: "select",
-        inputClasses: `bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical`,
-        required: true,
-        list: [
-          {
-            value: "unsure",
-            name: "unsure"
-          },
-          {
-            value: "nano",
-            name: "Nano"
-          },
-          {
-            value: "micro",
-            name: "Micro"
-          },
-          {
-            value: "mega",
-            name: "Mega"
-          }
-        ]
-      },
-      {
         label: "Name",
-        labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "name",
         inputType: "text",
-        classesInput: `thenewstuff`,
-        inputClasses:
-          "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "Full Name",
         required: true
       },
       {
         label: "Work Email",
-        labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "email",
         inputType: "email",
-        inputClasses:
-          "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "name@example.com",
         required: true
       },
       {
         label: "Message",
-        labelClasses: "font-bold leading-tight text-xl text-purple-900",
         _id: "message",
         inputType: "textarea",
-        inputClasses:
-          "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal is-required vertical",
         placeholder: "how can we help?",
         required: true
       }
@@ -540,11 +515,23 @@ export default {
     ,
     indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 6,
+    limit: 3,
     returnLinkText: "Back",
     notFound: {
       title: "No Posts",
       subTitle: "Couldn't find any blog posts."
+    },
+    promo: {
+      pretitle: "Built with Factor CMS",
+      title:
+        "About Theme Zeno",
+      content:
+        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework.",
+      button: {
+        link: "/about",
+        text: "Learn More",
+        classes: "btn bg-gray-100 rounded text-purple-500 hover:text-purple-600"
+      }
     },
     components: {
       blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
@@ -591,12 +578,12 @@ export default {
         name: "About"
       },
       {
-        path: "/contact",
-        name: "Contact"
-      },
-      {
         path: "/blog",
         name: "Blog"
+      },
+      {
+        path: "/contact",
+        name: "Contact"
       },
       {
         path: "https://twitter.com/",
@@ -604,7 +591,7 @@ export default {
         target: "_blank"
       }
     ],
-    left: `Built with <i class="fa fa-heart"></i> Factor CMS.`,
+    left: `Built with <i class="fa fa-heart"></i>`,
     right:
       "<p>&copy; 2020 <a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a></p>",
     figure: require("./img/cloud-with-shadow.svg"),

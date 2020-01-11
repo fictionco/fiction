@@ -3,12 +3,11 @@
     <section class="home-hero pt-12 lg:pt-0">
       <div class="home-hero-img hidden lg:block bg-purple-900" />
       <div class="px-16 mx-auto">
-        <!-- <h3 class="custom-uppercase text-purple-500 lg:text-base">{{ introPretitle }}</h3> -->
         <h1
           v-formatted-text="introTitle"
-          class="font-bold leading-tight text-3xl mt-2 text-purple-900 lg:text-5xl"
+          class="font-normal tracking-tight leading-tight text-3xl mt-2 text-purple-900 lg:text-5xl"
         />
-        <div v-formatted-text="introContent" class="mt-2 text-lg lg:text-xl" />
+        <div v-formatted-text="introContent" class="mt-2 text-lg text-gray-600 lg:text-xl" />
         <div class="mt-8">
           <template v-for="(button, index) in introButtons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
@@ -20,7 +19,7 @@
       </div>
     </section>
 
-    <section class="section-2 bg-gray-100 px-8 pt-12 pb-16">
+    <section class="section-2 bg-gray-100 px-8 py-12">
       <div class="max-w-6xl mx-auto">
         <h1 class="custom-uppercase text-center text-purple-500">{{ clientsTitle }}</h1>
         <div class="flex flex-wrap items-center mt-8">
@@ -52,7 +51,7 @@
         >
           <div class="p-10">
             <img :src="item.icon" :alt="item.title" />
-            <h2 class="font-bold text-2xl text-purple-900 mt-5">{{ item.title }}</h2>
+            <h2 class="font-normal tracking-tight text-3xl text-purple-900 mt-5">{{ item.title }}</h2>
             <div v-if="item.content" class="text-lg text-gray-600">{{ item.content }}</div>
           </div>
         </div>
@@ -63,8 +62,13 @@
       <div class="max-w-6xl mx-auto flex flex-col py-8 md:flex-row lg:pt-12 lg:pb-24">
         <div class="flex flex-col p-8 justify-center md:w-3/5">
           <h3 class="custom-uppercase text-purple-500">{{ devopsPretitle }}</h3>
-          <h1 class="font-bold text-3xl lg:text-4xl text-purple-900">{{ devopsTitle }}</h1>
-          <div v-formatted-text="devopsContent" class="mt-2 text-base leading-relaxed lg:text-xl" />
+          <h1
+            class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
+          >{{ devopsTitle }}</h1>
+          <div
+            v-formatted-text="devopsContent"
+            class="mt-2 text-base leading-relaxed text-gray-600 lg:text-xl"
+          />
           <div class="mt-8">
             <template v-for="(button, index) in devopsButtons">
               <factor-link :key="index" :path="button.link" :class="button.classes">
@@ -97,9 +101,12 @@
           <div class="pb-12 md:w-full">
             <h3 class="custom-uppercase text-center text-purple-500">{{ infrPretitle }}</h3>
             <div class="flex items-center justify-center">
-              <h1 class="font-bold text-center text-3xl lg:text-4xl text-purple-900">
+              <h1
+                class="font-normal tracking-tight text-center text-3xl lg:text-4xl text-purple-900"
+              >
                 {{ infrTitle }}
                 <img
+                  v-if="infrTitleIcon"
                   :src="infrTitleIcon"
                   :alt="infrTitle"
                   class="inline-block lg:ml-2"
@@ -109,11 +116,11 @@
           </div>
           <div class="relative z-10 pb-8 md:pb-0 md:pr-8 md:w-3/5">
             <template v-for="(item, index) in infrItems">
-              <div :key="index" class="mb-20 p-10 rounded bg-white custom-card-left">
+              <div :key="index" class="mb-20 p-10 transition-all rounded bg-white custom-card-left">
                 <img :src="item.image" :alt="item.alt" />
                 <div
                   v-formatted-text="item.content"
-                  class="text-base mt-4 leading-relaxed lg:text-xl"
+                  class="text-base mt-4 leading-relaxed text-gray-600 lg:text-xl"
                 />
               </div>
             </template>
@@ -130,7 +137,7 @@
         <div class="max-w-xs mx-auto">
           <h3 class="custom-uppercase text-center text-purple-500">{{ testimonialsPretitle }}</h3>
           <h1
-            class="mt-2 font-bold text-3xl text-center leading-tight text-purple-900 lg:text-4xl"
+            class="mt-2 text-normal tracking-tight leading-tight text-3xl text-center text-purple-900 lg:text-4xl"
           >{{ testimonialsTitle }}</h1>
         </div>
         <div class="flex flex-col text-base mt-6 md:flex-row lg:text-xl">
@@ -138,7 +145,7 @@
             <div :key="index" class="flex-1 px-8 pt-8">
               <blockquote class="relative inline-block quote">
                 <span class="absolute text-5xl text-gray-400 -ml-6 -mt-6">&ldquo;</span>
-                <span v-formatted-text="item.content" class="leading-relaxed" />
+                <span v-formatted-text="item.content" class="leading-relaxed text-gray-600" />
               </blockquote>
               <footer class="flex items-center mt-4">
                 <img

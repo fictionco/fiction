@@ -7,7 +7,9 @@
           :post-id="postId"
           class="custom-uppercase text-purple-400 pt-6"
         />
-        <h1 class="pt-2 tracking-tight leading-tight font-bold text-3xl text-gray-100 md:text-5xl">
+        <h1
+          class="pt-2 font-normal tracking-tight leading-tight text-3xl text-gray-100 md:text-5xl"
+        >
           <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
         </h1>
 
@@ -40,10 +42,8 @@
       v-if="avatarUrl"
       :src="avatarUrl"
       :alt="post.title"
-      class="max-w-full my-12 bg-cover bg-center bg-no-repeat lg:max-w-4xl lg:mx-auto"
+      class="max-w-full mb-12 bg-cover bg-center bg-no-repeat md:my-12 md:max-w-4xl md:mx-auto"
     />
-
-    <!-- <div class="max-w-4xl mx-auto bg-cover bg-center bg-no-repeat" :style="featuredImage" /> -->
   </div>
 </template>
 <script lang="ts">
@@ -101,43 +101,6 @@ export default Vue.extend({
     .header-bg {
       background-image: url(../img/light-pattern.svg);
     }
-
-    // .entry-header-inner {
-    //   position: relative;
-    //   align-items: center;
-    //   padding: 3em 3em 0;
-    //   @media (max-width: 1024px) {
-    //     grid-template-columns: 1fr;
-    //   }
-    //   @media (max-width: 767px) {
-    //     padding: 0 1em;
-    //   }
-    //   .return-link {
-    //     font-size: 1.1em;
-    //     text-transform: uppercase;
-    //   }
-    //   .entry-title {
-    //     font-weight: var(--font-weight-bold, 800);
-    //     font-size: 3em;
-    //     letter-spacing: -0.03em;
-    //     margin: 0.3em 0;
-    //     @media (max-width: 767px) {
-    //       font-size: 2em;
-    //     }
-    //   }
-    //   .edit {
-    //     display: block;
-    //     font-size: 1rem;
-    //     line-height: 1em;
-    //     letter-spacing: initial;
-    //     margin: 0.5em 0;
-    //   }
-    //   .entry-synopsis {
-    //     font-size: 1.2em;
-    //     line-height: 1.6em;
-    //     opacity: 0.5;
-    //   }
-    // }
   }
 }
 </style>

@@ -5,7 +5,7 @@
       class="flex justify-between no-underline text-xl text-purple-900 px-6 py-4 hover:text-purple-500 hover:bg-white active:text-purple-500"
       @click.prevent="active = !active"
     >
-      <span class="font-bold">{{ title }}</span>
+      <span class="font-semibold leading-tight tracking-tight">{{ title }}</span>
       <span v-show="!active" class="ml-4">
         <factor-icon icon="plus" />
       </span>
@@ -13,7 +13,7 @@
         <factor-icon icon="minus" />
       </span>
     </a>
-    <div v-show="active" class="px-6 pb-6">
+    <div v-show="active" class="px-6 pb-6 text-gray-600">
       <slot />
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="post-entry text-xl leading-relaxed max-w-3xl mx-auto mb-4">
+  <div class="post-entry text-xl leading-relaxed max-w-3xl mx-auto mb-4 px-8">
     <factor-highlight-code>
       <div v-formatted-text="rendered" />
     </factor-highlight-code>

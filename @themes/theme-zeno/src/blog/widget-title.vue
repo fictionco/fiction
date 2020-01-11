@@ -2,7 +2,7 @@
   <div>
     <h1 class="entry-title pt-2 px-8">
       <factor-link
-        class="font-bold text-xl leading-tight text-purple-900 mt-5 hover:text-purple-500"
+        class="font-normal tracking-tight leading-tight text-2xl text-purple-900 mt-5 hover:text-purple-500"
         :path="postLink(post._id)"
       >{{ post.title }}</factor-link>
       <factor-post-edit

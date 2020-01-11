@@ -1,9 +1,10 @@
 <template>
   <div>
     <el-hero
+      :align="`center`"
       :subheadline="setting('contact.hero.pretitle')"
       :headline="setting('contact.hero.title')"
-      class="text-left"
+      class="text-center pb-24 md:pb-32"
     >
       <template v-slot:hero-content>
         <div v-formatted-text="setting('contact.hero.content')" class="content entry-content" />
@@ -11,8 +12,11 @@
     </el-hero>
 
     <section class="bg-gray-100 bg-repeat-x">
-      <div class="max-w-4xl mx-auto py-8">
-        <component :is="setting('contactForm.form')" class="bg-white shadow-lg rounded-lg p-8" />
+      <div class="max-w-4xl mx-auto p-8">
+        <component
+          :is="setting('contactForm.form')"
+          class="bg-white shadow-lg rounded-lg -mt-24 p-8"
+        />
       </div>
     </section>
   </div>
@@ -42,3 +46,21 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="less">
+//Overwrite plugin styles
+.contact-form .input-wrap .label {
+  //font-size: 1.2rem;
+  @apply font-normal leading-tight text-lg text-purple-900;
+}
+.contact-form input,
+.contact-form textarea {
+  @apply border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
+  //focus:outline-none focus:shadow-outline
+}
+.contact-form {
+  .form-submit button {
+    @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded text-purple-100 bg-purple-500;
+  }
+}
+</style>

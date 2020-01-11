@@ -2,8 +2,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Source Sans Pro', 'sans - serif']
-        //sans: ['Cabin', 'sans-serif']
+        //sans: ['Source Sans Pro', 'sans-serif']
+        sans: ['Maven Pro', 'sans-serif']
       },
       listStyleType: {
         square: 'square',

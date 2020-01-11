@@ -1,46 +1,24 @@
 <template>
-  <div class="bg-gray-100">
-    <el-hero
-      :align="`left`"
-      :subheadline="setting('about.hero.pretitle')"
-      :headline="setting('about.hero.title')"
-      class="text-left pb-24"
-    >
-      <template v-slot:hero-content>
-        <div v-formatted-text="setting('about.hero.content')" class="content entry-content" />
-      </template>
-    </el-hero>
-
-    <section class="pb-16">
-      <div class="max-w-6xl mx-auto">
-        <div class="max-w-4xl px-8 relative md:z-10">
-          <div class="inline-block -mt-12 px-8 py-6 rounded-lg bg-white shadow-lg md:-mt-12">
-            <h2
-              class="font-normal tracking-tight leading-tight text-3xl text-purple-500"
-            >{{ setting('about.valuesTitle') }}</h2>
-          </div>
-        </div>
-        <div class="px-8 max-w-5xl ml-auto">
-          <div
-            class="rounded-lg mt-8 p-8 md:-mt-8 border border-purple-500 md:pt-12 flex flex-col md:flex-row md:flex-wrap"
-          >
-            <div
-              v-for="(item, index) in setting('about.values')"
-              :key="index"
-              class="w-full my-2 md:w-1/2"
-            >
-              <h2 class="font-normal tracking-tight text-2xl text-purple-900">{{ item.title }}</h2>
-              <div v-if="item.content" class="text-lg text-gray-600">{{ item.content }}</div>
-            </div>
-          </div>
-        </div>
+  <div>
+    <section class="bg-gray-100 flex items-center" :style="introBackground">
+      <div class="max-w-2xl mx-auto text-center px-8 py-32">
+        <h3 class="custom-uppercase text-purple-500">{{ introPretitle }}</h3>
+        <h1
+          class="mt-1 font-bold leading-tight text-3xl lg:text-4xl text-purple-900"
+        >{{ introTitle }}</h1>
       </div>
     </section>
 
-    <section>
-      <div class="flex flex-col items-center team-zeno bg-cover bg-center bg-white">
+    <section class="bg-gray-100 pb-16">
+      <div class="bg-purple-900 pt-8 pb-24 md:pt-16 md:pb-32 px-8">
+        <squares-title :title="teamTitle" class="text-center" />
+      </div>
+      <div class="flex flex-col items-center -mt-24">
         <template v-for="(member, index) in teamMembers">
-          <div :key="index" class="sm:flex w-11/12 p-6 mt-8 md:w-10/12 lg:w-8/12 lg:p-10 xl:w-7/12">
+          <div
+            :key="index"
+            class="sm:flex w-11/12 p-6 mt-8 bg-white shadow-lg md:w-10/12 lg:w-8/12 lg:p-10 xl:w-7/12"
+          >
             <div class="w-full sm:w-4/12">
               <img :src="member.photo" :alt="member.name" class="rounded mx-auto" />
               <div class="flex justify-center mt-4 text-2xl">
@@ -58,7 +36,7 @@
             </div>
             <div class="w-full mt-6 sm:mt-0 sm:pl-10 sm:w-8/12">
               <h2 class="custom-uppercase text-purple-500">{{ member.title }}</h2>
-              <h1 class="font-normal tracking-tight text-4xl text-purple-900">{{ member.name }}</h1>
+              <h1 class="font-bold text-3xl text-purple-900">{{ member.name }}</h1>
               <div
                 v-formatted-text="member.content"
                 class="mt-2 text-base leading-relaxed lg:text-xl"
@@ -69,10 +47,10 @@
       </div>
     </section>
 
-    <!-- <section class="max-w-6xl mx-auto py-8 lg:py-12 bg-white">
+    <section class="max-w-6xl mx-auto py-8 lg:py-12 bg-white">
       <h1 class="font-bold text-3xl text-center text-purple-900 lg:text-4xl">{{ locationTitle }}</h1>
       <component :is="locationFigure" />
-    </section>-->
+    </section>
 
     <site-cta />
   </div>
@@ -87,7 +65,7 @@ export default Vue.extend({
   components: {
     factorIcon,
     factorLink,
-    "el-hero": () => import("./el/hero.vue"),
+    "squares-title": () => import("./el/squares-title.vue"),
     "site-cta": () => import("./el/cta.vue")
   },
   data() {
@@ -116,9 +94,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="less">
-.team-zeno {
-  background-image: url(./img/lighter-pattern.svg);
-}
-</style>
