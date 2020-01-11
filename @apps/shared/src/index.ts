@@ -20,6 +20,22 @@ const notifySlack = async ({
   return
 }
 
+const addOrUpdateActiveCampaignContact = async (contact: {
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string | number;
+}): Promise<void> => {
+  await axios.request({
+    url: "https://fiction41560.api-us1.com/api/3/contact/sync",
+    method: "post",
+    headers: { "Api-Token": process.env.ACTIVE_CAMPAIGN_KEY },
+    data: { contact }
+  })
+
+  return
+}
+
 const slack = async (): Promise<void> => {
   if (process.env.SLACK_NOTIFY_URL) {
     // Track email sign up events
@@ -46,6 +62,10 @@ const slack = async (): Promise<void> => {
           data: { text }
         })
 
+        // Add new contact to email marketing
+        addOrUpdateActiveCampaignContact({ email })
+
+        // Invite to slack
         const { data } = await axios.request({
           method: "get",
           url: encodeURI(
