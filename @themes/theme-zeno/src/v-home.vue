@@ -13,7 +13,7 @@
           <template v-for="(button, index) in introButtons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
               {{ button.text }}
-              <factor-icon icon="arrow-right ml-4" />
+              <factor-icon icon="angle-right" />
             </factor-link>
           </template>
         </div>
@@ -52,8 +52,8 @@
         >
           <div class="p-10">
             <img :src="item.icon" :alt="item.title" />
-            <h2 class="font-bold text-3xl text-purple-900 mt-5">{{ item.title }}</h2>
-            <div v-if="item.content" class="text-lg mt-4 text-gray-600">{{ item.content }}</div>
+            <h2 class="font-bold text-2xl text-purple-900 mt-5">{{ item.title }}</h2>
+            <div v-if="item.content" class="text-lg text-gray-600">{{ item.content }}</div>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
             <template v-for="(button, index) in devopsButtons">
               <factor-link :key="index" :path="button.link" :class="button.classes">
                 {{ button.text }}
-                <factor-icon icon="arrow-right ml-4" />
+                <factor-icon icon="angle-right" />
               </factor-link>
             </template>
           </div>
@@ -163,10 +163,11 @@
 
 <script lang="ts">
 import { setting } from "@factor/api"
-import { factorLink, factorIcon } from "@factor/ui"
+import { factorBtn, factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
+    factorBtn,
     factorLink,
     factorIcon,
     "squares-title": () => import("./el/squares-title.vue"),
@@ -238,12 +239,6 @@ export default Vue.extend({
   }
 }
 .section-3 {
-  .new {
-    transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-    &:hover {
-      box-shadow: inset 0px 0px 15px rgba(0, 0, 0, 0.2);
-    }
-  }
   &:after {
     position: absolute;
     top: auto;

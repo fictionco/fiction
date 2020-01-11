@@ -1,6 +1,6 @@
 <template>
   <div class="widget-date pt-8 px-8">
-    <span class="text-base text-gray-600">{{ standardDate(post.date) }}</span>
+    <span class="text-sm text-gray-600">{{ standardDate(post.date) }}</span>
   </div>
 </template>
 <script lang="ts">

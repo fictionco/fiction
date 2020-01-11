@@ -2,9 +2,13 @@
   <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
     <div class="h-56 bg-cover bg-center bg-no-repeat" :style="style" />
   </factor-link>
-  <div v-else class="featured-image-wrap">
-    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image" />
-  </div>
+
+  <div
+    v-else
+    class="featured-image min-h-full h-screen bg-cover bg-center bg-no-repeat"
+    :style="style"
+  />
+  <!-- <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="h-64" /> -->
 </template>
 <script lang="ts">
 import { postLink, stored } from "@factor/api"
@@ -42,26 +46,41 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .plugin-blog {
-  .single-entry {
-    .featured-image-wrap {
-      max-width: 1000px;
-      position: relative;
-      z-index: 1;
-      margin: 2em auto;
-      padding: 0 2em;
+  // .featured-image {
+  //   &:after {
+  //     position: absolute;
+  //     top: auto;
+  //     right: 0;
+  //     bottom: 0;
+  //     left: 0;
+  //     content: "";
+  //     display: block;
+  //     width: 100%;
+  //     height: 30%;
+  //     clip-path: polygon(100% 60%, 0 100%, 100% 100%);
+  //     background: #fff;
+  //   }
+  // }
+  // .single-entry {
+  //   .featured-image-wrap {
+  //     max-width: 1000px;
+  //     position: relative;
+  //     z-index: 1;
+  //     margin: 2em auto;
+  //     padding: 0 2em;
 
-      .featured-image {
-        display: block;
-        width: 100%;
-        box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-          0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
-        border-radius: 4px;
-      }
+  //     .featured-image {
+  //       display: block;
+  //       width: 100%;
+  //       box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
+  //         0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+  //       border-radius: 4px;
+  //     }
 
-      @media (max-width: 767px) {
-        margin: 0 auto;
-      }
-    }
-  }
+  //     @media (max-width: 767px) {
+  //       margin: 0 auto;
+  //     }
+  //   }
+  // }
 }
 </style>
