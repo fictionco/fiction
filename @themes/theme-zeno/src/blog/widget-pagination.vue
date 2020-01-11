@@ -1,20 +1,12 @@
 <template>
-  <div class="paginationOLD max-w-6xl mx-auto">
+  <div class="max-w-6xl mx-auto">
     <!-- <div class="items">{{ count }} Items</div> -->
     <div class="flex justify-center align-center mt-4">
-      <factor-btn
-        v-if="pageCurrent > 1"
-        class="bg-purple-500 rounded text-white hover:bg-purple-600 mr-1"
-        @click="page('previous')"
-      >
+      <factor-btn v-if="pageCurrent > 1" :class="`primary mr-1`" @click="page('previous')">
         <factor-icon icon="angle-left" />
         <span class="custom-uppercase">Prev</span>
       </factor-btn>
-      <factor-btn
-        v-if="pageCurrent < pageCount"
-        class="bg-purple-500 rounded text-white hover:bg-purple-600 ml-1"
-        @click="page('next')"
-      >
+      <factor-btn v-if="pageCurrent < pageCount" class="primary ml-1" @click="page('next')">
         <span class="custom-uppercase">Next</span>
         <factor-icon icon="angle-right" />
       </factor-btn>
@@ -68,30 +60,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="less">
-.plugin-blog {
-  .pagination {
-    // max-width: 48rem;
-    // margin: 0 auto;
-    // display: flex;
-    // align-items: center;
-    @media (max-width: 767px) {
-      justify-content: flex-end;
-      .items,
-      .sep {
-        display: none;
-      }
-    }
-    > * {
-      margin: 0 5px;
-    }
-    .sep {
-      opacity: 0.4;
-    }
-    .factor-btn {
-      padding: 0.5em;
-    }
-  }
-}
-</style>

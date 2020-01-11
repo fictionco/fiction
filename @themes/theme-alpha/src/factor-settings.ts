@@ -184,7 +184,7 @@ export default {
   blog: {
     indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 2,
+    limit: 6,
     returnLinkText: "Back",
     headline: "Alpha Blog",
     subheadline: "Discover The Latest",

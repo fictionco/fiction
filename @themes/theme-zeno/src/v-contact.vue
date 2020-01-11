@@ -1,25 +1,22 @@
 <template>
   <div>
-    <section class="bg-gray-100 bg-repeat-x" :style="introBackground">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-col py-8 md:flex-row lg:py-12">
-          <div class="flex flex-col justify-center p-8 md:w-1/2">
-            <h3 class="custom-uppercase text-purple-500">{{ introPretitle }}</h3>
-            <h1
-              class="font-bold leading-tight text-3xl lg:text-4xl text-purple-900"
-            >{{ introTitle }}</h1>
-            <div v-formatted-text="introContent" class="mt-2 text-base lg:text-xl" />
-          </div>
-          <div class="relative p-8 md:w-1/2">
-            <figure class="absolute top-0 right-0 z-20 mr-10 -mt-2">
-              <img :src="introFigure" :alt="introPretitle" />
-            </figure>
-            <component
-              :is="setting('contactForm.form')"
-              class="mt-8 bg-white shadow-lg rounded-lg p-8"
-            />
-          </div>
-        </div>
+    <el-hero
+      :align="`center`"
+      :subheadline="setting('contact.hero.pretitle')"
+      :headline="setting('contact.hero.title')"
+      class="text-center pb-24 md:pb-32"
+    >
+      <template v-slot:hero-content>
+        <div v-formatted-text="setting('contact.hero.content')" class="content entry-content" />
+      </template>
+    </el-hero>
+
+    <section class="bg-gray-100 bg-repeat-x">
+      <div class="max-w-4xl mx-auto p-8">
+        <component
+          :is="setting('contactForm.form')"
+          class="bg-white shadow-lg rounded-lg -mt-24 p-8"
+        />
       </div>
     </section>
   </div>
@@ -29,16 +26,12 @@
 import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
+  components: {
+    "el-hero": () => import("./el/hero.vue")
+  },
   data() {
     return {
-      loading: true,
-      introPretitle: setting("contact.intro.pretitle"),
-      introTitle: setting("contact.intro.title"),
-      introBackground: {
-        backgroundImage: `url(${setting("contact.intro.backgroundImage")})`
-      },
-      introContent: setting("contact.intro.content"),
-      introFigure: setting("contact.intro.figure")
+      loading: true
     }
   },
   methods: {
@@ -53,3 +46,21 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style lang="less">
+//Overwrite plugin styles
+.contact-form .input-wrap .label {
+  //font-size: 1.2rem;
+  @apply font-normal leading-tight text-lg text-purple-900;
+}
+.contact-form input,
+.contact-form textarea {
+  @apply border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
+  //focus:outline-none focus:shadow-outline
+}
+.contact-form {
+  .form-submit button {
+    @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded text-purple-100 bg-purple-500;
+  }
+}
+</style>

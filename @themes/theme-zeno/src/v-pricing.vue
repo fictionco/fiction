@@ -14,8 +14,10 @@
       <div class="flex flex-col md:flex-row">
         <template v-for="(item, index) in pricingPackages">
           <div :key="index" class="mt-8 w-full text-center md:w-4/12">
-            <h1 class="font-bold text-3xl leading-tight text-purple-500 lg:text-4xl">{{ item.name }}</h1>
-            <p>{{ item.description }}</p>
+            <h1
+              class="font-semibold tracking-tight leading-tight text-3xl text-purple-900 lg:text-4xl"
+            >{{ item.name }}</h1>
+            <p class="text-gray-600">{{ item.description }}</p>
             <ul
               :class="item.classes"
               class="my-6 p-4 text-base border rounded-lg transition-all md:m-6 lg:text-lg"
@@ -24,7 +26,7 @@
                 <li :key="i" class="py-4" :class="listItem.classes">
                   <template v-if="listItem.contentLarge">
                     <div
-                      class="text-3xl font-bold leading-tight text-purple-900"
+                      class="text-3xl font-normal tracking-tight leading-tight text-purple-900"
                     >{{ listItem.contentLarge }}</div>
                   </template>
                   <span v-formatted-text="listItem.content" />
@@ -48,7 +50,9 @@
 
     <section class="py-8 lg:py-12 bg-gray-100">
       <div class="max-w-3xl mx-auto">
-        <h3 class="font-bold text-center text-3xl lg:text-4xl text-purple-900">{{ faqTitle }}</h3>
+        <h3
+          class="font-normal leading-tight tracking-tight text-center text-3xl lg:text-4xl text-purple-900"
+        >{{ faqTitle }}</h3>
         <div class="mt-6 mx-6">
           <template v-for="(question, ind) in questions">
             <el-accordion :key="ind" :title="question.title">
@@ -61,6 +65,7 @@
         </div>
       </div>
     </section>
+    <site-cta />
   </div>
 </template>
 <script lang="ts">
@@ -73,7 +78,8 @@ export default Vue.extend({
     factorLink,
     factorIcon,
     "el-hero": () => import("./el/hero.vue"),
-    "el-accordion": () => import("./el/accordion.vue")
+    "el-accordion": () => import("./el/accordion.vue"),
+    "site-cta": () => import("./el/cta.vue")
   },
   data() {
     return {
