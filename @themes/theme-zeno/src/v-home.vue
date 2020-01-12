@@ -129,18 +129,18 @@
             class="mt-2 text-normal tracking-tight leading-tight text-3xl text-center text-purple-900 lg:text-4xl"
           >{{ testimonialsTitle }}</h1>
         </div>
-        <div class="flex flex-col text-base mt-6 md:flex-row lg:text-xl">
+        <div class="flex flex-col text-base mt-6 md:flex-row md:flex-wrap lg:text-xl">
           <template v-for="(item, index) in testimonialsItems">
-            <div :key="index" class="flex-1 px-8 pt-8">
-              <blockquote class="relative inline-block quote">
-                <span class="absolute text-5xl text-gray-400 -ml-6 -mt-6">&ldquo;</span>
+            <div :key="index" class="w-full p-8 md:w-1/2">
+              <blockquote class="relative inline-block">
+                <span class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6">&ldquo;</span>
                 <span v-formatted-text="item.content" class="leading-relaxed text-gray-600" />
               </blockquote>
-              <footer class="flex items-center mt-4">
+              <footer class="flex items-center mt-6">
                 <img
                   :src="item.image"
                   :alt="item.author + ' - ' + item.info"
-                  class="rounded-full h-10 w-10 md:h-16 md:w-16"
+                  class="rounded-full h-10 w-10 ml-auto shadow-lg md:h-16 md:w-16"
                 />
                 <div class="ml-4 text-base">
                   <cite class="block">{{ item.author }}</cite>

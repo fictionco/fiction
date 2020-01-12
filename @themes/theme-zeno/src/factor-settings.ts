@@ -110,17 +110,17 @@ export default {
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: require("./img/build.svg"),
+          icon: require("./img/gears.svg"),
           title: "Automation",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: require("./img/manage.svg"),
+          icon: require("./img/clouds.svg"),
           title: "Cloud",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: require("./img/plan.svg"),
+          icon: require("./img/security.svg"),
           title: "Security",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
@@ -166,23 +166,16 @@ export default {
       items: [
         {
           content: `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
-          image: require("./img/client.svg"),
-          author: "Will Norton",
-          info: "CEO, SimplyAgree"
+          image: require("./img/member4.jpg"),
+          author: "Kate Brennan",
+          info: "CEO, Lorem ipsum"
         },
         {
           content:
             "@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
-          image: require("./img/client.svg"),
-          author: "Will Norton",
-          info: "CEO, SimplyAgree"
-        },
-        {
-          content:
-            "@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
-          image: require("./img/client.svg"),
-          author: "Will Norton",
-          info: "CEO, SimplyAgree"
+          image: require("./img/member3.jpg"),
+          author: "Sebastian Hodges",
+          info: "CEO, SedLaudantium"
         }
       ]
     },
