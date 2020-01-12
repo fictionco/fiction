@@ -14,10 +14,8 @@ body{
   @apply font-sans font-semibold text-sm mb-2 leading-tight tracking-widest uppercase;
 }
 .custom-card-left{
-  /* transform: scale(1) perspective(2040px) rotateY(13deg) rotateX(2deg) rotate(-2deg) translateZ(0); */
   transform: scale(1) perspective(3040px) rotateY(13deg) rotateX(2deg) rotate(-2deg) translateZ(0);
   box-shadow: 0 55px 80px -40px rgba(0,0,0,.35);
-  /* box-shadow: 1px 1px 4px 0 rgba(26,26,67,.1), -15px 15px 15px -25px rgba(50,50,93,.3), -9px 19px 75px -37.5px rgba(0,0,0,.3); */
 }
 .custom-card-left:hover{
   transform:none;

@@ -448,7 +448,7 @@ export default {
     ,
     indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 3,
+    limit: 6,
     returnLinkText: "Back",
     notFound: {
       title: "No Posts",
