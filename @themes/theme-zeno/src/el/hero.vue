@@ -6,7 +6,7 @@
         class="max-w-2xl font-normal tracking-tight leading-tight text-3xl text-gray-100 lg:text-5xl"
         :class="alignment"
       >{{ headline }}</h1>
-      <div class="max-w-2xl mt-2 text-base text-gray-600 lg:text-xl" :class="alignment">
+      <div class="max-w-2xl mt-2 text-base text-gray-500 lg:text-xl" :class="alignment">
         <slot name="hero-content" />
       </div>
     </div>
@@ -29,13 +29,6 @@ export default Vue.extend({
         return ""
       }
     }
-    // contentWidth(this: any) {
-    //   if (this.align != "center") {
-    //     return ""
-    //   } else {
-    //     return "mx-auto max-w-6xl"
-    //   }
-    // }
   }
 })
 </script>

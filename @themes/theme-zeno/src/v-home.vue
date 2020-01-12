@@ -78,24 +78,11 @@
             </template>
           </div>
         </div>
-        <!-- <div class="flex flex-col items-center p-8 mt-8 rounded bg-gray-100 md:w-2/5">
-          <ul
-            class="flex items-center flex-wrap font-normal list-inside list-square text-base lg:text-xl"
-          >
-            <li
-              v-for="(listItem, i) in setting('home.devops.list')"
-              :key="i"
-              class="w-1/2 px-1 py-2 text-purple-500"
-            >
-              <span class="text-gray-600">{{ listItem.text }}</span>
-            </li>
-          </ul>
-        </div>-->
         <component :is="devopsFigure" class="flex p-8 md:w-2/5" />
       </div>
     </section>
 
-    <section :id="infrID" class="relative bg-gray-100">
+    <section :id="infrID" class="overflow-hidden relative bg-gray-100">
       <div class="max-w-6xl mx-auto px-8 py-16 lg:pt-24 lg:pb-12">
         <div class="flex flex-col md:flex-row md:flex-wrap">
           <div class="pb-12 md:w-full">
@@ -125,8 +112,10 @@
               </div>
             </template>
           </div>
-          <div class="relative z-0 w-full top-auto right-0 bottom-0 left-auto md:absolute md:w-1/2">
-            <component :is="infrSyntax" />
+          <div
+            class="relative z-0 max-h-full w-full top-auto right-0 bottom-0 left-auto pt-24 md:absolute md:w-1/2"
+          >
+            <component :is="infrSyntax" class="pt-24" />
           </div>
         </div>
       </div>
@@ -177,7 +166,6 @@ export default Vue.extend({
     factorBtn,
     factorLink,
     factorIcon,
-    "squares-title": () => import("./el/squares-title.vue"),
     "site-cta": () => import("./el/cta.vue")
   },
   data() {

@@ -24,7 +24,8 @@
       :class="isOpen ? 'bg-white w-full h-188 z-50 lg:w-auto' : 'min-h-0 h-0'"
     >
       <ul
-        class="flex flex-col list-none list-inside pb-6 lg:pb-0 lg:w-auto lg:flex-row lg:flex-1 lg:items-center lg:justify-center"
+        class="flex flex-col list-none list-inside pb-6 lg:pb-0 lg:w-auto lg:flex-row lg:flex-1 lg:items-center"
+        :class="navClass()"
       >
         <template v-for="(item, index) in siteNav">
           <li :key="index" class="mt-1 lg:m-0">
@@ -79,18 +80,18 @@ export default Vue.extend({
     },
     headerClasses(this: any) {
       if (this.$route.path != "/") {
-        return "w-full lg:z-50 lg:justify-between lg:items-center lg:px-4 zeno-header border-b border-gray-200"
+        return "max-w-6xl mx-auto lg:z-50 lg:justify-between lg:items-center lg:px-4 zeno-header border-b border-gray-200"
       } else {
         return "w-full absolute lg:z-50 lg:justify-between lg:items-center lg:px-4 lg:pt-4 zeno-header"
       }
+    },
+    navClass(this: any) {
+      if (this.$route.path != "/") {
+        return "lg:justify-end"
+      } else {
+        return "lg:justify-center"
+      }
     }
-    // navLinkClass(this: any) {
-    //   if (this.$route.path != "/") {
-    //     return "lg:hover:text-purple-900"
-    //   } else {
-    //     return "lg:hover:text-purple-900"
-    //   }
-    // }
   }
 })
 </script>

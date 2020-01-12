@@ -1,16 +1,16 @@
 <template>
-  <div class="mt-2 border border-transparent" :class="{ 'border-gray-200 bg-white': active }">
+  <div class="mt-2">
     <a
       href="#"
-      class="flex justify-between no-underline text-xl text-purple-900 px-6 py-4 hover:text-purple-500 hover:bg-white active:text-purple-500"
+      class="flex justify-between no-underline text-xl text-purple-900 px-6 py-4 hover:text-purple-500 hover:bg-gray-200 active:text-purple-500"
       @click.prevent="active = !active"
     >
-      <span class="font-semibold leading-tight tracking-tight">{{ title }}</span>
-      <span v-show="!active" class="ml-4">
-        <factor-icon icon="plus" />
-      </span>
-      <span v-show="active" class="ml-4">
+      <span class="font-normal leading-tight tracking-tight">{{ title }}</span>
+      <span v-if="active" class="ml-4 text-base">
         <factor-icon icon="minus" />
+      </span>
+      <span v-else class="ml-4 text-base">
+        <factor-icon icon="plus" />
       </span>
     </a>
     <div v-show="active" class="px-6 pb-6 text-gray-600">
