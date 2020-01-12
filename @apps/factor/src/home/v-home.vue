@@ -3,8 +3,8 @@
     <section class="header">
       <div class="headline content">
         <div class="content-pad">
-          <h1 class="page-title">Build something incredible.</h1>
-          <h3 class="page-title-sub">The Vue Framework and CMS that front-end developers love.</h3>
+          <h1 class="page-title">Build something incredible today.</h1>
+          <h3 class="page-title-sub">The Javascript CMS that front-end developers love.</h3>
 
           <div class="actions">
             <h3
@@ -236,9 +236,9 @@ export default Vue.extend({
   methods: {},
   metaInfo() {
     return {
-      title: "Vue Framework and CMS",
+      title: "The Javascript CMS",
       description:
-        "Factor VueJS framework to help you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
+        "Factor Javascript (VueJS) CMS framework will help you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
     }
   }
 })
