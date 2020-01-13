@@ -11,24 +11,26 @@
       </template>
     </el-hero>
 
-    <section class="pb-16">
-      <div class="max-w-6xl mx-auto">
-        <div class="max-w-4xl px-8 relative md:z-10">
-          <div class="inline-block -mt-12 px-8 py-6 rounded-lg bg-white shadow-lg md:-mt-12">
+    <section class="max-w-6xl mx-auto px-8 py-16">
+      <div class="flex flex-col md:flex-row md:flex-wrap">
+        <div class="w-full relative w-full lg:w-2/5">
+          <img :src="setting('about.valuesImage1')" class="w-full shadow-xl rounded" />
+          <img
+            :src="setting('about.valuesImage2')"
+            class="w-full relative mt-8 bottom-0 right-auto left-0 shadow-xl rounded lg:w-2/3 lg:mt-0 lg:absolute lg:-ml-20"
+          />
+        </div>
+        <div class="w-full pt-8 lg:pt-0 md:pl-16 lg:w-3/5">
+          <div class="relative z-10 mx-8 px-8 py-6 rounded bg-white shadow-lg">
             <h2
               class="font-normal tracking-tight leading-tight text-3xl text-purple-500"
             >{{ setting('about.valuesTitle') }}</h2>
           </div>
-        </div>
-        <div class="px-8 max-w-5xl ml-auto">
+
           <div
-            class="rounded-lg mt-8 p-8 md:-mt-8 border border-purple-500 md:pt-12 flex flex-col md:flex-row md:flex-wrap"
+            class="rounded-lg -mt-8 p-8 pt-12 border-2 border-purple-500 flex flex-col md:flex-row md:flex-wrap"
           >
-            <div
-              v-for="(item, index) in setting('about.values')"
-              :key="index"
-              class="w-full my-2 md:w-1/2"
-            >
+            <div v-for="(item, index) in setting('about.values')" :key="index" class="w-full my-2">
               <h2 class="font-normal tracking-tight text-2xl text-purple-900">{{ item.title }}</h2>
               <div v-if="item.content" class="text-lg text-gray-600">{{ item.content }}</div>
             </div>
@@ -37,56 +39,42 @@
       </div>
     </section>
 
-    <section>
-      <div class="flex flex-col items-center team-zeno bg-cover bg-center bg-white">
-        <template v-for="(member, index) in teamMembers">
-          <div :key="index" class="sm:flex w-11/12 p-6 mt-8 md:w-10/12 lg:w-8/12 lg:p-10 xl:w-7/12">
-            <div class="w-full sm:w-4/12">
-              <img :src="member.photo" :alt="member.name" class="rounded mx-auto" />
-              <div class="flex justify-center mt-4 text-2xl">
-                <template v-for="(social, i) in member.social">
-                  <factor-link
-                    :key="i"
-                    :target="social.target"
-                    :path="social.link"
-                    class="px-2 hover:text-gray-500"
-                  >
-                    <factor-icon :icon="social.icon" />
-                  </factor-link>
-                </template>
-              </div>
-            </div>
-            <div class="w-full mt-6 sm:mt-0 sm:pl-10 sm:w-8/12">
-              <h2 class="custom-uppercase text-purple-500">{{ member.title }}</h2>
-              <h1 class="font-normal tracking-tight text-4xl text-purple-900">{{ member.name }}</h1>
-              <div
-                v-formatted-text="member.content"
-                class="mt-2 text-base leading-relaxed lg:text-xl"
+    <section class="py-16 bg-white">
+      <div class="max-w-6xl mx-auto px-8">
+        <div class="max-w-4xl mx-auto pb-12 text-center md:w-full">
+          <h3 class="custom-uppercase text-purple-500">{{ teamPretitle }}</h3>
+          <h1
+            class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
+          >{{ teamTitle }}</h1>
+        </div>
+        <div class="flex flex-col md:flex-row md:flex-wrap">
+          <div v-for="(member, index) in teamMembers" :key="index" class="w-full p-4 md:w-1/3">
+            <div class="p-8 rounded-lg bg-gray-100">
+              <img
+                :src="member.photo"
+                :alt="member.name"
+                class="w-4/5 rounded-full mx-auto border border-gray-300"
               />
+              <el-member :name="member.name" :title="member.title">
+                <div v-formatted-text="member.content" class="text-lg" />
+              </el-member>
             </div>
           </div>
-        </template>
+        </div>
       </div>
     </section>
-
-    <!-- <section class="max-w-6xl mx-auto py-8 lg:py-12 bg-white">
-      <h1 class="font-bold text-3xl text-center text-purple-900 lg:text-4xl">{{ locationTitle }}</h1>
-      <component :is="locationFigure" />
-    </section>-->
 
     <site-cta />
   </div>
 </template>
 
 <script lang="ts">
-import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
 
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorIcon,
-    factorLink,
+    "el-member": () => import("./el/member.vue"),
     "el-hero": () => import("./el/hero.vue"),
     "site-cta": () => import("./el/cta.vue")
   },
@@ -98,10 +86,9 @@ export default Vue.extend({
       introBackground: {
         backgroundImage: `url(${setting("about.intro.backgroundImage")})`
       },
+      teamPretitle: setting("about.team.pretitle"),
       teamTitle: setting("about.team.title"),
-      teamMembers: setting("about.team.members"),
-      locationTitle: setting("about.location.title"),
-      locationFigure: setting("about.location.figure")
+      teamMembers: setting("about.team.members")
     }
   },
   methods: {
@@ -116,9 +103,3 @@ export default Vue.extend({
   }
 })
 </script>
-
-<style lang="less">
-.team-zeno {
-  background-image: url(./img/lighter-pattern.svg);
-}
-</style>

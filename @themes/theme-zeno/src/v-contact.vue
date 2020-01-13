@@ -49,16 +49,14 @@ export default Vue.extend({
 
 <style lang="less">
 //Overwrite plugin styles
-.contact-form .input-wrap .label {
-  //font-size: 1.2rem;
-  @apply font-normal leading-tight text-lg text-purple-900;
-}
-.contact-form input,
-.contact-form textarea {
-  @apply border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
-  //focus:outline-none focus:shadow-outline
-}
 .contact-form {
+  .input-wrap .label {
+    @apply font-normal leading-tight text-lg text-purple-900;
+  }
+  input,
+  textarea {
+    @apply border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
+  }
   .form-submit button {
     @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded text-purple-100 bg-purple-500;
   }

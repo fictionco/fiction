@@ -78,24 +78,11 @@
             </template>
           </div>
         </div>
-        <!-- <div class="flex flex-col items-center p-8 mt-8 rounded bg-gray-100 md:w-2/5">
-          <ul
-            class="flex items-center flex-wrap font-normal list-inside list-square text-base lg:text-xl"
-          >
-            <li
-              v-for="(listItem, i) in setting('home.devops.list')"
-              :key="i"
-              class="w-1/2 px-1 py-2 text-purple-500"
-            >
-              <span class="text-gray-600">{{ listItem.text }}</span>
-            </li>
-          </ul>
-        </div>-->
         <component :is="devopsFigure" class="flex p-8 md:w-2/5" />
       </div>
     </section>
 
-    <section :id="infrID" class="relative bg-gray-100">
+    <section :id="infrID" class="overflow-hidden relative bg-gray-100">
       <div class="max-w-6xl mx-auto px-8 py-16 lg:pt-24 lg:pb-12">
         <div class="flex flex-col md:flex-row md:flex-wrap">
           <div class="pb-12 md:w-full">
@@ -125,8 +112,10 @@
               </div>
             </template>
           </div>
-          <div class="relative z-0 w-full top-auto right-0 bottom-0 left-auto md:absolute md:w-1/2">
-            <component :is="infrSyntax" />
+          <div
+            class="relative z-0 max-h-full w-full top-auto right-0 bottom-0 left-auto pt-24 md:absolute md:w-1/2"
+          >
+            <component :is="infrSyntax" class="pt-24" />
           </div>
         </div>
       </div>
@@ -140,18 +129,18 @@
             class="mt-2 text-normal tracking-tight leading-tight text-3xl text-center text-purple-900 lg:text-4xl"
           >{{ testimonialsTitle }}</h1>
         </div>
-        <div class="flex flex-col text-base mt-6 md:flex-row lg:text-xl">
+        <div class="flex flex-col text-base mt-6 md:flex-row md:flex-wrap lg:text-xl">
           <template v-for="(item, index) in testimonialsItems">
-            <div :key="index" class="flex-1 px-8 pt-8">
-              <blockquote class="relative inline-block quote">
-                <span class="absolute text-5xl text-gray-400 -ml-6 -mt-6">&ldquo;</span>
+            <div :key="index" class="w-full p-8 md:w-1/2">
+              <blockquote class="relative inline-block">
+                <span class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6">&ldquo;</span>
                 <span v-formatted-text="item.content" class="leading-relaxed text-gray-600" />
               </blockquote>
-              <footer class="flex items-center mt-4">
+              <footer class="flex items-center mt-6">
                 <img
                   :src="item.image"
                   :alt="item.author + ' - ' + item.info"
-                  class="rounded-full h-10 w-10 md:h-16 md:w-16"
+                  class="rounded-full h-10 w-10 ml-auto shadow-lg md:h-16 md:w-16"
                 />
                 <div class="ml-4 text-base">
                   <cite class="block">{{ item.author }}</cite>
@@ -177,7 +166,6 @@ export default Vue.extend({
     factorBtn,
     factorLink,
     factorIcon,
-    "squares-title": () => import("./el/squares-title.vue"),
     "site-cta": () => import("./el/cta.vue")
   },
   data() {

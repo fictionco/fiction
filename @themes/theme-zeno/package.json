@@ -1,18 +1,25 @@
 {
   "name": "@factor/theme-zeno",
+  "description": "A [Factor](https://factor.dev/) theme suited for the needs of cloud service and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
   "version": "1.1.20",
-  "description": "A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.",
   "author": "Factor",
   "main": "src/index",
-  "private": true,
+  "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "factor": {
+    "extend": "theme",
     "load": [
+      "server",
       "app"
-    ]
+    ],
+    "title": "Zeno"
   },
   "scripts": {
     "build": "postcss css/tailwind.css -o tailwind.css"
   },
+  "gitHead": "ab4e6a60ca0c3e33bb034ad6bb59425ee4d26e6c",
   "dependencies": {
     "@factor/core": "^1.1.20",
     "@factor/plugin-blog": "^1.1.20",
@@ -23,5 +30,17 @@
     "@factor/plugin-sitemap": "^1.1.20",
     "@factor/plugin-storage-s3": "^1.1.20",
     "@factor/plugin-tailwind": "^1.1.20"
-  }
+  },
+  "keywords": [
+    "factor",
+    "factor-theme",
+    "factor-featured",
+    "fiction",
+    "webpack",
+    "vue",
+    "technology",
+    "company",
+    "devops",
+    "tech"
+  ]
 }

@@ -1,6 +1,6 @@
 # theme-zeno
 
-> A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.
+> Zeno is a [Factor](https://factor.dev/) theme suited for the needs of cloud service and technology companies. Styles are powered by Tailwind, a low-level CSS framework.
 
 ## Built with [Factor](https://factor.dev).
 

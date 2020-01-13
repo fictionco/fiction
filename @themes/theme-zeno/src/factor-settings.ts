@@ -1,7 +1,6 @@
 import { Component } from "vue"
 export default {
   headTags: {
-    //font: `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap" rel="stylesheet" />`
     font: `<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />`
   },
   tailwind: {
@@ -20,14 +19,6 @@ export default {
         path: "/#solutions",
         name: "Solutions"
       },
-      // {
-      //   path: "/#devops-as-a-service",
-      //   name: "Devops-as-a-Service  "
-      // },
-      // {
-      //   path: "/#infrastructure-as-code",
-      //   name: "Infrastructure as Code"
-      // },
       {
         path: "/pricing",
         name: "Pricing"
@@ -59,14 +50,8 @@ export default {
     }
   },
   home: {
-    meta: {
-      title: "Factor Zeno Theme",
-      description:
-        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Styles are powered by Tailwind, a low-level CSS framework.",
-      image: require("./img/logo-zeno.jpg")
-    },
     intro: {
-      title: "Welcome to Zeno, <br>Innovation via Automation",//`<span class="underline">Grow Your Business</span>, Not Infrastructure.`,
+      title: "Welcome to Zeno, <br>Innovation via Automation",
       content:
         "Zeno is a minimalist theme suited for the needs of cloud service and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
       buttons: [
@@ -78,7 +63,7 @@ export default {
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "ml-4 btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500" //text-purple-700 border-purple-700 ml-4 hover:text-purple-500 hover:border-purple-500 hover:bg-gray-100"
+          classes: "ml-4 btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
         }
       ],
       figure: (): Promise<Component> => import("./el/figure-intro.vue")
@@ -125,17 +110,17 @@ export default {
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: require("./img/build.svg"),
+          icon: require("./img/gears.svg"),
           title: "Automation",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: require("./img/manage.svg"),
+          icon: require("./img/clouds.svg"),
           title: "Cloud",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
-          icon: require("./img/plan.svg"),
+          icon: require("./img/security.svg"),
           title: "Security",
           content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
@@ -153,40 +138,6 @@ export default {
           classes: "factor-link factor-link btn bg-purple-500 rounded text-white hover:bg-purple-600"
         }
       ],
-      // list: [
-      //   {
-      //     text:
-      //       "Plan"
-      //   },
-      //   {
-      //     text:
-      //       "Code"
-      //   },
-      //   {
-      //     text:
-      //       "Build"
-      //   },
-      //   {
-      //     text:
-      //       "Test"
-      //   },
-      //   {
-      //     text:
-      //       "Release"
-      //   },
-      //   {
-      //     text:
-      //       "Deploy"
-      //   },
-      //   {
-      //     text:
-      //       "Operate"
-      //   },
-      //   {
-      //     text:
-      //       "Monitor"
-      //   }
-      // ],
       figure: (): Promise<Component> => import("./el/figure-devops.vue")
     },
     infrastructure: {
@@ -215,18 +166,24 @@ export default {
       items: [
         {
           content: `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
-          image: require("./img/client.svg"),
-          author: "Will Norton",
-          info: "CEO, SimplyAgree"
+          image: require("./img/member4.jpg"),
+          author: "Kate Brennan",
+          info: "CEO, Lorem ipsum"
         },
         {
           content:
             "@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
-          image: require("./img/client.svg"),
-          author: "Will Norton",
-          info: "CEO, SimplyAgree"
+          image: require("./img/member3.jpg"),
+          author: "Sebastian Hodges",
+          info: "CEO, SedLaudantium"
         }
       ]
+    },
+    meta: {
+      title: "Factor Zeno Theme",
+      description:
+        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Styles are powered by Tailwind, a low-level CSS framework.",
+      image: require("./img/logo-zeno.jpg")
     }
   },
   about: {
@@ -237,7 +194,9 @@ export default {
       content:
         "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework."
     },
-    valuesTitle: "A technology company with core values:",
+    valuesImage1: require("./img/about1.jpg"),
+    valuesImage2: require("./img/about2.jpg"),
+    valuesTitle: "A company with core values:",
     values: [
       {
         title: "Simplicity",
@@ -246,54 +205,55 @@ export default {
       {
 
         title: "Karma",
-        content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+        content: "Be as altruistic as possible. History has proven that karma works in mysterious ways."
       },
       {
 
         title: "Humility",
-        content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
-      },
-      {
-        title: "Trust",
-        content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+        content: "Continually assess and reassess the things you believe & actions you're taking. Never assume."
       }
     ],
     team: {
-      title: "Leadership",
+      pretitle: "Meet the Minds",
+      title: `The Team`,
       members: [
         {
-          photo: require("./img/justin.jpg"),
-          social: [
-            {
-              link: "https://twitter.com/",
-              icon: "twitter",
-              target: "_blank"
-            },
-            {
-              link: "https://www.linkedin.com/",
-              icon: "linkedin",
-              target: "_blank"
-            },
-            {
-              link: "https://github.com/",
-              icon: "github",
-              target: "_blank"
-            },
-            {
-              link: "https://angel.co/",
-              icon: "angellist",
-              target: "_blank"
-            }
-          ],
-          title: "Founder",
-          name: "Justin Keller",
-          content: `<p>Justin has been programming and managing infrastructure for over a decade and has founded three startups ranging from a hosting company to a Node.js platform as a service to a distributed SSH platform (<a href="https://commando.io/">Commando.io</a>).</p><p class="mt-4">He received his Bachelor of Science in Computer Science from San Diego State University. He's managed cloud infrastructure for Fortune 500 companies powered by Amazon Web Services and Google Cloud.</p>`
+          photo: require("./img/member1.jpg"),
+          title: "Co-Founder",
+          name: "Zeno Elea",
+          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+        },
+        {
+          photo: require("./img/member2.jpg"),
+          title: "Co-Founder",
+          name: "Zeno Elea",
+          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+        },
+        {
+          photo: require("./img/member3.jpg"),
+          title: "Managing Partner",
+          name: "Zeno Elea",
+          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+        },
+        {
+          photo: require("./img/member4.jpg"),
+          title: "Managing Partner",
+          name: "Zeno Elea",
+          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+        },
+        {
+          photo: require("./img/member5.jpg"),
+          title: "Managing Partner",
+          name: "Zeno Elea",
+          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+        },
+        {
+          photo: require("./img/member6.jpg"),
+          title: "Managing Partner",
+          name: "Zeno Elea",
+          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         }
       ]
-    },
-    location: {
-      title: "Based in music city; Nashville, Tennessee.",
-      figure: (): Promise<Component> => import("./el/figure-location.vue")
     },
     meta: {
       title: "About - Factor Zeno Theme",
@@ -312,82 +272,81 @@ export default {
     },
     packages: [
       {
-        classes: "border border-gray-400",
-        name: "Nano",
+        classes: "md:mt-6",
+        name: "Basic",
         description: "The full power of Zeno Theme",
+        price: `$199 <span class="text-base">per month</span>`,
         list: [
           {
-            contentLarge: `$2,000`,
-            content: `per month`
+            content: "10 billable hours included monthly"
           },
           {
-            content: `<span class="font-bold">10</span> billable hours included monthly`
-          },
-          {
-            content: `<span class="font-bold">$300</span> per additional hour`
+            content: "$200 per additional hour"
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
           },
           {
-            content: `communication via ticketing system and e-mail.`
+            content: "Lorem ipsum dolor sit"
+          },
+          {
+            content: "Omnis iste natus error sit"
           }
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+        buttonClasses: "btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
       },
       {
-        classes: "border border-purple-400 bg-purple-100 -mt-24",
-        name: "Micro",
+        name: "Pro",
         description: "Great value for growing businesses",
+        price: `$399 <span class="text-base">per month</span>`,
         list: [
           {
-            contentLarge: `$3,500`,
-            content: `per month`
+            content: "20 billable hours included monthly"
           },
           {
-            content: `<span class="font-bold">20</span> billable hours included monthly`
+            content: "$250 per additional hour"
           },
           {
-            content: `<span class="font-bold">$250</span> per additional hour`
+            content: "24/7/365 on-call and 99.9% SLA"
           },
           {
-            content: `24/7/365 on-call and 99.9% SLA`
+            content: "Lorem ipsum dolor sit"
           },
           {
-            content: `communication via dedicated Slack, video conference, ticketing system and e-mail.`
+            content: "Incididunt ut labore et dolore magna aliqua"
           }
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+        buttonClasses: "btn text-purple-100 bg-purple-500 hover:bg-purple-600"
       },
       {
-        classes: "border border-gray-400",
-        name: "Mega",
+        classes: "md:mt-6",
+        name: "Enterprise",
         description: "Infrastructure and DevOps at scale",
+        price: `799 <span class="text-base">per month</span>`,
         list: [
           {
-            contentLarge: `$6,000`,
-            content: `per month`
+            content: "40 billable hours included monthly"
           },
           {
-            content: `<span class="font-bold">40</span> billable hours included monthly`
-          },
-          {
-            content: `<span class="font-bold">$200</span> per additional hour`
+            content: "$150 per additional hour"
           },
           {
             content: `24/7/365 on-call and 99.9% SLA`
           },
           {
-            content: `communication via dedicated Slack, video conference, ticketing system and e-mail.`
+            content: "Lorem ipsum dolor sit"
+          },
+          {
+            content: "Consectetur adipiscing elit amet"
           }
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn bg-teal-500 text-purple-700 hover:bg-teal-600"
+        buttonClasses: "btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
       }
     ],
     packagesFooter:
@@ -413,35 +372,11 @@ export default {
         },
         {
           title: "Do you have smaller plans with less billable hours?",
-          content: `Unfortunately no. The NANO plan is the smallest plan we can offer while maintaining a high level of quality service.`
+          content: `Unfortunately no. The Basic plan is the smallest plan we can offer while maintaining a high level of quality service.`
         },
         {
           title: "Do you offer annual billing?",
           content: `Yes, and we offer a discount for up-front annual billing. Please contact us for details.`
-        },
-        {
-          title: "Can I change plans at any time?",
-          content: `Sure, you can upgrade and downgrade plans at any time we only ask for 30 days notice when downgrading.`
-        },
-        {
-          title: "We require an invoice, do you send one?",
-          content: `Yes, we send an invoice each month of service.`
-        },
-        {
-          title: "How are tasks billed?",
-          content: `Tasks are billed in half-hour increments with a half-hour minimum. For example, a task that takes us 15 minutes to complete would be billed as ½ hour.`
-        },
-        {
-          title: "Do you accept clients outside of the United States?",
-          content: `Absolutely.`
-        },
-        {
-          title: "Do you accept credit cards outside of the United States?",
-          content: `Yes. Stripe our payment processor accepts all major international credit cards.`
-        },
-        {
-          title: "Are ACH debit bank transfers outside of the United States supported?",
-          content: `Unfortunately not. ACH debit is only supported by US bank accounts.`
         }
       ]
     },
@@ -464,8 +399,6 @@ export default {
       title: "Give us a shout. Let us know how we can help.",
       content:
         "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
-      figure: require("./img/cloud-with-shadow.svg"),
-      backgroundImage: require("./img/stars-50.svg")
     },
     meta: {
       title: "Contact - Factor Zeno Theme",
@@ -515,7 +448,7 @@ export default {
     ,
     indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 3,
+    limit: 6,
     returnLinkText: "Back",
     notFound: {
       title: "No Posts",
