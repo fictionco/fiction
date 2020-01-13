@@ -63,7 +63,8 @@ export default {
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "btn btn-ol border-purple-700 ml-0 mt-4 md:mt-0 hover:text-purple-500 hover:border-purple-500"
+          classes:
+            "btn btn-ol border-purple-700 ml-0 mt-4 md:mt-0 hover:text-purple-500 hover:border-purple-500"
         }
       ],
       figure: (): Promise<Component> => import("./el/figure-intro.vue")
@@ -97,32 +98,38 @@ export default {
         {
           icon: require("./img/plan.svg"),
           title: "Plan",
-          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+          content:
+            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/build.svg"),
           title: "Build",
-          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+          content:
+            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/manage.svg"),
           title: "Manage",
-          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+          content:
+            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/gears.svg"),
           title: "Automation",
-          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+          content:
+            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/clouds.svg"),
           title: "Cloud",
-          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+          content:
+            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
           icon: require("./img/security.svg"),
           title: "Security",
-          content: "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+          content:
+            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         }
       ]
     },
@@ -135,7 +142,8 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "factor-link factor-link btn bg-purple-500 rounded text-white hover:bg-purple-600"
+          classes:
+            "factor-link factor-link btn bg-purple-500 rounded text-white hover:bg-purple-600"
         }
       ],
       figure: (): Promise<Component> => import("./el/figure-devops.vue")
@@ -189,8 +197,7 @@ export default {
   about: {
     hero: {
       pretitle: "About Theme Zeno",
-      title:
-        "Built with Factor CMS",
+      title: "Built with Factor CMS",
       content:
         "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework."
     },
@@ -200,17 +207,18 @@ export default {
     values: [
       {
         title: "Simplicity",
-        content: "Do more with less. Given the choice, choose minimization over maximization."
+        content:
+          "Do more with less. Given the choice, choose minimization over maximization."
       },
       {
-
         title: "Karma",
-        content: "Be as altruistic as possible. History has proven that karma works in mysterious ways."
+        content:
+          "Be as altruistic as possible. History has proven that karma works in mysterious ways."
       },
       {
-
         title: "Humility",
-        content: "Continually assess and reassess the things you believe & actions you're taking. Never assume."
+        content:
+          "Continually assess and reassess the things you believe & actions you're taking. Never assume."
       }
     ],
     team: {
@@ -221,37 +229,43 @@ export default {
           photo: require("./img/member1.jpg"),
           title: "Co-Founder",
           name: "Zeno Elea",
-          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          content:
+            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
           photo: require("./img/member2.jpg"),
           title: "Co-Founder",
           name: "Zeno Elea",
-          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          content:
+            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
           photo: require("./img/member3.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
-          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          content:
+            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
           photo: require("./img/member4.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
-          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          content:
+            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
           photo: require("./img/member5.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
-          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          content:
+            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
           photo: require("./img/member6.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
-          content: "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          content:
+            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         }
       ]
     },
@@ -295,7 +309,8 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
+        buttonClasses:
+          "btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
       },
       {
         name: "Pro",
@@ -346,7 +361,8 @@ export default {
         ],
         buttonLink: "/contact",
         buttonText: "Contact Us",
-        buttonClasses: "btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
+        buttonClasses:
+          "btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
       }
     ],
     packagesFooter:
@@ -392,13 +408,13 @@ export default {
       pretitle: "Contact Us",
       title: "Give us a shout. Let us know how we can help.",
       content:
-        "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
+        "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly."
     },
     intro: {
       pretitle: "Contact Us",
       title: "Give us a shout. Let us know how we can help.",
       content:
-        "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly.",
+        "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly."
     },
     meta: {
       title: "Contact - Factor Zeno Theme",
@@ -444,8 +460,7 @@ export default {
     pretitle: "Because the future comes fast",
     title: "Zeno Blog",
     content:
-      "Discover the latest product updates, announcements, and articles from the Zeno team"
-    ,
+      "Discover the latest product updates, announcements, and articles from the Zeno team",
     indexRoute: "/blog",
     postRoute: "/entry",
     limit: 6,
@@ -456,8 +471,7 @@ export default {
     },
     promo: {
       pretitle: "Built with Factor CMS",
-      title:
-        "About Theme Zeno",
+      title: "About Theme Zeno",
       content:
         "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework.",
       button: {
@@ -481,11 +495,7 @@ export default {
     },
     layout: {
       index: ["featuredImage", "date", "title", "author"],
-      single: [
-        "singleHeader",
-        "entry",
-        "social",
-      ]
+      single: ["singleHeader", "entry", "social"]
     },
     metatags: {
       index: {
