@@ -50,10 +50,13 @@ module.exports = {
           900: '#0B092E',
         },
       }
-    }
+    },
+    fill: theme => ({
+      'purple': theme('colors.purple.500'),
+    })
   },
   variants: {
-    backgroundColor: ['responsive', 'hover', 'focus', 'even', 'odd'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'even', 'odd'],
     textColor: ['responsive', 'hover', 'focus']
   },
   plugins: []

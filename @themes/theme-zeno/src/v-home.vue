@@ -2,13 +2,13 @@
   <div>
     <section class="home-hero pt-12 lg:pt-0">
       <div class="home-hero-img hidden lg:block bg-purple-900" />
-      <div class="px-16 mx-auto">
+      <div class="mx-auto px-4 py-8 md:px-16 md:py-12">
         <h1
           v-formatted-text="introTitle"
           class="font-normal tracking-tight leading-tight text-3xl mt-2 text-purple-900 lg:text-5xl"
         />
         <div v-formatted-text="introContent" class="mt-2 text-lg text-gray-600 lg:text-xl" />
-        <div class="mt-8">
+        <div class="mt-4 md:mt-8">
           <template v-for="(button, index) in introButtons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
               {{ button.text }}
@@ -83,7 +83,7 @@
     </section>
 
     <section :id="infrID" class="overflow-hidden relative bg-gray-100">
-      <div class="max-w-6xl mx-auto px-8 py-16 lg:pt-24 lg:pb-12">
+      <div class="max-w-6xl mx-auto px-8 pt-16 lg:pt-24 lg:pb-12">
         <div class="flex flex-col md:flex-row md:flex-wrap">
           <div class="pb-12 md:w-full">
             <h3 class="custom-uppercase text-center text-purple-500">{{ infrPretitle }}</h3>
@@ -103,8 +103,11 @@
           </div>
           <div class="relative z-10 pb-8 md:pb-0 md:pr-8 md:w-3/5">
             <template v-for="(item, index) in infrItems">
-              <div :key="index" class="mb-20 p-10 transition-all rounded bg-white custom-card-left">
-                <img :src="item.image" :alt="item.alt" />
+              <div
+                :key="index"
+                class="mb-10 p-10 transition-all rounded bg-white custom-card-left md:mb-20"
+              >
+                <img v-if="item.image" :src="item.image" :alt="item.alt" />
                 <div
                   v-formatted-text="item.content"
                   class="text-base mt-4 leading-relaxed text-gray-600 lg:text-xl"
@@ -113,9 +116,9 @@
             </template>
           </div>
           <div
-            class="relative z-0 max-h-full w-full top-auto right-0 bottom-0 left-auto pt-24 md:absolute md:w-1/2"
+            class="relative z-0 max-h-full w-full top-auto right-0 bottom-0 left-auto md:pt-24 md:absolute md:w-1/2"
           >
-            <component :is="infrSyntax" class="pt-24" />
+            <component :is="infrSyntax" class="md:pt-24" />
           </div>
         </div>
       </div>
@@ -223,6 +226,7 @@ export default Vue.extend({
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
     min-height: 50vh;
+    height: auto;
   }
 
   .home-hero-img {

@@ -29,4 +29,9 @@ body{
 .h-188{
   height: calc(100vh - 56px);
 }
+@media (max-width: 767px) {
+  .custom-card-left{
+    transform:none;
+  }
+}
 @tailwind utilities;

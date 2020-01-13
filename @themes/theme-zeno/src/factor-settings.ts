@@ -58,12 +58,12 @@ export default {
         {
           link: "/contact",
           text: "Contact Us",
-          classes: "btn text-purple-100 bg-purple-500 hover:bg-purple-600"
+          classes: "btn mr-4 text-purple-100 bg-purple-500 hover:bg-purple-600"
         },
         {
           link: "/pricing",
           text: "Pricing",
-          classes: "ml-4 btn btn-ol border-purple-700 hover:text-purple-500  hover:border-purple-500"
+          classes: "btn btn-ol border-purple-700 ml-0 mt-4 md:mt-0 hover:text-purple-500 hover:border-purple-500"
         }
       ],
       figure: (): Promise<Component> => import("./el/figure-intro.vue")

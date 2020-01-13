@@ -4,14 +4,14 @@
       :align="`left`"
       :subheadline="setting('about.hero.pretitle')"
       :headline="setting('about.hero.title')"
-      class="text-left pb-24"
+      class="text-left"
     >
       <template v-slot:hero-content>
         <div v-formatted-text="setting('about.hero.content')" class="content entry-content" />
       </template>
     </el-hero>
 
-    <section class="max-w-6xl mx-auto px-8 py-16">
+    <section class="max-w-6xl mx-auto px-4 py-16 md:px-8">
       <div class="flex flex-col md:flex-row md:flex-wrap">
         <div class="w-full relative w-full lg:w-2/5">
           <img :src="setting('about.valuesImage1')" class="w-full shadow-xl rounded" />
@@ -21,9 +21,9 @@
           />
         </div>
         <div class="w-full pt-8 lg:pt-0 md:pl-16 lg:w-3/5">
-          <div class="relative z-10 mx-8 px-8 py-6 rounded bg-white shadow-lg">
+          <div class="relative z-10 px-4 py-6 rounded bg-white shadow-lg md:px-4 md:mx-8">
             <h2
-              class="font-normal tracking-tight leading-tight text-3xl text-purple-500"
+              class="font-normal tracking-tight leading-tight text-2xl text-purple-500 md:text-3xl"
             >{{ setting('about.valuesTitle') }}</h2>
           </div>
 
@@ -41,7 +41,7 @@
 
     <section class="py-16 bg-white">
       <div class="max-w-6xl mx-auto px-8">
-        <div class="max-w-4xl mx-auto pb-12 text-center md:w-full">
+        <div class="max-w-4xl mx-auto pb-6 text-center md:pb-12 md:w-full">
           <h3 class="custom-uppercase text-purple-500">{{ teamPretitle }}</h3>
           <h1
             class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
