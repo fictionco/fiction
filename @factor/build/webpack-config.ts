@@ -89,8 +89,6 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
       alias: applyFilters("webpack-aliases", {}, _arguments)
     },
     module: {
-      // Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
-      //unknownContextCritical: false,
       rules: applyFilters(
         "webpack-loaders",
         [
@@ -121,7 +119,20 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
           }
         ],
         _arguments
-      )
+      ),
+      // https://github.com/webpack/webpack/issues/198#issuecomment-37306725
+      // Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
+      // require
+      unknownContextRegExp: /$^/,
+      unknownContextCritical: false,
+
+      // require(expr)
+      exprContextRegExp: /$^/,
+      exprContextCritical: false,
+
+      // require("prefix" + expr + "suffix")
+      wrappedContextRegExp: /$^/,
+      wrappedContextCritical: false
     },
     plugins,
     stats: { children: false },
@@ -274,6 +285,7 @@ interface BuildConfig {
   cwd: string;
   controlFiles?: ControlFile[];
   config?: Configuration;
+  beforeBuild?: (dir: string) => void;
 }
 
 /**
@@ -302,8 +314,13 @@ export const buildProduction = async (
   const bars: Record<string, SingleBar> = {}
   const results: { info: string; target: string; cwd: string }[] = []
   const promises = buildDirectories.map(
-    async ({ cwd, controlFiles, config }: BuildConfig): Promise<void> => {
+    async ({ cwd, controlFiles, config, beforeBuild }: BuildConfig): Promise<void> => {
       const { name } = require(resolve(cwd, "package.json"))
+
+      if (beforeBuild) {
+        beforeBuild(cwd)
+      }
+
       await generateBundles({
         cwd,
         webpackControls: _arguments,

@@ -23,9 +23,9 @@ export const setup = (): void => {
   addFilter({
     key: "tailwindPlugin",
     hook: "postcss-plugins",
-    callback: (_: any[]): any[] => {
-      const config: string = setting("tailwind.config")
-      const directives: string = setting("tailwind.directives")
+    callback: (_: any[], { cwd }: { cwd?: string }): any[] => {
+      const config: string = setting("tailwind.config", { cwd })
+      const directives: string = setting("tailwind.directives", { cwd })
 
       return [
         tailwindCSS(config, directives),
