@@ -5,12 +5,18 @@ import cssNano from "cssnano"
 
 export const cssLoaders = ({
   target,
-  lang
+  lang,
+  cwd
 }: {
   target: string;
   lang: string;
+  cwd?: string;
 }): object[] => {
-  const postCssPlugins = applyFilters("postcss-plugins", [cssNano({ preset: "default" })])
+  const postCssPlugins = applyFilters(
+    "postcss-plugins",
+    [cssNano({ preset: "default" })],
+    { target, lang, cwd }
+  )
 
   const _base = [
     { loader: "css-loader" },

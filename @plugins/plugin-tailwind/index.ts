@@ -2,7 +2,7 @@ import { resolve } from "path"
 import { addFilter } from "@factor/api"
 import tailwindCSS from "tailwindcss"
 import { setting } from "@factor/api/settings"
-import purgeCssUtility from "@fullhuman/postcss-purgecss"
+//import purgeCssUtility from "@fullhuman/postcss-purgecss"
 
 export const setup = (): void => {
   const cwd = process.env.FACTOR_CWD || process.cwd()
@@ -22,18 +22,18 @@ export const setup = (): void => {
     } else throw new Error(error)
   }
 
-  const purgecss = purgeCssUtility({
-    // Specify the paths to all of the template files in your project
-    content: [
-      "./src/**/*.html",
-      "./src/**/*.vue",
-      "./src/**/*.jsx"
-      // etc.
-    ],
+  // const purgecss = purgeCssUtility({
+  //   // Specify the paths to all of the template files in your project
+  //   content: [
+  //     "./src/**/*.html",
+  //     "./src/**/*.vue",
+  //     "./src/**/*.jsx"
+  //     // etc.
+  //   ],
 
-    // Include any special characters you're using in this regular expression
-    defaultExtractor: (content: string) => content.match(/[\w-/:]+(?<!:)/g) || []
-  })
+  //   // Include any special characters you're using in this regular expression
+  //   defaultExtractor: (content: string) => content.match(/[\w-/:]+(?<!:)/g) || []
+  // })
 
   addFilter({
     key: "tailwindPlugin",
@@ -41,8 +41,8 @@ export const setup = (): void => {
     callback: (_: any[]): any[] => {
       return [
         tailwindCSS(config, directives),
-        ..._,
-        ...(process.env.NODE_ENV === "production" ? [purgecss] : [])
+        ..._
+        //...(process.env.NODE_ENV === "production" ? [purgecss] : [])
       ]
     }
   })

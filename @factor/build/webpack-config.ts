@@ -101,8 +101,8 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
             // esModule option introduced in v5, but breaks markdown-image-loader
             options: { name: "[name]-[hash:5].[ext]", esModule: false }
           },
-          { test: /\.css/, use: cssLoaders({ target, lang: "css" }) },
-          { test: /\.less/, use: cssLoaders({ target, lang: "less" }) },
+          { test: /\.css/, use: cssLoaders({ target, lang: "css", cwd }) },
+          { test: /\.less/, use: cssLoaders({ target, lang: "less", cwd }) },
           { test: /\.md$/, use: [{ loader: "markdown-image-loader" }] },
           {
             test: /\.ts$/,
@@ -231,6 +231,10 @@ export const getWebpackConfig = async (
   return config
 }
 
+/**
+ * Generates production application bundles
+ * @param options - bundling options and before, during, after callbacks
+ */
 export const generateBundles = async (
   options: FactorBundleOptions = {}
 ): Promise<void> => {

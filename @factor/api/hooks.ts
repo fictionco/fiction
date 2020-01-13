@@ -2,7 +2,9 @@ import { sortPriority } from "@factor/api/utils"
 import Vue from "vue"
 import { omit } from "./utils-lodash"
 
-type FilterRecord = Record<string, Record<string, CallbackItem>>
+export type FilterCallbacks = Record<string, CallbackItem>
+
+type FilterRecord = Record<string, FilterCallbacks>
 
 interface HookItem {
   hook: string;
@@ -18,20 +20,33 @@ interface CallbackItem extends HookItem {
   callback: Function;
 }
 
+interface GlobalFilterObject {
+  filters: FilterRecord;
+  applied: FilterRecord;
+  controllers: FilterRecord;
+}
+
+/**
+ * Store the filters on the global Vue object
+ * The filters need to be retained on server resets
+ */
 declare module "vue/types/vue" {
   export interface VueConstructor {
-    $filters: { filters: FilterRecord; applied: FilterRecord };
+    $filters: GlobalFilterObject;
   }
 }
 
-export const getGlobals = (): {
-  filters: FilterRecord;
-  applied: FilterRecord;
-} => {
+/**
+ * Get globally set filter functions
+ * @remarks
+ * The globals must not get destroyed with a hot server restart
+ */
+export const getGlobals = (): GlobalFilterObject => {
   if (!Vue.$filters) {
     Vue.$filters = {
       filters: {},
-      applied: {}
+      applied: {},
+      controllers: {}
     }
   }
 
@@ -42,13 +57,30 @@ export const getGlobals = (): {
  * Gets all items attached to a specific hook ID
  * @param hook - hook ID
  */
-export const getFilters = (hook: string): Record<string, CallbackItem> => {
-  const { filters } = getGlobals()
+export const getFilters = (
+  hook: string,
+  ...rest: any[]
+): Record<string, CallbackItem> => {
+  const { filters, controllers } = getGlobals()
   if (!filters[hook]) {
     filters[hook] = {}
   }
 
-  return filters[hook]
+  let hooks = filters[hook]
+
+  // Allow for filter control using global in special cases
+  // This allows special builds and multi-builds to control how filters are applied
+  if (controllers[hook]) {
+    const controllerCbs = Object.values(controllers[hook]).map(_ => _.callback)
+    for (const controller of controllerCbs) {
+      const result = controller(hooks, ...rest)
+      if (typeof result !== "undefined") {
+        hooks = result
+      }
+    }
+  }
+
+  return hooks
 }
 
 export const getApplied = (): FilterRecord => {
@@ -56,6 +88,9 @@ export const getApplied = (): FilterRecord => {
   return applied
 }
 
+/**
+ * Adds filter config to the global object
+ */
 const setFilter = ({
   hook,
   key,
@@ -70,21 +105,15 @@ const setFilter = ({
   return filters[hook]
 }
 
+/**
+ * Gets the number of filters/hooks/callbacks that have been added to an ID
+ * @param hook - hook ID
+ */
 export const getFilterCount = (hook: string): number => {
   const added = getFilters(hook)
 
   return added && Object.keys(added).length > 0 ? Object.keys(added).length : 0
 }
-
-// type InferPropType<T> = T extends any[]
-//   ? any // null & true would fail to infer
-//   : T extends { type: null | true }
-//   ? any // somehow `ObjectConstructor` when inferred from { (): T } becomes `any`
-//   : T extends ObjectConstructor | { type: ObjectConstructor }
-//   ? { [key: string]: any }
-//   : T extends Prop<infer V>
-//   ? V
-//   : T
 
 /**
  * Apply function callbacks that are hooked to an identifier when and fired with this function.
@@ -95,7 +124,7 @@ export const getFilterCount = (hook: string): number => {
  * @param rest - additional arguments
  */
 export const applyFilters = <U>(hook: string, data: U, ...rest: any[]): typeof data => {
-  const _added = getFilters(hook) // Get Filters Added
+  const _added = getFilters(hook, ...rest) // Get Filters Added
 
   const filterKeys = Object.keys(_added)
   const numFilters = filterKeys.length
@@ -122,6 +151,67 @@ export const applyFilters = <U>(hook: string, data: U, ...rest: any[]): typeof d
     data = sortPriority(data)
   }
   return data
+}
+
+export const addFilter = (options: FilterItem): void => {
+  let { callback } = options
+  const rest = omit(options, ["callback"])
+
+  // For simpler assignments where no callback is needed
+  callback = typeof callback != "function" ? (): typeof callback => callback : callback
+
+  setFilter({ ...rest, callback })
+
+  return
+}
+
+export const pushToFilter = <T>(options: HookItem & { item: T }): void => {
+  let { item } = options
+  const rest = omit(options, ["item"])
+  addFilter({
+    ...rest,
+    callback: (input: T[], ...args: any[]): T[] => {
+      item = typeof item == "function" ? item(...args) : item
+
+      return [...input, item]
+    }
+  })
+
+  return
+}
+
+export const addCallback = (options: CallbackItem): void => {
+  const { callback, ...rest } = options
+
+  addFilter({
+    ...rest,
+    callback: (_: Function[] = [], ...args: any[]) => [..._, callback(...args)]
+  })
+
+  return
+}
+
+export const addController = (options: FilterItem): void => {
+  const { hook, key } = options
+
+  const { controllers } = getGlobals()
+  if (!controllers[hook]) {
+    controllers[hook] = {}
+  }
+
+  controllers[hook][key] = options
+
+  return
+}
+
+// Run array of promises and await the result
+export const runCallbacks = async (
+  hook: string,
+  ..._arguments: any[]
+): Promise<unknown[]> => {
+  const _promises: PromiseLike<unknown>[] = applyFilters(hook, [], ..._arguments)
+
+  return await Promise.all(_promises)
 }
 
 // Use the function that called the filter in the key
@@ -181,52 +271,4 @@ export const uniqueObjectHash = (obj: any): string => {
     )
 
   return String(keyed).replace(/-/g, "")
-}
-
-export const addFilter = (options: FilterItem): void => {
-  let { callback } = options
-  const rest = omit(options, ["callback"])
-
-  // For simpler assignments where no callback is needed
-  callback = typeof callback != "function" ? (): typeof callback => callback : callback
-
-  setFilter({ ...rest, callback })
-
-  return
-}
-
-export const pushToFilter = <T>(options: HookItem & { item: T }): void => {
-  let { item } = options
-  const rest = omit(options, ["item"])
-  addFilter({
-    ...rest,
-    callback: (input: T[], ...args: any[]): T[] => {
-      item = typeof item == "function" ? item(...args) : item
-
-      return [...input, item]
-    }
-  })
-
-  return
-}
-
-export const addCallback = (options: CallbackItem): void => {
-  const { callback, ...rest } = options
-
-  addFilter({
-    ...rest,
-    callback: (_: Function[] = [], ...args: any[]) => [..._, callback(...args)]
-  })
-
-  return
-}
-
-// Run array of promises and await the result
-export const runCallbacks = async (
-  hook: string,
-  ..._arguments: any[]
-): Promise<unknown[]> => {
-  const _promises: PromiseLike<unknown>[] = applyFilters(hook, [], ..._arguments)
-
-  return await Promise.all(_promises)
 }

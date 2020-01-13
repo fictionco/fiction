@@ -1,5 +1,5 @@
 import { dirname } from "path"
-import { addFilter } from "@factor/api/hooks"
+import { addFilter, addController, FilterCallbacks } from "@factor/api/hooks"
 import { getPath } from "@factor/api/paths"
 import { renderRequest, appRenderer } from "@factor/server"
 import { addMiddleware } from "@factor/server/middleware"
@@ -18,11 +18,33 @@ addFilter({
 })`
 }
 
+const zenoDir = dirname(require.resolve("@factor/theme-zeno/package.json"))
+
 const dirs = [
   { name: "ultra", dir: dirname(require.resolve("@factor/theme-ultra/package.json")) },
   { name: "alpha", dir: dirname(require.resolve("@factor/theme-alpha/package.json")) },
-  { name: "zeno", dir: dirname(require.resolve("@factor/theme-zeno/package.json")) }
+  { name: "zeno", dir: zenoDir }
 ]
+
+/**
+ * Only load tailwind when it's needed
+ */
+addController({
+  hook: "postcss-plugins",
+  key: "controlTailwind",
+  callback: (filters: FilterCallbacks, { cwd }: { cwd: string }) => {
+    let out
+    if (cwd == zenoDir) {
+      out = filters
+    } else {
+      const newFilters = { ...filters } // detach
+      delete newFilters.tailwindPlugin
+      out = newFilters
+    }
+
+    return out
+  }
+})
 
 dirs.forEach(({ name, dir }) => {
   addFilter({
