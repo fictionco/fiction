@@ -21,7 +21,7 @@
   },
   "gitHead": "ab4e6a60ca0c3e33bb034ad6bb59425ee4d26e6c",
   "dependencies": {
-    "@factor/core": "^1.1.20",
+    "@factor/core": "^1.1.21",
     "@factor/plugin-blog": "^1.1.20",
     "@factor/plugin-contact-form": "^1.1.20",
     "@factor/plugin-highlight-code": "^1.1.20",
