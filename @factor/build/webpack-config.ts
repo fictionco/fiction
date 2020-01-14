@@ -133,17 +133,8 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
       ),
       // https://github.com/webpack/webpack/issues/198#issuecomment-37306725
       // Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
-      // require
-      unknownContextRegExp: /$^/,
-      unknownContextCritical: false,
 
-      // require(expr)
-      exprContextRegExp: /$^/,
-      exprContextCritical: false,
-
-      // require("prefix" + expr + "suffix")
-      wrappedContextRegExp: /$^/,
-      wrappedContextCritical: false
+      unknownContextCritical: false
     },
     plugins,
     stats: { children: false },
