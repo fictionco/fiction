@@ -5,14 +5,12 @@
   <br>
 </h1>
 
-<h4 align="center">A VueJS framework CMS for websites, blogs and apps.</h4>
+<h4 align="center">The Javascript CMS.</h4>
 
 
 <p align="center">
   <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/development" alt="Build Status"></a>  
   <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/development" alt="Coverage Status"></a>
-  <a href="https://codeclimate.com/github/fiction-com/factor/maintainability"><img src="https://badgen.net/codeclimate/maintainability/fiction-com/factor" alt="Maintainability"></a>
-  <a href="https://codeclimate.com/github/fiction-com/factor/tech-debt"><img src="https://badgen.net/codeclimate/tech-debt/fiction-com/factor" alt="Technical Debt"></a>
 
   <br>
   <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/v/@factor/core" alt="Version"></a>
