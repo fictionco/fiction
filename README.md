@@ -12,7 +12,7 @@
 <br>
 <p align="center">
   <a href="https://factor.dev">
-    <img src="./learn-more.jpg" width="140px;" alt="Learn More" />
+    <img src="https://i.imgur.com/sJVBnVv.jpg" width="140px;" alt="Learn more about Factor JS" />
   </a>
 </p>
-<br><br><br><br><br>
+<br><br><br><br> 
