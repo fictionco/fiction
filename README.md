@@ -5,7 +5,7 @@
    
 </div>
 
-<h2 align="center">The Javascript CMS</h2>
+<h3 align="center">The Javascript CMS</h3>
 
 <br> 
 <p align="center">
