@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <a href="https://factor.dev"><img src="./banner.jpg" alt="Factor" width="100%"></a>
+  <a href="https://factor.dev"><img src="https://i.imgur.com/u73IQGJ.jpg" alt="Factor" width="100%"></a>
   <br>
 </h1>
 
@@ -14,9 +14,7 @@
 
   <br>
   <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/v/@factor/core" alt="Version"></a>
-  <a href="https://github.com/fiction-com/factor/releases"><img src="https://badgen.net/github/release/fiction-com/factor" alt="Release"></a>
-  <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/dm/@factor/core" alt="Downloads a Month"></a>
-  <a href="https://github.com/fiction-com/factor/blob/development/LICENSE"><img src="https://badgen.net/npm/license/@factor/core" alt="GPL"></a>
+  <a href="https://www.npmjs.com/package/@factor/core"><img src="https://badgen.net/npm/dm/@factor/core" alt="Downloads a Month"></a> 
  </p>
 
 <p align="center">
