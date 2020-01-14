@@ -22,13 +22,24 @@ import cliProgress, { SingleBar, MultiBar } from "cli-progress"
 import { ControlFile } from "@factor/cli/types"
 import { cssLoaders } from "./webpack-utils"
 
+/**
+ * Options to control the way a specific app builds
+ */
 interface FactorBundleOptions {
+  cwd?: string;
   config?: Record<string, any>;
   controlFiles?: ControlFile[];
   webpackControls?: FactorWebpackControls;
+  beforeBuild?: (_arguments: any) => void;
   beforeCompile?: (_arguments: any) => void;
   afterCompile?: (_arguments: any) => void;
-  cwd?: string;
+}
+
+interface BuildConfig {
+  cwd: string;
+  controlFiles?: ControlFile[];
+  config?: Configuration;
+  beforeBuild?: (_arguments: any) => void;
 }
 
 type FactorWebpackOptions = FactorWebpackControls & {
@@ -152,6 +163,10 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
   return out
 }
 
+/**
+ * Development build specific config
+ * @param cwd - working directory
+ */
 const development = (cwd?: string): Configuration => {
   // Apparently webpack expects a trailing slash on these
   const publicPath = ensureTrailingSlash(getPath("dist", cwd))
@@ -161,7 +176,9 @@ const development = (cwd?: string): Configuration => {
     performance: { hints: false } // Warns about large dev file sizes,
   }
 }
-
+/**
+ * Production build specific config
+ */
 const production = (): Configuration => {
   return {
     mode: "production",
@@ -178,7 +195,9 @@ const production = (): Configuration => {
     }
   }
 }
-
+/**
+ * Specific config for the client/browser environment
+ */
 const client = (cwd?: string): Configuration => {
   const entry = getPath("entry-browser", cwd)
   const filename = "factor-client.json"
@@ -187,7 +206,9 @@ const client = (cwd?: string): Configuration => {
     plugins: [new VueSSRClientPlugin({ filename })]
   }
 }
-
+/**
+ * Specific config for the Node server environment
+ */
 const server = (cwd?: string): Configuration => {
   const entry = getPath("entry-server", cwd)
 
@@ -249,9 +270,13 @@ export const getWebpackConfig = async (
 export const generateBundles = async (
   options: FactorBundleOptions = {}
 ): Promise<void> => {
-  const { cwd, webpackControls = {}, controlFiles } = options
+  const { cwd, webpackControls = {}, controlFiles, beforeBuild } = options
 
   generateLoaders({ cwd, controlFiles, clean: true })
+
+  if (beforeBuild) {
+    beforeBuild(options)
+  }
 
   await Promise.all(
     ["server", "client"].map(async target => {
@@ -279,13 +304,6 @@ export const generateBundles = async (
       return
     })
   )
-}
-
-interface BuildConfig {
-  cwd: string;
-  controlFiles?: ControlFile[];
-  config?: Configuration;
-  beforeBuild?: (dir: string) => void;
 }
 
 /**
@@ -317,16 +335,12 @@ export const buildProduction = async (
     async ({ cwd, controlFiles, config, beforeBuild }: BuildConfig): Promise<void> => {
       const { name } = require(resolve(cwd, "package.json"))
 
-      if (beforeBuild) {
-        beforeBuild(cwd)
-      }
-
       await generateBundles({
         cwd,
         webpackControls: _arguments,
         config,
         controlFiles,
-
+        beforeBuild,
         beforeCompile({ compiler, target }) {
           const newBar: SingleBar | undefined = multi.create(100, 0, {
             msg: "",

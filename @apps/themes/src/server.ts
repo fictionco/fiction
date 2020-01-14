@@ -55,8 +55,8 @@ dirs.forEach(({ name, dir }) => {
       dirs.push({
         cwd: dir,
         config: { output: { publicPath: `/${name}/` } },
-        beforeBuild: (dir: string): void => {
-          createSettings(dir)
+        beforeBuild: ({ cwd }: { cwd: string }): void => {
+          createSettings(cwd)
         },
         controlFiles: [
           {
