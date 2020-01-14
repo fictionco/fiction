@@ -13,7 +13,15 @@ export type SettingsRecords = Record<string, SettingsObject>
  * @param cwd - working directory
  */
 const settingsId = (cwd?: string): string => {
-  return cwd ? cwd : "base"
+  if (cwd) {
+    return cwd
+  } else if (process.env.FACTOR_CWD) {
+    return process.env.FACTOR_CWD
+  } else if (process.cwd()) {
+    return process.cwd()
+  } else {
+    return "base"
+  }
 }
 /**
  * Gets globally cached settings based on working directory
