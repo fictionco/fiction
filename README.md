@@ -5,7 +5,7 @@
   <br>
 </h1>
 
-<h4 align="center">The Javascript CMS.</h4>
+<h4 align="center">The Javascript CMS</h4>
 
 
 <p align="center">
