@@ -2,6 +2,7 @@
   <div class="mt-4 border border-transparent">
     <h2 class="block text-left custom-uppercase mb-0 text-purple-500">{{ title }}</h2>
     <a
+      v-if="hasContentSlot"
       href="#"
       class="flex justify-between items-center no-underline text-purple-900 hover:text-purple-500"
       @click.prevent="active = !active"
@@ -10,8 +11,11 @@
       <factor-icon v-if="active" icon="angle-up" />
       <factor-icon v-else icon="angle-down" />
     </a>
-    <div v-show="active" class="text-gray-600">
-      <slot />
+    <div v-else>
+      <h1 class="block text-left font-normal tracking-tight text-2xl">{{ name }}</h1>
+    </div>
+    <div v-show="active" v-if="hasContentSlot" class="text-gray-600">
+      <slot name="content" />
     </div>
   </div>
 </template>
@@ -32,6 +36,11 @@ export default Vue.extend({
     return {
       loading: true,
       active: false
+    }
+  },
+  computed: {
+    hasContentSlot(this: any) {
+      return !!this.$slots.content
     }
   },
   methods: { setting }

@@ -1,7 +1,7 @@
 <template>
   <header class="justify-between md:items-center zeno-header" :class="headerClasses()">
-    <div class="relative z-10 px-6 py-3">
-      <site-brand class="block" :inverse="brandInverse()" />
+    <div class="relative z-40">
+      <site-brand class="block px-6 py-3" />
     </div>
     <div class="relative z-50 flex flex-row md:hidden">
       <button
@@ -12,7 +12,6 @@
         <svg class="h-6 w-6 fill-purple" viewBox="0 0 24 24">
           <path
             v-if="isOpen"
-            class="fill-purple"
             fill-rule="evenodd"
             d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"
           />
@@ -25,8 +24,8 @@
       </button>
     </div>
     <div
-      class="popup z-30 transition-all rounded-lg bg-gray-100 absolute pt-6 md:relative md:opacity-100 md:h-auto md:bg-transparent md:pt-0"
-      :class="isOpen ? 'opacity-100 h-auto' : 'overflow-hidden h-0 opacity-0'"
+      class="popup transition-all rounded-lg bg-gray-100 absolute pt-6 md:relative md:opacity-100 md:h-auto md:bg-transparent md:pt-0"
+      :class="isOpen ? 'z-40 opacity-100 h-auto' : 'z-0 overflow-hidden h-0 opacity-0'"
     >
       <h4 class="px-8 custom-uppercase text-gray-600 md:hidden">Menu</h4>
       <nav>
@@ -67,8 +66,7 @@ export default Vue.extend({
   data() {
     return {
       navConfig: setting("site.nav"),
-      isOpen: false,
-      headerHome: false
+      isOpen: false
     }
   },
   computed: {
@@ -77,18 +75,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    brandInverse(this: any) {
-      if (this.$route.path != "/") {
-        return false
-      } else {
-        return true
-      }
-    },
     headerClasses(this: any) {
       if (this.$route.path != "/") {
         return "max-w-6xl mx-auto border-b border-gray-200 md:px-4"
       } else {
-        return "w-full absolute "
+        return "w-full max-w-6xl absolute md:max-w-full"
       }
     },
     navClass(this: any) {
@@ -112,7 +103,6 @@ export default Vue.extend({
     display: flex;
   }
   .popup {
-    //position: absolute;
     left: 10px;
     top: 5px;
     right: 10px;

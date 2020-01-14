@@ -1,5 +1,5 @@
 <template>
-  <section class="cta relative flex items-center text-center py-24 px-8 bg-purple-800">
+  <section class="cta relative flex items-center text-center py-16 px-8 bg-purple-800 md:py-24">
     <figure class="absolute top-0 right-0 z-20 hidden mr-32 -mt-10 lg:block">
       <img :src="ctaFigure" :alt="ctaFigureAlt" />
     </figure>

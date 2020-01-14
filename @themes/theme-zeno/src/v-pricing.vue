@@ -1,21 +1,21 @@
 <template>
   <div>
     <el-hero
-      :subheadline="setting('pricing.intro.pretitle')"
-      :headline="setting('pricing.intro.title')"
+      :subheadline="setting('pricing.hero.pretitle')"
+      :headline="setting('pricing.hero.title')"
       class="text-left md:pb-40"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('pricing.intro.content')" class="content entry-content" />
+        <div v-formatted-text="setting('pricing.hero.content')" class="content entry-content" />
       </template>
     </el-hero>
 
     <section class="p-8 bg-gray-100 lg:py-12">
       <div class="max-w-6xl mx-auto flex flex-col md:flex-row">
-        <template v-for="(item, index) in pricingPackages">
-          <div :key="index" class="w-full mt-8 md:-mt-32 md:w-4/12">
+        <template v-for="(item, index) in setting('pricing.packages')">
+          <div :key="index" class="w-full mt-4 md:-mt-32 md:w-4/12">
             <div
-              class="mx-4 rounded bg-white shadow transition-all hover:shadow-lg hover:-mt-8"
+              class="rounded bg-white shadow transition-all hover:shadow-lg hover:-mt-8 md:mx-4"
               :class="item.classes"
             >
               <div class="px-8 py-4">
@@ -46,16 +46,16 @@
           </div>
         </template>
       </div>
-      <p class="text-xs text-center mt-8">{{ packagesFooter }}</p>
+      <p class="text-xs text-center mt-8">{{ setting("pricing.packagesFooter") }}</p>
     </section>
 
     <section class="py-8 lg:py-12 bg-white">
       <div class="max-w-3xl mx-auto">
         <h3
           class="font-normal leading-tight tracking-tight text-center text-3xl lg:text-4xl text-purple-900"
-        >{{ faqTitle }}</h3>
+        >{{ setting("pricing.faq.title") }}</h3>
         <div class="mt-6 mx-6">
-          <template v-for="(question, ind) in questions">
+          <template v-for="(question, ind) in setting('pricing.faq.questions')">
             <el-accordion :key="ind" :title="question.title" class="bg-gray-100 rounded-lg">
               <div
                 v-formatted-text="question.content"
@@ -83,11 +83,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      loading: true,
-      pricingPackages: setting("pricing.packages"),
-      packagesFooter: setting("pricing.packagesFooter"),
-      faqTitle: setting("pricing.faq.title"),
-      questions: setting("pricing.faq.questions")
+      loading: true
     }
   },
   methods: {

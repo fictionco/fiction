@@ -9,7 +9,7 @@ export default {
   },
   site: {
     logo: require("./img/logo-zeno.svg"),
-    logoInverse: require("./img/logo-zeno-inverse.svg"), // Optional
+    logoInverse: require("./img/logo-zeno-inverse.svg"),
     nav: [
       {
         path: "/",
@@ -69,7 +69,7 @@ export default {
       ],
       figure: (): Promise<Component> => import("./el/figure-intro.vue")
     },
-    clients: {
+    logos: {
       title: "Working with the following clouds:",
       list: [
         {
@@ -92,7 +92,7 @@ export default {
         }
       ]
     },
-    solutions: {
+    section3: {
       id: "solutions",
       items: [
         {
@@ -133,7 +133,7 @@ export default {
         }
       ]
     },
-    devops: {
+    section4: {
       id: "devops-as-a-service",
       pretitle: "Devops-as-a-Service",
       title: "Your first and last DevOps!",
@@ -148,7 +148,7 @@ export default {
       ],
       figure: (): Promise<Component> => import("./el/figure-devops.vue")
     },
-    infrastructure: {
+    section5: {
       id: "infrastructure-as-code",
       pretitle: "Infrastructure as Code",
       title: "Packer + Terraform = ",
@@ -229,8 +229,8 @@ export default {
           photo: require("./img/member1.jpg"),
           title: "Co-Founder",
           name: "Zeno Elea",
-          content:
-            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          //content:
+          //  "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
           photo: require("./img/member2.jpg"),
@@ -277,12 +277,11 @@ export default {
     }
   },
   pricing: {
-    intro: {
+    hero: {
       pretitle: "Pricing that scales with your business.",
       title: `Choose the right plan for your business.`,
       content:
         "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
-      backgroundImage: require("./img/light-pattern.svg")
     },
     packages: [
       {
@@ -341,7 +340,7 @@ export default {
         classes: "md:mt-6",
         name: "Enterprise",
         description: "Infrastructure and DevOps at scale",
-        price: `799 <span class="text-base">per month</span>`,
+        price: `$799 <span class="text-base">per month</span>`,
         list: [
           {
             content: "40 billable hours included monthly"
@@ -410,12 +409,6 @@ export default {
       content:
         "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly."
     },
-    intro: {
-      pretitle: "Contact Us",
-      title: "Give us a shout. Let us know how we can help.",
-      content:
-        "We'd love to hear about your business and find a time to discuss your needs. Fill out the form and we will be in touch shortly."
-    },
     meta: {
       title: "Contact - Factor Zeno Theme",
       description:
@@ -425,6 +418,8 @@ export default {
   },
   contactForm: {
     submit: {
+      btn: "m-0",
+      size: "m-0",
       text: "Contact"
     },
     inputFormat: "vertical",
@@ -534,9 +529,9 @@ export default {
         target: "_blank"
       }
     ],
-    left: `Built with <i class="fa fa-heart"></i>`,
+    left: `Built with <i class="fa fa-heart"></i> and <a href='https://www.factor.dev/' target='_blank'>Factor</a>`,
     right:
-      "<p>&copy; 2020 <a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a></p>",
+      "<a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a>",
     figure: require("./img/cloud-with-shadow.svg"),
     figureAlt: "Cloud"
   }
