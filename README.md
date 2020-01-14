@@ -7,10 +7,9 @@
  <br> <br> <br>
  
 <div align="center"> 
-  <a href="https://factor.dev"><img src="https://i.imgur.com/u73IQGJ.jpg" alt="Factor" width="400px"></a>
+  <a href="https://factor.dev"><img src="https://i.imgur.com/ucpqkSJ.png" alt="Factor The Javascript CMS" width="400px"></a>
 </div>
-
-<h3 align="center">The Javascript CMS</h3>
+<br>
 <p align="center">
   <a href="https://factor.dev">
     <img src="./learn-more.jpg" width="140px;" alt="Learn More" />
