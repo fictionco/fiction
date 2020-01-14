@@ -22,13 +22,24 @@ import cliProgress, { SingleBar, MultiBar } from "cli-progress"
 import { ControlFile } from "@factor/cli/types"
 import { cssLoaders } from "./webpack-utils"
 
+/**
+ * Options to control the way a specific app builds
+ */
 interface FactorBundleOptions {
+  cwd?: string;
   config?: Record<string, any>;
   controlFiles?: ControlFile[];
   webpackControls?: FactorWebpackControls;
+  beforeBuild?: (_arguments: any) => void;
   beforeCompile?: (_arguments: any) => void;
   afterCompile?: (_arguments: any) => void;
-  cwd?: string;
+}
+
+interface BuildConfig {
+  cwd: string;
+  controlFiles?: ControlFile[];
+  config?: Configuration;
+  beforeBuild?: (_arguments: any) => void;
 }
 
 type FactorWebpackOptions = FactorWebpackControls & {
@@ -89,8 +100,6 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
       alias: applyFilters("webpack-aliases", {}, _arguments)
     },
     module: {
-      // Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
-      //unknownContextCritical: false,
       rules: applyFilters(
         "webpack-loaders",
         [
@@ -121,7 +130,20 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
           }
         ],
         _arguments
-      )
+      ),
+      // https://github.com/webpack/webpack/issues/198#issuecomment-37306725
+      // Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
+      // require
+      unknownContextRegExp: /$^/,
+      unknownContextCritical: false,
+
+      // require(expr)
+      exprContextRegExp: /$^/,
+      exprContextCritical: false,
+
+      // require("prefix" + expr + "suffix")
+      wrappedContextRegExp: /$^/,
+      wrappedContextCritical: false
     },
     plugins,
     stats: { children: false },
@@ -141,6 +163,10 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
   return out
 }
 
+/**
+ * Development build specific config
+ * @param cwd - working directory
+ */
 const development = (cwd?: string): Configuration => {
   // Apparently webpack expects a trailing slash on these
   const publicPath = ensureTrailingSlash(getPath("dist", cwd))
@@ -150,7 +176,9 @@ const development = (cwd?: string): Configuration => {
     performance: { hints: false } // Warns about large dev file sizes,
   }
 }
-
+/**
+ * Production build specific config
+ */
 const production = (): Configuration => {
   return {
     mode: "production",
@@ -167,7 +195,9 @@ const production = (): Configuration => {
     }
   }
 }
-
+/**
+ * Specific config for the client/browser environment
+ */
 const client = (cwd?: string): Configuration => {
   const entry = getPath("entry-browser", cwd)
   const filename = "factor-client.json"
@@ -176,7 +206,9 @@ const client = (cwd?: string): Configuration => {
     plugins: [new VueSSRClientPlugin({ filename })]
   }
 }
-
+/**
+ * Specific config for the Node server environment
+ */
 const server = (cwd?: string): Configuration => {
   const entry = getPath("entry-server", cwd)
 
@@ -238,9 +270,13 @@ export const getWebpackConfig = async (
 export const generateBundles = async (
   options: FactorBundleOptions = {}
 ): Promise<void> => {
-  const { cwd, webpackControls = {}, controlFiles } = options
+  const { cwd, webpackControls = {}, controlFiles, beforeBuild } = options
 
   generateLoaders({ cwd, controlFiles, clean: true })
+
+  if (beforeBuild) {
+    beforeBuild(options)
+  }
 
   await Promise.all(
     ["server", "client"].map(async target => {
@@ -270,12 +306,6 @@ export const generateBundles = async (
   )
 }
 
-interface BuildConfig {
-  cwd: string;
-  controlFiles?: ControlFile[];
-  config?: Configuration;
-}
-
 /**
  * Builds production application bundles and files based on an array of working directories.
  * @param _arguments - Options for controlling the production build
@@ -302,14 +332,15 @@ export const buildProduction = async (
   const bars: Record<string, SingleBar> = {}
   const results: { info: string; target: string; cwd: string }[] = []
   const promises = buildDirectories.map(
-    async ({ cwd, controlFiles, config }: BuildConfig): Promise<void> => {
+    async ({ cwd, controlFiles, config, beforeBuild }: BuildConfig): Promise<void> => {
       const { name } = require(resolve(cwd, "package.json"))
+
       await generateBundles({
         cwd,
         webpackControls: _arguments,
         config,
         controlFiles,
-
+        beforeBuild,
         beforeCompile({ compiler, target }) {
           const newBar: SingleBar | undefined = multi.create(100, 0, {
             msg: "",

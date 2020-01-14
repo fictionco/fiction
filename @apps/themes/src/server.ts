@@ -5,6 +5,7 @@ import { renderRequest, appRenderer } from "@factor/server"
 import { addMiddleware } from "@factor/server/middleware"
 import { Request, Response } from "express"
 import { serveStatic } from "@factor/server/util"
+import { createSettings } from "@factor/api/settings"
 
 const addBaseRouteCode = (name: string): string => {
   return `import { addFilter } from "@factor/api/hooks"
@@ -54,6 +55,9 @@ dirs.forEach(({ name, dir }) => {
       dirs.push({
         cwd: dir,
         config: { output: { publicPath: `/${name}/` } },
+        beforeBuild: ({ cwd }: { cwd: string }): void => {
+          createSettings(cwd)
+        },
         controlFiles: [
           {
             writeFile: {

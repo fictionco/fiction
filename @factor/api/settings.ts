@@ -39,11 +39,18 @@ export const createSettings = (cwd?: string): void => {
 
   let settingsExports: (Function | object)[] = []
 
+  /**
+   * @remark
+   * - If this is made ASYNC then there are loading order problems. Settings might load after modules that need to use them.
+   * - Dynamic requires only work in the server environment, as it will NOT work in webpack.
+   * - The file is not required and if it doesn't exist, ignore the error
+   */
   try {
-    // A require must be used here since it runs in SYNC
-    // If this is made ASYNC then there are loading order problems. Settings might load after modules that need to use them.
-    // eslint-disable-next-line import/no-unresolved
-    settingsExports = require("__CWD__/.factor/loader-settings").default
+    if (cwd) {
+      settingsExports = require(`${cwd}/.factor/loader-settings`).default
+    } else {
+      settingsExports = require(`__CWD__/.factor/loader-settings`).default
+    }
   } catch (error) {
     if (error.code !== "MODULE_NOT_FOUND") throw error
   }
