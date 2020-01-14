@@ -1,13 +1,13 @@
 
-<h1 align="center">
-  <br>
-  <a href="https://factor.dev"><img src="https://i.imgur.com/u73IQGJ.jpg" alt="Factor" width="100%"></a>
-  <br>
-</h1>
+<div align="center">
+  
+  <a href="https://factor.dev"><img src="https://i.imgur.com/u73IQGJ.jpg" alt="Factor" width="400px"></a>
+   
+</div>
 
-<h4 align="center">The Javascript CMS</h4>
+<h2 align="center">The Javascript CMS</h2>
 
-
+<br> 
 <p align="center">
   <a href="https://circleci.com/gh/fiction-com/factor"><img src="https://badgen.net/circleci/github/fiction-com/factor/development" alt="Build Status"></a>  
   <a href="https://codecov.io/gh/fiction-com/factor"><img src="https://badgen.net/codecov/c/github/fiction-com/factor/development" alt="Coverage Status"></a>
@@ -19,6 +19,6 @@
 
 <p align="center">
   <a href="https://factor.dev">
-    <img src="./learn-more.jpg" width="180px;" alt="Learn More" />
+    <img src="./learn-more.jpg" width="120px;" alt="Learn More" />
   </a>
 </p>
