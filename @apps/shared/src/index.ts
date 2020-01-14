@@ -20,18 +20,44 @@ const notifySlack = async ({
   return
 }
 
+enum ActiveCampaignList {
+  DevGroup = 2
+}
+
+enum ActiveCampaignStatus {
+  Subscribed = 1,
+  Unsubscribed = 2
+}
 const addOrUpdateActiveCampaignContact = async (contact: {
   email: string;
   firstName?: string;
   lastName?: string;
   phone?: string | number;
 }): Promise<void> => {
-  await axios.request({
-    url: "https://fiction41560.api-us1.com/api/3/contact/sync",
+  const baseUrl = "https://fiction41560.api-us1.com/api/3"
+  const { data } = await axios.request({
+    url: `${baseUrl}/contact/sync`,
     method: "post",
     headers: { "Api-Token": process.env.ACTIVE_CAMPAIGN_KEY },
     data: { contact }
   })
+
+  const contactId = data.contact?.id ?? false
+
+  if (contactId) {
+    await axios.request({
+      url: `${baseUrl}/contactLists`,
+      method: "post",
+      headers: { "Api-Token": process.env.ACTIVE_CAMPAIGN_KEY },
+      data: {
+        contactList: {
+          list: ActiveCampaignList.DevGroup,
+          contact: contactId,
+          status: ActiveCampaignStatus.Subscribed
+        }
+      }
+    })
+  }
 
   return
 }
