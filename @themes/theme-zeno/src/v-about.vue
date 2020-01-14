@@ -14,8 +14,13 @@
     <section class="max-w-6xl mx-auto px-4 py-16 md:px-8">
       <div class="flex flex-col md:flex-row md:flex-wrap">
         <div class="w-full relative w-full lg:w-2/5">
-          <img :src="setting('about.valuesImage1')" class="w-full shadow-xl rounded" />
           <img
+            v-if="setting('about.valuesImage1')"
+            :src="setting('about.valuesImage1')"
+            class="w-full shadow-xl rounded"
+          />
+          <img
+            v-if="setting('about.valuesImage2')"
             :src="setting('about.valuesImage2')"
             class="w-full relative mt-8 bottom-0 right-auto left-0 shadow-xl rounded lg:w-2/3 lg:mt-0 lg:absolute lg:-ml-20"
           />
@@ -42,13 +47,17 @@
     <section class="py-16 bg-white">
       <div class="max-w-6xl mx-auto px-8">
         <div class="max-w-4xl mx-auto pb-6 text-center md:pb-12 md:w-full">
-          <h3 class="custom-uppercase text-purple-500">{{ teamPretitle }}</h3>
+          <h3 class="custom-uppercase text-purple-500">{{ setting("about.team.pretitle") }}</h3>
           <h1
             class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
-          >{{ teamTitle }}</h1>
+          >{{ setting("about.team.title") }}</h1>
         </div>
         <div class="flex flex-col md:flex-row md:flex-wrap">
-          <div v-for="(member, index) in teamMembers" :key="index" class="w-full p-4 md:w-1/3">
+          <div
+            v-for="(member, index) in setting('about.team.members')"
+            :key="index"
+            class="w-full p-4 md:w-1/3"
+          >
             <div class="p-8 rounded-lg bg-gray-100">
               <img
                 :src="member.photo"
@@ -56,7 +65,9 @@
                 class="w-4/5 rounded-full mx-auto border border-gray-300"
               />
               <el-member :name="member.name" :title="member.title">
-                <div v-formatted-text="member.content" class="text-lg" />
+                <template v-slot:content>
+                  <div v-if="member.content" v-formatted-text="member.content" class="text-lg" />
+                </template>
               </el-member>
             </div>
           </div>
@@ -80,15 +91,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      loading: true,
-      introPretitle: setting("about.intro.pretitle"),
-      introTitle: setting("about.intro.title"),
-      introBackground: {
-        backgroundImage: `url(${setting("about.intro.backgroundImage")})`
-      },
-      teamPretitle: setting("about.team.pretitle"),
-      teamTitle: setting("about.team.title"),
-      teamMembers: setting("about.team.members")
+      loading: true
     }
   },
   methods: {

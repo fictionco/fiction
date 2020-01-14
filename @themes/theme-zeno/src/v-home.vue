@@ -4,12 +4,15 @@
       <div class="home-hero-img hidden lg:block bg-purple-900" />
       <div class="mx-auto px-4 py-8 md:px-16 md:py-12">
         <h1
-          v-formatted-text="introTitle"
+          v-formatted-text="setting('home.intro.title')"
           class="font-normal tracking-tight leading-tight text-3xl mt-2 text-purple-900 lg:text-5xl"
         />
-        <div v-formatted-text="introContent" class="mt-2 text-lg text-gray-600 lg:text-xl" />
+        <div
+          v-formatted-text="setting('home.intro.content')"
+          class="mt-2 text-lg text-gray-600 lg:text-xl"
+        />
         <div class="mt-4 md:mt-8">
-          <template v-for="(button, index) in introButtons">
+          <template v-for="(button, index) in setting('home.intro.buttons')">
             <factor-link :key="index" :path="button.link" :class="button.classes">
               {{ button.text }}
               <factor-icon icon="angle-right" />
@@ -21,9 +24,9 @@
 
     <section class="section-2 bg-gray-100 px-8 py-12">
       <div class="max-w-6xl mx-auto">
-        <h1 class="custom-uppercase text-center text-purple-500">{{ clientsTitle }}</h1>
+        <h1 class="custom-uppercase text-center text-purple-500">{{ setting("home.logos.title") }}</h1>
         <div class="flex flex-wrap items-center mt-8">
-          <template v-for="(item, index) in clientsList">
+          <template v-for="(item, index) in setting('home.logos.list')">
             <factor-link
               :key="index"
               :path="item.link"
@@ -38,14 +41,14 @@
     </section>
 
     <section
-      :id="solutionsID"
+      :id="setting('home.section3.id')"
       class="section-3 relative bg-cover bg-center bg-purple-900 px-8 py-16"
     >
       <div
         class="relative z-20 max-w-6xl mx-auto flex flex-col bg-white rounded shadow-xl md:flex-row md:flex-wrap"
       >
         <div
-          v-for="(item, index) in solutionsItems"
+          v-for="(item, index) in setting('home.section3.items')"
           :key="index"
           class="w-full even:bg-gray-100 md:w-1/3"
         >
@@ -58,19 +61,19 @@
       </div>
     </section>
 
-    <section :id="devopsID" class="section-4 bg-cover bg-center bg-white">
+    <section :id="setting('home.section4.id')" class="section-4 bg-cover bg-center bg-white">
       <div class="max-w-6xl mx-auto flex flex-col py-8 md:flex-row lg:pt-12 lg:pb-24">
         <div class="flex flex-col p-8 justify-center md:w-3/5">
-          <h3 class="custom-uppercase text-purple-500">{{ devopsPretitle }}</h3>
+          <h3 class="custom-uppercase text-purple-500">{{ setting("home.section4.pretitle") }}</h3>
           <h1
             class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
-          >{{ devopsTitle }}</h1>
+          >{{ setting("home.section4.title") }}</h1>
           <div
-            v-formatted-text="devopsContent"
+            v-formatted-text="setting('home.section4.content')"
             class="mt-2 text-base leading-relaxed text-gray-600 lg:text-xl"
           />
           <div class="mt-8">
-            <template v-for="(button, index) in devopsButtons">
+            <template v-for="(button, index) in setting('home.section4.buttons')">
               <factor-link :key="index" :path="button.link" :class="button.classes">
                 {{ button.text }}
                 <factor-icon icon="angle-right" />
@@ -78,31 +81,36 @@
             </template>
           </div>
         </div>
-        <component :is="devopsFigure" class="flex p-8 md:w-2/5" />
+        <component :is="setting('home.section4.figure')" class="flex p-8 md:w-2/5" />
       </div>
     </section>
 
-    <section :id="infrID" class="overflow-hidden relative bg-gray-100">
+    <section
+      :id="setting('home.section5.id')"
+      class="section-5 overflow-hidden relative bg-gray-100"
+    >
       <div class="max-w-6xl mx-auto px-8 pt-16 lg:pt-24 lg:pb-12">
         <div class="flex flex-col md:flex-row md:flex-wrap">
           <div class="pb-12 md:w-full">
-            <h3 class="custom-uppercase text-center text-purple-500">{{ infrPretitle }}</h3>
+            <h3
+              class="custom-uppercase text-center text-purple-500"
+            >{{ setting("home.section5.pretitle") }}</h3>
             <div class="flex items-center justify-center">
               <h1
                 class="font-normal tracking-tight text-center text-3xl lg:text-4xl text-purple-900"
               >
-                {{ infrTitle }}
+                {{ setting("home.section5.title") }}
                 <img
-                  v-if="infrTitleIcon"
-                  :src="infrTitleIcon"
-                  :alt="infrTitle"
+                  v-if="setting('home.section5.titleIcon')"
+                  :src="setting('home.section5.titleIcon')"
+                  :alt="setting('home.section5.title')"
                   class="inline-block lg:ml-2"
                 />
               </h1>
             </div>
           </div>
           <div class="relative z-10 pb-8 md:pb-0 md:pr-8 md:w-3/5">
-            <template v-for="(item, index) in infrItems">
+            <template v-for="(item, index) in setting('home.section5.items')">
               <div
                 :key="index"
                 class="mb-10 p-10 transition-all rounded bg-white custom-card-left md:mb-20"
@@ -118,7 +126,11 @@
           <div
             class="relative z-0 max-h-full w-full top-auto right-0 bottom-0 left-auto md:pt-24 md:absolute md:w-1/2"
           >
-            <component :is="infrSyntax" class="md:pt-24" />
+            <component
+              :is="setting('home.section5.syntax')"
+              :title="setting('home.section5.syntaxTitle')"
+              class="md:pt-24"
+            />
           </div>
         </div>
       </div>
@@ -127,13 +139,15 @@
     <section class="section-6">
       <div class="max-w-6xl mx-auto px-8 py-16 lg:py-24">
         <div class="max-w-xs mx-auto">
-          <h3 class="custom-uppercase text-center text-purple-500">{{ testimonialsPretitle }}</h3>
+          <h3
+            class="custom-uppercase text-center text-purple-500"
+          >{{ setting("home.testimonials.pretitle") }}</h3>
           <h1
             class="mt-2 text-normal tracking-tight leading-tight text-3xl text-center text-purple-900 lg:text-4xl"
-          >{{ testimonialsTitle }}</h1>
+          >{{ setting("home.testimonials.title") }}</h1>
         </div>
         <div class="flex flex-col text-base mt-6 md:flex-row md:flex-wrap lg:text-xl">
-          <template v-for="(item, index) in testimonialsItems">
+          <template v-for="(item, index) in setting('home.testimonials.items')">
             <div :key="index" class="w-full p-8 md:w-1/2">
               <blockquote class="relative inline-block">
                 <span class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6">&ldquo;</span>
@@ -173,32 +187,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      loading: true,
-      introPretitle: setting("home.intro.pretitle"),
-      introTitle: setting("home.intro.title"),
-      introContent: setting("home.intro.content"),
-      introButtons: setting("home.intro.buttons"),
-      clientsTitle: setting("home.clients.title"),
-      clientsList: setting("home.clients.list"),
-      solutionsID: setting("home.solutions.id"),
-      solutionsTitle: setting("home.solutions.title"),
-      solutionsTitleFigure: setting("home.solutions.titleFigure"),
-      solutionsItems: setting("home.solutions.items"),
-      devopsID: setting("home.devops.id"),
-      devopsFigure: setting("home.devops.figure"),
-      devopsPretitle: setting("home.devops.pretitle"),
-      devopsTitle: setting("home.devops.title"),
-      devopsContent: setting("home.devops.content"),
-      devopsButtons: setting("home.devops.buttons"),
-      infrID: setting("home.infrastructure.id"),
-      infrPretitle: setting("home.infrastructure.pretitle"),
-      infrTitle: setting("home.infrastructure.title"),
-      infrTitleIcon: setting("home.infrastructure.titleIcon"),
-      infrItems: setting("home.infrastructure.items"),
-      infrSyntax: setting("home.infrastructure.syntax"),
-      testimonialsPretitle: setting("home.testimonials.pretitle"),
-      testimonialsTitle: setting("home.testimonials.title"),
-      testimonialsItems: setting("home.testimonials.items")
+      loading: true
     }
   },
   methods: {

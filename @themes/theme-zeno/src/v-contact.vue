@@ -12,10 +12,10 @@
     </el-hero>
 
     <section class="bg-gray-100 bg-repeat-x">
-      <div class="max-w-4xl mx-auto p-8">
+      <div class="max-w-4xl mx-auto px-4 py-8 md:p-8">
         <component
           :is="setting('contactForm.form')"
-          class="bg-white shadow-lg rounded-lg -mt-24 p-8"
+          class="bg-white shadow-lg rounded-lg -mt-24 p-4 md:p-8"
         />
       </div>
     </section>
@@ -57,8 +57,11 @@ export default Vue.extend({
   textarea {
     @apply border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
   }
-  .form-submit button {
-    @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded text-purple-100 bg-purple-500;
+  .form-submit {
+    @apply m-0;
+    button {
+      @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded text-purple-100 bg-purple-500;
+    }
   }
 }
 </style>
