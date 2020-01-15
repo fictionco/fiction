@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="zeno-content">
     <header-primary />
     <div>
       <router-view />
@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue from "vue"
-
+import { setting } from "@factor/api/settings"
 export default Vue.extend({
   components: {
     "header-primary": () => import("./header.vue"),
@@ -18,9 +18,15 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: "No Title",
-      titleTemplate: "%s - Factor JS"
+      title: setting("metatags.defaultTitle"),
+      titleTemplate: setting("metatags.titleTemplate")
     }
   }
 })
 </script>
+
+<style lang="less">
+.zeno-content {
+  opacity: 0;
+}
+</style>

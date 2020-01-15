@@ -7,31 +7,41 @@ export default {
     config: require("./tailwind.config.js"),
     directives: require("./tailwind.css")
   },
+  metatags: {
+    defaultTitle: "No Title",
+    titleTemplate: "%s - Factor JS"
+  },
   site: {
     logo: require("./img/logo-zeno.svg"),
     logoInverse: require("./img/logo-zeno-inverse.svg"),
     nav: [
       {
+        _item: "home",
         path: "/",
         name: "Home"
       },
       {
+        _item: "solutions",
         path: "/#solutions",
         name: "Solutions"
       },
       {
+        _item: "pricing",
         path: "/pricing",
         name: "Pricing"
       },
       {
+        _item: "about",
         path: "/about",
         name: "About"
       },
       {
+        _item: "blog",
         path: "/blog",
         name: "Blog"
       },
       {
+        _item: "contact",
         path: "/contact",
         name: "Contact"
       }
@@ -40,6 +50,7 @@ export default {
       title: "Get better results with Zeno",
       buttons: [
         {
+          _item: "contact",
           link: "/contact",
           text: "Free Consultation",
           classes: "btn bg-gray-100 rounded text-purple-500 hover:bg-gray-300"
@@ -56,11 +67,13 @@ export default {
         "Zeno is a minimalist theme suited for the needs of cloud service and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
       buttons: [
         {
+          _item: "contact",
           link: "/contact",
           text: "Contact Us",
           classes: "btn mr-4 text-purple-100 bg-purple-500 hover:bg-purple-600"
         },
         {
+          _item: "pricing",
           link: "/pricing",
           text: "Pricing",
           classes:
@@ -73,18 +86,21 @@ export default {
       title: "Working with the following clouds:",
       list: [
         {
+          _item: "aws",
           link: "https://aws.amazon.com/",
           target: "_blank",
           image: require("./img/aws.svg"),
           alt: "Amazon Web Services"
         },
         {
+          _item: "google",
           link: "https://cloud.google.com/",
           target: "_blank",
           image: require("./img/google-cloud-platform.svg"),
           alt: "Google Cloud Platform"
         },
         {
+          _item: "digitalocean",
           link: "https://www.digitalocean.com/",
           target: "_blank",
           image: require("./img/digital-ocean.svg"),
@@ -96,36 +112,42 @@ export default {
       id: "solutions",
       items: [
         {
+          _item: "plan",
           icon: require("./img/plan.svg"),
           title: "Plan",
           content:
             "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
+          _item: "build",
           icon: require("./img/build.svg"),
           title: "Build",
           content:
             "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
+          _item: "manage",
           icon: require("./img/manage.svg"),
           title: "Manage",
           content:
             "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
+          _item: "gears",
           icon: require("./img/gears.svg"),
           title: "Automation",
           content:
             "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
+          _item: "clouds",
           icon: require("./img/clouds.svg"),
           title: "Cloud",
           content:
             "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
         },
         {
+          _item: "security",
           icon: require("./img/security.svg"),
           title: "Security",
           content:
@@ -140,6 +162,7 @@ export default {
       content: `<p>By leveraging our decades of DevOps and sysadmin experience, we'll help you focus on what's important… Growing your business.</p><p class="mt-4">Zeno will handle uptime, security, cost optimization, disaster recovery, and performance. We’re always on-call, ready to assist. Focused on being responsive, transparent, and thorough.</p>`,
       buttons: [
         {
+          _item: "contact",
           link: "/contact",
           text: "Contact Us",
           classes:
@@ -155,11 +178,13 @@ export default {
       titleIcon: require("./img/custom-heart.svg"),
       items: [
         {
+          _item: "packer",
           image: require("./img/logo-packer.svg"),
           alt: "HashiCorp Packer",
           content: `<p>Packer automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p>`
         },
         {
+          _item: "terraform",
           image: require("./img/logo-terraform.svg"),
           alt: "HashiCorp Terraform",
           content: `<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p>`
@@ -173,12 +198,14 @@ export default {
       title: "Our customers love what we do!",
       items: [
         {
+          _item: "testimonial_1",
           content: `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
           image: require("./img/member4.jpg"),
           author: "Kate Brennan",
           info: "CEO, Lorem ipsum"
         },
         {
+          _item: "testimonial_2",
           content:
             "@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
           image: require("./img/member3.jpg"),
@@ -206,16 +233,19 @@ export default {
     valuesTitle: "A company with core values:",
     values: [
       {
+        _item: "simplicity",
         title: "Simplicity",
         content:
           "Do more with less. Given the choice, choose minimization over maximization."
       },
       {
+        _item: "karma",
         title: "Karma",
         content:
           "Be as altruistic as possible. History has proven that karma works in mysterious ways."
       },
       {
+        _item: "humility",
         title: "Humility",
         content:
           "Continually assess and reassess the things you believe & actions you're taking. Never assume."
@@ -226,13 +256,15 @@ export default {
       title: `The Team`,
       members: [
         {
+          _item: "member_1",
           photo: require("./img/member1.jpg"),
           title: "Co-Founder",
-          name: "Zeno Elea",
+          name: "Zeno Elea"
           //content:
           //  "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
+          _item: "member_2",
           photo: require("./img/member2.jpg"),
           title: "Co-Founder",
           name: "Zeno Elea",
@@ -240,6 +272,7 @@ export default {
             "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
+          _item: "member_3",
           photo: require("./img/member3.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
@@ -247,6 +280,7 @@ export default {
             "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
+          _item: "member_4",
           photo: require("./img/member4.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
@@ -254,6 +288,7 @@ export default {
             "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
+          _item: "member_5",
           photo: require("./img/member5.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
@@ -261,6 +296,7 @@ export default {
             "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
+          _item: "member_6",
           photo: require("./img/member6.jpg"),
           title: "Managing Partner",
           name: "Zeno Elea",
@@ -281,7 +317,7 @@ export default {
       pretitle: "Pricing that scales with your business.",
       title: `Choose the right plan for your business.`,
       content:
-        "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
+        "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks."
     },
     packages: [
       {
@@ -370,26 +406,32 @@ export default {
       title: "Billing FAQs",
       questions: [
         {
+          _item: "q1",
           title: "How are payments handled?",
           content: `<p>We process all payments via Stripe and offer two payment options.</p><ul class="font-normal list-outside list-square mt-8 ml-8 text-base leading-relaxed lg:text-xl"><li>ACH debit bank transfer. (US only)</li><li> All major credit cards. Note, there is a 3% processing fee for credit card transactions.</li></ul>`
         },
         {
+          _item: "q2",
           title: "Who pays for infrastructure and 3rd party services?",
           content: `To prevent any vendor lock-in, you do. All infrastructure and cloud costs are still under your payment method of choice. If we recommend a 3rd party service, you'll signup, provide your own billing details, and then give us credentials/access to the service.`
         },
         {
+          _item: "q3",
           title: "Can I cancel at anytime?",
           content: `We require a three month commitment at the start, but after that all of our plans are month-to-month so you may cancel at any time. As a courtesy, we can provide a detailed "exit briefing" to the new party taking over.`
         },
         {
+          _item: "q4",
           title: "What happens if I go over my plans included hours?",
           content: `After you've utilized your plans included hours, you will be billed at your plans billable hourly rate above.`
         },
         {
+          _item: "q5",
           title: "Do you have smaller plans with less billable hours?",
           content: `Unfortunately no. The Basic plan is the smallest plan we can offer while maintaining a high level of quality service.`
         },
         {
+          _item: "q6",
           title: "Do you offer annual billing?",
           content: `Yes, and we offer a discount for up-front annual billing. Please contact us for details.`
         }
@@ -504,34 +546,39 @@ export default {
   footer: {
     nav: [
       {
+        _item: "home",
         path: "/",
         name: "Home"
       },
       {
+        _item: "pricing",
         path: "/pricing",
         name: "Pricing"
       },
       {
+        _item: "about",
         path: "/about",
         name: "About"
       },
       {
+        _item: "about",
         path: "/blog",
         name: "Blog"
       },
       {
+        _item: "contact",
         path: "/contact",
         name: "Contact"
       },
       {
+        _item: "twitter",
         path: "https://twitter.com/",
         icon: "twitter",
         target: "_blank"
       }
     ],
     left: `Built with <i class="fa fa-heart"></i> and <a href='https://www.factor.dev/' target='_blank'>Factor</a>`,
-    right:
-      "<a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a>",
+    right: "<a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a>",
     figure: require("./img/cloud-with-shadow.svg"),
     figureAlt: "Cloud"
   }

@@ -1,5 +1,5 @@
 import { buildProduction } from "@factor/build/webpack-config"
-import { currentUrl } from "@factor/api/url"
+import { productionUrl, localhostUrl } from "@factor/api/url"
 import { generateLoaders } from "@factor/cli/extension-loader"
 import * as tools from "@factor/api"
 import commander from "commander"
@@ -23,13 +23,18 @@ const initializeNodeInspector = async (): Promise<void> => {
   await inspector.open()
 }
 
+/**
+ * Serve Factor
+ * @param setup - server options
+ */
 export const runServer = async (setup: CommandOptions): Promise<void> => {
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
   const message = {
     title: "Starting Server...",
     lines: [
-      { title: "URL", value: currentUrl(), indent: true },
+      { title: "LOCAL_URL", value: localhostUrl(), indent: true },
+      { title: "PRODUCTION_URL", value: productionUrl(), indent: true },
       { title: "NODE_ENV", value: NODE_ENV, indent: true },
       { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
       { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },

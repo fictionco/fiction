@@ -9,11 +9,22 @@ export * from "./utils-lodash"
 
 export { isNode, guid }
 
+/**
+ * Standard list format
+ */
 export interface ListItem {
   value?: string;
   name?: string;
   label?: string;
   desc?: string;
+}
+
+/**
+ * Object with a priority key for sorting
+ */
+export interface PriorityItem {
+  priority?: number;
+  [key: string]: any;
 }
 
 /**
@@ -31,14 +42,13 @@ export const randomToken = (): string => {
   return randToken.generate(16)
 }
 
+/**
+ * Ensure there is a slash at end of string
+ * @param path
+ */
 export const ensureTrailingSlash = (path: string): string => {
   path += path.endsWith("/") ? "" : "/"
   return path
-}
-
-export interface PriorityItem {
-  priority?: number;
-  [key: string]: any;
 }
 
 // Sort objects in an array by a priority value that defaults to 100
@@ -60,10 +70,13 @@ export const sortPriority = <TPri extends PriorityItem[]>(arr: TPri): TPri => {
     return result
   })
 }
-
-// Parse settings using dot notation
-// TODO unit test this
-// Cases: [port] [app.name] [roles.arpowers@gmail.com]
+/**
+ * Parse settings using dot notation
+ * @param key - dot.notation pointer to settings
+ * @param settings - object - all settings object
+ * @remarks
+ * Cases: [port] [app.name] [roles.arpowers@gmail.com]
+ */
 export const dotSetting = ({
   key,
   settings
@@ -83,23 +96,61 @@ export const dotSetting = ({
   }
 }
 
-// Deep merge an array of objects into a single object
-// Replaces arrays instead of concat
+/**
+ * Deep merge an array of objects into a single object
+ *
+ * @remarks
+ * If two settings are arrays, then we have a special merge strategy
+ * If the lower priority array has objects with _id attribute,
+ * then we merge with the higher priority array if it has object w same _id
+ *
+ * @param items - array of objects
+ */
 export const deepMerge = <T>(items: Partial<T>[]): object => {
   const mergeItems = items.filter(_ => _)
 
   const merged = deepMergeLib.all(mergeItems, {
-    arrayMerge: (destinationArray, sourceArray) => sourceArray
+    arrayMerge: (lowerPriority, higherPriority) => {
+      return higherPriority.map((higher: any) => {
+        if (higher === null || typeof higher !== "object") {
+          return higher
+        }
+
+        const matchingObject = lowerPriority.find((lower: any) => {
+          if (lower === null || typeof lower !== "object") {
+            return false
+          } else if (lower._item && higher._item && lower._item == higher._item) {
+            return true
+          } else {
+            return false
+          }
+        })
+
+        if (matchingObject) {
+          return deepMerge([matchingObject, higher])
+        } else {
+          return higher
+        }
+      })
+    }
   })
 
   return merged
 }
 
+/**
+ * Merges an array of objects, but first sorts them by priority attr
+ * @param arr - array of objects w priority key
+ */
 export const sortMerge = (arr: PriorityItem[]): object => {
   return deepMerge(sortPriority(arr))
 }
 
-// Make stop words lower case in a title
+/**
+ * Make stop words lower case in a title
+ * @param str - string to manipulate
+ * @param lib - stopwords array
+ */
 export const stopWordLowercase = (str: string, lib: string[] = []): string => {
   if (lib.length == 0) {
     lib = stopwordsLib
@@ -112,12 +163,18 @@ export const stopWordLowercase = (str: string, lib: string[] = []): string => {
   return str.replace(regex, match => match.toLowerCase())
 }
 
-// Convert camel-case to kebab-case
+/**
+ * Convert camel-case to kebab-case
+ * @param string - string to manipulate
+ */
 export const camelToKebab = (string: string): string => {
   return !string ? string : string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
 }
 
-// Coverts a slug or variable into a title-like string
+/**
+ * Coverts a slug or variable into a title-like string
+ * @param str - slug to make into label
+ */
 export const toLabel = (str?: string): string => {
   if (!str || typeof str !== "string") return ""
 
@@ -128,7 +185,10 @@ export const toLabel = (str?: string): string => {
   return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
 }
 
-// Converts regular space delimited text into a hyphenated slug
+/**
+ * Converts regular space delimited text into a hyphenated slug
+ * @param text - string to manipulate
+ */
 export const slugify = (text: string): string => {
   if (!text) return text
 
@@ -143,8 +203,12 @@ export const slugify = (text: string): string => {
     .replace(/-+$/, "") // Trim - from end of text
 }
 
-// Parse to standard utility lists
-// Ideal for passing around config data and lists (inputs, etc.. )
+/**
+ * Parse to standard utility lists
+ * Standard format for passing around config data and lists (inputs, etc.. )
+ * @param list - list to normalize
+ * @param options - options for list output
+ */
 export const parseList = (
   list: ListItem[] = [],
   options: { prefix?: string; suffix?: string } = {}
@@ -185,6 +249,13 @@ export const parseList = (
   return normalized
 }
 
+/**
+ * Converts a string ToPascalCase
+ * @param string - string to manipulate
+ *
+ * @remarks
+ * http://wiki.c2.com/?PascalCase
+ */
 export const toPascalCase = (string: string): string => {
   return `${string}`
     .replace(new RegExp(/[-_]+/, "g"), " ")

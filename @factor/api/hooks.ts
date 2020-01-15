@@ -70,7 +70,7 @@ export const getFilters = (
 
   // Allow for filter control using global in special cases
   // This allows special builds and multi-builds to control how filters are applied
-  if (controllers[hook]) {
+  if (controllers && controllers[hook]) {
     const controllerCbs = Object.values(controllers[hook]).map(_ => _.callback)
     for (const controller of controllerCbs) {
       const result = controller(hooks, ...rest)
