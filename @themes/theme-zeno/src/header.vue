@@ -1,7 +1,7 @@
 <template>
   <header class="justify-between md:items-center zeno-header" :class="headerClasses()">
     <div class="relative z-40">
-      <site-brand class="brand block px-6 py-3" :style="showOnLoad()" />
+      <site-brand v-if="loading === false" class="brand block px-6 py-3" />
     </div>
     <div class="relative z-50 flex flex-row md:hidden">
       <button
@@ -65,7 +65,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      loading: false,
+      loading: true,
       navConfig: setting("site.nav"),
       isOpen: false
     }
@@ -76,16 +76,9 @@ export default Vue.extend({
     }
   },
   mounted: function() {
-    this.loading = true
+    this.loading = false
   },
   methods: {
-    showOnLoad(this: any) {
-      if (this.loading == false) {
-        return "opacity:0"
-      } else {
-        return "opacity:1"
-      }
-    },
     headerClasses(this: any) {
       if (this.$route.path != "/") {
         return "max-w-6xl mx-auto border-b border-gray-200 md:px-4"

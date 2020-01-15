@@ -1,14 +1,16 @@
 import { addFilter, setting, addContentRoutes } from "@factor/api"
 import { Component } from "vue"
 
-addFilter({
-  key: "addZenoFont",
-  hook: "factor_head",
-  callback: (_: []) => {
-    return [..._, setting("headTags.font")]
-  },
-  priority: 200
-})
+if (setting("headTags") != '') {
+  addFilter({
+    key: "addZenoFont",
+    hook: "factor_head",
+    callback: (_: []) => {
+      return [..._, setting("headTags.font")]
+    },
+    priority: 200
+  })
+}
 
 // CONTENT ROUTES
 

@@ -40,7 +40,10 @@ export default Vue.extend({
   methods: {
     setting,
     brandClass(this: any) {
-      if (this.$route.path === "/" && setting("site.logoInverse")) {
+      if (
+        (this.$route.path === "/" || this.$route.path === "/zeno/") &&
+        setting("site.logoInverse")
+      ) {
         this.logoDisplay = "lg:hidden"
         this.logoInverseDisplay = "hidden lg:block"
       } else {

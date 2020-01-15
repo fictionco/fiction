@@ -1,9 +1,11 @@
 import { Component } from "vue"
 export default {
   headTags: {
-    font: `<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />`
+    // Embed Font to site head
+    font: '<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />'
   },
   tailwind: {
+    // Tailwind plugin settings
     config: require("./tailwind.config.js"),
     directives: require("./tailwind.css")
   },
@@ -11,6 +13,7 @@ export default {
     defaultTitle: "No Title",
     titleTemplate: "%s - Factor JS"
   },
+  // Global settings
   site: {
     logo: require("./img/logo-zeno.svg"),
     logoInverse: require("./img/logo-zeno-inverse.svg"),
@@ -60,6 +63,7 @@ export default {
       figureAlt: "Cloud"
     }
   },
+  // Home Page
   home: {
     intro: {
       title: "Welcome to Zeno, <br>Innovation via Automation",
@@ -221,6 +225,7 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // About Page
   about: {
     hero: {
       pretitle: "About Theme Zeno",
@@ -312,6 +317,7 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // Pricing Page
   pricing: {
     hero: {
       pretitle: "Pricing that scales with your business.",
@@ -444,6 +450,7 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // Contact Page
   contact: {
     hero: {
       pretitle: "Contact Us",
@@ -458,6 +465,7 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // Contact form plugin settings
   contactForm: {
     submit: {
       btn: "m-0",
@@ -493,6 +501,7 @@ export default {
       }
     ]
   },
+  // Blog plugin and custom blog Settings
   blog: {
     pretitle: "Because the future comes fast",
     title: "Zeno Blog",
@@ -543,6 +552,7 @@ export default {
       }
     }
   },
+  // Footer
   footer: {
     nav: [
       {
