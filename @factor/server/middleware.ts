@@ -6,9 +6,9 @@ import compression from "compression"
 import helmet from "helmet"
 import serveFavicon from "serve-favicon"
 import { Application, Request, Response, NextFunction } from "express"
+import { resolveFilePath } from "@factor/api/resolver"
 import { serveStatic } from "./util"
 import logger from "./logger"
-
 export interface MiddlewareHandler {
   (request: Request, response: Response, next: NextFunction): void;
 }
@@ -33,7 +33,7 @@ export const addMiddleware = ({
 }
 
 export const loadMiddleware = (app: Application, middleware = []): void => {
-  const fav = setting("app.faviconPath")
+  const fav = resolveFilePath(setting("app.faviconPath"))
 
   if (fav) app.use(serveFavicon(fav))
 

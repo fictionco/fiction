@@ -1,5 +1,4 @@
 /* eslint-disable import/no-unresolved */
-import { resolveFilePath } from "@factor/api/resolver"
 import { Component } from "vue"
 export default (): object => {
   return {
@@ -10,8 +9,8 @@ export default (): object => {
         site: (): Promise<Component> => import("__FALLBACK__/site.vue")
       },
       icon: require("__FALLBACK__/static/icon.svg"),
-      templatePath: resolveFilePath("__FALLBACK__/index.html"),
-      faviconPath: resolveFilePath("__FALLBACK__/static/favicon.png")
+      templatePath: "__FALLBACK__/index.html",
+      faviconPath: "__FALLBACK__/static/favicon.png"
     }
   }
 }

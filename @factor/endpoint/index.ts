@@ -11,10 +11,17 @@ export interface EndpointRequestConfig {
   headers?: object;
 }
 
+/**
+ * Standard endpoint structure
+ * @param _id - Endpoint Id
+ */
 export const endpointPath = (_id: string): string => {
   return `/_api_/${_id}`
 }
 
+/**
+ * Structures the bearer token for requests
+ */
 export const bearerToken = (): string => {
   return `Bearer ${userToken()}`
 }
@@ -29,7 +36,7 @@ export const authorizedRequest = async (
   options.headers = { Authorization: bearerToken(), ...headers }
 
   if (isNode) {
-    options.baseURL = localhostUrl() //currentUrl()
+    options.baseURL = localhostUrl()
   }
 
   return await axios.post(path, data, options)

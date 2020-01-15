@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs-extra"
 import { addFilter, setting, log, runCallbacks } from "@factor/api"
-
+import { resolveFilePath } from "@factor/api/resolver"
 import chalk from "chalk"
 import MFS from "memory-fs"
 
@@ -264,7 +264,7 @@ export const developmentServer = async ({
   onReady: UpdateBundle;
   cwd: string;
 }): Promise<void> => {
-  const templatePath = setting("app.templatePath", { cwd })
+  const templatePath = resolveFilePath(setting("app.templatePath", { cwd }))
 
   if (!templatePath) {
     throw new Error("The index.html template path is not set.")

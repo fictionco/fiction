@@ -47,6 +47,10 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
   await tools.runCallbacks("create-server", setup)
 }
 
+/**
+ * Runs a command entered in the CLI
+ * @param options - command options
+ */
 export const runCommand = async (options: CommandOptions): Promise<void> => {
   const setup = {
     install: true,

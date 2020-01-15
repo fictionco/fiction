@@ -17,7 +17,7 @@ import express from "express"
 import fs from "fs-extra"
 import log from "@factor/api/logger"
 import LRU from "lru-cache"
-
+import { resolveFilePath } from "@factor/api/resolver"
 import Vue from "vue"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
@@ -136,8 +136,6 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
             throw error
           }
         }
-      } else {
-        log.server("waiting for restart", { color: "red" })
       }
     }
   })
@@ -167,7 +165,7 @@ export const htmlRenderer = ({
  */
 export const appRenderer = (cwd?: string): BundleRenderer => {
   const paths = {
-    template: setting("app.templatePath", { cwd }),
+    template: resolveFilePath(setting("app.templatePath", { cwd })),
     bundle: getPath("server-bundle", cwd),
     clientManifest: getPath("client-manifest", cwd)
   }

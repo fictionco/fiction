@@ -1,5 +1,5 @@
 import { setting, createSettings } from "@factor/api/settings"
-
+import { resolveFilePath } from "@factor/api/resolver"
 describe("fallbacks", () => {
   beforeAll(() => {
     createSettings()
@@ -14,7 +14,9 @@ describe("fallbacks", () => {
   it("provides an HTML template fallback", () => {
     const s = setting("app.templatePath")
 
-    expect(s).toEqual(expect.any(String))
+    const templatePath = resolveFilePath(s)
+
+    expect(templatePath).toEqual(expect.any(String))
   })
 
   it("provides site wrapper", () => {
