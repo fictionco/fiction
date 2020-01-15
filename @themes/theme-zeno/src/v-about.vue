@@ -37,7 +37,11 @@
           >
             <div v-for="(item, index) in setting('about.values')" :key="index" class="w-full my-2">
               <h2 class="font-normal tracking-tight text-2xl text-purple-900">{{ item.title }}</h2>
-              <div v-if="item.content" class="text-lg text-gray-600">{{ item.content }}</div>
+              <div
+                v-if="item.content"
+                v-formatted-text="item.content"
+                class="text-lg text-gray-600"
+              />
             </div>
           </div>
         </div>

@@ -55,7 +55,7 @@
           <div class="p-10">
             <img :src="item.icon" :alt="item.title" />
             <h2 class="font-normal tracking-tight text-3xl text-purple-900 mt-5">{{ item.title }}</h2>
-            <div v-if="item.content" class="text-lg text-gray-600">{{ item.content }}</div>
+            <div v-if="item.content" v-formatted-text="item.content" class="text-lg text-gray-600" />
           </div>
         </div>
       </div>
