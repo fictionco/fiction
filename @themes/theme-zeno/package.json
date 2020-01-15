@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-zeno",
-  "version": "1.1.23",
+  "version": "1.1.24",
   "description": "A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.",
   "author": "Factor",
   "main": "src/index",
@@ -24,14 +24,14 @@
     "@factor/core": "^1.1.23"
   },
   "dependencies": {
-    "@factor/plugin-blog": "^1.1.23",
-    "@factor/plugin-contact-form": "^1.1.23",
-    "@factor/plugin-highlight-code": "^1.1.20",
-    "@factor/plugin-notify": "^1.1.20",
-    "@factor/plugin-seo": "^1.1.20",
-    "@factor/plugin-sitemap": "^1.1.23",
-    "@factor/plugin-storage-s3": "^1.1.20",
-    "@factor/plugin-tailwind": "^1.1.23"
+    "@factor/plugin-blog": "^1.1.24",
+    "@factor/plugin-contact-form": "^1.1.24",
+    "@factor/plugin-highlight-code": "^1.1.24",
+    "@factor/plugin-notify": "^1.1.24",
+    "@factor/plugin-seo": "^1.1.24",
+    "@factor/plugin-sitemap": "^1.1.24",
+    "@factor/plugin-storage-s3": "^1.1.24",
+    "@factor/plugin-tailwind": "^1.1.24"
   },
   "keywords": [
     "factor",
