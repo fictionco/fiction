@@ -66,6 +66,46 @@ export default {
       { component: accountMenu, condition: (): boolean => isLoggedIn() }
     ]
   },
+  blog: {
+    title: "Factor Blog",
+    content:
+      "Discover the latest product updates, announcements, and articles from the Factor team.",
+    indexRoute: "/blog",
+    postRoute: "/entry",
+    limit: 6,
+    returnLinkText: "Back",
+    notFound: {
+      title: "No Posts",
+      subTitle: "Couldn't find any blog posts."
+    },
+    promo: {
+      pretitle: "The Javascript CMS",
+      title: "Build something incredible today",
+      content:
+        "Factor will help you launch websites and applications faster.",
+      button: {
+        link: "/guide/quickstart",
+        text: "Get Started"
+      }
+    },
+    components: {
+      blogWrap: (): Promise<Component> => import("./src/blog/blog-wrap.vue"),
+      blogIndex: (): Promise<Component> => import("./src/blog/blog-index.vue"),
+      blogSingle: (): Promise<Component> => import("./src/blog/blog-single.vue"),
+      featuredImage: (): Promise<Component> => import("./src/blog/el-featured-image.vue"),
+      title: (): Promise<Component> => import("./src/blog/widget-title.vue"),
+      date: (): Promise<Component> => import("./src/blog/widget-date.vue"),
+      author: (): Promise<Component> => import("./src/blog/widget-author.vue"),
+      singleHeader: (): Promise<Component> => import("./src/blog/el-single-header.vue"),
+      entry: (): Promise<Component> => import("./src/blog/widget-entry.vue"),
+      social: (): Promise<Component> => import("./src/blog/widget-social.vue"),
+      pagination: (): Promise<Component> => import("./src/blog/widget-pagination.vue")
+    },
+    layout: {
+      index: ["featuredImage", "date", "title", "author"],
+      single: ["singleHeader", "entry", "social"]
+    }
+  },
   plugins: {
     cta: {
       title: "Create and Submit Your Plugin",
@@ -73,7 +113,6 @@ export default {
         "Learn about extension development and how to submit your extension to the Factor library."
     }
   },
-
   footer: {
     headline: "Released under the GPL-2 License",
     legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
