@@ -71,12 +71,18 @@ export const renderRequest = async (
   }
 }
 
+/**
+ * Adds a utility to the listener/server so we can remove it later
+ */
 const prepareListener = (): void => {
   if (__listening) {
     __listening.destroy = destroyer(__listening)
   }
 }
 
+/**
+ * Closes and removes port processes etc for existing server
+ */
 export const closeServer = async (): Promise<void> => {
   if (__listening) {
     __listening.destroy()

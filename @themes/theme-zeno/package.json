@@ -20,10 +20,9 @@
     "build": "postcss css/tailwind.css -o tailwind.css"
   },
   "gitHead": "ab4e6a60ca0c3e33bb034ad6bb59425ee4d26e6c",
-  "peerDependencies": {
-    "@factor/core": "^1.1.23"
-  },
+  "peerDependencies": {},
   "dependencies": {
+    "@factor/core": "^1.1.24",
     "@factor/plugin-blog": "^1.1.24",
     "@factor/plugin-contact-form": "^1.1.24",
     "@factor/plugin-highlight-code": "^1.1.24",
