@@ -117,11 +117,11 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
   addCallback({
     key: "createServer",
     hook: "restart-server",
-    callback: async ({ path, event }: { event: string; path: string }): Promise<void> => {
+    callback: async ({ path }: { event?: string; path?: string } = {}): Promise<void> => {
       if (!isRestarting()) {
         setRestarting(true)
 
-        log.server(`restarting server ${event}@${path}`, { color: "yellow" })
+        log.server(`restarting server`, { color: "yellow" })
 
         if (__listening) {
           try {

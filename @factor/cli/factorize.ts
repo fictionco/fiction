@@ -16,6 +16,10 @@ interface EnvironmentConfig {
   restart?: boolean;
 }
 
+/**
+ * Sets Node process and environmental variables
+ * @param _arguments - cli options
+ */
 export const setEnvironment = (_arguments: EnvironmentConfig = {}): void => {
   const { NODE_ENV, command, ENV, PORT, debug } = _arguments
 
@@ -61,16 +65,13 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
     key: "nodeReload",
     hook: "rebuild-server-app",
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    callback: ({ path }: { path: string }) => reloadNodeProcess(path, _config)
+    callback: () => reloadNodeProcess(_config)
   })
 }
 
 // Reloads all cached node files
 // Needed for server reloading
-const reloadNodeProcess = async (
-  path = "",
-  _arguments: EnvironmentConfig
-): Promise<void> => {
+const reloadNodeProcess = async (_arguments: EnvironmentConfig): Promise<void> => {
   Object.keys(require.cache).forEach(id => {
     if (/factor(?!.*node_modules)/.test(id)) {
       delete require.cache[id]

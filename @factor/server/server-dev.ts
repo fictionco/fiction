@@ -1,6 +1,6 @@
 import path from "path"
 import fs from "fs-extra"
-import { addFilter, setting, log, runCallbacks } from "@factor/api"
+import { addFilter, setting, log } from "@factor/api"
 import { resolveFilePath } from "@factor/api/resolver"
 import chalk from "chalk"
 import MFS from "memory-fs"
@@ -241,11 +241,6 @@ export const initializeDevServer = (cwd: string): void => {
   // Watch for file changes in Factor directories
   watcher(({ event, path }: { event: string; path: string }) => {
     updateBundles({ cwd, title: event, value: path })
-
-    // On file changes to js/ts trigger server restart, ignoring anything happening in test folders
-    if (!path.includes("test") && (path.includes(".js") || path.includes(".ts"))) {
-      runCallbacks("restart-server", { event, path })
-    }
   })
 }
 
@@ -282,7 +277,7 @@ export const developmentServer = async ({
 
   devServer[cwd] = dev
 
-  initializeDevServer(cwd)
+  //initializeDevServer(cwd)
 
   createClientCompiler({ fileSystem, devServer: dev })
 

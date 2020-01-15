@@ -45,6 +45,27 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
   log.formatted(message)
 
   await tools.runCallbacks("create-server", setup)
+
+  process.stdin.setRawMode(true)
+  process.stdin.resume()
+  process.stdin.on("keypress", (str, key) => {
+    if (key.ctrl && key.name === "c") {
+      // eslint-disable-next-line unicorn/no-process-exit
+      process.exit()
+    } else if (key.ctrl && key.name === "r") {
+      tools.runCallbacks("restart-server")
+    }
+  })
+
+  const message2 = {
+    title: "Server is running...",
+    lines: [
+      { title: "To exit", value: "[ctrl + c]", indent: true },
+      { title: "To restart", value: "[ctrl + r]", indent: true }
+    ]
+  }
+
+  log.formatted(message2)
 }
 
 /**
