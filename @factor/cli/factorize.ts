@@ -34,6 +34,10 @@ export const setEnvironment = (_arguments: EnvironmentConfig = {}): void => {
   dotenv.config({ path: resolve(process.env.FACTOR_CWD, ".env") })
 }
 
+/**
+ * Extends the server and runs before/after callbacks
+ * @param restart - if its a restart or initial run
+ */
 export const extendServer = async ({ restart = false } = {}): Promise<void> => {
   try {
     await runCallbacks("before-server-plugins")
@@ -49,6 +53,10 @@ export const extendServer = async ({ restart = false } = {}): Promise<void> => {
   if (!restart) runCallbacks("after-first-server-extend")
 }
 
+/**
+ * Configures and extends the factor server environment
+ * @param _config - factor environment config
+ */
 export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> => {
   // Do this for every reset of server
   setEnvironment(_config)
@@ -69,11 +77,14 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
   })
 }
 
-// Reloads all cached node files
-// Needed for server reloading
+/**
+ * Reloads all cached node files
+ * Needed for server reloading
+ * @param _arguments - original arguments for factor cli
+ */
 const reloadNodeProcess = async (_arguments: EnvironmentConfig): Promise<void> => {
   Object.keys(require.cache).forEach(id => {
-    if (/factor(?!.*node_modules)/.test(id)) {
+    if (!/node_modules/.test(id)) {
       delete require.cache[id]
     }
   })

@@ -1,4 +1,5 @@
-import { pushToFilter, addPostType } from "@factor/api"
+import { addPostType } from "@factor/api/post-types"
+import { pushToFilter } from "@factor/api/hooks"
 import { Component } from "vue"
 import { logout } from "./util"
 export const setup = (): void => {

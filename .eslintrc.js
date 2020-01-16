@@ -14,7 +14,8 @@ module.exports = {
   parser: "vue-eslint-parser",
   parserOptions: {
     sourceType: "module",
-    parser: "@typescript-eslint/parser"
+    parser: "@typescript-eslint/parser",
+    project: "./tsconfig.json" // added for tsdoc, not sure what this does
   },
   env: {
     browser: true,
@@ -33,6 +34,7 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
+   
     "plugin:cypress/recommended"
   ],
 
@@ -45,10 +47,12 @@ module.exports = {
     "jest",
     "import",
     "@typescript-eslint",
-    "cypress"
+    "cypress", 
+    "tsdoc",
   ],
 
   rules: {
+    "tsdoc/syntax": "warn",
     "jest/no-disabled-tests": "off",
     "no-console": "error",
     "no-debugger": "error",

@@ -1,6 +1,7 @@
 import { emitEvent } from "@factor/api/events"
 import { isNode } from "@factor/api/utils"
 import { localhostUrl } from "@factor/api/url"
+import { userInitialized } from "@factor/user"
 import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 
@@ -22,10 +23,19 @@ export const endpointPath = (_id: string): string => {
 /**
  * Structures the bearer token for requests
  */
-export const bearerToken = (): string => {
+export const bearerToken = async (): Promise<string> => {
+  await userInitialized()
+
   return `Bearer ${userToken()}`
 }
 
+/**
+ * Make a request with Authorization header which represents the auth
+ * state of the logged in user (bearer)
+ * @param path - path to make request
+ * @param data - data to request with
+ * @param options  - axios request options
+ */
 export const authorizedRequest = async (
   path: string,
   data: object,
@@ -33,7 +43,10 @@ export const authorizedRequest = async (
 ): Promise<AxiosResponse> => {
   const { headers = {} } = options
 
-  options.headers = { Authorization: bearerToken(), ...headers }
+  // Must be capitalized as name is a standard
+  const Authorization = await bearerToken()
+
+  options.headers = { Authorization, ...headers }
 
   if (isNode) {
     options.baseURL = localhostUrl()
@@ -42,6 +55,13 @@ export const authorizedRequest = async (
   return await axios.post(path, data, options)
 }
 
+/**
+ * Make an HTTP request to an endpoint
+ * @param id - endpoint ID, tied to the path
+ * @param method - the method at the endpoint to call
+ * @param params - the data to call the endpoint method with
+ * @param headers - the headers on the request
+ */
 export const endpointRequest = async ({
   id,
   method,

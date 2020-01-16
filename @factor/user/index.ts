@@ -3,20 +3,13 @@ import { requestPostSingle, requestPostPopulate } from "@factor/post/request"
 import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
 import Vue from "vue"
-import {
-  isEmpty,
-  isNode,
-  emitEvent,
-  addFilter,
-  runCallbacks,
-  addCallback,
-  stored,
-  log,
-  currentRoute,
-  navigateToRoute,
-  onEvent
-} from "@factor/api"
-
+import { isEmpty } from "@factor/api/utils-lodash"
+import { isNode } from "@factor/api/utils"
+import { addFilter, runCallbacks, addCallback } from "@factor/api/hooks"
+import { currentRoute, navigateToRoute } from "@factor/app/router"
+import { stored } from "@factor/app/store"
+import log from "@factor/api/logger"
+import { onEvent, emitEvent } from "@factor/api/events"
 import { setUser } from "./util"
 import {
   FactorUserCredential,
@@ -32,6 +25,9 @@ import { userToken, handleTokenError } from "./token"
 
 export * from "./email-request"
 
+/**
+ * Information for the currently logged in user
+ */
 export const currentUser = (): CurrentUserState => {
   return stored("currentUser")
 }
@@ -50,6 +46,11 @@ export const userInitialized = async (callback?: Function): Promise<CurrentUserS
   return user
 }
 
+/**
+ * Gets the information for a user based on a token
+ * If no token is passed in, it looks in localStorage
+ * @param userCredential - user credentialing information (password/token)
+ */
 const retrieveAndSetCurrentUser = async (
   userCredential?: FactorUserCredential
 ): Promise<CurrentUserState> => {
@@ -75,6 +76,9 @@ const retrieveAndSetCurrentUser = async (
   return user
 }
 
+/**
+ * On initial client load, this makes the HTTP request for user auth status
+ */
 const requestInitializeUser = async (): Promise<CurrentUserState> => {
   await appMounted()
   const resolvedUser = await retrieveAndSetCurrentUser()
@@ -84,25 +88,43 @@ const requestInitializeUser = async (): Promise<CurrentUserState> => {
   return resolvedUser
 }
 
+/**
+ * Is the currently logged in user same as _id
+ * @param _id - User ObjectId
+ */
 export const isCurrentUser = (_id: string): boolean => {
   const current = currentUser()
   return current && current._id === _id ? true : false
 }
 
+/**
+ * Gets the _id of the currently logged in user
+ */
 export const userId = (): string => {
   const current = currentUser()
   return current && current._id ? current._id : ""
 }
 
+/**
+ * Is the user logged in?
+ */
 export const isLoggedIn = (): boolean => {
   return !isEmpty(currentUser())
 }
 
+/**
+ * Is the logged in user's email verified?
+ */
 export const isEmailVerified = (): boolean => {
   const current = currentUser()
   return current && current.emailVerified ? true : false
 }
 
+/**
+ * Makes a request to the user endpoint
+ * @param method - user endpoint method
+ * @param params - data to call with
+ */
 const sendUserRequest = async (method: string, params: object): Promise<unknown> => {
   return await endpointRequest({ id: "user", method, params })
 }
@@ -125,8 +147,11 @@ export const authenticate = async (
   return user
 }
 
-// Very basic version for UI control by  role
-// Needs improvement for more fine grained control
+/**
+ * Very basic version for UI control by  role
+ * @remark
+ * Needs improvement for more fine grained control
+ */
 export const userCan = ({
   role = "",
   accessLevel = -1

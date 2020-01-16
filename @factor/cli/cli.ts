@@ -17,6 +17,10 @@ interface CommanderArguments {
   [key: string]: any;
 }
 
+/**
+ * Opens the node inspector port
+ * https://nodejs.org/api/inspector.html
+ */
 const initializeNodeInspector = async (): Promise<void> => {
   const inspector = require("inspector")
   inspector.close()
@@ -30,19 +34,30 @@ const initializeNodeInspector = async (): Promise<void> => {
 export const runServer = async (setup: CommandOptions): Promise<void> => {
   const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
 
-  const message = {
-    title: "Starting Server...",
-    lines: [
-      { title: "LOCAL_URL", value: localhostUrl(), indent: true },
-      { title: "PRODUCTION_URL", value: productionUrl(), indent: true },
-      { title: "NODE_ENV", value: NODE_ENV, indent: true },
-      { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
-      { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
-      { title: "CWD", value: FACTOR_CWD, indent: true }
-    ]
-  }
+  const message = [
+    {
+      title: "Starting Server...",
+      lines: [
+        { title: "LOCAL_URL", value: localhostUrl(), indent: true },
+        { title: "PRODUCTION_URL", value: productionUrl(), indent: true },
+        { title: "NODE_ENV", value: NODE_ENV, indent: true },
+        { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
+        { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
+        { title: "CWD", value: FACTOR_CWD, indent: true }
+      ]
+    },
+    {
+      title: "Controls",
+      lines: [
+        { title: "exit", value: "ctrl + c", indent: true },
+        { title: "restart", value: "ctrl + r", indent: true }
+      ]
+    }
+  ]
 
-  log.formatted(message)
+  message.forEach(m => {
+    log.formatted(m)
+  })
 
   await tools.runCallbacks("create-server", setup)
 
@@ -56,16 +71,6 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
       tools.runCallbacks("restart-server")
     }
   })
-
-  const message2 = {
-    title: "Server is running...",
-    lines: [
-      { title: "To exit", value: "[ctrl + c]", indent: true },
-      { title: "To restart", value: "[ctrl + r]", indent: true }
-    ]
-  }
-
-  log.formatted(message2)
 }
 
 /**
@@ -120,7 +125,11 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   return
 }
 
-// Clean up commanders provided arguments to just return needed CLI arguments
+/**
+ * Clean up commanders provided arguments to just return needed CLI arguments
+ * @library commander
+ * @param commanderArguments - arguments provided by commander lib
+ */
 const cleanArguments = (commanderArguments: CommanderArguments): Record<string, any> => {
   const out: { [index: string]: any } = {}
 

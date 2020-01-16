@@ -24,11 +24,19 @@ export const timeUtil = (time?: DateTypes): Dayjs => {
   }
 }
 
+/**
+ * Gets a standard formatted date
+ * @param time - moment/dayjs compatible date
+ */
 export const standardDate = (time?: dayjs.ConfigType): string => {
   if (!time) return ""
   return timeUtil(time).format("MMM DD, YYYY")
 }
 
+/**
+ * Gets a standard formatted time
+ * @param time - moment/dayjs compatible date
+ */
 export const standardTime = (time: dayjs.ConfigType): string => {
   return timeUtil(time).format("h:mma (MM/D)")
 }

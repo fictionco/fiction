@@ -7,13 +7,20 @@ import { userCredential } from "./jwt"
 import { FactorUserCredential, AuthenticationParameters, FactorUser } from "./types"
 import "./hooks-universal"
 
+/**
+ * Gets the post model associated with user post type
+ */
 export const getUserModel = (): Model<FactorUser & Document> => {
   return getModel<FactorUser>("user")
 }
 
+/**
+ * Authenticates users, signing them up if newAccount is set
+ * @param params - authentication information
+ */
 export const authenticate = async (
   params: AuthenticationParameters
-): Promise<FactorUserCredential | {}> => {
+): Promise<FactorUserCredential | undefined> => {
   const { newAccount, email, password, displayName } = params
 
   let user

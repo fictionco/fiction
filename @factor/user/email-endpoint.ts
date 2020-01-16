@@ -23,7 +23,10 @@ interface UserEmailConfig {
   _id: string;
   code: string;
 }
-
+/**
+ * Sends user account email
+ * @param args - standard email text
+ */
 export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
   const { to, subject, action, _id, code, text, linkText } = args
   const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&_id=${_id}`
@@ -38,7 +41,12 @@ export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
 
   return
 }
-
+/**
+ * Verifies a user email with code sent to that email
+ * @param _id - user id
+ * @param code - the code sent via email
+ * @param bearer - user making the request
+ */
 export const verifyEmail = async (
   { _id, code }: VerifyEmail,
   { bearer }: EndpointMeta
@@ -62,7 +70,9 @@ export const verifyEmail = async (
     return EmailResult.failure
   }
 }
-
+/**
+ * Sends a verification email to the current user
+ */
 export const sendVerifyEmail = async (
   { email, _id }: SendVerifyEmail,
   { bearer }: EndpointMeta
@@ -83,7 +93,12 @@ export const sendVerifyEmail = async (
 
   return EmailResult.success
 }
-
+/**
+ * Verifies password with a password reset code sent via email
+ * @param _id - user id
+ * @param code - code sent to email
+ * @param password - the new password
+ */
 export const verifyAndResetPassword = async ({
   _id,
   code,
@@ -104,7 +119,10 @@ export const verifyAndResetPassword = async ({
     throw new Error("Could not reset your password.")
   }
 }
-
+/**
+ * Sends a password reset code to a an email.
+ * @param email - the email address for the account
+ */
 export const sendPasswordResetEmail = async ({
   email
 }: {

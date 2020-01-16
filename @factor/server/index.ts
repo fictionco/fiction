@@ -35,9 +35,17 @@ interface ServerOptions {
   cwd?: string;
 }
 
+/**
+ * Is the server currently restarting?
+ * @remarks used to prevent double restart attempts
+ */
 const isRestarting = (): boolean => {
   return Vue.$restartingServer ? true : false
 }
+/**
+ * Sets a flag used to establish server restart status
+ * @param state - server restart state
+ */
 const setRestarting = (state: boolean): void => {
   Vue.$restartingServer = state
 }
@@ -55,6 +63,12 @@ export const renderRoute = async (
   return await currentRenderer.renderToString({ url })
 }
 
+/**
+ * Renders HTML based on the url in the express request
+ * @param renderer - Vue server renderer
+ * @param request - server request
+ * @param response - server response
+ */
 export const renderRequest = async (
   renderer: BundleRenderer,
   request: express.Request,
@@ -89,6 +103,14 @@ export const closeServer = async (): Promise<void> => {
   }
 }
 
+/**
+ * Create the express server
+ * @library express
+ * @param options - server configuration options
+ *
+ * @remarks
+ * This needs to take into account server resets
+ */
 export const createServer = async (options: ServerOptions): Promise<void> => {
   const { port, renderer } = options || {}
 
@@ -141,6 +163,13 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
   })
 }
 
+/**
+ * Returns an HTML renderer using Vue client/server bundles
+ * @library Vue
+ * @param bundle - Vue server bundle
+ * @param template - HTML template
+ * @param clientManifest - Vue client manifest
+ */
 export const htmlRenderer = ({
   bundle,
   template,
@@ -178,6 +207,7 @@ export const appRenderer = (cwd?: string): BundleRenderer => {
 
   return htmlRenderer(renderComponents)
 }
+
 /**
  * Creates application renderer and runs a server
  * @param options - options for running the server
@@ -192,6 +222,7 @@ export const createRenderServer = async (
   let renderer: BundleRenderer
 
   const cwd = getWorkingDirectory(options.cwd)
+
   if (process.env.NODE_ENV == "development") {
     renderer = await new Promise(resolve => {
       developmentServer({
@@ -226,7 +257,11 @@ export const setup = (): void => {
     hook: "create-server",
     callback: (_: ServerOptions) => createRenderServer(_)
   })
-  addCallback({ key: "server", hook: "close-server", callback: () => closeServer() })
+  addCallback({
+    key: "server",
+    hook: "close-server",
+    callback: () => closeServer()
+  })
 }
 
 setup()
