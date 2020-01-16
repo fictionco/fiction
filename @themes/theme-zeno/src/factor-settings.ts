@@ -1,9 +1,11 @@
 import { Component } from "vue"
 export default {
   headTags: {
-    font: `<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />`
+    // Embed Font to site head
+    font: '<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />'
   },
   tailwind: {
+    // Tailwind plugin settings
     config: require("./tailwind.config.js"),
     directives: require("./tailwind.css")
   },
@@ -11,6 +13,7 @@ export default {
     defaultTitle: "No Title",
     titleTemplate: "%s - Factor JS"
   },
+  // Global settings
   site: {
     logo: require("./img/logo-zeno.svg"),
     logoInverse: require("./img/logo-zeno-inverse.svg"),
@@ -60,6 +63,7 @@ export default {
       figureAlt: "Cloud"
     }
   },
+  // Home Page
   home: {
     intro: {
       title: "Welcome to Zeno, <br>Innovation via Automation",
@@ -116,42 +120,42 @@ export default {
           icon: require("./img/plan.svg"),
           title: "Plan",
           content:
-            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+            `Lorem ipsum dolor <br> <br>sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "build",
           icon: require("./img/build.svg"),
           title: "Build",
           content:
-            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "manage",
           icon: require("./img/manage.svg"),
           title: "Manage",
           content:
-            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "gears",
           icon: require("./img/gears.svg"),
           title: "Automation",
           content:
-            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "clouds",
           icon: require("./img/clouds.svg"),
           title: "Cloud",
           content:
-            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "security",
           icon: require("./img/security.svg"),
           title: "Security",
           content:
-            "Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut"
+            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         }
       ]
     },
@@ -207,7 +211,7 @@ export default {
         {
           _item: "testimonial_2",
           content:
-            "@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!",
+            `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
           image: require("./img/member3.jpg"),
           author: "Sebastian Hodges",
           info: "CEO, SedLaudantium"
@@ -221,12 +225,13 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // About Page
   about: {
     hero: {
       pretitle: "About Theme Zeno",
       title: "Built with Factor CMS",
       content:
-        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework."
+        `Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework.`
     },
     valuesImage1: require("./img/about1.jpg"),
     valuesImage2: require("./img/about2.jpg"),
@@ -312,6 +317,7 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // Pricing Page
   pricing: {
     hero: {
       pretitle: "Pricing that scales with your business.",
@@ -444,6 +450,7 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // Contact Page
   contact: {
     hero: {
       pretitle: "Contact Us",
@@ -458,6 +465,7 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
+  // Contact form plugin settings
   contactForm: {
     submit: {
       btn: "m-0",
@@ -493,6 +501,7 @@ export default {
       }
     ]
   },
+  // Blog plugin and custom blog Settings
   blog: {
     pretitle: "Because the future comes fast",
     title: "Zeno Blog",
@@ -543,6 +552,7 @@ export default {
       }
     }
   },
+  // Footer
   footer: {
     nav: [
       {

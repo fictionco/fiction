@@ -1,7 +1,7 @@
 <template>
   <header class="justify-between md:items-center zeno-header" :class="headerClasses()">
     <div class="relative z-40">
-      <site-brand class="block px-6 py-3" />
+      <site-brand v-if="loading === false" class="brand block px-6 py-3" />
     </div>
     <div class="relative z-50 flex flex-row md:hidden">
       <button
@@ -65,6 +65,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      loading: true,
       navConfig: setting("site.nav"),
       isOpen: false
     }
@@ -73,6 +74,9 @@ export default Vue.extend({
     siteNav(this: any) {
       return this.navConfig.filter((item: any) => !item.condition || item.condition())
     }
+  },
+  mounted: function() {
+    this.loading = false
   },
   methods: {
     headerClasses(this: any) {
@@ -98,6 +102,10 @@ export default Vue.extend({
   display: grid;
   grid-template-columns: 1fr minmax(750px, 1fr);
   grid-gap: 0;
+
+  .brand {
+    transition: 0.15s cubic-bezier(0.52, 0.01, 0.16, 1);
+  }
 
   @media (max-width: 1024px) {
     display: flex;
