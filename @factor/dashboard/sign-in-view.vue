@@ -22,7 +22,7 @@ export default Vue.extend({
 .auth-form {
   max-width: 400px;
   margin: 2em auto;
-  min-height: 50vh;
+  min-height: 75vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
