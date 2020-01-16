@@ -20,7 +20,7 @@ export const handleTokenError = (
   error: Error | string,
   { onError }: { onError?: Function }
 ): void => {
-  const badToken = "JsonWebTokenError: invalid signature"
+  const badToken = "token signature is invalid"
   if (
     (error && typeof error == "string" && error.includes(badToken)) ||
     (typeof error == "object" && error.message && error.message.includes(badToken))

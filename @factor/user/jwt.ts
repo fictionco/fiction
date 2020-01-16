@@ -46,6 +46,13 @@ export const decodeTokenIntoUser = (token: string): FactorUser => {
   try {
     return jwt.verify(token, process.env.TOKEN_SECRET) as FactorUser
   } catch (error) {
-    throw new Error(error)
+    if (error.message.includes("invalid signature")) {
+      error.errno = 403
+      error.code = "TOKEN_INVALID"
+      error.message =
+        "User token signature is invalid. The client user token does not match the token secret. You should only see this error once as client token will be cleared."
+    }
+
+    throw error
   }
 }
