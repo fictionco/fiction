@@ -24,11 +24,15 @@ import {
  */
 export const endpointError = (
   code: string | number,
-  message: string
+  originalError: NodeJS.ErrnoException
 ): NodeJS.ErrnoException => {
-  const error: NodeJS.ErrnoException = new Error(message)
-  error.code = String(code)
-  return error
+  originalError.code = String(code)
+
+  if (typeof code == "number") {
+    originalError.errno = code
+  }
+
+  return originalError
 }
 
 /**
@@ -48,7 +52,7 @@ export const setAuthorizedUser = async (
       user = token ? ((await getSinglePost({ token })) as FactorUser) : undefined
     }
   } catch (error) {
-    throw endpointError(401, error.message)
+    throw endpointError(401, error)
   }
 
   return user
@@ -106,11 +110,10 @@ export const processEndpointRequest = async ({
 
   const responseJson: { result?: ResponseType; error?: HttpError } = {}
 
-  // Authorization / Bearer.
-  meta.bearer = await setAuthorizedUser(authorization)
-
   // Run Endpoint Method
   try {
+    // Authorization / Bearer.
+    meta.bearer = await setAuthorizedUser(authorization)
     responseJson.result = await handler({ data, meta })
   } catch (error) {
     responseJson.error = createError(error.code ?? 500, error.message)

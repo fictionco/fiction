@@ -1,4 +1,5 @@
-export interface EmailTransactionalConfig {
+import { EndpointParameters } from "@factor/endpoint"
+export type EmailTransactionalConfig = {
   _id?: string;
   to: string;
   from?: string;
@@ -9,4 +10,4 @@ export interface EmailTransactionalConfig {
   linkUrl?: string;
   textFooter?: string;
   html?: string;
-}
+} & EndpointParameters

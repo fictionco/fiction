@@ -1,7 +1,6 @@
-import { endpointRequest, authorizedRequest } from "@factor/endpoint"
+import { endpointRequest, authorizedRequest, EndpointParameters } from "@factor/endpoint"
 import { storeItem, addPostSchema } from "@factor/api"
 import loadImage from "blueimp-load-image"
-
 import { uploadEndpointPath } from "./util"
 import storageSchema from "./schema"
 
@@ -24,12 +23,12 @@ export const sendStorageRequest = async ({
   params
 }: {
   method: string;
-  params: object;
+  params: EndpointParameters;
 }): Promise<object> => {
   return (await endpointRequest({ id: "storage", method, params })) as object
 }
 
-export const requestDeleteImage = async (params: object): Promise<object> => {
+export const requestDeleteImage = async (params: EndpointParameters): Promise<object> => {
   return await sendStorageRequest({ method: "deleteImage", params })
 }
 

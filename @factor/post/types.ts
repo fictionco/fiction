@@ -1,6 +1,7 @@
 import { CurrentUserState } from "@factor/user/types"
 import mongoose from "mongoose"
 import { Component } from "vue"
+import { EndpointParameters } from "@factor/endpoint"
 export type PopulatedPost = mongoose.Types.ObjectId
 export type PopulatedPosts = mongoose.Types.ObjectId[]
 export type ObjectId = mongoose.Types.ObjectId
@@ -31,7 +32,7 @@ export interface UpdateManyPosts {
   postType: string;
 }
 
-export interface PostRequestParameters {
+export type PostRequestParameters = {
   _id?: string;
   status?: string;
   createOnEmpty?: boolean;
@@ -42,7 +43,7 @@ export interface PostRequestParameters {
   permalink?: string;
   field?: string;
   depth?: number;
-}
+} & EndpointParameters
 
 export type PostIndexParametersFlat = PostIndexOptions &
   PostIndexConditions & {
@@ -50,12 +51,12 @@ export type PostIndexParametersFlat = PostIndexOptions &
     select?: string | null;
   }
 
-export interface PostIndexRequestParameters {
+export type PostIndexRequestParameters = {
   postType: string;
   select?: string | null;
   options: PostIndexOptions;
   conditions: PostIndexConditions;
-}
+} & EndpointParameters
 
 export interface PostIndexOptions {
   limit?: number;

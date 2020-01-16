@@ -115,6 +115,9 @@ const loaders = ({
       devServer.updateLoaders = {}
       devServer.updateReason = ""
       updateBundles({ cwd: devServer.cwd })
+
+      // Keep stdin working for keyboard input
+      process.stdin.resume()
     }
   }
 }

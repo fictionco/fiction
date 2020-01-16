@@ -1,4 +1,4 @@
-import { endpointRequest } from "@factor/endpoint"
+import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { stored, storeItem } from "@factor/app/store"
 import { timestamp } from "@factor/api/time"
 import objectHash from "object-hash"
@@ -38,7 +38,7 @@ const _cacheKey = (postType: string): any => {
  */
 export const sendPostRequest = async (
   method: string,
-  params: object
+  params: EndpointParameters
 ): Promise<unknown> => {
   return await endpointRequest({ id: "posts", method, params })
 }
@@ -165,9 +165,12 @@ export const requestPostSingle = async (
 
   const post = (await sendPostRequest("getSinglePost", params)) as FactorPost
 
+  /**
+   * Populate joined fields, will add this post and all others to store
+   * ASYNC, but we should not wait for it, data will be loaded to store
+   */
   if (post) {
-    // Populate fields, will add this post and all others to store
-    await requestPostPopulate({ posts: [post], depth })
+    requestPostPopulate({ posts: [post], depth })
   }
 
   return post as FactorPost

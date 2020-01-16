@@ -17,7 +17,7 @@
           </div>
           <div v-if="toggle == 'on' && menuType == 'factor'" class="app-name">
             Factor JS
-            <toggle-caret/>
+            <toggle-caret />
           </div>
         </div>
         <div
@@ -34,12 +34,12 @@
             <dashboard-icon icon="globe" />
           </div>
           <div v-if="toggle == 'off' || (toggle == 'on' && menuType == 'app')" class="app-name">
-            <span v-formatted-text="appName" class="name-text"/>
-            <toggle-caret/>
+            <span v-formatted-text="appName" class="name-text" />
+            <toggle-caret />
           </div>
         </div>
       </div>
-      <div class="filler"/>
+      <div class="filler" />
       <div class="nav">
         <slot />
         <div class="mobile-nav-toggle-wrap" @click.stop>
@@ -51,9 +51,9 @@
             <factor-avatar :post-id="getUser('avatar')" width="2rem" />
 
             <div class="bars">
-              <div class="bar"/>
-              <div class="bar"/>
-              <div class="bar"/>
+              <div class="bar" />
+              <div class="bar" />
+              <div class="bar" />
             </div>
           </div>
         </div>
@@ -343,6 +343,8 @@ export default Vue.extend({
       font-weight: 700;
       transition: all 0.1s;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
       cursor: pointer;
       .caret {
         margin-top: 3px;

@@ -9,8 +9,9 @@ import { currentRoute, navigateToRoute } from "@factor/app/router"
 import { stored } from "@factor/app/store"
 import log from "@factor/api/logger"
 import { onEvent, emitEvent } from "@factor/api/events"
-
-import { endpointRequest } from "@factor/endpoint"
+import { endpointRequest, EndpointParameters } from "@factor/endpoint"
+import { showResetPassword, verifyEmail } from "./email-request"
+import { VerifyEmail } from "./email-types"
 import { setUser } from "./util"
 import {
   FactorUserCredential,
@@ -124,7 +125,10 @@ export const isEmailVerified = (): boolean => {
  * @param method - user endpoint method
  * @param params - data to call with
  */
-const sendUserRequest = async (method: string, params: object): Promise<unknown> => {
+const sendUserRequest = async (
+  method: string,
+  params: EndpointParameters
+): Promise<unknown> => {
   return await endpointRequest({ id: "user", method, params })
 }
 
@@ -205,6 +209,17 @@ const handleAuthRouting = (): void => {
 }
 
 export const setup = (): void => {
+  addCallback({
+    key: "verifyEmail",
+    hook: "route-query-action-verify-email",
+    callback: (_: VerifyEmail) => verifyEmail(_)
+  })
+  addCallback({
+    key: "resetPassword",
+    hook: "route-query-action-reset-password",
+    callback: () => showResetPassword()
+  })
+
   addFilter({
     key: "userInit",
     hook: "before-app",

@@ -2,6 +2,7 @@ export interface VerifyAndResetPassword {
   _id: string;
   code: string;
   password: string;
+  [key: string]: string;
 }
 
 export interface VerifyEmail {

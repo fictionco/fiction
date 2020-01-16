@@ -1,4 +1,5 @@
 import { PopulatedPosts, FactorPost } from "@factor/post/types"
+import { EndpointParameters } from "@factor/endpoint"
 export type CurrentUserState = FactorUser | undefined
 
 enum Gender {
@@ -24,12 +25,12 @@ export const userRolesMap: { [index in UserRoles]: number } = {
   anonymous: 0
 }
 
-export interface AuthenticationParameters {
+export type AuthenticationParameters = {
   newAccount: boolean;
   email: string;
   password: string;
   displayName?: string;
-}
+} & EndpointParameters
 
 export interface FactorUserCredential extends FactorUser {
   password: undefined;

@@ -1,5 +1,5 @@
 import { emitEvent, addCallback } from "@factor/api"
-import { endpointRequest } from "@factor/endpoint"
+import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 
 import {
   SendVerifyEmail,
@@ -10,7 +10,7 @@ import {
 
 export const sendUserEmailRequest = async (
   method: string,
-  params: object
+  params: EndpointParameters
 ): Promise<EmailResult> => {
   const result = (await endpointRequest({
     id: "userEmails",
@@ -49,17 +49,6 @@ export const showResetPassword = async (): Promise<void> => {
     }
   })
 }
-
-addCallback({
-  key: "verifyEmail",
-  hook: "route-query-action-verify-email",
-  callback: (_: VerifyEmail) => verifyEmail(_)
-})
-addCallback({
-  key: "resetPassword",
-  hook: "route-query-action-reset-password",
-  callback: () => showResetPassword()
-})
 
 export const verifyAndResetPassword = async (
   args: VerifyAndResetPassword

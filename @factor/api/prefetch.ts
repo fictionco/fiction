@@ -2,7 +2,7 @@ import { addCallback, applyFilters } from "@factor/api/hooks"
 import { setting } from "@factor/api/settings"
 import { currentRoute } from "@factor/app/router"
 import { storeItem } from "@factor/app/store"
-
+import { EndpointParameters } from "@factor/endpoint"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 
@@ -16,11 +16,11 @@ export const addGlobalPrefetch = ({
   addCallback({ hook: "global-prefetch", key, callback })
 }
 
-interface PrefetchArguments {
+type PrefetchArguments = {
   status: string;
   permalink?: string;
   _id?: string;
-}
+} & EndpointParameters
 
 export const preFetchPost = async ({
   to = null,

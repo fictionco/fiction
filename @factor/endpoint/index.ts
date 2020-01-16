@@ -8,8 +8,18 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 export interface EndpointRequestConfig {
   id: string;
   method: string;
-  params: object;
+  params: EndpointParameters;
   headers?: object;
+}
+
+export interface EndpointParameters {
+  token?: string;
+  [key: string]: object | string | number | undefined | boolean;
+}
+
+interface StandardEndpointRequestData {
+  method: string;
+  params: EndpointParameters;
 }
 
 /**
@@ -22,9 +32,13 @@ export const endpointPath = (_id: string): string => {
 
 /**
  * Structures the bearer token for requests
+ * @remarks
+ * This always wait for user initialization, unless token is set in params
  */
-export const bearerToken = async (): Promise<string> => {
-  await userInitialized()
+export const bearerToken = async (data: any): Promise<string> => {
+  if (typeof data !== "object" || data == null || !data.params || !data.params.token) {
+    await userInitialized()
+  }
 
   return `Bearer ${userToken()}`
 }
@@ -38,13 +52,13 @@ export const bearerToken = async (): Promise<string> => {
  */
 export const authorizedRequest = async (
   path: string,
-  data: object,
+  data: unknown,
   options: AxiosRequestConfig = {}
 ): Promise<AxiosResponse> => {
   const { headers = {} } = options
 
   // Must be capitalized as name is a standard
-  const Authorization = await bearerToken()
+  const Authorization = await bearerToken(data)
 
   options.headers = { Authorization, ...headers }
 
@@ -74,7 +88,11 @@ export const endpointRequest = async ({
 
   const {
     data: { result, error }
-  } = await authorizedRequest(endpointPath(id), { method, params }, { headers })
+  } = await authorizedRequest(
+    endpointPath(id),
+    { method, params } as StandardEndpointRequestData,
+    { headers }
+  )
 
   if (error) {
     handleTokenError(error, {

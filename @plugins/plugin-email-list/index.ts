@@ -8,16 +8,16 @@ import {
   setting
 } from "@factor/api"
 import { Component } from "vue"
-import { endpointRequest } from "@factor/endpoint"
+import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { ExportToCsv } from "export-to-csv"
 import { EmailConfig } from "./types"
 const postType = "emailList"
 
-interface VerifyEmail {
+type VerifyEmail = {
   list: string;
   email: string;
   code: string;
-}
+} & EndpointParameters
 
 export const factorEmailList = (): Promise<Component> => import("./wrap.vue")
 
@@ -38,7 +38,7 @@ export const getSetting = ({ listId, key }: { listId?: string; key: string }): a
 
 export const sendEmailListRequest = async (
   method: string,
-  params: object
+  params: EndpointParameters
 ): Promise<void> => {
   await endpointRequest({ id: postType, method, params })
 

@@ -22,7 +22,7 @@ const handleUpload = async function({
   const { file } = request ?? {}
 
   if (!bearer || !bearer._id) {
-    throw endpointError("401", "Not authorized to create attachment.")
+    throw endpointError("401", new Error("Not authorized to create attachment."))
   }
 
   if (!file) {
