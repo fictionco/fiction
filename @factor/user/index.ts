@@ -1,4 +1,3 @@
-import { endpointRequest } from "@factor/endpoint"
 import { requestPostSingle, requestPostPopulate } from "@factor/post/request"
 import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
@@ -10,6 +9,8 @@ import { currentRoute, navigateToRoute } from "@factor/app/router"
 import { stored } from "@factor/app/store"
 import log from "@factor/api/logger"
 import { onEvent, emitEvent } from "@factor/api/events"
+
+import { endpointRequest } from "@factor/endpoint"
 import { setUser } from "./util"
 import {
   FactorUserCredential,
@@ -22,8 +23,6 @@ import "./hooks-universal"
 import "./edit-account"
 
 import { userToken, handleTokenError } from "./token"
-
-export * from "./email-request"
 
 /**
  * Information for the currently logged in user

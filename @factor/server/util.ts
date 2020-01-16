@@ -6,7 +6,11 @@ import figures from "figures"
 import expressPackage from "express/package.json"
 import serverRendererPackage from "vue-server-renderer/package.json"
 
-export const serverErrorWrap = ({ title = "", subTitle = "", description = "" }): string => {
+export const serverErrorWrap = ({
+  title = "",
+  subTitle = "",
+  description = ""
+}): string => {
   const lines = []
 
   if (title)
@@ -24,16 +28,29 @@ export const serverErrorWrap = ({ title = "", subTitle = "", description = "" })
   )}</div>`
 }
 
+/**
+ * Returns the passed in port, or returns the default
+ * @param port - assign to port
+ */
 export const getPort = (port: string | number): string | number => {
   return port || process.env.PORT || setting("PORT") || 3000
 }
 
+/**
+ * Information about the server for headers
+ */
 export const getServerInfo = (): string => {
   const { version: expressVersion } = expressPackage
   const { version: ssrVersion } = serverRendererPackage
   return `express/${expressVersion} vue-server-renderer/${ssrVersion}`
 }
 
+/**
+ * Responds in a request with a standard HTTP error
+ * @param request - express request
+ * @param response - express response
+ * @param error - the error that was thrown
+ */
 export const handleServerError = (
   request: Request,
   response: Response,
@@ -48,6 +65,9 @@ export const handleServerError = (
   response
     .status(500)
     .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
+
+  // Errors stop keyboard input from working (better way?)
+  process.stdin.resume()
 }
 
 export const logServerReady = (): void => {

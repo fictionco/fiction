@@ -104,7 +104,8 @@
 <script lang="ts">
 import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
 import { factorBtnDashboard } from "@factor/ui"
-import { userId, sendVerifyEmail } from "@factor/user"
+import { userId } from "@factor/user"
+import { sendVerifyEmail } from "@factor/user/email-request"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/api"
 import { requestPostSave } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"

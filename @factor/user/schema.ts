@@ -1,11 +1,11 @@
-import { objectIdType } from "@factor/post/util"
 import isEmail from "validator/lib/isEmail"
 import isMobilePhone from "validator/lib/isMobilePhone"
 
-import { applyFilters } from "@factor/api"
+import { applyFilters } from "@factor/api/hooks"
 import bcrypt from "bcryptjs"
 import { HookNextFunction, Schema, Document } from "mongoose"
 import { FactorSchema } from "@factor/post/types"
+import { objectIdType } from "@factor/post/object-id"
 import { FactorUser } from "./types"
 
 export default (): FactorSchema => {

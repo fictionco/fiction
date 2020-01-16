@@ -333,9 +333,9 @@ export default Vue.extend({
       }
 
       .page-title {
-        font-size: 3.7em;
+        font-size: 3em;
         line-height: 1.1;
-        font-weight: 600;
+        font-weight: 500;
         margin-bottom: 1rem;
 
         .highlight {

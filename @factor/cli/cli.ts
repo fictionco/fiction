@@ -71,6 +71,9 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
       tools.runCallbacks("restart-server")
     }
   })
+  process.on("SIGINT", () => {
+    process.exit()
+  })
 }
 
 /**
@@ -91,7 +94,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   if (install) await verifyDependencies(setup)
 
   // Open node inspector port if 'inspect' flag is set
-  if (command && ["dev"].includes(command) && inspect) {
+  if (command && inspect) {
     await initializeNodeInspector()
   }
 
@@ -164,12 +167,12 @@ export const setup = (): void => {
     .option("--restart", "restart server process flag")
     .option("--debug", "log debugging info")
     .option("--offline", "run in offline mode")
+    .option("--inspect", "run node debug-mode inspector")
 
   commander
     .command("dev")
     .description("Start development server")
     .option("--static", "use static file system for builds instead of memory")
-    .option("--inspect", "run node debug-mode inspector")
     .action(_arguments => {
       runCommand({
         command: "dev",
