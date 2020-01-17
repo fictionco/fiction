@@ -1,6 +1,7 @@
 <template>
   <div class="blog">
     <el-hero
+      v-if="setting('blog.title')"
       :align="`center`"
       :subheadline="setting('blog.pretitle')"
       :headline="setting('blog.title')"
@@ -19,13 +20,15 @@
           <div v-else-if="blogPosts.length > 0" class="flex flex-wrap py-8">
             <div v-if="page == 1" class="blog-post w-full p-2 lg:w-1/3">
               <div
+                v-if="setting('blog.promo')"
                 class="blog-promo h-full overflow-hidden flex flex-col justify-center px-8 py-20 rounded-lg shadow-xl bg-cover bg-center bg-purple-900"
               >
-                <div class="custom-uppercase text-purple-400">{{ setting('blog.promo.pretitle') }}</div>
+                <div v-if="setting('blog.promo.pretitle')" class="custom-uppercase text-purple-400">{{ setting('blog.promo.pretitle') }}</div>
                 <h1
+                  v-if="setting('blog.promo.title')"
                   class="font-normal tracking-tight text-2xl text-gray-300"
                 >{{ setting('blog.promo.title') }}</h1>
-                <p class="text-gray-500 mt-2">{{ setting('blog.promo.content') }}</p>
+                <p v-if="setting('blog.promo.content')" class="text-gray-500 mt-2">{{ setting('blog.promo.content') }}</p>
                 <factor-link
                   v-if="setting('blog.promo.button.link')"
                   :path="setting('blog.promo.button.link')"

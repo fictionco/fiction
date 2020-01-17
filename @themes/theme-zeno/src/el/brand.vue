@@ -1,14 +1,10 @@
 <template>
   <factor-link path="/">
+    <img v-if="navLogo" :src="navLogo" :alt="logoAlt" class="h-8" :class="logoDisplay" />
     <img
-      :src="setting('site.logo')"
-      :alt="setting('home.meta.title')"
-      class="h-8"
-      :class="logoDisplay"
-    />
-    <img
-      :src="setting('site.logoInverse')"
-      :alt="setting('home.meta.title')"
+      v-if="navLogoInverse"
+      :src="navLogoInverse"
+      :alt="logoAlt"
       class="h-8"
       :class="logoInverseDisplay"
     />
@@ -23,6 +19,9 @@ export default Vue.extend({
   components: { factorLink },
   data() {
     return {
+      navLogo: setting("site.logo"),
+      navLogoInverse: setting("site.logoInverse"),
+      logoAlt: setting("home.meta.title"),
       logoDisplay: "",
       logoInverseDisplay: ""
     }
