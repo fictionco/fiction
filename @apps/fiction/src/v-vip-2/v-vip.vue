@@ -463,6 +463,9 @@ export default Vue.extend({
       grid-template-areas: "a" "b";
       grid-template-columns: repeat(2, minmax(100px, 1fr));
 
+      .sticky-container {
+        height: 100%;
+      }
       .process-sticky {
         padding: 4rem 0;
         align-self: start;
