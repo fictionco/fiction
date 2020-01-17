@@ -1,5 +1,8 @@
 import { Component } from "vue"
 export default {
+  app: {
+    url: "http://localhost:3000/"
+  },
   headTags: {
     // Embed Font to site head
     font: '<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />'
@@ -60,7 +63,7 @@ export default {
         }
       ],
       figure: require("./img/cloud-with-shadow.svg"),
-      figureAlt: "Cloud"
+      footerFigureAlt: 'Cloud'
     }
   },
   // Home Page
@@ -84,7 +87,7 @@ export default {
             "btn btn-ol border-purple-700 ml-0 mt-4 md:mt-0 hover:text-purple-500 hover:border-purple-500"
         }
       ],
-      figure: (): Promise<Component> => import("./el/figure-intro.vue")
+      figure: require("./img/intro.svg"),
     },
     logos: {
       title: "Working with the following clouds:",
@@ -120,7 +123,7 @@ export default {
           icon: require("./img/plan.svg"),
           title: "Plan",
           content:
-            `Lorem ipsum dolor <br> <br>sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
+            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "build",
@@ -264,9 +267,9 @@ export default {
           _item: "member_1",
           photo: require("./img/member1.jpg"),
           title: "Co-Founder",
-          name: "Zeno Elea"
-          //content:
-          //  "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+          name: "Zeno Elea",
+          content:
+            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
         },
         {
           _item: "member_2",
@@ -588,7 +591,7 @@ export default {
       }
     ],
     left: `Built with <i class="fa fa-heart"></i> and <a href='https://www.factor.dev/' target='_blank'>Factor</a>`,
-    right: "<a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a>",
+    right: `&copy 2020 <a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a>`, // Empty when blank (e.g. right: '') or Dynamically added if removed/commented.
     figure: require("./img/cloud-with-shadow.svg"),
     figureAlt: "Cloud"
   }

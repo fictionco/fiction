@@ -5,11 +5,14 @@
         <img :src="footerFigure" :alt="footerFigureAlt" />
       </figure>
       <div>
-        <factor-link path="/">
-          <img :src="setting('site.logoInverse')" :alt="setting('home.meta.title')" class="h-8" />
+        <factor-link v-if="footerLogoInverse" path="/">
+          <img :src="footerLogoInverse" :alt="setting('home.meta.title')" class="h-8" />
+        </factor-link>
+        <factor-link v-else-if="footerLogo" path="/">
+          <img :src="footerLogo" :alt="setting('home.meta.title')" class="h-8" />
         </factor-link>
       </div>
-      <nav class="mt-8 w-full flex flex-wrap md:block md:w-auto md:mt-0">
+      <nav v-if="footerNav" class="mt-8 w-full flex flex-wrap md:block md:w-auto md:mt-0">
         <template v-for="(item, index) in footerNav">
           <component :is="item.component()" v-if="item.component" :key="index" />
           <factor-link
@@ -27,10 +30,11 @@
       </nav>
     </div>
     <div class="max-w-6xl mx-auto pt-8 flex items-center justify-between text-gray-500">
-      <div v-formatted-text="footerLeft" class="text-xs" />
+      <div v-if="footerLeft" v-formatted-text="footerLeft" class="text-xs" />
       <div class="text-xs text-right">
-        &copy; {{ currentyear() }}
-        <span v-formatted-text="footerRight" />
+        <span v-if="footerRight" v-formatted-text="footerRight" />
+        <span v-else-if="footerRight === ''" />
+        <span v-else>&copy; {{ currentyear() }}</span>
       </div>
     </div>
   </div>
@@ -47,6 +51,8 @@ export default Vue.extend({
   },
   data() {
     return {
+      footerLogo: setting("site.logo"),
+      footerLogoInverse: setting("site.logoInverse"),
       footerNav: setting("footer.nav"),
       footerLeft: setting("footer.left"),
       footerRight: setting("footer.right"),
