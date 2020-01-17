@@ -7,7 +7,13 @@
       </div>
     </div>
 
-    <div v-if="loading" class="posts-loading">
+    <div v-if="true" class="coming-soon">
+      <div class="title">Coming Soon 👋</div>
+      <div class="sub-title">Plugins will launch March 17, 2020</div>
+      <factor-email-list list-id="alphaProgram" />
+    </div>
+
+    <div v-else-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
     <div v-else class="plugins-wrap content-pad">
@@ -79,6 +85,7 @@
 </template>
 
 <script lang="ts">
+import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLoadingRing, factorLink } from "@factor/ui"
 import Vue from "vue"
 import {
@@ -92,6 +99,7 @@ import { requestExtensionIndex, getIndexCache } from "./extension-request"
 
 export default Vue.extend({
   components: {
+    factorEmailList,
     "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue"),
     factorLoadingRing,
@@ -138,6 +146,7 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .plugins-container {
+  @import "~./style.less";
   padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
@@ -156,18 +165,6 @@ export default Vue.extend({
     }
   }
 
-  .coming-soon {
-    line-height: 1.4;
-    text-align: center;
-    padding: 8em 2em 12em;
-    .title {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    .sub-title {
-      font-size: 1.5em;
-    }
-  }
   .posts-loading .loading-ring-wrap {
     min-height: 400px;
   }

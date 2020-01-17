@@ -3,15 +3,15 @@
     <section class="header">
       <div class="headline content">
         <div class="content-pad">
-          <h1 class="page-title">Build something incredible today.</h1>
-          <h3 class="page-title-sub">The Javascript CMS that front-end developers love.</h3>
+          <h1 class="page-title">Build something incredible today</h1>
+          <h3 class="page-title-sub">The Javascript CMS for front-end developers</h3>
 
           <div class="actions">
             <h3
               class="page-title-highlight"
             >🚀Launches March 17 - Join the developer group for early access.</h3>
             <factor-email-list list-id="alphaProgram" />
-            <div v-if="!loadingButtons" class="github-actions">
+            <div class="github-actions" :class="!loadingButtons ? 'loaded': ''">
               <script async defer src="https://buttons.github.io/buttons.js" />
 
               <a
@@ -231,7 +231,9 @@ export default Vue.extend({
     }
   },
   mounted(this: any) {
-    this.loadingButtons = false
+    setTimeout(() => {
+      this.loadingButtons = false
+    }, 1000)
   },
   methods: {},
   metaInfo() {
@@ -265,14 +267,8 @@ export default Vue.extend({
       margin: 0 auto;
       .point {
         padding: 8rem;
-        .timeline {
-          color: #0471ff;
-        }
       }
       .point:last-child {
-        .timeline {
-          color: #0471ff;
-        }
       }
     }
     .timeline {
@@ -342,17 +338,24 @@ export default Vue.extend({
           display: block;
           // color: var(--color-primary);
         }
-        @media (max-width: 900px) {
-          color: var(--color-primary);
-          font-weight: 500;
-          font-size: 2em;
-          line-height: 1.1;
-        }
       }
 
       .page-title-sub {
         font-size: 2em;
         opacity: 0.7;
+        color: var(--color-primary);
+      }
+
+      @media (max-width: 900px) {
+        .page-title {
+          color: var(--color-primary);
+          font-weight: 500;
+          font-size: 2em;
+          line-height: 1.1;
+        }
+        .page-title-sub {
+          color: inherit;
+        }
       }
 
       @media (max-width: 900px) {
@@ -386,7 +389,14 @@ export default Vue.extend({
           display: flex;
           justify-content: center;
           align-items: center;
+          opacity: 0;
+          transition: all 1s;
           line-height: 1;
+          transform: scale(1.1);
+          height: 3rem;
+          &.loaded {
+            opacity: 1;
+          }
           > span {
             margin: 0 0.5rem;
           }
@@ -395,6 +405,9 @@ export default Vue.extend({
 
             opacity: 0.5;
             margin-left: 1rem;
+          }
+          a {
+            color: transparent;
           }
         }
       }

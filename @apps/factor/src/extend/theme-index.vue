@@ -151,6 +151,7 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
+@import "~./style.less";
 .themes-container {
   padding-top: 45px;
   font-weight: 400;
@@ -158,18 +159,7 @@ export default Vue.extend({
   .posts-loading .loading-ring-wrap {
     min-height: 400px;
   }
-  .coming-soon {
-    line-height: 1.4;
-    text-align: center;
-    padding: 8em 2em 12em;
-    .title {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    .sub-title {
-      font-size: 1.5em;
-    }
-  }
+
   .content-pad {
     max-width: 1100px;
     margin: 0 auto;

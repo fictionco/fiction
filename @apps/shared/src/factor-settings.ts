@@ -27,7 +27,7 @@ export default {
         }
       },
       form: {
-        buttonText: "Apply for Developer Program &rarr;"
+        buttonText: "Get Early Access &rarr;"
       }
     }
   },
