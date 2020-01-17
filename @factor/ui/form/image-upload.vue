@@ -37,7 +37,7 @@
           v-if="single || imageIds.length < maxImages"
           ref="multiImageDrop"
           class="image-item ignore-sortable image-drop"
-          :class="single && (imageIds.length > 0 || uploading.length > 0) ? 'single-image-drop': ''"
+          :class="single && (populated.length > 0 || uploading.length > 0) ? 'single-image-drop': ''"
         >
           <div class="image-item-pad">
             <div class="image-item-content">
@@ -275,8 +275,9 @@ export default Vue.extend({
       /**
        * If the uploader only supports ONE image, then setup deletion if existing when new is done
        */
-      const replaceImage: string = this.imageIds[0]
+      let replaceImage: string
       if (files[0] && this.maxImages == 1 && this.imageIds.length >= 1) {
+        replaceImage = this.imageIds[0]
         this.removeFromArrayById(replaceImage, this.imageIds as string[])
       }
 
@@ -291,7 +292,7 @@ export default Vue.extend({
             file,
             onError: () => {},
             onFinished: () => {
-              this.removeImage(replaceImage)
+              if (replaceImage) this.removeImage(replaceImage)
             }
           })
         }
