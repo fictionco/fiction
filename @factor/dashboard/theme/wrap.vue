@@ -56,7 +56,7 @@ export default Vue.extend({
 
   computed: {
     postType(this: any): string {
-      return this.$route.params.postType || "post"
+      return this.$route.params.postType || ""
     },
     postTypeConfig(this: any) {
       return getPostTypeConfig(this.postType)
