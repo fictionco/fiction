@@ -1,7 +1,7 @@
 <template>
   <div class="work-return-link">
     <factor-link class="back label label-primary" :path="setting('work.indexRoute')">
-      <factor-icon icon="arrow-left" />
+      <factor-icon icon="fas fa-arrow-left" />
       <span>{{ returnLinkText }}</span>
     </factor-link>
   </div>

@@ -41,7 +41,7 @@
               <div class="relative z-10 flex justify-center py-6">
                 <factorLink v-if="item.buttonLink" :path="item.buttonLink" :class="item.buttonClasses">
                   {{ item.buttonText }}
-                  <factor-icon icon="angle-right" />
+                  <factor-icon icon="fas fa-angle-right" />
                 </factorLink>
               </div>
             </div>

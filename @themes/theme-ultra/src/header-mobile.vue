@@ -15,7 +15,7 @@
       <div v-if="toggle" class="mobile-sidebar">
         <div class="mobile-sidebar-canvas">
           <div class="closer" @click="toggleNav(false)">
-            <factor-icon icon="remove" />
+            <factor-icon icon="fas fa-remove" />
           </div>
           <page-sidebar />
         </div>

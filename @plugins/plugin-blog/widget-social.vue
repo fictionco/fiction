@@ -4,25 +4,25 @@
       class="social facebook"
       :path="`https://www.facebook.com/sharer/sharer.php?u=${link}`"
     >
-      <factor-icon icon="facebook-f" />
+      <factor-icon icon="fab fa-facebook-f" />
     </factor-link>
     <factor-link
       class="social twitter"
       :path="`https://twitter.com/intent/tweet?text=${post.title}+${link}`"
     >
-      <factor-icon icon="twitter" />
+      <factor-icon icon="fas fa-twitter" />
     </factor-link>
     <factor-link
       class="social linkedin"
       :path="`https://www.linkedin.com/shareArticle?mini=true&url=${link}`"
     >
-      <factor-icon icon="linkedin-in" />
+      <factor-icon icon="fas fa-linkedin-in" />
     </factor-link>
     <factor-link
       class="social pinterest"
       :path="`https://pinterest.com/pin/create/button/?url=${link}`"
     >
-      <factor-icon icon="pinterest" />
+      <factor-icon icon="fas fa-pinterest" />
     </factor-link>
   </div>
 </template>

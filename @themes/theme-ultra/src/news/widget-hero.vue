@@ -8,7 +8,7 @@
       </div>
       <div v-else>
         <factor-link class="back" :path="setting('news.indexRoute')">
-          <factor-icon icon="arrow-left" />
+          <factor-icon icon="fas fa-arrow-left" />
           {{ returnLinkText }}
         </factor-link>
         <h1 class="title">

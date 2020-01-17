@@ -7,10 +7,10 @@
     >
       <span class="font-normal leading-tight tracking-tight">{{ title }}</span>
       <span v-if="active" class="ml-4 text-base">
-        <factor-icon icon="minus" />
+        <factor-icon icon="fas fa-minus" />
       </span>
       <span v-else class="ml-4 text-base">
-        <factor-icon icon="plus" />
+        <factor-icon icon="fas fa-plus" />
       </span>
     </a>
     <div v-show="active" class="px-6 pb-6 text-gray-600">

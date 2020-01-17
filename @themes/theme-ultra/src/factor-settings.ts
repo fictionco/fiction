@@ -59,13 +59,13 @@ export default {
         btn: "primary",
         path: "#contact",
         text: "Start a Project",
-        icon: "right-arrow"
+        icon: "fas fa-right-arrow"
       },
       {
         btn: "primary-ol",
         path: "#about",
         text: "More About Ultra",
-        icon: "right-arrow"
+        icon: "fas fa-right-arrow"
       }
     ],
     meta: {

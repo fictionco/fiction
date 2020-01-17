@@ -12,7 +12,7 @@
         <template v-for="(button, index) in ctaButtons">
           <factor-link :key="index" :path="button.link" :class="button.classes">
             {{ button.text }}
-            <factor-icon icon="angle-right" />
+            <factor-icon icon="fas fa-angle-right" />
           </factor-link>
         </template>
       </div>
