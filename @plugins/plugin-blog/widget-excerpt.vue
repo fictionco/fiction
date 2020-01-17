@@ -3,7 +3,7 @@
     <div class="excerpt">{{ excerpt(post.content) }}</div>
     <factor-link class="read-link" :path="postLink(post._id)">
       Learn More
-      <factor-icon icon="arrow-right" />
+      <factor-icon icon="fas fa-arrow-right" />
     </factor-link>
   </div>
 </template>

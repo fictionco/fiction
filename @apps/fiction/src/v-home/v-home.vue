@@ -86,7 +86,7 @@
             <div v-if="feature.bullets" class="bullets">
               <div v-for="(bullet, i) in feature.bullets" :key="i" class="bullet">
                 <span class="bullet-icon">
-                  <factor-icon icon="check" />
+                  <factor-icon icon="fas fa-check" />
                 </span>
                 <span class="bullet-text">{{ bullet }}</span>
               </div>

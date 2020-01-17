@@ -5,7 +5,7 @@
       <div class="sub-title">{{ subTitle }}</div>
       <factor-link path="/" btn="primary" size="large">
         Home
-        <factor-icon icon="arrow-right" />
+        <factor-icon icon="fas fa-arrow-right" />
       </factor-link>
     </div>
   </div>

@@ -36,7 +36,7 @@
                   :class="setting('blog.promo.button.classes')"
                 >
                   {{ setting('blog.promo.button.text') }}
-                  <factor-icon icon="angle-right" />
+                  <factor-icon icon="fas fa-angle-right" />
                 </factor-link>
               </div>
             </div>

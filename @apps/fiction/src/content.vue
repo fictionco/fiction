@@ -7,11 +7,11 @@
       <factor-link path="/blog">Blog</factor-link>
       <factor-link v-if="!isLoggedIn()" event="sign-in-modal" data-test="login">
         Sign In
-        <factor-icon icon="arrow-right" />
+        <factor-icon icon="fas fa-arrow-right" />
       </factor-link>
       <factor-link v-else path="/dashboard" class="dashboard-link">
         View Dashboard
-        <factor-icon icon="arrow-right" />
+        <factor-icon icon="fas fa-arrow-right" />
       </factor-link>
     </site-head>
     <div class="content-main" :style="bg">

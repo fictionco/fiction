@@ -5,7 +5,7 @@
         <div v-show="vis" class="el-modal-content" @click.stop>
           <div class="el-modal-pad modal-content" data-test="modal-content">
             <span class="close" @click.stop="close">
-              <factor-icon icon="remove" />
+              <factor-icon icon="fas fa-remove" />
             </span>
             <div class="modal-text">
               <div class="modal-text-content">

@@ -8,8 +8,8 @@
       @click.prevent="active = !active"
     >
       <h1 class="block text-left font-normal tracking-tight text-2xl">{{ name }}</h1>
-      <factor-icon v-if="active" icon="angle-up" />
-      <factor-icon v-else icon="angle-down" />
+      <factor-icon v-if="active" icon="fas fa-angle-up" />
+      <factor-icon v-else icon="fas fa-angle-down" />
     </a>
     <div v-else>
       <h1 class="block text-left font-normal tracking-tight text-2xl">{{ name }}</h1>

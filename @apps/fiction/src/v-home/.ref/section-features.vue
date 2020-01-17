@@ -15,7 +15,7 @@
           </p>
           <a href="#" class="common-link common-link--arrow common-MediumBodyText">
             Explore the docs
-            <factor-icon icon="arrow-right" />
+            <factor-icon icon="fas fa-arrow-right" />
           </a>
         </article>
 
@@ -60,7 +60,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
           </p>
           <a href="#" class="common-link common-link--arrow common-MediumBodyText">
             See reader options
-            <factor-icon icon="arrow-right" />
+            <factor-icon icon="fas fa-arrow-right" />
           </a>
         </article>
 
@@ -84,7 +84,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
           </p>
           <a href="#" class="common-bodytext common-link common-link--arrow">
             Learn more
-            <factor-icon icon="arrow-right" />
+            <factor-icon icon="fas fa-arrow-right" />
           </a>
         </article>
 

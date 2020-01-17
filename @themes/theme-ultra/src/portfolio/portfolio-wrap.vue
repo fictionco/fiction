@@ -6,7 +6,7 @@
         <h2>{{ setting("portfolio.cta.headline") }}</h2>
         <factor-link btn="secondary" size="large" :path="setting('portfolio.cta.path')">
           {{ setting("portfolio.cta.text") }}
-          <factor-icon icon="arrow-right" />
+          <factor-icon icon="fas fa-arrow-right" />
         </factor-link>
       </div>
     </div>

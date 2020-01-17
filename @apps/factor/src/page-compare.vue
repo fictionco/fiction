@@ -68,23 +68,23 @@
               <img :src="require(`./img/wordpress.svg`)" alt="WordPress" />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="close" />
+              <factor-icon icon="fas fa-close" />
             </span>
             <span>mySQL</span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="close" />
+              <factor-icon icon="fas fa-close" />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
           </div>
           <div id="column3" class="column">
@@ -92,20 +92,20 @@
               <el-factor />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>MongoDB</span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>In-Development</span>
           </div>
@@ -117,23 +117,23 @@
               />
             </span>
             <span>
-              <factor-icon icon="close" />
+              <factor-icon icon="fas fa-close" />
             </span>
             <span>
-              <factor-icon icon="close" />
+              <factor-icon icon="fas fa-close" />
             </span>
             <span>?</span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="check" />
+              <factor-icon icon="fas fa-check" />
             </span>
             <span>
-              <factor-icon icon="close" />
+              <factor-icon icon="fas fa-close" />
             </span>
             <span>
-              <factor-icon icon="close" />
+              <factor-icon icon="fas fa-close" />
             </span>
           </div>
         </div>

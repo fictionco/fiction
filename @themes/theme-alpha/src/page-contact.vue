@@ -54,7 +54,7 @@
               data-test="form-submit"
             >
               {{ setting("contact.form.buttonText") }}
-              <factor-icon icon="arrow-right" />
+              <factor-icon icon="fas fa-arrow-right" />
             </factor-input-submit>
           </div>
         </factor-form>

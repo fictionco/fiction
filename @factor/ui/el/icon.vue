@@ -1,5 +1,5 @@
 <template>
-  <i class="fa" :class="`fa-${icon}`" />
+  <i :class="icon" />
 </template>
 
 <script lang="ts">
@@ -16,12 +16,13 @@ export default Vue.extend({
     addExternalScripts() {
       const els = document.querySelector("#ficons")
       if (!els) {
-        const link = document.createElement("link")
-        link.href = "https://cdn.jsdelivr.net/npm/ficons@1.1.52/dist/ficons/font.css"
-        link.type = "text/css"
-        link.rel = "stylesheet"
-        link.id = "ficons"
-        document.querySelectorAll("head")[0].append(link)
+        document.createElement('script')
+        const script = document.createElement("script")
+        script.src = "https://kit.fontawesome.com/4cb195f1ee.js"
+        script.type = "text/javascript"
+        script.id = "ficons"
+        script.crossOrigin = "anonymous"
+        document.querySelectorAll("head")[0].append(script)
       }
     }
   }

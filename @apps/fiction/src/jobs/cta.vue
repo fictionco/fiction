@@ -3,7 +3,7 @@
     <a :href="`mailto:${post.jobApplyEmail}`">
       <factor-btn btn="primary" size="large">
         Apply Now
-        <factor-icon icon="arrow-right" />
+        <factor-icon icon="fas fa-arrow-right" />
       </factor-btn>
     </a>
   </div>

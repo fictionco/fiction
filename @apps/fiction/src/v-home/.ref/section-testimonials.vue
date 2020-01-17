@@ -4,10 +4,10 @@
       <div class="card">
         <div class="card-content">
           <button class="card-btn card-btn-prev">
-            <factor-icon icon="arrow-left" />
+            <factor-icon icon="fas fa-arrow-left" />
           </button>
           <button class="card-btn card-btn-next">
-            <factor-icon icon="arrow-right" />
+            <factor-icon icon="fas fa-arrow-right" />
           </button>
 
           <div class="common-card">
@@ -110,7 +110,7 @@
                   <div class="card__link">
                     <a href="#" class="common-link">
                       Read the Universe case study
-                      <i class="fa fa-arrow-right" />
+                      <i class="fas fa-arrow-right" />
                     </a>
                   </div>
 
@@ -168,7 +168,7 @@
                   <div class="card__link">
                     <a href="#" class="common-link">
                       Read the Zenoti case study
-                      <i class="fa fa-arrow-right" />
+                      <i class="fas fa-arrow-right" />
                     </a>
                   </div>
 

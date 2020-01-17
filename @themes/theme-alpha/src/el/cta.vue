@@ -4,7 +4,7 @@
       <h2>{{ setting("site.cta.headline") }}</h2>
       <factor-link btn="default" size="large" :path="setting('site.cta.path')">
         {{ setting("site.cta.text") }}
-        <factor-icon icon="arrow-right" />
+        <factor-icon icon="fas fa-arrow-right" />
       </factor-link>
     </div>
   </div>

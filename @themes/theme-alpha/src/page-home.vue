@@ -15,7 +15,7 @@
             size="large"
           >
             {{ action.text }}
-            <factor-icon icon="arrow-right" />
+            <factor-icon icon="fas fa-arrow-right" />
           </factor-link>
         </div>
       </div>

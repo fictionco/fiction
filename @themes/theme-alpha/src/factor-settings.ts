@@ -30,23 +30,23 @@ export default {
     social: [
       {
         path: "https://dribbble.com",
-        icon: "dribbble"
+        icon: "fab fa-dribbble"
       },
       {
         path: "https://behance.com/",
-        icon: "behance"
+        icon: "fab fa-behance"
       },
       {
         path: "https://instagram.com/",
-        icon: "instagram"
+        icon: "fab fa-instagram"
       },
       {
         path: "https://twitter.com/",
-        icon: "twitter"
+        icon: "fab fa-twitter"
       },
       {
         path: "https://linkedin.com/",
-        icon: "linkedin"
+        icon: "fab fa-linkedin"
       }
     ],
     clientsTitle: "Clients",

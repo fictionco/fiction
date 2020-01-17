@@ -112,11 +112,11 @@
               </div>
               <p class="quote-body" itemprop="reviewBody">"{{ quote.text }}"</p>
               <div class="rating" itemprop="bestRating">
-                <factor-icon icon="star" />
-                <factor-icon icon="star" />
-                <factor-icon icon="star" />
-                <factor-icon icon="star" />
-                <factor-icon icon="star" />
+                <factor-icon icon="fas fa-star" />
+                <factor-icon icon="fas fa-star" />
+                <factor-icon icon="fas fa-star" />
+                <factor-icon icon="fas fa-star" />
+                <factor-icon icon="fas fa-star" />
               </div>
               <footer>
                 <a :href="quote.link" target="_blank">{{ quote.attribution }}</a>

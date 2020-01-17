@@ -3,7 +3,7 @@
     <div class="hero-inner">
       <div>
         <factor-link class="back" :path="setting('portfolio.indexRoute')">
-          <factor-icon icon="arrow-left" />
+          <factor-icon icon="fas fa-arrow-left" />
           {{ returnLinkText }}
         </factor-link>
         <h1 class="title">
