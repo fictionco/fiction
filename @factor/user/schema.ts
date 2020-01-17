@@ -15,7 +15,9 @@ export default (): FactorSchema => {
       retrieve: { accessLevel: 0 }
     },
     callback: (_s: Schema): void => {
-      // PASSWORDS
+      /**
+       * Password Verification and Handling
+       */
       _s.methods.comparePassword = async function comparePassword(
         candidate: string
       ): Promise<boolean> {
@@ -34,6 +36,9 @@ export default (): FactorSchema => {
         }
       })
 
+      /**
+       * Set permalink to @[username] to users can have their own url
+       */
       _s.pre("save", function(this: FactorUser & Document, next: HookNextFunction) {
         if (this.username) this.permalink = `@${this.username}`
 

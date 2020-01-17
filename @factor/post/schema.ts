@@ -81,7 +81,7 @@ export default (): FactorSchema => {
           this.date = now.toISOString()
         }
 
-        if (this.images && this.images.length > 0) {
+        if (!this.avatar && this.images && this.images.length > 0) {
           this.avatar = this.images[0]
         }
 

@@ -3,7 +3,7 @@ import { storeItem, addPostSchema } from "@factor/api"
 import loadImage from "blueimp-load-image"
 import { uploadEndpointPath } from "./util"
 import storageSchema from "./schema"
-
+import { PreUploadProperties } from "./types"
 addPostSchema(storageSchema)
 
 export interface PostAttachment {
@@ -59,15 +59,19 @@ export const preUploadImage = async (
   { file, onPrep }: { file: File | Blob; onPrep: Function },
   options = {}
 ): Promise<File | Blob> => {
-  onPrep({ mode: "started", percent: 5 })
+  onPrep({ mode: "started", percent: 5 } as PreUploadProperties)
 
   if (file.type.includes("image")) {
     file = await resizeImage(file, options)
 
-    onPrep({ mode: "resized", percent: 25, preview: URL.createObjectURL(file) })
+    onPrep({
+      mode: "resized",
+      percent: 25,
+      preview: URL.createObjectURL(file)
+    } as PreUploadProperties)
   }
 
-  onPrep({ mode: "finished", percent: 100 })
+  onPrep({ mode: "finished", percent: 100 } as PreUploadProperties)
 
   return file
 }

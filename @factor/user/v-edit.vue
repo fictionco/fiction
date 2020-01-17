@@ -6,9 +6,17 @@
     <template #meta>
       <dashboard-pane title="Images" class="compose inputs">
         <dashboard-input
+          v-model="post.avatar"
+          max="1"
+          input="factor-input-image-upload"
+          label="Avatar"
+          :loading="loading"
+          @autosave="$emit('autosave')"
+        />
+        <dashboard-input
           v-model="post.images"
-          input-max="5"
-          input-min="1"
+          max="5"
+          min="1"
           input="factor-input-image-upload"
           label="Profile Photo(s)"
           :loading="loading"
@@ -16,8 +24,8 @@
         />
         <dashboard-input
           v-model="post.covers"
-          input-max="5"
-          input-min="1"
+          max="5"
+          min="1"
           input="factor-input-image-upload"
           label="Cover Photo(s)"
           :loading="loading"

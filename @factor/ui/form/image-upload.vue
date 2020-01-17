@@ -26,7 +26,7 @@
                 <factor-menu
                   v-else
                   class="menu"
-                  :list="['view', 'copy-URL', 'delete']"
+                  :list="['upload-image', 'view', 'copy-URL', 'delete']"
                   @action="action(img._id, $event)"
                 />
               </div>
@@ -37,6 +37,7 @@
           v-if="single || imageIds.length < maxImages"
           ref="multiImageDrop"
           class="image-item ignore-sortable image-drop"
+          :class="single && imageIds.length > 0 && uploading.length > 0 ? 'single-image-drop': ''"
         >
           <div class="image-item-pad">
             <div class="image-item-content">
@@ -50,10 +51,7 @@
               />
               <factor-loading-ring v-if="loading" width="2em" />
               <div v-else class="upload-status">
-                <div class="wrp">
-                  <factor-icon icon="arrow-up" />
-                  <span>Add</span>
-                </div>
+                <factor-icon icon="plus" />
               </div>
             </div>
           </div>
@@ -66,18 +64,21 @@
 </template>
 <script lang="ts">
 import { factorMenu, factorLoadingRing, factorIcon, factorLightbox } from "@factor/ui"
+import { HTMLInputEvent } from "@factor/ui/event-types"
 import { uploadImage, requestDeleteImage } from "@factor/attachment"
 import DOM from "jquery"
 import { emitEvent, onEvent, stored } from "@factor/api"
 import Sortable from "sortablejs"
+import { Attachment, PreUploadProperties } from "@factor/attachment/types"
 import Vue from "vue"
+import { guid } from "@factor/api/utils"
 export default Vue.extend({
   components: { factorMenu, factorLoadingRing, factorIcon, factorLightbox },
   props: {
     loading: { type: Boolean, default: false },
     value: { type: [Array, String], default: () => [] },
-    min: { type: Number, default: 0 },
-    max: { type: Number, default: 10 }
+    min: { type: [Number, String], default: 0 },
+    max: { type: [Number, String], default: 10 }
   },
   data() {
     return {
@@ -90,34 +91,42 @@ export default Vue.extend({
     }
   },
   computed: {
-    single() {
+    single(this: any): boolean {
       return typeof this.value == "string" || this.max == 1 ? true : false
     },
-    maxImages() {
-      return this.single ? 1 : this.max
+    maxImages(this: any) {
+      return this.single ? 1 : Number(this.max)
     },
-    isRequired() {
+    isRequired(this: any) {
       return typeof this.$attrs["required"] != "undefined" ? true : false
     },
-    populated() {
-      return this.imageIds.map(_ => stored(_)).filter(_ => _)
+    populated(this: any): Attachment[] {
+      return this.imageIds
+        .map((_: string) => stored(_))
+        .filter((_: Attachment | undefined) => _)
     },
-    allImages() {
+    allImages(this: any) {
       return [...this.populated, ...this.uploading]
     }
   },
 
   mounted() {
-    onEvent("uploadImage", ({ selector, callback }) => {
-      if (selector == this.selector) {
-        this.callback = callback
-        this.$refs.multiImageInput.click()
+    /**
+     * Allow for external elements to communicate with this image uploader via a DOM selector
+     */
+    onEvent(
+      "uploadImage",
+      ({ selector, callback }: { selector: string; callback: Function }) => {
+        if (selector == this.selector) {
+          this.callback = callback
+          this.triggerUpload()
+        }
       }
-    })
+    )
 
     this.$watch(
       `value`,
-      function(v) {
+      function(this: any, v: string | string[]) {
         if (v) {
           this.imageIds = typeof v == "string" ? [v] : v
         }
@@ -128,25 +137,39 @@ export default Vue.extend({
     this.dom()
   },
   methods: {
-    action(_id, action) {
+    /**
+     * Triggers file selector
+     */
+    triggerUpload(this: any) {
+      this.$refs.multiImageInput.click()
+    },
+    /**
+     * Image menu available actions
+     */
+    action(this: any, _id: string, action: string) {
       if (action == "view") {
         this.lightboxShow = true
-        this.lightboxIndex = this.populated.findIndex(_ => _._id == _id)
+        this.lightboxIndex = this.populated.findIndex((_: Attachment) => _._id == _id)
       } else if (action == "copy-URL") {
         this.copyUrl(_id)
       } else if (action == "delete") {
         this.removeImage(_id)
+      } else if (action == "upload-image") {
+        this.triggerUpload()
       }
     },
-    doCallback(img) {
-      if (this.callback && typeof this.callback == "function") {
-        this.callback(img)
-        this.callback = null
+    /**
+     * Copies the URL of an image based on its _id
+     */
+    copyUrl(this: any, _id: string): void {
+      const image = this.populated.find((_: Attachment) => _._id == _id)
+
+      if (!image || !image.url) {
+        return
       }
-    },
-    copyUrl(_id) {
-      const image = this.populated.findIndex(_ => _._id == _id)
+
       this.copyText = image.url.includes("base64") ? `{{${_id}.url}}` : image.url
+
       this.$nextTick(() => {
         this.$refs.copyInput.select()
 
@@ -155,12 +178,12 @@ export default Vue.extend({
         emitEvent("notify", "Url Copied")
       })
     },
-    styleImageBG(img) {
+    styleImageBG(img: Attachment) {
       const { url } = img
 
       return url ? { backgroundImage: `url(${url})` } : {}
     },
-    setValidity() {
+    setValidity(this: any): void {
       let validity = ""
 
       if (this.images.length < this.min) {
@@ -171,7 +194,10 @@ export default Vue.extend({
 
       this.$emit("update:customValidity", validity)
     },
-    dom() {
+    /**
+     * Fancy DOM stuff
+     */
+    dom(this: any): void {
       const jq = DOM(this.$el)
       const dropEl = jq.find(".image-drop")
       this.imgInput = jq.find(`.input-upload`)
@@ -195,7 +221,9 @@ export default Vue.extend({
         e.preventDefault()
         dropEl.removeClass("dragover")
 
-        this.handleMultiImage(e.originalEvent.dataTransfer.files)
+        if (e.originalEvent?.dataTransfer) {
+          this.handleMultiImage(e.originalEvent.dataTransfer.files)
+        }
       })
 
       if (!this.single) {
@@ -203,7 +231,7 @@ export default Vue.extend({
           filter: ".ignore-sortable",
           ghostClass: "sortable-ghost",
           onUpdate: e => {
-            if (this.imageIds[e.oldIndex]) {
+            if (e.oldIndex && this.imageIds[e.oldIndex]) {
               const moved = this.imageIds.splice(e.oldIndex, 1)
               this.imageIds.splice(e.newIndex, 0, moved[0])
 
@@ -211,85 +239,139 @@ export default Vue.extend({
             }
           },
           onMove: e => {
-            if (DOM(e.related).hasClass("ignore-sortable")) {
-              return false
-            }
+            return DOM(e.related).hasClass("ignore-sortable") ? false : true
           }
         })
       }
     },
 
-    updateValue() {
-      const v = this.imageIds.filter(_id => this.populated.find(_ => _._id == _id))
+    updateValue(this: any) {
+      const v = this.imageIds.filter((_id: string) =>
+        this.populated.find((_: Attachment) => _._id == _id)
+      )
       this.$emit("input", this.single ? v[0] : v)
 
       this.$emit("update:customValidity", this.validity)
     },
 
-    async removeImage(_id) {
-      if (_id) await requestDeleteImage({ _id })
+    async removeImage(this: any, _id: string) {
+      this.removeFromArrayById(_id, this.imageIds as string[])
 
-      const index = this.imageIds.findIndex(__id => __id == _id)
-
-      this.$delete(this.imageIds, index)
-      this.updateValue()
+      requestDeleteImage({ _id })
     },
-
-    handleMultiUpload(e) {
+    /**
+     * handle the raw upload event
+     */
+    handleMultiUpload(this: any, e: HTMLInputEvent) {
       this.handleMultiImage(e.target.files)
     },
-
-    async handleMultiImage(files) {
+    /**
+     * Loop through files and upload
+     * Orchestrate UI
+     */
+    async handleMultiImage(this: any, files: File[]) {
       this.numFiles = 0
+
+      /**
+       * If the uploader only supports ONE image, then setup deletion if existing when new is done
+       */
+      const replaceImage: string = this.imageIds[0]
       if (files[0] && this.maxImages == 1 && this.imageIds.length >= 1) {
-        this.removeImage(this.imageIds[0])
+        this.removeFromArrayById(replaceImage, this.imageIds as string[])
       }
 
       for (const file of files) {
         if (this.imageIds.length < this.maxImages) {
-          const meta = {
-            status: "preprocess"
-          }
-
-          const index = this.uploading.push(meta) - 1
+          const _id = guid()
+          const item = { status: "preprocess", _id }
+          this.uploading.push(item) - 1
           this.numFiles++
-          this.uploadFile({ meta, file, index })
+          this.uploadFile({
+            item,
+            file,
+            onError: () => {},
+            onFinished: () => {
+              this.removeImage(replaceImage)
+            }
+          })
         }
       }
     },
-
-    uploadFile({ file, index, path }) {
-      const item = this.uploading[index]
-
-      this.$emit("upload", { file, index, path, item })
+    /**
+     * Uploads an individual file
+     */
+    uploadFile(
+      this: any,
+      {
+        file,
+        onFinished,
+        item
+      }: { item: any; file: File; index: number; onFinished: Function }
+    ) {
+      this.$emit("upload", { file, item })
 
       uploadImage({
         file,
-        onPrep: ({ preview = false }) => {
-          if (preview) this.$set(item, "url", preview)
-          this.$set(item, "status", "preprocess")
+        onPrep: ({ preview = "" }: PreUploadProperties) => {
+          if (preview) {
+            this.up(item._id, "url", preview)
+          }
+          this.up(item._id, "status", "preprocess")
         },
-        onChange: progressEvent => {
+        onChange: (progressEvent: ProgressEvent) => {
           const { loaded, total } = progressEvent
-
-          this.$set(item, "status", "progress")
-          this.$set(item, "progress", (loaded / total) * 100)
+          this.up(item._id, "status", "progress")
+          this.up(item._id, "progress", (loaded / total) * 100)
 
           if (loaded / total >= 1) {
-            this.$set(item, "status", "processing")
+            this.up(item._id, "status", "processing")
           }
         },
-        onError: error => {
-          this.$set(item, "status", "error")
-          this.$set(item, "message", error.message)
+        onError: (error: Error) => {
+          this.up(item._id, "status", "error")
+          this.up(item._id, "message", error.message)
         },
-        onFinished: result => {
+        onFinished: (result: Attachment) => {
           const { _id } = result
           this.imageIds.push(_id)
-          this.$delete(this.uploading, index)
-          this.updateValue()
+          this.removeFromArrayById(item._id, this.uploading as Attachment[])
+
+          if (onFinished) {
+            onFinished()
+          }
         }
       })
+    },
+    /**
+     * Sets uploading object status for UI
+     */
+    up(this: any, _id: string, field: string, value: string) {
+      const index = this.uploading.findIndex((_: Attachment) => _._id == _id)
+      if (index != -1) {
+        this.$set(this.uploading[index], field, value)
+      }
+    },
+
+    removeFromArrayById(this: any, _id: string, theArray: Attachment[] | string[]) {
+      const index = theArray.findIndex((_: Attachment | string) => {
+        if (typeof _ == "string") {
+          return _ == _id
+        } else {
+          return _._id == _id
+        }
+      })
+
+      if (index != -1) {
+        const valueRemoved = theArray[index]
+
+        this.$delete(theArray, index)
+
+        this.updateValue()
+
+        return valueRemoved
+      } else {
+        return
+      }
     }
   }
 })
@@ -438,35 +520,32 @@ export default Vue.extend({
     cursor: move;
   }
 }
+.image-drop.single-image-drop {
+  opacity: 0;
+}
 .image-drop .image-item-content {
   text-align: center;
   position: relative;
 
   border-radius: 6px;
 
-  .upload-icon {
-    border-radius: 50%;
-
-    width: 1.5em;
-    height: 1.5em;
-    line-height: 1.5em;
-    font-size: 1.5em;
-    display: inline-block;
-  }
   .upload-status {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
+
     position: absolute;
     height: 100%;
     top: 0;
   }
 
+  &:hover {
+    opacity: 0.7;
+  }
   &:active,
   &:focus {
-    opacity: 1;
+    opacity: 0.8;
   }
   .input-upload,
   .input-upload::-webkit-file-upload-button {

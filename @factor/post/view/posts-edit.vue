@@ -45,7 +45,13 @@
         <dashboard-input label="Tags">
           <input-tags v-model="post.tag" />
         </dashboard-input>
-
+        <dashboard-input
+          v-model="post.avatar"
+          input="factor-input-image-upload"
+          label="Avatar"
+          max="1"
+          @autosave="saveDraft()"
+        />
         <dashboard-input
           v-model="post.images"
           input="factor-input-image-upload"
