@@ -55,7 +55,7 @@ export default {
       {
         path: "https://github.com/fiction-com/factor",
         name: "Github",
-        icon: "github",
+        icon: "fab fa-github",
         target: "_blank"
       },
       {

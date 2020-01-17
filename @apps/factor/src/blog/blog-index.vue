@@ -29,7 +29,7 @@
                   class="mt-8"
                 >
                   {{ setting('blog.promo.button.text') }}
-                  <factor-icon icon="angle-right" />
+                  <factor-icon icon="fas fa-angle-right" />
                 </factor-link>
               </div>
             </div>

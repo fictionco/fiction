@@ -36,7 +36,7 @@
           <div class="search-bar">
             <form>
               <span>
-                <factor-icon icon="search" />
+                <factor-icon icon="fas fa-search" />
               </span>
               <input type="text" name="search" placeholder="Search Themes" />
             </form>

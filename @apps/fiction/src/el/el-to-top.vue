@@ -3,7 +3,7 @@
     <div class="mast">
       <factor-btn btn="link" size="normal" @click="scrollToTop">
         Back to Top
-        <factor-icon icon="arrow-up" />
+        <factor-icon icon="fas fa-arrow-up" />
       </factor-btn>
     </div>
   </section>

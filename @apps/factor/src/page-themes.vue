@@ -8,7 +8,7 @@
           <div class="actions">
             <factor-link path="/docs" btn="primary" size="large">
               How to Install
-              <factor-icon icon="arrow-right" />
+              <factor-icon icon="fas fa-arrow-right" />
             </factor-link>
           </div>
         </div>
@@ -56,7 +56,7 @@
                     <i class="fa fa-arrow-down" /> Install
                   </factor-link>
                   <factor-link btn="default" size="small" :path="item.github">
-                    <factor-icon icon="github" />
+                    <factor-icon icon="fab fa-github" />
                   </factor-link>
                 </div>
                 <div class="author">

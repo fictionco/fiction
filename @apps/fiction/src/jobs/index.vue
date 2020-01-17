@@ -11,7 +11,7 @@
         <a href="#current-openings">
           <factor-btn path="#current-openings" btn="primary" size="large" class="see-openings">
             Check Our Current Openings
-            <factor-icon icon="arrow-down" />
+            <factor-icon icon="fas fa-arrow-down" />
           </factor-btn>
         </a>
       </div>

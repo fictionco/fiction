@@ -15,7 +15,7 @@
           <div v-if="intro.bullets" class="bullets">
             <div v-for="(bullet, index) in intro.bullets" :key="index" class="bullet">
               <span class="bullet-icon">
-                <factor-icon icon="check" />
+                <factor-icon icon="fas fa-check" />
               </span>
               <span class="bullet-text">{{ bullet }}</span>
             </div>
@@ -104,7 +104,7 @@
           <div v-if="manage.bullets" class="bullets">
             <div v-for="(bullet, index) in manage.bullets" :key="index" class="bullet">
               <span class="bullet-icon">
-                <factor-icon icon="check" />
+                <factor-icon icon="fas fa-check" />
               </span>
               <span class="bullet-text">{{ bullet }}</span>
             </div>

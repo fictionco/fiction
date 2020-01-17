@@ -18,7 +18,7 @@
         <p class="medium-body-text">
           <a class="common-Link" href="#">
             Syntax documentation
-            <factor-icon icon="arrow-right" />
+            <factor-icon icon="fas fa-arrow-right" />
           </a>
         </p>
       </article>

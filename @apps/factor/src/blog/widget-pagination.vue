@@ -3,12 +3,12 @@
     <!-- <div class="items">{{ count }} Items</div> -->
     <div class="prev-next flex justify-center align-center mt-4">
       <factor-btn v-if="pageCurrent > 1" :class="`primary prev`" @click="page('previous')">
-        <factor-icon icon="angle-left" />
+        <factor-icon icon="fas fa-angle-left" />
         <span class="custom-uppercase">Prev</span>
       </factor-btn>
       <factor-btn v-if="pageCurrent < pageCount" class="primary next" @click="page('next')">
         <span class="custom-uppercase">Next</span>
-        <factor-icon icon="angle-right" />
+        <factor-icon icon="fas fa-angle-right" />
       </factor-btn>
     </div>
     <div class="page-count">
