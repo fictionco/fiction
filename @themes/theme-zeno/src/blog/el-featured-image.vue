@@ -1,6 +1,5 @@
 <template>
   <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
-    {{ avatarUrl }}
     <div class="h-56 w-full bg-cover bg-center bg-no-repeat" :style="style" />
   </factor-link>
   <img v-else-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="h-56 w-full" />

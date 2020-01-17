@@ -1,8 +1,8 @@
 import { Component } from "vue"
 export default {
-  app: {
-    url: "http://localhost:3000/"
-  },
+  // app: {
+  //   url: "https://example.com"
+  // },
   headTags: {
     // Embed Font to site head
     font: '<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />'
@@ -53,7 +53,9 @@ export default {
       }
     ],
     cta: {
+      // Call to action
       title: "Get better results with Zeno",
+      content: "Save time and start with a solid foundation, then customize.",
       buttons: [
         {
           _item: "contact",
