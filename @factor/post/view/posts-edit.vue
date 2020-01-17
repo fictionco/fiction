@@ -27,7 +27,7 @@
           :list="['published', 'draft', 'trash']"
           input="factor-input-select"
         />
-
+        {{ post.title }}
         <dashboard-input label="Permalink">
           <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>
@@ -113,7 +113,8 @@ export default Vue.extend({
       isNew: null,
       saveNeeded: false,
       willsave: null,
-      settings: []
+      settings: [],
+      reactivePost: {}
     }
   },
   metaInfo() {
@@ -129,6 +130,10 @@ export default Vue.extend({
       set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
       }
+    },
+
+    test(this: any) {
+      return this.post.title
     },
 
     _id(this: any): string {
@@ -213,46 +218,8 @@ export default Vue.extend({
       this.willsave = null
     },
 
-    addRevision(this: any, { post, meta }) {
-      this.clearAutosave()
-
-      const postData = this.addRevision({ post, meta })
-
-      this.$set(this.post, "revisions", postData.revisions)
-
-      return true
-    },
-
-    revertChanges(this: any) {
-      // eslint-disable-next-line no-unused-vars
-      const { revisions } = this.post
-
-      let revertTo = {}
-      const newRevisions = cloneDeep(revisions)
-      revisions.some((r, index: number) => {
-        if (r.published) {
-          revertTo = r.post
-          return true
-        } else {
-          newRevisions.splice(index, 1)
-          return false
-        }
-      })
-
-      const newPost = Object.assign(
-        {},
-        { ...this.post, revisions: newRevisions, ...revertTo }
-      )
-
-      this.post = newPost
-
-      this.$set(this.post, "revisions", newRevisions)
-    },
-
     async saveDraft(this: any) {
       this.sendingDraft = true
-
-      await this.addRevision({ post: this.post, save: true })
 
       this.sendingDraft = false
     }

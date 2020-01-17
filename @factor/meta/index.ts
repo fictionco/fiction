@@ -12,7 +12,7 @@ import { CurrentFactorPost } from "@factor/post/types"
 import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
 import { FactorMetaInfo } from "./types"
 import "./route-class"
-
+import { version } from "@factor/core/package.json"
 Vue.use(VueMeta, { keyName: "metaInfoCore" })
 
 interface MetaHookOptions {
@@ -86,7 +86,8 @@ addFilter({
               name: "viewport",
               content:
                 "width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
-            }
+            },
+            { name: "generator", content: `Factor ${version}` }
           ]
         }
 

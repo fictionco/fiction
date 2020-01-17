@@ -19,6 +19,10 @@ export default Vue.extend({
     color: var(--color-placeholder);
   }
 
+  .input-wrap {
+    max-width: 100%;
+  }
+
   input,
   select,
   textarea {
@@ -27,6 +31,8 @@ export default Vue.extend({
     font-size: 1em;
     box-shadow: none;
     padding: 0;
+    width: 25em;
+    max-width: 100%;
   }
 
   button,

@@ -2,16 +2,9 @@
   <div class="edit-post-seo">
     <div class="search-preview">
       <div class="sup">Search Preview</div>
-      <div class="headline">{{ post.titleTag || post.title || "Untitled" }}</div>
+      <div class="headline">{{ title }}</div>
       <div class="plink">{{ link }}</div>
-      <div class="desc">
-        {{
-          post.descriptionTag ||
-            post.subTitle ||
-            excerpt(post.content) ||
-            "No Description"
-        }}
-      </div>
+      <div class="desc">{{ desc }}</div>
     </div>
     <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
     <dashboard-input
@@ -22,7 +15,8 @@
     <dashboard-input
       v-model="post.shareImage"
       input="factor-input-image-upload"
-      label="Sharing Image"
+      label="Meta Image"
+      description="Defaults to avatar"
       :max="1"
     />
   </div>
@@ -38,10 +32,21 @@ export default Vue.extend({
     postId: { type: String, required: true }
   },
   computed: {
-    post() {
+    desc(this: any) {
+      return (
+        this.post.descriptionTag ||
+        this.post.synopsis ||
+        excerpt(this.post.content) ||
+        "No Description"
+      )
+    },
+    title(this: any) {
+      return this.post.titleTag || this.post.title || "Untitled"
+    },
+    post(this: any) {
       return stored(this.postId) || {}
     },
-    link() {
+    link(this: any) {
       return postLink(this.postId, { root: true })
     }
   },

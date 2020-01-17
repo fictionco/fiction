@@ -81,8 +81,11 @@ export default Vue.extend({
         depth: 100
       })
 
-      // If a new post was started, an id comes with it.
-      if (post._id && !this._id) {
+      /**
+       * If a new post is created, it will come with an _id
+       * Set the URL Id to the new id if this is the case.
+       */
+      if (post._id && this._id !== post._id) {
         this.$router.replace({
           query: { ...this.$route.query, _id: post._id }
         })

@@ -40,14 +40,14 @@ export default Vue.extend({
     }
   },
   computed: {
-    addedSlug() {
+    addedSlug(this: any) {
       return slugify(this.addedText)
     }
   },
-  mounted() {
+  mounted(this: any) {
     this.$watch(
       "value",
-      function(v) {
+      function(this: any, v: string[]) {
         if (v && !isEqual(v, this.tags)) {
           this.tags = v
         }
@@ -56,7 +56,7 @@ export default Vue.extend({
     )
   },
   methods: {
-    addTag() {
+    addTag(this: any) {
       if (this.addedSlug && !this.tags.includes(this.addedSlug)) {
         this.tags.push(this.addedSlug)
 
@@ -64,7 +64,7 @@ export default Vue.extend({
       }
       this.addedText = ""
     },
-    removeTag(index) {
+    removeTag(this: any, index: number) {
       this.tags.splice(index, 1)
       this.$emit("input", this.tags)
     }
@@ -97,7 +97,7 @@ export default Vue.extend({
   }
   .the-input {
     display: flex;
-
+    width: 12em;
     input[type="text"] {
       margin-right: 0.5em;
     }

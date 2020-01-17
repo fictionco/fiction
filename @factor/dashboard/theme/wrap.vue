@@ -25,7 +25,8 @@
 <script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import * as user from "@factor/user"
-import { toLabel } from "@factor/api"
+import { toLabel, getPostTypeConfig } from "@factor/api"
+import { dashboardBaseRoute } from "@factor/dashboard"
 import { Route } from "vue-router"
 import Vue from "vue"
 
@@ -53,6 +54,15 @@ export default Vue.extend({
     }
   },
 
+  computed: {
+    postType(this: any): string {
+      return this.$route.params.postType || "post"
+    },
+    postTypeConfig(this: any) {
+      return getPostTypeConfig(this.postType)
+    }
+  },
+
   watch: {
     $route: function(this: any, to: Route) {
       this.activeRoute = to.path
@@ -60,7 +70,17 @@ export default Vue.extend({
     }
   },
   async mounted() {
+    /**
+     * Wait for user information ready before loading interface
+     */
     await user.userInitialized()
+
+    /**
+     * If the user doesn't have privs for a page, redirect
+     */
+    if (!user.userCan({ accessLevel: this.postTypeConfig?.accessLevel ?? 100 })) {
+      this.$router.push(dashboardBaseRoute())
+    }
 
     this.loading = false
   },

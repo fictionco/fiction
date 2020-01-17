@@ -76,18 +76,18 @@ export default Vue.extend({
   computed: {
     // Vue sometimes can cache this component and handle it incorrectly across views
     // http://michaelnthiessen.com/force-re-render/
-    renderKey() {
+    renderKey(this: any) {
       return this.$attrs["data-test"] ? this.$attrs["data-test"] : this.label
     },
-    isRequired() {
+    isRequired(this: any) {
       return typeof this.$attrs.required != "undefined" || this.$attrs["input-min"]
         ? true
         : false
     },
-    requiredClass() {
+    requiredClass(this: any) {
       return this.isRequired ? "is-required" : "is-optional"
     },
-    inputFormat() {
+    inputFormat(this: any) {
       return this.format ? this.format : "vertical"
     }
   },
