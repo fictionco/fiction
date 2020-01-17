@@ -1,9 +1,12 @@
 <template>
   <header class="justify-between md:items-center zeno-header" :class="headerClasses()">
     <div class="relative z-40">
-      <site-brand v-if="loading === false" class="brand block px-6 py-3" />
+      <site-brand
+        v-if="loading === false && (navLogo || navLogoInverse)"
+        class="brand block px-6 py-3"
+      />
     </div>
-    <div class="relative z-50 flex flex-row md:hidden">
+    <div v-if="navConfig" class="relative z-50 flex flex-row md:hidden">
       <button
         type="button"
         class="appearance-none block transition-all cursor-pointer focus:outline-none active:bg-transparent py-3 px-6"
@@ -24,6 +27,7 @@
       </button>
     </div>
     <div
+      v-if="navConfig"
       class="popup transition-all rounded-lg bg-gray-100 absolute pt-6 md:relative md:opacity-100 md:h-auto md:bg-transparent md:pt-0"
       :class="isOpen ? 'z-40 opacity-100 h-auto' : 'z-0 overflow-hidden h-0 opacity-0'"
     >
@@ -66,6 +70,8 @@ export default Vue.extend({
   data() {
     return {
       loading: true,
+      navLogo: setting("site.logo"),
+      navLogoInverse: setting("site.logoInverse"),
       navConfig: setting("site.nav"),
       isOpen: false
     }

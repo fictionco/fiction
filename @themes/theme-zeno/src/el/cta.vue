@@ -4,8 +4,11 @@
       <img :src="ctaFigure" :alt="ctaFigureAlt" />
     </figure>
     <div class="max-w-xl mx-auto">
-      <h1 class="font-normal tracking-tight text-3xl lg:text-4xl text-gray-100">{{ ctaTitle }}</h1>
-      <div class="mt-4">
+      <h1
+        v-if="ctaTitle"
+        class="font-normal tracking-tight text-3xl lg:text-4xl text-gray-100"
+      >{{ ctaTitle }}</h1>
+      <div v-if="ctaButtons" class="mt-4">
         <template v-for="(button, index) in ctaButtons">
           <factor-link :key="index" :path="button.link" :class="button.classes">
             {{ button.text }}
@@ -30,7 +33,7 @@ export default Vue.extend({
       ctaTitle: setting("site.cta.title"),
       ctaButtons: setting("site.cta.buttons"),
       ctaFigure: setting("site.cta.figure"),
-      ctaFigureAlt: setting("site.cta.figureAlt")
+      ctaFigureAlt: setting("site.cta.figure2")
     }
   },
   methods: { setting }

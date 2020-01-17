@@ -45,7 +45,7 @@
 import { factorAvatar, factorLink } from "@factor/ui"
 import { currentUser, isLoggedIn } from "@factor/user"
 import { logout } from "@factor/user/util"
-import { toLabel, onEvent, emitEvent, applyFilters } from "@factor/api"
+import { toLabel, onEvent, emitEvent } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

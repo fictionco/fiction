@@ -1,18 +1,25 @@
 <template>
   <div>
-    <section class="home-hero pt-12 lg:pt-0">
-      <div class="home-hero-img hidden lg:block bg-purple-900" />
+    <section v-if="setting('home.intro')" class="home-hero pt-12 lg:pt-0">
+      <div
+        v-if="section1Figure"
+        class="home-hero-img hidden lg:block bg-purple-900"
+        :style="`background-image: url(${section1Figure});`"
+      />
+      <div v-else class="home-hero-img hidden lg:block bg-purple-900" />
       <div class="mx-auto px-4 py-8 md:px-16 md:py-12">
         <h1
-          v-formatted-text="setting('home.intro.title')"
+          v-if="section1Title"
+          v-formatted-text="section1Title"
           class="font-normal tracking-tight leading-tight text-3xl mt-2 text-purple-900 lg:text-5xl"
         />
         <div
-          v-formatted-text="setting('home.intro.content')"
+          v-if="section1Content"
+          v-formatted-text="section1Content"
           class="mt-2 text-lg text-gray-600 lg:text-xl"
         />
-        <div class="mt-4 md:mt-8">
-          <template v-for="(button, index) in setting('home.intro.buttons')">
+        <div v-if="section1Buttons" class="mt-4 md:mt-8">
+          <template v-for="(button, index) in section1Buttons">
             <factor-link :key="index" :path="button.link" :class="button.classes">
               {{ button.text }}
               <factor-icon icon="angle-right" />
@@ -22,58 +29,70 @@
       </div>
     </section>
 
-    <section class="section-2 bg-gray-100 px-8 py-12">
+    <section v-if="setting('home.logos')" class="section-2 bg-gray-100 px-8 py-12">
       <div class="max-w-6xl mx-auto">
-        <h1 class="custom-uppercase text-center text-purple-500">{{ setting("home.logos.title") }}</h1>
+        <h1
+          v-if="section2Title"
+          class="custom-uppercase text-center text-purple-500"
+        >{{ section2Title }}</h1>
         <div class="flex flex-wrap items-center mt-8">
-          <template v-for="(item, index) in setting('home.logos.list')">
+          <template v-for="(item, index) in section2List">
             <factor-link
+              v-if="item.link"
               :key="index"
               :path="item.link"
               :target="item.target"
               class="block w-full px-4 py-6 sm:w-1/3"
             >
-              <img :src="item.image" :alt="item.alt" class="mx-auto" />
+              <img v-if="item.image" :src="item.image" :alt="item.alt" class="mx-auto" />
             </factor-link>
+            <div v-else :key="index" class="block w-full px-4 py-6 sm:w-1/3">
+              <img v-if="item.image" :src="item.image" :alt="item.alt" class="mx-auto" />
+            </div>
           </template>
         </div>
       </div>
     </section>
 
     <section
+      v-if="setting('home.section3')"
       :id="setting('home.section3.id')"
       class="section-3 relative bg-cover bg-center bg-purple-900 px-8 py-16"
     >
       <div
+        v-if="section3Items"
         class="relative z-20 max-w-6xl mx-auto flex flex-col bg-white rounded shadow-xl md:flex-row md:flex-wrap"
       >
         <div
-          v-for="(item, index) in setting('home.section3.items')"
+          v-for="(item, index) in section3Items"
+        
           :key="index"
           class="w-full even:bg-gray-100 md:w-1/3"
         >
           <div class="p-10">
-            <img :src="item.icon" :alt="item.title" />
-            <h2 class="font-normal tracking-tight text-3xl text-purple-900 mt-5">{{ item.title }}</h2>
+            <img v-if="item.icon" :src="item.icon" :alt="item.title" />
+            <h2 v-if="item.title" class="font-normal tracking-tight text-3xl text-purple-900 mt-5">{{ item.title }}</h2>
             <div v-if="item.content" v-formatted-text="item.content" class="text-lg text-gray-600" />
           </div>
         </div>
       </div>
     </section>
 
-    <section :id="setting('home.section4.id')" class="section-4 bg-cover bg-center bg-white">
+    <section v-if="setting('home.section4')" :id="setting('home.section4.id')" class="section-4 bg-cover bg-center bg-white">
       <div class="max-w-6xl mx-auto flex flex-col py-8 md:flex-row lg:pt-12 lg:pb-24">
         <div class="flex flex-col p-8 justify-center md:w-3/5">
-          <h3 class="custom-uppercase text-purple-500">{{ setting("home.section4.pretitle") }}</h3>
+          <h3 v-if="section4Pretitle" class="custom-uppercase text-purple-500">{{ section4Pretitle }}</h3>
           <h1
+            v-if="section4Title"
             class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
-          >{{ setting("home.section4.title") }}</h1>
+          >{{ section4Title }}</h1>
           <div
-            v-formatted-text="setting('home.section4.content')"
+            v-if="section4Content"
+            v-formatted-text="section4Content"
             class="mt-2 text-base leading-relaxed text-gray-600 lg:text-xl"
           />
-          <div class="mt-8">
-            <template v-for="(button, index) in setting('home.section4.buttons')">
+          <div v-if="section4Buttons" class="mt-8">
+            <template v-for="(button, index) in section4Buttons">
               <factor-link :key="index" :path="button.link" :class="button.classes">
                 {{ button.text }}
                 <factor-icon icon="angle-right" />
@@ -86,37 +105,41 @@
     </section>
 
     <section
+      v-if="setting('home.section5')"
       :id="setting('home.section5.id')"
-      class="section-5 overflow-hidden relative bg-gray-100"
+      class="section-5 overflow-hidden relative min-h-screen bg-gray-100"
     >
       <div class="max-w-6xl mx-auto px-8 pt-16 lg:pt-24 lg:pb-12">
         <div class="flex flex-col md:flex-row md:flex-wrap">
           <div class="pb-12 md:w-full">
             <h3
+              v-if="section5Pretitle"
               class="custom-uppercase text-center text-purple-500"
-            >{{ setting("home.section5.pretitle") }}</h3>
+            >{{ section5Pretitle }}</h3>
             <div class="flex items-center justify-center">
               <h1
+                v-if="section5Title"
                 class="font-normal tracking-tight text-center text-3xl lg:text-4xl text-purple-900"
               >
-                {{ setting("home.section5.title") }}
+                {{ section5Title }}
                 <img
-                  v-if="setting('home.section5.titleIcon')"
-                  :src="setting('home.section5.titleIcon')"
-                  :alt="setting('home.section5.title')"
+                  v-if="section5TitleIcon"
+                  :src="section5TitleIcon"
+                  :alt="section5Title"
                   class="inline-block lg:ml-2"
                 />
               </h1>
             </div>
           </div>
-          <div class="relative z-10 pb-8 md:pb-0 md:pr-8 md:w-3/5">
-            <template v-for="(item, index) in setting('home.section5.items')">
+          <div v-if="section5Items" class="relative z-10 pb-8 md:pb-0 md:pr-8 md:w-3/5">
+            <template v-for="(item, index) in section5Items">
               <div
                 :key="index"
                 class="mb-10 p-10 transition-all rounded bg-white custom-card-left md:mb-20"
               >
                 <img v-if="item.image" :src="item.image" :alt="item.alt" />
                 <div
+                  v-if="item.content"
                   v-formatted-text="item.content"
                   class="text-base mt-4 leading-relaxed text-gray-600 lg:text-xl"
                 />
@@ -136,32 +159,35 @@
       </div>
     </section>
 
-    <section class="section-6">
+    <section v-if="setting('home.testimonials')" :id="setting('home.testimonials.id')" class="section-6">
       <div class="max-w-6xl mx-auto px-8 py-16 lg:py-24">
         <div class="max-w-xs mx-auto">
           <h3
+            v-if="section6Pretitle"
             class="custom-uppercase text-center text-purple-500"
-          >{{ setting("home.testimonials.pretitle") }}</h3>
+          >{{ section6Pretitle }}</h3>
           <h1
+            v-if="section6Title"
             class="mt-2 text-normal tracking-tight leading-tight text-3xl text-center text-purple-900 lg:text-4xl"
-          >{{ setting("home.testimonials.title") }}</h1>
+          >{{ section6Title }}</h1>
         </div>
-        <div class="flex flex-col text-base mt-6 md:flex-row md:flex-wrap lg:text-xl">
-          <template v-for="(item, index) in setting('home.testimonials.items')">
+        <div v-if="section6Items" class="flex flex-col text-base mt-6 md:flex-row md:flex-wrap lg:text-xl">
+          <template v-for="(item, index) in section6Items">
             <div :key="index" class="w-full p-8 md:w-1/2">
-              <blockquote class="relative inline-block">
+              <blockquote v-if="item.content" class="relative inline-block">
                 <span class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6">&ldquo;</span>
                 <span v-formatted-text="item.content" class="leading-relaxed text-gray-600" />
               </blockquote>
               <footer class="flex items-center mt-6">
                 <img
+                  v-if="item.image"
                   :src="item.image"
                   :alt="item.author + ' - ' + item.info"
                   class="rounded-full h-10 w-10 ml-auto shadow-lg md:h-16 md:w-16"
                 />
                 <div class="ml-4 text-base">
-                  <cite class="block">{{ item.author }}</cite>
-                  <cite class="block">{{ item.info }}</cite>
+                  <cite v-if="item.author" class="block">{{ item.author }}</cite>
+                  <cite v-if="item.info" class="block">{{ item.info }}</cite>
                 </div>
               </footer>
             </div>
@@ -187,7 +213,25 @@ export default Vue.extend({
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      section1Title: setting("home.intro.title"),
+      section1Content: setting("home.intro.content"),
+      section1Buttons: setting("home.intro.buttons"),
+      section1Figure: setting("home.intro.figure"),
+      section2Title: setting("home.logos.title"),
+      section2List: setting("home.logos.list"),
+      section3Items: setting('home.section3.items'),
+      section4Pretitle: setting("home.section4.pretitle"),
+      section4Title: setting("home.section4.title"),
+      section4Content: setting("home.section4.content"),
+      section4Buttons: setting("home.section4.buttons"),
+      section5Pretitle: setting("home.section5.pretitle"),
+      section5Title: setting("home.section5.title"),
+      section5TitleIcon: setting("home.section5.titleIcon"),
+      section5Items: setting('home.section5.items'),
+      section6Pretitle: setting("home.testimonials.pretitle"),
+      section6Title: setting("home.testimonials.title"),
+      section6Items: setting('home.testimonials.items'),
     }
   },
   methods: {
@@ -221,7 +265,6 @@ export default Vue.extend({
   .home-hero-img {
     height: 100%;
     width: 100%;
-    background-image: url(./img/intro.svg);
     background-position: 0 0;
     background-size: cover;
   }

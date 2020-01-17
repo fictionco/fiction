@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-hero
+      v-if="setting('contact.hero')"
       :align="`center`"
       :subheadline="setting('contact.hero.pretitle')"
       :headline="setting('contact.hero.title')"
