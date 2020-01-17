@@ -14,6 +14,9 @@ export default (): FactorSchema => {
     permissions: {
       retrieve: { accessLevel: 0 }
     },
+    populatedFields: applyFilters("user-populated-fields", [
+      { field: "covers", depth: 30 }
+    ]),
     callback: (_s: Schema): void => {
       /**
        * Password Verification and Handling

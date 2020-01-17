@@ -101,9 +101,9 @@ export default Vue.extend({
       return typeof this.$attrs["required"] != "undefined" ? true : false
     },
     populated(this: any): Attachment[] {
-      return this.imageIds
-        .map((_: string) => stored(_))
-        .filter((_: Attachment | undefined) => _)
+      const mapped = this.imageIds.map((_: string) => stored(_))
+
+      return mapped.filter((_: Attachment | undefined) => _)
     },
     allImages(this: any) {
       return [...this.populated, ...this.uploading]

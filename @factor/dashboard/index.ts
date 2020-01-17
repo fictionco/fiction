@@ -32,7 +32,9 @@ export const dashboardBaseRoute = (): string => {
   const dashboardRoute = setting("dashboard.route")
 
   if (!dashboardRoute) {
-    throw new Error("Dashboard base route setting is undefined.")
+    throw new Error(
+      "Dashboard base route setting is missing. There may be a problem with the settings loader."
+    )
   }
   return dashboardRoute
 }
