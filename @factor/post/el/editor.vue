@@ -102,7 +102,7 @@ export default Vue.extend({
   background-color: #fff;
 }
 .CodeMirror-gutters {
-  border-right: 1px solid #ddd;
+  border-right: 1px solid rgba(200, 204, 228, 0.7);
   background-color: #f7f7f7;
   white-space: nowrap;
 }
@@ -484,7 +484,7 @@ span.CodeMirror-selectedtext {
 .CodeMirror {
   box-sizing: border-box;
   height: auto;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(200, 204, 228, 0.7);
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   padding: 10px;
@@ -495,7 +495,7 @@ span.CodeMirror-selectedtext {
 .CodeMirror-scroll {
   cursor: text;
 }
-.CodeMirror-fullscreen {
+.editor-input .CodeMirror-fullscreen {
   background: #fff;
   position: fixed !important;
   top: 50px;
@@ -506,6 +506,7 @@ span.CodeMirror-selectedtext {
   z-index: 9;
   border-right: none !important;
   border-bottom-right-radius: 0 !important;
+  padding: 2rem;
 }
 .CodeMirror-sided {
   width: 50% !important;
@@ -551,7 +552,7 @@ span.CodeMirror-selectedtext {
   top: 0;
   left: 0;
   opacity: 1;
-  z-index: 9;
+  z-index: 9000;
 }
 .editor-toolbar.fullscreen::before {
   width: 20px;
@@ -647,6 +648,7 @@ span.CodeMirror-selectedtext {
   border: 1px solid transparent;
   border-radius: 3px;
   cursor: pointer;
+  color: inherit;
 }
 .editor-toolbar button.active,
 .editor-toolbar button:hover {
@@ -720,26 +722,52 @@ span.CodeMirror-selectedtext {
   height: 100%;
   top: 0;
   left: 0;
-  background: #fafafa;
+  background: #f6fafd;
   z-index: 7;
   overflow: auto;
   display: none;
   box-sizing: border-box;
 }
 .editor-preview-side {
-  padding: 10px;
+  padding: 2rem;
   position: fixed;
   bottom: 0;
   width: 50%;
   top: 50px;
   right: 0;
-  background: #fafafa;
+  left: auto;
+  background: #f6fafd;
   z-index: 9;
   overflow: auto;
   display: none;
   box-sizing: border-box;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(200, 204, 228, 0.7);
   word-wrap: break-word;
+  line-height: 1.6em;
+
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.7em;
+  }
+  h3 {
+    font-size: 1.4em;
+  }
+  h4 {
+    font-size: 1.2em;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-weight: 700;
+    margin: 1em 0 0.5rem;
+  }
+  p {
+    margin: 1em 0;
+  }
 }
 .editor-preview-active-side {
   display: block;
@@ -760,7 +788,7 @@ span.CodeMirror-selectedtext {
 .editor-preview table th,
 .editor-preview-side table td,
 .editor-preview-side table th {
-  border: 1px solid #ddd;
+  border: 1px solid rgba(200, 204, 228, 0.7);
   padding: 5px;
 }
 .CodeMirror .CodeMirror-code .cm-tag {
