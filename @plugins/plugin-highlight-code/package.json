@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-highlight-code",
   "description": "Add a syntax highlighting component to your Factor app.",
-  "version": "1.1.30",
+  "version": "1.1.31",
   "license": "GPL-2.0",
   "factor": {
     "load": [
