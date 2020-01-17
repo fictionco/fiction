@@ -2,12 +2,8 @@
   <div class="card-user card-wrap">
     <div v-if="postSet" class="card">
       <div class="name">{{ user.displayName || user.email }}</div>
-      <div
-        v-if="$listeners.remove"
-        class="remove"
-        @click.prevent.stop="$emit('remove', $event)"
-      >
-        <factor-icon icon="remove" />
+      <div v-if="$listeners.remove" class="remove" @click.prevent.stop="$emit('remove', $event)">
+        <factor-icon icon="fas fa-remove" />
       </div>
     </div>
   </div>

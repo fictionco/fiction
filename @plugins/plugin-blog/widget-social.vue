@@ -10,19 +10,19 @@
       class="social twitter"
       :path="`https://twitter.com/intent/tweet?text=${post.title}+${link}`"
     >
-      <factor-icon icon="fas fa-twitter" />
+      <factor-icon icon="fab fa-twitter" />
     </factor-link>
     <factor-link
       class="social linkedin"
       :path="`https://www.linkedin.com/shareArticle?mini=true&url=${link}`"
     >
-      <factor-icon icon="fas fa-linkedin-in" />
+      <factor-icon icon="fab fa-linkedin-in" />
     </factor-link>
     <factor-link
       class="social pinterest"
       :path="`https://pinterest.com/pin/create/button/?url=${link}`"
     >
-      <factor-icon icon="fas fa-pinterest" />
+      <factor-icon icon="fab fa-pinterest" />
     </factor-link>
   </div>
 </template>

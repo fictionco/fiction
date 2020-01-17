@@ -9,7 +9,7 @@
         @keyup.enter="addTag()"
       />
       <factor-btn-dashboard @click="addTag()">
-        <factor-icon icon="plus" />
+        <factor-icon icon="fas fa-plus" />
       </factor-btn-dashboard>
     </div>
     <div v-if="tags.length > 0" class="the-tags">
@@ -17,7 +17,7 @@
         <span class="tx">{{ tag }}</span>
 
         <span class="rm" @click="removeTag(index)">
-          <factor-icon icon="remove" />
+          <factor-icon icon="fas fa-remove" />
         </span>
       </div>
     </div>

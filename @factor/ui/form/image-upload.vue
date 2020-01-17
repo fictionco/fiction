@@ -51,7 +51,7 @@
               />
               <factor-loading-ring v-if="loading" width="2em" />
               <div v-else class="upload-status">
-                <factor-icon icon="plus" />
+                <factor-icon icon="fas fa-plus" />
               </div>
             </div>
           </div>
