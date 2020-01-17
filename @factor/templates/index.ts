@@ -29,6 +29,9 @@ export const getTemplateFields = async (
   return templateSettings ? templateSettings() : []
 }
 
+/**
+ * Gets the available page templates
+ */
 export const getPageTemplates = (): TemplateConfig[] => {
   const _templates: TemplateConfig[] = setting("pageTemplates.templates") || []
 
@@ -50,7 +53,7 @@ export const getTemplate = async (templateId: string): Promise<TemplateConfig | 
   let tpl = _all.find(_ => _.slug == templateId)
 
   if (!tpl) {
-    tpl = _all.find(_ => _.slug == "tpl-basic")
+    tpl = _all.find(_ => _.slug == "")
   }
 
   if (!tpl) return {}

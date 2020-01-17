@@ -4,8 +4,8 @@ export default {
   pageTemplates: {
     templates: [
       {
-        name: "Basic Page",
-        slug: "tpl-basic",
+        name: "Default",
+        slug: "default",
         component: (): Promise<Component> => import("./tpl-basic.vue")
       } as TemplateConfig
     ]

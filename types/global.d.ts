@@ -27,6 +27,7 @@ declare namespace NodeJS {
   interface Module {
     hot: {
       accept: () => any;
+      status: () => any;
     };
   }
 }

@@ -69,7 +69,7 @@ export default Vue.extend({
     }
   },
   created() {
-    const menuStructure = applyFilters("account-menu", [
+    const menuStructure = [
       {
         items: [
           {
@@ -84,7 +84,7 @@ export default Vue.extend({
           }
         ]
       }
-    ])
+    ]
 
     this.$set(this, "accountMenu", menuStructure)
   },

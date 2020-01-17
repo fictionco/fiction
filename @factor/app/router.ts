@@ -8,16 +8,22 @@ Vue.use(VueRouter)
 
 let __initialPageLoad = true
 
-// Only run this before navigation on the client, it should NOT run on initial page load
+/**
+ * In client, when we change routes, we should run checks for auth, preloaders, etc.
+ * @param to - next route
+ * @param from - current route
+ * @param next - next function, call with false to prevent nav, must call!
+ */
 const hookClientRouterBefore = async (
   to: Route,
   from: Route,
   next: Function
 ): Promise<void> => {
-  if (__initialPageLoad) next()
-  else {
+  if (__initialPageLoad || to.path == from.path) {
+    next()
+  } else {
     const doBefore = runCallbacks("client-route-before", { to, from, next })
-    emitEvent("ssr-progress", "start")
+
     const results = await doBefore
 
     // If a user needs to sign in (with modal) or be redirected after an action
@@ -41,6 +47,10 @@ const hookClientRouterAfter = (to: Route, from: Route): void => {
   }
 }
 
+/**
+ * Creates the Vue Router instance
+ * @library vue-router
+ */
 export const createRouter = (): VueRouter => {
   const routes: RouteConfig[] = applyFilters("routes", []).filter((_: RouteConfig) => _)
 

@@ -68,8 +68,7 @@ export default {
   },
   blog: {
     title: "Factor Blog",
-    content:
-      "Discover the latest product updates, announcements, and articles from the Factor team.",
+    content: "Latest product updates, announcements, and articles from the Factor team.",
     indexRoute: "/blog",
     postRoute: "/entry",
     limit: 6,
@@ -81,8 +80,7 @@ export default {
     promo: {
       pretitle: "The Javascript CMS",
       title: "Build something incredible today",
-      content:
-        "Factor will help you launch websites and applications faster.",
+      content: "Factor will help you launch websites and applications faster.",
       button: {
         link: "/guide/quickstart",
         text: "Get Started"
@@ -115,7 +113,7 @@ export default {
   },
   footer: {
     headline: "Released under the GPL-2 License",
-    legal: "Copyright &copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
+    legal: "&copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
     logo: (): Promise<Component> => import("./src/el/logo-fiction.vue"),
     logo2: (): Promise<Component> => import("./src/el/logo-pagelines.vue")
   }

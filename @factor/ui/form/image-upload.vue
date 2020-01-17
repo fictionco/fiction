@@ -37,7 +37,7 @@
           v-if="single || imageIds.length < maxImages"
           ref="multiImageDrop"
           class="image-item ignore-sortable image-drop"
-          :class="single && imageIds.length > 0 && uploading.length > 0 ? 'single-image-drop': ''"
+          :class="single && (imageIds.length > 0 || uploading.length > 0) ? 'single-image-drop': ''"
         >
           <div class="image-item-pad">
             <div class="image-item-content">
@@ -473,7 +473,7 @@ export default Vue.extend({
         transparent 1rem,
         transparent 2rem
       );
-      animation: barberpole 1.5s linear infinite;
+      animation: barberpole 1s linear infinite;
     }
   }
   .menu {

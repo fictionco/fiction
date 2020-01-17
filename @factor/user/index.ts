@@ -81,6 +81,7 @@ const retrieveAndSetCurrentUser = async (
  */
 const requestInitializeUser = async (): Promise<CurrentUserState> => {
   await appMounted()
+
   const resolvedUser = await retrieveAndSetCurrentUser()
 
   await runCallbacks("before-user-init", resolvedUser)
@@ -225,7 +226,7 @@ export const setup = (): void => {
     hook: "before-app",
     callback: () => {
       // Authentication events only work after SSR
-      if (!isNode) {
+      if (!isNode && !Vue.$initializedUser) {
         Vue.$initializedUser = requestInitializeUser()
         handleAuthRouting()
       }

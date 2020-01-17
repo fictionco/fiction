@@ -40,14 +40,14 @@ export default Vue.extend({
     return {}
   },
   computed: {
-    hasImage() {
+    hasImage(this: any) {
       return this.avatar.url ? true : false
     },
 
-    avatar() {
+    avatar(this: any) {
       return stored(this.postId) || {}
     },
-    src() {
+    src(this: any) {
       if (this.avatar && this.avatar.url) {
         return this.avatar.url
       } else if (this.url) {
@@ -59,7 +59,7 @@ export default Vue.extend({
   },
 
   methods: {
-    getStyle(more = {}) {
+    getStyle(this: any, more = {}) {
       const width = this.width
       return { width, height: width, ...more }
     }
