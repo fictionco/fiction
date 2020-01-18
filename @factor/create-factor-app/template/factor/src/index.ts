@@ -1,14 +1,10 @@
-// This is the standard format for a Factor extension
-// Use this file to add routes, global components, config, etc.
-
-import { addContentRoute } from "@factor/api"
-
-export const setup = (): void => {
-
-  addContentRoute({
-    path: '/',
-    component: () => import("./home.vue")
-  })
-}
-
-setup()
+/**
+ * This is your app control file (set in package.json)
+ *
+ * Use it to manipulate your application environment.
+ *
+ * @examples
+ * - Add or modify routes and components
+ * - Modify plugins and Factor via hooks/filters
+ * - Work with the global Vue instance
+ */

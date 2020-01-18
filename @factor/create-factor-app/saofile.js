@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable unicorn/no-process-exit */
 
+const path = require("path")
 const superb = require("superb")
 const figures = require("figures")
 const consola = require("consola")
-
 const config = {
   /**
    * Answers to these questions get added to the template as variables
@@ -35,31 +35,6 @@ const config = {
       message: "...and email?",
       default: "{gitUser.email}",
       when: answers => !config.isUnitTest(answers)
-    },
-    {
-      name: "addDb",
-      type: "list",
-      message:
-        "Ok let's setup your database: do you have a MongoDB connection URL ready?",
-      choices: [
-        { name: "Yes, I'm ready to go", value: "yes" },
-        { name: "Use the demo database (resets every 30 minutes)", value: "demo" },
-        { name: "I'll do this later", value: "no" }
-      ],
-      when: answers => !config.isUnitTest(answers)
-    },
-
-    {
-      name: "db",
-      type: "string",
-      message: "DB Setup: Your MongoDB Connection URL (mongodb://...)",
-      default: "",
-      validate: val => {
-        return !val || val.includes("mongodb")
-          ? true
-          : "Doesn't seem to be a valid database URL..."
-      },
-      when: answers => answers.addDb == "yes" && !config.isUnitTest(answers)
     }
   ],
   isUnitTest(answers) {
@@ -81,10 +56,8 @@ const config = {
       .replace(/[^a-z]+/g, "")
       .slice(0, 30)
 
-    if (answers.addDb == "demo") {
-      data.db =
-        "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
-    }
+    data.db =
+      "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
 
     return data
   },
@@ -141,19 +114,27 @@ const config = {
     const isNewFolder = this.outDir !== process.cwd()
     const cd = () => {
       if (isNewFolder) {
-        console.log(`\t${this.chalk.cyan("cd")} ./${this.outFolder}`)
+        console.log(
+          `\t${this.chalk.bold.green("cd")} ${this.chalk.bold(
+            path.relative(process.cwd(), this.outDir)
+          )}`
+        )
       }
     }
 
     console.log()
     console.log(
-      this.chalk.bold(`  ${figures.tick} Great work. Now start your local server:\n`)
+      this.chalk.bold(`  ${figures.tick} Great work! Now start your local server:\n`)
     )
     cd()
-    console.log(`\tyarn factor dev\n`)
+    console.log(`\t${this.chalk.green.bold("yarn ") + this.chalk.bold("factor dev")}\n`)
     console.log()
-    console.log(`  ${figures.arrowRight} Factor docs: https://factor.dev/`)
-    console.log(`  ${figures.arrowRight} Setup command: yarn factor setup`)
+    console.log(
+      `   ${this.chalk.cyan.bold(`${figures.arrowRight} Factor docs:`)} ${this.chalk.bold(
+        "https://factor.dev/"
+      )}`
+    )
+
     console.log()
   }
 }
