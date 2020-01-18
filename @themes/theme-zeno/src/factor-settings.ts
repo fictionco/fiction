@@ -5,7 +5,8 @@ export default {
   // },
   headTags: {
     // Embed Font to site head
-    font: '<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />'
+    font:
+      '<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />'
   },
   tailwind: {
     // Tailwind plugin settings
@@ -65,7 +66,7 @@ export default {
         }
       ],
       figure: require("./img/cloud-with-shadow.svg"),
-      footerFigureAlt: 'Cloud'
+      footerFigureAlt: "Cloud"
     }
   },
   // Home Page
@@ -73,7 +74,7 @@ export default {
     intro: {
       title: "Welcome to Zeno, <br>Innovation via Automation",
       content:
-        "Zeno is a minimalist theme suited for the needs of cloud service and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
+        "Zeno is a minimalist theme suited for the needs of start-ups, tech businesses and SaaS companies. Styles are powered by Tailwind, a low-level CSS framework.",
       buttons: [
         {
           _item: "contact",
@@ -89,7 +90,7 @@ export default {
             "btn btn-ol border-purple-700 ml-0 mt-4 md:mt-0 hover:text-purple-500 hover:border-purple-500"
         }
       ],
-      figure: require("./img/intro.svg"),
+      figure: require("./img/intro.svg")
     },
     logos: {
       title: "Working with the following clouds:",
@@ -124,43 +125,37 @@ export default {
           _item: "plan",
           icon: require("./img/plan.svg"),
           title: "Plan",
-          content:
-            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
+          content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "build",
           icon: require("./img/build.svg"),
           title: "Build",
-          content:
-            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
+          content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "manage",
           icon: require("./img/manage.svg"),
           title: "Manage",
-          content:
-            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
+          content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "gears",
           icon: require("./img/gears.svg"),
           title: "Automation",
-          content:
-            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
+          content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "clouds",
           icon: require("./img/clouds.svg"),
           title: "Cloud",
-          content:
-            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
+          content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         },
         {
           _item: "security",
           icon: require("./img/security.svg"),
           title: "Security",
-          content:
-            `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
+          content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut`
         }
       ]
     },
@@ -215,8 +210,7 @@ export default {
         },
         {
           _item: "testimonial_2",
-          content:
-            `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
+          content: `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
           image: require("./img/member3.jpg"),
           author: "Sebastian Hodges",
           info: "CEO, SedLaudantium"
@@ -235,8 +229,7 @@ export default {
     hero: {
       pretitle: "About Theme Zeno",
       title: "Built with Factor CMS",
-      content:
-        `Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework.`
+      content: `Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework.`
     },
     valuesImage1: require("./img/about1.jpg"),
     valuesImage2: require("./img/about2.jpg"),
