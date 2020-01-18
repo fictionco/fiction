@@ -56,7 +56,7 @@ describe("create-factor-app", () => {
 
       const cliOutput = JSON.parse(JSON.stringify(output.join(" ")))
 
-      expect(cliOutput).toContain(`./${APP_FOLDER}`)
+      expect(cliOutput).toContain(APP_FOLDER)
 
       const gitIgnore = readFileSync(resolve(cwd, APP_FOLDER, ".gitignore"), "utf-8")
 
