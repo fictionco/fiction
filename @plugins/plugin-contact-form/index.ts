@@ -32,9 +32,9 @@ export const saveContactForm = async (form: object): Promise<object> => {
 export const setup = (): void => {
   addPostType({
     postType: postType,
-    nameIndex: "Contact Form",
-    nameSingle: "Submitted",
-    namePlural: "Contact Forms",
+    nameIndex: "Contact Form Submissions",
+    nameSingle: "Submission",
+    namePlural: "Contact Form Submissions",
     listTemplate: (): Promise<Component> => import("./dashboard-list.vue"),
     noAddNew: true
   })

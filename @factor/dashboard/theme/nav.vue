@@ -121,14 +121,14 @@ export default Vue.extend({
       display: grid;
       grid-template-areas: "icon primary";
 
-      align-items: center;
-      padding: 0.25em 0;
+      padding: 0.1em 0;
     }
 
     .item-icon {
       grid-area: icon;
-      align-self: center;
+      //  align-self: center;
       img {
+        margin-top: 0.16rem;
         width: 1.25rem;
         display: block;
       }
@@ -143,6 +143,7 @@ export default Vue.extend({
     }
     .item-text {
       grid-area: primary;
+      line-height: 1.4;
     }
 
     .primary-item-icon {

@@ -1,5 +1,20 @@
 <template>
   <dashboard-pane :title="title">
+    <factor-modal :vis.sync="vis" class="form-view-modal">
+      <div class="form-info">
+        <h2>Form Submission</h2>
+        <div class="fields">
+          <div
+            v-for="({label, value}, index) in postItemAdditional(selectedPost)"
+            :key="index"
+            class="field"
+          >
+            <label>{{ label }}</label>
+            <div class="val">{{ value }}</div>
+          </div>
+        </div>
+      </div>
+    </factor-modal>
     <dashboard-list-controls
       :control-actions="controlActions()"
       :control-status="controlStatus()"
@@ -20,7 +35,7 @@
       :meta="postItemMeta(post)"
       :additional="postItemAdditional(post)"
       :toggle="{ show: `Show Form Data`, hide: `Hide Form Data` }"
-      :edit-path="false"
+      :click-event="() => showModal(post)"
     />
   </dashboard-pane>
 </template>
@@ -35,7 +50,7 @@ import {
   dashboardListPost,
   dashboardListControls
 } from "@factor/dashboard"
-
+import { factorModal } from "@factor/ui"
 import Vue from "vue"
 import { ContactFormStandard } from "./types"
 
@@ -44,7 +59,8 @@ export default Vue.extend({
   components: {
     dashboardListPost,
     dashboardPane,
-    dashboardListControls
+    dashboardListControls,
+    factorModal
   },
   props: {
     postType: { type: String, default: "post" },
@@ -58,12 +74,18 @@ export default Vue.extend({
     return {
       selected: [],
       showInfo: [],
-      loadingAction: false
+      loadingAction: false,
+      vis: false,
+      selectedPost: {}
     }
   },
   computed: {},
 
   methods: {
+    showModal(this: any, post) {
+      this.selectedPost = post
+      this.vis = true
+    },
     toLabel,
     standardDate,
     formFields(this: any, post: FactorPost) {
@@ -152,6 +174,21 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
+.form-view-modal .form-info {
+  text-align: left;
+  h2 {
+    font-size: 1.6em;
+    font-weight: 700;
+    opacity: 0.2;
+    margin-bottom: 2em;
+  }
+  .field {
+    margin: 1em 0;
+  }
+  label {
+    font-weight: 700;
+  }
+}
 .contact-form-table {
   .dashboard-grid-body-row {
     font-size: 0.85em;

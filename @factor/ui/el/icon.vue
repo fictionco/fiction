@@ -1,5 +1,5 @@
 <template>
-  <i :class="icon" />
+  <i class="factor-icon" :class="icon" />
 </template>
 
 <script lang="ts">
@@ -16,7 +16,7 @@ export default Vue.extend({
     addExternalScripts() {
       const els = document.querySelector("#ficons")
       if (!els) {
-        document.createElement('script')
+        document.createElement("script")
         const script = document.createElement("script")
         script.src = "https://kit.fontawesome.com/4cb195f1ee.js"
         script.type = "text/javascript"

@@ -123,23 +123,31 @@ export const setup = (): void => {
             ? false
             : true
         })
-        .forEach(({ postType, namePlural, icon = "", addNewText = "Add New" }) => {
-          const subMenu: DashboardMenuItem[] = []
+        .forEach(
+          ({
+            postType,
+            namePlural,
+            icon = "",
+            noAddNew = false,
+            addNewText = "Add New"
+          }) => {
+            const subMenu: DashboardMenuItem[] = []
 
-          if (addNewText) {
-            subMenu.push({ path: slugify(addNewText), name: addNewText })
+            if (!noAddNew && addNewText) {
+              subMenu.push({ path: slugify(addNewText), name: addNewText })
+            }
+
+            subMenu.push({ path: "edit" })
+
+            _.push({
+              group: postType,
+              path: `posts/${postType}`,
+              name: namePlural || toLabel(postType),
+              icon,
+              items: applyFilters(`admin-menu-post-${postType}`, subMenu)
+            })
           }
-
-          subMenu.push({ path: "edit" })
-
-          _.push({
-            group: postType,
-            path: `posts/${postType}`,
-            name: namePlural || toLabel(postType),
-            icon,
-            items: applyFilters(`admin-menu-post-${postType}`, subMenu)
-          })
-        })
+        )
 
       return _
     }

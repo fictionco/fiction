@@ -11,7 +11,8 @@
           </factor-link>
         </div>
         <div class="text-header">
-          <factor-link :path="itemPath" class="title">{{ itemTitle }}</factor-link>
+          <div v-if="clickEvent" class="title click-title" @click="clickEvent(post)">{{ itemTitle }}</div>
+          <factor-link v-else :path="itemPath" class="title">{{ itemTitle }}</factor-link>
           <div v-if="itemSubTitle" class="sub-title">{{ itemSubTitle }}</div>
         </div>
 
@@ -59,7 +60,8 @@ export default Vue.extend({
     additional: { type: Array, default: () => [] },
     value: { type: Array, default: () => [] },
     toggle: { type: Object, default: () => ({ show: "More", hide: "Less" }) },
-    editPath: { type: [String, Boolean], default: true }
+    editPath: { type: [String, Boolean], default: true },
+    clickEvent: { type: [Function, Boolean], default: false }
   },
   data() {
     return {
@@ -172,7 +174,9 @@ export default Vue.extend({
       font-size: 1.2em;
       margin-bottom: 0.25rem;
     }
-    a:hover {
+    a:hover,
+    .title.click-title:hover {
+      cursor: pointer;
       color: var(--color-primary);
     }
     .sub-title {
