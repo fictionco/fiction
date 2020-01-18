@@ -8,7 +8,8 @@
         v-if="ctaTitle"
         class="font-normal tracking-tight text-3xl lg:text-4xl text-gray-100"
       >{{ ctaTitle }}</h1>
-      <div v-if="ctaButtons" class="mt-4">
+      <div v-if="ctaContent" class="mt-2 text-lg text-gray-500 lg:text-xl">{{ ctaContent }}</div>
+      <div v-if="ctaButtons" class="mt-4 md:mt-8">
         <template v-for="(button, index) in ctaButtons">
           <factor-link :key="index" :path="button.link" :class="button.classes">
             {{ button.text }}
@@ -31,6 +32,7 @@ export default Vue.extend({
     return {
       loading: true,
       ctaTitle: setting("site.cta.title"),
+      ctaContent: setting("site.cta.content"),
       ctaButtons: setting("site.cta.buttons"),
       ctaFigure: setting("site.cta.figure"),
       ctaFigureAlt: setting("site.cta.figure2")
