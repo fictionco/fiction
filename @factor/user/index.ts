@@ -51,7 +51,7 @@ export const userInitialized = async (callback?: Function): Promise<CurrentUserS
  * If no token is passed in, it looks in localStorage
  * @param userCredential - user credentialing information (password/token)
  */
-const retrieveAndSetCurrentUser = async (
+export const loadUser = async (
   userCredential?: FactorUserCredential
 ): Promise<CurrentUserState> => {
   let token
@@ -82,7 +82,7 @@ const retrieveAndSetCurrentUser = async (
 const requestInitializeUser = async (): Promise<CurrentUserState> => {
   await appMounted()
 
-  const resolvedUser = await retrieveAndSetCurrentUser()
+  const resolvedUser = await loadUser()
 
   await runCallbacks("before-user-init", resolvedUser)
 

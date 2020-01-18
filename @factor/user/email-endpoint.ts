@@ -2,7 +2,7 @@ import { savePost } from "@factor/post/server"
 import { getModel } from "@factor/post/database"
 import { addFilter, currentUrl, randomToken } from "@factor/api"
 import { sendTransactional } from "@factor/email/server"
-import { Document, HookNextFunction, Schema, SchemaDefinition } from "mongoose"
+import { Document, Schema, SchemaDefinition } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
 import { addEndpoint } from "@factor/api/endpoints"
@@ -151,6 +151,9 @@ export const sendPasswordResetEmail = async ({
 }
 
 export const setup = (): void => {
+  /**
+   * Adds methods to the userEmails endpoint
+   */
   addEndpoint({
     id: "userEmails",
     handler: {
@@ -162,21 +165,22 @@ export const setup = (): void => {
     }
   })
 
+  /**
+   * Handle verification after a user changes their email
+   */
   addFilter({
     key: "userEmails",
     hook: "user-schema-hooks",
-    callback: (s: Schema) => {
-      // EMAIL
-      s.post("save", async function(
-        this: FactorUser & Document,
-        doc,
-        next: HookNextFunction
+    callback: (userSchema: Schema) => {
+      userSchema.pre("save", async function(
+        this: FactorUser & Document
+        ///next: HookNextFunction
       ): Promise<void> {
-        if (!this.isModified("email")) return next()
+        if (!this.isModified("email")) return
 
         const { email, _id } = this
         this.emailVerified = false
-        await sendVerifyEmail({ _id, email }, { bearer: this })
+        sendVerifyEmail({ _id, email }, { bearer: this })
 
         return
       })

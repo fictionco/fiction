@@ -17,16 +17,23 @@ export default (): FactorSchema => {
     populatedFields: applyFilters("user-populated-fields", [
       { field: "covers", depth: 30 }
     ]),
-    callback: (_s: Schema): void => {
+    callback: (userSchema: Schema): void => {
       /**
        * Password Verification and Handling
        */
-      _s.methods.comparePassword = async function comparePassword(
+      userSchema.methods.comparePassword = async function comparePassword(
         candidate: string
       ): Promise<boolean> {
         return bcrypt.compare(candidate, this.password)
       }
-      _s.pre("save", async function(this: FactorUser & Document, next: HookNextFunction) {
+
+      /**
+       * Handle password saving
+       */
+      userSchema.pre("save", async function(
+        this: FactorUser & Document,
+        next: HookNextFunction
+      ) {
         if (!this.isModified("password") || !this.password) {
           return next()
         }
@@ -42,7 +49,10 @@ export default (): FactorSchema => {
       /**
        * Set permalink to @[username] to users can have their own url
        */
-      _s.pre("save", function(this: FactorUser & Document, next: HookNextFunction) {
+      userSchema.pre("save", function(
+        this: FactorUser & Document,
+        next: HookNextFunction
+      ) {
         if (this.username) this.permalink = `@${this.username}`
 
         if (this.displayName) this.title = this.displayName
@@ -50,7 +60,7 @@ export default (): FactorSchema => {
         next()
       })
 
-      applyFilters("user-schema-hooks", _s)
+      applyFilters("user-schema-hooks", userSchema)
     },
     schema: applyFilters("user-schema", {
       signedInAt: Date,

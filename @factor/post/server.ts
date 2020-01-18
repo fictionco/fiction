@@ -45,6 +45,9 @@ export const savePost = async (
 
   if (_id) post = await Model.findById(data._id)
 
+  /**
+   * If no id is set or post, set up a new one
+   */
   if (!_id || !post) {
     action = PostActions.Create
     post = new Model()
@@ -56,7 +59,16 @@ export const savePost = async (
   post.$locals.bearer = bearer
 
   if (postPermission({ post, bearer, action })) {
-    return await post.save()
+    await post.save()
+
+    /**
+     * instead of returning the data that is saved,
+     * only return the data that is retrieved in a query
+     * this way only intended items are returned (e.g. password)
+     */
+    const returnPost = await Model.findById(post._id)
+
+    return returnPost ? returnPost : undefined
   } else {
     return
   }
@@ -118,7 +130,9 @@ export const getSinglePost = async (
 
   return _post
 }
-
+/**
+ * Update many posts at the same time
+ */
 export const updateManyById = async (
   { _ids, postType = "post", data }: UpdateManyPosts,
   { bearer }: EndpointMeta
@@ -137,7 +151,9 @@ export const updateManyById = async (
 
   return r
 }
-
+/**
+ * Delete many posts by _id
+ */
 export const deleteManyById = async (
   { _ids, postType = "post" }: UpdateManyPosts,
   { bearer }: EndpointMeta

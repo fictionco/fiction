@@ -76,8 +76,11 @@ export const sendTransactional = async (
 
   const emailServiceClient = getEmailSMTPService()
 
-  if (emailServiceClient) return await emailServiceClient.sendMail(theEmail)
-  else log.warn("Email could not be sent.", theEmail)
+  if (emailServiceClient) {
+    return await emailServiceClient.sendMail(theEmail)
+  } else {
+    log.warn("Email could not be sent.", theEmail)
+  }
 }
 
 export const setup = async (): Promise<void> => {

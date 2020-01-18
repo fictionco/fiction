@@ -58,7 +58,7 @@
           <div v-if="post.email && !post.emailVerified" class="verify-email">
             <factor-btn-dashboard
               size="small"
-              btn="secondary"
+              btn="primary"
               :loading="sending"
               @click="sendVerifyEmail()"
             >Unverified - Resend Email &rarr;</factor-btn-dashboard>
@@ -75,12 +75,7 @@
     </template>
     <template #secondary>
       <dashboard-pane title="Profile" class="inputs">
-        <dashboard-input
-          v-model="post.about"
-          input="factor-input-textarea"
-          label="About You"
-          placeholder="Work, hobbies, travels, etc..."
-        />
+        <dashboard-input v-model="post.about" input="factor-input-textarea" label="About You" />
         <dashboard-input
           v-model="post.birthday"
           input="factor-input-birthday"

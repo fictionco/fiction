@@ -6,7 +6,7 @@ import chalk from "chalk"
 import MFS from "memory-fs"
 
 import ora, { Ora } from "ora"
-import webpack, { Configuration } from "webpack"
+import webpack, { Configuration, Stats } from "webpack"
 import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 import yargs from "yargs"
@@ -173,13 +173,14 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     clientCompiler.plugin("compile", () =>
       loaders({ devServer, target: "client", status: "start" })
     )
-    clientCompiler.plugin("done", stats => {
+    clientCompiler.plugin("done", (stats: Stats): void => {
       const { errors, warnings, time } = stats.toJson()
 
-      errors.forEach((error: Error) => log.error(error))
-      warnings.forEach((error: Error) => log.warn(error))
-
-      if (errors.length !== 0) return
+      if (warnings.length !== 0 || errors.length !== 0) {
+        errors.forEach((error: string) => log.error(error))
+        warnings.forEach((error: string) => log.error(error))
+        return
+      }
 
       const outputPath = config.output?.path ?? ""
 
@@ -223,9 +224,13 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     // watch and update server renderer
     if (_error) throw _error
 
-    const { errors, time } = stats.toJson()
+    const { errors, warnings, time } = stats.toJson()
 
-    if (errors.length !== 0) return log.error(errors)
+    if (errors.length !== 0 || warnings.length !== 0) {
+      errors.forEach((error: string) => log.error(error))
+      warnings.forEach((error: string) => log.error(error))
+      return
+    }
 
     const outputPath = config.output?.path ?? ""
 

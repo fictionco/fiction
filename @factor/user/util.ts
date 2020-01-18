@@ -2,7 +2,6 @@ import { emitEvent, currentRoute, navigateToRoute, storeItem } from "@factor/api
 import Vue from "vue"
 import { userRolesMap, CurrentUserState, UserRoles } from "./types"
 import { userToken } from "./token"
-
 export const roleAccessLevel = (role: UserRoles | undefined): number => {
   return role && userRolesMap[role] ? userRolesMap[role] : 0
 }
@@ -13,7 +12,9 @@ export interface SetUser {
   current?: boolean;
 }
 
-// Set persistent user info
+/**
+ * Set persistent user info
+ */
 export const setUser = ({ user, token = "", current = false }: SetUser): void => {
   if (current) {
     Vue.$initializedUser = user ? user : undefined
@@ -32,6 +33,9 @@ export const setUser = ({ user, token = "", current = false }: SetUser): void =>
   if (user && user._id) storeItem(user._id, user)
 }
 
+/**
+ * Logs out the current user
+ */
 export const logout = async (args: { redirect?: string } = {}): Promise<void> => {
   setUser({ user: undefined, current: true })
   emitEvent("logout")

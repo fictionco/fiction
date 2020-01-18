@@ -45,24 +45,23 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
         { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
         { title: "CWD", value: FACTOR_CWD, indent: true }
       ]
-    },
-    {
-      title: "Controls",
-      lines: [
-        { title: "exit", value: "ctrl + c", indent: true },
-        { title: "restart", value: "ctrl + r", indent: true }
-      ]
     }
   ]
 
-  message.forEach(m => {
-    log.formatted(m)
+  message.push({
+    title: "Controls",
+    lines: [
+      { title: "exit", value: "ctrl + c", indent: true },
+      { title: "restart", value: "ctrl + r", indent: true }
+    ]
   })
 
   await tools.runCallbacks("create-server", setup)
 
-  process.stdin.setRawMode(true)
   process.stdin.resume()
+  process.stdin.setKeepAlive(true)
+  process.stdin.setRawMode(true)
+
   process.stdin.on("keypress", (str, key) => {
     if (key.ctrl && key.name === "c") {
       // eslint-disable-next-line unicorn/no-process-exit
@@ -73,6 +72,10 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
   })
   process.on("SIGINT", () => {
     process.exit()
+  })
+
+  message.forEach(m => {
+    log.formatted(m)
   })
 }
 

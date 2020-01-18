@@ -49,6 +49,10 @@ const validateUserDocument = async function(
 
 export const setup = (): void => {
   const key = "userRoles"
+
+  /**
+   * Add new fields to the user post type schema
+   */
   addFilter({
     key,
     hook: "user-schema",
@@ -73,8 +77,10 @@ export const setup = (): void => {
     }
   })
 
-  // Add role property to user schema
-  // Create a virtual accessLevel property based on role
+  /**
+   * Add role property to user schema
+   * Create a virtual accessLevel property based on role
+   */
   addFilter({
     key,
     hook: "user-schema-hooks",
@@ -84,7 +90,9 @@ export const setup = (): void => {
     }
   })
 
-  // CLI admin setup utility
+  /**
+   * CLI admin setup utility for adding user roles to factor-config
+   */
   addFilter({
     key,
     hook: "cli-add-setup",

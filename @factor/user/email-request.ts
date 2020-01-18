@@ -1,6 +1,6 @@
 import { emitEvent, addCallback } from "@factor/api"
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
-
+import { loadUser } from "@factor/user"
 import {
   SendVerifyEmail,
   VerifyAndResetPassword,
@@ -31,11 +31,20 @@ export const sendVerifyEmail = async ({ _id, email }: SendVerifyEmail): Promise<
   return
 }
 
+/**
+ * Verifies a user's email address with a code that has been emailed
+ * @param _id - the user's _id
+ * @param code - the code that was emailed to them
+ */
 export const verifyEmail = async ({ _id, code }: VerifyEmail): Promise<void> => {
   const result = await sendUserEmailRequest("verifyEmail", { _id, code })
 
+  /**
+   * If successful, send a notification and refresh user
+   */
   if (result == EmailResult.success) {
-    emitEvent("notify", "Email confirmed!")
+    emitEvent("notify", "Email is verified!")
+    loadUser()
   }
   return
 }

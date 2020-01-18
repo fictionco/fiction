@@ -77,7 +77,6 @@
 import { factorBtnDashboard, factorLink } from "@factor/ui"
 import {
   isEmpty,
-  cloneDeep,
   toLabel,
   emitEvent,
   stored,
