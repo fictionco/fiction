@@ -10,7 +10,7 @@
       ]
     }
   },
-  "version": "1.1.32",
+  "version": "1.1.33",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
