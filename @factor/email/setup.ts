@@ -50,7 +50,7 @@ export const setup = (): void => {
             questions
           )
 
-          await writeConfig(".env", { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST })
+          await writeConfig("private", { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST })
         }
       }
 

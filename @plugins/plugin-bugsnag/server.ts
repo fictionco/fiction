@@ -30,7 +30,7 @@ const addSetupCli = (name: string): void => {
         ]
         const { clientApiKey } = await inquirer.prompt(questions)
 
-        await writeConfig("factor-config", {
+        await writeConfig("public", {
           bugsnag: { clientApiKey }
         })
       }

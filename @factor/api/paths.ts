@@ -30,7 +30,7 @@ const relativePath = (key: string, cwd?: string): string => {
     static: [source, "static"],
     "entry-browser": [coreApp, "entry-browser"],
     "entry-server": [coreApp, "entry-server"],
-    "config-file-public": [app, "factor-config.json"],
+    "config-file-public": [app, "package.json"],
     "config-file-private": [app, ".env"],
     "loader-app": [...generated, "loader-app.ts"],
     "loader-server": [...generated, "loader-server.ts"],

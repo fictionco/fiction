@@ -184,6 +184,10 @@ export const dbSetupUtility = (): void => {
     })
 
     return
+  } else if (process.env.DB_CONNECTION.includes("demo")) {
+    log.warn(
+      "Looks like you are using the demo DB (resets every 30 minutes). Change it to your own connection in .env."
+    )
   }
 
   pushToFilter({
@@ -205,7 +209,7 @@ export const dbSetupUtility = (): void => {
 
           const { connection } = await inquirer.prompt(questions)
 
-          await writeConfig(".env", { DB_CONNECTION: connection })
+          await writeConfig("private", { DB_CONNECTION: connection })
         }
       }
     }

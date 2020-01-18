@@ -41,7 +41,7 @@ export const setup = (): void => {
           ]
           const { googleTagManagerId, developmentMode } = await inquirer.prompt(questions)
 
-          await writeConfig("factor-config", {
+          await writeConfig("public", {
             googleTagManager: { googleTagManagerId, developmentMode }
           })
         }

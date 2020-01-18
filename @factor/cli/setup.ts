@@ -8,11 +8,17 @@ import envfile from "envfile"
 import fs from "fs-extra"
 import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
+import { FactorPackageJson } from "@factor/cli/types"
 
 const configFile = getPath("config-file-public")
 const secretsFile = getPath("config-file-private")
 
-const extensionNames = (type: string, format = "join"): string => {
+/**
+ * Gets the names of a specific type of extension
+ * @param type - type of extension
+ * @param format - the format to return
+ */
+const extensionNames = (type: "plugin" | "theme" | "app", format = "join"): string => {
   const extensions = getExtensions().filter(_ => _.extend == type)
 
   if (extensions && extensions.length > 0) {
@@ -22,18 +28,27 @@ const extensionNames = (type: string, format = "join"): string => {
   } else return "none"
 }
 
-const existingSettings = (): { publicConfig: object; privateConfig: object } => {
-  if (!fs.pathExistsSync(configFile)) {
-    fs.writeJsonSync(configFile, { config: {} })
-  }
-  const publicConfig = require(configFile)
+/**
+ * Gets existing configuration settings
+ * Also returns packageJson for writing later
+ */
+const existingSettings = (): {
+  packageJson: FactorPackageJson;
+  publicConfig: Record<string, any>;
+  privateConfig: Record<string, any>;
+} => {
+  const packageJson = require(configFile)
+  const { factor: publicConfig = {} } = packageJson
 
   fs.ensureFileSync(secretsFile)
   const privateConfig = envfile.parseFileSync(secretsFile)
 
-  return { publicConfig, privateConfig }
+  return { publicConfig, privateConfig, packageJson }
 }
 
+/**
+ * Runs the CLI setup utility
+ */
 export const runSetup = async (): Promise<void> => {
   let answers: Answers
 
@@ -92,8 +107,14 @@ export const runSetup = async (): Promise<void> => {
   await ask()
 }
 
+/**
+ * Hook into the CLI command filter
+ */
 addCallback({ key: "setup", hook: "cli-setup", callback: () => runSetup() })
 
+/**
+ * Reports to the user which configuration is missing
+ */
 addCallback({
   key: "setup",
   hook: "after-first-server-extend",
@@ -120,35 +141,56 @@ export interface SetupCliConfig {
   priority?: number;
 }
 
+/**
+ * Output JSON nicely to the CLI
+ * @param data - data to output
+ */
 export const prettyJson = (data: object): string => {
   return highlight(json2yaml.stringify(data, null, "  "))
 }
 
-const writeFiles = (file: string, values: object): void => {
-  const { publicConfig, privateConfig } = existingSettings()
+/**
+ * Writes configuration to the private or public config files
+ * @param file - private or public config
+ * @param values - object map of values
+ */
+const writeFiles = (file: "public" | "private", values: object): void => {
+  const { publicConfig, privateConfig, packageJson } = existingSettings()
 
-  if (file.includes("factor-config")) {
-    const conf = deepMerge([publicConfig, values])
-    fs.writeFileSync(configFile, JSON.stringify(conf, null, "  "))
+  if (file == "public") {
+    packageJson.factor = deepMerge([publicConfig, values])
+
+    fs.writeFileSync(configFile, JSON.stringify(packageJson, null, "  "))
   }
 
-  if (file.includes("env")) {
+  if (file == "private") {
     const sec = deepMerge([privateConfig, values])
 
     fs.writeFileSync(secretsFile, envfile.stringifySync(sec))
   }
 }
 
-export const writeConfig = async (file: string, values: object): Promise<void> => {
+/**
+ * Display to the user the values that will be written and confirm with them
+ * @param file - private or public config
+ * @param values - object map of values
+ */
+export const writeConfig = async (
+  file: "public" | "private",
+  values: object
+): Promise<void> => {
   if (!file || !values) {
     return
   }
+
+  const fileName = file == "public" ? "package.json" : ".env"
+  const outFile = chalk.cyan(fileName)
   const answers = await inquirer.prompt({
     type: "confirm",
     name: `writeFiles`,
-    message: `Write the following settings to the "${chalk.cyan(
-      file
-    )}" file? \n\n ${prettyJson(values)} \n`,
+    message: `Write the following ${file} config to the ${outFile} file? \n\n ${prettyJson(
+      values
+    )} \n`,
     default: true
   })
 

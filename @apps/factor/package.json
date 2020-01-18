@@ -11,7 +11,11 @@
     "load": [
       "app",
       "server"
-    ]
+    ],
+    "roles": {
+      "team@fiction.com": "admin",
+      "team2@fiction.com": "admin"
+    }
   },
   "dependencies": {
     "@factor/core": "^1.0.0",

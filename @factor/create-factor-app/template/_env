@@ -8,7 +8,7 @@
 
 # -- JsonWebToken based Auth
 # TOKEN_SECRET="<JWT SECRET - CAN BE ANYTHING>"
-TOKEN_SECRET="<%= randomString %>"
+TOKEN_SECRET="RANDOM-STRING-<%= randomString %>"
 
 # -- Transactional email e.g. "forgot password"
 # -- Recommended: https://aws.amazon.com/ses/

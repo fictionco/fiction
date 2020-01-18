@@ -75,7 +75,7 @@ pushToFilter("cli-add-setup", () => {
 
       let { connection } = await inquirer.prompt(questions)
 
-      await writeConfig(".env", { DB_CONNECTION: connection })
+      await writeConfig("private", { DB_CONNECTION: connection })
     }
   }
 })
@@ -88,12 +88,12 @@ As in the example above, to write to the app's private or public config, use `wr
 ```js
 import { writeConfig } from "@factor/cli/setup"
 // PRIVATE CONFIG: .env
-await writeConfig(".env", {
+await writeConfig("private", {
   SOME_PRIVATE_SETTING: "VALUE"
 })
 
-// PUBLIC CONFIG: factor-config.json
-await writeConfig("factor-config", {
+// PUBLIC CONFIG: package.json
+await writeConfig("public", {
   some_setting: "value"
 })
 ```

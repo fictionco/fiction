@@ -142,7 +142,7 @@ export const setup = (): void => {
 
           await ask()
 
-          await writeConfig("factor-config", { roles: admins })
+          await writeConfig("public", { roles: admins })
         }
       }
 
