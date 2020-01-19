@@ -72,14 +72,19 @@ export const verifyEmail = async (
 }
 /**
  * Sends a verification email to the current user
+ * @param code - allow other functionality to create the code and disable saving user as user might not exist yet
+ * @param email - the user email
+ * @param _id - the user _id
  */
 export const sendVerifyEmail = async (
-  { email, _id }: SendVerifyEmail,
+  { email, _id, code }: SendVerifyEmail,
   { bearer }: EndpointMeta
 ): Promise<EmailResult> => {
-  const emailVerificationCode = randomToken()
+  const emailVerificationCode = code ? code : randomToken()
 
-  await savePost({ postType: "user", data: { _id, emailVerificationCode } }, { bearer })
+  if (!code) {
+    await savePost({ postType: "user", data: { _id, emailVerificationCode } }, { bearer })
+  }
 
   await sendEmail({
     to: email,
@@ -180,7 +185,12 @@ export const setup = (): void => {
 
         const { email, _id } = this
         this.emailVerified = false
-        sendVerifyEmail({ _id, email }, { bearer: this })
+        this.emailVerificationCode = randomToken()
+
+        sendVerifyEmail(
+          { _id, email, code: this.emailVerificationCode },
+          { bearer: this }
+        )
 
         return
       })

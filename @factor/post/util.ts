@@ -1,5 +1,5 @@
 import { applyFilters, pushToFilter } from "@factor/api/hooks"
-
+import { deepMerge } from "@factor/api/utils"
 import postSchema from "@factor/post/schema"
 import log from "@factor/api/logger"
 import { UserRoles, CurrentUserState } from "@factor/user/types"
@@ -16,27 +16,43 @@ import {
 
 export * from "./object-id"
 
+/**
+ * Adds a new post type schema
+ * @param config - post schema config
+ */
 export const addPostSchema = (config: FactorSchemaModule): void => {
   const key = typeof config == "function" ? config().name : config.name
   pushToFilter({ hook: "data-schemas", key, item: config })
 }
-
+/**
+ * Gets all schemas for factor post types
+ */
 export const getAddedSchemas = (): FactorSchema[] => {
   return applyFilters("data-schemas", [postSchema()]).map((s: FactorSchemaModule) => {
     return applyFilters(`data-schema-${s.name}`, typeof s == "function" ? s() : s)
   })
 }
-
+/**
+ * Gets the base post schema
+ */
 export const getBaseSchema = (): FactorSchema => {
   return postSchema()
 }
-
+/**
+ * Gets the factor schema associated with a post type
+ * @param postType - post type
+ */
 export const getSchema = (postType: string): FactorSchema => {
   const schemas = getAddedSchemas()
 
   return schemas.find(s => s.name == postType) ?? postSchema()
 }
 
+/**
+ * Gets the fields that should be populated for a given post type schema
+ * @param postType - the post type for the schema
+ * @param depth - Depth argument gives us ability to set how deeply populated we are looking to go
+ */
 export const getSchemaPopulatedFields = ({
   postType = "post",
   depth = 10
@@ -58,6 +74,10 @@ export const getSchemaPopulatedFields = ({
   return pop
 }
 
+/**
+ * Gets a merged permissions config between post type and base post
+ * @param postType - post type
+ */
 export const getSchemaPermissions = ({
   postType
 }: {
@@ -74,9 +94,14 @@ export const getSchemaPermissions = ({
     }
   }
 
-  return { ...permissions, ...subPermissions }
+  return deepMerge([permissions, subPermissions])
 }
 
+/**
+ * Is a user the author of a post
+ * @param user - user object
+ * @param post - post object
+ */
 export const isPostAuthor = ({
   user,
   post
@@ -95,9 +120,15 @@ export const isPostAuthor = ({
   return (userId && authors.includes(userId)) || userId == postId ? true : false
 }
 
-// Get the count of posts with a given status (or similar)
-// Null values (e.g. status is unset) should be given the value assigned by nullKey
-// Use in table control filtering
+/**
+ * Get the count of posts with a given status (or similar)
+ * Null values (e.g. status is unset) should be given the value assigned by nullKey
+ * Use in table control filtering
+ * @param meta - the index query meta info
+ * @param field - the post field to get info for
+ * @param key - the key value of the post field
+ * @param nullKey - the value to assign to items with a null value
+ */
 export const getStatusCount = ({
   meta,
   field = "status",

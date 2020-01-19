@@ -13,6 +13,7 @@ export interface VerifyEmail {
 export interface SendVerifyEmail {
   _id: string;
   email: string;
+  code?: string;
 }
 
 export enum EmailResult {

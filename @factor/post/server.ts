@@ -55,9 +55,6 @@ export const savePost = async (
 
   Object.assign(post, data)
 
-  // Add bearer for middleware validation
-  post.$locals.bearer = bearer
-
   if (postPermission({ post, bearer, action })) {
     await post.save()
 
