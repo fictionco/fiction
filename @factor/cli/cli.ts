@@ -32,27 +32,15 @@ const initializeNodeInspector = async (): Promise<void> => {
  * @param setup - server options
  */
 export const runServer = async (setup: CommandOptions): Promise<void> => {
-  const { NODE_ENV, FACTOR_ENV, FACTOR_COMMAND, FACTOR_CWD } = process.env
+  const { NODE_ENV, FACTOR_CWD } = process.env
 
-  const message = [
-    {
-      title: "Starting Server...",
-      lines: [
-        { title: "LOCAL_URL", value: localhostUrl(), indent: true },
-        { title: "PRODUCTION_URL", value: productionUrl(), indent: true },
-        { title: "NODE_ENV", value: NODE_ENV, indent: true },
-        { title: "FACTOR_ENV", value: FACTOR_ENV, indent: true },
-        { title: "FACTOR_COMMAND", value: FACTOR_COMMAND, indent: true },
-        { title: "CWD", value: FACTOR_CWD, indent: true }
-      ]
-    }
-  ]
-
-  message.push({
-    title: "Controls",
+  log.formatted({
+    title: "Starting Server...",
     lines: [
-      { title: "exit", value: "ctrl + c", indent: true },
-      { title: "restart", value: "ctrl + r", indent: true }
+      { title: "local url", value: localhostUrl(), indent: true },
+      { title: "production url", value: productionUrl(), indent: true },
+      { title: "environment", value: NODE_ENV, indent: true },
+      { title: "directory", value: FACTOR_CWD, indent: true }
     ]
   })
 
@@ -72,10 +60,6 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
   })
   process.on("SIGINT", () => {
     process.exit()
-  })
-
-  message.forEach(m => {
-    log.formatted(m)
   })
 }
 

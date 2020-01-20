@@ -207,7 +207,7 @@ const server = (cwd?: string): Configuration => {
   return {
     target: "node",
     entry,
-    output: { filename: "server-bundle.js", libraryTarget: "commonjs2" },
+    output: { filename: "server-bundle-[name].js", libraryTarget: "commonjs2" },
 
     // https://webpack.js.org/configuration/externals/#externals
     // https://github.com/liady/webpack-node-externals

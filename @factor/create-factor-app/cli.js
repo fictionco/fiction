@@ -10,13 +10,13 @@ const { name: packageName, version } = require("./package.json")
 // In a custom directory or current directory
 const outDir = path.resolve(process.argv[2] || ".")
 
-// Notify install
-axios.get(`https://factor.dev?_action=track-install&method=cfa`)
-
 consola.log(`${figures.pointer} Starting ${packageName}@${version}`)
 consola.log()
 consola.success(`Great work! Generating Factor project in: ${outDir}`)
 consola.log()
+
+// Notify download
+axios.get(`https://factor.dev?_action=track-download&method=create-factor-app`)
 
 // See https://sao.js.org/#/advanced/standalone-cli
 sao({ generator, outDir, logLevel: 2 })

@@ -5,6 +5,7 @@ const path = require("path")
 const superb = require("superb")
 const figures = require("figures")
 const consola = require("consola")
+const axios = require("axios")
 const config = {
   /**
    * Answers to these questions get added to the template as variables
@@ -58,6 +59,11 @@ const config = {
 
     data.db =
       "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
+
+    // notify install
+    axios.get(
+      `https://factor.dev?_action=track-install&method=create-factor-app&label=${answers.email}`
+    )
 
     return data
   },
@@ -124,7 +130,9 @@ const config = {
 
     console.log()
     console.log(
-      this.chalk.bold(`  ${figures.tick} Great work! Now start your local server:\n`)
+      this.chalk.bold(
+        `  ${figures.tick} Well, that was fast! Now just start your dev server:\n`
+      )
     )
     cd()
     console.log(`\t${this.chalk.green.bold("yarn ") + this.chalk.bold("factor dev")}\n`)

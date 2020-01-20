@@ -3,6 +3,9 @@ import axios from "axios"
 import { onEvent, addFilter, addCallback } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
+/**
+ * Send a notification to Slack
+ */
 const notifySlack = async ({
   pretext,
   title,
@@ -28,6 +31,11 @@ enum ActiveCampaignStatus {
   Subscribed = 1,
   Unsubscribed = 2
 }
+
+/**
+ * Manipulate contacts with ActiveCampaign
+ * @param contact - contact info
+ */
 const addOrUpdateActiveCampaignContact = async (contact: {
   email: string;
   firstName?: string;
@@ -134,17 +142,23 @@ const facebook = (): void => {
   })
 }
 
-export const analyticsEvent = ({
-  category,
-  action,
-  label,
-  value
-}: {
+interface AnalyticsEvent {
   category: string;
   action: string;
   label?: string;
   value?: number;
-}): void => {
+}
+
+/**
+ * Trigger an Event with Google Analytics
+ * @param _arguments - arguments around analytics
+ */
+export const analyticsEvent = (_arguments: AnalyticsEvent): void => {
+  const { category, action, value } = _arguments
+
+  let tries = 0
+
+  let { label } = _arguments
   label = label ? label : action
 
   if (window.ga && window.ga.getAll) {
@@ -152,10 +166,14 @@ export const analyticsEvent = ({
     if (tracker) {
       tracker.send("event", category, action, label, value)
     }
+  } else if (tries < 3) {
+    tries++
+    setTimeout(() => analyticsEvent(_arguments), 1000)
   }
 }
 
 /**
+ * Track google events
  * @remarks
  * - Event: ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue], [fieldsObject]);
  */
@@ -194,8 +212,8 @@ const google = (): void => {
   addCallback({
     key: "trackInstall",
     hook: "route-query-action-track-install",
-    callback: ({ method }: { method: string }) => {
-      analyticsEvent({ category: "newInstall", action: method, value: 10 })
+    callback: ({ method = "unknown", label }: { method: string; label?: string }) => {
+      analyticsEvent({ category: "newInstall", action: method, label, value: 10 })
     }
   })
 }
