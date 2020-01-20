@@ -10,7 +10,17 @@
     "load": [
       "app",
       "server"
-    ]
+    ],
+    "app": {
+      "name": "Fiction.com",
+      "description": "",
+      "email": "Fiction Support <support@fiction.com>"
+    },
+    "roles": {
+      "arpowers@gmail.com": "admin",
+      "andrew@fiction.com": "admin",
+      "ray@fiction.com": "admin"
+    }
   },
   "dependencies": {
     "@factor/core": "^1.0.0",

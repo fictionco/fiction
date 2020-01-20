@@ -1,3 +1,4 @@
+import readline from "readline"
 import { buildProduction } from "@factor/build/webpack-config"
 import { productionUrl, localhostUrl } from "@factor/api/url"
 import { generateLoaders } from "@factor/cli/extension-loader"
@@ -8,7 +9,6 @@ import log from "@factor/api/logger"
 import { factorize, setEnvironment } from "./factorize"
 import { verifyDependencies } from "./task-runner"
 import { CommandOptions } from "./types"
-
 import pkg from "./package.json"
 
 interface CommanderArguments {
@@ -46,20 +46,16 @@ export const runServer = async (setup: CommandOptions): Promise<void> => {
 
   await tools.runCallbacks("create-server", setup)
 
-  process.stdin.resume()
-  process.stdin.setKeepAlive(true)
-  process.stdin.setRawMode(true)
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+  })
 
-  process.stdin.on("keypress", (str, key) => {
-    if (key.ctrl && key.name === "c") {
-      // eslint-disable-next-line unicorn/no-process-exit
-      process.exit()
-    } else if (key.ctrl && key.name === "r") {
+  rl.on("line", function(line) {
+    if ("r" == line) {
       tools.runCallbacks("restart-server")
     }
-  })
-  process.on("SIGINT", () => {
-    process.exit()
   })
 }
 

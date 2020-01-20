@@ -13,7 +13,10 @@
       "server",
       "app"
     ],
-    "title": "Ultra"
+    "title": "Ultra",
+    "app": {
+      "name": "Ultra - Factor Theme"
+    }
   },
   "gitHead": "ab4e6a60ca0c3e33bb034ad6bb59425ee4d26e6c",
   "peerDependencies": {

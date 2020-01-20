@@ -12,9 +12,15 @@
       "app",
       "server"
     ],
+    "app": {
+      "name": "Factor.dev",
+      "description": "",
+      "email": "Fiction Support <support@fiction.com>"
+    },
     "roles": {
-      "team@fiction.com": "admin",
-      "team2@fiction.com": "admin"
+      "arpowers@gmail.com": "admin",
+      "andrew@fiction.com": "admin",
+      "ray@fiction.com": "admin"
     }
   },
   "dependencies": {

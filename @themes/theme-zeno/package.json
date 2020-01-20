@@ -14,7 +14,10 @@
       "server",
       "app"
     ],
-    "title": "Zeno"
+    "title": "Zeno",
+    "app": {
+      "name": "Zeno - Factor Theme"
+    }
   },
   "scripts": {
     "build": "postcss css/tailwind.css -o tailwind.css"
