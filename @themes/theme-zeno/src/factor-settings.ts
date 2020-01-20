@@ -1,15 +1,16 @@
 import { Component } from "vue"
 export default {
-  // app: {
-  //   url: "https://example.com"
-  // },
+  /**
+   * Add custom font to app
+   */
   headTags: {
-    // Embed Font to site head
     font:
       '<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,600,700&display=swap" rel="stylesheet" />'
   },
+  /**
+   * Tailwind CSS Config
+   */
   tailwind: {
-    // Tailwind plugin settings
     config: require("./tailwind.config.js"),
     directives: require("./tailwind.css")
   },
@@ -17,7 +18,10 @@ export default {
     defaultTitle: "No Title",
     titleTemplate: "%s - Factor JS"
   },
-  // Global settings
+
+  /**
+   * Global Theme Settings
+   */
   site: {
     logo: require("./img/logo-zeno.svg"),
     logoInverse: require("./img/logo-zeno-inverse.svg"),
@@ -53,8 +57,10 @@ export default {
         name: "Contact"
       }
     ],
+    /**
+     * Copy for the call to action on the homepage
+     */
     cta: {
-      // Call to action
       title: "Get better results with Zeno",
       content: "Save time and start with a solid foundation, then customize.",
       buttons: [
@@ -69,7 +75,9 @@ export default {
       footerFigureAlt: "Cloud"
     }
   },
-  // Home Page
+  /**
+   * Copy for the home page template.
+   */
   home: {
     intro: {
       title: "Welcome to Zeno, <br>Innovation via Automation",
@@ -224,7 +232,9 @@ export default {
       image: require("./img/logo-zeno.jpg")
     }
   },
-  // About Page
+  /**
+   * Settings for the about page template
+   */
   about: {
     hero: {
       pretitle: "About Theme Zeno",

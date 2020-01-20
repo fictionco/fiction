@@ -3,7 +3,7 @@
     :value="value"
     :autocomplete="$attrs.autocomplete || 'current-password'"
     type="password"
-    minlength="8"
+    minlength="6"
     :required="$attrs.required"
     v-bind="$attrs"
     v-on="listeners"
@@ -16,7 +16,7 @@ export default Vue.extend({
     value: { type: String, default: "" }
   },
   computed: {
-    listeners() {
+    listeners(this: any) {
       return {
         ...this.$listeners,
         input: event => this.$emit("input", event.target.value)

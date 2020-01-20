@@ -1,40 +1,40 @@
 @tailwind base;
 @tailwind components;
 
-body {
+.factor-app body {
   @apply font-sans text-gray-800;
 }
-body .zeno-content {
+.factor-app body .zeno-content {
   opacity: 1;
 }
-.btn {
+.factor-app .btn {
   @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded;
 }
-.btn-ol {
+.factor-app .btn-ol {
   @apply border;
 }
-.custom-uppercase {
+.factor-app .custom-uppercase {
   @apply font-sans font-semibold text-sm mb-2 leading-tight tracking-widest uppercase;
 }
-.custom-card-left {
+.factor-app .custom-card-left {
   transform: scale(1) perspective(3040px) rotateY(13deg) rotateX(2deg) rotate(-2deg)
     translateZ(0);
   box-shadow: 0 55px 80px -40px rgba(0, 0, 0, 0.35);
 }
-.custom-card-left:hover {
+.factor-app .custom-card-left:hover {
   transform: none;
 }
-.transition-all {
+.factor-app .transition-all {
   transition: 0.15s cubic-bezier(0.52, 0.01, 0.16, 1);
 }
-.transition-height {
+.factor-app .transition-height {
   transition: height 0.15s cubic-bezier(0.52, 0.01, 0.16, 1);
 }
-.h-188 {
+.factor-app .h-188 {
   height: calc(100vh - 56px);
 }
 @media (max-width: 767px) {
-  .custom-card-left {
+  .factor-app .custom-card-left {
     transform: none;
   }
 }

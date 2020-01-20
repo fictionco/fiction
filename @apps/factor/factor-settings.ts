@@ -48,7 +48,12 @@ export default {
   site: {
     logo: (): Promise<Component> => import("./src/el/logo-factor.vue"),
     nav: [
-      { path: "/guide", name: "Development Guide" },
+      { path: "/guide", name: "Dev Guide" },
+      {
+        path: "https://link.fiction.com/slack ",
+        name: "Community",
+        target: "_blank"
+      },
       { path: "/themes", name: "Themes" },
       { path: "/plugins", name: "Plugins" },
 
@@ -113,7 +118,7 @@ export default {
   },
   footer: {
     headline: "Released under the GPL-2 License",
-    legal: "&copy; - <a href='https://www.fiction.com'>Fiction.com</a>",
+    legal: "&copy; <a href='https://www.fiction.com'>Fiction.com</a>",
     logo: (): Promise<Component> => import("./src/el/logo-fiction.vue"),
     logo2: (): Promise<Component> => import("./src/el/logo-pagelines.vue")
   }

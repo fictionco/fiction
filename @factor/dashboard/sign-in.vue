@@ -35,6 +35,7 @@
         />
         <factor-btn
           ref="reset-password"
+          btn="primary"
           :loading="loading"
           text="Reset Password"
           @click="
@@ -240,10 +241,12 @@ export default Vue.extend({
       this.loading = true
 
       const args = { ...this.form, ...this.$route.query }
-      const result = await action(args)
 
-      if (result) {
+      try {
+        await action(args)
         this.setView(next)
+      } catch (error) {
+        this.loading = false
       }
 
       this.loading = false

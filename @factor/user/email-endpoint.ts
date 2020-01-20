@@ -121,7 +121,7 @@ export const verifyAndResetPassword = async ({
     await user.save()
     return EmailResult.success
   } else {
-    throw new Error("Could not reset your password.")
+    throw new Error("The password reset code is incorrect.")
   }
 }
 /**
