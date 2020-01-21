@@ -86,7 +86,7 @@ figure.themes-graph {
       }
       &:nth-child(1) {
         z-index: 10;
-        transform: rotate(-5deg) rotateY(12deg) translateZ(82px);
+        transform: rotate(-5deg) rotateY(12deg) translateZ(152px);
       }
       &:nth-child(2) {
         left: 4em;

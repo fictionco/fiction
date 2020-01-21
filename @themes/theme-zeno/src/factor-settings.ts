@@ -15,7 +15,7 @@ export default {
     directives: require("./tailwind.css")
   },
   metatags: {
-    defaultTitle: "No Title",
+    defaultTitle: "Zeno",
     titleTemplate: "%s - Factor JS"
   },
 
@@ -55,6 +55,11 @@ export default {
         _item: "contact",
         path: "/contact",
         name: "Contact"
+      },
+      {
+        _item: "dashboard",
+        path: "/dashboard",
+        name: "Dashboard &rarr;"
       }
     ],
     /**
@@ -80,7 +85,7 @@ export default {
    */
   home: {
     intro: {
-      title: "Welcome to Zeno, <br>Innovation via Automation",
+      title: "Welcome to Zeno, <br>SaaS Factor Theme",
       content:
         "Zeno is a minimalist theme suited for the needs of start-ups, tech businesses and SaaS companies. Styles are powered by Tailwind, a low-level CSS framework.",
       buttons: [
@@ -168,10 +173,10 @@ export default {
       ]
     },
     section4: {
-      id: "devops-as-a-service",
-      pretitle: "Devops-as-a-Service",
-      title: "Your first and last DevOps!",
-      content: `<p>By leveraging our decades of DevOps and sysadmin experience, we'll help you focus on what's important… Growing your business.</p><p class="mt-4">Zeno will handle uptime, security, cost optimization, disaster recovery, and performance. We’re always on-call, ready to assist. Focused on being responsive, transparent, and thorough.</p>`,
+      id: "software-as-a-service",
+      pretitle: "Software-as-a-Service",
+      title: "The last software you'll need!",
+      content: `<p>By leveraging our decades of experience, we'll help you focus on what's important… Growing your business.</p><p class="mt-4">Zeno will handle uptime, security, cost optimization, disaster recovery, and performance. We’re always on-call, ready to assist. Focused on being responsive, transparent, and thorough.</p>`,
       buttons: [
         {
           _item: "contact",
@@ -184,22 +189,22 @@ export default {
       figure: (): Promise<Component> => import("./el/figure-devops.vue")
     },
     section5: {
-      id: "infrastructure-as-code",
-      pretitle: "Infrastructure as Code",
-      title: "Packer + Terraform = ",
+      id: "software-as-code",
+      pretitle: "Open Source",
+      title: "Product A + Product B = ",
       titleIcon: require("./img/custom-heart.svg"),
       items: [
         {
           _item: "packer",
           image: require("./img/logo-packer.svg"),
-          alt: "HashiCorp Packer",
-          content: `<p>Packer automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p>`
+          alt: "XYZ Corp Product",
+          content: `<p>Product A automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p>`
         },
         {
           _item: "terraform",
           image: require("./img/logo-terraform.svg"),
-          alt: "HashiCorp Terraform",
-          content: `<p>Terraform codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p>`
+          alt: "XYZ Corp Product",
+          content: `<p>Product B codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p>`
         }
       ],
       syntaxTitle: "terraform.tf",
@@ -211,14 +216,14 @@ export default {
       items: [
         {
           _item: "testimonial_1",
-          content: `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
+          content: `@Zeno designed and fully managed our migration to #productA and on-premises enterprise deployments. They've been absolutely fantastic!`,
           image: require("./img/member4.jpg"),
           author: "Kate Brennan",
           info: "CEO, Lorem ipsum"
         },
         {
           _item: "testimonial_2",
-          content: `@Zeno designed and fully managed our migration to #kubernetes and on-premises enterprise deployments. They've been absolutely fantastic!`,
+          content: `@Zeno designed and fully managed our migration to #productB and on-premises enterprise deployments. They've been absolutely fantastic!`,
           image: require("./img/member3.jpg"),
           author: "Sebastian Hodges",
           info: "CEO, SedLaudantium"
@@ -389,7 +394,7 @@ export default {
       {
         classes: "md:mt-6",
         name: "Enterprise",
-        description: "Infrastructure and DevOps at scale",
+        description: "Infrastructure at scale",
         price: `$799 <span class="text-base">per month</span>`,
         list: [
           {

@@ -30,6 +30,14 @@
               <div class="caption">MongoDB</div>
             </div>
           </div>
+          <div class="box-4 icon-box">
+            <div class="line depart" />
+
+            <div class="box">
+              <img src="./img/typescript.svg" alt="Typescript" />
+              <div class="caption">Typescript</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,7 +54,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    scale() {
+    scale(this: any) {
       return Math.max(Math.min(this.width / 500, 1), 0.5)
     }
   },
@@ -58,7 +66,7 @@ export default Vue.extend({
     })
   },
   methods: {
-    getWidth() {
+    getWidth(this: any) {
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
     }
   }
@@ -77,14 +85,14 @@ figure.powered-by {
     padding: 30% 0;
     width: 500px;
     position: relative;
-    transform: translateX(-70px) scale(1.3);
+    transform: translateX(-70px) scale(1.4);
     @media (max-width: 900px) {
       transform: translateX(-120px) translateY(50px) scale(1.2);
     }
     .factor-stack {
       position: absolute;
-      left: 80%;
-      bottom: 53%;
+      left: 85%;
+      bottom: 45%;
       z-index: 100;
       transform: translateX(-46px);
     }
@@ -96,6 +104,7 @@ figure.powered-by {
       height: 100%;
       top: 0;
       left: 0;
+
       transform: rotateX(60deg) rotateY(0deg) rotate(45deg) scale(1.2)
         translate(124px, -45px);
       transform-style: preserve-3d;
@@ -110,7 +119,7 @@ figure.powered-by {
           background: #fff;
           box-shadow: 0 0 1px var(--color-wire);
           overflow: visible;
-
+          transform: translateZ(4px);
           padding: 10px 15px;
 
           z-index: 5;
@@ -159,7 +168,7 @@ figure.powered-by {
 
         &.box-1 {
           bottom: 10%;
-          left: 15%;
+          left: 25%;
           .line.depart {
             width: 2em;
             height: 2em;
@@ -179,7 +188,7 @@ figure.powered-by {
         }
         &.box-2 {
           bottom: 0%;
-          left: 40%;
+          left: 50%;
           .line {
             left: auto;
             right: 50%;
@@ -203,7 +212,7 @@ figure.powered-by {
         }
         &.box-3 {
           bottom: 5%;
-          left: 65%;
+          left: 75%;
           .line {
             left: auto;
             right: 50%;
@@ -223,6 +232,22 @@ figure.powered-by {
             border-bottom-width: 2px;
             border-bottom-left-radius: 7px;
             transform: translateY(-100%) translateY(-3em) translateY(2px) translateX(-7px);
+          }
+        }
+        &.box-4 {
+          bottom: 55%;
+          left: 5%;
+          .line {
+            right: auto;
+            left: 50%;
+            top: 30%;
+          }
+          .line.depart {
+            width: 8em;
+
+            border-top-width: 2px;
+
+            transform: translateY(-50%);
           }
         }
       }

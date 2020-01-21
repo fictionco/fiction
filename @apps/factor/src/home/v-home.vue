@@ -518,7 +518,7 @@ export default Vue.extend({
 
   .features {
     &.content {
-      box-shadow: 0 1px 0 rgba(227, 228, 249, 1);
+      
       &.last {
         box-shadow: none;
       }

@@ -204,12 +204,16 @@ export const addController = (options: FilterItem): void => {
   return
 }
 
-// Run array of promises and await the result
-export const runCallbacks = async (
+/**
+ * Run array of promises and await the result
+ * @param hook - the hook ID
+ * @param _arguments - arguments to pass to callbacks
+ */
+export const runCallbacks = async <T = unknown>(
   hook: string,
   ..._arguments: any[]
-): Promise<unknown[]> => {
-  const _promises: PromiseLike<unknown>[] = applyFilters(hook, [], ..._arguments)
+): Promise<T[]> => {
+  const _promises: PromiseLike<T>[] = applyFilters(hook, [], ..._arguments)
 
   return await Promise.all(_promises)
 }

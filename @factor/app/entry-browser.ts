@@ -19,8 +19,10 @@ const startClient = async (): Promise<void> => {
 
 startClient()
 
-// Webpack hot reload
-// https://webpack.js.org/api/module-variables/#modulehot-webpack-specific
+/**
+ * Webpack hot reload
+ * - https://webpack.js.org/api/module-variables/#modulehot-webpack-specific
+ */
 /* istanbul ignore next */
 if (hmr) {
   hmr.accept()

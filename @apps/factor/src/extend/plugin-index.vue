@@ -192,7 +192,6 @@ export default Vue.extend({
 
       .page-title-sub {
         font-size: 1.6em;
-        opacity: 0.7;
       }
       @media (max-width: 900px) {
         padding: 3rem 0;

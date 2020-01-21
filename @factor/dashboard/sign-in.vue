@@ -17,6 +17,7 @@
         <factor-btn
           ref="forgot-password"
           :loading="loading"
+          btn="primary"
           data-test="send-password-email"
           text="Send Password Reset Email"
           @click="send({ action: sendPasswordResetEmail, next: `password-email-sent` })"
@@ -260,8 +261,12 @@ export default Vue.extend({
       if (!r) return
 
       this.loading = true
-
-      const user = await authenticate({ ...this.form, newAccount: this.newAccount })
+      let user
+      try {
+        user = await authenticate({ ...this.form, newAccount: this.newAccount })
+      } catch (error) {
+        this.loading = false
+      }
 
       if (user) this.done(user)
 

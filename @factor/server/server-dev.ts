@@ -1,6 +1,6 @@
 import path from "path"
 import fs from "fs-extra"
-import { addFilter, setting, log } from "@factor/api"
+import { addFilter, runCallbacks, setting, log } from "@factor/api"
 import { resolveFilePath } from "@factor/api/resolver"
 import chalk from "chalk"
 import MFS from "memory-fs"
@@ -138,7 +138,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
   if (config.output) config.output.filename = "[name].js"
 
   config.entry = [
-    "webpack-hot-middleware/client?path=/__hot__&noInfo=true",
+    "webpack-hot-middleware/client?path=/__hot__&reload=true&noInfo=true",
     ...existingEntry
   ]
 
@@ -163,7 +163,11 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
         logLevel: "silent",
         ...devFilesystem
       }),
-      hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 5000, log: false })
+      hmr: webpackHotMiddleware(clientCompiler, {
+        path: "/__hot__",
+        heartbeat: 5000,
+        log: false
+      })
     }
 
     addFilter({
@@ -176,9 +180,9 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     })
 
     loaders({ devServer, target: "client", status: "start" })
-    clientCompiler.plugin("compile", () =>
+    clientCompiler.plugin("compile", () => {
       loaders({ devServer, target: "client", status: "start" })
-    )
+    })
     clientCompiler.plugin("done", (stats: Stats): void => {
       const { errors, warnings, time } = stats.toJson()
 
@@ -259,6 +263,10 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
 export const initializeDevServer = (cwd: string): void => {
   watcher(({ event, path }: { event: string; path: string }) => {
     updateBundles({ cwd, title: event, value: path })
+
+    if (path.includes(".ts") || path.includes(".js")) {
+      runCallbacks("restart-server")
+    }
   })
 }
 

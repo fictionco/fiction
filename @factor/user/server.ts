@@ -1,5 +1,5 @@
-import { getModel } from "@factor/post/database"
-import { pushToFilter, applyFilters } from "@factor/api"
+import { getModel, dbIsOffline } from "@factor/post/database"
+import { pushToFilter, applyFilters, log } from "@factor/api"
 import * as endpointHandler from "@factor/user/server"
 import { Model, Document } from "mongoose"
 import { addEndpoint } from "@factor/api/endpoints"
@@ -21,6 +21,11 @@ export const getUserModel = (): Model<FactorUser & Document> => {
 export const authenticate = async (
   params: AuthenticationParameters
 ): Promise<FactorUserCredential | undefined> => {
+  if (dbIsOffline()) {
+    log.warn(`Can't authenticate user, DB is offline.`)
+    return
+  }
+
   const { newAccount, email, password, displayName } = params
 
   let user
@@ -60,6 +65,9 @@ export const authenticate = async (
 }
 
 export const setup = (): void => {
+  /**
+   * Add user setup to CLI
+   */
   if (!process.env.TOKEN_SECRET) {
     pushToFilter({
       key: "jwt",
@@ -72,6 +80,9 @@ export const setup = (): void => {
     })
   }
 
+  /**
+   * Adds the user handling endpoint
+   */
   addEndpoint({ id: "user", handler: endpointHandler })
 }
 setup()

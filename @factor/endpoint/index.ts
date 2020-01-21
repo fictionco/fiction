@@ -61,6 +61,7 @@ export const authorizedRequest = async (
   const Authorization = await bearerToken(data)
 
   options.headers = { Authorization, ...headers }
+  options.timeout = 10000
 
   if (isNode) {
     options.baseURL = localhostUrl()

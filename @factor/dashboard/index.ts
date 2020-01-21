@@ -16,24 +16,25 @@ import { DashboardMenuItem } from "./types"
 export const accountMenu = (): Promise<Component> => import("./account-menu.vue")
 export const dashboardPane = (): Promise<Component> => import("./theme/pane.vue")
 export const dashboardPage = (): Promise<Component> => import("./theme/page.vue")
-
 export const dashboardListPost = (): Promise<Component> => import("./el/list-post.vue")
 export const dashboardListControls = (): Promise<Component> =>
   import("./el/list-controls.vue")
 export const dashboardListEmpty = (): Promise<Component> => import("./el/list-empty.vue")
-
 export const dashboardTableFooter = (): Promise<Component> => import("./table-footer.vue")
 export const dashboardInput = (): Promise<Component> => import("./el/input.vue")
 export const dashboardUserCard = (): Promise<Component> => import("./el/user-card.vue")
 export const dashboardUserList = (): Promise<Component> => import("./el/user-list.vue")
 export const factorInputSortable = (): Promise<Component> => import("./el/sortable.vue")
 
+/**
+ * The base route for the dashboard
+ */
 export const dashboardBaseRoute = (): string => {
   const dashboardRoute = setting("dashboard.route")
 
   if (!dashboardRoute) {
     throw new Error(
-      "Dashboard base route setting is missing. There may be a problem with the settings loader."
+      "Dashboard settings are missing. There may be a problem with settings generation; check the files in your '.factor' folder."
     )
   }
   return dashboardRoute

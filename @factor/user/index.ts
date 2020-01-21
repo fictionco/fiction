@@ -175,11 +175,17 @@ export const userCan = ({
   }
 }
 
+/**
+ * If a route requires auth, show the signin modal or other handling
+ * before they navigate.
+ *
+ * @return true proceeds with nav, false if prevent
+ */
 const handleAuthRouting = (): void => {
   addCallback({
     key: "authRouting",
     hook: "client-route-before",
-    callback: async ({ to, next }: RouteGuard) => {
+    callback: async ({ to }: RouteGuard): Promise<boolean> => {
       const user = await userInitialized()
       const { path: toPath } = to
 
@@ -190,7 +196,9 @@ const handleAuthRouting = (): void => {
 
       if (auth === true && !user) {
         emitEvent("sign-in-modal", { redirect: toPath })
-        next(false)
+        return false
+      } else {
+        return true
       }
     }
   })

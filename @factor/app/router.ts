@@ -13,6 +13,11 @@ let __initialPageLoad = true
  * @param to - next route
  * @param from - current route
  * @param next - next function, call with false to prevent nav, must call!
+ *
+ * @remarks
+ *  If a user needs to sign in (with modal) or be redirected after an action
+ *  Those hooks may not want the navigation to continue
+ *  As they will be handling with navigation with a redirect instead
  */
 const hookClientRouterBefore = async (
   to: Route,
@@ -22,16 +27,21 @@ const hookClientRouterBefore = async (
   if (__initialPageLoad || to.path == from.path) {
     next()
   } else {
-    const doBefore = runCallbacks("client-route-before", { to, from, next })
+    const doBefore = runCallbacks<boolean | undefined>("client-route-before", {
+      to,
+      from,
+      next
+    })
 
-    const results = await doBefore
+    const results: (boolean | undefined)[] = await doBefore
 
-    // If a user needs to sign in (with modal) or be redirected after an action
-    // Those hooks may not want the navigation to continue
-    // As they will be handling with navigation with a redirect instead
-
-    if (results.length == 0 || !results.some(_ => _ === false)) next()
-    else next(false)
+    if (results.length == 0 || !results.some(_ => _ === false)) {
+      // proceed
+      next()
+    } else {
+      // Abort navigation
+      next(false)
+    }
   }
 }
 
@@ -73,8 +83,10 @@ export const createRouter = (): VueRouter => {
     stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
   } as RouterOptions)
 
-  // Load hooks for client navigation handling
-  // Don't run on server as this causes the hooks to run twice
+  /**
+   * Load hooks for client navigation handling
+   * Don't run on server as this causes the hooks to run twice
+   */
   if (process.env.FACTOR_BUILD_ENV == "client") {
     router.beforeEach((to, from, next) => hookClientRouterBefore(to, from, next))
     router.afterEach((to, from) => hookClientRouterAfter(to, from))
