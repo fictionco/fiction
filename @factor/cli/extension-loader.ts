@@ -1,4 +1,4 @@
-import { dirname, parse, resolve, join, basename } from "path"
+import { dirname, parse, resolve, join, basename, normalize } from "path"
 import { getWorkingDirectory, toPascalCase, sortPriority } from "@factor/api/utils"
 import { getPath } from "@factor/api/paths"
 
@@ -23,6 +23,19 @@ interface LoaderFile {
   writeFile?: { filename: string; content: string };
 }
 
+/**
+ * Returns a normalized directory path
+ * Normalization prevents any problems with windows paths
+ * @param rawPath - the raw path
+ */
+const nd = (rawPath: string): string => {
+  return normalize(dirname(rawPath))
+}
+
+/**
+ * Gets the package.json from the CWD (current working directory)
+ * @param cwd - working directory path
+ */
 export const getWorkingDirectoryPackage = (cwd?: string): FactorPackageJson => {
   let pkg
   try {
@@ -46,6 +59,13 @@ export const getWorkingDirectoryPackage = (cwd?: string): FactorPackageJson => {
   return pkg
 }
 
+/**
+ * Gets the resolved 'main' directory path for an extension
+ * @param name - package.json name
+ * @param isCwd - is the package the app?
+ * @param cwd - the working directory
+ * @param main - the main file
+ */
 const getDirectory = ({
   name,
   isCwd,
@@ -66,9 +86,17 @@ const getDirectory = ({
     root = require.resolve(`${resolver}/package.json`)
   }
 
-  return dirname(root)
+  return nd(root)
 }
 
+/**
+ * Gets the base module require path
+ * Follows the node format rather than path
+ *
+ * @param isCwd - is the package the working directory
+ * @param name - the module name (from package.json)
+ * @param main - the main file of the package
+ */
 const getRequireBase = ({
   isCwd,
   name,
@@ -78,11 +106,21 @@ const getRequireBase = ({
   name: string;
   main?: string;
 }): string => {
-  return dirname([isCwd ? ".." : name, main].join("/"))
+  const mainFile = join(...[isCwd ? ".." : name, main])
+  return nd(mainFile)
 }
 
-// Set priority by extension type
-// App > Theme > Plugin
+/**
+ * Set ordering priority by file type
+ * @example
+ * - plugin = 100 (default)
+ * - theme = 150
+ * - app = 1000
+ *
+ * @param extend - type of extension
+ * @param priority - use assigned priority if its set
+ * @param isCwd - is the package the working directory of the app
+ */
 const getPriority = ({
   extend,
   priority,
@@ -106,9 +144,15 @@ const getPriority = ({
   return out
 }
 
-// Webpack doesn't allow dynamic paths in require statements
-// In order to make dynamic require statements, we build loader files
-// Also an easier way to see what is included than by using other techniques
+/**
+ * Webpack doesn't allow dynamic paths in require statements
+ * In order to make dynamic require statements, we build loader files
+ *
+ * @param extensions - factor extensions
+ * @param loadTarget - the loading environment
+ * @param callback - function to call with the results
+ * @param additional - additional files to add to results (advanced)
+ */
 const makeModuleLoader = ({
   extensions,
   loadTarget,
@@ -140,6 +184,14 @@ const makeModuleLoader = ({
   callback(sortPriority([...files, ...additional]))
 }
 
+/**
+ * Scans Factor directories for a file name via glob
+ * @param extensions - the extensions to scan
+ * @param filename - the name of the file (w glob support)
+ * @param callback - the function to call with the results
+ * @param cwd - working directory
+ * @additional - additional files to add to callback (advanced)
+ */
 const makeFileLoader = ({
   extensions,
   filename,
@@ -162,13 +214,14 @@ const makeFileLoader = ({
     const dir = getDirectory({ name, isCwd, cwd })
     const requireBase = getRequireBase({ isCwd, name })
 
+    const fileGlob = `${dir}/**/${filename}`
+
     glob
-      .sync(`${dir}/**/${filename}`)
+      .sync(fileGlob)
       .map((fullPath, index) => {
         const _module = fullPath.replace(dir, requireBase)
-        const moduleName = _module.replace(/\.[jt]s$/, "").replace(/\/index$/, "")
 
-        if (moduleName.includes("node_modules")) return
+        const moduleName = _module.replace(/\.[jt]s$/, "").replace(/\/index$/, "")
 
         return {
           _id: index == 0 ? _id : `${_id}_${index}`,
@@ -187,6 +240,11 @@ const makeFileLoader = ({
   callback([...files, ...additional])
 }
 
+/**
+ * Recursively gets dependencies with 'factor' attribute
+ * @param deps - dependencies of a package
+ * @param pkg - the calling package.json
+ */
 const recursiveDependencies = (
   deps: FactorPackageJson[],
   pkg: FactorPackageJson
@@ -199,6 +257,7 @@ const recursiveDependencies = (
     .map(_ => require(`${_}/package.json`))
     .filter(_ => typeof _.factor != "undefined" || _.name.includes("factor"))
     .forEach(_ => {
+      // don't add if it's already there
       if (!deps.find(pkg => pkg.name == _.name)) {
         deps.push(_)
         deps = recursiveDependencies(deps, _)
@@ -243,7 +302,7 @@ const writeFile = ({
   destination: string;
   content: string;
 }): void => {
-  fs.ensureDirSync(dirname(destination))
+  fs.ensureDirSync(nd(destination))
   fs.writeFileSync(destination, content)
 }
 
@@ -295,13 +354,13 @@ const normalizeLoadTarget = ({
 
       if (!Array.isArray(val)) {
         __[t] = [
-          { file: join(dirname(main), val), _id: getId({ _id, main, file: val, isCwd }) }
+          { file: join(nd(main), val), _id: getId({ _id, main, file: val, isCwd }) }
         ]
       } else {
         __[t] = val.map(v => {
           return typeof v == "string"
-            ? { file: join(dirname(main), v), _id: getId({ _id, main, file: v, isCwd }) }
-            : { ...v, file: join(dirname(main), v.file) }
+            ? { file: join(nd(main), v), _id: getId({ _id, main, file: v, isCwd }) }
+            : { ...v, file: join(nd(main), v.file) }
         })
       }
     })
@@ -370,8 +429,12 @@ export const generateExtensionList = (
   return sortPriority(loader)
 }
 
-// Use root application dependencies as the start of the
-// factor dependency tree
+/**
+ * Use root application dependencies as the start of the factor dependency tree
+ * Recursively get all factor dependencies
+ *
+ * @param pkg - the root application package.json
+ */
 const loadExtensions = (pkg: FactorPackageJson): FactorExtension[] => {
   const dependents = recursiveDependencies([pkg], pkg)
 
