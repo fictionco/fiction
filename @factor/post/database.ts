@@ -186,7 +186,7 @@ export const dbSetupUtility = (): void => {
     return
   } else if (process.env.DB_CONNECTION.includes("demo")) {
     log.warn(
-      "Looks like you are using the demo DB (resets every 30 minutes). Change it to your own connection in .env."
+      "Looks like you are using the demo DB (resets every 30 minutes). Change it to your own connection in .env"
     )
   }
 

@@ -44,7 +44,7 @@ interface DevServerComponents {
 }
 
 export interface DevCompilerOptions {
-  fileSystem?: string | void;
+  fileSystem?: "static" | "memory" | void;
   devServer: DevServerComponents;
 }
 
@@ -68,6 +68,9 @@ const updateBundles = ({
   }
 }
 
+/**
+ * Handles the CLI loading indicator and updates the bundles when a build is complete
+ */
 const loaders = ({
   devServer,
   target = "",
@@ -119,6 +122,11 @@ const loaders = ({
   }
 }
 
+/**
+ * The webpack compiler for the client/browser environment
+ * @param fileSystem - use memory or static file system
+ * @param devServer - dev server config
+ */
 const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): void => {
   const config = devServer.configClient
   // Webpack config allows entry to be array, string, function
@@ -129,20 +137,21 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
 
   if (config.output) config.output.filename = "[name].js"
 
-  config.entry = ["webpack-hot-middleware/client?quiet=true", ...existingEntry]
+  config.entry = [
+    "webpack-hot-middleware/client?path=/__hot__&noInfo=true",
+    ...existingEntry
+  ]
 
-  config.plugins?.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.NamedModulesPlugin() // HMR shows correct file names in console on update.
-  ) ?? []
+  config.plugins?.push(new webpack.HotModuleReplacementPlugin()) ?? []
 
   try {
-    // Dev Middleware - which injects changed files into the webpack bundle
+    /**
+     * Dev Middleware - which injects changed files into the webpack bundle
+     */
     const clientCompiler = webpack(config)
 
     let devFilesystem = {} // default
-    if (fileSystem == "fs") {
+    if (fileSystem == "static") {
       fs.join = path.join // Needed by dev server / webpack convention (exists in memory fs)
       devFilesystem = { fs }
     }
@@ -154,7 +163,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
         logLevel: "silent",
         ...devFilesystem
       }),
-      hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 2000, log: false })
+      hmr: webpackHotMiddleware(clientCompiler, { heartbeat: 5000, log: false })
     }
 
     addFilter({
@@ -173,11 +182,12 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     clientCompiler.plugin("done", (stats: Stats): void => {
       const { errors, warnings, time } = stats.toJson()
 
-      if (warnings.length !== 0 || errors.length !== 0) {
-        errors.forEach((error: string) => log.error(error))
-        warnings.forEach((error: string) => log.error(error))
-        return
-      }
+      // eslint-disable-next-line no-console
+      errors.forEach(err => console.error(err))
+      // eslint-disable-next-line no-console
+      warnings.forEach(err => console.warn(err))
+
+      if (errors.length > 0) return
 
       const outputPath = config.output?.path ?? ""
 
@@ -192,16 +202,21 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
 
     return
   } catch (error) {
-    log.error("[WEBPACK CLIENT COMPILER]", error)
+    log.error("CLIENT COMPILER", error)
   }
 }
 
+/**
+ * Creates the hot compiler for the server bundles
+ * @param filesystem - use memory file system (default for webpack), or static file system
+ * @param devServer - the config of the development server
+ */
 const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): void => {
   const config = devServer.configServer
   const serverCompiler = webpack(config)
 
   let fileSystemUtility: MemorySystemType
-  if (fileSystem == "fs") {
+  if (fileSystem == "static") {
     fileSystemUtility = fs
     serverCompiler.outputFileSystem = fs
   } else {
@@ -218,16 +233,11 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
   )
 
   serverCompiler.watch({}, (_error: Error, stats) => {
-    // watch and update server renderer
     if (_error) throw _error
 
-    const { errors, warnings, time } = stats.toJson()
+    const { errors, time } = stats.toJson()
 
-    if (errors.length !== 0 || warnings.length !== 0) {
-      errors.forEach((error: string) => log.error(error))
-      warnings.forEach((error: string) => log.error(error))
-      return
-    }
+    if (errors.length > 0) return
 
     const outputPath = config.output?.path ?? ""
 
@@ -242,8 +252,11 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
   })
 }
 
+/**
+ * Watch for file changes in Factor directories
+ * @param cwd - working directory of app
+ */
 export const initializeDevServer = (cwd: string): void => {
-  // Watch for file changes in Factor directories
   watcher(({ event, path }: { event: string; path: string }) => {
     updateBundles({ cwd, title: event, value: path })
   })
@@ -260,7 +273,7 @@ export const developmentServer = async ({
   onReady,
   cwd
 }: {
-  fileSystem?: string;
+  fileSystem?: "static" | "memory";
   onReady: UpdateBundle;
   cwd: string;
 }): Promise<void> => {
@@ -281,8 +294,6 @@ export const developmentServer = async ({
   }
 
   devServer[cwd] = dev
-
-  //initializeDevServer(cwd)
 
   createClientCompiler({ fileSystem, devServer: dev })
 

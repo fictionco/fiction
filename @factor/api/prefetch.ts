@@ -39,7 +39,7 @@ export const preFetchPost = async ({
   // Only add to the filter if permalink is set. That way we don't show loader for no reason.
   if (
     (!permalink && !_id) ||
-    (permalink && permalink == "__webpack_hmr") ||
+    (permalink && permalink == "__hot__") ||
     /\.(png|jpg|gif|svg|ico)$/.test(permalink) ||
     route.path.includes(setting("dashboard.route"))
   ) {

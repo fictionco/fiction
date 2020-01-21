@@ -17,9 +17,7 @@ export const productionUrl = (): string => {
   if (setting("app.url")) return setting("app.url")
   else if (setting("url")) return setting("url")
   else {
-    log.warn(
-      "Production URL isn't set. To fix: add it under 'app.url' in package.json > factor or factor-settings"
-    )
+    log.warn(`Production URL isn't set. Add it under 'app.url' in settings.`)
     return "[not set]"
   }
 }

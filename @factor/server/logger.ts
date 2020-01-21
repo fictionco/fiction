@@ -40,7 +40,7 @@ export default (): RequestHandler =>
         let { url } = request
         if (url.indexOf("?") > 0) url = url.slice(0, url.indexOf("?"))
 
-        return url.match(/(js|svg|jpg|png|css|json)$/gi) || url.match(/__webpack_hmr/gi)
+        return url.match(/(js|svg|jpg|png|css|json)$/gi) || url.match(/__hot__/gi)
           ? true
           : false
       }

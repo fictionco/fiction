@@ -227,7 +227,7 @@ export const createRenderServer = async (
     renderer = await new Promise(resolve => {
       developmentServer({
         cwd,
-        fileSystem: options.static ? "fs" : "memory-fs",
+        fileSystem: options.static ? "static" : "memory",
         onReady: async renderConfig => {
           const renderer = htmlRenderer(renderConfig)
 
