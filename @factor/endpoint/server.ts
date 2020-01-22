@@ -58,12 +58,23 @@ export const setAuthorizedUser = async (
   return user
 }
 
-export const runEndpointMethod = async ({
-  id,
-  handler,
-  data,
-  meta
-}: EndpointRequestParams & EndpointItem): Promise<any> => {
+export type EndpointRunningParams = EndpointRequestParams & EndpointItem
+
+/**
+ * Wrap the endpoint method handler object and call it based on method param
+ * @param _arguments - parameters needed to call the endpoint
+ */
+export const runEndpointMethod = async (
+  _arguments: EndpointRunningParams
+): Promise<any> => {
+  /**
+   * Allow for hook-in to params, analytics, etc.
+   */
+  const { id, handler, data, meta } = applyFilters<EndpointRunningParams>(
+    "endpoint-arguments",
+    _arguments
+  )
+
   const { method, params = {} } = data
 
   if (!method) {
@@ -80,6 +91,7 @@ export const runEndpointMethod = async ({
     if (typeof _ep.permissions == "function") {
       await _ep.permissions({ method, meta, params })
     }
+
     return await _ep[method](params, meta)
   } catch (error) {
     log.error(`${error.message} in ${id}:${method}`)
@@ -100,9 +112,9 @@ export const processEndpointRequest = async ({
   response,
   handler
 }: EndpointRequestConfig): Promise<void> => {
-  const { query, body, headers } = request
+  const { query, body, headers, url } = request
 
-  const meta: EndpointMeta = { request, response }
+  const meta: EndpointMeta = { request, response, url }
 
   const data = { ...body, ...parse(query) }
 
@@ -113,8 +125,9 @@ export const processEndpointRequest = async ({
   // Run Endpoint Method
   try {
     // Authorization / Bearer.
-    meta.bearer = await setAuthorizedUser(authorization)
-    responseJson.result = await handler({ data, meta })
+    const bearer = await setAuthorizedUser(authorization)
+    meta.bearer = bearer
+    responseJson.result = await handler({ data, meta, bearer, url })
   } catch (error) {
     responseJson.error = createError(error.code ?? 500, error.message)
     log.error(error)

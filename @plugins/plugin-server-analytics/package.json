@@ -1,0 +1,29 @@
+{
+  "name": "@factor/plugin-server-analytics",
+  "description": "Analytics for your server and endpoints.",
+  "version": "1.1.36",
+  "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "load": [
+      "server"
+    ],
+    "title": "Server Analytics"
+  },
+  "dependencies": {
+    "@types/universal-analytics": "^0.4.3",
+    "qs": "^6.9.1",
+    "universal-analytics": "^0.4.20"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction",
+    "analytics",
+    "universal-analytics",
+    "server-analytics"
+  ]
+}

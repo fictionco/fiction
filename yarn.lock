@@ -2326,6 +2326,11 @@
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
   integrity sha512-FvUupuM3rlRsRtCN+fDudtmytGO6iHJuuRKS1Ss0pG5z8oX0diNEw94UEL7hgDbpN94rgaK5R7sWm6RrSkZuAQ==
 
+"@types/universal-analytics@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@types/universal-analytics/-/universal-analytics-0.4.3.tgz#8cc5e9a69df0e3c9714bdcf101d8d93df2a6d247"
+  integrity sha512-CCM1yPGAAg/WRlBEUIzRAqEE0G84n1btOVRybHgQ+AdA6+LgM0DeDH8yBWtcpg3HcrLHA9JWiHwPpySlo5GtZA==
+
 "@types/validator@^12.0.1":
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/@types/validator/-/validator-12.0.1.tgz#73dbc7f5f730ff7131754bca682824eb3c260b79"
@@ -12054,7 +12059,7 @@ qs@6.7.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
-qs@^6.6.0, qs@^6.7.0:
+qs@^6.6.0, qs@^6.7.0, qs@^6.9.1:
   version "6.9.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.1.tgz#20082c65cb78223635ab1a9eaca8875a29bf8ec9"
   integrity sha512-Cxm7/SS/y/Z3MHWSxXb8lIFqgqBowP5JMlTUFyJN88y0SGQhVmZnqFK/PeuMX9LzUyWsqqhNxIyg0jlzq946yA==

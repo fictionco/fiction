@@ -21,7 +21,7 @@
     "@factor/plugin-seo": "^1.0.0",
     "@factor/plugin-sitemap": "^1.0.0",
     "@factor/plugin-storage-s3": "^1.0.0",
-    "flatted": "^2.0.1",
-    "universal-analytics": "^0.4.20"
+    "@factor/plugin-server-analytics": "^1.0.0",
+    "flatted": "^2.0.1"
   }
 }

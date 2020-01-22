@@ -1,4 +1,7 @@
 export default {
+  serverAnalytics: {
+    trackingId: "UA-109072363-1"
+  },
   googleTagManager: {
     googleTagManagerId: "GTM-THQBLTN"
     // developmentMode: true

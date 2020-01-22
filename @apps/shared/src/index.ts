@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios"
-import { onEvent, addFilter, addCallback } from "@factor/api"
+import { onEvent, addFilter } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 
 /**
@@ -206,14 +206,6 @@ const google = (): void => {
           analyticsEvent({ category: "returnUser", action: "loggedIn", value: 1 })
         }
       }
-    }
-  })
-
-  addCallback({
-    key: "trackInstall",
-    hook: "route-query-action-track-install",
-    callback: ({ method = "unknown", label }: { method: string; label?: string }) => {
-      analyticsEvent({ category: "newInstall", action: method, label, value: 10 })
     }
   })
 }

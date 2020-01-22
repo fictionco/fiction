@@ -11,6 +11,8 @@ export interface EndpointRequestHandler {
 export interface EndpointRequestParams {
   data: { method: string; params: object };
   meta: EndpointMeta;
+  url: string;
+  bearer: CurrentUserState;
 }
 
 export interface EndpointItem {
@@ -22,6 +24,7 @@ export interface EndpointMeta {
   request?: Request;
   response?: Response;
   bearer?: CurrentUserState;
+  url?: string;
 }
 
 export interface EndpointRequestConfig {

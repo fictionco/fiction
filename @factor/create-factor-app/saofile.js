@@ -5,7 +5,7 @@ const path = require("path")
 const superb = require("superb")
 const figures = require("figures")
 const consola = require("consola")
-
+const axios = require("axios")
 const config = {
   /**
    * Answers to these questions get added to the template as variables
@@ -59,6 +59,10 @@ const config = {
 
     data.db =
       "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
+
+    axios.get(
+      `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${data.email}`
+    )
 
     return data
   },
