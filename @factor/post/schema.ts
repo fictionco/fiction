@@ -24,7 +24,7 @@ export default (): FactorSchema => {
     },
     populatedFields: applyFilters("post-populated-fields", [
       { field: "author", depth: 10 },
-      { field: "images", depth: 30 },
+      { field: "images", depth: 10 },
       { field: "avatar", depth: 3 }
     ]),
     schema: applyFilters("post-schema", {

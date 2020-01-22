@@ -61,18 +61,21 @@ export class NodeLog {
   /**
    * Send diagnostic information
    */
-  diagnostic({ event, action, label }: DiagnosticEvent): void {
+  async diagnostic({ event, action, label }: DiagnosticEvent): Promise<void> {
     label = label ? label : appId()
     const encoded = encodeURI(
       `https://factor.dev/__track_event__?event=${event}&action=${action}&label=${label}`
     )
     try {
-      axios.get(encoded)
+      await axios.get(encoded)
     } catch (error) {
       /* silence */
     }
   }
 
+  /**
+   * Formatted text CLI log
+   */
   formatted({
     title,
     lines = [],
