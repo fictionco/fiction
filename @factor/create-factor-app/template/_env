@@ -1,8 +1,7 @@
-# -- A minimal Factor app with basic post/cms functionality
-# -- requires the following environment config
+# -- Add initial admin users by email (must be verified) - separate by a comma
+FACTOR_ADMINS="<%= email %>"
 
-# -- All DB Handled by Mongo
-# -- Recommended: https://www.mongodb.com/cloud/atlas
+# -- MongoDB Connection URL
 <% if(db){ %>DB_CONNECTION="<%= db %>"
 <% } else { %># DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"<% } %>
 
@@ -15,3 +14,4 @@ TOKEN_SECRET="RANDOM-STRING-<%= randomString %>"
 # SMTP_USERNAME="<SMTP USERNAME - ANY SMTP PROVIDER>"
 # SMTP_PASSWORD="<SMTP PASSWORD - ANY SMTP PROVIDER>"
 # SMTP_HOST="<SMTP HOST - ANY SMTP PROVIDER>"
+

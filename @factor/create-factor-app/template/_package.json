@@ -12,9 +12,6 @@
       "description": "<%= description %>",
       "email": "<%= name %> <<%= email %>>",
       "url": ""
-    },
-    "roles": {
-      "<%= email %>": "admin"
     }
   },
   "dependencies": {

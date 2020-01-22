@@ -9,19 +9,29 @@ interface FactorUserRoles extends FactorUser {
   accessLevel: number;
 }
 
+/**
+ * Mongoose middleware to allow admins to edit user roles in the admin
+ * @param this - the query
+ * @param next - mongoose next function
+ *
+ * @library mongoose
+ */
 const validateUpdateManyQuery = async function(
   this: FactorUserRoles & Document,
   next: HookNextFunction
 ): Promise<void> {
   const { bearer } = this.options
 
+  // Is the update query attempting to change role?
   const setRole = this._update?.$set?.role
 
-  const manageUsersAccessLevel = 500
   if (setRole) {
+    const manageUsersAccessLevel = 500
+    // If the bearer doesn't have proper privileges, don't allow this operation
     if (!bearer || bearer.accessLevel < manageUsersAccessLevel) {
       return next(new Error(`Can not edit roles as ${bearer.role}`))
     } else {
+      // If allowed, also set the user's accessLevel to match role
       this._update.$set.accessLevel = userRolesMap[setRole as UserRoles] || 0
     }
   }
@@ -29,17 +39,38 @@ const validateUpdateManyQuery = async function(
   next()
 }
 
-const validateUserDocument = async function(
+/**
+ * Mongoose middleware to prevent role escalation
+ * Allows for admins to be set via settings 'factor.roles[email]`
+ * or via .env - FACTOR_ADMINS
+ * @param this - the user document
+ * @param next - next function (mongoose)
+ *
+ * @library mongoose
+ */
+const validateUserRoles = async function(
   this: FactorUserRoles & Document,
   next: HookNextFunction
 ): Promise<void> {
-  const existing = setting(`roles.${this.email}`)
-  const configRole = this.emailVerified && existing ? existing : UserRoles.Member
+  let configRole = UserRoles.Member
+  if (this.emailVerified) {
+    const admins = process.env.FACTOR_ADMINS
+    const envAdmins = admins ? admins.split(",") : []
+    const envAdminUser = envAdmins.find((email: string) => this.email == email.trim())
+
+    const settingRole = setting(`roles.${this.email}`)
+
+    if (envAdminUser) {
+      configRole = UserRoles.Admin
+    } else if (settingRole) {
+      configRole = settingRole
+    }
+  }
 
   if (configRole != this.role) {
     this.role = configRole
   } else if (this.isModified("role") && configRole != this.role) {
-    return next(new Error(`Can not edit role ${this.role}`))
+    return next(new Error(`Can't edit user role to ${this.role}`))
   }
 
   this.accessLevel = userRolesMap[this.role as UserRoles] || 0
@@ -85,7 +116,7 @@ export const setup = (): void => {
     key,
     hook: "user-schema-hooks",
     callback: (userSchema: Schema) => {
-      userSchema.pre("validate", validateUserDocument)
+      userSchema.pre("validate", validateUserRoles)
       userSchema.pre("update", validateUpdateManyQuery)
     }
   })
