@@ -31,7 +31,7 @@ export default {
         }
       },
       form: {
-        buttonText: "Get Early Access &rarr;"
+        buttonText: "Get Started &rarr;"
       }
     }
   },

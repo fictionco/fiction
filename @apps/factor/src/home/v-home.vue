@@ -9,8 +9,9 @@
           <div class="actions">
             <h3
               class="page-title-highlight"
-            >🚀Launches March 17 - Join the developer group for early access.</h3>
+            >🚀&nbsp; Launches March 17 &mdash; Join the developer group for early access.</h3>
             <factor-email-list list-id="alphaProgram" />
+
             <div class="github-actions" :class="!loadingButtons ? 'loaded': ''">
               <script async defer src="https://buttons.github.io/buttons.js" />
 
@@ -329,7 +330,7 @@ export default Vue.extend({
       }
 
       .page-title {
-        font-size: 3em;
+        font-size: 4em;
         line-height: 1.1;
         font-weight: 500;
         margin-bottom: 1rem;
@@ -341,8 +342,7 @@ export default Vue.extend({
       }
 
       .page-title-sub {
-        font-size: 2em;
-        opacity: 0.7;
+        font-size: 2.7em;
         color: var(--color-primary);
       }
 
@@ -377,12 +377,13 @@ export default Vue.extend({
         }
       }
       .actions {
+        font-size: 1.2em;
         margin-top: 3em;
         .page-title-highlight {
           font-size: 1.1em;
           font-weight: 600;
           margin-bottom: 1em;
-          opacity: 0.5;
+          opacity: 0.6;
         }
         .github-actions {
           margin: 2rem;
@@ -518,7 +519,6 @@ export default Vue.extend({
 
   .features {
     &.content {
-      
       &.last {
         box-shadow: none;
       }
