@@ -260,7 +260,7 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
  * Watch for file changes in Factor directories
  * @param cwd - working directory of app
  */
-export const initializeDevServer = (cwd: string): void => {
+export const watcherDevServer = (cwd: string): void => {
   watcher(({ event, path }: { event: string; path: string }) => {
     updateBundles({ cwd, title: event, value: path })
 
@@ -302,6 +302,8 @@ export const developmentServer = async ({
   }
 
   devServer[cwd] = dev
+
+  watcherDevServer(cwd)
 
   createClientCompiler({ fileSystem, devServer: dev })
 

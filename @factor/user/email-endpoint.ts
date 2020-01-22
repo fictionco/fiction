@@ -2,7 +2,7 @@ import { savePost } from "@factor/post/server"
 import { getModel } from "@factor/post/database"
 import { addFilter, currentUrl, randomToken } from "@factor/api"
 import { sendTransactional } from "@factor/email/server"
-import { Document, Schema, SchemaDefinition } from "mongoose"
+import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
 import { addEndpoint } from "@factor/api/endpoints"
@@ -178,8 +178,8 @@ export const setup = (): void => {
     hook: "user-schema-hooks",
     callback: (userSchema: Schema) => {
       userSchema.pre("save", async function(
-        this: FactorUser & Document
-        ///next: HookNextFunction
+        this: FactorUser & Document,
+        next: HookNextFunction
       ): Promise<void> {
         if (!this.isModified("email")) return
 
@@ -192,7 +192,7 @@ export const setup = (): void => {
           { bearer: this }
         )
 
-        return
+        next()
       })
     }
   })
