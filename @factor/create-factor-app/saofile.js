@@ -61,7 +61,7 @@ const config = {
       "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
 
     axios.get(
-      `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${data.email}`
+      `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${answers.email}`
     )
 
     return data
