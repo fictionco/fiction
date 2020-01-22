@@ -91,10 +91,12 @@ export default Vue.extend({
   computed: {
     currentUser,
     iconUrl() {
-      return setting("app.icon")
+      const rawIconPath = setting("app.icon")
+
+      return typeof rawIconPath == "function" ? rawIconPath() : rawIconPath
     },
     appName(): string {
-      return setting("app.name")
+      return setting("app.name") ?? "No Name"
     },
     menu(this: any) {
       return getDashboardMenu(this.$route.path)

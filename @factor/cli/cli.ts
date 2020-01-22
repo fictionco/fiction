@@ -81,6 +81,8 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     await initializeNodeInspector()
   }
 
+  log.diagnostic({ event: "factorCommand", action: command })
+
   // Extend and setup Node server environment
   await factorize(setup)
 

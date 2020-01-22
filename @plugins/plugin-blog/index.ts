@@ -14,7 +14,7 @@ addPostType({
 })
 
 addContentRoute({
-  path: setting("blog.indexRoute"),
+  path: setting("blog.indexRoute") ?? "/",
   component: setting("blog.components.blogWrap"),
   children: [
     {

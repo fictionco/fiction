@@ -28,18 +28,15 @@ This file is used to describe your application as an NPM package. Inside this fi
 
 ## Public Config
 
-### factor-config.json
+### package.json > factor
 
 Here you will store publicly accessible keys and information to configure your app. The `factor setup` command also writes configuration settings to this file. It also supports some overriding based on the environment that is running.
 
 ```json
 {
-  "myKey": "foo", // default myKey value
-  "development": {
-    "myKey": "bar" // value of myKey if NODE_ENV == development
-  },
-  "test": {
-    "myKey": "baz" // value of myKey if FACTOR_ENV == test
+  "name": "app-name",
+  "factor": {
+    "foo": "bar"
   }
 }
 ```

@@ -122,7 +122,7 @@ export const setup = (): void => {
   })
 
   /**
-   * CLI admin setup utility for adding user roles to factor-config
+   * CLI admin setup utility for adding user roles to config
    */
   addFilter({
     key,

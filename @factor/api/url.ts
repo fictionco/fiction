@@ -14,9 +14,10 @@ export const localhostUrl = (): string => {
  * Gets production URL as configured
  */
 export const productionUrl = (): string => {
-  if (setting("app.url")) return setting("app.url")
-  else if (setting("url")) return setting("url")
-  else {
+  const url = setting<string>("app.url") ?? setting<string>("url") ?? false
+  if (url) {
+    return url
+  } else {
     log.warn(`Production URL isn't set. Add it under 'app.url' in settings.`)
     return "[not set]"
   }
@@ -31,4 +32,14 @@ export const currentUrl = (): string => {
   else {
     return productionUrl()
   }
+}
+
+/**
+ * Get a unique ID to associate with an app
+ */
+export const appId = (): string => {
+  const appUrl = setting<string>("app.email")
+    ? setting<string>("app.email")
+    : setting<string>("app.url")
+  return appUrl || "unknown"
 }

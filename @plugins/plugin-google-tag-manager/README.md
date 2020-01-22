@@ -12,10 +12,10 @@ yarn add @factor/plugin-google-tag-manager
 
 ## Options and Settings
 
-Config for this plugin is public only and stored in your `factor-config.json` file.
+Config for this plugin is public only and stored in your `factor-settings.js` file.
 
 ```jsonc
-// factor-config.json
+// factor-settings.js
 {
   "googleTagManager": {
     "googleTagManagerId": "SOMEID", // Your GTM Container ID

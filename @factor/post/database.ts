@@ -14,26 +14,42 @@ let __schemas: { [index: string]: Schema } = {}
 let __models: { [index: string]: Model<any> } = {}
 let __offline = false
 
+/**
+ * Is the db running in offline mode?
+ */
 export const dbIsOffline = (): boolean => {
   return (__offline || !process.env.DB_CONNECTION) && process.env.FACTOR_ENV !== "test"
 }
 
+/**
+ * What is the current state of the database connection?
+ */
 export const dbReadyState = (): string => {
   const states = ["disconnected", "connected", "connecting", "disconnecting"]
 
   return states[mongoose.connection.readyState]
 }
 
+/**
+ * Is the DB connected?
+ */
 export const isConnected = (): boolean => {
   return ["connected"].includes(dbReadyState())
 }
 
+/**
+ * Disconnect the db (if it is connected)
+ */
 export const dbDisconnect = async (): Promise<void> => {
   if (isConnected()) {
     await mongoose.connection.close()
   }
 }
 
+/**
+ * Special handling and improvements to typical errors from db
+ * @param error - the thrown error
+ */
 const dbHandleError = (error: Error & { code?: string }): void => {
   if (error.code === "ECONNREFUSED" || error.code === "ENODATA") {
     __offline = true
@@ -51,14 +67,21 @@ const dbHandleError = (error: Error & { code?: string }): void => {
   }
 }
 
+/**
+ * Connect to database using a MongoDb "connection string"
+ */
 export const dbConnect = async (): Promise<mongoose.Connection | void> => {
   if (!isConnected() && process.env.DB_CONNECTION) {
     try {
-      const connectionString = process.env.DB_CONNECTION
+      let connectionString = process.env.DB_CONNECTION
+
+      // Remove any erroneous escaped double quotes if they exist
+      // Depending on handling of .env this can happen
+      connectionString = connectionString.replace(/\\"/g, "")
 
       const result = await mongoose.connect(connectionString, {
         useNewUrlParser: true
-        // useUnifiedTopology: true
+        // useUnifiedTopology: true // this was causing issues
       })
 
       __offline = false

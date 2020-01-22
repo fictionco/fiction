@@ -24,7 +24,7 @@ export const setup = (): void => {
   })
 
   addContentRoute({
-    path: setting("jobs.indexRoute"),
+    path: setting("jobs.indexRoute") ?? "/",
     component: setting("jobs.components.jobsWrap"),
     children: [
       {

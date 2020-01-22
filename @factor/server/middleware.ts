@@ -18,6 +18,12 @@ export interface MiddlewarePathConfig {
   middleware: MiddlewareHandler[];
 }
 
+/**
+ * Add middleware to the Factor server
+ * @param path - route to serve the middleware
+ * @param middleware - express style middleware handler
+ * @param key - unique key for the middleware (prevents double loading)
+ */
 export const addMiddleware = ({
   path,
   middleware,
@@ -32,8 +38,14 @@ export const addMiddleware = ({
   pushToFilter({ key, hook: "middleware", item: { path, middleware } })
 }
 
+/**
+ * Adds all middleware to the primary express server
+ * @param app - express app
+ * @param middleware - additional middleware
+ */
 export const loadMiddleware = (app: Application, middleware = []): void => {
-  const fav = resolveFilePath(setting("app.faviconPath"))
+  const faviconPath = setting("app.faviconPath")
+  const fav = resolveFilePath(faviconPath)
 
   if (fav) app.use(serveFavicon(fav))
 

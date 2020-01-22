@@ -2,8 +2,15 @@
 import consola, { Consola } from "consola"
 import figures from "figures"
 import chalk from "chalk"
+import axios from "axios"
+import { appId } from "@factor/api/url"
+interface DiagnosticEvent {
+  event: string;
+  action?: string;
+  label?: string;
+}
 
-export class FactorLogger {
+export class NodeLog {
   utility: Consola
 
   constructor() {
@@ -14,6 +21,17 @@ export class FactorLogger {
 
   error(..._arguments: any[]): void {
     Reflect.apply(this.utility.error, null, _arguments)
+    const prime = _arguments[0]
+
+    let msg
+    if (prime instanceof Error) {
+      msg = prime.message
+    } else if (typeof prime == "string") {
+      msg = prime
+    }
+    if (msg) {
+      this.diagnostic({ event: "factorError", action: msg })
+    }
   }
 
   warn(..._arguments: any[]): void {
@@ -38,6 +56,21 @@ export class FactorLogger {
     const colorize = chalk.keyword(color)
 
     this.log(colorize(`${figures.arrowUp}${figures.arrowDown}`) + chalk.dim(` ${text}`))
+  }
+
+  /**
+   * Send diagnostic information
+   */
+  diagnostic({ event, action, label }: DiagnosticEvent): void {
+    label = label ? label : appId()
+    const encoded = encodeURI(
+      `https://factor.dev/__track_event__?event=${event}&action=${action}&label=${label}`
+    )
+    try {
+      axios.get(encoded)
+    } catch (error) {
+      /* silence */
+    }
   }
 
   formatted({
@@ -88,4 +121,4 @@ export class FactorLogger {
   }
 }
 
-export default new FactorLogger()
+export default new NodeLog()

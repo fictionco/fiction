@@ -16,6 +16,6 @@ yarn add @factor/plugin-bugsnag
 
 ## Usage
 
-All that you need to do to get this plugin working is add `bugsnag.clientApiKey` to your `factor-config.json` file.
+All that you need to do to get this plugin working is add `bugsnag.clientApiKey` to your `factor-settings.js` file.
 
 You can easily add and edit this information using the native Factor setup CLI. Run the setup CLI using the command `yarn factor setup` once you've installed the plugin (set as a dependency).

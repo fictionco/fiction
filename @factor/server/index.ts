@@ -193,8 +193,9 @@ export const htmlRenderer = ({
  * @param cwd = working directory
  */
 export const appRenderer = (cwd?: string): BundleRenderer => {
+  const rawTemplatePath = setting("app.templatePath", { cwd })
   const paths = {
-    template: resolveFilePath(setting("app.templatePath", { cwd })),
+    template: resolveFilePath(rawTemplatePath),
     bundle: getPath("server-bundle", cwd),
     clientManifest: getPath("client-manifest", cwd)
   }

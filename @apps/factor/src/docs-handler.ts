@@ -24,7 +24,8 @@ export const normalize = (items: DocsItem[]): DocsItem[] => {
 }
 
 export const config = (): DocsItem[] => {
-  return normalize(setting("docs.pages"))
+  const pages = setting<any[]>("docs.pages") || []
+  return normalize(pages)
 }
 
 export const selected = (slug: string): DocsItem | void => {

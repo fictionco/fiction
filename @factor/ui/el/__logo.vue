@@ -6,7 +6,7 @@ import Vue from "vue"
 /* eslint-disable import/no-unresolved */
 export default Vue.extend({
   components: {
-    logo: () => import("__FALLBACK__/logo.vue")
+    logo: () => import("__FIND__/logo.vue")
   }
 })
 </script>

@@ -24,8 +24,8 @@ export const setup = (): void => {
     key: "tailwindPlugin",
     hook: "postcss-plugins",
     callback: (_: any[], { cwd }: { cwd?: string } = {}): any[] => {
-      const config: string = setting("tailwind.config", { cwd })
-      const directives: string = setting("tailwind.directives", { cwd })
+      const config: string = setting("tailwind.config", { cwd }) ?? ""
+      const directives: string = setting("tailwind.directives", { cwd }) ?? ""
 
       return [
         tailwindCSS(config, directives),

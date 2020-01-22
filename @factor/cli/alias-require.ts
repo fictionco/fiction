@@ -19,5 +19,5 @@ export default (): void => {
     })
   })
 
-  moduleAlias.addAlias("__FALLBACK__", dirname(require.resolve("@factor/app")))
+  moduleAlias.addAlias("__FIND__", dirname(require.resolve("@factor/app")))
 }

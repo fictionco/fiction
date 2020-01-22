@@ -4,7 +4,7 @@
 
 Factor provides a configuration system that works in harmony with standards:
 
-- **Public Config** &rarr; `factor-config.json`<br> Publicly accessible configuration for your application. This file is writeable by utilities and used for admin users, public API keys, etc.
+- **Public Config** &rarr; `package.json` > `factor`<br> Publicly accessible configuration for your application. This file is writeable by utilities and used for admin users, public API keys, etc.
 
 - **Private Config** &rarr; `.env`<br> A standard way of storing your private keys and information (powered by [Dotenv](https://github.com/motdotla/dotenv)). Anything here gets translated to "environmental variables" when you are running your app.
 
@@ -37,48 +37,45 @@ const key = process.env.MY_SERVICE_KEY // "VAL"
 
 **Note:** `.env` files should never be added to source control. Environmental variables should be setup and managed manually for each server environment.
 
-### Use `factor-config` for Public Keys
+## Use `package.json` or `factor-settings` Public Keys
 
-Add public configuration information into the `factor-config` file. This file has two main strengths:
+Add public configuration information into the `package.json` file under the `factor` property. A json configuration file has one main strength: it is easily machine writeable. This means we can easy add configuration to it from the `setup` CLI, etc..
 
-- It supports different configurations based on `ENV` variables. For example, you can use different settings for `test` vs `staging` vs `production`.
-- It's machine writeable, which means `factor setup` can help you add and remove values from it as needed.
-
-Config object example:
+Example:
 
 ```json
+//package.json
 {
-  "my_global_setting": "value",
-  "development": {
-    "my_development_setting": "value"
-  },
-  "production": {
-    "my_production_setting": "value"
-  },
-  "testing": {
-    "my_development_setting": "override_value"
+  "name": "my-app",
+  "factor": {
+    "configSetting": {
+      "myKey": "hello world"
+    }
   }
 }
 ```
 
-#### Using Public Keys
+Alternatively, you can always using `factor-settings.js` files to add configuration. (All config and settings files are merged together in the end anyway.)
 
-Add keys and config to `factor-config.json`:
+The equivalent to the `configSetting` value above looks like this:
 
 ```json
+// factor-settings.js
 {
-  "exampleService": {
-    "apiKey": 123
+  "configSetting": {
+    "myKey": "hello world"
   }
 }
 ```
 
-Public config values are added and available using the `setting` utility (also used for `factor-settings`):
+### Retrieving Public Settings
+
+Public config values are added and available using the `setting` utility.
 
 ```javascript
 import { setting } from "@factor/api/settings"
 // In your code
-const myVariable = setting("exampleService.apiKey") // 123
+const myVariable = setting("configSetting.myKey") // hello world
 ```
 
 ## Global Styling

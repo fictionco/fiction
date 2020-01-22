@@ -82,11 +82,11 @@ export const createSettings = (cwd?: string): void => {
  * @param key - dot notated pointer to setting in merged object
  * @param cwd - working directory of the app to get settings from, useful for multi-app
  */
-export const setting = (key: string, { cwd }: { cwd?: string } = {}): any => {
+export const setting = <T = any>(
+  key: string,
+  { cwd }: { cwd?: string } = {}
+): T | undefined => {
   const settings = getSettings(cwd)
-
-  // For debugging
-  if (key == "all") return settings
 
   return dotSetting({ key, settings })
 }

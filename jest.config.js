@@ -22,7 +22,7 @@ module.exports = {
     "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
       "<rootDir>/test/config/mock-file",
     "\\.(css|less)$": "<rootDir>/test/config/mock-style",
-    "__FALLBACK__(.*).(js|vue|ts)$": "<rootDir>/@factor/app/$1",
+    "__FIND__(.*).(js|vue|ts)$": "<rootDir>/@factor/app/$1",
     "__CWD__/(.*)$": "<rootDir>/test/modules/alias/$1",
     "__SRC__/(.*)$": "<rootDir>/test/modules/alias/$1"
   },

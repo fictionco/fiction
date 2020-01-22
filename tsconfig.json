@@ -21,7 +21,7 @@
     "paths": {
       "__CWD__/*": ["test/modules/alias/*"],
       "__SRC__/*": ["test/modules/alias/*"],
-      "__FALLBACK__/*": ["test/modules/alias/*"]
+      "__FIND__/*": ["test/modules/alias/*"]
     },
     "typeRoots": ["node_modules/@types", "**/types", "**/@types"]
   },

@@ -2,7 +2,7 @@ import { Component } from "vue"
 import { setting } from "@factor/api"
 export default {
   contactForm: {
-    email: (): Promise<Component> => setting("app.email"),
+    email: setting("app.email"),
     form: (): Promise<Component> => import("./contact-form.vue"),
     submit: {
       btn: "app-btn factor-btn primary",

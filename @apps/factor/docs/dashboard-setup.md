@@ -38,12 +38,12 @@ TOKEN_SECRET="SOME-LONG-TEXT-12345"
 
 ### Assigning Roles
 
-Factor includes a user role system controlled via your `factor-config.json` file.
+Factor includes a user role system controlled via your `factor-settings.js` file.
 
 To add your first admin users, just add the email of the user you'd like to assign a role along with the role.
 
 ```json
-// factor-config.json
+// factor-settings.js
 {
   "config": {
     "roles": {

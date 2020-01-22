@@ -49,7 +49,7 @@ export const setup = (): void => {
         meta: { nav: true }
       },
       {
-        path: setting("work.indexRoute"),
+        path: setting("work.indexRoute") ?? "/",
         component: setting("work.components.workWrap"),
         children: [
           {

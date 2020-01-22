@@ -27,7 +27,7 @@ addFilter({
         ? dirname(require.resolve(themes[0].name))
         : getPath("source", cwd)
 
-    return { ..._, "@theme": p }
+    return { ..._, __THEME__: p }
   }
 })
 
@@ -45,9 +45,8 @@ export const overrideOperator = (
   resource: WebpackResource,
   cwd?: string
 ): WebpackResource => {
-  const inApp = _fileExists(
-    resource.request.replace("__FALLBACK__", getPath("source", cwd))
-  )
+  const inApp = _fileExists(resource.request.replace("__FIND__", getPath("source", cwd)))
+
   let filePath = ""
   if (inApp) {
     filePath = inApp
@@ -57,7 +56,7 @@ export const overrideOperator = (
       themes.some((_: FactorExtension): boolean => {
         const themeSrc = dirname(require.resolve(_.name))
 
-        const inTheme = _fileExists(resource.request.replace("__FALLBACK__", themeSrc))
+        const inTheme = _fileExists(resource.request.replace("__FIND__", themeSrc))
 
         if (inTheme) {
           filePath = inTheme
@@ -67,12 +66,10 @@ export const overrideOperator = (
     }
 
     if (!filePath) {
-      const relPath = _fileExists(
-        resource.request.replace("__FALLBACK__", resource.context)
-      )
+      const relPath = _fileExists(resource.request.replace("__FIND__", resource.context))
 
       const fallbackPath = _fileExists(
-        resource.request.replace("__FALLBACK__", getPath("coreApp"))
+        resource.request.replace("__FIND__", getPath("coreApp"))
       )
 
       if (relPath) filePath = relPath
@@ -106,7 +103,7 @@ export const browserReplaceModule = (resource: WebpackResource): WebpackResource
 
 // This allows for overriding of files from themes
 // Notes:
-// - Uses "__FALLBACK__" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
+// - Uses "__FIND__" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
 
 addFilter({
   key: "moduleReplacePlugins",
@@ -124,7 +121,7 @@ addFilter({
 
     _.push(
       new webpack.NormalModuleReplacementPlugin(
-        /^__FALLBACK__/,
+        /^__FIND__/,
         (resource: WebpackResource) => overrideOperator(resource, cwd)
       )
     )

@@ -109,7 +109,7 @@ describe("webpack", () => {
   describe("webpack-override", () => {
     it("recognizes the override alias and uses correct override hierarchy", () => {
       const resource = overrideOperator({
-        request: "__FALLBACK__/test-files/test-image.jpg",
+        request: "__FIND__/test-files/test-image.jpg",
         context: __dirname
       })
       expect(existsSync(resource.request)).toBe(true)

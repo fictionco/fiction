@@ -36,12 +36,15 @@ export const preFetchPost = async ({
 
   const { permalink = "", _id } = request
 
+  // Dashboard route posts are not rendered on server
+  const dashboardRoute = setting("dashboard.route")
+
   // Only add to the filter if permalink is set. That way we don't show loader for no reason.
   if (
     (!permalink && !_id) ||
     (permalink && permalink == "__hot__") ||
     /\.(png|jpg|gif|svg|ico)$/.test(permalink) ||
-    route.path.includes(setting("dashboard.route"))
+    route.path.includes(dashboardRoute)
   ) {
     return
   }

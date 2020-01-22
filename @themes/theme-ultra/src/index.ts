@@ -52,7 +52,7 @@ export const setup = (): void => {
         component: (): Promise<Component> => import("./page-home.vue")
       },
       {
-        path: setting("portfolio.indexRoute"),
+        path: setting("portfolio.indexRoute") ?? "/",
         component: setting("portfolio.components.portfolioWrap"),
         children: [
           {
@@ -66,7 +66,7 @@ export const setup = (): void => {
         ]
       },
       {
-        path: setting("news.indexRoute"),
+        path: setting("news.indexRoute") ?? "/",
         component: setting("news.components.newsWrap"),
         children: [
           {

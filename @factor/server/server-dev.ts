@@ -285,7 +285,8 @@ export const developmentServer = async ({
   onReady: UpdateBundle;
   cwd: string;
 }): Promise<void> => {
-  const templatePath = resolveFilePath(setting("app.templatePath", { cwd }))
+  const rawPath = setting("app.templatePath", { cwd }) ?? ""
+  const templatePath = resolveFilePath(rawPath)
 
   if (!templatePath) {
     throw new Error("The index.html template path is not set.")

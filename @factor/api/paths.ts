@@ -88,7 +88,7 @@ export const setup = (): void => {
         ..._,
         __SRC__: getPath("source", cwd),
         __CWD__: getPath("app", cwd),
-        __FALLBACK__: getPath("app", cwd)
+        __FIND__: getPath("app", cwd)
       }
     }
   })
