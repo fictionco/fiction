@@ -3,6 +3,10 @@ import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/api/paths"
 import fs from "fs-extra"
 
+/**
+ * Checks if a file exists in a theme dependency of an app
+ * @param file - the file path (w aliases)
+ */
 const fileExistsInTheme = (file: string): string => {
   let filePath = ""
   const themes = getExtensions().filter(_ => _.extend == "theme")
@@ -21,6 +25,10 @@ const fileExistsInTheme = (file: string): string => {
   return filePath
 }
 
+/**
+ * Resolve a file path, following aliases and checking dependencies
+ * @param file - the file path (w aliases)
+ */
 export const resolveFilePath = (file: string): string => {
   const appPath = file.replace("__FIND__", getPath("source"))
 

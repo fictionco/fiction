@@ -7,30 +7,23 @@ import glob from "glob"
 import webpack, { Plugin } from "webpack"
 import { FactorExtension } from "@factor/cli/types"
 
-const getThemes = (): FactorExtension[] => {
-  return getExtensions().filter(_ => _.extend == "theme")
-}
-
 interface WebpackResource {
   [key: string]: any;
   request: string;
   context: string;
 }
 
-addFilter({
-  key: "themeAlias",
-  hook: "webpack-aliases",
-  callback: (_: Record<string, any>, { cwd }) => {
-    const themes = getThemes()
-    const p =
-      themes.length > 0
-        ? dirname(require.resolve(themes[0].name))
-        : getPath("source", cwd)
+/**
+ * Gets the theme dependencies
+ */
+const getThemes = (): FactorExtension[] => {
+  return getExtensions().filter(_ => _.extend == "theme")
+}
 
-    return { ..._, __THEME__: p }
-  }
-})
-
+/**
+ * Checks if a path exists
+ * @param path
+ */
 const _fileExists = (path: string): string => {
   if (fs.pathExistsSync(path)) {
     return path
@@ -41,7 +34,15 @@ const _fileExists = (path: string): string => {
   }
 }
 
-export const overrideOperator = (
+/**
+ * Special find file operator: __FIND__
+ * Looks in folders theme/app for the file
+ * Prevents loading errors and allows overriding
+ *
+ * @param resource - webpack resource
+ * @param cwd - the current working directory
+ */
+export const findFileOperator = (
   resource: WebpackResource,
   cwd?: string
 ): WebpackResource => {
@@ -55,6 +56,7 @@ export const overrideOperator = (
   if (inApp) {
     filePath = inApp
   } else {
+    // next let's look in any theme dependencies
     const themes = getThemes()
 
     if (themes.length > 0) {
@@ -109,10 +111,28 @@ export const browserReplaceModule = (resource: WebpackResource): WebpackResource
   return resource
 }
 
-// This allows for overriding of files from themes
-// Notes:
-// - Uses "__FIND__" as a flag to check a file, this is an alias for the theme root. The function replaces this with the app root.
+/**
+ * Add __THEME__ alias to the first theme src dir
+ */
+addFilter({
+  key: "themeAlias",
+  hook: "webpack-aliases",
+  callback: (_: Record<string, any>, { cwd }) => {
+    const themes = getThemes()
+    const p =
+      themes.length > 0
+        ? dirname(require.resolve(themes[0].name))
+        : getPath("source", cwd)
 
+    return { ..._, __THEME__: p }
+  }
+})
+
+/**
+ * Allow for overriding of files from themes
+ * @remarks
+ * - uses __FIND__
+ */
 addFilter({
   key: "moduleReplacePlugins",
   hook: "webpack-plugins",
@@ -130,7 +150,7 @@ addFilter({
     _.push(
       new webpack.NormalModuleReplacementPlugin(
         /^__FIND__/,
-        (resource: WebpackResource) => overrideOperator(resource, cwd)
+        (resource: WebpackResource) => findFileOperator(resource, cwd)
       )
     )
     _.push(
