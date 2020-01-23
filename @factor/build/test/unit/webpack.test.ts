@@ -1,5 +1,5 @@
 import { dirname, resolve } from "path"
-import { browserReplaceModule, overrideOperator } from "@factor/build/webpack-overrides"
+import { browserReplaceModule, findFileOperator } from "@factor/build/webpack-overrides"
 import { getDefinedValues, getWebpackConfig } from "@factor/build/webpack-config"
 
 import { deepMerge } from "@factor/api"
@@ -108,7 +108,7 @@ describe("webpack", () => {
   })
   describe("webpack-override", () => {
     it("recognizes the override alias and uses correct override hierarchy", () => {
-      const resource = overrideOperator({
+      const resource = findFileOperator({
         request: "__FIND__/test-files/test-image.jpg",
         context: __dirname
       })
