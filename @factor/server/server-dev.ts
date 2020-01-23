@@ -285,12 +285,13 @@ export const developmentServer = async ({
   onReady: UpdateBundle;
   cwd: string;
 }): Promise<void> => {
-  const rawPath = setting("app.templatePath", { cwd }) ?? ""
+  const rawPath = setting("app.templatePath", { cwd })
   const templatePath = resolveFilePath(rawPath)
 
   if (!templatePath) {
     throw new Error("The index.html template path is not set.")
   }
+
   const configServer = await getWebpackConfig({ cwd, target: "server", ...yargs.argv })
   const configClient = await getWebpackConfig({ cwd, target: "client", ...yargs.argv })
 

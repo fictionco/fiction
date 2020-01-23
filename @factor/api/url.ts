@@ -41,5 +41,6 @@ export const appId = (): string => {
   const appUrl = setting<string>("app.email")
     ? setting<string>("app.email")
     : setting<string>("app.url")
+
   return appUrl || "unknown"
 }
