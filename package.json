@@ -96,7 +96,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "std-env": "^2.2.1",
-    "ts-jest": "^24.2.0",
+    "ts-jest": "^24.3.0",
     "typedoc": "^0.16.2",
     "typescript": "^3.7.2",
     "vue": "^2.6.10",
