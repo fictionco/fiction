@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.1.40",
+  "version": "1.1.41",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -10,18 +10,18 @@
     "_id": "core"
   },
   "dependencies": {
-    "@factor/api": "^1.1.40",
+    "@factor/api": "^1.1.41",
     "@factor/app": "^1.1.40",
     "@factor/attachment": "^1.1.40",
     "@factor/build": "^1.1.40",
-    "@factor/cli": "^1.1.40",
+    "@factor/cli": "^1.1.41",
     "@factor/dashboard": "^1.1.40",
     "@factor/email": "^1.1.40",
     "@factor/endpoint": "^1.1.40",
     "@factor/meta": "^1.1.40",
     "@factor/plugin-ssr-bar": "^1.1.40",
     "@factor/post": "^1.1.40",
-    "@factor/server": "^1.1.40",
+    "@factor/server": "^1.1.41",
     "@factor/templates": "^1.1.40",
     "@factor/ui": "^1.1.40",
     "@factor/user": "^1.1.40",
