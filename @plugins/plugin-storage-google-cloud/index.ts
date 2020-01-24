@@ -1,5 +1,5 @@
 import { addFilter, addCallback } from "@factor/api"
-
+import Storage from "@google-cloud/storage"
 import { PostAttachment } from "@factor/attachment"
 
 /**
@@ -45,7 +45,7 @@ export const setup = (): void => {
   })
 
   addCallback({
-    key: "deleteImageS3",
+    key: "deleteImageGCS",
     hook: "delete-attachment",
     callback: async (doc: PostAttachment) => {
       // const { bucket, S3 } = getService()
