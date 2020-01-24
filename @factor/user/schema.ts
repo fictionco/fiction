@@ -86,7 +86,10 @@ export default (): FactorSchema => {
         select: false,
         type: String,
         trim: true,
-        minlength: 8
+        validate: {
+          validator: (v: string): boolean => (v.length >= 8 ? true : false),
+          message: `Password is shorter than minimum (8 characters)`
+        }
       },
       displayName: {
         type: String,

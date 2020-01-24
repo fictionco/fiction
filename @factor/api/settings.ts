@@ -39,6 +39,7 @@ const getSettings = (cwd?: string): SettingsObject => {
 
 const setSettings = (settings: object, cwd?: string): void => {
   if (!Vue.$factorSettings) Vue.$factorSettings = {}
+
   Vue.$factorSettings[settingsId(cwd)] = settings
 }
 
@@ -53,14 +54,10 @@ export const createSettings = (cwd?: string): void => {
    * - Dynamic requires only work in the server environment, as it will NOT work in webpack.
    * - The file is not required and if it doesn't exist, ignore the error
    */
-  try {
-    if (cwd) {
-      settingsExports = require(`${cwd}/.factor/loader-settings`).default
-    } else {
-      settingsExports = require(`__CWD__/.factor/loader-settings`).default
-    }
-  } catch (error) {
-    if (error.code !== "MODULE_NOT_FOUND") throw error
+  if (cwd) {
+    settingsExports = require(`${cwd}/.factor/loader-settings`).default
+  } else {
+    settingsExports = require(`__CWD__/.factor/loader-settings`).default
   }
 
   const settingsArray = applyFilters(

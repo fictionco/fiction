@@ -197,6 +197,9 @@ export const setup = (): void => {
     }
   })
 
+  /**
+   * Add email verification properties to a user post schema
+   */
   addFilter({
     key: "emailVerify",
     hook: "user-schema",

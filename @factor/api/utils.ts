@@ -101,8 +101,8 @@ export const dotSetting = ({
  *
  * @remarks
  * If two settings are arrays, then we have a special merge strategy
- * If the lower priority array has objects with _id attribute,
- * then we merge with the higher priority array if it has object w same _id
+ * If the lower priority array has objects with _item or _ attribute,
+ * then we merge with the higher priority array if it has object w same _item or _
  *
  * @param items - array of objects
  */
@@ -120,6 +120,8 @@ export const deepMerge = <T>(items: Partial<T>[]): object => {
           if (lower === null || typeof lower !== "object") {
             return false
           } else if (lower._item && higher._item && lower._item == higher._item) {
+            return true
+          } else if (lower._key && higher._key && lower._key == higher._key) {
             return true
           } else {
             return false

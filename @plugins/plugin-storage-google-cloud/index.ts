@@ -5,9 +5,9 @@ import { PostAttachment } from "@factor/attachment"
 /**
  * Gets the service handler
  */
-const getService = (): {} => {
-  return {}
-}
+// const getService = (): {} => {
+//   return {}
+// }
 
 export const setup = (): void => {
   const credentials: string[] = []

@@ -2,6 +2,11 @@ import { resolve, dirname } from "path"
 
 import moduleAlias from "module-alias"
 import { applyFilters } from "@factor/api/hooks"
+
+/**
+ * Adds node module require aliases
+ * https://www.npmjs.com/package/module-alias
+ */
 export default (): void => {
   const cwd = process.env.FACTOR_CWD ?? process.cwd()
   const primaryPackage = resolve(cwd, "package.json")

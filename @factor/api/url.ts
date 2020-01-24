@@ -5,20 +5,34 @@ import log from "@factor/api/logger"
  * Gets the localhost url based on port and protocol
  */
 export const localhostUrl = (): string => {
-  const port = process.env.PORT || 7777
+  const port = process.env.PORT || 3000
   const routine = process.env.HTTP_PROTOCOL || "http"
   return `${routine}://localhost:${port}`
 }
 
 /**
  * Gets production URL as configured
+ *
+ * @remarks
+ *
  */
 export const productionUrl = (): string => {
-  const url = setting<string>("app.url") ?? setting<string>("url") ?? false
+  let url
+
+  if (process.env.FACTOR_URL) {
+    url = process.env.FACTOR_URL
+  } else if (setting<string>("url")) {
+    url = setting<string>("url")
+  } else if (setting<string>("app.url")) {
+    url = setting<string>("app.url")
+  }
+
   if (url) {
     return url
   } else {
-    log.warn(`Production URL isn't set. Add it under 'app.url' in settings.`)
+    log.warn(
+      `Production URL is missing, without it Node won't know your url in production. Add it as package.json > factor.url or FACTOR_URL in .env`
+    )
     return "[not set]"
   }
 }

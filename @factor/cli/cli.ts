@@ -135,6 +135,10 @@ const cleanArguments = (commanderArguments: CommanderArguments): Record<string, 
   return out
 }
 
+/**
+ * Handle the CLI using Commander
+ * Set up initial Node environment
+ */
 export const setup = (): void => {
   process.noDeprecation = true
   process.maxOldSpaceSize = 8192

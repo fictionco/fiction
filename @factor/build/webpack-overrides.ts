@@ -45,18 +45,23 @@ export const overrideOperator = (
   resource: WebpackResource,
   cwd?: string
 ): WebpackResource => {
-  const inApp = _fileExists(resource.request.replace("__FIND__", getPath("source", cwd)))
+  const findAlias = "__FIND__"
+  const appSource = getPath("source", cwd)
+  const coreAppModule = getPath("coreApp")
+
+  const inApp = _fileExists(resource.request.replace(findAlias, appSource))
 
   let filePath = ""
   if (inApp) {
     filePath = inApp
   } else {
     const themes = getThemes()
+
     if (themes.length > 0) {
       themes.some((_: FactorExtension): boolean => {
-        const themeSrc = dirname(require.resolve(_.name))
+        const themeSource = dirname(require.resolve(_.name))
 
-        const inTheme = _fileExists(resource.request.replace("__FIND__", themeSrc))
+        const inTheme = _fileExists(resource.request.replace(findAlias, themeSource))
 
         if (inTheme) {
           filePath = inTheme
@@ -66,14 +71,15 @@ export const overrideOperator = (
     }
 
     if (!filePath) {
-      const relPath = _fileExists(resource.request.replace("__FIND__", resource.context))
+      const relPath = _fileExists(resource.request.replace(findAlias, resource.context))
 
-      const fallbackPath = _fileExists(
-        resource.request.replace("__FIND__", getPath("coreApp"))
-      )
+      const fallbackPath = _fileExists(resource.request.replace(findAlias, coreAppModule))
 
-      if (relPath) filePath = relPath
-      else if (fallbackPath) filePath = fallbackPath
+      if (relPath) {
+        filePath = relPath
+      } else if (fallbackPath) {
+        filePath = fallbackPath
+      }
     }
   }
 
@@ -82,8 +88,10 @@ export const overrideOperator = (
   return resource
 }
 
-// Server utils sometimes aren't compatible with webpack
-// Replace with polyfill if a
+/**
+ * Allow a browser polyfill for dual loaded modules that aren't actually browser compatible
+ * @param resource - webpack resource
+ */
 export const browserReplaceModule = (resource: WebpackResource): WebpackResource => {
   const resolvedFile = require.resolve(resource.request, { paths: [resource.context] })
   const resolvedDirectory = dirname(resolvedFile)

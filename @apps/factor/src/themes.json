@@ -1,9 +1,3 @@
 {
-  "themes": [
-    "@factor/theme-alpha",
-    "@factor/theme-ultra",
-    "@factor/theme-docs",
-    "@factor/theme-bulma",
-    "@factor/theme-standard"
-  ]
+  "themes": ["@factor/theme-alpha", "@factor/theme-ultra", "@factor/theme-zeno"]
 }

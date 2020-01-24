@@ -23,9 +23,7 @@ export const extensions = (): ExtensionRecord => {
     themes: [
       { name: "@factor/theme-alpha" },
       { name: "@factor/theme-ultra" },
-      { name: "@factor/theme-docs" },
-      { name: "@factor/theme-bulma" },
-      { name: "@factor/theme-standard" }
+      { name: "@factor/theme-zeno" }
     ]
   }
 }

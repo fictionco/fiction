@@ -26,14 +26,14 @@ const config = {
     {
       name: "author",
       type: "string",
-      message: "Your full name?",
+      message: "Admin name?",
       default: "{gitUser.name}",
       when: answers => !config.isUnitTest(answers)
     },
     {
       name: "email",
       type: "string",
-      message: "...and email?",
+      message: "Admin email?",
       default: "{gitUser.email}",
       when: answers => !config.isUnitTest(answers)
     }
@@ -60,9 +60,7 @@ const config = {
     data.db =
       "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
 
-    axios.get(
-      `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${answers.email}`
-    )
+    config.diagnostic({ email: answers.email })
 
     return data
   },
@@ -104,6 +102,15 @@ const config = {
 
     return actions
   },
+  async diagnostic({ email }) {
+    try {
+      await axios.get(
+        `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${email}`
+      )
+    } catch (error) {
+      /* silence */
+    }
+  },
   async completed() {
     this.gitInit()
 
@@ -134,7 +141,7 @@ const config = {
       )
     )
     cd()
-    console.log(`\t${this.chalk.green.bold("yarn ") + this.chalk.bold("factor dev")}\n`)
+    console.log(`\t${this.chalk.magenta.bold("yarn ") + this.chalk.bold("factor dev")}\n`)
     console.log()
     console.log(
       `   ${this.chalk.cyan.bold(`${figures.arrowRight} Factor docs:`)} ${this.chalk.bold(
