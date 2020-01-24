@@ -71,11 +71,11 @@ export const dashboardSiteMenu = (currentPath: string, menuType: string): MenuIt
       },
       {
         name: "Community",
-        path: "https://factor.dev/community"
+        path: "https://link.fiction.com/slack"
       },
       {
         name: "Support",
-        path: "https://factor.dev/support"
+        path: "https://link.fiction.com/slack"
       }
     ]
   }
