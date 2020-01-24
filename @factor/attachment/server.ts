@@ -43,6 +43,8 @@ const handleUpload = async function({
   const attachmentUrl = await applyFilters("storage-attachment-url", {
     buffer,
     key: `${attachment._id}.${mime.extension(mimetype)}`,
+    mimetype,
+    size,
     _id: attachment._id
   })
 

@@ -305,7 +305,7 @@ export const developmentServer = async ({
 
   devServer[cwd] = dev
 
-  watcherDevServer(cwd)
+  //watcherDevServer(cwd)
 
   createClientCompiler({ fileSystem, devServer: dev })
 
