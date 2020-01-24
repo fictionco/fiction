@@ -1,6 +1,9 @@
 # -- Add initial admin users by email (must be verified) - separate by a comma
 FACTOR_ADMINS="<%= email %>"
 
+# -- Add your production URL
+# FACTOR_URL="https://www.example.com"
+
 # -- MongoDB Connection URL
 <% if(db){ %>DB_CONNECTION="<%= db %>"
 <% } else { %># DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"<% } %>

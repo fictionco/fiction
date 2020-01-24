@@ -13,8 +13,6 @@ export const localhostUrl = (): string => {
 /**
  * Gets production URL as configured
  *
- * @remarks
- *
  */
 export const productionUrl = (): string => {
   let url
@@ -31,7 +29,7 @@ export const productionUrl = (): string => {
     return url
   } else {
     log.warn(
-      `Production URL is missing, without it Node won't know your url in production. Add it as package.json > factor.url or FACTOR_URL in .env`
+      `The URL setting is missing. Add your production url in package.json > factor.url or FACTOR_URL in .env`
     )
     return "[not set]"
   }
