@@ -1,6 +1,9 @@
 # -- Add initial admin users by email (must be verified) - separate by a comma
 FACTOR_ADMINS="<%= email %>"
 
+# -- Node.js server port binding
+PORT=3000
+
 # -- MongoDB Connection URL
 <% if(db){ %>DB_CONNECTION="<%= db %>"
 <% } else { %># DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"<% } %>
@@ -14,4 +17,4 @@ TOKEN_SECRET="RANDOM-STRING-<%= randomString %>"
 # SMTP_USERNAME="<SMTP USERNAME - ANY SMTP PROVIDER>"
 # SMTP_PASSWORD="<SMTP PASSWORD - ANY SMTP PROVIDER>"
 # SMTP_HOST="<SMTP HOST - ANY SMTP PROVIDER>"
-
+# SMTP_PORT="<SMTP PORT - ANY SMTP PROVIDER>"
