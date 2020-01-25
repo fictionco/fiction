@@ -65,9 +65,17 @@ export const setup = (): void => {
 
       if (!storage || !bucketName) return
 
-      await storage.bucket(bucketName).upload(key)
+      const bucket = storage.bucket(bucketName)
 
-      const url = ""
+      // https://googleapis.dev/nodejs/storage/latest/File.html#save
+      const file = bucket.file(key)
+
+      await new Promise(resolve => {
+        file.save(buffer, () => resolve())
+      })
+
+      // https://stackoverflow.com/a/20479113/1858322
+      const url = `http://storage.googleapis.com/${bucketName}/${key}`
 
       return url
     }
