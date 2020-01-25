@@ -11,8 +11,10 @@ import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 import yargs from "yargs"
 import { getWebpackConfig } from "@factor/build/webpack-config"
+import { getFactorDirectories } from "@factor/cli/extension-loader"
+import { getPath } from "@factor/api/paths"
+import chokidar from "chokidar"
 
-import { watcher } from "./watcher"
 import { RendererComponents } from "./types"
 
 interface UpdateBundle {
@@ -41,6 +43,8 @@ interface DevServerComponents {
   updateReason?: string;
   configServer: Configuration;
   configClient: Configuration;
+  isBuilding?: PromiseLike<void> | undefined;
+  isBuildingResolve?: any;
 }
 
 export interface DevCompilerOptions {
@@ -48,6 +52,9 @@ export interface DevCompilerOptions {
   devServer: DevServerComponents;
 }
 
+/**
+ * If server bundles are changed, let the server renderer know
+ */
 const updateBundles = ({
   cwd,
   title = "",
@@ -96,6 +103,10 @@ const loaders = ({
 
   if (states.length == 2) {
     if (states.every(_ => _ == "start") && !devServer.updateSpinner) {
+      devServer.isBuilding = new Promise(resolve => {
+        devServer.isBuildingResolve = resolve
+      })
+
       devServer.updateSpinner = ora("building").start()
       devServer.updateLoaders = {
         client: { status: "loading" },
@@ -114,6 +125,7 @@ const loaders = ({
       devServer.updateSpinner.succeed(
         ` built` + chalk.dim(` in ${seconds}s ${devServer.updateReason ?? ""}`)
       )
+      devServer.isBuildingResolve()
       devServer.updateSpinner = undefined
       devServer.updateLoaders = {}
       devServer.updateReason = ""
@@ -260,14 +272,30 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
  * Watch for file changes in Factor directories
  * @param cwd - working directory of app
  */
-export const watcherDevServer = (cwd: string): void => {
-  watcher(({ event, path }: { event: string; path: string }) => {
-    updateBundles({ cwd, title: event, value: path })
+export const watcherDevServer = ({
+  cwd
+}: {
+  cwd: string;
+  devServer: DevServerComponents;
+}): void => {
+  const watchDirs = getFactorDirectories().map(_ => `${_}/**`)
 
-    if (path.includes(".ts") || path.includes(".js")) {
-      runCallbacks("restart-server")
-    }
-  })
+  chokidar
+    .watch([`${getPath("source")}/**`, ...watchDirs], {
+      ignoreInitial: true,
+      ignored: `**/+(node_modules|test)/**`
+    })
+    .on("all", async (event, path) => {
+      if (event == "change") {
+        setTimeout(() => {
+          updateBundles({ cwd, title: event, value: path })
+
+          if (path.includes(".ts") || path.includes(".js")) {
+            runCallbacks("restart-server")
+          }
+        }, 1500)
+      }
+    })
 }
 
 /**
@@ -305,7 +333,7 @@ export const developmentServer = async ({
 
   devServer[cwd] = dev
 
-  //watcherDevServer(cwd)
+  watcherDevServer({ cwd, devServer: dev })
 
   createClientCompiler({ fileSystem, devServer: dev })
 
