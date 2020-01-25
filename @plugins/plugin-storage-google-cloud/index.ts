@@ -14,8 +14,8 @@ import { PostAttachment } from "@factor/attachment"
  * which can be set to the raw JSON string
  */
 const getService = (): { storage: Storage | undefined } => {
-  const rawCredentialPath = process.env.GOOGLE_APPLICATION_CREDENTIALS ?? false
-  const rawCredentialJSON = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON ?? false
+  const rawCredentialPath = process.env.GOOGLE_APPLICATION_CREDENTIALS
+  const rawCredentialJSON = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON
 
   let storage
   let credentials
