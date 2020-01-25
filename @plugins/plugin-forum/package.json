@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-forum",
   "description": "Factor forum is a powerful forum solution for your factor app. This plugin comes with essential elements to run an efficient and professional community.",
-  "version": "1.1.40",
+  "version": "1.1.42",
   "license": "GPL-2.0",
   "factor": {
     "load": [
@@ -11,7 +11,7 @@
     "title": "Forum"
   },
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.1.40"
+    "@factor/plugin-highlight-code": "^1.1.42"
   },
   "publishConfig": {
     "access": "public"
