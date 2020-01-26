@@ -2,7 +2,7 @@
   "name": "@factor/plugin-bugsnag",
   "description": "This plugin implements Bugsnag in your Factor app.",
   "author": "andrew@fiction.com",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
