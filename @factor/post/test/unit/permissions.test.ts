@@ -4,10 +4,13 @@ jest.mock("../../database")
 
 describe("post permissions", () => {
   it("allows regular posts to be read if published", async () => {
-    const mock = jest.spyOn(db, "getModel")
+    /**
+     * Mongoose has some gnarly type handling which jest handles as generics
+     * impossible to duplicate, so we bail with <any>
+     */
+    const mock = jest.spyOn<any, "getModel">(db, "getModel")
 
     mock.mockReturnValueOnce({
-      // @ts-ignore
       findById: async () => ({ foo: "bar" })
     })
 
@@ -22,7 +25,6 @@ describe("post permissions", () => {
     expect(e.message).toContain("Insufficient permissions")
 
     mock.mockReturnValueOnce({
-      // @ts-ignore
       findById: async () => ({ foo: "bar", status: "published" })
     })
 

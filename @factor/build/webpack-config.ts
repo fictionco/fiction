@@ -88,7 +88,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
      * this reduces http overhead
      */
     new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 40000 // Minimum number of characters
+      minChunkSize: 50000 // Minimum number of characters
     }),
     /**
      * Custom error handling
