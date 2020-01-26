@@ -3,10 +3,20 @@ import { Schema, Document } from "mongoose"
 import { setting } from "@factor/api/settings"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost } from "./types"
+
+/**
+ * Base post schema
+ * This schema is inherited and extended by all other post types
+ */
 export default (): FactorSchema => {
   return {
     name: "post",
     options: { timestamps: true },
+
+    /**
+     * This handles the permissions for different types of CRUD operations on the
+     * default post type. These can be changed by extending post types
+     */
     permissions: {
       create: { accessLevel: 300 },
       retrieve: {
@@ -22,25 +32,41 @@ export default (): FactorSchema => {
       update: { accessLevel: 100, author: true },
       delete: { accessLevel: 300, author: true }
     },
+    /**
+     * populatedFields are how Factor knows which fields should be populated
+     * by other posts. (This is equivalent to a join in SQL speak.)
+     *
+     * in the schema, you'll see that only a reference objectId or array of ObjectIds is stored
+     * for the populated field
+     *
+     * depth is used by queries to determine the level of population needed.
+     * For example, for listing many posts, you might need only a depth of 5
+     * but for viewing an individual post you'd want a depth of 30
+     */
     populatedFields: applyFilters("post-populated-fields", [
       { field: "author", depth: 10 },
       { field: "images", depth: 10 },
       { field: "avatar", depth: 3 }
     ]),
     schema: applyFilters("post-schema", {
-      date: Date,
       postType: { type: String, index: true, sparse: true },
-      // Used to distinguish which app created a post in multi-app databases
-      source: { type: String, trim: true, default: setting("package.name") },
+      date: Date,
+
       title: { type: String, trim: true },
-      subTitle: { type: String, trim: true }, // @deprecated
+      // subTitle is @deprecated in 1.1
+      subTitle: { type: String, trim: true },
       synopsis: { type: String, trim: true },
       content: { type: String, trim: true },
+      // populated field
       author: [{ type: objectIdType(), ref: "user" }],
+      // populated field
       images: [{ type: objectIdType(), ref: "attachment" }],
+      // populated field
       avatar: { type: objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
       category: { type: [String], index: true },
+      // Source Key - Used to distinguish which app created a post in multi-app databases
+      source: { type: String, trim: true, default: setting("package.name") },
       revisions: [Object],
       settings: {},
       // Vanilla global schema for of items like comments, emails
@@ -67,13 +93,17 @@ export default (): FactorSchema => {
           return /^[\d-a-z]+$/.test(v)
         },
         message: (props: { value: string }): string =>
-          `${props.value} is not URL compatible.`
+          `permalink ${props.value} is not URL compatible.`
       }
     }),
     callback: (postSchema: Schema): void => {
-      // Add text search index
+      /**
+       * Add index to allow full-text search
+       */
       postSchema.index({ title: "text", content: "text" })
+
       postSchema.pre("save", function(this: FactorPost & Document, next) {
+        // apparently mongoose can't detect change to object keys
         this.markModified("settings")
 
         if (!this.date) {

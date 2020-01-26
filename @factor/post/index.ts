@@ -4,12 +4,18 @@ import { Component } from "vue"
 import { RouteConfig, Route } from "vue-router"
 import { PostEditComponent } from "./types"
 
+/**
+ * the 'edit post' link component
+ */
 export const factorPostEdit = (): Promise<Component> => import("./el/edit-link.vue")
 
 export const addPostEditComponent = (item: PostEditComponent): void => {
   pushToFilter({ hook: "post-edit-components", key: item.name, item })
 }
 
+/**
+ * Add standard dashboard routes for post management
+ */
 addFilter({
   key: "dashboardRoutes",
   hook: "dashboard-routes",

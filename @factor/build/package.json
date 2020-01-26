@@ -1,7 +1,7 @@
 {
   "name": "@factor/build",
   "description": "Bundle",
-  "version": "1.1.40",
+  "version": "1.2.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -56,7 +56,7 @@
     "vue-server-renderer": "^2.6.8",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.8",
-    "webpack": "^4.29.6",
+    "webpack": "^4.41.5",
     "webpack-bundle-analyzer": "^3.1.0",
     "webpack-deep-scope-plugin": "^1.6.2",
     "webpack-merge": "^4.2.1",

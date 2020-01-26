@@ -93,7 +93,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
   const out = {
     output: {
       path: getPath("dist", cwd),
-      filename: "js/[name].[hash:5].js"
+      filename: "js/[name].[contenthash:5].js"
     },
     resolve: {
       extensions: [".js", ".vue", ".json", ".ts"],
@@ -108,7 +108,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
             test: /\.(png|jpg|gif|svg|mov|mp4)$/,
             loader: "file-loader",
             // esModule option introduced in v5, but breaks markdown-image-loader
-            options: { name: "[name]-[hash:5].[ext]", esModule: false }
+            options: { name: "[name]-[contenthash:5].[ext]", esModule: false }
           },
           { test: /\.css/, use: cssLoaders({ target, lang: "css", cwd }) },
           { test: /\.less/, use: cssLoaders({ target, lang: "less", cwd }) },
@@ -141,7 +141,8 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
     optimization: {
       sideEffects: true,
       usedExports: true
-    }
+    },
+    node: {}
   }
 
   // Allow for ignoring of files that should not be packaged for client
@@ -176,8 +177,8 @@ const production = (): Configuration => {
     output: { publicPath: "/" },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "css/[name]-[hash:5].css",
-        chunkFilename: "css/[name]-[hash:5].css"
+        filename: "css/[name]-[contenthash:5].css",
+        chunkFilename: "css/[name]-[contenthash:5].css"
       })
     ],
     performance: { hints: "warning" },

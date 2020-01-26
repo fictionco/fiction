@@ -62,6 +62,8 @@ const runTasks = async (t: TaskConfig[], opts = {}): Promise<void> => {
 export const verifyDependencies = async (options: CommandOptions): Promise<void> => {
   const loaderOptions = options.clean ? ["--clean"] : []
 
+  log.log()
+
   await runTasks(
     [
       { command: "yarn", args: ["install"], title: "Verify Dependencies" },
@@ -73,4 +75,6 @@ export const verifyDependencies = async (options: CommandOptions): Promise<void>
     ],
     { exitOnError: true }
   )
+
+  log.log()
 }

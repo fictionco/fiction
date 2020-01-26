@@ -14,6 +14,14 @@ yarn add @factor/plugin-storage-google-cloud
 
 ```git
 # .env / private keys and info
+
+GOOGLE_APPLICATION_CREDENTIALS=path/to/credentials.json
+# OR
+GOOGLE_APPLICATION_CREDENTIALS_JSON={raw:"json"}
+
+GOOGLE_CLOUD_STORAGE_BUCKET=bucket-name
+
+# REF - https://github.com/motdotla/dotenv
 ```
 
 > After installation, run `yarn factor setup` for an easy to way to configure this plugin

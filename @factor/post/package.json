@@ -1,6 +1,6 @@
 {
   "name": "@factor/post",
-  "version": "1.1.40",
+  "version": "1.2.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -31,6 +31,7 @@
     "mongoose": "^5.6.0",
     "mongoose-beautiful-unique-validation": "^7.1.1",
     "object-hash": "^2.0.0",
+    "ora": "^4.0.3",
     "scriptjs": "^2.5.9",
     "vue-client-only": "^2.0.0"
   },

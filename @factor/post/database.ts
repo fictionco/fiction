@@ -4,8 +4,8 @@ import { writeConfig } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
 import inquirer from "inquirer"
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
+import ora from "ora"
 import { FactorSchema, FactorPost } from "./types"
-
 import { getAddedSchemas, getBaseSchema } from "./util"
 
 type FactorPostDocument = FactorPost & Document
@@ -51,7 +51,11 @@ export const dbDisconnect = async (): Promise<void> => {
  * @param error - the thrown error
  */
 const dbHandleError = (error: Error & { code?: string }): void => {
-  if (error.code === "ECONNREFUSED" || error.code === "ENODATA") {
+  if (
+    error.code === "ECONNREFUSED" ||
+    error.code === "ENODATA" ||
+    error.code === "ETIMEOUT"
+  ) {
     __offline = true
     log.warn(`Couldn't connect to the database. Serving in offline mode. [${error.code}]`)
   } else if (
@@ -71,7 +75,11 @@ const dbHandleError = (error: Error & { code?: string }): void => {
  * Connect to database using a MongoDb "connection string"
  */
 export const dbConnect = async (): Promise<mongoose.Connection | void> => {
+  if (__offline) {
+    return
+  }
   if (!isConnected() && process.env.DB_CONNECTION) {
+    const connecting = ora("connecting database").start()
     try {
       let connectionString = process.env.DB_CONNECTION
 
@@ -86,9 +94,12 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
 
       __offline = false
 
+      connecting.succeed(`database connected`)
+
       return result.connection
     } catch (error) {
       dbHandleError(error)
+      connecting.succeed(`database ${__offline ? "offline" : "connected"}`)
       return
     }
   } else {
@@ -137,14 +148,20 @@ export const getModel = <T>(name: string): Model<(T & Document) & FactorPostDocu
   return __models[name]
 }
 
+/**
+ * Make any upgrade changes to the indexes or fields
+ */
 const runDbUpgrades = async (): Promise<void> => {
-  // Create missing indexes
   if (!__offline) {
+    /**
+     * Create missing indexes
+     */
     const _promises = Object.values(__models).map(m => m.createIndexes())
 
-    // version 1.1
-    // upgrade fields
-    // Rename subTitle to synopsis
+    /**
+     * version 1.1
+     * Rename subTitle to synopsis
+     */
     await getModel("post").update(
       {},
       { $rename: { subTitle: "synopsis" } },
@@ -157,6 +174,9 @@ const runDbUpgrades = async (): Promise<void> => {
   return
 }
 
+/**
+ * Get schemas and create Mongoose models
+ */
 const initializeModels = (): void => {
   __schemas = {}
   __models = {}
@@ -170,10 +190,15 @@ const initializeModels = (): void => {
   sch.filter(s => s.name != "post").forEach(s => setModel(s, baseModel))
 }
 
+/**
+ * Initialize the database and run any upgrades
+ */
 export const dbInitialize = async (): Promise<void> => {
   await dbConnect()
 
-  if (process.env.FACTOR_DEBUG == "yes") mongoose.set("debug", true)
+  if (process.env.FACTOR_DEBUG == "yes") {
+    mongoose.set("debug", true)
+  }
 
   mongoose.plugin(mongooseBeautifulUniqueValidation, {
     defaultMessage: "{PATH}: '{VALUE}' is already being used."
@@ -184,6 +209,10 @@ export const dbInitialize = async (): Promise<void> => {
   await runDbUpgrades()
 }
 
+/**
+ * Remove all persistent objects in Mongoose
+ * To allow for smooth server restart
+ */
 export const tearDown = (): void => {
   Object.keys(mongoose.models).forEach(m => {
     mongoose.connection.deleteModel(m)
@@ -240,6 +269,9 @@ export const dbSetupUtility = (): void => {
 }
 
 export const setup = (): void => {
+  /**
+   * Clear DB info on server restart
+   */
   addCallback({
     key: "teardownDb",
     hook: "rebuild-server-app",
