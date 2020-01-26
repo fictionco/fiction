@@ -197,6 +197,13 @@ export const postPermission = ({
   }
 }
 
+/**
+ * Returns a 'query condition' object that can be added to a mongoose query
+ * The condition is based on the user's ability to edit the posts they are trying to change
+ * @param bearer - the user making the query
+ * @param action - the CRUD action type
+ * @param postType - the post type they are changing
+ */
 export const canUpdatePostsCondition = ({
   bearer,
   action,
