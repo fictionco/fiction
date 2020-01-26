@@ -1,7 +1,12 @@
 import { getSinglePost, savePost } from "@factor/post/server"
 import * as db from "@factor/post/database"
 import { FactorPost } from "@factor/post/types"
-const mock = jest.spyOn(db, "getModel")
+
+/**
+ * Mongoose has some gnarly type handling which jest handles as generics
+ * impossible to duplicate, so we bail with <any>
+ */
+const mock = jest.spyOn<any, "getModel">(db, "getModel")
 
 describe("page templates", () => {
   it.todo("renders page templates correctly")
@@ -13,7 +18,6 @@ describe("page template permissions", () => {
   it("prevents viewing of drafts to non-moderators", async () => {
     let post: FactorPost | void
     mock.mockReturnValueOnce({
-      // @ts-ignore
       findById: async () => ({ page: "data" })
     })
 
@@ -31,7 +35,6 @@ describe("page template permissions", () => {
 
   it("Allows view of published pages", async () => {
     mock.mockReturnValueOnce({
-      // @ts-ignore
       findById: async () => ({ page: "data", status: "published" })
     })
 

@@ -1,6 +1,5 @@
 import execa from "execa"
 import listr, { ListrContext, ListrTaskWrapper } from "listr"
-
 import { log } from "@factor/api"
 import { CommandOptions } from "./types"
 

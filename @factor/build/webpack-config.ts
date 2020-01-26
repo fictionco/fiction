@@ -68,18 +68,36 @@ export const getDefinedValues = (_arguments: FactorWebpackOptions): object => {
   )
 }
 
+/**
+ * The base webpack config for all environments
+ * @param _arguments - webpack options
+ */
 const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> => {
   const { target, cwd } = _arguments
   const plugins = [
+    /**
+     * For loading vue components
+     */
     new VueLoaderPlugin(),
+    /**
+     * Define constants, transfer values from node
+     */
     new webpack.DefinePlugin(getDefinedValues(_arguments)),
+    /**
+     * Limit the minimum size of JS files generated
+     * this reduces http overhead
+     */
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 50000 // Minimum number of characters
+    }),
+    /**
+     * Custom error handling
+     */
     function(this: Compiler): void {
       this.plugin("done", function(stats: Stats) {
         const { errors } = stats.compilation
         if (errors && errors.length > 0) {
-          errors.forEach(e => {
-            log.error(e)
-          })
+          errors.forEach(e => log.error(e))
         }
       })
     }
@@ -93,7 +111,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
   const out = {
     output: {
       path: getPath("dist", cwd),
-      filename: "js/[name].[contenthash:5].js"
+      filename: "js/[name].[contenthash:8].js"
     },
     resolve: {
       extensions: [".js", ".vue", ".json", ".ts"],
@@ -108,7 +126,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
             test: /\.(png|jpg|gif|svg|mov|mp4)$/,
             loader: "file-loader",
             // esModule option introduced in v5, but breaks markdown-image-loader
-            options: { name: "[name]-[contenthash:5].[ext]", esModule: false }
+            options: { name: "[name]-[contenthash:8].[ext]", esModule: false }
           },
           { test: /\.css/, use: cssLoaders({ target, lang: "css", cwd }) },
           { test: /\.less/, use: cssLoaders({ target, lang: "less", cwd }) },
@@ -131,21 +149,25 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
         ],
         _arguments
       ),
-      // https://github.com/webpack/webpack/issues/198#issuecomment-37306725
-      // Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
-
+      /**
+       *  Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
+       *  https://github.com/webpack/webpack/issues/198#issuecomment-37306725
+       */
       unknownContextCritical: false
     },
     plugins,
     stats: { children: false },
-    optimization: {
-      sideEffects: true,
-      usedExports: true
-    },
+    optimization: {},
+    /**
+     * Don't warn about file sizes
+     */
+    performance: { hints: false as const },
     node: {}
   }
 
-  // Allow for ignoring of files that should not be packaged for client
+  /**
+   * Allow for ignoring of files that should not be packaged for client
+   */
   const ignoreMods = applyFilters("webpack-ignore-modules", [], _arguments)
 
   if (ignoreMods.length > 0) {
@@ -165,7 +187,9 @@ const development = (cwd?: string): Configuration => {
   return {
     mode: "development",
     output: { publicPath },
-    performance: { hints: false } // Warns about large dev file sizes,
+    optimization: {
+      namedChunks: true
+    }
   }
 }
 /**
@@ -177,11 +201,10 @@ const production = (): Configuration => {
     output: { publicPath: "/" },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "css/[name]-[contenthash:5].css",
-        chunkFilename: "css/[name]-[contenthash:5].css"
+        filename: "css/[name]-[contenthash:8].css",
+        chunkFilename: "css/[name]-[contenthash:8].css"
       })
     ],
-    performance: { hints: "warning" },
     optimization: {
       minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})]
     }
