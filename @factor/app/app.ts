@@ -20,7 +20,7 @@ export const createApp = async ({
   url = "/"
 }: {
   url?: string;
-}): Promise<ApplicationComponents> => {
+} = {}): Promise<ApplicationComponents> => {
   process.env.FACTOR_TARGET = "app"
 
   await extendApp()
