@@ -16,7 +16,11 @@ import { ApplicationComponents } from "./types"
  * Expose a factory function that creates a fresh set of store, router,
  * app instances on each call (which is called for each SSR request)
  */
-export const createApp = async (): Promise<ApplicationComponents> => {
+export const createApp = async ({
+  url = "/"
+}: {
+  url?: string;
+}): Promise<ApplicationComponents> => {
   process.env.FACTOR_TARGET = "app"
 
   await extendApp()
@@ -32,7 +36,8 @@ export const createApp = async (): Promise<ApplicationComponents> => {
   /**
    * The global site component that wraps everything
    */
-  const factorSite = setting("app.components.site")
+
+  const site = setting("app.components.site")
 
   const vm = new Vue({
     mounted(): void {
@@ -42,7 +47,7 @@ export const createApp = async (): Promise<ApplicationComponents> => {
        */
       setTimeout(() => emitEvent("app-mounted"), 0)
     },
-    render: (h: CreateElement): VNode => h(factorSite),
+    render: (h: CreateElement): VNode => h(site),
     router,
     store
   })
@@ -52,5 +57,5 @@ export const createApp = async (): Promise<ApplicationComponents> => {
    * we are not mounting the app here, since bootstrapping will be
    * different depending on whether we are in a browser or on the server.
    */
-  return { vm, router, store, context: {} }
+  return { vm, router, store, context: { url } }
 }

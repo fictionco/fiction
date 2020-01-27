@@ -4,7 +4,7 @@ import { createApp } from "./app"
 const hmr = module?.hot || false
 
 const startClient = async (): Promise<void> => {
-  const { vm, router, store } = await createApp()
+  const { vm, router, store } = await createApp({ url: window.location.pathname })
 
   /**
    * Add to <window> for external use
