@@ -2,10 +2,13 @@
   "name": "@factor/api",
   "factor": {
     "_id": "api",
-    "load": [
-      "app",
-      "server"
-    ],
+    "load": {
+      "app": "index",
+      "server": [
+        "index",
+        "server"
+      ]
+    },
     "priority": 30
   },
   "version": "1.2.1",

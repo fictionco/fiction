@@ -19,21 +19,21 @@ const config = {
     },
     {
       name: "description",
-      message: "Basic description?",
+      message: "... and a quick description?",
       default: `My ${superb.random()} Factor project`,
       when: answers => !config.isUnitTest(answers)
     },
     {
       name: "author",
       type: "string",
-      message: "Admin name?",
+      message: "Admin user's name?",
       default: "{gitUser.name}",
       when: answers => !config.isUnitTest(answers)
     },
     {
       name: "email",
       type: "string",
-      message: "Admin email?",
+      message: "... and email?",
       default: "{gitUser.email}",
       when: answers => !config.isUnitTest(answers)
     }
@@ -137,7 +137,7 @@ const config = {
     console.log()
     console.log(
       this.chalk.bold(
-        `  ${figures.tick} Well, that was fast! Now just start your dev server:\n`
+        `  ${figures.tick} Well, that was fast! Now start your dev server:\n`
       )
     )
     cd()

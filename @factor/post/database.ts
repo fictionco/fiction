@@ -230,16 +230,26 @@ export const dbSetupUtility = (): void => {
       hook: "setup-needed",
       item: {
         title: "DB Connection",
-        value: "Needed for auth, users, posts, dashboard, etc...",
-        location: ".env / DB_CONNECTION"
+        value:
+          "There is no DB connection URL set. This is needed for dashboard and auth.",
+        file: ".env",
+        name: "DB_CONNECTION"
       }
     })
 
     return
   } else if (process.env.DB_CONNECTION.includes("demo")) {
-    log.warn(
-      "Looks like you are using the demo DB (resets every 30 minutes). Change it to your own connection in .env"
-    )
+    pushToFilter({
+      key: "dbDemo",
+      hook: "setup-needed",
+      item: {
+        title: "Using Demo DB",
+        value:
+          "You are using the demo DB (resets every 30 minutes). Change it to your own connection in .env",
+        file: ".env",
+        name: "DB_CONNECTION"
+      }
+    })
   }
 
   pushToFilter({

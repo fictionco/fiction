@@ -122,8 +122,8 @@ addCallback({
     const setupNeeded = applyFilters("setup-needed", [])
 
     if (setupNeeded.length > 0) {
-      const lines = setupNeeded.map((_: { title: string }) => {
-        return { title: _.title, value: "", indent: true }
+      const lines = setupNeeded.map((_: { title: string; value: string }) => {
+        return { title: _.title, value: _.value, indent: true }
       })
       if (process.env.FACTOR_COMMAND !== "setup") {
         lines.push({ title: "Run 'yarn factor setup'", value: "", indent: false })
@@ -197,7 +197,7 @@ export const writeConfig = async (
   console.log()
   if (answers.writeFiles) {
     writeFiles(file, values)
-    log.success(`Wrote to ${file}...\n\n`)
+    log.success(`Wrote to ${fileName}...\n\n`)
   } else {
     log.log(`Writing skipped.`)
   }

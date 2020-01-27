@@ -26,7 +26,9 @@ export const setup = (): void => {
         return [
           ...__,
           {
-            title: "Plugin: S3 Storage Credentials"
+            title: "Plugin: S3 Storage Credentials",
+            file: ".env",
+            name: "AWS_ACCESS_KEY"
           }
         ]
       }

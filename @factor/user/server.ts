@@ -73,9 +73,11 @@ export const setup = (): void => {
       key: "jwt",
       hook: "setup-needed",
       item: {
-        title: "JWT Secret",
-        value: "A JWT string secret, used for verifying authentication status.",
-        location: ".env/TOKEN_SECRET"
+        title: "Token Secret",
+        value:
+          "A random JWT token secret is needed to encode user authentication information.",
+        file: ".env",
+        name: "TOKEN_SECRET"
       }
     })
   }

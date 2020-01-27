@@ -58,7 +58,9 @@ export const setup = (): void => {
         return [
           ...__,
           {
-            title: "Plugin: Google Cloud Storage"
+            title: "Plugin: Google Cloud Storage",
+            file: ".env",
+            name: "GOOGLE_APPLICATION_CREDENTIALS"
           }
         ]
       }
