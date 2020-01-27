@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-google-tag-manager",
   "description": "This plugin adds Google Tag Manager to your Factor app.",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
