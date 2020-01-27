@@ -281,11 +281,10 @@ export const setup = (): void => {
     addCallback({ key: "db", hook: "close-server", callback: () => dbDisconnect() })
   }
 
-  addCallback({
-    key: "dbSetup",
-    hook: "initialize-server",
-    callback: () => dbSetupUtility()
-  })
+  /**
+   * Add DB Setup CLI
+   */
+  dbSetupUtility()
 }
 
 setup()

@@ -15,10 +15,11 @@ export const setup = (): void => {
       key: "appUrl",
       hook: "setup-needed",
       item: {
-        title: "Production URL",
+        title: "Production Url",
         value:
           "The production URL setting is missing. This is needed for email and other tools",
-        location: ".env / FACTOR_URL"
+        file: ".env",
+        name: "FACTOR_URL"
       }
     })
 
@@ -27,7 +28,7 @@ export const setup = (): void => {
       hook: "cli-add-setup",
       item: () => {
         return {
-          name: "Set Production URL",
+          name: "Production Url - Setup",
           value: "url",
           callback: async (): Promise<void> => {
             const questions = [

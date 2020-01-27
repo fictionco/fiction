@@ -25,7 +25,7 @@ export const setup = (): void => {
     hook: "cli-add-setup",
     callback: (_: SetupCliConfig[]) => {
       const setupItem = {
-        name: "Email Setup - Transactional Email SMTP Info",
+        name: "Email SMTP - Setup",
         value: "email",
         callback: async (): Promise<void> => {
           const questions = [

@@ -222,8 +222,10 @@ export const tearDown = (): void => {
   })
 }
 
+/**
+ * Adds notifications and tools for setting up the basic DB connection
+ */
 export const dbSetupUtility = (): void => {
-  // ADD CLI
   if (!process.env.DB_CONNECTION) {
     pushToFilter({
       key: "dbConnection",
@@ -236,8 +238,6 @@ export const dbSetupUtility = (): void => {
         name: "DB_CONNECTION"
       }
     })
-
-    return
   } else if (process.env.DB_CONNECTION.includes("demo")) {
     pushToFilter({
       key: "dbDemo",
@@ -253,11 +253,11 @@ export const dbSetupUtility = (): void => {
   }
 
   pushToFilter({
-    key: "dbConnection",
+    key: "dbConnectionSetup",
     hook: "cli-add-setup",
     item: () => {
       return {
-        name: "DB Connection - Add/edit the connection string for MongoDB",
+        name: "DB Connection - Add/edit the database connection",
         value: "db",
         callback: async (): Promise<void> => {
           const questions = [
