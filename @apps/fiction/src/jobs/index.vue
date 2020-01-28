@@ -242,9 +242,14 @@ export default Vue.extend({
           }
           @media (max-width: 767px) {
             grid-template-columns: 1fr;
-            padding-bottom: 0;
             margin-bottom: 0;
+            padding: 1.5rem 0;
           }
+        }
+      }
+      .pagination {
+        @media (max-width: 767px) {
+          margin-top: 1.5em;
         }
       }
       .posts-not-found,
@@ -258,6 +263,9 @@ export default Vue.extend({
           font-size: 1.4em;
           font-weight: 600;
         }
+      }
+      @media (max-width: 767px) {
+        padding: 0;
       }
     }
   }
