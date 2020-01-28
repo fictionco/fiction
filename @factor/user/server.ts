@@ -22,8 +22,7 @@ export const authenticate = async (
   params: AuthenticationParameters
 ): Promise<FactorUserCredential | undefined> => {
   if (dbIsOffline()) {
-    log.warn(`Can't authenticate user, DB is offline.`)
-    return
+    throw new Error(`Can't authenticate user, DB is offline.`)
   }
 
   const { newAccount, email, password, displayName } = params
