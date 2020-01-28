@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-storage-google-cloud",
   "description": "This plugin configures Factor to use Google Cloud Services for image storage.",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "license": "GPL-2.0",
   "factor": {
     "load": [

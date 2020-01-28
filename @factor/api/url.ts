@@ -1,5 +1,4 @@
 import { setting } from "@factor/api/settings"
-import log from "@factor/api/logger"
 
 /**
  * Gets the localhost url based on port and protocol
@@ -28,10 +27,7 @@ export const productionUrl = (): string => {
   if (url) {
     return url
   } else {
-    log.warn(
-      `The URL setting is missing. Add your production url in package.json > factor.url or FACTOR_URL in .env`
-    )
-    return "[not set]"
+    return ""
   }
 }
 

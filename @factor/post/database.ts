@@ -222,32 +222,42 @@ export const tearDown = (): void => {
   })
 }
 
+/**
+ * Adds notifications and tools for setting up the basic DB connection
+ */
 export const dbSetupUtility = (): void => {
-  // ADD CLI
   if (!process.env.DB_CONNECTION) {
     pushToFilter({
       key: "dbConnection",
       hook: "setup-needed",
       item: {
         title: "DB Connection",
-        value: "Needed for auth, users, posts, dashboard, etc...",
-        location: ".env / DB_CONNECTION"
+        value:
+          "There is no DB connection URL set. This is needed for dashboard and auth.",
+        file: ".env",
+        name: "DB_CONNECTION"
       }
     })
-
-    return
   } else if (process.env.DB_CONNECTION.includes("demo")) {
-    log.warn(
-      "Looks like you are using the demo DB (resets every 30 minutes). Change it to your own connection in .env"
-    )
+    pushToFilter({
+      key: "dbDemo",
+      hook: "setup-needed",
+      item: {
+        title: "Using Demo DB",
+        value:
+          "You are using the demo DB (resets every 30 minutes). Change it to your own connection in .env",
+        file: ".env",
+        name: "DB_CONNECTION"
+      }
+    })
   }
 
   pushToFilter({
-    key: "dbConnection",
+    key: "dbConnectionSetup",
     hook: "cli-add-setup",
     item: () => {
       return {
-        name: "DB Connection - Add/edit the connection string for MongoDB",
+        name: "DB Connection - Add/edit the database connection",
         value: "db",
         callback: async (): Promise<void> => {
           const questions = [

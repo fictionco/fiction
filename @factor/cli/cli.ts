@@ -73,15 +73,21 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 
   const { install, filter, command, inspect } = setup
 
-  // Make sure all package dependencies are installed and updated
+  /**
+   * Make sure all package dependencies are installed and updated
+   */
   if (install) await verifyDependencies(setup)
 
-  // Open node inspector port if 'inspect' flag is set
+  /**
+   * Open node inspector port if 'inspect' flag is set
+   */
   if (command && inspect) {
     await initializeNodeInspector()
   }
 
-  // Extend and setup Node server environment
+  /**
+   * Extend and setup Node server environment
+   */
   await factorize(setup)
 
   log.diagnostic({ event: "factorCommand", action: command })

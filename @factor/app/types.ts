@@ -9,7 +9,7 @@ export interface RouteGuard {
 }
 
 export interface ServerRenderContext {
-  url?: string;
+  url: string;
   state?: object;
   [key: string]: any;
 }

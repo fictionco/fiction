@@ -23,6 +23,10 @@ export default {
    * Global Theme Settings
    */
   site: {
+    components: {
+      header: (): Promise<Component> => import("./header.vue"),
+      footer: (): Promise<Component> => import("./footer.vue")
+    },
     logo: require("./img/logo-zeno.svg"),
     logoInverse: require("./img/logo-zeno-inverse.svg"),
     nav: [
@@ -84,7 +88,9 @@ export default {
    * Copy for the home page template.
    */
   home: {
+    component: (): Promise<Component> => import("./home/v-home.vue"),
     intro: {
+      component: (): Promise<Component> => import("./home/intro.vue"),
       title: "Welcome to Zeno, <br>SaaS Factor Theme",
       content:
         "Zeno is a minimalist theme suited for the needs of start-ups, tech businesses and SaaS companies. Styles are powered by Tailwind, a low-level CSS framework.",

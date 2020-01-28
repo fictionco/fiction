@@ -1,5 +1,5 @@
 import { getModel, dbIsOffline } from "@factor/post/database"
-import { pushToFilter, applyFilters, log } from "@factor/api"
+import { pushToFilter, applyFilters } from "@factor/api"
 import * as endpointHandler from "@factor/user/server"
 import { Model, Document } from "mongoose"
 import { addEndpoint } from "@factor/api/endpoints"
@@ -22,8 +22,7 @@ export const authenticate = async (
   params: AuthenticationParameters
 ): Promise<FactorUserCredential | undefined> => {
   if (dbIsOffline()) {
-    log.warn(`Can't authenticate user, DB is offline.`)
-    return
+    throw new Error(`Can't authenticate user, DB is offline.`)
   }
 
   const { newAccount, email, password, displayName } = params
@@ -73,9 +72,11 @@ export const setup = (): void => {
       key: "jwt",
       hook: "setup-needed",
       item: {
-        title: "JWT Secret",
-        value: "A JWT string secret, used for verifying authentication status.",
-        location: ".env/TOKEN_SECRET"
+        title: "Token Secret",
+        value:
+          "A random JWT token secret is needed to encode user authentication information.",
+        file: ".env",
+        name: "TOKEN_SECRET"
       }
     })
   }

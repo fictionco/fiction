@@ -7,7 +7,11 @@ const setupTitle = "Plugin: Bugsnag"
 
 const addFilters = (): void => {
   if (!clientApiKey) {
-    pushToFilter({ key: "bugsnag", hook: "setup-needed", item: { title: setupTitle } })
+    pushToFilter({
+      key: "bugsnag",
+      hook: "setup-needed",
+      item: { title: setupTitle, file: "package.json", name: "clientApiKey" }
+    })
 
     return
   }

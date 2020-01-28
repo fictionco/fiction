@@ -1,7 +1,7 @@
 import { addFilter, setting, addContentRoutes } from "@factor/api"
 import { Component } from "vue"
 
-if (setting("headTags") != '') {
+if (setting("headTags") != "") {
   addFilter({
     key: "addZenoFont",
     hook: "factor_head",
@@ -19,7 +19,7 @@ addContentRoutes({
   routes: [
     {
       path: "/",
-      component: (): Promise<Component> => import("./v-home.vue"),
+      component: setting("home.component"),
       meta: { nav: true }
     },
     {

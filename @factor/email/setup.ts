@@ -11,7 +11,10 @@ export const setup = (): void => {
       key,
       hook: "setup-needed",
       item: {
-        title: "SMTP Email Credentials"
+        title: "Email Credentials",
+        value: "SMTP credential information is needed to send transactional email",
+        file: ".env",
+        name: ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST", "SMTP_PORT"]
       }
     })
   }
@@ -22,7 +25,7 @@ export const setup = (): void => {
     hook: "cli-add-setup",
     callback: (_: SetupCliConfig[]) => {
       const setupItem = {
-        name: "Email Setup - Transactional Email SMTP Info",
+        name: "Email SMTP - Setup",
         value: "email",
         callback: async (): Promise<void> => {
           const questions = [
