@@ -13,8 +13,8 @@ import Vue from "vue"
 import { setting } from "@factor/api/settings"
 export default Vue.extend({
   components: {
-    "header-primary": () => import("./header.vue"),
-    "footer-primary": () => import("./footer.vue")
+    "header-primary": setting(`site.components.header`),
+    "footer-primary": setting(`site.components.footer`)
   },
   metaInfo() {
     return {

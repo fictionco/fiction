@@ -1,5 +1,5 @@
 import { getModel, dbIsOffline } from "@factor/post/database"
-import { pushToFilter, applyFilters, log } from "@factor/api"
+import { pushToFilter, applyFilters } from "@factor/api"
 import * as endpointHandler from "@factor/user/server"
 import { Model, Document } from "mongoose"
 import { addEndpoint } from "@factor/api/endpoints"

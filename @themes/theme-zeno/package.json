@@ -29,9 +29,6 @@
     "@factor/plugin-contact-form": "^1.2.2",
     "@factor/plugin-highlight-code": "^1.2.2",
     "@factor/plugin-notify": "^1.2.2",
-    "@factor/plugin-seo": "^1.2.2",
-    "@factor/plugin-sitemap": "^1.2.2",
-    "@factor/plugin-storage-s3": "^1.2.2",
     "@factor/plugin-tailwind": "^1.2.2"
   },
   "keywords": [

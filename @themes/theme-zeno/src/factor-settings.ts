@@ -23,6 +23,10 @@ export default {
    * Global Theme Settings
    */
   site: {
+    components: {
+      header: (): Promise<Component> => import("./header.vue"),
+      footer: (): Promise<Component> => import("./footer.vue")
+    },
     logo: require("./img/logo-zeno.svg"),
     logoInverse: require("./img/logo-zeno-inverse.svg"),
     nav: [
