@@ -4,11 +4,11 @@ import { addFilter, runCallbacks, setting, log } from "@factor/api"
 import { resolveFilePath } from "@factor/api/resolver"
 import chalk from "chalk"
 import MFS from "memory-fs"
-
-import ora, { Ora } from "ora"
 import webpack, { Configuration, Stats } from "webpack"
 import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
+import webpackProgressPlugin from "webpack/lib/ProgressPlugin"
+import cliProgress, { SingleBar } from "cli-progress"
 import yargs from "yargs"
 import { getWebpackConfig } from "@factor/build/webpack-config"
 import { getFactorDirectories } from "@factor/cli/extension-loader"
@@ -23,9 +23,6 @@ interface UpdateBundle {
 
 type MemorySystemType = typeof fs | MFS
 
-type BuildStatus = "start" | "done" | "loading" | ""
-type BuildInfo = { status: BuildStatus; time?: number }
-
 const devServer: Record<string, DevServerComponents> = {}
 
 interface DevServerComponents {
@@ -33,18 +30,10 @@ interface DevServerComponents {
   bundle?: string;
   clientManifest?: object;
   template?: string;
-  updateSpinner?: Ora | undefined;
-  updateLoaders?: {
-    [index: string]: BuildInfo | undefined;
-    client?: BuildInfo;
-    server?: BuildInfo;
-  };
   updateBundleCallback: UpdateBundle;
   updateReason?: string;
   configServer: Configuration;
   configClient: Configuration;
-  isBuilding?: PromiseLike<void> | undefined;
-  isBuildingResolve?: any;
 }
 
 export interface DevCompilerOptions {
@@ -76,65 +65,6 @@ const updateBundles = ({
 }
 
 /**
- * Handles the CLI loading indicator and updates the bundles when a build is complete
- */
-const loaders = ({
-  devServer,
-  target = "",
-  status = "",
-  time
-}: {
-  devServer: DevServerComponents;
-  target?: string;
-  status?: BuildStatus;
-  time?: number;
-}): void => {
-  if (!devServer.updateLoaders) {
-    devServer.updateLoaders = {}
-  }
-
-  if (target) {
-    devServer.updateLoaders[target] = { status, time }
-  }
-
-  const states: string[] = Object.values(devServer.updateLoaders).map(
-    _ => _?.status ?? ""
-  )
-
-  if (states.length == 2) {
-    if (states.every(_ => _ == "start") && !devServer.updateSpinner) {
-      devServer.isBuilding = new Promise(resolve => {
-        devServer.isBuildingResolve = resolve
-      })
-
-      devServer.updateSpinner = ora("building").start()
-      devServer.updateLoaders = {
-        client: { status: "loading" },
-        server: { status: "loading" }
-      }
-    } else if (
-      states.every(_ => _) &&
-      !states.some(_ => _ == "start" || _ == "loading") &&
-      devServer.updateSpinner
-    ) {
-      const times: number[] = Object.values(devServer.updateLoaders).map(
-        _ => _?.time ?? 0
-      )
-
-      const seconds = Math.max(...times) / 1000
-      devServer.updateSpinner.succeed(
-        ` built` + chalk.dim(` in ${seconds}s ${devServer.updateReason ?? ""}`)
-      )
-      devServer.isBuildingResolve()
-      devServer.updateSpinner = undefined
-      devServer.updateLoaders = {}
-      devServer.updateReason = ""
-      updateBundles({ cwd: devServer.cwd })
-    }
-  }
-}
-
-/**
  * The webpack compiler for the client/browser environment
  * @param fileSystem - use memory or static file system
  * @param devServer - dev server config
@@ -161,6 +91,24 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
      * Dev Middleware - which injects changed files into the webpack bundle
      */
     const clientCompiler = webpack(config)
+
+    const bar: SingleBar = new cliProgress.SingleBar(
+      {
+        hideCursor: true,
+        clearOnComplete: true,
+        format: `${chalk.cyan(`{bar}`)} {percentage}% {msg}`
+      },
+      cliProgress.Presets.shades_classic
+    )
+
+    bar.start(100, 0, { msg: "" })
+    let percent = 0
+    clientCompiler.apply(
+      new webpackProgressPlugin((ratio: number, msg: string) => {
+        percent = ratio * 100 > percent ? ratio * 100 : percent
+        bar.update(percent, { msg })
+      })
+    )
 
     let devFilesystem = {} // default
     if (fileSystem == "static") {
@@ -191,12 +139,12 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       }
     })
 
-    loaders({ devServer, target: "client", status: "start" })
-    clientCompiler.plugin("compile", () => {
-      loaders({ devServer, target: "client", status: "start" })
-    })
+    clientCompiler.plugin("compile", () => {})
+
     clientCompiler.plugin("done", (stats: Stats): void => {
-      const { errors, warnings, time } = stats.toJson()
+      const { errors, warnings } = stats.toJson()
+
+      bar.stop()
 
       // eslint-disable-next-line no-console
       errors.forEach(err => console.error(err))
@@ -213,7 +161,8 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       )
 
       devServer.clientManifest = JSON.parse(clientManifestString)
-      loaders({ devServer, target: "client", status: "done", time })
+
+      updateBundles({ cwd: devServer.cwd })
     })
 
     return
@@ -242,16 +191,13 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
 
     fileSystemUtility = mfs
   }
-  loaders({ devServer, target: "server", status: "start" })
 
-  serverCompiler.plugin("compile", () =>
-    loaders({ devServer, target: "server", status: "start" })
-  )
+  serverCompiler.plugin("compile", () => {})
 
   serverCompiler.watch({}, (_error: Error, stats) => {
     if (_error) throw _error
 
-    const { errors, time } = stats.toJson()
+    const { errors } = stats.toJson()
 
     if (errors.length > 0) return
 
@@ -264,7 +210,7 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
 
     devServer.bundle = JSON.parse(bundleString)
 
-    loaders({ devServer, target: "server", status: "done", time })
+    updateBundles({ cwd: devServer.cwd })
   })
 }
 

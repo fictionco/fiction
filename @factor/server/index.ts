@@ -143,7 +143,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
       if (!isRestarting()) {
         setRestarting(true)
 
-        log.server(`restarting server`, { color: "yellow" })
+        log.server(`Restarting Server`, { color: "yellow" })
 
         if (__listening) {
           try {

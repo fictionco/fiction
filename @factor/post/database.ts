@@ -4,7 +4,7 @@ import { writeConfig } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
 import inquirer from "inquirer"
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
-import ora from "ora"
+
 import { FactorSchema, FactorPost } from "./types"
 import { getAddedSchemas, getBaseSchema } from "./util"
 
@@ -79,7 +79,6 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
     return
   }
   if (!isConnected() && process.env.DB_CONNECTION) {
-    const connecting = ora("connecting database").start()
     try {
       let connectionString = process.env.DB_CONNECTION
 
@@ -94,12 +93,13 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
 
       __offline = false
 
-      connecting.succeed(`database connected`)
-
       return result.connection
     } catch (error) {
       dbHandleError(error)
-      connecting.succeed(`database ${__offline ? "offline" : "connected"}`)
+      if (__offline) {
+        log.info(`DB Offline`)
+      }
+
       return
     }
   } else {
@@ -194,7 +194,7 @@ const initializeModels = (): void => {
  * Initialize the database and run any upgrades
  */
 export const dbInitialize = async (): Promise<void> => {
-  await dbConnect()
+  dbConnect()
 
   if (process.env.FACTOR_DEBUG == "yes") {
     mongoose.set("debug", true)

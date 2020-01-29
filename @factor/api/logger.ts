@@ -3,7 +3,7 @@ import consola, { Consola } from "consola"
 import figures from "figures"
 import chalk from "chalk"
 import axios from "axios"
-import { appId } from "@factor/api/url"
+import { appId } from "@factor/api/about"
 interface DiagnosticEvent {
   event: string;
   action?: string;
@@ -55,7 +55,7 @@ export class NodeLog {
   server(text: string, { color = "cyan" } = {}): void {
     const colorize = chalk.keyword(color)
 
-    this.log(colorize(`${figures.arrowUp}${figures.arrowDown}`) + chalk.dim(` ${text}`))
+    this.log(colorize(`${figures.tick} `) + text)
   }
 
   /**
