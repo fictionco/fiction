@@ -34,7 +34,7 @@ export default Vue.extend({
 }
 
 resource "aws_instance" "backend1" {
-  ami           = "\${data.aws_ami.backend.id}"
+  ami           =  data.aws_ami.backend.id
   instance_type = "m5.large"
 
   vpc_security_group_ids = [
@@ -44,7 +44,7 @@ resource "aws_instance" "backend1" {
   subnet_id = "subnet-f2e81712"
 
   root_block_device {
-    volume_size = "16"
+    volume_size = 16
     volume_type = "gp2"
   }
 
