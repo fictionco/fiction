@@ -1,8 +1,8 @@
 import { setting, log } from "@factor/api"
 import chalk from "chalk"
 import express, { Handler, Request, Response } from "express"
-import figures from "figures"
 
+import { localhostUrl } from "@factor/api/url"
 import expressPackage from "express/package.json"
 import serverRendererPackage from "vue-server-renderer/package.json"
 
@@ -66,20 +66,17 @@ export const handleServerError = (
     .status(500)
     .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
 
-  // Errors stop keyboard input from working (better way?)
   process.stdin.resume()
 }
 
 export const logServerReady = (): void => {
-  const { arrowUp, arrowDown } = figures
-  let readyText = ` ready... `
-
-  if (process.env.NODE_ENV == "production") readyText += `at port ${process.env.PORT}`
-
-  // eslint-disable-next-line no-console
-  console.log(chalk.cyan(`${arrowUp}${arrowDown}`) + chalk.dim(readyText))
+  log.server(`Ready ${chalk.dim(`at ${localhostUrl()}`)}`, { color: "cyan" })
 }
-
+/**
+ * Serve static assets at a path
+ * @param path - the path to assets directory
+ * @param cache - should they be cached
+ */
 export const serveStatic = (path: string, cache: boolean): Handler => {
   const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {

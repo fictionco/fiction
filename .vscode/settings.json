@@ -139,6 +139,7 @@
     "envfile",
     "esnext",
     "execa",
+    "execpath",
     "filepath",
     "flexbox",
     "fullhuman",

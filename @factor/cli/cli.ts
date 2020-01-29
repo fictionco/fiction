@@ -1,15 +1,15 @@
-import readline from "readline"
 import { buildProduction } from "@factor/build/webpack-config"
-import { productionUrl, localhostUrl } from "@factor/api/url"
+
 import { generateLoaders } from "@factor/cli/extension-loader"
 import * as tools from "@factor/api"
 import commander from "commander"
 import log from "@factor/api/logger"
-
+import execa from 'execa'
+import { serverInfo } from "./util"
 import { factorize, setEnvironment } from "./factorize"
-import { verifyDependencies } from "./task-runner"
 import { CommandOptions } from "./types"
 import pkg from "./package.json"
+
 
 interface CommanderArguments {
   options: object[];
@@ -32,31 +32,7 @@ const initializeNodeInspector = async (): Promise<void> => {
  * @param setup - server options
  */
 export const runServer = async (setup: CommandOptions): Promise<void> => {
-  const { NODE_ENV, FACTOR_CWD } = process.env
-
-  log.formatted({
-    title: "Starting Server...",
-    lines: [
-      { title: "local url", value: localhostUrl(), indent: true },
-      { title: "production url", value: productionUrl(), indent: true },
-      { title: "environment", value: NODE_ENV, indent: true },
-      { title: "directory", value: FACTOR_CWD, indent: true }
-    ]
-  })
-
   await tools.runCallbacks("create-server", setup)
-
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-  })
-
-  rl.on("line", function(line) {
-    if ("r" == line) {
-      tools.runCallbacks("restart-server")
-    }
-  })
 }
 
 /**
@@ -71,12 +47,23 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     ...options
   }
 
-  const { install, filter, command, inspect } = setup
+  const { install, filter, command, inspect, NODE_ENV } = setup
+
+  /**
+   * Log initial server info
+   */
+  serverInfo({ NODE_ENV })
 
   /**
    * Make sure all package dependencies are installed and updated
    */
-  if (install) await verifyDependencies(setup)
+  if (install) {
+    const ePath = process.env.npm_execpath
+    const packageUtil = ePath && ePath.includes('yarn') ? 'yarn' : 'npm'
+    const verifyDepProcess = execa(packageUtil, ['install'])
+    await verifyDepProcess
+    generateLoaders(setup)
+  }
 
   /**
    * Open node inspector port if 'inspect' flag is set

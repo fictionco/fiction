@@ -38,6 +38,7 @@ export default Vue.extend({
 <style lang="less">
 .careers {
   .single-entry {
+    margin-bottom: 6em;
     .post-entry {
       padding: 0;
       margin: 0 auto;

@@ -112,6 +112,12 @@ export const requestPostSave = async ({
   return result as FactorPost
 }
 
+/**
+ * Send an HTTP request to save data to multiple posts at the same time
+ * @param _ids - array of post Ids
+ * @param data - the data that should be saved/updated
+ * @param postType - the post type  
+ */
 export const requestPostSaveMany = async ({
   _ids,
   data,

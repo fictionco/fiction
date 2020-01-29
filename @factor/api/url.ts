@@ -41,14 +41,3 @@ export const currentUrl = (): string => {
     return productionUrl()
   }
 }
-
-/**
- * Get a unique ID to associate with an app
- */
-export const appId = (): string => {
-  const appUrl = setting<string>("app.email")
-    ? setting<string>("app.email")
-    : setting<string>("app.url")
-
-  return appUrl || "unknown"
-}
