@@ -3,6 +3,9 @@ import figures from "figures"
 import chalk from "chalk"
 import { RequestHandler } from "express"
 
+/**
+ * Log information for each server request
+ */
 export default (): RequestHandler =>
   morgan(
     (tokens, req, res) => {
@@ -31,7 +34,7 @@ export default (): RequestHandler =>
       }
 
       return `${chalk.cyan(figures.arrowUp) +
-        chalk.cyan(figures.arrowDown)} request @ ${chalk.cyan(url)} ${chalk.dim(
+        chalk.cyan(figures.arrowDown)} Request @ ${chalk.cyan(url)} ${chalk.dim(
         details.join(" ")
       )}`
     },

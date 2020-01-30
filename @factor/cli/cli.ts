@@ -4,12 +4,12 @@ import { generateLoaders } from "@factor/cli/extension-loader"
 import * as tools from "@factor/api"
 import commander from "commander"
 import log from "@factor/api/logger"
-import execa from 'execa'
+import execa from "execa"
 import { serverInfo } from "./util"
 import { factorize, setEnvironment } from "./factorize"
 import { CommandOptions } from "./types"
 import pkg from "./package.json"
-
+import LoadingBar from "./loading"
 
 interface CommanderArguments {
   options: object[];
@@ -54,14 +54,20 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    */
   serverInfo({ NODE_ENV })
 
+  const bar = new LoadingBar({ color: "white" })
+
+  await bar.update({ percent: 12, msg: "setting up" })
+
   /**
    * Make sure all package dependencies are installed and updated
    */
   if (install) {
+    await bar.update({ percent: 33, msg: "check dependencies" })
     const ePath = process.env.npm_execpath
-    const packageUtil = ePath && ePath.includes('yarn') ? 'yarn' : 'npm'
-    const verifyDepProcess = execa(packageUtil, ['install'])
+    const packageUtil = ePath && ePath.includes("yarn") ? "yarn" : "npm"
+    const verifyDepProcess = execa(packageUtil, ["install"])
     await verifyDepProcess
+    await bar.update({ percent: 57, msg: "create files" })
     generateLoaders(setup)
   }
 
@@ -75,7 +81,9 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   /**
    * Extend and setup Node server environment
    */
+  await bar.update({ percent: 81, msg: "extend server" })
   await factorize(setup)
+  await bar.update({ percent: 100, msg: "loaded" })
 
   log.diagnostic({ event: "factorCommand", action: command })
 

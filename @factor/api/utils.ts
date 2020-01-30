@@ -28,6 +28,14 @@ export interface PriorityItem {
 }
 
 /**
+ * Wait for specific amount of time
+ * @param ms - milliseconds
+ */
+export const waitFor = (ms: number): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, ms || 0))
+}
+
+/**
  * Returns a global process based working directory if argument cwd is undefined
  * @param cwd - working directory
  */
