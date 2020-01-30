@@ -339,7 +339,8 @@ export const buildProduction = async (
     {
       clearOnComplete: true,
       hideCursor: true,
-      format
+      format,
+      noTTYOutput: true
     },
     Presets.rect
   )
