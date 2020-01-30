@@ -10,7 +10,7 @@ import { factorize, setEnvironment } from "./factorize"
 import { CommandOptions } from "./types"
 import pkg from "./package.json"
 import LoadingBar from "./loading"
-
+import { logSetupNeeded } from "./setup"
 interface CommanderArguments {
   options: object[];
   parent: Record<string, any>;
@@ -62,12 +62,13 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    * Make sure all package dependencies are installed and updated
    */
   if (install) {
-    await bar.update({ percent: 33, msg: "check dependencies" })
     const ePath = process.env.npm_execpath
     const packageUtil = ePath && ePath.includes("yarn") ? "yarn" : "npm"
+    await bar.update({ percent: 35, msg: `checking dependencies (${ePath})` })
+
     const verifyDepProcess = execa(packageUtil, ["install"])
     await verifyDepProcess
-    await bar.update({ percent: 57, msg: "create files" })
+    await bar.update({ percent: 55, msg: "create files" })
     generateLoaders(setup)
   }
 
@@ -81,11 +82,12 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   /**
    * Extend and setup Node server environment
    */
-  await bar.update({ percent: 81, msg: "extend server" })
+
+  await bar.update({ percent: 85, msg: "extending server" })
   await factorize(setup)
   await bar.update({ percent: 100, msg: "loaded" })
 
-  log.diagnostic({ event: "factorCommand", action: command })
+  logSetupNeeded(command)
 
   try {
     if (command && ["build", "start"].includes(command)) {

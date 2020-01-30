@@ -10,6 +10,13 @@ import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
 import { FactorPackageJson } from "@factor/cli/types"
 
+export interface SetupCliConfig {
+  name: string;
+  value: string;
+  callback: () => {} | void;
+  priority?: number;
+}
+
 const configFile = getPath("config-file-public")
 const secretsFile = getPath("config-file-private")
 
@@ -108,38 +115,29 @@ export const runSetup = async (): Promise<void> => {
 }
 
 /**
+ * Reports to the user which configuration is missing
+ */
+export const logSetupNeeded = (command = ""): void => {
+  const setupNeeded = applyFilters("setup-needed", [])
+
+  if (setupNeeded.length > 0) {
+    const lines = setupNeeded.map((_: { title: string; value: string }) => {
+      return { title: _.title, value: _.value, indent: true }
+    })
+    if (process.env.FACTOR_COMMAND !== "setup") {
+      lines.push({ title: "Run 'yarn factor setup'", value: "", indent: false })
+    }
+
+    log.formatted({ title: "Setup Needed", lines, color: "yellow" })
+  }
+
+  log.diagnostic({ event: "factorCommand", action: `${command}-${setupNeeded.length}` })
+}
+
+/**
  * Hook into the CLI command filter
  */
 addCallback({ key: "setup", hook: "cli-setup", callback: () => runSetup() })
-
-/**
- * Reports to the user which configuration is missing
- */
-addCallback({
-  key: "setup",
-  hook: "after-first-server-extend",
-  callback: () => {
-    const setupNeeded = applyFilters("setup-needed", [])
-
-    if (setupNeeded.length > 0) {
-      const lines = setupNeeded.map((_: { title: string; value: string }) => {
-        return { title: _.title, value: _.value, indent: true }
-      })
-      if (process.env.FACTOR_COMMAND !== "setup") {
-        lines.push({ title: "Run 'yarn factor setup'", value: "", indent: false })
-      }
-
-      log.formatted({ title: "Setup Needed", lines, color: "yellow" })
-    }
-  }
-})
-
-export interface SetupCliConfig {
-  name: string;
-  value: string;
-  callback: () => {} | void;
-  priority?: number;
-}
 
 /**
  * Output JSON nicely to the CLI
