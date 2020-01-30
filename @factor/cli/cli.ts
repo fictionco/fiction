@@ -163,6 +163,7 @@ export const setup = (): void => {
     .command("dev")
     .description("Start development server")
     .option("--static", "use static file system for builds instead of memory")
+    .option("--server", "server development mode - restart the server on file changes")
     .action(_arguments => {
       runCommand({
         command: "dev",

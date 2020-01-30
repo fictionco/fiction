@@ -253,9 +253,11 @@ export const watcherDevServer = ({
 export const developmentServer = async ({
   fileSystem,
   onReady,
+  watchMode,
   cwd
 }: {
   fileSystem?: "static" | "memory";
+  watchMode: "server" | "app";
   onReady: UpdateBundle;
   cwd: string;
 }): Promise<void> => {
@@ -279,7 +281,9 @@ export const developmentServer = async ({
 
   devServer[cwd] = dev
 
-  watcherDevServer({ cwd, devServer: dev })
+  if (watchMode == "server") {
+    watcherDevServer({ cwd, devServer: dev })
+  }
 
   createClientCompiler({ fileSystem, devServer: dev })
 

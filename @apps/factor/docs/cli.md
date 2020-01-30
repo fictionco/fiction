@@ -19,6 +19,11 @@ yarn factor dev
 
 ![Dev Server is Running](./img/cli.jpg)
 
+### Dev Server Options
+
+- `--static` - Use static files instead of Webpack's default memory filesystem (virtual files).
+- `--server` - Server development mode. Restart the server on file changes.
+
 ## Build Distribution Files
 
 The `factor build` command will generate all production files and place them in the `dist` folder within your app. These are the files you'll be serving in production.

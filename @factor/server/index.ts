@@ -29,7 +29,8 @@ let __application
 let __renderer: BundleRenderer // used for dev server updates
 
 interface ServerOptions {
-  static?: boolean;
+  static?: true;
+  server?: true;
   port?: string;
   renderer?: BundleRenderer;
   cwd?: string;
@@ -229,6 +230,7 @@ export const createRenderServer = async (
       developmentServer({
         cwd,
         fileSystem: options.static ? "static" : "memory",
+        watchMode: options.server ? "server" : "app",
         onReady: async renderConfig => {
           const renderer = htmlRenderer(renderConfig)
 

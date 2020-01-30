@@ -1,6 +1,10 @@
 import cliProgress, { SingleBar } from "cli-progress"
 import chalk from "chalk"
 import { waitFor } from "@factor/api/utils"
+
+/**
+ * Loading bar for the CLI
+ */
 export default class LoadingBar {
   bar: SingleBar
   percent = 0
@@ -12,7 +16,8 @@ export default class LoadingBar {
       {
         hideCursor: true,
         clearOnComplete: true,
-        format: `${colorize(`{bar}`)} {percentage}% {msg}`
+        format: `${colorize(`{bar}`)} {percentage}% {msg}`,
+        noTTYOutput: true
       },
       cliProgress.Presets.shades_classic
     )
