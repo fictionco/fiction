@@ -153,6 +153,14 @@ export const applyFilters = <U>(hook: string, data: U, ...rest: any[]): typeof d
   return data
 }
 
+/**
+ * Add a filter to data provided to 'applyFilters'
+ * Uses a hook Id and receives the parameters provided to that function
+ *
+ * @param hook - the Hook ID
+ * @param callback - the filter callback, must return the end result
+ * @param key - a unique cache identifier for the hooked item
+ */
 export const addFilter = (options: FilterItem): void => {
   let { callback } = options
   const rest = omit(options, ["callback"])
@@ -165,6 +173,15 @@ export const addFilter = (options: FilterItem): void => {
   return
 }
 
+/**
+ * Helper function
+ * Adds an item/object to the end of an array provided to a filter.
+ * Only works with array based filters
+ *
+ * @param item - the item to add to the array
+ * @param hook = the hook ID
+ * @param key - a unique cache identifier for the hooked item
+ */
 export const pushToFilter = <T>(options: HookItem & { item: T }): void => {
   let { item } = options
   const rest = omit(options, ["item"])
@@ -180,6 +197,13 @@ export const pushToFilter = <T>(options: HookItem & { item: T }): void => {
   return
 }
 
+/**
+ * Helper function
+ * Push a callback to an array of callbacks
+ * @param callback - the callback to add
+ * @param hook - the hook ID
+ * @param key - a unique cache identifier for the hooked item
+ */
 export const addCallback = (options: CallbackItem): void => {
   const { callback, ...rest } = options
 

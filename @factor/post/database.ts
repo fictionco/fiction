@@ -1,6 +1,6 @@
 import { log } from "@factor/api"
 import { pushToFilter, addCallback } from "@factor/api/hooks"
-import { writeConfig } from "@factor/cli/setup"
+import { writeConfig, addNotice } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
 import inquirer from "inquirer"
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
@@ -57,13 +57,15 @@ const dbHandleError = (error: Error & { code?: string }): void => {
     error.code === "ETIMEOUT"
   ) {
     __offline = true
-    log.warn(`Couldn't connect to the database. Serving in offline mode. [${error.code}]`)
+    addNotice(
+      `Couldn't connect to the database. Serving in offline mode. [${error.code}]`
+    )
   } else if (
     dbReadyState() == "connecting" &&
     error.code == "EDESTRUCTION" &&
     !process.env.FACTOR_DEBUG
   ) {
-    log.warn(`DB Error [${error.code}]`)
+    addNotice(`DB Error [${error.code}]`)
     // TODO not sure the exact context/meaning of this error
     // do nothing, this occurs in offline mode on server restart
   } else {
@@ -96,9 +98,6 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
       return result.connection
     } catch (error) {
       dbHandleError(error)
-      if (__offline) {
-        log.info(`DB Offline`)
-      }
 
       return
     }
@@ -194,7 +193,7 @@ const initializeModels = (): void => {
  * Initialize the database and run any upgrades
  */
 export const dbInitialize = async (): Promise<void> => {
-  dbConnect()
+  await dbConnect()
 
   if (process.env.FACTOR_DEBUG == "yes") {
     mongoose.set("debug", true)
@@ -206,6 +205,9 @@ export const dbInitialize = async (): Promise<void> => {
 
   initializeModels()
 
+  /**
+   * This must run after DB has been initialized to determine offline/online
+   */
   await runDbUpgrades()
 }
 

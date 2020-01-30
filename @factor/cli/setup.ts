@@ -2,7 +2,15 @@
 import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/api/paths"
 import { highlight } from "cli-highlight"
-import { log, sortPriority, deepMerge, applyFilters, addCallback } from "@factor/api"
+import {
+  log,
+  sortPriority,
+  deepMerge,
+  applyFilters,
+  addCallback,
+  pushToFilter,
+  slugify
+} from "@factor/api"
 import chalk from "chalk"
 import envfile from "envfile"
 import fs from "fs-extra"
@@ -19,6 +27,42 @@ export interface SetupCliConfig {
 
 const configFile = getPath("config-file-public")
 const secretsFile = getPath("config-file-private")
+
+/**
+ * Batch notices during CLI initialization
+ * If they've already been logged, then just log them
+ */
+let __noticesLogged = false
+/**
+ * Add a CLI notice
+ * This allows for a consistent and 'all at once' output
+ */
+export const addNotice = (text: string): void => {
+  if (__noticesLogged) {
+    log.warn(text)
+  } else {
+    pushToFilter({
+      key: slugify(text.slice(1, 30)),
+      hook: "cli-warnings",
+      item: text
+    })
+  }
+}
+
+/**
+ * Log the notices that have been added
+ */
+export const logNotices = (): void => {
+  const warnings = applyFilters("cli-warnings", [])
+  if (warnings.length > 0) {
+    const lines = warnings.map((_: string) => {
+      return { title: _, value: "", indent: true }
+    })
+
+    log.formatted({ title: "Notices", lines, color: "yellow" })
+  }
+  __noticesLogged = true
+}
 
 /**
  * Gets the names of a specific type of extension
@@ -130,6 +174,8 @@ export const logSetupNeeded = (command = ""): void => {
 
     log.formatted({ title: "Setup Needed", lines, color: "yellow" })
   }
+
+  logNotices()
 
   log.diagnostic({ event: "factorCommand", action: `${command}-${setupNeeded.length}` })
 }

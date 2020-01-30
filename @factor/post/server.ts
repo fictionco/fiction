@@ -277,7 +277,19 @@ export const setup = (): void => {
   addEndpoint({ id: "posts", handler: endpointHandler })
 
   if (process.env.DB_CONNECTION) {
-    addCallback({ key: "db", hook: "initialize-server", callback: () => dbInitialize() })
+    addCallback({
+      key: "db",
+      hook: "initialize-server",
+      callback: async () => {
+        /**
+         * This is async but we shouldn't wait for it
+         * as it add time to loading
+         */
+        dbInitialize()
+
+        return
+      }
+    })
     addCallback({ key: "db", hook: "close-server", callback: () => dbDisconnect() })
   }
 
