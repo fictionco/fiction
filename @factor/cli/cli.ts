@@ -64,7 +64,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   if (install) {
     const ePath = process.env.npm_execpath
     const packageUtil = ePath && ePath.includes("yarn") ? "yarn" : "npm"
-    await bar.update({ percent: 35, msg: `checking dependencies (${ePath})` })
+    await bar.update({ percent: 35, msg: `checking dependencies (${packageUtil})` })
 
     const verifyDepProcess = execa(packageUtil, ["install"])
     await verifyDepProcess
@@ -86,7 +86,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   await bar.update({ percent: 85, msg: "extending server" })
   await factorize(setup)
   await bar.update({ percent: 100, msg: "loaded" })
-
+  bar.stop()
   logSetupNeeded(command)
 
   try {
