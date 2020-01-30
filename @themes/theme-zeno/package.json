@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-zeno",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.",
   "author": "Factor",
   "main": "src/index",
@@ -24,7 +24,7 @@
   },
   "gitHead": "ab4e6a60ca0c3e33bb034ad6bb59425ee4d26e6c",
   "dependencies": {
-    "@factor/core": "^1.2.6",
+    "@factor/core": "^1.2.7",
     "@factor/plugin-blog": "^1.2.5",
     "@factor/plugin-contact-form": "^1.2.5",
     "@factor/plugin-highlight-code": "^1.2.5",
