@@ -238,7 +238,7 @@ export const dbSetupUtility = (): void => {
         name: "DB_CONNECTION"
       }
     })
-  } else if (process.env.DB_CONNECTION.includes("demo")) {
+  } else if (process.env.DB_CONNECTION.includes("demo:demo")) {
     pushToFilter({
       key: "dbDemo",
       hook: "setup-needed",

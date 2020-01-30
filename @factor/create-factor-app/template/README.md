@@ -1,23 +1,19 @@
 # <%= name %>
 
-> <%= description %>
+_<%= description %>_
 
 ## Built with [Factor](https://factor.dev)
 
 ```bash
-# configure and run development environment
-yarn factor dev
+# Run development server
+npx factor dev
 
-# build for production and launch server
-yarn start
+# Build production app
+npx factor build
 
-# build for production
-yarn factor build
+# Serve production app
+npx factor serve
 
-# deploy to development (staging) or production
-# (based on configuration)
-yarn factor deploy [production or development]
-
+# build for production and then launch server
+npx factor start
 ```
-
-For detailed explanation on how things work, checkout the [Factor docs](https://factor.dev).

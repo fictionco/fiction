@@ -24,16 +24,9 @@ const config = {
       when: answers => !config.isUnitTest(answers)
     },
     {
-      name: "author",
-      type: "string",
-      message: "Admin user's name?",
-      default: "{gitUser.name}",
-      when: answers => !config.isUnitTest(answers)
-    },
-    {
       name: "email",
       type: "string",
-      message: "... and email?",
+      message: "Your email address (for admin user)?",
       default: "{gitUser.email}",
       when: answers => !config.isUnitTest(answers)
     }

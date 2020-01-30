@@ -1,20 +1,19 @@
-# -- Add initial admin users by email (must be verified) - separate by a comma
+# -- Admins - Initial admins by email (must be verified) - separate by a comma
 FACTOR_ADMINS="<%= email %>"
 
-# -- Add your production URL
-# FACTOR_URL="https://www.example.com"
-
-# -- MongoDB Connection URL
+# -- Database - MongoDB/Mongoose compatible connection URL
 <% if(db){ %>DB_CONNECTION="<%= db %>"
 <% } else { %># DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"<% } %>
 
-# -- JsonWebToken based Auth
+# -- Auth - Token decode/encode secret
 # TOKEN_SECRET="<JWT SECRET - CAN BE ANYTHING>"
-TOKEN_SECRET="RANDOM-STRING-<%= randomString %>"
+TOKEN_SECRET="RANDOMLY-GENERATED-<%= randomString %>"
 
-# -- Transactional email e.g. "forgot password"
-# -- Recommended: https://aws.amazon.com/ses/
+# -- Email - Transactional e.g. "forgot password"
 # SMTP_USERNAME="<SMTP USERNAME - ANY SMTP PROVIDER>"
 # SMTP_PASSWORD="<SMTP PASSWORD - ANY SMTP PROVIDER>"
 # SMTP_HOST="<SMTP HOST - ANY SMTP PROVIDER>"
+
+# -- Production URL - Needed for links in emails
+# FACTOR_URL="https://www.example.com"
 

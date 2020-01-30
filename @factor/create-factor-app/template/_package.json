@@ -2,7 +2,6 @@
   "name": "<%= urlName %>",
   "version": "1.0.0",
   "description": "<%= description %>",
-  "author": "<%= author %>",
   "main": "src/index",
   "private": true,
   "factor": {
@@ -10,7 +9,7 @@
     "app": {
       "name": "<%= name %>",
       "description": "<%= description %>",
-      "email": "<%= name %> <<%= email %>>",
+      "email": "<%= email %>",
       "url": ""
     }
   },
