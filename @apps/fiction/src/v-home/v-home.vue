@@ -203,7 +203,7 @@ export default Vue.extend({
             Factor is free and open-source, powered by VueJS, MongoDB and Node. `,
           figure: () => import("./figure-code.vue"),
           link: {
-            path: "https://www.factor.dev",
+            path: "https://factor.dev",
             text: "Learn More &rarr;"
           }
         },
@@ -254,7 +254,7 @@ export default Vue.extend({
             "A free platform to ship beautiful JS apps fast."
           ],
           link: {
-            path: "https://www.factor.dev",
+            path: "https://factor.dev",
             text: "Go to Factor.dev &rarr;"
           }
         },

@@ -606,7 +606,7 @@ export default {
         target: "_blank"
       }
     ],
-    left: `Built with <i class="fas fa-heart"></i> and <a href='https://www.factor.dev/' target='_blank'>Factor</a>`,
+    left: `Built with <i class="fas fa-heart"></i> and <a href='https://factor.dev/' target='_blank'>Factor</a>`,
     right: `&copy 2020 <a href='https://www.fiction.com/' target='_blank'>Fiction, Inc.</a>`, // Empty when blank (e.g. right: '') or Dynamically added if removed/commented.
     figure: require("./img/cloud-with-shadow.svg"),
     figureAlt: "Cloud"
