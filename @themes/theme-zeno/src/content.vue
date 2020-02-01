@@ -1,10 +1,8 @@
 <template>
   <div class="zeno-content">
     <header-primary />
-    <div>
-      <router-view />
-      <footer-primary />
-    </div>
+    <router-view />
+    <footer-primary />
   </div>
 </template>
 

@@ -67,11 +67,11 @@ export default {
       }
     ],
     /**
-     * Copy for the call to action on the homepage
+     * Copy for the call to action on the home page, pricing page, and about page.
      */
     cta: {
       title: "Get better results with Zeno",
-      content: "Save time and start with a solid foundation, then customize.",
+      content: `Save time and start with a solid foundation, then customize. <i class="fas fa-rocket"></i>`,
       buttons: [
         {
           _item: "contact",

@@ -8,7 +8,11 @@
         v-if="ctaTitle"
         class="font-normal tracking-tight text-3xl lg:text-4xl text-gray-100"
       >{{ ctaTitle }}</h1>
-      <div v-if="ctaContent" class="mt-2 text-lg text-gray-500 lg:text-xl">{{ ctaContent }}</div>
+      <div
+        v-if="ctaContent"
+        v-formatted-text="ctaContent"
+        class="mt-2 text-lg text-gray-500 lg:text-xl"
+      />
       <div v-if="ctaButtons" class="mt-4 md:mt-8">
         <template v-for="(button, index) in ctaButtons">
           <factor-link :key="index" :path="button.link" :class="button.classes">

@@ -88,7 +88,7 @@
     <section
       v-if="setting('home.section5')"
       :id="setting('home.section5.id')"
-      class="section-5 overflow-hidden relative min-h-screen bg-gray-100"
+      class="section-5 overflow-hidden relative bg-gray-100"
     >
       <div class="max-w-6xl mx-auto px-8 pt-16 lg:pt-24 lg:pb-12">
         <div class="flex flex-col md:flex-row md:flex-wrap">
@@ -128,7 +128,7 @@
             </template>
           </div>
           <div
-            class="relative z-0 max-h-full w-full top-auto right-0 bottom-0 left-auto md:pt-24 md:absolute md:w-1/2"
+            class="relative z-0 max-h-full w-full top-auto right-0 bottom-0 left-auto md:pt-40 md:absolute md:w-1/2"
           >
             <component
               :is="setting('home.section5.syntax')"
