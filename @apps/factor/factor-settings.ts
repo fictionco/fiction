@@ -117,9 +117,6 @@ export default {
     }
   },
   footer: {
-    headline: "Released under the GPL-2 License",
-    legal: "&copy; <a href='https://www.fiction.com'>Fiction.com</a>",
-    logo: (): Promise<Component> => import("./src/el/logo-fiction.vue"),
-    logo2: (): Promise<Component> => import("./src/el/logo-pagelines.vue")
+    legal: "&copy; 2020 <a href='https://www.fiction.com'>Fiction.com</a> Inc. Released under the GPL-2 License."
   }
 }
