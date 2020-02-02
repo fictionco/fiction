@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-purple-900 text-gray-200 p-8 lg:px-4">
+  <footer class="bg-purple-900 text-gray-200 p-8 lg:px-4">
     <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row justify-between">
       <figure v-if="footerFigure" class="absolute top-0 left-0 z-20 hidden ml-56 -mt-16 lg:block">
         <img :src="footerFigure" :alt="footerFigureAlt" />
@@ -37,7 +37,7 @@
         <span v-else>&copy; {{ currentyear() }}</span>
       </div>
     </div>
-  </div>
+  </footer>
 </template>
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"

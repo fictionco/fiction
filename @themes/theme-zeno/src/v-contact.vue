@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main class="bg-gray-100">
     <el-hero
       v-if="setting('contact.hero')"
       :align="`center`"
@@ -12,15 +12,15 @@
       </template>
     </el-hero>
 
-    <section class="bg-gray-100 bg-repeat-x">
-      <div class="max-w-4xl mx-auto px-4 py-8 md:p-8">
+    <section>
+      <div class="max-w-4xl mx-auto px-4 py-8 md:px-8 md:pt-8 md:pb-24">
         <component
           :is="setting('contactForm.form')"
           class="bg-white shadow-lg rounded-lg -mt-24 p-4 md:p-8"
         />
       </div>
     </section>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">

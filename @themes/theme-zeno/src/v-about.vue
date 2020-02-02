@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100">
+  <main class="bg-gray-100">
     <el-hero
       v-if="setting('about.hero')"
       :align="`left`"
@@ -27,7 +27,10 @@
           />
         </div>
         <div class="w-full pt-8 lg:pt-0 md:pl-16 lg:w-3/5">
-          <div v-if="setting('about.valuesTitle')" class="relative z-10 px-4 py-6 rounded bg-white shadow-lg md:px-4 md:mx-8">
+          <div
+            v-if="setting('about.valuesTitle')"
+            class="relative z-10 px-4 py-6 rounded bg-white shadow-lg md:px-4 md:mx-8"
+          >
             <h2
               class="font-normal tracking-tight leading-tight text-2xl text-purple-500 md:text-3xl"
             >{{ setting('about.valuesTitle') }}</h2>
@@ -38,7 +41,10 @@
             class="rounded-lg -mt-8 p-8 pt-12 border-2 border-purple-500 flex flex-col md:flex-row md:flex-wrap"
           >
             <div v-for="(item, index) in setting('about.values')" :key="index" class="w-full my-2">
-              <h2 v-if="item.title" class="font-normal tracking-tight text-2xl text-purple-900">{{ item.title }}</h2>
+              <h2
+                v-if="item.title"
+                class="font-normal tracking-tight text-2xl text-purple-900"
+              >{{ item.title }}</h2>
               <div
                 v-if="item.content"
                 v-formatted-text="item.content"
@@ -53,7 +59,10 @@
     <section class="py-16 bg-white">
       <div class="max-w-6xl mx-auto px-8">
         <div class="max-w-4xl mx-auto pb-6 text-center md:pb-12 md:w-full">
-          <h3 v-if="setting('about.team.pretitle')" class="custom-uppercase text-purple-500">{{ setting("about.team.pretitle") }}</h3>
+          <h3
+            v-if="setting('about.team.pretitle')"
+            class="custom-uppercase text-purple-500"
+          >{{ setting("about.team.pretitle") }}</h3>
           <h1
             v-if="setting('about.team.title')"
             class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
@@ -84,7 +93,7 @@
     </section>
 
     <site-cta />
-  </div>
+  </main>
 </template>
 
 <script lang="ts">

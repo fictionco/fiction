@@ -1,5 +1,3 @@
-import { isLoggedIn } from "@factor/user"
-import { accountMenu } from "@factor/dashboard"
 import { Component } from "vue"
 export default {
   app: { url: "https://factor.dev" },
@@ -46,29 +44,7 @@ export default {
     ]
   },
   site: {
-    logo: (): Promise<Component> => import("./src/el/logo-factor.vue"),
-    nav: [
-      { path: "/guide", name: "Dev Guide" },
-      {
-        path: "https://link.fiction.com/slack ",
-        name: "Community",
-        target: "_blank"
-      },
-      { path: "/themes", name: "Themes" },
-      { path: "/plugins", name: "Plugins" },
-
-      {
-        path: "https://github.com/fiction-com/factor",
-        name: "Github",
-        target: "_blank"
-      },
-      {
-        event: "sign-in-modal",
-        name: "Sign In &rarr;",
-        condition: (): boolean => !isLoggedIn()
-      },
-      { component: accountMenu, condition: (): boolean => isLoggedIn() }
-    ]
+    logo: (): Promise<Component> => import("./src/el/logo-factor.vue")
   },
   blog: {
     title: "Factor Blog",
@@ -116,9 +92,7 @@ export default {
     }
   },
   footer: {
-    headline: "Released under the GPL-2 License",
-    legal: "&copy; <a href='https://www.fiction.com'>Fiction.com</a>",
-    logo: (): Promise<Component> => import("./src/el/logo-fiction.vue"),
-    logo2: (): Promise<Component> => import("./src/el/logo-pagelines.vue")
+    legal:
+      "&copy; 2020 <a href='https://www.fiction.com'>Fiction.com</a> Inc. Released under the GPL-2 License."
   }
 }
