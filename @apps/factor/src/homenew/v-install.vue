@@ -4,27 +4,29 @@
       <factor-link
         v-for="(video, index) in videos"
         :key="video.id"
-        :class="video.id == 'install' ? 'active': ''"
+        :class="video.id == selected ? 'active': ''"
         :path="`#${video.id}`"
       >{{ index + 1 }}. {{ toLabel(video.id) }}</factor-link>
     </nav>
-    <section v-for="(video) in videos" :id="video.id" :key="video.id" class="video-entry">
-      <div class="header">
-        <h1 class="title">{{ toLabel(video.id) }}</h1>
-        <div class="subtitle">
-          <span class="time">{{ video.duration }}</span>
-          <p class="synopsis">{{ video.synopsis }}</p>
+    <div class="start-content">
+      <section v-for="(video) in videos" :id="video.id" :key="video.id" class="video-entry">
+        <div class="header">
+          <h1 class="title">{{ toLabel(video.id) }}</h1>
+          <div class="subtitle">
+            <span class="time">{{ video.duration }}</span>
+            <p class="synopsis">{{ video.synopsis }}</p>
+          </div>
         </div>
-      </div>
-      <div class="video-wrap">
-        <div class="video">
-          <iframe :src="video.url" frameborder="0" allowfullscreen />
+        <div class="video-wrap">
+          <div class="video">
+            <iframe :src="video.url" frameborder="0" allowfullscreen />
+          </div>
+          <div v-formatted-text="video.context" class="video-content" />
         </div>
-        <div v-formatted-text="video.context" class="video-content" />
-      </div>
-    </section>
+      </section>
 
-    <join-program />
+      <join-program />
+    </div>
   </div>
 </template>
 
@@ -39,6 +41,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      selected: "install",
       loading: true,
       videos: [
         {
@@ -76,6 +79,24 @@ export default Vue.extend({
       ]
     }
   },
+  mounted() {
+    this.videos.forEach((video: any) => {
+      const selector = `#${video.id}`
+      const observer = new IntersectionObserver(
+        entries => {
+          if (entries[0].isIntersecting) {
+            this.selected = entries[0].target.id
+          }
+        },
+        { threshold: [0.2] }
+      )
+
+      const el = document.querySelector(selector)
+      if (el) {
+        observer.observe(el)
+      }
+    })
+  },
   metaInfo() {
     return {
       title: "Factor Themes Built and Curated by the Factor Team.",
@@ -89,12 +110,13 @@ export default Vue.extend({
 <style lang="less">
 .start-container {
   padding-top: 7em;
-  max-width: 1200px;
-  margin: 0 auto;
-  @media (max-width: 767px) {
-    padding: 0 1rem;
+  .start-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    @media (max-width: 900px) {
+      padding: 0 1rem;
+    }
   }
-
   .nav {
     background: #fff;
     padding: 0.5rem 1rem;

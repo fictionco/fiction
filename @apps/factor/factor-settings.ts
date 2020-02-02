@@ -60,7 +60,6 @@ export default {
       {
         path: "https://github.com/fiction-com/factor",
         name: "Github",
-        icon: "fab fa-github",
         target: "_blank"
       },
       {

@@ -57,7 +57,6 @@ const updateBundles = ({
   const { template, bundle, clientManifest } = dev
 
   if (clientManifest && bundle && template) {
-    console.log("UPDATE BUNDLES")
     dev.updateBundleCallback({ bundle, template, clientManifest })
     /**
      * reset back to undefined to prevent mismatching updates
@@ -150,7 +149,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       errors.forEach(err => console.error(err))
       // eslint-disable-next-line no-console
       warnings.forEach(err => console.warn(err))
-      console.log("ECLI", errors.length, warnings.length)
+
       if (errors.length > 0) return
 
       const outputPath = config.output?.path ?? ""
@@ -199,9 +198,8 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
   serverCompiler.watch({}, (_error: Error, stats) => {
     if (_error) throw _error
 
-    const { errors, warnings } = stats.toJson()
+    const { errors } = stats.toJson()
 
-    console.log("ESERV", errors.length, warnings.length)
     if (errors.length > 0) return
 
     const outputPath = config.output?.path ?? ""

@@ -62,10 +62,10 @@ export default Vue.extend({
   },
   computed: {
     currentUser() {
-      return currentUser()
+      return currentUser() || {}
     },
-    role() {
-      return currentUser.role || {}
+    role(this: any) {
+      return this.currentUser.role || {}
     }
   },
   created() {

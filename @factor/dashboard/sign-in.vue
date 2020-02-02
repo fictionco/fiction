@@ -47,7 +47,7 @@
 
       <template v-else-if="!view && isLoggedIn()">
         <div class="action">
-          <factor-link btn="primary" text="Account" path="/dashboard/account" />
+          <factor-link btn="primary" text="Account Settings" path="/dashboard/account" />
         </div>
       </template>
 
@@ -184,15 +184,14 @@ export default Vue.extend({
           title: "Enter New Password",
           subTitle: "Enter your new password."
         }
+      } else if (isLoggedIn()) {
+        return {
+          title: "You are signed in"
+        }
       } else if (this.newAccount) {
         return {
           title: "Sign Up",
           subTitle: "Create A New Account"
-        }
-      } else if (isLoggedIn()) {
-        return {
-          title: "Logged In",
-          subTitle: "You are successfully logged in."
         }
       } else {
         return {

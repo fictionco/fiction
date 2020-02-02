@@ -7,7 +7,7 @@
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Get Started &rarr;</factor-link>
-          <factor-link btn="link" path="/signup">Sign Up</factor-link>
+          <factor-link btn="link" path="/signin?newAccount=1">Create Account</factor-link>
         </div>
       </div>
 

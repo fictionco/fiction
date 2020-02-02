@@ -2,45 +2,64 @@
   <div class="site-head">
     <div class="site-head-pad">
       <site-brand class="site-brand" />
-
-      <div class="primary-nav">
-        <template v-for="(item, index) in siteNav">
-          <component :is="item.component" v-if="item.component" :key="index" />
-          <factor-link
-            v-else
-            :key="index"
-            :path="item.path"
-            :event="item.event"
-            :target="item.target"
-          >
-            <factor-icon v-if="item.icon" :icon="item.icon" />
-            <span v-formatted-text="item.name" />
-          </factor-link>
-        </template>
+      <div class="head-nav page-nav">
+        <factor-link
+          v-for="navItem in pageNav"
+          :key="navItem.path"
+          v-formatted-text="navItem.name"
+          :path="navItem.path"
+        />
+        <github-stars />
+      </div>
+      <div class="head-nav action-nav">
+        <account-menu v-if="isLoggedIn()" />
+        <factor-link v-else event="sign-in-modal">Sign In</factor-link>
+        <factor-link
+          v-if="$route.path != '/install'"
+          path="/install"
+          btn="primary"
+        >Get Started &rarr;</factor-link>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { factorIcon, factorLink } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
+import { isLoggedIn } from "@factor/user"
+import { accountMenu } from "@factor/dashboard"
 export default Vue.extend({
   components: {
-    factorIcon,
     factorLink,
-    "site-brand": () => import("./el/brand.vue")
+    accountMenu,
+    siteBrand: () => import("./el/brand.vue"),
+    githubStars: () => import("./el/github-stars.vue")
   },
   data() {
     return {
-      navConfig: setting("site.nav")
+      navConfig: setting("site.nav"),
+      pageNav: [
+        { path: "/guide", name: "Documentation" },
+        { path: "/themes", name: "Themes" },
+        { path: "/plugins", name: "Plugins" }
+      ],
+      actionNav: [
+        {
+          event: "sign-in-modal",
+          name: "Sign In &rarr;",
+          condition: (): boolean => !isLoggedIn()
+        },
+        { component: accountMenu, condition: (): boolean => isLoggedIn() }
+      ]
     }
   },
   computed: {
     siteNav(this: any) {
       return this.navConfig.filter(item => !item.condition || item.condition())
     }
-  }
+  },
+  methods: { isLoggedIn }
 })
 </script>
 <style lang="less">
@@ -50,7 +69,7 @@ export default Vue.extend({
 }
 
 .site-head {
-  transition: all 0.3s;
+  transition: all 0.1s;
 
   padding: 0 1.5em;
   position: fixed;
@@ -81,12 +100,23 @@ export default Vue.extend({
 .site-head-pad {
   height: 45px;
   align-items: center;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
 
-  .primary-nav {
+  .head-nav {
     display: flex;
     align-items: center;
+
+    &.page-nav {
+      justify-content: center;
+      .github-actions {
+        margin-left: 1rem;
+        width: 140px;
+      }
+    }
+    &.action-nav {
+      justify-content: flex-end;
+    }
 
     @media (max-width: 767px) {
       flex-grow: 2;
@@ -96,6 +126,9 @@ export default Vue.extend({
       color: inherit;
 
       margin: 0 1em;
+      &:last-child {
+        margin-right: 0;
+      }
       @media (max-width: 767px) {
         margin: 0 1em;
         .fa {
@@ -118,16 +151,6 @@ export default Vue.extend({
     }
     .account-menu {
       margin-left: 1em;
-    }
-
-    .nav-dropdown-toggle {
-      padding: 4px 6px;
-      font-weight: 500;
-      border-radius: 4px;
-      &.active,
-      &:hover {
-        opacity: 0.6;
-      }
     }
   }
 }
