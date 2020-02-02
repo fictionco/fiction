@@ -79,7 +79,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    "home-icon": () => import("./icon.vue")
+    homeIcon: () => import("./icon.vue")
   },
   methods: {}
 })

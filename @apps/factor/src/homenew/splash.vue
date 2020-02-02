@@ -48,7 +48,9 @@ export default {
       text-align: left;
       padding: 3rem 0 0;
     }
-
+    .figure-container {
+      min-width: 0;
+    }
     .content {
       max-width: 435px;
       justify-self: flex-end;
@@ -89,9 +91,9 @@ export default {
       @media (max-width: 900px) {
         padding: 1em 2em;
         justify-self: center;
-
+        max-width: 100%;
         .page-title {
-          font-size: 4em;
+          font-size: 2em;
         }
         .page-title-sub {
           font-size: 1.4em;

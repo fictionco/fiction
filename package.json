@@ -50,7 +50,7 @@
     "test:cfa": "yarn sao ./@factor/create-factor-app"
   },
   "gitHooks": {
-    "pre-push": "yarn test:lint && yarn test:unit",
+    "pre-push": "git pull && yarn test:lint && yarn test:unit",
     "commit-msg": "node scripts/verify-commit.js"
   },
   "dependencies": {

@@ -1,31 +1,33 @@
 <template>
-  <figure ref="wrapper" class="splash-figure-wrap" @click="nextSlide()">
-    <div v-if="activeSlide.id == 'dashboard'" class="splash-figure dashboard">
-      <div class="stage-icons-wrap">
-        <div class="stage-icons">
-          <img src="./img/plugin-jobs.svg" alt="Plugin Jobs" class="flying-icon icon-1" />
-          <img src="./img/plugin-email.svg" alt="Plugin Email" class="flying-icon icon-2" />
-          <img src="./img/plugin-ssr.svg" alt="Plugin SSR" class="flying-icon icon-3" />
-          <img src="./img/plugin-blog.svg" alt="Plugin Blog" class="flying-icon icon-4" />
-          <img src="./img/plugin-notify.svg" alt="Plugin Notify" class="flying-icon icon-5" />
-          <img
-            src="./img/plugin-highlight-code.svg"
-            alt="Plugin Highlight Code"
-            class="flying-icon icon-6"
-          />
+  <figure ref="wrapper" class="splash-figure-container" @click="nextSlide()">
+    <div class="figure-wrap">
+      <div v-if="activeSlide.id == 'dashboard'" class="splash-figure dashboard">
+        <div class="stage-icons-wrap">
+          <div class="stage-icons">
+            <img src="./img/plugin-jobs.svg" alt="Plugin Jobs" class="flying-icon icon-1" />
+            <img src="./img/plugin-email.svg" alt="Plugin Email" class="flying-icon icon-2" />
+            <img src="./img/plugin-ssr.svg" alt="Plugin SSR" class="flying-icon icon-3" />
+            <img src="./img/plugin-blog.svg" alt="Plugin Blog" class="flying-icon icon-4" />
+            <img src="./img/plugin-notify.svg" alt="Plugin Notify" class="flying-icon icon-5" />
+            <img
+              src="./img/plugin-highlight-code.svg"
+              alt="Plugin Highlight Code"
+              class="flying-icon icon-6"
+            />
+          </div>
+        </div>
+        <div class="stage">
+          <img src="./img/dashboard.svg" alt="Dashboard" class="main" />
+          <img src="./img/mobile-device.svg" alt="Mobile Device" class="mobile-device" />
         </div>
       </div>
-      <div class="stage">
-        <img src="./img/dashboard.svg" alt="Dashboard" class="main" />
-        <img src="./img/mobile-device.svg" alt="Mobile Device" class="mobile-device" />
-      </div>
-    </div>
-    <div v-if="activeSlide.id == 'themes'" class="splash-figure themes">
-      <div class="stage">
-        <!-- <img src="./img/zeno-pricing.svg" alt="Zeno Theme Pricing" class="pricing" /> -->
-        <img src="./img/zeno-theme.svg" alt="Zeno Factor Theme" class="main" />
-        <img src="./img/zeno-team.svg" alt="Zeno Theme Team" class="team" />
-        <!-- <img src="./img/tablet-dashboard.svg" alt="Tablet" class="tablet" /> -->
+      <div v-if="activeSlide.id == 'themes'" class="splash-figure themes">
+        <div class="stage">
+          <!-- <img src="./img/zeno-pricing.svg" alt="Zeno Theme Pricing" class="pricing" /> -->
+          <img src="./img/zeno-theme.svg" alt="Zeno Factor Theme" class="main" />
+          <img src="./img/zeno-team.svg" alt="Zeno Theme Team" class="team" />
+          <!-- <img src="./img/tablet-dashboard.svg" alt="Tablet" class="tablet" /> -->
+        </div>
       </div>
     </div>
 
@@ -55,7 +57,7 @@ export default Vue.extend({
   },
   computed: {
     scale(this: any) {
-      return Math.max(Math.min(this.width / 500, 1), 0.5)
+      return Math.max(Math.min(this.width / 900, 1), 0.5)
     },
     activeSlide(this: any) {
       return this.figures[this.active]
@@ -63,10 +65,10 @@ export default Vue.extend({
   },
 
   mounted() {
-    this.width = this.getWidth()
+    this.width = window.innerWidth
 
     window.addEventListener("resize", () => {
-      this.width = this.getWidth()
+      this.width = window.innerWidth < 900 ? window.innerWidth : 900
     })
 
     this.runTimer()
@@ -87,19 +89,33 @@ export default Vue.extend({
     },
 
     runTimer(this: any) {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
+      // clearTimeout(this.timer)
+      // this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
     }
   }
 })
 </script>
 
 <style lang="less">
-figure.splash-figure-wrap {
+figure.splash-figure-container {
   position: relative;
-  width: 900px;
-  height: 600px;
-  transform-origin: left center;
+
+  .figure-wrap {
+    margin: 0 auto;
+    width: 900px;
+    height: 600px;
+    transform-origin: left center;
+    @media (max-width: 1200px) {
+      width: 600px;
+      height: 400px;
+    }
+    @media (max-width: 900px) {
+      margin: 4rem auto 2rem;
+      width: 450px;
+      height: 300px;
+    }
+  }
+
   .splash-figure,
   .stage {
     width: 100%;
@@ -145,9 +161,9 @@ figure.splash-figure-wrap {
       //    translateZ(20px) scale(1);
     }
     .team {
-      max-width: 300px;
+      max-width: 35%;
       z-index: 100;
-      bottom: 3rem;
+      bottom: 9%;
       left: 0rem;
       animation: tabletTransform 1s 1 forwards;
     }
@@ -182,11 +198,14 @@ figure.splash-figure-wrap {
   }
   .stage-icons-wrap {
     position: absolute;
-    width: 100%;
+    width: 120%;
+    height: 10%;
     top: 1rem;
 
     //transform-style: preserve-3d;
     .stage-icons {
+      width: 100%;
+      height: 100%;
       perspective: 500px;
       transform: translateX(-3em) rotateZ(-6deg);
     }
@@ -200,43 +219,39 @@ figure.splash-figure-wrap {
         0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
     }
     .icon-1 {
-      top: 0rem;
-      left: 0%;
-      transform: rotate3d(0.5, 0.1, 1, 18deg) translateZ(-407px)
-        translate3d(-147px, -20px, 0);
+      top: 0;
+      left: 5%;
+      transform: scale(0.5) rotate3d(0, 0, 0, 18deg) translate3d(47%, 0px, 0);
       animation: iconTransform 0.3s 0s forwards;
     }
     .icon-2 {
-      top: 0rem;
+      top: 0;
       left: 16%;
-      transform: rotate3d(0.5, 0.1, 1, -18deg) translateZ(-207px)
-        translate3d(-30px, -20px, 0px);
+      transform: scale(0.8) rotate3d(-1, -1, 0, -18deg) translate3d(56%, -75%, 0);
       animation: iconTransform 0.3s 0.1s forwards;
     }
     .icon-3 {
-      top: 0rem;
+      top: 0;
       left: 49%;
-      transform: scale(1.2) translateZ(143px) rotate3d(1, 0, 1, 49deg) translateY(-9px);
+      transform: scale(1.4) rotate3d(1, 0, 1, 49deg) translateY(-40%);
       animation: iconTransform 0.3s 0.3s forwards;
     }
     .icon-4 {
-      top: 0rem;
+      top: 0;
       left: 83%;
-      transform: scale(1.2) translateZ(284px) translateX(-104px) translateY(-10px)
-        rotate(18deg) rotateY(-80deg);
+      transform: scale(2.4) rotate(20deg) rotateY(-50deg);
       animation: iconTransform 0.3s 0.6s forwards;
     }
     .icon-5 {
-      top: 0rem;
-      left: 32%;
-      transform: rotateY(27deg) rotate3d(1, 1, 1, 34deg) translateZ(40px);
+      top: 0;
+      left: 36%;
+      transform: scale(1.3) translateY(-36%) rotateY(17deg) rotate3d(1, 0, 1, 34deg);
       animation: iconTransform 0.3s 0.2s forwards;
     }
     .icon-6 {
-      top: 0rem;
+      top: 0;
       left: 66%;
-      transform: translateZ(204px) translateX(-43px) translateY(-30px) rotateY(-61deg)
-        rotateZ(-15deg);
+      transform: scale(1.6) translateY(-61%) rotateY(-61deg) rotate(-15deg);
       animation: iconTransform 0.3s 0.4s forwards;
     }
   }
@@ -250,7 +265,7 @@ figure.splash-figure-wrap {
       animation: mainTransform 1s 1 forwards;
     }
     .mobile-device {
-      max-width: 150px;
+      max-width: 18%;
       position: absolute;
       left: 32px;
       bottom: 10px;
