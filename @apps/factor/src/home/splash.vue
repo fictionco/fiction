@@ -7,7 +7,7 @@
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Get Started &rarr;</factor-link>
-          <factor-link btn="link" path="/signin?newAccount=1">Create Account</factor-link>
+          <factor-link btn="default" path="/signin?newAccount=1">Create Account</factor-link>
         </div>
       </div>
 
@@ -84,8 +84,12 @@ export default {
       }
 
       .actions {
-        font-size: 1.5em;
-        margin-top: 2em;
+        font-size: 1.4em;
+        margin-top: 2rem;
+        .factor-btn {
+          margin-right: 1rem;
+          margin-bottom: 1rem;
+        }
       }
 
       @media (max-width: 900px) {
@@ -93,11 +97,15 @@ export default {
         justify-self: center;
         max-width: 100%;
         .page-title {
-          font-size: 2em;
+          font-size: 3em;
         }
         .page-title-sub {
           font-size: 1.4em;
           line-height: 1.1;
+        }
+
+        .actions {
+          font-size: 1em;
         }
       }
     }

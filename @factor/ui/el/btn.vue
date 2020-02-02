@@ -14,8 +14,6 @@ export default Vue.extend({
 
 <style lang="less">
 button.app-btn {
-  // --shadow-btn: 0 2px 10px rgba(71, 86, 144, 0.2);
-  // --shadow-btn-hover: 0 4px 10px rgba(71, 86, 144, 0.2);
   padding: 0.7em 1.4em;
   font-size: 0.9em;
   font-weight: 700;
@@ -53,17 +51,8 @@ button.app-btn {
 
   &.default {
     background: #fff;
-    //box-shadow: inset 0 0 0 0.5px rgba(71, 86, 144, 0.3), var(--shadow-btn);
+    box-shadow: inset 0 0 0 1px var(--color-border);
   }
-
-  // &.primary,
-  // &.secondary {
-  //   box-shadow: var(--shadow-btn);
-
-  //   &:hover {
-  //     box-shadow: var(--shadow-btn-hover);
-  //   }
-  // }
 
   &.primary {
     color: var(--color-primary-text, #fff);
@@ -84,5 +73,4 @@ button.app-btn {
     }
   }
 }
-</style
->x
+</style>
