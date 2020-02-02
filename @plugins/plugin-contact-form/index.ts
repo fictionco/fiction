@@ -6,6 +6,12 @@ const postType = "contact-form"
 
 export const sendFormEmail = async (form: object): Promise<void> => {
   const toSetting = setting("contactForm.email")
+
+  if (!toSetting) {
+    throw new Error(
+      "Destination email address is missing from Factor settings (contactForm.email)"
+    )
+  }
   const to = typeof toSetting == "function" ? toSetting() : toSetting
 
   const text = Object.entries(form)

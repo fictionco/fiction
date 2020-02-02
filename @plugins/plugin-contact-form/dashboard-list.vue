@@ -82,7 +82,7 @@ export default Vue.extend({
   computed: {},
 
   methods: {
-    showModal(this: any, post) {
+    showModal(this: any, post: FactorPost) {
       this.selectedPost = post
       this.vis = true
     },

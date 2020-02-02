@@ -55,7 +55,7 @@
     <linearGradient id="f" x1="475.77" y1="60.61" x2="490.77" y2="389.1" xlink:href="#a"/>
     <linearGradient id="g" x1="82.21" y1="-10.31" x2="298.2" y2="352.68" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#04b0ff"/>
-      <stop offset="1" stop-color="#0496ff"/>
+      <stop offset="1" stop-color="#0471FF"/>
     </linearGradient>
   </defs>
   <title>factor-logo-2</title>

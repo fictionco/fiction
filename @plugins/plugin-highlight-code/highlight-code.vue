@@ -17,7 +17,7 @@ export default Vue.extend({
     style() {
       return setting("highlightCode.style")
     },
-    setPage() {
+    setPage(this: any) {
       if (this.prism) {
         // wait til content is done rendering
         setTimeout(() => {

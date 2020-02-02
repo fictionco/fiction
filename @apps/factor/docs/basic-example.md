@@ -187,7 +187,7 @@ In this file, enter the following:
 
 ```css
 .factor-app {
-  --color-primary: #0496ff;
+  --color-primary: #0471ff;
   --color-secondary: #ff0076;
   --color-text: #495e6f;
   --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",

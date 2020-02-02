@@ -71,14 +71,14 @@ export default Vue.extend({
       this.sent = true
       this.sending = false
     },
-    getLabel(c): string {
+    getLabel(c: any): string {
       const label = [c.label]
       if (c.required && c.label) {
         label.push("*")
       }
       return label.join(" ")
     },
-    getPlaceholder(c) {
+    getPlaceholder(c: any): string {
       const placeholder = [c.placeholder]
       if (c.required && c.placeholder && !c.label) {
         placeholder.push("*")

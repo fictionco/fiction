@@ -46,7 +46,7 @@ export default Vue.extend({
     //background: #0471ff;
     //background-image: url("../img/dot-light.svg");
     background: url("../img/dot-light.svg"),
-      linear-gradient(120deg, #0496ff 0, #076bed 50%);
+      linear-gradient(120deg, #0471ff 0, #076bed 50%);
 
     @media (max-width: 767px) {
       display: flex;

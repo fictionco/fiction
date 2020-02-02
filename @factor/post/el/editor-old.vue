@@ -86,7 +86,7 @@ export default Vue.extend({
 #editor {
   --color-red: #ff0076;
   --color-blue-dark: #4568b2;
-  --color-blue: #0496ff;
+  --color-blue: #0471ff;
   --color-blue-light: #62bdff;
   --color-green: #26d12b;
   --color-yellow: #fdf700;

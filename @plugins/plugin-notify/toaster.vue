@@ -91,8 +91,6 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     justify-content: space-between;
-    //background: #0496ff;
-    //color: #fff;
     border-radius: 6px;
     text-align: center;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 6px 14px 0 rgba(24, 32, 41, 0.12),
@@ -106,15 +104,8 @@ export default Vue.extend({
 }
 .notify-toast {
   top: 10px;
-  // .toast {
-  //   background: #0496ff;
-  //   //color: #0496ff;
-  // }
 }
 .error-toast {
   bottom: 10px;
-  // .toast {
-  //   background: #ff0076;
-  // }
 }
 </style>

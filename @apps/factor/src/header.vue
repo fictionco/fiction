@@ -93,8 +93,6 @@ export default Vue.extend({
       justify-content: flex-end;
     }
     > a {
-      letter-spacing: -0.03em;
-      font-size: 0.9em;
       color: inherit;
 
       margin: 0 1em;

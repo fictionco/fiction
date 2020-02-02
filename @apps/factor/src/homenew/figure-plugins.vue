@@ -98,10 +98,10 @@ figure.plugins-figure {
       background: #fff;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11), 0px 1px 3px rgba(0, 0, 0, 0.08);
       &.facebook {
-        background: #1776f2;
+        background: #0471ff;
       }
       &.twitter {
-        background: #1ea1f2;
+        background: #0471ff;
       }
       &:nth-child(1) {
         top: 5%;

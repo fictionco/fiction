@@ -44,23 +44,26 @@ export interface DevCompilerOptions {
 /**
  * If server bundles are changed, let the server renderer know
  */
+
 const updateBundles = ({
-  cwd,
-  title = "",
-  value = ""
+  cwd
 }: {
   cwd: string;
   title?: string;
   value?: string;
 }): void => {
   const dev = devServer[cwd]
-  if (title) {
-    dev.updateReason = chalk.dim(`${title}@${value}`)
-  }
 
-  if (dev && dev.bundle && dev.clientManifest && dev.template) {
-    const { template, bundle, clientManifest } = dev
+  const { template, bundle, clientManifest } = dev
+
+  if (clientManifest && bundle && template) {
+    console.log("UPDATE BUNDLES")
     dev.updateBundleCallback({ bundle, template, clientManifest })
+    /**
+     * reset back to undefined to prevent mismatching updates
+     */
+    devServer[cwd].clientManifest = undefined
+    devServer[cwd].bundle = undefined
   }
 }
 
@@ -79,10 +82,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
 
   if (config.output) config.output.filename = "[name].js"
 
-  config.entry = [
-    "webpack-hot-middleware/client?path=/__hot__&reload=true&noInfo=true",
-    ...existingEntry
-  ]
+  config.entry = ["webpack-hot-middleware/client?path=/__hot__", ...existingEntry]
 
   config.plugins?.push(new webpack.HotModuleReplacementPlugin()) ?? []
 
@@ -150,7 +150,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       errors.forEach(err => console.error(err))
       // eslint-disable-next-line no-console
       warnings.forEach(err => console.warn(err))
-
+      console.log("ECLI", errors.length, warnings.length)
       if (errors.length > 0) return
 
       const outputPath = config.output?.path ?? ""
@@ -160,7 +160,9 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
         "utf-8"
       )
 
-      devServer.clientManifest = JSON.parse(clientManifestString)
+      const clientManifest = JSON.parse(clientManifestString)
+
+      devServer.clientManifest = clientManifest
 
       updateBundles({ cwd: devServer.cwd })
     })
@@ -197,8 +199,9 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
   serverCompiler.watch({}, (_error: Error, stats) => {
     if (_error) throw _error
 
-    const { errors } = stats.toJson()
+    const { errors, warnings } = stats.toJson()
 
+    console.log("ESERV", errors.length, warnings.length)
     if (errors.length > 0) return
 
     const outputPath = config.output?.path ?? ""
@@ -208,7 +211,8 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       "utf-8"
     )
 
-    devServer.bundle = JSON.parse(bundleString)
+    const serverBundle = JSON.parse(bundleString)
+    devServer.bundle = serverBundle
 
     updateBundles({ cwd: devServer.cwd })
   })

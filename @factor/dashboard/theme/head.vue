@@ -382,7 +382,7 @@ export default Vue.extend({
       }
       &:hover,
       &.active {
-        color: #0496ff;
+        color: #0471ff;
       }
       &:active {
         color: #ff0076;

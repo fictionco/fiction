@@ -99,7 +99,7 @@ and in your CSS/LESS file:
 
 ```css
 .factor-app {
-  --welcome-banner-bg: #0496ff;
+  --welcome-banner-bg: #0471ff;
 }
 ```
 
