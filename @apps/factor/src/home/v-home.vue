@@ -1,44 +1,6 @@
 <template>
   <div class="view-home">
-    <section class="header">
-      <div class="headline content">
-        <div class="content-pad">
-          <h1 class="page-title">Build something incredible today</h1>
-          <h3 class="page-title-sub">The Javascript CMS for front-end developers</h3>
-
-          <div class="actions">
-            <h3
-              class="page-title-highlight"
-            >🚀&nbsp; Launches March 17 &mdash; Join the developer group for early access.</h3>
-            <factor-email-list list-id="alphaProgram" />
-
-            <div class="github-actions" :class="!loadingButtons ? 'loaded': ''">
-              <script async defer src="https://buttons.github.io/buttons.js" />
-
-              <a
-                class="github-button"
-                href="https://github.com/fiction-com/factor"
-                data-color-scheme="no-preference: light; light: light; dark: light;"
-                data-icon="octicon-star"
-                data-size="large"
-                data-show-count="true"
-                aria-label="Star fiction-com/factor on GitHub"
-              >Star on Github</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="content screencast-container">
-        <div class="content-pad">
-          <div class="screenshots">
-            <div v-for="(s, i) in screenshots" :key="i" class="screenshot">
-              <img :src="s.img" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <home-splash />
 
     <section class="benefits content">
       <section-benefits class="content-pad" />
@@ -70,26 +32,6 @@
         </div>
       </div>
     </section>
-
-    <div class="research-wrap">
-      <div class="research-grid">
-        <div class="point dev-time-traditional">
-          <div class="timeline">
-            <div class="big">5.5</div>
-            <div class="descriptor">months</div>
-          </div>
-          <div class="about">*Estimated development time for a typical web app MVP</div>
-        </div>
-
-        <div class="point dev-time-factor">
-          <div class="timeline">
-            <div class="big">5</div>
-            <div class="descriptor">days</div>
-          </div>
-          <div class="about">*Average time to develop and launch a custom Factor app</div>
-        </div>
-      </div>
-    </div>
 
     <div class="quotes-wrap">
       <div class="quotes">
@@ -128,61 +70,26 @@
       </div>
     </div>
 
-    <div class="alpha-program content">
-      <div class="content-pad">
-        <div class="head">
-          <div class="glyph">&alpha;</div>
-          <h2 class="title">Join The Developer Program</h2>
-          <h3 class="sub-title">Request an Invite or Contact Us</h3>
-        </div>
-        <div class="text">
-          Join other developers building the next big things for
-          the web. Join to get chat access, latest updates and support.
-        </div>
-        <div class="action">
-          <factor-email-list list-id="alphaProgram" />
-        </div>
-      </div>
-    </div>
+    <join-program />
   </div>
 </template>
 
 <script lang="ts">
-import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorEmailList,
     factorLink,
     factorIcon,
-
-    "home-icon": () => import("./icon.vue"),
-    "section-benefits": () => import("./section-benefits.vue")
+    joinProgram: () => import("./el-join.vue"),
+    homeSplash: () => import("./splash.vue"),
+    homeIcon: () => import("./icon.vue"),
+    sectionBenefits: () => import("./section-benefits.vue")
   },
   data(this: any) {
     return {
       loading: true,
       loadingButtons: true,
-      poster: require(`./img/screencast-poster.jpg`), // 1280x720,
-      screenshots: [
-        { img: require("./img/theme-ultra.jpg"), name: "Alpha Theme" },
-        { img: require("./img/screencast-poster.jpg"), name: "Dashboard" },
-        { img: require("./img/theme-alpha.jpg"), name: "Ultra Theme" }
-      ],
-      quotes: [
-        {
-          text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
-          attribution: "Justin Keller, CEO Elastic Byte",
-          img: require("./img/elastic-byte.svg"),
-          link: "https://www.elasticbyte.net"
-        },
-        {
-          text: `wow! So impressed with the speed and ease of use of @factordev for creating universal #vuejs apps 💨 #factorjs`,
-          attribution: "Nick Dryburgh, Zeno co.",
-          img: require("./img/zeno.svg")
-        }
-      ],
       features: [
         {
           icon: "powered",
@@ -195,7 +102,7 @@ export default Vue.extend({
         },
         {
           icon: "ssr",
-          title: "Make apps that do more.",
+          title: "Make web apps that do more.",
           text: `Factor helps you bring together all the different tools you'll need to build great apps.
               It helps you build custom endpoints and easily optimize things for SEO,
              marketing, and performance.`,
@@ -228,6 +135,19 @@ export default Vue.extend({
           figure: () => import("./figure-themes.vue"),
           link: { path: "/themes", text: "View Themes" }
         }
+      ],
+      quotes: [
+        {
+          text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
+          attribution: "Justin Keller, CEO ElasticByte",
+          img: require("./img/elastic-byte.svg"),
+          link: "https://www.elasticbyte.dev"
+        },
+        {
+          text: `wow! So impressed with the speed and ease of use of @factordev for creating universal #vuejs apps 💨 #factorjs`,
+          attribution: "Nick Dryburgh, Relic Games co.",
+          img: require("./img/zeno.svg")
+        }
       ]
     }
   },
@@ -249,7 +169,6 @@ export default Vue.extend({
 <style lang="less">
 .view-home {
   padding-top: 45px;
-
   overflow: hidden;
   .content-pad {
     max-width: 1100px;
@@ -260,255 +179,9 @@ export default Vue.extend({
     position: relative;
   }
 
-  .research-wrap {
-    .research-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-
-      margin: 0 auto;
-      .point {
-        padding: 8rem;
-      }
-      .point:last-child {
-      }
-    }
-    .timeline {
-      display: flex;
-
-      line-height: 1;
-      font-size: 2.5em;
-      .big {
-        font-size: 5em;
-        font-weight: 700;
-      }
-      .descriptor {
-        margin-top: 0.5em;
-        opacity: 0.5;
-      }
-    }
-    .about {
-      opacity: 0.5;
-      font-size: 1.2em;
-    }
-    @media (max-width: 1200px) {
-      .research-grid {
-        grid-template-columns: 1fr;
-
-        .point {
-          padding: 4rem;
-        }
-        .timeline {
-          font-size: 2.5em;
-          .big {
-            font-size: 2em;
-            font-weight: 700;
-          }
-          .descriptor {
-            margin-top: 0;
-          }
-        }
-      }
-    }
-  }
-
-  /* HEADER */
-  .header {
-    .headline {
-      padding: 6em 2em 2em;
-      text-align: center;
-      @media (min-height: 1000px) {
-        padding-top: 170px;
-      }
-      h1 {
-        z-index: 5;
-        position: relative;
-      }
-
-      .page-title,
-      .page-title-sub {
-        letter-spacing: -0.025em;
-      }
-
-      .page-title {
-        font-size: 4em;
-        line-height: 1.1;
-        font-weight: 500;
-        margin-bottom: 1rem;
-
-        .highlight {
-          display: block;
-          // color: var(--color-primary);
-        }
-      }
-
-      .page-title-sub {
-        font-size: 2.7em;
-        color: var(--color-primary);
-      }
-
-      @media (max-width: 900px) {
-        .page-title {
-          color: var(--color-primary);
-          font-weight: 500;
-          font-size: 2em;
-          line-height: 1.1;
-        }
-        .page-title-sub {
-          color: inherit;
-        }
-      }
-
-      @media (max-width: 900px) {
-        text-align: left;
-        padding: 3rem 0 0;
-        .page-title {
-          color: var(--color-primary);
-
-          font-size: 2em;
-          line-height: 1.1;
-        }
-        .page-title-sub {
-          opacity: 1;
-          font-size: 1.6em;
-          line-height: 1.1;
-        }
-        .page-title .highlight {
-          color: var(--color-primary);
-        }
-      }
-      .actions {
-        font-size: 1.2em;
-        margin-top: 3em;
-        .page-title-highlight {
-          font-size: 1.1em;
-          font-weight: 600;
-          margin-bottom: 1em;
-          opacity: 0.6;
-        }
-        .github-actions {
-          margin: 2rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          opacity: 0;
-          transition: all 1s;
-          line-height: 1;
-          transform: scale(1.1);
-          height: 3rem;
-          &.loaded {
-            opacity: 1;
-          }
-          > span {
-            margin: 0 0.5rem;
-          }
-          .github-link {
-            color: inherit;
-
-            opacity: 0.5;
-            margin-left: 1rem;
-          }
-          a {
-            color: transparent;
-          }
-        }
-      }
-    }
-
-    // .content {
-    //   position: relative;
-    //   z-index: 2;
-    //   &:before {
-    //     content: "";
-    //     position: absolute;
-    //     z-index: -1;
-    //     left: 0;
-    //     top: 126px;
-    //     right: 0;
-    //     bottom: -20px;
-    //     transform: skewY(-10deg);
-    //     background: linear-gradient(
-    //       190deg,
-    //       var(--color-bg-contrast),
-    //       hsla(0, 0%, 100%, 0) 75%
-    //     );
-    //   }
-    // }
-    .screencast-container {
-      position: relative;
-      background-image: url("./img/dot.svg");
-
-      .content-pad {
-        max-width: 100%;
-      }
-      .screenshots {
-        display: grid;
-        grid-gap: 2rem;
-        justify-content: center;
-        align-items: center;
-        grid-template-columns: repeat(3, minmax(370px, 600px));
-        perspective: 1000px;
-        width: 200%;
-        margin-left: -50%;
-
-        .screenshot {
-          img {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
-              0 50px 100px rgba(50, 50, 93, 0.1);
-          }
-          &:nth-child(1) {
-            transform: translateX(-30%);
-          }
-          &:nth-child(2) {
-            z-index: 50;
-          }
-          &:nth-child(3) {
-            transform: translateX(30%);
-          }
-        }
-      }
-      .screencast {
-        width: 100%;
-        padding-top: 56.25%;
-        padding-top: calc(9 / 16 * 100%);
-        position: relative;
-        border-radius: 6px;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.1),
-          0 50px 100px rgba(50, 50, 93, 0.1);
-        background: #f6f9fc url(./img/screencast-poster.jpg) 50%/100%;
-        background-size: contain;
-        video {
-          position: absolute;
-          left: 0;
-          top: 0;
-          min-width: 100%;
-          max-width: 100%;
-          height: auto;
-          border-radius: 7px;
-        }
-        .play-button {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          pointer-events: none;
-          background: var(--color-text);
-          opacity: 0.9;
-          border-radius: 50%;
-          box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-            0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
-          width: 72px;
-          height: 72px;
-        }
-      }
-    }
-  }
-
   .benefits {
     .content-pad {
-      padding-top: 10rem;
+      padding-top: 8rem;
       padding-bottom: 10rem;
       @media (max-width: 900px) {
         padding-top: 6rem;
@@ -593,9 +266,12 @@ export default Vue.extend({
       height: 72px;
       width: 72px;
       margin-bottom: 1rem;
+      box-shadow: 0px 2px 3px rgba(50, 50, 93, 0.13), 0px 2px 5px rgba(50, 50, 93, 0.11),
+        0px 5px 15px rgba(0, 0, 0, 0.07);
+      border-radius: 6px;
     }
     .title {
-      font-weight: 500;
+      font-weight: 700;
       font-size: 3em;
       line-height: 1.1;
       margin-bottom: 1.5rem;
@@ -718,87 +394,5 @@ export default Vue.extend({
       }
     }
   }
-
-  .alpha-program {
-    text-align: center;
-    padding: 6rem 0;
-    .content-pad {
-      max-width: 700px;
-    }
-    .glyph {
-      color: #ff0076;
-
-      width: 100px;
-      height: 100px;
-      line-height: 100px;
-      font-size: 3.5em;
-
-      border-radius: 50%;
-      margin: 1rem auto;
-    }
-    line-height: 1.1;
-    .title {
-      font-size: 3em;
-      font-weight: 500;
-    }
-    .sub-title {
-      font-size: 2em;
-      opacity: 0.8;
-      // color: var(--color-primary);
-    }
-    .text,
-    .action {
-      font-size: 1.3em;
-    }
-    .text {
-      line-height: 1.5;
-      margin: 2rem 0;
-    }
-    .action {
-      font-weight: 500;
-    }
-    .email-list-form .add-email {
-      grid-template-columns: 1fr;
-    }
-    @media (max-width: 900px) {
-      text-align: left;
-      padding: 7rem 0;
-      .title {
-        font-size: 2em;
-      }
-      .glyph {
-        margin: 0;
-      }
-    }
-  }
-
-  // .section-title {
-  //   font-size: 3em;
-  //   line-height: 1.1;
-
-  //   @media (max-width: 670px) {
-  //     font-size: 2em;
-  //     line-height: 1.2;
-  //   }
-  // }
-  // .body-title {
-  //   font-weight: 500;
-  //   font-size: 1.35em;
-  //   line-height: 1.5em;
-  // }
-  // .body-text {
-  //   font-weight: 400;
-
-  //   opacity: 0.85;
-  // }
-  // .section-title-highlight {
-  //   font-weight: 300;
-  //   color: var(--color-primary);
-  // }
-  // .medium-body-text {
-  //   font-weight: 400;
-  //   font-size: 1.3em;
-  //   line-height: 1.6;
-  // }
 }
 </style>

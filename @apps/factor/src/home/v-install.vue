@@ -13,8 +13,10 @@
         <div class="header">
           <h1 class="title">{{ toLabel(video.id) }}</h1>
           <div class="subtitle">
-            <span class="time">{{ video.duration }}</span>
-            <p class="synopsis">{{ video.synopsis }}</p>
+            <div class="time">
+              <span class="tag">{{ video.duration }}</span>
+            </div>
+            <div class="synopsis">{{ video.synopsis }}</div>
           </div>
         </div>
         <div class="video-wrap">
@@ -113,7 +115,10 @@ export default Vue.extend({
   .start-content {
     max-width: 1200px;
     margin: 0 auto;
-    @media (max-width: 900px) {
+  }
+  @media (max-width: 900px) {
+    padding-top: 5em;
+    .start-content {
       padding: 0 1rem;
     }
   }
@@ -137,6 +142,15 @@ export default Vue.extend({
         background: var(--color-bg-contrast-more);
         color: var(--color-primary);
         opacity: 1;
+      }
+    }
+    @media (max-width: 900px) {
+      top: auto;
+      position: relative;
+      display: block;
+      max-width: 400px;
+      a {
+        display: block;
       }
     }
   }
@@ -167,10 +181,13 @@ export default Vue.extend({
   padding: 3em 0;
 
   .header {
-    .time {
+    .time .tag {
+      display: inline-block;
       background: var(--color-primary);
       color: #fff;
       border-radius: 8px;
+      padding: 0 1rem;
+      margin-right: 2rem;
     }
     .title {
       font-size: 4em;
@@ -184,17 +201,17 @@ export default Vue.extend({
       display: flex;
       max-width: 800px;
       align-items: center;
-      .time {
-        padding: 0 1rem;
-        margin-right: 2rem;
-      }
+
       .synopsis {
         opacity: 0.5;
         font-size: 1.5em;
       }
 
-      @media (max-width: 767px) {
-        font-size: 1.2em;
+      @media (max-width: 900px) {
+        display: block;
+        .synopsis {
+          margin: 1rem 0 0;
+        }
       }
     }
   }
@@ -207,6 +224,7 @@ export default Vue.extend({
     align-items: center;
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
+      grid-gap: 2rem;
     }
 
     .video {

@@ -61,12 +61,12 @@
 
     <div class="interstitial-cta">
       <div class="text">
-        <h2 class="title">Take the Famous 10 Minute Challenge</h2>
-        <h2 class="title-sub">Install to Deployment in less than 10 Minutes</h2>
+        <h2 class="title">Getting Started is Easy</h2>
+        <h2 class="title-sub">Add Factor to a project in seconds</h2>
       </div>
 
       <div class="buttons">
-        <factor-link btn="primary" size="large" path="/install">Get Started &rarr;</factor-link>
+        <factor-link btn="primary" size="large" path="/guide/quickstart">View Guide &rarr;</factor-link>
       </div>
     </div>
   </div>
@@ -79,7 +79,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    homeIcon: () => import("./icon.vue")
+    "home-icon": () => import("./icon.vue")
   },
   methods: {}
 })
@@ -101,9 +101,8 @@ export default Vue.extend({
     letter-spacing: -0.02em;
     .title {
       font-size: 3em;
-      font-weight: 700;
+      font-weight: 600;
       line-height: 1.1;
-      letter-spacing: -0.025em;
 
       @media (max-width: 670px) {
         font-size: 2em;
