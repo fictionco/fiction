@@ -89,8 +89,8 @@ export default Vue.extend({
     },
 
     runTimer(this: any) {
-      // clearTimeout(this.timer)
-      // this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
     }
   }
 })
