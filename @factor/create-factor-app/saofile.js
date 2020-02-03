@@ -26,9 +26,13 @@ const config = {
     {
       name: "email",
       type: "string",
-      message: "Your email address (for admin user)?",
+      message: "Admin user email address?",
       default: "{gitUser.email}",
-      when: answers => !config.isUnitTest(answers)
+      when: answers => !config.isUnitTest(answers),
+      validate: v => {
+        const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\d-A-Za-z]+\.)+[A-Za-z]{2,}))$/
+        return re.test(v) ? true : "Enter a valid email address"
+      }
     }
   ],
   isUnitTest(answers) {
@@ -134,12 +138,17 @@ const config = {
       )
     )
     cd()
-    console.log(`\t${this.chalk.magenta.bold("yarn ") + this.chalk.bold("factor dev")}\n`)
+    console.log(`\t${this.chalk.magenta.bold("npx ") + this.chalk.bold("factor dev")}\n`)
     console.log()
     console.log(
-      `   ${this.chalk.cyan.bold(`${figures.arrowRight} Factor docs:`)} ${this.chalk.bold(
-        "https://factor.dev/"
+      `   ${this.chalk.cyan.bold(`${figures.arrowRight} Help:`)} ${this.chalk.bold(
+        "https://go.factor.dev/slack"
       )}`
+    )
+    console.log(
+      `   ${this.chalk.cyan.bold(
+        `${figures.arrowRight} Bugs or Requests:`
+      )} ${this.chalk.bold("https://go.factor.dev/issues")}`
     )
 
     console.log()
