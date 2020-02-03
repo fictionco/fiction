@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <join-program />
+    <join-program id="join" />
   </div>
 </template>
 

@@ -36,7 +36,7 @@ export default {
     display: grid;
     grid-template-columns: 40% minmax(40%, 1fr); //minmax(40%, 1fr) minmax(1fr, 60%);
     grid-gap: 4em;
-    padding: 7rem 3rem 3rem;
+    padding: 6rem 3rem 3rem;
     align-items: center;
 
     @media (min-height: 1000px) {

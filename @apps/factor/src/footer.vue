@@ -16,7 +16,7 @@
         <div class="menu-header">Community</div>
         <factor-link path="https://github.com/fiction-com/factor">Github repo</factor-link>
         <factor-link path="https://github.com/fiction-com/factor/issues">Submit an issue</factor-link>
-        <factor-link path="/link-to-email-signup">Join dev program</factor-link>
+        <factor-link path="/#join">Join dev program</factor-link>
       </div>
       <div class="footer-col">
         <div class="menu-header">Company</div>
