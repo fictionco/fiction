@@ -1,7 +1,7 @@
 <template>
   <div class="docs-footer">
     <p>
-      <strong>Caught a mistake?</strong>
+      <strong>Catch a mistake or find a bug?</strong>
     </p>
     <p>
       Please let us know by filing an issue on the

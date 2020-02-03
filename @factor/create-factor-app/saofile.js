@@ -141,6 +141,11 @@ const config = {
     console.log(`\t${this.chalk.magenta.bold("npx ") + this.chalk.bold("factor dev")}\n`)
     console.log()
     console.log(
+      `   ${this.chalk.cyan.bold(`${figures.arrowRight} Docs:`)} ${this.chalk.bold(
+        "https://factor.dev"
+      )}`
+    )
+    console.log(
       `   ${this.chalk.cyan.bold(`${figures.arrowRight} Help:`)} ${this.chalk.bold(
         "https://go.factor.dev/slack"
       )}`

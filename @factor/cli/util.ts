@@ -30,6 +30,6 @@ export const serverInfo = ({
   const lines = []
   lines.push(chalk.bold(`Factor Platform v${factorVersion()}`))
   lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
-  lines.push(`Listening at ${chalk.cyan(localhostUrl())}`)
+  lines.push(`Serving locally at ${chalk.cyan(localhostUrl())}`)
   log.log(lines.join(`\n`) + `\n`)
 }

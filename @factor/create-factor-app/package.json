@@ -8,13 +8,6 @@
     "saofile.js",
     "template/"
   ],
-  "repository": {
-    "url": "git+https://github.com/fiction-com/factor/@create/create-factor-app.git",
-    "type": "git"
-  },
-  "scripts": {
-    "release": "standard-version"
-  },
   "dependencies": {
     "axios": "^0.19.1",
     "chalk": "^3.0.0",
@@ -26,9 +19,7 @@
     "ts-node": "^8.5.0",
     "typescript": "^3.7.2"
   },
-  "devDependencies": {
-    "standard-version": "^7.0.0"
-  },
-  "license": "GPL-2.0",
+  "devDependencies": {},
+  "license": "MIT",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }

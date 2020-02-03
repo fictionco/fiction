@@ -23,7 +23,7 @@
           <slot name="content" />
           <div class="sp description">{{ f.description }}</div>
           <div class="sp sp2 action">
-            <factor-link btn="default" :path="f.path">
+            <factor-link btn="primary" :path="f.path">
               <span v-formatted-text="f.btn" />
             </factor-link>
           </div>
@@ -50,23 +50,24 @@ export default Vue.extend({
       subTitle: "Tools to manage your app",
       features: [
         {
-          title: "Get Plugins",
+          title: "Themes and Plugins",
           description: "Browse and download Factor extensions for your app.",
           content: "something",
-          btn: "Get Plugins &rarr;",
-          path: "https://factor.dev/plugins"
-        },
-        {
-          title: "Latest Updates",
-          description: "Get news, tips and tutorials on creating next level apps.",
-          btn: "Blog &rarr;",
-          path: "https://www.fiction.com/blog"
-        },
-        {
-          title: "Factor Docs",
-          description: "Need some help getting things rolling? Check out Factor.dev.",
-          btn: "Go &rarr;",
+          btn: "Go to Factor.dev &rarr;",
           path: "https://factor.dev"
+        },
+        {
+          title: "Slack Channel",
+          description: "Need some help getting things rolling? Join the Slack channel",
+          btn: "Join &rarr;",
+          path: "https://go.factor.dev/slack"
+        },
+        {
+          title: "Requests or Issues",
+          description:
+            "Find a bug or have a feature request? Don't be shy, submit an issue.",
+          btn: "Github Repo &rarr;",
+          path: "https://go.factor.dev/issues"
         }
       ]
     }

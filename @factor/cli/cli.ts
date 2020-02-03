@@ -54,7 +54,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    */
   serverInfo({ NODE_ENV })
 
-  const bar = new LoadingBar({ color: "white" })
+  const bar = new LoadingBar({ color: "cyan" })
 
   await bar.update({ percent: 12, msg: "setting up" })
 

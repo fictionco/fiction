@@ -172,7 +172,7 @@ export const logSetupNeeded = (command = ""): void => {
       lines.push({ title: "Run 'yarn factor setup'", value: "", indent: false })
     }
 
-    log.formatted({ title: "Setup Needed", lines, color: "yellow" })
+    log.formatted({ title: "Setup Needed", lines, color: "cyan" })
   }
 
   logNotices()
