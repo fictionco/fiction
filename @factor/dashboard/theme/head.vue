@@ -227,8 +227,6 @@ export default Vue.extend({
       .bar {
         transform: translateY(0);
         margin: 0;
-        position: absolute;
-        width: 1.75rem;
       }
       .bar:first-child {
         transform: translateX(-50%) rotate(45deg);

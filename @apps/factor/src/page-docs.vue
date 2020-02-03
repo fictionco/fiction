@@ -100,7 +100,7 @@ export default Vue.extend({
 
 <style lang="less">
 .page-docs {
-  padding-top: 5em;
+  padding-top: 3em;
   .mast {
     padding: 0 1em;
 

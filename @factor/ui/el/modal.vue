@@ -118,7 +118,7 @@ export default Vue.extend({
 }
 .el-modal {
   position: fixed;
-  z-index: 1000;
+  z-index: 5000;
   top: 0;
   right: 0;
   bottom: 0;

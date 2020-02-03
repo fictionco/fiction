@@ -89,7 +89,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route: function(to: Route, from: Route): void {
+    $route: function(this: any, to: Route, from: Route): void {
       if (to.path != from.path) {
         this.setPage()
       } else if (to.hash != from.hash) {

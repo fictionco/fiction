@@ -165,11 +165,13 @@ export const stopWordLowercase = (str: string, lib: string[] = []): string => {
   if (lib.length == 0) {
     lib = stopwordsLib
   }
+
   const words = str.split(" ")
 
   if (words.length <= 1) return str
 
-  const regex = new RegExp("\\b(" + stopwordsLib.join("|") + ")\\b", "gi")
+  const regex = new RegExp("\\b(" + lib.join("|") + ")\\b", "gi")
+
   return str.replace(regex, match => match.toLowerCase())
 }
 

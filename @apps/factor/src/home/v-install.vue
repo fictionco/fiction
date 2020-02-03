@@ -129,7 +129,7 @@ export default Vue.extend({
     position: sticky;
     display: flex;
     justify-content: center;
-    z-index: 1000;
+    z-index: 500;
     a {
       color: inherit;
       font-weight: 700;

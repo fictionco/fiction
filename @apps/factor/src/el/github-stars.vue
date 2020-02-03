@@ -27,8 +27,7 @@ export default {
 <style lang="less">
 .github-actions {
   display: flex;
-  justify-content: center;
-  align-items: center;
+   
   opacity: 0;
   transition: all 1s;
   line-height: 1;

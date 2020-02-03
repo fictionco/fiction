@@ -1,36 +1,28 @@
 <template>
-  <div class="mobile-head">
+  <div class="mobile-head" :class="toggle ? 'active' : 'inactive'">
     <div class="mobile-bar" @click.stop>
+      <site-brand class="mobile-brand" />
+
       <div class="mobile-toggle" @click="toggleNav()">
         <div class="bars">
           <div class="bar" />
           <div class="bar" />
         </div>
       </div>
-      <site-brand class="mobile-brand" />
-      <div class="aux">&mdash;&mdash;</div>
     </div>
     <transition name="fade">
-      <div v-if="toggle" class="mobile-sidebar">
-        <div class="mobile-sidebar-canvas">
-          <div class="closer" @click="toggleNav(false)">
-            <factor-icon icon="fas fa-remove" />
-          </div>
-          <page-sidebar mode="mobile" />
-        </div>
-      </div>
+      <mobile-menu v-if="toggle" />
     </transition>
   </div>
 </template>
 <script lang="ts">
-import { factorIcon } from "@factor/ui"
-import DOM from "jquery"
 import Vue from "vue"
+import { toLabel, onEvent } from "@factor/api"
+import { Route } from "vue-router"
 export default Vue.extend({
   components: {
-    factorIcon,
-    "page-sidebar": () => import("./sidebar.vue"),
-    "site-brand": () => import("./el/brand.vue")
+    mobileMenu: () => import("./mobile-menu.vue"),
+    siteBrand: () => import("./el/brand.vue")
   },
   data() {
     return {
@@ -38,21 +30,18 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route: function(to, from) {
+    $route: function(this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.toggleNav(false)
       }
-    },
-    toggle: function(v: boolean): void {
-      if (v) {
-        DOM("body").addClass("mobile-nav")
-      } else {
-        DOM("body").removeClass("mobile-nav")
-      }
     }
   },
+  mounted() {
+    onEvent("reset-ui", () => this.toggleNav(false))
+  },
   methods: {
-    toggleNav(v): void {
+    toLabel,
+    toggleNav(this: any, v?: boolean): void {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle
       } else {
@@ -96,14 +85,17 @@ export default Vue.extend({
   }
   .mobile-bar {
     display: flex;
-    position: fixed;
     z-index: 100;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: 45px;
     padding: 0 0.5em;
     width: 100%;
     background: #fff;
+    .mobile-toggle {
+      position: absolute;
+      right: 0;
+    }
   }
   .mobile-sidebar {
     position: fixed;
@@ -144,22 +136,46 @@ export default Vue.extend({
     }
   }
   .mobile-toggle {
+    z-index: 2000;
     font-size: 2em;
-    z-index: 10;
+
     position: relative;
-    width: 1.5em;
+    width: 2em;
+    height: 2em;
     opacity: 0.3;
-    padding: 0 0.3em;
+    padding: 0 0.5em;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%;
+
     .bar {
-      border-radius: 5px;
+      border-radius: 6px;
       width: 100%;
-      margin: 6px 0;
-      height: 3px;
+      height: 4px;
       background-color: var(--color-text);
+      transform: translateY(0);
+      margin: 0;
+      position: absolute;
+      width: 1.75rem;
+      transition: all 0.2s;
+      &:first-child {
+        transform: translateY(-6px);
+      }
+      &:last-child {
+        transform: translateY(6px);
+      }
+    }
+  }
+  &.active {
+    .mobile-toggle {
+      .bar {
+        &:first-child {
+          transform: rotate(45deg);
+        }
+        &:nth-child(2) {
+          transform: rotate(-45deg);
+        }
+      }
     }
   }
   .aux {
