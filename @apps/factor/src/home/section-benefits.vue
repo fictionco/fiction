@@ -2,10 +2,7 @@
   <div class="factor-benefits">
     <header class="section-header">
       <h1 class="title">Why you'll love using Factor</h1>
-      <p class="text">
-        Factor will help you launch websites and applications faster.
-        <br />You'll spend less time re-inventing the wheel and debugging.
-      </p>
+      <p class="text">Factor will help you launch websites and applications faster.</p>
     </header>
 
     <ul class="features-list">
