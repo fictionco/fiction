@@ -9,11 +9,11 @@
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor &rarr;</factor-link>
-          <factor-link
-            btn="link"
-            path="https://go.factor.dev/github"
-            target="_blank"
-          >Release {{ version }}</factor-link>
+          <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
+            <factor-icon icon="fab fa-github" />
+            &nbsp;
+            {{ version }}
+          </factor-link>
         </div>
       </div>
 
@@ -26,11 +26,12 @@
 
 <script lang="ts">
 import { factorVersion } from "@factor/api/about"
-import { factorLink } from "@factor/ui"
+import { factorLink, factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
+    factorIcon,
     splashFigure: () => import("./figure-splash.vue")
   },
   computed: {
@@ -101,7 +102,7 @@ export default Vue.extend({
       }
 
       .actions {
-        font-size: 1.4em;
+        font-size: 1.3em;
         margin-top: 2rem;
         .factor-btn {
           margin-right: 1rem;
