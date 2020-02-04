@@ -26,7 +26,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route(to) {
+    $route(this: any, to) {
       if (to.query.signInView) {
         this.vis = true
       }
@@ -60,7 +60,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    done(credential) {
+    done(this: any, credential) {
       if (this.callback && credential) {
         this.callback(credential)
       }
