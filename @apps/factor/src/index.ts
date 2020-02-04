@@ -23,10 +23,6 @@ addContentRoutes({
         path: "/",
         component: (): Promise<Component> => import("./home/v-home.vue")
       },
-      // {
-      //   path: "/new",
-      //   component: (): Promise<Component> => import("./homenew/v-home.vue")
-      // },
       {
         path: "/install",
         component: (): Promise<Component> => import("./home/v-install.vue")
