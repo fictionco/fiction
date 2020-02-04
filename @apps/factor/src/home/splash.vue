@@ -2,12 +2,18 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">Build your website right.</h1>
-        <h3 class="page-title-sub">The Javascript CMS for front-end developers.</h3>
+        <h1 class="page-title">Build something incredible today</h1>
+        <h3 class="page-title-sub">
+          <span class="highlight">Factor</span> is the Javascript CMS for front-end developers.
+        </h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/install">Get Started &rarr;</factor-link>
-          <factor-link btn="default" path="/signin?newAccount=1">Create Account</factor-link>
+          <factor-link btn="primary" path="/install">Install Factor &rarr;</factor-link>
+          <factor-link
+            btn="link"
+            path="https://go.factor.dev/github"
+            target="_blank"
+          >Release {{ version }}</factor-link>
         </div>
       </div>
 
@@ -19,12 +25,18 @@
 </template>
 
 <script lang="ts">
+import { factorVersion } from "@factor/api/about"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
     splashFigure: () => import("./figure-splash.vue")
+  },
+  computed: {
+    version() {
+      return `v${factorVersion()}`
+    }
   }
 })
 </script>
@@ -66,7 +78,7 @@ export default Vue.extend({
       }
 
       .page-title {
-        font-size: 4em;
+        font-size: 3.3em;
         letter-spacing: -0.025em;
         line-height: 1.1;
         font-weight: 700;
@@ -82,6 +94,10 @@ export default Vue.extend({
         font-size: 2em;
         font-weight: 400;
         color: #8ba8bf;
+        .highlight {
+          font-weight: 500;
+          color: #5c84a4;
+        }
       }
 
       .actions {
@@ -91,6 +107,10 @@ export default Vue.extend({
           margin-right: 1rem;
           margin-bottom: 1rem;
         }
+      }
+
+      .sub-actions {
+        margin-top: 1.5rem;
       }
 
       @media (max-width: 900px) {

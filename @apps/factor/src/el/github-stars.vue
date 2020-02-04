@@ -9,11 +9,16 @@
       data-size="large"
       data-show-count="true"
       aria-label="Star fiction-com/factor on GitHub"
-    >Stars</a>
+    >{{ text }}</a>
   </div>
 </template>
 <script lang="ts">
-export default {
+import Vue from "vue"
+export default Vue.extend({
+  props: {
+    text: { type: String, default: "Follow Project" }
+  },
+
   data() {
     return { loading: true }
   },
@@ -22,21 +27,19 @@ export default {
       this.loading = false
     }, 1000)
   }
-}
+})
 </script>
 <style lang="less">
 .github-actions {
   display: flex;
-   
+
   opacity: 0;
   transition: all 1s;
   line-height: 1;
   &.loaded {
     opacity: 1;
   }
-  > span {
-    margin: 0 0.5rem;
-  }
+
   .github-link {
     color: inherit;
 

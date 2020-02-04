@@ -31,7 +31,7 @@ export default {
         }
       },
       form: {
-        buttonText: "Get Started &rarr;"
+        buttonText: "Join Dev Group &rarr;"
       }
     }
   },

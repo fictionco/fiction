@@ -10,8 +10,8 @@ export default class LoadingBar {
   percent = 0
   msg = ""
 
-  constructor({ color = "cyan" } = {}) {
-    const colorize = chalk.keyword(color)
+  constructor({ color = "" } = {}) {
+    const colorize = color ? chalk.keyword(color) : (_: string): string => _
     this.bar = new cliProgress.SingleBar(
       {
         hideCursor: true,
