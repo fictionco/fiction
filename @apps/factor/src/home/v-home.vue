@@ -161,7 +161,7 @@ export default Vue.extend({
     return {
       title: "The Javascript CMS",
       description:
-        "Factor Javascript (VueJS) CMS framework will help you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
+        "A purely Javascript CMS that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
     }
   }
 })

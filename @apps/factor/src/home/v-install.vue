@@ -101,9 +101,9 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: "Factor Themes Built and Curated by the Factor Team.",
+      title: "Getting Started",
       description:
-        "Factor Themes is a collection of the best templates and themes curated by Factor's creators. Our collection of templates include themes to build a landing page, a static site, an application, and more."
+        "Getting started with Factor is easy. Install to deployment just 10 minutes of setup."
     }
   },
   methods: { toLabel }

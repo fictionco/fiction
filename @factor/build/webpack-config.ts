@@ -100,7 +100,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
   const out = {
     output: {
       path: getPath("dist", cwd),
-      filename: "js/[name].[contenthash:8].js"
+      filename: "js/[name].[hash:8].js"
     },
     resolve: {
       extensions: [".js", ".vue", ".json", ".ts"],
@@ -111,11 +111,15 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
         "webpack-loaders",
         [
           { test: /\.vue$/, loader: "vue-loader" },
+          /**
+           * Loads images
+           * Don't use contenthash in name, it causes issues with SVG
+           */
           {
             test: /\.(png|jpg|gif|svg|mov|mp4)$/,
             loader: "file-loader",
             // esModule option introduced in v5, but breaks markdown-image-loader
-            options: { name: "[name]-[contenthash:8].[ext]", esModule: false }
+            options: { name: "[name]-[hash:8].[ext]", esModule: false }
           },
           { test: /\.css/, use: cssLoaders({ target, lang: "css", cwd }) },
           { test: /\.less/, use: cssLoaders({ target, lang: "less", cwd }) },
@@ -190,8 +194,8 @@ const production = (): Configuration => {
     output: { publicPath: "/" },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "css/[name]-[contenthash:8].css",
-        chunkFilename: "css/[name]-[contenthash:8].css"
+        filename: "css/[name]-[hash:8].css",
+        chunkFilename: "css/[name]-[hash:8].css"
       })
     ],
     optimization: {

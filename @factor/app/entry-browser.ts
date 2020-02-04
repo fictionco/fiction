@@ -26,7 +26,6 @@ startClient()
  * - https://webpack.js.org/api/module-variables/#modulehot-webpack-specific
  */
 /* istanbul ignore next */
-//const hmr = module?.hot || false
-// if (hmr) {
-//   hmr.accept()
-// }
+if (module.hot) {
+  module.hot.accept()
+}

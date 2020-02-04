@@ -86,13 +86,14 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     config.output.filename = "[name].js"
   }
 
-  const hotEntry = "webpack-hot-middleware/client?path=/__hot__"
+  const hotEntry = "webpack-hot-middleware/client?noInfo=false"
 
   config.entry = [hotEntry, ...existingEntry]
 
   config.plugins?.push(
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NamedModulesPlugin() // HMR shows correct file names in console on update.
   ) ?? []
 
   try {
@@ -129,13 +130,12 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     const middleware = {
       dev: webpackDevMiddleware(clientCompiler, {
         publicPath,
-        // logLevel: "silent",
+        logLevel: "silent",
         ...devFilesystem
       }),
       hmr: webpackHotMiddleware(clientCompiler, {
-        path: "/__hot__",
-        heartbeat: 5000
-        // log: false
+        heartbeat: 5000,
+        log: false
       })
     }
 
