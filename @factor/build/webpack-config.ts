@@ -53,7 +53,15 @@ interface FactorWebpackControls {
   cwd?: string;
 }
 
-export const getDefinedValues = (_arguments: FactorWebpackOptions): object => {
+/**
+ * Gets global values that webpack defines for the built environment
+ *
+ * @remarks
+ * Because of the way these are processed the values need to be wrapped in quotes if they are strings, etc
+ */
+export const getDefinedValues = (
+  _arguments: FactorWebpackOptions
+): { [key: string]: webpack.DefinePlugin.CodeValuePrimitive } => {
   const { target, cwd } = _arguments
   return applyFilters(
     "webpack-define",
