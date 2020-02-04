@@ -285,6 +285,7 @@ export const getWebpackConfig = async (
   return config
 }
 
+type TargetValue = "server" | "client"
 /**
  * Generates production application bundles
  * @param options - bundling options and before, during, after callbacks
@@ -300,8 +301,10 @@ export const generateBundles = async (
     beforeBuild(options)
   }
 
+  const targets: TargetValue[] = ["server", "client"]
+
   await Promise.all(
-    ["server", "client"].map(async target => {
+    targets.map(async (target: TargetValue) => {
       const config = await getWebpackConfig({ ...options, ...webpackControls, target })
 
       const additionalConfig = options.config || {}
