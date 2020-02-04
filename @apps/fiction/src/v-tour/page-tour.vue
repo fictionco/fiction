@@ -34,7 +34,7 @@
           </div>
           <div class="banner-figure">
             <strong>Install Factor</strong>
-            <pre><code class="language-html">yarn add @factor/post</code></pre>
+            <pre><code class="language-html">npm add  @factor/post</code></pre>
             <br />
             <strong>Or use the "Starter Kit"</strong>
             <pre><code class="language-html">yarn create-factor-app</code></pre>

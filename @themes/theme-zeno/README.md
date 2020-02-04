@@ -7,7 +7,7 @@
 To add Zeno to your Factor app, all you have to do is add it as a dependency:
 
 ```bash
-yarn add @factor/theme-zeno
+npm add  @factor/theme-zeno
 ```
 
 This will add it to your `package.json` and should be all you need to do to get it running.

@@ -33,8 +33,7 @@ export default (): RequestHandler =>
         url = chalk.cyan(`server ${figures.arrowRight} ${url.split("null")[1]}`)
       }
 
-      return `${chalk.cyan(figures.arrowUp) +
-        chalk.cyan(figures.arrowDown)} Request @ ${chalk.cyan(url)} ${chalk.dim(
+      return `${chalk.cyan(figures.arrowUp)} Request ${chalk.cyan(url)} ${chalk.dim(
         details.join(" ")
       )}`
     },

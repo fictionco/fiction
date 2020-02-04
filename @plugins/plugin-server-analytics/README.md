@@ -5,7 +5,7 @@ This plugin adds tracking of server activity via Google Analytics.
 ## Install
 
 ```bash
-yarn add @factor/plugin-server-analytics
+npm add  @factor/plugin-server-analytics
 ```
 
 ## Settings

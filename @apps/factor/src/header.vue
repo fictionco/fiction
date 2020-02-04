@@ -101,7 +101,7 @@ export default Vue.extend({
   height: 45px;
   align-items: center;
   display: grid;
-  grid-template-columns: 300px 1fr 300px;
+  grid-template-columns: minmax(150px, 300px) 1fr 300px;
 
   .head-nav {
     display: flex;

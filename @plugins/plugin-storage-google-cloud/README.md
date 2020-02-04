@@ -5,7 +5,7 @@ This plugin configures Factor to use Google Cloud Storage for Factor image stora
 ## Installation
 
 ```bash
-yarn add @factor/plugin-storage-google-cloud
+npm add  @factor/plugin-storage-google-cloud
 ```
 
 ## Options and Settings
@@ -24,7 +24,7 @@ GOOGLE_CLOUD_STORAGE_BUCKET=bucket-name
 # REF - https://github.com/motdotla/dotenv
 ```
 
-> After installation, run `yarn factor setup` for an easy to way to configure this plugin
+> After installation, run `npx factor setup` for an easy to way to configure this plugin
 
 ## How It Works
 
@@ -32,4 +32,4 @@ This plugin uses Factor's filter system to automatically install and configure i
 
 ## Factor Setup CLI
 
-Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
+Run `npx factor setup` for a question based CLI to help you configure this plugin's options.

@@ -169,7 +169,7 @@ export const logSetupNeeded = (command = ""): void => {
       return { title: _.title, value: _.value, indent: true }
     })
     if (process.env.FACTOR_COMMAND !== "setup") {
-      lines.push({ title: "Run 'yarn factor setup'", value: "", indent: false })
+      lines.push({ title: "Run 'npx factor setup'", value: "", indent: false })
     }
 
     log.formatted({ title: "Setup Needed", lines, color: "cyan" })

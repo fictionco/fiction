@@ -81,7 +81,7 @@ export default Vue.extend({
   position: fixed;
   max-width: 375px;
   width: 90%;
-  z-index: 1100;
+  z-index: 10000;
   transition: transform 0.4s ease 0s;
 
   .toast {

@@ -14,7 +14,7 @@ To install theme just add to your [Factor](https://factor.dev/) app's project de
 
 ```bash
 cd my-project
-yarn add @factor/theme-ultra
+npm add  @factor/theme-ultra
 ```
 
 ### Customize

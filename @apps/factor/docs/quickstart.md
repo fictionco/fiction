@@ -12,7 +12,7 @@ To help set up an app quickly, use the **create-factor-app** scaffolding tool. T
 
 ### Before You Start
 
-- Factor requires [Node.js](https://nodejs.org/en/) version 10 or above, as well as [Yarn](https://yarnpkg.com/en/) for dependency management.
+- Factor requires [Node.js](https://nodejs.org/en/) version 12 or above
 - If you're using Windows you might need to install [standard build tools](https://github.com/felixrieseberg/windows-build-tools) which includes Python, etc.
 - Make sure you have [npx](https://www.npmjs.com/package/npx) installed (`npx` is shipped by default since NPM `5.2.0`)
 

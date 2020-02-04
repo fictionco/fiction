@@ -49,9 +49,11 @@ The "load" attribute in package.json specifies that `server.js` will load in the
 
 ## 3. Install Dependencies
 
-You'll want to make sure you have [Yarn](https://yarnpkg.com/lang/en/) installed, and once you do, just run `yarn install` in the root of your project. This will install Factor and all its core dependencies.
+Just run `npm install` in the root of your project. This will install Factor and all its core dependencies.
 
 ```bash
+npm install
+#or
 yarn install
 ```
 
@@ -127,7 +129,7 @@ addContentRoute({
 
 ## 7. Run The CLI
 
-Now it's time to run the Factor CLI and see if our application is working. Open up your terminal and type `yarn factor dev`. You should see the CLI build and then run the dev server for your application.
+Now it's time to run the Factor CLI and see if our application is working. Open up your terminal and type `npx factor dev`. You should see the CLI build and then run the dev server for your application.
 
 Once built, open up [localhost:3000](https://localhost:3000) and you should see "This is my home page." Congratulations! Our basic app is running.
 
@@ -211,7 +213,7 @@ Plugins and themes allow you to customize things via CSS variables. So reference
 Now as an example we'll add a blog plugin to our app. This should allow us to create a blog page and to write blog posts for our app.
 
 ```bash
-yarn add @factor/plugin-blog
+npm add @factor/plugin-blog
 ```
 
 Once installed, restart your local server and you should be able to see the blog index component already at [localhost:3000/blog](http://localhost:3000/blog).

@@ -21,13 +21,13 @@ Once you have your connection string, just add it in your `.env` file under the 
 DB_CONNECTION="mongodb://db1.example.net:27017,db2.example.net:2500/?replicaSet=test"
 ```
 
-> For help with setup: run `yarn factor setup`
+> For help with setup: run `npx factor setup`
 
 ## Add An Admin User
 
 ### Setting Up Your Token Key
 
-Json Web Tokens (JWTs) are a simple and effective way of managing user authentication.
+Json Web Tokens (JWTs) are a simple and effective way of managing users.
 
 All that is needed to make JWTs work is a "token secret" used for encoding them on your server. To add it:
 
@@ -40,35 +40,25 @@ TOKEN_SECRET="SOME-LONG-TEXT-12345"
 
 Factor includes a user role system controlled via your `factor-settings.js` file.
 
-To add your first admin users, just add the email of the user you'd like to assign a role along with the role.
+To add your first admin users, just add them under the `FACTOR_ADMINS` setting in `.env`:
 
-```json
-// factor-settings.js
-{
-  "config": {
-    "roles": {
-      "admin@email.com": "admin",
-      "moderator@email.com": "moderator",
-      "author@email.com": "author"
-    }
-  }
-}
-
-// Available roles
-{
-  "admin": 500,
-  "moderator": 400,
-  "author": 100,
-  "member": 1,
-  "visitor": 0
-}
-
+```git
+# .env
+FACTOR_ADMINS="youremail@example.com,anotheremail@example.com"
 ```
 
-**Notes:**
+Now once a user with that email is logged in and verified, they will have admin access in the Factor dashboard.
 
-- User account's email addresses must be successfully verified in order for admin privileges to be applied.
-- Available roles are
+Each role is assigned an access level (0 - 500) and given privileges related to the scope of that role:
+
+- Admin (500) - All privileges
+- Moderator (300) - Ability to manage and edit posts, users
+- Editor (200) - Can write and edit their own posts and others
+- Creator (100) - Can write and edit their own posts
+- Member (1) - Logged in, can manage own account settings
+- Anonymous (0)
+
+> _Developer Note:_ Each post type can define the abilities assigned to each role. Additional roles can be added via filter.
 
 ## Verifying Email and Logging In
 
@@ -116,7 +106,7 @@ While it is possible to use any image storage service to store your images, Fict
 To install Fiction's S3 image storage plugin:
 
 ```bash
-yarn add @factor/plugin-storage-s3
+npm add  @factor/plugin-storage-s3
 ```
 
 **Required S3 Configuration**
@@ -135,9 +125,9 @@ Factor setup reduces guesswork needed to configure your app.
 To run it, enter the following:
 
 ```bash
-yarn factor setup
+npx factor setup
 ```
 
 From here you'll be provided with a listing of needed configuration, as well as tools for adding or changing existing configuration options.
 
-![Factor Setup](./img/factor-setup.png)
+![Factor Setup](./img/factor-setup.jpg)

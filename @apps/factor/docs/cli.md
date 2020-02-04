@@ -4,9 +4,9 @@ A key part of using Factor is working with its command-line-interface (CLI). The
 
 ## Getting the CLI
 
-1. Add Factor by adding `@factor/core` as a dependency in your project `yarn add @factor/core`
-2. Run the initial `yarn install` on the directory to install dependencies
-3. You should now have the CLI available in that directory using `yarn factor [command]`
+1. Add Factor by adding `@factor/core` as a dependency in your project `npm add @factor/core`
+2. Run the initial `npm install` on the directory to install dependencies
+3. You should now have the CLI available in that directory using `npx factor [command]`
 
 ## Run Development Server
 
@@ -14,7 +14,7 @@ The aptly named `dev` command starts your local development server and runs Fact
 
 ```bash
 # Run dev server
-yarn factor dev
+npx factor dev
 ```
 
 ![Dev Server is Running](./img/cli.jpg)
@@ -29,7 +29,7 @@ yarn factor dev
 The `factor build` command will generate all production files and place them in the `dist` folder within your app. These are the files you'll be serving in production.
 
 ```bash
-yarn factor build
+npx factor build
 ```
 
 ## Serve in Production
@@ -37,13 +37,13 @@ yarn factor build
 Once you've built your production files, you'll typically want to serve them.
 
 ```bash
-yarn factor build
+npx factor build
 ```
 
 To build files and then serve them run `factor start`
 
 ```bash
-yarn factor start
+npx factor start
 ```
 
 ### Setup Helper
@@ -52,7 +52,7 @@ Factor provides a special `setup` helper command that helps you configure any ke
 
 ```bash
 # Run setup utility
-yarn factor setup
+npx factor setup
 ```
 
 The setup utility can be used to add admin users, or to configure various services. It is often extended by plugins as well.

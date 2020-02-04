@@ -20,7 +20,7 @@
         class="description"
       >Use this theme by adding it to your app dependencies using the command:</div>
       <div class="command">
-        yarn add
+        npm add
         <span class="package-name">{{ selectedPkg }}</span>
       </div>
     </factor-modal>
@@ -95,7 +95,7 @@ export default Vue.extend({
 
   methods: {
     toLabel,
-    showModal(item) {
+    showModal(this: any, item) {
       this.selectedTheme = item.name
       this.selectedPkg = item.pkg
       this.vis = true

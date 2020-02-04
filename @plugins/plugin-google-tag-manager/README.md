@@ -7,7 +7,7 @@ This is a simple plugin that adds [Google Tag Manager](https://tagmanager.google
 Just add to your application dependencies:
 
 ```bash
-yarn add @factor/plugin-google-tag-manager
+npm add  @factor/plugin-google-tag-manager
 ```
 
 ## Options and Settings
@@ -26,4 +26,4 @@ Config for this plugin is public only and stored in your `factor-settings.js` fi
 
 ## Factor Setup CLI
 
-Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
+Run `npx factor setup` for a question based CLI to help you configure this plugin's options.

@@ -56,7 +56,7 @@ export const handleServerError = (
   response: Response,
   error: Error
 ): void => {
-  error.message = `Factor Server Error  @[${request.url}]: ${error.message}`
+  error.message = `Factor SSR Error \n url:${request.url}\n\n ${error.message}`
 
   log.error(error)
 
@@ -65,8 +65,6 @@ export const handleServerError = (
   response
     .status(500)
     .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
-
-  process.stdin.resume()
 }
 
 export const logServerReady = (): void => {

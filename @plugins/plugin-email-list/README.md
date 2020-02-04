@@ -10,7 +10,7 @@ It can be easily customized via factor-settings.js and/or you can use its filter
 To install, just add `@factor/plugin-email-list` as a dependency to your [Factor](https://factor.dev) project.
 
 ```bash
-yarn add @factor/plugin-email-list
+npm add  @factor/plugin-email-list
 ```
 
 ## Basic Usage

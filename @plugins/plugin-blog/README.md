@@ -7,7 +7,7 @@ Factor blog makes it easy to add a blog to your app. Add images, add tags, and m
 Just add to your application dependencies:
 
 ```bash
-yarn add @factor/plugin-blog
+npm add  @factor/plugin-blog
 ```
 
 ## Options and Settings
@@ -27,4 +27,4 @@ export default {
 
 ## Factor Setup CLI
 
-Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
+Run `npx factor setup` for a question based CLI to help you configure this plugin's options.

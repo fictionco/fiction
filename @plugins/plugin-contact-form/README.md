@@ -7,7 +7,7 @@ This plugin makes it easy to add a contact form. It can be easily customized via
 Just add to your application dependencies:
 
 ```bash
-yarn add @factor/plugin-contact-form
+npm add  @factor/plugin-contact-form
 ```
 
 ## Options and Settings
@@ -33,4 +33,4 @@ export default {
 
 ## Factor Setup CLI
 
-Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
+Run `npx factor setup` for a question based CLI to help you configure this plugin's options.

@@ -7,7 +7,7 @@ Factor forum is a powerful forum solution for your factor app. This plugin comes
 Just add to your application dependencies:
 
 ```bash
-yarn add @factor/plugin-forum
+npm add  @factor/plugin-forum
 ```
 
 ## Options and Settings
@@ -27,4 +27,4 @@ export default {
 
 ## Factor Setup CLI
 
-Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
+Run `npx factor setup` for a question based CLI to help you configure this plugin's options.

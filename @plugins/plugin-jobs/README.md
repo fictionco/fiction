@@ -7,7 +7,7 @@ This plugin makes it easy to create and manage a job board in your Factor app.
 Just add to your application dependencies:
 
 ```bash
-yarn add @factor/plugin-jobs
+npm add  @factor/plugin-jobs
 ```
 
 ## Options and Settings
@@ -16,4 +16,4 @@ The customization system for this plugin is based on the standard `factor-settin
 
 ## Factor Setup CLI
 
-Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
+Run `npx factor setup` for a question based CLI to help you configure this plugin's options.

@@ -1,5 +1,6 @@
 import { emitEvent } from "@factor/api/events"
 import { isNode } from "@factor/api/utils"
+import log from "@factor/api/logger"
 import { localhostUrl } from "@factor/api/url"
 import { userInitialized } from "@factor/user"
 import { userToken, handleTokenError } from "@factor/user/token"
@@ -98,9 +99,13 @@ export const endpointRequest = async ({
   if (error) {
     handleTokenError(error, {
       onError: (): void => {
+        /**
+         * Don't rethrow errors as they will cause SSR errors for requests made during SSR
+         * This prevents page load
+         */
         const err = new Error(error.message.replace("Error: ", ""))
         emitEvent("error", err)
-        throw err
+        log.error(error)
       }
     })
   }

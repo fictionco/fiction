@@ -51,7 +51,10 @@ export const verifyEmail = async (
   { _id, code }: VerifyEmail,
   { bearer }: EndpointMeta
 ): Promise<EmailResult> => {
-  if (!bearer || bearer._id != _id) {
+  if (!bearer) {
+    throw new Error(`You must be logged in to verify your account`)
+  }
+  if (bearer._id != _id) {
     throw new Error(`Email verification user doesn't match the logged in account.`)
   }
 

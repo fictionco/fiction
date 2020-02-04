@@ -9,7 +9,7 @@ The snippet preview shows you how your post or page will look in the search resu
 Just add to your application dependencies:
 
 ```bash
-yarn add @factor/plugin-seo
+npm add  @factor/plugin-seo
 ```
 
 ## Options and Settings
@@ -18,4 +18,4 @@ Your page or post SEO data can be edited via the factor dashboard at `example.co
 
 ## Factor Setup CLI
 
-Run `yarn factor setup` for a question based CLI to help you configure this plugin's options.
+Run `npx factor setup` for a question based CLI to help you configure this plugin's options.
