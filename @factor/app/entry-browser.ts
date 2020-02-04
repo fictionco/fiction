@@ -1,8 +1,6 @@
 import Vue from "vue"
 import { createApp } from "./app"
 
-const hmr = module?.hot || false
-
 const startClient = async (): Promise<void> => {
   const { vm, router, store } = await createApp({ url: window.location.pathname })
 
@@ -28,6 +26,7 @@ startClient()
  * - https://webpack.js.org/api/module-variables/#modulehot-webpack-specific
  */
 /* istanbul ignore next */
-if (hmr) {
-  hmr.accept()
-}
+//const hmr = module?.hot || false
+// if (hmr) {
+//   hmr.accept()
+// }

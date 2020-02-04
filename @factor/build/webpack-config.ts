@@ -43,7 +43,7 @@ interface BuildConfig {
 }
 
 type FactorWebpackOptions = FactorWebpackControls & {
-  target: string;
+  target: "server" | "client";
 }
 
 interface FactorWebpackControls {
@@ -89,18 +89,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
      */
     new webpack.optimize.MinChunkSizePlugin({
       minChunkSize: 50000 // Minimum number of characters
-    }),
-    /**
-     * Custom error handling
-     */
-    function(this: Compiler): void {
-      this.plugin("done", function(stats: Stats) {
-        const { errors } = stats.compilation
-        if (errors && errors.length > 0) {
-          errors.forEach(e => log.error(e))
-        }
-      })
-    }
+    })
   ]
 
   const copyPluginConfig = applyFilters("webpack-copy-files-config", [], _arguments)
@@ -218,7 +207,21 @@ const client = (cwd?: string): Configuration => {
   const filename = "factor-client.json"
   return {
     entry,
-    plugins: [new VueSSRClientPlugin({ filename })]
+    plugins: [
+      new VueSSRClientPlugin({ filename }),
+      /**
+       * Custom error handling
+       * Only log for client compiler instead of both
+       */
+      function(this: Compiler): void {
+        this.plugin("done", function(stats: Stats) {
+          const { errors } = stats.compilation
+          if (errors && errors.length > 0) {
+            errors.forEach(e => log.error(e))
+          }
+        })
+      }
+    ]
   }
 }
 /**

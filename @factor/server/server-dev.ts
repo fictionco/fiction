@@ -74,16 +74,26 @@ const updateBundles = ({
 const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): void => {
   const config = devServer.configClient
   // Webpack config allows entry to be array, string, function
-  // WHM requires that we insert it into an entry array
+  // HMR requires that we insert it into an entry array
   // Note function mode isn't
   const existingEntry =
     typeof config.entry == "string" ? [config.entry] : (config.entry as string[])
 
-  if (config.output) config.output.filename = "[name].js"
+  /**
+   * Can't use [contenthash] with HMR
+   */
+  if (config.output) {
+    config.output.filename = "[name].js"
+  }
 
-  config.entry = ["webpack-hot-middleware/client?path=/__hot__", ...existingEntry]
+  const hotEntry = "webpack-hot-middleware/client?path=/__hot__"
 
-  config.plugins?.push(new webpack.HotModuleReplacementPlugin()) ?? []
+  config.entry = [hotEntry, ...existingEntry]
+
+  config.plugins?.push(
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ) ?? []
 
   try {
     /**
@@ -119,13 +129,13 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     const middleware = {
       dev: webpackDevMiddleware(clientCompiler, {
         publicPath,
-        logLevel: "silent",
+        // logLevel: "silent",
         ...devFilesystem
       }),
       hmr: webpackHotMiddleware(clientCompiler, {
         path: "/__hot__",
-        heartbeat: 5000,
-        log: false
+        heartbeat: 5000
+        // log: false
       })
     }
 
@@ -145,10 +155,8 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
 
       bar.stop()
 
-      // eslint-disable-next-line no-console
-      errors.forEach(err => console.error(err))
-      // eslint-disable-next-line no-console
-      warnings.forEach(err => console.warn(err))
+      errors.forEach(err => log.error(err))
+      warnings.forEach(err => log.warn(err))
 
       if (errors.length > 0) return
 
