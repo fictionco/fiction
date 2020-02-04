@@ -52,7 +52,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   /**
    * Log initial server info
    */
-  serverInfo({ NODE_ENV })
+  serverInfo({ NODE_ENV, command })
 
   const bar = new LoadingBar()
 

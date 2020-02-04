@@ -59,7 +59,7 @@
     <div class="interstitial-cta">
       <div class="text">
         <h2 class="title">Take the Famous 10 Minute Challenge</h2>
-        <h2 class="title-sub">Install to Deployment in less than 10 Minutes</h2>
+        <h2 class="title-sub">Install to Deployment in 10 Minutes</h2>
       </div>
 
       <div class="buttons">

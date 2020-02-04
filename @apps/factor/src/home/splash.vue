@@ -48,7 +48,7 @@ export default Vue.extend({
 
   .splash-inner {
     display: grid;
-    grid-template-columns: 40% minmax(40%, 1fr); //minmax(40%, 1fr) minmax(1fr, 60%);
+    grid-template-columns: 40% minmax(40%, 1fr);
     grid-gap: 4em;
     padding: 6rem 3rem 3rem;
     align-items: center;

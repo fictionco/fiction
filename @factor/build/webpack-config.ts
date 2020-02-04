@@ -1,6 +1,6 @@
 import "@factor/build/webpack-overrides"
 import { resolve } from "path"
-import { applyFilters, log, ensureTrailingSlash, deepMerge } from "@factor/api"
+import { applyFilters, log, deepMerge } from "@factor/api"
 import { getPath } from "@factor/api/paths"
 import { getWorkingDirectory } from "@factor/api/utils"
 import BundleAnalyzer from "webpack-bundle-analyzer"
@@ -82,14 +82,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
     /**
      * Define constants, transfer values from node
      */
-    new webpack.DefinePlugin(getDefinedValues(_arguments)),
-    /**
-     * Limit the minimum size of JS files generated
-     * this reduces http overhead
-     */
-    new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 50000 // Minimum number of characters
-    })
+    new webpack.DefinePlugin(getDefinedValues(_arguments))
   ]
 
   const copyPluginConfig = applyFilters("webpack-copy-files-config", [], _arguments)
@@ -99,6 +92,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
 
   const out = {
     output: {
+      publicPath: "/",
       path: getPath("dist", cwd),
       filename: "js/[name].[hash:8].js"
     },
@@ -172,17 +166,10 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
 
 /**
  * Development build specific config
- * @param cwd - working directory
  */
-const development = (cwd?: string): Configuration => {
-  // Apparently webpack expects a trailing slash on these
-  const publicPath = ensureTrailingSlash(getPath("dist", cwd))
+const development = (): Configuration => {
   return {
-    mode: "development",
-    output: { publicPath },
-    optimization: {
-      namedChunks: true
-    }
+    mode: "development"
   }
 }
 /**
@@ -191,11 +178,17 @@ const development = (cwd?: string): Configuration => {
 const production = (): Configuration => {
   return {
     mode: "production",
-    output: { publicPath: "/" },
     plugins: [
       new MiniCssExtractPlugin({
         filename: "css/[name]-[hash:8].css",
         chunkFilename: "css/[name]-[hash:8].css"
+      }),
+      /**
+       * Limit the minimum size of JS files generated
+       * this reduces http overhead
+       */
+      new webpack.optimize.MinChunkSizePlugin({
+        minChunkSize: 50000 // Minimum number of characters
       })
     ],
     optimization: {
@@ -248,6 +241,10 @@ const server = (cwd?: string): Configuration => {
   }
 }
 
+/**
+ * Get a webpack config based on target and other options
+ * @param _arguments - webpack target and options
+ */
 export const getWebpackConfig = async (
   _arguments: FactorWebpackOptions
 ): Promise<Configuration> => {
@@ -255,8 +252,7 @@ export const getWebpackConfig = async (
 
   const baseConfig = await base(_arguments)
 
-  const buildConfig =
-    process.env.NODE_ENV == "production" ? production() : development(cwd)
+  const buildConfig = process.env.NODE_ENV == "production" ? production() : development()
 
   const targetConfig = target == "server" ? server(cwd) : client(cwd)
 

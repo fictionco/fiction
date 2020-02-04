@@ -23,13 +23,18 @@ export const getFormattedMemoryUsage = (): string => {
  * Log useful server info
  */
 export const serverInfo = ({
-  NODE_ENV = process.env.NODE_ENV
+  NODE_ENV = process.env.NODE_ENV,
+  command
 }: {
   NODE_ENV?: string;
+  command?: string;
 }): void => {
   const lines = []
   lines.push(chalk.bold(`Factor Platform v${factorVersion()}`))
   lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
-  lines.push(`Serving locally at ${chalk.cyan(localhostUrl())}`)
+  if (command && ["dev", "serve", "start"].includes(command)) {
+    lines.push(`Serving locally at ${chalk.cyan(localhostUrl())}`)
+  }
+
   log.log(lines.join(`\n`) + `\n`)
 }

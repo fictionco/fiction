@@ -78,7 +78,7 @@ describe("webpack", () => {
 
       const html = window.document.body.innerHTML
       expect(html).toContain(`<span class="message">hello</span>`)
-      expect(html).toContain(`dist/test-image`)
+      expect(html).toContain(`/test-image`)
     })
 
     it("supports bundle analysis", async () => {
