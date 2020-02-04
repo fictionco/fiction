@@ -1,6 +1,6 @@
 {
   "name": "create-factor-app",
-  "version": "1.2.6",
+  "version": "1.2.10",
   "description": "Create a Factor App in seconds.",
   "bin": "cli.js",
   "files": [
@@ -19,7 +19,6 @@
     "ts-node": "^8.5.0",
     "typescript": "^3.7.2"
   },
-  "devDependencies": {},
   "license": "MIT",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
 }
