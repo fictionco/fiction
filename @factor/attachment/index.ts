@@ -12,10 +12,10 @@ export interface PostAttachment {
 
 export interface ImageUploadItems {
   file: File | Blob;
-  onPrep: Function;
-  onFinished: Function;
-  onError: Function;
-  onChange: Function;
+  onPrep?: Function;
+  onFinished?: Function;
+  onError?: Function;
+  onChange?: Function;
 }
 
 export const sendStorageRequest = async ({
@@ -28,6 +28,9 @@ export const sendStorageRequest = async ({
   return (await endpointRequest({ id: "storage", method, params })) as object
 }
 
+/**
+ * Sends a request to endpoint to delete an image
+ */
 export const requestDeleteImage = async (params: EndpointParameters): Promise<object> => {
   return await sendStorageRequest({ method: "deleteImage", params })
 }
@@ -55,27 +58,46 @@ export const resizeImage = async (
   })
 }
 
+/**
+ * Optimize the image for upload
+ * @param file - the image to upload
+ * @param options  - image resizing options
+ */
 export const preUploadImage = async (
-  { file, onPrep }: { file: File | Blob; onPrep: Function },
+  { file, onPrep }: { file: File | Blob; onPrep?: Function },
   options = {}
 ): Promise<File | Blob> => {
-  onPrep({ mode: "started", percent: 5 } as PreUploadProperties)
+  if (onPrep) {
+    onPrep({ mode: "started", percent: 5 } as PreUploadProperties)
+  }
 
   if (file.type.includes("image")) {
     file = await resizeImage(file, options)
 
-    onPrep({
-      mode: "resized",
-      percent: 25,
-      preview: URL.createObjectURL(file)
-    } as PreUploadProperties)
+    if (onPrep) {
+      onPrep({
+        mode: "resized",
+        percent: 25,
+        preview: URL.createObjectURL(file)
+      } as PreUploadProperties)
+    }
   }
 
-  onPrep({ mode: "finished", percent: 100 } as PreUploadProperties)
+  if (onPrep) {
+    onPrep({ mode: "finished", percent: 100 } as PreUploadProperties)
+  }
 
   return file
 }
 
+/**
+ * Upload an image
+ * @param file - the image
+ * @param onPrep - callback during prep process
+ * @param onFinished - callback when finished uploading
+ * @param onError - callback if an error occurs
+ * @param onChange - callback with upload progress info
+ */
 export const uploadImage = async ({
   file,
   onPrep,
@@ -94,14 +116,18 @@ export const uploadImage = async ({
   } = await authorizedRequest(uploadEndpointPath(), formData, {
     headers: { "Content-Type": "multipart/form-data" },
     onUploadProgress: function(progressEvent) {
-      onChange(progressEvent)
+      if (onChange) {
+        onChange(progressEvent)
+      }
     }
   })
 
-  if (error) {
+  if (error && onError) {
     onError(error)
   } else {
     storeItem(result._id, result)
-    onFinished(result)
+    if (onFinished) {
+      onFinished(result)
+    }
   }
 }

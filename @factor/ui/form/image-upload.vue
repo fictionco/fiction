@@ -75,6 +75,7 @@ import { guid } from "@factor/api/utils"
 export default Vue.extend({
   components: { factorMenu, factorLoadingRing, factorIcon, factorLightbox },
   props: {
+    selector: { type: String, default: "none" },
     loading: { type: Boolean, default: false },
     value: { type: [Array, String], default: () => [] },
     min: { type: [Number, String], default: 0 },
@@ -115,7 +116,7 @@ export default Vue.extend({
      * Allow for external elements to communicate with this image uploader via a DOM selector
      */
     onEvent(
-      "uploadImage",
+      "uploadImageWithInput",
       ({ selector, callback }: { selector: string; callback: Function }) => {
         if (selector == this.selector) {
           this.callback = callback
@@ -123,6 +124,15 @@ export default Vue.extend({
         }
       }
     )
+
+    /**
+     * Allow external to inject an image to this input by _id
+     */
+    onEvent("addImageToInput", ({ selector, _id }: { selector: string; _id: string }) => {
+      if (selector == this.selector) {
+        this.imageIds.push(_id)
+      }
+    })
 
     this.$watch(
       `value`,

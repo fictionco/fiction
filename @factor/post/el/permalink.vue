@@ -65,7 +65,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    onEvent("lockPermalink", () => {
+    onEvent("save-post", () => {
       if (!this.value) {
         this.emit(this.initialPermalink)
       }

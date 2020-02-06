@@ -1,7 +1,7 @@
 <template>
   <dashboard-page :title="_id == userId() ? 'Your Account' : 'Edit User'">
     <template #actions>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">Save</factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">Update</factor-btn-dashboard>
     </template>
     <template #meta>
       <dashboard-pane title="Images" class="compose inputs">

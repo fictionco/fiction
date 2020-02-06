@@ -8,12 +8,16 @@
 
 <script lang="ts">
 import EasyMDE from "easymde"
-
+import { onEvent, emitEvent } from "@factor/api/events"
+import { uploadImage } from "@factor/attachment"
+import { Attachment } from "@factor/attachment/types"
 import Vue from "vue"
 export default Vue.extend({
   components: {},
   props: {
-    value: { type: String, default: "" }
+    value: { type: String, default: "" },
+    postId: { type: String, default: "" },
+    imageInputSelector: { type: String, default: "post-images" }
   },
   data() {
     return {
@@ -52,9 +56,66 @@ export default Vue.extend({
         element: this.$refs.editor,
         spellChecker: false,
         forceSync: true,
-        shortcuts: {}
+        shortcuts: {
+          drawImage: "Shift-Cmd-I"
+        },
+        autosave: {
+          enabled: true,
+          uniqueId: this.postId,
+          delay: 5000
+        },
+        toolbar: [
+          "bold",
+          "italic",
+          "strikethrough",
+          "code",
+          "quote",
+          "heading",
+          "|",
+          "unordered-list",
+          "ordered-list",
+          "|",
+          "link",
+          "image",
+          "table",
+          "|",
+          "preview",
+          "side-by-side",
+          "fullscreen",
+          "guide"
+        ],
+        uploadImage: true,
+        imageUploadFunction: (file: File, onSuccess, onError) => {
+          uploadImage({
+            file,
+            onError: (error: Error) => {
+              onError(error.message)
+            },
+            onFinished: (result: Attachment) => {
+              onSuccess(result.url)
+              /**
+               * Add the image to the primary post images
+               */
+              emitEvent("addImageToInput", {
+                selector: this.imageInputSelector,
+                _id: result._id
+              })
+            }
+          })
+        }
       })
 
+      /**
+       * Clear autosaved information to make sure its not loaded
+       * after a save occurs, as that info should be defaulted until changes are made
+       */
+      onEvent("save-post", () => {
+        this.easyMDE.clearAutosavedValue()
+      })
+
+      /**
+       * On update to the editor, manually update the Vue input
+       */
       this.easyMDE.codemirror.on("change", () => {
         this.$emit("input", this.easyMDE.value())
       })

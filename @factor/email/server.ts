@@ -79,7 +79,7 @@ export const sendTransactional = async (
   if (emailServiceClient) {
     return await emailServiceClient.sendMail(theEmail)
   } else {
-    log.warn("Email could not be sent.", theEmail)
+    log.warn("Email could not be sent (SMTP service not setup)", theEmail)
   }
 }
 

@@ -19,6 +19,14 @@ export const getFormattedMemoryUsage = (): string => {
   const { heap, rss } = getMemoryUsage()
   return `Memory usage: ${chalk.bold(prettyBytes(heap))} (RSS: ${prettyBytes(rss)})`
 }
+
+/**
+ * Returns which module registry was used to execute the CLI
+ */
+export const getCliExecutor = (): string => {
+  const ePath = process.env.npm_execpath
+  return ePath && ePath.includes("yarn") ? "yarn" : "npm"
+}
 /**
  * Log useful server info
  */

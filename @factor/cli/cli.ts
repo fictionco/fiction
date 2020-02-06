@@ -5,7 +5,7 @@ import * as tools from "@factor/api"
 import commander from "commander"
 import log from "@factor/api/logger"
 import execa from "execa"
-import { serverInfo } from "./util"
+import { serverInfo, getCliExecutor } from "./util"
 import { factorize, setEnvironment } from "./factorize"
 import { CommandOptions } from "./types"
 import pkg from "./package.json"
@@ -62,11 +62,9 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    * Make sure all package dependencies are installed and updated
    */
   if (install) {
-    const ePath = process.env.npm_execpath
-    const packageUtil = ePath && ePath.includes("yarn") ? "yarn" : "npm"
-    await bar.update({ percent: 35, msg: `checking dependencies (${packageUtil})` })
+    await bar.update({ percent: 35, msg: `checking dependencies (${getCliExecutor()})` })
 
-    const verifyDepProcess = execa(packageUtil, ["install"])
+    const verifyDepProcess = execa(getCliExecutor(), ["install"])
     await verifyDepProcess
     await bar.update({ percent: 55, msg: "create files" })
     generateLoaders(setup)

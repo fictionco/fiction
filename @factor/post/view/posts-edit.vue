@@ -2,7 +2,7 @@
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
       <factor-link btn="default" :path="url">View</factor-link>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Save</factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Update</factor-btn-dashboard>
     </template>
     <template #primary>
       <dashboard-pane class="compose">
@@ -15,7 +15,7 @@
         />
 
         <dashboard-input label="Post Content">
-          <input-editor v-model="post.content" @keyup="doDraftSave()" />
+          <input-editor v-model="post.content" :post-id="post._id" />
         </dashboard-input>
       </dashboard-pane>
     </template>
@@ -54,6 +54,7 @@
         />
         <dashboard-input
           v-model="post.images"
+          selector="post-images"
           input="factor-input-image-upload"
           label="Post Images"
           @autosave="saveDraft()"
@@ -189,7 +190,7 @@ export default Vue.extend({
 
       this.clearAutosave()
 
-      emitEvent("lockPermalink")
+      emitEvent("save-post")
 
       const saved = await requestPostSave({
         post: this.post,
