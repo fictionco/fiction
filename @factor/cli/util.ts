@@ -3,7 +3,7 @@ import chalk from "chalk"
 import { factorVersion } from "@factor/api/about"
 import { localhostUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
-
+import latestVersion from "latest-version"
 /**
  * Get node memory usage
  * https://nodejs.org/api/process.html#process_process_memoryusage
@@ -30,15 +30,22 @@ export const getCliExecutor = (): string => {
 /**
  * Log useful server info
  */
-export const serverInfo = ({
+export const serverInfo = async ({
   NODE_ENV = process.env.NODE_ENV,
   command
 }: {
   NODE_ENV?: string;
   command?: string;
-}): void => {
+}): Promise<void> => {
   const lines = []
-  lines.push(chalk.bold(`Factor Platform v${factorVersion()}`))
+
+  const latest = await latestVersion("@factor/core")
+  const current = factorVersion()
+  lines.push(chalk.bold(`Factor Platform v${current}`))
+
+  if (current != latest) {
+    lines.push(chalk.green(`New version available v${latest}`))
+  }
   lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
   if (command && ["dev", "serve", "start"].includes(command)) {
     lines.push(`Serving locally at ${chalk.cyan(localhostUrl())}`)
