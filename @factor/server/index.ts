@@ -41,16 +41,15 @@ interface ServerOptions {
  * @remarks used to prevent double restart attempts
  */
 const isRestarting = (): boolean => {
-  return Vue.$restartingServer ? true : false
+  return process.env.RESTARTING_SERVER == "yes" ? true : false
 }
 /**
  * Sets a flag used to establish server restart status
  * @param state - server restart state
  */
-const setRestarting = (state: boolean): void => {
-  Vue.$restartingServer = state
+const setRestarting = (state: "yes" | "no"): void => {
+  process.env.RESTARTING_SERVER = state
 }
-
 /**
  * Server render an application route
  * @param url The relative route to render
@@ -63,7 +62,6 @@ export const renderRoute = async (
 
   return await currentRenderer.renderToString({ url })
 }
-
 /**
  * Renders HTML based on the url in the express request
  * @param renderer - Vue server renderer
@@ -129,7 +127,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
 
   __listening = __application.listen(process.env.PORT, () => {
     logServerReady()
-    setRestarting(false)
+    setRestarting("no")
   })
 
   prepareListener()
@@ -142,7 +140,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
     hook: "restart-server",
     callback: async ({ path }: { event?: string; path?: string } = {}): Promise<void> => {
       if (!isRestarting()) {
-        setRestarting(true)
+        setRestarting("yes")
 
         log.server(`Restarting Server`, { color: "yellow" })
 
@@ -155,7 +153,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
             await createServer(options)
           } catch (error) {
             // If an error is thrown that is subsequently fixed, don't prevent server restart
-            setRestarting(false)
+            setRestarting("no")
             throw error
           }
         }

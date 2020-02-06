@@ -1,6 +1,6 @@
 import isEmail from "validator/lib/isEmail"
 import isMobilePhone from "validator/lib/isMobilePhone"
-
+import { randomToken } from "@factor/api/utils"
 import { applyFilters } from "@factor/api/hooks"
 import bcrypt from "bcryptjs"
 import { HookNextFunction, Schema, Document } from "mongoose"
@@ -68,7 +68,8 @@ export default (): FactorSchema => {
         type: String,
         trim: true,
         index: { unique: true, sparse: true },
-        minlength: 3
+        minlength: 3,
+        default: (): string => randomToken(8)
       },
       email: {
         type: String,

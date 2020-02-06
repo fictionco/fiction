@@ -1,9 +1,9 @@
 import { applyFilters } from "@factor/api/hooks"
 import { Schema, Document } from "mongoose"
 import { setting } from "@factor/api/settings"
+import { randomToken } from "@factor/api/utils"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost } from "./types"
-
 /**
  * Base post schema
  * This schema is inherited and extended by all other post types
@@ -53,8 +53,6 @@ export default (): FactorSchema => {
       date: Date,
 
       title: { type: String, trim: true },
-      // subTitle is @deprecated in 1.1
-      subTitle: { type: String, trim: true },
       synopsis: { type: String, trim: true },
       content: { type: String, trim: true },
       // populated field
@@ -65,30 +63,42 @@ export default (): FactorSchema => {
       avatar: { type: objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
       category: { type: [String], index: true },
-      // Source Key - Used to distinguish which app created a post in multi-app databases
+      /**
+       * Source Key - Used to distinguish which app created a post in multi-app databases
+       */
       source: { type: String, trim: true, default: setting("package.name") },
-      revisions: [Object],
+      /**
+       * Settings is a vanilla key/value container
+       */
       settings: {},
-      // Vanilla global schema for of items like comments, emails
+      /**
+       * List is a vanilla list container
+       */
       list: {
         type: [Object]
       },
+      revisions: [Object],
       status: {
         type: String,
         enum: ["published", "draft", "trash"],
         index: true,
         default: "draft"
       },
+      /**
+       * Allow plugins to set a custom UniqueId that can be referenced without first querying the DB
+       */
       uniqueId: {
         type: String,
         trim: true,
-        index: { unique: true, sparse: true }
+        index: { unique: true, sparse: true },
+        default: (): string => randomToken(8)
       },
       permalink: {
         type: String,
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
+        default: (): string => randomToken(8),
         validator: function(v: string): boolean {
           return /^[\d-a-z]+$/.test(v)
         },

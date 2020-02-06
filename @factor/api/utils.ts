@@ -46,8 +46,8 @@ export const getWorkingDirectory = (cwd?: string): string => {
 /**
  * Generates a random token string, 16 characters long
  */
-export const randomToken = (): string => {
-  return randToken.generate(16)
+export const randomToken = (length = 16): string => {
+  return randToken.generate(length)
 }
 
 /**

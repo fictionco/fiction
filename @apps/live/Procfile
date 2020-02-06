@@ -1,0 +1,1 @@
+web: yarn workspace @apps/live factor serve

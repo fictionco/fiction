@@ -154,18 +154,21 @@ const runDbUpgrades = async (): Promise<void> => {
   if (!__offline) {
     /**
      * Create missing indexes
+     * ensureIndexes creates indexes that don't exist but can't drop indexes
+     * syncIndexes will drop indexes then recreate them, problem is that we can't do this every time
      */
-    const _promises = Object.values(__models).map(m => m.createIndexes())
+    const _promises = Object.values(__models).map(m => m.ensureIndexes())
 
     /**
-     * version 1.1
+     * @reference version 1.1
      * Rename subTitle to synopsis
+     * Left here for reference in future changes
      */
-    await getModel("post").update(
-      {},
-      { $rename: { subTitle: "synopsis" } },
-      { multi: true }
-    )
+    // await getModel("post").update(
+    //   {},
+    //   { $rename: { subTitle: "synopsis" } },
+    //   { multi: true }
+    // )
 
     await Promise.all(_promises)
   }
@@ -198,6 +201,8 @@ export const dbInitialize = async (): Promise<void> => {
   if (process.env.FACTOR_DEBUG == "yes") {
     mongoose.set("debug", true)
   }
+
+  mongoose.set("useCreateIndex", true)
 
   mongoose.plugin(mongooseBeautifulUniqueValidation, {
     defaultMessage: "{PATH}: '{VALUE}' is already being used."

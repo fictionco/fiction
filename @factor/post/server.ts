@@ -81,7 +81,6 @@ export const getSinglePost = async (
   meta: EndpointMeta = {}
 ): Promise<FactorPost | undefined> => {
   const { bearer } = meta
-
   let { _id } = params
 
   const { token, postType = "post", conditions, createOnEmpty = false } = params
