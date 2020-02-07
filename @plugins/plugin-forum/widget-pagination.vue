@@ -1,22 +1,18 @@
 <template>
   <div class="pagination">
     <div class="items">{{ count }} Items</div>
-    <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">
-      <factor-icon icon="fas fa-arrow-left" />
-    </factor-btn>
+    <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">&larr;</factor-btn>
     <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
-    <factor-btn :disabled="pageCurrent == pageCount" @click="page('next')">
-      <factor-icon icon="fas fa-arrow-right" />
-    </factor-btn>
+    <factor-btn :disabled="pageCurrent == pageCount" @click="page('next')">&rarr;</factor-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { factorBtn, factorIcon } from "@factor/ui"
+import { factorBtn } from "@factor/ui"
 import { stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorBtn, factorIcon },
+  components: { factorBtn },
   props: {
     postType: { type: String, default: "" }
   },
@@ -39,7 +35,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    page(direction: any) {
+    page(this: any, direction: any) {
       let page
       if (direction == "next" && this.pageCurrent !== this.pageCount) {
         page = this.pageCurrent + 1
@@ -62,7 +58,8 @@ export default Vue.extend({
     margin: 0 auto;
     display: flex;
     align-items: center;
-    @media (max-width: 767px) {
+    justify-content: center;
+    @media (max-width: 900px) {
       justify-content: flex-end;
       .items,
       .sep {

@@ -17,29 +17,19 @@ export default {
       subTitle: "Couldn't find any forum topics."
     },
     layout: {
-      index: ["author", "title", "meta", "synopsis", "tags"],
-      single: [
-        "returnLink",
-        "title",
-        "meta",
-        "author",
-        "subtitle",
-        "entry"
-      ],
-      meta: ["tags"]
+      index: ["topicIndex"],
+      single: ["topicSingle"]
     },
     components: {
+      forumSidebar: (): Promise<Component> => import("./forum-sidebar.vue"),
       forumWrap: (): Promise<Component> => import("./forum-wrap.vue"),
-      forumIndex: (): Promise<Component> => import("./forum-index.vue"),
-      forumSingle: (): Promise<Component> => import("./forum-single.vue"),
-      returnLink: (): Promise<Component> => import("./widget-return-link.vue"),
-      title: (): Promise<Component> => import("./widget-title.vue"),
-      meta: (): Promise<Component> => import("./widget-meta.vue"),
-      synopsis: (): Promise<Component> => import("./widget-synopsis.vue"),
-      pagination: (): Promise<Component> => import("./widget-pagination.vue"),
-      author: (): Promise<Component> => import("./widget-author.vue"),
-      entry: (): Promise<Component> => import("./widget-entry.vue"),
-      tags: (): Promise<Component> => import("./widget-tags.vue")
+      topicIndex: (): Promise<Component> => import("./topic-index.vue"),
+      topicSingle: (): Promise<Component> => import("./topic-single.vue"),
+      topicReply: (): Promise<Component> => import("./topic-reply.vue"),
+      topicNumberPosts: (): Promise<Component> => import("./el/topic-number-posts.vue"),
+      topicTags: (): Promise<Component> => import("./el/topic-tags.vue"),
+      topicAuthor: (): Promise<Component> => import("./el/topic-post-author.vue"),
+      topicTimeAgo: (): Promise<Component> => import("./el/topic-time-ago.vue")
     }
   }
 }

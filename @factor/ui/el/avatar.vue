@@ -31,7 +31,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLoadingRing },
   props: {
-    width: { type: String, default: "32px" },
+    width: { type: String, default: "" },
     postId: { type: String, default: "" },
     url: { type: String, default: "" },
     loading: { type: Boolean, default: false }
@@ -41,7 +41,7 @@ export default Vue.extend({
   },
   computed: {
     hasImage(this: any) {
-      return this.avatar.url ? true : false
+      return this.src ? true : false
     },
 
     avatar(this: any) {
@@ -61,7 +61,10 @@ export default Vue.extend({
   methods: {
     getStyle(this: any, more = {}) {
       const width = this.width
-      return { width, height: width, ...more }
+
+      const dimension = this.width ? { width, height: width } : {}
+
+      return { ...dimension, ...more }
     }
   }
 })
@@ -76,6 +79,9 @@ export default Vue.extend({
   background-size: cover;
   border-radius: 5px;
   position: relative;
+  &.thumb-src {
+    padding: 50% 0;
+  }
   .user-blank {
     opacity: 0.6;
     fill: var(--color-placeholder);
@@ -83,16 +89,7 @@ export default Vue.extend({
     border-radius: 5px;
     background: rgba(255, 255, 255, 0.1);
   }
-  // &:after {
-  //   border: 1px solid rgba(0, 0, 0, 0.08);
-  //   bottom: 0;
-  //   content: "";
-  //   left: 0;
-  //   position: absolute;
-  //   right: 0;
-  //   top: 0;
-  //   border-radius: 50%;
-  // }
+  width: 100%;
 }
 
 .multi-thumb {

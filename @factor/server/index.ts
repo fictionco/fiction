@@ -18,7 +18,7 @@ import fs from "fs-extra"
 import log from "@factor/api/logger"
 import LRU from "lru-cache"
 import { resolveFilePath } from "@factor/api/resolver"
-import Vue from "vue"
+
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"

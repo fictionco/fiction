@@ -29,6 +29,7 @@
     "@factor/plugin-bugsnag": "^1.0.0",
     "@factor/plugin-contact-form": "^1.0.0",
     "@factor/plugin-email-list": "^1.0.0",
+    "@factor/plugin-forum": "^1.0.0",
     "@factor/plugin-google-tag-manager": "^1.0.0",
     "@factor/plugin-notify": "^1.0.0",
     "@factor/plugin-seo": "^1.0.0",

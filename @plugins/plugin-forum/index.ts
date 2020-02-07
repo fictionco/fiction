@@ -4,13 +4,21 @@ import { setting } from "@factor/api/settings"
 const baseRoute = setting("forum.postRoute")
 
 addPostType({
-  postType: "forum",
+  postType: "forumTopic",
   baseRoute,
   icon: require("./img/forum.svg"),
-  model: "ForumPost",
-  nameIndex: "Forum",
+  nameIndex: "Forum Topics",
   nameSingle: "Forum Topic",
   namePlural: "Forum Topics"
+})
+
+addPostType({
+  postType: "forumPost",
+  baseRoute,
+  icon: require("./img/forum.svg"),
+  nameIndex: "Forum Posts",
+  nameSingle: "Forum Post",
+  namePlural: "Forum Posts"
 })
 
 addContentRoute({
@@ -19,11 +27,11 @@ addContentRoute({
   children: [
     {
       path: "/",
-      component: setting("forum.components.forumIndex")
+      component: setting("forum.components.topicIndex")
     },
     {
       path: `${setting("forum.postRoute")}/:permalink`,
-      component: setting("forum.components.forumSingle")
+      component: setting("forum.components.topicSingle")
     }
   ]
 })
