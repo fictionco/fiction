@@ -18,7 +18,7 @@
           v-if="$route.path != '/install'"
           path="/install"
           btn="primary"
-        >Get Started &rarr;</factor-link>
+        >Install Factor &rarr;</factor-link>
       </div>
     </div>
   </div>

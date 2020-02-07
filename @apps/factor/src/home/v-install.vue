@@ -113,7 +113,7 @@ export default Vue.extend({
 .start-container {
   padding-top: 7em;
   .start-content {
-    max-width: 1200px;
+    max-width: var(--content-width, 1200px);
     margin: 0 auto;
   }
   @media (max-width: 900px) {
@@ -151,6 +151,7 @@ export default Vue.extend({
       max-width: 400px;
       a {
         display: block;
+        margin: 0;
       }
     }
   }
@@ -179,6 +180,10 @@ export default Vue.extend({
 .video-entry {
   margin: 0 1.8em;
   padding: 3em 0;
+
+  @media (max-width: 900px) {
+    margin: 0;
+  }
 
   .header {
     .time .tag {
