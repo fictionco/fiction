@@ -23,7 +23,7 @@
   </div>
 </template>
 <script lang="ts">
-import { accountMenu } from "@factor/dashboard"
+import { accountMenu } from "@factor/plugin-standard-signin"
 import { factorLink } from "@factor/ui"
 import { userId } from "@factor/user"
 import Vue from "vue"

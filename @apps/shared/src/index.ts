@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios"
-import { onEvent, addFilter } from "@factor/api"
+import { onEvent, addFilter, splitDisplayName } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
-
+import { FactorUser } from "@factor/user/types"
 /**
  * Send a notification to Slack
  */
@@ -73,50 +73,20 @@ const addOrUpdateActiveCampaignContact = async (contact: {
 const slack = async (): Promise<void> => {
   if (process.env.SLACK_NOTIFY_URL) {
     // Track email sign up events
-    onEvent(
-      "email-list-new-email-added",
-      async ({
-        email,
-        listId,
-        tags = []
-      }: {
-        email: string;
-        listId: string;
-        tags: string[];
-      }) => {
-        let text = `New email [${email}] added to [${listId}].`
+    onEvent("new-account-created", async ({ email, displayName }: FactorUser) => {
+      const { firstName, lastName } = splitDisplayName(displayName)
 
-        if (tags.length > 0) {
-          text += ` Tags: ${tags.join(", ")}`
-        }
+      // Add new contact to email marketing
+      addOrUpdateActiveCampaignContact({ email, firstName, lastName })
 
-        axios.request({
-          method: "post",
-          url: process.env.SLACK_NOTIFY_URL,
-          data: { text }
-        })
+      const text = `New account created ${displayName} [${email}]`
 
-        // Add new contact to email marketing
-        addOrUpdateActiveCampaignContact({ email })
-
-        // Invite to slack
-        // const { data } = await axios.request({
-        //   method: "get",
-        //   url: encodeURI(
-        //     `https://slack.com/api/users.admin.invite?token=${process.env.SLACK_LEGACY_API_TOKEN}&email=${email}&channels=CG24NJBU1&resend=true`
-        //   )
-        // })
-
-        // Make sure to remove circular refs
-        // https://github.com/WebReflection/flatted#flatted
-        // const { stringify } = require("flatted/cjs")
-        // notifySlack({
-        //   pretext: `Slack Invite Sent to ${email}`,
-        //   title: "Slack Invite Sent",
-        //   text: stringify(data)
-        // })
-      }
-    )
+      axios.request({
+        method: "post",
+        url: process.env.SLACK_NOTIFY_URL,
+        data: { text }
+      })
+    })
 
     addFilter({
       key: "notifySlack",

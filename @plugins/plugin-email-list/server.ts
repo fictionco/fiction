@@ -7,8 +7,6 @@ import { Model, Document } from "mongoose"
 import { addEndpoint } from "@factor/api/endpoints"
 import { EmailConfig } from "./types"
 
-//type StandardQuery = Promise<Query<Document>>
-
 const uniqueId = (listId: string): string => {
   return `_plugin-emailList-${listId}`
 }
@@ -60,7 +58,11 @@ const sendConfirmEmail = async ({ email, listId, code }: EmailConfig): Promise<v
   })
 }
 
-// https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
+/**
+ * Add an email to a list
+ * @notes
+ * https://stackoverflow.com/questions/33576223/using-mongoose-mongodb-addtoset-functionality-on-array-of-objects
+ */
 export const addEmail = async ({
   email,
   listId = "default",
@@ -71,8 +73,10 @@ export const addEmail = async ({
 
   const code = randomToken()
 
-  // Ensure that the post exists
-  // Can't do all this in one query or it prevents detection of dupes / create unique index problems
+  /**
+   * Ensure that the post exists
+   * Can't do all this in one query or it prevents detection of dupes / create unique index problems
+   */
   await postModel().updateOne(
     { uniqueId: uniqueId(listId) },
     { title: listId },
@@ -86,7 +90,9 @@ export const addEmail = async ({
     }
   )
 
-  // If email already exists, update it with new code
+  /**
+   * If email already exists, update it with new code
+   */
   if (result.nModified == 0) {
     await postModel().updateOne(
       { uniqueId: uniqueId(listId), "list.email": email },
@@ -103,6 +109,9 @@ export const addEmail = async ({
   return
 }
 
+/**
+ * Delete one or more emails from a list
+ */
 export const deleteEmails = async ({
   emails,
   listId = "default"
@@ -138,8 +147,13 @@ const sendNotifyEmail = async ({ email, listId }: EmailConfig): Promise<void> =>
   return
 }
 
-// Positional Operator
-// https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
+/**
+ * Verify an email with a code
+ * @notes
+ * Uses Positional Operator
+ * https://docs.mongodb.com/manual/reference/operator/update/positional/?_ga=1.12567092.1864968360.1429722620#up._S_
+ */
+
 export const verifyEmail = async ({
   email,
   list: listId = "default",

@@ -40,13 +40,13 @@ export default Vue.extend({
     return await this.setContent()
   },
   computed: {
-    docHtml() {
+    docHtml(this: any) {
       return stored(this.storeKey)
     },
-    activeHash() {
+    activeHash(this: any) {
       return this.$route.hash
     },
-    doc() {
+    doc(this: any) {
       return this.$route.params.doc || ""
     },
     storeKey() {
@@ -54,7 +54,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route: function(to, from) {
+    $route: function(this: any, to, from) {
       if (to.path != from.path) {
         this.toggleNav(false)
         this.setContent()
@@ -71,12 +71,12 @@ export default Vue.extend({
   },
 
   methods: {
-    async setContent() {
+    async setContent(this: any) {
       const html = await getMarkdownHTML(this.doc)
 
       storeItem(this.storeKey, html)
     },
-    toggleNav(v) {
+    toggleNav(this: any, v) {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle
       } else {

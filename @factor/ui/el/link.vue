@@ -35,7 +35,7 @@ export default Vue.extend({
 
     const schemes = ["http:", "https:", "ftp:", "mailto:", "file:", "data:", "irc:"]
 
-    if (schemes.some(scheme => path.includes(scheme)) || this.event) {
+    if (schemes.some(scheme => path.includes(scheme))) {
       el = "a"
       attrs = { href: path }
       props = []
@@ -122,6 +122,7 @@ export default Vue.extend({
 
 <style lang="less">
 .factor-link {
+  cursor: pointer;
   &.disabled {
     cursor: not-allowed;
     pointer-events: none; // Future-proof disabling of clicks

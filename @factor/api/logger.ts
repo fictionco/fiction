@@ -4,6 +4,7 @@ import figures from "figures"
 import chalk from "chalk"
 import axios from "axios"
 import { appId } from "@factor/api/about"
+import { isNode } from "@factor/api"
 interface DiagnosticEvent {
   event: string;
   action?: string;
@@ -62,6 +63,7 @@ export class NodeLog {
    * Send diagnostic information
    */
   async diagnostic({ event, action, label }: DiagnosticEvent): Promise<void> {
+    if (!isNode) return
     label = label ? label : appId()
     const encoded = encodeURI(
       `https://factor.dev/__track_event__?event=${event}&action=${action}&label=${label}`

@@ -1,19 +1,10 @@
-import {
-  addFilter,
-  applyFilters,
-  toLabel,
-  slugify,
-  postTypesConfig,
-  pushToFilter,
-  addContentRoute
-} from "@factor/api"
+import { addFilter, applyFilters, toLabel, slugify, postTypesConfig } from "@factor/api"
 import { Component } from "vue"
 import { setting } from "@factor/api/settings"
 import { userCan } from "@factor/user"
 import { RouteConfig } from "vue-router"
 import { DashboardMenuItem } from "./types"
 
-export const accountMenu = (): Promise<Component> => import("./account-menu.vue")
 export const dashboardPane = (): Promise<Component> => import("./theme/pane.vue")
 export const dashboardPage = (): Promise<Component> => import("./theme/page.vue")
 export const dashboardListPost = (): Promise<Component> => import("./el/list-post.vue")
@@ -51,21 +42,6 @@ export const getDashboardRoute = (path?: string, parentPath?: string): string =>
 }
 
 export const setup = (): void => {
-  addContentRoute({
-    name: "signin",
-    path: "/signin",
-    component: (): Promise<Component> => import("./sign-in-view.vue")
-  })
-
-  pushToFilter({
-    key: "dashboard",
-    hook: "site-components",
-    item: {
-      name: "sign-in-modal",
-      component: (): Promise<Component> => import("./sign-in-modal.vue")
-    }
-  })
-
   addFilter({
     key: "dashboard",
     hook: "routes",

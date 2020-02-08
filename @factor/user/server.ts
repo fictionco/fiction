@@ -3,6 +3,7 @@ import { pushToFilter, applyFilters } from "@factor/api"
 import * as endpointHandler from "@factor/user/server"
 import { Model, Document } from "mongoose"
 import { addEndpoint } from "@factor/api/endpoints"
+import { emitEvent } from "@factor/api/events"
 import { userCredential } from "./jwt"
 import { FactorUserCredential, AuthenticationParameters, FactorUser } from "./types"
 import "./hooks-universal"
@@ -42,6 +43,9 @@ export const authenticate = async (
     }
 
     applyFilters("create-new-user", user)
+
+    emitEvent("new-account-created", user)
+
     return userCredential(user)
   } else {
     user = await getUserModel().findOne({ email }, "+password")

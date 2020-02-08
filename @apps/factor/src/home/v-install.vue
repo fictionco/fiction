@@ -82,22 +82,27 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.videos.forEach((video: any) => {
-      const selector = `#${video.id}`
-      const observer = new IntersectionObserver(
-        entries => {
-          if (entries[0].isIntersecting) {
-            this.selected = entries[0].target.id
-          }
-        },
-        { threshold: [0.2] }
-      )
+    /**
+     * Scrolling changes, sometimes IntersectionObserver isn't available
+     */
+    if (IntersectionObserver) {
+      this.videos.forEach((video: any) => {
+        const selector = `#${video.id}`
+        const observer = new IntersectionObserver(
+          entries => {
+            if (entries[0].isIntersecting) {
+              this.selected = entries[0].target.id
+            }
+          },
+          { threshold: [0.2] }
+        )
 
-      const el = document.querySelector(selector)
-      if (el) {
-        observer.observe(el)
-      }
-    })
+        const el = document.querySelector(selector)
+        if (el) {
+          observer.observe(el)
+        }
+      })
+    }
   },
   metaInfo() {
     return {

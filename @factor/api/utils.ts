@@ -36,6 +36,29 @@ export const waitFor = (ms: number): Promise<void> => {
 }
 
 /**
+ * Turns a full name into firstName and lastName approx
+ * @param fullName - a full name
+ */
+export const splitDisplayName = (
+  fullName?: string
+): { firstName: string; lastName: string } => {
+  const nameArray = fullName ? fullName.split(" ") : []
+
+  let firstName = ""
+  let lastName = ""
+  if (nameArray.length >= 1) {
+    firstName = nameArray[0]
+  }
+
+  if (nameArray.length > 1) {
+    const lastItem = nameArray.pop()
+    lastName = lastItem ? lastItem : ""
+  }
+
+  return { firstName, lastName }
+}
+
+/**
  * Returns a global process based working directory if argument cwd is undefined
  * @param cwd - working directory
  */

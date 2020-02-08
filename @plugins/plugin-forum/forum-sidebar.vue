@@ -1,7 +1,7 @@
 <template>
   <div class="forum-sidebar">
     <div class="new-discussion">
-      <factor-btn btn="primary">Start A Discussion</factor-btn>
+      <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/new`">Start A Discussion</factor-link>
     </div>
     <div class="forum-nav">
       <div v-for="(item, index) in navItems" :key="index" class="nav-item">
@@ -28,11 +28,11 @@
 <script lang="ts">
 import { toLabel } from "@factor/api/utils"
 import { setting } from "@factor/api/settings"
-import { factorBtn, factorLink } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLink, factorBtn, navIcon: () => import("./el/nav-icon.vue") },
+  components: { factorLink, navIcon: () => import("./el/nav-icon.vue") },
   data() {
     return {
       navItems: [

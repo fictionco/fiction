@@ -44,8 +44,8 @@ export default Vue.extend({
   },
   watch: {
     $route(this: any, to: Route, from: Route) {
-      if (to.path != from.path) {
-        this.close()
+      if (to.path != from.path && this.vis) {
+        this.$emit("update:vis", false)
       }
     },
     vis: function(this: any, v: boolean) {

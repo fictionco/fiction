@@ -28,7 +28,7 @@ import Vue from "vue"
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
 import { isLoggedIn } from "@factor/user"
-import { accountMenu } from "@factor/dashboard"
+import { accountMenu } from "@factor/plugin-standard-signin"
 export default Vue.extend({
   components: {
     factorLink,
@@ -122,7 +122,7 @@ export default Vue.extend({
       flex-grow: 2;
       justify-content: flex-end;
     }
-    > a {
+    > .factor-link {
       color: inherit;
 
       margin: 0 1em;

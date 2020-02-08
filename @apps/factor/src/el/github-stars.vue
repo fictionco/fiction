@@ -1,16 +1,18 @@
 <template>
-  <div class="github-actions" :class="!loading ? 'loaded': ''">
-    <script async defer src="https://buttons.github.io/buttons.js" />
-    <a
-      class="github-button"
-      href="https://github.com/fiction-com/factor"
-      data-color-scheme="no-preference: light; light: light; dark: light;"
-      data-icon="octicon-star"
-      data-size="large"
-      data-show-count="true"
-      aria-label="Star fiction-com/factor on GitHub"
-    >{{ text }}</a>
-  </div>
+  <transition name="fade">
+    <div v-if="!loading" class="github-actions">
+      <script async defer src="https://buttons.github.io/buttons.js" />
+      <a
+        class="github-button"
+        href="https://github.com/fiction-com/factor"
+        data-color-scheme="no-preference: light; light: light; dark: light;"
+        data-icon="octicon-star"
+        data-size="large"
+        data-show-count="true"
+        aria-label="Star fiction-com/factor on GitHub"
+      >{{ text }}</a>
+    </div>
+  </transition>
 </template>
 <script lang="ts">
 import Vue from "vue"
@@ -25,7 +27,7 @@ export default Vue.extend({
   mounted(this: any) {
     setTimeout(() => {
       this.loading = false
-    }, 1000)
+    }, 500)
   }
 })
 </script>
@@ -33,12 +35,12 @@ export default Vue.extend({
 .github-actions {
   display: flex;
 
-  opacity: 0;
+  opacity: 1;
   transition: all 1s;
   line-height: 1;
-  &.loaded {
-    opacity: 1;
-  }
+  // &.loaded {
+  //   opacity: 1;
+  // }
 
   .github-link {
     color: inherit;

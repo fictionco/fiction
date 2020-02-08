@@ -2,7 +2,27 @@
   <div class="signin" data-test="signin">
     <div class="signin-header">
       <div class="title">{{ header.title }}</div>
-      <div class="sub-title">{{ header.subTitle }}</div>
+      <div v-if="header.subTitle" class="sub-title">{{ header.subTitle }}</div>
+
+      <template v-if="!isLoggedIn()">
+        <div v-if="newAccount && !view" class="forgot-password alternative-action-link">
+          Have an account?
+          <a
+            href="#"
+            data-test="link-login"
+            @click.prevent="newAccount = false"
+          >Login &rarr;</a>
+        </div>
+
+        <div v-else-if="!view" class="new-account alternative-action-link">
+          Don't have an account?
+          <a
+            href="#"
+            data-test="link-register"
+            @click.prevent="newAccount = true"
+          >Sign Up &rarr;</a>
+        </div>
+      </template>
     </div>
     <factor-form ref="signin-form">
       <template v-if="view == 'forgot-password'">
@@ -58,7 +78,7 @@
           input="factor-input-text"
           data-test="signin-name"
           required
-          placeholder="Full Name"
+          placeholder="Your Name"
           @keyup.enter="trigger('submit')"
         />
         <dashboard-input
@@ -85,56 +105,39 @@
             data-test="submit-login"
             :loading="loading"
             btn="primary"
-            :text="newAccount ? 'Sign Up' : 'Login'"
             @click="signIn('email')"
-          />
+          >{{ newAccount ? 'Sign Up' : 'Login' }} &rarr;</factor-btn>
         </div>
       </template>
     </factor-form>
 
     <div class="alt-links">
-      <template v-if="newAccount">
-        <div class="forgot-password alternative-action-link">
-          Have an account?
-          <a
-            href="#"
-            data-test="link-login"
-            @click.prevent="newAccount = false"
-          >Login</a>
-        </div>
+      <template v-if="!isLoggedIn()">
+        <template v-if="view">
+          <div class="alternative-action-link">
+            <a data-test="link-back" @click.prevent="setView()">&larr; Back to Sign In</a>
+          </div>
+        </template>
+        <template v-else>
+          <div class="forgot-password alternative-action-link">
+            Did you
+            <a
+              data-test="link-forgot-password"
+              @click.prevent="setView(`forgot-password`)"
+            >forget your password?</a>
+          </div>
+        </template>
       </template>
-      <template v-else-if="view">
-        <div class="alternative-action-link">
-          <a
-            href="#"
-            data-test="link-back"
-            @click.prevent="setView(undefined)"
-          >&larr; Back to Sign In</a>
-        </div>
-      </template>
-      <template v-else>
-        <div class="new-account alternative-action-link">
-          Don't have an account?
-          <a
-            href="#"
-            data-test="link-register"
-            @click.prevent="newAccount = true"
-          >Sign Up</a>
-        </div>
-        <div class="forgot-password alternative-action-link">
-          Did you
-          <a
-            href="#"
-            data-test="link-forgot-password"
-            @click.prevent="setView(`forgot-password`)"
-          >forget your password?</a>
-        </div>
-      </template>
+      <div v-else-if="!view" class="forgot-password alternative-action-link">
+        Sign in to another account?
+        <a @click="logout()">logout&nbsp;&rarr;</a>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { logout } from "@factor/user/util"
 import { dashboardInput } from "@factor/dashboard"
 import { factorForm, factorBtn, factorLink } from "@factor/ui"
 import { authenticate, userInitialized, isLoggedIn } from "@factor/user"
@@ -142,27 +145,31 @@ import {
   sendPasswordResetEmail,
   verifyAndResetPassword
 } from "@factor/user/email-request"
-import { emitEvent } from "@factor/api"
+import { emitEvent, waitFor } from "@factor/api"
 import Vue from "vue"
 import { CurrentUserState } from "@factor/user/types"
+import { notifySignedIn } from "."
 export default Vue.extend({
   components: { factorForm, factorBtn, dashboardInput, factorLink },
   props: {
-    redirect: { type: String, default: "" }
+    format: { type: String, default: "page" },
+    redirect: { type: String, default: "" },
+    initialView: { type: String, default: "" }
   },
   data() {
     return {
       loading: false,
       form: {},
-      newAccount: false
+      newAccount: false,
+      user: undefined
     }
   },
   computed: {
     header(this: any) {
-      if (this.view == "verify-email") {
+      if (this.view == "account-created") {
         return {
-          title: "Verify Email",
-          subTitle: "Please check your inbox for a verification email."
+          title: "Account Created",
+          subTitle: "Good work. Please check your email to confirm your email address."
         }
       } else if (this.view == "password-email-sent") {
         return {
@@ -190,18 +197,16 @@ export default Vue.extend({
         }
       } else if (this.newAccount) {
         return {
-          title: "Sign Up",
-          subTitle: "Create A New Account"
+          title: "Sign Up"
         }
       } else {
         return {
-          title: "Login",
-          subTitle: "Enter your account details."
+          title: "Login"
         }
       }
     },
     view(this: any) {
-      return this.$route.query._action || this.$route.query.view || ""
+      return this.$route.query.view || ""
     },
     mode(this: any) {
       return this.$route.query.mode || "continue"
@@ -224,11 +229,16 @@ export default Vue.extend({
     if (newAccount) {
       this.newAccount = true
     }
+
+    if (this.initialView) {
+      this.setView(this.initialView)
+    }
   },
   methods: {
     sendPasswordResetEmail,
     verifyAndResetPassword,
     isLoggedIn,
+    logout,
     trigger(this: any, ref: string) {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
@@ -267,31 +277,68 @@ export default Vue.extend({
         this.loading = false
       }
 
-      if (user) this.done(user)
+      if (user) {
+        this.user = user
+        this.success(user)
+      }
 
       this.loading = false
     },
 
-    setView(this: any, view?: string) {
-      const query = view ? { view } : {}
-      this.$router.replace({ query })
-    },
+    /**
+     * Set to null to remove from query
+     */
+    setView(this: any, view?: string | null) {
+      const query = { ...this.$route.query, view }
 
-    done(this: any, user: CurrentUserState) {
-      if (user && user.email) {
-        emitEvent("notify", { message: `Signed in as ${user.email}` })
+      if (!view) {
+        delete query.view
       }
 
-      this.$emit("done", user)
+      if (query != this.$route.query) {
+        this.$router.replace({ query })
+      }
+    },
+
+    done(this: any) {
+      this.$emit("done")
+      if (this.format != "modal") {
+        this.setView()
+      }
+    },
+
+    notifySignedIn(this: any) {
+      /**
+       * If inside a modal then the modal handles notification
+       * Because it needs to track close events
+       */
+      if (this.format != "modal") {
+        notifySignedIn()
+      }
+    },
+
+    success(this: any) {
+      const newAccount = this.newAccount
 
       if (this.redirectPath) {
-        userInitialized((user: CurrentUserState) => {
+        userInitialized(async (user: CurrentUserState) => {
           if (user && user._id && this.redirectPath) {
-            this.$router.push({ path: this.redirectPath })
+            await this.$router.push({ path: this.redirectPath })
+
+            waitFor(1000)
+
+            if (newAccount) {
+              emitEvent("sign-in-modal", { view: "account-created", user })
+            }
           }
         })
       } else {
-        this.setView(null)
+        this.notifySignedIn()
+        if (newAccount) {
+          this.setView("account-created")
+        } else {
+          this.done()
+        }
       }
     }
   }
@@ -314,6 +361,9 @@ export default Vue.extend({
     margin-bottom: 1.5em;
     .title {
       font-size: 1.8em;
+      letter-spacing: -0.02em;
+      font-weight: var(--font-weight-bold, 700);
+      margin-bottom: 0.5rem;
     }
     .sub-title {
       font-weight: 500;

@@ -1,0 +1,21 @@
+{
+  "name": "@factor/plugin-standard-signin",
+  "description": "The standard login/signup plugin for Factor.",
+  "version": "1.3.1",
+  "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "load": [
+      "app"
+    ],
+    "title": "Standard Signin"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "fiction"
+  ]
+}

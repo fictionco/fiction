@@ -25,7 +25,8 @@ addContentRoutes({
       },
       {
         path: "/install",
-        component: (): Promise<Component> => import("./home/v-install.vue")
+        component: (): Promise<Component> => import("./home/v-install.vue"),
+        meta: { auth: true }
       },
       {
         path: `/${base}`,

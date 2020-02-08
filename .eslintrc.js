@@ -102,7 +102,11 @@ module.exports = {
         "@typescript-eslint/explicit-function-return-type": ["warn"],
         "@typescript-eslint/ban-ts-ignore": "warn"
       }
-    }
+    },
+    /**
+     * Prettier/Vetur or something removes semicolons in Vue files, causing conflict
+     */
+    { files: ["*.vue"], rules: { "@typescript-eslint/member-delimiter-style": "off" } }
   ],
 
   settings: {

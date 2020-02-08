@@ -43,13 +43,6 @@
         />
 
         <dashboard-input
-          v-model="post.username"
-          input="factor-input-text"
-          label="Username"
-          description="Must be unique."
-        />
-
-        <dashboard-input
           v-model="post.email"
           class="email-inputs"
           input="factor-input-email"
@@ -64,6 +57,13 @@
             >Unverified - Resend Email &rarr;</factor-btn-dashboard>
           </div>
         </dashboard-input>
+
+        <dashboard-input
+          v-model="post.username"
+          input="factor-input-text"
+          label="Username"
+          description="Must be unique."
+        />
 
         <dashboard-input
           v-model="post.password"

@@ -28,7 +28,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    notifications() {
+    notifications(this: any) {
       return this.errors.slice(0).reverse()
     }
   },

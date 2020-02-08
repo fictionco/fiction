@@ -29,7 +29,9 @@ export default {
       topicNumberPosts: (): Promise<Component> => import("./el/topic-number-posts.vue"),
       topicTags: (): Promise<Component> => import("./el/topic-tags.vue"),
       topicAuthor: (): Promise<Component> => import("./el/topic-post-author.vue"),
-      topicTimeAgo: (): Promise<Component> => import("./el/topic-time-ago.vue")
+      topicTimeAgo: (): Promise<Component> => import("./el/topic-time-ago.vue"),
+      topicNew: (): Promise<Component> => import("./topic-new.vue"),
+      navBack: (): Promise<Component> => import("./el/nav-back.vue")
     }
   }
 }

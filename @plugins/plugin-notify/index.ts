@@ -1,5 +1,21 @@
 import { emitEvent, onEvent, pushToFilter, log } from "@factor/api"
 import { Component } from "vue"
+import { waitFor } from "@factor/api/utils"
+interface NotificationInfo {
+  type: "notify" | "error";
+  message: string;
+  duration?: number;
+}
+
+/**
+ * Emits a notification event
+ * Waits for 50ms to ensure listeners are ready
+ * @param info - notification config
+ */
+const emitNotification = async (info: NotificationInfo): Promise<void> => {
+  await waitFor(50)
+  emitEvent("notify-toast", info)
+}
 
 const toasterNotification = (
   obj: string | { message: string; duration: number }
@@ -12,17 +28,17 @@ const toasterNotification = (
     ({ message = "", duration = 2000 } = obj)
   }
 
-  emitEvent("notify-toast", { type: "notify", message, duration })
+  emitNotification({ type: "notify", message, duration })
 }
 
 const toasterError = (obj: Error | string): void => {
   if (typeof obj == "string") {
-    emitEvent("notify-toast", { type: "error", message: obj })
+    emitNotification({ type: "error", message: obj })
   } else {
     if (obj instanceof Error) log.error(obj)
 
     if (obj.message) {
-      emitEvent("notify-toast", { type: "error", message: obj.message })
+      emitNotification({ type: "error", message: obj.message })
     }
   }
 }

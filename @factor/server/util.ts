@@ -6,6 +6,10 @@ import { localhostUrl } from "@factor/api/url"
 import expressPackage from "express/package.json"
 import serverRendererPackage from "vue-server-renderer/package.json"
 
+/**
+ * The error shown if a server error occurs and no HTML can be rendered
+ * @param param0
+ */
 export const serverErrorWrap = ({
   title = "",
   subTitle = "",

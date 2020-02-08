@@ -74,7 +74,7 @@ export default Vue.extend({
     isEmpty,
     setting,
     focusReply() {
-      const el = document.querySelector("#topic-reply")
+      const el: HTMLFormElement | null = document.querySelector("#topic-reply")
       if (el) {
         el.focus()
       }
@@ -88,9 +88,9 @@ export default Vue.extend({
   grid-template-columns: 1fr minmax(200px, 300px);
 
   .title {
-    font-size: 2.4em;
+    font-size: 2em;
     line-height: 1.1;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     font-weight: var(--font-weight-bold, 700);
   }
   .actions {

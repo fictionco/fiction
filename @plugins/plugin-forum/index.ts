@@ -30,6 +30,10 @@ addContentRoute({
       component: setting("forum.components.topicIndex")
     },
     {
+      path: "new",
+      component: setting("forum.components.topicNew")
+    },
+    {
       path: `${setting("forum.postRoute")}/:permalink`,
       component: setting("forum.components.topicSingle")
     }

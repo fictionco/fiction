@@ -5821,7 +5821,7 @@ eachr@^4.5.0:
   dependencies:
     typechecker "^6.2.0"
 
-easymde@^2.8.0:
+easymde@^2.8.0, easymde@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/easymde/-/easymde-2.9.0.tgz#1b02dc330596d75c9e40b09c52250759f9543dc2"
   integrity sha512-Gii/wv7ZmDTgBmD9QBKbU9uiyzspWYNUH/+hH+jlQmBiNM73ShGWX6DtrL/ARzD5sYqPY6yX/6U9M3RayAgDdA==

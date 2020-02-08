@@ -6,6 +6,7 @@ import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
 import { addEndpoint } from "@factor/api/endpoints"
+import { emitEvent } from "@factor/api/events"
 import { FactorUser } from "./types"
 import {
   SendVerifyEmail,
@@ -66,6 +67,7 @@ export const verifyEmail = async (
     user.emailVerified = true
     user.emailVerificationCode = undefined
     await user.save()
+    emitEvent("account-email-verified", user)
     return EmailResult.success
   } else if (!user.emailVerified) {
     throw new Error("Verification code does not match.")

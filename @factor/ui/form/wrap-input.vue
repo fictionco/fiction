@@ -32,6 +32,7 @@ import {
   factorInputEmail,
   factorInputDate,
   factorInputText,
+  factorInputTags,
   factorInputPhone,
   factorInputCheckbox,
   factorInputBirthday,
@@ -39,7 +40,8 @@ import {
   factorInputSelect,
   factorInputSubmit,
   factorInputPassword,
-  factorInputTextarea
+  factorInputTextarea,
+  factorInputEditor
 } from "@factor/ui"
 
 import { dashboardUserList } from "@factor/dashboard"
@@ -49,6 +51,8 @@ export default Vue.extend({
     factorInputWrap,
     factorInputEmail,
     factorInputDate,
+    factorInputTags,
+    factorInputEditor,
     factorInputText,
     factorInputPhone,
     factorInputCheckbox,
