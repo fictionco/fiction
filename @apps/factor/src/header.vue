@@ -74,7 +74,7 @@ export default Vue.extend({
   padding: 0 1.5em;
   position: fixed;
   width: 100%;
-  z-index: 50;
+  z-index: 5000;
   font-weight: 600;
 }
 
