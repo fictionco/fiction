@@ -1,7 +1,12 @@
 <template>
   <section class="hero overflow-hidden bg-cover bg-center bg-purple-900 py-16">
     <div class="px-8 mx-auto max-w-6xl">
-      <div v-if="subheadline" class="max-w-2xl custom-uppercase text-purple-400" :class="alignment">{{ subheadline }}</div>
+      <div
+        v-if="subheadline"
+        v-formatted-text="subheadline"
+        class="max-w-2xl custom-uppercase text-purple-400"
+        :class="alignment"
+      />
       <h1
         v-if="headline"
         class="max-w-2xl font-normal tracking-tight leading-tight text-3xl text-gray-100 lg:text-5xl"
