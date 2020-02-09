@@ -59,6 +59,7 @@ export default Vue.extend({
       const EasyMDE = await import("easymde")
       this.easyMDE = new EasyMDE.default({
         element: this.$refs.editor,
+        minHeight: "200px",
         spellChecker: false,
         forceSync: true,
         autoDownloadFontAwesome: false,
@@ -559,8 +560,8 @@ span.CodeMirror-selectedtext {
   box-sizing: border-box;
   height: auto;
   border: 1px solid rgba(200, 204, 228, 0.7);
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
   padding: 10px;
   font: inherit;
   z-index: 1;
@@ -596,8 +597,8 @@ span.CodeMirror-selectedtext {
   border-top: 1px solid #bbb;
   border-left: 1px solid #bbb;
   border-right: 1px solid #bbb;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 .editor-toolbar:after,
 .editor-toolbar:before {

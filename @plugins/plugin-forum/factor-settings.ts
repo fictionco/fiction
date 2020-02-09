@@ -27,6 +27,7 @@ export default {
       topicSingle: (): Promise<Component> => import("./topic-single.vue"),
       topicReply: (): Promise<Component> => import("./topic-reply.vue"),
       topicNumberPosts: (): Promise<Component> => import("./el/topic-number-posts.vue"),
+      topicActions: (): Promise<Component> => import("./el/topic-actions.vue"),
       topicTags: (): Promise<Component> => import("./el/topic-tags.vue"),
       topicAuthor: (): Promise<Component> => import("./el/topic-post-author.vue"),
       topicTimeAgo: (): Promise<Component> => import("./el/topic-time-ago.vue"),

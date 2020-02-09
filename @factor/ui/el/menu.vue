@@ -1,9 +1,9 @@
 <template>
-  <div class="quick-menu toggle" :class="toggle? 'active': 'not-active'" @click.stop>
-    <div class="toggle-btn" :class="toggleClass" data-test="menu-toggle" @click="setToggle()">
+  <div ref="toggle" class="quick-menu toggle" :class="toggle? 'active': 'not-active'" @click.stop>
+    <div class="toggle-btn" :class="[toggleClass ]" data-test="menu-toggle" @click="setToggle()">
       <factor-icon icon="fas fa-ellipsis-h" />
     </div>
-    <div v-if="toggle" class="toggle-content">
+    <div v-if="toggle" class="toggle-content" :class="ddClass">
       <div
         v-for="(action, i) in parseList(list)"
         :key="i"
@@ -30,16 +30,21 @@ export default Vue.extend({
   data() {
     return {
       toggle: false,
-      clickHandler: ""
+      clickHandler: "",
+      el: false,
+      ddClass: "drop-down"
     }
+  },
+  mounted() {
+    this.el = this.$refs.toggle
   },
   methods: {
     parseList,
-    sendEvent(value) {
+    sendEvent(this: any, value: string) {
       this.$emit("action", value)
       this.toggle = false
     },
-    setToggle() {
+    setToggle(this: any) {
       // removeListener only works with named functions
 
       this.clickHandler = () => {
@@ -58,6 +63,13 @@ export default Vue.extend({
         this.toggle = false
         document.removeEventListener("click", this.clickHandler, false)
       }
+    },
+    nearBottom(this: any) {
+      if (this.el && window.innerHeight - this.el.getBoundingClientRect().bottom < 150) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 })
@@ -70,24 +82,33 @@ export default Vue.extend({
     cursor: pointer;
   }
   &.active .toggle-btn {
+    opacity: 0.5;
   }
   .toggle-content {
+    user-select: none;
     position: absolute;
-    bottom: 100%;
-    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
-      0 12px 34px 0 rgba(24, 32, 41, 0.04);
+    top: 100%;
+    bottom: auto;
+    &.drop-up {
+      bottom: 100%;
+      top: auto;
+    }
+
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4), 0 6px 14px 0 rgba(24, 32, 41, 0.08),
+      0 12px 34px 0 rgba(24, 32, 41, 0.06);
     z-index: 100;
     font-weight: 500;
     width: 200px;
-    background: #fff;
-    border-radius: 4px;
+    background: var(--menu-el-bg, #fff);
+    border-radius: 6px;
     right: 0;
     text-align: left;
+    overflow: hidden;
     .toggle-item {
       padding: 0.5em 1em;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--menu-el-border, #eee);
       &:hover {
-        background: #f7f7f7;
+        background: var(--menu-el-hover, #f7f7f7);
         cursor: pointer;
       }
       &:last-child {

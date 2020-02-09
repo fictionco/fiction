@@ -16,8 +16,5 @@ export default Vue.extend({
   .factor-icon {
     margin-right: 0.5rem;
   }
-  .username {
-    font-weight: var(--font-weight-bold, 700);
-  }
 }
 </style>

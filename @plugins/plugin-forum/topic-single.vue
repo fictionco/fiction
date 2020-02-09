@@ -9,26 +9,31 @@
         </div>
       </div>
       <div class="actions">
+        <factor-btn btn="default">Subscribe</factor-btn>
         <factor-btn btn="primary" @click="focusReply()">Reply</factor-btn>
       </div>
     </div>
-    <div class="topic-posts">
-      <div v-for="(item, index) in 4" :key="index" class="topic-post">
-        <div class="topic-post-avatar">
-          <factor-avatar :url="require('./img/avatar.jpg')" />
-        </div>
-        <div class="topic-post-content">
-          <div class="topic-post-meta">
-            <component :is="setting('forum.components.topicAuthor')" class="meta-item" />
-            <component :is="setting('forum.components.topicTimeAgo')" class="meta-item" />
+    <div class="content-area">
+      <div class="topic-posts">
+        <div v-for="(item, index) in 4" :key="index" class="topic-post">
+          <div class="topic-post-avatar">
+            <factor-avatar :url="require('./img/avatar.jpg')" />
           </div>
-          <div
-            class="text"
-          >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque nisl a massa bibendum, nec sollicitudin felis varius. Praesent ligula tellus, elementum vel leo a, tristique convallis justo. Nam sodales mauris et justo efficitur, eu maximus tellus tincidunt. Donec ac est in libero ornare rutrum. Nullam ac dolor et augue bi</div>
+          <div class="topic-post-content">
+            <div class="topic-post-meta">
+              <component :is="setting('forum.components.topicAuthor')" class="meta-item" />
+              <component :is="setting('forum.components.topicTimeAgo')" class="meta-item" />
+              <component :is="setting('forum.components.topicActions')" class="meta-item" />
+            </div>
+            <div
+              class="text"
+            >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque nisl a massa bibendum, nec sollicitudin felis varius. Praesent ligula tellus, elementum vel leo a, tristique convallis justo. Nam sodales mauris et justo efficitur, eu maximus tellus tincidunt. Donec ac est in libero ornare rutrum. Nullam ac dolor et augue bi</div>
+          </div>
         </div>
+        <component :is="setting('forum.components.topicReply')" />
       </div>
     </div>
-    <component :is="setting('forum.components.topicReply')" />
+
     <!-- <div v-if="!isEmpty(post)">
       <component
         :is="setting(`forum.components.${comp}`)"
@@ -95,8 +100,10 @@ export default Vue.extend({
   }
   .actions {
     text-align: right;
-    font-size: 1.2em;
     align-self: center;
+    .factor-btn {
+      margin: 0 0.5rem;
+    }
   }
   .meta {
     display: flex;
@@ -106,6 +113,10 @@ export default Vue.extend({
   }
   padding-bottom: 1rem;
 }
+.content-area {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+}
 .topic-posts {
   padding: 1rem 0;
 
@@ -113,7 +124,7 @@ export default Vue.extend({
     display: grid;
     grid-template-columns: 3rem 1fr;
     grid-gap: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     .text {
       font-size: 1.2em;
       line-height: 1.6;

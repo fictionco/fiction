@@ -1,18 +1,17 @@
 <template>
-  <div class="time-ago">
-    <factor-icon icon="far fa-clock" />
-    <span class="time">4 hours ago</span>
+  <div class="topic-actions">
+    <factor-menu :list="['reply', 'flag']" />
   </div>
 </template>
 <script lang="ts">
-import { factorIcon } from "@factor/ui"
+import { factorMenu } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorIcon }
+  components: { factorMenu }
 })
 </script>
 <style lang="less">
-.time-ago {
+.topic-post-author {
   .factor-icon {
     margin-right: 0.5rem;
   }

@@ -1,7 +1,12 @@
 <template>
   <div class="topic-reply">
     <factor-avatar :url="require('./img/avatar.jpg')" />
-    <factor-input-textarea id="topic-reply" class="reply-textarea" placeholder="Reply" />
+    <factor-input-editor
+      id="topic-reply"
+      class="reply-textarea"
+      post-id="topic-reply"
+      placeholder="Reply"
+    />
     <div class="action">
       <factor-btn btn="primary">Reply</factor-btn>
     </div>
@@ -9,9 +14,12 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { factorInputTextarea, factorAvatar, factorBtn } from "@factor/ui"
+import { factorInputEditor, factorAvatar, factorBtn } from "@factor/ui"
 export default Vue.extend({
-  components: { factorInputTextarea, factorAvatar, factorBtn }
+  components: { factorInputEditor, factorAvatar, factorBtn },
+  metaInfo: () => {
+    return { title: "Post" }
+  }
 })
 </script>
 <style lang="less">
@@ -25,7 +33,7 @@ export default Vue.extend({
     position: absolute;
     z-index: 10;
     width: 3rem;
-    top: 1rem;
+    top: 4rem;
     left: 1rem;
   }
   .action {
