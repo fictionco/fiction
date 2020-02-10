@@ -77,8 +77,15 @@ export const renderRequest = async (
   response.setHeader("Server", getServerInfo())
 
   try {
+    /**
+     * Allow http status to be changed from inside the app
+     */
+    const serverStatus = applyFilters("server-status", 200)
     const html = await renderRoute(request.url, renderer)
-    response.send(html)
+    response
+      .status(serverStatus)
+      .send(html)
+      .end()
   } catch (error) {
     handleServerError(request, response, error)
   }

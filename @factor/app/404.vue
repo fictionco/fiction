@@ -9,11 +9,14 @@
 
 <script lang="ts">
 import Vue from "vue"
+import { addFilter } from "@factor/api/hooks"
+
 export default Vue.extend({
   metaInfo() {
     return {
       title: `${this.errorText} Error`,
-      description: `Looks like you've hit a ${this.errorText} error.`
+      description: `Looks like you've hit a ${this.errorText} error.`,
+      meta: [{ name: "robots", content: "noindex" }]
     }
   },
   computed: {
@@ -43,6 +46,15 @@ export default Vue.extend({
 
       return out
     }
+  },
+  created() {
+    addFilter({
+      hook: "server-status",
+      key: "four04",
+      callback: (): number => {
+        return 404
+      }
+    })
   }
 })
 </script>
