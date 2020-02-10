@@ -97,7 +97,9 @@ export default Vue.extend({
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 0.5rem;
-
+    .avatar {
+      width: 2rem;
+    }
     .content {
       .name {
         font-weight: bold;

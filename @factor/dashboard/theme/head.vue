@@ -200,7 +200,6 @@ export default Vue.extend({
     .bar {
       background: var(--panel-border-color);
       height: 0.25rem;
-
       width: 1rem;
       border-radius: 4px;
       left: 0%;
@@ -227,6 +226,7 @@ export default Vue.extend({
       .bar {
         transform: translateY(0);
         margin: 0;
+        width: 1.75rem;
       }
       .bar:first-child {
         transform: translateX(-50%) rotate(45deg);
