@@ -3,11 +3,7 @@ import { addFilter, applyFilters } from "@factor/api/hooks"
 import { getWorkingDirectory } from "@factor/api/utils"
 import fs from "fs-extra"
 
-interface CopyItemConfig {
-  from: string;
-  to: string;
-  ignore: string[];
-}
+import { WebpackCopyItemConfig } from "@factor/build/types"
 
 const relativePath = (key: string, cwd?: string): string => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -52,16 +48,19 @@ export const getPath = (key: string, cwd?: string): string => {
   return full
 }
 
-// Returns configuration array for webpack copy plugin
-// if static folder is in app or theme, contents should copied to dist
-const staticCopyConfig = (cwd?: string): CopyItemConfig[] => {
+/**
+ * Returns configuration array for webpack copy plugin
+ * if static folder is in app or theme, contents should copied to dist
+ * @param cwd
+ */
+const staticCopyConfig = (cwd?: string): WebpackCopyItemConfig[] => {
   const paths = [getPath("static", cwd)]
 
   if (getPath("theme")) {
     paths.push(resolve(getPath("theme", cwd), "static"))
   }
 
-  const copyItems: CopyItemConfig[] = []
+  const copyItems: WebpackCopyItemConfig[] = []
 
   paths.forEach(p => {
     if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
@@ -75,7 +74,7 @@ export const setup = (): void => {
   addFilter({
     key: "paths",
     hook: "webpack-copy-files-config",
-    callback: (_: CopyItemConfig[], { cwd }) => {
+    callback: (_: WebpackCopyItemConfig[], { cwd }) => {
       return [..._, ...staticCopyConfig(cwd)]
     }
   })

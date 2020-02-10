@@ -125,6 +125,7 @@
     "buildpacks",
     "bulma",
     "camelcase",
+    "changefreq",
     "chunkhash",
     "circleci",
     "clonedeep",

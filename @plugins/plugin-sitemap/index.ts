@@ -6,9 +6,12 @@ import { currentUrl } from "@factor/api/url"
 import { setting } from "@factor/api/settings"
 import { Request, Response } from "express"
 import { RouteConfig } from "vue-router"
-
+import { WebpackCopyItemConfig } from "@factor/build/types"
 let sitemap: Buffer
 
+/**
+ * Pull routes for sitemap out of a router config
+ */
 const getRoutesRecursively = (routes: RouteConfig[], parent = ""): string[] => {
   let out: string[] = []
 
@@ -35,9 +38,11 @@ const getRoutesRecursively = (routes: RouteConfig[], parent = ""): string[] => {
   return out
 }
 
+/**
+ * get statically assigned routes
+ * then remove duplicated and dynamic routes (which include a colon (:))
+ */
 const getRouteUrls = (): string[] => {
-  // get routes
-  // then remove duplicated and dynamic routes (which include a colon (:))
   const contentRoutes = applyFilters("content-routes", [])
   const theRoutes = uniq(getRoutesRecursively(contentRoutes)).filter(
     (fullPath: string) => {
@@ -64,9 +69,36 @@ export const getPermalinks = async (): Promise<string[]> => {
   return urls.concat(getRouteUrls())
 }
 
+/**
+ * Copy the XSL file into dist folder
+ * This currently isn't being loaded because of API issues with the existing sitemap npm module
+ * At some point, it should be loaded like this:
+ * <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="[URL]/sitemap.xsl"?>
+ */
+const copyStaticFiles = (): WebpackCopyItemConfig[] => {
+  const from = require.resolve("@factor/plugin-sitemap/sitemap.xsl")
+
+  const copyItems: WebpackCopyItemConfig[] = []
+
+  copyItems.push({ from, to: "" })
+
+  return copyItems
+}
+
 export const setup = (): void => {
+  /**
+   * Copy any static/built files into root of dist
+   */
   addFilter({
-    key: "sitemapMiddleware",
+    key: "paths",
+    hook: "webpack-copy-files-config",
+    callback: (_: WebpackCopyItemConfig[], { cwd }) => {
+      return [..._, ...copyStaticFiles()]
+    }
+  })
+
+  addFilter({
+    key: "sitemapRoutesMiddleware",
     hook: "middleware",
     callback: (_: object[]) => {
       _.push({
@@ -75,19 +107,22 @@ export const setup = (): void => {
           async (request: Request, response: Response): Promise<void> => {
             response.header("Content-Type", "application/xml")
             response.header("Content-Encoding", "gzip")
+
             // if we have a cached entry send it
             if (sitemap) {
               response.send(sitemap)
               return
             }
             try {
-              const smStream = new SitemapStream({ hostname: currentUrl() })
+              const smStream = new SitemapStream({
+                hostname: currentUrl()
+              })
               const pipeline = smStream.pipe(createGzip())
 
               const urls = await getPermalinks()
 
               urls.forEach(url => {
-                smStream.write({ url })
+                smStream.write({ url, changefreq: "weekly", priority: 0.8 })
               })
 
               smStream.end()
