@@ -27,6 +27,7 @@
                   v-else
                   class="menu"
                   :list="['upload-image', 'view', 'copy-URL', 'delete']"
+                  drop-direction="up"
                   @action="action(img._id, $event)"
                 />
               </div>

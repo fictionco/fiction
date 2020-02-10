@@ -24,15 +24,19 @@ export default Vue.extend({
   props: {
     toggleClass: { type: String, default: "" },
     list: { type: Array, default: () => [] },
-
+    dropDirection: { type: String, default: "down" },
     itemKey: { type: [String, Number], default: "" }
   },
   data() {
     return {
       toggle: false,
       clickHandler: "",
-      el: false,
-      ddClass: "drop-down"
+      el: false
+    }
+  },
+  computed: {
+    ddClass(this: any) {
+      return `drop-${this.dropDirection}`
     }
   },
   mounted() {

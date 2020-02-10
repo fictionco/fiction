@@ -24,7 +24,11 @@
                   v-if="item.name"
                   class="font-normal tracking-tight leading-tight text-3xl text-purple-900 lg:text-4xl"
                 >{{ item.name }}</h1>
-                <p v-if="item.description" class="text-gray-600">{{ item.description }}</p>
+                <p
+                  v-if="item.description"
+                  v-formatted-text="item.description"
+                  class="text-gray-600"
+                />
               </div>
               <ul class="text-base lg:text-lg">
                 <li
@@ -39,7 +43,11 @@
                 </template>
               </ul>
               <div class="relative z-10 flex justify-center py-6">
-                <factorLink v-if="item.buttonLink" :path="item.buttonLink" :class="item.buttonClasses">
+                <factorLink
+                  v-if="item.buttonLink"
+                  :path="item.buttonLink"
+                  :class="item.buttonClasses"
+                >
                   {{ item.buttonText }}
                   <factor-icon icon="fas fa-angle-right" />
                 </factorLink>
@@ -48,7 +56,10 @@
           </div>
         </template>
       </div>
-      <p v-if="setting('pricing.packagesFooter')" class="text-xs text-center mt-8">{{ setting("pricing.packagesFooter") }}</p>
+      <p
+        v-if="setting('pricing.packagesFooter')"
+        class="text-xs text-center mt-8"
+      >{{ setting("pricing.packagesFooter") }}</p>
     </section>
 
     <section v-if="setting('pricing.faq')" class="py-8 lg:py-12 bg-white">
