@@ -9,6 +9,7 @@ declare module "vue/types/vue" {
     scrollClass: string[] | string;
     routeClass: string[] | string;
     $route: Route;
+    $eventBus: Vue;
   }
 
   export interface Vue {

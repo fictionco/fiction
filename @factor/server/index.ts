@@ -80,8 +80,12 @@ export const renderRequest = async (
     /**
      * Allow http status to be changed from inside the app
      */
-    const serverStatus = applyFilters("server-status", 200)
+    process.env.factorServerStatus = "200"
+
     const html = await renderRoute(request.url, renderer)
+
+    const serverStatus = parseInt(process.env.factorServerStatus)
+
     response
       .status(serverStatus)
       .send(html)

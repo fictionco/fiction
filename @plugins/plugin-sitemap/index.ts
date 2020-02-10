@@ -92,7 +92,7 @@ export const setup = (): void => {
   addFilter({
     key: "paths",
     hook: "webpack-copy-files-config",
-    callback: (_: WebpackCopyItemConfig[], { cwd }) => {
+    callback: (_: WebpackCopyItemConfig[]) => {
       return [..._, ...copyStaticFiles()]
     }
   })

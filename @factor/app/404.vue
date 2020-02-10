@@ -9,7 +9,6 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { addFilter } from "@factor/api/hooks"
 
 export default Vue.extend({
   metaInfo() {
@@ -48,13 +47,9 @@ export default Vue.extend({
     }
   },
   created() {
-    addFilter({
-      hook: "server-status",
-      key: "four04",
-      callback: (): number => {
-        return 404
-      }
-    })
+    if (process) {
+      process.env.factorServerStatus = "404"
+    }
   }
 })
 </script>
