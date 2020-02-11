@@ -138,8 +138,16 @@ addFilter({
     if (data.image && !data.image.includes("base64")) {
       data.meta.push({
         vmid: "og:image",
-        name: "og:image",
+        property: "og:image",
         content: data.image
+      })
+    }
+
+    if (data.title) {
+      data.meta.push({
+        vmid: "og:title",
+        property: "og:title",
+        content: data.title
       })
     }
     return data
