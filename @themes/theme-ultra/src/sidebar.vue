@@ -38,17 +38,22 @@ export default Vue.extend({
     }
   },
   mounted: function() {
-    for (const ele of this.options) {
-      const observer = new IntersectionObserver(
-        entries => {
-          if (entries[0].isIntersecting) {
-            this.selected = `#${entries[0].target.id}`
-          }
-        },
-        { threshold: [0.2] }
-      )
-      if (document.querySelector(ele.path)) {
-        observer.observe(document.querySelector(ele.path))
+    /**
+     * Make sure intersection observer is available
+     */
+    if (IntersectionObserver) {
+      for (const ele of this.options) {
+        const observer = new IntersectionObserver(
+          entries => {
+            if (entries[0].isIntersecting) {
+              this.selected = `#${entries[0].target.id}`
+            }
+          },
+          { threshold: [0.2] }
+        )
+        if (document.querySelector(ele.path)) {
+          observer.observe(document.querySelector(ele.path))
+        }
       }
     }
   },
