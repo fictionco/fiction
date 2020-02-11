@@ -8,7 +8,7 @@
         </div>
 
         <div class="buttons">
-          <factor-link btn="primary" path="/guide/creating-plugins">Submit Plugin &rarr;</factor-link>
+          <factor-link btn="primary" path="https://www.fiction.com/contact">Submit &rarr;</factor-link>
         </div>
       </div>
     </div>
@@ -23,25 +23,22 @@ export default Vue.extend({ components: { factorLink }, methods: { setting } })
 <style lang="less">
 .plugins-cta-wrap {
   .content-pad {
-    max-width: 1100px;
-    margin: 0 auto;
     padding: 0 1.5em;
     width: 100%;
     z-index: 10;
     position: relative;
   }
   .plugins-cta {
-    display: flex;
+    max-width: 700px;
+    margin: 4rem auto 0;
+    display: grid;
+    grid-gap: 2rem;
     justify-content: center;
     align-items: center;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 200px;
     align-items: center;
-    border-top: 2px solid #f6f9fc;
-    margin: 4rem 0 0;
-    padding: 3rem 0;
-    @media (max-width: 900px) {
-      margin: 0;
-      padding: 3rem 0 1rem;
+    .buttons {
+      text-align: right;
     }
     .text {
       margin-right: 2rem;
@@ -51,6 +48,14 @@ export default Vue.extend({ components: { factorLink }, methods: { setting } })
         &.title {
           color: var(--color-primary);
         }
+      }
+    }
+    @media (max-width: 900px) {
+      margin: 0;
+      padding: 3rem 0 1rem;
+      grid-template-columns: 1fr;
+      .buttons {
+        text-align: left;
       }
     }
   }

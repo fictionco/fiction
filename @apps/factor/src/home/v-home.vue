@@ -397,10 +397,9 @@ export default Vue.extend({
 
             font-size: 0.8em;
             font-weight: 500;
-            // a {
-            //   color: inherit;
-            //   opacity: 0.4;
-            // }
+          }
+          .rating-value {
+            display: none;
           }
         }
       }

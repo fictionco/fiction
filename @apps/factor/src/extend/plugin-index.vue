@@ -9,8 +9,12 @@
 
     <div v-if="true" class="coming-soon">
       <div class="title">Coming Soon 👋</div>
-      <div class="sub-title">Plugins will launch March 17, 2020</div>
-      <factor-email-list list-id="alphaProgram" />
+      <div class="sub-title">Themes will launch March 17, 2020</div>
+
+      <div class="actions">
+        <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
+        <span class="cta-tag">for early access.</span>
+      </div>
     </div>
 
     <div v-else-if="loading" class="posts-loading">
@@ -85,7 +89,6 @@
 </template>
 
 <script lang="ts">
-import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLoadingRing, factorLink } from "@factor/ui"
 import Vue from "vue"
 import {
@@ -99,7 +102,6 @@ import { requestExtensionIndex, getIndexCache } from "./extension-request"
 
 export default Vue.extend({
   components: {
-    factorEmailList,
     "widget-sidebar": () => import("./widget-sidebar.vue"),
     "widget-cta": () => import("./widget-cta.vue"),
     factorLoadingRing,
@@ -152,6 +154,7 @@ export default Vue.extend({
   overflow: hidden;
   .plugin-index-head {
     padding: 6em 0;
+    text-align: center;
     .title {
       font-size: 2.5em;
       line-height: 1.1;
