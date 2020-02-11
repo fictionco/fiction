@@ -42,7 +42,7 @@ export default Vue.extend({
       display: inline-block;
       max-width: 65%;
       font-size: 1.4em;
-      font-weight: 600;
+      font-weight: var(--font-weight-bold, 700);
       letter-spacing: -0.03em;
       line-height: 1.2;
       @media (max-width: 767px) {

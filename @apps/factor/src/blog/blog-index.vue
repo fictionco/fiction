@@ -1,5 +1,5 @@
 <template>
-  <div class="blog">
+  <div class="blog-index blog-page">
     <el-hero
       :subheadline="setting('blog.pretitle')"
       :headline="setting('blog.title')"
@@ -146,8 +146,9 @@ export default Vue.extend({
       flex-direction: column;
       background-color: #fff;
       border-radius: 0.5rem;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+      box-shadow: 0 1rem 2rem rgba(50, 50, 93, 0.13), 0 0.5rem 1rem rgba(50, 50, 93, 0.11),
+        0 5px 15px rgba(0, 0, 0, 0.07);
     }
 
     @media (max-width: 1200px) {
@@ -163,7 +164,7 @@ export default Vue.extend({
     overflow: hidden;
 
     color: var(--color-text);
-    background-color: #e6ebf1;
+    background-color: #fff;
     background-image: url("../img/dot.svg");
     // background-image: url(../img/promo.svg);
     // background-repeat: no-repeat;
@@ -188,7 +189,9 @@ export default Vue.extend({
     .title {
       margin-top: 0.5rem;
       font-size: 1.5rem;
+      line-height: 1.1;
       letter-spacing: -0.025em;
+      font-weight: var(--font-weight-bold, 700);
     }
     .content {
       margin-top: 0.5rem;
@@ -200,18 +203,6 @@ export default Vue.extend({
   }
   .loader .ring-path {
     stroke: var(--color-primary);
-  }
-  .posts-not-found,
-  .posts-loading {
-    min-height: 50vh;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    .title {
-      font-size: 1.4em;
-      font-weight: var(--font-weight-bold);
-    }
   }
 }
 </style>

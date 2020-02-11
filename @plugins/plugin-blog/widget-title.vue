@@ -26,7 +26,7 @@ export default Vue.extend({
 <style lang="less">
 .plugin-blog {
   .entry-title {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold, 700);
     font-size: 2em;
     letter-spacing: -0.03em;
     line-height: 1.2;

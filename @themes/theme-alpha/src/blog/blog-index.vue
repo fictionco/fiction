@@ -224,7 +224,7 @@ export default Vue.extend({
         }
 
         .entry-title {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(--font-weight-bold, 700);
           font-size: 1.4rem;
           letter-spacing: -0.03em;
           margin-top: 1rem;

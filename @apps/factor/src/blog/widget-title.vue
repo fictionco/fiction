@@ -44,6 +44,7 @@ export default Vue.extend({
     line-height: 1.25;
     font-size: 1.5rem;
     margin-top: 1.25rem;
+    font-weight: var(--font-weight-bold, 700);
     .title {
       color: inherit;
       &:hover {

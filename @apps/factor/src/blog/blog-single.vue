@@ -1,5 +1,5 @@
 <template>
-  <div class="single-entry">
+  <div class="single-entry blog-page">
     <div v-if="!isEmpty(post)">
       <component
         :is="setting(`blog.components.${comp}`)"

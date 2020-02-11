@@ -80,8 +80,6 @@ export default Vue.extend({
     }
 
     .blog-hero {
-      // Light version
-      background-color: #e6ebf1;
       background-image: url("../img/dot.svg");
 
       // Dark version
@@ -115,6 +113,7 @@ export default Vue.extend({
         font-size: 3rem;
         letter-spacing: -0.025em;
         line-height: 1.25;
+        font-weight: var(--font-weight-bold, 700);
         a {
           //color: #f3f4fa;
           color: var(--color-text);
@@ -144,7 +143,6 @@ export default Vue.extend({
     }
 
     .meta-wrap {
-      background-color: #f3f6f9;
       .meta {
         display: flex;
         justify-content: center;
@@ -167,6 +165,7 @@ export default Vue.extend({
           justify-content: center;
           align-items: center;
           .avatar {
+            width: 2rem;
             margin-left: 2rem;
           }
           .name {
