@@ -41,3 +41,18 @@ export const currentUrl = (): string => {
     return productionUrl()
   }
 }
+
+/**
+ * Ensure a full url is returned
+ * Used in meta info, etc.
+ * @param path - url or route
+ */
+export const canonicalUrl = (path: string): string => {
+  const schemes = ["http:", "https:", "ftp:", "mailto:", "file:", "data:", "irc:"]
+
+  if (schemes.some(scheme => path.includes(scheme))) {
+    return path
+  } else {
+    return `${currentUrl()}${path}`
+  }
+}

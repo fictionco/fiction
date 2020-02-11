@@ -196,7 +196,7 @@ const production = (): Configuration => {
        * this reduces http overhead
        */
       new webpack.optimize.MinChunkSizePlugin({
-        minChunkSize: 50000 // Minimum number of characters
+        minChunkSize: 65000 // Minimum number of characters
       })
     ],
     optimization: {

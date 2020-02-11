@@ -9,10 +9,12 @@ import {
   shareImage
 } from "@factor/api"
 import { CurrentFactorPost } from "@factor/post/types"
+import { canonicalUrl } from "@factor/api/url"
 import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
 import { FactorMetaInfo } from "./types"
 import "./route-class"
 import { version } from "@factor/core/package.json"
+
 Vue.use(VueMeta, { keyName: "metaInfoCore" })
 
 interface MetaHookOptions {
@@ -24,12 +26,15 @@ addFilter({
   key,
   hook: "ssr-context-ready",
   callback: (context: ServerRenderContext, { vm, router }: ApplicationComponents) => {
-    // Add Vue-Meta information to context
+    /**
+     * Add Vue-Meta information to context
+     */
     context.metaInfo = vm.$meta()
 
-    // the html template extension mechanism
-    // This uses a callback because the component's 'created' hooks are called after this point
-
+    /**
+     * the html template extension mechanism
+     * This uses a callback because the component's 'created' hooks are called after this point
+     */
     const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
 
     metaHooks.forEach(h => {
@@ -77,6 +82,9 @@ addFilter({
             }
           : {}
 
+        /**
+         * Default meta information
+         */
         const defaultMeta = {
           htmlAttrs: { lang: "en" },
 
@@ -121,6 +129,10 @@ addCallback({
   }
 })
 
+/**
+ * Improve the syntax for metaInfo by allowing direct keys
+ * for commonly used meta (image, description)
+ */
 addFilter({
   key,
   hook: "meta-component",
@@ -139,7 +151,7 @@ addFilter({
       data.meta.push({
         vmid: "og:image",
         property: "og:image",
-        content: data.image
+        content: canonicalUrl(data.image)
       })
     }
 
@@ -155,6 +167,9 @@ addFilter({
   priority: 200
 })
 
+/**
+ * Inside the <head>
+ */
 addFilter({
   key,
   hook: "factor_head",
@@ -173,6 +188,9 @@ addFilter({
   }
 })
 
+/**
+ * Added to <html>
+ */
 addFilter({
   key,
   hook: "factor_html_attr",
@@ -182,6 +200,9 @@ addFilter({
   }
 })
 
+/**
+ * Added to <body>
+ */
 addFilter({
   key,
   hook: "factor_body_attr",
@@ -190,6 +211,10 @@ addFilter({
     return [..._, bodyAttrs.text()]
   }
 })
+
+/**
+ * Added to <head>
+ */
 addFilter({
   key,
   hook: "factor_head_attr",
@@ -199,6 +224,9 @@ addFilter({
   }
 })
 
+/**
+ * Meta information at the top of the body
+ */
 addFilter({
   key,
   hook: "factor_body_start",
@@ -214,6 +242,9 @@ addFilter({
   }
 })
 
+/**
+ * Meta information at the end of the body
+ */
 addFilter({
   key,
   hook: "factor_body_end",

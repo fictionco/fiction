@@ -47,22 +47,34 @@
             itemscope
             itemtype="http://schema.org/Review"
           >
-            <blockquote itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+            <blockquote itemprop="reviewRating" itemscope itemtype="http://schema.org/Review">
               <div class="quote-media">
                 <a class="quote-image" href="#">
                   <img :src="quote.img" alt="quote" />
                 </a>
               </div>
               <p class="quote-body" itemprop="reviewBody">"{{ quote.text }}"</p>
-              <div class="rating" itemprop="bestRating">
+              <div
+                class="rating"
+                itemprop="reviewRating"
+                itemscope
+                itemtype="https://schema.org/Rating"
+              >
                 <factor-icon icon="fas fa-star" />
                 <factor-icon icon="fas fa-star" />
                 <factor-icon icon="fas fa-star" />
                 <factor-icon icon="fas fa-star" />
                 <factor-icon icon="fas fa-star" />
+                <span class="rating-value" itemprop="ratingValue">5</span>
               </div>
               <footer>
-                <a :href="quote.link" target="_blank">{{ quote.attribution }}</a>
+                <a
+                  :href="quote.link"
+                  target="_blank"
+                  itemprop="author"
+                  itemscope
+                  itemtype="https://schema.org/Person"
+                >{{ quote.attribution }}</a>
               </footer>
             </blockquote>
           </article>
