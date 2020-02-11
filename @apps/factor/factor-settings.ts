@@ -48,7 +48,7 @@ export default {
   },
   blog: {
     title: "Factor Blog",
-    content: "Latest product updates, announcements, and articles from the Factor team.",
+    content: "Learn coding tips and tricks. Get updates, build successful apps.",
     indexRoute: "/blog",
     postRoute: "/entry",
     limit: 6,
@@ -62,8 +62,14 @@ export default {
       title: "Build something incredible today",
       content: "Factor will help you launch websites and applications faster.",
       button: {
-        link: "/guide/quickstart",
-        text: "Get Started"
+        link: "/install",
+        text: "Install Factor"
+      }
+    },
+    metatags: {
+      index: {
+        title: "Factor Blog",
+        description: "The latest news and articles."
       }
     },
     components: {

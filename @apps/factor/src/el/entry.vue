@@ -88,7 +88,7 @@ code {
 
   margin: 0 auto;
   h1 {
-    font-size: 2em;
+    font-size: 1.8em;
     line-height: 1.2;
   }
   h2 {
@@ -111,9 +111,9 @@ code {
   h2,
   h3,
   h4 {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold, 700);
     a {
-      font-weight: 600;
+      font-weight: var(--font-weight-bold, 700);
     }
   }
   h1,
@@ -162,7 +162,7 @@ code {
   p,
   ul,
   ol {
-    line-height: 1.6;
+    line-height: 1.7;
     padding-bottom: 1.2em;
   }
   ol,

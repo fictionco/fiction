@@ -19,8 +19,8 @@
 import Vue from "vue"
 import { factorError404 } from "@factor/ui"
 import { storeItem, stored } from "@factor/api"
+import { Route } from "vue-router"
 import { getMarkdownHTML, metatags } from "./docs-handler"
-
 export default Vue.extend({
   components: {
     factorError404,
@@ -54,7 +54,7 @@ export default Vue.extend({
     }
   },
   watch: {
-    $route: function(this: any, to, from) {
+    $route: function(this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.toggleNav(false)
         this.setContent()
@@ -76,7 +76,7 @@ export default Vue.extend({
 
       storeItem(this.storeKey, html)
     },
-    toggleNav(this: any, v) {
+    toggleNav(this: any, v?: boolean) {
       if (typeof v == "undefined") {
         this.toggle = !this.toggle
       } else {
@@ -100,77 +100,82 @@ export default Vue.extend({
 
 <style lang="less">
 .page-docs {
-  padding-top: 3em;
-  .mast {
-    padding: 0 1em;
-
-    max-width: 1000px;
+  padding: 4rem 1rem 1rem;
+  font-size: 1.2em;
+  .docs-wrap {
+    max-width: 1200px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(250px, 300px) minmax(500px, 750px);
+    grid-gap: 2rem;
+  }
+  .mast {
+    min-width: 0;
   }
 
   .scroller {
-    max-width: 700px;
     padding: 3em 0;
-    padding-left: 50px;
     margin: 0 auto;
-    @media (max-width: 1200px) {
-      margin-left: 250px;
-    }
-
-    @media (max-width: 767px) {
-      margin: 0 auto;
-      padding: 3em 0;
-    }
   }
 
-  .docs-sidebar {
-    @media (max-width: 767px) {
+  .docs-entry {
+  }
+
+  @media (max-width: 900px) {
+    .docs-wrap {
+      grid-template-columns: 1fr;
+    }
+    .scroller {
+      margin: 0 auto;
+      padding: 0;
+    }
+    .docs-sidebar {
       display: none;
     }
   }
 
   // Mobile Nav
-  .mobile-nav {
-    display: block;
-    &.toggle-nav {
-      display: block;
-    }
-    @media (max-width: 960px) {
-      display: none;
-      position: fixed;
-      width: 350px;
-      padding: 1.5em;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      min-height: 100vh;
-      z-index: 100;
+  // .mobile-nav {
+  //   display: block;
+  //   &.toggle-nav {
+  //     display: block;
+  //   }
+  //   @media (max-width: 960px) {
+  //     display: none;
+  //     position: fixed;
+  //     width: 350px;
+  //     padding: 1.5em;
+  //     top: 0;
+  //     bottom: 0;
+  //     left: 0;
+  //     min-height: 100vh;
+  //     z-index: 100;
 
-      overflow-y: scroll;
-      background: #fff;
-      box-shadow: var(--pane-shadow);
-      // transform: translate3d(-100%, 0, 0);
-      // transition: transform 0.1s ease-out;
-      &.active {
-        transform: translate3d(0, 0, 0);
-      }
-    }
-  }
-  .mobile-nav-toggle {
-    display: none;
-    cursor: pointer;
-    font-weight: 800;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    &:hover {
-      color: var(--color-primary);
-    }
-    i {
-      margin-right: 5px;
-    }
-    @media (max-width: 767px) {
-      display: block;
-    }
-  }
+  //     overflow-y: scroll;
+  //     background: #fff;
+  //     box-shadow: var(--pane-shadow);
+  //     // transform: translate3d(-100%, 0, 0);
+  //     // transition: transform 0.1s ease-out;
+  //     &.active {
+  //       transform: translate3d(0, 0, 0);
+  //     }
+  //   }
+  // }
+  // .mobile-nav-toggle {
+  //   display: none;
+  //   cursor: pointer;
+  //   font-weight: 800;
+  //   margin-bottom: 20px;
+  //   text-transform: uppercase;
+  //   &:hover {
+  //     color: var(--color-primary);
+  //   }
+  //   i {
+  //     margin-right: 5px;
+  //   }
+  //   @media (max-width: 767px) {
+  //     display: block;
+  //   }
+  // }
 }
 </style>

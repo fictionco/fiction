@@ -104,11 +104,15 @@ const slack = async (): Promise<void> => {
   }
 }
 
+const facebookTrack = (eventName: string): void => {
+  if (typeof window.fbq != "undefined") {
+    window.fbq("track", eventName)
+  }
+}
+
 const facebook = (): void => {
   onEvent("email-list-new-email-requested", () => {
-    if (typeof window.fbq != "undefined") {
-      window.fbq("track", "Subscribe")
-    }
+    facebookTrack("Subscribe")
   })
 }
 
@@ -130,6 +134,8 @@ export const analyticsEvent = (_arguments: AnalyticsEvent): void => {
 
   let { label } = _arguments
   label = label ? label : action
+
+  facebookTrack(category)
 
   if (window.ga && window.ga.getAll) {
     const tracker = window.ga.getAll()[0]
@@ -171,9 +177,10 @@ const google = (): void => {
     callback: (user, params) => {
       if (window.ga && user) {
         if (params.newAccount) {
-          analyticsEvent({ category: "newLead", action: "newAccount", value: 5 })
+          analyticsEvent({ category: "newAccount", action: "newAccount", value: 5 })
         } else {
           analyticsEvent({ category: "returnUser", action: "loggedIn", value: 1 })
+          facebookTrack("returnUser")
         }
       }
     }

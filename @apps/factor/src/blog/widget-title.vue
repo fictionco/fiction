@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="title-area">
     <h1 class="entry-title">
       <factor-link :path="postLink(post._id)" class="title">{{ post.title }}</factor-link>
-      <factor-post-edit :post-id="post._id" class="post-edit" />
     </h1>
+    <factor-post-edit :post-id="post._id" class="post-edit" />
   </div>
 </template>
 <script lang="ts">
@@ -29,18 +29,25 @@ export default Vue.extend({
 
 <style lang="less">
 .plugin-blog {
-  .entry-title {
+  .title-area {
     padding-top: 0.5rem;
     padding-left: 2rem;
     padding-right: 2rem;
+    .post-edit {
+      margin-top: 0.5rem;
+      font-size: 0.9em;
+      display: inline-block;
+    }
+  }
+  .entry-title {
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    font-size: 1.5rem;
+    margin-top: 1.25rem;
     .title {
-      letter-spacing: -0.025em;
-      line-height: 1.25;
-      font-size: 1.5rem;
-      margin-top: 1.25rem;
-      color: var(--color-text);
+      color: inherit;
       &:hover {
-        color: var(--color-secondary);
+        color: var(--color-primary);
       }
     }
     .edit {

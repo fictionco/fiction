@@ -22,7 +22,7 @@ export default Vue.extend({
       return stored(this.postId) || {}
     },
     variables(this: any) {
-      const vars = {}
+      const vars: Record<string, any> = {}
       this.post.images.forEach((imageId: string) => {
         const img = stored(imageId) || {}
         vars[imageId] = img.url || ""

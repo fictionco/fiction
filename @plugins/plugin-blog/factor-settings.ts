@@ -8,8 +8,8 @@ export default {
     returnLinkText: "All Posts",
     metatags: {
       index: {
-        title: "Fiction Essays - Building Apps, Code, Remote Work",
-        description: "Fiction blog posts."
+        title: "Blog",
+        description: "The latest news and articles."
       }
     },
     notFound: {

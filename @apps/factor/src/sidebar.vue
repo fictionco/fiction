@@ -213,7 +213,7 @@ export default Vue.extend({
 <style lang="less">
 // Docs Sidebar
 .docs-sidebar {
-  position: fixed;
+  position: sticky;
   top: 45px;
   padding-bottom: 5em;
   overflow: scroll;
@@ -246,8 +246,7 @@ export default Vue.extend({
   }
 
   .sidebar-inner {
-    max-width: 300px;
-    padding: 40px 20px 60px 20px;
+    padding: 1rem 0px 2rem 1rem;
     transition: opacity 0.3s;
   }
 
@@ -262,6 +261,7 @@ export default Vue.extend({
   ul.menu-root {
     padding-left: 0;
     .group {
+      margin-top: 1rem;
       font-size: 0.8em;
 
       font-weight: var(--font-weight-bold);

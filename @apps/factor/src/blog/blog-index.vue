@@ -62,6 +62,7 @@
 import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
+import { PostStatus } from "@factor/post/types"
 import Vue from "vue"
 
 export default Vue.extend({
@@ -132,10 +133,11 @@ export default Vue.extend({
       await requestPostIndex({
         postType: this.postType,
         tag: this.tag,
-        status: "published",
+        status: PostStatus.Published,
         sort: "-date",
         page: this.page,
-        limit: theLimit
+        limit: theLimit,
+        source: setting("package.name")
       })
 
       this.loading = false
