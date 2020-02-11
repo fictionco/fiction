@@ -155,7 +155,7 @@ export default Vue.extend({
     .title {
       font-size: 2.5em;
       line-height: 1.1;
-      font-weight: 500;
+      font-weight: var(--font-weight-bold, 700);
       letter-spacing: -0.03em;
       text-transform: capitalize;
     }

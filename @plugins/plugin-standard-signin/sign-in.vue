@@ -78,7 +78,7 @@
           input="factor-input-text"
           data-test="signin-name"
           required
-          placeholder="Your Name"
+          placeholder="Full Name"
           @keyup.enter="trigger('submit')"
         />
         <dashboard-input
@@ -226,7 +226,7 @@ export default Vue.extend({
       this.$set(this.form, "displayName", displayName)
     }
 
-    if (newAccount) {
+    if (typeof newAccount !== "undefined") {
       this.newAccount = true
     }
 

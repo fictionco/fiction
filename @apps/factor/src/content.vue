@@ -21,7 +21,8 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      titleTemplate: "%s - Factor JS"
+      titleTemplate: "%s - Factor JS",
+      image: require("./static/og-image.jpg")
     }
   }
 })

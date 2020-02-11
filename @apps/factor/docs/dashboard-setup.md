@@ -25,11 +25,11 @@ DB_CONNECTION="mongodb://db1.example.net:27017,db2.example.net:2500/?replicaSet=
 
 ## Add An Admin User
 
-### Setting Up Your Token Key
+### Set your secret token
 
-Json Web Tokens (JWTs) are a simple and effective way of managing users.
+Json Web Tokens (JWTs) are a great way to manage your users and auth.
 
-All that is needed to make JWTs work is a "token secret" used for encoding them on your server. To add it:
+To make them work with Factor, just add a "token secret." (This is used for encoding them on your server.) To add it:
 
 ```git
 # .env - Token Secret: Treat like a password, can be whatever you want

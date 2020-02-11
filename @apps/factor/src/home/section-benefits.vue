@@ -58,12 +58,12 @@
 
     <div class="interstitial-cta">
       <div class="text">
-        <h2 class="title">Take the Famous 10 Minute Challenge</h2>
-        <h2 class="title-sub">Install to Deployment in 10 Minutes</h2>
+        <h2 class="title">The Famous 10-Minute Challenge</h2>
+        <h2 class="title-sub">Create a live website in 10 Minutes</h2>
       </div>
 
       <div class="buttons">
-        <factor-link btn="primary" size="large" path="/install">Get Started &rarr;</factor-link>
+        <factor-link btn="primary" size="large" path="/install">Start Now &rarr;</factor-link>
       </div>
     </div>
   </div>
