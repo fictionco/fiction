@@ -43,7 +43,8 @@ export default Vue.extend({
     font-size: 1.2em;
     line-height: 1.6em;
     margin-bottom: 1em;
-
+    max-width: 48rem;
+    margin: 0 auto;
     p,
     ol,
     ul {

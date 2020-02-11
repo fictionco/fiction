@@ -47,9 +47,5 @@ export default Vue.extend({
 
 <style lang="less">
 .plugin-blog {
-  .single-entry {
-    max-width: 48rem;
-    margin: 0 auto;
-  }
 }
 </style>

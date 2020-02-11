@@ -20,9 +20,9 @@
           </div>
 
           <h1 class="title">
-            A Modern CMS
+            Professional Tools
             <br />
-            <span class="alt">for Web Development Perfectionists</span>
+            <span class="alt">for Front-end Developers</span>
           </h1>
           <p class="text">
             Try the
@@ -30,7 +30,7 @@
           </p>
 
           <div class="header-actions">
-            <factor-email-list list-id="alphaProgram" />
+            <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
           </div>
         </div>
         <figure-header />
@@ -139,15 +139,15 @@
         <div class="content-pad">
           <div class="head">
             <div class="glyph">&alpha;</div>
-            <h2 class="title">Join The Developer Program</h2>
-            <h3 class="sub-title">Request an Invite or Contact Us</h3>
+            <h2 class="title">Are you a web professional?</h2>
+            <h3 class="sub-title">We'd love to have you as a member</h3>
           </div>
           <div class="text">
             Join other developers building the next big things for
             the web. Join to get chat access, latest updates and support.
           </div>
           <div class="action">
-            <factor-email-list list-id="alphaProgram" />
+            <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
           </div>
         </div>
       </div>
@@ -497,12 +497,12 @@ export default Vue.extend({
         }
       }
       .title {
-        font-size: 3em;
+        font-size: 2.5em;
         line-height: 1.1;
 
         margin: 0 0 0.5em;
         letter-spacing: -0.02em;
-        font-weight: 600;
+        font-weight: var(--font-weight-bold, 700);
       }
 
       .text {
@@ -659,6 +659,7 @@ export default Vue.extend({
         }
         .title {
           font-size: 1.1em;
+          font-weight: var(--font-weight-bold, 700);
         }
         .text {
           font-weight: 400;
@@ -767,6 +768,7 @@ export default Vue.extend({
       font-size: 2em;
       line-height: 1.3;
       margin-bottom: 1.5rem;
+      font-weight: var(--font-weight-bold, 700);
     }
     .text {
       font-weight: 400;
@@ -792,7 +794,7 @@ export default Vue.extend({
       font-size: 1.8em;
       letter-spacing: -0.02em;
       .title {
-        font-weight: 600;
+        font-weight: var(--font-weight-bold, 700);
       }
       .sub-title {
         margin: 0.5em 0;
@@ -928,6 +930,7 @@ export default Vue.extend({
     .title {
       font-size: 3em;
       line-height: 1.1;
+      font-weight: var(--font-weight-bold, 700);
     }
     .sub-title {
       font-size: 2em;

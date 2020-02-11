@@ -321,7 +321,7 @@ export default Vue.extend({
         line-height: 1.1;
         margin: 0 0 0.5em;
         letter-spacing: -0.02em;
-        font-weight: 600;
+        font-weight: var(--font-weight-bold, 700);
       }
 
       .text {
@@ -385,6 +385,7 @@ export default Vue.extend({
 
         .title {
           font-size: 2em;
+          font-weight: var(--font-weight-bold, 700);
           .alt {
             color: var(--color-primary);
             display: block;
@@ -432,6 +433,7 @@ export default Vue.extend({
         }
         .title {
           font-size: 1.1em;
+          font-weight: var(--font-weight-bold, 700);
         }
         .text {
           font-weight: 400;
@@ -543,6 +545,7 @@ export default Vue.extend({
       font-size: 2em;
       line-height: 1.3;
       margin-bottom: 1.5rem;
+      font-weight: var(--font-weight-bold, 700);
     }
     .text {
       font-weight: 400;
@@ -627,6 +630,7 @@ export default Vue.extend({
         font-size: 2em;
         line-height: 1.3;
         margin-bottom: 1.5rem;
+        font-weight: var(--font-weight-bold, 700);
       }
       .text {
         font-weight: 400;

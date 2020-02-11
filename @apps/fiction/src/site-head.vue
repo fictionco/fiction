@@ -224,7 +224,7 @@ export default Vue.extend({
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       }
     }
-    > a {
+    > .factor-link {
       letter-spacing: -0.03em;
       font-size: 0.9em;
       color: #506677;

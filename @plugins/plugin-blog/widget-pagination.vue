@@ -39,7 +39,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    page(direction: any) {
+    page(this: any, direction: any) {
       let page
       if (direction == "next" && this.pageCurrent !== this.pageCount) {
         page = this.pageCurrent + 1

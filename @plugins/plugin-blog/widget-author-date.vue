@@ -53,6 +53,7 @@ export default Vue.extend({
         display: flex;
         margin-right: 1em;
         .avatar {
+          width: 2rem;
           display: block;
           margin-right: 10px;
           float: left;

@@ -44,6 +44,7 @@ export default Vue.extend({
     align-items: flex-start;
     padding: 1em 0;
     .avatar {
+      width: 4rem;
       margin-right: 1.5em;
       flex-shrink: 0;
     }

@@ -43,7 +43,7 @@ export default Vue.extend({
       margin: -80px auto 0;
       background: #fff;
       border-radius: 0.5em;
-      padding: 3em 3em 1em;
+      padding: 3em;
       @media (max-width: 767px) {
         padding: 1.5em 1em 0;
         margin: -80px 1em 3em;

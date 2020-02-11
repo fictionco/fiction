@@ -63,8 +63,3 @@ export default Vue.extend({
   }
 })
 </script>
-<style lang="less">
-.plugin-blog {
-  padding-top: var(--page-top-padding, 3rem);
-}
-</style>
