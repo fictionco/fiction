@@ -81,7 +81,7 @@ export default Vue.extend({
     toLabel,
 
     getUser(this: any, field: string) {
-      return this.currentUser[field]
+      return this.currentUser ? this.currentUser[field] : undefined
     },
     async setMenu(this: any) {
       this.menu = await getDashboardMenu(this.$route.path)
