@@ -42,7 +42,6 @@
 <script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/api"
-import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 
 export default Vue.extend({
@@ -83,38 +82,8 @@ export default Vue.extend({
       return this.$route.query.page || 1
     }
   },
-  watch: {
-    $route: {
-      handler: function(this: any) {
-        this.getPosts()
-      }
-    }
-  },
-  serverPrefetch() {
-    return this.getPosts()
-  },
-  mounted() {
-    if (this.blogPosts.length == 0) {
-      this.getPosts()
-    }
-  },
-  methods: {
-    setting,
-    async getPosts(this: any) {
-      this.loading = true
 
-      await requestPostIndex({
-        postType: this.postType,
-        tag: this.tag,
-        status: "published",
-        sort: "-date",
-        page: this.page,
-        limit: setting("blog.limit")
-      })
-
-      this.loading = false
-    }
-  }
+  methods: { setting }
 })
 </script>
 

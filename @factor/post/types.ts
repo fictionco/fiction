@@ -71,6 +71,7 @@ export interface PostIndexConditions {
   tag?: string;
   category?: string;
   role?: string;
+  conditions?: Record<string, any>;
 }
 
 export interface PostIndex {

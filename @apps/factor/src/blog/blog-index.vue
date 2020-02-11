@@ -12,10 +12,7 @@
     <section class="blog-posts">
       <div class="mast">
         <div class="blog-entries">
-          <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
-          </div>
-          <div v-else-if="blogPosts.length > 0" class="blog-entries-inner">
+          <div v-if="blogPosts.length > 0" class="blog-entries-inner">
             <div v-if="page == 1" class="blog-post">
               <div class="blog-promo">
                 <div class="pretitle">{{ setting('blog.promo.pretitle') }}</div>
@@ -46,12 +43,7 @@
               </div>
             </div>
           </div>
-          <div v-else class="posts-not-found">
-            <div class="text">
-              <div class="title">{{ setting("blog.notFound.title") }}</div>
-              <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
-            </div>
-          </div>
+
           <component :is="setting('blog.components.pagination')" :post-type="postType" />
         </div>
       </div>
@@ -61,8 +53,7 @@
 <script lang="ts">
 import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
-import { requestPostIndex } from "@factor/post/request"
-import { PostStatus } from "@factor/post/types"
+
 import Vue from "vue"
 
 export default Vue.extend({
@@ -70,7 +61,7 @@ export default Vue.extend({
     factorLoadingRing,
     factorLink,
     factorIcon,
-    "el-hero": () => import("../el/hero.vue")
+    elHero: () => import("../el/hero.vue")
   },
   data() {
     return {
@@ -88,10 +79,7 @@ export default Vue.extend({
       ? `Articles related to tag: ${this.tag}`
       : setting("blog.metatags.index.description")
 
-    return {
-      title,
-      description
-    }
+    return { title, description }
   },
   computed: {
     index(this: any) {
@@ -105,42 +93,11 @@ export default Vue.extend({
       return this.$route.query.page || 1
     }
   },
-  watch: {
-    $route: {
-      handler: function(this: any) {
-        this.getPosts()
-      }
-    }
-  },
-  serverPrefetch() {
-    return this.getPosts()
-  },
-  mounted() {
-    if (this.blogPosts.length == 0) {
-      this.getPosts()
-    }
-  },
+
   methods: {
     setting,
     getPost(_id: any) {
       return stored(_id) || {}
-    },
-    async getPosts(this: any) {
-      this.loading = true
-
-      const theLimit = this.page === 1 ? setting("blog.limit") - 1 : setting("blog.limit")
-
-      await requestPostIndex({
-        postType: this.postType,
-        tag: this.tag,
-        status: PostStatus.Published,
-        sort: "-date",
-        page: this.page,
-        limit: theLimit,
-        source: setting("package.name")
-      })
-
-      this.loading = false
     }
   }
 })
@@ -156,18 +113,6 @@ export default Vue.extend({
     .mast {
       padding: 0.5rem;
     }
-    // Light version
-    // background-color: #e6ebf1;
-    // background-image: url("../img/dot.svg");
-    // Dark Version
-    // background-color: #1b223c;
-    // background-image: url("../img/dot-light.svg");
-
-    // .headline,
-    // .subheadline,
-    // .hero-content {
-    //   color: #f3f4fa;
-    // }
   }
   .blog-posts {
     padding-bottom: 2rem;

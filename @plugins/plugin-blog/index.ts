@@ -1,8 +1,39 @@
 import { addPostType, addContentRoute } from "@factor/api"
 import { setting } from "@factor/api/settings"
-
+import { requestPostIndex } from "@factor/post/request"
+import { PostStatus } from "@factor/post/types"
+import { currentRoute } from "@factor/app/router"
 const baseRoute = setting("blog.postRoute")
 
+/**
+ * Get post index and add to store
+ */
+export const loadAndStoreBlogIndex = async (): Promise<void> => {
+  const route = currentRoute()
+  const { params, query } = route
+
+  const tag = params.tag ?? query.tag ?? ""
+  const category = params.category ?? query.category ?? ""
+  const page = parseInt(params.page ?? query.page ?? 1)
+  const limit = page === 1 ? setting("blog.limit") - 1 : setting("blog.limit")
+
+  await requestPostIndex({
+    postType: "blog",
+    tag,
+    category,
+    status: PostStatus.Published,
+    sort: "-date",
+    page,
+    limit,
+    conditions: {
+      source: setting("package.name")
+    }
+  })
+}
+
+/**
+ * Sets admin and CMS
+ */
 addPostType({
   postType: "blog",
   baseRoute,
@@ -13,13 +44,17 @@ addPostType({
   namePlural: "Blog Posts"
 })
 
+/**
+ * The front end routes
+ */
 addContentRoute({
   path: setting("blog.indexRoute") ?? "/",
   component: setting("blog.components.blogWrap"),
   children: [
     {
       path: "/",
-      component: setting("blog.components.blogIndex")
+      component: setting("blog.components.blogIndex"),
+      meta: { index: true }
     },
     {
       path: `${setting("blog.postRoute")}/:permalink`,

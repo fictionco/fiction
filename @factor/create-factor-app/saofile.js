@@ -6,6 +6,9 @@ const superb = require("superb")
 const figures = require("figures")
 const consola = require("consola")
 const axios = require("axios")
+
+let answers = {}
+
 const config = {
   /**
    * Answers to these questions get added to the template as variables
@@ -44,7 +47,7 @@ const config = {
    */
   templateData() {
     const data = {}
-    const answers = this.answers
+    answers = this.answers
     if (answers.name.includes("UNIT-TEST")) {
       // set test answers for template
     }
@@ -56,8 +59,6 @@ const config = {
 
     data.db =
       "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
-
-    config.diagnostic({ email: answers.email })
 
     return data
   },
@@ -109,6 +110,8 @@ const config = {
     }
   },
   async completed() {
+    config.diagnostic({ email: answers.email })
+
     this.gitInit()
 
     try {

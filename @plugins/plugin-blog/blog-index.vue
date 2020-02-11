@@ -26,7 +26,7 @@
 <script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/api"
-import { requestPostIndex } from "@factor/post/request"
+import { loadAndStoreBlogIndex } from "@factor/plugin-blog"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLoadingRing },
@@ -81,14 +81,7 @@ export default Vue.extend({
     async getPosts(this: any) {
       this.loading = true
 
-      await requestPostIndex({
-        postType: this.postType,
-        tag: this.tag,
-        status: "published",
-        sort: "-date",
-        page: this.page,
-        limit: setting("blog.limit")
-      })
+      await loadAndStoreBlogIndex()
 
       this.loading = false
     }

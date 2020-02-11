@@ -18,7 +18,6 @@ export default {
     limit: 6,
     returnLinkText: "Back",
     components: {
-      blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
@@ -47,11 +46,7 @@ export default {
     },
     layout: {
       index: ["featuredImage", "title", "synopsis"],
-      single: [
-        "singleHeader",
-        "entry",
-        "cta"
-      ]
+      single: ["singleHeader", "entry", "cta"]
     },
     components: {
       jobsWrap: (): Promise<Component> => import("./jobs/wrap.vue"),

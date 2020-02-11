@@ -73,7 +73,6 @@ export default {
       }
     },
     components: {
-      blogWrap: (): Promise<Component> => import("./src/blog/blog-wrap.vue"),
       blogIndex: (): Promise<Component> => import("./src/blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./src/blog/blog-single.vue"),
       featuredImage: (): Promise<Component> => import("./src/blog/el-featured-image.vue"),

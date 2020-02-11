@@ -45,7 +45,9 @@ export default {
       entry: (): Promise<Component> => import("./widget-entry.vue"),
       excerpt: (): Promise<Component> => import("./widget-excerpt.vue"),
       social: (): Promise<Component> => import("./widget-social.vue"),
-      tags: (): Promise<Component> => import("./widget-tags.vue")
+      tags: (): Promise<Component> => import("./widget-tags.vue"),
+      notFound: (): Promise<Component> => import("./widget-not-found.vue"),
+      loading: (): Promise<Component> => import("./widget-loading.vue")
     }
   }
 }

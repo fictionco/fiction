@@ -116,7 +116,7 @@ export const requestPostSave = async ({
  * Send an HTTP request to save data to multiple posts at the same time
  * @param _ids - array of post Ids
  * @param data - the data that should be saved/updated
- * @param postType - the post type  
+ * @param postType - the post type
  */
 export const requestPostSaveMany = async ({
   _ids,
@@ -190,20 +190,29 @@ export const requestPostSingle = async (
 export const requestPostIndex = async (
   _arguments: PostIndexParametersFlat
 ): Promise<PostIndex> => {
-  const { limit = 50, page = 1, postType, sort, cache = true } = _arguments
+  const {
+    limit = 50,
+    page = 1,
+    postType,
+    sort,
+    cache = true,
+    conditions = {}
+  } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
   const storedIndex = stored(queryHash)
 
   const skip = (page - 1) * limit
 
-  // Create a mechanism to prevent multiple runs/pops for same data
+  /**
+   * Create a mechanism to prevent multiple runs/pops for same data
+   */
   if (storedIndex && cache) {
     storeItem(postType, storedIndex)
     return storedIndex
   }
 
   const params: PostIndexRequestParameters = {
-    conditions: {},
+    conditions,
     postType,
     options: { limit, skip, page, sort }
   }
@@ -225,8 +234,11 @@ export const requestPostIndex = async (
   return { posts, meta }
 }
 
-// Gets List of Posts
-// The difference with 'index' is that there is no meta information returned
+/**
+ * Gets List of Posts
+ * The difference with 'index' is that there is no meta information returned
+ * @param _arguments
+ */
 export const requestPostList = async (
   _arguments: PostIndexParametersFlat
 ): Promise<FactorPost[]> => {

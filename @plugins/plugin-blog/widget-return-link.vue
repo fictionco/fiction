@@ -1,17 +1,17 @@
 <template>
   <div class="return-link">
     <factor-link class="back" :path="setting('blog.indexRoute')">
-      <factor-icon icon="fas fa-arrow-left" />
+      &larr;
       <span>{{ returnLinkText() }}</span>
     </factor-link>
   </div>
 </template>
 <script lang="ts">
-import { factorLink, factorIcon } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLink, factorIcon },
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" }
   },
