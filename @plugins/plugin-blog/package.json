@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-blog",
   "description": "Easily implement, customize and manage blog in your Factor app.",
-  "version": "1.3.1",
+  "version": "1.3.4",
   "license": "GPL-2.0",
   "factor": {
     "load": [
