@@ -177,7 +177,7 @@ export default Vue.extend({
   // feature
   .feature {
     background-color: var(--color-primary, #1a49bd);
-    color: var(--color-white);
+    color: #fff;
     position: relative;
 
     &:before {
@@ -197,7 +197,7 @@ export default Vue.extend({
       max-width: 650px;
       margin: 0 auto;
       padding: 7em 0;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         padding: 4em 0;
       }
       .pre-title {
@@ -222,7 +222,7 @@ export default Vue.extend({
         font-size: 3em;
         letter-spacing: -0.03em;
         margin: 0.5em;
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           font-size: 2em;
         }
       }
@@ -246,7 +246,7 @@ export default Vue.extend({
       letter-spacing: -0.03em;
       margin-bottom: 1em;
       text-align: center;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         font-size: 2em;
       }
     }
@@ -278,7 +278,7 @@ export default Vue.extend({
           line-height: 1.6em;
         }
       }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         grid-template-columns: 1fr;
         .box {
           padding: 0;
@@ -296,7 +296,7 @@ export default Vue.extend({
       letter-spacing: -0.03em;
       margin-bottom: 1em;
       text-align: center;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         font-size: 2em;
       }
     }
@@ -313,7 +313,7 @@ export default Vue.extend({
           margin: 0 auto;
         }
       }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         .brand-image {
           padding: 2em;
         }

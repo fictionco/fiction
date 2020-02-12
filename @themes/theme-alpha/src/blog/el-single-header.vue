@@ -77,7 +77,7 @@ export default Vue.extend({
       @media (max-width: 1024px) {
         grid-template-columns: 1fr;
       }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         padding: 0 1em;
       }
       .return-link {
@@ -89,7 +89,7 @@ export default Vue.extend({
         font-size: 3em;
         letter-spacing: -0.03em;
         margin: 0.3em 0;
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           font-size: 2em;
         }
       }

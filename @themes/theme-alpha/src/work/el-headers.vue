@@ -3,25 +3,27 @@
     <h1 class="entry-title">
       <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
-    <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
+    <h3 class="entry-subtitle">{{ post.synopsis }}</h3>
   </div>
   <div v-else class="entry-headers">
     <div class="splash">
-      <component :is="setting('work.components.workReturnLink')" />
+      <!-- <component :is="setting('work.components.workReturnLink')" /> -->
       <h1 class="entry-title">
         <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
-      <h3 class="entry-subtitle">{{ post.subTitle }}</h3>here
+      <h3 class="entry-subtitle">{{ post.synopsis }}</h3>
+      <factor-post-edit :post-id="post._id" />
     </div>
   </div>
 </template>
 <script lang="ts">
+import { factorPostEdit } from "@factor/post"
 import { factorLink } from "@factor/ui"
 import { postLink, setting, stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLink },
+  components: { factorLink, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
     format: { type: String, default: "" }
@@ -39,26 +41,30 @@ export default Vue.extend({
 </script>
 <style lang="less">
 // Index
-.work-posts {
-  .posts-index {
-    .title {
-      padding: 2em 2em 0;
-      @media (max-width: 767px) {
-        padding: 2em 0 0;
-      }
-      .heading {
-        font-weight: var(--font-weight-bold, 800);
-        font-size: 1.8em;
-        line-height: 1.2;
-        margin-bottom: 0.2em;
-        a:hover {
-          text-decoration: underline;
-          text-decoration-color: var(--color-tertiary);
-        }
-      }
-      .entry-subtitle {
-        line-height: 1.7;
-      }
+.work-post {
+  .entry-headers {
+    margin: -2rem 1rem 0;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+
+    .entry-title {
+      font-weight: var(--font-weight-bold, 800);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .entry-subtitle {
+      line-height: 1.6;
+      opacity: 0.7;
+    }
+  }
+
+  &:hover {
+    .entry-headers {
+      margin: -3rem 1rem 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0px 3px 30px rgba(0, 0, 0, 0.15), 0px 5px 5px rgba(0, 0, 0, 0.05);
     }
   }
 }
@@ -66,17 +72,42 @@ export default Vue.extend({
 // Single
 .work-single-entry {
   .splash {
+    position: relative;
+    background: #fff;
+    box-shadow: 0 3px 30px rgba(0, 0, 0, 0.15), 0 5px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    z-index: 5;
+    padding: 2em;
+
     .entry-title {
       font-weight: var(--font-weight-bold, 800);
       font-size: 3em;
       letter-spacing: -0.03em;
-      margin: 0.3em 0;
-      @media (max-width: 767px) {
-        font-size: 2em;
+
+      a {
+        color: inherit;
       }
     }
     .entry-subtitle {
       font-size: 1.25em;
+      opacity: 0.5;
+    }
+    .edit {
+      display: block;
+      margin-top: 1rem;
+      color: var(--color-primary);
+    }
+
+    @media (max-width: 900px) {
+      padding: 0;
+      box-shadow: none;
+
+      .entry-title {
+        font-size: 2em;
+      }
+      .entry-subtitle {
+        font-size: 1em;
+      }
     }
   }
 
@@ -100,7 +131,7 @@ export default Vue.extend({
       right: auto;
       bottom: 0;
       background-color: var(--color-bg-alt, #f3f5fb);
-      @media (max-width: 1024px) {
+      @media (max-width: 900px) {
         width: 100%;
       }
     }
@@ -112,21 +143,9 @@ export default Vue.extend({
       grid-gap: 60px;
       align-items: center;
       padding: 5em 0;
-      @media (max-width: 1024px) {
-        grid-template-columns: 1fr;
-      }
-      @media (max-width: 767px) {
-        padding: 4em 0;
-      }
-      .back {
-        font-size: 1em;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        &:hover {
-          opacity: 1;
-          color: var(--color-primary, #1a49bd);
-          background: var(--color-tertiary, #9afecb);
-        }
+
+      a {
+        color: var(--color-primary, #1a49bd);
       }
       .entry-title {
         font-size: 1.1em;
@@ -137,23 +156,12 @@ export default Vue.extend({
         font-size: 3em;
         letter-spacing: -0.03em;
         margin: 0.3em 0;
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
       }
-
       .heading {
         font-weight: var(--font-weight-bold, 800);
         font-size: 3em;
         letter-spacing: -0.03em;
         margin: 0.3em 0;
-        @media (max-width: 767px) {
-          font-size: 2em;
-        }
-        a:hover {
-          text-decoration: underline;
-          text-decoration-color: var(--color-tertiary);
-        }
       }
 
       .content {
@@ -169,7 +177,7 @@ export default Vue.extend({
         max-width: 300px;
         box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
         border-top-left-radius: 40px;
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           margin: 0 auto;
           max-width: 100%;
         }

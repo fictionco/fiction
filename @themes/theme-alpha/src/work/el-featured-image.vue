@@ -42,31 +42,33 @@ export default Vue.extend({
 <style lang="less">
 .work-posts {
   .featured-image {
+    height: 280px;
+    width: 100%;
+    border-radius: 0.5rem;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 550px;
     transition: all 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
-    &:hover {
-      transform: scale(0.9) rotate(-3deg);
-      box-shadow: rgba(0, 0, 0, 0.28) 1px 5px 15px 2px;
-    }
   }
 }
 .work-single-entry {
   .featured-image-wrap {
     position: relative;
     z-index: 1;
-    margin: 2em auto;
+    margin: -30px auto 3em;
     padding: 0 2em;
 
     .featured-image {
       display: block;
       width: 100%;
-
       box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
         0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
-      border-radius: 4px;
+      border-radius: 0.5rem;
+    }
+
+    @media (max-width: 900px) {
+      margin: 2em auto;
+      padding: 0;
     }
   }
 }

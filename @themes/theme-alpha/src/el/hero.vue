@@ -3,8 +3,8 @@
     <div class="mast">
       <div class="hero-inner">
         <div>
-          <h1 class="title">{{ headline }}</h1>
-          <h2 class="heading">{{ subheadline }}</h2>
+          <h1 class="pretitle">{{ pretitle }}</h1>
+          <h2 class="title">{{ title }}</h2>
           <slot name="hero-content" />
         </div>
         <div v-if="image != ''">
@@ -19,8 +19,8 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    headline: { type: String, default: "" },
-    subheadline: { type: String, default: "" },
+    pretitle: { type: String, default: "" },
+    title: { type: String, default: "" },
     image: { type: String, default: "" }
   }
 })
@@ -30,7 +30,8 @@ export default Vue.extend({
 // Hero
 .hero {
   position: relative;
-  overflow: hidden;
+  //overflow: hidden;
+  background: var(--color-bg-alt, #f3f5fb);
 
   .mast {
     padding: 0 2em;
@@ -38,21 +39,21 @@ export default Vue.extend({
     max-width: 1000px;
     margin: 0 auto;
   }
-  &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 70%;
-    height: 100%;
-    top: 0;
-    right: auto;
-    bottom: 0;
-    border-bottom-right-radius: 40px;
-    background-color: var(--color-bg-alt, #f3f5fb);
-    @media (max-width: 1024px) {
-      width: 100%;
-    }
-  }
+  // &:before {
+  //   content: "";
+  //   display: block;
+  //   position: absolute;
+  //   width: 80%;
+  //   height: 100%;
+  //   top: 0;
+  //   right: auto;
+  //   bottom: 0;
+  //   //border-bottom-right-radius: 40px;
+  //   background-color: var(--color-bg-alt, #f3f5fb);
+  //   @media (max-width: 1024px) {
+  //     width: 100%;
+  //   }
+  // }
 
   .hero-inner {
     position: relative;
@@ -60,23 +61,24 @@ export default Vue.extend({
     grid-template-columns: 2fr 1fr;
     grid-gap: 60px;
     align-items: center;
-    padding: 5em 0;
+    padding: 3em 0;
     @media (max-width: 1024px) {
       grid-template-columns: 1fr;
     }
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       padding: 4em 0;
     }
-    .title {
+    .pretitle {
       font-size: 1.1em;
       text-transform: uppercase;
+      color: var(--color-primary);
     }
-    .heading {
+    .title {
       font-weight: var(--font-weight-bold, 800);
       font-size: 3em;
       letter-spacing: -0.03em;
       margin: 0.3em 0;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         font-size: 2em;
       }
     }
@@ -92,8 +94,8 @@ export default Vue.extend({
       height: 450px;
       max-width: 300px;
       box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
-      border-top-left-radius: 40px;
-      @media (max-width: 767px) {
+      border-radius: 20px;
+      @media (max-width: 900px) {
         margin: 0 auto;
         max-width: 100%;
       }

@@ -17,22 +17,14 @@
         </div>
         <div class="social">
           <template v-for="(item, index) in setting('site.social')">
-            <factor-link
-              :key="index"
-              :path="item.path"
-              class="factor-icon"
-              target="_blank"
-            >
+            <factor-link :key="index" :path="item.path" class="factor-icon" target="_blank">
               <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
           </template>
         </div>
       </div>
       <div class="mob-nav-btn">
-        <div
-          :class="{ active: showMobileMenu }"
-          @click="showMobileMenu = !showMobileMenu"
-        />
+        <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
     </div>
   </div>
@@ -60,8 +52,8 @@ export default Vue.extend({
   position: relative;
   z-index: 10;
   padding: 0 1.5em;
-  background: var(--color-primary, #1a49bd);
-  color: var(--color-white);
+  background: var(--color-primary-dark, #1a49bd);
+  color: #fff;
 }
 
 .site-head-pad {
@@ -92,7 +84,7 @@ export default Vue.extend({
         left: 0;
         top: 50%;
         margin-top: -1px;
-        background-color: var(--color-white, #ffffff);
+        background-color: #ffffff;
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       }
       &:before {
@@ -103,7 +95,7 @@ export default Vue.extend({
       }
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       div {
         display: block;
         z-index: 210;
@@ -128,7 +120,7 @@ export default Vue.extend({
     flex: 3;
     display: grid;
     grid-template-columns: 2fr 1fr;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       opacity: 0;
       pointer-events: none;
       &.active {
@@ -143,8 +135,8 @@ export default Vue.extend({
       left: 0;
       right: 0;
       bottom: 0;
-      border: 14px solid var(--color-primary, #1a49bd);
-      background-color: var(--color-white);
+      border: 14px solid var(--color-primary-dark, #1a49bd);
+      background-color: #fff;
       transition: 0.55s cubic-bezier(0.52, 0.01, 0.16, 1);
     }
   }
@@ -161,11 +153,11 @@ export default Vue.extend({
       &.active,
       &.active-path {
         color: var(--color-tertiary);
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           color: var(--color-primary, #1a49bd);
         }
       }
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         font-size: 1.2em;
         color: var(--color-text, #303030);
         text-align: center;
@@ -188,13 +180,13 @@ export default Vue.extend({
     justify-content: center;
     text-transform: uppercase;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       display: grid;
     }
   }
   .social {
     text-align: right;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       text-align: center;
       justify-content: center;
     }

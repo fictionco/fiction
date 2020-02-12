@@ -28,7 +28,7 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .work-return-link {
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 
   .label {
     text-transform: uppercase;

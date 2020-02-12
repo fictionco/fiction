@@ -39,12 +39,12 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .post-entry {
-  margin: 2rem 0;
+  //margin: 2rem 0;
   padding-bottom: 1rem;
   font-size: 1.25em;
   line-height: 1.4;
 
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     font-size: 1em;
   }
 
@@ -181,7 +181,7 @@ export default Vue.extend({
   .embed-responsive {
     margin: 0.5em 0;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       position: relative;
       padding-bottom: 56.25%;
       /* 16:9 */
@@ -192,7 +192,7 @@ export default Vue.extend({
     iframe {
       width: 100%;
 
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         position: absolute;
         top: 0;
         left: 0;
@@ -208,7 +208,7 @@ export default Vue.extend({
     border-left: 5px solid var(--color-primary);
     font-style: italic;
 
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       margin: 0.5em 0;
     }
 

@@ -52,7 +52,7 @@ export default Vue.extend({
       max-width: 800px;
       margin: 0 auto;
       padding: 3em 3em 1em;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         padding: 1.5em 1em 0;
         margin: 3em 1em 3em;
       }
@@ -63,18 +63,28 @@ export default Vue.extend({
       max-width: 800px;
       margin: 0 auto;
       padding: 0 3rem 1rem;
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         padding: 0 1rem 1rem;
       }
     }
 
-    .entry-tags a {
+    .entry-title a {
+      color: inherit;
+    }
+
+    .return-link a,
+    .edit {
       color: var(--color-primary, #1a49bd);
-      background-color: rgba(0, 99, 255, 0.1);
+    }
+
+    .entry-tags a {
+      color: #fff;
+      background-color: var(--color-primary);
+      border-radius: 9999px;
 
       &:hover {
-        color: var(--color-primary, #1a49bd);
-        background-color: rgba(0, 99, 255, 0.2);
+        color: #fff;
+        background-color: var(--color-primary-dark);
       }
     }
     .post-entry {
@@ -82,7 +92,7 @@ export default Vue.extend({
       .highlight-code-wrap {
         font-size: 1.2em;
         line-height: 1.7em;
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           padding: 0 1em;
         }
       }
@@ -93,10 +103,9 @@ export default Vue.extend({
     .author-bio {
       position: relative;
       margin-top: 2rem;
-      margin-bottom: 2rem;
       padding: 3em;
       background: var(--color-bg-alt, #f3f5fb);
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         padding: 1.5em 1em;
       }
 
@@ -115,7 +124,6 @@ export default Vue.extend({
 
       .author-card {
         position: relative;
-        margin-top: 0;
         padding: 3em;
         border-radius: 8px;
         background: #fff;
@@ -129,7 +137,7 @@ export default Vue.extend({
           transform: translateY(-0.5rem);
           box-shadow: 0 3px 30px rgba(0, 0, 0, 0.15);
         }
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           flex-direction: column;
           padding: 2em;
           .avatar {

@@ -113,7 +113,7 @@ export default Vue.extend({
         @media (max-width: 1024px) {
           grid-template-columns: 1fr;
         }
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           padding: 4em 0;
         }
         .title {
@@ -125,7 +125,7 @@ export default Vue.extend({
           font-size: 3em;
           letter-spacing: -0.03em;
           margin: 0.3em 0;
-          @media (max-width: 767px) {
+          @media (max-width: 900px) {
             font-size: 2em;
           }
           a:hover {
@@ -146,7 +146,7 @@ export default Vue.extend({
           max-width: 300px;
           box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
           border-top-left-radius: 40px;
-          @media (max-width: 767px) {
+          @media (max-width: 900px) {
             margin: 0 auto;
             max-width: 100%;
           }
@@ -160,7 +160,7 @@ export default Vue.extend({
         max-width: 760px;
         font-size: 1.5em;
         line-height: 1.4em;
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           font-size: 1em;
         }
         figure[data-type*="image"] {
