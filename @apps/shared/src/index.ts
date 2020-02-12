@@ -2,7 +2,11 @@
 import axios from "axios"
 import { onEvent, addFilter, splitDisplayName } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
-import { FactorUserCredential, AuthenticationParameters } from "@factor/user/types"
+import {
+  FactorUser,
+  FactorUserCredential,
+  AuthenticationParameters
+} from "@factor/user/types"
 /**
  * Send a notification to Slack
  */
