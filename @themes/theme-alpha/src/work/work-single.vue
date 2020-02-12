@@ -6,7 +6,6 @@
         v-for="(comp, i) in setting('work.layout.single')"
         :key="i"
         :post-id="post._id"
-        class="mast"
       />
     </div>
     <factor-error-404 v-else />
@@ -46,7 +45,7 @@ export default Vue.extend({
 
 <style lang="less">
 .work-single-entry {
-  padding: 3rem;
+  padding: 2em;
   .mast {
     padding: 0 2em;
     line-height: 1.2;
@@ -54,7 +53,8 @@ export default Vue.extend({
     margin: 0 auto;
   }
 
-  .return-link,
+  .work-return-link,
+  .splash,
   .entry-tags,
   .single-entry-headers,
   .widget-date,
@@ -64,13 +64,16 @@ export default Vue.extend({
   .author-bio {
     line-height: 1.2;
     max-width: 50rem;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .return-link {
     padding: 2em 2em 1em;
   }
 
+  //.splash,
+  .entry-tags,
   .entry-meta,
   .post-entry,
   .social-share,
@@ -85,12 +88,14 @@ export default Vue.extend({
     border-radius: 0;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .return-link,
+    .entry-tags,
     .entry-meta,
+    .post-entry,
     .social-share,
     .author-card {
-      padding: 1em;
+      padding: 1em 0;
     }
   }
 }

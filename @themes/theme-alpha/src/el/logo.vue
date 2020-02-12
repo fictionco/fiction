@@ -40,7 +40,7 @@ export default Vue.extend({
 
 <style lang="less">
 .logo-img {
-  width: 100px;
+  // width: 100px;
   svg {
     display: block;
   }

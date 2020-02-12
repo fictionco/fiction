@@ -1,8 +1,8 @@
 <template>
   <div class="page-contact">
     <el-hero
-      :headline="setting('contact.headline')"
-      :subheadline="setting('contact.subheadline')"
+      :pretitle="setting('contact.headline')"
+      :title="setting('contact.subheadline')"
       :image="setting('contact.heroImage')"
     >
       <template v-slot:hero-content>
@@ -48,8 +48,8 @@
             />
 
             <factor-input-submit
-              btn="default"
-              size="large"
+              btn="primary"
+              size="medium"
               :loading="sending"
               data-test="form-submit"
             >
@@ -86,8 +86,8 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      title: setting("contact.metatags.title"),
-      description: setting("contact.metatags.description")
+      title: setting("contact.meta.title"),
+      description: setting("contact.meta.description")
     }
   },
   mounted() {
@@ -179,6 +179,19 @@ export default Vue.extend({
     margin: 0 auto;
   }
 
+  button.app-btn {
+    display: inline-block;
+    line-height: 1;
+    font-weight: var(--font-weight-bold);
+    font-size: 1em;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+    &:hover {
+      background-color: var(--color-primary-dark);
+    }
+  }
+
   .contact-form {
     margin-top: 40px;
     input[type="text"],
@@ -188,7 +201,7 @@ export default Vue.extend({
     input[type="text"],
     input[type="email"],
     textarea.standard-textarea {
-      background: var(--color-white, #ffffff);
+      background: #ffffff;
       border: 1px solid rgba(48, 48, 48, 0.1);
       border-radius: 4px;
       &:focus {

@@ -2,8 +2,8 @@
   <div class="page-work">
     <el-hero
       v-if="page == 1 && !tag"
-      :headline="setting('work.headline')"
-      :subheadline="setting('work.subheadline')"
+      :pretitle="setting('work.headline')"
+      :title="setting('work.subheadline')"
       :image="setting('work.heroImage')"
     >
       <template v-slot:hero-content>
@@ -14,8 +14,8 @@
     <section v-else-if="tag" class="hero">
       <div class="mast">
         <div class="hero-inner">
-          <div>
-            <factor-link class="back" :path="setting('work.indexRoute')">
+          <div class="work-return-link">
+            <factor-link class="back label label-primary" :path="setting('work.indexRoute')">
               <factor-icon icon="fas fa-arrow-left" />
               {{ returnLinkText }}
             </factor-link>
@@ -27,10 +27,10 @@
     <div v-if="loading" class="loading-entries">
       <factor-loading-ring />
     </div>
-    <section class="work-posts">
+    <section class="work-posts-wrap">
       <div class="mast">
-        <div if="workPosts.length > 0" class="posts-index">
-          <div v-for="post in workPosts" :key="post._id" class="post">
+        <div v-if="workPosts.length > 0" class="work-posts posts-index">
+          <div v-for="post in workPosts" :key="post._id" class="work-post">
             <component
               :is="setting(`work.components.${comp}`)"
               v-for="(comp, i) in setting('work.layout.index')"
@@ -40,8 +40,30 @@
             />
           </div>
         </div>
+        <div v-else class="posts-not-found">
+          <div class="text">
+            <div class="font-normal tracking-tight text-2xl">{{ setting("work.notFound.title") }}</div>
+            <div class="sub-title">{{ setting("work.notFound.subTitle") }}</div>
+          </div>
+        </div>
+        <component :is="setting('work.components.workPagination')" :post-type="postType" />
       </div>
+
+      <!-- <div class="mast">
+        <div if="workPosts.length > 0" class="work-posts posts-index">
+          <div v-for="post in workPosts" :key="post._id" class="work-post">
+            <component
+              :is="setting(`work.components.${comp}`)"
+              v-for="(comp, i) in setting('work.layout.index')"
+              :key="i"
+              :post-id="post._id"
+              format="index"
+            />
+          </div>
+        </div>
+      </div>-->
     </section>
+    <el-cta />
   </div>
 </template>
 <script lang="ts">
@@ -54,7 +76,8 @@ export default Vue.extend({
     factorLoadingRing,
     factorLink,
     factorIcon,
-    "el-hero": () => import("../el/hero.vue")
+    "el-hero": () => import("../el/hero.vue"),
+    "el-cta": () => import("../el/cta.vue")
   },
   data() {
     return {
@@ -125,31 +148,33 @@ export default Vue.extend({
 
 <style lang="less">
 .page-work {
+  padding-bottom: 3rem;
+  .mast {
+    padding: 0 2em;
+    line-height: 1.2;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
   .loading-entries {
     height: 50vh;
     padding: 5em;
   }
+  a {
+    color: inherit;
+    &:hover {
+      color: var(--color-primary, #1a49bd);
+    }
+  }
+  .work-posts-wrap {
+    padding: 4em 0 8em;
+  }
   .work-posts {
-    padding: 6em 2em;
-    line-height: 1.2;
-    max-width: 1000px;
-    margin: 0 auto;
-    .posts-index {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 2em;
-      @media (max-width: 767px) {
-        grid-template-columns: 1fr;
-      }
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
 
-      > div {
-        &:nth-child(2n) {
-          margin-top: 120px;
-          @media (max-width: 767px) {
-            margin: 0;
-          }
-        }
-      }
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
     }
   }
 }

@@ -2,17 +2,35 @@
   <div class="blog">
     <el-hero
       v-if="page == 1 && !tag"
-      :headline="setting('blog.headline')"
-      :subheadline="setting('blog.subheadline')"
+      :pretitle="setting('blog.headline')"
+      :title="setting('blog.subheadline')"
       :image="setting('blog.heroImage')"
     >
       <template v-slot:hero-content>
         <div v-formatted-text="setting('blog.content')" class="content entry-content" />
       </template>
     </el-hero>
-    <!-- <el-hero v-else-if="tag" :subheadline="`Tag: ` + tag" />
 
-    <div v-if="tagsList.length > 0" class="widget-tags">
+    <section v-else-if="tag" class="hero">
+      <div class="mast">
+        <div class="hero-inner">
+          <div class="return-link">
+            <factor-link
+              class="pretitle back label label-primary"
+              :path="setting('blog.indexRoute')"
+            >
+              <factor-icon icon="fas fa-arrow-left" />
+              {{ returnLinkText }}
+            </factor-link>
+            <h2 class="title">Tag: {{ tag }}</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- <el-hero v-else-if="tag" :pretitle="`Tag: ` + tag" /> -->
+
+    <!-- <div v-if="tagsList.length > 0" class="widget-tags">
       <div class="widget-tags-inner">
         <h3>Tags:</h3>
         <ul>
@@ -75,11 +93,11 @@ export default Vue.extend({
     return "nav-white"
   },
   metaInfo() {
-    const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
+    const title = this.tag ? `Tag "${this.tag}"` : setting("blog.meta.index.title")
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : setting("blog.metatags.index.description")
+      : setting("blog.meta.index.description")
 
     return {
       title,
@@ -99,10 +117,13 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
+    },
+    returnLinkText() {
+      return setting("blog.returnLinkText") || "All Posts"
+    },
+    tagsList(this: any) {
+      return this.index.meta.tags || []
     }
-    // tagsList(this: any) {
-    //   return this.index.meta.tags || []
-    // }
   },
   watch: {
     $route: {
@@ -183,7 +204,7 @@ export default Vue.extend({
           }
         }
 
-        @media (max-width: 767px) {
+        @media (max-width: 900px) {
           white-space: nowrap;
           overflow-x: auto;
           overflow-y: hidden;
@@ -195,7 +216,7 @@ export default Vue.extend({
   .blog-posts-inner {
     max-width: 1000px;
     margin: 0 auto;
-    @media (max-width: 767px) {
+    @media (max-width: 900px) {
       padding: 1em;
       margin-left: 1em;
       margin-right: 1em;
@@ -204,10 +225,10 @@ export default Vue.extend({
     .post-index {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-gap: 2rem;
-      padding: 3em 0;
+      grid-gap: 1rem;
+      padding: 3em 2em;
 
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         grid-template-columns: 1fr;
       }
 
@@ -239,9 +260,11 @@ export default Vue.extend({
           font-weight: normal;
           letter-spacing: initial;
           margin: 0.5em 0;
+          color: var(--color-primary, #1a49bd);
         }
         .entry-subtitle {
           font-size: 1rem;
+          opacity: 0.7;
         }
         .widget-author-date {
           margin-top: auto;
@@ -252,6 +275,7 @@ export default Vue.extend({
       max-width: initial;
       margin: 0 1rem;
       justify-content: center;
+      padding: 2em 0;
     }
     .posts-not-found,
     .posts-loading {

@@ -67,7 +67,7 @@ export default Vue.extend({
         border-radius: 4px;
       }
 
-      @media (max-width: 767px) {
+      @media (max-width: 900px) {
         margin: 0 auto;
       }
     }

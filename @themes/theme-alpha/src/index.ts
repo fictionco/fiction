@@ -13,9 +13,7 @@ export const setup = (): void => {
   })
 
   // post types
-
   const baseRoute = setting("work.postRoute")
-
   addPostType({
     postType: "work",
     baseRoute,
@@ -40,12 +38,12 @@ export const setup = (): void => {
     routes: [
       {
         path: "/",
-        component: (): Promise<Component> => import("./page-home.vue"),
+        component: (): Promise<Component> => import("./home/v-home.vue"),
         meta: { nav: true }
       },
       {
         path: "/about",
-        component: (): Promise<Component> => import("./page-about.vue"),
+        component: (): Promise<Component> => import("./about/v-about.vue"),
         meta: { nav: true }
       },
       {

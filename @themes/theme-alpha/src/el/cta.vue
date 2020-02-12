@@ -1,13 +1,18 @@
 <template>
-  <div class="cta">
+  <section class="cta">
     <div class="cta-inner">
       <h2>{{ setting("site.cta.headline") }}</h2>
-      <factor-link btn="default" size="large" :path="setting('site.cta.path')">
-        {{ setting("site.cta.text") }}
-        <factor-icon icon="fas fa-arrow-right" />
-      </factor-link>
+      <div class="buttons">
+        <factor-link
+          :path="setting('site.cta.path')"
+          class="btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
+        >
+          {{ setting("site.cta.text") }}
+          <factor-icon icon="fas fa-arrow-right" />
+        </factor-link>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script lang="txs">
@@ -22,28 +27,40 @@ export default Vue.extend({
 
 <style lang="less">
 .cta {
-  padding: 4em 0;
-  text-align: center;
   position: relative;
-  //z-index: 100;
-  background: var(--color-primary, #1a49bd);
-  color: var(--color-white);
+  z-index: 5;
+  margin-top: -90px;
   .cta-inner {
-    max-width: 650px;
+    display: grid;
+    grid-template-columns: 7fr 2fr;
+    grid-gap: 2rem;
+    align-items: center;
+    max-width: 1000px;
     margin: 0 auto;
-  }
-  h2 {
-    font-size: 2.5em;
-    font-weight: 600;
-    margin-bottom: 1em;
-  }
-  .factor-btn {
-    letter-spacing: -0.03em;
-  }
-  @media (max-width: 767px) {
-    padding: 4em 2em;
+    padding: 4rem 2rem;
+    border-radius: 0.5rem;
+    color: #fdfdfd;
+    background: var(--color-bg-dark) url(../img/pattern.png) repeat center/24%;
+
     h2 {
-      font-size: 2em;
+      font-size: 2.2em;
+      font-weight: var(--font-weight-bold, 800);
+    }
+    .buttons {
+      justify-self: flex-end;
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding: 0 2em 2em;
+    .cta-inner {
+      grid-template-columns: 1fr;
+      h2 {
+        font-size: 2em;
+      }
+      .buttons {
+        justify-self: flex-start;
+      }
     }
   }
 }
