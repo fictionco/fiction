@@ -1,1 +1,0 @@
-web: yarn workspace @factor/theme-alpha factor serve
