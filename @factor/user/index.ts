@@ -141,9 +141,11 @@ export const authenticate = async (
 ): Promise<FactorUserCredential> => {
   const user = (await sendUserRequest("authenticate", params)) as FactorUserCredential
 
-  await runCallbacks("authenticated", user, params)
-
   if (user && user.token) {
+    emitEvent("userAuthenticated", { user, params })
+
+    await runCallbacks("userAuthenticatedCallbacks", user, params)
+
     requestPostPopulate({ posts: [user] })
     setUser({ user, token: user.token, current: true })
   }

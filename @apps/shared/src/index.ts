@@ -2,7 +2,7 @@
 import axios from "axios"
 import { onEvent, addFilter, splitDisplayName } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
-import { FactorUser } from "@factor/user/types"
+import { FactorUserCredential, AuthenticationParameters } from "@factor/user/types"
 /**
  * Send a notification to Slack
  */
@@ -171,20 +171,24 @@ const google = (): void => {
   /**
    * Track auth events in Analytics
    */
-  addFilter({
-    hook: "authenticated",
-    key: "trackEvent",
-    callback: (user, params) => {
-      if (window.ga && user) {
+  onEvent(
+    "userAuthenticated",
+    ({
+      user,
+      params
+    }: {
+      user: FactorUserCredential;
+      params: AuthenticationParameters;
+    }) => {
+      if (user) {
         if (params.newAccount) {
           analyticsEvent({ category: "newAccount", action: "newAccount", value: 5 })
         } else {
           analyticsEvent({ category: "returnUser", action: "loggedIn", value: 1 })
-          facebookTrack("returnUser")
         }
       }
     }
-  })
+  )
 }
 
 slack()
