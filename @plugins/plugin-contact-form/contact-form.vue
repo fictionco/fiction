@@ -7,8 +7,8 @@
     @submit="send()"
   >
     <div v-if="sent" class="confirm" data-test="confirm">
-      <div class="title">{{ setting("contactForm.confirm.title") }}</div>
-      <div class="description">{{ setting("contactForm.confirm.subTitle") }}</div>
+      <div v-formatted-text="setting('contactForm.confirm.title')" class="title" />
+      <div v-formatted-text="setting('contactForm.confirm.subTitle')" class="description" />
     </div>
     <div v-else class="inputs">
       <factor-input-wrap
