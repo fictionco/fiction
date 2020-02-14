@@ -125,8 +125,8 @@ export default Vue.extend({
           icon: "dashboard2",
           title: "Manage your users and content.",
           text: `Factor comes with a professional dashboard and post management system.
-            This tool was carefully crafted to give you maximum powerful but with minimum bloat.
-            It is simple by default but can be extended to handle even the most complex tasks.`,
+            This tool was carefully crafted to give you maximum power with minimal bloat.
+            It is simple but can be extended to handle the most complex tasks.`,
           figure: () => import("./figure-dashboard.vue"),
           link: { path: "/guide", text: "Learn More" }
         },
@@ -134,9 +134,8 @@ export default Vue.extend({
           id: "plugins-feature",
 
           title: `Add new features in seconds.`,
-          text: `Most coding frameworks make you do way too much coding and customization
-              to make plugins work. Factor focuses on making plugins dead simple with intelligent
-              defaults. This means they "just work," no mandatory customization.`,
+          text: `Most coding frameworks make you do way too much custom coding. Their plugins can take days to learn, install, and customize.
+          Factor focuses on making plugins dead simple. This means they "just work," but can be easily customized.`,
           figure: () => import("./figure-plugins.vue"),
           link: { path: "/plugins", text: "View Plugins" }
         },

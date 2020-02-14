@@ -62,7 +62,7 @@ export default (): FactorSchema => {
       // populated field
       avatar: { type: objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
-      category: { type: [String], index: true },
+      category: { type: [String], index: true, default: "general" },
       /**
        * Source Key - Used to distinguish which app created a post in multi-app databases
        */
@@ -74,10 +74,11 @@ export default (): FactorSchema => {
       /**
        * List is a vanilla list container
        */
-      list: {
-        type: [Object]
-      },
-      revisions: [Object],
+      list: { type: [Object] },
+      /**
+       * Embedded documents (comments, posts, etc.)
+       */
+      embedded: { type: [Object] },
       status: {
         type: String,
         enum: ["published", "draft", "trash"],

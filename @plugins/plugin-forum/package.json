@@ -4,10 +4,15 @@
   "version": "1.3.3",
   "license": "GPL-2.0",
   "factor": {
-    "load": [
-      "app",
-      "server"
-    ],
+    "load": {
+      "app": [
+        "index",
+        "request"
+      ],
+      "server": [
+        "server"
+      ]
+    },
     "title": "Forum"
   },
   "dependencies": {

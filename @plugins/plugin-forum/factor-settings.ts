@@ -20,6 +20,7 @@ export default {
       index: ["topicIndex"],
       single: ["topicSingle"]
     },
+    categories: ["general"],
     components: {
       forumSidebar: (): Promise<Component> => import("./forum-sidebar.vue"),
       forumWrap: (): Promise<Component> => import("./forum-wrap.vue"),

@@ -32,8 +32,8 @@
         class="meta-item"
         label="Category"
         input="factor-input-select"
-        placeholder="Sort"
-        :list="['latest', 'popular']"
+        placeholder="Category"
+        :list="setting(`forum.categories`)"
       />
     </div>
     <div class="action">

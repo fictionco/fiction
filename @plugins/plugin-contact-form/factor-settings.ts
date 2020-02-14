@@ -4,6 +4,10 @@ export default {
   contactForm: {
     email: setting("app.email"),
     form: (): Promise<Component> => import("./contact-form.vue"),
+    adminEmail: {
+      disable: false,
+      subject: "Contact form submitted"
+    },
     submit: {
       btn: "app-btn factor-btn primary",
       size: "",

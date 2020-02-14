@@ -90,7 +90,7 @@ export const setup = (): void => {
    * Copy any static/built files into root of dist
    */
   addFilter({
-    key: "paths",
+    key: "sitemapCopy",
     hook: "webpack-copy-files-config",
     callback: (_: WebpackCopyItemConfig[]) => {
       return [..._, ...copyStaticFiles()]

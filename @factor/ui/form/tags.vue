@@ -7,16 +7,14 @@
         placeholder="Add Tag"
         @keyup.enter="addTag()"
       />
-      <factor-btn btn="default" @click="addTag()">
-        <factor-icon icon="fas fa-plus" />
-      </factor-btn>
+      <factor-btn btn="default" @click="addTag()">Add</factor-btn>
     </div>
     <div v-if="tags.length > 0" class="the-tags">
       <div v-for="(tag, index) in tags" :key="index" class="tag">
         <span class="tx">{{ tag }}</span>
 
         <span class="rm" @click="removeTag(index)">
-          <factor-icon icon="fas fa-remove" />
+          <factor-icon icon="fas fa-times" />
         </span>
       </div>
     </div>
