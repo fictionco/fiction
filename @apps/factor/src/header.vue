@@ -13,7 +13,7 @@
       </div>
       <div class="head-nav action-nav">
         <account-menu v-if="isLoggedIn()" />
-        <factor-link v-else event="sign-in-modal">Sign In</factor-link>
+        <factor-link v-else event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
         <factor-link
           v-if="$route.path != '/install'"
           path="/install"

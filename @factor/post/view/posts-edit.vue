@@ -27,7 +27,6 @@
           :list="['published', 'draft', 'trash']"
           input="factor-input-select"
         />
-        {{ post.title }}
         <dashboard-input label="Permalink">
           <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>

@@ -56,7 +56,7 @@ export default Vue.extend({
 
 <style lang="less">
 .fallback-page {
-  height: 60vh;
+  height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

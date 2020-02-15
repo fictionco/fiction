@@ -4,24 +4,21 @@ context("Actions", () => {
     cy.visit("https://factor.dev")
   })
 
-  it('Register, logout and login', () => {
-
-    const chars = 'abcdefghijklmnopqrstuvwxyz1234567890'
-    let string = ''
+  it("Register, logout and login", () => {
+    const chars = "abcdefghijklmnopqrstuvwxyz1234567890"
+    let string = ""
     for (let ii = 0; ii < 15; ii++) {
       string += chars[Math.floor(Math.random() * chars.length)]
     }
 
     const user = {
-      name: Cypress.env('username'), // username from cypress.json
-      email: 'test' + string + '@email.com', // randomized email name
-      password: Cypress.env('password') // password from cypress.json
+      name: Cypress.env("username"), // username from cypress.json
+      email: "test" + string + "@email.com", // randomized email name
+      password: Cypress.env("password") // password from cypress.json
     }
 
     // click sign in link
-    cy.get(".primary-nav")
-      .find("a:last")
-      .click()
+    cy.get('[data-text="signin-link"]').click()
 
     // click sign up link
     cy.get('a[data-test="link-register"]').click()
@@ -45,7 +42,7 @@ context("Actions", () => {
     cy.get('[data-test="account-nav-logout"]').click()
 
     // open sign in modal again
-    cy.get(".primary-nav").find("a:last").click()
+    cy.get('[data-text="signin-link"]').click()
 
     // sign in with same info - enter email
     cy.get('input[data-test="signin-email"]').type(user.email)
@@ -60,5 +57,4 @@ context("Actions", () => {
     // cy.getUser(user.name)
     // .then((dbUser) => expect(dbUser).to.deep.eql(user))
   })
-
 })
